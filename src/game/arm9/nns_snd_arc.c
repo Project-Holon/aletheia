@@ -44,7 +44,7 @@
  *   SND_SetWaveDataAddress  0x0208A640  arm
  *   SND_GetWaveDataAddress  0x0208A674  arm
  *   SND_GetFirstInstDataPos  0x0208A46C  arm
- *   func_0208A48C  0x0208A48C  arm
+ *   SND_GetNextInstData  0x0208A48C  arm
  *   NNS_SndPlayerSetPlayableSeqCount  0x02072DB0  arm
  *   NNS_SndPlayerSetAllocatableChannel  0x02072DD0  arm
  *   NNS_SndPlayerCreateHeap  0x02072DE8  arm
@@ -85,7 +85,7 @@ extern u32  SND_GetWaveDataAddress(u32 waveArc, u32 waveNo);
 extern void SND_SetWaveDataAddress(u32 waveArc, u32 waveNo, u32 address);
 extern void *SNDi_GetBankWaveArcTable(char *waveArc);
 extern void SND_GetFirstInstDataPos(SNDBankWaveIter *iter, u32 bank, u32 waveArcNo, u32 fileId);
-extern u32  func_0208A48C(u32 bank, SNDBankWaveRecord *record, SNDBankWaveIter *iter);
+extern u32  SND_GetNextInstData(u32 bank, SNDBankWaveRecord *record, SNDBankWaveIter *iter);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
 extern void NNS_SndPlayerSetAllocatableChannel(u32 playerNo, u32 channelMask);
 extern u32  NNS_SndPlayerCreateHeap(int playerNo, u32 heap, void *heapSize);
@@ -1077,7 +1077,7 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
 /*
  * Loads every wave of a bank that belongs to one wave archive slot: opens
  * an iterator over the bank (SND_GetFirstInstDataPos), copies it to a working cursor,
- * then steps it (func_0208A48C) and, for every record of type 1 whose wave
+ * then steps it (SND_GetNextInstData) and, for every record of type 1 whose wave
  * archive number matches, loads the wave with NNSi_SndArcLoadWave. Any failed load
  * answers 0; a run to exhaustion answers 1. The null-bank guard is emitted
  * after the iterator open, which is why it shares the mid-function epilogue.
@@ -1098,12 +1098,12 @@ u32 NNSi_SndArcLoadBankWaves(SNDWaveArc *waveArc, u32 bank, u32 waveArcNo, u32 f
     SND_GetFirstInstDataPos(&firstIter, bank, waveArcNo, fileId);
     iter = firstIter;
     if (bank == 0) return 0;
-    if (func_0208A48C(bank, &record, &iter) != 0) {
+    if (SND_GetNextInstData(bank, &record, &iter) != 0) {
         do {
             if (record.type == 1 && waveArcNo == record.waveArcNo) {
                 if (NNSi_SndArcLoadWave(waveArc, record.waveNo, fileId, heap) == 0) return 0;
             }
-        } while (func_0208A48C(bank, &record, &iter) != 0);
+        } while (SND_GetNextInstData(bank, &record, &iter) != 0);
     }
     return 1;
 }

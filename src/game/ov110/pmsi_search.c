@@ -30,7 +30,7 @@
  *   STRBUF_SetString 0x02045924 arm
  *   MSGSEARCH_Search 0x021B6CE0 thumb ov067
  *   STRBUF_Clear 0x0204581C arm
- *   func_02045F50 0x02045F50 arm
+ *   MSGDATA_GetMessageCount 0x02045F50 arm
  *   sPmsiSearchExcludedChars 0x021C375C data a2
  *   STRBUF_SetStringN 0x02045994 arm
  *   sPmsiKanaKeys 0x021C37A8 data a2
@@ -117,7 +117,7 @@ extern void MSGSEARCH_Delete(u32 *);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_SetString(struct U16Vec *o, const u16 *src);
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern u16 func_02045F50(struct MsgBank *bank);
+extern u16 MSGDATA_GetMessageCount(struct MsgBank *bank);
 extern u32 MSGSEARCH_Search(u32 *, u32, u32, struct U16Vec *, void *, u32);
 extern void STRBUF_SetStringN(struct U16Vec *o, const u16 *src, u32 len);
 
@@ -244,7 +244,7 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
     STRBUF_Clear(s->inputText);
     PMSI_SEARCH_BuildInputText(s, s->inputText);
     if (initialId == PMSI_SEARCH_OTHER_INITIAL) {
-        matchCount = func_02045F50(s->messageBanks[initialId]);
+        matchCount = MSGDATA_GetMessageCount(s->messageBanks[initialId]);
         specialCount = 0;
         __builtin__clear(specialWords, sizeof(specialWords));
         for (i = 0; i < matchCount; i++) {

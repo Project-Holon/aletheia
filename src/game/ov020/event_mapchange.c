@@ -42,7 +42,7 @@
  *   FIELD_PLACE_NAME_ShowForZone  0x021BC578  thumb  ov021
  *   ZONEDATA_SetGameStartLocation  0x02014264  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02008B08  0x02008B08  thumb
+ *   CONSOLE_STAMP_GetFromSave  0x02008B08  thumb
  *   func_02008B20  0x02008B20  thumb
  *   PALANM_StartTimer  0x02021444  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
@@ -62,7 +62,7 @@
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   POKEPARTY_GetSaveData  0x0201AD0C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_02008B4C  0x02008B4C  thumb
+ *   CONSOLE_STAMP_IsThisConsole  0x02008B4C  thumb
  *   func_02008B78  0x02008B78  thumb
  *   func_02008B14  0x02008B14  thumb
  *   func_02008C00  0x02008C00  thumb
@@ -202,7 +202,7 @@
  *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
  *   FLDMMDL_AddMmdlHeaderList  0x0216CEAC  thumb  ov010
  *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
- *   func_020127D0  0x020127D0  thumb
+ *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
  *   GAME_DATA_GetMysteryRecvFlagA  0x020127E0  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders  0x02186538  thumb  ov020
@@ -390,7 +390,7 @@ extern struct PlaceNameSys *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 extern void FIELD_PLACE_NAME_ShowForZone(struct PlaceNameSys *placeName, int zoneId);
 extern void ZONEDATA_SetGameStartLocation(Location *location);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct ConsoleInfo *func_02008B08(struct SaveControl *saveControl);
+extern struct ConsoleInfo *CONSOLE_STAMP_GetFromSave(struct SaveControl *saveControl);
 extern void func_02008B20(struct ConsoleInfo *consoleInfo);
 extern void PALANM_StartTimer(void);
 void EVENT_MAPCHANGE_AddPresetMail(GameData *gameData);
@@ -413,7 +413,7 @@ extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern void *POKEPARTY_GetSaveData(struct SaveControl *saveControl);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern int func_02008B4C(struct ConsoleInfo *consoleInfo);
+extern int CONSOLE_STAMP_IsThisConsole(struct ConsoleInfo *consoleInfo);
 extern int func_02008B78(struct ConsoleInfo *consoleInfo);
 extern struct ConsoleInfoSession *func_02008B14(struct SaveControl *saveControl);
 extern void func_02008C00(struct ConsoleInfoSession *session);
@@ -560,7 +560,7 @@ u16 EVENTDATA_SYSTEM_GetNpcCount(EventData *eventData);
 u32 EVENTDATA_SYSTEM_GetNpcHeaders(EventData *eventData);
 void FLDMMDL_AddMmdlHeaderList(MmdlSys *mmdlSys, u8 *headers, u32 zoneId, u32 count, u32 eventWork);
 u32 FIELD_STATUS_GetMapMode(FieldStatus *fieldStatus);
-u16 *func_020127D0(GameData *gameData, u32 index);
+u16 *GAME_DATA_GetUnionInfo(GameData *gameData, u32 index);
 u16 *GAME_DATA_GetMysteryRecvFlagA(GameData *gameData);
 u32 GFL_HEAP_Free(void *memory);
 int FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(unsigned short *wfbcData, int mapMode, int flag);
@@ -817,7 +817,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateNewGameStartEvent(struct GameSystem *gam
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     ZONEDATA_SetGameStartLocation(&work->startLocation);
     EVENT_MAPCHANGE_InitUnionInfo(gameSystem);
-    func_02008B20(func_02008B08(GAME_DATA_GetSaveControl(work->gameData)));
+    func_02008B20(CONSOLE_STAMP_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)));
     PALANM_StartTimer();
     EVENT_MAPCHANGE_AddPresetMail(work->gameData);
     GX_SetBankForLCDC(0x1ff);
@@ -921,11 +921,11 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     work->useSpecialLocation = ZONEDATA_CheckEventFlag(eventWork, 0x966);
     ZONEDATA_ResetEventFlag(eventWork, 0x966);
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
-    consoleInfo = func_02008B08(saveControl);
+    consoleInfo = CONSOLE_STAMP_GetFromSave(saveControl);
     partySave = POKEPARTY_GetSaveData(saveControl);
     miscSave = GAME_DATA_GetMiscSave(work->gameData);
     /* the save was written on another console or with another clock offset */
-    if (!func_02008B4C(consoleInfo) || !func_02008B78(consoleInfo)) {
+    if (!CONSOLE_STAMP_IsThisConsole(consoleInfo) || !func_02008B78(consoleInfo)) {
         func_02008C00(func_02008B14(saveControl));
         FORMCHANGE_RevertShayminAndRegister(work->gameData, partySave);
         nowSeconds = GF_STANDARD_SetupRtc();
@@ -2295,7 +2295,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
     if (mapMode == 0)
         wfbcData = GAME_DATA_GetSecondUnionInfo(gameData);
     else
-        wfbcData = func_020127D0(gameData, (int)0);
+        wfbcData = GAME_DATA_GetUnionInfo(gameData, (int)0);
 
     headers = FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(wfbcData, mapMode, 1);
     headerCount = FIELD_WFBC_DATA_LOCAL_CountPeople((char *)wfbcData, mapMode);

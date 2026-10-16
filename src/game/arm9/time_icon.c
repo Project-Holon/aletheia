@@ -19,7 +19,7 @@
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   OS_GetParentalControlInfoPtr  0x02087E60  arm
- *   func_02087DC4  0x02087DC4  arm
+ *   OS_IsAvailableWireless  0x02087DC4  arm
  *   OS_IsAgreeEULA  0x02087DE0  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_0200974C  0x0200974C  thumb
@@ -218,7 +218,7 @@ extern u32 OS_IsRunOnTwl(void);
 
 extern struct DeviceInfo *OS_GetParentalControlInfoPtr(void);
 
-extern void func_02087DC4(void);
+extern void OS_IsAvailableWireless(void);
 
 extern int OS_IsAgreeEULA(void);
 
@@ -533,7 +533,7 @@ int APP_ENV_HasParentalControlBits(void)
 /* Bare tail call into an ARM SDK leaf. */
 void APP_ENV_InitParentalControl(void)
 {
-    func_02087DC4();
+    OS_IsAvailableWireless();
 }
 
 /*

@@ -92,7 +92,7 @@
  *   gpiGetPeerByProfile  0x0218F0B8  arm   ov009
  *   gpiGetProfile  0x0218FD9C  arm   ov009
  *   gpiAddPeer  0x0218F150  arm   ov009
- *   func_0218F1E0  0x0218F1E0  arm   ov009
+ *   gpiPeerGetSig  0x0218F1E0  arm   ov009
  *   gpiPeerStartConnect  0x0218F248  arm   ov009
  *   func_0218F884  0x0218F884  arm   ov009
  *   gpiPeerAddMessage  0x0218F350  arm   ov009
@@ -115,7 +115,7 @@
  *   gpiGetProfile           0x0218FD9C  arm
  *   gpiCanFreeProfile       0x02190140  arm
  *   gpiRemoveProfile        0x0218FF24  arm
- *   func_0218FFFC  0x0218FFFC  arm   ov009
+ *   gpiProfileMap  0x0218FFFC  arm   ov009
  *   ArrayFree  0x021841B0  arm   ov009
  *   gGpiBuddyKeyDelBuddy     0x021A44AC  data
  *   gGpiBuddyKeyDelProfileId     0x021A44B8  data
@@ -180,7 +180,7 @@ extern int gpiAppendIntToBuffer(void **connection, GPIBuffer *buffer, int value)
 extern GPIPeer *gpiGetPeerByProfile(void **connection, int profileid);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate);
-extern int func_0218F1E0(void **connection, GPIPeer *peer);
+extern int gpiPeerGetSig(void **connection, GPIPeer *peer);
 extern int gpiPeerStartConnect(void **connection, GPIPeer *peer);
 extern void func_0218F884(GPIPeer *peer, GPIPeerOp *operation);
 extern GPResult gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message);
@@ -196,7 +196,7 @@ extern void gpiPeerRemoveOp(GPIPeer *peer, GPIPeerOp *operation);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern int gpiCanFreeProfile(GPIProfile *profile);
 extern void gpiRemoveProfile(void **connection, GPIProfile *profile);
-extern int func_0218FFFC(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
+extern int gpiProfileMap(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
 extern void ArrayFree(void *array);
 int gpiSendAuthBuddyRequest(void **connection, GPIProfile *profile);
 int gpiProcessRecvBuddyList(void **connection, char *input);
@@ -775,7 +775,7 @@ int gpiSendBuddyMessage(void **connection, int profileid, int type, char *messag
         if (peer == 0)
             return GP_MEMORY_ERROR;
         if (profile->peerSig == 0) {
-            result = func_0218F1E0(connection, peer);
+            result = gpiPeerGetSig(connection, peer);
             if (result != GP_NO_ERROR)
                 return result;
         } else {
@@ -1036,7 +1036,7 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
         gsifree(pProfile->buddyStatus);
         pProfile->buddyStatus = 0;
         iconnection->profileList.numBuddies--;
-        func_0218FFFC(connection, (int (*)(void **, GPIProfile *, void *))gpiFixBuddyIndices, (void *)index);
+        gpiProfileMap(connection, (int (*)(void **, GPIProfile *, void *))gpiFixBuddyIndices, (void *)index);
     }
     if (pProfile->buddyStatusInfo) {
         index = pProfile->buddyStatusInfo->buddyIndex;
@@ -1055,7 +1055,7 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
             pProfile->buddyStatusInfo->extendedInfoKeys = 0;
         }
         iconnection->profileList.numBuddies--;
-        func_0218FFFC(connection, (int (*)(void **, GPIProfile *, void *))gpiFixBuddyIndices, (void *)index);
+        gpiProfileMap(connection, (int (*)(void **, GPIProfile *, void *))gpiFixBuddyIndices, (void *)index);
     }
     return 0;
 }

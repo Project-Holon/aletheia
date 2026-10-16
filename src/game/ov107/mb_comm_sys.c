@@ -61,11 +61,11 @@
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   BEACON_GetBestScore 0x0200C184 thumb
- *   func_0200575C 0x0200575C thumb
+ *   GFL_USE_GetArcPath 0x0200575C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008DF0 0x02008DF0 thumb
  *   GAME_DATA_GetBoxManager 0x0201293C thumb
- *   func_02007774 0x02007774 thumb
+ *   BOX_SAVEDATA_CountFreeSlots 0x02007774 thumb
  *   d_021F6E08 0x021F6E08 data a4
  *   d_021F6E0C 0x021F6E0C data a4
  *   BG_SYS_FillScrollArea 0x02040618 arm
@@ -218,23 +218,23 @@
  *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
  *   OS_GetOwnerInfoEx 0x02087D28 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
- *   func_021F5904 0x021F5904 arm ov107
+ *   MB_Init 0x021F5904 arm ov107
  *   MB_SetParentCommParam 0x021F5B4C arm ov107
- *   func_021F1B3C 0x021F1B3C arm ov107
+ *   MB_CommSetParentStateCallback 0x021F1B3C arm ov107
  *   gMbChildStageMasks 0x021F6EB4 data a4
  *   d_021F6E1C 0x021F6E1C data a4
  *   gMbParentSys 0x021F6EAC data a4
  *   d_021F6E24 0x021F6E24 data a4
- *   func_021F5E7C 0x021F5E7C arm ov107
+ *   MB_StartParentFromIdle 0x021F5E7C arm ov107
  *   MB_GetSegmentLength 0x021F2F1C arm ov107
- *   func_021F2FA0 0x021F2FA0 arm ov107
- *   func_021F3544 0x021F3544 arm ov107
+ *   MB_ReadSegment 0x021F2FA0 arm ov107
+ *   MB_RegisterFile 0x021F3544 arm ov107
  *   MB_CommResponseRequest 0x021F1C30 arm ov107
  *   MB_DisconnectChild 0x021F5FB0 arm ov107
  *   OS_DisableInterrupts 0x02087988 arm
  *   OS_RestoreInterrupts 0x0208799C arm
  *   MB_CommIsBootable 0x021F1BE0 arm ov107
- *   func_021F5F74 0x021F5F74 arm ov107
+ *   MB_EndToIdle 0x021F5F74 arm ov107
  *   MB_CommGetChildUser 0x021F1B64 arm ov107
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   gMbChildEntries 0x021F6EC8 data a4
@@ -408,7 +408,7 @@ extern void MB_UTIL_MSG_ClearWindow(void *);
 extern void MB_UTIL_MSG_ClearYesNoMenu(struct MbMsgWork *p);
 extern u32 func_020461E4(int);
 extern u32 BEACON_GetBestScore(void *p);
-extern void *func_0200575C(u32);
+extern void *GFL_USE_GetArcPath(u32);
 extern void FS_InitFile(File *);
 extern int FS_OpenFile(File *,const char *);
 extern int FS_CloseFile(File *);
@@ -420,7 +420,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 GAME_DATA_GetBoxManager(const void *p);
 extern u32 func_02008DF0(void *obj, int i);
-extern int func_02007774(void *);
+extern int BOX_SAVEDATA_CountFreeSlots(void *);
 extern void *MB_UTIL_MSG_Main(void *);
 extern void CLACT_DrawSystem(void *);
 extern void CLACT_VBlankSystem(void);
@@ -557,19 +557,19 @@ extern void UI_SoftReset(int);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void OS_GetOwnerInfoEx(void *info);
 extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
-extern int func_021F5904(void *,MBUser *,int,int,u16);
+extern int MB_Init(void *,MBUser *,int,int,u16);
 extern int MB_SetParentCommParam(u16,u16);
-extern void func_021F1B3C(void (*)(u16,u32,MbChildEvent *));
-extern int func_021F5E7C(int);
+extern void MB_CommSetParentStateCallback(void (*)(u16,u32,MbChildEvent *));
+extern int MB_StartParentFromIdle(int);
 extern u32 MB_GetSegmentLength(void *);
-extern int func_021F2FA0(void *,void *,u32);
-extern int func_021F3544(void *,void *);
+extern int MB_ReadSegment(void *,void *,u32);
+extern int MB_RegisterFile(void *,void *);
 extern int MB_CommResponseRequest(u16,int);
 extern void MB_DisconnectChild(u16);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32);
 extern int MB_CommIsBootable(u16);
-extern void func_021F5F74(void);
+extern void MB_EndToIdle(void);
 extern void *MB_CommGetChildUser(u16);
 extern void GFL_NET_FreeAligned(void *);
 extern u32 POKE_TOOL_GetBoxParamSize(void);

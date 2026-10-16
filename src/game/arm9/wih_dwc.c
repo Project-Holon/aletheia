@@ -37,13 +37,14 @@
  *   SAVEDATA_PanicFail            0x02034714  arm
  *   GF_OVERLAY_Load            0x02034AC4  arm
  *   GF_OVERLAY_Unload            0x02034A5C  arm
- *   func_0205FAA8            0x0205FAA8  arm
+ *   NCFG_ReadConfig            0x0205FAA8  arm
  *   sub_0202E8D8             0x0202E8D8  thumb
  *   gWihDwc                  0x021461E0  data
  *   sWihDwcAssertArg         0x020A7240  data
  *   sWihDwcFile              0x020A7244  data
  *   sWihBeaconSsidTag        0x020A7250  data
  *   ov015_id                 0x0000000F  data
+ *   UI_Update  0x02034F5C  arm
  */
 
 typedef unsigned char  u8;
@@ -122,12 +123,12 @@ extern int  GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_GetScanResult(u32 slot);
 extern u8   NET_WHPIPE_GetEntryKind(u8 slot);
 extern int  DWC_ParseWMBssDesc(void *work, struct WihBssDesc *beacon, struct WihSsidInfo *out);
-extern void func_0205FAA8(u8 *filterState, u32 value);
+extern void NCFG_ReadConfig(u8 *filterState, u32 value);
 extern int  GFL_NET_GetRunState(void);
 extern void OS_GetMacAddress(u8 *mac);
 extern u8 NET_WHPIPE_GetEntryBeaconKind(int slot);
 extern int sub_0202E8D8(char *record, int key, char *mac);
-extern int func_02034F5C(int a);
+extern int UI_Update(int a);
 extern int GFL_USE_PollPowerExit(void);
 extern int GFL_USE_UpdateSound(int a);
 extern int PM_VOICE_StopFinished(int a);
@@ -163,7 +164,7 @@ extern u8 sWihBeaconSsidTag[];
 int WIH_DWC_PollSystem(void)
 {
     int t0 = GFL_USE_PollPowerExit();
-    int t1 = func_02034F5C(t0);
+    int t1 = UI_Update(t0);
     int t2 = GFL_USE_UpdateSound(t1);
     int t3 = PM_VOICE_StopFinished(t2);
 
@@ -254,7 +255,7 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
  *           0x0217963C thumb`; the two bl sites then witness each other and
  *           this file and WIH_DWC_Create go EXACT unchanged.
  *
- * "wih_dwc.c" teardown, the counterpart of func_02010360 (same packet):
+ * "wih_dwc.c" teardown, the counterpart of WIH_DWC_Create (same packet):
  * both guard on the same pointer at 0x021461E0 being null before running
  * the 0x020A7240-argument call, both take the same (p, 0, p) argument
  * triple, and both end by clearing that pointer again.  The pool word is
@@ -649,13 +650,13 @@ void WIH_DWC_CreateFilterBuffer(u32 heapId)
 /*
  * wih_dwc.c: the sibling of WIH_DWC_CreateFilterBuffer, same guard on the buffer (here it
  * fires when it is unset); the field is re-read afterwards.  The tail is
- * func_0205FAA8(buf + 0x600, 0).
+ * NCFG_ReadConfig(buf + 0x600, 0).
  */
 /*
  * wih_dwc.c: the sibling of WIH_DWC_CreateFilterBuffer in the same packet - same guard on
  * the +0x04 field of the object at 0x021461E0, same file-name call, and the
  * field is re-read afterwards (a second pool load), so the callee is allowed
- * to have set it.  The tail is func_0205FAA8(f4 + 0x600, 0).
+ * to have set it.  The tail is NCFG_ReadConfig(f4 + 0x600, 0).
  *
  * Addresses are Black-image addresses.
  *
@@ -675,7 +676,7 @@ void WIH_DWC_ResetFilterState(void)
     if (gWihDwc.filterBuf == 0) {
         SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    func_0205FAA8(gWihDwc.filterBuf->filterState, 0);
+    NCFG_ReadConfig(gWihDwc.filterBuf->filterState, 0);
 }
 
 

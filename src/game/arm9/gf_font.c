@@ -23,7 +23,7 @@
  *   GF_FONT_GetProportionalWidth       0x0201DC88  thumb
  *   ARC_TOOL_GetHandleMemberOffsetOut       0x020494F4  arm
  *   ARC_TOOL_GetHandleMemberSize       0x020493D4  arm
- *   sub_0204944C        0x0204944C  arm
+ *   ARC_TOOL_ReadHandleMemberRange        0x0204944C  arm
  *   gFontFormatInitFuncs  0x0209E73C  data
  *   gFontFormatExitFuncs  0x0209E744  data
  *   ARC_TOOL_SeekHandle  0x0204960C  arm
@@ -70,7 +70,7 @@ extern struct ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap)
 
 extern u32 GFL_HEAP_Free(void *block);
 
-extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 
 extern void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcFile *arc, u32 member, u32 *out);
 
@@ -264,7 +264,7 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
     if (font->arc == 0) {
         return;
     }
-    sub_0204944C(font->arc, fileId, 0x18, 0x14, &font->info);
+    ARC_TOOL_ReadHandleMemberRange(font->arc, fileId, 0x18, 0x14, &font->info);
     ARC_TOOL_GetHandleMemberOffsetOut(font->arc, fileId, &font->arcBase);
     font->isFixedWidth = (u8)isFixedWidth;
     if (isFixedWidth != 0) {
@@ -274,9 +274,9 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
         size = font->info.mapBlockOffset - font->info.widthBlockOffset;
         font->widthTable = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 248);
         font->getCharWidth = GF_FONT_GetProportionalWidth;
-        sub_0204944C(font->arc, fileId, font->info.widthBlockOffset, size, font->widthTable);
+        ARC_TOOL_ReadHandleMemberRange(font->arc, fileId, font->info.widthBlockOffset, size, font->widthTable);
     }
-    sub_0204944C(font->arc, fileId, font->info.glyphBlockOffset, 8, &font->glyph);
+    ARC_TOOL_ReadHandleMemberRange(font->arc, fileId, font->info.glyphBlockOffset, 8, &font->glyph);
     font->tilesWide = (u8)(font->glyph.cellWidth / 8 + ((font->glyph.cellWidth % 8) ? 1 : 0));
     font->tilesHigh = (u8)(font->glyph.cellHeight / 8 + ((font->glyph.cellHeight % 8) ? 1 : 0));
     font->lastGroupBits = (u16)((font->glyph.cellWidth * 2) % 8);
@@ -287,7 +287,7 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
     font->scratch = GFL_HEAP_Alloc(heapId, font->glyph.cellSize, 0, gGfFontFileName, 266);
     size = ARC_TOOL_GetHandleMemberSize(font->arc, fileId) - font->info.mapBlockOffset;
     font->charMap = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 271);
-    sub_0204944C(font->arc, fileId, font->info.mapBlockOffset, size, font->charMap);
+    ARC_TOOL_ReadHandleMemberRange(font->arc, fileId, font->info.mapBlockOffset, size, font->charMap);
     font->missingGlyphIndex = 0;
     font->missingGlyphIndex = (u16)GF_FONT_GetGlyphIndex(font, 0x3F);
 }
@@ -363,7 +363,7 @@ void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHi
 
     size = ARC_TOOL_GetHandleMemberSize(font->arc, font->fileId) - font->glyphDataOffset;
     font->glyphData = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 363);
-    sub_0204944C(font->arc, font->fileId, font->glyphDataOffset, size, font->glyphData);
+    ARC_TOOL_ReadHandleMemberRange(font->arc, font->fileId, font->glyphDataOffset, size, font->glyphData);
     font->readGlyph = GF_FONT_ReadPreloadedGlyph;
     if (tilesWide == 1) {
         decode = GF_FONT_DecodeGlyph8x8;
@@ -557,11 +557,11 @@ u32 GF_FONT_GetGlyphIndex(struct GfFont *font, u16 ch)
  * here.  With a plain pointer the outgoing stack argument `out` was stored
  * third in the final call's setup; with `const struct GfFont *` it is stored
  * last, as in the image (12 bytes out before, every spelling and 3000
- * permuter compiles flat: docs/notes/sub_0201DBBC.c.txt).  Field names
+ * permuter compiles flat: docs/notes/GF_FONT_ReadPreloadedGlyph.c.txt).  Field names
  * follow docs/families/gf_font.h.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201DBBC.c \
+ *   python tools/match.py one --src src/matched/GF_FONT_ReadPreloadedGlyph.c \
  *       --func GF_FONT_ReadPreloadedGlyph --addr 0x0201DBBC --cc 1.1p1 --thumb
  */
 void GF_FONT_ReadPreloadedGlyph(const struct GfFont *font, u32 glyphIndex, void *dst, u8 *metrics)
@@ -577,13 +577,13 @@ void GF_FONT_ReadPreloadedGlyph(const struct GfFont *font, u32 glyphIndex, void 
  * column count.
  *
  * The lever (wave 16) is `const` on the font parameter, exactly as in its
- * sibling src/matched/sub_0201DBBC.c: it moves the outgoing stack argument
+ * sibling src/matched/GF_FONT_ReadPreloadedGlyph.c: it moves the outgoing stack argument
  * `out` from third to last in the final call's setup (12 bytes out before,
- * docs/notes/sub_0201DBBC.c.txt).  The listing extent includes the two-byte
+ * docs/notes/GF_FONT_ReadPreloadedGlyph.c.txt).  The listing extent includes the two-byte
  * alignment pad at 0x0201DC42, hence EXACT*.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201DBBC.c \
+ *   python tools/match.py one --src src/matched/GF_FONT_ReadPreloadedGlyph.c \
  *       --func GF_FONT_ReadStreamedGlyph --addr 0x0201DBF4 --cc 1.1p1 --thumb
  */
 void GF_FONT_ReadStreamedGlyph(const struct GfFont *font, u32 glyphIndex, void *dst, u8 *metrics)
@@ -774,7 +774,7 @@ void GF_FONT_SetDefaultTextColor(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201DD78.c \
+ *   python tools/match.py one --src src/matched/GF_FONT_SetTextColor.c \
  *       --func GF_FONT_SetTextColor --addr 0x0201DD78 --cc 1.1p1 --thumb
  */
 void GF_FONT_SetTextColor(u32 red, u32 green, u32 blue)
@@ -881,7 +881,7 @@ static inline u8 ReadBits(struct BitReader *reader, u8 count)
  * Sixteen 4-pixel groups of a compressed 2bpp 8x8 glyph.  Every even group is
  * a whole literal byte (read_bits of 8 bits) and every odd one is `n` bits
  * wide; each group's byte then indexes the 256-entry 2bpp->4bpp expansion
- * table at 0x02146588 that GF_FONT_SetTextColor rebuilds (src/matched/sub_0201DD78.c),
+ * table at 0x02146588 that GF_FONT_SetTextColor rebuilds (src/matched/GF_FONT_SetTextColor.c),
  * so the sixteen halfwords written to dst are the glyph in 4bpp.  `n` is the
  * caller's bit depth and is a runtime value, which is why the even and odd
  * reads are the same inlined reader with a constant and a variable count.
@@ -1018,7 +1018,7 @@ u8 GF_FONT_ReadBits(struct BitReader *reader, u8 count)
  * src/matched/sub_0201DA24.c install at the font object's +8.  All four read
  * the same 2bpp bit stream through the shared reader (src/matched/sub_0201E4C8.c
  * opens it, src/matched/GF_FONT_ReadBits.c pulls bits) and expand every byte
- * through the 256-entry table src/matched/sub_0201DD78.c rebuilds, so the
+ * through the 256-entry table src/matched/GF_FONT_SetTextColor.c rebuilds, so the
  * halfwords written to dst are the glyph in 4bpp.  They differ only in how
  * many halfwords they write and in what shape.
  *
@@ -1087,7 +1087,7 @@ void GF_FONT_DecodeGlyph8x16(const u8 *src, u32 lastGroupBits, u16 *dst)
  * src/matched/sub_0201DA24.c install at the font object's +8.  All four read
  * the same 2bpp bit stream through the shared reader (src/matched/sub_0201E4C8.c
  * opens it, src/matched/GF_FONT_ReadBits.c pulls bits) and expand every byte
- * through the 256-entry table src/matched/sub_0201DD78.c rebuilds, so the
+ * through the 256-entry table src/matched/GF_FONT_SetTextColor.c rebuilds, so the
  * halfwords written to dst are the glyph in 4bpp.  They differ only in how
  * many halfwords they write and in what shape.
  *
@@ -1160,7 +1160,7 @@ void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst)
  * src/matched/sub_0201DA24.c install at the font object's +8.  All four read
  * the same 2bpp bit stream through the shared reader (src/matched/sub_0201E4C8.c
  * opens it, src/matched/GF_FONT_ReadBits.c pulls bits) and expand every byte
- * through the 256-entry table src/matched/sub_0201DD78.c rebuilds, so the
+ * through the 256-entry table src/matched/GF_FONT_SetTextColor.c rebuilds, so the
  * halfwords written to dst are the glyph in 4bpp.  They differ only in how
  * many halfwords they write and in what shape.
  *

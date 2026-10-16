@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020879B4                  0x020879B4  arm
- *   func_020879C8                  0x020879C8  arm
+ *   OS_DisableInterrupts_IrqAndFiq                  0x020879B4  arm
+ *   OS_RestoreInterrupts_IrqAndFiq                  0x020879C8  arm
  *   atoll  0x020964F4  arm
  *   OS_InitMutex  0x02086004  arm  arm9
  *   OS_LockMutex  0x02086028  arm  arm9
  *   OS_UnlockMutex  0x02086078  arm  arm9
  */
-extern unsigned long func_020879B4(void);
-extern unsigned long func_020879C8(unsigned long state);
+extern unsigned long OS_DisableInterrupts_IrqAndFiq(void);
+extern unsigned long OS_RestoreInterrupts_IrqAndFiq(unsigned long state);
 extern void OS_InitMutex(void *criticalSection);
 extern void OS_LockMutex(void *criticalSection);
 extern void OS_UnlockMutex(void *criticalSection);
@@ -44,10 +44,10 @@ unsigned int gsiInterlockedIncrement(unsigned int *value)
     unsigned long state;
     unsigned int ret;
 
-    state = func_020879B4();
+    state = OS_DisableInterrupts_IrqAndFiq();
     ret = (*value) + 1;
     *value = ret;
-    func_020879C8(state);
+    OS_RestoreInterrupts_IrqAndFiq(state);
     return ret;
 }
 
@@ -61,10 +61,10 @@ unsigned int gsiInterlockedDecrement(unsigned int *value)
     unsigned long state;
     unsigned int ret;
 
-    state = func_020879B4();
+    state = OS_DisableInterrupts_IrqAndFiq();
     ret = (*value) - 1;
     *value = ret;
-    func_020879C8(state);
+    OS_RestoreInterrupts_IrqAndFiq(state);
     return ret;
 }
 

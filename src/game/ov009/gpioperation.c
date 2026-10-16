@@ -1,7 +1,7 @@
 /*
  * file:     gpioperation.c
  * unit:     yes
- * function: gpiFailedOpCallback, func_0218E114, gpiDestroyOperation, gpiRemoveOperation, gpiFindOperationByID, gpiOperationsAreBlocking, gpiProcessOperation
+ * function: gpiFailedOpCallback, gpiAddOperation, gpiDestroyOperation, gpiRemoveOperation, gpiFindOperationByID, gpiOperationsAreBlocking, gpiProcessOperation
  * address:  0x0218DD88
  * region:   ov009
  * compiler: dsi/1.1p1

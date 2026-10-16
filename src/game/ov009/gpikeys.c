@@ -20,7 +20,7 @@
  *   ArrayFree  0x021841B0  arm  ov009
  *   strcmp                0x020948E0  arm
  *   goastrdup  0x0217F1E0  arm  ov009
- *   func_021842D0  0x021842D0  arm  ov009
+ *   ArrayInsertSorted  0x021842D0  arm  ov009
  *   gGpiKeysErrorInvalidName  0x021A4D90  data
  *   gGpiKeysErrorInvalidValue  0x021A4DA4  data
  *   func_0218D864  0x0218D864  arm  ov009
@@ -56,7 +56,7 @@ extern void gpiSetErrorString(int *p, int b);
 extern void ArrayFree(void *array);
 extern int strcmp(const char *s1, const char *s2);
 extern char *goastrdup(char *src);
-extern void func_021842D0(void *array, void *newElem, int (*comparator)(void *, void *));
+extern void ArrayInsertSorted(void *array, void *newElem, int (*comparator)(void *, void *));
 extern int func_0218D864(void *elem1, void *elem2);
 extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *ArrayNth(void *array, int n);
@@ -181,7 +181,7 @@ int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *t
     }
     aKey.keyName = goastrdup(theKeyName);
     aKey.keyValue = goastrdup(theKeyValue);
-    func_021842D0(keys, &aKey, func_0218D864);
+    ArrayInsertSorted(keys, &aKey, func_0218D864);
     return 0;
 }
 

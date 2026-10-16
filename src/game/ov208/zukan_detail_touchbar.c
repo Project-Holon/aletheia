@@ -40,13 +40,13 @@
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   d_021C8388 0x021C8388 data a4
  *   d_021C8384 0x021C8384 data a1
- *   func_021BE170  0x021BE170  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft  0x021BE170  thumb
  *   func_021BDD98  0x021BDD98  thumb
  *   func_021BE3C4  0x021BE3C4  thumb
  *   func_021BE504  0x021BE504  thumb
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_SetActorPos 0x0204B528 arm
- *   func_021BD148  0x021BD148  thumb
+ *   ZKND_TBAR_CreateButtonList  0x021BD148  thumb
  *   func_021BD3CC  0x021BD3CC  thumb
  *   func_021BE128  0x021BE128  thumb
  *   data_021C8440  0x021C8440  data
@@ -136,7 +136,7 @@ extern void func_021BDCF8(struct Ov208Scene *);
 
 extern u32 func_02040804(u32 layer);
 
-extern void func_021BE170(struct Ov208Scene *p);
+extern void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft(struct Ov208Scene *p);
 
 extern void CLACT_SetActorBgPriority(int, int);
 
@@ -150,7 +150,7 @@ extern void CLACT_GetActorPos(const struct Actor *,struct Pt *);
 
 extern void CLACT_SetActorPos(struct Actor *,const struct Pt *);
 
-extern struct Ov208Mgr *func_021BD148(struct Ov208ActList *list, u16 heap);
+extern struct Ov208Mgr *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u16 heap);
 
 extern void func_021BD3CC(struct Ov208Mgr *mgr, int key, u16 *pos);
 
@@ -487,7 +487,7 @@ void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(struct Ov208Scene *p, u32 kind)
             p->arrowKind = 4;
         }
         ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight(p);
-        func_021BE170(p);
+        ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft(p);
         if (restore)
             p->arrowKind = saved;
     }
@@ -672,7 +672,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
     list.pal = 0xd;
     list.objPal = 8;
     list.kind = 2;
-    p->mgr = func_021BD148(&list, p->heap);
+    p->mgr = ZKND_TBAR_CreateButtonList(&list, p->heap);
     for (i = 0; i < p->count; i++)
         p->slots[i].obj = ZKND_TBAR_GetButtonActor((void *)p->mgr, p->slots[i].src->id);
     if (p->dexFlags == 0) {
@@ -684,7 +684,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
     if (v != 9)
         ZKND_TBAR_SetButtonAnimSeq(p->mgr, p->slots[v].src->id, 0);
     func_021BE128(p);
-    func_021BE170((struct Ov208Scene *)p);
+    ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft((struct Ov208Scene *)p);
     if (p->buttonFlag == 0) {
         ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[8].src->id, 0);
         ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[7].src->id, 0);
@@ -768,7 +768,7 @@ void ZUKAN_DETAIL_TOUCHBAR_UpdateInput(struct Ov208Scene *m)
             for (i = 3; i <= 6; i++)
                 ZKND_TBAR_SetButtonAnimSeq(m->mgr, m->slots[i].src->id, i != c);
             m->arrowKind = d;
-            func_021BE170((struct Ov208Scene *)((struct Ov208Scene *)m));
+            ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft((struct Ov208Scene *)((struct Ov208Scene *)m));
         }
     }
     if (b != 0) {
@@ -955,7 +955,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources(struct Ov208Scene *p)
     list.pal = 0xd;
     list.objPal = 8;
     list.kind = 2;
-    p->mgr = func_021BD148(&list, p->heap);
+    p->mgr = ZKND_TBAR_CreateButtonList(&list, p->heap);
     for (i = 0; i < p->count; i++)
         p->slots[i].obj = ZKND_TBAR_GetButtonActor(p->mgr, p->slots[i].src->id);
 }
@@ -1010,7 +1010,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources(struct Ov208Scene *p)
     list.pal = 0xd;
     list.objPal = 8;
     list.kind = 2;
-    p->mgr = func_021BD148(&list, p->heap);
+    p->mgr = ZKND_TBAR_CreateButtonList(&list, p->heap);
     for (i = 0; i < p->count; i++)
         p->slots[i].obj = ZKND_TBAR_GetButtonActor(p->mgr, p->slots[i].src->id);
     ZKND_TBAR_SetButtonAnimSeqLoop(p->mgr, p->slots[1].src->id, 0x110);

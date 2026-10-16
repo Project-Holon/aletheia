@@ -24,6 +24,7 @@
  *   MI_StopAllDma  0x02082658  arm  arm9
  *   OSi_SyncWithOtherProc  0x02084AB0  arm  arm9
  *   PMi_InsertList  0x0208C6FC  arm  arm9
+ *   PM_SendUtilityCommand  0x0208BC8C  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -49,7 +50,7 @@ typedef struct {
 extern S2153 d_02153000;
 #define G2153 (&d_02153000)
 
-extern int func_0208BC8C(u32 cmd, u32 a, u16 *buf);
+extern int PM_SendUtilityCommand(u32 cmd, u32 a, u16 *buf);
 extern void MI_WaitNDma(int ch);
 extern void MI_StopNDma(int ch);
 extern void PMi_ExecuteList(PMiGenCallbackInfo *listp);
@@ -76,7 +77,7 @@ int PMi_TryLockForReset(void);
 int PMi_GetBatteryLevelCore(u16 *out)
 {
     u16 v;
-    int r = func_0208BC8C(15, 1, &v);
+    int r = PM_SendUtilityCommand(15, 1, &v);
     if (r == 0 && out != 0) {
         *out = v;
     }
@@ -199,10 +200,10 @@ void PMi_CallPostExitCallbackAndReset(int flag)
             cmd = 0x14;
             *(volatile u32 *)0x02000300 = 0;
         }
-        if (func_0208BC8C(cmd, 0, &buf) != 0) {
+        if (PM_SendUtilityCommand(cmd, 0, &buf) != 0) {
             do {
                 OS_SpinWaitSysCycles(0x51D23);
-            } while (func_0208BC8C(cmd, 0, &buf) != 0);
+            } while (PM_SendUtilityCommand(cmd, 0, &buf) != 0);
         }
         if (buf == 0)
             break;

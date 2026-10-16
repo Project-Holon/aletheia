@@ -18,7 +18,7 @@
  *   flash_access_File   0x020A78A0  data
  *   flash_access_LockIdAssert   0x020A78B0  data
  *   OS_GetLockID  0x02084EB8  arm
- *   func_02075E9C  0x02075E9C  arm
+ *   CARD_LockBackup  0x02075E9C  arm
  *   CARD_IdentifyBackup  0x02076B2C  arm
  *   CARD_UnlockBackup  0x02075EAC  arm
  *   OS_ReleaseLockID  0x02084F10  arm
@@ -38,7 +38,7 @@ typedef void (*FlashErrorFunc)(u32 no_response);
 
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern int  OS_GetLockID(u32 lock_arg);
-extern void func_02075E9C(u16 lock_id);
+extern void CARD_LockBackup(u16 lock_id);
 extern int  CARD_IdentifyBackup(int type);
 extern void CARD_UnlockBackup(u16 lock_id);
 extern void OS_ReleaseLockID(u16 lock_id);
@@ -81,7 +81,7 @@ int FLASH_ACCESS_Identify(u32 unused_arg)
     if (lock_id == -3) {
         SAVEDATA_PanicFail((const char *)flash_access_File, 0x38, (const char *)flash_access_LockIdAssert);
     }
-    func_02075E9C((u16)lock_id);
+    CARD_LockBackup((u16)lock_id);
     type = 0x00ff1302;
     if (CARD_IdentifyBackup(type) == 0) {
         type = 0;
@@ -129,7 +129,7 @@ int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(vo
     if (lock_id == -3) {
         SAVEDATA_PanicFail((const char *)flash_access_File, 0xa4, (const char *)flash_access_LockIdAssert);
     }
-    func_02075E9C((u16)lock_id);
+    CARD_LockBackup((u16)lock_id);
     result = CARDi_RequestStreamCommand(flash_addr, ram_dst, size, 0, 0, 1, 6, 1, 0);
     result = CARD_WaitBackupAsync();
     CARD_UnlockBackup((u16)lock_id);
@@ -168,7 +168,7 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_erro
     if (lock_id == -3) {
         SAVEDATA_PanicFail((const char *)flash_access_File, 0xd4, (const char *)flash_access_LockIdAssert);
     }
-    func_02075E9C((u16)lock_id);
+    CARD_LockBackup((u16)lock_id);
 
     _AccessBusy = 1;
     if (CARDi_RequestStreamCommand(0, (u32)&probe, FLASH_PROBE_LEN, 0, 0, 0, 6, 1, 0) == 0) {

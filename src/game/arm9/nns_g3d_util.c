@@ -16,7 +16,7 @@
  *   g_renderState     0x02148B4C  data
  *   MTX_MultVec43  0x0207BC08  arm
  *   FX_InvAsync  0x0207C8A0  arm
- *   func_0207C848  0x0207C848  arm
+ *   FX_GetDivResultFx64c  0x0207C848  arm
  *   NNS_G3dGlbGetViewPort  0x0206AE94  arm
  *   FX_Div  0x0207C768  arm
  *   NNS_G3dGlbGetInvVPMtx  0x0206AE2C  arm
@@ -29,7 +29,7 @@ typedef long long fx64c;
 
 extern void MTX_MultVec43(const VecFx32 *src, const MtxFx43 *m, VecFx32 *dst);
 extern void FX_InvAsync(fx32 d);
-extern fx64c func_0207C848(void);
+extern fx64c FX_GetDivResultFx64c(void);
 extern void NNS_G3dGlbGetViewPort(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
 extern u32 FX_Div(u32 a, u32 b);
 extern void *NNS_G3dGlbGetInvVPMtx(void);
@@ -84,7 +84,7 @@ int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py)
         y = ty + m->_31;
     }
 
-    invW = func_0207C848();                              /* FX_GetInvResultFx64c */
+    invW = FX_GetDivResultFx64c();                              /* FX_GetInvResultFx64c */
     x = (FX_Mul32x64c(x, invW) + 0x1000) / 2;
     y = (FX_Mul32x64c(y, invW) + 0x1000) / 2;
 
@@ -108,7 +108,7 @@ int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py)
  * world-space near point (and, when pFar is non-null, far point) through the
  * inverse view-projection matrix NNS_G3dGlbGetInvVPMtx returns. FX_Div is
  * FX_Div, FX_InvAsync FX_InvAsync, FX_GetInvResultFx64c
- * func_0207C848, the viewport unpack NNS_G3dGlbGetViewPort. Returns -1 when the
+ * FX_GetDivResultFx64c, the viewport unpack NNS_G3dGlbGetViewPort. Returns -1 when the
  * pixel is outside the viewport, else 0.
  *
  * Two levers: the viewport extents are named locals dx/dy (dy = y2 - y1 is
@@ -155,14 +155,14 @@ int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
     nx -= m->_20;
     ny -= m->_21;
     nz -= m->_22;
-    invW = func_0207C848();
+    invW = FX_GetDivResultFx64c();
     if (pFar)
         FX_InvAsync(fw);
     pNear->x = FX_Mul32x64c(nx, invW);
     pNear->y = FX_Mul32x64c(ny, invW);
     pNear->z = FX_Mul32x64c(nz, invW);
     if (pFar) {
-        invW = func_0207C848();
+        invW = FX_GetDivResultFx64c();
         pFar->x = FX_Mul32x64c(fx, invW);
         pFar->y = FX_Mul32x64c(fy, invW);
         pFar->z = FX_Mul32x64c(fz, invW);

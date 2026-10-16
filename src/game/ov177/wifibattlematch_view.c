@@ -50,7 +50,7 @@
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_020407E8 0x020407E8 arm
+ *   BG_SYS_GetScrollX 0x020407E8 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   d_021E8D36 0x021E8D36 data a1
@@ -334,7 +334,7 @@ extern void BG_SYS_PushTile(u32);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern u32 func_020407E8(u32 layer);
+extern u32 BG_SYS_GetScrollX(u32 layer);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
@@ -920,7 +920,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
     WIFIBATTLEMATCH_VIEW_DeletePokeActors(p);
     base=0x240;
     WIFIBATTLEMATCH_VIEW_CreatePokeActors((Work *)p,*(void **)(p+base),*(void **)(p+base-8),*(u16 *)(p+base-4));
-    x=32-func_020407E8(*(u8 *)(p+base-16));
+    x=32-BG_SYS_GetScrollX(*(u8 *)(p+base-16));
     layer1=0x234;
     layer2=0x234;
     secondary=0x1a8;
@@ -1069,7 +1069,7 @@ void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *pri
     WIFIBATTLEMATCH_VIEW_DeletePokeActors(p);
     base=0x240;
     WIFIBATTLEMATCH_VIEW_CreatePokeActors((Work *)p,*(void **)(p+base),*(void **)(p+base-8),*(u16 *)(p+base-4));
-    x=32-func_020407E8(*(u8 *)(p+base-16));
+    x=32-BG_SYS_GetScrollX(*(u8 *)(p+base-16));
     layer1=0x234;
     layer2=0x234;
     secondary=0x1a8;
@@ -1153,7 +1153,7 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindow(Work *w)
     int level;
     int i;
     Pt cur, pos;
-    if (func_020407E8(w->bg) == 0)
+    if (BG_SYS_GetScrollX(w->bg) == 0)
         return 1;
     ret = 0;
     if (w->objCount == 0) {
@@ -2171,7 +2171,7 @@ int WIFIBATTLEMATCH_VIEW_StepPartyWindow(WifiBattleMatchViewPartyWork *p)
     int shift;
     Pt pos[2];
     int i;
-    if (func_020407E8(2) == 0) {
+    if (BG_SYS_GetScrollX(2) == 0) {
         return 1;
     }
     done = 0;

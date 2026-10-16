@@ -22,7 +22,7 @@
  *   CRYPTOi__BN_bn2bin  0x021CB010  arm  ov114
  *   CRYPTOi__BN_free  0x021CABDC  arm  ov114
  *   CRYPTOi__BN_CTX_free  0x021CAD6C  arm  ov114
- *   func_020816B8  0x020816B8  arm
+ *   MATH_CalcSHA1  0x020816B8  arm
  */
 #include "crypto_types.h"
 
@@ -35,7 +35,7 @@ extern int CRYPTOi__BN_num_bits(const BIGNUM *a);
 extern int CRYPTOi__BN_bn2bin(const BIGNUM *a, unsigned char *to);
 extern void CRYPTOi__BN_free(BIGNUM *a);
 extern void CRYPTOi__BN_CTX_free(BN_CTX *ctx);
-extern void func_020816B8(void *digest, void *data, unsigned long dataLength);
+extern void MATH_CalcSHA1(void *digest, void *data, unsigned long dataLength);
 int CRYPTOi_RSA(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *mod_ptr, int mod_len, unsigned long exp_num);
 int ASN1Skip(unsigned char **datap, unsigned int *dlenp, unsigned char type, unsigned int *lenp);
 int SkipPadding(unsigned char *psrc_adrs, unsigned int nsrc_size, unsigned char **ppsign_adrs, unsigned int *psign_size);
@@ -293,6 +293,6 @@ int CRYPTO_VerifySignature(void *data_ptr, int data_len, void *sign_ptr, void *m
 {
     unsigned char hash[20];
 
-    func_020816B8(hash, data_ptr, data_len);
+    MATH_CalcSHA1(hash, data_ptr, data_len);
     return CRYPTO_VerifySignatureWithHash(hash, sign_ptr, mod_ptr);
 }

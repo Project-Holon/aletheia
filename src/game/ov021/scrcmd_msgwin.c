@@ -97,7 +97,7 @@
  *   func_02048B0C  0x02048B0C  arm
  *   MTX_LookAt  0x0207BCA0  arm
  *   MI_Copy36B  0x02082B60  arm
- *   func_0207B0A4  0x0207B0A4  arm
+ *   MTX_Inverse33  0x0207B0A4  arm
  *   MTX_MultVec33  0x0207B51C  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
@@ -318,7 +318,7 @@ extern void NNS_G3dWorldPosToScrPos(VecFx32 *pos, u32 *x, u32 *z);
 extern void func_02048B0C(G3dCamera *camera, VecFx32 *out);
 extern void MTX_LookAt(VecFx32 *eye, VecFx32 *up, VecFx32 *target, MtxFx43 *out);
 extern void MI_Copy36B(MtxFx43 *src, MtxFx33 *dest);
-extern void func_0207B0A4(MtxFx33 *src, MtxFx33 *dest);
+extern void MTX_Inverse33(MtxFx33 *src, MtxFx33 *dest);
 extern void MTX_MultVec33(VecFx32 *vec, MtxFx33 *mtx, VecFx32 *out);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern u32 FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin);
@@ -973,7 +973,7 @@ void SCRCMD_MSGWIN_RotateOffsetByCamera(VecFx32 *offset, G3dCamera *camera)
     func_02048B30(camera, &target);
     MTX_LookAt(&eye, &up, &target, &viewMtx);
     MI_Copy36B(&viewMtx, &invRotation);
-    func_0207B0A4(&invRotation, &invRotation);
+    MTX_Inverse33(&invRotation, &invRotation);
     MTX_MultVec33(offset, &invRotation, offset);
 }
 

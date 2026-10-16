@@ -1,7 +1,7 @@
 /*
  * file:     gpipeer.c
  * unit:     yes
- * function: gpiProcessPeerInitiatingConnection, gpiProcessPeerAcceptingConnection, gpiPeerSendMessages, gpiProcessPeerConnected, gpiCheckTimedOutPeerOperations, func_0218EE48, func_0218EEC0, gpiRemovePeer, gpiProcessPeers, gpiGetPeerByProfile, func_0218F0E8, gpiFreeMessage, gpiAddPeer, func_0218F1E0, gpiPeerStartConnect, gpiPeerAddMessage, func_0218F4BC, gpiPeerFinishTransferMessage, gpiPeerLeftCallback, gpiPeerMessageCallback, gpiPeerAcceptedCallback, gpiPeerPingReplyCallback, func_0218F884, gpiPeerRemoveOp
+ * function: gpiProcessPeerInitiatingConnection, gpiProcessPeerAcceptingConnection, gpiPeerSendMessages, gpiProcessPeerConnected, gpiCheckTimedOutPeerOperations, func_0218EE48, gpiDestroyPeer, gpiRemovePeer, gpiProcessPeers, gpiGetPeerByProfile, gpiGetPeerByAddr, gpiFreeMessage, gpiAddPeer, gpiPeerGetSig, gpiPeerStartConnect, gpiPeerAddMessage, gpiPeerStartTransferMessage, gpiPeerFinishTransferMessage, gpiPeerLeftCallback, gpiPeerMessageCallback, gpiPeerAcceptedCallback, gpiPeerPingReplyCallback, func_0218F884, gpiPeerRemoveOp
  * address:  0x0218E3B0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   gpiRemoveProfile  0x0218FF24  arm  ov009
  *   strstr  0x02094B20  arm
  *   strncmp  0x020949F4  arm
- *   func_0218F1E0  0x0218F1E0  arm  ov009
+ *   gpiPeerGetSig  0x0218F1E0  arm  ov009
  *   gpiSendBufferToPeer  0x02189A7C  arm  ov009
  *   gGpiPeerDebugSignature     0x021A4E50  data
  *   gGpiPeerErrorConnecting     0x021A4E7C  data
@@ -73,7 +73,7 @@
  *   gsifree     0x0217EAE0  arm
  *   ArrayFree   0x021841B0  arm
  *   gpiSendServerBuddyMessage  0x021888C0  arm  ov009
- *   func_0218EEC0  0x0218EEC0  arm  ov009
+ *   gpiDestroyPeer  0x0218EEC0  arm  ov009
  *   gGpiPeerDebugRemoveNotInList  0x021A4F4C  data
  *   func_021814EC  0x021814EC  arm  ov009
  *   func_0218EE48  0x0218EE48  arm  ov009
@@ -95,7 +95,7 @@
  *   OS_SPrintf             0x02084F40  arm
  *   gpiSendOrBufferString  0x02189750  arm
  *   gGpiPeerXferFmt             0x021A4FD8  data
- *   func_02189750  0x02189750  arm  ov009
+ *   gpiSendOrBufferString  0x02189750  arm  ov009
  *   func_0218964C  0x0218964C  arm  ov009
  *   gpiSendOrBufferChar  0x02189644  arm  ov009
  *   gGpiPeerEmptyMsg  0x021A4FEC  data
@@ -103,8 +103,8 @@
  *   SOC_InetNtoA      0x0215FA9C  arm
  *   gsDebugFormat     0x0217D254  arm
  *   gGpiPeerDebugLeft        0x021A5000  data
- *   func_0218F0E8  0x0218f0e8  arm   ov009
- *   func_0215FA9C  0x0215fa9c  arm   ov009
+ *   gpiGetPeerByAddr  0x0218f0e8  arm   ov009
+ *   SOC_InetNtoA  0x0215fa9c  arm   ov009
  *   gsirealloc  0x0217eac8  arm   ov009
  *   memcpy         0x02092344  arm
  *   gGpiPeerDebugOomAlloc     0x021a5028  data
@@ -132,7 +132,7 @@ extern int gpiCanFreeProfile(char *p);
 extern void gpiRemoveProfile(const int *p, void *profile);
 extern char *strstr(const char *s1, const char *s2);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern int func_0218F1E0(void **connection, GPIPeer *peer);
+extern int gpiPeerGetSig(void **connection, GPIPeer *peer);
 extern int gpiSendBufferToPeer(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
@@ -162,7 +162,7 @@ extern void gpiCheckTimedOutPeerOperations(void **connection, GPIPeer *peer);
 extern void gsifree(void *ptr);
 extern void ArrayFree(void *array);
 extern int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message);
-extern void func_0218EEC0(void **connection, GPIPeer *peer);
+extern void gpiDestroyPeer(void **connection, GPIPeer *peer);
 extern int func_021814EC(void);
 extern int func_0218EE48(void **connection, GPIPeer *peer);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
@@ -180,12 +180,12 @@ extern int gpiAppendCharToBuffer(void **connection, GPIBuffer *buffer, int c);
 extern void ArrayAppend(void *array, void *elem);
 extern int  gpiSendOrBufferString(void **connection, GPIPeer *peer,
                                   char *string);
-extern int func_02189750(void **connection, GPIPeer *peer, char *string);
+extern int gpiSendOrBufferString(void **connection, GPIPeer *peer, char *string);
 extern int func_0218964C(void **connection, GPIPeer *peer, char *string, int stringLen);
 extern int gpiSendOrBufferChar();
 extern char *SOC_InetNtoA(SOCInAddr in);
-extern GPIPeer *func_0218F0E8(void **connection, unsigned int ip, unsigned short port);
-extern char *func_0215FA9C(SOCInAddr in);
+extern GPIPeer *gpiGetPeerByAddr(void **connection, unsigned int ip, unsigned short port);
+extern char *SOC_InetNtoA(SOCInAddr in);
 extern void *gsirealloc(void *ptr, unsigned int size);
 extern void *memcpy(void *, const void *, unsigned int);
 int gpiPeerSendMessages(void **connection, GPIPeer *peer);
@@ -327,7 +327,7 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
                     return 3;
                 }
                 {
-                    int __result__ = func_0218F1E0(connection, peer);
+                    int __result__ = gpiPeerGetSig(connection, peer);
                     if (__result__ != 0)
                         return __result__;
                 }
@@ -717,7 +717,7 @@ void gpiRemovePeer(void **connection, GPIPeer *peer)
             gpiSendServerBuddyMessage(connection, peer->profile, message->type, message->buffer.buffer + message->start);
         ArrayDeleteAt((int)peer->messages, 0);
     }
-    func_0218EEC0(connection, peer);
+    gpiDestroyPeer(connection, peer);
 }
 
 
@@ -1039,7 +1039,7 @@ int gpiPeerFinishTransferMessage(void **connection, GPIPeer *peer, char *message
     if (len == -1)
         len = strlen((const u8 *)message);
     OS_SPrintf(buffer, gGpiPeerLenMsgFmt, len);
-    result = func_02189750(connection, peer, buffer);
+    result = gpiSendOrBufferString(connection, peer, buffer);
     if (result != 0)
         return result;
     result = func_0218964C(connection, peer, message, len);
@@ -1091,7 +1091,7 @@ void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char 
 
     connection = (void **)userData;
     anAddr.addr = ip;
-    aPeer = func_0218F0E8(connection, ip, port);
+    aPeer = gpiGetPeerByAddr(connection, ip, port);
     if (aPeer == 0) {
         aPeer = (GPIPeer *)gpiAddPeer(connection, -1, 0);
         if (aPeer != 0) {
@@ -1099,7 +1099,7 @@ void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char 
             aPeer->ip = ip;
             aPeer->port = port;
         } else {
-            gsDebugFormat(1, (char *)2, 1, gGpiPeerDebugOomAlloc, func_0215FA9C(anAddr), port);
+            gsDebugFormat(1, (char *)2, 1, gGpiPeerDebugOomAlloc, SOC_InetNtoA(anAddr), port);
             return;
         }
     }
@@ -1110,7 +1110,7 @@ void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char 
         size = writePos + (messageLength < 0x4000 ? 0x4000 : messageLength);
         reallocedBuff = gsirealloc(buff, size + 1);
         if (reallocedBuff == 0) {
-            gsDebugFormat(1, (char *)2, 1, gGpiPeerDebugOomRealloc, func_0215FA9C(anAddr), port);
+            gsDebugFormat(1, (char *)2, 1, gGpiPeerDebugOomRealloc, SOC_InetNtoA(anAddr), port);
             gsifree(buff);
             gpiSetErrorString(connection, gGpiPeerErrorOutOfMemory);
             gpiCallErrorCallback(connection, 1, 0);
@@ -1133,15 +1133,15 @@ void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, i
     GPIPeer *aPeer;
 
     anAddr.addr = ip;
-    aPeer = func_0218F0E8((void **)userData, ip, port);
+    aPeer = gpiGetPeerByAddr((void **)userData, ip, port);
     if (aPeer == 0) {
-        gsDebugFormat(1, 0, 1, gGpiPeerDebugNotExist, func_0215FA9C(anAddr), port);
+        gsDebugFormat(1, 0, 1, gGpiPeerDebugNotExist, SOC_InetNtoA(anAddr), port);
     } else if (rejected) {
         aPeer->state = 0x6a;
-        gsDebugFormat(1, 0, 8, gGpiPeerDebugConnRejected, func_0215FA9C(anAddr), port);
+        gsDebugFormat(1, 0, 8, gGpiPeerDebugConnRejected, SOC_InetNtoA(anAddr), port);
         return;
     }
-    gsDebugFormat(1, 0, 8, gGpiPeerDebugConnAccepted, func_0215FA9C(anAddr), port);
+    gsDebugFormat(1, 0, 8, gGpiPeerDebugConnAccepted, SOC_InetNtoA(anAddr), port);
 }
 
 void gpiPeerPingReplyCallback(void)

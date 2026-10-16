@@ -76,7 +76,7 @@
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   INTRUDE_COMM_CheckEntryAllowed  0x02158318  thumb  ov010
  *   func_02035390  0x02035390  arm
- *   func_020353B0  0x020353B0  arm
+ *   UI_IsPowerConnected  0x020353B0  arm
  *   func_0200921C  0x0200921C  thumb
  *   func_020090E0  0x020090E0  thumb
  *   GFL_NET_GetRunState     0x0203CD98  arm
@@ -266,7 +266,7 @@ extern int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
 
 extern u32   func_02035390(void);
 
-extern int func_020353B0(void);
+extern int UI_IsPowerConnected(void);
 
 extern struct WirelessSave *func_0200921C(struct GameData *gameData);
 
@@ -1710,7 +1710,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
      && GFL_NET_ERR_GetErrorLevel() == 0
      && ICA_ANIME_IsConfigFlagSet(gameSystem) == 1
      && INTRUDE_COMM_CheckEntryAllowed(gameSystem) == 1
-     && !(func_02035390() == 1 && func_020353B0() == 1)) {
+     && !(func_02035390() == 1 && UI_IsPowerConnected() == 1)) {
         if (func_020090E0(func_0200921C(gameSystem->gameData)) != 0) {
             return 1;
         }
@@ -1825,7 +1825,7 @@ int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
     if (GFL_NET_IRC_WIRELESS_IsActive() != 0) {
         return 1;
     }
-    if (func_020353B0() != 0) {
+    if (UI_IsPowerConnected() != 0) {
         return 0;
     }
     if (ICA_ANIME_IsConfigFlagSet(gameSystem) != 0) {

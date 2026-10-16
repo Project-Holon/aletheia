@@ -30,7 +30,7 @@
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   GX_GetBankForTex  0x02080C44  arm
  *   GX_DisableBankForLCDC  0x02080B98  arm
- *   func_02080294  0x02080294  arm
+ *   GX_SetBankForTex  0x02080294  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
@@ -67,7 +67,7 @@ extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
 extern u16 GX_GetBankForTex(void);
 extern void GX_DisableBankForLCDC(void);
-extern void func_02080294(u32 bank);
+extern void GX_SetBankForTex(u32 bank);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void *ENCEFF_GetWork(struct EncEff *eff);
@@ -207,7 +207,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
                 work->addedTexBank = 1;
             }
             GX_DisableBankForLCDC();
-            func_02080294(work->texBanks);
+            GX_SetBankForTex(work->texBanks);
             work->texParam = ENCEFF_GetScreenTexParam();
             *state = *state + 1;
         }
@@ -224,7 +224,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
     case 6:
         if (work->addedTexBank == 1) {
             work->texBanks &= ~8;
-            func_02080294(work->texBanks);
+            GX_SetBankForTex(work->texBanks);
         }
         FIELDMAP_SetDrawMode(fieldMap, work->savedDrawMode);
         return 1;
@@ -293,7 +293,7 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
                 work->addedTexBank = 1;
             }
             GX_DisableBankForLCDC();
-            func_02080294(work->texBanks);
+            GX_SetBankForTex(work->texBanks);
             work->texParam = ENCEFF_GetScreenTexParam();
             *state = *state + 1;
         }
@@ -310,7 +310,7 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
     case 3:
         if (work->addedTexBank == 1) {
             work->texBanks &= ~8;
-            func_02080294(work->texBanks);
+            GX_SetBankForTex(work->texBanks);
         }
         FIELDMAP_SetDrawMode(fieldMap, work->savedDrawMode);
         return 1;

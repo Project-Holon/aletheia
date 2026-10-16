@@ -32,18 +32,18 @@
  *   GXS_LoadBGPltt   0x0207E468  arm
  *   GX_LoadOBJPltt   0x0207E51C  arm
  *   GXS_LoadOBJPltt   0x0207E5D0  arm
- *   func_0207F308   0x0207F308  arm
- *   func_0207F394   0x0207F394  arm
- *   func_0207F428   0x0207F428  arm
- *   func_0207F47C   0x0207F47C  arm
- *   func_0207F4C4   0x0207F4C4  arm
- *   func_0207F560   0x0207F560  arm
- *   func_0207F5B0   0x0207F5B0  arm
- *   func_0207F5C8   0x0207F5C8  arm
- *   func_0207F65C   0x0207F65C  arm
- *   func_0207F6A8   0x0207F6A8  arm
- *   func_0207F6C0   0x0207F6C0  arm
- *   func_0207F754   0x0207F754  arm
+ *   GX_BeginLoadBGExtPltt   0x0207F308  arm
+ *   GX_LoadBGExtPltt   0x0207F394  arm
+ *   GX_EndLoadBGExtPltt   0x0207F428  arm
+ *   GX_BeginLoadOBJExtPltt   0x0207F47C  arm
+ *   GX_LoadOBJExtPltt   0x0207F4C4  arm
+ *   GX_EndLoadOBJExtPltt   0x0207F560  arm
+ *   GXS_BeginLoadBGExtPltt   0x0207F5B0  arm
+ *   GXS_LoadBGExtPltt   0x0207F5C8  arm
+ *   GXS_EndLoadBGExtPltt   0x0207F65C  arm
+ *   GXS_BeginLoadOBJExtPltt   0x0207F6A8  arm
+ *   GXS_LoadOBJExtPltt   0x0207F6C0  arm
+ *   GXS_EndLoadOBJExtPltt   0x0207F754  arm
  *   GAME_DATA_CheckPlayTime  0x02012FBC  thumb
  *   TCB_AddTask  0x02030DA8  arm
  *   0  0x05000000  main BG
@@ -168,29 +168,29 @@ extern void GX_LoadOBJPltt(void *a, u32 b, u32 c);
 
 extern void GXS_LoadOBJPltt(void *a, u32 b, u32 c);
 
-extern void func_0207F308(void);
+extern void GX_BeginLoadBGExtPltt(void);
 
-extern void func_0207F394(void *a, u32 b, u32 c);
+extern void GX_LoadBGExtPltt(void *a, u32 b, u32 c);
 
-extern void func_0207F428(void);
+extern void GX_EndLoadBGExtPltt(void);
 
-extern void func_0207F47C(void);
+extern void GX_BeginLoadOBJExtPltt(void);
 
-extern void func_0207F4C4(void *a, u32 b, u32 c);
+extern void GX_LoadOBJExtPltt(void *a, u32 b, u32 c);
 
-extern void func_0207F560(void);
+extern void GX_EndLoadOBJExtPltt(void);
 
-extern void func_0207F5B0(void);
+extern void GXS_BeginLoadBGExtPltt(void);
 
-extern void func_0207F5C8(void *a, u32 b, u32 c);
+extern void GXS_LoadBGExtPltt(void *a, u32 b, u32 c);
 
-extern void func_0207F65C(void);
+extern void GXS_EndLoadBGExtPltt(void);
 
-extern void func_0207F6A8(void);
+extern void GXS_BeginLoadOBJExtPltt(void);
 
-extern void func_0207F6C0(void *a, u32 b, u32 c);
+extern void GXS_LoadOBJExtPltt(void *a, u32 b, u32 c);
 
-extern void func_0207F754(void);
+extern void GXS_EndLoadOBJExtPltt(void);
 
 int PALANM_GetDefaultWork(char *p, int i);
 
@@ -1139,54 +1139,54 @@ void PALANM_TransferPalettes(PaletteFade *p)
             GXS_LoadOBJPltt(c->transWork, 0, c->size);
             break;
         case 4:
-            func_0207F308();
-            func_0207F394(c->transWork, 0, c->size);
-            func_0207F428();
+            GX_BeginLoadBGExtPltt();
+            GX_LoadBGExtPltt(c->transWork, 0, c->size);
+            GX_EndLoadBGExtPltt();
             break;
         case 5:
-            func_0207F308();
-            func_0207F394(c->transWork, k, c->size);
-            func_0207F428();
+            GX_BeginLoadBGExtPltt();
+            GX_LoadBGExtPltt(c->transWork, k, c->size);
+            GX_EndLoadBGExtPltt();
             break;
         case 6:
-            func_0207F308();
-            func_0207F394(c->transWork, 0x4000, c->size);
-            func_0207F428();
+            GX_BeginLoadBGExtPltt();
+            GX_LoadBGExtPltt(c->transWork, 0x4000, c->size);
+            GX_EndLoadBGExtPltt();
             break;
         case 7:
-            func_0207F308();
-            func_0207F394(c->transWork, 0x6000, c->size);
-            func_0207F428();
+            GX_BeginLoadBGExtPltt();
+            GX_LoadBGExtPltt(c->transWork, 0x6000, c->size);
+            GX_EndLoadBGExtPltt();
             break;
         case 8:
-            func_0207F5B0();
-            func_0207F5C8(c->transWork, 0, c->size);
-            func_0207F65C();
+            GXS_BeginLoadBGExtPltt();
+            GXS_LoadBGExtPltt(c->transWork, 0, c->size);
+            GXS_EndLoadBGExtPltt();
             break;
         case 9:
-            func_0207F5B0();
-            func_0207F5C8(c->transWork, k, c->size);
-            func_0207F65C();
+            GXS_BeginLoadBGExtPltt();
+            GXS_LoadBGExtPltt(c->transWork, k, c->size);
+            GXS_EndLoadBGExtPltt();
             break;
         case 10:
-            func_0207F5B0();
-            func_0207F5C8(c->transWork, 0x4000, c->size);
-            func_0207F65C();
+            GXS_BeginLoadBGExtPltt();
+            GXS_LoadBGExtPltt(c->transWork, 0x4000, c->size);
+            GXS_EndLoadBGExtPltt();
             break;
         case 11:
-            func_0207F5B0();
-            func_0207F5C8(c->transWork, 0x6000, c->size);
-            func_0207F65C();
+            GXS_BeginLoadBGExtPltt();
+            GXS_LoadBGExtPltt(c->transWork, 0x6000, c->size);
+            GXS_EndLoadBGExtPltt();
             break;
         case 12:
-            func_0207F47C();
-            func_0207F4C4(c->transWork, 0, c->size);
-            func_0207F560();
+            GX_BeginLoadOBJExtPltt();
+            GX_LoadOBJExtPltt(c->transWork, 0, c->size);
+            GX_EndLoadOBJExtPltt();
             break;
         case 13:
-            func_0207F6A8();
-            func_0207F6C0(c->transWork, 0, c->size);
-            func_0207F754();
+            GXS_BeginLoadOBJExtPltt();
+            GXS_LoadOBJExtPltt(c->transWork, 0, c->size);
+            GXS_EndLoadOBJExtPltt();
             break;
         }
     }

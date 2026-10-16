@@ -15,17 +15,17 @@
  * symbols:
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
- *   func_0218FB14  0x0218FB14  arm  ov009
+ *   gpiInitProfiles  0x0218FB14  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   SocketStartUp  0x0217F25C  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   srand  0x020946C8  arm
  *   gpiDisconnect  0x0218B760  arm  ov009
  *   gpiStatusInfoKeysDestroy  0x0218D840  arm  ov009
- *   func_021846B4  0x021846B4  arm  ov009
+ *   TableFree  0x021846B4  arm  ov009
  *   gpiStatusInfoKeysInit  0x0218D7F4  arm  ov009
  *   gpiRemoveOperation  0x0218E240  arm  ov009
- *   func_0218FFFC  0x0218FFFC  arm  ov009
+ *   gpiProfileMap  0x0218FFFC  arm  ov009
  *   current_time                     0x0217F264  arm
  *   gpiAddLocalInfo                  0x0218C5FC  arm
  *   gpiSendFromBuffer                0x0218998C  arm
@@ -81,17 +81,17 @@ typedef struct GPIOperation_s {
 
 extern void *gsimalloc(int size);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
-extern int   func_0218FB14(void **pp);
+extern int   gpiInitProfiles(void **pp);
 extern void  gsifree(void *p);
 extern void  SocketStartUp(void);
 extern unsigned int current_time(void);
 extern void  srand(void);
 extern void gpiDisconnect(void **connection, int tellServer);
 extern void gpiStatusInfoKeysDestroy(void **connection);
-extern void func_021846B4(void *table);
+extern void TableFree(void *table);
 extern int gpiStatusInfoKeysInit(GPConnection *connection);
 extern void gpiRemoveOperation(void **connection, GPIOperation_s *operation);
-extern int func_0218FFFC(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
+extern int gpiProfileMap(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
 extern int gpiAddLocalInfo(void **connection, GPIBuffer *buffer);
 extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer,
                              int *connClosed, int clipSentData, char *id);
@@ -118,7 +118,7 @@ extern char *strstr(char *s, char *t);
 extern void *memmove(void *dst, void *src, unsigned long n);
 extern int atoi(char *s);
 /*
- * gpiInitialize (gpi_engine?): allocate the 0x638-byte GP connection block, * clear it, seed the state words, hand its address to func_0218FB14, clear * nine 8-byte pairs, run the two sub-initialisers, then publish the block * through *out. p lives on the stack because &p is taken.
+ * gpiInitialize (gpi_engine?): allocate the 0x638-byte GP connection block, * clear it, seed the state words, hand its address to gpiInitProfiles, clear * nine 8-byte pairs, run the two sub-initialisers, then publish the block * through *out. p lives on the stack because &p is taken.
  */
 int gpiInitialize(void **out, int a1, int a2, int a3);
 /*
@@ -150,7 +150,7 @@ extern int gpiReset(void **connection);
 
 /*
  * gpiInitialize (gpi_engine?): allocate the 0x638-byte GP connection block,
- * clear it, seed the state words, hand its address to func_0218FB14, clear
+ * clear it, seed the state words, hand its address to gpiInitProfiles, clear
  * nine 8-byte pairs, run the two sub-initialisers, then publish the block
  * through *out.  p lives on the stack because &p is taken.
  */
@@ -174,7 +174,7 @@ int gpiInitialize(void **out, int a1, int a2, int a3)
     *(int *)(p + 0x610) = a2;
     *(int *)(p + 0x1a4) = a3;
 
-    if (func_0218FB14((void **)&p) == 0) {
+    if (gpiInitProfiles((void **)&p) == 0) {
         gsifree(p);
         return 1;
     }
@@ -210,7 +210,7 @@ void gpiDestroy(void **connection)
 
     gpiDisconnect(connection, 1);
     gpiStatusInfoKeysDestroy(connection);
-    func_021846B4(iconnection->profileList.profileTable);
+    TableFree(iconnection->profileList.profileTable);
     gsifree(iconnection);
     *connection = 0;
 }
@@ -293,7 +293,7 @@ int gpiReset(GPConnection *connection)
     iconnection->operationList = 0;
     iconnection->profileList.numBuddies = 0;
     iconnection->profileList.numBlocked = 0;
-    func_0218FFFC(connection, (int (*)(GPConnection *, GPIProfile *, void *))gpiResetProfile, 0);
+    gpiProfileMap(connection, (int (*)(GPConnection *, GPIProfile *, void *))gpiResetProfile, 0);
     iconnection->userid = 0;
     iconnection->profileid = 0;
     iconnection->sessKey = 0;

@@ -17,7 +17,7 @@
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_021A0EE4  0x021A0EE4  thumb  ov021
+ *   FIELD_SUBSCREEN_ResolveMode  0x021A0EE4  thumb  ov021
  *   d_021DDE48  0x021DDE48  data  ov021
  *   d_021D872C  0x021D872C  data  a4
  *   d_021D8738     0x021D8738  data

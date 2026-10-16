@@ -18,7 +18,7 @@
  *   CARDiDmaUsingFormer  0x020A19BC  data
  *   CARDiDmaUsingNew  0x0272E9E0  data
  *   func_02086320   0x02086320  arm
- *   func_0208632C   0x0208632C  arm
+ *   IC_InvalidateRange   0x0208632C  arm
  *   DC_FlushAll  0x02086284  arm
  *   DC_StoreRange  0x020862D4  arm
  *   DC_InvalidateRange  0x020862B8  arm
@@ -35,7 +35,7 @@ typedef unsigned char u8;
 extern BOOL OS_IsRunOnTwl(void);
 extern void OS_Terminate(void);
 extern void func_02086320(void);
-extern void func_0208632C(void *p, unsigned int size);
+extern void IC_InvalidateRange(void *p, unsigned int size);
 extern void DC_FlushAll(void);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
@@ -80,7 +80,7 @@ void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b)
     if (a >= b)
         func_02086320();
     else
-        func_0208632C(p, a);
+        IC_InvalidateRange(p, a);
 }
 
 

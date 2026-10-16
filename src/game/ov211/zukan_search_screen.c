@@ -53,12 +53,12 @@
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   BG_SYS_LoadPltt 0x02040E78 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0207F308 0x0207F308 arm
- *   func_0207F394 0x0207F394 arm
- *   func_0207F428 0x0207F428 arm
- *   func_0207F5B0 0x0207F5B0 arm
- *   func_0207F5C8 0x0207F5C8 arm
- *   func_0207F65C 0x0207F65C arm
+ *   GX_BeginLoadBGExtPltt 0x0207F308 arm
+ *   GX_LoadBGExtPltt 0x0207F394 arm
+ *   GX_EndLoadBGExtPltt 0x0207F428 arm
+ *   GXS_BeginLoadBGExtPltt 0x0207F5B0 arm
+ *   GXS_LoadBGExtPltt 0x0207F5C8 arm
+ *   GXS_EndLoadBGExtPltt 0x0207F65C arm
  *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
@@ -133,8 +133,8 @@ extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
-extern void func_0207F308(void),func_0207F394(const void *,u32,u32),func_0207F428(void);
-extern void func_0207F5B0(void),func_0207F5C8(const void *,u32,u32),func_0207F65C(void);
+extern void GX_BeginLoadBGExtPltt(void),GX_LoadBGExtPltt(const void *,u32,u32),GX_EndLoadBGExtPltt(void);
+extern void GXS_BeginLoadBGExtPltt(void),GXS_LoadBGExtPltt(const void *,u32,u32),GXS_EndLoadBGExtPltt(void);
 extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
 extern void BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
 extern void ZUKAN_StartWipeIn(unsigned);
@@ -273,14 +273,14 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
             BG_SYS_LoadPltt(1,palette,0x200,0);
             BG_SYS_LoadPltt(5,palette,0x200,0);
             DWCi_ScreenDC_FlushRange(palette,0x200);
-            func_0207F308();
-            func_0207F394(palette,0x4000,0x200);
-            func_0207F394(palette,0x6000,0x200);
-            func_0207F428();
-            func_0207F5B0();
-            func_0207F5C8(palette,0x4000,0x200);
-            func_0207F5C8(palette,0x6000,0x200);
-            func_0207F65C();
+            GX_BeginLoadBGExtPltt();
+            GX_LoadBGExtPltt(palette,0x4000,0x200);
+            GX_LoadBGExtPltt(palette,0x6000,0x200);
+            GX_EndLoadBGExtPltt();
+            GXS_BeginLoadBGExtPltt();
+            GXS_LoadBGExtPltt(palette,0x4000,0x200);
+            GXS_LoadBGExtPltt(palette,0x6000,0x200);
+            GXS_EndLoadBGExtPltt();
         }
     }
     SAVE_CONTROL_DeleteExtraSave(save,7);

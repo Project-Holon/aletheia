@@ -37,7 +37,7 @@
  *   sGhttpSslNullPointerOrEmpty2     0x021ce7c4  data  ov114
  *   sGhttpSslCouldNotFindUrl     0x021ce818  data
  *   func_02184144  0x02184144  arm   ov009
- *   func_021842D0  0x021842D0  arm   ov009
+ *   ArrayInsertSorted  0x021842D0  arm   ov009
  *   sFuncNameGhiEncryptorSetTwlRootCA     0x021CE6E0  data
  *   sGhttpSslOutOfMemoryCannot     0x021CE858  data
  *   ArrayDeleteAt  0x0218437C  arm   ov009
@@ -124,7 +124,7 @@ extern int ArraySearch(void *array, void *key, GHTTPArrayCompareFunc compare, in
 extern void gsifree(void *);
 extern void *ArrayNth(void *, int);
 extern void *func_02184144(int elementSize, int growBy, GHTTPArrayElementFreeFunc freeFunc);
-extern void func_021842D0(void *array, void *element, GHTTPArrayCompareFunc compare);
+extern void ArrayInsertSorted(void *array, void *element, GHTTPArrayCompareFunc compare);
 extern void ArrayDeleteAt(int a, int b);
 extern int ArrayLength(const int *p);
 extern void ArrayFree(void *);
@@ -326,7 +326,7 @@ int ghiEncryptorSetTwlRootCA(char *url, void *theRootCAList)
     certInfo.refCount = 1;
     pos = ArraySearch(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
     if (pos == -1) {
-        func_021842D0(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl);
+        ArrayInsertSorted(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl);
     } else {
         gsifree(certInfo.serverUrl);
         certInfoToUpdate = ArrayNth(gGhttpRootCaTable, pos);

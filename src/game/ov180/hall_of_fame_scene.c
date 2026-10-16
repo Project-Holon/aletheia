@@ -40,7 +40,7 @@
  *   gHallOfFameWaveArcIds 0x021B8018 data a4
  *   GFL_USE_LoadWaveArcSet 0x02005A98 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_02005B04 0x02005B04 thumb
+ *   GFL_USE_ReleaseWaveArcSet 0x02005B04 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
@@ -259,7 +259,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *,u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
-extern void func_02005B04(const u32 *arg);
+extern void GFL_USE_ReleaseWaveArcSet(const u32 *arg);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
@@ -441,7 +441,7 @@ void HALL_OF_FAME_StartBgm(HallOfFameWork *work)
 
 void HALL_OF_FAME_ReleaseWaveArc(HallOfFameWork *work)
 {
-    func_02005B04(work->waveArcSet);
+    GFL_USE_ReleaseWaveArcSet(work->waveArcSet);
 }
 
 void HALL_OF_FAME_CollectPartyMons(HallOfFameWork *work)

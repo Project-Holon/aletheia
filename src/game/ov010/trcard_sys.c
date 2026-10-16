@@ -48,7 +48,7 @@
  *   func_02008B14  0x02008B14  thumb
  *   RECORD_GetFromSave  0x02008C58  thumb
  *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb
- *   func_020084BC  0x020084BC  thumb
+ *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
@@ -243,7 +243,7 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveClockOwner *func_02008B14(void *gameSystem);
 extern struct RecordBlock *RECORD_GetFromSave(void *gameSystem);
 extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
-extern int func_020084BC(const u16 *values);
+extern int MYSTATUS_IsNameEmpty(const u16 *values);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern u32 func_02008530(const struct MyStatus *obj);
@@ -647,7 +647,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     beaconData = SAVEDATA_GetExtraBlockThunk((u32)playerSave);
     zukan = ZUKAN_SAVE_GetFromGameData(save);
 
-    if (func_020084BC(myStatus) == 0) {
+    if (MYSTATUS_IsNameEmpty(myStatus) == 0) {
         MIi_CpuCopy16(func_020084F4(myStatus), out->name, 16);
     } else {
         out->name[0] = 'N';

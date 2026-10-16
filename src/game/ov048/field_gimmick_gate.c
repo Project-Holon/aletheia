@@ -56,7 +56,7 @@
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
- *   func_0200ECB4  0x0200ECB4  thumb
+ *   MISC_SAVEDATA_GetRingIndex  0x0200ECB4  thumb
  *   func_0200ECD0  0x0200ECD0  thumb
  *   MISC_SAVEDATA_ExportRingRecord  0x0200ECF0  thumb
  *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
@@ -101,7 +101,7 @@ extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u32 heapId);
 extern struct ExtraSaveRecord *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 value);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
-extern u32 func_0200ECB4(struct ExtraSaveRecord *record);
+extern u32 MISC_SAVEDATA_GetRingIndex(struct ExtraSaveRecord *record);
 extern int func_0200ECD0(struct ExtraSaveRecord *record, int index);
 extern void MISC_SAVEDATA_ExportRingRecord(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
 extern int MISC_SAVEDATA_FindFreeRecordSlot(void *saveBlock);
@@ -464,7 +464,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
     if (SAVE_CONTROL_LoadExtraSave(saveControl, GATE_EXTRA_SAVE_ID, work->heapId) - 1 <= 1) {
         record = SAVE_CONTROL_GetExtraSaveRecord(saveControl, GATE_EXTRA_SAVE_ID, i);
-        if (func_0200ECB4(record) != 0) {
+        if (MISC_SAVEDATA_GetRingIndex(record) != 0) {
             *count = func_0200ECD0(record, i);
             for (; i < *count; i++) {
                 entry.nameStr = STRBUF_Create(0x40, work->heapId);

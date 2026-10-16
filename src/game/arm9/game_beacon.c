@@ -19,7 +19,7 @@
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
- *   func_020084BC  0x020084BC  thumb
+ *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   func_02008550  0x02008550  thumb
  *   SAVEDATA_PanicFail  0x02034714  arm
@@ -218,7 +218,7 @@ extern void OS_GetOwnerInfo(OSOwnerInfo *info);
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
-extern int func_020084BC(const struct MyStatus *status);
+extern int MYSTATUS_IsNameEmpty(const struct MyStatus *status);
 extern void MYSTATUS_NameToStrbuf(const struct MyStatus *status, struct Strbuf *dst);
 extern u32 func_02008550(const struct MyStatus *status);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
@@ -817,7 +817,7 @@ void GAME_COMM_ClearPlayerStatus(GameComm *comm)
  * overruns it).  Each net id is resolved to a player status: the console's
  * own (GAME_DATA_GetMyStatus) when it equals the console's net id, otherwise the
  * by-id lookup (GAME_DATA_GetPlayerStatusById).  If either status is unusable
- * (func_020084BC == 1) nothing is written.
+ * (MYSTATUS_IsNameEmpty == 1) nothing is written.
  */
 void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messageId)
 {
@@ -837,10 +837,10 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
     } else {
         status1 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId1);
     }
-    if (func_020084BC(status0) == 1) {
+    if (MYSTATUS_IsNameEmpty(status0) == 1) {
         return;
     }
-    if (func_020084BC(status1) == 1) {
+    if (MYSTATUS_IsNameEmpty(status1) == 1) {
         return;
     }
     entry = &queue->entry[queue->writeIndex];

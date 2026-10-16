@@ -46,6 +46,8 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   BOX_SAVEDATA_GetBoxName  0x0200785C  thumb
+ *   MSGDATA_GetMessageCount  0x02045F50  arm
  */
 #include "gf_font_shared_types.h"
 
@@ -93,7 +95,7 @@ extern u32 PMSI_PARAM_ValidateDecoValue(u32 *value, u32 mode);
 
 extern void PMS_WORD_LoadString(u32 messageId, struct Strbuf *dest, u32 heapId);
 
-extern u16 func_02045F50(const struct MsgBank *bank);
+extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
 
 extern void MYSTATUS_NameToStrbuf(void *source, struct Strbuf *dest);
 
@@ -101,7 +103,7 @@ extern u32 BMP_OAM_Get(u32 value);
 
 extern u32 TPOKE_DATA_GetRecordField(void *source, u32 index);
 
-extern void func_0200785C(void *save, u32 box, struct Strbuf *dest);
+extern void BOX_SAVEDATA_GetBoxName(void *save, u32 box, struct Strbuf *dest);
 
 extern u16  STRBUF_GetEosChar(void);
 
@@ -576,7 +578,7 @@ void WORDSET_SetSlotMarkerFlag(struct WordSet *words, u32 slot, u32 markerFlag)
  *
  * WORDSET_SetSlotFromMsgE7 renders message 0xE7 with an argument and falls back to
  * clearing the slot when the argument is out of the message's own range; the
- * `bhs` is the unsigned compare against func_02045F50's result, and the
+ * `bhs` is the unsigned compare against MSGDATA_GetMessageCount's result, and the
  * fall-through arm is the in-range one
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
@@ -605,7 +607,7 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
     struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 2, (u16)0xE7, (u16)words->heapId);
 
     if (bank != 0) {
-        if (entryIndex < func_02045F50(bank)) {
+        if (entryIndex < MSGDATA_GetMessageCount(bank)) {
             func_02045CAC(bank, entryIndex, words->scratch);
             WORDSET_SetSlotText(words, slot, words->scratch, 0);
         } else {
@@ -642,7 +644,7 @@ void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 ent
     if (messageId != 0 && entryIndex != 0) {
         bank = MSGDATA_CreateFromArchive(0, 2, (u16)messageId, (u16)words->heapId);
         if (bank != 0) {
-            if (entryIndex < func_02045F50(bank)) {
+            if (entryIndex < MSGDATA_GetMessageCount(bank)) {
                 func_02045CAC(bank, entryIndex, words->scratch);
                 WORDSET_SetSlotText(words, slot, words->scratch, 0);
                 MSGDATA_Delete(bank);
@@ -720,7 +722,7 @@ void WORDSET_SetSlotFromMsg59(struct WordSet *words, u32 slot, u32 entryIndex)
 
 void WORDSET_SetSlotBoxName(struct WordSet *words, u32 slot, void *save, u32 boxIndex)
 {
-    func_0200785C(save, boxIndex, words->scratch);
+    BOX_SAVEDATA_GetBoxName(save, boxIndex, words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 

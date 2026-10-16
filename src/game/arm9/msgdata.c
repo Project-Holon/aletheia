@@ -1,7 +1,7 @@
 /*
  * file:     msgdata.c
  * unit:     yes
- * function: MSGDATA_CreateFromArchive, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, MSGDATA_DecryptStrbuf, MSGDATA_DecryptUnits, MSGDATA_AllocString, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex, MSGDATA_SetLanguage, DWCi_Language
+ * function: MSGDATA_CreateFromArchive, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, MSGDATA_DecryptStrbuf, MSGDATA_DecryptUnits, MSGDATA_AllocString, MSGDATA_GetMessageCount, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex, MSGDATA_SetLanguage, DWCi_Language
  * address:  0x02045B38
  * region:   arm9
  * compiler: dsi/1.1p1

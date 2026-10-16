@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_close.c
  * unit:     yes
- * function: DWCi_AC_CloseNetwork, func_0205B264, CloseSocket
+ * function: DWCi_AC_CloseNetwork, DisConnectAP, CloseSocket
  * address:  0x0205B1E4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0205B264 0x0205B264 arm
+ *   DisConnectAP 0x0205B264 arm
  *   DWC_Netcheck_Abort 0x0217AA20 arm
  *   DWC_Netcheck_Destroy 0x0217A950 arm
  *   func_021656A0 0x021656A0 arm
@@ -27,7 +27,7 @@
  *   SOC_Cleanup     0x0215FA90  arm
  *   SOCLiConfigPtr  0x021A1CD8  data  ov009
  */
-extern int func_0205B264(void);
+extern int DisConnectAP(void);
 extern void DWC_Netcheck_Abort(void);
 extern void DWC_Netcheck_Destroy(void);
 extern int func_021656A0(void);
@@ -53,7 +53,7 @@ int DWCi_AC_CloseNetwork(unsigned char *phase)
     int result;
 
     if (*phase <= 10) {
-        result = func_0205B264();
+        result = DisConnectAP();
         if (result == 1) {
             *phase = 0;
             return 1;

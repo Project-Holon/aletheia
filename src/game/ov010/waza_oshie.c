@@ -34,13 +34,13 @@
  *   BMP_GetHeight  0x020437E4  arm
  *   BMP_GetTileBytes  0x02043994  arm
  *   BMP_Create  0x02043678  arm
- *   func_0207F7A0  0x0207F7A0  arm
+ *   GX_BeginLoadTex  0x0207F7A0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_0207F7FC  0x0207F7FC  arm
- *   func_0207F9B4  0x0207F9B4  arm
+ *   GX_LoadTex  0x0207F7FC  arm
+ *   GX_EndLoadTex  0x0207F9B4  arm
  *   BMP_Delete  0x020437AC  arm
- *   func_0207FA0C 0x0207FA0C arm
- *   func_0207FA40 0x0207FA40 arm
+ *   GX_BeginLoadTexPltt 0x0207FA0C arm
+ *   GX_LoadTexPltt 0x0207FA40 arm
  *   GX_EndLoadTexPltt 0x0207FADC arm
  */
 
@@ -139,13 +139,13 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_GetTileBytes(struct Bmp *b);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
-extern void func_0207F7A0(void);
+extern void GX_BeginLoadTex(void);
 extern void DWCi_ScreenDC_FlushRange(void *p, int n);
-extern void func_0207F7FC(void *p, int src, int n);
-extern void func_0207F9B4(void);
+extern void GX_LoadTex(void *p, int src, int n);
+extern void GX_EndLoadTex(void);
 extern void BMP_Delete(struct Bmp *p);
-extern void func_0207FA0C(void);
-extern void func_0207FA40(void *,u32,u32);
+extern void GX_BeginLoadTexPltt(void);
+extern void GX_LoadTexPltt(void *,u32,u32);
 extern void GX_EndLoadTexPltt(void);
 void WAZA_OSHIE_PrintToClearedBitmap(void *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font);
 void WAZA_OSHIE_ConvertToTileOrder(void *srcBmp, void *dstBmp);
@@ -494,7 +494,7 @@ void WAZA_OSHIE_ConvertToTileOrder(void *srcBmp, void *dstBmp)
  * recoup 2026-10-05 (lane C1, ~27 compiles): the older draft (docs/notes) was 110 B off at 172 B.
  * Fixes: hi and wi are plain u32 with an unsigned shift, no u16 or enum (no lsls/lsrs pairs),
  * the area is signed (int)(wi * h) / 8 with h the raw table halfword, and n is an int (a u32 n
- * lets mwcc sink the divide chain below func_0207F7A0; int n keeps it before the call as the
+ * lets mwcc sink the divide chain below GX_BeginLoadTex; int n keeps it before the call as the
  * original does). Table const, order of wi/hi loads, n position, int/u16 h, callee u32 params,
  * and the six per-function pragmas (on the earlier form) did not help.
  * Residue: (1) entry spills: the original stores r2, r3, r1 with the table index load between;
@@ -552,10 +552,10 @@ void WAZA_OSHIE_UploadTextTexture(TexReq *req, u32 text, u16 xPos, u16 yPos, u16
     base = req->texOfs;
     off = (u16)req->texVramKey << 3;
     n = ((int)(wi * h) / 8) << 5;
-    func_0207F7A0();
+    GX_BeginLoadTex();
     DWCi_ScreenDC_FlushRange(vram, n);
-    func_0207F7FC(vram, base + off, n);
-    func_0207F9B4();
+    GX_LoadTex(vram, base + off, n);
+    GX_EndLoadTex();
     BMP_Delete(buf);
     BMP_Delete(tmp);
 }
@@ -568,9 +568,9 @@ void WAZA_OSHIE_UploadPalette(TexReq *req, void *dest)
 
     plttBase = req->plttOfs;
     plttKeyOfs = (u16)req->plttVramKey * 8;
-    func_0207FA0C();
+    GX_BeginLoadTexPltt();
     DWCi_ScreenDC_FlushRange(dest, 32);
-    func_0207FA40(dest, plttBase + plttKeyOfs, 32);
+    GX_LoadTexPltt(dest, plttBase + plttKeyOfs, 32);
     GX_EndLoadTexPltt();
 }
 

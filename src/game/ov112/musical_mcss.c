@@ -25,13 +25,13 @@
  *   d_02FFFC3C 0x02FFFC3C data a4
  *   NNS_G2dTickMCAnimation 0x020649D4 arm
  *   G3i_LookAt_ 0x0207D7C4 arm
- *   func_0207B67C 0x0207B67C arm
+ *   MTX_Inverse43 0x0207B67C arm
  *   MI_Copy36B 0x02082B60 arm
  *   MTX_Copy33To44_ 0x0207ADE8 arm
  *   MTX_Copy43To44_ 0x0207B5C0 arm
- *   func_0207BE14 0x0207BE14 arm
+ *   MTX_Concat44 0x0207BE14 arm
  *   FX_Div 0x0207C768 arm
- *   func_0207D8FC 0x0207D8FC arm
+ *   G3_MultMtx44 0x0207D8FC arm
  *   G3_RotZ 0x0207D888 arm
  *   MTX_RotZ33_ 0x0207AF38 thumb
  *   MTX_MultVec33 0x0207B51C arm
@@ -246,7 +246,7 @@ extern void NNS_G2dTickMCAnimation(char *, int);
 
 extern void G3i_LookAt_(const struct Vec3 *a, const struct Vec3 *b, const struct Vec3 *c, int d, void *e);
 
-extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
+extern void MTX_Inverse43(const Mtx43 *a, Mtx43 *m);
 
 extern void MI_Copy36B(Mtx43 *a, Mtx33 *b);
 
@@ -254,11 +254,11 @@ extern void MTX_Copy33To44_(Mtx33 *a, Mtx44 *b);
 
 extern void MTX_Copy43To44_(const Mtx43 *src, Mtx44 *dst);
 
-extern void func_0207BE14(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
+extern void MTX_Concat44(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
 
 extern u32 FX_Div(u32 a, u32 b);
 
-extern void func_0207D8FC(Mtx44 *m);
+extern void G3_MultMtx44(Mtx44 *m);
 
 extern void G3_RotZ(int s, int c);
 
@@ -524,7 +524,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   obj+0x100/0x104/0x108.  k loop: two rotations (part by pose.rot + sub.rot scaled by the
  *   pose*sub scale, then the table entry (x, z at +2/+4) plus pose.dx/dz by pose.rot scaled by
  *   pose.sx/sy), operand order (s64)vec * scale.  Else-branch: a local 4x4 matrix filled with
- *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
+ *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), MTX_Concat44(&m4, &d_02148B54,
  *   &m4), second MUSICAL_MCSS_CalcMatrix uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
  *   test reads p[1][i] twice and bit 2 of obj->fEC as a bitfield; obj+0x90 and obj+0x68 are
  *   loop-level pointer locals (sp+0x5C, sp+0x50).  Result: compiled 1996 vs 2080 (was 1684),
@@ -887,7 +887,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   obj+0x100/0x104/0x108.  k loop: two rotations (part by pose.rot + sub.rot scaled by the
  *   pose*sub scale, then the table entry (x, z at +2/+4) plus pose.dx/dz by pose.rot scaled by
  *   pose.sx/sy), operand order (s64)vec * scale.  Else-branch: a local 4x4 matrix filled with
- *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
+ *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), MTX_Concat44(&m4, &d_02148B54,
  *   &m4), second MUSICAL_MCSS_CalcMatrix uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
  *   test reads p[1][i] twice and bit 2 of obj->fEC as a bitfield; obj+0x90 and obj+0x68 are
  *   loop-level pointer locals (sp+0x5C, sp+0x50).  Result: compiled 1996 vs 2080 (was 1684),
@@ -1241,7 +1241,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
         G3i_LookAt_(&d_02148D8C, &d_02148D98, &d_02148DA4, 1, 0);
     else
         G3i_LookAt_(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
-    func_0207B67C(&d_02148B98, &m1);
+    MTX_Inverse43(&d_02148B98, &m1);
     MI_Copy36B(&m1, &m2);
     MTX_Copy33To44_(&m2, &m3);
 
@@ -1279,7 +1279,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
             proj.m[14] = 0;
             proj.m[15] = (int)0xFFFFF000;
             MTX_Copy43To44_(&d_02148B98, &m4);
-            func_0207BE14(&m4, &d_02148B54, &m4);
+            MTX_Concat44(&m4, &d_02148B54, &m4);
             MUSICAL_MCSS_CalcMatrix((const int *)(&pos), (const int *)(&m4), (u32 *)(&pos), (u32 *)(&cb.w));
             pos.x = FX_Div(pos.x, cb.w);
             pos.y = FX_Div(pos.y, cb.w);
@@ -1293,7 +1293,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
             flag++;
         G3_Translate(pos.x, pos.y, pos.z);
         if ((((McssRenderPool *)p)->bits.cameraBack) == 0)
-            func_0207D8FC(&m3);
+            G3_MultMtx44(&m3);
         G3_Translate(ox, oy, 0);
         {
             u16 a = (flag & 1) ? 0x10000 - pose.rot : pose.rot;

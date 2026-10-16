@@ -78,7 +78,7 @@
  *   TPOKE_DATA_IsRecordKindTwo 0x0202A19C thumb
  *   SYMBOL_SAVE_GetBlock 0x0200E0B0 thumb
  *   SYMBOL_SAVE_WriteRecord 0x0200E1A8 thumb
- *   func_0202A170 0x0202A170 thumb
+ *   TPOKE_Delete 0x0202A170 thumb
  *   func_020093D0 0x020093D0 thumb
  *   func_020092E0 0x020092E0 thumb
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
@@ -168,6 +168,8 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb  arm9
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb  arm9
+ *   BOX_SAVEDATA_SetPokemon  0x020075B0  thumb  arm9
+ *   BOX_SAVEDATA_ClearPokemon  0x02007664  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_download_types.h"
@@ -356,7 +358,7 @@ extern void *SYMBOL_SAVE_GetBlock(void *);
 
 extern void SYMBOL_SAVE_WriteRecord(void *, u16, u16, u8, int, u8, u32);
 
-extern void func_0202A170(void *);
+extern void TPOKE_Delete(void *);
 
 extern s32 func_020093D0(const struct Sub02009210Obj *obj);
 
@@ -400,13 +402,13 @@ extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 
 extern void func_02009294(struct Sub02009210Obj *obj, const void *src);
 
-extern void func_02007664(void *save, u32 box, u32 slot);
+extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
 
 extern void NHTTP_RAP_Destroy(u8 *p);
 
 extern u32 func_02009228(void);
 
-extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
+extern int BOX_SAVEDATA_SetPokemon(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 
@@ -1281,7 +1283,7 @@ void GSYNC_STATE_BuildMonEntry(GsyncStateWork *state, int unused, int species, i
     if (TPOKE_DATA_IsRecordKindTwo((*(unsigned int *)&state->saveData), pokeData, species, gender, mapped)) kind = 2;
     if (valueByte > 8) valueByte = 0;
     SYMBOL_SAVE_WriteRecord(SYMBOL_SAVE_GetBlock(state->saveControl), species, entryArg, gender, mapped, valueByte, kind);
-    func_0202A170(pokeData);
+    TPOKE_Delete(pokeData);
 }
 
 void GSYNC_STATE_BuildMonEntries(GsyncStateWork *state,int saveSystem,u8 *records) { int slotIndex; GsyncListEntry *entry; for(slotIndex=0;slotIndex<10;slotIndex++) { entry=(GsyncListEntry *) (records+slotIndex*8); if(entry->species==0) break; GSYNC_STATE_BuildMonEntry(state,saveSystem,entry->species,((u8 *)entry)[9],((u8 *)entry)[8],entry->arg,((u8 *)entry)[10]); } }
@@ -1944,7 +1946,7 @@ void GSYNC_STATE_StateStoreReceivedMon(char *state)
         monData=POKE_TOOL_CreateFromBoxParam(boxMon,((GsyncStateWork *)state)->heapId);
         func_02009294(saveSystem,monData);
         ((GsyncStateWork *)state)->receivedMon=monData;
-        func_02007664(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
+        BOX_SAVEDATA_ClearPokemon(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
         func_020092F8(saveSystem,1);
         ((GsyncStateWork *)state)->monStored=1;
     }
@@ -1977,7 +1979,7 @@ void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *state)
     }
     if (state->monStored) {
         monData=func_02009290(saveSystem);
-        func_020075B0(state->boxSave,state->boxIndex,state->slotIndex,POKE_TOOL_GetBoxParam(monData));
+        BOX_SAVEDATA_SetPokemon(state->boxSave,state->boxIndex,state->slotIndex,POKE_TOOL_GetBoxParam(monData));
         POKE_TOOL_ClearPartyParam(monData);
         func_020092F8(saveSystem,0);
         state->monStored=0;

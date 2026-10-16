@@ -26,6 +26,8 @@
  *   OS_SendMessage  0x02085DBC  arm  arm9
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
+ *   OS_IsAvailableWireless  0x02087DC4  arm  arm9
+ *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -59,7 +61,7 @@ extern void DC_StoreRange(void *, u32);
 extern void NWMi_ClearFifoRecvFlag(void);
 extern void OS_InitMessageQueue(void *, void *, u32);
 extern void OS_SendMessage(void *, void *, u32);
-extern void func_020885A0(u32, void (*)(void));
+extern void PXI_SetFifoRecvCallback(u32, void (*)(void));
 extern void NWMi_ReceiveFifo9(void);
 extern void MI_CpuFill8(void *, u32, u32);
 u32 NWM_Init(CamBuf *buf, u32 size, u32 mode);
@@ -68,7 +70,7 @@ u32 NWMi_CheckInitialized(void);
 u32 NWMi_CheckEnableFlag(void);
 extern CamBuf *data_027341A4;
 extern u8 data_027341A0[];
-extern u32 func_02087DC4(void);
+extern u32 OS_IsAvailableWireless(void);
 extern u32 func_02087E84(void);
 
 
@@ -122,7 +124,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         DC_StoreRange(data_027341A4->lines[i], 2);
         OS_SendMessage(data_027341A4->ctlA, data_027341A4->lines[i], 1);
     }
-    func_020885A0(0x16, NWMi_ReceiveFifo9);
+    PXI_SetFifoRecvCallback(0x16, NWMi_ReceiveFifo9);
     MI_CpuFill8(data_027341A4->state, 0, 0x154);
     data_027341A0[0] = 1;
     data_027341A4->ring->ready = 1;
@@ -140,7 +142,7 @@ u32 NWMi_CheckInitialized(void) {
 }
 
 u32 NWMi_CheckEnableFlag(void) {
-    if (func_02087DC4() == 1) {
+    if (OS_IsAvailableWireless() == 1) {
         if (func_02087E84() == 0) {
             return 1;
         }

@@ -25,7 +25,7 @@
  *
  * symbols:
  *   SBServerGetIntValueA  0x0219E120  arm  ov009
- *   func_0219E1B8  0x0219E1B8  arm  ov009
+ *   SBServerGetFloatValueA  0x0219E1B8  arm  ov009
  *   SBServerGetStringValueA  0x0219E0C0  arm  ov009
  *   strcmp  0x020948E0  arm
  *   strcmp_nocase  0x0209ABF8  arm
@@ -49,11 +49,11 @@
  *   func_0219DFF8  0x0219DFF8  arm  ov009
  *   func_0218452C  0x0218452C  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
- *   func_0219DF64  0x0219DF64  arm  ov009
- *   func_0218482C  0x0218482C  arm  ov009
+ *   SBRefStrHash  0x0219DF64  arm  ov009
+ *   TableLookup  0x0218482C  arm  ov009
  *   goastrdup  0x0217F1E0  arm  ov009
- *   func_0218474C  0x0218474C  arm  ov009
- *   func_021847BC  0x021847BC  arm  ov009
+ *   TableEnter  0x0218474C  arm  ov009
+ *   TableRemove  0x021847BC  arm  ov009
  *   gsiSafeStrcpyA  0x021803BC  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   srand  0x020946C8  arm
@@ -85,8 +85,8 @@
  *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   SBServerSetPrivateAddr  0x0219E9B4  arm  ov009
  *   SBServerSetICMPIP  0x0219E9C0  arm  ov009
- *   func_0219E084  0x0219E084  arm  ov009
- *   func_0219E01C  0x0219E01C  arm  ov009
+ *   SBServerAddIntKeyValue  0x0219E084  arm  ov009
+ *   SBServerAddKeyValue  0x0219E01C  arm  ov009
  *   SBServerGetState  0x0219E9D0  arm  ov009
  *   SBServerSetState  0x0219E9C8  arm  ov009
  *   memcmp  0x020923F0  arm
@@ -98,7 +98,7 @@
  *   memmove        0x02092364  arm
  *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   recv  0x0217EC4C  arm  ov009
- *   func_0217EC60  0x0217EC60  arm  ov009
+ *   recvfrom  0x0217EC60  arm  ov009
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sb_server_types.h"
@@ -183,7 +183,7 @@ typedef struct KeyInfo {
 typedef void (*SBMapLoopCallback)(SBServerList *slist, void *server, long changeTime, int count, char **mapList, void *instance);
 
 extern int SBServerGetIntValueA(SBServer *server, char *key, int idefault);
-extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
+extern double SBServerGetFloatValueA(SBServer *server, char *key, double fdefault);
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def);
 extern int strcmp_nocase(const char *a, const char *b);
 extern void ArraySort(int *p, int b);
@@ -198,11 +198,11 @@ extern int SBServerGetNext(const int *p);
 extern void func_0219DFF8(void *elem);
 extern void func_0218452C(void *a);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void *func_0219DF64(void *l);
-extern struct Ref *func_0218482C(void *t, void *k);
+extern void *SBRefStrHash(void *l);
+extern struct Ref *TableLookup(void *t, void *k);
 extern char *goastrdup(char *s);
-extern void func_0218474C(void *t, void *e);
-extern int func_021847BC(void *t, void *k);
+extern void TableEnter(void *t, void *e);
+extern int TableRemove(void *t, void *k);
 extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern unsigned int current_time(void);
 extern void srand(unsigned int seed);
@@ -227,8 +227,8 @@ extern void GOACryptInit(struct GOACryptState *state, unsigned char *key, unsign
 extern void SBServerSetFlags(SBServer *server, unsigned char flags);
 extern void SBServerSetPrivateAddr(SBServer *server, unsigned int ip, unsigned short port);
 extern void SBServerSetICMPIP(SBServer *server, unsigned int ip);
-extern void func_0219E084(SBServer *server, char *keyname, int value);
-extern void func_0219E01C(SBServer *server, char *keyname, char *value);
+extern void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value);
+extern void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
 extern unsigned char SBServerGetState(SBServer *server);
 extern void SBServerSetState(SBServer *server, unsigned char state);
 extern SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport);
@@ -236,7 +236,7 @@ extern int SBIsNullServer(int v);
 extern void GOADecrypt(void *state, unsigned char *bp, int len);
 extern int CanReceiveOnSocket(int sock);
 extern int recv(int sock, char *buf, int len, int flags);
-extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
+extern int recvfrom(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 int prevKeyCompare(SBServer *server1, SBServer *server2);
 int IntKeyCompare(void *entry1, void *entry2);
 int FloatKeyCompare(void *entry1, void *entry2);
@@ -329,7 +329,7 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
         diff = SBServerGetIntValueA(server1, prevsortkey, 0) - SBServerGetIntValueA(server2, prevsortkey, 0);
         break;
     case 1:
-        f = func_0219E1B8(server1, prevsortkey, 0) - func_0219E1B8(server2, prevsortkey, 0);
+        f = SBServerGetFloatValueA(server1, prevsortkey, 0) - SBServerGetFloatValueA(server2, prevsortkey, 0);
         if (!gSBSortContext.slist->sortascending)
             f = 0 - f;
         if ((float)f > 0)
@@ -397,7 +397,7 @@ int FloatKeyCompare(void *entry1, void *entry2)
     double f;
     char *currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
 
-    f = func_0219E1B8(server1, currsortkey, 0) - func_0219E1B8(server2, currsortkey, 0);
+    f = SBServerGetFloatValueA(server1, currsortkey, 0) - SBServerGetFloatValueA(server2, currsortkey, 0);
     if (!((float)f > 0 || (float)f < 0))
         return prevKeyCompare(server1, server2);
     if (!gSBSortContext.slist->sortascending)
@@ -686,14 +686,14 @@ char *SBRefStr(void *slist, char *str)
 	struct Ref ref;
 	struct Ref *val;
 	ref.str = str;
-	val = func_0218482C(func_0219DF64(slist), &ref);
+	val = TableLookup(SBRefStrHash(slist), &ref);
 	if (val != 0) {
 		val->refcount++;
 		return val->str;
 	}
 	ref.str = goastrdup(str);
 	ref.refcount = 1;
-	func_0218474C(func_0219DF64(slist), &ref);
+	TableEnter(SBRefStrHash(slist), &ref);
 	return ref.str;
 }
 
@@ -709,11 +709,11 @@ void SBReleaseStr(void *slist, char *str)
 	struct Ref ref;
 	struct Ref *val;
 	ref.str = str;
-	val = func_0218482C(func_0219DF64(slist), &ref);
+	val = TableLookup(SBRefStrHash(slist), &ref);
 	if (val == 0)
 		return;
 	if (--val->refcount == 0)
-		func_021847BC(func_0219DF64(slist), &ref);
+		TableRemove(SBRefStrHash(slist), &ref);
 }
 
 
@@ -750,7 +750,7 @@ void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFr
         return;
     slist->state = 1;
     SBAllocateServerList(slist);
-    func_0219DF64(slist);
+    SBRefStrHash(slist);
     gsiSafeStrcpyA(slist->queryforgamename, queryForGamename, 36);
     gsiSafeStrcpyA(slist->queryfromgamename, queryFromGamename, 36);
     gsiSafeStrcpyA(slist->queryfromkey, queryFromKey, 32);
@@ -1357,12 +1357,12 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
             ki = (KeyInfo *)ArrayNth(slist->keylist, i);
             switch (ki->keyType) {
             case 1:
-                func_0219E084(server, ki->keyName, (unsigned char)*buf++);
+                SBServerAddIntKeyValue(server, ki->keyName, (unsigned char)*buf++);
                 len--;
                 break;
             case 2:
                 memcpy(&sval, buf, 2);
-                func_0219E084(server, ki->keyName, SWAP16((unsigned short)sval));
+                SBServerAddIntKeyValue(server, ki->keyName, SWAP16((unsigned short)sval));
                 buf += 2;
                 len -= 2;
                 break;
@@ -1373,10 +1373,10 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
                 } else
                     strindex = 0xff;
                 if (strindex == 0xff) {
-                    func_0219E01C(server, ki->keyName, buf);
+                    SBServerAddKeyValue(server, ki->keyName, buf);
                     ADVANCE(buf, len);
                 } else
-                    func_0219E01C(server, ki->keyName, slist->popularvalues[strindex]);
+                    SBServerAddKeyValue(server, ki->keyName, slist->popularvalues[strindex]);
                 break;
             }
         }
@@ -1386,7 +1386,7 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
         while (*buf && len > 0) {
             k = buf;
             ADVANCE(buf, len);
-            func_0219E01C(server, k, buf);
+            SBServerAddKeyValue(server, k, buf);
             ADVANCE(buf, len);
         }
         len--;
@@ -1965,7 +1965,7 @@ int ProcessLanData(SBServerList *slist)
 
     saddrlen = 8;
     while (CanReceiveOnSocket(slist->slsocket)) {
-        error = func_0217EC60(slist->slsocket, indata, 1499, 0, &saddr, &saddrlen);
+        error = recvfrom(slist->slsocket, indata, 1499, 0, &saddr, &saddrlen);
         if (error == -1)
             continue;
         foundexisting = SBServerListFindServerByIP((SBServerList *)slist, saddr.addr, saddr.port);

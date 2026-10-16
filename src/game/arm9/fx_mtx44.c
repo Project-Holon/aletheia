@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx44.c
  * unit:     yes
- * function: MTX_Identity44_, MTX_Copy44To43_, func_0207BE14, MTX_FrustumW, MTX_PerspectiveW, MTX_OrthoW
+ * function: MTX_Identity44_, MTX_Copy44To43_, MTX_Concat44, MTX_FrustumW, MTX_PerspectiveW, MTX_OrthoW
  * address:  0x0207BDB4
  * region:   arm9
  * compiler: dsi/1.1p1

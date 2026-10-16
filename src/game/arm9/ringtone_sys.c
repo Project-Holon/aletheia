@@ -60,6 +60,7 @@
  *   FIELD_SOUND_SYSTEM_PauseSlots  0x02028BA0  thumb
  *   FIELD_SOUND_SYSTEM_ResumeSlots  0x02028BDC  thumb
  *   GFL_NET_SetDeviceModeIfRunning  0x0203D12C  arm
+ *   ISS_SYS_Get3dsSys  0x0202B57C  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -210,7 +211,7 @@ extern void FIELD_SOUND_SYSTEM_Reset(FieldSoundSystem *fieldSound, struct GameDa
 extern u32 FIELD_SOUND_SYSTEM_IsStateActive(FieldSoundSystem *fieldSound);
 extern u32 FIELD_SOUND_SYSTEM_CanAcceptRequest(FieldSoundSystem *fieldSound);
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
-extern struct Iss3dsSys *func_0202B57C(struct IssSys *iss);
+extern struct Iss3dsSys *ISS_SYS_Get3dsSys(struct IssSys *iss);
 extern void ISS_3DS_SYS_SetVolume(struct Iss3dsSys *iss3ds, u32 volume);
 extern void FIELD_SOUND_SYSTEM_FadeVolume(FieldSoundSystem *fieldSound, u8 level, u16 frames);
 extern void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *fieldSound);
@@ -1216,7 +1217,7 @@ void FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade(FieldSoundSystem *fieldSound,
 /* Lowers the volume: the 3D sound system goes silent, the fader goes to 0x40 over 6 frames. */
 void FIELD_SOUND_SYSTEM_LowerVolume(FieldSoundSystem *fieldSound, struct IssSys *iss)
 {
-    struct Iss3dsSys *iss3ds = func_0202B57C(iss);
+    struct Iss3dsSys *iss3ds = ISS_SYS_Get3dsSys(iss);
 
     ISS_3DS_SYS_SetVolume(iss3ds, 0);
     FIELD_SOUND_SYSTEM_FadeVolume(fieldSound, 0x40, 6);
@@ -1225,7 +1226,7 @@ void FIELD_SOUND_SYSTEM_LowerVolume(FieldSoundSystem *fieldSound, struct IssSys 
 /* Restores the volume: the 3D sound system and the fader go to 0x7f (6 frame fade). */
 void FIELD_SOUND_SYSTEM_RestoreVolume(FieldSoundSystem *fieldSound, struct IssSys *iss)
 {
-    struct Iss3dsSys *iss3ds = func_0202B57C(iss);
+    struct Iss3dsSys *iss3ds = ISS_SYS_Get3dsSys(iss);
 
     ISS_3DS_SYS_SetVolume(iss3ds, 0x7f);
     FIELD_SOUND_SYSTEM_FadeVolume(fieldSound, 0x7f, 6);

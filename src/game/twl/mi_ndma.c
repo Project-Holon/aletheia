@@ -31,9 +31,9 @@
  *   data_02732F3C  0x02732F3C  data twl
  *   MIi_NDMACallback  0x02730090  arm twl
  *   OS_DisableIrqMask  0x02084998  arm
- *   func_020849C8  0x020849C8  arm
+ *   OS_ResetRequestIrqMask  0x020849C8  arm
  *   func_02084818  0x02084818  arm
- *   func_02084774  0x02084774  arm
+ *   OS_SetIrqFunction  0x02084774  arm
  *   OS_EnableIrqMask  0x02084968  arm
  */
 typedef unsigned int u32;

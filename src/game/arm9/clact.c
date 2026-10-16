@@ -63,16 +63,16 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   g_ClactAnimFuncTable  0x020A1394  data
- *   sub_020627D8  0x020627D8  arm
+ *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
  *   sub_0206428C  0x0206428C  arm
  *   NNSi_G2dGetCellTransferStateIndex  0x02066AE0  arm
  *   NNS_G2dInitCellAnimationVramTransfered  0x020642C8  arm
  *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
  *   NNS_G2dInitMCAnimation  0x02064754  arm
  *   NNSi_G2dResetCellTransferState  0x02066B38  arm
- *   sub_0206434C  0x0206434C  arm
- *   sub_0206469C  0x0206469C  arm
- *   sub_02064364   0x02064364  arm
+ *   NNS_G2dSetCellAnimationSequence  0x0206434C  arm
+ *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
+ *   NNS_G2dTickCellAnimation   0x02064364  arm
  *   sub_020649D4   0x020649D4  arm
  *   NNS_G2dSetCellAnimationCurrentFrame  0x02064384  arm
  *   sub_02064AB4  0x02064AB4  arm
@@ -89,7 +89,7 @@
  *   VMAN_InvalidateHandle  0x02034630  arm
  *   NNSi_G2dInitVramHandle    0x02063790  arm
  *   VMAN_Alloc    0x02034660  arm
- *   func_020346D8    0x020346D8  arm
+ *   VMAN_GetOffset    0x020346D8  arm
  *   NNSi_G2dLoadVramResourceMain    0x02063828  arm
  *   NNSi_G2dLoadVramResourceSub    0x02063A54  arm
  *   NNSi_G2dSetupVramResource    0x02063C80  arm
@@ -600,16 +600,16 @@ extern void NNS_G2dRotZ(s32 a, s32 b);
 extern void NNSi_G2dRendererDrawCellZOffset(void *a0);
 extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
 extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellAnim *c);
-extern struct AnimSequence *sub_020627D8(struct G2dDataBank *bank, u32 idx);
+extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct G2dDataBank *bank, u32 idx);
 extern void sub_0206428C(char *self, int a1, struct G2dDataBank *c);
 extern int NNSi_G2dGetCellTransferStateIndex(void);
 extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
 extern int NNS_G2dGetMCWorkAreaSize(struct G2dDataBank *mc_bank, u32 b);
 extern void NNS_G2dInitMCAnimation(char *o, void *buf, void *set, void *a3, struct G2dDataBank *bank, int kind);
-extern void sub_0206469C(struct MultiCellAnim *o, void *bank);
+extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *o, void *bank);
 extern void NNSi_G2dResetCellTransferState(u32 idx);
-extern void  sub_0206434C(u8 *r, void *v);
-extern void sub_02064364(struct CellAnim *anim, s32 frames);
+extern void  NNS_G2dSetCellAnimationSequence(u8 *r, void *v);
+extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
 extern void sub_020649D4(char *self, int a1);
 extern void NNS_G2dSetCellAnimationCurrentFrame(struct CellAnim *anim, u32 i);
 extern void sub_02064AB4(char *self, unsigned int i);
@@ -624,7 +624,7 @@ extern void VMAN_Delete(struct VramAllocator *obj);
 extern void MI_UncompressLZ8(const void *src, void *dest);
 extern void  VMAN_InvalidateHandle(struct VramBlock *p);
 extern int VMAN_Alloc(u8 *p, u32 a, void **out);
-extern u32 func_020346D8(struct VramAllocator *a, u32 *b);
+extern u32 VMAN_GetOffset(struct VramAllocator *a, u32 *b);
 extern void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
 extern void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
 extern void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
@@ -5168,12 +5168,12 @@ s32 CLACT_GetAnimCtlKind(const struct ActorReq *req)
  * record at +0xc to them.
  *
  * The +4 field is read back from memory for sub_0206428C's third argument
- * rather than reused out of r2: the intervening call to sub_020627D8 could
+ * rather than reused out of r2: the intervening call to NNS_G2dGetAnimSequenceByIdx could
  * alias it, so the cached load does not survive
  * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md, the case
  * without the `const`).
  *
- * sub_020627D8 is called here with an explicit zero in r1, where
+ * NNS_G2dGetAnimSequenceByIdx is called here with an explicit zero in r1, where
  * src/matched/CLACT_SetCellAnimSeq.c leaves r1 untouched: the two call sites
  * disagree about the arity, and the zero is written out only because this
  * one needs it.
@@ -5186,7 +5186,7 @@ void CLACT_InitCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req)
 {
     anim_ctl->cell_bank = req->cell_bank;
     anim_ctl->anim_bank = req->anim_bank;
-    sub_0206428C((char *)anim_ctl->anim, (int)sub_020627D8(anim_ctl->anim_bank, 0), anim_ctl->cell_bank);
+    sub_0206428C((char *)anim_ctl->anim, (int)NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, 0), anim_ctl->cell_bank);
 }
 
 
@@ -5222,7 +5222,7 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
     }
     anim_ctl->xfer_handle = NNSi_G2dGetCellTransferStateIndex();
     chars = req->xfer_chars;
-    anim_data = (u32)sub_020627D8(anim_ctl->anim_bank, zero);
+    anim_data = (u32)NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, zero);
     main_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, 1);
     two = 2;
     sub_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, two);
@@ -5262,7 +5262,7 @@ void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req,
 
     anim_ctl->mc_work = GFL_HEAP_Alloc(heap_id, NNS_G2dGetMCWorkAreaSize(req->mc_bank, 1), 0, s_clact_c, 0x171d);
     NNS_G2dInitMCAnimation((char *)anim_ctl->anim, anim_ctl->mc_work, anim_ctl->anim_bank, anim_ctl->cell_bank, anim_ctl->mc_bank, 1);
-    sub_0206469C((struct MultiCellAnim *)anim_ctl->anim, sub_020627D8(anim_ctl->mc_anim_bank, 0));
+    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->mc_anim_bank, 0));
 }
 
 
@@ -5392,7 +5392,7 @@ void CLACT_SetAnimSeq(struct AnimCtl *anim_ctl, u32 anim_seq)
 
 /*
  * One of this family's per-slot "apply" hooks: take the handle at +8,
- * resolve it through sub_020627D8, and feed the result to sub_0206434C
+ * resolve it through NNS_G2dGetAnimSequenceByIdx, and feed the result to NNS_G2dSetCellAnimationSequence
  * together with the embedded record at +0xc.  CLACT_SetMultiCellAnimSeq is a
  * byte-for-byte duplicate of this function at a different address (the two
  * differ only in their PC24 displacements), which is what a pair of
@@ -5404,7 +5404,7 @@ void CLACT_SetAnimSeq(struct AnimCtl *anim_ctl, u32 anim_seq)
  */
 void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    sub_0206434C(anim_ctl->anim, sub_020627D8(anim_ctl->anim_bank, idx));
+    NNS_G2dSetCellAnimationSequence(anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, idx));
 }
 
 
@@ -5424,7 +5424,7 @@ void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
  */
 void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    sub_0206434C(anim_ctl->anim, sub_020627D8(anim_ctl->anim_bank, idx));
+    NNS_G2dSetCellAnimationSequence(anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, idx));
 }
 
 
@@ -5434,8 +5434,8 @@ void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 
 /*
  * The third member of the CLACT_SetCellAnimSeq / CLACT_SetMultiCellAnimSeq trio, reading the
- * handle from +0x74 instead of +8 and finishing in sub_0206469C instead of
- * sub_0206434C.  The shared middle step, sub_020627D8 on the handle, is
+ * handle from +0x74 instead of +8 and finishing in NNS_G2dSetAnimSequenceToMCAnimation instead of
+ * NNS_G2dSetCellAnimationSequence.  The shared middle step, NNS_G2dGetAnimSequenceByIdx on the handle, is
  * what says these three are the same operation over different slots.
  *
  * Verified with:
@@ -5444,7 +5444,7 @@ void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
  */
 void CLACT_SetVramAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    sub_0206469C((struct MultiCellAnim *)anim_ctl->anim, sub_020627D8(anim_ctl->mc_anim_bank, idx));
+    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->mc_anim_bank, idx));
 }
 
 
@@ -5495,7 +5495,7 @@ void *CLACT_AddAnimFrame(struct AnimCtl *anim_ctl, u32 speed)
 
 void CLACT_AddCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
-    sub_02064364((struct CellAnim *)(anim_ctl->anim), frames);
+    NNS_G2dTickCellAnimation((struct CellAnim *)(anim_ctl->anim), frames);
 }
 
 
@@ -5504,7 +5504,7 @@ void CLACT_AddCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 
 void CLACT_AddMultiCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
-    sub_02064364((struct CellAnim *)(anim_ctl->anim), frames);
+    NNS_G2dTickCellAnimation((struct CellAnim *)(anim_ctl->anim), frames);
 }
 
 
@@ -6443,7 +6443,7 @@ void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
  * each half (the +0x2C descriptor against bank +0x00 and kind 1, the +0x34
  * descriptor against bank +0x04 and kind 2) is uploaded only when
  * CLACT_IsVramTypeCompatible admits the mode pair and VMAN_Alloc finds the resource:
- * func_020346D8 turns the descriptor into a byte offset, CLACT_UpdateObjMapping
+ * VMAN_GetOffset turns the descriptor into a byte offset, CLACT_UpdateObjMapping
  * selects the VRAM window, and one of the three upload entries is chosen by
  * the override flag and, failing that, by the sink's own +0x08 selector.
  * Finally the sink pointer is published at +0x28 (null when not overridden)
@@ -6474,7 +6474,7 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
 
     if (CLACT_IsVramTypeCompatible(vram_mode, 0) != 0) {
         if (VMAN_Alloc((u8 *)res->vram_main, vram_size, (void **)&slot->main_block) != 0) {
-            vram_offset = func_020346D8((struct VramAllocator *)res->vram_main, (u32 *)&slot->main_block);
+            vram_offset = VMAN_GetOffset((struct VramAllocator *)res->vram_main, (u32 *)&slot->main_block);
             vram_kind = 1;
             CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {
@@ -6489,7 +6489,7 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
 
     if (CLACT_IsVramTypeCompatible(vram_mode, 1) != 0) {
         if (VMAN_Alloc((u8 *)res->vram_sub, vram_size, (void **)&slot->sub_block) != 0) {
-            vram_offset = func_020346D8((struct VramAllocator *)res->vram_sub, (u32 *)&slot->sub_block);
+            vram_offset = VMAN_GetOffset((struct VramAllocator *)res->vram_sub, (u32 *)&slot->sub_block);
             vram_kind = 2;
             CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {

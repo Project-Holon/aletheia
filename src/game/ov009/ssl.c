@@ -38,18 +38,18 @@
  *   make_dn        0x021601CC  arm  ov009
  *   parse_time     0x02160238  arm  ov009
  *   object         0x021A1D48  data
- *   func_02164CC4  0x02164CC4  arm  ov009
+ *   CPSi_big_from_char  0x02164CC4  arm  ov009
  *   CPSi_big_power  0x0216469C  arm  ov009
  *   exit_computebound  0x021600E4  arm  ov009
  *   func_02164D20  0x02164D20  arm  ov009
  *   CPSiAlloc     0x021A8280  data
  *   CPSiFree     0x021A82B0  data
- *   func_021633F0  0x021633F0  arm  ov009
- *   func_02163438  0x02163438  arm  ov009
- *   func_021634F0  0x021634F0  arm  ov009
- *   func_02163C9C  0x02163C9C  arm  ov009
- *   func_02163CF0  0x02163CF0  arm  ov009
- *   func_02163DA8  0x02163DA8  arm  ov009
+ *   CPSi_md5_init  0x021633F0  arm  ov009
+ *   CPSi_md5_calc  0x02163438  arm  ov009
+ *   CPSi_md5_result  0x021634F0  arm  ov009
+ *   CPSi_sha1_init  0x02163C9C  arm  ov009
+ *   CPSi_sha1_calc  0x02163CF0  arm  ov009
+ *   CPSi_sha1_result  0x02163DA8  arm  ov009
  *   RTC_GetDate        0x02088864  arm
  *   auth_cert          0x0216090C  arm  ov009
  *   compare_fqdn       0x02160A10  arm  ov009
@@ -136,17 +136,17 @@ extern int strcmp(const char *s1, const char *s2);
 static int cert_item_len(unsigned char **ps);
 static void make_dn(char *d, char *s, int len);
 static unsigned long parse_time(unsigned char *s, int type);
-extern void func_02164CC4(unsigned short *d, unsigned char *s, int numbytes, int digits);
+extern void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
 extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           unsigned short *n);
 extern void exit_computebound(unsigned long old_priority);
 extern void func_02164D20(unsigned char *d, unsigned short *s, int numbytes, int digits);
-extern void func_021633F0(void *ctx);
-extern void func_02163438(void *ctx, void *data0, int datalen);
-extern void func_021634F0(void *ctx, unsigned char *digest);
-extern void func_02163C9C(void *ctx);
-extern void func_02163CF0(void *ctx, void *data0, int datalen);
-extern void func_02163DA8(void *ctx, unsigned char *digest);
+extern void CPSi_md5_init(void *ctx);
+extern void CPSi_md5_calc(void *ctx, void *data0, int datalen);
+extern void CPSi_md5_result(void *ctx, unsigned char *digest);
+extern void CPSi_sha1_init(void *ctx);
+extern void CPSi_sha1_calc(void *ctx, void *data0, int datalen);
+extern void CPSi_sha1_result(void *ctx, unsigned char *digest);
 static int auth_cert(CPSSslConnection *con);
 static int compare_fqdn(char *name, char *pat);
 static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
@@ -719,9 +719,9 @@ static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca)
     b = tmp_var + digits;
     c = b + digits;
     n = c + digits;
-    func_02164CC4(b, con->sig, con->sig_len, digits);
-    func_02164CC4(c, ca->exponent, ca->exponent_len, digits);
-    func_02164CC4(n, ca->modulo, ca->modulo_len, digits);
+    CPSi_big_from_char(b, con->sig, con->sig_len, digits);
+    CPSi_big_from_char(c, ca->exponent, ca->exponent_len, digits);
+    CPSi_big_from_char(n, ca->modulo, ca->modulo_len, digits);
     old_priority = enter_computebound();
     CPSi_big_power(tmp_var, b, c, digits, n);
     exit_computebound(old_priority);
@@ -759,15 +759,15 @@ static int auth_cert(CPSSslConnection *con)
         return result | 4;
     switch (con->hash_type) {
     case 3:
-        func_021633F0(&con->md5_hash_tmp);
-        func_02163438(&con->md5_hash_tmp, con->cert_start, con->cert_end - con->cert_start);
-        func_021634F0(&con->md5_hash_tmp, con->hash);
+        CPSi_md5_init(&con->md5_hash_tmp);
+        CPSi_md5_calc(&con->md5_hash_tmp, con->cert_start, con->cert_end - con->cert_start);
+        CPSi_md5_result(&con->md5_hash_tmp, con->hash);
         con->hash_len = 0x10;
         break;
     case 4:
-        func_02163C9C(&con->sha1_hash_tmp);
-        func_02163CF0(&con->sha1_hash_tmp, con->cert_start, con->cert_end - con->cert_start);
-        func_02163DA8(&con->sha1_hash_tmp, con->hash);
+        CPSi_sha1_init(&con->sha1_hash_tmp);
+        CPSi_sha1_calc(&con->sha1_hash_tmp, con->cert_start, con->cert_end - con->cert_start);
+        CPSi_sha1_result(&con->sha1_hash_tmp, con->hash);
         con->hash_len = 0x14;
         break;
     default:
@@ -1206,19 +1206,19 @@ void finished_md5(CPSSslConnection *con, unsigned char *d, int flag)
     CPSMd5Ctx *p = &con->md5_hash;
 
     if ((con->server ^ flag) != 0)
-        func_02163438(p, &gCpsSslServerId, 4);
+        CPSi_md5_calc(p, &gCpsSslServerId, 4);
     else
-        func_02163438(p, &gCpsSslClientId, 4);
-    func_02163438(p, con->master_secret, 48);
+        CPSi_md5_calc(p, &gCpsSslClientId, 4);
+    CPSi_md5_calc(p, con->master_secret, 48);
     MI_CpuFill8(tmp, 0x36, 48);
-    func_02163438(p, tmp, 48);
-    func_021634F0(p, d);
-    func_021633F0(p);
-    func_02163438(p, con->master_secret, 48);
+    CPSi_md5_calc(p, tmp, 48);
+    CPSi_md5_result(p, d);
+    CPSi_md5_init(p);
+    CPSi_md5_calc(p, con->master_secret, 48);
     MI_CpuFill8(tmp, 0x5c, 48);
-    func_02163438(p, tmp, 48);
-    func_02163438(p, d, 16);
-    func_021634F0(p, d);
+    CPSi_md5_calc(p, tmp, 48);
+    CPSi_md5_calc(p, d, 16);
+    CPSi_md5_result(p, d);
 }
 
 
@@ -1231,19 +1231,19 @@ void finished_sha1(CPSSslConnection *con, unsigned char *d, int flag)
     CPSSha1Ctx *p = &con->sha1_hash;
 
     if ((con->server ^ flag) != 0)
-        func_02163CF0(p, &gCpsSslServerId, 4);
+        CPSi_sha1_calc(p, &gCpsSslServerId, 4);
     else
-        func_02163CF0(p, &gCpsSslClientId, 4);
-    func_02163CF0(p, con->master_secret, 48);
+        CPSi_sha1_calc(p, &gCpsSslClientId, 4);
+    CPSi_sha1_calc(p, con->master_secret, 48);
     MI_CpuFill8(tmp, 0x36, 40);
-    func_02163CF0(p, tmp, 40);
-    func_02163DA8(p, d);
-    func_02163C9C(p);
-    func_02163CF0(p, con->master_secret, 48);
+    CPSi_sha1_calc(p, tmp, 40);
+    CPSi_sha1_result(p, d);
+    CPSi_sha1_init(p);
+    CPSi_sha1_calc(p, con->master_secret, 48);
     MI_CpuFill8(tmp, 0x5c, 40);
-    func_02163CF0(p, tmp, 40);
-    func_02163CF0(p, d, 20);
-    func_02163DA8(p, d);
+    CPSi_sha1_calc(p, tmp, 40);
+    CPSi_sha1_calc(p, d, 20);
+    CPSi_sha1_result(p, d);
 }
 
 
@@ -1646,9 +1646,9 @@ static void set_random(unsigned char *d, int len)
     r = 20;
     for (i = 0; i < len;) {
         if (r == 20) {
-            func_02163C9C(&ctx);
+            CPSi_sha1_init(&ctx);
             enabled = OS_DisableInterrupts();
-            func_02163CF0(&ctx, pool, 20);
+            CPSi_sha1_calc(&ctx, pool, 20);
             CPSi_sha1_result_prng(&ctx, x);
             carry = 1;
             for (j = 19; j >= 0; j--) {
@@ -1934,8 +1934,8 @@ unsigned long CPSi_SslConnect(CPSSoc *soc)
     con->state = 0;
     con->rcv_mac = 0;
     con->server = 0;
-    func_02163C9C(&con->sha1_hash);
-    func_021633F0(&con->md5_hash);
+    CPSi_sha1_init(&con->sha1_hash);
+    CPSi_md5_init(&con->md5_hash);
     return ssl_connect_try(soc);
 }
 

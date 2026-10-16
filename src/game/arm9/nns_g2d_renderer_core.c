@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_renderer_core.c
  * unit:     yes
- * function: NNSi_G2dCalcSpriteParams, NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled, func_02066DFC, NNS_G2dSetOamSoftEmuAutoZOffsetStep, NNS_G2dGetOamSoftEmuAutoZOffsetStep, NNSi_G2dDrawSoftEmuSprite, NNSi_G2dDoAffineTransforme, NNSi_G2dDrawCellToSurface2D, NNSi_G2dDrawOam3D, NNSi_G2dDrawCellToSurface3D, NNS_G2dInitRndCore, NNS_G2dSetRndCoreImageProxy, NNS_G2dSetRndCoreOamRegisterFunc, NNS_G2dSetRndCoreAffineOverwriteMode, NNS_G2dSetRndCoreCurrentMtx3D, NNS_G2dSetRndCoreCurrentMtx2D, NNS_G2dSetRndCore3DSoftSpriteZvalue, NNS_G2dSetRndCoreSurface, NNSi_G2dIsRndCoreFlipH, NNSi_G2dIsRndCoreFlipV, NNS_G2dSetRndCoreFlipMode, NNS_G2dRndCoreBeginRendering, NNS_G2dRndCoreEndRendering, NNS_G2dRndCoreDrawCell, NNS_G2dRndCoreDrawCellVramTransfer
+ * function: NNSi_G2dCalcSpriteParams, NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled, NNS_G2dResetOamSoftEmuAutoZOffset, NNS_G2dSetOamSoftEmuAutoZOffsetStep, NNS_G2dGetOamSoftEmuAutoZOffsetStep, NNSi_G2dDrawSoftEmuSprite, NNSi_G2dDoAffineTransforme, NNSi_G2dDrawCellToSurface2D, NNSi_G2dDrawOam3D, NNSi_G2dDrawCellToSurface3D, NNS_G2dInitRndCore, NNS_G2dSetRndCoreImageProxy, NNS_G2dSetRndCoreOamRegisterFunc, NNS_G2dSetRndCoreAffineOverwriteMode, NNS_G2dSetRndCoreCurrentMtx3D, NNS_G2dSetRndCoreCurrentMtx2D, NNS_G2dSetRndCore3DSoftSpriteZvalue, NNS_G2dSetRndCoreSurface, NNSi_G2dIsRndCoreFlipH, NNSi_G2dIsRndCoreFlipV, NNS_G2dSetRndCoreFlipMode, NNS_G2dRndCoreBeginRendering, NNS_G2dRndCoreEndRendering, NNS_G2dRndCoreDrawCell, NNS_G2dRndCoreDrawCellVramTransfer
  * address:  0x02066B84
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -77,7 +77,7 @@
  *   sOamSoftEmuAutoZOffsetStep 0x020A8218 data
  *   sRndCoreInstance      0x02148B48  data
  *   sMtxIdentity      0x020A18AC  data
- *   func_0207D8E0   0x0207D8E0  arm
+ *   G3_LoadMtx43   0x0207D8E0  arm
  *   MIi_CpuClear16  0x02082A48  arm
  *   NNSi_G2dIsVramHandleSet 0x020637BC  arm
  *   NNSi_G2dGetVramHandleValue 0x020637B4  arm
@@ -255,7 +255,7 @@ typedef struct CellTransferState {
     u32          szByte;            /* +0x2c */
 } CellTransferState;
 
-extern void func_0207D8E0(const MtxFx43 *m);
+extern void G3_LoadMtx43(const MtxFx43 *m);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
 extern BOOL NNSi_G2dIsVramHandleSet(const NNSG2dImageProxy *pImgProxy, u32 vramType);
 extern u32 NNSi_G2dGetVramHandleValue(const NNSG2dImageProxy *pImgProxy, u32 vramType);
@@ -1129,7 +1129,7 @@ static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
 
 /*
  * NitroSystem g2d renderer core, the 3D (software sprite) per-OAM draw:
- * load the instance's 3D matrix (func_0207D8E0 on rig +0x40), and when the
+ * load the instance's 3D matrix (G3_LoadMtx43 on rig +0x40), and when the
  * rig's flip flag (+0x24) is set, mirror x/y about the sprite's own extent
  * (NNSi_G2dIsRndCoreFlipH / NNSi_G2dIsRndCoreFlipV are IsFlipH / IsFlipV), write the combined
  * flip bits back into the OAM, then draw it through NNSi_G2dDrawSoftEmuSprite with
@@ -1152,7 +1152,7 @@ static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
  */
 void NNSi_G2dDrawOam3D(GXOamAttr *oam)
 {
-    func_0207D8E0(&sRndCoreInstance->mtx);
+    G3_LoadMtx43(&sRndCoreInstance->mtx);
     if (sRndCoreInstance->flipFlag != 0) {
         GXOamShape shape = G2_GetOBJShape(oam);
         s16 x = PosX_(oam, shape);

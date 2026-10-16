@@ -1,7 +1,7 @@
 /*
  * file:     pm.c
  * unit:     yes
- * function: func_0208B7BC, PMi_DummyCallback, PMi_CallCallbackAndUnlock, PMi_WaitVBlank, PM_Init, PMi_CommonCallback, func_0208BA70, func_0208BAF4, func_0208BBB8, func_0208BC44, func_0208BC8C, PMi_SetLEDAsync, PMi_SetLED, PM_SetBackLightAsync, PM_SetBackLight, PM_ForceToPowerOffAsync, PMi_ForceToPowerOff, PM_ForceToPowerOff, PM_SetAmp, PMi_SetAmp, PM_SetAmpGain, PM_SetAmpGainLevel, func_0208BF6C, PM_GetBatteryLevel, PM_GetBackLight, func_0208C030, func_0208C080, PMi_PreSleepForDma, func_0208C154, func_0208C44C, func_0208C64C, PM_GetLCDPower, PMi_SendLEDPatternCommand, PM_GetLEDPattern, PMi_InsertList, PMi_DeleteList, PMi_ExecuteList, PM_PrependPreSleepCallback, PM_AppendPostSleepCallback, PMi_InsertPreSleepCallbackEx, PM_DeletePreSleepCallback, func_0208C884, func_0208C89C, func_0208C944
+ * function: func_0208B7BC, PMi_DummyCallback, PMi_CallCallbackAndUnlock, PMi_WaitVBlank, PM_Init, PMi_CommonCallback, func_0208BA70, func_0208BAF4, func_0208BBB8, func_0208BC44, PM_SendUtilityCommand, PMi_SetLEDAsync, PMi_SetLED, PM_SetBackLightAsync, PM_SetBackLight, PM_ForceToPowerOffAsync, PMi_ForceToPowerOff, PM_ForceToPowerOff, PM_SetAmp, PMi_SetAmp, PM_SetAmpGain, PM_SetAmpGainLevel, func_0208BF6C, PM_GetBatteryLevel, PM_GetBackLight, func_0208C030, func_0208C080, PMi_PreSleepForDma, func_0208C154, func_0208C44C, func_0208C64C, PM_GetLCDPower, PMi_SendLEDPatternCommand, PM_GetLEDPattern, PMi_InsertList, PMi_DeleteList, PMi_ExecuteList, PM_PrependPreSleepCallback, PM_AppendPostSleepCallback, PMi_InsertPreSleepCallbackEx, PM_DeletePreSleepCallback, func_0208C884, func_0208C89C, func_0208C944
  * address:  0x0208B7BC
  * region:   arm9
  * compiler: dsi/1.1p1

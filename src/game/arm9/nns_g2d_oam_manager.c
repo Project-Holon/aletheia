@@ -31,16 +31,16 @@
  *   GX_EndLoadTex   0x0207F9B4  arm
  *   GX_LoadOBJ      0x0207E780  arm
  *   GXS_LoadOBJ     0x0207E804  arm
- *   func_0207F47C  0x0207F47C  arm
- *   func_0207F4C4  0x0207F4C4  arm
- *   func_0207F560  0x0207F560  arm
+ *   GX_BeginLoadOBJExtPltt  0x0207F47C  arm
+ *   GX_LoadOBJExtPltt  0x0207F4C4  arm
+ *   GX_EndLoadOBJExtPltt  0x0207F560  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
- *   func_0207F6A8  0x0207F6A8  arm
- *   func_0207F6C0  0x0207F6C0  arm
- *   func_0207F754  0x0207F754  arm
+ *   GXS_BeginLoadOBJExtPltt  0x0207F6A8  arm
+ *   GXS_LoadOBJExtPltt  0x0207F6C0  arm
+ *   GXS_EndLoadOBJExtPltt  0x0207F754  arm
  *   GXS_LoadOBJPltt  0x0207E5D0  arm
- *   func_0207FA0C  0x0207FA0C  arm
- *   func_0207FA40  0x0207FA40  arm
+ *   GX_BeginLoadTexPltt  0x0207FA0C  arm
+ *   GX_LoadTexPltt  0x0207FA40  arm
  *   GX_EndLoadTexPltt  0x0207FADC  arm
  */
 typedef unsigned int u32;
@@ -190,16 +190,16 @@ extern void GX_LoadTex(void *src, u32 off, u32 n);
 extern void GX_EndLoadTex(void);
 extern void GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void GXS_LoadOBJ(void *src, u32 off, u32 n);
-extern void func_0207F47C(u32 a);
-extern void func_0207F4C4(u32 a, u32 b, u32 c);
-extern void func_0207F560(void);
+extern void GX_BeginLoadOBJExtPltt(u32 a);
+extern void GX_LoadOBJExtPltt(u32 a, u32 b, u32 c);
+extern void GX_EndLoadOBJExtPltt(void);
 extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
-extern void func_0207F6A8(u32 a);
-extern void func_0207F6C0(u32 a, u32 b, u32 c);
-extern void func_0207F754(void);
+extern void GXS_BeginLoadOBJExtPltt(u32 a);
+extern void GXS_LoadOBJExtPltt(u32 a, u32 b, u32 c);
+extern void GXS_EndLoadOBJExtPltt(void);
 extern void GXS_LoadOBJPltt(u32 a, u32 b, u32 c);
-extern void func_0207FA0C(void);
-extern void func_0207FA40(u32 a, u32 b, u32 c);
+extern void GX_BeginLoadTexPltt(void);
+extern void GX_LoadTexPltt(u32 a, u32 b, u32 c);
 extern void GX_EndLoadTexPltt(void);
 void NNSi_G2dCpuLoadOamSub(void *src, u32 offset);
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset);
@@ -1179,25 +1179,25 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramH
     switch (sel) {
     case 1:
         if (self->handle != 0) {
-            func_0207F47C(self->handle);
-            func_0207F4C4(a, a1, b);
-            func_0207F560();
+            GX_BeginLoadOBJExtPltt(self->handle);
+            GX_LoadOBJExtPltt(a, a1, b);
+            GX_EndLoadOBJExtPltt();
         } else {
             GX_LoadOBJPltt(a, a1, b);
         }
         break;
     case 2:
         if (self->handle != 0) {
-            func_0207F6A8(self->handle);
-            func_0207F6C0(a, a1, b);
-            func_0207F754();
+            GXS_BeginLoadOBJExtPltt(self->handle);
+            GXS_LoadOBJExtPltt(a, a1, b);
+            GXS_EndLoadOBJExtPltt();
         } else {
             GXS_LoadOBJPltt(a, a1, b);
         }
         break;
     case 0:
-        func_0207FA0C();
-        func_0207FA40(a, a1, b);
+        GX_BeginLoadTexPltt();
+        GX_LoadTexPltt(a, a1, b);
         GX_EndLoadTexPltt();
         break;
     }
@@ -1297,25 +1297,25 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
             switch (sel) {
             case 1:
                 if (self->handle != 0) {
-                    func_0207F47C(self->handle);
-                    func_0207F4C4(a + d, base + t, step);
-                    func_0207F560();
+                    GX_BeginLoadOBJExtPltt(self->handle);
+                    GX_LoadOBJExtPltt(a + d, base + t, step);
+                    GX_EndLoadOBJExtPltt();
                 } else {
                     GX_LoadOBJPltt(a + d, base + t, step);
                 }
                 break;
             case 2:
                 if (self->handle != 0) {
-                    func_0207F6A8(self->handle);
-                    func_0207F6C0(a + d, base + t, step);
-                    func_0207F754();
+                    GXS_BeginLoadOBJExtPltt(self->handle);
+                    GXS_LoadOBJExtPltt(a + d, base + t, step);
+                    GXS_EndLoadOBJExtPltt();
                 } else {
                     GXS_LoadOBJPltt(a + d, base + t, step);
                 }
                 break;
             case 0:
-                func_0207FA0C();
-                func_0207FA40(a + d, base + t, step);
+                GX_BeginLoadTexPltt();
+                GX_LoadTexPltt(a + d, base + t, step);
                 GX_EndLoadTexPltt();
                 break;
             default:

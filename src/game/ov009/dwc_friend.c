@@ -39,11 +39,11 @@
  *   DWCi_CloseFriendProcess  0x02169294  arm
  *   gpGetInfo  0x02185BD8  arm
  *   DWCi_GPGetInfoCallback_RecvAuthMessage  0x02169E18  arm
- *   func_021861A8  0x021861A8  arm  ov009
+ *   gpIsBuddy  0x021861A8  arm  ov009
  *   OS_GetTick  0x020870D0  arm
  *   gpSetStatusA  0x0218627C  arm  ov009
  *   DWC_GetFriendStatus  0x0216870C  arm  ov009
- *   func_02185948  0x02185948  arm  ov009
+ *   gpProcess  0x02185948  arm  ov009
  *   gpGetNumBuddies                  0x02185fa4 arm
  *   gpGetBuddyStatus                 0x02185fd4 arm
  *   DWCi_IsBuddyFriendData           0x0205915c arm
@@ -217,12 +217,12 @@ extern int gpGetReversBuddiesList(void **connection, int *targets, int numOfTarg
 extern void DWCi_SetError(int error, int errorCode);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern int gpGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern int func_021861A8(void **connection, int profile);
+extern int gpIsBuddy(void **connection, int profile);
 extern int gpDeleteBuddy(void **connection, int profile);
 extern int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status);
 extern u64 OS_GetTick(void);
 extern int gpSetStatusA(void **connection, int status, const char *statusString, const char *locationString);
-extern int func_02185948(void *conn);
+extern int gpProcess(void *conn);
 extern int gpGetNumBuddies(void **connection, int *numBuddies);
 extern int DWCi_IsBuddyFriendData(DWCstAccFriendData *frienddata);
 extern void DWC_SetGsProfileId(DWCstAccFriendData *frienddata, int gs_profile_id);
@@ -629,7 +629,7 @@ void DWCi_GPRecvBuddyStatusCallback(void **connection, RecvArg *arg)
 
 	friendIdx = DWCi_GetFriendListIndex(arg->profile);
 	if (friendIdx == -1) {
-		if (func_021861A8(connection, arg->profile))
+		if (gpIsBuddy(connection, arg->profile))
 			gpDeleteBuddy(connection, arg->profile);
 		return;
 	}
@@ -747,7 +747,7 @@ int DWCi_GPProcess(void)
 	w = stpFriendCnt;
 	if ((tick - w->lastTick) * 64 / 33514 >= 300) {
 		w->pollCount++;
-		result = func_02185948(stpFriendCnt->connection);
+		result = gpProcess(stpFriendCnt->connection);
 		stpFriendCnt->lastTick = OS_GetTick();
 	}
 	return result;

@@ -25,10 +25,10 @@
  *   NNS_GfdDefaultFuncFreeTexVram   0x020A8144  data
  *   g_02146B98     0x02146B98  data
  *   g_02146B9C     0x02146B9C  data
- *   func_02061EA4  0x02061EA4  arm
+ *   NNSi_GfdAllocBlockUnaligned  0x02061EA4  arm
  *   g_02146B94_blk  0x02146B94  data
  *   g_020A17A8      0x020A17A8  data
- *   func_02061DF0   0x02061DF0  arm
+ *   NNSi_GfdClearBlockListHead   0x02061DF0  arm
  *   NNSi_GfdInitBlockPool   0x02061DFC  arm
  *   NNSi_GfdAddBlock   0x02061E48  arm
  *   g_02146BB0       0x02146BB0  data
@@ -106,8 +106,8 @@ struct HeapB
 };
 
 extern u32 NNSi_GfdMergeAdjacentFreeBlocks(void *head1, void *head2, struct Range *range);
-extern u32 func_02061EA4(u32 a, u32 b, u32 *out, u32 size);
-extern void func_02061DF0(u32 *head);
+extern u32 NNSi_GfdAllocBlockUnaligned(u32 a, u32 b, u32 *out, u32 size);
+extern void NNSi_GfdClearBlockListHead(u32 *head);
 extern struct Node02061DFC *NNSi_GfdInitBlockPool(struct Node02061DFC *arr, u32 count);
 extern u32 NNSi_GfdAddBlock(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
 BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment);
@@ -395,7 +395,7 @@ void NNSi_GfdInitTexVramManager(u32 a, u32 b, u32 c, u32 d, u32 e)
 /*
  * The heap-handle builder that pairs with the validator NNS_GfdFreeTexVram.
  * Round the request up to sixteen (0x10 for zero), refuse 0x7FFF0 and above,
- * ask func_02061EA4 for the block through the 0x02146B9x heap pair the flag
+ * ask NNSi_GfdAllocBlockUnaligned for the block through the 0x02146B9x heap pair the flag
  * selects, and pack the answer: bits 3..18 of the returned address in the low
  * half, size/16 in bits 16..30, the caller's flag in bit 31.
  *
@@ -413,8 +413,8 @@ u32 NNS_GfdAllocTexVram(u32 size, u32 flag)
     u32 local, r;
 
     if (n >= 0x7fff0) return 0;
-    if (flag != 0) r = func_02061EA4((u32)&g_02146B98, (u32)&g_02146B9C, &local, n);
-    else           r = func_02061EA4((u32)&g_02146B94, (u32)&g_02146B9C, &local, n);
+    if (flag != 0) r = NNSi_GfdAllocBlockUnaligned((u32)&g_02146B98, (u32)&g_02146B9C, &local, n);
+    else           r = NNSi_GfdAllocBlockUnaligned((u32)&g_02146B94, (u32)&g_02146B9C, &local, n);
     if (r == 0) return 0;
     return ((n >> 4) << 16) | ((local << 13) >> 16) | (flag << 31);
 }
@@ -534,8 +534,8 @@ void NNSi_GfdInitTexVramHeap(u32 a, u32 b, u32 c, u32 d)
         }
     }
 
-    func_02061DF0(&g_02146B94.head_a);
-    func_02061DF0(&g_02146B98);
+    NNSi_GfdClearBlockListHead(&g_02146B94.head_a);
+    NNSi_GfdClearBlockListHead(&g_02146B98);
     g_02146B94_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146B94_blk.f14, g_02146B94_blk.f18 >> 4);
 
     if (t.r[0].acc8 != 0)
@@ -668,7 +668,7 @@ int NNS_GfdFreePlttVram(u32 id)
 void NNSi_GfdInitPlttVramHeap(void)
 {
     g_02146BB0_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
-    func_02061DF0(&g_02146BB0.head);
+    NNSi_GfdClearBlockListHead(&g_02146BB0.head);
     NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
     NNSi_GfdMergeFreeBlockList(&g_02146BB0.head, &g_02146BB4);
 }

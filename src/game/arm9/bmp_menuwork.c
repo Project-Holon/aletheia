@@ -31,6 +31,7 @@
  *   STRBUF_Clone  0x02045874  arm
  *   STRBUF_Delete  0x02045808  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
+ *   ARC_UTIL_RegisterObjCharFromArchive  0x020496E4  arm
  */
 #include "bmp_menuwork_shared_types.h"
 
@@ -40,7 +41,7 @@ extern void func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u32 heapId);
 
-extern void *func_020496E4(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flagB, u32 heapId);
+extern void *ARC_UTIL_RegisterObjCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flagB, u32 heapId);
 
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
@@ -215,7 +216,7 @@ void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 fr
  */
 void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
 {
-    void *charResult = func_020496E4(5, BMP_MENUWORK_GetCharFileId(frameId), layer, 0, 0, heapId);
+    void *charResult = ARC_UTIL_RegisterObjCharFromArchive(5, BMP_MENUWORK_GetCharFileId(frameId), layer, 0, 0, heapId);
 
     BMP_MENUWORK_LoadPltt(layer, palSlot, frameId, heapId);
     return charResult;

@@ -170,7 +170,7 @@
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   WIFILIST_GetWork  0x02009860  thumb
  *   func_020099C8  0x020099C8  thumb
- *   func_02009C24  0x02009C24  thumb
+ *   WIFILIST_MergeFriendRecord  0x02009C24  thumb
  *   GFL_NET_StartSession  0x0203CBAC  arm
  *   GFL_NET_CopyInitParam  0x0203D844  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
@@ -222,7 +222,7 @@
  *   func_02049E74 0x02049E74 arm
  *   func_02049EF4 0x02049EF4 arm
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
- *   func_02042FB0  0x02042FB0  arm
+ *   BG_SYS_SetupTileScreen  0x02042FB0  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  *   CLACT_InitSystem  0x0204A48C  arm
@@ -237,7 +237,7 @@
  *   DWC_RAP_StopVchat 0x021563D0 thumb ov009
  *   GFL_USE_GetTargetBgmNo 0x02005C4C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   sub_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   DWC_RAP_SetOwnStatus  0x0215683C  thumb  ov009
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008554 0x02008554 thumb
@@ -262,7 +262,7 @@
  *   GFL_NET_STATE_IsWifiDisconnectFinal 0x0203C5EC arm
  *   GFL_NET_IsConnectMember 0x0203D1C0 arm
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
- *   func_02009A34 0x02009A34 thumb
+ *   WIFILIST_CountFriends 0x02009A34 thumb
  *   DWC_RAP_SetAcceptFriendCallback 0x02155664 thumb ov009
  *   func_02009A54 0x02009A54 thumb
  *   WIFICLUBACTOR_Init 0x021B95A0 thumb ov099
@@ -528,7 +528,7 @@ extern void *GFL_NET_GetInitParam(void);
 extern void *GAME_DATA_GetField1A0(void *gameData);
 extern struct FriendRoster *WIFILIST_GetWork(struct FriendRoster *obj);
 extern struct FriendEntry *func_020099C8(struct FriendRoster *obj, int i);
-extern void func_02009C24(struct FriendRoster *obj, int src, int dest);
+extern void WIFILIST_MergeFriendRecord(struct FriendRoster *obj, int src, int dest);
 extern int OS_IsRunOnTwl(void);
 extern void GFL_NET_StartSession(WifiClubNetInit *init, u32 flags, u32 userData);
 extern void GFL_NET_CopyInitParam(void *dst);
@@ -566,7 +566,7 @@ extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *archive, u32 type, u32 index
 extern void *func_02049E74(void *archive, u32 type, u32 index, u32 outData, u16 heapId);
 extern void *func_02049EF4(void *archive, u32 type, u32 index, void **outData, u16 heapId);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_02042FB0(u32 idx, u32 x, u32 y, u16 value);
+extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
 extern void WIPE_SYS_Start(void *unused, u32 type, u32 direction, u32 color, u32 frames, u32 step, u32 heapId);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *kind, u32 size, u32 flags, u32 heapId);
 extern void CLACT_InitSystem(const struct ClactInitParam *cfg, u32 arg, u32 heapId);
@@ -578,7 +578,7 @@ extern int DWC_RAP_IsDisconnected(void);
 extern void DWC_RAP_StopVchat(void);
 extern u32 GFL_USE_GetTargetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
-extern void sub_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern int DWC_RAP_SetOwnStatus(WifiClubPlayerStatus *status, int size);
 extern u8 *GAME_DATA_GetMyStatus(void *);
 extern u8 func_02008554(const struct PlayerProfile *obj);
@@ -602,7 +602,7 @@ extern int GFL_NET_STATE_IsWifiLoginOrConnected(void);
 extern int GFL_NET_STATE_IsWifiDisconnectFinal(void);
 extern u32 GFL_NET_IsConnectMember(u32 aid);
 extern void GFL_NET_STATE_WifiDisconnect(u32 force);
-extern u32 func_02009A34(struct FriendRoster *obj);
+extern u32 WIFILIST_CountFriends(struct FriendRoster *obj);
 extern void DWC_RAP_SetAcceptFriendCallback(void (*callback)(void));
 extern u32 func_02009A54(struct FriendRoster *obj);
 extern int DWC_RAP_GetNewClientAid(void);
@@ -3604,7 +3604,7 @@ void WIFICLUB_GetFirstFriendEntry(WifiClubWork *work)
 /* Copies a friend roster entry. */
 void WIFICLUB_CopyFriendEntry(int srcIndex, int destIndex, WifiClubWork *work)
 {
-    func_02009C24((struct FriendRoster *)GAME_DATA_GetField1A0(work->gameData), srcIndex, destIndex);
+    WIFILIST_MergeFriendRecord((struct FriendRoster *)GAME_DATA_GetField1A0(work->gameData), srcIndex, destIndex);
 }
 
 
@@ -3960,7 +3960,7 @@ void WIFICLUB_DrawTileBlock(WifiClubBgLoad *bgLoad, int layer, u8 x, u8 y, unsig
     stride = (unsigned int)**(u16 **)&bgLoad->screenData >> 3;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
-            func_02042FB0(layer, j + x, i + y, (paletteIndex << 12) + (tiles + (tileIndex & 0xF) * 2)[(row + i) * stride + j]);
+            BG_SYS_SetupTileScreen(layer, j + x, i + y, (paletteIndex << 12) + (tiles + (tileIndex & 0xF) * 2)[(row + i) * stride + j]);
         }
     }
     BG_SYS_SetFlagField06((u8)layer);
@@ -4096,10 +4096,10 @@ int WIFICLUB_StateEnterClub(WifiClubWork *work, int state)
 /* Resets the layer scroll values and goes to the intro state. */
 int WIFICLUB_StateResetBgScroll(WifiClubWork *work, int state)
 {
-    sub_0204047C(0, 3);
-    sub_0204047C(1, 1);
-    sub_0204047C(3, 1);
-    sub_0204047C(2, 0);
+    BG_SYS_SetVisibleLayer(0, 3);
+    BG_SYS_SetVisibleLayer(1, 1);
+    BG_SYS_SetVisibleLayer(3, 1);
+    BG_SYS_SetVisibleLayer(2, 0);
     work->state = WIFICLUB_STATE_WATCH_LOGIN;
     return state;
 }
@@ -4420,7 +4420,7 @@ int WIFICLUB_StateShowSaveNotice(WifiClubWork *work, int state)
 int WIFICLUB_StateWaitSaveNotice(WifiClubWork *work, int state)
 {
     if (KEY_GetTrg() & 3) {
-        if (!func_02009A34(work->friendList)) {
+        if (!WIFILIST_CountFriends(work->friendList)) {
             WIFICLUB_ShowStreamedMessage(work, 0x1a, 1);
             work->state = WIFICLUB_STATE_EXIT_NETWORK;
             work->counter = 1;

@@ -156,7 +156,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   func_02009CE4  0x02009CE4  thumb
- *   func_02009A34  0x02009A34  thumb
+ *   WIFILIST_CountFriends  0x02009A34  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   abs_id_6       0x00000006  data
@@ -187,7 +187,7 @@
  *   SCRIPT_SYS_SetNextEventFromWork  0x0215898C  thumb  ov010
  *   SCRCMD_NETWORK_CreateCommBattleEvent  0x0215F8A8  thumb  ov010
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
- *   func_020090D8  0x020090D8  thumb
+ *   CGEAR_SAVE_SetObtained  0x020090D8  thumb
  *   FLD_BTL_INST_TOOL_CreateCommResetEvent  0x02168BBC  thumb  ov010
  *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
  *   abs_id_DB      0x000000DB  data
@@ -552,7 +552,7 @@ extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 
-extern u32 func_02009A34(struct Sub020097BCObj *obj);
+extern u32 WIFILIST_CountFriends(struct Sub020097BCObj *obj);
 
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 
@@ -602,7 +602,7 @@ extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 
 extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
 
-extern void func_020090D8(struct Sub020090B0Obj *obj, u8 value);
+extern void CGEAR_SAVE_SetObtained(struct Sub020090B0Obj *obj, u8 value);
 
 extern void *FLD_BTL_INST_TOOL_CreateCommResetEvent(void *a, void *b);
 
@@ -1891,7 +1891,7 @@ return 0;
 
 int SCRCMD_PROC_FLD_StoreSubObjectValueB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
+*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
 return 0;
 }
 
@@ -2085,7 +2085,7 @@ int SCRCMD_PROC_FLD_CallSubProcWithFlag(struct ScriptVm *vm, struct ScrcmdWork *
     eventArg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    func_020090D8((struct Sub020090B0Obj *)saveBlock, 1);
+    CGEAR_SAVE_SetObtained((struct Sub020090B0Obj *)saveBlock, 1);
     SCRIPT_SYS_CallEvent(scriptWork, FLD_BTL_INST_TOOL_CreateCommResetEvent(gameSystem, (void *)eventArg));
     return 1;
 }

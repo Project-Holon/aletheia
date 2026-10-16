@@ -1077,7 +1077,7 @@ void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align)
  * Returns the block's resulting size.
  *
  * Closed wave 12 from the 26-bytes-out source in
- * docs/notes/sub_02060CD0.c.txt.  The residue was the COMPILER, not the loop:
+ * docs/notes/NNS_FndResizeForMBlockExpHeap.c.txt.  The residue was the COMPILER, not the loop:
  * under ../2.0/sp2 the plain NitroSystem search
  *     for (p = head; p; p = p->next) { if (p == end) break; }
  * compiles to the image's `cmp / ldrne / cmpne / bne` loop, and the shrink

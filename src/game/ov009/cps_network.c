@@ -113,14 +113,14 @@
  *   tcp_write_do                     0x0215b09c arm
  *   tcp_write_do2                    0x0215b15c arm ov009
  *   CPSi_SslWrite2  0x02162CA0  arm  ov009
- *   func_02083194  0x02083194  arm
+ *   MI_CpuMove  0x02083194  arm
  *   CPSi_SslGetLength  0x02162C28  arm  ov009
  *   d_021A826C     0x021A826C  data
  *   CPSi_SslPeriodical  0x02162EC4  arm  ov009
  *   gCpsRecvSoc     0x021A83E4  data
  *   gCpsRecvBuffer     0x021A88E4  data
  *   gCpsSendBuffer     0x021A8764  data
- *   func_0208738C  0x0208738C  arm
+ *   OS_SetAlarm  0x0208738C  arm
  *   dacktimer_alarmhandler  0x0215BBF0  arm  ov009
  *   gCpsHostName               0x021A1CCC  data
  *   pad_mem  0x0215BD58  arm  ov009
@@ -270,10 +270,10 @@ extern void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc);
 extern unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct _CPSSoc *soc, int need_probe);
 extern void tcp_write_do2(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
 extern unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct _CPSSoc *soc);
-extern void func_02083194(void *src, void *dst, unsigned long size);
+extern void MI_CpuMove(void *src, void *dst, unsigned long size);
 extern long CPSi_SslGetLength(struct CPSSoc *soc);
 extern void CPSi_SslPeriodical(unsigned long now);
-extern void func_0208738C(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
+extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 void dacktimer_alarmhandler(void);
 extern unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
 extern void CPS_SocConsume(u32 len);
@@ -1340,7 +1340,7 @@ void dacktimer_reschedule(void)
 	}
 	if (nextdelay != 0xffffffff) {
 		OS_CancelAlarm(gCpsDackTimerAlarm);
-		func_0208738C(gCpsDackTimerAlarm, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
+		OS_SetAlarm(gCpsDackTimerAlarm, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
 	}
 	OS_RestoreInterrupts(enabled);
 }
@@ -1683,7 +1683,7 @@ unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len)
                 *(unsigned long *)(soc + 0x6c) = 0;
                 return n - left;
             }
-            func_02083194(*(unsigned char **)(soc + 0x68) + n, *(unsigned char **)(soc + 0x68), left - n);
+            MI_CpuMove(*(unsigned char **)(soc + 0x68) + n, *(unsigned char **)(soc + 0x68), left - n);
             *(unsigned long *)(soc + 0x6c) = *(unsigned long *)(soc + 0x6c) - n;
             return 0;
         }

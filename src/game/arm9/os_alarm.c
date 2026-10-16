@@ -1,7 +1,7 @@
 /*
  * file:     os_alarm.c
  * unit:     yes
- * function: OSi_SetTimer, OS_InitAlarm, OS_IsAlarmAvailable, OS_CreateAlarm, func_02087264, func_0208738C, OS_CancelAlarm, OSi_AlarmHandler, OSi_ArrangeTimer
+ * function: OSi_SetTimer, OS_InitAlarm, OS_IsAlarmAvailable, OS_CreateAlarm, func_02087264, OS_SetAlarm, OS_CancelAlarm, OSi_AlarmHandler, OSi_ArrangeTimer
  * address:  0x02087180
  * region:   arm9
  * compiler: dsi/1.1p1

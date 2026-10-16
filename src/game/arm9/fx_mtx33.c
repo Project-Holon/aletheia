@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx33.c
  * unit:     yes
- * function: MTX_Identity33_, MTX_Copy33To44_, MTX_Scale33_, MTX_ScaleApply33, func_0207AF00, MTX_RotY33_, MTX_RotZ33_, MTX_RotAxis33, func_0207B0A4, func_0207B388, MTX_MultVec33
+ * function: MTX_Identity33_, MTX_Copy33To44_, MTX_Scale33_, MTX_ScaleApply33, MTX_RotX33_, MTX_RotY33_, MTX_RotZ33_, MTX_RotAxis33, MTX_Inverse33, MTX_Concat33, MTX_MultVec33
  * address:  0x0207ADC4
  * region:   arm9
  * compiler: dsi/1.1p1

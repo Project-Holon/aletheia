@@ -101,7 +101,7 @@
  *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
  *   d_0220A4EC 0x0220A4EC data ov094 a4
  *   MTX_Scale22_  0x0207AD58  thumb
- *   func_02040820  0x02040820  arm
+ *   BG_SYS_SetScroll  0x02040820  arm
  *   d_0220A46C     0x0220A46C  data  ov094  a4
  *   d_0220A53C  0x0220A53C  data  a4
  *   d_0220A85C  0x0220A85C  data  a4
@@ -680,7 +680,7 @@ extern u32 APP_ICON_GetTypeCellFileId(u32);
 
 extern void MTX_Scale22_(void *dst, int a, int b);
 
-extern void func_02040820(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
@@ -2302,8 +2302,8 @@ void BTLV_INPUT_BgScrollTaskMain(void *a0, void *arg)
     else if (o->step < 0)
         o->scroll = o->scroll + 2;
     MTX_Scale22_(m, o->cur, o->cur);
-    func_02040820(7, 0, 0x80, (u32)m, 0x100, 0x100);
-    func_02040820(7, 3, o->scroll, (u32)m, 0x100, 0x100);
+    BG_SYS_SetScroll(7, 0, 0x80, (u32)m, 0x100, 0x100);
+    BG_SYS_SetScroll(7, 3, o->scroll, (u32)m, 0x100, 0x100);
     if (o->cur == o->goal)
         BTLV_INPUT_DeleteTask((void *)o->input, (void *)a0);
 }

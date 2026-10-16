@@ -1,7 +1,7 @@
 /*
  * file:     socl_command.c
  * unit:     yes
- * function: SOCLi_StartupCommandPacketQueue, SOCLi_CleanupCommandPacketQueue, func_0215CE14, func_0215CE3C, SOCLi_FreeCommandPacket, SOCLi_GetCtrlPipe, SOCLi_SendCommandPacket, SOCLi_SendCommandPacketToCtrlPipe, SOCLi_ExecCommandPacket, SOCLi_ExecCommandPacketInRecvPipe, SOCLi_ExecCommandPacketInSendPipe, SOCLi_ExecCommandPacketInCtrlPipe, SOCLi_CommandPacketHandler
+ * function: SOCLi_StartupCommandPacketQueue, SOCLi_CleanupCommandPacketQueue, func_0215CE14, SOCLi_CreateCommandPacket, SOCLi_FreeCommandPacket, SOCLi_GetCtrlPipe, SOCLi_SendCommandPacket, SOCLi_SendCommandPacketToCtrlPipe, SOCLi_ExecCommandPacket, SOCLi_ExecCommandPacketInRecvPipe, SOCLi_ExecCommandPacketInSendPipe, SOCLi_ExecCommandPacketInCtrlPipe, SOCLi_CommandPacketHandler
  * address:  0x0215CD3C
  * region:   ov009
  * compiler: dsi/1.1p1

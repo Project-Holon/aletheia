@@ -70,7 +70,7 @@
  *   BOX2_SEQ_DeleteTextEntries  0x021EB2A4  thumb  ov170
  *   BOX2_SEQ_ClearTextWin 0x021EB324 thumb
  *   BOX2_SEQ_SetSlotDim  0x021ED6E4  thumb  ov170
- *   func_0200785C 0x0200785C thumb
+ *   BOX_SAVEDATA_GetBoxName 0x0200785C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
@@ -348,7 +348,7 @@
  *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
  *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   d_021EFD04 0x021EFD04 data a4
- *   func_020079BC 0x020079BC thumb
+ *   BOX_SAVEDATA_GetPokemonValue 0x020079BC thumb
  *   MIi_CpuCopy32 0x02082A90 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   d_021EFD4C 0x021EFD4C data a2
@@ -470,7 +470,7 @@ extern unsigned FILE_UTIL_Check136C(unsigned short v);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void func_0200785C(void *save, unsigned box, void *dest);
+extern void BOX_SAVEDATA_GetBoxName(void *save, unsigned box, void *dest);
 
 extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 
@@ -1195,7 +1195,7 @@ extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
+extern int BOX_SAVEDATA_GetPokemonValue(void **save, u32 box, u32 slot, int field, int arg);
 
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
 
@@ -9135,7 +9135,7 @@ void BOX2_SEQ_DrawBoxName(char **p, unsigned box, int i)
 {
     void *s = STRBUF_Create(0x14, 0x804C);
     unsigned n;
-    func_0200785C(((void **)p[0])[1], box, s);
+    BOX_SAVEDATA_GetBoxName(((void **)p[0])[1], box, s);
     BMP_Clear(*(void **)(p[11] + i * 8 + 8), 0);
     n = GF_FONT_MeasureWidestLine(s, ((BoxWork *)p[11])->font, 0);
     n = (0x60 - n) / 2;
@@ -9735,7 +9735,7 @@ void BOX2_SEQ_LoadMonIcon(char **p, int box)
     void *r;
     void *buf;
     for (i = 0; i < 0x1E; i++) {
-        if (func_020079BC(((void **)p[0])[1], box, i, 0xA9, 0) == 0) {
+        if (BOX_SAVEDATA_GetPokemonValue(((void **)p[0])[1], box, i, 0xA9, 0) == 0) {
             *(int *)(p[11] + i * 4 + 0x3DF8) = 0;
         } else if (((BoxParam *)p[0])->mode != 3 && ((unsigned char *)p)[0x14] == ((unsigned char *)p)[0x17]
                    && ((unsigned char *)p)[0x16] == i) {

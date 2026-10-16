@@ -20,6 +20,7 @@
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  *   OS_UnlockMutex  0x02086078  arm  arm9
+ *   OS_GetProcMode  0x020879EC  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -57,7 +58,7 @@ typedef struct FsRoot {
 
 extern void DWCi_ScreenDC_FlushRange(u32, u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
-extern u32 func_020879EC(void);
+extern u32 OS_GetProcMode(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enable);
 extern void OS_LockMutex(void *mutex);
@@ -92,7 +93,7 @@ void FATFSi_SendToPXI(Big *a0) {
  *   the site under test, and a bss address has no ROM word for sole-ref/self.
  */
 u32 FATFSi_GetThreadHandle(void) {
-    if (func_020879EC() == 0x12) {
+    if (OS_GetProcMode() == 0x12) {
         return 0x80000000u;
     }
     return data_02150FEC[1];
@@ -136,7 +137,7 @@ Big *FATFSi_AllocateCommandBuffer(u32 arg) {
 }
 
 Big *FATFSi_AllocateEmergencyCommandBuffer(u32 a0) {
-    if (func_020879EC() != 0x12) {
+    if (OS_GetProcMode() != 0x12) {
         return FATFSi_AllocateCommandBuffer(a0);
     } else {
         Big *e = data_027343E0.cur;
@@ -176,7 +177,7 @@ void FATFSi_WaitForRequest(Big *a0) {
             pp = &(*pp)->qnext;
         }
         if (busy != 0) {
-            if (func_020879EC() == 0x12) {
+            if (OS_GetProcMode() == 0x12) {
                 PXIi_HandlerRecvFifoNotEmpty();
                 SVC_WaitByLoop(10000);
             } else {

@@ -33,7 +33,7 @@
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Init  0x020084A0  thumb
  *   func_020084D4  0x020084D4  thumb
- *   func_0200852C  0x0200852C  thumb
+ *   MYSTATUS_SetId  0x0200852C  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag  0x02186764  thumb
  *   FIELD_WFBC_DATA_LOCAL_HasArrivalFlag  0x02186770  thumb
@@ -91,7 +91,7 @@ extern void FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus(WfbcPerson *person);
 extern struct MyStatus *MYSTATUS_Create(int heapId);
 extern void MYSTATUS_Init(struct MyStatus *myStatus);
 extern u32 func_020084D4(struct MyStatus *myStatus, const u16 *name);
-extern void func_0200852C(struct MyStatus *myStatus, u32 id);
+extern void MYSTATUS_SetId(struct MyStatus *myStatus, u32 id);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 bufIndex, struct MyStatus *myStatus);
 extern void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(WfbcPerson *person);
 extern int FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(WfbcPerson *person);
@@ -320,7 +320,7 @@ void FIELD_WFBC_SetWordSetParentName(FieldWfbc *wfbc, struct WordSet *wordSet, i
     myStatus = MYSTATUS_Create((u16)((heapId & 0x7fff) | 0x8000));
     MYSTATUS_Init(myStatus);
     func_020084D4(myStatus, people->person.parentName);
-    func_0200852C(myStatus, people->person.parentId);
+    MYSTATUS_SetId(myStatus, people->person.parentId);
     WORDSET_SetSlotMyStatus(wordSet, bufIndex, myStatus);
     GFL_HEAP_Free(myStatus);
 }

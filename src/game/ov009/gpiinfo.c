@@ -24,7 +24,7 @@
  *   atoi  0x020964E0  arm
  *   gpiGetProfile  0x0218FD9C  arm   ov009
  *   atof  0x02095B2C  arm
- *   func_0209B64C  0x0209B64C  arm
+ *   _d2f  0x0209B64C  arm
  *   gpiProfileListAdd  0x0218FCD8  arm   ov009
  *   gsifree  0x0217EAE0  arm   ov009
  *   goastrdup  0x0217F1E0  arm   ov009
@@ -121,9 +121,9 @@
  *   gpiAppendIntToBuffer     0x0218949C  arm
  *   gGpiInfoKeyGetProfileSessKey               0x021A4D60  data
  *   gGpiInfoKeyId               0x021A4D78  data
- *   func_0218E114  0x0218E114  arm   ov009
+ *   gpiAddOperation  0x0218E114  arm   ov009
  *   func_0218D40C  0x0218D40C  arm   ov009
- *   func_02186E9C  0x02186E9C  arm   ov009
+ *   gpiProcess  0x02186E9C  arm   ov009
  *   func_0218D71C  0x0218D71C  arm   ov009
  *   gsifree                          0x0217EAE0 arm
  */
@@ -316,7 +316,7 @@ extern int gpiValueForKey(const char *command, const char *key, char *value, int
 extern int atoi(const char *s);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern double atof(const char *s);
-extern float func_0209B64C(double d);
+extern float _d2f(double d);
 extern GPIProfile *gpiProfileListAdd(void **connection, int id);
 extern void gsifree(void *ptr);
 extern char *goastrdup(char *src);
@@ -334,9 +334,9 @@ extern char *_strlwr(char *string);
 extern void gpiEncodeString(char *unencodedString, char *encodedString);
 extern int strlen(char *s);
 extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
-extern int func_0218E114(void **connection, int type, void *data, GPIOperation_s **op, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern int gpiAddOperation(void **connection, int type, void *data, GPIOperation_s **op, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_0218D40C(void **connection, int profileid, int operationid);
-extern int func_02186E9C(void **connection, int blockingOperationID);
+extern int gpiProcess(void **connection, int blockingOperationID);
 extern void func_0218D71C(GPIProfile *profile);
 extern void gsifree(void * ptr);
 int gpiIsValidDate(int day, int month, int year);
@@ -653,11 +653,11 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
     if (!gpiValueForKey(input, gGpiInfoKeyLon, buffer, sizeof(buffer)))
         infoCache.longitude = 0;
     else
-        infoCache.longitude = func_0209B64C(atof(buffer));
+        infoCache.longitude = _d2f(atof(buffer));
     if (!gpiValueForKey(input, gGpiInfoKeyLat, buffer, sizeof(buffer)))
         infoCache.latitude = 0;
     else
-        infoCache.latitude = func_0209B64C(atof(buffer));
+        infoCache.latitude = _d2f(atof(buffer));
     if (!gpiValueForKey(input, gGpiInfoKeyLoc, infoCache.place, 128))
         infoCache.place[0] = '\0';
     if (!gpiValueForKey(input, gGpiInfoKeyBirthday, buffer, sizeof(buffer))) {
@@ -1259,7 +1259,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
             arg->profile = profile;
             gpiCallback.callback = callback;
             gpiCallback.param = param;
-            { int __result__ = func_0218E114(connection, 2, 0, &operation, 1, callback, param);
+            { int __result__ = gpiAddOperation(connection, 2, 0, &operation, 1, callback, param);
               if (__result__ != 0) return __result__; }
             id = operation->id;
             { int __result__ = gpiAddCallback(connection, gpiCallback, arg, operation, 0);
@@ -1268,14 +1268,14 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
             goto done;
         }
     }
-    { int __result__ = func_0218E114(connection, 2, 0, &operation, blocking, callback, param);
+    { int __result__ = gpiAddOperation(connection, 2, 0, &operation, blocking, callback, param);
       if (__result__ != 0) return __result__; }
     id = operation->id;
     { int __result__ = func_0218D40C(connection, profile, id);
       if (__result__ != 0) return __result__; }
 done:
     if (blocking) {
-        int __result__ = func_02186E9C(connection, id);
+        int __result__ = gpiProcess(connection, id);
         if (__result__ != 0) return __result__;
     }
     return 0;

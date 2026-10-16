@@ -23,7 +23,7 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_INPUT_CreateDefault 0x02202058 thumb ov094
  *   TCBL_Create 0x0203101C arm
- *   func_02008254 0x02008254 thumb
+ *   MYITEM_SAVEDATA_CreateBagCursor 0x02008254 thumb
  *   gPdcMainSrcName 0x021B6E68 data a1
  *   gPdcViewParams 0x021B6D80 data a2
  *   TCBL_Main 0x020310C4 arm
@@ -134,7 +134,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern struct PdcMenu *BTLV_INPUT_CreateDefault(struct GameData *gameData, int, int, struct GfFont *font, u32 *menuWork, u16 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_02008254(u32 heapId);
+extern void *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId);
 extern void TCBL_Main(struct Tcbl *tcbl);
 extern void BTLV_EFFECT_Main(void);
 extern void BTLV_INPUT_UpdateInfoWindow(struct PdcMenu *menu);
@@ -243,7 +243,7 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     sys->tcbl = TCBL_Create(heapId, heapId, 64, 128);
     sys->mon = PDC_GetMon(args);
     sys->msg = PDC_MSG_Create(sys->font, PDC_GetConfig(args), sys->tcbl, sys->heapId);
-    sys->workBuf = func_02008254(sys->heapId);
+    sys->workBuf = MYITEM_SAVEDATA_CreateBagCursor(sys->heapId);
     PDC_MAIN_SetStep(sys, PDC_MAIN_StepIntro);
     return sys;
 }

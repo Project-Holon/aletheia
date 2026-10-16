@@ -25,7 +25,7 @@
  *   gDwcAuth     0x021AB188  data
  *   OS_LockMutex  0x02086028  arm
  *   OS_UnlockMutex  0x02086078  arm
- *   func_021797D4  0x021797D4  arm  ov009
+ *   DWC_Http_Abort  0x021797D4  arm  ov009
  *   OS_JoinThread  0x02085710  arm
  *   DWC_Http_Destroy  0x02179CF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -46,8 +46,8 @@
  *   DWCi_AUTH_UpDateWiFiID  0x02058DD0  arm
  *   DWCi_AUTH_RemakeWiFiID  0x02058E20  arm
  *   DWCi_AUTH_MakeWiFiID  0x02058D88  arm
- *   func_0217A728  0x0217A728  arm  ov009
- *   func_02168250  0x02168250  arm  ov009
+ *   DWC_Http_GetResult  0x0217A728  arm  ov009
+ *   DWC_Auth_SetNasTimeDiff  0x02168250  arm  ov009
  *   atoi  0x020964E0  arm
  *   DWC_Http_GetBase64DecodedResult  0x0217A77C  arm  ov009
  *   strtol  0x02095F40  arm
@@ -135,7 +135,7 @@ extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void 
 extern void OS_WakeupThreadDirect(void *thread);
 extern void OS_LockMutex(OSMutex *mutex);
 extern void OS_UnlockMutex(OSMutex *mutex);
-extern void func_021797D4(DWCHttp *http);
+extern void DWC_Http_Abort(DWCHttp *http);
 extern void OS_JoinThread(void *thread);
 extern void DWC_Http_Destroy(DWCHttp *http);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
@@ -151,8 +151,8 @@ extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern int DWCi_AUTH_UpDateWiFiID(struct DWCWiFiInfo *wifiinfo, void *work);
 extern int DWCi_AUTH_RemakeWiFiID(struct DWCWiFiInfo *wifiinfo);
 extern int DWCi_AUTH_MakeWiFiID(void *work);
-extern char *func_0217A728(DWCHttp *http, char *label);
-extern int func_02168250(char *datestr);
+extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
+extern int DWC_Auth_SetNasTimeDiff(char *datestr);
 extern int atoi(u32 a0);
 extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern s32 strtol(u32 a0, u32 *a1, u32 a2);
@@ -277,7 +277,7 @@ void DWC_Auth_Abort(void)
 	gDwcAuthGlobal.auth->abort_flag = 1;
 	OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
 	if (gDwcAuthGlobal.auth->http != 0)
-		func_021797D4(gDwcAuthGlobal.auth->http);
+		DWC_Http_Abort(gDwcAuthGlobal.auth->http);
 	if (gDwcAuthGlobal.auth->started == 0)
 		return;
 	if (OS_IsThreadTerminated(gDwcAuthGlobal.auth->thread) != 0)
@@ -560,13 +560,13 @@ int DWCi_Auth_FillResult(void)
     int returncode;
 
     endptr = 0;
-    endptr = func_0217A728(gDwcAuthGlobal.auth->http, gDwcAuthLabelDate);
+    endptr = DWC_Http_GetResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelDate);
     if (endptr != 0)
-        func_02168250(endptr);
+        DWC_Auth_SetNasTimeDiff(endptr);
 
     endptr = 0;
     errno = 0;
-    returncode = atoi((u32)func_0217A728(gDwcAuthGlobal.auth->http, gDwcAuthLabelHttpResult));
+    returncode = atoi((u32)DWC_Http_GetResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelHttpResult));
     if (errno == 0x22) {
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 12;

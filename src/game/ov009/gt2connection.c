@@ -14,7 +14,7 @@
  *
  * symbols:
  *   gti2NewSocketConnection  0x02198038 arm
- *   func_02198808  0x02198808  arm  ov009
+ *   gti2MessageCheck  0x02198808  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_02092344  0x02092344  arm
  *   gti2GetChallenge  0x02194B74  arm  ov009
@@ -98,7 +98,7 @@ struct GTI2Socket {
 extern int gti2NewSocketConnection(struct GTI2Socket *socket,
                                    struct GTI2Connection **connection,
                                    unsigned int ip, unsigned short port);
-extern void func_02198808(unsigned char **msg, int *len);
+extern void gti2MessageCheck(unsigned char **msg, int *len);
 extern void *gsimalloc(unsigned long size);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
 extern unsigned char *gti2GetChallenge(unsigned char *buf);
@@ -186,7 +186,7 @@ int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message,
 {
 	char challenge[32];
 
-	func_02198808(&message, &len);
+	gti2MessageCheck(&message, &len);
 	if (len > 0) {
 		c->msg = gsimalloc(len);
 		if (!c->msg)

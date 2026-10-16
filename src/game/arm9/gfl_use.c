@@ -34,7 +34,7 @@
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  *   SAVEDATA_SetFailHook   0x02034704  arm
- *   func_0200FB6C   0x0200FB6C  thumb
+ *   GFL_NET_ERR_ExitAndHalt   0x0200FB6C  thumb
  *   PM_VOICE_GetCryIndex   0x02006C00  thumb
  *   PM_VOICE_PrepareCry   0x02006C2C  thumb
  *   ov010_id        0x0000000A  data
@@ -88,7 +88,7 @@
  *   GF_STANDARD_RandSeed     0x0203F034  arm
  *   GF_STANDARD_CalcHash     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
- *   func_02034F5C       0x02034F5C  arm
+ *   UI_Update       0x02034F5C  arm
  *   KEY_GetCont       0x0203630C  arm
  *   NNS_SndSetMasterVolume  0x02072788  arm
  *   UI_SetResumeAndSuspendHooks    0x0203508C  arm
@@ -336,7 +336,7 @@ extern void PM_VOICE_Init(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
 extern void CONFIG_InitKeyControlTable(void);
 extern void GAME_BEACON_Create(u32 heapId);
 extern void GPOWER_Init(void);
-extern void func_0200FB6C(void);
+extern void GFL_NET_ERR_ExitAndHalt(void);
 extern void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out);
 extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
 extern void BRIGHTNESS_ChangeMain(void);
@@ -399,7 +399,7 @@ extern void  GF_STANDARD_Reset(void);
 extern void FADE_SetSpeed(s32 speed);
 extern void  APP_POWER_ClearCallback(void);
 extern void APP_POWER_SetCallback(u32 on);
-extern void func_02034F5C(void);
+extern void UI_Update(void);
 extern int GFL_NET_ERR_PollNetState(void);
 extern int PROCSYS_MainGlobal(void);
 extern void GF_STANDARD_Setup(void);
@@ -692,7 +692,7 @@ void GFL_USE_InitGameSystems(void)
     MSG_SPEED_SetSaveControl(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
-    SAVEDATA_SetFailHook((u32)&func_0200FB6C);
+    SAVEDATA_SetFailHook((u32)&GFL_NET_ERR_ExitAndHalt);
     WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
@@ -968,7 +968,7 @@ void GFL_USE_InitSystem(void)
 
 void GFL_USE_PollFrameInput(void)
 {
-    func_02034F5C();
+    UI_Update();
     GFL_NET_ERR_PollNetState();
     PROCSYS_MainGlobal();
     GF_STANDARD_Setup();
@@ -1225,7 +1225,7 @@ u32 GFL_USE_GetRandomBelow(u32 range)
  * range and is absorbed here.
  *
  * GFL_USE_WaitInputReady waits until four bits of KEY_GetCont's result are all set,
- * pumping func_02034F5C once per turn.  The four masks are 0x200, 0x100,
+ * pumping UI_Update once per turn.  The four masks are 0x200, 0x100,
  * 0x400 and 0x800 and none of them is materialised with a literal pool word:
  * the compiler builds 0x100 with `movs`/`lsls` and then derives the other
  * three from it with one `lsls` each, hoisted out of the loop.  Testing them
@@ -1245,7 +1245,7 @@ void GFL_USE_WaitInputReady(void)
     u32 keyState;
 
     do {
-        func_02034F5C();
+        UI_Update();
         keyState = KEY_GetCont();
     } while (!(keyState & 0x200) || !(keyState & 0x100) || !(keyState & 0x400) || !(keyState & 0x800));
 }

@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx43.c
  * unit:     yes
- * function: MTX_Identity43_, MTX_Copy43To44_, MTX_Scale43_, MTX_ScaleApply43, MTX_RotY43_, MTX_RotAxis43, func_0207B67C, func_0207B9F0, MTX_MultVec43, MTX_LookAt
+ * function: MTX_Identity43_, MTX_Copy43To44_, MTX_Scale43_, MTX_ScaleApply43, MTX_RotY43_, MTX_RotAxis43, MTX_Inverse43, MTX_Concat43, MTX_MultVec43, MTX_LookAt
  * address:  0x0207B598
  * region:   arm9
  * compiler: dsi/1.1p1

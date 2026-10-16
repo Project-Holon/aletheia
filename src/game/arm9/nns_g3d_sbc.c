@@ -25,7 +25,7 @@
  *   gShpHandlerTable   0x020A82D8  data
  *   gPivotAxisTable     0x020A1974  data
  *   NNS_G3dGeSendDL  0x0206DC00  arm
- *   func_020834A8  0x020834A8  thumb
+ *   MI_Zero36B  0x020834A8  thumb
  *   gBillboardCmd     0x020A8328  data
  *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   G3X_GetClipMtx  0x0207DC98  arm
@@ -33,7 +33,7 @@
  *   NNS_G3dGlbGetInvWVMtx  0x0206ADF4  arm
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
  *   MTX_Copy43To44_  0x0207B5C0  arm
- *   func_0207BE14  0x0207BE14  arm
+ *   MTX_Concat44  0x0207BE14  arm
  *   VEC_Mag  0x0207CBD0  arm
  *   MIi_CpuSend32  0x02082AA8  arm
  *   gBillboardYCmd     0x020A8370  data
@@ -44,9 +44,9 @@
  *   VEC_CrossProduct  0x0207CAE8  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   G3_MultMtx43  0x0207D918  arm
- *   func_0207D934  0x0207D934  arm
+ *   G3_MultMtx33  0x0207D934  arm
  *   G3X_GetVectorMtx  0x0207DCC8  arm
- *   func_0207D8E0  0x0207D8E0  arm
+ *   G3_LoadMtx43  0x0207D8E0  arm
  *   NNS_G3dGeResetGX  0x0206DE88  arm
  */
 #include "nns_g3d_sbc_types.h"
@@ -75,13 +75,13 @@ typedef struct TexImageParamCmd {
 
 extern void MIi_CpuClearFast(u32 value, void *pDst, u32 size);
 extern void func_02082A7C(u32 value, void *pDst, u32 size);
-extern void func_020834A8(void *pDst);
+extern void MI_Zero36B(void *pDst);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 extern void VEC_CrossProduct(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
 extern void G3_MultMtx43(const MtxFx43 *pMtx);
-extern void func_0207D934(const MtxFx33 *pMtx);
+extern void G3_MultMtx33(const MtxFx33 *pMtx);
 extern int  G3X_GetVectorMtx(MtxFx33 *pMtx);
-extern void func_0207D8E0(const void *pMtx);
+extern void G3_LoadMtx43(const void *pMtx);
 extern void NNS_G3dGeResetGX(void *pPosVecMtx, void *pVecMtx);
 void NNSi_G3dSbcRun(NNSG3dRS *pRS);
 void NNSi_G3dRenderObjRunSbc(NNSG3dRS *pRS, NNSG3dRenderObj *pRenderObj);
@@ -754,7 +754,7 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *pRS, u32 opt)
 
                     A = ((const fx16 *)p)[0];
                     B = ((const fx16 *)p)[1];
-                    func_020834A8(&pResult->rot);
+                    MI_Zero36B(&pResult->rot);
                     ((fx32 *)pResult->rot)[idxPivot] = (nd->flag & NNS_G3D_SRTFLAG_PIVOT_MINUS) ? -0x1000 : 0x1000;
                     ((fx32 *)pResult->rot)[gPivotAxisTable[idxPivot][0]] = A;
                     ((fx32 *)pResult->rot)[gPivotAxisTable[idxPivot][1]] = B;
@@ -858,11 +858,11 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *pRS, u32 opt)
             if (NNS_G3dGlb.flag & 1) {
                 MtxFx44 tmp;
                 MTX_Copy43To44_((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
-                func_0207BE14(&m, &tmp, &m);
+                MTX_Concat44(&m, &tmp, &m);
             } else if (NNS_G3dGlb.flag & 2) {
                 MtxFx44 tmp;
                 MTX_Copy43To44_(&NNS_G3dGlb.cameraMtx, &tmp);
-                func_0207BE14(&m, &tmp, &m);
+                MTX_Concat44(&m, &tmp, &m);
             }
             trans->x = m.m[3][0];
             trans->y = m.m[3][1];
@@ -958,11 +958,11 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *pRS, u32 opt)
             if (NNS_G3dGlb.flag & 1) {
                 MtxFx44 tmp;
                 MTX_Copy43To44_((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
-                func_0207BE14(&m, &tmp, &m);
+                MTX_Concat44(&m, &tmp, &m);
             } else if (NNS_G3dGlb.flag & 2) {
                 MtxFx44 tmp;
                 MTX_Copy43To44_(&NNS_G3dGlb.cameraMtx, &tmp);
-                func_0207BE14(&m, &tmp, &m);
+                MTX_Concat44(&m, &tmp, &m);
             }
             trans->x = m.m[3][0];
             trans->y = m.m[3][1];
@@ -1096,7 +1096,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *pRS, u32 opt)
             while (G3X_GetClipMtx(pM))
                 ;
             REG_MTX_MODE = 2;
-            func_0207D934(&evpMtx[idxNode].invN);
+            G3_MultMtx33(&evpMtx[idxNode].invN);
         }
 
         w = p[2] << 4;
@@ -1131,9 +1131,9 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *pRS, u32 opt)
     sumN.m[2][1] += (w * pN->m[2][1]) >> 12;
     sumN.m[2][2] += (w * pN->m[2][2]) >> 12;
 
-    func_0207D8E0(&sumN);
+    G3_LoadMtx43(&sumN);
     REG_MTX_MODE = 1;
-    func_0207D8E0(&sumM);
+    G3_LoadMtx43(&sumM);
 
     REG_MTX_MODE = 0;
     REG_MTX_RESTORE = 1;

@@ -118,7 +118,7 @@ extern u32 func_021C4DE4(struct SoundObj *obj, s32 deltaFrame);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct IssSystem *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
-extern struct Iss3dsSys *func_0202B57C(struct IssSystem *issSystem);
+extern struct Iss3dsSys *ISS_SYS_Get3dsSys(struct IssSystem *issSystem);
 extern int *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveId, u32 member, u32 offset, u32 size);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);

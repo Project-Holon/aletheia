@@ -38,7 +38,7 @@
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GX_LoadBG2Scr  0x0207EB78  arm
- *   func_0207ECF0  0x0207ECF0  arm
+ *   GX_LoadBG3Scr  0x0207ECF0  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   d_021B6A40 0x021B6A40 data a4
  *   d_021B6A90 0x021B6A90 data a4
@@ -91,7 +91,7 @@ extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern void DWCi_ScreenDC_FlushRange(int, int);
 extern void GX_LoadBG2Scr(int, int, int);
-extern void func_0207ECF0(int, int, int);
+extern void GX_LoadBG3Scr(int, int, int);
 extern u32 GFL_HEAP_Free(void *p);
 extern void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c);
 extern void CDEMO_WIPE_StartFadeOutWhite(char *p, u32 a, u32 b, u32 c);
@@ -247,7 +247,7 @@ void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
     if (e == 0) {
         GX_LoadBG2Scr(t, c, d);
     } else {
-        func_0207ECF0(t, c, d);
+        GX_LoadBG3Scr(t, c, d);
     }
     GFL_HEAP_Free((void *)t);
 }

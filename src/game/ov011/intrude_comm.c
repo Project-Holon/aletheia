@@ -38,7 +38,7 @@
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02035390  0x02035390  arm
- *   func_020353B0  0x020353B0  arm
+ *   UI_IsPowerConnected  0x020353B0  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
@@ -112,7 +112,7 @@
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   COMM_PLAYER_SUPPORT_SetModeAndCurrent  0x0202E7C4  thumb
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
- *   func_020127D0  0x020127D0  thumb
+ *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb ov010
  *   FIELD_WFBC_DATA_LOCAL_Sanitize  0x021861F4  thumb ov020
  *   GAME_DATA_TakeUnionInfo  0x02012800  thumb
@@ -347,7 +347,7 @@ extern void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(void *returnSlots, int 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern u32   func_02035390(void);
-extern int func_020353B0(void);
+extern int UI_IsPowerConnected(void);
 extern int   GFL_NET_SYSTEM_GetConnectNum(void);
 extern void GFL_NET_SetLoginOption(u8 loginOption);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
@@ -420,7 +420,7 @@ int COMM_PLAYER_SUPPORT_GetMode(int a);
 extern struct MemberRecord *GAME_DATA_GetPlayerStatusById(void *saveData, u32 index);
 void COMM_PLAYER_SUPPORT_SetModeAndCurrent(int a, int b, int c);
 void GAME_COMM_PushPairMessage(u32 a, u32 b, u32 c);
-u8 *func_020127D0(u8 *o, u32 idx);
+u8 *GAME_DATA_GetUnionInfo(u8 *o, u32 idx);
 extern int GAME_DATA_GetMyStatusByNetId(void *saveData, int index);
 void FIELD_WFBC_DATA_LOCAL_Sanitize(u16 *p, int x);
 void GAME_DATA_TakeUnionInfo(u8 *obj, void *dst);
@@ -874,7 +874,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
         GAME_COMM_RequestExitNoCallback(work->gameComm);
         return;
     }
-    if (func_02035390() == 1 && func_020353B0() == 1 && work->lock == 0) {
+    if (func_02035390() == 1 && UI_IsPowerConnected() == 1 && work->lock == 0) {
         GAME_COMM_RequestExitNoCallback(work->gameComm);
         return;
     }
@@ -2350,7 +2350,7 @@ void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys 
     struct GameData *gameData;
     int unionInfo;
     gameData = GAME_COMM_GetGameData(work->gameComm);
-    unionInfo = (int)func_020127D0((u8 *)gameData, 0);
+    unionInfo = (int)GAME_DATA_GetUnionInfo((u8 *)gameData, 0);
     FIELD_WFBC_DATA_LOCAL_Sanitize(info, GAME_DATA_GetMyStatusByNetId((void *)gameData, netId));
     MI_CpuCopy8(info, (void *)unionInfo, 0x1E8);
     GAME_DATA_TakeUnionInfo((u8 *)gameData, info);

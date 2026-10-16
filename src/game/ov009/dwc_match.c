@@ -272,11 +272,11 @@
  *   @24369         0x021A2188  data
  *   ServerBrowserCount  0x0219F068  arm  ov009
  *   ServerBrowserRemoveServer  0x0219EFA8  arm  ov009
- *   func_0219E084  0x0219E084  arm  ov009
+ *   SBServerAddIntKeyValue  0x0219E084  arm  ov009
  *   ServerBrowserSortA  0x0219F078  arm  ov009
  *   g_021A19C0     0x021A19C0 data
  *   g_021A21BC     0x021A21BC data
- *   func_0219B628  0x0219B628 arm   ov009
+ *   qr2_buffer_add_int  0x0219B628 arm   ov009
  *   func_0219B660  0x0219B660 arm   ov009
  *   qr2_keybuffer_add  0x0219B5EC  arm  ov009
  *   func_0216FC34  0x0216FC34  arm  ov009
@@ -546,9 +546,9 @@ extern unsigned char DWCi_NodeInfoList_GetFreeAID(void);
 extern void DWCi_RandomizeServers(void);
 void DWCi_ConnectToGameServerAsync_InterChange(void);
 extern int DWCi_CancelReservation(int pid);
-extern void func_0219E084(void *server, char *keyname, int value);
+extern void SBServerAddIntKeyValue(void *server, char *keyname, int value);
 extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
-extern int func_0219B628(void *outbuf, int value);
+extern int qr2_buffer_add_int(void *outbuf, int value);
 extern int func_0219B660(void *outbuf, char *value);
 extern int qr2_keybuffer_add(char *p, int v);
 extern int func_0216FC34(int type, int cookie, void *param);
@@ -5165,14 +5165,14 @@ static int DWCi_EvaluateServers(int sort)
             if (eval > 0) {
                 if (eval > 0x7fffff)
                     eval = 0x7fffff;
-                func_0219E084(server, g_021A21BC, (eval << 8) | DWCi_GetMathRand32(0x100));
+                SBServerAddIntKeyValue(server, g_021A21BC, (eval << 8) | DWCi_GetMathRand32(0x100));
             } else {
                 ServerBrowserRemoveServer(DWCi_GetMatchCnt()->sbObj, server);
                 deleteFlag = 1;
                 i--;
             }
         } else {
-            func_0219E084(server, g_021A21BC, DWCi_GetMathRand32(0x80));
+            SBServerAddIntKeyValue(server, g_021A21BC, DWCi_GetMathRand32(0x80));
         }
     }
     if (sort && ServerBrowserCount(DWCi_GetMatchCnt()->sbObj))
@@ -5222,7 +5222,7 @@ void DWCi_RandomizeServers(void)
     if (maxEval < 0x7fffffff)
         maxEval++;
     server = ServerBrowserGetServer(DWCi_GetMatchCnt()->sbObj, i);
-    func_0219E084(server, g_021A21BC, maxEval);
+    SBServerAddIntKeyValue(server, g_021A21BC, maxEval);
     ServerBrowserSortA(DWCi_GetMatchCnt()->sbObj, 0, g_021A21BC, 0);
 }
 
@@ -5241,35 +5241,35 @@ void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf)
         numPlayers = DWCi_NodeInfoList_GetCount() - 1;
         if (numPlayers < 0)
             numPlayers = 0;
-        func_0219B628(outbuf, numPlayers);
+        qr2_buffer_add_int(outbuf, numPlayers);
         return;
     case 10:
-        func_0219B628(outbuf, DWCi_GetMatchCnt()->qr2NumEntry);
+        qr2_buffer_add_int(outbuf, DWCi_GetMatchCnt()->qr2NumEntry);
         return;
     case 50:
-        func_0219B628(outbuf, DWCi_GetMatchCnt()->profileID);
+        qr2_buffer_add_int(outbuf, DWCi_GetMatchCnt()->profileID);
         return;
     case 51:
-        func_0219B628(outbuf, DWCi_GetMatchCnt()->qr2MatchTypeExt);
+        qr2_buffer_add_int(outbuf, DWCi_GetMatchCnt()->qr2MatchTypeExt);
         return;
     case 52:
-        func_0219B628(outbuf, 90);
+        qr2_buffer_add_int(outbuf, 90);
         return;
     case 53:
-        func_0219B628(outbuf, 1);
+        qr2_buffer_add_int(outbuf, 1);
         return;
     case 54:
         if (DWCi_GetHostStatus() == 2)
             suspendMatch = DWCi_GetMatchCnt()->groupID;
         else
             suspendMatch = 0;
-        func_0219B628(outbuf, suspendMatch);
+        qr2_buffer_add_int(outbuf, suspendMatch);
         return;
     case 55:
-        func_0219B628(outbuf, DWCi_GetMatchCnt()->qr2HostState);
+        qr2_buffer_add_int(outbuf, DWCi_GetMatchCnt()->qr2HostState);
         return;
     case 56:
-        func_0219B628(outbuf, DWCi_GetMatchCnt()->suspendMatch);
+        qr2_buffer_add_int(outbuf, DWCi_GetMatchCnt()->suspendMatch);
         return;
     }
     index = keyid - 100;
@@ -5280,7 +5280,7 @@ void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf)
     if (g_021AAA40[index].isStr != 0)
         func_0219B660(outbuf, (char *)g_021AAA40[index].value);
     else
-        func_0219B628(outbuf, *(int *)g_021AAA40[index].value);
+        qr2_buffer_add_int(outbuf, *(int *)g_021AAA40[index].value);
 }
 
 

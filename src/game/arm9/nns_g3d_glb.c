@@ -28,15 +28,15 @@
  *   MTX_Identity44_  0x0207BDB4  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   NNS_G3dGeBufferOP_N    0x0206DDA4  arm
- *   func_0207B0A4    0x0207B0A4  arm
- *   func_0207B67C  0x0207B67C  arm
+ *   MTX_Inverse33    0x0207B0A4  arm
+ *   MTX_Inverse43  0x0207B67C  arm
  *   MI_Copy64B        0x02082BA0  arm
  *   MTX_Identity44_   0x0207BDB4  arm
  *   FX_InvFx64c       0x0207C788  arm
- *   func_0207B9F0  0x0207B9F0  arm
+ *   MTX_Concat43  0x0207B9F0  arm
  *   MTX_ScaleApply43  0x0207B60C  arm
  *   MTX_Copy43To44_  0x0207B5C0  arm
- *   func_0207BE14  0x0207BE14  arm
+ *   MTX_Concat44  0x0207BE14  arm
  */
 #include "nns_g3d_glb_types.h"
 
@@ -47,14 +47,14 @@ extern void MTX_Identity43_(MtxFx43 *);
 extern void MTX_Identity44_(MtxFx44 *);
 extern void MTX_Identity33_(MtxFx33 *);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 nParams);
-extern void func_0207B0A4(const MtxFx33 *src, MtxFx33 *dst);
-extern void func_0207B67C(const MtxFx43 *src, MtxFx43 *dst);
+extern void MTX_Inverse33(const MtxFx33 *src, MtxFx33 *dst);
+extern void MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst);
 extern void MI_Copy64B(const void *src, void *dst);
 extern fx64c FX_InvFx64c(fx32 v);
-extern void func_0207B9F0(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
+extern void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
 extern void MTX_ScaleApply43(const MtxFx43 *src, MtxFx43 *dst, fx32 x, fx32 y, fx32 z);
 extern void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
-extern void func_0207BE14(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
+extern void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
 void NNS_G3dGlbInit(void);
 void NNS_G3dGlbFlush(void);
 void NNS_G3dGlbFlushP(void);
@@ -196,7 +196,7 @@ void NNS_G3dGlbFlushWVP(void)
     NNS_G3dGeBufferOP_N(0x1b19, &NNS_G3dGlb.prmBaseRot, 0xF);
     w[0] = 2;
     NNS_G3dGeBufferOP_N(0x10, &w[0], 1);
-    func_0207B0A4(&NNS_G3dGlb.prmBaseRot, (MtxFx33 *)&w[1]);
+    MTX_Inverse33(&NNS_G3dGlb.prmBaseRot, (MtxFx33 *)&w[1]);
     NNS_G3dGeBufferOP_N(0x17, &w[1], 0xC);
     NNS_G3dGeBufferOP_N(NNS_G3dGlb.cmd1, (char *)&NNS_G3dGlb.cmd1 + 4, 0xE);
     NNS_G3dGeBufferOP_N(0x15, 0, 0);
@@ -280,7 +280,7 @@ void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 isShininess)
 MtxFx43 *NNS_G3dGlbGetInvCameraMtx(void)
 {
     if ((NNS_G3dGlb.flag & NNS_G3D_GLB_FLAG_INV_CAMERA_VALID) == 0) {
-        func_0207B67C(&NNS_G3dGlb.cameraMtx, &NNS_G3dGlb.invCameraMtx);
+        MTX_Inverse43(&NNS_G3dGlb.cameraMtx, &NNS_G3dGlb.invCameraMtx);
         NNS_G3dGlb.flag |= NNS_G3D_GLB_FLAG_INV_CAMERA_VALID;
     }
     return &NNS_G3dGlb.invCameraMtx;
@@ -381,10 +381,10 @@ MtxFx44 *NNS_G3dGlbGetInvProjectionMtx(void)
  */
 void NNSi_G3dGlbUpdateWV(void)
 {
-    func_0207B9F0((const MtxFx43 *)&NNS_G3dGlb.prmBaseRot, &NNS_G3dGlb.cameraMtx, &NNS_G3dGlb.wvMtx);
+    MTX_Concat43((const MtxFx43 *)&NNS_G3dGlb.prmBaseRot, &NNS_G3dGlb.cameraMtx, &NNS_G3dGlb.wvMtx);
     MTX_ScaleApply43(&NNS_G3dGlb.wvMtx, &NNS_G3dGlb.wvMtx, NNS_G3dGlb.prmBaseScale.x,
                   NNS_G3dGlb.prmBaseScale.y, NNS_G3dGlb.prmBaseScale.z);
-    func_0207B67C(&NNS_G3dGlb.wvMtx, &NNS_G3dGlb.invWvMtx);
+    MTX_Inverse43(&NNS_G3dGlb.wvMtx, &NNS_G3dGlb.invWvMtx);
 }
 
 /*
@@ -427,7 +427,7 @@ MtxFx44 *NNS_G3dGlbGetInvVPMtx(void)
         invCamera = NNS_G3dGlbGetInvCameraMtx();
         invProj = NNS_G3dGlbGetInvProjectionMtx();
         MTX_Copy43To44_(invCamera, &cameraMtx44);
-        func_0207BE14(invProj, &cameraMtx44, &NNS_G3dGlb.invVpMtx);
+        MTX_Concat44(invProj, &cameraMtx44, &NNS_G3dGlb.invVpMtx);
         NNS_G3dGlb.flag |= NNS_G3D_GLB_FLAG_INV_VP_VALID;
     }
     return &NNS_G3dGlb.invVpMtx;

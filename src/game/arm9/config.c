@@ -16,7 +16,7 @@
  *   GFL_HEAP_Alloc      0x02030734  arm
  *   g_save_block_table      0x0209DD64  data
  *   config_file_name      0x020A70A0  data
- *   func_020461D4  0x020461D4  arm
+ *   MSGDATA_SetLanguage  0x020461D4  arm
  *   MI_CpuCopy8         0x02082D44  arm
  *   MI_CpuFill8   0x02082BCC  arm
  *   KEY_SetControlModeTable  0x020362A4  arm
@@ -32,7 +32,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void KEY_SetControlModeTable(const void *arg);
 
-extern u8 func_020461D4(u32 flag);
+extern u8 MSGDATA_SetLanguage(u32 flag);
 
 extern char g_save_block_table[];
 
@@ -115,18 +115,18 @@ int CONFIG_GetAppliedFlag(const struct Config *config)
 }
 
 /* Sets applied_flag from the low bit of value, then passes the stored flag to
- * func_020461D4. */
+ * MSGDATA_SetLanguage. */
 void CONFIG_SetAppliedFlag(struct Config *config, unsigned int value)
 {
     config->applied_flag = (u16)value;
 
-    func_020461D4((u8)config->applied_flag);
+    MSGDATA_SetLanguage((u8)config->applied_flag);
 }
 
-/* Calls func_020461D4 with applied_flag as it stands. */
+/* Calls MSGDATA_SetLanguage with applied_flag as it stands. */
 u8 CONFIG_ApplyAppliedFlag(const struct Config *config)
 {
-    return func_020461D4((u8)config->applied_flag);
+    return MSGDATA_SetLanguage((u8)config->applied_flag);
 }
 
 int CONFIG_GetButtonMode(const struct Config *config)

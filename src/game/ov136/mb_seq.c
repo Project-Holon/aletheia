@@ -150,7 +150,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
- *   func_02009050 0x02009050 thumb
+ *   MAIL_CreateSlotCopy 0x02009050 thumb
  *   func_02008EF8 0x02008EF8 thumb
  *   BGWINFRM_HideFrame 0x0202CC70 thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
@@ -244,7 +244,7 @@
  *   MB_SEQ_SetActorObjMode 0x021C670C thumb ov136
  *   MB_SEQ_LoadSelectedMailGraphics 0x021C5D68 thumb
  *   MB_SEQ_DrawMailDetail 0x021C6374 thumb
- *   func_0200902C 0x0200902C thumb
+ *   MAIL_ClearSlot 0x0200902C thumb
  *   ov091_id 0x0000005B data
  *   gPartyListProcData 0x021BED00 data ov091 a4
  *   FILE_UTIL_GetItemSlot  0x0202138C  thumb
@@ -1141,7 +1141,7 @@ void MB_SEQ_CloseMenu(struct MailBoxProc *p)
     APP_TASKMENU_CloseMenu(p->view->taskMenu);
 }
 
-extern struct Mail *func_02009050(struct MailData *mailData, u32 unused, int index, u32 heapId);
+extern struct Mail *MAIL_CreateSlotCopy(struct MailData *mailData, u32 unused, int index, u32 heapId);
 
 extern int func_02008EF8(const struct Mail *mail);
 
@@ -1316,7 +1316,7 @@ void MB_SEQ_CollectMails(struct MailBoxProc *p)
     p->view->mailCount=0;
     for(i=0;i<20;i++) {
         p->view->listIndex[i]=255;
-        p->view->mails[i]=func_02009050(p->mailData,0,i,102);
+        p->view->mails[i]=MAIL_CreateSlotCopy(p->mailData,0,i,102);
         if(func_02008EF8(p->view->mails[i])==1) {
             p->view->listIndex[p->view->mailCount]=i;
             ++p->view->mailCount;
@@ -1923,7 +1923,7 @@ extern void *GAME_DATA_GetMyItem(struct GameData *gameData);
 
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 
-extern void func_0200902C(struct MailData *mailData, u32 unused, int index);
+extern void MAIL_ClearSlot(struct MailData *mailData, u32 unused, int index);
 
 extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 
@@ -2632,7 +2632,7 @@ void MB_SEQ_CheckBagForItem(struct MailBoxProc *p)
 
 void MB_SEQ_DeleteSelectedMail(struct MailBoxProc *p)
 {
-    func_0200902C(p->mailData, 0, p->selectedMail);
+    MAIL_ClearSlot(p->mailData, 0, p->selectedMail);
 }
 
 void MB_SEQ_CreatePartyListArgs(struct MailBoxProc *p, int mode, u16 itemId, u16 mailSlot)

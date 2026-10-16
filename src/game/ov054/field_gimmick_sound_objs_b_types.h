@@ -71,7 +71,7 @@ extern void ISS_3DS_SYS_SetCamera(struct Iss3dsSys *iss3ds, VecFx32 *eye, VecFx3
 extern u32 func_021C4DE4(struct SoundObj *obj, s32 deltaFrame);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct IssSystem *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
-extern struct Iss3dsSys *func_0202B57C(struct IssSystem *issSystem);
+extern struct Iss3dsSys *ISS_SYS_Get3dsSys(struct IssSystem *issSystem);
 extern int *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
 extern struct SoundObj *func_021C4D14(struct FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 radius, u32 amplitude);

@@ -37,7 +37,7 @@
  *   MTX_Scale33_      0x0207AE24  thumb
  *   MTX_Concat33      0x0207B388  arm
  *   FX_SinCosTable_   0x020A1B38  data
- *   func_0207D934  0x0207D934  arm
+ *   G3_MultMtx33  0x0207D934  arm
  *   func_02047388  0x02047388  arm
  *   func_020473B8  0x020473B8  arm
  */
@@ -100,7 +100,7 @@ void MTX_Identity33_(MtxFx33 *pDst);
 void MTX_RotZ33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
 void MTX_Scale33_(MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
 void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
-extern void func_0207D934(const void *m);
+extern void G3_MultMtx33(const void *m);
 u32 func_02047388(struct G3dResource *resource);
 u32 func_020473B8(struct G3dResource *resource);
 Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);
@@ -341,7 +341,7 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
 
 /*
  * Draws one textured quad through the geometry engine registers
- * (MTX_MODE 0x04000440 .. END_VTXS 0x04000504); func_0207D934 is the
+ * (MTX_MODE 0x04000440 .. END_VTXS 0x04000504); G3_MultMtx33 is the
  * 3x3 matrix multiply (command 0x1A). The parameter must be const: without
  * it every geom load is repeated after each volatile register store (340 B).
  */
@@ -349,7 +349,7 @@ void FIELD_3DBG_DrawQuad(const Field3dbgQuadGeometry *geom)
 {
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;
-    func_0207D934(&geom->rotation);
+    G3_MultMtx33(&geom->rotation);
     REG_MTX_MODE = 2;
     REG_MTX_SCALE = geom->scale;
     REG_MTX_SCALE = geom->scale;

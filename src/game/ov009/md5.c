@@ -1,7 +1,7 @@
 /*
  * file:     md5.c
  * unit:     yes
- * function: char_from_long, long_from_char, CPSi_md5_block, func_021633F0, func_02163438, func_021634F0
+ * function: char_from_long, long_from_char, CPSi_md5_block, CPSi_md5_init, CPSi_md5_calc, CPSi_md5_result
  * address:  0x02162FC0
  * region:   ov009
  * compiler: dsi/1.1p1

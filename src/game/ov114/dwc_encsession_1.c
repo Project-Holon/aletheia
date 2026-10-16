@@ -19,7 +19,7 @@
  *   strncpy  0x02094860  arm
  *   DWC_Alloc  0x0205A16C  arm
  *   DWC_Free  0x0205A1B0  arm
- *   func_020816B8  0x020816B8  arm
+ *   MATH_CalcSHA1  0x020816B8  arm
  *   strncmp  0x020949F4  arm
  *   B64Encode  0x0217FA90  arm  ov009
  *   @16077  0x021CE1B8  data
@@ -34,7 +34,7 @@ extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern void *DWC_Alloc(int name, u32 size);
 extern void DWC_Free(int name, void *ptr, u32 size);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
-extern void func_020816B8(void *digest, void *data, u32 len);
+extern void MATH_CalcSHA1(void *digest, void *data, u32 len);
 
 unsigned long b64size(unsigned long len);
 void my_randinit(u32 seed);
@@ -152,7 +152,7 @@ int DWCi_EncSessionValidateResponse(char *response, int responseLen)
         u8 *d = scratch + 20 + b64size(responseLen - 40u);
         memcpy(d, gDwcEncSession.secretKey, 20);
     }
-    func_020816B8(hash, scratch, b64size(responseLen - 40u) + 40);
+    MATH_CalcSHA1(hash, scratch, b64size(responseLen - 40u) + 40);
     DWC_Free(8, scratch, 0);
     for (i = 0; i < 20; i++) {
         hashHex[i * 2] = hexDigits[hash[i] >> 4];

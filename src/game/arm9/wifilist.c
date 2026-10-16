@@ -134,7 +134,7 @@ extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct WifiHistory *history)
 extern u8 func_0200856C(const struct MyStatus *status);
 extern u32 WIFI_HISTORY_IsCountryVisited(const struct WifiHistory *history, u32 country);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void func_02009800(struct WifiList *list);
+extern void WIFILIST_Init(struct WifiList *list);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dst, int val, unsigned n);
 extern void GF_OVERLAY_Unload(int handle);
@@ -670,7 +670,7 @@ u32 WIFILIST_GetWorkSize(void)
 struct WifiList *WIFILIST_Create(int heapId)
 {
     struct WifiList *list = GFL_HEAP_Alloc((unsigned short)heapId, sizeof(struct WifiList), 1, sWifilistFile, 0x39);
-    func_02009800(list);
+    WIFILIST_Init(list);
     return list;
 }
 
@@ -1056,7 +1056,7 @@ void WIFILIST_AddFriendBattleRecord(struct WifiList *list, int slot, int wins, i
  * The cut between this range and src/matched/unit_02009CB0.c is what makes
  * both halves EXACT.  DWC_CreateExchangeToken is reached from exactly two
  * places in the image, the pool word of WIFILIST_CreateExchangeToken at 0x02009CAC and the
- * `blx` inside sub_02009CB0 at 0x02009CB8, and a range holding both leaves the
+ * `blx` inside WIFILIST_MakeExchangeToken at 0x02009CB8, and a range holding both leaves the
  * address with no witness at all.  Split, the `blx` attests this file's pool
  * word and the pool word attests that file's `blx`.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
@@ -1129,7 +1129,7 @@ int WIFILIST_GetGsProfileId(struct WifiList *list)
  * NEAR MISS, 0x02009CB0 and 0x02009CC0, 50 bytes, skipped for attestation and
  * not for codegen.  They are
  *
- *   void sub_02009CB0(struct WifiList *obj, void *out)
+ *   void WIFILIST_MakeExchangeToken(struct WifiList *obj, void *out)
  *   {
  *       DWC_CreateExchangeToken(WIFILIST_GetWork(obj), out);
  *   }
@@ -1139,17 +1139,17 @@ int WIFILIST_GetGsProfileId(struct WifiList *list)
  *       u8 token[0xC];
  *       void *account = WIFILIST_GetWork(obj);
  *
- *       sub_02009CB0(obj, token);
+ *       WIFILIST_MakeExchangeToken(obj, token);
  *       DWC_GetGsProfileId(account, token);
  *   }
  *
  * and with WIFILIST_MergeFriendRecord they reproduce every concrete byte.  The chain that
  * blocks them is two links long.  DWC_CreateExchangeToken is reached from
  * exactly two places in the image: the pool word of WIFILIST_CreateExchangeToken at 0x02009CAC
- * and the `blx` in sub_02009CB0 at 0x02009CB8.  Whichever of the two is in the
+ * and the `blx` in WIFILIST_MakeExchangeToken at 0x02009CB8.  Whichever of the two is in the
  * range, the other is its witness, so exactly one of them can be matched, and
  * src/matched/unit_02009C24.c takes WIFILIST_CreateExchangeToken because that choice is what
- * lets its own pool word be attested by the `blx`.  sub_02009CB0 is then
+ * lets its own pool word be attested by the `blx`.  WIFILIST_MakeExchangeToken is then
  * unmatched, and the only branch to *it* anywhere in the image is the one in
  * sub_02009CC0, so sub_02009CC0 cannot be matched either.  Both close the day
  * anything else in the image calls either address.

@@ -1,7 +1,7 @@
 /*
  * file:     socl_resolve.c
  * unit:     yes
- * function: SOCL_Resolve, SOCL_InetAtoH, SOCL_SetResolver, func_0215EF48
+ * function: SOCL_Resolve, SOCL_InetAtoH, SOCL_SetResolver, SOCL_GetHostID
  * address:  0x0215EDD0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -21,7 +21,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gCpsDnsIp     0x021A82DC  data
- *   func_0215EF48  0x0215EF48  arm  ov009
+ *   SOCL_GetHostID  0x0215EF48  arm  ov009
  *   gCpsDhcpMode     0x021A8278  data
  *   CPSMyIp            0x021a82bc data
  *   SOCLiDhcpState     0x021aa448 data
@@ -47,7 +47,7 @@ extern unsigned long CPS_Resolve(char *name);
 extern void CPS_SocUnRegister(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned long func_0215EF48(void);
+extern unsigned long SOCL_GetHostID(void);
 extern int OS_GetProcMode(void);
 extern void OS_Sleep(unsigned long msec);
 unsigned long SOCL_Resolve(char *hostname);
@@ -116,7 +116,7 @@ unsigned long SOCL_InetAtoH(char *hostname)
  */
 int SOCL_SetResolver(unsigned long dns1, unsigned long dns2)
 {
-    if (func_0215EF48() == 0)
+    if (SOCL_GetHostID() == 0)
         return -0x27;
     gCpsDnsIp[0] = dns1;
     if (dns1 == 0) {

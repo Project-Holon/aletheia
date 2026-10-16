@@ -1,7 +1,7 @@
 /*
  * file:     snd_bank.c
  * unit:     yes
- * function: SND_AssignWaveArc, SND_DestroyBank, SND_DestroyWaveArc, SND_GetFirstInstDataPos, func_0208A48C, SNDi_GetBankWaveArcTable, SND_SetWaveDataAddress, SND_GetWaveDataAddress
+ * function: SND_AssignWaveArc, SND_DestroyBank, SND_DestroyWaveArc, SND_GetFirstInstDataPos, SND_GetNextInstData, SNDi_GetBankWaveArcTable, SND_SetWaveDataAddress, SND_GetWaveDataAddress
  * address:  0x0208A2BC
  * region:   arm9
  * compiler: dsi/1.1p1

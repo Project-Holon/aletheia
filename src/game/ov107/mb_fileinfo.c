@@ -1,7 +1,7 @@
 /*
  * file:     mb_fileinfo.c
  * unit:     yes
- * function: MB_GetSegmentLength, func_021F2FA0, MBi_ReadSegmentHeader, MB_RegisterFile, MBi_MakeDownloadFileInfo, func_021F3830, func_021F398C, func_021F3A58, MBi_IsAbleToRecv, IsAbleToLoad
+ * function: MB_GetSegmentLength, MB_ReadSegment, MBi_ReadSegmentHeader, MB_RegisterFile, MBi_MakeDownloadFileInfo, func_021F3830, func_021F398C, func_021F3A58, MBi_IsAbleToRecv, IsAbleToLoad
  * address:  0x021F2F1C
  * region:   ov107
  * compiler: dsi/1.1p1

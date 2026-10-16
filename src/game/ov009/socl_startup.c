@@ -16,7 +16,7 @@
  *   SOCLi_InitResource  0x0215F0D4  arm  ov009
  *   SOCLi_CleanupCPS  0x0215EC90  arm  ov009
  *   SOCLi_StartupCommandPacketQueue  0x0215CD3C  arm  ov009
- *   func_0215D070  0x0215D070  arm  ov009
+ *   SOCL_CreateSocket  0x0215D070  arm  ov009
  *   WCM_GetApMacAddress  0x02166384  arm  ov009
  *   gSoclStartupSdkRef  0x020050C4  data
  *   gSoclUdpSendSocketParam  0x021A1D14  data
@@ -121,7 +121,7 @@ extern void OSi_ReferSymbol(const void *symbol);
 extern void SOCLi_InitResource(void);
 extern void SOCLi_CleanupCPS(void);
 extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
-extern void *func_0215D070(void *param);
+extern void *SOCL_CreateSocket(void *param);
 extern unsigned char *WCM_GetApMacAddress(void);
 extern char gSoclStartupSdkRef[42];
 extern int gSoclUdpSendSocketParam;
@@ -167,7 +167,7 @@ int SOCLi_StartupSOCL(void)
 
 	r = SOCLi_StartupCommandPacketQueue(SOCLiConfigPtr->cmd_packet_max);
 	if (r >= 0) {
-		SOCLiUDPSendSocket = func_0215D070(&gSoclUdpSendSocketParam);
+		SOCLiUDPSendSocket = SOCL_CreateSocket(&gSoclUdpSendSocketParam);
 	}
 	return r;
 }

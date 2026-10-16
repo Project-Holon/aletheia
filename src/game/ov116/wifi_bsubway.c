@@ -20,7 +20,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveBlock3B 0x02012EFC thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
- *   func_02008B08 0x02008B08 thumb
+ *   CONSOLE_STAMP_GetFromSave 0x02008B08 thumb
  *   WIFI_BSUBWAY_GRAPHIC_StartSaveProc 0x021D737C thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_GetSaveState 0x021D73D4 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_CreateWindow 0x021D7B70 thumb ov116
@@ -179,7 +179,7 @@ extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern struct Sub02008AECObj *func_02008B08(void *sys);
+extern struct Sub02008AECObj *CONSOLE_STAMP_GetFromSave(void *sys);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
@@ -337,7 +337,7 @@ int WIFI_BSUBWAY_Create(void *task,int unused,u8 *parent) {
     saveControl=ICA_ANIME_GetField1C(*(void **)(*(u8 **)work+4));
     parent=GAME_DATA_GetSaveControl(saveControl);
     *(void **)(work+0x1844)=saveControl;
-    *(int *)(work+0x1848)=(int)func_02008B08(parent);
+    *(int *)(work+0x1848)=(int)CONSOLE_STAMP_GetFromSave(parent);
     *(int *)(work+0x184c)=GAME_DATA_GetField1A0(saveControl);
     *(int *)(work+0x1850)=(int)GAME_DATA_GetMyStatus(saveControl);
     *(int *)(work+0x1854)=(int)GAME_DATA_GetSaveBlock3B(saveControl);

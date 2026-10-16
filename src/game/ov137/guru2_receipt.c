@@ -904,11 +904,11 @@ void GURU2_RECEIPT_ExitBg(u32 a0) {BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5)
  * single-function C below is EXACT (52 bytes) at fixed flags, blocker49624.log.
  * typedef unsigned short u16; typedef unsigned int u32;
  * extern u32 ARC_UTIL_LoadMember(void *,void *,u32,u16);
- * extern u32 func_0204968C(u32,void *,void *,u32,u32);
+ * extern u32 ARC_UTIL_UploadBgChar(u32,void *,void *,u32,u32);
  * u32 func_02049624(void *a,void *b,void *c,void *d,u32 e,u32 f,u16 g) {
- *     u32 r=ARC_UTIL_LoadMember(a,b,f,g); return func_0204968C(r,c,d,e,f);
+ *     u32 r=ARC_UTIL_LoadMember(a,b,f,g); return ARC_UTIL_UploadBgChar(r,c,d,e,f);
  * }
- * Blocker symbols: ARC_UTIL_LoadMember 0x0204A1BC arm; func_0204968C 0x0204968C arm.
+ * Blocker symbols: ARC_UTIL_LoadMember 0x0204A1BC arm; ARC_UTIL_UploadBgChar 0x0204968C arm.
  * func_02049B68 0x02049B68 arm
  * ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  * ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm

@@ -90,7 +90,7 @@
  *   func_02008A7C  0x02008A7C  thumb
  *   BEACON_CountFlags  0x0200C258  thumb
  *   func_020071EC  0x020071EC  thumb
- *   func_020071E4  0x020071E4  thumb
+ *   SAVE_CONTROL_IsNewGame  0x020071E4  thumb
  *   func_0200723C  0x0200723C  thumb
  *   GAME_DATA_SetWarpId  0x02012900  thumb
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
@@ -121,7 +121,7 @@
  *   BEACON_SetSlotState   0x0200C2F0  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
- *   func_0200ECB4  0x0200ECB4  thumb
+ *   MISC_SAVEDATA_GetRingIndex  0x0200ECB4  thumb
  *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
  *   GAME_DATA_GetField158  0x02012844  thumb
  *   EVENTDATA_SYSTEM_SetBgEventGridPos  0x02162A74  thumb  ov010
@@ -315,13 +315,13 @@ extern int CONFIG_GetButtonMode(struct Config *config);
 extern u8 func_02008550(const struct PlayerStatus *status);
 extern u8 func_02008554(const struct PlayerStatus *status);
 extern unsigned char func_020071EC(const struct SaveControl *saveControl);
-extern u8 func_020071E4(const struct SaveControl *saveControl);
+extern u8 SAVE_CONTROL_IsNewGame(const struct SaveControl *saveControl);
 extern void func_0200723C(struct SaveControl *saveControl, unsigned *used, unsigned *total);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u8 heapId);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 index);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
 extern void func_02007A68(struct BoxManager *boxManager, u32 bits);
-extern u32 func_0200ECB4(void *extraSave);
+extern u32 MISC_SAVEDATA_GetRingIndex(void *extraSave);
 extern struct RecordSave *func_020089C0(struct SaveControl *saveControl);
 extern u8 func_020089F4(const struct RecordSave *record);
 extern struct RecordSave *func_02008A00(struct RecordSave *record);
@@ -949,7 +949,7 @@ int SCRCMD_WORK_CmdGetSaveStatus(struct ScriptVm *vm, ScrcmdWork *work)
     total = 0;
     used = 0;
     *retFirst = func_020071EC(saveControl);
-    *retSecond = func_020071E4(saveControl);
+    *retSecond = SAVE_CONTROL_IsNewGame(saveControl);
     func_0200723C(saveControl, &used, &total);
     if (used * 3 < total) {
         *retThird = 0;
@@ -1215,7 +1215,7 @@ int SCRCMD_WORK_CmdCheckExtraSaveData(struct ScriptVm *vm, ScrcmdWork *work)
             break;
         case 1:
         case 2:
-            if (func_0200ECB4(SAVE_CONTROL_GetExtraSaveRecord(saveControl, 8, 0)) == 0) {
+            if (MISC_SAVEDATA_GetRingIndex(SAVE_CONTROL_GetExtraSaveRecord(saveControl, 8, 0)) == 0) {
                 *ret = 0;
             } else {
                 *ret = 1;

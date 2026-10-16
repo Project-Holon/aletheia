@@ -93,9 +93,9 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   gSummaryBgTable 0x021E7DD0 data a4
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_02042FB0 0x02042FB0 arm
+ *   BG_SYS_SetupTileScreen 0x02042FB0 arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_0200785C 0x0200785C thumb
+ *   BOX_SAVEDATA_GetBoxName 0x0200785C thumb
  *   BMP_WIN_SetPosY 0x02045788 arm
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -382,9 +382,9 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_02042FB0(u32 idx, u32 x, u32 y, u16 value);
+extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern void func_0200785C(void *,u32,void *);
+extern void BOX_SAVEDATA_GetBoxName(void *,u32,void *);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
 extern int CLACT_RegisterPaletteCompressed(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, u16 a4);
@@ -880,7 +880,7 @@ void POKETRADE_2D_DrawBoxGridScreen(char *p)
     for (y = 0; y < 24; y++) {
         for (x = 0; x < 52; x++) {
             mode = POKETRADE_2D_HitTestBoxGrid(p, x, y);
-            func_02042FB0(7, x, y, POKETRADE_2D_GetBoxScreenEntry(n + x, y, p, mode));
+            BG_SYS_SetupTileScreen(7, x, y, POKETRADE_2D_GetBoxScreenEntry(n + x, y, p, mode));
         }
     }
     ((TradeWork *)p)->scrollSub = ((TradeWork *)p)->scrollX % 8;
@@ -967,7 +967,7 @@ void POKETRADE_2D_CreateBoxWindows(char *p)
                 *(u32 *)(q+off1) = BMP_WIN_Create(5,0,0,15,2,14,0);
             if (i == *(int *)(p+off))
                 func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank),16,*(void **)(p+off2));
-            else func_0200785C((*(void * *)&((TradeWork *)p)->boxManager),i,*(void **)(p+off3));
+            else BOX_SAVEDATA_GetBoxName((*(void * *)&((TradeWork *)p)->boxManager),i,*(void **)(p+off3));
             GF_FONT_SetTextColor(15,2,zero);
             BMP_Clear(BMP_WIN_GetBmp(*(void **)(q+a)),zero);
             PRINTSYS_Print(BMP_WIN_GetBmp(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
@@ -1007,7 +1007,7 @@ void POKETRADE_2D_DrawBoxNames(char *p)
     scroll = ((TradeWork *)p)->scrollX / 8;
     for (y = 0; y < 2; y++) {
         for (x = 0; x < 64; x++) {
-            func_02042FB0(5, x, y, 0);
+            BG_SYS_SetupTileScreen(5, x, y, 0);
         }
     }
     if (((TradeWork *)p)->scrollX < 96) first = ((TradeWork *)p)->partyBoxId;

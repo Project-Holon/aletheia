@@ -74,7 +74,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
  *   MISC_SAVEDATA_FindFreeRecordSlot 0x0200EC14 thumb
- *   func_0200EC98 0x0200EC98 thumb
+ *   MISC_SAVEDATA_GetRecordDate 0x0200EC98 thumb
  *   MISC_SAVEDATA_ExportRecord 0x0200EC2C thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
@@ -250,7 +250,7 @@ extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void *GAME_DATA_GetSaveBlock42(void *gameData);
 extern int MISC_SAVEDATA_FindFreeRecordSlot(const void *saveBlock);
-extern void func_0200EC98(const void *saveBlock, u32 *date);
+extern void MISC_SAVEDATA_GetRecordDate(const void *saveBlock, u32 *date);
 extern void MISC_SAVEDATA_ExportRecord(const void *saveBlock, int index, DendouViewMember *dst);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSave(void *saveControl, u32 id, u8 heap);
@@ -634,7 +634,7 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
     if (params->source == 0) {
         void *saveBlock = GAME_DATA_GetSaveBlock42(params->gameData);
         work->rows[0].memberCount = MISC_SAVEDATA_FindFreeRecordSlot(saveBlock);
-        func_0200EC98(saveBlock, &work->rows[0].year);
+        MISC_SAVEDATA_GetRecordDate(saveBlock, &work->rows[0].year);
         for (member = 0; member < work->rows[0].memberCount; member++)
             MISC_SAVEDATA_ExportRecord(saveBlock, member, &work->rows[0].members[member]);
         work->rowCount = 1;

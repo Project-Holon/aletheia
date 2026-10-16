@@ -227,7 +227,7 @@
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
- *   func_021EF91C 0x021EF91C thumb ov093
+ *   BTL_FIELD_DrawStaticSlotLine 0x021EF91C thumb ov093
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
  *   BTL_POKEPARAM_TickSlot6Turn  0x021D61A8  thumb  ov093
  *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
@@ -277,7 +277,7 @@
  *   BTL_SICK_ShowIngrainRoots 0x0689C7A4 thumb ov095
  *   WAZA_TOOL_GetWeather  0x0201C184  thumb
  *   BTL_FIELD_GetCountdownCount 0x021EF894 thumb ov093
- *   func_021EF8A4 0x021EF8A4 thumb ov093
+ *   BTL_FIELD_SetCountdown 0x021EF8A4 thumb ov093
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
  *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
  *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
@@ -303,7 +303,7 @@
  *   BTL_SICK_BuildDamageMessage 0x0689B8CC thumb ov095
  *   HAND_SIDE_TickTurns 0x06898D54 thumb ov095
  *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
- *   func_021C4C40 0x021C4C40 thumb ov093
+ *   BTL_SERVER_FLOW_OnFieldEffectExpired 0x021C4C40 thumb ov093
  *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
  *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
  *   BTL_DEADREC_Add 0x0689D15C thumb ov095
@@ -738,7 +738,7 @@
  *   MIi_CpuClear16 0x02082A48  arm
  *   STRBUF_GetLength   0x020458F8  arm
  *   STRBUF_GetChars   0x02045A90  arm
- *   sub_0201F41C   0x0201F41C  thumb
+ *   WORDSET_CopyString   0x0201F41C  thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
@@ -1376,7 +1376,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
 extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern u32 WAZA_TOOL_GetMaxPP(u32, u32);

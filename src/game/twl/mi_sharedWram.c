@@ -21,6 +21,7 @@
  *   OS_LockByWord  0x02084C68  arm  arm9
  *   OS_UnlockByWord  0x02084CEC  arm  arm9
  *   OS_ReleaseLockID  0x02084F10  arm  arm9
+ *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -42,7 +43,7 @@ extern void OS_UnlockByWord(u32, void *, void *);
 extern void OS_ReleaseLockID(u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
 extern void SVC_WaitByLoop(u32);
-extern void func_020885A0(u32, void *);
+extern void PXI_SetFifoRecvCallback(u32, void *);
 extern int data_02732F5C;
 extern int *data_02732F60;
 extern u32 *data_02732F64;
@@ -254,7 +255,7 @@ void MIi_InitWramManager(void)
             break;
         }
     }
-    func_020885A0(0x12, MIi_CallbackForPxi);
+    PXI_SetFifoRecvCallback(0x12, MIi_CallbackForPxi);
 }
 
 void MIi_CallbackForPxi(u32 tag, u32 data, int err)

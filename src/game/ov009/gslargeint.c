@@ -27,13 +27,13 @@
  *   gsLargeIntSquareMod              0x0217DE94 arm
  *   gsiLargeIntMultM                 0x0217E504 arm
  *   strlen                  0x0209477C  arm
- *   func_0208CF34                  0x0208CF34  arm
+ *   STD_TSScanf                  0x0208CF34  arm
  *   gGsLargeIntHexFormatNibble                     0x021A3728  data
  *   gGsLargeIntHexFormatByte                     0x021A3720  data
  *   gsLargeIntReverseBytes           0x0217e934 arm
  *   GSMD5Update                      0x0218497c arm
  *   MSL_C_LIB_AllocFromHeap  0x020913D0  arm
- *   func_020913E8  0x020913E8  arm
+ *   CRT_Free  0x020913E8  arm
  *   MSL_C_LIB_ReallocResource  0x020913FC  arm
  */
 typedef struct GslTimer {
@@ -72,7 +72,7 @@ extern void *func_02092344(void *dst, const void *src, u32 n);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
 extern int gsiLargeIntInverseMod(gsLargeInt_t *mod, l_word *dest);
-extern int func_0208CF34(const char *src, const char *fmt, ...);
+extern int STD_TSScanf(const char *src, const char *fmt, ...);
 extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
 int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
 int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout);
@@ -89,7 +89,7 @@ extern GslTimer gTimers[9];
 extern char gGsLargeIntHexFormatNibble[];
 extern char gGsLargeIntHexFormatByte[];
 extern void *MSL_C_LIB_AllocFromHeap(unsigned long heap);
-extern void func_020913E8(void *p);
+extern void CRT_Free(void *p);
 extern void *MSL_C_LIB_ReallocResource(unsigned long a0, unsigned long a1);
 void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
@@ -837,9 +837,9 @@ int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream)
     lint->mData[lint->mLength - 1] = 0;
     while (len != 0) {
         if (len >= 2)
-            func_0208CF34(hexstream + len - 2, gGsLargeIntHexFormatByte, &temp);
+            STD_TSScanf(hexstream + len - 2, gGsLargeIntHexFormatByte, &temp);
         else
-            func_0208CF34(hexstream + len - 1, gGsLargeIntHexFormatNibble, &temp);
+            STD_TSScanf(hexstream + len - 1, gGsLargeIntHexFormatNibble, &temp);
         if (byteIndex == 0)
             *writePos = 0;
         *writePos |= temp << (8 * byteIndex);
@@ -933,7 +933,7 @@ void *gsiMemoryMalloc(unsigned long size)
 
 void gsiMemoryFree(void *p)
 {
-    func_020913E8(p);
+    CRT_Free(p);
 }
 
 void *gsiMemoryRealloc(unsigned long block, unsigned long size)

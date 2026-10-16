@@ -19,7 +19,7 @@
  *   _ull_mul  0x0209C054  arm
  *   _ll_udiv  0x0209C00C  arm
  *   OS_GetTick  0x020870D0  arm
- *   func_02075E9C  0x02075E9C  arm
+ *   CARD_LockBackup  0x02075E9C  arm
  *   OS_LockCard  0x02084DF4  arm
  *   OS_UnLockCard  0x02084E2C  arm
  *   CARD_UnlockBackup  0x02075EAC  arm
@@ -51,7 +51,7 @@ typedef struct {
 } CardSpiTransfer;
 
 extern u64 OS_GetTick(void);
-extern void func_02075E9C(u16 a);
+extern void CARD_LockBackup(u16 a);
 extern int OS_LockCard(unsigned short lockID);
 extern void OS_UnLockCard(u16 a);
 extern void CARD_UnlockBackup(u16 a);
@@ -77,7 +77,7 @@ int CARD_SPI_RunCommand(void)
     d_02180A20.txCursor = &d_02180A30;
     d_02180A20.rxCursor = &response;
     d_02180A30 = 8;
-    func_02075E9C(d_02180A00);
+    CARD_LockBackup(d_02180A00);
     OS_LockCard(d_02180A00);
     start = OS_GetTick();
     do {

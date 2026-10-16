@@ -1,7 +1,7 @@
 /*
  * file:     socl_misc.c
  * unit:     yes
- * function: func_0215F0C8, SOCLi_InitResource, SOCLi_IsIPv4ValidDNSAddr, SOCLi_IsIPv4ValidNodeAddr, SOCLi_CheckNConfig
+ * function: SOCLi_RoundUp4, SOCLi_InitResource, SOCLi_IsIPv4ValidDNSAddr, SOCLi_IsIPv4ValidNodeAddr, SOCLi_CheckNConfig
  * address:  0x0215F0C8
  * region:   ov009
  * compiler: dsi/1.1p1

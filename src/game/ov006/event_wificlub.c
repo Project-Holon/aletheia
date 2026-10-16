@@ -116,6 +116,7 @@
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb  arm9
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb  arm9
  *   GFL_NET_ERR_WaitLinkClosed  0x0200FBB0  thumb  arm9
+ *   WIFILIST_CountFriends  0x02009A34  thumb  arm9
  */
 #include "event_wificlub_types.h"
 
@@ -193,7 +194,7 @@ extern u32 PROCSYS_Main(void *task);
 extern void PROCSYS_Delete(void *task);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
-extern u32 func_02009A34(void *battleRecord);
+extern u32 WIFILIST_CountFriends(void *battleRecord);
 extern int GF_OVERLAY_Load(int overlayId);
 extern void GF_OVERLAY_Unload(int overlayId);
 extern void WIFICLUB_RunPeerAddrRoutine(char *scratchBuffer);
@@ -476,7 +477,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         if (PROCSYS_Main(work->loginTask)) { GFL_NET_ERR_ShowScreen(0); return 0; }
         PROCSYS_Delete(work->loginTask);
         if (!work->login.result) {
-            if (!func_02009A34((void *)GAME_DATA_GetField1A0(work->paramGameData))) *seq = 30;
+            if (!WIFILIST_CountFriends((void *)GAME_DATA_GetField1A0(work->paramGameData))) *seq = 30;
             else { *seq = 11; GFL_USE_FadeOutBgm(6); }
         } else { GFL_USE_FadeOutBgm(6); *seq = 25; }
         break;

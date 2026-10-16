@@ -18,7 +18,7 @@
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
  *   SAVEDATA_PanicFail  0x02034714  arm
- *   func_02059F18 0x02059F18 arm
+ *   DWC_ClearError 0x02059F18 arm
  *   DWC_ClearDirtyFlag  0x02059870  arm
  *   abs_id_11  0x00000011  data
  *   GF_OVERLAY_Load  0x02034AC4  arm
@@ -35,7 +35,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   NNS_FndAllocFromExpHeapEx  0x02060CA0  arm
- *   func_0200FB6C  0x0200FB6C  thumb
+ *   GFL_NET_ERR_ExitAndHalt  0x0200FB6C  thumb
  *   NNSi_FndGetMBlockAttribute  0x02060F98  arm  arm9
  *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   _sDwcGameName  0x021A1C8C  data  ov009  a1
@@ -52,7 +52,7 @@
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_NET_ERR_RaiseFatal  0x0200FB4C  thumb
  *   GFL_NET_ERR_HaltWithMessage  0x0200F7C0  thumb
- *   func_0200FAAC  0x0200FAAC  thumb
+ *   GFL_NET_ERR_RecordError  0x0200FAAC  thumb
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  */
 #include "dwc_rap_types.h"
@@ -70,7 +70,7 @@ u32 GFL_NET_STATE_GetError(void);
 
 void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void func_02059F18(void);
+extern void DWC_ClearError(void);
 
 void DWC_ClearDirtyFlag(int userData);
 
@@ -96,7 +96,7 @@ extern void OS_RestoreInterrupts(u32 h);
 
 extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, int align);
 
-extern void func_0200FB6C(void);
+extern void GFL_NET_ERR_ExitAndHalt(void);
 
 extern u8 NNSi_FndGetMBlockAttribute(char *p);
 
@@ -128,7 +128,7 @@ extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 
 extern void GFL_NET_ERR_HaltWithMessage(u32 value);
 
-extern void func_0200FAAC(void);
+extern void GFL_NET_ERR_RecordError(void);
 
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 
@@ -269,7 +269,7 @@ u32 DWC_RAPCOMMON_Alloc(u32 ownerId, u32 size, u32 align)
         OS_RestoreInterrupts(irqState);
     }
     if (block == 0) {
-        func_0200FB6C();
+        GFL_NET_ERR_ExitAndHalt();
         GFL_NET_STATE_SetError(0, 0, 0, DWC_RAP_RESULT_FATAL);
         return 0;
     }
@@ -357,7 +357,7 @@ void DWC_RAPCOMMON_ClearNetError(void)
 {
     GFL_NET_STATE_SetWifiError();
     GFL_NET_STATE_ClearErrorMode();
-    func_02059F18();
+    DWC_ClearError();
 }
 
 /*
@@ -384,7 +384,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
                     GFL_NET_ERR_ResetState();
                     return 1;
                 }
-                func_02059F18();
+                DWC_ClearError();
             case 3:
             case 4:
             case 5:
@@ -402,7 +402,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
         gameCode = errorInfo->gameCode;
         if (gameCode == DWC_RAP_RESULT_TIMEOUT_ERROR || gameCode == DWC_RAP_RESULT_DISCONNECT_ERROR) {
             if (keepError != 0) {
-                func_0200FAAC();
+                GFL_NET_ERR_RecordError();
                 DWC_RAPCOMMON_ClearNetError();
                 GFL_NET_STATE_WifiDisconnect(1);
                 GFL_NET_ERR_ShowSimpleScreen();

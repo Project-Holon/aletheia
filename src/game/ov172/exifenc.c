@@ -66,6 +66,7 @@
  *   gExifRelatedImageFormat 0x021C88C0 data ov172
  *   write_exif_ifd_tables 0x021C3A28 arm ov172
  *   STD_CopyLString  0x0208CB10  arm  arm9
+ *   STD_TSPrintf  0x0208D7E0  arm  arm9
  *   @12445  0x021C719C  data
  *   @12604         0x021C7194  data
  *   g_021CADF0  0x021CADF0  data  ov172
@@ -199,7 +200,7 @@ struct Adf0 {
 
 void func_02082EA4(const void *src, void *dst, u32 n);
 extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
-void func_0208D7E0(char *dst, const char *fmt, ...);
+void STD_TSPrintf(char *dst, const char *fmt, ...);
 int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern int STD_GetStringLength(char *str);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
@@ -324,7 +325,7 @@ int SSP_SetJpegEncoderDateTimeNow(void)
     if (SSP_GetDateTime(&d.year, &d) != 1)
         return 0;
 
-    func_0208D7E0(buf, gExifDateTimeFormat,
+    STD_TSPrintf(buf, gExifDateTimeFormat,
                   d.year + 0x7d0, d.month, d.day,
                   d.hour, d.min, d.sec);
     SSP_SetJpegEncoderDateTime((u8 *)buf);

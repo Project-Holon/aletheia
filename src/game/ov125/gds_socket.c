@@ -40,10 +40,10 @@
  *   gGdsConnectThread 0x021DA0B4 data a4
  *   gGdsConnectThreadStackTop 0x021D9640 data a4
  *   SOC_GetHostByName 0x0215F650 arm ov009
- *   func_0215FA9C 0x0215FA9C arm ov009
+ *   SOC_InetNtoA 0x0215FA9C arm ov009
  *   gGdsHostName 0x021D9F80 data a4
  *   gGdsSslConnection 0x021DA258 data a4
- *   func_0215F428 0x0215F428 arm ov009
+ *   SOC_Socket 0x0215F428 arm ov009
  *   CPS_Resolve 0x0215C910 arm ov009
  *   SOCL_EnableSsl 0x0215FC80 arm ov009
  *   SOC_Shutdown 0x0215F638 arm ov009
@@ -51,10 +51,10 @@
  *   gGdsHostTail 0x021DA040 data a4
  *   OS_GetTick 0x020870D0 arm
  *   _ll_udiv 0x0209C00C arm
- *   func_0215F480 0x0215F480 arm ov009
+ *   SOC_Connect 0x0215F480 arm ov009
  *   GDS_SOCKET_Lock 0x021D7CAC arm ov125
- *   func_0215F590 0x0215F590 arm ov009
- *   func_0215F4DC 0x0215F4DC arm ov009
+ *   SOC_Send 0x0215F590 arm ov009
+ *   SOC_Recv 0x0215F4DC arm ov009
  *   d_021D9E40b 0x021D9E40 data a4
  *   gGdsReceiveThread 0x021DA18C data a4 ov125
  *   OS_CreateThread 0x020853C0 arm
@@ -81,7 +81,7 @@
  *   gGdsSslTemplate 0x021DAAAC data a4
  *   sGdsRootCaList 0x021D8D38 data a4
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_0208CC78 0x0208CC78 arm
+ *   STD_GetStringLength 0x0208CC78 arm
  *   GDS_SOCKET_Alloc 0x021D7C7C arm ov125
  *   STD_CopyString 0x0208CADC arm
  *   GDS_SOCKET_Free  0x021D7C90  arm  ov125

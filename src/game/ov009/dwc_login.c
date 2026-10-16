@@ -17,7 +17,7 @@
  *   DWCi_Auth_IsConsoleUserIdAuthentic  0x02178F30  arm  ov009
  *   gDwcLoginControl  0x021AA874  data
  *   DWCi_IsError  0x02059F38  arm
- *   func_02185948  0x02185948  arm  ov009
+ *   gpProcess  0x02185948  arm  ov009
  *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv  0x0209C00C  arm
  *   DWCi_SetError  0x02059F54  arm
@@ -27,7 +27,7 @@
  *   DWCi_Np_GetConsoleIdPrefix  0x02167E94  arm  ov009
  *   DWCi_Np_GetConsoleId  0x02167E88  arm  ov009
  *   OS_SNPrintf  0x02084F80  arm
- *   func_02185CB4  0x02185CB4  arm  ov009
+ *   gpSetInfosA  0x02185CB4  arm  ov009
  *   DWCi_Auth_GetConsoleUserId  0x02178F00  arm  ov009
  *   DWCi_Acc_U64ToString32  0x02059408  arm
  *   DWCi_Np_GetAppGameName  0x02167EA0  arm  ov009
@@ -37,7 +37,7 @@
  *   DWCi_RegisterMatchmakeKeys  0x02176ABC  arm  ov009
  *   gpGetInfo  0x02185BD8  arm  ov009
  *   gpConnectPreAuthenticatedA  0x021859C0  arm  ov009
- *   func_020596C8  0x020596C8  arm
+ *   DWCi_Acc_IsAuthentic  0x020596C8  arm
  *   DWCi_Acc_LoginIdToUserName  0x02059474  arm
  *   func_02059084  0x02059084  arm
  *   DWCi_Acc_IsValidLoginId  0x020596B0  arm
@@ -53,7 +53,7 @@
  *   DWCi_Auth_GetGameSpyToken  0x02178EA0  arm  ov009
  *   func_020590C8  0x020590C8  arm
  *   DWCi_Auth_GetErrorCode  0x02178E90  arm  ov009
- *   func_02185ACC  0x02185ACC  arm  ov009
+ *   gpDisconnect  0x02185ACC  arm  ov009
  *   strcmp         0x020948E0  arm
  *   DWCi_Acc_SetLoginIdToUserData  0x020597F0  arm
  *   @16552  0x021A201C  data
@@ -158,7 +158,7 @@ void DWCi_LoginProcess(void)
 	case 3:
 	case 4:
 		if (gDwcLoginControl->connection != 0 && *gDwcLoginControl->connection != 0)
-			func_02185948(gDwcLoginControl->connection);
+			gpProcess(gDwcLoginControl->connection);
 		if (gDwcLoginControl->connectFlag != 0) {
 			elapsed = OS_GetTick() - gDwcLoginControl->tick;
 			if (elapsed * 64 / 0x82ea > 60000) {
@@ -308,16 +308,16 @@ void DWCi_GPConnectCallback(void **pconnection, void *argp, void *unused)
     gDwcLoginControl->connectFlag = 0;
 
     OS_SNPrintf(firstname, sizeof(firstname), "%s:%016llu", DWCi_Np_GetConsoleIdPrefix(), DWCi_Np_GetConsoleId());
-    gpResult = func_02185CB4(pconnection, 0x704, firstname);
+    gpResult = gpSetInfosA(pconnection, 0x704, firstname);
     if (DWCi_HandleGPError(gpResult))
         return;
 
     DWCi_Acc_U64ToString32(DWCi_Auth_GetConsoleUserId(), 43, aimname);
-    gpResult = func_02185CB4(pconnection, 0x717, aimname);
+    gpResult = gpSetInfosA(pconnection, 0x717, aimname);
     if (DWCi_HandleGPError(gpResult))
         return;
 
-    gpResult = func_02185CB4(pconnection, 0x708, DWCi_Np_GetAppGameName());
+    gpResult = gpSetInfosA(pconnection, 0x708, DWCi_Np_GetAppGameName());
     if (DWCi_HandleGPError(gpResult))
         return;
 
@@ -372,7 +372,7 @@ void DWCi_GPConnect(GPCallback callback, int next_state)
 int DWCi_RemoteLogin(void)
 {
     u64 userid;
-    if (func_020596C8(gDwcLoginControl->userdata)) {
+    if (DWCi_Acc_IsAuthentic(gDwcLoginControl->userdata)) {
         DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->userdata->authentic, gDwcLoginControl->userdata->gamecode, gDwcLoginControl->username);
         userid = func_02059084(&gDwcLoginControl->userdata->authentic);
     } else {
@@ -404,7 +404,7 @@ void DWCi_RemoteLoginProcess(void)
 	if (DWCi_Auth_IsSucceeded()) {
 		DWCi_Auth_GetGameSpyToken(gDwcLoginControl->authToken, gDwcLoginControl->partnerChallenge);
 		DWCi_Auth_ShutdownAuthentication();
-		if (func_020596C8(gDwcLoginControl->userdata)) {
+		if (DWCi_Acc_IsAuthentic(gDwcLoginControl->userdata)) {
 			DWCi_GPConnect(DWCi_GPConnectCallback, 2);
 			return;
 		}
@@ -435,14 +435,14 @@ void DWCi_GPGetInfoCallback(void **pconnection, void *argp, void *unused)
     if (gDwcLoginControl->state == 3) {
         if (arg->nick[0] == 0) {
             DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->userdata->pseudo, gDwcLoginControl->gamecode, pseudo_name2);
-            gpResult = func_02185CB4(pconnection, 0x705, pseudo_name2);
+            gpResult = gpSetInfosA(pconnection, 0x705, pseudo_name2);
             if (DWCi_HandleGPError(gpResult))
                 return;
             gDwcLoginControl->state = 4;
             gpResult = gpGetInfo(pconnection, arg->profile, 0, 0, DWCi_GPGetInfoCallback, 0);
             DWCi_HandleGPError(gpResult);
         } else {
-            func_02185ACC(pconnection);
+            gpDisconnect(pconnection);
             DWCi_RemoteLogin();
             gDwcLoginControl->state = 1;
         }
@@ -451,7 +451,7 @@ void DWCi_GPGetInfoCallback(void **pconnection, void *argp, void *unused)
         if (strcmp(arg->nick, pseudo_name) == 0) {
             DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->loginId, gDwcLoginControl->gamecode, username);
             DWCi_Acc_SetLoginIdToUserData(gDwcLoginControl->userdata, &gDwcLoginControl->loginId, arg->profile);
-            func_02185ACC(pconnection);
+            gpDisconnect(pconnection);
             DWCi_GPConnect(DWCi_GPConnectCallback, 2);
         } else {
             gpResult = gpGetInfo(pconnection, arg->profile, 0, 0, DWCi_GPGetInfoCallback, 0);

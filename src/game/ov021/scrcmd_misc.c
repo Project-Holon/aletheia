@@ -174,7 +174,7 @@
  *   FIELD_FOG_GetSlope  0x021A01D4  thumb  ov021
  *   FIELD_FOG_FADE_Init  0x021A01FC  thumb  ov021
  *   EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent  0x02184F88  thumb  ov020
- *   func_02008B08  0x02008B08  thumb
+ *   CONSOLE_STAMP_GetFromSave  0x02008B08  thumb
  *   FIELD_CLOCK_GetMonth  0x021690D0  thumb  ov010
  *   FIELD_CLOCK_GetDay  0x021690E0  thumb  ov010
  *   func_02008B94  0x02008B94  thumb
@@ -558,7 +558,7 @@ extern FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 fram
 extern u32 FIELD_FOG_GetSlope(FieldFog *fog);
 extern void FIELD_FOG_FADE_Init(FieldFog *fog, u32 endOffset, u32 endSlope, u32 frames);
 extern GameEvent *EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent(GameSystem *gameSystem);
-extern PlayerBirthday *func_02008B08(SaveControl *save);
+extern PlayerBirthday *CONSOLE_STAMP_GetFromSave(SaveControl *save);
 extern int FIELD_CLOCK_GetMonth(GameData *gameData);
 extern int FIELD_CLOCK_GetDay(GameData *gameData);
 extern u8 func_02008B94(const PlayerBirthday *birthday);
@@ -1595,7 +1595,7 @@ int SCRCMD_GetBirthdayMessageIds(ScriptVm *vm, ScrcmdWork *cmdWork)
     outB = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     outC = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     table = gBirthdayTextIdTable;
-    birthday = func_02008B08(GAME_DATA_GetSaveControl(gameData));
+    birthday = CONSOLE_STAMP_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     currentMonth = FIELD_CLOCK_GetMonth(gameData);
     currentDay = FIELD_CLOCK_GetDay(gameData);
     birthMonth = func_02008B94(birthday);

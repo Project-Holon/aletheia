@@ -58,21 +58,21 @@
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
  *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
- *   func_021BDAD0 0x021BDAD0 thumb
- *   func_021BC3BC 0x021BC3BC thumb
- *   func_021BDAAC 0x021BDAAC thumb
- *   func_021BDAD4 0x021BDAD4 thumb
- *   func_021BDBB8 0x021BDBB8 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetMode 0x021BDAD0 thumb
+ *   ZUKAN_DETAIL_COMMON_GetMaxValue 0x021BC3BC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetEnabled 0x021BDAD4 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind 0x021BDBB8 thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_021BE840 0x021BE840 thumb
- *   func_021BE82C 0x021BE82C thumb
- *   func_021BE844 0x021BE844 thumb
+ *   ZUKAN_DETAIL_HEADBAR_GetIconKind 0x021BE840 thumb
+ *   ZUKAN_DETAIL_HEADBAR_SetIconKind 0x021BE82C thumb
+ *   ZUKAN_DETAIL_HEADBAR_SetIconSpecies 0x021BE844 thumb
  *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb
  *   ZUKAN_DETAIL_COMMON_GetGraphics 0x021BC3B0 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
- *   func_021BE854 0x021BE854 thumb
- *   func_021BC46C 0x021BC46C thumb
+ *   ZUKAN_DETAIL_HEADBAR_SetIconForm 0x021BE854 thumb
+ *   ZUKAN_DETAIL_COMMON_UpdateBlendFades 0x021BC46C thumb
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
@@ -258,25 +258,25 @@ extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 
 extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 
-extern int func_021BDAD0(void *s);
+extern int ZUKAN_DETAIL_TOUCHBAR_GetMode(void *s);
 
-extern u16 func_021BC3BC(int *ctx);
+extern u16 ZUKAN_DETAIL_COMMON_GetMaxValue(int *ctx);
 
-extern void func_021BDAAC(void *s, u32 a, u32 b, u32 c);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 a, u32 b, u32 c);
 
-extern void func_021BDAD4(void *s, int a);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int a);
 
-extern void func_021BDBB8(void *s, u32 a);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 a);
 
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *ctx);
 
 extern int GAME_DATA_CheckSaveFlag(int a, int b);
 
-extern int func_021BE840(void *s);
+extern int ZUKAN_DETAIL_HEADBAR_GetIconKind(void *s);
 
-extern void func_021BE82C(void *s, int a);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(void *s, int a);
 
-extern void func_021BE844(void *s);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(void *s);
 
 extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *ctx);
 
@@ -284,9 +284,9 @@ extern int ZUKAN_DETAIL_COMMON_GetGraphics(int *ctx);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
-extern void func_021BE854(void *s);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *s);
 
-extern void func_021BC46C(void *a, void *b);
+extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(void *a, void *b);
 
 extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *key);
 
@@ -614,19 +614,19 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
     case 2:
         *seq = 3;
         ZUKAN_DETAIL_COMMON_StartFadeOut(voice->palFade);
-        if (func_021BDAD0(scene) != 2) {
-            func_021BDAAC(scene, 0, 2, func_021BC3BC((int *)((char *)ctx)) > 1);
-            func_021BDAD4(scene, 0);
-        } else func_021BDBB8(scene, 2);
+        if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 2, ZUKAN_DETAIL_COMMON_GetMaxValue((int *)((char *)ctx)) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
+        } else ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 2);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
         ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)ctx), 0x13));
-        if (func_021BE840(icon) != 2) {
-            func_021BE82C(icon, 2);
-            func_021BE844(icon);
+        if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
+            ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 2);
+            ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
         }
         break;
     case 3:
-        if (ZUKAN_DETAIL_COMMON_IsFadeBusy(voice->palFade) == 0 && func_021BDAD0(scene) == 2 && func_021BE840(icon) == 2) {
+        if (ZUKAN_DETAIL_COMMON_IsFadeBusy(voice->palFade) == 0 && ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 2 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 2) {
             ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scene);
             ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
             *seq = 4;
@@ -636,16 +636,16 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         if (voice->exitMode != 0) {
             *seq = 5;
             ZUKAN_DETAIL_COMMON_StartFadeOutAlt(voice->palFade);
-            func_021BE854(icon);
+            ZUKAN_DETAIL_HEADBAR_SetIconForm(icon);
             if (voice->exitMode == 2) ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled((struct Ov208Scene *)scene, 0);
             ZUKAN_DETAIL_VOICE_RestoreBgm(heapIdPtr, voice, (void *)ctx);
         } else func_021C3514(heapIdPtr, voice, ctx);
         break;
     case 5:
         ready = 0;
-        if (ZUKAN_DETAIL_COMMON_IsFadeBusy(voice->palFade) == 0 && func_021BE840(icon) == 0) {
+        if (ZUKAN_DETAIL_COMMON_IsFadeBusy(voice->palFade) == 0 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 0) {
             if (voice->exitMode == 2) {
-                if (func_021BDAD0(scene) == 0) ready = 1;
+                if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 0) ready = 1;
             } else ready = 1;
         }
         if (ready) *seq = 6;
@@ -669,7 +669,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         ZUKAN_DETAIL_COMMON_TickFlashEffect(voice->headerWin);
         ZUKAN_DETAIL_COMMON_TickFlashEffect(voice->footerWin);
     }
-    func_021BC46C(voice->blendTop, voice->blendBottom);
+    ZUKAN_DETAIL_COMMON_UpdateBlendFades(voice->blendTop, voice->blendBottom);
     ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(voice->palFade);
     ZUKAN_DETAIL_VOICE_UpdateBgmFade((int)heapIdPtr, voice, ctx);
     return 0;

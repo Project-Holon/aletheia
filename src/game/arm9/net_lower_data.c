@@ -28,7 +28,7 @@
  *   GFL_NET_SYSTEM_GetChildRingDataSize   0x02038D30  arm
  *   GFL_NET_HANDLE_GetCurrentHandle   0x020399A8  arm
  *   GFL_NET_GetHandleNetID   0x0203D1A4  arm
- *   func_02034734   0x02034734  arm
+ *   SAVEDATA_PanicFailPrintf   0x02034734  arm
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_SendDataMask  0x0203D4D0  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -90,7 +90,7 @@ struct NetLdataCommand {
 };
 
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
-extern void func_02034734(const char *file, u32 line, const char *fmt, ...);
+extern void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clearFlag, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *block);
 extern int  GFL_NET_GetRunState(void);
@@ -431,7 +431,7 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand 
     switch (pData->kind) {
     case NET_LDATA_CTRL_START:
         if (_pNetLdataWork->postWork[netId]->bufSize < pData->size) {
-            func_02034734(sSrcFileName, 543, sMsgPostBufferTooSmall, _pNetLdataWork->postWork[netId]->bufSize, pData->size);
+            SAVEDATA_PanicFailPrintf(sSrcFileName, 543, sMsgPostBufferTooSmall, _pNetLdataWork->postWork[netId]->bufSize, pData->size);
         }
         _pNetLdataWork->postWork[netId]->totalSize = pData->size;
         _pNetLdataWork->postWork[netId]->recvSize = 0;

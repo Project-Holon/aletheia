@@ -112,7 +112,7 @@
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
- *   func_02019ED4  0x02019ED4  thumb
+ *   POKE_REGULATION_CheckPartyUsable  0x02019ED4  thumb
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
@@ -414,7 +414,7 @@ extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
 extern u32 ISS_SYS_GetSwitchSys(u32 *p);
 extern void ISS_SWITCH_SYS_SwitchOn(u8 *p, u32 a);
 extern void *POKE_REGULATION_Load(int a, int b);
-extern int func_02019ED4(void *ctx, void *q);
+extern int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q);
 extern u32 BATTLE_REC_CheckSaved(void *a, u32 heap, u32 *dp, u32 id);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_TOOL_PackSetup(void *p);
@@ -1963,7 +1963,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         } else {
             checkedParty = GAME_DATA_GetMyParty((void *)gameData);
         }
-        checkResult = func_02019ED4(regulation, checkedParty);
+        checkResult = POKE_REGULATION_CheckPartyUsable(regulation, checkedParty);
         GFL_HEAP_Free(regulation);
         if (recordParty != NULL)
             GFL_HEAP_Free(recordParty);

@@ -56,7 +56,7 @@
  *   GFL_NET_IsIdle  0x0203D210  arm
  *   RECORD_GetFromSave  0x02008C58  thumb
  *   func_02008E88  0x02008E88  thumb
- *   func_02008E68  0x02008E68  thumb
+ *   RECORD_SetTrialRank  0x02008E68  thumb
  *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
  *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
  *   func_0200E684  0x0200E684  thumb
@@ -223,7 +223,7 @@ extern void func_0200E684(TrialHouseDelivery *delivery);
 extern TrialHouseSave *func_0200E8F8(SaveControl *saveControl);
 extern RecordBlock *RECORD_GetFromSave(SaveControl *saveControl);
 extern void func_02008E88(RecordBlock *record, u32 value);
-extern void func_02008E68(RecordBlock *record, u32 value);
+extern void RECORD_SetTrialRank(RecordBlock *record, u32 value);
 extern u32 func_020056EC(u32 range);
 extern int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, int count, u16 *exclSpecies, u16 *exclItems, BtlInstDraw *draw, u16 heapId);
 extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 trainerType);
@@ -656,7 +656,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
 
     record = RECORD_GetFromSave(saveControl);
     func_02008E88(record, score);
-    func_02008E68(record, (u8)rank);
+    RECORD_SetTrialRank(record, (u8)rank);
 }
 
 /*

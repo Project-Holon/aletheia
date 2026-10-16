@@ -41,7 +41,7 @@
  *   ENCEFF_DrawScreenTexEffect 0x021F52D8 thumb ov075
  *   MTX_RotY33_ 0x0207AF1C thumb
  *   MTX_RotZ33_ 0x0207AF38 thumb
- *   func_0207D934 0x0207D934 arm
+ *   G3_MultMtx33 0x0207D934 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021F5A58 0x021F5A58 data a4
  */
@@ -59,7 +59,7 @@ extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, in
 extern void ENCEFF_DrawScreenTexEffect(struct GameEvent *effect);
 extern void MTX_RotY33_(Mtx33 *mtx, int sinValue, int cosValue);
 extern void MTX_RotZ33_(Mtx33 *mtx, int sinValue, int cosValue);
-extern void func_0207D934(const Mtx33 *mtx);
+extern void G3_MultMtx33(const Mtx33 *mtx);
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
 int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state);
 int ENCEFF_StepCellGrid(EncEffGridWork *work);
@@ -231,10 +231,10 @@ void ENCEFF_DrawCellGrid(EncEffGridWork *work)
             G3_Scale(scale.x, scale.y, scale.z);
             angleIndex = cell->angleY >> 4;
             MTX_RotY33_(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
-            func_0207D934(&mtx);
+            G3_MultMtx33(&mtx);
             angleIndex = cell->angleZ >> 4;
             MTX_RotZ33_(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
-            func_0207D934(&mtx);
+            G3_MultMtx33(&mtx);
             REG_BEGIN_VTXS = 1;
             REG_NORMAL = 0x20000000;
             G3_TexCoord(px, py);

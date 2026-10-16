@@ -42,7 +42,7 @@
  *   ArrayAppend                  0x02184234  arm ov009
  *   gt2Accept                  0x02195B2C  arm ov009
  *   gt2Reject                  0x02195B38  arm ov009
- *   func_02184324                  0x02184324  arm ov009
+ *   ArrayRemoveAt                  0x02184324  arm ov009
  *   func_02180420                  0x02180420  arm ov009
  *   g_021A3A8C                     0x021A3A8C  data
  *   g_021A3AB8                     0x021A3AB8  data
@@ -64,7 +64,7 @@
  *   gt2GetOutgoingBufferSize                  0x02195E48  arm ov009
  *   gsimalloc                  0x0217EAB0  arm ov009
  *   memcpy                         0x02092344  arm
- *   func_02195CC0                  0x02195CC0  arm ov009
+ *   gt2Send                  0x02195CC0  arm ov009
  *   gsifree                  0x0217EAE0  arm ov009
  *   g_021A3C34                     0x021A3C34  data
  *   g_021A3C68                     0x021A3C68  data
@@ -88,7 +88,7 @@ extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180430(void *theFirstHandler, void *theSecondHandler);
 extern int gt2Accept(void *connection, GT2ConnectionCallbacks *callbacks);
 extern void gt2Reject(void *connection, unsigned char *message, int len);
-extern void func_02184324(void *array, int n);
+extern void ArrayRemoveAt(void *array, int n);
 extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
 extern int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
@@ -101,7 +101,7 @@ extern int gt2GetConnectionState(const int *p);
 extern int gt2Connect(void *socket, void **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
 extern int gt2GetOutgoingBufferSize(const int *p);
 extern void *gsimalloc(unsigned long size);
-extern int func_02195CC0(void *connection, unsigned char *message, int len, int reliable);
+extern int gt2Send(void *connection, unsigned char *message, int len, int reliable);
 extern void gsifree(void *ptr);
 extern void func_02195AF0(void *socket);
 extern void gt2CloseSocket(void *socket);
@@ -473,7 +473,7 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
     }
 
     gt2Reject(connection, 0, 0);
-    func_02184324(aUdp->mRemotePeers, ArrayLength(aUdp->mRemotePeers) - 1);
+    ArrayRemoveAt(aUdp->mRemotePeers, ArrayLength(aUdp->mRemotePeers) - 1);
 }
 
 
@@ -683,7 +683,7 @@ int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *the
     fullMessage = (unsigned char *)gsimalloc(aTotalMessageLen);
     *(GSUdpHdr *)fullMessage = *(GSUdpHdr *)theHeader;
     memcpy(fullMessage + 16, theMsg, theMsgLen);
-    aResult = func_02195CC0(aRemotePeerFound->mConnection, fullMessage, aTotalMessageLen, theReliable);
+    aResult = gt2Send(aRemotePeerFound->mConnection, fullMessage, aTotalMessageLen, theReliable);
     gsifree(fullMessage);
     if (aResult != 0)
         return 8;

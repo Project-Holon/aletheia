@@ -119,7 +119,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   func_020127D0  0x020127D0  thumb
+ *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending  0x021620A0  thumb  ov010
  *   EVENT_FIELD_PROCLINK_RequestReturn  0x02162048  thumb  ov010

@@ -1,7 +1,7 @@
 /*
  * file:     os_spinlock.c
  * unit:     yes
- * function: OSi_SyncWithOtherProc, OS_InitLock, OSi_DoLockByWord, OS_LockByWord, OSi_DoUnlockByWord, OS_UnlockByWord, OSi_DoTryLockByWord, OS_TryLockByWord, OS_UnlockCartridge, OS_UnLockCartridge, func_02084DA4, OSi_AllocateCartridgeBus, OSi_FreeCartridgeBus, OS_LockCard, OS_UnlockCard, OS_UnLockCard, func_02084E38, OSi_AllocateCardBus, OSi_FreeCardBus, OS_ReadOwnerOfLockWord, OS_GetLockID, OS_ReleaseLockID
+ * function: OSi_SyncWithOtherProc, OS_InitLock, OSi_DoLockByWord, OS_LockByWord, OSi_DoUnlockByWord, OS_UnlockByWord, OSi_DoTryLockByWord, OS_TryLockByWord, OS_UnlockCartridge, OS_UnLockCartridge, OS_TryLockCartridge, OSi_AllocateCartridgeBus, OSi_FreeCartridgeBus, OS_LockCard, OS_UnlockCard, OS_UnLockCard, func_02084E38, OSi_AllocateCardBus, OSi_FreeCardBus, OS_ReadOwnerOfLockWord, OS_GetLockID, OS_ReleaseLockID
  * address:  0x02084AB0
  * region:   arm9
  * compiler: dsi/1.1p1

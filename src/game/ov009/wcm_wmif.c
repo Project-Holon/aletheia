@@ -1,7 +1,7 @@
 /*
  * file:     wcm_wmif.c
  * unit:     yes
- * function: WCMi_WmifStartupAsync, func_021669B8, WCMi_WmifBeginSearchAsync, WCMi_WmifConnectAsync, func_02166BD8, WCMi_WmifTerminateAsync, WCMi_WmifSetDCFData, func_02166DE4, func_02166E5C, func_02166EB0, WcmWmcbCommon, WcmWmcbScanEx, WcmWmcbEndScan, WcmWmcbConnect, WcmWmcbDisconnect, WcmWmcbStartDCF, WcmWmcbEndDCF, func_021679C0, WcmEditScanExParam, func_02167DE0, WcmWmcbSetDCFDataAsync
+ * function: WCMi_WmifStartupAsync, WCMi_WmifCleanupAsync, WCMi_WmifBeginSearchAsync, WCMi_WmifConnectAsync, WCMi_WmifDisconnectAsync, WCMi_WmifTerminateAsync, WCMi_WmifSetDCFData, func_02166DE4, func_02166E5C, func_02166EB0, WcmWmcbCommon, WcmWmcbScanEx, WcmWmcbEndScan, WcmWmcbConnect, WcmWmcbDisconnect, WcmWmcbStartDCF, WcmWmcbEndDCF, func_021679C0, WcmEditScanExParam, func_02167DE0, WcmWmcbSetDCFDataAsync
  * address:  0x02166880
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@
  *   WCMi_SetPhase    0x02165A4C  arm  ov009
  *   WM_SetIndCallback    0x0208EAC8  arm
  *   OS_GetMacAddress 0x02087C6C  arm
- *   func_021665CC    0x021665CC  arm  ov009
+ *   WCMi_CpsifSetMacAddress    0x021665CC  arm  ov009
  *   WM_Enable    0x0208F224  arm
  *   func_02166EB0    0x02166EB0  arm  ov009
  *   func_02166F24    0x02166F24  arm  ov009
@@ -171,7 +171,7 @@ extern void WCMi_Notify(short result, void *para0, void *para1, long para2);
 extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
 extern long WM_SetIndCallback(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
-extern void func_021665CC(unsigned char *macAddress);
+extern void WCMi_CpsifSetMacAddress(unsigned char *macAddress);
 extern int WM_Enable(char *path);
 extern int WM_PowerOff(void (*callback)(void *));
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
@@ -267,7 +267,7 @@ long WCMi_WmifStartupAsync(void)
         return 7;
     }
     OS_GetMacAddress(macAddress);
-    func_021665CC(macAddress);
+    WCMi_CpsifSetMacAddress(macAddress);
     wmResult = WM_Enable((char *)WcmWmcbCommon);
     switch (wmResult) {
     case 2:

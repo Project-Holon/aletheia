@@ -48,8 +48,8 @@
  *   DWC_AC_GetApType  0x0205BDD0  arm
  *   DWCi_SetError  0x02059F54  arm
  *   DWC_Http_ParseResult  0x0217A484  arm  ov009
- *   func_0217A728  0x0217A728  arm  ov009
- *   func_02168250  0x02168250  arm  ov009
+ *   DWC_Http_GetResult  0x0217A728  arm  ov009
+ *   DWC_Auth_SetNasTimeDiff  0x02168250  arm  ov009
  *   atoi  0x020964E0  arm
  *   DWC_Http_GetBase64DecodedResult  0x0217A77C  arm  ov009
  *   gDwcProfFieldNames     0x021A27B8  data ov009
@@ -151,8 +151,8 @@ extern int OS_IsThreadTerminated(OSThread *thread);
 extern unsigned char DWC_AC_GetApType(void);
 extern void DWCi_SetError(int error, int errorCode);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *func_0217A728(DWCHttp *http, char *label);
-extern int func_02168250(char *datestr);
+extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
+extern int DWC_Auth_SetNasTimeDiff(char *datestr);
 extern int atoi(u32 a0);
 extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void *DWC_Alloc(int name, unsigned long size);
@@ -402,11 +402,11 @@ int DWCi_Prof_ParseResponse(void)
     if (!DWC_Http_ParseResult(DWChttp, 0))
         goto error;
 
-    strp = func_0217A728(DWChttp, gDwcProfLabelDate);
+    strp = DWC_Http_GetResult(DWChttp, gDwcProfLabelDate);
     if (strp != 0)
-        func_02168250(strp);
+        DWC_Auth_SetNasTimeDiff(strp);
 
-    strp = func_0217A728(DWChttp, gDwcProfLabelHttpResult);
+    strp = DWC_Http_GetResult(DWChttp, gDwcProfLabelHttpResult);
     if (strp == 0)
         goto error;
     httpretcode = atoi((u32)strp);

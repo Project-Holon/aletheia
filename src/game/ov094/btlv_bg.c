@@ -25,7 +25,7 @@
  *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   func_020407E8  0x020407E8  arm
+ *   BG_SYS_GetScrollX  0x020407E8  arm
  *   func_02040804  0x02040804  arm
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
@@ -43,7 +43,7 @@
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020407E8(u32 layer);
+extern u32 BG_SYS_GetScrollX(u32 layer);
 
 extern u32 func_02040804(u32 layer);
 
@@ -136,7 +136,7 @@ void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int 
     amount.x = x << 12;
     amount.y = y << 12;
     amount.z = 0;
-    origin.x = func_020407E8(3) << 12;
+    origin.x = BG_SYS_GetScrollX(3) << 12;
     origin.y = func_02040804(3) << 12;
     origin.z = 0;
     if (mode == 4 && (flipFlags & 1))

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
- *   func_0215CE3C  0x0215CE3C  arm  ov009
+ *   SOCLi_CreateCommandPacket  0x0215CE3C  arm  ov009
  *   SOCLi_ExecCommandPacketInRecvPipe  0x0215CF88  arm  ov009
  *   OS_LockMutex  0x02086028  arm
  *   CPS_SetSsl  0x02162E94  arm  ov009
@@ -49,7 +49,7 @@ typedef struct {
 } Cmd;
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern void *func_0215CE3C(int (*handler)(void *), void *socket, long flag);
+extern void *SOCLi_CreateCommandPacket(int (*handler)(void *), void *socket, long flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
 extern void OS_LockMutex(void *mutex);
 extern void CPS_SetSsl(int mode);
@@ -103,7 +103,7 @@ int SOCLi_ExecEnableSslCommand(void *socket, void *con)
 {
 	int *command;
 
-	command = func_0215CE3C(SOCLi_EnableSslCallBack, socket, 1);
+	command = SOCLi_CreateCommandPacket(SOCLi_EnableSslCallBack, socket, 1);
 	if (command == 0) {
 		return -33;
 	}

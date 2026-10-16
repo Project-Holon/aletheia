@@ -36,7 +36,7 @@
  *   current_time                       0x0217F264  arm ov009
  *   gti2ConnectAttemptCallback         0x02194F2C  arm ov009
  *   gti2GetBufferFreeSpace                      0x02194DD4  arm ov009
- *   func_021842D0                      0x021842D0  arm ov009
+ *   ArrayInsertSorted                      0x021842D0  arm ov009
  *   func_02194E2C                      0x02194E2C  arm ov009
  *   func_02196658                      0x02196658  arm ov009
  *   func_02195E80                      0x02195E80  arm ov009
@@ -135,7 +135,7 @@ extern int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsig
 extern u32 current_time(void);
 extern int ArrayLength(struct DArrayImplementation *array);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
-extern void func_021842D0(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
+extern void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
 extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 extern int gti2GetBufferFreeSpace(struct GTI2Buffer *buffer);
 extern void func_02194E2C(void *buffer, unsigned char *data, int len);
@@ -622,7 +622,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
     messageInfo.len = len;
     messageInfo.type = type;
     messageInfo.serialNumber = SN;
-    func_021842D0(connection->incomingBufferMessages, &messageInfo, gti2IncomingBufferMessageCompare);
+    ArrayInsertSorted(connection->incomingBufferMessages, &messageInfo, gti2IncomingBufferMessageCompare);
 
     if (ArrayLength(connection->incomingBufferMessages) != num + 1) {
         *overflow = 1;

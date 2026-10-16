@@ -32,7 +32,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02019ED4  0x02019ED4  thumb
+ *   POKE_REGULATION_CheckPartyUsable  0x02019ED4  thumb
  *   POKE_REGULATION_CheckParty  0x0201A090  thumb
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
@@ -91,7 +91,7 @@ extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 extern void *GAME_DATA_GetSaveControl(struct GameData *p);
-extern int func_02019ED4(void *rules, void *party);
+extern int POKE_REGULATION_CheckPartyUsable(void *rules, void *party);
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void *BATTLE_BOX_GetFromSave(void *);
 extern u32 BATTLE_BOX_HasMon(void *a);
@@ -240,7 +240,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
     mask = 0;
     playerParty = GAME_DATA_GetMyParty(gameData);
     if (isSubwayRules) {
-        playerPartyInvalid = func_02019ED4(rules, playerParty);
+        playerPartyInvalid = POKE_REGULATION_CheckPartyUsable(rules, playerParty);
     } else {
         playerPartyInvalid = POKE_REGULATION_CheckParty(rules, playerParty, &mask);
     }
@@ -249,7 +249,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
         mask = 0;
         recordParty = BATTLE_BOX_CreateParty((int)battleRec, heapId);
         if (isSubwayRules) {
-            recordPartyInvalid = func_02019ED4(rules, recordParty);
+            recordPartyInvalid = POKE_REGULATION_CheckPartyUsable(rules, recordParty);
         } else {
             tmp = POKE_REGULATION_CheckParty(rules, recordParty, &mask);
             recordPartyInvalid = tmp;

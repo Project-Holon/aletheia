@@ -50,9 +50,9 @@
  *   NNSi_G2dRendererAfterDrawCell    0x02065134  arm
  *   NNSi_G2dRendererResetMtxSlot  0x02064E3C  arm
  *   NNS_G2dGetOamSoftEmuAutoZOffsetStep  0x02066E20  arm
- *   func_02066DEC  0x02066DEC  arm
+ *   NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled  0x02066DEC  arm
  *   NNS_G2dSetOamSoftEmuAutoZOffsetStep  0x02066E10  arm
- *   func_02066DFC  0x02066DFC  arm
+ *   NNS_G2dResetOamSoftEmuAutoZOffset  0x02066DFC  arm
  *   g_02148018     0x02148018  data  a4
  *   FX_Inv  0x0207C778  arm
  *   NNS_G2dSetRndCoreImageProxy  0x02067AA0  arm
@@ -296,9 +296,9 @@ extern void NNSi_G2dRendererBeforeDrawCell(struct Host *h, void *a1);
 extern void NNSi_G2dRendererAfterDrawCell(void *a0, void *a1);
 extern void NNSi_G2dRendererResetMtxSlot(void);
 extern int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void);
-extern void func_02066DEC(int);
+extern void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(int);
 extern void NNS_G2dSetOamSoftEmuAutoZOffsetStep(int);
-extern void func_02066DFC(void);
+extern void NNS_G2dResetOamSoftEmuAutoZOffset(void);
 extern fx32 FX_Inv(fx32 v);
 extern void NNS_G2dSetRndCoreImageProxy(int *p, int a, int b);
 void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2);
@@ -980,12 +980,12 @@ void NNSi_G2dRendererDrawCellZOffset(void *a0)
     if (((volatile struct RendererBss *)&g_02147B88)->pCurrentInstance_->spriteZoffsetStep != 0)
     {
         saved = NNS_G2dGetOamSoftEmuAutoZOffsetStep();
-        func_02066DEC(1);
+        NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(1);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(((volatile struct RendererBss *)&g_02147B88)->pCurrentInstance_->spriteZoffsetStep);
         NNSi_G2dRendererDrawCellToSurfaces(a0);
-        func_02066DEC(0);
+        NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(0);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(saved);
-        func_02066DFC();
+        NNS_G2dResetOamSoftEmuAutoZOffset();
     }
     else
     {
@@ -1007,12 +1007,12 @@ void NNSi_G2dRendererDrawCellTransformedZOffset(void *a0)
     if (((volatile struct RendererBss *)&g_02147B88)->pCurrentInstance_->spriteZoffsetStep != 0)
     {
         saved = NNS_G2dGetOamSoftEmuAutoZOffsetStep();
-        func_02066DEC(1);
+        NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(1);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(((volatile struct RendererBss *)&g_02147B88)->pCurrentInstance_->spriteZoffsetStep);
         NNSi_G2dRendererDrawCellTransformed(a0);
-        func_02066DEC(0);
+        NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(0);
         NNS_G2dSetOamSoftEmuAutoZOffsetStep(saved);
-        func_02066DFC();
+        NNS_G2dResetOamSoftEmuAutoZOffset();
     }
     else
     {
@@ -1084,16 +1084,16 @@ void NNS_G2dDrawMultiCell(const NNSG2dMultiCellInstance *pMC)
 
         if (IsAutoZoffsetEnable_()) {
             const fx32 offset = NNS_G2dGetOamSoftEmuAutoZOffsetStep();
-            func_02066DEC(1);
+            NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(1);
             NNS_G2dSetOamSoftEmuAutoZOffsetStep(g_02147B88.pCurrentInstance_->spriteZoffsetStep);
 
             for (i = 0; i < pMC->pCurrentMultiCell->numNodes; i++) {
                 DrawNode2_(pMC, &pMC->pCurrentMultiCell->pHierDataArray[i]);
             }
 
-            func_02066DEC(0);
+            NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(0);
             NNS_G2dSetOamSoftEmuAutoZOffsetStep(offset);
-            func_02066DFC();
+            NNS_G2dResetOamSoftEmuAutoZOffset();
         } else {
             for (i = 0; i < pMC->pCurrentMultiCell->numNodes; i++) {
                 DrawNode2_(pMC, &pMC->pCurrentMultiCell->pHierDataArray[i]);
@@ -1107,16 +1107,16 @@ void NNS_G2dDrawMultiCell(const NNSG2dMultiCellInstance *pMC)
         if (IsAutoZoffsetEnable_()) {
             const fx32 offset = NNS_G2dGetOamSoftEmuAutoZOffsetStep();
 
-            func_02066DEC(1);
+            NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(1);
             NNS_G2dSetOamSoftEmuAutoZOffsetStep(g_02147B88.pCurrentInstance_->spriteZoffsetStep);
 
             for (i = 0; i < pMC->pCurrentMultiCell->numNodes; i++) {
                 NNSi_G2dRendererDrawCellEntryTransformed((struct Cmd020659D4 *)(&pNode[i]));
             }
 
-            func_02066DEC(0);
+            NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(0);
             NNS_G2dSetOamSoftEmuAutoZOffsetStep(offset);
-            func_02066DFC();
+            NNS_G2dResetOamSoftEmuAutoZOffset();
         } else {
             for (i = 0; i < pMC->pCurrentMultiCell->numNodes; i++) {
                 NNSi_G2dRendererDrawCellEntryTransformed((struct Cmd020659D4 *)(&pNode[i]));

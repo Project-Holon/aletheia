@@ -21,9 +21,9 @@
  *   MIi_NDmaAsync_withConfig_Dev  0x0272F9C4  arm twl
  *   MI_WaitNDma  0x0272FCB0  arm twl
  *   OS_DisableIrqMask  0x02084998  arm
- *   func_020849C8  0x020849C8  arm
+ *   OS_ResetRequestIrqMask  0x020849C8  arm
  *   func_02084818  0x02084818  arm
- *   func_02084774  0x02084774  arm
+ *   OS_SetIrqFunction  0x02084774  arm
  *   OS_EnableIrqMask  0x02084968  arm
  */
 typedef unsigned int u32;
@@ -55,9 +55,9 @@ extern void OS_RestoreInterrupts(u32);
 extern void MI_WaitNDma(int);
 extern void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, void *cfg, int words, u32 flags);
 extern void OS_DisableIrqMask(u32);
-extern void func_020849C8(u32);
+extern void OS_ResetRequestIrqMask(u32);
 extern IrqHandler func_02084818(u32);
-extern void func_02084774(u32, IrqHandler);
+extern void OS_SetIrqFunction(u32, IrqHandler);
 extern void OS_EnableIrqMask(u32);
 
 void MI_SendNDmaGXCommandAsync(u32 a0, u32 a1, u32 a2, void (*cb)(u32), u32 arg);
@@ -92,7 +92,7 @@ void MI_SendNDmaGXCommandAsync(u32 a0, u32 a1, u32 a2, void (*cb)(u32), u32 arg)
     s->f18 = (*(volatile u32 *)0x04000600 & 0xc0000000) >> 0x1e;
     s->f1c = func_02084818(0x200000);
     *(volatile u32 *)0x04000600 = (*(volatile u32 *)0x04000600 & ~0xc0000000) | 0x40000000;
-    func_02084774(0x200000, MIi_FIFOCallback);
+    OS_SetIrqFunction(0x200000, MIi_FIFOCallback);
     OS_EnableIrqMask(0x200000);
     MIi_FIFOCallback();
     OS_RestoreInterrupts(irq);
@@ -117,7 +117,7 @@ static void MIi_FIFOCallback(void)
     if (data_02732F3C.fc == 0) {
         OS_DisableIrqMask(0x200000);
     }
-    func_020849C8(0x200000);
+    OS_ResetRequestIrqMask(0x200000);
     rem = data_02732F3C.fc;
     cb = MIi_NDMACallback;
     if (rem != 0) {
@@ -136,7 +136,7 @@ void MIi_NDMACallback(void)
     volatile u32 *reg = (volatile u32 *)0x04000600;
     OS_DisableIrqMask(0x200000);
     *reg = (s->f18 << 30) | (*reg & ~0xC0000000);
-    func_02084774(0x200000, s->f1c);
+    OS_SetIrqFunction(0x200000, s->f1c);
     s->f0 = 0;
     cb = s->f10;
     arg = s->f14;

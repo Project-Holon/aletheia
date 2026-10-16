@@ -27,7 +27,7 @@
  *   G3D_SYSTEM_CreateResourceArc   0x02046DB8  arm
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
- *   func_020307E0  0x020307E0  arm
+ *   GFL_HEAP_CheckAllocator  0x020307E0  arm
  *   G3D_SYSTEM_FreeVramTexture   0x020470D0  arm
  *   G3D_SYSTEM_DeleteResource   0x02046EFC  arm
  *   NNS_GfdDefaultFuncFreeTexVram  0x020A8144  data
@@ -425,7 +425,7 @@ extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *resource);
 
 extern struct NNSG3dResTex *G3D_SYSTEM_GetResourceTex(struct G3dResource *resource);
 
-extern void func_020307E0(void *p, u32 size);
+extern void GFL_HEAP_CheckAllocator(void *p, u32 size);
 
 extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *resource);
 
@@ -699,7 +699,7 @@ int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int pl
 
 /*
  * Trim a record's resource buffer to the part the CPU still needs: the
- * texels are already in VRAM, so the buffer is shrunk (func_020307E0) to end
+ * texels are already in VRAM, so the buffer is shrunk (GFL_HEAP_CheckAllocator) to end
  * where the texel data starts.  The file pointer is a named local, not an
  * inline call argument, or the record pointer would have to stay live in a
  * third callee-saved register across both calls.  Same shape as
@@ -711,7 +711,7 @@ void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
     struct G3dResource  *resource = (struct G3dResource *)image->handle;
     void                *file     = G3D_SYSTEM_GetResourceFile(resource);
     struct NNSG3dResTex *texBlock = G3D_SYSTEM_GetResourceTex(resource);
-    func_020307E0(file, (u32)((u8 *)texBlock + texBlock->texelDataOffset - (u8 *)file));
+    GFL_HEAP_CheckAllocator(file, (u32)((u8 *)texBlock + texBlock->texelDataOffset - (u8 *)file));
 }
 
 /*

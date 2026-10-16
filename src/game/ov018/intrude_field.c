@@ -100,7 +100,7 @@
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   func_02035390  0x02035390  arm
- *   func_020353B0  0x020353B0  arm
+ *   UI_IsPowerConnected  0x020353B0  arm
  *   ICA_ANIME_GetUnk330  0x02012204  thumb
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
@@ -166,7 +166,7 @@
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   TPOKE_DATA_Create  0x0202A128  thumb
- *   func_0202A170  0x0202A170  thumb
+ *   TPOKE_Delete  0x0202A170  thumb
  *   func_02005728  0x02005728  thumb
  *   INTRUDE_FIELD_gSymbolMonOffsetsHome     0x02183678  data  a4
  *   INTRUDE_FIELD_gSymbolMonOffsetsPlain     0x021835F8  data  a4
@@ -396,7 +396,7 @@ extern void GAME_COMM_RequestExit(struct GameComm *gameComm, u32 callback, u32 c
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, u32 param);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *file, u16 line);
 extern int func_02035390(void);
-extern int func_020353B0(void);
+extern int UI_IsPowerConnected(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *eventFunc, u32 workSize);
@@ -432,7 +432,7 @@ extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
 extern u16 POKE_TOOL_AddMove(void *mon, u16 move);
 extern void POKE_TOOL_PushMove(void *mon, int move);
 extern struct TpokeData *TPOKE_DATA_Create(int heapId);
-extern void func_0202A170(struct TpokeData *tpoke);
+extern void TPOKE_Delete(struct TpokeData *tpoke);
 extern u32 TPOKE_DATA_GetRecordIndex(struct TpokeData *tpoke, u32 species, u32 sex, u32 form);
 /* COMM_PLAYER, FLDMMDL and symbol map */
 extern void COMM_PLAYER_Update(struct GameSystem *gameSystem, struct CommPlayerWork *commPlayer);
@@ -1185,7 +1185,7 @@ void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (GFL_NET_ERR_GetErrorLevel() != 0)
         return;
-    if (func_02035390() == 1 && func_020353B0() == 1)
+    if (func_02035390() == 1 && UI_IsPowerConnected() == 1)
         return;
     if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return;
@@ -1231,7 +1231,7 @@ void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
         return;
     if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return;
-    if (func_02035390() == 1 && func_020353B0() == 1)
+    if (func_02035390() == 1 && UI_IsPowerConnected() == 1)
         return;
     param = GFL_HEAP_Alloc(0x8005, 0x10, 1, INTRUDE_FIELD_gStartParamFile, 0x528);
     param->startKind = 1;
@@ -1757,7 +1757,7 @@ void INTRUDE_FIELD_SpawnSymbolMons(struct FieldMap *fieldMap, int objIdBase, Sym
             INTRUDE_FIELD_AddSymbolMonMmdl(&spawn, &entries[i], i, x, z, 0);
         }
     }
-    func_0202A170(spawn.tpoke);
+    TPOKE_Delete(spawn.tpoke);
 }
 
 struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work, u16 senderNetId)

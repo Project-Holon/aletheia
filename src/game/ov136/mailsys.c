@@ -24,7 +24,7 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_Copy 0x02024570 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
- *   func_02008F80 0x02008F80 thumb
+ *   MAIL_GetWriterId 0x02008F80 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02008F84 0x02008F84 thumb
  *   STRBUF_SetString 0x02045924 arm
@@ -120,7 +120,7 @@ extern void GFL_HEAP_GetHeapHeadChecked(u16 v);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
 extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
-extern u32 func_02008F80(const struct Mail *mail);
+extern u32 MAIL_GetWriterId(const struct Mail *mail);
 extern struct Strbuf *STRBUF_Create(unsigned, u16);
 extern u8 *func_02008F84(struct Mail *mail);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
@@ -220,7 +220,7 @@ struct MailDraft *MAILSYS_CreateMessage(struct Mail *mail, unsigned heap)
     draft = GFL_HEAP_Alloc((u16)heap, 0x34, 0, d_021C7EEC, 0x147);
     MIi_CpuClearFast(0, draft, 0x34);
     draft->result = i;
-    draft->writerId = func_02008F80(mail);
+    draft->writerId = MAIL_GetWriterId(mail);
     draft->writerName = STRBUF_Create(0x10, heap);
     STRBUF_SetString(draft->writerName, (const u16 *)func_02008F84(mail));
     draft->design = func_02008FA4(mail);

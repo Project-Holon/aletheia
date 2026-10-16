@@ -283,7 +283,7 @@
  *   PROCSYS_Push  0x02031348  arm
  *   gIntroProcData     0x021BFD24  data  ov204  a4
  *   gNameInProcData     0x021F5580  data  ov194  a4
- *   func_02005B04  0x02005B04  thumb
+ *   GFL_USE_ReleaseWaveArcSet  0x02005B04  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_Copy  0x02008314  thumb
@@ -308,7 +308,7 @@
  *   func_020084E4  0x020084E4  thumb
  *   func_0200854C  0x0200854C  thumb
  *   func_02005728  0x02005728  thumb
- *   func_0200852C  0x0200852C  thumb
+ *   MYSTATUS_SetId  0x0200852C  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   func_02008558  0x02008558  thumb
  *   CONFIG_SetAppliedFlag  0x020083EC  thumb
@@ -342,7 +342,7 @@
  *   d_021BD980     0x021BD980  data  a4
  *   d_021BD990     0x021BD990  data  a4
  *   func_020461E4  0x020461E4  arm
- *   func_020461D4  0x020461D4  arm
+ *   MSGDATA_SetLanguage  0x020461D4  arm
  *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
  *   UI_SetIntrDataGlobal  0x020351F8  arm
  *   d_021BDA0C     0x021BDA0C  data  ov088  a4
@@ -855,7 +855,7 @@ typedef struct SaveLocation {
 typedef unsigned long long u64;
 typedef enum { Z0 } Zero;
 
-extern void func_02005B04(const u32 *arg);
+extern void GFL_USE_ReleaseWaveArcSet(const u32 *arg);
 extern void MYSTATUS_Copy(void *, void *);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void CONFIG_Copy(void *, void *);
@@ -879,7 +879,7 @@ extern void BEACON_SetSlotStates(struct Blk34 *p, u8 v);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_0200854C(int, int);
 extern u32 func_02005728(u32 range);
-extern void func_0200852C(struct MyStatus *obj, u32 value);
+extern void MYSTATUS_SetId(struct MyStatus *obj, u32 value);
 extern u32 GF_STANDARD_Rand(void);
 extern void func_02008558(struct MyStatus *obj, u8 value);
 extern void CONFIG_SetAppliedFlag(struct Config *config, unsigned int on);
@@ -898,7 +898,7 @@ extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200566C(void);
 extern void OS_ResetSystem(u32 parameter);
 extern u8 func_020461E4(void);
-extern void func_020461D4(u8);
+extern void MSGDATA_SetLanguage(u8);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 int SAVE_CONTROL_StartSave(int a0);
@@ -3476,7 +3476,7 @@ int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGa
     void *ov228Work;
     void *gameSystemWork;
     LocationPos pos = {0, 0, 0};
-    func_02005B04((const u32 *)work->waveArcSet);
+    GFL_USE_ReleaseWaveArcSet((const u32 *)work->waveArcSet);
     SAVE_CONTROL_INTR_Delete(work->saveIntr);
     MYSTATUS_Copy(work->myStatus, func_02008730(saveControl));
     CONFIG_Copy(work->config, func_0200873C(saveControl));
@@ -3582,7 +3582,7 @@ void STARTMENU_SetNewPlayerNameAndGender(struct MyStatus *myStatus, struct Strbu
     u32 currentValue;
     func_020084E4((u16 *)myStatus, (struct U16Vec *)name);
     func_0200854C((int)myStatus, gender);
-    func_0200852C(myStatus, func_02005728(-1));
+    MYSTATUS_SetId(myStatus, func_02005728(-1));
     tick = GF_STANDARD_Rand();
     currentValue = func_02008550(myStatus);
     func_02008558(myStatus, (u8)((u32)((tick * 8) >> 32) + currentValue * 8));
@@ -4187,7 +4187,7 @@ void STARTMENU_SaveEraseExitGraphics(void)
 void STARTMENU_SaveEraseAllocResources(SaveEraseWork *work)
 {
     work->savedAppliedFlag = func_020461E4();
-    func_020461D4(0);
+    MSGDATA_SetLanguage(0);
     work->msgBank = MSGDATA_CreateFromArchive(0, 2, 1, 0x81);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x81);
     work->stringBuf = STRBUF_Create(0x400, 0x81);
@@ -4202,7 +4202,7 @@ void STARTMENU_SaveEraseFreeResources(SaveEraseWork *work)
     STRBUF_Delete(work->stringBuf);
     GF_FONT_Delete(work->font);
     MSGDATA_Delete(work->msgBank);
-    func_020461D4(work->savedAppliedFlag);
+    MSGDATA_SetLanguage(work->savedAppliedFlag);
 }
 
 void STARTMENU_SaveEraseCreateWindow(SaveEraseWork *work)

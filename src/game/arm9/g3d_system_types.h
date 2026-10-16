@@ -23,7 +23,7 @@
 #define G3D_RES_TYPE_TEX    3   /* BTX0 */
 #define G3D_RES_TYPE_ANM    4   /* BCA0, BVA0, BMA0, BTP0, BTA0 */
 
-/* kinds for func_02046C9C and G3D_SYSTEM_CheckResourceType */
+/* kinds for G3D_SYSTEM_InitResourceByKind and G3D_SYSTEM_CheckResourceType */
 #define G3D_RES_KIND_NONE 0
 #define G3D_RES_KIND_MDL  1
 #define G3D_RES_KIND_TEX  2

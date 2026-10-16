@@ -17,7 +17,7 @@
  *   fabs  0x0209A504  arm
  *   frexp  0x0209A6E8  arm
  *   ldexp  0x0209A7A8  arm
- *   func_0209C5E0  0x0209C5E0  arm
+ *   _double_arith_body  0x0209C5E0  arm
  *   scalbn  0x02097990  arm
  *   bp  0x020A6300  data
  *   dp_h  0x020A62F0  data
@@ -46,7 +46,7 @@ extern double frexp(double x, int *eptr);
 
 extern double ldexp(double x, int n);
 
-extern double func_0209C5E0(double x);
+extern double _double_arith_body(double x);
 
 extern double scalbn(double x, int n);
 
@@ -111,7 +111,7 @@ ivln2_l  =  1.92596299112661746887e-08;
 
 /*
  * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
- * docs/notes/pkt_020979C0.c.txt.  fabs = fabs, sqrt = func_0209C5E0.
+ * docs/notes/pkt_020979C0.c.txt.  fabs = fabs, sqrt = _double_arith_body.
  * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
  * doubles), four bytes before the disasm body label __ieee754_pow.
  *
@@ -172,7 +172,7 @@ double __ieee754_pow(double x, double y)
 	    if(hy==0x40000000) return x*x;
 	    if(hy==0x3fe00000) {
 		if(hx>=0)
-		return func_0209C5E0(x);
+		return _double_arith_body(x);
 	    }
 	}
 

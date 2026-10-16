@@ -19,7 +19,7 @@
  *   GFL_USE_GetRandom   0x020056EC  thumb
  *   FX_SinCosTable_   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
- *   sub_0201F41C   0x0201F41C  thumb
+ *   WORDSET_CopyString   0x0201F41C  thumb
  *   GF_STANDARD_SetupRtc_F540  0x0203F540  arm
  */
 #include "wifilist_tail_shared_types.h"
@@ -63,7 +63,7 @@ extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u32  GFL_USE_GetRandom(u32 range);
 
-extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
 struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
 
@@ -195,14 +195,14 @@ int IRC_RANKING_FindClosestEntry(struct IrcRankSave *rank, u32 month, u32 day, s
 /*
  * A whole translation unit, matched as one byte range.
  *
- * The two helpers between func_0200A940 and IRC_RANKING_GetDateScore, both invisible
+ * The two helpers between IRC_RANKING_FindClosestEntry and IRC_RANKING_GetDateScore, both invisible
  * to the worklist: each saves registers but not lr and nothing branches to
  * either from outside, so disasm.py prints the pair as a single run of
  * `.word` (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * The 92 bytes here cover the whole gap.
  *
  * Both walk the same array of 0x1e records of 0x1c bytes that
- * func_0200A940 above them indexes, and both accept a record on the same
+ * IRC_RANKING_FindClosestEntry above them indexes, and both accept a record on the same
  * pair of tests: the u32 at +0x14 equal to the key and bit 31 of the u32
  * at +0x10 set.  The first returns bit 7 of the byte at +0x1b of the
  * matching record, the second returns 1.
@@ -423,7 +423,7 @@ int IRC_RANKING_HasEntryByTrainerId(struct IrcRankEntry *list, int count, struct
 /*
  * The Entry constructor of the family (see docs/families/mystery_data.h):
  * clear the 0x1C-byte record, copy 8 halfwords from `src` into the first
- * 16 bytes with sub_0201F41C, then fill the packed word at +0x10, the key at
+ * 16 bytes with WORDSET_CopyString, then fill the packed word at +0x10, the key at
  * +0x14, the halfword at +0x18, the byte at +0x1A and the two bit-packed
  * fields of +0x1B, and finally set the top bit of +0x10 and bit 7 of +0x1B.
  *
@@ -479,7 +479,7 @@ void IRC_RANKING_InitEntry(struct IrcRankEntry *entry, const void *name, u32 sco
                   u8 gender, u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag)
 {
     MI_CpuFill8(entry, 0, sizeof(struct IrcRankEntry));
-    sub_0201F41C(name, entry->name, 8);
+    WORDSET_CopyString(name, entry->name, 8);
     entry->score = score;
     entry->trainerId = trainerId;
     entry->gender = gender;

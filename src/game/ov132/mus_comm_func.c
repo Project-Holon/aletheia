@@ -58,7 +58,7 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020084BC 0x020084BC thumb
+ *   MYSTATUS_IsNameEmpty 0x020084BC thumb
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
@@ -198,7 +198,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 extern void MI_CpuCopy8(void *,void *,u32);
 
-extern int func_020084BC(const u16 *values);
+extern int MYSTATUS_IsNameEmpty(const u16 *values);
 
 void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d);
 
@@ -818,7 +818,7 @@ void MUS_COMM_FUNC_ReceiveBoxData(int a,int b,int c,char *p)
         n=m+4+POKE_TOOL_GetBoxParamSize();
         s=p+i*0x30;
         MI_CpuCopy8(q+k,((struct ActingScene *)s)->f8C,n);
-        flag=func_020084BC(((struct ActingScene *)s)->f84)==0 ? 1 : 0;
+        flag=MYSTATUS_IsNameEmpty(((struct ActingScene *)s)->f84)==0 ? 1 : 0;
         ((struct ActingScene *)s)->f60=flag;
         ((struct ActingScene *)s)->f68=flag;
     }
@@ -912,7 +912,7 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const struct ActingHost 
     u32 n;
     for(i=0;i<4;i++) {
         s=(char *)p+i*0x30;
-        if(func_020084BC(*(u16 **)(s+0x84))==0) {
+        if(MYSTATUS_IsNameEmpty(*(u16 **)(s+0x84))==0) {
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
             q=p->f128;
             k=i*n;

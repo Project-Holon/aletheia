@@ -110,12 +110,12 @@
  *   BOX2_UI_DrawSlot 0x021EDAB0 thumb ov170
  *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_020075B0 0x020075B0 thumb
+ *   BOX_SAVEDATA_SetPokemon 0x020075B0 thumb
  *   POKEPARTY_SetMember 0x0201AB48 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   BOX2_UI_DrawSlotByName 0x021EDB34 thumb ov170
  *   func_0200752C 0x0200752C thumb
- *   func_02007664 0x02007664 thumb
+ *   BOX_SAVEDATA_ClearPokemon 0x02007664 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
@@ -183,7 +183,7 @@
  *   ov070_id       0x00000046  data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BEACON_GetBlock 0x0200C0F0 thumb
- *   func_0200785C 0x0200785C thumb
+ *   BOX_SAVEDATA_GetBoxName 0x0200785C thumb
  *   NAMEIN_SETUP_CreateArgs 0x0216BFD4 thumb ov010
  *   gNameInProcData 0x021F5580 data a4 ov194
  *   ov194_id 0x000000C2 data a1
@@ -836,7 +836,7 @@ extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
 extern int POKE_TOOL_Dummy(void *p);
 
-extern void func_02007664(void *save, u32 box, u32 slot);
+extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
 
 extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 
@@ -846,7 +846,7 @@ extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 
 extern void *POKE_TOOL_GetBoxParam(void *);
 
-extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
+extern int BOX_SAVEDATA_SetPokemon(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 
 extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 
@@ -982,7 +982,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 extern void *BEACON_GetBlock(void *sys);
 
-extern void func_0200785C(void *save, unsigned box, void *dest);
+extern void BOX_SAVEDATA_GetBoxName(void *save, unsigned box, void *dest);
 
 extern int *NAMEIN_SETUP_CreateArgs(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
 
@@ -1707,7 +1707,7 @@ int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b)
 void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b)
 {
     if (b < 0x1eU)
-        func_02007664((void *)(((BoxParam *)((*p)))->boxSave), a, b);
+        BOX_SAVEDATA_ClearPokemon((void *)(((BoxParam *)((*p)))->boxSave), a, b);
     else
         POKEPARTY_RemoveMember((struct Party *)(((BoxParam *)((*p)))->party), b - 0x1eU);
 }
@@ -1720,7 +1720,7 @@ void BOX2_MAIN_MoveMonToParty(unsigned char *p,unsigned short *q,unsigned short 
     if (q[0] == 0x24) box=p[0x17]; else box=p[0x14];
     m=POKE_TOOL_CreateFromBoxParam((struct Mon *)BOX2_MAIN_GetMonAt((void ***)p,box,q[2]),0x804c);
     slot=t[2]-30;
-    func_020075B0((*(void ***)p)[1],box,q[2],POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((*(void ***)p)[2],slot)));
+    BOX_SAVEDATA_SetPokemon((*(void ***)p)[1],box,q[2],POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((*(void ***)p)[2],slot)));
     POKEPARTY_SetMember((*(void ***)p)[2],slot,m);
     GFL_HEAP_Free((void *)m);
     BOX2_UI_DrawSlot((BoxTask *)p,box);
@@ -1744,7 +1744,7 @@ void BOX2_MAIN_GetBoxMon(BoxTask *p, unsigned char *a)
 {
     int x = (int)POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(*(void **)(*(int *)&p->params + 8),
                                         ((BoxMonRef *)(a))->slot - 0x1e));
-    func_020075B0((void *)(*(int *)(*(int *)&p->params + 4)), p->curBox,
+    BOX_SAVEDATA_SetPokemon((void *)(*(int *)(*(int *)&p->params + 4)), p->curBox,
                   ((BoxMonRef *)(a))->pos, (const struct Sub020075B0Entry *)x);
     BOX2_MAIN_ClearSlot((char **)p, p->curBox, ((BoxMonRef *)(a))->slot);
     BOX2_UI_DrawSlot((BoxTask *)p, p->curBox);
@@ -1779,7 +1779,7 @@ void BOX2_MAIN_CompactParty(unsigned char *p,unsigned a,unsigned b,unsigned c)
     m = (void *)BOX2_MAIN_GetMonAt((void ***)p,a,b);
     box = BOX2_MAIN_WrapSlot((unsigned char *)p,c);
     func_0200752C((*(void ***)p)[1],box,m);
-    func_02007664((*(void ***)p)[1],a,b);
+    BOX_SAVEDATA_ClearPokemon((*(void ***)p)[1],a,b);
     BOX2_UI_DrawSlot((BoxTask *)p,a);
     BOX2_UI_DrawSlotByName((char *)p,a);
     BOX2_UI_DrawSlot((BoxTask *)p,box);
@@ -3277,7 +3277,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *p)
     value = (int)BEACON_GetBlock(GAME_DATA_GetSaveControl((*(void ***)p)[0]));
     r = GFL_HEAP_Alloc(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = STRBUF_Create(20, 0x4B);
-    func_0200785C((*(void ***)p)[1], p->curBox, r->text);
+    BOX_SAVEDATA_GetBoxName((*(void ***)p)[1], p->curBox, r->text);
     r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (int)r->text, value);
     PROCSYS_Push((void *)p->procSys, (int)ov194_id, gNameInProcData, r->task);
     *(NameInRequest * *)&p->subArgs = r;

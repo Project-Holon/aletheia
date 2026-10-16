@@ -1,7 +1,7 @@
 /*
  * file:     nns_gfd_vram_transfer.c
  * unit:     yes
- * function: NNS_GfdDoVramTransfer, NNS_GfdRegisterNewVramTransferTask, NNSi_GfdMergeAdjacentFreeBlocks, func_02061DF0, NNSi_GfdInitBlockPool, NNSi_GfdAddBlock, NNSi_GfdAllocBlockUnaligned
+ * function: NNS_GfdDoVramTransfer, NNS_GfdRegisterNewVramTransferTask, NNSi_GfdMergeAdjacentFreeBlocks, NNSi_GfdClearBlockListHead, NNSi_GfdInitBlockPool, NNSi_GfdAddBlock, NNSi_GfdAllocBlockUnaligned
  * address:  0x02061C44
  * region:   arm9
  * compiler: dsi/1.1p1

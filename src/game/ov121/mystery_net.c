@@ -26,14 +26,14 @@
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_STATE_GetError 0x0203CA98 arm
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
- *   func_02059F18 0x02059F18 arm
+ *   DWC_ClearError 0x02059F18 arm
  *   GFL_NET_ERR_WaitLinkClosed 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   GFL_NET_ERR_HaltIfActive 0x0200FA84 thumb
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_02010360 0x02010360 thumb
+ *   WIH_DWC_Create 0x02010360 thumb
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   d_021DFABC 0x021DFABC data a4
  *   GFL_NET_Exit 0x0203CEAC arm
@@ -71,6 +71,7 @@
  *   WIH_DWC_PollStatus  0x0201058C  thumb  arm9
  *   SAVE_EVENT_WriteWithDate  0x0202F2AC  thumb  arm9
  *   MSGDATA_AllocString  0x02045EC0  arm  arm9
+ *   WIH_DWC_TickTimers  0x02010498  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -116,17 +117,17 @@ extern void GFL_NET_ERR_ResetState(void);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_STATE_GetError(void);
 extern void GFL_NET_STATE_SetWifiError(void);
-extern void func_02059F18(void);
+extern void DWC_ClearError(void);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void GFL_NET_ERR_HaltIfActive(void);
 extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
-extern u8 *func_02010360(int idx, void *heap);
+extern u8 *WIH_DWC_Create(int idx, void *heap);
 extern void GFL_NET_BeaconScanStart(void);
 extern int GFL_NET_Exit(int);
-extern void func_02010498(void);
+extern void WIH_DWC_TickTimers(void);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern void *DELIVERY_BEACON_Create(u8 *p);
 extern int DELIVERY_BEACON_Start(u32 *);
@@ -331,7 +332,7 @@ int MYSTERY_NET_HandleWifiError(char *p)
         case 1: case 2: case 3: case 4: case 5: case 6:
             if (((MysteryNetWork *)p)->nd.busy==1) return result;
             GFL_NET_STATE_SetWifiError();
-            func_02059F18();
+            DWC_ClearError();
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_ERR_ShowSimpleScreen();
             GFL_NET_ERR_ResetState();
@@ -374,7 +375,7 @@ void MYSTERY_NET_StartSession(void *a, int *state, char *p)
     case 1:
         if (GFL_NET_GetRunState()) {
             GFL_NET_RestartWithDefaultTimeout(1, ((MysteryNetWork *)p)->heapId);
-            ((MysteryNetWork *)p)->wihHandle = func_02010360(4, (void *)(((MysteryNetWork *)p)->heapId));
+            ((MysteryNetWork *)p)->wihHandle = WIH_DWC_Create(4, (void *)(((MysteryNetWork *)p)->heapId));
             GFL_NET_BeaconScanStart();
             *state = 2;
         }
@@ -417,7 +418,7 @@ void MYSTERY_NET_StopSession(void *a, int *state, char *p)
 
 void MYSTERY_NET_PollWihStatus(int a, int b, char *c)
 {
-    func_02010498();
+    WIH_DWC_TickTimers();
     ((MysteryNetWork *)c)->result = (void *)WIH_DWC_PollStatus(0);
 }
 

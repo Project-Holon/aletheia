@@ -83,7 +83,7 @@
  *   func_02049F34 0x02049F34 arm
  *   d_021C2878 0x021C2878 data ov099 a2
  *   GFL_HEAP_Free  0x020307B0  arm
- *   sub_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   d_021C287C     0x021C287C  data  ov099  a1
  *   data_021C28A8  0x021C28A8  data

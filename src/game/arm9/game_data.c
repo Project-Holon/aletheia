@@ -42,14 +42,14 @@
  *   FLDMMDL_CreateSys  0x0216CC58  thumb  ov010
  *   FIELD_SOUND_SYSTEM_Create  0x02028844  thumb
  *   FIELD_STATUS_Create  0x02014428  thumb
- *   func_02008254  0x02008254  thumb
+ *   MYITEM_SAVEDATA_CreateBagCursor  0x02008254  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_02007AA4  0x02007AA4  thumb
  *   WIFILIST_Create  0x020097C4  thumb
  *   INTRUDE_InitOccupy  0x0200BDE4  thumb
  *   EVENT_FIELD_PROCLINK_InitEventdataSystem  0x02161D98  thumb  ov010
  *   func_0200857C  0x0200857C  thumb
- *   func_020071E4  0x020071E4  thumb
+ *   SAVE_CONTROL_IsNewGame  0x020071E4  thumb
  *   FIELD_ENCOUNT_ST_Create  0x0215E31C  thumb  ov010
  *   PMS_DRAW_ClearWork  0x0202E43C  thumb
  *   GAME_DATA_LoadFromSave  0x02012C18  thumb
@@ -93,7 +93,7 @@
  *   func_0200893C  0x0200893C  thumb
  *   func_02008954  0x02008954  thumb
  *   func_02009D08  0x02009D08  thumb
- *   func_020097F0  0x020097F0  thumb
+ *   WIFILIST_Copy  0x020097F0  thumb
  *   func_02008964  0x02008964  thumb
  *   func_0200E89C  0x0200E89C  thumb
  *   func_02008748  0x02008748  thumb
@@ -187,7 +187,7 @@ extern struct BgmInfo *FIELD_SOUND_SYSTEM_Create(struct GameData *gameData, u32 
 
 extern u32   FIELD_STATUS_Create(int heapId);
 
-extern void *func_02008254(u32 heapId);
+extern void *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId);
 
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
 
@@ -201,7 +201,7 @@ extern void  EVENT_FIELD_PROCLINK_InitEventdataSystem(void *unionInfo);
 
 extern void *func_0200857C(u32 heapId);
 
-extern u8 func_020071E4(struct SaveControl *save);
+extern u8 SAVE_CONTROL_IsNewGame(struct SaveControl *save);
 
 extern void *FIELD_ENCOUNT_ST_Create(u32 heapId);
 
@@ -390,7 +390,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, (u32)SAVE_CONTROL_GetBlock(gameData->saveControl, 0x33));
     gameData->bgmInfo = (u32)FIELD_SOUND_SYSTEM_Create(gameData, heapId);
     gameData->moveModelSys = (void *)FIELD_STATUS_Create(heapId);
-    gameData->mapMatrix = (u32)func_02008254(heapId);
+    gameData->mapMatrix = (u32)MYITEM_SAVEDATA_CreateBagCursor(heapId);
     gameData->myItem = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x19);
     gameData->myParty = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x1A);
     gameData->config = func_0200873C(gameData->saveControl);
@@ -407,7 +407,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
 
     gameData->playTime = func_0200857C(heapId);
     gameData->saveStatus = 0;
-    func_020071E4(gameData->saveControl);
+    SAVE_CONTROL_IsNewGame(gameData->saveControl);
 
     gameData->fieldGimmick = (u32)FIELD_ENCOUNT_ST_Create(heapId);
     PMS_DRAW_ClearWork(gameData->rtcWork);
@@ -712,7 +712,7 @@ extern void func_02008954(const struct Situation *situation, u8 *out);
 
 extern struct FieldState *func_02009D08(struct SaveControl *save);
 
-extern void func_020097F0(const struct FieldState *src, struct FieldState *dest);
+extern void WIFILIST_Copy(const struct FieldState *src, struct FieldState *dest);
 
 extern void func_02008964(const struct Situation *situation, u8 *out);
 
@@ -1477,14 +1477,14 @@ u8 *GAME_DATA_GetRtcWork(struct GameData *gd)
 /*
  * 204 bytes, 0x02012C18..0x02012CDC (the listing extent 204 includes the
  * 0x5EC pool word at 0x02012CDC).  Sibling of GAME_DATA_WriteToSave, same shape plus
- * an opening guard `if (func_020071E4(*(u32 *)p) == 1) return;`.
+ * an opening guard `if (SAVE_CONTROL_IsNewGame(*(u32 *)p) == 1) return;`.
  *
  * docs/notes/pkt_02012C18.c.txt recorded this as an unmovable register
  * rotation (r4/r6/r7) -- it was not.  The rotation was downstream of ONE
  * wrong argument order: the original is
- *     func_020097F0(func_02009D08(*(u32 *)p), v);
+ *     WIFILIST_Copy(func_02009D08(*(u32 *)p), v);
  * i.e. the inner call's result is argument 1 and the 0x0201283C result is
- * argument 2, the OPPOSITE of the sibling's func_020097F0(v, func_02009D08())
+ * argument 2, the OPPOSITE of the sibling's WIFILIST_Copy(v, func_02009D08())
  * at 0x02012D6E.  With the arguments the sibling's way, mwcc needs an extra
  * `adds r0, r7, #0` at the call, which shifts everything after it by two
  * bytes, forces the trailing `c046` pool-alignment nop, and reallocates the
@@ -1502,7 +1502,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     struct FieldState *fieldState;
     struct PlayTime *savedTime;
     u32 situation;
-    if (func_020071E4(gd->saveControl) == 1) {
+    if (SAVE_CONTROL_IsNewGame(gd->saveControl) == 1) {
         return;
     }
     player = GAME_DATA_GetField114(gd);
@@ -1518,7 +1518,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     func_0200893C((const struct Situation *)situation, gd->moveModelSys);
     func_02008954((const struct Situation *)situation, &gd->season);
     fieldState = GAME_DATA_GetField1A0(gd);
-    func_020097F0(func_02009D08(gd->saveControl), fieldState);
+    WIFILIST_Copy(func_02009D08(gd->saveControl), fieldState);
     func_02008964((const struct Situation *)gd->situation, &gd->subscreenMode);
     func_0200E89C(gd->saveControl, gd->saveSyncBlock);
     savedTime = func_02008748(gd->saveControl);
@@ -1561,7 +1561,7 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     func_0200892C((struct Situation *)situation, gd->moveModelSys);
     func_0200894C((struct Situation *)situation, gd->season);
     fieldState = GAME_DATA_GetField1A0(gd);
-    func_020097F0(fieldState, func_02009D08(gd->saveControl));
+    WIFILIST_Copy(fieldState, func_02009D08(gd->saveControl));
     func_0200895C((struct Situation *)gd->situation, gd->subscreenMode);
     func_0200E884(gd->saveSyncBlock, gd->saveControl);
     savedTime = func_02008748(gd->saveControl);

@@ -21,7 +21,7 @@
  *   ENV_SetResourceSet  0x020307B0  arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   func_02082A7C 0x02082A7C arm
- *   func_02045F50 0x02045F50 arm
+ *   MSGDATA_GetMessageCount 0x02045F50 arm
  *   func_02045CAC 0x02045CAC arm
  *   STRBUF_GetChars  0x02045A90  arm
  */
@@ -38,7 +38,7 @@ extern void STRBUF_Delete(struct StrBuf *str);
 extern void ENV_SetResourceSet(void *p);
 extern u16 STRBUF_GetLength(struct StrBuf *str);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
-extern u16 func_02045F50(const struct MsgBank *bank);
+extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, struct StrBuf *dest);
 extern u16 *STRBUF_GetChars(struct StrBuf *str);
 MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId);
@@ -90,7 +90,7 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
     prefixLength = STRBUF_GetLength(prefix);
     func_02082A7C(-1, hits, maxHits * sizeof(MsgSearchHit));
     if (prefixLength) {
-        messageCount = func_02045F50(search->bank[bankIndex]);
+        messageCount = MSGDATA_GetMessageCount(search->bank[bankIndex]);
         bank = search->bank[bankIndex];
         messageIndex = 0;
         hitCount = 0;

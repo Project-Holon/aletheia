@@ -31,7 +31,7 @@
  *   g_020A1999      0x020A1999  data  a1
  *   g_020A199A      0x020A199A  data  a1
  *   g_020A199B      0x020A199B  data  a1
- *   func_020834A8   0x020834A8  thumb
+ *   MI_Zero36B   0x020834A8  thumb
  *   VEC_Normalize   0x0207CCA4  arm
  *   MIi_CpuClear16   0x02082A48  arm
  *   NNS_G3dGetResDictIdxByName    0x0206E7EC  arm
@@ -65,7 +65,7 @@
 #define VOLATILE_JNTANM(p) ((volatile NNSG3dJntAnmResult *)(p))
 
 extern void MIi_CpuClear16(u32 val, void *dst, u32 n);
-extern void func_020834A8(void *p);
+extern void MI_Zero36B(void *p);
 extern void VEC_Normalize(const int *src, int *dst);
 s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
 extern void *NNS_G3dGetResDataByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
@@ -313,7 +313,7 @@ void NNSi_G3dGetNodeScaleFromMdl(NNSG3dJntAnmResult *pResult)
  * Node flag bit 1 is rotation zero, bit 3 selects the pivot-compressed form
  * (0xf0 the pivot index, 0x100 / 0x200 / 0x400 the pivot sign and the C / D
  * sign reversals over the four pivot-column tables at 0x020A1998..B), else
- * the nine rotation entries are copied out.  func_020834A8 is MI_Zero36B.
+ * the nine rotation entries are copied out.  MI_Zero36B is MI_Zero36B.
  *
  * THE LEVER: the pivot index is `long`, not int.  With int, node and
  * pivot swap r4 / r5 at every use; mwcc colours long and int as different
@@ -338,7 +338,7 @@ void NNSi_G3dGetNodeRotFromMdl(NNSG3dJntAnmResult *pResult)
             pivotIdx = (int)(flag & NNS_G3D_SRTFLAG_IDXPIVOT_MASK) >> 4;
             pivotU = pRot[0];
             pivotV = pRot[1];
-            func_020834A8(pResult->rot);
+            MI_Zero36B(pResult->rot);
             ((fx32 *)pResult->rot)[pivotIdx] = (((const NNSG3dResNodeData *)pNodeData)->flag & NNS_G3D_SRTFLAG_PIVOT_MINUS) ? -0x1000 : 0x1000;
             ((fx32 *)pResult->rot)[g_020A1998[pivotIdx].index] = pivotU;
             ((fx32 *)pResult->rot)[g_020A1999[pivotIdx].index] = pivotV;

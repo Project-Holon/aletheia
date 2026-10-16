@@ -64,7 +64,7 @@
  *   func_02049624  0x02049624  arm
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
- *   func_020407E8  0x020407E8  arm
+ *   BG_SYS_GetScrollX  0x020407E8  arm
  *   func_02040804  0x02040804  arm
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
@@ -343,7 +343,7 @@ extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, 
 
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 
-extern u32 func_020407E8(u32 layer);
+extern u32 BG_SYS_GetScrollX(u32 layer);
 
 extern u32 func_02040804(u32 layer);
 
@@ -2433,7 +2433,7 @@ int BTLV_EFFVM_CmdLoadBgPalette(struct ScriptVm *vm, BtlvEffVmWork *work)
     func_02049624((void *)0x5f, (void *)(fileId + 1), (void *)3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     ARC_UTIL_UploadBgPaletteFromArchive(0x5f, fileId, 3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), (int)0x5f, (int)(fileId + 2), (u16)((work->heapId & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
-    work->bg3ScrollX = func_020407E8(3);
+    work->bg3ScrollX = BG_SYS_GetScrollX(3);
     work->bg3ScrollY = func_02040804(3);
     BTLV_BG_SetScroll(BTLV_EFFECT_GetBg(), 0, 0);
     work->flags.bit.gfxReloadPending = 1;

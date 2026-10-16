@@ -1,7 +1,7 @@
 /*
  * file:     std_string.c
  * unit:     yes
- * function: STD_CopyString, STD_CopyLString, STD_SearchString, func_0208CC78, STD_GetStringNLength, STD_CompareString, STD_CompareNString, func_0208CF34, func_0208CF5C, func_0208CF84, func_0208CFD8
+ * function: STD_CopyString, STD_CopyLString, STD_SearchString, STD_GetStringLength, STD_GetStringNLength, STD_CompareString, STD_CompareNString, STD_TSScanf, func_0208CF5C, func_0208CF84, func_0208CFD8
  * address:  0x0208CADC
  * region:   arm9
  * compiler: dsi/1.1p1

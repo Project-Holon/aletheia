@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Alloc     0x02030734  arm
  *   BILLBOARD_Create     0x0204EBD4  arm
- *   func_02033C00     0x02033C00  arm
+ *   AREAMAN_Create     0x02033C00  arm
  *   sBillboardAct     0x020A7FB0  data
  *   gBillboardActTpl  0x020A155C  data  a4
  *   BILLBOARD_FreeElem  0x0204F5A8  arm
@@ -107,8 +107,8 @@
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   G2_GetBG2CharPtr  0x0207E2A0  arm
  *   G2_GetBG3CharPtr  0x0207E330  arm
- *   func_0207E22C  0x0207E22C  arm
- *   func_0207E280  0x0207E280  arm
+ *   G2S_GetBG0CharPtr  0x0207E22C  arm
+ *   G2S_GetBG1CharPtr  0x0207E280  arm
  *   G2S_GetBG2CharPtr  0x0207E2F0  arm
  *   G2S_GetBG3CharPtr  0x0207E388  arm
  *   NNSi_GfdDefaultAllocTexVram  0x020614D4  arm
@@ -331,7 +331,7 @@ struct ParticleMan {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct BbBoard *BILLBOARD_Create(const struct BbActBoardInit *init, u32 heapId);
-extern struct AreaMan *func_02033C00(u32 size, u32 heapId);
+extern struct AreaMan *AREAMAN_Create(u32 size, u32 heapId);
 extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemId);
 extern void BILLBOARD_Delete(struct BbBoard *board);
 extern u32 AREAMAN_Delete(struct AreaMan *pool);
@@ -558,9 +558,9 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     sys->board = BILLBOARD_Create(&init, heapId);
 
     sys->slots = GFL_HEAP_Alloc(heapId, sys->slotCount * 8, 1, file, 119);
-    sys->slotPool = func_02033C00(sys->slotCount, heapId);
+    sys->slotPool = AREAMAN_Create(sys->slotCount, heapId);
     sys->entries = GFL_HEAP_Alloc(heapId, sys->entryCount * 0x28, 1, file, 123);
-    sys->entryPool = func_02033C00(sys->entryCount, heapId);
+    sys->entryPool = AREAMAN_Create(sys->entryCount, heapId);
 
     for (i = 0; i < sys->slotCount; i++) {
         BILLBOARD_ACT_InitSlot(&sys->slots[i]);
@@ -2633,8 +2633,8 @@ extern void *G2_GetBG0CharPtr(void);
 extern void *G2_GetBG1CharPtr(void);
 extern void *G2_GetBG2CharPtr(void);
 extern void *G2_GetBG3CharPtr(void);
-extern int func_0207E22C(void);
-extern int func_0207E280(void);
+extern int G2S_GetBG0CharPtr(void);
+extern int G2S_GetBG1CharPtr(void);
 extern void *G2S_GetBG2CharPtr(void);
 extern void *G2S_GetBG3CharPtr(void);
 
@@ -3091,8 +3091,8 @@ int BUTTON_MAN_CallHandlerById(int i)
     case 1: return (int)G2_GetBG1CharPtr();
     case 2: return (int)G2_GetBG2CharPtr();
     case 3: return (int)G2_GetBG3CharPtr();
-    case 4: return func_0207E22C();
-    case 5: return func_0207E280();
+    case 4: return G2S_GetBG0CharPtr();
+    case 5: return G2S_GetBG1CharPtr();
     case 6: return (int)G2S_GetBG2CharPtr();
     case 7: return (int)G2S_GetBG3CharPtr();
     }

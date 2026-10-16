@@ -201,8 +201,8 @@
  *   POKELIST_CloseMessageToList 0x021B9E20 thumb ov091
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   FILE_UTIL_Check136C 0x0202136C thumb
- *   func_02009050 0x02009050 thumb
- *   func_0200902C 0x0200902C thumb
+ *   MAIL_CreateSlotCopy 0x02009050 thumb
+ *   MAIL_ClearSlot 0x0200902C thumb
  *   POKELIST_EnterMenuPhase 0x021B907C thumb ov091
  *   PLIST_MENU_IsSpecialItemKind 0x021BC17C thumb ov091
  *   PLIST_DEMO_CheckItemUsable 0x021BDD78 thumb ov091
@@ -671,8 +671,8 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
-extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
-extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
+extern struct Sub02008F80Obj *MAIL_CreateSlotCopy(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
+extern void MAIL_ClearSlot(struct Sub02008F80Obj *arr, u32 unused, int i);
 extern int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int id);
 extern int PLIST_DEMO_CheckItemUsable(void *a, u32 id, int slot, u32 heap);
 extern int PLIST_MENU_StartItemUse(PokelistWork *work,int);
@@ -1979,10 +1979,10 @@ void POKELIST_ApplySelection(PokelistWork *work)
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
     case 14:
         if (POKE_TOOL_GetPartyValue((void *)work->selectedMon,6,0) == 0) {
-            buf=(u32)func_02009050(work->arg->mailBox,0,work->arg->mailSlot,work->heapId);
+            buf=(u32)MAIL_CreateSlotCopy(work->arg->mailBox,0,work->arg->mailSlot,work->heapId);
             POKE_TOOL_SetPartyValue((void *)work->selectedMon,0xa7,buf); GFL_HEAP_Free((void *)buf);
             POKE_TOOL_SetPartyValue((void *)work->selectedMon,6,work->arg->itemId);
-            func_0200902C(work->arg->mailBox,0,work->arg->mailSlot);
+            MAIL_ClearSlot(work->arg->mailBox,0,work->arg->mailSlot);
             POKELIST_ShowMessage(work,0x62,1,POKELIST_EndMessageToExit);
         } else POKELIST_ShowMessage(work,0x63,1,POKELIST_EndMessageToExit);
         return;

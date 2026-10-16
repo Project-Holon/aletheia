@@ -43,7 +43,7 @@
  *   FIELD_EFFECT_GetModelBaseOffset  0x021ABE28  thumb  ov021
  *   FLDMMDL_CheckDrawInitComp  0x0216DB24  thumb  ov010
  *   FLDMMDL_CheckStatusBitAttrOffsetOff 0x0216DC00 thumb ov010
- *   func_021AB41C 0x021AB41C thumb ov021
+ *   MAP_ATTR_IsSand 0x021AB41C thumb ov021
  *   FLDMMDL_SetAttrOffset 0x0216D900 thumb ov010
  *   d_021714D0 0x021714D0 data ov010 a4
  *   func_021AB4EC  0x021AB4EC  thumb
@@ -237,7 +237,7 @@ extern u32 FIELDMAP_GetEffect(u8 *p);
 extern u8 FIELD_EFFECT_GetModelBaseOffset(u8 *p);
 extern int FLDMMDL_CheckDrawInitComp(Mmdl *mmdl);
 extern int FLDMMDL_CheckStatusBitAttrOffsetOff(Mmdl *mmdl);
-extern int func_021AB41C(unsigned short);
+extern int MAP_ATTR_IsSand(unsigned short);
 extern void FLDMMDL_SetAttrOffset(int, const VecFx32 *);
 extern int func_021AB4EC();
 extern int func_021AB4F8();
@@ -603,7 +603,7 @@ static inline void vzero(VecFx32 *pos)
 void FLDMMDL_MOVE_AttrSetDrawOffset(Mmdl *mmdl, EventInfo *info)
 {
     VecFx32 offset;
-    if (FLDMMDL_CheckStatusBitAttrOffsetOff(mmdl) == 0 && func_021AB41C(info->oldAttrValue) != 0) {
+    if (FLDMMDL_CheckStatusBitAttrOffsetOff(mmdl) == 0 && MAP_ATTR_IsSand(info->oldAttrValue) != 0) {
         offset = d_021714D0;
         FLDMMDL_SetAttrOffset((int)mmdl, &offset);
         return;
@@ -713,7 +713,7 @@ void FLDMMDL_MOVE_AttrEffectGround(Mmdl *mmdl, EventInfo *info)
             kind = 2;
             if (info->objCodeParam->footMarkType == 2)
                 kind = 3;
-        } else if (func_021AB41C(info->nowAttrValue) == 1) {
+        } else if (MAP_ATTR_IsSand(info->nowAttrValue) == 1) {
             kind = 4;
         } else {
             kind = 0;

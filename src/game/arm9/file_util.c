@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_0200575C  0x0200575C  thumb
+ *   GFL_USE_GetArcPath  0x0200575C  thumb
  *   FS_InitFile  0x020788AC  arm
  *   FS_OpenFile  0x02078C18  arm
  *   FILE_UTIL_FILE_NAME     0x020A73B0  data
@@ -138,7 +138,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *block);
 
-extern void *func_0200575C(u32 archiveId);
+extern void *GFL_USE_GetArcPath(u32 archiveId);
 
 extern void  FS_InitFile(struct FSFile *file);
 
@@ -229,7 +229,7 @@ void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId)
 {
     void *path;
 
-    path = func_0200575C(archiveId);
+    path = GFL_USE_GetArcPath(archiveId);
     FS_InitFile(file);
     FS_OpenFile(file, path);
 }

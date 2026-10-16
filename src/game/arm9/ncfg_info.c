@@ -1,7 +1,7 @@
 /*
  * file:     ncfg_info.c
  * unit:     yes
- * function: func_0205FAA8, NCFG_CheckConfig, NCFG_CheckConfigEx, checkConfig, checkConfigEx, initPage, initPageEx, readAllSlots, readAllExSlots, writeAllSlots, writeAllExSlots
+ * function: NCFG_ReadConfig, NCFG_CheckConfig, NCFG_CheckConfigEx, checkConfig, checkConfigEx, initPage, initPageEx, readAllSlots, readAllExSlots, writeAllSlots, writeAllExSlots
  * address:  0x0205FAA8
  * region:   arm9
  * compiler: dsi/1.1p1

@@ -137,7 +137,7 @@
  *   FIELD_STATUS_SetFieldInitFlag  0x02014454  thumb
  *   SCRIPT_SYS_RunFieldRecoverScript  0x02158AD4  thumb  ov010
  *   FIELD_STATUS_SetContinueFlag  0x0201445C  thumb
- *   func_0201209C  0x0201209C  thumb
+ *   GAMESYSTEM_SetEventCreator  0x0201209C  thumb
  *   GAME_DATA_SetWalkCountEnabled  0x020129DC  thumb
  *   FIELD_EVENT_CHECK_CheckCommEvents  0x0218A0E4  thumb  ov021
  *   FIELD_EVENT_CHECK_RunRail  0x0218A240  thumb  ov021
@@ -337,7 +337,7 @@
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
  *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
- *   func_020127D0  0x020127D0  thumb
+ *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
  *   FIELD_G3D_MAPPER_SetupWfbc  0x0218DC74  thumb  ov021
  *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb  ov021
  *   FIELD_WFBC_DisableUnusedConnects  0x021939C0  thumb  ov021
@@ -553,7 +553,7 @@ extern void SCRIPT_SYS_RunFieldInitScript(struct GameSystem *gameSystem, int hea
 extern void FIELD_STATUS_SetFieldInitFlag(struct FieldStatus *o, u8 v);
 extern void SCRIPT_SYS_RunFieldRecoverScript(struct GameSystem *gameSystem, int heapId);
 extern void FIELD_STATUS_SetContinueFlag(struct FieldStatus *o, u8 v);
-extern void func_0201209C(struct GameSystem *gameSystem, FieldMapEventCheckFunc checkFunc, FieldMap *fieldMap);
+extern void GAMESYSTEM_SetEventCreator(struct GameSystem *gameSystem, FieldMapEventCheckFunc checkFunc, FieldMap *fieldMap);
 extern void GAME_DATA_SetWalkCountEnabled(struct GameData *p, u8 v);
 extern int FIELD_EVENT_CHECK_CheckCommEvents(struct GameSystem *gameSystem, void *work);
 extern int FIELD_EVENT_CHECK_RunRail(struct GameSystem *gameSystem, void *work);
@@ -737,7 +737,7 @@ void FIELD_CAMERA_ClearAreas(struct FieldCamera *camera);
 extern int ZONEDATA_IsZoneInTableDFC0(int v);
 extern u32 FIELD_STATUS_GetMapMode(struct FieldStatus *o);
 extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
-extern void *func_020127D0(struct GameData *gameData, u32 idx);
+extern void *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 idx);
 extern int FIELD_G3D_MAPPER_SetupWfbc(struct FieldG3dMapper *g3dMapper, void *wfbcData, u32 c);
 extern void *FIELD_G3D_MAPPER_GetWfbc(struct FieldG3dMapper *g3dMapper);
 extern void FIELD_WFBC_DisableUnusedConnects(void *buildModel, void *eventData, int skip, u32 heapId);
@@ -1188,13 +1188,13 @@ int FIELDMAP_SeqStart(struct GameSystem *gameSystem, FieldMap *fieldMap)
         FIELD_STATUS_SetContinueFlag(GAME_DATA_GetMoveModelSys(fieldMap->gameData), 0);
         FIELD_G3D_MAPPER_UpdateBlocking(fieldMap->g3dMapper);
         if (ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
-            func_0201209C(gameSystem, FIELD_EVENT_CHECK_CheckCommEvents, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_CheckCommEvents, fieldMap);
         else if (FIELDMAP_GetCtrlType(fieldMap) == 1)
-            func_0201209C(gameSystem, FIELD_EVENT_CHECK_RunRail, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_RunRail, fieldMap);
         else if (FIELDMAP_GetCtrlType(fieldMap) == 2)
-            func_0201209C(gameSystem, FIELD_EVENT_CHECK_Run, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_Run, fieldMap);
         else
-            func_0201209C(gameSystem, FIELD_EVENT_CHECK_RunGrid, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_RunGrid, fieldMap);
         fieldMap->mainState = 1;
         GAME_DATA_SetWalkCountEnabled(GAMESYSTEM_GetGameData(gameSystem), 1);
         break;
@@ -1289,7 +1289,7 @@ int FIELDMAP_SeqDeleteSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
     ENCEFF_Delete(fieldMap->encEff);
     FLD3D_CI_Delete(fieldMap->fld3dCi);
     FLD_PARTICLE_Delete(fieldMap->particle);
-    func_0201209C(gameSystem, 0, 0);
+    GAMESYSTEM_SetEventCreator(gameSystem, 0, 0);
     FIELD_PLAYER_SaveToPlayerWork(fieldMap->player);
     FIELD_SUBPROC_MGR_Delete(fieldMap->mapFunc);
     GAME_COMM_CallKindNotify(GAMESYSTEM_GetGameComm(gameSystem), fieldMap);
@@ -1991,7 +1991,7 @@ void FIELDMAP_SetupWfbc(struct GameData *gameData, FieldMap *fieldMap, u16 zoneI
         if (mapMode == 0)
             wfbcData = GAME_DATA_GetSecondUnionInfo(fieldMap->gameData);
         else
-            wfbcData = func_020127D0(fieldMap->gameData, 0);
+            wfbcData = GAME_DATA_GetUnionInfo(fieldMap->gameData, 0);
         FIELD_G3D_MAPPER_SetupWfbc(fieldMap->g3dMapper, wfbcData, mapMode);
         buildModel = FIELD_G3D_MAPPER_GetWfbc(fieldMap->g3dMapper);
         FIELD_WFBC_DisableUnusedConnects(buildModel, GAME_DATA_GetEventData(gameData), mapMode, fieldMap->heapId);

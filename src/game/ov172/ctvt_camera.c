@@ -42,7 +42,7 @@
  *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
  *   CTVT_COMM_GetSlotReady 0x021B8BAC thumb ov172
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0207ECF0 0x0207ECF0 arm
+ *   GX_LoadBG3Scr 0x0207ECF0 arm
  *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   func_02082A7C 0x02082A7C arm
  *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
@@ -110,7 +110,7 @@ extern void COMM_TVT_SYS_ClearAndTransferNameWindows(void *p);
 extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
 extern u8 CTVT_COMM_GetSlotReady(void *unused, char *base, int i);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
-extern void func_0207ECF0(const void *src, u32 off, u32 size);
+extern void GX_LoadBG3Scr(const void *src, u32 off, u32 size);
 extern void *G2_GetBG3ScrPtr(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern int APP_ENV_HasParentalControlBits(void);
@@ -293,7 +293,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
     if (screenSplit == 0) {
         if (view->dirtyMask != 0) {
             DWCi_ScreenDC_FlushRange((u16 *)view->screenBuf, 0x18000);
-            func_0207ECF0(view->screenBuf, 0, 0x18000);
+            GX_LoadBG3Scr(view->screenBuf, 0, 0x18000);
             view->dirtyMask = 0;
         }
     } else {
@@ -406,7 +406,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 }
                 for (j = 0; j < view->window[i].curH; j++) {
                     int r = j + (h - view->window[i].curH);
-                    func_0207ECF0((void *)((w - view->window[i].curW) * 2 + (dst + r * w * 2)),
+                    GX_LoadBG3Scr((void *)((w - view->window[i].curW) * 2 + (dst + r * w * 2)),
                                   view->window[i].curX * 2 + (j + view->window[i].curY) * 0x200,
                                   view->window[i].curW * 2);
                 }

@@ -22,7 +22,7 @@
  *   OS_GetArenaLo  0x02086580  arm
  *   OS_GetArenaHi  0x0208656C  arm
  *   OS_SetArenaLo  0x02086774  arm
- *   func_02075E04  0x02075E04  arm
+ *   CARD_GetOwnRomHeaderTWL  0x02075E04  arm
  *   CARD_CalcRomHashBufferLength  0x0272EBDC  arm twl
  *   OS_Terminate  0x02088234  arm
  *   OS_GetBootType  0x02087B04  arm
@@ -70,7 +70,7 @@ extern u8 data_02732DC4[];
 extern u32 OS_GetArenaLo(int arena);
 extern u32 OS_GetArenaHi(int arena);
 extern void OS_SetArenaLo(int arena, u32 addr);
-extern void *func_02075E04(void);
+extern void *CARD_GetOwnRomHeaderTWL(void);
 extern u32 CARD_CalcRomHashBufferLength(void *hdr);
 extern void OS_Terminate(void);
 extern int OS_GetBootType(void);
@@ -113,7 +113,7 @@ void CARDi_InitRomHash(void)
     u32 size;
     u16 lock;
 
-    size = CARD_CalcRomHashBufferLength(func_02075E04());
+    size = CARD_CalcRomHashBufferLength(CARD_GetOwnRomHeaderTWL());
     if (lo + size > (hi & ~0x1f)) {
         OS_Terminate();
         return;
@@ -131,7 +131,7 @@ void CARDi_InitRomHash(void)
     data_02150840.callback = CARDi_ReadCardWithHash;
     lock = OS_GetLockID();
     CARD_LockRom(lock);
-    CARD_InitRomHashContext(data_02732DC4, func_02075E04(), data_02732DA0, data_02732DA4, CARDi_ReadRomWithCPU, CARDi_ReadCardWithHashInternalAsync, data_02732DC4);
+    CARD_InitRomHashContext(data_02732DC4, CARD_GetOwnRomHeaderTWL(), data_02732DA0, data_02732DA4, CARDi_ReadRomWithCPU, CARDi_ReadCardWithHashInternalAsync, data_02732DC4);
     data_02732DA0 = 0;
     data_02732DA4 = 0;
     CARD_UnlockRom(lock);

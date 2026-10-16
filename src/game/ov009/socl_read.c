@@ -12,7 +12,7 @@
  *
  * symbols:
  *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
- *   func_020879EC  0x020879EC  arm
+ *   OS_GetProcMode  0x020879EC  arm
  *   OS_TryLockMutex  0x020860D0  arm
  *   OS_LockMutex  0x02086028  arm
  *   OS_UnlockMutex  0x02086078  arm
@@ -100,7 +100,7 @@ struct SOCLiCommandRead {
 };
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern int func_020879EC(void);
+extern int OS_GetProcMode(void);
 extern int OS_TryLockMutex(void *mutex);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
@@ -173,7 +173,7 @@ int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_po
     if ((flags & 4) || socket->flag_block == 0) {
         flag_block = 0;
     } else {
-        if (func_020879EC() == 0x12)
+        if (OS_GetProcMode() == 0x12)
             return -0x1c;
         flag_block = 1;
     }

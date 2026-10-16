@@ -54,7 +54,7 @@
  *   TRIAL_HOUSE_CreateTrainerMsgEvent  0x021D0BD8  thumb  ov021
  *   TRIAL_HOUSE_SetUseDeliveredTrainers  0x021D0AB8  thumb
  *   RECORD_GetFromSave 0x02008C58 thumb
- *   func_02008E68 0x02008E68 thumb
+ *   RECORD_SetTrialRank 0x02008E68 thumb
  *   func_02008E78  0x02008E78  thumb
  *   TRIAL_HOUSE_CreateDeliveryTask  0x021D0BE4  thumb  ov021
  *   TRIAL_HOUSE_ComputeScoreAndRank  0x021D0DB0  thumb  ov021
@@ -291,7 +291,7 @@ extern int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *gameSystem, TrialHous
 extern struct GameEvent *TRIAL_HOUSE_CreateSaveTask(struct GameSystem *gameSystem, TrialHouseWork *work, int param);
 extern int TRIAL_HOUSE_GetRecordSlotsState(struct GameSystem *gameSystem);
 extern struct RecordBlock *RECORD_GetFromSave(struct SaveControl *saveControl);
-extern void func_02008E68(struct RecordBlock *record, u8 rank);
+extern void RECORD_SetTrialRank(struct RecordBlock *record, u8 rank);
 extern u8 func_02008E78(struct RecordBlock *record);
 extern struct GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(struct GameSystem *gameSystem, TrialHouseWork *work, int regulationId, int useTempParty, u16 *resultOk);
 extern struct GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(struct GameSystem *gameSystem, TrialHouseWork *work);
@@ -617,7 +617,7 @@ int SCRCMD_TRIALHOUSE_SetRank(ScriptVm *vm, ScrcmdWork *cmdWork)
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
     rank = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_02008E68(RECORD_GetFromSave(GAME_DATA_GetSaveControl(gameData)), rank);
+    RECORD_SetTrialRank(RECORD_GetFromSave(GAME_DATA_GetSaveControl(gameData)), rank);
     return 0;
 }
 

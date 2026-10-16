@@ -119,7 +119,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   func_020127D0  0x020127D0  thumb
+ *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending  0x021620A0  thumb  ov010
  *   EVENT_FIELD_PROCLINK_RequestReturn  0x02162048  thumb  ov010
@@ -296,7 +296,7 @@ struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent,
 void *func_020124E8(struct GameEvent *p);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 struct WordSet *WORDSET_CreateDefault(u32 heap);
-WfbcData *func_020127D0(struct GameData *gameData, u32 index);
+WfbcData *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index);
 void FLDMMDL_GetPos(const struct Mmdl *mmdl, struct VecFx32 *out);
 int EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(void *returnList);
 void EVENT_FIELD_PROCLINK_RequestReturn(void *returnList, int personIndex, int mode);
@@ -1397,8 +1397,8 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     work->returnList = returnList;
     work->firstTalk = 1;
     work->heapId = (heapId & 0x7FFF) | 0x8000;
-    work->ownData = func_020127D0(gameData, 1);
-    work->cityData = func_020127D0(gameData, 0);
+    work->ownData = GAME_DATA_GetUnionInfo(gameData, 1);
+    work->cityData = GAME_DATA_GetUnionInfo(gameData, 0);
     wfbc = FIELD_G3D_MAPPER_GetWfbc(FIELDMAP_GetG3dMapper(fieldSystem));
     player = FIELDMAP_GetFieldPlayer(fieldSystem);
     mmdlSystem = FIELDMAP_GetMmdlSys(fieldSystem);

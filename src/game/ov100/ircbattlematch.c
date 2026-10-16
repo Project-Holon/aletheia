@@ -121,7 +121,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02009A34 0x02009A34 thumb
+ *   WIFILIST_CountFriends 0x02009A34 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
@@ -449,7 +449,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern u32 func_02009A34(struct Sub020097BCObj *obj);
+extern u32 WIFILIST_CountFriends(struct Sub020097BCObj *obj);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
@@ -1152,7 +1152,7 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
  }
  BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp(work->infoWin)),255);
  func_02045CAC(work->msgData,msgId,work->tempStr);
- WORDSET_SetSlotNumber(work->wordSet,0,func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData)),2,1,1);
+ WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData)),2,1,1);
  WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,1);
  WORDSET_CopyTaggedText(work->wordSet,work->msgStr,work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,work->msgStr,work->font);
@@ -1204,7 +1204,7 @@ void IRCBATTLEMATCH_DeleteActor(IrcBattleMatchWork *work,unsigned slot)
 void IRCBATTLEMATCH_PrintWaitingMessage(IrcBattleMatchWork *work) {
  if(work->partnerLeft==1) {MessageRef message=gIrcBattleMatchMsgPartnerLeft;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
  if(work->mode==7) {
-  if(func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {MessageRef message=gIrcBattleMatchMsgWaitingMode7Full;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
+  if(WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {MessageRef message=gIrcBattleMatchMsgWaitingMode7Full;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
   else {MessageRef message=gIrcBattleMatchMsgWaitingMode7;IRCBATTLEMATCH_PrintMainMessage(&message,work);IRCBATTLEMATCH_PrintPlayerMessage(0x22,work);return;}
  }
  if(work->mode==6) {MessageRef message=gIrcBattleMatchMsgWaitingMode6;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
@@ -1262,7 +1262,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
 void IRCBATTLEMATCH_StepWaitFadeIn(IrcBattleMatchWork *work) {
  if(FADE_IsActive()!=0) {
   if(work->mode==7) {
-   if(func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {
+   if(WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {
     IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepCountdownThenExit);
     work->timer=180;
     return;

@@ -73,7 +73,7 @@
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_02009CA8 0x02009CA8 thumb
  *   DWC_AddMatchKeyInt 0x0216C8DC arm ov009
- *   func_0208D7E0 0x0208D7E0 arm
+ *   STD_TSPrintf 0x0208D7E0 arm
  *   DWC_RAP_StartMatchWithFilter 0x0215580C thumb ov009
  *   GFL_NET_STATE_WifiEnterFriendMatch 0x0203C35C arm
  *   DWC_RAP_SetVchatEnabled 0x02156BC4 thumb ov009
@@ -491,7 +491,7 @@ extern void GTSNEGO_MSG_CreateConfirmUi(u8 *, int, int);
 extern void GFL_NET_SetWaitMode(int);
 extern void func_02009CA8(void *account, void *out);
 extern u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
-extern int func_0208D7E0(char *, const char *, ...);
+extern int STD_TSPrintf(char *, const char *, ...);
 extern int DWC_RAP_StartMatchWithFilter(int, int, int, int);
 extern u32 GFL_NET_STATE_WifiEnterFriendMatch(void);
 extern void DWC_RAP_SetVchatEnabled(int);
@@ -1254,7 +1254,7 @@ void GTSNEGO_DISP_StartMatchmaking(u8 *p)
             r->value = values[i];
             r->kind = DWC_AddMatchKeyInt(r->kind, (char *)(&r->detail), (int *)r);
         }
-        func_0208D7E0((char *)p + 0xb8, d_021D8B50, *(unsigned int *)&((struct GtsnegoDispCtx *)p)->f138, 1);
+        STD_TSPrintf((char *)p + 0xb8, d_021D8B50, *(unsigned int *)&((struct GtsnegoDispCtx *)p)->f138, 1);
         if (DWC_RAP_StartMatchWithFilter((int)p + 0xb8, 2, (int)GTSNEGO_DISP_ScoreMatch, (int)p)) {
             GFL_NET_STATE_WifiEnterFriendMatch();
             DWC_RAP_SetVchatEnabled(0);

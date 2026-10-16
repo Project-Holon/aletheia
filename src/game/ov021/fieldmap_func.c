@@ -40,7 +40,7 @@
  *   func_02048B30  0x02048B30  arm
  *   MTX_LookAt  0x0207BCA0  arm
  *   MI_Copy36B  0x02082B60  arm
- *   func_0207B0A4  0x0207B0A4  arm
+ *   MTX_Inverse33  0x0207B0A4  arm
  *   MTX_MultVec33  0x0207B51C  arm
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
@@ -67,7 +67,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
- *   func_0200EDC4  0x0200EDC4  thumb
+ *   MISC_SAVEDATA_ContainsRecentValue  0x0200EDC4  thumb
  *   gUnionChatEmptyMac     0x021D9AE0  data  a4
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  */
@@ -256,7 +256,7 @@ void MTX_LookAt(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
 
 void MI_Copy36B(int *mtx43, int *outMtx33);
 
-void func_0207B0A4(int *mtx33, int *outMtx33);
+void MTX_Inverse33(int *mtx33, int *outMtx33);
 
 void MTX_MultVec33(VecFx32 *src, int *mtx33, VecFx32 *dst);
 
@@ -308,7 +308,7 @@ void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 
 int UNION_CHARA_IsWifiFriendBeacon(void *wifiList, UnionBeacon *beacon);
 
-int func_0200EDC4(void *list, u32 trainerId);
+int MISC_SAVEDATA_ContainsRecentValue(void *list, u32 trainerId);
 
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
@@ -497,7 +497,7 @@ void FLDEFF_GYOE_RotateByCamera(void *g3dCamera, VecFx32 *src, VecFx32 *dst)
     func_02048B30(g3dCamera, &up);
     MTX_LookAt(&eye, &target, &up, lookAt);
     MI_Copy36B(lookAt, inverse);
-    func_0207B0A4(inverse, inverse);
+    MTX_Inverse33(inverse, inverse);
     MTX_MultVec33(src, inverse, dst);
 }
 
@@ -698,7 +698,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         saveControl = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(saveControl));
         if (UNION_CHARA_IsWifiFriendBeacon(wifiList, &beaconPc->beacon) == 1) {
             relation = 1;
-        } else if (func_0200EDC4(saveControl, beaconPc->beacon.trainerId) == 1) {
+        } else if (MISC_SAVEDATA_ContainsRecentValue(saveControl, beaconPc->beacon.trainerId) == 1) {
             relation = 2;
         } else {
             relation = 0;

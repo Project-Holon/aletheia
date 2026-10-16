@@ -56,28 +56,28 @@
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
  *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
- *   func_021BDAD0 0x021BDAD0 thumb
- *   func_021BC3BC 0x021BC3BC thumb
- *   func_021BDAAC 0x021BDAAC thumb
- *   func_021BDAD4 0x021BDAD4 thumb
- *   func_021BDBB8 0x021BDBB8 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetMode 0x021BDAD0 thumb
+ *   ZUKAN_DETAIL_COMMON_GetMaxValue 0x021BC3BC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetEnabled 0x021BDAD4 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind 0x021BDBB8 thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_021BE840 0x021BE840 thumb
- *   func_021BE82C 0x021BE82C thumb
- *   func_021BE844 0x021BE844 thumb
+ *   ZUKAN_DETAIL_HEADBAR_GetIconKind 0x021BE840 thumb
+ *   ZUKAN_DETAIL_HEADBAR_SetIconKind 0x021BE82C thumb
+ *   ZUKAN_DETAIL_HEADBAR_SetIconSpecies 0x021BE844 thumb
  *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb
  *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
  *   ZUKAN_DETAIL_COMMON_GetGraphics 0x021BC3B0 thumb
  *   ZUKAN_INFO_Create 0x021B9E68 thumb ov206
  *   ZUKAN_INFO_Show 0x021BA7C8 thumb ov206
  *   func_021BC4D8 0x021BC4D8 thumb
- *   func_021BC4C8 0x021BC4C8 thumb
+ *   ZUKAN_DETAIL_COMMON_IsBlendBusy 0x021BC4C8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
  *   func_021BC4E4 0x021BC4E4 thumb
- *   func_021BE854 0x021BE854 thumb
+ *   ZUKAN_DETAIL_HEADBAR_SetIconForm 0x021BE854 thumb
  *   ZUKAN_INFO_Update 0x021BA374 thumb ov206
- *   func_021BC46C 0x021BC46C thumb
+ *   ZUKAN_DETAIL_COMMON_UpdateBlendFades 0x021BC46C thumb
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
@@ -279,25 +279,25 @@ extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 
 extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 
-extern int func_021BDAD0(void *s);
+extern int ZUKAN_DETAIL_TOUCHBAR_GetMode(void *s);
 
-extern u16 func_021BC3BC(int *ctx);
+extern u16 ZUKAN_DETAIL_COMMON_GetMaxValue(int *ctx);
 
-extern void func_021BDAAC(void *s, u32 a, u32 b, u32 c);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 a, u32 b, u32 c);
 
-extern void func_021BDAD4(void *s, int a);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int a);
 
-extern void func_021BDBB8(void *s, u32 a);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 a);
 
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *ctx);
 
 extern int GAME_DATA_CheckSaveFlag(int a, int b);
 
-extern int func_021BE840(void *s);
+extern int ZUKAN_DETAIL_HEADBAR_GetIconKind(void *s);
 
-extern void func_021BE82C(void *s, int a);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(void *s, int a);
 
-extern void func_021BE844(void *s);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(void *s);
 
 extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *ctx);
 
@@ -311,17 +311,17 @@ extern void ZUKAN_INFO_Show(void *p);
 
 extern void func_021BC4D8(struct Ov208Blend *b);
 
-extern int func_021BC4C8(struct Ov208Blend *b);
+extern int ZUKAN_DETAIL_COMMON_IsBlendBusy(struct Ov208Blend *b);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
 extern void func_021BC4E4(struct Ov208Blend *b);
 
-extern void func_021BE854(void *s);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *s);
 
 extern void ZUKAN_INFO_Update(char *p);
 
-extern void func_021BC46C(struct Ov208Blend *a, struct Ov208Blend *b);
+extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *a, struct Ov208Blend *b);
 
 extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *p);
 
@@ -504,17 +504,17 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
                 BG_SYS_FreeSlot(i);
             }
         }
-        if (func_021BDAD0(scn) != 2) {
-            func_021BDAAC(scn, 0, 0, func_021BC3BC(ctx) > 1);
-            func_021BDAD4(scn, 0);
+        if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scn) != 2) {
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scn, 0, 0, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scn, 0);
         } else {
-            func_021BDBB8(scn, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scn, 0);
         }
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scn, 0);
         ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scn, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x11));
-        if (func_021BE840(icon) != 2) {
-            func_021BE82C(icon, 0);
-            func_021BE844(icon);
+        if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
+            ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 0);
+            ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
         }
         ZUKAN_DETAIL_INFO_CreateLanguageButtons((u16 *)h, (char *)p, (int)ctx);
         t = (int)ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
@@ -534,7 +534,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         func_021BC4D8(p->f10);
         break;
     case 2:
-        if (func_021BC4C8(p->fc) == 0 && func_021BDAD0(scn) == 2 && func_021BE840(icon) == 2) {
+        if (ZUKAN_DETAIL_COMMON_IsBlendBusy(p->fc) == 0 && ZUKAN_DETAIL_TOUCHBAR_GetMode(scn) == 2 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 2) {
             ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scn);
             ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scn, 1);
             *state = 3;
@@ -545,7 +545,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
             *state = 4;
             func_021BC4E4(p->fc);
             func_021BC4E4(p->f10);
-            func_021BE854(icon);
+            ZUKAN_DETAIL_HEADBAR_SetIconForm(icon);
             if (p->f14 == 2)
                 ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scn, 0);
         } else if (p->f18 != 0) {
@@ -554,9 +554,9 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         }
         break;
     case 4:
-        if (func_021BC4C8(p->fc) == 0 && func_021BC4C8(p->f10) == 0 && func_021BE840(icon) == 0) {
+        if (ZUKAN_DETAIL_COMMON_IsBlendBusy(p->fc) == 0 && ZUKAN_DETAIL_COMMON_IsBlendBusy(p->f10) == 0 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 0) {
             if (p->f14 == 2) {
-                if (func_021BDAD0(scn) == 0)
+                if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scn) == 0)
                     *state = 5;
             } else {
                 *state = 5;
@@ -573,7 +573,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         if (p->f94 == 6)
             ZUKAN_DETAIL_INFO_UpdateHighlightBlink(h, p, ctx);
     }
-    func_021BC46C(p->fc, p->f10);
+    ZUKAN_DETAIL_COMMON_UpdateBlendFades(p->fc, p->f10);
     return 0;
 }
 

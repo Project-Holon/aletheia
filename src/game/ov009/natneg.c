@@ -34,15 +34,15 @@
  *   ArrayNth  0x02184208  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   ArrayAppend  0x02184234  arm  ov009
- *   func_02184324  0x02184324  arm  ov009
+ *   ArrayRemoveAt  0x02184324  arm  ov009
  *   gsDebugFormat  0x0217D254 arm
  *   ArrayFree      0x021841B0 arm
  *   gNatNegFreeFmt     0x021A5A84 data
  *   gNatNegMagic  0x021A5A7C  data
  *   sendto  0x0217ECA4  arm  ov009
  *   getlocalhost  0x0217EFB8  arm  ov009
- *   func_0217F038  0x0217F038  arm  ov009
- *   func_0217ED0C  0x0217ED0C  arm  ov009
+ *   IsPrivateIP  0x0217F038  arm  ov009
+ *   getsockname  0x0217ED0C  arm  ov009
  *   strlen         0x0209477C  arm
  *   memcpy         0x02092344  arm
  *   strcpy  0x02094798  arm
@@ -50,7 +50,7 @@
  *   SendPacket     0x021992A8  arm  ov009
  *   current_time   0x0217F264  arm  ov009
  *   GetClientUniqueID  0x021990A0  arm  ov009
- *   func_02199FB4  0x02199FB4  arm  ov009
+ *   NNCancel  0x02199FB4  arm  ov009
  *   NatifyThink        0x02198E74  arm  ov009
  *   DetermineNatType   0x02198E80  arm  ov009
  *   closesocket        0x0217EB2C  arm  ov009
@@ -88,7 +88,7 @@
  *   gNatNegCancelNotFoundFmt               0x021A5E2C  data
  *   gNatNegCancelFmt               0x021A5E5C  data
  *   CanReceiveOnSocket            0x0217EF50  arm ov009
- *   func_0217EC60            0x0217EC60  arm ov009
+ *   recvfrom            0x0217EC60  arm ov009
  *   GOAGetLastError            0x0217ED54  arm ov009
  *   gNatNegThinkNullFmt               0x021A5E88  data
  *   gNatNegThinkRemoveFmt               0x021A5EAC  data
@@ -278,19 +278,19 @@ extern int ArrayLength(void *array);
 extern void *ArrayNth(void *array, int n);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ArrayAppend(void *array, void *newElem);
-extern void func_02184324(void *array, int n);
+extern void ArrayRemoveAt(void *array, int n);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern void ArrayFree(struct DArrayImplementation *array);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern SOCHostEnt *getlocalhost(void);
-extern int func_0217F038(SOCInAddr *addr);
-extern int func_0217ED0C(int sock, void *addr, int *len);
+extern int IsPrivateIP(SOCInAddr *addr);
+extern int getsockname(int sock, void *addr, int *len);
 extern int GetClientUniqueID();
 extern char *SOC_InetNtoA(unsigned int in);
 static void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
 extern char *strcpy(char *dst, const char *src);
-extern void func_02199FB4(int cookie);
+extern void NNCancel(int cookie);
 extern int NatifyThink();
 extern int DetermineNatType();
 extern int closesocket(int sock);
@@ -300,7 +300,7 @@ extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern int socket(int pf, int type, int protocol);
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
 extern int CanReceiveOnSocket(int sock);
-extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
+extern int recvfrom(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
 NATNegotiator *AddNegotiator(void);
 void RemoveNegotiator(NATNegotiator *neg);
@@ -501,7 +501,7 @@ void RemoveNegotiator(NATNegotiator *neg)
 
     for (i = 0; i < ArrayLength(negotiateList); i++) {
         if (neg == ArrayNth(negotiateList, i)) {
-            func_02184324(negotiateList, i);
+            ArrayRemoveAt(negotiateList, i);
             return;
         }
     }
@@ -568,7 +568,7 @@ static unsigned int GetLocalIP(void)
             break;
         if (addr->addr != 16777343) {
             localip = *(unsigned int *)addr;
-            if (func_0217F038((SOCInAddr *)addr))
+            if (IsPrivateIP((SOCInAddr *)addr))
                 return localip;
         }
     }
@@ -584,7 +584,7 @@ static unsigned short GetLocalPort(int sock)
 	int saddrlen;
 
 	saddrlen = 8;
-	ret = func_0217ED0C(sock, &saddr, &saddrlen);
+	ret = getsockname(sock, &saddr, &saddrlen);
 	if (ret == -1)
 		return 0;
 	return saddr.port;
@@ -633,7 +633,7 @@ void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remo
         gsDebugFormat(7, 3, 8, gNatNegReportFailFmt, neg->cookie);
         neg->state = 5;
         neg->completedCallback(neg->result, neg->socket, (SOCSockAddrIn *)&neg->remoteaddr, neg->userdata);
-        func_02199FB4(neg->cookie);
+        NNCancel(neg->cookie);
     } else {
         gsDebugFormat(7, 3, 8, gNatNegReportDoneFmt, neg->cookie);
         SendReportPacket((NATNegotiator *)neg);
@@ -938,7 +938,7 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
     SendPreinitPacket((NATNegotiator *)neg);
 
     namelen = sizeof(saddr);
-    func_0217ED0C(neg->negotiateSock, &saddr, &namelen);
+    getsockname(neg->negotiateSock, &saddr, &namelen);
     gsDebugFormat(7, 0, 8, gNatNegSocketFmt, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
 
     return 0;
@@ -978,7 +978,7 @@ void RemoveFinishedNegotiator(int *p)
         p[6] = -1;
     }
 
-    func_02199FB4(p[1]);
+    NNCancel(p[1]);
 }
 
 
@@ -1015,7 +1015,7 @@ void NegotiateThink(NATNegotiator *neg)
         do {
             if (!CanReceiveOnSocket(neg->negotiateSock))
                 break;
-            error = func_0217EC60(neg->negotiateSock, gNatNegRecvBuf, 512, 0, &saddr, &saddrlen);
+            error = recvfrom(neg->negotiateSock, gNatNegRecvBuf, 512, 0, &saddr, &saddrlen);
             if (error == -1) {
                 gsDebugFormat(7, 0, 8, gNatNegRecvErrFmt, neg->cookie, GOAGetLastError(neg->negotiateSock));
                 break;

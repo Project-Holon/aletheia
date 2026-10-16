@@ -1,7 +1,7 @@
 /*
  * file:     gt2buffer.c
  * unit:     yes
- * function: gti2AllocateBuffer, gti2GetBufferFreeSpace, gti2BufferWriteByte, gti2BufferWriteUShort, func_02194E2C, gti2BufferShorten
+ * function: gti2AllocateBuffer, gti2GetBufferFreeSpace, gti2BufferWriteByte, gti2BufferWriteUShort, gti2BufferWriteData, gti2BufferShorten
  * address:  0x02194DA8
  * region:   ov009
  * compiler: dsi/1.1p1

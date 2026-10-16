@@ -1,7 +1,7 @@
 /*
  * file:     gt2socket.c
  * unit:     yes
- * function: func_02197CFC, func_02197D1C, func_02197D4C, func_02197D5C, gti2CreateSocket, func_02197FDC, gti2SetConnectAttemptCallback, gti2CreateConnectionObject, gti2NewSocketConnection, func_02198264, gti2SocketSend, func_02198518, func_02198570, func_021985AC, func_021985E4
+ * function: func_02197CFC, func_02197D1C, func_02197D4C, gti2SocketFindConnection, gti2CreateSocket, gti2CloseSocket, gti2SetConnectAttemptCallback, gti2CreateConnectionObject, gti2NewSocketConnection, func_02198264, gti2SocketSend, func_02198518, func_02198570, func_021985AC, func_021985E4
  * address:  0x02197CFC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,15 +20,15 @@
  *   gt2StringToAddress  0x021986C4  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
- *   func_02184638  0x02184638  arm  ov009
+ *   TableNew2  0x02184638  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
- *   func_021846B4  0x021846B4  arm  ov009
+ *   TableFree  0x021846B4  arm  ov009
  *   socket  0x0217EB18  arm  ov009
  *   ArrayFree  0x021841B0  arm  ov009
  *   func_0217EBB0  0x0217EBB0  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
- *   func_0217ED0C  0x0217ED0C  arm  ov009
+ *   getsockname  0x0217ED0C  arm  ov009
  *   func_02197D1C  0x02197D1C  arm  ov009
  *   func_02197CFC  0x02197CFC  arm  ov009
  *   func_02197D4C  0x02197D4C  arm  ov009
@@ -37,16 +37,16 @@
  *   ArrayFree       0x021841B0  arm  ov009
  *   gsifree         0x0217EAE0  arm  ov009
  *   SocketShutDown  0x0217F260  arm  ov009
- *   func_02197D5C  0x02197D5C  arm  ov009
+ *   gti2SocketFindConnection  0x02197D5C  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   gti2AllocateBuffer  0x02194DA8  arm  ov009
- *   func_0218474C  0x0218474C  arm  ov009
+ *   TableEnter  0x0218474C  arm  ov009
  *   ArrayLength    0x02184200  arm  ov009
  *   ArrayNth       0x02184208  arm  ov009
  *   ArrayDeleteAt  0x0218437C  arm  ov009
  *   TableRemove    0x021847BC  arm  ov009
- *   func_02198808  0x02198808  arm  ov009
- *   func_0217EF84  0x0217EF84  arm  ov009
+ *   gti2MessageCheck  0x02198808  arm  ov009
+ *   CanSendOnSocket  0x0217EF84  arm  ov009
  *   sendto  0x0217ECA4  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   gti2HandleConnectionReset  0x021970BC  arm  ov009
@@ -91,19 +91,19 @@ extern void SocketStartUp(void);
 extern int gt2StringToAddress(char *string, unsigned int *ip, unsigned short *port);
 extern void *gsimalloc(unsigned long size);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
-extern struct HashImplementation *func_02184638(int elemSize, int nBuckets, int nChains,
+extern struct HashImplementation *TableNew2(int elemSize, int nBuckets, int nChains,
                                                 int (*hashFn)(void *, int),
                                                 int (*compFn)(void *, void *),
                                                 void (*freeFn)(void *));
 extern void gsifree(void *ptr);
 extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAllocate,
                                                  void (*elemFreeFn)(void *));
-extern void func_021846B4(struct HashImplementation *table);
+extern void TableFree(struct HashImplementation *table);
 extern int socket(int pf, int type, int protocol);
 extern void ArrayFree(struct DArrayImplementation *array);
 extern int func_0217EBB0(int sock, void *addr, int len);
 extern int closesocket(int sock);
-extern int func_0217ED0C(int sock, void *addr, int *len);
+extern int getsockname(int sock, void *addr, int *len);
 extern int func_02197D1C(void *elem1, void *elem2);
 extern int func_02197CFC(void *elem, int numBuckets);
 extern void func_02197D4C(void *elem);
@@ -111,16 +111,16 @@ extern void TableFree(struct HashImplementation *table);
 extern void ArrayFree(struct DArrayImplementation *array);
 extern void gsifree(void *ptr);
 extern void SocketShutDown(void);
-extern GTI2Connection *func_02197D5C(GTI2Socket *socket, unsigned int ip, unsigned short port);
+extern GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern unsigned int current_time(void);
 extern int gti2AllocateBuffer(GTI2Buffer *buffer, int size);
-extern void func_0218474C(struct HashImplementation *table, void *newElem);
+extern void TableEnter(struct HashImplementation *table, void *newElem);
 extern int ArrayLength(struct DArrayImplementation *array);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 extern int TableRemove(struct HashImplementation *table, void *delElem);
-extern void func_02198808(unsigned char **message, int *len);
-extern int func_0217EF84(int sock);
+extern void gti2MessageCheck(unsigned char **message, int *len);
+extern int CanSendOnSocket(int sock);
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern int GOAGetLastError(int sock);
 extern int gti2HandleConnectionReset(GTI2Socket *socket, unsigned int ip, unsigned short port);
@@ -229,7 +229,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
     socketTemp->outgoingBufferSize = outgoingBufferSize;
     socketTemp->socketErrorCallback = callback;
 
-    socketTemp->connections = func_02184638(4, 32, 2, func_02197CFC, func_02197D1C, 0);
+    socketTemp->connections = TableNew2(4, 32, 2, func_02197CFC, func_02197D1C, 0);
     if (!socketTemp->connections) {
         gsifree(socketTemp);
         return 1;
@@ -237,7 +237,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
 
     socketTemp->closedConnections = func_02184144(4, 4, func_02197D4C);
     if (!socketTemp->closedConnections) {
-        func_021846B4(socketTemp->connections);
+        TableFree(socketTemp->connections);
         gsifree(socketTemp);
         return 1;
     }
@@ -250,7 +250,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
         socketTemp->protocolOffset = type;
 
     if (socketTemp->socket == -1) {
-        func_021846B4(socketTemp->connections);
+        TableFree(socketTemp->connections);
         ArrayFree(socketTemp->closedConnections);
         gsifree(socketTemp);
         return 3;
@@ -265,7 +265,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
         rcode = func_0217EBB0(socketTemp->socket, &address, sizeof(address));
         if (rcode == -1) {
             closesocket(socketTemp->socket);
-            func_021846B4(socketTemp->connections);
+            TableFree(socketTemp->connections);
             ArrayFree(socketTemp->closedConnections);
             gsifree(socketTemp);
             return 3;
@@ -273,7 +273,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
     }
 
     len = sizeof(address);
-    func_0217ED0C(socketTemp->socket, &address, &len);
+    getsockname(socketTemp->socket, &address, &len);
     socketTemp->ip = address.addr;
     socketTemp->port = (unsigned short)(((address.port >> 8) & 0xFF) | ((address.port << 8) & 0xFF00));
 
@@ -325,7 +325,7 @@ int gti2NewSocketConnection(GTI2Socket *socket, GTI2Connection **connection, uns
 {
     GTI2Connection *connectionPtr = 0;
 
-    if (func_02197D5C(socket, ip, port))
+    if (gti2SocketFindConnection(socket, ip, port))
         return 5;
 
     connectionPtr = gti2CreateConnectionObject();
@@ -359,9 +359,9 @@ int gti2NewSocketConnection(GTI2Socket *socket, GTI2Connection **connection, uns
     if (!connectionPtr->receiveFilters)
         goto failed;
 
-    func_0218474C(socket->connections, &connectionPtr);
+    TableEnter(socket->connections, &connectionPtr);
 
-    *connection = func_02197D5C(socket, ip, port);
+    *connection = gti2SocketFindConnection(socket, ip, port);
     if (*connection)
         return 0;
 
@@ -425,10 +425,10 @@ int gti2SocketSend(GTI2Socket *socket, unsigned int ip, unsigned short port, uns
 {
     int rcode;
 
-    func_02198808(&message, &len);
+    gti2MessageCheck(&message, &len);
 
     if (socket->protocolType != 3) {
-        if (!func_0217EF84(socket->socket))
+        if (!CanSendOnSocket(socket->socket))
             return 1;
     }
 
@@ -459,7 +459,7 @@ int gti2SocketSend(GTI2Socket *socket, unsigned int ip, unsigned short port, uns
         }
     } else {
         if (socket->sendDumpCallback) {
-            if (!gti2DumpCallback(socket, func_02197D5C(socket, ip, port), ip, port, 0, message, len, 1))
+            if (!gti2DumpCallback(socket, gti2SocketFindConnection(socket, ip, port), ip, port, 0, message, len, 1))
                 return 0;
         }
     }

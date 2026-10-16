@@ -1,7 +1,7 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: GFL_NET_ERR_PollNetState, func_0200F300, func_0200F34C, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, func_0200F520, func_0200F594, GFL_NET_ERR_InsertFriend, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, func_0200FA94, func_0200FAAC, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, func_0200FB6C, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
+ * function: GFL_NET_ERR_PollNetState, func_0200F300, func_0200F34C, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, func_0200F520, func_0200F594, GFL_NET_ERR_InsertFriend, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, func_0200FA94, GFL_NET_ERR_RecordError, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, GFL_NET_ERR_ExitAndHalt, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
  * address:  0x0200F2D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -21,7 +21,7 @@
  *   GFL_NET_GetFriendListNum   0x0203D634  arm
  *   WIFILIST_GetWork           0x02009860  thumb
  *   WIFILIST_GetDwcFriendData            0x020099C8  thumb
- *   func_02009A34           0x02009A34  thumb
+ *   WIFILIST_CountFriends           0x02009A34  thumb
  *   DWC_CheckFriendKey      0x02059354  arm
  *   DWC_CreateFriendKeyToken 0x02059980 arm
  *   DWC_GetGsProfileId      0x020598EC  arm
@@ -306,7 +306,7 @@ extern u32 GFL_NET_GetFriendList(void);
 extern u32 GFL_NET_GetFriendListNum(void);
 extern struct DWCstAccUserData *WIFILIST_GetWork(struct WifiFriendSave *save);
 extern struct WifiFriendRecord *WIFILIST_GetDwcFriendData(struct WifiFriendSave *save, int slot);
-extern u32 func_02009A34(struct WifiFriendSave *save);
+extern u32 WIFILIST_CountFriends(struct WifiFriendSave *save);
 extern int  DWC_CheckFriendKey(void *userData, u64 friendKey);
 extern void DWC_CreateFriendKeyToken(DWCFriendData *token, u64 friendKey);
 extern int  DWC_IsValidFriendData(const void *friendData);
@@ -569,7 +569,7 @@ int GFL_NET_ERR_FindFriendByKey(void *saveBlock, u64 friendKey, int *outSlot)
     userData = WIFILIST_GetWork(saveBlock);
     i = 0;
     friends = (DWCFriendData *)WIFILIST_GetDwcFriendData(saveBlock, 0);
-    friendCount = func_02009A34(saveBlock);
+    friendCount = WIFILIST_CountFriends(saveBlock);
 
     if (DWC_CheckFriendKey(userData, friendKey) == 0)
         return 3;
@@ -728,7 +728,7 @@ void GFL_NET_ERR_Init(u32 heapId)
  * Poll for a network error and record it: bails out when an error is already
  * pending (state set), when GFL_NET_GetRunState does not report state 1, or when
  * none of three error probes says yes. Otherwise it captures the error
- * (func_0200FAAC), requires a Wi-Fi net type (1, 2 or 6), and picks the
+ * (GFL_NET_ERR_RecordError), requires a Wi-Fi net type (1, 2 or 6), and picks the
  * message id: fixed ids 0x28 and 0xe for two reason code windows, otherwise
  * the mapping DWC_RAP_GetErrorMessageClass(errorCode, errorType).
  */

@@ -33,7 +33,7 @@
  *   MIi_CpuClear16 0x02082A48  arm
  *   STRBUF_GetLength   0x020458F8  arm
  *   STRBUF_GetChars   0x02045A90  arm
- *   sub_0201F41C   0x0201F41C  thumb
+ *   WORDSET_CopyString   0x0201F41C  thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   BTL_NET_FreeAfterPlayerInfoUse  0x021D4A04  thumb
@@ -176,7 +176,7 @@ extern u16 STRBUF_GetEosChar(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern u16 STRBUF_GetLength(struct StrBuf *buf);
 extern u16 *STRBUF_GetChars(struct StrBuf *buf);
-extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern void GFL_NET_HANDLE_SetUserInfo(char *handle, int stage, int flag, int memberMask);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, unsigned int stage, unsigned int flag);
 
@@ -727,7 +727,7 @@ struct BtlNetMyStatusPacket *BTL_NET_BuildPlayerInfoPacket(struct MyStatus *mySt
     MIi_CpuClear16(STRBUF_GetEosChar(), packet->nameChars, sizeof(packet->nameChars));
     if (myStatus->name != 0) {
         packet->nameLength = STRBUF_GetLength(myStatus->name);
-        sub_0201F41C(STRBUF_GetChars(myStatus->name), packet->nameChars, 0x20);
+        WORDSET_CopyString(STRBUF_GetChars(myStatus->name), packet->nameChars, 0x20);
     }
     return packet;
 }

@@ -28,8 +28,8 @@
  *   OS_GetThreadPriority  0x02085A30  arm
  *   DWC_Http_StartThread  0x02179718  arm  ov009
  *   DWC_Http_ParseResult  0x0217A484  arm  ov009
- *   func_0217A728  0x0217A728  arm  ov009
- *   func_02168250  0x02168250  arm  ov009
+ *   DWC_Http_GetResult  0x0217A728  arm  ov009
+ *   DWC_Auth_SetNasTimeDiff  0x02168250  arm  ov009
  *   atoi  0x020964E0  arm
  *   DWC_Http_GetBase64DecodedResult  0x0217A77C  arm  ov009
  *   gDwcSvlWorkarea     0x021ACEF4  data ov009
@@ -183,8 +183,8 @@ extern int DWC_Http_FinishHeader(DWCHttp *http);
 extern unsigned long OS_GetThreadPriority(OSThread *thread);
 extern void DWC_Http_StartThread(DWCHttp *http, unsigned long prio);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *func_0217A728(DWCHttp *http, char *label);
-extern int func_02168250(char *datestr);
+extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
+extern int DWC_Auth_SetNasTimeDiff(char *datestr);
 extern int atoi(u32 a0);
 extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 int DWCi_Svl_ParseHttp(void);
@@ -348,11 +348,11 @@ int DWCi_Svl_ParseHttp(void)
         return 0;
     }
 
-    strp = func_0217A728(DWChttp, gDwcSvlLabelDate);
+    strp = DWC_Http_GetResult(DWChttp, gDwcSvlLabelDate);
     if (strp != 0)
-        func_02168250(strp);
+        DWC_Auth_SetNasTimeDiff(strp);
 
-    strp = func_0217A728(DWChttp, gDwcSvlLabelHttpResult);
+    strp = DWC_Http_GetResult(DWChttp, gDwcSvlLabelHttpResult);
     if (strp == 0) {
         DWCi_SetError(15, -25101);
         return 0;

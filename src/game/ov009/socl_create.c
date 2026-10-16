@@ -1,7 +1,7 @@
 /*
  * file:     socl_create.c
  * unit:     yes
- * function: func_0215D070, SOCLi_CreateSocketCallBack, SOCLi_StartupSocket, SOCLi_GetSizeSocket, SOCLi_GetSizeCommandPipe, SOCLi_InitSocket, SOCLi_InitSocketBuffer, SOCLi_InitCommandPipe
+ * function: SOCL_CreateSocket, SOCLi_CreateSocketCallBack, SOCLi_StartupSocket, SOCLi_GetSizeSocket, SOCLi_GetSizeCommandPipe, SOCLi_InitSocket, SOCLi_InitSocketBuffer, SOCLi_InitCommandPipe
  * address:  0x0215D070
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -30,7 +30,7 @@
  *   SOCLi_SocketRegister  0x0215F2DC  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gSoclConfig  0x021A1CD8  data
- *   func_0215F0C8  0x0215F0C8  arm  ov009
+ *   SOCLi_RoundUp4  0x0215F0C8  arm  ov009
  *   SOCLiUDPSendSocket  0x021AA44C  data
  *   OS_InitMessageQueue  0x02085D94  arm
  *   OS_InitMutex  0x02086004  arm
@@ -249,7 +249,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void SOCLi_SocketRegister(int a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned long func_0215F0C8(unsigned long size);
+extern unsigned long SOCLi_RoundUp4(unsigned long size);
 extern void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
 extern void OS_InitMutex(OSMutex *mutex);
 extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
@@ -372,15 +372,15 @@ unsigned long SOCLi_GetSizeSocket(Param *param)
 	size = 0xbc;
 	if (param->send) {
 		size += 0x114;
-		size += func_0215F0C8(param->send);
-		size += func_0215F0C8(param->sendbuf);
+		size += SOCLi_RoundUp4(param->send);
+		size += SOCLi_RoundUp4(param->sendbuf);
 		size += SOCLi_GetSizeCommandPipe((SOCLSocketThreadParam *)param->pipe1);
 	}
 	if (param->recv) {
 		size += 0x110;
-		size += func_0215F0C8(param->recv);
-		size += func_0215F0C8(param->rbuf1);
-		size += func_0215F0C8(param->rbuf2);
+		size += SOCLi_RoundUp4(param->recv);
+		size += SOCLi_RoundUp4(param->rbuf1);
+		size += SOCLi_RoundUp4(param->rbuf2);
 		size += SOCLi_GetSizeCommandPipe((SOCLSocketThreadParam *)param->pipe2);
 	}
 	return size;
@@ -396,8 +396,8 @@ unsigned long SOCLi_GetSizeCommandPipe(SOCLSocketThreadParam *param)
 {
 	unsigned long size;
 
-	size = func_0215F0C8(param->msgCount << 2);
-	size += func_0215F0C8(param->stackSize);
+	size = SOCLi_RoundUp4(param->msgCount << 2);
+	size += SOCLi_RoundUp4(param->stackSize);
 	return size;
 }
 
@@ -477,7 +477,7 @@ unsigned char *SOCLi_InitSocketBuffer(unsigned char *ptr, Buf *buf, unsigned lon
 {
 	buf->data = size ? ptr : 0;
 	buf->size = size;
-	return ptr + func_0215F0C8(size);
+	return ptr + SOCLi_RoundUp4(size);
 }
 
 

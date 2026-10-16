@@ -43,7 +43,7 @@
  *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb
  *   FIELD_PLAYER_GetDirDisp 0x021A3050 thumb ov021
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -117,7 +117,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *fieldPlayer);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *work, void *run, u32 size);
-extern void *func_020124E4(struct GameEvent *event);
+extern void *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *fieldPlayer);
 extern int FLDMMDL_CheckEndAcmd(void *mmdl);
 extern int FLDMMDL_CheckPossibleAcmd(int mmdl);
@@ -392,7 +392,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
     u32 slideUnits;
     VecFx32 pos;
 
-    gameSystem = func_020124E4((struct GameEvent *)event);
+    gameSystem = GAME_EVENT_GetGameSystem((struct GameEvent *)event);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
@@ -511,7 +511,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(int event, int *state)
     int slideUnits;
     VecFx32 pos;
 
-    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4((void *)event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
@@ -597,7 +597,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(int event, int *state)
     void *anime;
     VecFx32 *srcStatus;
 
-    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4((void *)event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     FIELDMAP_GetFieldPlayer(fieldMap);
@@ -658,7 +658,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(int event, int *state)
     void *anime;
     VecFx32 *srcStatus;
 
-    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4((void *)event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
     expObj = (char *)FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork((char *)fieldMap, 1);
     FIELDMAP_GetFieldPlayer(fieldMap);
@@ -734,7 +734,7 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(void *gameSystem, int variant
  * Event: plays the press animation of a switch and saves it as found.
  * note:     the case-0 byte must be held in a u8 (or u16) local: an int local
  *           swaps the 0x0201210C result and the 0x021897BC pointer between r4
- *           and r5.  func_020124E4/GAMESYSTEM_GetFieldMap are argless as in the twin
+ *           and r5.  GAME_EVENT_GetGameSystem/GAMESYSTEM_GetFieldMap are argless as in the twin
  *           ov045_func_021F39B8.  FLD_EXP_OBJ_SetAnimeEnabled/FLD_EXP_OBJ_GetAnime take their
  *           fourth argument as u16 (the caller truncates it before the bl).
  *           FLD_EXP_OBJ_GetAnime's third parameter must be `int` here, as for
@@ -752,7 +752,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(int event, int *state)
     int i;
     u8 switchModel;
 
-    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4((void *)event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     gimmickSave = (unsigned int)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap)));
@@ -801,7 +801,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(int event, int *state)
     s8 prerequisite;
     VecFx32 *srcStatus;
 
-    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4((void *)event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork((char *)fieldMap, 1);
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap))), 6);

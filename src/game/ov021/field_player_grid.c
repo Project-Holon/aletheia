@@ -56,13 +56,13 @@
  *   MAP_ATTR_IsDeepSnow  0x021AB328  thumb  ov021
  *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
- *   func_021AB44C  0x021AB44C  thumb  ov021
+ *   MAP_ATTR_IsNoDash  0x021AB44C  thumb  ov021
  *   FLDMMDL_SetStatusBitHeightGetOff  0x0216DB4C  thumb  ov010
  *   FLDMMDL_SetMoveBitShadowVanish  0x0216DCE8  thumb  ov010
  *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
- *   func_021AB41C  0x021AB41C  thumb  ov021
+ *   MAP_ATTR_IsSand  0x021AB41C  thumb  ov021
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
  *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
  *   MAP_ATTR_IsHole  0x021AB2DC  thumb  ov021
@@ -189,13 +189,13 @@ extern int MAP_ATTR_IsDeepSandB(int attrKind);
 extern int MAP_ATTR_IsDeepSnow(int attrKind);
 extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmd);
-extern int func_021AB44C(u16 attrKind);
+extern int MAP_ATTR_IsNoDash(u16 attrKind);
 extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
 extern int FLDMMDL_SetMoveBitShadowVanish(Mmdl *mmdl, int flag);
 extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bits);
 extern int FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, VecFx32 *pos, int *outHeight);
 extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bits);
-extern int func_021AB41C(u16 attrKind);
+extern int MAP_ATTR_IsSand(u16 attrKind);
 extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, void *effectCtrl);
 extern int FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, int gridX, int gridY, int gridZ, u32 dir);
 extern int MAP_ATTR_IsHole(u16 attrKind);
@@ -1111,7 +1111,7 @@ void FIELD_PLAYER_GRID_StartWalkOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldP
             FIELD_PLAYER_GRID_SetFlag(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
             FIELD_PLAYER_CORE_GetPos(grid->core, &pos);
             if (FLDMMDL_MOVE_GetMapAttr(mmdl, &pos, &attr) != 0) {
-                if (func_021AB44C(MAP_ATTR_GetTerrainId(attr)) != 0) {
+                if (MAP_ATTR_IsNoDash(MAP_ATTR_GetTerrainId(attr)) != 0) {
                     acmdBase = FIELD_PLAYER_GRID_ACMD_WALK;
                     checkSlope = 0;
                     FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
@@ -1267,7 +1267,7 @@ void FIELD_PLAYER_GRID_StartWalkOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, Field
     } else {
         acmdBase = FIELD_PLAYER_GRID_ACMD_DASH;
         if (FIELD_PLAYER_GRID_GetAttrAtDir(grid, FIELD_PLAYER_GRID_DIR_NONE, &attr) == 1) {
-            if (func_021AB41C(MAP_ATTR_GetTerrainId(attr)) == 1) {
+            if (MAP_ATTR_IsSand(MAP_ATTR_GetTerrainId(attr)) == 1) {
                 acmdBase = FIELD_PLAYER_GRID_ACMD_CYCLE_SPECIAL;
                 FLDEFF_KEMURI_Start(mmdl, FIELDMAP_GetEffect(grid->fieldMap));
             }

@@ -26,7 +26,7 @@
  *   GFL_HEAP_DumpReport  0x02030B50  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
  *   GAME_BEACON_SEARCH_NetInit     0x02171C30  data  ov010  a4
- *   func_02010360 0x02010360 thumb
+ *   WIH_DWC_Create 0x02010360 thumb
  *   WIH_DWC_Delete 0x020103E4 thumb
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -35,7 +35,7 @@
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02035390  0x02035390  arm
- *   func_020353B0  0x020353B0  arm
+ *   UI_IsPowerConnected  0x020353B0  arm
  *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
  *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
@@ -46,7 +46,7 @@
  *   GAME_COMM_RequestExit  0x0202640C  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   NET_WHPIPE_ReleaseEntry  0x02177BF4  thumb  ov014
- *   func_02010498  0x02010498  thumb
+ *   WIH_DWC_TickTimers  0x02010498  thumb
  *   GFL_NET_EndDeviceWrapper  0x0203D0FC  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   GAME_BEACON_ReceiveInfo  0x02026A60  thumb
@@ -212,7 +212,7 @@ extern void GFL_HEAP_DumpReport(u32 heapId);
 
 extern void GFL_NET_StartSession(const struct NetInitParam *init, void (*callback)(void *work), void *work);
 
-extern u8 *func_02010360(int index, u32 heapId);
+extern u8 *WIH_DWC_Create(int index, u32 heapId);
 
 extern void WIH_DWC_Delete(u8 *wihDwc);
 
@@ -230,7 +230,7 @@ extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 
 extern int func_02035390(void);
 
-extern int func_020353B0(void);
+extern int UI_IsPowerConnected(void);
 
 extern void GAME_BEACON_SendIfRequested(void);
 
@@ -252,7 +252,7 @@ extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 
 extern void NET_WHPIPE_ReleaseEntry(u32 index);
 
-extern void func_02010498(void);
+extern void WIH_DWC_TickTimers(void);
 
 extern void GFL_NET_EndDeviceWrapper(int mode);
 
@@ -584,7 +584,7 @@ void GAME_BEACON_SEARCH_OnSessionStarted(void *arg)
     GameBeaconSearchWork *work = arg;
 
     work->state = 1;
-    work->wihDwc = func_02010360(4, 0x8005);
+    work->wihDwc = WIH_DWC_Create(4, 0x8005);
 }
 
 int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *work)
@@ -636,7 +636,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
         GAME_COMM_RequestExitNoCallback(gameComm);
         return;
     }
-    if (func_02035390() == 1 && func_020353B0() == 1) {
+    if (func_02035390() == 1 && UI_IsPowerConnected() == 1) {
         GAME_COMM_RequestExitNoCallback(gameComm);
         return;
     }
@@ -666,7 +666,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
         }
     }
 end:
-    func_02010498();
+    WIH_DWC_TickTimers();
 }
 
 GameBeaconSearchTarget *GAME_BEACON_SEARCH_PollScanResult(GameBeaconSearchWork *work, int *index)

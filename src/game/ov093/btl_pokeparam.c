@@ -83,7 +83,7 @@
  *   MIi_CpuClear16 0x02082A48  arm
  *   STRBUF_GetLength   0x020458F8  arm
  *   STRBUF_GetChars   0x02045A90  arm
- *   sub_0201F41C   0x0201F41C  thumb
+ *   WORDSET_CopyString   0x0201F41C  thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   MI_CpuCopy8 0x02082D44 arm

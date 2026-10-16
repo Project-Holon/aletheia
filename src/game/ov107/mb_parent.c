@@ -23,8 +23,8 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   MBi_ClearParentPieceBuffer  0x021F6850  arm  ov107
  *   MB_UpdateGameInfoMember  0x021F3E9C  arm  ov107
- *   func_021F628C  0x021F628C  arm  ov107
- *   func_021F62A0  0x021F62A0  arm  ov107
+ *   MBi_GetGgid  0x021F628C  arm  ov107
+ *   MBi_GetTgid  0x021F62A0  arm  ov107
  *   func_021F62B4  0x021F62B4  arm  ov107
  *   MB_SendGameInfoBeacon  0x021F3FC8  arm  ov107
  *   func_021F2F04  0x021F2F04  arm  ov107
@@ -42,7 +42,7 @@
  *   g_021F6E48     0x021F6E48  data
  *   FS_FindArchive 0x02077EB8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02075E04 0x02075E04 arm
+ *   CARD_GetOwnRomHeaderTWL 0x02075E04 arm
  *   FS_InitFile 0x020788AC arm
  *   FS_OpenFileDirect 0x02078964 arm
  *   FS_ReadFile 0x02078B70 arm
@@ -139,8 +139,8 @@ extern void func_021F1D58(unsigned short child, int state, void *arg);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MBi_ClearParentPieceBuffer(u16 child_aid);
 extern void MB_UpdateGameInfoMember(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
-extern u32 func_021F628C(void);
-extern u16 func_021F62A0(void);
+extern u32 MBi_GetGgid(void);
+extern u16 MBi_GetTgid(void);
 extern u8 func_021F62B4(void);
 extern void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
 extern void func_021F2F04(u16 aid, u16 errcode);
@@ -153,7 +153,7 @@ extern u8 *MBi_MakeParentSendBuffer(MBCommParentBlockHeader *hdr, u8 *sendbuf);
 extern int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
 extern struct FSArchive *FS_FindArchive(const char *name, int name_len);
 extern int OS_IsRunOnTwl(void);
-extern RomHeader *func_02075E04(void);
+extern RomHeader *CARD_GetOwnRomHeaderTWL(void);
 extern void FS_InitFile(void *file);
 extern int FS_OpenFileDirect(void *file, void *arc, u32 top, u32 bottom, u32 id);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
@@ -419,7 +419,7 @@ void MBi_CommParentCallback(u16 type, void *arg)
                 }
             }
         }
-        MB_SendGameInfoBeacon(func_021F628C(), func_021F62A0(), func_021F62B4());
+        MB_SendGameInfoBeacon(MBi_GetGgid(), MBi_GetTgid(), func_021F62B4());
         break;
 
     case 0xFF:
@@ -722,7 +722,7 @@ void MBi_ReloadCache(MBiTaskInfo *p_task)
         arc = p_list->arc_pointer;
     }
     if (OS_IsRunOnTwl() && arc == FS_FindArchive(g_021F6E4C, 3)) {
-        header = func_02075E04();
+        header = CARD_GetOwnRomHeaderTWL();
         boundary_ntr = header->ntr_off + header->ntr_len;
         boundary_ltd = header->ltd_off + header->ltd_len;
         if (p_info->src < boundary_ntr && p_info->src + length > boundary_ntr) {

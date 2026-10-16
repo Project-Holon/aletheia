@@ -17,7 +17,7 @@
  *   GAMESYSTEM_CallProc 0x020120B4 thumb
  *   d_021D8574 0x021D8574 data a4
  *   d_021DA62C 0x021DA62C data ov129 a4
- *   func_0202E54C 0x0202E54C thumb
+ *   CODEIN_PARAM_Delete 0x0202E54C thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
@@ -200,7 +200,7 @@ struct Arc { int f0; int f4; int f8; u8 *fC; };
 
 extern struct WifiBsubwayCodeInParam *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
-extern void func_0202E54C(void *p);
+extern void CODEIN_PARAM_Delete(void *p);
 extern u16 STRBUF_GetEosChar(void);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern int WIFI_BSUBWAY_PollHttpRequest(u8 *,u8 *,int);
@@ -391,7 +391,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(struct WifiBsubwayWork *p, u32 heap)
 void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(struct WifiBsubwayWork *p)
 {
     if (p->codeInParam) {
-        func_0202E54C(p->codeInParam);
+        CODEIN_PARAM_Delete(p->codeInParam);
         p->codeInParam = 0;
     }
 }

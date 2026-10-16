@@ -20,7 +20,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_SleepThread  0x020857B0  arm
- *   func_0215CE3C  0x0215CE3C  arm  ov009
+ *   SOCLi_CreateCommandPacket  0x0215CE3C  arm  ov009
  *   MI_CpuCopy  0x02082EA4  arm
  *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   SOCLi_ExecCommandPacketInSendPipe  0x0215CF98  arm  ov009
@@ -115,7 +115,7 @@ extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct SOCLiCommandWrite *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
+extern struct SOCLiCommandWrite *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned short CPS_SocGetEport(void);
 extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandWrite *command);
@@ -333,7 +333,7 @@ static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buff
     unsigned char *wrtbuf;
     int result;
 
-    command = func_0215CE3C(SOCLi_WriteCallBack, send_pipe->exe_socket, flag_block);
+    command = SOCLi_CreateCommandPacket(SOCLi_WriteCallBack, send_pipe->exe_socket, flag_block);
     if (command == 0)
         return -0x21;
     if ((flag_block & 1) && socket->flag_mode != 1)

@@ -106,7 +106,7 @@
  *   POKE_TOOL_GetIconCellEntryIdSub  0x0201BCEC  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
- *   func_021BDBAC  0x021BDBAC  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable  0x021BDBAC  thumb  ov208
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
@@ -1525,7 +1525,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 
-extern void func_021BDBAC(void *s, int v);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(void *s, int v);
 
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 
@@ -2343,7 +2343,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
         break;
     case 2:
         if (ev == 3)
-            func_021BDBAC(scene, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(scene, 0);
         break;
     case 3:
         if (ev == 4) {
@@ -2399,7 +2399,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
         break;
     case 6:
         if (ev == 7)
-            func_021BDBAC(scene, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(scene, 0);
         break;
     case 7:
         if (ev == 0) {

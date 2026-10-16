@@ -86,7 +86,7 @@
  *   VCT_AUDIO_DetachReceiveSource  0x021B1A48  arm ov013
  *   VCT_AUDIO_FlushReadyQueue  0x021B1720  arm ov013
  *   VCT_AUDIO_FlushPendingSlot  0x021B133C  arm ov013
- *   func_02082B0C  0x02082B0C  arm
+ *   MIi_CpuCopyFast  0x02082B0C  arm
  *   _ll_udiv       0x0209C00C  arm
  *   VCT_AUDIO_GetReadyCount  0x021B19AC  arm ov013
  *   VCT_AUDIO_PeekReadyPacket  0x021B190C  arm ov013
@@ -128,7 +128,7 @@ extern void NNS_SndStrmFreeChannel(void *stream);
 /* Memory, time and error helpers. */
 extern void func_02082AC0(int value, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
-extern void func_02082B0C(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern u64 OS_GetTick(void);
 extern u16 OS_GetTickLo(void);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
@@ -1345,11 +1345,11 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 length)
   sendState = &gVctSendState;
   if (sendState->codecMode >= 2)
   {
-    func_02082B0C(src, ((u8 *) header) + 0x10, length);
+    MIi_CpuCopyFast(src, ((u8 *) header) + 0x10, length);
   }
   else
   {
-    func_02082B0C(src, ((u8 *) header) + 0xC, length);
+    MIi_CpuCopyFast(src, ((u8 *) header) + 0xC, length);
   }
   frameType = 0x40;
   header->type = frameType;
@@ -1397,7 +1397,7 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMa
             if (packet->playTick > nowTick + 0x34) {
                 if (packet->marker == 0 && channel->lastPacket != 0) {
                     channel->playedFrames++;
-                    func_02082B0C(channel->lastPacket->payload, dst, size);
+                    MIi_CpuCopyFast(channel->lastPacket->payload, dst, size);
                     VCT_POOL_FreeFrame(channel->lastPacket);
                     channel->lastPacket = 0;
                     if (sourceMask != 0) {
@@ -1431,7 +1431,7 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMa
             channel->lastLatency = delay;
             channel->latencyFilter = channel->lastLatency + ((delayDelta - channel->lastLatency) >> 4);
             channel->latency = channel->latencyFilter;
-            func_02082B0C(packet->payload, dst, size);
+            MIi_CpuCopyFast(packet->payload, dst, size);
             VCT_AUDIO_SetLastPacket(channel, packet);
             if (sourceMask != 0) {
                 *sourceMask |= 1 << packet->senderAid;

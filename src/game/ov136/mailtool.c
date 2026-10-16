@@ -18,8 +18,8 @@
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MAIL_Create 0x02008F08 thumb
- *   func_02008EAC 0x02008EAC thumb
- *   func_02008F48 0x02008F48 thumb
+ *   MAIL_Init 0x02008EAC thumb
+ *   MAIL_InitForPlayer 0x02008F48 thumb
  *   d_021C7EE0 0x021C7EE0 data a1
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02008FA8 0x02008FA8 thumb
@@ -73,8 +73,8 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Mail *MAIL_Create(int heapId);
-extern void func_02008EAC(struct Mail *mail);
-extern void func_02008F48(struct Mail *mail, u8 kind, u32 unused, void *p);
+extern void MAIL_Init(struct Mail *mail);
+extern void MAIL_InitForPlayer(struct Mail *mail, u8 kind, u32 unused, void *p);
 extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 extern void func_02008FA8(struct Mail *mail, u32 value);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
@@ -135,8 +135,8 @@ void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsi
     args->reserved0C = 0;
     args->saveControl = GAME_DATA_GetSaveControl(a);
     args->mail = MAIL_Create((unsigned)((u16)heap));
-    func_02008EAC(args->mail);
-    func_02008F48(args->mail, 0xFF, c, a);
+    MAIL_Init(args->mail);
+    MAIL_InitForPlayer(args->mail, 0xFF, c, a);
     return args;
 }
 

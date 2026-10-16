@@ -26,7 +26,7 @@
  *   DWC_CheckHasProfile  0x020597C8  arm
  *   DWC_CheckValidConsole  0x02059760  arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
- *   func_02059F18 0x02059F18 arm
+ *   DWC_ClearError 0x02059F18 arm
  *   _pRapWorkAddr 0x021A8264  data  ov009  a4
  *   _sGameName     0x021A1C6C  data  ov009  a1
  *   DWC_InitInetEx  0x0205C6AC  arm
@@ -117,7 +117,7 @@ int DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 
 extern void GFL_NET_FreeAligned(void *);
 
-extern void func_02059F18(void);
+extern void DWC_ClearError(void);
 
 void DWC_InitInetEx(void *inetControl, u16 dmaNo, u16 powerMode, u16 priority);
 
@@ -462,7 +462,7 @@ void DWC_RAP_DestroyWork(void)
         GFL_NET_FreeAligned(_pRapWork);
         _pRapWork = 0;
     }
-    func_02059F18();
+    DWC_ClearError();
 }
 
 /*
@@ -1013,7 +1013,7 @@ int DWC_RAP_HandleError(void)
     result = code;
     switch (errorType) {
     case 1:
-        func_02059F18();
+        DWC_ClearError();
         if (_pRapWork != 0 && _pRapWork->state == DWC_RAP_STATE_ERROR)
             DWC_RAP_SetState(DWC_RAP_STATE_IDLE);
         break;
@@ -1349,7 +1349,7 @@ int DWC_RAP_ProgressDisconnect(int pollOnly)
 {
     u32 errorCode, errorType;
     if (DWC_GetLastErrorEx((int *)(&errorCode), (int *)(&errorType)) != 0) {
-        func_02059F18();
+        DWC_ClearError();
     }
     if (pollOnly == 0) {
         switch (_pRapWork->state) {
@@ -1398,7 +1398,7 @@ int DWC_RAP_ResetToIdle(void)
 void DWC_RAP_Shutdown(void)
 {
     if (_pRapWork != 0) {
-        func_02059F18();
+        DWC_ClearError();
         if (_pRapWork->friendsMatchInit != 0)
             DWC_ShutdownFriendsMatch();
         _pRapWork->friendsMatchInit = 0;

@@ -21,7 +21,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   func_02033CC0  0x02033CC0  arm
  *   func_02033F64  0x02033F64  arm
- *   func_020341F0  0x020341F0  arm
+ *   AREAMAN_AllocAt  0x020341F0  arm
  *   sub_020416B8   0x020416B8  arm
  *   AREAMAN_Free  0x0203422C  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
@@ -50,8 +50,8 @@
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   G2_GetBG2CharPtr  0x0207E2A0  arm
  *   G2_GetBG3CharPtr  0x0207E330  arm
- *   func_0207E22C  0x0207E22C  arm
- *   func_0207E280  0x0207E280  arm
+ *   G2S_GetBG0CharPtr  0x0207E22C  arm
+ *   G2S_GetBG1CharPtr  0x0207E280  arm
  *   G2S_GetBG2CharPtr  0x0207E2F0  arm
  *   G2S_GetBG3CharPtr  0x0207E388  arm
  *   BUTTON_MAN_RotScaleMtx22  0x02051E74  arm
@@ -61,26 +61,27 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   DC_FlushRange  0x020862F0  arm
- *   func_0207E888  0x0207E888  arm
- *   func_0207EA00  0x0207EA00  arm
+ *   GX_LoadBG0Scr  0x0207E888  arm
+ *   GX_LoadBG1Scr  0x0207EA00  arm
  *   GX_LoadBG2Scr  0x0207EB78  arm
- *   func_0207ECF0  0x0207ECF0  arm
- *   func_0207E944  0x0207E944  arm
- *   func_0207EABC  0x0207EABC  arm
- *   func_0207EC34  0x0207EC34  arm
- *   func_0207EDAC  0x0207EDAC  arm
+ *   GX_LoadBG3Scr  0x0207ECF0  arm
+ *   GXS_LoadBG0Scr  0x0207E944  arm
+ *   GXS_LoadBG1Scr  0x0207EABC  arm
+ *   GXS_LoadBG2Scr  0x0207EC34  arm
+ *   GXS_LoadBG3Scr  0x0207EDAC  arm
  *   GX_LoadBG0Char  0x0207EE68  arm
- *   func_0207EF90  0x0207EF90  arm
- *   func_0207F024  0x0207F024  arm
+ *   GX_LoadBG1Char  0x0207EF90  arm
+ *   GXS_LoadBG1Char  0x0207F024  arm
  *   GX_LoadBG2Char  0x0207F0B8  arm
  *   func_0207EEFC  0x0207EEFC  arm
- *   func_0207F14C  0x0207F14C  arm
- *   func_0207F1E0  0x0207F1E0  arm
- *   func_0207F274  0x0207F274  arm
+ *   GXS_LoadBG2Char  0x0207F14C  arm
+ *   GX_LoadBG3Char  0x0207F1E0  arm
+ *   GXS_LoadBG3Char  0x0207F274  arm
  *   func_02043130_File 0x020A7E5C  data
  *   GX_LoadBGPltt  0x0207E3D0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GXS_LoadBGPltt  0x0207E468  arm
+ *   AREAMAN_Create  0x02033C00  arm
  */
 #include "gf_standard_shared_types.h"
 
@@ -213,7 +214,7 @@ extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern struct AreaMan *func_02033C00(u32 size, u32 heap);
+extern struct AreaMan *AREAMAN_Create(u32 size, u32 heap);
 
 extern u32 AREAMAN_Delete(void *a);
 
@@ -221,7 +222,7 @@ extern s32 func_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
 
 extern u32 func_02033F64(u32 arena, u32 a, u32 b, u32 c);
 
-extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
+extern s32 AREAMAN_AllocAt(struct AreaMan *p, u32 start, u32 len);
 
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
@@ -284,9 +285,9 @@ extern void *G2_GetBG2CharPtr(void);
 
 extern void *G2_GetBG3CharPtr(void);
 
-extern u32 func_0207E22C(void);
+extern u32 G2S_GetBG0CharPtr(void);
 
-extern u32 func_0207E280(void);
+extern u32 G2S_GetBG1CharPtr(void);
 
 extern void *G2S_GetBG2CharPtr(void);
 
@@ -306,37 +307,37 @@ extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 extern void DC_FlushRange(void *p, u32 size);
 
-extern void func_0207E888(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG0Scr(const void *src, u32 offset, u32 size);
 
-extern void func_0207EA00(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG1Scr(const void *src, u32 offset, u32 size);
 
 extern void GX_LoadBG2Scr(const void *src, u32 offset, u32 size);
 
-extern void func_0207ECF0(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG3Scr(const void *src, u32 offset, u32 size);
 
-extern void func_0207E944(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG0Scr(const void *src, u32 offset, u32 size);
 
-extern void func_0207EABC(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG1Scr(const void *src, u32 offset, u32 size);
 
-extern void func_0207EC34(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG2Scr(const void *src, u32 offset, u32 size);
 
-extern void func_0207EDAC(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG3Scr(const void *src, u32 offset, u32 size);
 
 extern void GX_LoadBG0Char(const void *src, u32 offset, u32 size);
 
-extern void func_0207EF90(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG1Char(const void *src, u32 offset, u32 size);
 
-extern void func_0207F024(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG1Char(const void *src, u32 offset, u32 size);
 
 extern void GX_LoadBG2Char(const void *src, u32 offset, u32 size);
 
 extern void func_0207EEFC(const void *src, u32 offset, u32 size);
 
-extern void func_0207F14C(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG2Char(const void *src, u32 offset, u32 size);
 
-extern void func_0207F1E0(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG3Char(const void *src, u32 offset, u32 size);
 
-extern void func_0207F274(const void *src, u32 offset, u32 size);
+extern void GXS_LoadBG3Char(const void *src, u32 offset, u32 size);
 
 void BG_SYS_Create(u16 heapId);
 
@@ -523,8 +524,8 @@ void BG_SYS_Create(u16 heapId)
     g_02146A44->heapId = heapId;
     g_02146A44->scrollDirtyMask = 0;
     g_02146A44->tileDirtyMask = 0;
-    g_02146A44->mainTileArena = func_02033C00(0x1000, heapId);
-    g_02146A44->subTileArena = func_02033C00(0x1000, heapId);
+    g_02146A44->mainTileArena = AREAMAN_Create(0x1000, heapId);
+    g_02146A44->subTileArena = AREAMAN_Create(0x1000, heapId);
 
     for (i = 0; i < 8; i++) {
         g_02146A44->tileBaseOffset[i] = 0;
@@ -596,7 +597,7 @@ u32 BG_SYS_ReserveTileRun(u32 a, u32 b, u32 c)
     u32 d = BG_SYS_GetField17(a & 0xff);
 
     d = g_02146A44->tileBaseOffset[a] / d;
-    return func_020341F0((struct AreaMan *)((a < 4) ? g_02146A44->mainTileArena : g_02146A44->subTileArena),
+    return AREAMAN_AllocAt((struct AreaMan *)((a < 4) ? g_02146A44->mainTileArena : g_02146A44->subTileArena),
                   d + b, c);
 }
 
@@ -1530,10 +1531,10 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
             u32           depth = p->bgs[layer].tileRowBytes;
 
             if (depth == 0x20) {
-                func_020341F0(p->mainTileArena,
+                AREAMAN_AllocAt(p->mainTileArena,
                               (p->tileBaseOffset[layer] + index * depth) >> 5, count);
             } else {
-                func_020341F0(p->mainTileArena,
+                AREAMAN_AllocAt(p->mainTileArena,
                               (p->tileBaseOffset[layer] + index * depth) >> 5,
                               count * 2);
             }
@@ -1548,10 +1549,10 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
             u32           depth = p->bgs[layer].tileRowBytes;
 
             if (depth == 0x20) {
-                func_020341F0(p->subTileArena,
+                AREAMAN_AllocAt(p->subTileArena,
                               (p->tileBaseOffset[layer] + index * depth) >> 5, count);
             } else {
-                func_020341F0(p->subTileArena,
+                AREAMAN_AllocAt(p->subTileArena,
                               (p->tileBaseOffset[layer] + index * depth) >> 5,
                               count * 2);
             }
@@ -2019,8 +2020,8 @@ u32 BG_SYS_GetGraphics(u32 channel)
     case 1: return (u32)G2_GetBG1CharPtr();
     case 2: return (u32)G2_GetBG2CharPtr();
     case 3: return (u32)G2_GetBG3CharPtr();
-    case 4: return func_0207E22C();
-    case 5: return func_0207E280();
+    case 4: return G2S_GetBG0CharPtr();
+    case 5: return G2S_GetBG1CharPtr();
     case 6: return (u32)G2S_GetBG2CharPtr();
     case 7: return (u32)G2S_GetBG3CharPtr();
     default: return 0;
@@ -2705,28 +2706,28 @@ void BG_SYS_LoadTileLayer(u32 layer, const void *src, u32 offset, u32 size)
 
     switch (layer) {
     case 0:
-        func_0207E888(src, offset, size);
+        GX_LoadBG0Scr(src, offset, size);
         break;
     case 1:
-        func_0207EA00(src, offset, size);
+        GX_LoadBG1Scr(src, offset, size);
         break;
     case 2:
         GX_LoadBG2Scr(src, offset, size);
         break;
     case 3:
-        func_0207ECF0(src, offset, size);
+        GX_LoadBG3Scr(src, offset, size);
         break;
     case 4:
-        func_0207E944(src, offset, size);
+        GXS_LoadBG0Scr(src, offset, size);
         break;
     case 5:
-        func_0207EABC(src, offset, size);
+        GXS_LoadBG1Scr(src, offset, size);
         break;
     case 6:
-        func_0207EC34(src, offset, size);
+        GXS_LoadBG2Scr(src, offset, size);
         break;
     case 7:
-        func_0207EDAC(src, offset, size);
+        GXS_LoadBG3Scr(src, offset, size);
         break;
     }
 }
@@ -2790,25 +2791,25 @@ void BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size)
         GX_LoadBG0Char(src, offset, size);
         break;
     case 1:
-        func_0207EF90(src, offset, size);
+        GX_LoadBG1Char(src, offset, size);
         break;
     case 2:
         GX_LoadBG2Char(src, offset, size);
         break;
     case 3:
-        func_0207F1E0(src, offset, size);
+        GX_LoadBG3Char(src, offset, size);
         break;
     case 4:
         func_0207EEFC(src, offset, size);
         break;
     case 5:
-        func_0207F024(src, offset, size);
+        GXS_LoadBG1Char(src, offset, size);
         break;
     case 6:
-        func_0207F14C(src, offset, size);
+        GXS_LoadBG2Char(src, offset, size);
         break;
     case 7:
-        func_0207F274(src, offset, size);
+        GXS_LoadBG3Char(src, offset, size);
         break;
     }
 }
@@ -3201,7 +3202,7 @@ void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value)
  * arena selection by slot index (0..3 at +0x168, 4..7 at +0x16c, anything
  * else a no-op), same bias by the per-slot base at +0x190 and the same
  * round-up of the byte length to 32-byte units, but handed to
- * func_020341F0 instead of AREAMAN_Free.
+ * AREAMAN_AllocAt instead of AREAMAN_Free.
  *
  * Codegen note: the round-up flag must be spelled as the ternary
  * `(size & 0x1f) ? 1 : 0`; see BG_SYS_DeleteBlock.c for why the relational form
@@ -3216,7 +3217,7 @@ void BG_SYS_SetupLayer(u32 idx, u32 offset, u32 size)
     case 3:
         {
             u32 count = ((size & 0x1f) ? 1 : 0) + (size >> 5);
-            func_020341F0(g_02146A44->mainTileArena,
+            AREAMAN_AllocAt(g_02146A44->mainTileArena,
                           (offset + g_02146A44->mapBaseOffset[idx]) >> 5, count);
         }
         break;
@@ -3226,7 +3227,7 @@ void BG_SYS_SetupLayer(u32 idx, u32 offset, u32 size)
     case 7:
         {
             u32 count = ((size & 0x1f) ? 1 : 0) + (size >> 5);
-            func_020341F0(g_02146A44->subTileArena,
+            AREAMAN_AllocAt(g_02146A44->subTileArena,
                           (offset + g_02146A44->mapBaseOffset[idx]) >> 5, count);
         }
         break;

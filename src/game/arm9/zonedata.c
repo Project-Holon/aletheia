@@ -22,7 +22,7 @@
  *   ARC_TOOL_DeleteHandle     0x02049238  arm
  *   _ZoneChangeTable  0x020A72A8  data
  *   ZONEDATA_GetChangedZoneId      0x02013A94  thumb
- *   sub_0204944C      0x0204944C  arm
+ *   ARC_TOOL_ReadHandleMemberRange      0x0204944C  arm
  *   _RailMapZoneTable  0x0209E010  data
  *   _ZoneSpecialKindTable  0x0209E026  data
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
@@ -37,7 +37,7 @@
  *   _ZoneSecondSpecialKindTable  0x0209DFC8  data
  *   FILE_UTIL_LoadRange  0x02020E08  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
- *   sub_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   _EventTempFlags  0x02146268  data
  *   ZONEDATA_ResetEventFlagRange  0x02014368  thumb
  *   _DirToRailKeyTable  0x0209E050  data
@@ -555,11 +555,11 @@ u16 ZONEDATA_GetChangedZoneId(u32 key)
  * the call to it.
  *
  * g_ZoneDataMgr is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
+ * handle ARC_TOOL_ReadHandleMemberRange reads records from, P+0x04..0x33 (0x30 bytes) is the
  * cached record every accessor in the other files of this run reads
  * through the pointer ZONEDATA_GetHeader() returns, and P+0x34 is the id that
  * record was cached for.  ZONEDATA_GetHeader reloads the record through
- * sub_0204944C only when the requested id (after remapping through
+ * ARC_TOOL_ReadHandleMemberRange only when the requested id (after remapping through
  * ZONEDATA_GetChangedZoneId) does not match the cached one.
  *
  * ZONEDATA_GetStartPos and ZONEDATA_GetStartRailPos read the same three fields (+0x24, +0x28,
@@ -1641,7 +1641,7 @@ void ZONEDATA_SetGameStartLocation(struct Location *loc)
  * ZONEDATA_GetEventWorkSize is a bare constant getter, hiding the same way the tail
  * calls elsewhere in this packet do: no prologue, so disasm.py's sweep
  * never labels it. ZONEDATA_InitEventWork is a tail call to the ARM function
- * sub_02082BCC forwarding its own argument and two more constants; the
+ * MI_CpuFill8 forwarding its own argument and two more constants; the
  * same target is reached by an ordinary `blx` from unit_02014368.c.
  *
  * Verified with:
@@ -1765,7 +1765,7 @@ u8 *ZONEDATA_GetEventFlagAddress(struct EventWork *ev, u32 flagId)
  * alias: ZONEDATA_GetEventWorkAddress turns a large id (b >= 0x4000) into a byte offset
  * into the caller's own buffer, two bytes per id; ZONEDATA_ClearEventWorkRange zero-fills
  * the span between two such ids by tail-calling the ARM memset-shaped
- * sub_02082BCC (the same target unit_02014274.c's ZONEDATA_InitEventWork reaches
+ * MI_CpuFill8 (the same target unit_02014274.c's ZONEDATA_InitEventWork reaches
  * directly, this file reaches it through ZONEDATA_GetEventWorkAddress first).
  *
  * ZONEDATA_ClearTimeFlags clears a whole run of flag bits with ZONEDATA_ResetEventFlagRange

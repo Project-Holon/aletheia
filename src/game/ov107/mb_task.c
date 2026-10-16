@@ -1,7 +1,7 @@
 /*
  * file:     mb_task.c
  * unit:     yes
- * function: MBi_TaskThread, MBi_InitTaskThread, func_021F6610, func_021F662C, func_021F6640, func_021F6658, func_021F67BC
+ * function: MBi_TaskThread, MBi_InitTaskThread, func_021F6610, MBi_InitTaskInfo, func_021F6640, func_021F6658, func_021F67BC
  * address:  0x021F6480
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -18,7 +18,7 @@
  *   OS_SleepThread 0x020857B0 arm
  *   OS_RestoreInterrupts 0x0208799C arm
  *   OS_ExitThread 0x020854B0 arm
- *   func_021F662C 0x021F662C arm ov107
+ *   MBi_InitTaskInfo 0x021F662C arm ov107
  *   OS_CreateThread 0x020853C0 arm
  *   OS_WakeupThreadDirect 0x02085868 arm
  *   ctrdgi_task_work 0x021f7004 data
@@ -73,7 +73,7 @@ extern void OS_SetThreadPriority(void *thread, u32 prio);
 extern void OS_SleepThread(void *q);
 extern void OS_RestoreInterrupts(u32 mode);
 extern void OS_ExitThread(void);
-extern void func_021F662C(void *pt);
+extern void MBi_InitTaskInfo(void *pt);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
 extern void MI_CpuFill8(void *dst, int val, u32 len);
@@ -160,7 +160,7 @@ void MBi_InitTaskThread(void *p_work, unsigned long size)
     if (mbi_task_work == 0) {
         MBiTaskWork *p = (MBiTaskWork *)p_work;
         mbi_task_work = p;
-        func_021F662C((char *)p + 0xC4);
+        MBi_InitTaskInfo((char *)p + 0xC4);
         p->tasks.head = 0;
         OS_CreateThread(p, MBi_TaskThread, p, (char *)p + 0xE4 + ((size - 0xE4) & ~3), (size - 0xE4) & ~3, 0);
         OS_WakeupThreadDirect(p);

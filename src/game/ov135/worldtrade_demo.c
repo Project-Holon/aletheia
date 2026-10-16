@@ -49,7 +49,7 @@
  *   func_02008558  0x02008558  thumb
  *   func_02008574  0x02008574  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
- *   func_02007664  0x02007664  thumb
+ *   BOX_SAVEDATA_ClearPokemon  0x02007664  thumb
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
  *   func_0200752C  0x0200752C  thumb
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
@@ -124,7 +124,7 @@ extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 extern void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 
-extern void func_02007664(void *save, u32 box, u32 slot);
+extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
 
 extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
@@ -423,7 +423,7 @@ void WORLDTRADE_DEMO_InitSlotRecord(Work *p)
 
         a = 0;
         b = 0;
-        func_02007664((void *)p->ctx->box, p->box_u, p->pos);
+        BOX_SAVEDATA_ClearPokemon((void *)p->ctx->box, p->box_u, p->pos);
         BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&a), (int *)(&b));
         func_0200752C((void **)p->ctx->box, a, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
     }

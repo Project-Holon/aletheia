@@ -67,7 +67,7 @@
  *   ArrayFree 0x021841B0  arm
  *   @14079       0x021A1A54  data
  *   gGstatsCryptKey   0x021A5800  data
- *   func_021937D0 0x021937D0  arm
+ *   BucketNew 0x021937D0  arm
  *   OS_SPrintf  0x02084F40  arm
  *   gGstatsTeamOpFormat   0x021A590C  data
  *   gGstatsPlayerOpFormat   0x021A5914  data
@@ -127,7 +127,7 @@ extern int atoi(u32 a0);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void ArrayDeleteAt(int a, int b);
 extern void ArrayFree(void *array);
-extern void *func_021937D0(void *set, char *name, int type, void *initialvalue);
+extern void *BucketNew(void *set, char *name, int type, void *initialvalue);
 extern void OS_SPrintf(char *buf, const char *fmt, char *b, int n);
 
 void CloseStatsConnection(void);
@@ -257,7 +257,7 @@ void *ServerOpString(int *game, char *name, void *(*func)(void *, char *, void *
     ret = func((void *)game[3], name, value);
     if (ret != 0)
         return ret;
-    return func_021937D0((void *)game[3], name, 2, value);
+    return BucketNew((void *)game[3], name, 2, value);
 }
 
 /*
@@ -274,7 +274,7 @@ double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void
     else {
         ret = func((void *)game[3], name, &value);
         if (ret == 0)
-            ret = func_021937D0((void *)game[3], name, 1, &value);
+            ret = BucketNew((void *)game[3], name, 1, &value);
     }
     return *ret;
 }
@@ -293,7 +293,7 @@ int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int
     else {
         ret = func((void *)game[3], name, &value);
         if (ret == 0)
-            ret = func_021937D0((void *)game[3], name, 0, &value);
+            ret = BucketNew((void *)game[3], name, 0, &value);
     }
     return *ret;
 }

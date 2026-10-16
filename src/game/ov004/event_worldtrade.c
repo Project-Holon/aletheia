@@ -26,7 +26,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   WORLDTRADE_GetFromSave  0x0200AD6C  thumb
- *   func_02008B08  0x02008B08  thumb
+ *   CONSOLE_STAMP_GetFromSave  0x02008B08  thumb
  *   POKEPARTY_GetSaveData  0x0201AD0C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
@@ -115,7 +115,7 @@ void *func_020124E8(struct GameEvent *event);
 void MI_CpuFill8(void *dst, int value, int size);
 struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 void *WORLDTRADE_GetFromSave(void *saveControl);
-void *func_02008B08(void *saveControl);
+void *CONSOLE_STAMP_GetFromSave(void *saveControl);
 void *POKEPARTY_GetSaveData(void *saveControl);
 struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 struct WorldTradeSave *ZUKAN_SAVE_GetFromGameData(void *gameData);
@@ -171,7 +171,7 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     work->fieldMap = fieldMap;
     work->saveControl = GAME_DATA_GetSaveControl((struct GameData *)gameData);
     work->param.regulationData = WORLDTRADE_GetFromSave(work->saveControl);
-    work->param.trainerCardData = func_02008B08(work->saveControl);
+    work->param.trainerCardData = CONSOLE_STAMP_GetFromSave(work->saveControl);
     work->param.mailBoxData = POKEPARTY_GetSaveData(work->saveControl);
     work->param.boxManager = GAME_DATA_GetBoxManager((const struct GameData *)gameData);
     work->param.worldTradeSave = ZUKAN_SAVE_GetFromGameData((void *)gameData);

@@ -12,7 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * A permission mask built from the TWL ROM header.  func_02075E04 returns the
+ * A permission mask built from the TWL ROM header.  CARD_GetOwnRomHeaderTWL returns the
  * header buffer (its pool word is 0x02FFE000), and the four one-bit extracts
  * of the word at +0x1B4 are its access-control flags, read as u32 bitfields
  * (bits 5, 8, 15, 16).  A ROM boot (OS_GetBootType() == 1) or a non-TWL run
@@ -33,7 +33,7 @@
  *   OS_WakeupThread  0x02085800  arm
  *   OS_GetBootType  0x02087B04  arm
  *   OS_IsRunOnTwl   0x02085D3C  arm
- *   func_02075E04   0x02075E04  arm
+ *   CARD_GetOwnRomHeaderTWL   0x02075E04  arm
  *   CARDi_WaitForTask 0x02076230  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   DC_FlushRange  0x020862F0  arm
@@ -121,7 +121,7 @@ extern u32 OS_RestoreInterrupts(u32 state);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 extern int OS_GetBootType(void);
 extern BOOL OS_IsRunOnTwl(void);
-extern TwlRomHeader *func_02075E04(void);
+extern TwlRomHeader *CARD_GetOwnRomHeaderTWL(void);
 extern int CARDi_WaitForTask(struct CARDiCommon *p, int restart, void (*callback)(void *), void *callback_arg);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern void DC_FlushRange(void *startAddr, u32 nBytes);
@@ -207,7 +207,7 @@ u32 CARDi_GetAccessLevel(void)
     } else if (!OS_IsRunOnTwl()) {
         accessLevel = 7;
     } else {
-        romHeader = func_02075E04();
+        romHeader = CARD_GetOwnRomHeaderTWL();
         accessGranted = 0;
         if (romHeader->access.gameCardNitroMode) {
             accessLevel |= 4;

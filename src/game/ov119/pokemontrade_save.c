@@ -158,7 +158,7 @@
  *   BOX_SAVEDATA_GetBoxPageSize   0x02007A9C  thumb
  *   BOX_SAVEDATA_GetBoxPokemon   0x02007AF4  thumb
  *   MAIL_SetSlot   0x0200903C  thumb
- *   func_02008EAC  0x02008EAC  thumb
+ *   MAIL_Init  0x02008EAC  thumb
  *   TRADE_HISTORY_AddPartner   0x02009DE8  thumb
  *   WIFI_HISTORY_GetCountryRegionState   0x0200949C  thumb
  *   WIFI_HISTORY_SetCountryRegionState   0x020094D8  thumb
@@ -169,7 +169,7 @@
  *   TRADE_HISTORY_IncrementTradeCount   0x02009EB0  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   POKEPARTY_SetMember   0x0201AB48  thumb
- *   func_020075B0  0x020075B0  thumb
+ *   BOX_SAVEDATA_SetPokemon  0x020075B0  thumb
  *   sub_0201283C   0x0201283C  thumb
  *   WIFILIST_AddFriendBattleRecord   0x02009BB8  thumb
  *   WIFILIST_FindFriendByStatus   0x02009D1C  thumb
@@ -622,7 +622,7 @@ extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box)
 
 extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 
-extern void func_02008EAC(struct Sub02008EACObj *obj);
+extern void MAIL_Init(struct Sub02008EACObj *obj);
 
 extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 
@@ -650,7 +650,7 @@ extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon 
 
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 
-extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
+extern int BOX_SAVEDATA_SetPokemon(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 
 extern u32 sub_0201283C(const struct BigObj *p);
 
@@ -1504,7 +1504,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
                     void *buf = MAIL_Create(H(p, 0x5F4));
                     POKE_TOOL_GetPartyValue(mon, 0xA7, (u32)buf);
                     MAIL_SetSlot(o, 0, idx, buf);
-                    func_02008EAC(buf);
+                    MAIL_Init(buf);
                     POKE_TOOL_SetPartyValue(mon, 0xA7, (u32)buf);
                     POKE_TOOL_SetPartyValue(mon, 6, 0);
                     GFL_HEAP_Free(buf);
@@ -1569,7 +1569,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
             POKEPARTY_SetMember(I(p, 0x838), t->slot, mon);
         } else {
             t = T(p);
-            func_020075B0(I(p, 0x828), t->box, t->slot, POKE_TOOL_GetBoxParam(mon));
+            BOX_SAVEDATA_SetPokemon(I(p, 0x828), t->box, t->slot, POKE_TOOL_GetBoxParam(mon));
         }
     }
     switch (W(p, 0x118C)) {

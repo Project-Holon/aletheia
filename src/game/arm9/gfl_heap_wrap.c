@@ -172,7 +172,7 @@ extern const char kSystemAllocName[];
 
 /*
  * Heap teardown: run the pre-destroy hook, then destroy.  On failure ask
- * sub_02030524 for the current error policy and terminate under policies 1
+ * GFL_HEAP_GetLastError for the current error policy and terminate under policies 1
  * and 2, the same policy read the rest of the heap layer does (see
  * src/matched/GFL_HEAP_GetHeapHeadChecked.c, which spells the complementary
  * `!= 1 && != 2 && == 3` shape).
@@ -259,7 +259,7 @@ void GFL_HEAP_DeleteChecked(u32 heapId)
  *    what the original call site's register setup looks like.
  *  - The failure arm is the fall-through, so it is written first
  *    (docs/idioms/the-fall-through-arm-is-the-source-order.md). It calls
- *    sub_02030524 with no arguments, reports, then OS_Terminate; the
+ *    GFL_HEAP_GetLastError with no arguments, reports, then OS_Terminate; the
  *    branch to the shared `return p` tail after OS_Terminate shows the
  *    compiler was not told OS_Terminate is noreturn.
  *  - The clear flag guards MIi_CpuClear32(0, p, size), which is why a
@@ -335,12 +335,12 @@ void GFL_HEAP_InitAllocatorChecked(void *block, u32 heapId, s32 newSize)
  * the call to GFL_HEAP_ResizeMemory at +0004 has no witness, that call being
  * 0x020302A4's only branch reference in the image. 0x020302A4 is written
  * and byte-correct in src/pending/GFL_HEAP_ResizeMemory.c but is itself capped at
- * MATCH on sub_02060CD0, so the chain is
+ * MATCH on NNS_FndResizeForMBlockExpHeap, so the chain is
  * 0x02060CD0 -> 0x020302A4 -> this function: one EXACT entry for
  * 0x02060CD0 promotes all three.
  *
  * A heap-state assertion, guarded on the result of GFL_HEAP_ResizeMemory and then
- * dispatched on the heap-layer state word returned by sub_02030524.
+ * dispatched on the heap-layer state word returned by GFL_HEAP_GetLastError.
  *
  *   void GFL_HEAP_CheckAllocator(void *p, u32 size)
  *
@@ -574,8 +574,8 @@ int GFL_HEAP_ReadAllocSiteName(u8 *nameBuf, const char *blockName)
  * Body: GFL_HEAP_GetHeapHandle maps the public heap id to the heap's arena handle
  * (it masks the id, range-checks it against the count at +8 of the heap
  * table, records an error code at +0xe on failure and otherwise tail-calls
- * GFL_HEAP_GetHeap), that handle is then walked by sub_02060E6C and dumped by
- * sub_02060E94 with a mode of 4, and sub_02030B50 is passed the original
+ * GFL_HEAP_GetHeap), that handle is then walked by NNSi_FndGetListTotalSize and dumped by
+ * NNSi_FndGetListAllocatableSize with a mode of 4, and sub_02030B50 is passed the original
  * public id. The handle value is live across two calls, so it costs r4,
  * and the id costs r5.
  *
@@ -643,7 +643,7 @@ void GFL_HEAP_AuditAlloc(void *payload, u32 size)
  * The difference from GFL_HEAP_AuditAlloc is that the block's heap id is needed
  * twice here, so it is bound to a local and costs r4, while in
  * GFL_HEAP_AuditAlloc it flows straight from GFL_HEAP_GetBlockHeapId into GFL_HEAP_GetAllocCountById and
- * costs nothing. sub_02060F90 is handed the header address (p - 0x1c), the
+ * costs nothing. NNSi_FndGetMBlockSize is handed the header address (p - 0x1c), the
  * same address GFL_HEAP_AllocMemory got back from the expanded-heap allocator, and
  * GFL_HEAP_GetTotalFreeSize then dumps the heap the id names.
  *

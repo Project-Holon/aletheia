@@ -106,7 +106,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   gFieldMenuDefaultName     0x021D8C0C  data  ov021  a2
  *   STRBUF_Create  0x020457B0  arm
- *   func_020084BC  0x020084BC  thumb
+ *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
  *   func_020084F4  0x020084F4  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   gFieldMenuMsgIds     0x021D8B34  data  a2
@@ -415,7 +415,7 @@ extern int GAME_DATA_GetIntrudeCount(void *gameData);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
-extern int func_020084BC(const void *myStatus);
+extern int MYSTATUS_IsNameEmpty(const void *myStatus);
 extern const void *func_020084F4(const void *myStatus);
 extern void STRBUF_SetString(void *strbuf, const void *src);
 extern void *MSGDATA_AllocString(void *msgBank, u32 index);
@@ -870,7 +870,7 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
         buttonId = layoutRow[j];
         if (buttonId == FIELD_MENU_BUTTON_PLAYER) {
             init.text = STRBUF_Create(0x10, menu->subHeapId);
-            if (func_020084BC(menu->myStatus) == 0) {
+            if (MYSTATUS_IsNameEmpty(menu->myStatus) == 0) {
                 STRBUF_SetString(init.text, func_020084F4(menu->myStatus));
             } else {
                 nameBuf = defaultName;

@@ -21,6 +21,16 @@
  *   GX_LoadBG0Char  0x0207EE68  arm
  *   GX_LoadBG2Char  0x0207F0B8  arm
  *   GX_EndLoadTexPltt  0x0207FADC  arm
+ *   GX_LoadBG0Scr  0x0207E888  arm
+ *   GX_LoadBG1Scr  0x0207EA00  arm
+ *   GX_LoadBG3Scr  0x0207ECF0  arm
+ *   GX_LoadBG1Char  0x0207EF90  arm
+ *   GX_LoadBG3Char  0x0207F1E0  arm
+ *   GX_BeginLoadTex  0x0207F7A0  arm
+ *   GX_LoadTex  0x0207F7FC  arm
+ *   GX_EndLoadTex  0x0207F9B4  arm
+ *   GX_BeginLoadTexPltt  0x0207FA0C  arm
+ *   GX_LoadTexPltt  0x0207FA40  arm
  */
 
 typedef unsigned char  u8;
@@ -42,11 +52,11 @@ struct NNSGfdVramRing {
     u16 count;        /* 0x0c */
 };
 
-extern void func_0207F7A0(void);
-extern void func_0207F7FC(u32 a, u32 b, u32 c);
-extern void func_0207F9B4(void);
-extern void func_0207FA0C(void);
-extern void func_0207FA40(u32 a, u32 b, u32 c);
+extern void GX_BeginLoadTex(void);
+extern void GX_LoadTex(u32 a, u32 b, u32 c);
+extern void GX_EndLoadTex(void);
+extern void GX_BeginLoadTexPltt(void);
+extern void GX_LoadTexPltt(u32 a, u32 b, u32 c);
 extern void GX_EndLoadTexPltt(void);
 extern void func_0207FB2C(void);
 extern void func_0207FBBC(u32 a, u32 c);
@@ -64,13 +74,13 @@ void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c);
 extern struct Arena02146B74 g_02146B74;
 extern void GX_LoadBG0Char(u32 a, u32 b, u32 c);
-extern void func_0207EF90(u32 a, u32 b, u32 c);
+extern void GX_LoadBG1Char(u32 a, u32 b, u32 c);
 extern void GX_LoadBG2Char(u32 a, u32 b, u32 c);
-extern void func_0207F1E0(u32 a, u32 b, u32 c);
-extern void func_0207E888(u32 a, u32 b, u32 c);
-extern void func_0207EA00(u32 a, u32 b, u32 c);
+extern void GX_LoadBG3Char(u32 a, u32 b, u32 c);
+extern void GX_LoadBG0Scr(u32 a, u32 b, u32 c);
+extern void GX_LoadBG1Scr(u32 a, u32 b, u32 c);
 extern void GX_LoadBG2Scr(u32 a, u32 b, u32 c);
-extern void func_0207ECF0(u32 a, u32 b, u32 c);
+extern void GX_LoadBG3Scr(u32 a, u32 b, u32 c);
 extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
 extern void GX_LoadBGPltt(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c);
@@ -314,9 +324,9 @@ int NNSi_GfdRingIsEmpty(void *p)
  */
 void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
 {
-    func_0207F7A0();
-    func_0207F7FC(a, b, c);
-    func_0207F9B4();
+    GX_BeginLoadTex();
+    GX_LoadTex(a, b, c);
+    GX_EndLoadTex();
 }
 
 
@@ -328,8 +338,8 @@ void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
  */
 void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
 {
-    func_0207FA0C();
-    func_0207FA40(a, b, c);
+    GX_BeginLoadTexPltt();
+    GX_LoadTexPltt(a, b, c);
     GX_EndLoadTexPltt();
 }
 
@@ -388,7 +398,7 @@ void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c)
 
 void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c)
 {
-    func_0207EF90(a, b, c);
+    GX_LoadBG1Char(a, b, c);
 }
 
 
@@ -400,19 +410,19 @@ void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c)
 
 void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c)
 {
-    func_0207F1E0(a, b, c);
+    GX_LoadBG3Char(a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c)
 {
-    func_0207E888(a, b, c);
+    GX_LoadBG0Scr(a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c)
 {
-    func_0207EA00(a, b, c);
+    GX_LoadBG1Scr(a, b, c);
 }
 
 
@@ -424,7 +434,7 @@ void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c)
 
 void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c)
 {
-    func_0207ECF0(a, b, c);
+    GX_LoadBG3Scr(a, b, c);
 }
 
 
@@ -436,7 +446,7 @@ void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c)
 
 void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c)
 {
-    func_0207ECF0(a, b, c);
+    GX_LoadBG3Scr(a, b, c);
 }
 
 

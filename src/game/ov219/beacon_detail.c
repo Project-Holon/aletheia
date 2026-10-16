@@ -187,9 +187,9 @@
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   d_02185DD4    0x02185DD4 data ov219
  *   MTX_RotY33_ 0x0207AF1C thumb
- *   func_0207AF00 0x0207AF00 thumb
+ *   MTX_RotX33_ 0x0207AF00 thumb
  *   MTX_RotZ33_ 0x0207AF38 thumb
- *   func_0207B388 0x0207B388 arm
+ *   MTX_Concat33 0x0207B388 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02048AE8 0x02048AE8 arm
  *   func_02048B30 0x02048B30 arm
@@ -532,8 +532,8 @@ extern void func_02048B60(struct Light *l, const u32 *in);
 extern void func_02048B6C(struct Light *l, const u32 *in);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void MTX_RotY33_(Matrix *,int,int),func_0207AF00(Matrix *,int,int),MTX_RotZ33_(Matrix *,int,int);
-extern void func_0207B388(const Matrix *,const Matrix *,Matrix *);
+extern void MTX_RotY33_(Matrix *,int,int),MTX_RotX33_(Matrix *,int,int),MTX_RotZ33_(Matrix *,int,int);
+extern void MTX_Concat33(const Matrix *,const Matrix *,Matrix *);
 extern void VEC_Subtract(const Vec *,const Vec *,Vec *),VEC_Normalize(const Vec *,Vec *),VEC_MultAdd(long,const Vec *,const Vec *,Vec *);
 extern long VEC_Mag(const Vec *);
 extern void func_02047964(void);
@@ -2275,10 +2275,10 @@ void BEACON_DETAIL_SetupCalc(Matrix *p,int *angles)
 {
     Matrix temp;
     MTX_RotY33_(p,sine(angles[1]),cosine(angles[1]));
-    func_0207AF00(&temp,sine(angles[0]),cosine(angles[0]));
-    func_0207B388(p,&temp,p);
+    MTX_RotX33_(&temp,sine(angles[0]),cosine(angles[0]));
+    MTX_Concat33(p,&temp,p);
     MTX_RotZ33_(&temp,sine(angles[2]),cosine(angles[2]));
-    func_0207B388(p,&temp,p);
+    MTX_Concat33(p,&temp,p);
 }
 
 
@@ -2288,10 +2288,10 @@ void BEACON_DETAIL_SetupRecordCalc(Matrix *p,int *angles)
 {
     Matrix temp;
     MTX_RotY33_(p,sine(angles[0]),cosine(angles[0]));
-    func_0207AF00(&temp,sine(-angles[1]),cosine(-angles[1]));
-    func_0207B388(p,&temp,p);
+    MTX_RotX33_(&temp,sine(-angles[1]),cosine(-angles[1]));
+    MTX_Concat33(p,&temp,p);
     MTX_RotZ33_(&temp,cosine(angles[2]),sine(angles[2]));
-    func_0207B388(p,&temp,p);
+    MTX_Concat33(p,&temp,p);
 }
 
 
@@ -2445,7 +2445,7 @@ void BEACON_DETAIL_Draw3D(char *p)
         s2.b = ((BeaconDetailWork *)p)->light2;
         for (i = 0; i < ((BeaconDetailWork *)p)->recordCount; i++) {
             u16 f;
-            func_0207B388((const Matrix *)&((BeaconDetailWork *)p)->records[i].matrix, (const Matrix *)&m, (Matrix *)&m2);
+            MTX_Concat33((const Matrix *)&((BeaconDetailWork *)p)->records[i].matrix, (const Matrix *)&m, (Matrix *)&m2);
             f = ((BeaconDetailWork *)p)->records[i].state;
             if (f != 0)
                 G3D_SYSTEM_DrawObject((void *)((u32)((BeaconDetailWork *)p)->object[f+1]), (struct Arg *)(&s2));

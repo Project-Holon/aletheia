@@ -132,6 +132,8 @@
  *   g_02192E08                               0x021A5688  data
  *   g_02192E0C                               0x021A5690  data
  *   gpiRemoveOperation  0x0218e240  arm   ov009
+ *   gpiProcess  0x02186E9C  arm
+ *   gpiAddOperation  0x0218E114  arm
  */
 #include "gpi_types.h"
 #include "qr2_types.h"
@@ -195,8 +197,8 @@ extern int func_0217EC08(int sock, void *addr, int len);
 extern int GOAGetLastError(int sock);
 extern unsigned int current_time(void);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
-extern int func_0218E114(void **connection, int type, void *data, GPIOperation **operation, int blocking, GPCallback callback, void *param);
-extern int func_02186E9C(void **connection, int operationID);
+extern int gpiAddOperation(void **connection, int type, void *data, GPIOperation **operation, int blocking, GPCallback callback, void *param);
+extern int gpiProcess(void **connection, int operationID);
 extern void strzcpy(char *dest, char *src, int len);
 extern char *_strlwr(char *s);
 extern GPResult gpiSendFromBuffer(GPConnection *connection, int sock, GPIBuffer *buffer,
@@ -436,7 +438,7 @@ int gpiStartSearch(void **connection, GPISearchData *data, int blocking, GPCallb
 
     iconnection->numSearches++;
 
-    r = func_0218E114(connection, 3, data, &operation, blocking, callback, param);
+    r = gpiAddOperation(connection, 3, data, &operation, blocking, callback, param);
     if (r != 0)
         return r;
     r = gpiStartProfileSearch(connection, operation);
@@ -444,7 +446,7 @@ int gpiStartSearch(void **connection, GPISearchData *data, int blocking, GPCallb
         return r;
 
     if (operation->blocking != 0) {
-        r = func_02186E9C(connection, operation->id);
+        r = gpiProcess(connection, operation->id);
         if (r != 0)
             return r;
     }

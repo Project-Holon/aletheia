@@ -26,7 +26,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_020496E4 0x020496E4 arm
+ *   ARC_UTIL_RegisterObjCharFromArchive 0x020496E4 arm
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -79,7 +79,7 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_RegisterObjCharFromArchive(u32, u32, u32, u32, u32, u16);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 charBase);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
@@ -152,7 +152,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     msg->wordSet = WORDSET_CreateDefault(heapId);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 32, 32, 17);
     BG_SYS_Init(1, 0, 1, 0);
-    frameIndex = func_020496E4(11, 89, 1, 0, 0, msg->heapId);
+    frameIndex = ARC_UTIL_RegisterObjCharFromArchive(11, 89, 1, 0, 0, msg->heapId);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 11, 90, msg->heapId, 0, 32, 0, 0);
     msg->window = BMP_WIN_Create(1, 1, 19, 30, 4, 0, 0);
     BMP_WIN_MakeScreen(msg->window);

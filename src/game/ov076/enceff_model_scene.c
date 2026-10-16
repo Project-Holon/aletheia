@@ -42,7 +42,7 @@
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   GX_GetBankForTex  0x02080C44  arm
- *   func_02080294  0x02080294  arm
+ *   GX_SetBankForTex  0x02080294  arm
  *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   SCREENTEX_Create  0x0202E560  thumb
@@ -78,7 +78,7 @@ extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
 extern u16 GX_GetBankForTex(void);
-extern void func_02080294(u32 bank);
+extern void GX_SetBankForTex(u32 bank);
 extern void *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberIndex);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *SCREENTEX_Create(u32 heapId, u32 sel);
@@ -193,7 +193,7 @@ int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
         if ((scene->texBankMask & 8) == 0) {
             scene->texBankAdded = 1;
             scene->texBankMask |= 8;
-            func_02080294(scene->texBankMask);
+            GX_SetBankForTex(scene->texBankMask);
         }
         scene->modelResource = G3D_SYSTEM_CreateResourceArc(0x81, scene->modelIndex);
         scene->animeResource = G3D_SYSTEM_CreateResourceArc(0x81, scene->animeIndex);
@@ -227,7 +227,7 @@ int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
     case 5:
         if (scene->texBankAdded == 1) {
             scene->texBankMask &= ~8;
-            func_02080294(scene->texBankMask);
+            GX_SetBankForTex(scene->texBankMask);
         }
         G3D_SYSTEM_DeleteObject(scene->object);
         G3D_SYSTEM_DeleteAnime(scene->animeObj);

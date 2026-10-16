@@ -27,7 +27,7 @@
  *   current_time  0x0217F264  arm  ov009
  *   ArrayLength  0x02184200  arm  ov009
  *   ArrayNth  0x02184208  arm  ov009
- *   func_02184324  0x02184324  arm  ov009
+ *   ArrayRemoveAt  0x02184324  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   ghttpCleanup                  0x021C204C  arm ov114
  *   ArrayFree                  0x021841B0  arm ov009
@@ -79,7 +79,7 @@ extern void ghttpStartup(void);
 extern unsigned int current_time(void);
 extern int ArrayLength(const int *p);
 extern void *ArrayNth(void *array, int n);
-extern void func_02184324(void *array, int n);
+extern void ArrayRemoveAt(void *array, int n);
 extern void gsifree(void *ptr);
 extern void ghttpCleanup(void);
 extern void ArrayFree(void *array);
@@ -217,7 +217,7 @@ int gsCoreTaskThink(GSTask *theTask)
             len = ArrayLength(aCore->mTaskArray);
             for (i = 0; i < len; i++) {
                 if (*(GSTask **)ArrayNth(aCore->mTaskArray, i) == theTask) {
-                    func_02184324(aCore->mTaskArray, i);
+                    ArrayRemoveAt(aCore->mTaskArray, i);
                     gsifree(theTask);
                     break;
                 }

@@ -231,6 +231,7 @@
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
+ *   CODEIN_PARAM_Delete  0x0202E54C  thumb  arm9
  */
 #include "wf2dmap_ui_types.h"
 
@@ -504,7 +505,7 @@ extern void PROCSYS_Delete(struct S020314B8 *p);
 extern void PROCSYS_Push(void *, u32, void *, void *);
 extern char *WF2DMAP_TOUCH_CreateNameEntry(void *unused, char *q, int mode, int heap);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
-extern void func_0202E54C(struct CodeinParam *p);
+extern void CODEIN_PARAM_Delete(struct CodeinParam *p);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 int Wf2dmapFriend_Create(void *p,int unused,void *q);
 int Wf2dmapFriend_Main(int result,int *stage,int unused,char *p);
@@ -2681,7 +2682,7 @@ int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         break;
     case 3:
         NAMEIN_SETUP_FreeArgs((int)p[1]);
-        func_0202E54C(p[2]);
+        CODEIN_PARAM_Delete(p[2]);
         GF_OVERLAY_Load((u32)gWf2dmapTouchbarOverlayId);
         Wf2dmapFriend_Setup((char *)a, heap);
         return 1;

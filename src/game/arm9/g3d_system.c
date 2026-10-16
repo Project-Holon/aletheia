@@ -28,7 +28,7 @@
  *   GFL_HEAP_Alloc      0x02030734  arm
  *   GFL_HEAP_Free      0x020307B0  arm
  *   GFL_HEAP_InitAllocatorChecked      0x020307C8  arm
- *   func_020307E0      0x020307E0  arm
+ *   GFL_HEAP_CheckAllocator      0x020307E0  arm
  *   func_02030BBC      0x02030BBC  arm
  *   func_02030BC8      0x02030BC8  arm
  *   ARC_TOOL_LoadMember      0x02048F60  arm
@@ -298,7 +298,7 @@ typedef struct {
 extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *file, int line);
 extern void  GFL_HEAP_Free(void *memory);
 extern void  GFL_HEAP_InitAllocatorChecked(NNSFndAllocator *allocator, u16 heapId, u32 align);
-extern void  func_020307E0(void *memory, u32 newSize);
+extern void  GFL_HEAP_CheckAllocator(void *memory, u32 newSize);
 extern void *func_02030BBC(u32 size);
 extern int   func_02030BC8(u32 buffer);
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u16 heapId);
@@ -852,7 +852,7 @@ void G3D_SYSTEM_CutTexture(G3dResource *res)
     void         *file = res->file;
     NNSG3dResTex *tex = NNS_G3dGetTex(file);
 
-    func_020307E0(file, (u32)((u8 *)tex + tex->texInfo.ofsTex - (u8 *)file));
+    GFL_HEAP_CheckAllocator(file, (u32)((u8 *)tex + tex->texInfo.ofsTex - (u8 *)file));
 }
 
 /*

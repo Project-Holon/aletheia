@@ -1,7 +1,7 @@
 /*
  * file:     os_interrupt.c
  * unit:     yes
- * function: func_0208475C, func_02084774, OS_GetIrqFunction, OSi_EnterDmaCallback, OSi_EnterNDmaCallback, OSi_EnterTimerCallback, OS_SetIrqMask, OS_EnableIrqMask, OS_DisableIrqMask, func_020849C8, func_020849F4
+ * function: func_0208475C, OS_SetIrqFunction, OS_GetIrqFunction, OSi_EnterDmaCallback, OSi_EnterNDmaCallback, OSi_EnterTimerCallback, OS_SetIrqMask, OS_EnableIrqMask, OS_DisableIrqMask, OS_ResetRequestIrqMask, func_020849F4
  * address:  0x0208475C
  * region:   arm9
  * compiler: dsi/1.1p1

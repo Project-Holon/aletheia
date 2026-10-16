@@ -56,11 +56,11 @@
  *   WM_SetIndCallback 0x0208EAC8 arm
  *   func_021F4628 0x021F4628 arm ov107
  *   MIi_CpuClear16  0x02082A48  arm
- *   func_021F1B3C  0x021F1B3C  arm  ov107
+ *   MB_CommSetParentStateCallback  0x021F1B3C  arm  ov107
  *   func_021F6804  0x021F6804  arm  ov107
  *   func_021F6830  0x021F6830  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021F3F78  0x021F3F78  arm  ov107
+ *   MB_InitSendGameInfoStatus  0x021F3F78  arm  ov107
  *   PXI_IsCallbackReady  0x020885EC  arm
  *   MBi_CommParentCallback  0x021F1D80  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
@@ -765,11 +765,11 @@ extern int func_021F5ADC(unsigned short sendSize, unsigned short recvSize, unsig
 extern void func_021F6148(unsigned short time);
 extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
 extern void func_021F4628(void);
-extern void func_021F1B3C(void (*callback)(u16, u32, void *));
+extern void MB_CommSetParentStateCallback(void (*callback)(u16, u32, void *));
 extern void func_021F6804(u16 childMaxSize);
 extern void func_021F6830(void *buf);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void func_021F3F78(void);
+extern void MB_InitSendGameInfoStatus(void);
 extern int PXI_IsCallbackReady(int fifotag, int proc);
 extern void MBi_CommParentCallback(u16 type, void *arg);
 extern void func_021F46C8(void *arg);
@@ -968,7 +968,7 @@ int MBi_StartParentCore(int channel)
     *(u32 *)(gMbWm + 4) = ((u32)PBUF + 0x1f + 0x7d00) & ~0x1f;
     cb_tmp = *(void (**)(u16, u32, void *))(PBUF + 0x1000 + 0x4e4);
     MIi_CpuClear16(0, PBUF + 0x1340, 0x69c0);
-    func_021F1B3C(cb_tmp);
+    MB_CommSetParentStateCallback(cb_tmp);
     *(int *)(PBUF + 0x1000 + 0x318) = *(u16 *)(WM + 0x500) - 6;
     func_021F6804(*(u16 *)(WM + 0x502));
     func_021F6830(PBUF + 0x138 + 0x1400);
@@ -988,7 +988,7 @@ int MBi_StartParentCore(int channel)
     *(u16 *)(WM + 0x500 + 0x18) = (*(u16 *)(WM + 0x34) + 0x23) & ~0x1f;
     *(u16 *)(WM + 0x36) = *(u16 *)(WM + 0x502);
     *(u16 *)(WM + 0x500 + 0x1a) = (((*(u16 *)(WM + 0x36) + 0xe) * 15 + 0x29) & ~0x1f) << 1;
-    func_021F3F78();
+    MB_InitSendGameInfoStatus();
     i = MBi_StartCommon();
     OS_RestoreInterrupts(enabled);
     *(int *)(PBUF + 0x7000 + 0x4c8) = PXI_IsCallbackReady(0xf, ret);

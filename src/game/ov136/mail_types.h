@@ -50,7 +50,7 @@ struct MailArgs {
     /* 0x04 */ u32 sent;               /* result: 1 when the player sent the mail, 0 otherwise */
     /* 0x08 */ u32 callerParam;        /* argument b of MAILTOOL_CreateWriteArgs, stored and never read here */
     /* 0x0C */ u16 reserved0C;         /* always 0 */
-    /* 0x0E */ u8 monIndex;            /* argument c, passed on to func_02008F48 */
+    /* 0x0E */ u8 monIndex;            /* argument c, passed on to MAIL_InitForPlayer */
     /* 0x0F */ u8 designId;            /* initial paper design (0..11) in write mode */
     /* 0x10 */ struct SaveControl *saveControl;
     /* 0x14 */ struct Mail *mail;

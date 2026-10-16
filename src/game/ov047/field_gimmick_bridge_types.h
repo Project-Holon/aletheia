@@ -56,7 +56,7 @@ extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
 extern u32 FIELD_PLAYER_GetNowAttribute(FieldPlayer *player);
 extern int MAP_ATTR_IsPresent(u32 attr);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern int func_021AB44C(u16 terrainId);
+extern int MAP_ATTR_IsNoDash(u16 terrainId);
 extern void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset);
 extern u32 func_02005728(u32 range);
 extern short GF_STANDARD_Get_F684(unsigned short degrees);

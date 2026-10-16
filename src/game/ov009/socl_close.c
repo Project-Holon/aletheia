@@ -20,7 +20,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
- *   func_0215CE3C  0x0215CE3C  arm  ov009
+ *   SOCLi_CreateCommandPacket  0x0215CE3C  arm  ov009
  *   SOCLi_SendCommandPacketToCtrlPipe  0x0215CEFC  arm  ov009
  *   SOCLi_Resource     0x021AA4AC  data
  *   OS_JoinThread  0x02085710  arm
@@ -91,7 +91,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int SOCL_SocketIsInvalid(Socket * socket);
 extern int SOCLi_SendCommandPacket(int a0, char *a1);
-extern struct SOCLCommand *func_0215CE3C(int (*handler)(void *), Socket *socket, long flag);
+extern struct SOCLCommand *SOCLi_CreateCommandPacket(int (*handler)(void *), Socket *socket, long flag);
 extern void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
 extern void OS_JoinThread(void *thread);
 extern void CPS_TcpShutdown(void);
@@ -218,7 +218,7 @@ int SOCL_Close(int s)
 			SOCLi_Resource.streamCount--;
 		}
 	}
-	command = func_0215CE3C(SOCLi_CloseCallBack, socket, 1);
+	command = SOCLi_CreateCommandPacket(SOCLi_CloseCallBack, socket, 1);
 	command->field8 = result;
 	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
 	return result;

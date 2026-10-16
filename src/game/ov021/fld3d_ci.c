@@ -64,7 +64,7 @@
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_GetFog  0x02188C64  thumb  ov021
  *   FIELD_FOG_SetFlag  0x021A01A4  thumb  ov021
- *   func_02030830  0x02030830  arm
+ *   GFL_HEAP_GetHeapHead  0x02030830  arm
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
@@ -154,6 +154,7 @@
  *   FLD_PARTICLE_StartEmitter 0x021C1AA8 thumb ov021
  *   FLD_PARTICLE_IsEffectFinished 0x021C1AB4 thumb ov021
  *   GX_SetBankForLCDC  0x0208068C  arm  arm9
+ *   STD_GetStringLength  0x0208CC78  arm  arm9
  */
 #include "fld3d_ci_types.h"
 #include "field_player_grid_event_shared_types.h"
@@ -250,7 +251,7 @@ extern u32 FIELDMAP_GetFog(u8 *p);
 
 extern int FIELD_FOG_SetFlag(u32 a, u32 b);
 
-extern void *func_02030830(u32 heapId);
+extern void *GFL_HEAP_GetHeapHead(u32 heapId);
 
 extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
 
@@ -366,7 +367,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
 extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 
-extern int func_0208CC78(const char *s);
+extern int STD_GetStringLength(const char *s);
 
 extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -790,7 +791,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         FLD3D_CI_SetupSequence(event, ci, &work->seq, (u8)ci->sequenceId);
         BG_SYS_SetPlaneVisible(2, 1);
         BG_SYS_SetPlaneVisible(0, 1);
-        func_02030830(ci->heapId);
+        GFL_HEAP_GetHeapHead(ci->heapId);
         FIELDMAP_SetDrawMode(fieldMap, 1);
         if (work->seq.darkenScreen)
             FLD3D_CI_DarkenCapturedScreen(work->seq.darkenScreen);
@@ -853,7 +854,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
     case 10:
         if (ci->displayRestoreDone == 0)
             break;
-        func_02030830(ci->heapId);
+        GFL_HEAP_GetHeapHead(ci->heapId);
         modelSys = FIELDMAP_GetMsgBg(fieldMap);
         particleSys = FIELDMAP_GetPlaceName(fieldMap);
         FIELD_MSGBG_ReloadBg((char *)modelSys);
@@ -1335,7 +1336,7 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
     NNS_GfdRegisterNewVramTransferTask(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
     NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
-    func_02030830(ci->heapId);
+    GFL_HEAP_GetHeapHead(ci->heapId);
 }
 
 /* Fade task: fades the screen out. */
@@ -1441,7 +1442,7 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
     NNS_GfdRegisterNewVramTransferTask(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
     NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
-    func_02030830(ci->heapId);
+    GFL_HEAP_GetHeapHead(ci->heapId);
 }
 
 /*
@@ -1581,7 +1582,7 @@ int FLD3D_CI_FindPalette(Fld3dCiTexBlock *texBlock, const char *name)
  */
 void FLD3D_CI_CopyName(char *dst, const char *src)
 {
-    int length = func_0208CC78(src);
+    int length = STD_GetStringLength(src);
     u8 i;
     for (i = 0; i < 4; i++)
         ((u32 *)dst)[i] = 0;

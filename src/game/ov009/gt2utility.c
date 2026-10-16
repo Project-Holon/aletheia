@@ -1,7 +1,7 @@
 /*
  * file:     gt2utility.c
  * unit:     yes
- * function: gt2AddressToString, gt2StringToAddress, func_02198808
+ * function: gt2AddressToString, gt2StringToAddress, gti2MessageCheck
  * address:  0x02198620
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0215FA9C  0x0215FA9C  arm  ov009
+ *   SOC_InetNtoA  0x0215FA9C  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  *   gGt2StringTableIndex  0x021AE41C  data
  *   gGt2StringTable  0x021AE420  data
@@ -49,7 +49,7 @@ typedef struct SOCHostEnt
     u8 **addrList;
 } SOCHostEnt;
 
-extern char *func_0215FA9C(SOCInAddr in);
+extern char *SOC_InetNtoA(SOCInAddr in);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern char *strchr();
 extern void *memcpy();
@@ -84,10 +84,10 @@ char *gt2AddressToString(unsigned int ip, unsigned short port, char *string)
 	if (ip != 0) {
 		inAddr.addr = ip;
 		if (port != 0) {
-			strAddress = func_0215FA9C(inAddr);
+			strAddress = SOC_InetNtoA(inAddr);
 			OS_SPrintf(string, gGt2AddressPortFmt, strAddress, port);
 		} else {
-			strAddress = func_0215FA9C(inAddr);
+			strAddress = SOC_InetNtoA(inAddr);
 			OS_SPrintf(string, gGt2AddressFmt, strAddress);
 		}
 	} else {

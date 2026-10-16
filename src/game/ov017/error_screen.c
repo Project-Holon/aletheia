@@ -15,7 +15,7 @@
  * symbols:
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
- *   func_02034F5C  0x02034F5C  arm
+ *   UI_Update  0x02034F5C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GX_ResetBankForBG  0x020808F4  arm
  *   GX_ResetBankForSubBG  0x020809A0  arm
@@ -90,7 +90,7 @@ typedef struct PaletteData {
 
 extern u32 APP_ENV_IsRunOnTwl(void);
 extern void GFL_USE_PollPowerExit(void);
-extern void func_02034F5C(void);
+extern void UI_Update(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern int GX_ResetBankForBG(void);
 extern int GX_ResetBankForSubBG(void);
@@ -148,11 +148,11 @@ void ERROR_SCREEN_ShowAndWait(void)
     ERROR_SCREEN_Setup(APP_ENV_IsRunOnTwl() ? 0x2A : 0x10);
     while (ReadKeys() & 3) {
         GFL_USE_PollPowerExit();
-        func_02034F5C();
+        UI_Update();
     }
     while (!(ReadKeys() & 3)) {
         GFL_USE_PollPowerExit();
-        func_02034F5C();
+        UI_Update();
     }
     ERROR_SCREEN_Teardown();
 }

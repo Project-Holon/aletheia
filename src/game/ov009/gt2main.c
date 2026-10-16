@@ -1,7 +1,7 @@
 /*
  * file:     gt2main.c
  * unit:     yes
- * function: gt2CreateSocket, gt2CloseSocket, func_02195AF0, gt2Listen, gt2Accept, gt2Reject, gt2Connect, func_02195CC0, gt2CloseConnectionHard, func_02195DD4, gt2CloseAllConnectionsHard, gt2GetConnectionState, gt2GetRemoteIP, gt2GetRemotePort, gt2GetLocalIP, gt2GetLocalPort, gt2GetOutgoingBufferSize, gt2GetOutgoingBufferFreeSpace, gt2GetSocketSOCKET, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
+ * function: gt2CreateSocket, gt2CloseSocket, func_02195AF0, gt2Listen, gt2Accept, gt2Reject, gt2Connect, gt2Send, gt2CloseConnectionHard, func_02195DD4, gt2CloseAllConnectionsHard, gt2GetConnectionState, gt2GetRemoteIP, gt2GetRemotePort, gt2GetLocalIP, gt2GetLocalPort, gt2GetOutgoingBufferSize, gt2GetOutgoingBufferFreeSpace, gt2GetSocketSOCKET, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
  * address:  0x02195AB4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *
  * symbols:
  *   gti2CreateSocket  0x02197D94  arm  ov009
- *   func_02197FDC  0x02197FDC  arm  ov009
+ *   gti2CloseSocket  0x02197FDC  arm  ov009
  *   gti2ReceiveMessages              0x0219725c arm
  *   gti2SocketConnectionsThink       0x02198570 arm
  *   gti2FreeClosedConnections        0x021985ac arm
@@ -44,7 +44,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int gti2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback, int type);
-extern void func_02197FDC(void *p);
+extern void gti2CloseSocket(void *p);
 extern int gti2ReceiveMessages(struct GTI2Socket *socket);
 extern int gti2SocketConnectionsThink(struct GTI2Socket *socket);
 extern void gti2FreeClosedConnections(struct GTI2Socket *socket);
@@ -103,7 +103,7 @@ int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *call
 void gt2CloseSocket(void *p)
 {
     gt2CloseAllConnectionsHard(p);
-    func_02197FDC(p);
+    gti2CloseSocket(p);
 }
 
 

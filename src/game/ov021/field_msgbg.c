@@ -106,7 +106,7 @@
  *   BMP_CopyPixels  0x02043814  arm
  *   func_02049624  0x02049624  arm
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
- *   func_0201D37C  0x0201D37C  thumb
+ *   GF_FONT_CopyLine  0x0201D37C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   BMP_GetWidth  0x020437DC  arm  arm9
  *   BMP_GetHeight  0x020437E4  arm  arm9
@@ -318,7 +318,7 @@ extern void BMP_Delete(struct Bmp *bmp);
 extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 extern void func_02049624(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 transSize, u32 heapId);
-extern u32 func_0201D37C(struct Strbuf *src, struct Strbuf *dst, u32 line);
+extern u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 line);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
@@ -1974,7 +1974,7 @@ void FIELD_MSGBG_ClearBgWinFrame(u8 frame, u8 x, u8 y, u8 width, u8 height, u16 
 
 int FIELD_MSGBG_IsLineMissing(struct Strbuf *str, struct Strbuf *lineStr, u32 line)
 {
-    if (func_0201D37C(str, lineStr, line) == 0) {
+    if (GF_FONT_CopyLine(str, lineStr, line) == 0) {
         return 1;
     }
     return 0;
@@ -1985,12 +1985,12 @@ int FIELD_MSGBG_PrintTwoLines(struct Bmp *bmp, struct GfFont *font, struct Strbu
     int y;
 
     BMP_Clear(bmp, color);
-    if (func_0201D37C(str, lineStr, *line) == 0)
+    if (GF_FONT_CopyLine(str, lineStr, *line) == 0)
         return 1;
     PRINTSYS_Print(bmp, 1, 1, lineStr, font);
     y = 1;
     y += GF_FONT_CountLines(lineStr, font) + 1;
-    if (func_0201D37C(str, lineStr, ++*line) == 0)
+    if (GF_FONT_CopyLine(str, lineStr, ++*line) == 0)
         return 1;
     PRINTSYS_Print(bmp, 1, y, lineStr, font);
     ++*line;
@@ -2101,7 +2101,7 @@ void FIELD_MSGBG_PrintLines(u16 x, u16 y, struct Bmp *bmp, struct GfFont *font, 
 
     lineHeight = GF_FONT_GetField58(font) + 2;
     lineStr = STRBUF_Create(STRBUF_GetLength(str) + 1, heapId);
-    for (line = 0; func_0201D37C(str, lineStr, line) == 1; line++) {
+    for (line = 0; GF_FONT_CopyLine(str, lineStr, line) == 1; line++) {
         PRINTSYS_Print(bmp, (s16)x, (s16)y, lineStr, font);
         y += (u16)lineHeight;
     }
@@ -2189,8 +2189,8 @@ u32 FIELD_MSGBG_GetStrHeightChars(FieldMsgBg *msgBg, struct Strbuf *str, u32 mar
     height = margin * 2 + GF_FONT_CountLines(str, msgBg->font);
     lineStr = STRBUF_Clone(str, msgBg->heapId);
     lines = 0;
-    if (func_0201D37C(str, lineStr, 0) == 1) {
-        while (++lines < 0x18 && func_0201D37C(str, lineStr, lines) == 1)
+    if (GF_FONT_CopyLine(str, lineStr, 0) == 1) {
+        while (++lines < 0x18 && GF_FONT_CopyLine(str, lineStr, lines) == 1)
             ;
     }
     STRBUF_Delete(lineStr);

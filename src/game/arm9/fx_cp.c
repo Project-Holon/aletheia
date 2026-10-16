@@ -1,7 +1,7 @@
 /*
  * file:     fx_cp.c
  * unit:     yes
- * function: FX_Div, FX_Inv, FX_InvFx64c, FX_Sqrt, FX_InvSqrt, func_0207C848, FX_GetDivResult, FX_InvAsync, FX_SqrtAsync, FX_GetSqrtResult, FX_DivAsync, FX_DivS32, FX_ModS32
+ * function: FX_Div, FX_Inv, FX_InvFx64c, FX_Sqrt, FX_InvSqrt, FX_GetDivResultFx64c, FX_GetDivResult, FX_InvAsync, FX_SqrtAsync, FX_GetSqrtResult, FX_DivAsync, FX_DivS32, FX_ModS32
  * address:  0x0207C768
  * region:   arm9
  * compiler: dsi/1.1p1

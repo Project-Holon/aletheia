@@ -88,10 +88,10 @@
  *   sCubeVtx 0x021E8190 data a2
  *   gCubeNormal 0x021E8178 data a4
  *   gCubeTexCoord 0x021E8168 data a4
- *   func_0207F7A0 0x0207F7A0 arm
+ *   GX_BeginLoadTex 0x0207F7A0 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0207F7FC 0x0207F7FC arm
- *   func_0207F9B4 0x0207F9B4 arm
+ *   GX_LoadTex 0x0207F7FC arm
+ *   GX_EndLoadTex 0x0207F9B4 arm
  *   G3_RotY 0x0207D84C arm
  *   G3_RotX 0x0207D810 arm
  *   G3X_Reset 0x0207DA8C arm
@@ -101,9 +101,9 @@
  *   gLookAtTarget 0x021E79AC data ov119 a4
  *   gLookAtUp 0x021E8150 data ov119 a4
  *   func_02049F78 0x02049F78 arm
- *   func_02083194 0x02083194 arm
- *   func_0207FA0C 0x0207FA0C arm
- *   func_0207FA40 0x0207FA40 arm
+ *   MI_CpuMove 0x02083194 arm
+ *   GX_BeginLoadTexPltt 0x0207FA0C arm
+ *   GX_LoadTexPltt 0x0207FA40 arm
  *   GX_EndLoadTexPltt 0x0207FADC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   TOUCHBAR_SetAllButtonsPriority 0x021B6520 thumb ov067
@@ -293,13 +293,13 @@ extern void MCSS_SetShadowVanishFlag(char *p, int v);
 
 extern void MCSS_Del(void *sys, void *obj);
 
-extern void func_0207F7A0(void);
+extern void GX_BeginLoadTex(void);
 
 extern void DWCi_ScreenDC_FlushRange(void *, int);
 
-extern void func_0207F7FC(void *, int, int);
+extern void GX_LoadTex(void *, int, int);
 
-extern void func_0207F9B4(void);
+extern void GX_EndLoadTex(void);
 
 extern void G3_RotY(fx32,fx32);
 
@@ -313,11 +313,11 @@ extern u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *);
 
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 
-extern void func_02083194(const void *, void *, int);
+extern void MI_CpuMove(const void *, void *, int);
 
-extern void func_0207FA0C(void);
+extern void GX_BeginLoadTexPltt(void);
 
-extern void func_0207FA40(const void *, int, int);
+extern void GX_LoadTexPltt(const void *, int, int);
 
 extern void GX_EndLoadTexPltt(void);
 
@@ -867,7 +867,7 @@ void POKETRADE_3D_UploadTexturePages(char *p, int count)
 {
     char *v;
     int i;
-    func_0207F7A0();
+    GX_BeginLoadTex();
     v = GFL_HEAP_Alloc(((TradeWork *)p)->heapId, 0x200, 1, gParticleBufferAllocTag, 0x510);
     for (i = 0; i < count; i++) {
         MI_CpuFill8(v, 0, 0x200);
@@ -876,10 +876,10 @@ void POKETRADE_3D_UploadTexturePages(char *p, int count)
         else
             POKETRADE_3D_FillTexturePage((u16 *)v, (u8 *)(p + 0x2E6), i - 1, 2);
         DWCi_ScreenDC_FlushRange(v, 0x200);
-        func_0207F7FC(v, i * 0x200 + 0x3000, 0x200);
+        GX_LoadTex(v, i * 0x200 + 0x3000, 0x200);
     }
     GFL_HEAP_Free(v);
-    func_0207F9B4();
+    GX_EndLoadTex();
     POKETRADE_3D_LoadTexturePalette(p);
 }
 
@@ -989,11 +989,11 @@ void POKETRADE_3D_LoadTexturePalette(char *p)
     allocation = func_02049F78(v, 0x48, (u32)(&descriptor), ((TradeWork *)p)->heapId);
     data = ((IcaTexture *)descriptor)->data;
     DWCi_ScreenDC_FlushRange(data + 32, 32);
-    func_02083194(data + 32, data + 34, 30);
+    MI_CpuMove(data + 32, data + 34, 30);
     ((IcaTextureData *)data)->firstColor = 0x14A5;
     DWCi_ScreenDC_FlushRange(data + 32, 32);
-    func_0207FA0C();
-    func_0207FA40(data + 32, 0x2000, 32);
+    GX_BeginLoadTexPltt();
+    GX_LoadTexPltt(data + 32, 0x2000, 32);
     GX_EndLoadTexPltt();
     MI_CpuCopy8(data + 32, p + 0x1134, 32);
     GFL_HEAP_Free(allocation);
@@ -1018,8 +1018,8 @@ void POKETRADE_3D_FadeTexturePalette(char *p)
             ((TradeWork *)q)->colorBitsB |= (unsigned short)((component & 31) << shift);
         }
     }
-    func_0207FA0C();
-    func_0207FA40(p + 0x1154, 0x2000, 32);
+    GX_BeginLoadTexPltt();
+    GX_LoadTexPltt(p + 0x1154, 0x2000, 32);
     GX_EndLoadTexPltt();
 }
 

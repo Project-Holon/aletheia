@@ -51,6 +51,7 @@
  *   FS_IsAvailable  0x0207AD30  arm  arm9
  *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
  *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
+ *   OS_SetIrqFunction  0x02084774  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -141,7 +142,7 @@ extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern s32 OS_IsRunOnTwl(void);
 extern int FS_IsAvailable(void);
 extern void FS_Init(u32 v);
-extern void func_02084774(u32 mask, void (*fn)(void));
+extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
 extern u32 OS_EnableIrqMask(u32 mask);
 extern u32 OS_DisableIrqMask(u32 mask);
 extern void PMi_InsertPostExitCallbackEx(void *p, u32 v);
@@ -524,7 +525,7 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
         FS_Init(-1);
     }
     DSP_InitPipe();
-    func_02084774(0x1000000, DSPi_MasterInterrupts);
+    OS_SetIrqFunction(0x1000000, DSPi_MasterInterrupts);
     DSP_SetProcessHook(p, 0x48000, DSP_HookPipeNotification, 0);
     OS_EnableIrqMask(0x1000000);
     if (DSP_MapAndLoadProcessImage(p, a, b, c) != 0) {
@@ -587,7 +588,7 @@ void DSP_QuitProcess(DspProc *p)
         DSP_PowerOffCore();
     }
     OS_DisableIrqMask(0x1000000);
-    func_02084774(0x1000000, 0);
+    OS_SetIrqFunction(0x1000000, 0);
     MI_FreeWram(1, 2);
     MI_FreeWram(2, 2);
     q = DAT_027344AC.head;

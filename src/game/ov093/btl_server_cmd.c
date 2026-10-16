@@ -226,7 +226,7 @@
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
- *   func_021EF91C 0x021EF91C thumb ov093
+ *   BTL_FIELD_DrawStaticSlotLine 0x021EF91C thumb ov093
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
  *   BTL_POKEPARAM_TickSlot6Turn  0x021D61A8  thumb  ov093
  *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
@@ -278,7 +278,7 @@
  *   BTL_SICK_ShowIngrainRoots 0x0689C7A4 thumb ov095
  *   WAZA_TOOL_GetWeather  0x0201C184  thumb
  *   BTL_FIELD_GetCountdownCount 0x021EF894 thumb ov093
- *   func_021EF8A4 0x021EF8A4 thumb ov093
+ *   BTL_FIELD_SetCountdown 0x021EF8A4 thumb ov093
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
  *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
  *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
@@ -304,7 +304,7 @@
  *   BTL_SICK_BuildDamageMessage 0x0689B8CC thumb ov095
  *   HAND_SIDE_TickTurns 0x06898D54 thumb ov095
  *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
- *   func_021C4C40 0x021C4C40 thumb ov093
+ *   BTL_SERVER_FLOW_OnFieldEffectExpired 0x021C4C40 thumb ov093
  *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
  *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
  *   BTL_DEADREC_Add 0x0689D15C thumb ov095

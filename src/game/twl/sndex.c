@@ -27,6 +27,7 @@
  *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
  *   OS_SendMessage  0x02085DBC  arm  arm9
  *   OS_ReceiveMessage  0x02085E50  arm  arm9
+ *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -67,7 +68,7 @@ extern void OS_RestoreInterrupts(u32);
 extern void PXI_Init(void);
 extern u32 PXI_IsCallbackReady(u32, u32);
 extern void SVC_WaitByLoop(u32);
-extern void func_020885A0(u32, void (*)(u32, u32, u32));
+extern void PXI_SetFifoRecvCallback(u32, void (*)(u32, u32, u32));
 
 extern void PMi_InsertPostExitCallbackEx(u32 *, u32);
 extern void PMi_InsertPreSleepCallbackEx(u32 *, u32);
@@ -116,7 +117,7 @@ void SNDEXi_Init(void) {
     while (PXI_IsCallbackReady(0x18, 1) == 0) {
         SVC_WaitByLoop(10);
     }
-    func_020885A0(0x18, (void (*)(u32, u32, u32))CommonCallback);
+    PXI_SetFifoRecvCallback(0x18, (void (*)(u32, u32, u32))CommonCallback);
     DAT_02734450.f1c = SndexSleepAndExitCallback;
     DAT_02734450.f20 = 0;
     PMi_InsertPostExitCallbackEx(DAT_0273446c, 0xfffd);

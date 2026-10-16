@@ -56,11 +56,11 @@
  *   func_02053E1C_Hooks  0x020A7FE4  data
  *   func_02053E1C_Hooks2 0x020A7FDC  data
  *   MTX_Identity43_        0x0207B598  arm
- *   func_0207B5F4        0x0207B5F4  thumb
- *   func_0207B9F0        0x0207B9F0  arm
+ *   MTX_Scale43_        0x0207B5F4  thumb
+ *   MTX_Concat43        0x0207B9F0  arm
  *   VEC_DotProduct        0x0207CA68  arm
  *   VEC_CrossProduct        0x0207CAE8  arm
- *   func_0207D8E0        0x0207D8E0  arm
+ *   G3_LoadMtx43        0x0207D8E0  arm
  *   func_0207D918        0x0207D918  arm
  *   func_0205429C_Verts  0x020A1B38  data
  *   func_0205429C_Hooks  0x020A7FE4  data
@@ -84,7 +84,7 @@
  *   VEC_Fx16Normalize   0x0207CDB8  arm
  *   VEC_Fx16DotProduct  0x0207CAA4  arm
  *   g_020A7FEC     0x020A7FEC  data
- *   func_0207AF00  0x0207AF00  thumb
+ *   MTX_RotX33_  0x0207AF00  thumb
  *   MTX_RotY33_  0x0207AF1C  thumb
  *   MTX_RotZ33_  0x0207AF38  thumb
  *   MTX_MultVec33  0x0207B51C  arm
@@ -1360,7 +1360,7 @@ struct AllocScratch {
     u32 c;
 };
 
-extern void func_0207AF00(u8 *buf, int a, int b);
+extern void MTX_RotX33_(u8 *buf, int a, int b);
 extern void MTX_RotY33_(u8 *buf, int a, int b);
 extern void MTX_RotZ33_(u8 *buf, int a, int b);
 extern void MTX_MultVec33(const VecFx32 *a, const MtxFx33 *b, VecFx32 *c);
@@ -1383,9 +1383,9 @@ extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 extern void SPLUtil_DrawXYPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetY);
 extern void SPLUtil_DrawXZPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetZ);
-extern u32 func_0207B5F4(void *, s32, s32, s32);
-extern void func_0207B9F0(const void *, const void *, void *);
-extern void func_0207D8E0(const void *);
+extern u32 MTX_Scale43_(void *, s32, s32, s32);
+extern void MTX_Concat43(const void *, const void *, void *);
+extern void G3_LoadMtx43(const void *);
 extern void MTX_Identity43_(void *);
 extern SPLNode *SPLList_Erase(SPLList *list, SPLNode *node);
 extern void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate);
@@ -1643,7 +1643,7 @@ void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst)
     switch (o->axis) {
     case 0:
         idx = o->angle >> 4;
-        func_0207AF00(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
+        MTX_RotX33_(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 1:
         idx = o->angle >> 4;
@@ -3696,14 +3696,14 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
         break;
     }
 
-    func_0207B5F4(&f.m3, x, y, y);
-    func_0207B9F0(&f.m3, &f.m2, &f.m1);
+    MTX_Scale43_(&f.m3, x, y, y);
+    MTX_Concat43(&f.m3, &f.m2, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
         f.m1.m[9] = s->p1.x + s->emitterPosX;
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
-        func_0207D8E0(obj->mtx);
+        G3_LoadMtx43(obj->mtx);
         func_0207D918(&f.m1);
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
@@ -3795,14 +3795,14 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
         break;
     }
 
-    func_0207B5F4(&f.m3, x, y, y);
-    func_0207B9F0(&f.m2, &f.m3, &f.m1);
+    MTX_Scale43_(&f.m3, x, y, y);
+    MTX_Concat43(&f.m2, &f.m3, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
         f.m1.m[9] = s->p1.x + s->emitterPosX;
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
-        func_0207D8E0(obj->mtx);
+        G3_LoadMtx43(obj->mtx);
         func_0207D918(&f.m1);
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
@@ -3909,7 +3909,7 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
     f.m4.m[7] = f.v2.y;
     f.m4.m[8] = f.v2.z;
 
-    func_0207B9F0(&f.m2, &f.m4, &f.m2);
+    MTX_Concat43(&f.m2, &f.m4, &f.m2);
 
     a = s->baseScale;
     n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
@@ -3931,14 +3931,14 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
         break;
     }
 
-    func_0207B5F4(&f.m3, x, y, y);
-    func_0207B9F0(&f.m3, &f.m2, &f.m1);
+    MTX_Scale43_(&f.m3, x, y, y);
+    MTX_Concat43(&f.m3, &f.m2, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
         f.m1.m[9] = s->p1.x + s->emitterPosX;
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
-        func_0207D8E0(obj->mtx);
+        G3_LoadMtx43(obj->mtx);
         func_0207D918(&f.m1);
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
@@ -4072,7 +4072,7 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
     f.m4.m[7] = f.v2.y;
     f.m4.m[8] = f.v2.z;
 
-    func_0207B9F0(&f.m2, &f.m4, &f.m2);
+    MTX_Concat43(&f.m2, &f.m4, &f.m2);
 
     a = s->baseScale;
     n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
@@ -4094,14 +4094,14 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
         break;
     }
 
-    func_0207B5F4(&f.m3, x, y, y);
-    func_0207B9F0(&f.m2, &f.m3, &f.m1);
+    MTX_Scale43_(&f.m3, x, y, y);
+    MTX_Concat43(&f.m2, &f.m3, &f.m1);
 
     if (obj->renderList->subList->desc->flags.z.flag == 0) {
         f.m1.m[9] = s->p1.x + s->emitterPosX;
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
-        func_0207D8E0(obj->mtx);
+        G3_LoadMtx43(obj->mtx);
         func_0207D918(&f.m1);
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;

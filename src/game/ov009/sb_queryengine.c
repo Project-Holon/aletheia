@@ -35,7 +35,7 @@
  *   FIFORemove  0x0219D544  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
  *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
- *   func_0219E01C  0x0219E01C  arm  ov009
+ *   SBServerAddKeyValue  0x0219E01C  arm  ov009
  *   strncmp  0x020949F4  arm
  *   SBServerParseQR2FullKeysSplit  0x0219E5B8  arm  ov009
  *   SBServerParseQR2FullKeysSingle  0x0219E3CC  arm  ov009
@@ -73,7 +73,7 @@ extern int atoi(u32 a0);
 int FIFORemove(SBServerFIFO *fifo, SBServer *server);
 extern int NTSLengthSB(char *buf, int len);
 extern int qr2_internal_is_master_only_key(char *keyname);
-extern void func_0219E01C(SBServer *server, char *keyname, char *value);
+extern void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len);
 extern void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len);
@@ -400,7 +400,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
             if (dlen < 0)
                 break;
             if (!qr2_internal_is_master_only_key(gQr2RegKeys[engine->serverkeys[i]]))
-                func_0219E01C(server, gQr2RegKeys[engine->serverkeys[i]], data);
+                SBServerAddKeyValue(server, gQr2RegKeys[engine->serverkeys[i]], data);
             data += dlen;
             len -= dlen;
         }

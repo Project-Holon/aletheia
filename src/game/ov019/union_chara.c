@@ -31,7 +31,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
- *   func_0200EDC4  0x0200EDC4  thumb
+ *   MISC_SAVEDATA_ContainsRecentValue  0x0200EDC4  thumb
  *   UNION_EFF_AddIcon  0x0217F948  thumb  ov019
  *   memcmp  0x0203EFC8  arm
  *   ICA_ANIME_Check2114 0x02012114  thumb
@@ -104,7 +104,7 @@ extern void OS_GetMacAddress(void *ownMac);
 
 extern int UNION_CHARA_IsWifiFriendBeacon(void *wifiFriends, UnionBeaconPc *beaconPc);
 
-extern int func_0200EDC4(void *metTrainers, u32 trainerId);
+extern int MISC_SAVEDATA_ContainsRecentValue(void *metTrainers, u32 trainerId);
 
 extern void UNION_EFF_AddIcon(char *markSys, u32 mmdl, u32 kind);
 
@@ -342,7 +342,7 @@ void UNION_CHARA_AddBeaconMembers(UnionRoomWork *work, u32 metTrainers, u32 wifi
             if (i == 0) {
                 if (UNION_CHARA_IsWifiFriendBeacon((void *)wifiFriends, beaconPc) == 1)
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 0);
-                else if (func_0200EDC4((void *)metTrainers, beaconPc->beacon.trainerId) == 1)
+                else if (MISC_SAVEDATA_ContainsRecentValue((void *)metTrainers, beaconPc->beacon.trainerId) == 1)
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 1);
             }
         }
@@ -528,7 +528,7 @@ void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameDa
             if (mmdl != 0) {
                 if (UNION_CHARA_IsWifiFriendBeacon((void *)wifiFriends, beaconPc) == 1) {
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 0);
-                } else if (func_0200EDC4((void *)metTrainers, beaconPc->beacon.trainerId) == 1) {
+                } else if (MISC_SAVEDATA_ContainsRecentValue((void *)metTrainers, beaconPc->beacon.trainerId) == 1) {
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 1);
                 }
             }

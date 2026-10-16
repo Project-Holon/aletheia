@@ -21,7 +21,7 @@
  *   gIrcLockId     0x0217AAB4  data
  *   gIrcCommParamAlias2     0x0217AC90  data
  *   OS_ReleaseLockID  0x02084F10  arm
- *   func_02075E9C  0x02075E9C  arm
+ *   CARD_LockBackup  0x02075E9C  arm
  *   OS_LockCard  0x02084DF4  arm
  *   OS_UnLockCard  0x02084E2C  arm
  *   CARD_UnlockBackup  0x02075EAC  arm
@@ -44,7 +44,7 @@ typedef struct IRCParam {
 extern unsigned long long OS_GetTick(void);
 extern long OS_GetLockID(void);
 extern void OS_ReleaseLockID(unsigned short lockID);
-extern void func_02075E9C(u16 id);
+extern void CARD_LockBackup(u16 id);
 extern long OS_LockCard(u16 id);
 extern void OS_UnLockCard();
 extern void CARD_UnlockBackup(u16 id);
@@ -227,7 +227,7 @@ int IRCi_Read(u8 *buf)
     gIrcCommParamAlias2.recv = buf;
     gIrcReadBuffer[0] = 1;
     buf[0] = 0;
-    func_02075E9C(gIrcLockId);
+    CARD_LockBackup(gIrcLockId);
     OS_LockCard(gIrcLockId);
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
@@ -272,7 +272,7 @@ void IRCi_Write(unsigned char *data, unsigned char size)
     gIrcCommParamAlias2.send = gIrcWriteBuffer;
     gIrcCommParamAlias2.recv = 0;
     gIrcWriteBuffer[0] = 2;
-    func_02075E9C(gIrcLockId);
+    CARD_LockBackup(gIrcLockId);
     OS_LockCard(gIrcLockId);
     while (*(volatile unsigned short *)0x040001A0 & 0x80)
         ;

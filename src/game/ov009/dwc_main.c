@@ -61,6 +61,9 @@
  *   DWCi_GetMathRand32  0x021685CC  arm
  *   DWCi_SetError  0x02059F54  arm  arm9
  *   DWC_Free  0x0205A1B0  arm  arm9
+ *   DWCi_NNFreeNegotiateList  0x02176B34  arm
+ *   gpProcess  0x02185948  arm
+ *   gpSetCallback  0x0218597C  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
@@ -114,7 +117,7 @@ extern void DWCi_BeginCloseStatsConnection(void);
 extern void CloseStatsConnection(void);
 extern void DWCi_EndCloseStatsConnection(void);
 extern int func_0218597C(void **conn, int func, void *callback, void *param);
-extern int func_02185948(void **conn);
+extern int gpProcess(void **conn);
 extern void gpDestroy(void **p);
 extern void DWCi_ShutdownLogin(void);
 extern void DWCi_ShutdownFriend(void);
@@ -340,7 +343,7 @@ void DWC_ShutdownFriendsMatch(void)
         func_0218597C(&gDwcGlobalState.st->gp, 3, 0, 0);
         func_0218597C(&gDwcGlobalState.st->gp, 1, 0, 0);
         func_0218597C(&gDwcGlobalState.st->gp, 2, 0, 0);
-        func_02185948(&gDwcGlobalState.st->gp);
+        gpProcess(&gDwcGlobalState.st->gp);
         gpDestroy(&gDwcGlobalState.st->gp);
         gDwcGlobalState.st->gp = 0;
     }

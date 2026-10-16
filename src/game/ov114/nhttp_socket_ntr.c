@@ -25,12 +25,12 @@
  *   OS_Sleep 0x02085A38 arm
  *   SOCLi_TrashSocket 0x0215EBB4 arm
  *   NHTTPi_free 0x021BA850 arm ov114
- *   func_0215F480 0x0215F480 arm
+ *   SOC_Connect 0x0215F480 arm
  *   NHTTPi_alloc 0x021BA820 arm ov114
  *   NHTTPi_memclr 0x021BA13C arm ov114
  *   SOCL_EnableSsl 0x0215FC80 arm
  *   NHTTPi_CpsAuthCallback 0x021B9C6C arm ov114
- *   func_0215F4DC 0x0215F4DC arm
+ *   SOC_Recv 0x0215F4DC arm
  *   NHTTPi_memcpy 0x021BA100 arm ov114
  *   NHTTPi_Request2Connection  0x021BEBE0  arm  ov114
  *   NHTTPi_lockReqList  0x021BEFCC  arm  ov114
@@ -40,6 +40,8 @@
  *   SOC_Shutdown  0x0215F638  arm  ov009
  *   OS_GetLowEntropyData  0x02088168  arm  arm9
  *   CPS_SslAddRandomSeed  0x02162248  arm  ov009
+ *   SOC_Socket  0x0215F428  arm  ov009
+ *   SOC_Send  0x0215F590  arm  ov009
  */
 #include "nhttp_types.h"
 
@@ -62,20 +64,20 @@ typedef struct {
 
 extern void OS_GetLowEntropyData(u32 *buffer);
 extern void CPS_SslAddRandomSeed(void *, int);
-extern int func_0215F4DC(int, int *, int, int);
-extern void func_0215F428(int, int, int);
+extern int SOC_Recv(int, int *, int, int);
+extern void SOC_Socket(int, int, int);
 extern int SOC_Close(int socket);
 extern void OS_Sleep(unsigned long msec);
 extern void SOCLi_TrashSocket(void);
 extern void NHTTPi_free(void *ptr_p);
-extern int func_0215F480(int s, void *sockAddr);
+extern int SOC_Connect(int s, void *sockAddr);
 extern void *NHTTPi_alloc(unsigned long size, int align);
 extern void NHTTPi_memclr(void *dst_p, int size);
 extern int SOCL_EnableSsl(int s, NHTTPSslCon *con);
 extern int NHTTPi_CpsAuthCallback(int result);
 extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
 NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern int func_0215F590(int socket, char *buf_p, int len, int flags);
+extern int SOC_Send(int socket, char *buf_p, int len, int flags);
 extern void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p);
 extern void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p);
 extern void SOC_Shutdown(int, int);
@@ -130,7 +132,7 @@ int NHTTPi_checkKeepAlive(int a)
     } else {
         int n = 4;
         int tmp;
-        if (func_0215F4DC(a, &tmp, 1, n) != n - 10)
+        if (SOC_Recv(a, &tmp, 1, n) != n - 10)
             v = n - 5;
     }
     return v;
@@ -142,7 +144,7 @@ int NHTTPi_checkKeepAlive(int a)
 
 void NHTTPi_SocOpen(void)
 {
-    func_0215F428(2, 1, 0);
+    SOC_Socket(2, 1, 0);
 }
 
 
@@ -189,7 +191,7 @@ int NHTTPi_SocConnect(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInfo_p
             return error;
         }
     }
-    error = func_0215F480(socket, &scadr);
+    error = SOC_Connect(socket, &scadr);
     if (error < 0) {
         if (req_p->doCancel != 0) {
             return -1002;
@@ -246,7 +248,7 @@ int NHTTPi_SocRecv_sub(NHTTPConnection *connection_p, int socket, char *buf_p, i
     ret = 0;
     if (len > 0) {
         if (connection_p->tmpBufRest == 0) {
-            rec = func_0215F4DC(socket, (int *)tmpBuf_p, 0x8000, flags);
+            rec = SOC_Recv(socket, (int *)tmpBuf_p, 0x8000, flags);
             if (rec <= 0) {
                 return rec;
             }
@@ -297,7 +299,7 @@ int NHTTPi_SocRecv(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, cha
 
 int NHTTPi_SocRecvRaw(int socket, char *buf_p, int len, int flags)
 {
-    return func_0215F590(socket, buf_p, len, flags);
+    return SOC_Send(socket, buf_p, len, flags);
 }
 
 

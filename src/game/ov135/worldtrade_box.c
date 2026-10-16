@@ -92,7 +92,7 @@
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   func_02007A18  0x02007A18  thumb
- *   func_0200785C  0x0200785C  thumb
+ *   BOX_SAVEDATA_GetBoxName  0x0200785C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
@@ -330,7 +330,7 @@ extern u32 FILE_UTIL_Check136C(u16 v);
 
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
-extern void func_0200785C(void *save, u32 box, void *dest);
+extern void BOX_SAVEDATA_GetBoxName(void *save, u32 box, void *dest);
 
 extern void *POKE_TOOL_GetBoxParam(void *a);
 
@@ -1478,7 +1478,7 @@ void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
                 CLACT_SetActorDrawEnable((struct Obj *)p->arrC[i], 0);
             }
         }
-        func_0200785C(storage, box, p->fB80);
+        BOX_SAVEDATA_GetBoxName(storage, box, p->fB80);
     } else if (box == 0xff) {
         int n = POKEPARTY_GetCount(p->ctx->party);
 

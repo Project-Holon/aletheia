@@ -1,7 +1,7 @@
 /*
  * file:     gp.c
  * unit:     yes
- * function: func_021858FC, gpDestroy, func_02185948, func_0218597C, gpConnectPreAuthenticatedA, func_02185ACC, gpProfileSearchA, gpGetInfo, func_02185CB4, gpSendBuddyRequestA, func_02185E94, gpDenyBuddyRequest, func_02185FA4, gpGetBuddyStatus, gpGetBuddyIndex, func_021861A8, func_02186220, gpSetStatusA, gpSendBuddyMessageA, gpGetReversBuddiesList, func_02186618
+ * function: func_021858FC, gpDestroy, gpProcess, gpSetCallback, gpConnectPreAuthenticatedA, gpDisconnect, gpProfileSearchA, gpGetInfo, gpSetInfosA, gpSendBuddyRequestA, func_02185E94, gpDenyBuddyRequest, func_02185FA4, gpGetBuddyStatus, gpGetBuddyIndex, gpIsBuddy, func_02186220, gpSetStatusA, gpSendBuddyMessageA, gpGetReversBuddiesList, func_02186618
  * address:  0x021858FC
  * region:   ov009
  * compiler: dsi/1.1p1

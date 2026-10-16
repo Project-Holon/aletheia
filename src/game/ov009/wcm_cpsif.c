@@ -1,7 +1,7 @@
 /*
  * file:     wcm_cpsif.c
  * unit:     yes
- * function: WCMi_InitCpsif, WCMi_CpsifRecvCallback, WCMi_GetCpsifWork, WCM_GetApMacAddress, WCM_GetApEssid, WCM_SetRecvDCFCallback, WCM_SendDCFDataEx, WCMi_CpsifUnlockMutexInIRQ, func_021665CC, WCM_GetMacAddress, WCMi_MergeToBuffer
+ * function: WCMi_InitCpsif, WCMi_CpsifRecvCallback, WCMi_GetCpsifWork, WCM_GetApMacAddress, WCM_GetApEssid, WCM_SetRecvDCFCallback, WCM_SendDCFDataEx, WCMi_CpsifUnlockMutexInIRQ, WCMi_CpsifSetMacAddress, WCM_GetMacAddress, WCMi_MergeToBuffer
  * address:  0x02166304
  * region:   ov009
  * compiler: dsi/1.1p1

@@ -27,7 +27,7 @@
  *   SND_IsFinishedCommandTag  0x02089D6C  arm
  *   NNS_SndFaderUpdate  0x02075C08  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
- *   func_020893D0  0x020893D0  arm
+ *   SND_SetPlayerVolume  0x020893D0  arm
  *   NNS_SndFaderIsFinished  0x02075C20  arm
  *   SND_StartPreparedSeq  0x02089378  arm
  *   SND_PrepareSeq                  0x02089350  arm
@@ -72,7 +72,7 @@ extern void NNS_SndFaderUpdate(SndFader *fader);
 extern s32 NNS_SndFaderGet(SndFader *fader);
 extern int NNS_SndFaderIsFinished(SndFader *fader);
 extern int NNSi_SndFaderReset(SndFader *fader, int value);
-extern void func_020893D0(u32 playerNo, int volume);
+extern void SND_SetPlayerVolume(u32 playerNo, int volume);
 extern void SND_StartPreparedSeq(u32 playerNo);
 extern void SND_StopSeq(int playerNo);
 extern void SND_PauseSeq(int playerNo, int flag);
@@ -516,7 +516,7 @@ void NNS_SndPlayerMain(void)
                 volume = 0x7fff;
             }
             if (volume != seqPlayer->appliedVolume) {
-                func_020893D0(seqPlayer->playerNo, volume);
+                SND_SetPlayerVolume(seqPlayer->playerNo, volume);
                 seqPlayer->appliedVolume = (s16)volume;
             }
             if (seqPlayer->state == SND_SEQ_STATE_STOPPING && NNS_SndFaderIsFinished(&seqPlayer->volumeFader) != 0) {
@@ -690,7 +690,7 @@ void NNSi_SndInsertActiveSeqPlayer(SndSeqPlayer *seqPlayer)
 void NNSi_SndSeqPlayerStopNow(SndSeqPlayer *seqPlayer)
 {
     if (seqPlayer->state == SND_SEQ_STATE_STOPPING) {
-        func_020893D0(seqPlayer->playerNo, SND_VOLUME_SILENT);
+        SND_SetPlayerVolume(seqPlayer->playerNo, SND_VOLUME_SILENT);
     }
     SND_StopSeq(seqPlayer->playerNo);
     NNSi_SndSeqPlayerRelease(seqPlayer);

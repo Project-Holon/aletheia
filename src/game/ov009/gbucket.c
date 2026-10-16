@@ -1,7 +1,7 @@
 /*
  * file:     gbucket.c
  * unit:     yes
- * function: func_021937D0, func_02193848, BucketAdd, BucketSub, BucketMult, BucketDiv, BucketConcat, BucketAvg, bint, bfloat, func_02193C0C, func_02193C3C, DoGet, func_02193CD0
+ * function: BucketNew, func_02193848, BucketAdd, BucketSub, BucketMult, BucketDiv, BucketConcat, BucketAvg, bint, bfloat, func_02193C0C, DoSet, DoGet, DoFind
  * address:  0x021937D0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -17,8 +17,8 @@
  *   TableEnter  0x0218474C  arm  ov009
  *   DoGet       0x02193CB0  arm  ov009
  *   g_buckets   0x021ADFD0  data
- *   func_02193CD0  0x02193CD0  arm  ov009
- *   func_02193C3C  0x02193C3C  arm  ov009
+ *   DoFind  0x02193CD0  arm  ov009
+ *   DoSet  0x02193C3C  arm  ov009
  *   _dadd  0x0209AC04  arm
  *   _dsub  0x0209AF34  arm
  *   _dmul  0x0209B2E8  arm
@@ -58,8 +58,8 @@ typedef unsigned char  u8;
 
 extern char *goastrdup(char *src);
 extern void TableEnter(struct HashImplementation *table, void *newElem);
-extern struct bucket_s *func_02193CD0(struct bucketset_s *set, char *name);
-extern void *func_02193C3C(struct bucket_s *pbucket, void *value);
+extern struct bucket_s *DoFind(struct bucketset_s *set, char *name);
+extern void *DoSet(struct bucket_s *pbucket, void *value);
 extern int strlen(const u8 *s);
 extern void *gsimalloc(unsigned long size);
 extern char *strcpy(char *dst, const char *src);
@@ -130,13 +130,13 @@ void *BucketAdd(struct bucketset_s *set, char *name, void *value)
 {
     struct bucket_s *pbucket;
 
-    pbucket = func_02193CD0(set, name);
+    pbucket = DoFind(set, name);
     if (pbucket == 0)
         return 0;
     if (pbucket->type == 0)
-        return func_02193C3C(pbucket, bint(*(int *)value + *(int *)DoGet((char *)pbucket)));
+        return DoSet(pbucket, bint(*(int *)value + *(int *)DoGet((char *)pbucket)));
     if (pbucket->type == 1)
-        return func_02193C3C(pbucket, bfloat(*(double *)value + *(double *)DoGet((char *)pbucket)));
+        return DoSet(pbucket, bfloat(*(double *)value + *(double *)DoGet((char *)pbucket)));
     return BucketConcat(set, name, value);
 }
 
@@ -150,13 +150,13 @@ void *BucketSub(struct bucketset_s *set, char *name, void *value)
 {
     struct bucket_s *pbucket;
 
-    pbucket = func_02193CD0(set, name);
+    pbucket = DoFind(set, name);
     if (pbucket == 0)
         return 0;
     if (pbucket->type == 0)
-        return func_02193C3C(pbucket, bint(*(int *)DoGet((char *)pbucket) - *(int *)value));
+        return DoSet(pbucket, bint(*(int *)DoGet((char *)pbucket) - *(int *)value));
     if (pbucket->type == 1)
-        return func_02193C3C(pbucket, bfloat(*(double *)DoGet((char *)pbucket) - *(double *)value));
+        return DoSet(pbucket, bfloat(*(double *)DoGet((char *)pbucket) - *(double *)value));
     return DoGet((char *)pbucket);
 }
 
@@ -170,13 +170,13 @@ void *BucketMult(struct bucketset_s *set, char *name, void *value)
 {
     struct bucket_s *pbucket;
 
-    pbucket = func_02193CD0(set, name);
+    pbucket = DoFind(set, name);
     if (pbucket == 0)
         return 0;
     if (pbucket->type == 0)
-        return func_02193C3C(pbucket, bint(*(int *)value * *(int *)DoGet((char *)pbucket)));
+        return DoSet(pbucket, bint(*(int *)value * *(int *)DoGet((char *)pbucket)));
     if (pbucket->type == 1)
-        return func_02193C3C(pbucket, bfloat(*(double *)value * *(double *)DoGet((char *)pbucket)));
+        return DoSet(pbucket, bfloat(*(double *)value * *(double *)DoGet((char *)pbucket)));
     return DoGet((char *)pbucket);
 }
 
@@ -190,13 +190,13 @@ void *BucketDiv(struct bucketset_s *set, char *name, void *value)
 {
     struct bucket_s *pbucket;
 
-    pbucket = func_02193CD0(set, name);
+    pbucket = DoFind(set, name);
     if (pbucket == 0)
         return 0;
     if (pbucket->type == 0)
-        return func_02193C3C(pbucket, bint(*(int *)DoGet((char *)pbucket) / *(int *)value));
+        return DoSet(pbucket, bint(*(int *)DoGet((char *)pbucket) / *(int *)value));
     if (pbucket->type == 1)
-        return func_02193C3C(pbucket, bfloat(*(double *)DoGet((char *)pbucket) / *(double *)value));
+        return DoSet(pbucket, bfloat(*(double *)DoGet((char *)pbucket) / *(double *)value));
     return DoGet((char *)pbucket);
 }
 
@@ -215,14 +215,14 @@ void *BucketConcat(struct bucketset_s *set, char *name, void *value)
     char *s;
     char *temp;
 
-    pbucket = func_02193CD0(set, name);
+    pbucket = DoFind(set, name);
     if (pbucket == 0)
         return 0;
     s = (char *)DoGet((char *)pbucket);
     temp = (char *)gsimalloc(strlen((const u8 *)s) + strlen(value) + 1);
     strcpy(temp, s);
     strcat((u8 *)temp, value);
-    func_02193C3C(pbucket, temp);
+    DoSet(pbucket, temp);
     gsifree(temp);
 
     return DoGet((char *)pbucket);
@@ -235,20 +235,20 @@ void *BucketAvg(struct bucketset_s *set, char *name, void *value)
     struct bucket_s *pbucket;
     int n;
 
-    pbucket = func_02193CD0(set, name);
+    pbucket = DoFind(set, name);
     if (pbucket == 0)
         return 0;
     if (pbucket->type == 0) {
         int *cur = (int *)DoGet((char *)pbucket);
 
         n = ++pbucket->nvals;
-        return func_02193C3C(pbucket, bint((n * *cur + *(int *)value) / n));
+        return DoSet(pbucket, bint((n * *cur + *(int *)value) / n));
     }
     if (pbucket->type == 1) {
         double *cur = (double *)DoGet((char *)pbucket);
 
         n = ++pbucket->nvals;
-        return func_02193C3C(pbucket, bfloat((*(double *)value + (double)n * *cur) / (double)n));
+        return DoSet(pbucket, bfloat((*(double *)value + (double)n * *cur) / (double)n));
     }
     return DoGet((char *)pbucket);
 }

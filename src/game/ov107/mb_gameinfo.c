@@ -1,7 +1,7 @@
 /*
  * file:     mb_gameinfo.c
  * unit:     yes
- * function: MBi_MakeGameInfo, MBi_ReadIconInfo, MB_UpdateGameInfoMember, func_021F3F0C, MB_AddGameInfo, func_021F3F78, func_021F3FA4, MB_SendGameInfoBeacon, MBi_ReadyBeaconSendStatus, MBi_InitSendFixedBeacon, func_021F4140, func_021F42A4, func_021F42D4, func_021F4538
+ * function: MBi_MakeGameInfo, MBi_ReadIconInfo, MB_UpdateGameInfoMember, func_021F3F0C, MB_AddGameInfo, MB_InitSendGameInfoStatus, func_021F3FA4, MB_SendGameInfoBeacon, MBi_ReadyBeaconSendStatus, MBi_InitSendFixedBeacon, func_021F4140, func_021F42A4, func_021F42D4, func_021F4538
  * address:  0x021F3D04
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -19,8 +19,8 @@
  *   FS_GetFileLength  0x02078A94  arm
  *   FS_CloseFile  0x02078A80  arm
  *   FS_ReadFile  0x02078B70  arm
- *   func_021F628C  0x021F628C  arm  ov107
- *   func_021F62A0  0x021F62A0  arm  ov107
+ *   MBi_GetGgid  0x021F628C  arm  ov107
+ *   MBi_GetTgid  0x021F62A0  arm  ov107
  *   MBi_calc_cksum  0x021F3CB8  arm  ov107
  *   WM_SetGameInfo  0x02090CD4  arm
  *   sMb 0x021F6EF4 data
@@ -115,8 +115,8 @@ extern int FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
 extern u32 FS_GetFileLength(FSFile *file);
 extern int FS_CloseFile(FSFile *file);
 extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
-extern u32 func_021F628C(void);
-extern u16 func_021F62A0(void);
+extern u32 MBi_GetGgid(void);
+extern u16 MBi_GetTgid(void);
 extern u16 MBi_calc_cksum(u16 *buf, int length);
 extern int WM_SetGameInfo(void (*callback)(void *), u16 *userGameInfo,
                           u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
@@ -323,8 +323,8 @@ int MBi_ReadyBeaconSendStatus(void)
     MbGameInfo *nextGameInfop;
 
     if (mbss.top == 0) {
-        u32 ggid = func_021F628C();
-        WM_SetGameInfo(0, (u16 *)&bsendBuff, 0x70, ggid, func_021F62A0(), 8);
+        u32 ggid = MBi_GetGgid();
+        WM_SetGameInfo(0, (u16 *)&bsendBuff, 0x70, ggid, MBi_GetTgid(), 8);
         return 0;
     }
     if (mbss.nowGInfop != 0 && (nextGameInfop = mbss.nowGInfop->next) != 0) {

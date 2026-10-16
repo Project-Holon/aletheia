@@ -38,7 +38,7 @@
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
  *   MAP_ATTR_IsPresent  0x021AB100  thumb  ov021
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
- *   func_021AB44C  0x021AB44C  thumb  ov021
+ *   MAP_ATTR_IsNoDash  0x021AB44C  thumb  ov021
  */
 #include "field_gimmick_bridge_types.h"
 
@@ -119,5 +119,5 @@ int FIELD_GIMMICK_BRIDGE_IsOnSwayTile(BridgeSwayWork *work)
     if (MAP_ATTR_IsPresent(attr) == 0) {
         return 0;
     }
-    return func_021AB44C(MAP_ATTR_GetTerrainId(attr));
+    return MAP_ATTR_IsNoDash(MAP_ATTR_GetTerrainId(attr));
 }

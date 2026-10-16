@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Alloc      0x02030734  arm
  *   mystatus_file_name      0x020A70AC  data
- *   sub_0201F41C        0x0201F41C  thumb
+ *   WORDSET_CopyString        0x0201F41C  thumb
  *   STRBUF_SetString        0x02045924  arm
  *   STRBUF_ToChars        0x02045A38  arm
  *   STRBUF_Create        0x020457B0  arm
@@ -33,7 +33,7 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 /* The debug allocator: heap, size, clear, __FILE__ string, __LINE__. */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
 extern void STRBUF_SetString(struct Strbuf *strbuf, const u16 *src);
 
@@ -86,7 +86,7 @@ int MYSTATUS_IsNameEmpty(const struct MyStatus *mystatus)
  * both. */
 void MYSTATUS_CopyName(u16 *dest, const u16 *src)
 {
-    sub_0201F41C(src, dest, 8);
+    WORDSET_CopyString(src, dest, 8);
 }
 
 void MYSTATUS_NameFromStrbuf(u16 *out, struct Strbuf *buf)
@@ -101,7 +101,7 @@ const void *MYSTATUS_GetName(const void *mystatus)
 
 void MYSTATUS_CopyNameChars(const u16 *src, u16 *dest, u32 n)
 {
-    sub_0201F41C(src, dest, n);
+    WORDSET_CopyString(src, dest, n);
 }
 
 /* Also an argument-swapping tail call, 16 bytes instead of 12: the extra

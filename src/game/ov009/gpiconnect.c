@@ -51,9 +51,9 @@
  *   _strlwr  0x0217F21C  arm   ov009
  *   gsimalloc  0x0217EAB0  arm   ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
- *   func_0218E114  0x0218E114  arm   ov009
+ *   gpiAddOperation  0x0218E114  arm   ov009
  *   gpiFailedOpCallback  0x0218DD88  arm   ov009
- *   func_02186E9C  0x02186E9C  arm   ov009
+ *   gpiProcess  0x02186E9C  arm   ov009
  *   g_021A4818     0x021A4818  data
  *   g_021A482C     0x021A482C  data
  *   strlen  0x0209477C  arm
@@ -127,8 +127,8 @@
  *   func_02181828  0x02181828  arm   ov009
  *   func_02181874  0x02181874  arm   ov009
  *   func_02181530  0x02181530  arm   ov009
- *   func_0218EEC0  0x0218EEC0  arm   ov009
- *   func_0218FFFC  0x0218FFFC  arm   ov009
+ *   gpiDestroyPeer  0x0218EEC0  arm   ov009
+ *   gpiProfileMap  0x0218FFFC  arm   ov009
  *   g_021A4A80     0x021A4A80  data
  *   g_021A4A94     0x021A4A94  data
  */
@@ -190,9 +190,9 @@ extern void strzcpy(char *p, int b, int n);
 extern char *_strlwr(char *string);
 extern void *gsimalloc(unsigned long size);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
-extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern int gpiAddOperation(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int gpiFailedOpCallback(void **connection, const struct GPIOperation *operation);
-extern int func_02186E9C(void **connection, int blockingOperationID);
+extern int gpiProcess(void **connection, int blockingOperationID);
 extern int strlen(const u8 *s);
 extern void GSMD5Digest(unsigned char *input, unsigned int len, char *output);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
@@ -223,8 +223,8 @@ extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
 extern int func_02181828(void);
 extern int func_02181874(void);
 extern int func_02181530(void);
-extern void func_0218EEC0(void **connection, GPIPeer *peer);
-extern int func_0218FFFC(void **connection, int (*func)(void **, void *, void *), void *data);
+extern void gpiDestroyPeer(void **connection, GPIPeer *peer);
+extern int gpiProfileMap(void **connection, int (*func)(void **, void *, void *), void *data);
 void randomString(char *buffer, int numChars);
 int gpiStartConnect(void **connection, GPIOperation *operation);
 int gpiConnect(void **connection, char *nick, char *uniquenick, char *email, char *password, char *authtoken, char *partnerchallenge, char *cdkey, int firewall, int newuser, int blocking, void (*callback)(void **, void *, void *), void *param);
@@ -469,7 +469,7 @@ int gpiConnect(void **connection, char *nick, char *uniquenick, char *email,
         strzcpy(data->cdkey, (int)cdkey, 65);
 
     {
-        int __result__ = func_0218E114(connection, 0, data, &operation, blocking, callback, param);
+        int __result__ = gpiAddOperation(connection, 0, data, &operation, blocking, callback, param);
         if (__result__ != 0) return __result__;
     }
 
@@ -482,7 +482,7 @@ int gpiConnect(void **connection, char *nick, char *uniquenick, char *email,
     }
 
     if (operation->blocking) {
-        int __result__ = func_02186E9C(connection, operation->id);
+        int __result__ = gpiProcess(connection, operation->id);
         if (__result__ != 0) return __result__;
     }
     return 0;
@@ -959,11 +959,11 @@ void gpiDisconnect(void **connection, int tellServer)
     for (peer = iconnection->peerList; peer; ) {
         delPeer = peer;
         peer = peer->pnext;
-        func_0218EEC0(connection, delPeer);
+        gpiDestroyPeer(connection, delPeer);
     }
     iconnection->peerList = 0;
 
-    while (!func_0218FFFC(connection, (int (*)(void **, void *, void *))gpiDisconnectCleanupProfile, 0)) {
+    while (!gpiProfileMap(connection, (int (*)(void **, void *, void *))gpiDisconnectCleanupProfile, 0)) {
     }
 }
 

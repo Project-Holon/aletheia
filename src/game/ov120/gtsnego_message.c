@@ -29,7 +29,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_02042FB0 0x02042FB0 arm
+ *   BG_SYS_SetupTileScreen 0x02042FB0 arm
  *   GTSNEGO_DISP_GetEntry 0x021D4F70 thumb ov120
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -238,7 +238,7 @@ extern void *func_02049EF4(void *, u32, u32, void **, u16);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 GFL_HEAP_Free(void *p);
-extern void func_02042FB0(u32 idx, u32 x, u32 y, u16 value);
+extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
 extern void *GTSNEGO_DISP_GetEntry(void **p, int i);
 extern void BG_SYS_SetFlagField06(u32 bit);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
@@ -497,7 +497,7 @@ void GTSNEGO_MSG_DrawTileRow(struct GtsnegoMsgCtx *p, int n)
     off = 6 * n;
     for (; y < 6; y++)
         for (x = 0; x < 32; x++, index++)
-            func_02042FB0(4, x, y + off, base + q[index]);
+            BG_SYS_SetupTileScreen(4, x, y + off, base + q[index]);
 }
 
 void GTSNEGO_MSG_FillTileRow(struct GtsnegoMsgCtx *p, int n)
@@ -510,7 +510,7 @@ void GTSNEGO_MSG_FillTileRow(struct GtsnegoMsgCtx *p, int n)
     off = 6 * n;
     for (; y < 6; y++)
         for (x = 0; x < 32; x++)
-            func_02042FB0(4, x, y + off, ((struct GtsnegoMsgCtx *)q)->f3E + base);
+            BG_SYS_SetupTileScreen(4, x, y + off, ((struct GtsnegoMsgCtx *)q)->f3E + base);
 }
 
 /*

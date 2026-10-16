@@ -14,8 +14,8 @@
  *
  * symbols:
  *   FS_GetArchiveName 0x02078530 arm
- *   func_0208CC78 0x0208CC78 arm
- *   func_0208D7E0 0x0208D7E0 arm
+ *   STD_GetStringLength 0x0208CC78 arm
+ *   STD_TSPrintf 0x0208D7E0 arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   FS_InitArchive  0x02078360  arm
  *   FS_SetArchiveProc  0x0207A5A8  arm
@@ -69,8 +69,8 @@ struct FSFile
 };
 
 extern char *FS_GetArchiveName(FSArchive *arc);
-extern u32 func_0208CC78(const char *s);
-extern int func_0208D7E0(char *dst, const char *fmt, const char *s);
+extern u32 STD_GetStringLength(const char *s);
+extern int STD_TSPrintf(char *dst, const char *fmt, const char *s);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern void FS_InitArchive(FSArchive *p_arc);
@@ -109,10 +109,10 @@ int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
             return 1;
         }
         name = FS_GetArchiveName(arc);
-        entry->name_len = func_0208CC78(name) + 1;
+        entry->name_len = STD_GetStringLength(name) + 1;
         entry->is_directory = 1;
         if (p_file->skip_string == 0) {
-            func_0208D7E0(entry->name, "%s:", name);
+            STD_TSPrintf(entry->name, "%s:", name);
             entry->id = p_file->id;
             entry->attr = 0;
             entry->reserved = 0;

@@ -188,7 +188,7 @@
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
  *   GFL_NET_ERR_ResetState  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
- *   func_0200FAAC  0x0200FAAC  thumb
+ *   GFL_NET_ERR_RecordError  0x0200FAAC  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   STD_TSPrintf                 0x0208D7E0  arm
  *   d_021E2EFC                   0x021E2EFC  data
@@ -263,7 +263,7 @@
  *   DWC_GdbCancelRequest 0x021E11F0 arm ov175
  *   DWC_GdbCreateRecordAsync 0x021E1464 arm ov175
  *   GFL_NET_SendData  0x0203D3F8  arm
- *   func_0208D7E0 0x0208D7E0 arm
+ *   STD_TSPrintf 0x0208D7E0 arm
  *   d_021E2FA4 0x021E2FA4 data a1
  *   DWC_NdInitAsync 0x021C5928 arm ov114
  *   DWC_NdSetAttr 0x021C5C04 arm ov114
@@ -1123,7 +1123,7 @@ extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void GFL_NET_ERR_ResetState(void);
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
-extern void func_0200FAAC(void);
+extern void GFL_NET_ERR_RecordError(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern int STD_TSPrintf(char *dst, const char *fmt, ...);
 extern int DWC_RAP_StartMatchWithFilter(char *filter, int n, void *cb, char *obj);
@@ -1175,7 +1175,7 @@ extern int GF_STANDARD_CompareString(const char *s1, const char *s2);
 extern int DWC_GdbUpdateRecordAsync(char *,int,void *,int);
 extern int DWC_GdbCreateRecordAsync(char *,void *,int,int *);
 extern u32 GFL_NET_SendData(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern int func_0208D7E0(char *,const char *,...);
+extern int STD_TSPrintf(char *,const char *,...);
 extern int DWC_NdInitAsync(void (*callback)(int, int, int), char *gamecd, char *passwd);
 extern int DWC_NdSetAttr(char *,char *,char *);
 extern int DWC_NdGetFileListAsync(void *,unsigned int,unsigned int);
@@ -6198,7 +6198,7 @@ int WIFIBATTLEMATCH_NET_HandleNetError(char *ctx, void *a, void *b)
         case RES_2:
             if (!GFL_NET_ERR_GetErrorLevel()) {
                 GFL_NET_STATE_SetError(0, 0, 0, 0x3F7);
-                func_0200FAAC();
+                GFL_NET_ERR_RecordError();
             }
             GFL_NET_ERR_RequestScreen();
             break;
@@ -8123,7 +8123,7 @@ void WIFIBATTLEMATCH_NET_SetupDownload(char *ctx,unsigned a)
     ((struct WifiBattleMatchNetCtx *)ctx)->downloadActive=0;
     MI_CpuFill8(ctx+0x144c,0,10);
     MI_CpuFill8(ctx+0x1390,0,0xb0);
-    func_0208D7E0(ctx+0x144c,d_021E2FA4,a);
+    STD_TSPrintf(ctx+0x144c,d_021E2FA4,a);
 }
 
 

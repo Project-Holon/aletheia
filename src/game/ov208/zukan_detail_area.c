@@ -184,7 +184,7 @@
  *   ov208_func_021C2090  0x021C2090  thumb  ov208
  *   ov208_func_021C20C0  0x021C20C0  thumb  ov208
  *   ov208_func_021C21D0  0x021C21D0  thumb  ov208
- *   func_021BDBAC  0x021BDBAC  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable  0x021BDBAC  thumb  ov208
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
@@ -703,7 +703,7 @@ extern void ov208_func_021C20C0(u16 *heap, u8 *p, int key);
 
 extern void ov208_func_021C21D0(u16 *heap, u8 *p, int key);
 
-extern void func_021BDBAC(void *s, u32 on);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(void *s, u32 on);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
@@ -2216,7 +2216,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
         break;
     case 1:
         if (mode == 2)
-            func_021BDBAC(s, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(s, 0);
         break;
     case 2:
         if (mode == 5) {
@@ -2259,7 +2259,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
         break;
     case 6:
         if (mode == 7)
-            func_021BDBAC(s, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(s, 0);
         break;
     case 7:
         if (mode == 0) {

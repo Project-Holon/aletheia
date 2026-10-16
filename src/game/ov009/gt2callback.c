@@ -14,7 +14,7 @@
  *
  * symbols:
  *   gti2CloseSocket  0x02197FDC  arm  ov009
- *   func_02197FDC  0x02197FDC  arm  ov009
+ *   gti2CloseSocket  0x02197FDC  arm  ov009
  *   ArrayNth  0x02184208  arm  ov009
  */
 struct GTI2Connection;
@@ -67,7 +67,7 @@ typedef int (*FilterCb)(GTI2Connection *, int, unsigned char *, int, int);
 typedef int (*Hook)(char *p, int a1, int a2, int a3, int a4);
 
 extern void gti2CloseSocket(GTI2Socket *socket);
-extern void func_02197FDC(GTI2Socket *sock);
+extern void gti2CloseSocket(GTI2Socket *sock);
 extern FilterCb *ArrayNth(void *array, int n);
 int gti2SocketErrorCallback(GTI2Socket *socket);
 int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
@@ -128,7 +128,7 @@ int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int
 	sock->callbackLevel--;
 	c->callbackLevel--;
 	if (sock->close && !sock->callbackLevel) {
-		func_02197FDC(sock);
+		gti2CloseSocket(sock);
 		return 0;
 	}
 	return 1;
@@ -159,7 +159,7 @@ int gti2ConnectedCallback(GTI2Connection *c, int result, unsigned char *msg, int
 	c->callbackLevel--;
 	c->socket->callbackLevel--;
 	if (c->socket->close && !c->socket->callbackLevel) {
-		func_02197FDC(c->socket);
+		gti2CloseSocket(c->socket);
 		return 0;
 	}
 	return 1;
@@ -189,7 +189,7 @@ int gti2ReceivedCallback(GTI2Connection *c, unsigned char *msg, int len, int rel
 	c->callbackLevel--;
 	c->socket->callbackLevel--;
 	if (c->socket->close && !c->socket->callbackLevel) {
-		func_02197FDC(c->socket);
+		gti2CloseSocket(c->socket);
 		return 0;
 	}
 	return 1;
@@ -238,7 +238,7 @@ int gti2PingCallback(GTI2Connection *c, int latency)
 	c->callbackLevel--;
 	c->socket->callbackLevel--;
 	if (c->socket->close && !c->socket->callbackLevel) {
-		func_02197FDC(c->socket);
+		gti2CloseSocket(c->socket);
 		return 0;
 	}
 	return 1;
@@ -268,7 +268,7 @@ int gti2SendFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, 
 	c->callbackLevel--;
 	c->socket->callbackLevel--;
 	if (c->socket->close && !c->socket->callbackLevel) {
-		func_02197FDC(c->socket);
+		gti2CloseSocket(c->socket);
 		return 0;
 	}
 	return 1;
@@ -299,7 +299,7 @@ int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *ms
 	c->callbackLevel--;
 	c->socket->callbackLevel--;
 	if (c->socket->close && !c->socket->callbackLevel) {
-		func_02197FDC((GTI2Socket *)c->socket);
+		gti2CloseSocket((GTI2Socket *)c->socket);
 		return 0;
 	}
 	return 1;
@@ -335,7 +335,7 @@ int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsig
 	if (c)
 		c->callbackLevel--;
 	if (sock->close && !sock->callbackLevel) {
-		func_02197FDC((GTI2Socket *)sock);
+		gti2CloseSocket((GTI2Socket *)sock);
 		return 0;
 	}
 	return 1;
@@ -371,7 +371,7 @@ int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int
 
     *(int *)(p + 0x1c) -= 1;
     if (*(int *)(p + 0x14) != 0 && *(int *)(p + 0x1c) == 0) {
-        func_02197FDC((GTI2Socket *)p);
+        gti2CloseSocket((GTI2Socket *)p);
         return 0;
     }
     return 1;

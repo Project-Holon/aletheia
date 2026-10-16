@@ -17,7 +17,7 @@
  *   strncpy  0x02094860  arm
  *   DWC_Alloc  0x0205A16C  arm
  *   DWC_Free  0x0205A1B0  arm
- *   func_020816B8  0x020816B8  arm
+ *   MATH_CalcSHA1  0x020816B8  arm
  *   strncmp  0x020949F4  arm
  *   B64Encode  0x0217FA90  arm  ov009
  *   func_02092344  0x02092344  arm
@@ -80,7 +80,7 @@ extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern void *DWC_Alloc(int name, u32 size);
 extern void DWC_Free(int name, void *ptr, u32 size);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
-extern void func_020816B8(void *digest, void *data, u32 len);
+extern void MATH_CalcSHA1(void *digest, void *data, u32 len);
 extern void *func_02092344();
 extern void DWCi_EncSetError(void);
 extern void DWCi_GsFree(void *ptr);
@@ -151,7 +151,7 @@ void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, vo
 
                 memcpy(scratch, gDwcEncSession.secretKey, 20);
                 func_02092344(scratch + 20, buffer, 32);
-                func_020816B8(hash, scratch, 52);
+                MATH_CalcSHA1(hash, scratch, 52);
                 for (i = 0; i < 20; i++) {
                     gDwcEncSession.hashPosition[i * 2] = hexDigits[hash[i] >> 4];
                     gDwcEncSession.hashPosition[i * 2 + 1] = hexDigits[hash[i] & 15];

@@ -114,7 +114,7 @@
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   func_02047828 0x02047828 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
- *   func_02047804 0x02047804 arm
+ *   G3D_SYSTEM_ResetObjectAnimeFrame 0x02047804 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -429,7 +429,7 @@ extern void G3D_SYSTEM_DeleteResource(void *);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern void func_02047828(void *object, int index, int *frame);
 extern void G3D_SYSTEM_DrawObject(void *object, void *transform);
-extern u32 func_02047804(void *object, u16 idx);
+extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(void *object, u16 idx);
 extern void GF_FONT_InitTextColor(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
@@ -965,7 +965,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_ModelSetPosition(IrcModel *model, IrcVec3 *positi
 void IRC_COMPATIBLE_TOUCH_TEST_ModelSetActive(IrcModel *model, int active)
 {
     if (model->active != active) {
-        func_02047804(model->object, 0);
+        G3D_SYSTEM_ResetObjectAnimeFrame(model->object, 0);
         model->active = active;
     }
 }

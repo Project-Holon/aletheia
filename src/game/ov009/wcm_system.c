@@ -30,7 +30,7 @@
  *   WM_GetAllowedChannel        0x0208EE60 arm
  *   WCMi_WmifStartupAsync        0x02166880 arm ov009
  *   WCMi_NwmifStartupAsync        0x0273199C arm twl
- *   func_021669B8        0x021669B8 arm ov009
+ *   WCMi_WmifCleanupAsync        0x021669B8 arm ov009
  *   WCMi_NwmifCleanupAsync        0x02731A84 arm twl
  *   WCMi_WmifBeginSearchAsync        0x02166A24 arm ov009
  *   WCMi_NwmifBeginSearchAsync        0x02731AF0 arm twl
@@ -39,7 +39,7 @@
  *   WCM_UpdateOption        0x021656D0 arm ov009
  *   WCMi_WmifConnectAsync        0x02166B2C arm ov009
  *   WCMi_NwmifConnectAsync        0x02731BF8 arm twl
- *   func_02166BD8        0x02166BD8 arm ov009
+ *   WCMi_WmifDisconnectAsync        0x02166BD8 arm ov009
  *   WCMi_NwmifDisconnectAsync        0x02731CFC arm twl
  *   WCMi_WmifTerminateAsync        0x02166C44 arm ov009
  *   WCMi_NwmifTerminateAsync        0x02731D6C arm twl
@@ -50,7 +50,7 @@
  *   WcmKeepAliveAlarm    0x02165B5C arm ov009
  *   WCMi_OverridedDeviceId 0x021AA7D4 data
  *   wcmw                 0x021AA7D8 data
- *   func_02165AF4  0x02165AF4  arm  ov009
+ *   WCMi_ResetKeepAliveAlarm  0x02165AF4  arm  ov009
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -93,14 +93,14 @@ extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
 extern unsigned short WM_GetAllowedChannel(void);
 extern long WCMi_WmifStartupAsync(void);
 extern long WCMi_NwmifStartupAsync(void);
-extern long func_021669B8(void);
+extern long WCMi_WmifCleanupAsync(void);
 extern long WCMi_NwmifCleanupAsync(void);
 extern long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
 extern long WCMi_NwmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
 extern void WCMi_SetPhase(unsigned char phase);
 extern long WCMi_WmifConnectAsync(void);
 extern long WCMi_NwmifConnectAsync();
-extern long func_02166BD8(void);
+extern long WCMi_WmifDisconnectAsync(void);
 extern long WCMi_NwmifDisconnectAsync(void);
 extern long WCMi_WmifTerminateAsync(void);
 extern long WCMi_NwmifTerminateAsync();
@@ -127,7 +127,7 @@ unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 void WCMi_Notify(short result, void *para0, void *para1, long para2);
 void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2);
 void WCMi_ResetKeepAliveAlarm(void);
-extern void func_02165AF4(void);
+extern void WCMi_ResetKeepAliveAlarm(void);
 long WCM_InitEx(void *buf, long len, unsigned char deviceId);
 void WcmKeepAliveAlarm(void);
 
@@ -369,7 +369,7 @@ long WCM_CleanupAsync(void)
     }
     switch (wcmw->deviceId) {
     case 1:
-        wcmResult = func_021669B8();
+        wcmResult = WCMi_WmifCleanupAsync();
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
@@ -574,7 +574,7 @@ long WCM_DisconnectAsync(void)
     } else {
         switch (wcmw->deviceId) {
         case 1:
-            wcmResult = func_02166BD8();
+            wcmResult = WCMi_WmifDisconnectAsync();
             break;
         case 2:
             if (OS_IsRunOnTwl()) {
@@ -846,7 +846,7 @@ void WCMi_ResetKeepAliveAlarm(void)
 
 void WcmKeepAliveAlarm(void)
 {
-    func_02165AF4();
+    WCMi_ResetKeepAliveAlarm();
 }
 
 /*

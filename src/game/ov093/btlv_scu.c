@@ -229,6 +229,7 @@
  *   BTL_MSG_BuildBallStatusOpen  0x021EF71C  thumb
  *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   GF_FONT_CopyLine  0x0201D37C  thumb  arm9
  */
 #include "btlv_scu_types.h"
 #include "btlv_core_types.h"
@@ -417,7 +418,7 @@ extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern u32 func_0201D33C(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
 extern u32 GF_FONT_MeasureWidestLine(struct MsgBuf *buf, void *font, u32 start);
-extern u32 func_0201D37C(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
+extern u32 GF_FONT_CopyLine(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void *BTL_SIDE_GetSlotOfClientThunk(struct BtlMonTable *monTable, int clientIndex);
 extern u8 BTL_SLOT_GetCount(void *party);
@@ -3075,9 +3076,9 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
         left = left - width;
         if (left < 0) left = 0;
         if (right < 0) right = 0;
-        func_0201D37C(scu->wordBuf0, scu->wordBuf1, 0);
+        GF_FONT_CopyLine(scu->wordBuf0, scu->wordBuf1, 0);
         PRINTSYS_Print(plate->bmp, left, 7, scu->wordBuf1, scu->fontSub);
-        func_0201D37C(scu->wordBuf0, scu->wordBuf1, 1);
+        GF_FONT_CopyLine(scu->wordBuf0, scu->wordBuf1, 1);
         PRINTSYS_Print(plate->bmp, right, 18, scu->wordBuf1, scu->fontSub);
     } else {
         center = (0x88 - GF_FONT_MeasureWidestLine(scu->wordBuf0, scu->fontSub, 0)) / 2;

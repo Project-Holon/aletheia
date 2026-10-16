@@ -21,6 +21,7 @@
  *   DSP_ReadPipe  0x02706EC0  arm
  *   OS_Terminate  0x02088234  arm  arm9
  *   OS_CreateAlarm  0x02087254  arm  arm9
+ *   OS_SetAlarm  0x0208738C  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -65,7 +66,7 @@ extern DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir);
 extern u16 DSP_GetPipeReadableSize(DspRing *r);
 extern void DSP_ReadPipe(DspRing *r, u8 *buf, u16 count);
 extern void OS_CreateAlarm(void *alarm);
-extern void func_0208738C(void *alarm, unsigned long long tick, void (*handler)(void), u32 arg);
+extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void), u32 arg);
 extern void OS_SpinWaitSysCycles(u32);
 extern void OS_Sleep(u32);
 
@@ -113,7 +114,7 @@ void DSPi_PipeCallbackForSound(void *a0, int port, int dir)
     if ((w[0] & 0xF000) == 0x1000 && (w[0] & 0xF00) == 0x200) {
         u32 z = 0;
         OS_CreateAlarm(&data_027344D8.alarm);
-        func_0208738C(&data_027344D8.alarm, 0x3D5D, sound_handler, z);
+        OS_SetAlarm(&data_027344D8.alarm, 0x3D5D, sound_handler, z);
         if (data_02732D78 == 0) {
             SNDEXi_PostProcessForShutterSound(DSPiShutterPostProcessCallback, z);
         }

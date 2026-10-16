@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformsocket.c
  * unit:     yes
- * function: CheckRcode, socket, closesocket, func_0217EB40, shutdown, func_0217EBB0, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, func_0217ED0C, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, CanReceiveOnSocket, func_0217EF84, getlocalhost, func_0217F038
+ * function: CheckRcode, socket, closesocket, func_0217EB40, shutdown, func_0217EBB0, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, getsockname, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, CanReceiveOnSocket, CanSendOnSocket, getlocalhost, IsPrivateIP
  * address:  0x0217EB00
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -32,7 +32,7 @@
  *   gGsSetSockBlockingFailFmt     0x021A3784  data
  *   setsockopt       0x0217ecf8 arm
  *   GSISocketSelect  0x0217ed64 arm
- *   func_0215EF48                  0x0215EF48  arm ov009
+ *   SOCL_GetHostID                  0x0215EF48  arm ov009
  *   SOC_U32to4U8                  0x0215FBAC  arm ov009
  *   gGsLocalhostName                     0x021A37BC  data
  *   _ZZ12getlocalhostvE9aliases_0 0x021AD0F4  data
@@ -40,6 +40,9 @@
  *   _ZZ12getlocalhostvE5ips_2_1   0x021AD10C  data
  *   _ZZ12getlocalhostvE8ipPtrs_1_2 0x021AD120  data
  *   SOC_Shutdown  0x0215F638  arm
+ *   SOC_Socket  0x0215F428  arm
+ *   SOC_Recv  0x0215F4DC  arm
+ *   SOC_Send  0x0215F590  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 
@@ -61,7 +64,7 @@ struct SOCInAddr {
     unsigned int addr;
 };
 
-extern int func_0215F428(void);
+extern int SOC_Socket(void);
 extern int SOC_Close(int s);
 extern int SOCL_IsReleased(int s);
 extern int CheckRcode(int rcode, int errCode);
@@ -74,9 +77,9 @@ struct SOCSockAddr {
 } __attribute__((packed));
 extern int SOC_Bind(int s, void * sockAddr);
 extern int SOC_Connect(int s, void * sockAddr);
-extern int func_0215F4DC(void);
+extern int SOC_Recv(void);
 extern int SOC_RecvFrom(int s, void * buf, int len, int flags, void * sockFrom);
-extern int func_0215F590(void);
+extern int SOC_Send(void);
 extern int func_0215F5B4(int s, void *buf, int len, int flags, void *sockTo);
 extern int SOC_Accept(int s, void * sockAddr);
 extern int SOC_InetAtoN(char *cp, unsigned long *inp);
@@ -85,7 +88,7 @@ extern int SOC_Fcntl(int sock, int cmd, int arg);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int setsockopt(int s, int level, int optname, void * optval, int optlen);
 extern int GSISocketSelect(int theSocket, int * theReadFlag, int * theWriteFlag, int * theExceptFlag);
-extern unsigned long func_0215EF48(void);
+extern unsigned long SOCL_GetHostID(void);
 extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 /*
  * Stores a negative argument at +0x4 of the module state object and returns the second.
@@ -151,7 +154,7 @@ int CheckRcode(int rcode, int fallback)
 
 int socket(int pf, int type, int protocol)
 {
-    return CheckRcode(func_0215F428(), -1);
+    return CheckRcode(SOC_Socket(), -1);
 }
 
 
@@ -223,7 +226,7 @@ int connect(int sock, const struct SOCSockAddr * addr, int len)
 
 int recv(int sock, char *buffer, int len, int flags)
 {
-    return CheckRcode(func_0215F4DC(), -1);
+    return CheckRcode(SOC_Recv(), -1);
 }
 
 
@@ -244,7 +247,7 @@ int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr
 
 int send(int sock, char *buffer, int bufferLen, int flags)
 {
-    return CheckRcode(func_0215F590(), -1);
+    return CheckRcode(SOC_Send(), -1);
 }
 
 
@@ -433,7 +436,7 @@ struct SOCHostEnt *getlocalhost(void)
     localhost.length = 0;
     localhost.addrList = ipPtrs_1;
     ips_2[0] = 0;
-    SOC_U32to4U8(func_0215EF48(), (unsigned char *)ips_2);
+    SOC_U32to4U8(SOCL_GetHostID(), (unsigned char *)ips_2);
     if (ips_2[0] == 0)
         return 0;
     ipPtrs_1[0] = (unsigned char *)ips_2;

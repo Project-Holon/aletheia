@@ -1,7 +1,7 @@
 /*
  * file:     card_api.c
  * unit:     yes
- * function: CARDi_PeekEventListener, func_02075C90, CARD_Init, CARD_IsEnabled, func_02075DB0, CARD_Enable, func_02075DD8, func_02075DEC, func_02075DF8, func_02075E04, CARD_LockRom, CARD_UnlockRom, func_02075E9C, CARD_UnlockBackup
+ * function: CARDi_PeekEventListener, func_02075C90, CARD_Init, CARD_IsEnabled, func_02075DB0, CARD_Enable, func_02075DD8, func_02075DEC, func_02075DF8, CARD_GetOwnRomHeaderTWL, CARD_LockRom, CARD_UnlockRom, CARD_LockBackup, CARD_UnlockBackup
  * address:  0x02075C38
  * region:   arm9
  * compiler: dsi/1.1p1

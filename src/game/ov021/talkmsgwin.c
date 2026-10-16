@@ -57,12 +57,12 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   func_02049624  0x02049624  arm
- *   func_0207F7A0  0x0207F7A0  arm
+ *   GX_BeginLoadTex  0x0207F7A0  arm
  *   DC_FlushRange  0x020862F0  arm
- *   func_0207F7FC  0x0207F7FC  arm
- *   func_0207F9B4  0x0207F9B4  arm
- *   func_0207FA0C  0x0207FA0C  arm
- *   func_0207FA40  0x0207FA40  arm
+ *   GX_LoadTex  0x0207F7FC  arm
+ *   GX_EndLoadTex  0x0207F9B4  arm
+ *   GX_BeginLoadTexPltt  0x0207FA0C  arm
+ *   GX_LoadTexPltt  0x0207FA40  arm
  *   GX_EndLoadTexPltt  0x0207FADC  arm
  *   sTalkMsgWinTexture     0x021DDA84  data  a4
  *   sTalkMsgWinPalette     0x021DDAA4  data  a4
@@ -126,12 +126,12 @@ extern void func_02048B54(struct G3dCamera *camera, s32 *out);
 extern void BG_SYS_ClearSlot(u32 bgLayer);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u16 heapId);
 extern u32 func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u16 heapId);
-extern void func_0207F7A0(void);
+extern void GX_BeginLoadTex(void);
 extern void DC_FlushRange(void *p, u32 size);
-extern void func_0207F7FC(void *src, u32 offset, u32 size);
-extern void func_0207F9B4(void);
-extern void func_0207FA0C(void);
-extern void func_0207FA40(void *src, u32 offset, u32 size);
+extern void GX_LoadTex(void *src, u32 offset, u32 size);
+extern void GX_EndLoadTex(void);
+extern void GX_BeginLoadTexPltt(void);
+extern void GX_LoadTexPltt(void *src, u32 offset, u32 size);
 extern void GX_EndLoadTexPltt(void);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
 extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
@@ -1071,13 +1071,13 @@ u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param)
 /* Uploads the balloon texture and palette into the VRAM blocks of the system's keys. */
 void TALKMSGWIN_UploadTexture(TalkMsgWinSys *sys)
 {
-    func_0207F7A0();
+    GX_BeginLoadTex();
     DC_FlushRange(sTalkMsgWinTexture, 0x20);
-    func_0207F7FC(sTalkMsgWinTexture, (u16)sys->texKey << 3, 0x20);
-    func_0207F9B4();
-    func_0207FA0C();
+    GX_LoadTex(sTalkMsgWinTexture, (u16)sys->texKey << 3, 0x20);
+    GX_EndLoadTex();
+    GX_BeginLoadTexPltt();
     DC_FlushRange(sTalkMsgWinPalette, 0x20);
-    func_0207FA40(sTalkMsgWinPalette, (u16)sys->plttKey << 3, 0x20);
+    GX_LoadTexPltt(sTalkMsgWinPalette, (u16)sys->plttKey << 3, 0x20);
     GX_EndLoadTexPltt();
 }
 

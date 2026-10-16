@@ -31,6 +31,25 @@
  *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   GX_LoadOBJ  0x0207E780  arm
  *   GXS_LoadOBJ  0x0207E804  arm
+ *   GXS_LoadBG0Scr  0x0207E944  arm
+ *   GXS_LoadBG1Scr  0x0207EABC  arm
+ *   GXS_LoadBG2Scr  0x0207EC34  arm
+ *   GXS_LoadBG3Scr  0x0207EDAC  arm
+ *   GXS_LoadBG1Char  0x0207F024  arm
+ *   GXS_LoadBG2Char  0x0207F14C  arm
+ *   GXS_LoadBG3Char  0x0207F274  arm
+ *   GX_BeginLoadBGExtPltt  0x0207F308  arm
+ *   GX_LoadBGExtPltt  0x0207F394  arm
+ *   GX_EndLoadBGExtPltt  0x0207F428  arm
+ *   GX_BeginLoadOBJExtPltt  0x0207F47C  arm
+ *   GX_LoadOBJExtPltt  0x0207F4C4  arm
+ *   GX_EndLoadOBJExtPltt  0x0207F560  arm
+ *   GXS_BeginLoadBGExtPltt  0x0207F5B0  arm
+ *   GXS_LoadBGExtPltt  0x0207F5C8  arm
+ *   GXS_EndLoadBGExtPltt  0x0207F65C  arm
+ *   GXS_BeginLoadOBJExtPltt  0x0207F6A8  arm
+ *   GXS_LoadOBJExtPltt  0x0207F6C0  arm
+ *   GXS_EndLoadOBJExtPltt  0x0207F754  arm
  */
 
 typedef unsigned int u32;
@@ -63,30 +82,30 @@ typedef struct {
     s32 totalSzByte;
 } NNSiGfdVramTransferTaskQueue;
 
-extern void func_0207F47C(void);
-extern void func_0207F4C4(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F560(void);
-extern void func_0207F308(void);
-extern void func_0207F394(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F428(void);
+extern void GX_BeginLoadOBJExtPltt(void);
+extern void GX_LoadOBJExtPltt(const void *pSrc, u32 offset, u32 szByte);
+extern void GX_EndLoadOBJExtPltt(void);
+extern void GX_BeginLoadBGExtPltt(void);
+extern void GX_LoadBGExtPltt(const void *pSrc, u32 offset, u32 szByte);
+extern void GX_EndLoadBGExtPltt(void);
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);
 extern void GX_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207EEFC(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F024(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F14C(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F274(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207E944(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207EABC(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207EC34(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207EDAC(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG3Char(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG0Scr(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG1Scr(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBG3Scr(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadOBJPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadBGPltt(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F6A8(void);
-extern void func_0207F6C0(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F754(void);
-extern void func_0207F5B0(void);
-extern void func_0207F5C8(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207F65C(void);
+extern void GXS_BeginLoadOBJExtPltt(void);
+extern void GXS_LoadOBJExtPltt(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_EndLoadOBJExtPltt(void);
+extern void GXS_BeginLoadBGExtPltt(void);
+extern void GXS_LoadBGExtPltt(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_EndLoadBGExtPltt(void);
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
 extern void DWCi_ScreenDC_FlushRange(u32, u32);
@@ -128,17 +147,17 @@ extern NNSiGfdVramTransferTaskQueue g_02146B80_cb;
 
 void NNSi_GfdLoadMainObjExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207F47C();
-    func_0207F4C4(pSrc, offset, szByte);
-    func_0207F560();
+    GX_BeginLoadOBJExtPltt();
+    GX_LoadOBJExtPltt(pSrc, offset, szByte);
+    GX_EndLoadOBJExtPltt();
 }
 
 
 void NNSi_GfdLoadMainBgExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207F308();
-    func_0207F394(pSrc, offset, szByte);
-    func_0207F428();
+    GX_BeginLoadBGExtPltt();
+    GX_LoadBGExtPltt(pSrc, offset, szByte);
+    GX_EndLoadBGExtPltt();
 }
 
 
@@ -162,55 +181,55 @@ void NNSi_GfdLoadSubBg0Char(const void *pSrc, u32 offset, u32 szByte)
 
 void NNSi_GfdLoadSubBg1Char(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207F024(pSrc, offset, szByte);
+    GXS_LoadBG1Char(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg2Char(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207F14C(pSrc, offset, szByte);
+    GXS_LoadBG2Char(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg3Char(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207F274(pSrc, offset, szByte);
+    GXS_LoadBG3Char(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg0Scr(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207E944(pSrc, offset, szByte);
+    GXS_LoadBG0Scr(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg1Scr(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207EABC(pSrc, offset, szByte);
+    GXS_LoadBG1Scr(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg2Scr(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207EC34(pSrc, offset, szByte);
+    GXS_LoadBG2Scr(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg3Scr(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207EDAC(pSrc, offset, szByte);
+    GXS_LoadBG3Scr(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg2ScrAffine(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207EC34(pSrc, offset, szByte);
+    GXS_LoadBG2Scr(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBg3ScrAffine(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207EDAC(pSrc, offset, szByte);
+    GXS_LoadBG3Scr(pSrc, offset, szByte);
 }
 
 
@@ -228,17 +247,17 @@ void NNSi_GfdLoadSubBgPltt(const void *pSrc, u32 offset, u32 szByte)
 
 void NNSi_GfdLoadSubObjExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207F6A8();
-    func_0207F6C0(pSrc, offset, szByte);
-    func_0207F754();
+    GXS_BeginLoadOBJExtPltt();
+    GXS_LoadOBJExtPltt(pSrc, offset, szByte);
+    GXS_EndLoadOBJExtPltt();
 }
 
 
 void NNSi_GfdLoadSubBgExtPltt(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207F5B0();
-    func_0207F5C8(pSrc, offset, szByte);
-    func_0207F65C();
+    GXS_BeginLoadBGExtPltt();
+    GXS_LoadBGExtPltt(pSrc, offset, szByte);
+    GXS_EndLoadBGExtPltt();
 }
 
 

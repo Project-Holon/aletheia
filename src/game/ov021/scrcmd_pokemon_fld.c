@@ -86,7 +86,7 @@
  *   MAIL_Create  0x02008F08  thumb
  *   MAIL_FindEmptySlot  0x02009020  thumb
  *   func_0200903C  0x0200903C  thumb
- *   func_02008EAC  0x02008EAC  thumb
+ *   MAIL_Init  0x02008EAC  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
@@ -94,11 +94,11 @@
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
  *   POKEPARTY_SetMember  0x0201AB48  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
- *   func_020075B0  0x020075B0  thumb
+ *   BOX_SAVEDATA_SetPokemon  0x020075B0  thumb
  *   sScrcmdPokemonFldFileName     0x021DE270  data   ov021  a1
  *   func_02007698  0x02007698  thumb
  *   func_02008530  0x02008530  thumb
- *   func_020079BC  0x020079BC  thumb
+ *   BOX_SAVEDATA_GetPokemonValue  0x020079BC  thumb
  *   POKEPARTY_SwapMembers  0x0201AB8C  thumb
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb ov010
  *   FIELDMAP_GetMapFunc  0x02188D24  thumb ov021
@@ -109,7 +109,7 @@
  *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb
  *   FIELD_CLOCK_GetDate  0x021690A4  thumb  ov010
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   func_0200A940  0x0200A940  thumb
+ *   IRC_RANKING_FindClosestEntry  0x0200A940  thumb
  *   IRC_RANKING_GetEntryGender  0x0200A8F8  thumb
  *   IRC_RANKING_GetEntry  0x0200A8C8  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -308,7 +308,7 @@ extern struct Mail *func_02008FEC(void *sys);
 extern void *MAIL_Create(int a0);
 extern int MAIL_FindEmptySlot(void *obj, int v);
 extern void func_0200903C(struct Mail *arr, u32 unused, int i, const struct Mail *src);
-extern void func_02008EAC(struct Mail *obj);
+extern void MAIL_Init(struct Mail *obj);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern void POKE_TOOL_RecalcParam(void *mon);
@@ -316,10 +316,10 @@ extern struct BoxMon *func_02007A18(void **save, u32 box, u32 slot);
 extern void *POKE_TOOL_CreateFromBoxParam(struct BoxMon *p, u32 heap);
 extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *POKE_TOOL_Dummy(void *mon);
-extern int func_020075B0(void *save, u32 box, u32 slot, const struct BoxMon *src);
+extern int BOX_SAVEDATA_SetPokemon(void *save, u32 box, u32 slot, const struct BoxMon *src);
 extern int func_02007698(void);
 extern u32 func_02008530(const struct MyStatus *obj);
-extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
+extern int BOX_SAVEDATA_GetPokemonValue(void **save, u32 box, u32 slot, int field, int arg);
 extern u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap);
 extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
 extern u32 FIELDMAP_GetMapFunc(u8 *p);
@@ -328,7 +328,7 @@ extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *IRC_RANKING_GetFromSave(void *);
 extern void *FIELD_CLOCK_GetDate(int a0);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
-extern int func_0200A940(void *, int, int, void *);
+extern int IRC_RANKING_FindClosestEntry(void *, int, int, void *);
 extern u32 IRC_RANKING_GetEntryGender(struct MysteryData *r, u32 index);
 extern struct MysteryDataEntry *IRC_RANKING_GetEntry(struct MysteryData *r, u32 index);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -1236,7 +1236,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
         if (mailSlot >= 0) {
             func_0200903C(mailSave, 0, mailSlot, mail);
         }
-        func_02008EAC(mail);
+        MAIL_Init(mail);
         POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_MAIL, (u32)mail);
         POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
         GFL_HEAP_Free(mail);
@@ -1248,7 +1248,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
     boxedPartyMon = POKE_TOOL_CreateFromBoxParam(func_02007A18(boxManager, boxPos[1], boxPos[0]), heapId);
     POKEPARTY_SetMember(party, partySlot, boxedPartyMon);
     GFL_HEAP_Free(boxedPartyMon);
-    func_020075B0(boxManager, boxPos[1], boxPos[0], POKE_TOOL_Dummy(mon));
+    BOX_SAVEDATA_SetPokemon(boxManager, boxPos[1], boxPos[0], POKE_TOOL_Dummy(mon));
     GFL_HEAP_Free(mon);
 }
 
@@ -1275,10 +1275,10 @@ int SCRCMD_POKEMON_FLD_FindBoxedLegend(void *gameData, u16 species, u16 *boxOut,
     for (i = 0; i < 24; i++) {
         box = (i + startBox) % 24;
         for (slot = 0; slot < 30; slot++) {
-            if (func_020079BC((void **)boxManager, box, slot, 0xa9, 0) != 0
-                && trainerId == func_020079BC((void **)boxManager, box, slot, 7, 0)
-                && species == func_020079BC((void **)boxManager, box, slot, 5, 0)
-                && func_020079BC((void **)boxManager, box, slot, 0x4c, 0) == 0) {
+            if (BOX_SAVEDATA_GetPokemonValue((void **)boxManager, box, slot, 0xa9, 0) != 0
+                && trainerId == BOX_SAVEDATA_GetPokemonValue((void **)boxManager, box, slot, 7, 0)
+                && species == BOX_SAVEDATA_GetPokemonValue((void **)boxManager, box, slot, 5, 0)
+                && BOX_SAVEDATA_GetPokemonValue((void **)boxManager, box, slot, 0x4c, 0) == 0) {
                 *boxOut = box;
                 *slotOut = slot;
                 return 1;
@@ -1356,7 +1356,7 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(struct ScriptVm *vm, struct ScrcmdW
     mysteryData = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     date = FIELD_CLOCK_GetDate((int)gameData);
     OS_GetOwnerInfo((struct OSOwnerInfo *)(&owner));
-    entryIndex = func_0200A940(mysteryData, owner.birthMonth, owner.birthDay, date);
+    entryIndex = IRC_RANKING_FindClosestEntry(mysteryData, owner.birthMonth, owner.birthDay, date);
     flags = IRC_RANKING_GetEntryGender(mysteryData, entryIndex);
     flags = flags != 1;
     entryText = IRC_RANKING_GetEntry(mysteryData, entryIndex);

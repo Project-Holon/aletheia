@@ -18,7 +18,7 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
- *   func_0202B57C  0x0202B57C  thumb
+ *   ISS_SYS_Get3dsSys  0x0202B57C  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   ISS_3DS_SYS_IsSourceActive  0x0202B928  thumb
  *   ISS_3DS_SYS_StartSource  0x0202B920  thumb
@@ -123,7 +123,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
-extern u32 func_0202B57C(void *obj);
+extern u32 ISS_SYS_Get3dsSys(void *obj);
 extern int ISS_3DS_SYS_IsSourceActive(int a, int b);
 extern void ISS_3DS_SYS_StartSource(void *m, int i, int a, int b);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
@@ -156,7 +156,7 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
     void *iss3dsSys;
     SoundObj *obj;
 
-    iss3dsSys = (void *)func_0202B57C((void *)GAMESYSTEM_GetIssSystem((u32 *)FIELDMAP_GetGameSystem((void *)fieldMap)));
+    iss3dsSys = (void *)ISS_SYS_Get3dsSys((void *)GAMESYSTEM_GetIssSystem((u32 *)FIELDMAP_GetGameSystem((void *)fieldMap)));
     obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x3c);
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;

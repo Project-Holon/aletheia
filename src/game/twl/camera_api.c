@@ -42,6 +42,8 @@
  *   OS_SendMessage  0x02085DBC  arm  arm9
  *   OS_ReceiveMessage  0x02085E50  arm  arm9
  *   OS_GetTick  0x020870D0  arm  arm9
+ *   OS_SetIrqFunction  0x02084774  arm  arm9
+ *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
  */
 typedef unsigned int u32;
 typedef signed int s32;
@@ -134,10 +136,10 @@ extern u32 OS_ReceiveMessage(u32*, u32*, u32);
 extern void func_02087974(void);
 extern void PXI_Init(void);
 extern u32 PXI_IsCallbackReady(u32, u32);
-extern void func_020885A0(u32, void (*)(int, u32, int));
+extern void PXI_SetFifoRecvCallback(u32, void (*)(int, u32, int));
 extern void PMi_InsertPreSleepCallbackEx(u32*, u32);
 extern void PMi_InsertPostExitCallbackEx(u32*, u32);
-extern void func_02084774(u32, TwlFn);
+extern void OS_SetIrqFunction(u32, TwlFn);
 extern void OS_EnableIrqMask(u32);
 extern void OS_InitMessageQueue(u32*, u32*, u32);
 extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
@@ -565,7 +567,7 @@ u32 CAMERA_InitCore(void) {
     if (PXI_IsCallbackReady(0x15, 1) == 0) {
         return 7;
     }
-    func_020885A0(0x15, CameraPxiCallback);
+    PXI_SetFifoRecvCallback(0x15, CameraPxiCallback);
     CAMERA_ResetCore();
     CAMERA_StopCaptureCore();
     CAMERA_ClearBufferCore();
@@ -578,7 +580,7 @@ u32 CAMERA_InitCore(void) {
     CAMERA_SetVsyncInterruptCore(0x200);
     CAMERA_SetBufferErrorInterruptCore(1);
     CAMERA_SetMasterInterruptCore(1);
-    func_02084774(0x02000000, CAMERA_CameraIntr);
+    OS_SetIrqFunction(0x02000000, CAMERA_CameraIntr);
     OS_EnableIrqMask(0x02000000);
     data_02733FC8.f128 = 5;
     data_02733FC8.f12c = 0;
@@ -626,11 +628,11 @@ void CAMERA_EndCore(void) {
     CAMERA_ResetCore();
     CAMERA_StopCaptureCore();
     CAMERA_ClearBufferCore();
-    func_020885A0(0x15, 0);
+    PXI_SetFifoRecvCallback(0x15, 0);
     CAMERA_SetVsyncInterruptCore(0);
     CAMERA_SetBufferErrorInterruptCore(0);
     CAMERA_SetMasterInterruptCore(0);
-    func_02084774(0x02000000, 0);
+    OS_SetIrqFunction(0x02000000, 0);
     OS_DisableIrqMask(0x02000000);
     OS_KillThread(data_0273302C, 0);
 }

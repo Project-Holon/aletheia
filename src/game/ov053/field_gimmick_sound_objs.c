@@ -37,7 +37,7 @@
  *   FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe  0x021F3B40  thumb  ov053
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
- *   func_0202B57C  0x0202B57C  thumb
+ *   ISS_SYS_Get3dsSys  0x0202B57C  thumb
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   func_021C4D14  0x021C4D14  thumb  ov021
@@ -184,7 +184,7 @@ void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(FieldGimmickSoundObjsWork *work, s
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work->heapId = heapId;
     work->bgmVolume = 0;
-    work->iss3ds = func_0202B57C(GAMESYSTEM_GetIssSystem(FIELDMAP_GetGameSystem(fieldMap)));
+    work->iss3ds = ISS_SYS_Get3dsSys(GAMESYSTEM_GetIssSystem(FIELDMAP_GetGameSystem(fieldMap)));
     params = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 1, heapId);
     soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans, 8, params[0] << 12, params[1]);
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 3, 10);

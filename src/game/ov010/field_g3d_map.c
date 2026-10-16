@@ -25,7 +25,7 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
- *   func_02046C9C 0x02046C9C arm
+ *   G3D_SYSTEM_InitResourceByKind 0x02046C9C arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   NNS_G3dGlbBaseTrans  0x0206A9DC  arm
@@ -82,7 +82,7 @@ extern int G3D_SYSTEM_GetResourceSize(void);
 extern ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heapId);
 extern void ARC_TOOL_DeleteHandle(ArcFile *archive);
 extern void ARC_TOOL_ReadHandleMemberRange(ArcFile *archive, u32 member, u32 offset, u32 size, void *dst);
-extern void func_02046C9C(void *record, u32 mode, u32 value);
+extern void G3D_SYSTEM_InitResourceByKind(void *record, u32 mode, u32 value);
 extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *archive, u32 member);
 extern void ARC_TOOL_ReadHandle(ArcFile *archive, u32 size, void *dst);
 extern void NNS_G3dGlbBaseTrans(void *p);
@@ -473,13 +473,13 @@ void FIELD_G3D_MAP_GetTotalBytes(FieldG3dMap *map, u32 *out)
 /* Unlabelled leaf: tail call that fills the model resource record. */
 void FIELD_G3D_MAP_SetModelRes(FieldG3dMap *map, u32 value)
 {
-    func_02046C9C(map->modelRes, 1, value);
+    G3D_SYSTEM_InitResourceByKind(map->modelRes, 1, value);
 }
 
 /* Empty the model resource record. */
 void FIELD_G3D_MAP_ClearModelRes(FieldG3dMap *map)
 {
-    func_02046C9C(map->modelRes, 1, 0);
+    G3D_SYSTEM_InitResourceByKind(map->modelRes, 1, 0);
 }
 
 /* Unlabelled leaf accessor: returns the model resource record. */
@@ -491,7 +491,7 @@ void *FIELD_G3D_MAP_GetModelRes(FieldG3dMap *map)
 /* Empty the texture resource record. */
 void FIELD_G3D_MAP_ClearTextureRes(FieldG3dMap *map)
 {
-    func_02046C9C(map->textureRes, 2, 0);
+    G3D_SYSTEM_InitResourceByKind(map->textureRes, 2, 0);
 }
 
 /* Unlabelled leaf: forwarding tail call to the texture resource picker. */

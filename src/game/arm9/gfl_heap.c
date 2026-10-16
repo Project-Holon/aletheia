@@ -16,17 +16,17 @@
  *   gHeapManager  0x02146954  data
  *   sub_02060C5C  0x02060C5C  arm
  *   sub_02086788  0x02086788  arm
- *   sub_02060CA0  0x02060CA0  arm
+ *   NNS_FndAllocFromExpHeapEx  0x02060CA0  arm
  *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
  *   NNSi_FndDestroyExpHeap  0x02060C94  arm
  *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   NNS_G2dInitCellBank         0x02061358  arm
- *   sub_02060CD0    0x02060CD0  arm
- *   sub_02060F90    0x02060F90  arm
- *   sub_02060E6C    0x02060E6C  arm
- *   sub_02060E94    0x02060E94  arm
+ *   NNS_FndResizeForMBlockExpHeap    0x02060CD0  arm
+ *   NNSi_FndGetMBlockSize    0x02060F90  arm
+ *   NNSi_FndGetListTotalSize    0x02060E6C  arm
+ *   NNSi_FndGetListAllocatableSize    0x02060E94  arm
  *   gSystemHeap              0x02146964  data
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  arm
  *   OS_GetArenaLo                0x02086580  arm
@@ -118,7 +118,7 @@ struct SystemHeapState {
 
 extern void *sub_02086788(u32 heap, u32 size, u32 align);
 extern void *sub_02060C5C(void *mem, u32 size, u32 mode);
-extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
+extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
 int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size);
 int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId);
 extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
@@ -128,10 +128,10 @@ extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 extern void NNS_G2dInitCellBank(struct HeapAllocator *s, u32 a, u32 b);
-extern u32 sub_02060CD0(struct ExpHeap *heap, void *memBlock, u32 size);
-extern int sub_02060F90(char *p);
-extern int sub_02060E6C(int *p);
-extern s32 sub_02060E94(struct ExpHeap *heap, s32 x);
+extern u32 NNS_FndResizeForMBlockExpHeap(struct ExpHeap *heap, void *memBlock, u32 size);
+extern int NNSi_FndGetMBlockSize(char *p);
+extern int NNSi_FndGetListTotalSize(int *p);
+extern s32 NNSi_FndGetListAllocatableSize(struct ExpHeap *heap, s32 x);
 extern void SDK_AUTOLOAD_MAIN_TWL_START(void);
 extern void *OS_GetArenaLo(u32 id);
 extern void OS_SetArenaHi(u32 id, void *hi);
@@ -364,7 +364,7 @@ int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size)
         goto fail;
     }
 
-    childBlock = sub_02060CA0(parentHeap, size, align);
+    childBlock = NNS_FndAllocFromExpHeapEx(parentHeap, size, align);
     if (childBlock == 0) {
         gHeapManager.lastError = 3;
         goto fail;
@@ -622,7 +622,7 @@ void *GFL_HEAP_AllocMemory(u32 heapId, u32 size)
         goto fail;
     }
     irqState = OS_DisableInterrupts();
-    header = (u8 *)sub_02060CA0(heap, size + 0x1c, direction);
+    header = (u8 *)NNS_FndAllocFromExpHeapEx(heap, size + 0x1c, direction);
     if (header == 0) {
         gHeapManager.lastError = 3;
     } else {
@@ -802,7 +802,7 @@ fail:
 
 /*
  * BLOCKED on one relocation site: all 160 concrete bytes are correct, but
- * the call to sub_02060CD0 at +0054 has no witness. 0x02060CD0 (the
+ * the call to NNS_FndResizeForMBlockExpHeap at +0054 has no witness. 0x02060CD0 (the
  * expanded-heap resize primitive in the NNS-shaped library block around
  * 0x02060000) has exactly one branch reference in the image and it is this
  * call; the neighbouring 0x02060CA0 used by GFL_HEAP_AllocMemory has four and
@@ -822,7 +822,7 @@ fail:
  * #0x1c` for the comparison instead of keeping the value the call already
  * needed, which is what a second occurrence of the expression looks like.
  *
- * sub_02060F90 returns the block's current size, sub_02060CD0 does the
+ * NNSi_FndGetMBlockSize returns the block's current size, NNS_FndResizeForMBlockExpHeap does the
  * resize and returns a size-shaped answer. The two failure tests differ by
  * direction, and that is the whole point of the branch:
  *
@@ -862,8 +862,8 @@ u32 GFL_HEAP_ResizeMemory(void *mem, u32 newSize)
         gHeapManager.lastError = 3;
         goto fail;
     }
-    oldSize = sub_02060F90((char *)header);
-    resultSize = sub_02060CD0(heap, header, newSize + 0x1c);
+    oldSize = NNSi_FndGetMBlockSize((char *)header);
+    resultSize = NNS_FndResizeForMBlockExpHeap(heap, header, newSize + 0x1c);
     gHeapManager.lastError = 0;
     success = 1;
     if (oldSize < newSize + 0x1c) {
@@ -890,14 +890,14 @@ fail:
 
 
 /*
- * Checked heap-id lookup that hands the arena straight on to sub_02060E6C
+ * Checked heap-id lookup that hands the arena straight on to NNSi_FndGetListTotalSize
  * and returns what that returns; see src/matched/GFL_HEAP_GetHeapHandle.c for the
  * shared preamble this family has in common.
  *
  *   void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
  *
  * The two calls are back to back with no register shuffle between them,
- * which is the nested-call form `sub_02060E6C(GFL_HEAP_GetHeap(heapId))`
+ * which is the nested-call form `NNSi_FndGetListTotalSize(GFL_HEAP_GetHeap(heapId))`
  * rather than a local bound in between; the result is not touched after
  * the second call either, so the function is a plain tail return of it
  * (the `pop` after the `bl` is the one-section-per-function tail form, not
@@ -915,7 +915,7 @@ void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
         goto fail;
     }
     gHeapManager.lastError = 0;
-    return (void *)sub_02060E6C(GFL_HEAP_GetHeap(heapId));
+    return (void *)NNSi_FndGetListTotalSize(GFL_HEAP_GetHeap(heapId));
 
 fail:
     return 0;
@@ -928,7 +928,7 @@ fail:
 
 
 /*
- * Checked heap-id lookup handing the arena to sub_02060E94 with a mode of
+ * Checked heap-id lookup handing the arena to NNSi_FndGetListAllocatableSize with a mode of
  * 4; see src/matched/GFL_HEAP_GetHeapHandle.c for the shared preamble this family
  * has in common. The same (arena, 4) pair appears in GFL_HEAP_ReportOutOfMemory, the
  * out-of-memory reporter, so mode 4 is the heap-layer's own dump mode.
@@ -947,7 +947,7 @@ void *GFL_HEAP_GetAllocatableSize(u32 heapId)
         goto fail;
     }
     gHeapManager.lastError = 0;
-    return (void *)sub_02060E94(GFL_HEAP_GetHeap(heapId), 4);
+    return (void *)NNSi_FndGetListAllocatableSize(GFL_HEAP_GetHeap(heapId), 4);
 
 fail:
     return 0;
@@ -1016,7 +1016,7 @@ fail:
  * out-of-range path `movhs r0, #1` / `strhhs r0, [r?, #0xe]` / `bhs`) and
  * differ only in what they do once the id is known good:
  *
- *   0x02030344  -> sub_02060E6C(arena)      returns the arena's first block
+ *   0x02030344  -> NNSi_FndGetListTotalSize(arena)      returns the arena's first block
  *   0x02030428  -> arena                    (this function)
  *   0x0203046C  -> the heap's record index, 0xffff on failure
  *   0x020304CC  -> a plain 1/0 validity answer (packet pkt_020304CC)

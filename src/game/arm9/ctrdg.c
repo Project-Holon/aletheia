@@ -19,7 +19,7 @@
  *   CTRDGi_LockByProcessor         0x020910D0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_ReadOwnerOfLockWord  0x02084EB0  arm
- *   func_02084DA4  0x02084DA4  arm
+ *   OS_TryLockCartridge  0x02084DA4  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   SVC_WaitByLoop  0x02004490  thumb
  *   OS_UnLockCartridge             0x02084D98  arm
@@ -83,7 +83,7 @@ extern u16 OS_GetLockID(void);
 extern void CTRDGi_LockByProcessor(u32 lockID, u32 *info);
 extern u32 OS_DisableInterrupts(void);
 extern unsigned short OS_ReadOwnerOfLockWord(char *lock);
-extern u32 func_02084DA4(u32 lockID);
+extern u32 OS_TryLockCartridge(u32 lockID);
 extern void OS_RestoreInterrupts(u32 state);
 extern void SVC_WaitByLoop(u32 cycles);
 extern void OS_UnLockCartridge(u16 lockID);
@@ -183,7 +183,7 @@ void CTRDGi_RestoreAccessCycle(CTRDGRomCycle *r)
 }
 
 /*
- *           callee func_02084DA4 (the only branch to it in the whole image
+ *           callee OS_TryLockCartridge (the only branch to it in the whole image
  *           is the one inside this file) has no witness outside
  *           020910D0..0209112C, so that one call site stays wildcarded.
  *           The C is byte-correct at every other offset: the file becomes
@@ -201,7 +201,7 @@ void CTRDGi_LockByProcessor(u32 lockID, u32 *lockInfo)
         lockInfo[0] = owner;
         if (owner != 0)
             return;
-        if (func_02084DA4(lockID) == 0)
+        if (OS_TryLockCartridge(lockID) == 0)
             return;
         OS_RestoreInterrupts(lockInfo[1]);
         SVC_WaitByLoop(1);

@@ -74,7 +74,7 @@
  *   OS_UnlockMutex                   0x02086078 arm
  *   OS_CreateThread                  0x020853C0 arm
  *   OS_WakeupThreadDirect            0x02085868 arm
- *   func_021797D4                    0x021797D4 arm ov009
+ *   DWC_Http_Abort                    0x021797D4 arm ov009
  *   DWC_Auth_Abort                   0x021780A8 arm ov009
  *   DWCi_Netcheck_StartThread                    0x0217AAF4 arm ov009
  *
@@ -244,7 +244,7 @@ extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
-extern void func_021797D4(DWCHttp *http);
+extern void DWC_Http_Abort(DWCHttp *http);
 extern void DWC_Auth_Abort(void);
 void DWCi_Netcheck_StartThread(void);
 static void DWCi_Netcheck_Thread(void *arg);
@@ -316,7 +316,7 @@ void DWC_Netcheck_Abort(void)
         return;
     }
     if (DWChttp.http != 0) {
-        func_021797D4(DWChttp.http);
+        DWC_Http_Abort(DWChttp.http);
     }
     DWC_Auth_Abort();
     if (DWChttp.nc->thread.id != 0 &&

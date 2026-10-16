@@ -63,7 +63,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
- *   func_020079BC  0x020079BC  thumb
+ *   BOX_SAVEDATA_GetPokemonValue  0x020079BC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
@@ -273,7 +273,7 @@ extern u8 func_02008570(const void *myStatus);
 extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 dataId, u32 arg);
-extern int func_020079BC(struct BoxData *boxData, u32 box, u32 slot, int dataId, int arg);
+extern int BOX_SAVEDATA_GetPokemonValue(struct BoxData *boxData, u32 box, u32 slot, int dataId, int arg);
 extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *saveControl);
 extern struct PokemonParam *BATTLE_BOX_GetMon(struct BattleBoxSave *battleBox, u32 team, u32 slot);
 extern u32 POKE_TOOL_GetBoxValue(struct PokemonParam *mon, u32 dataId, u32 arg);
@@ -708,9 +708,9 @@ int SCRCMD_CountBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 box, 
     int i;
 
     for (i = 0; i < BOX_SLOT_COUNT; i++) {
-        if (func_020079BC(boxData, box, i, MON_DATA_HAS_SPECIES, 0) != 0) {
-            if (func_020079BC(boxData, box, i, MON_DATA_IS_EGG, 0) == 0) {
-                u32 otId = func_020079BC(boxData, box, i, MON_DATA_OT_ID, 0);
+        if (BOX_SAVEDATA_GetPokemonValue(boxData, box, i, MON_DATA_HAS_SPECIES, 0) != 0) {
+            if (BOX_SAVEDATA_GetPokemonValue(boxData, box, i, MON_DATA_IS_EGG, 0) == 0) {
+                u32 otId = BOX_SAVEDATA_GetPokemonValue(boxData, box, i, MON_DATA_OT_ID, 0);
                 if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
                     added++;
                 }

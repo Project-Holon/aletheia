@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * sdk:      DWCi_CleanupReliableQueue (libdwcmatch.TWL.HYB.a dwc_reliable.o)
- * Tail call passing the address of func_02195CC0 as the first argument.
+ * Tail call passing the address of gt2Send as the first argument.
  *
  * symbols:
  *   DWC_Free    0x0205A1B0  arm
  *   gDwcReliableQueue  0x021AB178  data
- *   func_02195CC0  0x02195CC0  arm  ov009
+ *   gt2Send  0x02195CC0  arm  ov009
  *   DWC_Alloc       0x0205A16C  arm
  *   MIi_CpuCopy32   0x02082A90  arm
  *   gDwcReliableQueueHead 0x021AB178  data
@@ -36,7 +36,7 @@ typedef struct QueueInfo {
 } QueueInfo;
 
 extern void DWC_Free(int kind, void *p, int size);
-extern void func_02195CC0(void);
+extern void gt2Send(void);
 extern void *DWC_Alloc(int kind, int size);
 extern void MIi_CpuCopy32(void *src, void *dst, int size);
 static void DWCi_InitReliableQueue(void);
@@ -90,7 +90,7 @@ int DWCi_IsReliableQueueFree(void)
 
 int DWCi_ProcessReliableQueue(void)
 {
-    return DWCi_ProcessReliableQueueEx((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
+    return DWCi_ProcessReliableQueueEx((int (*)(void *, unsigned char *, int,  int))gt2Send);
 }
 
 

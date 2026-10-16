@@ -37,7 +37,7 @@
  *   WCMi_Notify  0x021659B4  arm  ov009
  *   NWM_Open     0x02702F38  arm  twl
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_021665CC     0x021665CC  arm  ov009
+ *   WCMi_CpsifSetMacAddress     0x021665CC  arm  ov009
  *   NWM_SetPowerSaveMode     0x027035F4  arm  twl
  *   NWM_SetReceivingFrameBuffer     0x0270379C  arm  twl
  *   WCMi_ShelterRssi  0x02166804  arm  ov009
@@ -48,7 +48,7 @@
  *   NWM_GetDispersionScanPeriod  0x02702998  arm  twl
  *   data_021A1988  0x021A1988  data ov009 a4
  *   data_021A1990  0x021A1990  data ov009 a4
- *   func_02165AF4    0x02165AF4  arm  ov009
+ *   WCMi_ResetKeepAliveAlarm    0x02165AF4  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
  *   WCMi_CpsifUnlockMutexInIRQ  0x02166594  arm  ov009
  *   WCMi_EntryApList  0x02165D04  arm  ov009
@@ -156,7 +156,7 @@ extern void DC_StoreRange(u32 buf, u32 len);
 extern u32 MATH_CountPopulation(u32 x);
 extern u32 NWM_Open(void *arg);
 extern void OS_GetMacAddress(void *mac);
-extern void func_021665CC(void *mac);
+extern void WCMi_CpsifSetMacAddress(void *mac);
 extern u32 NWM_SetPowerSaveMode(void *arg, u32 b);
 extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
 extern void WCMi_ShelterRssi(u8 v);
@@ -164,7 +164,7 @@ extern void WCMi_CpsifRecvCallback(u8 *a, u8 *b, u8 *c, u32 len);
 extern int NWM_Connect(void *cb, u8 flag, void *buf);
 extern unsigned long WCM_UpdateOption(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);
-extern void func_02165AF4(void);
+extern void WCMi_ResetKeepAliveAlarm(void);
 extern void OS_WakeupThread(void *queue);
 u32 WCMi_NwmifStartupAsync(void);
 u32 WCMi_NwmifCleanupAsync(void);
@@ -575,7 +575,7 @@ void WcmNwmcbCommon(u16 *arg)
             return;
         case 5:
             OS_GetMacAddress(mac);
-            func_021665CC(mac);
+            WCMi_CpsifSetMacAddress(mac);
             WCMi_SetPhase(3);
             WCMi_Notify(0, 0, 0, 790);
             return;
@@ -971,7 +971,7 @@ void WcmNwmcbSetDCFData(u16 *arg)
     }
     o->status = arg[1];
     if (arg[1] == 0) {
-        func_02165AF4();
+        WCMi_ResetKeepAliveAlarm();
     }
     OS_WakeupThread(&o->queue);
 }
@@ -996,7 +996,7 @@ void WcmNwmcbSetDCFDataAsync(void *arg)
     case 0xb:
         wcmiw->sendResult = cb->retcode;
         if (cb->retcode == 0) {
-            func_02165AF4();
+            WCMi_ResetKeepAliveAlarm();
         }
         switch (wcmiw->sendResult) {
         case 0:

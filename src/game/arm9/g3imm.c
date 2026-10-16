@@ -1,7 +1,7 @@
 /*
  * file:     g3imm.c
  * unit:     yes
- * function: func_0207D8C4, func_0207D8E0, func_0207D8FC, G3_MultMtx43, func_0207D934, G3_MultTransMtx33
+ * function: func_0207D8C4, G3_LoadMtx43, G3_MultMtx44, G3_MultMtx43, G3_MultMtx33, G3_MultTransMtx33
  * address:  0x0207D8C4
  * region:   arm9
  * compiler: dsi/1.1p1

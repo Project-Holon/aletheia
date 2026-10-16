@@ -25,7 +25,7 @@
  *   FS_OpenFile     0x02078C18  arm
  *   FS_CreateFileFromMemory 0x0207A940  arm
  *   FS_SeekFile             0x02078B44  arm
- *   func_02034734           0x02034734  arm
+ *   SAVEDATA_PanicFailPrintf           0x02034734  arm
  *   arc_tool_msg_member_range       0x020A7EEC  data
  *   arc_tool_msg_member_bounds  0x020A7F18  data
  *   func_0204968C  0x0204968C  arm
@@ -51,14 +51,14 @@
  *   ARC_UTIL_gPaletteLoadFns     0x020A1364  data
  *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
- *   func_0207F308  0x0207F308  arm
- *   func_0207F428  0x0207F428  arm
- *   func_0207F5B0  0x0207F5B0  arm
- *   func_0207F65C  0x0207F65C  arm
- *   func_0207F47C  0x0207F47C  arm
- *   func_0207F560  0x0207F560  arm
- *   func_0207F6A8  0x0207F6A8  arm
- *   func_0207F754  0x0207F754  arm
+ *   GX_BeginLoadBGExtPltt  0x0207F308  arm
+ *   GX_EndLoadBGExtPltt  0x0207F428  arm
+ *   GXS_BeginLoadBGExtPltt  0x0207F5B0  arm
+ *   GXS_EndLoadBGExtPltt  0x0207F65C  arm
+ *   GX_BeginLoadOBJExtPltt  0x0207F47C  arm
+ *   GX_EndLoadOBJExtPltt  0x0207F560  arm
+ *   GXS_BeginLoadOBJExtPltt  0x0207F6A8  arm
+ *   GXS_EndLoadOBJExtPltt  0x0207F754  arm
  *   NNS_G2dGetUnpackedCellBank  0x02062820  arm
  *   NNS_G2dGetUnpackedAnimBankEx  0x02062670  arm
  *   NNS_G2dGetUnpackedMultiCellBank  0x02062920  arm
@@ -144,7 +144,7 @@ extern void FS_CreateFileFromMemory(void *file, void *src, u32 size);
 
 extern int FS_SeekFile(struct ArcHandle *arc, u32 pos, u32 origin);
 
-extern void func_02034734(const char *file, u32 line, const char *msg, ...);
+extern void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *msg, ...);
 
 extern u32 func_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused);
 
@@ -188,21 +188,21 @@ extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, v
 
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
-extern void func_0207F308(void);
+extern void GX_BeginLoadBGExtPltt(void);
 
-extern void func_0207F428(void);
+extern void GX_EndLoadBGExtPltt(void);
 
-extern void func_0207F5B0(void);
+extern void GXS_BeginLoadBGExtPltt(void);
 
-extern void func_0207F65C(void);
+extern void GXS_EndLoadBGExtPltt(void);
 
-extern void func_0207F47C(void);
+extern void GX_BeginLoadOBJExtPltt(void);
 
-extern void func_0207F560(void);
+extern void GX_EndLoadOBJExtPltt(void);
 
-extern void func_0207F6A8(void);
+extern void GXS_BeginLoadOBJExtPltt(void);
 
-extern void func_0207F754(void);
+extern void GXS_EndLoadOBJExtPltt(void);
 
 extern int NNS_G2dGetUnpackedCellBank(int a, int *out);
 
@@ -441,7 +441,7 @@ void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32
  * between the two functions and the two pool words at 0x02048F44/0x02048F48
  * are inside the compared range: 2 sections, 368 bytes, no padding, 16 of 16
  * relocation sites resolved (attestation classes: label for the five SDK
- * entry points and func_02034734, literal for ARC_TOOL_gArchiveTable and the arc_tool.c
+ * entry points and SAVEDATA_PanicFailPrintf, literal for ARC_TOOL_gArchiveTable and the arc_tool.c
  * string, string for the assertion text).
  *
  * ---------------------------------------------------------------------------
@@ -547,7 +547,7 @@ u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size
     FS_SeekFile(arc, fatOffset + 4, 0);
     FS_ReadFile(arc, &info, 6);
     if (info.count <= memberIdx) {
-        func_02034734(arc_tool_file, 0xfb, arc_tool_msg_member_range, info.count,
+        SAVEDATA_PanicFailPrintf(arc_tool_file, 0xfb, arc_tool_msg_member_range, info.count,
                       memberIdx);
     }
 
@@ -831,7 +831,7 @@ void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID
     void *buf;
 
     if (arc->count <= memberIdx) {
-        func_02034734(arc_tool_file, 613, arc_tool_msg_member_bounds,
+        SAVEDATA_PanicFailPrintf(arc_tool_file, 613, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -863,7 +863,7 @@ void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst)
     u32 range[2];
 
     if (arc->count <= memberIdx) {
-        func_02034734(arc_tool_file, 642, arc_tool_msg_member_bounds,
+        SAVEDATA_PanicFailPrintf(arc_tool_file, 642, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -890,7 +890,7 @@ u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx)
     u32 range[2];
 
     if (arc->count <= memberIdx) {
-        func_02034734(arc_tool_file, 665, arc_tool_msg_member_bounds,
+        SAVEDATA_PanicFailPrintf(arc_tool_file, 665, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -923,7 +923,7 @@ void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 of
     u32 start;
 
     if (arc->count <= memberIdx) {
-        func_02034734(arc_tool_file, 689, arc_tool_msg_member_bounds,
+        SAVEDATA_PanicFailPrintf(arc_tool_file, 689, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -951,7 +951,7 @@ void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberIdx, u32
     u32 start;
 
     if (arc->count <= memberIdx) {
-        func_02034734(arc_tool_file, 713, arc_tool_msg_member_bounds,
+        SAVEDATA_PanicFailPrintf(arc_tool_file, 713, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -977,7 +977,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
     u32 start;
 
     if (arc->count <= memberIdx) {
-        func_02034734(arc_tool_file, 725, arc_tool_msg_member_bounds,
+        SAVEDATA_PanicFailPrintf(arc_tool_file, 725, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -1508,24 +1508,24 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
         DWCi_ScreenDC_FlushRange(pltt->data, size);
         switch (kind) {
         case 2:
-            func_0207F308();
+            GX_BeginLoadBGExtPltt();
             ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
-            func_0207F428();
+            GX_EndLoadBGExtPltt();
             break;
         case 6:
-            func_0207F5B0();
+            GXS_BeginLoadBGExtPltt();
             ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
-            func_0207F65C();
+            GXS_EndLoadBGExtPltt();
             break;
         case 3:
-            func_0207F47C();
+            GX_BeginLoadOBJExtPltt();
             ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
-            func_0207F560();
+            GX_EndLoadOBJExtPltt();
             break;
         case 7:
-            func_0207F6A8();
+            GXS_BeginLoadOBJExtPltt();
             ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
-            func_0207F754();
+            GXS_EndLoadOBJExtPltt();
             break;
         case 0:
         case 1:

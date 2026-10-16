@@ -38,7 +38,7 @@
  *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  *   gBuildModelAnimInitTable     0x021D3D58  data   a4
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
- *   func_02047804  0x02047804  arm
+ *   G3D_SYSTEM_ResetObjectAnimeFrame  0x02047804  arm
  *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
  *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
  *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
@@ -277,7 +277,7 @@ extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
 extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-extern u32 func_02047804(struct AnmCtl *c, u16 idx);
+extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(struct AnmCtl *c, u16 idx);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
 extern void G3D_SYSTEM_DeleteAnime(void *p);
@@ -937,7 +937,7 @@ void FIELD_BUILDMODEL_InitAnimSetAll(void *man, BuildModelAnimSet *set)
     n = anims[2];
     for (i = 0; i < BUILDMODEL_ANIM_SLOTS && i < n; i++) {
         G3D_SYSTEM_EnableObjectAnime(set->anim, (u16)i);
-        func_02047804(set->anim, i);
+        G3D_SYSTEM_ResetObjectAnimeFrame(set->anim, i);
         set->slotState[i] = 1;
     }
     for (; i < BUILDMODEL_ANIM_SLOTS; i++)
@@ -956,7 +956,7 @@ void FIELD_BUILDMODEL_InitAnimSetSeason(BuildModelMan *man, BuildModelAnimSet *s
             set->slotState[i] = 0;
         } else {
             G3D_SYSTEM_EnableObjectAnime(set->anim, (u16)i);
-            func_02047804(set->anim, i);
+            G3D_SYSTEM_ResetObjectAnimeFrame(set->anim, i);
             set->slotState[i] = 1;
         }
     }
@@ -1003,7 +1003,7 @@ void FIELD_BUILDMODEL_UpdateAnimSetSeason(BuildModelMan *man, BuildModelAnimSet 
     if (FIELD_BUILDMODEL_GetSeasonChanged(&man->season) != 0) {
         FIELD_BUILDMODEL_ResetAnimSet(set);
         G3D_SYSTEM_EnableObjectAnime(set->anim, (u16)slot);
-        func_02047804(set->anim, slot);
+        G3D_SYSTEM_ResetObjectAnimeFrame(set->anim, slot);
         set->slotState[slot] = 1;
     } else {
         G3D_SYSTEM_LoopObjectAnimeFrame(set->anim, (u16)slot, 0x1000);
@@ -1055,7 +1055,7 @@ void FIELD_BUILDMODEL_StartGroupOpening(BuildModelAnimSet *set, int group)
     int i;
     for (i = 0; i < anims[2]; i++) {
         G3D_SYSTEM_EnableObjectAnime(set->anim, (u16)(base + i));
-        func_02047804(set->anim, base + i);
+        G3D_SYSTEM_ResetObjectAnimeFrame(set->anim, base + i);
         set->slotState[base + i] = BUILDMODEL_SLOT_OPENING;
     }
 }
@@ -1070,7 +1070,7 @@ void FIELD_BUILDMODEL_StartGroupLoop(BuildModelAnimSet *set, int group)
     int i;
     for (i = 0; i < anims[2]; i++) {
         G3D_SYSTEM_EnableObjectAnime(set->anim, (u16)(base + i));
-        func_02047804(set->anim, base + i);
+        G3D_SYSTEM_ResetObjectAnimeFrame(set->anim, base + i);
         set->slotState[base + i] = BUILDMODEL_SLOT_LOOP;
     }
 }

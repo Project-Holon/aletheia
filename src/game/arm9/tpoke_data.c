@@ -1,7 +1,7 @@
 /*
  * file:     tpoke_data.c
  * unit:     yes
- * function: TPOKE_DATA_Create, func_0202A170, TPOKE_DATA_GetRecordIndex, TPOKE_DATA_IsRecordKindTwo, TPOKE_DATA_FindEntryIndex, TPOKE_DATA_GetEntryIndex, TPOKE_DATA_GetRecordPtr, TPOKE_DATA_GetRecordField, TPOKE_DATA_FindRecord, TPOKE_DATA_ReadRecordString, TPOKE_DATA_ReadRecord, TPOKE_DATA_ReadParty, TPOKE_DATA_GetGenderValue, TPOKE_DATA_FindTrainerType, TPOKE_DATA_GetTrainerKind, TPOKE_DATA_GetTrainerGroup
+ * function: TPOKE_DATA_Create, TPOKE_Delete, TPOKE_DATA_GetRecordIndex, TPOKE_DATA_IsRecordKindTwo, TPOKE_DATA_FindEntryIndex, TPOKE_DATA_GetEntryIndex, TPOKE_DATA_GetRecordPtr, TPOKE_DATA_GetRecordField, TPOKE_DATA_FindRecord, TPOKE_DATA_ReadRecordString, TPOKE_DATA_ReadRecord, TPOKE_DATA_ReadParty, TPOKE_DATA_GetGenderValue, TPOKE_DATA_FindTrainerType, TPOKE_DATA_GetTrainerKind, TPOKE_DATA_GetTrainerGroup
  * address:  0x0202A128
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -34,6 +34,7 @@
  *   TPOKE_DATA_ReadRecord  0x0202A3AC  thumb
  *   MIi_CpuCopy16  0x02082A60  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
+ *   NET_DEVICE_TABLE_RemapId  0x0200F128  thumb
  */
 struct ArcFile;
 struct MsgBank;
@@ -134,7 +135,7 @@ u8 TPOKE_DATA_GetTrainerKind(u32 key);
 u32 TPOKE_DATA_GetTrainerGroup(u32 key);
 extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
-extern int   func_0200F128(int index);
+extern int   NET_DEVICE_TABLE_RemapId(int index);
 Tpoke *TPOKE_DATA_Create(int heap);
 void TPOKE_Delete(Tpoke *tpoke);
 u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype);
@@ -272,7 +273,7 @@ u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype)
 }
 
 
-int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = func_0200F128((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
+int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = NET_DEVICE_TABLE_RemapId((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
 
 
 u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)

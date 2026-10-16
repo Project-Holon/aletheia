@@ -1,7 +1,7 @@
 /*
  * file:     soc.c
  * unit:     yes
- * function: func_0215F428, func_0215F454, func_0215F480, func_0215F4DC, SOC_RecvFrom, func_0215F590, func_0215F5B4, SOC_Shutdown, SOC_Close, SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, SOC_U32to4U8, SOC_Poll
+ * function: SOC_Socket, func_0215F454, SOC_Connect, SOC_Recv, SOC_RecvFrom, SOC_Send, func_0215F5B4, SOC_Shutdown, SOC_Close, SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, SOC_U32to4U8, SOC_Poll
  * address:  0x0215F428
  * region:   ov009
  * compiler: dsi/1.1p1

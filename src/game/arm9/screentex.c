@@ -17,7 +17,7 @@
  *   SCREENTEX_WorkTemplate     0x020A033C  data
  *   screentex_File     0x020A77E0  data
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
- *   func_02046C9C  0x02046C9C  arm
+ *   G3D_SYSTEM_InitResourceByKind  0x02046C9C  arm
  *   NNS_G3dTexGetRequiredSize  0x02069FD0  arm
  *   NNS_G3dTexSetTexKey  0x02069FF8  arm
  *   NNS_G3dGetTex  0x0206E964  arm
@@ -80,7 +80,7 @@ extern int G3D_SYSTEM_GetResourceSize(void);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
-extern void func_02046C9C(void *control, u32 kind, u32 value);
+extern void G3D_SYSTEM_InitResourceByKind(void *control, u32 kind, u32 value);
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
@@ -182,7 +182,7 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount)
     control = GFL_HEAP_Alloc(heapId, G3D_SYSTEM_GetResourceSize(), 0, screentex_File, 0x3b);
     work = GFL_HEAP_Alloc(heapId, 0x8c, 0, screentex_File, 0x3c);
     MI_CpuCopy8(SCREENTEX_WorkTemplate, work, 0x8c);
-    func_02046C9C(control, 2, (u32)work);
+    G3D_SYSTEM_InitResourceByKind(control, 2, (u32)work);
     texHeader = NNS_G3dGetTex(work);
     texSize = NNS_G3dTexGetRequiredSize((int)texHeader);
     vramBanks = GX_GetBankForTex();

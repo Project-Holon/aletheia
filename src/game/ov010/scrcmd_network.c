@@ -113,7 +113,7 @@
  *   GAME_EVENT_Change  0x0201232C  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
- *   func_021A0EE4  0x021A0EE4  thumb  ov021
+ *   FIELD_SUBSCREEN_ResolveMode  0x021A0EE4  thumb  ov021
  *   func_020355D8  0x020355D8  arm
  *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
  *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
@@ -423,7 +423,7 @@ extern struct MoveModelSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern u32 ZONEDATA_IsZone96Pair(u32 zoneId);
 extern u32 FIELD_SUBSCREEN_GetMode(struct FieldCommLink *link);
-extern int func_021A0EE4(struct FieldCommLink *link, int a);
+extern int FIELD_SUBSCREEN_ResolveMode(struct FieldCommLink *link, int a);
 extern void func_020355D8(u8 value);
 extern int FIELD_SUBSCREEN_IsIdle(struct FieldCommLink *link);
 extern int FIELD_SUBSCREEN_RequestMode(struct FieldCommLink *link, u32 a);
@@ -1303,7 +1303,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *
         linkMode = 4;
         break;
     default:
-        linkMode = func_021A0EE4(FIELDMAP_GetSubscreen(work->fieldMap), 0);
+        linkMode = FIELD_SUBSCREEN_ResolveMode(FIELDMAP_GetSubscreen(work->fieldMap), 0);
         break;
     }
     work->linkMode = linkMode;

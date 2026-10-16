@@ -44,7 +44,7 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
- *   func_02007664  0x02007664  thumb
+ *   BOX_SAVEDATA_ClearPokemon  0x02007664  thumb
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
  *   func_0200752C  0x0200752C  thumb
  *   WORLDTRADE_ADAPTER_ClearWindowScreen 0x02202644 thumb ov135
@@ -229,7 +229,7 @@ extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
 
 extern void WORLDTRADE_SetPokemon(void *dest, const void *src, u32 a2);
 
-extern void func_02007664(void *, unsigned, unsigned);
+extern void BOX_SAVEDATA_ClearPokemon(void *, unsigned, unsigned);
 
 extern void *POKEPARTY_GetMember(void *, unsigned);
 
@@ -381,7 +381,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag)
         mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
         WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)func_02007A18(p->ctx->save, p->box, p->slot), (u32)mon);
         if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
-        func_02007664(p->ctx->save, p->box, p->slot);
+        BOX_SAVEDATA_ClearPokemon(p->ctx->save, p->box, p->slot);
         GFL_HEAP_Free(mon);
     } else {
         mon = POKEPARTY_GetMember(p->ctx->party, p->slot);
