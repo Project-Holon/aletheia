@@ -26,7 +26,7 @@
  *   CARD_WaitBackupAsync           0x02076B80  arm
  *   _WriteDone  0x020A789C  data
  *   _AccessBusy     0x02146998  data
- *   func_02075DD8  0x02075DD8  arm
+ *   CARD_GetResultCode  0x02075DD8  arm
  *   CARD_TryWaitBackupAsync 0x02076B8C  arm
  *   CARD_CancelBackupAsync 0x02076B98  arm
  */
@@ -46,7 +46,7 @@ extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback
                                        void *arg, int is_async, int req_type,
                                        int req_retry, int req_mode);
 extern int  CARD_WaitBackupAsync(void);
-extern u32  func_02075DD8(void);
+extern u32  CARD_GetResultCode(void);
 extern u32  CARD_TryWaitBackupAsync(void);
 extern void CARD_CancelBackupAsync(void);
 int FLASH_ACCESS_Identify(u32 unused_arg);
@@ -195,7 +195,7 @@ int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error)
         OS_ReleaseLockID(lock_id);
         _AccessBusy = 0;
 
-        switch (func_02075DD8()) {
+        switch (CARD_GetResultCode()) {
         case 0:
             *success = 1;
             break;

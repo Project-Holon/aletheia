@@ -1,7 +1,7 @@
 /*
  * file:     wcm_wmif.c
  * unit:     yes
- * function: WCMi_WmifStartupAsync, WCMi_WmifCleanupAsync, WCMi_WmifBeginSearchAsync, WCMi_WmifConnectAsync, WCMi_WmifDisconnectAsync, WCMi_WmifTerminateAsync, WCMi_WmifSetDCFData, func_02166DE4, func_02166E5C, func_02166EB0, WcmWmcbCommon, WcmWmcbScanEx, WcmWmcbEndScan, WcmWmcbConnect, WcmWmcbDisconnect, WcmWmcbStartDCF, WcmWmcbEndDCF, func_021679C0, WcmEditScanExParam, func_02167DE0, WcmWmcbSetDCFDataAsync
+ * function: WCMi_WmifStartupAsync, WCMi_WmifCleanupAsync, WCMi_WmifBeginSearchAsync, WCMi_WmifConnectAsync, WCMi_WmifDisconnectAsync, WCMi_WmifTerminateAsync, WCMi_WmifSetDCFData, WCMi_WmifGetAllowedChannel, WcmWmReset, WcmWmcbIndication, WcmWmcbCommon, WcmWmcbScanEx, WcmWmcbEndScan, WcmWmcbConnect, WcmWmcbDisconnect, WcmWmcbStartDCF, WcmWmcbEndDCF, WcmWmcbReset, WcmEditScanExParam, WcmWmcbSetDCFData, WcmWmcbSetDCFDataAsync
  * address:  0x02166880
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -21,8 +21,8 @@
  *   OS_GetMacAddress 0x02087C6C  arm
  *   WCMi_CpsifSetMacAddress    0x021665CC  arm  ov009
  *   WM_Enable    0x0208F224  arm
- *   func_02166EB0    0x02166EB0  arm  ov009
- *   func_02166F24    0x02166F24  arm  ov009
+ *   WcmWmcbIndication    0x02166EB0  arm  ov009
+ *   WcmWmcbCommon    0x02166F24  arm  ov009
  *   WCMi_GetSystemWork               0x021657c8 arm
  *   WM_PowerOff                      0x0208f328 arm
  *   WCMi_SetPhase                    0x02165a4c arm
@@ -39,11 +39,11 @@
  *   WM_Disable  0x0208F2A0  arm
  *   WM_PowerOff  0x0208F328  arm
  *   WM_Reset  0x0208F400  arm
- *   func_021679C0  0x021679C0  arm  ov009
+ *   WcmWmcbReset  0x021679C0  arm  ov009
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  *   WM_SetDCFData  0x0208FF0C  arm
  *   OS_SleepThread  0x020857B0  arm
- *   func_02167DE0  0x02167DE0  arm  ov009
+ *   WcmWmcbSetDCFData  0x02167DE0  arm  ov009
  *   WcmWmcbSetDCFDataAsync  0x02167E20  arm  ov009
  *   WM_GetAllowedChannel            0x0208ee60 arm
  *   WM_Reset                         0x0208f400 arm
@@ -67,7 +67,7 @@
  *   WcmWmcbEndScan            0x02167448 arm ov009
  *   WM_StartDCF         0x0208fe64 arm
  *   WcmWmcbStartDCF     0x021677a4 arm ov009
- *   func_02166E5C  0x02166E5C  arm  ov009
+ *   WcmWmReset  0x02166E5C  arm  ov009
  *   WCMi_Notify  0x021659B4  arm  ov009
  *   WCMi_ShelterRssi    0x02166804  arm  ov009
  *   WCMi_CpsifRecvCallback    0x02166358  arm  ov009

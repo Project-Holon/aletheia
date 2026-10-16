@@ -132,6 +132,8 @@
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
  *   GF_FONT_CountLines  0x0201D42C  thumb  arm9
  *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
+ *   IRC_RANKING_IsEntryNew  0x0200A9A4  thumb  arm9
+ *   IRC_RANKING_AddEntry  0x0200AA68  thumb  arm9
  */
 #include "irc_result_types.h"
 
@@ -310,13 +312,13 @@ extern void *GAMESYSTEM_GetGameData(const void *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(void *gameData);
 extern void *IRC_RANKING_GetFromSave(struct SaveControl *);
 extern u32 func_02008530(const u8 *key);
-extern int func_0200A9A4(void *record, u32 v);
+extern int IRC_RANKING_IsEntryNew(void *record, u32 v);
 extern struct ItemBag *GAME_DATA_GetMyItem(void *gameData);
 extern u32 func_02007FB8(struct ItemBag *,u16,u16);
 extern u32 func_02007E50(struct ItemBag *,u16,u16,u16);
 extern void *func_020084F4(const u8 *key);
 extern u8 func_02008550(const u8 *key);
-extern u8 func_0200AA68(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
+extern u8 IRC_RANKING_AddEntry(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
 extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(void *gameData);
 extern u32 func_02008DF0(struct TrainerRecord *record, int i);
 
@@ -974,7 +976,7 @@ int IRC_RESULT_GiveReward(IrcResult *work)
     record=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->context->gameSystem)));
     partner=work->context->partner;
     key=partner->myStatus;
-    if(!func_0200A9A4(record,func_02008530(key)) && work->context->gameSystem) {
+    if(!IRC_RANKING_IsEntryNew(record,func_02008530(key)) && work->context->gameSystem) {
         bag=GAME_DATA_GetMyItem(GAMESYSTEM_GetGameData(work->context->gameSystem));
         quantity=func_02007FB8(bag,IRC_RESULT_REWARD_ITEM,60);
         switch(quantity) {
@@ -989,7 +991,7 @@ int IRC_RESULT_GiveReward(IrcResult *work)
     if(work->context->partner) {
         src=func_020084F4(key);
         flag=func_02008550(key)?0:1;
-        func_0200AA68(record,src,work->context->score,(u8)flag,partner->birthMonth,partner->birthDay,func_02008530(key),partner->leadSpecies,partner->leadType2,partner->leadType1,partner->leadNature);
+        IRC_RANKING_AddEntry(record,src,work->context->score,(u8)flag,partner->birthMonth,partner->birthDay,func_02008530(key),partner->leadSpecies,partner->leadType2,partner->leadType1,partner->leadNature);
     }
     if(work->context->gameSystem) func_02008DF0(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->context->gameSystem)),IRC_RESULT_TRAINER_RECORD);
     return result;

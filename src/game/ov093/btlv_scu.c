@@ -230,6 +230,7 @@
  *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
  *   GF_FONT_CopyLine  0x0201D37C  thumb  arm9
+ *   GF_FONT_InitCallerSuppliedArray  0x0201D33C  thumb  arm9
  */
 #include "btlv_scu_types.h"
 #include "btlv_core_types.h"
@@ -416,7 +417,7 @@ extern int PALANM_RequestFade(void *slots, u16 mode, u16 mask, s16 start, u8 end
 extern u32 PALANM_GetFadeRequestBits(const char *slots);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern u32 func_0201D33C(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
+extern u32 GF_FONT_InitCallerSuppliedArray(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
 extern u32 GF_FONT_MeasureWidestLine(struct MsgBuf *buf, void *font, u32 start);
 extern u32 GF_FONT_CopyLine(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
@@ -3060,7 +3061,7 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
     MIi_CpuCopy32(plate->scu->nameGfx->pixels + plate->sideIdx * 0x900, pixels, size);
     GF_FONT_SetTextColor(1, 2, 0);
     BTL_MSG_FormatArgs(scu->wordBuf0, 0x67, 2, plate->pokeId, plate->speciesId);
-    if ((u8)func_0201D33C(scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
+    if ((u8)GF_FONT_InitCallerSuppliedArray(scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
         width = widths[0];
         edge = width + 8;
         right = 0x84 - widths[1];

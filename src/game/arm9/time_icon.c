@@ -62,7 +62,7 @@
  *   ZONEDATA_IsRawZoneGroup4CTo69   0x02014034  thumb
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *   FILE_UTIL_Check12E4  0x020212E4  thumb
- *   func_02007084  0x02007084  thumb
+ *   SAVE_CONTROL_Delete  0x02007084  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
@@ -302,7 +302,7 @@ extern u32 POKE_TOOL_IsBoxShiny(struct SaveData *save);
 
 extern u32 FILE_UTIL_Check12E4(u16 value);
 
-extern void func_02007084(void);
+extern void SAVE_CONTROL_Delete(void);
 
 extern int GFL_NET_GetRunState(void);
 
@@ -1466,7 +1466,7 @@ void APP_POWER_SetCallback(u32 on)
  */
 void APP_POWER_Main(u32 mode)
 {
-    func_02007084();
+    SAVE_CONTROL_Delete();
     APP_POWER_ResetDisplay(mode);
     if (GFL_NET_GetRunState()) {
         GFL_NET_ClearExitFlag();

@@ -1,7 +1,7 @@
 /*
  * file:     os_message.c
  * unit:     yes
- * function: OS_InitMessageQueue, OS_SendMessage, OS_ReceiveMessage, func_02085EF0, OS_ReadMessage
+ * function: OS_InitMessageQueue, OS_SendMessage, OS_ReceiveMessage, OS_JamMessage, OS_ReadMessage
  * address:  0x02085D94
  * region:   arm9
  * compiler: dsi/1.1p1

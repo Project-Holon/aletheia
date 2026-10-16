@@ -1,7 +1,7 @@
 /*
  * file:     os_ownerinfo.c
  * unit:     yes
- * function: OS_GetMacAddress, OS_GetOwnerInfo, func_02087D08
+ * function: OS_GetMacAddress, OS_GetOwnerInfo, OS_GetOwnerRtcOffset
  * address:  0x02087C6C
  * region:   arm9
  * compiler: dsi/1.1p1

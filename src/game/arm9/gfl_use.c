@@ -41,13 +41,13 @@
  *   ov011_id        0x0000000B  data
  *   BRIGHTNESS_ChangeMain  0x02023FD8  thumb
  *   WIPE_SYS_Main  0x02022174  thumb
- *   func_0200F734  0x0200F734  thumb
+ *   GFL_NET_ERR_CheckNetError  0x0200F734  thumb
  *   GFL_USE_UpdateSound  0x02005BC0  thumb
  *   PM_VOICE_StopFinished  0x020065FC  thumb
  *   GAME_BEACON_Update  0x02026728  thumb
  *   GPOWER_CountDownTimers  0x02010DCC  thumb
  *   GFL_USE_SetStereoOutput  0x02005C28  thumb
- *   sub_02008390  0x02008390  thumb
+ *   CONFIG_GetSoundMode  0x02008390  thumb
  *   OS_Init       0x02086368  arm
  *   OS_InitTick         0x02086FE8  arm
  *   OS_InitAlarm        0x02087208  arm
@@ -155,6 +155,13 @@
  *   TCB_GetTaskOffset  0x02030CB0  arm
  *   TCB_Init  0x02030CBC  arm
  *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GFL_NET_ERR_CreateHeap  0x0200F6B8  thumb
+ *   GFL_NET_ERR_Init  0x0200F6D8  thumb
+ *   SAVEDATA_SetPanicHandlers  0x020346EC  arm
+ *   GF_OVERLAY_RegisterPanicHandlers  0x02034978  arm
+ *   GF_OVERLAY_Init  0x0203499C  arm
+ *   UI_Create  0x02034E24  arm
+ *   SNDARC_IsGroupLoaded  0x02074A54  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -327,8 +334,8 @@ extern struct SaveData *func_020070A4(void);
 extern struct Config *func_0200873C(struct SaveData *save);
 extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
 extern void MSG_SPEED_SetSaveControl(struct SaveData *save);
-extern void func_0200F6B8(void);
-extern void func_0200F6D8(u32 kind);
+extern void GFL_NET_ERR_CreateHeap(void);
+extern void GFL_NET_ERR_Init(u32 kind);
 extern void SAVEDATA_SetFailHook(u32 handler);
 extern void WORDSET_LoadSpeciesNameBank(u16 heapId);
 extern void POKE_TOOL_InitSystem(u32 heapId);
@@ -341,12 +348,12 @@ extern void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out);
 extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
 extern void BRIGHTNESS_ChangeMain(void);
 extern void WIPE_SYS_Main(void);
-extern void func_0200F734(void);
+extern void GFL_NET_ERR_CheckNetError(void);
 extern void GFL_USE_UpdateSound(void);
 extern void PM_VOICE_StopFinished(void);
 extern void GAME_BEACON_Update(void);
 extern void GPOWER_CountDownTimers(void);
-extern unsigned int sub_02008390(const struct Config *config);
+extern unsigned int CONFIG_GetSoundMode(const struct Config *config);
 extern void GFL_USE_SetStereoOutput(u32 stereo);
 extern void OS_Init(void);
 extern void OS_InitTick(void);
@@ -384,10 +391,10 @@ extern void  GFL_HEAP_CreateChildHeap(u32 arenaId, u32 heapId, u32 size);
 extern void  GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 heapId);
 extern void  GF_STANDARD_Init(u32 mode);
 extern void ARC_TOOL_SetTable(u32 table, u32 count);
-extern void func_02034E24(u32 heapId, u8 mode);
-extern void  func_02034978(void);
-extern void func_020346EC(u32 mode, u32 flags, u32 waitCallback);
-extern void func_0203499C(u32 heapId, int n0, int n1, int n2);
+extern void UI_Create(u32 heapId, u8 mode);
+extern void  GF_OVERLAY_RegisterPanicHandlers(void);
+extern void SAVEDATA_SetPanicHandlers(u32 mode, u32 flags, u32 waitCallback);
+extern void GF_OVERLAY_Init(u32 heapId, int n0, int n1, int n2);
 extern void  PROCSYS_CreateGlobal(u32 heapId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
 extern u32   TCB_GetTaskOffset(u32 capacity);
@@ -430,7 +437,7 @@ extern void NNS_SndArcInit(char *arc, char *path, struct SndHeap *heap, u32 risk
 extern void SNDEXi_Init(void);
 extern u32 NNS_SndArcPlayerSetup(struct SndHeap *heap);
 extern void *NNS_SndArcGetGroupInfo(int index);
-extern void func_02074A54(int index, struct SndHeap *heap);
+extern void SNDARC_IsGroupLoaded(int index, struct SndHeap *heap);
 /* Sound manager calls carried over from pm_voice.c. */
 extern void  NNS_SndBoot(void);
 extern u32   NNS_SndReadDriverInfo(void);
@@ -690,8 +697,8 @@ void GFL_USE_InitGameSystems(void)
     SAVE_CONTROL_Create(7);
     CONFIG_ApplyAppliedFlag(func_0200873C(func_020070A4()));
     MSG_SPEED_SetSaveControl(func_020070A4());
-    func_0200F6B8();
-    func_0200F6D8(8);
+    GFL_NET_ERR_CreateHeap();
+    GFL_NET_ERR_Init(8);
     SAVEDATA_SetFailHook((u32)&GFL_NET_ERR_ExitAndHalt);
     WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
@@ -718,7 +725,7 @@ void GFL_USE_UpdateFrameSubsystems(void)
 {
     BRIGHTNESS_ChangeMain();
     WIPE_SYS_Main();
-    func_0200F734();
+    GFL_NET_ERR_CheckNetError();
     GFL_USE_UpdateSound();
     PM_VOICE_StopFinished();
     GAME_BEACON_Update();
@@ -731,7 +738,7 @@ void GFL_USE_UpdateFrameSubsystems(void)
  * disassembly in asm/arm9/src/000_02004000.s.
  *
  * One function of the boot path, 26 bytes: a test on a two-bit field of the
- * object passed in r0 (sub_02008390 reads it), whose two arms pass 1 and 0
+ * object passed in r0 (CONFIG_GetSoundMode reads it), whose two arms pass 1 and 0
  * to the same one argument routine.  Both arms keep their own call and their
  * own `pop`, which is what an `if`/`else` with a call in each arm compiles to;
  * they are not tail merged, so the call is inside the arms in the source and
@@ -752,7 +759,7 @@ void GFL_USE_UpdateFrameSubsystems(void)
  */
 void GFL_USE_ApplySoundModeFromConfig(const struct Config *config)
 {
-    if (sub_02008390(config) == 0) {
+    if (CONFIG_GetSoundMode(config) == 0) {
         GFL_USE_SetStereoOutput(1);
     } else {
         GFL_USE_SetStereoOutput(0);
@@ -842,13 +849,13 @@ void GFL_USE_PollPowerExit(void)
  *
  * One eight byte tail call, the shape
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes: a pool word and a
- * `bx`, no prologue, no argument set up.  sub_02005230 calls it as the first
+ * `bx`, no prologue, no argument set up.  GFL_USE_PostIrqUpdate calls it as the first
  * half of its two step init.
  *
  * The range is one function wide because of its neighbours rather than
  * because of itself.  Immediately before it is the linker veneer at
  * 0x02005428, which is not compiled code at all and cannot be inside any
- * unit.  Immediately after it, sub_02005438 is the same eight byte shape
+ * unit.  Immediately after it, GFL_USE_CtrdgDummyInit is the same eight byte shape
  * around CTRDG_DummyInit at 0x020911A0, and the only word in the image that
  * holds 0x020911A0 is that function's own pool word, so the `literal` class
  * discards its only witness and no cut can help.  See the near miss register
@@ -901,7 +908,7 @@ void GFL_USE_OnPreExit(void)
  * Closed in wave 14.  The pool was misread by one word in the older note
  * (docs/notes/GFL_USE_InitSystem.c.txt): 0x020A6C58 is ARC_TOOL_SetTable's argument
  * and 0x02005769 (GFL_USE_WaitInputReady, src/matched/unit_0200575C.c) is
- * func_020346EC's third, and the two words 0x0202F769 / 0x0202F775 are
+ * SAVEDATA_SetPanicHandlers's third, and the two words 0x0202F769 / 0x0202F775 are
  * Thumb pointers to two unlabelled callback leaves of time_icon.c, filed
  * EXACT this wave as src/matched/APP_POWER_ClearCallback.c and APP_POWER_SetCallback.c, which
  * is what attests them (`matched`).  _ArenaTableTwl / _ArenaTableDs now resolve on
@@ -937,15 +944,15 @@ void GFL_USE_InitSystem(void)
 
     GF_STANDARD_Init(0);
     ARC_TOOL_SetTable((u32)_ArcPathTable, 0xEB);
-    func_02034E24(0, 0);
+    UI_Create(0, 0);
 
     if (OS_GetConsoleType() & 0x81000000) {
-        func_02034978();
+        GF_OVERLAY_RegisterPanicHandlers();
     } else {
-        func_020346EC(0, 0, (u32)GFL_USE_WaitInputReady);
+        SAVEDATA_SetPanicHandlers(0, 0, (u32)GFL_USE_WaitInputReady);
     }
 
-    func_0203499C(0, 0x10, 4, 4);
+    GF_OVERLAY_Init(0, 0x10, 4, 4);
     PROCSYS_CreateGlobal(0);
 
     _GflUse.runtime = GFL_HEAP_Alloc(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
@@ -996,7 +1003,7 @@ void GFL_USE_PollFrameInput(void)
  *
  * The record's +0x10 is the object src/matched/unit_020056A0.c calls its
  * heaps; the two files name it separately because each pins its own address
- * block.  The range stops at 0x0200567C because sub_0200567C is held open by
+ * block.  The range stops at 0x0200567C because GFL_USE_RunMainTasks is held open by
  * one unresolved call site; see the near miss register in the header of
  * src/matched/unit_020056A0.c.
  *
@@ -1120,7 +1127,7 @@ void GFL_USE_RunMainTasks(void)
  *       contiguous range makes the site `local`.
  *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
  *       GFL_USE_PollTwlService is the `bl` at 0x02005232 and the only caller of
- *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
+ *       GFL_USE_RunMainTasks is the `bl` at 0x02005236.  Same obstruction as above in
  *       both directions at once.
  *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
  *       `label` with a census of one, plus 0x020A0480 whose only literal
@@ -1131,7 +1138,7 @@ void GFL_USE_RunMainTasks(void)
  *   0x02005328..0x020053E4, 188 bytes.  11 unresolved sites.  Two are
  *       structural rather than merely rare: the veneer at 0x020053E4, whose
  *       only witness is the `blx` at 0x020053AA, and the pool word at
- *       0x020053DC naming sub_02005440, an address no other word or branch in
+ *       0x020053DC naming GFL_USE_OnPreExit, an address no other word or branch in
  *       the image mentions.
  *   0x020053EC..0x02005420, 52 bytes.  The veneers at 0x02005420 and
  *       0x02005428, each witnessed only by its own call site at 0x02005400
@@ -1690,7 +1697,7 @@ void GFL_USE_ResetSound(int clearHeap)
     GFL_USE_SetSndStackHeap(&_SndState.heap);
     if (clearHeap != 0) {
         NNS_SndArcGetGroupInfo(0);
-        func_02074A54(0, _SndState.heap);
+        SNDARC_IsGroupLoaded(0, _SndState.heap);
         _SndState.currentBgm = 0;
     }
     GFL_USE_InitSeSlots();

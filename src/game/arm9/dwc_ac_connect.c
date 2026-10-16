@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_connect.c
  * unit:     yes
- * function: DWCi_AC_ConnectAP, ConnectStart, ConnectAP, GetConnectType, func_0205B790, func_0205B7B0, GetWepKey
+ * function: DWCi_AC_ConnectAP, ConnectStart, ConnectAP, GetConnectType, GetPowerMode, GetAuthMode, GetWepKey
  * address:  0x0205B33C
  * region:   arm9
  * compiler: dsi/1.1p1

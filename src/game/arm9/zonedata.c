@@ -745,7 +745,7 @@ u32 ZONEDATA_GetBgmId(u32 id, u32 which)
  *           ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled
  *
  * alias: continues the run of leaf accessors on the record ZONEDATA_GetHeader()
- * returns for a given id.  sub_02013BDC, the dense-switch dispatcher
+ * returns for a given id.  ZONEDATA_GetBgmId, the dense-switch dispatcher
  * immediately before this range, is a documented near miss and is not in
  * this file; see its header note for why.
  *
@@ -756,16 +756,16 @@ u32 ZONEDATA_GetBgmId(u32 id, u32 which)
  * for it.  The halfword at +0x1e is five single-bit flags at bits 10, 12,
  * 13, 14 and 15 (bit 11 has no accessor in this range).
  *
- * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
+ * Near miss: ZONEDATA_IsRailMap, ZONEDATA_HasSpecialKind and ZONEDATA_GetSpecialKind (0x02013C70 to
  * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls ZONEDATA_IsChangedZoneInTable (defined in the neighbouring packet)
+ * ZONEDATA_IsRailMap tail calls ZONEDATA_IsChangedZoneInTable (defined in the neighbouring packet)
  * through a pool word, and also holds a pointer to sub_02013C70_Table
- * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
+ * (0x0209E010); ZONEDATA_GetSpecialKind searches sub_02013C9C_Table (0x0209E026).  All
  * three addresses are named in the image only inside this same 88-byte
  * range: the other five images of the ZONEDATA_IsChangedZoneInTable pointer are themselves
  * unlabelled leaf thunks (data words, not literal pools, in the same
- * function's neighbourhood further down this file), sub_02013C9C's only
- * caller anywhere is sub_02013C80 one function above it, and neither table
+ * function's neighbourhood further down this file), ZONEDATA_GetSpecialKind's only
+ * caller anywhere is ZONEDATA_HasSpecialKind one function above it, and neither table
  * is referenced from anywhere else at all.  No cut of this file moves any
  * of those three witnesses outside the range that needs them, so this is
  * the "only caller in the ROM" case from docs/MATCHING.md rather than
@@ -853,7 +853,7 @@ int ZONEDATA_GetSpecialKind(u16 key)
  *
  * alias: a run of id-classification predicates on the remapped id
  * ZONEDATA_GetChangedZoneId() returns, plus ZONEDATA_IsNoGameEventZone, which is a plain disjunction
- * of three of them.  sub_02013C70/C80/C9C, immediately before this file,
+ * of three of them.  ZONEDATA_IsRailMap/C80/C9C, immediately before this file,
  * and ZONEDATA_IsZoneGroup118To13C, immediately after it, are documented near misses and
  * are not in this file; see unit_02013C10.c and unit_02013D9C.c.
  *
@@ -938,7 +938,7 @@ int ZONEDATA_IsZoneGroup118To13C(u32 key)
  * immediately follows and is not in this file.  Both tail call
  * ZONEDATA_IsChangedZoneInTable (defined in the neighbouring packet) through a pool word
  * over a different fixed table (0x0209DFC0 count 4, 0x0209DFEC count 9),
- * the same shape as sub_02013C70 in unit_02013C10.c, and for the same
+ * the same shape as ZONEDATA_IsRailMap in unit_02013C10.c, and for the same
  * reason: every other place either pointer or table address appears in the
  * image is itself one of these unlabelled thunks rather than a literal pool
  * or a direct call, so neither has an attestable witness outside its own
@@ -1012,7 +1012,7 @@ int ZONEDATA_IsZoneInTableDFEC(u16 a0)
  * 0x70, the same non-foldable-immediate shape documented in
  * unit_02013CC8.c for ZONEDATA_IsZone96Pair and ZONEDATA_IsZone4BPair.
  *
- * Near miss: sub_02013E90 (0x02013E90 to 0x02013EC0, 48 bytes) reproduces
+ * Near miss: ZONEDATA_IsSameMatrixGroup (0x02013E90 to 0x02013EC0, 48 bytes) reproduces
  * every concrete byte of its first half (the va==vb case) but the two
  * remaining special cases (0 and 0xaf treated as equivalent to each other)
  * compile to a different shared-exit shape than the original under every
@@ -1103,7 +1103,7 @@ u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b)
  * A whole translation unit, matched as one byte range.
  *
  * alias: the last two leaf accessors on the record ZONEDATA_GetHeader() returns,
- * and the end of pkt_02013BA8.  sub_02013E90, immediately before this
+ * and the end of pkt_02013BA8.  ZONEDATA_IsSameMatrixGroup, immediately before this
  * file, is a documented near miss; see unit_02013DF0.c.
  *
  * Verified with:
@@ -1144,11 +1144,11 @@ u32 ZONEDATA_GetEventDataId(u32 id)
  * sit at offsets 0x44/0x43, immediately after this file's range in the
  * struct, and are declared again in unit_02014034.c.
  *
- * Near miss: sub_02013FA8 (0x02013FA8..0x02013FD8, 48 bytes), a five entry
+ * Near miss: ZONEDATA_GetSecondSpecialKind (0x02013FA8..0x02013FD8, 48 bytes), a five entry
  * table lookup unrelated to the cache object, reproduces every concrete
  * byte and caps at MATCH: the only pool word anywhere in the image that
  * names its table address is its own, so the honesty rule refuses the
- * witness.  Parked at src/pending/sub_02013FA8.c.
+ * witness.  Parked at src/pending/ZONEDATA_GetSecondSpecialKind.c.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02013ED8.c \

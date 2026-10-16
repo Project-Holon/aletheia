@@ -1,7 +1,7 @@
 /*
  * file:     os_event.c
  * unit:     yes
- * function: func_020882DC, OS_WaitEventEx, OS_SignalEvent
+ * function: OS_InitEvent, OS_WaitEventEx, OS_SignalEvent
  * address:  0x020882DC
  * region:   arm9
  * compiler: dsi/1.1p1

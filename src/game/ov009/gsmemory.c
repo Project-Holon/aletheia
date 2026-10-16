@@ -1,7 +1,7 @@
 /*
  * file:     gsmemory.c
  * unit:     yes
- * function: _gsi_memalign, func_0217EA9C, gsimalloc, gsirealloc, gsifree
+ * function: _gsi_memalign, gsiMemoryCallbacksSet, gsimalloc, gsirealloc, gsifree
  * address:  0x0217EA7C
  * region:   ov009
  * compiler: dsi/1.1p1

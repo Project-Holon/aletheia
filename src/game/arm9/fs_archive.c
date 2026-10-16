@@ -1,7 +1,7 @@
 /*
  * file:     fs_archive.c
  * unit:     yes
- * function: func_02077634, func_0207765C, FSi_WaitForArchiveCompletion, FSi_InvokeCommand, FSi_NextCommand, FSi_ExecuteAsyncCommand, FSi_ExecuteSyncCommand, FSi_SendCommand, FS_FindArchive, FS_SetCurrentDirectory, FSi_CopySafeString, func_02078078, FS_InitArchive, FS_RegisterArchiveName, FS_ReleaseArchiveName, FS_GetArchiveName, FS_MountArchive, FS_UnmountArchive, FS_SuspendArchive, FS_ResumeArchive, FS_NotifyArchiveAsyncEnd
+ * function: FSi_IsEventCommand, FSi_EndCommand, FSi_WaitForArchiveCompletion, FSi_InvokeCommand, FSi_NextCommand, FSi_ExecuteAsyncCommand, FSi_ExecuteSyncCommand, FSi_SendCommand, FS_FindArchive, FS_SetCurrentDirectory, FSi_CopySafeString, FS_NormalizePath, FS_InitArchive, FS_RegisterArchiveName, FS_ReleaseArchiveName, FS_GetArchiveName, FS_MountArchive, FS_UnmountArchive, FS_SuspendArchive, FS_ResumeArchive, FS_NotifyArchiveAsyncEnd
  * address:  0x02077634
  * region:   arm9
  * compiler: dsi/1.1p1

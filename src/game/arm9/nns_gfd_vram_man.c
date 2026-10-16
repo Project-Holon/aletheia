@@ -31,6 +31,10 @@
  *   GX_EndLoadTex  0x0207F9B4  arm
  *   GX_BeginLoadTexPltt  0x0207FA0C  arm
  *   GX_LoadTexPltt  0x0207FA40  arm
+ *   GX_BeginLoadClearImage  0x0207FB2C  arm
+ *   GX_LoadClearImageColor  0x0207FBBC  arm
+ *   GX_LoadClearImageDepth  0x0207FC48  arm
+ *   GX_EndLoadClearImage  0x0207FCE4  arm
  */
 
 typedef unsigned char  u8;
@@ -58,10 +62,10 @@ extern void GX_EndLoadTex(void);
 extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(u32 a, u32 b, u32 c);
 extern void GX_EndLoadTexPltt(void);
-extern void func_0207FB2C(void);
-extern void func_0207FBBC(u32 a, u32 c);
-extern void func_0207FCE4(void);
-extern void func_0207FC48(u32 a, u32 c);
+extern void GX_BeginLoadClearImage(void);
+extern void GX_LoadClearImageColor(u32 a, u32 c);
+extern void GX_EndLoadClearImage(void);
+extern void GX_LoadClearImageDepth(u32 a, u32 c);
 u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
 void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst);
 void NNSi_GfdSetVramManagerWork(void *p0);
@@ -362,9 +366,9 @@ void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
  */
 void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
 {
-    func_0207FB2C();
-    func_0207FBBC(a, c);
-    func_0207FCE4();
+    GX_BeginLoadClearImage();
+    GX_LoadClearImageColor(a, c);
+    GX_EndLoadClearImage();
 }
 
 
@@ -384,9 +388,9 @@ void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
  */
 void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c)
 {
-    func_0207FB2C();
-    func_0207FC48(a, c);
-    func_0207FCE4();
+    GX_BeginLoadClearImage();
+    GX_LoadClearImageDepth(a, c);
+    GX_EndLoadClearImage();
 }
 
 

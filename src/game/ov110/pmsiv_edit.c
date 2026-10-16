@@ -84,7 +84,7 @@
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02005624 0x02005624 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   func_021BBE80 0x021BBE80 thumb ov110
+ *   GX_GetVCount 0x021BBE80 thumb ov110
  *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   func_02049B68 0x02049B68 arm

@@ -64,7 +64,7 @@
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_02010EB4  0x02010EB4  thumb
+ *   GPOWER_GetActiveIdByType  0x02010EB4  thumb
  *   GPOWER_GetMinutesLeftByType  0x02010EC0  thumb
  */
 typedef unsigned char  u8;
@@ -137,7 +137,7 @@ extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct GPowerSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
 extern u8 INTRUDE_GetMonolithLevel(struct GPowerSave *gpowerSave);
 extern void MSGDATA_ReadString(struct MsgData *msgData, u32 msgId, struct Strbuf *dst);
-extern u8 func_02010EB4(int type);
+extern u8 GPOWER_GetActiveIdByType(int type);
 extern u32 GPOWER_GetMinutesLeftByType(u32 type);
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
 struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem);
@@ -360,7 +360,7 @@ void GPOWER_EVENT_PrintPowerList(GPowerListWork *work)
     /* The `for (i = 0, count = 0; ...)` form (not `count = 0;` before the loop) keeps the constant zero in r4 across the calls and seeds i from it. */
     for (i = 0, count = 0; i < 13; i++) {
         order[i] = i;
-        powerId = (int)func_02010EB4((u8)i);
+        powerId = (int)GPOWER_GetActiveIdByType((u8)i);
         if (powerId != GPOWER_ID_NONE) {
             minutesLeft[count] = GPOWER_GetMinutesLeftByType(i);
             powerIds[count] = powerId;

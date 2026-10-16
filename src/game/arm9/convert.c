@@ -1,7 +1,7 @@
 /*
  * file:     convert.c
  * unit:     yes
- * function: RTC_ConvertDateToDay, RTCi_ConvertTimeToSecond, RTC_ConvertDateTimeToSecond, RTC_ConvertDayToDate, RTCi_ConvertSecondToTime, RTC_ConvertSecondToDateTime, func_02089274
+ * function: RTC_ConvertDateToDay, RTCi_ConvertTimeToSecond, RTC_ConvertDateTimeToSecond, RTC_ConvertDayToDate, RTCi_ConvertSecondToTime, RTC_ConvertSecondToDateTime, RTC_GetDayOfWeek
  * address:  0x02088F58
  * region:   arm9
  * compiler: dsi/1.1p1

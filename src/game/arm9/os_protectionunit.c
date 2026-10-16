@@ -1,7 +1,7 @@
 /*
  * file:     os_protectionunit.c
  * unit:     yes
- * function: func_02086CF4, OS_DisableProtectionUnit
+ * function: OS_EnableProtectionUnit, OS_DisableProtectionUnit
  * address:  0x02086CF4
  * region:   arm9
  * compiler: dsi/1.1p1

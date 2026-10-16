@@ -98,7 +98,7 @@
  *   PMS_DRAW_SetFollowBgScroll 0x0202DE68 thumb
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   sub_0202DBC4  0x0202DBC4  thumb
+ *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -517,7 +517,7 @@ extern void PMS_DRAW_SetPrintColor(struct PmsDraw *,u16);
 extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
 extern void PMS_DRAW_Delete(struct ClactActor *p);
-extern int sub_0202DBC4(u32);
+extern int PMS_DRAW_Main(u32);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -1213,13 +1213,13 @@ void BEACON_DETAIL_GRA_DeleteListWindows(char *p)
 
 
 /*
- * Tail-call getter: loads p[0x56] and tail-calls sub_0202DBC4.
+ * Tail-call getter: loads p[0x56] and tail-calls PMS_DRAW_Main.
  *
  * Addresses are Black-image addresses.
  */
 int BEACON_DETAIL_GRA_IsPmsActive(u32 *p)
 {
-    return sub_0202DBC4(p[0x56]);
+    return PMS_DRAW_Main(p[0x56]);
 }
 
 
@@ -1540,7 +1540,7 @@ void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
  * extern void STRBUF_Clear(void *dest);
  * extern void STRBUF_SetChars(void *dest, const void *src, u16 len);
  * extern void MSGDATA_DecryptStrbuf(void *dest, u32 index);
- * extern u8 func_020461B8(const void *file);
+ * extern u8 MSGDATA_GetLanguageIndex(const void *file);
  * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *bank);
  *

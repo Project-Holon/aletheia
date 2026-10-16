@@ -37,7 +37,7 @@
  *   PM_PrependPreSleepCallback  0x0208C808  arm
  *   PM_AppendPostSleepCallback  0x0208C828  arm
  *   PM_DeletePreSleepCallback  0x0208C86C  arm
- *   func_0208C884  0x0208C884  arm
+ *   PM_DeletePostSleepCallback  0x0208C884  arm
  *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   SND_FlushCommand  0x02089B38  arm
  *   SND_WaitForCommandProc  0x02089CD4  arm
@@ -73,7 +73,7 @@ extern unsigned short SND_CalcChannelVolume(int dB);
 extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
 extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
 extern void PM_DeletePreSleepCallback(void *p);
-extern void func_0208C884(void *p);
+extern void PM_DeletePostSleepCallback(void *p);
 extern u32  SND_GetCurrentCommandTag(void);
 extern void SND_FlushCommand(u32 a);
 extern void SND_WaitForCommandProc(u32 a);
@@ -281,7 +281,7 @@ void NNS_SndStrmStop(SndStrm *strm)
         u32 saved;
         SND_StopTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
         PM_DeletePreSleepCallback(&strm->alarm[0]);
-        func_0208C884(&strm->alarm[1]);
+        PM_DeletePostSleepCallback(&strm->alarm[1]);
         strm->isStarted = 0;
         saved = SND_GetCurrentCommandTag();
         SND_FlushCommand(1);

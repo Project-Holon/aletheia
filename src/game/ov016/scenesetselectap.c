@@ -20,7 +20,7 @@
  *       --func procInit2 --addr 0x021CBFA8 --region ov016 --cc 1.1p1 --arm --lang c99
  * Call input, draw, button.
  * Addresses are Black-image addresses.
- *   python tools/match.py one --src src/matched/func_021CBFD8.c \
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetSelectAp_procScene.c \
  *       --func procScene --addr 0x021CBFD8 --region ov016 --cc dsi/1.1p1 --arm
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetselectap), symbol input (name and prototype from the vendor object DWARF).
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CBFEC.c \

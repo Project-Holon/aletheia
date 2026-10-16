@@ -1,7 +1,7 @@
 /*
  * file:     gpibuddy.c
  * unit:     yes
- * function: gpiSendAuthBuddyRequest, gpiProcessRecvBuddyMessage, gpiProcessRecvBuddyStatusInfo, gpiProcessRecvBuddyList, gpiSendServerBuddyMessage, gpiSendBuddyMessage, gpiBuddyHandleKeyRequest, gpiBuddyHandleKeyReply, func_02188FD8, gpiFixBuddyIndices, gpiDeleteBuddy, gpiBuddyDeletedLocally
+ * function: gpiSendAuthBuddyRequest, gpiProcessRecvBuddyMessage, gpiProcessRecvBuddyStatusInfo, gpiProcessRecvBuddyList, gpiSendServerBuddyMessage, gpiSendBuddyMessage, gpiBuddyHandleKeyRequest, gpiBuddyHandleKeyReply, gpiAuthBuddyRequest, gpiFixBuddyIndices, gpiDeleteBuddy, gpiBuddyDeletedLocally
  * address:  0x02187010
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -94,7 +94,7 @@
  *   gpiAddPeer  0x0218F150  arm   ov009
  *   gpiPeerGetSig  0x0218F1E0  arm   ov009
  *   gpiPeerStartConnect  0x0218F248  arm   ov009
- *   func_0218F884  0x0218F884  arm   ov009
+ *   gpiPeerAddOp  0x0218F884  arm   ov009
  *   gpiPeerAddMessage  0x0218F350  arm   ov009
  *   gpiSaveKeysToBuffer  0x0218DA40  arm   ov009
  *   strcmp  0x020948E0  arm
@@ -182,7 +182,7 @@ extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile
 extern GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate);
 extern int gpiPeerGetSig(void **connection, GPIPeer *peer);
 extern int gpiPeerStartConnect(void **connection, GPIPeer *peer);
-extern void func_0218F884(GPIPeer *peer, GPIPeerOp *operation);
+extern void gpiPeerAddOp(GPIPeer *peer, GPIPeerOp *operation);
 extern GPResult gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message);
 extern int gpiSaveKeysToBuffer(void **connection, char **buffer);
 extern void gsifree(void *ptr);
@@ -794,7 +794,7 @@ int gpiSendBuddyMessage(void **connection, int profileid, int type, char *messag
         }
     }
     if (peerOp != 0)
-        func_0218F884(peer, peerOp);
+        gpiPeerAddOp(peer, peerOp);
     result = gpiPeerAddMessage(connection, peer, type, message);
     if (result != GP_NO_ERROR)
         return result;

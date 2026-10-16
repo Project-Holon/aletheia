@@ -1,7 +1,7 @@
 /*
  * file:     gx_bgcnt.c
  * unit:     yes
- * function: G2_GetBG0ScrPtr, func_0207DF94, G2_GetBG1ScrPtr, func_0207DFE8, G2_GetBG2ScrPtr, G2S_GetBG2ScrPtr, G2_GetBG3ScrPtr, G2S_GetBG3ScrPtr, G2_GetBG0CharPtr, G2S_GetBG0CharPtr, G2_GetBG1CharPtr, G2S_GetBG1CharPtr, G2_GetBG2CharPtr, G2S_GetBG2CharPtr, G2_GetBG3CharPtr, G2S_GetBG3CharPtr
+ * function: G2_GetBG0ScrPtr, G2S_GetBG0ScrPtr, G2_GetBG1ScrPtr, G2S_GetBG1ScrPtr, G2_GetBG2ScrPtr, G2S_GetBG2ScrPtr, G2_GetBG3ScrPtr, G2S_GetBG3ScrPtr, G2_GetBG0CharPtr, G2S_GetBG0CharPtr, G2_GetBG1CharPtr, G2S_GetBG1CharPtr, G2_GetBG2CharPtr, G2S_GetBG2CharPtr, G2_GetBG3CharPtr, G2S_GetBG3CharPtr
  * address:  0x0207DF60
  * region:   arm9
  * compiler: dsi/1.1p1

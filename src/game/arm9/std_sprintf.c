@@ -1,7 +1,7 @@
 /*
  * file:     std_sprintf.c
  * unit:     yes
- * function: func_0208D708, func_0208D734, func_0208D788, STD_TSPrintf, STD_TSNPrintf, func_0208D834
+ * function: string_put_char, string_fill_char, string_put_string, STD_TSPrintf, STD_TSNPrintf, STD_TVSNPrintf
  * address:  0x0208D708
  * region:   arm9
  * compiler: dsi/1.1p1

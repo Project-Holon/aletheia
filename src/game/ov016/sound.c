@@ -27,7 +27,7 @@
  *   NNS_SndPlayerSetPlayableSeqCount  0x02072DB0  arm
  *   NNS_SndPlayerSetAllocatableChannel  0x02072DD0  arm
  *   DWCi_TSKlForm  0x021D7680  arm  ov016
- *   func_021D0034  0x021D0034  arm  ov016
+ *   taskSound  0x021D0034  arm  ov016
  *   gSoundWork  0x021DE648  data
  *   sSoundTable  0x021DB8D4  data
  *   DWCi_TSKlDelete  0x021D7724  arm  ov016
@@ -59,7 +59,7 @@ extern void NNS_SndPlayerSetPlayerVolume();
 extern void NNS_SndPlayerSetPlayableSeqCount();
 extern void NNS_SndPlayerSetAllocatableChannel();
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void func_021D0034(void);
+extern void taskSound(void);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_HEAPlFree_(void **mem);
 extern u32 NNS_SndArcPlayerStartSeqArc(u32 a, u32 b, u32 c);
@@ -98,7 +98,7 @@ void DWCi_SNDlInit(void)
 		NNS_SndPlayerSetPlayableSeqCount(playerNo, 1);
 		NNS_SndPlayerSetAllocatableChannel(playerNo, 0);
 	}
-	gSoundWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))func_021D0034, 0, 0xc8);
+	gSoundWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskSound, 0, 0xc8);
 }
 
 

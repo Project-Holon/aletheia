@@ -1,7 +1,7 @@
 /*
  * file:     internal.c
  * unit:     yes
- * function: func_02088EEC, func_02088EFC, func_02088F0C, func_02088F1C, RtcSendPxiCommand
+ * function: RTCi_ReadRawDateTimeAsync, RTCi_ReadRawDateAsync, RTCi_ReadRawTimeAsync, RTCi_WriteRawStatus2Async, RtcSendPxiCommand
  * address:  0x02088EEC
  * region:   arm9
  * compiler: dsi/1.1p1

@@ -1,7 +1,7 @@
 /*
  * file:     mb_common.c
  * unit:     yes
- * function: func_021F3C80, func_021F3CB8
+ * function: MBi_BlockHeaderEnd, MBi_calc_cksum
  * address:  0x021F3C80
  * region:   ov107
  * compiler: dsi/1.1p1

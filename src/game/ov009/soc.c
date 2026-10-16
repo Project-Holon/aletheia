@@ -1,7 +1,7 @@
 /*
  * file:     soc.c
  * unit:     yes
- * function: SOC_Socket, func_0215F454, SOC_Connect, SOC_Recv, SOC_RecvFrom, SOC_Send, func_0215F5B4, SOC_Shutdown, SOC_Close, SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, SOC_U32to4U8, SOC_Poll
+ * function: SOC_Socket, SOC_Bind, SOC_Connect, SOC_Recv, SOC_RecvFrom, SOC_Send, SOC_SendTo, SOC_Shutdown, SOC_Close, SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, AllocFunc_SOCL, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, SOC_U32to4U8, SOC_Poll
  * address:  0x0215F428
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -31,8 +31,8 @@
  *   SOCL_GetHostID   0x0215ef48 arm
  *   SOCL_SetResolver  0x0215EEE0  arm  ov009
  *   SOCL_Startup  0x0215CA8C  arm  ov009
- *   func_0215F8A4  0x0215F8A4  arm  ov009
- *   func_0215F8D0  0x0215F8D0  arm  ov009
+ *   AllocFunc_SOCL  0x0215F8A4  arm  ov009
+ *   FreeFunc_SOCL  0x0215F8D0  arm  ov009
  *   gSoclStartupConfig     0x021AA50C  data
  *   SOCL_Cleanup  0x0215EBF0  arm  ov009
  *   _ZZ12SOC_InetNtoA9SOCInAddrE6buffer   0x021aa4ec data
@@ -43,6 +43,7 @@
  *   SOCL_GetStatus  0x0215EFB0  arm  ov009
  *   OS_Sleep  0x02085A38  arm
  *   SOCL_Close  0x0215E84C  arm
+ *   SOCL_Shutdown  0x0215E6B8  arm
  */
 #define SWAP16(x) ((unsigned short)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
@@ -144,7 +145,7 @@ extern int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *re
 extern int SOCL_WriteTo(int s, void *buffer, int buffer_len,
                         unsigned short remote_port, unsigned long remote_ip,
                         int flags);
-extern int func_0215E6B8(int s);
+extern int SOCL_Shutdown(int s);
 extern int SOCL_Close(int s);
 extern unsigned long SOCL_Resolve(char *hostname);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -302,7 +303,7 @@ int SOC_SendTo(int s, void * buf, int len, int flags, void * sockTo)
  */
 int SOC_Shutdown(int s, int how)
 {
-    return func_0215E6B8(s);
+    return SOCL_Shutdown(s);
 }
 
 

@@ -542,11 +542,11 @@ void WORDSET_SetSlotPmsWord(struct WordSet *words, u32 slot, u32 pmsWord)
 }
 
 /*
- * Promoted from src/pending/sub_0201EFFC.c: every concrete byte was
+ * Promoted from src/pending/WORDSET_SetSlotMarkerFlag.c: every concrete byte was
  * already reproduced, and the one relocation, the call to
  * PMSI_PARAM_ValidateDecoValue, was capped at MATCH because the only branch to that
  * address anywhere in the image is the one inside this function. Now
- * that src/matched/sub_0202473C.c is an EXACT entry, the `matched` class
+ * that src/matched/PMSI_PARAM_ValidateDecoValue.c is an EXACT entry, the `matched` class
  * attests the call without needing a second caller (docs/MATCHING.md,
  * "the matched class"), and this file closes to EXACT.
  *
@@ -557,7 +557,7 @@ void WORDSET_SetSlotPmsWord(struct WordSet *words, u32 slot, u32 pmsWord)
  * the `ldr r2, [sp]` after it are that, not a spill.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201EFFC.c \
+ *   python tools/match.py one --src src/matched/WORDSET_SetSlotMarkerFlag.c \
  *       --func WORDSET_SetSlotMarkerFlag --addr 0x0201EFFC --cc 1.1p1 --thumb
  */
 void WORDSET_SetSlotMarkerFlag(struct WordSet *words, u32 slot, u32 markerFlag)
@@ -573,7 +573,7 @@ void WORDSET_SetSlotMarkerFlag(struct WordSet *words, u32 slot, u32 markerFlag)
 /*
  * Three of the wordset.c setters, cut off at 0x0201F094 because the function
  * there is the only caller of 0x02025B94 anywhere in the image and so cannot
- * be attested; see src/pending/sub_0201F094.c.  The rest of the run continues
+ * be attested; see src/pending/WORDSET_DeleteMsgdataF094.c.  The rest of the run continues
  * in src/matched/unit_0201F0F8.c.
  *
  * WORDSET_SetSlotFromMsgE7 renders message 0xE7 with an argument and falls back to
@@ -618,11 +618,11 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
 }
 
 /*
- * Promoted from src/pending/sub_0201F094.c: every concrete byte was
+ * Promoted from src/pending/WORDSET_DeleteMsgdataF094.c: every concrete byte was
  * already reproduced, and the one relocation, the call to
  * BMP_OAM_Get, was capped at MATCH because the only branch to that
  * address anywhere in the image is the one inside this function. Now
- * that src/matched/sub_02025B94.c is an EXACT entry, the `matched` class
+ * that src/matched/BMP_OAM_Get.c is an EXACT entry, the `matched` class
  * attests the call without needing a second caller, and this file closes
  * to EXACT.
  *
@@ -633,7 +633,7 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
  * it can now be folded back in on a future pass.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201F094.c \
+ *   python tools/match.py one --src src/matched/WORDSET_DeleteMsgdataF094.c \
  *       --func WORDSET_DeleteMsgdataF094 --addr 0x0201F094 --cc 1.1p1 --thumb
  */
 void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 entryIndex)
@@ -825,7 +825,7 @@ void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201F250.c \
+ *   python tools/match.py one --src src/matched/WORDSET_CopyTaggedText.c \
  *       --func WORDSET_CopyTaggedText --addr 0x0201F250 --cc 1.1p1 --thumb
  */
 void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src)

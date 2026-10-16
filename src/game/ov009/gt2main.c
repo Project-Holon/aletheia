@@ -1,7 +1,7 @@
 /*
  * file:     gt2main.c
  * unit:     yes
- * function: gt2CreateSocket, gt2CloseSocket, func_02195AF0, gt2Listen, gt2Accept, gt2Reject, gt2Connect, gt2Send, gt2CloseConnectionHard, func_02195DD4, gt2CloseAllConnectionsHard, gt2GetConnectionState, gt2GetRemoteIP, gt2GetRemotePort, gt2GetLocalIP, gt2GetLocalPort, gt2GetOutgoingBufferSize, gt2GetOutgoingBufferFreeSpace, gt2GetSocketSOCKET, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
+ * function: gt2CreateSocket, gt2CloseSocket, gt2Think, gt2Listen, gt2Accept, gt2Reject, gt2Connect, gt2Send, gt2CloseConnectionHard, gti2CloseAllConnectionsHardMap, gt2CloseAllConnectionsHard, gt2GetConnectionState, gt2GetRemoteIP, gt2GetRemotePort, gt2GetLocalIP, gt2GetLocalPort, gt2GetOutgoingBufferSize, gt2GetOutgoingBufferFreeSpace, gt2GetSocketSOCKET, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
  * address:  0x02195AB4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -30,9 +30,11 @@
  *   ArrayLength             0x02184200 arm
  *   gti2SendFilterCallback  0x02195278 arm
  *   gti2Send                0x02197CE0 arm
- *   func_02195980  0x02195980  arm  ov009
+ *   gti2CloseConnection  0x02195980  arm  ov009
  *   gt2CloseConnectionHard       0x02195DC4  arm  ov009
- *   func_0218489C  0x0218489C  arm  ov009
+ *   TableMapSafe  0x0218489C  arm  ov009
+ *   gti2AcceptConnection  0x0219569C  arm
+ *   gti2RejectConnection  0x021956F8  arm
  */
 #include "gt2main_types.h"
 
@@ -49,8 +51,8 @@ extern int gti2ReceiveMessages(struct GTI2Socket *socket);
 extern int gti2SocketConnectionsThink(struct GTI2Socket *socket);
 extern void gti2FreeClosedConnections(struct GTI2Socket *socket);
 extern void gti2SetConnectAttemptCallback(GTI2Socket *socket, void *connectAttemptCallback);
-extern int func_0219569C(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
-extern void func_021956F8(void);
+extern int gti2AcceptConnection(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
+extern void gti2RejectConnection(void);
 extern int gt2StringToAddress();
 extern int gti2NewOutgoingConnection();
 extern int gti2StartConnectionAttempt();
@@ -61,8 +63,8 @@ extern int ArrayLength(void *array);
 extern int gti2SendFilterCallback(void *connection, int filterID,
     unsigned char *message, int len, int reliable);
 extern int gti2Send(void *connection, unsigned char *message, int len, int reliable);
-extern void func_02195980(int a, int b);
-extern void func_0218489C(int a, char *p, int c);
+extern void gti2CloseConnection(int a, int b);
+extern void TableMapSafe(int a, char *p, int c);
 int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
 void gt2CloseSocket(void *p);
 void gt2Think(struct GTI2Socket *socket);
@@ -143,14 +145,14 @@ void gt2Listen(GTI2Socket *socket, void *connectAttemptCallback)
  */
 int gt2Accept(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks)
 {
-    return func_0219569C(connection, callbacks);
+    return gti2AcceptConnection(connection, callbacks);
 }
 
 
 
 void gt2Reject(void)
 {
-    func_021956F8();
+    gti2RejectConnection();
 }
 
 static void gti2CloseAllConnectionsHardMap(void **elem);
@@ -237,7 +239,7 @@ int gt2Send(void *connection, unsigned char *message, int len, int reliable)
  */
 void gt2CloseConnectionHard(int a)
 {
-    func_02195980(a, 1);
+    gti2CloseConnection(a, 1);
 }
 
 
@@ -255,7 +257,7 @@ static void gti2CloseAllConnectionsHardMap(void **elem)
  */
 void gt2CloseAllConnectionsHard(int *p)
 {
-    func_0218489C(p[3], (char *)gti2CloseAllConnectionsHardMap, 0);
+    TableMapSafe(p[3], (char *)gti2CloseAllConnectionsHardMap, 0);
 }
 
 

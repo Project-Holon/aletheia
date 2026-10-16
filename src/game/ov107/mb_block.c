@@ -1,7 +1,7 @@
 /*
  * file:     mb_block.c
  * unit:     yes
- * function: func_021F6804, func_021F6830, MBi_ClearParentPieceBuffer, MBi_MakeParentSendBuffer, MBi_SetRecvBufferFromChild, MBi_ReceiveRequestDataPiece, IsGetAllRequestData
+ * function: MBi_SetChildMPMaxSize, MBi_SetParentPieceBuffer, MBi_ClearParentPieceBuffer, MBi_MakeParentSendBuffer, MBi_SetRecvBufferFromChild, MBi_ReceiveRequestDataPiece, IsGetAllRequestData
  * address:  0x021F6804
  * region:   ov107
  * compiler: dsi/1.1p1

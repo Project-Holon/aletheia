@@ -1,7 +1,7 @@
 /*
  * file:     procsys.c
  * unit:     yes
- * function: PROCSYS_CreateGlobal, PROCSYS_MainGlobal, PROCSYS_PushGlobal, PROCSYS_ReplaceGlobal, PROCSYS_Create, PROCSYS_Main, PROCSYS_Delete, PROCSYS_Push, PROCSYS_CreateInternal, PROCSYS_PushQueued, PROCSYS_MainInternal, func_020314B8, func_020314DC, PROCSYS_PushInternal, PROCSYS_NewProc, PROCSYS_FreeProc, PROCSYS_AllocProcWork, PROCSYS_FreeProcWork, PROCSYS_StepProc
+ * function: PROCSYS_CreateGlobal, PROCSYS_MainGlobal, PROCSYS_PushGlobal, PROCSYS_ReplaceGlobal, PROCSYS_Create, PROCSYS_Main, PROCSYS_Delete, PROCSYS_Push, PROCSYS_CreateInternal, PROCSYS_PushQueued, PROCSYS_MainInternal, PROCSYS_DeleteInternal, PROCSYS_QueueReplace, PROCSYS_PushInternal, PROCSYS_NewProc, PROCSYS_FreeProc, PROCSYS_AllocProcWork, PROCSYS_FreeProcWork, PROCSYS_StepProc
  * address:  0x0203129C
  * region:   arm9
  * compiler: dsi/1.1p1

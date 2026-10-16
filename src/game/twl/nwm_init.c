@@ -28,6 +28,7 @@
  *   DC_StoreRange  0x020862D4  arm  arm9
  *   OS_IsAvailableWireless  0x02087DC4  arm  arm9
  *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
+ *   OS_IsForceDisableWireless  0x02087E84  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -71,7 +72,7 @@ u32 NWMi_CheckEnableFlag(void);
 extern CamBuf *data_027341A4;
 extern u8 data_027341A0[];
 extern u32 OS_IsAvailableWireless(void);
-extern u32 func_02087E84(void);
+extern u32 OS_IsForceDisableWireless(void);
 
 
 u32 NWM_Init(CamBuf *buf, u32 size, u32 mode) {
@@ -143,7 +144,7 @@ u32 NWMi_CheckInitialized(void) {
 
 u32 NWMi_CheckEnableFlag(void) {
     if (OS_IsAvailableWireless() == 1) {
-        if (func_02087E84() == 0) {
+        if (OS_IsForceDisableWireless() == 0) {
             return 1;
         }
     }

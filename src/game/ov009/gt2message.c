@@ -53,7 +53,7 @@
  *   func_02197D5C  0x02197D5C  arm  ov009
  *   gti2DumpCallback  0x02195408  arm  ov009
  *   gti2UnrecognizedMessageCallback  0x021954F4  arm  ov009
- *   func_021955C0  0x021955C0  arm  ov009
+ *   gti2NewIncomingConnection  0x021955C0  arm  ov009
  *   gGti2PacketMagic     0x021A5948  data
  *   gti2SocketFindConnection  0x02197D5C  arm  ov009
  *   gti2DumpCallback          0x02195408  arm  ov009
@@ -156,7 +156,7 @@ extern GTI2Connection *func_02197D5C(GTI2Socket *socket, unsigned int ip, unsign
 extern int gti2DumpCallback(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
 extern int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5);
-extern int func_021955C0(GTI2Socket *socket, GTI2Connection **connection,
+extern int gti2NewIncomingConnection(GTI2Socket *socket, GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
 extern GTI2Connection *gti2SocketFindConnection();
 extern int func_02195EC4(GTI2Connection *c, int result, int reason);
@@ -988,7 +988,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
         }
         if (!socket->connectAttemptCallback)
             return 1;
-        result = func_021955C0(socket, &connection, ip, port);
+        result = gti2NewIncomingConnection(socket, &connection, ip, port);
         if (result != 0) {
             if (result != 5) {
                 if (!gti2SendClosedOnSocket((GTI2Socket *)socket, ip, port))

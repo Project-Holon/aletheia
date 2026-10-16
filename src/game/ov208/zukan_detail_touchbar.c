@@ -47,7 +47,7 @@
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_SetActorPos 0x0204B528 arm
  *   ZKND_TBAR_CreateButtonList  0x021BD148  thumb
- *   func_021BD3CC  0x021BD3CC  thumb
+ *   ZKND_TBAR_AddButtonPos  0x021BD3CC  thumb
  *   func_021BE128  0x021BE128  thumb
  *   data_021C8440  0x021C8440  data
  *   data_021C83A4  0x021C83A4  data
@@ -152,7 +152,7 @@ extern void CLACT_SetActorPos(struct Actor *,const struct Pt *);
 
 extern struct Ov208Mgr *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u16 heap);
 
-extern void func_021BD3CC(struct Ov208Mgr *mgr, int key, u16 *pos);
+extern void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *mgr, int key, u16 *pos);
 
 extern void func_021BE128(struct Ov208Scene *p);
 
@@ -677,7 +677,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
         p->slots[i].obj = ZKND_TBAR_GetButtonActor((void *)p->mgr, p->slots[i].src->id);
     if (p->dexFlags == 0) {
         for (i = 0; i < 9; i++)
-            func_021BD3CC(p->mgr, p->slots[i].src->id, data_021C83A4[i]);
+            ZKND_TBAR_AddButtonPos(p->mgr, p->slots[i].src->id, data_021C83A4[i]);
         ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[3].src->id, 0);
     }
     v = ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind(p->kind);

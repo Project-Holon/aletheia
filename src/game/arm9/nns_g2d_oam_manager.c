@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   MIi_CpuClear16  0x02082A48  arm
  *   g_02146BC8      0x02146BC8  data
  *   g_02146BC4      0x02146BC4  data  a2
@@ -176,7 +176,7 @@ typedef struct VramResourceIndices {
     u16 *items;
 } VramResourceIndices;
 
-extern void sub_02082A60(void *src, u32 dest);
+extern void MIi_CpuCopy16(void *src, u32 dest);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
 extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
@@ -261,7 +261,7 @@ extern u32 GXi_DmaId;                  /* GXi_DmaId */
  */
 void NNSi_G2dCpuLoadOamSub(void *src, u32 offset)
 {
-    sub_02082A60(src, offset + 0x400 + 0x7000000);
+    MIi_CpuCopy16(src, offset + 0x400 + 0x7000000);
 }
 
 
@@ -291,7 +291,7 @@ void NNSi_G2dCpuLoadOamSub(void *src, u32 offset)
  */
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset)
 {
-    sub_02082A60(src, offset + 0x07000000);
+    MIi_CpuCopy16(src, offset + 0x07000000);
 }
 
 

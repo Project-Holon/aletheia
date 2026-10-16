@@ -128,7 +128,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   sub_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -382,7 +382,7 @@ extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern void sub_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 
@@ -1076,7 +1076,7 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
     *(int *)&((struct WifiloginDisp *)p)->charHandle = CLACT_RegisterCharacter((void *)((u32)res),9,0,1,((struct WifiloginDisp *)p)->heapId);
     *(int *)&((struct WifiloginDisp *)p)->paletteHandle = CLACT_RegisterPaletteEx((void *)((u32)res),3,1,0,0,3,((struct WifiloginDisp *)p)->heapId);
     *(int *)&((struct WifiloginDisp *)p)->cellAnimHandle = CLACT_RegisterCellAnim((void *)((u32)res),12,25,((struct WifiloginDisp *)p)->heapId);
-    sub_02049238((void *)res);
+    ARC_TOOL_DeleteHandle((void *)res);
     a.x=128; a.y=96; a.z=10; a.kind=0; a.mode=2;
     *(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0] = CLACT_CreateActor((void *)((struct WifiloginDisp *)p)->unit,((struct WifiloginDisp *)p)->charHandle,((struct WifiloginDisp *)p)->paletteHandle,((struct WifiloginDisp *)p)->cellAnimHandle,&a,1,((struct WifiloginDisp *)p)->heapId);
     CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0],1);

@@ -1,7 +1,7 @@
 /*
  * file:     cw_runtime.c
  * unit:     yes
- * function: _double_arith_prelude, __dadd_dsub, func_0209B2E8, _d2f, _s32_to_double, _u32_to_double, __dcmp_1, __dcmp_2, __dcmp_3, __dcmp_4, __dcmp_5, __dcmp_6, _fgeq, __fcmp_1, __fcmp_2, __fcmp_3, __fcmp_4, _f2d, _s32_to_float, _u32_to_float, _ll_divmod_entry_signed, _ll_divmod_body, _ll_divmod_entry_flag0, func_0209C054, func_0209C0A4, _f2s, _f2u, _d2s, _d2u, _double_arith_body, func_0209C77C, func_0209C95C, func_0209CE10, func_0209D1E0
+ * function: _double_arith_prelude, __dadd_dsub, func_0209B2E8, _d2f, _s32_to_double, _u32_to_double, __dcmp_1, __dcmp_2, __dcmp_3, __dcmp_4, __dcmp_5, __dcmp_6, _fgeq, __fcmp_1, __fcmp_2, __fcmp_3, __fcmp_4, _f2d, _s32_to_float, _u32_to_float, _ll_divmod_entry_signed, _ll_divmod_body, _ll_divmod_entry_flag0, _ll_mul, func_0209C0A4, _f2s, _f2u, _d2s, _d2u, _double_arith_body, func_0209C77C, func_0209C95C, func_0209CE10, func_0209D1E0
  * address:  0x0209AC04
  * region:   arm9
  * compiler: dsi/1.2

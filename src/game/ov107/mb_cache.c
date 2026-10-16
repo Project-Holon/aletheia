@@ -1,7 +1,7 @@
 /*
  * file:     mb_cache.c
  * unit:     yes
- * function: func_021F636C, MBi_AttachCacheBuffer, MBi_ReadFromCache
+ * function: MBi_InitCache, MBi_AttachCacheBuffer, MBi_ReadFromCache
  * address:  0x021F636C
  * region:   ov107
  * compiler: dsi/1.1p1

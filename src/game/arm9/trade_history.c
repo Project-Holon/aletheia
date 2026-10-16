@@ -21,6 +21,7 @@
  *   MYSTATUS_GetOutfit  0x02008554  thumb
  *   MYSTATUS_SetOutfit  0x02008558  thumb
  *   MYSTATUS_GetAvatarId  0x0200855C  thumb
+ *   MYSTATUS_GetSize  0x02008468  thumb
  */
 #include "wifilist_tail_shared_types.h"
 
@@ -44,7 +45,7 @@ extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u32  MYSTATUS_GetId(const struct MyStatus *status);
 
-extern int  sub_02008468(void);
+extern int  MYSTATUS_GetSize(void);
 
 extern u8   MYSTATUS_GetOutfit(const struct MyStatus *status);
 
@@ -114,7 +115,7 @@ void TRADE_HISTORY_Init(struct TradeHistory *history)
  *   +0x000  MyStatus[100]         0x20 bytes each
  *   +0xD50  u32                   a use count, saturating at 99999
  *
- * sub_02008468, four bytes returning 0x20, is the element size, and
+ * MYSTATUS_GetSize, four bytes returning 0x20, is the element size, and
  * TRADE_HISTORY_AddPartner uses it for both of its block moves rather than spelling 0x20
  * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
  * copies the new object into slot 0, so slot 0 is the most recent; when the
@@ -144,7 +145,7 @@ int TRADE_HISTORY_FindPartner(struct TradeHistory *history, u32 id)
 void TRADE_HISTORY_AddPartner(struct TradeHistory *history, struct MyStatus *status)
 {
     u32 id = MYSTATUS_GetId(status);
-    u32 size = sub_02008468();
+    u32 size = MYSTATUS_GetSize();
     int slot;
 
     if (id == 0) {

@@ -1,7 +1,7 @@
 /*
  * file:     os_context.c
  * unit:     yes
- * function: OS_InitContext, func_02085C08, func_02085C54
+ * function: OS_InitContext, OS_SaveContext, OS_LoadContext
  * address:  0x02085B9C
  * region:   arm9
  * compiler: dsi/1.1p1

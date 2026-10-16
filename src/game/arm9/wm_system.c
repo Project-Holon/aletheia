@@ -1,7 +1,7 @@
 /*
  * file:     wm_system.c
  * unit:     yes
- * function: WM_Init, WmInitCore, WM_Finish, func_0208E328, func_0208E340, WMi_SendCommand, WMi_SendCommandDirect, WMi_GetSystemWork, WMi_CheckInitialized, WMi_CheckIdle, func_0208E52C, func_0208E5BC, WmClearFifoRecvFlag, WMi_GetStatusAddress, WM_GetAID, WM_GetConnectedAIDs, WMi_RegisterSleepCallback, WMi_DeleteSleepCallback, func_0208EA94, WMi_CheckEnableFlag
+ * function: WM_Init, WmInitCore, WM_Finish, WMi_SetCallbackTable, WmGetCommandBuffer4Arm7, WMi_SendCommand, WMi_SendCommandDirect, WMi_GetSystemWork, WMi_CheckInitialized, WMi_CheckIdle, WMi_CheckStateEx, WmReceiveFifo, WmClearFifoRecvFlag, WMi_GetStatusAddress, WM_GetAID, WM_GetConnectedAIDs, WMi_RegisterSleepCallback, WMi_DeleteSleepCallback, WmSleepCallback, WMi_CheckEnableFlag
  * address:  0x0208E010
  * region:   arm9
  * compiler: dsi/1.1p1

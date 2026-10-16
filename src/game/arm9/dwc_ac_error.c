@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_error.c
  * unit:     yes
- * function: DWCi_AC_Error, DWCi_AC_GetResult, func_0205D178, GetIrregularError, func_0205D1C4, GetNotFoundInet
+ * function: DWCi_AC_Error, DWCi_AC_GetResult, GetProgramaError, GetIrregularError, GetNotFoundAP, GetNotFoundInet
  * address:  0x0205D0E4
  * region:   arm9
  * compiler: dsi/1.1p1

@@ -29,8 +29,8 @@
  *   GFL_HEAP_Free      0x020307B0  arm
  *   GFL_HEAP_InitAllocatorChecked      0x020307C8  arm
  *   GFL_HEAP_CheckAllocator      0x020307E0  arm
- *   func_02030BBC      0x02030BBC  arm
- *   func_02030BC8      0x02030BC8  arm
+ *   GFL_HEAP_AllocSystemChecked      0x02030BBC  arm
+ *   GFL_HEAP_FreeSystemChecked      0x02030BC8  arm
  *   ARC_TOOL_LoadMember      0x02048F60  arm
  *   ARC_TOOL_LoadMemberFromPath      0x02048F9C  arm
  *   ARC_TOOL_LoadHandleMember      0x02049250  arm
@@ -63,7 +63,7 @@
  *   NNS_G3dGlbLightVector      0x0206AA3C  arm
  *   NNS_G3dGlbLightColor      0x0206AA78  arm
  *   NNS_G3dDraw      0x0206B6A4  arm
- *   func_0206DB24      0x0206DB24  arm
+ *   NNS_G3dGeIsBufferExist      0x0206DB24  arm
  *   NNS_G3dGeSetBuffer      0x0206DB40  arm
  *   NNS_G3dGeReleaseBuffer      0x0206DB60  arm
  *   NNS_G3dGeFlushBuffer      0x0206DB80  arm
@@ -77,7 +77,7 @@
  *   NNS_G3dGetTex      0x0206E964  arm
  *   NNS_G3dGetAnmByIdx      0x0206E9A4  arm
  *   func_0207C1D0      0x0207C1D0  arm
- *   func_0207C408      0x0207C408  arm
+ *   MTX_PerspectiveW      0x0207C408  arm
  *   func_0207C554      0x0207C554  arm
  *   G3X_Reset      0x0207DA8C  arm
  *   G3X_GetBoxTestResult      0x0207DEA4  arm
@@ -299,8 +299,8 @@ extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *file, i
 extern void  GFL_HEAP_Free(void *memory);
 extern void  GFL_HEAP_InitAllocatorChecked(NNSFndAllocator *allocator, u16 heapId, u32 align);
 extern void  GFL_HEAP_CheckAllocator(void *memory, u32 newSize);
-extern void *func_02030BBC(u32 size);
-extern int   func_02030BC8(u32 buffer);
+extern void *GFL_HEAP_AllocSystemChecked(u32 size);
+extern int   GFL_HEAP_FreeSystemChecked(u32 buffer);
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u16 heapId);
 extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 dataId, u16 heapId);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 dataId, u16 heapId);
@@ -333,7 +333,7 @@ extern void  NNS_G3dGlbBaseScale(VecFx32 *scale);
 extern void  NNS_G3dGlbLightVector(int lightIdx, s16 x, s16 y, s16 z);
 extern void  NNS_G3dGlbLightColor(int lightIdx, u32 color);
 extern void  NNS_G3dDraw(NNSG3dRenderObj *rndObj);
-extern u32   func_0206DB24(void);
+extern u32   NNS_G3dGeIsBufferExist(void);
 extern void  NNS_G3dGeSetBuffer(void *buffer);
 extern void *NNS_G3dGeReleaseBuffer(void);
 extern void  NNS_G3dGeFlushBuffer(void);
@@ -347,7 +347,7 @@ extern NNSG3dResMdlSet *NNS_G3dGetMdlSet(void *file);
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 extern void *NNS_G3dGetAnmByIdx(void *file, u32 anmIdx);
 extern void  func_0207C1D0(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
-extern void  func_0207C408(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
+extern void  MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  func_0207C554(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  G3X_Reset(void);
 extern int   G3X_GetBoxTestResult(s32 *result);
@@ -468,7 +468,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
     NNS_G3dGlbInit();
 
     if (geBufSize != 0)
-        NNS_G3dGeSetBuffer(func_02030BBC(geBufSize > 0x1800 ? 0x1800 : geBufSize));
+        NNS_G3dGeSetBuffer(GFL_HEAP_AllocSystemChecked(geBufSize > 0x1800 ? 0x1800 : geBufSize));
 
     reg_G3_SWAP_BUFFERS = 2;
     GFL_HEAP_InitAllocatorChecked(&_G3dSystem.work->allocator, _G3dSystem.work->heapId, 4);
@@ -536,8 +536,8 @@ void G3D_SYSTEM_Exit(void)
     if (_G3dSystem.work->texManagerWork != 0)
         GFL_HEAP_Free(_G3dSystem.work->texManagerWork);
 
-    if (func_0206DB24() == 1) {
-        func_02030BC8((u32)NNS_G3dGeReleaseBuffer());
+    if (NNS_G3dGeIsBufferExist() == 1) {
+        GFL_HEAP_FreeSystemChecked((u32)NNS_G3dGeReleaseBuffer());
     }
 
     GFL_HEAP_Free(_G3dSystem.work);
@@ -559,7 +559,7 @@ void G3D_SYSTEM_GetProjection(G3dProjection *proj)
 /* NitroSystem inlines (glbstate_inline.h): set the projection matrix and clear INVPROJ and INVCAMERAPROJ. */
 static inline void NNS_G3dGlbPerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW)
 {
-    func_0207C408(fovySin, fovyCos, aspect, n, f, scaleW, &NNS_G3dGlb.projMtx);
+    MTX_PerspectiveW(fovySin, fovyCos, aspect, n, f, scaleW, &NNS_G3dGlb.projMtx);
     NNS_G3dGlb.flag &= ~(0x10 | 0x40);
 }
 

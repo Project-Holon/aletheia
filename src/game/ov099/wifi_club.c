@@ -303,7 +303,7 @@
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   sub_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   d_021C377C 0x021C377C data a4
  *   BUTTON_MAN_Delete 0x02051C6C arm
@@ -318,7 +318,7 @@
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   DWC_RAP_GetFriendStatusData  0x02156860  thumb  ov009
  *   DWC_RAP_GetFriendStatus  0x02156874  thumb  ov009
- *   sub_0203C2B0  0x0203C2B0  arm
+ *   GFL_NET_STATE_WifiEnterLogin  0x0203C2B0  arm
  *   WIFICLUBACTOR_SetMode  0x021B98F8  thumb  ov099
  *   GFL_USE_SetBgmTrackVolume 0x02005F24 thumb
  *   GFL_USE_SetPlayerVolumes  0x02005CBC  thumb
@@ -632,7 +632,7 @@ extern int MYSTATUS_GetSize(void);
 extern int GFL_NET_ERR_UpdateFriendRecord(void *o);
 extern int GFL_NET_GetRunState(void);
 extern void func_02009B3C(void *obj);
-extern int sub_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void *BUTTON_MAN_Create(const void *table, void *callback, void *userData, int heap);
 extern void BUTTON_MAN_Delete(void *);
 extern s32 BUTTON_MAN_UpdateSlots(void *c);
@@ -643,7 +643,7 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const void *a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern WifiClubPlayerStatus *DWC_RAP_GetFriendStatusData(int i);
 extern unsigned char DWC_RAP_GetFriendStatus(int i);
-extern int sub_0203C2B0(int a);
+extern int GFL_NET_STATE_WifiEnterLogin(int a);
 extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
 extern void PM_VOICE_SetMasterVolume(int v);
@@ -6875,7 +6875,7 @@ int WIFICLUB_ResolveNetRunState(int unused, int defaultState)
 {
     int state = defaultState;
 
-    if (sub_0203CD98() == 0) {
+    if (GFL_NET_GetRunState() == 0) {
         state = 2;
     }
 
@@ -7532,7 +7532,7 @@ unsigned char WIFICLUB_GetFriendConnectionStatus(int friendIndex)
 int WIFICLUB_AddNetCommandsAndCheckFriend(WifiClubWork *work, int friendIndex)
 {
     WIFICLUBACTOR_AddNetCommands(work);
-    return sub_0203C2B0(friendIndex);
+    return GFL_NET_STATE_WifiEnterLogin(friendIndex);
 }
 
 

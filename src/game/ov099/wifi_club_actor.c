@@ -88,7 +88,7 @@
  *   d_021C287C     0x021C287C  data  ov099  a1
  *   data_021C28A8  0x021C28A8  data
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
- *   sub_0203A5E4  0x0203A5E4  arm
+ *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
  *   data_021C28F0  0x021C28F0  data  a4
  */
 #include "wifi_club_actor_types.h"
@@ -186,7 +186,7 @@ extern void *func_02049F34(u32 archive, u32 fileIndex, u32 outData, u32 heapId);
 extern u32 GFL_HEAP_Free(void *handle);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void sub_0203A5E4(u32 key);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, u32 clactResArc, u32 spriteArc, u32 mapIndexPlusOne, u32 paletteArc, u32 clactSys, u32 gfxArchive);
 void WIFICLUBACTOR_Exit(WifiClubActorSys *sys);
 int WIFICLUBACTOR_IsReady(WifiClubActorSys *sys);
@@ -1342,7 +1342,7 @@ void WIFICLUBACTOR_AddNetCommands(void *work)
 
 void WIFICLUBACTOR_RemoveNetCommands(void *unused)
 {
-    sub_0203A5E4(0xA00);
+    GFL_NET_COMMAND_DeleteCommandTable(0xA00);
 }
 
 

@@ -1,7 +1,7 @@
 /*
  * file:     os_emulator.c
  * unit:     yes
- * function: OS_GetConsoleType, func_02085D0C, func_02085D24, OS_IsRunOnTwl, OSi_IsRunOnTwl
+ * function: OS_GetConsoleType, OSi_DetectDeviceType, OS_IsRunOnEmulator, OS_IsRunOnTwl, OSi_IsRunOnTwl
  * address:  0x02085CBC
  * region:   arm9
  * compiler: dsi/1.1p1

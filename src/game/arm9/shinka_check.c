@@ -46,7 +46,7 @@
  *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
  *   _PrintJobWork   0x0214655C  data
  *   STRBUF_GetChars  0x02045A90  arm
- *   func_0201D26C  0x0201D26C  thumb
+ *   GF_FONT_MeasureTextWidth  0x0201D26C  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   TCBL_AddTask  0x020311B8  arm
@@ -323,7 +323,7 @@ extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 code, void *dst, void *m
 
 extern void  BMP_BlitPaletteOffset(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
 
-extern u32   func_0201D26C(u16 *str, void *font, u32 spacing, u16 **next);
+extern u32   GF_FONT_MeasureTextWidth(u16 *str, void *font, u32 spacing, u16 **next);
 
 extern u16   BMP_GetWidth(const struct Bmp *bmp);
 
@@ -2823,7 +2823,7 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
         s32 room = (s32)(width - job->pos.bits.originX);
         u32 strWidth;
         u32 unusedMargin = 0;
-        strWidth = (u32)func_0201D26C(cursor, job->font, 0, 0);
+        strWidth = (u32)GF_FONT_MeasureTextWidth(cursor, job->font, 0, 0);
         {
             u32 margin = 0;
             if (*cursor == 0xF000) {
@@ -2836,7 +2836,7 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
     case 2: {
         s32 width = BMP_GetWidth(job->bmp);
         s32 room = (s32)(width - job->pos.bits.originX);
-        s32 strWidth = func_0201D26C(cursor, job->font, 0, 0);
+        s32 strWidth = GF_FONT_MeasureTextWidth(cursor, job->font, 0, 0);
         if (strWidth < room) {
             job->penX = (s16)(job->pos.bits.originX + (room - strWidth) / 2);
         } else {

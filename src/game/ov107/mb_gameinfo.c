@@ -1,7 +1,7 @@
 /*
  * file:     mb_gameinfo.c
  * unit:     yes
- * function: MBi_MakeGameInfo, MBi_ReadIconInfo, MB_UpdateGameInfoMember, func_021F3F0C, MB_AddGameInfo, MB_InitSendGameInfoStatus, func_021F3FA4, MB_SendGameInfoBeacon, MBi_ReadyBeaconSendStatus, MBi_InitSendFixedBeacon, func_021F4140, func_021F42A4, func_021F42D4, func_021F4538
+ * function: MBi_MakeGameInfo, MBi_ReadIconInfo, MB_UpdateGameInfoMember, mystrlen, MB_AddGameInfo, MB_InitSendGameInfoStatus, MBi_ClearSendStatus, MB_SendGameInfoBeacon, MBi_ReadyBeaconSendStatus, MBi_InitSendFixedBeacon, MBi_SendFixedBeacon, MBi_InitSendVolatBeacon, MBi_SendVolatBeacon, MBi_CheckMBParent
  * address:  0x021F3D04
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -132,7 +132,7 @@ void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
 int MBi_ReadyBeaconSendStatus(void);
 void MBi_InitSendFixedBeacon(void);
 void MBi_InitSendVolatBeacon(void);
-void func_021F42D4(u32 ggid, u16 tgid, u8 attribute);
+void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u8 attribute);
 BOOL MBi_CheckMBParent(void *bssDescp);
 
 #pragma opt_lifetimes off
@@ -307,7 +307,7 @@ void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute)
             MBi_InitSendVolatBeacon();
             break;
         case 5:
-            func_021F42D4(ggid, tgid, attribute);
+            MBi_SendVolatBeacon(ggid, tgid, attribute);
             return;
         case 6:
             break;

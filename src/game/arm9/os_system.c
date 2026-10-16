@@ -1,7 +1,7 @@
 /*
  * file:     os_system.c
  * unit:     yes
- * function: func_02087974, OS_DisableInterrupts, OS_RestoreInterrupts, OS_DisableInterrupts_IrqAndFiq, OS_RestoreInterrupts_IrqAndFiq, func_020879E0, OS_GetProcMode, OS_SpinWaitCpuCycles, OS_SpinWaitSysCycles, OS_WaitInterrupt, OS_WaitVBlankIntr
+ * function: OS_EnableInterrupts, OS_DisableInterrupts, OS_RestoreInterrupts, OS_DisableInterrupts_IrqAndFiq, OS_RestoreInterrupts_IrqAndFiq, OS_GetCpsrIrq, OS_GetProcMode, OS_SpinWaitCpuCycles, OS_SpinWaitSysCycles, OS_WaitInterrupt, OS_WaitVBlankIntr
  * address:  0x02087974
  * region:   arm9
  * compiler: dsi/1.1p1

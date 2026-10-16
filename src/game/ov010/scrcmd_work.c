@@ -87,7 +87,7 @@
  *   BEACON_SetFlag  0x0200C248  thumb
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
- *   func_02008A7C  0x02008A7C  thumb
+ *   TRCARD_SIGN_SetBadgeDate  0x02008A7C  thumb
  *   BEACON_CountFlags  0x0200C258  thumb
  *   func_020071EC  0x020071EC  thumb
  *   SAVE_CONTROL_IsNewGame  0x020071E4  thumb
@@ -325,7 +325,7 @@ extern u32 MISC_SAVEDATA_GetRingIndex(void *extraSave);
 extern struct RecordSave *func_020089C0(struct SaveControl *saveControl);
 extern u8 func_020089F4(const struct RecordSave *record);
 extern struct RecordSave *func_02008A00(struct RecordSave *record);
-extern void func_02008A7C(struct RecordSave *record, u32 index, u32 year, u32 month, u32 day);
+extern void TRCARD_SIGN_SetBadgeDate(struct RecordSave *record, u32 index, u32 year, u32 month, u32 day);
 extern u32 BEACON_GetFlag(struct MiscSave *misc, u32 flagId);
 extern void BEACON_SetFlag(struct MiscSave *misc, u32 flagId);
 extern u32 BEACON_CountFlags(struct MiscSave *misc);
@@ -923,7 +923,7 @@ int SCRCMD_WORK_CmdSetMiscFlag(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     BEACON_SetFlag(GAME_DATA_GetMiscSave(gameData), flagId);
     GF_STANDARD_SetField00_F4E4(&date);
-    func_02008A7C(GAME_DATA_GetSaveBlock21(gameData), flagId, date.year, date.month, date.day);
+    TRCARD_SIGN_SetBadgeDate(GAME_DATA_GetSaveBlock21(gameData), flagId, date.year, date.month, date.day);
     return 0;
 }
 

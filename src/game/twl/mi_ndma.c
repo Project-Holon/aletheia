@@ -25,14 +25,14 @@
  *   CARDi_CompareHash  0x0272EC38  arm twl
  *   CARDi_ReadRomHashImageCaching  0x0272F570  arm twl
  *   CARDi_ReadRomHashImageDirect  0x0272F368  arm twl
- *   func_020848EC  0x020848EC  arm
+ *   OSi_EnterNDmaCallback  0x020848EC  arm
  *   data_02732EFC  0x02732EFC  data twl
  *   MIi_CpuCopy32  0x02082A90  arm
  *   data_02732F3C  0x02732F3C  data twl
  *   MIi_NDMACallback  0x02730090  arm twl
  *   OS_DisableIrqMask  0x02084998  arm
  *   OS_ResetRequestIrqMask  0x020849C8  arm
- *   func_02084818  0x02084818  arm
+ *   OS_GetIrqFunction  0x02084818  arm
  *   OS_SetIrqFunction  0x02084774  arm
  *   OS_EnableIrqMask  0x02084968  arm
  */
@@ -60,7 +60,7 @@ typedef struct {
 extern NdmaConfig data_02732EFC[];
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-extern void func_020848EC(u32 ch, void (*cb)(), u32 arg);
+extern void OSi_EnterNDmaCallback(u32 ch, void (*cb)(), u32 arg);
 extern void MIi_CpuCopy32(void *dst, const void *src, u32 n);
 
 u32 MIi_GetControlData(u32 type);
@@ -162,7 +162,7 @@ void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, 
     irq = OS_DisableInterrupts();
     MIi_Wait(ch);
     if (cb != 0) {
-        func_020848EC(ch, cb, arg);
+        OSi_EnterNDmaCallback(ch, cb, arg);
     }
     if (mode != 0) {
         NDMA[ch].src = src;

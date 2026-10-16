@@ -58,7 +58,7 @@
  *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   GF_OVERLAY_Load  0x02034AC4  arm
- *   func_02035660  0x02035660  arm
+ *   UI_ChangeFrameRate  0x02035660  arm
  *   FIELD_MAP_CHANGE_Empty  0x0216447C  thumb  ov010
  *   FIELD_MSGBG_Create  0x021901EC  thumb  ov021
  *   FIELD_PLACE_NAME_Create  0x021BC388  thumb  ov021
@@ -326,7 +326,7 @@
  *   FLDMMDL_AddMmdlHeaderList  0x0216CEAC  thumb  ov010
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   ISS_SYS_ChangeZone  0x0202B544  thumb
- *   func_02029CF0  0x02029CF0  thumb
+ *   FIELD_SOUND_SYSTEM_PostZoneBgmChange  0x02029CF0  thumb
  *   ISS_SWITCH_ApplySubscreenMode  0x0202C83C  thumb
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
  *   FIELD_ZONEFOG_Clear  0x021A0358  thumb  ov021
@@ -378,7 +378,7 @@
  *   TIMEZONE_GetNowTimeZone  0x020113D8  thumb
  *   FIELD_CAMERA_GetViewPitchPtr  0x0218ED3C  thumb  ov021
  *   FX_SinCosTable_     0x020A1B38  data  a2
- *   func_02013BA8  0x02013BA8  thumb
+ *   ZONEDATA_GetMapChangeType  0x02013BA8  thumb
  *   func_02013B50  0x02013B50  thumb
  *   MAP_MATRIX_GetWidth  0x02159BF4  thumb  ov010
  *   MAP_MATRIX_GetHeight  0x02159BF8  thumb  ov010
@@ -476,7 +476,7 @@ extern void *FLD_VREQ_Create(u32 heap);
 extern u32 ZONEDATA_IsZone1A6(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int GF_OVERLAY_Load(int id);
-extern void func_02035660(u32 a);
+extern void UI_ChangeFrameRate(u32 a);
 extern void FIELD_MAP_CHANGE_Empty(struct GameData *gameData, u16 zoneId);
 extern struct FieldMsgBg *FIELD_MSGBG_Create(u16 heapId, struct G3dCamera *g3dCamera);
 extern struct FieldPlaceName *FIELD_PLACE_NAME_Create(struct GameSystem *gameSystem, int heapId, struct FieldMsgBg *msgBg);
@@ -726,7 +726,7 @@ void *EVENTDATA_SYSTEM_GetNpcHeaders(void *eventData);
 void FLDMMDL_AddMmdlHeaderList(struct MmdlSys *mmdlSys, void *headers, u32 b, u32 n, u32 c);
 extern u32 GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern void ISS_SYS_ChangeZone(u32 a, u16 b);
-extern void func_02029CF0(void *a, void *b, u16 c);
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmChange(void *a, void *b, u16 c);
 int ISS_SWITCH_ApplySubscreenMode(struct GameSystem *gameSystem, int a1);
 void WEATHER_RequestChange(struct WeatherSys *weather, int k);
 void FIELD_ZONEFOG_Clear(struct FieldZoneFog *zoneFog);
@@ -774,7 +774,7 @@ extern void FLD3D_CI_DrawEffect(struct Fld3dCi *fld3dCi);
 void ENCEFF_RunUpdate(struct EncEff *encEff);
 extern u32 TIMEZONE_GetNowTimeZone(u32);
 extern void *FIELD_CAMERA_GetViewPitchPtr(struct FieldCamera *camera);
-extern u8 func_02013BA8(u32 id);
+extern u8 ZONEDATA_GetMapChangeType(u32 id);
 extern u32 func_02013B50(u32 id);
 extern unsigned short MAP_MATRIX_GetWidth(struct MapMatrix *mapMatrix);
 extern unsigned short MAP_MATRIX_GetHeight(struct MapMatrix *mapMatrix);
@@ -1041,7 +1041,7 @@ int FIELDMAP_SeqInitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     fieldMap->taskManager = FIELD_TASK_MANAGER_Create(0xA, fieldMap->heapId);
     fieldMap->vreq = FLD_VREQ_Create(fieldMap->heapId);
     GF_OVERLAY_Load((ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) ? (int)abs_id_19 : (int)abs_id_18);
-    func_02035660(0x1E);
+    UI_ChangeFrameRate(0x1E);
     return 1;
 }
 
@@ -1324,7 +1324,7 @@ int FIELDMAP_SeqDeleteSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
     if (fieldMap->msgBg != 0)
         FIELD_MSGBG_Delete(fieldMap->msgBg);
     GAME_DATA_SetWalkCountEnabled(GAMESYSTEM_GetGameData(gameSystem), 0);
-    func_02035660(0x3C);
+    UI_ChangeFrameRate(0x3C);
     SODATEYA_Delete(fieldMap->sodateya);
     FIELDSKILL_MAPEFF_Delete(fieldMap->mapEff);
     return 1;
@@ -1932,7 +1932,7 @@ void FIELDMAP_ChangeZoneSound(FieldMap *fieldMap, unsigned int zoneId)
     objCode = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetMyPlayerWork(gameData));
     ISS_SYS_ChangeZone((u32)issSys, zoneId);
     if (objCode != 2)
-        func_02029CF0(bgmInfo, gameData, zoneId);
+        FIELD_SOUND_SYSTEM_PostZoneBgmChange(bgmInfo, gameData, zoneId);
 }
 
 void FIELDMAP_ChangeZoneWeather(FieldMap *fieldMap, int zoneId)
@@ -2247,7 +2247,7 @@ int FIELDMAP_CalcCameraPitchScale(FieldMap *fieldMap)
 
 int FIELDMAP_GetProjDepthOffset(u32 zoneId)
 {
-    if (func_02013BA8(zoneId) == 1)
+    if (ZONEDATA_GetMapChangeType(zoneId) == 1)
         return 0x1EE;
     return 0x136;
 }

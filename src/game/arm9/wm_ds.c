@@ -1,7 +1,7 @@
 /*
  * file:     wm_ds.c
  * unit:     yes
- * function: WM_StartDataSharing, WM_EndDataSharing, WM_StepDataSharing, func_02090608, func_020906E0, func_02090814, func_020908F8, func_020909C8, WM_GetSharedDataAddress, func_02090B6C
+ * function: WM_StartDataSharing, WM_EndDataSharing, WM_StepDataSharing, WmDataSharingSetDataCallback, WmDataSharingReceiveCallback_Parent, WmDataSharingReceiveCallback_Child, WmDataSharingReceiveData, WmDataSharingSendDataSet, WM_GetSharedDataAddress, WmGetSharedDataAddress
  * address:  0x0209004C
  * region:   arm9
  * compiler: dsi/1.1p1

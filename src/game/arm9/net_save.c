@@ -36,7 +36,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_PushGlobal     0x020312CC  arm
  *   MI_CpuFill8      0x02082BCC  arm
- *   sub_020124F4     0x020124F4  thumb
+ *   GAME_DATA_Create     0x020124F4  thumb
  *   sub_02012EBC     0x02012EBC  thumb
  *   GAME_SYNC_GetBlock     0x02009448  thumb
  *   BLOCK20_SAVEDATA_GetPending  0x020092EC  thumb
@@ -120,7 +120,7 @@ extern u32  func_020056EC(u32 frames);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
-extern void *sub_020124F4(u16 heapId);
+extern void *GAME_DATA_Create(u16 heapId);
 extern struct SaveControl *sub_02012EBC(void *gameData);
 extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
 extern u8 BLOCK20_SAVEDATA_GetPending(const struct GameSyncData *data);
@@ -376,7 +376,7 @@ int GFL_NET_SAVE_InitWork(void *proc)
     work = PROCSYS_AllocProcWork(proc, 0x1d8, 0x67);
     MI_CpuFill8(work, 0, 0x1d8);
     work->heapId = 0x67;
-    gameData = sub_020124F4(0x67);
+    gameData = GAME_DATA_Create(0x67);
     work->gameData = gameData;
     if (BLOCK20_SAVEDATA_GetPending(GAME_SYNC_GetBlock(sub_02012EBC(gameData))) != 0) {
         work->state = 1;

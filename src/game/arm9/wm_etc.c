@@ -23,7 +23,7 @@
  *   g_02153B00                       0x02153b00 data
  *   WMi_GetSystemWork                0x0208e4bc arm
  *   WMi_SendCommandDirect            0x0208e44c arm
- *   func_0208E4CC  0x0208E4CC  arm
+ *   WMi_CheckInitialized  0x0208E4CC  arm
  */
 typedef unsigned long u32;
 
@@ -92,7 +92,7 @@ WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 u
 WMErrCode WM_SetBeaconIndication(WMCallbackFunc callback, u16 flag);
 WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
 WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);
-extern void func_0208E4CC(void);
+extern void WMi_CheckInitialized(void);
 void WMi_CheckInitializedAfterMeasure(void);
 extern u32 g_02153B00[32];
 
@@ -277,5 +277,5 @@ WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshol
 
 void WMi_CheckInitializedAfterMeasure(void)
 {
-    func_0208E4CC();
+    WMi_CheckInitialized();
 }

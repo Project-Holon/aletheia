@@ -110,7 +110,7 @@
  *   LIVEBATTLEMATCH_IRC_GetRegulation 0x0217E23C thumb ov176
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_0200E994 0x0200E994 thumb
+ *   MISC_SAVEDATA_FindKey 0x0200E994 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
@@ -351,7 +351,7 @@ extern int POKE_REGULATION_GetDataSize(void);
 
 extern void MI_CpuCopy8(const void *,void *,unsigned int);
 
-extern unsigned int func_0200E994(void *base, void *key);
+extern unsigned int MISC_SAVEDATA_FindKey(void *base, void *key);
 
 extern void GFL_USE_StopAllSe(void);
 
@@ -729,7 +729,7 @@ void LIVEBATTLEMATCH_FLOW_Result(int *sys,unsigned int *state,u8 *p)
     case 15:
         if(((struct BattleRecord *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->battleData))->cardValue==((struct BattleRecord *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData))->cardValue){
             unsigned int a=REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card,12);
-            int b=func_0200E994(((struct LiveBattleMatchWork *)p)->saveBlock,*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData+0x20);
+            int b=MISC_SAVEDATA_FindKey(((struct LiveBattleMatchWork *)p)->saveBlock,*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData+0x20);
             ((struct LiveBattleMatchWork *)p)->syncFlag=(a!=0||(a==0&&b==0));
             *state=16;
         }else{WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);GFL_USE_StopAllSe();*state=21;}

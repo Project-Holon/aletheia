@@ -34,10 +34,10 @@
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_02040804 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_021BE920 0x021BE920 thumb ov208
- *   func_021BE864 0x021BE864 thumb ov208
+ *   ZUKAN_DETAIL_HEADBAR_DrawIcon 0x021BE920 thumb ov208
+ *   ZUKAN_DETAIL_HEADBAR_NoOp 0x021BE864 thumb ov208
  *   d_021C8DFC 0x021C8DFC data a1
- *   func_021BE9CC 0x021BE9CC thumb ov208
+ *   ZUKAN_DETAIL_HEADBAR_FlushIcon 0x021BE9CC thumb ov208
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -99,13 +99,13 @@ extern void BG_SYS_SetVisibleLayer(int,u16);
 
 extern u32 func_02040804(u32 layer);
 
-extern void func_021BE920(struct Ov208Icon *);
+extern void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *);
 
-extern void func_021BE864(void *);
+extern void ZUKAN_DETAIL_HEADBAR_NoOp(void *);
 
 extern unsigned PRINTSYS_QUE_Create(void *);
 
-extern void func_021BE9CC(struct Ov208Icon *);
+extern void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *);
 
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 
@@ -186,8 +186,8 @@ struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
     BG_SYS_FillScrollArea(5,3,24);
     BG_SYS_SetVisibleLayer(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows(p);
-    func_021BE920(p);
-    p->task=GFL_USE_AddMainTask((unsigned)func_021BE864,(unsigned)p,1);
+    ZUKAN_DETAIL_HEADBAR_DrawIcon(p);
+    p->task=GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_HEADBAR_NoOp,(unsigned)p,1);
     p->queue=PRINTSYS_QUE_Create((void *)(unsigned)p->heap);
     p->dirty=0;
     return p;
@@ -228,7 +228,7 @@ void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p)
         } else --p->count;
         break;
     }
-    func_021BE9CC(p);
+    ZUKAN_DETAIL_HEADBAR_FlushIcon(p);
     PRINTSYS_QUE_Main((struct PrintSys *)p->queue);
 }
 

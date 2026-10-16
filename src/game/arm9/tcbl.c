@@ -150,7 +150,7 @@ void TCBL_PushFreeTask(struct TcblSystem *tcbl, struct TcblTask *task)
 /*
  * Reset one task-callback node to the "not in the live list" state: owner
  * back-pointer, both links parked on the manager's sentinel at +0x18, and
- * the three payload words cleared.  It is the shape sub_02030C68 has for the
+ * the three payload words cleared.  It is the shape TCB_FreeTask has for the
  * TCB task pool in src/matched/unit_02030C44.c, one layer up.
  *
  * A leaf: no lr is saved, so disasm.py gives it no label of its own and the

@@ -21,7 +21,7 @@
  *   gsUdpEngineInitialize  0x02180E58  arm   ov009
  *   gpiSetError  0x02193710  arm   ov009
  *   gpiCallErrorCallback  0x02189D78  arm   ov009
- *   func_0218158C  0x0218158C  arm   ov009
+ *   gsUdpEngineGetLocalPort  0x0218158C  arm   ov009
  *   gsUdpEngineAddMsgHandler  0x021815C8  arm   ov009
  *   socket  0x0217EB18  arm   ov009
  *   SetSockBlocking  0x0217EE50  arm   ov009
@@ -29,7 +29,7 @@
  *   SOC_GetHostByName  0x0215F650  arm   ov009
  *   func_0217EC08  0x0217EC08  arm   ov009
  *   GOAGetLastError  0x0217ED54  arm   ov009
- *   func_0218F5F4  0x0218F5F4  arm   ov009
+ *   gpiPeerLeftCallback  0x0218F5F4  arm   ov009
  *   gpiPeerPingReplyCallback  0x0218F880  arm   ov009
  *   gpiPeerMessageCallback  0x0218F65C  arm   ov009
  *   gpiPeerAcceptedCallback  0x0218F7B8  arm   ov009
@@ -59,7 +59,7 @@
  *   strlen  0x0209477C  arm
  *   GSMD5Digest  0x021858A8  arm   ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_0218FF98  0x0218FF98  arm   ov009
+ *   gpiFindProfileByUser  0x0218FF98  arm   ov009
  *   gpiAppendStringToBuffer  0x0218946C  arm   ov009
  *   gpiAppendIntToBuffer  0x0218949C  arm   ov009
  *   g_021A483C     0x021A483C  data
@@ -97,7 +97,7 @@
  *   g_021A4980     0x021A4980  data
  *   g_021A4990     0x021A4990  data
  *   gpiCheckForError  0x0219329C  arm   ov009
- *   func_0218FEF0  0x0218FEF0  arm   ov009
+ *   gpiRemoveProfileByID  0x0218FEF0  arm   ov009
  *   gpiValueForKey  0x02193418  arm   ov009
  *   atoi  0x020964E0  arm
  *   strncmp  0x020949F4  arm
@@ -124,9 +124,9 @@
  *   shutdown  0x0217EB9C  arm   ov009
  *   closesocket  0x0217EB2C  arm   ov009
  *   gsUdpEngineRemoveMsgHandler  0x02181748  arm   ov009
- *   func_02181828  0x02181828  arm   ov009
- *   func_02181874  0x02181874  arm   ov009
- *   func_02181530  0x02181530  arm   ov009
+ *   gsUdpEngineNoMoreMsgHandlers  0x02181828  arm   ov009
+ *   gsUdpEngineNoApp  0x02181874  arm   ov009
+ *   gsUdpEngineShutdown  0x02181530  arm   ov009
  *   gpiDestroyPeer  0x0218EEC0  arm   ov009
  *   gpiProfileMap  0x0218FFFC  arm   ov009
  *   g_021A4A80     0x021A4A80  data
@@ -172,7 +172,7 @@ extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...)
 extern int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
 extern void gpiSetError(int *connection, int result, int errorString);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
-extern unsigned short func_0218158C(void);
+extern unsigned short gsUdpEngineGetLocalPort(void);
 extern int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
 extern int socket(int pf, int type, int protocol);
 extern int SetSockBlocking(int sock, int isblocking);
@@ -180,7 +180,7 @@ extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int GOAGetLastError(int sock);
-extern void func_0218F5F4(void);
+extern void gpiPeerLeftCallback(void);
 extern void gpiPeerPingReplyCallback(void);
 extern void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message, int messageLength, int unused, void *userData);
 extern void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, int rejected, void *userData);
@@ -196,7 +196,7 @@ extern int gpiProcess(void **connection, int blockingOperationID);
 extern int strlen(const u8 *s);
 extern void GSMD5Digest(unsigned char *input, unsigned int len, char *output);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern int func_0218FF98(void **connection, char *nick, char *email, GPIProfile **profile);
+extern int gpiFindProfileByUser(void **connection, char *nick, char *email, GPIProfile **profile);
 extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
 extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 extern void gpiEncodeString(const char *plaintext, char *encoded);
@@ -204,7 +204,7 @@ extern void Util_RandSeed(unsigned long seed);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 extern int gpiCheckForError(int *connection, const char *input, int fatal);
-extern void func_0218FEF0(void **connection, int profileid);
+extern void gpiRemoveProfileByID(void **connection, int profileid);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(u32 a0);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
@@ -220,9 +220,9 @@ extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffe
 extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
-extern int func_02181828(void);
-extern int func_02181874(void);
-extern int func_02181530(void);
+extern int gsUdpEngineNoMoreMsgHandlers(void);
+extern int gsUdpEngineNoApp(void);
+extern int gsUdpEngineShutdown(void);
 extern void gpiDestroyPeer(void **connection, GPIPeer *peer);
 extern int gpiProfileMap(void **connection, int (*func)(void **, void *, void *), void *data);
 void randomString(char *buffer, int numChars);
@@ -355,11 +355,11 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
             iconnection->peerPort = peerPort;
     } else {
         gsDebugFormat(1, 0, 8, g_021A46FC);
-        iconnection->peerPort = func_0218158C();
+        iconnection->peerPort = gsUdpEngineGetLocalPort();
     }
 
     anError = gsUdpEngineAddMsgHandler(iconnection->mHeader, iconnection->mHeader, 0,
-                            (void *)gpiPeerAcceptedCallback, (void *)func_0218F5F4,
+                            (void *)gpiPeerAcceptedCallback, (void *)gpiPeerLeftCallback,
                             (void *)gpiPeerPingReplyCallback, (void *)gpiPeerMessageCallback, connection);
     if (anError != 0) {
         gpiSetError((int *)connection, 8, (int)g_021A4734);
@@ -533,7 +533,7 @@ int gpiSendLogin(void **connection, GPIConnectData *data)
     GSMD5Digest((unsigned char *)buffer, strlen((const u8 *)buffer), response);
 
     if (iconnection->infoCaching) {
-        func_0218FF98(connection, iconnection->nick, iconnection->email, &profile);
+        gpiFindProfileByUser(connection, iconnection->nick, iconnection->email, &profile);
         if (profile != 0) {
             iconnection->userid = profile->userId;
             iconnection->profileid = profile->profileId;
@@ -663,7 +663,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
 
     if (gpiCheckForError((int *)connection, input, 0)) {
         if (iconnection->errorCode == 0x106 && iconnection->profileid) {
-            func_0218FEF0(connection, iconnection->profileid);
+            gpiRemoveProfileByID(connection, iconnection->profileid);
             iconnection->userid = 0;
             iconnection->profileid = 0;
         } else if (iconnection->errorCode == 0x201) {
@@ -937,8 +937,8 @@ void gpiDisconnect(void **connection, int tellServer)
 
     if (gsUdpEngineIsInitialized()) {
         gsUdpEngineRemoveMsgHandler(iconnection->mHeader);
-        if (func_02181828() && func_02181874())
-            func_02181530();
+        if (gsUdpEngineNoMoreMsgHandlers() && gsUdpEngineNoApp())
+            gsUdpEngineShutdown();
     }
 
     gsifree(iconnection->socketBuffer.buffer);

@@ -59,7 +59,7 @@
  *   RECORD_SetTrialRank  0x02008E68  thumb
  *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
  *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
- *   func_0200E684  0x0200E684  thumb
+ *   BATTLE_EXAMINATION_RefreshMarker  0x0200E684  thumb
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb  ov021
@@ -219,7 +219,7 @@ extern int BATTLE_EXAMINATION_IsDeliveryUnused(TrialHouseDelivery *delivery);
 extern BtlInstTrainer *BATTLE_EXAMINATION_GetTrainerSlot(TrialHouseDelivery *delivery, u32 index);
 extern u16 BATTLE_EXAMINATION_GetDeliveryId(TrialHouseDelivery *delivery);
 extern void BATTLE_EXAMINATION_LoadDelivery(GameData *gameData, TrialHouseDelivery *src, u32 heapId);
-extern void func_0200E684(TrialHouseDelivery *delivery);
+extern void BATTLE_EXAMINATION_RefreshMarker(TrialHouseDelivery *delivery);
 extern TrialHouseSave *func_0200E8F8(SaveControl *saveControl);
 extern RecordBlock *RECORD_GetFromSave(SaveControl *saveControl);
 extern void func_02008E88(RecordBlock *record, u32 value);
@@ -739,7 +739,7 @@ int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
         SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, task->buffer, TRIAL_HOUSE_SAVE_BUF_SIZE);
         delivery = SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
         if (task->mode == 1) {
-            func_0200E684(delivery);
+            BATTLE_EXAMINATION_RefreshMarker(delivery);
         } else {
             MI_CpuFill8(delivery, 0, BATTLE_EXAMINATION_GetBlockSize());
         }

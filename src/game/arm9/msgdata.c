@@ -26,7 +26,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MSGDATA_AllocSite     0x020A7E8C  data
- *   func_020461B8  0x020461B8  arm
+ *   MSGDATA_GetLanguageIndex  0x020461B8  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -35,12 +35,12 @@
  *   MSGDATA_RefreshLanguage  0x02046180  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   ARC_TOOL_SeekHandle  0x0204960C  arm
- *   sub_02045E3C  0x02045E3C  arm
- *   sub_0204960C  0x0204960C  arm
- *   sub_020495F4  0x020495F4  arm
+ *   MSGDATA_DecryptUnits  0x02045E3C  arm
+ *   ARC_TOOL_SeekHandle  0x0204960C  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   sub_02045CAC  0x02045CAC  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   sub_02046110  0x02046110  arm
+ *   MSGDATA_LoadBank  0x02046110  arm
  *   sub_020461E4  0x020461E4  arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_GetLength 0x020458F8 arm
@@ -369,12 +369,12 @@ void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
 
 /*
  * Advance the object by one: read its current index (STRBUF_GetLength), ask
- * sub_02045E3C for the entry one past it in the list STRBUF_GetChars returns,
+ * MSGDATA_DecryptUnits for the entry one past it in the list STRBUF_GetChars returns,
  * and install the answer with STRBUF_Truncate.
  *
  * Three of the four calls need the object pointer, so it is pinned in r6
  * for the whole body; the incoming second argument survives in r5 across
- * two calls before reaching sub_02045E3C's r2.
+ * two calls before reaching MSGDATA_DecryptUnits's r2.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/MSGDATA_DecryptStrbuf.c \
@@ -632,7 +632,7 @@ void MSGDATA_LoadBank(struct MsgBankLoad *bank)
 
 /*
  * Re-read the clamped index for the header at +0 and, if it moved, record
- * it at +0x1a and redraw through sub_02046110 when the enable byte at +0x1b
+ * it at +0x1a and redraw through MSGDATA_LoadBank when the enable byte at +0x1b
  * says so.
  *
  * The two guards do not share an exit: the first `popeq` returns from the

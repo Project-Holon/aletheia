@@ -91,7 +91,7 @@ extern int gpGetInfo(void **connection, int profile, int checkCache, int blockin
 extern int gpConnectPreAuthenticatedA(void **connection, char *authtoken, char *partnerchallenge, int firewall, int blocking, GPCallback callback, void *param);
 extern int DWCi_Acc_IsAuthentic(DWCstAccUserData *userdata);
 extern void DWCi_Acc_LoginIdToUserName(DWCstAccLoginId *loginid, u32 gamecode, char *username);
-extern u64 func_02059084(DWCstAccLoginId *loginid);
+extern u64 DWCi_Acc_GetUserId(DWCstAccLoginId *loginid);
 extern int DWCi_Acc_IsValidLoginId(DWCstAccLoginId *loginid);
 extern int DWCi_Acc_CheckConsoleUserId(DWCstAccLoginId *loginid);
 extern void DWCi_Acc_CreateTempLoginId(DWCstAccLoginId *loginid);
@@ -103,12 +103,12 @@ extern void DWC_Free(int name, void *ptr, u32 size);
 extern void DWCi_Auth_ProcessAuthentication(void);
 extern int DWCi_Auth_IsSucceeded(void);
 extern void DWCi_Auth_GetGameSpyToken(char *authtoken, char *partnerchallenge);
-extern void func_020590C8(DWCstAccLoginId *loginid, u64 userid);
+extern void DWCi_Acc_SetUserId(DWCstAccLoginId *loginid, u64 userid);
 extern int DWCi_Auth_GetErrorCode(void);
 extern void gpDisconnect(void **connection);
 extern int strcmp(const char *a, const char *b);
 extern void DWCi_Acc_SetLoginIdToUserData(DWCstAccUserData *userdata, DWCstAccLoginId *loginid, int gs_profile_id);
-extern int func_02186618(void **connection, char *loginTicket);
+extern int gpGetLoginTicket(void **connection, char *loginTicket);
 
 /* this unit */
 extern void DWCi_LoginInit(DWCstLoginControl *logcnt, DWCstAccUserData *userdata, void **pGpObj, int productID, u32 gamecode, u16 *playerName, void (*callback)(int, int, void *), void *param);

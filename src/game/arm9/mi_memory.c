@@ -1,7 +1,7 @@
 /*
  * file:     mi_memory.c
  * unit:     yes
- * function: MIi_CpuClear16, MIi_CpuCopy16, func_02082A7C, MIi_CpuCopy32, MIi_CpuSend32, MIi_CpuClearFast, MIi_CpuCopyFast, MI_Copy32B, MI_Copy36B, func_02082B7C, MI_Copy64B, MI_CpuFill8, MI_CpuFill, MI_CpuCopy8, MI_CpuComp8, MI_CpuCopy, MI_CpuMove, MI_Zero36B
+ * function: MIi_CpuClear16, MIi_CpuCopy16, func_02082A7C, MIi_CpuCopy32, MIi_CpuSend32, MIi_CpuClearFast, MIi_CpuCopyFast, MI_Copy32B, MI_Copy36B, MI_Copy48B, MI_Copy64B, MI_CpuFill8, MI_CpuFill, MI_CpuCopy8, MI_CpuComp8, MI_CpuCopy, MI_CpuMove, MI_Zero36B
  * address:  0x02082A48
  * region:   arm9
  * compiler: dsi/1.1p1

@@ -1,7 +1,7 @@
 /*
  * file:     gpiprofile.c
  * unit:     yes
- * function: gpiProfilesTableHash, func_0218FA0C, func_0218FA1C, func_0218FB14, gpiProcessNewProfile, gpiProfileListAdd, gpiGetProfile, gpiProcessDeleteProfle, func_0218FEF0, gpiRemoveProfile, func_0218FF38, func_0218FF98, gpiProfileMapCallback, func_0218FFFC, func_0219003C, func_0219008C, func_021900BC, func_021900EC, gpiCanFreeProfile, gpiProcessRecvBlockedList
+ * function: gpiProfilesTableHash, gpiProfilesTableCompare, gpiProfilesTableFree, func_0218FB14, gpiProcessNewProfile, gpiProfileListAdd, gpiGetProfile, gpiProcessDeleteProfle, gpiRemoveProfileByID, gpiRemoveProfile, gpiCheckProfileForUser, gpiFindProfileByUser, gpiProfileMapCallback, func_0218FFFC, func_0219003C, gpiFindBuddy, gpiRemoveBuddyStatus, gpiRemoveBuddyStatusInfo, gpiCanFreeProfile, gpiProcessRecvBlockedList
  * address:  0x0218F9F8
  * region:   ov009
  * compiler: dsi/1.1p1

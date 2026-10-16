@@ -212,7 +212,7 @@ void ISS_SWITCH_SET_ResetSwitches(void *set)
  * its only caller anywhere in the image).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C4C8.c \
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SET_ReadBgmNo.c \
  *       --func ISS_SWITCH_SET_ReadBgmNo --addr 0x0202C4C8 --cc 1.1p1 --thumb
  */
 u32 ISS_SWITCH_SET_ReadBgmNo(u32 *set)

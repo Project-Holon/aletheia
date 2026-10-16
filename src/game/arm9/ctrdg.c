@@ -1,7 +1,7 @@
 /*
  * file:     ctrdg.c
  * unit:     yes
- * function: func_02090EF4, CTRDGi_InitCommon, CTRDG_IsExisting, CTRDGi_ChangeLatestAccessCycle, func_0209109C, CTRDGi_LockByProcessor, func_0209112C, CTRDGi_SendtoPxi
+ * function: CTRDG_IsExistedAtInit, CTRDGi_InitCommon, CTRDG_IsExisting, CTRDGi_ChangeLatestAccessCycle, CTRDGi_RestoreAccessCycle, CTRDGi_LockByProcessor, CTRDGi_UnlockByProcessor, CTRDGi_SendtoPxi
  * address:  0x02090EF4
  * region:   arm9
  * compiler: dsi/1.1p1

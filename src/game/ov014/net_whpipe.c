@@ -50,7 +50,7 @@
  *   WIH_GetBeaconSendCount  0x02179614  thumb  ov014
  *   g_ParentConnectModes     0x0217967C  data   a2
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_02178E28  0x02178E28  thumb  ov014
+ *   DWCi_MOV_WH_SetUserGameInfo  0x02178E28  thumb  ov014
  *   g_ChildConnectModes     0x02179680  data  ov014  a2
  *   g_SearchChannels     0x02179678  data  a1
  *   func_020056EC  0x020056EC  thumb
@@ -103,7 +103,7 @@ extern u16 WIH_GetBitmap(void);
 /* wih.c: the WH work's beaconSendCount. */
 extern unsigned long WIH_GetBeaconSendCount(void *unused);
 void DWCi_ScreenDC_FlushRange(void *p, u32 n);
-void func_02178E28(void *p, u32 n);
+void DWCi_MOV_WH_SetUserGameInfo(void *p, u32 n);
 u32 func_020056EC(u32 n);
 /* The bssid argument is const: that lets the ldrh of b[1] schedule above the strh of b[2] (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md). */
 int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c);
@@ -975,7 +975,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
         ((WhPipeBeacon *)buf)->checksum = GF_STANDARD_SetupCalc(buf + 2, len - 2);
         DWCi_ScreenDC_FlushRange(buf, len);
         if (WIH_GetSysState() == 1) {
-            func_02178E28(buf, (u16)len);
+            DWCi_MOV_WH_SetUserGameInfo(buf, (u16)len);
             return;
         }
         WIH_SetBeaconGameInfo((int)buf, len, net->ggid, work->tgid);

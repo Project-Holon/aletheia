@@ -42,7 +42,7 @@
  *   socket  0x0217EB18  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
- *   func_0217EF00  0x0217EF00  arm  ov009
+ *   SetReceiveBufferSize  0x0217EF00  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   GSISocketSelect  0x0217ED64  arm  ov009
  *   sGhttpConnecting     0x021CF12C  data
@@ -150,7 +150,7 @@ extern int gsiGetResolvedIP(int *p);
 extern int socket(int pf, int type, int protocol);
 extern int GOAGetLastError(int socket);
 extern int SetSockBlocking(int sock, int isblocking);
-extern int func_0217EF00(int sock, int size);
+extern int SetReceiveBufferSize(int sock, int size);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern int ghiSendBufferedData(struct GHIConnection *connection);
@@ -461,7 +461,7 @@ void ghiDoConnecting(GHIConnection *connection)
             return;
         }
         if (connection->throttle)
-            func_0217EF00(connection->socket, gGhttpThrottleBufferSize);
+            SetReceiveBufferSize(connection->socket, gGhttpThrottleBufferSize);
 
         if (connection->encryptor.engine == 4)
         {

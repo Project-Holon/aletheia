@@ -1,7 +1,7 @@
 /*
  * file:     dwc_error.c
  * unit:     yes
- * function: func_02059E18, DWC_GetLastErrorEx, DWC_ClearError, DWCi_IsError, DWCi_SetError
+ * function: DWC_GetLastError, DWC_GetLastErrorEx, DWC_ClearError, DWCi_IsError, DWCi_SetError
  * address:  0x02059E18
  * region:   arm9
  * compiler: dsi/1.1p1

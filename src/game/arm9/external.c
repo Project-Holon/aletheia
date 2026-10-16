@@ -1,7 +1,7 @@
 /*
  * file:     external.c
  * unit:     yes
- * function: RTC_Init, RTC_GetDateAsync, RTC_GetDate, RTC_GetTimeAsync, RTC_GetTime, RTC_GetDateTimeAsync, RTC_GetDateTime, RTCEXi_GetCommonCallback, func_02088A04, func_02088E5C, RtcGetResultCallback, RtcWaitBusy
+ * function: RTC_Init, RTC_GetDateAsync, RTC_GetDate, RTC_GetTimeAsync, RTC_GetTime, RTC_GetDateTimeAsync, RTC_GetDateTime, RTCEXi_GetCommonCallback, RtcCommonCallback, RtcBCD2HEX, RtcGetResultCallback, RtcWaitBusy
  * address:  0x02088788
  * region:   arm9
  * compiler: dsi/1.1p1

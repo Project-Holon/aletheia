@@ -151,7 +151,7 @@
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
  *   MAIL_CreateSlotCopy 0x02009050 thumb
- *   func_02008EF8 0x02008EF8 thumb
+ *   MAIL_IsDesignValid 0x02008EF8 thumb
  *   BGWINFRM_HideFrame 0x0202CC70 thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
@@ -1143,7 +1143,7 @@ void MB_SEQ_CloseMenu(struct MailBoxProc *p)
 
 extern struct Mail *MAIL_CreateSlotCopy(struct MailData *mailData, u32 unused, int index, u32 heapId);
 
-extern int func_02008EF8(const struct Mail *mail);
+extern int MAIL_IsDesignValid(const struct Mail *mail);
 
 extern void BGWINFRM_HideFrame(struct BgWinFrm *mgr, u32 idx);
 
@@ -1317,7 +1317,7 @@ void MB_SEQ_CollectMails(struct MailBoxProc *p)
     for(i=0;i<20;i++) {
         p->view->listIndex[i]=255;
         p->view->mails[i]=MAIL_CreateSlotCopy(p->mailData,0,i,102);
-        if(func_02008EF8(p->view->mails[i])==1) {
+        if(MAIL_IsDesignValid(p->view->mails[i])==1) {
             p->view->listIndex[p->view->mailCount]=i;
             ++p->view->mailCount;
         }

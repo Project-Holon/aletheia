@@ -17,7 +17,7 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   FIELD_GIMMICK_GATE_HasMessagesToShow  0x021F3A70  thumb
- *   func_021F3D24  0x021F3D24  thumb
+ *   FIELD_GIMMICK_GATE_HasNewsEntry  0x021F3D24  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   RTC_GetDate  0x02088864  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
@@ -241,7 +241,7 @@ extern void FIELD_GIMMICK_GATE_LogMessage(GateWork *work, int kind, int param);
 extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work);
-extern int func_021F3D24(GateWork *work);
+extern int FIELD_GIMMICK_GATE_HasNewsEntry(GateWork *work);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern int RTC_GetDate(RtcDate *date);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
@@ -391,7 +391,7 @@ void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work)
         GIMMICK_OBJ_ELBOARD_FillSavedListMessages(work);
         return;
     }
-    if (func_021F3D24(work) != 0) {
+    if (FIELD_GIMMICK_GATE_HasNewsEntry(work) != 0) {
         GIMMICK_OBJ_ELBOARD_FillNoticeMessages(work);
         return;
     }

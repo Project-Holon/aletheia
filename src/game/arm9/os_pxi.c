@@ -1,7 +1,7 @@
 /*
  * file:     os_pxi.c
  * unit:     yes
- * function: OS_IsResetOccurred, OSi_CommonCallback, func_02084A84
+ * function: OS_IsResetOccurred, OSi_CommonCallback, OSi_SendToPxi
  * address:  0x02084A28
  * region:   arm9
  * compiler: dsi/1.1p1

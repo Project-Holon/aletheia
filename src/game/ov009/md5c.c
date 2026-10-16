@@ -1,7 +1,7 @@
 /*
  * file:     md5c.c
  * unit:     yes
- * function: GSMD5Init, func_0218497C, GSMD5Final, GSMD5Transform, Encode, Decode, GSMD5_memcpy, GSMD5_memset, GSMD5Print, GSMD5Digest
+ * function: GSMD5Init, GSMD5Update, GSMD5Final, GSMD5Transform, Encode, Decode, GSMD5_memcpy, GSMD5_memset, GSMD5Print, GSMD5Digest
  * address:  0x02184938
  * region:   ov009
  * compiler: dsi/1.1p1

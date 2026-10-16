@@ -41,7 +41,7 @@
  *   CPSi_big_from_char  0x02164CC4  arm  ov009
  *   CPSi_big_power  0x0216469C  arm  ov009
  *   exit_computebound  0x021600E4  arm  ov009
- *   func_02164D20  0x02164D20  arm  ov009
+ *   CPSi_char_from_big  0x02164D20  arm  ov009
  *   CPSiAlloc     0x021A8280  data
  *   CPSiFree     0x021A82B0  data
  *   CPSi_md5_init  0x021633F0  arm  ov009
@@ -109,7 +109,7 @@
  *   mustget_change_cipher_spec_and_finished  0x0216286C  arm  ov009
  *   send_client_key_exchange  0x021625B8  arm  ov009
  *   create_master_secret  0x02161264  arm  ov009
- *   func_0215FEE0  0x0215FEE0  arm  ov009
+ *   cache_session  0x0215FEE0  arm  ov009
  *   CPSi_TcpConnectRaw  0x0215ABB0  arm  ov009
  *   parse_record_in_buf  0x02161C80  arm  ov009
  *   OSi_ReferSymbol  0x02004EB0  arm
@@ -140,7 +140,7 @@ extern void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes
 extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           unsigned short *n);
 extern void exit_computebound(unsigned long old_priority);
-extern void func_02164D20(unsigned char *d, unsigned short *s, int numbytes, int digits);
+extern void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes, int digits);
 extern void CPSi_md5_init(void *ctx);
 extern void CPSi_md5_calc(void *ctx, void *data0, int datalen);
 extern void CPSi_md5_result(void *ctx, unsigned char *digest);
@@ -189,7 +189,7 @@ extern void create_key_block(CPSSslConnection *con);
 extern int mustget_change_cipher_spec_and_finished(CPSSoc *soc);
 extern void send_client_key_exchange(CPSSoc *soc);
 extern void create_master_secret(CPSSslConnection *con);
-extern void func_0215FEE0(CPSSslConnection *con, unsigned long ip, unsigned short port);
+extern void cache_session(CPSSslConnection *con, unsigned long ip, unsigned short port);
 extern unsigned long CPSi_TcpConnectRaw(CPSSoc *soc);
 extern void parse_record_in_buf(CPSSslConnection *con, unsigned char *buf);
 extern void OSi_ReferSymbol(const char *symbol);
@@ -726,7 +726,7 @@ static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca)
     CPSi_big_power(tmp_var, b, c, digits, n);
     exit_computebound(old_priority);
     s = (unsigned char *)b;
-    func_02164D20(s, tmp_var, ca->modulo_len, digits);
+    CPSi_char_from_big(s, tmp_var, ca->modulo_len, digits);
     result = 0;
     if (s[0] != 0 || s[1] != 1) {
         result = 2;
@@ -1907,7 +1907,7 @@ static int ssl_connect_try(CPSSoc *soc)
         send_client_key_exchange(soc);
         create_master_secret(con);
         if (con->cache != 0)
-            func_0215FEE0(con, soc->remote_ip, soc->remote_port);
+            cache_session(con, soc->remote_ip, soc->remote_port);
         create_key_block(con);
         send_change_cipher_spec_and_finished(soc);
         if (mustget_change_cipher_spec_and_finished(soc) != 0)

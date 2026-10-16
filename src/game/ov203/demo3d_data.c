@@ -62,7 +62,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
- *   sub_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
@@ -616,7 +616,7 @@ extern void BG_SYS_PushTile(u32);
 
 extern void BMP_MENUWORK_DrawWindowEx(void *,u32,u32,u32);
 
-extern u32 sub_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
@@ -872,7 +872,7 @@ void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Demo3dMessageContext 
         BMP_WIN_MakeScreen(desc);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(desc));
         BMP_MENUWORK_DrawWindowEx(ctx->desc,1,ctx->base,0);
-        sub_02045C04((struct Rec *)bank);
+        MSGDATA_Delete((struct Rec *)bank);
         BG_SYS_SetVisibleLayer(1,0);
         BG_SYS_SetVisibleLayer(0,1);
         BG_SYS_SetPlaneVisible(1,1);

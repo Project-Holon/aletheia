@@ -71,10 +71,10 @@
  *   ZUKAN_DETAIL_COMMON_GetGraphics 0x021BC3B0 thumb
  *   ZUKAN_INFO_Create 0x021B9E68 thumb ov206
  *   ZUKAN_INFO_Show 0x021BA7C8 thumb ov206
- *   func_021BC4D8 0x021BC4D8 thumb
+ *   ZUKAN_DETAIL_COMMON_StartBlendIn 0x021BC4D8 thumb
  *   ZUKAN_DETAIL_COMMON_IsBlendBusy 0x021BC4C8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
- *   func_021BC4E4 0x021BC4E4 thumb
+ *   ZUKAN_DETAIL_COMMON_StartBlendOut 0x021BC4E4 thumb
  *   ZUKAN_DETAIL_HEADBAR_SetIconForm 0x021BE854 thumb
  *   ZUKAN_INFO_Update 0x021BA374 thumb ov206
  *   ZUKAN_DETAIL_COMMON_UpdateBlendFades 0x021BC46C thumb
@@ -309,13 +309,13 @@ extern void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5,
 
 extern void ZUKAN_INFO_Show(void *p);
 
-extern void func_021BC4D8(struct Ov208Blend *b);
+extern void ZUKAN_DETAIL_COMMON_StartBlendIn(struct Ov208Blend *b);
 
 extern int ZUKAN_DETAIL_COMMON_IsBlendBusy(struct Ov208Blend *b);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
-extern void func_021BC4E4(struct Ov208Blend *b);
+extern void ZUKAN_DETAIL_COMMON_StartBlendOut(struct Ov208Blend *b);
 
 extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *s);
 
@@ -530,8 +530,8 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         break;
     case 1:
         *state = 2;
-        func_021BC4D8(p->fc);
-        func_021BC4D8(p->f10);
+        ZUKAN_DETAIL_COMMON_StartBlendIn(p->fc);
+        ZUKAN_DETAIL_COMMON_StartBlendIn(p->f10);
         break;
     case 2:
         if (ZUKAN_DETAIL_COMMON_IsBlendBusy(p->fc) == 0 && ZUKAN_DETAIL_TOUCHBAR_GetMode(scn) == 2 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 2) {
@@ -543,8 +543,8 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
     case 3:
         if (p->f14 != 0) {
             *state = 4;
-            func_021BC4E4(p->fc);
-            func_021BC4E4(p->f10);
+            ZUKAN_DETAIL_COMMON_StartBlendOut(p->fc);
+            ZUKAN_DETAIL_COMMON_StartBlendOut(p->f10);
             ZUKAN_DETAIL_HEADBAR_SetIconForm(icon);
             if (p->f14 == 2)
                 ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scn, 0);

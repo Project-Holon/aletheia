@@ -52,7 +52,7 @@
  *   DWC_Http_GetBase64DecodedResult  0x0217A77C  arm  ov009
  *   strtol  0x02095F40  arm
  *   strlen  0x0209477C  arm
- *   func_0217A7C8  0x0217A7C8  arm  ov009
+ *   DWC_Http_GetRawResult  0x0217A7C8  arm  ov009
  *   errno     0x02153FAC  data
  *   gDwcAuthLabelDate     0x021A2394  data ov009
  *   gDwcAuthLabelHttpResult     0x021A239C  data ov009
@@ -157,7 +157,7 @@ extern int atoi(u32 a0);
 extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern s32 strtol(u32 a0, u32 *a1, u32 a2);
 extern int strlen(const u8 *s);
-extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_len);
+extern int DWC_Http_GetRawResult(DWCHttp *http, char *label, char *buffer, int buffer_len);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
 extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
@@ -595,7 +595,7 @@ int DWCi_Auth_FillResult(void)
         DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelLocator, gDwcAuthGlobal.auth->result.locator, 0x33);
         DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelChallenge, gDwcAuthGlobal.auth->result.challenge, 9);
         DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelDateTime, gDwcAuthGlobal.auth->result.datetime, 0xf);
-        func_0217A7C8(gDwcAuthGlobal.auth->http, gDwcAuthLabelSetCookie, gDwcAuthGlobal.auth->result.cookie, 0x41);
+        DWC_Http_GetRawResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelSetCookie, gDwcAuthGlobal.auth->result.cookie, 0x41);
         gDwcAuthGlobal.auth->result.cookieEnd = 0;
         if (returncode != 40)
             gDwcAuthGlobal.state = 1;

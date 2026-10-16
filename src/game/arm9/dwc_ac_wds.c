@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_wds.c
  * unit:     yes
- * function: func_0205A2C8, WDSScanCallback, func_0205A4C8, WDS_Initialize, WDS_End, WDS_StartScan, WDS_EndScan, WDS_GetApInfoByIndex, WDS_GetApInfoAll, WDS_DecryptWMBssDesc, IsValidApnum, WDS_IsAvailableForAutoConnect
+ * function: WDSGetRssi8, WDSScanCallback, WDS_GetWorkAreaSize, WDS_Initialize, WDS_End, WDS_StartScan, WDS_EndScan, WDS_GetApInfoByIndex, WDS_GetApInfoAll, WDS_DecryptWMBssDesc, IsValidApnum, WDS_IsAvailableForAutoConnect
  * address:  0x0205A2C8
  * region:   arm9
  * compiler: dsi/1.1p1

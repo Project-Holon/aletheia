@@ -18,7 +18,7 @@
 #include "msl_stdio_shared_types.h"
 #include "msl_wchar_shared_types.h"
 
-extern int func_020965B4(u8 *p, int i);
+extern int MSL_C_LIB_ShouldRoundUp(u8 *p, int i);
 
 int fwide(u8 *stream, int orientation);
 
@@ -132,7 +132,7 @@ void MSL_C_LIB_IncrementDigits(u8 *dec, int idx)
 }
 
 /*
- * closed:   blocker func_020965B4 is now a manifest entry (matched class)
+ * closed:   blocker MSL_C_LIB_ShouldRoundUp is now a manifest entry (matched class)
  *
  * Clamps the new value against the count byte at +4, records it and, when the
  * worker returns non-negative, propagates it.
@@ -151,7 +151,7 @@ void MSL_C_LIB_SetPrecision(DB *dec, int precision)
     if (precision >= dec->length) {
         return;
     }
-    r = func_020965B4((u8 *)dec, precision);
+    r = MSL_C_LIB_ShouldRoundUp((u8 *)dec, precision);
     dec->length = precision;
     if (r < 0) {
         return;

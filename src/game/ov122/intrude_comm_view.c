@@ -151,6 +151,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
  *   TCB_DeleteTask  0x02030EAC  arm  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
+ *   WIH_DWC_FindSlotByKey  0x020107FC  thumb  arm9
  */
 
 struct BgTemplate;
@@ -360,7 +361,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetScanResultMac(u32);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
-extern int func_020107FC(void *);
+extern int WIH_DWC_FindSlotByKey(void *);
 extern u32 GFL_NET_GetScanResult(u32 a);
 extern u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(void *);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
@@ -1105,7 +1106,7 @@ void INTRUDE_COMM_VIEW_OnScanResult(char *p)
 {
     int index;
     void *record, *text;
-    index = func_020107FC((void *)GAME_DATA_GetField1A0(((IntrudeCommView *)p)->gameData));
+    index = WIH_DWC_FindSlotByKey((void *)GAME_DATA_GetField1A0(((IntrudeCommView *)p)->gameData));
     if (index != -1) {
         record = (void *)GFL_NET_GetScanResult(index);
         text = STRBUF_Create(200, ((IntrudeCommView *)p)->heapId);

@@ -39,7 +39,7 @@
  *   gpConnectPreAuthenticatedA  0x021859C0  arm  ov009
  *   DWCi_Acc_IsAuthentic  0x020596C8  arm
  *   DWCi_Acc_LoginIdToUserName  0x02059474  arm
- *   func_02059084  0x02059084  arm
+ *   DWCi_Acc_GetUserId  0x02059084  arm
  *   DWCi_Acc_IsValidLoginId  0x020596B0  arm
  *   DWCi_Acc_CheckConsoleUserId  0x02059644  arm
  *   DWCi_Acc_CreateTempLoginId  0x02059588  arm
@@ -51,13 +51,13 @@
  *   DWCi_Auth_ProcessAuthentication  0x02178DB4  arm  ov009
  *   DWCi_Auth_IsSucceeded  0x02178E80  arm  ov009
  *   DWCi_Auth_GetGameSpyToken  0x02178EA0  arm  ov009
- *   func_020590C8  0x020590C8  arm
+ *   DWCi_Acc_SetUserId  0x020590C8  arm
  *   DWCi_Auth_GetErrorCode  0x02178E90  arm  ov009
  *   gpDisconnect  0x02185ACC  arm  ov009
  *   strcmp         0x020948E0  arm
  *   DWCi_Acc_SetLoginIdToUserData  0x020597F0  arm
  *   @16552  0x021A201C  data
- *   func_02186618  0x02186618  arm  ov009
+ *   gpGetLoginTicket  0x02186618  arm  ov009
  */
 #include "dwc_login_types.h"
 
@@ -374,7 +374,7 @@ int DWCi_RemoteLogin(void)
     u64 userid;
     if (DWCi_Acc_IsAuthentic(gDwcLoginControl->userdata)) {
         DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->userdata->authentic, gDwcLoginControl->userdata->gamecode, gDwcLoginControl->username);
-        userid = func_02059084(&gDwcLoginControl->userdata->authentic);
+        userid = DWCi_Acc_GetUserId(&gDwcLoginControl->userdata->authentic);
     } else {
         if (!DWCi_Acc_IsValidLoginId(&gDwcLoginControl->loginId)) {
             if (DWCi_Acc_CheckConsoleUserId(&gDwcLoginControl->userdata->pseudo))
@@ -408,7 +408,7 @@ void DWCi_RemoteLoginProcess(void)
 			DWCi_GPConnect(DWCi_GPConnectCallback, 2);
 			return;
 		}
-		func_020590C8(&gDwcLoginControl->loginId, DWCi_Auth_GetConsoleUserId());
+		DWCi_Acc_SetUserId(&gDwcLoginControl->loginId, DWCi_Auth_GetConsoleUserId());
 		DWCi_GPConnect(DWCi_GPConnectCallback, 3);
 		return;
 	}
@@ -492,7 +492,7 @@ int DWCi_GetLoginTicket(char *loginTicket)
 {
 	if (!DWCi_CheckLogin())
 		return 0;
-	if (func_02186618(gDwcLoginControl->connection, loginTicket) == 0)
+	if (gpGetLoginTicket(gDwcLoginControl->connection, loginTicket) == 0)
 		return 1;
 	return 0;
 }

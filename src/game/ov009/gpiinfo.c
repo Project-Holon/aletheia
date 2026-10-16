@@ -1,7 +1,7 @@
 /*
  * file:     gpiinfo.c
  * unit:     yes
- * function: gpiIsValidDate, gpiIntToDate, gpiInfoCacheToArg, gpiProcessGetInfo, gpiAddLocalInfo, gpiSendLocalInfo, gpiSendUserInfo, func_0218C774, func_0218CC48, func_0218D40C, gpiGetInfo, gpiSetInfoCache, func_0218D71C
+ * function: gpiIsValidDate, gpiIntToDate, gpiInfoCacheToArg, gpiProcessGetInfo, gpiAddLocalInfo, gpiSendLocalInfo, gpiSendUserInfo, func_0218C774, func_0218CC48, gpiSendGetInfo, gpiGetInfo, gpiSetInfoCache, gpiFreeInfoCache
  * address:  0x0218BA10
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -122,9 +122,9 @@
  *   gGpiInfoKeyGetProfileSessKey               0x021A4D60  data
  *   gGpiInfoKeyId               0x021A4D78  data
  *   gpiAddOperation  0x0218E114  arm   ov009
- *   func_0218D40C  0x0218D40C  arm   ov009
+ *   gpiSendGetInfo  0x0218D40C  arm   ov009
  *   gpiProcess  0x02186E9C  arm   ov009
- *   func_0218D71C  0x0218D71C  arm   ov009
+ *   gpiFreeInfoCache  0x0218D71C  arm   ov009
  *   gsifree                          0x0217EAE0 arm
  */
 typedef unsigned char  u8;
@@ -335,9 +335,9 @@ extern void gpiEncodeString(char *unencodedString, char *encodedString);
 extern int strlen(char *s);
 extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
 extern int gpiAddOperation(void **connection, int type, void *data, GPIOperation_s **op, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern int func_0218D40C(void **connection, int profileid, int operationid);
+extern int gpiSendGetInfo(void **connection, int profileid, int operationid);
 extern int gpiProcess(void **connection, int blockingOperationID);
-extern void func_0218D71C(GPIProfile *profile);
+extern void gpiFreeInfoCache(GPIProfile *profile);
 extern void gsifree(void * ptr);
 int gpiIsValidDate(int day, int month, int year);
 int gpiIntToDate(void **connection, int date, int *day, int *month, int *year);
@@ -1271,7 +1271,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
     { int __result__ = gpiAddOperation(connection, 2, 0, &operation, blocking, callback, param);
       if (__result__ != 0) return __result__; }
     id = operation->id;
-    { int __result__ = func_0218D40C(connection, profile, id);
+    { int __result__ = gpiSendGetInfo(connection, profile, id);
       if (__result__ != 0) return __result__; }
 done:
     if (blocking) {
@@ -1290,7 +1290,7 @@ int gpiSetInfoCache(void **connection, GPIProfile *profile, GPIInfoCache *cache)
 {
     if (((GPIConnection *)*connection)->infoCaching == 0)
         return 1;
-    func_0218D71C(profile);
+    gpiFreeInfoCache(profile);
     profile->cache = gsimalloc(sizeof(GPIInfoCache));
     if (profile->cache != 0) {
         *profile->cache = *cache;

@@ -1,7 +1,7 @@
 /*
  * file:     wm_mp.c
  * unit:     yes
- * function: func_0208FA28, WM_StartMPEx, WM_StartMP, WM_SetMPDataToPortEx, WM_EndMP
+ * function: WMi_StartMP, WM_StartMPEx, WM_StartMP, WM_SetMPDataToPortEx, WM_EndMP
  * address:  0x0208FA28
  * region:   arm9
  * compiler: dsi/1.1p1

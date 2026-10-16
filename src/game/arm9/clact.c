@@ -64,7 +64,7 @@
  *   _fsub          0x0209CB8C  arm
  *   g_ClactAnimFuncTable  0x020A1394  data
  *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
- *   sub_0206428C  0x0206428C  arm
+ *   NNS_G2dInitCellAnimation  0x0206428C  arm
  *   NNSi_G2dGetCellTransferStateIndex  0x02066AE0  arm
  *   NNS_G2dInitCellAnimationVramTransfered  0x020642C8  arm
  *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
@@ -73,9 +73,9 @@
  *   NNS_G2dSetCellAnimationSequence  0x0206434C  arm
  *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
  *   NNS_G2dTickCellAnimation   0x02064364  arm
- *   sub_020649D4   0x020649D4  arm
+ *   NNS_G2dTickMCAnimation   0x020649D4  arm
  *   NNS_G2dSetCellAnimationCurrentFrame  0x02064384  arm
- *   sub_02064AB4  0x02064AB4  arm
+ *   NNS_G2dSetMCAnimationCurrentFrame  0x02064AB4  arm
  *   gUnk_020A7F3C  0x020A7F3C  data
  *   NNS_G2dSetCellAnimationSpeed   0x020643C4  arm
  *   NNS_G2dSetMCAnimationSpeed  0x02064B68  arm
@@ -601,7 +601,7 @@ extern void NNSi_G2dRendererDrawCellZOffset(void *a0);
 extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
 extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellAnim *c);
 extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct G2dDataBank *bank, u32 idx);
-extern void sub_0206428C(char *self, int a1, struct G2dDataBank *c);
+extern void NNS_G2dInitCellAnimation(char *self, int a1, struct G2dDataBank *c);
 extern int NNSi_G2dGetCellTransferStateIndex(void);
 extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
 extern int NNS_G2dGetMCWorkAreaSize(struct G2dDataBank *mc_bank, u32 b);
@@ -610,9 +610,9 @@ extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *o, void *b
 extern void NNSi_G2dResetCellTransferState(u32 idx);
 extern void  NNS_G2dSetCellAnimationSequence(u8 *r, void *v);
 extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
-extern void sub_020649D4(char *self, int a1);
+extern void NNS_G2dTickMCAnimation(char *self, int a1);
 extern void NNS_G2dSetCellAnimationCurrentFrame(struct CellAnim *anim, u32 i);
-extern void sub_02064AB4(char *self, unsigned int i);
+extern void NNS_G2dSetMCAnimationCurrentFrame(char *self, unsigned int i);
 extern void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value);
 extern void NNS_G2dSetMCAnimationSpeed(u8 *o, void *arg);
 extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
@@ -5167,7 +5167,7 @@ s32 CLACT_GetAnimCtlKind(const struct ActorReq *req)
  * Copy the source's two handles into the object's +4/+8 pair, then bind the
  * record at +0xc to them.
  *
- * The +4 field is read back from memory for sub_0206428C's third argument
+ * The +4 field is read back from memory for NNS_G2dInitCellAnimation's third argument
  * rather than reused out of r2: the intervening call to NNS_G2dGetAnimSequenceByIdx could
  * alias it, so the cached load does not survive
  * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md, the case
@@ -5186,7 +5186,7 @@ void CLACT_InitCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req)
 {
     anim_ctl->cell_bank = req->cell_bank;
     anim_ctl->anim_bank = req->anim_bank;
-    sub_0206428C((char *)anim_ctl->anim, (int)NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, 0), anim_ctl->cell_bank);
+    NNS_G2dInitCellAnimation((char *)anim_ctl->anim, (int)NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, 0), anim_ctl->cell_bank);
 }
 
 
@@ -5513,7 +5513,7 @@ void CLACT_AddMultiCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 
 void CLACT_AddVramAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
-    sub_020649D4((char *)anim_ctl->anim, frames);
+    NNS_G2dTickMCAnimation((char *)anim_ctl->anim, frames);
 }
 
 
@@ -5752,7 +5752,7 @@ void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame)
  */
 void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame)
 {
-    sub_02064AB4((char *)anim_ctl->anim, frame);
+    NNS_G2dSetMCAnimationCurrentFrame((char *)anim_ctl->anim, frame);
 }
 
 

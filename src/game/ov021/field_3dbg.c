@@ -22,7 +22,7 @@
  *   g_Field3dbgSourceName     0x021DDE5C  data
  *   GFL_HEAP_Free  0x020307B0  arm
  *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
- *   func_0207D8C4  0x0207D8C4  arm
+ *   G3_LoadMtx44  0x0207D8C4  arm
  *   g_DefaultProjectionMtx     0x02148B54  data  a4
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
@@ -87,7 +87,7 @@ extern void *ov035_func_021EFEC0(void *work, void *gameSystem, u32 heapId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
 extern void NNS_G3dGeFlushBuffer(void);
-extern void func_0207D8C4(ProjectionMtx *m);
+extern void G3_LoadMtx44(ProjectionMtx *m);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void *ARC_TOOL_LoadHandleMember(void *archive, u32 fileId, u16 heapId);
 extern void G3D_SYSTEM_InitResourceByFile(void *dst, void *src);
@@ -160,7 +160,7 @@ void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard)
         NNS_G3dGeFlushBuffer();
         REG_MTX_MODE = 0;
         proj = g_DefaultProjectionMtx;
-        func_0207D8C4(&proj);
+        G3_LoadMtx44(&proj);
         REG_MTX_MODE = 2;
         REG_MTX_IDENTITY = 0;
         REG_MTX_PUSH = 0;

@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: func_02034E24, func_02034EF8, func_02034F5C, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, func_02035080, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, func_02035120, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, func_0203515C, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, func_020351BC, UI_TestFlags39Global, func_020351EC, UI_SetIntrDataGlobal, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
+ * function: UI_Create, func_02034EF8, func_02034F5C, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetFlags39, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, UI_TestFlags39, UI_TestFlags39Global, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, func_0203524C, func_02035268, UI_RunSuspendHook, func_020352AC, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -24,17 +24,17 @@
  *   KEY_Main  0x020360A8  arm
  *   TOUCHPANEL_Main  0x02035A60  arm
  *   UI_ServiceLidSleep  0x0203545C  arm
- *   sub_020356A0  0x020356A0  arm
+ *   UI_ApplyInputBounds  0x020356A0  arm
  *   KEY_GetCont  0x0203630C  arm
  *   sub_02035544  0x02035544  arm
  *   g_02034F5C_Ptr  0x021469BC  data
  *   func_02034EF8   0x02034EF8  arm
  *   d_021469BC   0x021469BC  data  a4
- *   func_02035080 0x02035080  arm
- *   func_02035120 0x02035120  arm
- *   func_0203515C 0x0203515C arm
+ *   UI_SetSuspendHook 0x02035080  arm
+ *   UI_SetResumeHook 0x02035120  arm
+ *   UI_SetFlags39 0x0203515C arm
  *   func_02035188 0x02035188  arm
- *   func_020351BC 0x020351BC arm
+ *   UI_TestFlags39 0x020351BC arm
  *   OS_Terminate  0x02088234  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   PM_GetBattery  0x0208BF6C  arm
@@ -51,7 +51,7 @@
  *   func_02035268   0x02035268  arm
  *   TOUCHPANEL_AutoSamplingRestart   0x02035DC8  arm
  *   UI_SetBottomBackLight   0x02035428  arm
- *   func_02035284   0x02035284  arm
+ *   UI_RunSuspendHook   0x02035284  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   OS_ResetSystem            0x02087BCC  arm
  *   OS_WaitIrq                0x0208459C  arm
@@ -123,15 +123,15 @@ extern void  PM_GetBackLight(u32 *top, u32 *bottom);
 extern void KEY_Main(void);
 extern void TOUCHPANEL_Main(void);
 extern void UI_ServiceLidSleep(void);
-extern void sub_020356A0(int a0);
+extern void UI_ApplyInputBounds(int a0);
 extern unsigned int KEY_GetCont(void);
 extern void sub_02035544(u32 x);
 extern void func_02034EF8(struct UiCtx *p);
-extern void func_02035080(struct UiCtx *p, UiCb fn, void *arg);
-extern void func_02035120(struct UiCtx *p, UiCb fn, void *arg);
-extern void func_0203515C(struct UiCtx *p, u8 mask);
+extern void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
+extern void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
+extern void UI_SetFlags39(struct UiCtx *p, u8 mask);
 extern int func_02035188(struct UiCtx *p, u32 v);
-extern u32 func_020351BC(struct UiCtx *p, u32 mask);
+extern u32 UI_TestFlags39(struct UiCtx *p, u32 mask);
 extern void OS_Terminate(void);
 extern int OS_IsRunOnTwl(void);
 extern int PM_GetBattery(u32 *out);
@@ -326,7 +326,7 @@ void UI_Main(struct UiCtx *p)
     KEY_Main();
     TOUCHPANEL_Main();
     UI_ServiceLidSleep();
-    sub_020356A0((int)p);
+    UI_ApplyInputBounds((int)p);
 
     if ((KEY_GetCont() & 0x30C) == 0x30C && p->flags39 == 0) {
         if (p->intrData != 0) {
@@ -533,8 +533,8 @@ void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c)
             a(c);
         }
     }
-    func_02035080(gUiState.ctx, a, c);
-    func_02035120(gUiState.ctx, b, c);
+    UI_SetSuspendHook(gUiState.ctx, a, c);
+    UI_SetResumeHook(gUiState.ctx, b, c);
 }
 
 
@@ -667,7 +667,7 @@ void UI_SetFlags39(struct UiCtx *p, u8 mask)
 
 void UI_SetFlags39Global(u8 mask)
 {
-    func_0203515C(gUiState.ctx, mask);
+    UI_SetFlags39(gUiState.ctx, mask);
 }
 
 
@@ -732,7 +732,7 @@ u32 UI_TestFlags39(struct UiCtx *p, u32 mask)
 
 u32 UI_TestFlags39Global(u32 mask)
 {
-    return func_020351BC(gUiState.ctx, mask);
+    return UI_TestFlags39(gUiState.ctx, mask);
 }
 
 
@@ -988,7 +988,7 @@ extern void PM_GoSleepMode(u32 trigger, u32 a, u32 b);
 extern void func_020352AC(struct UiCtx *ui);
 extern void func_02035268(struct UiCtx *ui);
 extern void TOUCHPANEL_AutoSamplingRestart(void);
-extern void func_02035284(struct UiCtx *ui);
+extern void UI_RunSuspendHook(struct UiCtx *ui);
 extern struct UiCtx *UI_GetContext(void);
 extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
 extern u32 CARD_TryWaitBackupAsync(void);
@@ -1257,7 +1257,7 @@ void UI_ServiceLidSleep(void)
             if (ui->suspended == 0) {
                 ui->suspended = 1;
                 UI_SetBottomBackLight(0);
-                func_02035284(ui);
+                UI_RunSuspendHook(ui);
                 func_0203524C(ui);
             }
         }

@@ -38,7 +38,7 @@
  *   GF_OVERLAY_Load            0x02034AC4  arm
  *   GF_OVERLAY_Unload            0x02034A5C  arm
  *   NCFG_ReadConfig            0x0205FAA8  arm
- *   sub_0202E8D8             0x0202E8D8  thumb
+ *   COMM_PLAYER_SUPPORT_FindPeerRecord             0x0202E8D8  thumb
  *   gWihDwc                  0x021461E0  data
  *   sWihDwcAssertArg         0x020A7240  data
  *   sWihDwcFile              0x020A7244  data
@@ -127,7 +127,7 @@ extern void NCFG_ReadConfig(u8 *filterState, u32 value);
 extern int  GFL_NET_GetRunState(void);
 extern void OS_GetMacAddress(u8 *mac);
 extern u8 NET_WHPIPE_GetEntryBeaconKind(int slot);
-extern int sub_0202E8D8(char *record, int key, char *mac);
+extern int COMM_PLAYER_SUPPORT_FindPeerRecord(char *record, int key, char *mac);
 extern int UI_Update(int a);
 extern int GFL_USE_PollPowerExit(void);
 extern int GFL_USE_UpdateSound(int a);
@@ -488,7 +488,7 @@ int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201057C.c \
+ *   python tools/match.py one --src src/matched/WIH_DWC_IsPrivacyBeacon.c \
  *       --func WIH_DWC_IsPrivacyBeacon --addr 0x0201057C --cc 1.1p1
  */
 u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
@@ -682,7 +682,7 @@ void WIH_DWC_ResetFilterState(void)
 
 /*
  * wih_dwc.c: find the first of 16 slots whose ov014 state is 0x20 and whose
- * GFL_NET_GetScanResult record sub_0202E8D8 accepts against (key, own MAC address);
+ * GFL_NET_GetScanResult record COMM_PLAYER_SUPPORT_FindPeerRecord accepts against (key, own MAC address);
  * -1 when none, or when GFL_NET_GetRunState reports the layer inactive.  The guard
  * is a wrapping `if` (it branches forward over the whole body to the shared
  * -1 exit) and the two loop tests are joined by &&.
@@ -721,7 +721,7 @@ int WIH_DWC_FindSlotByKey(void *searchKey)
         GFL_NET_GetInitParam();
         OS_GetMacAddress(mac);
         for (slot = 0; slot < 0x10; slot++) {
-            if (NET_WHPIPE_GetEntryBeaconKind(slot) == 0x20 && sub_0202E8D8((void *)GFL_NET_GetScanResult(slot), (int)searchKey, (char *)mac) != 0) {
+            if (NET_WHPIPE_GetEntryBeaconKind(slot) == 0x20 && COMM_PLAYER_SUPPORT_FindPeerRecord((void *)GFL_NET_GetScanResult(slot), (int)searchKey, (char *)mac) != 0) {
                 return slot;
             }
         }

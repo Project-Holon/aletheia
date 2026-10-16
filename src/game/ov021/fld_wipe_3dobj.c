@@ -36,7 +36,7 @@
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
  *   MI_Copy36B  0x02082B60  arm
  *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
- *   func_0206E394  0x0206E394  arm
+ *   NNS_G3dMdlSetMdlLightEnableFlag  0x0206E394  arm
  *   func_0206E4FC  0x0206E4FC  arm
  *   func_0206E484  0x0206E484  arm
  *   func_0206E574  0x0206E574  arm
@@ -202,7 +202,7 @@ extern void MI_Copy36B(Mtx43 *src, Mtx33 *dst);
 
 extern G3dRenderRef *G3D_SYSTEM_GetRenderObj(void *render);
 
-extern void func_0206E394(void *mdl, int a, int b);
+extern void NNS_G3dMdlSetMdlLightEnableFlag(void *mdl, int a, int b);
 
 extern void func_0206E4FC(void *mdl, int a, int b);
 
@@ -374,7 +374,7 @@ void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha)
     status.scale.z = 0x4000;
     MI_Copy36B((Mtx43 *)NNS_G3dGlbGetInvCameraMtx(), &status.rotate);
     mdl = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj->object))->rndObj;
-    func_0206E394(mdl, 0, 0);
+    NNS_G3dMdlSetMdlLightEnableFlag(mdl, 0, 0);
     func_0206E4FC(mdl, 0, 0);
     func_0206E484(mdl, 0, 2);
     func_0206E574(mdl, 0, alpha);

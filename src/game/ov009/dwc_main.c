@@ -64,6 +64,9 @@
  *   DWCi_NNFreeNegotiateList  0x02176B34  arm
  *   gpProcess  0x02185948  arm
  *   gpSetCallback  0x0218597C  arm
+ *   DWCi_GT2ConnectAttemptCallback  0x0216E5B0  arm
+ *   DWCi_ClearQR2Key  0x0216EC18  arm
+ *   DWCi_ShutdownMatch  0x0216F334  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
@@ -121,7 +124,7 @@ extern int gpProcess(void **conn);
 extern void gpDestroy(void **p);
 extern void DWCi_ShutdownLogin(void);
 extern void DWCi_ShutdownFriend(void);
-extern void func_0216F334(void);
+extern void DWCi_ShutdownMatch(void);
 extern void DWCi_ShutdownTransport(void);
 extern void gt2CloseSocket(void *socket);
 extern int DWC_UpdateConnection(void);
@@ -179,14 +182,14 @@ extern int gt2CreateSocket(void **socket, char *localAddress, int outgoingBuffer
 extern void gt2Listen(void *socket, void *callback);
 extern void gt2SetUnrecognizedMessageCallback(void *socket, void *callback);
 extern void DWCi_GT2SocketErrorCallback(void *socket);
-extern void func_0216E5B0();
+extern void DWCi_GT2ConnectAttemptCallback();
 extern int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len);
 extern int DWCi_NodeInfoList_RemoveAID(unsigned char aid);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern void DWCi_StopFriendProcess(int error, int errorCode);
 extern void gt2CloseConnectionHard(void *conn);
 extern void DWCi_InitGPProcessCount(void);
-extern void func_0216EC18(void);
+extern void DWCi_ClearQR2Key(void);
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern char *strchr(const char *s, int c);
 extern char *strncpy(char *d, const char *s, unsigned long n);
@@ -349,7 +352,7 @@ void DWC_ShutdownFriendsMatch(void)
     }
     DWCi_ShutdownLogin();
     DWCi_ShutdownFriend();
-    func_0216F334();
+    DWCi_ShutdownMatch();
     DWCi_ShutdownTransport();
     if (gDwcGlobalState.st->gt2Socket != 0) {
         gt2CloseSocket(gDwcGlobalState.st->gt2Socket);
@@ -834,7 +837,7 @@ int DWCi_GT2Startup(void)
 	gt2Result = gt2CreateSocket(&gDwcGlobalState.st->gt2Socket, gt2AddressToString(0, baseport, 0), gDwcGlobalState.st->sendBufSize, gDwcGlobalState.st->recvBufSize, DWCi_GT2SocketErrorCallback);
 	if (DWCi_HandleGT2Error(gt2Result))
 		return gt2Result;
-	gt2Listen(gDwcGlobalState.st->gt2Socket, func_0216E5B0);
+	gt2Listen(gDwcGlobalState.st->gt2Socket, DWCi_GT2ConnectAttemptCallback);
 	gt2SetUnrecognizedMessageCallback(gDwcGlobalState.st->gt2Socket, DWCi_GT2UnrecognizedMessageCallback);
 	return gt2Result;
 }
@@ -1147,7 +1150,7 @@ void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, int ind
 	if (error == 0 && cancel != 0) {
 		if (gDwcGlobalState.st->match.state == 0) {
 			DWCi_SetState(3);
-			func_0216EC18();
+			DWCi_ClearQR2Key();
 		}
 	} else if (error == 0) {
 		DWCi_SetState(5);

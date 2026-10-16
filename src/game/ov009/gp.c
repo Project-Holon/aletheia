@@ -1,7 +1,7 @@
 /*
  * file:     gp.c
  * unit:     yes
- * function: func_021858FC, gpDestroy, gpProcess, gpSetCallback, gpConnectPreAuthenticatedA, gpDisconnect, gpProfileSearchA, gpGetInfo, gpSetInfosA, gpSendBuddyRequestA, func_02185E94, gpDenyBuddyRequest, func_02185FA4, gpGetBuddyStatus, gpGetBuddyIndex, gpIsBuddy, func_02186220, gpSetStatusA, gpSendBuddyMessageA, gpGetReversBuddiesList, func_02186618
+ * function: gpInitialize, gpDestroy, gpProcess, gpSetCallback, gpConnectPreAuthenticatedA, gpDisconnect, gpProfileSearchA, gpGetInfo, gpSetInfosA, gpSendBuddyRequestA, gpAuthBuddyRequest, gpDenyBuddyRequest, gpGetNumBuddies, gpGetBuddyStatus, gpGetBuddyIndex, gpIsBuddy, gpDeleteBuddy, gpSetStatusA, gpSendBuddyMessageA, gpGetReversBuddiesList, gpGetLoginTicket
  * address:  0x021858FC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -45,7 +45,7 @@
  *   gpiCanFreeProfile  0x02190140  arm   ov009
  *   gpiRemoveProfile  0x0218FF24  arm   ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
- *   func_0219008C  0x0219008C  arm   ov009
+ *   gpiFindBuddy  0x0219008C  arm   ov009
  *   g_021A40A0     0x021A40A0  data
  *   g_021A40B0     0x021A40B0  data
  *   gpiGetProfile  0x0218FD9C  arm
@@ -100,7 +100,7 @@ extern void gsifree(void *ptr);
 extern int gpiCanFreeProfile(char *p);
 extern void gpiRemoveProfile(const int *p, void *profile);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
-extern GPIProfile *func_0219008C(void **connection, int buddyIndex);
+extern GPIProfile *gpiFindBuddy(void **connection, int buddyIndex);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
 extern int strcmp(const char *a, const char *b);
@@ -479,7 +479,7 @@ int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status)
         gpiSetErrorString((int *)connection, (int)g_021A40B0);
         return 2;
     }
-    profile = func_0219008C(connection, index);
+    profile = gpiFindBuddy(connection, index);
     if (profile == 0) {
         gpiSetErrorString((int *)connection, (int)g_021A40B0);
         return 2;

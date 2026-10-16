@@ -1,7 +1,7 @@
 /*
  * file:     fs_proc_rom.c
  * unit:     yes
- * function: FSi_IsUnreadableRomOffset, FSi_OnRomReadDone, FSi_ReadRomCallback, FSi_RomArchiveProc, FSi_EmptyArchiveProc, FSi_ReadDummyCallback, FSi_WriteDummyCallback, FSi_SeekDummyCallback, FSi_InitRomArchive, FS_SetDefaultDMA, func_0207ACB4, FS_CreateFileFromRom
+ * function: FSi_IsUnreadableRomOffset, FSi_OnRomReadDone, FSi_ReadRomCallback, FSi_RomArchiveProc, FSi_EmptyArchiveProc, FSi_ReadDummyCallback, FSi_WriteDummyCallback, FSi_SeekDummyCallback, FSi_InitRomArchive, FS_SetDefaultDMA, FS_TryLoadTable, FS_CreateFileFromRom
  * address:  0x0207A980
  * region:   arm9
  * compiler: dsi/1.1p1

@@ -46,8 +46,8 @@
  *   SBServerSetNext  0x0219E264  arm  ov009
  *   ArrayDeleteAt  0x0218437C  arm  ov009
  *   SBServerGetNext  0x0219E26C  arm  ov009
- *   func_0219DFF8  0x0219DFF8  arm  ov009
- *   func_0218452C  0x0218452C  arm  ov009
+ *   SBServerFree  0x0219DFF8  arm  ov009
+ *   ArrayClear  0x0218452C  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   SBRefStrHash  0x0219DF64  arm  ov009
  *   TableLookup  0x0218482C  arm  ov009
@@ -80,7 +80,7 @@
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   ArrayFree  0x021841B0  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
- *   func_0219DFC0  0x0219DFC0  arm  ov009
+ *   SBRefStrHashCleanup  0x0219DFC0  arm  ov009
  *   GOACryptInit  0x0219D2F0  arm  ov009
  *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   SBServerSetPrivateAddr  0x0219E9B4  arm  ov009
@@ -195,8 +195,8 @@ extern unsigned short SBServerGetPublicQueryPortNBO(const unsigned short *p);
 extern void SBServerSetNext(int *p, int v);
 extern void ArrayDeleteAt(int a, int b);
 extern int SBServerGetNext(const int *p);
-extern void func_0219DFF8(void *elem);
-extern void func_0218452C(void *a);
+extern void SBServerFree(void *elem);
+extern void ArrayClear(void *a);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void *SBRefStrHash(void *l);
 extern struct Ref *TableLookup(void *t, void *k);
@@ -222,7 +222,7 @@ extern int send(int sock, char *buf, int len, int flags);
 extern void *gsimalloc(unsigned long size);
 extern void ArrayFree(void *a);
 extern void gsifree(void *p);
-extern void func_0219DFC0(SBServerList *slist);
+extern void SBRefStrHashCleanup(SBServerList *slist);
 extern void GOACryptInit(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
 extern void SBServerSetFlags(SBServer *server, unsigned char flags);
 extern void SBServerSetPrivateAddr(SBServer *server, unsigned int ip, unsigned short port);
@@ -637,7 +637,7 @@ void SBFreeDeadList(SBServerList *slist)
 		return;
 	for (server = next; server != 0; server = next) {
 		next = (void *)SBServerGetNext(server);
-		func_0219DFF8(&server);
+		SBServerFree(&server);
 	}
 	slist->deadlist = 0;
 }
@@ -656,7 +656,7 @@ void SBServerListClear(SBServerList *slist)
 	nservers = ArrayLength(slist->servers);
 	for (i = 0; i < nservers; i++)
 		AddServerToDeadlist((SBServerList *)slist, *(void **)ArrayNth(slist->servers, i));
-	func_0218452C(slist->servers);
+	ArrayClear(slist->servers);
 	SBFreeDeadList(slist);
 }
 
@@ -1144,7 +1144,7 @@ void SBServerListCleanup(SBServerList *slist)
 {
     SBServerListDisconnect((SBServerList *)slist);
     SBServerListClear((SBServerList *)slist);
-    func_0219DFC0(slist);
+    SBRefStrHashCleanup(slist);
     if (slist->servers != 0)
         ArrayFree(slist->servers);
     slist->servers = 0;

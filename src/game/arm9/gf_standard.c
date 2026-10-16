@@ -18,11 +18,11 @@
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   MATHi_CRC16InitTable  0x020819B8  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
- *   sub_02088168   0x02088168  arm
- *   sub_020813D8   0x020813D8  arm
- *   sub_0208142C   0x0208142C  arm
- *   sub_020814C0   0x020814C0  arm
- *   sub_02082D44   0x02082D44  arm
+ *   OS_GetLowEntropyData   0x02088168  arm
+ *   MATH_SHA1Init   0x020813D8  arm
+ *   MATH_SHA1Update   0x0208142C  arm
+ *   MATH_SHA1GetHash   0x020814C0  arm
+ *   MI_CpuCopy8   0x02082D44  arm
  *   g_021469FC     0x021469FC  data
  *   g_02146A0C     0x02146A0C  data
  *   g_02146A1C     0x02146A1C  data
@@ -110,15 +110,15 @@ extern int STD_CompareString(const char *s1, const char *s2);
 
 extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
 
-extern void sub_02088168(u32 *buffer);
+extern void OS_GetLowEntropyData(u32 *buffer);
 
-extern void sub_020813D8(void *p);
+extern void MATH_SHA1Init(void *p);
 
-extern void sub_0208142C(void *ctx, void *buf, u32 n);
+extern void MATH_SHA1Update(void *ctx, void *buf, u32 n);
 
-extern void sub_020814C0(void *ctx, void *out);
+extern void MATH_SHA1GetHash(void *ctx, void *out);
 
-extern void sub_02082D44(void *in, void *out, u32 n);
+extern void MI_CpuCopy8(void *in, void *out, u32 n);
 
 extern void RTC_Init(void);
 
@@ -400,12 +400,12 @@ void GF_STANDARD_CalcHash(struct Lcg64 *out)
     u8 b[0x14];
     u8 d[0x60];
 
-    sub_02088168((u32 *)c);
-    sub_020813D8(d);
-    sub_0208142C(d, b, 0x14);
-    sub_0208142C(d, c, 0x20);
-    sub_020814C0(d, b);
-    sub_02082D44(b, a, 8);
+    OS_GetLowEntropyData((u32 *)c);
+    MATH_SHA1Init(d);
+    MATH_SHA1Update(d, b, 0x14);
+    MATH_SHA1Update(d, c, 0x20);
+    MATH_SHA1GetHash(d, b);
+    MI_CpuCopy8(b, a, 8);
     out->x = *(unsigned long long *)a;
     out->mul = 0x5D588B656C078965ULL;
     out->add = 0x269EC3;

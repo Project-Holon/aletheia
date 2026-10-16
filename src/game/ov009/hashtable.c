@@ -1,7 +1,7 @@
 /*
  * file:     hashtable.c
  * unit:     yes
- * function: func_02184610, TableNew2, TableFree, func_02184700, TableEnter, TableRemove, TableLookup, func_0218489C, func_021848E4
+ * function: TableNew, TableNew2, TableFree, TableCount, TableEnter, TableRemove, TableLookup, TableMapSafe, TableMapSafe2
  * address:  0x02184610
  * region:   ov009
  * compiler: dsi/1.1p1

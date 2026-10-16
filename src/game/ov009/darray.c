@@ -1,7 +1,7 @@
 /*
  * file:     darray.c
  * unit:     yes
- * function: func_021840CC, func_021840F0, func_02184120, func_02184144, ArrayFree, ArrayLength, ArrayNth, ArrayAppend, func_0218424C, func_021842D0, func_02184324, ArrayDeleteAt, func_0218439C, ArraySort, ArraySearch, func_021844A0, func_021844DC, func_0218452C, func_02184558, func_021845AC
+ * function: func_021840CC, ArrayGrow, SetElement, func_02184144, ArrayFree, ArrayLength, ArrayNth, ArrayAppend, func_0218424C, func_021842D0, func_02184324, ArrayDeleteAt, ArrayReplaceAt, ArraySort, ArraySearch, ArrayMapBackwards, func_021844DC, ArrayClear, mylsearch, mybsearch
  * address:  0x021840CC
  * region:   ov009
  * compiler: dsi/1.1p1

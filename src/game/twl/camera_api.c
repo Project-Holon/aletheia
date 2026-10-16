@@ -44,6 +44,8 @@
  *   OS_GetTick  0x020870D0  arm  arm9
  *   OS_SetIrqFunction  0x02084774  arm  arm9
  *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
+ *   OS_EnableInterrupts  0x02087974  arm  arm9
+ *   OS_GetCpsrIrq  0x020879E0  arm  arm9
  */
 typedef unsigned int u32;
 typedef signed int s32;
@@ -133,7 +135,7 @@ extern void OS_SendMessage(u32*, u32, u32);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_Sleep(u32);
 extern u32 OS_ReceiveMessage(u32*, u32*, u32);
-extern void func_02087974(void);
+extern void OS_EnableInterrupts(void);
 extern void PXI_Init(void);
 extern u32 PXI_IsCallbackReady(u32, u32);
 extern void PXI_SetFifoRecvCallback(u32, void (*)(int, u32, int));
@@ -151,7 +153,7 @@ extern void OS_KillThread(u32*, u32);
 extern void OS_SpinWaitSysCycles(u32);
 extern void OS_RestoreInterrupts(u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
-extern u32 func_020879E0(void);
+extern u32 OS_GetCpsrIrq(void);
 extern void PXIi_HandlerRecvFifoNotEmpty(void);
 
 /* camera.o */
@@ -539,7 +541,7 @@ handle:
             }
             return;
         }
-        func_02087974();
+        OS_EnableInterrupts();
         CAMERA_ResetCore();
         OS_DisableInterrupts();
         data_02732FC8.busy = 0;
@@ -1527,7 +1529,7 @@ void CameraWaitBusy(void) {
         return;
     }
     do {
-        u32 mode = func_020879E0();
+        u32 mode = OS_GetCpsrIrq();
         if (mode == 0x80 || data_04000208 == 0) {
             PXIi_HandlerRecvFifoNotEmpty();
         }

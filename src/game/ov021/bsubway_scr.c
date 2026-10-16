@@ -56,7 +56,7 @@
  *   GDS_PROFILE_AddScoreRecTotal  0x0200DA80  thumb
  *   d_021DACDC     0x021DACDC  data  a1
  *   GDS_PROFILE_IncScoreRecCountC  0x0200DB60  thumb
- *   func_0200DEA8  0x0200DEA8  thumb
+ *   BSUBWAY_SAVEDATA_ExportTrainer  0x0200DEA8  thumb
  *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
  *   GDS_PROFILE_ScoreRecFlag  0x0200DBA0  thumb
  *   GDS_PROFILE_IncScoreRecLevel  0x0200DBF0  thumb
@@ -355,7 +355,7 @@ extern void GDS_PROFILE_MaxScoreRecCountB(struct BsubwayScoreData *p, u32 i, u16
 extern u8 GDS_PROFILE_GetScoreRecLevel(struct BsubwayScoreData *p);
 extern void GDS_PROFILE_AddScoreRecTotal(struct BsubwayScoreData *p, s32 v);
 extern void GDS_PROFILE_IncScoreRecCountC(struct BsubwayScoreData *p, u32 i);
-extern void func_0200DEA8(u32 h, u8 *list, u8 n, u16 id);
+extern void BSUBWAY_SAVEDATA_ExportTrainer(u32 h, u8 *list, u8 n, u16 id);
 extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 a0);
 extern u32 GDS_PROFILE_ScoreRecFlag(struct BsubwayScoreData *p, s32 i, u32 op);
 extern void GDS_PROFILE_IncScoreRecLevel(struct BsubwayScoreData *p);
@@ -1043,7 +1043,7 @@ void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work)
 
     switch (work->playMode) {
     case 4:
-        func_0200DEA8((u32)work->wifiData, (u8 *)work->trainers, round, work->heapId);
+        BSUBWAY_SAVEDATA_ExportTrainer((u32)work->wifiData, (u8 *)work->trainers, round, work->heapId);
         return;
     case 2:
     case 3:

@@ -42,6 +42,13 @@
  *   SND_StopSeq    0x02089330  arm
  *   SND_SetTrackMute  0x02089580  arm
  *   SND_SetTrackMuteEx  0x020895B0  arm
+ *   SND_SetPlayerTempoRatio  0x020893B8  arm
+ *   SND_SetPlayerChannelPriority  0x020893E8  arm
+ *   SND_SetTrackVolume  0x02089400  arm
+ *   SND_SetTrackPitch  0x0208941C  arm
+ *   SND_SetTrackPan  0x02089438  arm
+ *   SND_SetTrackModDepth  0x02089454  arm
+ *   SND_SetTrackModSpeed  0x02089470  arm
  */
 #include "nns_snd_types.h"
 
@@ -51,15 +58,15 @@ extern void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallb
 extern void NNS_FndAppendListObject(NNSFndList *list, void *object);
 extern void *NNS_FndGetNextListObject(NNSFndList *list, void *object);
 extern void NNSi_SndFaderSet(SndFader *fader, s32 target, u32 frames);
-extern void func_020893E8(u8 playerNo, u32 value);
+extern void SND_SetPlayerChannelPriority(u8 playerNo, u32 value);
 extern void SND_SetTrackMute(int playerNo, u32 trackBitMask, int flag);
 extern void SND_SetTrackMuteEx(int playerNo, u32 trackBitMask, int mute);
-extern void func_02089400(u8 playerNo, u32 trackBitMask, int volume);
-extern void func_0208941C(u8 playerNo, u32 trackBitMask, u32 pitch);
-extern void func_02089438(u8 playerNo, u32 trackBitMask, u32 pan);
-extern void func_02089454(u8 playerNo, u32 trackBitMask, u32 depth);
-extern void func_02089470(u8 playerNo, u32 trackBitMask, u32 speed);
-extern void func_020893B8(u8 playerNo, u32 value);
+extern void SND_SetTrackVolume(u8 playerNo, u32 trackBitMask, int volume);
+extern void SND_SetTrackPitch(u8 playerNo, u32 trackBitMask, u32 pitch);
+extern void SND_SetTrackPan(u8 playerNo, u32 trackBitMask, u32 pan);
+extern void SND_SetTrackModDepth(u8 playerNo, u32 trackBitMask, u32 depth);
+extern void SND_SetTrackModSpeed(u8 playerNo, u32 trackBitMask, u32 speed);
+extern void SND_SetPlayerTempoRatio(u8 playerNo, u32 value);
 extern int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *object);
 extern void NNS_FndInitList(NNSFndList *list, int offset);
@@ -302,7 +309,7 @@ void NNS_SndHandleMoveVolume(SndHandle *handle, u32 volume, u32 frames)
 void NNS_SndHandlePause(SndHandle *handle, u32 value)
 {
     if (handle->player == 0) return;
-    func_020893E8(handle->player->playerNo, value);
+    SND_SetPlayerChannelPriority(handle->player->playerNo, value);
 }
 
 
@@ -326,7 +333,7 @@ void NNS_SndHandleSetTrackMute(SndHandle *handle, u32 trackMask, u32 value)
 void NNS_SndHandleSetTrackVolume(SndHandle *handle, u32 trackMask, int volumeIndex)
 {
     if (handle->player == 0) return;
-    func_02089400(handle->player->playerNo, trackMask, g_020A5D08[volumeIndex]);
+    SND_SetTrackVolume(handle->player->playerNo, trackMask, g_020A5D08[volumeIndex]);
 }
 
 
@@ -334,7 +341,7 @@ void NNS_SndHandleSetTrackVolume(SndHandle *handle, u32 trackMask, int volumeInd
 void NNS_SndHandleSetTrackPitch(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
-    func_0208941C(handle->player->playerNo, trackMask, value);
+    SND_SetTrackPitch(handle->player->playerNo, trackMask, value);
 }
 
 
@@ -342,7 +349,7 @@ void NNS_SndHandleSetTrackPitch(SndHandle *handle, u32 trackMask, u32 value)
 void NNS_SndHandleSetTrackPan(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
-    func_02089438(handle->player->playerNo, trackMask, value);
+    SND_SetTrackPan(handle->player->playerNo, trackMask, value);
 }
 
 
@@ -350,7 +357,7 @@ void NNS_SndHandleSetTrackPan(SndHandle *handle, u32 trackMask, u32 value)
 void NNS_SndHandleSetTrackModDepth(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
-    func_02089454(handle->player->playerNo, trackMask, value);
+    SND_SetTrackModDepth(handle->player->playerNo, trackMask, value);
 }
 
 
@@ -358,7 +365,7 @@ void NNS_SndHandleSetTrackModDepth(SndHandle *handle, u32 trackMask, u32 value)
 void NNS_SndHandleSetTrackModSpeed(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
-    func_02089470(handle->player->playerNo, trackMask, value);
+    SND_SetTrackModSpeed(handle->player->playerNo, trackMask, value);
 }
 
 
@@ -366,7 +373,7 @@ void NNS_SndHandleSetTrackModSpeed(SndHandle *handle, u32 trackMask, u32 value)
 void NNS_SndHandleStop(SndHandle *handle, u32 value)
 {
     if (handle->player == 0) return;
-    func_020893B8(handle->player->playerNo, value);
+    SND_SetPlayerTempoRatio(handle->player->playerNo, value);
 }
 
 

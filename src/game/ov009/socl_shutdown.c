@@ -1,7 +1,7 @@
 /*
  * file:     socl_shutdown.c
  * unit:     yes
- * function: func_0215E6B8, SOCLi_ShutdownCallBack
+ * function: SOCL_Shutdown, SOCLi_ShutdownCallBack
  * address:  0x0215E6B8
  * region:   ov009
  * compiler: dsi/1.1p1

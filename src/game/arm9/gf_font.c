@@ -171,7 +171,7 @@ extern const u8         gTopBitMasks[];
  *
  * Promoted 2026-09-21 from src/pending/GF_FONT_Create.c with no change to the
  * C: both calls now resolve on the `matched` class from
- * src/matched/sub_0201D854.c and src/matched/sub_0201DA00.c, which were
+ * src/matched/GF_FONT_LoadResource.c and src/matched/GF_FONT_SetFormat.c, which were
  * MATCH-parked when this file was written.
  *
  * Addresses are Black-image addresses.
@@ -255,7 +255,7 @@ u32 GF_FONT_Delete(struct GfFont *font)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0201D854.c  *       --func GF_FONT_LoadResource --addr 0x0201D854 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GF_FONT_LoadResource.c  *       --func GF_FONT_LoadResource --addr 0x0201D854 --cc 1.1p1 --thumb
  */
 void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32 heapId)
 {
@@ -329,7 +329,7 @@ void GF_FONT_FreeBuffers(struct GfFont *font)
  * gf_font.c's format selector: it records the requested glyph format in the
  * object's first word and dispatches on it through a four-entry table of
  * initialisers, handing each the cell width and height the constructor left at
- * +0x7E and +0x7F.  GF_FONT_ExitFormat, src/pending/sub_0201DADC.c, is the matching
+ * +0x7E and +0x7F.  GF_FONT_ExitFormat, src/pending/GF_FONT_ExitFormat.c, is the matching
  * teardown and dispatches on the same word through the neighbouring table.
  *
  * Every concrete byte is reproduced.  The one unresolved relocation is the
@@ -339,7 +339,7 @@ void GF_FONT_FreeBuffers(struct GfFont *font)
  * twenty bytes of dispatch with nothing to cut away.  It needs a second
  * reference to the table, most likely from an overlay, to move.
  *
- * This is also what keeps GF_FONT_Create, src/pending/sub_0201D7EC.c, out of
+ * This is also what keeps GF_FONT_Create, src/pending/GF_FONT_Create.c, out of
  * src/matched: its only witness for the call to this function would be having
  * it local in the same unit, and a unit that spans it inherits this same
  * unresolved table word.
@@ -347,7 +347,7 @@ void GF_FONT_FreeBuffers(struct GfFont *font)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0201DA00.c \
+ *   python tools/match.py one --src src/pending/GF_FONT_SetFormat.c \
  *       --func GF_FONT_SetFormat --addr 0x0201DA00 --cc 1.1p1 --thumb
  */
 void GF_FONT_SetFormat(struct GfFont *font, u32 format, u32 heapId)
@@ -422,18 +422,18 @@ void GF_FONT_InitStreamedGlyphs(struct GfFont *font, int tilesWide, int tilesHig
  *
  * Every concrete byte is reproduced.  The unresolved relocation is the table
  * base 0x0209E744 and the pool word here is its only witness image-wide, the
- * same dead end as src/pending/sub_0201DA00.c.  Note that the two tables being
+ * same dead end as src/pending/GF_FONT_SetFormat.c.  Note that the two tables being
  * eight bytes apart is *not* usable as evidence: expressing one as an offset
  * from the other would be a claim that they are one object, and the image does
  * not say so.
  *
- * This is in turn what keeps GF_FONT_Delete, src/pending/sub_0201D83C.c, out of
+ * This is in turn what keeps GF_FONT_Delete, src/pending/GF_FONT_Delete.c, out of
  * src/matched.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0201DADC.c \
+ *   python tools/match.py one --src src/pending/GF_FONT_ExitFormat.c \
  *       --func GF_FONT_ExitFormat --addr 0x0201DADC --cc 1.1p1 --thumb
  */
 void GF_FONT_ExitFormat(struct GfFont *font)
@@ -488,7 +488,7 @@ void GF_FONT_ReadGlyph(struct GfFont *font, u16 ch, void *dst, u8 *metrics)
  * (+0x68) onto the copy (+0x88); +0x70 is the font's default glyph.  Method
  * 0 is a direct run, 1 a table, 2 a binary search over (code, index) pairs.
  *
- * Two details closed it (docs/notes/sub_0201DB20.c.txt has every
+ * Two details closed it (docs/notes/GF_FONT_GetGlyphIndex.c.txt has every
  * measurement):
  *
  *   - the rebase re-reads +0x88 as `*(u8 **)((u8 *)f + 0x88)`, so it is not
@@ -503,7 +503,7 @@ void GF_FONT_ReadGlyph(struct GfFont *font, u16 ch, void *dst, u8 *metrics)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201DB20.c \
+ *   python tools/match.py one --src src/matched/GF_FONT_GetGlyphIndex.c \
  *       --func GF_FONT_GetGlyphIndex --addr 0x0201DB20 --cc 1.1p1 --thumb
  */
 u32 GF_FONT_GetGlyphIndex(struct GfFont *font, u16 ch)
@@ -607,7 +607,7 @@ void GF_FONT_ReadStreamedGlyph(const struct GfFont *font, u32 glyphIndex, void *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201DC44.c \
+ *   python tools/match.py one --src src/matched/GF_FONT_DecodeGlyph.c \
  *       --func GF_FONT_DecodeGlyph --addr 0x0201DC44 --cc 1.1p1 --thumb
  */
 void GF_FONT_DecodeGlyph(const struct GfFont *font, const u8 *glyph, u32 lastGroupBits, void *dst, u8 *metrics)
@@ -875,7 +875,7 @@ static inline u8 ReadBits(struct BitReader *reader, u8 count)
 
 /*
  * gf_font.c's format-1 glyph decoder, one of the four hooks GF_FONT_InitStreamedGlyphs
- * installs at font->decodeGlyph (src/pending/sub_0201DAA4.c): the one for format 1
+ * installs at font->decodeGlyph (src/pending/GF_FONT_InitStreamedGlyphs.c): the one for format 1
  * with b == 1.
  *
  * Sixteen 4-pixel groups of a compressed 2bpp 8x8 glyph.  Every even group is
@@ -948,7 +948,7 @@ void GF_FONT_DecodeGlyph8x8(const u8 *src, u32 lastGroupBits, u16 *dst)
  *
  * Twelve bytes, no prologue: the function saves nothing, so disasm.py's
  * prologue sweep never labels it and it prints as part of the `.word` run in
- * front of func_0201E4D4
+ * front of GF_FONT_ReadBits
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * The bit count is assigned last.  Written before the cached byte the two
@@ -957,7 +957,7 @@ void GF_FONT_DecodeGlyph8x8(const u8 *src, u32 lastGroupBits, u16 *dst)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201E4C8.c \
+ *   python tools/match.py one --src src/matched/GF_FONT_InitBitReader.c \
  *       --func GF_FONT_InitBitReader --addr 0x0201E4C8 --cc 1.1p1 --thumb
  */
 void GF_FONT_InitBitReader(struct BitReader *reader, const u8 *src)
@@ -1015,8 +1015,8 @@ u8 GF_FONT_ReadBits(struct BitReader *reader, u8 count)
 
 /*
  * One of the four compressed-glyph decoders src/matched/GF_FONT_InitStreamedGlyphs.c and
- * src/matched/sub_0201DA24.c install at the font object's +8.  All four read
- * the same 2bpp bit stream through the shared reader (src/matched/sub_0201E4C8.c
+ * src/matched/GF_FONT_InitPreloadedGlyphs.c install at the font object's +8.  All four read
+ * the same 2bpp bit stream through the shared reader (src/matched/GF_FONT_InitBitReader.c
  * opens it, src/matched/GF_FONT_ReadBits.c pulls bits) and expand every byte
  * through the 256-entry table src/matched/GF_FONT_SetTextColor.c rebuilds, so the
  * halfwords written to dst are the glyph in 4bpp.  They differ only in how
@@ -1084,8 +1084,8 @@ void GF_FONT_DecodeGlyph8x16(const u8 *src, u32 lastGroupBits, u16 *dst)
 
 /*
  * One of the four compressed-glyph decoders src/matched/GF_FONT_InitStreamedGlyphs.c and
- * src/matched/sub_0201DA24.c install at the font object's +8.  All four read
- * the same 2bpp bit stream through the shared reader (src/matched/sub_0201E4C8.c
+ * src/matched/GF_FONT_InitPreloadedGlyphs.c install at the font object's +8.  All four read
+ * the same 2bpp bit stream through the shared reader (src/matched/GF_FONT_InitBitReader.c
  * opens it, src/matched/GF_FONT_ReadBits.c pulls bits) and expand every byte
  * through the 256-entry table src/matched/GF_FONT_SetTextColor.c rebuilds, so the
  * halfwords written to dst are the glyph in 4bpp.  They differ only in how
@@ -1157,8 +1157,8 @@ void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst)
 
 /*
  * One of the four compressed-glyph decoders src/matched/GF_FONT_InitStreamedGlyphs.c and
- * src/matched/sub_0201DA24.c install at the font object's +8.  All four read
- * the same 2bpp bit stream through the shared reader (src/matched/sub_0201E4C8.c
+ * src/matched/GF_FONT_InitPreloadedGlyphs.c install at the font object's +8.  All four read
+ * the same 2bpp bit stream through the shared reader (src/matched/GF_FONT_InitBitReader.c
  * opens it, src/matched/GF_FONT_ReadBits.c pulls bits) and expand every byte
  * through the 256-entry table src/matched/GF_FONT_SetTextColor.c rebuilds, so the
  * halfwords written to dst are the glyph in 4bpp.  They differ only in how

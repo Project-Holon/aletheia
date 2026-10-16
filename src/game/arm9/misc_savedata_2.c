@@ -23,7 +23,7 @@
  *   MIi_CpuCopy32 0x02082A90  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  *   MISC_SAVEDATA_GetKeyByte  0x0200E918  thumb
- *   func_0200E938  0x0200E938  thumb
+ *   MISC_SAVEDATA_GetKey  0x0200E938  thumb
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -34,7 +34,7 @@
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_SetStringN  0x02045994  arm
- *   sub_0200EC14   0x0200EC14  thumb
+ *   MISC_SAVEDATA_FindFreeRecordSlot   0x0200EC14  thumb
  *   BSUBWAY_SAVEDATA_InitStats  0x0200DFCC  thumb
  */
 #include "misc_savedata_shared_types.h"
@@ -167,7 +167,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern u8 MISC_SAVEDATA_GetKeyByte(const u8 *base, u32 idx);
 
-extern void func_0200E938(u8 *obj, u32 id, void *dest);
+extern void MISC_SAVEDATA_GetKey(u8 *obj, u32 id, void *dest);
 
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
@@ -195,7 +195,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
-extern int sub_0200EC14(char *o);
+extern int MISC_SAVEDATA_FindFreeRecordSlot(char *o);
 
 void *SAVEDATA_GetExtraBlockThunk(u32 a);
 
@@ -699,7 +699,7 @@ void MISC_SAVEDATA_SetKeyField(u8 *obj, u32 id, u32 extra, u8 value)
 
 /*
  * Linear search over up to 10 stored 6-byte keys: MISC_SAVEDATA_GetKeyByte(base, 0)
- * gives the stored count (capped at 10), func_0200E938 copies the i'th key
+ * gives the stored count (capped at 10), MISC_SAVEDATA_GetKey copies the i'th key
  * into a stack buffer, and GF_STANDARD_CompareBytes (DWC's own key comparator)
  * compares it against the caller's key. Returns 1 on the first match, 0
  * if none of the stored keys match.
@@ -725,7 +725,7 @@ u32 MISC_SAVEDATA_FindKey(void *keys, void *key)
     }
 
     for (i = 0; i < count; i++) {
-        func_0200E938(keys, i, buf);
+        MISC_SAVEDATA_GetKey(keys, i, buf);
         if (GF_STANDARD_CompareBytes(key, buf, 6) == 0) {
             return 1;
         }
@@ -737,7 +737,7 @@ u32 MISC_SAVEDATA_FindKey(void *keys, void *key)
  * A four-byte constant getter with no register-saving prologue; it was
  * hiding as the unlabelled follower behind MISC_SAVEDATA_FindKey's EXACT* extent
  * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). Its own
- * follower, sub_0200E9E0, already carries a label.
+ * follower, MISC_SAVEDATA_InitMacAndStats, already carries a label.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/MISC_SAVEDATA_GetMacStructSize.c \
@@ -1031,7 +1031,7 @@ int MISC_SAVEDATA_GetRingRecordIndex(char *o, int idx)
 
     if (n < 0)
         n += 0xf;
-    return sub_0200EC14(o + n * 0x16c);
+    return MISC_SAVEDATA_FindFreeRecordSlot(o + n * 0x16c);
 }
 
 void MISC_SAVEDATA_ExportRingRecord(void *ring, u32 index, void *recordIndex, void *target)

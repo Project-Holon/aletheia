@@ -89,7 +89,7 @@
  *   func_0200864C 0x0200864C thumb
  *   func_02008650 0x02008650 thumb
  *   func_02008654 0x02008654 thumb
- *   func_02008D1C 0x02008D1C thumb
+ *   RECORD_SetCounterClamped 0x02008D1C thumb
  *   RECORD_AddCounter 0x02008DAC thumb
  *   func_02008DFC 0x02008DFC thumb
  *   FIELD_CLOCK_SaveTimestamp 0x02169120 thumb ov010
@@ -263,7 +263,7 @@ extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u8 func_02008654(const struct PlayTime *p);
-extern u32 func_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value);
+extern u32 RECORD_SetCounterClamped(struct Sub02008C20Obj *obj, int i, u32 value);
 extern u32 RECORD_AddCounter(struct Sub02008C20Obj *,int,u32);
 extern u32 func_02008DFC(struct Sub02008C20Obj *,int);
 extern void FIELD_CLOCK_SaveTimestamp(void *);
@@ -478,7 +478,7 @@ void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
     year=func_0200864C(date);
     month=func_02008650(date);
     day=func_02008654(date);
-    func_02008D1C(counter,2,day+(year*10000+month*100));
+    RECORD_SetCounterClamped(counter,2,day+(year*10000+month*100));
 }
 
 

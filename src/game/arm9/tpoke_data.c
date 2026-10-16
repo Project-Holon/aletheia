@@ -223,7 +223,7 @@ int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 su
  * whose second field is either 2 or the caller's v2, and whose third field is
  * the caller's v3, is returned by index; 0xffff when none is.  The bound is
  * re-read at the foot of the loop, which is the shape of
- * src/matched/sub_0202BFC4.c: the container has to be declared as a struct
+ * src/matched/ISS_ZONE_SYS_FindRecord.c: the container has to be declared as a struct
  * with a `count` member and the records reached as `c->items[i]`, because the
  * subscript form is what keeps `c` live in r0 and re-loads `c->count` at the
  * bottom of the loop.  Written with a separate base pointer the compiler caches

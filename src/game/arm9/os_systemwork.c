@@ -1,7 +1,7 @@
 /*
  * file:     os_systemwork.c
  * unit:     yes
- * function: OS_GetBootType, func_02087B14, OSi_IsCodecTwlMode
+ * function: OS_GetBootType, OS_GetBootInfo, OSi_IsCodecTwlMode
  * address:  0x02087B04
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02087B14    0x02087B14  arm
+ *   OS_GetBootInfo    0x02087B14  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   g_02151360     0x02151360  data
  */

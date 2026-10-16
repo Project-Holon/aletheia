@@ -143,6 +143,7 @@
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
  *   BTLV_EFFECT_GetCompetitorType 0x021F8720 thumb ov094
+ *   GFL_NET_ERR_IsWifiGameKind  0x0200F300  thumb  arm9
  */
 #include "btlv_effvm_types.h"
 #include "btlv_gauge_types.h"
@@ -798,7 +799,7 @@ extern int PALANM_RequestFade(struct PalAnmSystem *palAnm, u16 bank, u16 mask, s
 
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSystem *palAnm);
 
-extern int func_0200F300(void);
+extern int GFL_NET_ERR_IsWifiGameKind(void);
 
 extern void GFL_USE_SetBgmPlayerParam(int param);
 
@@ -1794,7 +1795,7 @@ void BTLV_GAUGE_TaskFlashPalettes(void *task, void *arg)
 /* Sets the BGM player parameter unless the player is locked. */
 void BTLV_GAUGE_SetBgmPlayerParam(int bgmParam)
 {
-    if (func_0200F300() != 1)
+    if (GFL_NET_ERR_IsWifiGameKind() != 1)
         GFL_USE_SetBgmPlayerParam(bgmParam);
 }
 

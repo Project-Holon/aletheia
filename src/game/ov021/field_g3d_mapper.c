@@ -40,7 +40,7 @@
  *   MAP_MATRIX_GetHeight  0x02159BF8  thumb
  *   MAP_MATRIX_GetCount  0x02159BFC  thumb
  *   MAP_MATRIX_GetMapGrid  0x02159C20  thumb
- *   func_02159C00  0x02159C00  thumb
+ *   MAP_MATRIX_SetSize  0x02159C00  thumb
  *   GAME_DATA_GetFieldWork  0x02012974  thumb
  *   gFieldG3dMapperMapTypeTable     0x021D3DDC  data
  *   FIELD_G3D_MAP_Create  0x02169148  thumb  ov010
@@ -128,7 +128,7 @@ extern u16 MAP_MATRIX_GetWidth(const struct MapMatrix *matrix);
 extern u16 MAP_MATRIX_GetHeight(const struct MapMatrix *matrix);
 extern int MAP_MATRIX_GetCount(const struct MapMatrix *matrix);
 extern u32 *MAP_MATRIX_GetMapGrid(struct MapMatrix *matrix);
-extern void func_02159C00(struct MapMatrix *matrix, u8 width, u8 height);
+extern void MAP_MATRIX_SetSize(struct MapMatrix *matrix, u8 width, u8 height);
 
 extern FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *config, u32 heapId);
 extern void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
@@ -477,7 +477,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
     mapper->gridWidth = newWidth;
     mapper->gridDepth = newDepth;
     mapper->blockCount = newCount;
-    func_02159C00((struct MapMatrix *)GAME_DATA_GetFieldWork(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
+    MAP_MATRIX_SetSize((struct MapMatrix *)GAME_DATA_GetFieldWork(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
     GFL_HEAP_Free(newGrid);
     return 1;
 }

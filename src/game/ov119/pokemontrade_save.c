@@ -136,10 +136,10 @@
  *   ZUKAN_SAVE_GetSize  0x0200C9EC  thumb
  *   TRADE_HISTORY_GetSize  0x02009D9C  thumb
  *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
- *   func_02009D9C 0x02009D9C thumb
- *   func_02008FFC 0x02008FFC thumb
+ *   TRADE_HISTORY_GetSize 0x02009D9C thumb
+ *   MAIL_GetBoxSize 0x02008FFC thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
- *   func_02008C20 0x02008C20 thumb
+ *   RECORD_GetSize 0x02008C20 thumb
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   func_020086F8 0x020086F8 thumb
@@ -574,7 +574,7 @@ extern u32 TRADE_HISTORY_GetSize(void);
 
 extern void *GAME_DATA_GetSaveBlock1F(void **h);
 
-extern unsigned func_02009D9C(void);
+extern unsigned TRADE_HISTORY_GetSize(void);
 
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 
@@ -584,9 +584,9 @@ extern struct Sub02007AC8Entry *func_02007AF4(void **save, u32 box);
 
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 
-extern u32 func_02008FFC(void);
+extern u32 MAIL_GetBoxSize(void);
 
-extern u32 func_02008C20(void);
+extern u32 RECORD_GetSize(void);
 
 extern u32 func_02007AEC(void);
 
@@ -1354,7 +1354,7 @@ void *POKETRADE_SAVE_BackupBlock1F(void *sys, u16 heapId)
 void POKETRADE_SAVE_RestoreBlock1F(void **h, void *dst)
 {
     void *src = GAME_DATA_GetSaveBlock1F(h);
-    MI_CpuCopy8(dst, src, func_02009D9C());
+    MI_CpuCopy8(dst, src, TRADE_HISTORY_GetSize());
     GFL_HEAP_Free(dst);
 }
 
@@ -1382,14 +1382,14 @@ void POKETRADE_SAVE_RestoreBackups(char *p)
         src=((TradeWork *)p)->gameData;
         GAME_DATA_GetSaveControl(src);
         src=func_02008FEC(src);
-        n=func_02008FFC();
+        n=MAIL_GetBoxSize();
         MI_CpuCopy8(dest,src,n);
         GFL_HEAP_Free(dest);
     }
     dest=((TradeWork *)p)->trainerRecordBackup;
     if(dest) {
         src=GAME_DATA_GetTrainerRecord(((TradeWork *)p)->gameData);
-        n=func_02008C20();
+        n=RECORD_GetSize();
         MI_CpuCopy8(dest,src,n);
         GFL_HEAP_Free(dest);
     }

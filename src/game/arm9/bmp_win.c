@@ -20,9 +20,9 @@
  *   BG_SYS_GetField16  0x0204169C  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
  *   BG_SYS_ReserveTileRun  0x0203FAF0  arm
- *   sub_0203FB44  0x0203FB44  arm
+ *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   sub_020416B8  0x020416B8  arm
- *   sub_02040B1C  0x02040B1C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   BG_SYS_GetType  0x02041680  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
@@ -65,11 +65,11 @@ extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 
 extern u32 BG_SYS_ReserveTileRun(u32 layer, u32 offset, u32 units);
 
-extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
 extern u8 sub_020416B8(int channel);
 
-extern void sub_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 extern u8 BG_SYS_GetType(int channel);
 
@@ -328,7 +328,7 @@ struct BmpWin *BMP_WIN_Alloc(u32 bgLayer, u32 posX, u32 posY,
 
 /*
  * The descriptor family's destructor: release the payload through
- * sub_0203FB44, release the heap handle through BMP_Delete, then free
+ * BG_SYS_DeleteHalf, release the heap handle through BMP_Delete, then free
  * the descriptor itself with the generic free at 0x020307B0 (the same
  * free STRBUF_Delete tail-calls).
  *
@@ -369,7 +369,7 @@ u32 BMP_WIN_Delete(struct BmpWin *win)
     } else {
         charCount = (win->width * win->height) * 2;
     }
-    sub_0203FB44(win->bgLayer, win->charOffset, charCount * 32);
+    BG_SYS_DeleteHalf(win->bgLayer, win->charOffset, charCount * 32);
     BMP_Delete(win->bmp);
     return GFL_HEAP_Free(win);
 }
@@ -382,7 +382,7 @@ u32 BMP_WIN_Delete(struct BmpWin *win)
  *   sub_020416B8(win->bgLayer) * (win->width * win->height)
  *
  * and passes that, the heap handle obtained from d->heap via
- * BMP_GetPixels, and win->charOffset on to sub_02040B1C.
+ * BMP_GetPixels, and win->charOffset on to BG_SYS_LoadTileData.
  *
  * The u8 * u8 product compiles to `smulbb`, not `mul`: the compiler knows
  * both operands came from `ldrb` and fit in sixteen bits, so it uses the
@@ -407,7 +407,7 @@ void BMP_WIN_TransferChars(struct BmpWin *win)
     u32 byteCount;
 
     byteCount = (win->width * win->height) * sub_020416B8(win->bgLayer);
-    sub_02040B1C(win->bgLayer, BMP_GetPixels(win->bmp), byteCount, win->charOffset);
+    BG_SYS_LoadTileData(win->bgLayer, BMP_GetPixels(win->bmp), byteCount, win->charOffset);
 }
 
 /*
@@ -515,7 +515,7 @@ void BMP_WIN_DrawFrame(struct BmpWin *win, u16 baseTile, u32 palette)
  * A seven-argument forwarder over the descriptor object whose leaf
  * accessor bank is src/matched/unit_02045730.c: it unpacks six u8 fields
  * and a constant zero out of the descriptor and hands them to
- * sub_02041300, which is where the actual work happens.
+ * BG_SYS_SetTileEntry, which is where the actual work happens.
  *
  *   BG_SYS_SetTileEntry(win->bgLayer, 0, win->posX, win->posY, win->width, win->height, 0)
  *

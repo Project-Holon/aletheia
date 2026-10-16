@@ -124,7 +124,7 @@
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
  *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
  *   FIELD_MSGBG_GetSysWinBmpWin  0x02190F9C  thumb  ov021
- *   sub_020056BC   0x020056BC  thumb
+ *   GFL_USE_GetMainTaskList   0x020056BC  thumb
  *   sub_02006BD0   0x02006BD0  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
@@ -490,7 +490,7 @@ extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
 extern void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
 extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
 extern u32 SND_MIC_Init(u32 heapId);
-extern TcbList *sub_020056BC(u32 mic);
+extern TcbList *GFL_USE_GetMainTaskList(u32 mic);
 extern BmpWin *FIELD_MSGBG_GetSysWinBmpWin(FieldSysWin *sysWin);
 extern TimeIcon *TIME_ICON_Create(TcbList *taskList, BmpWin *refWin, u8 fillColor, u8 waitInterval, volatile u16 heapId);
 extern void SND_MIC_AddElapsed(u32 ticks);
@@ -1212,7 +1212,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 4:
         if (FIELD_MSGBG_SysWinMain(work->sysWin) == 1) {
             UI_SetKeepAwakeFlagsGlobal(8);
-            taskList = sub_020056BC(SND_MIC_Init(21));
+            taskList = GFL_USE_GetMainTaskList(SND_MIC_Init(21));
             work->timeIcon = TIME_ICON_Create(taskList, FIELD_MSGBG_GetSysWinBmpWin(work->sysWin), 15, 16, 21);
             *seq = 5;
         }

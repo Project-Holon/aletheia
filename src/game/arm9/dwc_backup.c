@@ -1,7 +1,7 @@
 /*
  * file:     dwc_backup.c
  * unit:     yes
- * function: func_020584E0, func_020584F4, DWCi_BM_GetWiFiInfo, ReadSlotInfo, func_02058634, ReadSlotInfoEx, DWCi_BM_SetWiFiInfo, func_02058770, DWCi_BACKUPlWritePage, func_020587E0, DWCi_BACKUPlConvMaskCidr, func_0205883C, DWC_BACKUPlCheckIp, func_020588D0, writeDisable, DWCi_BACKUPlConvWifiInfo, DWCi_BACKUPlGetWifi
+ * function: DWCi_BM_GetApInfo, DWCi_BM_GetApInfoEx, DWCi_BM_GetWiFiInfo, ReadSlotInfo, WriteSlotInfo, ReadSlotInfoEx, DWCi_BM_SetWiFiInfo, DWCi_BACKUPlRead, DWCi_BACKUPlWritePage, DWCi_BACKUPlSetWiFi, DWCi_BACKUPlConvMaskCidr, DWCi_BACKUPlConvMaskAddr, DWC_BACKUPlCheckIp, DWC_BACKUPlCheckAddress, writeDisable, DWCi_BACKUPlConvWifiInfo, DWCi_BACKUPlGetWifi
  * address:  0x020584E0
  * region:   arm9
  * compiler: dsi/1.1p1

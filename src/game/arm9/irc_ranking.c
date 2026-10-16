@@ -278,12 +278,12 @@ u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today)
  * the 154 bytes of IRC_RANKING_AddEntry itself.
  *
  * The orchestrator of the family (see docs/families/mystery_data.h).  Find an
- * existing Entry with the caller's key (sub_0200ACD0), take its 10-bit
+ * existing Entry with the caller's key (IRC_RANKING_FindEntryByTrainerId), take its 10-bit
  * counter if there is one, build a fresh Entry on the stack from that counter
  * and the caller's eleven arguments (IRC_RANKING_InitEntry), insert it in key order
- * (sub_0200AB50) recording the slot in the low byte of the record's flag word
+ * (IRC_RANKING_InsertEntry) recording the slot in the low byte of the record's flag word
  * at +0x348, and if the new entry duplicates one already present
- * (sub_0200ABE0) bump every matching entry's counter (IRC_RANKING_UpdateEntryMeetCount).  It
+ * (IRC_RANKING_HasEntryByTrainerId) bump every matching entry's counter (IRC_RANKING_UpdateEntryMeetCount).  It
  * returns the slot back out of the flag word.
  *
  * This row was the "unfilable" one of docs/notes/pkt_0200AA00.c.txt (misfiled
@@ -299,7 +299,7 @@ u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today)
  * Three declaration-level levers, none of them a statement shape:
  *
  *  1. IRC_RANKING_InitEntry takes EIGHT SEPARATE SCALAR PARAMETERS, not one 0x20-byte
- *     struct by value (see the header of src/matched/func_0200AC14.c, which
+ *     struct by value (see the header of src/matched/IRC_RANKING_InitEntry.c, which
  *     this wave re-read the same way).  Passing a struct makes this caller
  *     emit an ldm/stm block copy where the original stores each field into
  *     its own outgoing word with `str`; the scalar form is what produces the
@@ -312,7 +312,7 @@ u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today)
  *     only through the register allocation downstream of it, which is exactly
  *     the residue class permuter.py exists for.
  *  3. The +0x348 flag word is read and written as an 8-bit BITFIELD, not
- *     masked by hand.  `((Flags *)&r->f348)->b0 = sub_0200AB50(...)` gives
+ *     masked by hand.  `((Flags *)&r->f348)->b0 = IRC_RANKING_InsertEntry(...)` gives
  *     the interleaved `lsls r0, #0x18 / ... / lsrs r0, #0x18 / orrs r0, r2`
  *     the original has; the hand-written `r->f348 = (r->f348 & ~0xff) | slot`
  *     hoists the truncation out of the mask work and is 4 bytes short.  The
@@ -321,7 +321,7 @@ u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today)
  *     `(u8)(r->f348 & 0xff)` folds the two pairs into one.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0200AA68.c \
+ *   python3 tools/match.py one --src src/matched/IRC_RANKING_AddEntry.c \
  *       --func IRC_RANKING_AddEntry --addr 0x0200AA68 --cc 1.1p1 --thumb
  */
 u8 IRC_RANKING_AddEntry(struct IrcRankSave *rank, const void *name, u16 score, u8 gender,
@@ -350,7 +350,7 @@ u8 IRC_RANKING_AddEntry(struct IrcRankSave *rank, const void *name, u16 score, u
 /*
  * A whole translation unit, matched as one byte range.
  *
- * Two unlabelled leaves at the end of the packet, after func_0200AA68:
+ * Two unlabelled leaves at the end of the packet, after IRC_RANKING_AddEntry:
  * `push {r4, r5}` with no lr for the first, nothing at all for the second,
  * so both print as `.word` (docs/idioms/
  * unlabelled-leaf-functions-hide-in-word-runs.md).
@@ -472,7 +472,7 @@ int IRC_RANKING_HasEntryByTrainerId(struct IrcRankEntry *list, int count, struct
  * pair at +0x96.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0200AC14.c \
+ *   python3 tools/match.py one --src src/matched/IRC_RANKING_InitEntry.c \
  *       --func IRC_RANKING_InitEntry --addr 0x0200AC14 --cc 1.1p1 --thumb
  */
 void IRC_RANKING_InitEntry(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount,
@@ -549,7 +549,7 @@ struct IrcRankEntry *IRC_RANKING_FindEntryByTrainerId(struct IrcRankEntry *list,
  * (src/matched/IRC_RANKING_HasEntryByTrainerId.c and src/matched/IRC_RANKING_GetDateScore.c are the others).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0200AD00.c \
+ *   python3 tools/match.py one --src src/matched/IRC_RANKING_UpdateEntryMeetCount.c \
  *       --func IRC_RANKING_UpdateEntryMeetCount --addr 0x0200AD00 --cc 1.1p1 --thumb
  */
 void IRC_RANKING_UpdateEntryMeetCount(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry)

@@ -656,7 +656,7 @@ u32 GPOWER_UseHpRestore(void *party)
  * POKE_TOOL_DecodePartyParam / POKE_TOOL_EncodePartyParam access bracket; then clear slot 6.  Same
  * declarations as GPOWER_UseHpRestore.c (the callees take the box / record
  * pointer, the record is its own local), which is what closed the
- * entry-order residue of docs/notes/pkt_0201104C.sub_020110CC.c.txt.
+ * entry-order residue of docs/notes/pkt_0201104C.GPOWER_UsePpRestore.c.txt.
  */
 u32 GPOWER_UsePpRestore(void *party)
 {
@@ -750,7 +750,7 @@ s32 GPOWER_ApplyCaptureRate(s32 rate)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020111E8.c \
+ *   python tools/match.py one --src src/matched/GPOWER_GetSpecialPowerId.c \
  *       --func GPOWER_GetSpecialPowerId --addr 0x020111E8 --cc 1.1p1
  */
 u32 GPOWER_GetSpecialPowerId(void)
@@ -1113,13 +1113,13 @@ void VM_SetWait(ScriptVm *vm, ScriptWaitFn wait)
 /*
  * Fills a 12-byte buffer through GF_STANDARD_SetField00 and tail-hands its own
  * argument and the buffer's first word to TIMEZONE_GetTimeZoneOfHour, a table lookup
- * that is a documented near miss (src/matched/sub_02011410.c's header has
+ * that is a documented near miss (src/matched/TIMEZONE_IsNight.c's header has
  * the details) and so is declared here only, not defined.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020113D8.c \
+ *   python tools/match.py one --src src/matched/TIMEZONE_GetNowTimeZone.c \
  *       --func TIMEZONE_GetNowTimeZone --addr 0x020113D8 --cc 1.1p1 --lang c99 --thumb
  */
 u32 TIMEZONE_GetNowTimeZone(u32 season)

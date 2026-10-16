@@ -22,7 +22,7 @@
  *   B64Encode  0x0217FA90  arm  ov009
  *   func_02092344  0x02092344  arm
  *   strlen  0x0209477C  arm
- *   func_0205A29C  0x0205A29C  arm
+ *   DWCi_GsFree  0x0205A29C  arm
  *   DWCi_EncSetError  0x021CA06C  arm  ov114
  *   sDwcEncSessionHash  0x021CF84C  data
  *   sDwcEncSessionError  0x021CF854  data

@@ -255,7 +255,7 @@ void TCB_Reset(struct TcbSystem *sys)
  * callback slot is cleared.
  *
  * The documented 13-byte "loop-carried register" residue
- * (docs/notes/sub_02030D28.c.txt) was a misread callback arity: the image
+ * (docs/notes/TCB_Main.c.txt) was a misread callback arity: the image
  * loads the node into r0 and node->arg into r1 before `blx r2`, so the
  * callback is fn(node, arg), not fn(arg).  With two arguments the body is
  * byte-exact under 1.1p1 -O4,p.
@@ -373,7 +373,7 @@ struct TcbTask *TCB_InsertTask(struct TcbSystem *sys, TcbFunc func, void *work, 
 
 /*
  * Unlink one node from its owner's doubly-linked list and then tail-call
- * sub_02030C68 on the owner.  The node carries its owner at +0, its
+ * TCB_FreeTask on the owner.  The node carries its owner at +0, its
  * predecessor at +4 and its successor at +8; the owner's list head is at
  * +0x34 and is advanced to the successor when the node being removed is
  * the head.

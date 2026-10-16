@@ -1,7 +1,7 @@
 /*
  * file:     card_utility.c
  * unit:     yes
- * function: CARDi_GetDmaInterface, func_02076344, CARDi_DCInvalidateSmart
+ * function: CARDi_GetDmaInterface, CARDi_ICInvalidateSmart, CARDi_DCInvalidateSmart
  * address:  0x020762F4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   OS_Terminate  0x02088234  arm
  *   CARDiDmaUsingFormer  0x020A19BC  data
  *   CARDiDmaUsingNew  0x0272E9E0  data
- *   func_02086320   0x02086320  arm
+ *   IC_InvalidateAll   0x02086320  arm
  *   IC_InvalidateRange   0x0208632C  arm
  *   DC_FlushAll  0x02086284  arm
  *   DC_StoreRange  0x020862D4  arm
@@ -34,7 +34,7 @@ typedef unsigned char u8;
 
 extern BOOL OS_IsRunOnTwl(void);
 extern void OS_Terminate(void);
-extern void func_02086320(void);
+extern void IC_InvalidateAll(void);
 extern void IC_InvalidateRange(void *p, unsigned int size);
 extern void DC_FlushAll(void);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);
@@ -78,7 +78,7 @@ CARDDmaInterface *CARDi_GetDmaInterface(u32 channel)
 void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b)
 {
     if (a >= b)
-        func_02086320();
+        IC_InvalidateAll();
     else
         IC_InvalidateRange(p, a);
 }

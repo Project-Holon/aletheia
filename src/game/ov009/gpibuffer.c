@@ -1,7 +1,7 @@
 /*
  * file:     gpibuffer.c
  * unit:     yes
- * function: gpiAppendCharToBuffer, gpiAppendStringToBufferLen, gpiAppendStringToBuffer, gpiAppendIntToBuffer, gpiSendData, gpiSendOrBufferChar, func_0218964C, gpiSendOrBufferString, gpiRecvToBuffer, gpiSendFromBuffer, gpiSendBufferToPeer, gpiReadMessageFromBuffer, gpiClipBufferToPosition
+ * function: gpiAppendCharToBuffer, gpiAppendStringToBufferLen, gpiAppendStringToBuffer, gpiAppendIntToBuffer, gpiSendData, gpiSendOrBufferChar, gpiSendOrBufferStringLenToPeer, gpiSendOrBufferString, gpiRecvToBuffer, gpiSendFromBuffer, gpiSendBufferToPeer, gpiReadMessageFromBuffer, gpiClipBufferToPosition
  * address:  0x0218934C
  * region:   ov009
  * compiler: dsi/1.1p1

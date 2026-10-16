@@ -109,20 +109,20 @@
  *   ZUKAN_DETAIL_VOICE_DrawSpeciesName 0x021C3280 thumb ov208
  *   ZUKAN_DETAIL_VOICE_LoadWindowPalette 0x021C3354 thumb ov208
  *   ZUKAN_DETAIL_VOICE_NoOpB 0x021C3378 thumb ov208
- *   func_021BC9BC 0x021BC9BC thumb ov208
- *   func_021BC844 0x021BC844 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_LoadBgPaletteRange 0x021BC9BC thumb ov208
+ *   ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc 0x021BC844 thumb ov208
  *   ZUKAN_DETAIL_VOICE_CreateWaveformWindow 0x021C35DC thumb ov208
- *   func_021BC758 0x021BC758 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots 0x021BC758 thumb ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeIn 0x021BC718 thumb ov208
  *   ZUKAN_DETAIL_VOICE_SetActorsNormalMode 0x021C3AA8 thumb ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeOut 0x021BC6D8 thumb ov208
  *   ZUKAN_DETAIL_COMMON_IsFadeBusy 0x021BC6C8 thumb ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeOutAlt 0x021BC6F8 thumb ov208
- *   func_021C3514 0x021C3514 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_HandlePlayInput 0x021C3514 thumb ov208
  *   ZUKAN_DETAIL_VOICE_SetActorsAlphaMode 0x021C3B14 thumb ov208
- *   func_021C3380 0x021C3380 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer 0x021C3380 thumb ov208
  *   ZUKAN_DETAIL_VOICE_UpdateWaveformDelay 0x021C3650 thumb ov208
- *   func_021C301C 0x021C301C thumb ov208
+ *   ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim 0x021C301C thumb ov208
  *   ZUKAN_DETAIL_VOICE_FlushTimerWindow 0x021C3318 thumb ov208
  *   ZUKAN_DETAIL_COMMON_TickFlashEffect 0x021BC99C thumb ov208
  *   ZUKAN_DETAIL_COMMON_UpdatePaletteAnim 0x021BC678 thumb ov208
@@ -163,7 +163,7 @@
  *   ov208_func_021C31CC 0x021C31CC thumb ov208
  *   BMP_Create 0x02043678 arm
  *   data_021C8E28 0x021C8E28 data ov208 a1
- *   func_021C36CC 0x021C36CC thumb ov208
+ *   ZUKAN_DETAIL_VOICE_ScrollWaveform 0x021C36CC thumb ov208
  *   BMP_FillRect 0x02043AF4 arm
  *   BMP_Blit 0x020439A0 arm
  *   ov208_func_021C3A24 0x021C3A24 thumb ov208
@@ -332,11 +332,11 @@ extern void PM_VOICE_StopAll(void);
 
 extern void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 a, u32 packed);
 
-extern u32 func_021BC9BC(int,u16,u8,u8,u8,u8,u32,u32,u32,u32,u32);
+extern u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int,u16,u8,u8,u8,u8,u32,u32,u32,u32,u32);
 
-extern struct Ov208Win *func_021BC844(u16,u32,u8,u8,u8);
+extern struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16,u32,u8,u8,u8);
 
-extern void func_021BC758(void *p);
+extern void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(void *p);
 
 extern void ZUKAN_DETAIL_COMMON_StartFadeIn(void *p);
 
@@ -597,12 +597,12 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         ZUKAN_DETAIL_VOICE_DrawSpeciesName(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_LoadWindowPalette(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_NoOpB(heapIdPtr, voice, ctx, 0, 0);
-        voice->bgPaletteRange = func_021BC9BC(0, *heapIdPtr, 2, 1, 0, 5, 0x9f, 1, 0xb, 0x2a, 0);
-        voice->headerWin = func_021BC844(*heapIdPtr, 2, 0, 2, 3);
-        voice->footerWin = func_021BC844(*heapIdPtr, 2, 4, 1, 2);
+        voice->bgPaletteRange = ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(0, *heapIdPtr, 2, 1, 0, 5, 0x9f, 1, 0xb, 0x2a, 0);
+        voice->headerWin = ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heapIdPtr, 2, 0, 2, 3);
+        voice->footerWin = ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heapIdPtr, 2, 4, 1, 2);
         ZUKAN_DETAIL_VOICE_SetNumberDigits(heapIdPtr, voice, (void *)ctx, 0, 0);
         ZUKAN_DETAIL_VOICE_CreateWaveformWindow(heapIdPtr, voice, ctx);
-        func_021BC758(voice->palFade);
+        ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(voice->palFade);
         ZUKAN_DETAIL_COMMON_StartFadeIn(voice->palFade);
         break;
     case 1:
@@ -639,7 +639,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
             ZUKAN_DETAIL_HEADBAR_SetIconForm(icon);
             if (voice->exitMode == 2) ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled((struct Ov208Scene *)scene, 0);
             ZUKAN_DETAIL_VOICE_RestoreBgm(heapIdPtr, voice, (void *)ctx);
-        } else func_021C3514(heapIdPtr, voice, ctx);
+        } else ZUKAN_DETAIL_VOICE_HandlePlayInput(heapIdPtr, voice, ctx);
         break;
     case 5:
         ready = 0;
@@ -660,9 +660,9 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         return 1;
     }
     if (*seq >= 3) {
-        func_021C3380(heapIdPtr, voice, ctx);
+        ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(heapIdPtr, voice, ctx);
-        func_021C301C(heapIdPtr, voice, ctx);
+        ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(heapIdPtr, voice, ctx);
     }
     if (*seq >= 2) {
         ZUKAN_DETAIL_VOICE_FlushTimerWindow(heapIdPtr, voice, ctx);
@@ -1179,7 +1179,7 @@ void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heapIdPtr, struct ZukanDetailVo
         voice->waveDelay--;
         return;
     }
-    func_021C36CC(heapIdPtr, voice, ctx);
+    ZUKAN_DETAIL_VOICE_ScrollWaveform(heapIdPtr, voice, ctx);
     voice->waveDelay = 0;
 }
 

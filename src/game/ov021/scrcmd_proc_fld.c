@@ -155,7 +155,7 @@
  *   FIELDMAP_GetCommKind  0x021896F4  thumb  ov021
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
- *   func_02009CE4  0x02009CE4  thumb
+ *   WIFILIST_IsProfileValid  0x02009CE4  thumb
  *   WIFILIST_CountFriends  0x02009A34  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
@@ -546,7 +546,7 @@ extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 
 extern int FIELDMAP_GetCommKind(void *p);
 
-extern u32 func_02009CE4(struct Sub020097BCObj *obj);
+extern u32 WIFILIST_IsProfileValid(struct Sub020097BCObj *obj);
 
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 
@@ -1885,7 +1885,7 @@ int SCRCMD_PROC_FLD_StoreGameSystemValue(struct ScriptVm *vm, struct ScrcmdWork 
 
 int SCRCMD_PROC_FLD_StoreSubObjectValueA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009CE4((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
+*SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = WIFILIST_IsProfileValid((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
 return 0;
 }
 

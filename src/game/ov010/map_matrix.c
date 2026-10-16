@@ -1,7 +1,7 @@
 /*
  * file:     map_matrix.c
  * unit:     yes
- * function: MAP_MATRIX_Create, MAP_MATRIX_Load, MAP_MATRIX_Delete, MAP_MATRIX_GetZoneId, MAP_MATRIX_GetZoneIdByPos, MAP_MATRIX_GetWidth, MAP_MATRIX_GetHeight, MAP_MATRIX_GetCount, func_02159C00, MAP_MATRIX_GetMapGrid, MAP_MATRIX_IsInRange, MAP_MATRIX_IsInRangeByPos, MAP_MATRIX_ApplyReplaceRecord, MAP_MATRIX_ApplyReplace, MAP_MATRIX_SetupFromFile, MAP_MATRIX_PosToBlock
+ * function: MAP_MATRIX_Create, MAP_MATRIX_Load, MAP_MATRIX_Delete, MAP_MATRIX_GetZoneId, MAP_MATRIX_GetZoneIdByPos, MAP_MATRIX_GetWidth, MAP_MATRIX_GetHeight, MAP_MATRIX_GetCount, MAP_MATRIX_SetSize, MAP_MATRIX_GetMapGrid, MAP_MATRIX_IsInRange, MAP_MATRIX_IsInRangeByPos, MAP_MATRIX_ApplyReplaceRecord, MAP_MATRIX_ApplyReplace, MAP_MATRIX_SetupFromFile, MAP_MATRIX_PosToBlock
  * address:  0x02159B48
  * region:   ov010
  * compiler: dsi/1.1p1

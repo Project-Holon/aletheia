@@ -27,7 +27,7 @@
  *   func_0209C2B0  0x0209C2B0  arm
  *   data_02150FEC  0x02150FEC  data
  *   OS_SleepThread  0x020857B0  arm
- *   func_020848EC  0x020848EC  arm
+ *   OSi_EnterNDmaCallback  0x020848EC  arm
  *   MIi_GetControlData  0x0272F804  arm twl
  *   MSL_C_LIB_TwlCall1  0x020911D8  thumb  arm9
  */

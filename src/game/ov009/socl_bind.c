@@ -1,7 +1,7 @@
 /*
  * file:     socl_bind.c
  * unit:     yes
- * function: func_0215D43C, SOCL_Connect, func_0215D5F8, SOCLi_BindCallBack
+ * function: SOCL_Bind, SOCL_Connect, SOCLi_ExecBindCommand, SOCLi_BindCallBack
  * address:  0x0215D43C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   SOCL_SocketIsInvalid     0x0215f3d0 arm
  *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
- *   func_0215D5F8  0x0215D5F8  arm  ov009
+ *   SOCLi_ExecBindCommand  0x0215D5F8  arm  ov009
  *   gCpsMyIp     0x021A82BC  data
  *   gCpsNetMask     0x021A827C  data
  *   gSoclBindConst     0x021A1CE0  data
@@ -78,7 +78,7 @@ typedef struct {
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern int func_0215D5F8(struct SOCLSocket *socket);
+extern int SOCLi_ExecBindCommand(struct SOCLSocket *socket);
 extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                             struct SOCLSocket *socket,
                                                             long flag);
@@ -171,7 +171,7 @@ invalid:
 		socket->remote_port = remote_port;
 		socket->remote_ip = remote_ip;
 		{
-			int r = func_0215D5F8(socket);
+			int r = SOCLi_ExecBindCommand(socket);
 
 			if (socket->flag_block == 1)
 				return r;

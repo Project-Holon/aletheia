@@ -1,7 +1,7 @@
 /*
  * file:     mb_parent.c
  * unit:     yes
- * function: func_021F1B3C, MB_CommGetChildUser, MB_CommIsBootable, MB_CommResponseRequest, MBi_CommChangeParentState, func_021F1D58, MBi_CommParentCallback, MBi_CommParentRecvDataPerChild, MBi_CommParentRecvData, MBi_CommParentSendMsg, MBi_CommParentSendDLFileInfo, MBi_ReloadCache, func_021F2A44, MBi_CommParentSendData, MBi_calc_sendblock, func_021F2ED4, func_021F2EE8, func_021F2F04
+ * function: func_021F1B3C, MB_CommGetChildUser, MB_CommIsBootable, MB_CommResponseRequest, MBi_CommChangeParentState, func_021F1D58, MBi_CommParentCallback, MBi_CommParentRecvDataPerChild, MBi_CommParentRecvData, MBi_CommParentSendMsg, MBi_CommParentSendDLFileInfo, MBi_ReloadCache, func_021F2A44, MBi_CommParentSendData, MBi_calc_sendblock, MBi_calc_nextsendblock, func_021F2EE8, func_021F2F04
  * address:  0x021F1B3C
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -25,7 +25,7 @@
  *   MB_UpdateGameInfoMember  0x021F3E9C  arm  ov107
  *   MBi_GetGgid  0x021F628C  arm  ov107
  *   MBi_GetTgid  0x021F62A0  arm  ov107
- *   func_021F62B4  0x021F62B4  arm  ov107
+ *   MBi_GetAttribute  0x021F62B4  arm  ov107
  *   MB_SendGameInfoBeacon  0x021F3FC8  arm  ov107
  *   func_021F2F04  0x021F2F04  arm  ov107
  *   MIi_CpuClearFast  0x02082AC0  arm
@@ -36,9 +36,9 @@
  *   MBi_BlockHeaderEnd 0x021F3C80 arm ov107
  *   MBi_MakeParentSendBuffer 0x021F6890 arm ov107
  *   WM_ReadMPData  0x0208ED70  arm
- *   func_021F2200  0x021F2200  arm  ov107
+ *   MBi_CommParentRecvDataPerChild  0x021F2200  arm  ov107
  *   MBi_MakeParentSendBuffer   0x021F6890  arm
- *   func_021F3C80   0x021F3C80  arm
+ *   MBi_BlockHeaderEnd   0x021F3C80  arm
  *   g_021F6E48     0x021F6E48  data
  *   FS_FindArchive 0x02077EB8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
@@ -141,14 +141,14 @@ extern void MBi_ClearParentPieceBuffer(u16 child_aid);
 extern void MB_UpdateGameInfoMember(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
 extern u32 MBi_GetGgid(void);
 extern u16 MBi_GetTgid(void);
-extern u8 func_021F62B4(void);
+extern u8 MBi_GetAttribute(void);
 extern void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
 extern void func_021F2F04(u16 aid, u16 errcode);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
 extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
 extern struct WMMpRecvData *WM_ReadMPData(const struct WMMpRecvHeader *header, u16 aid);
-extern void func_021F2200(void *arg, unsigned short child);
+extern void MBi_CommParentRecvDataPerChild(void *arg, unsigned short child);
 extern u8 *MBi_MakeParentSendBuffer(MBCommParentBlockHeader *hdr, u8 *sendbuf);
 extern int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
 extern struct FSArchive *FS_FindArchive(const char *name, int name_len);
@@ -419,7 +419,7 @@ void MBi_CommParentCallback(u16 type, void *arg)
                 }
             }
         }
-        MB_SendGameInfoBeacon(MBi_GetGgid(), MBi_GetTgid(), func_021F62B4());
+        MB_SendGameInfoBeacon(MBi_GetGgid(), MBi_GetTgid(), MBi_GetAttribute());
         break;
 
     case 0xFF:
@@ -633,7 +633,7 @@ void MBi_CommParentRecvData(void *arg)
     for (i = 1; i <= 15; i++) {
         datap = (short unsigned int *)WM_ReadMPData(arg, i);
         if (datap != 0 && datap[0] != 0xFFFF && datap[0] != 0)
-            func_021F2200(datap, i);
+            MBi_CommParentRecvDataPerChild(datap, i);
     }
 }
 

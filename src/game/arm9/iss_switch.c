@@ -162,7 +162,7 @@ void *ISS_SWITCH_Alloc(u32 heapId)
 }
 
 /*
- * An unlabelled leaf sitting inside sub_0202C590's own literal pool
+ * An unlabelled leaf sitting inside ISS_SWITCH_Alloc's own literal pool
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md): a
  * pool-word-and-bx tail call into the ARM SDK function ENV_SetResourceSet
  * (docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md
@@ -171,7 +171,7 @@ void *ISS_SWITCH_Alloc(u32 heapId)
  * pool-word-and-bx tail call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C5AC.c \
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_Free.c \
  *       --func ISS_SWITCH_Free --addr 0x0202C5AC --cc 1.1p1 --thumb
  */
 u32 ISS_SWITCH_Free(void *sw)
@@ -195,7 +195,7 @@ void ISS_SWITCH_Init(struct IssSwitch *sw)
  * sub_0202C550's pool-word-and-bx tail call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C5C4.c \
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SetParam.c \
  *       --func ISS_SWITCH_SetParam --addr 0x0202C5C4 --cc 1.1p1 --thumb
  */
 u32 ISS_SWITCH_SetParam(struct IssSwitch *sw, u16 fadeFrames, u16 trackBits)

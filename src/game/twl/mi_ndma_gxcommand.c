@@ -22,7 +22,7 @@
  *   MI_WaitNDma  0x0272FCB0  arm twl
  *   OS_DisableIrqMask  0x02084998  arm
  *   OS_ResetRequestIrqMask  0x020849C8  arm
- *   func_02084818  0x02084818  arm
+ *   OS_GetIrqFunction  0x02084818  arm
  *   OS_SetIrqFunction  0x02084774  arm
  *   OS_EnableIrqMask  0x02084968  arm
  */
@@ -56,7 +56,7 @@ extern void MI_WaitNDma(int);
 extern void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, void *cfg, int words, u32 flags);
 extern void OS_DisableIrqMask(u32);
 extern void OS_ResetRequestIrqMask(u32);
-extern IrqHandler func_02084818(u32);
+extern IrqHandler OS_GetIrqFunction(u32);
 extern void OS_SetIrqFunction(u32, IrqHandler);
 extern void OS_EnableIrqMask(u32);
 
@@ -90,7 +90,7 @@ void MI_SendNDmaGXCommandAsync(u32 a0, u32 a1, u32 a2, void (*cb)(u32), u32 arg)
     MI_WaitNDma(a0);
     irq = OS_DisableInterrupts();
     s->f18 = (*(volatile u32 *)0x04000600 & 0xc0000000) >> 0x1e;
-    s->f1c = func_02084818(0x200000);
+    s->f1c = OS_GetIrqFunction(0x200000);
     *(volatile u32 *)0x04000600 = (*(volatile u32 *)0x04000600 & ~0xc0000000) | 0x40000000;
     OS_SetIrqFunction(0x200000, MIi_FIFOCallback);
     OS_EnableIrqMask(0x200000);

@@ -139,7 +139,7 @@
  *   FX_Div           0x0207C768  arm
  *   g_renderStateDrawParams       0x02148B98  data
  *   SCREENTEX_ProjectionMatrix       0x02148B54  data
- *   func_0200F698  0x0200F698  thumb
+ *   GFL_NET_ERR_SetBgmTrackVolume  0x0200F698  thumb
  *   PARTICLE_ApplyLoadHandlers  0x02051394  arm
  *   d_02209DD8  0x02209DD8  data  ov094
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
@@ -483,7 +483,7 @@ void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
 
 fx32 FX_Div(fx32 numer, fx32 denom);
 
-extern void func_0200F698(void *a, void *b);
+extern void GFL_NET_ERR_SetBgmTrackVolume(void *a, void *b);
 
 extern void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys);
 
@@ -4709,7 +4709,7 @@ void BTLV_EFFVM_DelayTaskMain(void *task, void *arg)
     int flag = 1;
 
     BTLV_EFFECT_StepScalarWithLimit(&job->current, &job->step, &job->target, &flag);
-    func_0200F698((void *)0xffff, (void *)(job->current >> 12));
+    GFL_NET_ERR_SetBgmTrackVolume((void *)0xffff, (void *)(job->current >> 12));
     if (flag)
         BTLV_EFFECT_DeleteTask(task);
 }

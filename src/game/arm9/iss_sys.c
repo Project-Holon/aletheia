@@ -23,9 +23,9 @@
  *   ISS_CITY_SYS_Stop  0x0202AB54  thumb
  *   ISS_ROAD_SYS_Start  0x0202B1FC  thumb
  *   ISS_ROAD_SYS_Stop  0x0202B204  thumb
- *   sub_0202B420  0x0202B420  thumb
+ *   ISS_DUNGEON_SYS_SetTargetAreaId  0x0202B420  thumb
  *   ISS_ZONE_SYS_SwitchZone  0x0202BECC  thumb
- *   sub_0202C0C8  0x0202C0C8  thumb
+ *   ISS_SWITCH_SYS_ZoneChange  0x0202C0C8  thumb
  *   ISS_SYS_ModeTable  0x0209FF88  data
  *   ISS_DUNGEON_SYS_Start  0x0202B424  thumb
  *   ISS_SWITCH_SYS_On  0x0202C0B8  thumb
@@ -175,11 +175,11 @@ extern void ISS_ZONE_SYS_Start(IssZoneSys *zone, int zoneId);
 
 extern void ISS_CITY_SYS_NotifyZoneChange(IssCitySys *city, u32 zoneId);
 
-extern void sub_0202B420(IssDungeonSys *dungeon, u16 zoneId);
+extern void ISS_DUNGEON_SYS_SetTargetAreaId(IssDungeonSys *dungeon, u16 zoneId);
 
 extern void ISS_ZONE_SYS_SwitchZone(IssZoneSys *zone, u32 zoneId);
 
-extern void sub_0202C0C8(IssSwitchSys *sw);
+extern void ISS_SWITCH_SYS_ZoneChange(IssSwitchSys *sw);
 
 extern const Location *GAME_DATA_GetMyPlayerWork(const GameData *gameData);
 
@@ -587,7 +587,7 @@ void ISS_SYS_OnZoneChangeCity(IssSys *iss, u32 zoneId)
 
 void ISS_SYS_OnZoneChangeDungeon(IssSys *iss, u16 zoneId)
 {
-    sub_0202B420(iss->dungeon, zoneId);
+    ISS_DUNGEON_SYS_SetTargetAreaId(iss->dungeon, zoneId);
 }
 
 void ISS_SYS_OnZoneChangeZone(IssSys *iss, u32 zoneId)
@@ -597,7 +597,7 @@ void ISS_SYS_OnZoneChangeZone(IssSys *iss, u32 zoneId)
 
 void ISS_SYS_OnZoneChangeSwitch(IssSys *iss, u32 zoneId)
 {
-    sub_0202C0C8(iss->sw);
+    ISS_SWITCH_SYS_ZoneChange(iss->sw);
 }
 
 void ISS_SYS_OnZoneChange3ds(IssSys *iss, u32 zoneId)

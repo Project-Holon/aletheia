@@ -571,7 +571,7 @@ void CURSOR_MOVE_SetState(struct Cursor *obj, u32 state)
 }
 
 /*
- * field_sound_system.c leaves after src/matched/sub_020260F4.c, on the
+ * field_sound_system.c leaves after src/matched/CURSOR_MOVE_SetState.c, on the
  * same object as src/matched/unit_020260E0.c: clear a bit in the flag
  * words at +0x10, set it, and address an entry of the 12-byte table.
  * The clear spells ~m as m ^ 0xFFFFFFFF (the compiler derives -1 from the

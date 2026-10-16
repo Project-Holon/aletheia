@@ -56,9 +56,9 @@
  *   gt2GetLocalPort  0x02195E40  arm  ov009
  *   qr2_init_socketA  0x0219AEB4  arm  ov009
  *   qr2_shutdown  0x0219B540  arm  ov009
- *   func_0219B1AC  0x0219B1AC  arm  ov009
- *   func_0219B134  0x0219B134  arm  ov009
- *   func_0219B170  0x0219B170  arm  ov009
+ *   qr2_register_publicaddress_callback  0x0219B1AC  arm  ov009
+ *   qr2_register_natneg_callback  0x0219B134  arm  ov009
+ *   qr2_register_clientmessage_callback  0x0219B170  arm  ov009
  *   func_0219B490  0x0219B490  arm  ov009
  *   func_02174D04  0x02174D04  arm  ov009
  *   DWC_Free                0x0205A1B0  arm
@@ -277,7 +277,7 @@
  *   g_021A19C0     0x021A19C0 data
  *   g_021A21BC     0x021A21BC data
  *   qr2_buffer_add_int  0x0219B628 arm   ov009
- *   func_0219B660  0x0219B660 arm   ov009
+ *   qr2_buffer_addA  0x0219B660 arm   ov009
  *   qr2_keybuffer_add  0x0219B5EC  arm  ov009
  *   func_0216FC34  0x0216FC34  arm  ov009
  *   DWCi_ProcessRecvMatchCommand    0x021702A0 arm
@@ -379,9 +379,9 @@ extern unsigned char DWC_GetMyAID(void);
 extern int func_0216F388(int flag);
 extern int gt2GetSocketSOCKET(void *socket);
 extern unsigned short gt2GetLocalPort(void *socket);
-extern void func_0219B1AC(void *qrec, void *cb);
-extern void func_0219B134(void *qrec, void *cb);
-extern void func_0219B170(void *qrec, void *cb);
+extern void qr2_register_publicaddress_callback(void *qrec, void *cb);
+extern void qr2_register_natneg_callback(void *qrec, void *cb);
+extern void qr2_register_clientmessage_callback(void *qrec, void *cb);
 extern void func_02174D04();
 extern void DWC_Free(int name, void *ptr, unsigned int size);
 extern void *DWC_Alloc(int name, unsigned int size);
@@ -549,7 +549,7 @@ extern int DWCi_CancelReservation(int pid);
 extern void SBServerAddIntKeyValue(void *server, char *keyname, int value);
 extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 extern int qr2_buffer_add_int(void *outbuf, int value);
-extern int func_0219B660(void *outbuf, char *value);
+extern int qr2_buffer_addA(void *outbuf, char *value);
 extern int qr2_keybuffer_add(char *p, int v);
 extern int func_0216FC34(int type, int cookie, void *param);
 extern int DWCi_ProcessRecvMatchCommand(unsigned char command, int srcPid,
@@ -968,7 +968,7 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
  *
  * w4 (2026-10-01): EXACT on dsi/1.1p1 (the ../2.0/base pin was wrong). Closed
  * by a hidden call argument: DWC_Free takes a third `u32 size` (as in the
- * matched arm9 callers, e.g. func_0205A200) and the call passes 0. That zero
+ * matched arm9 callers, e.g. DWC_ReallocEx) and the call passes 0. That zero
  * argument shares r2 with the KEYF2 strh zero, which stops 1.1p1 from hoisting
  * a shared zero into r4 (toy test: any zero use reachable from the strh in a
  * scratch register breaks the hoist). The image leaves r2 = 0 live into the call.
@@ -1133,9 +1133,9 @@ int DWCi_QR2Startup(int profileID)
     }
     DWCi_GetMatchCnt()->qr2IP = 0;
     DWCi_GetMatchCnt()->qr2Port = 0;
-    func_0219B1AC(DWCi_GetMatchCnt()->qr2Obj, func_02174D04);
-    func_0219B134(DWCi_GetMatchCnt()->qr2Obj, DWCi_QR2NatnegCallback);
-    func_0219B170(DWCi_GetMatchCnt()->qr2Obj, DWCi_QR2ClientMsgCallback);
+    qr2_register_publicaddress_callback(DWCi_GetMatchCnt()->qr2Obj, func_02174D04);
+    qr2_register_natneg_callback(DWCi_GetMatchCnt()->qr2Obj, DWCi_QR2NatnegCallback);
+    qr2_register_clientmessage_callback(DWCi_GetMatchCnt()->qr2Obj, DWCi_QR2ClientMsgCallback);
     DWCi_RegisterMatchmakeKeys();
     func_0219B490(DWCi_GetMatchCnt()->qr2Obj);
     return qr2Error;
@@ -5278,7 +5278,7 @@ void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf)
     if (g_021AAA40[index].keyID == 0)
         return;
     if (g_021AAA40[index].isStr != 0)
-        func_0219B660(outbuf, (char *)g_021AAA40[index].value);
+        qr2_buffer_addA(outbuf, (char *)g_021AAA40[index].value);
     else
         qr2_buffer_add_int(outbuf, *(int *)g_021AAA40[index].value);
 }

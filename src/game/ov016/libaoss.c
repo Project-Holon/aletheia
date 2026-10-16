@@ -24,7 +24,7 @@
  *   AOSSi_InitLocal 0x021B84E4 thumb ov016
  *   OS_Terminate 0x02088234 arm
  *   aossAlloc 0x021C0954 arm ov016
- *   func_021C0964 0x021C0964 arm ov016
+ *   aossFree 0x021C0964 arm ov016
  *   gLibaossBlock1 0x021DE564 data
  *   sLibAossDefaultName 0x021DA468 data
  *   AOSSi_EndLocal 0x021B85A8  thumb  ov016
@@ -70,7 +70,7 @@ extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 extern void OS_GetMacAddress(u8 *mac);
 extern int AOSSi_InitLocal(void *(*alloc)(u32), void (*free)(void *));
 extern void OS_Terminate(void);
-extern void func_021C0964(void *ptr);
+extern void aossFree(void *ptr);
 extern int AOSSi_EndLocal();
 extern void DWCi_SETTINGlSetAoss(void *area);
 extern void DWCi_HEAPlFree_(void **mem);
@@ -109,7 +109,7 @@ void DWCi_AOSSlInit(void)
     ((Work *)gLibaossBlock1.work)->f10c = -1;
     ((Work *)gLibaossBlock1.work)->f10e = -1;
     OS_GetMacAddress(((Work *)gLibaossBlock1.work)->mac);
-    if (AOSSi_InitLocal(aossAlloc, func_021C0964))
+    if (AOSSi_InitLocal(aossAlloc, aossFree))
         OS_Terminate();
 }
 

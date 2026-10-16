@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_nintendospot.c
  * unit:     yes
- * function: DWC_AC_StartupGetWDSInfo, DWC_AC_ProcessGetWDSInfo, func_0205DC58, DWC_AC_CleanupGetWDSInfo, WDS_Initialize_CB, WDS_StartScan_CB, WDS_EndScan_CB, WDS_End_CB, WDS_Error_End_CB
+ * function: DWC_AC_StartupGetWDSInfo, DWC_AC_ProcessGetWDSInfo, DWC_AC_CancelGetWDSInfo, DWC_AC_CleanupGetWDSInfo, WDS_Initialize_CB, WDS_StartScan_CB, WDS_EndScan_CB, WDS_End_CB, WDS_Error_End_CB
  * address:  0x0205D91C
  * region:   arm9
  * compiler: dsi/1.1p1

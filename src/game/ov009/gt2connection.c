@@ -1,7 +1,7 @@
 /*
  * file:     gt2connection.c
  * unit:     yes
- * function: func_02195590, func_021955C0, gti2StartConnectionAttempt, func_0219569C, func_021956F8, func_02195750, gti2CheckTimeout, func_0219583C, func_021958A8, func_021958E4, func_02195918, func_02195980, func_021959D0, gti2ConnectionCleanup
+ * function: gti2NewOutgoingConnection, gti2NewIncomingConnection, gti2StartConnectionAttempt, gti2AcceptConnection, gti2RejectConnection, gti2ConnectionSendData, gti2CheckTimeout, gti2SendRetries, gti2CheckPendingAck, gti2CheckKeepAlive, gti2ConnectionThink, gti2CloseConnection, gti2ConnectionClosed, gti2ConnectionCleanup
  * address:  0x02195590
  * region:   ov009
  * compiler: dsi/1.1p1

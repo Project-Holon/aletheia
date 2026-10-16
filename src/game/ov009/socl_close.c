@@ -1,7 +1,7 @@
 /*
  * file:     socl_close.c
  * unit:     yes
- * function: SOCL_IsClosed, func_0215E7C8, SOCL_Close, SOCLi_CloseCallBack, SOCLi_CleanupSocket, SOCLi_FreeCommandPipe, SOCLi_TrashSocket
+ * function: SOCL_IsClosed, SOCL_IsReleased, SOCL_Close, SOCLi_CloseCallBack, SOCLi_CleanupSocket, SOCLi_FreeCommandPipe, SOCLi_TrashSocket
  * address:  0x0215E794
  * region:   ov009
  * compiler: dsi/1.1p1

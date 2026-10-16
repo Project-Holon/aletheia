@@ -1,7 +1,7 @@
 /*
  * file:     mb_task.c
  * unit:     yes
- * function: MBi_TaskThread, MBi_InitTaskThread, func_021F6610, MBi_InitTaskInfo, func_021F6640, func_021F6658, func_021F67BC
+ * function: MBi_TaskThread, MBi_InitTaskThread, MBi_IsTaskAvailable, MBi_InitTaskInfo, func_021F6640, MBi_SetTask, MBi_EndTaskThread
  * address:  0x021F6480
  * region:   ov107
  * compiler: dsi/1.1p1

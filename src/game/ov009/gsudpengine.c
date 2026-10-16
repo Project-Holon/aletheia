@@ -1,7 +1,7 @@
 /*
  * file:     gsudpengine.c
  * unit:     yes
- * function: func_02180410, func_02180420, func_02180430, gsUdpRemotePeerCompare, func_02180474, gsUdpSocketError, gsUdpClosedRoutingCB, gsUdpConnectedRoutingCB, gsUdpPingRoutingCB, gsUdpReceivedRoutingCB, gsUdpUnrecognizedMsgCB, gsUdpConnAttemptCB, gsUdpEngineIsInitialized, gsUdpEngineInitialize, gsUdpEngineGetPeerState, gsUdpEngineStartTalkingToPeer, gsUdpEngineSendMessage, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, gsUdpEngineAddMsgHandler, gsUdpEngineRemoveMsgHandler, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, gsUdpEngineGetPeerOutBufferFreeSpace
+ * function: func_02180410, func_02180420, func_02180430, gsUdpRemotePeerCompare, gsUdpRemotePeerCompare2, gsUdpSocketError, gsUdpClosedRoutingCB, gsUdpConnectedRoutingCB, gsUdpPingRoutingCB, gsUdpReceivedRoutingCB, gsUdpUnrecognizedMsgCB, gsUdpConnAttemptCB, gsUdpEngineIsInitialized, gsUdpEngineInitialize, gsUdpEngineGetPeerState, gsUdpEngineStartTalkingToPeer, gsUdpEngineSendMessage, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, gsUdpEngineAddMsgHandler, gsUdpEngineRemoveMsgHandler, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, gsUdpEngineGetPeerOutBufferFreeSpace
  * address:  0x02180410
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -25,7 +25,7 @@
  *   gt2AddressToString                  0x02198620  arm ov009
  *   ArraySearch                  0x021843E8  arm ov009
  *   ArrayDeleteAt                  0x0218437C  arm ov009
- *   func_02180474                  0x02180474  arm ov009
+ *   gsUdpRemotePeerCompare2                  0x02180474  arm ov009
  *   g_021A38A8                     0x021A38A8  data
  *   g_021A38D0                     0x021A38D0  data
  *   g_021A390C                     0x021A390C  data
@@ -68,7 +68,7 @@
  *   gsifree                  0x0217EAE0  arm ov009
  *   g_021A3C34                     0x021A3C34  data
  *   g_021A3C68                     0x021A3C68  data
- *   func_02195AF0                         0x02195af0 arm
+ *   gt2Think                         0x02195af0 arm
  *   gt2CloseSocket                   0x02195ad8 arm
  *   g_021A3CA0                     0x021A3CA0  data
  *   g_021A3CC4                     0x021A3CC4  data
@@ -83,7 +83,7 @@ extern int gt2GetRemoteIP(const int *p);
 extern unsigned short gt2GetRemotePort(const unsigned short *p);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern void ArrayDeleteAt(int a, int b);
-extern int func_02180474(void *theFirstPeer, void *theSecondPeer);
+extern int gsUdpRemotePeerCompare2(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180430(void *theFirstHandler, void *theSecondHandler);
 extern int gt2Accept(void *connection, GT2ConnectionCallbacks *callbacks);
@@ -103,7 +103,7 @@ extern int gt2GetOutgoingBufferSize(const int *p);
 extern void *gsimalloc(unsigned long size);
 extern int gt2Send(void *connection, unsigned char *message, int len, int reliable);
 extern void gsifree(void *ptr);
-extern void func_02195AF0(void *socket);
+extern void gt2Think(void *socket);
 extern void gt2CloseSocket(void *socket);
 extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *memcpy(void *dst, const void *src, unsigned long n);
@@ -259,7 +259,7 @@ void gsUdpClosedRoutingCB(void *theConnection, int reason)
     }
 
     aRemotePeer.mConnection = theConnection;
-    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, func_02180474, 0, 0);
+    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, gsUdpRemotePeerCompare2, 0, 0);
     if (index == -1)
         return;
     ArrayDeleteAt((int)aUdp->mRemotePeers, index);
@@ -699,7 +699,7 @@ int gsUdpEngineThink(void)
         gsDebugFormat(0xc, 0, 0xf, g_021A3B9C);
         return 3;
     }
-    func_02195AF0(aUdp->mSocket);
+    gt2Think(aUdp->mSocket);
     return 0;
 }
 

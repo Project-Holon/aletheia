@@ -32,7 +32,7 @@
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   FIELDMAP_GetScriptEffectBusy  0x02189A24  thumb  ov021
- *   sub_020113D0   0x020113D0  thumb
+ *   VM_SetWait   0x020113D0  thumb
  *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
  *   EVENT_RECOVERY_CreatePartyEvent  0x021C0AA0  thumb  ov021
  *   EVENT_RECOVERY_CreateBallsEvent  0x021C0820  thumb  ov021

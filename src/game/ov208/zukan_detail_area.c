@@ -195,7 +195,7 @@
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_0201D304  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
- *   func_021C0C8C 0x021C0C8C thumb ov208
+ *   ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible 0x021C0C8C thumb ov208
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   data_021C8E14  0x021C8E14  data
  *   data_021C8E1A  0x021C8E1A  data
@@ -727,7 +727,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
-extern void func_021C0C8C(u16 *, u8 *, int, int);
+extern void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *, u8 *, int, int);
 
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
@@ -2499,7 +2499,7 @@ void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, int key)
     } else {
         for (i = 0; i < 61; i++) CLACT_SetActorDrawEnable(*(struct Obj **)(p + i * 4 + 0xdc), 0);
         if (((struct Ov208AreaWork *)p)->f90 == 0) {
-            func_021C0C8C(heap, p, key, 0);
+            ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(heap, p, key, 0);
             p[0x79] = 255;
             CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Ov208AreaWork *)p)->fCC, 0);
             CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Ov208AreaWork *)p)->fD0, 0);
@@ -2556,7 +2556,7 @@ void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2)
             }
         }
         if (ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(a0, st, a2) == 0) {
-            func_021C0C8C((u16 *)a0, st, (int)a2, 1);
+            ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible((u16 *)a0, st, (int)a2, 1);
         }
     }
 }

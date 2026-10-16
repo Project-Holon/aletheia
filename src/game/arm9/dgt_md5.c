@@ -1,7 +1,7 @@
 /*
  * file:     dgt_md5.c
  * unit:     yes
- * function: func_02080D68, MATH_MD5Init, MATH_MD5Update, MATH_MD5GetHash
+ * function: ProcessBlock, MATH_MD5Init, MATH_MD5Update, MATH_MD5GetHash
  * address:  0x02080D68
  * region:   arm9
  * compiler: dsi/1.1p1

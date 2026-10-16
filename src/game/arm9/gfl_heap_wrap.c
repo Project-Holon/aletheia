@@ -36,7 +36,7 @@
  *   GFL_HEAP_GetAllocatableSize           0x0203038C arm
  *   MSL_C_LIB_SetTwlFlag          0x0209128C arm
  *   NNSi_FndWalkHeapBlocks          0x02060F50 arm
- *   func_02030534          0x02030534 arm
+ *   GFL_HEAP_InitSystemHeap          0x02030534 arm
  *   GFL_HEAP_AllocSystem          0x020305C4 arm
  *   GFL_HEAP_FreeSystem           0x020305E4 arm
  *   gWatchedHeapId         0x020A7820 data
@@ -116,7 +116,7 @@ extern void MSL_C_LIB_SetTwlFlag(int x);
 
 extern void NNSi_FndWalkHeapBlocks(int *heap, HeapVisitFunc visitor, u32 userParam);
 
-extern signed int func_02030534(u32 size);
+extern signed int GFL_HEAP_InitSystemHeap(u32 size);
 
 extern void *GFL_HEAP_AllocSystem(u32 size);
 
@@ -575,7 +575,7 @@ int GFL_HEAP_ReadAllocSiteName(u8 *nameBuf, const char *blockName)
  * (it masks the id, range-checks it against the count at +8 of the heap
  * table, records an error code at +0xe on failure and otherwise tail-calls
  * GFL_HEAP_GetHeap), that handle is then walked by NNSi_FndGetListTotalSize and dumped by
- * NNSi_FndGetListAllocatableSize with a mode of 4, and sub_02030B50 is passed the original
+ * NNSi_FndGetListAllocatableSize with a mode of 4, and GFL_HEAP_DumpReport is passed the original
  * public id. The handle value is live across two calls, so it costs r4,
  * and the id costs r5.
  *
@@ -732,7 +732,7 @@ void GFL_HEAP_NotifyFree(void *payload)
  * GFL_HEAP_AllocMemory increments on every successful allocation, so a zero answer
  * means an empty heap and there is nothing to report. Note that the
  * out-of-range answer from GFL_HEAP_GetAllocCountById is 0xffff, not zero, so a bad id
- * still reaches sub_02030B50; the range check is left to that call.
+ * still reaches GFL_HEAP_DumpReport; the range check is left to that call.
  *
  * The id has to survive the first call, which is what spends r4.
  *
@@ -757,7 +757,7 @@ void GFL_HEAP_DumpIfLive(u32 heapId)
  * Fills in the allocator's bookkeeping object at 0x02146970 (u16 tag, two
  * pointers, then an 18-character name buffer at 0x0214697C) and names the
  * block it was handed.  The block's own id is read out of the block header
- * (+0x12, a u16 halfword) when func_020308B8 finds a name for the scratch
+ * (+0x12, a u16 halfword) when GFL_HEAP_ReadAllocSiteName finds a name for the scratch
  * buffer, and the buffer is otherwise loaded with the 13-byte default
  * "SYSTEM ALLOC" at 0x020A7824 and tagged 0.  That name is then copied into
  * the object's name buffer (length + 1) and space-padded out to 18 columns
@@ -877,7 +877,7 @@ void GFL_HEAP_DumpReport(u32 heapId)
 
 void GFL_HEAP_InitSystemHeapChecked(u32 size)
 {
-    if (func_02030534(size) == 0) {
+    if (GFL_HEAP_InitSystemHeap(size) == 0) {
         OS_Terminate();
     }
 }

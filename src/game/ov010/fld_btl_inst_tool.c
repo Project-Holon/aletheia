@@ -123,7 +123,7 @@
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_FoldTally  0x0200E518  thumb
  *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb
- *   func_0200AB04  0x0200AB04  thumb
+ *   IRC_RANKING_ClearNewFlags  0x0200AB04  thumb
  *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   BEACON_GetBlock 0x0200C0F0 thumb
@@ -531,7 +531,7 @@ extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(GameData *gameData, int days, int 
 extern void *SYMBOL_SAVE_GetBitBlock(SaveControl *saveControl);
 extern void MISC_SAVEDATA_FoldTally(void *obj);
 extern void *IRC_RANKING_GetFromSave(SaveControl *saveControl);
-extern void func_0200AB04(void *obj);
+extern void IRC_RANKING_ClearNewFlags(void *obj);
 extern PartySave *POKEPARTY_GetSaveData(SaveControl *saveControl);
 extern u8 GAME_DATA_GetSeason(GameData *gameData);
 extern void *BEACON_GetBlock(SaveControl *saveControl);
@@ -1750,7 +1750,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
     func_0200952C(WIFI_HISTORY_GetBlock(saveControl));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(gameData, days, 4);
     MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock(saveControl));
-    func_0200AB04(IRC_RANKING_GetFromSave(saveControl));
+    IRC_RANKING_ClearNewFlags(IRC_RANKING_GetFromSave(saveControl));
 }
 
 

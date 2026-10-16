@@ -160,7 +160,7 @@ u8 BMP_MENUWORK_GetPlttFileId(int index)
  * through one of the two byte tables just before them and handing it to a
  * seven- and a six-argument SDK-style entry point.  The two table lookups are
  * BMP_MENUWORK_GetCharFileId and BMP_MENUWORK_GetPlttFileId, which are parked in
- * src/pending/sub_0201F53C.c because their tables have no outside witness;
+ * src/pending/BMP_MENUWORK_GetCharFileId.c because their tables have no outside witness;
  * the calls to them are ordinary `label` sites here, since BMP_MENUWORK_GetCharFileId is
  * also called from 0x0201F5EA outside this range and BMP_MENUWORK_GetPlttFileId from ten
  * overlays.

@@ -858,7 +858,7 @@ SaveFooter *BACKUP_SYSTEM_GetFooter(BackupSaveData *sv, u8 *buf)
  *
  * The third parameter is dead in the body (the original never reads r2) and the
  * callers pass nothing for it; it is kept in the declaration only because
- * src/matched/sub_02031F9C.c declares the same three-argument prototype.
+ * src/matched/BACKUP_SYSTEM_GetFooterInfo.c declares the same three-argument prototype.
  *
  * Addresses are Black-image addresses.
  *
@@ -929,7 +929,7 @@ void BACKUP_SYSTEM_SetSaveCount(BackupSaveData *sv, u32 save_count)
  * that footer, reached through 0x02031EE8, buf + (p->data_size - 0x10).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02031F9C.c \
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_GetFooterInfo.c \
  *       --func BACKUP_SYSTEM_GetFooterInfo --addr 0x02031F9C --cc 1.1p1 --arm
  */
 void BACKUP_SYSTEM_GetFooterInfo(u32 *result, BackupSaveData *sv, u8 *buf, u32 area)

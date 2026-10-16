@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformsocket.c
  * unit:     yes
- * function: CheckRcode, socket, closesocket, func_0217EB40, shutdown, func_0217EBB0, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, getsockname, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, CanReceiveOnSocket, CanSendOnSocket, getlocalhost, IsPrivateIP
+ * function: CheckRcode, socket, closesocket, closesocketsure, shutdown, bind, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, getsockname, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, SetReceiveBufferSize, CanReceiveOnSocket, CanSendOnSocket, getlocalhost, IsPrivateIP
  * address:  0x0217EB00
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   SOC_Bind         0x0215f454 arm
  *   SOC_Connect      0x0215f480 arm
  *   SOC_RecvFrom     0x0215f500 arm
- *   func_0215F5B4                  0x0215F5B4  arm ov009
+ *   SOC_SendTo                  0x0215F5B4  arm ov009
  *   SOC_Accept       0x0215f714 arm
  *   SOC_InetAtoN  0x0215FAD0  arm  ov009
  *   SOC_Poll  0x0215FBCC  arm  ov009
@@ -80,7 +80,7 @@ extern int SOC_Connect(int s, void * sockAddr);
 extern int SOC_Recv(void);
 extern int SOC_RecvFrom(int s, void * buf, int len, int flags, void * sockFrom);
 extern int SOC_Send(void);
-extern int func_0215F5B4(int s, void *buf, int len, int flags, void *sockTo);
+extern int SOC_SendTo(int s, void *buf, int len, int flags, void *sockTo);
 extern int SOC_Accept(int s, void * sockAddr);
 extern int SOC_InetAtoN(char *cp, unsigned long *inp);
 extern int SOC_Poll(GSPollFd *fds, int nfds, int timeout, int flags);
@@ -266,7 +266,7 @@ int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, in
 
     memcpy(&remoteAddr, addr, sizeof(remoteAddr));
     remoteAddr.len = tolen;
-    rcode = func_0215F5B4(sock, buf, len, flags, &remoteAddr);
+    rcode = SOC_SendTo(sock, buf, len, flags, &remoteAddr);
     return CheckRcode(rcode, -1);
 }
 

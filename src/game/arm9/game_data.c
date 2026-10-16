@@ -28,7 +28,7 @@
  *   func_02008844  0x02008844  thumb
  *   func_02008848  0x02008848  thumb
  *   func_0200884C  0x0200884C  thumb
- *   func_02006E40  0x02006E40  thumb
+ *   BGM_INFO_Create  0x02006E40  thumb
  *   GAME_DATA_InitPlayerWork  0x02012A60  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -48,7 +48,7 @@
  *   WIFILIST_Create  0x020097C4  thumb
  *   INTRUDE_InitOccupy  0x0200BDE4  thumb
  *   EVENT_FIELD_PROCLINK_InitEventdataSystem  0x02161D98  thumb  ov010
- *   func_0200857C  0x0200857C  thumb
+ *   PLAYTIME_Create  0x0200857C  thumb
  *   SAVE_CONTROL_IsNewGame  0x020071E4  thumb
  *   FIELD_ENCOUNT_ST_Create  0x0215E31C  thumb  ov010
  *   PMS_DRAW_ClearWork  0x0202E43C  thumb
@@ -58,10 +58,10 @@
  *   CALENDER_Create  0x021647A0  thumb  ov010
  *   CALENDER_Delete   0x021647D8  thumb  ov010
  *   BEACON_STATUS_Delete   0x02027584  thumb
- *   func_0202E794   0x0202E794  thumb
+ *   COMM_PLAYER_SUPPORT_Delete   0x0202E794  thumb
  *   FIELD_ENCOUNT_ST_Delete   0x0215E334  thumb  ov010
  *   func_02006E64   0x02006E64  thumb
- *   func_02007AC8   0x02007AC8  thumb
+ *   BOX_SAVEDATA_Delete   0x02007AC8  thumb
  *   FLDMMDL_DeleteSys   0x0216CCB0  thumb  ov010
  *   MAP_MATRIX_Delete   0x02159BBC  thumb  ov010
  *   EVENTDATA_SYSTEM_Delete   0x021623BC  thumb  ov010
@@ -84,7 +84,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008808  0x02008808  thumb
  *   func_020088B8  0x020088B8  thumb
- *   func_0200EEAC  0x0200EEAC  thumb
+ *   NET_DEVICE_TABLE_Setup  0x0200EEAC  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   INTRUDE_LoadOccupy  0x0200BE6C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
@@ -107,7 +107,7 @@
  *   func_0200892C  0x0200892C  thumb
  *   func_0200894C  0x0200894C  thumb
  *   func_0200895C  0x0200895C  thumb
- *   func_0200E884  0x0200E884  thumb
+ *   MISC_SAVEDATA_SaveScratch16  0x0200E884  thumb
  *   func_02008658  0x02008658  thumb
  *   TRADE_HISTORY_GetFromSave  0x02009EC8  thumb
  *   func_020089C0  0x020089C0  thumb
@@ -159,7 +159,7 @@ extern struct Location *func_02008848(struct Situation *situation);
 
 extern struct Location *func_0200884C(struct Situation *situation);
 
-extern struct BagCursor *func_02006E40(u32 heapId);
+extern struct BagCursor *BGM_INFO_Create(u32 heapId);
 
 void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
 
@@ -199,7 +199,7 @@ extern void INTRUDE_InitOccupy(void *slot);
 
 extern void  EVENT_FIELD_PROCLINK_InitEventdataSystem(void *unionInfo);
 
-extern void *func_0200857C(u32 heapId);
+extern void *PLAYTIME_Create(u32 heapId);
 
 extern u8 SAVE_CONTROL_IsNewGame(struct SaveControl *save);
 
@@ -219,13 +219,13 @@ extern int CALENDER_Delete(int musicalWork);
 
 extern void BEACON_STATUS_Delete(u32 itemUseWork);
 
-extern void func_0202E794(void *pmsWork);
+extern void COMM_PLAYER_SUPPORT_Delete(void *pmsWork);
 
 extern void FIELD_ENCOUNT_ST_Delete(void *fieldGimmick);
 
 extern void func_02006E64(struct BagCursor *bagCursor);
 
-extern void func_02007AC8(void *boxManager);
+extern void BOX_SAVEDATA_Delete(void *boxManager);
 
 extern int FLDMMDL_DeleteSys(int occupyInfo);
 
@@ -373,7 +373,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->specialLocation = func_02008848((struct Situation *)gameData->situation);
     gameData->escapeLocation = func_0200884C((struct Situation *)gameData->situation);
 
-    gameData->bagCursor = (u32)func_02006E40(heapId);
+    gameData->bagCursor = (u32)BGM_INFO_Create(heapId);
 
     for (i = 0; i < 5; i++) {
         GAME_DATA_InitPlayerWork(&gameData->playerWork[i]);
@@ -405,7 +405,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
         EVENT_FIELD_PROCLINK_InitEventdataSystem(gameData->unionInfo[i]);
     }
 
-    gameData->playTime = func_0200857C(heapId);
+    gameData->playTime = PLAYTIME_Create(heapId);
     gameData->saveStatus = 0;
     SAVE_CONTROL_IsNewGame(gameData->saveControl);
 
@@ -448,11 +448,11 @@ void GAME_DATA_Delete(struct GameData *gameData)
     GFL_HEAP_Free(gameData->playTime);
     CALENDER_Delete(gameData->musicalWork);
     BEACON_STATUS_Delete(gameData->itemUseWork);
-    func_0202E794((void *)gameData->pmsWork);
+    COMM_PLAYER_SUPPORT_Delete((void *)gameData->pmsWork);
     FIELD_ENCOUNT_ST_Delete((void *)gameData->fieldGimmick);
     func_02006E64((struct BagCursor *)gameData->bagCursor);
     GFL_HEAP_Free((void *)gameData->wifiList);
-    func_02007AC8((void *)gameData->boxManager);
+    BOX_SAVEDATA_Delete((void *)gameData->boxManager);
     GFL_HEAP_Free((void *)gameData->mapMatrix);
     FLDMMDL_DeleteSys((int)gameData->occupyInfo);
     MAP_MATRIX_Delete((void *)gameData->fieldWork);
@@ -698,7 +698,7 @@ extern void func_02008808(struct SaveControl *save, struct PlayerWork *dest);
 
 extern void func_020088B8(struct SaveControl *save, struct PlayerWork *dest);
 
-extern void func_0200EEAC(void *occupy, void *block);
+extern void NET_DEVICE_TABLE_Setup(void *occupy, void *block);
 
 extern void INTRUDE_LoadOccupy(struct SaveControl *save, u16 *dest);
 
@@ -740,7 +740,7 @@ extern void func_0200894C(struct Situation *situation, u8 value);
 
 extern void func_0200895C(struct Situation *situation, u8 value);
 
-extern void func_0200E884(void *src, struct SaveControl *save);
+extern void MISC_SAVEDATA_SaveScratch16(void *src, struct SaveControl *save);
 
 extern void func_02008658(struct PlayTime *playTime);
 
@@ -1509,7 +1509,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     func_02008808(gd->saveControl, player);
     func_020088B8(gd->saveControl, player);
     occupy = GAME_DATA_GetOccupyInfo(gd);
-    func_0200EEAC(occupy, SAVE_CONTROL_GetBlock(gd->saveControl, 0x29));
+    NET_DEVICE_TABLE_Setup(occupy, SAVE_CONTROL_GetBlock(gd->saveControl, 0x29));
     INTRUDE_LoadOccupy(gd->saveControl, (u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
     unionInfo = GAME_DATA_GetSecondUnionInfo(gd);
     MUSICAL_SHOT_CopyPhotoRev(MUSICAL_SHOT_GetFromSave(gd->saveControl), unionInfo);
@@ -1563,7 +1563,7 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     fieldState = GAME_DATA_GetField1A0(gd);
     WIFILIST_Copy(fieldState, func_02009D08(gd->saveControl));
     func_0200895C((struct Situation *)gd->situation, gd->subscreenMode);
-    func_0200E884(gd->saveSyncBlock, gd->saveControl);
+    MISC_SAVEDATA_SaveScratch16(gd->saveSyncBlock, gd->saveControl);
     savedTime = func_02008748(gd->saveControl);
     func_02008658(gd->playTime);
     func_0200863C(savedTime, gd->playTime);

@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac.c
  * unit:     yes
- * function: DWC_AC_Create, DWC_AC_Process, DWC_AC_GetStatus, DWC_AC_GetApType, DWC_AC_GetApSpotInfo, func_0205BE58, DWC_AC_Destroy, DWC_AC_SetSpecifyApEx, DWC_AC_SetSpecifyAp, func_0205BFD4, DWCi_AC_InsertApInfo, DWCi_AC_InvalidatePriorityWPA, DWCi_AC_Alloc, DWCi_AC_Free, DWCi_AC_FreeAll, DWCi_AC_GetMemPtr, DWCi_AC_SetPhase, func_0205C2C4, DWCi_AC_SetError, func_0205C308, DWCi_AC_SetApType, DWCi_AC_CopyExSetting, DWCi_ConvConnectAPType, Free_Disused, CheckDuplicate, CheckEULA, CheckWirelessPowerON
+ * function: DWC_AC_Create, DWC_AC_Process, DWC_AC_GetStatus, DWC_AC_GetApType, DWC_AC_GetApSpotInfo, DWC_AC_GetSecuritySetting, DWC_AC_Destroy, DWC_AC_SetSpecifyApEx, DWC_AC_SetSpecifyAp, DWC_AC_CheckWiFiStation, DWCi_AC_InsertApInfo, DWCi_AC_InvalidatePriorityWPA, DWCi_AC_Alloc, DWCi_AC_Free, DWCi_AC_FreeAll, DWCi_AC_GetMemPtr, DWCi_AC_SetPhase, DWCi_AC_GetPhase, DWCi_AC_SetError, DWCi_AC_GetError, DWCi_AC_SetApType, DWCi_AC_CopyExSetting, DWCi_ConvConnectAPType, Free_Disused, CheckDuplicate, CheckEULA, CheckWirelessPowerON
  * address:  0x0205B98C
  * region:   arm9
  * compiler: dsi/1.1p1

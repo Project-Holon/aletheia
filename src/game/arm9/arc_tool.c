@@ -35,10 +35,10 @@
  *   ENV_SetResourceSet  0x020307B0  arm
  *   func_0204979C       0x0204979C  arm
  *   BG_SYS_CreateTileRun  0x02040B58  arm
- *   func_0204982C  0x0204982C  arm
+ *   ARC_UTIL_UploadScreen  0x0204982C  arm
  *   NNS_G2dGetUnpackedCharacterData       0x02062A00  arm
  *   ARC_UTIL_gScreenLoadFns          0x020A135C  data
- *   sub_02049A18   0x02049A18  arm
+ *   ARC_UTIL_UploadBgPalette   0x02049A18  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   BG_SYS_GetField16  0x0204169C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
@@ -46,8 +46,8 @@
  *   BG_SYS_PushTileSource  0x020409E0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetFlagField06  0x02041B6C  arm
- *   sub_02049B90   0x02049B90  arm
- *   sub_02049BDC   0x02049BDC  arm
+ *   ARC_UTIL_UploadPaletteFromArchive   0x02049B90  arm
+ *   ARC_UTIL_UploadPaletteFromHandle   0x02049BDC  arm
  *   ARC_UTIL_gPaletteLoadFns     0x020A1364  data
  *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
@@ -160,11 +160,11 @@ extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 
 extern u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
 
-extern u32 func_0204982C(void *buf, u32 kind, u32 a2, u32 size);
+extern u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size);
 
 extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 
-extern u32 sub_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
+extern u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
 
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 
@@ -180,9 +180,9 @@ extern void BG_SYS_PushTile(u8 channel);
 
 extern void BG_SYS_SetFlagField06(u8 channel);
 
-extern void sub_02049B90(u32 a, u32 b, u32 c, u32 zero, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchive(u32 a, u32 b, u32 c, u32 zero, u32 d, u32 e, u16 f);
 
-extern void sub_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 
@@ -1197,7 +1197,7 @@ fail:
 }
 
 /*
- * Byte-correct, capped at MATCH. Blocked on: func_0204982C (0x0204982C) has
+ * Byte-correct, capped at MATCH. Blocked on: ARC_UTIL_UploadScreen (0x0204982C) has
  * exactly one branch reference in the whole image, the `bl` at 0x02049824
  * inside this function, and it begins at the first byte past this function's
  * own extent (02049800..0204982C), so no evidence class witnesses it. This
@@ -1223,7 +1223,7 @@ fail:
  */
 u32 ARC_UTIL_UploadScreenFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
-    return func_0204982C(ARC_UTIL_LoadHandleMember(a0, a1, a5, a6), a2, a3, a4);
+    return ARC_UTIL_UploadScreen(ARC_UTIL_LoadHandleMember(a0, a1, a5, a6), a2, a3, a4);
 }
 
 extern void (*ARC_UTIL_gScreenLoadFns[])(void *addr, u32 a1, u32 size);
@@ -1308,7 +1308,7 @@ void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4,
  */
 void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
-    sub_02049A18(sub_0204A380(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
+    ARC_UTIL_UploadBgPalette(sub_0204A380(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
                  c, d, 0, e, 0);
 }
 
@@ -1395,7 +1395,7 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
  *
  * Two sibling entry points of the text-printing layer, each a six-to-seven
  * argument forwarder that splices a zero in as the fourth argument of the
- * real worker (sub_02049B90 and sub_02049BDC respectively).
+ * real worker (ARC_UTIL_UploadPaletteFromArchive and ARC_UTIL_UploadPaletteFromHandle respectively).
  *
  * The shape is the whole content: `stmdb sp!, {lr}` plus `sub sp, #0xc`
  * builds the outgoing stack argument area, the two incoming stack
@@ -1411,12 +1411,12 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
  */
 void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
-    sub_02049B90(a, b, c, 0, d, e, f);
+    ARC_UTIL_UploadPaletteFromArchive(a, b, c, 0, d, e, f);
 }
 
 void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
-    sub_02049BDC(a, b, c, 0, d, e, f);
+    ARC_UTIL_UploadPaletteFromHandle(a, b, c, 0, d, e, f);
 }
 
 /*

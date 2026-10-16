@@ -1,7 +1,7 @@
 /*
  * file:     dwc_account.c
  * unit:     yes
- * function: func_02059058, func_02059084, DWCi_Acc_GetPlayerId, DWCi_Acc_GetFriendKey, DWCi_Acc_GetGsProfileId, DWCi_Acc_SetUserId, DWCi_Acc_SetPlayerId, DWCi_Acc_SetFriendKey, DWCi_Acc_SetGsProfileId, func_02059108, DWCi_Acc_GetFlag_DataType, CTRDG_IsBitID, func_0205915C, func_02059194, DWCi_IsBuddyMsgAlreadySent, DWCi_Acc_GetFlagDataTypeThunk, DWCi_Acc_SetFlags, func_020591F0, DWCi_SetBuddyFriendData, DWCi_SetReverseBuddyFlag, DWCi_SetExpIsBuddyFriendFlag, DWCi_SetSentBuddyReqFlag, DWC_Acc_CreateFriendKey, func_02059354, DWC_Acc_CheckFriendKey, DWC_Acc_FriendKeyToGsProfileId, DWCi_Acc_U64ToString32, DWCi_Acc_LoginIdToUserName, DWCi_Acc_CreateUserData, DWCi_Acc_CreateTempLoginId, DWCi_Acc_CheckConsoleUserId, DWCi_Acc_IsValidLoginId, DWCi_Acc_IsAuthentic, DWC_IsValidFriendData, DWCi_Acc_IsValidFriendDataThunk, DWC_CreateUserData, DWC_CheckUserData, DWC_CheckValidConsole, DWC_CheckHasProfile, DWCi_Acc_SetLoginIdToUserData, DWC_CheckDirtyFlag, DWCi_Acc_IsDirty, DWC_ClearDirtyFlag, DWCi_Acc_ClearDirty, DWC_GetFriendKey, DWC_GetGsProfileId, DWC_CreateFriendKey, DWC_CreateFriendKeyToken, DWC_CreateExchangeToken, DWC_SetGsProfileId, func_02059A44, DWC_IsEqualFriendData
+ * function: DWCi_Acc_SetMaskBits, DWCi_Acc_GetUserId, DWCi_Acc_GetPlayerId, DWCi_Acc_GetFriendKey, DWCi_Acc_GetGsProfileId, DWCi_Acc_SetUserId, DWCi_Acc_SetPlayerId, DWCi_Acc_SetFriendKey, DWCi_Acc_SetGsProfileId, DWCi_Acc_GetFlags, DWCi_Acc_GetFlag_DataType, CTRDG_IsBitID, func_0205915C, func_02059194, DWCi_IsBuddyMsgAlreadySent, DWCi_Acc_GetFlagDataTypeThunk, DWCi_Acc_SetFlags, DWCi_Acc_SetFlag_DataType, DWCi_SetBuddyFriendData, DWCi_SetReverseBuddyFlag, DWCi_SetExpIsBuddyFriendFlag, DWCi_SetSentBuddyReqFlag, DWC_Acc_CreateFriendKey, DWC_CheckFriendKey, DWC_Acc_CheckFriendKey, DWC_Acc_FriendKeyToGsProfileId, DWCi_Acc_U64ToString32, DWCi_Acc_LoginIdToUserName, DWCi_Acc_CreateUserData, DWCi_Acc_CreateTempLoginId, DWCi_Acc_CheckConsoleUserId, DWCi_Acc_IsValidLoginId, DWCi_Acc_IsAuthentic, DWC_IsValidFriendData, DWCi_Acc_IsValidFriendDataThunk, DWC_CreateUserData, DWC_CheckUserData, DWC_CheckValidConsole, DWC_CheckHasProfile, DWCi_Acc_SetLoginIdToUserData, DWC_CheckDirtyFlag, DWCi_Acc_IsDirty, DWC_ClearDirtyFlag, DWCi_Acc_ClearDirty, DWC_GetFriendKey, DWC_GetGsProfileId, DWC_CreateFriendKey, DWC_CreateFriendKeyToken, DWC_CreateExchangeToken, DWC_SetGsProfileId, DWC_LoginIdToUserName, DWC_IsEqualFriendData
  * address:  0x02059058
  * region:   arm9
  * compiler: dsi/1.2
@@ -17,7 +17,7 @@
  * Tail call to DWCi_Acc_IsDirty (ldr ip, =target; bx ip; pool word).
  *
  * symbols:
- *   func_02059108    0x02059108  arm
+ *   DWCi_Acc_GetFlags    0x02059108  arm
  *   CTRDG_IsExisting  0x0205915C  arm
  *   CTRDGi_IsBitIDAtInit  0x02059194  arm
  *   DWCi_Acc_GetFlag_DataType        0x0205911c arm
@@ -38,7 +38,7 @@
  *   MATH_CalcCRC32                   0x02081bb8 arm
  *   OS_GetLowEntropyData             0x02088168 arm
  *   DWC_Auth_GetId                   0x02058fb4 arm
- *   func_020596D8  0x020596D8  arm
+ *   DWC_IsValidFriendData  0x020596D8  arm
  *   DWCi_Acc_IsValidLoginId          0x020596b0 arm
  *   DWC_Acc_FriendKeyToGsProfileId   0x020593b8 arm
  *   DWCi_GetGamecode  0x0205A10C  arm
@@ -128,7 +128,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid);
 extern void DWC_Auth_GetId(DWCAuthWiFiId *id);
 extern void OS_GetLowEntropyData(unsigned long *buffer);
-extern int func_020596D8(void *p);
+extern int DWC_IsValidFriendData(void *p);
 extern void *DWCi_GetGamecode(void);
 void DWCi_Acc_CreateUserData(struct DWCstAccUserData *userdata, unsigned long gamecode);
 extern int DWCi_Acc_IsValidLoginId(void *loginid);
@@ -729,7 +729,7 @@ int DWC_IsValidFriendData(void *frienddata)
 
 int DWCi_Acc_IsValidFriendDataThunk(void *frienddata)
 {
-    return func_020596D8(frienddata);
+    return DWC_IsValidFriendData(frienddata);
 }
 
 

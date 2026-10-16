@@ -223,7 +223,7 @@ u32 BATTLE_EXAMINATION_GetGreetingSize(void)
  * because each is called from exactly this one place in the whole ROM,
  * the case the honesty rule's cut remedy cannot reach (docs/MATCHING.md,
  * "the limit of the remedy"). Both are now EXACT entries in their own
- * right (src/matched/sub_020242A4.c's PMSI_PARAM_SetDefaultGreeting, and
+ * right (src/matched/PMSI_PARAM_InitSentence.c's PMSI_PARAM_SetDefaultGreeting, and
  * src/matched/unit_020242D8.c's PMSI_PARAM_SetDefaultSentence), so the `matched` class
  * attests both calls without a second caller, and this file closes to
  * EXACT.

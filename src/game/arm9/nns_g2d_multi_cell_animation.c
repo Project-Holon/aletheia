@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_multi_cell_animation.c
  * unit:     yes
- * function: NNSi_G2dInitMCNode, NNSi_G2dRefreshCellAnimation, NNS_G2dInitCellAnimation, NNS_G2dInitCellAnimationVramTransfered, func_0206434C, NNS_G2dTickCellAnimation, NNS_G2dSetCellAnimationCurrentFrame, NNS_G2dRestartCellAnimation, NNS_G2dSetCellAnimationSpeed, NNSi_G2dSetMCDataToMCInstanceImpl, NNS_G2dGetMCBankNumCellAnimRequired, NNS_G2dSetAnimSequenceToMCAnimation, NNS_G2dInitMCAnimation, NNS_G2dGetMCWorkAreaSize, NNS_G2dGetMCBankNumNodesRequired, NNSi_G2dTickMCInstance, NNS_G2dTickMCAnimation, NNS_G2dSetMCAnimationCurrentFrame, func_02064B68, NNSi_G2dSetMCInstanceCurrentFrameZero, NNS_G2dRestartMCAnimation
+ * function: NNSi_G2dInitMCNode, NNSi_G2dRefreshCellAnimation, NNS_G2dInitCellAnimation, NNS_G2dInitCellAnimationVramTransfered, NNS_G2dSetCellAnimationSequence, NNS_G2dTickCellAnimation, NNS_G2dSetCellAnimationCurrentFrame, NNS_G2dRestartCellAnimation, NNS_G2dSetCellAnimationSpeed, NNSi_G2dSetMCDataToMCInstanceImpl, NNS_G2dGetMCBankNumCellAnimRequired, NNS_G2dSetAnimSequenceToMCAnimation, NNS_G2dInitMCAnimation, NNS_G2dGetMCWorkAreaSize, NNS_G2dGetMCBankNumNodesRequired, NNSi_G2dTickMCInstance, NNS_G2dTickMCAnimation, NNS_G2dSetMCAnimationCurrentFrame, NNS_G2dSetMCAnimationSpeed, NNSi_G2dSetMCInstanceCurrentFrameZero, NNS_G2dRestartMCAnimation
  * address:  0x02064178
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -42,7 +42,7 @@
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *   NNSi_G2dRequestCellTransferState  0x02066ABC  arm
  *   NNS_G2dInitAnimCtrl  0x02062F38  arm
- *   func_0206434C  0x0206434C  arm
+ *   NNS_G2dSetCellAnimationSequence  0x0206434C  arm
  *   NNS_G2dSetCellTransferState  0x02066890  arm
  *   NNS_G2dSetCellAnimationBank   0x02062FF0  arm
  *   NNS_G2dTickAnimCtrl  0x02062D4C  arm
@@ -519,7 +519,7 @@ static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *p
  * otherwise).  mcType 1 = cell animations shared through a 0x5c-byte
  * { NNSG2dCellAnimation, bInited } array; otherwise a 0x28-byte node array
  * whose pContent is the cell animation.  Callees: NNS_G2dGetAnimSequenceByIdx
- * GetAnimSequenceByIdx, func_0206434C SetCellAnimationSequence,
+ * GetAnimSequenceByIdx, NNS_G2dSetCellAnimationSequence SetCellAnimationSequence,
  * NNS_G2dIsCellAnimationBoundingBox IsAnimCtrlLoopAnim, NNS_G2dTickCellAnimation TickCellAnimation,
  * NNS_G2dSetSRTTranslate SrtcSetTrans.
  *

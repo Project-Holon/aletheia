@@ -1,7 +1,7 @@
 /*
  * file:     mail.c
  * unit:     yes
- * function: TRCARD_SIGN_GetSize, TRCARD_SIGN_Init, TRCARD_SIGN_GetFromSave, TRCARD_SIGN_GetBitmap, func_02008A54, func_02008A7C, func_02008ACC, func_02008ADC, CONSOLE_STAMP_GetSize, CONSOLE_STAMP_Init, CONSOLE_STAMP_GetFromSave, func_02008B14, func_02008B20, CONSOLE_STAMP_IsThisConsole, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, func_02008C20, RECORD_Init, RECORD_GetFromSave, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, RECORD_GetCeiling, func_02008D1C, func_02008D58, RECORD_AddCounter, func_02008DF0, func_02008DFC, RECORD_FoldPairs, RECORD_SetTrialRank, func_02008E78, func_02008E88, MAIL_Init, func_02008EF8, MAIL_Create, func_02008F3C, MAIL_InitForPlayer, MAIL_GetWriterId, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, func_02008FFC, func_02009004, MAIL_FindEmptySlot, MAIL_ClearSlot, func_0200903C, MAIL_CreateSlotCopy, func_02009074, func_020090A0, func_020090B0, CGEAR_SAVE_Init, CGEAR_SAVE_SetObtained, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, CGEAR_SAVE_GetPanelValue, CGEAR_SAVE_GetPanelFlag
+ * function: TRCARD_SIGN_GetSize, TRCARD_SIGN_Init, TRCARD_SIGN_GetFromSave, TRCARD_SIGN_GetBitmap, TRCARD_SIGN_GetBadgeDate, TRCARD_SIGN_SetBadgeDate, func_02008ACC, func_02008ADC, CONSOLE_STAMP_GetSize, CONSOLE_STAMP_Init, CONSOLE_STAMP_GetFromSave, func_02008B14, func_02008B20, CONSOLE_STAMP_IsThisConsole, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, RECORD_GetSize, RECORD_Init, RECORD_GetFromSave, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, RECORD_GetCeiling, RECORD_SetCounterClamped, func_02008D58, RECORD_AddCounter, func_02008DF0, func_02008DFC, RECORD_FoldPairs, RECORD_SetTrialRank, func_02008E78, func_02008E88, MAIL_Init, MAIL_IsDesignValid, MAIL_Create, MAIL_Copy, MAIL_InitForPlayer, MAIL_GetWriterId, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, MAIL_GetBoxSize, func_02009004, MAIL_FindEmptySlot, MAIL_ClearSlot, func_0200903C, MAIL_CreateSlotCopy, func_02009074, func_020090A0, CGEAR_SAVE_GetSize, CGEAR_SAVE_Init, CGEAR_SAVE_SetObtained, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, CGEAR_SAVE_GetPanelValue, CGEAR_SAVE_GetPanelFlag
  * address:  0x020089A8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,9 +23,9 @@
  *   OS_GetOwnerRtcOffset  0x02087D08  arm
  *   RTC_ConvertDateToDay         0x02088F58  arm
  *   func_02082A7C  0x02082A7C  arm
- *   sub_0203F2FC  0x0203F2FC  arm
+ *   GF_STANDARD_Checksum  0x0203F2FC  arm
  *   GF_STANDARD_Shuffle  0x0203F328  arm
- *   sub_0203F37C  0x0203F37C  arm
+ *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
  *   mystatus_file_name      0x020A70AC  data
  *   RECORD_CeilingRowTable      0x020A70C4  data
  *   RECORD_CeilingTable      0x0209DDB4  data
@@ -215,11 +215,11 @@ extern void func_02082A7C(u32 value, void *dest, u32 size);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *control, u32 blockId);
 extern void GF_STANDARD_CopyCachedRtc(struct RTCDate *date, struct RTCTime *time);
-/* The checksum pair over a byte range: sub_0203F2FC computes it, GF_STANDARD_Shuffle
- * encodes the range with a key, sub_0203F37C decodes it again. */
-extern u32 sub_0203F2FC(const u8 *data, u32 length);
+/* The checksum pair over a byte range: GF_STANDARD_Checksum computes it, GF_STANDARD_Shuffle
+ * encodes the range with a key, GF_STANDARD_ShuffleEx decodes it again. */
+extern u32 GF_STANDARD_Checksum(const u8 *data, u32 length);
 extern void GF_STANDARD_Shuffle(u16 *data, u32 size, u32 key);
-extern void sub_0203F37C(void *data, u32 size, u32 key);
+extern void GF_STANDARD_ShuffleEx(void *data, u32 size, u32 key);
 extern u16  STRBUF_GetEosChar(void);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *pms);
 extern void sub_02024570(struct PmsData *dest, const struct PmsData *src);
@@ -564,7 +564,7 @@ struct RecordBlock *RECORD_GetFromSave(struct SaveControl *control)
 void RECORD_Seal(struct RecordBlock *record, int enable)
 {
     if (enable) {
-        record->checksum = sub_0203F2FC((const u8 *)(&record->wordCounters[1]),
+        record->checksum = GF_STANDARD_Checksum((const u8 *)(&record->wordCounters[1]),
                                         0x1D8);
         GF_STANDARD_Shuffle((u16 *)(&record->wordCounters[1]), 0x1D8,
                      record->checksum + (record->cryptSeed << 16));
@@ -575,7 +575,7 @@ void RECORD_Seal(struct RecordBlock *record, int enable)
 void RECORD_Unseal(struct RecordBlock *record, int enable)
 {
     if (enable) {
-        sub_0203F37C(&record->wordCounters[1], 0x1D8,
+        GF_STANDARD_ShuffleEx(&record->wordCounters[1], 0x1D8,
                      record->checksum + (record->cryptSeed << 16));
     }
 }

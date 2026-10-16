@@ -1,7 +1,7 @@
 /*
  * file:     gt2callback.c
  * unit:     yes
- * function: func_02194EC4, gti2ConnectAttemptCallback, gti2ConnectedCallback, gti2ReceivedCallback, func_02195158, gti2PingCallback, gti2SendFilterCallback, gti2ReceiveFilterCallback, gti2DumpCallback, gti2UnrecognizedMessageCallback
+ * function: gti2SocketErrorCallback, gti2ConnectAttemptCallback, gti2ConnectedCallback, gti2ReceivedCallback, gti2ClosedCallback, gti2PingCallback, gti2SendFilterCallback, gti2ReceiveFilterCallback, gti2DumpCallback, gti2UnrecognizedMessageCallback
  * address:  0x02194EC4
  * region:   ov009
  * compiler: dsi/1.1p1

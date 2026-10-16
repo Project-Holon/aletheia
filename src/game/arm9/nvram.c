@@ -1,7 +1,7 @@
 /*
  * file:     nvram.c
  * unit:     yes
- * function: NVRAMi_Init, NVRAMi_ReadAsync, func_020837B8, NVRAMi_Read, NVRAMi_WriteAsync, func_020839E8, NVRAMi_Write, NVRAMi_VerifyAsync, func_02083FA0, NVRAMi_Verify, func_020841E8, func_02084204, NVRAMi_SyncCallback, func_02084288, func_020842A0, func_020842D8, func_02084304, func_02084330, func_020843B4, func_020844A8, func_02084570
+ * function: NVRAMi_Init, NVRAMi_ReadAsync, NVRAMi_ReadCallback, NVRAMi_Read, NVRAMi_WriteAsync, NVRAMi_WriteCallback, NVRAMi_Write, NVRAMi_VerifyAsync, NVRAMi_VerifyCallback, NVRAMi_Verify, NVRAMi_IsInitialized, NVRAMi_Callback, NVRAMi_SyncCallback, NVRAMi_AlarmHandler, NVRAMi_VerifyDataArray, NVRAMi_WriteEnable, NVRAMi_WriteDisable, NVRAMi_ReadStatusRegister, NVRAMi_ReadDataBytes, NVRAMi_PageWrite, NVRAMi_SoftwareReset
  * address:  0x02083644
  * region:   arm9
  * compiler: dsi/1.1p1

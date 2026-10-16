@@ -134,7 +134,7 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
- *   func_021F2BF0  0x021F2BF0  thumb  ov029
+ *   CTRDG_IsAgbCartridge  0x021F2BF0  thumb  ov029
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
@@ -176,9 +176,9 @@
  *   FIELD_SOUND_SYSTEM_StartRingtone  0x02028A64  thumb
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetBrightness  0x02022230  thumb
- *   func_02009110 0x02009110 thumb
+ *   CGEAR_SAVE_GetPanelValue 0x02009110 thumb
  *   func_02009134 0x02009134 thumb
- *   func_02009160 0x02009160 thumb
+ *   BLOCK20_SAVEDATA_TestPanelMark 0x02009160 thumb
  *   gCGearFadeSteps     0x021F3224  data  a4
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -378,9 +378,9 @@ extern void C_GEAR_StartSelectedRipple(CGearWork *work);
 extern void C_GEAR_StepWaitSlots(CGearWork *work);
 extern struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind);
 void C_GEAR_NoOp(CGearWork *work);
-extern u32 func_02009110(const struct HexMap *obj, int row, int col);
+extern u32 CGEAR_SAVE_GetPanelValue(const struct HexMap *obj, int row, int col);
 extern int func_02009134(const struct HexMap *obj, int row, int col);
-extern u32 func_02009160(const struct HexMap *obj, int row, int col, int kind);
+extern u32 BLOCK20_SAVEDATA_TestPanelMark(const struct HexMap *obj, int row, int col, int kind);
 int C_GEAR_IsColumnRowValid(int col, int row);
 void C_GEAR_SetStepFunc(CGearWork *work, CGearStepFunc stepFunc);
 void C_GEAR_ChangeStep(CGearWork *work, CGearStepFunc stepFunc, int line);
@@ -3456,7 +3456,7 @@ void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row
 u32 C_GEAR_GetCellKind(const CGearWork *work, int col, int row)
 {
     if (work->commEnabled != 0)
-        return func_02009110(work->hexMap, col, row);
+        return CGEAR_SAVE_GetPanelValue(work->hexMap, col, row);
     return 0;
 }
 
@@ -3476,7 +3476,7 @@ int C_GEAR_IsCellMarked(const CGearWork *work, int col, int row)
 int C_GEAR_IsCellKind(const CGearWork *work, int col, int row, int kind)
 {
     if (work->commEnabled != 0)
-        return func_02009160(work->hexMap, col, row, kind);
+        return BLOCK20_SAVEDATA_TestPanelMark(work->hexMap, col, row, kind);
     return 0;
 }
 

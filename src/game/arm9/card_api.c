@@ -1,7 +1,7 @@
 /*
  * file:     card_api.c
  * unit:     yes
- * function: CARDi_PeekEventListener, func_02075C90, CARD_Init, CARD_IsEnabled, func_02075DB0, CARD_Enable, func_02075DD8, func_02075DEC, func_02075DF8, CARD_GetOwnRomHeaderTWL, CARD_LockRom, CARD_UnlockRom, CARD_LockBackup, CARD_UnlockBackup
+ * function: CARDi_PeekEventListener, CARDi_LockBusCondition, CARD_Init, CARD_IsEnabled, CARD_CheckEnabled, CARD_Enable, CARD_GetResultCode, CARD_GetRomHeader, CARD_GetOwnRomHeader, CARD_GetOwnRomHeaderTWL, CARD_LockRom, CARD_UnlockRom, CARD_LockBackup, CARD_UnlockBackup
  * address:  0x02075C38
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   OS_SignalEvent  0x02088398  arm
  *   OS_SetVAlarm  0x020876B8  arm
  *   CARDi_PeekEventListener  0x02075C38  arm
- *   func_02084E38   0x02084E38  arm
+ *   OS_TryLockCard   0x02084E38  arm
  *   OS_GetBootType  0x02087B04  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   CARDi_InitResourceLock  0x0207608C  arm
@@ -131,7 +131,7 @@ typedef long s32;
 
 extern void OS_SignalEvent(OSEvent *event, u32 setPattern);
 extern void OS_SetVAlarm(OSiVAlarm *alarm, s16 count, s16 delay, void (*handler)(void *), void *arg);
-extern BOOL func_02084E38(unsigned int lockID);
+extern BOOL OS_TryLockCard(unsigned int lockID);
 extern u16 OS_GetBootType(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void CARDi_InitResourceLock(void);
@@ -191,7 +191,7 @@ void CARDi_PeekEventListener(void *arg)
 
 BOOL CARDi_LockBusCondition(void *userdata)
 {
-    return func_02084E38(*(u16 *)userdata) == 0;
+    return OS_TryLockCard(*(u16 *)userdata) == 0;
 }
 
 

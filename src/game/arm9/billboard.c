@@ -703,7 +703,7 @@ int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int pl
  * where the texel data starts.  The file pointer is a named local, not an
  * inline call argument, or the record pointer would have to stay live in a
  * third callee-saved register across both calls.  Same shape as
- * src/matched/sub_02046FCC.c.
+ * src/matched/G3D_SYSTEM_CutTexture.c.
  */
 void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
 {
@@ -1062,7 +1062,7 @@ void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemIndex, u32 *flipT)
 /*
  * Halfword store at +0x16 of one 0x1c-byte entry of the descriptor's +8
  * array.  Note +0x16 rather than +0x12/+0x14 - it is the third of the three
- * halfword fields that BILLBOARD_SetElemScale and func_0204F6B4's family work on, and
+ * halfword fields that BILLBOARD_SetElemScale and BILLBOARD_SetElemAlpha's family work on, and
  * it is the follower that makes BILLBOARD_SetElemFlipT EXACT*.
  *
  * Unlabelled in the generated listing: the prologue saves nothing.  Seeding

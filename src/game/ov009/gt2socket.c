@@ -26,7 +26,7 @@
  *   TableFree  0x021846B4  arm  ov009
  *   socket  0x0217EB18  arm  ov009
  *   ArrayFree  0x021841B0  arm  ov009
- *   func_0217EBB0  0x0217EBB0  arm  ov009
+ *   bind  0x0217EBB0  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   getsockname  0x0217ED0C  arm  ov009
  *   func_02197D1C  0x02197D1C  arm  ov009
@@ -101,7 +101,7 @@ extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAl
 extern void TableFree(struct HashImplementation *table);
 extern int socket(int pf, int type, int protocol);
 extern void ArrayFree(struct DArrayImplementation *array);
-extern int func_0217EBB0(int sock, void *addr, int len);
+extern int bind(int sock, void *addr, int len);
 extern int closesocket(int sock);
 extern int getsockname(int sock, void *addr, int *len);
 extern int func_02197D1C(void *elem1, void *elem2);
@@ -262,7 +262,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
     address.port = (unsigned short)(((port >> 8) & 0xFF) | ((port << 8) & 0xFF00));
 
     if (type != 3) {
-        rcode = func_0217EBB0(socketTemp->socket, &address, sizeof(address));
+        rcode = bind(socketTemp->socket, &address, sizeof(address));
         if (rcode == -1) {
             closesocket(socketTemp->socket);
             TableFree(socketTemp->connections);

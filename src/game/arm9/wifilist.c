@@ -294,7 +294,7 @@ void GAME_SYNC_ClearBlock(struct GameSyncData *data)
  *
  * NEAR MISS, 0x02009590, 56 bytes, 2 bytes wrong, skipped.  It is
  *
- *   u8 sub_02009590(const struct WifiHistory *history,
+ *   u8 WIFI_HISTORY_GetDisplayCount(const struct WifiHistory *history,
  *                   const struct MyStatus *status, int flag)
  *   {
  *       u8 v = WIFI_HISTORY_GetVisitedCountryCount(history);
@@ -1134,7 +1134,7 @@ int WIFILIST_GetGsProfileId(struct WifiList *list)
  *       DWC_CreateExchangeToken(WIFILIST_GetWork(obj), out);
  *   }
  *
- *   void sub_02009CC0(struct WifiList *obj)
+ *   void WIFILIST_GetGsProfileId(struct WifiList *obj)
  *   {
  *       u8 token[0xC];
  *       void *account = WIFILIST_GetWork(obj);
@@ -1151,7 +1151,7 @@ int WIFILIST_GetGsProfileId(struct WifiList *list)
  * src/matched/unit_02009C24.c takes WIFILIST_CreateExchangeToken because that choice is what
  * lets its own pool word be attested by the `blx`.  WIFILIST_MakeExchangeToken is then
  * unmatched, and the only branch to *it* anywhere in the image is the one in
- * sub_02009CC0, so sub_02009CC0 cannot be matched either.  Both close the day
+ * WIFILIST_GetGsProfileId, so WIFILIST_GetGsProfileId cannot be matched either.  Both close the day
  * anything else in the image calls either address.
  *
  * WIFILIST_FindFriendByStatusAndOutfit compares two call results against two parameters, and both

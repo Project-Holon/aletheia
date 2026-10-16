@@ -1,7 +1,7 @@
 /*
  * file:     gbucket.c
  * unit:     yes
- * function: BucketNew, func_02193848, BucketAdd, BucketSub, BucketMult, BucketDiv, BucketConcat, BucketAvg, bint, bfloat, func_02193C0C, DoSet, DoGet, DoFind
+ * function: BucketNew, BucketSet, BucketAdd, BucketSub, BucketMult, BucketDiv, BucketConcat, BucketAvg, bint, bfloat, stripchars, DoSet, DoGet, DoFind
  * address:  0x021937D0
  * region:   ov009
  * compiler: dsi/1.1p1

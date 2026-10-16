@@ -3500,7 +3500,7 @@ void BR_CODEIN_ResultTeardown(struct CodeinWorkA *p, char *q)
  * extern void STRBUF_Clear(void *dest);
  * extern void STRBUF_SetChars(void *dest, const void *src, u16 len);
  * extern void MSGDATA_DecryptStrbuf(void *dest, u32 index);
- * extern u8 func_020461B8(const void *file);
+ * extern u8 MSGDATA_GetLanguageIndex(const void *file);
  * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *bank);
  *

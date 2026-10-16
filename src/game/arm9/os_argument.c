@@ -1,7 +1,7 @@
 /*
  * file:     os_argument.c
  * unit:     yes
- * function: OS_InitDeliverArgInfo, OS_EncodeDeliverArg, OS_DecodeDeliverArg, OS_SetDeliverArgStateInvalid, OS_GetTitleIdFromDeliverArg, func_02088150
+ * function: OS_InitDeliverArgInfo, OS_EncodeDeliverArg, OS_DecodeDeliverArg, OS_SetDeliverArgStateInvalid, OS_GetTitleIdFromDeliverArg, OS_IsValidDeliverArg
  * address:  0x02087F60
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   s_02151384     0x02151384  data
  *   s_02151390     0x02151390  data
- *   func_02088150  0x02088150  arm
+ *   OS_IsValidDeliverArg  0x02088150  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   SVC_GetCRC16  0x02004632  thumb
  *   OS_SetDeliverArgStateInvalid  0x02088118  arm
@@ -139,13 +139,13 @@ int OS_EncodeDeliverArg(void)
  * differing bytes of 172); the diff is empty apart from the one wildcarded
  * call field at +0x04.
  *
- * Blocked on the `label` class, and it is a one-address wall: func_02088150
+ * Blocked on the `label` class, and it is a one-address wall: OS_IsValidDeliverArg
  * is reached by exactly one branch anywhere in the image, the `bl` at
  * +0x04 of this function, which is inside the compared range, so `label`
  * refuses it and `matched` has no EXACT entry at 0x02088150 yet.  The
  * compared range cannot be shrunk to exclude it (the call is the function's
  * first statement).  It graduates the day 0x02088150 is matched -- nothing
- * in this C changes.  Note 0x02088150 carries a `.global func_02088150`
+ * in this C changes.  Note 0x02088150 carries a `.global OS_IsValidDeliverArg`
  * label in asm/arm9/src/027_0208475C.s, so only the outside-branch witness
  * is missing.
  *

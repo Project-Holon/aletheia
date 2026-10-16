@@ -16,7 +16,7 @@
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free 0x020307B0  arm
- *   func_021BEA00 0x021BEA00 thumb
+ *   ZUKAN_DETAIL_INFO_SetHeapId 0x021BEA00 thumb
  *   ZUKAN_DETAIL_AREA_SetHeapId 0x021BF784 thumb ov208
  *   ZUKAN_DETAIL_VOICE_SetHeapId 0x021C255C thumb
  *   ZUKAN_DETAIL_FORM_SetHeapId 0x021C3B68 thumb
@@ -36,7 +36,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_021BEA00(void *mem, u32 heap);
+extern void ZUKAN_DETAIL_INFO_SetHeapId(void *mem, u32 heap);
 
 extern void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v);
 
@@ -76,7 +76,7 @@ void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s)
     switch (m->mode) {
     case 1:
         mem = GFL_HEAP_Alloc(s->heap, 2, 1, d_021C8DB0, 0x1c3);
-        func_021BEA00(mem, s->heap);
+        ZUKAN_DETAIL_INFO_SetHeapId(mem, s->heap);
         s->mem = mem;
         tbl = d_021C8508;
         break;

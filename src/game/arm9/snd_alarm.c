@@ -1,7 +1,7 @@
 /*
  * file:     snd_alarm.c
  * unit:     yes
- * function: SND_AlarmInit, func_02089FC0, SNDi_SetAlarmHandler, SNDi_CallAlarmHandler
+ * function: SND_AlarmInit, SNDi_IncAlarmId, SNDi_SetAlarmHandler, SNDi_CallAlarmHandler
  * address:  0x02089F88
  * region:   arm9
  * compiler: dsi/1.1p1

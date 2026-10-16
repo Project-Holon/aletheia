@@ -1,7 +1,7 @@
 /*
  * file:     sb_server.c
  * unit:     yes
- * function: func_0219DF30, func_0219DF40, func_0219DF54, func_0219DF64, func_0219DFC0, func_0219DFF8, func_0219E01C, func_0219E084, SBServerGetStringValueA, SBServerGetIntValueA, func_0219E1B8, SBServerGetPublicInetAddress, SBServerGetPublicQueryPort, SBServerGetPublicQueryPortNBO, SBServerHasPrivateAddress, SBServerGetPrivateInetAddress, SBServerGetPrivateQueryPort, SBServerSetNext, SBServerGetNext, CheckValidKey, func_0219E2D4, SBServerParseKeyVals, SBServerParseQR2FullKeysSingle, SBServerParseQR2FullKeysSplit, func_0219E848, func_0219E89C, func_0219E8C4, func_0219E8D4, SBServerGetPing, SBAllocServer, SBServerSetFlags, SBServerSetPrivateAddr, SBServerSetICMPIP, SBServerSetState, SBServerGetState, SBIsNullServer
+ * function: RefStringHash, RefStringCompare, RefStringFree, func_0219DF64, SBRefStrHashCleanup, SBServerFree, func_0219E01C, func_0219E084, SBServerGetStringValueA, SBServerGetIntValueA, func_0219E1B8, SBServerGetPublicInetAddress, SBServerGetPublicQueryPort, SBServerGetPublicQueryPortNBO, SBServerHasPrivateAddress, SBServerGetPrivateInetAddress, SBServerGetPrivateQueryPort, SBServerSetNext, SBServerGetNext, CheckValidKey, func_0219E2D4, SBServerParseKeyVals, SBServerParseQR2FullKeysSingle, SBServerParseQR2FullKeysSplit, func_0219E848, KeyValFree, KeyValHashKey, KeyValCompareKey, SBServerGetPing, SBAllocServer, SBServerSetFlags, SBServerSetPrivateAddr, SBServerSetICMPIP, SBServerSetState, SBServerGetState, SBIsNullServer
  * address:  0x0219DF30
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -68,9 +68,9 @@
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_02184638  0x02184638  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
- *   func_0219E8D4  0x0219E8D4  arm  ov009
- *   func_0219E89C  0x0219E89C  arm  ov009
- *   func_0219E8C4  0x0219E8C4  arm  ov009
+ *   KeyValCompareKey  0x0219E8D4  arm  ov009
+ *   KeyValFree  0x0219E89C  arm  ov009
+ *   KeyValHashKey  0x0219E8C4  arm  ov009
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sb_server_types.h"
@@ -116,9 +116,9 @@ extern void *gsimalloc(unsigned long size);
 extern void *func_02184638(int elemSize, int nBuckets, int nChains, int (*hashFn)(void *, int),
                            int (*compFn)(void *, void *), void (*freeFn)(void *));
 extern void gsifree(void *ptr);
-extern int func_0219E8D4(void *a, void *b);
-extern void func_0219E89C(void *elem);
-extern int func_0219E8C4(void *elem, int numbuckets);
+extern int KeyValCompareKey(void *a, void *b);
+extern void KeyValFree(void *elem);
+extern int KeyValHashKey(void *elem, int numbuckets);
 int RefStringHash(void *elem, int numbuckets);
 int RefStringCompare(void *entry1, void *entry2);
 void RefStringFree(void *elem);
@@ -691,7 +691,7 @@ SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short public
     server = gsimalloc(sizeof(SBServer));
     if (server == 0)
         return 0;
-    server->keyvals = func_02184638(8, 8, 4, func_0219E8C4, func_0219E8D4, func_0219E89C);
+    server->keyvals = func_02184638(8, 8, 4, KeyValHashKey, KeyValCompareKey, KeyValFree);
     if (server->keyvals == 0) {
         gsifree(server);
         return 0;

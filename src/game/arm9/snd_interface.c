@@ -1,7 +1,7 @@
 /*
  * file:     snd_interface.c
  * unit:     yes
- * function: SND_StopSeq, SND_PrepareSeq, SND_StartPreparedSeq, SND_PauseSeq, func_020893B8, SND_SetPlayerVolume, func_020893E8, func_02089400, func_0208941C, func_02089438, func_02089454, func_02089470, SND_SetTrackAllocatableChannel, SND_StartTimer, SND_StopTimer, SND_SetupAlarm, SND_SetTrackMute, SND_SetTrackMuteEx, SND_LockChannel, SND_UnlockChannel, SND_SetChannelTimer, SND_SetChannelVolume, SND_SetupChannelPcm, SND_InvalidateSeqData, SND_InvalidateBankData, SND_InvalidateWaveData, SND_SetMasterVolume, SND_SetOutputSelector, SND_SetMasterPan, SND_ResetMasterPan, SND_ReadDriverInfo, SNDi_SetPlayerParam, SNDi_SetTrackParam, PushCommand_impl
+ * function: SND_StopSeq, SND_PrepareSeq, SND_StartPreparedSeq, SND_PauseSeq, SND_SetPlayerTempoRatio, SND_SetPlayerVolume, SND_SetPlayerChannelPriority, SND_SetTrackVolume, SND_SetTrackPitch, SND_SetTrackPan, SND_SetTrackModDepth, SND_SetTrackModSpeed, SND_SetTrackAllocatableChannel, SND_StartTimer, SND_StopTimer, SND_SetupAlarm, SND_SetTrackMute, SND_SetTrackMuteEx, SND_LockChannel, SND_UnlockChannel, SND_SetChannelTimer, SND_SetChannelVolume, SND_SetupChannelPcm, SND_InvalidateSeqData, SND_InvalidateBankData, SND_InvalidateWaveData, SND_SetMasterVolume, SND_SetOutputSelector, SND_SetMasterPan, SND_ResetMasterPan, SND_ReadDriverInfo, SNDi_SetPlayerParam, SNDi_SetTrackParam, PushCommand_impl
  * address:  0x02089330
  * region:   arm9
  * compiler: dsi/1.1p1

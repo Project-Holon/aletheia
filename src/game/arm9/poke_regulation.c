@@ -337,7 +337,7 @@ u32 POKE_TOOL_IsDefaultName(struct BoxPokemon *box)
  * costs eight bytes.
  *
  * The table at 0x0209E324 is witnessed by the pool word of the neighbouring
- * leaf sub_02019B44.c (seeded via layout/function_starts.txt), and this
+ * leaf POKE_TOOL_GetNatureModifier.c (seeded via layout/function_starts.txt), and this
  * file's own pool word witnesses it for that one: the unit_02005DF8 /
  * unit_02005E30 pairwise treatment.
  *
@@ -378,7 +378,7 @@ u32 POKE_TOOL_ApplyNatureModifier(u32 nature, u32 stat, u32 statIndex)
  * word witnesses the table for unit_02019B04.c and vice versa.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_02019B44.c \
+ *   python tools/match.py one --src src/matched/POKE_TOOL_GetNatureModifier.c \
  *       --func POKE_TOOL_GetNatureModifier --addr 0x02019B44
  */
 s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex)
@@ -547,7 +547,7 @@ u32 POKE_TOOL_GetPlateType(u32 item)
  * rule and no cut helps, because the range cannot be made smaller than the one
  * function that holds the pool word.  The `matched` class never applies to
  * data (docs/MATCHING.md, "The matched class"), so this is the same shape as
- * src/matched/sub_02013FA8.c's private table and not the same shape as
+ * src/matched/ZONEDATA_GetSecondSpecialKind.c's private table and not the same shape as
  * POKE_TOOL_GetBoxValueRaw's runtime helper.  It closes the day anything else in the image
  * names 0x0209E3A4, or the day the table itself is a matched data entry.
  *
@@ -563,7 +563,7 @@ u32 POKE_TOOL_GetPlateType(u32 item)
  * against a pooled 0x1F.
  *
  * Verified with
- *   python tools/match.py tu --src src/pending/sub_02019C38.c \
+ *   python tools/match.py tu --src src/pending/POKE_TOOL_GetBoxSubstruct.c \
  *       --addr 0x02019C38 --thumb
  */
 void *POKE_TOOL_GetBoxSubstruct(struct BoxPokemon *box, u32 personality, u32 blockIndex)
@@ -600,7 +600,7 @@ void *POKE_TOOL_GetBoxSubstruct(struct BoxPokemon *box, u32 personality, u32 blo
  *
  * The neighbour POKE_TOOL_GetBoxSubstruct at the head of this packet is byte-correct but
  * MATCH-capped on its private table and is parked in
- * src/pending/sub_02019C38.c; this range is cut to exclude it.
+ * src/pending/POKE_TOOL_GetBoxSubstruct.c; this range is cut to exclude it.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02019C54.c \

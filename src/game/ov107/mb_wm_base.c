@@ -1,7 +1,7 @@
 /*
  * file:     mb_wm_base.c
  * unit:     yes
- * function: func_021F4560, func_021F45C8, func_021F4628, MBi_EndCommon, func_021F46C8, func_021F4E9C, MBi_ChildCallback, MBi_GetBeaconPeriodDispersion, MB_Init, func_021F5ADC, MB_SetParentCommParam, MBi_StartCommon, MBi_StartParentCore, MB_StartParentFromIdle, MBi_CallReset, MB_ResetWm, MBi_CommEnd, func_021F5F74, MB_DisconnectChild, func_021F6148, func_021F6158, MBi_SendMP, func_021F628C, func_021F62A0, func_021F62B4, MBi_IsStarted, MBi_CheckWmErrcode
+ * function: changeScanChannel, MBi_IsSendEnabled, MBi_OnInitializeDone, MBi_EndCommon, func_021F46C8, MBi_ChildPortCallback, MBi_ChildCallback, MBi_GetBeaconPeriodDispersion, MB_Init, MBi_IsCommSizeValid, MB_SetParentCommParam, MBi_StartCommon, MBi_StartParentCore, MB_StartParentFromIdle, MBi_CallReset, MB_ResetWm, MBi_CommEnd, func_021F5F74, MB_DisconnectChild, func_021F6148, func_021F6158, MBi_SendMP, func_021F628C, func_021F62A0, MBi_GetAttribute, MBi_IsStarted, MBi_CheckWmErrcode
  * address:  0x021F4560
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -50,22 +50,22 @@
  *   OS_GetMacAddress                 0x02087c6c arm
  *   OS_DisableInterrupts 0x02087988 arm
  *   OS_RestoreInterrupts 0x0208799C arm
- *   func_021F5ADC 0x021F5ADC arm ov107
+ *   MBi_IsCommSizeValid 0x021F5ADC arm ov107
  *   func_021F6148 0x021F6148 arm ov107
  *   WM_Initialize 0x0208F370 arm
  *   WM_SetIndCallback 0x0208EAC8 arm
- *   func_021F4628 0x021F4628 arm ov107
+ *   MBi_OnInitializeDone 0x021F4628 arm ov107
  *   MIi_CpuClear16  0x02082A48  arm
  *   MB_CommSetParentStateCallback  0x021F1B3C  arm  ov107
- *   func_021F6804  0x021F6804  arm  ov107
- *   func_021F6830  0x021F6830  arm  ov107
+ *   MBi_SetChildMPMaxSize  0x021F6804  arm  ov107
+ *   MBi_SetParentPieceBuffer  0x021F6830  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
  *   MB_InitSendGameInfoStatus  0x021F3F78  arm  ov107
  *   PXI_IsCallbackReady  0x020885EC  arm
  *   MBi_CommParentCallback  0x021F1D80  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
  *   WM_Reset     0x0208F400  arm
- *   func_021F6334   0x021F6334  arm
+ *   MBi_CheckWmErrcode   0x021F6334  arm
  *   OS_DisableInterrupts             0x02087988 arm
  *   MBi_IsTaskAvailable              0x021f6610 arm
  *   MBi_EndTaskThread                0x021f67bc arm
@@ -75,7 +75,7 @@
  *   MBi_ClearParentPieceBuffer  0x021F6850  arm  ov107
  *   WM_SetMPDataToPortEx             0x0208fcb4 arm
  *   func_021F6158 0x021F6158 arm ov107
- *   func_021F4EFC 0x021F4EFC arm ov107
+ *   MBi_ChildCallback 0x021F4EFC arm ov107
  */
 #define MB_WM_OWN_STATICS
 #include "mb_wm.h"
@@ -761,20 +761,20 @@ extern void MIi_CpuClear32(u32, void *, u32);
 extern void MIi_CpuClear16(u32, void *, u32);
 extern u32 MBi_GetBeaconPeriodDispersion(void);
 extern u32 OS_RestoreInterrupts(u32);
-extern int func_021F5ADC(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
+extern int MBi_IsCommSizeValid(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
 extern void func_021F6148(unsigned short time);
 extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
-extern void func_021F4628(void);
+extern void MBi_OnInitializeDone(void);
 extern void MB_CommSetParentStateCallback(void (*callback)(u16, u32, void *));
-extern void func_021F6804(u16 childMaxSize);
-extern void func_021F6830(void *buf);
+extern void MBi_SetChildMPMaxSize(u16 childMaxSize);
+extern void MBi_SetParentPieceBuffer(void *buf);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MB_InitSendGameInfoStatus(void);
 extern int PXI_IsCallbackReady(int fifotag, int proc);
 extern void MBi_CommParentCallback(u16 type, void *arg);
 extern void func_021F46C8(void *arg);
 extern int WM_Reset(u32 param);
-extern void func_021F6334(u16 apiid, int errcode);
+extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
 extern int MBi_IsTaskAvailable(void);
 extern void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo *));
 extern void MBi_OnReset(void);
@@ -782,7 +782,7 @@ extern int WM_Disconnect(void (*callback)(void *), u16 aid);
 extern void MBi_ClearParentPieceBuffer(u16 child_aid);
 extern int WM_SetMPDataToPortEx(void (*callback)(void *), void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
 extern int func_021F6158(void *callback, unsigned short *sendData, unsigned short sendDataSize, unsigned short arg3, unsigned short pollbmp);
-extern void func_021F4EFC(void *arg);
+extern void MBi_ChildCallback(void *arg);
 int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
 int MB_SetParentCommParam(unsigned short sendSize, unsigned short maxChildren);
 int MBi_StartCommon(void);
@@ -903,7 +903,7 @@ int MB_SetParentCommParam(unsigned short sendSize, unsigned short maxChildren)
         OS_RestoreInterrupts(enabled);
         return 0;
     }
-    if (func_021F5ADC(sendSize, 8, maxChildren) == 0) {
+    if (MBi_IsCommSizeValid(sendSize, 8, maxChildren) == 0) {
         OS_RestoreInterrupts(enabled);
         return 0;
     }
@@ -944,7 +944,7 @@ int MBi_StartCommon(void)
     }
     WM_SetIndCallback(*(void **)((u8 *)mbWm.work + 0x508));
     ((u8 *)mbWm.work)[0x50D] = 1;
-    func_021F4628();
+    MBi_OnInitializeDone();
     return errcode;
 }
 
@@ -970,8 +970,8 @@ int MBi_StartParentCore(int channel)
     MIi_CpuClear16(0, PBUF + 0x1340, 0x69c0);
     MB_CommSetParentStateCallback(cb_tmp);
     *(int *)(PBUF + 0x1000 + 0x318) = *(u16 *)(WM + 0x500) - 6;
-    func_021F6804(*(u16 *)(WM + 0x502));
-    func_021F6830(PBUF + 0x138 + 0x1400);
+    MBi_SetChildMPMaxSize(*(u16 *)(WM + 0x502));
+    MBi_SetParentPieceBuffer(PBUF + 0x138 + 0x1400);
     ret = 0;
     for (i = 0; i < 15; i++) {
         *(int *)(PBUF + i * 4 + 0x1000 + 0x4e8) = ret;
@@ -1010,7 +1010,7 @@ int MBi_CallReset(void)
 {
     int errcode = WM_Reset(*(u32 *)(*(char **)(gMbWm + 0xC) + 0x508));
 
-    func_021F6334(1, errcode);
+    MBi_CheckWmErrcode(1, errcode);
     return errcode == 2 ? 0 : errcode;
 }
 
@@ -1161,7 +1161,7 @@ int MBi_SendMP(unsigned short *buf, int len, int pollbmp)
         }
         return errcode == 2 ? 0 : errcode;
     case 2:
-        errcode = func_021F6158(func_021F4EFC, buf, size, 0, pollbitmap);
+        errcode = func_021F6158(MBi_ChildCallback, buf, size, 0, pollbitmap);
         if (errcode == 2) {
             ((u8 *)mbWm.work)[0x50C] = 1;
         }

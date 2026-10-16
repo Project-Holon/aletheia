@@ -18,6 +18,7 @@
  *   fsi_def_digest_key  0x020A19C4  data
  *   _ZZ15FS_StartOverlayP13FSOverlayInfoE4once  0x02150D20  data
  *   MATH_CalcHMACSHA1  0x020816FC  arm
+ *   MATHi_SetOverlayTableMode  0x0208139C  arm
  *   .bss  0x02150D20  data
  *   FSiOverlayContext  0x02150D24  data
  *   fsi_str_rom  0x020A84A4  data
@@ -155,7 +156,7 @@ extern BOOL FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
 extern void MSL_C_LIB_TwlCall5(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
-extern u32 func_0208139C(u32);
+extern u32 MATHi_SetOverlayTableMode(u32);
 extern void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern void OS_Terminate(void);
 extern void MIi_UncompressBackward(void *bottom);
@@ -367,11 +368,11 @@ BOOL FSi_CompareDigest(const u8 *spec_digest, void *src, int len, BOOL table_mod
     } else {
         handle = 0;
         if (table_mode != 0) {
-            handle = func_0208139C(1);
+            handle = MATHi_SetOverlayTableMode(1);
         }
         MATH_CalcHMACSHA1(buf, src, len, tmp, FSiOverlayContext.digest_key_len);
         if (table_mode != 0) {
-            func_0208139C(handle);
+            MATHi_SetOverlayTableMode(handle);
         }
     }
 

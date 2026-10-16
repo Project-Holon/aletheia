@@ -48,7 +48,7 @@
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
- *   func_020095C8  0x020095C8  thumb
+ *   WIFI_HISTORY_GetFirstFreeEntry  0x020095C8  thumb
  *   func_0200973C  0x0200973C  thumb
  *   func_0200856C  0x0200856C  thumb
  *   ov218_id  0x000000DA  data
@@ -293,7 +293,7 @@ extern struct SymbolMapSave *WIFI_HISTORY_GetBlock(void *saveControl);
 
 extern u32 WIFI_HISTORY_IsCountryVisited(const struct SymbolMapSave *save, u32 index);
 
-extern u8 func_020095C8(const struct SymbolMapSave *save);
+extern u8 WIFI_HISTORY_GetFirstFreeEntry(const struct SymbolMapSave *save);
 
 extern struct SymbolMapSaveEntry *func_0200973C(struct SymbolMapSave *save, int index);
 
@@ -942,7 +942,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
         else
             work->ownedFlags[flagIndex] = 0;
     }
-    count = func_020095C8(save);
+    count = WIFI_HISTORY_GetFirstFreeEntry(save);
     if (count > 20)
         count = 20;
     for (i = 0; i < count; i++)

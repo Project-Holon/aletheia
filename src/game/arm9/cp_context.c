@@ -1,7 +1,7 @@
 /*
  * file:     cp_context.c
  * unit:     yes
- * function: func_020775B8, func_020775F8
+ * function: CP_SaveContext, CPi_RestoreContext
  * address:  0x020775B8
  * region:   arm9
  * compiler: dsi/1.1p1

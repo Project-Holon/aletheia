@@ -47,7 +47,7 @@
  *   ArrayReplaceAt                   0x0218439C arm ov009
  *   strncmp                          0x020949F4 arm
  *   __ctype_mapC                     0x020A61DC data
- *   func_02181E28  0x02181e28  arm   ov009
+ *   gsiXmlUtilSkipWhiteSpace  0x02181e28  arm   ov009
  *   gCtypeMap     0x020a61dc  data
  *   gsiXmlUtilDecodeString    0x0218263C arm ov009
  *   strncmp                    0x020949f4 arm
@@ -187,7 +187,7 @@ extern int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, G
 extern int ArrayLength(void *array);
 extern void ArrayAppend(void *array, void *newElem);
 extern void ArrayReplaceAt(void *array, void *newElem, int n);
-extern int func_02181E28(void *, char *, int, int *);
+extern int gsiXmlUtilSkipWhiteSpace(void *, char *, int, int *);
 extern int gsiXmlUtilDecodeString(char *buffer, int *len);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
@@ -741,7 +741,7 @@ int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlStr
     int haveNamespace = 0;
     char c;
 
-    if (!func_02181E28(stream, buffer, len, pos))
+    if (!gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos))
         return 0;
     if (*pos >= len)
         return 0;

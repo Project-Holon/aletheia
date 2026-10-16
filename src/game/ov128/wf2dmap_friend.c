@@ -43,7 +43,7 @@
  *   DWC_CreateFriendKey 0x0205994C arm
  *   func_02009A1C 0x02009A1C thumb
  *   WF2DMAP_TOUCH_ParseKey 0x021CA014 thumb ov128
- *   func_02059354 0x02059354 arm
+ *   DWC_CheckFriendKey 0x02059354 arm
  *   GFL_NET_ERR_FindFriendByKey 0x0200F43C thumb
  *   func_020099C8 0x020099C8 thumb
  *   DWC_CreateFriendKeyToken 0x02059980 arm
@@ -346,7 +346,7 @@ extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u64 WF2DMAP_TOUCH_ParseKey(void *,int *);
-extern int func_02059354(void *,u32,u32);
+extern int DWC_CheckFriendKey(void *,u32,u32);
 extern int GFL_NET_ERR_FindFriendByKey(void *,u32,u32,int *);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern void DWC_CreateFriendKeyToken(void *,u32,u32);
@@ -801,7 +801,7 @@ int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg)
         if(func_02009A1C(v,i)==0) {
             id=WF2DMAP_TOUCH_ParseKey(q,&valid);
             if(valid==1 && id!=old) {
-            if(func_02059354(WIFILIST_GetWork(v),(u32)id,(u32)(id>>32))==0) return 1;
+            if(DWC_CheckFriendKey(WIFILIST_GetWork(v),(u32)id,(u32)(id>>32))==0) return 1;
             if(GFL_NET_ERR_FindFriendByKey(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
             DWC_CreateFriendKeyToken(func_020099C8(v,i),(u32)id,(u32)(id>>32));
             func_02009A00(v,i,(void *)arg);

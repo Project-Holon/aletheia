@@ -20,11 +20,11 @@
  *   GX_GetBankForSubOBJ              0x02080C64  arm
  *   GX_LoadOAM                       0x0207E684  arm
  *   GXS_LoadOAM                      0x0207E708  arm
- *   func_0200F168                    0x0200F168  thumb
+ *   NET_DEVICE_TABLE_GetZero                    0x0200F168  thumb
  *   func_0200F16C                    0x0200F16C  thumb
  *   ARC_TOOL_CreateHandle                    0x020490F4  arm
  *   func_02049B68                    0x02049B68  arm
- *   func_02049800                    0x02049800  arm
+ *   ARC_UTIL_UploadScreenFromHandle                    0x02049800  arm
  *   ARC_TOOL_DeleteHandle                    0x02049238  arm
  *   _pTouchPanelWork                 0x021469C4  data
  *   _WmIconEasy                      0x021469C8  data
@@ -97,7 +97,7 @@ extern void GX_LoadOAM(const void *src, u32 offset, u32 size);
 
 extern void GXS_LoadOAM(const void *src, u32 offset, u32 size);
 
-extern u32  func_0200F168(void);
+extern u32  NET_DEVICE_TABLE_GetZero(void);
 
 extern void func_0200F16C(WmIconArcData *ids);
 
@@ -105,7 +105,7 @@ extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
 extern void func_02049B68(void *arc, u32 dataId, int palType, int offset, int size, int heapId);
 
-extern void func_02049800(void *arc, u32 dataId, int engine, int offset, int a4, int a5, int heapId);
+extern void ARC_UTIL_UploadScreenFromHandle(void *arc, u32 dataId, int engine, int offset, int a4, int a5, int heapId);
 
 extern void ARC_TOOL_DeleteHandle(void *arc);
 
@@ -326,7 +326,7 @@ void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId)
     int charIdx;
     int charOffset;
 
-    arc = ARC_TOOL_CreateHandle(func_0200F168(), (u16)((heapId & 0x7fff) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(NET_DEVICE_TABLE_GetZero(), (u16)((heapId & 0x7fff) | 0x8000));
     func_0200F16C(&ids);
     if (engine == 1) {
         palType = 1;
@@ -338,7 +338,7 @@ void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId)
     func_02049B68(arc, ids.palette, palType, 0x1c0, 0x20, heapId);
     charIdx = (iconVariant == 0) ? 1 : 0;
     charOffset = GFL_NET_WM_ICON_GetCharOffset(engine);
-    func_02049800(arc, ids.charData[charIdx], objEngine, charOffset, 0, 0, heapId);
+    ARC_UTIL_UploadScreenFromHandle(arc, ids.charData[charIdx], objEngine, charOffset, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
 }
 

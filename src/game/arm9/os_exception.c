@@ -1,7 +1,7 @@
 /*
  * file:     os_exception.c
  * unit:     yes
- * function: OS_InitException, OSi_ExceptionHandler, func_02086EB4, OSi_SetExContext, OSi_DisplayExContext
+ * function: OS_InitException, OSi_ExceptionHandler, OSi_GetAndDisplayContext, OSi_SetExContext, OSi_DisplayExContext
  * address:  0x02086DD8
  * region:   arm9
  * compiler: dsi/1.1p1

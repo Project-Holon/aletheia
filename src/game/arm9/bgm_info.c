@@ -1,7 +1,7 @@
 /*
  * file:     bgm_info.c
  * unit:     yes
- * function: func_02006E40, func_02006E64, func_02006E7C, func_02006EA4
+ * function: BGM_INFO_Create, func_02006E64, func_02006E7C, func_02006EA4
  * address:  0x02006E40
  * region:   arm9
  * compiler: dsi/1.1p1

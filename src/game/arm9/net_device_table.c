@@ -177,11 +177,11 @@ void NET_DEVICE_TABLE_BuildFromProducer(MmdlSys *producer, u8 *records)
  *           every relocation site resolves and match.py one reports EXACT*.
  *
  * Walks 64 0x50-byte records; for each whose leading word has bit 0 set,
- * looks up a free slot with func_0200F104 and hands it, the record and
+ * looks up a free slot with NET_DEVICE_TABLE_GetFreeSlot and hands it, the record and
  * the context to NET_DEVICE_TABLE_InitEntry. Stores the record count (always 0x40)
  * into the context at +6 once the walk finishes.
  *
- * Every concrete byte matches; func_0200F104 (a documented near miss,
+ * Every concrete byte matches; NET_DEVICE_TABLE_GetFreeSlot (a documented near miss,
  * still open) and NET_DEVICE_TABLE_InitEntry are each called from exactly this one
  * site in the whole ROM, so both relocations stay unresolved under the
  * honesty rule.
@@ -190,7 +190,7 @@ void NET_DEVICE_TABLE_BuildFromProducer(MmdlSys *producer, u8 *records)
  *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_Setup.c \
  *       --func NET_DEVICE_TABLE_Setup --addr 0x0200EEAC --cc 1.1p1
  *
- * The `matched` class does not reach it: neither func_0200F104 nor
+ * The `matched` class does not reach it: neither NET_DEVICE_TABLE_GetFreeSlot nor
  * NET_DEVICE_TABLE_InitEntry is matched, so no EXACT entry covers either address.  It closes
  * when one of the two is matched, or when the image acquires a second caller.
  */

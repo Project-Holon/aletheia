@@ -20,7 +20,7 @@
  *   AREAMAN_Delete  0x02033C9C  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   func_02033CC0  0x02033CC0  arm
- *   func_02033F64  0x02033F64  arm
+ *   AREAMAN_AllocDown  0x02033F64  arm
  *   AREAMAN_AllocAt  0x020341F0  arm
  *   sub_020416B8   0x020416B8  arm
  *   AREAMAN_Free  0x0203422C  arm
@@ -56,8 +56,8 @@
  *   G2S_GetBG3CharPtr  0x0207E388  arm
  *   BUTTON_MAN_RotScaleMtx22  0x02051E74  arm
  *   BG_SYS_SetAffineField  0x02043228  arm
- *   func_02043264  0x02043264  arm
- *   func_020432E4  0x020432E4  arm
+ *   BG_SYS_Apply  0x02043264  arm
+ *   BG_SYS_ApplyCenterOp  0x020432E4  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   DC_FlushRange  0x020862F0  arm
@@ -220,7 +220,7 @@ extern u32 AREAMAN_Delete(void *a);
 
 extern s32 func_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
 
-extern u32 func_02033F64(u32 arena, u32 a, u32 b, u32 c);
+extern u32 AREAMAN_AllocDown(u32 arena, u32 a, u32 b, u32 c);
 
 extern s32 AREAMAN_AllocAt(struct AreaMan *p, u32 start, u32 len);
 
@@ -297,9 +297,9 @@ extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1,
 
 extern void BG_SYS_SetAffineField(struct BgLayer *p, u32 op, u16 value);
 
-extern void func_02043264(struct BgLayer *p, u32 op, u32 value);
+extern void BG_SYS_Apply(struct BgLayer *p, u32 op, u32 value);
 
-extern void func_020432E4(struct BgLayer *p, u32 op, u32 value);
+extern void BG_SYS_ApplyCenterOp(struct BgLayer *p, u32 op, u32 value);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -563,7 +563,7 @@ void BG_SYS_Delete(void)
 
 /*
  * Allocate a run of tiles for a layer in its arena, bottom-up (top == 0,
- * func_02033CC0) or top-down (func_02033F64), and return the tile index of
+ * func_02033CC0) or top-down (AREAMAN_AllocDown), and return the tile index of
  * the run relative to the layer's tile base, or -1.  Closed in wave 11:
  * the arena base is selected into a local BEFORE the direction test, the
  * round-up flag is `f = (size % t != 0)` (remainder taken first, then the
@@ -586,7 +586,7 @@ u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
     if (top == 0)
         r = func_02033CC0((struct AreaMan *)base, d1, d2, n + f);
     else
-        r = func_02033F64(base, d1 + d2 - 1, d2, n + f);
+        r = AREAMAN_AllocDown(base, d1 + d2 - 1, d2, n + f);
     if (r == 0xFFFFFFFF)
         return 0xFFFFFFFF;
     return (r * t - g_02146A44->tileBaseOffset[layer]) / t;
@@ -2447,13 +2447,13 @@ void BG_SYS_SetScrollX(u32 which, u32 op, u16 value)
 
 void BG_SYS_SetScrollY(u32 which, u32 op, u32 value)
 {
-    func_02043264(&g_02146A44->bgs[which], op, value);
+    BG_SYS_Apply(&g_02146A44->bgs[which], op, value);
     g_02146A44->scrollDirtyMask |= (u16)(1 << which);
 }
 
 void BG_SYS_SetAffine(u32 which, u32 op, u16 value)
 {
-    func_020432E4(&g_02146A44->bgs[which], op, value);
+    BG_SYS_ApplyCenterOp(&g_02146A44->bgs[which], op, value);
     g_02146A44->scrollDirtyMask |= (u16)(1 << which);
 }
 

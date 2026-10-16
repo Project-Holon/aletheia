@@ -141,7 +141,7 @@
  *   GTSNEGO_MSG_InitWindows 0x021D6BB0 thumb ov120
  *   GTSNEGO_MSG_PrintList 0x021D81E0 thumb ov120
  *   GTSNEGO_MSG_SetupRowBg 0x021D70F0 thumb ov120
- *   func_0200F800 0x0200F800 thumb
+ *   GFL_NET_ERR_RestoreBrightness 0x0200F800 thumb
  *   GTSNEGO_MSG_CreateYesNoUi 0x021D7D6C thumb ov120
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetNonEggCount 0x0201AA1C thumb
@@ -553,7 +553,7 @@ extern void GTSNEGO_MSG_TeardownActorList(u8 *p);
 extern void GTSNEGO_MSG_InitWindows(u8 *, int);
 extern void GTSNEGO_MSG_PrintList(char *, void *);
 extern void GTSNEGO_MSG_SetupRowBg(void *);
-extern void func_0200F800(void);
+extern void GFL_NET_ERR_RestoreBrightness(void);
 extern void GTSNEGO_MSG_CreateYesNoUi(char *p, int a, int b);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_GetNonEggCount(void *);
@@ -1882,7 +1882,7 @@ void GTSNEGO_DISP_ShowPartySelect(u8 *p)
     if (((struct GtsnegoDispCtx *)p)->f1B0) {
         if ((((struct GtsnegoDispCtx *)p)->f1B4)++ < 3)
             return;
-        func_0200F800();
+        GFL_NET_ERR_RestoreBrightness();
         ((struct GtsnegoDispCtx *)p)->f1B0 = 0;
     }
     if (UI_GetInputMode() == 0)

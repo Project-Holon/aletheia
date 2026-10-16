@@ -17,11 +17,11 @@
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   GX_DisableBankForLCDC  0x02080B98  arm
  *   GX_ResetBankForBG  0x020808F4  arm
- *   func_0208091C  0x0208091C  arm
+ *   GX_ResetBankForBGExtPltt  0x0208091C  arm
  *   GX_ResetBankForSubBG  0x020809A0  arm
  *   GX_ResetBankForSubBGExtPltt  0x020809C8  arm
  *   GX_ResetBankForOBJ  0x02080908  arm
- *   func_02080940  0x02080940  arm
+ *   GX_ResetBankForOBJExtPltt  0x02080940  arm
  *   GX_ResetBankForSubOBJ  0x020809B4  arm
  *   GX_ResetBankForSubOBJExtPltt  0x020809F0  arm
  *   GX_ResetBankForTex  0x02080964  arm
@@ -30,7 +30,7 @@
  *   GX_SetBankForBGExtPltt  0x02080100  arm
  *   GX_SetBankForSubBG  0x020806B0  arm
  *   GX_SetBankForSubBGExtPltt  0x020807BC  arm
- *   func_0207FFD0  0x0207FFD0  arm
+ *   GX_SetBankForOBJ  0x0207FFD0  arm
  *   GX_SetBankForOBJExtPltt  0x020801F8  arm
  *   GX_SetBankForSubOBJ  0x0208074C  arm
  *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
@@ -238,7 +238,7 @@ void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
     MIi_CpuClearFast(0, (void *)0x05000400, 0x400);
 }
 
-extern void func_0208091C(void);   /* GX_ResetBankForBGExtPltt */
+extern void GX_ResetBankForBGExtPltt(void);   /* GX_ResetBankForBGExtPltt */
 
 extern int GX_ResetBankForSubBG(void);
 
@@ -246,7 +246,7 @@ extern void GX_ResetBankForSubBGExtPltt(void);   /* GX_ResetBankForSubBGExtPltt 
 
 extern void GX_ResetBankForOBJ(void);
 
-extern void func_02080940(void);   /* GX_ResetBankForOBJExtPltt */
+extern void GX_ResetBankForOBJExtPltt(void);   /* GX_ResetBankForOBJExtPltt */
 
 extern void GX_ResetBankForSubOBJ(void);
 
@@ -264,7 +264,7 @@ extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
 
 extern void GX_SetBankForSubBGExtPltt(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
 
-extern void func_0207FFD0(GXVRam v);   /* GX_SetBankForOBJ */
+extern void GX_SetBankForOBJ(GXVRam v);   /* GX_SetBankForOBJ */
 
 extern void GX_SetBankForOBJExtPltt(GXVRam v);   /* GX_SetBankForOBJExtPltt */
 
@@ -306,11 +306,11 @@ static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
 void BG_SYS_SetVramBanks(const struct DispVram *banks)
 {
     GX_ResetBankForBG();
-    func_0208091C();
+    GX_ResetBankForBGExtPltt();
     GX_ResetBankForSubBG();
     GX_ResetBankForSubBGExtPltt();
     GX_ResetBankForOBJ();
-    func_02080940();
+    GX_ResetBankForOBJExtPltt();
     GX_ResetBankForSubOBJ();
     GX_ResetBankForSubOBJExtPltt();
     GX_ResetBankForTex();
@@ -319,7 +319,7 @@ void BG_SYS_SetVramBanks(const struct DispVram *banks)
     GX_SetBankForBGExtPltt(banks->main_bg_expltt);
     GX_SetBankForSubBG(banks->sub_bg);
     GX_SetBankForSubBGExtPltt(banks->sub_bg_expltt);
-    func_0207FFD0(banks->main_obj);
+    GX_SetBankForOBJ(banks->main_obj);
     GX_SetBankForOBJExtPltt(banks->main_obj_expltt);
     GX_SetBankForSubOBJ(banks->sub_obj);
     GX_SetBankForSubOBJExtPltt(banks->sub_obj_expltt);
