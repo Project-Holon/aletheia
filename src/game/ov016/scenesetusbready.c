@@ -96,7 +96,6 @@
  *   procConfirm1                     0x021C22FC  arm
  *   sceneopterase_bss                0x021DE628  data
  */
-#include "../../matched/include/G_021DE628.h"
 
 typedef _Bool bool;
 
@@ -153,7 +152,6 @@ extern unsigned short sSceneSetUsbReadyPathXb3MultiScr[];
 extern unsigned short GX_LoadBG2Char[];
 extern unsigned short GX_LoadBGPltt[];
 extern unsigned short GX_LoadBG2Scr[];
-extern struct G_021DE628 gSceneSetUsbReadyWork;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 
@@ -268,7 +266,7 @@ static void button(void)
         break;
     case 1:
         DWCi_SNDlPlay(6);
-        (*(unsigned char *)&gSceneSetUsbReadyWork) = 1;
+        Choose = 1;
         break;
     default:
         return;

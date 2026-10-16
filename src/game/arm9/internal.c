@@ -22,17 +22,15 @@ typedef unsigned int   u32_1;
 
 typedef unsigned int   u32_2;
 
-typedef unsigned long u32_02088F2C;
-
 typedef int BOOL;
 
 extern int RtcSendPxiCommand(unsigned long command);
-int PXI_SendWordByFifo(int fifotag, u32_02088F2C data, BOOL err);
+int PXI_SendWordByFifo(int fifotag, unsigned long data, BOOL err);
 asm void RTCi_ReadRawDateTimeAsync(void);
 asm void RTCi_ReadRawDateAsync(void);
 asm void RTCi_ReadRawTimeAsync(void);
 int RTCi_WriteRawStatus2Async(void);
-BOOL RtcSendPxiCommand(u32_02088F2C command);
+BOOL RtcSendPxiCommand(unsigned long command);
 
 asm void RTCi_ReadRawDateTimeAsync(void)
 {
@@ -65,7 +63,7 @@ int RTCi_WriteRawStatus2Async(void)
 /*
  * sdk:      RtcSendPxiCommand (librtc.TWL.HYB.a internal.o)
  */
-BOOL RtcSendPxiCommand(u32_02088F2C command)
+BOOL RtcSendPxiCommand(unsigned long command)
 {
     command = (command << 8) & 0x7F00;
     if (PXI_SendWordByFifo(5, command, 0) < 0) {

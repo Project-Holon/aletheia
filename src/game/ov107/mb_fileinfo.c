@@ -53,7 +53,7 @@
  *   _u32_div_f   0x0209C2B0  arm
  *   g_021F6D04     0x021F6D04  data
  */
-#define BUFROM(f) (((RomHeader_021F2FA0 *)buf)->f)
+#define BUFROM(f) (((RomHeader *)buf)->f)
 #define E(i) ((unsigned char *)mbc + (i) * 0x5D4 + 0x1000)
 #define MB_DL_SEGMENT_NUM 3
 #define MBC_BLOCK_SIZE_MAX (*(u32 *)(mbc + 0x1318))
@@ -64,14 +64,7 @@ struct MbDownloadFileInfoHeader;
 struct MBGameRegistry;
 typedef unsigned char u8;
 
-typedef unsigned long u32_021F2F1C;
-
-typedef struct {
-    u8 pad0[0x2C];
-    u32_021F2F1C arm9Size;
-    u8 pad1[0x0C];
-    u32_021F2F1C arm7Size;
-} RomHeader_021F2F1C;
+typedef unsigned long u32;
 
 typedef signed int     s32;
 
@@ -79,66 +72,37 @@ typedef struct FSFile {
     struct FSFile *next;
     void *userdata;
     void *arc;
-    u32_021F2F1C stat;
+    u32 stat;
     void *argument;
-    u32_021F2F1C error;
+    u32 error;
     u8 pad[0x48 - 0x18];
 } FSFile;
 
-typedef struct RomHeader_021F2FA0 {
-    u8 pad0[0x12];
-    u8 machine_code;
-    u8 pad1[0x20 - 0x13];
-    u32_021F2F1C main_rom_offset;
-    u32_021F2F1C main_entry;
-    u32_021F2F1C main_ram_address;
-    u32_021F2F1C main_size;
-    u32_021F2F1C sub_rom_offset;
-    u32_021F2F1C sub_entry;
-    u32_021F2F1C sub_ram_address;
-    u32_021F2F1C sub_size;
-    u8 pad2[0x60 - 0x40];
-    u32_021F2F1C flags;
-    u8 pad3[0x80 - 0x64];
-    u32_021F2F1C own_size;
-} RomHeader_021F2FA0;
-
 typedef struct CARDRomRegion {
-    u32_021F2F1C offset;
-    u32_021F2F1C length;
+    u32 offset;
+    u32 length;
 } CARDRomRegion;
 
 typedef struct MBiCacheList {
-    u32_021F2F1C lifetime;
-    u32_021F2F1C recent;
+    u32 lifetime;
+    u32 recent;
     void *p_list;
-    u32_021F2F1C size;
+    u32 size;
     char arc_name[4];
-    u32_021F2F1C arc_name_len;
+    u32 arc_name_len;
     void *arc_pointer;
     u8 reserved[0x48 - 0x1c];
     u8 *p_buf;
 } MBiCacheList;
 
-typedef struct SegmentHeaderInfo_021F2F1C {
-    u32_021F2F1C target;
+typedef struct MbSegmentHeaderInfo {
+    u32 target;
     u8 *src;
     u8 *dst;
-    u32_021F2F1C size;
-} SegmentHeaderInfo_021F2F1C;
-
-typedef struct {
-    u32_021F2F1C target;
-    u8 *src;
-    u8 *dst;
-    u32_021F2F1C size;
-} SegmentHeaderInfo_021F34CC;
+    u32 size;
+} MbSegmentHeaderInfo;
 
 typedef unsigned short u16;
-
-typedef unsigned int   u32_021F3544;
-
-typedef unsigned long u32;
 
 typedef struct MbSegmentInfo
 {
@@ -169,9 +133,15 @@ typedef struct {
 } RomRegion;
 
 typedef struct {
-    u8 pad0[0x20];
-    RomRegion main;
-    RomRegion sub;
+    u8 pad0[0x12];
+    u8 machine_code;              /* 0x12 */
+    u8 pad1[0x20 - 0x13];
+    RomRegion main;               /* 0x20 */
+    RomRegion sub;                /* 0x30 */
+    u8 pad2[0x60 - 0x40];
+    u32 flags;                    /* 0x60 */
+    u8 pad3[0x80 - 0x64];
+    u32 own_size;                 /* 0x80 */
 } RomHeader;
 
 typedef struct
@@ -197,21 +167,21 @@ typedef enum {
     SEG_C = 2
 } SegType;
 
-extern u32_021F2F1C FS_GetFilePosition(struct FSFile *file);
+extern u32 FS_GetFilePosition(struct FSFile *file);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern void *CARD_GetOwnRomHeader(void);
 extern void FS_InitFile(FSFile *file);
 extern void *FS_FindArchive(char *name, int name_len);
-extern int FS_OpenFileDirect(FSFile *file, void *arc, u32_021F2F1C image_top, u32_021F2F1C image_bottom, u32_021F2F1C id);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32_021F2F1C size);
+extern int FS_OpenFileDirect(FSFile *file, void *arc, u32 image_top, u32 image_bottom, u32 id);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern u8 *CARDi_GetOwnSignature(void);
 extern void MBi_InitCache(MBiCacheList *pl);
-extern void MBi_AttachCacheBuffer(MBiCacheList *pl, u32_021F2F1C src, u32_021F2F1C len, void *ptr, u32_021F2F1C state);
-extern u32_021F2F1C FS_GetFileImageTop(FSFile *file);
+extern void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state);
+extern u32 FS_GetFileImageTop(FSFile *file);
 extern int FS_CloseFile(FSFile *file);
-void MBi_ReadSegmentHeader(SegmentHeaderInfo_021F34CC *p, u32_021F2F1C top, u32_021F2F1C bottom, int clean);
-extern void DC_FlushRange(void *startAddr, u32_021F2F1C nBytes);
+void MBi_ReadSegmentHeader(MbSegmentHeaderInfo *p, u32 top, u32 bottom, int clean);
+extern void DC_FlushRange(void *startAddr, u32 nBytes);
 extern void _start_AutoloadDoneCallback(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned long OS_DisableInterrupts(void);
@@ -224,8 +194,8 @@ extern void MBi_InitTaskInfo(void *);
 extern void MBi_InitTaskThread(void *, unsigned long);
 extern void OS_Terminate(void);
 extern BOOL IsAbleToLoad(u8 segment_no, u32 address, u32 size);
-u32_021F2F1C MB_GetSegmentLength(void *file);
-int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len);
+u32 MB_GetSegmentLength(void *file);
+int MB_ReadSegment(FSFile *file, void *buf, u32 len);
 int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf);
 void MBi_MakeDownloadFileInfo(MbDownloadFileInfoHeader *mbdlFileInfop, const void *buf);
 void MBi_SetSegmentInfo(const RomHeader *hdr, SegType *list, MbSegmentInfo *seg, u32 *child_recv);
@@ -248,25 +218,25 @@ extern SegType g_021F6D04[3];
 /*
  * sdk:      MB_GetSegmentLength (libmb.TWL.HYB.a mb_fileinfo.o)
  */
-u32_021F2F1C MB_GetSegmentLength(void *file)
+u32 MB_GetSegmentLength(void *file)
 {
     u8 rom[96];
-    RomHeader_021F2F1C *p;
-    u32_021F2F1C ret;
-    u32_021F2F1C bak_pos;
+    RomHeader *p;
+    u32 ret;
+    u32 bak_pos;
 
     p = 0;
     ret = 0;
     if (file) {
         bak_pos = FS_GetFilePosition(file);
-        if ((u32_021F2F1C)FS_ReadFile(file, rom, 96) >= 96)
-            p = (RomHeader_021F2F1C *)rom;
+        if ((u32)FS_ReadFile(file, rom, 96) >= 96)
+            p = (RomHeader *)rom;
         FS_SeekFile(file, bak_pos, 0);
     } else {
-        p = (RomHeader_021F2F1C *)0x02FFFE00;
+        p = (RomHeader *)0x02FFFE00;
     }
     if (p) {
-        ret = p->arm9Size + 0x268 + p->arm7Size;
+        ret = p->main.size + 0x268 + p->sub.size;
         if (ret < 0x10000)
             ret = 0x10000;
     }
@@ -278,25 +248,25 @@ u32_021F2F1C MB_GetSegmentLength(void *file)
 
 
 
-int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len)
+int MB_ReadSegment(FSFile *file, void *buf, u32 len)
 {
     FSFile own_bin[1];
-    SegmentHeaderInfo_021F2F1C info;
+    MbSegmentHeaderInfo info;
     int ret;
     int is_own_binary;
-    u32_021F2F1C bak_pos;
-    RomHeader_021F2FA0 *p_rom;
-    u32_021F2F1C rest;
+    u32 bak_pos;
+    RomHeader *p_rom;
+    u32 rest;
     u8 *dst;
     MBiCacheList *p_cache;
-    u32_021F2F1C own_size;
+    u32 own_size;
     CARDRomRegion *p_map;
-    u32_021F2F1C *p_header;
+    u32 *p_header;
     int i;
     ret = 0;
 
     if (file == 0) {
-        p_rom = (RomHeader_021F2FA0 *)CARD_GetOwnRomHeader();
+        p_rom = (RomHeader *)CARD_GetOwnRomHeader();
         if ((p_rom->machine_code & 2) == 0)
             mbi_seg_header = mbi_seg_header_default;
         else
@@ -318,14 +288,14 @@ int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len)
             if (own_size == 0)
                 own_size = 0x1000000;
         } else {
-            p_rom = (RomHeader_021F2FA0 *)0x02FFFE00;
+            p_rom = (RomHeader *)0x02FFFE00;
             own_size = p_rom->own_size;
             is_own_binary = 1;
             if (own_size == 0)
                 own_size = 0x1000000;
             file = own_bin;
             FS_InitFile(file);
-            if (FS_OpenFileDirect(file, FS_FindArchive(d_021F6E54, 3), 0, own_size + 0x88, (u32_021F2F1C)-1) == 0)
+            if (FS_OpenFileDirect(file, FS_FindArchive(d_021F6E54, 3), 0, own_size + 0x88, (u32)-1) == 0)
                 return 0;
             bak_pos = FS_GetFilePosition(file);
             MI_CpuCopy8((void *)0x02FFFE00, buf, 0x160);
@@ -358,37 +328,37 @@ int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len)
             i = 0;
             while (i < 3 && arc[i] != 0)
                 i++;
-            MI_CpuCopy8(arc, (u8 *)p_cache + 0x10, (u32_021F2F1C)i);
-            *(u32_021F2F1C *)((u8 *)p_cache + 0x14) = (u32_021F2F1C)i;
+            MI_CpuCopy8(arc, (u8 *)p_cache + 0x10, (u32)i);
+            *(u32 *)((u8 *)p_cache + 0x14) = (u32)i;
             *(void **)((u8 *)p_cache + 0x18) = arc;
         } else {
             rest = 0;
         }
 
         if (rest >= 0x10) {
-            p_header = (u32_021F2F1C *)dst;
+            p_header = (u32 *)dst;
             p_header[0] = 0;
-            p_header[1] = BUFROM(main_rom_offset) + (bak_pos + FS_GetFileImageTop(file));
-            p_header[2] = BUFROM(sub_rom_offset) + (bak_pos + FS_GetFileImageTop(file));
+            p_header[1] = BUFROM(main.offset) + (bak_pos + FS_GetFileImageTop(file));
+            p_header[2] = BUFROM(sub.offset) + (bak_pos + FS_GetFileImageTop(file));
             dst += 0x10;
             rest -= 0x10;
         } else {
             rest = 0;
         }
 
-        if (rest >= BUFROM(main_size) + BUFROM(sub_size)) {
+        if (rest >= BUFROM(main.size) + BUFROM(sub.size)) {
             u8 *mainBuf;
-            u32_021F2F1C mainTop;
-            u32_021F2F1C base;
-            u32_021F2F1C mainSize;
+            u32 mainTop;
+            u32 base;
+            u32 mainSize;
 
             base = FS_GetFileImageTop(file);
             mainTop = p_header[1] - base;
             mainBuf = dst;
-            mainSize = BUFROM(main_size);
+            mainSize = BUFROM(main.size);
             if (is_own_binary) {
                 if (mainTop < 0x8000) {
-                    u32_021F2F1C skip = 0x8000 - mainTop;
+                    u32 skip = 0x8000 - mainTop;
 
                     mainSize -= skip;
                     mainBuf += skip;
@@ -397,18 +367,18 @@ int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len)
             }
             FS_SeekFile(file, mainTop, 0);
             FS_ReadFile(file, mainBuf, mainSize);
-            MBi_AttachCacheBuffer(p_cache, p_header[1], BUFROM(main_size), dst, 3);
-            mainSize = BUFROM(main_size);
+            MBi_AttachCacheBuffer(p_cache, p_header[1], BUFROM(main.size), dst, 3);
+            mainSize = BUFROM(main.size);
             FS_SeekFile(file, p_header[2] - base, 0);
-            FS_ReadFile(file, dst + mainSize, BUFROM(sub_size));
-            MBi_AttachCacheBuffer(p_cache, p_header[2], BUFROM(sub_size), dst + mainSize, 3);
+            FS_ReadFile(file, dst + mainSize, BUFROM(sub.size));
+            MBi_AttachCacheBuffer(p_cache, p_header[2], BUFROM(sub.size), dst + mainSize, 3);
             ret = 1;
         } else if (rest >= 0xcc00) {
             u8 *mainBuf;
-            u32_021F2F1C mainTop;
-            u32_021F2F1C base;
-            u32_021F2F1C mainSize;
-            u32_021F2F1C p1;
+            u32 mainTop;
+            u32 base;
+            u32 mainSize;
+            u32 p1;
 
             base = FS_GetFileImageTop(file);
             p1 = p_header[1];
@@ -417,7 +387,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len)
             mainSize = 0x4400;
             if (is_own_binary) {
                 if (mainTop < 0x8000) {
-                    u32_021F2F1C skip = 0x8000 - mainTop;
+                    u32 skip = 0x8000 - mainTop;
 
                     mainSize -= skip;
                     mainBuf += skip;
@@ -443,21 +413,21 @@ int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len)
             if (ret) {
                 u8 *dst2;
 
-                info.target = BUFROM(main_rom_offset);
-                info.src = (u8 *)(BUFROM(main_ram_address) - info.target);
-                info.dst = (u8 *)((u32_021F2F1C)p_cache->p_buf - info.target);
+                info.target = BUFROM(main.offset);
+                info.src = (u8 *)(BUFROM(main.ram_address) - info.target);
+                info.dst = (u8 *)((u32)p_cache->p_buf - info.target);
                 info.size = len;
                 p_map = mbi_seg_header;
-                MBi_ReadSegmentHeader((SegmentHeaderInfo_021F34CC *)&info, 0x4000, 0x8000, 1);
+                MBi_ReadSegmentHeader((MbSegmentHeaderInfo *)&info, 0x4000, 0x8000, 1);
                 while (p_map->length != 0) {
-                    u32_021F2F1C *w = (u32_021F2F1C *)p_map;
+                    u32 *w = (u32 *)p_map;
 
-                    MBi_ReadSegmentHeader((SegmentHeaderInfo_021F34CC *)&info, w[0], w[0] + w[1], 0);
+                    MBi_ReadSegmentHeader((MbSegmentHeaderInfo *)&info, w[0], w[0] + w[1], 0);
                     p_map++;
                 }
                 dst2 = (u8 *)p_cache->p_buf;
-                dst2 += ((u32_021F2F1C)&_start_AutoloadDoneCallback - BUFROM(main_ram_address));
-                *(u32_021F2F1C *)dst2 = 0xE12FFF1E;
+                dst2 += ((u32)&_start_AutoloadDoneCallback - BUFROM(main.ram_address));
+                *(u32 *)dst2 = 0xE12FFF1E;
             }
         }
 
@@ -474,7 +444,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len)
 /*
  * sdk:      MBi_ReadSegmentHeader (libmb.TWL.HYB.a mb_fileinfo.o)
  */
-void MBi_ReadSegmentHeader(SegmentHeaderInfo_021F34CC *p, u32_021F2F1C top, u32_021F2F1C bottom, int clean)
+void MBi_ReadSegmentHeader(MbSegmentHeaderInfo *p, u32 top, u32 bottom, int clean)
 {
     if (top < 0x4000)
         top = 0x4000;
@@ -535,7 +505,7 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
         return 0;
     }
 
-    *(u32_021F3544 *)(E(fileID) + 0xd40) = (u32_021F3544)game_reg;
+    *(u32 *)(E(fileID) + 0xd40) = (u32)game_reg;
     mdfi = (struct MbDownloadFileInfoHeader *)((unsigned char *)mbc + 0x1788 + fileID * 0x5D4);
     MBi_MakeDownloadFileInfo(mdfi, buf);
     MI_CpuCopy8((unsigned char *)game_reg + 0x1c, (unsigned char *)mdfi + 0xc4, 0x20);
@@ -550,10 +520,10 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
     MB_AddGameInfo((unsigned char *)mbc + 0x186c + fileID * 0x5D4);
     *(u8 *)(E(fileID) + 0xd1f) = update++;
     *(u16 *)(E(fileID) + 0xd4e) = 1;
-    *(u32_021F3544 *)(E(fileID) + 0xd44) = (u32_021F3544)buf;
-    *(u32_021F3544 *)(E(fileID) + 0xd54) = (u32_021F3544)buf + 0x1e8;
-    *(u32_021F3544 *)(E(fileID) + 0xd58) = (u32_021F3544)buf + 0x258;
-    if (*(u32_021F3544 *)(*(u32_021F3544 *)(E(fileID) + 0xd54) + 0x6c) != 0 && !MBi_IsTaskAvailable())
+    *(u32 *)(E(fileID) + 0xd44) = (u32)buf;
+    *(u32 *)(E(fileID) + 0xd54) = (u32)buf + 0x1e8;
+    *(u32 *)(E(fileID) + 0xd58) = (u32)buf + 0x258;
+    if (*(u32 *)(*(u32 *)(E(fileID) + 0xd54) + 0x6c) != 0 && !MBi_IsTaskAvailable())
     {
         MBi_InitTaskInfo((unsigned char *)mbc + 0x7ce0);
         MBi_InitTaskThread((unsigned char *)mbc + 0x74e0, 0x800);

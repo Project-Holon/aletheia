@@ -59,7 +59,6 @@
  *   DWCi_SceneOptMenu  0x021C2A3C  arm
  *   DWCi_SceneOptMovConfirm  0x021C35F0  arm
  */
-#include "../../matched/include/G_021DE5B8.h"
 
 typedef _Bool bool;
 
@@ -111,7 +110,6 @@ void DWCi_SceneOptMovConfirm1(void);
 void DWCi_SceneOptMovConfirm1_procScene(void);
 void DWCi_SceneOptMovConfirm1_draw(void);
 void DWCi_SceneOptMovConfirm1EndScene2(void);
-extern struct G_021DE5B8 gSceneOptMovConfirm1Work;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 static void closeFadeStep(void);
@@ -157,7 +155,7 @@ static void closeWaitStep(void)
  */
 void DWCi_SceneOptMovConfirm1(void)
 {
-    (*(unsigned char *)&gSceneOptMovConfirm1Work) = 0;
+    sceneopterase_bss.Choose = 0;
     initGraphics();
     DWCi_HLlLoad(0x13);
     DWCi_COMMENTlDispEx(0x3C, -1, 0);
@@ -240,7 +238,7 @@ static void button(void)
         break;
     case 1:
         DWCi_SNDlPlay(6);
-        (*(unsigned char *)&gSceneOptMovConfirm1Work) = 1;
+        sceneopterase_bss.Choose = 1;
         break;
     default:
         return;
@@ -277,19 +275,19 @@ void DWCi_SceneOptMovConfirm1EndScene2(void)
 {
     if (DWCi_EFFlCheck(0) != 0)
         return;
-    if (((u8 *)&gSceneOptMovConfirm1Work)[0] == 0) {
+    if (sceneopterase_bss.Choose == 0) {
         if (DWCi_EFFlCheck(1) != 0)
             return;
     }
     if (DWCi_BTNlIsEnd() == 0)
         return;
     DWCi_FNTlDeleteBgLcd(0);
-    if (((u8 *)&gSceneOptMovConfirm1Work)[0] == 0) {
+    if (sceneopterase_bss.Choose == 0) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_GXlInvisible(0, 0x15);
-    if (((u8 *)&gSceneOptMovConfirm1Work)[0] == 0) {
+    if (sceneopterase_bss.Choose == 0) {
         DWCi_SetParam_(0, 1);
         DWCi_ChangeScene(DWCi_SceneOptMenu);
     } else {

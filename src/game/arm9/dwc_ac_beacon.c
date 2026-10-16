@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac_beacon.c
  * unit:     yes
- * function: DWCi_AC_GetBeacon, DWCi_AC_CheckNintendoSSID, func_0205AB54, CompareList, CompareListDiff, AddList, SetDataListTail, UpDateList, SortList
+ * function: DWCi_AC_GetBeacon, DWCi_AC_CheckNintendoSSID, DWCi_AC_IsSupportWPA, CompareList, CompareListDiff, AddList, SetDataListTail, UpDateList, SortList
  * address:  0x0205A938
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -168,7 +168,6 @@ extern int strncmp(const char *s1, const char *s2, unsigned long n) __attribute_
 extern void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 extern int DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc);
-int func_0205AB54(WCMBssDesc *bssDesc);
 extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
 void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
 int CompareList(WMBssDesc *bssdesc, unsigned char num, ACSL *list);
@@ -255,16 +254,16 @@ int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc)
  * g_020A161C is the initialiser of wpaTag (@16091: 00 50 F2 01, the WPA OUI
  * and type); the object copies it bytewise, spelled here as a struct copy.
  */
-int func_0205AB54(WCMBssDesc *bssDesc)
+int DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc)
 {
     WPATAG wpaTag;
     NWMInfoElements *elem;
 
     if (OS_IsRunOnTwl()) {
-        elem = NWM_GetInfoElements(bssDesc, 0x30);
+        elem = NWM_GetInfoElements((WCMBssDesc *)bssDesc, 0x30);
         if (elem == 0) {
             wpaTag = g_020A161C;
-            elem = NWM_GetVenderInfoElements(bssDesc, 0xdd, wpaTag.b);
+            elem = NWM_GetVenderInfoElements((WCMBssDesc *)bssDesc, 0xdd, wpaTag.b);
             if (elem == 0) {
                 return 0;
             }

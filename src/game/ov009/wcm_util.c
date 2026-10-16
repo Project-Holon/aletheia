@@ -20,6 +20,8 @@
  *   gWcmUtilLength  0x021AA814  data ov009
  *   gWcmUtilData  0x021AA815  data ov009
  */
+#include "wcm_types.h"
+
 typedef enum WMLinkLevel {
     WM_LINK_LEVEL_0 = 0,
     WM_LINK_LEVEL_1 = 1,
@@ -27,23 +29,8 @@ typedef enum WMLinkLevel {
     WM_LINK_LEVEL_3 = 3
 } WMLinkLevel;
 
-typedef struct WCMWork_021666C8 {
-    unsigned char pad0[0x12DE];
-    unsigned char phase;
-} WCMWork_021666C8;
-
-typedef struct WCMWork_02166710 {
-    unsigned char pad0[0x12DF];
-    unsigned char deviceId;
-} WCMWork_02166710;
-
-typedef struct WCMWork_02166804 {
-    unsigned char pad0[0x12DF];
-    unsigned char deviceId;
-} WCMWork_02166804;
-
 extern unsigned long OS_DisableInterrupts(void);
-extern int WCMi_GetSystemWork(void);
+extern WCMWork *WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void _s32_div_f();
 int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n);
@@ -82,11 +69,11 @@ void WCM_CompareBssID(int a, int b)
 WMLinkLevel WCM_GetLinkLevel(void)
 {
     unsigned long e;
-    WCMWork_021666C8 *w;
+    WCMWork *w;
     WMLinkLevel ret;
 
     e = OS_DisableInterrupts();
-    w = (WCMWork_021666C8 *)WCMi_GetSystemWork();
+    w = WCMi_GetSystemWork();
     ret = WM_LINK_LEVEL_0;
     if (w != 0 && w->phase == 9) {
         ret = WCM_CalcLinkLevel(WCMi_GetRssiAverage());
@@ -103,9 +90,9 @@ WMLinkLevel WCM_GetLinkLevel(void)
  */
 WMLinkLevel WCM_CalcLinkLevel(unsigned char rssi)
 {
-    WCMWork_02166710 *w;
+    WCMWork *w;
 
-    w = (WCMWork_02166710 *)WCMi_GetSystemWork();
+    w = WCMi_GetSystemWork();
     switch (w->deviceId) {
     case 1:
     default:
@@ -167,10 +154,10 @@ unsigned char WCMi_GetRssiAverage(void)
  */
 void WCMi_ShelterRssi(unsigned char rssi)
 {
-    WCMWork_02166804 *w;
+    WCMWork *w;
     int raw;
 
-    w = (WCMWork_02166804 *)WCMi_GetSystemWork();
+    w = WCMi_GetSystemWork();
     switch (w->deviceId) {
     case 1:
     default:

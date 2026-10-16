@@ -203,10 +203,6 @@ typedef struct {int x,y,z;} Vec;
 
 struct Record { u16 id,pad; Vec translation,scale; u32 matrix[9],flag; };
 
-typedef int s32_021B95A0;
-
-typedef signed int     s32_021B97F8;
-
 struct TableRow { u16 h[5]; };
 
 struct Request {u16 x,y,z;u8 a,b;};
@@ -223,7 +219,7 @@ typedef struct Vec2 { s16 x, y; } Vec2;
 
 typedef struct FxPair { int x, y; } FxPair;
 
-typedef struct Entry_021B95A0 {
+typedef struct PselEntry {
     u8 pad0[0x18];
     struct Obj *f18;
     struct Obj *f1C;
@@ -233,18 +229,18 @@ typedef struct Entry_021B95A0 {
     u32 f88;
     int f8C;
     int f90;
-} Entry_021B95A0;
+} PselEntry;
 
 typedef struct Main {
     u8 pad0[0x54];
-    Entry_021B95A0 ents[3];
+    PselEntry ents[3];
     u8 pad210[0x230 - 0x210];
     int f230;
 } Main;
 
 typedef struct BytePair {u8 x,y;} BytePair;
 
-typedef struct {u8 a,b,c,d,e,f,g,h,i;} Entry_021BAA84;
+typedef struct {u8 a,b,c,d,e,f,g,h,i;} PselTableEntry;
 
 struct Item { void *text; u16 color; unsigned value; };
 
@@ -280,7 +276,7 @@ extern unsigned PSEL_GRAPHIC_GetCamera(u8 *p);
 extern void ICA_ANIME_SetCameraStatus(void *, void *);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32),PSEL_DeleteRecords(void *),ICA_ANIME_Delete(struct IcaAnime *);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
-extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32_021B97F8 v);
+extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, signed int v);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
@@ -449,7 +445,7 @@ extern const u8 d_021BC7F0[3][14];
 extern const u8 d_021BC8C0[3];
 extern const BytePair d_021BC716[];
 extern const char file[];
-extern const Entry_021BAA84 entry_table[];
+extern const PselTableEntry entry_table[];
 extern const u32 d_021BC730[];
 extern const u16 d_021BC710[];
 
@@ -985,7 +981,7 @@ void PSEL_UpdateUnitPositions(Main *p)
     s16 res[3];
     u8 i;
     for (i = 0; i < 3; i++) {
-        Entry_021B95A0 *e = &p->ents[i];
+        PselEntry *e = &p->ents[i];
         const u8 *t = d_021BC7F0[i];
         int d = 0;
         if (e->f8C == 0)

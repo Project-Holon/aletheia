@@ -18,7 +18,7 @@
  *   SBServerGetIntValueA  0x0219E120  arm  ov009
  *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm  ov009
  *   ServerBrowserRemoveServer  0x0219EFA8  arm  ov009
- *   func_021685CC  0x021685CC  arm  ov009
+ *   DWCi_GetMathRand32  0x021685CC  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
  *   ServerBrowserSortA  0x0219F078  arm  ov009
  *   @24222         0x021A20A4  data
@@ -45,7 +45,7 @@ struct ServerBrowser;
 extern int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault);
 extern char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
 extern void ServerBrowserRemoveServer(struct ServerBrowser *sb, struct SBServer *server);
-extern unsigned long func_021685CC(unsigned long max);
+extern unsigned long DWCi_GetMathRand32(unsigned long max);
 extern void func_0219E084(void *server, char *keyname, int value);
 extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 
@@ -76,14 +76,14 @@ static int func_02174790(int sort)
             if (eval > 0) {
                 if (eval > 0x7fffff)
                     eval = 0x7fffff;
-                func_0219E084(server, "dwc_eval", (eval << 8) | func_021685CC(0x100));
+                func_0219E084(server, "dwc_eval", (eval << 8) | DWCi_GetMathRand32(0x100));
             } else {
                 ServerBrowserRemoveServer(((DWCstMatchControl *)func_02175F3C())->sb, server);
                 deleteFlag = 1;
                 i--;
             }
         } else {
-            func_0219E084(server, "dwc_eval", func_021685CC(0x80));
+            func_0219E084(server, "dwc_eval", DWCi_GetMathRand32(0x80));
         }
     }
     if (sort && ServerBrowserCount(((DWCstMatchControl *)func_02175F3C())->sb))

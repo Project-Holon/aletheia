@@ -1,8 +1,8 @@
 /*
  * file:     wih_dwc.c
  * unit:     yes
- * function: GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow, WIH_DWC_PollSystem, WIH_DWC_Create, WIH_DWC_Delete, WIH_DWC_PauseTimers, WIH_DWC_ResumeTimers, WIH_DWC_AddBeacon, WIH_DWC_TickTimers, WIH_DWC_IsSsidInFilterList, WIH_DWC_IsOpenTaggedBeacon, WIH_DWC_IsPrivacyBeacon, WIH_DWC_PollStatus, WIH_DWC_CreateFilterBuffer, WIH_DWC_ResetFilterState, WIH_DWC_FindSlotByKey, WIH_DWC_GetAlertLevel, WIH_DWC_RequestAlertLevel, WIH_DWC_Dummy, GFL_NET_SAVE_SetStep, GFL_NET_SAVE_Create, GFL_NET_SAVE_CreateWithCallback, GFL_NET_SAVE_CheckFinished, GFL_NET_SAVE_Delete, GFL_NET_SAVE_StepBegin, GFL_NET_SAVE_StepWaitSaveStart, GFL_NET_SAVE_StepWaitSync72, GFL_NET_SAVE_StepDelay, GFL_NET_SAVE_StepWaitSync73, GFL_NET_SAVE_StepProgress, GFL_NET_SAVE_StepFinish, GFL_NET_SAVE_InitWork, GFL_NET_SAVE_Main
- * address:  0x02010158
+ * function: WIH_DWC_PollSystem, WIH_DWC_Create, WIH_DWC_Delete, WIH_DWC_PauseTimers, WIH_DWC_ResumeTimers, WIH_DWC_AddBeacon, WIH_DWC_TickTimers, WIH_DWC_IsSsidInFilterList, WIH_DWC_IsOpenTaggedBeacon, WIH_DWC_IsPrivacyBeacon, WIH_DWC_PollStatus, WIH_DWC_CreateFilterBuffer, WIH_DWC_ResetFilterState, WIH_DWC_FindSlotByKey, WIH_DWC_GetAlertLevel, WIH_DWC_RequestAlertLevel, WIH_DWC_Dummy, GFL_NET_SAVE_SetStep, GFL_NET_SAVE_Create, GFL_NET_SAVE_CreateWithCallback, GFL_NET_SAVE_CheckFinished, GFL_NET_SAVE_Delete, GFL_NET_SAVE_StepBegin, GFL_NET_SAVE_StepWaitSaveStart, GFL_NET_SAVE_StepWaitSync72, GFL_NET_SAVE_StepDelay, GFL_NET_SAVE_StepWaitSync73, GFL_NET_SAVE_StepProgress, GFL_NET_SAVE_StepFinish, GFL_NET_SAVE_InitWork, GFL_NET_SAVE_Main
+ * address:  0x0201034C
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -293,8 +293,6 @@ extern int func_02034F5C(int a);
 extern int GFL_USE_UpdateSound(int a);
 extern int PM_VOICE_StopFinished(int a);
 
-u32 GFL_NET_ERR_GetMessageId(struct NetErrInfo *info, u32 a);
-void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage);
 int WIH_DWC_PollSystem(void);
 struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap);
 void WIH_DWC_Delete(struct WihContext *context);
@@ -348,126 +346,6 @@ extern u8 gNetSaveRetryProc[];
  * sixteen-entry u16 tables by the module's +0x60 error number, picked by
  * APP_ENV_IsRunOnTwl().  The case 0x3F7 arm shares case 0x3EE's block.
  */
-/*
- * The error-code mapper of net_err.c: a reason code at obj+0xc (obj is the
- * 16-byte block the module keeps at 0x0214617C+0x48) in 0x3EE..0x3F7 maps to
- * a fixed message id; anything else indexes one of two sixteen-entry u16
- * tables by the module's +0x60 error number, picked by APP_ENV_IsRunOnTwl().
- * Wave 13: the earlier DIFF note read the pools as 0x0202617C / 0x020109B0 /
- * 0x020109D0; the words are 0x0214617C / 0x0209DEB0 / 0x0209DED0, and the
- * case 0x3F7 arm shares case 0x3EE's block (both table slots 0x12).
- */
-u32 GFL_NET_ERR_GetMessageId(struct NetErrInfo *info, u32 a)
-{
-    u32 errorNumber;
-
-    switch (info->reasonCode) {
-    case 0x3ee:
-    case 0x3f7:
-        return 0xd;
-    case 0x3f1:
-        return 0x28;
-    case 0x3f2:
-    case 0x3f3:
-    case 0x3f4:
-    case 0x3f5:
-    case 0x3f6:
-        return 0xe;
-    case 0x3f0:
-        return 0x28;
-    }
-    if (APP_ENV_IsRunOnTwl() != 0) {
-        errorNumber = gNetErrWork.messageId;
-        if (errorNumber >= 0x10) {
-            return 0xb;
-        }
-        return sNetErrMessageIdsTwl[errorNumber];
-    }
-    errorNumber = gNetErrWork.messageId;
-    if (errorNumber >= 0x10) {
-        return 0xb;
-    }
-    return sNetErrMessageIdsDS[errorNumber];
-}
-
-
-/*
- * Draws net_err.c's error window: tiles BG1's screen with a running
- * character index, clears the character block to 0x7777, builds a surface,
- * a window object and a palette, picks the message (0x40 for a1 == 1; the
- * mapped error code from GFL_NET_ERR_GetMessageId or the stored +0x60 code in link
- * modes 1/2/6; else message 1, or 0 unless a0 == 1), prints it and frees
- * everything.  The non-link arm's message index is the same variable as the
- * constant 1 its two calls pass (idx = 1 kept unless a0 != 1).
- */
-void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
-{
-    struct NetErrWork *errWork = &gNetErrWork;
-    u16 *screen;
-    struct Bmp *bmp;
-    struct WordSet *wordSet;
-    s32 tileX;
-    struct MsgBank *msgBank;
-    u32 messageIndex;
-    void *message;
-    struct U16Vec *textBuf;
-    s32 tileY;
-    struct GfFont *font;
-    u16 *bg1ScrPtr;
-    u16 tileIndex;
-
-    bg1ScrPtr = G2_GetBG1ScrPtr();
-    screen = bg1ScrPtr;
-    tileIndex = 0x20;
-    for (tileY = 4; tileY < 0x14; tileY++) {
-        for (tileX = 1; tileX < 0x1f; tileX++) {
-            screen[tileY * 0x20 + tileX] = tileIndex;
-            tileIndex = (u16)(tileIndex + 1);
-        }
-    }
-    MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3c00);
-    bmp = BMP_CreateFromVram(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
-    wordSet = WORDSET_CreateDefault(1);
-    font = GF_FONT_Create(0x17, 0, 0, 0, 1);
-
-    if (useGenericMessage == 1) {
-        msgBank = func_02045B38(0, 2, 0xe8, 1);
-        messageIndex = 0x40;
-    } else {
-        u8 netType = errWork->netType;
-
-        if (netType == 1 || netType == 2 || netType == 6) {
-            WORDSET_SetSlotNumber(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, 1);
-            msgBank = func_02045B38(0, 2, 0xe8, 1);
-            if (errWork->fatalRaised != 0) {
-                messageIndex = errWork->messageId;
-                errWork->fatalRaised = 0;
-            } else {
-                messageIndex = GFL_NET_ERR_GetMessageId(&errWork->errorInfo, errWork->messageId);
-            }
-        } else {
-            WORDSET_SetSlotNumber(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
-            msgBank = func_02045B38(0, 2, 0x52, 1);
-            messageIndex = 1;
-            if (messageVariant != 1) {
-                messageIndex = 0;
-            }
-        }
-    }
-
-    message = func_02045EC0(msgBank, messageIndex);
-    textBuf = STRBUF_Create(0x189, 1);
-    WORDSET_CopyTaggedText(wordSet, textBuf, message);
-    PRINTSYS_PrintColor(bmp, 0, 0, textBuf, font, 0x1167);
-    STRBUF_Delete(textBuf);
-    STRBUF_Delete(message);
-    MSGDATA_Delete(msgBank);
-    GF_FONT_Delete(font);
-    WORDSET_DeleteStrbufED04(wordSet);
-    BMP_Delete(bmp);
-}
-
-
 int WIH_DWC_PollSystem(void)
 {
     int t0 = GFL_USE_PollPowerExit();

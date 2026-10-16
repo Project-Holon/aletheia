@@ -119,15 +119,15 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 a)
     u8 j;
     for (i = 0; i < 8; i++) if (*(int *)(p + i * 0x4848 + 4) == 0) q = (p + 4) + i * 0x4848;
     j = 0;
-    ((struct TargetBank *)q)->f4804.p = (void *)PARTICLE_CreateSystemDefault((int)(q + 4), 0x4800, 0, ((struct ScriptCtx *)p)->f0.h);
+    ((ActEffectSystem *)q)->system.p = (void *)PARTICLE_CreateSystemDefault((int)(q + 4), 0x4800, 0, ((struct ScriptCtx *)p)->f0.h);
     v = (void *)PARTICLE_LoadArchiveMember(47, a, ((struct ScriptCtx *)p)->f0.h);
-    PARTICLE_SetupSystem(((struct TargetBank *)q)->f4804.p, v, 0, func_020056BC());
+    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, func_020056BC());
     for (; j < 4; j++) *(int *)(q + j * 16 + 0x4808) = 0;
-    ((struct TargetBank *)q)->f0.s = 1;
+    ((ActEffectSystem *)q)->active.s = 1;
     return q;
 }
 
-void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((struct TargetBank *)p)->f0.u=0; PARTICLE_KillAllEffects(((struct TargetBank *)p)->f4804.u); PARTICLE_DeleteSystem((u8 *)(((struct TargetBank *)p)->f4804.u)); }
+void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((ActEffectSystem *)p)->active.u=0; PARTICLE_KillAllEffects(((ActEffectSystem *)p)->system.u); PARTICLE_DeleteSystem((u8 *)(((ActEffectSystem *)p)->system.u)); }
 
 static inline void set(Vec *p, int x, int y, int z)
 {
@@ -143,10 +143,10 @@ static inline void set(Vec *p, int x, int y, int z)
  */
 void STA_ACT_EFFECT_StartEffect(char *p, unsigned i, Vec *v)
 {
-    int a = PARTICLE_StartEffect(((struct TargetBank *)p)->f4804.p, i, (int)v);
+    int a = PARTICLE_StartEffect(((ActEffectSystem *)p)->system.p, i, (int)v);
     if (a == 0 || i < 4) {
-        ((Obj_021F9E40 *)p)->part[i].a = a;
-        set(&((Obj_021F9E40 *)p)->part[i].v, v->x, v->y, v->z);
+        ((ActEffectSystem *)p)->part[i].a = a;
+        set(&((ActEffectSystem *)p)->part[i].v, v->x, v->y, v->z);
     }
 }
 
@@ -162,7 +162,7 @@ void STA_ACT_EFFECT_KillEffect(char *p, int i)
     int v = *(int *)(p + i * 16 + 0x4808);
 
     if (v != 0)
-        PARTICLE_KillEffect(((struct TargetBank *)p)->f4804.p, (void *)v);
+        PARTICLE_KillEffect(((ActEffectSystem *)p)->system.p, (void *)v);
 }
 
 /*

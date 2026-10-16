@@ -64,7 +64,7 @@ struct WMMpRecvData;
 struct WMMpRecvHeader;
 struct FSArchive;
 struct FSFile;
-typedef void (*WMCallback_021F1B3C)(u32, void *);
+typedef void (*MBParentStateCallback)(u32, void *);
 
 typedef struct WMStartParentCallback {
     u16 apiid;                                       /* 0x00 */
@@ -169,7 +169,7 @@ extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern int func_021F276C(u8 type, u16 pollbmp);
 extern int func_021F2A44(void);
-void MB_CommSetParentStateCallback(WMCallback_021F1B3C callback);
+void MB_CommSetParentStateCallback(MBParentStateCallback callback);
 void *MB_CommGetChildUser(unsigned short child_aid);
 int MB_CommIsBootable(unsigned short child_aid);
 int MB_CommResponseRequest(unsigned short child_aid, int ack);
@@ -193,12 +193,12 @@ extern char g_021F6E4C[];
 
 
 
-void MB_CommSetParentStateCallback(WMCallback_021F1B3C callback)
+void MB_CommSetParentStateCallback(MBParentStateCallback callback)
 {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    *(WMCallback_021F1B3C *)&pPwork->parent_callback = callback;
+    *(MBParentStateCallback *)&pPwork->parent_callback = callback;
     OS_RestoreInterrupts(enabled);
 }
 

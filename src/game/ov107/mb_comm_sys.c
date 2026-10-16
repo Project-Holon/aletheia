@@ -254,7 +254,7 @@
  *   GFL_NET_IsHandleReady 0x0203D394 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
- *   request_021F6C94 0x021F6C94 data a4
+ *   sMbCommSessionRequest 0x021F6C94 data a4
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
  *   GFL_NET_Exit 0x0203CEAC arm
@@ -608,7 +608,7 @@ extern MbParentSys gMbParentSys;
 extern const char d_021F6E1C[], d_021F6E24[];
 extern u8 gMbChildEntries[], d_021F6EDE[], d_021F6EDF[], d_021F6EE0[], d_021F6EE1[], d_021F6EE2[], d_021F6EE3[], d_021F6EE4[];
 extern const char d_021F6E28[];
-extern const Request request_021F6C94;
+extern const Request sMbCommSessionRequest;
 extern int d_021F6EE8[];
 
 void MB_COMM_SYS_Init(MbCommSysWork *p);
@@ -2602,7 +2602,7 @@ void MB_COMM_SYS_UpdateNetState(MbNetState *net)
 /* Starts the net session and resets every message flag of the link state. */
 void MB_COMM_SYS_StartNetSession(MbNetState *net)
 {
-    Request request = request_021F6C94;
+    Request request = sMbCommSessionRequest;
 
     request.heapId = net->heapId;
     GFL_NET_StartSession(&request, 0, (u32)net);

@@ -193,12 +193,6 @@ struct Ov208InfoWork {
 
 struct Ov208Heap { u16 heap; };
 
-struct S_021BEE70 {
-    u8 pad0[0x14];
-    u32 f14;
-    u32 f18;
-};
-
 struct ZukanDetailInfoLangSlot {
     u8 pad0[0x1c];
     int h1c;
@@ -213,17 +207,11 @@ struct ZukanDetailInfoLangSlot {
     u8 pad30[4];
 };
 
-struct S_021BEFA0 {
-    u8 pad0[0x94];
-    u32 cur;
-    u32 prev;
-};
-
 struct Params {u16 a,b,c,d; unsigned x,y,arr[6];};
 
 enum Index { INDEX_ZERO = 0 };
 
-struct Pos_021BD574 { u16 x, y, z, pad; };
+struct ZukanPos { u16 x, y, z, pad; };
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -381,11 +369,11 @@ int ZUKAN_DETAIL_INFO_Exit(char *first,unsigned unused,int owner,char *q,unsigne
 
 int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct Ov208InfoWork *p, int *ctx);
 
-void ZUKAN_DETAIL_INFO_HandleKeyEvent(void *a0, void *a1, void *heap, struct S_021BEE70 *st, int *obj, int key);
+void ZUKAN_DETAIL_INFO_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208InfoWork *st, int *obj, int key);
 
 void ZUKAN_DETAIL_INFO_NoOp(void *p);
 
-int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct S_021BEFA0 *st, int *obj);
+int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct Ov208InfoWork *st, int *obj);
 
 int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,int key);
 
@@ -561,7 +549,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
             if (p->f14 == 2)
                 ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scn, 0);
         } else if (p->f18 != 0) {
-            if (ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(h, (struct S_021BEFA0 *)((struct Ov208AreaState *)p), ctx) == 0)
+            if (ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(h, (struct Ov208InfoWork *)((struct Ov208AreaState *)p), ctx) == 0)
                 ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(h, (char *)p, (int)ctx);
         }
         break;
@@ -589,7 +577,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
     return 0;
 }
 
-void ZUKAN_DETAIL_INFO_HandleKeyEvent(void *a0, void *a1, void *heap, struct S_021BEE70 *st, int *obj, int key)
+void ZUKAN_DETAIL_INFO_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208InfoWork *st, int *obj, int key)
 {
     int sc;
     u32 flag;
@@ -666,14 +654,14 @@ void ZUKAN_DETAIL_INFO_NoOp(void *p)
  * 2026-10-04 (D2-16): also tried positive forms `x0 <= x && x < x0+w` (13 bytes out, shape changes) and `x0 > x` with u32 or int casts and
  * no locals (13 to 15 bytes out). With `x0 > x` the compare order is right but x0 lands in r0 and x in r1 (the image has x0 in r1);
  * with `x < x0` the registers are right and the compare order flips. The residue is one register colour pair.
- * note:     2026-10-04 (D1-08): f2c store fixed by raw `*(u32 *)((u8 *)st + st->cur * 0x14 + 0x2c) = 1`. Now 4 bytes: the two
+ * note:     2026-10-04 (D1-08): f2c store fixed by raw `*(u32 *)((u8 *)st + st->f94 * 0x14 + 0x2c) = 1`. Now 4 bytes: the two
  *            bounds tests are `cmp x0,x; bhi` in the image (x0 in r1, x in r0) and `cmp x,x0; blo` here (same registers). Writing
  *            `e->x0 > x` instead flips the registers (x0 in r0) but keeps the compare order; neither gives the image.
  * note:     2026-10-02 lane C2-02: two compare directions (image: cmp x0,x then bhi) and the f2c store constant order differ; tried x0<=x, !(x0>x), locals.
  *
  * 2026-10-05 (D4-18): still 4 bytes. Tried: positive form x >= x0 && x < x0 + w (4 bytes, same as now), !(e->x0 > x || ...) (13 bytes: x0 lands in r0), int-cast compares (17 bytes, bgt). The compare order of the image needs x0 in r1 with the unsigned-greater test; every spelling that gives that order puts x0 in r0.
  */
-int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct S_021BEFA0 *st, int *obj)
+int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct Ov208InfoWork *st, int *obj)
 {
     int sc;
     int res;
@@ -686,7 +674,7 @@ int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct S_021BEFA0 *st,
 
     sc = ZUKAN_DETAIL_COMMON_GetWorkPtr(obj);
     res = 0;
-    if (st->cur == 6 && TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
+    if (st->f94 == 6 && TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
         for (i = 0; i < 6; i++) {
             e = (struct ZukanDetailInfoLangSlot *)((u8 *)st + i * 0x14);
             c = (u8 *)e;
@@ -694,17 +682,17 @@ int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct S_021BEFA0 *st,
             if (CLACT_GetActorDrawEnable((struct Obj *)e->h1c) != 0
                 && (u32)c[k] <= x && x < (u32)c[k] + c[k + 2]
                 && (u32)c[k + 1] <= y && y < (u32)c[k + 1] + c[k + 3]) {
-                if (st->prev == i) break;
-                st->cur = i;
+                if (st->f98 == i) break;
+                st->f94 = i;
                 res = 1;
                 break;
             }
         }
     }
     if (res != 0) {
-        ov208_func_021BF280(a0, (char *)st, obj, st->cur);
-        *(u32 *)((u8 *)st + st->cur * 0x14 + 0x2c) = 1;
-        e = (struct ZukanDetailInfoLangSlot *)((u8 *)st + st->cur * 0x14);
+        ov208_func_021BF280(a0, (char *)st, obj, st->f94);
+        *(u32 *)((u8 *)st + st->f94 * 0x14 + 0x2c) = 1;
+        e = (struct ZukanDetailInfoLangSlot *)((u8 *)st + st->f94 * 0x14);
         CLACT_SetActorAnimSeq((struct Obj *)e->h1c, e->f26);
         GFL_USE_PlaySeDefaultVolume(0x54a);
         func_020355D8(1);
@@ -797,7 +785,7 @@ void ZUKAN_DETAIL_INFO_SelectLanguageButton(void *first,char *q,void *third,int 
 
 void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, int key)
 {
-    struct Pos_021BD574 pos;
+    struct ZukanPos pos;
     void *scene;
     int owner;
     void *arc;

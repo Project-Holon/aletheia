@@ -374,7 +374,7 @@ struct Entry;
 struct Link;
 struct Rec44;
 struct Sub24;
-struct Field_021DADAC;
+struct Field;
 typedef int (*Callback)(int,int,int *,int);
 
 typedef struct { Callback create,other,close; } Table;
@@ -389,9 +389,9 @@ typedef unsigned short u16;
 
 
 
-typedef struct { u32 w[20]; } Rec80_021D4240;
+typedef struct { u32 w[20]; } Rec80;
 
-typedef struct { Rec80_021D4240 data; u32 last; } Rec84_021D4240;
+typedef struct { Rec80 data; u32 last; } Rec84;
 
 
 
@@ -400,7 +400,7 @@ typedef unsigned int ul;
 
 
 
-typedef struct { u32 kind; u16 count,pad; u32 name,total; u16 a,b; } Desc_021D4240;
+typedef struct { u32 kind; u16 count,pad; u32 name,total; u16 a,b; } BoxWindowDesc;
 
 
 
@@ -424,9 +424,6 @@ typedef struct { u32 kind; u16 count,pad; u32 name,total; u16 a,b; } Desc_021D42
 typedef struct { unsigned char a,b,c,d;u32 id;} Request;
 
 typedef struct {char pad[0x104];u32 *ctx;u32 aux;} ObjectView;
-
-
-typedef struct { unsigned char a,b,c,d; u32 id; } Request_021D76D4;
 
 typedef struct {char pad[0x48];u32 slots[6];} SlotView;
 
@@ -552,28 +549,11 @@ struct Buf16 {
     u32 keyD;   /* 0x0C */
 };
 
-
-typedef struct { u32 w[20]; } Rec80_021D76D4;
-
-typedef struct { Rec80_021D76D4 data; u32 last; } Rec84_021D76D4;
-
-
-
-
-
-
-
-
 typedef long long s64;
 
 struct RTCDate { u32 year,month,day,week; };
 
 struct RTCTime { u32 hour,minute,second; };
-
-struct Request_021D8EC8 { u8 a,b,c,d; u32 id; };
-
-
-typedef struct { u8 a,b,c,d; u32 id; } Request_021D8EC8;
 
 
 
@@ -622,16 +602,6 @@ typedef struct WifibattlematchMenuDesc {
 
 
 
-/* Second view of the match-parameters object (WifiBattleMatchParams): CopyCompSave
- * casts comp->ctx (0x104) to this type, so sav (0x08) is WifiBattleMatchParams.save
- * and blk (0x34) is WifiBattleMatchParams.sub.  blk[2..4] are Sub.keyDBase/
- * keyDDelta/keyA. */
-struct Save_021D9A50 {
-    u8  pad_00[8];
-    u32 *sav;
-    u8  pad_0c[0x28];
-    u32 *blk;
-};
 
 
 
@@ -699,26 +669,13 @@ typedef void (*StepFn)(void);
 
 
 
-struct Field_021DADAC {
-    const char *name;
-    u32 type;
-    u32 value;
-    u32 pad;
-};
-
-typedef void (*RecordsFn)(int count, struct Field_021DADAC **recs, u32 a, int nfields);
-
-struct Field_021DB7C0 { const char *name; u32 type; u32 value; u32 pad; };
-
 struct Blob { const void *data; u32 size; };
 
-union Payload { u32 value; struct Blob blob; };
+union Payload { u32 value; void *ptr; struct Blob blob; };
 
-struct Field_021DBA00 { const char *name;u32 type;union Payload payload; };
+struct Field { const char *name; u32 type; union Payload payload; };
 
-struct Field_021DBB54 {const char *name;unsigned int type;void *value;unsigned int size;};
-
-struct Field {const char *name;unsigned int type;void *value;unsigned int size;};
+typedef void (*RecordsFn)(int count, struct Field **recs, u32 a, int nfields);
 
 
 struct Record {u32 words[21];};
@@ -1076,7 +1033,7 @@ extern u32 func_0200FBB0(void);
 extern u8 *GAME_DATA_GetMyStatus(void *save);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u32 WIFIBATTLEMATCH_VIEW_CreateMainWindow(Desc_021D4240 *,int,u32,int,u32,u32,u32,u32,u32,int);
+extern u32 WIFIBATTLEMATCH_VIEW_CreateMainWindow(BoxWindowDesc *,int,u32,int,u32,u32,u32,u32,u32,int);
 extern void WIFIBATTLEMATCH_VIEW_DeleteMainWindow(u32 window);
 extern u32 WIFIBATTLEMATCH_VIEW_StepMainWindow(u32 window);
 extern u32 WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(u32 window);
@@ -1392,11 +1349,11 @@ void WIFIBATTLEMATCH_NET_GdbRequest(char *obj, u32 target, int kind, u32 arg);
 int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *obj);
 void WIFIBATTLEMATCH_NET_GdbShutdown(char *obj);
 void WIFIBATTLEMATCH_NET_SetupGdbRecord(char *ctx);
-void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field_021DADAC **recs, char *obj);
-void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field_021DB7C0 **fields,char *ctx,int n);
-void WIFIBATTLEMATCH_NET_GdbCopyFieldsB(int count,struct Field_021DBA00 **fields,u8 *ctx,int n);
+void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field **recs, char *obj);
+void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field **fields,char *ctx,int n);
+void WIFIBATTLEMATCH_NET_GdbCopyFieldsB(int count,struct Field **fields,u8 *ctx,int n);
 void WIFIBATTLEMATCH_NET_GdbCopyFieldC(int count, char **rows, int *out, int width);
-void WIFIBATTLEMATCH_NET_GdbCopyFieldD(int count,struct Field_021DBB54 **recs,void *dst,int nfields);
+void WIFIBATTLEMATCH_NET_GdbCopyFieldD(int count,struct Field **recs,void *dst,int nfields);
 void WIFIBATTLEMATCH_NET_GdbCopyFieldE(int count,struct Field **recs,void *dst,int nfields);
 void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *ctx,u32 mode,struct Record *src);
 int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *ctx);
@@ -2147,7 +2104,7 @@ void WIFIBATTLEMATCH_NET_TaskStepE(unsigned sys, int *state, char *task)
 void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *task)
 {
     char *params = (char *)P(task, 0x40);
-    Rec84_021D4240 rec;
+    Rec84 rec;
     void *list;
     int result;
     switch (*state) {
@@ -2223,7 +2180,7 @@ void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *task)
         break;
     case 8:
         MI_CpuFill8(&rec, 0, 0x54);
-        rec.data = *(Rec80_021D4240 *)((int *)P(task, 0x40))[9];
+        rec.data = *(Rec80 *)((int *)P(task, 0x40))[9];
         rec.last = *(u32 *)((int *)P(task, 0x40))[10];
         WIFIBATTLEMATCH_NET_SetupGdbUpload((u8 *)P(task, 0x30), 3, (struct Record *)(&rec));
         *state = 9;
@@ -3392,7 +3349,7 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *task, u32 mode)
 {
     u32 sys;
     int base,flag;
-    Desc_021D4240 desc;
+    BoxWindowDesc desc;
     if(task[6]==0) {
         sys=(u32)GAME_DATA_GetMyStatus((void *)REC(task)[0]);
         base=WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)task[0]);
@@ -4270,7 +4227,7 @@ void WIFIBATTLEMATCH_NET_CompStepD(u32 sys,int *state,char *comp)
     char *record;
     void *box;
     u32 save,party,mask;
-    Request_021D76D4 request;
+    Request request;
     switch(*state) {
     case 0: WIFIBATTLEMATCH_NET_SetupCompRecord((struct WifiBattleMatchComp *)comp); WIFIBATTLEMATCH_NET_StartTradeIconAnim(comp,2); WIFIBATTLEMATCH_NET_SetupCompCard(comp); *state=1; break;
     case 1: result=1; result &= WIFIBATTLEMATCH_NET_IsTradeIconReady(comp); result &= WIFIBATTLEMATCH_NET_IsRegSpriteReady(comp); if(result) *state=2; break;
@@ -5030,7 +4987,7 @@ void WIFIBATTLEMATCH_NET_CompStepF(u32 sys, int *state, struct WifiBattleMatchCo
 void WIFIBATTLEMATCH_NET_CompStepG(u32 sys,int *state,char *comp)
 {
     char *params=*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx;
-    Rec84_021D76D4 rec;
+    Rec84 rec;
     void *list;
     int result;
     switch(*state) {
@@ -5073,7 +5030,7 @@ void WIFIBATTLEMATCH_NET_CompStepG(u32 sys,int *state,char *comp)
         }break;
     case 7:if(**(u32 * *)&((struct WifiBattleMatchParams *)params)->statPtr==0) {
         MI_CpuFill8(&rec,0,84);
-        rec.data=**(Rec80_021D76D4 * *)&((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx))->recData;
+        rec.data=**(Rec80 * *)&((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx))->recData;
         rec.last=**(u32 * *)&((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx))->recLast;
         WIFIBATTLEMATCH_NET_SetupGdbUpload((u8 *)(*(char * *)&((struct WifiBattleMatchComp *)comp)->net),3,(struct Record *)(&rec));*state=8;
         }break;
@@ -5341,7 +5298,7 @@ void WIFIBATTLEMATCH_NET_CompStepM(u32 sys,int *state,char *comp)
     struct RTCDate endDate;
     struct RTCDate nowDate;
     struct RTCTime nowTime;
-    struct Request_021D8EC8 req;
+    Request req;
     struct Reg2 *reg;
     struct WifiBattleMatchComp *box;
     int got;
@@ -5407,7 +5364,7 @@ void WIFIBATTLEMATCH_NET_CompStepM(u32 sys,int *state,char *comp)
 void WIFIBATTLEMATCH_NET_CompStepN(u32 sys,int *state,char *comp) {
     char *params=*(char * *)&((struct WifiBattleMatchComp *)comp)->ctx;
     int result;
-    Request_021D8EC8 request;
+    Request request;
     switch(*state) {
     case 0:
         result=((struct WifiBattleMatchSession *)(*(char * *)&((struct WifiBattleMatchParams *)params)->session))->subState;
@@ -5874,19 +5831,19 @@ void WIFIBATTLEMATCH_NET_CopyCompBox(char *dest, char *ctx)
  */
 void WIFIBATTLEMATCH_NET_CopyCompSave(char *dst, char *obj)
 {
-    u32 saveCtrl = (u32)GAME_DATA_GetSaveControl((struct Big *)(*(*(struct Save_021D9A50 * *)&((struct WifiBattleMatchComp *)obj)->ctx)->sav));
+    u32 saveCtrl = (u32)GAME_DATA_GetSaveControl((struct Big *)(*(*(struct WifiBattleMatchParams * *)&((struct WifiBattleMatchComp *)obj)->ctx)->save));
     u32 card;
 
-    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*(*(struct Save_021D9A50 * *)&((struct WifiBattleMatchComp *)obj)->ctx)->sav)), dst);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*(*(struct WifiBattleMatchParams * *)&((struct WifiBattleMatchComp *)obj)->ctx)->save)), dst);
     MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8(saveCtrl), 0, (struct Rec0200E6FC *)(dst + 0x38));
     {
-        const struct Save_021D9A50 *s = *(struct Save_021D9A50 * *)&((struct WifiBattleMatchComp *)obj)->ctx;
-        ((struct WifiBattleMatchStatRecord *)dst)->keyDBase = s->blk[2];
-        ((struct WifiBattleMatchStatRecord *)dst)->keyDDelta = s->blk[3];
-        ((struct WifiBattleMatchStatRecord *)dst)->keyA = s->blk[4];
+        const struct WifiBattleMatchParams *s = *(struct WifiBattleMatchParams * *)&((struct WifiBattleMatchComp *)obj)->ctx;
+        ((struct WifiBattleMatchStatRecord *)dst)->keyDBase = s->sub->keyDBase;
+        ((struct WifiBattleMatchStatRecord *)dst)->keyDDelta = s->sub->keyDDelta;
+        ((struct WifiBattleMatchStatRecord *)dst)->keyA = s->sub->keyA;
     }
     ((struct WifiBattleMatchStatRecord *)dst)->netId = WIFIBATTLEMATCH_NET_GetNetId((char *)(*(u32 *)&((struct WifiBattleMatchComp *)obj)->net));
-    ((struct WifiBattleMatchStatRecord *)dst)->gsProfileId = WIFILIST_GetGsProfileId((void *)GAME_DATA_GetField1A0((const struct BigObj *)(*(*(struct Save_021D9A50 * *)&((struct WifiBattleMatchComp *)obj)->ctx)->sav)));
+    ((struct WifiBattleMatchStatRecord *)dst)->gsProfileId = WIFILIST_GetGsProfileId((void *)GAME_DATA_GetField1A0((const struct BigObj *)(*(*(struct WifiBattleMatchParams * *)&((struct WifiBattleMatchComp *)obj)->ctx)->save)));
     card = ((struct WifiBattleMatchComp *)obj)->card;
     ((struct WifiBattleMatchStatRecord *)dst)->cardValue = REGULATION_Card_GetValue((struct Reg2 *)card, 2);
     ((struct WifiBattleMatchStatRecord *)dst)->crc = REGULATION_Card_CalcCrc((struct Reg2 *)card);
@@ -7675,10 +7632,10 @@ void WIFIBATTLEMATCH_NET_SetupGdbRecord(char *ctx)
 /*
  * Storage-server records callback: forwards the records to the user callback at +0x17c, then, when no record id is pending (+0x1b0 == -1), scans every field of every record for the id field and stores its value through the pointer at +0x1464.
  */
-void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field_021DADAC **recs, char *obj)
+void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field **recs, char *obj)
 {
     int i, j;
-    struct Field_021DADAC *f;
+    struct Field *f;
 
     (*(RecordsFn *)(obj + 0x17c))(count, recs, ((struct WifiBattleMatchNetCtx *)obj)->gdbArg, ((struct WifiBattleMatchNetCtx *)obj)->fieldCount);
     if (((struct WifiBattleMatchNetCtx *)obj)->gdbTarget != -1)
@@ -7687,7 +7644,7 @@ void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field_021DADAC **recs, 
         for (j = 0; j < ((struct WifiBattleMatchNetCtx *)obj)->fieldCount; j++) {
             f = &recs[i][j];
             if (GF_STANDARD_CompareString(f->name, d_021E2F70) == 0)
-                **(u32 * *)&((struct WifiBattleMatchNetCtx *)obj)->netIdPtr = f->value;
+                **(u32 * *)&((struct WifiBattleMatchNetCtx *)obj)->netIdPtr = f->payload.value;
         }
     }
 }
@@ -7698,33 +7655,33 @@ void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field_021DADAC **recs, 
 
 
 
-void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field_021DB7C0 **fields,char *ctx,int n) {
+void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field **fields,char *ctx,int n) {
     int i,j;
-    struct Field_021DB7C0 *f;
+    struct Field *f;
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
-            if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(9))) ((struct RegDataA *)ctx)->regField9=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(10))) ((struct RegDataA *)ctx)->regField10=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(12))) ((struct RegDataA *)ctx)->regField12=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(11))) ((struct RegDataA *)ctx)->regField11=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(13))) ((struct RegDataA *)ctx)->regField13=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(14))) ((struct RegDataA *)ctx)->regField14=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(15))) ((struct RegDataA *)ctx)->regField15=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(16))) ((struct RegDataA *)ctx)->regField16=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(17))) ((struct RegDataA *)ctx)->regField17=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(18))) ((struct RegDataA *)ctx)->regField18=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(19))) ((struct RegDataA *)ctx)->regField19=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(20))) ((struct RegDataA *)ctx)->regField20=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(21))) ((struct RegDataA *)ctx)->regField21=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(22))) ((struct RegDataA *)ctx)->regField22=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(23))) ((struct RegDataA *)ctx)->regField23=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(3))) ((struct RegDataA *)ctx)->regField3=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(24))) ((struct RegDataA *)ctx)->regField24=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,d_021E2F4C)) ((struct RegDataA *)ctx)->regExtraA=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,d_021E2F60)) ((struct RegDataA *)ctx)->regExtraB=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,d_021E2F7C)) ((struct RegDataA *)ctx)->regExtraC=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,d_021E2F70)) ((struct RegDataA *)ctx)->regExtraD=f->value;
+            if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(9))) ((struct RegDataA *)ctx)->regField9=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(10))) ((struct RegDataA *)ctx)->regField10=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(12))) ((struct RegDataA *)ctx)->regField12=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(11))) ((struct RegDataA *)ctx)->regField11=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(13))) ((struct RegDataA *)ctx)->regField13=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(14))) ((struct RegDataA *)ctx)->regField14=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(15))) ((struct RegDataA *)ctx)->regField15=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(16))) ((struct RegDataA *)ctx)->regField16=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(17))) ((struct RegDataA *)ctx)->regField17=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(18))) ((struct RegDataA *)ctx)->regField18=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(19))) ((struct RegDataA *)ctx)->regField19=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(20))) ((struct RegDataA *)ctx)->regField20=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(21))) ((struct RegDataA *)ctx)->regField21=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(22))) ((struct RegDataA *)ctx)->regField22=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(23))) ((struct RegDataA *)ctx)->regField23=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(3))) ((struct RegDataA *)ctx)->regField3=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(24))) ((struct RegDataA *)ctx)->regField24=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F4C)) ((struct RegDataA *)ctx)->regExtraA=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F60)) ((struct RegDataA *)ctx)->regExtraB=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F7C)) ((struct RegDataA *)ctx)->regExtraC=f->payload.value;
+            else if(!GF_STANDARD_CompareString(f->name,d_021E2F70)) ((struct RegDataA *)ctx)->regExtraD=f->payload.value;
         }
     }
 }
@@ -7735,10 +7692,10 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field_021DB7C0 **fields
 
 
 
-void WIFIBATTLEMATCH_NET_GdbCopyFieldsB(int count,struct Field_021DBA00 **fields,u8 *ctx,int n)
+void WIFIBATTLEMATCH_NET_GdbCopyFieldsB(int count,struct Field **fields,u8 *ctx,int n)
 {
     int i,j;
-    const struct Field_021DBA00 *f;
+    const struct Field *f;
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
@@ -7779,15 +7736,15 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldC(int count, char **rows, int *out, int wid
 
 
 
-void WIFIBATTLEMATCH_NET_GdbCopyFieldD(int count,struct Field_021DBB54 **recs,void *dst,int nfields)
+void WIFIBATTLEMATCH_NET_GdbCopyFieldD(int count,struct Field **recs,void *dst,int nfields)
 {
     int i,j;
-    struct Field_021DBB54 *f;
+    struct Field *f;
     for(i=0;i<count;i++){
         for(j=0;j<nfields;j++){
             f=&recs[i][j];
             if(GF_STANDARD_CompareString(f->name,d_021E2F8C)==0)
-                MI_CpuCopy8(f->value,dst,f->size);
+                MI_CpuCopy8(f->payload.ptr,dst,f->payload.blob.size);
         }
     }
 }
@@ -7803,7 +7760,7 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldE(int count,struct Field **recs,void *dst,i
         for(j=0;j<nfields;j++){
             f=&recs[i][j];
             if(GF_STANDARD_CompareString(f->name,d_021E2F38)==0)
-                MI_CpuCopy8(f->value,dst,f->size);
+                MI_CpuCopy8(f->payload.ptr,dst,f->payload.blob.size);
         }
     }
 }

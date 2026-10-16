@@ -213,7 +213,7 @@ void STA_ACT_SCRIPT_Update(char *p)
             for (i = 0; i < 10; i++) {
                 char *q;
                 q = *(char **)(p + 0xc + i * 4);
-                if (q != 0 && (((struct TargetBank *)q)->f16 & 2) && (((struct TargetBank *)q)->f16 & 4)) ((struct TargetBank *)q)->f16 ^= 4;
+                if (q != 0 && (((struct ScriptEntry *)q)->f16 & 2) && (((struct ScriptEntry *)q)->f16 & 4)) ((struct ScriptEntry *)q)->f16 ^= 4;
             }
         }
         TCB_Main(((struct ScriptSystem *)p)->f4);
@@ -244,25 +244,25 @@ void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag)
 char *STA_ACT_SCRIPT_AddScriptFromTable(char *p, char *base, unsigned index, unsigned char flag)
 {
     char *q = STA_ACT_SCRIPT_AddScript(p, base + *(unsigned *)(base + index * 4), 0);
-    *(char * *)&((struct TargetBank *)q)->fC = base;
-    ((struct TargetBank *)q)->f16 |= 8;
-    ((struct TargetBank *)q)->f18 = flag;
+    *(char * *)&((struct ScriptEntry *)q)->fC = base;
+    ((struct ScriptEntry *)q)->f16 |= 8;
+    ((struct ScriptEntry *)q)->f18 = flag;
     return q;
 }
 
 int STA_ACT_SCRIPT_RunScript(void *unused, char *p)
 {
-    if (((struct TargetBank *)p)->f14 != 0) (((struct TargetBank *)p)->f14)--;
-    if (((struct TargetBank *)p)->f14 == 0 && !(((struct TargetBank *)p)->f16 & 4)) {
-        VM_Control(((struct TargetBank *)p)->f4);
-        if (((struct TargetBank *)p)->f16 & 1) {
-            func_02011290(((struct TargetBank *)p)->f4);
-            VM_Delete(((struct TargetBank *)p)->f4);
-            if (((struct TargetBank *)p)->f16 & 8) func_020307B0(((struct TargetBank *)p)->fC);
+    if (((struct ScriptEntry *)p)->f14 != 0) (((struct ScriptEntry *)p)->f14)--;
+    if (((struct ScriptEntry *)p)->f14 == 0 && !(((struct ScriptEntry *)p)->f16 & 4)) {
+        VM_Control(((struct ScriptEntry *)p)->f4);
+        if (((struct ScriptEntry *)p)->f16 & 1) {
+            func_02011290(((struct ScriptEntry *)p)->f4);
+            VM_Delete(((struct ScriptEntry *)p)->f4);
+            if (((struct ScriptEntry *)p)->f16 & 8) func_020307B0(((struct ScriptEntry *)p)->fC);
             return 1;
         }
     }
-    (((struct TargetBank *)p)->f10)++;
+    (((struct ScriptEntry *)p)->f10)++;
     return 0;
 }
 

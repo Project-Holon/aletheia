@@ -1,7 +1,7 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: GFL_NET_ERR_PollNetState, func_0200F300, func_0200F34C, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, func_0200F520, func_0200F594, GFL_NET_ERR_InsertFriend, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, func_0200FB6C, func_0200FBA0, func_0200FBB0, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics
+ * function: GFL_NET_ERR_PollNetState, func_0200F300, func_0200F34C, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, func_0200F520, func_0200F594, GFL_NET_ERR_InsertFriend, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, func_0200FB6C, func_0200FBA0, func_0200FBB0, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
  * address:  0x0200F2D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -95,6 +95,23 @@
  *   sWifiPollLatch    0x02146178  data
  *   GFL_NET_Main  0x0203CF5C  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
+ *   sNetErrMessageIdsDS   0x0209DEB0  data
+ *   sNetErrMessageIdsTwl   0x0209DED0  data
+ *   MIi_CpuClear16    0x02082A48  arm
+ *   BMP_CreateFromVram     0x02043754  arm
+ *   WORDSET_CreateDefault     0x0201EC64  thumb
+ *   GF_FONT_Create     0x0201D7EC  thumb
+ *   func_02045B38     0x02045B38  arm
+ *   WORDSET_SetSlotNumber     0x0201EFA4  thumb
+ *   func_02045EC0     0x02045EC0  arm
+ *   STRBUF_Create     0x020457B0  arm
+ *   WORDSET_CopyTaggedText     0x0201F250  thumb
+ *   PRINTSYS_PrintColor     0x0201C7D0  thumb
+ *   MSGDATA_Delete     0x02045C04  arm
+ *   GF_FONT_Delete     0x0201D83C  thumb
+ *   WORDSET_DeleteStrbufED04     0x0201ED04  thumb
+ *   BMP_Delete     0x020437AC  arm
  */
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
@@ -397,6 +414,29 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex);
 extern NetErrWork gNetErrWork;
 extern struct NetErrScreenRes sNetErrScreenRes[];
 extern unsigned char sWifiPollLatch;
+
+extern u32 APP_ENV_IsRunOnTwl(void);
+extern const u16 sNetErrMessageIdsDS[];
+extern const u16 sNetErrMessageIdsTwl[];
+struct Bmp;
+struct WordSet;
+struct MsgBank;
+struct GfFont;
+extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
+extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flag);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16String *STRBUF_Create(u32 capacity, u32 heapId);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
+extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern u32 GF_FONT_Delete(void *ptr);
+extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern void BMP_Delete(struct Bmp *bmp);
+u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a);
 
 #define GFL_NET_ERR_IS_ACTIVE()  GFL_NET_ERR_IsActive()
 
@@ -1390,4 +1430,120 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
         MIi_CpuCopy16(plttData->colors, (void *)HW_BG_PLTT, NET_ERR_PLTT_BACKUP_SIZE);
     }
     func_020307B0(file);
+}
+
+
+/*
+ * net_err.c's error-code mapper: the reason code of the module's error block
+ * (0x3EE..0x3F7) maps to a fixed message id; anything else indexes one of two
+ * sixteen-entry u16 tables by the module's +0x60 error number, picked by
+ * APP_ENV_IsRunOnTwl().  The case 0x3F7 arm shares case 0x3EE's block.
+ */
+u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a)
+{
+    u32 errorNumber;
+
+    switch (info->reasonCode) {
+    case 0x3ee:
+    case 0x3f7:
+        return 0xd;
+    case 0x3f1:
+        return 0x28;
+    case 0x3f2:
+    case 0x3f3:
+    case 0x3f4:
+    case 0x3f5:
+    case 0x3f6:
+        return 0xe;
+    case 0x3f0:
+        return 0x28;
+    }
+    if (APP_ENV_IsRunOnTwl() != 0) {
+        errorNumber = gNetErrWork.messageId;
+        if (errorNumber >= 0x10) {
+            return 0xb;
+        }
+        return sNetErrMessageIdsTwl[errorNumber];
+    }
+    errorNumber = gNetErrWork.messageId;
+    if (errorNumber >= 0x10) {
+        return 0xb;
+    }
+    return sNetErrMessageIdsDS[errorNumber];
+}
+
+
+/*
+ * Draws net_err.c's error window: tiles BG1's screen with a running character
+ * index, clears the character block to 0x7777, builds a surface, a window
+ * object and a palette, picks the message (0x40 for useGenericMessage == 1;
+ * the mapped error code from GFL_NET_ERR_GetMessageId or the stored +0x60 code
+ * in link modes 1/2/6; else message 1, or 0 unless messageVariant == 1),
+ * prints it and frees everything.
+ */
+void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
+{
+    NetErrWork *errWork = &gNetErrWork;
+    u16 *screen;
+    struct Bmp *bmp;
+    struct WordSet *wordSet;
+    s32 tileX;
+    struct MsgBank *msgBank;
+    u32 messageIndex;
+    void *message;
+    struct U16String *textBuf;
+    s32 tileY;
+    struct GfFont *font;
+    u16 *bg1ScrPtr;
+    u16 tileIndex;
+
+    bg1ScrPtr = G2_GetBG1ScrPtr();
+    screen = bg1ScrPtr;
+    tileIndex = 0x20;
+    for (tileY = 4; tileY < 0x14; tileY++) {
+        for (tileX = 1; tileX < 0x1f; tileX++) {
+            screen[tileY * 0x20 + tileX] = tileIndex;
+            tileIndex = (u16)(tileIndex + 1);
+        }
+    }
+    MIi_CpuClear16(0x7777, (u8 *)G2_GetBG1CharPtr() + 0x400, 0x3c00);
+    bmp = BMP_CreateFromVram((u8 *)G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
+    wordSet = WORDSET_CreateDefault(1);
+    font = GF_FONT_Create(0x17, 0, 0, 0, 1);
+
+    if (useGenericMessage == 1) {
+        msgBank = func_02045B38(0, 2, 0xe8, 1);
+        messageIndex = 0x40;
+    } else {
+        u8 netType = errWork->netType;
+
+        if (netType == 1 || netType == 2 || netType == 6) {
+            WORDSET_SetSlotNumber(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, 1);
+            msgBank = func_02045B38(0, 2, 0xe8, 1);
+            if (errWork->fatalRaised != 0) {
+                messageIndex = errWork->messageId;
+                errWork->fatalRaised = 0;
+            } else {
+                messageIndex = GFL_NET_ERR_GetMessageId(&errWork->errorInfo, errWork->messageId);
+            }
+        } else {
+            WORDSET_SetSlotNumber(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
+            msgBank = func_02045B38(0, 2, 0x52, 1);
+            messageIndex = 1;
+            if (messageVariant != 1) {
+                messageIndex = 0;
+            }
+        }
+    }
+
+    message = func_02045EC0(msgBank, messageIndex);
+    textBuf = STRBUF_Create(0x189, 1);
+    WORDSET_CopyTaggedText(wordSet, textBuf, message);
+    PRINTSYS_PrintColor(bmp, 0, 0, textBuf, font, 0x1167);
+    STRBUF_Delete(textBuf);
+    STRBUF_Delete(message);
+    MSGDATA_Delete(msgBank);
+    GF_FONT_Delete(font);
+    WORDSET_DeleteStrbufED04(wordSet);
+    BMP_Delete(bmp);
 }

@@ -99,7 +99,7 @@ typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32_021C2A3C;
+typedef unsigned int   u32;
 
 typedef unsigned long long u64;
 
@@ -156,14 +156,14 @@ extern void DWCi_COMMENTlDispEx(int a, int b, int c);
 extern int  DWCi_CEINlSetExObj(int a, int b);
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned char *DWCi_Char(unsigned char *name);
-extern void *DWCi_ARClReadEx(char *path, u32_021C2A3C *size, int alignment);
+extern void *DWCi_ARClReadEx(char *path, u32 *size, int alignment);
 extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32_021C2A3C size);
-extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32_021C2A3C nBytes);
-extern void GX_LoadBGPltt(const void *pSrc, u32_021C2A3C offset, u32_021C2A3C szByte);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);
+extern void GX_LoadBGPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void DWCi_ARClRelease(void *file);
-extern void GX_LoadBG2Char(const void *pSrc, u32_021C2A3C offset, u32_021C2A3C szByte);
-extern void GX_LoadBG2Scr(const void *pSrc, u32_021C2A3C offset, u32_021C2A3C szByte);
+extern void GX_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte);
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
@@ -230,7 +230,7 @@ void DWCi_SceneOptMenu(void)
     DWCi_COMMENTlDispEx(0x39, -1, 0);
     gSceneOptMenuState.obj = (void *)DWCi_CEINlSetExObj(0, 0x5b);
     q = (int)gSceneOptMenuState.obj;
-    *(u32_021C2A3C *)q = (*(u32_021C2A3C *)q & 0xFE00FF00) | 0x84 | 0xE00000;
+    *(u32 *)q = (*(u32 *)q & 0xFE00FF00) | 0x84 | 0xE00000;
     q = (int)gSceneOptMenuState.obj;
     *(u16 *)(q + 4) = (*(u16 *)(q + 4) & ~0xC00) | 0xC00;
     i = gSceneOptMenuState.idx;

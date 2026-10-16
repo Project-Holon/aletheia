@@ -1,7 +1,7 @@
 /*
  * file:     regulation.c
  * unit:     yes
- * function: REGULATION_GetCompetitionSize, REGULATION_Create, REGULATION_Copy, REGULATION_NoOp, REGULATION_GetCupName, REGULATION_CreateCupName, REGULATION_GetRuleValue, REGULATION_SetRuleValue, REGULATION_GetVetoBit, REGULATION_GetShooterSettings, REGULATION_Card_GetCupName, REGULATION_Card_GetValue, REGULATION_Card_SetValue, REGULATION_Card_IsCrcValid, REGULATION_Card_CalcCrc, REGULATION_GetCard, REGULATION_SetCard, REGULATION_InitParty, REGULATION_GetParty, REGULATION_Party_GetValue, REGULATION_Party_SetValue
+ * function: REGULATION_GetCompetitionSize, REGULATION_Create, REGULATION_Copy, REGULATION_NoOp, REGULATION_GetCupName, REGULATION_CreateCupName, REGULATION_GetRuleValue, REGULATION_SetRuleValue, REGULATION_GetVetoBit, REGULATION_GetShooterSettings, REGULATION_Card_GetCupName, REGULATION_Card_GetValue, REGULATION_Card_SetValue, REGULATION_Card_IsCrcValid, REGULATION_Card_CalcCrc, REGULATION_GetCard, REGULATION_SetCard, REGULATION_InitParty, REGULATION_GetParty, REGULATION_Party_GetValue, REGULATION_Party_SetValue, REGULATION_BuildParty, BATTLE_COMPETITION_Init, BATTLE_COMPETITION_GetFromSave
  * address:  0x0200ADE8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -27,6 +27,15 @@
 struct MsgBank;
 
 struct U16Vec;
+
+struct Party;
+
+struct SaveControl;
+
+/* A party Pokemon (0xDC bytes), addressed as words; only a pointer passes here. */
+struct PokeParam {
+    u32 data[0x37];
+};
 
 typedef signed char    s8;
 
@@ -117,6 +126,14 @@ extern u32  MSGDATA_Delete(struct MsgBank *bank);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
+extern u32 POKEPARTY_GetCount(struct Party *party);
+
+extern struct PokeParam *POKEPARTY_GetMember(struct Party *party, u32 index);
+
+extern u32 POKE_TOOL_GetPartyValue(struct PokeParam *mon, u32 param, u32 arg);
+
+extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+
 u32 REGULATION_GetCompetitionSize(void);
 
 struct Regulation *REGULATION_Create(u32 heapId);
@@ -158,6 +175,12 @@ struct RegulationParty *REGULATION_GetParty(struct BattleCompetitionSave *compet
 s32 REGULATION_Party_GetValue(struct RegulationParty *party, u32 id, u8 member);
 
 void REGULATION_Party_SetValue(struct RegulationParty *party, int id, u8 member, s32 value);
+
+void REGULATION_BuildParty(struct RegulationParty *dest, struct Party *party);
+
+void BATTLE_COMPETITION_Init(struct BattleCompetitionSave *competition);
+
+struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save);
 
 extern const char func_0200ADF0_File[];
 
@@ -376,4 +399,36 @@ void REGULATION_Party_SetValue(struct RegulationParty *party, int id, u8 member,
     case 2: party->hasItemBits |= (u8)((value == 1) << member); break;
     case 3: party->femaleBits |= (u8)((value == 1) << member); break;
     }
+}
+
+/*
+ * Rebuild the four per-slot fields for every entry the accessor count reports;
+ * the count is a call, so it is re-evaluated on the loop back-edge, and the
+ * third argument of every accumulate call is truncated to u8.
+ */
+void REGULATION_BuildParty(struct RegulationParty *dest, struct Party *party)
+{
+    int i;
+
+    REGULATION_InitParty(dest);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        struct PokeParam *mon = POKEPARTY_GetMember(party, i);
+
+        if (POKE_TOOL_GetPartyValue(mon, 0xa9, 0) != 0) {
+            REGULATION_Party_SetValue(dest, 0, i, POKE_TOOL_GetPartyValue(mon, 5, 0));
+            REGULATION_Party_SetValue(dest, 1, i, POKE_TOOL_GetPartyValue(mon, 0x6f, 0));
+            REGULATION_Party_SetValue(dest, 2, i, POKE_TOOL_GetPartyValue(mon, 6, 0) != 0);
+            REGULATION_Party_SetValue(dest, 3, i, POKE_TOOL_GetPartyValue(mon, 0x6e, 0));
+        }
+    }
+}
+
+void BATTLE_COMPETITION_Init(struct BattleCompetitionSave *competition)
+{
+    MI_CpuFill8(competition, 0, sizeof(struct BattleCompetitionSave));
+}
+
+struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save)
+{
+    return func_020071CC(save, 0x2F);
 }

@@ -114,7 +114,6 @@ struct Sub020079BCEntry;
 struct Bmp;
 struct Sys;
 struct Bmp;
-struct Struct_02025D1C;
 struct CursorMoveObj;
 struct Sound;
 struct Ctx;
@@ -128,9 +127,7 @@ typedef signed short   s16;
 
 struct Param {void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12;u32 f14;};
 
-typedef struct { unsigned a, b; } Pair_021EE2C4;
-
-typedef struct { unsigned a; unsigned b; } Pair_021EE364;
+typedef struct { unsigned a, b; } U32Pair;
 
 typedef struct { unsigned char a, b, pad[10]; } E;
 
@@ -186,7 +183,7 @@ extern void BMP_OAM_DeleteSys(void *p);
 extern int BMP_OAM_GetEnabled(const int *p);
 extern u8 func_020355C4(void);
 extern struct CursorMoveObj *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
-extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *obj);
+extern void CURSOR_MOVE_EnableInput(struct CursorMoveObj *obj);
 extern void BOX2_SEQ_SetCursorDraw(char **, int);
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 extern void CURSOR_MOVE_Delete(void);
@@ -353,7 +350,7 @@ void BOX2_UI_CloseInfoBar(struct WinMgr *mgr);
 extern const Desc d_021EFD1C;
 extern const unsigned char g_021EFCEC[];
 extern const short d_021EFCD8[];
-extern const Pair_021EE2C4 d_021F02F0[];
+extern const U32Pair d_021F02F0[];
 extern const unsigned char d_021F0188[];
 extern E d_021F0DCC[];
 extern E d_021F0370[];

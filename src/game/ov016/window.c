@@ -69,15 +69,12 @@
  */
 #include "../../matched/include/G_MemWinT.h"
 #include "../../matched/include/G_CoordT.h"
-#include "../../matched/include/G_021DAA2E.h"
 
 struct tagCOORD;
 struct tagRECT;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
-
-typedef unsigned long u32_021D1208;
 
 typedef unsigned char bool;
 
@@ -101,8 +98,6 @@ struct tagMEMWIN {
     char pad2[0x1d - 0x18];
     unsigned char count;         /* 0x1d */
 };
-
-typedef unsigned int   u32_021D1598;
 
 typedef struct { u16 x; u16 y; } CoordT;
 
@@ -132,7 +127,7 @@ extern void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, bool effect);
 extern void DWCi_GXlSetWndPosition(int lcd, int wnd, void *r);
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 void DWCi_TSKlDelete(int kind, void *task);
-extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32_021D1598 addr, int brightness);
+extern void DWCi_WindowG2x_ChangeBlendBrightness_(unsigned int addr, int brightness);
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void DWCi_Coord2Rect(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
@@ -163,7 +158,7 @@ extern u16 sWindowTable10[];
 extern u16 sWindowTable3[4];
 extern struct tagMEMWIN *MemWin;
 extern struct CoordT sWindowTable11[];
-extern struct G_021DAA2E sWindowTable14[][2];
+extern struct CoordT sWindowTable14[][2];
 extern u8 sWindowTable4[][2];
 extern CoordT sWindowTable8[];
 extern signed char sWindowTable5[][2];
@@ -237,7 +232,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     DWCi_GXlSetWndPosition(0, 1, sWindowTable3);
 
     disp(0xc0);
-    *(volatile u32_021D1208 *)0x04000000 = (*(volatile u32_021D1208 *)0x04000000 & ~0xE000) | 0x6000;
+    *(volatile unsigned long *)0x04000000 = (*(volatile unsigned long *)0x04000000 & ~0xE000) | 0x6000;
 
     if (dark)
         gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskV, 0, 0x78);

@@ -58,6 +58,7 @@
  *   gDwcNodeAidList  0x021AA880  data
  *   gDwcConnectionArray  0x021AA8A0  data
  *   gDwcNodeInfoBuffer  0x021AA920  data
+ *   DWCi_GetMathRand32  0x021685CC  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
@@ -167,7 +168,7 @@ extern void DWCi_SetMatchStatus(int state);
 extern void DWCi_CloseMatch(void);
 extern void gt2CloseAllConnectionsHard(int *p);
 extern DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
-extern unsigned long func_021685CC(unsigned long max);
+extern unsigned long DWCi_GetMathRand32(unsigned long max);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern int gt2CreateSocket(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void *callback);
 extern void gt2Listen(void *socket, void *callback);
@@ -824,7 +825,7 @@ int DWCi_GT2Startup(void)
 
 	if (gDwcGlobalState.st->gt2Socket != 0)
 		return 0;
-	baseport = func_021685CC(0x4000) + 0xc000;
+	baseport = DWCi_GetMathRand32(0x4000) + 0xc000;
 	gt2Result = gt2CreateSocket(&gDwcGlobalState.st->gt2Socket, gt2AddressToString(0, baseport, 0), gDwcGlobalState.st->sendBufSize, gDwcGlobalState.st->recvBufSize, DWCi_GT2SocketErrorCallback);
 	if (DWCi_HandleGT2Error(gt2Result))
 		return gt2Result;

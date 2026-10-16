@@ -1,8 +1,8 @@
 /*
  * file:     battle_rec.c
  * unit:     yes
- * function: REGULATION_BuildParty, BATTLE_COMPETITION_Init, BATTLE_COMPETITION_GetFromSave, GIMMICK_WORK_GetSize, GIMMICK_WORK_Init, GIMMICK_WORK_Reset, GIMMICK_WORK_InitWithId, GIMMICK_WORK_GetWork, GIMMICK_WORK_GetSubWork, GIMMICK_WORK_GetId, GIMMICK_WORK_Save, GIMMICK_WORK_Load, BATTLE_REC_Create, BATTLE_REC_AllocWork, BATTLE_REC_FreeWork, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize, BATTLE_REC_Clear, BATTLE_REC_IsDataExist, BATTLE_REC_ClearWork, BATTLE_REC_DecodeWork, BATTLE_REC_EncodeWork, BATTLE_REC_LoadToWork, BATTLE_REC_Load, BATTLE_REC_LoadAlloc, BATTLE_REC_CheckSaved, BATTLE_REC_SaveSeq, BATTLE_REC_BeginSave, BATTLE_REC_GetModeLayout, BATTLE_REC_MakeHeader, BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid, BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody, BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf, BATTLE_REC_SetData, BATTLE_REC_GetHeaderParam, BATTLE_REC_IsVersionSupported, BATTLE_REC_SetBodyCrc, BATTLE_REC_LoadToolOverlay, BATTLE_REC_UnloadToolOverlay, BATTLE_BOX_GetSize, BATTLE_BOX_Init, BATTLE_BOX_GetFromSave, BATTLE_BOX_SetMon, BATTLE_BOX_CreateParty, BATTLE_BOX_StoreParty, BATTLE_BOX_HasMon, BATTLE_BOX_SetLockFlags, BATTLE_BOX_ClearLockFlags, BATTLE_BOX_GetMon, BATTLE_BOX_IsLocked, DAYCARE_SetEggReady, DAYCARE_ClearEggReady, DAYCARE_GetSlotMon, DAYCARE_SetSlotMon, DAYCARE_ClearSlot, DAYCARE_GetEggReady, DAYCARE_IsSlotInUse, DAYCARE_GetInUseCount, DAYCARE_GetSlotSteps, DAYCARE_SwapSlots, DAYCARE_AddSteps, DAYCARE_GetSize, DAYCARE_Init, DAYCARE_GetFromSave, INTRUDE_GetSize, INTRUDE_Init, INTRUDE_InitOccupy, INTRUDE_GetMissionScore, INTRUDE_GetMissionBonusScore, INTRUDE_AddMissionScore, INTRUDE_AddMissionBonusScore, INTRUDE_GetFromSave, INTRUDE_StoreOccupy, INTRUDE_LoadOccupy, INTRUDE_AddLogEntry, INTRUDE_SetMonolithLevel, INTRUDE_GetMonolithLevel, INTRUDE_SetObtainedFlag, INTRUDE_GetObtainedFlags, INTRUDE_GetMissionClearCount, INTRUDE_IncrementMissionClearCount, INTRUDE_GetPlaySeconds, INTRUDE_UpdatePlaySeconds, BEACON_GetSize, BEACON_Init, BEACON_GetFromSave, BEACON_GetBlock, BEACON_SetInputFlag, BEACON_GetInputFlag, BEACON_ClearInputFlags, BEACON_SetSelect, BEACON_GetSelect, BEACON_GetBestScore, BEACON_SetBestScore, BEACON_GetRank, BEACON_SetRank, BEACON_GetGreetCount, BEACON_IncrementGreetCount, BEACON_GetThanksCount, BEACON_IncrementThanksCount, BEACON_GetGreetMessage, BEACON_SetGreetMessage, BEACON_GetThanksMessage, BEACON_SetThanksMessage, BEACON_GetMode, BEACON_SetMode, BEACON_GetFlag, BEACON_SetFlag, BEACON_CountFlags, BEACON_GetPoints, BEACON_AddPoints, BEACON_SubPoints, BEACON_SetTeam, BEACON_GetTeam, BEACON_SetSlotState, BEACON_GetSlotState, BEACON_GetSlotStates, BEACON_SetSlotStates, BEACON_GetEntryCount, BEACON_SetEntryCount, BEACON_GetRecentId, BEACON_SetRecentId, BEACON_GetRecentValue, BEACON_SetRecentValue, BEACON_AddRecentValue, BEACON_GetLastTime, BEACON_SetLastTime, BEACON_SetHashedId, BEACON_GetHashedId, BEACON_GetGatePoints, BEACON_SetGatePoints, BEACON_SubGatePoints, BEACON_GetRecorderFlag, BEACON_SetRecorderFlag
- * address:  0x0200B2A4
+ * function: GIMMICK_WORK_GetSize, GIMMICK_WORK_Init, GIMMICK_WORK_Reset, GIMMICK_WORK_InitWithId, GIMMICK_WORK_GetWork, GIMMICK_WORK_GetSubWork, GIMMICK_WORK_GetId, GIMMICK_WORK_Save, GIMMICK_WORK_Load, BATTLE_REC_Create, BATTLE_REC_AllocWork, BATTLE_REC_FreeWork, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize, BATTLE_REC_Clear, BATTLE_REC_IsDataExist, BATTLE_REC_ClearWork, BATTLE_REC_DecodeWork, BATTLE_REC_EncodeWork, BATTLE_REC_LoadToWork, BATTLE_REC_Load, BATTLE_REC_LoadAlloc, BATTLE_REC_CheckSaved, BATTLE_REC_SaveSeq, BATTLE_REC_BeginSave, BATTLE_REC_GetModeLayout, BATTLE_REC_MakeHeader, BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid, BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody, BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf, BATTLE_REC_SetData, BATTLE_REC_GetHeaderParam, BATTLE_REC_IsVersionSupported, BATTLE_REC_SetBodyCrc, BATTLE_REC_LoadToolOverlay, BATTLE_REC_UnloadToolOverlay, BATTLE_BOX_GetSize, BATTLE_BOX_Init, BATTLE_BOX_GetFromSave, BATTLE_BOX_SetMon, BATTLE_BOX_CreateParty, BATTLE_BOX_StoreParty, BATTLE_BOX_HasMon, BATTLE_BOX_SetLockFlags, BATTLE_BOX_ClearLockFlags, BATTLE_BOX_GetMon, BATTLE_BOX_IsLocked, DAYCARE_SetEggReady, DAYCARE_ClearEggReady, DAYCARE_GetSlotMon, DAYCARE_SetSlotMon, DAYCARE_ClearSlot, DAYCARE_GetEggReady, DAYCARE_IsSlotInUse, DAYCARE_GetInUseCount, DAYCARE_GetSlotSteps, DAYCARE_SwapSlots, DAYCARE_AddSteps, DAYCARE_GetSize, DAYCARE_Init, DAYCARE_GetFromSave, INTRUDE_GetSize, INTRUDE_Init, INTRUDE_InitOccupy, INTRUDE_GetMissionScore, INTRUDE_GetMissionBonusScore, INTRUDE_AddMissionScore, INTRUDE_AddMissionBonusScore, INTRUDE_GetFromSave, INTRUDE_StoreOccupy, INTRUDE_LoadOccupy, INTRUDE_AddLogEntry, INTRUDE_SetMonolithLevel, INTRUDE_GetMonolithLevel, INTRUDE_SetObtainedFlag, INTRUDE_GetObtainedFlags, INTRUDE_GetMissionClearCount, INTRUDE_IncrementMissionClearCount, INTRUDE_GetPlaySeconds, INTRUDE_UpdatePlaySeconds, BEACON_GetSize, BEACON_Init, BEACON_GetFromSave, BEACON_GetBlock, BEACON_SetInputFlag, BEACON_GetInputFlag, BEACON_ClearInputFlags, BEACON_SetSelect, BEACON_GetSelect, BEACON_GetBestScore, BEACON_SetBestScore, BEACON_GetRank, BEACON_SetRank, BEACON_GetGreetCount, BEACON_IncrementGreetCount, BEACON_GetThanksCount, BEACON_IncrementThanksCount, BEACON_GetGreetMessage, BEACON_SetGreetMessage, BEACON_GetThanksMessage, BEACON_SetThanksMessage, BEACON_GetMode, BEACON_SetMode, BEACON_GetFlag, BEACON_SetFlag, BEACON_CountFlags, BEACON_GetPoints, BEACON_AddPoints, BEACON_SubPoints, BEACON_SetTeam, BEACON_GetTeam, BEACON_SetSlotState, BEACON_GetSlotState, BEACON_GetSlotStates, BEACON_SetSlotStates, BEACON_GetEntryCount, BEACON_SetEntryCount, BEACON_GetRecentId, BEACON_SetRecentId, BEACON_GetRecentValue, BEACON_SetRecentValue, BEACON_AddRecentValue, BEACON_GetLastTime, BEACON_SetLastTime, BEACON_SetHashedId, BEACON_GetHashedId, BEACON_GetGatePoints, BEACON_SetGatePoints, BEACON_SubGatePoints, BEACON_GetRecorderFlag, BEACON_SetRecorderFlag
+ * address:  0x0200B364
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -70,7 +70,6 @@ struct Party;
 struct MsgData;
 struct StrBuf;
 struct PlayTime;
-struct RegulationParty;
 
 /* A party Pokemon (0xDC bytes) and a boxed Pokemon (0x88 bytes).  Both are
  * declared as words: the copies of them are eight-byte stepped ldm/stm loops. */
@@ -80,12 +79,6 @@ struct PokeParam {
 
 struct BoxMon {
     u32 data[0x22];
-};
-
-/* Save block 0x2F: battle competition data (read by digitalcardcheck,
- * battle_championship_flow and wifibattlematch). */
-struct BattleCompetitionSave {
-    u8 data[0x2FC];
 };
 
 /* Save block 0x30: the field gimmick work.  The id says which gimmick owns the
@@ -201,8 +194,6 @@ struct BeaconSave {
 
 #define BATTLE_REC_MAGIC 0xE281
 
-extern void REGULATION_InitParty(struct RegulationParty *party);
-extern void REGULATION_Party_SetValue(struct RegulationParty *party, int field, u8 slot, s32 value);
 extern u32 POKEPARTY_GetCount(struct Party *party);
 extern struct PokeParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 POKE_TOOL_GetPartyValue(struct PokeParam *mon, u32 param, u32 arg);
@@ -246,9 +237,6 @@ extern u16 GX_GetBankForLCDC(void);
 extern u16 func_0200864C(const struct PlayTime *time);
 extern u8 func_02008650(const struct PlayTime *time);
 extern u8 func_02008654(const struct PlayTime *time);
-void REGULATION_BuildParty(struct RegulationParty *dest, struct Party *party);
-void BATTLE_COMPETITION_Init(struct BattleCompetitionSave *competition);
-struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save);
 u32 GIMMICK_WORK_GetSize(void);
 void GIMMICK_WORK_Init(struct GimmickWork *gimmick);
 void GIMMICK_WORK_Reset(struct GimmickWork *gimmick);
@@ -391,129 +379,22 @@ extern const u16 BattleRecModeTable[];
 extern char ov188_id[];
 extern u64 _PlayTimeLatch;
 
-
-
-
-
-
-
-
-
-
 /*
- * Rebuild the four per-slot fields for every entry the accessor count reports;
- * the count is a call, so it is re-evaluated on the loop back-edge, and the
- * third argument of every accumulate call is truncated to u8.
+ * GIMMICK_WORK_GetSize and GIMMICK_WORK_Init open the 0x94-byte gimmick work
+ * block (save id 0x30); see src/matched/unit_0200B348.c for the original
+ * packet.  They are not recorder code.
  */
-void REGULATION_BuildParty(struct RegulationParty *dest, struct Party *party)
-{
-    int i;
-
-    REGULATION_InitParty(dest);
-    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
-        struct PokeParam *mon = POKEPARTY_GetMember(party, i);
-
-        if (POKE_TOOL_GetPartyValue(mon, 0xa9, 0) != 0) {
-            REGULATION_Party_SetValue(dest, 0, i, POKE_TOOL_GetPartyValue(mon, 5, 0));
-            REGULATION_Party_SetValue(dest, 1, i, POKE_TOOL_GetPartyValue(mon, 0x6f, 0));
-            REGULATION_Party_SetValue(dest, 2, i, POKE_TOOL_GetPartyValue(mon, 6, 0) != 0);
-            REGULATION_Party_SetValue(dest, 3, i, POKE_TOOL_GetPartyValue(mon, 0x6e, 0));
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 52 bytes, 0x0200B348..0x0200B37C, 4 functions, none of which carries a
- * label in the generated listing.
- *
- * GIMMICK_WORK_GetSize returns 0x94 and GIMMICK_WORK_Init clears 0x94 bytes and then
- * writes -1 into the first word, which is the "a block file opens with a
- * function returning its own size, and the constructor clears exactly that"
- * shape this range keeps producing.  The -1 is free: the compiler already
- * has 0x94 in a register for the fill and reaches -1 with `subs r4, #0x95`.
- *
- * This unit starts at 0x0200B348 rather than at the end of
- * src/matched/unit_0200ADB8.c because of a near miss between them:
- * REGULATION_BuildParty, 162 bytes, which walks a list and pushes four fields of each
- * entry into the record through REGULATION_Party_SetValue.  Every instruction is
- * reproduced and the size is right; what differs is that the original keeps
- * the constant 0 alive in r7 for the whole loop (it gets there as a copy of
- * the loop counter's initial value) and therefore rematerialises `(u8)i`
- * before each of the four calls, where this source has one register less in
- * play, common-subexpression-eliminates `(u8)i` into r5 and rematerialises
- * the 0 instead.  The two are the same eighteen instructions per iteration in
- * a different order with every register renumbered.
- *
- * This unit stops at 0x0200B37C because of a near miss there; see
- * src/matched/unit_0200B394.c for what it is.
- */
-void BATTLE_COMPETITION_Init(struct BattleCompetitionSave *competition)
-{
-    MI_CpuFill8(competition, 0, sizeof(struct BattleCompetitionSave));
-}
-
-
-
-
-
-
-
-
-
-
-struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save)
-{
-    return func_020071CC(save, 0x2F);
-}
-
-
-
-
-
-
-
-
-
 
 u32 GIMMICK_WORK_GetSize(void)
 {
     return sizeof(struct GimmickWork);
 }
 
-
-
-
-
-
-
-
-
-
 void GIMMICK_WORK_Init(struct GimmickWork *gimmick)
 {
     MI_CpuFill8(gimmick, 0, sizeof(struct GimmickWork));
     gimmick->id = -1;
 }
-
-
-
-
-
-
-
-
 
 void GIMMICK_WORK_Reset(struct GimmickWork *gimmick)
 {
@@ -523,14 +404,6 @@ void GIMMICK_WORK_Reset(struct GimmickWork *gimmick)
         gimmick->work[i] = 0;
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -566,72 +439,30 @@ s32 *GIMMICK_WORK_InitWithId(struct GimmickWork *gimmick, s32 id)
     return gimmick->work;
 }
 
-
-
-
-
-
-
-
 s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 id)
 {
     return gimmick->work;
 }
-
-
-
-
-
-
-
 
 u8 *GIMMICK_WORK_GetSubWork(struct GimmickWork *gimmick, u32 id)
 {
     return gimmick->subWork;
 }
 
-
-
-
-
-
-
-
 s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmick)
 {
     return gimmick->id;
 }
-
-
-
-
-
-
-
 
 void GIMMICK_WORK_Save(const struct GimmickWork *src, struct SaveControl *save)
 {
     MIi_CpuCopy32(src, func_020071CC(save, 0x30), sizeof(struct GimmickWork));
 }
 
-
-
-
-
-
-
-
 void GIMMICK_WORK_Load(struct SaveControl *save, struct GimmickWork *dest)
 {
     MIi_CpuCopy32(func_020071CC(save, 0x30), dest, sizeof(struct GimmickWork));
 }
-
-
-
-
-
-
-
 
 struct BattleRecSave *BATTLE_REC_Create(u32 heap)
 {
@@ -640,14 +471,6 @@ struct BattleRecSave *BATTLE_REC_Create(u32 heap)
     BATTLE_REC_Clear(rec);
     return rec;
 }
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -685,53 +508,21 @@ void BATTLE_REC_AllocWork(u32 heap)
     pBattleRec = BATTLE_REC_Create(heap);
 }
 
-
-
-
-
-
-
-
-
 void BATTLE_REC_FreeWork(void)
 {
     func_020307B0(pBattleRec);
     pBattleRec = 0;
 }
 
-
-
-
-
-
-
-
-
 void BATTLE_REC_Delete(struct BattleRecSave *rec)
 {
     func_020307B0(rec);
 }
 
-
-
-
-
-
-
-
-
 u32 BATTLE_REC_GetWorkSize(void)
 {
     return sizeof(struct BattleRecSave);
 }
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -770,13 +561,6 @@ void BATTLE_REC_Clear(struct BattleRecSave *rec)
     MIi_CpuClear32(0, rec, sizeof(struct BattleRecSave));
 }
 
-
-
-
-
-
-
-
 u32 BATTLE_REC_IsDataExist(void)
 {
     if (GF_STANDARD_Checksum((const u8 *)(&pBattleRec->body), sizeof(pBattleRec->body))
@@ -786,26 +570,10 @@ u32 BATTLE_REC_IsDataExist(void)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void BATTLE_REC_ClearWork(void)
 {
     BATTLE_REC_Clear(pBattleRec);
 }
-
-
-
-
-
-
-
-
 
 void BATTLE_REC_DecodeWork(void)
 {
@@ -814,28 +582,12 @@ void BATTLE_REC_DecodeWork(void)
     BATTLE_REC_Decode(&pBattleRec->body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
 }
 
-
-
-
-
-
-
-
-
 void BATTLE_REC_EncodeWork(void)
 {
     u16 crc = pBattleRec->body.crc;
 
     BATTLE_REC_Encode(&pBattleRec->body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
 }
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -900,13 +652,6 @@ u32 BATTLE_REC_LoadToWork(struct SaveControl *save, struct BattleRecSave *rec, u
     return 1;
 }
 
-
-
-
-
-
-
-
 u32 BATTLE_REC_Load(struct SaveControl *save, u16 heap, u32 *result, u32 id)
 {
     if (pBattleRec != 0) {
@@ -917,13 +662,6 @@ u32 BATTLE_REC_Load(struct SaveControl *save, u16 heap, u32 *result, u32 id)
     return BATTLE_REC_LoadToWork(save, pBattleRec, heap, result, id);
 }
 
-
-
-
-
-
-
-
 struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u32 *result, u32 id)
 {
     struct BattleRecSave *rec = BATTLE_REC_Create(heap);
@@ -931,12 +669,6 @@ struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u
     BATTLE_REC_LoadToWork(save, rec, heap, result, id);
     return rec;
 }
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -985,11 +717,6 @@ u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 i
     func_020072A4(save, id);
     return 1;
 }
-
-
-
-
-
 
 /*
  * 264 bytes, 0x0200B67C..0x0200B784, 2 functions, both labelled.  Every
@@ -1054,11 +781,6 @@ u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32
     return 0;
 }
 
-
-
-
-
-
 u32 BATTLE_REC_BeginSave(struct GameData *gameData, u16 heap, u32 modeIndex, u32 battleCount, u32 id, u16 *seq, u16 *subSeq)
 {
     struct SaveControl *save;
@@ -1092,12 +814,6 @@ u32 BATTLE_REC_BeginSave(struct GameData *gameData, u16 heap, u32 modeIndex, u32
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1153,12 +869,6 @@ void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members)
     *sides = 2;
     *members = 6;
 }
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1219,12 +929,6 @@ void BATTLE_REC_MakeHeader(struct SaveControl *save, struct BattleRecHeader *hea
     head->version = 100;
 }
 
-
-
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
@@ -1264,11 +968,6 @@ u32 BATTLE_REC_IsMagicBroken(struct SaveControl *save, struct BattleRecSave *rec
     return 0;
 }
 
-
-
-
-
-
 u32 BATTLE_REC_IsValid(struct SaveControl *save, struct BattleRecSave *rec)
 {
     struct BattleRecBody *body = &rec->body;
@@ -1288,12 +987,6 @@ u32 BATTLE_REC_IsValid(struct SaveControl *save, struct BattleRecSave *rec)
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1326,65 +1019,30 @@ void BATTLE_REC_Decode(void *data, u32 size, u32 code)
     GF_STANDARD_ShuffleEx(data, size, code);
 }
 
-
-
-
-
-
-
 void BATTLE_REC_Encode(void *data, u32 size, u32 code)
 {
     GF_STANDARD_Shuffle(data, size, code);
 }
-
-
-
-
-
-
 
 struct BattleRecSave *BATTLE_REC_GetWork(void)
 {
     return pBattleRec;
 }
 
-
-
-
-
-
-
 struct BattleRecBody *BATTLE_REC_GetBody(void)
 {
     return &pBattleRec->body;
 }
-
-
-
-
-
-
 
 struct BattleRecHeader *BATTLE_REC_GetHeader(void)
 {
     return &pBattleRec->head;
 }
 
-
-
-
-
-
-
 struct BattleRecHeader *BATTLE_REC_GetHeaderOf(struct BattleRecSave *rec)
 {
     return &rec->head;
 }
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1419,11 +1077,6 @@ void BATTLE_REC_SetData(const void *profile, const struct BattleRecHeader *head,
     crc = pBattleRec->body.crc;
     BATTLE_REC_Decode(&pBattleRec->body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
 }
-
-
-
-
-
 
 /*
  * A record field getter: selector picks the field, the result is 64-bit.
@@ -1463,10 +1116,6 @@ u64 BATTLE_REC_GetHeaderParam(const struct BattleRecHeader *head, int param, int
     }
     return 0;
 }
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1510,16 +1159,10 @@ u32 BATTLE_REC_IsVersionSupported(u32 version)
     return 0;
 }
 
-
-
-
-
 void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body)
 {
     body->crc = GF_STANDARD_SetupCalc((const u8 *)body, 0x17DC);
 }
-
-
 
 /*
  * Loads overlay 188 (0xBC): a Thumb tail call to the ARM loader through
@@ -1533,8 +1176,6 @@ void BATTLE_REC_LoadToolOverlay(void)
     func_02034AC4((u32)ov188_id);
 }
 
-
-
 /*
  * Unloads overlay 188 (0xBC), the pair of BATTLE_REC_LoadToolOverlay: a Thumb tail call
  * to the ARM unloader through `ldr r3; bx r3`, the id as the overlay-id
@@ -1546,10 +1187,6 @@ void BATTLE_REC_UnloadToolOverlay(void)
 {
     func_02034A5C((u32)ov188_id);
 }
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1579,10 +1216,6 @@ u32 BATTLE_BOX_GetSize(void)
     return sizeof(struct BattleBoxSave);
 }
 
-
-
-
-
 void BATTLE_BOX_Init(struct BattleBoxSave *box)
 {
     u32 i;
@@ -1599,11 +1232,6 @@ void BATTLE_BOX_Init(struct BattleBoxSave *box)
     }
 }
 
-
-
-
-
-
 /*
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
  * witness.  Addresses are Black-image addresses.
@@ -1612,11 +1240,6 @@ struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save)
 {
     return func_020071CC(save, 0x31);
 }
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1642,10 +1265,6 @@ void BATTLE_BOX_SetMon(struct BoxMonGroup *groups, u32 group, u32 index, const s
 {
     groups[group].mon[index] = *src;
 }
-
-
-
-
 
 /*
  * Build a party from the Battle Box members, up to the first empty slot.
@@ -1680,10 +1299,6 @@ struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap)
     return party;
 }
 
-
-
-
-
 /*
  * Clear the six Battle Box slots, then copy each party member in.  The bound
  * of the second loop is a call: POKEPARTY_GetCount(party) is re-invoked at the bottom of
@@ -1702,10 +1317,6 @@ void BATTLE_BOX_StoreParty(struct BoxMonGroup *box, struct Party *party)
     for (i = 0; i < (u32)POKEPARTY_GetCount(party); i++)
         BATTLE_BOX_SetMon(box, group, i, POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i)));
 }
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1740,10 +1351,6 @@ u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box)
     }
     return result;
 }
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1788,24 +1395,15 @@ void BATTLE_BOX_SetLockFlags(struct BattleBoxSave *box, u32 flags)
     box->lockFlags |= (u16)flags;
 }
 
-
-
-
 void BATTLE_BOX_ClearLockFlags(struct BattleBoxSave *box, int flags)
 {
     box->lockFlags &= ~flags;
 }
 
-
-
-
 struct BoxMon *BATTLE_BOX_GetMon(struct BoxMonGroup *groups, u32 group, u32 index)
 {
     return &groups[group].mon[index];
 }
-
-
-
 
 u32 BATTLE_BOX_IsLocked(struct BattleBoxSave *box, u32 flags)
 {
@@ -1815,9 +1413,6 @@ u32 BATTLE_BOX_IsLocked(struct BattleBoxSave *box, u32 flags)
     return 0;
 }
 
-
-
-
 void DAYCARE_SetEggReady(struct DaycareSave *daycare)
 {
     if (daycare->eggReady != 1) {
@@ -1825,16 +1420,10 @@ void DAYCARE_SetEggReady(struct DaycareSave *daycare)
     }
 }
 
-
-
-
 void DAYCARE_ClearEggReady(struct DaycareSave *daycare)
 {
     daycare->eggReady = 0;
 }
-
-
-
 
 struct PokeParam *DAYCARE_GetSlotMon(struct DaycareSave *daycare, s32 slot)
 {
@@ -1843,9 +1432,6 @@ struct PokeParam *DAYCARE_GetSlotMon(struct DaycareSave *daycare, s32 slot)
     }
     return &daycare->slot[slot].mon;
 }
-
-
-
 
 void DAYCARE_SetSlotMon(struct DaycareSave *daycare, s32 slot, const struct PokeParam *mon)
 {
@@ -1856,9 +1442,6 @@ void DAYCARE_SetSlotMon(struct DaycareSave *daycare, s32 slot, const struct Poke
     }
 }
 
-
-
-
 void DAYCARE_ClearSlot(struct DaycareSave *daycare, s32 slot)
 {
     if (slot >= 0 && slot < 2 && daycare->slot[slot].inUse == 1) {
@@ -1866,16 +1449,10 @@ void DAYCARE_ClearSlot(struct DaycareSave *daycare, s32 slot)
     }
 }
 
-
-
-
 u32 DAYCARE_GetEggReady(struct DaycareSave *daycare)
 {
     return daycare->eggReady;
 }
-
-
-
 
 u32 DAYCARE_IsSlotInUse(struct DaycareSave *daycare, u32 slot)
 {
@@ -1884,9 +1461,6 @@ u32 DAYCARE_IsSlotInUse(struct DaycareSave *daycare, u32 slot)
     }
     return daycare->slot[slot].inUse;
 }
-
-
-
 
 u32 DAYCARE_GetInUseCount(struct DaycareSave *daycare)
 {
@@ -1901,9 +1475,6 @@ u32 DAYCARE_GetInUseCount(struct DaycareSave *daycare)
     return count;
 }
 
-
-
-
 u32 DAYCARE_GetSlotSteps(struct DaycareSave *daycare, u32 slot)
 {
     if (slot >= 2) {
@@ -1911,9 +1482,6 @@ u32 DAYCARE_GetSlotSteps(struct DaycareSave *daycare, u32 slot)
     }
     return daycare->slot[slot].steps;
 }
-
-
-
 
 void DAYCARE_SwapSlots(struct DaycareSave *daycare, s32 slotA, s32 slotB)
 {
@@ -1925,9 +1493,6 @@ void DAYCARE_SwapSlots(struct DaycareSave *daycare, s32 slotA, s32 slotB)
         daycare->slot[slotB] = tmp;
     }
 }
-
-
-
 
 /*
  * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C3378
@@ -1947,9 +1512,6 @@ void DAYCARE_AddSteps(struct DaycareSlot *slots, u32 steps)
         }
     }
 }
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -1974,23 +1536,15 @@ u32 DAYCARE_GetSize(void)
     return sizeof(struct DaycareSave);
 }
 
-
-
-
 void DAYCARE_Init(struct DaycareSave *daycare)
 {
     MI_CpuFill8(daycare, 0, sizeof(struct DaycareSave));
 }
 
-
-
 struct DaycareSave *DAYCARE_GetFromSave(struct SaveControl *save)
 {
     return func_020071CC(save, 0x32);
 }
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -2026,9 +1580,6 @@ u32 INTRUDE_GetSize(void)
     return sizeof(struct IntrudeSave);
 }
 
-
-
-
 void INTRUDE_Init(struct IntrudeSave *intrude)
 {
     MI_CpuFill8(intrude, 0, sizeof(struct IntrudeSave));
@@ -2036,29 +1587,21 @@ void INTRUDE_Init(struct IntrudeSave *intrude)
     intrude->monolithLevel = 0x30;
 }
 
-
-
 void INTRUDE_InitOccupy(struct IntrudeSave *intrude)
 {
     MI_CpuFill8(&intrude->occupy, 0, sizeof(intrude->occupy));
     INTRUDE_COMM_ResetOutcomes(&intrude->occupy);
 }
 
-
-
 u16 INTRUDE_GetMissionScore(struct IntrudeSave *intrude)
 {
     return intrude->occupy.missionScore;
 }
 
-
-
 u16 INTRUDE_GetMissionBonusScore(struct IntrudeSave *intrude)
 {
     return intrude->occupy.missionBonusScore;
 }
-
-
 
 void INTRUDE_AddMissionScore(struct IntrudeSave *intrude, s32 add)
 {
@@ -2069,8 +1612,6 @@ void INTRUDE_AddMissionScore(struct IntrudeSave *intrude, s32 add)
     }
 }
 
-
-
 void INTRUDE_AddMissionBonusScore(struct IntrudeSave *intrude, s32 add)
 {
     if (intrude->occupy.missionBonusScore + add > 999) {
@@ -2079,9 +1620,6 @@ void INTRUDE_AddMissionBonusScore(struct IntrudeSave *intrude, s32 add)
         intrude->occupy.missionBonusScore += add;
     }
 }
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -2103,9 +1641,6 @@ struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save)
     return func_020071CC(save, 0x35);
 }
 
-
-
-
 void INTRUDE_StoreOccupy(struct SaveControl *save, const u16 *src)
 {
     u16 *dest = (u16 *)&INTRUDE_GetFromSave(save)->occupy;
@@ -2116,9 +1651,6 @@ void INTRUDE_StoreOccupy(struct SaveControl *save, const u16 *src)
     }
 }
 
-
-
-
 void INTRUDE_LoadOccupy(struct SaveControl *save, u16 *dest)
 {
     const u16 *src = (const u16 *)&INTRUDE_GetFromSave(save)->occupy;
@@ -2128,9 +1660,6 @@ void INTRUDE_LoadOccupy(struct SaveControl *save, u16 *dest)
         *dest++ = *src++;
     }
 }
-
-
-
 
 /*
  * Add a log entry to the 20-entry intrude log at +0x10 when the own id is
@@ -2193,9 +1722,6 @@ void INTRUDE_AddLogEntry(struct IntrudeSave *intrude, struct IntrudeLogEntry *en
     intrude->log[19] = *entry;
 }
 
-
-
-
 /*
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
@@ -2230,14 +1756,10 @@ void INTRUDE_SetMonolithLevel(struct IntrudeSave *intrude, u32 level)
     intrude->monolithLevel = level;
 }
 
-
-
 u8 INTRUDE_GetMonolithLevel(struct IntrudeSave *intrude)
 {
     return intrude->monolithLevel;
 }
-
-
 
 void INTRUDE_SetObtainedFlag(struct IntrudeSave *intrude, s32 id)
 {
@@ -2248,8 +1770,6 @@ void INTRUDE_SetObtainedFlag(struct IntrudeSave *intrude, s32 id)
     }
 }
 
-
-
 void INTRUDE_GetObtainedFlags(struct IntrudeSave *intrude, u8 *dest, u32 size)
 {
     s32 i;
@@ -2259,14 +1779,10 @@ void INTRUDE_GetObtainedFlags(struct IntrudeSave *intrude, u8 *dest, u32 size)
     }
 }
 
-
-
 u32 INTRUDE_GetMissionClearCount(struct IntrudeSave *intrude)
 {
     return intrude->missionClearCount;
 }
-
-
 
 u32 INTRUDE_IncrementMissionClearCount(struct IntrudeSave *intrude)
 {
@@ -2276,15 +1792,10 @@ u32 INTRUDE_IncrementMissionClearCount(struct IntrudeSave *intrude)
     return intrude->missionClearCount;
 }
 
-
-
 u64 INTRUDE_GetPlaySeconds(struct IntrudeSave *intrude)
 {
     return intrude->playSeconds;
 }
-
-
-
 
 /*
  * battle_rec.c, 0x0200BFA4..0x0200C058: the play-clock accumulator and the
@@ -2327,16 +1838,10 @@ u64 INTRUDE_UpdatePlaySeconds(struct IntrudeSave *intrude, const struct PlayTime
     return intrude->playSeconds;
 }
 
-
-
-
 u32 BEACON_GetSize(void)
 {
     return sizeof(struct BeaconSave);
 }
-
-
-
 
 void BEACON_Init(struct BeaconSave *beacon)
 {
@@ -2361,9 +1866,6 @@ void BEACON_Init(struct BeaconSave *beacon)
     beacon->recentIds[1] = 0xff;
     beacon->recentIds[2] = 0xff;
 }
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.  Written from the
@@ -2418,37 +1920,25 @@ struct BeaconSave *BEACON_GetFromSave(struct SaveControl *save)
     return BEACON_GetBlock(save);
 }
 
-
-
-
 struct BeaconSave *BEACON_GetBlock(struct SaveControl *save)
 {
     return func_020071CC(save, 0x34);
 }
-
-
-
 
 void BEACON_SetInputFlag(struct BeaconSave *beacon, u32 index, u8 value)
 {
     beacon->inputFlags[index] = value;
 }
 
-
-
 u8 BEACON_GetInputFlag(struct BeaconSave *beacon, u32 index)
 {
     return beacon->inputFlags[index];
 }
 
-
-
 void BEACON_ClearInputFlags(struct BeaconSave *beacon)
 {
     MI_CpuFill8(beacon->inputFlags, 0, sizeof(beacon->inputFlags));
 }
-
-
 
 void BEACON_SetSelect(struct BeaconSave *beacon, u16 id, u32 kind, u32 enabled, u32 single)
 {
@@ -2458,8 +1948,6 @@ void BEACON_SetSelect(struct BeaconSave *beacon, u16 id, u32 kind, u32 enabled, 
     beacon->select.isSingle = (single == 1);
 }
 
-
-
 void BEACON_GetSelect(const struct BeaconSave *beacon, u32 *id, u32 *kind, u32 *enabled, u32 *single)
 {
     *id = beacon->selectId;
@@ -2468,42 +1956,30 @@ void BEACON_GetSelect(const struct BeaconSave *beacon, u32 *id, u32 *kind, u32 *
     *single = beacon->select.isSingle;
 }
 
-
-
 u32 BEACON_GetBestScore(struct BeaconSave *beacon)
 {
     return beacon->bestScore;
 }
-
-
 
 void BEACON_SetBestScore(struct BeaconSave *beacon, u32 score)
 {
     beacon->bestScore = score;
 }
 
-
-
 u8 BEACON_GetRank(struct BeaconSave *beacon)
 {
     return beacon->rank;
 }
-
-
 
 void BEACON_SetRank(struct BeaconSave *beacon, u32 rank)
 {
     beacon->rank = rank;
 }
 
-
-
 u32 BEACON_GetGreetCount(struct BeaconSave *beacon)
 {
     return beacon->greetCount;
 }
-
-
 
 u32 BEACON_IncrementGreetCount(struct BeaconSave *beacon)
 {
@@ -2513,14 +1989,10 @@ u32 BEACON_IncrementGreetCount(struct BeaconSave *beacon)
     return beacon->greetCount;
 }
 
-
-
 u32 BEACON_GetThanksCount(struct BeaconSave *beacon)
 {
     return beacon->thanksCount;
 }
-
-
 
 u32 BEACON_IncrementThanksCount(struct BeaconSave *beacon)
 {
@@ -2530,63 +2002,45 @@ u32 BEACON_IncrementThanksCount(struct BeaconSave *beacon)
     return beacon->thanksCount;
 }
 
-
-
 u16 *BEACON_GetGreetMessage(struct BeaconSave *beacon)
 {
     return beacon->greetMessage;
 }
-
-
 
 void BEACON_SetGreetMessage(struct BeaconSave *beacon, struct StrBuf *message)
 {
     STRBUF_ToChars(message, beacon->greetMessage, 9);
 }
 
-
-
 u16 *BEACON_GetThanksMessage(struct BeaconSave *beacon)
 {
     return beacon->thanksMessage;
 }
-
-
 
 void BEACON_SetThanksMessage(struct BeaconSave *beacon, struct StrBuf *message)
 {
     STRBUF_ToChars(message, beacon->thanksMessage, 9);
 }
 
-
-
 u8 BEACON_GetMode(struct BeaconSave *beacon)
 {
     return beacon->mode;
 }
-
-
 
 void BEACON_SetMode(struct BeaconSave *beacon, u8 mode)
 {
     beacon->mode = mode;
 }
 
-
-
 u32 BEACON_GetFlag(struct BeaconSave *beacon, u32 bit)
 {
     return (beacon->flags & (1 << bit)) != 0;
 }
 
-
-
 void BEACON_SetFlag(struct BeaconSave *beacon, u32 bit)
 {
     beacon->flags |= 1 << bit;
 }
-
-
 
 u32 BEACON_CountFlags(struct BeaconSave *beacon)
 {
@@ -2601,14 +2055,10 @@ u32 BEACON_CountFlags(struct BeaconSave *beacon)
     return count;
 }
 
-
-
 u32 BEACON_GetPoints(struct BeaconSave *beacon)
 {
     return beacon->points;
 }
-
-
 
 u32 BEACON_AddPoints(struct BeaconSave *beacon, u32 add)
 {
@@ -2623,8 +2073,6 @@ u32 BEACON_AddPoints(struct BeaconSave *beacon, u32 add)
     return beacon->points;
 }
 
-
-
 u32 BEACON_SubPoints(struct BeaconSave *beacon, u32 sub)
 {
     if (beacon->points < sub) {
@@ -2635,8 +2083,6 @@ u32 BEACON_SubPoints(struct BeaconSave *beacon, u32 sub)
     return beacon->points;
 }
 
-
-
 void BEACON_SetTeam(struct BeaconSave *beacon, u32 index, const u16 *species)
 {
     s32 i;
@@ -2645,8 +2091,6 @@ void BEACON_SetTeam(struct BeaconSave *beacon, u32 index, const u16 *species)
         beacon->teams[index].species[i] = species[i];
     }
 }
-
-
 
 void BEACON_GetTeam(struct BeaconSave *beacon, u32 index, u16 *species)
 {
@@ -2657,77 +2101,55 @@ void BEACON_GetTeam(struct BeaconSave *beacon, u32 index, u16 *species)
     }
 }
 
-
-
 void BEACON_SetSlotState(struct BeaconSave *beacon, u32 slot, u8 state)
 {
     beacon->slotStates |= (u8)(state << (slot * 2));
 }
-
-
 
 u8 BEACON_GetSlotState(struct BeaconSave *beacon, u32 slot)
 {
     return (u8)((beacon->slotStates >> (slot * 2)) & 3);
 }
 
-
-
 u8 BEACON_GetSlotStates(struct BeaconSave *beacon)
 {
     return beacon->slotStates;
 }
-
-
 
 void BEACON_SetSlotStates(struct BeaconSave *beacon, u8 states)
 {
     beacon->slotStates = states;
 }
 
-
-
 u8 BEACON_GetEntryCount(struct BeaconSave *beacon)
 {
     return beacon->entryCount;
 }
-
-
 
 void BEACON_SetEntryCount(struct BeaconSave *beacon, u8 count)
 {
     beacon->entryCount = count;
 }
 
-
-
 int BEACON_GetRecentId(struct BeaconSave *beacon, u32 index)
 {
     return beacon->recentIds[index];
 }
-
-
 
 void BEACON_SetRecentId(struct BeaconSave *beacon, u8 index, u8 id)
 {
     beacon->recentIds[index] = id;
 }
 
-
-
 u16 BEACON_GetRecentValue(struct BeaconSave *beacon, u32 index)
 {
     return beacon->recentValues[index];
 }
 
-
-
 void BEACON_SetRecentValue(struct BeaconSave *beacon, u32 index, int value)
 {
     beacon->recentValues[index] = value;
 }
-
-
 
 void BEACON_AddRecentValue(struct BeaconSave *beacon, u8 index, int add)
 {
@@ -2740,14 +2162,10 @@ void BEACON_AddRecentValue(struct BeaconSave *beacon, u8 index, int add)
     beacon->recentValues[index] = value;
 }
 
-
-
 u64 BEACON_GetLastTime(struct BeaconSave *beacon)
 {
     return beacon->lastTime.value;
 }
-
-
 
 void BEACON_SetLastTime(struct BeaconSave *beacon, u32 lo, u32 hi)
 {
@@ -2755,16 +2173,12 @@ void BEACON_SetLastTime(struct BeaconSave *beacon, u32 lo, u32 hi)
     beacon->lastTime.half.hi = hi;
 }
 
-
-
 void BEACON_SetHashedId(struct BeaconSave *beacon, s32 index, u32 value)
 {
     if (index < 8) {
         beacon->hashedIds[index] = value;
     }
 }
-
-
 
 u32 BEACON_GetHashedId(struct BeaconSave *beacon, s32 index)
 {
@@ -2774,21 +2188,15 @@ u32 BEACON_GetHashedId(struct BeaconSave *beacon, s32 index)
     return beacon->hashedIds[index];
 }
 
-
-
 u16 BEACON_GetGatePoints(struct BeaconSave *beacon)
 {
     return beacon->gatePoints;
 }
 
-
-
 void BEACON_SetGatePoints(struct BeaconSave *beacon, u16 points)
 {
     beacon->gatePoints = points;
 }
-
-
 
 void BEACON_SubGatePoints(struct BeaconSave *beacon, u16 sub)
 {
@@ -2799,14 +2207,10 @@ void BEACON_SubGatePoints(struct BeaconSave *beacon, u16 sub)
     }
 }
 
-
-
 u8 BEACON_GetRecorderFlag(struct BeaconSave *beacon)
 {
     return beacon->recorderFlag;
 }
-
-
 
 void BEACON_SetRecorderFlag(struct BeaconSave *beacon, u32 flag)
 {

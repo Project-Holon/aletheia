@@ -1,7 +1,7 @@
 /*
  * file:     pokemontrade_demo_common.c
  * unit:     yes
- * function: POKETRADE_DEMO_COMMON_StepFade, POKETRADE_DEMO_COMMON_CompareSideMon, POKETRADE_DEMO_COMMON_ShowUnitActor, POKETRADE_DEMO_COMMON_LoadUnitResources, POKETRADE_DEMO_COMMON_ReleaseUnit, POKETRADE_DEMO_COMMON_PassThrough, POKETRADE_DEMO_COMMON_SetFrame, POKETRADE_DEMO_COMMON_SetFinishFlag, POKETRADE_DEMO_COMMON_StepCompareMons, POKETRADE_DEMO_COMMON_StepWaitSync, POKETRADE_DEMO_COMMON_StepStartSlides
+ * function: POKETRADE_DEMO_COMMON_StepFade, POKETRADE_DEMO_COMMON_CompareSideMon, POKETRADE_DEMO_COMMON_ShowUnitActor, POKETRADE_DEMO_COMMON_LoadUnitResources, POKETRADE_DEMO_COMMON_ReleaseUnit, POKETRADE_DEMO_COMMON_PassThrough, POKETRADE_DEMO_COMMON_SetFrame, POKETRADE_DEMO_COMMON_SetFinishFlag, POKETRADE_DEMO_COMMON_StepCompareMons, POKETRADE_DEMO_COMMON_StepWaitSync, POKETRADE_DEMO_COMMON_StepStartSlides, POKETRADE_DEMO_COMMON_StepBeginPlayback
  * address:  0x021D4240
  * region:   ov118
  * compiler: dsi/1.1p1
@@ -9,10 +9,33 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ * contiguous: no
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * This original is NON-CONTIGUOUS: pokemontrade_demo_up.c, _down.c and _middle.c
+ * lie between its two ranges, so it links as two pieces.  The `symbols:` block
+ * below is the name-to-address map for the per-function verify path and for the
+ * gamelink run cut, so every function this file defines is listed there.
  *
  * symbols:
+ *   POKETRADE_DEMO_COMMON_StepFade  0x021D4240  thumb
+ *   POKETRADE_DEMO_COMMON_CompareSideMon  0x021D4290  thumb
+ *   POKETRADE_DEMO_COMMON_ShowUnitActor  0x021D434C  thumb
+ *   POKETRADE_DEMO_COMMON_LoadUnitResources  0x021D43C8  thumb
+ *   POKETRADE_DEMO_COMMON_ReleaseUnit  0x021D4434  thumb
+ *   POKETRADE_DEMO_COMMON_PassThrough  0x021D4480  thumb
+ *   POKETRADE_DEMO_COMMON_SetFrame  0x021D4484  thumb
+ *   POKETRADE_DEMO_COMMON_SetFinishFlag  0x021D4490  thumb
+ *   POKETRADE_DEMO_COMMON_StepCompareMons  0x021D449C  thumb
+ *   POKETRADE_DEMO_COMMON_StepWaitSync  0x021D4520  thumb
+ *   POKETRADE_DEMO_COMMON_StepStartSlides  0x021D4544  thumb
+ *   POKETRADE_DEMO_COMMON_StepBeginPlayback  0x021D67F8  thumb
+ *   POKETRADE_DEMO_DOWN_SetFrame  0x021D6738  thumb  ov118
+ *   POKETRADE_DEMO_DOWN_PassThrough  0x021D6734  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_StepStartPlayback  0x021D6918  thumb  ov118
+ *   d_021D8650     0x021D8650  data
+ *   d_021D7CC4     0x021D7CC4  data
+ *   d_021D7CD0     0x021D7CD0  data
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
@@ -121,6 +144,9 @@ extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 ste
 extern void POKETRADE_SAVE_CloseMessageWindow(char *p);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void POKETRADE_DEMO_UP_StepStartPlayback(u8 *p);
+extern void POKETRADE_DEMO_DOWN_SetFrame(u8 *p, u32 v);
+extern int POKETRADE_DEMO_DOWN_PassThrough(int a);
+extern void POKETRADE_DEMO_MIDDLE_StepStartPlayback(u8 *p);
 void POKETRADE_DEMO_COMMON_StepFade(s8 *fade);
 void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy);
 void POKETRADE_DEMO_COMMON_ShowUnitActor(void *p);
@@ -135,6 +161,9 @@ void POKETRADE_DEMO_COMMON_StepStartSlides(u8 *p);
 extern const char d_021D7FB8[];
 extern const Vec d_021D7C84;
 extern const Vec d_021D7C9C;
+extern const char d_021D8650[];
+extern const Vec d_021D7CC4;
+extern const Vec d_021D7CD0;
 
 
 
@@ -334,4 +363,34 @@ void POKETRADE_DEMO_COMMON_StepStartSlides(u8 *p)
     BG_SYS_LoadPlttEntry(5, 0);
     POKETRADE_DEMO_COMMON_SetFrame(p, 0);
     POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_UP_StepStartPlayback);
+}
+
+
+
+
+void POKETRADE_DEMO_COMMON_StepBeginPlayback(u8 *p)
+{
+    Vec a;
+    Vec b;
+    PokeTradeDemoWork *w = (PokeTradeDemoWork *)p;
+
+    POKETRADE_DEMO_DOWN_SetFrame(p, 0);
+    w->fade = func_02030734(w->heapId, 4, 1, d_021D8650, 0xF5);
+    w->fade[0] = POKETRADE_DEMO_DOWN_PassThrough(0xE);
+    w->fade[1] = 0;
+    w->fade[2] = 0;
+    w->fade[3] = -0x10;
+    a = d_021D7CC4;
+    POKETRADE_SAVE_FreeIfSet((u32 *)w->slideOwn);
+    w->slideOwn = POKETRADE_MCSS_SlideCreate((void *)w->mcssObj[0], (void *)POKETRADE_DEMO_DOWN_PassThrough(0x2A), &a, w->heapId);
+    b = d_021D7CD0;
+    POKETRADE_SAVE_FreeIfSet((u32 *)w->slidePeer);
+    w->slidePeer = POKETRADE_MCSS_SlideCreate((void *)w->mcssObj[1], (void *)POKETRADE_DEMO_DOWN_PassThrough(0x54), &b, w->heapId);
+    MCSS_SetAnimCallback((u32)w->mcssObj[0], p, (void (*)(void))POKETRADE_MCSS_StopAnimation, 1);
+    MCSS_SetPaletteFade((struct McssFade *)w->mcssObj[1], 0, 0x10, (s8)(POKETRADE_DEMO_DOWN_PassThrough(0xE) / 16), 0);
+    POKETRADE_SAVE_CloseMessageWindow((char *)p);
+    BG_SYS_LoadPlttEntry(1, 0);
+    BG_SYS_LoadPlttEntry(5, 0);
+    POKETRADE_DEMO_DOWN_SetFrame(p, 0);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepStartPlayback);
 }

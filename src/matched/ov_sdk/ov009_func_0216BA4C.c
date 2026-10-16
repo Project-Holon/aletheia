@@ -12,7 +12,7 @@
  * sdk:      DWCi_GT2Startup (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_021685CC  0x021685CC  arm  ov009
+ *   DWCi_GetMathRand32  0x021685CC  arm  ov009
  *   gt2AddressToString  0x02198620  arm  ov009
  *   gt2CreateSocket  0x02195AB4  arm  ov009
  *   DWCi_HandleGT2Error  0x0216BE00  arm  ov009
@@ -49,7 +49,7 @@ typedef struct DwcGlobal DwcGlobal;
 
 extern struct DwcGlobal gDwcGlobalState;
 
-extern unsigned long func_021685CC(unsigned long max);
+extern unsigned long DWCi_GetMathRand32(unsigned long max);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern int gt2CreateSocket(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void *callback);
 extern int DWCi_HandleGT2Error(int result);
@@ -66,7 +66,7 @@ int DWCi_GT2Startup(void)
 
 	if (((DwcState *)gDwcGlobalState.st)->gt2Socket != 0)
 		return 0;
-	baseport = func_021685CC(0x4000) + 0xc000;
+	baseport = DWCi_GetMathRand32(0x4000) + 0xc000;
 	gt2Result = gt2CreateSocket(&((DwcState *)gDwcGlobalState.st)->gt2Socket, gt2AddressToString(0, baseport, 0), ((DwcState *)gDwcGlobalState.st)->outSize, ((DwcState *)gDwcGlobalState.st)->inSize, DWCi_GT2SocketErrorCallback);
 	if (DWCi_HandleGT2Error(gt2Result))
 		return gt2Result;

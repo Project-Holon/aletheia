@@ -1,5 +1,5 @@
 /*
- * function: func_021894D8
+ * function: gpiSendData
  * address:  0x021894D8
  * packet:   pkt_0219091C
  * region:   ov009
@@ -59,7 +59,7 @@
  *   g_021A44DC     0x021A44DC  data ov009
  *   g_021A4504     0x021A4504  data ov009
  *   g_021A4528     0x021A4528  data ov009
- *   _ZZ13func_021894D8PiiPciS_S_S0_E9sendCount 0x021ADFC8 data
+ *   _ZZ11gpiSendDataPiiPciS_S_S0_E9sendCount 0x021ADFC8 data
  *
  * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x 4 flag sets): no
  * configuration moves the 21 bytes at +0118..+0138; 1.1p1 -O4,p at 364/21 is the
@@ -104,7 +104,7 @@ extern char g_021A44DC[];
 extern char g_021A4504[];
 extern char g_021A4528[];
 
-int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
+int gpiSendData(int *connection, int sock, char *buffer, int bufferLen,
                   int *closed, int *sent, char *id)
 {
     static int sendCount;

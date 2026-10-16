@@ -1,5 +1,5 @@
 /*
- * function: func_021685CC
+ * function: DWCi_GetMathRand32
  * address:  0x021685CC
  * packet:   pkt_ov009_021685CC
  * region:   ov009
@@ -17,7 +17,7 @@
  * symbols:
  *   OS_GetMacAddress  0x02087C6C  arm
  *   OS_GetTick        0x020870D0  arm
- *   _ZZ13func_021685CCmE15stRandContext32  0x021AA848  data
+ *   _ZZ18DWCi_GetMathRand32mE15stRandContext32  0x021AA848  data
  *
  */
 
@@ -51,7 +51,7 @@ static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max)
     }
 }
 
-u32 func_021685CC(u32 max)
+u32 DWCi_GetMathRand32(u32 max)
 {
     static MATHRandContext32 stRandContext32;
     u64 seed;

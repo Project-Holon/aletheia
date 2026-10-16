@@ -33,7 +33,7 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_021685CC  0x021685CC  arm  ov009
+ *   DWCi_GetMathRand32  0x021685CC  arm  ov009
  *   DWCi_GetDefaultMatchFilter  0x0216FAD4  arm  ov009
  *   ServerBrowserClear  0x0219F00C  arm  ov009
  *   ServerBrowserLimitUpdateA  0x0219EED4  arm  ov009
@@ -90,7 +90,7 @@ typedef struct {
 } DWCstMatchControl;
 
 extern DWCstMatchControl *func_02175F3C(void);
-extern u32 func_021685CC(u32 max);
+extern u32 DWCi_GetMathRand32(u32 max);
 extern int DWCi_GetDefaultMatchFilter(char *filter, int profileID, u8 numEntry, u8 matchType, u8 hostState);
 struct ServerBrowser;
 extern void ServerBrowserClear(char *p);
@@ -148,7 +148,7 @@ static SBError func_0216F770(int profileID)
             searchHostType = (u8)(func_02175F3C()->friendToggle ? 2 : 0);
             func_02175F3C()->friendToggle ^= 1;
         } else {
-            searchHostType = (u8)((int)func_021685CC(100) < (*(int *)&s_anybodyServerSearchRatio) ? 2 : 0);
+            searchHostType = (u8)((int)DWCi_GetMathRand32(100) < (*(int *)&s_anybodyServerSearchRatio) ? 2 : 0);
         }
         len = DWCi_GetDefaultMatchFilter(filter, ((volatile DWCstMatchControl *)func_02175F3C())->profileID, ((volatile DWCstMatchControl *)func_02175F3C())->qr2NumEntry, ((volatile DWCstMatchControl *)func_02175F3C())->qr2MatchType, searchHostType);
         if (s_bInNNThink.addFilter) {

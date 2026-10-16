@@ -109,18 +109,14 @@ typedef struct
   u32 data;
 } Packet;
 
-typedef struct {u16 heap;u8 pad[0x12a];u32 value;void *first,*second;char *buffer;u8 tail[0x70];} Owner_021F9E40;
-
 typedef struct { u32 w[12]; } E;
 
 typedef struct { u8 pad[0x60]; E e[4]; } T;
 
-struct Record { int f0; int flag; char pad8[0x14]; char *data; char pad20[0x10]; };
-
 struct Context { char pad0[0x60]; struct Record rec[4]; };
 
-/* The callback owner is the 0x1ac-byte allocation in 021FC644. */
-typedef struct {u8 pad[0x128];char *buffer;u8 tail[0x80];} Owner_021FD22C;
+/* The callback owner is the 0x1ac-byte allocation in 021FC644, viewed as
+   struct ActingHost. */
 
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 
@@ -248,7 +244,7 @@ u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id);
 
 void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q, char *p);
 
-u32 MUS_COMM_FUNC_SendMyStatus(Owner_021F9E40 *p);
+u32 MUS_COMM_FUNC_SendMyStatus(struct ActingHost *p);
 
 void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, T *p);
 
@@ -268,7 +264,7 @@ void *MUS_COMM_FUNC_ClearRecordData(long i,struct Context *p);
 
 int MUS_COMM_FUNC_SendRecordBlock(const char *p);
 
-void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const Owner_021FD22C *p);
+void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const struct ActingHost *p);
 
 extern const char d_021FDE5C[];
 
@@ -465,7 +461,7 @@ void MUS_COMM_FUNC_Update(char *p)
         *(int *)(p + 0x4c) = 2;
         break;
     case 2:
-        if (MUS_COMM_FUNC_CheckTimingSync(p, 0x46) == 1 && MUS_COMM_FUNC_SendMyStatus((Owner_021F9E40 *)p) == 1) {
+        if (MUS_COMM_FUNC_CheckTimingSync(p, 0x46) == 1 && MUS_COMM_FUNC_SendMyStatus((struct ActingHost *)p) == 1) {
             if (*(int *)(p + 0x48) == 1) *(int *)(p + 0x4c) = 3;
             else *(int *)(p + 0x4c) = 5;
         }
@@ -760,20 +756,20 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
  * pass 3 2026-10-06 P3L06: still 6/188 bytes (q r6/s r4 vs original q r4/s r6), 40 compiles. New tries, all 6 bytes unless noted: zero local (021FD350 style); s=&q[4] and &s[m]; p->buffer=alloc then q=p->buffer (store forwarded); full sibling style (int n, m reused for every size pair, h local); u8 and u16 return for 02008468 with u8/u16 m; long m and long a,b,m; s+=m in the third copy argument; 4+q and m+s; m reusing b; separate old local for the free guard; Owner *const p; opt_loop_invariants off; opt_strength_reduction off; opt_propagation off with t=alloc, s=t+4, q=t (q born after s); inline Header(p,q) returning s; inline Pack(p,q) with m and s inside; inline Copy wrapper; m/s inner block without initialisers (both orders); a/b/q inner block to the first copy; c99 mid-block declarations; local aggregates {head,body} (both orders) and {head,first,second} (021FC848 row style). Worse: first copy from s-4 (120, q and s merge); q+4+m with named s (121); inline Pack(p,q,q+4,m) (121, s propagated). Diagnostics: removing m or s gives q r4 first, so only the q/s/m clique orders s first; dsi 1.1, 1.2, 1.2p2 give the same 6 bytes. Asm scan (adds rLow,rX,#0 plus adds rY,rX,#K before a call): only ov198 02210E20 (matched, base=p+4 from a parameter, not applicable). Idioms read: of-two-equal-temps-the-later-born-one-gets-the-lower-register, a-masked-locals-declared-width-is-invisible-in-the-diff-and-decides-its-register, a-no-code-self-assignment-reorders-the-register-colouring (stand-in, not used), declaration-position-orders-block-scope-colouring, a-width-stored-in-the-handle-temp-it-replaces-keeps-the-original-colours, two-long-lived-values-in-each-others-registers (callees read no hidden arguments).
  * pass 4 2026-10-06 P4L04: EXACT* (--lang c99 and --lang c). The third block pointer is computed up front as t=q+4+MYSTATUS_GetSize() and the second copy writes to q+4 with no named s: CSE turns the shared q+4 into a temp born before the first copy, and t is forward-substituted into the third copy as temp+m, which gives the image colours (q r4, q+4 r6, size r7). Same layout as the row pointers in 021FC848 (P(row,0x88)=buf+4+MYSTATUS_GetSize()).
  */
-u32 MUS_COMM_FUNC_SendMyStatus(Owner_021F9E40 *p)
+u32 MUS_COMM_FUNC_SendMyStatus(struct ActingHost *p)
 {
     u32 a, b;
     char *q, *t;
-    if(p->buffer) func_020307B0(p->buffer);
+    if(p->f138) func_020307B0(p->f138);
     a=MYSTATUS_GetSize();
     b=POKE_TOOL_GetBoxParamSize();
-    q=func_02030734(p->heap,a+4+b,0,d_021FDE5C,0x533);
-    p->buffer=q;
+    q=func_02030734(p->f0,a+4+b,0,d_021FDE5C,0x533);
+    p->f138=q;
     t=q+4+MYSTATUS_GetSize();
-    MI_CpuCopy8(&p->value,q,4);
-    MI_CpuCopy8(p->first,q+4,MYSTATUS_GetSize());
-    MI_CpuCopy8(p->second,t,POKE_TOOL_GetBoxParamSize());
-    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),0xff,0x1101,MYSTATUS_GetSize()+4+POKE_TOOL_GetBoxParamSize(),(u32)p->buffer,1,0,1);
+    MI_CpuCopy8(&p->f12C,q,4);
+    MI_CpuCopy8(p->f130,q+4,MYSTATUS_GetSize());
+    MI_CpuCopy8(p->f134,t,POKE_TOOL_GetBoxParamSize());
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),0xff,0x1101,MYSTATUS_GetSize()+4+POKE_TOOL_GetBoxParamSize(),(u32)p->f138,1,0,1);
 }
 
 void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, T *p) { p->e[i].w[2] = 1; p->e[i].w[0] = 1; }
@@ -907,7 +903,7 @@ int MUS_COMM_FUNC_SendRecordBlock(const char *p)
 /*
  * note: 2026-10-05 length kept in a local before the call (n = f()+0x7c; call(q+k, src, n)); the inline n+0x7c form swapped two adds (4 B). Older DIFF notes superseded.
  */
-void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const Owner_021FD22C *p)
+void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const struct ActingHost *p)
 {
     u8 i;
     char *s;
@@ -918,7 +914,7 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const Owner_021FD22C *p)
         s=(char *)p+i*0x30;
         if(func_020084BC(*(u16 **)(s+0x84))==0) {
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
-            q=p->buffer;
+            q=p->f128;
             k=i*n;
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
             MI_CpuCopy8(q+k,*(void **)(s+0x7c),n);
@@ -931,13 +927,11 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const Owner_021FD22C *p)
 }
 
 /* Clears the flag of the four records, clears the word at +0x15C and returns the buffer pointer. */
-typedef struct { char pad0[0x60]; struct Record rec[4]; char pad120[8]; char *buffer; char pad12c[0x30]; u32 tail; } Owner_021FD4D0;
-
-char *MUS_COMM_FUNC_ClearRecords(int a, Owner_021FD4D0 *p)
+char *MUS_COMM_FUNC_ClearRecords(int a, struct ActingHost *p)
 {
     u8 i;
     for (i = 0; i < 4; i++)
         p->rec[i].flag = 0;
-    p->tail = 0;
-    return p->buffer;
+    p->f15C = 0;
+    return p->f128;
 }

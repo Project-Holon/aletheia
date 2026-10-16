@@ -145,8 +145,6 @@ struct Bmp;
 
 struct Rect { u16 x; u16 y; u16 z; u8 a; u8 b; };
 
-typedef short s16_021B9580;
-
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -848,7 +846,7 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, CtvtTalk *st)
         v = CTVT_MIC_GetBuffer((u32 *)st->mic);
         pos = CTVT_MIC_GetReadyBytes((u32 *)st->mic);
         off = 0x800;
-        CTVT_TALK_DrawWaveform((int)ctx, (char *)st, (s16_021B9580 *)(v + off), 9, pos, 0xC000);
+        CTVT_TALK_DrawWaveform((int)ctx, (char *)st, (short *)(v + off), 9, pos, 0xC000);
     case 2:
         id = (u32)COMM_TVT_SYS_GetComm(ctx);
         if (CTVT_COMM_GetVoiceStatePending(ctx, (u8 *)id) != 1)

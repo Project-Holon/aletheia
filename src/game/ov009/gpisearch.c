@@ -39,7 +39,7 @@
  *   gpiAppendIntToBuffer  0x0218949C  arm  ov009
  *   gpiAppendCharToBuffer  0x0218934C  arm  ov009
  *   gpiEncodeString  0x02193748  arm  ov009
- *   func_02189780  0x02189780  arm  ov009
+ *   gpiRecvToBuffer  0x02189780  arm  ov009
  *   gpiCheckForError  0x0219329C  arm  ov009
  *   gpiReadKeyAndValue  0x0219359C  arm  ov009
  *   gpiValueForKey  0x02193418  arm  ov009
@@ -206,7 +206,7 @@ extern int gpiAppendStringToBuffer(void **connection, GPIBuffer *buffer, const c
 extern int gpiAppendIntToBuffer(void **connection, GPIBuffer *buffer, int value);
 extern int gpiAppendCharToBuffer(void **connection, GPIBuffer *buffer, int c);
 extern void gpiEncodeString(const char *plaintext, char *encoded);
-extern GPResult func_02189780(GPConnection *connection, int sock, GPIBuffer *buffer,
+extern GPResult gpiRecvToBuffer(GPConnection *connection, int sock, GPIBuffer *buffer,
                               int *len, GPIBool *connClosed, char *tag);
 extern int gpiCheckForError(void **connection, char *input, int flag);
 extern int gpiReadKeyAndValue(void **connection, char *buffer, int *index, char *key, char *value);
@@ -811,7 +811,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
         }
         else if (operation->state == GPI_WAITING)
         {
-            result = func_02189780(connection, data->sock, &data->inputBuffer, &len, &connClosed, g_0219184C);
+            result = gpiRecvToBuffer(connection, data->sock, &data->inputBuffer, &len, &connClosed, g_0219184C);
             if (result != GP_NO_ERROR)
             {
                 if (result == GP_NETWORK_ERROR)

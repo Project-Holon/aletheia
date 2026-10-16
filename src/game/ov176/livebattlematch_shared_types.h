@@ -133,15 +133,19 @@ struct RegulationCard {
 /* Callback descriptor used by the ov177 flow helpers. */
 typedef struct {void (*fn)(void *,int *,int);int a;int b;} FlowCallback;
 
-/* Menu descriptor handed to WIFIBATTLEMATCH_UTIL_CreateMenu (ov177 names this type Desc). */
+/* Menu descriptor handed to WIFIBATTLEMATCH_UTIL_CreateMenu (0x30 bytes).
+ * Same object as ov177 WifibattlematchMenuDesc, so the fields keep one name. */
 typedef struct {
-    u32 x0,x1,x2;
-    u32 items[4];
-    u32 count;
-    u16 a,b,c,d;
-    u32 enabled;
-    u16 kind,pad;
-} Desc;
+    u32 x0;         /* 00 first button label id */
+    u32 x1;         /* 04 second button label id */
+    u32 x2;         /* 08 PRINTSYS_QUE handle */
+    u32 items[4];   /* 0C up to four item value ids */
+    u32 count;      /* 1C item count */
+    u16 a,b,c,d;    /* 20..26 */
+    int enabled;    /* 28 cursor enabled */
+    u16 kind;       /* 2C */
+    u16 row;        /* 2E first row (BMP_MENULIST_Create third argument) */
+} WifibattlematchMenuDesc;
 
 /* 40-byte init block copied into the live battle match object. */
 typedef struct { u32 words[10]; } LiveBattleMatchInit;

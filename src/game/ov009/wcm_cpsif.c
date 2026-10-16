@@ -36,6 +36,8 @@
  *   OS_IrqHandler  0x01FF80F0  data
  *   MI_CpuCopy                   0x02082EA4  arm
  */
+#include "wcm_types.h"
+
 typedef struct WcmCpsifWork {
     unsigned char inited;
     unsigned char reserved1[0x3];
@@ -47,31 +49,6 @@ typedef struct WcmCpsifWork {
     void (*recvCb)(unsigned char *, unsigned char *, unsigned char *, long);
 } WcmCpsifWork;
 
-typedef struct WCMWork_02166384 {
-    unsigned char pad0[0x12DD];
-    unsigned char resetting;
-    unsigned char phase;
-    unsigned char pad1[5];
-    unsigned char bssid[6];
-} WCMWork_02166384;
-
-typedef struct WCMWork_021663C8 {
-    unsigned char pad0[0x12DD];
-    unsigned char resetting;
-    unsigned char phase;
-    unsigned char pad1[0x0B];
-    unsigned short essidLen;
-    unsigned char essid[32];
-} WCMWork_021663C8;
-
-typedef struct WCMWork_02166444 {
-    unsigned short sendBuf[768];
-    unsigned char pad0[0x12DD - 0x600];
-    unsigned char resetting;
-    unsigned char phase;
-    unsigned char deviceId;
-} WCMWork_02166444;
-
 typedef struct OSMutex {
     unsigned long queue;
     unsigned long queue2;
@@ -81,7 +58,7 @@ typedef struct OSMutex {
 
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern void OS_InitMutex(void *mutex);
-extern int WCMi_GetSystemWork(void);
+extern WCMWork *WCMi_GetSystemWork(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_LockMutex(void *mutex);
@@ -158,15 +135,15 @@ void *WCMi_GetCpsifWork(void)
 unsigned char *WCM_GetApMacAddress(void)
 {
     unsigned char *mac;
-    WCMWork_02166384 *w;
+    WCMWork *w;
     unsigned long e;
 
     mac = 0;
-    w = (WCMWork_02166384 *)WCMi_GetSystemWork();
+    w = WCMi_GetSystemWork();
     e = OS_DisableInterrupts();
     if (w != 0) {
         if (w->phase == 9 && w->resetting == 0) {
-            mac = w->bssid;
+            mac = w->apBss.bssid;
         }
     }
     OS_RestoreInterrupts(e);
@@ -186,17 +163,17 @@ unsigned char *WCM_GetApEssid(unsigned short *length)
 {
     unsigned char *essid;
     unsigned short len;
-    WCMWork_021663C8 *w;
+    WCMWork *w;
     unsigned long e;
 
     essid = 0;
     len = 0;
-    w = (WCMWork_021663C8 *)WCMi_GetSystemWork();
+    w = WCMi_GetSystemWork();
     e = OS_DisableInterrupts();
     if (w != 0) {
         if (w->phase == 9 && w->resetting == 0) {
-            essid = w->essid;
-            len = w->essidLen;
+            essid = w->apBss.ssid;
+            len = w->apBss.ssidLength;
         }
     }
     OS_RestoreInterrupts(e);
@@ -236,17 +213,17 @@ void WCM_SetRecvDCFCallback(void (*callback)(unsigned char *, unsigned char *, u
 long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long headerLen, unsigned char *body, long bodyLen)
 {
     unsigned long totalLen;
-    WCMWork_02166444 *w;
+    WCMWork *w;
     unsigned long e;
 
     e = OS_DisableInterrupts();
-    w = (WCMWork_02166444 *)WCMi_GetSystemWork();
+    w = WCMi_GetSystemWork();
     if (w == 0) {
         OS_RestoreInterrupts(e);
         return -1;
     }
     OS_LockMutex(gWcmCpsifMutex);
-    w = (WCMWork_02166444 *)WCMi_GetSystemWork();
+    w = WCMi_GetSystemWork();
     if (w == 0) {
         OS_UnlockMutex(gWcmCpsifMutex);
         OS_RestoreInterrupts(e);
@@ -257,14 +234,14 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         OS_RestoreInterrupts(e);
         return -4;
     }
-    totalLen = WCMi_MergeToBuffer(w->deviceId, w->sendBuf, header, headerLen, body, bodyLen);
+    totalLen = WCMi_MergeToBuffer(w->deviceId, (unsigned short *)w->sendBuf, header, headerLen, body, bodyLen);
     switch (w->deviceId) {
     case 1:
-        WCMi_WmifSetDCFData(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
+        WCMi_WmifSetDCFData(dstAddr, (unsigned short *)w->sendBuf, (unsigned short)totalLen, 0);
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            WCMi_NwmifSetDCFData(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
+            WCMi_NwmifSetDCFData(dstAddr, (unsigned short *)w->sendBuf, (unsigned short)totalLen, 0);
         }
         break;
     }

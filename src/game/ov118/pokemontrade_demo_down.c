@@ -1,7 +1,7 @@
 /*
  * file:     pokemontrade_demo_down.c
  * unit:     yes
- * function: POKETRADE_DEMO_UP_CompareSideMon, POKETRADE_DEMO_UP_CreateUnitActor, POKETRADE_DEMO_UP_LoadUnitResources, POKETRADE_DEMO_UP_ReleaseUnit, POKETRADE_DEMO_UP_PassThrough, POKETRADE_DEMO_UP_SetFrame, POKETRADE_DEMO_UP_SetFinishFlag, POKETRADE_DEMO_UP_StepReleaseUnit, POKETRADE_DEMO_UP_DeleteSlide, POKETRADE_DEMO_UP_SetMonSlide, POKETRADE_DEMO_UP_ResetMonSlide, POKETRADE_DEMO_UP_UpdateEmitterC, POKETRADE_DEMO_UP_SetupEmitterC, POKETRADE_DEMO_UP_UpdateEmitterD, POKETRADE_DEMO_UP_SetupEmitterD, POKETRADE_DEMO_UP_StepStartDownScene, POKETRADE_DEMO_DOWN_StepSetup, POKETRADE_DEMO_DOWN_StepSetupParticles, POKETRADE_DEMO_DOWN_StepPlaySe, POKETRADE_DEMO_DOWN_UpdateScene, POKETRADE_DEMO_DOWN_StepFade, POKETRADE_DEMO_DOWN_CompareSideMon, POKETRADE_DEMO_DOWN_CreateUnitActor, POKETRADE_DEMO_DOWN_LoadUnitResources, POKETRADE_DEMO_DOWN_ReleaseUnit, POKETRADE_DEMO_DOWN_PassThrough, POKETRADE_DEMO_DOWN_SetFrame, POKETRADE_DEMO_DOWN_SetFinishFlag, POKETRADE_DEMO_DOWN_StepStartPlayback, POKETRADE_DEMO_DOWN_StepWaitSync, POKETRADE_DEMO_COMMON_StepBeginPlayback
+ * function: POKETRADE_DEMO_UP_CompareSideMon, POKETRADE_DEMO_UP_CreateUnitActor, POKETRADE_DEMO_UP_LoadUnitResources, POKETRADE_DEMO_UP_ReleaseUnit, POKETRADE_DEMO_UP_PassThrough, POKETRADE_DEMO_UP_SetFrame, POKETRADE_DEMO_UP_SetFinishFlag, POKETRADE_DEMO_UP_StepReleaseUnit, POKETRADE_DEMO_UP_DeleteSlide, POKETRADE_DEMO_UP_SetMonSlide, POKETRADE_DEMO_UP_ResetMonSlide, POKETRADE_DEMO_UP_UpdateEmitterC, POKETRADE_DEMO_UP_SetupEmitterC, POKETRADE_DEMO_UP_UpdateEmitterD, POKETRADE_DEMO_UP_SetupEmitterD, POKETRADE_DEMO_UP_StepStartDownScene, POKETRADE_DEMO_DOWN_StepSetup, POKETRADE_DEMO_DOWN_StepSetupParticles, POKETRADE_DEMO_DOWN_StepPlaySe, POKETRADE_DEMO_DOWN_UpdateScene, POKETRADE_DEMO_DOWN_StepFade, POKETRADE_DEMO_DOWN_CompareSideMon, POKETRADE_DEMO_DOWN_CreateUnitActor, POKETRADE_DEMO_DOWN_LoadUnitResources, POKETRADE_DEMO_DOWN_ReleaseUnit, POKETRADE_DEMO_DOWN_PassThrough, POKETRADE_DEMO_DOWN_SetFrame, POKETRADE_DEMO_DOWN_SetFinishFlag, POKETRADE_DEMO_DOWN_StepStartPlayback, POKETRADE_DEMO_DOWN_StepWaitSync
  * address:  0x021D54F0
  * region:   ov118
  * compiler: dsi/1.1p1
@@ -83,6 +83,7 @@
  *   POKETRADE_MCSS_StopAnimation  0x021DFD0C  thumb  ov119
  *   POKETRADE_SAVE_CloseMessageWindow  0x021E106C  thumb  ov119
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
+ *   POKETRADE_DEMO_COMMON_StepBeginPlayback  0x021D67F8  thumb  ov118
  *   POKETRADE_DEMO_MIDDLE_StepStartPlayback  0x021D6918  thumb  ov118
  *   d_021D8650     0x021D8650  data
  *   d_021D7CC4     0x021D7CC4  data
@@ -1045,30 +1046,4 @@ void POKETRADE_DEMO_DOWN_StepWaitSync(u8 *p)
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepBeginPlayback);
     }
-}
-
-void POKETRADE_DEMO_COMMON_StepBeginPlayback(u8 *p)
-{
-    Vec a;
-    Vec b;
-
-    POKETRADE_DEMO_DOWN_SetFrame(p, 0);
-    FADE = func_02030734(HEAP, 4, 1, d_021D8650, 0xF5);
-    FADE[0] = POKETRADE_DEMO_DOWN_PassThrough(0xE);
-    FADE[1] = 0;
-    FADE[2] = 0;
-    FADE[3] = -0x10;
-    a = d_021D7CC4;
-    POKETRADE_SAVE_FreeIfSet(SLOT0);
-    SLOT0 = POKETRADE_MCSS_SlideCreate(OBJ(0), POKETRADE_DEMO_DOWN_PassThrough(0x2A), &a, HEAP);
-    b = d_021D7CD0;
-    POKETRADE_SAVE_FreeIfSet(SLOT1);
-    SLOT1 = POKETRADE_MCSS_SlideCreate(OBJ(1), POKETRADE_DEMO_DOWN_PassThrough(0x54), &b, HEAP);
-    MCSS_SetAnimCallback(OBJ(0), p, (void (*)(void))POKETRADE_MCSS_StopAnimation, 1);
-    MCSS_SetPaletteFade(OBJ(1), 0, 0x10, (s8)(POKETRADE_DEMO_DOWN_PassThrough(0xE) / 16), 0);
-    POKETRADE_SAVE_CloseMessageWindow((char *)p);
-    BG_SYS_LoadPlttEntry(1, 0);
-    BG_SYS_LoadPlttEntry(5, 0);
-    POKETRADE_DEMO_DOWN_SetFrame(p, 0);
-    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepStartPlayback);
 }

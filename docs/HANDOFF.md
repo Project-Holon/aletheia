@@ -18,10 +18,10 @@
 ## Cleanup phase (2026-10-16): wave 11 integration
 
 The repo is now a full source tree, not a per-function match pool. Current
-figures, after wave 11 and its integration: `src/game` holds 1,212 `.c`
-files, all byte-exact (`python tools/gameverify.py`: 1,212 files, not exact 0);
+figures, after wave 12 and its integration: `src/game` holds 1,211 `.c`
+files, all byte-exact (`python tools/gameverify.py`: 1,211 files, not exact 0);
 `python tools/gamecheck.py` reports 35,523 functions, 0 missing, 0 doubled;
-`python tools/tucount.py` reports 1,212 of 1,212 translation units whole, split 0.
+`python tools/tucount.py` reports 1,211 of 1,211 translation units whole, split 0.
 
 `python tools/linkstats.py` reports 243 regions, 181 linked byte-identical with
 every file, 0 failures; game code is 100.00 percent fully linked (2,630,598 of
@@ -37,10 +37,23 @@ function renames applied, the shared headers lanes had built locally hoisted int
 one owner each, the INV-C ov175 caller chain applied, and the docs and figures
 brought to the final numbers.
 
-Remaining work is cleanup, not matching: 0 `Obj` references and 24 unnamed
-functions in 8 files (7 blocked on name or static-mangling decisions, 17 with no
-in-scope rename row). The sections below describe the matching phase
-(waves 1 to 21 of the previous run) and are kept for the record.
+Wave 12 was the misplacement pass (MP-1..MP-10), the stand-in second tier
+(SD-7..SD-11), the non-contiguous ov118 merge (NCR-1), the residual-name pass
+(MISC-1) and an independent verification (VER-1), integrated by INT13. It
+removed the last address-named stand-in types (2 leftovers only), applied the
+three ov009 SDK names (unnamed 23 -> 20), moved the net_err.c tail out of
+wih_dwc.c, and proved `layout/file_anchors.txt` was incomplete: rebuilt from the
+disassembly it holds 1056 anchors (was 1022), and the corrected anchor scan finds
+76 functions across 36 files whose own `__FILE__` anchor names a different file
+than the one they sit in. The remaining restructuring is a split campaign, not a
+move list: `S/INT13/split_list.tsv` (113 rows, 88 need a new file).
+
+Remaining work is cleanup, not matching: 0 `Obj` references and 20 unnamed
+functions (mostly blocked on name or static-mangling decisions). `src/matched` is
+the raw evidence store (one function per file, per-function views by
+construction); it is NOT in scope for "cleaned" and its `Obj` views are expected.
+The sections below describe the matching phase (waves 1 to 21 of the previous
+run) and are kept for the record.
 
 ## Session of 2026-09-23: waves 14 to 16, seed rounds 7 to 9
 

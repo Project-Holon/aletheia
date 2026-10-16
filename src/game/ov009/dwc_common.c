@@ -1,7 +1,7 @@
 /*
  * file:     dwc_common.c
  * unit:     yes
- * function: DWC_SetCommonKeyValueString, DWC_AddCommonKeyValueString, DWC_GetCommonValueString, func_021685CC, DWCi_WStrLen
+ * function: DWC_SetCommonKeyValueString, DWC_AddCommonKeyValueString, DWC_GetCommonValueString, DWCi_GetMathRand32, DWCi_WStrLen
  * address:  0x02168454
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   strncpy  0x02094860  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   OS_GetTick        0x020870D0  arm
- *   _ZZ13func_021685CCmE15stRandContext32  0x021AA848  data
+ *   _ZZ18DWCi_GetMathRand32mE15stRandContext32  0x021AA848  data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 extern int strncmp(const char *a, const char *b, unsigned long n);
@@ -48,7 +48,7 @@ extern u64 OS_GetTick(void);
 /* * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length. */ int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 /* * DWC_AddCommonKeyValueString: appends one key-value pair and returns the whole string's length. */ int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
-/* * lane18 (2026-10-01): EXACT. dwc_common.o's stRandContext32 is a data-local static: * declared as a function-local static (non-aliasing in 1.1p1) with the SDK inlines * MATH_InitRand32/MATH_Rand32, the .bss pool word and the fresh x-store word both fall out. * * sdk: func_021685CC (libdwcmatch.TWL.HYB.a(dwc_common.o)) */ u32 func_021685CC(u32 max);
+/* * lane18 (2026-10-01): EXACT. dwc_common.o's stRandContext32 is a data-local static: * declared as a function-local static (non-aliasing in 1.1p1) with the SDK inlines * MATH_InitRand32/MATH_Rand32, the .bss pool word and the fresh x-store word both fall out. * * sdk: DWCi_GetMathRand32 (libdwcmatch.TWL.HYB.a(dwc_common.o)) */ u32 DWCi_GetMathRand32(u32 max);
 /* * Returns the index of the first zero halfword in the array. */ int DWCi_WStrLen(unsigned short *p);
 extern char gDwcCommonKvFormat[];
 
@@ -146,9 +146,9 @@ static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max)
  *   declared as a function-local static (non-aliasing in 1.1p1) with the SDK inlines
  *   MATH_InitRand32/MATH_Rand32, the .bss pool word and the fresh x-store word both fall out.
  *
- * sdk:      func_021685CC (libdwcmatch.TWL.HYB.a(dwc_common.o))
+ * sdk:      DWCi_GetMathRand32 (libdwcmatch.TWL.HYB.a(dwc_common.o))
  */
-u32 func_021685CC(u32 max)
+u32 DWCi_GetMathRand32(u32 max)
 {
     static MATHRandContext32 stRandContext32;
     u64 seed;

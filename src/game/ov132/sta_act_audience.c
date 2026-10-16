@@ -42,7 +42,6 @@
 
 extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 
-typedef short s16_021F9E40;
 
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 
@@ -247,7 +246,7 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
     Vec v;
     void *a,*b;
     u16 x;
-    s16_021F9E40 delta;
+    short delta;
     if(rec[1]!=0) rec[1]--;
     if(rec[1]==0) {
         if(rec[0]==255 && ((struct ScriptOwner *)p)->f1FC==255) {

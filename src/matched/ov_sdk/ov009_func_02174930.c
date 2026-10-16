@@ -16,7 +16,7 @@
  *   ServerBrowserCount  0x0219F068 arm   ov009
  *   ServerBrowserGetServer  0x0219F058 arm   ov009
  *   SBServerGetIntValueA  0x0219E120 arm   ov009
- *   func_021685CC  0x021685CC arm   ov009
+ *   DWCi_GetMathRand32  0x021685CC arm   ov009
  *   _s32_div_f     0x0209C0A4 arm
  *   func_0219E084  0x0219E084 arm   ov009
  *   ServerBrowserSortA  0x0219F078 arm   ov009
@@ -35,7 +35,7 @@ extern void *ServerBrowserGetServer(void *sb, int index);
 struct SBServer;
 struct ServerBrowser;
 extern int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault);
-extern unsigned long func_021685CC(unsigned long max);
+extern unsigned long DWCi_GetMathRand32(unsigned long max);
 extern void func_0219E084(void *server, char *key, int value);
 extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 extern int g_021A19C0[6];
@@ -62,7 +62,7 @@ void DWCi_RandomizeServers(void)
             maxEval = tmpEval;
         sum += g_021A19C0[i];
     }
-    rand = func_021685CC(100);
+    rand = DWCi_GetMathRand32(100);
     for (i = 0; i < ServerBrowserCount(((struct DWCstMatchControl *)func_02175F3C())->sb); i++) {
         unsigned long prev;
         if (i == ServerBrowserCount(((struct DWCstMatchControl *)func_02175F3C())->sb) - 1)

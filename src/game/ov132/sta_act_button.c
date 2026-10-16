@@ -68,23 +68,21 @@ struct Actor;
 
 struct Vec2;
 
-typedef short s16_021FA6CC;
 
 typedef enum { FLAG_ZERO, FLAG_ONE } Flag;
 
 typedef struct {u8 bytes[12];} Key;
 
-typedef struct {s16_021FA6CC x,y;} Pos;
+typedef struct {short x,y;} Pos;
 
-typedef short s16_021FA7E0;
 
-typedef struct {s16_021FA7E0 x,y,index;u8 a,b;} Params;
+typedef struct {short x,y,index;u8 a,b;} Params;
 
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 
 extern u32 func_020307B0(void *p);
 
-extern void CLACT_DeleteActor(struct Obj_021F9E40 *p);
+extern void CLACT_DeleteActor(struct Actor *p);
 
 extern void CLACT_ReleasePalette(u32 i);
 
@@ -102,15 +100,15 @@ extern void STA_ACTING_RequestAction(char *p, int value);
 
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
-extern void CLACT_SetActorDrawEnable(struct Obj_021F9E40 *,unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Actor *,unsigned int);
 
-extern void CLACT_AddActorSurfacePos(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, u32 which);
 
 extern void func_020355D8(u8);
 
 extern int STA_ACTING_GetCurrentAction(char *p);
 
-extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *p);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
@@ -126,11 +124,11 @@ extern void *func_020490F4(u32 id, u32 heap);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void CLACT_SetActorAutoAnim(struct Obj_021F9E40 *,u32);
+extern void CLACT_SetActorAutoAnim(struct Actor *,u32);
 
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void *,u32,u32,u32,u16),CLACT_RegisterCellAnim(void *,u32,u32,u32),CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 
-extern struct Obj_021F9E40 *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern struct Actor *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 
 extern int ARC_UTIL_LoadMember(int,int,int,int);
 

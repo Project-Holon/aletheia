@@ -45,9 +45,9 @@ struct SOCLiCommandPacket;
 struct CPSSoc;
 struct SOCLSocket {
     unsigned char pad[0xac];
-    short field_ac;
-    signed char field_ae;
-    signed char field_af;
+    short state;                 /* 0xac */
+    signed char flagBlock;       /* 0xae */
+    signed char flagMode;        /* 0xaf */
 };
 
 struct SOCLiResource {
@@ -70,8 +70,8 @@ typedef struct {
 } Cmd;
 
 typedef struct {
-	unsigned char a;
-	unsigned char b;
+	signed char a;
+	signed char b;
 	unsigned short send;
 	unsigned short f4;
 	unsigned short recv;
@@ -84,29 +84,9 @@ typedef struct {
 } Param;
 
 typedef struct {
-	unsigned short a;
-	unsigned char b;
-	unsigned char c;
-} Param_0215D280;
-
-typedef struct {
 	unsigned long size;
 	unsigned char *data;
 } Buf;
-
-typedef struct {
-	signed char a;
-	signed char b;
-	unsigned short send;
-	unsigned short f4;
-	unsigned short recv;
-	unsigned short sendbuf;
-	unsigned short rbuf1;
-	unsigned short rbuf2;
-	unsigned short f0e;
-	unsigned char pipe1[4];
-	unsigned char pipe2[4];
-} Param_0215D2A8;
 
 typedef struct {
 	char pad0[0xfc];
@@ -280,8 +260,8 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param);
 int SOCLi_CreateSocketCallBack(void *arg);
 void *SOCLi_StartupSocket(void *param);
 unsigned long SOCLi_GetSizeSocket(Param *param);
-unsigned long SOCLi_GetSizeCommandPipe(Param_0215D280 *param);
-unsigned char *SOCLi_InitSocket(Sock *socket, const Param_0215D2A8 *param);
+unsigned long SOCLi_GetSizeCommandPipe(SOCLSocketThreadParam *param);
+unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param);
 unsigned char *SOCLi_InitSocketBuffer(unsigned char *ptr, Buf *buf, unsigned long size);
 unsigned char *SOCLi_InitCommandPipe(unsigned char *ptr, SOCLSocketCommandPipe *pipe, const SOCLSocketThreadParam *param);
 extern void *SOCLiConfigPtr;
@@ -308,13 +288,13 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
         int flag = 0;
 
         if (socket != 0) {
-            if (socket->field_ac & 1)
+            if (socket->state & 1)
                 flag = 1;
             else
                 flag = 0;
         }
         if (flag != 0) {
-            int b = (socket->field_af == 0 || socket->field_af == 4);
+            int b = (socket->flagMode == 0 || socket->flagMode == 4);
 
             if (b)
                 SOCLi_Resource.count0++;
@@ -372,7 +352,7 @@ void *SOCLi_StartupSocket(void *param)
 	socket = gSoclConfig->alloc(size);
 	if (socket) {
 		MI_CpuFill8(socket, 0, size);
-		SOCLi_InitSocket((Sock *)socket, (const Param_0215D2A8 *)param);
+		SOCLi_InitSocket((Sock *)socket, (const Param *)param);
 		SOCLi_SocketRegister((int)socket);
 	}
 	OS_RestoreInterrupts(enable);
@@ -394,14 +374,14 @@ unsigned long SOCLi_GetSizeSocket(Param *param)
 		size += 0x114;
 		size += func_0215F0C8(param->send);
 		size += func_0215F0C8(param->sendbuf);
-		size += SOCLi_GetSizeCommandPipe((Param_0215D280 *)param->pipe1);
+		size += SOCLi_GetSizeCommandPipe((SOCLSocketThreadParam *)param->pipe1);
 	}
 	if (param->recv) {
 		size += 0x110;
 		size += func_0215F0C8(param->recv);
 		size += func_0215F0C8(param->rbuf1);
 		size += func_0215F0C8(param->rbuf2);
-		size += SOCLi_GetSizeCommandPipe((Param_0215D280 *)param->pipe2);
+		size += SOCLi_GetSizeCommandPipe((SOCLSocketThreadParam *)param->pipe2);
 	}
 	return size;
 }
@@ -412,12 +392,12 @@ unsigned long SOCLi_GetSizeSocket(Param *param)
 /*
  * sdk:      SOCLi_GetSizeCommandPipe (libsoc.TWL.HYB.a(socl_create.o))
  */
-unsigned long SOCLi_GetSizeCommandPipe(Param_0215D280 *param)
+unsigned long SOCLi_GetSizeCommandPipe(SOCLSocketThreadParam *param)
 {
 	unsigned long size;
 
-	size = func_0215F0C8(param->c << 2);
-	size += func_0215F0C8(param->a);
+	size = func_0215F0C8(param->msgCount << 2);
+	size += func_0215F0C8(param->stackSize);
 	return size;
 }
 
@@ -451,7 +431,7 @@ unsigned long SOCLi_GetSizeCommandPipe(Param_0215D280 *param)
  *
  * sdk:      SOCLi_InitSocket (libsoc.TWL.HYB.a(socl_create.o))
  */
-unsigned char *SOCLi_InitSocket(Sock *socket, const Param_0215D2A8 *param)
+unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 {
 	unsigned char *ptr = (unsigned char *)socket + 0xbc;
 
@@ -466,7 +446,7 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param_0215D2A8 *param)
 		ptr = SOCLi_InitCommandPipe(ptr + 0x114, (SOCLSocketCommandPipe *)spipe, (const SOCLSocketThreadParam *)param->pipe1);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b48, param->send);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b5c, param->sendbuf);
-		spipe->f10a = param->f0e;
+		spipe->f10a = param->cfg;
 		spipe->f110 = 0;
 		spipe->f10c = 0;
 	}
@@ -528,7 +508,7 @@ unsigned char *SOCLi_InitCommandPipe(unsigned char *ptr, SOCLSocketCommandPipe *
 {
 	unsigned char *stack_bottom;
 
-	stack_bottom = ptr + SOCLi_GetSizeCommandPipe((Param_0215D280 *)param);
+	stack_bottom = ptr + SOCLi_GetSizeCommandPipe((SOCLSocketThreadParam *)param);
 	OS_InitMessageQueue(&pipe->queue, (OSMessage *)ptr, param->msgCount);
 	OS_InitMutex(&pipe->mutex);
 	OS_CreateThread(&pipe->thread, SOCLi_CommandPacketHandler, pipe, stack_bottom, param->stackSize, param->prio);

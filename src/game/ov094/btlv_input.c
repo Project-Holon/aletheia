@@ -83,7 +83,7 @@
  *   BTLV_FINGER_CURSOR_Create  0x02209A7C  thumb  ov094
  *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
  *   BTLV_FINGER_CURSOR_IsActive  0x02209C2C  thumb  ov094
- *   sec_0220A380   0x0220A380  data
+ *   sBtlvInputSectionData   0x0220A380  data
  *   d_0220A380     0x0220A380  data
  *   d_0220AE98     0x0220AE98  data
  *   d_0220AEA4     0x0220AEA4  data
@@ -318,9 +318,9 @@ typedef struct BtlvInputCommandDesc {
 } BtlvInputCommandDesc;
 
 /* The rodata objects at 0x0220A380..0x0220A3B4 are one section to the compiler: loads go
- * through the section base (sec_0220A380 + field) and addresses taken get their own words;
+ * through the section base (sBtlvInputSectionData + field) and addresses taken get their own words;
  * the 3-byte object at the section start is a second name at the same address. */
-typedef struct Sec {
+typedef struct BtlvInputSectionData {
     u8 b0[3];
     u8 key[3];
     u8 pal[3][2];
@@ -328,7 +328,7 @@ typedef struct Sec {
     u16 h[5];
     BtlvInputCommandDesc da;
     BtlvInputCommandDesc db;
-} Sec;
+} BtlvInputSectionData;
 
 
 
@@ -1013,7 +1013,7 @@ extern BtlvInputTargetRegion *gBtlvScdTargetRegionsDoubleB[][15];
 
 extern const BtlvInputFingerTable d_0220A598;
 
-extern const Sec sec_0220A380;
+extern const BtlvInputSectionData sBtlvInputSectionData;
 
 extern const u8 d_0220A380[3];
 
@@ -1669,7 +1669,7 @@ int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out)
             if (i < 4 && input->struggle == 1)
                 input->pending = 7;
             *out = input->pending;
-            *key = sec_0220A380.key[input->flags.slotIndex];
+            *key = sBtlvInputSectionData.key[input->flags.slotIndex];
             input->pending = -1;
             input->flags2.choiceMade = 0;
             PALANM_RequestFadeOverwrite((void *)input->palAnm, 2, 0x3e00, 0, 0, 0, 0, input->taskMgr);
@@ -1685,11 +1685,11 @@ int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out)
         return 0;
     }
     if (input->struggle == 1) {
-        a = TOUCHPANEL_HitTrg(sec_0220A380.db.buttons);
-        i = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)((Cmd *)(&sec_0220A380.db)), (s8 (*)[12])((int)(d_0220AE98[input->flags.slotIndex])), (u8 *)((int)0), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
+        a = TOUCHPANEL_HitTrg(sBtlvInputSectionData.db.buttons);
+        i = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)((Cmd *)(&sBtlvInputSectionData.db)), (s8 (*)[12])((int)(d_0220AE98[input->flags.slotIndex])), (u8 *)((int)0), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
     } else {
-        a = TOUCHPANEL_HitTrg(sec_0220A380.da.buttons);
-        i = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)((Cmd *)(&sec_0220A380.da)), (s8 (*)[12])((int)(d_0220AEA4[input->flags.slotIndex])), (u8 *)((int)d_0220A380), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
+        a = TOUCHPANEL_HitTrg(sBtlvInputSectionData.da.buttons);
+        i = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)((Cmd *)(&sBtlvInputSectionData.da)), (s8 (*)[12])((int)(d_0220AEA4[input->flags.slotIndex])), (u8 *)((int)d_0220A380), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
     }
     if (i != -1) {
         held = KEY_GetCont();
@@ -1707,23 +1707,23 @@ int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out)
     }
     if (i != -1) {
         if (input->struggle == 1) {
-            r = BTLV_INPUT_IsWazaSelectable(input, (const BtlvInputSection *)(&sec_0220A380.db), i);
+            r = BTLV_INPUT_IsWazaSelectable(input, (const BtlvInputSection *)(&sBtlvInputSectionData.db), i);
             if (r == 0 && !(input->flags2.choiceMade)) {
                 input->lastChoice[input->partyIdx][input->screen] = i;
                 BTLV_INPUT_PlayOpenSe((void *)input);
             } else if (r == 1 && !(input->flags2.choiceMade)) {
                 BTLV_INPUT_PlayCursorSe((void *)input);
             }
-            i = BTLV_INPUT_SetSelection(input, i, sec_0220A380.db.values[i]);
+            i = BTLV_INPUT_SetSelection(input, i, sBtlvInputSectionData.db.values[i]);
         } else {
-            r = BTLV_INPUT_IsWazaSelectable(input, (const BtlvInputSection *)(&sec_0220A380.da), i);
+            r = BTLV_INPUT_IsWazaSelectable(input, (const BtlvInputSection *)(&sBtlvInputSectionData.da), i);
             if (r == 0 && !(input->flags2.choiceMade)) {
                 input->lastChoice[input->partyIdx][input->screen] = i;
                 BTLV_INPUT_PlayOpenSe((void *)input);
             } else if (r == 1 && !(input->flags2.choiceMade)) {
                 BTLV_INPUT_PlayCursorSe((void *)input);
             }
-            i = BTLV_INPUT_SetSelection(input, i, sec_0220A380.da.values[i]);
+            i = BTLV_INPUT_SetSelection(input, i, sBtlvInputSectionData.da.values[i]);
         }
     }
     if (i != -1)

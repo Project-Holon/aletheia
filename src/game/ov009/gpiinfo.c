@@ -305,26 +305,6 @@ typedef struct GPIConnection {
     unsigned int kaTransmit;
 } GPIConnection;
 
-struct GPIConnection_0218C5FC {
-    char pad0[0x198];
-    int profileid;
-    char pad1[8];
-    int sessionKey;
-    char pad2[0x43c];
-    char *nick;
-    char pad3[4];
-    int nickPending;
-    char pad4[4];
-    char *email;
-    char pad5[4];
-    int emailPending;
-};
-
-typedef struct GPIConnection_0218C6E4 {
-    unsigned char pad[0x5E4];
-    unsigned char outputBuffer[0x10];
-} GPIConnection_0218C6E4;
-
 typedef int _GPResult;
 
 extern void gpiSetErrorString(int *p, int b);
@@ -802,23 +782,23 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
  */
 int gpiAddLocalInfo(void **connection, void *buffer)
 {
-    struct GPIConnection_0218C5FC *iconnection = (struct GPIConnection_0218C5FC *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
 
-    if (iconnection->nickPending > 0) {
+    if (iconnection->updateproBuffer.len > 0) {
         gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateProSessKey);
-        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->profileid);
-        gpiAppendStringToBuffer((int *)connection, buffer, iconnection->nick);
+        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->sessKey);
+        gpiAppendStringToBuffer((int *)connection, buffer, iconnection->updateproBuffer.buffer);
         gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyPartnerId);
-        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->sessionKey);
+        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->partnerID);
         gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
-        iconnection->nickPending = 0;
+        iconnection->updateproBuffer.len = 0;
     }
-    if (iconnection->emailPending > 0) {
+    if (iconnection->updateuiBuffer.len > 0) {
         gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateUiSessKey);
-        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->profileid);
-        gpiAppendStringToBuffer((int *)connection, buffer, iconnection->email);
+        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->sessKey);
+        gpiAppendStringToBuffer((int *)connection, buffer, iconnection->updateuiBuffer.buffer);
         gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
-        iconnection->emailPending = 0;
+        iconnection->updateuiBuffer.len = 0;
     }
     return 0;
 }
@@ -831,12 +811,12 @@ int gpiAddLocalInfo(void **connection, void *buffer)
  */
 int gpiSendLocalInfo(void **connection, char *info, char *value)
 {
-    GPIConnection_0218C6E4 *iconnection = (GPIConnection_0218C6E4 *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     int result;
 
-    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x1e4 + 0x400), info)) != 0)
+    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->updateproBuffer, info)) != 0)
         return result;
-    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x1e4 + 0x400), value)) != 0)
+    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->updateproBuffer, value)) != 0)
         return result;
     return 0;
 }

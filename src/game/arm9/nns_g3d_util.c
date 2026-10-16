@@ -21,66 +21,21 @@
  *   func_0207C768  0x0207C768  arm
  *   NNS_G3dGlbGetInvVPMtx  0x0206AE2C  arm
  */
-typedef int s32;
-
-typedef int fx32;
+#include "nns_g3d_glb_types.h"
 
 typedef long long fx64;
 
 typedef long long fx64c;
 
-typedef struct 
-{
-  fx32 x;
-  fx32 y;
-  fx32 z;
-} VecFx32_0206DF3C;
-
-typedef struct 
-{
-  fx32 _00;
-  fx32 _01;
-  fx32 _02;
-  fx32 _03;
-  fx32 _10;
-  fx32 _11;
-  fx32 _12;
-  fx32 _13;
-  fx32 _20;
-  fx32 _21;
-  fx32 _22;
-  fx32 _23;
-  fx32 _30;
-  fx32 _31;
-  fx32 _32;
-  fx32 _33;
-} MtxFx44_0206DF3C;
-
-typedef struct 
-{
-  fx32 m[4][3];
-} MtxFx43;
-
-typedef struct 
-{
-  int cmd0;
-  int mtxmode;
-  MtxFx44_0206DF3C prjMtx;
-  int cmd1;
-  MtxFx43 cameraMtx;
-} Glb;
-
-typedef unsigned int   u32;
-
-extern void MTX_MultVec43(const VecFx32_0206DF3C *src, const MtxFx43 *m, VecFx32_0206DF3C *dst);
+extern void MTX_MultVec43(const VecFx32 *src, const MtxFx43 *m, VecFx32 *dst);
 extern void FX_InvAsync(fx32 d);
 extern fx64c func_0207C848(void);
 extern void NNS_G3dGlbGetViewPort(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *NNS_G3dGlbGetInvVPMtx(void);
-int NNS_G3dWorldPosToScrPos(const VecFx32_0206DF3C *pWorld, int *px, int *py);
-int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32_0206DF3C *pNear, VecFx32_0206DF3C *pFar);
-extern Glb g_renderState;
+int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py);
+int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32 *pNear, VecFx32 *pFar);
+extern NNSG3dGlb g_renderState;
 
 inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
 {
@@ -92,7 +47,7 @@ inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
 /*
  * NitroSystem G3D NNS_G3dWorldPosToScrPos (util.c): world position to screen
  * pixel. The camera matrix and projection matrix are members of the G3D
- * global state object at 0x02148B4C (NNS_G3dGlb: prjMtx at +8, cameraMtx at
+ * global state object at 0x02148B4C (NNS_G3dGlb: projMtx at +8, cameraMtx at
  * +0x4c, viewport word at +0xa0 which NNS_G3dGlbGetViewPort unpacks). Returns -1 when
  * the point projects outside [0, FX32_ONE] in x or y, else 0.
  *
@@ -103,17 +58,17 @@ inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
  * extents x2-x1 / y2-y1 are named locals computed before the *px store.
  * Byte-identical under dsi/1.1p1 as well; pinned ../2.0/sp2 with the cluster.
  */
-int NNS_G3dWorldPosToScrPos(const VecFx32_0206DF3C *pWorld, int *px, int *py)
+int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py)
 {
-    VecFx32_0206DF3C vec;
+    VecFx32 vec;
     int x1, y1, x2, y2;
     int ret;
     fx32 w, x, y;
     fx64c invW;
-    const MtxFx44_0206DF3C *m;
+    const MtxFx44 *m;
     fx32 ty;
 
-    m = &g_renderState.prjMtx;
+    m = &g_renderState.projMtx;
     MTX_MultVec43(pWorld, &g_renderState.cameraMtx, &vec);   /* MTX_MultVec43 */
 
     {
@@ -162,12 +117,12 @@ int NNS_G3dWorldPosToScrPos(const VecFx32_0206DF3C *pWorld, int *px, int *py)
  * DISCRIMINATING PIN: dsi/1.1p1 compiles the same C to 648 bytes (the rval
  * arms are laid out differently); ../2.0/sp2 is byte-exact.
  */
-int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32_0206DF3C *pNear, VecFx32_0206DF3C *pFar)
+int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
 {
     int x1, y1, x2, y2;
     fx32 x, y;
     int rval;
-    const MtxFx44_0206DF3C *m;
+    const MtxFx44 *m;
     fx32 w, nx, ny, nz, fw, fx, fy, fz;
     fx64c invW;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02189780
+ * function: gpiRecvToBuffer
  * address:  0x02189780
  * packet:   pkt_0219091C
  * region:   ov009
@@ -16,7 +16,7 @@
  * plus *bytesRead and *connClosed.
  *
  * 2026-10-01 (w3 lane28): closed. recvCount is a function-local static
- * (lever 3, as sibling func_021894D8). The vendor reloc is
+ * (lever 3, as sibling gpiSendData). The vendor reloc is
  * gpiSendData's sendCount + 4: both counters sit in this object's .bss with
  * sendCount first, so the load is `[anchor, #4]`. The file-scope
  * `static int sendCount = 0;` models that preceding static (a tentative def
@@ -37,7 +37,7 @@
  *   g_021A458C     0x021A458C  data ov009
  *   g_021A45A0     0x021A45A0  data ov009
  *   sendCount      0x021ADFC8  data ov009
- *   _ZZ13func_02189780PiiP9GPIBufferS_S_PcE9recvCount 0x021ADFCC data
+ *   _ZZ14gpiRecvToBufferPiiP9GPIBufferS_S_PcE9recvCount 0x021ADFCC data
  */
 
 typedef struct {
@@ -63,7 +63,7 @@ extern char g_021A45A0[];
 
 static int sendCount = 0;
 
-int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
+int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer,
                   int *bytesRead, int *connClosed, char *id)
 {
     static int recvCount;

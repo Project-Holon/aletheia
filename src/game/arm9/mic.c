@@ -52,13 +52,13 @@
 #define NULL ((void *)0)
 #define PXI_FIFO_TAG_MIC 9
 #define PXI_PROC_ARM7 1
-#define HW_MIC_LAST_ADDRESS (*(u32_0208B24C *)0x02FFFF90)
+#define HW_MIC_LAST_ADDRESS (*(u32 *)0x02FFFF90)
 #define MIC_PXI_STOP_AUTO_SAMPLING 0x03004200
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef unsigned long u32_0208B24C;
+typedef unsigned int u32;
 
 typedef int BOOL;
 
@@ -79,8 +79,8 @@ typedef struct MICAutoParam
 {
     int type;
     void *buffer;
-    u32_0208B24C size;
-    u32_0208B24C rate;
+    u32 size;
+    u32 rate;
     BOOL loop_enable;
     MICCallback full_callback;
     void *full_arg;
@@ -88,7 +88,7 @@ typedef struct MICAutoParam
 
 typedef struct MICWork
 {
-    u32_0208B24C lock;
+    u32 lock;
     MICCallback callback;
     void *arg;
     MICResult result;
@@ -104,17 +104,15 @@ typedef struct MicBss
     MICWork micWork;
 } MicBss;
 
-typedef unsigned int u32_0208B7B0;
-
-extern u32_0208B24C OS_DisableInterrupts(void);
-extern u32_0208B24C OS_RestoreInterrupts(u32_0208B24C state);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32 state);
 extern BOOL OSi_IsCodecTwlMode(void);
 extern void PXI_Init(void);
 extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32_0208B24C data, BOOL err));
-extern int PXI_SendWordByFifo(int fifotag, u32_0208B24C data, BOOL err);
-extern void MicCommonCallback(int tag, u32_0208B24C data, BOOL err);
-extern BOOL MicStartAutoSampling(void *buf, u32_0208B24C size, u32_0208B24C span, u8 flags);
+extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
+extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
+extern void MicCommonCallback(int tag, u32 data, BOOL err);
+extern BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags);
 extern BOOL MicStopAutoSampling(void);
 extern void MicWaitBusy(void);
 extern void MicGetResultCallback(MICResult result, void *arg);
@@ -133,7 +131,7 @@ MICResult MIC_StartLimitedSampling(MICAutoParam *param);
 MICResult MIC_StopLimitedSampling(void);
 void *MICEXi_GetLimitedSamplingCallback(void);
 extern MicBss mic_bss;
-extern u32_0208B24C g_02152FE4;
+extern u32 g_02152FE4;
 
 
 /*
@@ -170,10 +168,10 @@ void MIC_Init(void)
  */
 MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg)
 {
-    u32_0208B24C enabled;
+    u32 enabled;
     u8 flags;
 
-    if ((u32_0208B24C)param->buffer & 0x1f) {
+    if ((u32)param->buffer & 0x1f) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     if (param->size & 0x1f) {
@@ -255,7 +253,7 @@ MICResult MIC_StartAutoSampling(MICAutoParam *param)
  */
 MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg)
 {
-    u32_0208B24C enabled = OS_DisableInterrupts();
+    u32 enabled = OS_DisableInterrupts();
 
     if (mic_bss.micWork.lock)
     {
@@ -348,7 +346,7 @@ MICResult MIC_StopLimitedSampling(void)
  * 3-argument PXI FIFO callback. The error path does not return. The
  * switch operand needs the (u16) cast; the plain mask swaps r5 and r6.
  */
-void MicCommonCallback(int tag, u32_0208B24C data, BOOL err)
+void MicCommonCallback(int tag, u32 data, BOOL err)
 {
     MICResult result;
     u16 command;
@@ -411,15 +409,15 @@ void MicCommonCallback(int tag, u32_0208B24C data, BOOL err)
 /*
  * sdk:      MicStartAutoSampling (libspi.TWL.HYB.a mic.o)
  */
-BOOL MicStartAutoSampling(void *buf, u32_0208B24C size, u32_0208B24C span, u8 flags)
+BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags)
 {
     if (PXI_SendWordByFifo(9, 0x02000000 | 0x4100 | flags, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, 0x10000 | ((u32_0208B24C)buf >> 16), 0) < 0) {
+    if (PXI_SendWordByFifo(9, 0x10000 | ((u32)buf >> 16), 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, 0x20000 | ((u32_0208B24C)buf & 0xffff), 0) < 0) {
+    if (PXI_SendWordByFifo(9, 0x20000 | ((u32)buf & 0xffff), 0) < 0) {
         return 0;
     }
     if (PXI_SendWordByFifo(9, 0x30000 | (size >> 16), 0) < 0) {

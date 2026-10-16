@@ -285,31 +285,25 @@ struct Rec3;
 
 struct CharBuf;
 
-typedef unsigned int u32_021F8480;
 
-typedef unsigned int u32_021F8640;
 
-typedef unsigned u32_021F879C;
 
-typedef unsigned u32_021F899C;
 
 typedef int BOOL;
 
-typedef struct { u32_021F899C w[3]; } Vec3;
+typedef struct { unsigned int w[3]; } Vec3;
 
 typedef struct { Vec3 a,b,c; } Vectors;
 
-typedef struct { u32_021F899C w[7]; } Blob28;
+typedef struct { unsigned int w[7]; } Blob28;
 
 typedef enum { MAIN_SUB=0,SUB_MAIN=1 } GXDispSelect;
 
-typedef unsigned int u32_021F8BD4;
 
 struct Slots { u8 pad[0x44]; void *slots[4]; };
 
 typedef struct Object Object;
 
-typedef signed short s16_021F8DC4;
 
 struct Bytes { u8 a, b, c, d; };
 
@@ -329,23 +323,23 @@ typedef enum { ENABLED = 1 } Enabled;
 
 typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
 
-extern void *func_02030734(u32_021F8480 heapId, u32_021F8480 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 
-extern void *func_020056A0(void (*)(void),void *,u32_021F8480);
+extern void *func_020056A0(void (*)(void),void *,unsigned int);
 
-extern u32_021F8480 STA_NET_GetCurrentSlotValue(char *p);
+extern unsigned int STA_NET_GetCurrentSlotValue(char *p);
 
-extern void *func_020490F4(u32_021F8480 id, u32_021F8480 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 
 extern void *STA_ACT_LIGHT_CreateUnit(u16,void *);
 
-extern char *STA_ACT_AUDIENCE_Create(u32_021F8480,void *,u32_021F8480);
+extern char *STA_ACT_AUDIENCE_Create(unsigned int,void *,unsigned int);
 
-extern char *STA_ACT_BUTTON_Create(u32_021F8480,void *,char *);
+extern char *STA_ACT_BUTTON_Create(unsigned int,void *,char *);
 
-extern void *STA_ACT_SCRIPT_Create(u32_021F8480,void *);
+extern void *STA_ACT_SCRIPT_Create(unsigned int,void *);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32_021F8480,u32_021F8480);
+extern void GFL_NET_RestartWithDefaultTimeout(unsigned int,unsigned int);
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
@@ -365,11 +359,11 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
-extern u32_021F8640 MSGDATA_Delete(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
-extern u32_021F8640 BMP_WIN_Delete(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 
-extern u32_021F8640 GF_FONT_Delete(void *ptr);
+extern unsigned int GF_FONT_Delete(void *ptr);
 
 extern void TCBL_Destroy(struct S02031140 *p);
 
@@ -395,11 +389,11 @@ extern void CLACT_ExitSystem(void);
 
 extern void BILLBOARD_Delete(void *);
 
-extern u32_021F8640 G3D_CAMERA_Delete(void *ptr);
+extern unsigned int G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern void BG_SYS_FreeLayerBuf(u32_021F8640);
+extern void BG_SYS_FreeLayerBuf(unsigned int);
 
 extern void BMP_WIN_Exit(void);
 
@@ -409,13 +403,13 @@ extern void func_02030EAC(struct Node *n);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u32_021F8640 func_020307B0(void *p);
+extern unsigned int func_020307B0(void *p);
 
-extern void WIPE_SYS_Start(void *,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C);
+extern void WIPE_SYS_Start(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 
-extern u32_021F879C WIPE_SYS_EndCheck(void);
+extern unsigned int WIPE_SYS_EndCheck(void);
 
-extern u32_021F879C func_0200FB24(void);
+extern unsigned int func_0200FB24(void);
 
 extern int GFL_USE_IsAnySeBusy(void);
 
@@ -473,9 +467,9 @@ extern void BG_SYS_ClearMainPlanes(void);
 
 extern void BG_SYS_ClearSubPlanes(void);
 
-extern void WIPE_SetBrightnessFadeOut(u32_021F899C,u32_021F899C);
+extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
-extern u32_021F899C WIPE_ResetWndMask(void *);
+extern unsigned int WIPE_ResetWndMask(void *);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
@@ -487,13 +481,13 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void func_02040588(u32 which, unsigned char enable);
 
-extern void G3D_SYSTEM_Init(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u16,u16,void (*)(void));
+extern void G3D_SYSTEM_Init(unsigned int,unsigned int,unsigned int,unsigned int,u16,u16,void (*)(void));
 
-extern void BG_SYS_SetLowBit(u32_021F899C);
+extern void BG_SYS_SetLowBit(unsigned int);
 
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32_021F899C,u32_021F899C);
+extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned int,unsigned int);
 
-extern void *G3D_CAMERA_Create(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,const Vec3 *,const Vec3 *,const Vec3 *,u16);
+extern void *G3D_CAMERA_Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,const Vec3 *,const Vec3 *,const Vec3 *,u16);
 
 extern void func_02048AD0(struct Light *l);
 
@@ -503,21 +497,21 @@ extern void *BILLBOARD_Create(u8 *src, void *heap);
 
 extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32_021F899C arg, u32_021F899C heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32_021F8BD4 a1, u32_021F8BD4 a2, u32_021F8BD4 a3, u32_021F8BD4 a4, u32_021F8BD4 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, u16 a6);
 
-extern u32_021F8BD4 func_02049658(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u32_021F8BD4 f, u16 g);
+extern unsigned int func_02049658(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
-extern void func_020498F4(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u32_021F8BD4 f, u16 g);
+extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
-extern void func_02049B68(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u16 f);
+extern void func_02049B68(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 
-extern void MIi_CpuCopy16(const void *,void *,u32_021F8BD4);
+extern void MIi_CpuCopy16(const void *,void *,unsigned int);
 
-extern void BG_SYS_PushTile(u32_021F8BD4);
+extern void BG_SYS_PushTile(unsigned int);
 
-extern u8 *STA_ACT_LIGHT_AllocElem(u32_021F8BD4 heap, u32_021F8BD4 v);
+extern u8 *STA_ACT_LIGHT_AllocElem(unsigned int heap, unsigned int v);
 
 extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
 
@@ -785,11 +779,11 @@ int STA_ACTING_GetSelection(char *p);
 
 extern const char d_021FDCA0[];
 
-extern u32_021F8480 g_02FFFC3C;
+extern unsigned int g_02FFFC3C;
 
-extern u32_021F879C d_02FFFC3C;
+extern unsigned int d_02FFFC3C;
 
-extern u32_021F879C d_021FDE80;
+extern unsigned int d_021FDE80;
 
 extern const Vectors d_021FDA7C;
 
@@ -797,27 +791,27 @@ extern const Blob28 d_021FDBF8;
 
 extern const Vec3 d_021FDBD4;
 
-extern const u32_021F899C d_021FDBA0[];
+extern const unsigned int d_021FDBA0[];
 
-extern const u32_021F899C d_021FDAA0[];
+extern const unsigned int d_021FDAA0[];
 
-extern const u32_021F899C d_021FDB40[];
+extern const unsigned int d_021FDB40[];
 
-extern const u32_021F899C d_021FDB60[];
+extern const unsigned int d_021FDB60[];
 
-extern const u32_021F899C d_021FDB80[];
+extern const unsigned int d_021FDB80[];
 
-extern const u32_021F899C d_021FDAC0[];
+extern const unsigned int d_021FDAC0[];
 
-extern const u32_021F899C d_021FDAE0[];
+extern const unsigned int d_021FDAE0[];
 
-extern const u32_021F899C d_021FDB00[];
+extern const unsigned int d_021FDB00[];
 
-extern const u32_021F899C d_021FDB20[];
+extern const unsigned int d_021FDB20[];
 
-extern const u32_021F899C d_021FDAB0[];
+extern const unsigned int d_021FDAB0[];
 
-extern const u32_021F899C gClActorInitParam[];
+extern const unsigned int gClActorInitParam[];
 
 extern const struct Vec d_021FDBE0;
 
@@ -825,7 +819,7 @@ extern const Vec d_021FDBEC;
 
 extern const struct Bytes d_021FDBD0;
 
-extern const s16_021F8DC4 FX_SinCosTable_[];
+extern const signed short FX_SinCosTable_[];
 
 u8 *STA_ACTING_Create(u8 *input, int heap)
 {
@@ -839,37 +833,37 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
     *(u16 *)(p+4)=127;
     *(u16 *)(p+6)=128;
     *(u16 *)(p+8)=0;
-    *(u32_021F8480 *)(p+0xb4)=0;
-    *(u32_021F8480 *)(p+0x1c)=0;
-    *(u32_021F8480 *)(p+0x164)=0;
-    *(u32_021F8480 *)(p+0xc)=1;
-    *(u32_021F8480 *)(p+0x14)=0;
-    *(u32_021F8480 *)(p+0x10)=0;
-    *(u32_021F8480 *)(p+0x24)=0;
-    *(u32_021F8480 *)(p+0x28)=0;
-    *(u32_021F8480 *)(p+0x2c)=0;
+    *(unsigned int *)(p+0xb4)=0;
+    *(unsigned int *)(p+0x1c)=0;
+    *(unsigned int *)(p+0x164)=0;
+    *(unsigned int *)(p+0xc)=1;
+    *(unsigned int *)(p+0x14)=0;
+    *(unsigned int *)(p+0x10)=0;
+    *(unsigned int *)(p+0x24)=0;
+    *(unsigned int *)(p+0x28)=0;
+    *(unsigned int *)(p+0x2c)=0;
     *(void **)(p+0x20)=func_020056A0(STA_ACTING_VBlankCallback,p,64);
-    if(**(u32_021F8480 **)(p+0x30)==0){
+    if(**(unsigned int **)(p+0x30)==0){
         for(;i<4;i++){
-            if(**(u32_021F8480 **)(*(u8 **)(p+0x30)+4+i*4)==0){p[0xa]=i;break;}
+            if(**(unsigned int **)(*(u8 **)(p+0x30)+4+i*4)==0){p[0xa]=i;break;}
         }
         if(i==4)p[0xa]=1;
-    }else p[0xa]=STA_NET_GetCurrentSlotValue((void *)**(u32_021F8480 **)(p+0x30));
+    }else p[0xa]=STA_NET_GetCurrentSlotValue((void *)**(unsigned int **)(p+0x30));
     for(i=0;i<4;i++)p[0xf7+i]=0;
     STA_ACTING_RankScores(p);
-    *(u32_021F8480 *)(p+0xec)=1;
+    *(unsigned int *)(p+0xec)=1;
     p[0xf0]=4;
     p[0xf1]=4;
     p[0xf2]=4;
     p[0x11c]=4;
     *(u16 *)(p+0x11e)=0;
-    *(u32_021F8480 *)(p+0x15c)=0;
+    *(unsigned int *)(p+0x15c)=0;
     *(u16 *)(p+0x168)=0;
     for(i=0;i<4;i++){
-        *(u32_021F8480 *)(p+0xfc+i*4)=0;
+        *(unsigned int *)(p+0xfc+i*4)=0;
         *(u16 *)(p+0x124+i*2)=0;
-        *(u32_021F8480 *)(p+0x13c+i*8)=0;
-        *(u32_021F8480 *)(p+0x140+i*8)=0;
+        *(unsigned int *)(p+0x13c+i*8)=0;
+        *(unsigned int *)(p+0x140+i*8)=0;
     }
     *(void **)(p+0x18)=func_020490F4(47,*(u16 *)p);
     STA_ACTING_InitDisplay(p);
@@ -879,16 +873,16 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
     STA_ACTING_CreateActObj((char *)p);
     STA_ACTING_CreateActorSys((char *)p);
     *(void **)(p+0x90)=STA_ACT_LIGHT_CreateUnit(*(u16 *)p,p);
-    *(void **)(p+0xb8)=STA_ACT_AUDIENCE_Create(*(u16 *)p,p,*(u32_021F8480 *)(p+0x30));
+    *(void **)(p+0xb8)=STA_ACT_AUDIENCE_Create(*(u16 *)p,p,*(unsigned int *)(p+0x30));
     *(void **)(p+0xa4)=STA_ACT_BUTTON_Create(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));
     *(void **)(p+0xb0)=STA_ACT_SCRIPT_Create(*(u16 *)p,p);
     STA_ACTING_CreateAnimHandle((char *)p);
     GFL_NET_RestartWithDefaultTimeout(0,*(u16 *)p);
     STA_ACTING_SetBaseProgram(p,0);
-    *(u32_021F8480 *)(p+0x1dc)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x14);
-    *(u32_021F8480 *)(p+0x1e0)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x18);
-    *(u32_021F8480 *)(p+0x1e4)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x1c);
-    *(u32_021F8480 *)(p+0x1ec)=g_02FFFC3C;
+    *(unsigned int *)(p+0x1dc)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x14);
+    *(unsigned int *)(p+0x1e0)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x18);
+    *(unsigned int *)(p+0x1e4)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x1c);
+    *(unsigned int *)(p+0x1ec)=g_02FFFC3C;
     return p;
 }
 
@@ -903,7 +897,7 @@ void STA_ACTING_Delete(char *p)
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,-16);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
-    *(volatile u32_021F8640 *)0x04000000 &= 0xffff1fff;
+    *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
     STA_ACTING_DeleteAnimHandle(p);
     STA_ACT_SCRIPT_Delete(((struct ActingScene *)p)->fB0);
     if(((struct ActingScene *)p)->fE0.p!=0)STRBUF_Delete(((struct ActingScene *)p)->fE0.p);
@@ -945,7 +939,7 @@ void STA_ACTING_Delete(char *p)
  */
 int STA_ACTING_Update(u8 *p)
 {
-    u32_021F879C tick;
+    unsigned int tick;
     tick=d_02FFFC3C;
     ((struct ActingScene *)p)->f1E8=tick-((struct ActingScene *)p)->f1EC.u;
     ((struct ActingScene *)p)->f1EC.u=tick;
@@ -956,7 +950,7 @@ int STA_ACTING_Update(u8 *p)
         break;
     case 1:
         if(WIPE_SYS_EndCheck()==1) {
-            if(**(u32_021F879C * *)&((struct ActingScene *)p)->f30!=0) {
+            if(**(unsigned int * *)&((struct ActingScene *)p)->f30!=0) {
                 ((struct ActingScene *)p)->f1C=7;
                 MUS_COMM_FUNC_SetTimingSync(**(int * *)&((struct ActingScene *)p)->f30,200);
             } else ((struct ActingScene *)p)->f1C=4;
@@ -1017,7 +1011,7 @@ int STA_ACTING_Update(u8 *p)
     STA_ACT_EFFECT_Draw(*(u8 * *)&((struct ActingScene *)p)->f6C);
     STA_ACT_EFFECT_Noop(p);
     G3D_SYSTEM_DrawEnd(); CLACT_DrawSystem();
-    if(**(u32_021F879C * *)&((struct ActingScene *)p)->f30!=0 && ((struct ActingScene *)p)->f1C!=0 &&
+    if(**(unsigned int * *)&((struct ActingScene *)p)->f30!=0 && ((struct ActingScene *)p)->f1C!=0 &&
        ((struct ActingScene *)p)->f1C!=1 && ((struct ActingScene *)p)->f1C!=2 &&
        ((struct ActingScene *)p)->f1C!=3 && func_0200FB24()!=0)
         ((struct ActingScene *)p)->f1C=2;
@@ -1026,9 +1020,9 @@ int STA_ACTING_Update(u8 *p)
 
 void STA_ACTING_VBlankCallback(void) { CLACT_VBlankSystem(); }
 
-static inline void GX_SetVisiblePlane(int plane) { *(volatile u32_021F899C *)0x04000000=(*(volatile u32_021F899C *)0x04000000&~0x1F00u)|((u32_021F899C)plane<<8); }
+static inline void GX_SetVisiblePlane(int plane) { *(volatile unsigned int *)0x04000000=(*(volatile unsigned int *)0x04000000&~0x1F00u)|((unsigned int)plane<<8); }
 
-static inline void GXS_SetVisiblePlane(int plane) { *(volatile u32_021F899C *)0x04001000=(*(volatile u32_021F899C *)0x04001000&~0x1F00u)|((u32_021F899C)plane<<8); }
+static inline void GXS_SetVisiblePlane(int plane) { *(volatile unsigned int *)0x04001000=(*(volatile unsigned int *)0x04001000&~0x1F00u)|((unsigned int)plane<<8); }
 
 static inline void GX_SetDispSelect(GXDispSelect sel) { *(volatile u16 *)0x04000304=(u16)((*(volatile u16 *)0x04000304&~0x8000u)|(sel<<15)); }
 
@@ -1038,11 +1032,11 @@ static inline void G3X_AntiAlias(BOOL enable) { if(enable) *(volatile u16 *)0x04
 
 static inline void G3X_AlphaBlend(BOOL enable) { if(enable) *(volatile u16 *)0x04000060=(u16)((*(volatile u16 *)0x04000060&~0x3000u)|8); else *(volatile u16 *)0x04000060&=(u16)~0x3008; }
 
-static inline void GX_SetVisibleWnd(int window) { *(volatile u32_021F899C *)0x04000000=(*(volatile u32_021F899C *)0x04000000&~0xE000u)|((u32_021F899C)window<<13); }
+static inline void GX_SetVisibleWnd(int window) { *(volatile unsigned int *)0x04000000=(*(volatile unsigned int *)0x04000000&~0xE000u)|((unsigned int)window<<13); }
 
-static inline void G2_SetWndOBJInsidePlane(int wnd,BOOL effect) { u32_021F899C tmp; tmp=(*(volatile u16 *)0x0400004A&~0x3F00u)|((u32_021F899C)wnd<<8); if(effect) tmp|=0x2000; *(volatile u16 *)0x0400004A=(u16)tmp; }
+static inline void G2_SetWndOBJInsidePlane(int wnd,BOOL effect) { unsigned int tmp; tmp=(*(volatile u16 *)0x0400004A&~0x3F00u)|((unsigned int)wnd<<8); if(effect) tmp|=0x2000; *(volatile u16 *)0x0400004A=(u16)tmp; }
 
-static inline void G2_SetWndOutsidePlane(int wnd,BOOL effect) { u32_021F899C tmp; tmp=(*(volatile u16 *)0x0400004A&~0x3Fu)|(u32_021F899C)wnd; if(effect) tmp|=0x20; *(volatile u16 *)0x0400004A=(u16)tmp; }
+static inline void G2_SetWndOutsidePlane(int wnd,BOOL effect) { unsigned int tmp; tmp=(*(volatile u16 *)0x0400004A&~0x3Fu)|(unsigned int)wnd; if(effect) tmp|=0x20; *(volatile u16 *)0x0400004A=(u16)tmp; }
 
 void STA_ACTING_InitDisplay(u8 *p)
 {
@@ -1076,10 +1070,10 @@ void STA_ACTING_InitDisplay(u8 *p)
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     big=d_021FDBF8;
     small=d_021FDBD4;
-    board=BILLBOARD_Create((u8 *)(&big),(void *)(u32_021F899C)*(u16 *)p);
+    board=BILLBOARD_Create((u8 *)(&big),(void *)(unsigned int)*(u16 *)p);
     *(void **)(p+0xAC)=board;
     BILLBOARD_SetScale(board,(struct Blk3 *)(&small));
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32_021F899C)d_021FDBA0,*(u16 *)p);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(unsigned int)d_021FDBA0,*(u16 *)p);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     func_0207D63C((void *)0x04000050,8,1,0,10);
     GX_SetVisibleWnd(4);
@@ -1115,7 +1109,7 @@ void STA_ACTING_UploadPalettes(u8 *p)
     }
     BG_SYS_PushTile(3);
     BG_SYS_PushTile(5);
-    ((struct ActingScene *)p)->f3C=STA_ACT_LIGHT_AllocElem(((struct ActingScene *)p)->f0,(u32_021F8BD4)p);
+    ((struct ActingScene *)p)->f3C=STA_ACT_LIGHT_AllocElem(((struct ActingScene *)p)->f0,(unsigned int)p);
 }
 
 /*
@@ -1163,7 +1157,7 @@ void STA_ACTING_CreateActorSys(char *p){int i;*(char * *)&((struct ActingScene *
 void STA_ACTING_UpdateCamera(u8 *p)
 {
     Vec v;
-    s16_021F8DC4 target;
+    signed short target;
     u8 index;
     if (KEY_GetCont() & 16) {
         if (*(u16 *)(p + 6) + 2 < 256) *(u16 *)(p + 6) = *(u16 *)(p + 6) + 2;

@@ -42,7 +42,7 @@ typedef struct {
     unsigned char unk80;
     unsigned char wpaMode;
     unsigned char unk82[0x6e];
-} NCFGApInfoEx_0205D318;
+} NCFGApInfoEx;
 
 typedef struct {
     NCFGApInfo ap;
@@ -54,7 +54,7 @@ typedef struct {
     NCFGApInfo ap;
     unsigned char wifi[14];
     unsigned short crc;
-    NCFGApInfoEx_0205D318 apEx;
+    NCFGApInfoEx apEx;
     unsigned char rsvEx[14];
     unsigned short crcEx;
 } NCFGSlotInfoEx;

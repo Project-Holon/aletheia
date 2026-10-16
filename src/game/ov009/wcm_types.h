@@ -95,7 +95,10 @@ typedef struct WCMWork {
     unsigned char resetting;        /* +0x12DD */
     unsigned char phase;            /* +0x12DE */
     unsigned char deviceId;         /* +0x12DF */
-    unsigned char bssDesc[0xC0];    /* +0x12E0 */
+    union {
+        unsigned char bssDesc[0xC0];    /* +0x12E0 */
+        WMBssDesc apBss;                /* +0x12E0, the same bytes as a parsed AP */
+    };
     unsigned char wmSysBuf[0xF00];  /* +0x13A0, WM_Init work buffer */
     WMScanExParam scanParam;        /* +0x22A0 */
     unsigned char pad22D4[0x10];

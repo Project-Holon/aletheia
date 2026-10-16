@@ -8,7 +8,7 @@ game binary itself contains. Rules marked (inferred) extend that evidence.
 | Source | What it gives | Count |
 |---|---|---|
 | Assert expression strings (`tools/assertnames.py`) | Original identifiers: locals, fields with struct path, constants, file statics | 31 distinct strings, 42 pool references, 35 functions, all in arm9 (none found in overlays) |
-| `layout/file_anchors.txt` | Source file base names (`__FILE__`), no directories | 557 distinct names, 1026 anchors; all end in `.c` |
+| `layout/file_anchors.txt` | Source file base names (`__FILE__`), no directories | 564 distinct names, 1056 anchors; all end in `.c` |
 | `layout/symbols_sdk.json` | Real SDK/library names matched to library objects | 4771 symbols |
 
 Run `python tools/assertnames.py --out FILE` to regenerate the assert table. It

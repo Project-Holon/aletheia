@@ -26,7 +26,6 @@
  *   sEffectTable2 0x021DAA68 data
  *   sEffectTable1 0x021DAA64 data
  */
-typedef unsigned int   u32_021D551C;
 
 typedef _Bool bool;
 
@@ -53,8 +52,6 @@ typedef short s16;
 
 typedef struct { s8 b[4]; } S4;
 
-typedef unsigned long u32_021D55A4;
-
 typedef struct { u8 b[4]; } U4;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
@@ -63,7 +60,7 @@ extern void G2x_SetBlendBrightness_(unsigned long addr, int plane, int brightnes
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work,
                            unsigned char prio);
 extern long FX_DivS32(long a, long b);
-extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32_021D55A4 addr, int brightness);
+extern void DWCi_WindowG2x_ChangeBlendBrightness_(unsigned long addr, int brightness);
 extern void DWCi_TSKlDelete(int kind, void *task);
 void DWCi_EFFlInit(void);
 void DWCi_EFFlEnd(void);
@@ -89,8 +86,8 @@ void DWCi_EFFlInit(void)
 
     *(int *)0x021DE67C = (int)DWCi_HEAPlAllocEx(0x18, 4);
     p = (unsigned short *)0x04000050;
-    G2x_SetBlendBrightness_((u32_021D551C)p, 0x3f, 0x10);
-    G2x_SetBlendBrightness_((u32_021D551C)(p + 0x800), 0x3f, 0x10);
+    G2x_SetBlendBrightness_((unsigned int)p, 0x3f, 0x10);
+    G2x_SetBlendBrightness_((unsigned int)(p + 0x800), 0x3f, 0x10);
 }
 
 

@@ -160,7 +160,7 @@
  *   DWCi_NodeInfoList_Clear       0x0217601C  arm  ov009
  *   ServerBrowserFree  0x0219ED4C  arm  ov009
  *   func_02176B34  0x02176B34  arm  ov009
- *   func_021685CC  0x021685CC  arm  ov009
+ *   DWCi_GetMathRand32  0x021685CC  arm  ov009
  *   ServerBrowserClear  0x0219F00C  arm  ov009
  *   ServerBrowserLimitUpdateA  0x0219EED4  arm  ov009
  *   stGameMatchKeys          0x021AAA40  data
@@ -469,7 +469,6 @@ void DWCi_SetMatchCnt(DWCstMatchControl *a);
 extern void DWCi_ClearGameMatchKeys(void);
 extern void DWCi_NodeInfoList_Clear(void);
 extern void func_02176B34(void);
-extern u32 func_021685CC(u32 max);
 extern void ServerBrowserClear(void *p);
 extern int ServerBrowserLimitUpdateA(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
 extern u32 ServerBrowserGetMyPublicIPAddr(void * sb);
@@ -2371,7 +2370,7 @@ static SBError DWCi_SBUpdateAsync(int profileID)
             searchHostType = (u8)(DWCi_GetMatchCnt()->serverFind ? 2 : 0);
             DWCi_GetMatchCnt()->serverFind ^= 1;
         } else {
-            searchHostType = (u8)((int)func_021685CC(100) < (*(int *)&s_anybodyServerSearchRatio) ? 2 : 0);
+            searchHostType = (u8)((int)DWCi_GetMathRand32(100) < (*(int *)&s_anybodyServerSearchRatio) ? 2 : 0);
         }
         len = DWCi_GetDefaultMatchFilter(filter, ((volatile DWCstMatchControl *)DWCi_GetMatchCnt())->profileID, ((volatile DWCstMatchControl *)DWCi_GetMatchCnt())->qr2NumEntry, ((volatile DWCstMatchControl *)DWCi_GetMatchCnt())->qr2MatchTypeExt, searchHostType);
         if (s_bInNNThink.addFilter) {
@@ -5166,14 +5165,14 @@ static int DWCi_EvaluateServers(int sort)
             if (eval > 0) {
                 if (eval > 0x7fffff)
                     eval = 0x7fffff;
-                func_0219E084(server, g_021A21BC, (eval << 8) | func_021685CC(0x100));
+                func_0219E084(server, g_021A21BC, (eval << 8) | DWCi_GetMathRand32(0x100));
             } else {
                 ServerBrowserRemoveServer(DWCi_GetMatchCnt()->sbObj, server);
                 deleteFlag = 1;
                 i--;
             }
         } else {
-            func_0219E084(server, g_021A21BC, func_021685CC(0x80));
+            func_0219E084(server, g_021A21BC, DWCi_GetMathRand32(0x80));
         }
     }
     if (sort && ServerBrowserCount(DWCi_GetMatchCnt()->sbObj))
@@ -5208,7 +5207,7 @@ void DWCi_RandomizeServers(void)
             maxEval = tmpEval;
         sum += g_021A19C0[i];
     }
-    rand = func_021685CC(100);
+    rand = DWCi_GetMathRand32(100);
     for (i = 0; i < ServerBrowserCount(DWCi_GetMatchCnt()->sbObj); i++) {
         unsigned int prev;
         if (i == ServerBrowserCount(DWCi_GetMatchCnt()->sbObj) - 1)

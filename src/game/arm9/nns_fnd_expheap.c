@@ -13,27 +13,22 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02146B64       0x02146B64  data
  *   sRootListInitialized  0x02146B60  data
  *   sRootList             0x02146B64  data
  *   MIi_CpuClear32  0x02082A7C  arm
- *   sub_02060764   0x02060764  arm
- *   sub_02060790   0x02060790  arm
- *   sub_020607B8   0x020607B8  arm
- *   sub_020607E8   0x020607E8  arm
- *   sub_02060B6C   0x02060B6C  arm
  *   abs  0x02091588  arm
  */
 #include "nns_fnd_types.h"
 
-#define GetLink(list, obj) ((NNSFndLink_02060468 *)(((u32)(obj)) + (list)->offset))
+#define GetLink(list, obj) ((NNSFndLink *)(((u32)(obj)) + (list)->offset))
 #define NNSi_FndSetBitValue(data, st, bits, val) \
     ((data) = (((data) & ~(((1u << (bits)) - 1) << (st))) | (((val) & ((1u << (bits)) - 1)) << (st))))
 struct DList;
 struct Elem;
 struct MBlock;
 struct NNSiFndHeapHead;
-struct ExpHeap_02060888;
+struct ExpHeap;
+struct MBlockList;
 struct ExpHeapLists;
 typedef unsigned short u16;
 
@@ -51,10 +46,6 @@ struct DListNode {
 
 typedef unsigned int u32;
 
-typedef struct { void *prevObject; void *nextObject; } NNSFndLink_02060468;
-
-typedef struct { void *headObject; void *tailObject; u16 numObjects; u16 offset; } NNSFndList_02060468;
-
 struct Elem {
     char pad00[0x0c];
     struct DList sublist;
@@ -66,23 +57,6 @@ typedef unsigned char u8;
 
 typedef int BOOL;
 
-struct MBlockList_02060814 {
-    struct MBlock *head;
-    struct MBlock *tail;
-};
-
-struct ExpHeap_02060814 {
-    u8                pad_00[0x18];
-    void             *lo;
-    void             *hi;
-    u32               attr;
-    struct MBlockList_02060814 freeList;
-    struct MBlockList_02060814 usedList;
-    u16               groupId;
-    u16               feature;
-    u8                pad_38[0];
-};
-
 struct MBlock {
     u16            signature;
     u16            attr;
@@ -91,9 +65,14 @@ struct MBlock {
     struct MBlock *next;
 };
 
+struct MBlockList {
+    struct MBlock *head;
+    struct MBlock *tail;
+};
+
 struct ExpHeapLists {
-    struct MBlockList_02060814 freeList;
-    struct MBlockList_02060814 usedList;
+    struct MBlockList freeList;
+    struct MBlockList usedList;
     u16               groupId;
     u16               feature;
 };
@@ -105,46 +84,13 @@ struct MemRegion {
 
 typedef signed int     s32;
 
-struct ExpHeap_02060888 {
-    u8                pad_00[0x24];
-    struct MBlockList_02060814 freeList;
-    struct MBlockList_02060814 usedList;
-    u16               groupId;
-    u16               feature;
-};
-
-typedef struct MBlockHead_02060814 MBlockHead_02060814;
-
-struct MBlockHead_02060814 {
-    u16         signature;
-    u16         attribute;
-    u32         blockSize;
-    MBlockHead_02060814 *pMBHeadPrev;
-    MBlockHead_02060814 *pMBHeadNext;
-};
-
-typedef struct { MBlockHead_02060814 *head; MBlockHead_02060814 *tail; } MBlockList_02060814;
-
 typedef struct { void *start; void *end; } MemRegion;
 
-typedef struct { MBlockList_02060814 mbFreeList; } ExpHeapHead;
-
-struct MBlockHead_02060CD0 {
-    u16 signature;
-    u16 attribute;
-    u32 blockSize;
-    struct MBlockHead_02060CD0 *prev;
-    struct MBlockHead_02060CD0 *next;
-};
-
-struct MBlockList_02060CD0 {
-    struct MBlockHead_02060CD0 *head;
-    struct MBlockHead_02060CD0 *tail;
-};
+typedef struct { struct MBlockList mbFreeList; } ExpHeapHead;
 
 struct ExpHeapHead {
-    struct MBlockList_02060CD0 freeList;
-    struct MBlockList_02060CD0 usedList;
+    struct MBlockList freeList;
+    struct MBlockList usedList;
     u16 groupId;
     u16 feature;
 };
@@ -160,13 +106,11 @@ struct Region {
     u32 end;
 };
 
-struct MBlockList {
-    struct MBlock *head;
-    struct MBlock *tail;
-};
-
 struct ExpHeap {
-    u8                pad_00[0x24];
+    u8                pad_00[0x18];
+    void             *lo;
+    void             *hi;
+    u32               attr;
     struct MBlockList freeList;
     struct MBlockList usedList;
     u16               groupId;
@@ -187,16 +131,11 @@ struct Heap {
 
 extern void           MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern void func_0206074C(void *heap);
-extern void sub_02060764(int *out, int *blk);
-extern void *sub_02060790(int *p, int *node);
-extern void *sub_020607E8(int *p, int v);
-extern void *sub_020607B8(int *p, void *node, int *a);
-extern s32 sub_02060B6C(struct ExpHeapHead *heap, struct Region *rgn);
 extern s32 abs(s32 x);
 void NNS_FndInitList(int p0, int p1);
 void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
-void NNS_FndAppendListObject(NNSFndList_02060468 *list, void *object);
-void NNS_FndPrependListObject(NNSFndList_02060468 *list, void *object);
+void NNS_FndAppendListObject(NNSFndList *list, void *object);
+void NNS_FndPrependListObject(NNSFndList *list, void *object);
 void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *elem);
 void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 void *NNS_FndGetNextListObject(struct DList *list, void *elem);
@@ -209,14 +148,14 @@ void NNSi_FndGetMBlockRegion(int *out, int *blk);
 void *NNSi_FndRemoveMBlock(int *p, int *node);
 void *NNSi_FndInsertMBlock(int *p, void *node, int *a);
 void *NNSi_FndInitMBlock(int *p, int v);
-void *NNSi_FndCreateExpHeap(struct ExpHeap_02060814 *heap, void *lo, u16 attr);
+void *NNSi_FndCreateExpHeap(struct ExpHeap *heap, void *lo, u16 attr);
 void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
-void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap_02060888 *heap, u32 size, s32 align);
-void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap_02060888 *heap, u32 size, s32 align);
+void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap *heap, u32 size, s32 align);
+void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap *heap, u32 size, s32 align);
 BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion);
 void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
 void NNSi_FndDestroyExpHeap(void *heap);
-void *NNS_FndAllocFromExpHeapEx(struct ExpHeap_02060888 *heap, u32 size, s32 align);
+void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
 u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 size);
 void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 int NNSi_FndGetListTotalSize(int *p);
@@ -226,7 +165,6 @@ u16 NNSi_FndSetGroupId(char *p, u16 v);
 void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx);
 int NNSi_FndGetMBlockSize(char *p);
 u8 NNSi_FndGetMBlockAttribute(char *p);
-extern u32 g_02146B64;
 extern BOOL sRootListInitialized;
 extern NNSFndList sRootList;
 
@@ -236,7 +174,7 @@ extern NNSFndList sRootList;
 
 
 
-void NNS_FndInitList(int p0, int p1){ ((NNSFndList_02060468 *)p0)->headObject = 0; ((NNSFndList_02060468 *)p0)->tailObject = 0; ((NNSFndList_02060468 *)p0)->numObjects = (unsigned short)0; ((NNSFndList_02060468 *)p0)->offset = (unsigned short)p1; }
+void NNS_FndInitList(int p0, int p1){ ((NNSFndList *)p0)->headObject = 0; ((NNSFndList *)p0)->tailObject = 0; ((NNSFndList *)p0)->numObjects = (unsigned short)0; ((NNSFndList *)p0)->offset = (unsigned short)p1; }
 
 
 
@@ -298,7 +236,7 @@ void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem)
  *   python3 tools/match.py one --src src/matched/NNS_FndAppendListObject.c \
  *       --func NNS_FndAppendListObject --addr 0x020604AC --arm --cc ../2.0/sp2
  */
-void NNS_FndAppendListObject(NNSFndList_02060468 *list, void *object)
+void NNS_FndAppendListObject(NNSFndList *list, void *object)
 {
     if (list->headObject == 0)
     {
@@ -306,7 +244,7 @@ void NNS_FndAppendListObject(NNSFndList_02060468 *list, void *object)
     }
     else
     {
-        NNSFndLink_02060468 *link = GetLink(list, object);
+        NNSFndLink *link = GetLink(list, object);
         link->prevObject = list->tailObject;
         link->nextObject = 0;
         GetLink(list, list->tailObject)->nextObject = object;
@@ -336,7 +274,7 @@ void NNS_FndAppendListObject(NNSFndList_02060468 *list, void *object)
  *   python3 tools/match.py one --src src/matched/NNS_FndPrependListObject.c \
  *       --func NNS_FndPrependListObject --addr 0x02060500 --arm --cc ../2.0/sp2
  */
-void NNS_FndPrependListObject(NNSFndList_02060468 *list, void *object)
+void NNS_FndPrependListObject(NNSFndList *list, void *object)
 {
     if (list->headObject == 0)
     {
@@ -344,7 +282,7 @@ void NNS_FndPrependListObject(NNSFndList_02060468 *list, void *object)
     }
     else
     {
-        NNSFndLink_02060468 *link = GetLink(list, object);
+        NNSFndLink *link = GetLink(list, object);
         link->prevObject = 0;
         link->nextObject = list->headObject;
         GetLink(list, list->headObject)->prevObject = object;
@@ -392,11 +330,11 @@ void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *el
     void             *prev;
 
     if (before == 0) {
-        NNS_FndAppendListObject((NNSFndList_02060468 *)list, elem);
+        NNS_FndAppendListObject((NNSFndList *)list, elem);
         return;
     }
     if (before == list->head) {
-        NNS_FndPrependListObject((NNSFndList_02060468 *)list, elem);
+        NNS_FndPrependListObject((NNSFndList *)list, elem);
         return;
     }
     off = list->node_offset;
@@ -515,8 +453,8 @@ struct Elem *NNSi_FndFindElem(struct DList *list, u32 val)
 
 void *NNSi_FndFindListContainHeap(u32 a)
 {
-    void *r = &g_02146B64;
-    u32 v = (u32)NNSi_FndFindElem((struct DList *)(&g_02146B64), a);
+    void *r = &sRootList;
+    u32 v = (u32)NNSi_FndFindElem((struct DList *)(&sRootList), a);
 
     if (v != 0) {
         r = (void *)(v + 0xc);
@@ -703,7 +641,7 @@ void *NNSi_FndInitMBlock(int *p, int v)
  *   python tools/match.py one --src src/matched/NNSi_FndCreateExpHeap.c \
  *       --func NNSi_FndCreateExpHeap --addr 0x02060814 --cc ../2.0/sp2 --arm
  */
-void *NNSi_FndCreateExpHeap(struct ExpHeap_02060814 *heap, void *lo, u16 attr)
+void *NNSi_FndCreateExpHeap(struct ExpHeap *heap, void *lo, u16 attr)
 {
     int  pair[2];
     u16  feature;
@@ -856,7 +794,7 @@ void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, 
  *   python tools/match.py one --src src/matched/NNSi_FndAllocFromExpHeapHead.c \
  *       --func NNSi_FndAllocFromExpHeapHead --addr 0x02060A08 --cc 1.1p1 --arm
  */
-void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap_02060888 *heap, u32 size, s32 align)
+void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap *heap, u32 size, s32 align)
 {
     int            allocFirst;
     struct MBlock *found;
@@ -921,7 +859,7 @@ void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap_02060888 *heap, u32 size, s32 
  *   python tools/match.py one --src src/matched/NNSi_FndAllocFromExpHeapTail.c \
  *       --func NNSi_FndAllocFromExpHeapTail --addr 0x02060ABC --cc 1.1p1 --arm
  */
-void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap_02060888 *heap, u32 size, s32 align)
+void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap *heap, u32 size, s32 align)
 {
     int            allocFirst;
     struct MBlock *found;
@@ -965,13 +903,13 @@ static inline void *AddU32ToPtr(void *ptr, u32 val) { return (void *)(val + (u32
 
 
 
-static inline void *GetMemPtrForMBlock(MBlockHead_02060814 *p) { return AddU32ToPtr(p, sizeof(MBlockHead_02060814)); }
+static inline void *GetMemPtrForMBlock(struct MBlock *p) { return AddU32ToPtr(p, sizeof(struct MBlock)); }
 
 
 
 
 
-static inline void *GetMBlockEndAddr(MBlockHead_02060814 *p) { return AddU32ToPtr(GetMemPtrForMBlock(p), p->blockSize); }
+static inline void *GetMBlockEndAddr(struct MBlock *p) { return AddU32ToPtr(GetMemPtrForMBlock(p), p->size); }
 
 
 
@@ -983,7 +921,7 @@ static inline u32 GetOffsetFromPtr(void *start, void *end) { return (u32)end - (
 
 
 
-static inline MBlockHead_02060814 *InitFreeMBlock(MemRegion *r) { return NNSi_FndInitMBlock((int *)r, 0x4652); }
+static inline struct MBlock *InitFreeMBlock(MemRegion *r) { return NNSi_FndInitMBlock((int *)r, 0x4652); }
 
 
 
@@ -1013,12 +951,12 @@ static inline MBlockHead_02060814 *InitFreeMBlock(MemRegion *r) { return NNSi_Fn
  */
 BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion)
 {
-    MBlockHead_02060814 *pBlkPrFree = 0;
+    struct MBlock *pBlkPrFree = 0;
     MemRegion freeRgn = *pRegion;
 
     {
-        MBlockHead_02060814 *pBlk;
-        for (pBlk = pEHHead->mbFreeList.head; pBlk; pBlk = pBlk->pMBHeadNext)
+        struct MBlock *pBlk;
+        for (pBlk = pEHHead->mbFreeList.head; pBlk; pBlk = pBlk->next)
         {
             if ((void *)pBlk < pRegion->start)
             {
@@ -1040,7 +978,7 @@ BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion)
         pBlkPrFree = NNSi_FndRemoveMBlock((int *)(&pEHHead->mbFreeList), (int *)pBlkPrFree);
     }
 
-    if (GetOffsetFromPtr(freeRgn.start, freeRgn.end) < sizeof(MBlockHead_02060814))
+    if (GetOffsetFromPtr(freeRgn.start, freeRgn.end) < sizeof(struct MBlock))
     {
         return 0;
     }
@@ -1082,7 +1020,7 @@ void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr)
     if (lo > end || (u32)((u8 *)end - (u8 *)lo) < 0x4c) {
         return 0;
     }
-    return NNSi_FndCreateExpHeap((struct ExpHeap_02060814 *)lo, end, attr);
+    return NNSi_FndCreateExpHeap((struct ExpHeap *)lo, end, attr);
 }
 
 
@@ -1114,7 +1052,7 @@ void NNSi_FndDestroyExpHeap(void *heap){ func_0206074C(heap); }
  *   python tools/match.py one --src src/matched/NNS_FndAllocFromExpHeapEx.c \
  *       --func NNS_FndAllocFromExpHeapEx --addr 0x02060CA0 --cc 1.1p1 --arm
  */
-void *NNS_FndAllocFromExpHeapEx(struct ExpHeap_02060888 *heap, u32 size, s32 align)
+void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align)
 {
     if (size == 0) {
         size = 1;
@@ -1122,9 +1060,9 @@ void *NNS_FndAllocFromExpHeapEx(struct ExpHeap_02060888 *heap, u32 size, s32 ali
     size = (size + 3) & ~3;
 
     if (align >= 0) {
-        return NNSi_FndAllocFromExpHeapHead((struct ExpHeap_02060888 *)heap, size, align);
+        return NNSi_FndAllocFromExpHeapHead((struct ExpHeap *)heap, size, align);
     }
-    return NNSi_FndAllocFromExpHeapTail((struct ExpHeap_02060888 *)heap, size, -align);
+    return NNSi_FndAllocFromExpHeapTail((struct ExpHeap *)heap, size, -align);
 }
 
 
@@ -1155,25 +1093,25 @@ void *NNS_FndAllocFromExpHeapEx(struct ExpHeap_02060888 *heap, u32 size, s32 ali
 u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 size)
 {
     struct ExpHeapHead *pEHHead;
-    struct MBlockHead_02060CD0 *pMBlkFr;
+    struct MBlock *pMBlkFr;
     u32 crBlockSize;
-    struct MBlockHead_02060CD0 *pMBHead;
+    struct MBlock *pMBHead;
     struct Region rgnFree;
     struct Region rgn;
 
     pEHHead = &heap->exp;
-    pMBHead = (struct MBlockHead_02060CD0 *)memBlock - 1;
+    pMBHead = (struct MBlock *)memBlock - 1;
     size = (size + 3) & ~3;
-    crBlockSize = pMBHead->blockSize;
+    crBlockSize = pMBHead->size;
 
     if (size == crBlockSize) {
         return size;
     }
 
     if (size > crBlockSize) {
-        struct MBlockHead_02060CD0 *crUsedEnd = (struct MBlockHead_02060CD0 *)(crBlockSize + (u32)(pMBHead + 1));
+        struct MBlock *crUsedEnd = (struct MBlock *)(crBlockSize + (u32)(pMBHead + 1));
         u32 oldStart;
-        struct MBlockHead_02060CD0 *pMBlkFrPrev;
+        struct MBlock *pMBlkFrPrev;
         u32 fillSize;
         u8 attr;
 
@@ -1181,21 +1119,21 @@ u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 siz
             if (pMBlkFr == crUsedEnd)
                 break;
         }
-        if (pMBlkFr == 0 || size > crBlockSize + 0x10 + pMBlkFr->blockSize) {
+        if (pMBlkFr == 0 || size > crBlockSize + 0x10 + pMBlkFr->size) {
             return 0;
         }
 
-        sub_02060764((int *)(&rgnFree), (int *)pMBlkFr);
-        pMBlkFrPrev = sub_02060790((int *)(&pEHHead->freeList), (int *)pMBlkFr);
+        NNSi_FndGetMBlockRegion((int *)(&rgnFree), (int *)pMBlkFr);
+        pMBlkFrPrev = NNSi_FndRemoveMBlock((int *)(&pEHHead->freeList), (int *)pMBlkFr);
 
         oldStart = rgnFree.start;
         rgnFree.start = size + (u32)memBlock;
         if (rgnFree.end - rgnFree.start < 0x10) {
             rgnFree.start = rgnFree.end;
         }
-        pMBHead->blockSize = rgnFree.start - (u32)memBlock;
+        pMBHead->size = rgnFree.start - (u32)memBlock;
         if (rgnFree.end - rgnFree.start >= 0x10) {
-            sub_020607B8((int *)(&pEHHead->freeList), sub_020607E8((int *)(&rgnFree), 0x4652), (int *)pMBlkFrPrev);
+            NNSi_FndInsertMBlock((int *)(&pEHHead->freeList), NNSi_FndInitMBlock((int *)(&rgnFree), 0x4652), (int *)pMBlkFrPrev);
         }
         attr = (u8)heap->attribute;
         fillSize = rgnFree.start - oldStart;
@@ -1204,14 +1142,14 @@ u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 siz
         }
     } else {
         rgn.start = size + (u32)memBlock;
-        rgn.end = pMBHead->blockSize + (u32)(pMBHead + 1);
-        pMBHead->blockSize = size;
-        if (sub_02060B6C(pEHHead, &rgn) == 0) {
-            pMBHead->blockSize = crBlockSize;
+        rgn.end = pMBHead->size + (u32)(pMBHead + 1);
+        pMBHead->size = size;
+        if (NNSi_FndRecycleRegion((ExpHeapHead *)pEHHead, (const MemRegion *)&rgn) == 0) {
+            pMBHead->size = crBlockSize;
         }
     }
 
-    return pMBHead->blockSize;
+    return pMBHead->size;
 }
 
 

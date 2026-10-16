@@ -682,9 +682,9 @@ typedef struct {
     char pad1C[12];
     char pad28[16];
     int subResult;
-} Request_021DF040;
+} PokeStatusArgs;
 
-typedef struct { void *task; void *text; } Request_021DF378;
+typedef struct { void *task; void *text; } NameInRequest;
 
 extern void BG_SYS_Create(u16 heap);
 
@@ -3196,7 +3196,7 @@ int BOX2_MAIN_HitPartyGrid(BoxTask *p, short x, short y)
 
 int BOX2_MAIN_PushPartyScene(BoxTask *p)
 {
-    Request_021DF040 *r;
+    PokeStatusArgs *r;
     unsigned mode;
     r = func_02030734(0x4B, 0x28, 0, d_021F1400, 0xEAC);
     if (p->cursorSlot < 30) {
@@ -3221,7 +3221,7 @@ int BOX2_MAIN_PushPartyScene(BoxTask *p)
         r->mode = 0;
     }
     PROCSYS_Push((void *)p->procSys, (int)ov131_id, gPokeStatusProcData, r);
-    *(Request_021DF040 * *)&p->subArgs = r;
+    *(PokeStatusArgs * *)&p->subArgs = r;
     return 0;
 }
 
@@ -3235,9 +3235,9 @@ int BOX2_MAIN_PushPartySceneB(BoxTask *p)
     int q = (int)((BoxTask *)(p))->subArgs;
     if (p->handMode == 0) {
         if (p->cursorSlot < 0x1e)
-            p->cursorSlot = ((Request_021DF040 *)(q))->slot;
+            p->cursorSlot = ((PokeStatusArgs *)(q))->slot;
         else
-            p->cursorSlot = ((Request_021DF040 *)(q))->slot + 0x1e;
+            p->cursorSlot = ((PokeStatusArgs *)(q))->slot + 0x1e;
     }
     func_020307B0((void *)(((BoxTask *)(p))->subArgs));
     return 0;
@@ -3259,7 +3259,7 @@ int BOX2_MAIN_PopSubArgs(BoxTask *p)
 {
     char *q = *(char * *)&p->subArgs;
 
-    ((BoxTask *)(p))->subResult = ((Request_021DF040 *)(q))->subResult;
+    ((BoxTask *)(p))->subResult = ((PokeStatusArgs *)(q))->subResult;
     func_020307B0((void *)q);
     return 0;
 }
@@ -3270,14 +3270,14 @@ int BOX2_MAIN_PopSubArgs(BoxTask *p)
 int BOX2_MAIN_PushNameScene(BoxTask *p)
 {
     int value;
-    Request_021DF378 *r;
+    NameInRequest *r;
     value = (int)BEACON_GetBlock(GAME_DATA_GetSaveControl((*(void ***)p)[0]));
     r = func_02030734(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = STRBUF_Create(20, 0x4B);
     func_0200785C((*(void ***)p)[1], p->curBox, r->text);
     r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (int)r->text, value);
     PROCSYS_Push((void *)p->procSys, (int)ov194_id, gNameInProcData, r->task);
-    *(Request_021DF378 * *)&p->subArgs = r;
+    *(NameInRequest * *)&p->subArgs = r;
     return 0;
 }
 

@@ -82,7 +82,6 @@
  *   DWCi_RAKUlSetResult              0x021c15d0 arm
  *   Choose                           0x021de5fc data
  */
-#include "../../matched/include/G_021DE5FC.h"
 
 typedef unsigned short u16;
 
@@ -140,7 +139,6 @@ extern void DWCi_RAKUlSetResult(void);
 void DWCi_SceneSetRakuButton1(void);
 void DWCi_SceneSetRakuButton_draw(void);
 extern SCENEOPTERASE_BSS sceneopterase_bss;
-extern struct G_021DE5FC gSceneSetRakuButton1Work;
 extern unsigned char Choose;
 
 static void initGraphics(void);
@@ -274,7 +272,7 @@ static void endScene2(void)
 {
     if (DWCi_EFFlCheck(0) != 0)
         return;
-    if ((*(unsigned char *)&gSceneSetRakuButton1Work) == 0) {
+    if (Choose == 0) {
         if (DWCi_EFFlCheck(1) != 0)
             return;
     }
@@ -282,12 +280,12 @@ static void endScene2(void)
         return;
     DWCi_ANIMElEnd();
     DWCi_FNTlDeleteBgLcd(0);
-    if ((*(unsigned char *)&gSceneSetRakuButton1Work) == 0) {
+    if (Choose == 0) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_RAKUlEnd();
-    if ((*(unsigned char *)&gSceneSetRakuButton1Work) == 0) {
+    if (Choose == 0) {
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else {

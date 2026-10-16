@@ -1,7 +1,7 @@
 /*
  * file:     tr_tool.c
  * unit:     yes
- * function: TR_TOOL_LoadTrainerInfo, TR_TOOL_BuildParty
+ * function: TR_TOOL_LoadTrainerInfo, TR_TOOL_BuildParty, TR_TOOL_AdjustPersonality, TR_TOOL_FinalizePartyMember
  * address:  0x0202A440
  * packet:   pkt_0202A4B4
  * region:   arm9
@@ -99,6 +99,14 @@ extern void  TR_TOOL_FinalizePartyMember(u32 id, void *mon, u32 form, u32 abilit
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 val);
 extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
+struct Personal;
+extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *personal, u32 field);
+extern void POKE_PERSONAL_Delete(void *personal);
+extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 field, u32 index);
+extern void POKE_TOOL_SetAbility(void *mon, u32 species, u32 form);
+extern u32  POKE_TOOL_GetPersonalParam(u32 species, u16 form, u32 personalField);
+extern void POKE_TOOL_SetNature(void *mon, u32 nature);
 
 typedef struct {
     u32 trainerId;    /* +0x00 the trainer id this record was loaded for */
@@ -312,4 +320,90 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
     func_020307B0(td);
     func_020307B0(tp);
     func_020307B0(mon);
+}
+
+void TR_TOOL_AdjustPersonality(u32 species, u32 form, int adjustFlags, u32 *personalityLow, u16 heapId)
+{
+    u32 genderAdjust = adjustFlags & 0xf;
+    u32 abilityAdjust = (adjustFlags & 0xf0) >> 4;
+    u32 personal;
+
+    if (adjustFlags == 0)
+        return;
+
+    personal = (u32)POKE_PERSONAL_Create((u16)species, (u16)form, heapId);
+
+    if (genderAdjust != 0) {
+        *personalityLow = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x14);
+        if (genderAdjust == 1)
+            *personalityLow = *personalityLow + 2;
+        else
+            *personalityLow = *personalityLow - 2;
+    }
+
+    if (abilityAdjust == 1)
+        *personalityLow &= ~(u32)1;
+    else if (abilityAdjust == 2)
+        *personalityLow |= (u32)1;
+
+    POKE_PERSONAL_Delete((void *)personal);
+}
+
+/*
+ * tr_tool.c: finish one trainer party member.  Field 9 (friendship) is
+ * 0xFF unless one of the four moves (fields 0x36..0x39) is 0xDA, then 0;
+ * field 0x6F takes form; the 0xF0 nibble of abilityFlags selects the ability
+ * path (0x30: POKE_TOOL_SetAbility, otherwise POKE_TOOL_GetPersonalParam with field 0x1A or
+ * 0x1B); two trainer/species pairs force a fixed nature, the rest take
+ * (personality >> 8) % 25.
+ *
+ * What closed the old 248-byte near miss (docs/notes/TR_TOOL_FinalizePartyMember.c.txt):
+ * the register the note read as a copy of the loop counter (`adds r6, r4,
+ * #0` before the loop) is the constant 0, kept in r6 for the call's third
+ * argument and for `found = 0`.  That zero occupies the fourth callee-saved
+ * register across the loop, which is what spills species to sp+0xC.  The
+ * tail is the remainder of _s32_div_f (r1), so `% 25`, not `/ 25`.
+ */
+void TR_TOOL_FinalizePartyMember(u32 trainerId, void *mon, u32 form, u32 abilityFlags)
+{
+    s32 moveSlot;
+    u32 friendship = 0xff;
+    u32 species;
+    u32 abilityField;
+    u32 abilityField2;
+    u32 abilityMode;
+    u32 trainerIdBase;
+
+    species = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
+    for (moveSlot = 0; moveSlot < 4; moveSlot++) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x36 + moveSlot, 0) == 0xda) {
+            friendship = 0;
+        }
+    }
+    POKE_TOOL_SetPartyValue(mon, 9, friendship);
+    POKE_TOOL_SetPartyValue(mon, 0x6f, form);
+
+    abilityMode = abilityFlags & 0xf0;
+    if (abilityMode == 0x30) {
+        POKE_TOOL_SetAbility(mon, species, form);
+    } else if (abilityMode != 0) {
+        abilityField = 0x1a;
+        abilityField2 = 0x1b;
+        if (POKE_TOOL_GetPersonalParam(species, (u16)form, 0x1b) != 0 && abilityMode == 0x20) {
+            abilityField = abilityField2;
+        }
+        POKE_TOOL_SetPartyValue(mon, 0xa, POKE_TOOL_GetPersonalParam(species, (u16)form, abilityField));
+    }
+
+    trainerIdBase = 0x24a;
+    if (trainerId == trainerIdBase && species == trainerIdBase + 0x39) {
+        POKE_TOOL_SetNature(mon, 0xd);
+        return;
+    }
+    trainerIdBase = 0x24b;
+    if (trainerId == trainerIdBase && species == trainerIdBase + 0x39) {
+        POKE_TOOL_SetNature(mon, 0xa);
+        return;
+    }
+    POKE_TOOL_SetNature(mon, (u8)(((s32)POKE_TOOL_GetPartyValue(mon, 0, 0) >> 8) % 0x19));
 }

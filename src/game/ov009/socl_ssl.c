@@ -20,40 +20,35 @@
  *   CPS_SetSsl  0x02162E94  arm  ov009
  *   func_02086078  0x02086078  arm
  */
-typedef struct {
-	char pad0[0xac];
-	short state;
-	signed char flag_block;
-	signed char flag_mode;
-} Sock_0215FC80;
+struct SOCLSocket {
+	unsigned char pad0[0xa0];
+	struct SOCLRecvPipe *recvPipe;	/* 0xa0 */
+	unsigned char pad1[0x8];
+	short state;			/* 0xac */
+	signed char flagBlock;		/* 0xae */
+	signed char flagMode;		/* 0xaf */
+};
 
 typedef struct {
 	char pad0[0xc];
 	void *ssl;
 } Cps;
 
-typedef struct {
+typedef struct SOCLRecvPipe {
 	char pad0[0xc4];
 	Cps *cpsoc;
 	char pad1[0x18];
 	char mutex[1];
-} Pipe;
-
-typedef struct {
-	char pad0[0xa0];
-	Pipe *recv_pipe;
-	char pad1[0xb];
-	signed char flag_mode;
-} Sock_0215FD40;
+} SOCLRecvPipe;
 
 typedef struct {
 	int pad0;
-	Sock_0215FD40 *socket;
+	struct SOCLSocket *socket;
 	char pad1[8];
 	void *con;
 } Cmd;
 
-extern int func_0215F3D0(Sock_0215FC80 *socket);
+extern int func_0215F3D0(struct SOCLSocket *socket);
 extern void *func_0215CE3C(int (*handler)(void *), void *socket, long flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
 extern void OS_LockMutex(void *mutex);
@@ -64,13 +59,13 @@ int SOCLi_ExecEnableSslCommand(void *socket, void *con);
 int SOCLi_EnableSslCallBack(void *arg);
 
 
-static inline int isReady(Sock_0215FC80 *s)
+static inline int isReady(struct SOCLSocket *s)
 {
-	return s->flag_mode == 0 || s->flag_mode == 4;
+	return s->flagMode == 0 || s->flagMode == 4;
 }
 
 
-static inline int isOpen(Sock_0215FC80 *s)
+static inline int isOpen(struct SOCLSocket *s)
 {
 	int r = 0;
 	if (s) r = (s->state & 1) ? 1 : 0;
@@ -83,7 +78,7 @@ static inline int isOpen(Sock_0215FC80 *s)
  */
 int SOCL_EnableSsl(int s, void *con)
 {
-	Sock_0215FC80 *socket = (Sock_0215FC80 *)s;
+	struct SOCLSocket *socket = (struct SOCLSocket *)s;
 
 	if (func_0215F3D0(socket)) {
 		return -28;
@@ -123,17 +118,17 @@ int SOCLi_ExecEnableSslCommand(void *socket, void *con)
 int SOCLi_EnableSslCallBack(void *arg)
 {
 	Cmd *cpacket = (Cmd *)arg;
-	Sock_0215FD40 *socket = cpacket->socket;
-	Pipe *recv_pipe = socket->recv_pipe;
+	struct SOCLSocket *socket = cpacket->socket;
+	SOCLRecvPipe *recv_pipe = socket->recvPipe;
 	Cps *cpsoc = recv_pipe->cpsoc;
 
 	OS_LockMutex(recv_pipe->mutex);
 	if (cpacket->con != 0) {
 		cpsoc->ssl = cpacket->con;
 		CPS_SetSsl(1);
-		socket->flag_mode = 4;
+		socket->flagMode = 4;
 	} else {
-		socket->flag_mode = 0;
+		socket->flagMode = 0;
 		CPS_SetSsl(0);
 		cpsoc->ssl = 0;
 	}

@@ -84,7 +84,7 @@ typedef struct {
 extern void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *,int,void *,void *,int,u16);
 extern void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 a5);
 extern void MI_CpuFill8(void *, int, u32);
-extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(Desc *, u8, u8, u8, u8, int);
+extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(WifibattlematchMenuDesc *, u8, u8, u8, u8, int);
 extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(int);
 extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(int);
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
@@ -167,7 +167,7 @@ void LIVEBATTLEMATCH_IRC_ShowMenu(int *p, int a) {if(((Request *)p)->config.slot
  */
 void LIVEBATTLEMATCH_IRC_CreateWindow(char *p, int mode)
 {
-    Desc rec;
+    WifibattlematchMenuDesc rec;
     int layout, x, y, width, height;
     if (*(int *)&((Request *)p)->window == 0) {
         MI_CpuFill8(&rec, 0, 0x30);
@@ -178,13 +178,13 @@ void LIVEBATTLEMATCH_IRC_CreateWindow(char *p, int mode)
         switch (mode) {
         case 0:
             rec.items[0] = 0x76; rec.items[1] = 0x77; rec.count = 2;
-            rec.enabled = 1; rec.kind = 1; layout = 0; rec.pad = 1; break;
+            rec.enabled = 1; rec.kind = 1; layout = 0; rec.row = 1; break;
         case 1:
             rec.items[0] = 0x74; rec.count = 1; rec.enabled = 1; rec.kind = 0;
             layout = 0; break;
         case 2:
             rec.items[0] = 0x75; rec.items[1] = 0x74; rec.count = 2;
-            rec.enabled = 1; rec.kind = 1; layout = 1; rec.pad = 1; break;
+            rec.enabled = 1; rec.kind = 1; layout = 1; rec.row = 1; break;
         }
         switch (layout) {
         case 0: height = rec.count * 2; width = 12; x = 19; y = 17 - height; break;

@@ -3,6 +3,10 @@
 
 /* Object layouts for the ov132 sources, merged from the per-function views. */
 
+/* One 0x30-byte comm record inside ActingHost at +0x60 (also viewed as
+   Context.rec in mus_comm_func.c). */
+struct Record { int f0; int flag; char pad8[0x14]; char *data; char pad20[0x10]; };
+
 struct ActingHost {
     unsigned short f0;
     unsigned char unk_2[2];
@@ -17,7 +21,8 @@ struct ActingHost {
     void * f50;
     void * f54;
     void * f58;
-    unsigned char unk_5C[196];
+    unsigned char unk_5C[4];
+    struct Record rec[4];
     unsigned int f120;
     void * f124;
     void * f128;
@@ -44,7 +49,8 @@ struct ActingHost {
     int f150;
     int f154;
     int f158;
-    unsigned char unk_15C[20];
+    unsigned int f15C;
+    unsigned char unk_160[16];
     unsigned int f170;
     unsigned int f174;
     unsigned int f178;
@@ -411,26 +417,6 @@ struct ScriptTask {
     } f18;
     void * f1C;
     void * f20;
-};
-
-struct TargetBank {
-    union {
-        int s;
-        unsigned int u;
-    } f0;
-    void * f4;
-    unsigned char unk_8[4];
-    void * fC;
-    int f10;
-    unsigned short f14;
-    unsigned short f16;
-    unsigned char f18;
-    unsigned char unk_19[18411];
-    union {
-        unsigned int u;
-        void * p;
-    } f4804;
-    int f4808;
 };
 
 struct TaskObj {

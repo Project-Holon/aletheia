@@ -23,6 +23,7 @@
 0200D5C4  0200D59C  arm9_main                020A71E8  gds_profile.c
 0200DF8C  0200DF58  arm9_main                020A71F8  bsubway_savedata.c
 0200E360  0200E2BC  arm9_main                020A720C  symbol_save.c
+0200E67C  0200E608  arm9_main                020A721C  battle_examination.c
 0200F730  0200F6D8  arm9_main                020A7234  net_err.c
 020103D8  02010360  arm9_main                020A7244  wih_dwc.c
 020107C8  02010794  arm9_main                020A7244  wih_dwc.c
@@ -137,6 +138,7 @@
 02031918  0203174C  arm9_main                020A7848  backup_system.c
 02031AD8  020319F0  arm9_main                020A7848  backup_system.c
 02032680  02031FE0  arm9_main                020A7848  backup_system.c
+02033198  02032CD0  arm9_main                020A7848  backup_system.c
 020335A0  02033534  arm9_main                020A78A0  flash_access.c
 0203369C  020335E8  arm9_main                020A78A0  flash_access.c
 020337A4  020336B8  arm9_main                020A78A0  flash_access.c
@@ -184,6 +186,7 @@
 0203B154  0203B0C4  arm9_main                020A7BA8  net_state.c
 0203CA8C  0203CA04  arm9_main                020A7BA8  net_state.c
 0203CAD0  0203CA98  arm9_main                020A7BA8  net_state.c
+0203CAF0  0203CADC  arm9_main                020A7BA8  net_state.c
 0203CD88  0203CBAC  arm9_main                020A7CA0  net.c
 0203CEA4  0203CDD4  arm9_main                020A7CA0  net.c
 0203D344  0203D2CC  arm9_main                020A7CA0  net.c
@@ -234,6 +237,7 @@
 02047624  02047564  arm9_main                020A7EA8  g3d_system.c
 02047730  0204767C  arm9_main                020A7EA8  g3d_system.c
 02047E4C  02047CFC  arm9_main                020A7EB8  g3d_util.c
+02048254  02048120  arm9_main                020A7EB8  g3d_util.c
 02048738  02048330  arm9_main                020A7EB8  g3d_util.c
 02048914  02048744  arm9_main                020A7EB8  g3d_util.c
 02048AC0  02048A24  arm9_main                020A7EC4  g3d_camera.c
@@ -274,13 +278,18 @@
 02050BE0  02050B80  arm9_main                020A7FC0  particle.c
 02050DA4  02050C30  arm9_main                020A7FC0  particle.c
 02051C54  02051B84  arm9_main                020A7FCC  button_man.c
+0215454C  021542C0  overlay_001              021546A0  event_gtsnego.c
 02154668  02154560  overlay_001              021546A0  event_gtsnego.c
+021543D8  021542C0  overlay_002              02154460  event_wifibattlematch.c
+02154AA8  021544F0  overlay_006              02154C80  event_wificlub.c
 02154BF4  02154B08  overlay_006              02154C80  event_wificlub.c
 021551AC  02155168  overlay_009              021A1C4C  net_devwifi.c
 02155498  0215539C  overlay_009              021A1C60  dwc_rap.c
 02156C58  02156C00  overlay_009              021A1C60  dwc_rap.c
 02156ECC  02156E30  overlay_009              021A1C7C  dwc_rapcommon.c
 021570B4  02157048  overlay_009              021A1C7C  dwc_rapcommon.c
+021559CC  02155478  overlay_010              02172700  event_ircbattle.c
+02156404  0215611C  overlay_010              02172714  musical_event.c
 02156704  02156530  overlay_010              02172714  musical_event.c
 02156C24  02156BD0  overlay_010              02172730  musical_dressup_sys.c
 02156CD4  02156CAC  overlay_010              02172730  musical_dressup_sys.c
@@ -310,6 +319,7 @@
 0215D344  0215D2A4  overlay_010              02172900  scrcmd_sodateya.c
 0215D458  0215D34C  overlay_010              02172914  scrcmd_musical.c
 0215D500  0215D468  overlay_010              02172914  scrcmd_musical.c
+0215DDB8  0215DB38  overlay_010              02172914  scrcmd_musical.c
 0215DE00  0215DDC8  overlay_010              02172914  scrcmd_musical.c
 0215E330  0215E31C  overlay_010              02172928  field_encount_st.c
 0215E578  0215E440  overlay_010              0217293C  move_pokemon.c
@@ -335,6 +345,7 @@
 02167548  02167518  overlay_010              02172A18  comm_player.c
 021684D8  021681C8  overlay_010              02172A2C  fld_btl_inst_tool.c
 02169280  02169148  overlay_010              02172A40  field_g3d_map.c
+02169E04  02169AB8  overlay_010              02172A50  report_event.c
 0216C024  0216BFD4  overlay_010              02172A60  namein_setup.c
 0216C0A0  0216C028  overlay_010              02172A60  namein_setup.c
 0216CCAC  0216CC58  overlay_010              02172B48  fldmmdl.c
@@ -359,9 +370,14 @@
 0217BAAC  0217BA54  overlay_018              02183AE0  intrude_field.c
 0217D144  0217CFE4  overlay_018              02183B14  intrude_subdisp.c
 0217DA10  0217D918  overlay_018              02183B14  intrude_subdisp.c
+021800A0  0217FE6C  overlay_018              02183B30  event_comm_common.c
 02180340  021802A8  overlay_018              02183B30  event_comm_common.c
 021803E4  0218034C  overlay_018              02183B30  event_comm_common.c
 0217BE3C  0217BD9C  overlay_019              021807E8  union_oneself.c
+0217D180  0217CFA8  overlay_019              021807E8  union_oneself.c
+0217D30C  0217D18C  overlay_019              021807E8  union_oneself.c
+0217D794  0217D5B8  overlay_019              021807E8  union_oneself.c
+0217E82C  0217E5A0  overlay_019              021807E8  union_oneself.c
 0217F498  0217F388  overlay_019              021807FC  union_msg.c
 0217F8E8  0217F8C0  overlay_019              02180808  union_eff.c
 02186064  0218604C  overlay_020              02187EA0  event_mapchange.c
@@ -508,6 +524,7 @@
 021C9B10  021C9934  overlay_021              021DE58C  bsubway_scr.c
 021CA53C  021CA4C0  overlay_021              021DE58C  bsubway_scr.c
 021CC03C  021CBFB0  overlay_021              021DE59C  fld_trade.c
+021CC4F4  021CC390  overlay_021              021DE59C  fld_trade.c
 021CC5CC  021CC570  overlay_021              021DE5A8  scrcmd_palpark.c
 021CC7B0  021CC720  overlay_021              021DE5C0  party_select_list.c
 021CD1EC  021CD1C8  overlay_021              021DE5D4  field_bbd_color.c
@@ -532,6 +549,7 @@
 021F24B8  021F23CC  overlay_029              021F3554  c_gear.c
 021F26C4  021F251C  overlay_029              021F3554  c_gear.c
 021F27D4  021F279C  overlay_029              021F3554  c_gear.c
+021F308C  021F2F60  overlay_029              021F3554  c_gear.c
 021F00F4  021F00C8  overlay_030              021F01C0  no_gear.c
 021EFFD0  021EFEC0  overlay_031              021F10C0  union_subdisp.c
 021F22F4  021F2234  overlay_032              021F36A0  beacon_view.c
@@ -556,11 +574,13 @@
 021B6398  021B62E0  overlay_067              021B954C  touchbar.c
 021B6CC8  021B6C74  overlay_067              021B9558  msgsearch.c
 021B7098  021B6DC0  overlay_067              021B9564  yesno_menu.c
+021B795C  021B7754  overlay_067              021B9574  frame_list.c
 021B8074  021B7F54  overlay_070              021BBBC0  itemmenu.c
 021B7308  021B7234  overlay_071              021BABE4  monolith_tool.c
 021BA56C  021BA490  overlay_072              021BBD60  townmap.c
 021BB72C  021BB6E8  overlay_072              021BBD6C  townmap_grh.c
 021F5328  021F5260  overlay_082              021F5920  fld_faceup.c
+021BA0E4  021BA014  overlay_088              021BDA00  startmenu.c
 021BB5BC  021BB544  overlay_088              021BDA00  startmenu.c
 021BD294  021BD25C  overlay_088              021BDA0C  save_control_intr.c
 021B6518  021B6240  overlay_091              021BED0C  pokelist.c
@@ -571,6 +591,7 @@
 021BD188  021BD05C  overlay_091              021BED48  plist_battle.c
 021BD450  021BD218  overlay_091              021BED48  plist_battle.c
 021BDBDC  021BDABC  overlay_091              021BED58  plist_demo.c
+021B9A08  021B9614  overlay_092              021B9DC0  event_battle_return.c
 021BAA8C  021BA9C8  overlay_093              021F3A60  btl_server.c
 021BB9C4  021BB968  overlay_093              021F3A70  btl_server_flow.c
 021CD8CC  021CD6F0  overlay_093              021F3A88  btl_client.c
@@ -635,6 +656,8 @@
 022021E4  022020A0  overlay_094              0220AEB0  btlv_input.c
 02202658  022025D8  overlay_094              0220AEB0  btlv_input.c
 022026E4  0220266C  overlay_094              0220AEB0  btlv_input.c
+02202A64  0220270C  overlay_094              0220AEB0  btlv_input.c
+02202D84  0220270C  overlay_094              0220AEB0  btlv_input.c
 0220442C  022043C0  overlay_094              0220AEB0  btlv_input.c
 02204530  022044C0  overlay_094              0220AEB0  btlv_input.c
 02204610  022045A8  overlay_094              0220AEB0  btlv_input.c
@@ -672,6 +695,7 @@
 021B71B8  021B70DC  overlay_101              021B7550  irc_appbar.c
 021B8D4C  021B8B9C  overlay_106              021B9680  irc_ranking.c
 021B935C  021B92D4  overlay_106              021B9680  irc_ranking.c
+021EECA8  021EE894  overlay_107              021F6E0C  mb_parent_sys.c
 021EF734  021EF588  overlay_107              021F6E0C  mb_parent_sys.c
 021F0690  021F0608  overlay_107              021F6E0C  mb_parent_sys.c
 021F07FC  021F0754  overlay_107              021F6E1C  mbp.c
@@ -749,6 +773,7 @@
 021D5F7C  021D5E88  overlay_120              021D8BC8  gtsnego_disp.c
 021D7854  021D7724  overlay_120              021D8BEC  gtsnego_message.c
 021D6D34  021D6CF4  overlay_121              021DFB80  mystery.c
+021D80A8  021D7EAC  overlay_121              021DFB80  mystery.c
 021D96AC  021D9624  overlay_121              021DFB8C  mystery_graphic.c
 021D9A3C  021D99A4  overlay_121              021DFBA0  mystery_util.c
 021D9D48  021D9CA4  overlay_121              021DFBA0  mystery_util.c
@@ -804,12 +829,14 @@
 021FB520  021FB3E0  overlay_132              021FDD00  script_command.c
 021FB8C4  021FB808  overlay_132              021FDD00  script_command.c
 021FBA0C  021FB948  overlay_132              021FDD00  script_command.c
+021FBD60  021FBA6C  overlay_132              021FDD00  script_command.c
 021FBF6C  021FBE90  overlay_132              021FDD00  script_command.c
 021FC170  021FC0AC  overlay_132              021FDD00  script_command.c
 021FC344  021FC268  overlay_132              021FDD00  script_command.c
 021FC488  021FC380  overlay_132              021FDD00  script_command.c
 021FC680  021FC644  overlay_132              021FDE5C  mus_comm_func.c
 021FCA30  021FC848  overlay_132              021FDE5C  mus_comm_func.c
+021FD134  021FCEDC  overlay_132              021FDE5C  mus_comm_func.c
 021FD200  021FD14C  overlay_132              021FDE5C  mus_comm_func.c
 021FD3D0  021FD350  overlay_132              021FDE5C  mus_comm_func.c
 021B6278  021B6100  overlay_133              021BA600  dup_fitting.c
@@ -868,6 +895,7 @@
 021BA004  021B9F9C  overlay_172              021C7218  ctvt_mic.c
 021BA2B4  021BA280  overlay_172              021C7228  ctvt_draw.c
 021BBA84  021BBA6C  overlay_172              021C7234  ctvt_call.c
+021BBE58  021BBA94  overlay_172              021C7234  ctvt_call.c
 021BE40C  021BE364  overlay_172              021C724C  comm_tvt_sys.c
 021B6C28  021B6BC4  overlay_174              021B74AC  local_tvt_sys.c
 021B6CFC  021B6C70  overlay_174              021B74BC  local_tvt_chara.c
@@ -892,6 +920,7 @@
 021E074C  021E06D0  overlay_183              021E3968  br_codein.c
 021E0804  021E07A4  overlay_183              021E3968  br_codein.c
 021F9A68  021F99CC  overlay_186              02200D04  br_proc_sys.c
+021F9B94  021F9A80  overlay_186              02200D04  br_proc_sys.c
 021F9F30  021F9CB8  overlay_186              02200D1C  br_btn.c
 021FB48C  021FB3BC  overlay_186              02200D1C  br_btn.c
 021FB638  021FB5E4  overlay_186              02200D28  br_btn_data.c
@@ -899,6 +928,7 @@
 021FC458  021FC3BC  overlay_186              02200D4C  br_graphic.c
 021FC730  021FC6A4  overlay_186              02200D5C  br_util.c
 021FCBEC  021FC8C8  overlay_186              02200D5C  br_util.c
+021FD534  021FD1C4  overlay_186              02200D5C  br_util.c
 021FD710  021FD6D8  overlay_186              02200D5C  br_util.c
 021FD814  021FD760  overlay_186              02200D5C  br_util.c
 021FE72C  021FE6C0  overlay_186              02200D6C  br_fade.c
@@ -915,6 +945,7 @@
 021F52FC  021F51E4  overlay_194              021F57A8  nsbtx_to_clwk.c
 021F534C  021F5304  overlay_194              021F57B8  prof_word.c
 02204090  02203FA0  overlay_195              02208F40  shinka_demo.c
+022048E8  022040E0  overlay_195              02208F40  shinka_demo.c
 0220583C  022056E8  overlay_195              02208F40  shinka_demo.c
 02205988  022058F8  overlay_195              02208F50  shinka_demo_graphic.c
 02205D20  02205C74  overlay_195              02208F68  shinka_demo_view.c
@@ -928,6 +959,7 @@
 0220C90C  0220C834  overlay_197              0220E0E0  b_bag_main.c
 0220B744  0220B6D0  overlay_198              02212540  b_plist_anm.c
 0220F46C  0220F3E8  overlay_198              02212550  b_plist_main.c
+022117A0  02211420  overlay_198              02212550  b_plist_main.c
 022127E0  02212740  overlay_199              02213D04  wifibattlematch_sys.c
 022128FC  02212854  overlay_199              02213D04  wifibattlematch_sys.c
 02212A88  02212988  overlay_199              02213D04  wifibattlematch_sys.c
@@ -960,6 +992,7 @@
 021BC460  021BC448  overlay_208              021C8D98  zukan_detail_common.c
 021BC60C  021BC560  overlay_208              021C8D98  zukan_detail_common.c
 021BC964  021BC844  overlay_208              021C8D98  zukan_detail_common.c
+021BCD48  021BCC84  overlay_208              021C8DB0  zukan_detail.c
 021BCEA8  021BCE10  overlay_208              021C8DC0  zukan_detail_graphic.c
 021BD204  021BD148  overlay_208              021C8DD8  zknd_tbar.c
 021BD94C  021BD8C0  overlay_208              021C8DE4  zukan_detail_touchbar.c
@@ -973,6 +1006,7 @@
 021C9178  021C9130  overlay_212              021C99A0  zukan.c
 021C9238  021C91C4  overlay_212              021C99A0  zukan.c
 021C945C  021C9428  overlay_212              021C99A8  zukan_search_engine.c
+021C9758  021C9468  overlay_212              021C99A8  zukan_search_engine.c
 021C9830  021C976C  overlay_212              021C99A8  zukan_search_engine.c
 021C989C  021C983C  overlay_212              021C99A8  zukan_search_engine.c
 021BABF4  021BAB64  overlay_213              021BB33C  comm_btl_demo_graphic.c

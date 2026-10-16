@@ -6,6 +6,12 @@ byte-identical from C; game code is 100.00 percent fully linked and all code is
 100.00 percent fully linked (3,390,676 of 3,390,676 bytes, the SDK side
 included). The live figures are in `README.md`.
 
+The remaining milestone 3 work is a split campaign, not a move list: the
+`__FILE__` anchors prove 76 functions across 36 files that sit in a file other
+than their own original, and 88 of the consolidated cases need a file that does
+not exist yet (`S/INT13/split_list.tsv`, the wave 13 start list in
+`LAUNCHQ.md`).
+
 ## Milestone 1: ROM extraction and rebuild (done)
 
 `tools/ndsrom.py` reads a stock ROM, splits it into its constituent parts

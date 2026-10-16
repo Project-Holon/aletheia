@@ -59,20 +59,11 @@ typedef struct {
     short f10c;
     short f10e;
     u8 mac[6];
+    unsigned char state;      /* 0x116 */
+    unsigned char area[1];    /* 0x117 */
 } Work;
 
-typedef struct AossWork_021C08B0 {
-    unsigned char pad0[0x116];
-    unsigned char state;
-    unsigned char area[1];
-} AossWork_021C08B0;
-
 typedef struct AossCtl AossCtl;
-
-typedef struct AossWork_021C0900 {
-    unsigned char pad0[0x116];
-    unsigned char state;
-} AossWork_021C0900;
 
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
@@ -83,7 +74,7 @@ extern void func_021C0964(void *ptr);
 extern int AOSSi_EndLocal();
 extern void DWCi_SETTINGlSetAoss(void *area);
 extern void DWCi_HEAPlFree_(void **mem);
-extern int AOSSi_Init(AossWork_021C0900 *work);
+extern int AOSSi_Init(Work *work);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree2(void *mem);
 void DWCi_AOSSlInit(void);
@@ -127,8 +118,8 @@ void DWCi_AOSSlEnd(int a)
 {
     AOSSi_EndLocal();
     if (a) {
-        if (((AossWork_021C08B0 *)gLibaossBlock1.work)->state == 0 && gLibaossBlock1.status == 1)
-            DWCi_SETTINGlSetAoss(((AossWork_021C08B0 *)gLibaossBlock1.work)->area);
+        if (((Work *)gLibaossBlock1.work)->state == 0 && gLibaossBlock1.status == 1)
+            DWCi_SETTINGlSetAoss(((Work *)gLibaossBlock1.work)->area);
     }
     DWCi_HEAPlFree_(&gLibaossBlock2);
 }
@@ -140,7 +131,7 @@ int DWCi_AOSSlStart(void)
         gLibaossBlock1.status = 1;
         return 1;
     }
-    if (((AossWork_021C0900 *)gLibaossBlock1.work)->state == 1 || (unsigned char)(((AossWork_021C0900 *)gLibaossBlock1.work)->state + 0xFD) <= 2)
+    if (((Work *)gLibaossBlock1.work)->state == 1 || (unsigned char)(((Work *)gLibaossBlock1.work)->state + 0xFD) <= 2)
         return 0;
     return 2;
 }

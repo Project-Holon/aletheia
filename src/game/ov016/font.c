@@ -119,8 +119,6 @@ typedef struct {
 
 typedef int bool_0;
 
-typedef unsigned char bool_021D5824;
-
 typedef struct {
     signed char a;
     signed char b;

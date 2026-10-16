@@ -231,7 +231,7 @@ extern void *BATTLE_COMPETITION_GetFromSave(void *);
 
 extern struct RegulationCard *REGULATION_GetCard(struct RegulationCard *arr, u32 index);
 
-extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(Desc *,u8,u8,u8,u32,int);
+extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(WifibattlematchMenuDesc *,u8,u8,u8,u32,int);
 
 extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(void *);
 
@@ -751,7 +751,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm(int *proc,int *state,u8 *work) {s
 
 void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption((int *)work,22);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
 
-static inline void selected(Desc *rec,void *cardBase,int index)
+static inline void selected(WifibattlematchMenuDesc *rec,void *cardBase,int index)
 {
     char *card;
     card=(char *)REGULATION_GetCard(cardBase,index);
@@ -772,7 +772,7 @@ static inline void selected(Desc *rec,void *cardBase,int index)
  */
 void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *work, int index)
 {
-    Desc rec;
+    WifibattlematchMenuDesc rec;
     void *cardBase;
     int layout;
     u8 x,y,width;
@@ -795,7 +795,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *work, int index)
     case 0: width=28;height=(rec.count&127)*2;x=2;y=9-(height>>1);break;
     case 1: width=12;height=(rec.count&127)*2;x=19;y=17-height;break;
     }
-    ((BattleChampionshipFlowMenu *)work)->window=WIFIBATTLEMATCH_UTIL_CreateMenu((Desc *)&rec, x, y, width, height, ((BattleChampionshipFlowMenu *)work)->heapId);
+    ((BattleChampionshipFlowMenu *)work)->window=WIFIBATTLEMATCH_UTIL_CreateMenu(&rec, x, y, width, height, ((BattleChampionshipFlowMenu *)work)->heapId);
     ((BattleChampionshipFlowMenu *)work)->index=index;
 }
 

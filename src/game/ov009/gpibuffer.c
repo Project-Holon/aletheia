@@ -1,7 +1,7 @@
 /*
  * file:     gpibuffer.c
  * unit:     yes
- * function: gpiAppendCharToBuffer, gpiAppendStringToBufferLen, gpiAppendStringToBuffer, gpiAppendIntToBuffer, func_021894D8, gpiSendOrBufferChar, func_0218964C, func_02189750, func_02189780, gpiSendFromBuffer, gpiSendBufferToPeer, gpiReadMessageFromBuffer, gpiClipBufferToPosition
+ * function: gpiAppendCharToBuffer, gpiAppendStringToBufferLen, gpiAppendStringToBuffer, gpiAppendIntToBuffer, gpiSendData, gpiSendOrBufferChar, func_0218964C, func_02189750, gpiRecvToBuffer, gpiSendFromBuffer, gpiSendBufferToPeer, gpiReadMessageFromBuffer, gpiClipBufferToPosition
  * address:  0x0218934C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -33,7 +33,7 @@
  *   g_021A44DC     0x021A44DC  data ov009
  *   g_021A4504     0x021A4504  data ov009
  *   g_021A4528     0x021A4528  data ov009
- *   _ZZ13func_021894D8PiiPciS_S_S0_E9sendCount 0x021ADFC8 data
+ *   _ZZ11gpiSendDataPiiPciS_S_S0_E9sendCount 0x021ADFC8 data
  *   ArrayLength                          0x02184200  arm
  *   gsUdpEngineGetPeerOutBufferFreeSpace 0x021818EC  arm
  *   gsUdpEngineSendMessage               0x02181350  arm
@@ -45,7 +45,7 @@
  *   g_021A458C     0x021A458C  data ov009
  *   g_021A45A0     0x021A45A0  data ov009
  *   sendCount      0x021ADFC8  data ov009
- *   _ZZ13func_02189780PiiP9GPIBufferS_S_PcE9recvCount 0x021ADFCC data
+ *   _ZZ14gpiRecvToBufferPiiP9GPIBufferS_S_PcE9recvCount 0x021ADFCC data
  *   memmove  0x02092364  arm
  *   gsUdpEngineGetPeerOutBufferFreeSpace  0x021818ec  arm   ov009
  *   gsUdpEngineSendMessage  0x02181350  arm   ov009
@@ -98,11 +98,11 @@ int gpiAppendCharToBuffer(int *connection, int *buffer, int c);
 int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n);
 int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
 int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
-int func_021894D8(int *connection, int sock, char *buffer, int bufferLen, int *closed, int *sent, char *id);
+int gpiSendData(int *connection, int sock, char *buffer, int bufferLen, int *closed, int *sent, char *id);
 int gpiSendOrBufferChar(void);
 int gpiSendOrBufferStringLenToPeer(void **connection, struct GPIPeer_s *peer, char *string, int stringLen);
 int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer, char *string);
-int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer, int *bytesRead, int *connClosed, char *id);
+int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer, int *bytesRead, int *connClosed, char *id);
 int gpiSendFromBuffer(int *connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
 int gpiSendBufferToPeer(GPIConnection **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer, int *closed, int clipSentData);
 int gpiReadMessageFromBuffer(int unused, GPIBuffer *inputBuffer, char **message, int *type, int *plen);
@@ -219,7 +219,7 @@ int gpiAppendIntToBuffer(int *connection, int *buffer, int value)
 
 
 /*
- * func_021894D8 (static helper of gpiSendFromBuffer): one send() on the socket.
+ * gpiSendData (static helper of gpiSendFromBuffer): one send() on the socket.
  * On -1/GOAGetLastError outside the three would-block/in-progress/timeout
  * codes, a "PR" peer id returns GP_NETWORK_ERROR immediately, else raise
  * GP_NETWORK on the connection and return GP_NETWORK_ERROR.  On rcode == 0
@@ -287,7 +287,7 @@ int gpiAppendIntToBuffer(int *connection, int *buffer, int value)
  * DWARF gsDebugFormat prototype (`(int,int,int,char *,int,...)` did not
  * compile).
  */
-int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
+int gpiSendData(int *connection, int sock, char *buffer, int bufferLen,
                   int *closed, int *sent, char *id)
 {
     static int sendCount;
@@ -381,19 +381,19 @@ int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer,
 
 
 /*
- * sdk:      func_02189780 (GameSpy gp, C++ object stamped 4.0.0.1025)
+ * sdk:      gpiRecvToBuffer (GameSpy gp, C++ object stamped 4.0.0.1025)
  *
- * func_02189780: drain the socket into inputBuffer, growing it by 0x4000
+ * gpiRecvToBuffer: drain the socket into inputBuffer, growing it by 0x4000
  * bytes whenever len+0x4000 exceeds size, until recv stops making progress,
  * the peer closes, or 128 KiB have accumulated. Publishes buffer/size/len
  * plus *bytesRead and *connClosed.
  *
  * 2026-10-01 (w3 lane28): closed. recvCount is a function-local static
- * (lever 3, as sibling func_021894D8). The vendor reloc is
- * func_021894D8's sendCount + 4: both counters sit in this object's .bss with
+ * (lever 3, as sibling gpiSendData). The vendor reloc is
+ * gpiSendData's sendCount + 4: both counters sit in this object's .bss with
  * sendCount first, so the load is `[anchor, #4]`. No volatile needed.
  */
-int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
+int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer,
                   int *bytesRead, int *connClosed, char *id)
 {
     static int recvCount;
@@ -463,7 +463,7 @@ int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
 
 /*
  * gpiSendFromBuffer: push outputBuffer's pending bytes [pos, len) at the
- * socket through func_021894D8 (func_021894D8), looping until nothing more is
+ * socket through gpiSendData (gpiSendData), looping until nothing more is
  * sent or the buffer is drained.  With clipSentData the sent prefix is
  * memmoved out and len shrinks; otherwise pos advances.  Publishes the new
  * len/pos and, when connClosed is non-NULL, the closed flag.
@@ -494,7 +494,7 @@ int gpiSendFromBuffer(int *connection, int sock, GPIBuffer *outputBuffer,
         return 0;
 
     do {
-        result = func_021894D8(connection, sock, &buffer[pos + total], remaining, &closed, &sent, id);
+        result = gpiSendData(connection, sock, &buffer[pos + total], remaining, &closed, &sent, id);
         if (result != 0)
             return result;
         if (sent) {

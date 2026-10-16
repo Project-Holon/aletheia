@@ -128,7 +128,7 @@ typedef struct {
     unsigned short gameInfoLength;
     unsigned short otherElementCount;
     WMGameInfo gameInfo;
-} WMBssDesc_0205CCE4;
+} WMBssDesc;
 
 typedef struct { unsigned char data[0x104]; } CRYPTORC4Context;
 
@@ -145,14 +145,6 @@ typedef struct {
     MATHCRC16Table crcTable;
     WDSApInfo apinfo;
 } DWCCheckNintendoZoneWork;
-
-typedef struct {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char bssid[6];
-    unsigned short ssidLength;
-    unsigned char ssid[32];
-} WMBssDesc_0205D01C;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void CPS_SetSslHandshakePriority(unsigned short priority);
@@ -188,11 +180,11 @@ extern int DWC_AC_GetSecuritySetting(void);
 extern int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len);
 extern int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos);
 extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
-extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable, WMBssDesc_0205CCE4 *bssdesc, WDSApInfo *apinfo);
+extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable, WMBssDesc *bssdesc, WDSApInfo *apinfo);
 extern int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo);
 extern void func_0205CF24(void);
 extern int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo);
-extern int DWC_CheckNintendoZone(void *work, WMBssDesc_0205CCE4 *bssdesc, DWCApInfo *apinfo);
+extern int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo);
 extern void DWC_ProcessInet(void);
 void DWC_InitInetEx(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority);
 void DWC_SetRwinSize(long size);
@@ -205,7 +197,7 @@ void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo);
 int DWC_GetApInfo(DWCApInfo *apinfo);
 unsigned long DWC_GetCheckNintendoZoneWorkSize(void);
 void DWC_GetParseWMBssDescWorkSize(void);
-int DWC_ParseWMBssDesc(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo);
+int DWC_ParseWMBssDesc(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo);
 int DWC_UpdateConnection(void);
 extern INETBSS g_02146AD4;
 
@@ -626,7 +618,7 @@ unsigned long DWC_GetCheckNintendoZoneWorkSize(void)
 /*
  * sdk:      DWC_CheckNintendoZone (dwc_connectinet.o)
  */
-int DWC_CheckNintendoZone(void *work, WMBssDesc_0205CCE4 *bssdesc, DWCApInfo *apinfo)
+int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
 {
     DWCCheckNintendoZoneWork *pwork;
 
@@ -662,7 +654,7 @@ void DWC_GetParseWMBssDescWorkSize(void)
 /*
  * sdk:      DWC_ParseWMBssDesc (dwc_connectinet.o)
  */
-int DWC_ParseWMBssDesc(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinfo)
+int DWC_ParseWMBssDesc(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
 {
     if (work == 0 || bssdesc == 0 || apinfo == 0) {
         return 0;
@@ -670,7 +662,7 @@ int DWC_ParseWMBssDesc(void *work, WMBssDesc_0205D01C *bssdesc, DWCApInfo *apinf
     if (DWC_CheckWiFiStation(bssdesc->ssid, bssdesc->ssidLength, apinfo)) {
         return 1;
     }
-    return DWC_CheckNintendoZone(work, (WMBssDesc_0205CCE4 *)bssdesc, apinfo) ? 1 : 0;
+    return DWC_CheckNintendoZone(work, (WMBssDesc *)bssdesc, apinfo) ? 1 : 0;
 }
 
 

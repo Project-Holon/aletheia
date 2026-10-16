@@ -21,7 +21,6 @@
  *   func_021F662C 0x021F662C arm ov107
  *   OS_CreateThread 0x020853C0 arm
  *   OS_WakeupThreadDirect 0x02085868 arm
- *   g_021F7004 0x021F7004 data
  *   ctrdgi_task_work 0x021f7004 data
  *   OS_GetThreadPriority             0x02085a30 arm
  *   OS_DisableInterrupts             0x02087988 arm
@@ -40,17 +39,6 @@ typedef struct Task {
     u32 param[4];
 } Task;
 
-typedef struct {
-    char thread[0xc0];
-    Task *volatile list;
-    Task end;
-} TaskWork_021F6480;
-
-typedef struct {
-    char pad[0xC0];
-    int f_c0;
-} TaskWork_021F6590;
-
 typedef struct
 {
     u32 pad0;
@@ -65,10 +53,19 @@ struct MBiTaskInfo_tag {
     void (*callback)(struct MBiTaskInfo_tag *);
 };
 
+/* One thread-work object, seen two ways: MBi_TaskThread walks a list of Task
+ * records, MBi_SetTask walks a list of MBiTaskInfo_tag records.  Both views
+ * live at 0xC0 (list/head) and 0xC4 (end/fieldC4), so the words are unions. */
 typedef struct MBiTaskWork {
     char _0[0xC0];
-    struct MBiTaskInfo_tag * volatile head;
-    struct MBiTaskInfo_tag fieldC4;
+    union {
+        Task *volatile list;                    /* MBi_TaskThread view */
+        struct MBiTaskInfo_tag * volatile head; /* MBi_SetTask view */
+    } tasks;
+    union {
+        Task end;                               /* MBi_TaskThread view */
+        struct MBiTaskInfo_tag fieldC4;         /* MBi_SetTask view */
+    } last;
 } MBiTaskWork;
 
 extern u32 OS_DisableInterrupts(void);
@@ -91,9 +88,8 @@ void MBi_InitTaskInfo(void *pt);
 int MBi_IsTaskBusy(MBiTaskInfo *pt);
 void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(struct MBiTaskInfo_tag *), void (*callback)(struct MBiTaskInfo_tag *), u32 priority);
 void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo_tag *));
-extern TaskWork_021F6590 *g_021F7004;
-extern void *ctrdgi_task_work;
 extern MBiTaskWork *mbi_task_work;
+extern void *ctrdgi_task_work;
 
 
 /*
@@ -101,21 +97,21 @@ extern MBiTaskWork *mbi_task_work;
  */
 void MBi_TaskThread(void *arg)
 {
-    TaskWork_021F6480 *p;
+    MBiTaskWork *p;
     Task *trg;
 
-    p = (TaskWork_021F6480 *)arg;
+    p = (MBiTaskWork *)arg;
     while (1) {
         {
             u32 bak_cpsr;
 
             bak_cpsr = OS_DisableInterrupts();
-            while (p->list == 0) {
+            while (p->tasks.list == 0) {
                 OS_SetThreadPriority(p, 0);
                 OS_SleepThread(0);
             }
-            trg = p->list;
-        p->list = p->list->next;
+            trg = p->tasks.list;
+        p->tasks.list = p->tasks.list->next;
             OS_SetThreadPriority(p, trg->flags >> 1);
             OS_RestoreInterrupts(bak_cpsr);
         }
@@ -133,10 +129,10 @@ void MBi_TaskThread(void *arg)
                 u32 new_priority;
 
                 cur_priority = OS_GetThreadPriority((void *)p);
-                if (p->list == 0) {
+                if (p->tasks.list == 0) {
                     new_priority = 0;
                 } else {
-                    new_priority = cur_priority < (p->list->flags >> 1) ? (p->list->flags >> 1) : cur_priority;
+                    new_priority = cur_priority < (p->tasks.list->flags >> 1) ? (p->tasks.list->flags >> 1) : cur_priority;
                 }
                 if (new_priority != cur_priority) {
                     OS_SetThreadPriority(p, new_priority);
@@ -147,7 +143,7 @@ void MBi_TaskThread(void *arg)
             if (callback) {
                 callback(trg);
             }
-            if (trg == &p->end) {
+            if (trg == &p->last.end) {
                 break;
             }
             OS_RestoreInterrupts(bak_cpsr);
@@ -161,11 +157,11 @@ void MBi_InitTaskThread(void *p_work, unsigned long size)
 {
     unsigned long bak_cpsr = OS_DisableInterrupts();
 
-    if (g_021F7004 == 0) {
-        TaskWork_021F6590 *p = (TaskWork_021F6590 *)p_work;
-        g_021F7004 = p;
+    if (mbi_task_work == 0) {
+        MBiTaskWork *p = (MBiTaskWork *)p_work;
+        mbi_task_work = p;
         func_021F662C((char *)p + 0xC4);
-        p->f_c0 = 0;
+        p->tasks.head = 0;
         OS_CreateThread(p, MBi_TaskThread, p, (char *)p + 0xE4 + ((size - 0xE4) & ~3), (size - 0xE4) & ~3, 0);
         OS_WakeupThreadDirect(p);
     }
@@ -225,20 +221,20 @@ void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(struct MBiTaskInfo_tag
     pt->task = task;
     pt->active = 1;
     pt->priority = priority;
-    if (p_work->head == 0) {
-        if (pt == &p_work->fieldC4)
+    if (p_work->tasks.head == 0) {
+        if (pt == &p_work->last.fieldC4)
             mbi_task_work = 0;
-        p_work->head = pt;
+        p_work->tasks.head = pt;
         OS_WakeupThreadDirect(p_work);
     } else {
-        pos = p_work->head;
-        if (pt == &p_work->fieldC4) {
+        pos = p_work->tasks.head;
+        if (pt == &p_work->last.fieldC4) {
             while (pos->next != 0)
                 pos = pos->next;
             pos->next = pt;
             mbi_task_work = 0;
         } else if (priority < pos->priority) {
-            p_work->head = pt;
+            p_work->tasks.head = pt;
             pt->next = pos;
         } else {
             while (pos->next != 0 && priority >= pos->next->priority)

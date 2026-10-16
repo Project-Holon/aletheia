@@ -27,8 +27,6 @@ typedef void (*DWCiMemFree)(int, void *, unsigned long);
 
 typedef struct { DWCiMemFree free; DWCiMemAlloc alloc; } DWCiMemFunc;
 
-typedef void *(*DWCiMemAlloc_0205A1B0)(int, unsigned long);
-
 extern void *DWC_AllocEx(int name, unsigned long size, int tag);
 
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);

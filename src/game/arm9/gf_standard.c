@@ -49,8 +49,6 @@ struct Mt {
     u8  unk_9cc[0x200];
 };
 
-typedef short              s16_0203F1FC;
-
 typedef long long          s64;
 
 typedef unsigned long long u64;
@@ -96,7 +94,7 @@ struct RtcRequest {
     struct RtcTime stagedTime;
 };
 
-struct RtcDate_0203F540 {
+struct RtcDateSigned {
     s32 year;
     u32 month;
     s32 day;
@@ -183,15 +181,15 @@ u32 GF_STANDARD_GetTime(void);
 
 void GF_STANDARD_SetupRtc(void);
 
-s32 GF_STANDARD_SetupRtc_F540(struct RtcDate_0203F540 *d);
+s32 GF_STANDARD_SetupRtc_F540(struct RtcDateSigned *d);
 
 int GF_STANDARD_Get_F5FC(u32 x);
 
-s16_0203F1FC GF_STANDARD_SinDeg(u32 x);
+short GF_STANDARD_SinDeg(u32 x);
 
 short GF_STANDARD_Get_F684(unsigned short x);
 
-s16_0203F1FC GF_STANDARD_Sin(s32 x);
+short GF_STANDARD_Sin(s32 x);
 
 u16 GF_STANDARD_DegToAngle(int x);
 
@@ -205,7 +203,7 @@ extern char g_020A7E4C[];
 
 extern u16 tbl_020A08B6[];
 
-extern s16_0203F1FC FX_SinCosTable_[];
+extern short FX_SinCosTable_[];
 
 extern struct Block g_021469FC;
 
@@ -708,9 +706,9 @@ void GF_STANDARD_SetupRtc(void)
  *   python tools/match.py one --src src/pending/GF_STANDARD_SetupRtc_F540.c \
  *       --func GF_STANDARD_SetupRtc_F540 --addr 0x0203F540 --cc 1.1p1 --arm
  */
-s32 GF_STANDARD_SetupRtc_F540(struct RtcDate_0203F540 *d)
+s32 GF_STANDARD_SetupRtc_F540(struct RtcDateSigned *d)
 {
-    struct RtcDate_0203F540 t;
+    struct RtcDateSigned t;
     s32 n = d->day + tbl_020A08B6[d->month];
 
     if (d->month >= 3) {
@@ -742,7 +740,7 @@ int GF_STANDARD_Get_F5FC(u32 x)
 /*
  * Twin of GF_STANDARD_Get_F5FC at table index 2 * i + 1 (cosine entry); angles of 360 or more return 0.
  */
-s16_0203F1FC GF_STANDARD_SinDeg(u32 x)
+short GF_STANDARD_SinDeg(u32 x)
 {
     if (x >= 360) {
         return 0;
@@ -795,7 +793,7 @@ short GF_STANDARD_Get_F684(unsigned short x)
  *
  * Addresses are Black-image addresses.
  */
-s16_0203F1FC GF_STANDARD_Sin(s32 x)
+short GF_STANDARD_Sin(s32 x)
 {
     return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
 }
