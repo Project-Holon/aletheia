@@ -40,7 +40,7 @@
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   sTrainerEyeSightFuncs  0x021D9338  data  a4
  *   EVENT_TRAINER_EYE_UpdatePairEvent  0x021AE754  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   sEventTrainerEyeFileName  0x021DE138  data  a4
  *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
  *   FLDMMDL_OffMoveBitMovePause  0x0216DB04  thumb  ov010
@@ -60,7 +60,7 @@
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   FLDMMDL_ChangeMoveCode  0x0216E0E8  thumb  ov010
  *   sTrainerEyeStepFuncs  0x021D9348  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FLDMMDL_GetEventType  0x0216D5A8  thumb
  *   FLDMMDL_NormalizeEventType  0x0216E434  thumb
  *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
@@ -73,6 +73,7 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   EVENT_POKE_STATUS_CheckFlag  0x0215A4D8  thumb  ov010
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   GAME_EVENT_Create  0x020122C0  thumb  arm9
  */
 #include "event_trainer_eye_types.h"
 #include "field_effect_types.h"
@@ -131,8 +132,8 @@ typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const G
 typedef int (*TrainerEyeStepFunc)(TrainerEyeWork *work);
 typedef int (*GameEventFunc)(void *eventSys, void *gameSystem, void *work);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void func_020307B0(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void GFL_HEAP_Free(void *memory);
 extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
 extern int EVENT_POKE_STATUS_GetRecordField2(int trainerId);
 extern int EVENT_POKE_STATUS_NormalizeTicks(u32 eventId);
@@ -153,7 +154,7 @@ extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter);
 extern int FLDMMDL_GetParam(Mmdl *mmdl, int paramIndex);
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
-extern GameEvent *func_020122C0(void *owner, void *a, GameEventFunc func, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(void *owner, void *a, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
 extern void FLDMMDL_OffMoveBitMovePause(Mmdl *mmdl);
@@ -403,7 +404,7 @@ GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, TrainerEyeWork *first,
     GameEvent *event;
     TrainerEyePairWork *pair;
 
-    event = func_020122C0(owner, 0, EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
+    event = GAME_EVENT_Create(owner, 0, EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
     pair = func_020124E8(event);
     pair->first = first;
     pair->second = second;
@@ -413,7 +414,7 @@ GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, TrainerEyeWork *first,
 /* Creates the trainer eye event for one record. */
 TrainerEyeWork *EVENT_TRAINER_EYE_Create(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex)
 {
-    TrainerEyeWork *work = func_02030734(heapId, sizeof(TrainerEyeWork), 1, sEventTrainerEyeFileName, 0x1fa);
+    TrainerEyeWork *work = GFL_HEAP_Alloc(heapId, sizeof(TrainerEyeWork), 1, sEventTrainerEyeFileName, 0x1fa);
 
     work->hit = *hit;
     work->reserved20 = 0;
@@ -640,13 +641,13 @@ int EVENT_TRAINER_EYE_UpdatePairEvent(void *eventSys, void *gameSystem, void *wo
 
     if (pair->first != 0) {
         if (EVENT_TRAINER_EYE_Run(pair->first) == 1) {
-            func_020307B0(pair->first);
+            GFL_HEAP_Free(pair->first);
             pair->first = 0;
         }
     }
     if (pair->second != 0) {
         if (EVENT_TRAINER_EYE_Run(pair->second) == 1) {
-            func_020307B0(pair->second);
+            GFL_HEAP_Free(pair->second);
             pair->second = 0;
         }
     }

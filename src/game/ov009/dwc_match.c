@@ -35,9 +35,9 @@
  *   DWC_GetState      0x0216B994 arm
  *   g_021AAA40     0x021AAA40  data  ov009
  *   strcmp  0x020948E0  arm
- *   func_0205A1B0  0x0205A1B0  arm
+ *   DWC_Free  0x0205A1B0  arm
  *   strlen  0x0209477C  arm
- *   func_0205A16C  0x0205A16C  arm
+ *   DWC_Alloc  0x0205A16C  arm
  *   strcpy  0x02094798  arm
  *   qr2_register_keyA  0x0219D158  arm  ov009
  *   g_021AAA44                   0x021AAA44 data
@@ -144,7 +144,7 @@
  *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   NNCancel                     0x02199FB4 arm   ov009
  *   gt2CloseAllConnectionsHard                0x02195DE4 arm   ov009
- *   func_020870D0                0x020870D0 arm
+ *   OS_GetTick                0x020870D0 arm
  *   func_02172BB8                0x02172BB8 arm   ov009
  *   d_021A207C  0x021A207C  data
  *   d_021A2080  0x021A2080  data
@@ -370,8 +370,8 @@ enum E { E_OK, E_A, E_B, E_C, E_D, E_E, E_NET };
 /* callees */
 extern int DWCi_IsError(void);
 extern int DWC_GetState(void);
-extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern void *func_0205A16C(int name, u32 size);
+extern void DWC_Free(int name, void *ptr, u32 size);
+extern void *DWC_Alloc(int name, u32 size);
 extern char *strcpy(char *dst, const char *src);
 extern void qr2_register_keyA(int keyid, char *key);
 extern int DWC_GetAIDBitmap(void);
@@ -460,7 +460,7 @@ extern int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, c
 extern int DWC_IsServerMyself(void);
 extern void NNCancel(int cookie);
 extern void gt2CloseAllConnectionsHard(int *p);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern void func_02172BB8(int level);
 extern int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 extern int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep);
@@ -858,8 +858,8 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
     g_021AAA40[index].isStr = 0;
     g_021AAA40[index].pad = 0;
     if (g_021AAA40[index].keyString != 0)
-        func_0205A1B0(4, g_021AAA40[index].keyString, 0);
-    g_021AAA40[index].keyString = func_0205A16C(4, strlen((const char *)keyString) + 1);
+        DWC_Free(4, g_021AAA40[index].keyString, 0);
+    g_021AAA40[index].keyString = DWC_Alloc(4, strlen((const char *)keyString) + 1);
     if (g_021AAA40[index].keyString == 0) {
         DWCi_StopMatch(9, -80001);
         return 0;
@@ -992,8 +992,8 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
     KEYF1(index) = 1;
     KEYF2(index) = 0;
     if (KEYSTR(index) != 0)
-        func_0205A1B0(4, KEYSTR(index), 0);
-    KEYSTR(index) = func_0205A16C(4, strlen((const char *)keyString) + 1);
+        DWC_Free(4, KEYSTR(index), 0);
+    KEYSTR(index) = DWC_Alloc(4, strlen((const char *)keyString) + 1);
     if (KEYSTR(index) == 0) {
         DWCi_StopMatch(9, -80001);
         return 0;
@@ -2113,7 +2113,7 @@ int DWCi_ProcessMatchClosing(int error, int errorCode)
         DWCi_StopMatch(0x16, -80430);
     } else if (((DWCstMatchControl *)DWCi_GetMatchCnt())->state == 1) {
         DWCi_SetMatchStatus(0x15);
-        tick = func_020870D0();
+        tick = OS_GetTick();
         ((DWCstMatchControl *)DWCi_GetMatchCnt())->closedTime = tick;
     } else {
         func_02172BB8(1);
@@ -3256,7 +3256,7 @@ u8 DWCi_CheckResvCommand(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, i
                         } else {
                         send:
                             sendCommand = 2;
-                            tick = func_020870D0();
+                            tick = OS_GetTick();
                             ((DWCstMatchControl *)DWCi_GetMatchCnt())->cmdCnt.sendTime = tick;
                         }
                     } else {
@@ -3586,7 +3586,7 @@ int DWCi_RetryReserving(int resendPid)
 
     ((DWCstMatchControl *)DWCi_GetMatchCnt())->reqProfileID = 0;
     ((DWCstMatchControl *)DWCi_GetMatchCnt())->replyWaiting = 0;
-    tick = func_020870D0();
+    tick = OS_GetTick();
     ((DWCstMatchControl *)DWCi_GetMatchCnt())->cmdTimeoutStartTick = tick;
     DWCi_TempNewNodeInfo_Clear();
     if (((DWCstMatchControl *)DWCi_GetMatchCnt())->connectGroupID != 0) {
@@ -3598,7 +3598,7 @@ int DWCi_RetryReserving(int resendPid)
         DWCi_SetMatchStatus(2);
         if (resendPid != 0) {
             ((DWCstMatchControl *)DWCi_GetMatchCnt())->sbUpdateFlag = 1;
-            tick = func_020870D0();
+            tick = OS_GetTick();
             ((DWCstMatchControl *)DWCi_GetMatchCnt())->sbUpdateTick = tick;
         } else {
             sbError = DWCi_HandleSBError(DWCi_SBUpdateAsync(0));
@@ -3902,7 +3902,7 @@ int DWCi_PostProcessSVConnectionHybrid(void)
     ((DWCstMatchControl *)DWCi_GetMatchCnt())->qr2Flag18 = 0;
     ((DWCstMatchControl *)DWCi_GetMatchCnt())->serverProfileID = 0;
     if (((DWCstMatchControl *)DWCi_GetMatchCnt())->connectionEstablished == 0 && DWCi_NodeInfoList_GetCount() == 1) {
-        tick = func_020870D0();
+        tick = OS_GetTick();
         ((DWCstMatchControl *)DWCi_GetMatchCnt())->serverPollingTime = tick;
     }
     qr2_send_statechanged(((DWCstMatchControl *)DWCi_GetMatchCnt())->qr2Obj);
@@ -4433,7 +4433,7 @@ int DWCi_ServerSynTimeoutExec(void)
     if (!DWCi_CloseShutdownClientSC(*(int *)((char *)DWCi_GetMatchCnt() + 0x650)))
         return 0;
     if (DWCi_NodeInfoList_GetCount() > 1 || DWCi_TempNewNodeInfo_IsValid()) {
-        unsigned long long t = func_020870D0();
+        unsigned long long t = OS_GetTick();
         *(unsigned long long *)((char *)DWCi_GetMatchCnt() + 0x658) = t;
         DWCi_SetMatchStatus(23);
     } else if (!func_021720D8(*(int *)((char *)DWCi_GetMatchCnt() + 0x680))) {
@@ -4480,7 +4480,7 @@ int DWCi_SendCancelMatchSynCommand(int profileID, unsigned char command)
     if (DWCi_HandleMatchCommandError(result))
         return 0;
     {
-        unsigned long long t = func_020870D0();
+        unsigned long long t = OS_GetTick();
         *(unsigned long long *)((char *)DWCi_GetMatchCnt() + 0x660) = t;
     }
     return 1;
@@ -6474,7 +6474,7 @@ char *DWCi_GetResvDenyReasonString(unsigned char denyReason)
  */
 void disp_match_state(int a, int b)
 {
-    unsigned long long v = func_020870D0();
+    unsigned long long v = OS_GetTick();
 
     *(int *)(((char *)&g_021AAA20) + 0x18) = (int)v;
     *(int *)(((char *)&g_021AAA20) + 0x1c) = (int)(v >> 32);

@@ -14,16 +14,16 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
- *   func_020073D8  0x020073D8  thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
  *   g_MusicalDistSaveFileName     0x020A71D4  data  a1
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_CreateHandleFromMemory  0x0204913C  arm
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   MSGDATA_CreateFromMemory  0x02045C44  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -50,6 +50,8 @@
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_IsShiny  0x02017EAC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
+ *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
  */
 struct SaveWork;
 struct SaveBlockCtrl;
@@ -135,12 +137,12 @@ struct MovePokemonSave {
 };                                      /* 0x34 */
 
 extern void *GAME_DATA_GetSaveControl(struct SaveWork *saveWork);
-extern void *func_02030734(u32 heap_id, u32 size, int clear, const char *file_name, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file_name, u16 line);
 extern u32   SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size);
-extern void *func_020073D8(struct SaveBlockCtrl *save_ctrl, u32 block_id, u32 mode);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveBlockCtrl *save_ctrl, u32 block_id, u32 mode);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void func_020072A4(struct SaveBlockCtrl *save_ctrl, u32 block_id);
-extern u32 func_020307B0(void *mem);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveBlockCtrl *save_ctrl, u32 block_id);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void GAME_DATA_PartSaveStart(u8 *game_sys, u32 block_id);
 extern int GAME_DATA_PartSaveMain(char *game_sys, int block_id);
 extern void *MUSICAL_SAVE_GetFromSave(void *save);
@@ -149,14 +151,14 @@ extern u8 *MUSICAL_SAVE_GetStageData(struct SaveWork *profile);
 extern void *ARC_TOOL_CreateHandleFromMemory(void *data, u32 size, u32 heap_id);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int file_id, int decompress, u32 heap_id, u32 *out_size);
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heap_id);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void  STRBUF_ToChars(struct MsgString *str, u16 *dest, u32 max_len);
 extern void STRBUF_Delete(struct MsgString *str);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void  ARC_TOOL_DeleteHandle(void *narc);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
-extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
@@ -251,7 +253,7 @@ extern const struct DistEnt sZukanFormTable[];
  *
  * Closed in wave 15.  The residue since wave 11 (image homes sys to the
  * stack and keeps sv in r6 and the id 6 in r7; every earlier shape did the
- * reverse) was not an allocation tie: the func_020073D8 call is written in
+ * reverse) was not an allocation tie: the SAVE_CONTROL_GetExtraSaveRecord call is written in
  * BOTH arms of the `r == 1` test and the compiler tail-merges the two
  * copies.  The merged call is what keeps 6 live in a callee-saved register
  * and lets the shared zero land in r2 as the third argument.
@@ -264,18 +266,18 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id)
     u8 *block;
 
     save_ctrl = GAME_DATA_GetSaveControl(game_sys);
-    dist = func_02030734(heap_id, 0x2C, 1, g_MusicalDistSaveFileName, 0x4A);
-    dist->block = func_02030734(heap_id, 0x20000, 1, g_MusicalDistSaveFileName, 0x4C);
+    dist = GFL_HEAP_Alloc(heap_id, 0x2C, 1, g_MusicalDistSaveFileName, 0x4A);
+    dist->block = GFL_HEAP_Alloc(heap_id, 0x20000, 1, g_MusicalDistSaveFileName, 0x4C);
     load_result = SAVE_CONTROL_LoadExtraSaveWithBuffer(save_ctrl, 6, heap_id, dist->block, 0x20000);
     dist->heap_id = heap_id;
     dist->game_sys = game_sys;
     dist->state = 0;
     if (load_result == 1) {
         dist->load_ok = 1;
-        block = func_020073D8(save_ctrl, 6, 0);
+        block = SAVE_CONTROL_GetExtraSaveRecord(save_ctrl, 6, 0);
     } else {
         dist->load_ok = 0;
-        block = func_020073D8(save_ctrl, 6, 0);
+        block = SAVE_CONTROL_GetExtraSaveRecord(save_ctrl, 6, 0);
     }
     dist->block = block;
     dist->block_head = (struct DistHeader *)block;
@@ -313,7 +315,7 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id)
  *    so it resolves here as `label`.  The original spends one instruction
  *    this source cannot buy, `movs r7, #6` at 0x0200C56C, which parks the
  *    save-block id in a callee-saved register so that the second use of it
- *    (the func_020073D8 call at 0x0200C560) is a register copy rather than a
+ *    (the SAVE_CONTROL_GetExtraSaveRecord call at 0x0200C560) is a register copy rather than a
  *    second `movs`.  Doing so costs the original a register, and the visible
  *    consequence is that the first parameter is homed to the stack at entry
  *    (`str r0, [sp, #4]`) while the GAME_DATA_GetSaveControl result keeps r6; every
@@ -338,11 +340,11 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id)
  */
 void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *dist)
 {
-    func_020072A4(GAME_DATA_GetSaveControl(dist->game_sys), 6);
+    SAVE_CONTROL_DeleteExtraSave(GAME_DATA_GetSaveControl(dist->game_sys), 6);
     if (dist->block != 0) {
-        func_020307B0(dist->block);
+        GFL_HEAP_Free(dist->block);
     }
-    func_020307B0(dist);
+    GFL_HEAP_Free(dist);
 }
 
 
@@ -406,11 +408,11 @@ u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *dist)
                              (u16)((dist->heap_id & 0x7FFF) | 0x8000));
         msg_file = ARC_UTIL_LoadHandleMemberWithSize(narc, 1, 0, (u16)((dist->heap_id & 0x7FFF) | 0x8000), &out_size);
         msg_bank = MSGDATA_CreateFromMemory(msg_file, (u16)((dist->heap_id & 0x7FFF) | 0x8000));
-        msg_str = func_02045EC0(msg_bank, 0);
+        msg_str = MSGDATA_AllocString(msg_bank, 0);
         STRBUF_ToChars(msg_str, (u16 *)MUSICAL_SAVE_GetStageData(profile), 0x25);
         STRBUF_Delete(msg_str);
         MSGDATA_Delete(msg_bank);
-        func_020307B0(msg_file);
+        GFL_HEAP_Free(msg_file);
         ARC_TOOL_DeleteHandle(narc);
         GAME_DATA_PartSaveStart(dist->game_sys, 6);
         dist->state++;
@@ -805,7 +807,7 @@ void ZUKAN_SAVE_SetSeenFormFlag(struct ZukanSave *pZukan, u32 species, u32 sel, 
  * The opening of the save block with id 0x37: ZUKAN_SAVE_GetSize returns 0x4D4,
  * ZUKAN_SAVE_Init clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
  * first word, and ZUKAN_SAVE_GetBlock is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
+ * `SAVE_CONTROL_GetBlock(sys, 0x37)`.  The magic word is the tell that the record is
  * checked rather than merely zeroed; nothing in this range reads it back.
  *
  * The word at +0x04 is a packed set of bitfields, and the widths are read off
@@ -838,7 +840,7 @@ void ZUKAN_SAVE_Init(struct ZukanSave *pZukan)
 
 void *ZUKAN_SAVE_GetBlock(void *saveControl)
 {
-    return func_020071CC(saveControl, 0x37);
+    return SAVE_CONTROL_GetBlock(saveControl, 0x37);
 }
 
 
@@ -1324,7 +1326,7 @@ u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *pZukan, u32 heap)
             count = (u16)(count + 1);
         }
     }
-    func_020307B0(pFormTable);
+    GFL_HEAP_Free(pFormTable);
     return count;
 }
 
@@ -1473,7 +1475,7 @@ u16 ZUKAN_SAVE_CountSeenRegional(struct ZukanSave *pZukan, u32 heap)
             count = (u16)(count + 1);
         }
     }
-    func_020307B0(pFormTable);
+    GFL_HEAP_Free(pFormTable);
     return count;
 }
 
@@ -1667,7 +1669,7 @@ int ZUKAN_SAVE_CountCaughtRegionalCounted(struct ZukanSave *pZukan, int heap)
             count++;
         }
     }
-    func_020307B0(pFormTable);
+    GFL_HEAP_Free(pFormTable);
     return count;
 }
 
@@ -1729,7 +1731,7 @@ u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct ZukanSave *pZukan, u32 heap)
             count = (u16)(count + 1);
         }
     }
-    func_020307B0(pFormTable);
+    GFL_HEAP_Free(pFormTable);
     return count;
 }
 
@@ -1775,7 +1777,7 @@ u32 ZUKAN_SAVE_HasLanguageFlag(struct ZukanSave *pZukan, u32 species, u32 langua
  * MOVE_POKEMON_SAVE_RollStartLocation is a leaf that saves nothing.
  *
  * The object is the save block with id 0x38: MOVE_POKEMON_SAVE_GetSize returns 0x34,
- * MOVE_POKEMON_SAVE_GetBlock is the whole of the lookup `func_020071CC(sys, 0x38)`, and
+ * MOVE_POKEMON_SAVE_GetBlock is the whole of the lookup `SAVE_CONTROL_GetBlock(sys, 0x38)`, and
  * MOVE_POKEMON_SAVE_Init clears exactly 0x34 bytes, which is the block-file opening
  * this region keeps producing.  The record is a pair of 0x14-byte entries at
  * +0x04 with four byte fields and two counters behind them.
@@ -1810,7 +1812,7 @@ u32 MOVE_POKEMON_SAVE_GetSize(void)
 
 void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl)
 {
-    return func_020071CC(saveControl, 0x38);
+    return SAVE_CONTROL_GetBlock(saveControl, 0x38);
 }
 
 

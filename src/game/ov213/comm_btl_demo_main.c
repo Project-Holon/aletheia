@@ -45,10 +45,10 @@
  *   UI_SCENE_Step 0x021B6144 thumb ov067
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   COMM_BTL_DEMO_GRAPHIC_Draw 0x021BAC68 thumb ov213
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021BAF14 0x021BAF14 data a4
  *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
@@ -88,7 +88,7 @@
  *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02008500 0x02008500 thumb
+ *   MYSTATUS_NameToStrbuf 0x02008500 thumb
  *   func_02008550 0x02008550 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -99,7 +99,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   COMM_BTL_DEMO_MAIN_UpdateRowContext 0x021BA30C thumb ov213
  *   func_02008DF0 0x02008DF0 thumb
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
@@ -109,7 +109,7 @@
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   G3D_UTIL_Create 0x02047CFC arm
  *   PARTICLE_InitManager 0x02050B80 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
@@ -336,10 +336,10 @@ extern void GF_OVERLAY_Unload(int);
 extern void COMM_BTL_DEMO_GRAPHIC_Draw(char *p);
 extern int UI_SCENE_Step(struct UiScene *s);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void UI_SCENE_SetNextScene(unsigned char *task, int value);
 extern u32 func_02048A18(u8 *, int);
@@ -369,7 +369,7 @@ extern void CLACT_SetActorDrawEnable(struct Actor *p, unsigned int v),CLACT_SetA
 extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02008500(void *,void *);
+extern void MYSTATUS_NameToStrbuf(void *,void *);
 extern u8 func_02008550(const struct TextSys *obj);
 extern void STRBUF_Delete(struct StrBuf *vec);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
@@ -380,7 +380,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern void BMP_WIN_MakeScreen(struct BmpWinCfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 void COMM_BTL_DEMO_MAIN_UpdateRowContext();
 extern u32 func_02008DF0(struct AnimUnit *obj, int i);
 extern u32 GFL_NET_GetGameKind(void);
@@ -390,7 +390,7 @@ extern void UI_SCENE_LoadActorGfx(UiSceneActorGfx *out, UiSceneActorGfxConfig *i
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 extern void *UI_SCENE_CreateActor(void *,int,unsigned char,unsigned char,unsigned char,unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, unsigned int v),CLACT_SetActorDrawPriority(void *,unsigned);
-extern void func_0207D63C(void *,int,int,int,int),PARTICLE_InitManager(unsigned);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int),PARTICLE_InitManager(unsigned);
 extern void *G3D_UTIL_Create(unsigned,unsigned,unsigned);
 extern void G3D_UTIL_Delete(struct Util *p);
 extern void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p);
@@ -607,13 +607,13 @@ int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p)
 void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index)
 {
     void *p;
-    p=func_020490F4(181,heap);
+    p=ARC_TOOL_CreateHandle(181,heap);
     func_02049B68(p,d_021BAF14[index].cell,0,0,0,heap);
-    func_02049658(p,d_021BAF14[index].palette,3,0,0,0,heap);
-    func_020498F4(p,d_021BAF14[index].anim,3,0,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(p,d_021BAF14[index].palette,3,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(p,d_021BAF14[index].anim,3,0,0,0,heap);
     func_02049B68(p,4,4,0,0,heap);
-    func_02049658(p,3,6,0,0,0,heap);
-    func_020498F4(p,5,6,0,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(p,3,6,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(p,5,6,0,0,0,heap);
     ARC_TOOL_DeleteHandle(p);
 }
 
@@ -1125,7 +1125,7 @@ void COMM_BTL_DEMO_MAIN_InitRowContext(struct CommBtlDemoRow *p,unsigned char ki
     p->kind=kind;p->index=index;
     COMM_BTL_DEMO_MAIN_InitActorRow(&p->actor,((struct CommBtlDemoSide *)owner)->party,kind,index,a,b,(const unsigned char *)(owner+10));
     p->textBuf=STRBUF_Create(16,116);
-    func_02008500(((struct CommBtlDemoSide *)(p->owner))->textSys,p->textBuf);
+    MYSTATUS_NameToStrbuf(((struct CommBtlDemoSide *)(p->owner))->textSys,p->textBuf);
     p->paletteKind=func_02008550(((struct CommBtlDemoSide *)(p->owner))->textSys);
     p->window=COMM_BTL_DEMO_MAIN_CreateRowWindow(kind,index);
     if(COMM_BTL_DEMO_MAIN_HasVisibleActors(p->kind)==0) COMM_BTL_DEMO_MAIN_DrawRowText(p,p->textArg);
@@ -1180,7 +1180,7 @@ void COMM_BTL_DEMO_MAIN_DrawRowText(struct CommBtlDemoRow *p, int a)
     q = p->window;
     BMP_WIN_TransferChars((struct BmpWin *)q);
     BMP_WIN_MakeScreen((struct BmpWinCfg *)q);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct BmpWin *)q));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct BmpWin *)q));
 }
 
 
@@ -1331,7 +1331,7 @@ void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a){int x,y;vo
 
 
 
-void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,short heap){func_0207D63C((void *)0x04000050,1,31,0,0);((struct CommBtlDemoGfx *)p)->state=state;((struct CommBtlDemoGfx *)p)->heap=heap;((struct CommBtlDemoGfx *)p)->util=G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
+void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,short heap){G2x_SetBlendAlpha_((void *)0x04000050,1,31,0,0);((struct CommBtlDemoGfx *)p)->state=state;((struct CommBtlDemoGfx *)p)->heap=heap;((struct CommBtlDemoGfx *)p)->util=G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
 
 
 

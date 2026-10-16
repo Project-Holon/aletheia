@@ -13,7 +13,7 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -36,7 +36,7 @@
  *   ARROW_Destroy  0x021C209C  thumb  ov217
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm  arm9
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_StartActorAnim 0x0204B95C arm
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
@@ -47,13 +47,13 @@
 typedef char ArrowSizeCheck[(sizeof(struct Arrow) == 0x29C) ? 1 : -1];
 typedef char GraphTableSizeCheck[(sizeof(struct GraphTable) == 0x280) ? 1 : -1];
 
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int enable);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct SurfacePos *pos, u32 space);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 seq);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
@@ -325,7 +325,7 @@ void ARROW_InitPart(struct ArrowPart *part, u8 x, u8 y, u32 startTime, u32 kind)
 /* Allocates the arrow object. */
 struct Arrow *ARROW_Alloc(u32 heapId)
 {
-    return func_02030734(heapId, 668, 0, (const char *)0x21C4074, 558);
+    return GFL_HEAP_Alloc(heapId, 668, 0, (const char *)0x21C4074, 558);
 }
 
 /* Initialises the arrow and clears its parts. */
@@ -351,7 +351,7 @@ void ARROW_Init(struct Arrow *arrow, u32 heapId)
 /* Frees the arrow object. */
 u32 ARROW_Free(struct Arrow *arrow)
 {
-    return func_020307B0(arrow);
+    return GFL_HEAP_Free(arrow);
 }
 
 /* Creates the CLACT unit with room for every part. */

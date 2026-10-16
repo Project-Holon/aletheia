@@ -13,23 +13,23 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   sDowsingFileName 0x021F0E60 data ov033 a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   INTRUDE_FindOfferSlotAt 0x021CFAC0 thumb ov021
  *   EVENTDATA_SYSTEM_GetHiddenItemTable 0x0216476C thumb ov010
  *   INTRUDE_GetNextOfferSpot 0x021CFB68 thumb ov021
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   INTRUDE_GetFromSave 0x0200BE48 thumb
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   INFOWIN_Update 0x02024ABC thumb
  *   MAP_MATRIX_IsInRangeByPos 0x02159C48 thumb ov010
  *   MAP_MATRIX_GetZoneIdByPos 0x02159BD4 thumb ov010
@@ -51,7 +51,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
@@ -61,13 +61,13 @@
  *   sDowsingBgSetup 0x021F0DF0 data ov033 a4
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_02049740 0x02049740 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -98,8 +98,8 @@
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   FIELD_SUBSCREEN_RequestMode 0x021A0F30 thumb ov021
- *   func_02030CB0 0x02030CB0 arm
- *   func_02030CBC 0x02030CBC arm
+ *   TCB_GetTaskOffset 0x02030CB0 arm
+ *   TCB_Init 0x02030CBC arm
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
@@ -137,22 +137,22 @@ typedef struct Vec3Fx {
     int x, y, z;
 } Vec3Fx;
 
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern u32 func_020307B0(void *mem);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *mem);
 extern u32 ZONEDATA_CheckEventFlag(void *flagBitmap, s32 flagId);
 extern int INTRUDE_FindOfferSlotAt(void *eventData, int zoneId, int x, int y, int z);
 extern const DowsingHiddenItem *EVENTDATA_SYSTEM_GetHiddenItemTable(u16 *count);
 extern const DowsingMapEvent *INTRUDE_GetNextOfferSpot(void *eventData, unsigned *index);
 extern void *ARC_UTIL_LoadMemberWithSize(u32 arcId, u32 fileId, int compressed, u32 heapId, u32 *outSize);
-extern struct Task *func_020056A0(void (*proc)(int, DowsingWork *), DowsingWork *work, u32 priority);
+extern struct Task *GFL_USE_AddMainTask(void (*proc)(int, DowsingWork *), DowsingWork *work, u32 priority);
 extern struct FieldSystem *FIELDMAP_GetGameSystem(void *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct FieldSystem *fieldSystem);
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *INTRUDE_GetFromSave(void *sys);
-extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
+extern void G2x_SetBlendAlpha_(u32 reg, int plane1, int plane2, int ev1, int ev2);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
-extern void func_02030EAC(struct Task *task);
+extern void TCB_DeleteTask(struct Task *task);
 extern void INFOWIN_Update(void);
 extern struct PlayerAvatar *GAMESYSTEM_GetMyPlayerWork(const struct FieldSystem *fieldSystem);
 extern const Vec3Fx *GAME_DATA_GetPlayerPosition(const struct PlayerAvatar *player);
@@ -178,7 +178,7 @@ extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 anim);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *palAnm);
-extern void func_02040588(unsigned char bgId, unsigned char visible);
+extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *bgTemplate, unsigned int bgType);
 extern void BG_SYS_FreeSlot(unsigned char bgId);
 extern void BG_SYS_FillScrollArea(unsigned char bgId, unsigned attr, unsigned value);
@@ -187,13 +187,13 @@ extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern unsigned int CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void *func_020490F4(unsigned int arcId, unsigned int heapId);
+extern void *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u32 palSize, u16 heapId);
-extern u32 func_02049740(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 charRegion, u32 x, u32 y, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_02041B6C(unsigned bgId);
+extern void BG_SYS_SetFlagField06(unsigned bgId);
 extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern s32 CLACT_RegisterPaletteEx(void *archive, u32 fileId, u32 slotCount, u32 offset, u16 e, u16 f, u16 heapId);
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileId, u32 compressed, u32 mode, u16 heapId);
@@ -223,8 +223,8 @@ extern void func_020355D8(u8 touchMode);
 extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 extern int FIELD_SUBSCREEN_RequestMode(FieldSubscreen *subscreen, u32 mode);
-extern unsigned func_02030CB0(unsigned);
-extern struct TaskSys *func_02030CBC(u32 capacity, void *mem);
+extern unsigned TCB_GetTaskOffset(unsigned);
+extern struct TaskSys *TCB_Init(u32 capacity, void *mem);
 extern struct PalAnmSlot *PALANM_Create(u32 heapId);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palAnm, int enable);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *palAnm, u32 slot, u32 size, u32 heapId);
@@ -262,7 +262,7 @@ extern const DowsingPartIds sDowsingPartIds[];
 DowsingSearch *DOWSING_CreateSearch(u32 heapId, void *eventFlags, void *eventData)
 {
     DowsingSearch *search;
-    search = func_02030734(heapId, sizeof(DowsingSearch), 1, sDowsingFileName, 0x8d);
+    search = GFL_HEAP_Alloc(heapId, sizeof(DowsingSearch), 1, sDowsingFileName, 0x8d);
     search->eventFlags = eventFlags;
     search->itemIndex = 0;
     search->eventData = eventData;
@@ -272,7 +272,7 @@ DowsingSearch *DOWSING_CreateSearch(u32 heapId, void *eventFlags, void *eventDat
 
 void DOWSING_DeleteSearch(DowsingSearch *search)
 {
-    func_020307B0(search);
+    GFL_HEAP_Free(search);
 }
 
 /* Is the target still there: item not picked up yet, object still on the map. */
@@ -358,7 +358,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     struct GameData *gameData;
     void *eventFlags;
 
-    work = func_02030734(heapId, sizeof(DowsingWork), 1, sDowsingFileName, 0x272);
+    work = GFL_HEAP_Alloc(heapId, sizeof(DowsingWork), 1, sDowsingFileName, 0x272);
     work->heapId = heapId;
     work->ownerHeapId = ownerHeapId;
     work->subscreen = subscreen;
@@ -368,7 +368,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     DOWSING_CreateParts(work);
     DOWSING_CreateCloseButton(work);
     work->levelGrid = ARC_UTIL_LoadMemberWithSize(DOWSING_ARC_ID, 0xD, 0, work->heapId, &size);
-    work->task = func_020056A0(DOWSING_TaskTransferPalettes, work, 1);
+    work->task = GFL_USE_AddMainTask(DOWSING_TaskTransferPalettes, work, 1);
     work->tick = 0;
     work->isOn = 1;
     DOWSING_InitFade(work);
@@ -389,7 +389,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
     eventFlags = GAME_DATA_GetEventWork(gameData);
     work->search = DOWSING_CreateSearch(work->heapId, eventFlags, INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData)));
-    func_0207D63C((u32)&reg_GXS_DB_BLDCNT, 0x10, 0x18, 1, 7);
+    G2x_SetBlendAlpha_((u32)&reg_GXS_DB_BLDCNT, 0x10, 0x18, 1, 7);
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
     return work;
 }
@@ -399,13 +399,13 @@ void DOWSING_Delete(DowsingWork *work)
     reg_GXS_DB_BLDCNT = 0;
     DOWSING_DeleteSearch(work->search);
     DOWSING_ExitFade(work);
-    func_02030EAC(work->task);
-    func_020307B0(work->levelGrid);
+    TCB_DeleteTask(work->task);
+    GFL_HEAP_Free(work->levelGrid);
     DOWSING_DeleteCloseButton(work);
     DOWSING_DeleteParts(work);
     DOWSING_FreeBackground(work);
     DOWSING_ExitBgsAndActorUnit(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -684,13 +684,13 @@ void DOWSING_InitBgsAndActorUnit(DowsingWork *work)
     DowsingBgSetup *setup;
     unsigned j;
     for (i = 4; i <= 7; i++)
-        func_02040588((unsigned char)i, (unsigned char)0);
+        BG_SYS_SetPlaneVisible((unsigned char)i, (unsigned char)0);
     for (j = 0; j < 2; j++) {
         setup = &sDowsingBgSetup[j];
         bgId = setup->bgId;
         BG_SYS_InitBgLayer((unsigned char)bgId, (const struct BgTemplate *)setup->bgTemplate, (unsigned char)setup->bgType);
         BG_SYS_FreeSlot(bgId);
-        func_02040588((unsigned char)bgId, (unsigned char)setup->visible);
+        BG_SYS_SetPlaneVisible((unsigned char)bgId, (unsigned char)setup->visible);
         BG_SYS_FillScrollArea(bgId, 0, 0);
         BG_SYS_FillScrollArea(bgId, 3, 0);
     }
@@ -711,14 +711,14 @@ void DOWSING_ExitBgsAndActorUnit(DowsingWork *work)
 void DOWSING_LoadBackground(DowsingWork *work)
 {
     unsigned heapId = work->ownerHeapId;
-    void *archive = func_020490F4(DOWSING_ARC_ID, heapId);
+    void *archive = ARC_TOOL_CreateHandle(DOWSING_ARC_ID, heapId);
     unsigned charRegion;
     ARC_UTIL_UploadPaletteFromHandle(archive, 0, 4, 0, 0, 0x40, heapId);
-    charRegion = func_02049740(archive, 2, 7, 0, 0, heapId);
+    charRegion = ARC_UTIL_RegisterObjCharFromHandle(archive, 2, 7, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 7, 7, 0, (unsigned short)charRegion, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(archive);
     BG_SYS_FillTileMap(7, 0, 0, 0x20, 0x18, 1);
-    func_02041B6C(7);
+    BG_SYS_SetFlagField06(7);
     work->bgCharRegion7 = charRegion;
 }
 
@@ -742,7 +742,7 @@ void DOWSING_CreateParts(DowsingWork *work)
     void *archive;
     u8 i;
 
-    archive = func_020490F4(DOWSING_ARC_ID, work->ownerHeapId);
+    archive = ARC_TOOL_CreateHandle(DOWSING_ARC_ID, work->ownerHeapId);
     work->partsPalRes = CLACT_RegisterPaletteEx(archive, 1, 1, 0, 0, 1, work->heapId);
     for (i = 0; i < DOWSING_PART_COUNT; i++) {
         ClactSetup setup = {0};
@@ -809,9 +809,9 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         u16 i;
         u16 base;
 
-        archive = func_020490F4(APP_ICON_GetArchiveId(), ownerHeapId);
+        archive = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), ownerHeapId);
         func_02049B68(archive, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, ownerHeapId);
-        work->bgCharRegion4 = func_02049740(archive, APP_ICON_GetStatusFrameFileId(), 4, 0, 0, ownerHeapId);
+        work->bgCharRegion4 = ARC_UTIL_RegisterObjCharFromHandle(archive, APP_ICON_GetStatusFrameFileId(), 4, 0, 0, ownerHeapId);
         screenFile = ARC_UTIL_LoadPaletteDataFromHandle(archive, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, ownerHeapId);
         base = work->bgCharRegion4;
         tiles = screen->tiles;
@@ -820,8 +820,8 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
             tiles[i] = (base + tiles[i]) | 0x2000;
         }
         BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
-        func_02041B6C(4);
-        func_020307B0(screenFile);
+        BG_SYS_SetFlagField06(4);
+        GFL_HEAP_Free(screenFile);
         work->buttonPalRes = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x20, 0, 3, work->heapId);
         work->buttonCharRes = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 1, work->heapId);
         work->buttonCellRes = CLACT_RegisterCellAnim(archive, APP_ICON_GetStatusCellFileId(0), APP_ICON_GetStatusPaletteFileId(0), work->heapId);
@@ -894,13 +894,13 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
 }
 
 /*
- * note:     func_02030CBC takes (n, mem) (GFL_USE_InitSystem): the 0xB8 result
- *           left in r1 before `blx func_02030CBC` is its second argument.
+ * note:     TCB_Init takes (n, mem) (GFL_USE_InitSystem): the 0xB8 result
+ *           left in r1 before `blx TCB_Init` is its second argument.
  */
 void DOWSING_InitFade(DowsingWork *work)
 {
-    work->fadeTaskMem = func_02030734(work->heapId, func_02030CB0(2), 1, sDowsingFileName, 0x6DF);
-    work->fadeTaskSys = func_02030CBC(2, work->fadeTaskMem);
+    work->fadeTaskMem = GFL_HEAP_Alloc(work->heapId, TCB_GetTaskOffset(2), 1, sDowsingFileName, 0x6DF);
+    work->fadeTaskSys = TCB_Init(2, work->fadeTaskMem);
     work->palAnm = PALANM_Create(work->heapId);
     PALANM_SetAutoTransfer(work->palAnm, 1);
     PALANM_AllocSlotBuffers(work->palAnm, 1, 0x60, work->heapId);
@@ -917,7 +917,7 @@ void DOWSING_ExitFade(DowsingWork *work)
     PALANM_FreeSlotBuffers(work->palAnm, 3);
     PALANM_Delete(work->palAnm);
     TCB_Noop(work->fadeTaskSys);
-    func_020307B0(work->fadeTaskMem);
+    GFL_HEAP_Free(work->fadeTaskMem);
 }
 
 /*

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020862B8  0x020862B8  arm
+ *   DC_InvalidateRange  0x020862B8  arm
  *   g_02152FA0     0x02152FA0  data
  *   DC_InvalidateRange  0x020862B8  arm
  *   SNDi_SharedWork     0x02152FA0  data

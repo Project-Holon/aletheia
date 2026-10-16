@@ -15,7 +15,7 @@
  * Resolved: the ov121 region hint on the data symbol was contested by the
  * other overlays in the window; un-hinted, sole-ref/data picks the unique
  * overlay start, so the ABS32 pool relocation resolves (the PC24 to
- * func_02086078 was already `label`).
+ * OS_UnlockMutex was already `label`).
  * Addresses are Black-image addresses.
  * DWCi_Ndi_initLockGlobal from TwlDWC libdwcnd.TWL.HYB.a(dwci_nd.o),
  * dwci_nd.c:1644 (DWARF).  The body initialises the ov125 bss lock at
@@ -30,7 +30,7 @@
  * If the object's 0x800 field is set, hand it to GDS_SOCKET_Free and clear it.
  *
  * symbols:
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   gGdsSocketMutex     0x021DA174  data  a4
  *   OS_InitMutex  0x02086004  arm
  *   OS_IsTickAvailable 0x02087058 arm

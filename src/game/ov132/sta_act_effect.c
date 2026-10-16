@@ -13,9 +13,9 @@
  * Cut from sta_acting.c, script_command.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   STA_ACT_EFFECT_Delete 0x021F9E94 thumb ov132
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STA_ACT_EFFECT_Update 0x021F9ECC thumb ov132
  *   STA_ACT_EFFECT_Draw 0x021F9ED4 thumb ov132
  *   STA_ACT_EFFECT_Create 0x021F9E50 thumb ov132
@@ -41,13 +41,13 @@
 #include "sta_acting_shared_types.h"
 #include "sta_act_effect_shared_types.h"
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
 
 extern void PARTICLE_InitManager(unsigned);
 
 extern void PARTICLE_ExitManager(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int PARTICLE_UpdateAllSystems(void);
 
@@ -94,7 +94,7 @@ extern const char d_021FDCB0[];
 char *STA_ACT_EFFECT_Create(unsigned heap)
 {
     u8 i = 0;
-    char *p = func_02030734(heap, 0x24244, 0, d_021FDCB0, 76);
+    char *p = GFL_HEAP_Alloc(heap, 0x24244, 0, d_021FDCB0, 76);
     ((struct ScriptCtx *)p)->f0.h = heap;
     PARTICLE_InitManager(heap);
     for (; i < 8; i++)
@@ -105,7 +105,7 @@ char *STA_ACT_EFFECT_Create(unsigned heap)
 /*
  * lever: the load uses p+index*0x4848+4, while the outgoing pointer uses p+4+index*0x4848; the latter keeps p+4 hoisted in r6. Using the load's grouping for both gave 49 concrete byte differences.
  */
-void STA_ACT_EFFECT_Delete(u8 *p) { u8 i; for(i=0;i<8;i++) { if(*(u32 *)(p+i*0x4848+4)==1) STA_ACT_EFFECT_KillSystem(p,p+4+i*0x4848); } PARTICLE_ExitManager(); func_020307B0(p); }
+void STA_ACT_EFFECT_Delete(u8 *p) { u8 i; for(i=0;i<8;i++) { if(*(u32 *)(p+i*0x4848+4)==1) STA_ACT_EFFECT_KillSystem(p,p+4+i*0x4848); } PARTICLE_ExitManager(); GFL_HEAP_Free(p); }
 
 int STA_ACT_EFFECT_Update(u8 *a0) { return PARTICLE_UpdateAllSystems(); }
 

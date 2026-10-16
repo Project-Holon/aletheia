@@ -25,16 +25,16 @@
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   sFieldMapHeapBuffer     0x021DE700  data
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   ZONEDATA_CreateAreaData  0x0201407C  thumb
  *   sFieldMapSourceName     0x021DD9C0  data  a4
  *   ZONEDATA_DeleteAreaData  0x020140B4  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_WM_ICON_SetDefaultPos  0x020371AC  arm
  *   sVramBankSetup     0x021D3688  data
  *   sClactSetup     0x021D3604  data
@@ -50,14 +50,14 @@
  *   G3D_SYSTEM_Init  0x02046440  arm
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FIELD_G3D_MAPPER_Create  0x0218C9E8  thumb
- *   func_020056A0  0x020056A0  thumb
- *   func_02030CB0  0x02030CB0  arm
- *   func_02030CBC  0x02030CBC  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
  *   FIELD_TASK_MANAGER_Create  0x021C6D10  thumb
  *   FLD_VREQ_Create  0x021D317C  thumb
  *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   func_02035660  0x02035660  arm
  *   FIELD_MAP_CHANGE_Empty  0x0216447C  thumb  ov010
  *   FIELD_MSGBG_Create  0x021901EC  thumb  ov021
@@ -197,10 +197,10 @@
  *   SODATEYA_Delete  0x021C31FC  thumb  ov021
  *   FIELDSKILL_MAPEFF_Delete  0x021C7F9C  thumb  ov021
  *   TCB_Noop  0x02030DA4  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   FLD_VREQ_Delete  0x021D31A4  thumb
  *   FIELD_TASK_MANAGER_Delete  0x021C6D5C  thumb
  *   FIELD_G3D_MAPPER_Delete  0x0218CA4C  thumb
@@ -233,7 +233,7 @@
  *   G3X_SetFog  0x0207DC44  arm
  *   G3X_SetFogTable  0x0207DD10  arm
  *   G3X_SetClearColor  0x0207DD24  arm
- *   func_0207DCF8  0x0207DCF8  arm
+ *   G3X_SetEdgeColorTable  0x0207DCF8  arm
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   sFogTable  0x021D3640  data  a4
  *   sEdgeColorTable  0x021D35E4  data  a4
@@ -245,9 +245,9 @@
  *   BILLBOARD_SetPolyIdBase  0x0204EDB0  arm
  *   FIELD_G3DOBJ_Create  0x021C63AC  thumb  ov021
  *   G3D_CAMERA_Create  0x02048A24  arm
- *   func_02048BC4  0x02048BC4  arm
+ *   G3D_LIGHT_CreateSlots  0x02048BC4  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   func_02048C58  0x02048C58  arm
+ *   G3D_LIGHT_ApplySlots  0x02048C58  arm
  *   d_020A1EB8     0x020A1EB8  data  a4
  *   sGroundBbdScale     0x021D36F4  data  a4
  *   sCameraUp     0x021D36E8  data  a4
@@ -276,7 +276,7 @@
  *   FIELD_G3DOBJ_Update  0x021C6470  thumb  ov021
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   FLD_VREQ_VBlank  0x021D31AC  thumb  ov021
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   func_020140E0  0x020140E0  thumb
  *   func_02013DB8  0x02013DB8  thumb
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
@@ -352,7 +352,7 @@
  *   FLD_SCENEAREA_LOADER_GetRecCount  0x021AB884  thumb  ov021
  *   FLD_SCENEAREA_LOADER_GetCallbacks  0x021AB888  thumb  ov021
  *   FLD_SCENEAREA_SetData  0x021AB634  thumb  ov021
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   FIELD_FOG_Reflect  0x021A0170  thumb  ov021
@@ -448,15 +448,15 @@ unsigned int GAMESYSTEM_GetAlwaysNetFlag(const struct GameSystem *x);
 struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void func_020315D4(struct GfProc *proc);
+void PROCSYS_FreeProcWork(struct GfProc *proc);
 void GFL_HEAP_DeleteChecked(unsigned int heap);
-void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
+void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 u32 ZONEDATA_GetAreaId(u32 id);
 int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 struct AreaData *ZONEDATA_CreateAreaData(int heapId, int areaId, int infoCode);
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
-u32 func_020307B0(void *p);
+u32 GFL_HEAP_Free(void *p);
 void GFL_NET_WM_ICON_SetDefaultPos(unsigned short a, unsigned int b);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -468,14 +468,14 @@ extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize
                           u32 fifoSize, u32 heap, void (*setup)(void));
 extern u8 GAME_DATA_GetSeason(const struct GameData *p);
 extern struct FieldG3dMapper *FIELD_G3D_MAPPER_Create(int heapId, int b);
-extern struct GFL_TCB *func_020056A0(void (*cb)(struct GFL_TCB *, void *), void *work, int pri);
-extern u32 func_02030CB0(u32 idx);
-extern struct TcblSys *func_02030CBC(u32 capacity, void *work);
+extern struct GFL_TCB *GFL_USE_AddMainTask(void (*cb)(struct GFL_TCB *, void *), void *work, int pri);
+extern u32 TCB_GetTaskOffset(u32 idx);
+extern struct TcblSys *TCB_Init(u32 capacity, void *work);
 extern struct FieldTaskManager *FIELD_TASK_MANAGER_Create(int n, int heapId);
 extern void *FLD_VREQ_Create(u32 heap);
 extern u32 ZONEDATA_IsZone1A6(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
-extern int func_02034AC4(int id);
+extern int GF_OVERLAY_Load(int id);
 extern void func_02035660(u32 a);
 extern void FIELD_MAP_CHANGE_Empty(struct GameData *gameData, u16 zoneId);
 extern struct FieldMsgBg *FIELD_MSGBG_Create(u16 heapId, struct G3dCamera *g3dCamera);
@@ -613,10 +613,10 @@ extern void FIELD_MSGBG_Delete(struct FieldMsgBg *msgBg);
 extern void SODATEYA_Delete(struct Sodateya *sodateya);
 extern void FIELDSKILL_MAPEFF_Delete(struct FieldSkillMapEff *mapEff);
 extern void TCB_Noop(struct TcblSys *tcblSys);
-extern void func_02030EAC(struct GFL_TCB *tcb);
+extern void TCB_DeleteTask(struct GFL_TCB *tcb);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 extern void FLD_VREQ_Delete(struct FldVReq *vreq);
 extern void FIELD_TASK_MANAGER_Delete(struct FieldTaskManager *taskManager);
 extern int FIELD_G3D_MAPPER_Delete(struct FieldG3dMapper *g3dMapper);
@@ -645,7 +645,7 @@ extern u32 NNS_G3dGeFlushBuffer(u32);
 extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
 extern void G3X_SetFogTable(void *a);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_0207DCF8(void *a);
+extern void G3X_SetEdgeColorTable(void *a);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern struct BbActSys *BILLBOARD_ACT_Create(u16 a0, u16 a1, void (*transCallback)(int, int, void *, int), int heapId);
 extern void *BILLBOARD_ACT_GetBoard(struct BbActSys *bbdAct);
@@ -655,9 +655,9 @@ extern void BILLBOARD_SetScale(void *board, const VecFx32 *scale);
 extern void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src);
 extern struct FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u16 heapId, int a, int b);
 extern struct G3dCamera *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
-extern struct G3dLightSlots *func_02048BC4(const struct LightSet *s, u32 heapId);
+extern struct G3dLightSlots *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heapId);
 extern void G3D_CAMERA_Reset(struct G3dCamera *g3dCamera);
-extern void func_02048C58(struct G3dLightSlots *g3dLight);
+extern void G3D_LIGHT_ApplySlots(struct G3dLightSlots *g3dLight);
 extern void BILLBOARD_ACT_UpdateEntries(struct BbActSys *bbdAct);
 extern void FIELD_NOGRID_MAPPER_Main(struct FieldNogridMapper *nogridMapper);
 extern int FLD_SCENEAREA_Update(struct FldSceneArea *sceneArea, const VecFx32 *pos);
@@ -678,7 +678,7 @@ int FLDMMDL_UpdateSysBlAct(struct MmdlSys *mmdlSys);
 void FIELD_G3DOBJ_Update(struct FieldG3dObjCtrl *g3dObjCtrl);
 void CLACT_VBlankSystem(void);
 void FLD_VREQ_VBlank(struct FldVReq *vreq);
-s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern u8 func_020140E0(struct AreaData *areaData);
 extern u32 func_02013DB8(u32 a);
 extern void ARC_TOOL_ReadMember(void *a, u32 b, u32 c);
@@ -752,7 +752,7 @@ extern u32 FLD_SCENEAREA_LOADER_GetRecs(struct FldSceneAreaLoader *sceneAreaLoad
 extern u32 FLD_SCENEAREA_LOADER_GetRecCount(struct FldSceneAreaLoader *sceneAreaLoader);
 extern int FLD_SCENEAREA_LOADER_GetCallbacks(void *p);
 extern void FLD_SCENEAREA_SetData(void *p, int a, int b, int c);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GAME_COMM_GetLastKind(void *obj);
 extern u32 GAME_COMM_IsTransition(void *obj);
 extern u32 FIELD_G3D_MAPPER_Draw(struct FieldG3dMapper *g3dMapper, struct G3dCamera *g3dCamera, int m);
@@ -986,7 +986,7 @@ int FIELDMAP_ProcExit(struct GfProc *proc, int *seq, struct GameSystem *gameSyst
 {
     FIELDMAP_Delete(work->fieldMap);
     ICA_ANIME_SetField20(gameSystem, 0);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x96);
     GFL_HEAP_DeleteChecked(0x92);
     GFL_HEAP_DeleteChecked(0x93);
@@ -999,7 +999,7 @@ int FIELDMAP_ProcExit(struct GfProc *proc, int *seq, struct GameSystem *gameSyst
 
 FieldMap *FIELDMAP_Create(struct GameSystem *gameSystem, int heapId)
 {
-    FieldMap *fieldMap = func_02030734(heapId, sizeof(FieldMap), 1, sFieldMapSourceName, 0x209);
+    FieldMap *fieldMap = GFL_HEAP_Alloc(heapId, sizeof(FieldMap), 1, sFieldMapSourceName, 0x209);
     fieldMap->heapId = heapId;
     fieldMap->mainState = 0;
     fieldMap->gameSystem = gameSystem;
@@ -1017,7 +1017,7 @@ void FIELDMAP_Delete(FieldMap *fieldMap)
 {
     struct GameSystem *gameSystem = fieldMap->gameSystem;
     ZONEDATA_DeleteAreaData(fieldMap->areaData);
-    func_020307B0(fieldMap);
+    GFL_HEAP_Free(fieldMap);
     ICA_ANIME_SetField20(gameSystem, 0);
     GFL_NET_WM_ICON_SetDefaultPos(0, 0);
 }
@@ -1035,12 +1035,12 @@ int FIELDMAP_SeqInitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     G3D_SYSTEM_Init(0, 3, 0, 1, 0x1000, fieldMap->heapId, FIELDMAP_SetupG3d);
     FIELDMAP_CreateG3dResources(fieldMap);
     fieldMap->g3dMapper = FIELD_G3D_MAPPER_Create(fieldMap->heapId, GAME_DATA_GetSeason(fieldMap->gameData));
-    fieldMap->vblankTcb = func_020056A0(FIELDMAP_VBlankTask, fieldMap, 0);
-    fieldMap->tcblWork = func_02030734(heapId, func_02030CB0(0x20), 0, sFieldMapSourceName, 0x26B);
-    fieldMap->tcblSys = func_02030CBC(0x20, fieldMap->tcblWork);
+    fieldMap->vblankTcb = GFL_USE_AddMainTask(FIELDMAP_VBlankTask, fieldMap, 0);
+    fieldMap->tcblWork = GFL_HEAP_Alloc(heapId, TCB_GetTaskOffset(0x20), 0, sFieldMapSourceName, 0x26B);
+    fieldMap->tcblSys = TCB_Init(0x20, fieldMap->tcblWork);
     fieldMap->taskManager = FIELD_TASK_MANAGER_Create(0xA, fieldMap->heapId);
     fieldMap->vreq = FLD_VREQ_Create(fieldMap->heapId);
-    func_02034AC4((ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) ? (int)abs_id_19 : (int)abs_id_18);
+    GF_OVERLAY_Load((ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) ? (int)abs_id_19 : (int)abs_id_18);
     func_02035660(0x1E);
     return 1;
 }
@@ -1333,20 +1333,20 @@ int FIELDMAP_SeqDeleteSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
 int FIELDMAP_SeqExitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
     TCB_Noop(fieldMap->tcblSys);
-    func_020307B0(fieldMap->tcblWork);
+    GFL_HEAP_Free(fieldMap->tcblWork);
     FLD_VREQ_Delete(fieldMap->vreq);
     fieldMap->vreq = 0;
     FIELD_TASK_MANAGER_Delete(fieldMap->taskManager);
-    func_02030EAC(fieldMap->vblankTcb);
+    TCB_DeleteTask(fieldMap->vblankTcb);
     FIELD_G3D_MAPPER_Delete(fieldMap->g3dMapper);
     FIELDMAP_DeleteG3dResources(fieldMap);
     CLACT_ExitSystem();
     BMP_WIN_Exit();
     FIELDMAP_ExitBgSystem(fieldMap);
     if (ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
-        func_02034A5C((s32)abs_id_13);
+        GF_OVERLAY_Unload((s32)abs_id_13);
     else
-        func_02034A5C((s32)abs_id_12);
+        GF_OVERLAY_Unload((s32)abs_id_12);
     return 2;
 }
 
@@ -1652,7 +1652,7 @@ void FIELDMAP_SetupG3d(void)
     *(volatile u32 *)0x04000358 = 0x7FFF;
     G3X_SetFogTable(sFogTable);
     G3X_SetClearColor(0, 0x1F, 0x7FFF, 0, 0);
-    func_0207DCF8(sEdgeColorTable);
+    G3X_SetEdgeColorTable(sEdgeColorTable);
     *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
     *(volatile u32 *)0x04000580 = 0xBFFF0000;
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
@@ -1683,9 +1683,9 @@ void FIELDMAP_CreateG3dResources(FieldMap *fieldMap)
     cameraUp = sCameraUp;
     fieldMap->g3dCamera = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
                                         &sCameraPos, &cameraUp, &sCameraTarget, heapId);
-    fieldMap->g3dLight = func_02048BC4((const struct LightSet *)sLightSetup, fieldMap->heapId);
+    fieldMap->g3dLight = G3D_LIGHT_CreateSlots((const struct LightSet *)sLightSetup, fieldMap->heapId);
     G3D_CAMERA_Reset(fieldMap->g3dCamera);
-    func_02048C58(fieldMap->g3dLight);
+    G3D_LIGHT_ApplySlots(fieldMap->g3dLight);
 }
 
 void FIELDMAP_UpdateG3d(FieldMap *fieldMap)
@@ -1749,7 +1749,7 @@ void FIELDMAP_VBlankTask(struct GFL_TCB *tcb, void *work)
 
 void FIELDMAP_BbdActTransCallback(int vramTransfer, int destAddr, void *src, int size)
 {
-    func_02061CA4((void *)(vramTransfer == 0 ? B_FALSE : B_TRUE), destAddr, (u32)src, size);
+    NNS_GfdRegisterNewVramTransferTask((void *)(vramTransfer == 0 ? B_FALSE : B_TRUE), destAddr, (u32)src, size);
 }
 
 void FIELDMAP_SetupEdgeMarking(struct AreaData *areaData, u32 zoneId)
@@ -1766,7 +1766,7 @@ void FIELDMAP_SetupEdgeMarking(struct AreaData *areaData, u32 zoneId)
         *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & 0xFFFFCFFF) | 0x20;
     ARC_TOOL_ReadMember(data_021EE700, 0xF, edgeMarkType);
     data_021EE700b[7] = 0x4210;
-    func_0207DCF8(data_021EE700);
+    G3X_SetEdgeColorTable(data_021EE700);
 }
 
 void FIELDMAP_SetupBbdColor(FieldMap *fieldMap)
@@ -2027,7 +2027,7 @@ int FIELDMAP_GetCommKind(struct GameComm *gameComm)
     int commKind = GAME_COMM_GetKind(gameComm);
     switch (commKind) {
     case 0:
-        if (func_0200FB24() != 0)
+        if (GFL_NET_ERR_GetErrorLevel() != 0)
             commKind = GAME_COMM_GetLastKind(gameComm);
         return commKind;
     case 1:
@@ -2063,14 +2063,14 @@ void *FIELDMAP_AllocCommonWork(FieldMap *fieldMap, int id, int heapId, int size)
     if (commonWork->id != -1)
         return 0;
     commonWork->id = id;
-    return commonWork->buf = func_02030734(heapId, size, 1, sFieldMapSourceName, 0xD7C);
+    return commonWork->buf = GFL_HEAP_Alloc(heapId, size, 1, sFieldMapSourceName, 0xD7C);
 }
 
 void FIELDMAP_FreeCommonWork(FieldMap *fieldMap, int id)
 {
     FieldMapCommonWork *commonWork = &fieldMap->commonWork;
     if (id != -1) {
-        func_020307B0(commonWork->buf);
+        GFL_HEAP_Free(commonWork->buf);
         commonWork->id = -1;
     }
 }
@@ -2090,7 +2090,7 @@ int FIELDMAP_ReflectFog(FieldMap *fieldMap, u32 fogEnable, u32 fogSlope, u32 fog
     FIELD_FOG_Reflect(fieldMap->fog, fogEnable, fogSlope, fogOffset);
     FIELD_LIGHT_Reflect(fieldMap->light, 0);
     G3D_CAMERA_Reset(fieldMap->g3dCamera);
-    func_02048C58(fieldMap->g3dLight);
+    G3D_LIGHT_ApplySlots(fieldMap->g3dLight);
     return FIELD_G3D_MAPPER_Draw(fieldMap->g3dMapper, fieldMap->g3dCamera, 0);
 }
 

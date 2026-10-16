@@ -13,7 +13,7 @@
  * Cut from config.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
  *   _u32_div_f          0x0209C2B0  arm
  *   MI_CpuCopy8         0x02082D44  arm
  *   RTC_GetDate         0x02088864  arm
@@ -148,7 +148,7 @@ extern void RTC_GetDate(struct RTCDate *date);
 extern void RTC_GetTime(struct RTCTime *time);
 
 /* The debug allocator: heap, size, clear, __FILE__ string, __LINE__. */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void FIELD_STATUS_SetFlashActive(void *dest, u8 value);
 
@@ -180,7 +180,7 @@ struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save);
  */
 void *PLAYTIME_Create(u32 heap_id)
 {
-    struct PlayTime *playtime = func_02030734(heap_id, sizeof(struct PlayTime), 1,
+    struct PlayTime *playtime = GFL_HEAP_Alloc(heap_id, sizeof(struct PlayTime), 1,
                                        playtime_file_name, 32);
     PLAYTIME_Init(playtime);
     return playtime;

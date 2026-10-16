@@ -23,13 +23,13 @@
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   gHallOfFameBgSetup 0x021B80E8 data ov180 a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_0207D63C 0x0207D63C arm
- *   func_02045B38 0x02045B38 arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -82,7 +82,7 @@
  *   MCSS_SetTextureTransAdrs 0x02016020 thumb
  *   MCSS_SetOrthoMode 0x02015BF0 thumb
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   gHallOfFameCameraPos 0x021B8034 data a4
  *   gHallOfFameCameraTarget 0x021B801C data a4
  *   gHallOfFameCameraUp 0x021B8028 data a4
@@ -243,13 +243,13 @@ extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(u8 *p);
-extern void func_0207D63C(void *,u32,u32,u32,u32);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void G2x_SetBlendAlpha_(void *,u32,u32,u32,u32);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *STRBUF_Create(unsigned,unsigned);
@@ -298,7 +298,7 @@ extern void *MCSS_Init(u32 id, void *heap);
 extern void MCSS_SetTextureTransAdrs(void *,unsigned);
 extern void MCSS_SetOrthoMode(void *);
 extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,void *,void *,void *,unsigned short);
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void MCSS_Exit(u8 *a0);
 extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
@@ -399,25 +399,25 @@ void HALL_OF_FAME_ExitBackgrounds(void)
 
 void HALL_OF_FAME_LoadBackgroundGraphics(void)
 {
-    u8 *handle = func_020490F4(0xd8, 0x8d);
+    u8 *handle = ARC_TOOL_CreateHandle(0xd8, 0x8d);
     func_02049B68(handle, 1, 2, 0x6000, 0x20, 0x8d);
     func_02049B68(handle, 1, 6, 0x6000, 0x20, 0x8d);
-    func_02049658(handle, 0x16, 3, 0, 0, 0, 0x8d);
-    func_02049658(handle, 0x16, 7, 0, 0, 0, 0x8d);
-    func_020498F4(handle, 0x1c, 3, 0, 0, 0, 0x8d);
-    func_020498F4(handle, 0x1c, 7, 0, 0, 0, 0x8d);
+    ARC_UTIL_UploadBgCharFromHandle(handle, 0x16, 3, 0, 0, 0, 0x8d);
+    ARC_UTIL_UploadBgCharFromHandle(handle, 0x16, 7, 0, 0, 0, 0x8d);
+    ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x1c, 3, 0, 0, 0, 0x8d);
+    ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x1c, 7, 0, 0, 0, 0x8d);
     ARC_TOOL_DeleteHandle(handle);
 }
 
 void HALL_OF_FAME_SetupBlendRegs(void)
 {
-    func_0207D63C((void *)0x04000050, 1, 46, 6, 10);
-    func_0207D63C((void *)0x04001050, 1, 46, 6, 10);
+    G2x_SetBlendAlpha_((void *)0x04000050, 1, 46, 6, 10);
+    G2x_SetBlendAlpha_((void *)0x04001050, 1, 46, 6, 10);
 }
 
 void HALL_OF_FAME_InitText(HallOfFameWork *work)
 {
-    work->msgData = func_02045B38(0, 2, 32, HOF_HEAP_ID);
+    work->msgData = MSGDATA_CreateFromArchive(0, 2, 32, HOF_HEAP_ID);
     work->fontMain = GF_FONT_Create(23, 0, 0, 0, HOF_HEAP_ID);
     work->fontSub = GF_FONT_Create(23, 3, 0, 0, HOF_HEAP_ID);
     work->wordSet = WORDSET_CreateDefault(HOF_HEAP_ID);
@@ -627,7 +627,7 @@ void HALL_OF_FAME_InitMcss(HallOfFameWork *work)
     MCSS_SetTextureTransAdrs(work->mcss, 0);
     MCSS_SetOrthoMode(work->mcss);
     work->camera = G3D_CAMERA_Create(2, 0x60000, 0xFFFA0000, 0xFFF80000, 0x80000, 0x1000, 0x400000, 0, gHallOfFameCameraPos, gHallOfFameCameraTarget, gHallOfFameCameraUp, HOF_HEAP_ID);
-    func_02048AD0(work->camera);
+    G3D_CAMERA_Reset(work->camera);
 }
 
 void HALL_OF_FAME_ExitMcss(HallOfFameWork *work)

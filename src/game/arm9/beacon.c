@@ -14,11 +14,12 @@
  *
  * symbols:
  *   MI_CpuFill8          0x02082BCC  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_02045EC0    0x02045EC0  arm
+ *   MSGDATA_AllocString    0x02045EC0  arm
  *   STRBUF_ToChars    0x02045A38  arm
  *   STRBUF_Delete    0x02045808  arm
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "battle_rec_types.h"
 typedef unsigned char u8;
@@ -92,13 +93,13 @@ struct BeaconSave {
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct MsgData *msg);
 
-extern struct StrBuf *func_02045EC0(struct MsgData *msg, u32 msgIndex);
+extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msg, u32 msgIndex);
 
 extern void STRBUF_ToChars(struct StrBuf *str, u16 *out, u32 maxLen);
 
@@ -220,11 +221,11 @@ void BEACON_Init(struct BeaconSave *beacon)
     MI_CpuFill8(beacon, 0, sizeof(struct BeaconSave));
     BEACON_ClearInputFlags(beacon);
     beacon->bestScore = 0;
-    msg = func_02045B38(0, 3, 0x2f, 0x8007);
-    greet = func_02045EC0(msg, 0x151);
+    msg = MSGDATA_CreateFromArchive(0, 3, 0x2f, 0x8007);
+    greet = MSGDATA_AllocString(msg, 0x151);
     STRBUF_ToChars(greet, beacon->greetMessage, 9);
     STRBUF_Delete(greet);
-    thanks = func_02045EC0(msg, 0x159);
+    thanks = MSGDATA_AllocString(msg, 0x159);
     STRBUF_ToChars(thanks, beacon->thanksMessage, 9);
     STRBUF_Delete(thanks);
     MSGDATA_Delete(msg);
@@ -257,7 +258,7 @@ void BEACON_Init(struct BeaconSave *beacon)
  * and none of them saves lr.
  *
  * The object is the save block with id 0x34: BEACON_GetBlock is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and BEACON_GetFromSave is a wrapper
+ * its lookup, `SAVE_CONTROL_GetBlock(sys, 0x34)`, and BEACON_GetFromSave is a wrapper
  * that forwards to it.  The layout below is read off the accessors and is
  * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
  * sizeof, because the size getter of this block belongs to whatever file
@@ -290,7 +291,7 @@ struct BeaconSave *BEACON_GetFromSave(struct SaveControl *save)
 
 struct BeaconSave *BEACON_GetBlock(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x34);
+    return SAVE_CONTROL_GetBlock(save, 0x34);
 }
 
 void BEACON_SetInputFlag(struct BeaconSave *beacon, u32 index, u8 value)

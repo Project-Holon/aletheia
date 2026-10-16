@@ -47,7 +47,7 @@
  *   gIrcBuffer     0x0217ABD8  data
  *   gIrcBufferPayload     0x0217ABDC  data
  *   IRCi_End  0x0217A648  arm  ov015
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
  */
 #include "irc_types.h"
@@ -70,7 +70,7 @@ extern OSTick OS_GetTick(void);
 extern void IRCi_Init(void);
 extern int IRCi_Read(u8 *buf);
 extern void IRCi_End(void);
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 unsigned short IRCi_CalcSum(void *input, unsigned long length);
 void IRCi_Restore(void);
 void IRCi_ResetState(void);
@@ -366,7 +366,7 @@ int IRCi_CheckTimeout(void)
 
     if (sStatus.flg_connect == 0 && isTry == 0)
         return 0;
-    d = func_020870D0() - timeout;
+    d = OS_GetTick() - timeout;
     d = (d << 6) / 33514ULL;
     if (d < 100)
         return 0;
@@ -438,7 +438,7 @@ int IRC_Move(void)
         return IRCi_CheckTimeout() != 0;
     if (!IRCi_CheckPacket(n))
         return 0;
-    timeout = func_020870D0();
+    timeout = OS_GetTick();
     pk = gIrcBuffer;
     if (pk[0] < 0xF0) {
         if (sStatus.flg_connect == 0)

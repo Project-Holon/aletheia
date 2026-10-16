@@ -25,7 +25,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
@@ -47,7 +47,7 @@
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
@@ -122,7 +122,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 APP_ICON_GetArchiveId(void);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern u32 APP_ICON_GetTypeCellFileId(u32);
@@ -144,7 +144,7 @@ extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 /* The original forwards the full entry r1 without halfword truncation. */
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u8 APP_ICON_GetTypePaletteOffset(int i);
@@ -238,7 +238,7 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other)
     int second;
     void *mon;
     u32 save;
-    bank=func_020490F4(APP_ICON_GetArchiveId(),79);
+    bank=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),79);
     ((struct PokeSummaryWork *)p)->reg.named.charHandles[0]=CLACT_RegisterCharacter(bank,APP_ICON_GetMoveKindAnimFileId(),0,1,79);
     ((struct PokeSummaryWork *)p)->reg.named.charHandles[1]=CLACT_RegisterCharacter(other,17,0,1,79);
     ((struct PokeSummaryWork *)p)->reg.named.charHandles[2]=CLACT_RegisterCharacter(other,26,0,1,79);
@@ -269,7 +269,7 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other)
 
 
 
-void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=func_02049E74((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);func_020307B0(raw);}
+void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=func_02049E74((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);GFL_HEAP_Free(raw);}
 
 
 
@@ -331,7 +331,7 @@ void POKE_SUMMARY_ACTOR_CreateActors(char *p,void *arg)
     Position pos;
     POKE_SUMMARY_ACTOR_InitSystem((u8 *)p,arg);
     POKE_SUMMARY_ACTOR_RegisterResources(p,arg);
-    ((struct PokeSummaryWork *)p)->resourceHandle=func_020490F4(APP_ICON_GetArchiveId(),79);
+    ((struct PokeSummaryWork *)p)->resourceHandle=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),79);
     for(i=0;i<14;i++) {
         pos.x=d_021B85E0[i].x;
         pos.y=d_021B85E0[i].y;

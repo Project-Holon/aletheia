@@ -15,7 +15,7 @@
  * symbols:
  *   d_02208F50 0x02208F50 data a4
  *   d_02208CEC 0x02208CEC data a4
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -24,16 +24,16 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_ResetTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_02208CA0 0x02208CA0 data a4
  *   d_02208D1C 0x02208D1C data a4
  *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
@@ -100,7 +100,7 @@ typedef struct ShinkaG3d {
     void *camera;
 } ShinkaG3d;
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void MI_CpuFill8(void *, int, int);
 
@@ -118,13 +118,13 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_ResetTextColor(void);
 
-extern u32 func_020056A0(void *, void *, int);
+extern u32 GFL_USE_AddMainTask(void *, void *, int);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *req, u32 which);
 
@@ -132,7 +132,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_FreeSlot(u8);
 
-extern void func_02040588(u8, u8);
+extern void BG_SYS_SetPlaneVisible(u8, u8);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -246,7 +246,7 @@ extern u32 d_02208C94[];
 
 char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b)
 {
-    char *p = func_02030734(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
+    char *p = GFL_HEAP_Alloc(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
 
     MI_CpuFill8(p, 0, 0x10);
     *(volatile u16 *)0x04000050 = 0;
@@ -263,7 +263,7 @@ char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b)
     SHINKA_DEMO_GRAPHIC_SetupMainBg(p, (void *)b);
     SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, b);
     SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), (void *)b);
-    ((ShinkaGraphic *)p)->vblank = (void *)func_020056A0(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
+    ((ShinkaGraphic *)p)->vblank = (void *)GFL_USE_AddMainTask(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
     return p;
 }
 
@@ -272,7 +272,7 @@ char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b)
  */
 void SHINKA_DEMO_GRAPHIC_Destroy(char *p)
 {
-    func_02030EAC(((ShinkaGraphic *)p)->vblank);
+    TCB_DeleteTask(((ShinkaGraphic *)p)->vblank);
     SHINKA_DEMO_GRAPHIC_Exit3d((int *)(p + 8));
     SHINKA_DEMO_GRAPHIC_ExitClact(p + 4);
     SHINKA_DEMO_GRAPHIC_ReleaseMainBg(p);
@@ -282,7 +282,7 @@ void SHINKA_DEMO_GRAPHIC_Destroy(char *p)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     MI_CpuFill8(p, 0, 0x10);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void SHINKA_DEMO_GRAPHIC_Draw(char *a)
@@ -322,7 +322,7 @@ void SHINKA_DEMO_GRAPHIC_SetupSubBg(void)
             Entry *e = &d_02208D1C[i];
             BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             BG_SYS_FreeSlot(v);
-            func_02040588(v, e->mode);
+            BG_SYS_SetPlaneVisible(v, e->mode);
         }
     }
 }
@@ -364,7 +364,7 @@ void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b)
             Entry *e = &d_02208D1C[i];
             BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             BG_SYS_FreeSlot(v);
-            func_02040588(v, e->mode);
+            BG_SYS_SetPlaneVisible(v, e->mode);
         }
     }
 }

@@ -13,8 +13,8 @@
  * Cut from field_player_grid_event.c, fld3d_ci.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   PARTICLE_InitManager  0x02050B80  arm
  *   d_021DE3C8     0x021DE3C8  data  ov021  a4
  *   PARTICLE_DeleteSystem  0x02050DB8  arm
@@ -28,7 +28,7 @@
  */
 #include "fld3d_ci_types.h"
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void PARTICLE_InitManager(u32);
 
@@ -48,7 +48,7 @@ extern u32 PARTICLE_SetupSystem(u32, u32, u32, u32);
 
 extern int PARTICLE_GetEffectCount(int **p);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void PARTICLE_ExitManager(void);
 
@@ -76,10 +76,10 @@ FldParticle *FLD_PARTICLE_Create(u32 heapId)
 {
     FldParticle *particle;
 
-    particle = func_02030734(heapId, 0x10, 1, (const char *)&d_021DE3C8, 0x2e);
+    particle = GFL_HEAP_Alloc(heapId, 0x10, 1, (const char *)&d_021DE3C8, 0x2e);
     particle->heapId = heapId;
     PARTICLE_InitManager(heapId);
-    particle->workBuffer = func_02030734(heapId, 0x4800, 1, (const char *)&d_021DE3C8, 0x34);
+    particle->workBuffer = GFL_HEAP_Alloc(heapId, 0x4800, 1, (const char *)&d_021DE3C8, 0x34);
     return particle;
 }
 
@@ -137,8 +137,8 @@ u32 FLD_PARTICLE_Delete(FldParticle *particle)
 {
     FLD_PARTICLE_DeleteEffect(particle);
     PARTICLE_ExitManager();
-    func_020307B0(particle->workBuffer);
-    return func_020307B0(particle);
+    GFL_HEAP_Free(particle->workBuffer);
+    return GFL_HEAP_Free(particle);
 }
 
 /*

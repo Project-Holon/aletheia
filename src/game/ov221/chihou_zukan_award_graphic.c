@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -22,19 +22,19 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_021BA2F0 0x021BA2F0 data a1
  *   d_021BA220 0x021BA220 data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera 0x021BA130 thumb ov221
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021BA1D4 0x021BA1D4 data a4
  *   d_021BA250 0x021BA250 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -80,12 +80,12 @@ struct ChihouZukanAwardGraphic {
     u32 bgState;           /* +0x00 zeroed by SetupBg and CleanupBg, never read */
     struct ClactCtx clact; /* +0x04 CLACT context */
     u32 *camera;           /* +0x08 G3D camera from SetupCamera */
-    void *proc;            /* +0x0C task proc from func_020056A0 */
+    void *proc;            /* +0x0C task proc from GFL_USE_AddMainTask */
 };
 
 typedef struct {u32 x,y,z;} Vec3;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void*,int,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -94,17 +94,17 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void* func_020056A0(u32,u32,u32);
-extern void func_02030EAC(struct Node *n);
+extern void* GFL_USE_AddMainTask(u32,u32,u32);
+extern void TCB_DeleteTask(struct Node *n);
 extern int CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int*);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_FreeLayerBuf(unsigned char);
 extern void BMP_WIN_Exit(void),BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -152,7 +152,7 @@ void* CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
 {
  char*p;
  u32*g;
- p=func_02030734(heap,16,0,d_021BA2F0,0x1cc);
+ p=GFL_HEAP_Alloc(heap,16,0,d_021BA2F0,0x1cc);
  MI_CpuFill8(p,0,16);
  *(volatile u16*)0x04000050=0;
  *(volatile u16*)0x04001050=0;
@@ -169,14 +169,14 @@ void* CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(int)g,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
- *(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc=func_020056A0((u32)CHIHOU_ZUKAN_AWARD_GRAPHIC_Task,(u32)p,0);
+ *(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask((u32)CHIHOU_ZUKAN_AWARD_GRAPHIC_Task,(u32)p,0);
  return p;
 }
 
 /* volatile accesses: display cleanup, original 021B9F46..021B9F60. */
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char*p)
 {
- func_02030EAC(*(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc);
+ TCB_DeleteTask(*(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera((int*)(p+8));
  CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(p+4);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(p);
@@ -186,7 +186,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char*p)
  *(volatile u32*)0x04000000 &= ~0xe000u;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  MI_CpuFill8(p,0,16);
- func_020307B0(p);
+ GFL_HEAP_Free(p);
 }
 
 
@@ -223,7 +223,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap)
   u32 layer=row->layer;
   BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate *)row->cfg,(u8)row->type);
   BG_SYS_FreeSlot(layer);
-  func_02040588(layer,row->enable);
+  BG_SYS_SetPlaneVisible(layer,row->enable);
  }
 }
 

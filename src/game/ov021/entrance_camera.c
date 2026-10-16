@@ -14,9 +14,9 @@
  * Split from field_place_name.c at 0x021BDC94 (lane SP3, __FILE__ anchors, certain cut).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -46,8 +46,8 @@ struct FieldSave;
 struct GameSystem;
 struct GameData;
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern unsigned int func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern unsigned int GFL_HEAP_Free(void *p);
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern void MI_CpuFill8(void *, int, int);
 extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
@@ -171,13 +171,13 @@ int ENTRANCE_CAMERA_IsInstant(EntranceCamera *work)
 
 void *ENTRANCE_CAMERA_AllocWork(int heapId)
 {
-    return func_02030734(heapId, sizeof(EntranceCamera), 0, gEntranceCameraFileName, 0x12A);
+    return GFL_HEAP_Alloc(heapId, sizeof(EntranceCamera), 0, gEntranceCameraFileName, 0x12A);
 }
 
 /* Tail call: frees the work. */
 void ENTRANCE_CAMERA_FreeWork(void *work)
 {
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void ENTRANCE_CAMERA_InitWork(EntranceCamera *work, FieldMap *fieldMap)

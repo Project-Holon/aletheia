@@ -13,9 +13,9 @@
  * Cut from egg_demo_view.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020056A0 0x020056A0 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   d_021F73F4 0x021F73F4 data a1
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -79,7 +79,7 @@
  *   func_02048A18 0x02048A18 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_020489F4 0x020489F4 arm
+ *   G3D_UTIL_GetUnitObjIdx 0x020489F4 arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   d_021F7330 0x021F7330 data a4
@@ -171,11 +171,11 @@ struct EggDemoParticles {
     int life;                    /* 0x4818 */
 };
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
-extern void *func_020056A0(void (*)(int,char *),char *,unsigned);
+extern void *GFL_USE_AddMainTask(void (*)(int,char *),char *,unsigned);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MTX_Identity33_(void *);
 
@@ -294,7 +294,7 @@ extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 
 extern u16 G3D_UTIL_AddUnit(struct Util *,const struct Setup *);
 
-extern unsigned func_020489F4(unsigned char *,int);
+extern unsigned G3D_UTIL_GetUnitObjIdx(unsigned char *,int);
 
 extern unsigned G3D_SYSTEM_EnableObjectAnime(struct G3dSys *,unsigned);
 
@@ -388,7 +388,7 @@ Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count)
 {
     Record *records;
     u16 i;
-    records=func_02030734(heap,68*count,1,d_021F73F4,283);
+    records=GFL_HEAP_Alloc(heap,68*count,1,d_021F73F4,283);
     for(i=0;i<count;i++) {
         records[i].x=0;records[i].y=0;records[i].z=0;
         records[i].sx=4096;records[i].sy=4096;records[i].sz=4096;
@@ -397,7 +397,7 @@ Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count)
     return records;
 }
 
-void EGG_DEMO_VIEW_FreeRecords(void *work){func_020307B0(work);}
+void EGG_DEMO_VIEW_FreeRecords(void *work){GFL_HEAP_Free(work);}
 
 /*
  * evidence: sole callback 021F6AB4 resolved after owned leaf shard verification.
@@ -405,7 +405,7 @@ void EGG_DEMO_VIEW_FreeRecords(void *work){func_020307B0(work);}
 char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
 {
     char *work;
-    work=func_02030734(heap,96,1,d_021F73F4,433);
+    work=GFL_HEAP_Alloc(heap,96,1,d_021F73F4,433);
     ((struct EggDemoView *)work)->heapId=heap;
     ((struct EggDemoView *)work)->mon=mon;
     ((struct EggDemoView *)work)->species=POKE_TOOL_GetPartyValue(mon,5,0);
@@ -416,7 +416,7 @@ char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
     ((struct EggDemoView *)work)->soundPlaying=0;
     ((struct EggDemoView *)work)->soundDelay=0;
     ((struct EggDemoView *)work)->soundStep=0;
-    ((struct EggDemoView *)work)->vblankTask=func_020056A0((void ( *)(int,char *))EGG_DEMO_VIEW_Noop, (char *)work, 1);
+    ((struct EggDemoView *)work)->vblankTask=GFL_USE_AddMainTask((void ( *)(int,char *))EGG_DEMO_VIEW_Noop, (char *)work, 1);
     EGG_DEMO_VIEW_InitMcss(work);
     EGG_DEMO_VIEW_AddPokeMcss(work);
     if(((struct EggDemoView *)work)->species==490)
@@ -431,7 +431,7 @@ char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
 /*
  * trailing: zero halfword at 021F67DE is alignment padding.
  */
-void EGG_DEMO_VIEW_Delete(char *work){EGG_DEMO_VIEW_RemoveModel(work);EGG_DEMO_VIEW_DeleteModel(work);EGG_DEMO_VIEW_DeleteParticles(*(char * *)&((struct EggDemoView *)work)->particles);EGG_DEMO_VIEW_DeletePokeMcss(work);EGG_DEMO_VIEW_DeleteMcss(work);TCB_DeleteTask(*(struct Node * *)&((struct EggDemoView *)work)->vblankTask);func_020307B0(work);}
+void EGG_DEMO_VIEW_Delete(char *work){EGG_DEMO_VIEW_RemoveModel(work);EGG_DEMO_VIEW_DeleteModel(work);EGG_DEMO_VIEW_DeleteParticles(*(char * *)&((struct EggDemoView *)work)->particles);EGG_DEMO_VIEW_DeletePokeMcss(work);EGG_DEMO_VIEW_DeleteMcss(work);TCB_DeleteTask(*(struct Node * *)&((struct EggDemoView *)work)->vblankTask);GFL_HEAP_Free(work);}
 
 void EGG_DEMO_VIEW_Update(char *work)
 {
@@ -639,7 +639,7 @@ char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *tab
     unsigned zero[3]={0};
     unsigned long long config;
     int resource;
-    work=func_02030734(heap,0x481C,1,d_021F73F4,0x502);
+    work=GFL_HEAP_Alloc(heap,0x481C,1,d_021F73F4,0x502);
     ((struct EggDemoParticles *)work)->frame=0;
     ((struct EggDemoParticles *)work)->index=0;
     ((struct EggDemoParticles *)work)->count=count;
@@ -658,7 +658,7 @@ char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *tab
 void EGG_DEMO_VIEW_DeleteParticles(char *work)
 {
     PARTICLE_ExitManager();
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -716,7 +716,7 @@ void EGG_DEMO_VIEW_AddModel(char *work)
     ((struct EggDemoView *)work)->unitId=G3D_UTIL_AddUnit(*(struct Util * *)&((struct EggDemoView *)work)->util,&d_021F7330);
     ((struct EggDemoView *)work)->recordCount=1;
     *(struct Record * *)&((struct EggDemoView *)work)->records=(struct Record *)EGG_DEMO_VIEW_CreateRecords(((struct EggDemoView *)work)->heapId,((struct EggDemoView *)work)->recordCount);
-    id=func_020489F4(*(unsigned char * *)&((struct EggDemoView *)work)->util,((struct EggDemoView *)work)->unitId);
+    id=G3D_UTIL_GetUnitObjIdx(*(unsigned char * *)&((struct EggDemoView *)work)->util,((struct EggDemoView *)work)->unitId);
     ((struct EggDemoView *)work)->animIndex=0;
     entry=*(char * *)&((struct EggDemoView *)work)->records;
     ((Record *)entry)->tag=id;

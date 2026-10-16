@@ -19,12 +19,12 @@
  *   SYMBOL_SAVE_UpdateChecksum  0x0200E024  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_02172A18 0x02172A18 data a1
  *   ICA_ANIME_Check2114  0x02012114  thumb
  *   FIELD_COMM_ACTOR_CTRL_Delete  0x021942C8  thumb  ov021
- *   func_02034714  0x02034714  arm
- *   func_020307B0  0x020307B0  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_02172A28  0x02172A28  data  ov010  a4
  *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb
  *   FIELD_COMM_ACTOR_CTRL_AddActor  0x02194300  thumb  ov021
@@ -147,11 +147,11 @@ extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
 extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern unsigned int ICA_ANIME_Check2114(const struct Ctx *a);
 extern void FIELD_COMM_ACTOR_CTRL_Delete(void *obj);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_020307B0(void *p);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern u32 GFL_HEAP_Free(void *p);
 extern int FLDEFF_GYOE_IsFinished(u32 v);
 extern void FIELD_COMM_ACTOR_CTRL_AddActor(u16 *a, int b, int c, u16 *d, int e, int f);
 extern void FIELD_COMM_ACTOR_CTRL_DeleteActor(void *, u32);
@@ -391,7 +391,7 @@ u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *
 
 void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption) {
     CommPlayerWork *work;
-    work = func_02030734(heapId, sizeof(CommPlayerWork), 1, d_02172A18, 97);
+    work = GFL_HEAP_Alloc(heapId, sizeof(CommPlayerWork), 1, d_02172A18, 97);
     work->playerMax = playerMax;
     work->gameSystem = gameSystem;
     work->heapId = heapId;
@@ -408,9 +408,9 @@ void COMM_PLAYER_Delete(void *gameSystem, CommPlayerWork *work)
         if (ICA_ANIME_Check2114(gameSystem) == 1)
             FIELD_COMM_ACTOR_CTRL_Delete(work->playerSys);
         else
-            func_02034714(d_02172A28, 0, d_02172A28);
+            SAVEDATA_PanicFail(d_02172A28, 0, d_02172A28);
     }
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void COMM_PLAYER_Update(void *gameSystem, CommPlayerWork *work)
@@ -467,7 +467,7 @@ void COMM_PLAYER_Suspend(CommPlayerWork *work)
     CommPlayerFlagView *flags;
     int i;
     if (ICA_ANIME_Check2114(work->gameSystem) != 1)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0) {
         i = 0;
         flags = (CommPlayerFlagView *)((char *)work + 0x1C);
@@ -488,9 +488,9 @@ void COMM_PLAYER_Resume(CommPlayerWork *work)
     CommPlayerFlagView *flags;
     int i;
     if (ICA_ANIME_Check2114(work->gameSystem) != 1)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(work->gameSystem)), work->heapId, work->sysOption);
     MI_CpuFill8(&package, 0, 0x14);
     flags = (CommPlayerFlagView *)work;
@@ -511,9 +511,9 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
     CommPlayerFlagView *flags;
     int i;
     if (ICA_ANIME_Check2114(work->gameSystem) != 1)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     i = 0;
     flags = (CommPlayerFlagView *)((char *)work + 0x1C);
     for (; i < 4; i++) {
@@ -527,14 +527,14 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
  * address lever: CommPlayerRowView supplies the +28 load offset after unsigned scaling; combining +28 with the scaled index folds index+1 and changes the instructions.
  */
 int COMM_PLAYER_CheckOccupy(CommPlayerWork *work, int index) {
-    if (work == 0 || index >= 4) func_02034714(d_02172A28, 0, d_02172A28);
+    if (work == 0 || index >= 4) SAVEDATA_PanicFail(d_02172A28, 0, d_02172A28);
     return ((CommPlayerRowView *)((u32)work + (u32)index * 28u))->flags.used;
 }
 
 u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index)
 {
     if (work == 0 || index >= 4 || work->entries[index].used != 1)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     return work->entries[index].objCode;
 }
 
@@ -648,9 +648,9 @@ int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index)
 u32 COMM_PLAYER_GetPlayerModel(CommPlayerWork *work, int index)
 {
     if (work->playerSys == 0)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->entries[index].used != 1)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     return FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
 }
 

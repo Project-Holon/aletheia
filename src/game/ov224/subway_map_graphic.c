@@ -20,31 +20,31 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0207D518 0x0207D518 arm
+ *   GXS_SetGraphicsMode 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   gSubwayMapGraphicSubBgLayerTable 0x021B9C04 data a4
  *   gSubwayMapGraphicChoiceAssets 0x021B9D40 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
@@ -57,7 +57,7 @@
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   gSubwayMapGraphicLightParams 0x021B9C80 data ov224
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -66,7 +66,7 @@
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   file 0x021B9D58 data ov224 a1
  *   vram 0x021B9CA0 data
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
@@ -140,28 +140,28 @@ extern void MI_CpuFill8(void *,u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern void BG_SYS_SetVisibleLayer(int,u16);
-extern void *func_020056A0(u32,u32,u32);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0207D518(u32);
+extern void GXS_SetGraphicsMode(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
@@ -173,14 +173,14 @@ extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
@@ -256,29 +256,29 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  p->font=GF_FONT_Create(23,0,0,0,p->heap);
  p->string=PRINTSYS_QUE_Create((void *)(u32)p->heap);
  BG_SYS_SetVisibleLayer(1,1); BG_SYS_SetVisibleLayer(2,0);
- p->task=func_020056A0((u32)SUBWAY_MAP_GRAPHIC_TaskNoop,(u32)p,1);
+ p->task=GFL_USE_AddMainTask((u32)SUBWAY_MAP_GRAPHIC_TaskNoop,(u32)p,1);
  SUBWAY_MAP_GRAPHIC_LoadCommonAssets((u16 *)p);
  i=SUB_BG_LAYER_FIRST;
  *(volatile u16 *)0x04001050=0;
  GXS_SetMode(SUB_DISPLAY_MODE_2);
  BG_SYS_ClearSubPlanes();
- func_0207D518(0);
+ GXS_SetGraphicsMode(0);
  BG_SYS_ClearSubBgPlanes();
  do {
   row=&gSubwayMapGraphicSubBgLayerTable[i]; id=row->id;
   BG_SYS_InitBgLayer((u8)id,&row->bg,(u8)row->kind);
   BG_SYS_FreeSlot(id);
-  func_02040588(id,row->visible);
+  BG_SYS_SetPlaneVisible(id,row->visible);
   i++;
  }while(i<1U);
  BG_SYS_SetSubPlaneVisible(16,1);
  heap=p->heap;
  choice=1;
  if(*((u8 *)*p->args+0x1d)!=1) choice=0;
- arc=func_020490F4(30,heap);
+ arc=ARC_TOOL_CreateHandle(30,heap);
  func_02049B68(arc,gSubwayMapGraphicChoiceAssets[choice].palette,4,0,0,heap);
- func_02049658(arc,gSubwayMapGraphicChoiceAssets[choice].screen,4,0,0,0,heap);
- func_020498F4(arc,gSubwayMapGraphicChoiceAssets[choice].chars,4,0,0,0,heap);
+ ARC_UTIL_UploadBgCharFromHandle(arc,gSubwayMapGraphicChoiceAssets[choice].screen,4,0,0,0,heap);
+ ARC_UTIL_UploadBgPaletteFromHandle(arc,gSubwayMapGraphicChoiceAssets[choice].chars,4,0,0,0,heap);
  ARC_TOOL_DeleteHandle(arc);
  BG_SYS_PushTile(4);
  FADE_Start(3,16,0,0);
@@ -301,9 +301,9 @@ int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=~0xe000;
     SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(p);
-    func_02030EAC(((struct SubwayMapWork *)p)->task); PRINTSYS_QUE_Clear((void *)((struct SubwayMapWork *)p)->string); PRINTSYS_QUE_Delete((void *)((struct SubwayMapWork *)p)->string);
+    TCB_DeleteTask(((struct SubwayMapWork *)p)->task); PRINTSYS_QUE_Clear((void *)((struct SubwayMapWork *)p)->string); PRINTSYS_QUE_Delete((void *)((struct SubwayMapWork *)p)->string);
     GF_FONT_Delete(((struct SubwayMapWork *)p)->font); SUBWAY_MAP_GRAPHIC_DeleteScreen(*(char * *)&((struct SubwayMapWork *)p)->screen);
-    func_020315D4(a); GFL_HEAP_DeleteChecked(136);
+    PROCSYS_FreeProcWork(a); GFL_HEAP_DeleteChecked(136);
     return 1;
 }
 
@@ -345,11 +345,11 @@ void SUBWAY_MAP_GRAPHIC_TaskNoop(void) {}
 
 void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
 {
-    void *narc = func_020490F4(0xce, *work);
+    void *narc = ARC_TOOL_CreateHandle(0xce, *work);
     func_02049B68(narc, 0, 0, 0, 0, *work);
-    func_02049658(narc, 1, 1, 0, 0, 0, *work);
-    func_020498F4(narc, 2, 1, 0, 0, 0, *work);
-    func_020498F4(narc, 3, 2, 0, 0, 0, *work);
+    ARC_UTIL_UploadBgCharFromHandle(narc, 1, 1, 0, 0, 0, *work);
+    ARC_UTIL_UploadBgPaletteFromHandle(narc, 2, 1, 0, 0, 0, *work);
+    ARC_UTIL_UploadBgPaletteFromHandle(narc, 3, 2, 0, 0, 0, *work);
     ARC_TOOL_DeleteHandle(narc);
     BG_SYS_PushTile(1);
     BG_SYS_PushTile(2);
@@ -456,7 +456,7 @@ static inline void GXS_SetVisibleWnd(int window) {
 
 void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
-    char *p = func_02030734(heap, 16, 0, file, 460);
+    char *p = GFL_HEAP_Alloc(heap, 16, 0, file, 460);
     MI_CpuFill8(p, 0, 16);
     G2_BlendNone();
     G2S_BlendNone();
@@ -472,7 +472,7 @@ void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
     SUBWAY_MAP_GRAPHIC_CreateBg(p, heap);
     SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (int)vram, heap);
     SUBWAY_MAP_GRAPHIC_CreateCamera((void **)(p + 8), heap);
-    ((struct SubwayMapScreen *)p)->task = func_020056A0((u32)SUBWAY_MAP_GRAPHIC_VBlankScreen, (u32)p, 0);
+    ((struct SubwayMapScreen *)p)->task = GFL_USE_AddMainTask((u32)SUBWAY_MAP_GRAPHIC_VBlankScreen, (u32)p, 0);
     return p;
 }
 
@@ -481,7 +481,7 @@ void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 
 void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p)
 {
-    func_02030EAC(((struct SubwayMapScreen *)p)->task);
+    TCB_DeleteTask(((struct SubwayMapScreen *)p)->task);
     SUBWAY_MAP_GRAPHIC_DeleteCamera((u32 *)(p + 8));
     SUBWAY_MAP_GRAPHIC_DeleteClactUnit(p + 4);
     SUBWAY_MAP_GRAPHIC_DeleteBg(p);
@@ -491,7 +491,7 @@ void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p)
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     MI_CpuFill8(p, 0, 16);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -531,7 +531,7 @@ void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap)
         u32 id = r->id;
         BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
         BG_SYS_FreeSlot(id);
-        func_02040588(id, r->visible);
+        BG_SYS_SetPlaneVisible(id, r->visible);
     }
 }
 

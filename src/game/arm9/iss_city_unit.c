@@ -13,9 +13,9 @@
  * Cut from iss_city_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ISS_CITY_UNIT_sSourceFileName     0x020A76F8  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   _s32_to_double  0x0209B750  arm
  *   func_0209AC04   0x0209AC04  arm
  *   _d2s            0x0209C508  arm
@@ -23,11 +23,11 @@
  */
 #include "iss_city_sys_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
 
 extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern double _s32_to_double(s32 v);
 
@@ -70,7 +70,7 @@ s32 ISS_CITY_UNIT_Interpolate(s32 distA, s32 volumeA, s32 distB, s32 volumeB, s3
 extern const char ISS_CITY_UNIT_sSourceFileName[];
 
 /*
- * Allocates a 0x28-byte node with func_02030734, wraps it with ARC_TOOL_LoadMemberRange,
+ * Allocates a 0x28-byte node with GFL_HEAP_Alloc, wraps it with ARC_TOOL_LoadMemberRange,
  * runs ISS_CITY_UNIT_Copy over the pair and releases the wrapper.  The pair is
  * passed as (wrapper, node): r0 is left holding the wrapper from the second
  * allocation when ISS_CITY_UNIT_Copy is reached, with the node moved into r1.
@@ -81,16 +81,16 @@ extern const char ISS_CITY_UNIT_sSourceFileName[];
  */
 struct IssCityUnit *ISS_CITY_UNIT_Create(u32 heapId, u32 memberIndex)
 {
-    struct IssCityUnit *unit = func_02030734(heapId, sizeof(struct IssCityUnit), 0, ISS_CITY_UNIT_sSourceFileName, 0x6c);
+    struct IssCityUnit *unit = GFL_HEAP_Alloc(heapId, sizeof(struct IssCityUnit), 0, ISS_CITY_UNIT_sSourceFileName, 0x6c);
     struct IssCityUnit *rawMember = ARC_TOOL_LoadMemberRange(0x84, memberIndex, heapId, 0, sizeof(struct IssCityUnit));
     ISS_CITY_UNIT_Copy(rawMember, unit);
-    func_020307B0(rawMember);
+    GFL_HEAP_Free(rawMember);
     return unit;
 }
 
 void ISS_CITY_UNIT_Delete(struct IssCityUnit *unit)
 {
-    func_020307B0(unit);
+    GFL_HEAP_Free(unit);
 }
 
 u32 ISS_CITY_UNIT_GetZoneId(struct IssCityUnit *unit)

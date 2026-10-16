@@ -13,17 +13,17 @@
  * Cut from pms_input_view.c, unit_021BB224.c, unit_021BB240.c, unit_021BB250.c, unit_021BB260.c, unit_021BB270.c, pmsiv_category.c, unit_021BBE80.c, pmsiv_menu.c, pmsiv_wordwin.c, pms_select_graphic.c, ov110_func_021C1848.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PMS_INPUT_GetUiInputModePtr 0x021BF6D4 thumb ov110
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PMSIV_MENU_Delete 0x021BCA30 thumb ov110
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   PMSIV_MENU_Update 0x021BCA84 thumb ov110
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   PMS_INPUT_HasInitialSentence 0x021BF7C4 thumb ov110
  *   PMS_INPUT_GetInputMode 0x021BF6D8 thumb ov110
  *   PMSIV_MENU_Create 0x021BC990 thumb ov110
@@ -48,8 +48,8 @@
  *   PMSIV_MENU_SelectItem 0x021BCF18 thumb ov110
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_02045B38 0x02045B38 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -65,7 +65,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   PMS_INPUT_GetSentenceType 0x021BF6E4 thumb ov110
  *   gPmsivMenuHeapSite 0x021C3C68 data
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   APP_TASKMENU_WIN_ChangePalette 0x020282AC thumb
@@ -107,19 +107,19 @@ struct PrintQue;
 
 typedef struct { u8 header[12]; u8 *colors; } PaletteFile;
 
-extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
 extern void ARC_TOOL_DeleteHandle(void *handle);
 extern u32 PMS_INPUT_HasInitialSentence(struct PmsInput *input);
 extern u8 PMS_INPUT_GetBrowseMode(struct PmsInput *input);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void STRBUF_Delete(void *str);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern struct GfFont *PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *view, struct PmsInputViewSpriteRes *out, int screen, int unused);
-extern void *func_020490F4(unsigned int id, unsigned int heapId);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heapId);
 extern u8 PMS_INPUT_GetInitialCount(struct PmsInput *input);
 extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
 extern u16 CLACT_GetActorAnimSeq(struct ClactActor *actor);
@@ -131,7 +131,7 @@ extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 enable);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 seq);
 extern struct PrintQue *PMS_INPUT_VIEW_GetPrintQue(struct PmsInputView *view);
 extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16, u16, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void CLACT_ReleasePalette(u32 id);
 extern void CLACT_ReleaseCharacter(u32 id);
 extern void CLACT_ReleaseCellAnim(u32 id);
@@ -139,7 +139,7 @@ extern u32 APP_TASKMENU_RES_Delete(struct AppTaskMenuRes *res);
 extern void APP_TASKMENU_WIN_Update(struct AppTaskMenuWin *win);
 extern void APP_TASKMENU_WIN_Delete(struct AppTaskMenuWin *win);
 extern void BG_SYS_PushTile(u32 index);
-extern void *func_02045EC0(struct MsgData *msgData, u32 index);
+extern void *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern struct AppTaskMenuWin *APP_TASKMENU_WIN_Create(struct AppTaskMenuRes *res, const struct PmsivMenuEntry *entry, u32, u8, u8, u16 heapId);
 extern void APP_TASKMENU_WIN_ChangePalette(struct AppTaskMenuWin *win, struct AppTaskMenuRes *res, u32, u32, u16);
 extern int PMS_INPUT_CanConfirm(struct PmsInput *input);
@@ -162,7 +162,7 @@ extern struct ClactActor *CLACT_CreateActor(void *unit, u32 character, u32 palet
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
-extern int func_02061CA4(u32 target, u32 offset, const void *data, int size);
+extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *data, int size);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 flag);
 extern short FX_SinCosTable_[];
 
@@ -219,15 +219,15 @@ struct PmsivMenu *PMSIV_MENU_Create(struct PmsInputView *view, struct PmsInput *
     struct PmsivMenu *menu;
     int i;
     struct GfFont *font;
-    menu=func_02030734(PMSIV_MENU_HEAP_ID,sizeof(struct PmsivMenu),1,gPmsivMenuHeapSite,309);
+    menu=GFL_HEAP_Alloc(PMSIV_MENU_HEAP_ID,sizeof(struct PmsivMenu),1,gPmsivMenuHeapSite,309);
     menu->view=view; menu->input=input; menu->wordData=wordData;
     menu->uiInputMode=PMS_INPUT_GetUiInputModePtr(input);
-    menu->msgData=func_02045B38(0,2,146,PMSIV_MENU_HEAP_ID);
+    menu->msgData=MSGDATA_CreateFromArchive(0,2,146,PMSIV_MENU_HEAP_ID);
     for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
         font=PMS_INPUT_VIEW_GetFont(menu->view);
         menu->taskMenuRes[i]=APP_TASKMENU_RES_Create(0,8,font,PMS_INPUT_VIEW_GetPrintQue(menu->view),PMSIV_MENU_HEAP_ID);
     }
-    func_02049B40(43,9,0,448,64,PMSIV_MENU_HEAP_ID);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(43,9,0,448,64,PMSIV_MENU_HEAP_ID);
     PMSIV_MENU_CreateBackButton(menu);PMSIV_MENU_CreateItems(menu);PMSIV_MENU_CreateExtraItems(menu);PMSIV_MENU_LoadBlendColors(menu);
     return menu;
 }
@@ -246,7 +246,7 @@ void PMSIV_MENU_Delete(struct PmsivMenu *menu)
     for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) APP_TASKMENU_RES_Delete(menu->taskMenuRes[i]);
     PMSIV_MENU_Reserved(menu); PMSIV_MENU_DeleteExtraItems(menu); PMSIV_MENU_DeleteItems(menu);
     MSGDATA_Delete(menu->msgData);
-    func_020307B0(menu);
+    GFL_HEAP_Free(menu);
 }
 
 void PMSIV_MENU_Update(struct PmsivMenu *menu)
@@ -292,7 +292,7 @@ void PMSIV_MENU_ShowEditEntries(struct PmsivMenu *menu)
     i=0;
     entries=menu->entries;
     for(;i<2;i++) {
-        menu->entries[i].text=func_02045EC0(menu->msgData,i+14);
+        menu->entries[i].text=MSGDATA_AllocString(menu->msgData,i+14);
         menu->entries[i].color=0x39e3;
         menu->entries[i].selected=(i==1);
         menu->taskMenuWin[i]=APP_TASKMENU_WIN_Create(menu->taskMenuRes[i],&entries[i],23,(u8)(i*3+18),9,PMSIV_MENU_HEAP_ID);
@@ -530,7 +530,7 @@ void PMSIV_MENU_CreateItems(struct PmsivMenu *menu) {
     void *handle;
     int i;
     short x;
-    handle=func_020490F4(43,PMSIV_MENU_HEAP_ID);
+    handle=ARC_TOOL_CreateHandle(43,PMSIV_MENU_HEAP_ID);
     PMS_INPUT_VIEW_GetUiRes(menu->view, &menu->itemRes, 0, 0);
     menu->itemRes.character=CLACT_RegisterCharacter(handle,13,0,0,PMSIV_MENU_HEAP_ID);
     menu->itemRes.cellAnim=CLACT_RegisterCellAnim(handle,35,41,PMSIV_MENU_HEAP_ID);
@@ -580,7 +580,7 @@ void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
     void *handle;
     int cellFileId;
     struct PmsivMenuActorSetup setup;
-    handle=func_020490F4(APP_ICON_GetArchiveId(),PMSIV_MENU_HEAP_ID);
+    handle=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),PMSIV_MENU_HEAP_ID);
     menu->backPalette=CLACT_RegisterPaletteEx(handle,APP_ICON_GetMoveKindPaletteFileId(),0,384,0,3,PMSIV_MENU_HEAP_ID);
     menu->backCharacter=CLACT_RegisterCharacter(handle,APP_ICON_GetMoveKindAnimFileId(),0,0,PMSIV_MENU_HEAP_ID);
     cellFileId=APP_ICON_GetStatusCellFileId(1);
@@ -607,7 +607,7 @@ void PMSIV_MENU_ShowBackButton(struct PmsivMenu *menu)
 void PMSIV_MENU_ShowListEntries(struct PmsivMenu *menu) {
     int i;
     for(i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
-        menu->entries[i].text=func_02045EC0(menu->msgData,i+18);
+        menu->entries[i].text=MSGDATA_AllocString(menu->msgData,i+18);
         menu->entries[i].color=0x39e3;
         menu->entries[i].selected=i==2;
         menu->taskMenuWin[i]=APP_TASKMENU_WIN_Create(menu->taskMenuRes[i],&menu->entries[i],(u8)(5+9*i),(int)21,9,PMSIV_MENU_HEAP_ID);
@@ -628,7 +628,7 @@ void PMSIV_MENU_LoadBlendColors(struct PmsivMenu *menu) {
     data = file->colors;
     MI_CpuCopy8(data + 0x96, menu->baseColors, 10);
     MI_CpuCopy8(data + 0x76, menu->targetColors, 10);
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
     MI_CpuCopy8(menu->baseColors, menu->blendColors, 10);
     menu->blendPhase = 0;
 }
@@ -664,7 +664,7 @@ void PMSIV_MENU_UpdateBlend(struct PmsivMenu *menu)
     for (i = 0; i < PMSIV_MENU_BLEND_COLORS; i++) {
         lerp(&menu->blendColors[i], t, menu->baseColors[i], menu->targetColors[i]);
     }
-    func_02061CA4(14, 0x56, menu->blendColors, 10);
+    NNS_GfdRegisterNewVramTransferTask(14, 0x56, menu->blendColors, 10);
 }
 
 void PMSIV_MENU_StartItemBlend(struct PmsivMenu *menu,int i)

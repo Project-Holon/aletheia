@@ -19,10 +19,10 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   d_021BAB70 0x021BAB70 data a4
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BMP_SetDisplaySwap  0x0204363C  arm
@@ -53,17 +53,17 @@
  *   d_021BACA4 0x021BACA4 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020490F4  0x020490F4  arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02049B68  0x02049B68  arm
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  *   BG_SYS_Update 0x020419E4 arm
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
- *   func_02045B38 0x02045B38 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -74,7 +74,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Blit 0x020439A0 arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -89,10 +89,10 @@
  *   func_02048A18 0x02048A18 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
- *   func_02048BC4 0x02048BC4 arm
- *   func_02048C58 0x02048C58 arm
+ *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
+ *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   d_021BAB50 0x021BAB50 data a4
@@ -122,10 +122,10 @@
  *   KEY_GetCont 0x0203630C arm
  *   BMP_GetPixels 0x020437D4 arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   d_021BAB40 0x021BAB40 data a2
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BMP_Clear 0x02043B5C arm
  *   BG_SYS_SetScrollRegs 0x02040860 arm
  */
@@ -262,9 +262,9 @@ struct Mtx22 { int m[4]; };
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BMP_SetDisplaySwap(u32 swap);
@@ -285,16 +285,16 @@ extern void BG_SYS_SetScrollRegs(unsigned, unsigned, unsigned, unsigned);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),BG_SYS_FreeLayerBuf(unsigned),BG_SYS_Delete(void);
-extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(u8 *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void STAFF_ROLL_FlushWindows(char *),BG_SYS_Update(void);
-extern void *func_020056A0(void *,void *,int);
-extern void func_02030EAC(struct Node *n);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *GFL_USE_AddMainTask(void *,void *,int);
+extern void TCB_DeleteTask(struct Node *n);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -305,7 +305,7 @@ extern void BMP_Delete(struct Bmp *);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *,struct Bmp *,unsigned,unsigned,int,int,unsigned,unsigned,unsigned);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BMP_WIN_Init(unsigned short);
 extern unsigned BMP_WIN_Create(unsigned, unsigned, unsigned, unsigned, unsigned char, unsigned char, unsigned char);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
@@ -320,10 +320,10 @@ extern u16 G3D_UTIL_AddUnit(struct Util *,const struct Setup *);
 extern u32 func_02048A18(u8 *,int);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-extern struct LightSlot *func_02048BC4(const struct LightSet *,u32);
-extern void func_02048C58(struct LightSlot *);
+extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *,u32);
+extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u16);
-extern void func_02048AD0(struct Light *);
+extern void G3D_CAMERA_Reset(struct Light *);
 extern void BG_SYS_SetLowBit(u32);
 extern void G2x_SetBlendBrightness_(u32,int,int);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -345,9 +345,9 @@ extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 KEY_GetCont(void);
 extern void *BMP_GetPixels(const struct Bmp *);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *, short, short, void *, void *, unsigned short);
-extern void func_0207D63C(unsigned, int, int, int, int);
+extern void G2x_SetBlendAlpha_(unsigned, int, int, int, int);
 extern void BMP_Clear(struct CharBuf *, u8);
 int STAFF_ROLL_Init(struct Proc *p, int unused, u32 arg);
 int STAFF_ROLL_Main(int unused0, int unused1, int unused2, int work);
@@ -446,7 +446,7 @@ int STAFF_ROLL_Main(int unused0, int unused1, int unused2, int work)
 
 int STAFF_ROLL_Exit(void *p)
 {
-    func_020315D4(p);
+    PROCSYS_FreeProcWork(p);
     GFL_HEAP_DeleteChecked(0x8e);
     return 1;
 }
@@ -467,7 +467,7 @@ int STAFF_ROLL_RunState(char *p){STAFF_ROLL_UpdateInput((unsigned char *)p);((St
 
 int STAFF_ROLL_Setup(u8 *p)
 {
-    func_02034AC4((int)ov067_id);
+    GF_OVERLAY_Load((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
@@ -631,11 +631,11 @@ void STAFF_ROLL_TeardownBackgrounds(void){BG_SYS_SetMainPlaneVisible(2,0);BG_SYS
 
 void STAFF_ROLL_LoadGraphics(void)
 {
-    u8 *p = func_020490F4(0x1a, 0x808e);
-    func_02049658(p, 0, 3, 0, 0, 1, 0x8e);
-    func_020498F4(p, 1, 3, 0, 0, 1, 0x8e);
+    u8 *p = ARC_TOOL_CreateHandle(0x1a, 0x808e);
+    ARC_UTIL_UploadBgCharFromHandle(p, 0, 3, 0, 0, 1, 0x8e);
+    ARC_UTIL_UploadBgPaletteFromHandle(p, 1, 3, 0, 0, 1, 0x8e);
     ARC_TOOL_DeleteHandle(p);
-    p = func_020490F4(0xdc, 0x808e);
+    p = ARC_TOOL_CreateHandle(0xdc, 0x808e);
     func_02049B68(p, 0xc, 0, 0x1e0, 0x20, 0x8e);
     func_02049B68(p, 0xc, 4, 0x1e0, 0x20, 0x8e);
     ARC_TOOL_DeleteHandle(p);
@@ -650,10 +650,10 @@ void STAFF_ROLL_ReloadGraphics(void *unused, int mode)
 {
     unsigned char *h;
     if (mode == 1) {
-        h = func_020490F4(0x1A, 0x808E);
+        h = ARC_TOOL_CreateHandle(0x1A, 0x808E);
         func_02049B68(h, 2, 0, 0, 0, 0x8E);
     } else {
-        h = func_020490F4(0xDC, 0x808E);
+        h = ARC_TOOL_CreateHandle(0xDC, 0x808E);
         func_02049B68(h, 0xC, 0, 0x1E0, 0x20, 0x8E);
     }
     ARC_TOOL_DeleteHandle(h);
@@ -671,12 +671,12 @@ void STAFF_ROLL_VblankTask(void *task,char *p){STAFF_ROLL_FlushWindows(p);BG_SYS
 
 
 
-void STAFF_ROLL_AddVblankTask(char *p){((StaffRoll *)p)->vblankTask=func_020056A0(STAFF_ROLL_VblankTask,p,0);}
+void STAFF_ROLL_AddVblankTask(char *p){((StaffRoll *)p)->vblankTask=GFL_USE_AddMainTask(STAFF_ROLL_VblankTask,p,0);}
 
 
 
 
-void STAFF_ROLL_RemoveVblankTask(char *p){func_02030EAC(((StaffRoll *)p)->vblankTask);}
+void STAFF_ROLL_RemoveVblankTask(char *p){TCB_DeleteTask(((StaffRoll *)p)->vblankTask);}
 
 
 
@@ -686,7 +686,7 @@ void STAFF_ROLL_RemoveVblankTask(char *p){func_02030EAC(((StaffRoll *)p)->vblank
  */
 void STAFF_ROLL_InitText(char *p)
 {
-    ((StaffRoll *)p)->msgBank = func_02045B38(0, 2, 0xB1, 0x8E);
+    ((StaffRoll *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, 0xB1, 0x8E);
     ((StaffRoll *)p)->textBuf = STRBUF_Create(0x80, 0x8E);
     ((StaffRoll *)p)->fontA = GF_FONT_Create(0x17, 0, 1, 0, 0x8E);
     ((StaffRoll *)p)->fontB = GF_FONT_Create(0x17, 2, 1, 0, 0x8E);
@@ -784,7 +784,7 @@ void STAFF_ROLL_LoadRows(char *p)
 void STAFF_ROLL_FreeRows(char *p)
 {
     STAFF_ROLL_DeleteRowList(p);
-    func_020307B0((void *)(((StaffRoll *)p)->entryTable));
+    GFL_HEAP_Free((void *)(((StaffRoll *)p)->entryTable));
 }
 
 
@@ -853,12 +853,12 @@ void STAFF_ROLL_Init3d(char *p) {
     *(u32 *)(p+0x20)=func_02048A18(*(u8 **)(p+8),*(u16 *)(p+0x18));
     *(u32 *)(p+0x24)=G3D_SYSTEM_GetObjectAnimeCount(*(int **)(p+0x20));
     for(i=0;i<*(u32 *)(p+0x24);i++) G3D_SYSTEM_EnableObjectAnime(*(struct G3dSys **)(p+0x20),(u16)i);
-    *(struct LightSlot **)(p+0x10)=func_02048BC4(&d_021BAB38,142);
-    func_02048C58(*(struct LightSlot **)(p+0x10));
+    *(struct LightSlot **)(p+0x10)=G3D_LIGHT_CreateSlots(&d_021BAB38,142);
+    G3D_LIGHT_ApplySlots(*(struct LightSlot **)(p+0x10));
     v=d_021BAC68;
     *(u32 **)(p+0xc)=G3D_CAMERA_Create(0,*(s16 *)(d_020A1E38+0x8c),*(s16 *)(d_020A1E38+0x8e),0x1555,
         0,4096,0x400000,0,&d_021BACE4,&v,&d_021BACF0,142);
-    func_02048AD0(*(struct Light **)(p+0xc));
+    G3D_CAMERA_Reset(*(struct Light **)(p+0xc));
     AntiAlias(1);
     BG_SYS_SetLowBit(2);
     STAFF_ROLL_InitLights((u8 *)(p+0x28));
@@ -872,9 +872,9 @@ void STAFF_ROLL_Init3d(char *p) {
 
 /*
  * Verified scratch blocker.c with one --arm (no --region), fixed flags: EXACT, 12 bytes.
- * extern void func_020307B0(void *);
- * void func_02048C4C(void *p) { func_020307B0(p); }
- * Blocker symbols: func_020307B0 0x020307B0 arm.
+ * extern void GFL_HEAP_Free(void *);
+ * void func_02048C4C(void *p) { GFL_HEAP_Free(p); }
+ * Blocker symbols: GFL_HEAP_Free 0x020307B0 arm.
  */
 void STAFF_ROLL_Exit3d(char *p){G3D_CAMERA_Delete(*(void **)(p+12));func_02048C4C(*(void **)(p+16));G3D_UTIL_RemoveUnit(*(struct Ctx **)(p+8),*(unsigned short *)(p+24));G3D_UTIL_Delete(*(struct Rec **)(p+8));G3D_SYSTEM_Exit();}
 
@@ -997,7 +997,7 @@ void STAFF_ROLL_UpdateLights(char *p)
     }
     func_02048AFC(*(struct Light **)(p + 0xc), (Vec *)(q + 4));
     func_02048B44(*(struct Light **)(p + 0xc), (Vec *)(q + 0x10));
-    func_02048AD0(*(struct Light **)(p + 0xc));
+    G3D_CAMERA_Reset(*(struct Light **)(p + 0xc));
 }
 
 
@@ -1084,10 +1084,10 @@ void STAFF_ROLL_PrintText(char *p, unsigned char *q, void *s, int y)
     if (((StaffRollEntry *)q)->align == 0) {
         x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs;
     } else if (((StaffRollEntry *)q)->align == 1) {
-        w = func_0201D304(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        w = GF_FONT_MeasureWidestLine(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
         x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs - w;
     } else if (((StaffRollEntry *)q)->align == 2) {
-        w = func_0201D304(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        w = GF_FONT_MeasureWidestLine(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
         x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs - w / 2;
     }
     PRINTSYS_PrintColor(s, x, y, ((StaffRoll *)p)->textBuf, *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);
@@ -1128,8 +1128,8 @@ int STAFF_ROLL_StepFadeIn(char *p)
     int a, b;
     switch (((StaffRoll *)p)->fadeState) {
     case 0:
-        if (((StaffRoll *)p)->planeFlags & 1) func_0207D63C(0x04000050, 2, 0x21, 0, 16);
-        if (((StaffRoll *)p)->planeFlags & 2) func_0207D63C(0x04001050, 2, 0x21, 0, 16);
+        if (((StaffRoll *)p)->planeFlags & 1) G2x_SetBlendAlpha_(0x04000050, 2, 0x21, 0, 16);
+        if (((StaffRoll *)p)->planeFlags & 2) G2x_SetBlendAlpha_(0x04001050, 2, 0x21, 0, 16);
         ((StaffRoll *)p)->windowFlags = ((StaffRoll *)p)->planeFlags;
         ++((StaffRoll *)p)->fadeState;
         break;
@@ -1161,8 +1161,8 @@ int STAFF_ROLL_StepFadeOut(char *p)
     int a, b;
     switch (((StaffRoll *)p)->fadeState) {
     case 0:
-        if (((StaffRoll *)p)->planeFlags & 1) func_0207D63C(0x04000050, 2, 0x21, 16, 0);
-        if (((StaffRoll *)p)->planeFlags & 2) func_0207D63C(0x04001050, 2, 0x21, 16, 0);
+        if (((StaffRoll *)p)->planeFlags & 1) G2x_SetBlendAlpha_(0x04000050, 2, 0x21, 16, 0);
+        if (((StaffRoll *)p)->planeFlags & 2) G2x_SetBlendAlpha_(0x04001050, 2, 0x21, 16, 0);
         ++((StaffRoll *)p)->fadeState;
     case 1:
         if (((StaffRoll *)p)->fastFlag == 1) ((StaffRoll *)p)->slideProgress += 16;
@@ -1204,7 +1204,7 @@ int STAFF_ROLL_StepWindowSlide(char *p)
     switch (((StaffRoll *)p)->fadeState) {
     case 0:
         STAFF_ROLL_ReloadGraphics(p, 1);
-        func_0207D63C(0x04000050, 8, 0x20, 0, 16);
+        G2x_SetBlendAlpha_(0x04000050, 8, 0x20, 0, 16);
         BG_SYS_SetMainPlaneVisible(8, 1);
         GXx_SetMasterBrightness_((void *)0x0400006c, 0);
         GXx_SetMasterBrightness_((void *)0x0400106c, 0);

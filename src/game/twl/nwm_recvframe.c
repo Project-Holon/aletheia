@@ -18,6 +18,7 @@
  *   NWMi_SendCommand  0x02703A74  arm
  *   NWMi_CheckState  0x027028E4  arm
  *   MIi_DmaFill32  0x020821C0  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -42,7 +43,7 @@ typedef struct TwlWork {
 extern TwlWork *NWMi_GetSystemWork(void);
 extern u32 NWMi_CheckState(u32, u32, u32);
 extern void MIi_DmaFill32(u32, u32, u32, u32, u32);
-extern void func_020862D4(void *, u32);
+extern void DC_StoreRange(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void NWMi_SetReceiveCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand();
@@ -60,7 +61,7 @@ u32 NWM_SetReceivingFrameBuffer(u32 a0, u32 a1, u32 a2, u32 a3) {
         return r;
     }
     MIi_DmaFill32(w->h2280, a1, 0, a2, 1);
-    func_020862D4((void *)a1, a2);
+    DC_StoreRange((void *)a1, a2);
     NWMi_SetCallbackTable(0xA, (u32)NWMi_ReceivingFrameCallback);
     NWMi_SetReceiveCallbackTable(a3, a0);
     r = NWMi_SendCommand(0xA, 3, a1, a2, a3);
@@ -102,7 +103,7 @@ void NWMi_ReceivingFrameCallback(TwlMsg *a0) {
         first = 1;
     }
     if (w->cb[a0->idx] != 0) {
-        func_020862D4(a0, 0x10);
+        DC_StoreRange(a0, 0x10);
         w->cb[a0->idx](a0);
     }
     if (first == 0) {

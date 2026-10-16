@@ -13,10 +13,10 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_02030EAC 0x02030EAC arm
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   BTLV_GAUGE_StartHpChangeAnimated  0x02207B4C  thumb  ov094
  *   BTLV_GAUGE_StartHpChangeInstant  0x02207B68  thumb  ov094
  *   BTLV_GAUGE_StartExpGain 0x02207B84 thumb ov094
@@ -40,7 +40,7 @@
  *   BTLV_GAUGE_SetBgmReplaced  0x02208924  thumb  ov094
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MIi_CpuClear16  0x02082A48  arm
  *   BTLV_GAUGE_PlaceSlot  0x022079C0  thumb  ov094
  *   GFL_USE_StopAllSe 0x02006210 thumb
@@ -48,7 +48,7 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   BTLV_GAUGE_HideSlot  0x022089BC  thumb  ov094
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
@@ -127,7 +127,7 @@
  *   sGaugeLayout3Positions  0x0220AB2C  data  ov094  a2
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   BTLV_GAUGE_UpdateHpBarPixels  0x0220793C  thumb  ov094
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_FormatNumber 0x0201F35C thumb
  *   sGaugeStatusAnimTable     0x0220AAF0  data   ov094  a4
  *   sGaugeHomeOffset     0x0220AAB8  data  ov094  a2
@@ -153,11 +153,11 @@ struct PalAnmSystem; /* palette animation system of the battle view */
 
 typedef struct { u32 raw; } BtlSickCont;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02030EAC(void *task);
+extern void TCB_DeleteTask(void *task);
 
-extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
+extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 
 void BTLV_GAUGE_SetStatusIcon(BtlvGaugeWork *work, int status, int slotIdx);
 
@@ -168,7 +168,7 @@ extern void *TCBL_GetTaskUserData(void *task);
 
 extern u32 KEY_GetTrg(void);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 
@@ -184,7 +184,7 @@ extern struct ClUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern unsigned int CLACT_DeleteUnit(struct ClUnit *unit);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
@@ -333,15 +333,15 @@ BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId)
     BtlvGaugeFlashTask *task;
     int firstSlot, lastSlot, layout;
 
-    work = func_02030734(heapId, sizeof(BtlvGaugeWork), 1, gBtlvGaugeSourceFileName, 0x14b);
+    work = GFL_HEAP_Alloc(heapId, sizeof(BtlvGaugeWork), 1, gBtlvGaugeSourceFileName, 0x14b);
     work->heapId = heapId;
-    work->arcHandle = func_020490F4(0xb, (u16)work->heapId);
+    work->arcHandle = ARC_TOOL_CreateHandle(0xb, (u16)work->heapId);
     work->unit = CLACT_CreateUnit(0x28, 0, work->heapId);
     for (i = 0; i < 6; i++) {
         work->palRes[i] = CLACT_RegisterPalette(work->arcHandle, 0xa2, 0, (u16)(i * 0x20), work->heapId);
         PALANM_CopyHwPaletteToSlot(BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(work->palRes[i], 0) >> 1), 0x20);
     }
-    statusArc = func_020490F4(APP_ICON_GetArchiveId(), (u16)((work->heapId & 0x7fff) | 0x8000));
+    statusArc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), (u16)((work->heapId & 0x7fff) | 0x8000));
     work->statusCharRes = CLACT_RegisterCharacter(statusArc, APP_ICON_GetSealPaletteFileId(), 0, 0, work->heapId);
     work->statusCellRes = CLACT_RegisterCellAnim(statusArc, APP_ICON_GetSealAnimFileId(1), APP_ICON_GetSealFrameFileId(1), work->heapId);
     work->statusPalRes[0] = CLACT_RegisterPalette(statusArc, APP_ICON_GetSealCellFileId(), 0, 0x100, work->heapId);
@@ -354,9 +354,9 @@ BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId)
     work->tileGfx = tileFile->pixels;
     work->font = font;
     work->savedBgmNo = GFL_USE_GetBgmNo();
-    task = func_02030734(heapId, sizeof(BtlvGaugeFlashTask), 1, gBtlvGaugeSourceFileName, 0x185);
+    task = GFL_HEAP_Alloc(heapId, sizeof(BtlvGaugeFlashTask), 1, gBtlvGaugeSourceFileName, 0x185);
     task->work = work;
-    work->flashTask = func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_GAUGE_TaskFlashPalettes, task, 0);
+    work->flashTask = TCB_AddTask(BTLV_EFFECT_GetOwner(), BTLV_GAUGE_TaskFlashPalettes, task, 0);
     switch (BTLV_EFFECT_GetMode()) {
     case 0:
         firstSlot = 0;
@@ -412,11 +412,11 @@ void BTLV_GAUGE_Delete(BtlvGaugeWork *work)
     CLACT_ReleasePalette(work->statusPalRes[0]);
     CLACT_ReleasePalette(work->statusPalRes[1]);
     CLACT_DeleteUnit(work->unit);
-    func_020307B0(work->screenData);
+    GFL_HEAP_Free(work->screenData);
     ARC_TOOL_DeleteHandle(work->arcHandle);
-    func_020307B0(TCBL_GetTaskUserData(work->flashTask));
-    func_02030EAC(work->flashTask);
-    func_020307B0(work);
+    GFL_HEAP_Free(TCBL_GetTaskUserData(work->flashTask));
+    TCB_DeleteTask(work->flashTask);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -703,7 +703,7 @@ void BTLV_GAUGE_UpdateSlot(BtlvGaugeWork *work, int layout, int slotIdx, void *p
         BTLV_GAUGE_DrawCaughtIcon(work, &work->slots[slotIdx]);
     work->slots[slotIdx].flags.occupied = 1;
     work->slots[slotIdx].flags.slideCount = 2;
-    work->slots[slotIdx].slideTask = func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_GAUGE_TaskSlideSlot, &work->slots[slotIdx], 0);
+    work->slots[slotIdx].slideTask = TCB_AddTask(BTLV_EFFECT_GetOwner(), BTLV_GAUGE_TaskSlideSlot, &work->slots[slotIdx], 0);
 }
 
 void BTLV_GAUGE_UpdateHpBarPixels(BtlvGaugeSlot *slot)
@@ -741,7 +741,7 @@ void BTLV_GAUGE_DeleteSlotTask(BtlvGaugeWork *work, int slotIdx)
     }
     task = *(void **)((char *)work + slotOffset + 0xbc);
     if (task != 0) {
-        func_02030EAC(task);
+        TCB_DeleteTask(task);
         *(void **)((char *)work + slotOffset + 0xbc) = 0;
     }
 }
@@ -762,7 +762,7 @@ extern void GF_FONT_GetTextColor(u8 *fg, u8 *shadow, u8 *bg);
 
 extern void GF_FONT_SetTextColor(u32 fg, u32 shadow, u32 bg);
 
-extern int func_0201D304(struct Strbuf *str, void *font, u32 arg);
+extern int GF_FONT_MeasureWidestLine(struct Strbuf *str, void *font, u32 arg);
 
 extern void PRINTSYS_Print(struct BmpData *bmp, s16 x, s16 y, struct Strbuf *str, void *font);
 
@@ -1305,7 +1305,7 @@ void BTLV_GAUGE_DrawNickname(BtlvGaugeWork *work, BtlvGaugeSlot *slot, void *pok
     POKE_TOOL_GetPartyValue(pokeParam, BTLV_PARTY_VALUE_NICKNAME, name);
     GF_FONT_GetTextColor(&textColor[2], &textColor[1], &textColor[0]);
     GF_FONT_SetTextColor(1, 4, 0);
-    if (func_0201D304(name, work->font, 0) > 48)
+    if (GF_FONT_MeasureWidestLine(name, work->font, 0) > 48)
         PRINTSYS_Print(bmp, 2, 5, name, work->font);
     else
         PRINTSYS_Print(bmp, 8, 5, name, work->font);
@@ -1733,7 +1733,7 @@ void BTLV_GAUGE_TaskSlideSlot(void *task, void *arg)
     }
     slot->flags.slideCount--;
     if (slot->flags.slideCount == 0) {
-        func_02030EAC(task);
+        TCB_DeleteTask(task);
         slot->slideTask = 0;
     }
 }

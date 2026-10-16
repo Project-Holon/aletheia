@@ -13,14 +13,14 @@
  * Cut from mailtool.c, mailview.c, unit_021C5518.c, unit_021C5B40.c, mb_seq.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02008FA8 0x02008FA8 thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_020315D4 0x020315D4 arm
- *   func_0203084C 0x0203084C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
+ *   GFL_HEAP_GetHeapHeadChecked 0x0203084C arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_Copy 0x02024570 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
@@ -53,16 +53,16 @@
  *   data_021C7774 0x021C7774 data
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   WIPE_ResetBrightness 0x02022230 thumb
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   func_020056BC 0x020056BC thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PMS_DRAW_Main 0x0202DBC4 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   TCB_Main 0x02030D28 arm
  *   TCBL_Main 0x020310C4 arm
@@ -86,7 +86,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
@@ -109,14 +109,14 @@ struct Proc;
 
 typedef int (*MailEditModeHandler)(struct MailEditProc *proc);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern void func_02008FA8(struct Mail *mail, u32 value);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void func_020315D4(struct Proc *v);
-extern void func_0203084C(u16 v);
+extern void PROCSYS_FreeProcWork(struct Proc *v);
+extern void GFL_HEAP_GetHeapHeadChecked(u16 v);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
 extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
@@ -142,16 +142,16 @@ extern void TCBL_Destroy(struct Tcbl *p);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 extern u32 WIPE_ResetWndMask(void *win);
-extern void *func_020056A0(void *callback, void *ctx, int a2);
+extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int a2);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void WIPE_ResetBrightness(u32 a);
-extern void func_0207D63C(void *reg, int a, int b, int c, int d);
+extern void G2x_SetBlendAlpha_(void *reg, int a, int b, int c, int d);
 extern u32 func_020056BC(void);
 extern void PALANM_RequestFade(struct PalAnmSlot *p, int a, int b, int c, int d, int e, int f, u32 g);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *p);
 extern void PMS_DRAW_Main(struct PmsDraw *p);
 extern void APP_TASKMENU_WIN_Update(struct AppTaskMenuWin *p);
-extern void func_02030EAC(void *task);
+extern void TCB_DeleteTask(void *task);
 extern void CLACT_DrawSystem(struct ClactUnit *p);
 extern void TCB_Main(void *taskList);
 extern void TCBL_Main(struct Tcbl *p);
@@ -181,7 +181,7 @@ extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamDelete(void *p);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void BMP_WIN_ClearScreen(struct BmpWin *d);
-extern struct Strbuf *func_02045EC0(struct MsgData *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *bank, u32 index);
 extern struct AppTaskMenu *APP_TASKMENU_OpenMenu(struct MailMenuTemplate *tmpl, struct AppTaskMenuRes *res);
 extern void APP_TASKMENU_WIN_ClearScreen(struct AppTaskMenuWin *p);
 extern u32 APP_TASKMENU_IsFinish(struct AppTaskMenu *m);
@@ -217,7 +217,7 @@ struct MailDraft *MAILSYS_CreateMessage(struct Mail *mail, unsigned heap)
     struct MailDraft *draft;
     u16 i;
     i = 0;
-    draft = func_02030734((u16)heap, 0x34, 0, d_021C7EEC, 0x147);
+    draft = GFL_HEAP_Alloc((u16)heap, 0x34, 0, d_021C7EEC, 0x147);
     MIi_CpuClearFast(0, draft, 0x34);
     draft->result = i;
     draft->writerId = func_02008F80(mail);
@@ -235,7 +235,7 @@ void MAILSYS_DeleteMessage(struct MailDraft *draft)
 {
     if (draft->writerName)
         STRBUF_Delete(draft->writerName);
-    func_020307B0(draft);
+    GFL_HEAP_Free(draft);
 }
 
 void MAILSYS_WriteMessageToMail(struct Mail *mail, struct MailDraft *draft)
@@ -300,8 +300,8 @@ int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc)
     TCBL_Destroy(proc->tcbl);
     GF_FONT_Delete(proc->font);
     h = proc->heapId;
-    func_020315D4(a);
-    func_0203084C(h);
+    PROCSYS_FreeProcWork(a);
+    GFL_HEAP_GetHeapHeadChecked(h);
     GFL_HEAP_DeleteChecked((u16)h);
     return 1;
 }
@@ -322,10 +322,10 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
         break;
     case 1:
         if (MAILVIEW_SetupStep(proc)) {
-            proc->vblankTask = func_020056A0((void *)MAILVIEW_VBlankTask, proc, 0x10);
+            proc->vblankTask = GFL_USE_AddMainTask((void *)MAILVIEW_VBlankTask, proc, 0x10);
             BG_SYS_SetMainPlaneVisible(0x10, 1);
             WIPE_ResetBrightness(0);
-            func_0207D63C((void *)0x04000050, 4, 8, 0x1C, 4);
+            G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0x1C, 4);
             t = func_020056BC();
             PALANM_RequestFade(proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, t);
             (proc->step)++;
@@ -352,7 +352,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
         if (!PALANM_GetFadeRequestBits(proc->palAnm)) {
             WIPE_SetBrightnessFadeOut(0, 0);
             WIPE_SetBrightnessFadeOut(1, 0);
-            func_02030EAC(proc->vblankTask);
+            TCB_DeleteTask(proc->vblankTask);
             MAILVIEW_HideAllPlanes();
             (proc->step)++;
         }
@@ -610,10 +610,10 @@ int MAILSYS_StepIncompleteNotice(struct MailEditProc *proc)
 void MAILSYS_OpenConfirmMenu(struct MailEditProc *proc)
 {
     struct MailMenuTemplate t;
-    proc->dialogEntry[0].text = func_02045EC0(proc->msgData, 4);
+    proc->dialogEntry[0].text = MSGDATA_AllocString(proc->msgData, 4);
     proc->dialogEntry[0].color = 0x39E3;
     proc->dialogEntry[0].selected = 0;
-    proc->dialogEntry[1].text = func_02045EC0(proc->msgData, 5);
+    proc->dialogEntry[1].text = MSGDATA_AllocString(proc->msgData, 5);
     proc->dialogEntry[1].color = 0x39E3;
     proc->dialogEntry[1].selected = 0;
     t.heapId = proc->heapId;

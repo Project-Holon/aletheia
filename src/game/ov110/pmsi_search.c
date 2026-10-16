@@ -16,9 +16,9 @@
  * characters in the table at sPmsiSearchExcludedChars.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02045B38 0x02045B38 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   MSGSEARCH_Create 0x021B6C74 thumb ov067
@@ -106,9 +106,9 @@ struct KanaKey {
     u8 kind;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 *MSGSEARCH_Create(u32 *src, u32 n, u16 heap);
@@ -156,12 +156,12 @@ struct PmsiSearch *PMSI_SEARCH_Create(void *owner, struct PmsInputData *wordData
 {
     int i;
     struct PmsiSearch *s;
-    s = func_02030734(heap, 0xaf4, 1, sPmsiSearchAllocSite, 137);
+    s = GFL_HEAP_Alloc(heap, 0xaf4, 1, sPmsiSearchAllocSite, 137);
     s->owner = owner;
     s->wordData = wordData;
     s->heapId = heap;
     PMSI_SEARCH_ClearInput(s);
-    for (i = 0; i < PMSI_SEARCH_INITIAL_COUNT; i++) s->messageBanks[i] = func_02045B38(1, 2, sPmsiSearchBankFileIds[i], heap);
+    for (i = 0; i < PMSI_SEARCH_INITIAL_COUNT; i++) s->messageBanks[i] = MSGDATA_CreateFromArchive(1, 2, sPmsiSearchBankFileIds[i], heap);
     s->messageSearch = MSGSEARCH_Create((u32 *)s->messageBanks, PMSI_SEARCH_INITIAL_COUNT, s->heapId);
     s->inputText = STRBUF_Create(27, heap);
     return s;
@@ -173,7 +173,7 @@ void PMSI_SEARCH_Delete(struct PmsiSearch *s)
     STRBUF_Delete(s->inputText);
     MSGSEARCH_Delete(s->messageSearch);
     for (i = 0; i < PMSI_SEARCH_INITIAL_COUNT; i++) MSGDATA_Delete(s->messageBanks[i]);
-    func_020307B0(s);
+    GFL_HEAP_Free(s);
 }
 
 void PMSI_SEARCH_PushKey(struct PmsiSearch *s, int key)

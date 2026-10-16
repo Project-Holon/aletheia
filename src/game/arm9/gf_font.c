@@ -16,17 +16,17 @@
  *   GF_FONT_GetCharWidth  0x0201DC6C  thumb
  *   GF_FONT_GetField58  0x0201DC80  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02030734 0x02030734 arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   gGfFontFileName  0x020A7358 data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GF_FONT_GetProportionalWidth       0x0201DC88  thumb
  *   ARC_TOOL_GetHandleMemberOffsetOut       0x020494F4  arm
  *   ARC_TOOL_GetHandleMemberSize       0x020493D4  arm
  *   sub_0204944C        0x0204944C  arm
  *   gFontFormatInitFuncs  0x0209E73C  data
  *   gFontFormatExitFuncs  0x0209E744  data
- *   func_0204960C  0x0204960C  arm
+ *   ARC_TOOL_SeekHandle  0x0204960C  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   gFontState   0x02146578  data
  *   gGlyphExpandTable   0x02146588  data
@@ -64,11 +64,11 @@ typedef void (*FormatExitFunc)(struct GfFont *font);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 
-extern struct ArcFile *func_020490F4(unsigned int id, unsigned int heap);
+extern struct ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 
@@ -78,7 +78,7 @@ extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 
 extern void ARC_TOOL_DeleteHandle(struct ArcFile *arc);
 
-extern void func_0204960C(struct ArcFile *arc, u32 offset);
+extern void ARC_TOOL_SeekHandle(struct ArcFile *arc, u32 offset);
 
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 
@@ -183,10 +183,10 @@ extern const u8         gTopBitMasks[];
  */
 struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId)
 {
-    struct GfFont *font = func_02030734(heapId, 0x94, 0, gGfFontFileName, 0xC0);
+    struct GfFont *font = GFL_HEAP_Alloc(heapId, 0x94, 0, gGfFontFileName, 0xC0);
 
     if (font != 0) {
-        font->arc = func_020490F4(archiveId, heapId);
+        font->arc = ARC_TOOL_CreateHandle(archiveId, heapId);
         font->fileId = fileId;
         GF_FONT_LoadResource(font, fileId, isFixedWidth, heapId);
         GF_FONT_SetFormat(font, format, heapId);
@@ -198,7 +198,7 @@ u32 GF_FONT_Delete(struct GfFont *font)
 {
     GF_FONT_ExitFormat(font);
     GF_FONT_FreeBuffers(font);
-    return func_020307B0(font);
+    return GFL_HEAP_Free(font);
 }
 
 /*
@@ -272,7 +272,7 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
         font->getCharWidth = GF_FONT_GetFixedWidth;
     } else {
         size = font->info.mapBlockOffset - font->info.widthBlockOffset;
-        font->widthTable = func_02030734(heapId, size, 0, gGfFontFileName, 248);
+        font->widthTable = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 248);
         font->getCharWidth = GF_FONT_GetProportionalWidth;
         sub_0204944C(font->arc, fileId, font->info.widthBlockOffset, size, font->widthTable);
     }
@@ -284,9 +284,9 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
         font->lastGroupBits = 8;
     }
     font->glyphDataOffset = font->info.glyphBlockOffset + 8;
-    font->scratch = func_02030734(heapId, font->glyph.cellSize, 0, gGfFontFileName, 266);
+    font->scratch = GFL_HEAP_Alloc(heapId, font->glyph.cellSize, 0, gGfFontFileName, 266);
     size = ARC_TOOL_GetHandleMemberSize(font->arc, fileId) - font->info.mapBlockOffset;
-    font->charMap = func_02030734(heapId, size, 0, gGfFontFileName, 271);
+    font->charMap = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 271);
     sub_0204944C(font->arc, fileId, font->info.mapBlockOffset, size, font->charMap);
     font->missingGlyphIndex = 0;
     font->missingGlyphIndex = (u16)GF_FONT_GetGlyphIndex(font, 0x3F);
@@ -310,13 +310,13 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
 void GF_FONT_FreeBuffers(struct GfFont *font)
 {
     if (font->scratch != 0) {
-        func_020307B0(font->scratch);
+        GFL_HEAP_Free(font->scratch);
     }
     if (font->widthTable != 0) {
-        func_020307B0(font->widthTable);
+        GFL_HEAP_Free(font->widthTable);
     }
     if (font->charMap != 0) {
-        func_020307B0(font->charMap);
+        GFL_HEAP_Free(font->charMap);
     }
     if (font->arc != 0) {
         ARC_TOOL_DeleteHandle(font->arc);
@@ -362,7 +362,7 @@ void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHi
     GlyphDecodeFunc decode;
 
     size = ARC_TOOL_GetHandleMemberSize(font->arc, font->fileId) - font->glyphDataOffset;
-    font->glyphData = func_02030734(heapId, size, 0, gGfFontFileName, 363);
+    font->glyphData = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 363);
     sub_0204944C(font->arc, font->fileId, font->glyphDataOffset, size, font->glyphData);
     font->readGlyph = GF_FONT_ReadPreloadedGlyph;
     if (tilesWide == 1) {
@@ -467,7 +467,7 @@ void GF_FONT_ExitFormat(struct GfFont *font)
  */
 void GF_FONT_FreeGlyphData(struct GfFont *font)
 {
-    func_020307B0(font->glyphData);
+    GFL_HEAP_Free(font->glyphData);
     font->glyphData = 0;
 }
 
@@ -588,7 +588,7 @@ void GF_FONT_ReadPreloadedGlyph(const struct GfFont *font, u32 glyphIndex, void 
  */
 void GF_FONT_ReadStreamedGlyph(const struct GfFont *font, u32 glyphIndex, void *dst, u8 *metrics)
 {
-    func_0204960C(font->arc, font->arcBase + (font->glyphDataOffset + glyphIndex * font->glyph.cellSize));
+    ARC_TOOL_SeekHandle(font->arc, font->arcBase + (font->glyphDataOffset + glyphIndex * font->glyph.cellSize));
     ARC_TOOL_ReadHandle(font->arc, font->glyph.cellSize, font->scratch);
     GF_FONT_DecodeGlyph(font, font->scratch, font->lastGroupBits, dst, metrics);
 }

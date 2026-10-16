@@ -18,7 +18,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gCpsSslSessionCache  0x021AA664  data
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_GetTick            0x020870D0  arm
  *   MI_CpuCopy8           0x02082D44  arm
@@ -125,7 +125,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern unsigned long long OS_GetTick(void);
 extern int RTC_GetDate(struct RTCDate *date);
 extern int RTC_GetTime(struct RTCTime *time);
@@ -272,7 +272,7 @@ static void find_session_from_IP(CPSSslConnection *con, unsigned long ip, unsign
         if (p->valid != 0 && p->ip == ip && p->port == port) {
             MI_CpuCopy8(p, con->common1.session_id, 0x20);
             MI_CpuCopy8(p->master, con, 0x30);
-            p->last_used = (unsigned long)(func_020870D0() >> 16);
+            p->last_used = (unsigned long)(OS_GetTick() >> 16);
             con->cache = 1;
             break;
         }

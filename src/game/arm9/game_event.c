@@ -13,13 +13,15 @@
  * Cut from ica_anime.c, btl_setup.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   _GameEventFileName  0x020A727C  data
  *   GAMESYSTEM_CallProc 0x020120B4 thumb arm9
  *   GAMESYSTEM_GetProcStatus 0x020120F0 thumb arm9
  *   ICA_ANIME_GetField18 0x02012104 thumb arm9
  *   GAMESYSTEM_SetEvent 0x02012108 thumb arm9
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  */
 #include "script_vm_types.h"
 #include "vm_shared_types.h"
@@ -39,14 +41,14 @@ struct OverlayEventWork {
     u32   reserved[2];
 };
 
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern int func_02034AC4(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
 
 //P
-extern void  func_02034A5C(s32 overlayId);
+extern void  GF_OVERLAY_Unload(s32 overlayId);
 
 void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 
@@ -98,8 +100,8 @@ extern const char _GameEventFileName[];
  * allocate the caller-sized payload off the same heap and hang it at +0xc,
  * and record the owner at +0x10.
  *
- * Both allocations go through func_02030734, whose last two arguments are
- * the file/line debug site pair (see src/matched/func_02030734.c).  The file
+ * Both allocations go through GFL_HEAP_Alloc, whose last two arguments are
+ * the file/line debug site pair (see src/matched/GFL_HEAP_Alloc.c).  The file
  * pointer is one pool word loaded twice, so it is a single ABS32 into the
  * packed string area and has to be declared as an extern pinned by address
  * (docs/idioms/file-string-is-an-abs32-into-the-string-area.md), never as a
@@ -120,11 +122,11 @@ struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEv
 {
     struct GameEvent *event;
 
-    event = func_02030734(4, sizeof(struct GameEvent), 1, _GameEventFileName, 55);
+    event = GFL_HEAP_Alloc(4, sizeof(struct GameEvent), 1, _GameEventFileName, 55);
     event->parent = parent;
     event->func = func;
     event->seq = 0;
-    event->work = func_02030734(4, workSize, 1, _GameEventFileName, 59);
+    event->work = GFL_HEAP_Alloc(4, workSize, 1, _GameEventFileName, 59);
     event->gameSystem = gameSystem;
     return event;
 }
@@ -147,8 +149,8 @@ int GAME_EVENT_RunFunc(struct GameEvent *event)
 void GAME_EVENT_Delete(struct GameEvent *event)
 {
     void *work = event->work;
-    if (work) func_020307B0(work);
-    func_020307B0(event);
+    if (work) GFL_HEAP_Free(work);
+    GFL_HEAP_Free(event);
 }
 
 void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, u32 workSize)
@@ -158,8 +160,8 @@ void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, u32 workSize
     work = event->work;
     event->func = func;
     if (work)
-        func_020307B0(work);
-    event->work = func_02030734(4, workSize, 1, _GameEventFileName, 0x60);
+        GFL_HEAP_Free(work);
+    event->work = GFL_HEAP_Alloc(4, workSize, 1, _GameEventFileName, 0x60);
 }
 
 /*
@@ -354,7 +356,7 @@ int GAME_EVENT_OverlaySeq(struct GameEvent *event, u32 *seq, void *work)
         (*seq)++;
         break;
     case 1:
-        func_02034A5C((int)overlay->overlayId);
+        GF_OVERLAY_Unload((int)overlay->overlayId);
         return 1;
     }
     return 0;
@@ -373,7 +375,7 @@ struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u
     event = GAME_EVENT_Create(gameSystem, 0, GAME_EVENT_OverlaySeq, sizeof(struct OverlayEventWork));
     overlay = GAME_EVENT_GetWork(event);
     overlay->overlayId = overlayId;
-    func_02034AC4(overlayId);
+    GF_OVERLAY_Load(overlayId);
     overlay->event = creator(gameSystem, arg);
     return event;
 }

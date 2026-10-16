@@ -13,18 +13,18 @@
  * Cut from manual_common.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   ov067_id 0x00000043 data a1
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   gManualCommonTouchbarAllocFile 0x021BC014 data a1
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   TOUCHBAR_Delete 0x021B639C thumb ov067
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
@@ -44,8 +44,8 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
- *   func_02045EC0 0x02045EC0 arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
@@ -129,25 +129,25 @@ struct ManualBmpParams {u8 layer,baseX,baseY,tiles,palette,mode,slot,pad7,pad8;}
 
 struct ManualActorEntry { u32 first; u16 normal,pad6; u8 left,right,top,bottom; u32 active,mask,sound,last; };
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void TOUCHBAR_Delete(unsigned char *);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
 extern void TOUCHBAR_Update(struct TouchBar *p);
 
@@ -181,9 +181,9 @@ extern void BMP_WIN_MakeScreen(struct Cfg *);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 
-extern void func_02041B6C(unsigned);
+extern void BG_SYS_SetFlagField06(unsigned);
 
-extern void *func_02045EC0(struct MsgBank *,unsigned);
+extern void *MSGDATA_AllocString(struct MsgBank *,unsigned);
 
 extern void PRINTSYS_PrintQueColor(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 
@@ -298,15 +298,15 @@ extern const struct ManualActorEntry gManualCommonActorEntries[];
 void *MANUAL_COMMON_CreateTouchbar(char *owner)
 {
     char *touchbar;
-    func_02034AC4((int)ov067_id);
-    touchbar=func_02030734(((struct ManualData *)owner)->heap,0x4c,1,gManualCommonTouchbarAllocFile,235);
+    GF_OVERLAY_Load((int)ov067_id);
+    touchbar=GFL_HEAP_Alloc(((struct ManualData *)owner)->heap,0x4c,1,gManualCommonTouchbarAllocFile,235);
     ((struct ManualTouchbar *)touchbar)->owner=owner;MANUAL_COMMON_CreateTouchbarWidget(touchbar);MANUAL_COMMON_TouchbarNoop(touchbar);MANUAL_COMMON_CreateTouchbarSlots(touchbar);MANUAL_COMMON_LoadTouchbarActors(touchbar);
     ((struct ManualTouchbar *)touchbar)->mode=4;touchbar[0xc]=0;touchbar[0xd]=0;MANUAL_COMMON_SetTouchbarState(touchbar,0);MANUAL_COMMON_ResetTouchbar(touchbar);
-    ((struct ManualTouchbar *)touchbar)->task=func_020056A0((unsigned)MANUAL_COMMON_TouchbarTaskNoop,(unsigned)touchbar,1);
+    ((struct ManualTouchbar *)touchbar)->task=GFL_USE_AddMainTask((unsigned)MANUAL_COMMON_TouchbarTaskNoop,(unsigned)touchbar,1);
     return touchbar;
 }
 
-void MANUAL_COMMON_DeleteTouchbar(char *touchbar){func_02030EAC(((struct ManualTouchbar *)touchbar)->task);MANUAL_COMMON_DeleteTouchbarActors(touchbar);MANUAL_COMMON_DeleteTouchbarSlots(touchbar);TOUCHBAR_Delete(*(unsigned char * *)&((struct ManualTouchbar *)touchbar)->touchbar);func_020307B0(touchbar);func_02034A5C((int)ov067_id);}
+void MANUAL_COMMON_DeleteTouchbar(char *touchbar){TCB_DeleteTask(((struct ManualTouchbar *)touchbar)->task);MANUAL_COMMON_DeleteTouchbarActors(touchbar);MANUAL_COMMON_DeleteTouchbarSlots(touchbar);TOUCHBAR_Delete(*(unsigned char * *)&((struct ManualTouchbar *)touchbar)->touchbar);GFL_HEAP_Free(touchbar);GF_OVERLAY_Unload((int)ov067_id);}
 
 void MANUAL_COMMON_UpdateTouchbar(char *touchbar)
 {
@@ -417,7 +417,7 @@ void MANUAL_COMMON_UpdateTouchbarSlots(char *touchbar)
             if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,BMP_WIN_GetBmp(*(struct Descriptor **)(touchbar+i*4+0x10)))==0) {
                 struct Descriptor *d=*(struct Descriptor **)(touchbar+i*4+0x10);
                 BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);
-                func_02041B6C(BMP_WIN_GetBgLayer(d));
+                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
                 *(unsigned *)(touchbar+i*4+0x18)=0;
             }
         }
@@ -431,7 +431,7 @@ void MANUAL_COMMON_DrawTouchbarStart(char *touchbar)
     void *s;
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0);
-    s=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,2);
+    s=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,2);
     PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,(unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0,4,(unsigned)s,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font,0x3c40);
     STRBUF_Delete(s);((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
@@ -441,7 +441,7 @@ void MANUAL_COMMON_DrawTouchbarEnd(char *touchbar)
     void *s;
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0);
-    s=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,3);
+    s=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,3);
     PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,(unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0,4,(unsigned)s,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font,0x3c40);
     STRBUF_Delete(s);((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
@@ -457,7 +457,7 @@ void MANUAL_COMMON_DrawTouchbarContinue(char *touchbar)
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0);
     words=WORDSET_CreateDefault(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
-    slot=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,4);
+    slot=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,4);
     str=STRBUF_Create(16,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     WORDSET_SetSlotNumber(words,0,((struct ManualTouchbar *)touchbar)->selectY+1,1,0,1);
     WORDSET_SetSlotNumber(words,1,((struct ManualTouchbar *)touchbar)->selectX,1,0,1);
@@ -472,7 +472,7 @@ void MANUAL_COMMON_LoadTouchbarActors(char *touchbar)
     u8 i;
     void *loader;
     u32 first;
-    loader=func_020490F4(APP_ICON_GetArchiveId(),((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    loader=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     *(int *)&((struct ManualTouchbar *)touchbar)->animCharacter=CLACT_RegisterPaletteEx((void *)((u32)loader),APP_ICON_GetMoveKindPaletteFileId(),1,128,0,3,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     *(int *)&((struct ManualTouchbar *)touchbar)->animPalette=CLACT_RegisterCharacter((void *)((u32)loader),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     first=APP_ICON_GetStatusCellFileId(0);

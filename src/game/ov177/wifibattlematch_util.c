@@ -13,9 +13,9 @@
  * Cut from wifibattlematch_view.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
@@ -47,7 +47,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   func_020056BC  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
@@ -56,14 +56,14 @@
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
- *   func_02020CF8 0x02020CF8 thumb
+ *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
  *   func_02020D10 0x02020D10 thumb
  *   d_021E8D68 0x021E8D68 data a4
  *   BMP_MENULIST_Delete  0x0202020C  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
  *   BMP_MENULIST_Main  0x020200CC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02008C58  0x02008C58  thumb
+ *   RECORD_GetFromSave  0x02008C58  thumb
  *   func_02008DF0  0x02008DF0  thumb
  */
 #include "wifibattlematch_graphic_shared_types.h"
@@ -101,7 +101,7 @@ struct Slot;
 
 /*
  * Work object for one wifibattlematch message window.  WIFIBATTLEMATCH_UTIL_Create allocates
- * it as func_02030734(heap, 0x40, 0, ...) and clears 0x40 bytes.
+ * it as GFL_HEAP_Alloc(heap, 0x40, 0, ...) and clears 0x40 bytes.
  */
 typedef struct WifibattlematchUtilWork {
     int              pad00;           /* 0x00 never read */
@@ -170,11 +170,11 @@ typedef struct WifibattlematchCallback {
 /* BMP_MENULIST_Create config; only a few words and two halfwords are set. */
 typedef struct { u32 word[13]; } WifibattlematchMenuConfig;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, u8, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 
@@ -236,7 +236,7 @@ extern u32 func_020056BC(void);
 
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
@@ -252,7 +252,7 @@ extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u
 
 extern void *BMP_MENULIST_Create(WifibattlematchMenuConfig *,u16,u16,u16);
 
-extern void func_02020CF8(struct Obj *p, int heap);
+extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 
 extern void func_02020D10(u8 *p, u32 v);
 
@@ -264,7 +264,7 @@ extern s32 BMP_MENULIST_Main(struct Obj *o);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern struct Sub02008C20Obj *func_02008C58(void *sys);
+extern struct Sub02008C20Obj *RECORD_GetFromSave(void *sys);
 
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
@@ -352,7 +352,7 @@ extern const WifibattlematchMenuConfig d_021E8D68;
  *   inline Frame(w, d, c) helper (27). Checked for a matched twin (callers of BMP_MENUWORK_DrawWindow and BMP_WIN_Create
  *   in src/matched): none has this shape. Left DIFF.
  * note 2026-10-05 (wD9r lane68): EXACT. Fix: heap is a u16 parameter (it is stored with strh to f1e) with the
- *   house callee prototypes (func_02030734 u32 heap, u16 tag; STRBUF_Create u32, u32; TCBL_Create u32 heap,
+ *   house callee prototypes (GFL_HEAP_Alloc u32 heap, u16 tag; STRBUF_Create u32, u32; TCBL_Create u32 heap,
  *   u16 tag, so heap goes to both), and d is a u16 parameter passed to the u16 third parameter of
  *   BMP_MENUWORK_DrawWindow. The u16 heap keeps the word ldr and moves it below the c home store (8 -> 6), and the u16 d
  *   moves its home store to the front (6 -> 0). See
@@ -363,7 +363,7 @@ WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, uns
     WifibattlematchUtilWork *w;
     int h;
 
-    w = func_02030734(heap, 0x40, 0, d_021E8DD4, 0x5e);
+    w = GFL_HEAP_Alloc(heap, 0x40, 0, d_021E8DD4, 0x5e);
     MI_CpuFill8(w, 0, 0x40);
     w->bgSlot = 0xf;
     w->printArg = printArg;
@@ -401,7 +401,7 @@ void WIFIBATTLEMATCH_UTIL_Delete(WifibattlematchUtilWork *p)
     BMP_WIN_Delete((struct Descriptor *)p->win);
     STRBUF_Delete(p->strbuf);
     PRINTSYS_QUE_Delete(p->printQue);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void WIFIBATTLEMATCH_UTIL_Main(WifibattlematchUtilWork *p)
@@ -484,7 +484,7 @@ void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
         break;
     case 1:
         if (p->keyCursor != 0) {
-            func_02034714((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
+            SAVEDATA_PanicFail((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
         }
         PRINTSYS_CTRL_Init((u8 *)&p->ctrlKeyReleased, 2);
         p->keyCursor = APP_KEYCURSOR_CreateDefault(p->bgSlot, 1, 0, p->heapId);
@@ -535,7 +535,7 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     void *bmp;
     u32 index;
     WifibattlematchMenuConfig config;
-    out=func_02030734((u16)heap,28,0,d_021E8DD4,0x1a2);
+    out=GFL_HEAP_Alloc((u16)heap,28,0,d_021E8DD4,0x1a2);
     MI_CpuFill8(out,0,28);
     out->printQue=p->x2;
     out->counter=p->kind;
@@ -561,7 +561,7 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     config.word[11]=p->x2;
     config.word[12]=p->x1;
     out->menu=BMP_MENULIST_Create(&config,0,p->row,heap);
-    func_02020CF8(out->menu,(u16)heap);
+    BMP_MENULIST_ResetCursorTile(out->menu,(u16)heap);
     if(p->enabled)
         func_02020D10(out->menu,0);
     else
@@ -576,7 +576,7 @@ void WIFIBATTLEMATCH_UTIL_DeleteMenu(WifibattlematchMenu *p)
     BMP_MENUWORK_DrawWindowBorder(p->win, 0);
     BMP_WIN_ClearScreen((struct Descriptor *)p->win);
     BMP_WIN_Delete((struct Descriptor *)p->win);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 int WIFIBATTLEMATCH_UTIL_UpdateMenu(WifibattlematchMenu *p)
@@ -603,14 +603,14 @@ int WIFIBATTLEMATCH_UTIL_UpdateMenu(WifibattlematchMenu *p)
 WifibattlematchCallback *WIFIBATTLEMATCH_UTIL_CreateCallback(int owner, int callback, int heap)
 {
     WifibattlematchCallback *record;
-    record = func_02030734(heap, 0x10, 0, d_021E8DD4, 0x246);
+    record = GFL_HEAP_Alloc(heap, 0x10, 0, d_021E8DD4, 0x246);
     MI_CpuFill8(record, 0, 0x10);
     record->owner = owner;
     WIFIBATTLEMATCH_UTIL_SetCallback(record, callback);
     return record;
 }
 
-void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p) {func_020307B0(p);}
+void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p) {GFL_HEAP_Free(p);}
 
 void WIFIBATTLEMATCH_UTIL_InvokeCallback(WifibattlematchCallback *p)
 {
@@ -671,7 +671,7 @@ void WIFIBATTLEMATCH_UTIL_SetSaveState(int owner, int state)
 {
     int save;
 
-    save = (int)func_02008C58(GAME_DATA_GetSaveControl((struct Big *)owner));
+    save = (int)RECORD_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)owner));
     switch (state) {
     case 1:
     case 4:

@@ -23,21 +23,21 @@
  *   ov207_id/ov194_id.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021B98C0 0x021B98C0 data a4
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   STRBUF_Create  0x020457B0  arm
  *   PROCSYS_Create  0x02031324  arm
- *   func_0203133C 0x0203133C arm
+ *   PROCSYS_Delete 0x0203133C arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_020074D8  0x020074D8  thumb
  *   func_02007698  0x02007698  thumb
- *   func_020076D0  0x020076D0  thumb
- *   func_02008500  0x02008500  thumb
+ *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
@@ -66,9 +66,9 @@
  *   PROCSYS_Push  0x02031348  arm
  *   ov207_id  0x000000CF  data
  *   ov194_id  0x000000C2  data
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   NAMEIN_SETUP_CreateCaptureArgs  0x0216C0A4  thumb  ov010
  *   NAMEIN_SETUP_FreeArgs  0x0216C0C0  thumb  ov010
  *   NAMEIN_SETUP_CopyName  0x0216C0D4  thumb  ov010
@@ -102,13 +102,13 @@ typedef struct {
     u32 resultFlag;        /* 0x08 0 or 1, pushed to the ov207 child */
     u32 partyMon;          /* 0x0C the mon being returned */
     u32 nationalDex;       /* 0x10 ZUKAN_SAVE_IsNationalDexEnabled */
-    u32 messageId;         /* 0x14 func_02045EC0 message id */
+    u32 messageId;         /* 0x14 MSGDATA_AllocString message id */
     u32 boxManager;        /* 0x18 GAME_DATA_GetBoxManager */
     u32 boxSlot;           /* 0x1C box slot */
     u32 gameData;          /* 0x20 the game data object */
     u32 nameConfirmed;     /* 0x24 1 once NAMEIN_SETUP finished */
     u32 partyFullMessage;  /* 0x28 message shown when the party was full */
-    u32 boxSlotCandidate;  /* 0x2C box slot returned by func_020076D0 */
+    u32 boxSlotCandidate;  /* 0x2C box slot returned by BOX_SAVEDATA_FindFreeSlot */
     u16 heapId;            /* 0x30 0x8b */
     u16 pad32;             /* 0x32 padding, never read */
     u32 procSys;           /* 0x34 PROCSYS_Create result */
@@ -121,15 +121,15 @@ typedef struct {
     u32 partyMon;          /* 0x08 the mon */
 } EventPdcReturnArgs;
 
-extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *site,u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, unsigned int size, unsigned int heap);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *PROCSYS_Create(int a0);
-extern void func_0203133C(struct ProcSys *p);
+extern void PROCSYS_Delete(struct ProcSys *p);
 extern void STRBUF_Delete(struct Strbuf *p);
-extern void func_020315D4(struct ProcSys *p);
+extern void PROCSYS_FreeProcWork(struct ProcSys *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern unsigned int PROCSYS_Main(void *p);
 extern u32 PROCSYS_Push(u32 a, u32 b, u32 c, void *d);
@@ -139,16 +139,16 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 GAME_DATA_GetBoxManager(const struct GameData *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct TrainerRecord *obj, int i);
-extern void func_02008500(void *a, void *b);
+extern void MYSTATUS_NameToStrbuf(void *a, void *b);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKEPARTY_GetCount(void *p);
 extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 func_02007698(void *save);
-extern int func_020076D0(void *save, int *pbox, int *pslot);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 GAME_DATA_GetEventWork(const struct GameData *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct MsgEntry *rec);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
@@ -178,10 +178,10 @@ extern unsigned char ov207_id[];
 extern unsigned char ov194_id[];
 
 
-void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap){u32 *p; p=func_02030734(heap,12,0,d_021B98C0,94);p[0]=a;p[1]=b;p[2]=c;return p;}
+void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap){u32 *p; p=GFL_HEAP_Alloc(heap,12,0,d_021B98C0,94);p[0]=a;p[1]=b;p[2]=c;return p;}
 
 
-void EVENT_PDC_RETURN_DeleteArgs(void *p){func_020307B0(p);}
+void EVENT_PDC_RETURN_DeleteArgs(void *p){GFL_HEAP_Free(p);}
 
 
 
@@ -201,7 +201,7 @@ int EVENT_PDC_RETURN_Init(struct ProcSys *procSys)
 }
 
 
-int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p){EventPdcReturnWork *work;work=(EventPdcReturnWork *)p;func_0203133C((struct ProcSys *)work->procSys);if(work->partyFullMessage)STRBUF_Delete((struct Strbuf *)work->partyFullMessage);STRBUF_Delete((struct Strbuf *)work->strbuf);func_020315D4(procSys);GFL_HEAP_DeleteChecked(139);return 1;}
+int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p){EventPdcReturnWork *work;work=(EventPdcReturnWork *)p;PROCSYS_Delete((struct ProcSys *)work->procSys);if(work->partyFullMessage)STRBUF_Delete((struct Strbuf *)work->partyFullMessage);STRBUF_Delete((struct Strbuf *)work->strbuf);PROCSYS_FreeProcWork(procSys);GFL_HEAP_DeleteChecked(139);return 1;}
 
 
 u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcReturnWork *g)
@@ -223,17 +223,17 @@ u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcRet
             trainerRecord = (u32)GAME_DATA_GetTrainerRecord((int *)c->gameData);
             func_02008DF0((struct TrainerRecord *)trainerRecord, (u32)7);
             func_02008DF0((struct TrainerRecord *)trainerRecord, (u32)0x54);
-            func_02008500((void *)playerStatus, (void *)g->strbuf);
+            MYSTATUS_NameToStrbuf((void *)playerStatus, (void *)g->strbuf);
             POKE_TOOL_SetPartyValue((void *)c->partyMon, 0x8d, g->strbuf);
             partyCount = (int)POKEPARTY_GetCount((void *)party);
             if (partyCount >= (int)POKEPARTY_GetCapacity((void *)party)) {
                 u32 a, b;
                 a = func_02007698((void *)boxManager);
                 b = 0;
-                func_020076D0((void *)boxManager, (int *)(&a), (int *)(&b));
+                BOX_SAVEDATA_FindFreeSlot((void *)boxManager, (int *)(&a), (int *)(&b));
                 g->boxSlotCandidate = a;
-                msgBank = (u32)func_02045B38(0, 2, 0xea, 0x8b);
-                g->partyFullMessage = (u32)func_02045EC0((struct MsgBank *)msgBank, ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct GameData *)c->gameData), (u32)0x96d) != 0 ? 0xb1 : 0xb0);
+                msgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xea, 0x8b);
+                g->partyFullMessage = (u32)MSGDATA_AllocString((struct MsgBank *)msgBank, ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct GameData *)c->gameData), (u32)0x96d) != 0 ? 0xb1 : 0xb0);
                 MSGDATA_Delete((struct MsgEntry *)msgBank);
             }
             placeNameId = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->gameData)));

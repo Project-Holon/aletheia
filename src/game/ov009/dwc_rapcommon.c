@@ -13,16 +13,16 @@
  * Cut from dwc_rap.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   func_02059F18 0x02059F18 arm
  *   DWC_ClearDirtyFlag  0x02059870  arm
  *   abs_id_11  0x00000011  data
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   ERROR_SCREEN_ShowAndWait  0x021B6100  thumb  ov017
  *   _pRapHeap  0x021A8268  data  ov009  a4
  *   _sAssertEmptyCommon  0x021A1C78  data  ov009  a1
@@ -46,12 +46,12 @@
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
- *   func_0200FBA0  0x0200FBA0  thumb
+ *   GFL_NET_ERR_ResetState  0x0200FBA0  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_NET_ERR_RaiseFatal  0x0200FB4C  thumb
- *   func_0200F7C0  0x0200F7C0  thumb
+ *   GFL_NET_ERR_HaltWithMessage  0x0200F7C0  thumb
  *   func_0200FAAC  0x0200FAAC  thumb
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  */
@@ -60,23 +60,23 @@
 
 struct ExpHeap;
 
-void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-u32 func_020307B0(void *block);
+u32 GFL_HEAP_Free(void *block);
 
 void GFL_NET_STATE_SetError(int errorCode, u32 errorType, u32 dwcError, u32 gameCode);
 
 u32 GFL_NET_STATE_GetError(void);
 
-void func_02034714(const char *expr, u32 line, const char *file);
+void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void func_02059F18(void);
 
 void DWC_ClearDirtyFlag(int userData);
 
-extern int func_02034AC4(signed int id);
+extern int GF_OVERLAY_Load(signed int id);
 
-extern void func_02034A5C(int id);
+extern void GF_OVERLAY_Unload(int id);
 
 extern void ERROR_SCREEN_ShowAndWait(void);
 
@@ -116,17 +116,17 @@ extern void GFL_NET_STATE_ClearErrorMode(void);
 
 extern int GFL_NET_GetRunState(void);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 
-extern void func_0200FBA0(void);
+extern void GFL_NET_ERR_ResetState(void);
 
 extern void GFL_NET_ERR_RequestScreen(void);
 
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 
-extern void func_0200F7C0(u32 value);
+extern void GFL_NET_ERR_HaltWithMessage(u32 value);
 
 extern void func_0200FAAC(void);
 
@@ -178,9 +178,9 @@ extern char _sDwcGameName[];
 void DWC_RAPCOMMON_InitDwcWithNotice(int heapId)
 {
     if (DWC_RAPCOMMON_RunDwcInit(heapId) == 3) {
-        func_02034AC4((int)abs_id_11);
+        GF_OVERLAY_Load((int)abs_id_11);
         ERROR_SCREEN_ShowAndWait();
-        func_02034A5C((int)abs_id_11);
+        GF_OVERLAY_Unload((int)abs_id_11);
     }
 }
 
@@ -200,15 +200,15 @@ void DWC_RAPCOMMON_CreateSubHeapUnlimited(int ownerId, int size, int heapId)
 void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 heapId)
 {
     if (_pRapHeap == 0) {
-        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->subMem != 0) {
-        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->subHeap != 0) {
-        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    _pRapHeap->subMem = (u32)func_02030734(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
+    _pRapHeap->subMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
     _pRapHeap->subHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->subOwnerId = ownerId;
     NNSi_FndSetAllocModeBit((char *)_pRapHeap->subHeap, 1);
@@ -219,7 +219,7 @@ void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 
 void DWC_RAPCOMMON_DestroySubHeap(void)
 {
     if (_pRapHeap == 0) {
-        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->subLiveBlocks != 0) {
         GFL_NET_STATE_SetError(0, 0, 0, DWC_RAP_RESULT_FATAL);
@@ -233,7 +233,7 @@ void DWC_RAPCOMMON_ReleaseSubHeap(void)
 {
     if (_pRapHeap->subMem != 0) {
         NNSi_FndDestroyExpHeap((void *)_pRapHeap->subHeap);
-        func_020307B0((void *)_pRapHeap->subMem);
+        GFL_HEAP_Free((void *)_pRapHeap->subMem);
         _pRapHeap->subHeap = 0;
         _pRapHeap->subMem = 0;
         if (_pRapHeap->tag != 0) {
@@ -306,10 +306,10 @@ void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused)
 void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
 {
     if (_pRapHeap != 0) {
-        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    _pRapHeap = (DwcRapHeap *)func_02030734(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
-    _pRapHeap->mainMem = (u32)func_02030734(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
+    _pRapHeap = (DwcRapHeap *)GFL_HEAP_Alloc(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
+    _pRapHeap->mainMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
     _pRapHeap->mainHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->tag = 0;
 }
@@ -317,14 +317,14 @@ void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
 void DWC_RAPCOMMON_DestroyHeap(void)
 {
     if (_pRapHeap == 0) {
-        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->allocFailed == 1 || _pRapHeap->subMem != 0) {
         DWC_RAPCOMMON_ReleaseSubHeap();
     }
     NNSi_FndDestroyExpHeap((void *)_pRapHeap->mainHeap);
-    func_020307B0((void *)_pRapHeap->mainMem);
-    func_020307B0(_pRapHeap);
+    GFL_HEAP_Free((void *)_pRapHeap->mainMem);
+    GFL_HEAP_Free(_pRapHeap);
     _pRapHeap = 0;
 }
 
@@ -372,7 +372,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
 
     if (GFL_NET_GetRunState() != 0) {
         errorInfo = (NetErrorInfo *)GFL_NET_STATE_GetError();
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             switch (errorInfo->errorType) {
             case 0:
                 break;
@@ -381,7 +381,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
                 if (hasSession == 0) {
                     DWC_RAPCOMMON_ClearNetError();
                     GFL_NET_ERR_ShowSimpleScreen();
-                    func_0200FBA0();
+                    GFL_NET_ERR_ResetState();
                     return 1;
                 }
                 func_02059F18();
@@ -395,7 +395,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
                 GFL_NET_ERR_RequestScreen();
                 return 2;
             case 7:
-                func_0200F7C0(15);
+                GFL_NET_ERR_HaltWithMessage(15);
                 return 3;
             }
         }
@@ -406,11 +406,11 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
                 DWC_RAPCOMMON_ClearNetError();
                 GFL_NET_STATE_WifiDisconnect(1);
                 GFL_NET_ERR_ShowSimpleScreen();
-                func_0200FBA0();
+                GFL_NET_ERR_ResetState();
                 return 4;
             }
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             GFL_NET_STATE_WifiDisconnect(1);
             return 0;
@@ -419,7 +419,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
             if (hasSession == 0) {
                 DWC_RAPCOMMON_ClearNetError();
                 GFL_NET_ERR_ShowSimpleScreen();
-                func_0200FBA0();
+                GFL_NET_ERR_ResetState();
                 return 1;
             }
             GFL_NET_ERR_RequestScreen();

@@ -13,12 +13,12 @@
  * Cut from manual_common.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
  *   gManualCommonTableAllocFile 0x021BBFF4 data ov225 a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_02009210 0x02009210 thumb
+ *   BLOCK20_SAVEDATA_GetBlock 0x02009210 thumb
  *   func_020090E0 0x020090E0 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
@@ -46,15 +46,15 @@ struct ManualMenuTable {
     u32 offsets1;   /* 0x0C entry offset array */
 };
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *, int, int, u32, u32 *);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 
-extern struct Sub02009210Obj *func_02009210(void *);
+extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *);
 
 extern u8 func_020090E0(const struct Sub020090B0Obj *);
 
@@ -116,7 +116,7 @@ extern char gManualCommonTableAllocFile[];
 
 void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap)
 {
-    void **table = func_02030734(heap, 16, 1, gManualCommonTableAllocFile, 0x9c);
+    void **table = GFL_HEAP_Alloc(heap, 16, 1, gManualCommonTableAllocFile, 0x9c);
     u32 size;
     table[0] = ARC_UTIL_LoadHandleMemberWithSize(narc, 11, 0, heap, &size);
     table[1] = ARC_UTIL_LoadHandleMemberWithSize(narc, 12, 0, heap, &size);
@@ -125,7 +125,7 @@ void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap)
     return table;
 }
 
-void MANUAL_COMMON_DeleteMenuTable(char *table) {func_020307B0((void *)((struct ManualMenuTable *)table)->offsets1);func_020307B0((void *)((struct ManualMenuTable *)table)->base1);func_020307B0((void *)((struct ManualMenuTable *)table)->offsets0);func_020307B0((void *)((struct ManualMenuTable *)table)->base0);func_020307B0(table);}
+void MANUAL_COMMON_DeleteMenuTable(char *table) {GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->offsets1);GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->base1);GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->offsets0);GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->base0);GFL_HEAP_Free(table);}
 
 u16 MANUAL_COMMON_GetEntryValue0(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetGroupEntry(table,index)+6);}
 
@@ -167,7 +167,7 @@ int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
     switch(kind) {
     case 0:result=1;break;
     case 1:
-        if(func_020090E0((const struct Sub020090B0Obj *)func_02009210(GAME_DATA_GetSaveControl((struct Big *)save)))!=0)result=1;
+        if(func_020090E0((const struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl((struct Big *)save)))!=0)result=1;
         break;
     case 2:
         if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save),2400)!=0)result=1;

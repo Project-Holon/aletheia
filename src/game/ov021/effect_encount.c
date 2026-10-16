@@ -15,10 +15,10 @@
  * allocation, first function); 0x021AA69C..0x021AA778 are called only by field_encount functions.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02005728  0x02005728  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
@@ -116,11 +116,11 @@ typedef struct MmdlObjSize {
     u8 gridDepth;
 } MmdlObjSize;
 
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern u32 MI_CpuFill8(void *dest, int value, int size);
 extern u32 func_02005728(u32 range);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *func_02030734(u32 heapId, u32 size, int mode, const char *fileName, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int mode, const char *fileName, u16 line);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern EncountGimmickWork *GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
@@ -196,13 +196,13 @@ extern unsigned short sRareItemIds[];
 
 EffectEncount *EFFECT_ENCOUNT_Create(int heapId)
 {
-    return func_02030734(heapId, sizeof(EffectEncount), 1, sEffectEncountFileName, 0x6e);
+    return GFL_HEAP_Alloc(heapId, sizeof(EffectEncount), 1, sEffectEncountFileName, 0x6e);
 }
 
 int EFFECT_ENCOUNT_Delete(EffectEncount *effectEncount)
 {
     MI_CpuFill8(effectEncount, 0, sizeof(EffectEncount));
-    return func_020307B0(effectEncount);
+    return GFL_HEAP_Free(effectEncount);
 }
 
 void EFFECT_ENCOUNT_Init(FieldEncount *encount, EffectEncount *effectEncount)

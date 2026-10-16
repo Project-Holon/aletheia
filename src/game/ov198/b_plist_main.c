@@ -26,8 +26,8 @@
  *   B_APP_TOOL_SetActorsVisible 0x0220AFDC thumb ov196
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_02030734 0x02030734 arm
- *   func_02030DA8 0x02030DA8 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   TCB_AddTask 0x02030DA8 arm
  *   d_02212550 0x02212550 data a1
  *   TCBL_Main 0x020310C4 arm
  *   B_PLIST_ANM_StepPaletteAnim 0x0220B7AC thumb ov198
@@ -70,7 +70,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   B_APP_TOOL_Delete 0x0220AF64 thumb ov196
  *   TCB_DeleteTask 0x02030EAC arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
@@ -95,7 +95,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
@@ -124,7 +124,7 @@
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   BG_SYS_DrawTile 0x02041090 arm
  *   d_022121D4 0x022121D4 data a4
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   EVENT_ID_Check 0x0202F72C thumb
@@ -262,8 +262,8 @@ extern void B_APP_TOOL_CreateActors(char *,int,int,int,int);
 extern unsigned B_APP_TOOL_SetActorsVisible();
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
+extern struct Node *TCB_AddTask(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void TCBL_Main(struct Tcbl *p);
 extern void B_PLIST_ANM_StepPaletteAnim(u8 *);
 extern void B_PLIST_DRAW_UpdateToolWindows(u8 *);
@@ -305,7 +305,7 @@ extern void B_PLIST_DRAW_DeleteAllWindows(u8 *p);
 extern void TCBL_Destroy(struct S02031140 *);
 extern void B_APP_TOOL_Delete(void *);
 extern void TCB_DeleteTask(struct Node *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
@@ -324,7 +324,7 @@ extern int PALANM_GetDefaultWork(char *,int);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *,u32,u32,u32);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
@@ -351,7 +351,7 @@ extern void B_PLIST_DRAW_CreateStateWindows(u8 *,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 EVENT_ID_Check(void *,u16,u16);
@@ -640,8 +640,8 @@ void B_PLIST_MAIN_Create(u8 *p)
 {
     u8 *q;
     if (p[0x20]>5) p[0x20]=0;
-    q=func_02030734(((struct B_PlistWork *)p)->monSpecies,0x2544,1,d_02212550,0x130);
-    func_02030DA8(((struct B_PlistWork *)p)->task,(unsigned)B_PLIST_MAIN_Task,(unsigned)q,100);
+    q=GFL_HEAP_Alloc(((struct B_PlistWork *)p)->monSpecies,0x2544,1,d_02212550,0x130);
+    TCB_AddTask(((struct B_PlistWork *)p)->task,(unsigned)B_PLIST_MAIN_Task,(unsigned)q,100);
     ((struct B_PlistWork *)q)->owner=(struct B_PlistHost *)p;
     if (p[0x1f]!=5) p[0x4b]=0;
     else if (B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)q))==1 && p[0x1c]==1) p[0x20]++;
@@ -1406,7 +1406,7 @@ int B_PLIST_MAIN_Delete(struct Node *task,char *p)
     }
     (*(u8 **)p)[0x4c]=1;
     TCB_DeleteTask(task);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
     return 1;
 }
 
@@ -1459,10 +1459,10 @@ void B_PLIST_MAIN_LoadGraphics(char *p)
     ARC_UTIL_UploadBgCharFromHandle(owner,18,7,0,0,1,((struct B_PlistWork *)p)->owner->heapId);
     handle=func_02049EF4(owner,16,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
     B_PLIST_ANM_CopyMonSpriteTiles(p,(u16 *)(data+12));
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
     handle=func_02049EF4(owner,17,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
     B_PLIST_ANM_CopySubSpriteTiles(p,(u16 *)(data+12));
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct B_PlistWork *)p)->u1D8.palAnm,100,19,((struct B_PlistWork *)p)->owner->heapId,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);
     MI_CpuCopy8((void *)(PALANM_GetDefaultWork(*(char * *)&((struct B_PlistWork *)p)->u1D8.palAnm,1)+0x180),p+0x1e78,32);
@@ -1476,7 +1476,7 @@ void B_PLIST_MAIN_LoadGraphics(char *p)
 
 void B_PLIST_MAIN_CreateTextResources(char *p)
 {
-    ((struct B_PlistWork *)p)->msgBank=func_02045B38(0,2,0x12,((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,0x12,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->u1E9C.fontSmall=GF_FONT_Create(0x17,3,0,0,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->font=WORDSET_CreateDefault(((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->u1EAC.printQue=PRINTSYS_QUE_CreateEx(0x800,((struct B_PlistWork *)p)->owner->heapId);
@@ -1728,7 +1728,7 @@ void B_PLIST_MAIN_LoadModePalette(u8 *p,u32 n)
         buf=ARC_UTIL_LoadPaletteDataFromArchive(100,table[i],1,(u32)(&out),((struct B_PlistWork *)p)->owner->heapId);
         BG_SYS_DrawTile((u8)(i+6),(u32)(out+12),0,0,32,24);
         func_02041B6C(i+6);
-        func_020307B0(buf);
+        GFL_HEAP_Free(buf);
     }
 }
 
@@ -1773,23 +1773,23 @@ int B_PLIST_MAIN_PrintStatusMessage(u8 *p)
     void *text;
     index*=76;
     switch((u32)B_PLIST_MAIN_GetRowStatus(p)) {
-    case 1: text=func_02045EC0(*(void **)(p+0x1EA0),90); break;
+    case 1: text=MSGDATA_AllocString(*(void **)(p+0x1EA0),90); break;
     case 2:
-        text=func_02045EC0(*(void **)(p+0x1EA0),87);
+        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),87);
         WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 3:
-        text=func_02045EC0(*(void **)(p+0x1EA0),86);
+        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),86);
         WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 4:
-        text=func_02045EC0(*(void **)(p+0x1EA0),103);
+        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),103);
         WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
-    case 5: text=func_02045EC0(*(void **)(p+0x1EA0),89); break;
+    case 5: text=MSGDATA_AllocString(*(void **)(p+0x1EA0),89); break;
     case 6:
         index=76*(*(u8 **)p)[33];
-        text=func_02045EC0(*(void **)(p+0x1EA0),88);
+        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),88);
         WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 0: return 1;
@@ -2022,30 +2022,30 @@ int B_PLIST_MAIN_PrintRowMessage(u8 *p)
     idx = B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[0x20]);
     row = p + 4 + idx * 0x4c;
     if (B_PLIST_MAIN_IsBattleSlot((u32)p, idx) == 1) {
-        text = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x5a);
+        text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x5a);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (B_PLIST_MAIN_IsIndexValid((char **)p, (*(u8 **)p)[0x20]) == 0) {
         if (B_PLIST_MAIN_IsIndexValid((char **)p, idx) == 1)
-            text = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x6b);
+            text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6b);
         else
-            text = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x6a);
+            text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6a);
         WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)row)->u00.ptr);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (B_PLIST_MAIN_IsIndexInParty(p, (*(u8 **)p)[0x20]) == 1) {
-        text = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x56);
+        text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
         WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)row)->u00.ptr);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (((struct B_PlistSlot *)row)->field10 != 0) {
-        text = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x56);
+        text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
         WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)row)->u00.ptr);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, ((struct B_PlistWork *)p)->u1EA8.wordSet, text);
         STRBUF_Delete(text);
@@ -2156,7 +2156,7 @@ int B_PLIST_MAIN_UpdateSwapFrames(u8 *p)
         BGWINFRM_AddFrame(MGR, 1, 6, 0x10, 6);
         BGWINFRM_AddFrame(MGR, 2, 5, 0x10, 6);
         BGWINFRM_AddFrame(MGR, 3, 6, 0x10, 6);
-        buf = func_02030734((u16)(0x8000 | (*(u16 *)(*(u8 **)p + 0x10) & 0x7fff)), 0xc0, 0, (const char *)data_02212550, 0xb89);
+        buf = GFL_HEAP_Alloc((u16)(0x8000 | (*(u16 *)(*(u8 **)p + 0x10) & 0x7fff)), 0xc0, 0, (const char *)data_02212550, 0xb89);
         B_PLIST_MAIN_CopyFrame(buf, 5, p[0x2499]);
         BGWINFRM_SetFrameData(MGR, 0, buf);
         B_PLIST_MAIN_CopyFrame(buf, 6, p[0x2499]);
@@ -2165,7 +2165,7 @@ int B_PLIST_MAIN_UpdateSwapFrames(u8 *p)
         BGWINFRM_SetFrameData(MGR, 2, buf);
         B_PLIST_MAIN_CopyFrame(buf, 6, p[0x249a]);
         BGWINFRM_SetFrameData(MGR, 3, buf);
-        func_020307B0(buf);
+        GFL_HEAP_Free(buf);
         B_PLIST_MAIN_GetFramePos((u8 *)&xy[1], (u8 *)&xy[0], p[0x2499]);
         BGWINFRM_PutFrame(MGR, 0, xy[1], xy[0]);
         BGWINFRM_PutFrame(MGR, 1, xy[1], xy[0]);

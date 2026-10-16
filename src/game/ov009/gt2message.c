@@ -23,7 +23,7 @@
  *   func_02195EC4                      0x02195EC4  arm ov009
  *   gti2SendClosed                     0x02197BB8  arm
  *   ArrayLength                      0x02184200  arm ov009
- *   func_02184208                      0x02184208  arm ov009
+ *   ArrayNth                      0x02184208  arm ov009
  *   ArrayDeleteAt                      0x0218437C  arm ov009
  *   gti2BufferShorten                      0x02194E80  arm ov009
  *   gti2ReceiveFilterCallback                      0x02195340  arm ov009
@@ -134,7 +134,7 @@ extern int gti2SendClosed(int *connection);
 extern int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
 extern u32 current_time(void);
 extern int ArrayLength(struct DArrayImplementation *array);
-extern void *func_02184208(struct DArrayImplementation *array, int n);
+extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern void func_021842D0(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
 extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 extern int gti2GetBufferFreeSpace(struct GTI2Buffer *buffer);
@@ -330,7 +330,7 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 	if (len == 0)
 		return 1;
 	for (i = 0; i < len; i++) {
-		message = func_02184208(connection->outgoingBufferMessages, i);
+		message = ArrayNth(connection->outgoingBufferMessages, i);
 		if (gti2SNDiff(message->SN, ESN) >= 0)
 			break;
 	}
@@ -343,10 +343,10 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 		connection->outgoingBuffer.len = 0;
 		return 1;
 	}
-	message = func_02184208(connection->outgoingBufferMessages, 0);
+	message = ArrayNth(connection->outgoingBufferMessages, 0);
 	shortenBy = message->offset;
 	for (i = 0; i < len; i++) {
-		message = func_02184208(connection->outgoingBufferMessages, i);
+		message = ArrayNth(connection->outgoingBufferMessages, i);
 		message->offset -= shortenBy;
 	}
 	gti2BufferShorten(&connection->outgoingBuffer, 0, shortenBy);
@@ -604,7 +604,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
 
     num = ArrayLength(connection->incomingBufferMessages);
     for (i = 0; i < num; i++) {
-        bufferedMessage = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, i);
+        bufferedMessage = (struct GTI2IncomingBufferMessage *)ArrayNth(connection->incomingBufferMessages, i);
         if (bufferedMessage->serialNumber == SN) {
             *overflow = 0;
             return 1;
@@ -635,9 +635,9 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
         if (!gti2SendNack(connection, connection->expectedSerialNumber, (unsigned short)(SN - 1)))
             return 0;
     } else {
-        msg = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, num);
+        msg = (struct GTI2IncomingBufferMessage *)ArrayNth(connection->incomingBufferMessages, num);
         if (msg->serialNumber == SN) {
-            prev = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, num - 1);
+            prev = (struct GTI2IncomingBufferMessage *)ArrayNth(connection->incomingBufferMessages, num - 1);
             diff = (unsigned short)gti2SNDiff(SN, prev->serialNumber);
             if (diff > 1) {
                 if (!gti2SendNack(connection, (unsigned short)(prev->serialNumber + 1), (unsigned short)(SN - 1)))
@@ -673,7 +673,7 @@ void gti2RemoveHoldMessage(GTI2Connection *c, struct GTI2IncomingBufferMessage *
 	ArrayDeleteAt(c->incomingBufferMessages, index);
 	num = ArrayLength(c->incomingBufferMessages);
 	for (i = 0; i < num; i++) {
-		m = (struct GTI2IncomingBufferMessage *)func_02184208(c->incomingBufferMessages, i);
+		m = (struct GTI2IncomingBufferMessage *)ArrayNth(c->incomingBufferMessages, i);
 		if (m->start > moveAfter) {
 			m->start -= shortenBy;
 			if (moveEnd <= m->start + m->len)
@@ -698,7 +698,7 @@ int gti2DeliverHoldMessages(GTI2Connection *c)
 
 again:
 	for (i = ArrayLength(c->incomingBufferMessages) - 1; i >= 0; i--) {
-		m = (struct GTI2IncomingBufferMessage *)func_02184208(c->incomingBufferMessages, i);
+		m = (struct GTI2IncomingBufferMessage *)ArrayNth(c->incomingBufferMessages, i);
 		if (m->serialNumber == c->expectedSerialNumber) {
 			if (!gti2DeliverReliableMessage(c, m->type, c->incomingBuffer.buffer + m->start, m->len))
 				return 0;
@@ -817,7 +817,7 @@ int gti2HandleNack(GTI2Connection *connection, unsigned char *message, int len)
 	}
 	num = ArrayLength(connection->outgoingBufferMessages);
 	for (i = 0; i < num; i++) {
-		messageInfo = func_02184208(connection->outgoingBufferMessages, i);
+		messageInfo = ArrayNth(connection->outgoingBufferMessages, i);
 		if (gti2SNDiff(messageInfo->SN, SNMin) < 0)
 			continue;
 		if (gti2SNDiff(messageInfo->SN, SNMax) > 0)

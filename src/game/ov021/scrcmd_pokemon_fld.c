@@ -21,8 +21,8 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   EVENT_POKE_STATUS_CreatePokeSelectEvent  0x0215A07C  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
@@ -246,8 +246,8 @@ extern struct GameData *SCRCMD_WORK_GetGameData(void *work);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *core, void *work);
 extern void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int a, u16 *b, u16 *c);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
@@ -1224,7 +1224,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
     }
     heapId = SCRCMD_WORK_GetHeapId(work);
     boxManager = (void *)GAME_DATA_GetBoxManager(gameData);
-    mon = func_02030734(heapId, POKE_TOOL_GetPartyParamSize(), 1, (const char *)sScrcmdPokemonFldFileName, 0x4c7);
+    mon = GFL_HEAP_Alloc(heapId, POKE_TOOL_GetPartyParamSize(), 1, (const char *)sScrcmdPokemonFldFileName, 0x4c7);
     monSize = POKE_TOOL_GetPartyParamSize();
     MI_CpuCopy8(POKEPARTY_GetMember(party, partySlot), mon, monSize);
     if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_HELD_ITEM, 0)) == 1) {
@@ -1239,7 +1239,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
         func_02008EAC(mail);
         POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_MAIL, (u32)mail);
         POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
-        func_020307B0(mail);
+        GFL_HEAP_Free(mail);
     }
     if (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES_OR_EGG, 0) == 0x1ec) {
         POKE_TOOL_ChangeForm(mon, 0);
@@ -1247,9 +1247,9 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
     }
     boxedPartyMon = POKE_TOOL_CreateFromBoxParam(func_02007A18(boxManager, boxPos[1], boxPos[0]), heapId);
     POKEPARTY_SetMember(party, partySlot, boxedPartyMon);
-    func_020307B0(boxedPartyMon);
+    GFL_HEAP_Free(boxedPartyMon);
     func_020075B0(boxManager, boxPos[1], boxPos[0], POKE_TOOL_Dummy(mon));
-    func_020307B0(mon);
+    GFL_HEAP_Free(mon);
 }
 
 /*
@@ -1709,7 +1709,7 @@ void SCRCMD_POKEMON_FLD_ReceiveGiftMon(ScrcmdWork *work, struct GameData *gameDa
     if (POKEPARTY_GetCount(party) < MYSTERY_GIFT_PARTY_MAX && mon != 0) {
         POKEPARTY_Add(party, mon);
         ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
     }
 }
 
@@ -1724,7 +1724,7 @@ int SCRCMD_POKEMON_FLD_GetGiftMonReceiveType(ScrcmdWork *work, struct GameData *
         return MYSTERY_GIFT_RECEIVE_MON;
     }
     isEgg = POKE_TOOL_GetPartyValue(mon, MYSTERY_GIFT_MON_PARAM_IS_EGG, 0);
-    func_020307B0(mon);
+    GFL_HEAP_Free(mon);
     return isEgg == 1 ? MYSTERY_GIFT_RECEIVE_EGG : MYSTERY_GIFT_RECEIVE_MON;
 }
 
@@ -1746,7 +1746,7 @@ int SCRCMD_POKEMON_FLD_PrepareGiftMonMessage(struct WordSet *wordSet, MysteryGif
             messageId = MYSTERY_GIFT_MSG_EGG_RECEIVED;
         else
             WORDSET_SetSlotMonNameEx(wordSet, 1, mon);
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
     }
     return messageId;
 }
@@ -1874,7 +1874,7 @@ int SCRCMD_POKEMON_FLD_LookupTableValue(struct ScriptVm *vm, ScrcmdWork *work)
             break;
         }
     }
-    func_020307B0(table);
+    GFL_HEAP_Free(table);
     return 0;
 }
 
@@ -1907,7 +1907,7 @@ int SCRCMD_POKEMON_FLD_CheckTableItemInBag(struct ScriptVm *vm, ScrcmdWork *work
             break;
         }
     }
-    func_020307B0(table);
+    GFL_HEAP_Free(table);
     return 0;
 }
 
@@ -1947,7 +1947,7 @@ int SCRCMD_POKEMON_FLD_RegisterTableValueNumber(struct ScriptVm *vm, ScrcmdWork 
             break;
         }
     }
-    func_020307B0(table);
+    GFL_HEAP_Free(table);
     return 0;
 }
 
@@ -1980,7 +1980,7 @@ int SCRCMD_POKEMON_FLD_AddTableValueToPoints(struct ScriptVm *vm, ScrcmdWork *wo
             break;
         }
     }
-    func_020307B0(table);
+    GFL_HEAP_Free(table);
     return 0;
 }
 

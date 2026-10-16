@@ -19,10 +19,10 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetId  0x0200B3AC  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   gFieldGimmickOverlayIds     0x021D9D98  data  a4
  *   gFieldGimmickInitFuncs     0x021D9CBC  data  a4
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   gFieldGimmickExitFuncs     0x021D9BE0  data  ov021  a4
  *   gFieldGimmickCallbackTbl  0x021D9E74  data
  */
@@ -39,8 +39,8 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmick);
-extern int func_02034AC4(int overlayId);
-extern void func_02034A5C(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 
 void FIELD_GIMMICK_Setup(FieldMap *fieldMap);
 void FIELD_GIMMICK_Exit(FieldMap *fieldMap);
@@ -60,7 +60,7 @@ void FIELD_GIMMICK_Setup(FieldMap *fieldMap)
     gimmickId = GIMMICK_WORK_GetId(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
     if (gimmickId != -1) {
         if (gFieldGimmickOverlayIds[gimmickId] != 0) {
-            func_02034AC4((int)gFieldGimmickOverlayIds[gimmickId]);
+            GF_OVERLAY_Load((int)gFieldGimmickOverlayIds[gimmickId]);
         }
         gFieldGimmickInitFuncs[gimmickId](fieldMap);
     }
@@ -79,7 +79,7 @@ void FIELD_GIMMICK_Exit(FieldMap *fieldMap)
             gFieldGimmickExitFuncs[gimmickId](fieldMap);
         }
         if (gFieldGimmickOverlayIds[gimmickId] != 0) {
-            func_02034A5C((int)gFieldGimmickOverlayIds[gimmickId]);
+            GF_OVERLAY_Unload((int)gFieldGimmickOverlayIds[gimmickId]);
         }
     }
 }

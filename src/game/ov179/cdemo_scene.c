@@ -18,7 +18,7 @@
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   CDEMO_MAIN_SetupVram 0x021B615C thumb ov179
  *   CDEMO_MAIN_SetupScreen 0x021B616C thumb ov179
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CDEMO_MAIN_SetScript 0x021B622C thumb ov179
  *   CDEMO_MAIN_StartTask 0x021B624C thumb ov179
  *   CDEMO_WIPE_StartFadeOut 0x021B6290 thumb ov179
@@ -30,7 +30,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CDEMO_MAIN_Noop 0x021B6248 thumb ov179
  *   CDEMO_MAIN_HidePlane 0x021B6220 thumb ov179
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   data_021B6A1C  0x021B6A1C  data  ov179
  *   _ull_mul       0x0209C054  arm
@@ -39,16 +39,16 @@
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GX_LoadBG2Scr  0x0207EB78  arm
  *   func_0207ECF0  0x0207ECF0  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_021B6A40 0x021B6A40 data a4
  *   d_021B6A90 0x021B6A90 data a4
  *   CDEMO_WIPE_StartFadeIn  0x021B62B8  thumb  ov179
  *   CDEMO_WIPE_StartFadeOutWhite  0x021B62E0  thumb  ov179
  *   CDEMO_WIPE_StartFadeInWhite  0x021B630C  thumb  ov179
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   CDEMO_WIPE_LoadPalette 0x021B6338 thumb ov179
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   GFL_USE_PlayFanfare  0x02005DAC  thumb  arm9
  */
 #include "cdemo_types.h"
@@ -75,7 +75,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void CDEMO_MAIN_SetupVram(void);
 extern void CDEMO_MAIN_SetupScreen(char *);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void CDEMO_MAIN_SetScript(char *);
 extern void CDEMO_MAIN_StartTask(int *);
 extern void CDEMO_WIPE_StartFadeOut(char *,unsigned,unsigned,unsigned);
@@ -86,20 +86,20 @@ extern void CDEMO_MAIN_StopTask(char *);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void CDEMO_MAIN_Noop(char *);
 extern void CDEMO_MAIN_HidePlane(void);
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern void DWCi_ScreenDC_FlushRange(int, int);
 extern void GX_LoadBG2Scr(int, int, int);
 extern void func_0207ECF0(int, int, int);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c);
 extern void CDEMO_WIPE_StartFadeOutWhite(char *p, u32 a, u32 b, u32 c);
 extern void CDEMO_WIPE_StartFadeInWhite(char *p, u32 a, u32 b, u32 c);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void CDEMO_WIPE_LoadPalette(void *,int,int);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void GFL_USE_PlayFanfare(void *arg);
 int CDEMO_SCENE_Create(char *p);
 int CDEMO_SCENE_Destroy(char *p);
@@ -140,7 +140,7 @@ int CDEMO_SCENE_Create(char *p)
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  BG_SYS_SetLcdSwap(1);CDEMO_MAIN_SetupVram();CDEMO_MAIN_SetupScreen(p);
- ((struct CdemoState *)p)->arcHandle=func_020490F4(d_021B6A1C[((struct CdemoState *)p)->script->index].value,0x7F);
+ ((struct CdemoState *)p)->arcHandle=ARC_TOOL_CreateHandle(d_021B6A1C[((struct CdemoState *)p)->script->index].value,0x7F);
  CDEMO_MAIN_SetScript(p);CDEMO_MAIN_StartTask((int *)p);CDEMO_WIPE_StartFadeOut(p,1,1,5);
  ((struct CdemoState *)p)->finish=1;
  return 2;
@@ -195,9 +195,9 @@ int CDEMO_SCENE_Step(char *p)
     const CdemoScriptStep *e = &data_021B6A1C[((struct CdemoState *)p)->script->index];
 
     if (((struct CdemoState *)p)->tick == 0) {
-        ((struct CdemoState *)p)->tick = func_020870D0();
+        ((struct CdemoState *)p)->tick = OS_GetTick();
     } else {
-        u64 now = func_020870D0();
+        u64 now = OS_GetTick();
         ((struct CdemoState *)p)->accum += (now - ((struct CdemoState *)p)->tick) * 64000 / 33514;
         ((struct CdemoState *)p)->tick = now;
         if (((struct CdemoState *)p)->accum < 66667)
@@ -249,7 +249,7 @@ void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
     } else {
         func_0207ECF0(t, c, d);
     }
-    func_020307B0((void *)t);
+    GFL_HEAP_Free((void *)t);
 }
 
 
@@ -315,8 +315,8 @@ int CDEMO_SCENE_CmdSetDone(char *p)
 
 
 int CDEMO_SCENE_CmdLoadBg(char *p,const int *q) {
- func_02049658(((struct CdemoState *)p)->arcHandle,q[2],q[1],0,0,1,127);
- if(q[2]==0) func_020498F4(((struct CdemoState *)p)->arcHandle,q[2],q[1],0,0,0,127);
+ ARC_UTIL_UploadBgCharFromHandle(((struct CdemoState *)p)->arcHandle,q[2],q[1],0,0,1,127);
+ if(q[2]==0) ARC_UTIL_UploadBgPaletteFromHandle(((struct CdemoState *)p)->arcHandle,q[2],q[1],0,0,0,127);
  CDEMO_WIPE_LoadPalette(p,q[1],q[2]); return 1;
 }
 
@@ -324,7 +324,7 @@ int CDEMO_SCENE_CmdLoadBg(char *p,const int *q) {
 
 int CDEMO_SCENE_CmdSetVram(int a, int *q)
 {
-    func_02040588((unsigned char)q[1],
+    BG_SYS_SetPlaneVisible((unsigned char)q[1],
                   (unsigned char)q[2]);
     return 1;
 }

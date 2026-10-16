@@ -39,24 +39,24 @@
  *   func_02048B0C  0x02048B0C  arm
  *   func_02048B30  0x02048B30  arm
  *   MTX_LookAt  0x0207BCA0  arm
- *   func_02082B60  0x02082B60  arm
+ *   MI_Copy36B  0x02082B60  arm
  *   func_0207B0A4  0x0207B0A4  arm
  *   MTX_MultVec33  0x0207B51C  arm
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   VEC_Add  0x0207C9D0  arm
- *   func_02030734  0x02030734  arm
- *   func_02030CB0  0x02030CB0  arm
- *   func_02030CBC  0x02030CBC  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
  *   d_021DE2F8     0x021DE2F8  data  a4
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   TCB_Main  0x02030D28  arm
- *   func_02034AC4  0x02034AC4  arm
- *   func_02030DA8  0x02030DA8  arm
- *   func_02030EAC  0x02030EAC  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   TCB_AddTask  0x02030DA8  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   func_020084F8  0x020084F8  thumb
  *   func_02008550  0x02008550  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
@@ -254,7 +254,7 @@ void func_02048B30(void *g3dCamera, VecFx32 *out);
 
 void MTX_LookAt(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
 
-void func_02082B60(int *mtx43, int *outMtx33);
+void MI_Copy36B(int *mtx43, int *outMtx33);
 
 void func_0207B0A4(int *mtx33, int *outMtx33);
 
@@ -266,27 +266,27 @@ void *FIELD_CAMERA_GetG3dCamera(void *fieldCamera);
 
 void VEC_Add(VecFx32 *a, VecFx32 *b, VecFx32 *dst);
 
-void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
+void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
 
-u32 func_02030CB0(u32 capacity);
+u32 TCB_GetTaskOffset(u32 capacity);
 
-struct TcbList *func_02030CBC(u32 capacity, struct TcbList *buf);
+struct TcbList *TCB_Init(u32 capacity, struct TcbList *buf);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void TCB_Main(struct TcbList *list);
 
-int func_02034AC4(s32 overlayId);
+int GF_OVERLAY_Load(s32 overlayId);
 
-struct Tcb *func_02030DA8(struct TcbList *list, TcbFunc fn, void *work, int priority);
+struct Tcb *TCB_AddTask(struct TcbList *list, TcbFunc fn, void *work, int priority);
 
-void func_02030EAC(struct Tcb *tcb);
+void TCB_DeleteTask(struct Tcb *tcb);
 
-void func_02034A5C(int overlayId);
+void GF_OVERLAY_Unload(int overlayId);
 
 void MI_CpuFill8(void *p, int v, int n);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 u32 func_020084F8(void *myStatus, u16 *dst, u32 size);
 
@@ -496,7 +496,7 @@ void FLDEFF_GYOE_RotateByCamera(void *g3dCamera, VecFx32 *src, VecFx32 *dst)
     func_02048B0C(g3dCamera, &target);
     func_02048B30(g3dCamera, &up);
     MTX_LookAt(&eye, &target, &up, lookAt);
-    func_02082B60(lookAt, inverse);
+    MI_Copy36B(lookAt, inverse);
     func_0207B0A4(inverse, inverse);
     MTX_MultVec33(src, inverse, dst);
 }
@@ -538,18 +538,18 @@ void FLDEFF_GYOE_StepAnimation(FldeffGyoeTaskWork *work, VecFx32 *out)
 
 FieldSubprocMgr *FIELD_SUBPROC_MGR_Create(void *fieldSys, int heapId, int capacity)
 {
-    FieldSubprocMgr *mgr = func_02030734(heapId, 0x18, 1, (const char *)&d_021DE2F8, 0x46);
+    FieldSubprocMgr *mgr = GFL_HEAP_Alloc(heapId, 0x18, 1, (const char *)&d_021DE2F8, 0x46);
     int listSize;
 
     mgr->fieldSys = fieldSys;
     mgr->heapId = heapId;
     mgr->capacity = capacity;
-    mgr->procs = func_02030734(heapId, 0x18 * capacity, 1, (const char *)&d_021DE2F8, 0x4a);
-    listSize = func_02030CB0(capacity);
-    mgr->drawList = func_02030734(heapId, listSize, 1, (const char *)&d_021DE2F8, 0x56);
-    mgr->drawList = func_02030CBC(capacity, mgr->drawList);
-    mgr->updateList = func_02030734(heapId, listSize, 1, (const char *)&d_021DE2F8, 0x59);
-    mgr->updateList = func_02030CBC(capacity, mgr->updateList);
+    mgr->procs = GFL_HEAP_Alloc(heapId, 0x18 * capacity, 1, (const char *)&d_021DE2F8, 0x4a);
+    listSize = TCB_GetTaskOffset(capacity);
+    mgr->drawList = GFL_HEAP_Alloc(heapId, listSize, 1, (const char *)&d_021DE2F8, 0x56);
+    mgr->drawList = TCB_Init(capacity, mgr->drawList);
+    mgr->updateList = GFL_HEAP_Alloc(heapId, listSize, 1, (const char *)&d_021DE2F8, 0x59);
+    mgr->updateList = TCB_Init(capacity, mgr->updateList);
     return mgr;
 }
 
@@ -560,10 +560,10 @@ void FIELD_SUBPROC_MGR_Delete(FieldSubprocMgr *mgr)
     for (i = 0; i < mgr->capacity; i++) {
         FIELD_SUBPROC_End(&mgr->procs[i]);
     }
-    func_020307B0(mgr->procs);
-    func_020307B0(mgr->updateList);
-    func_020307B0(mgr->drawList);
-    func_020307B0(mgr);
+    GFL_HEAP_Free(mgr->procs);
+    GFL_HEAP_Free(mgr->updateList);
+    GFL_HEAP_Free(mgr->drawList);
+    GFL_HEAP_Free(mgr);
 }
 
 void FIELD_SUBPROC_MGR_RunUpdate(FieldSubprocMgr *mgr)
@@ -600,15 +600,15 @@ FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldSubprocMgr *mgr, const Fie
             continue;
         }
         if (overlayId != -1) {
-            func_02034AC4(overlayId);
+            GF_OVERLAY_Load(overlayId);
         }
         proc->overlayId = overlayId;
-        proc->updateTcb = func_02030DA8(mgr->updateList, (TcbFunc)FIELD_SUBPROC_UpdateTcb, proc, tmpl->priority);
-        proc->drawTcb = func_02030DA8(mgr->drawList, (TcbFunc)FIELD_SUBPROC_DrawTcb, proc, tmpl->priority);
+        proc->updateTcb = TCB_AddTask(mgr->updateList, (TcbFunc)FIELD_SUBPROC_UpdateTcb, proc, tmpl->priority);
+        proc->drawTcb = TCB_AddTask(mgr->drawList, (TcbFunc)FIELD_SUBPROC_DrawTcb, proc, tmpl->priority);
         proc->mgr = mgr;
         proc->tmpl = tmpl;
         if (tmpl->workSize != 0) {
-            proc->work = func_02030734((u16)mgr->heapId, tmpl->workSize, 1, (const char *)&d_021DE2F8, 0xc3);
+            proc->work = GFL_HEAP_Alloc((u16)mgr->heapId, tmpl->workSize, 1, (const char *)&d_021DE2F8, 0xc3);
         }
         if (tmpl->init != 0) {
             tmpl->init(proc, mgr->fieldSys, proc->work);
@@ -630,12 +630,12 @@ void FIELD_SUBPROC_End(FieldSubproc *proc)
         tmpl->exit(proc, proc->mgr->fieldSys, proc->work);
     }
     if (proc->tmpl->workSize != 0) {
-        func_020307B0(proc->work);
+        GFL_HEAP_Free(proc->work);
     }
-    func_02030EAC(proc->updateTcb);
-    func_02030EAC(proc->drawTcb);
+    TCB_DeleteTask(proc->updateTcb);
+    TCB_DeleteTask(proc->drawTcb);
     if (proc->overlayId != -1) {
-        func_02034A5C(proc->overlayId);
+        GF_OVERLAY_Unload(proc->overlayId);
     }
     MI_CpuFill8(proc, 0, 0x18);
 }
@@ -659,7 +659,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
     int relation;
 
     if (beaconPc == 0 && chatPms == 0) {
-        func_02034714((const char *)0x021DE308, 0, (const char *)0x021DE308);
+        SAVEDATA_PanicFail((const char *)0x021DE308, 0, (const char *)0x021DE308);
     }
     if (beaconPc != 0 && UNION_CHAT_LOG_IsNew(ring, beaconPc->mac, beaconPc->beacon.chatCount) == 0) {
         return;
@@ -671,7 +671,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         /* the re-test of chatPms inside the chatPms == 0 arm is the dead second bne */
         if (chatPms == 0) {
             if (chatPms != 0 || chatType == 0) {
-                func_02034714((const char *)0x021DE308, 0, (const char *)0x021DE308);
+                SAVEDATA_PanicFail((const char *)0x021DE308, 0, (const char *)0x021DE308);
             }
         }
         line->chatPms[0] = chatPms[0];

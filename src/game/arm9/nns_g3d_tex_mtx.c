@@ -37,8 +37,8 @@
  *    for m31; the other way round swaps three register names.
  *
  * symbols:
- *   func_0207C930  0x0207C930  arm
- *   func_0207C86C  0x0207C86C  arm
+ *   FX_DivAsync  0x0207C930  arm
+ *   FX_GetDivResult  0x0207C86C  arm
  *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   gNNSiG3dTexMtxFuncTable  0x020A8458  data
  */
@@ -99,8 +99,8 @@ typedef struct {
 
 typedef void (*NNSiG3dTexMtxFunc)(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 
-extern void func_0207C930(u32 numer, u32 denom);
-extern u32 func_0207C86C(void);
+extern void FX_DivAsync(u32 numer, u32 denom);
+extern u32 FX_GetDivResult(void);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 void NNSi_G3dTexMtxScaleRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 void NNSi_G3dTexMtxRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
@@ -137,30 +137,30 @@ void NNSi_G3dTexMtxScaleRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
 
     widthFx = (s32)((u32)pMatAnm->origWidth << 12);
     heightFx = (s32)((u32)pMatAnm->origHeight << 12);
-    func_0207C930(heightFx, widthFx);
+    FX_DivAsync(heightFx, widthFx);
     scaleSCos = (s32)(((s64)pMatAnm->scaleS * pMatAnm->cosR) >> 12);
     scaleSSin = (s32)(((s64)pMatAnm->scaleS * pMatAnm->sinR) >> 12);
     scaleTCos = (s32)(((s64)pMatAnm->scaleT * pMatAnm->cosR) >> 12);
     scaleTSin = (s32)(((s64)pMatAnm->scaleT * pMatAnm->sinR) >> 12);
     pTexMtx->m00 = scaleSCos;
     pTexMtx->m11 = scaleTCos;
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m01 = (scaleTSin * divResult) >> 12;
-    func_0207C930(widthFx, heightFx);
+    FX_DivAsync(widthFx, heightFx);
     offsetS = ((0 - (s32)pMatAnm->origWidth) << 11) - pMatAnm->transS * pMatAnm->origWidth;
     offsetT = pMatAnm->transT * pMatAnm->origHeight + ((0 - (s32)pMatAnm->origHeight) << 11);
     acc = (s64)scaleSCos * offsetS - (s64)scaleSSin * offsetT;
     pTexMtx->m30 = (s32)(acc >> 8) + ((s32)pMatAnm->origWidth << 15);
     acc = (s64)scaleTSin * offsetS + (s64)scaleTCos * offsetT;
     pTexMtx->m31 = ((s32)pMatAnm->origHeight << 15) + (s32)(acc >> 8);
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m10 = ((0 - scaleSSin) * divResult) >> 12;
 }
 
 
 /*
  * Texture matrix from rotation and translation (scale one). Brackets the
- * body with the two func_0207C930 divide calls (arguments swapped between
+ * body with the two FX_DivAsync divide calls (arguments swapped between
  * them), writes the s16 cosR into m00 and m11, derives m01/m10 from sinR and
  * the divide result, and builds m30/m31 from transS/transT biased by the
  * original width and height.
@@ -184,12 +184,12 @@ void NNSi_G3dTexMtxRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
 
     widthFx = (s32)((u32)pMatAnm->origWidth << 12);
     heightFx = (s32)((u32)pMatAnm->origHeight << 12);
-    func_0207C930(heightFx, widthFx);
+    FX_DivAsync(heightFx, widthFx);
     pTexMtx->m00 = pMatAnm->cosR;
     pTexMtx->m11 = pMatAnm->cosR;
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m01 = (pMatAnm->sinR * divResult) >> 12;
-    func_0207C930(widthFx, heightFx);
+    FX_DivAsync(widthFx, heightFx);
     width = (s32)pMatAnm->origWidth;
     height = (s32)pMatAnm->origHeight;
     offsetT = pMatAnm->transT * height;
@@ -202,7 +202,7 @@ void NNSi_G3dTexMtxRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
     sinRot = pMatAnm->sinR;
     acc = sinRot * (s64)offsetS + cosRot * (s64)offsetT;
     pTexMtx->m31 = ((s32)pMatAnm->origHeight << 15) + (s32)(acc >> 8);
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m10 = ((0 - (s32)pMatAnm->sinR) * divResult) >> 12;
 }
 
@@ -297,23 +297,23 @@ void NNSi_G3dTexMtxScaleRot(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
 
     widthFx = (s32)((u32)pMatAnm->origWidth << 12);
     heightFx = (s32)((u32)pMatAnm->origHeight << 12);
-    func_0207C930(heightFx, widthFx);
+    FX_DivAsync(heightFx, widthFx);
     scaleSCos = (s32)(((s64)pMatAnm->scaleS * pMatAnm->cosR) >> 12);
     scaleSSin = (s32)(((s64)pMatAnm->scaleS * pMatAnm->sinR) >> 12);
     scaleTCos = (s32)(((s64)pMatAnm->scaleT * pMatAnm->cosR) >> 12);
     scaleTSin = (s32)(((s64)pMatAnm->scaleT * pMatAnm->sinR) >> 12);
     pTexMtx->m00 = scaleSCos;
     pTexMtx->m11 = scaleTCos;
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m01 = (scaleTSin * divResult) >> 12;
-    func_0207C930(widthFx, heightFx);
+    FX_DivAsync(widthFx, heightFx);
     negWidth = 0 - (s32)pMatAnm->origWidth;
     negHeight = 0 - (s32)pMatAnm->origHeight;
     acc = (s64)scaleSCos * (negWidth << 11) - (s64)scaleSSin * (negHeight << 11);
     pTexMtx->m30 = (s32)(acc >> 8) + ((s32)pMatAnm->origWidth << 15);
     acc = (s64)scaleTSin * (negWidth << 11) + (s64)scaleTCos * (negHeight << 11);
     pTexMtx->m31 = (s32)(acc >> 8) + ((s32)pMatAnm->origHeight << 15);
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m10 = ((0 - scaleSSin) * divResult) >> 12;
 }
 
@@ -333,19 +333,19 @@ void NNSi_G3dTexMtxRot(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
 
     widthFx = (s32)((u32)pMatAnm->origWidth << 12);
     heightFx = (s32)((u32)pMatAnm->origHeight << 12);
-    func_0207C930(heightFx, widthFx);
+    FX_DivAsync(heightFx, widthFx);
     pTexMtx->m00 = pMatAnm->cosR;
     pTexMtx->m11 = pMatAnm->cosR;
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m01 = (pMatAnm->sinR * divResult) >> 12;
-    func_0207C930(widthFx, heightFx);
+    FX_DivAsync(widthFx, heightFx);
     negWidth = 0 - (s32)pMatAnm->origWidth;
     negHeight = 0 - (s32)pMatAnm->origHeight;
     acc = (s64)pMatAnm->cosR * (negWidth << 11) - (s64)pMatAnm->sinR * (negHeight << 11);
     pTexMtx->m30 = (s32)(acc >> 8) + ((s32)pMatAnm->origWidth << 15);
     acc = (s64)pMatAnm->sinR * (negWidth << 11) + (s64)pMatAnm->cosR * (negHeight << 11);
     pTexMtx->m31 = ((s32)pMatAnm->origHeight << 15) + (s32)(acc >> 8);
-    divResult = func_0207C86C();
+    divResult = FX_GetDivResult();
     pTexMtx->m10 = ((0 - (s32)pMatAnm->sinR) * divResult) >> 12;
 }
 
@@ -488,7 +488,7 @@ void NNSi_G3dTexMtxScaleRotTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAn
 
     widthFx = (s32)pMatAnm->origWidth << 12;
     heightFx = (s32)pMatAnm->origHeight << 12;
-    func_0207C930(heightFx, widthFx);
+    FX_DivAsync(heightFx, widthFx);
 
     cosR = (s32)pMatAnm->cosR;
     scaleS = pMatAnm->scaleS;
@@ -500,9 +500,9 @@ void NNSi_G3dTexMtxScaleRotTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAn
     scaleTCos = (s32)(((s64)scaleT * cosR) >> 12);
     scaleSSin = tmp;
     pTexMtx->m11 = scaleTCos;
-    pTexMtx->m01 = ((s32)(((s64)scaleT * sinR) >> 12) * (s32)func_0207C86C()) >> 12;
+    pTexMtx->m01 = ((s32)(((s64)scaleT * sinR) >> 12) * (s32)FX_GetDivResult()) >> 12;
 
-    func_0207C930(widthFx, heightFx);
+    FX_DivAsync(widthFx, heightFx);
 
     origWidth = (s32)pMatAnm->origWidth;
     rotOffsetT = (((s64)pMatAnm->transS * (s32)pMatAnm->cosR) + ((s64)pMatAnm->transT * (s32)pMatAnm->sinR)) >> 12;
@@ -514,7 +514,7 @@ void NNSi_G3dTexMtxScaleRotTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAn
     pTexMtx->m30 = (origWidth * transSTerm) << 4;
     pTexMtx->m31 = ((0 - (s32)pMatAnm->origHeight) * transTTerm) << 4;
 
-    pTexMtx->m10 = ((0 - scaleSSin) * (s32)func_0207C86C()) >> 12;
+    pTexMtx->m10 = ((0 - scaleSSin) * (s32)FX_GetDivResult()) >> 12;
 }
 
 
@@ -536,15 +536,15 @@ void NNSi_G3dTexMtxRotTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
     widthFx = (s32)((u32)pMatAnm->origWidth << 12);
     heightFx = (s32)((u32)pMatAnm->origHeight << 12);
 
-    func_0207C930(heightFx, widthFx);
+    FX_DivAsync(heightFx, widthFx);
 
     pTexMtx->m00 = pMatAnm->cosR;
     pTexMtx->m11 = pMatAnm->cosR;
 
-    divResult = (s32)func_0207C86C();
+    divResult = (s32)FX_GetDivResult();
     pTexMtx->m01 = (pMatAnm->sinR * divResult) >> 12;
 
-    func_0207C930(widthFx, heightFx);
+    FX_DivAsync(widthFx, heightFx);
 
     crossT = (s32)((((s64)pMatAnm->transS * pMatAnm->cosR) + ((s64)pMatAnm->transT * pMatAnm->sinR)) >> 12);
     crossS = (s32)((((s64)pMatAnm->transS * pMatAnm->sinR) - ((s64)pMatAnm->transT * pMatAnm->cosR)) >> 12);
@@ -552,7 +552,7 @@ void NNSi_G3dTexMtxRotTrans_Max(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm)
     pTexMtx->m30 = ((s32)pMatAnm->origWidth * (pMatAnm->sinR - crossT)) << 4;
     pTexMtx->m31 = ((0 - (s32)pMatAnm->origHeight) * (pMatAnm->cosR + crossS - 0x1000)) << 4;
 
-    divResult = (s32)func_0207C86C();
+    divResult = (s32)FX_GetDivResult();
     pTexMtx->m10 = ((0 - (s32)pMatAnm->sinR) * divResult) >> 12;
 }
 

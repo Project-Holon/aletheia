@@ -14,7 +14,7 @@
  *
  * symbols:
  *   UI_GetContext                     0x02035224  arm
- *   func_02030734                    0x02030734  arm
+ *   GFL_HEAP_Alloc                    0x02030734  arm
  *   MI_CpuFill8                      0x02082BCC  arm
  *   TP_Init                          0x0208A924  arm
  *   TP_GetUserInfo                   0x0208A998  arm
@@ -67,7 +67,7 @@ typedef union {
 
 extern UiCtx *UI_GetContext(void);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
@@ -227,7 +227,7 @@ u16 TOUCHPANEL_ReadTrg(UiCtx *ui)
 TouchPanelWork *TOUCHPANEL_Create(u32 heapId)
 {
     u16 info[4];
-    TouchPanelWork *tp = func_02030734(heapId, sizeof(TouchPanelWork), 0, touchpanel_File, 0x83);
+    TouchPanelWork *tp = GFL_HEAP_Alloc(heapId, sizeof(TouchPanelWork), 0, touchpanel_File, 0x83);
 
     MI_CpuFill8(tp, 0, sizeof(TouchPanelWork));
     tp->autoSampleMode = 0;

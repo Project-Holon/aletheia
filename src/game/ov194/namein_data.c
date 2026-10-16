@@ -14,8 +14,8 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020307B0 0x020307B0 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F5798 0x021F5798 data a4
  *   WORDSET_CopyString 0x0201F41C thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
@@ -25,9 +25,9 @@
 
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 
@@ -88,7 +88,7 @@ int NAMEIN_GRAPHIC_LoadArcMember(u32 a, u32 b)
     return ARC_UTIL_LoadMember(0x77, a, 0, b);
 }
 
-void NAMEIN_GRAPHIC_FreeMember(void *p) { func_020307B0(p); }
+void NAMEIN_GRAPHIC_FreeMember(void *p) { GFL_HEAP_Free(p); }
 
 /*
  * evidence: caller consumes 021F4D20 r0; full forwarder leaves 0204A1BC allocation result live despite own void declaration.
@@ -97,7 +97,7 @@ u32 *NAMEIN_GRAPHIC_CreateMembers(u32 heap)
 {
     u32 *p;
     int i = 0;
-    p = func_02030734(heap, 20, 0, d_021F5798, 147);
+    p = GFL_HEAP_Alloc(heap, 20, 0, d_021F5798, 147);
     MI_CpuFill8(p, 0, 20);
     for (; i < 5; i++)
         p[i] = NAMEIN_GRAPHIC_LoadArcMember(i, heap);
@@ -111,7 +111,7 @@ void NAMEIN_GRAPHIC_DeleteMembers(u8 *p)
     for (i = 0; i < 5; i++) {
         NAMEIN_GRAPHIC_FreeMember((void *)(*(u32 *)(p + i * 4)));
     }
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 u32 NAMEIN_GRAPHIC_GetWord(const u8 *p, u32 i) { return *(const u32 *)(p + i * 4); }
@@ -130,7 +130,7 @@ int NAMEIN_GRAPHIC_LoadCharMember(int a, int b)
     return ARC_UTIL_LoadMember(0x77, a + 5, 0, b);
 }
 
-void NAMEIN_GRAPHIC_FreeHandle(void *p) { func_020307B0(p); }
+void NAMEIN_GRAPHIC_FreeHandle(void *p) { GFL_HEAP_Free(p); }
 
 u16 NAMEIN_GRAPHIC_GetTableCount(const u16 *p) { return *p; }
 
@@ -195,7 +195,7 @@ int NAMEIN_GRAPHIC_LoadPairMember(int a)
     return ARC_UTIL_LoadMember(0x77, 8, 0, a);
 }
 
-void NAMEIN_GRAPHIC_FreePairMember(void *p) {func_020307B0(p);}
+void NAMEIN_GRAPHIC_FreePairMember(void *p) {GFL_HEAP_Free(p);}
 
 int NAMEIN_GRAPHIC_GetPairCount(const u16 *p) {return *p;}
 

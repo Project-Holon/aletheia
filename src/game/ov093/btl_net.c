@@ -15,11 +15,11 @@
  * symbols:
  *   gBtlNet 0x021F3B88 data ov093 a4
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
- *   func_020307B0 0x020307B0 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
@@ -158,11 +158,11 @@ struct BtlNetMyStatusPacket {
     u32 nameLength;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
 extern int GFL_NET_GetNegotiationNum(void);
-extern u32 func_020307B0(void *p);
-extern u32 func_0200FB24(void);
+extern u32 GFL_HEAP_Free(void *p);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_NET_SendToHandle(struct NetHandle *handle, u32 cmd, u32 size, u32 data);
 extern u32 GFL_NET_SendData(u32 handle, u32 sendId, u32 cmd, u32 size, u32 data, u32 flag0, u32 flag1, u32 flag2);
 extern int POKE_REGULATION_GetDataSize(void);
@@ -257,7 +257,7 @@ void BTL_NET_Init(void *netHandle, u16 memberMask, u16 heapId)
 {
     u32 memberCount, i, j, k, maxMembers;
     if (netHandle) {
-        gBtlNet = func_02030734(heapId, sizeof(struct BtlNet), 1, gBtlNetSourceName, 0xd4);
+        gBtlNet = GFL_HEAP_Alloc(heapId, sizeof(struct BtlNet), 1, gBtlNetSourceName, 0xd4);
         gBtlNet->netHandle = netHandle;
         gBtlNet->memberMask = memberMask;
         gBtlNet->heapId = heapId;
@@ -303,7 +303,7 @@ void BTL_NET_Exit(void)
 {
     if (gBtlNet) {
         BTL_NET_FreeRecvBuffers();
-        func_020307B0(gBtlNet);
+        GFL_HEAP_Free(gBtlNet);
     }
 }
 
@@ -311,7 +311,7 @@ void BTL_NET_Exit(void)
 int BTL_NET_HasCommError(void)
 {
     if (gBtlNet) {
-        if (func_0200FB24()) return 1;
+        if (GFL_NET_ERR_GetErrorLevel()) return 1;
         return 0;
     }
     return 0;
@@ -438,7 +438,7 @@ u8 BTL_NET_SendParty(u32 party)
 /* Give the link a buffer for the party of net id netId. */
 void *BTL_NET_AllocPartyBuf(int netId, int unused, u32 size)
 {
-    gBtlNet->recvBuf[netId] = func_02030734(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x1ce);
+    gBtlNet->recvBuf[netId] = GFL_HEAP_Alloc(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x1ce);
     return gBtlNet->recvBuf[netId];
 }
 
@@ -490,7 +490,7 @@ void *BTL_NET_AllocPerapVoiceBuf(int netId, int unused, u32 size)
 {
     if (size == 4)
         return &gBtlNet->replySlots[netId];
-    gBtlNet->recvBuf[netId] = func_02030734(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x21f);
+    gBtlNet->recvBuf[netId] = GFL_HEAP_Alloc(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x21f);
     return gBtlNet->recvBuf[netId];
 }
 
@@ -553,7 +553,7 @@ u32 BTL_NET_SendRelayedParty(u32 *packet)
 void *BTL_NET_AllocRelayedPartyBuf(int unused0, int unused1, u32 size)
 {
     if (gBtlNet->tempBuf == 0)
-        gBtlNet->tempBuf = func_02030734(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x279);
+        gBtlNet->tempBuf = GFL_HEAP_Alloc(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x279);
     return gBtlNet->tempBuf;
 }
 
@@ -568,10 +568,10 @@ void *BTL_NET_AllocRelayedPartyBuf(int unused0, int unused1, u32 size)
 void BTL_NET_RecvRelayedParty(u32 unused0, u32 unused1, const BtlNetPacketHeader *packet)
 {
     if (gBtlNet->relayBuf[packet->h.type] == 0) {
-        gBtlNet->relayBuf[packet->h.type] = func_02030734(BTL_NET_TAIL_HEAP(gBtlNet->heapId), packet->h.size, 1, gBtlNetSourceName, 0x282);
+        gBtlNet->relayBuf[packet->h.type] = GFL_HEAP_Alloc(BTL_NET_TAIL_HEAP(gBtlNet->heapId), packet->h.size, 1, gBtlNetSourceName, 0x282);
     }
     MI_CpuCopy8(packet + 1, gBtlNet->relayBuf[packet->h.type], packet->h.size);
-    func_020307B0(gBtlNet->tempBuf);
+    GFL_HEAP_Free(gBtlNet->tempBuf);
     gBtlNet->tempBuf = 0;
 }
 
@@ -623,7 +623,7 @@ int BTL_NET_SendPlayerInfo(u32 myStatus)
 /* Give the link a buffer for the trainer record of net id netId. */
 void *BTL_NET_AllocPlayerInfoBuf(int netId, int unused, u32 size)
 {
-    gBtlNet->recvBuf[netId] = func_02030734(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x2d4);
+    gBtlNet->recvBuf[netId] = GFL_HEAP_Alloc(BTL_NET_TAIL_HEAP(gBtlNet->heapId), size, 1, gBtlNetSourceName, 0x2d4);
     return gBtlNet->recvBuf[netId];
 }
 
@@ -678,7 +678,7 @@ u32 BTL_NET_SendRelayedPlayerInfo(void *myStatus)
 u32 BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size)
 {
     u32 heapId = (u16)(0x8000 | (gBtlNet->heapId & 0x7fff));
-    u32 buf = (u32)func_02030734(heapId, size, 1, gBtlNetSourceName, 0x31e);
+    u32 buf = (u32)GFL_HEAP_Alloc(heapId, size, 1, gBtlNetSourceName, 0x31e);
 
     gBtlNet->tempBuf = (void *)buf;
     return (u32)gBtlNet->tempBuf;
@@ -707,7 +707,7 @@ void *BTL_NET_GetRelayedPlayerInfo(void)
 /* Free the forwarded trainer record. */
 void BTL_NET_FreeRelayedPlayerInfo(void)
 {
-    func_020307B0(gBtlNet->tempBuf);
+    GFL_HEAP_Free(gBtlNet->tempBuf);
     gBtlNet->tempBuf = 0;
     gBtlNet->tempDone = 0;
 }
@@ -721,7 +721,7 @@ void BTL_NET_FreeAfterPlayerInfoUse(void)
 /* Copy a trainer record and its name into a new packet for sending. */
 struct BtlNetMyStatusPacket *BTL_NET_BuildPlayerInfoPacket(struct MyStatus *myStatus, u32 heapId)
 {
-    struct BtlNetMyStatusPacket *packet = func_02030734(heapId, sizeof(struct BtlNetMyStatusPacket), 1, gBtlNetSourceName, 0x349);
+    struct BtlNetMyStatusPacket *packet = GFL_HEAP_Alloc(heapId, sizeof(struct BtlNetMyStatusPacket), 1, gBtlNetSourceName, 0x349);
 
     MI_CpuCopy8(myStatus, packet, sizeof(struct MyStatus));
     MIi_CpuClear16(STRBUF_GetEosChar(), packet->nameChars, sizeof(packet->nameChars));
@@ -735,7 +735,7 @@ struct BtlNetMyStatusPacket *BTL_NET_BuildPlayerInfoPacket(struct MyStatus *mySt
 /* Free a packet made by the function above. */
 void BTL_NET_FreePlayerInfoPacket(void *packet)
 {
-    func_020307B0(packet);
+    GFL_HEAP_Free(packet);
 }
 
 /* Free the per-player buffers, the forwarded buffers and the one in transit. */
@@ -745,19 +745,19 @@ void BTL_NET_FreeRecvBuffers(void)
 
     for (i = 0; i < BTL_NET_PLAYER_MAX; i++) {
         if (gBtlNet->recvBuf[i] != 0) {
-            func_020307B0(gBtlNet->recvBuf[i]);
+            GFL_HEAP_Free(gBtlNet->recvBuf[i]);
             gBtlNet->recvBuf[i] = 0;
             gBtlNet->recvDone[i] = 0;
         }
     }
     for (i = 0; i < BTL_NET_PLAYER_MAX; i++) {
         if (gBtlNet->relayBuf[i] != 0) {
-            func_020307B0(gBtlNet->relayBuf[i]);
+            GFL_HEAP_Free(gBtlNet->relayBuf[i]);
             gBtlNet->relayBuf[i] = 0;
         }
     }
     if (gBtlNet->tempBuf != 0) {
-        func_020307B0(gBtlNet->tempBuf);
+        GFL_HEAP_Free(gBtlNet->tempBuf);
         gBtlNet->tempBuf = 0;
         gBtlNet->tempDone = 0;
     }
@@ -923,7 +923,7 @@ void BTL_NET_ResetReplySlots(void)
 /* Allocate a packet for size bytes of forwarded data and write its header. */
 void *BTL_NET_AllocRelayPacket(u32 size, u16 heapId)
 {
-    BtlNetPacketHeader *header = func_02030734(heapId, size + 4, 1, gBtlNetSourceName, 0x477);
+    BtlNetPacketHeader *header = GFL_HEAP_Alloc(heapId, size + 4, 1, gBtlNetSourceName, 0x477);
 
     header->h.size = size;
     header->h.type = 4;
@@ -933,7 +933,7 @@ void *BTL_NET_AllocRelayPacket(u32 size, u16 heapId)
 /* Free a packet made by the function above. */
 void BTL_NET_FreeRelayPacket(void *packet)
 {
-    func_020307B0(packet);
+    GFL_HEAP_Free(packet);
 }
 
 /* Set the client id in the header of a packet, then copy size bytes in behind it. */

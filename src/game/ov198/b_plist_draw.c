@@ -28,13 +28,13 @@
  *   BMP_WIN_GetPalette 0x02045778 arm
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   d_02211B68 0x02211B68 data ov198 a4
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
@@ -43,7 +43,7 @@
  *   BMP_FillRect 0x02043AF4 arm
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   APP_ICON_GetStatusIconAnim  0x020276C4  thumb
  *   d_02211AFF  0x02211AFF  data  a1
@@ -52,7 +52,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   d_02211B06 0x02211B06 data a1
  *   d_02211B3C 0x02211B3C data a4
  *   d_02211B50 0x02211B50 data a1
@@ -72,7 +72,7 @@
  *   B_APP_TOOL_ShowWindow 0x0220B07C thumb ov196
  *   B_PLIST_MAIN_CreateToolActors 0x0220F1F4 thumb ov198
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
@@ -107,7 +107,7 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
  *   APP_ICON_GetMoveKindPaletteOffset 0x02027604 thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -232,13 +232,13 @@ extern void BMP_Clear(struct CharBuf *,u8);
 extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, s16 b, s16 c, void *d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
@@ -246,14 +246,14 @@ extern int BGWINFRM_GetScaleRank(u32,u32);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int APP_ICON_GetStatusIconAnim(int a0);
 extern int B_PLIST_MAIN_GetRowStatus(u8 *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void func_02041B6C(unsigned);
+extern void BG_SYS_SetFlagField06(unsigned);
 extern unsigned WAZA_TOOL_GetParam(u16,unsigned);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
@@ -266,7 +266,7 @@ extern void B_APP_TOOL_ShowWindows(char *,u8 *);
 extern void B_APP_TOOL_ShowWindow(void *);
 extern void B_PLIST_MAIN_CreateToolActors(u8 *p);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
@@ -302,7 +302,7 @@ extern unsigned POKE_TOOL_CalcIconPalette(unsigned,unsigned,unsigned,unsigned);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 i);
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32),CLACT_SetActorAnimSeq(struct Obj *,u32);
@@ -650,7 +650,7 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     off = n * 0x4C;
     rec = (struct B_PlistSlotView *)(base + off);
     vec = STRBUF_Create(12, P->hdr->field10);
-    msg = func_02045EC0(P->f1EA0, d_02211B68[a2]);
+    msg = MSGDATA_AllocString(P->f1EA0, d_02211B68[a2]);
     WORDSET_SetSlotMonSpecies(P->f1EA4, 0, *(void **)rec);
     WORDSET_CopyTaggedText(P->f1EA4, vec, msg);
     if (k == 9) {
@@ -669,9 +669,9 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     if (rec->a1 || rec->b2)
         return;
     if (rec->b0 == 0) {
-        m2 = func_02045EC0(P->f1EA0, 0x16);
+        m2 = MSGDATA_AllocString(P->f1EA0, 0x16);
         w = BMP_WIN_GetWidth(handle);
-        x = (u16)((w << 3) - func_0201D304(m2, P->hdr->font, 0));
+        x = (u16)((w << 3) - GF_FONT_MeasureWidestLine(m2, P->hdr->font, 0));
         if (k == 9) {
             c90 = P->f1EAC;
             PRINTSYS_PrintQueColor((void *)c90, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x, ex, m2, P->hdr->font, 0x2960);
@@ -683,9 +683,9 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
         }
         STRBUF_Delete(m2);
     } else if (rec->b0 == 1) {
-        m3 = func_02045EC0(P->f1EA0, 0x17);
+        m3 = MSGDATA_AllocString(P->f1EA0, 0x17);
         w2 = BMP_WIN_GetWidth(handle);
-        x2 = (u16)((w2 << 3) - func_0201D304(m3, P->hdr->font, 0));
+        x2 = (u16)((w2 << 3) - GF_FONT_MeasureWidestLine(m3, P->hdr->font, 0));
         if (k == 9) {
             c91 = P->f1EAC;
             PRINTSYS_PrintQueColor((void *)c91, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x2, ex, m3, P->hdr->font, 0x31A0);
@@ -710,7 +710,7 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
 void B_PLIST_DRAW_PrintSlotValue(u8 *p,int slot,int index,s16 value,u8 extra)
 {
     char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
-    void *text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,11);
+    void *text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,11);
     u32 context;
     u32 surface;
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font,0,((struct B_PlistSlot *)elem)->levelBits.level,3,0,1);
@@ -790,7 +790,7 @@ static inline u32 half(u32 w) { return w >> 1; }
  *   the halving is a single-parameter helper `static inline u32 half(u32 w) { return w >> 1; }` (shape of
  *   ov097 021F6D70 center_x), so the u32 parameter gives lsrs. Plain `x0 - (n >> 1)` is DIFF. Locals are
  *   declared at the top in the same order (C89 form), assignments in place; same bytes.
- * 2026-10-05 (wD9r lane156): EXACT. n is a u8 local (`u8 n = func_0201D304(...)`), widened to u32 for the
+ * 2026-10-05 (wD9r lane156): EXACT. n is a u8 local (`u8 n = GF_FONT_MeasureWidestLine(...)`), widened to u32 for the
  *   halving shift (`x0 - ((u32)n >> 1)`, keeps lsrs). mwcc keeps the reload of a spilled narrow local below the
  *   outgoing stack stores (docs/idioms/a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md).
  * 2026-10-05 (wD9r lane138): still 22 bytes. Tried the matched ov198 sibling prototype (0220C694, 0220D628:
@@ -806,7 +806,7 @@ static inline u32 half(u32 w) { return w >> 1; }
  *   parameter (all four are used in registers at entry, no entry store), and a homed slot would add bytes
  *   (image is 396, ours 396). The 0xC slot is the narrow stack parameter `extra` copied to the frame.
  * 2026-10-05 (wD9r lane111): still 22 bytes. New finding (diagnostic): a reassigned NARROW real parameter
- *   (index declared u16, short or signed char, then `index = (u8)func_0201D304(...)` and `x0 + index` in call 3)
+ *   (index declared u16, short or signed char, then `index = (u8)GF_FONT_MeasureWidestLine(...)` and `x0 + index` in call 3)
  *   is memory-homed by mwcc, and call 3 then has the image order exactly (three stack stores, ldr r2 n,
  *   ldr r0 ctx3, adds, lsls, ldr r3, asrs). But the home costs an entry store `str r2,[sp,#0xc]` and a reload
  *   for the first call, and the slot is the lowest one (image: no entry store, n at 0x28), so not the source.
@@ -868,7 +868,7 @@ static inline u32 half(u32 w) { return w >> 1; }
  *   int x3 = n + x0 before ctx3 (22, sunk to the same place); the 02045770 result in a block local h3 with ctx3
  *   before it (22) and with P->f1EAC inline as the first argument (115). No new source form found.
  * 2026-10-05 (wD9r lane104): still 22 bytes. Tried the short idiom (ov116 021D7D0C): n as short or u16
- *   (40, n >> 1 becomes asrs and slots shift, reload still hoists), func_0201D304 returning short (22),
+ *   (40, n >> 1 becomes asrs and slots shift, reload still hoists), GF_FONT_MeasureWidestLine returning short (22),
  *   x0 as a short parameter (24, the x0 truncation becomes 16-bit, reload still hoists), and the dead int
  *   parameter `index` reused for n as short/u16/u8 (40) or int/u32 (376). None keeps the n reload below the
  *   outgoing stack stores.
@@ -890,8 +890,8 @@ void B_PLIST_DRAW_PrintNameWithValues(u8 *p, int slot, int index, u8 x0, u8 extr
     u32 A;
     void *B;
     elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex(p, index) * 0x4C;
-    text = func_02045EC0(P->f1EA0, 12);
-    n = func_0201D304(text, P->f1E9C, 0);
+    text = MSGDATA_AllocString(P->f1EA0, 12);
+    n = GF_FONT_MeasureWidestLine(text, P->f1E9C, 0);
     x0 = x0 - half(n);
     ctx1 = P->f1EAC;
     ex = extra;
@@ -901,17 +901,17 @@ void B_PLIST_DRAW_PrintNameWithValues(u8 *p, int slot, int index, u8 x0, u8 extr
     PRINTSYS_PrintQueColor((void *)ctx1, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x0, ex, text, P->f1E9C, 0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text);
-    text2 = func_02045EC0(P->f1EA0, 13);
+    text2 = MSGDATA_AllocString(P->f1EA0, 13);
     WORDSET_SetSlotNumber(P->f1EA4, 0, *(u16 *)(elem + 0x10), 3, 0, 1);
     WORDSET_CopyTaggedText(P->f1EA4, P->f1EA8, text2);
     A = P->f1E9C;
     B = P->f1EA8;
-    y = x0 - func_0201D304(B, A, 0);
+    y = x0 - GF_FONT_MeasureWidestLine(B, A, 0);
     ctx2 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx2, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), y, ex, B, A, 0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text2);
-    text3 = func_02045EC0(P->f1EA0, 13);
+    text3 = MSGDATA_AllocString(P->f1EA0, 13);
     WORDSET_SetSlotNumber(P->f1EA4, 0, *(u16 *)(elem + 0x12), 3, 0, 1);
     WORDSET_CopyTaggedText(P->f1EA4, P->f1EA8, text3);
     ctx3 = P->f1EAC;
@@ -996,7 +996,7 @@ void B_PLIST_DRAW_PrintRowValue(u8 *p,int slot,int index)
 {
     char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     u32 buf=(u32)STRBUF_Create(16,((struct B_PlistWork *)p)->owner->heapId);
-    void *text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,14);
+    void *text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,14);
     u32 context;
     u32 surface;
     WORDSET_SetSlotFromMsgB6(((struct B_PlistWork *)p)->font,0,((struct B_PlistSlot *)elem)->field18);
@@ -1025,10 +1025,10 @@ void B_PLIST_DRAW_PrintItemOrName(char *p, int i, int index)
     void *f;
     elem = p + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)p, index) * 0x4C;
     if (((struct B_PlistSlot *)elem)->u1A.field1A == 0)
-        t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x1E);
+        t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x1E);
     else {
         t = (void *)STRBUF_Create(0x12, ((struct B_PlistWork *)p)->owner->heapId);
-        format = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 15);
+        format = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 15);
         WORDSET_Callback_EF40(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)elem)->u1A.field1A);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, (void *)((u32)t), format);
         STRBUF_Delete(format);
@@ -1056,12 +1056,12 @@ void B_PLIST_DRAW_PrintNumberAt(char *p,int value,int slot,int id,u16 x,s16 y,u3
     u32 width;
     handle=*(void **)(p+0x1F70+slot*8);
     buf=STRBUF_Create(16,((struct B_PlistWork *)p)->owner->heapId);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,id);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,id);
     WORDSET_SetSlotFromMsgCB(((struct B_PlistWork *)p)->font,0,value);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font,buf,text);
     if (x==0xFFFF) {
         width=BMP_WIN_GetWidth(handle);
-        x=((width<<3)-func_0201D304(buf,((struct B_PlistWork *)p)->owner->field0C,0))>>1;
+        x=((width<<3)-GF_FONT_MeasureWidestLine(buf,((struct B_PlistWork *)p)->owner->field0C,0))>>1;
     }
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),x,y,buf,((struct B_PlistWork *)p)->owner->field0C,(u16)color);
@@ -1082,7 +1082,7 @@ void B_PLIST_DRAW_PrintTextAt(char *p, int i, s16 x, s16 y)
 {
     void *t;
     void *f;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x14);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x14);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(*(void **)(p + 0x1F70 + i * 8)), x, y, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
@@ -1102,7 +1102,7 @@ void B_PLIST_DRAW_PrintHeader(char *p, int id)
     void *t;
     void *f;
     BMP_Clear((void *)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[0].handle), 15);
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, id);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, id);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[0].handle), 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x440);
     ((struct B_PlistWork *)p)->win[0].visible = 1;
@@ -1147,8 +1147,8 @@ void B_PLIST_DRAW_PrintCenteredText(char *p, int i, int id)
     u32 font;
     s16 x;
     handle = *(void **)(p + 0x1F70 + i * 8);
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, id);
-    width = func_0201D304(t, ((struct B_PlistWork *)p)->owner->field0C, 0);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, id);
+    width = GF_FONT_MeasureWidestLine(t, ((struct B_PlistWork *)p)->owner->field0C, 0);
     font = ((struct B_PlistWork *)p)->owner->field0C;
     x = (s16)(((BMP_WIN_GetWidth(handle) << 3) - width) >> 1);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
@@ -1176,12 +1176,12 @@ void B_PLIST_DRAW_PrintStatsFields(u8 *p,int index)
     u32 width;
     u16 x;
     elem=p+4+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x21);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x21);
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[21].handle),0,0,text,((struct B_PlistWork *)p)->owner->field0C,0x3DC0);
     ((struct B_PlistWork *)p)->win[21].visible=1;
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x22);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x22);
     buf=STRBUF_Create(8,((struct B_PlistWork *)p)->owner->heapId);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font,0,((struct B_PlistSlot *)elem)->levelBits.level,3,0,1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font,buf,text);
@@ -1190,12 +1190,12 @@ void B_PLIST_DRAW_PrintStatsFields(u8 *p,int index)
     ((struct B_PlistWork *)p)->win[13].visible=1;
     STRBUF_Delete(text);
     STRBUF_Delete(buf);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x23);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x23);
     thirdContext=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(thirdContext,(u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[22].handle),0,0,text,((struct B_PlistWork *)p)->owner->field0C,0x3DC0);
     ((struct B_PlistWork *)p)->win[22].visible=1;
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x24);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x24);
     buf=STRBUF_Create(14,((struct B_PlistWork *)p)->owner->heapId);
     if (((struct B_PlistSlot *)elem)->levelBits.level<100) {
         WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font,0,((struct B_PlistSlot *)elem)->expMax-((struct B_PlistSlot *)elem)->expCurrent,6,1,1);
@@ -1204,7 +1204,7 @@ void B_PLIST_DRAW_PrintStatsFields(u8 *p,int index)
     }
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font,buf,text);
     width=BMP_WIN_GetWidth(((struct B_PlistWork *)p)->win[14].handle);
-    x=(width<<3)-func_0201D304(buf,((struct B_PlistWork *)p)->owner->field0C,0);
+    x=(width<<3)-GF_FONT_MeasureWidestLine(buf,((struct B_PlistWork *)p)->owner->field0C,0);
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[14].handle),x,0,buf,((struct B_PlistWork *)p)->owner->field0C,0x2120);
     ((struct B_PlistWork *)p)->win[14].visible=1;
@@ -1248,17 +1248,17 @@ void B_PLIST_DRAW_PrintStatRow0(char *obj, int i)
     int v;
     unsigned char x;
 
-    h1 = (int)func_02045EC0((struct MsgBank *)a0->f1ea0, 0x2a);
+    h1 = (int)MSGDATA_AllocString((struct MsgBank *)a0->f1ea0, 0x2a);
     put(a0, a0->f1eac, a0->f1fe0, 0, h1, 0x3dc0);
     a0->f1fe4 = 1;
     STRBUF_Delete((struct U16Vec *)h1);
 
-    h2 = (int)func_02045EC0((struct MsgBank *)a0->f1ea0, 0x2b);
+    h2 = (int)MSGDATA_AllocString((struct MsgBank *)a0->f1ea0, 0x2b);
     p = (int)STRBUF_Create(8, a0->f0->f10);
     WORDSET_SetSlotNumber((struct WordSet *)a0->f1ea4, 0, *(unsigned short *)(entry + 6), 3, 0, 1);
     WORDSET_CopyTaggedText((struct WordSet *)a0->f1ea4, (void *)p, (void *)h2);
 
-    v = (unsigned char)func_0201D304((struct StrObj *)p, a0->f0->fc, 0);
+    v = (unsigned char)GF_FONT_MeasureWidestLine((struct StrObj *)p, a0->f0->fc, 0);
     x = (BMP_WIN_GetWidth((struct Descriptor *)a0->f1f98) << 3) - v;
     put(a0, a0->f1eac, a0->f1f98, x, p, 0x2120);
     a0->f1f9c = 1;
@@ -1289,17 +1289,17 @@ void B_PLIST_DRAW_PrintStatRow1(char *p, int i)
     u32 x;
 
     elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x2c);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x2c);
     x = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     y = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[17].handle);
     PRINTSYS_PrintQueColor((void *)x, y, 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3dc0);
     ((struct B_PlistWork *)p)->win[17].visible = 1;
     STRBUF_Delete(t);
-    t2 = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x2d);
+    t2 = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x2d);
     h = (u32)STRBUF_Create(8, ((struct B_PlistWork *)p)->owner->heapId);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)elem)->active, 3, 0, 1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, (void *)h, t2);
-    b = func_0201D304((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
+    b = GF_FONT_MeasureWidestLine((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
     c = (BMP_WIN_GetWidth(((struct B_PlistWork *)p)->win[8].handle) << 3) - b;
     d = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     e = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[8].handle);
@@ -1332,17 +1332,17 @@ void B_PLIST_DRAW_PrintStatRow2(char *p, int i)
     u32 x;
 
     elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x32);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x32);
     x = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     y = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[18].handle);
     PRINTSYS_PrintQueColor((void *)x, y, 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3dc0);
     ((struct B_PlistWork *)p)->win[18].visible = 1;
     STRBUF_Delete(t);
-    t2 = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x33);
+    t2 = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x33);
     h = (u32)STRBUF_Create(8, ((struct B_PlistWork *)p)->owner->heapId);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)elem)->field0A, 3, 0, 1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, (void *)h, t2);
-    b = func_0201D304((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
+    b = GF_FONT_MeasureWidestLine((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
     c = (BMP_WIN_GetWidth(((struct B_PlistWork *)p)->win[9].handle) << 3) - b;
     d = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     e = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[9].handle);
@@ -1375,17 +1375,17 @@ void B_PLIST_DRAW_PrintStatRow3(char *p, int i)
     u32 x;
 
     elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x2e);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x2e);
     x = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     y = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[19].handle);
     PRINTSYS_PrintQueColor((void *)x, y, 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3dc0);
     ((struct B_PlistWork *)p)->win[19].visible = 1;
     STRBUF_Delete(t);
-    t2 = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x2f);
+    t2 = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x2f);
     h = (u32)STRBUF_Create(8, ((struct B_PlistWork *)p)->owner->heapId);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)elem)->field0C, 3, 0, 1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, (void *)h, t2);
-    b = func_0201D304((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
+    b = GF_FONT_MeasureWidestLine((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
     c = (BMP_WIN_GetWidth(((struct B_PlistWork *)p)->win[10].handle) << 3) - b;
     d = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     e = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[10].handle);
@@ -1418,17 +1418,17 @@ void B_PLIST_DRAW_PrintStatRow4(char *p, int i)
     u32 x;
 
     elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x30);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x30);
     x = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     y = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[20].handle);
     PRINTSYS_PrintQueColor((void *)x, y, 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3dc0);
     ((struct B_PlistWork *)p)->win[20].visible = 1;
     STRBUF_Delete(t);
-    t2 = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x31);
+    t2 = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x31);
     h = (u32)STRBUF_Create(8, ((struct B_PlistWork *)p)->owner->heapId);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font, 0, ((struct B_PlistSlot *)elem)->field0E, 3, 0, 1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, (void *)h, t2);
-    b = func_0201D304((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
+    b = GF_FONT_MeasureWidestLine((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
     c = (BMP_WIN_GetWidth(((struct B_PlistWork *)p)->win[11].handle) << 3) - b;
     d = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
     e = (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[11].handle);
@@ -1457,29 +1457,29 @@ void B_PLIST_DRAW_PrintDualValue(u8 *p,int index)
     u32 otherWidth;
     u16 x;
     elem=p+4+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x26);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x26);
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[15].handle),0,0,text,((struct B_PlistWork *)p)->owner->field0C,0x3DC0);
     ((struct B_PlistWork *)p)->win[15].visible=1;
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x29);
-    width=func_0201D304(text,((struct B_PlistWork *)p)->owner->field0C,0);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x29);
+    width=GF_FONT_MeasureWidestLine(text,((struct B_PlistWork *)p)->owner->field0C,0);
     x=((BMP_WIN_GetWidth(((struct B_PlistWork *)p)->win[6].handle)<<3)-width)>>1;
     secondContext=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(secondContext,(u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[6].handle),x,0,text,((struct B_PlistWork *)p)->owner->field0C,0x2120);
     ((struct B_PlistWork *)p)->win[6].visible=1;
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x27);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x27);
     buf=STRBUF_Create(8,((struct B_PlistWork *)p)->owner->heapId);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font,0,((struct B_PlistSlot *)elem)->field10,3,0,1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font,buf,text);
-    otherWidth=func_0201D304(buf,((struct B_PlistWork *)p)->owner->field0C,0);
+    otherWidth=GF_FONT_MeasureWidestLine(buf,((struct B_PlistWork *)p)->owner->field0C,0);
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[6].handle),(x-otherWidth),0,buf,((struct B_PlistWork *)p)->owner->field0C,0x2120);
     ((struct B_PlistWork *)p)->win[6].visible=1;
     STRBUF_Delete(text);
     STRBUF_Delete(buf);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x28);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x28);
     buf=STRBUF_Create(8,((struct B_PlistWork *)p)->owner->heapId);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font,0,((struct B_PlistSlot *)elem)->field12,3,0,1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font,buf,text);
@@ -1505,8 +1505,8 @@ void B_PLIST_DRAW_PrintBankEntry(char *p, int index)
     void *t;
     void *f;
     elem = p + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)p, index) * 0x4C;
-    bank = func_02045B38(0, 2, 0xB7, ((struct B_PlistWork *)p)->owner->heapId);
-    t = func_02045EC0(bank, ((struct B_PlistSlot *)elem)->field18);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0xB7, ((struct B_PlistWork *)p)->owner->heapId);
+    t = MSGDATA_AllocString(bank, ((struct B_PlistSlot *)elem)->field18);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(((struct B_PlistWork *)p)->win[4].handle), 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x2120);
     ((struct B_PlistWork *)p)->win[4].visible = 1;
@@ -1526,7 +1526,7 @@ void B_PLIST_DRAW_PrintSlotLabelA(char *p, int i)
 {
     void *t;
     void *f;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x3D);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x3D);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(*(void **)(p + 0x1F70 + i * 8)), 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
@@ -1552,8 +1552,8 @@ void B_PLIST_DRAW_PrintSlotValueA(char *p, int a1, int a2)
     if (a2 == 0) {
         u32 f;
 
-        t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x3c);
-        w = func_0201D304((struct StrObj *)((u32)t), ((struct B_PlistWork *)p)->owner->field0C, 0);
+        t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x3c);
+        w = GF_FONT_MeasureWidestLine((struct StrObj *)((u32)t), ((struct B_PlistWork *)p)->owner->field0C, 0);
         w = (BMP_WIN_GetWidth((void *)handle) << 3) - w;
         f = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
         PRINTSYS_PrintQueColor((void *)f,
@@ -1568,11 +1568,11 @@ void B_PLIST_DRAW_PrintSlotValueA(char *p, int a1, int a2)
         u16 w0;
         u16 w2;
 
-        t2 = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x3e);
+        t2 = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x3e);
         h = (u32)STRBUF_Create(8, ((struct B_PlistWork *)p)->owner->heapId);
         WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font, 0, a2, 3, 0, 1);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, (void *)h, t2);
-        w0 = func_0201D304((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
+        w0 = GF_FONT_MeasureWidestLine((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
         w2 = (BMP_WIN_GetWidth((void *)handle) << 3) - w0;
         f = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
         PRINTSYS_PrintQueColor((void *)f,
@@ -1596,7 +1596,7 @@ void B_PLIST_DRAW_PrintSlotLabelB(char *p, int i)
 {
     void *t;
     void *f;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x3A);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x3A);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(*(void **)(p + 0x1F70 + i * 8)), 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
@@ -1622,8 +1622,8 @@ void B_PLIST_DRAW_PrintSlotValueB(char *p, int a1, u32 a2)
     if (a2 <= 1) {
         u32 f;
 
-        t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x3c);
-        w = func_0201D304((struct StrObj *)((u32)t), ((struct B_PlistWork *)p)->owner->field0C, 0);
+        t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x3c);
+        w = GF_FONT_MeasureWidestLine((struct StrObj *)((u32)t), ((struct B_PlistWork *)p)->owner->field0C, 0);
         w = (BMP_WIN_GetWidth((void *)handle) << 3) - w;
         f = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
         PRINTSYS_PrintQueColor((void *)f,
@@ -1638,11 +1638,11 @@ void B_PLIST_DRAW_PrintSlotValueB(char *p, int a1, u32 a2)
         u16 w0;
         u16 w2;
 
-        t2 = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x3b);
+        t2 = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x3b);
         h = (u32)STRBUF_Create(8, ((struct B_PlistWork *)p)->owner->heapId);
         WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font, 0, a2, 3, 0, 1);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font, (void *)h, t2);
-        w0 = func_0201D304((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
+        w0 = GF_FONT_MeasureWidestLine((struct StrObj *)h, ((struct B_PlistWork *)p)->owner->field0C, 0);
         w2 = (BMP_WIN_GetWidth((void *)handle) << 3) - w0;
         f = ((struct B_PlistWork *)p)->u1EAC.printQueWord;
         PRINTSYS_PrintQueColor((void *)f,
@@ -1667,8 +1667,8 @@ void B_PLIST_DRAW_PrintSlotLabelC(char *p, int i, int id)
     void *bank;
     void *t;
     void *f;
-    bank = func_02045B38(0, 2, 0xCA, ((struct B_PlistWork *)p)->owner->heapId);
-    t = func_02045EC0(bank, id);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0xCA, ((struct B_PlistWork *)p)->owner->heapId);
+    t = MSGDATA_AllocString(bank, id);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(*(void **)(p + 0x1F70 + i * 8)), 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
@@ -1688,8 +1688,8 @@ void B_PLIST_DRAW_PrintSlotLabelD(char *p, int i)
 {
     void *t;
     void *f;
-    t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x3F);
-    func_0201D304(t, ((struct B_PlistWork *)p)->owner->field0C, 0);
+    t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x3F);
+    GF_FONT_MeasureWidestLine(t, ((struct B_PlistWork *)p)->owner->field0C, 0);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(*(void **)(p + 0x1F70 + i * 8)), 0, 0, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
@@ -1715,9 +1715,9 @@ void B_PLIST_DRAW_PrintSlotLabelBySelector(char *p, int i, int selector)
     struct U16Vec *t;
     void *f;
     switch (selector) {
-    case 0: t = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), 0x41); break;
-    case 1: t = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), 0x40); break;
-    case 2: t = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), 0x42); break;
+    case 0: t = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1EA0), 0x41); break;
+    case 1: t = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1EA0), 0x40); break;
+    case 2: t = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1EA0), 0x42); break;
     }
     f = *(void **)(p + 0x1EAC);
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x1F70 + i * 8)), 0, 0, t, *(u32 *)(*(char **)p + 12), 0x3DC0);
@@ -1767,25 +1767,25 @@ void B_PLIST_DRAW_PrintCenterPair(u8 *p, int slot, int a2, int a3)
     slot = slot * 8;
     tab = p + 0x1F70;
     handle = *(void **)(tab + slot);
-    text = func_02045EC0(P->f1EA0, 0x38);
-    w1 = func_0201D304(text, P->hdr->font, 0);
+    text = MSGDATA_AllocString(P->f1EA0, 0x38);
+    w1 = GF_FONT_MeasureWidestLine(text, P->hdr->font, 0);
     x = ((BMP_WIN_GetWidth(handle) << 3) - w1) >> 1;
     ctx1 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx1, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x, 0, text, P->hdr->font, (u32)0x3DC0);
     fl = p + 0x1F74;
     fl[slot] = 1;
     STRBUF_Delete(text);
-    text2 = func_02045EC0(P->f1EA0, 0x36);
+    text2 = MSGDATA_AllocString(P->f1EA0, 0x36);
     h2 = STRBUF_Create(6, P->hdr->field10);
     WORDSET_SetSlotNumber(P->f1EA4, 0, a2, 3, 0, 1);
     WORDSET_CopyTaggedText(P->f1EA4, h2, text2);
-    w2 = func_0201D304(h2, P->hdr->font, 0);
+    w2 = GF_FONT_MeasureWidestLine(h2, P->hdr->font, 0);
     ctx2 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx2, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (x - w2), 0, h2, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text2);
     STRBUF_Delete(h2);
-    text3 = func_02045EC0(P->f1EA0, 0x37);
+    text3 = MSGDATA_AllocString(P->f1EA0, 0x37);
     h3 = STRBUF_Create(6, P->hdr->field10);
     WORDSET_SetSlotNumber(P->f1EA4, 0, a3, 3, 0, 1);
     WORDSET_CopyTaggedText(P->f1EA4, h3, text3);
@@ -1810,10 +1810,10 @@ void B_PLIST_DRAW_PrintMoveRowLabel(char *p, int i)
     void *f;
     u32 width;
     if (((struct B_PlistWork *)p)->owner->moveKind == 4)
-        t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x45);
+        t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x45);
     else
-        t = func_02045EC0(((struct B_PlistWork *)p)->msgBank, 0x44);
-    width = func_0201D304(t, ((struct B_PlistWork *)p)->owner->field0C, 0);
+        t = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x44);
+    width = GF_FONT_MeasureWidestLine(t, ((struct B_PlistWork *)p)->owner->field0C, 0);
     f = ((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(*(void **)(p + 0x1F70 + i * 8)), ((96 - width) >> 1), 5, t, ((struct B_PlistWork *)p)->owner->field0C, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
@@ -1828,7 +1828,7 @@ void B_PLIST_DRAW_PrintMoveRowLabel(char *p, int i)
 
 
 
-void B_PLIST_DRAW_PrintWordAndRefresh(u8 *p){void *s=func_02045EC0(*(struct MsgBank * *)&((struct B_PlistWork *)p)->msgBank,70);WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct B_PlistWork *)p)->font,((struct B_PlistWork *)p)->u1EA8.wordSet,s);STRBUF_Delete(s);B_PLIST_DRAW_ClearAndPrintStream(p);}
+void B_PLIST_DRAW_PrintWordAndRefresh(u8 *p){void *s=MSGDATA_AllocString(*(struct MsgBank * *)&((struct B_PlistWork *)p)->msgBank,70);WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct B_PlistWork *)p)->font,((struct B_PlistWork *)p)->u1EA8.wordSet,s);STRBUF_Delete(s);B_PLIST_DRAW_ClearAndPrintStream(p);}
 
 
 
@@ -1847,18 +1847,18 @@ void B_PLIST_DRAW_PrintMoveRowValues(char *p,u8 *record,int slot)
     u32 width;
     u32 otherWidth;
     buf=STRBUF_Create(6,((struct B_PlistWork *)p)->owner->heapId);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x35);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x35);
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),40,24,text,((struct B_PlistWork *)p)->owner->field0C,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x38);
-    width=func_0201D304(text,((struct B_PlistWork *)p)->owner->field0C,0);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x38);
+    width=GF_FONT_MeasureWidestLine(text,((struct B_PlistWork *)p)->owner->field0C,0);
     secondContext=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(secondContext,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),80,24,text,((struct B_PlistWork *)p)->owner->field0C,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x37);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x37);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font,0,record[3],2,0,1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font,buf,text);
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
@@ -1866,10 +1866,10 @@ void B_PLIST_DRAW_PrintMoveRowValues(char *p,u8 *record,int slot)
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),width,24,buf,((struct B_PlistWork *)p)->owner->field0C,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct B_PlistWork *)p)->msgBank,0x36);
+    text=MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank,0x36);
     WORDSET_SetSlotNumber(((struct B_PlistWork *)p)->font,0,record[2],2,0,1);
     WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->font,buf,text);
-    otherWidth=func_0201D304(buf,((struct B_PlistWork *)p)->owner->field0C,0);
+    otherWidth=GF_FONT_MeasureWidestLine(buf,((struct B_PlistWork *)p)->owner->field0C,0);
     context=((struct B_PlistWork *)p)->u1EAC.printQue;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),(80-otherWidth),24,buf,((struct B_PlistWork *)p)->owner->field0C,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
@@ -1970,11 +1970,11 @@ void B_PLIST_DRAW_DrawMode1(char *p)
     obj = ((struct B_PlistWork *)p)->win[4].handle;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    func_02041B6C(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
     obj = ((struct B_PlistWork *)p)->win[5].handle;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    func_02041B6C(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
 }
 
 
@@ -2053,24 +2053,24 @@ void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx)
     off = n * 0x4c;
     rec = (struct B_PlistSlotView *)(base + off);
     vec = STRBUF_Create(12, *(u16 *)(*(u8 **)p + 0x10));
-    msg = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), d_02211B68[idx]);
+    msg = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1EA0), d_02211B68[idx]);
     WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
     msg2 = 0;
     WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1EA4), vec, msg);
     STRBUF_Delete(msg);
     if (!rec->a1 && !rec->b2) {
         if (rec->b0 == 0) {
-            msg2 = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), 0x16);
+            msg2 = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1EA0), 0x16);
         } else if (rec->b0 == 1) {
-            msg2 = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), 0x17);
+            msg2 = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1EA0), 0x17);
         }
     }
     a = 0;
-    t = func_0201D304(vec, *(u32 *)(*(u8 **)p + 0xc), 0);
+    t = GF_FONT_MeasureWidestLine(vec, *(u32 *)(*(u8 **)p + 0xc), 0);
     if (msg2 == 0) {
         b = 0;
     } else {
-        a = (u8)func_0201D304(msg2, *(u32 *)(*(u8 **)p + 0xc), a);
+        a = (u8)GF_FONT_MeasureWidestLine(msg2, *(u32 *)(*(u8 **)p + 0xc), a);
         b = 8;
     }
     half = center_x(BMP_WIN_GetWidth(o) * 8 - t - a - b);
@@ -2334,7 +2334,7 @@ void B_PLIST_DRAW_PrintStream(char *p)
     obj = ((struct B_PlistWork *)p)->win[1].handle;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    func_02041B6C(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
 }
 
 
@@ -2350,7 +2350,7 @@ void B_PLIST_DRAW_PrintStream(char *p)
 
 /*
  * lever: the row pointer p + 4 + idx * 0x4c is one statement before the
- *   func_02045EC0 allocation, so p + 4 (r6) and idx * 0x4c (r7) stay live
+ *   MSGDATA_AllocString allocation, so p + 4 (r6) and idx * 0x4c (r7) stay live
  *   across it and the allocation result spills to [sp]; computing the row
  *   address only at its use (the earlier note's base + i) left t in r7 and
  *   rematerialised p + 4 after the call (DIFF 16).
@@ -2360,7 +2360,7 @@ void B_PLIST_DRAW_FormatRowWord(u8 *p)
     u8 *row;
     void *t;
     row = p + 4 + B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[32]) * 0x4c;
-    t = func_02045EC0(*(struct MsgBank **)(p + 0x1ea0), 105);
+    t = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1ea0), 105);
     WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1ea4), 0, *(void **)row);
     WORDSET_SetSlotFromMsgCB(*(struct WordSet **)(p + 0x1ea4), 1, 373);
     WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1ea4), *(void **)(p + 0x1ea8), t);
@@ -2480,7 +2480,7 @@ void B_PLIST_DRAW_RegisterRowCharacters(u8 *p)
     void *arc;
     u16 i;
 
-    arc = func_020490F4(7, (u16)((*(u16 *)(*(u8 **)p + 0x10) & 0x7FFF) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(7, (u16)((*(u16 *)(*(u8 **)p + 0x10) & 0x7FFF) | 0x8000));
     for (i = 0; i < 6; i++) {
         u8 *e = p + i * 0x4C;
         if (*(u16 *)(e + 8) != 0) {
@@ -2508,7 +2508,7 @@ void B_PLIST_DRAW_RegisterRowCharacters(u8 *p)
 void B_PLIST_DRAW_RegisterIconSet1(char *p)
 {
     void *owner;
-    owner = func_020490F4(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
+    owner = ARC_TOOL_CreateHandle(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
     ((struct B_PlistWork *)p)->field24BC = CLACT_RegisterCharacter(owner, 12, 0, 1, ((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field2510 = CLACT_RegisterPalette(owner, 11, 1, 96, ((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field2528 = CLACT_RegisterCellAnim(owner, 13, 16, ((struct B_PlistWork *)p)->owner->heapId);
@@ -2530,7 +2530,7 @@ void B_PLIST_DRAW_RegisterIconSet2(char *p)
 {
     void *owner;
     unsigned i;
-    owner = func_020490F4(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
+    owner = ARC_TOOL_CreateHandle(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
     ((struct B_PlistWork *)p)->field2518 = CLACT_RegisterPalette(owner, 33, 1, 160, ((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field2530 = CLACT_RegisterCellAnim(owner, 59, 62, ((struct B_PlistWork *)p)->owner->heapId);
     for (i = 8; i <= 21; i++)
@@ -2554,7 +2554,7 @@ void B_PLIST_DRAW_RegisterIconSet2(char *p)
 void B_PLIST_DRAW_RegisterIconSet3(char *p)
 {
     void *owner;
-    owner = func_020490F4(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
+    owner = ARC_TOOL_CreateHandle(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
     ((struct B_PlistWork *)p)->field24C0 = CLACT_RegisterCharacter(owner, 65, 0, 1, ((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field2514 = CLACT_RegisterPalette(owner, 66, 1, 128, ((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field252C = CLACT_RegisterCellAnim(owner, 67, 70, ((struct B_PlistWork *)p)->owner->heapId);
@@ -2575,7 +2575,7 @@ void B_PLIST_DRAW_RegisterIconSet3(char *p)
 void B_PLIST_DRAW_RegisterIconSet4(char *p)
 {
     void *owner;
-    owner=func_020490F4(11,(u16)((((struct B_PlistWork *)p)->owner->heapId&0x7fff)|0x8000));
+    owner=ARC_TOOL_CreateHandle(11,(u16)((((struct B_PlistWork *)p)->owner->heapId&0x7fff)|0x8000));
     ((struct B_PlistWork *)p)->field2504=CLACT_RegisterCharacter(owner,119,0,1,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field251C=CLACT_RegisterPaletteEx(owner,116,1,256,4,1,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field2534=CLACT_RegisterCellAnim(owner,120,121,((struct B_PlistWork *)p)->owner->heapId);
@@ -2597,7 +2597,7 @@ void B_PLIST_DRAW_RegisterIconSet5(char *p)
 {
     void *owner;
     int first;
-    owner=func_020490F4(APP_ICON_GetArchiveId(),(u16)((((struct B_PlistWork *)p)->owner->heapId&0x7fff)|0x8000));
+    owner=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),(u16)((((struct B_PlistWork *)p)->owner->heapId&0x7fff)|0x8000));
     ((struct B_PlistWork *)p)->field2508=CLACT_RegisterCharacter(owner,APP_ICON_GetGearCellFileId(0),0,1,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->field2520=CLACT_RegisterPalette(owner,APP_ICON_GetNoneFileId(),1,0x120,((struct B_PlistWork *)p)->owner->heapId);
     first=APP_ICON_GetGearPaletteFileId(0);
@@ -2735,10 +2735,10 @@ void B_PLIST_DRAW_TransferCharacter(char *p,void *obj,int index,int which)
 {
     void *owner,*data;
     struct Sub0204A9D0 *out;
-    owner=func_020490F4(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
+    owner=ARC_TOOL_CreateHandle(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
     data=func_02049E74((void *)((unsigned)owner),APP_ICON_GetTypeCellFileId((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     CLACT_TransferCharacter(*(unsigned *)(p+index*4+0x24a4),out);
-    func_020307B0(data);
+    GFL_HEAP_Free(data);
     ARC_TOOL_DeleteHandle(owner);
     CLACT_SetActorPaletteOffset(obj,(unsigned)APP_ICON_GetTypePaletteOffset((u8)which),1);
 }
@@ -2766,10 +2766,10 @@ void B_PLIST_DRAW_TransferCharacterToggle(char *p,int first,int index,int which)
     toggle=((struct B_PlistWork *)p)->winFlags.e8b4.flip;
     first+=toggle;
     index+=toggle;
-    owner=func_020490F4(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
+    owner=ARC_TOOL_CreateHandle(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
     data=func_02049E74((void *)((unsigned)owner),APP_ICON_GetMoveKindCellFileId((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     CLACT_TransferCharacter(*(int *)(p+index*4+0x24a4),out);
-    func_020307B0(data);
+    GFL_HEAP_Free(data);
     ARC_TOOL_DeleteHandle(owner);
     CLACT_SetActorPaletteOffset(*(void **)(p+first*4+0x1ebc),(unsigned)APP_ICON_GetMoveKindPaletteOffset(which),1);
     ((struct B_PlistWork *)p)->winFlags.e8b4.flip^=1;

@@ -17,8 +17,8 @@
  * blended by FIELD_LIGHT_Main, applied to the 3D light slots, material colors, fog color and clear color.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   sFieldLightSourceName  0x021DDE38  data  ov021
  *   func_02048CA4  0x02048CA4  arm
@@ -151,8 +151,8 @@ typedef struct {
     s32 lastSeconds;
 } FieldLight;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern void func_02048CA4(struct LightSlot *slots, u8 index, const FieldLightDir *dir);
 extern void func_02048CDC(struct LightSlot *slots, u32 index, u16 *color);
@@ -197,7 +197,7 @@ FieldLight *FIELD_LIGHT_Create(u32 tableId, u32 seconds, u32 season, void *fog, 
 {
     FieldLight *light;
 
-    light = func_02030734(heapId, sizeof(FieldLight), 1, (const char *)sFieldLightSourceName, 0x167);
+    light = GFL_HEAP_Alloc(heapId, sizeof(FieldLight), 1, (const char *)sFieldLightSourceName, 0x167);
     light->season = season;
     FIELD_LIGHT_LoadZoneTable(light, tableId);
     light->active = 1;
@@ -212,7 +212,7 @@ FieldLight *FIELD_LIGHT_Create(u32 tableId, u32 seconds, u32 season, void *fog, 
 void FIELD_LIGHT_Delete(FieldLight *light)
 {
     FIELD_LIGHT_Dummy();
-    func_020307B0(light);
+    GFL_HEAP_Free(light);
 }
 
 /* Steps the light for the current time of day: advances to the next keyframe when its time is

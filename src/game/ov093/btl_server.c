@@ -19,10 +19,10 @@
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   BTL_CALC_SetRngState  0x021D787C  thumb  ov093
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   gBtlServerFileName 0x021F3A60 data a4
  *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
  *   STRBUF_Delete  0x02045808  arm
@@ -89,10 +89,10 @@ extern int BTL_MAIN_GetCompetitor(struct BtlMain *main);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, void *dst);
 extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void BTL_CALC_SetRngState(void *);
-extern void *func_02030734(u16, unsigned int, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u16, unsigned int, int, const char *, u16);
 extern void *BTL_ADAPTER_Create(u32, int, u32, u32);
 extern void STRBUF_Delete(void *strBuf);
 extern void BTL_ADAPTER_Delete(void *p);
@@ -212,7 +212,7 @@ BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlServerRngState *rngState, 
 {
     BtlServer *server;
     int i;
-    server = func_02030734(heapId, 0xcc4, 1, (const char *)gBtlServerFileName, 0xad);
+    server = GFL_HEAP_Alloc(heapId, 0xcc4, 1, (const char *)gBtlServerFileName, 0xad);
     server->main = main;
     server->partyTable = partyTable;
     server->heapId = heapId;
@@ -282,7 +282,7 @@ void BTL_SERVER_Delete(BtlServer *server)
         if (server->clients[i].clientId != 0xff && server->clients[i].adapter != 0 && server->clients[i].adapterBorrowed == 0)
             BTL_ADAPTER_Delete(server->clients[i].adapter);
     }
-    func_020307B0(server);
+    GFL_HEAP_Free(server);
 }
 
 int BTL_SERVER_Update(BtlServer *server)

@@ -16,10 +16,10 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -90,11 +90,11 @@ extern int TOUCHPANEL_HitTrg(const void *hitTable);
 
 extern int BR_RES_GetMsgData(struct BrRes *res);
 
-extern void *func_02030734(unsigned int,unsigned int,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned int,unsigned int,int,const char *,u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 
@@ -205,7 +205,7 @@ struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes 
 {
     struct BrPokeSearch *ps;
     int i = 0;
-    ps = func_02030734(heapId, sizeof(struct BrPokeSearch), 0, gBrPokeSearchSourceFile, 0x11a);
+    ps = GFL_HEAP_Alloc(heapId, sizeof(struct BrPokeSearch), 0, gBrPokeSearchSourceFile, 0x11a);
     MI_CpuFill8(ps, 0, sizeof(struct BrPokeSearch));
     ps->heapId = heapId;
     ps->zukan = zukan;
@@ -224,12 +224,12 @@ struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes 
 void BR_POKESEARCH_Destroy(struct BrPokeSearch *ps)
 {
     if(ps->seenList){
-        func_020307B0(ps->seenList);
+        GFL_HEAP_Free(ps->seenList);
         ps->seenList=0;
     }
-    func_020307B0(ps->groupTable);
+    GFL_HEAP_Free(ps->groupTable);
     PRINTSYS_QUE_Delete(ps->printQue);
-    func_020307B0(ps);
+    GFL_HEAP_Free(ps);
 }
 
 int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
@@ -279,13 +279,13 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
         case BR_POKESEARCH_PHASE_SWITCH:
             if (ps->nextState==3) {
                 BR_POKESEARCH_DestroyGroupWindows(ps);
-                if (ps->seenList) func_02034714(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+                if (ps->seenList) SAVEDATA_PanicFail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
                 ps->seenList=BR_POKESEARCH_BuildSeenList(ps->zukan,ps->touchedGroup,ps->groupTable,&ps->seenCount,ps->heapId);
                 BR_POKESEARCH_CreateSpeciesList(ps);
             } else {
                 BR_POKESEARCH_DestroySpeciesList(ps);
                 if (ps->seenList) {
-                    func_020307B0(ps->seenList);
+                    GFL_HEAP_Free(ps->seenList);
                     ps->seenList=0;
                 }
                 BR_POKESEARCH_CreateGroupWindows(ps);
@@ -355,7 +355,7 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
     MI_CpuFill8(&pos, 0, 8);
     pos.x = 0x50; pos.y = 0xa8; pos.animSeq = 0; pos.drawPriority = 1;
     if (!BR_RES_GetSprite(ps->res, 6, &sprite))
-        func_02034714(gBrPokeSearchAssertString, 0, gBrPokeSearchAssertString);
+        SAVEDATA_PanicFail(gBrPokeSearchAssertString, 0, gBrPokeSearchAssertString);
     ps->backButton = BR_BTN_CreateFromMessage(&pos, 4, 0x60, 1, ps->uiParamA, ps->uiParamB, font, msgData, &sprite, ps->heapId);
 }
 
@@ -405,10 +405,10 @@ void BR_POKESEARCH_DestroyGroupWindows(struct BrPokeSearch *ps)
  *   void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
  *     u32 size; struct MsgEntry *e;
  *     if (index >= bank->file->count) { STRBUF_Clear(dest); return; }
- *     func_02046180(bank);
+ *     MSGDATA_RefreshLanguage(bank);
  *     if (bank->resident == 0) {
  *       u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
- *       func_0204960C(bank->stream, pos + (index * 8 + 4));
+ *       ARC_TOOL_SeekHandle(bank->stream, pos + (index * 8 + 4));
  *       ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache); e = &bank->cache;
  *     } else { e = (struct MsgEntry *)((u8 *)bank->base + 4) + index; }
  *     if (bank->resident == 0) {
@@ -416,13 +416,13 @@ void BR_POKESEARCH_DestroyGroupWindows(struct BrPokeSearch *ps)
  *       buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),
  *                         size, 0, MSGDATA_AllocSite, 0xd6);
  *       if (buf != 0) {
- *         func_0204960C(bank->stream, e->off + (bank->origin
+ *         ARC_TOOL_SeekHandle(bank->stream, e->off + (bank->origin
  *                       + bank->file->langOff[bank->langIndex]));
  *         ARC_TOOL_ReadHandle(bank->stream, size, buf);
- *         STRBUF_SetChars(dest, buf, e->len); func_020307B0(buf);
+ *         STRBUF_SetChars(dest, buf, e->len); GFL_HEAP_Free(buf);
  *       }
  *     } else { STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len); }
- *     func_02045E04(dest, index);
+ *     MSGDATA_DecryptStrbuf(dest, index);
  *   }
  */
 void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
@@ -432,8 +432,8 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     u32 i;
     ps->listShown=1;
     BR_RES_LoadBgGraphics(ps->res,21,ps->heapId);
-    if (ps->menuItems) func_02034714(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
-    if (ps->listMenu) func_02034714(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+    if (ps->menuItems) SAVEDATA_PanicFail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+    if (ps->listMenu) SAVEDATA_PanicFail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
     ps->menuItems=BMP_MENUWORK_Create(ps->seenCount,ps->heapId);
     str=STRBUF_Create(11,ps->heapId);
     for(i=0;i<ps->seenCount;i++) {
@@ -514,7 +514,7 @@ u16 *BR_POKESEARCH_BuildSeenList(struct ZukanSave *zukan, u32 group, const u16 *
         }
     }
     bytes = count * 2;
-    dst = func_02030734(heapId, bytes, 0, gBrPokeSearchSourceFile, 0x3c3);
+    dst = GFL_HEAP_Alloc(heapId, bytes, 0, gBrPokeSearchSourceFile, 0x3c3);
     filled = 0;
     MI_CpuFill8(dst, 0, bytes);
     for (; start < end; start++) {

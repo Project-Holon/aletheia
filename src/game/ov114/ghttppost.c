@@ -29,7 +29,7 @@
  *   sGhttpTextXml  0x021CEE28  data
  *   sGhttpApplicationXWwwFormUrlencoded  0x021CEE34  data
  *   ArrayLength  0x02184200  arm  ov009
- *   func_02184208  0x02184208  arm  ov009
+ *   ArrayNth  0x02184208  arm  ov009
  *   strlen  0x0209477C  arm
  *   gsXmlWriterGetDataLength  0x02181E20  arm  ov009
  *   strlen         0x0209477C  arm
@@ -41,7 +41,7 @@
  *   rewind  0x02092120  arm
  *   fclose                  0x02091AE8  arm
  *   ghiPostStateCleanup  0x021C2A3C  arm   ov114
- *   func_021841B0  0x021841B0  arm   ov009
+ *   ArrayFree  0x021841B0  arm   ov009
  *   ghiPostGetContentLength  0x021C297C  arm   ov114
  *   ArrayLength             0x02184200  arm
  *   ArrayNth                0x02184208  arm
@@ -114,13 +114,13 @@ extern void gsifree(void *);
 extern void gsXmlFreeWriter(void *);
 extern void *gsimalloc(unsigned long size);
 extern void *func_02184144(int, int, void (*)(void *));
-extern void func_021841B0(void *);
+extern void ArrayFree(void *);
 extern GHIConnection *ghiRequestToConnection(int request);
 extern void ghiPostCleanupState(GHIConnection *connection);
 extern char *goastrdup(char *src);
 extern void ArrayAppend(void *array, void *newElem);
 extern int ArrayLength(const int *p);
-extern void *func_02184208(void *, int);
+extern void *ArrayNth(void *, int);
 extern int gsXmlWriterGetDataLength(void *);
 extern int fseek(void *, int, int);
 extern s32 ftell(u32 a0);
@@ -238,7 +238,7 @@ void ghiPostSetAutoFree(GHIPost *post, GHTTPBool autoFree)
 void ghiFreePost(GHIPost *post)
 {
     if (post->data != 0)
-        func_021841B0(post->data);
+        ArrayFree(post->data);
     post->data = 0;
     gsifree(post);
 }
@@ -359,7 +359,7 @@ int ghiPostGetNoFilesContentLength(GHIConnection *connection)
     if (num == 0)
         return 0;
     for (i = 0; i < num; i++) {
-        data = func_02184208(post->data, i);
+        data = ArrayNth(post->data, i);
         if (data->type == 0) {
             total += strlen((const char *)data->name);
             total += data->data.string.len;
@@ -412,7 +412,7 @@ int ghiPostGetHasFilesContentLength(GHIConnection *connection)
     num = ArrayLength(post->data);
     for (i = 0; i < num; i++)
     {
-        data = func_02184208(post->data, i);
+        data = ArrayNth(post->data, i);
         if (data->type == 0)
         {
             total += stringBaseLen;
@@ -426,7 +426,7 @@ int ghiPostGetHasFilesContentLength(GHIConnection *connection)
             total += fileBaseLen;
             total += strlen(data->name);
             total += strlen(data->data.fileDisk.contentType);
-            state = func_02184208(connection->postingState.states, i);
+            state = ArrayNth(connection->postingState.states, i);
             total += state->state.fileDisk.len;
             if (!post->useDIME)
                 total += strlen(data->data.fileDisk.reportFilename);
@@ -555,14 +555,14 @@ int ghiPostInitState(GHIConnection *connection)
     if (connection->postingState.states == 0)
         return 0;
     for (i = 0; i < len; i++) {
-        GHIPostData *postData = func_02184208(connection->post->data, i);
+        GHIPostData *postData = ArrayNth(connection->post->data, i);
         GHIPostState state = {0};
 
         state.data = postData;
         if (ghiPostStateInit(&state) == 0) {
             for (i--; i >= 0; i--)
-                ghiPostStateCleanup(func_02184208(connection->postingState.states, i));
-            func_021841B0(connection->postingState.states);
+                ghiPostStateCleanup(ArrayNth(connection->postingState.states, i));
+            ArrayFree(connection->postingState.states);
             connection->postingState.states = 0;
             return 0;
         }
@@ -1037,7 +1037,7 @@ int ghiPostDoPosting(GHIConnection *connection)
 
     for (; connection->postingState.index < len; connection->postingState.index++)
     {
-        postState = func_02184208(connection->postingState.states, connection->postingState.index);
+        postState = ArrayNth(connection->postingState.states, connection->postingState.index);
         result = ghiPostStateDoPosting(postState, connection, (connection->postingState.index == 0) ? 1 : 0, (connection->postingState.index == ArrayLength(connection->postingState.states) - 1) ? 1 : 0);
         if (result == 0)
             return 0;

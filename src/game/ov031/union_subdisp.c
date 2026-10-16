@@ -14,8 +14,8 @@
  *
  * symbols:
  *   ICA_ANIME_GetField24  0x02012138  thumb
- *   func_02030734  0x02030734  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb
@@ -28,7 +28,7 @@
  *   sUnionSubdispFileName   0x021F10C0  data  ov031  a1
  *   sUnionSubdispAppealNo     0x021F1038  data  ov031  a1
  *   PMS_DRAW_Delete  0x0202DC08  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOff  0x02037190  arm
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
@@ -51,7 +51,7 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -59,14 +59,14 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_02049EF4  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_02049B68  0x02049B68  arm
- *   func_02049B40  0x02049B40  arm
- *   func_02040588  0x02040588  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   sUnionSubdispBgTemplate5     0x021F1050  data  ov031  a4
  *   sUnionSubdispBgTemplate6     0x021F1070  data  ov031  a4
  *   sUnionSubdispBgTemplate7     0x021F1090  data  ov031  a4
@@ -89,15 +89,15 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   PMS_DRAW_IsPrintEnd  0x0202DC98  thumb
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   sUnionSubdispEmptyStr     0x021F10D0  data  a4
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   PMS_DRAW_IsActive  0x0202DCC4  thumb
  *   PMS_DRAW_Clear  0x0202DC9C  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   PMS_DRAW_PrintOffset  0x0202DC60  thumb
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
@@ -134,8 +134,8 @@ typedef struct VecFx32 {
 struct BgTemplate;
 
 extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern void *func_020490F4(u32 id, u32 heapId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern struct PmsDraw *PMS_DRAW_Create(struct ClactUnit *unit, u32 b, struct PrintSys *printSys, struct GfFont *font, u8 e0, u8 e1, u16 heapId);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *pmsDraw, u8 v);
@@ -145,7 +145,7 @@ extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 v, u32 fla
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 extern void PMS_DRAW_Delete(struct PmsDraw *pmsDraw);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
 extern void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
@@ -161,7 +161,7 @@ extern void UNION_MAIN_SetAppealNo(UnionRoomWork *work, int appealNo);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *msgData);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *printSys);
@@ -169,14 +169,14 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void *func_02049EF4(void *archive, u32 a, u32 b, void **out, u16 heapId);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void BG_SYS_DeleteHalf(u32, u32, u32);
@@ -277,14 +277,14 @@ enum {
 
 extern u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *pmsDraw);
 extern UnionChatEntry *UNION_CHAT_LOG_GetLine(UnionChatLog *log, u32 index);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern u32 PMS_DRAW_IsActive(const struct PmsDraw *pmsDraw, u32 id);
 extern void PMS_DRAW_Clear(struct PmsDraw *pmsDraw, int id, u32 isTrans);
 extern void BMP_Clear(void *bmp, u8 value);
 extern void PMS_DRAW_PrintOffset(struct PmsDraw *pmsDraw, struct BmpWin *win, void *pms, u32 id, const void *offset);
-extern struct Strbuf *func_02045EC0(struct MsgBank *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *msgData, u32 index);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, void *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
@@ -320,7 +320,7 @@ extern const char sUnionSubdispEmptyStr[];
 extern const UnionSubdispTextOffset sUnionSubdispChatTextOffset;
 
 /* Both arguments of the assertion failure call are the empty string of the build. */
-#define UNION_SUBDISP_ASSERT_FAIL() func_02034714(sUnionSubdispEmptyStr, 0, sUnionSubdispEmptyStr)
+#define UNION_SUBDISP_ASSERT_FAIL() SAVEDATA_PanicFail(sUnionSubdispEmptyStr, 0, sUnionSubdispEmptyStr)
 
 /*
  * The 0/1 flag the loop tests (movs r0,#1 / movs r0,#0 / cmp r0,#0) is a
@@ -354,9 +354,9 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     u32 winOut;
 
     gameComm = ICA_ANIME_GetField24(gameSystem);
-    work = func_02030734(UNION_SUBDISP_HEAP_ID, 0x80, 1, sUnionSubdispFileName, 0x10F);
+    work = GFL_HEAP_Alloc(UNION_SUBDISP_HEAP_ID, 0x80, 1, sUnionSubdispFileName, 0x10F);
     work->gameSystem = gameSystem;
-    archive = func_020490F4(0x59, UNION_SUBDISP_HEAP_ID);
+    archive = ARC_TOOL_CreateHandle(0x59, UNION_SUBDISP_HEAP_ID);
     UNION_SUBDISP_CreateSystems(work);
     UNION_SUBDISP_InitBgs(work, archive);
     UNION_SUBDISP_CreateLineWindows(work);
@@ -412,7 +412,7 @@ void UNION_SUBDISP_Delete(UnionSubdispWork *work)
     UNION_SUBDISP_DeleteLineWindows(work);
     UNION_SUBDISP_ExitBgs(work);
     UNION_SUBDISP_DeleteSystems(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
     REG_DB_BLDCNT_SUB = 0;
     GFL_NET_WM_ICON_EasyObjWindowOff();
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
@@ -514,7 +514,7 @@ void UNION_SUBDISP_CreateSystems(UnionSubdispWork *work)
     work->clactUnit = CLACT_CreateUnit(12, 5, UNION_SUBDISP_HEAP_ID);
     work->printSys = PRINTSYS_QUE_Create(UNION_SUBDISP_HEAP_ID);
     work->font = GF_FONT_Create(23, 0, 0, 0, UNION_SUBDISP_HEAP_ID);
-    work->msgData = func_02045B38(0, 2, 201, UNION_SUBDISP_HEAP_ID);
+    work->msgData = MSGDATA_CreateFromArchive(0, 2, 201, UNION_SUBDISP_HEAP_ID);
 }
 
 
@@ -544,26 +544,26 @@ void UNION_SUBDISP_InitBgs(UnionSubdispWork *work, void *archive)
     func_02082A7C(0, UNION_SUBDISP_VRAM_SUB_BG, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
-    func_02049658(archive, 0xF, 7, 0, 0, 0, UNION_SUBDISP_HEAP_ID);
-    func_020498F4(archive, 0x11, 7, 0, 0x800, 0, UNION_SUBDISP_HEAP_ID);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 0xF, 7, 0, 0, 0, UNION_SUBDISP_HEAP_ID);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 0x11, 7, 0, 0x800, 0, UNION_SUBDISP_HEAP_ID);
     palette = (u16 *)BG_SYS_GetBuf(6);
     palFile = func_02049EF4(archive, 0x12, 0, (void **)&palData, UNION_SUBDISP_HEAP_ID);
     MI_CpuCopy8(palData + 0xC, palette, 0x1C0);
-    func_020307B0(palFile);
+    GFL_HEAP_Free(palFile);
     func_02049B68(archive, 0x10, 4, 0, 0xA0, UNION_SUBDISP_HEAP_ID);
-    func_02049B40(0x17, 5, 4, 0x1E0, 0x20, UNION_SUBDISP_HEAP_ID);
-    func_02040588(4, 0);
-    func_02040588(7, 1);
-    func_02040588(6, 1);
-    func_02040588(5, 1);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1E0, 0x20, UNION_SUBDISP_HEAP_ID);
+    BG_SYS_SetPlaneVisible(4, 0);
+    BG_SYS_SetPlaneVisible(7, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
 }
 
 
 void UNION_SUBDISP_ExitBgs(UnionSubdispWork *work)
 {
-    func_02040588(5, 0);
-    func_02040588(6, 0);
-    func_02040588(7, 0);
+    BG_SYS_SetPlaneVisible(5, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
+    BG_SYS_SetPlaneVisible(7, 0);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(7);
@@ -586,14 +586,14 @@ void UNION_SUBDISP_LoadFrameBg(UnionSubdispWork *work)
     u8 *screenData;
     int i;
 
-    archive = func_020490F4(0x53, UNION_SUBDISP_HEAP_ID);
+    archive = ARC_TOOL_CreateHandle(0x53, UNION_SUBDISP_HEAP_ID);
     charOffset = BG_SYS_CreateRun(5, 0x80, 1);
     work->bgCharOffset = charOffset;
-    func_02049658(archive, 0x1C, 5, charOffset, 0x80, 0, UNION_SUBDISP_HEAP_ID);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 0x1C, 5, charOffset, 0x80, 0, UNION_SUBDISP_HEAP_ID);
     screen = (u16 *)BG_SYS_GetBuf(5);
     screenFile = func_02049EF4(archive, 0x1D, 0, (void **)&screenData, UNION_SUBDISP_HEAP_ID);
     MI_CpuCopy8((u16 *)(screenData + 0xC) + 0x2A0, screen + 0x2A0, 0xC0);
-    func_020307B0(screenFile);
+    GFL_HEAP_Free(screenFile);
     for (i = 0; i < 0x60; i++)
         screen[0x2A0 + i] = (screen[0x2A0 + i] & 0xFFF) + charOffset + 0xD000;
     func_02049B68(archive, 0x1B, 4, 0x1A0, 0x20, UNION_SUBDISP_HEAP_ID);
@@ -804,7 +804,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     palette = UNION_SUBDISP_GetLinePalette(entry);
     MI_CpuCopy8(screen, (u8 *)screen + offset, UNION_SUBDISP_LINE_COPY_SIZE);
     BG_SYS_FillTileMap(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
-    func_02041B6C(UNION_SUBDISP_BG_CHAT);
+    BG_SYS_SetFlagField06(UNION_SUBDISP_BG_CHAT);
     textOffset = sUnionSubdispChatTextOffset;
     if (work->lineKind[lineNo] == UNION_SUBDISP_LINE_PMS) {
         if (PMS_DRAW_IsActive(work->pmsDraw, lineNo) == 1)
@@ -819,19 +819,19 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     } else {
         switch (entry->chatType) {
         case 1:
-            text = func_02045EC0(work->msgData, UNION_SUBDISP_MSG_TYPE1);
+            text = MSGDATA_AllocString(work->msgData, UNION_SUBDISP_MSG_TYPE1);
             break;
         case 2:
-            text = func_02045EC0(work->msgData, UNION_SUBDISP_MSG_TYPE2);
+            text = MSGDATA_AllocString(work->msgData, UNION_SUBDISP_MSG_TYPE2);
             break;
         case 3:
-            text = func_02045EC0(work->msgData, UNION_SUBDISP_MSG_TYPE3);
+            text = MSGDATA_AllocString(work->msgData, UNION_SUBDISP_MSG_TYPE3);
             break;
         case 4:
-            text = func_02045EC0(work->msgData, UNION_SUBDISP_MSG_TYPE4);
+            text = MSGDATA_AllocString(work->msgData, UNION_SUBDISP_MSG_TYPE4);
             break;
         case 5:
-            text = func_02045EC0(work->msgData, UNION_SUBDISP_MSG_TYPE5);
+            text = MSGDATA_AllocString(work->msgData, UNION_SUBDISP_MSG_TYPE5);
             break;
         case 0:
             return;
@@ -839,7 +839,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
             return;
         }
         BMP_WIN_MakeScreen(work->lineWin[lineNo]);
-        func_02041B6C(BMP_WIN_GetBgLayer(work->lineWin[lineNo]));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(work->lineWin[lineNo]));
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win), 0, textOffset.y, text, work->font, UNION_SUBDISP_PRINT_COLOR);
         work->winSlot[lineNo].transferPending = 1;
@@ -851,7 +851,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
     STRBUF_Delete(name);
     if (entry->relation != 0) {
-        name = func_02045EC0(work->msgData, (entry->relation == 1) ? UNION_SUBDISP_MSG_FRIEND : UNION_SUBDISP_MSG_KNOWN);
+        name = MSGDATA_AllocString(work->msgData, (entry->relation == 1) ? UNION_SUBDISP_MSG_FRIEND : UNION_SUBDISP_MSG_KNOWN);
         PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0x74, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
         STRBUF_Delete(name);
     }
@@ -902,7 +902,7 @@ void UNION_SUBDISP_MoveChatLine(UnionSubdispWork *work, u8 srcLine, u8 dstLine, 
     dst = (u16 *)((u32)screen + destOffset);
     src = (u16 *)((u32)screen + sourceOffset);
     MI_CpuCopy8(src, dst, UNION_SUBDISP_LINE_COPY_SIZE);
-    func_02041B6C(UNION_SUBDISP_BG_CHAT);
+    BG_SYS_SetFlagField06(UNION_SUBDISP_BG_CHAT);
     if (work->lineKind[srcLine] == UNION_SUBDISP_LINE_PMS && work->lineKind[dstLine] == UNION_SUBDISP_LINE_PMS) {
         PMS_DRAW_Copy(work->pmsDraw, srcLine, dstLine);
         return;
@@ -1229,7 +1229,7 @@ int UNION_SUBDISP_SetLinePalette(UnionSubdispWork *unused, int lineNo, int highl
         return 0;
     }
     BG_SYS_FillTileMap(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
-    func_02041B6C(UNION_SUBDISP_BG_CHAT);
+    BG_SYS_SetFlagField06(UNION_SUBDISP_BG_CHAT);
     return 1;
 }
 

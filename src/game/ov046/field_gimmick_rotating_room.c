@@ -32,7 +32,7 @@
  *   sRotatingRoomButtonPos     0x021F4204  data  a4
  *   sRotatingRoomExtraModelPos     0x021F41B8  data  a4
  *   FX_SinCosTable_     0x020A1B38  data  a2
- *   func_0207AF1C  0x0207AF1C  thumb
+ *   MTX_RotY33_  0x0207AF1C  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
@@ -45,7 +45,7 @@
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   sRotatingRoomRotateAnimTable  0x021F41C4  data  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -97,7 +97,7 @@ extern void FLD_EXP_OBJ_SetModelCullDraw(struct FldExpObj *expObj, int unitIndex
 extern struct FldExpAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex);
 extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpAnime *anime, int loop);
 extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpAnime *anime, int paused);
-extern void func_0207AF1C(int *matrix, int sinValue, int cosValue);
+extern void MTX_RotY33_(int *matrix, int sinValue, int cosValue);
 extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int frame);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(struct FldExpAnime *anime);
 extern FieldGimmickRotatingRoomWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int workId);
@@ -105,7 +105,7 @@ extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int workId);
 extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObj *expObj, u16 unitIndex);
 extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObj *expObj);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpAnime *anime);
@@ -208,7 +208,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObj *expObj, int modelIn
     model->pos = *pos;
     if (angle) {
         tableIdx = (*angle >> 4) * 2;
-        func_0207AF1C(model->rotation, FX_SinCosTable_[tableIdx], FX_SinCosTable_[tableIdx + 1]);
+        MTX_RotY33_(model->rotation, FX_SinCosTable_[tableIdx], FX_SinCosTable_[tableIdx + 1]);
     }
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, modelIndex, cullDraw);
     for (animIdx = 0; animIdx < animCount; animIdx++) {
@@ -343,7 +343,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem,
     work->unitIndex = unitIndex;
     work->side = side;
     work->unit = &save->units[unitIndex];
-    func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, 0);
+    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, 0);
 }
 
 
@@ -365,7 +365,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, 
     work->unitIndex = unitIndex;
     work->side = side;
     work->unit = &save->units[unitIndex];
-    func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc, 0);
+    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc, 0);
 }
 
 
@@ -386,7 +386,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem,
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->unit = &save->units[unitIndex];
-    func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc, 0);
+    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc, 0);
 }
 
 
@@ -400,7 +400,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem,
 /*
  * The negation is a multiply by 0xffffffff (see the idiom on
  * multiplying by minus one), and the hop data pointer is a separate local
- * that is formed after the func_020122C0 call.
+ * that is formed after the GAME_EVENT_Create call.
  */
 struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSystem, int direction)
 {
@@ -412,7 +412,7 @@ struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *g
 
     GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    hopEvent = func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, 0);
+    hopEvent = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, 0);
     hop = &work->event.hop;
     hop->step = 0;
     hop->speedX = FIELD_GIMMICK_ROTATING_ROOM_HOP_SPEED;
@@ -485,7 +485,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc(struct GameEvent *event, int *st
         work->event.anim.stopCount = 1;
         work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_BUTTON;
         work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_NONE;
-        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         (*state)++;
         break;
     case 1:
@@ -520,7 +520,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc(struct GameEvent *event, int *sta
         work->event.anim.stopCount = 2;
         work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_LEVER_START;
         work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_LEVER_END;
-        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         work->unit->leverOn[work->side] = newLeverState;
         (*state)++;
         break;
@@ -555,7 +555,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *st
         work->event.anim.stopCount = 8;
         work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_ROTATE_START;
         work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_ROTATE_END;
-        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         work->unit->pose = newPose;
         (*state)++;
         break;

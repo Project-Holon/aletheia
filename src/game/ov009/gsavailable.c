@@ -32,7 +32,7 @@
  *   gGsAvailableHostFmt     0x021A36E8  data
  *   func_020923F0  0x020923F0  arm
  *   gGsAvailableMagic     0x021A370C  data
- *   func_0217EF50  0x0217EF50  arm  ov009
+ *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  *   HandlePacket  0x0217C848  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
@@ -81,7 +81,7 @@ extern int strlen(const u8 *s);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
 static void SendPacket(void);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
-extern int func_0217EF50(int sock);
+extern int CanReceiveOnSocket(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
 extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
 extern int closesocket(int sock);
@@ -185,7 +185,7 @@ int GSIAvailableCheckThink(void)
         gGsAvailabilityState = 1;
         return 1;
     }
-    if (func_0217EF50(gGsAvailableCheck.sock)) {
+    if (CanReceiveOnSocket(gGsAvailableCheck.sock)) {
         rcode = func_0217EC60(gGsAvailableCheck.sock, packet, 64, 0, &address, &len);
         if (HandlePacket(packet, rcode, &address, &disabledservices) == 0) {
             closesocket(gGsAvailableCheck.sock);

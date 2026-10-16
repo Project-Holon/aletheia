@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   gBtlvCameraFileName     0x0220AC60  data   ov094  a1
@@ -24,11 +24,11 @@
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   func_02048AFC  0x02048AFC  arm
  *   func_02048B44  0x02048B44  arm
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   G3D_CAMERA_GetEye 0x02048AE8 arm
  *   G3D_CAMERA_GetUp 0x02048B30 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_0207CFB8  0x0207CFB8  arm
+ *   FX_Atan2Idx  0x0207CFB8  arm
  *   VEC_Mag  0x0207CBD0  arm
  *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
  *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
@@ -39,7 +39,7 @@
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern struct G3dCamera *G3D_CAMERA_Create(int mode, int nearClip, int farClip, int fieldOfView, int aspectRatio, int scale, int roll, int flags,
                                            const BtlvVec3 *eye, const BtlvVec3 *up, const BtlvVec3 *target, int heap);
@@ -52,13 +52,13 @@ extern void func_02048AFC(struct G3dCamera *camera, const BtlvVec3 *eye);
 
 extern void func_02048B44(struct G3dCamera *camera, const BtlvVec3 *target);
 
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, BtlvVec3 *out);
 
 extern void G3D_CAMERA_GetUp(struct G3dCamera *camera, BtlvVec3 *out);
 
-extern int func_0207CFB8(int, int);
+extern int FX_Atan2Idx(int, int);
 
 extern int VEC_Mag(BtlvVec3 *);
 
@@ -129,7 +129,7 @@ BtlvCamera *BTLV_CAMERA_Create(void *owner, u16 heap)
 void BTLV_CAMERA_Delete(BtlvCamera *camera)
 {
     G3D_CAMERA_Delete(camera->camera);
-    func_020307B0(camera);
+    GFL_HEAP_Free(camera);
 }
 
 void BTLV_CAMERA_UpdateMove(BtlvCamera *camera)
@@ -208,13 +208,13 @@ void BTLV_CAMERA_StartMoveWithEasing(BtlvCamera *camera, int axis, fx32 amplitud
     if (axis == 1) {
         camera->shake.end.x = amplitude;
         camera->shake.end.y = 0;
-        camera->shake.step.x = func_0207C768(amplitude, FX_INT_TO_FX32(frames));
+        camera->shake.step.x = FX_Div(amplitude, FX_INT_TO_FX32(frames));
         camera->shake.step.y = 0;
     } else {
         camera->shake.end.x = 0;
         camera->shake.end.y = amplitude;
         camera->shake.step.x = 0;
-        camera->shake.step.y = func_0207C768(amplitude, FX_INT_TO_FX32(frames));
+        camera->shake.step.y = FX_Div(amplitude, FX_INT_TO_FX32(frames));
     }
     camera->shake.end.z = 0;
     camera->shake.step.z = 0;
@@ -322,7 +322,7 @@ void BTLV_CAMERA_SyncOrbitFromCamera(BtlvCamera *camera)
     eye.x -= target.x;
     eye.y -= target.y;
     eye.z -= target.z;
-    camera->orbitPitch = func_0207CFB8(eye.y, eye.z);
-    camera->orbitYaw = func_0207CFB8(eye.z, eye.x);
+    camera->orbitPitch = FX_Atan2Idx(eye.y, eye.z);
+    camera->orbitYaw = FX_Atan2Idx(eye.z, eye.x);
     camera->orbitRadius = VEC_Mag(&eye);
 }

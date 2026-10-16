@@ -16,7 +16,7 @@
  *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   str_02177000   0x02177000  data  ov011  a1
  *   COMM_PLAYER_Create  0x02167518  thumb  ov010
  *   EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid  0x02161F54  thumb  ov010
@@ -28,14 +28,14 @@
  *   MYSTATUS_Copy  0x02008494  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GFL_NET_StartSession  0x0203CBAC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_StartChangeoverParent  0x0203D10C  arm
  *   GFL_NET_ConnectMacAddressParent  0x0203CFF0  arm
  *   d_02177000     0x02177000  data  ov011
  *   d_021768C8     0x021768C8  data  a4
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline  0x02161F74  thumb  ov010
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
@@ -55,7 +55,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
- *   func_0200FBA0  0x0200FBA0  thumb
+ *   GFL_NET_ERR_ResetState  0x0200FBA0  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
@@ -180,26 +180,26 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   d_02177010     0x02177010  data  ov011  a1
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   PROCSYS_Main  0x02031330  arm
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetParty  0x02013128  thumb
  *   GFL_NET_HANDLE_SetUserInfo  0x0203A424  arm
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   PROCSYS_Push  0x02031348  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   BTL_SETUP_FreeSlots  0x020130DC  thumb
  *   ov093_id       0x0000005D  data  a1
  *   d_021F03C4     0x021F03C4  data  ov093  a4
  *   d_021EFDAC     0x021EFDAC  data  ov093  a4
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
- *   func_020122C0 0x020122C0 thumb
+ *   PROCSYS_Delete 0x0203133C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -328,7 +328,7 @@ typedef struct { u8 value; u8 enabled; } LinkValueMessage;
 
 extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern int   INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct CommPlayerWork *COMM_PLAYER_Create(int playerNum, void *gameSystem, u16 heapId, int mode);
 extern int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(void *returnSlots);
 extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
@@ -339,12 +339,12 @@ extern struct PlayerStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData,
 extern void  MYSTATUS_Copy(void *src, void *dst);
 extern u8 GAME_DATA_IsSaving(const u8 *gameData);
 extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 callback, u32 userArg);
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern int GFL_NET_StartChangeoverParent(int arg);
 extern void GFL_NET_ConnectMacAddressParent(void *macAddress);
 extern u8 *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
 extern void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(void *returnSlots, int unionInfo, int peerMask);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern u32   func_02035390(void);
 extern int func_020353B0(void);
@@ -364,7 +364,7 @@ extern int   GFL_NET_GetNegotiationNum(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 extern int GFL_NET_IsSessionNull(void);
-extern void func_0200FBA0(void);
+extern void GFL_NET_ERR_ResetState(void);
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *myPlayerWork);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
@@ -479,22 +479,22 @@ extern u32 POKEPARTY_IsMemberBattleReady(void *p, u32 idx);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
-extern void func_02034714(const char *file, u32 line, const char *expr);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern u32 ICA_ANIME_GetField24(const struct GameSystem *a);
 extern u32 PROCSYS_Main(void *a);
 extern void BTL_SETUP_SetupCommSingle(u32 work, void *h, GFLNetHandle *handle, u32 p3, u16 p4);
 extern void BTL_SETUP_SetParty(void *p, void *src, int i);
 extern void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
-extern int func_02034AC4(int id);
+extern int GF_OVERLAY_Load(int id);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
 extern void PROCSYS_Push(u32 task, int b, void *c, IntrudePartyWork *w);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey);
-extern void func_02034A5C(int handle);
+extern void GF_OVERLAY_Unload(int handle);
 extern void BTL_SETUP_FreeSlots(IntrudePartyWork *w);
-extern void func_0203133C(void *subProcSys);
-extern void func_020315D4(void *procWork);
-extern struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void PROCSYS_Delete(void *subProcSys);
+extern void PROCSYS_FreeProcWork(void *procWork);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
 extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, void *nextEvent);
@@ -766,7 +766,7 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
     if (param->isParent == 1 && INTRUDE_COMM_HasUnlockFlags(gameData) == 0) {
         maxConnect = 2;
     }
-    work = func_02030734(5, sizeof(IntrudeCommSys), 1, str_02177000, 0x9a);
+    work = GFL_HEAP_Alloc(5, sizeof(IntrudeCommSys), 1, str_02177000, 0x9a);
     work->gameSystem = param->gameSystem;
     work->gameComm = param->gameComm;
     work->step = 1;
@@ -801,7 +801,7 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
  * colours and a second pool load of 0x8fd. Typed parameters closed it to 192 B, all bytes equal:
  * param as a struct with the byte at 0x0E, work as a struct with the step byte at 0x8FD (written
  * work->step = 3 / 4 in each arm, no local), callee types from matched twins (GAME_COMM_GetGameData and
- * func_02030734 return u32, GAME_DATA_IsSaving takes const u8 *). The only open item is the pool
+ * GFL_HEAP_Alloc return u32, GAME_DATA_IsSaving takes const u8 *). The only open item is the pool
  * word INTRUDE_COMM_OnSessionStarted: the leaf is filed at src/matched/ov/ov011_func_02173568.c (EXACT);
  * the integrator needs a shard for it, then this file is EXACT.
  */
@@ -815,14 +815,14 @@ int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSy
         return 0;
     switch (*state) {
     case 0:
-        init = (GFLNetInitializeStruct *)func_02030734(0x8005, 0x70, 0, d_02177000, 0xcf);
+        init = (GFLNetInitializeStruct *)GFL_HEAP_Alloc(0x8005, 0x70, 0, d_02177000, 0xcf);
         *init = d_021768C8;
         if (param->isParent == 1) {
             if (INTRUDE_COMM_HasUnlockFlags((struct GameData *)gameData) == 0)
                 init->maxConnectNum = 2;
         }
         GFL_NET_StartSession(init, (u32)INTRUDE_COMM_OnSessionStarted, (u32)work);
-        func_020307B0(init);
+        GFL_HEAP_Free(init);
         *state = *state + 1;
         break;
     case 1:
@@ -865,7 +865,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
     if (work != 0 && work->step >= 7) {
         EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(work->returnSlots, (int)GAME_DATA_GetSecondUnionInfo(gameData), work->peerMask);
     }
-    if (func_0200FB24() != 0 || work->quit == 1) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0 || work->quit == 1) {
         if (work->lock) {
             return;
         }
@@ -988,7 +988,7 @@ int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *w
     if (GAME_DATA_IsSaving((const u8 *)GAME_COMM_GetGameData(param->gameComm)) == 1) {
         return 0;
     }
-    if (work->quit == 1 || func_0200FB24() != 0) {
+    if (work->quit == 1 || GFL_NET_ERR_GetErrorLevel() != 0) {
         work->sessionEnded = 1;
         GFL_NET_Exit(INTRUDE_COMM_OnSessionExit);
         return 1;
@@ -1088,7 +1088,7 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
     }
     if (work->step == 10 || GFL_NET_IsSessionNull() == 1) {
         if (GAME_DATA_GetIntrudeCount((struct GameData *)gameData) == 0) {
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             ok = 1;
         } else if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData))) == 1
                    && GAMESYSTEM_IsFieldMapExist(proc[0]) == 1
@@ -1100,7 +1100,7 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
         EVENT_FIELD_PROCLINK_ClearReturnSlots(work->returnSlots);
         GAME_DATA_ClearUnionInfo((u8 *)gameData);
         COMM_PLAYER_Delete(proc[0], work->commPlayer);
-        if (work->quit == 1 || func_0200FB24() != 0) {
+        if (work->quit == 1 || GFL_NET_ERR_GetErrorLevel() != 0) {
             GAME_COMM_SetCounter(gameComm, 5);
         } else if (INTRUDE_COMM_HasResult(&work->session) == 1) {
             if (work->abortFlag == 1) {
@@ -1131,15 +1131,15 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
         } else {
             GAME_DATA_SetEnterMode((struct GameData *)gameData, 1);
         }
-        if ((work->quit == 1 || func_0200FB24() != 0) && GAME_DATA_GetIntrudeCount((struct GameData *)gameData) == 1) {
+        if ((work->quit == 1 || GFL_NET_ERR_GetErrorLevel() != 0) && GAME_DATA_GetIntrudeCount((struct GameData *)gameData) == 1) {
             GAMESYSTEM_SetFieldMapState(proc[0], 1);
         }
         GAME_COMM_ClearInfoMessages(gameComm);
         for (i = 0; i < 2; i++) {
             STRBUF_Delete(work->foundNames[i]);
         }
-        func_020307B0(work);
-        func_020307B0(proc);
+        GFL_HEAP_Free(work);
+        GFL_HEAP_Free(proc);
         return 1;
     }
     return 0;
@@ -1170,7 +1170,7 @@ void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work)
     if (work->quit == 1) {
         return;
     }
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         return;
     }
     if (WIH_IsMatchingParent(whPipe) == 0) {
@@ -3302,7 +3302,7 @@ u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, u32 myStatus)
  */
 int INTRUDE_COMM_HasConnectedPeers(void)
 {
-    if (func_0200FB24() != 0) return 0;
+    if (GFL_NET_ERR_GetErrorLevel() != 0) return 0;
     if (GFL_NET_GetNegotiationNum() > 1) return 1;
     return 0;
 }
@@ -4357,7 +4357,7 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
     }
     if (count <= 0) {
         /* both strings are the empty string at 02177010 */
-        func_02034714((const char *)d_02177010, 0, (const char *)d_02177010);
+        SAVEDATA_PanicFail((const char *)d_02177010, 0, (const char *)d_02177010);
     }
     return 1;
 }
@@ -4375,7 +4375,7 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
     window = ICA_ANIME_GetField1C(param->gameSystem);
     ICA_ANIME_GetField24(param->gameSystem);
     busy = PROCSYS_Main(work->asyncTask);
-    if (func_0200FB24() != 0 || GFL_NET_IsSessionNull() == 1) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0 || GFL_NET_IsSessionNull() == 1) {
         if (*state > 0 && *state < 6) {
             *state = 7;
         }
@@ -4401,7 +4401,7 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
         break;
     case 2:
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2) == 1) {
-            func_02034AC4((int)ov093_id);
+            GF_OVERLAY_Load((int)ov093_id);
             work->overlayLoaded = 1;
             GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
             (*state)++;
@@ -4430,7 +4430,7 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
             if (GFL_NET_GetRunState() == 1) {
                 GFL_NET_COMMAND_DeleteCommandTable(0x100);
             }
-            func_02034A5C((int)ov093_id);
+            GF_OVERLAY_Unload((int)ov093_id);
         }
         BTL_SETUP_FreeSlots(work);
         return 1;
@@ -4446,9 +4446,9 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
  */
 int INTRUDE_LINK_ProcExit(void *procWork, int unused1, int unused2, IntrudeLinkProc *linkProc)
 {
-    func_0203133C(linkProc->subProcSys);
-    func_020307B0(linkProc->partyList);
-    func_020315D4(procWork);
+    PROCSYS_Delete(linkProc->subProcSys);
+    GFL_HEAP_Free(linkProc->partyList);
+    PROCSYS_FreeProcWork(procWork);
     return 1;
 }
 
@@ -4458,7 +4458,7 @@ struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *
 {
     struct GameEvent *event;
     IntrudeLinkEventWork *eventWork;
-    event = func_020122C0(gameSystem, 0, INTRUDE_LINK_EventMain, sizeof(IntrudeLinkEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_LINK_EventMain, sizeof(IntrudeLinkEventWork));
     eventWork = func_020124E8(event);
     eventWork->procArg = procArg;
     eventWork->gameSystem = gameSystem;
@@ -4528,7 +4528,7 @@ u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData)
 
     localSlot = (int)GAME_DATA_GetExitMode(gameData);
     link = (IntrudeCommSys *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
-    if (func_0200FB24()) {
+    if (GFL_NET_ERR_GetErrorLevel()) {
         remoteSlot = (int)GAME_DATA_GetIntrudeId(gameData);
         if (remoteSlot == localSlot) {
             return 4;

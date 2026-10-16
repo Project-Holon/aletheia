@@ -16,8 +16,8 @@
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_02030734 0x02030734  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   FILE_UTIL_Get_0FE4   0x02020FE4  thumb
  *   TIMEZONE_IsNight   0x02011410  thumb
@@ -26,7 +26,7 @@
  *   _MossRockZones      0x020A7322  data  a2
  *   _MagneticZones      0x020A7324  data  a2
  *   _ExtraEvolutionZones      0x020A732A  data  a2
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   _NatsukiDeltaTable     0x0209E45C  data
  *   _NatsukiWalkDeltas     0x0209E465  data  a1
@@ -42,7 +42,7 @@
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
  *   _PrintJobWork   0x0214655C  data
  *   STRBUF_GetChars  0x02045A90  arm
@@ -265,11 +265,11 @@ extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
 
 extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 
-extern void *func_02030734(u32 heap, u32 size, int fromTail, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
 
-extern u32   func_020307B0(void *ptr);
+extern u32   GFL_HEAP_Free(void *ptr);
 
-extern struct ArcHandle *func_020490F4(unsigned int arcId, unsigned int heap);
+extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heap);
 
 extern u32   GF_STANDARD_Rand(void);
 
@@ -299,7 +299,7 @@ extern u32   GF_FONT_IsTextColorDifferent(u32 letter, u32 shadow, u32 background
 
 extern void  GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 background);
 
-extern u64   func_020870D0(void);
+extern u64   OS_GetTick(void);
 
 extern struct PrintCtx *GF_FONT_UpdatePrintsy(struct PrintQueue *queue, struct PrintCtx *job);
 
@@ -595,7 +595,7 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
         methodOut = &unusedMethod;
     }
     i = 0;
-    rows = func_02030734(heap, 0x2A, 0, (const char *)shinka_check_File, 0x6A);
+    rows = GFL_HEAP_Alloc(heap, 0x2A, 0, (const char *)shinka_check_File, 0x6A);
     SHINKA_CHECK_LoadData(species, rows);
 
     switch (mode) {
@@ -790,7 +790,7 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
         }
         break;
     }
-    func_020307B0(rows);
+    GFL_HEAP_Free(rows);
     return result;
 }
 
@@ -855,7 +855,7 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
  */
 struct ArcHandle *SHINKA_CHECK_OpenHandle(u32 heap)
 {
-    return func_020490F4(0x13, heap);
+    return ARC_TOOL_CreateHandle(0x13, heap);
 }
 
 u32 SHINKA_CHECK_GetRowParam(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field)
@@ -2067,15 +2067,15 @@ void WAZA_TOOL_CreateCache(s32 count, u32 heap)
     if (_pWazaTool != 0) {
         return;
     }
-    _pWazaTool = (struct WazaTool *)func_02030734(heap, sizeof(struct WazaTool), 0,
+    _pWazaTool = (struct WazaTool *)GFL_HEAP_Alloc(heap, sizeof(struct WazaTool), 0,
                                                 waza_tool_File, 577);
-    _pWazaTool->records = (struct WazaData **)func_02030734(heap, count * sizeof(void *), 0,
+    _pWazaTool->records = (struct WazaData **)GFL_HEAP_Alloc(heap, count * sizeof(void *), 0,
                                              waza_tool_File, 578);
-    _pWazaTool->moveIds = (u16 *)func_02030734(heap, count * sizeof(u16), 0,
+    _pWazaTool->moveIds = (u16 *)GFL_HEAP_Alloc(heap, count * sizeof(u16), 0,
                                            waza_tool_File, 579);
     _pWazaTool->count = count;
     for (i = 0; i < count; i++) {
-        _pWazaTool->records[i] = func_02030734(heap, 0x24, 0, waza_tool_File, 584);
+        _pWazaTool->records[i] = GFL_HEAP_Alloc(heap, 0x24, 0, waza_tool_File, 584);
         _pWazaTool->moveIds[i] = 0;
     }
 }
@@ -2086,11 +2086,11 @@ void WAZA_TOOL_DeleteCache(void)
 
     if (_pWazaTool != 0) {
         for (i = 0; i < _pWazaTool->count; i++) {
-            func_020307B0(_pWazaTool->records[i]);
+            GFL_HEAP_Free(_pWazaTool->records[i]);
         }
-        func_020307B0(_pWazaTool->moveIds);
-        func_020307B0(_pWazaTool->records);
-        func_020307B0(_pWazaTool);
+        GFL_HEAP_Free(_pWazaTool->moveIds);
+        GFL_HEAP_Free(_pWazaTool->records);
+        GFL_HEAP_Free(_pWazaTool);
         _pWazaTool = 0;
     }
 }
@@ -2167,7 +2167,7 @@ struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap)
     while (allocSize % 4 != 0) {
         allocSize++;
     }
-    queue = func_02030734(heap, allocSize + 0x18, 0, printsys_File, 287);
+    queue = GFL_HEAP_Alloc(heap, allocSize + 0x18, 0, printsys_File, 287);
     queue->capacity = bufSize;
     queue->limitTicks.value = 0x1130;
     queue->job = 0;
@@ -2182,7 +2182,7 @@ struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap)
 
 void PRINTSYS_QUE_Delete(struct PrintQueue *queue)
 {
-    func_020307B0(queue);
+    GFL_HEAP_Free(queue);
 }
 
 void PRINTSYS_QUE_SetForceQueue(struct PrintQueue *queue, u32 forceQueue)
@@ -2215,7 +2215,7 @@ static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
  * printsys.c: the per-frame print pump.  Bumps the frame counter at +6,
  * saves the current text colour, applies the head request's colour when its
  * 4-bit kind is 0 or 2, then runs glyphs through PRINTSYS_PrintStep until the
- * string ends or the tick budget at +8 (func_020870D0 is OS_GetTick) runs
+ * string ends or the tick budget at +8 (OS_GetTick is OS_GetTick) runs
  * out.  On string end it pops the request (GF_FONT_UpdatePrintsy) and moves the
  * glyph cursor to the next record's text in the byte ring at +0x18,
  * wrapping twice at the ring size.  Restores the colour and reports idle.
@@ -2267,7 +2267,7 @@ u32 PRINTSYS_QUE_Main(struct PrintQueue *queue)
             GF_FONT_SetTextColor(letter, shadow, background);
         }
     }
-    startTick = func_020870D0();
+    startTick = OS_GetTick();
     if (queue->job != 0) {
         ring = queue->data;
         do {
@@ -2282,7 +2282,7 @@ u32 PRINTSYS_QUE_Main(struct PrintQueue *queue)
             }
             while (queue->cursor[0] != 0xFFFF) {
                 queue->cursor = PRINTSYS_PrintStep(queue->job, queue->cursor, 1);
-                if (func_020870D0() - startTick > queue->limitTicks.value) {
+                if (OS_GetTick() - startTick > queue->limitTicks.value) {
                     timedOut = 1;
                     break;
                 }

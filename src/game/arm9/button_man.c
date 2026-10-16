@@ -24,8 +24,8 @@
  * exactly and owns the same g_pParticleMan/ParticleSys object.
  *
  * symbols:
- *   func_02030734   0x02030734  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   g_020A7FCC      0x020A7FCC  data
  *   g_020A15E8    0x020A15E8  data
  *   TOUCHPANEL_GetCont 0x02035C38  arm
@@ -106,8 +106,8 @@ struct ButtonMan {
     struct Slot *slots;     /* +0x10 */
 };
 
-extern void *func_02030734(u16 id, u32 size, u32 flags, void *file, u32 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u16 id, u32 size, u32 flags, void *file, u32 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern s32 TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern int TOUCHPANEL_HitTrg(const void *p);
@@ -162,19 +162,19 @@ struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 ar
         }
         i++;
     }
-    r = func_02030734((u16)heap, 0x14, 0, g_020A7FCC, 0x6b);
+    r = GFL_HEAP_Alloc((u16)heap, 0x14, 0, g_020A7FCC, 0x6b);
     if (r != 0) {
         r->rects = rects;
         r->n = i;
         r->cb = cb;
         r->arg = arg;
-        r->slots = func_02030734((u16)heap, i * 4, 0, g_020A7FCC, 0x73);
+        r->slots = GFL_HEAP_Alloc((u16)heap, i * 4, 0, g_020A7FCC, 0x73);
         if (r->slots != 0) {
             for (j = 0; j < i; j++) {
                 BUTTON_MAN_ClearSlot(&r->slots[j]);
             }
         } else {
-            func_020307B0(r);
+            GFL_HEAP_Free(r);
             r = 0;
         }
     }
@@ -197,8 +197,8 @@ void BUTTON_MAN_ClearSlot(struct Slot *slot)
  */
 void BUTTON_MAN_Delete(struct ButtonMan *bm)
 {
-    func_020307B0(bm->slots);
-    func_020307B0(bm);
+    GFL_HEAP_Free(bm->slots);
+    GFL_HEAP_Free(bm);
 }
 
 

@@ -13,9 +13,9 @@
  * Cut from worldtrade_box.c, worldtrade_enter.c, worldtrade_adapter.c, WORLDTRADE_ADAPTER_QueueMessagePrint.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   PROCSYS_Push  0x02031348  arm
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
@@ -33,9 +33,9 @@
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *ICA_ANIME_GetField1C(const void *p);
 
@@ -70,7 +70,7 @@ void WORLDTRADE_STATUS_Open(Work *p)
 {
     PokeStatusRequest *r;
     WORLDTRADE_ExitPlanes(p);
-    p->statusReq=func_02030734(0x48,sizeof(PokeStatusRequest),0,str_02203E30,0x4C);
+    p->statusReq=GFL_HEAP_Alloc(0x48,sizeof(PokeStatusRequest),0,str_02203E30,0x4C);
     MI_CpuFill8(p->statusReq,0,sizeof(PokeStatusRequest));
     r=p->statusReq;
     r->config=p->ctx->statusConfig;
@@ -114,7 +114,7 @@ u32 WORLDTRADE_STATUS_Close(Work *p)
     PokeStatusRequest *q = p->statusReq;
 
     p->slot = q->slot;
-    func_020307B0(q);
+    GFL_HEAP_Free(q);
     WORLDTRADE_ClearAndShowPlanes(p);
     WORLDTRADE_ClearBusyFlag(p);
     return 0;

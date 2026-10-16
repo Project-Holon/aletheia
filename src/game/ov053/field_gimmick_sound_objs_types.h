@@ -125,7 +125,7 @@ extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigne
 extern struct SoundObj *func_021C4D14(struct FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 radius, u32 amplitude);
 extern struct SoundObj *SOUND_OBJ_CreateNoSource(struct FieldMap *fieldMap, G3dObjectStatus *target);
 extern void SOUND_OBJ_SetAnime(struct SoundObj *obj, u32 arcId, u32 dataId, u32 bufferFrames);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern FieldGimmickSoundObjsSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);

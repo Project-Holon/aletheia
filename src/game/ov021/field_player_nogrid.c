@@ -14,8 +14,8 @@
  * Split from weather_task.c (lane L141): __FILE__ anchor 021A5914 (d_021DDF04 "field_player_nogrid.c"); 021A5880 is the nogrid constructor.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_USE_GetSeSlot  0x02006148  thumb
@@ -81,8 +81,8 @@
 typedef signed int s32;
 
 /* Heap, sound and memory helpers. */
-extern u32 func_020307B0(void *block);
-extern void *func_02030734(u32 heapId, u32 size, int a, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *block);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int a, const char *file, u16 line);
 void GFL_USE_PlaySeDefaultVolume(u32 seId);
 void MI_CpuFill8(void *dst, int value, int size);
 int GFL_USE_GetSeSlot(u32 seId);
@@ -252,7 +252,7 @@ FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int 
 {
     FieldPlayerNogrid *player;
 
-    player = func_02030734(heapId, 0x24, 1, &d_021DDF04, 0x1a0);
+    player = GFL_HEAP_Alloc(heapId, 0x24, 1, &d_021DDF04, 0x1a0);
     player->core = core;
     player->fieldMap = FIELD_PLAYER_CORE_GetFieldMap(core);
     player->mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
@@ -285,7 +285,7 @@ FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int 
 
 void FIELD_PLAYER_NOGRID_Delete(FieldPlayerNogrid *player)
 {
-    func_020307B0(player);
+    GFL_HEAP_Free(player);
 }
 
 

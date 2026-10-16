@@ -16,7 +16,7 @@
  * this file's own anchor resumes exactly at 0x0203499C (pool site 0x02034A34).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MIi_CpuClear32   0x02082A7C  arm
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   FS_UnloadOverlay  0x020792B8  arm
@@ -71,7 +71,7 @@ struct OverlayInfo {
     u32 procTarget;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern int FS_UnloadOverlay(u32 target, u32 id);
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
@@ -128,7 +128,7 @@ void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount)
 
     totalSlots = mainCount + itcmCount + twlCount;
 
-    tables = func_02030734(heapId, totalSlots * sizeof(struct OverlaySlot) + sizeof(struct OverlayTables), 0,
+    tables = GFL_HEAP_Alloc(heapId, totalSlots * sizeof(struct OverlaySlot) + sizeof(struct OverlayTables), 0,
                       _FileName, 108);
     _pOverlayTables = tables;
     MIi_CpuClear32(0, tables, totalSlots * sizeof(struct OverlaySlot) + sizeof(struct OverlayTables));

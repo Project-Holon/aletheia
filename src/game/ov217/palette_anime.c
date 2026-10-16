@@ -13,7 +13,7 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PALETTE_ANIME_Start  0x021C29F8  thumb  ov217
  *   PALETTE_ANIME_Stop  0x021C2A00  thumb  ov217
  *   PALETTE_ANIME_Update  0x021C29F0  thumb  ov217
@@ -23,7 +23,7 @@
  *   PALETTE_ANIME_Restore  0x021C2A08  thumb  ov217
  *   PALETTE_ANIME_IsRunning  0x021C2A10  thumb  ov217
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   PALETTE_ANIME_ReleaseOriginal  0x021C2E20  thumb  ov217
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   PALANM_BlendColors 0x02021F64 thumb
@@ -47,8 +47,8 @@ struct PaletteAnime {
     u32 frame;
 };
 
-extern u32 func_020307B0(void *mem);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *mem);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 extern u32 func_0209C2B0(u32 a, u32 b);
 extern int MI_CpuCopy8(int src, int dst, int size);
@@ -322,14 +322,14 @@ u32 PALETTE_ANIME_IsRunningImpl(struct PaletteAnime *anime)
 /* Allocates the 32-byte object and records the heap id. */
 struct PaletteAnime *PALETTE_ANIME_Alloc(u32 heapId)
 {
-    struct PaletteAnime *anime = func_02030734(heapId, 32, 0, d_021C408C, 667);
+    struct PaletteAnime *anime = GFL_HEAP_Alloc(heapId, 32, 0, d_021C408C, 667);
     anime->heapId = heapId;
     return anime;
 }
 
 u32 PALETTE_ANIME_Free(struct PaletteAnime *anime)
 {
-    return func_020307B0(anime);
+    return GFL_HEAP_Free(anime);
 }
 
 /* Clears the object but keeps the heap id. */
@@ -347,7 +347,7 @@ void PALETTE_ANIME_BindImpl(struct PaletteAnime *anime, u16 *palette, u16 *origi
     anime->initialized = 1;
     anime->palette = palette;
     anime->colorCount = colorCount;
-    anime->original = func_02030734(anime->heapId, colorCount * 2, 0, d_021C408C, 728);
+    anime->original = GFL_HEAP_Alloc(anime->heapId, colorCount * 2, 0, d_021C408C, 728);
     for (i = 0; i < colorCount; i++)
         anime->original[i] = original[i];
 }
@@ -355,6 +355,6 @@ void PALETTE_ANIME_BindImpl(struct PaletteAnime *anime, u16 *palette, u16 *origi
 /* Releases the colour buffer and clears the initialized flag. */
 void PALETTE_ANIME_ReleaseOriginal(struct PaletteAnime *anime)
 {
-    func_020307B0(anime->original);
+    GFL_HEAP_Free(anime->original);
     anime->initialized = 0;
 }

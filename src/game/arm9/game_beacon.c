@@ -20,10 +20,10 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   func_020084BC  0x020084BC  thumb
- *   func_02008500  0x02008500  thumb
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02034714  0x02034714  arm
- *   func_02030734  0x02030734  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_BEACON_Work     0x02146940  data
  *   GAME_BEACON_AssertText     0x020A74BC  data
  *   GAME_BEACON_FileName     0x020A74C0  data
@@ -43,7 +43,7 @@
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   BEACON_GetRecentId  0x0200C33C  thumb
  *   BEACON_AddRecentValue  0x0200C364  thumb
- *   func_0200E6E8    0x0200E6E8  thumb
+ *   SAVEDATA_GetExtraBlockThunk    0x0200E6E8  thumb
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   GAME_DATA_GetField114    0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId    0x02012AC8  thumb
@@ -67,9 +67,9 @@
  *   GAME_BEACON_ActionTable    0x0209FC20  data
  *   GAME_BEACON_SpecialPokemonTable  0x0209FC04  data
  *   STRBUF_ToChars       0x02045A38  arm
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   CARD_SPI_CheckCardId  0x021809D8  thumb ov231
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   func_02005624  0x02005624  thumb
  *   ov231_id       0x000000E7  data
  */
@@ -219,10 +219,10 @@ extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
 extern int func_020084BC(const struct MyStatus *status);
-extern void func_02008500(const struct MyStatus *status, struct Strbuf *dst);
+extern void MYSTATUS_NameToStrbuf(const struct MyStatus *status, struct Strbuf *dst);
 extern u32 func_02008550(const struct MyStatus *status);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern int  GFL_NET_GetRunState(void);
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
 extern u16 func_0200864C(const struct PlayTime *playTime);
@@ -244,7 +244,7 @@ extern u8 BEACON_GetMode(struct MiscSave *misc);
 extern u32 BEACON_GetGreetCount(struct MiscSave *misc);
 extern u32 BEACON_GetThanksCount(struct MiscSave *misc);
 extern u16 *BEACON_GetGreetMessage(struct MiscSave *misc);
-extern struct PmsSave *func_0200E6E8(struct SaveControl *save);
+extern struct PmsSave *SAVEDATA_GetExtraBlockThunk(struct SaveControl *save);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
 extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
@@ -259,9 +259,9 @@ extern u8 func_02008570(const struct MyStatus *status);
 extern u16 *func_020084F4(const struct MyStatus *status);
 extern u16   STRBUF_GetEosChar(void);
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *codes, u32 count);
-extern int   func_02034AC4(signed int overlayId);
+extern int   GF_OVERLAY_Load(signed int overlayId);
 extern int   CARD_SPI_CheckCardId(void);
-extern void  func_02034A5C(int overlayId);
+extern void  GF_OVERLAY_Unload(int overlayId);
 extern void *func_02005624(void (*func)(void), u32 arg, u32 priority);
 void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg);
 void GAME_COMM_Start(GameComm *comm, u32 kind, u32 param);
@@ -850,9 +850,9 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
     entry->netId = (u8)netId0;
     entry->messageId = (u16)messageId;
     entry->used = 1;
-    func_02008500(status0, entry->name[0]);
+    MYSTATUS_NameToStrbuf(status0, entry->name[0]);
     entry->firstSex = (u8)func_02008550(status0);
-    func_02008500(status1, entry->name[1]);
+    MYSTATUS_NameToStrbuf(status1, entry->name[1]);
     entry->secondSex = (u8)func_02008550(status1);
     queue->writeIndex = (u8)(queue->writeIndex + 1);
     if (queue->writeIndex >= 6) {
@@ -1057,7 +1057,7 @@ void GAME_COMM_PushPlayerMessage(GameComm *comm, u32 netId)
  *
  * The two spellings that decided it:
  *   - the third argument (1) is bound to a NAMED local `one`, which keeps
- *     it alive in the callee-saved r4 across the call to func_02030734;
+ *     it alive in the callee-saved r4 across the call to GFL_HEAP_Alloc;
  *     the trailing -1 store is then derived from it as `subs r2, r4, #2`.
  *     Written as a plain -1 / 0xff / (u8)-1, the compiler folds it to
  *     `movs r2, #0xff` before the call and the r4/r5 assignment flips.
@@ -1073,9 +1073,9 @@ void GAME_BEACON_Create(u32 heapId)
     u32 one = 1;
 
     if (GAME_BEACON_Work != 0) {
-        func_02034714(GAME_BEACON_AssertText, 0, GAME_BEACON_AssertText);
+        SAVEDATA_PanicFail(GAME_BEACON_AssertText, 0, GAME_BEACON_AssertText);
     }
-    GAME_BEACON_Work = func_02030734(heapId, sizeof(GameBeaconWork), one, GAME_BEACON_FileName, 0x5a);
+    GAME_BEACON_Work = GFL_HEAP_Alloc(heapId, sizeof(GameBeaconWork), one, GAME_BEACON_FileName, 0x5a);
     GAME_BEACON_Work->newestIndex = (u8)(one - 2);
 }
 
@@ -1692,7 +1692,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     myStatus = GAME_DATA_GetMyStatus(gameData);
     save = GAME_DATA_GetSaveControl(gameData);
     misc = BEACON_GetBlock(save);
-    pmsSave = func_0200E6E8(save);
+    pmsSave = SAVEDATA_GetExtraBlockThunk(save);
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
     info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
@@ -2731,9 +2731,9 @@ void GAME_BEACON_RegisterClearCallback(void)
 {
     int result;
 
-    func_02034AC4((int)ov231_id);
+    GF_OVERLAY_Load((int)ov231_id);
     result = CARD_SPI_CheckCardId();
-    func_02034A5C((int)ov231_id);
+    GF_OVERLAY_Unload((int)ov231_id);
     if (result == 0) {
         func_02005624(GAME_BEACON_ClearFlags, 0, 3);
     }

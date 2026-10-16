@@ -19,14 +19,14 @@ typedef struct GsyncStateWork {
     void *messageWork;          /* 0x018, GsyncMessageWork pointer */
     void *confirmMenu;          /* 0x01C, TaskMenu pointer from GSYNC_MESSAGE_OpenYesNoMenu */
     void *connection;           /* 0x020, GsyncConn pointer, network connection record */
-    void *boxSave;              /* 0x024, box save handle for func_020076D0/func_02007A18 */
+    void *boxSave;              /* 0x024, box save handle for BOX_SAVEDATA_FindFreeSlot/func_02007A18 */
     void *saveControl;          /* 0x028, save control returned by GAME_DATA_GetSaveControl */
     int saveData;               /* 0x02C, save data word passed to the save API */
     void *musicalSave;          /* 0x030, MusicalDist record built by MUSICAL_DIST_SAVE_CreateFromData */
     void *receivedMonCopy;      /* 0x034, buffer copied back by GSYNC_STATE_CommitReceivedMon */
     u8 *listBuffer;             /* 0x038, received-list buffer */
     void *extraSaveBuffer;      /* 0x03C, extra save block loaded by SAVE_CONTROL_LoadExtraSaveWithBuffer */
-    void *iconBuffer;           /* 0x040, extra save icon buffer allocated by func_02030734 */
+    void *iconBuffer;           /* 0x040, extra save icon buffer allocated by GFL_HEAP_Alloc */
     void *auxBuffer;            /* 0x044, spare allocation freed on exit */
     int boxIndex;               /* 0x048, box passed to the box save helpers */
     int slotIndex;              /* 0x04C, slot passed to the box save helpers */

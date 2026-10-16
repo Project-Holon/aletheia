@@ -14,7 +14,7 @@
  * Split from fld_trade_p01.c and fld_trade_p02.c (lane CL125b): __FILE__ anchor 021CC5CC (d_021DE5A8 "scrcmd_palpark.c"); 021CC544 has the script-command (work, ctx) shape of 021CC6FC.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
@@ -67,7 +67,7 @@ typedef struct PalParkProcParam {
     void *gameData;
 } PalParkProcParam;
 
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
@@ -130,7 +130,7 @@ int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work)
     gsys = SCRCMD_WORK_GetGameSystem((void *)work);
     gameData = SCRCMD_WORK_GetGameData((void *)work);
     fieldmap = GAMESYSTEM_GetFieldMap((void *)gsys);
-    param = func_02030734(4, 8, 0, d_021DE5A8, 0x44);
+    param = GFL_HEAP_Alloc(4, 8, 0, d_021DE5A8, 0x44);
     param->result = 0;
     param->gameData = gameData;
     SCRIPT_SYS_CallEvent(script, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gsys, (int)fieldmap, (u32)ov107_id, (int)d_021F6D78, (int)param, 0, (int)param));

@@ -18,7 +18,7 @@
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
@@ -55,7 +55,7 @@
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -218,7 +218,7 @@ struct RtcTime { u32 hour; u32 minute; u32 second; };
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern const u16 *func_020084F4(const struct MyStatus *myStatus);
 extern u8 func_02008550(const struct MyStatus *myStatus);
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct EncountSave *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *saveControl);
@@ -259,7 +259,7 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct EventDataSystem *GAME_DATA_GetField158(const struct GameData *gameData);
 extern EncountData *EVENTDATA_SYSTEM_GetEncountData(struct EventDataSystem *eventData);
-extern void *func_02030734(u32 heapId, u32 size, int fromTop, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int fromTop, const char *file, u16 line);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern EncountStepWork *GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
 extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
@@ -945,7 +945,7 @@ u32 FIELD_ENCOUNT_PickRandomSlot(u32 slotCount)
 FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap)
 {
     u32 heapId = FIELDMAP_GetHeapId(fieldMap);
-    FieldEncount *encount = func_02030734(heapId, 0x14, 1, sFieldEncountFileName, 0x62);
+    FieldEncount *encount = GFL_HEAP_Alloc(heapId, 0x14, 1, sFieldEncountFileName, 0x62);
     struct GameSystem *gameSystem;
     struct GameData *gameData;
     struct EffectEncount *effectEncount;
@@ -966,7 +966,7 @@ void FIELD_ENCOUNT_Delete(FieldEncount *encount)
 {
     EFFECT_ENCOUNT_Exit(encount, encount->effectEncount);
     EFFECT_ENCOUNT_Delete(encount->effectEncount);
-    func_020307B0(encount);
+    GFL_HEAP_Free(encount);
 }
 
 int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
@@ -1241,7 +1241,7 @@ void FIELD_ENCOUNT_SetupWildBattle(FieldEncount *encount, FieldEncountParam *par
 {
     struct FieldSituation situation;
     struct Party *party = POKEPARTY_Create(heapId);
-    struct PokemonParam *pp = func_02030734(heapId, POKE_TOOL_GetPartyParamSize(), 1, sFieldEncountFileName, 0x285);
+    struct PokemonParam *pp = GFL_HEAP_Alloc(heapId, POKE_TOOL_GetPartyParamSize(), 1, sFieldEncountFileName, 0x285);
     int i;
 
     for (i = 0; i < (u8)param->isDoubleBattle + 1; i++) {
@@ -1252,23 +1252,23 @@ void FIELD_ENCOUNT_SetupWildBattle(FieldEncount *encount, FieldEncountParam *par
     BTL_SETUP_SetupWild(btlSetup, encount->gameData, party, &situation, param->isDoubleBattle, heapId);
     if (param->encountType == 1)
         BTL_SETUP_SetStatusFlag(btlSetup, 0x20);
-    func_020307B0(pp);
-    func_020307B0(party);
+    GFL_HEAP_Free(pp);
+    GFL_HEAP_Free(party);
 }
 
 void FIELD_ENCOUNT_SetupRoamerBattle(FieldEncount *encount, const FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, struct Roamer *roamer)
 {
     struct FieldSituation situation;
     struct Party *party = POKEPARTY_Create(heapId);
-    struct PokemonParam *pp = func_02030734((u16)((heapId & 0x7FFF) | 0x8000), POKE_TOOL_GetPartyParamSize(), 1, sFieldEncountFileName, 0x2A4);
+    struct PokemonParam *pp = GFL_HEAP_Alloc((u16)((heapId & 0x7FFF) | 0x8000), POKE_TOOL_GetPartyParamSize(), 1, sFieldEncountFileName, 0x2A4);
 
     FIELD_ENCOUNT_InitRoamerPokemon(pp, param, roamer);
     POKEPARTY_Add(party, pp);
     FIELD_ENCOUNT_SetFieldSituation(&situation, encount->gameData, encount->fieldMap);
     BTL_SETUP_SetupWild(btlSetup, encount->gameData, party, &situation, 0, heapId);
     BTL_SETUP_SetStatusFlag(btlSetup, 8);
-    func_020307B0(pp);
-    func_020307B0(party);
+    GFL_HEAP_Free(pp);
+    GFL_HEAP_Free(party);
 }
 
 void FIELD_ENCOUNT_SetupTrainerBattle(FieldEncount *encount, struct BattleSetupParam *btlSetup, u32 rule, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heapId)

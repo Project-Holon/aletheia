@@ -13,9 +13,9 @@
  * Cut from bmp_oam.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   g_020A7494      0x020A7494  data
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BMP_GetWidth  0x020437DC  arm
@@ -110,11 +110,11 @@ struct ModeEntry {
     u32 resEntryId;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
 extern void ARC_TOOL_DeleteHandle(void *arcTool);
 
@@ -242,7 +242,7 @@ extern const u8 g_0209FA3D[];
 /*
  * Allocate the 0x18-byte setup object (tag 0x73), record the heap id and the
  * actor system, seed the three mode slots with -1 and allocate the arc
- * handle through func_020490F4 with the heap field forced to a 0x8000-based
+ * handle through ARC_TOOL_CreateHandle with the heap field forced to a 0x8000-based
  * value.
  */
 struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact)
@@ -250,13 +250,13 @@ struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact)
     struct BmpOamSys *sys;
     int modeIdx;
 
-    sys = func_02030734(heapId, 0x18, 1, (const char *)g_020A7494, 0x73);
+    sys = GFL_HEAP_Alloc(heapId, 0x18, 1, (const char *)g_020A7494, 0x73);
     sys->heapId = heapId;
     sys->clact = clact;
     for (modeIdx = 0; modeIdx < 3; modeIdx++) {
         sys->slot[modeIdx] = -1;
     }
-    sys->arcTool = func_020490F4(0x33, (u16)((heapId & 0x7fff) | 0x8000));
+    sys->arcTool = ARC_TOOL_CreateHandle(0x33, (u16)((heapId & 0x7fff) | 0x8000));
     return sys;
 }
 
@@ -264,7 +264,7 @@ void BMP_OAM_DeleteSys(struct BmpOamSys *sys)
 {
     ARC_TOOL_DeleteHandle(sys->arcTool);
     BMP_OAM_ReleaseModeSlots(sys);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 /*
@@ -298,7 +298,7 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
         zero[3] = 0;
     }
 
-    bmpOam = func_02030734(sys->heapId, 0xcc, 1, (const char *)g_020A7494, 0xa3);
+    bmpOam = GFL_HEAP_Alloc(sys->heapId, 0xcc, 1, (const char *)g_020A7494, 0xa3);
     bmpOam->bmp = param->bmp;
     cols = (u8)(BMP_GetWidth(bmpOam->bmp) >> 5);
     rows = (u8)(BMP_GetHeight(param->bmp) >> 4);
@@ -353,7 +353,7 @@ void BMP_OAM_Delete(struct BmpOam *bmpOam)
             CLACT_DeleteActor(bmpOam->act[colIdx + rowIdx * bmpOam->cols]);
         }
     }
-    func_020307B0(bmpOam);
+    GFL_HEAP_Free(bmpOam);
 }
 
 void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, u32 enabled)

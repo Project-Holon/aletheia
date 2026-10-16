@@ -16,6 +16,7 @@
  *   NWMi_SendCommandDirect  0x02703B24  arm
  *   NWMi_CheckState  0x027028E4  arm
  *   MI_CpuCopy8  0x02082D44  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -33,7 +34,7 @@ typedef struct TwlMsg {
 } TwlMsg;
 
 extern u32 NWMi_CheckState(u32, u32);
-extern void func_020862D4(const void *, u32);
+extern void DC_StoreRange(const void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
@@ -49,7 +50,7 @@ u32 NWM_SetWPAPSK(u32 a0, TwlReq *a1) {
     if (a1 == 0) {
         return 5;
     }
-    func_020862D4(a1, 0x22);
+    DC_StoreRange(a1, 0x22);
     switch (a1->kind) {
     case 4:
     case 5:

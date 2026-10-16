@@ -14,7 +14,7 @@
  * Split from comm_player.c at 0x02169148: field_g3d_map.c __FILE__ anchor at 0x02169148 (file name kept apart from field_g3d_map.c at 0x0216BF38).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   d_02172A40     0x02172A40  data
@@ -22,14 +22,14 @@
  *   NNS_GfdDefaultFuncAllocPlttVram     0x020A8148  data
  *   d_020A814C     0x020A814C  data   a4
  *   d_020A8144     0x020A8144  data   a4
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   func_02046C9C 0x02046C9C arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   NNS_G3dGlbBaseTrans  0x0206A9DC  arm
- *   func_02082B60  0x02082B60  arm
+ *   MI_Copy36B  0x02082B60  arm
  *   NNS_G3dGlbBaseScale  0x0206AA0C  arm
  *   NNS_G3dGlbFlush  0x0206A854  arm
  *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
@@ -76,17 +76,17 @@ typedef struct FieldG3dMapGlbState {
     u32 flag;               /* 0x7C */
 } FieldG3dMapGlbState;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern int G3D_SYSTEM_GetResourceSize(void);
-extern ArcFile *func_020490F4(unsigned int id, unsigned int heapId);
+extern ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heapId);
 extern void ARC_TOOL_DeleteHandle(ArcFile *archive);
 extern void ARC_TOOL_ReadHandleMemberRange(ArcFile *archive, u32 member, u32 offset, u32 size, void *dst);
 extern void func_02046C9C(void *record, u32 mode, u32 value);
 extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *archive, u32 member);
 extern void ARC_TOOL_ReadHandle(ArcFile *archive, u32 size, void *dst);
 extern void NNS_G3dGlbBaseTrans(void *p);
-extern void func_02082B60(void *a, void *b);
+extern void MI_Copy36B(void *a, void *b);
 extern void NNS_G3dGlbBaseScale(void *p);
 extern void NNS_G3dGlbFlush(void);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
@@ -222,14 +222,14 @@ void FIELD_G3D_MAP_Destroy(FieldG3dMap *map)
         d_020A814C(map->plttKey);
         d_020A8144(map->texKey);
     }
-    func_020307B0(map->textureRes);
-    func_020307B0(map->modelRes);
-    func_020307B0(map->buffer);
+    GFL_HEAP_Free(map->textureRes);
+    GFL_HEAP_Free(map->modelRes);
+    GFL_HEAP_Free(map->buffer);
     if (map->placementCountA != 0)
-        func_020307B0(map->placementsA);
+        GFL_HEAP_Free(map->placementsA);
     if (map->placementCountB != 0)
-        func_020307B0(map->placementsB);
-    func_020307B0(map);
+        GFL_HEAP_Free(map->placementsB);
+    GFL_HEAP_Free(map);
 }
 
 /*
@@ -282,7 +282,7 @@ void FIELD_G3D_MAP_OpenArchive(FieldG3dMap *map, int archiveId, int heapId)
     FIELD_G3D_MAP_Reset(map);
     FIELD_G3D_MAP_CloseArchive(map);
     map->renderObjRef->model = 0;
-    map->archive = func_020490F4(archiveId, heapId);
+    map->archive = ARC_TOOL_CreateHandle(archiveId, heapId);
 }
 
 /* Close the archive if one is open. */
@@ -581,7 +581,7 @@ int FIELD_G3D_MAP_Draw(FieldG3dMap *map)
     drawn = 0;
     if (map->visible != 0 && map->renderObjRef->model != 0) {
         NNS_G3dGlbBaseTrans(d_0217216C);
-        func_02082B60(d_02172178, d_02148C08);
+        MI_Copy36B(d_02172178, d_02148C08);
         d_02148BCC.flag &= ~0xa4;
         NNS_G3dGlbBaseScale(d_02172160);
         NNS_G3dGlbFlush();

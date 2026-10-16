@@ -14,7 +14,7 @@
  *
  * symbols:
  *   FX_SinCosTable_  0x020A1B38  data
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -41,7 +41,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_SetStringN 0x02045994 arm
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
@@ -57,7 +57,7 @@
  *   d_021F555C 0x021F555C data a4
  *   NAMEIN_GRAPHIC_GetGridCell 0x021F4DA4 thumb ov194
  *   NAMEIN_GRAPHIC_IsPointInRect 0x021F4450 thumb ov194
- *   func_0201D42C 0x0201D42C thumb
+ *   GF_FONT_CountLines 0x0201D42C thumb
  *   NAMEIN_GRAPHIC_GetGridHeight 0x021F4DA0 thumb ov194
  *   NAMEIN_GRAPHIC_GetGridWidth 0x021F4D9C thumb ov194
  *   d_021F5544 0x021F5544 data a4
@@ -138,7 +138,7 @@ typedef struct NameinGraphicTipTarget {
     signed char dirty;             /* 0x04 */
 } NameinGraphicTipTarget;
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -165,7 +165,7 @@ extern void WORDSET_CopyString(const u16 *,u16 *,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
@@ -179,7 +179,7 @@ extern u32 NAMEIN_GRAPHIC_GetWord(const unsigned char *p, u32 i);
 extern int NAMEIN_GRAPHIC_SymbolGetValue(Pair *,Pair *);
 extern unsigned NAMEIN_GRAPHIC_GetGridCell(unsigned char *,unsigned short,unsigned short);
 extern int NAMEIN_GRAPHIC_IsPointInRect(int *,int *);
-extern u32 func_0201D42C(struct StrObj *s, void *font);
+extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
 extern u16 NAMEIN_GRAPHIC_GetGridHeight(const u16 *p);
 extern u16 NAMEIN_GRAPHIC_GetGridWidth(const u16 *p);
 int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
@@ -250,7 +250,7 @@ int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx
     dr = ((u8)(b & 31) - r) * t >> 12;
     dg = ((u8)((b & 0x3E0) >> 5) - g) * t >> 12;
     *out = (u8)(r + dr) | ((u8)(g + dg) << 5) | ((u8)(blue + db) << 10);
-    func_02061CA4((void *)0xF, row * 32 + idx * 2, (u32)out, 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)0xF, row * 32 + idx * 2, (u32)out, 2);
     return *out == b;
 }
 
@@ -341,7 +341,7 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
     STRBUF_SetStringN(((NameinGraphicInputField *)p)->strbuf,pair,2);
     x=64-(((NameinGraphicInputField *)p)->maxLength*14)/2;if(x<0)x=0;
     x+=i*14+7;
-    x-=func_0201D304(((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor,0)/2;
+    x-=GF_FONT_MeasureWidestLine(((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor,0)/2;
     if(i>=((NameinGraphicInputField *)p)->primaryLength){window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQueColor(window,(u32)BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,(u32)(((NameinGraphicInputField *)p)->strbuf),((NameinGraphicInputField *)p)->textColor,0xc80);}
     else {window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQue(window,(u32)BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor);}
     p[0x30]=1;
@@ -680,8 +680,8 @@ void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u1
      box.x*=8;box.y*=8;box.z*=8;box.w*=8;
      x=box.x+(box.z-box.x)/2-24;
      y=box.y+(box.w-box.y)/2-40;
-     x-=(u16)(func_0201D304(text,(u32)font,0)/2);
-     y-=(u16)(func_0201D42C(text,font)/2);
+     x-=(u16)(GF_FONT_MeasureWidestLine(text,(u32)font,0)/2);
+     y-=(u16)(GF_FONT_CountLines(text,font)/2);
      PRINTSYS_PrintQue(window,(u32)BMP_WIN_GetBmp(((NameinGraphicTipTarget *)target)->bmp),(short)(x-1),(short)y,text,(u32)font);
      target[4]=1;
     }

@@ -13,8 +13,8 @@
  * Cut from dup_fitting_item.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   _s32_div_f 0x0209C0A4 arm
  *   MUSICAL_SAVE_GetFittingSetting 0x0200A828 thumb
@@ -34,14 +34,14 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   MUSICAL_MCSS_FreeRenderObj 0x021F5330 thumb ov112
  *   MUSICAL_MCSS_DeleteRenderObj 0x021F51B0 thumb ov112
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
@@ -62,15 +62,15 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_0204989C 0x0204989C arm
- *   func_02041B6C 0x02041B6C arm
+ *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
@@ -93,13 +93,13 @@
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_0207DCF8 0x0207DCF8 arm
+ *   G3X_SetEdgeColorTable 0x0207DCF8 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
- *   func_02040588 0x02040588 arm
- *   func_0207D63C 0x0207D63C arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -121,10 +121,10 @@
  *   d_021BA4D8 0x021BA4D8 data a4
  *   gClActorInitParam 0x020A1448 data a4
  *   d_021BA5C4 0x021BA5C4 data a4
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -213,14 +213,14 @@
  *   b2 0x021BA548 data a4
  *   table 0x020A1B38 data a2
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
- *   func_02049B40 0x02049B40 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Create 0x020457B0 arm
@@ -367,9 +367,9 @@ typedef struct {short x,y;} DupFittingPos;
 
 typedef unsigned long long u64;
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern void *func_020056A0(void *,void *,int);
+extern void *GFL_USE_AddMainTask(void *,void *,int);
 
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
@@ -405,7 +405,7 @@ extern void MUSICAL_MCSS_FreeRenderObj(int,int);
 
 extern void MUSICAL_MCSS_DeleteRenderObj(int a);
 
-extern void func_02030EAC(struct Node *);
+extern void TCB_DeleteTask(struct Node *);
 
 extern void BILLBOARD_Delete(void *);
 
@@ -419,7 +419,7 @@ extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
@@ -451,7 +451,7 @@ extern void BG_SYS_ClearLayer(int,u16);
 
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 
-extern void BG_SYS_SetVisibleLayer(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
+extern void BG_SYS_SetVisibleLayer(int,u16),ARC_UTIL_UploadBgPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16),BG_SYS_SetFlagField06(u32);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
@@ -465,7 +465,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 
@@ -509,7 +509,7 @@ extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,VecU *,VecU *,VecU
 
 extern void G3D_CAMERA_Reset(struct Light *l);
 
-extern void func_0207DCF8(void *);
+extern void G3X_SetEdgeColorTable(void *);
 
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 
@@ -517,9 +517,9 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void BG_SYS_SetLowBit(u32);
 
-extern void func_02040588(unsigned int, unsigned int);
+extern void BG_SYS_SetPlaneVisible(unsigned int, unsigned int);
 
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
@@ -531,13 +531,13 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
 extern void *BILLBOARD_Create(u8 *,void *);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
@@ -683,9 +683,9 @@ extern int _s32_div_f(int,int);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void func_02049B40(u32, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
@@ -697,7 +697,7 @@ extern void MSGDATA_Delete(void *);
 
 extern void GF_FONT_Delete(void *);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -945,7 +945,7 @@ extern const short table[];
 
 u8 *DUP_FITTING_Create(u8 *parent, int heap)
 {
-    u8 *p = func_02030734(heap, 0x18f0, 1, d_021BA600, 0x1de);
+    u8 *p = GFL_HEAP_Alloc(heap, 0x18f0, 1, d_021BA600, 0x1de);
     u32 t, m;
     *(u16 *)p = heap;
     *(u8 **)(p + 4) = parent;
@@ -979,7 +979,7 @@ u8 *DUP_FITTING_Create(u8 *parent, int heap)
     DUP_FITTING_InitFrames(p);
     DUP_FITTING_CreateActors(p);
     DUP_FITTING_CreateText(p);
-    *(void **)(p + 8) = func_020056A0((void *)DUP_FITTING_VBlank, p, 8);
+    *(void **)(p + 8) = GFL_USE_AddMainTask((void *)DUP_FITTING_VBlank, p, 8);
     WIPE_SYS_Start((void *)2, 1, 1, 0x7fff, 18, 1, *(u16 *)p);
     t = *(u32 *)(p + 0x1834) + 0x18000;
     *(u16 *)(p + 0x18c2) = 10;
@@ -1027,7 +1027,7 @@ void DUP_FITTING_Delete(char *p)
     DUP_FITTING_FreeElements((u8 *)p);
     MUSICAL_MCSS_FreeRenderObj(*(int *)&((struct DupFittingWork *)p)->renderObj,((struct DupFittingWork *)p)->renderParam);
     MUSICAL_MCSS_DeleteRenderObj(((struct DupFittingWork *)p)->renderObj);
-    func_02030EAC(*(struct Node * *)&((struct DupFittingWork *)p)->task);
+    TCB_DeleteTask(*(struct Node * *)&((struct DupFittingWork *)p)->task);
     BILLBOARD_Delete(((struct DupFittingWork *)p)->billboard);
     G3D_CAMERA_Delete(((struct DupFittingWork *)p)->camera);
     G3D_SYSTEM_Exit();
@@ -1035,7 +1035,7 @@ void DUP_FITTING_Delete(char *p)
     BG_SYS_FreeLayerBuf(4);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(7);
     BMP_WIN_Exit();
     BG_SYS_Delete();
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 static inline void brightness(u8 *value)
@@ -1115,7 +1115,7 @@ int DUP_FITTING_Main(struct DupFittingWork *p)
         if(p->flag==1) {
             DUP_FITTING_ITEM_NoOp((u8 *)p,2); p->flag=0;
             BG_SYS_SetVisibleLayer(7,3); BG_SYS_SetVisibleLayer(4,0); BG_SYS_SetVisibleLayer(5,1); BG_SYS_SetVisibleLayer(6,2);
-            DUP_FITTING_ITEM_NoOp((u8 *)p,4); func_0204989C(46,13,7,0,0,0,H(0)); func_02041B6C(7);
+            DUP_FITTING_ITEM_NoOp((u8 *)p,4); ARC_UTIL_UploadBgPaletteFromArchive(46,13,7,0,0,0,H(0)); BG_SYS_SetFlagField06(7);
             p->busy=0; PRINTSYS_QUE_Clear((struct PrintSys *)P(0x18e8)); BMP_WIN_Delete((struct Descriptor *)p->window); p->window=0; DUP_FITTING_ITEM_NoOp((u8 *)p,6);
         } else if(p->brightness!=0) {
             DUP_FITTING_ITEM_NoOp((u8 *)p,p->brightness+96); p->brightness-=8; brightness(&p->brightness);
@@ -1130,7 +1130,7 @@ int DUP_FITTING_Main(struct DupFittingWork *p)
     DUP_FITTING_ITEM_NoOp((u8 *)p,10);
     if(p->busy==1 && PRINTSYS_QUE_IsFinished((const struct PrintSys *)P(0x18e8))==1) {
         p->busy=0; desc=(u8 *)p->window;
-        BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
+        BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc));
         BG_SYS_SetVisibleLayer(4,1); BG_SYS_SetVisibleLayer(5,2); BG_SYS_SetVisibleLayer(6,3); BG_SYS_SetVisibleLayer(7,0);
     }
     DUP_FITTING_ITEM_NoOp((u8 *)p,12);
@@ -1139,7 +1139,7 @@ int DUP_FITTING_Main(struct DupFittingWork *p)
     if(H(0x18c2)!=0) H(0x18c2)--;
     if(*(u32 *)P(4)!=0 && W(0x0c)!=7 && W(0x0c)!=8 && W(0x0c)!=9) {
         DUP_FITTING_ITEM_NoOp((u8 *)p,32);
-        if(func_0200FB24()!=0) {
+        if(GFL_NET_ERR_GetErrorLevel()!=0) {
             DUP_FITTING_ITEM_NoOp((u8 *)p,34); WIPE_SYS_Start(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60);
             DUP_FITTING_ITEM_NoOp((u8 *)p,36); W(0x0c)=9; DUP_FITTING_ITEM_NoOp((u8 *)p,38);
         } else DUP_FITTING_ITEM_NoOp((u8 *)p,64);
@@ -1221,7 +1221,7 @@ void DUP_FITTING_InitDisplay(u8 *p)
     G3D_SYSTEM_SetSwapBuffersMode(0,1);
     *(u32 **)(p+0x1888) = G3D_CAMERA_Create(2,0xc000,0,0,0x10000,0x1000,0x3e8000,0,&d_021BA3F4,&d_021BA40C,&d_021BA400,*(u16 *)p);
     G3D_CAMERA_Reset(*(void **)(p+0x1888));
-    func_0207DCF8(d_021BA418);
+    G3X_SetEdgeColorTable(d_021BA418);
     *(volatile u16 *)0x04000060 &= 0xcfdf;
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
@@ -1229,8 +1229,8 @@ void DUP_FITTING_InitDisplay(u8 *p)
     DUP_FITTING_InitBgLayer(d_021BA438,1); DUP_FITTING_InitBgLayer(d_021BA458,2);
     DUP_FITTING_InitBgLayer(d_021BA478,3); DUP_FITTING_InitBgLayer(d_021BA4F8,7);
     DUP_FITTING_InitBgLayer(d_021BA498,4); DUP_FITTING_InitBgLayer(d_021BA4B8,5); DUP_FITTING_InitBgLayer(d_021BA4D8,6);
-    func_02040588(0,1);
-    func_0207D63C((void *)0x04001050,0,15,4,16);
+    BG_SYS_SetPlaneVisible(0,1);
+    G2x_SetBlendAlpha_((void *)0x04001050,0,15,4,16);
     cfg = gClActorInitParam;
     cfg.a = 16; cfg.b = 112;
     CLACT_InitSystem((const struct Cfg *)(&cfg),(u32)d_021BA518,*(u16 *)p);
@@ -1262,7 +1262,7 @@ void DUP_FITTING_InitDisplay(u8 *p)
 #define W(o) (*(u32 *)(p + (o)))
 
 /*
- * note 2026-10-05 (wD9r lane78): EXACT. Closed by declaring func_02049658 with its real return type u32
+ * note 2026-10-05 (wD9r lane78): EXACT. Closed by declaring ARC_UTIL_UploadBgCharFromHandle with its real return type u32
  *   (it returns ARC_UTIL_UploadBgChar's u32 result, as the matched sibling func_02049624 does), not void. The void
  *   prototype hoisted 4 into r7 and turned later zeros into adds rN,r6,#0 copies. 0xd and -128 are literals.
  *   See docs/idioms/a-getter-declared-void-changes-constant-hoisting.md.
@@ -1270,18 +1270,18 @@ void DUP_FITTING_InitDisplay(u8 *p)
 void DUP_FITTING_InitModels(u8 *p)
 {
     DupFittingActorParam cfg;
-    void *g = func_020490F4(0x2e, H);
+    void *g = ARC_TOOL_CreateHandle(0x2e, H);
     func_02049B68(g, 4, 0, 0, 0, H);
-    func_02049658(g, 7, 3, 0, 0, 0, H);
-    func_020498F4(g, 0xc, 3, 0, 0, 0, H);
-    func_020498F4(g, 0xb, 2, 0, 0, 0, H);
+    ARC_UTIL_UploadBgCharFromHandle(g, 7, 3, 0, 0, 0, H);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0xc, 3, 0, 0, 0, H);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0xb, 2, 0, 0, 0, H);
     func_02049B68(g, 3, 4, 0, 0, H);
-    func_02049658(g, 0xa, 4, 0, 0, 0, H);
-    func_02049658(g, 9, 7, 0, 0, 0, H);
-    func_020498F4(g, 0x10, 4, 0, 0, 0, H);
-    func_020498F4(g, 0xf, 6, 0, 0, 0, H);
-    func_020498F4(g, 0xe, 5, 0, 0, 0, H);
-    func_020498F4(g, 0xd, 7, 0, 0, 0, H);
+    ARC_UTIL_UploadBgCharFromHandle(g, 0xa, 4, 0, 0, 0, H);
+    ARC_UTIL_UploadBgCharFromHandle(g, 9, 7, 0, 0, 0, H);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0x10, 4, 0, 0, 0, H);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0xf, 6, 0, 0, 0, H);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0xe, 5, 0, 0, 0, H);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0xd, 7, 0, 0, 0, H);
     BG_SYS_ResetSlot(6, 0, 128);
     BG_SYS_ResetSlot(5, 0, -128);
     *(struct Obj **)(p + 0x1858) = (struct Obj *)CLACT_RegisterPalette(g, 2, 0, 0, H);
@@ -1308,7 +1308,7 @@ void DUP_FITTING_InitModels(u8 *p)
     BG_SYS_PushTile(7);
 }
 
-void DUP_FITTING_InitBgLayer(const void *t,unsigned int id) {BG_SYS_InitBgLayer(id,t,0);func_02040588(id,1);BG_SYS_FreeSlot(id);BG_SYS_PushTile(id);}
+void DUP_FITTING_InitBgLayer(const void *t,unsigned int id) {BG_SYS_InitBgLayer(id,t,0);BG_SYS_SetPlaneVisible(id,1);BG_SYS_FreeSlot(id);BG_SYS_PushTile(id);}
 
 void DUP_FITTING_InitRenderObj(u8 *p)
 {
@@ -2794,7 +2794,7 @@ void DUP_FITTING_DrawBackActors(u8 *p)
     pal=p[0x18c0]*24/60+4;
     if(pal>=11) pal=3;
     BG_SYS_FillTileMap(2,10,44,12,12,pal);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
 }
 
 void DUP_FITTING_EnterPoseMode(u8 *p)
@@ -2881,10 +2881,10 @@ void DUP_FITTING_StepPoseSlide(u8 *p, int *a, int *b, u16 duration)
 void DUP_FITTING_CreateText(u8 *p)
 {
     ((struct DupFittingWork *)p)->font = GF_FONT_Create(23, 0, 0, 0, ((struct DupFittingWork *)p)->heapId);
-    ((struct DupFittingWork *)p)->msgBankA = func_02045B38(0, 2, 33, ((struct DupFittingWork *)p)->heapId);
-    ((struct DupFittingWork *)p)->msgBankB = func_02045B38(0, 2, 79, ((struct DupFittingWork *)p)->heapId);
-    ((struct DupFittingWork *)p)->msgBankC = func_02045B38(0, 2, 75, ((struct DupFittingWork *)p)->heapId);
-    func_02049B40(23, 5, 4, 448, 32, ((struct DupFittingWork *)p)->heapId);
+    ((struct DupFittingWork *)p)->msgBankA = MSGDATA_CreateFromArchive(0, 2, 33, ((struct DupFittingWork *)p)->heapId);
+    ((struct DupFittingWork *)p)->msgBankB = MSGDATA_CreateFromArchive(0, 2, 79, ((struct DupFittingWork *)p)->heapId);
+    ((struct DupFittingWork *)p)->msgBankC = MSGDATA_CreateFromArchive(0, 2, 75, ((struct DupFittingWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 448, 32, ((struct DupFittingWork *)p)->heapId);
     ((struct DupFittingWork *)p)->printSys = (void *)PRINTSYS_QUE_Create((void *)(((struct DupFittingWork *)p)->heapId));
     BMP_MENUWORK_LoadCharAndPltt(7, 128, 12, 0, ((struct DupFittingWork *)p)->heapId);
 }
@@ -2893,7 +2893,7 @@ void DUP_FITTING_DeleteText(unsigned char *p) {PRINTSYS_QUE_Delete(((struct DupF
 
 void DUP_FITTING_SetText(u8 *p, unsigned int index, void *object)
 {
-    void *text = func_02045EC0(((struct DupFittingWork *)p)->msgBankA, index);
+    void *text = MSGDATA_AllocString(((struct DupFittingWork *)p)->msgBankA, index);
     void *copy;
     PRINTSYS_QUE_Clear(((struct DupFittingWork *)p)->printSys);
     BMP_Clear(BMP_WIN_GetBmp(((struct DupFittingWork *)p)->window), 15);
@@ -2916,8 +2916,8 @@ void DUP_FITTING_SetTextItem(u8 *p, u8 *entry)
     u8 *data = (u8 *)DUP_FITTING_ITEM_ElemGetData(entry);
     int index = MUSICAL_MCSS_GetElemC(manager, ((struct DupFittingItemData *)data)->id);
     void *obj = WORDSET_CreateDefault(((struct DupFittingWork *)p)->heapId);
-    void *a = func_02045EC0(((struct DupFittingWork *)p)->msgBankB, ((struct DupFittingItemData *)data)->id + 3);
-    void *b = func_02045EC0(((struct DupFittingWork *)p)->msgBankC, index + 16);
+    void *a = MSGDATA_AllocString(((struct DupFittingWork *)p)->msgBankB, ((struct DupFittingItemData *)data)->id + 3);
+    void *b = MSGDATA_AllocString(((struct DupFittingWork *)p)->msgBankC, index + 16);
     WORDSET_SetSlotTag(obj, 0, a, 0, 1, 2);
     WORDSET_SetSlotTag(obj, 1, b, 0, 1, 2);
     DUP_FITTING_SetText(p, 3, obj);
@@ -2947,7 +2947,7 @@ void DUP_FITTING_SetTextHelp(u8 *p, int state)
     case 7: index = 0x16; break;
     }
     w = WORDSET_CreateDefault(((struct DupFittingWork *)p)->heapId);
-    str = func_02045EC0(((struct DupFittingWork *)p)->msgBankC, index);
+    str = MSGDATA_AllocString(((struct DupFittingWork *)p)->msgBankC, index);
     WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
     DUP_FITTING_SetText(p, 4, w);
     STRBUF_Delete(str);

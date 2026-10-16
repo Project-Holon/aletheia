@@ -43,7 +43,7 @@
  *   FADE_IsActive 0x0204E804 arm
  *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   WIFI_BSUBWAY_ClearTrainers 0x021D6998 thumb ov116
- *   func_02009860 0x02009860 thumb
+ *   WIFILIST_GetWork 0x02009860 thumb
  *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
@@ -56,7 +56,7 @@
  *   DPW_BT_CancelAsync 0x021C9634 arm ov114
  *   DPW_BT_End 0x021C93BC arm ov114
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_STATE_GetError 0x0203CA98 arm
  *   WIFI_BSUBWAY_AsyncHasError 0x021D7158 thumb ov116
  *   WIFI_BSUBWAY_CheckFatalError 0x021D7200 thumb ov116
@@ -67,8 +67,8 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02041B6C 0x02041B6C arm
- *   func_02045B38 0x02045B38 arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -87,26 +87,26 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   TCBL_Main 0x020310C4 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049740 0x02049740 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   func_02049990 0x02049990 arm
  *   func_02049F78 0x02049F78 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020307B0 0x020307B0 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_CreateRun 0x0203FA08 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   PALANM_BlendColors 0x02021F64 thumb
  *   GX_LoadBGPltt 0x0207E3D0 arm
- *   func_0207E468 0x0207E468 arm
+ *   GXS_LoadBGPltt 0x0207E468 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   func_02045CAC 0x02045CAC arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -126,7 +126,7 @@
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -142,7 +142,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021D83B0 0x021D83B0 data a4
  *   d_021D83F0 0x021D83F0 data a4
  *   g_021D83F0  0x021D83F0  data
@@ -226,7 +226,7 @@ extern void FADE_Start(u32 a, int b, int c, int d);
 extern int DWC_GetDateTime(void *date, void *time);
 extern int GDS_PROFILE_QuerySubwaySaveBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
 extern void WIFI_BSUBWAY_ClearTrainers(void *a);
-extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
+extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 extern int WIFILIST_GetGsProfileId(void *a0);
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
@@ -239,7 +239,7 @@ extern int DPW_BT_IsAsyncEnd(void);
 extern void DPW_BT_CancelAsync(void);
 extern void DPW_BT_End(void);
 extern int DWC_RAPCOMMON_HandleNetError(int,int);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_STATE_GetError(void);
 extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
 extern int WIFI_BSUBWAY_CheckFatalError(int *p);
@@ -250,8 +250,8 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_02041B6C(u32);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void BG_SYS_SetFlagField06(u32);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -270,26 +270,26 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
 extern void TCBL_Main(struct Tcbl *p);
-extern void *func_020490F4(unsigned int, unsigned int);
+extern void *ARC_TOOL_CreateHandle(unsigned int, unsigned int);
 extern void func_02049B68(void *, int, int, int, int, unsigned int);
-extern unsigned int func_02049740(void *, int, int, int, int, unsigned int);
+extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, int, int, int, int, unsigned int);
 extern void func_02049990(void *, int, int, int, u16, int, int, unsigned int);
 extern void *func_02049F78(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern int func_02049B40(int, int, int, int, int, unsigned int);
+extern int ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, unsigned int);
 extern void MI_CpuCopy8(const void *, void *, unsigned int);
-extern unsigned int func_020307B0(void *p);
-extern void *func_020056A0(void *, void *, int);
+extern unsigned int GFL_HEAP_Free(void *p);
+extern void *GFL_USE_AddMainTask(void *, void *, int);
 extern void DWCi_ScreenDC_FlushRange(void *, unsigned int);
-extern void func_0207D63C(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 extern unsigned int BG_SYS_CreateRun(unsigned int layer, unsigned int size, unsigned int top);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
 extern void GX_LoadBGPltt(void *,int,int);
-extern void func_0207E468(void *,int,int);
+extern void GXS_LoadBGPltt(void *,int,int);
 extern void BG_SYS_FillScrollArea(unsigned int layer, unsigned int a, unsigned int b);
 extern void BG_SYS_DeleteHalf(unsigned int layer, unsigned int offset, unsigned int size);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(unsigned int r, unsigned int g, unsigned int b);
@@ -307,7 +307,7 @@ extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 he
 extern void TIME_ICON_Delete(u8 *);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BMP_SetDisplaySwap(unsigned int swap);
@@ -321,7 +321,7 @@ extern void BMP_WIN_Init(unsigned);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 void BG_SYS_FreeLayerBuf(unsigned int i);
 void BMP_WIN_Exit(void);
 void BG_SYS_Delete(void);
@@ -580,7 +580,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepRetry(struct WifiBsubwayWork *p,short heap)
 
 
 void WIFI_BSUBWAY_GRAPHIC_InitBt(struct WifiBsubwayWork *p) {
-    void *a=func_02009860(p->field184C);
+    void *a=WIFILIST_GetWork(p->field184C);
     void *b;
     u64 value;
     func_02008540(p->field1850,(u32)WIFILIST_GetGsProfileId(p->field184C));
@@ -631,7 +631,7 @@ int WIFI_BSUBWAY_GRAPHIC_CheckNetError(struct WifiBsubwayWork *p) {
     int yes=1;
     int no=0;
     if(DWC_RAPCOMMON_HandleNetError(1,0)!=0) return no;
-    if(func_0200FB24()!=0) {
+    if(GFL_NET_ERR_GetErrorLevel()!=0) {
         GFL_NET_STATE_GetError();
         return no;
     }
@@ -665,8 +665,8 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(struct WifiBsubwayGraphic *p, short heap)
     BMP_Clear(BMP_WIN_GetBmp(p->window), 15);
     BMP_WIN_MakeScreen(p->window);
     BMP_WIN_TransferChars(p->window);
-    func_02041B6C(1);
-    p->msgBank = func_02045B38(0, 2, 206, heap);
+    BG_SYS_SetFlagField06(1);
+    p->msgBank = MSGDATA_CreateFromArchive(0, 2, 206, heap);
     p->wordSet = WORDSET_CreateDefault(heap);
     p->font = GF_FONT_Create(23, 0, 0, 0, heap);
     p->strbufA = STRBUF_Create(128, heap);
@@ -729,18 +729,18 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     int sh;
     u8 *a;
     u8 *b;
-    arc = func_020490F4(0x91, heap);
+    arc = ARC_TOOL_CreateHandle(0x91, heap);
     j = 0;
     func_02049B68(arc, 3, 4, 0, j, heap);
-    func_02049990(arc, 6, 4, 0, (u16)func_02049740(arc, 4, 4, 0, j, heap), j, j, heap);
+    func_02049990(arc, 6, 4, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 4, 0, j, heap), j, j, heap);
     func_02049B68(arc, 3, 0, 0, j, heap);
-    func_02049990(arc, 5, 0, 0, (u16)func_02049740(arc, 4, 0, 0, j, heap), j, j, heap);
-    func_02049990(arc, 7, 3, 0, (u16)func_02049740(arc, 4, 3, 0, j, heap), j, j, heap);
+    func_02049990(arc, 5, 0, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 0, 0, j, heap), j, j, heap);
+    func_02049990(arc, 7, 3, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 3, 0, j, heap), j, j, heap);
     MI_CpuFill8(&p->animCallback, 0, 0x970);
     blk = func_02049F78(arc, 2, (unsigned int)(&res), (u16)heap);
     MI_CpuCopy8(res->fC, p->pad014, 0x1e0);
     MI_CpuCopy8(res->fC, p->palette, 0x1e0);
-    func_020307B0(blk);
+    GFL_HEAP_Free(blk);
     k = 0;
     pa = p->palette;
     pb = (u8 *)p;
@@ -766,15 +766,15 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     }
     DWCi_ScreenDC_FlushRange(p->palette, 0x780);
     p->animEnabled = 1;
-    p->animCallback = func_020056A0((void *)WIFI_BSUBWAY_GRAPHIC_StepBgAnim, &p->animCallback, 0x14);
-    func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
+    p->animCallback = GFL_USE_AddMainTask((void *)WIFI_BSUBWAY_GRAPHIC_StepBgAnim, &p->animCallback, 0x14);
+    G2x_SetBlendAlpha_((void *)0x04000050, 1, 8, 8, 0x10);
     p->animPhase = 0;
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_CreateRun(1, 0x20, 0);
     BG_SYS_CreateRun(2, 0x20, 0);
     p->frameGfxA = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)1, 0xd, 0, heap);
     p->frameGfxB = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)2, 0xd, 0, heap);
-    func_02049B40(0x17, 5, 0, 0x180, 0x20, heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x180, 0x20, heap);
 }
 
 
@@ -783,7 +783,7 @@ void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,struct WifiBsubwayAnim *p) {
         p->toggle^=1;
         if((p->toggle&1)==0) {
             GX_LoadBGPltt(p->palette+(p->frame<<5),40,14);
-            func_0207E468(p->palette+(p->frame<<5),40,14);
+            GXS_LoadBGPltt(p->palette+(p->frame<<5),40,14);
             p->frame++;
             if(p->frame>=60) p->frame=0;
             BG_SYS_FillScrollArea(p->phase,2,7);
@@ -798,7 +798,7 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(struct WifiBsubwayGraphic *p) {
     x=p->frameGfxB;
     BG_SYS_DeleteHalf(2,(u16)x,(u16)(x>>16));
     if(p->animCallback) {
-        func_02030EAC(p->animCallback);
+        TCB_DeleteTask(p->animCallback);
         p->animCallback=0;
         p->animEnabled=0;
     }
@@ -861,7 +861,7 @@ int WIFI_BSUBWAY_GRAPHIC_UpdateSave(struct WifiBsubwayWork *p) { if(p->dpwDone==
  */
 void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
  struct WifiBsubwayBg *p;
- p=func_02030734(heap,16,0,d_021D858C,0x1bc);
+ p=GFL_HEAP_Alloc(heap,16,0,d_021D858C,0x1bc);
  MI_CpuFill8(p,0,16);
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
@@ -871,19 +871,19 @@ void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
  BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021D83C0); BMP_SetDisplaySwap(a);
  BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes(); GF_FONT_InitTextColor();
  WIFI_BSUBWAY_GRAPHIC_SetupBg(p,heap);
- p->redrawCallback=func_020056A0((void *)WIFI_BSUBWAY_GRAPHIC_OnRedraw,p,0);
+ p->redrawCallback=GFL_USE_AddMainTask((void *)WIFI_BSUBWAY_GRAPHIC_OnRedraw,p,0);
  return p;
 }
 
 
 void WIFI_BSUBWAY_GRAPHIC_Delete(struct WifiBsubwayBg *p) {
- func_02030EAC(p->redrawCallback); WIFI_BSUBWAY_GRAPHIC_TeardownBg(p); GF_FONT_SetDefaultTextColor();
+ TCB_DeleteTask(p->redrawCallback); WIFI_BSUBWAY_GRAPHIC_TeardownBg(p); GF_FONT_SetDefaultTextColor();
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
  *(volatile unsigned *)0x04001000 &= 0xffff1fff;
 
- MI_CpuFill8(p,0,16); func_020307B0(p);
+ MI_CpuFill8(p,0,16); GFL_HEAP_Free(p);
 }
 
 
@@ -897,7 +897,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBg(struct WifiBsubwayBg *p,unsigned heap) {
  for(i=0;i<8;i++) {
  q=(struct WifiBsubwayBgLayer *)(d_021D83F0+i*44); n=q->layer;
  BG_SYS_InitBgLayer((u8)n,(const struct BgTemplate *)q->templateData,(u8)q->type);
- BG_SYS_FreeSlot(n); func_02040588(n,q->slot);
+ BG_SYS_FreeSlot(n); BG_SYS_SetPlaneVisible(n,q->slot);
  }
 }
 

@@ -29,9 +29,9 @@
  *   gNNSSndMessageQueue     0x0214E9BC  data
  *   SND_StopTimer  0x020894DC  arm
  *   SND_GetCurrentCommandTag  0x02089D40  arm
- *   func_02089B38  0x02089B38  arm
+ *   SND_FlushCommand  0x02089B38  arm
  *   SND_WaitForCommandProc  0x02089CD4  arm
- *   func_02085E50  0x02085E50  arm
+ *   OS_ReceiveMessage  0x02085E50  arm
  *   SND_CHANNEL_ClearClaimedMask  0x020729A4  arm
  *   SND_CHANNEL_UnlockChannels  0x02072974  arm
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
@@ -69,9 +69,9 @@ extern s32 NNS_SndFaderGet(struct Obj *fader);
 extern void SND_SetChannelVolume(u32 chBitMask, s32 volume, s32 shift);
 extern void SND_StopTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, s32 flags);
 extern s32  SND_GetCurrentCommandTag(void);
-extern void func_02089B38(s32 flush);
+extern void SND_FlushCommand(s32 flush);
 extern void SND_WaitForCommandProc(s32 commandTag);
-extern s32  func_02085E50(void *messageQueue, s32 message, s32 flags);
+extern s32  OS_ReceiveMessage(void *messageQueue, s32 message, s32 flags);
 extern void SND_CHANNEL_ClearClaimedMask(u32 mask);
 extern void SND_CHANNEL_UnlockChannels(u32 chan);
 extern void NNS_SndWaveOutFreeChannel(u32 alarmNo);
@@ -183,10 +183,10 @@ void NNSi_SndShutdown(void)
 
     if (hasAlarm) {
         commandTag = SND_GetCurrentCommandTag();
-        func_02089B38(1);
+        SND_FlushCommand(1);
         SND_WaitForCommandProc(commandTag);
         zero = 0;
-        while (func_02085E50(gNNSSndMessageQueue, zero, zero) != 0)
+        while (OS_ReceiveMessage(gNNSSndMessageQueue, zero, zero) != 0)
             ;
     }
 
@@ -214,7 +214,7 @@ void NNS_SndStartTimer(void) {
     else alarmMask = 0;
     SND_StopTimer(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, alarmMask, 0);
     commandTag = SND_GetCurrentCommandTag();
-    func_02089B38(1);
+    SND_FlushCommand(1);
     SND_WaitForCommandProc(commandTag);
 }
 

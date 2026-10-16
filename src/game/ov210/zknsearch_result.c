@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
@@ -42,7 +42,7 @@ typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; u
 
 
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern struct FrameList *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
 extern void FRAME_LIST_CopyMapToBuffer(unsigned char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
@@ -85,7 +85,7 @@ extern const Template d_021C0CC0;
 
 void ZKNSEARCH_RESULT_InitFrameList(char *ctx)
 {
-    void *archive = func_020490F4(159, 0x807b);
+    void *archive = ARC_TOOL_CreateHandle(159, 0x807b);
     Template config;
     unsigned i;
     config = d_021C0CC0;

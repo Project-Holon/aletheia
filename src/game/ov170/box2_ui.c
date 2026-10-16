@@ -25,7 +25,7 @@
  *   BOX2_SEQ_DrawMonName 0x021EB874 thumb ov170
  *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb ov170
  *   g_021EFCEC  0x021EFCEC  data  ov170
  *   func_02007A18  0x02007A18  thumb
@@ -45,7 +45,7 @@
  *   BMP_Create 0x02043678 arm
  *   BMP_OAM_Create 0x020255A0 thumb
  *   BMP_OAM_GetEnabled  0x020257C4  thumb
- *   func_020355C4 0x020355C4 arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   CURSOR_MOVE_Create 0x02025CD0 thumb
  *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
@@ -67,7 +67,7 @@
  *   KEY_GetRepeat 0x0203633C arm
  *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F1418 0x021F1418 data a1
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021F0020 0x021F0020 data a4
@@ -158,7 +158,7 @@ extern unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a);
 extern void BOX2_SEQ_DrawMonName(char **, unsigned, int);
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void MI_CpuCopy8(const void *, void *, unsigned);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int BOX2_MAIN_GetBoxFormId(BoxTask *p, int box);
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
@@ -181,7 +181,7 @@ extern void BMP_OAM_Delete(struct Grid *g);
 extern void BMP_Delete(struct Bmp *p);
 extern void BMP_OAM_DeleteSys(void *p);
 extern int BMP_OAM_GetEnabled(const int *p);
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern struct CursorMoveObj *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void CURSOR_MOVE_EnableInput(struct CursorMoveObj *obj);
 extern void BOX2_SEQ_SetCursorDraw(char **, int);
@@ -199,7 +199,7 @@ extern void func_020355D8(u8 v);
 extern unsigned int KEY_GetRepeat(void);
 extern void BOX2_MAIN_PlayCursorSound(BoxTask *p);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern int TOUCHPANEL_HitCont(const void *);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
@@ -522,7 +522,7 @@ void BOX2_UI_DrawSlot(BoxTask *p, int i)
     void *t;
     void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
     MI_CpuCopy8(((BoxArcRes *)(t))->data, p->work->charPool[i], 0x400);
-    func_020307B0((void *)q);
+    GFL_HEAP_Free((void *)q);
     BOX2_UI_ReplaceColorIndex((int)p, (unsigned char *)(p->work->charPool[i]), BOX2_MAIN_GetBoxFormId((BoxTask *)p, i), 8, 0x400);
     BOX2_UI_LoadMonIcon((int **)p, i, (unsigned char *)(p->work->charPool[i]));
 }
@@ -943,7 +943,7 @@ void BOX2_UI_CreateCursor(char **p)
 {
     int f;
     int i;
-    f = func_020355C4() == 1 ? 0 : 1;
+    f = UI_GetInputMode() == 1 ? 0 : 1;
     switch (((BoxParam *)p[0])->mode) {
     case 0: i = 0; break;
     case 1: i = 2; break;
@@ -2006,7 +2006,7 @@ void BOX2_UI_MoveCursorBetweenIcons(BoxWork *q, int a, int b)
 void BOX2_UI_PlaceCursorBetween(BoxWork *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty)
 {
     Motion *s;
-    s=func_02030734(0x4c,8,0,d_021F1418,0x98f);
+    s=GFL_HEAP_Alloc(0x4c,8,0,d_021F1418,0x98f);
     s->steps=4;
     s->x=x;
     s->y=y;

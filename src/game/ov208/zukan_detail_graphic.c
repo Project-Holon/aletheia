@@ -13,13 +13,13 @@
  * Cut from zukan_detail_common.c, zukan_detail_graphic.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0  arm
  *   MI_CpuFill8 0x02082BCC arm
  *   ZUKAN_DETAIL_GRAPHIC_InitBgGraphics 0x021BCE10 thumb
  *   ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics 0x021BCEC0 thumb
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   ZUKAN_DETAIL_GRAPHIC_DrawFrame 0x021BCF18 thumb
  *   ZUKAN_DETAIL_GRAPHIC_ApplyCamera 0x021BCF2C thumb
  *   ZUKAN_DETAIL_GRAPHIC_EndDraw3d 0x021BCF3C thumb
@@ -45,7 +45,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021C8138 0x021C8138 data a4
  *   d_021C81B4 0x021C81B4 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -68,6 +68,7 @@
  *   G3D_CAMERA_Delete  0x02048AC4  arm  arm9
  *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
+ *   G3D_CAMERA_Reset  0x02048AD0  arm  arm9
  */
 #include "zukan_detail_shared_types.h"
 
@@ -75,9 +76,9 @@
 
 typedef enum {ShadeToon=0,ShadeHighlight=1} GXShading;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
@@ -130,7 +131,7 @@ struct DispConfig;
 
 struct Light;
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -148,7 +149,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -162,7 +163,7 @@ extern void BG_SYS_InitBgLayer(u8 bgId, const struct BgTemplate *tmpl, u8 type);
 
 extern void BG_SYS_FreeSlot(u8);
 
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -198,7 +199,7 @@ extern void G3D_SYSTEM_Exit(void);
 
 extern void func_02047964(void);
 
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -265,7 +266,7 @@ extern const char g_020A1EB8[];
  */
 char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned short heap,int threeD)
 {
-    char *p=func_02030734(heap,20,0,d_021C8DC0,0x1db);
+    char *p=GFL_HEAP_Alloc(heap,20,0,d_021C8DC0,0x1db);
     MI_CpuFill8(p,0,20);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
@@ -282,7 +283,7 @@ char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned short heap,i
     ZUKAN_DETAIL_GRAPHIC_CreateWindows(p,heap);
     ZUKAN_DETAIL_GRAPHIC_InitActorSystem((unsigned char *)p+4,(int)d_021C8184,heap);
     if(threeD)ZUKAN_DETAIL_GRAPHIC_Init3dSystem(p,heap);
-    ((struct Ov208BgGfx *)p)->task=func_020056A0((unsigned)ZUKAN_DETAIL_GRAPHIC_VBlankTransfer,(unsigned)p,0);
+    ((struct Ov208BgGfx *)p)->task=GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_GRAPHIC_VBlankTransfer,(unsigned)p,0);
     return p;
 }
 
@@ -291,7 +292,7 @@ char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned short heap,i
  */
 void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p)
 {
-    func_02030EAC(((struct Ov208BgGfx *)p)->task);
+    TCB_DeleteTask(((struct Ov208BgGfx *)p)->task);
     ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(p);
     ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(p+4);
     ZUKAN_DETAIL_GRAPHIC_DeleteWindows(p);
@@ -301,7 +302,7 @@ void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     MI_CpuFill8(p,0,0x14);
-    func_020307B0((void *)((unsigned)p));
+    GFL_HEAP_Free((void *)((unsigned)p));
 }
 
 void ZUKAN_DETAIL_GRAPHIC_DrawFrame(char *p)
@@ -374,7 +375,7 @@ void ZUKAN_DETAIL_GRAPHIC_CreateWindows(void *p,u32 heap)
         bg=row->bg;
         BG_SYS_InitBgLayer((u8)bg,(const struct BgTemplate *)&row->tmpl,(u8)row->type);
         BG_SYS_FreeSlot(bg);
-        func_02040588(bg,row->on);
+        BG_SYS_SetPlaneVisible(bg,row->on);
     }
 }
 
@@ -456,7 +457,7 @@ void ZUKAN_DETAIL_GRAPHIC_DeleteCameraAndSystem(int *p)
 void ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt(int *p)
 {
     func_02047964();
-    func_02048AD0((struct Light *)(*p));
+    G3D_CAMERA_Reset((struct Light *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }
 

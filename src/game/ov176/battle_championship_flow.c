@@ -16,11 +16,11 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
  *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
- *   func_02034A5C  0x02034A5C  arm
- *   func_020315D4  0x020315D4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   ov177_id       0x000000B1  data
  *   ov67_id        0x00000043  data
@@ -34,7 +34,7 @@
  *   WIFIBATTLEMATCH_VIEW_Create  0x021E567C  thumb  ov177
  *   WIFIBATTLEMATCH_VIEW_Delete 0x021E5868 thumb ov177
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   WIFIBATTLEMATCH_UTIL_Create 0x021E8568 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_Delete  0x021E8628  thumb
@@ -47,12 +47,12 @@
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   d_0217E5E0 0x0217E5E0 data a1
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_0217E5E4 0x0217E5E4 data a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   DIGITALCARDCHECK_Create 0x0217D398 thumb ov176
@@ -98,7 +98,7 @@ typedef struct {
     void *proc;          /* 04 sub proc created by WIFIBATTLEMATCH_UTIL_CreateCallback */
     void *printSys;      /* 08 print system created by WIFIBATTLEMATCH_UTIL_Create */
     void *font;          /* 0C font created by GF_FONT_Create */
-    void *msgBank;       /* 10 message bank created by func_02045B38 */
+    void *msgBank;       /* 10 message bank created by MSGDATA_CreateFromArchive */
     void *printQue;      /* 14 print queue created by PRINTSYS_QUE_Create */
     u8  pad_18[8];
     int view;            /* 20 view object created by WIFIBATTLEMATCH_VIEW_Create */
@@ -114,7 +114,7 @@ typedef struct {
     void *proc;          /* 00 proc created by WIFIBATTLEMATCH_UTIL_CreateCallback */
     void *window;        /* 04 window returned by WIFIBATTLEMATCH_UTIL_CreateMenu */
     int index;           /* 08 index last drawn */
-    void *msgBank;       /* 0C message bank created by func_02045B38 */
+    void *msgBank;       /* 0C message bank created by MSGDATA_CreateFromArchive */
     int result;          /* 10 menu result read by BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult */
     int phase;           /* 14 phase selected by BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase */
     void *printSys;      /* 18 print system (copied from the flow work) */
@@ -147,15 +147,15 @@ extern void *PROCSYS_AllocProcWork(struct ProcOwner *owner, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
-extern int func_02034AC4(signed int);
+extern int GF_OVERLAY_Load(signed int);
 
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 
 extern void BTLV_CORE_IsSlotKind1Index15(int);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
@@ -179,7 +179,7 @@ extern void WIFIBATTLEMATCH_VIEW_Delete(void *);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
@@ -205,13 +205,13 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 extern int FADE_IsActive(void);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int APP_ENV_InitParentalControl(void);
 
@@ -343,8 +343,8 @@ int BATTLE_CHAMPIONSHIP_FLOW_Create(void *owner,void *unused,void *context)
     MI_CpuFill8(work,0,0x34);
     ((BattleChampionshipFlowWork *)work)->context=context;
     ((BattleChampionshipFlowWork *)work)->heapId=0x4e;
-    func_02034AC4((int)ov67_id);
-    func_02034AC4((int)ov177_id);
+    GF_OVERLAY_Load((int)ov67_id);
+    GF_OVERLAY_Load((int)ov177_id);
     BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic((int *)work);
     BATTLE_CHAMPIONSHIP_FLOW_CreateView((int *)work);
     BATTLE_CHAMPIONSHIP_FLOW_CreateText(work);
@@ -358,9 +358,9 @@ int BATTLE_CHAMPIONSHIP_FLOW_Delete(int owner, int unused, int unused2, int *wor
     BATTLE_CHAMPIONSHIP_FLOW_DeleteText(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteView(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(work);
-    func_02034A5C((int)ov177_id);
-    func_02034A5C((int)ov67_id);
-    func_020315D4((struct Proc *)owner);
+    GF_OVERLAY_Unload((int)ov177_id);
+    GF_OVERLAY_Unload((int)ov67_id);
+    PROCSYS_FreeProcWork((struct Proc *)owner);
     GFL_HEAP_DeleteChecked(0x4e);
     return 1;
 }
@@ -406,7 +406,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *work) {WIFIBATTLEMATCH_VIEW_Delete
 void BATTLE_CHAMPIONSHIP_FLOW_CreateText(char *work)
 {
     ((BattleChampionshipFlowWork *)work)->font=GF_FONT_Create(0x17,0,0,0,((BattleChampionshipFlowWork *)work)->heapId);
-    ((BattleChampionshipFlowWork *)work)->msgBank=func_02045B38(0,2,4,((BattleChampionshipFlowWork *)work)->heapId);
+    ((BattleChampionshipFlowWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,4,((BattleChampionshipFlowWork *)work)->heapId);
     ((BattleChampionshipFlowWork *)work)->printQue=(void *)PRINTSYS_QUE_Create((void *)(((BattleChampionshipFlowWork *)work)->heapId));
     ((BattleChampionshipFlowWork *)work)->printSys=WIFIBATTLEMATCH_UTIL_Create(0,15,14,10,((BattleChampionshipFlowWork *)work)->printQue,((BattleChampionshipFlowWork *)work)->font,((BattleChampionshipFlowWork *)work)->heapId);
 }
@@ -446,7 +446,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *proc,int *state,char *work)
     case 0: FADE_Start(3,16,0,0); *state=1; break;
     case 1: if(!FADE_IsActive()) *state=2; break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
-    default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
+    default: SAVEDATA_PanicFail(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
 
@@ -461,7 +461,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *proc,int *state,char *work)
         break;
     case 1: if(!FADE_IsActive()) *state=2; break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_End); break;
-    default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
+    default: SAVEDATA_PanicFail(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
 
@@ -556,16 +556,16 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *proc,int *state,BattleChampion
 void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const BattleChampionshipFlowConfig *config,unsigned heap)
 {
     char *menu;
-    menu=func_02030734(heap,0x3c,0,d_0217E5E4,0xaf);
+    menu=GFL_HEAP_Alloc(heap,0x3c,0,d_0217E5E4,0xaf);
     MI_CpuFill8(menu,0,0x3c);
     *(BattleChampionshipFlowConfig *)(menu+0x14)=*config;
     ((BattleChampionshipFlowMenu *)menu)->heapId=heap;
-    ((BattleChampionshipFlowMenu *)menu)->msgBank=func_02045B38(0,3,0x9e,heap);
+    ((BattleChampionshipFlowMenu *)menu)->msgBank=MSGDATA_CreateFromArchive(0,3,0x9e,heap);
     ((BattleChampionshipFlowMenu *)menu)->proc=WIFIBATTLEMATCH_UTIL_CreateCallback((int)menu,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase,heap);
     return menu;
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *work) {BTLV_CORE_IsSlotKind1Index15((int)(((BattleChampionshipFlowMenu *)work)->proc));MSGDATA_Delete(((BattleChampionshipFlowMenu *)work)->msgBank);func_020307B0(work);}
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *work) {BTLV_CORE_IsSlotKind1Index15((int)(((BattleChampionshipFlowMenu *)work)->proc));MSGDATA_Delete(((BattleChampionshipFlowMenu *)work)->msgBank);GFL_HEAP_Free(work);}
 
 /*
  * leaf: sole blocker of owned 0217B0C8 MATCH; no prior source/unit/shard, parent claim accepted.

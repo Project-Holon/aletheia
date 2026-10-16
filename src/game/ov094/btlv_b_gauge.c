@@ -13,16 +13,16 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   BTLV_B_GAUGE_CreatePartyBallBar  0x02208DAC  thumb  ov094
  *   BTLV_B_GAUGE_DeletePartyBallBar 0x02209068 thumb ov094
  *   BTLV_B_GAUGE_IsPartyBallBarActive 0x022090A4 thumb ov094
  *   TCBL_GetTaskUserData   0x02030EE8  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
@@ -62,9 +62,9 @@ extern int BTLV_EFFECT_GetPalanm(void);
 
 extern void *BTLV_EFFECT_GetOwner(void);
 
-extern void *func_02030734(u16 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern void *func_020490F4(u32 id, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 
 extern struct ClUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -82,7 +82,7 @@ extern struct ClActor *CLACT_CreateActor(struct ClUnit *unit, u32 charRes, u32 p
 
 extern void CLACT_SetActorAutoAnim(struct ClActor *actor, u32 enable);
 
-extern void *func_02030DA8(void *taskSys, void (*func)(void *, void *), void *work, u32 priority);
+extern void *TCB_AddTask(void *taskSys, void (*func)(void *, void *), void *work, u32 priority);
 
 extern void BTLV_EFFECT_RegisterTask(void *task, void (*onDelete)(void *), int arg);
 
@@ -98,7 +98,7 @@ extern void CLACT_ReleaseCellAnim(u32 res);
 
 extern u32 CLACT_DeleteUnit(struct ClUnit *unit);
 
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 
 extern void GFL_USE_PlaySeInSlot(u32 seNo, int slot);
 
@@ -139,8 +139,8 @@ BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *p
     int i;
 
     fullHeapId = (heapId & 0x7fff) | 0x8000;
-    bar = func_02030734(fullHeapId, sizeof(BtlvPartyBallBar), 1, sBtlvBGaugeFileName, 0x7a);
-    arc = func_020490F4(0xb, (u16)fullHeapId);
+    bar = GFL_HEAP_Alloc(fullHeapId, sizeof(BtlvPartyBallBar), 1, sBtlvBGaugeFileName, 0x7a);
+    arc = ARC_TOOL_CreateHandle(0xb, (u16)fullHeapId);
     bar->heapId = fullHeapId;
     bar->unit = CLACT_CreateUnit(7, 0, bar->heapId);
     bar->charRes = CLACT_RegisterCharacter(arc, 0xbd, 0, 0, bar->heapId);
@@ -175,9 +175,9 @@ BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *p
     bar->entries[i].wait = 0;
     bar->entries[i].homeX = bar->entries[i].goalX = sPartyBallBarOrigins[param->side].frameX;
     bar->entries[i].stepX = param->side == 0 ? -0x10 : 0x10;
-    taskArg = func_02030734(fullHeapId, sizeof(BtlvPartyBallTaskArg), 0, sBtlvBGaugeFileName, 0xec);
+    taskArg = GFL_HEAP_Alloc(fullHeapId, sizeof(BtlvPartyBallTaskArg), 0, sBtlvBGaugeFileName, 0xec);
     taskArg->bar = bar;
-    BTLV_EFFECT_RegisterTask(func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_B_GAUGE_TaskPartyBallBar, taskArg, 0), BTLV_B_GAUGE_PartyBallBarTaskDeleted, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(BTLV_EFFECT_GetOwner(), BTLV_B_GAUGE_TaskPartyBallBar, taskArg, 0), BTLV_B_GAUGE_PartyBallBarTaskDeleted, 0);
     bar->active = 1;
     ARC_TOOL_DeleteHandle(arc);
     GFL_USE_PlaySeDefaultVolume(BTLV_GAUGE_SE_BALL_BAR_START);
@@ -196,7 +196,7 @@ void BTLV_B_GAUGE_DeletePartyBallBar(BtlvPartyBallBar *bar)
     CLACT_ReleasePalette(bar->palRes);
     CLACT_ReleaseCellAnim(bar->cellRes);
     CLACT_DeleteUnit(bar->unit);
-    func_020307B0(bar);
+    GFL_HEAP_Free(bar);
 }
 
 /* Returns 1 while the party ball bar task runs. */

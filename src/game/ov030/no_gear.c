@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02049B68  0x02049B68  arm
- *   func_02049740  0x02049740  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   gNoGearPaletteFileIds     0x021F0134  data  ov030  a4
  *   gNoGearCharFileIds     0x021F0140  data  ov030  a4
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
@@ -35,12 +35,12 @@
  *   gNoGearBgTemplateBack     0x021F018C  data  ov030  a4
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   str_021F01C0   0x021F01C0  data   ov030  a1
  *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   WIH_DWC_PollStatus 0x0201058C thumb
  *   NO_GEAR_ReleaseGraphics  0x021F007C  thumb  ov030
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "../ov021/field_subscreen_types.h"
 
@@ -79,24 +79,24 @@ typedef struct NoGearWork {
     u32 pad1C;
 } NoGearWork;
 
-extern struct ArchiveHandle *func_020490F4(u32 archiveId, u32 heapId);
+extern struct ArchiveHandle *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 func_02008550(const struct PlayerStatus *player);
 extern void func_02049B68(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
-extern u32 func_02049740(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(struct ArchiveHandle *archive);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
-extern void func_02040588(unsigned char bgId, unsigned char visible);
+extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
 extern void BG_SYS_SetTileEntry(u32 bgId, int a1, int a2, int a3, u8 width, u8 height, u8 mode);
 extern void BG_SYS_PushTile(u32 bgId);
 extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetWifiList(struct GameData *gameData);
 extern u32 WIH_DWC_PollStatus(void *key);
 void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *));
@@ -118,7 +118,7 @@ extern char str_021F01C0[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct NoGearWork;
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
 void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))
@@ -144,10 +144,10 @@ void NO_GEAR_LoadGraphics(NoGearWork *work)
     struct ArchiveHandle *archive;
     int variant;
 
-    archive = func_020490F4(0x1E, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x1E, work->heapId);
     variant = func_02008550(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
     func_02049B68(archive, gNoGearPaletteFileIds[variant], 4, 0, 0, work->heapId);
-    work->charBlock = func_02049740(archive, gNoGearCharFileIds[variant], 6, 0, 0, work->heapId);
+    work->charBlock = ARC_UTIL_RegisterObjCharFromHandle(archive, gNoGearCharFileIds[variant], 6, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 3, 6, 0, (u16)work->charBlock, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
@@ -161,12 +161,12 @@ void NO_GEAR_SetupBackgrounds(void)
     int bgId;
 
     for (bgId = 4; bgId <= 7; bgId++) {
-        func_02040588((u8)bgId, 0);
+        BG_SYS_SetPlaneVisible((u8)bgId, 0);
     }
     {
         struct BgTemplate template = gNoGearBgTemplateMain;
         BG_SYS_InitBgLayer(6, &template, 0);
-        func_02040588((u8)6, 1);
+        BG_SYS_SetPlaneVisible((u8)6, 1);
         BG_SYS_SetVisibleLayer(6, 3);
         BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(6);
@@ -174,7 +174,7 @@ void NO_GEAR_SetupBackgrounds(void)
     {
         struct BgTemplate template = gNoGearBgTemplateMid;
         BG_SYS_InitBgLayer(5, &template, 0);
-        func_02040588((u8)5, 1);
+        BG_SYS_SetPlaneVisible((u8)5, 1);
         BG_SYS_SetVisibleLayer(5, 1);
         BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(5);
@@ -182,7 +182,7 @@ void NO_GEAR_SetupBackgrounds(void)
     {
         struct BgTemplate template = gNoGearBgTemplateBack;
         BG_SYS_InitBgLayer(4, &template, 0);
-        func_02040588((u8)4, 1);
+        BG_SYS_SetPlaneVisible((u8)4, 1);
         BG_SYS_SetVisibleLayer(4, 2);
         BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(4);
@@ -210,9 +210,9 @@ void NO_GEAR_ReleaseGraphics(NoGearWork *work)
     BG_SYS_FreeLayerBuf(4);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(6);
-    func_02040588(4, 0);
-    func_02040588(5, 0);
-    func_02040588(6, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
+    BG_SYS_SetPlaneVisible(5, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
 }
 
@@ -233,7 +233,7 @@ NoGearWork *NO_GEAR_Create(void *cgearSave, FieldSubscreen *subscreen, struct Ga
 {
     NoGearWork *work;
 
-    work = func_02030734(0x15, 0x20, 1, str_021F01C0, 0x17A);
+    work = GFL_HEAP_Alloc(0x15, 0x20, 1, str_021F01C0, 0x17A);
     work->heapId = 0x15;
     work->gameSystem = gameSystem;
     NO_GEAR_Init(work);
@@ -262,5 +262,5 @@ void NO_GEAR_Destroy(struct NoGearWork *work)
 {
     NO_GEAR_ReleaseGraphics(work);
     REG_DB_BLDCNT_SUB = 0;
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }

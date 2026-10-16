@@ -22,7 +22,7 @@
  *   GX_LoadOAM  0x0207E684  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *   GXi_DmaId     0x020A84C0  data  a4
- *   func_020862B8  0x020862B8  arm
+ *   DC_InvalidateRange  0x020862B8  arm
  *   MIi_DmaFill32  0x020821C0  arm
  *   func_02082A7C  0x02082A7C  arm
  *   DC_FlushRange   0x020862F0  arm
@@ -38,10 +38,10 @@
  *   func_0207F6A8  0x0207F6A8  arm
  *   func_0207F6C0  0x0207F6C0  arm
  *   func_0207F754  0x0207F754  arm
- *   func_0207E5D0  0x0207E5D0  arm
+ *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   func_0207FA0C  0x0207FA0C  arm
  *   func_0207FA40  0x0207FA40  arm
- *   func_0207FADC  0x0207FADC  arm
+ *   GX_EndLoadTexPltt  0x0207FADC  arm
  */
 typedef unsigned int u32;
 
@@ -181,7 +181,7 @@ extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
 extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
-extern void func_020862B8(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
+extern void DC_InvalidateRange(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
 extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
 extern void func_02082A7C(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
 extern void DC_FlushRange(void *p, u32 n);
@@ -197,10 +197,10 @@ extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
 extern void func_0207F6A8(u32 a);
 extern void func_0207F6C0(u32 a, u32 b, u32 c);
 extern void func_0207F754(void);
-extern void func_0207E5D0(u32 a, u32 b, u32 c);
+extern void GXS_LoadOBJPltt(u32 a, u32 b, u32 c);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(u32 a, u32 b, u32 c);
-extern void func_0207FADC(void);
+extern void GX_EndLoadTexPltt(void);
 void NNSi_G2dCpuLoadOamSub(void *src, u32 offset);
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset);
 void NNS_G2dInitOamManagerModule(void);
@@ -820,7 +820,7 @@ static inline void ResetOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
 
 /*
  * NitroSystem g2d_OAM.c NNS_G2dResetOamManagerBuffer(pMan).  Fast-transfer
- * managers: DC_InvalidateRange (func_020862B8) over the managed OAM span,
+ * managers: DC_InvalidateRange (DC_InvalidateRange) over the managed OAM span,
  * then NNSi_G2dDmaFill32(NNS_G2D_DMA_NO, span, 0xC0, size) -- MIi_DmaFill32
  * (MIi_DmaFill32, five arguments, the fifth on the stack) on the default
  * DMA channel, MIi_CpuClear32 (func_02082A7C) when GX_GetDefaultDMA()
@@ -843,7 +843,7 @@ void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan)
             const u32 szByte = GetSizeOfManageArea_(&pMan->managedAttrArea);
             void *pData = GetOamFromPtr_(pMan);
 
-            func_020862B8(pData, szByte);
+            DC_InvalidateRange(pData, szByte);
             NNSi_G2dDmaFill32(GX_GetDefaultDMA(), pData, 192, szByte);
 
         } else {
@@ -1192,13 +1192,13 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramH
             func_0207F6C0(a, a1, b);
             func_0207F754();
         } else {
-            func_0207E5D0(a, a1, b);
+            GXS_LoadOBJPltt(a, a1, b);
         }
         break;
     case 0:
         func_0207FA0C();
         func_0207FA40(a, a1, b);
-        func_0207FADC();
+        GX_EndLoadTexPltt();
         break;
     }
 
@@ -1310,13 +1310,13 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
                     func_0207F6C0(a + d, base + t, step);
                     func_0207F754();
                 } else {
-                    func_0207E5D0(a + d, base + t, step);
+                    GXS_LoadOBJPltt(a + d, base + t, step);
                 }
                 break;
             case 0:
                 func_0207FA0C();
                 func_0207FA40(a + d, base + t, step);
-                func_0207FADC();
+                GX_EndLoadTexPltt();
                 break;
             default:
                 break;

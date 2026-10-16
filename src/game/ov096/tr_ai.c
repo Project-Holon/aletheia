@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   FILE_UTIL_Create_0F14 0x02020F14 thumb
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
@@ -29,11 +29,11 @@
  *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   VM_Delete 0x02011264 thumb
  *   WAZA_TOOL_DeleteCache 0x0201C3C0 thumb
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
- *   func_020870D0 0x020870D0 arm
+ *   OS_GetTick 0x020870D0 arm
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_MAIN_IsPosInTable 0x021B9A6C thumb ov093
  *   BTL_MAIN_GetSlotClientIdThunk 0x021B8DE4 thumb ov093
@@ -101,8 +101,8 @@ typedef struct SickCont { u32 a : 3; u32 rest : 29; } SickCont;
 extern SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *p, int i);
 
 typedef struct { u8 id[4]; u8 ref[4]; void *obj[4]; } TrAiScriptCache;
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(u32 id, u16 heap);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *ARC_TOOL_CreateHandle(u32 id, u16 heap);
 extern void *FILE_UTIL_Create_0F14(u16 heap);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
@@ -114,11 +114,11 @@ extern TrAiWork *VM_GetUserData(ScriptVm *vm);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *m);
 extern u32 GF_STANDARD_Rand(void);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void VM_Delete(void *);
 extern void WAZA_TOOL_DeleteCache(void);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *p);
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *p, int i);
 extern int BTL_MAIN_IsPosInTable(int, u32);
 extern u8 BTL_MAIN_GetSlotClientIdThunk(void *p, int i);
@@ -344,11 +344,11 @@ ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scr
 {
     TrAiWork *ai;
     ScriptVm *vm;
-    ai = func_02030734(heapId, 0xD8, 1, gTrAiAllocSite, 0x1D9);
+    ai = GFL_HEAP_Alloc(heapId, 0xD8, 1, gTrAiAllocSite, 0x1D9);
     ai->heapId = heapId;
     ai->cmdReturn = 1;
     ai->fullMask = scriptMask;
-    ai->scriptArchive = func_020490F4(0xAB, heapId);
+    ai->scriptArchive = ARC_TOOL_CreateHandle(0xAB, heapId);
     ai->itemArchive = FILE_UTIL_Create_0F14(heapId);
     ai->battleMain = battleMain;
     ai->serverFlow = (void *)serverFlow;
@@ -406,7 +406,7 @@ void TR_AI_Delete(ScriptVm *vm) {
     ai = VM_GetUserData(vm);
     ARC_TOOL_DeleteHandle(ai->scriptArchive);
     ARC_TOOL_DeleteHandle(ai->itemArchive);
-    func_020307B0(ai);
+    GFL_HEAP_Free(ai);
     VM_Delete(vm);
     if (WAZA_TOOL_IsCacheCreated() == 1) WAZA_TOOL_DeleteCache();
     TR_AI_FreeScriptCache();
@@ -482,7 +482,7 @@ int TR_AI_ThinkSingle(ScriptVm *vm, TrAiWork *ai) {
         if (mask & 1) {
             if (!(ai->flags & 16)) ai->phase = 0;
             *flagsPtr &= ~16;
-            ai->startTick = func_020870D0();
+            ai->startTick = OS_GetTick();
             TR_AI_RunScripts(vm, ai);
             if (ai->flags & 16) return 1;
         }
@@ -573,7 +573,7 @@ int TR_AI_ThinkMulti(ScriptVm *vm, TrAiWork *ai) {
                 if (mask & 1) {
                     if (!(ai->flags & 16)) ai->phase = 0;
                     *flagsPtr &= ~16;
-                    ai->startTick = func_020870D0();
+                    ai->startTick = OS_GetTick();
                     TR_AI_RunScripts(vm, ai);
                     if (ai->flags & 16) return 1;
                 }
@@ -669,7 +669,7 @@ void TR_AI_RunScripts(ScriptVm *vm, TrAiWork *ai) {
                     ai->flags &= ~16;
                     TR_AI_ReleaseScript(ai);
                     ai->script = 0;
-                } else if (func_020870D0() - ai->startTick > 500) {
+                } else if (OS_GetTick() - ai->startTick > 500) {
                     ai->flags |= 16;
                     break;
                 }
@@ -2256,13 +2256,13 @@ int TR_AI_GetItemField(TrAiWork *ai, int itemId, int field) {
     heapId = ai->heapId;
     itemData = FILE_UTIL_LoadArcMember(ai->itemArchive, itemId, heapId);
     value = FILE_UTIL_Get_1014(itemData, field);
-    func_020307B0(itemData);
+    GFL_HEAP_Free(itemData);
     return value;
 }
 
-void TR_AI_InitScriptCache(u32 heapId) { int i; if(gTrAiScriptCache==0) { gTrAiScriptCache=func_02030734(heapId,24,1,gTrAiAllocSite,3999); for(i=0;i<4;i++) gTrAiScriptCache->id[i]=255; } }
+void TR_AI_InitScriptCache(u32 heapId) { int i; if(gTrAiScriptCache==0) { gTrAiScriptCache=GFL_HEAP_Alloc(heapId,24,1,gTrAiAllocSite,3999); for(i=0;i<4;i++) gTrAiScriptCache->id[i]=255; } }
 
-void TR_AI_FreeScriptCache(void) { int i; int zero; if(gTrAiScriptCache!=0) { zero=0; for(i=0;i<4;i++) { if(gTrAiScriptCache->obj[i]!=0) { func_020307B0(gTrAiScriptCache->obj[i]); gTrAiScriptCache->obj[i]=(void *)zero; } } func_020307B0(gTrAiScriptCache); gTrAiScriptCache=0; } }
+void TR_AI_FreeScriptCache(void) { int i; int zero; if(gTrAiScriptCache!=0) { zero=0; for(i=0;i<4;i++) { if(gTrAiScriptCache->obj[i]!=0) { GFL_HEAP_Free(gTrAiScriptCache->obj[i]); gTrAiScriptCache->obj[i]=(void *)zero; } } GFL_HEAP_Free(gTrAiScriptCache); gTrAiScriptCache=0; } }
 
 void *TR_AI_LoadScript(TrAiWork *ai) {
     int i;
@@ -2296,7 +2296,7 @@ void TR_AI_ReleaseScript(TrAiWork *ai) {
             gTrAiScriptCache->ref[i]--;
             if (gTrAiScriptCache->ref[i] == 0) {
                 gTrAiScriptCache->id[i] = 0xff;
-                func_020307B0(gTrAiScriptCache->obj[i]);
+                GFL_HEAP_Free(gTrAiScriptCache->obj[i]);
                 gTrAiScriptCache->obj[i] = 0;
             }
             return;

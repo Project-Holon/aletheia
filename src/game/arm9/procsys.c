@@ -1,7 +1,7 @@
 /*
  * file:     procsys.c
  * unit:     yes
- * function: PROCSYS_CreateGlobal, PROCSYS_MainGlobal, PROCSYS_PushGlobal, PROCSYS_ReplaceGlobal, PROCSYS_Create, PROCSYS_Main, func_0203133C, PROCSYS_Push, PROCSYS_CreateInternal, PROCSYS_PushQueued, PROCSYS_MainInternal, func_020314B8, func_020314DC, PROCSYS_PushInternal, PROCSYS_NewProc, PROCSYS_FreeProc, PROCSYS_AllocProcWork, func_020315D4, PROCSYS_StepProc
+ * function: PROCSYS_CreateGlobal, PROCSYS_MainGlobal, PROCSYS_PushGlobal, PROCSYS_ReplaceGlobal, PROCSYS_Create, PROCSYS_Main, PROCSYS_Delete, PROCSYS_Push, PROCSYS_CreateInternal, PROCSYS_PushQueued, PROCSYS_MainInternal, func_020314B8, func_020314DC, PROCSYS_PushInternal, PROCSYS_NewProc, PROCSYS_FreeProc, PROCSYS_AllocProcWork, PROCSYS_FreeProcWork, PROCSYS_StepProc
  * address:  0x0203129C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,12 +17,12 @@
  *   ProcSys_AllocSiteName  0x020A783C  data
  *   ENV_SetResourceSet  0x020307B0  arm
  *   OS_Halt       0x020882D0  arm
- *   func_02030734       0x02030734  arm
+ *   GFL_HEAP_Alloc       0x02030734  arm
  *   ProcNew_AllocSiteName  0x020A783C  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ProcAllocWork_AllocSiteName 0x020A783C  data
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  */
 
 typedef unsigned int u32;
@@ -68,12 +68,12 @@ typedef struct {
     void *nextProcWork;
 } ProcSys;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void OS_Halt(void *p);
 extern void ENV_SetResourceSet(void *p);
-extern u32 func_020307B0(void *p);
-extern int func_02034AC4(s32 handle);
-extern void func_02034A5C(s32 handle);
+extern u32 GFL_HEAP_Free(void *p);
+extern int GF_OVERLAY_Load(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 void PROCSYS_CreateGlobal(int heapId);
 int PROCSYS_MainGlobal(void);
 void PROCSYS_PushGlobal(u32 overlayId, const ProcData *data, void *procWork);
@@ -169,7 +169,7 @@ void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procW
  * is 0.  The linker merges the two adjacent zero stores at +4/+8 into one
  * `stmib r0, {r1, r4}`.
  *
- * The first argument handed to func_02030734 is the caller's own parameter -
+ * The first argument handed to GFL_HEAP_Alloc is the caller's own parameter -
  * the original never writes r0 before the call, so r0 still holds heapId.
  * A literal first argument makes the compiler materialise it and shifts the
  * whole prologue.
@@ -179,7 +179,7 @@ void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procW
  */
 ProcSys *PROCSYS_CreateInternal(int heapId)
 {
-    ProcSys *sys = func_02030734(heapId, 0x20, 0, (const char *)((int)ProcSys_AllocSiteName), 0xc5);
+    ProcSys *sys = GFL_HEAP_Alloc(heapId, 0x20, 0, (const char *)((int)ProcSys_AllocSiteName), 0xc5);
 
     sys->heapId = heapId;
     sys->unused04 = -1;
@@ -342,7 +342,7 @@ Proc *PROCSYS_NewProc(u32 overlayId, const ProcData *data, void *procWork, u32 h
 {
     Proc *proc;
 
-    proc = (Proc *)func_02030734(heapId, 0x20, 0,
+    proc = (Proc *)GFL_HEAP_Alloc(heapId, 0x20, 0,
                                  ProcNew_AllocSiteName, 0x162);
     proc->overlayId = overlayId;
     proc->data = data;
@@ -360,7 +360,7 @@ Proc *PROCSYS_NewProc(u32 overlayId, const ProcData *data, void *procWork, u32 h
 
 void PROCSYS_FreeProc(Proc *proc)
 {
-    func_020307B0(proc);
+    GFL_HEAP_Free(proc);
 }
 
 
@@ -377,7 +377,7 @@ void PROCSYS_FreeProc(Proc *proc)
  */
 void *PROCSYS_AllocProcWork(Proc *proc, u32 size, u32 heapId)
 {
-    proc->work = func_02030734(heapId, size, 0, ProcAllocWork_AllocSiteName, 390);
+    proc->work = GFL_HEAP_Alloc(heapId, size, 0, ProcAllocWork_AllocSiteName, 390);
     return proc->work;
 }
 
@@ -409,7 +409,7 @@ u32 PROCSYS_StepProc(Proc *proc)
     switch (proc->seq) {
     case 0:
         if (proc->overlayId != 0xFFFFFFFF) {
-            func_02034AC4(proc->overlayId);
+            GF_OVERLAY_Load(proc->overlayId);
         }
         proc->seq = 1;
     case 1:
@@ -427,7 +427,7 @@ u32 PROCSYS_StepProc(Proc *proc)
     case 3:
         if (proc->data->end(proc, &proc->subSeq, proc->procWork, proc->work) == 1) {
             if (proc->overlayId != 0xFFFFFFFF) {
-                func_02034A5C(proc->overlayId);
+                GF_OVERLAY_Unload(proc->overlayId);
             }
             return 1;
         }

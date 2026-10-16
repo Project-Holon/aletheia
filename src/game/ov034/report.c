@@ -26,20 +26,20 @@
  * then it is EXACT with no change to the C.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   sReportAllocSite    0x021F0B20 data ov034 a1
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -58,11 +58,11 @@
  *   sReportBgTemplate5 0x021F0AC0 data ov034 a4
  *   sReportBgTemplate4 0x021F0AE0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -96,9 +96,9 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   RTC_GetDate 0x02088864 arm
  *   RTC_GetTime 0x0208890C arm
@@ -196,19 +196,19 @@ typedef struct {
     u16 height;
 } Rect;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern struct Task *func_020056A0(void (*proc)(struct Task *, ReportWork *), ReportWork *work, int priority);
-extern void func_02030EAC(struct Task *task);
-extern u32 func_020307B0(void *p);
+extern struct Task *GFL_USE_AddMainTask(void (*proc)(struct Task *, ReportWork *), ReportWork *work, int priority);
+extern void TCB_DeleteTask(struct Task *task);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *printQue);
 extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
 extern struct PartyHolder *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern unsigned int POKEPARTY_GetCount(struct PartyHolder *party);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int visible);
-extern void func_02040588(unsigned char layer, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char layer, unsigned char enable);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *printQue, void *bitmap);
@@ -222,20 +222,20 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
+extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void func_02049B68(struct ArcHandle *, int, int, int, int, int);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
-extern void func_02049658(struct ArcHandle *, int, int, int, int, int, int);
-extern void func_020498F4(struct ArcHandle *, int, int, int, int, int, int);
+extern void ARC_UTIL_UploadBgCharFromHandle(struct ArcHandle *, int, int, int, int, int, int);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *, int, int, int, int, int, int);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 i, void *playerName);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
@@ -325,7 +325,7 @@ extern const Rect sReportActorPositions[2];
 
 ReportWork *REPORT_Create(void *gameSystem, int heapId)
 {
-    ReportWork *work = func_02030734(heapId, 0x130, 0, sReportAllocSite, 0x114);
+    ReportWork *work = GFL_HEAP_Alloc(heapId, 0x130, 0, sReportAllocSite, 0x114);
     work->gameSystem = gameSystem;
     work->heapId = heapId;
     work->saveAnimRunning = 0;
@@ -335,18 +335,18 @@ ReportWork *REPORT_Create(void *gameSystem, int heapId)
     REPORT_InitActors(work);
     REPORT_InitWindows(work);
     GFL_NET_RestartWithDefaultTimeout(0, heapId);
-    work->tcb = func_020056A0(REPORT_UpdateSaveAnim, work, 0);
+    work->tcb = GFL_USE_AddMainTask(REPORT_UpdateSaveAnim, work, 0);
     return work;
 }
 
 
 void REPORT_Delete(ReportWork *work)
 {
-    func_02030EAC(work->tcb);
+    TCB_DeleteTask(work->tcb);
     REPORT_ExitWindows(work);
     REPORT_ExitActors(work);
     REPORT_ExitBgs();
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 
@@ -378,12 +378,12 @@ void REPORT_UpdateWindows(ReportWork *work)
     struct PrintQue *printQue;
 
     if (!(work->shownFlags & REPORT_SHOWN_WINDOWS) && PRINTSYS_QUE_IsFinished(work->printQue) == 1) {
-        func_02040588(4, 1);
-        func_02040588(5, 1);
-        func_02040588(6, 1);
+        BG_SYS_SetPlaneVisible(4, 1);
+        BG_SYS_SetPlaneVisible(5, 1);
+        BG_SYS_SetPlaneVisible(6, 1);
         for (i = 0; i < REPORT_WINDOW_COUNT; i++)
             BMP_WIN_MakeScreen(work->windows[i].bmpWin);
-        func_02041B6C(5);
+        BG_SYS_SetFlagField06(5);
         work->shownFlags |= REPORT_SHOWN_WINDOWS;
     }
     PRINTSYS_QUE_Main(work->printQue);
@@ -445,7 +445,7 @@ void REPORT_StartSaveAnim(ReportWork *work)
     unsigned int i;
 
     BMP_WIN_ClearScreen(saveWindow);
-    func_02041B6C(BMP_WIN_GetBgLayer(saveWindow));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(saveWindow));
     for (i = 6; i <= 15; i++)
         CLACT_SetActorDrawEnable(work->actors[i], 1);
     work->saveAnimRunning = 1;
@@ -491,10 +491,10 @@ void REPORT_StopSaveAnim(ReportWork *work)
 
 void REPORT_InitBgs(u32 heapId)
 {
-    func_02040588(4, 0);
-    func_02040588(5, 0);
-    func_02040588(6, 0);
-    func_02040588(7, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
+    BG_SYS_SetPlaneVisible(5, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
+    BG_SYS_SetPlaneVisible(7, 0);
     {
         struct BgTemplate bgTemplate = sReportBgTemplate4;
 
@@ -522,18 +522,18 @@ void REPORT_InitBgs(u32 heapId)
 }
 
 
-void REPORT_ExitBgs(void) { func_02040588(6,0); func_02040588(5,0); func_02040588(4,0); BG_SYS_FreeLayerBuf(6); BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4); }
+void REPORT_ExitBgs(void) { BG_SYS_SetPlaneVisible(6,0); BG_SYS_SetPlaneVisible(5,0); BG_SYS_SetPlaneVisible(4,0); BG_SYS_FreeLayerBuf(6); BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4); }
 
 
 
 void REPORT_LoadBgGraphics(int heapId)
 {
-    struct ArcHandle *arc = func_020490F4(0xC4, heapId);
+    struct ArcHandle *arc = ARC_TOOL_CreateHandle(0xC4, heapId);
 
     func_02049B68(arc, 2, 4, 0, 0x60, heapId);
     BG_SYS_LoadPlttEntry(4, 0);
-    func_02049658(arc, 1, 4, 0, 0, 1, heapId);
-    func_020498F4(arc, 0, 4, 0, 0, 1, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 1, 4, 0, 0, 1, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 0, 4, 0, 0, 1, heapId);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -571,43 +571,43 @@ void REPORT_InitWindows(ReportWork *work)
         BMP_Clear(BMP_WIN_GetBmp(work->windows[i].bmpWin), 0);
     }
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
-    msgBank = func_02045B38(0, 2, 168, work->heapId);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, 168, work->heapId);
     wordSet = WORDSET_CreateDefault(work->heapId);
     buf = STRBUF_Create(256, work->heapId);
     gameData = ICA_ANIME_GetField1C(work->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    msgPlayer = func_02045EC0(msgBank, 0);
+    msgPlayer = MSGDATA_AllocString(msgBank, 0);
     WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(gameData));
     WORDSET_CopyTaggedText(wordSet, buf, msgPlayer);
     printRecordLine(work, 0, buf, msgPlayer, 4, 0x3580, one);
-    msgDate = func_02045EC0(msgBank, 1);
+    msgDate = MSGDATA_AllocString(msgBank, 1);
     RTC_GetDate(&date);
     WORDSET_SetSlotNumber(wordSet, 0, date.year, 2, 2, one);
     WORDSET_SetSlotNumber(wordSet, one, date.month, 2, 0, one);
     WORDSET_SetSlotNumber(wordSet, 2, date.day, 2, 0, one);
     WORDSET_CopyTaggedText(wordSet, buf, msgDate);
     printRecordLine(work, 1, buf, msgDate, 0, 0x3DC0, one);
-    msgTime = func_02045EC0(msgBank, 2);
+    msgTime = MSGDATA_AllocString(msgBank, 2);
     RTC_GetTime(&clock);
     WORDSET_SetSlotNumber(wordSet, 0, clock.hour, 2, 0, one);
     WORDSET_SetSlotNumber(wordSet, one, clock.minute, 2, 2, one);
     WORDSET_CopyTaggedText(wordSet, buf, msgTime);
     printRecordLine(work, 2, buf, msgTime, 0, 0x3DC0, one);
-    msgLocation = func_02045EC0(msgBank, 3);
+    msgLocation = MSGDATA_AllocString(msgBank, 3);
     WORDSET_SetSlotFromMsg59(wordSet, 0, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem))));
     WORDSET_CopyTaggedText(wordSet, buf, msgLocation);
     printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
-    msgBadges = func_02045EC0(msgBank, 4);
+    msgBadges = MSGDATA_AllocString(msgBank, 4);
     WORDSET_SetSlotNumber(wordSet, 0, BEACON_CountFlags(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, msgBadges);
     printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, one);
     if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(work->gameSystem)), 0x962) == 1) {
-        msgPokedex = func_02045EC0(msgBank, 5);
+        msgPokedex = MSGDATA_AllocString(msgBank, 5);
         WORDSET_SetSlotNumber(wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(gameData), work->heapId), 3, 0, 1);
         WORDSET_CopyTaggedText(wordSet, buf, msgPokedex);
         printRecordLine(work, 5, buf, msgPokedex, 0, 0x3DC0, one);
     }
-    msgPlayTime = func_02045EC0(msgBank, 6);
+    msgPlayTime = MSGDATA_AllocString(msgBank, 6);
     currentPlayTime = GAME_DATA_GetPlayTime(gameData);
     WORDSET_SetSlotNumber(wordSet, 0, func_0200864C(currentPlayTime), 3, 0, 1);
     WORDSET_SetSlotNumber(wordSet, 1, func_02008650(currentPlayTime), 2, 2, 1);
@@ -615,7 +615,7 @@ void REPORT_InitWindows(ReportWork *work)
     printRecordLine(work, 6, buf, msgPlayTime, 0, 0x3DC0, one);
     if (func_020071F0(saveControl) == 0 && func_020071EC(saveControl) == 1) {
         playTime = func_02008748(saveControl);
-        msgLastSave = func_02045EC0(msgBank, 7);
+        msgLastSave = MSGDATA_AllocString(msgBank, 7);
         WORDSET_SetSlotNumber(wordSet, 0, func_020086C8(playTime), 2, 2, 1);
         WORDSET_SetSlotNumber(wordSet, 1, func_020086D0(playTime), 2, 0, 1);
         WORDSET_SetSlotNumber(wordSet, 2, func_020086D8(playTime), 2, 0, 1);
@@ -654,7 +654,7 @@ void REPORT_InitActors(ReportWork *work)
     party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->gameSystem));
     partyCount = POKEPARTY_GetCount(party);
     work->unit = CLACT_CreateUnit(0x10, 0, work->heapId);
-    arc = func_020490F4(7, work->heapId);
+    arc = ARC_TOOL_CreateHandle(7, work->heapId);
     for (i = 0; i < partyCount; i++)
         work->partyCharRes[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i))), 0, 1,
                                     work->heapId);
@@ -662,7 +662,7 @@ void REPORT_InitActors(ReportWork *work)
     cellFileId = POKE_TOOL_GetIconCellArcId();
     work->partyCellRes = CLACT_RegisterCellAnim(arc, cellFileId, POKE_TOOL_GetIconCellEntryId(), work->heapId);
     ARC_TOOL_DeleteHandle(arc);
-    arc = func_020490F4(0xC4, work->heapId);
+    arc = ARC_TOOL_CreateHandle(0xC4, work->heapId);
     work->barCharRes = CLACT_RegisterCharacter(arc, 3, 1, 1, work->heapId);
     work->barPalRes = CLACT_RegisterPaletteEx(arc, 4, 1, 0x60, 0, 1, work->heapId);
     work->barCellRes = CLACT_RegisterCellAnim(arc, 5, 6, work->heapId);

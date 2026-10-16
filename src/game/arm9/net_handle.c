@@ -14,12 +14,12 @@
  * Split from net_state.c at 0x020395EC (__FILE__ anchor boundary).
  *
  * symbols:
- *   func_02030734            0x02030734  arm
+ *   GFL_HEAP_Alloc            0x02030734  arm
  *   MI_CpuFill8            0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError            0x02039548  arm
- *   func_02034714            0x02034714  arm
+ *   SAVEDATA_PanicFail            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
- *   func_020307B0            0x020307B0  arm
+ *   GFL_HEAP_Free            0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid            0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap            0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError            0x020393D0  arm
@@ -91,17 +91,17 @@ struct NetNegotiationMsg {
     u8 reserved09[3];
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *MI_CpuFill8(void *dst, int val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
@@ -268,7 +268,7 @@ int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *handle)
             return netID;
         }
     }
-    func_02034714(_FileName, 0x6e, _AssertZero);
+    SAVEDATA_PanicFail(_FileName, 0x6e, _AssertZero);
     return -1;
 }
 
@@ -346,7 +346,7 @@ void GFL_NET_HANDLE_ResetHandle(GFLNetHandle *handle, u32 netID)
         savedRec[i] = handle->memberRec[i];
     }
     if (handle->workBuf != 0) {
-        func_020307B0(handle->workBuf);
+        GFL_HEAP_Free(handle->workBuf);
         handle->workBuf = 0;
     }
     MI_CpuFill8(handle, 0, 0x50);
@@ -485,14 +485,14 @@ GFLNetHandle *GFL_NET_HANDLE_CreateHandle(u32 netID)
     if (netID == 0xff) {
         for (i = 0; i < 8; i++) {
             if (handle->memberRec[i] != 0)
-                func_020307B0(handle->memberRec[i]);
+                GFL_HEAP_Free(handle->memberRec[i]);
         }
     }
     i = 0;
     MI_CpuFill8(handle, 0, 0x50);
     if (netID == 0xff) {
         for (; i < 8; i++)
-            handle->memberRec[i] = func_02030734(session->init.heapId, 0x10, 1, _FileName, 0xc7);
+            handle->memberRec[i] = GFL_HEAP_Alloc(session->init.heapId, 0x10, 1, _FileName, 0xc7);
     }
     handle->state = 0;
     handle->connectFlags = 0xff;
@@ -577,9 +577,9 @@ void GFL_NET_HANDLE_InitWork(GFLNetSession *unused)
     }
     GFL_NET_HANDLE_CreateHandle(0xff);
     if (_pBaseWork != 0) {
-        func_02034714(_FileName, 0xe3, _AssertNotBaseWork);
+        SAVEDATA_PanicFail(_FileName, 0xe3, _AssertNotBaseWork);
     }
-    _pBaseWork = func_02030734(session->init.heapId, 0x20, 1, _FileName, 0xe5);
+    _pBaseWork = GFL_HEAP_Alloc(session->init.heapId, 0x20, 1, _FileName, 0xe5);
 }
 
 
@@ -618,7 +618,7 @@ void GFL_NET_HANDLE_InitWork(GFLNetSession *unused)
  *
  * The own-slot entry is taken once, before the release loop, and the address
  * of each handle word is recomputed per iteration rather than kept in a
- * cursor: func_020307B0 is an ordinary extern, so the store after it needs a
+ * cursor: GFL_HEAP_Free is an ordinary extern, so the store after it needs a
  * fresh `add r0, r5, r6, lsl #2`
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  * The two `mov` of the slot key 0xff share one register with the clear loop's
@@ -641,16 +641,16 @@ void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused)
     ownHandle = GFL_NET_HANDLE_GetNetHandle(0xff);
     for (i = 0; i < 8; i++) {
         if (ownHandle->memberRec[i] != 0) {
-            func_020307B0(ownHandle->memberRec[i]);
+            GFL_HEAP_Free(ownHandle->memberRec[i]);
             ownHandle->memberRec[i] = 0;
         }
     }
     ownID = 0xff;
     GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)(GFL_NET_HANDLE_GetNetHandle(ownID)), ownID);
     if (_pBaseWork == 0) {
-        func_02034714(_FileName, 0x100, _AssertBaseWork);
+        SAVEDATA_PanicFail(_FileName, 0x100, _AssertBaseWork);
     }
-    func_020307B0(_pBaseWork);
+    GFL_HEAP_Free(_pBaseWork);
     _pBaseWork = 0;
 }
 
@@ -1530,7 +1530,7 @@ void GFL_NET_HANDLE_Main(void)
                               &_pBaseWork->timingNo[i], 0, 0, 0) == 0)
                 continue;
             if (_pBaseWork->timingSend[i] == 0)
-                func_02034714(_FileName, 0x29a, _AssertTimingSend);
+                SAVEDATA_PanicFail(_FileName, 0x29a, _AssertTimingSend);
             _pBaseWork->timingSendReady[i] = 0;
         }
     }
@@ -1907,7 +1907,7 @@ void GFL_NET_HANDLE_RecvRemoveHandle(u32 netID, u32 size, u8 *data, u32 work, u3
 u16 GFL_NET_HANDLE_SetBitMask(u16 bitMask, u32 netID, u32 enable)
 {
     if (netID == 0xFF)
-        func_02034714(_FileName, 0x391, _AssertNetIDNotServer);
+        SAVEDATA_PanicFail(_FileName, 0x391, _AssertNetIDNotServer);
     if (enable != 0)
         bitMask |= (u16)(1 << netID);
     else
@@ -1962,7 +1962,7 @@ u16 GFL_NET_HANDLE_SetBitMask(u16 bitMask, u32 netID, u32 enable)
 u32 GFL_NET_HANDLE_IsBitSet(u32 bitMask, u32 netID)
 {
     if (netID == 0xFF)
-        func_02034714(_FileName, 0x3AB, _AssertNetIDNotServer);
+        SAVEDATA_PanicFail(_FileName, 0x3AB, _AssertNetIDNotServer);
     return (bitMask & (u8)(1 << netID)) != 0;
 }
 
@@ -2020,7 +2020,7 @@ u32 GFL_NET_HANDLE_IsBitSet(u32 bitMask, u32 netID)
 void GFL_NET_HANDLE_RemoveHandle(u32 netID)
 {
     if (netID == 0xFF)
-        func_02034714(_FileName, 0x3BE, _AssertNetIDNotServer);
+        SAVEDATA_PanicFail(_FileName, 0x3BE, _AssertNetIDNotServer);
     GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(netID), netID);
     GFL_NET_HANDLE_ClearTimingMask((GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(0xFF), netID);
 }
@@ -2098,11 +2098,11 @@ void GFL_NET_HANDLE_RecvInfoData(int netID, u32 size, const void *data, u32 work
     if (GFL_NET_HANDLE_GetNetHandleID(handle) == 0xff)
         return;
     if (netID >= 9)
-        func_02034714(_FileName, 0x3D1, _AssertNetIDInRange);
+        SAVEDATA_PanicFail(_FileName, 0x3D1, _AssertNetIDInRange);
     target = GFL_NET_HANDLE_GetNetHandle(netID);
     if (target->workBuf != 0)
-        func_020307B0(target->workBuf);
-    target->workBuf = func_02030734(session->init.heapId, size, 1, _FileName, 0x3D8);
+        GFL_HEAP_Free(target->workBuf);
+    target->workBuf = GFL_HEAP_Alloc(session->init.heapId, size, 1, _FileName, 0x3D8);
     target->workSize = size;
     MI_CpuCopy8(data, target->workBuf, size);
 }

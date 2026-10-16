@@ -14,10 +14,10 @@
  *
  * symbols:
  *   BILLBOARD_SetElemVisible 0x0204F720 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -27,7 +27,7 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
  *   STA_ACTING_GetSelection 0x021F9E18 thumb ov132
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -83,13 +83,13 @@ typedef struct {
 
 extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern signed int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
@@ -107,7 +107,7 @@ extern void CLACT_ReleaseCellAnim(u32);
 
 extern void CLACT_DeleteUnit(void *);
 
-extern void func_020307B0(void *);
+extern void GFL_HEAP_Free(void *);
 
 extern u16 STA_ACTING_GetCameraTarget(u8 *p);
 
@@ -166,13 +166,13 @@ Object *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
     Object *p;
     void *q;
     i=0;
-    p=func_02030734(heap,184,0,d_021F8408,87);
+    p=GFL_HEAP_Alloc(heap,184,0,d_021F8408,87);
     p->heap=heap; p->a=a;
     for(;i<4;i++) p->entries[i].value=0;
     p->flag=0;
     p->bank=CLACT_CreateUnit(5,0,p->heap);
     CLACT_SetUnitDefaultRenderer(p->bank);
-    q=func_020490F4((unsigned int)47,p->heap);
+    q=ARC_TOOL_CreateHandle((unsigned int)47,p->heap);
     p->palette=CLACT_RegisterPalette((void *)q,4,0,0,p->heap);
     p->character=CLACT_RegisterCharacter((void *)((u32)q),10,0,0,p->heap);
     p->cellAnim=CLACT_RegisterCellAnim((void *)((u32)q),20,23,p->heap);
@@ -183,7 +183,7 @@ Object *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
 /*
  * note: Two-byte zero alignment padding follows the compiled body.
  */
-void STA_ACT_LIGHT_DeleteUnit(char *p) {CLACT_ReleasePalette(((Object *)p)->palette);CLACT_ReleaseCharacter(((Object *)p)->character);CLACT_ReleaseCellAnim(((Object *)p)->cellAnim);CLACT_DeleteUnit(((Object *)p)->bank);func_020307B0(p);}
+void STA_ACT_LIGHT_DeleteUnit(char *p) {CLACT_ReleasePalette(((Object *)p)->palette);CLACT_ReleaseCharacter(((Object *)p)->character);CLACT_ReleaseCellAnim(((Object *)p)->cellAnim);CLACT_DeleteUnit(((Object *)p)->bank);GFL_HEAP_Free(p);}
 
 void STA_ACT_LIGHT_UpdateElemActors(char *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*32+8)) STA_ACT_LIGHT_PlaceActor(p,p+8+i*32); if(*(int *)&((Object *)p)->a) STA_ACT_LIGHT_UpdateActor(p); }
 

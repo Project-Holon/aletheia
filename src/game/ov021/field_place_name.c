@@ -14,7 +14,7 @@
  * Split from field_place_name.c at 0x021BC388 (lane SP3, __FILE__ anchors, certain cut).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
@@ -23,10 +23,10 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
- *   func_02040588  0x02040588  arm
- *   func_0207D63C  0x0207D63C  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   gFieldPlaceNameRendererParam     0x021D9B78  data  a4
@@ -44,7 +44,7 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   func_02045CAC  0x02045CAC  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb
@@ -95,6 +95,8 @@
  *   BG_SYS_DeleteHalf  0x0203FB44  arm  arm9
  *   BG_SYS_LoadPltt  0x02040E78  arm  arm9
  *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -131,8 +133,8 @@ struct FieldMsgContext;
 #define FIELD_PLACE_NAME_LETTER_INTERVAL 3
 #define FIELD_PLACE_NAME_HOLD_FRAMES 30
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
+extern u32 GFL_HEAP_Free(void *p);
 extern GfFont *FIELD_MSGBG_GetFont(struct FieldMsgContext *msgContext);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
@@ -141,8 +143,8 @@ extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
 extern unsigned char BMP_WIN_GetBgLayer(BmpWin *bmpWin);
 extern void BG_SYS_PushTile(unsigned int bgLayer);
 extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
-extern void func_02040588(unsigned char bgId, unsigned char enable);
-extern void func_0207D63C(int regAddr, int plane1, int plane2, int evA, int evB);
+extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
+extern void G2x_SetBlendAlpha_(int regAddr, int plane1, int plane2, int evA, int evB);
 extern void BG_SYS_FreeSlot(int bgId);
 extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(ArcFile *arc, u32 member, void *dst);
@@ -160,7 +162,7 @@ extern ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDrawEnable(ClactUnit *unit, u32 mode);
 extern u32 CLACT_DeleteUnit(ClactUnit *unit);
 extern void CLACT_SetUnitRenderer(ClactUnit *unit, ClactRenderer *renderer);
-extern ArcFile *func_020490F4(u32 arcId, u32 heapId);
+extern ArcFile *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(ArcFile *arc);
 extern void STRBUF_ToChars(Strbuf *strbuf, u16 *out, u32 count);
 extern u32 GF_FONT_GetCharWidth(GfFont *font, u16 ch);
@@ -172,7 +174,7 @@ extern unsigned int ICA_ANIME_GetField24(const GameSystem *gameSystem);
 extern int INTRUDE_COMM_GetWorkIfRunning(int gameComm);
 extern int GAME_DATA_GetIntrudeIdByte(GameData *gameData);
 extern int GAME_DATA_GetMyStatusByNetId(GameData *gameData, int netId);
-extern Strbuf *func_02045EC0(MsgData *msgData, u32 index);
+extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
 extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dst);
 extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, void *myStatus);
 extern void WORDSET_SetSlotFromMsg59(WordSet *wordSet, u32 index, u32 value);
@@ -188,7 +190,7 @@ extern void BG_SYS_ClearSlot(u32 bgId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
 extern WordSet *WORDSET_CreateDefault(u32 heapId);
-extern MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern BmpWin *BMP_WIN_Create(u32 bgId, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 WORDSET_DeleteStrbufED04(WordSet *wordSet);
@@ -471,8 +473,8 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
     BMP_WIN_MakeScreen(bmpWin);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
     BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
-    func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
-    func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
+    BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
+    G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
 }
 
 /* Releases the BG window resources. */
@@ -498,7 +500,7 @@ void FIELD_PLACE_NAME_LoadPaletteFile(FieldPlaceName *placeName)
 
     heapId = FIELD_PLACE_NAME_GetHeapId(placeName);
     arcHandle = FIELD_PLACE_NAME_GetArcHandle(placeName);
-    file = (NitroFileHeader *)func_02030734(heapId, ARC_TOOL_GetHandleMemberSize(arcHandle, 1), 0, (const char *)gFieldPlaceNameFileName, 0x2c8);
+    file = (NitroFileHeader *)GFL_HEAP_Alloc(heapId, ARC_TOOL_GetHandleMemberSize(arcHandle, 1), 0, (const char *)gFieldPlaceNameFileName, 0x2c8);
     placeName->paletteFile = file;
     ARC_TOOL_ReadHandleMember(arcHandle, 1, file);
     NNS_G2dGetUnpackedPaletteData(placeName->paletteFile, (void **)&placeName->paletteBlock);
@@ -507,7 +509,7 @@ void FIELD_PLACE_NAME_LoadPaletteFile(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_FreePaletteFile(FieldPlaceName *placeName)
 {
     if (placeName->paletteFile != 0) {
-        func_020307B0(placeName->paletteFile);
+        GFL_HEAP_Free(placeName->paletteFile);
         placeName->paletteFile = 0;
         placeName->paletteBlock = 0;
     }
@@ -602,7 +604,7 @@ void FIELD_PLACE_NAME_DeleteLetters(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateArcHandle(FieldPlaceName *placeName)
 {
-    placeName->arcHandle = func_020490F4(0x54, FIELD_PLACE_NAME_GetHeapId(placeName));
+    placeName->arcHandle = ARC_TOOL_CreateHandle(0x54, FIELD_PLACE_NAME_GetHeapId(placeName));
 }
 
 void FIELD_PLACE_NAME_DeleteArcHandle(FieldPlaceName *placeName)
@@ -813,7 +815,7 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
     if (FIELD_PLACE_NAME_UsesIntrudeTemplate(placeName, zoneId) != 0) {
         INTRUDE_COMM_GetWorkIfRunning((int)ICA_ANIME_GetField24(placeName->gameSystem));
         myStatus = GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
-        template = func_02045EC0(placeName->msgData, 3);
+        template = MSGDATA_AllocString(placeName->msgData, 3);
         func_02045CAC(placeName->msgData, placeNameId, placeName->message);
         WORDSET_SetSlotMyStatus(placeName->wordSet, 0, (void *)myStatus);
         WORDSET_SetSlotFromMsg59(placeName->wordSet, 1, placeNameId);
@@ -858,7 +860,7 @@ void FIELD_PLACE_NAME_SetState(FieldPlaceName *placeName, int newState)
     FIELD_PLACE_NAME_ResetFrame(placeName);
     FIELD_PLACE_NAME_ResetStep(placeName);
     if (newState == FIELD_PLACE_NAME_STATE_IDLE) {
-        func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
+        BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
         FIELD_PLACE_NAME_HideLetters(placeName);
     }
 }
@@ -934,8 +936,8 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         BMP_WIN_MakeScreen(bmpWin);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
         BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
-        func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
-        func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
+        BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
+        G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
         FIELD_PLACE_NAME_ResetSpawnCounts(placeName);
         FIELD_PLACE_NAME_IncrementStep(placeName);
         break;
@@ -954,7 +956,7 @@ void FIELD_PLACE_NAME_StateFadeIn(FieldPlaceName *placeName)
     switch (FIELD_PLACE_NAME_GetStep(placeName)) {
     case 0:
         FIELD_PLACE_NAME_DrawFadeIn(placeName);
-        func_02040588(FIELD_PLACE_NAME_BG_LAYER, 1);
+        BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 1);
         FIELD_PLACE_NAME_IncrementStep(placeName);
         break;
     case 1:
@@ -1041,7 +1043,7 @@ void FIELD_PLACE_NAME_StateFadeOut(FieldPlaceName *placeName)
 {
     if (placeName->frame > FIELD_PLACE_NAME_FADE_OUT_FRAMES) {
         FIELD_PLACE_NAME_SetState(placeName, FIELD_PLACE_NAME_STATE_IDLE);
-        func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
+        BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
         FIELD_PLACE_NAME_HideLetters(placeName);
     }
 }
@@ -1063,7 +1065,7 @@ void FIELD_PLACE_NAME_DrawFadeIn(FieldPlaceName *placeName)
     int evA;
     progress = (float)(u32)placeName->frame / 10.0f;
     evA = (int)(16.0f * progress);
-    func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * (1.0f - progress)));
+    G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * (1.0f - progress)));
 }
 
 /* Draw handler of the fade in wait state: nothing to draw. */
@@ -1088,12 +1090,12 @@ void FIELD_PLACE_NAME_DrawFadeOut(FieldPlaceName *placeName)
     int evA;
     progress = (float)(u32)placeName->frame / 20.0f;
     evA = (int)(16.0f * (1.0f - progress));
-    func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * progress));
+    G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * progress));
 }
 
 FieldPlaceName *FIELD_PLACE_NAME_AllocWork(u32 heapId)
 {
-    return func_02030734(heapId, 0x154, 1, (const char *)&gFieldPlaceNameFileName, 0x73C);
+    return GFL_HEAP_Alloc(heapId, 0x154, 1, (const char *)&gFieldPlaceNameFileName, 0x73C);
 }
 
 void FIELD_PLACE_NAME_InitWork(FieldPlaceName *placeName, GameSystem *gameSystem)
@@ -1110,7 +1112,7 @@ void FIELD_PLACE_NAME_InitWork(FieldPlaceName *placeName, GameSystem *gameSystem
 
 void FIELD_PLACE_NAME_FreeWork(FieldPlaceName *placeName)
 {
-    func_020307B0(placeName);
+    GFL_HEAP_Free(placeName);
 }
 
 void FIELD_PLACE_NAME_CreateWordSet(FieldPlaceName *placeName)
@@ -1120,7 +1122,7 @@ void FIELD_PLACE_NAME_CreateWordSet(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateMsgData(FieldPlaceName *placeName)
 {
-    placeName->msgData = func_02045B38(0, 2, 0x59, FIELD_PLACE_NAME_GetHeapId(placeName));
+    placeName->msgData = MSGDATA_CreateFromArchive(0, 2, 0x59, FIELD_PLACE_NAME_GetHeapId(placeName));
 }
 
 void FIELD_PLACE_NAME_CreateMessage(FieldPlaceName *placeName)

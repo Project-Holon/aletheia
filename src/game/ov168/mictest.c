@@ -16,16 +16,16 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02030CB0 0x02030CB0 arm
- *   func_02030734 0x02030734 arm
- *   func_02030CBC 0x02030CBC arm
- *   func_020056A0 0x020056A0 thumb
+ *   TCB_GetTaskOffset 0x02030CB0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   TCB_Init 0x02030CBC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_02184A20 0x02184A20 data a4
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   TCB_Noop  0x02030DA4  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020315D4  0x020315D4  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
@@ -54,7 +54,7 @@
  *   CLACT_AddActorAnimFrame  0x0204B8D4  arm
  *   CLACT_DrawSystem  0x0204A600  arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -76,22 +76,22 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_02184878 0x02184878 data a4
  *   d_02184964 0x02184964 data a1
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   func_02049624 0x02049624 arm
- *   func_0204989C 0x0204989C arm
+ *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BG_SYS_Update 0x020419E4 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BMP_WIN_CreateAt 0x02045180 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -112,7 +112,7 @@
  *   MIC_StopLimitedSampling  0x0208B528  arm
  *   d_02184A40 0x02184A40 data a4
  *   func_020056EC 0x020056EC thumb
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
@@ -268,15 +268,15 @@ typedef struct MictestWork {
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
-extern u32 func_02030CB0(u32);
-extern void *func_02030734(u32,u32,int,const char *,u16);
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void *func_020056A0(u32,u32,u32);
+extern u32 TCB_GetTaskOffset(u32);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
+extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void GFL_USE_FadeOutBgm(u32 a);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void TCB_Noop(int);
-extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct Proc *p);
+extern u32 GFL_HEAP_Free(void *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
@@ -300,7 +300,7 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 APP_ICON_GetArchiveId(void);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
@@ -320,20 +320,20 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(unsigned);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u16 heapId);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FreeLayerBuf(u32 v);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
-extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void BG_SYS_Update(void);
-extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 extern unsigned int BMP_WIN_CreateAt(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, unsigned int offset);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -351,7 +351,7 @@ extern void SND_MIC_AddElapsed(u32 n);
 extern void MIC_StartLimitedSampling(int *);
 extern int MIC_StopLimitedSampling(void);
 extern u32 func_020056EC(u32 range);
-extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
+extern u32 TCB_AddTask(int owner, void (*fn)(), int arg, int n);
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern int GF_STANDARD_Get_F5FC(u32 x);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
@@ -430,9 +430,9 @@ enum Result MICTEST_Create(struct Proc *proc)
     p->heapId=73;
     MICTEST_ResetDisplay(73);
     MICTEST_SetupVramBanks();
-    p->heapHandle=func_02030734((u16)p->heapId,func_02030CB0(5),0,d_02184A20,0x21d);
-    p->taskCtx=func_02030CBC(5,p->heapHandle);
-    p->node=func_020056A0((u32)MICTEST_VBlank,(u32)p,1);
+    p->heapHandle=GFL_HEAP_Alloc((u16)p->heapId,TCB_GetTaskOffset(5),0,d_02184A20,0x21d);
+    p->taskCtx=TCB_Init(5,p->heapHandle);
+    p->node=GFL_USE_AddMainTask((u32)MICTEST_VBlank,(u32)p,1);
     MICTEST_InitBg(&p->render,p->heapId);
     MICTEST_InitBgTiles(&p->render,p->heapId);
     MICTEST_CreateWindows(&p->render,p->heapId);
@@ -449,16 +449,16 @@ int MICTEST_Exit(int a, int b, int c, MictestWork *p)
     unsigned short v;
 
     MICTEST_ExitMic(&p->mic);
-    func_02030EAC(p->node);
+    TCB_DeleteTask(p->node);
     TCB_Noop((int)p->taskCtx);
-    func_020307B0(p->heapHandle);
+    GFL_HEAP_Free(p->heapHandle);
     MICTEST_DeleteUnit(p);
     MICTEST_ExitActorSystem(p);
     MICTEST_DeleteWindows(&p->render);
     MICTEST_ExitBg(&p->render);
     MICTEST_ClearDisplay();
     v=(unsigned short)p->heapId;
-    func_020315D4((struct Proc *)a);
+    PROCSYS_FreeProcWork((struct Proc *)a);
     GFL_HEAP_DeleteChecked(v);
     GFL_USE_FadeInBgmFull(0xa);
     PROCSYS_ReplaceGlobal((u32)ov088_id,(u32)d_021BD574,0);
@@ -657,8 +657,8 @@ void MICTEST_CreateActors(MictestWork *p, u16 heap)
     const MictestActorRegView *view;
     i=0;
     p->unit=CLACT_CreateUnit(32,0,heap);
-    first=func_020490F4(106,heap);
-    second=func_020490F4(APP_ICON_GetArchiveId(),heap);
+    first=ARC_TOOL_CreateHandle(106,heap);
+    second=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),heap);
     p->animReg[0].palette=CLACT_RegisterPalette(first,6,0,0,heap);
     p->animReg[0].character=CLACT_RegisterCharacter(first,7,0,0,heap);
     p->animReg[0].cell=CLACT_RegisterCellAnim(first,8,9,heap);
@@ -702,7 +702,7 @@ void MICTEST_InitBg(MictestRender *p, int heap)
         BG_SYS_InitBgLayer(bg, (const struct BgTemplate *)(d_02184964 + i * 0x24), d_02184964[i * 0x24 + 0x21]);
         BG_SYS_ClearSlot(bg);
         BG_SYS_InitRun(bg, 32, 0, (u16)heap);
-        func_02040588(bg, 1);
+        BG_SYS_SetPlaneVisible(bg, 1);
     }
 }
 
@@ -720,14 +720,14 @@ void MICTEST_BgNoop(MictestRender *unused) {  }
 
 void MICTEST_InitBgTiles(MictestRender *unused, int heap)
 {
-    func_02049B40(106, 0, 0, 0, 32, heap);
-    func_02049B40(106, 1, 4, 0, 32, heap);
-    func_02049B40(23, 5, 0, 416, 32, heap);
-    func_02049B40(23, 5, 4, 416, 32, heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(106, 0, 0, 0, 32, heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(106, 1, 4, 0, 32, heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 416, 32, heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 416, 32, heap);
     func_02049624((void *)106, (void *)4, (void *)5, 0, 0, 0, heap);
-    func_0204989C(106, 5, 5, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromArchive(106, 5, 5, 0, 0, 0, heap);
     func_02049624((void *)106, (void *)2, (void *)1, 0, 0, 0, heap);
-    func_0204989C(106, 3, 1, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromArchive(106, 3, 1, 0, 0, 0, heap);
 }
 
 void MICTEST_UpdateBg(MictestRender *unused) { BG_SYS_Update(); }
@@ -739,14 +739,14 @@ void MICTEST_CreateWindows(MictestRender *p, int heap)
     void *a;
     void *b;
     void *s;
-    p->msgBank = func_02045B38((int)0,(int)2,(int)65,(u16)heap);
+    p->msgBank = MSGDATA_CreateFromArchive((int)0,(int)2,(int)65,(u16)heap);
     for (i=0;i<3;i++) {
         desc = &d_02184888[i];
         p->bmpWin[i] = (void *)BMP_WIN_CreateAt((int)desc->layer,(int)desc->x,(int)desc->y,(int)desc->width,desc->height,desc->palette,(int)desc->charOffset);
         a = BMP_WIN_GetBmp(p->bmpWin[i]);
         BMP_Clear(a,0);
         BMP_WIN_ClearScreen(p->bmpWin[i]);
-        b = func_02045EC0(p->msgBank,i);
+        b = MSGDATA_AllocString(p->msgBank,i);
         PRINTSYS_PrintColor(a,desc->printX,0,b,p->font,d_02184868[i]);
         STRBUF_Delete(b);
         s = p->bmpWin[i];
@@ -769,7 +769,7 @@ void MICTEST_InitMic(MictestMic *p, int heap, void (*callback)(int, MictestWork 
     u8 *buf;
     SND_MIC_Init(heap);
     UI_SetKeepAwakeFlagsGlobal(8);
-    buf = func_02030734((u16)heap, 0x120, 0, d_02184A20, 0x603);
+    buf = GFL_HEAP_Alloc((u16)heap, 0x120, 0, d_02184A20, 0x603);
     MI_CpuFill8(buf, 0, 0x120);
     p->allocBuffer = buf;
     p->type = 0;
@@ -784,7 +784,7 @@ void MICTEST_InitMic(MictestMic *p, int heap, void (*callback)(int, MictestWork 
 
 void MICTEST_ExitMic(MictestMic *p)
 {
-    func_020307B0(p->allocBuffer);
+    GFL_HEAP_Free(p->allocBuffer);
     SND_MIC_Exit();
     UI_ClearKeepAwakeFlagsGlobal(8);
 }
@@ -934,7 +934,7 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
     u32 t;
     int c;
 
-    t = func_02030DA8(owner, MICTEST_UpdateSpriteTask, (int)entry, 0);
+    t = TCB_AddTask(owner, MICTEST_UpdateSpriteTask, (int)entry, 0);
     entry->task = (void *)t;
     o = (MictestMotion *)TCBL_GetTaskUserData((struct S02030EE8 *)t);
     o->actor = handle;
@@ -982,12 +982,12 @@ void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p)
     CLACT_SetActorPosAxis(p->actor, y, 1);
     if (y < -16) {
         CLACT_SetActorDrawEnable(p->actor, 0);
-        func_02030EAC(task);
+        TCB_DeleteTask(task);
         p->task = 0;
     }
 }
 
-void MICTEST_DeleteSpriteTasks(MictestWork *p) { int i; for(i=0;i<3;i++){if(p->sprite[i].task){func_02030EAC(p->sprite[i].task);p->sprite[i].task=0;}} }
+void MICTEST_DeleteSpriteTasks(MictestWork *p) { int i; for(i=0;i<3;i++){if(p->sprite[i].task){TCB_DeleteTask(p->sprite[i].task);p->sprite[i].task=0;}} }
 
 int MICTEST_TouchHit(void)
 {

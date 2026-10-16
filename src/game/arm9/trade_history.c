@@ -16,7 +16,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuMove   0x02083194  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MYSTATUS_GetOutfit  0x02008554  thumb
  *   MYSTATUS_SetOutfit  0x02008558  thumb
@@ -40,7 +40,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern void MI_CpuMove(const void *src, void *dest, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u32  MYSTATUS_GetId(const struct MyStatus *status);
 
@@ -219,5 +219,5 @@ void TRADE_HISTORY_IncrementTradeCount(struct TradeHistory *history)
  */
 struct TradeHistory *TRADE_HISTORY_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x1f);
+    return SAVE_CONTROL_GetBlock(save, 0x1f);
 }

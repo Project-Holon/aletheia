@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   data_020A721C  0x020A721C  data
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
@@ -23,7 +23,7 @@
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   OS_WaitIrq     0x0208459C  arm
  *   func_0200734C  0x0200734C  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   PMSI_PARAM_SetDefaultGreeting  0x02024344  thumb
  *   PMSI_PARAM_SetDefaultSentence  0x020242D8  thumb
  */
@@ -52,7 +52,7 @@ extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 
@@ -64,7 +64,7 @@ extern void OS_WaitIrq(int clear, u32 mask);
 
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void PMSI_PARAM_SetDefaultGreeting(void *obj);
 
@@ -171,7 +171,7 @@ char *BATTLE_EXAMINATION_GetTrainerSlot(char *base, u32 index)
 void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
 {
     u32 sv = (u32)GAME_DATA_GetSaveControl(gameData);
-    void *buf = func_02030734(heap, 0x1000, 0, data_020A721C, 0x99);
+    void *buf = GFL_HEAP_Alloc(heap, 0x1000, 0, data_020A721C, 0x99);
 
     SAVE_CONTROL_LoadExtraSaveWithBuffer(sv, 5, heap, buf, 0x1000);
     MI_CpuCopy8(dst, buf, 0x5C8);
@@ -183,7 +183,7 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
         OS_WaitIrq(1, 1);
     }
     func_0200734C((struct Sub02007324Ctrl *)sv, 5);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
 }
 
 /*

@@ -15,12 +15,12 @@
  *
  * symbols:
  *   d_021DE684     0x021DE684  data  ov021  a4
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   BG_SYS_FreeSlot  0x020414AC  arm
- *   func_02030EAC  0x02030EAC  arm
- *   func_020490F4  0x020490F4  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -33,7 +33,7 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   func_02048AD0  0x02048AD0  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_02048B30  0x02048B30  arm
  *   func_02048AE8  0x02048AE8  arm
  *   VEC_Subtract  0x0207CA00  arm
@@ -48,8 +48,8 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02041B6C  0x02041B6C  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetCharOffset  0x02045768  arm
  *   BMP_Blit  0x020439A0  arm
@@ -95,12 +95,12 @@ typedef struct FieldSaveAnime {
 #define _SAVEANIME_BG_FRAME 3
 #define _SAVEANIME_STEP_NUM 4
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_FreeSlot(int a);
-extern void *func_020056A0(void *, void *, int);
-extern void func_02030EAC(struct Node *n);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *GFL_USE_AddMainTask(void *, void *, int);
+extern void TCB_DeleteTask(struct Node *n);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -112,7 +112,7 @@ extern void BMP_Delete(struct Bmp *p);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_02048B30(u32 l, V *out);
 extern void func_02048AE8(u32 l, V *out);
 extern void VEC_Subtract(const V *a, const V *b, V *c);
@@ -125,8 +125,8 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern u32 func_02040588(u32 which, u32 enable);
-extern void func_02041B6C(u32 bit);
+extern u32 BG_SYS_SetPlaneVisible(u32 which, u32 enable);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
@@ -153,7 +153,7 @@ void FIELD_SAVEANIME_AnimTask(void *tcb, FieldSaveAnime *work);
 
 FieldSaveAnime *FIELD_SAVEANIME_Create(u32 heapId, void *fieldMap)
 {
-    FieldSaveAnime *work = func_02030734(heapId, sizeof(FieldSaveAnime), 1, d_021DE684, 0x8f);
+    FieldSaveAnime *work = GFL_HEAP_Alloc(heapId, sizeof(FieldSaveAnime), 1, d_021DE684, 0x8f);
 
     work->fieldMap = fieldMap;
     FIELD_SAVEANIME_LoadResource(work, heapId);
@@ -166,7 +166,7 @@ int FIELD_SAVEANIME_Delete(FieldSaveAnime *work)
     FIELD_SAVEANIME_Stop(work);
     FIELD_SAVEANIME_DeleteWindow(work);
     FIELD_SAVEANIME_DeleteResource(work);
-    return func_020307B0(work);
+    return GFL_HEAP_Free(work);
 }
 
 void FIELD_SAVEANIME_Start(FieldSaveAnime *work)
@@ -174,13 +174,13 @@ void FIELD_SAVEANIME_Start(FieldSaveAnime *work)
     BG_SYS_FreeSlot(_SAVEANIME_BG_FRAME);
     work->frameCount = 0;
     FIELD_SAVEANIME_ShowWindow(work);
-    work->tcb = func_020056A0(FIELD_SAVEANIME_AnimTask, work, 0x80);
+    work->tcb = GFL_USE_AddMainTask(FIELD_SAVEANIME_AnimTask, work, 0x80);
 }
 
 void FIELD_SAVEANIME_Stop(FieldSaveAnime *work)
 {
     if (work->tcb != 0) {
-        func_02030EAC(work->tcb);
+        TCB_DeleteTask(work->tcb);
         work->tcb = 0;
         FIELD_SAVEANIME_HideWindow(work);
     }
@@ -189,7 +189,7 @@ void FIELD_SAVEANIME_Stop(FieldSaveAnime *work)
 /* Loads the icon palette for the player's version and the icon frames. */
 void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId)
 {
-    void *arc = func_020490F4(200, heapId);
+    void *arc = ARC_TOOL_CreateHandle(200, heapId);
     u32 version;
 
     version = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap))));
@@ -225,7 +225,7 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
 
     player = FIELDMAP_GetFieldPlayer(work->fieldMap);
     camera = FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
-    func_02048AD0((struct Light *)camera);
+    G3D_CAMERA_Reset((struct Light *)camera);
     func_02048B30(camera, &eye);
     func_02048AE8(camera, &target);
     VEC_Subtract(&eye, &target, &dir);
@@ -274,15 +274,15 @@ u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work)
 int FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work)
 {
     BMP_WIN_MakeScreen((struct Cfg *)work->bmpWin);
-    func_02041B6C(_SAVEANIME_BG_FRAME);
-    return func_02040588(_SAVEANIME_BG_FRAME, 1);
+    BG_SYS_SetFlagField06(_SAVEANIME_BG_FRAME);
+    return BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 1);
 }
 
 int FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
 {
     BMP_WIN_ClearScreen(work->bmpWin);
-    func_02041B6C(_SAVEANIME_BG_FRAME);
-    return func_02040588(_SAVEANIME_BG_FRAME, 0);
+    BG_SYS_SetFlagField06(_SAVEANIME_BG_FRAME);
+    return BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 0);
 }
 
 /* Copies icon frame `frame` into the window and transfers its characters. */

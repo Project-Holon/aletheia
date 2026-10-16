@@ -13,8 +13,8 @@
  * Cut from bmp.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sStrbufStatics  0x020A7E7C  data
  *   MI_CpuCopy8  0x02082D44  arm
  */
@@ -47,9 +47,9 @@ struct Strbuf {
     u16 chars[1];    /* +0x08 */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
@@ -117,7 +117,7 @@ void STRBUF_SetEosChar(u16 eosChar)
  * The constructor of the u16-array object, and a clean specimen of the
  * debug-allocator calling convention this whole family is built on:
  *
- *   func_02030734(heapId, size, clear, site, tag)
+ *   GFL_HEAP_Alloc(heapId, size, clear, site, tag)
  *
  * The fifth argument is a u16 passed on the stack, which the callee reads
  * back with a halfword load at [sp, #0x18]; here it is 100. It looks like
@@ -152,7 +152,7 @@ struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId)
 {
     struct Strbuf *strbuf;
 
-    strbuf = (struct Strbuf *)func_02030734(heapId, capacity * 2 + 0xa, 0,
+    strbuf = (struct Strbuf *)GFL_HEAP_Alloc(heapId, capacity * 2 + 0xa, 0,
                                         sStrbufStatics.file, 100);
     strbuf->magic = STRBUF_MAGIC;
     strbuf->capacity = (u16)capacity;
@@ -188,7 +188,7 @@ struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId)
 void STRBUF_Delete(struct Strbuf *strbuf)
 {
     strbuf->magic = 0;
-    func_020307B0(strbuf);
+    GFL_HEAP_Free(strbuf);
 }
 
 /*

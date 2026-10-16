@@ -13,10 +13,10 @@
  * Cut from sta_acting.c, script_command.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   STA_NET_GetCurrentSlotValue 0x021FD8D4 thumb ov132
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   STA_ACT_LIGHT_CreateUnit 0x021F6BD8 thumb ov112
  *   STA_ACT_AUDIENCE_Create 0x021F9FEC thumb ov132
  *   STA_ACT_BUTTON_Create 0x021FA5B0 thumb ov132
@@ -28,7 +28,7 @@
  *   GFL_USE_StopSeqAndUnload 0x02006504 thumb
  *   GFL_USE_ClearPreloadedBgmBuffers 0x02006518 thumb
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   STA_ACT_SCRIPT_Delete 0x021FAB58 thumb ov132
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -53,9 +53,9 @@
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STA_ACT_BUTTON_Update 0x021FA6CC thumb ov132
  *   STA_ACT_SCRIPT_Update 0x021FABD8 thumb ov132
  *   STA_ACT_EFFECT_Update 0x021F9ECC thumb ov132
@@ -84,7 +84,7 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   d_02FFFC3C 0x02FFFC3C data a4
  *   d_021FDE80 0x021FDE80 data a4
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
@@ -93,13 +93,13 @@
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_02048AD0 0x02048AD0 arm
- *   func_0207DCF8 0x0207DCF8 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   G3X_SetEdgeColorTable 0x0207DCF8 arm
  *   BILLBOARD_Create 0x0204EBD4 arm
  *   BILLBOARD_SetScale 0x0204ED70 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -122,8 +122,8 @@
  *   d_021FDBF8 0x021FDBF8 data a4
  *   d_021FDBD4 0x021FDBD4 data a4
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   BG_SYS_PushTile 0x020409B4 arm
@@ -157,13 +157,13 @@
  *   ARC_UTIL_LoadHandleMember 0x0204A380 arm
  *   STA_ACT_SCRIPT_AddScriptFromTable 0x021FAD0C thumb ov132
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromMemory 0x02045C44 arm
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   TCBL_Create 0x0203101C arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Main 0x020310C4 arm
@@ -173,7 +173,7 @@
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STA_ACT_AUDIENCE_SetSlotValue 0x021FA558 thumb ov132
@@ -323,13 +323,13 @@ typedef enum { ENABLED = 1 } Enabled;
 
 typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 
-extern void *func_020056A0(void (*)(void),void *,unsigned int);
+extern void *GFL_USE_AddMainTask(void (*)(void),void *,unsigned int);
 
 extern unsigned int STA_NET_GetCurrentSlotValue(char *p);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void *STA_ACT_LIGHT_CreateUnit(u16,void *);
 
@@ -349,7 +349,7 @@ extern void GFL_USE_ClearPreloadedBgmBuffers(void);
 
 extern void GXx_SetMasterBrightness_(volatile u16 *,int);
 
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void STA_ACT_SCRIPT_Delete(char *);
 
@@ -399,17 +399,17 @@ extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern unsigned int func_020307B0(void *p);
+extern unsigned int GFL_HEAP_Free(void *p);
 
 extern void WIPE_SYS_Start(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 
 extern unsigned int WIPE_SYS_EndCheck(void);
 
-extern unsigned int func_0200FB24(void);
+extern unsigned int GFL_NET_ERR_GetErrorLevel(void);
 
 extern int GFL_USE_IsAnySeBusy(void);
 
@@ -479,7 +479,7 @@ extern void BMP_WIN_Init(u16);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void func_02040588(u32 which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 
 extern void G3D_SYSTEM_Init(unsigned int,unsigned int,unsigned int,unsigned int,u16,u16,void (*)(void));
 
@@ -489,9 +489,9 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned int,unsigned int);
 
 extern void *G3D_CAMERA_Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,const Vec3 *,const Vec3 *,const Vec3 *,u16);
 
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 
-extern void func_0207DCF8(const void *);
+extern void G3X_SetEdgeColorTable(const void *);
 
 extern void *BILLBOARD_Create(u8 *src, void *heap);
 
@@ -501,9 +501,9 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned i
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, u16 a6);
 
-extern unsigned int func_02049658(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
+extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
-extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
 extern void func_02049B68(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 
@@ -563,7 +563,7 @@ extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern char *STA_ACT_SCRIPT_AddScriptFromTable(char *p, char *base, unsigned index, unsigned char flag);
 
-extern int func_02061CA4(void *, u32, u32, int);
+extern int NNS_GfdRegisterNewVramTransferTask(void *, u32, u32, int);
 
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 
@@ -575,7 +575,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
@@ -595,7 +595,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void *PRINTSYS_PrintStream(void *, u32, u32, void *, void *, u32, void *, u32, u16, u32);
 
@@ -825,7 +825,7 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
 {
     u8 *p;
     u8 i;
-    p=func_02030734(heap,0x1f0,1,d_021FDCA0,0x11a);
+    p=GFL_HEAP_Alloc(heap,0x1f0,1,d_021FDCA0,0x11a);
     *(u16 *)p=heap;
     *(void **)(p+0x30)=input;
     i=0;
@@ -842,7 +842,7 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
     *(unsigned int *)(p+0x24)=0;
     *(unsigned int *)(p+0x28)=0;
     *(unsigned int *)(p+0x2c)=0;
-    *(void **)(p+0x20)=func_020056A0(STA_ACTING_VBlankCallback,p,64);
+    *(void **)(p+0x20)=GFL_USE_AddMainTask(STA_ACTING_VBlankCallback,p,64);
     if(**(unsigned int **)(p+0x30)==0){
         for(;i<4;i++){
             if(**(unsigned int **)(*(u8 **)(p+0x30)+4+i*4)==0){p[0xa]=i;break;}
@@ -865,7 +865,7 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
         *(unsigned int *)(p+0x13c+i*8)=0;
         *(unsigned int *)(p+0x140+i*8)=0;
     }
-    *(void **)(p+0x18)=func_020490F4(47,*(u16 *)p);
+    *(void **)(p+0x18)=ARC_TOOL_CreateHandle(47,*(u16 *)p);
     STA_ACTING_InitDisplay(p);
     STA_ACTING_UploadPalettes(p);
     STA_ACTING_CreateText(p);
@@ -896,7 +896,7 @@ void STA_ACTING_Delete(char *p)
     if(((struct ActingScene *)p)->f24.u==1)GFL_USE_ClearPreloadedBgmBuffers();
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,-16);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106c,-16);
-    func_0207D63C((void *)0x04000050,0,0,31,31);
+    G2x_SetBlendAlpha_((void *)0x04000050,0,0,31,31);
     *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
     STA_ACTING_DeleteAnimHandle(p);
     STA_ACT_SCRIPT_Delete(((struct ActingScene *)p)->fB0);
@@ -928,9 +928,9 @@ void STA_ACTING_Delete(char *p)
     BG_SYS_FreeLayerBuf(7);
     BMP_WIN_Exit();
     BG_SYS_Delete();
-    func_02030EAC(((struct ActingScene *)p)->f20);
+    TCB_DeleteTask(((struct ActingScene *)p)->f20);
     ARC_TOOL_DeleteHandle(((struct ActingScene *)p)->f18.p);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -1013,7 +1013,7 @@ int STA_ACTING_Update(u8 *p)
     G3D_SYSTEM_DrawEnd(); CLACT_DrawSystem();
     if(**(unsigned int * *)&((struct ActingScene *)p)->f30!=0 && ((struct ActingScene *)p)->f1C!=0 &&
        ((struct ActingScene *)p)->f1C!=1 && ((struct ActingScene *)p)->f1C!=2 &&
-       ((struct ActingScene *)p)->f1C!=3 && func_0200FB24()!=0)
+       ((struct ActingScene *)p)->f1C!=3 && GFL_NET_ERR_GetErrorLevel()!=0)
         ((struct ActingScene *)p)->f1C=2;
     return 0;
 }
@@ -1058,14 +1058,14 @@ void STA_ACTING_InitDisplay(u8 *p)
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDAE0,6,0);
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB00,4,0);
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB20,7,0);
-    func_02040588(0,1);
+    BG_SYS_SetPlaneVisible(0,1);
     G3D_SYSTEM_Init(0,2,0,4,0,*(u16 *)p,0);
     BG_SYS_SetLowBit(3);
     G3D_SYSTEM_SetSwapBuffersMode(0,1);
     light=G3D_CAMERA_Create(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
     *(void **)(p+0xA8)=light;
-    func_02048AD0(light);
-    func_0207DCF8(d_021FDAB0);
+    G3D_CAMERA_Reset(light);
+    G3X_SetEdgeColorTable(d_021FDAB0);
     G3X_EdgeMarking(0); G3X_AntiAlias(1); G3X_AlphaBlend(1);
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     big=d_021FDBF8;
@@ -1075,7 +1075,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     BILLBOARD_SetScale(board,(struct Blk3 *)(&small));
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(unsigned int)d_021FDBA0,*(u16 *)p);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
-    func_0207D63C((void *)0x04000050,8,1,0,10);
+    G2x_SetBlendAlpha_((void *)0x04000050,8,1,0,10);
     GX_SetVisibleWnd(4);
     G2_SetWndOBJInsidePlane(23,1);
     G2_SetWndOutsidePlane(31,1);
@@ -1087,17 +1087,17 @@ void STA_ACTING_UploadPalettes(u8 *p)
     u8 i=0;
     u16 old,new;
     ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),2,0,32,32,32,((struct ActingScene *)p)->f0);
-    func_02049658((void *)(((struct ActingScene *)p)->f18.u),8,3,0,0,0,((struct ActingScene *)p)->f0);
-    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),14,3,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),8,3,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),14,3,0,0,0,((struct ActingScene *)p)->f0);
     ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),3,0,0,0,32,((struct ActingScene *)p)->f0);
-    func_02049658((void *)(((struct ActingScene *)p)->f18.u),9,2,0,0,0,((struct ActingScene *)p)->f0);
-    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),15,2,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),9,2,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),15,2,0,0,0,((struct ActingScene *)p)->f0);
     func_02049B68((void *)(((struct ActingScene *)p)->f18.u),5,4,0,0,((struct ActingScene *)p)->f0);
-    func_02049658((void *)(((struct ActingScene *)p)->f18.u),13,5,0,0,0,((struct ActingScene *)p)->f0);
-    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),17,5,0,0,0,((struct ActingScene *)p)->f0);
-    func_02049658((void *)(((struct ActingScene *)p)->f18.u),12,6,0,0,0,((struct ActingScene *)p)->f0);
-    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),16,6,0,0,0,((struct ActingScene *)p)->f0);
-    func_02049658((void *)(((struct ActingScene *)p)->f18.u),11,4,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),13,5,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),17,5,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),12,6,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),16,6,0,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),11,4,0,0,0,((struct ActingScene *)p)->f0);
     MIi_CpuCopy16((void *)0x05000400,p+0x16a,32);
     MIi_CpuCopy16((void *)0x05000420,palette,32);
     for(i=0;i<16;i++){
@@ -1126,7 +1126,7 @@ void STA_ACTING_SetBaseProgram(u8 *p, u32 a1)
     STA_ACT_LIGHT_CreateModel(((struct ActingScene *)p)->f3C, v);
 }
 
-void STA_ACTING_SetupBg(const struct BgTemplate *p,u32 id,u32 type) { BG_SYS_InitBgLayer(id,p,type); func_02040588(id,1); BG_SYS_FreeSlot(id); BG_SYS_PushTile(id); }
+void STA_ACTING_SetupBg(const struct BgTemplate *p,u32 id,u32 type) { BG_SYS_InitBgLayer(id,p,type); BG_SYS_SetPlaneVisible(id,1); BG_SYS_FreeSlot(id); BG_SYS_PushTile(id); }
 
 void STA_ACTING_CreateActors(u8 *p)
 {
@@ -1197,7 +1197,7 @@ void STA_ACTING_UpdateCamera(u8 *p)
         translation.x = FX((float)*(u16 *)(p + 4) / 16.0f);
         func_02048AFC(*(void **)(p + 0xA8), &scale);
         func_02048B44(*(void **)(p + 0xA8), &translation);
-        func_02048AD0(*(void **)(p + 0xA8));
+        G3D_CAMERA_Reset(*(void **)(p + 0xA8));
         BG_SYS_FillScrollArea(2, 0, *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetElemFrame(*(void **)(p + 0x40), *(u16 *)(p + 4));
@@ -1244,7 +1244,7 @@ void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask){void *table;table=ARC_UTI
  * Palette fade, 16 colours. The object holds a u16 phase at +0x168 (advanced by 0x160, wrapped at
  * 0x10000), 16 base colours at +0x16A, s8 red, green and blue deltas at +0x18A, +0x19A, +0x1AA,
  * and 16 output colours at +0x1BA. The factor is (cos table entry + 0x1000) / 2. Each channel gets
- * (s8 delta * factor >> 12) added, then the colours go to func_02061CA4(31, 0, out, 32).
+ * (s8 delta * factor >> 12) added, then the colours go to NNS_GfdRegisterNewVramTransferTask(31, 0, out, 32).
  * Twins for the channel pack: ov068 021B9D68, ov104 021B89DC.
  * What closed it: a struct view of the object (p->phase, p->base[i], p->out[i]) with no colour
  * local (every channel reads p->base[i], CSE keeps one load), which makes the allocator spill p
@@ -1270,7 +1270,7 @@ void STA_ACTING_FadePalette(Fade *p)
         int G = g + (s8)((p->dg[i] * factor) >> 12);
         p->out[i] = (B << 10) | (R | (G << 5));
     }
-    func_02061CA4((void *)31, 0, (u32)p->out, 32);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 0, (u32)p->out, 32);
 }
 
 void STA_ACTING_CreateText(u8 *p)
@@ -1283,7 +1283,7 @@ void STA_ACTING_CreateText(u8 *p)
     zero=0;
     ((struct ActingScene *)p)->fD4.u=(u32)GF_FONT_Create(23,0,0,0,((struct ActingScene *)p)->f0);
     ((struct ActingScene *)p)->fDC.u=(u32)MSGDATA_CreateFromMemory(((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->f30))->f18))->f8,((struct ActingScene *)p)->f0);
-    func_02049B40(23,5,0,480,32,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,480,32,((struct ActingScene *)p)->f0);
     ((struct ActingScene *)p)->fCC.u=(u32)TCBL_Create(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->f0,3,256);
     ((struct ActingScene *)p)->fD8.u=zero;
     ((struct ActingScene *)p)->fE0.u=zero;
@@ -1323,7 +1323,7 @@ void STA_ACTING_PrintText(u8 *p, u16 index, u32 speed)
     }
     BMP_Clear(BMP_WIN_GetBmp(((struct ActingScene *)p)->fD0.p), 0);
     zero = ZERO;
-    ((struct ActingScene *)p)->fE0.p = func_02045EC0(((struct ActingScene *)p)->fDC.p, index);
+    ((struct ActingScene *)p)->fE0.p = MSGDATA_AllocString(((struct ActingScene *)p)->fDC.p, index);
     if (speed != 255) {
         ((struct ActingScene *)p)->fD8.p = PRINTSYS_PrintStream(((struct ActingScene *)p)->fD0.p, zero, zero,
             ((struct ActingScene *)p)->fE0.p, ((struct ActingScene *)p)->fD4.p, speed,

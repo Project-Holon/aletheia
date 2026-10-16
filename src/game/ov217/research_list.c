@@ -15,10 +15,10 @@
  * symbols:
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02040588  0x02040588  arm
- *   func_020490F4 0x020490F4 arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
  *   BG_SYS_DrawTile 0x02041090 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -49,7 +49,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   RingQueue_Create  0x021C0E08  thumb  ov217
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
@@ -80,7 +80,7 @@
  *   SYMBOL_SAVE_SetBitDescriptor 0x0200E440 thumb
  *   BMP_OAM_SetPalette  0x02025A54  thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BG_SYS_GetBuf 0x0204162C arm
  *   BG_SYS_GetChannelScrollX  0x02041648  arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -103,7 +103,7 @@
  *   ListViewState_SetMode 0x021C0DFC thumb ov217
  *   BMP_OAM_SetEnabled  0x02025774  thumb
  *   d_021C3068  0x021C3068  data  ov217  a4
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   d_021C3078 0x021C3078 data a4
  *   d_021C30B2 0x021C30B2 data a1 ov217
  *   d_021C3190 0x021C3190 data a4
@@ -124,7 +124,7 @@
  *   d_021C3470 0x021C3470 data a4
  *   BMP_CreateFromArchive 0x0204384C arm
  *   BMP_Blit 0x020439A0 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   BMP_Delete 0x020437AC arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   d_021C3350 0x021C3350 data a4
@@ -139,7 +139,7 @@
  *   BMP_OAM_Delete  0x0202570C  thumb
  *   PALANM_Delete  0x02021540  thumb
  *   d_021C3260 0x021C3260 data a4
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   FADE_Start  0x0204E720  arm
  *   PALANM_RequestFade 0x0202173C thumb
  *   func_020056BC 0x020056BC thumb
@@ -155,8 +155,8 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   FADE_IsActive  0x0204E804  arm  arm9
- *   func_02030EAC  0x02030EAC  arm
- *   func_02030734  0x02030734  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
@@ -312,15 +312,15 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u32 BG_SYS_FreeLayerBuf(u32 i);
 
-extern void *func_020490F4(unsigned int id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
@@ -384,13 +384,13 @@ extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 
 extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -398,7 +398,7 @@ extern int RingQueue_Create(int a0, int a1);
 
 extern void RingQueue_Destroy(void *p);
 
-extern void func_0207D63C(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
+extern void G2x_SetBlendAlpha_(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 
 extern void BMP_WIN_Init(u16);
 
@@ -464,7 +464,7 @@ extern void SYMBOL_SAVE_SetBitDescriptor(u8 *p, int value, int index);
 
 extern void BMP_OAM_SetPalette(u8 *g, u32 a);
 
-extern void func_02041B6C(u32 layer);
+extern void BG_SYS_SetFlagField06(u32 layer);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
@@ -514,7 +514,7 @@ extern struct Bmp *BMP_CreateFromArchive(u32,u32,u32,u32);
 
 extern void BMP_Blit(struct Bmp *,struct Bmp *,u32,u32,int,int,u32,u32,u32);
 
-extern void *func_02045EC0(struct MsgBank *,u32);
+extern void *MSGDATA_AllocString(struct MsgBank *,u32);
 
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 
@@ -540,9 +540,9 @@ extern u32 PALANM_Delete(void *a0);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern int func_020056A0(void (*)(void), void *, int);
+extern int GFL_USE_AddMainTask(void (*)(void), void *, int);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 u32 RESEARCH_LIST_Create(u32 a0, u32 a1);
 
@@ -1916,7 +1916,7 @@ void RESEARCH_LIST_ShowCursor(u8 *p)
     x=RESEARCH_LIST_GetRowOffset((u32)p,slot);
     y=RESEARCH_LIST_GetRowBase((u32)p,slot);
     BG_SYS_FillTileMap(2,x,y,28,3,10);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     ((struct ResearchTop *)p)->cursorVisible=1;
 }
 
@@ -1929,7 +1929,7 @@ void RESEARCH_LIST_HideCursor(u8 *p)
     x=RESEARCH_LIST_GetRowOffset((u32)p,slot);
     y=RESEARCH_LIST_GetRowBase((u32)p,slot);
     BG_SYS_FillTileMap(2,x,y,28,3,9);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     ((struct ResearchTop *)p)->cursorVisible=0;
 }
 
@@ -1959,8 +1959,8 @@ void RESEARCH_LIST_ShiftTextRight(u32 object,u32 slot)
     second[(base+1)*32+29]=second[0];
     first[(base+2)*32+29]=first[0];
     second[(base+2)*32+29]=second[0];
-    func_02041B6C(2);
-    func_02041B6C(3);
+    BG_SYS_SetFlagField06(2);
+    BG_SYS_SetFlagField06(3);
 }
 
 void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot)
@@ -1989,8 +1989,8 @@ void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot)
     second[(base+1)*32+1]=second[0];
     first[(base+2)*32+1]=first[0];
     second[(base+2)*32+1]=second[0];
-    func_02041B6C(2);
-    func_02041B6C(3);
+    BG_SYS_SetFlagField06(2);
+    BG_SYS_SetFlagField06(3);
 }
 
 /*
@@ -2667,7 +2667,7 @@ int RESEARCH_LIST_GetOamObject(char *p, int i)
 
 u32 RESEARCH_LIST_Alloc(u32 a0)
 {
-    return (u32)func_02030734(a0, 364, 0, (const char *)0x21C3FFC, 3687);
+    return (u32)GFL_HEAP_Alloc(a0, 364, 0, (const char *)0x21C3FFC, 3687);
 }
 
 /*
@@ -2710,13 +2710,13 @@ void RESEARCH_LIST_InitFields(u8 *p)
 }
 
 /*
- * Tail-call veneer: branch to func_020307B0.
+ * Tail-call veneer: branch to GFL_HEAP_Free.
  *
  * Addresses are Black-image addresses.
  */
 u32 RESEARCH_LIST_Free(void *a0)
 {
-    return func_020307B0(a0);
+    return GFL_HEAP_Free(a0);
 }
 
 void RESEARCH_LIST_CountUnlockedEntries(u8 *p)
@@ -2767,7 +2767,7 @@ void RESEARCH_LIST_CreateMessages(struct ResearchTop *p)
 {
     int i;
     for (i = 0; i < 2; i++) {
-        p->arr[i] = (int)func_02045B38(0, 2, (u16)d_021C3078[i], p->heapId);
+        p->arr[i] = (int)MSGDATA_CreateFromArchive(0, 2, (u16)d_021C3078[i], p->heapId);
     }
 }
 
@@ -2845,16 +2845,16 @@ void RESEARCH_LIST_InitBackgrounds(char *p)
     BG_SYS_InitBgLayer(0, &d_021C30F0, 0);
     BG_SYS_InitBgLayer(2, &d_021C3150, 0);
     BG_SYS_InitBgLayer(3, &d_021C3170, 0);
-    func_02040588(4, 1);
-    func_02040588(5, 1);
-    func_02040588(6, 1);
-    func_02040588(7, 1);
-    func_02040588(1, 1);
-    func_02040588(0, 1);
-    func_02040588(2, 1);
-    func_02040588(3, 1);
-    func_0207D63C((volatile unsigned *)0x04001050, 2, 1, 16, 5);
-    func_0207D63C((volatile unsigned *)0x04000050, 4, 2, 16, 5);
+    BG_SYS_SetPlaneVisible(4, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
+    BG_SYS_SetPlaneVisible(7, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
+    G2x_SetBlendAlpha_((volatile unsigned *)0x04001050, 2, 1, 16, 5);
+    G2x_SetBlendAlpha_((volatile unsigned *)0x04000050, 4, 2, 16, 5);
     BMP_WIN_Init(((struct ResearchTop *)p)->heapId);
 }
 
@@ -2876,12 +2876,12 @@ void RESEARCH_LIST_LoadBackground6(char *p)
     void *arc;
     void *buf;
     void *screen;
-    arc = func_020490F4(192, (u16)((((struct ResearchTop *)p)->heapId & 0x7FFF) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(192, (u16)((((struct ResearchTop *)p)->heapId & 0x7FFF) | 0x8000));
     buf = ARC_TOOL_LoadHandleMember(arc, 13, ((struct ResearchTop *)p)->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
     BG_SYS_DrawTile(6, (u32)((char *)screen + 12), 0, 0, 32, 24);
-    func_02041B6C(6);
-    func_020307B0(buf);
+    BG_SYS_SetFlagField06(6);
+    GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -2905,12 +2905,12 @@ void RESEARCH_LIST_LoadBackground2(char *p)
     void *arc;
     void *buf;
     void *screen;
-    arc = func_020490F4(192, (u16)((((struct ResearchTop *)p)->heapId & 0x7FFF) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(192, (u16)((((struct ResearchTop *)p)->heapId & 0x7FFF) | 0x8000));
     buf = ARC_TOOL_LoadHandleMember(arc, 3, ((struct ResearchTop *)p)->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
     BG_SYS_DrawTile(0, (u32)((char *)screen + 12), 0, 0, 32, 24);
-    func_02041B6C(0);
-    func_020307B0(buf);
+    BG_SYS_SetFlagField06(0);
+    GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -2925,14 +2925,14 @@ void RESEARCH_LIST_DummyBg3(u8 *a0)
 
 void RESEARCH_LIST_LoadListBackground(struct ResearchTop *p)
 {
-    void *heap = func_020490F4(0xc0, (u16)((p->heapId & 0x7fff) | 0x8000));
+    void *heap = ARC_TOOL_CreateHandle(0xc0, (u16)((p->heapId & 0x7fff) | 0x8000));
     int v = RESEARCH_LIST_GetEntryCount(p) * 3;
     void *res = ARC_TOOL_LoadHandleMember(heap, 5, p->heapId);
     char *q;
     NNS_G2dGetUnpackedScreenData(res, (void **)(&q));
     BG_SYS_DrawTile(2, (u32)(q + 0xc), 0, 0, 0x20, (u8)v);
-    func_02041B6C(2);
-    func_020307B0(res);
+    BG_SYS_SetFlagField06(2);
+    GFL_HEAP_Free(res);
     ARC_TOOL_DeleteHandle(heap);
 }
 
@@ -3036,7 +3036,7 @@ void RESEARCH_LIST_RegisterEntryResources(char *p)
     void *arc;
     int a, b, c;
     heap = ((struct ResearchTop *)p)->heapId;
-    arc = func_020490F4(192, (u16)((heap & 0x7FFF) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(192, (u16)((heap & 0x7FFF) | 0x8000));
     a = CLACT_RegisterCharacter((void *)((u32)arc), 15, 0, 1, heap);
     b = CLACT_RegisterPalette((void *)arc, 16, 1, 0, heap);
     c = CLACT_RegisterCellAnim((void *)((u32)arc), 14, 17, heap);
@@ -3059,12 +3059,12 @@ void RESEARCH_LIST_RegisterCursorResources(char *p)
     void *arc;
     int a, b, c, d;
     heap = ((struct ResearchTop *)p)->heapId;
-    arc = func_020490F4(192, (u16)((heap & 0x7FFF) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(192, (u16)((heap & 0x7FFF) | 0x8000));
     a = CLACT_RegisterCharacter((void *)((u32)arc), 15, 0, 0, heap);
     b = CLACT_RegisterPaletteEx((void *)((u32)arc), 16, 0, 192, 0, 4, heap);
     c = CLACT_RegisterCellAnim((void *)((u32)arc), 14, 17, heap);
     ARC_TOOL_DeleteHandle(arc);
-    arc = func_020490F4(83, (u16)heap);
+    arc = ARC_TOOL_CreateHandle(83, (u16)heap);
     d = CLACT_RegisterPaletteEx((void *)((u32)arc), 31, 0, 128, 0, 2, heap);
     ARC_TOOL_DeleteHandle(arc);
     ((struct ResearchTop *)p)->cursorCharacter = a;
@@ -3170,9 +3170,9 @@ void RESEARCH_LIST_DrawBmps(u8 *p)
             dest=p+i*4;
             BMP_Blit(bmp,((struct ResearchTop *)p)->bmps[i],0,0,0,0,q->x<<3,q->y<<3,q->b);
             color=((q->r&31)<<10)|((q->g&31)<<5)|(q->b&31);
-            text=func_02045EC0(*(struct MsgBank **)(p+16+q->bank*4),q->index);
+            text=MSGDATA_AllocString(*(struct MsgBank **)(p+16+q->bank*4),q->index);
             PRINTSYS_PrintColor(((struct ResearchTop *)p)->bmps[i],q->px,q->py,text,((struct ResearchTop *)p)->fontP,color);
-            func_020307B0(text);
+            GFL_HEAP_Free(text);
             BMP_Delete((struct Bmp *)((int)bmp));
         }
     }
@@ -3199,9 +3199,9 @@ void RESEARCH_LIST_DrawBadgeA(struct ResearchTop *p)
     }
     BMP_Delete(heap);
     color = (GB->f1e & 0x1f) | (((GB->f1c & 0x1f) << 10) | ((GB->f1d & 0x1f) << 5));
-    res = func_02045EC0((void *)p->arr[GB->f0c], GB->f10);
+    res = MSGDATA_AllocString((void *)p->arr[GB->f0c], GB->f10);
     PRINTSYS_PrintColor(p->bmps[1], (s16)GB->f14, (s16)GB->f18, res, (void *)p->font, color);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 /*
@@ -3225,9 +3225,9 @@ void RESEARCH_LIST_DrawBadgeB(struct ResearchTop *p)
     }
     BMP_Delete(heap);
     color = (GB->f1e & 0x1f) | (((GB->f1c & 0x1f) << 10) | ((GB->f1d & 0x1f) << 5));
-    res = func_02045EC0((void *)p->arr[GB->f0c], GB->f10);
+    res = MSGDATA_AllocString((void *)p->arr[GB->f0c], GB->f10);
     PRINTSYS_PrintColor(p->bmps[2], (s16)GB->f14, (s16)GB->f18, res, (void *)p->font, color);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 void RESEARCH_LIST_DeleteBmps(int *p)
@@ -3369,11 +3369,11 @@ void RESEARCH_LIST_RestartNetwork(u32 a0)
 
 void RESEARCH_LIST_RegisterVBlank(char *p)
 {
-    ((struct ResearchTop *)p)->vblankNode = func_020056A0((void (*)(void))RESEARCH_LIST_VBlankHandler, p, 0);
+    ((struct ResearchTop *)p)->vblankNode = GFL_USE_AddMainTask((void (*)(void))RESEARCH_LIST_VBlankHandler, p, 0);
 }
 
 void RESEARCH_LIST_UnregisterVBlank(u32 a0)
 {
-    func_02030EAC((struct Node *)(((struct ResearchTop *)a0)->vblankNode));
+    TCB_DeleteTask((struct Node *)(((struct ResearchTop *)a0)->vblankNode));
     ((struct ResearchTop *)a0)->vblankNode = 0;
 }

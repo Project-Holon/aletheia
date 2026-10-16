@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030EAC   0x02030EAC  arm
- *   func_02030734  0x02030734  arm
- *   func_020056A0  0x020056A0  thumb
- *   func_020307B0  0x020307B0  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8   0x02082BCC  arm
  *   UI_GetPowerState       0x0203568C  arm
  *   GAME_DATA_GetField1A0       0x0201283C  thumb
@@ -41,15 +41,16 @@
  *   BG_SYS_PushTile       0x020409B4  arm
  *   func_02035630       0x02035630  arm
  *   OS_IsRunOnTwl       0x02085D3C  arm
- *   func_020490F4       0x020490F4  arm
+ *   ARC_TOOL_CreateHandle       0x020490F4  arm
  *   BG_SYS_CreateRun       0x0203FA08  arm
  *   func_02049B68       0x02049B68  arm
- *   func_02049658       0x02049658  arm
+ *   ARC_UTIL_UploadBgCharFromHandle       0x02049658  arm
  *   ENV_SetResourceSet  0x02049238  arm
  *   BG_SYS_SetTileEntry       0x02041300  arm
  *   GF_STANDARD_SetField00       0x0203F4CC  arm
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
+ *   TCB_AddTask  0x02030DA8  arm
  */
 struct Node;
 struct BigObj;
@@ -134,11 +135,11 @@ struct InfoWinDrawBuffer {
     u16 clk[10];    /* +0x1E */
 };
 
-extern void func_02030DA8(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFade *p, s32 pri);
-extern u32 func_02030EAC(struct Node *n);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020056A0(void *fn, void *arg, u32 prio);
-extern u32 func_020307B0(void *p);
+extern void TCB_AddTask(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFade *p, s32 pri);
+extern u32 TCB_DeleteTask(struct Node *n);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 data, u32 size);
 extern int UI_GetPowerState(void);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
@@ -151,10 +152,10 @@ extern u32 WIH_DWC_PollStatus(void *key);
 extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
 extern int  BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
 extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void  func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void  func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  ENV_SetResourceSet(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void GF_STANDARD_SetField00(struct RtcTime *time);
@@ -189,12 +190,12 @@ extern const u16 d_0209F830[];
  */
 void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap)
 {
-    gInfoWin = func_02030734(heap, 0x28, 0, infowin_File, 0x103);
+    gInfoWin = GFL_HEAP_Alloc(heap, 0x28, 0, infowin_File, 0x103);
     MI_CpuFill8(gInfoWin, 0, 0x28);
     gInfoWin->bgFrame = a0;
     gInfoWin->palette = a1;
     INFOWIN_LoadGraphics(a0, a1, heap);
-    gInfoWin->task = func_020056A0((void (*)(void *))INFOWIN_DrawTask, gInfoWin, 1);
+    gInfoWin->task = GFL_USE_AddMainTask((void (*)(void *))INFOWIN_DrawTask, gInfoWin, 1);
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
     if (a2 != 0) {
@@ -331,9 +332,9 @@ void INFOWIN_Update(void)
 int INFOWIN_Exit(void)
 {
     if (gInfoWin != 0) {
-        func_02030EAC(gInfoWin->task);
+        TCB_DeleteTask(gInfoWin->task);
         BG_SYS_DeleteHalf(gInfoWin->bgFrame, gInfoWin->charBase, 1 << 12);
-        func_020307B0(gInfoWin);
+        GFL_HEAP_Free(gInfoWin);
         gInfoWin = 0;
         return 0;
     } else {
@@ -500,10 +501,10 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
         sel = 4;
     }
 
-    env = func_020490F4(0x32, c);
+    env = ARC_TOOL_CreateHandle(0x32, c);
     gInfoWin->charBase = BG_SYS_CreateRun(a, 1 << 12, 1);
     func_02049B68(env, 0, sel, b << 5, 0x20, c);
-    func_02049658(env, 1, a, gInfoWin->charBase, 0, 0, c);
+    ARC_UTIL_UploadBgCharFromHandle(env, 1, a, gInfoWin->charBase, 0, 0, c);
     ENV_SetResourceSet(env);
     BG_SYS_SetTileEntry(a, (u16)(gInfoWin->charBase + 0xf), 0, 0, 0x20, 1, b);
     BG_SYS_SetTileEntry(a, (u16)(gInfoWin->charBase + 0x1f), 0, 1, 0x20, 1, b);

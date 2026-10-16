@@ -15,10 +15,10 @@
  * symbols:
  *   g_ZoneDataMgr  0x02146264  data
  *   sZonedataFile     0x020A72B0  data
- *   func_02030734     0x02030734  arm
- *   func_020490F4     0x020490F4  arm
+ *   GFL_HEAP_Alloc     0x02030734  arm
+ *   ARC_TOOL_CreateHandle     0x020490F4  arm
  *   ARC_UTIL_LoadMemberWithSize     0x0204A298  arm
- *   func_020307B0     0x020307B0  arm
+ *   GFL_HEAP_Free     0x020307B0  arm
  *   ARC_TOOL_DeleteHandle     0x02049238  arm
  *   _ZoneChangeTable  0x020A72A8  data
  *   ZONEDATA_GetChangedZoneId      0x02013A94  thumb
@@ -169,13 +169,13 @@ struct EventWork {
     u8  pad3E9;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
 extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
 extern void *ARC_UTIL_LoadMemberWithSize(u32 arcId, u32 member, int compressed, u32 heapId, u32 *size);
 
-extern void func_020307B0(void *p);
+extern void GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *handle);
 
@@ -422,7 +422,7 @@ extern const u8 _DirToRailKeyTable[];
  * Three things this function pins down about the on-disk zone data.
  *
  * +0x00 is a persistent archive handle opened by ARC_TOOL_CreateHandle(0x0c, heap).
- * ARC_TOOL_OpenArchive, which func_020490F4 calls to bind the handle, indexes a 235
+ * ARC_TOOL_OpenArchive, which ARC_TOOL_CreateHandle calls to bind the handle, indexes a 235
  * entry char* table at 0x020A6C58 (installed by ARC_TOOL_SetTable from
  * 0x020055FA with count 0xeb) by that same id, and entry 0x0c of that table
  * is the string "a/0/1/2".  ZONEDATA_GetHeader then reads records out of that
@@ -462,7 +462,7 @@ void ZONEDATA_Init(u32 heap)
     if (g_ZoneDataMgr != 0)
         return;
 
-    g_ZoneDataMgr = func_02030734(heap, 0x4c, 1, sZonedataFile, 0x60);
+    g_ZoneDataMgr = GFL_HEAP_Alloc(heap, 0x4c, 1, sZonedataFile, 0x60);
     g_ZoneDataMgr->arcHandle = ARC_TOOL_CreateHandle(0x0c, heap);
 
     g_ZoneDataMgr->fogTable = ARC_UTIL_LoadMemberWithSize(0x51, 13, 0, heap, &size);
@@ -488,7 +488,7 @@ void ZONEDATA_Init(u32 heap)
  *
  * The destructor of the zone-header subsystem allocated by ZONEDATA_Init, and
  * a second, independent reading of the manager's field map: it frees +0x44,
- * +0x3c and +0x38 with the plain heap free func_020307B0, which is what makes
+ * +0x3c and +0x38 with the plain heap free GFL_HEAP_Free, which is what makes
  * those three heap buffers rather than pointers into the image, and closes
  * +0x00 with ARC_TOOL_DeleteHandle (archive close plus free), which is what makes
  * +0x00 an archive handle and not a fourth buffer.  The manager itself is
@@ -513,11 +513,11 @@ void ZONEDATA_Exit(void)
     if (g_ZoneDataMgr == 0)
         return;
 
-    func_020307B0(g_ZoneDataMgr->mapEffectTable);
-    func_020307B0(g_ZoneDataMgr->lightTable);
-    func_020307B0(g_ZoneDataMgr->fogTable);
+    GFL_HEAP_Free(g_ZoneDataMgr->mapEffectTable);
+    GFL_HEAP_Free(g_ZoneDataMgr->lightTable);
+    GFL_HEAP_Free(g_ZoneDataMgr->fogTable);
     ARC_TOOL_DeleteHandle(g_ZoneDataMgr->arcHandle);
-    func_020307B0(g_ZoneDataMgr);
+    GFL_HEAP_Free(g_ZoneDataMgr);
     g_ZoneDataMgr = 0;
 }
 
@@ -1379,7 +1379,7 @@ void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season)
  */
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData)
 {
-    func_020307B0(areaData);
+    GFL_HEAP_Free(areaData);
 }
 
 u16 ZONEDATA_GetAreaTexSetId(const struct AreaData *areaData)

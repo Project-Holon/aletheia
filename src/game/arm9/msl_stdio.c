@@ -15,7 +15,7 @@
  * symbols:
  *   OS_LockMutex  0x02086028  arm
  *   OS_TryLockMutex  0x020860D0  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   gMslRefToken  0x02150FEC  data
  *   gMslMutexTable  0x02153BD4  data
  *   gMslStream0  0x020A8730  data
@@ -106,7 +106,7 @@ extern void OS_LockMutex(void *mutex);
 
 extern int OS_TryLockMutex(void *mutex);
 
-extern void func_02086078(void *mutex);
+extern void OS_UnlockMutex(void *mutex);
 
 extern u32  func_0209C2B0(u32 a, u32 b);                         /* udiv */
 
@@ -336,7 +336,7 @@ int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream)
     }
     r = __fread((void *)ptr, memb_size, num_memb, (struct FILE *)stream);
     gMslRefCount[idx]--;
-    if (gMslRefCount[idx] == 0) func_02086078(blk);
+    if (gMslRefCount[idx] == 0) OS_UnlockMutex(blk);
     return r;
 }
 
@@ -733,7 +733,7 @@ int ftell(u32 stream)
     }
     r = __ftell((struct MslStream *)stream);
     gMslRefCount[idx]--;
-    if (gMslRefCount[idx] == 0) func_02086078(blk);
+    if (gMslRefCount[idx] == 0) OS_UnlockMutex(blk);
     return r;
 }
 
@@ -838,7 +838,7 @@ int fseek(u32 stream, u32 pos, u32 whence)
     }
     r = __fseek((MslStream *)stream, pos, whence);
     gMslRefCount[idx]--;
-    if (gMslRefCount[idx] == 0) func_02086078(blk);
+    if (gMslRefCount[idx] == 0) OS_UnlockMutex(blk);
     return r;
 }
 

@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GFL_USE_GetRandom   0x020056EC  thumb
  *   FX_SinCosTable_   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
@@ -59,7 +59,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern s32  GF_STANDARD_SetupRtc_F540(struct RTCDate *date);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u32  GFL_USE_GetRandom(u32 range);
 
@@ -113,7 +113,7 @@ extern s16  FX_SinCosTable_[];
 
 struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x2C);
+    return SAVE_CONTROL_GetBlock(save, 0x2C);
 }
 
 s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank)

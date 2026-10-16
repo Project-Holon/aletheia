@@ -26,13 +26,13 @@
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
@@ -46,12 +46,12 @@
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *   MSGDATA_Delete  0x02045C04  arm
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ICA_ANIME_GetField114  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetIntrudeIdByte            0x0215841C  thumb  ov010
- *   func_02034714            0x02034714  arm
+ *   SAVEDATA_PanicFail            0x02034714  arm
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
@@ -61,7 +61,7 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -371,13 +371,13 @@ extern int INTRUDE_COMM_SendReply(IntrudeCommSys *sys, int netId, int requestAct
 extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
 extern u8 GAME_DATA_GetOwnNetId(struct GameData *gameData);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, unsigned int workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, unsigned int workSize);
 extern void *func_020124E8(struct GameEvent *event);
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 IntrudeCommSys *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
-u32 func_0200FB24(void);
+u32 GFL_NET_ERR_GetErrorLevel(void);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
 int FIELDMAP_IsReady(struct FieldMap *fieldMap);
@@ -391,12 +391,12 @@ extern int FIELD_MSGBG_SysWinMain(void *printer);
 extern void FIELD_MSGBG_DeleteSysWin(void *printer);
 extern u32 MSGDATA_Delete(void *msgData);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScriptWork *scriptWork);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void *ICA_ANIME_GetField114(struct GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern int INTRUDE_COMM_HasResult(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
@@ -406,7 +406,7 @@ extern void STRBUF_Delete(void *strbuf);
 extern unsigned int WORDSET_DeleteStrbufED04(void *wordSet);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 func_02008550(void *myStatus);
-extern void *func_02045EC0(void *msgData, u32 msgId);
+extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 extern void *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *myStatus);
@@ -763,7 +763,7 @@ void EVENT_COMM_COMMON_PrintMsg(EventCommMsgBox *msgBox, u16 msgId)
 void EVENT_COMM_COMMON_ClearPrintWin(EventCommMsgBox *msgBox)
 {
     if (msgBox->printer == 0) {
-        func_02034714(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+        SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     }
     FIELD_MSGBG_ClearSysWin(msgBox->printer);
     msgBox->printing = 0;
@@ -839,7 +839,7 @@ void EVENT_COMM_COMMON_DeleteChoice(EventCommMsgBox *msgBox)
 void EVENT_COMM_COMMON_StartChoice(EventCommMsgBox *msgBox, struct GameSystem *gameSystem)
 {
     ICA_ANIME_GetField20(gameSystem);
-    if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) func_02034714(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+    if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     msgBox->choiceHandle = FIELD_MSGBG_CreateYesNoMenu(msgBox->fieldMsgbg, 0);
 }
 
@@ -847,7 +847,7 @@ void EVENT_COMM_COMMON_StartChoice(EventCommMsgBox *msgBox, struct GameSystem *g
 
 int EVENT_COMM_COMMON_PollChoice(EventCommMsgBox *msgBox)
 {
-    if (msgBox->choiceHandle == 0) func_02034714(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+    if (msgBox->choiceHandle == 0) SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     return FIELD_MSGBG_YesNoMenuMain(msgBox->choiceHandle);
 }
 
@@ -857,7 +857,7 @@ void EVENT_COMM_COMMON_SetupListWindowB(EventCommMsgBox *msgBox, struct GameSyst
 {
     ICA_ANIME_GetField20(gameSystem);
     if (msgBox->listWindowB != 0) {
-        func_02034714(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+        SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     }
     msgBox->listWindowB = FIELD_MSGBG_CreateMsgWin(msgBox->fieldMsgbg, msgBox->msgData, (u16)x, (u16)y, width, height);
 }
@@ -959,7 +959,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateExitSyncEvent(struct GameSystem *gameS
     EventCommExitSyncWork *work;
     int zero;
     zero = 0;
-    event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_ExitSyncEventMain, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_ExitSyncEventMain, 0x10);
     work = func_020124E8(event);
     work->result = result;
     *result = zero;
@@ -993,7 +993,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         void *text;
         void *templateText;
 
-        if (func_0200FB24() != 0 || (sys == 0 && GAME_DATA_GetIntrudeId(gameData) != GAME_DATA_GetOwnNetId(gameData))) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0 || (sys == 0 && GAME_DATA_GetIntrudeId(gameData) != GAME_DATA_GetOwnNetId(gameData))) {
             *seq = 7;
             break;
         }
@@ -1011,7 +1011,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
             alone = 1;
         } else {
             text = STRBUF_Create(0x100, 0x15);
-            templateText = func_02045EC0(work->msgData, 0x4A);
+            templateText = MSGDATA_AllocString(work->msgData, 0x4A);
             WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetMyStatusByNetId(gameData, GAME_DATA_GetIntrudeIdByte(gameData)));
             WORDSET_CopyTaggedText(work->wordSet, text, templateText);
             FIELD_MSGBG_MsgWinPrintStr(work->window, 0, 0, text);
@@ -1124,7 +1124,7 @@ int EVENT_COMM_COMMON_CmdCallMissionInfoEvent(ScriptVm *vm, struct ScriptWork *s
 struct GameEvent *EVENT_COMM_COMMON_CreateMissionInfoEvent(struct GameSystem *gameSystem)
 {
     struct GameEvent *event;
-    event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_MissionInfoEventMain, 0x30);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_MissionInfoEventMain, 0x30);
     MI_CpuFill8(func_020124E8(event), 0, 0x30);
     return event;
 }
@@ -1187,7 +1187,7 @@ void EVENT_COMM_COMMON_FreeMissionInfoWork(EventCommMsgBox *msgBox)
 
 struct GameEvent *EVENT_COMM_COMMON_CreateReturnPalaceEvent(struct GameSystem *gameSystem)
 {
-    return func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_ReturnPalaceEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_ReturnPalaceEventMain, 0);
 }
 
 
@@ -1286,7 +1286,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkStartEvent(struct GameSystem *game
 {
     EventCommTalkParam *param;
     struct GameEvent *event;
-    event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkStartEventMain, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkStartEventMain, 0x10);
     param = func_020124E8(event);
     MI_CpuFill8(param, 0, 0x10);
     param->fieldMap = fieldMap;
@@ -1326,7 +1326,7 @@ int EVENT_COMM_COMMON_TalkStartEventMain(struct GameEvent *event, int *seq, void
 
 struct GameEvent *EVENT_COMM_COMMON_CreateTalkEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *sys, struct FldMmdl *playerMmdl, int netId, u16 heapId)
 {
-    struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkEventMain, 0x9c);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkEventMain, 0x9c);
     EventCommCommonWork *work = func_020124E8(event);
 
     MI_CpuFill8(work, 0, 0x9c);
@@ -1341,7 +1341,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkEvent(struct GameSystem *gameSyste
 
 struct GameEvent *EVENT_COMM_COMMON_CreateTalkedStartEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *sys, struct FldMmdl *playerMmdl, int netId, u16 heapId)
 {
-    struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkedStartEventMain, 0x10);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkedStartEventMain, 0x10);
     EventCommTalkParam *param = func_020124E8(event);
 
     MI_CpuFill8(param, 0, 0x10);
@@ -1385,7 +1385,7 @@ int EVENT_COMM_COMMON_TalkedStartEventMain(struct GameEvent *event, int *seq, vo
 
 struct GameEvent *EVENT_COMM_COMMON_CreateTalkedEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *sys, struct FldMmdl *playerMmdl, int netId, u16 heapId)
 {
-    struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkedEventMain, 0x9c);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkedEventMain, 0x9c);
     EventCommCommonWork *work = func_020124E8(event);
 
     MI_CpuFill8(work, 0, 0x9c);
@@ -1461,7 +1461,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
     case 0:
         requestKind = INTRUDE_COMM_GetRequestKind(&sys->session);
         if (sys->peers[work->common.peerSlot].lidClosed == 1) {
-            copy = func_02030734((u16)((work->common.heapId & 0x7FFF) | 0x8000), 0x98, 1, sEventCommCommonFile, 493);
+            copy = GFL_HEAP_Alloc((u16)((work->common.heapId & 0x7FFF) | 0x8000), 0x98, 1, sEventCommCommonFile, 493);
             MI_CpuCopy8(work, copy, 0x98);
             if (INTRUDE_COMM_GetSessionResult(&sys->session) == 0 && INTRUDE_COMM_IsSessionActive(&sys->session) == 1
                 && INTRUDE_COMM_IsSessionAccepted(&sys->session) == 1 && INTRUDE_COMM_IsRequestFromNetId(&sys->session, work->common.peerSlot) == 1) {
@@ -1469,9 +1469,9 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
             } else {
                 EVENT_COMM_COMMON_StartMsgEvent105(event, copy);
             }
-            func_020307B0(copy);
+            GFL_HEAP_Free(copy);
         } else if (sys->peers[work->common.peerSlot].state != 0) {
-            copy = func_02030734((u16)((work->common.heapId & 0x7FFF) | 0x8000), 0x98, 1, sEventCommCommonFile, 517);
+            copy = GFL_HEAP_Alloc((u16)((work->common.heapId & 0x7FFF) | 0x8000), 0x98, 1, sEventCommCommonFile, 517);
             MI_CpuCopy8(work, copy, 0x98);
             if (sys->peers[work->common.peerSlot].state == 2) {
                 if (requestKind == 5) {
@@ -1482,7 +1482,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
             } else {
                 EVENT_COMM_COMMON_StartMsgEvent105(event, copy);
             }
-            func_020307B0(copy);
+            GFL_HEAP_Free(copy);
         } else {
             (*seq)++;
         }
@@ -1695,7 +1695,7 @@ extern void (*sTalkEventTable[])(struct GameEvent *event, EventCommCommonWork *w
 
 void EVENT_COMM_COMMON_ChangeTalkTypeEvent(struct GameEvent *event, EventCommCommonWork *work, IntrudeCommSys *sys)
 {
-    EventCommCommonWork *copy = func_02030734((u16)((work->heapId & 0x7fff) | 0x8000), 0x98, 1, sEventCommCommonFile, 0x329);
+    EventCommCommonWork *copy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x98, 1, sEventCommCommonFile, 0x329);
     unsigned int talkType;
 
     MI_CpuCopy8(work, copy, 0x98);
@@ -1708,13 +1708,13 @@ void EVENT_COMM_COMMON_ChangeTalkTypeEvent(struct GameEvent *event, EventCommCom
         EVENT_COMM_COMMON_ChangeTalkMsgEvent(event, copy);
     } else if (talkType >= 3) {
         if (sTalkEventTable[talkType - 8] == 0) {
-            func_02034714(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
+            SAVEDATA_PanicFail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
         }
         sTalkEventTable[work->talkType - 8](event, copy);
     } else {
         EVENT_COMM_COMMON_ChangeTalkMsgEvent(event, copy);
     }
-    func_020307B0(copy);
+    GFL_HEAP_Free(copy);
 }
 
 
@@ -1725,7 +1725,7 @@ extern void (*sTalkedEventTable[])(struct GameEvent *event, EventCommCommonWork 
 
 void EVENT_COMM_COMMON_ChangeTalkedTypeEvent(struct GameEvent *event, EventCommCommonWork *work, IntrudeCommSys *sys)
 {
-    EventCommCommonWork *copy = func_02030734((u16)((work->heapId & 0x7fff) | 0x8000), 0x98, 1, sEventCommCommonFile, 0x354);
+    EventCommCommonWork *copy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x98, 1, sEventCommCommonFile, 0x354);
     unsigned int talkType;
 
     MI_CpuCopy8(work, copy, 0x98);
@@ -1738,13 +1738,13 @@ void EVENT_COMM_COMMON_ChangeTalkedTypeEvent(struct GameEvent *event, EventCommC
         EVENT_COMM_COMMON_ChangeTalkedMsgEvent(event, copy);
     } else if (talkType >= 3) {
         if (sTalkedEventTable[talkType - 8] == 0) {
-            func_02034714(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
+            SAVEDATA_PanicFail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
         }
         sTalkedEventTable[work->talkType - 8](event, copy);
     } else {
         EVENT_COMM_COMMON_ChangeTalkedMsgEvent(event, copy);
     }
-    func_020307B0(copy);
+    GFL_HEAP_Free(copy);
 }
 
 
@@ -1804,7 +1804,7 @@ int EVENT_COMM_COMMON_GetTalkType(EventCommCommonWork *work, IntrudeCommSys *sys
 struct GameEvent *EVENT_COMM_COMMON_CreateMissionResultEvent(struct GameSystem *gameSystem, int showResult)
 {
     struct FieldMap *fieldMap = ICA_ANIME_GetField20(gameSystem);
-    struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_MissionResultEventMain, sizeof(EventCommMissionResultWork));
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_MissionResultEventMain, sizeof(EventCommMissionResultWork));
     EventCommMissionResultWork *work = func_020124E8(event);
 
     MI_CpuFill8(work, 0, sizeof(EventCommMissionResultWork));
@@ -1842,7 +1842,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
             sys = GAME_COMM_GetWork(gameComm);
         }
         if (work->showResult == 0) {
-            if (sys != 0 && func_0200FB24() == 0 && INTRUDE_COMM_HasResultReward(sys, &sys->session) == 1) {
+            if (sys != 0 && GFL_NET_ERR_GetErrorLevel() == 0 && INTRUDE_COMM_HasResultReward(sys, &sys->session) == 1) {
                 sys->abortFlag = 1;
             }
             return 1;
@@ -1857,7 +1857,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
             result = INTRUDE_COMM_GetSessionResult(&sys->session);
             battleRec = GAME_DATA_GetLastBattleRecSlot(gameData);
             if (result == 0) {
-                func_02034714(sEmptyTextResult, 0, sEmptyTextResult);
+                SAVEDATA_PanicFail(sEmptyTextResult, 0, sEmptyTextResult);
             }
             work->result = *result;
             work->missionKind = result->record.head.kind;
@@ -1869,7 +1869,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
             (*seq)++;
             break;
         }
-        if (sys == 0 || func_0200FB24() != 0) {
+        if (sys == 0 || GFL_NET_ERR_GetErrorLevel() != 0) {
             return 1;
         }
         break;
@@ -3066,7 +3066,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateSupportMsgEvent(struct GameSystem *gam
     EventCommSupportMsgWork *work;
 
     pmsWork = GAME_DATA_GetPmsWork(ICA_ANIME_GetField1C(gameSystem));
-    event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_SupportMsgEventMain, sizeof(EventCommSupportMsgWork));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_SupportMsgEventMain, sizeof(EventCommSupportMsgWork));
     work = func_020124E8(event);
     work->myStatus = MYSTATUS_Create(heapId);
     MYSTATUS_Copy(COMM_PLAYER_SUPPORT_GetActiveRecord(pmsWork), work->myStatus);
@@ -3104,7 +3104,7 @@ int EVENT_COMM_COMMON_SupportMsgEventMain(struct GameEvent *event, int *seq, voi
         *seq = 4;
         break;
     case 4:
-        func_020307B0(work->myStatus);
+        GFL_HEAP_Free(work->myStatus);
         return 1;
     }
     return 0;
@@ -3276,7 +3276,7 @@ int EVENT_COMM_COMMON_TalkedGreetingTargetEventMain(struct GameEvent *event, int
 struct GameEvent *EVENT_COMM_COMMON_CreateOfferEvent(struct GameSystem *gameSystem, IntrudeCommSys *sys, IntrudeMemberRecord *offer)
 {
     struct GameEvent *event;
-    event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_OfferEventMain, sizeof(IntrudeMemberRecord));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_OfferEventMain, sizeof(IntrudeMemberRecord));
     *(IntrudeMemberRecord *)func_020124E8(event) = *offer;
     return event;
 }
@@ -3318,7 +3318,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateOfferAnswerEvent(struct GameSystem *ga
     gameData = ICA_ANIME_GetField1C(gameSystem);
     param = &offer->head.param;
     myStatus = GAME_DATA_GetMyStatus(gameData);
-    event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, sizeof(EventCommOfferWork));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, sizeof(EventCommOfferWork));
     work = func_020124E8(event);
     func_020084F8(myStatus, work->myName, 8);
     work->itemId = param->y;
@@ -3703,7 +3703,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(struct GameEvent *event, EventCommCommonWor
         work->msgId = msgIds[src->msgIndex];
         WORDSET_SetSlotMyStatus(src->msgBox.wordSet, 0, src->myStatus);
     } else {
-        func_02034714(sEmptyTextA, 0, sEmptyTextA);
+        SAVEDATA_PanicFail(sEmptyTextA, 0, sEmptyTextA);
     }
 }
 
@@ -3820,7 +3820,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(struct GameEvent *event, EventCommCom
         work->msgId = sMsgIds125[src->msgIndex];
         WORDSET_SetSlotMyStatus(src->msgBox.wordSet, 0, src->myStatus);
     } else {
-        func_02034714(sEmptyTextB, 0, sEmptyTextB);
+        SAVEDATA_PanicFail(sEmptyTextB, 0, sEmptyTextB);
         return;
     }
     if (sys->localPeer.package.zoneId == 2)

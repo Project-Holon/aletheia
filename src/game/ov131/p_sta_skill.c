@@ -15,31 +15,31 @@
  * the functions in this range use PStaSkillWork (PStatusWork.skillWork).
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
@@ -192,14 +192,14 @@ struct PStaSkillWork {
 };
 
 /* Library functions: parameter names are guesses from the callers. */
-extern void func_020307B0(void *ptr);
+extern void GFL_HEAP_Free(void *ptr);
 extern void CLACT_SetActorAnimSeq(struct Obj *obj, u16 animSeq);
 extern void BG_SYS_PushTile(u32 bgLayer);
 extern struct Obj *CLACT_CreateActor(void *clunit, unsigned int charRes, unsigned int plttRes, unsigned int cellRes, const StaOamActorPos *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *obj, u32 visible);
 extern void CLACT_DeleteActor(struct Obj *obj);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgData *msgData);
 extern int TOUCHPANEL_HitTrg(const void *rectTable);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *queue);
@@ -207,17 +207,17 @@ extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 POKE_TOOL_GetBoxValue(void *pp, int id, void *buf);
 extern u32 POKE_TOOL_GetPartyValue(void *pp, u32 id, u32 buf);
-extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 msgId);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 msgId);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void POKE_TOOL_SetBoxValue(void *pp, u32 id, u32 value);
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 charOffset);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(u32 bgLayer);
+extern void BG_SYS_SetFlagField06(u32 bgLayer);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
@@ -329,7 +329,7 @@ PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk)
 {
     PStaSkillWork *work;
     u8 i;
-    work=func_02030734(wk->heapId,296,0,P_STA_SKILL_FileName,315);
+    work=GFL_HEAP_Alloc(wk->heapId,296,0,P_STA_SKILL_FileName,315);
     work->isOpen=0;
     work->statsPrintPending=0;
     work->movePrintPending=0;
@@ -350,7 +350,7 @@ PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk)
 
 void P_STA_SKILL_Delete(PStatusWork *wk, PStaSkillWork *work)
 {
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -378,7 +378,7 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
                 win=work->win[i];
                 BMP_WIN_TransferChars(win);
                 BMP_WIN_MakeScreen(win);
-                func_02041B6C(BMP_WIN_GetBgLayer(win));
+                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
             }
             P_STA_SKILL_ApplyStatsScreen(wk,work);
             work->statsPrintPending=0;
@@ -397,7 +397,7 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
                 win=work->win[i];
                 BMP_WIN_TransferChars(win);
                 BMP_WIN_MakeScreen(win);
-                func_02041B6C(BMP_WIN_GetBgLayer(win));
+                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
             }
             P_STA_SKILL_ApplyMovesScreen(wk,work);
             work->movePrintPending=0;
@@ -408,7 +408,7 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
             win=work->win[STA_SKILL_WIN_MESSAGE];
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen(win);
-            func_02041B6C(BMP_WIN_GetBgLayer(win));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
             work->msgPrintPending=0;
         }
     }
@@ -451,11 +451,11 @@ void P_STA_SKILL_Exit(PStatusWork *wk, PStaSkillWork *work)
         else P_STA_SKILL_FreeStatsPage(wk, work);
     }
     P_STA_OAM_DeleteManager(work->oamManager);
-    func_020307B0(work->bgScrnFile);
-    func_020307B0(work->statsPlttFile);
-    func_020307B0(work->movesPlttFile);
-    func_020307B0(work->statsScrnFile);
-    func_020307B0(work->movesScrnFile);
+    GFL_HEAP_Free(work->bgScrnFile);
+    GFL_HEAP_Free(work->statsPlttFile);
+    GFL_HEAP_Free(work->movesPlttFile);
+    GFL_HEAP_Free(work->statsScrnFile);
+    GFL_HEAP_Free(work->movesScrnFile);
 }
 
 /*
@@ -529,7 +529,7 @@ void P_STA_SKILL_ShowStatsPage(PStatusWork *wk, PStaSkillWork *work)
 {
     u8 i;
     BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->bgScrnData+12,0,0,32,32);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     P_STA_SKILL_ApplyStatsScreen(wk,work);
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
     CLACT_SetActorAnimSeq(wk->buttonActor[1],4);
@@ -552,7 +552,7 @@ void P_STA_SKILL_HideStatsPage(PStatusWork *wk, PStaSkillWork *work)
     BG_SYS_SetTileEntry(1,0,0,0,19,21,16);
     BG_SYS_PushTile(1);
     BG_SYS_ClearLayerEx(4,0);
-    func_02041B6C(4);
+    BG_SYS_SetFlagField06(4);
     CLACT_SetActorDrawEnable(work->statsObj,0);
     CLACT_SetActorDrawEnable(work->moveTypeObj,0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
@@ -579,9 +579,9 @@ void P_STA_SKILL_ApplyStatsScreen(PStatusWork *wk, PStaSkillWork *work)
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     }
     BG_SYS_DecodeTile(6,(u8 *)work->statsPlttData+12,((StaGraphicsFile *)work->statsPlttData)->dataSize);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(6);
     BG_SYS_DrawTileEx(5,0,0,32,3,(u32)work->statsScrnData+12,0,0,32,32);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
     CLACT_SetActorDrawEnable(work->statsObj,1);
     CLACT_SetActorDrawEnable(work->moveTypeObj,0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
@@ -618,9 +618,9 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     i=0;
     BG_SYS_PushTileSource(6,(u8 *)work->movesPlttData+12,((StaGraphicsFile *)work->movesPlttData)->dataSize,0);
     BG_SYS_DecodeTile(6,(u8 *)work->movesPlttData+12,((StaGraphicsFile *)work->movesPlttData)->dataSize);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(6);
     BG_SYS_DrawTileEx(5,0,0,32,3,(u32)((u8 *)work->movesScrnData+12),0,0,32,32);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
     CLACT_SetActorDrawEnable(work->statsObj,0);
     CLACT_SetActorDrawEnable(work->moveTypeObj,1);
     for(;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
@@ -701,13 +701,13 @@ void P_STA_SKILL_PrintStats(PStatusWork *wk, PStaSkillWork *work)
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_ABILITY],116,5,one,15424);
     abilityId=POKE_TOOL_GetPartyValue(pp,10,0);
-    abilityNameBank=func_02045B38(0,2,183,wk->heapId);
-    str=func_02045EC0(abilityNameBank,abilityId);
+    abilityNameBank=MSGDATA_CreateFromArchive(0,2,183,wk->heapId);
+    str=MSGDATA_AllocString(abilityNameBank,abilityId);
     PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_ABILITY]),5,17,str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(abilityNameBank);
-    abilityDescBank=func_02045B38(0,2,182,wk->heapId);
-    str=func_02045EC0(abilityDescBank,abilityId);
+    abilityDescBank=MSGDATA_CreateFromArchive(0,2,182,wk->heapId);
+    str=MSGDATA_AllocString(abilityDescBank,abilityId);
     PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_ABILITY]),65,one,str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(abilityDescBank);
@@ -777,8 +777,8 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_SKILL_WIN_MOVE_ACCURACY],accuracyWords,151,81,1,1088);
         WORDSET_DeleteStrbufED04(accuracyWords);
     }
-    descBank=func_02045B38(0,2,202,wk->heapId);
-    str=func_02045EC0(descBank,moveId);
+    descBank=MSGDATA_CreateFromArchive(0,2,202,wk->heapId);
+    str=MSGDATA_AllocString(descBank,moveId);
     PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_MOVE_DESC]),1,1,str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(descBank);
@@ -828,7 +828,7 @@ void P_STA_SKILL_InitMovesPage(PStatusWork *wk, PStaSkillWork *work)
 void P_STA_SKILL_ShowMovesPage(PStatusWork *wk, PStaSkillWork *work) {
     u8 i;
     BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->bgScrnData+12,0,0,32,32);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     P_STA_SKILL_ApplyMovesScreen(wk,work);
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
     CLACT_SetActorAnimSeq(wk->buttonActor[1],4);
@@ -854,7 +854,7 @@ void P_STA_SKILL_HideMovesPage(PStatusWork *wk, PStaSkillWork *work) {
     BG_SYS_SetTileEntry(1,0,0,0,19,21,16);
     BG_SYS_PushTile(1);
     BG_SYS_ClearLayerEx(4,0);
-    func_02041B6C(4);
+    BG_SYS_SetFlagField06(4);
     CLACT_SetActorDrawEnable(work->statsObj,0);
     CLACT_SetActorDrawEnable(work->moveTypeObj,0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
@@ -1455,8 +1455,8 @@ void P_STA_SKILL_InitSlotText(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlo
         maxPP=curPP;
     }
     slot->nameBmp=BMP_Create(11,4,32,wk->heapId);
-    nameBank=func_02045B38(0,2,203,wk->heapId);
-    str=func_02045EC0(nameBank,moveId);
+    nameBank=MSGDATA_CreateFromArchive(0,2,203,wk->heapId);
+    str=MSGDATA_AllocString(nameBank,moveId);
     PRINTSYS_PrintQueColor(wk->printQue,slot->nameBmp,3,2,str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(nameBank);

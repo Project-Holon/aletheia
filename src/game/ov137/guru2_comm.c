@@ -14,8 +14,8 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   gGuru2CommCommandTable 0x021E1A68 data a4
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -25,7 +25,7 @@
  *   GURU2_RECEIPT_SetStateFromParent 0x021DE08C thumb ov137
  *   UNION_APP_GetMemberCount 0x021841A4 thumb ov022
  *   UNION_APP_GetJoinedBits 0x021841A0 thumb ov022
- *   func_02080D24 0x02080D24 arm
+ *   MATH_CountPopulation 0x02080D24 arm
  *   GURU2_RECEIPT_SetStateFromChild 0x021DE17C thumb ov137
  *   GURU2_MAIN_StoreSlotAssignment 0x021E172C thumb ov137
  *   GURU2_MAIN_SyncPlayerCount 0x021E1758 thumb ov137
@@ -48,9 +48,9 @@ struct Guru2JoinPacket {u8 playerId,memberCount; volatile u8 kind; u8 accepted;}
 
 extern void MI_CpuFill8(void *,int,u32);
 
-extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 
@@ -68,7 +68,7 @@ extern int UNION_APP_GetMemberCount(unsigned char *p);
 
 extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 
-extern u32 func_02080D24(int);
+extern u32 MATH_CountPopulation(int);
 
 extern void GURU2_RECEIPT_SetStateFromChild(char *p, int command, int player);
 
@@ -139,22 +139,22 @@ extern const char d_021E2268[];
 extern const u8 gGuru2CommCommandTable[];
 
 /*
- * func_02030734 0x02030734 arm
+ * GFL_HEAP_Alloc 0x02030734 arm
  * MI_CpuFill8 0x02082BCC arm
  * d_021E2268 0x021E2268 data a4
  */
 struct Guru2Comm *GURU2_COMM_Create(struct Guru2Session *session,int heap)
 {
     struct Guru2Comm *p;
-    p=func_02030734(heap,88,0,d_021E2268,152);
+    p=GFL_HEAP_Alloc(heap,88,0,d_021E2268,152);
     MI_CpuFill8(p,0,88);
     p->session=session;
-    p->recvBuffer=func_02030734(heap,0x1be4,0,d_021E2268,159);
-    p->partyCopies=func_02030734(heap,0x1be4,0,d_021E2268,161);
+    p->recvBuffer=GFL_HEAP_Alloc(heap,0x1be4,0,d_021E2268,159);
+    p->partyCopies=GFL_HEAP_Alloc(heap,0x1be4,0,d_021E2268,161);
     return p;
 }
 
-void GURU2_COMM_Destroy(struct Guru2Comm *p) {func_020307B0(p->recvBuffer);func_020307B0(p->partyCopies);func_020307B0(p);}
+void GURU2_COMM_Destroy(struct Guru2Comm *p) {GFL_HEAP_Free(p->recvBuffer);GFL_HEAP_Free(p->partyCopies);GFL_HEAP_Free(p);}
 
 void GURU2_COMM_RegisterCommands(u32 a) {GFL_NET_COMMAND_AddCommandTable(0x2800,(u32)gGuru2CommCommandTable,16,a);}
 
@@ -189,7 +189,7 @@ void GURU2_COMM_RecvJoinRequest(int a,int b,u8 *c,struct Guru2Comm *p)
         switch(((struct Guru2JoinPacket *)c)->kind) {
         case 0:
             if(p->expectedMemberCount!=UNION_APP_GetMemberCount(GURU2_GetUnionApp(p)) ||
-               p->expectedMemberCount!=func_02080D24(UNION_APP_GetJoinedBits(GURU2_GetUnionApp(p)))) s.accepted=0;
+               p->expectedMemberCount!=MATH_CountPopulation(UNION_APP_GetJoinedBits(GURU2_GetUnionApp(p)))) s.accepted=0;
             else { p->joinedMask|=1<<a; s.accepted=1; }
             break;
         case 1: break;

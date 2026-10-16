@@ -13,9 +13,9 @@
  * Cut from time_icon.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734    0x02030734  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   OS_GetParentalControlInfoPtr  0x02087E60  arm
@@ -30,7 +30,7 @@
  *   func_020095E8   0x020095E8  thumb
  *   _u32_div_f      0x0209C2B0  arm
  *   time_icon_File     0x020A7814  data
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   func_020056EC   0x020056EC  thumb
@@ -43,13 +43,13 @@
  *   BMP_WIN_GetPalette   0x02045778  arm
  *   BMP_WIN_Create   0x020450F0  arm
  *   BMP_WIN_MakeScreen   0x02045374  arm
- *   func_02041B6C   0x02041B6C  arm
+ *   BG_SYS_SetFlagField06   0x02041B6C  arm
  *   BMP_Delete   0x020437AC  arm
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   BMP_WIN_Delete   0x020452E8  arm
- *   func_02030EAC   0x02030EAC  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  *   TCBL_DeleteTask   0x02031194  arm
  *   BMP_Blit   0x020439A0  arm
  *   sItemGfxExtraTable      0x020A03C8  data
@@ -76,7 +76,7 @@
  *   GX_VBlankIntr    0x0207D3E4  arm
  *   GX_ResetBankForBG    0x020808F4  arm
  *   GX_ResetBankForSubBG    0x020809A0  arm
- *   func_0207FDCC    0x0207FDCC  arm
+ *   GX_SetBankForBG    0x0207FDCC  arm
  *   GX_SetGraphicsMode    0x0207D4B0  arm
  *   G2_GetBG1CharPtr    0x0207E24C  arm
  *   func_02082A7C    0x02082A7C  arm
@@ -91,8 +91,8 @@
  *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram    0x02043754  arm
  *   GF_FONT_Create    0x0201D7EC  thumb
- *   func_02045B38    0x02045B38  arm
- *   func_02045EC0    0x02045EC0  arm
+ *   MSGDATA_CreateFromArchive    0x02045B38  arm
+ *   MSGDATA_AllocString    0x02045EC0  arm
  *   PRINTSYS_PrintColor    0x0201C7D0  thumb
  *   MSGDATA_Delete    0x02045C04  arm
  *   GF_FONT_Delete    0x0201D83C  thumb
@@ -206,9 +206,9 @@ struct OverlayLaunchWork {
     u32 mode;       /* 0x04 */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void STRBUF_Delete(struct Strbuf *str);
 
@@ -236,7 +236,7 @@ extern void func_020095E8(struct HistoryOwner *owner);
 
 extern u32 _u32_div_f(u32 dividend, u32 divisor);
 
-extern struct Tcb *func_02030DA8(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+extern struct Tcb *TCB_AddTask(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 
 extern struct TcblNode *TCBL_AddTask(struct TcblList *list, void (*callback)(struct TcblNode *, void *), u32 size, u32 flags);
 
@@ -262,7 +262,7 @@ extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width,
 
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void func_02041B6C(u32 bgLayer);
+extern void BG_SYS_SetFlagField06(u32 bgLayer);
 
 extern void BMP_Delete(struct Bmp *bmp);
 
@@ -274,7 +274,7 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void func_02030EAC(struct Tcb *tcb);
+extern void TCB_DeleteTask(struct Tcb *tcb);
 
 extern void TCBL_DeleteTask(struct TcblNode *node);
 
@@ -330,7 +330,7 @@ extern int GX_ResetBankForBG(void);
 
 extern int GX_ResetBankForSubBG(void);
 
-extern void func_0207FDCC(u32 layerMask);
+extern void GX_SetBankForBG(u32 layerMask);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0Is3d);
 
@@ -360,9 +360,9 @@ extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 d
 
 extern struct GfFont *GF_FONT_Create(int fontId, int spacingX, int spacingY, int colorMode, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
 
@@ -871,10 +871,10 @@ struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWi
 {
     struct TimeIcon *icon;
 
-    icon = func_02030734(heapId, sizeof(struct TimeIcon), 0, time_icon_File, 0x49);
+    icon = GFL_HEAP_Alloc(heapId, sizeof(struct TimeIcon), 0, time_icon_File, 0x49);
     TIME_ICON_Init(icon, refWin, fillColor, waitInterval, heapId);
     if (taskList != 0) {
-        icon->task = func_02030DA8(taskList, TIME_ICON_TaskMain, icon, 0);
+        icon->task = TCB_AddTask(taskList, TIME_ICON_TaskMain, icon, 0);
     } else {
         icon->task = 0;
     }
@@ -885,7 +885,7 @@ struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWi
 
 /*
  * Sibling of TIME_ICON_Create: the same 0x1c-byte TimeIcon, built through the
- * TCBL_AddTask node allocator instead of func_02030734.  The node is
+ * TCBL_AddTask node allocator instead of GFL_HEAP_Alloc.  The node is
  * stashed at +4 and +0 is zeroed, the mirror image of TIME_ICON_Create, which
  * registers a task into +0 and zeroes +4.  The node callback is
  * TIME_ICON_NodeMain.
@@ -932,13 +932,13 @@ void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, 
 
     BMP_WIN_MakeScreen(icon->win = BMP_WIN_Create(bgLayer, (u8)((posX + width) - 2),
                                    (u8)((posY + height) - 2), 2, 2, palette, 1));
-    func_02041B6C(BMP_WIN_GetBgLayer(icon->win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(icon->win));
 }
 
 /* Allocates an idle TimeIcon: heap id and frame sheet only; TIME_ICON_Start finishes it. */
 struct TimeIcon *TIME_ICON_Alloc(u32 heapId)
 {
-    struct TimeIcon *icon = func_02030734(heapId, 0x1c, 0, time_icon_File, 0xa6);
+    struct TimeIcon *icon = GFL_HEAP_Alloc(heapId, 0x1c, 0, time_icon_File, 0xa6);
 
     icon->heapId = (u16)heapId;
     icon->sheet = BMP_CreateFromArchive(0xc6, 0, 1, icon->heapId);
@@ -972,10 +972,10 @@ void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct Bmp
 
     BMP_WIN_MakeScreen(icon->win = BMP_WIN_Create(bgLayer, (u8)((posX + width) - 2),
                                    (u8)((posY + height) - 2), 2, 2, palette, 1));
-    func_02041B6C(BMP_WIN_GetBgLayer(icon->win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(icon->win));
 
     icon->node = 0;
-    icon->task = func_02030DA8(taskList, TIME_ICON_TaskMain, icon, 0);
+    icon->task = TCB_AddTask(taskList, TIME_ICON_TaskMain, icon, 0);
     icon->isActive = 1;
 }
 
@@ -988,7 +988,7 @@ void TIME_ICON_Delete(struct TimeIcon *icon)
 {
     if (icon->task == 0 && icon->node == 0) {
         BMP_Delete(icon->sheet);
-        func_020307B0(icon);
+        GFL_HEAP_Free(icon);
         return;
     }
 
@@ -999,8 +999,8 @@ void TIME_ICON_Delete(struct TimeIcon *icon)
     BMP_Delete(icon->sheet);
 
     if (icon->task != 0) {
-        func_02030EAC(icon->task);
-        func_020307B0(icon);
+        TCB_DeleteTask(icon->task);
+        GFL_HEAP_Free(icon);
         return;
     }
 
@@ -1507,7 +1507,7 @@ void APP_POWER_ResetDisplay(u32 messageId)
     GX_VBlankIntr(0);
     GX_ResetBankForBG();
     GX_ResetBankForSubBG();
-    func_0207FDCC(4);
+    GX_SetBankForBG(4);
     GX_SetGraphicsMode(1, 0, 0);
     REG32(REG_DISPCNT_A) = (REG32(REG_DISPCNT_A) & 0xFFFFE0FF) | 0x200;
     REG32(REG_DISPCNT_A) = REG32(REG_DISPCNT_A) & 0xFFFF1FFF;
@@ -1527,7 +1527,7 @@ void APP_POWER_ResetDisplay(u32 messageId)
  * on success clear 0x20 bytes of the record's buffer through DWCi_ScreenDC_FlushRange and
  * fill it back through MIi_CpuCopy16 with the current frame-tick from the
  * getter (G2_GetBG1CharPtr / G2_GetBG1ScrPtr).  The handle is released with
- * func_020307B0 after each block.
+ * GFL_HEAP_Free after each block.
  *
  * The idiom that makes this EXACT: the word each block reads twice (size of
  * the character data, size of the screen data) is written as an ASSIGNMENT
@@ -1561,20 +1561,20 @@ void APP_POWER_LoadShutdownScreen(void)
         DWCi_ScreenDC_FlushRange(chars[5], chars[4]);
         MIi_CpuCopy16(chars[5], (u32)G2_GetBG1CharPtr(), charSize = chars[4]);
     }
-    func_020307B0((void *)res);
+    GFL_HEAP_Free((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (NNS_G2dGetUnpackedScreenData((void *)res, (void **)(&screen)) != 0) {
         DWCi_ScreenDC_FlushRange((u32)screen + 0xc, screen[2]);
         MIi_CpuCopy16((u32)screen + 0xc, (u32)G2_GetBG1ScrPtr(), screenSize = screen[2]);
     }
-    func_020307B0((void *)res);
+    GFL_HEAP_Free((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     NNS_G2dGetUnpackedPaletteCompressInfo((struct ArchiveRecord *)res, (void **)(&paletteHeader));
     if (NNS_G2dGetUnpackedPaletteData((struct ArchiveRecord *)res, (void **)(&palette)) != 0) {
         DWCi_ScreenDC_FlushRange(palette[3], 0x20);
         MIi_CpuCopy16(palette[3], 0x05000000, 0x20);
     }
-    func_020307B0((void *)res);
+    GFL_HEAP_Free((void *)res);
 }
 
 /*
@@ -1612,8 +1612,8 @@ void APP_POWER_DrawShutdownScreen(u32 messageId)
     MIi_CpuClear16(0x7777, (u32)G2_GetBG1CharPtr() + 0x400, 0x3C00);
     bmp = BMP_CreateFromVram((void *)((u32)G2_GetBG1CharPtr() + 0x400), 0x1e, 0x10, 0x20, 7);
     font = GF_FONT_Create(0x17, 0, 0, 0, 7);
-    msgBank = func_02045B38(0, 2, 2, 7);
-    message = func_02045EC0(msgBank, messageId);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, 2, 7);
+    message = MSGDATA_AllocString(msgBank, messageId);
     PRINTSYS_PrintColor(bmp, 0, 0, message, font, 0x1167);
     STRBUF_Delete(message);
     MSGDATA_Delete(msgBank);

@@ -13,17 +13,17 @@
  * Cut from musical_dressup_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MUSICAL_MCSS_AllocSmall  0x021F685C  thumb  ov112
  *   MUSICAL_MCSS_LoadDistSave  0x021F68BC  thumb  ov112
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   MUSICAL_MCSS_FreeMon  0x021F6888  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   ov112_id       0x00000070  data
  *   STA_ACTING_Create  0x021F8480  thumb ov132
  *   STA_ACTING_Update  0x021F879C  thumb
@@ -50,13 +50,13 @@ typedef struct MusicalStageWork {
     u32 unused;
 } MusicalStageWork;
 
-extern int func_02034AC4(s32 overlayId);
+extern int GF_OVERLAY_Load(s32 overlayId);
 
-extern void func_02034A5C(s32 overlayId);
+extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern u32 func_020307B0(void *ptr);
+extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
@@ -70,7 +70,7 @@ extern int MUSICAL_MCSS_FreeMon(void *musicalSystem);
 
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 
-extern void func_020315D4(void *proc);
+extern void PROCSYS_FreeProcWork(void *proc);
 
 extern void *STA_ACTING_Create(void *input, int heapId);
 
@@ -122,7 +122,7 @@ int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, MusicalStage *prevStage)
     GFL_HEAP_CreateChildHeap(1, 0x2E, 0xA8000);
     work = PROCSYS_AllocProcWork(proc, sizeof(MusicalStageWork), 0x2E);
     if (prevStage == 0) {
-        func_02034AC4((u32)ov112_id);
+        GF_OVERLAY_Load((u32)ov112_id);
         work->stage = MUSICAL_STAGE_SYS_Create(0x2E, 0);
         mask = 0xFF000000;
         MUSICAL_STAGE_SYS_CreateNpcPerformer(work->stage, 0, 0x147, 0, mask, 60, 0x2E);
@@ -171,9 +171,9 @@ int MUSICAL_STAGE_SYS_Exit(void *proc, int unused, int keepStage, MusicalStageWo
         GFL_HEAP_DeleteChecked(0x2c);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_NPC;
         MUSICAL_STAGE_SYS_Delete(work->stage);
-        func_02034A5C((u32)ov112_id);
+        GF_OVERLAY_Unload((u32)ov112_id);
     }
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x2e);
     return 1;
 }
@@ -207,7 +207,7 @@ MusicalStage *MUSICAL_STAGE_SYS_Create(u32 heapId, void *session)
     MusicalStage *stage;
     u8 i;
 
-    stage = func_02030734(heapId, 0x20, 0, sMusicalStageSysFileName, 0xBE);
+    stage = GFL_HEAP_Alloc(heapId, 0x20, 0, sMusicalStageSysFileName, 0xBE);
     stage->session = session;
     for (i = 0; i < 4; i++)
         stage->performers[i] = 0;
@@ -222,9 +222,9 @@ int MUSICAL_STAGE_SYS_Delete(MusicalStage *stage){
 
     for (i = 0; i < 4; i++) {
         if (stage->performers[i] != 0 && stage->performers[i]->origin == MUSICAL_PERFORMER_NPC)
-            func_020307B0(stage->performers[i]);
+            GFL_HEAP_Free(stage->performers[i]);
     }
-    func_020307B0(stage);
+    GFL_HEAP_Free(stage);
 }
 
 /*

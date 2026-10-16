@@ -23,11 +23,11 @@
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   IRC_RHYTHM_ClearBlendTask 0x021B8F08 thumb ov104
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   IRC_APPBAR_Delete 0x021B71C0 thumb ov101
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -44,15 +44,15 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
- *   func_020490F4 0x020490F4 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_02049740 0x02049740 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   sRhythmDisplayConfig 0x021B8F30 data ov104
  *   sRhythmBackgroundLayers 0x021B8F5C data
  *   sRhythmBackgroundTemplates 0x021B8FB4 data
@@ -105,11 +105,11 @@
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
- *   func_0201D304 0x0201D304 thumb
- *   func_0201D42C 0x0201D42C thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   GF_FONT_CountLines 0x0201D42C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   IRC_APPBAR_GetResult 0x021B7250 thumb ov101
@@ -121,7 +121,7 @@
  *   IRC_APPBAR_SetActive 0x021B72A0 thumb ov101
  *   OS_IsTickAvailable 0x02087058 arm
  *   OS_InitTick 0x02086FE8 arm
- *   func_020870D0 0x020870D0 arm
+ *   OS_GetTick 0x020870D0 arm
  *   _ll_udiv 0x0209C00C arm
  *   COMPATIBLE_IRC_SYS_AddCommandTable 0x021B64F0 thumb ov101
  *   sRhythmNetCommandTable 0x021B8F28 data a4
@@ -133,7 +133,7 @@
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   func_020056EC 0x020056EC thumb
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   VEC_Subtract 0x0207CA00 arm
@@ -151,6 +151,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
  */
 #include "irc_rhythm_types.h"
 
@@ -237,9 +238,9 @@ extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value);
 extern void G2x_SetBlendBrightness_(u32,int,int);
-extern void *func_020056A0(IrcTaskProc proc,void *work,u32 priority);
-extern void func_02030EAC(void *task);
-extern void func_020315D4(struct Proc *proc);
+extern void *GFL_USE_AddMainTask(IrcTaskProc proc,void *work,u32 priority);
+extern void TCB_DeleteTask(void *task);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
@@ -254,15 +255,15 @@ extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(unsigned char which, unsigned char enable);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_Init(u32,u32,u32,u32);
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_SetTileUnit(u32,u32,u32);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
@@ -295,7 +296,7 @@ extern void CLACT_VBlankSystem(void);
 extern void GF_FONT_InitTextColor(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *messages);
@@ -317,11 +318,11 @@ extern void func_02045CAC(void *messages, u32 index, void *dest);
 extern void PRINTSYS_PrintQue(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font);
 extern u8 BMP_WIN_GetWidth(void *window);
 extern u8 BMP_WIN_GetHeight(void *window);
-extern u32 func_0201D304(void *string, void *font, u32 b);
-extern u32 func_0201D42C(void *string, void *font);
+extern u32 GF_FONT_MeasureWidestLine(void *string, void *font, u32 b);
+extern u32 GF_FONT_CountLines(void *string, void *font);
 extern void PRINTSYS_PrintQueColor(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font, u16 color);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 i, void *a);
-extern void *func_02045EC0(void *messages, u32 index);
+extern void *MSGDATA_AllocString(void *messages, u32 index);
 extern void WORDSET_CopyTaggedText(void *wordSet, void *dst, void *src);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
@@ -330,7 +331,7 @@ extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys,int value);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 extern int OS_IsTickAvailable(void);
 extern void OS_InitTick(void);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys, u32 a, u32 b, u32 c, u32 d);
 extern void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys, u32 a);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -338,7 +339,7 @@ extern u32 GFL_NET_GetHandleNetID(void *handle);
 extern u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys, u32 commandId, u32 size, u32 data, u8 target, u32 e, u32 f, u32 g);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int func_02061CA4(u32 target, u32 offset, const void *src, int size);
+extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *src, int size);
 extern u32 func_020056EC(u32);
 extern void VEC_Subtract(const VecFx32 *,const VecFx32 *,VecFx32 *);
 extern void VEC_Normalize(const VecFx32 *,VecFx32 *);
@@ -466,7 +467,7 @@ int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context) {
  work->appBar=IRC_APPBAR_Create(2,unit,0,14,13,2,font,printQueue,0x38);
  COMPATIBLE_IRC_SYS_SetOwnValue(work->context->ircSys,1);
  G2x_SetBlendBrightness_(0x04000050,0x22,-8);
- work->blendTask=func_020056A0(IRC_RHYTHM_ClearBlendTask,work,0);
+ work->blendTask=GFL_USE_AddMainTask(IRC_RHYTHM_ClearBlendTask,work,0);
  IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateIntro);
  return 1;
 }
@@ -475,9 +476,9 @@ int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context) {
  * volatile: 021B7784 writes the hardware register at 0x04000050.
  */
 int IRC_RHYTHM_Exit(struct Proc *proc,int unused1,int unused2,IrcRhythm *work) {
- func_02030EAC(work->blendTask);IRC_RHYTHM_ExitParticles(&work->particles);
+ TCB_DeleteTask(work->blendTask);IRC_RHYTHM_ExitParticles(&work->particles);
  REG_BLDCNT=0;
- IRC_APPBAR_Delete(work->appBar);IRC_RHYTHM_ExitNetSync(&work->netSync);IRC_RHYTHM_ExitCountdown(&work->countdown);IRC_RHYTHM_ExitPulse(&work->pulse);IRC_RHYTHM_ExitTextWindow(&work->captionWindow);IRC_RHYTHM_ExitTextWindow(&work->timerWindow);IRC_RHYTHM_ExitTextWindow(&work->messageWindow);IRC_RHYTHM_ExitScreen(&work->screen);IRC_RHYTHM_ExitTextSystem(&work->text);func_020315D4(proc);GFL_HEAP_DeleteChecked(56);return 1;
+ IRC_APPBAR_Delete(work->appBar);IRC_RHYTHM_ExitNetSync(&work->netSync);IRC_RHYTHM_ExitCountdown(&work->countdown);IRC_RHYTHM_ExitPulse(&work->pulse);IRC_RHYTHM_ExitTextWindow(&work->captionWindow);IRC_RHYTHM_ExitTextWindow(&work->timerWindow);IRC_RHYTHM_ExitTextWindow(&work->messageWindow);IRC_RHYTHM_ExitScreen(&work->screen);IRC_RHYTHM_ExitTextSystem(&work->text);PROCSYS_FreeProcWork(proc);GFL_HEAP_DeleteChecked(56);return 1;
 }
 
 /*
@@ -503,12 +504,12 @@ int IRC_RHYTHM_Main(void *proc,u32 *state,void *unused,IrcRhythm *work) {
 
 /* ---- screen: backgrounds, sprites and the vblank task ---- */
 
-void IRC_RHYTHM_InitScreen(IrcScreen *screen,u16 heapId) { MI_CpuFill8(screen,0,0xbc); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks(sRhythmVramBankConfig); BMP_SetDisplaySwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); IRC_RHYTHM_InitActorSystem(&screen->actorSystem,sRhythmVramBankConfig,heapId); IRC_RHYTHM_InitBackgrounds(screen,heapId); screen->vblankTask=func_020056A0(IRC_RHYTHM_ScreenVBlankTask, screen, 0); }
+void IRC_RHYTHM_InitScreen(IrcScreen *screen,u16 heapId) { MI_CpuFill8(screen,0,0xbc); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks(sRhythmVramBankConfig); BMP_SetDisplaySwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); IRC_RHYTHM_InitActorSystem(&screen->actorSystem,sRhythmVramBankConfig,heapId); IRC_RHYTHM_InitBackgrounds(screen,heapId); screen->vblankTask=GFL_USE_AddMainTask(IRC_RHYTHM_ScreenVBlankTask, screen, 0); }
 
 /*
  * extent: two zero alignment bytes follow compiled code.
  */
-void IRC_RHYTHM_ExitScreen(IrcScreen *screen) { func_02030EAC(screen->vblankTask); IRC_RHYTHM_ExitBackgrounds(&screen->bgCharRegion); IRC_RHYTHM_ExitActorSystem(&screen->actorSystem); }
+void IRC_RHYTHM_ExitScreen(IrcScreen *screen) { TCB_DeleteTask(screen->vblankTask); IRC_RHYTHM_ExitBackgrounds(&screen->bgCharRegion); IRC_RHYTHM_ExitActorSystem(&screen->actorSystem); }
 
 void IRC_RHYTHM_DrawScreen(IrcScreen *screen) { IRC_RHYTHM_DrawActorSystem(&screen->actorSystem); }
 
@@ -530,21 +531,21 @@ void IRC_RHYTHM_InitBackgrounds(IrcScreen *screen,u16 heapId) {
   layer=sRhythmBackgroundLayers[i];
   BG_SYS_InitBgLayer((u8)layer,&sRhythmBackgroundTemplates[i],(u8)sRhythmBackgroundTypes[i]);
   BG_SYS_FreeSlot(layer);
-  func_02040588(layer,1);
+  BG_SYS_SetPlaneVisible(layer,1);
  }
- archive=func_020490F4(IRC_GRAPHICS_ARCHIVE_ID,heapId);
+ archive=ARC_TOOL_CreateHandle(IRC_GRAPHICS_ARCHIVE_ID,heapId);
  func_02049B68(archive,1,0,0,0,heapId);
  func_02049B68(archive,1,4,0,0,heapId);
- func_02049658(archive,0x24,1,0,0,0,heapId);
- func_02049658(archive,0,6,0,0,0,heapId);
- func_02049658(archive,0x30,4,0,0,0,heapId);
- func_020498F4(archive,0x25,1,0,0,0,heapId);
- func_020498F4(archive,4,6,0,0,0,heapId);
- func_020498F4(archive,0x2f,4,0,0,0,heapId);
+ ARC_UTIL_UploadBgCharFromHandle(archive,0x24,1,0,0,0,heapId);
+ ARC_UTIL_UploadBgCharFromHandle(archive,0,6,0,0,0,heapId);
+ ARC_UTIL_UploadBgCharFromHandle(archive,0x30,4,0,0,0,heapId);
+ ARC_UTIL_UploadBgPaletteFromHandle(archive,0x25,1,0,0,0,heapId);
+ ARC_UTIL_UploadBgPaletteFromHandle(archive,4,6,0,0,0,heapId);
+ ARC_UTIL_UploadBgPaletteFromHandle(archive,0x2f,4,0,0,0,heapId);
  BG_SYS_Init(5,0,1,0);
- screen->bgCharRegion=func_02049740(archive,0x31,5,0,0,heapId);
+ screen->bgCharRegion=ARC_UTIL_RegisterObjCharFromHandle(archive,0x31,5,0,0,heapId);
  ARC_TOOL_DeleteHandle(archive);
- func_02049B40(0x17,5,0,0x1a0,0x20,heapId);
+ ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x1a0,0x20,heapId);
  BG_SYS_Init(2,0,1,0);
 }
 
@@ -565,7 +566,7 @@ void IRC_RHYTHM_InitActorSystem(IrcActorSystem *sys,const void *config,u16 heapI
  CLACT_SetUnitDefaultRenderer(sys->unit);
  BG_SYS_SetMainPlaneVisible(0x10,1);
  BG_SYS_SetSubPlaneVisible(0x10,1);
- archive=func_020490F4(IRC_GRAPHICS_ARCHIVE_ID,heapId);
+ archive=ARC_TOOL_CreateHandle(IRC_GRAPHICS_ARCHIVE_ID,heapId);
  sys->particlePalette=CLACT_RegisterPalette(archive,0x23,0,0,heapId);
  sys->particleCharacter=CLACT_RegisterCharacter(archive,0x22,0,0,heapId);
  sys->particleCellAnim=CLACT_RegisterCellAnim(archive,0x21,0x20,heapId);
@@ -637,10 +638,10 @@ void IRC_RHYTHM_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
   break;
  }
  text->printQueue=PRINTSYS_QUE_Create(heapId);
- text->messages=func_02045B38(0,2,0x34,heapId);
+ text->messages=MSGDATA_CreateFromArchive(0,2,0x34,heapId);
  text->wordSet=WORDSET_CreateDefault(heapId);
- func_02049B40(0x17,5,4,0x1C0,0x20,heapId);
- func_02049B40(0x17,5,0,0x1C0,0x20,heapId);
+ ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,4,0x1C0,0x20,heapId);
+ ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x1C0,0x20,heapId);
 }
 
 void IRC_RHYTHM_ExitTextSystem(IrcTextSystem *text) { WORDSET_DeleteStrbufED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
@@ -699,9 +700,9 @@ void IRC_RHYTHM_PrintMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId,in
 
 void IRC_RHYTHM_PrintCenteredMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId) { IRC_RHYTHM_PrintCenteredMessageColor(win,text,msgId,0x3dc4); }
 
-void IRC_RHYTHM_PrintCenteredMessageColor(IrcTextWindow *win,IrcTextSystem *text,int msgId,u16 color) { void *messages; void *printQueue; void *font; u16 x; u16 y; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); func_02045CAC(messages,msgId,win->buffer); x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4; x-=(u16)(func_0201D304(win->buffer,font,0)/2); y-=(u16)(func_0201D42C(win->buffer,font)/2); PRINTSYS_PrintQueColor(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,(s16)y,win->buffer,font,color); win->isPrinting=1; }
+void IRC_RHYTHM_PrintCenteredMessageColor(IrcTextWindow *win,IrcTextSystem *text,int msgId,u16 color) { void *messages; void *printQueue; void *font; u16 x; u16 y; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); func_02045CAC(messages,msgId,win->buffer); x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4; x-=(u16)(GF_FONT_MeasureWidestLine(win->buffer,font,0)/2); y-=(u16)(GF_FONT_CountLines(win->buffer,font)/2); PRINTSYS_PrintQueColor(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,(s16)y,win->buffer,font,color); win->isPrinting=1; }
 
-void IRC_RHYTHM_PrintMessageWithName(IrcTextWindow *win, IrcTextSystem *text, int msgId, IrcCompatibleProfile *profile, s16 x, s16 y, u16 unused) { void *wordSet; void *messages; void *string; void *printQueue; void *font; BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); wordSet=IRC_RHYTHM_GetWordSet(text); messages=IRC_RHYTHM_GetMessages(text); WORDSET_SetSlotMyStatus(wordSet,0,profile->myStatus); string=func_02045EC0(messages,msgId); WORDSET_CopyTaggedText(wordSet,win->buffer,string); STRBUF_Delete(string); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); PRINTSYS_PrintQue(printQueue,BMP_WIN_GetBmp(win->printTarget),x,y,win->buffer,font); win->isPrinting=1; }
+void IRC_RHYTHM_PrintMessageWithName(IrcTextWindow *win, IrcTextSystem *text, int msgId, IrcCompatibleProfile *profile, s16 x, s16 y, u16 unused) { void *wordSet; void *messages; void *string; void *printQueue; void *font; BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); wordSet=IRC_RHYTHM_GetWordSet(text); messages=IRC_RHYTHM_GetMessages(text); WORDSET_SetSlotMyStatus(wordSet,0,profile->myStatus); string=MSGDATA_AllocString(messages,msgId); WORDSET_CopyTaggedText(wordSet,win->buffer,string); STRBUF_Delete(string); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); PRINTSYS_PrintQue(printQueue,BMP_WIN_GetBmp(win->printTarget),x,y,win->buffer,font); win->isPrinting=1; }
 
 void IRC_RHYTHM_ClearTextWindow(IrcTextWindow *win) { BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); BMP_WIN_TransferChars(win->window); }
 
@@ -726,7 +727,7 @@ void IRC_RHYTHM_SetState(IrcRhythm *work, IrcRhythmStateFn fn) {
 
 void IRC_RHYTHM_Finish(IrcRhythm *work) { work->finished = 1; }
 
-void IRC_RHYTHM_StateIntro(IrcRhythm *work,u16 *step) { switch(*step) { case 0: work->waitFrames=0; *step=1; break; case 1: func_02040588(2,0); *step=3; break; case 3: IRC_RHYTHM_StartCountdown(&work->countdown); IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateCountdown); break; } if(IRC_APPBAR_GetResult(work->appBar)==1) { work->context->status=IRC_RHYTHM_STATUS_CANCELLED; IRC_RHYTHM_Finish(work); } if(COMPATIBLE_IRC_SYS_GetValueDifference(work->context->ircSys)!=0) IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateAbort); }
+void IRC_RHYTHM_StateIntro(IrcRhythm *work,u16 *step) { switch(*step) { case 0: work->waitFrames=0; *step=1; break; case 1: BG_SYS_SetPlaneVisible(2,0); *step=3; break; case 3: IRC_RHYTHM_StartCountdown(&work->countdown); IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateCountdown); break; } if(IRC_APPBAR_GetResult(work->appBar)==1) { work->context->status=IRC_RHYTHM_STATUS_CANCELLED; IRC_RHYTHM_Finish(work); } if(COMPATIBLE_IRC_SYS_GetValueDifference(work->context->ircSys)!=0) IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateAbort); }
 
 void IRC_RHYTHM_StateCountdown(IrcRhythm *work,u16 *step) { IRC_RHYTHM_UpdateCountdown(&work->countdown); if(IRC_RHYTHM_IsCountdownFinished(&work->countdown)) { work->blendResetPending=1; IRC_RHYTHM_StartRecord(&work->record); IRC_RHYTHM_StartPulse(&work->pulse); IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateTapping); } if(IRC_APPBAR_GetResult(work->appBar)==1) { work->context->status=IRC_RHYTHM_STATUS_CANCELLED; IRC_RHYTHM_Finish(work); } if(COMPATIBLE_IRC_SYS_GetValueDifference(work->context->ircSys)!=0) IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateAbort); }
 
@@ -805,11 +806,11 @@ void IRC_RHYTHM_StateAbort(IrcRhythm *work,u16 *step) { switch(*step) { case 0: 
 
 void IRC_RHYTHM_InitRecord(IrcRhythmRecord *record) { MI_CpuFill8(record, 0, 0x84); }
 
-void IRC_RHYTHM_StartRecord(IrcRhythmRecord *record) { if(OS_IsTickAvailable()) OS_InitTick(); *(unsigned long long *)record->startTime=(func_020870D0()<<6)/33514; }
+void IRC_RHYTHM_StartRecord(IrcRhythmRecord *record) { if(OS_IsTickAvailable()) OS_InitTick(); *(unsigned long long *)record->startTime=(OS_GetTick()<<6)/33514; }
 
 int IRC_RHYTHM_IsRecordFull(IrcRhythmRecord *record) { if(record->tapCount>=10) return 1; return 0; }
 
-void IRC_RHYTHM_RecordTap(IrcRhythmRecord *record) { if(record->tapCount<10) { record->taps[record->tapCount].time=(func_020870D0()<<6)/33514-*(unsigned long long *)record->startTime; if(record->tapCount==0) record->taps[record->tapCount].interval=0; else record->taps[record->tapCount].interval=record->taps[record->tapCount].time-record->taps[record->tapCount-1].time; ++record->tapCount; } else if(record->extraTaps<99) ++record->extraTaps; }
+void IRC_RHYTHM_RecordTap(IrcRhythmRecord *record) { if(record->tapCount<10) { record->taps[record->tapCount].time=(OS_GetTick()<<6)/33514-*(unsigned long long *)record->startTime; if(record->tapCount==0) record->taps[record->tapCount].interval=0; else record->taps[record->tapCount].interval=record->taps[record->tapCount].time-record->taps[record->tapCount-1].time; ++record->tapCount; } else if(record->extraTaps<99) ++record->extraTaps; }
 
 static inline int magnitude(int x) { return x<0 ? -x : x; }
 
@@ -921,7 +922,7 @@ static inline u16 blend(int angle,u16 from,u16 to) {
  */
 int IRC_RHYTHM_BlendPaletteEntry(u32 target,u16 *color,int angle,int paletteBank,u8 colorIndex,u16 from,u16 to) {
  *color=blend(angle,from,to);
- return func_02061CA4(target,paletteBank*32+colorIndex*2,color,2);
+ return NNS_GfdRegisterNewVramTransferTask(target,paletteBank*32+colorIndex*2,color,2);
 }
 
 /* ---- particles ---- */

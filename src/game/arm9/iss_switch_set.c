@@ -13,8 +13,8 @@
  * Cut from iss_switch_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   IssSwitchSetFileName     0x020A776C  data
  *   FSi_ConvertStringSjisToUnicode  0x02048F74  arm
  *   ISS_SWITCH_Alloc 0x0202C590 thumb arm9
@@ -32,9 +32,9 @@
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_set_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
                                            u32 srcOffset, u32 dstSize);
@@ -117,12 +117,12 @@ extern const char IssSwitchSetFileName[];
 
 void *ISS_SWITCH_SET_Alloc(void *heapId)
 {
-    return func_02030734((u32)heapId, 0x3c, 0, IssSwitchSetFileName, 0x12a);
+    return GFL_HEAP_Alloc((u32)heapId, 0x3c, 0, IssSwitchSetFileName, 0x12a);
 }
 
 u32 ISS_SWITCH_SET_Free(void *set)
 {
-    return func_020307B0(set);
+    return GFL_HEAP_Free(set);
 }
 
 void ISS_SWITCH_SET_CreateSwitches(char *p, int heapId)

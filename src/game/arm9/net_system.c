@@ -14,17 +14,17 @@
  * Split from net_state.c at 0x02037224 (__FILE__ anchor boundary).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   _NetPhase   0x020A7A20  data  a1
  *   _FileName   0x020A7A24  data
  *   _pNetSys     0x021469D0  data
  *   _AssertNetIdRange   0x020A7A34  data
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap   0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
@@ -140,16 +140,16 @@ struct NetPacketSpan {
     u16 remaining;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
@@ -506,7 +506,7 @@ u32 GFL_NET_SYSTEM_GetSendSize(void)
  * Closes the 4-byte residue docs/notes/pkt_02037288_wave25.c.txt records
  * (the `mov r3, r4` / `lsl r1, r1, #1` pair at +0x00B0).  The lever is the
  * ALLOCATION RESULT TYPE, not the size spelling: the seven pointer fields
- * are declared `void *` so each func_02030734 result is stored without an
+ * are declared `void *` so each GFL_HEAP_Alloc result is stored without an
  * integer conversion.  With them declared `u32` the file does not even
  * compile; with a cast at each site the argument scheduling shifts and the
  * 0xE8 call's size is finished before r3 is written.  The size arguments
@@ -525,24 +525,24 @@ int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heapId, u32 useParentSize)
     if (_pNetSys == 0) {
         maxMembers = GFL_NET_GetMaxConnectNum();
         parentSendSize = GFL_NET_SYSTEM_GetSendSize();
-        _pNetSys = func_02030734(heapId, 0x1f0, 1, _FileName, 0xdd);
+        _pNetSys = GFL_HEAP_Alloc(heapId, 0x1f0, 1, _FileName, 0xdd);
         if (useParentSize != 0)
             _pNetSys->packetBufSize = parentSendSize + 0x40;
         else
             _pNetSys->packetBufSize = packetSize + 0x40;
 
-        _pNetSys->parentRecvRingData = func_02030734(heapId, _pNetSys->packetBufSize * 3, 1,
+        _pNetSys->parentRecvRingData = GFL_HEAP_Alloc(heapId, _pNetSys->packetBufSize * 3, 1,
                                           _FileName, 0xe6);
-        _pNetSys->recvScratchBuf = func_02030734(heapId, _pNetSys->packetBufSize * 2, 1,
+        _pNetSys->recvScratchBuf = GFL_HEAP_Alloc(heapId, _pNetSys->packetBufSize * 2, 1,
                                           _FileName, 0xe8);
-        _pNetSys->recvRingData = func_02030734(heapId, maxMembers * _pNetSys->packetBufSize, 1,
+        _pNetSys->recvRingData = GFL_HEAP_Alloc(heapId, maxMembers * _pNetSys->packetBufSize, 1,
                                           _FileName, 0xe9);
-        _pNetSys->sendPacketBuf = func_02030734(heapId, GFL_NET_GetChildSendSize(), 1,
+        _pNetSys->sendPacketBuf = GFL_HEAP_Alloc(heapId, GFL_NET_GetChildSendSize(), 1,
                                           _FileName, 0xec);
-        _pNetSys->sendRingData = func_02030734(heapId, GFL_NET_GetChildSendSize() * 15, 1,
+        _pNetSys->sendRingData = GFL_HEAP_Alloc(heapId, GFL_NET_GetChildSendSize() * 15, 1,
                                           _FileName, 0xed);
-        _pNetSys->mpParentPacketBuf = func_02030734(heapId, parentSendSize, 1, _FileName, 0xee);
-        _pNetSys->mpParentRingData = func_02030734(heapId, parentSendSize * 2, 1, _FileName, 0xef);
+        _pNetSys->mpParentPacketBuf = GFL_HEAP_Alloc(heapId, parentSendSize, 1, _FileName, 0xee);
+        _pNetSys->mpParentRingData = GFL_HEAP_Alloc(heapId, parentSendSize * 2, 1, _FileName, 0xef);
         GFL_NET_QUEUE_Init(&_pNetSys->sendQueue, 0x64,
                       &_pNetSys->sendRing, heapId);
         GFL_NET_QUEUE_Init(&_pNetSys->mpParentSendQueue, 0xb4,
@@ -673,7 +673,7 @@ void GFL_NET_SYSTEM_ResetBuffers(void)
 void GFL_NET_SYSTEM_ResetRecvBuffer(int netId)
 {
     if (netId >= GFL_NET_MACHINE_MAX) {
-        func_02034714(_FileName, 0x155, _AssertNetIdRange);
+        SAVEDATA_PanicFail(_FileName, 0x155, _AssertNetIdRange);
     }
     _pNetSys->recvPending[netId] = 0;
     GFL_NET_RING_BUFF_Init(&_pNetSys->recvRing[netId], (u32)(_pNetSys->recvRingData + netId * _pNetSys->packetBufSize), _pNetSys->packetBufSize);
@@ -1425,19 +1425,19 @@ void GFL_NET_SYSTEM_FreeWork(void)
         return;
     }
 
-    func_020307B0(_pNetSys->parentRecvRingData);
-    func_020307B0(_pNetSys->recvScratchBuf);
-    func_020307B0(_pNetSys->recvRingData);
+    GFL_HEAP_Free(_pNetSys->parentRecvRingData);
+    GFL_HEAP_Free(_pNetSys->recvScratchBuf);
+    GFL_HEAP_Free(_pNetSys->recvRingData);
 
     GFL_NET_QUEUE_Exit(&_pNetSys->mpParentSendQueue);
     GFL_NET_QUEUE_Exit(&_pNetSys->sendQueue);
 
-    func_020307B0(_pNetSys->sendPacketBuf);
-    func_020307B0(_pNetSys->sendRingData);
-    func_020307B0(_pNetSys->mpParentPacketBuf);
-    func_020307B0(_pNetSys->mpParentRingData);
+    GFL_HEAP_Free(_pNetSys->sendPacketBuf);
+    GFL_HEAP_Free(_pNetSys->sendRingData);
+    GFL_HEAP_Free(_pNetSys->mpParentPacketBuf);
+    GFL_HEAP_Free(_pNetSys->mpParentRingData);
 
-    func_020307B0(_pNetSys);
+    GFL_HEAP_Free(_pNetSys);
 
     _pNetSys = 0;
 }
@@ -2199,7 +2199,7 @@ void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size)
 
     if (session->ops->getChannel() == 0 ||
         session->ops->getTgid() == 0) {
-        func_02034714(_FileName, 0x400, _AssertAlways);
+        SAVEDATA_PanicFail(_FileName, 0x400, _AssertAlways);
         return;
     }
 
@@ -2592,7 +2592,7 @@ void GFL_NET_SYSTEM_ClearChildRecv(void)
  * falls through to GFL_NET_SYSTEM_SendMPParent in both of the middle bands.
  * GFL_NET_SYSTEM_SetDebugByte takes the caller's __LINE__ as its second argument; the four
  * line numbers are 0x4d5, 0x4da, 0x4e1 and 0x4f4.  The assert at +0x50 is
- * the usual func_02034714(file, line, expr) triple.
+ * the usual SAVEDATA_PanicFail(file, line, expr) triple.
  */
 void GFL_NET_SYSTEM_UpdateMPParent(void)
 {
@@ -2604,7 +2604,7 @@ void GFL_NET_SYSTEM_UpdateMPParent(void)
         if (GFL_NET_SYSTEM_IsConnectMember(0) == 0)
             return;
         if (initParam->init.bMPMode != 0)
-            func_02034714(_FileName, 0x4d5, _AssertNotMpMode);
+            SAVEDATA_PanicFail(_FileName, 0x4d5, _AssertNotMpMode);
         if (_NetPhase[0] == 4 && _pNetSys->mpWaitMode != 0
             && GFL_NET_SYSTEM_CheckAllChildRecv() != 0)
             GFL_NET_SYSTEM_SetDebugByte(1, 0x4da);
@@ -2859,7 +2859,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
  * Idempotent bring-up: when the argument is non-zero and the mode byte at
  * 0x020A7A21 still reads 2, it is flipped to 4 and the call is skipped; in
  * every other case the 0x5C0-byte block at 0x020A7A24 is handed to
- * func_02034714 with 0x020A7A50 as the third argument.  Either way the
+ * SAVEDATA_PanicFail with 0x020A7A50 as the third argument.  Either way the
  * function answers 1 through the single shared epilogue (`mov r0, #1;
  * pop {r3, pc}`), which is why the taken arm ends in `beq` to that epilogue
  * and not in a predicated return.
@@ -2882,7 +2882,7 @@ int GFL_NET_SYSTEM_SendCallback(int success)
     if (success != 0 && _NetPhase[1] == 2) {
         _NetPhase[1] = 4;
     } else {
-        func_02034714(_FileName, 0x5C0, _AssertAlways);
+        SAVEDATA_PanicFail(_FileName, 0x5C0, _AssertAlways);
     }
     return 1;
 }
@@ -2931,7 +2931,7 @@ int GFL_NET_SYSTEM_SendEndCallback(u32 success)
     if (success != 0) {
         GFL_NET_SYSTEM_SetDebugByte(4, 0x5d4);
     } else {
-        func_02034714(_FileName, 0x5d8, _AssertAlways);
+        SAVEDATA_PanicFail(_FileName, 0x5d8, _AssertAlways);
     }
     return 1;
 }
@@ -3350,7 +3350,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
         if (command == 0) {
             command = GFL_NET_RING_BUFF_ReadU16(ring);
             if (command == 0) {
-                func_02034714(_FileName, 0x6E3, _AssertAlways);
+                SAVEDATA_PanicFail(_FileName, 0x6E3, _AssertAlways);
                 continue;
             }
         }

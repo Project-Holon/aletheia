@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734     0x02030734  arm
+ *   GFL_HEAP_Alloc     0x02030734  arm
  *   BILLBOARD_Create     0x0204EBD4  arm
  *   func_02033C00     0x02033C00  arm
  *   sBillboardAct     0x020A7FB0  data
@@ -21,12 +21,12 @@
  *   BILLBOARD_FreeElem  0x0204F5A8  arm
  *   BILLBOARD_Delete  0x0204ED24  arm
  *   AREAMAN_Delete  0x02033C9C  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   AREAMAN_Alloc  0x02033CA8  arm
  *   BILLBOARD_AddImage  0x0204EF58  arm
  *   BILLBOARD_TrimImageResource  0x0204F10C  arm
  *   BILLBOARD_DeleteImage  0x0204F150  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   AREAMAN_Free  0x0203422C  arm
  *   BILLBOARD_AddElem  0x0204F428  arm
  *   BILLBOARD_SetElemVisible  0x0204F720  arm
@@ -62,7 +62,7 @@
  *   NNS_GfdSaveVramManager  0x0206164C  arm
  *   NNSi_GfdGetVramManagerWork  0x02061808  arm
  *   SPL_EMITTER_FreeNodeToHeap  0x02052A50  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   BUTTON_MAN_Func1A3C  0x02051A3C  arm
  *   BUTTON_MAN_AppendList0  0x02051A54  arm
  *   BUTTON_MAN_Func1AA0  0x02051AA0  arm
@@ -80,7 +80,7 @@
  *   G3D_SYSTEM_GetLookAt   0x02046AFC  arm
  *   G3D_SYSTEM_SetLookAt   0x02046B40  arm
  *   G3D_SYSTEM_ApplyLookAt   0x020479D8  arm
- *   func_02048AD0   0x02048AD0  arm
+ *   G3D_CAMERA_Reset   0x02048AD0  arm
  *   SPL_EMITTER_FreeNodeHeap   0x020526A8  arm
  *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
@@ -113,6 +113,7 @@
  *   G2S_GetBG3CharPtr  0x0207E388  arm
  *   NNSi_GfdDefaultAllocTexVram  0x020614D4  arm
  *   NNS_GfdAllocVram  0x020616CC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  */
 
 typedef unsigned char  u8;
@@ -328,18 +329,18 @@ struct ParticleMan {
     struct ParticleSys *current;        /* 0x44: system whose handlers run */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct BbBoard *BILLBOARD_Create(const struct BbActBoardInit *init, u32 heapId);
 extern struct AreaMan *func_02033C00(u32 size, u32 heapId);
 extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemId);
 extern void BILLBOARD_Delete(struct BbBoard *board);
 extern u32 AREAMAN_Delete(struct AreaMan *pool);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern s32 AREAMAN_Alloc(struct AreaMan *pool, u32 count);
 extern u16  BILLBOARD_AddImage(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId);
 extern void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 boardId);
 extern void BILLBOARD_DeleteImage(struct BbBoard *board, int boardId);
-extern void func_02046EFC(struct PayloadBlock *payload);
+extern void G3D_SYSTEM_DeleteResource(struct PayloadBlock *payload);
 extern int AREAMAN_Free(struct AreaMan *pool, u32 start, s32 count);
 extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16 height, const Vec3 *pos, u8 layer, u32 color, u32 mode);
 extern int BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, const u32 *flags);
@@ -368,7 +369,7 @@ extern int G3D_SYSTEM_GetPlttManagerMode(void);
 extern void NNS_GfdSaveVramManager(u32 *table);
 extern void NNSi_GfdGetVramManagerWork(u32 *table);
 extern void SPL_EMITTER_FreeNodeToHeap(struct ParticleEngine *engine, void *block);
-extern void func_02030DA8(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
+extern void TCB_AddTask(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
 unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3);
 u32 BUTTON_MAN_AppendList0(u32 a, u32 b);
 int BUTTON_MAN_Func1AA0(int a, int b);
@@ -377,13 +378,13 @@ extern void SPL_EMITTER_AllocPlttVramDefault(struct ParticleEngine *engine);
 extern void SPL_EMITTER_AllocTexVramDefault(struct ParticleEngine *engine);
 extern int  SPL_EMITTER_AllocPlttVramList(struct ParticleEngine *engine, ParticleLoadFn fn);
 extern int  SPL_EMITTER_AllocTexVramList(struct ParticleEngine *engine, ParticleLoadFn fn);
-extern void func_02030EAC(struct TaskNode *task);
+extern void TCB_DeleteTask(struct TaskNode *task);
 extern void G3D_SYSTEM_GetProjection(SavedGxState *dst);
 extern void G3D_SYSTEM_SetProjection(const SavedGxState *src);
 extern void G3D_SYSTEM_GetLookAt(Mtx33 *dst);
 extern void G3D_SYSTEM_SetLookAt(Mtx33 *src);
 extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void func_02048AD0(struct ParticleCamera *camera);
+extern void G3D_CAMERA_Reset(struct ParticleCamera *camera);
 extern void SPL_EMITTER_FreeNodeHeap(struct ParticleEngine *engine, const u32 *drawParams);
 extern void NNS_G3dGlbBaseTrans(Vec3 *p);
 extern void NNS_G3dGlbBaseScale(Vec3 *p);
@@ -545,7 +546,7 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     int i;
     int j;
 
-    sys = func_02030734(heapId, 0x24, 1, file, 94);
+    sys = GFL_HEAP_Alloc(heapId, 0x24, 1, file, 94);
     sys->heapId = (u16)heapId;
     sys->uploadFn = uploadFn;
     sys->slotCount = slotCount;
@@ -556,9 +557,9 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     init.entryCount = sys->entryCount;
     sys->board = BILLBOARD_Create(&init, heapId);
 
-    sys->slots = func_02030734(heapId, sys->slotCount * 8, 1, file, 119);
+    sys->slots = GFL_HEAP_Alloc(heapId, sys->slotCount * 8, 1, file, 119);
     sys->slotPool = func_02033C00(sys->slotCount, heapId);
-    sys->entries = func_02030734(heapId, sys->entryCount * 0x28, 1, file, 123);
+    sys->entries = GFL_HEAP_Alloc(heapId, sys->entryCount * 0x28, 1, file, 123);
     sys->entryPool = func_02033C00(sys->entryCount, heapId);
 
     for (i = 0; i < sys->slotCount; i++) {
@@ -593,11 +594,11 @@ void BILLBOARD_ACT_Delete(struct BbActSys *sys)
         }
     }
     AREAMAN_Delete(sys->entryPool);
-    func_020307B0(sys->entries);
+    GFL_HEAP_Free(sys->entries);
     AREAMAN_Delete(sys->slotPool);
-    func_020307B0(sys->slots);
+    GFL_HEAP_Free(sys->slots);
     BILLBOARD_Delete(sys->board);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 
@@ -767,7 +768,7 @@ u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 boardId, u32 payload)
 /*
  * billboard_act.c: release `count` slot records from `first`: the board
  * record through BILLBOARD_DeleteImage(board, id) when the id is live, the payload
- * through func_02046EFC when nonzero, then reset the record and return the
+ * through G3D_SYSTEM_DeleteResource when nonzero, then reset the record and return the
  * index range to the pool.  BILLBOARD_DeleteImage takes TWO arguments (the loaded
  * id is the r1 the image compares); the rest is plain subscripts.
  */
@@ -780,7 +781,7 @@ void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count)
             BILLBOARD_DeleteImage(sys->board, sys->slots[first + i].boardId);
         }
         if (sys->slots[first + i].payload != 0) {
-            func_02046EFC((struct PayloadBlock *)sys->slots[first + i].payload);
+            G3D_SYSTEM_DeleteResource((struct PayloadBlock *)sys->slots[first + i].payload);
         }
         BILLBOARD_ACT_InitSlot(&sys->slots[first + i]);
     }
@@ -1587,7 +1588,7 @@ void PARTICLE_InitManager(u32 heapId)
 {
     int i = 0;
 
-    g_pParticleMan = func_02030734(heapId, 0x48, i, sParticleFile, 190);
+    g_pParticleMan = GFL_HEAP_Alloc(heapId, 0x48, i, sParticleFile, 190);
 
     for (i = 0; i < 16; i++) {
         g_pParticleMan->systems[i] = 0;
@@ -1668,7 +1669,7 @@ struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCam
     if (i >= 16)
         return 0;
 
-    sys = func_02030734((u16)heapId, 0x260, 0, sParticleFile, 285);
+    sys = GFL_HEAP_Alloc((u16)heapId, 0x260, 0, sParticleFile, 285);
     MI_CpuFill8(sys, 0, 0x260);
     sys->cameraPos = sDefaultCameraPos;
     sys->cameraTarget = sDefaultCameraTarget;
@@ -1769,7 +1770,7 @@ void PARTICLE_DeleteSystem(struct ParticleSys *sys)
         sys->activeEffect = z;
         if (block != 0) {
             if (((u32)(sys->flags << 31) >> 31) == 0) {
-                func_020307B0(block);
+                GFL_HEAP_Free(block);
                 sys->resourceBlock = (void *)z;
             }
         }
@@ -1792,7 +1793,7 @@ void PARTICLE_DeleteSystem(struct ParticleSys *sys)
     if (sys->camera != 0)
         G3D_CAMERA_Delete(sys->camera);
 
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 
@@ -1802,7 +1803,7 @@ void PARTICLE_DeleteSystem(struct ParticleSys *sys)
 /*
  * Teardown of a sixteen-entry table of pointers: every non-null entry is
  * released through PARTICLE_DeleteSystem, then the table pointer itself is handed to
- * func_020307B0 and cleared.  The global is re-read from its own slot before
+ * GFL_HEAP_Free and cleared.  The global is re-read from its own slot before
  * every use, which is what the loop's `ldr r0, [r4]` at the top is; the two
  * pool words are the same address, so both `ldr r4, [pc, ...]` load one word.
  *
@@ -1820,7 +1821,7 @@ void PARTICLE_ExitManager(void)
         if (sys != 0)
             PARTICLE_DeleteSystem(sys);
     }
-    func_020307B0(g_pParticleMan);
+    GFL_HEAP_Free(g_pParticleMan);
     g_pParticleMan = 0;
 }
 
@@ -2116,7 +2117,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     }
     if (taskMgr == 0)
         return;
-    func_02030DA8(taskMgr, PARTICLE_ApplyLoadHandlersTask, sys, 0);
+    TCB_AddTask(taskMgr, PARTICLE_ApplyLoadHandlersTask, sys, 0);
 }
 
 
@@ -2222,7 +2223,7 @@ void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
 void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *sys)
 {
     PARTICLE_ApplyLoadHandlers(sys);
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
 }
 
 
@@ -2271,7 +2272,7 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
             g_renderState[63] = g_renderState[63] & ~0xa4u;
             NNS_G3dGlbBaseScale(&viewVec);
         }
-        func_02048AD0(sys->camera);
+        G3D_CAMERA_Reset(sys->camera);
         G3D_SYSTEM_ApplyLookAt();
         NNS_G3dGeFlushBuffer();
     }

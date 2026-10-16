@@ -27,11 +27,11 @@
  *   VM_SetWait  0x020113D0  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   SCRCMD_PROC_FLD_StepShopTask  0x021B3158  thumb  ov021
  *   GAME_BEACON_SEARCH_SetFacilityEnter  0x021655D4  thumb  ov010
@@ -72,11 +72,11 @@ extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern void VM_SetWait(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
 extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern ShopTask **SCRIPT_WORK_GetUserWorkPtr(void *scriptWork);
 extern u8 *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
 extern u32 FIELD_MSGBG_GetFont(struct FieldMsgBg *msgBg);
-extern void *func_020071CC(struct SaveControl *saveControl, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 extern int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern void GAME_BEACON_SEARCH_SetFacilityEnter(void);
 extern u8 FIELD_CAMERA_GetAreasEnabled(void *fieldCamera);
@@ -115,13 +115,13 @@ int SCRCMD_SHOP_StartShop(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     taskSlot = SCRIPT_WORK_GetUserWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork));
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     shopTable = GAME_DATA_GetSecondUnionInfo(gameData);
-    task = func_02030734(4, 0x214, 1, (const char *)d_021DE210, 0xFC);
+    task = GFL_HEAP_Alloc(4, 0x214, 1, (const char *)d_021DE210, 0xFC);
     *taskSlot = task;
     task->shop.fontInfo = FIELD_MSGBG_GetFont(msgBg);
     task->shop.moneyData = (u32)GAME_DATA_GetMiscSave(gameData);
     task->shop.heapId = 0x15;
     task->shop.bagData = (u32)GAME_DATA_GetMyItem(gameData);
-    task->shop.battlePointData = (u32)func_020071CC(GAME_DATA_GetSaveControl(gameData), 0x3a);
+    task->shop.battlePointData = (u32)SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3a);
     task->shop.recordData = (u32)GAME_DATA_GetTrainerRecord(gameData);
     task->shop.shopTable = shopTable;
     switch (shopId) {

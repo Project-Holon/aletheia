@@ -13,10 +13,10 @@
  * Cut from sta_acting.c, script_command.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   STA_ACT_AUDIENCE_Create 0x021F9FEC thumb ov132
  *   STA_ACT_AUDIENCE_Delete 0x021FA04C thumb ov132
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STA_ACT_AUDIENCE_Update 0x021FA064 thumb ov132
  *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
@@ -34,7 +34,7 @@
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   d_021FDC16 0x021FDC16 data a2
  */
 #include "ov132_types.h"
@@ -43,9 +43,9 @@
 extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 STA_ACTING_GetCameraPos(void *p);
 
@@ -67,7 +67,7 @@ extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
 
 extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 
 extern void BG_SYS_FillScrollArea(unsigned, unsigned, unsigned);
 
@@ -108,7 +108,7 @@ extern u16 d_021FDC16[];
 char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, unsigned b)
 {
     u8 i = 0;
-    char *p = func_02030734(heap, 0x3e4, 0, d_021FDCC4, 115);
+    char *p = GFL_HEAP_Alloc(heap, 0x3e4, 0, d_021FDCC4, 115);
     ((struct ScriptOwner *)p)->f0 = heap;
     STA_ACT_AUDIENCE_Noop(p);
     STA_ACT_AUDIENCE_SetupRecords(p, (char *)b);
@@ -123,7 +123,7 @@ void STA_ACT_AUDIENCE_Delete(u8 *p)
 {
     STA_ACT_AUDIENCE_Noop3(p);
     STA_ACT_AUDIENCE_Noop2(p);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -299,8 +299,8 @@ void STA_ACT_AUDIENCE_DrawRecord(char *p,u8 *rec,unsigned type)
             BG_SYS_SetTileEntry(6,t,x,row+rec[7]*4+5,1,1,0);
         }
     }
-    func_02041B6C(4);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(4);
+    BG_SYS_SetFlagField06(6);
 }
 
 void STA_ACT_AUDIENCE_ApplyChoices(char *p)

@@ -13,8 +13,8 @@
  * Cut from g3d_util.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   g3d_light_file  0x020A7ED4  data
  *   ARC_TOOL_gArchiveTable     0x02146A68  data
  *   G3D_SYSTEM_SetProjection 0x02046858 arm
@@ -73,9 +73,9 @@ struct LightSlot {
     u16           flags;
 };
 
-extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void G3D_SYSTEM_SetProjection(const u32 *src);
 
@@ -306,7 +306,7 @@ struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16
     struct LightSlotValue *slots;
     int i;
 
-    slots = (struct LightSlotValue *)func_02030734(heapID, 0x20, 1,
+    slots = (struct LightSlotValue *)GFL_HEAP_Alloc(heapID, 0x20, 1,
                                             g3d_light_file, 43);
     for (i = 0; i < set->count; i++) {
         struct LightSlotDesc *desc = &set->recs[i];
@@ -319,7 +319,7 @@ struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16
 
 u32 G3D_LIGHT_DeleteSlots(void *slots)
 {
-    return func_020307B0(slots);
+    return GFL_HEAP_Free(slots);
 }
 
 /*

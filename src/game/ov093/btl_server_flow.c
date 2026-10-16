@@ -60,7 +60,7 @@
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
  *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02008550  0x02008550  thumb
@@ -92,7 +92,7 @@
  *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
  *   BTLV_CORE_Create  0x021E8F20  thumb  ov093
  *   BTL_POKEPARAM_GetUsedMoveTotal 0x021D54B4 thumb ov093
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   gBtlServerFileName 0x021F3A60 data a4
  *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
  *   STRBUF_Delete  0x02045808  arm
@@ -425,7 +425,7 @@
  *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
  *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
  *   gBtlClientFileName 0x021F3A88 data a4
@@ -1456,7 +1456,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKEPARTY_Init(struct Party *p);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void PMSI_PARAM_ClearSentence(void *a);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern void STRBUF_SetChars(struct Buf *buf, const void *src, u32 n);
@@ -1470,7 +1470,7 @@ extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern u32 _u32_div_f(u32, u32);
-extern void *func_02030734(u16, unsigned int, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u16, unsigned int, int, const char *, u16);
 extern u8 BTL_MAIN_GetCommPos(u8 **p);
 extern u32 BTL_CALC_ActionGetKind(Action *);
 extern u16 BTL_MAIN_GetWinBgm(void **);
@@ -2460,7 +2460,7 @@ extern const u16 gCatchShakeMessages[];
 BtlServerFlow *flow(void *a, void *b, void *c, void *d, int e, u16 heap)
 {
     BtlServerFlow *flowB;
-    flowB = func_02030734(heap, 0x212c, 1, (const char *)gFlowSourceFileName, 0x245);
+    flowB = GFL_HEAP_Alloc(heap, 0x212c, 1, (const char *)gFlowSourceFileName, 0x245);
     flowB->server = a;
     flowB->pokeCon = c;
     flowB->mainModule = b;
@@ -2552,7 +2552,7 @@ void BTL_SERVER_FLOW_InitState(BtlServerFlow *flow)
 void BTL_SERVER_FLOW_Destroy(u8 *p)
 {
     ARC_TOOL_DeleteHandle((u32)((BtlServerFlow *)p)->evolutionHandle);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 

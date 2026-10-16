@@ -25,6 +25,8 @@
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
  *   OSi_IsCodecTwlMode  0x02087B20  arm  arm9
  *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
+ *   OS_SendMessage  0x02085DBC  arm  arm9
+ *   OS_ReceiveMessage  0x02085E50  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -73,8 +75,8 @@ extern u32 OS_IsRunOnTwl(void);
 extern u32 OSi_IsCodecTwlMode(void);
 extern void OS_SpinWaitSysCycles(u32);
 extern void OS_InitMessageQueue(void *, void *, u32);
-extern void func_02085E50(void *, void *, u32);
-extern void func_02085DBC(void *, u32, u32);
+extern void OS_ReceiveMessage(void *, void *, u32);
+extern void OS_SendMessage(void *, u32, u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
 extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern State DAT_02734450;
@@ -225,7 +227,7 @@ u32 SNDEXi_SetIirFilter(u32 a0, u16 *a1) {
     OS_InitMessageQueue(q, buf, 1);
     result = SNDEXi_SetIirFilterAsync(a0, a1, SyncCallback, q);
     if (result == 0) {
-        func_02085E50(q, &result, 1);
+        OS_ReceiveMessage(q, &result, 1);
     }
     {
         State *s = (State *)0x02734450;
@@ -258,7 +260,7 @@ u32 SNDEXi_PreProcessForShutterSound(void) {
     if (SendCommand(DAT_02734450.f58, 0) == 0) {
         return 5;
     }
-    func_02085E50(q, &result, 1);
+    OS_ReceiveMessage(q, &result, 1);
     return result;
 }
 
@@ -351,7 +353,7 @@ void CommonCallback(u32 a0, u32 a1, u32 a2) {
 }
 
 void SyncCallback(u32 a0, void *a1) {
-    func_02085DBC(a1, a0, 0);
+    OS_SendMessage(a1, a0, 0);
 }
 
 u32 SendCommand(u32 a0, u8 a1) {

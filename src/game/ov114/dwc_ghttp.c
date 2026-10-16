@@ -24,10 +24,10 @@
  *   DWC_Free       0x0205A1B0  arm
  *   DWCi_RemoveDWCGHTTPParamEntry  0x021BFA70  arm  ov114
  *   DWCi_GHTTPGetEx  0x021BF6EC  arm  ov114
- *   func_02059F54  0x02059F54  arm
- *   func_0205A16C  0x0205A16C  arm
+ *   DWCi_SetError  0x02059F54  arm
+ *   DWC_Alloc  0x0205A16C  arm
  *   DWC_Alloc   0x0205A16C  arm
- *   func_0205A1B0  0x0205A1B0  arm
+ *   DWC_Free  0x0205A1B0  arm
  *   ghttpGetExA  0x021C20A4  arm  ov114
  *   ghttpSetMaxRecvTime  0x021C22EC  arm  ov114
  *   ghttpCancelRequest  0x021C22A4  arm  ov114
@@ -48,7 +48,7 @@ extern void DWCi_RemoveAllDWCGHTTPParamEntry(void);
 extern void DWC_Free(int name, void *ptr, int size);
 extern void ghttpCancelRequest(int request);
 extern void ghttpSetMaxRecvTime(int request, unsigned int maxRecvTime);
-extern void func_02059F54(int error, int errorCode);
+extern void DWCi_SetError(int error, int errorCode);
 extern void *DWC_Alloc(int name, unsigned long size);
 extern int ghttpGetExA(const char *url, const char *headers, char *buffer, int bufferSize,
                          GHIPost *post, int throttle, int blocking,
@@ -318,7 +318,7 @@ int DWCi_HandleGHTTPError(int result)
         errorCode += -910;
         break;
     }
-    func_02059F54(dwcError, errorCode);
+    DWCi_SetError(dwcError, errorCode);
     return result;
 }
 

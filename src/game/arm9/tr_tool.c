@@ -13,8 +13,8 @@
  *
  * symbols:
  *   g_020A76DC     0x020A76DC  data
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
@@ -32,6 +32,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MIi_CpuCopy16  0x02082A60  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *
  * tr_tool.c: build a trainer's party.  Loads the trainer record (0x14
  * bytes) and its party table (up to 6 entries) from the archive, then per
@@ -83,8 +84,8 @@ typedef struct { u8 dv; u8 ability; u16 level; u16 species; u16 form; u16 item; 
 
 extern char  g_020A76DC[];
 
-extern void *func_02030734(u16 heap, u32 size, u32 align, const char *file, u32 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 align, const char *file, u32 line);
+extern u32 GFL_HEAP_Free(void *p);
 struct Mon;
 struct Party;
 struct PartyMon;
@@ -119,7 +120,7 @@ typedef struct {
 } TrTrainerInfo;
 
 struct MsgBank;
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct MsgBank *rec);
 extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
@@ -137,14 +138,14 @@ void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap)
     TrTrainerRecord *t;
     void *bank;
 
-    t = func_02030734(heap, 0x14, 0, g_020A76DC, 0x159);
+    t = GFL_HEAP_Alloc(heap, 0x14, 0, g_020A76DC, 0x159);
     TPOKE_DATA_ReadRecord((void *)id, t);
 
     out->trainerId = id;
     out->genderClass = t->genderClass;
     out->data0C = t->data0C;
 
-    bank = func_02045B38(0, 2, 0xbe, heap);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0xbe, heap);
     MSGDATA_ReadString(bank, id, (void *)out->name);
     MSGDATA_Delete(bank);
 
@@ -152,7 +153,7 @@ void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap)
     PMSI_PARAM_ClearSentence(&out->sentence);
     PMSI_PARAM_ClearSentence(&out->sentence2);
 
-    func_020307B0(t);
+    GFL_HEAP_Free(t);
 }
 
 /*
@@ -192,9 +193,9 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
 
     POKEPARTY_InitEx(party, 6);
     h = (heap & 0x7FFF) | 0x8000;
-    td = func_02030734(h, 0x14, 0, g_020A76DC, 387);
-    tp = func_02030734(h, 0x6C, 0, g_020A76DC, 388);
-    mon = func_02030734(h, POKE_TOOL_GetPartyParamSize(), 0, g_020A76DC, 389);
+    td = GFL_HEAP_Alloc(h, 0x14, 0, g_020A76DC, 387);
+    tp = GFL_HEAP_Alloc(h, 0x6C, 0, g_020A76DC, 388);
+    mon = GFL_HEAP_Alloc(h, POKE_TOOL_GetPartyParamSize(), 0, g_020A76DC, 389);
     TPOKE_DATA_ReadRecord((void *)trid, td);
     TPOKE_DATA_ReadParty((void *)trid, tp);
     if (TPOKE_DATA_GetGenderValue(td->genderClass) == 1) {
@@ -317,9 +318,9 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
         break;
     }
     }
-    func_020307B0(td);
-    func_020307B0(tp);
-    func_020307B0(mon);
+    GFL_HEAP_Free(td);
+    GFL_HEAP_Free(tp);
+    GFL_HEAP_Free(mon);
 }
 
 void TR_TOOL_AdjustPersonality(u32 species, u32 form, int adjustFlags, u32 *personalityLow, u16 heapId)

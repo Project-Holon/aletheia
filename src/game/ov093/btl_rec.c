@@ -41,9 +41,9 @@
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
- *   func_020307B0   0x020307B0  arm arm9
+ *   GFL_HEAP_Free   0x020307B0  arm arm9
  *   MI_CpuCopy8  0x02082D44  arm
  *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
  *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
@@ -61,7 +61,7 @@
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
@@ -156,8 +156,8 @@ typedef struct {
     u8 data[60];
 } BtlRecPacket;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 void BTL_CALC_ActionSetRecordError(u32 *record);
@@ -166,16 +166,16 @@ extern char gBtlRecFileName[];
 
 void *BTL_REC_CreateBuffer(u32 heapId)
 {
-    return func_02030734(heapId, 0xC08, 1, gBtlRecFileName, 0x6b);
+    return GFL_HEAP_Alloc(heapId, 0xC08, 1, gBtlRecFileName, 0x6b);
 }
 
 
 /*
- * tail-call thunk to func_020307B0
+ * tail-call thunk to GFL_HEAP_Free
  */
 void BTL_REC_DeleteBuffer(void *buffer)
 {
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
 }
 
 

@@ -13,9 +13,9 @@
  * Cut from union_comm.c, unit_0217422C.c, colosseum.c, ov012_func_02175358.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0 0x020307B0 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
@@ -28,7 +28,7 @@
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_COMM_Start  0x020263D8  thumb
  *   GAME_BEACON_SEARCH_SetFieldEvent  0x021653C4  thumb  ov010
@@ -70,7 +70,7 @@
  *   UNION_APP_AddEntryTarget 0x02183FA8 thumb ov022
  *   UNION_APP_QueueJoinConfirm  0x02184060  thumb  ov022
  *   UNION_APP_OnMemberDropped 0x021840A4 thumb ov022
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -90,8 +90,8 @@
  *   gPokemonTradeProcData     0x021E7608  data   ov119  a4
  *   d_02208C40     0x02208C40  data   ov195  a4
  *   UNION_APP_Update  0x02183C3C  thumb  ov022
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   UNION_APP_Create  0x02183B60  thumb  ov022
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
@@ -183,9 +183,9 @@ typedef struct UnionAppMessage {
     u8 mac[8];           /* 0x20 */
 } UnionAppMessage;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern u32 GFL_NET_IsParentAid(void);
 
@@ -211,7 +211,7 @@ extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
 
 extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
@@ -289,7 +289,7 @@ extern void UNION_APP_QueueJoinConfirm(struct UnionAppWork *app, int netId);
 
 extern void UNION_APP_OnMemberDropped(struct UnionAppWork *app, u8 value);
 
-extern void *func_020122C0(struct GameSystem *gameSystem, void *parentEvent, int (*eventFunc)(void *event, int *seq, UnionSubEventWork *eventWork), u32 workSize);
+extern void *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parentEvent, int (*eventFunc)(void *event, int *seq, UnionSubEventWork *eventWork), u32 workSize);
 
 extern void *func_020124E8(void *event);
 
@@ -425,9 +425,9 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
     gameComm = ICA_ANIME_GetField24(gameSystem);
     gameData = ICA_ANIME_GetField1C(gameSystem);
     if (GAME_COMM_GetKind(gameComm) != 0) {
-        func_02034714(sUnionMainAssertText, 0, sUnionMainAssertText);
+        SAVEDATA_PanicFail(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
-    parent = func_02030734(5, sizeof(UnionParentWork), 1, sUnionMainFile, 0x37);
+    parent = GFL_HEAP_Alloc(5, sizeof(UnionParentWork), 1, sUnionMainFile, 0x37);
     parent->myStatus = GAME_DATA_GetMyStatus(gameData);
     parent->gameComm = gameComm;
     parent->gameData = gameData;
@@ -446,7 +446,7 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
     }
     work = GAME_COMM_GetWork(gameComm);
     if (work == 0) {
-        func_02034714(sUnionMainAssertText, 0, sUnionMainAssertText);
+        SAVEDATA_PanicFail(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
     if (ICA_ANIME_GetField30(FIELDMAP_GetGameSystem(fieldMap)) == 1) {
         return;
@@ -550,7 +550,7 @@ int UNION_MAIN_IsIdle(struct GameSystem *gameSystem)
 /* ---- union command table (net commands 0x1400 to 0x1414) ---- */
 u8 *UNION_COMMAND_GetRecvBuffer(int netId, UnionRoomWork *work, int size)
 {
-    if (size > UNION_RECV_BUFFER_SIZE) func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+    if (size > UNION_RECV_BUFFER_SIZE) SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
     return work->recvBuffer[netId];
 }
 
@@ -644,7 +644,7 @@ void UNION_COMMAND_RecvTrainerCard(u32 netId, u32 size, const void *data, UnionR
 u32 UNION_COMMAND_SendTrainerCard(UnionRoomWork *work)
 {
     if (work->myTrainerCard == 0) {
-        func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x1406, 0x678, work->myTrainerCard, 1, 0, 1);
 }
@@ -657,7 +657,7 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
     colosseum = work->colosseum;
     gameData = ICA_ANIME_GetField1C(work->parent->gameSystem);
     if (colosseum == 0 || colosseum->commPlayer == 0 || colosseum->entryMenu == 0) {
-        func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     OS_GetMacAddress(macBuffer);
@@ -669,7 +669,7 @@ void UNION_COMMAND_RecvColosseumSetting(int netId, int size, const u32 *value, U
     ColosseumWork *colosseum;
     colosseum = work->colosseum;
     if (colosseum == 0) {
-        func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     colosseum->parentSetting = *value;
@@ -680,7 +680,7 @@ void UNION_COMMAND_RecvColosseumCancel(int netId, int size, const void *data, Un
     ColosseumWork *colosseum;
     colosseum = work->colosseum;
     if (colosseum == 0) {
-        func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     colosseum->entryCancelled = 1;
@@ -694,7 +694,7 @@ int UNION_COMMAND_SendColosseumCancel(void)
 void UNION_COMMAND_RecvAppEntry(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         work->entryRefuseBits |= (u8)(1 << netId);
         return;
     }
@@ -737,7 +737,7 @@ void UNION_COMMAND_RecvAppQuitRequest(int netId, int size, const void *data, Uni
         app = work->app;
         if (app == 0) {
             if (app == 0) {
-                func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+                SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
                 return;
             }
         } else {
@@ -757,7 +757,7 @@ void UNION_COMMAND_RecvAppQuitAccept(int netId, int size, const void *data, Unio
     app = work->app;
     if (app == 0) {
         if (app == 0) {
-            func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
     } else {
@@ -777,7 +777,7 @@ void UNION_COMMAND_RecvAppQuitCancel(int netId, int size, const void *data, Unio
         app = work->app;
         if (app == 0) {
             if (app == 0) {
-                func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+                SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
                 return;
             }
         } else {
@@ -797,7 +797,7 @@ void UNION_COMMAND_RecvAppSetting(int netId, int size, const void *value, UnionR
     if (GFL_NET_IsParentAid() != 1) {
         app = work->app;
         if (app == 0) {
-            func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
         UNION_APP_SetSetting(app, value);
@@ -816,7 +816,7 @@ u32 UNION_COMMAND_SendAppSetting(const void *data, u32 sendMask)
 void UNION_COMMAND_RecvAppJoinData(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     UNION_APP_SetMemberEntry(work->app, work, netId, data);
@@ -835,7 +835,7 @@ int UNION_COMMAND_SendAppJoinData(u8 sendMask, const UnionAppData *src)
 void UNION_COMMAND_RecvAppData(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     UNION_APP_SetMemberEntry(work->app, work, netId, data);
@@ -850,7 +850,7 @@ void UNION_COMMAND_RecvAppLeaveData(int netId, int size, const void *data, Union
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         if (work->app == 0) {
-            func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
         UNION_APP_SetMemberEntry(work->app, work, (u8)netId, data);
@@ -871,7 +871,7 @@ void UNION_COMMAND_RecvAppNotice(int netId, int size, const u8 *data, UnionRoomW
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         if (work->app == 0) {
-            func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
         UNION_APP_OnMemberDropped(work->app, *data);
@@ -887,7 +887,7 @@ void *UNION_MAIN_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, U
 {
     void *event;
     UnionSubEventWork *eventWork;
-    event = func_020122C0(gameSystem, 0, UNION_MAIN_SubEventMain, sizeof(UnionSubEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, UNION_MAIN_SubEventMain, sizeof(UnionSubEventWork));
     eventWork = func_020124E8(event);
     eventWork->gameSystem = gameSystem;
     eventWork->fieldMap = fieldMap;
@@ -1016,9 +1016,9 @@ extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *ga
 
 extern void UNION_APP_Update(struct UnionAppWork *app, UnionRoomWork *unionRoom);
 
-extern int   func_02034AC4(signed int overlayId);
+extern int   GF_OVERLAY_Load(signed int overlayId);
 
-extern void  func_02034A5C(int overlayId);
+extern void  GF_OVERLAY_Unload(int overlayId);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
@@ -1076,7 +1076,7 @@ extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
 extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *pokemon);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void COLOSSEUM_ResetParties(ColosseumWork *colosseum, int arg);
 
@@ -1160,7 +1160,7 @@ extern const int gPmsInputProcData[];
 void UNION_MAIN_RequestScene(UnionRoomWork *unionRoom, int sceneId, int sceneParam)
 {
     if (unionRoom->subEvent.id != 0 || unionRoom->subEvent.active != 0)
-        func_02034714(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+        SAVEDATA_PanicFail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
     unionRoom->subEvent.id = sceneId;
     unionRoom->subEvent.param = sceneParam;
     unionRoom->subEvent.seq = 0;
@@ -1233,7 +1233,7 @@ int UNION_MAIN_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *un
     case 5:
         if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
             break;
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             *step = 6;
         } else {
             tradeParam->result = 1;
@@ -1276,7 +1276,7 @@ int UNION_MAIN_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *u
     ActivityParam *activityParam;
     int selection;
 
-    if (func_0200FB24() != 0 && *step > 2 && *step <= 13)
+    if (GFL_NET_ERR_GetErrorLevel() != 0 && *step > 2 && *step <= 13)
         *step = 16;
     if (unionRoom->app != 0)
         UNION_APP_Update(unionRoom->app, unionRoom);
@@ -1291,7 +1291,7 @@ int UNION_MAIN_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *u
         (*step)++;
         break;
     case 2:
-        func_02034AC4((u32)ov022_id);
+        GF_OVERLAY_Load((u32)ov022_id);
         unionRoom->app = UNION_APP_Create(unionRoom, 3, 5, GAME_DATA_GetMyStatus(unionRoom->parent->gameData));
         if (situation->connect.serviceFlag == 1)
             *step = 5;
@@ -1385,7 +1385,7 @@ int UNION_MAIN_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *u
         if (unionRoom->app != 0) {
             UNION_APP_Delete(unionRoom->app);
             unionRoom->app = 0;
-            func_02034A5C((int)ov022_id);
+            GF_OVERLAY_Unload((int)ov022_id);
         }
         *step = 17;
         break;
@@ -1501,7 +1501,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
         (*step)++;
         break;
     case 2:
-        func_02034AC4((int)ov090_id);
+        GF_OVERLAY_Load((int)ov090_id);
         PLIST_COMM_Start(listParam);
         (*step)++;
         break;
@@ -1538,18 +1538,18 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
         break;
     case 7:
         PLIST_COMM_End(listParam);
-        func_02034A5C((int)ov090_id);
+        GF_OVERLAY_Unload((int)ov090_id);
         *step = 8;
         break;
     case 8:
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             *step = 0x11;
             break;
         }
         if (listParam->resultKind != 0)
-            func_02034714(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+            SAVEDATA_PanicFail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
         if (listParam->cursor != 6)
-            func_02034714(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+            SAVEDATA_PanicFail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
         party = colosseum->party[myNetId];
         tmpParty = POKEPARTY_Create(0x41);
         POKEPARTY_Copy(party, tmpParty);
@@ -1559,13 +1559,13 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
                 break;
             POKEPARTY_Add(party, POKEPARTY_GetMember(tmpParty, listParam->selectedOrder[i] - 1));
         }
-        func_020307B0(tmpParty);
+        GFL_HEAP_Free(tmpParty);
         COLOSSEUM_ResetParties(colosseum, 1);
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14);
         (*step)++;
         break;
     case 9:
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             *step = 0x11;
             break;
         }
@@ -1573,7 +1573,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
             (*step)++;
         break;
     case 10:
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             *step = 0x11;
             break;
         }
@@ -1581,7 +1581,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
             (*step)++;
         break;
     case 11:
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             *step = 0x11;
             break;
         }
@@ -1601,7 +1601,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
         (*step)++;
         break;
     case 13:
-        if (func_0200FB24() == 0) {
+        if (GFL_NET_ERR_GetErrorLevel() == 0) {
             wifiList = GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(gameSystem));
             playerCount = GFL_NET_GetNegotiationNum();
             side = colosseum->battlePosition[myNetId] & BATTLE_POSITION_SIDE;

@@ -11,11 +11,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215F3D0  0x0215F3D0  arm  ov009
+ *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
  *   func_020879EC  0x020879EC  arm
  *   OS_TryLockMutex  0x020860D0  arm
  *   OS_LockMutex  0x02086028  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   OS_Sleep  0x02085A38  arm
  *   CPS_SocGetLength  0x0215B504  arm  ov009
@@ -99,11 +99,11 @@ struct SOCLiCommandRead {
     unsigned long *remote_ip;
 };
 
-extern int func_0215F3D0(struct SOCLSocket *socket);
+extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern int func_020879EC(void);
 extern int OS_TryLockMutex(void *mutex);
 extern void OS_LockMutex(void *mutex);
-extern void func_02086078(void *mutex);
+extern void OS_UnlockMutex(void *mutex);
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void OS_Sleep(unsigned long msec);
 extern long CPS_SocGetLength(void);
@@ -168,7 +168,7 @@ int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_po
     int result;
     struct SOCLSocket *socket = (struct SOCLSocket *)s;
 
-    if (func_0215F3D0(socket))
+    if (SOCL_SocketIsInvalid(socket))
         return -0x1c;
     if ((flags & 4) || socket->flag_block == 0) {
         flag_block = 0;
@@ -191,7 +191,7 @@ int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_po
         OS_LockMutex(recv_pipe->mutex);
     }
     result = SOCLi_ReadAndConsumeBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
-    func_02086078(recv_pipe->mutex);
+    OS_UnlockMutex(recv_pipe->mutex);
     return result;
 }
 
@@ -538,7 +538,7 @@ static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buff
                 break;
             }
             OS_SleepThread(&pipe->waiting);
-            if (func_0215F3D0(socket) || !isNotReady(socket)) {
+            if (SOCL_SocketIsInvalid(socket) || !isNotReady(socket)) {
                 result = -0x38;
                 break;
             }

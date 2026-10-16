@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
@@ -49,7 +49,7 @@ typedef struct DoorAnimeWork {
 } DoorAnimeWork;
 
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
@@ -115,7 +115,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
 u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap)
 {
-    u32 task = (u32)func_020122C0((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_OpenTask, 0x14);
+    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_OpenTask, 0x14);
     DoorAnimeWork *work = func_020124E8((struct Obj *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
@@ -154,7 +154,7 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
 u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap)
 {
-    u32 task = (u32)func_020122C0((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_SetOpenTask, 0x14);
+    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_SetOpenTask, 0x14);
     DoorAnimeWork *work = func_020124E8((struct Obj *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
@@ -204,7 +204,7 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
 u32 FIELD_DOOR_ANIME_StartClose(u32 prio, u32 gameSys, u32 fieldmap, u32 silent)
 {
-    u32 task = (u32)func_020122C0((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_CloseTask, 0x14);
+    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_CloseTask, 0x14);
     DoorAnimeWork *work = func_020124E8((struct Obj *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;

@@ -23,7 +23,7 @@
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
  *   IRC_APPBAR_Delete 0x021B71C0 thumb ov101
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -34,23 +34,23 @@
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig 0x021B92D4 data ov103 a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
- *   func_020490F4 0x020490F4 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_02049740 0x02049740 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   IRC_COMPATIBLE_TOUCH_TEST_BgDisplayConfig 0x021B924C data ov103 a4
  *   IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds 0x021B927C data a4
  *   IRC_COMPATIBLE_TOUCH_TEST_BgLayerTypes 0x021B9298 data a4
@@ -90,7 +90,7 @@
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_02047964 0x02047964 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
@@ -110,7 +110,7 @@
  *   G3D_SYSTEM_DeleteObject 0x02047738 arm
  *   G3D_SYSTEM_DeleteAnime 0x0204762C arm
  *   G3D_SYSTEM_DeleteRender 0x02047504 arm
- *   func_02046EFC 0x02046EFC arm
+ *   G3D_SYSTEM_DeleteResource 0x02046EFC arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   func_02047828 0x02047828 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
@@ -118,7 +118,7 @@
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -140,11 +140,11 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
- *   func_0201D304 0x0201D304 thumb
- *   func_0201D42C 0x0201D42C thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   GF_FONT_CountLines 0x0201D42C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   IRC_APPBAR_GetResult 0x021B7250 thumb ov101
  *   IRC_APPBAR_IsBusy 0x021B727C thumb ov101
@@ -175,7 +175,7 @@
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm  arm9
@@ -188,6 +188,7 @@
  *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm  arm9
+ *   GFL_HEAP_Free  0x020307B0  arm  arm9
  */
 #include "../ov102/irc_screen_types.h"
 #include "../ov101/irc_appbar.h"
@@ -346,7 +347,7 @@ extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int a1, int a2, int a3);
 extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
-extern void func_020315D4(void *proc);
+extern void PROCSYS_FreeProcWork(void *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned heapId);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
@@ -356,22 +357,22 @@ extern void BG_SYS_SetVramBanks(const void *config);
 extern int BMP_SetDisplaySwap(int);
 extern int BG_SYS_ResetSubDisplay(int);
 extern void BG_SYS_ClearMainPlanes(int);
-extern unsigned func_020056A0(void (*task)(unsigned, void *), void *work, unsigned priority);
-extern void func_02030EAC(unsigned task);
+extern unsigned GFL_USE_AddMainTask(void (*task)(unsigned, void *), void *work, unsigned priority);
+extern void TCB_DeleteTask(unsigned task);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(const void *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const void *template, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8, u8);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void BG_SYS_SetPlaneVisible(u8, u8);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0207D63C(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(int, int, int);
 extern void BG_SYS_FreeLayerBuf(u8);
@@ -404,7 +405,7 @@ extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, v
 extern void G3D_CAMERA_Delete(void *);
 extern void G3D_SYSTEM_Exit(void);
 extern void func_02047964(void);
-extern void func_02048AD0(void *);
+extern void G3D_CAMERA_Reset(void *);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void G3X_SetFog(int, int, int, int);
@@ -424,7 +425,7 @@ extern void MTX_Identity33_(void *matrix);
 extern void G3D_SYSTEM_DeleteObject(void *);
 extern void G3D_SYSTEM_DeleteAnime(void *);
 extern void G3D_SYSTEM_DeleteRender(void *);
-extern void func_02046EFC(void *);
+extern void G3D_SYSTEM_DeleteResource(void *);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern void func_02047828(void *object, int index, int *frame);
 extern void G3D_SYSTEM_DrawObject(void *object, void *transform);
@@ -432,7 +433,7 @@ extern u32 func_02047804(void *object, u16 idx);
 extern void GF_FONT_InitTextColor(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
-extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
@@ -455,11 +456,11 @@ extern void BMP_WIN_Delete(void *bmpWin);
 extern int PRINTSYS_QUE_IsExistTarget(void *printQueue, void *bmp);
 extern u8 BMP_WIN_GetWidth(void *bmpWin);
 extern int BMP_WIN_GetHeight(void *bmpWin);
-extern int func_0201D304(void *strBuf, void *font, int margin);
-extern int func_0201D42C(void *strBuf, void *font);
+extern int GF_FONT_MeasureWidestLine(void *strBuf, void *font, int margin);
+extern int GF_FONT_CountLines(void *strBuf, void *font);
 extern void PRINTSYS_PrintQueColor(void *printQueue, void *bmp, s16 x, s16 y, void *strBuf, void *font, int color);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, const u8 *myStatus);
-extern void *func_02045EC0(void *msgData, u32 msgId);
+extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
 extern void WORDSET_CopyTaggedText(void *wordSet, void *dest, void *src);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
@@ -489,9 +490,9 @@ extern u8 BG_SYS_GetField16(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_FillTileMap(u8, u8, u8, u8, u8, u8);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetTileEntry(u8, u8, u8, u8, u8, u8, u8);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern void CLACT_SetActorPaletteOffset(void *actor, u32 offset, u32 flag);
 
 extern u8 IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig[];
@@ -641,7 +642,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcExit(void *proc, int unused, int unused2, IrcT
     IRC_COMPATIBLE_TOUCH_TEST_ExitScene(work);
     IRC_COMPATIBLE_TOUCH_TEST_ExitText(&work->text);
     IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(&work->exchange);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(55);
     return 1;
 }
@@ -699,12 +700,12 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitScene(IrcTouchWork *work, u16 heapId)
     IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(&work->bgCharRange, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_Init3D(&work->scene, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_InitMarkers(&work->markers, &work->scene, heapId);
-    work->vblankTask = func_020056A0(IRC_COMPATIBLE_TOUCH_TEST_VBlankTask, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(IRC_COMPATIBLE_TOUCH_TEST_VBlankTask, work, 0);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitScene(IrcTouchWork *work)
 {
-    func_02030EAC(work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
     IRC_COMPATIBLE_TOUCH_TEST_ExitMarkers(&work->markers);
     IRC_COMPATIBLE_TOUCH_TEST_Exit3D(&work->scene);
     IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(&work->bgCharRange);
@@ -751,25 +752,25 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(u32 *charRange, u16 heapId)
         layer = IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[i];
         BG_SYS_InitBgLayer((u8)layer, IRC_COMPATIBLE_TOUCH_TEST_BgTemplates[i], (u8)IRC_COMPATIBLE_TOUCH_TEST_BgLayerTypes[i]);
         BG_SYS_FreeSlot(layer);
-        func_02040588(layer, 1);
+        BG_SYS_SetPlaneVisible(layer, 1);
     }
-    arc = func_020490F4(94, heapId);
+    arc = ARC_TOOL_CreateHandle(94, heapId);
     func_02049B68(arc, 1, 0, 0, 0, heapId);
     func_02049B68(arc, 1, 4, 0, 0, heapId);
     func_02049B68(arc, 6, 0, 0x120, 0, heapId);
-    func_02049658(arc, 2, 3, 0, 0, 0, heapId);
-    func_02049658(arc, 0, 6, 0, 0, 0, heapId);
-    func_02049658(arc, 48, 4, 0, 0, 0, heapId);
-    func_02049658(arc, 5, 2, 0, 0, 0, heapId);
-    func_020498F4(arc, 3, 3, 0, 0, 0, heapId);
-    func_020498F4(arc, 4, 6, 0, 0, 0, heapId);
-    func_020498F4(arc, 45, 4, 0, 0, 0, heapId);
-    func_020498F4(arc, 7, 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 2, 3, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 0, 6, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 48, 4, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 5, 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 3, 3, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 4, 6, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 45, 4, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 7, 2, 0, 0, 0, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_LoadGuideScreens(1, heapId);
     BG_SYS_Init(5, 0, 1, 0);
-    *charRange = func_02049740(arc, 49, 5, 0, 0, heapId);
+    *charRange = ARC_UTIL_RegisterObjCharFromHandle(arc, 49, 5, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    func_0207D63C(0x04000050, 5, 12, 13, 8);
+    G2x_SetBlendAlpha_(0x04000050, 5, 12, 13, 8);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(u32 *charRange)
@@ -796,7 +797,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitSprites(IrcTouchSprites *sprites, const void 
     CLACT_SetUnitDefaultRenderer(sprites->res.unit);
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
-    arc = func_020490F4(94, heapId);
+    arc = ARC_TOOL_CreateHandle(94, heapId);
     sprites->res.palette = CLACT_RegisterPalette(arc, 12, 1, 0, heapId);
     sprites->res.characters = CLACT_RegisterCharacter(arc, 11, 0, 1, heapId);
     sprites->res.cellAnim = CLACT_RegisterCellAnim(arc, 10, 9, heapId);
@@ -844,7 +845,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_Init3D(IrcScene3d *scene, int heapId)
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heapId, IRC_COMPATIBLE_TOUCH_TEST_Setup3DDisplay);
     scene->camera = G3D_CAMERA_Create(2, 6 << 14, 0xFFFE8000, 0xFFFE0000, 1 << 17, 1 << 12, 250 << 14, 0,
                               IRC_COMPATIBLE_TOUCH_TEST_CameraPosition, IRC_COMPATIBLE_TOUCH_TEST_CameraTarget, IRC_COMPATIBLE_TOUCH_TEST_CameraUp, heapId);
-    arc = func_020490F4(0x5e, heapId);
+    arc = ARC_TOOL_CreateHandle(0x5e, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_InitModel(&scene->model[0], arc, (const u16 *)IRC_COMPATIBLE_TOUCH_TEST_ModelFileIds, 1, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_InitModel(&scene->model[1], arc, (const u16 *)IRC_COMPATIBLE_TOUCH_TEST_ModelFileIds, 2, heapId);
     ARC_TOOL_DeleteHandle(arc);
@@ -864,7 +865,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_Exit3D(IrcScene3d *scene)
 void IRC_COMPATIBLE_TOUCH_TEST_Begin3DFrame(IrcScene3d *scene)
 {
     func_02047964();
-    func_02048AD0(scene->camera);
+    G3D_CAMERA_Reset(scene->camera);
     G3D_SYSTEM_ApplyLookAt();
 }
 
@@ -933,8 +934,8 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitModel(IrcModel *model)
         if (model->anime[i]) G3D_SYSTEM_DeleteAnime(model->anime[i]);
     }
     G3D_SYSTEM_DeleteRender(model->render);
-    for (i = 0; i < 2; i++) func_02046EFC(model->animResource[i]);
-    func_02046EFC(model->resource);
+    for (i = 0; i < 2; i++) G3D_SYSTEM_DeleteResource(model->animResource[i]);
+    G3D_SYSTEM_DeleteResource(model->resource);
     MI_CpuFill8(model, 0, 0x60);
 }
 
@@ -978,7 +979,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitText(IrcTextSystem *text, int skipFont, u32 h
     if (skipFont == 0)
         text->font = GF_FONT_Create(23, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
-    text->msgData = func_02045B38(0, 2, 47, heapId);
+    text->msgData = MSGDATA_CreateFromArchive(0, 2, 47, heapId);
     text->wordSet = WORDSET_CreateDefault(heapId);
 }
 
@@ -1099,8 +1100,8 @@ void IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(IrcWindow *win, IrcTextSyste
     func_02045CAC(msgData, msgId, win->strBuf);
     x = BMP_WIN_GetWidth(win->bmpWin) * 4;
     y = BMP_WIN_GetHeight(win->bmpWin) * 4;
-    x -= (u16)(func_0201D304(win->strBuf, font, 0) >> 1);
-    y -= (u16)(func_0201D42C(win->strBuf, font) >> 1);
+    x -= (u16)(GF_FONT_MeasureWidestLine(win->strBuf, font, 0) >> 1);
+    y -= (u16)(GF_FONT_CountLines(win->strBuf, font) >> 1);
     PRINTSYS_QUE_Clear(printQueue);
     PRINTSYS_PrintQueColor(printQueue, BMP_WIN_GetBmp(win->printWin), x, y, win->strBuf, font, 0x3dc4);
     win->printPending = 1;
@@ -1113,7 +1114,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_PrintMessageWithName(IrcWindow *win, IrcTextSyste
     wordSet = IRC_COMPATIBLE_TOUCH_TEST_TextGetWordSet(text);
     msgData = IRC_COMPATIBLE_TOUCH_TEST_TextGetMsgData(text);
     WORDSET_SetSlotMyStatus(wordSet, 0, profile->myStatus);
-    message = func_02045EC0(msgData, msgId);
+    message = MSGDATA_AllocString(msgData, msgId);
     WORDSET_CopyTaggedText(wordSet, win->strBuf, message);
     STRBUF_Delete(message);
     printQueue = IRC_COMPATIBLE_TOUCH_TEST_TextGetPrintQueue(text);
@@ -1609,17 +1610,17 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(void *arc, int memberId, int bgLa
         BG_SYS_FillTileMap(bgLayer, dstX, dstY, dstWidth, dstHeight, palette);
         BG_SYS_PushTile(bgLayer);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_LoadGuideScreens(int mask, u16 heapId)
 {
-    void *arc = func_020490F4(94, heapId);
+    void *arc = ARC_TOOL_CreateHandle(94, heapId);
     if (mask & 1) IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(arc, 7, 2, 0, 0, 0, 16, 24, 0, 0, 16, 24, 9, 0, heapId);
     else BG_SYS_SetTileEntry(2, 0, 0, 0, 16, 24, 9);
     if (mask & 2) IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(arc, 8, 2, 0, 0, 0, 16, 24, 16, 0, 16, 24, 9, 0, heapId);
     else BG_SYS_SetTileEntry(2, 0, 16, 0, 16, 24, 9);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     ARC_TOOL_DeleteHandle(arc);
 }
 

@@ -14,9 +14,9 @@
  * Takes the B variant of the ground animation, 021A7CE8..021A834C, from the head of field_menu.c (lane FXC3: the 21 functions before the first field_menu.c anchor FIELD_MENU_Create at 021A836C).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   _FieldGroundAnimeFileName     0x021DDF7C  data  ov021  a1
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G3dGetAnmByIdx  0x0206E9A4  arm
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
@@ -28,7 +28,7 @@
  *   _s32_div_f  0x0209C0A4  arm
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   NNS_G3dGetResDictIdxByName  0x0206E7EC  arm
  *   func_0209C2B0  0x0209C2B0  arm
  *   gTexDimensionTable     0x021D8B08  data  a2
@@ -37,7 +37,7 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_GROUND_ANIME_GetPlayerMoveMode  0x021A80FC  thumb  ov021
@@ -319,8 +319,8 @@ typedef struct GroundAnimeWork {
 
 #define SE_GROUND_ANIME_DOOR 0x559
 
-extern void *func_02030734(u16 heapId, u32 size, u32 one, char *file, u32 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 one, char *file, u32 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *ARC_UTIL_LoadMember(u32 arcId, u32 memberId, u32 zero, u16 heapId);
 extern NNSG3dResAnm *NNS_G3dGetAnmByIdx(void *file, u32 idx);
 extern void *G3D_SYSTEM_GetResourceFile(void *resource);
@@ -331,13 +331,13 @@ extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 p
 extern void NNS_G3dRenderObjAddAnmObj(void *renderObj, NNSG3dAnmObj *anmObj);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern int NNS_G3dGetResDictIdxByName(const Dict *dict, const void *name);
 extern u32 func_0209C2B0(u32 a, u32 b);
 extern void *FLDMMDL_FreeAcmd(char *p);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
-extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *task);
 extern void *GAME_DATA_GetBgmInfo(void *gameData);
 extern void *ENTRANCE_CAMERA_Create(void *p);
@@ -449,7 +449,7 @@ extern const u8 gTexPixelsPerByteTable[];
 FieldGroundAnime *FIELD_GROUND_ANIME_Create(const GroundAnimeDesc *desc, void *modelRes, u16 heapId)
 {
     FieldGroundAnime *ground;
-    ground = func_02030734(heapId, 0x41c, 1, &_FieldGroundAnimeFileName, 0xd6);
+    ground = GFL_HEAP_Alloc(heapId, 0x41c, 1, &_FieldGroundAnimeFileName, 0xd6);
     if (desc->hasAnmSet != 0) {
         u32 count = desc->anmCount;
         u32 arcId = desc->anmArcId;
@@ -467,7 +467,7 @@ int FIELD_GROUND_ANIME_Delete(FieldGroundAnime *ground)
 {
     FIELD_GROUND_ANIME_TexAnmSetFree(&ground->texAnmSet);
     FIELD_GROUND_ANIME_AnmSetFree(&ground->anmSet);
-    return func_020307B0(ground);
+    return GFL_HEAP_Free(ground);
 }
 
 void FIELD_GROUND_ANIME_Update(FieldGroundAnime *ground)
@@ -514,7 +514,7 @@ void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u
     i = 0;
     set->file = ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
     pResAnm = NNS_G3dGetAnmByIdx(set->file, 0);
-    set->entries = func_02030734(heapId, count * 12, 1, &_FieldGroundAnimeFileName, 0x196);
+    set->entries = GFL_HEAP_Alloc(heapId, count * 12, 1, &_FieldGroundAnimeFileName, 0x196);
     set->count = count;
     for (i = 0; i < set->count; i++)
         FIELD_GROUND_ANIME_AnmEntryInit(&set->entries[i], pResAnm, heapId);
@@ -527,9 +527,9 @@ void FIELD_GROUND_ANIME_AnmSetFree(GroundAnmSet *set)
         for (i = 0; i < set->count; i++) {
             FIELD_GROUND_ANIME_AnmEntryFree(&set->entries[i]);
         }
-        func_020307B0(set->entries);
+        GFL_HEAP_Free(set->entries);
         set->entries = 0;
-        func_020307B0(set->file);
+        GFL_HEAP_Free(set->file);
         set->file = 0;
     }
 }
@@ -558,13 +558,13 @@ GroundAnmEntry *FIELD_GROUND_ANIME_AnmSetGetEntry(GroundAnmSet *set, int index)
 
 void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dResAnm *pResAnm, u16 heapId)
 {
-    entry->anmObj = func_02030734(heapId, 0x80, 1, &_FieldGroundAnimeFileName, 0x206);
+    entry->anmObj = GFL_HEAP_Alloc(heapId, 0x80, 1, &_FieldGroundAnimeFileName, 0x206);
     entry->pResAnm = pResAnm;
 }
 
 int FIELD_GROUND_ANIME_AnmEntryFree(GroundAnmEntry *entry)
 {
-    func_020307B0(entry->anmObj);
+    GFL_HEAP_Free(entry->anmObj);
     entry->anmObj = 0;
     return 0;
 }
@@ -643,7 +643,7 @@ void FIELD_GROUND_ANIME_TexAnmSetFree(GroundTexAnmSet *set)
         }
     }
     if (set->table != 0) {
-        func_020307B0(set->table);
+        GFL_HEAP_Free(set->table);
         set->table = 0;
     }
 }
@@ -661,7 +661,7 @@ void FIELD_GROUND_ANIME_TexAnmSetUpdate(GroundTexAnmSet *set, int dt)
 /*
  * Initialiser for the texture animation FIELD_GROUND_ANIME_TexAnmUpdate steps: allocates the
  * per-group arrays and seeds each group's current key and VRAM target.
- * The heap id is u16 in both this signature and func_02030734's: with u32
+ * The heap id is u16 in both this signature and GFL_HEAP_Alloc's: with u32
  * the stack-argument load drops from the first instruction to after the
  * register copies (docs/idioms/a-narrow-parameter-pins-its-home-store-to-
  * the-front-of-the-prologue.md, here for a load).
@@ -677,13 +677,13 @@ void FIELD_GROUND_ANIME_TexAnmInit(GroundTexAnm *anm, GroundTexAnmTable *table, 
     anm->modelRes = modelRes;
     anm->keyData = (u32 *)FIELD_GROUND_ANIME_GetTexAnmKeyData(table, index);
     FIELD_GROUND_ANIME_KeyTableUnpack(anm->keyData, &anm->keyTable);
-    anm->animRes = func_02030734(heapId, G3D_SYSTEM_GetResourceSize(), 1, &_FieldGroundAnimeFileName, 0x2c9);
+    anm->animRes = GFL_HEAP_Alloc(heapId, G3D_SYSTEM_GetResourceSize(), 1, &_FieldGroundAnimeFileName, 0x2c9);
     G3D_SYSTEM_InitResourceByFile(anm->animRes, (void *)FIELD_GROUND_ANIME_GetTexAnmFile(table, index));
     anm->groupCount = FIELD_GROUND_ANIME_KeyTableGetGroupCount(&anm->keyTable);
-    anm->curKeys = func_02030734(heapId, anm->groupCount * 2, 1, &_FieldGroundAnimeFileName, 0x2d4);
-    anm->vramOffsets = func_02030734(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d5);
-    anm->texSizes = func_02030734(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d6);
-    anm->times = func_02030734(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d7);
+    anm->curKeys = GFL_HEAP_Alloc(heapId, anm->groupCount * 2, 1, &_FieldGroundAnimeFileName, 0x2d4);
+    anm->vramOffsets = GFL_HEAP_Alloc(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d5);
+    anm->texSizes = GFL_HEAP_Alloc(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d6);
+    anm->times = GFL_HEAP_Alloc(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d7);
     for (group = 0; group < anm->groupCount; group++) {
         anm->curKeys[group] = FIELD_GROUND_ANIME_KeyTableGetKey(&anm->keyTable, group, 0);
         lastKey = FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(&anm->keyTable, group);
@@ -703,11 +703,11 @@ void FIELD_GROUND_ANIME_TexAnmInit(GroundTexAnm *anm, GroundTexAnmTable *table, 
 void FIELD_GROUND_ANIME_TexAnmFree(GroundTexAnm *anm)
 {
     if (anm->keyData != 0) {
-        func_020307B0(anm->curKeys);
-        func_020307B0(anm->vramOffsets);
-        func_020307B0(anm->texSizes);
-        func_020307B0(anm->times);
-        func_020307B0(anm->animRes);
+        GFL_HEAP_Free(anm->curKeys);
+        GFL_HEAP_Free(anm->vramOffsets);
+        GFL_HEAP_Free(anm->texSizes);
+        GFL_HEAP_Free(anm->times);
+        GFL_HEAP_Free(anm->animRes);
         anm->keyData = 0;
         anm->animRes = 0;
     }
@@ -736,7 +736,7 @@ void FIELD_GROUND_ANIME_TexAnmUpdate(GroundTexAnm *anm, s32 dt)
         } else if (anm->vramOffsets[group] != -1) {
             key = FIELD_GROUND_ANIME_KeyTableGetKey(&anm->keyTable, group, anm->times[group] >> 12);
             if (key.texIndex != anm->curKeys[group].texIndex || anm->needsFullUpload)
-                func_02061CA4(0, anm->vramOffsets[group], (u32)FIELD_GROUND_ANIME_GetTexData(anm->animRes, key.texIndex), anm->texSizes[group]);
+                NNS_GfdRegisterNewVramTransferTask(0, anm->vramOffsets[group], (u32)FIELD_GROUND_ANIME_GetTexData(anm->animRes, key.texIndex), anm->texSizes[group]);
             anm->curKeys[group] = key;
         }
     }
@@ -946,7 +946,7 @@ void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
     void *task;
     GroundAnimeWork *w;
 
-    task = func_020122C0(args->gameSystem, 0, FIELD_GROUND_ANIME_MainA, 0x3C);
+    task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainA, 0x3C);
     w = func_020124E8(task);
     w->args = args;
     w->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
@@ -1144,7 +1144,7 @@ void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
     void *task;
     GroundAnimeWork *work;
 
-    task = func_020122C0(args->gameSystem, 0, FIELD_GROUND_ANIME_MainB, 0x3C);
+    task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainB, 0x3C);
     work = func_020124E8(task);
     work->args = args;
     work->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);

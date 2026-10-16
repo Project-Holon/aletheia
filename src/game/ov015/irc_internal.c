@@ -15,7 +15,7 @@
  * sdk:      IRCi_Write (libirc.a irc_internal.o)
  *
  * symbols:
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
  *   OS_GetLockID  0x02084EB8  arm
  *   gIrcLockId     0x0217AAB4  data
@@ -41,7 +41,7 @@ typedef struct IRCParam {
     unsigned char *recv;
 } IRCParam;
 
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern long OS_GetLockID(void);
 extern void OS_ReleaseLockID(unsigned short lockID);
 extern void func_02075E9C(u16 id);
@@ -74,8 +74,8 @@ void IRCi_WaitCommand(void)
 {
     unsigned long long time;
 
-    time = func_020870D0();
-    while ((func_020870D0() - time) * 64000 / 0x82EA < 60)
+    time = OS_GetTick();
+    while ((OS_GetTick() - time) * 64000 / 0x82EA < 60)
         ;
 }
 
@@ -126,8 +126,8 @@ unsigned char IRCi_CommWrite(struct IRCParam *param)
     unsigned long long time;
     volatile unsigned short tmp;
 
-    time = func_020870D0();
-    while ((func_020870D0() - time) * 64000 / 0x82EA < 50)
+    time = OS_GetTick();
+    while ((OS_GetTick() - time) * 64000 / 0x82EA < 50)
         ;
     *(volatile unsigned short *)0x040001A2 = *param->send;
     param->send++;
@@ -146,8 +146,8 @@ void IRCi_CommRead(struct IRCParam *param)
 {
     unsigned long long time;
 
-    time = func_020870D0();
-    while ((func_020870D0() - time) * 64000 / 0x82EA < 50)
+    time = OS_GetTick();
+    while ((OS_GetTick() - time) * 64000 / 0x82EA < 50)
         ;
     *(volatile unsigned short *)0x040001A2 = 0;
     while (*(volatile unsigned short *)0x040001A0 & 0x80)

@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0207C930  0x0207C930  arm
- *   func_0207C86C  0x0207C86C  arm
+ *   FX_DivAsync  0x0207C930  arm
+ *   FX_GetDivResult  0x0207C86C  arm
  *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   data_020A8478  0x020A8478  data
  *   g_0214BAC0     0x0214BAC0  data
@@ -141,8 +141,8 @@ struct Sys {
 
 typedef signed char s8;
 
-extern void func_0207C930(s32 a, s32 b);
-extern s32  func_0207C86C(void);
+extern void FX_DivAsync(s32 a, s32 b);
+extern s32  FX_GetDivResult(void);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void SND_Init(void);
 extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
@@ -300,7 +300,7 @@ void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s)
 
     f12 = (s32)s->f2c << 12;
     e12 = (s32)s->f2e << 12;
-    func_0207C930(e12, f12);
+    FX_DivAsync(e12, f12);
 
     e = s->f18;
     a = (s32)s->f22;
@@ -311,13 +311,13 @@ void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s)
     r = (s32)(((s64)c * a) >> 12);
     d->f00 = (s32)(((s64)e * a) >> 12);
     d->f14 = r;
-    d->f04 = ((s32)(((s64)c * b) >> 12) * func_0207C86C()) >> 12;
+    d->f04 = ((s32)(((s64)c * b) >> 12) * FX_GetDivResult()) >> 12;
 
-    func_0207C930(f12, e12);
+    FX_DivAsync(f12, e12);
 
     d->f30 = ((s32)s->f2c * q) << 4;
     d->f34 = ((0 - (s32)s->f2e) * (r - 0x1000)) << 4;
-    d->f10 = ((0 - q) * func_0207C86C()) >> 12;
+    d->f10 = ((0 - q) * FX_GetDivResult()) >> 12;
 }
 
 
@@ -358,20 +358,20 @@ void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s)
     e12 = (s32)((u32)s->f2c << 12);
     f12 = (s32)((u32)s->f2e << 12);
 
-    func_0207C930(f12, e12);
+    FX_DivAsync(f12, e12);
 
     d->f00 = s->f22;
     d->f14 = s->f22;
 
-    t = func_0207C86C();
+    t = FX_GetDivResult();
     d->f04 = (s->f20 * t) >> 12;
 
-    func_0207C930(e12, f12);
+    FX_DivAsync(e12, f12);
 
     d->f30 = ((s32)s->f2c * s->f20) << 4;
     d->f34 = ((0 - (s32)s->f2e) * (s->f22 - 0x1000)) << 4;
 
-    t = func_0207C86C();
+    t = FX_GetDivResult();
     d->f10 = ((0 - (s32)s->f20) * t) >> 12;
 }
 

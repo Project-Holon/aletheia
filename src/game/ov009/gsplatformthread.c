@@ -18,12 +18,13 @@
  *   atoll  0x020964F4  arm
  *   OS_InitMutex  0x02086004  arm  arm9
  *   OS_LockMutex  0x02086028  arm  arm9
+ *   OS_UnlockMutex  0x02086078  arm  arm9
  */
 extern unsigned long func_020879B4(void);
 extern unsigned long func_020879C8(unsigned long state);
 extern void OS_InitMutex(void *criticalSection);
 extern void OS_LockMutex(void *criticalSection);
-extern void func_02086078(void *criticalSection);
+extern void OS_UnlockMutex(void *criticalSection);
 extern long long atoll(unsigned int string);
 unsigned int gsiInterlockedIncrement(unsigned int *value);
 unsigned int gsiInterlockedDecrement(unsigned int *value);
@@ -90,7 +91,7 @@ void gsiEnterCriticalSection(void *criticalSection)
 
 void gsiLeaveCriticalSection(void *criticalSection)
 {
-    func_02086078(criticalSection);
+    OS_UnlockMutex(criticalSection);
 }
 
 

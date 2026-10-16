@@ -14,7 +14,7 @@
  *           WcmNwmReset at 0x02731F14, WcmNwmcbSetDCFDataAsync at 0x02732CEC)
  *
  * symbols:
- *   func_020862B8  0x020862B8  arm  twl
+ *   DC_InvalidateRange  0x020862B8  arm  twl
  *   NWM_StartScanEx  0x02703088  arm  twl
  *   MI_CpuCopy8    0x02082D44  arm
  *   WCMi_GetSystemWork  0x021657C8  arm  ov009
@@ -34,7 +34,7 @@
  *   OS_SleepThread  0x020857B0  arm
  *   WcmNwmcbSetDCFDataAsync   0x02732CEC  arm  twl
  *   NWM_GetAllowedChannel  0x02702980  arm  twl
- *   func_021659B4  0x021659B4  arm  ov009
+ *   WCMi_Notify  0x021659B4  arm  ov009
  *   NWM_Open     0x02702F38  arm  twl
  *   OS_GetMacAddress  0x02087C6C  arm
  *   func_021665CC     0x021665CC  arm  ov009
@@ -52,6 +52,8 @@
  *   OS_WakeupThread  0x02085800  arm
  *   WCMi_CpsifUnlockMutexInIRQ  0x02166594  arm  ov009
  *   WCMi_EntryApList  0x02165D04  arm  ov009
+ *   MATH_CountPopulation  0x02080D24  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -129,7 +131,7 @@ typedef struct Pkt {
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern NetWork *WCMi_GetSystemWork(void);
-extern void func_020862B8(u32 buf, u32 len);
+extern void DC_InvalidateRange(u32 buf, u32 len);
 extern int NWM_StartScanEx(void *cb, void *buf);
 extern u32 NWM_Init(u32 a0, u32 a1, u32 a2);
 extern void WCMi_SetPhase(unsigned char phase);
@@ -146,12 +148,12 @@ extern NetObj *WCMi_GetCpsifWork(void);
 extern u32 NWM_SendFrame(void *cb, u32 a, u32 b, u32 c);
 extern void OS_SleepThread(void *queue);
 extern u32 NWM_GetAllowedChannel(void);
-extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
+extern void WCMi_Notify(u32 a, void *b, u32 c, u32 d);
 extern void func_021659F8(u32 a, u32 b, u32 c, void *d, u32 e);
 extern void WCMi_EntryApList(u32 a, u32 b);
 extern u16 WCMi_GetNextScanChannel(u16 a);
-extern void func_020862D4(u32 buf, u32 len);
-extern u32 func_02080D24(u32 x);
+extern void DC_StoreRange(u32 buf, u32 len);
+extern u32 MATH_CountPopulation(u32 x);
 extern u32 NWM_Open(void *arg);
 extern void OS_GetMacAddress(void *mac);
 extern void func_021665CC(void *mac);
@@ -290,7 +292,7 @@ int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c)
         return 1;
     case 3:
         WcmEditScanExParam((void *)a, (void *)b, c);
-        func_020862B8(w->sendBuf, w->sendLen);
+        DC_InvalidateRange(w->sendBuf, w->sendLen);
         w->sendCount++;
         switch (NWM_StartScanEx(WcmNwmcbScanEx, &w->sendBuf)) {
         case 2:
@@ -501,26 +503,26 @@ void WcmNwmReset(void)
     case 5:
     case 6:
         WCMi_SetPhase(3);
-        func_021659B4(1, 0, 0, 667);
+        WCMi_Notify(1, 0, 0, 667);
         return;
     case 7:
         WCMi_SetPhase(3);
-        func_021659B4(0, 0, 0, 673);
+        WCMi_Notify(0, 0, 0, 673);
         return;
     case 8:
         tx = w->txFlag;
         w->txFlag = 0;
         WCMi_SetPhase(3);
-        func_021659B4(1, w->buf, tx, 683);
+        WCMi_Notify(1, w->buf, tx, 683);
         return;
     case 9:
     case 12:
         WCMi_SetPhase(3);
-        func_021659B4(0, w->buf, 1, 691);
+        WCMi_Notify(0, w->buf, 1, 691);
         return;
     case 10:
         WCMi_SetPhase(3);
-        func_021659B4(0, w->buf, 0, 698);
+        WCMi_Notify(0, w->buf, 0, 698);
         return;
     case 13:
         switch (NWM_Close(WcmNwmcbCommon)) {
@@ -528,17 +530,17 @@ void WcmNwmReset(void)
             return;
         case 6:
             WCMi_SetPhase(12);
-            func_021659B4(1, 0, 0, 712);
+            WCMi_Notify(1, 0, 0, 712);
             return;
         case 3:
         default:
             WCMi_SetPhase(11);
-            func_021659B4(7, 0, 0, 721);
+            WCMi_Notify(7, 0, 0, 721);
             return;
         }
     default:
         WCMi_SetPhase(11);
-        func_021659B4(7, 0, w->state, 727);
+        WCMi_Notify(7, 0, w->state, 727);
         return;
     }
 }
@@ -565,17 +567,17 @@ void WcmNwmcbCommon(u16 *arg)
         case 4:
             if (NWM_End() == 0) {
                 WCMi_SetPhase(1);
-                func_021659B4(0, 0, 0, 768);
+                WCMi_Notify(0, 0, 0, 768);
                 return;
             }
             WCMi_SetPhase(11);
-            func_021659B4(7, 0, 0, 777);
+            WCMi_Notify(7, 0, 0, 777);
             return;
         case 5:
             OS_GetMacAddress(mac);
             func_021665CC(mac);
             WCMi_SetPhase(3);
-            func_021659B4(0, 0, 0, 790);
+            WCMi_Notify(0, 0, 0, 790);
             return;
         case 6:
             ret = NWM_UnloadDevice(WcmNwmcbCommon);
@@ -599,21 +601,21 @@ void WcmNwmcbCommon(u16 *arg)
             return;
         case 6:
             WCMi_SetPhase(12);
-            func_021659B4(1, w->phase == 5 ? w->buf : 0, 0, 842);
+            WCMi_Notify(1, w->phase == 5 ? w->buf : 0, 0, 842);
             return;
         case 3:
         default:
             WCMi_SetPhase(11);
-            func_021659B4(7, w->phase == 5 ? w->buf : 0, 0, 851);
+            WCMi_Notify(7, w->phase == 5 ? w->buf : 0, 0, 851);
             return;
         }
     case 1:
         WCMi_SetPhase(12);
-        func_021659B4(1, w->phase == 5 ? w->buf : 0, 0, 882);
+        WCMi_Notify(1, w->phase == 5 ? w->buf : 0, 0, 882);
         return;
     case 10:
         WCMi_SetPhase(11);
-        func_021659B4(7, w->phase == 5 ? w->buf : 0, 0, 888);
+        WCMi_Notify(7, w->phase == 5 ? w->buf : 0, 0, 888);
         return;
     case 2:
     case 3:
@@ -625,7 +627,7 @@ void WcmNwmcbCommon(u16 *arg)
     case 9:
     default:
         WCMi_SetPhase(11);
-        func_021659B4(7, w->phase == 5 ? w->buf : 0, 0, 901);
+        WCMi_Notify(7, w->phase == 5 ? w->buf : 0, 0, 901);
         return;
     }
 }
@@ -643,33 +645,33 @@ void WcmNwmcbScanEx(SendPkt *p)
     case 0:
         if (w->state == 5) {
             WCMi_SetPhase(6);
-            func_021659B4(0, 0, 0, 931);
+            WCMi_Notify(0, 0, 0, 931);
         }
         switch (w->state) {
         case 6:
             w->phase = 7;
             if (p->count != 0) {
-                func_020862B8(w->sendBuf, w->sendLen);
+                DC_InvalidateRange(w->sendBuf, w->sendLen);
                 for (i = 0; i < p->count; i++) {
                     WCMi_EntryApList(p->ptr[i], p->size[i]);
                     func_021659F8(7, 0, p->ptr[i], p, 953);
                 }
             }
             if ((w->linkFlags & 0xc00000) == 0xc00000) {
-                u32 n = func_02080D24(w->linkFlags & 0x3ffe);
+                u32 n = MATH_CountPopulation(w->linkFlags & 0x3ffe);
                 if (n != 0 && w->sendCount % n == 0) {
                     func_021659F8(8, 0, w->sendCount, 0, 967);
                 }
             }
             w->sendMask = (1 << WCMi_GetNextScanChannel(32 - clz32(p->len))) >> 1;
-            func_020862D4(w->sendBuf, w->sendLen);
+            DC_StoreRange(w->sendBuf, w->sendLen);
             w->sendCount++;
             status = NWM_StartScanEx(WcmNwmcbScanEx, &w->sendBuf);
             break;
         case 7:
             status = 2;
             WCMi_SetPhase(3);
-            func_021659B4(0, 0, 0, 983);
+            WCMi_Notify(0, 0, 0, 983);
             break;
         case 13:
             WcmNwmReset();
@@ -680,12 +682,12 @@ void WcmNwmcbScanEx(SendPkt *p)
             return;
         case 6:
             WCMi_SetPhase(12);
-            func_021659B4(1, 0, 0, 1011);
+            WCMi_Notify(1, 0, 0, 1011);
             return;
         case 3:
         default:
             WCMi_SetPhase(11);
-            func_021659B4(7, 0, 0, 1020);
+            WCMi_Notify(7, 0, 0, 1020);
             return;
         }
     case 1:
@@ -696,7 +698,7 @@ void WcmNwmcbScanEx(SendPkt *p)
     case 4:
     default:
         WCMi_SetPhase(11);
-        func_021659B4(7, 0, 0, 1037);
+        WCMi_Notify(7, 0, 0, 1037);
         return;
     }
 }
@@ -721,11 +723,11 @@ void WcmNwmcbConnect(u16 *arg)
             }
             w->rxFlag = arg[7];
             WCMi_SetPhase(9);
-            func_021659B4(0, w->buf, 0, 1078);
+            WCMi_Notify(0, w->buf, 0, 1078);
             return;
         }
         WCMi_SetPhase(11);
-        func_021659B4(7, w->buf, 0, 1084);
+        WCMi_Notify(7, w->buf, 0, 1084);
         return;
     case 1:
         switch (arg[8]) {
@@ -776,7 +778,7 @@ void WcmNwmcbConnect(u16 *arg)
             return;
         default:
             WCMi_SetPhase(11);
-            func_021659B4(7, w->buf, arg[8], 1153);
+            WCMi_Notify(7, w->buf, arg[8], 1153);
             return;
         }
     case 5:
@@ -788,7 +790,7 @@ void WcmNwmcbConnect(u16 *arg)
     case 4:
     default:
         WCMi_SetPhase(11);
-        func_021659B4(7, w->buf, 0, 1173);
+        WCMi_Notify(7, w->buf, 0, 1173);
         return;
     }
 exit11:
@@ -819,7 +821,7 @@ void WcmNwmcbDisconnect(u16 *arg)
         }
         w->rxFlag = 0;
         WCMi_SetPhase(3);
-        func_021659B4(0, w->buf, 0, 1213);
+        WCMi_Notify(0, w->buf, 0, 1213);
         return;
     case 1:
     case 3:
@@ -830,7 +832,7 @@ void WcmNwmcbDisconnect(u16 *arg)
     case 4:
     default:
         WCMi_SetPhase(11);
-        func_021659B4(7, w->buf, 0, 1231);
+        WCMi_Notify(7, w->buf, 0, 1231);
         return;
     }
 }
@@ -856,16 +858,16 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
             return;
         case 6:
             WCMi_SetPhase(12);
-            func_021659B4(1, w->buf, 0, 1286);
+            WCMi_Notify(1, w->buf, 0, 1286);
             return;
         case 3:
         default:
             WCMi_SetPhase(11);
-            func_021659B4(7, w->buf, 0, 1295);
+            WCMi_Notify(7, w->buf, 0, 1295);
             return;
         }
     case 11:
-        func_020862B8((u32)p->data, 0x620);
+        DC_InvalidateRange((u32)p->data, 0x620);
         lv = p->level;
         if (lv < 0) {
             lv = 0;
@@ -899,7 +901,7 @@ void WcmNwmcbUnsetRecvFrmBuf(Pkt *p)
             return;
         case 6:
             WCMi_SetPhase(12);
-            func_021659B4(1, w->buf, 0, 1365);
+            WCMi_Notify(1, w->buf, 0, 1365);
             return;
         case 3:
             WCMi_SetPhase(10);
@@ -907,7 +909,7 @@ void WcmNwmcbUnsetRecvFrmBuf(Pkt *p)
             return;
         default:
             WCMi_SetPhase(11);
-            func_021659B4(7, w->buf, 0, 1378);
+            WCMi_Notify(7, w->buf, 0, 1378);
             return;
         }
     case 1:
@@ -915,7 +917,7 @@ void WcmNwmcbUnsetRecvFrmBuf(Pkt *p)
         break;
     }
     WCMi_SetPhase(11);
-    func_021659B4(7, w->buf, 0, 1390);
+    WCMi_Notify(7, w->buf, 0, 1390);
 }
 
 

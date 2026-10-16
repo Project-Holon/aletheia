@@ -30,7 +30,7 @@
  *   gDwcAuthResultBuf     0x021AB208  data
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   DWC_Auth_Create  0x02177EE8  arm  ov009
  *   gDwcAuthParam     0x021AB1C0  data
  *   gDwcAuthGsbrcdBuffer     0x021AB1F4  data
@@ -56,7 +56,7 @@ struct DWCAuthWiFiId {
 extern void DWC_Auth_SetCustomNas(int v);
 extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
 extern void DWC_Auth_Abort(void);
 extern void DWC_Auth_Destroy(void);
@@ -132,7 +132,7 @@ int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsign
 	MI_CpuCopy8(gsbrcd, gDwcAuthGsbrcdBuffer, 0xc);
 	gDwcAuthParam.alloc = allocator;
 	gDwcAuthParam.free = deallocator;
-	gDwcAuthState.tick = func_020870D0();
+	gDwcAuthState.tick = OS_GetTick();
 	gDwcAuthState.userid = userid;
 	if (DWC_Auth_Create(&gDwcAuthParam, gDwcAuthResultBuf) == 0)
 		return 1;

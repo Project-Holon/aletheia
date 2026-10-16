@@ -15,7 +15,7 @@
  * symbols:
  *   OS_JoinThread  0x02085710  arm
  *   OS_LockMutex  0x02086028  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   gDwcNdState     0x021D3B68  data ov114
  *   gDwcNdMutex     0x021D3B84  data ov114
  *   DWC_SVLProcess  0x02168040  arm  ov009
@@ -24,7 +24,7 @@
  *   DWC_Base64Encode  0x02059B40  arm
  *   DWCi_NdStartup  0x021C6348  arm  ov114
  *   func_02059E18  0x02059E18  arm
- *   func_02059F54  0x02059F54  arm
+ *   DWCi_SetError  0x02059F54  arm
  *   OS_Sleep  0x02085A38  arm
  *   DWCi_NdSetError  0x021C659C  arm  ov114
  *   OS_UnlockMutex 0x02086078  arm
@@ -64,7 +64,7 @@ extern int DWCi_NdStartup(void *(*alloc)(unsigned long, int), void (*free)(void 
                          char *token, char *gameCode, char *password,
                          void (*callback)(int, int, int));
 extern int func_02059E18(int *errorCode);
-extern void func_02059F54(int error, int errorCode);
+extern void DWCi_SetError(int error, int errorCode);
 extern void OS_Sleep(u32 msec);
 extern void DWCi_NdSetError(int error, int serverError);
 extern int DWCi_IsError(void);
@@ -161,7 +161,7 @@ static void DWCi_SVLTokenWaitThread(void *arg)
             return;
         case 4:
             func_02059E18(&errorCode);
-            func_02059F54(13, errorCode);
+            DWCi_SetError(13, errorCode);
             func_021C58C8(0, 3, -1);
             return;
         case 5:

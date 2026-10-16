@@ -15,8 +15,8 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_02172B74 0x02172B74 data ov010 a1
  *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
@@ -41,7 +41,7 @@
  *   BMP_Delete  0x020437AC  arm
  *   func_0207FA0C 0x0207FA0C arm
  *   func_0207FA40 0x0207FA40 arm
- *   func_0207FADC 0x0207FADC arm
+ *   GX_EndLoadTexPltt 0x0207FADC arm
  */
 
 struct GfFont;
@@ -116,8 +116,8 @@ struct Pos {
 };
 
 extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
 extern TexResource *func_02047250(void *p);
@@ -146,7 +146,7 @@ extern void func_0207F9B4(void);
 extern void BMP_Delete(struct Bmp *p);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(void *,u32,u32);
-extern void func_0207FADC(void);
+extern void GX_EndLoadTexPltt(void);
 void WAZA_OSHIE_PrintToClearedBitmap(void *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font);
 void WAZA_OSHIE_ConvertToTileOrder(void *srcBmp, void *dstBmp);
 void WAZA_OSHIE_UploadTextTexture(TexReq *req, u32 text, u16 xPos, u16 yPos, u16 color, u16 heapId);
@@ -160,7 +160,7 @@ void *WAZA_OSHIE_Create(u32 heapId)
 {
     void *work;
 
-    work = func_02030734(heapId, 28, 0, d_02172B74, 35);
+    work = GFL_HEAP_Alloc(heapId, 28, 0, d_02172B74, 35);
     MI_CpuFill8(work, 0, 28);
     return work;
 }
@@ -173,7 +173,7 @@ void *WAZA_OSHIE_Create(u32 heapId)
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_020307B0, the shape of the arm9 copy.
+ * thunk into GFL_HEAP_Free, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
@@ -185,7 +185,7 @@ void *WAZA_OSHIE_Create(u32 heapId)
  */
 void WAZA_OSHIE_Delete(void *work, unsigned unused1, unsigned unused2, unsigned unused3)
 {
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 
@@ -259,8 +259,8 @@ u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap)
     level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
     for (i = 0; i < 4; i++)
         cur[i] = POKE_TOOL_GetPartyValue(mon, 0x36 + i, 0);
-    tbl = (LearnsetEntry *)func_02030734(heap, 0x68, 0, d_02172B74, 0x55);
-    out = (u16 *)func_02030734(heap, 0x34, 0, d_02172B74, 0x56);
+    tbl = (LearnsetEntry *)GFL_HEAP_Alloc(heap, 0x68, 0, d_02172B74, 0x55);
+    out = (u16 *)GFL_HEAP_Alloc(heap, 0x34, 0, d_02172B74, 0x56);
     POKE_PERSONAL_LoadDataDirect(species, form, tbl);
     for (n = 0, j = 0; j < 26; j++) {
         if (LearnsetEntry_IsEnd(tbl[j])) {
@@ -284,7 +284,7 @@ u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap)
         out[n] = LearnsetEntry_Move(tbl[j]);
         n++;
     }
-    func_020307B0(tbl);
+    GFL_HEAP_Free(tbl);
     return out;
 }
 
@@ -571,7 +571,7 @@ void WAZA_OSHIE_UploadPalette(TexReq *req, void *dest)
     func_0207FA0C();
     DWCi_ScreenDC_FlushRange(dest, 32);
     func_0207FA40(dest, plttBase + plttKeyOfs, 32);
-    func_0207FADC();
+    GX_EndLoadTexPltt();
 }
 
 

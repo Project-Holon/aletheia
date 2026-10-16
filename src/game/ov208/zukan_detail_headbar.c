@@ -13,19 +13,19 @@
  * Cut from zukan_detail_headbar.c, zukan_detail_page.c, zukan_detail_voice.c, zukan_detail_form.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Create 0x021BE710 thumb
  *   ZUKAN_DETAIL_HEADBAR_Delete 0x021BE778 thumb ov208
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Update 0x021BE7A4 thumb
@@ -47,10 +47,10 @@
  *   BMP_GetPixels 0x020437D4 arm
  *   BG_SYS_CreateTileRun 0x02040B58 arm
  *   ARC_UTIL_UploadBgPaletteAddFromArchive 0x0204994C arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BMP_CopyPixels        0x02043814  arm
  *   BMP_Delete        0x020437AC  arm
- *   func_02045EC0        0x02045EC0  arm
+ *   MSGDATA_AllocString        0x02045EC0  arm
  *   PRINTSYS_PrintQueColor        0x0201C724  thumb
  *   STRBUF_Delete        0x02045808  arm
  *   data_021C84F4        0x021C84F4  data
@@ -65,7 +65,7 @@
  */
 #include "zukan_detail_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
@@ -77,7 +77,7 @@ extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
@@ -87,11 +87,11 @@ struct Ov208PalTbl {
     u32 v[5];
 };
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
@@ -127,7 +127,7 @@ extern u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
@@ -137,7 +137,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -147,7 +147,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
-extern void func_02041B6C(u32 layer);
+extern void BG_SYS_SetFlagField06(u32 layer);
 
 struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg);
 
@@ -181,13 +181,13 @@ extern const struct Ov208PalTbl data_021C84F4;
 
 struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
 {
-    struct Ov208Icon *p=func_02030734(heap,0x34,1,d_021C8DFC,120);
+    struct Ov208Icon *p=GFL_HEAP_Alloc(heap,0x34,1,d_021C8DFC,120);
     p->heap=heap;p->font=arg;p->state=0;p->kind=5;
     BG_SYS_FillScrollArea(5,3,24);
     BG_SYS_SetVisibleLayer(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows(p);
     func_021BE920(p);
-    p->task=func_020056A0((unsigned)func_021BE864,(unsigned)p,1);
+    p->task=GFL_USE_AddMainTask((unsigned)func_021BE864,(unsigned)p,1);
     p->queue=PRINTSYS_QUE_Create((void *)(unsigned)p->heap);
     p->dirty=0;
     return p;
@@ -200,10 +200,10 @@ void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m)
 {
     PRINTSYS_QUE_Clear((void *)m->queue);
     PRINTSYS_QUE_Delete((struct PrintSys *)m->queue);
-    func_02030EAC((struct Node *)m->task);
+    TCB_DeleteTask((struct Node *)m->task);
     ZUKAN_DETAIL_HEADBAR_ClearIcon(m);
     ZUKAN_DETAIL_HEADBAR_DeleteWindows(m);
-    func_020307B0(m);
+    GFL_HEAP_Free(m);
 }
 
 /*
@@ -277,7 +277,7 @@ void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g)
     g->tile = BG_SYS_CreateTileRun(5, BMP_GetPixels(g->bmp), g->size);
     ARC_UTIL_UploadBgPaletteAddFromArchive(0x9f, 0x25, 5, 0, g->tile, 0xc0, 0, g->heap);
     BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x18, 13);
-    g->msg = func_02045B38(0, 2, 0xea, g->heap);
+    g->msg = MSGDATA_CreateFromArchive(0, 2, 0xea, g->heap);
 }
 
 void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p)
@@ -296,14 +296,14 @@ void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p)
 
     if (p->kind < 0 || p->kind >= 5)
         return;
-    h = func_020490F4(0x9f, p->heap);
+    h = ARC_TOOL_CreateHandle(0x9f, p->heap);
     pal = data_021C84F4;
     ARC_UTIL_UploadPaletteFromHandle(h, 4, 4, pal.v[p->kind] << 5, 0x1a0, 0x20, p->heap);
     ARC_TOOL_DeleteHandle(h);
     h = BMP_CreateFromArchive(0x9f, 0xe, 0, p->heap);
     BMP_CopyPixels(h, (const struct Bmp *)p->bmp);
     BMP_Delete(h);
-    s = (u32)func_02045EC0(p->msg, p->kind + 0xb2);
+    s = (u32)MSGDATA_AllocString(p->msg, p->kind + 0xb2);
     PRINTSYS_PrintQueColor((void *)p->queue, (u32)p->bmp, 0x18, 5, s, p->font, 0x3dc0);
     STRBUF_Delete((struct U16Vec *)s);
     p->dirty = 1;
@@ -318,7 +318,7 @@ void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p)
 {
     if (p->dirty != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->queue, (void *)p->bmp) == 0) {
         BG_SYS_LoadTileData(5, BMP_GetPixels((const struct Bmp *)p->bmp), p->size, p->tile);
-        func_02041B6C(5);
+        BG_SYS_SetFlagField06(5);
         p->dirty = 0;
     }
 }

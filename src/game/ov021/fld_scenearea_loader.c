@@ -15,10 +15,10 @@
  * first function).
  *
  * symbols:
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   gFldSceneAreaLoaderFileName  0x021DE000  data  a4
  *   gFldSceneAreaArcIds  0x021D8EEC  data  a4
@@ -26,7 +26,7 @@
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Mag  0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0207CFB8  0x0207CFB8  arm
+ *   FX_Atan2Idx  0x0207CFB8  arm
  *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
  *   FX_SinCosTable_   0x020A1B38  data  a2
  *   gFldSceneAreaCallbacks  0x021D8EF4  data  a4
@@ -39,23 +39,23 @@
  *   FIELD_CAMERA_StopDelay  0x0218F0D4  thumb
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb
  *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb ov021
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   FIELD_CAMERA_SetFov  0x0218ED64  thumb
  *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb  ov021
  *   FLD_SCENEAREA_GetFieldMap  0x021AB764  thumb  ov021
  */
 #include "fld_scenearea_types.h"
 
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
-extern u32 func_020307B0(void *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *arcHandle, int fileId, int decompress, u32 heapId, u32 *outSize);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern int VEC_Mag(const VecFx32 *v);
 extern void VEC_Normalize(const VecFx32 *v, VecFx32 *out);
-extern u32 func_0207CFB8(int x, int z);
+extern u32 FX_Atan2Idx(int x, int z);
 extern void FIELD_CAMERA_EnterMode(void *camera, u32 mode);
 extern void FIELD_CAMERA_SetTarget(void *camera, VecFx32 *target);
 extern void FIELD_CAMERA_SetEyeRaw(void *camera, VecFx32 *eye);
@@ -99,11 +99,11 @@ extern s16 FX_SinCosTable_[];
 /* 0x021DE000 is the "fld_scenearea_loader.c" file-name string; 0x81 is its line. */
 FldSceneAreaLoader *FLD_SCENEAREA_LOADER_Create(int heapId)
 {
-    FldSceneAreaLoader *loader = func_02030734(heapId, sizeof(FldSceneAreaLoader), 1, gFldSceneAreaLoaderFileName, 0x81);
+    FldSceneAreaLoader *loader = GFL_HEAP_Alloc(heapId, sizeof(FldSceneAreaLoader), 1, gFldSceneAreaLoaderFileName, 0x81);
     int i;
 
     for (i = 0; i < 2; i++) {
-        loader->arcHandle[i] = func_020490F4(gFldSceneAreaArcIds[i], heapId);
+        loader->arcHandle[i] = ARC_TOOL_CreateHandle(gFldSceneAreaArcIds[i], heapId);
     }
     return loader;
 }
@@ -116,7 +116,7 @@ void FLD_SCENEAREA_LOADER_Delete(FldSceneAreaLoader *loader)
     for (i = 0; i < 2; i++) {
         ARC_TOOL_DeleteHandle(loader->arcHandle[i]);
     }
-    func_020307B0(loader);
+    GFL_HEAP_Free(loader);
 }
 
 /* Loads a scene area file from one of the two archives. */
@@ -132,7 +132,7 @@ void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, int fil
 void FLD_SCENEAREA_LOADER_Unload(FldSceneAreaLoader *loader)
 {
     if (loader->recs != 0) {
-        func_020307B0(loader->recs);
+        GFL_HEAP_Free(loader->recs);
         loader->recs = 0;
         loader->count = 0;
     }
@@ -182,7 +182,7 @@ int FLD_SCENEAREA_LOADER_CheckSector(FldSceneArea *sceneArea, const FldSceneArea
     offset.y = 0;
     distance = VEC_Mag(&offset);
     VEC_Normalize(&offset, &offset);
-    angle = func_0207CFB8(offset.x, offset.z);
+    angle = FX_Atan2Idx(offset.x, offset.z);
     if (rec->shape.sector.minDistance <= distance && rec->shape.sector.maxDistance > distance) {
         if (rec->shape.sector.angleHi < rec->shape.sector.angleLo) {
             if (rec->shape.sector.angleHi >= angle || (angle < 0x10000 && angle >= rec->shape.sector.angleLo))

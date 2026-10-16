@@ -24,7 +24,7 @@
  *
  * symbols:
  *   ov112_id 0x00000070 data
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   BR_PROC_SYS_GetSlotId 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -41,8 +41,8 @@
  *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_020315D4 0x020315D4 arm
- *   func_02034A5C 0x02034A5C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   BR_NET_HandleNetError 0x021FF88C thumb ov186
  *   BR_PROC_SYS_FlushWindows 0x021F9C6C thumb ov186
  *   BR_UTIL_RunTask 0x021FD71C thumb ov186
@@ -110,7 +110,7 @@ typedef struct
   unsigned char pad;
 } Config;
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern unsigned BR_PROC_SYS_GetSlotId(void *p);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
@@ -127,8 +127,8 @@ extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTextWin(void *,int);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(struct Proc *);
-extern void func_02034A5C(int);
+extern void PROCSYS_FreeProcWork(struct Proc *);
+extern void GF_OVERLAY_Unload(int);
 extern int BR_NET_HandleNetError(char *);
 extern void BR_PROC_SYS_FlushWindows(char *);
 extern void BR_UTIL_RunTask(u8 *p);
@@ -190,7 +190,7 @@ int BR_DOWNLOAD_Create(void *obj,int b,char *q)
     char *p;
     void *v;
     int i;
-    func_02034AC4((int)ov112_id);
+    GF_OVERLAY_Load((int)ov112_id);
     p=PROCSYS_AllocProcWork(obj,0x34,BR_PROC_SYS_GetSlotId(((struct BrDownloadOwner *)q)->proc.proc));
     MI_CpuFill8(p,0,0x34);
     ((struct BrDownloadWork *)p)->heapId=BR_PROC_SYS_GetSlotId(((struct BrDownloadOwner *)q)->proc.proc);
@@ -223,8 +223,8 @@ int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
     }
     BMP_OAM_DeleteSys((void *)(((struct BrDownloadWork *)p)->oamSys.oamSys));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BrDownloadWork *)p)->printQue.printQue));
-    func_020315D4((struct Proc *)obj);
-    func_02034A5C((int)ov112_id);
+    PROCSYS_FreeProcWork((struct Proc *)obj);
+    GF_OVERLAY_Unload((int)ov112_id);
     return 1;
 }
 

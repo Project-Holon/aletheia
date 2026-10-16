@@ -21,6 +21,9 @@
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   ARC_TOOL_GetHandleFileCount  0x0204961C  arm
  *   ISS_3DS_SYS_UpdateImpl  0x0202BAF4  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  */
 #include "iss_sys_shared_types.h"
 
@@ -31,9 +34,9 @@ typedef enum {
     ISS_3DS_SLOT_LIMIT = ISS_3DS_SLOT_COUNT
 } Iss3dsSlotIndex;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 GFL_USE_GetBgmNo(void);
 
@@ -43,7 +46,7 @@ extern void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSound *sys);
 
 extern void ISS_3DS_SYS_OnZoneChangeImpl(struct Iss3dsSound *sys);
 
-extern void *func_020490F4(u32 archiveId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
 
 extern u16 ARC_TOOL_GetHandleFileCount(void *arc);
 
@@ -109,7 +112,7 @@ static inline void ISS_3DS_SYS_SetVec3(IssVec3 *dst, int x, int y, int z)
 /* Allocates and clears the 3D sound subsystem, then loads its BGM table. */
 Iss3dsSys *ISS_3DS_SYS_Create(u32 heapId)
 {
-    Iss3dsSys *sys = func_02030734(heapId, sizeof(Iss3dsSys), 0, ISS_3DS_SYS_FileName, 0xa3);
+    Iss3dsSys *sys = GFL_HEAP_Alloc(heapId, sizeof(Iss3dsSys), 0, ISS_3DS_SYS_FileName, 0xa3);
 
     sys->heapId = (u16)heapId;
     sys->entered = 0;
@@ -133,7 +136,7 @@ Iss3dsSys *ISS_3DS_SYS_Create(u32 heapId)
 void ISS_3DS_SYS_Delete(Iss3dsSys *sys)
 {
     ISS_3DS_SYS_FreeTable(sys);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 /* The four thunks below are linker veneers into the 3D sound code:
@@ -202,12 +205,12 @@ void ISS_3DS_SYS_ClearTable(Iss3dsSys *sys)
 void ISS_3DS_SYS_LoadTable(Iss3dsSys *sys)
 {
     u32 heapId = sys->heapId;
-    void *arc = func_020490F4(0xb9, (u16)((heapId & 0x7fff) | 0x8000));
+    void *arc = ARC_TOOL_CreateHandle(0xb9, (u16)((heapId & 0x7fff) | 0x8000));
     u8 count = (u8)ARC_TOOL_GetHandleFileCount(arc);
     u32 i;
 
     sys->tableCount = count;
-    sys->table = func_02030734(heapId, (u32)(count << 3), 0, ISS_3DS_SYS_FileName, 0x178);
+    sys->table = GFL_HEAP_Alloc(heapId, (u32)(count << 3), 0, ISS_3DS_SYS_FileName, 0x178);
 
     for (i = 0; i < (u32)count; i++) {
         ARC_TOOL_ReadHandleMember(arc, i, sys->table + i);
@@ -218,7 +221,7 @@ void ISS_3DS_SYS_LoadTable(Iss3dsSys *sys)
 /* Frees the BGM table and empties it. */
 void ISS_3DS_SYS_FreeTable(Iss3dsSys *sys)
 {
-    func_020307B0(sys->table);
+    GFL_HEAP_Free(sys->table);
     ISS_3DS_SYS_ClearTable(sys);
 }
 

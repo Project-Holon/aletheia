@@ -13,7 +13,7 @@
  * Cut from wifibattlematch_view.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -22,18 +22,18 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_021E8DA0 0x021E8DA0 data a1
  *   d_021E8B2C 0x021E8B2C data a4
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_02030EAC 0x02030EAC arm
- *   func_020307B0 0x020307B0 arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021E8B00 0x021E8B00 data a4
  *   d_021E8B5C 0x021E8B5C data a4
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
@@ -77,7 +77,7 @@ struct WifibattlematchClact {
     struct Bank *bank;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, u8, u32);
 
@@ -95,13 +95,13 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
 
-extern int func_020056A0(void (*)(int, int *), int *, int);
+extern int GFL_USE_AddMainTask(void (*)(int, int *), int *, int);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_Create(unsigned short);
 
@@ -113,7 +113,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_FreeSlot(unsigned char);
 
-extern void func_02040588(unsigned char, unsigned char);
+extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -181,7 +181,7 @@ extern unsigned char d_021E8B10[];
 
 int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
 {
-    int *p = func_02030734(heap, 16, 0, d_021E8DA0, 0x1BB);
+    int *p = GFL_HEAP_Alloc(heap, 16, 0, d_021E8DA0, 0x1BB);
     MI_CpuFill8(p, 0, 16);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -196,7 +196,7 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
     GF_FONT_InitTextColor();
     WIFIBATTLEMATCH_GRAPHIC_InitBg(p, heap);
     WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (int)d_021E8B2C, heap);
-    ((struct WifibattlematchGraphic *)p)->vblankHandle = func_020056A0(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, 0);
+    ((struct WifibattlematchGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, 0);
     return p;
 }
 
@@ -205,7 +205,7 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
  */
 void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p)
 {
-    func_02030EAC((struct Node *)((struct WifibattlematchGraphic *)p)->vblankHandle);
+    TCB_DeleteTask((struct Node *)((struct WifibattlematchGraphic *)p)->vblankHandle);
     WIFIBATTLEMATCH_GRAPHIC_DeleteClact((int *)(p + 4));
     WIFIBATTLEMATCH_GRAPHIC_DeleteBg(p);
     GF_FONT_SetDefaultTextColor();
@@ -214,7 +214,7 @@ void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     MI_CpuFill8(p, 0, 0x10);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p)
@@ -251,7 +251,7 @@ void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *p, unsigned short heap)
         unsigned id = e->id;
         BG_SYS_InitBgLayer((unsigned char)id, (const struct BgTemplate *)(&e->template), (unsigned char)e->type);
         BG_SYS_FreeSlot(id);
-        func_02040588(id, e->enable);
+        BG_SYS_SetPlaneVisible(id, e->enable);
     }
 }
 

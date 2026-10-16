@@ -13,9 +13,9 @@
  * Cut from app_keycursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
  *   player_volume_fader_File 0x020A7500  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   NNS_SndPlayerSetPlayerVolume  0x02072D98  arm
  */
 #include "app_keycursor_shared_types.h"
@@ -32,9 +32,9 @@ struct Fader {
     u8  mute;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void NNS_SndPlayerSetPlayerVolume(u32 channel, u32 level);
 
@@ -77,7 +77,7 @@ extern const char player_volume_fader_File[];
  */
 struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v)
 {
-    struct Fader *p = func_02030734((unsigned int)a, sizeof(struct Fader), 0,
+    struct Fader *p = GFL_HEAP_Alloc((unsigned int)a, sizeof(struct Fader), 0,
                                     player_volume_fader_File, 0x42);
     PLAYER_VOLUME_FADER_Init(p);
     p->channel = v;
@@ -86,7 +86,7 @@ struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v)
 
 void PLAYER_VOLUME_FADER_Delete(void *ptr)
 {
-    func_020307B0(ptr);
+    GFL_HEAP_Free(ptr);
 }
 
 void PLAYER_VOLUME_FADER_Update(struct Fader *s)

@@ -27,10 +27,10 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   gTileNormalTable     0x021DB9A0  data
  *   gTilePlaneDistTable     0x021DC158  data
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
@@ -76,7 +76,7 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   SCRIPT_WORK_SetReturnParam  0x02159104  thumb  ov010
  *   SCRIPT_WORK_GetReturnParam  0x0215910C  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
@@ -111,7 +111,7 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
@@ -209,15 +209,15 @@
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
  *   FIELD_SUBSCREEN_ClearPanelResult  0x021A0FA8  thumb  ov021
  *   VM_ReadU16  0x02011330  thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   BMP_WIN_CreateAt  0x02045180  arm
  *   func_02045CAC  0x02045CAC  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_02008C58  0x02008C58  thumb
- *   func_02008DAC  0x02008DAC  thumb
+ *   RECORD_GetFromSave  0x02008C58  thumb
+ *   RECORD_AddCounter  0x02008DAC  thumb
  *   func_02008DFC  0x02008DFC  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -418,9 +418,9 @@ extern Bmp *BMP_WIN_GetBmp(BmpWin *win);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(BmpWin *win);
 extern u32 BMP_WIN_Delete(BmpWin *win);
-extern void func_02041B6C(u32 bgLayer);
+extern void BG_SYS_SetFlagField06(u32 bgLayer);
 extern void BMP_WIN_MakeScreen(BmpWin *win);
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
 extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
@@ -464,7 +464,7 @@ extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(struct ScriptWork *scriptWo
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void SCRIPT_WORK_SetReturnParam(struct ScriptWork *scriptWork, u32 param);
 extern u32 SCRIPT_WORK_GetReturnParam(struct ScriptWork *scriptWork);
-extern GameEvent *func_020122C0(GameSystem *owner, GameEvent *parent, void *proc, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *owner, GameEvent *parent, void *proc, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, GameEvent *event);
 extern int FIELD_SUBSCREEN_IsIdle(FieldSubscreen *subscreen);
@@ -499,7 +499,7 @@ extern void TIME_ICON_Delete(TimeIcon *icon);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(GameSystem *gameSystem, u32 fadeOutFrames);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern u32 SND_MIC_StartRecording(void *callback, void *arg);
-extern Strbuf *func_02045EC0(MsgData *msgData, u32 index);
+extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
 extern void WORDSET_SetSlotMonSpecies(WordSet *words, u32 slot, PokemonParam *mon);
 extern void WORDSET_CopyTaggedText(WordSet *words, Strbuf *dst, Strbuf *src);
 extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, Strbuf *str);
@@ -591,15 +591,15 @@ extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(WfbcNpcData *npcData);
 extern int FIELD_SUBSCREEN_GetPanelResult(FieldSubscreen *subscreen);
 extern void FIELD_SUBSCREEN_ClearPanelResult(FieldSubscreen *subscreen);
 extern u16 VM_ReadU16(ScriptVm *vm);
-extern MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset);
 extern void func_02045CAC(MsgBank *bank, u32 index, Strbuf *dest);
 extern GfFont *FIELD_MSGBG_GetFont(FieldMsgBg *msgBg);
 extern void PRINTSYS_Print(Bmp *bmp, s16 x, s16 y, Strbuf *str, GfFont *font);
 extern u32 MSGDATA_Delete(MsgBank *bank);
 extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern TrainerRecord *func_02008C58(SaveControl *save);
-extern u32 func_02008DAC(TrainerRecord *record, int index, u32 delta);
+extern TrainerRecord *RECORD_GetFromSave(SaveControl *save);
+extern u32 RECORD_AddCounter(TrainerRecord *record, int index, u32 delta);
 extern u32 func_02008DFC(TrainerRecord *record, int index);
 extern void WORDSET_SetSlotMyStatus(WordSet *words, u32 slot, PlayerStatus *status);
 extern u32 POKEPARTY_GetCount(Party *party);
@@ -785,7 +785,7 @@ void FIELD_G3D_MAPPER_GetTilePlane(TileSurface *out, int idx, PackedTileMap *map
         fx32 dotZ = FX_MUL(out[idx].normalZ, pos->z);
         fx32 dotX = FX_MUL(surface->normalX, pos->x);
         out[idx].attr = tile->attr;
-        out[idx].height = base + func_0207C768(-(planeDist + (dotX + dotZ)), normalY);
+        out[idx].height = base + FX_Div(-(planeDist + (dotX + dotZ)), normalY);
     }
 }
 
@@ -1045,7 +1045,7 @@ int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, MmdlIcaWaitWork *work, u32 ar
 int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    GameEvent *task = func_020122C0(SCRCMD_WORK_GetGameSystem(cmdWork), 0, SCRCMD_MMDL_ICA_WaitTask, 4);
+    GameEvent *task = GAME_EVENT_Create(SCRCMD_WORK_GetGameSystem(cmdWork), 0, SCRCMD_MMDL_ICA_WaitTask, 4);
     MmdlIcaWaitWork *work = func_020124E8(task);
 
     work->ica = (MmdlIcaWork *)SCRIPT_WORK_GetReturnParam(scriptWork);
@@ -1086,7 +1086,7 @@ int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork)
     mode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     subscreen = FIELDMAP_GetSubscreen(fieldParam->fieldSystem);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    task = func_020122C0(gameSystem, 0, SCRCMD_SUBSCREEN_ChangeModeTask, 8);
+    task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SUBSCREEN_ChangeModeTask, 8);
     work = func_020124E8(task);
     mode = gSubscreenModeTable[mode];
     work->subscreen = subscreen;
@@ -1107,7 +1107,7 @@ int SCRCMD_ResetSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     subscreen = FIELDMAP_GetSubscreen(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    task = func_020122C0(gameSystem, 0, SCRCMD_SUBSCREEN_ChangeModeTask, 8);
+    task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SUBSCREEN_ChangeModeTask, 8);
     work = func_020124E8(task);
     work->subscreen = subscreen;
     work->mode = 0;
@@ -1143,7 +1143,7 @@ GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap,
     GameEvent *task;
     PerapRecordWork *work;
 
-    task = func_020122C0(gameSystem, 0, EVENT_PERAP_RECORD_Main, sizeof(PerapRecordWork));
+    task = GAME_EVENT_Create(gameSystem, 0, EVENT_PERAP_RECORD_Main, sizeof(PerapRecordWork));
     work = func_020124E8(task);
     MI_CpuFill8(work, 0, sizeof(PerapRecordWork));
     work->gameSystem = gameSystem;
@@ -1232,7 +1232,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
             if (SND_MIC_StartRecording(EVENT_PERAP_RECORD_OnRecorded, &work->recordDone) == 0) {
                 *seq = 7;
             } else {
-                string = func_02045EC0(work->msgData, 3);
+                string = MSGDATA_AllocString(work->msgData, 3);
                 WORDSET_SetSlotMonSpecies(work->wordSet, 0, work->partyMon);
                 WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, string);
                 STRBUF_Delete(string);
@@ -1256,7 +1256,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
         break;
     case 8:
         if (EVENT_PERAP_RECORD_HopPokeIcon(work) == 0) {
-            string = func_02045EC0(work->msgData, 2);
+            string = MSGDATA_AllocString(work->msgData, 2);
             WORDSET_SetSlotMonSpecies(work->wordSet, 0, work->partyMon);
             WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, string);
             STRBUF_Delete(string);
@@ -1560,7 +1560,7 @@ int FLDEFF_RIPPLE_WarpToSpecialLocationTask(GameEvent *event, int *seq, RippleWa
 
 GameEvent *FLDEFF_RIPPLE_CreateZoneStartWarpTask(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *task = func_020122C0(gameSystem, 0, FLDEFF_RIPPLE_WarpToZoneStartTask, sizeof(RippleWarpWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FLDEFF_RIPPLE_WarpToZoneStartTask, sizeof(RippleWarpWork));
     RippleWarpWork *work = func_020124E8(task);
 
     work->gameSystem = gameSystem;
@@ -1571,7 +1571,7 @@ GameEvent *FLDEFF_RIPPLE_CreateZoneStartWarpTask(GameSystem *gameSystem, FieldMa
 
 GameEvent *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(GameSystem *gameSystem, FieldMap *fieldMap, u32 useSpin)
 {
-    GameEvent *task = func_020122C0(gameSystem, 0, FLDEFF_RIPPLE_WarpToSpecialLocationTask, sizeof(RippleWarpWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FLDEFF_RIPPLE_WarpToSpecialLocationTask, sizeof(RippleWarpWork));
     RippleWarpWork *work = func_020124E8(task);
 
     work->gameSystem = gameSystem;
@@ -1627,7 +1627,7 @@ int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
     isEgg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     gender = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    task = func_020122C0(gameSystem, 0, SCRCMD_POKE_ICON_Task, 0x18);
+    task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_POKE_ICON_Task, 0x18);
     work = func_020124E8(task);
     SCRCMD_POKE_ICON_InitWindow(work);
     SCRCMD_POKE_ICON_CreateIcon(work, species, form, isEgg, gender, 0);
@@ -1832,7 +1832,7 @@ int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem)
 
 GameEvent *FIELD_SUBSCREEN_CreateAnimTask(GameSystem *gameSystem)
 {
-    GameEvent *task = func_020122C0(gameSystem, 0, FIELD_SUBSCREEN_AnimTask, sizeof(SubscreenAnimWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FIELD_SUBSCREEN_AnimTask, sizeof(SubscreenAnimWork));
     SubscreenAnimWork *work = func_020124E8(task);
 
     work->fieldMap = ICA_ANIME_GetField20(gameSystem);
@@ -1873,7 +1873,7 @@ int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldParam->fieldSystem);
     msgBg = FIELDMAP_GetMsgBg(fieldParam->fieldSystem);
     if (VM_ReadU16(vm)) {
-        msgBank = func_02045B38(0, 2, 0x16, heapId);
+        msgBank = MSGDATA_CreateFromArchive(0, 2, 0x16, heapId);
         bmpWin = BMP_WIN_CreateAt(2, 1, 1, 0x1E, 10, 14, 0x40);
         BMP_Clear(BMP_WIN_GetBmp(bmpWin), 0xF);
         BMP_WIN_TransferChars(bmpWin);
@@ -1883,13 +1883,13 @@ int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
         func_02045CAC(msgBank, 3, msgBuf);
         PRINTSYS_Print(BMP_WIN_GetBmp(bmpWin), 0, 0, msgBuf, FIELD_MSGBG_GetFont(msgBg));
         BMP_WIN_TransferChars(bmpWin);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         STRBUF_Delete(msgBuf);
         MSGDATA_Delete(msgBank);
         BMP_WIN_Delete(bmpWin);
     } else {
         BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0xC, 0x11);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
     }
     return 0;
 }
@@ -1900,7 +1900,7 @@ int SCRCMD_AddTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 counterId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 delta = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    func_02008DAC(func_02008C58(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId, delta);
+    RECORD_AddCounter(RECORD_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId, delta);
     return 0;
 }
 
@@ -1910,7 +1910,7 @@ int SCRCMD_GetTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 counterId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    *resultVar = func_02008DFC(func_02008C58(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId);
+    *resultVar = func_02008DFC(RECORD_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), counterId);
     return 0;
 }
 
@@ -2033,7 +2033,7 @@ u32 SCRCMD_GREETING_AdjustMessageIdByRandom(GameData *gameData, u32 messageId, i
 
 GameEvent *FIELD_CAMERA_CreateShakeTask(GameSystem *gameSystem, CameraShakeParams *params)
 {
-    GameEvent *task = func_020122C0(gameSystem, 0, FIELD_CAMERA_ShakeTask, sizeof(CameraShakeWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FIELD_CAMERA_ShakeTask, sizeof(CameraShakeWork));
 
     *(CameraShakeParams *)func_020124E8(task) = *params;
     return task;
@@ -2158,7 +2158,7 @@ u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
  * argument straight to FIELDMAP_GetExpObj and FIELDMAP_FreeCommonWork, the type that
  * ICA_ANIME_GetField20 returns, while this call passes SCRCMD_WORK_GetGameSystem(b), which the
  * sibling SCRCMD_StartArcEffect feeds to ICA_ANIME_GetField20. ov064's function applies
- * ICA_ANIME_GetField20 to its argument and returns func_020122C0(arg, 0, cb, 0), a
+ * ICA_ANIME_GetField20 to its argument and returns GAME_EVENT_Create(arg, 0, cb, 0), a
  * task, which is what SCRIPT_SYS_CallEvent(x, t) receives here and in the same-shape
  * siblings SCRCMD_WaitArcEffectEnd (ov064-only FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent) and SCRCMD_WaitArcEffectPeak
  * (FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent, ov064). SCRCMD_StartArcEffect and SCRCMD_ShowArcModelAt also call ov064.

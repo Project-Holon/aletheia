@@ -19,17 +19,17 @@
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   d_0220B2A0 0x0220B2A0 data a4
  *   STRBUF_Delete   0x02045808  arm
- *   func_020315D4   0x020315D4  arm
+ *   PROCSYS_FreeProcWork   0x020315D4  arm
  *   GFL_HEAP_DeleteChecked   0x020306F0  arm
  *   BATTLE_REC_FreeWork   0x0200B424  thumb
  *   PROCSYS_Create  0x02031324  arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
- *   func_02034714  0x02034714  arm
- *   func_0203133C  0x0203133C  arm
- *   func_02030734 0x02030734 arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
+ *   PROCSYS_Delete  0x0203133C  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_0220B2E4 0x0220B2E4 data a1
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BTL_SETUP_InitWithSlots 0x020138C4 thumb
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
@@ -116,7 +116,7 @@ extern void BATTLE_REC_AllocWork(unsigned);
 
 extern void STRBUF_Delete(struct StrBuf *vec);
 
-extern void func_020315D4(void *p);
+extern void PROCSYS_FreeProcWork(void *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -128,13 +128,13 @@ extern void PROCSYS_Push(void *, int, const void *, void *);
 
 extern unsigned int PROCSYS_Main(void *p);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void func_0203133C(void *procSys);
+extern void PROCSYS_Delete(void *procSys);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BTL_SETUP_InitWithSlots(struct BattleSetupParam *, struct GameData *, u32 heapId);
 
@@ -214,7 +214,7 @@ int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work)
     }
     BR_MAIN_FreeSceneManager(&work->sceneManager);
     BATTLE_REC_FreeWork();
-    func_020315D4((void *)a);
+    PROCSYS_FreeProcWork((void *)a);
     GFL_HEAP_DeleteChecked(0x59);
     return 1;
 }
@@ -278,8 +278,8 @@ int BR_MAIN_RunSceneStep(BrSceneManager *mgr)
 void BR_MAIN_FreeSceneManager(BrSceneManager *mgr)
 {
     if (mgr->sceneWork != 0)
-        func_02034714((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
-    func_0203133C(mgr->procSys);
+        SAVEDATA_PanicFail((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
+    PROCSYS_Delete(mgr->procSys);
     MI_CpuFill8(mgr, 0, sizeof(BrSceneManager));
 }
 
@@ -288,7 +288,7 @@ void BR_MAIN_SetDesiredScene(BrMainWork *work, u32 scene) { work->sceneManager.d
 BrListSceneWork *BR_MAIN_CreateListScene(unsigned short heapId, BrMainWork *work, int mode)
 {
     BrListSceneWork *list;
-    list = func_02030734(heapId, sizeof(BrListSceneWork), 0, d_0220B2E4, 0x1e7);
+    list = GFL_HEAP_Alloc(heapId, sizeof(BrListSceneWork), 0, d_0220B2E4, 0x1e7);
     MI_CpuFill8(list, 0, sizeof(BrListSceneWork));
     list->launch = work->launch;
     list->data = work->sceneData;
@@ -306,12 +306,12 @@ void BR_MAIN_DeleteListScene(BrListSceneWork *listWork, BrMainWork *work)
         BR_MAIN_SetDesiredScene(work, 1);
         break;
     }
-    func_020307B0(listWork);
+    GFL_HEAP_Free(listWork);
 }
 
 void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work)
 {
-    struct BattleSetupParam *setup = func_02030734(heapId, sizeof(struct BattleSetupParam), 0, d_0220B2E4, 542);
+    struct BattleSetupParam *setup = GFL_HEAP_Alloc(heapId, sizeof(struct BattleSetupParam), 0, d_0220B2E4, 542);
     MI_CpuFill8(setup, 0, sizeof(struct BattleSetupParam));
     BTL_SETUP_InitWithSlots(setup, work->launch->gameData, heapId);
     BATTLE_REC_LoadToolOverlay();
@@ -332,9 +332,9 @@ void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work)
     GFL_USE_FadeInBgmFull(30);
     if (work->launch->kind == 0) func_02028A58(soundSys, 64, 0);
     work->hidePlayerNames = setup->bits.recordComplete;
-    func_020307B0(setup->playerStatus[0]);
+    GFL_HEAP_Free(setup->playerStatus[0]);
     BTL_SETUP_ClearWithSlots(setup);
-    func_020307B0(setup);
+    GFL_HEAP_Free(setup);
     BR_MAIN_SetDesiredScene(work, 0);
 }
 

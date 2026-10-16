@@ -22,7 +22,7 @@
  *   gpiCallErrorCallback  0x02189D78  arm   ov009
  *   gpiValueForKey  0x02193418  arm   ov009
  *   atoi  0x020964E0  arm
- *   func_0218FD9C  0x0218FD9C  arm   ov009
+ *   gpiGetProfile  0x0218FD9C  arm   ov009
  *   atof  0x02095B2C  arm
  *   func_0209B64C  0x0209B64C  arm
  *   gpiProfileListAdd  0x0218FCD8  arm   ov009
@@ -314,7 +314,7 @@ extern void gpiSetError(void **connection, int errorCode, char *errorString);
 extern void gpiCallErrorCallback(void **connection, int result, int fatal);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(const char *s);
-extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
+extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern double atof(const char *s);
 extern float func_0209B64C(double d);
 extern GPIProfile *gpiProfileListAdd(void **connection, int id);
@@ -619,7 +619,7 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
     }
     profileid = atoi(buffer);
 
-    func_0218FD9C(connection, profileid, &profile);
+    gpiGetProfile(connection, profileid, &profile);
 
     __builtin__clear(&infoCache, sizeof(GPIInfoCache));
     infoCache.nick = nick;
@@ -1245,7 +1245,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
         useCache = 0;
 
     if (callback && useCache) {
-        if (func_0218FD9C(connection, profile, &pProfile) && pProfile->cache) {
+        if (gpiGetProfile(connection, profile, &pProfile) && pProfile->cache) {
             GPICallback gpiCallback;
             GPGetInfoResponseArg *arg;
 

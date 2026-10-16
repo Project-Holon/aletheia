@@ -85,8 +85,8 @@
  *   VEC_Fx16DotProduct  0x0207CAA4  arm
  *   g_020A7FEC     0x020A7FEC  data
  *   func_0207AF00  0x0207AF00  thumb
- *   func_0207AF1C  0x0207AF1C  thumb
- *   func_0207AF38  0x0207AF38  thumb
+ *   MTX_RotY33_  0x0207AF1C  thumb
+ *   MTX_RotZ33_  0x0207AF38  thumb
  *   MTX_MultVec33  0x0207B51C  arm
  */
 #include "gf_standard_shared_types.h"
@@ -1361,8 +1361,8 @@ struct AllocScratch {
 };
 
 extern void func_0207AF00(u8 *buf, int a, int b);
-extern void func_0207AF1C(u8 *buf, int a, int b);
-extern void func_0207AF38(u8 *buf, int a, int b);
+extern void MTX_RotY33_(u8 *buf, int a, int b);
+extern void MTX_RotZ33_(u8 *buf, int a, int b);
 extern void MTX_MultVec33(const VecFx32 *a, const MtxFx33 *b, VecFx32 *c);
 extern int _s32_div_f(int num, int den);
 extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
@@ -1647,11 +1647,11 @@ void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst)
         break;
     case 1:
         idx = o->angle >> 4;
-        func_0207AF1C(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
+        MTX_RotY33_(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 2:
         idx = o->angle >> 4;
-        func_0207AF38(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
+        MTX_RotZ33_(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     }
 

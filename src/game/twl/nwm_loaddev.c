@@ -20,13 +20,14 @@
  *   NWMi_CheckFirmDataParamIntegrity  0x02703C28  arm
  *   NWMi_CheckState  0x027028E4  arm
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 NWMi_CheckState(u32, ...);
 extern u32 NWMi_GetSystemWork(void);
-extern void func_020862B8(u32, u32);
+extern void DC_InvalidateRange(u32, u32);
 extern u32 NWMi_CheckFirmDataParamIntegrity(void);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void NWMi_RegisterSleepCallback(void);
@@ -47,7 +48,7 @@ u32 NWM_LoadDevice(u32 a0, u32 a1) {
     b2 = NWMi_GetSystemWork();
     if (b2 != 0) {
         busy = 1;
-        func_020862B8(*(u32 *)(b2 + 0x2278) + 3, busy);
+        DC_InvalidateRange(*(u32 *)(b2 + 0x2278) + 3, busy);
         if (*(u8 *)(*(u32 *)(b2 + 0x2278) + 3) != 1) {
             busy = 0;
         }

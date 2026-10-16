@@ -14,14 +14,14 @@
  * Split from field_palace_sys.c at 0x021D317C (__FILE__ anchor fld_vreq.c at 0x021D317C (first anchored function)).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02040588  0x02040588  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_021DE6C8     0x021DE6C8  data  ov021  a4
  *   sFldVReqBlendFuncs     0x021DE6AC  data  ov021  a4
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_0207D63C  0x0207D63C  arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   G2x_SetBlendBrightnessExt_  0x0207D67C  arm
  *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
@@ -59,12 +59,12 @@ typedef struct FldVReq {
 
 typedef void (*FldVReqBlendFunc)(void *params, int isMain);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern u32 func_02040588(u32 which, u32 enable);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
+extern u32 BG_SYS_SetPlaneVisible(u32 which, u32 enable);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void func_0207D63C(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void G2x_SetBlendBrightnessExt_(u32 reg, int a, int b, int c, int d, int e);
 extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
@@ -87,23 +87,23 @@ extern char d_021DE6C8[];       /* "fld_vreq.c" */
 
 FldVReq *FLD_VREQ_Create(u32 heapId)
 {
-    FldVReq *vreq = func_02030734(heapId, sizeof(FldVReq), 1, d_021DE6C8, 0x80);
+    FldVReq *vreq = GFL_HEAP_Alloc(heapId, sizeof(FldVReq), 1, d_021DE6C8, 0x80);
     MI_CpuFill8(vreq->bgVisible, 0xff, sizeof(vreq->bgVisible));
     return vreq;
 }
 
 /*
- * Tail-call thunk: forwards to func_020307B0 with no argument change.
+ * Tail-call thunk: forwards to GFL_HEAP_Free with no argument change.
  */
 void FLD_VREQ_Delete(FldVReq *vreq)
 {
-    func_020307B0(vreq);
+    GFL_HEAP_Free(vreq);
 }
 
 extern FldVReqBlendFunc sFldVReqBlendFuncs[];
 
 /*
- * The visibility byte is func_02040588's second argument (it takes two,
+ * The visibility byte is BG_SYS_SetPlaneVisible's second argument (it takes two,
  * like every other caller): passing vreq->bgVisible[frame] is what puts the
  * ldrb in r1.
  */
@@ -121,7 +121,7 @@ void FLD_VREQ_VBlank(FldVReq *vreq)
     }
     for (frame = 0; frame < 8; frame++) {
         if (vreq->bgVisible[frame] != 0xff) {
-            func_02040588((u8)frame, vreq->bgVisible[frame]);
+            BG_SYS_SetPlaneVisible((u8)frame, vreq->bgVisible[frame]);
             vreq->bgVisible[frame] = 0xff;
         }
     }
@@ -202,9 +202,9 @@ void FLD_VREQ_ApplyBlendNone(void *params, int isMain)
 void FLD_VREQ_ApplyBlendAlpha(int *params, int isMain)
 {
     if (isMain) {
-        func_0207D63C(_REG_MAIN_BLDCNT, params[0], params[1], params[2], params[3]);
+        G2x_SetBlendAlpha_(_REG_MAIN_BLDCNT, params[0], params[1], params[2], params[3]);
     } else {
-        func_0207D63C(_REG_SUB_BLDCNT, params[0], params[1], params[2], params[3]);
+        G2x_SetBlendAlpha_(_REG_SUB_BLDCNT, params[0], params[1], params[2], params[3]);
     }
 }
 

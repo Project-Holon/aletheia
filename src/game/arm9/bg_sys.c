@@ -18,14 +18,14 @@
  *   g_020A7E5C     0x020A7E5C  data
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   AREAMAN_Delete  0x02033C9C  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_02033CC0  0x02033CC0  arm
  *   func_02033F64  0x02033F64  arm
  *   func_020341F0  0x020341F0  arm
  *   sub_020416B8   0x020416B8  arm
  *   AREAMAN_Free  0x0203422C  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
- *   func_0207D518  0x0207D518  arm
+ *   GXS_SetGraphicsMode  0x0207D518  arm
  *   BG_SYS_ClearMainBgPlanes  0x0204349C  arm
  *   BG_SYS_ClearSubBgPlanes  0x02043558  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
@@ -45,7 +45,7 @@
  *   BG_SYS_GetModeValue  0x020422D4  arm
  *   MIi_CpuClear16 0x02082A48  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   G2_GetBG0CharPtr  0x0207E1F8  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   G2_GetBG2CharPtr  0x0207E2A0  arm
@@ -58,7 +58,7 @@
  *   BG_SYS_SetAffineField  0x02043228  arm
  *   func_02043264  0x02043264  arm
  *   func_020432E4  0x020432E4  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   DC_FlushRange  0x020862F0  arm
  *   func_0207E888  0x0207E888  arm
@@ -80,6 +80,7 @@
  *   func_02043130_File 0x020A7E5C  data
  *   GX_LoadBGPltt  0x0207E3D0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   GXS_LoadBGPltt  0x0207E468  arm
  */
 #include "gf_standard_shared_types.h"
 
@@ -116,7 +117,7 @@ struct Mtx22;
 struct DispConfig {
     u32 dispMode;    /* +0x00 GX_SetGraphicsMode display mode */
     u32 bgMode;      /* +0x04 GX_SetGraphicsMode BG mode */
-    u32 subBgMode;   /* +0x08 sub engine mode, func_0207D518 */
+    u32 subBgMode;   /* +0x08 sub engine mode, GXS_SetGraphicsMode */
     u32 bg0As;       /* +0x0c GX_SetGraphicsMode BG0 area */
 };
 
@@ -210,7 +211,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
 
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
 
@@ -226,7 +227,7 @@ extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
 extern u32 GX_SetGraphicsMode(u32 a, u32 b, u32 c);
 
-extern u32 func_0207D518(u32 a);
+extern u32 GXS_SetGraphicsMode(u32 a);
 
 extern void BG_SYS_ClearMainBgPlanes(void);
 
@@ -267,13 +268,13 @@ extern void DWCi_ScreenDC_FlushRange(void *, u32);
 
 extern void GX_LoadBGPltt(void *, u32, u32);
 
-extern void func_0207E468(void *, u32, u32);
+extern void GXS_LoadBGPltt(void *, u32, u32);
 
 extern void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 
 extern void *G2_GetBG0CharPtr(void);
 
@@ -299,7 +300,7 @@ extern void func_02043264(struct BgLayer *p, u32 op, u32 value);
 
 extern void func_020432E4(struct BgLayer *p, u32 op, u32 value);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
@@ -555,7 +556,7 @@ void BG_SYS_Delete(void)
     }
     AREAMAN_Delete(g_02146A44->mainTileArena);
     AREAMAN_Delete(g_02146A44->subTileArena);
-    func_020307B0(g_02146A44);
+    GFL_HEAP_Free(g_02146A44);
     g_02146A44 = 0;
 }
 
@@ -658,7 +659,7 @@ void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size)
 void BG_SYS_SetGraphicsMode(struct DispConfig *cfg)
 {
     GX_SetGraphicsMode(cfg->dispMode, cfg->bgMode, cfg->bg0As);
-    func_0207D518(cfg->subBgMode);
+    GXS_SetGraphicsMode(cfg->subBgMode);
     REG_DISPCNT &= ~0x38000000;
     REG_DISPCNT &= ~0x07000000;
     BG_SYS_ClearMainBgPlanes();
@@ -682,7 +683,7 @@ void BG_SYS_ApplyGraphicsMode(const struct DispConfig *req, u32 which)
     if (which == 0) {
         BG_SYS_ClearMainPlanes(GX_SetGraphicsMode(req->dispMode, req->bgMode, req->bg0As));
     } else {
-        BG_SYS_ClearSubPlanes(func_0207D518(req->subBgMode));
+        BG_SYS_ClearSubPlanes(GXS_SetGraphicsMode(req->subBgMode));
     }
 }
 
@@ -1053,7 +1054,7 @@ void BG_SYS_FreeLayerBuf(u32 i)
         return;
     }
     BG_SYS_DeleteBlock(i, 0, g_02146A44->bgs[i].bufSize);
-    func_020307B0(g_02146A44->bgs[i].buf);
+    GFL_HEAP_Free(g_02146A44->bgs[i].buf);
     g_02146A44->bgs[i].buf = 0;
 }
 
@@ -1378,7 +1379,7 @@ void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset)
 
             BG_SYS_SetupMemory((void *)src, buf, mode);
             BG_SYS_LoadTileLayer(index, buf, offset * 2, size);
-            func_020307B0(buf);
+            GFL_HEAP_Free(buf);
         }
     } else {
         BG_SYS_LoadTileLayer(index, src, offset * 2, mode);
@@ -1486,7 +1487,7 @@ void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId)
 
     MI_CpuFill8(buf, 0, size);
     BG_SYS_LoadTileLayerEx(layer, buf, offset, size);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
 }
 
 /*
@@ -1573,7 +1574,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     MIi_CpuClearFast(value, buf, size);
     BG_SYS_LoadTileLayerEx((u8)layer, buf, index * g_02146A44->bgs[layer].tileRowBytes,
                   size);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
 }
 
 /*
@@ -1628,7 +1629,7 @@ void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4)
     if (r7 < 4) {
         GX_LoadBGPltt(r6, r4, r5);
     } else {
-        func_0207E468(r6, r4, r5);
+        GXS_LoadBGPltt(r6, r4, r5);
     }
 }
 
@@ -2008,7 +2009,7 @@ void BG_SYS_ClearLayerEx(int channel, u16 val)
         return;
     }
     MIi_CpuClear16(val, g_02146A44->bgs[channel].buf, g_02146A44->bgs[channel].bufSize);
-    func_02041B6C(channel);
+    BG_SYS_SetFlagField06(channel);
 }
 
 u32 BG_SYS_GetGraphics(u32 channel)
@@ -2491,7 +2492,7 @@ u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
   {
     u8 *src;
     tbl = g_02146A44->bgs[layer].buf;
-    buf = func_02030734((u16)((g_02146A44->heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa77);
+    buf = GFL_HEAP_Alloc((u16)((g_02146A44->heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa77);
     src = chr + (((u32) (tbl[key] << 22)) >> 17);
     for (i = 0; i < 0x20; i++)
     {
@@ -2501,7 +2502,7 @@ u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
 
     BG_SYS_AllocTileBuf((tbl[key] >> 10) & 3, buf, g_02146A44->heapId);
     v = buf[px + (py << 3)];
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
     if (((*flags) & (1 << v)) == 0)
       goto fail;
     return 1;
@@ -2509,11 +2510,11 @@ u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
   if (g_02146A44->bgs[layer].type != 1)
   {
     tbl = g_02146A44->bgs[layer].buf;
-    buf = func_02030734((u16)((g_02146A44->heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa8f);
+    buf = GFL_HEAP_Alloc((u16)((g_02146A44->heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa8f);
     MI_CpuCopy8(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
     BG_SYS_AllocTileBuf((tbl[key] >> 10) & 3, buf, g_02146A44->heapId);
     v = buf[px + (py << 3)];
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
   }
   else
   {
@@ -2762,7 +2763,7 @@ void BG_SYS_LoadTileDataEx(u32 index, const u32 *src, u32 mode, u32 size)
                            n, 0, g_020A7E5C, 2963);
         BG_SYS_SetupMemory((void *)src, buf, mode);
         BG_SYS_LoadTileLayerEx(index, buf, size, n);
-        func_020307B0(buf);
+        GFL_HEAP_Free(buf);
     } else {
         BG_SYS_LoadTileLayerEx(index, src, size, mode);
     }
@@ -3314,7 +3315,7 @@ void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page)
     heap = (u16)page;
     heap = (heap & 0x7FFF) | 0x8000;
 
-    tmp = func_02030734(heap, 0x40, 0,
+    tmp = GFL_HEAP_Alloc(heap, 0x40, 0,
                         (const char *)func_02043130_File, 0xD48);
 
     if (flags & 1) {
@@ -3333,7 +3334,7 @@ void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page)
         MI_CpuCopy8(buf, tmp, 0x40);
     }
 
-    func_020307B0(tmp);
+    GFL_HEAP_Free(tmp);
 }
 
 /*

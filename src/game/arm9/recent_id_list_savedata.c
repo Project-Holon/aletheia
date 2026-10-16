@@ -51,6 +51,9 @@
  *    neighbour at the ends.  The clamp is two compares against hoisted
  *    constants, which is what an `if`/`else if` pair gives and a `min`/`max`
  *    pair does not.
+ *
+ * symbols:
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 
 typedef unsigned char  u8;
@@ -61,7 +64,7 @@ typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 struct SaveControl;
-extern void *func_020071CC(struct SaveControl *saveControl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 id);
 
 /*
  * The save block with id 0x36.  ids[0..24] hold small ids and the value 25
@@ -92,7 +95,7 @@ void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *sys)
 
 void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys)
 {
-    return func_020071CC(sys, 0x36);
+    return SAVE_CONTROL_GetBlock(sys, 0x36);
 }
 
 void RECENT_ID_LIST_SAVEDATA_SetId(u8 *ids, u32 id, u32 enabled)

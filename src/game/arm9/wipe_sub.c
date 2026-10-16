@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030EAC   0x02030EAC  arm
- *   func_02030734  0x02030734  arm
- *   func_020056A0  0x020056A0  thumb
- *   func_020307B0  0x020307B0  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_0209F570     0x0209F570  data
  *   g_020A73D0     0x020A73D0  data
  *   g_wipe_slot0   0x020A73D0  data
@@ -240,10 +240,10 @@ struct ShutterWork {
 /* Zero for the Box tick counter; an enum-typed zero keeps its own register web. */
 typedef enum { BOX_TICK_ZERO } BoxTickInit;
 
-extern void *func_020056A0(void *fn, void *arg, u32 prio);
-extern u32 func_02030EAC(struct Node *n);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
+extern u32 TCB_DeleteTask(struct Node *n);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 data, u32 size);
 extern s32 func_0209C0A4(s32 shifted, s32 c);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
@@ -435,7 +435,7 @@ u16 WIPE_SUB_ResolveColor(struct WipeSys *sys, u16 color)
  * WIPE_SUB_ResetBrightnessTask reads a field 0x10 bytes into its second argument and
  * forwards it, with a fixed 0, to WIPE_SetBrightness (whose own second
  * argument it never reads: see src/matched/WIPE_SetBrightness.c), then calls
- * func_02030EAC on the first argument.
+ * TCB_DeleteTask on the first argument.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02022608.c \
@@ -459,7 +459,7 @@ u16 WIPE_SUB_GetEndColor(struct WipeSys *sys)
 void WIPE_SUB_ResetBrightnessTask(void *task, struct WipePanel *panel)
 {
     WIPE_SetBrightness(panel->screen, 0);
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
 }
 
 /*
@@ -480,7 +480,7 @@ void WIPE_SUB_ResetBrightnessTask(void *task, struct WipePanel *panel)
 void WIPE_SUB_RequestBrightnessReset(struct WipePanel *panel)
 {
     if (panel->fadeOut == 0 && (panel->color == 0x7FFF || panel->color == 0) && panel->usesBrightness == 0)
-        func_020056A0((void *)WIPE_SUB_ResetBrightnessTask, panel, 1 << 10);
+        GFL_USE_AddMainTask((void *)WIPE_SUB_ResetBrightnessTask, panel, 1 << 10);
 }
 
 /*
@@ -918,7 +918,7 @@ void WIPE_SUB_InitRectInterp(struct FixedRect *current, struct FixedRect *target
  * it allocates and zeroes the 0x24-byte sub-object, picks the pair of
  * start/end extents from the task's direction flag and the sentinel in
  * +0x24, fills the sub-object's eight words and registers the per-frame
- * callback WIPE_SUB_FadeVTask with func_020056A0 at priority 0x80.
+ * callback WIPE_SUB_FadeVTask with GFL_USE_AddMainTask at priority 0x80.
  *
  * The 0x7FFF in +0x24 is a "no explicit extent" sentinel: when it is
  * present the moving edge starts at 0x10 (or ends there, depending on the
@@ -951,7 +951,7 @@ void WIPE_SUB_FadeStart(struct WipePanel *panel, u32 closing)
     s32 startBrightness;
     s32 endBrightness;
 
-    panel->work = func_02030734((u16)panel->heapId, 0x24, 0, func_02023464_File,
+    panel->work = GFL_HEAP_Alloc((u16)panel->heapId, 0x24, 0, func_02023464_File,
                                 0x09AC);
     MI_CpuFill8(panel->work, 0, 0x24);
     fade = panel->work;
@@ -985,7 +985,7 @@ void WIPE_SUB_FadeStart(struct WipePanel *panel, u32 closing)
     fade->screen = panel->screen;
     fade->brightness = startBrightness;
     panel->phase = panel->phase + 1;
-    fade->task = func_020056A0((void *)WIPE_SUB_FadeVTask, fade, 0x80);
+    fade->task = GFL_USE_AddMainTask((void *)WIPE_SUB_FadeVTask, fade, 0x80);
 }
 
 /*
@@ -994,7 +994,7 @@ void WIPE_SUB_FadeStart(struct WipePanel *panel, u32 closing)
  * +0x0c, the same sub-object slot at +0x14, and the same terminal phase 3
  * that is the only one to answer 1.  Phase 1 polls WIPE_SUB_FadeStep and
  * advances when it answers 1; phase 2 releases the sub-object's +0x20
- * handle through func_02030EAC, frees the object itself, clears the slot
+ * handle through TCB_DeleteTask, frees the object itself, clears the slot
  * and advances.
  *
  * THE LEVER, and it is shared with WIPE_SUB_FadeMain, WIPE_SUB_ShutterMain and
@@ -1038,8 +1038,8 @@ u32 WIPE_SUB_FadeMain(struct WipePanel *panel)
         }
         break;
     case 2:
-        func_02030EAC(fade->task);
-        func_020307B0(panel->work);
+        TCB_DeleteTask(fade->task);
+        GFL_HEAP_Free(panel->work);
         panel->phase = panel->phase + 1;
         panel->work = 0;
         ret = 1;
@@ -1147,14 +1147,14 @@ void WIPE_SUB_CreateLineBuffers(struct LineBuffers *lines, u32 windowSelect, u32
     switch (windowSelect) {
     case 0:
     case 1:
-        buffer = func_02030734((u16)heapId, 0x604, 0, func_02023464_File, 0xA9B);
+        buffer = GFL_HEAP_Alloc((u16)heapId, 0x604, 0, func_02023464_File, 0xA9B);
         lines->count = 1;
         lines->buffers = buffer;
         lines->screen = screen;
         buffer->window = windowSelect;
         break;
     case 2:
-        buffer = func_02030734((u16)heapId, 0xC08, 0, func_02023464_File, 0xAA3);
+        buffer = GFL_HEAP_Alloc((u16)heapId, 0xC08, 0, func_02023464_File, 0xAA3);
         lines->buffers = buffer;
         lines->count = 2;
         lines->screen = screen;
@@ -1185,7 +1185,7 @@ void WIPE_SUB_DeleteLineBuffers(struct LineBuffers *lines)
  */
 void WIPE_SUB_FreeLineBuffers(struct LineBuffers *lines)
 {
-    func_020307B0(lines->buffers);
+    GFL_HEAP_Free(lines->buffers);
     lines->buffers = 0;
 }
 
@@ -1210,7 +1210,7 @@ void WIPE_SUB_FlipLineBuffersTask(void *task, struct LineBuffers *lines)
         struct LineBuffer *buffer = WIPE_SUB_GetLineBuffer(lines, i);
         MI_CpuCopy8(buffer->stagedLeft, buffer->liveLeft, 0x300);
     }
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
 }
 
 /*
@@ -1288,7 +1288,7 @@ void WIPE_SUB_InitLineMask(struct LineMask *mask, u32 screen, u32 halfCount, u32
 
 void *WIPE_SUB_RequestLineMaskFlip(struct LineMask *mask)
 {
-    return func_020056A0(WIPE_SUB_FlipLineMaskTask, mask, 0x3FF);
+    return GFL_USE_AddMainTask(WIPE_SUB_FlipLineMaskTask, mask, 0x3FF);
 }
 
 void WIPE_SUB_RequestLineMaskHBlank(u32 hblank, struct LineMask *mask, u32 heapId)
@@ -1308,7 +1308,7 @@ void WIPE_SUB_FlipLineMaskTask(void *task, struct LineMask *mask)
     for (i = 0; i < 2; i++) {
         MI_CpuCopy8(mask->half[i].back, mask->half[i].front, 0xC0);
     }
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
 }
 
 
@@ -1380,7 +1380,7 @@ void WIPE_SUB_BoxStart(struct WipePanel *panel, const struct BoxParam *param)
 {
     struct BoxWork *box;
 
-    box = func_02030734((u16)panel->heapId, 0x4c, 0, func_02023464_File, 0xc7c);
+    box = GFL_HEAP_Alloc((u16)panel->heapId, 0x4c, 0, func_02023464_File, 0xc7c);
     panel->work = box;
 
     WIPE_SUB_BoxInit(box, param, panel->frames, panel->wait, panel->screen, panel->windowRequests);
@@ -1399,7 +1399,7 @@ void WIPE_SUB_BoxStart(struct WipePanel *panel, const struct BoxParam *param)
  * The task block keeps its phase at +0x0c and the sub-object it allocated
  * at +0x14.  Phase 1 polls WIPE_SUB_BoxStep and, once that answers 1, hands
  * the sub-object's +0x44 field to WIPE_SUB_RequestWindowEnd and advances; phase 2
- * frees the sub-object (func_020307B0), clears the slot and advances;
+ * frees the sub-object (GFL_HEAP_Free), clears the slot and advances;
  * phase 3 is the terminal phase and is the only one that answers 1, which
  * is how the caller learns the transition has finished.  Phase 0 and any
  * other value answer 0 and do nothing.
@@ -1446,7 +1446,7 @@ u32 WIPE_SUB_BoxMain(struct WipePanel *panel)
         }
         break;
     case 2:
-        func_020307B0(box);
+        GFL_HEAP_Free(box);
         panel->phase = panel->phase + 1;
         panel->work = 0;
         ret = 1;
@@ -1544,12 +1544,12 @@ u32 WIPE_SUB_BoxStep(struct BoxWork *box)
  * cap: the call at +0036 to WIPE_SUB_CircleInit (0x0202368C) is the only reference
  *      to that address outside its own body, and it is inside this range, so
  *      the `label` class refuses it.  All 76 bytes and the other relocation
- *      site (func_02030734) reproduce exactly.  Promotes to EXACT the moment
+ *      site (GFL_HEAP_Alloc) reproduce exactly.  Promotes to EXACT the moment
  *      WIPE_SUB_CircleInit has its own manifest entry.
  */
 void WIPE_SUB_CircleStart(struct WipePanel *panel, const struct CircleParam *param)
 {
-    panel->work = func_02030734((u16)panel->heapId, 0x38, 0, func_02023464_File, 0x0D63);
+    panel->work = GFL_HEAP_Alloc((u16)panel->heapId, 0x38, 0, func_02023464_File, 0x0D63);
     WIPE_SUB_CircleInit(panel->work, param, panel->frames, panel->wait, panel->screen, panel->windowRequests, panel->hblank, panel->heapId);
     panel->phase = panel->phase + 1;
 }
@@ -1566,7 +1566,7 @@ void WIPE_SUB_CircleStart(struct WipePanel *panel, const struct CircleParam *par
  * +0x14 entry (via WIPE_SUB_CircleStep) and, once it reports the entry now empty,
  * frees the pair at entry+0x2c/entry+0x30 through WIPE_SUB_RequestWindowEnd (with the
  * record's own +0x10 as the third argument) and bumps +0xc, returning 0;
- * mode 2 tears the +0x14 entry down through WIPE_SUB_DeleteLineBuffers/func_020307B0,
+ * mode 2 tears the +0x14 entry down through WIPE_SUB_DeleteLineBuffers/GFL_HEAP_Free,
  * clears +0x14, bumps +0xc and falls into the same "return 1" tail as mode
  * 3 (mode 3 alone has no other side effect); anything else, and mode 1
  * without the entry becoming empty, returns 0.
@@ -1585,7 +1585,7 @@ u32 WIPE_SUB_CircleMain(struct WipePanel *panel)
         break;
     case 2:
         WIPE_SUB_DeleteLineBuffers(&circle->lines);
-        func_020307B0(panel->work);
+        GFL_HEAP_Free(panel->work);
         panel->phase = panel->phase + 1;
         panel->work = 0;
         result = 1;
@@ -1622,7 +1622,7 @@ void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *pa
     circle->heapId = heapId;
     circle->closing = param->closing;
     WIPE_SUB_CalcCircleLines(circle);
-    func_020056A0(WIPE_SUB_FlipLineBuffersTask, circle, 0x3ff);
+    GFL_USE_AddMainTask(WIPE_SUB_FlipLineBuffersTask, circle, 0x3ff);
     buffer = WIPE_SUB_GetLineBuffer(&circle->lines, 0);
     leftEdge = buffer->stagedLeft[0];
     rightEdge = buffer->stagedRight[0];
@@ -1676,7 +1676,7 @@ u32 WIPE_SUB_CircleStep(struct CircleWork *circle)
             circle->stepsLeft = stepsLeft;
             circle->radius = circle->radius + circle->radiusStep;
             WIPE_SUB_CalcCircleLines(circle);
-            func_020056A0((void *)WIPE_SUB_FlipLineBuffersTask, circle, 0x3FF);
+            GFL_USE_AddMainTask((void *)WIPE_SUB_FlipLineBuffersTask, circle, 0x3FF);
         } else {
             WIPE_RequestClearHBlankSlot(circle->hblank, circle->lines.screen, circle->heapId);
             return 1;
@@ -1804,7 +1804,7 @@ void WIPE_SUB_CalcCircleLines(struct CircleWork *circle)
  */
 void WIPE_SUB_ShutterStart(struct WipePanel *panel, struct ShutterDesc *desc)
 {
-    panel->work = func_02030734((u16)panel->heapId, 0x334, 0, func_02023464_File, 0x1354);
+    panel->work = GFL_HEAP_Alloc((u16)panel->heapId, 0x334, 0, func_02023464_File, 0x1354);
     MI_CpuFill8(panel->work, 0, 0x334);
     WIPE_SUB_ShutterInit(panel->work, desc, panel->frames, panel->wait, panel->screen, panel->windowRequests, panel->hblank,
                   panel->heapId);
@@ -1866,7 +1866,7 @@ u32 WIPE_SUB_ShutterMain(struct WipePanel *panel)
         break;
     case 2:
         WIPE_SUB_ShutterExit(shutter);
-        func_020307B0(panel->work);
+        GFL_HEAP_Free(panel->work);
         panel->phase = panel->phase + 1;
         panel->work = 0;
         ret = 1;
@@ -2169,7 +2169,7 @@ void WIPE_SUB_RequestWindowVisible(struct WindowRequests *requests, u32 value, u
 
     request->value = value;
     request->screen = screen;
-    func_020056A0(WIPE_SUB_WindowVisibleTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowVisibleTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowInside(struct WindowRequests *requests, u32 planes, u32 effect, u32 window, u32 screen)
@@ -2180,7 +2180,7 @@ void WIPE_SUB_RequestWindowInside(struct WindowRequests *requests, u32 planes, u
     request->effect = effect;
     request->window = window;
     request->screen = screen;
-    func_020056A0(WIPE_SUB_WindowInsideTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowInsideTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowOutside(struct WindowRequests *requests, u32 planes, u32 effect, u32 screen)
@@ -2190,7 +2190,7 @@ void WIPE_SUB_RequestWindowOutside(struct WindowRequests *requests, u32 planes, 
     request->planes = planes;
     request->effect = effect;
     request->screen = screen;
-    func_020056A0(WIPE_SUB_WindowOutsideTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowOutsideTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 top, u32 right, u32 bottom, u32 window, u32 screen)
@@ -2203,13 +2203,13 @@ void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 t
     request->bottom = (u16)bottom;
     request->window = window;
     request->screen = screen;
-    func_020056A0(WIPE_SUB_WindowRectTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowRectTask, request, 1);
 }
 
 /*
  * The two-field member of the WIPE_SUB_WindowOutsideTask/WIPE_SUB_WindowInsideTask forwarder family:
  * unpack the two words of `args` as positional arguments to
- * WIPE_SUB_SetWindowVisible, then tail-call func_02030EAC on the first argument and
+ * WIPE_SUB_SetWindowVisible, then tail-call TCB_DeleteTask on the first argument and
  * return its result. `ldm r1, {r0, r1}` is the two-word load; a plain
  * struct-by-value copy or two separate field reads through the pointer
  * both produce the same pair of loads once the fields are consecutive
@@ -2222,13 +2222,13 @@ void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 t
 u32 WIPE_SUB_WindowVisibleTask(void *task, struct WindowVisibleRequest *request)
 {
     WIPE_SUB_SetWindowVisible(request->value, request->screen);
-    return func_02030EAC(task);
+    return TCB_DeleteTask(task);
 }
 
 /*
  * The four-field member of the WIPE_SUB_WindowOutsideTask/WIPE_SUB_WindowVisibleTask forwarder
  * family: unpack the four words of `args` as positional arguments to
- * WIPE_SUB_SetWindowInside, then tail-call func_02030EAC on the first argument and
+ * WIPE_SUB_SetWindowInside, then tail-call TCB_DeleteTask on the first argument and
  * return its result.
  *
  * Verified with:
@@ -2238,13 +2238,13 @@ u32 WIPE_SUB_WindowVisibleTask(void *task, struct WindowVisibleRequest *request)
 u32 WIPE_SUB_WindowInsideTask(void *task, struct WindowInsideRequest *request)
 {
     WIPE_SUB_SetWindowInside(request->planes, request->effect, request->window, request->screen);
-    return func_02030EAC(task);
+    return TCB_DeleteTask(task);
 }
 
 /*
  * A three-field struct forwarder: unpack the three words of `args` as
  * positional arguments to WIPE_SUB_SetWindowOutside, then tail-call the ARM function
- * func_02030EAC on the first argument and return its result. The `blx`
+ * TCB_DeleteTask on the first argument and return its result. The `blx`
  * is the interworking call the linker rewrites a Thumb `bl` into.
  *
  * Verified with:
@@ -2254,11 +2254,11 @@ u32 WIPE_SUB_WindowInsideTask(void *task, struct WindowInsideRequest *request)
 u32 WIPE_SUB_WindowOutsideTask(void *task, struct WindowOutsideRequest *request)
 {
     WIPE_SUB_SetWindowOutside(request->planes, request->effect, request->screen);
-    return func_02030EAC(task);
+    return TCB_DeleteTask(task);
 }
 
 void WIPE_SUB_WindowRectTask(void *task, struct WindowRectRequest *request)
 {
     WIPE_SUB_SetWindowRect(request->left, request->top, request->right, request->bottom, request->window, request->screen);
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
 }

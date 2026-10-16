@@ -13,9 +13,9 @@
  * Cut from net.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_02034714  0x02034714  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
@@ -88,11 +88,11 @@
 #include "net_shared_types.h"
 #include "net_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
@@ -423,12 +423,12 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
         GFL_HEAP_CreateChildHeap(gGFLNetMain.baseHeapId, req->heapId, 0x7800);
     else
         GFL_HEAP_CreateChildHeap(req->parentHeapId, req->heapId, 0x7800);
-    session = (GFLNetSession *)func_02030734(req->heapId, 0x354, 1, sNetFileName, 0x6a);
+    session = (GFLNetSession *)GFL_HEAP_Alloc(req->heapId, 0x354, 1, sNetFileName, 0x6a);
     gGFLNetMain.session = session;
     session->errorCheckEnabled = 1;
     session->ops = NET_DEVICE_TABLE_Select(req->bNetType);
     if (session->ops == 0)
-        func_02034714(sNetFileName, 0x6f, str_020A7CA8);
+        SAVEDATA_PanicFail(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)
         req = (GFLNetInitializeStruct *)GFL_NET_IRC_WIRELESS_Create((const GFLNetInitializeStruct *)req, userArg);
     MI_CpuCopy8(req, session, 0x70);
@@ -442,7 +442,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     case 3:
     case 4:
         if (req->childSendSize > 0x80)
-            func_02034714(sNetFileName, 0x84, str_020A7CB8);
+            SAVEDATA_PanicFail(sNetFileName, 0x84, str_020A7CB8);
         if (gGFLNetMain.baseHeapId != 0)
             GFL_HEAP_CreateChildHeap(gGFLNetMain.baseHeapId, req->beaconHeapId, 0x1b00);
         else
@@ -452,7 +452,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     case 5:
         break;
     default:
-        func_02034714(sNetFileName, 0x8e, str_020A7CE8);
+        SAVEDATA_PanicFail(sNetFileName, 0x8e, str_020A7CE8);
         return;
     }
     session->userArg = userArg;
@@ -528,7 +528,7 @@ void GFL_NET_EndSession(void)
 
     GFL_NET_HANDLE_ExitWork(session);
     NET_DEVICE_TABLE_Reset(netType);
-    func_020307B0(session);
+    GFL_HEAP_Free(session);
 
     gGFLNetMain.session = 0;
 
@@ -546,7 +546,7 @@ void GFL_NET_EndSession(void)
     case 5:
         break;
     default:
-        func_02034714(sNetFileName, 0xEE, str_020A7CE8);
+        SAVEDATA_PanicFail(sNetFileName, 0xEE, str_020A7CE8);
         return;
     }
 
@@ -926,7 +926,7 @@ void GFL_NET_RestartByNetType(void)
     GFLNetSession *session = GFL_NET_GetSession();
 
     if (FLASH_ACCESS_GetBusyFlag() == 1) {
-        func_02034714(sNetFileName, 868, str_020A7CE8);
+        SAVEDATA_PanicFail(sNetFileName, 868, str_020A7CE8);
         return;
     }
     if (session != 0 && initSession->init.bNetType != 3) {
@@ -1011,7 +1011,7 @@ u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, co
     }
     if (sendId != 0xff) {
         if (sendId >= 7) {
-            func_02034714(sNetFileName, 1019, g_020A7CEC);
+            SAVEDATA_PanicFail(sNetFileName, 1019, g_020A7CEC);
         }
         targetMask = 1 << sendId;
     }
@@ -1167,7 +1167,7 @@ u32 GFL_NET_GetMaxConnectNum(void)
     GFLNetSession *session = GFL_NET_GetSession();
 
     if (session->init.maxConnectNum > 8)
-        func_02034714(sNetFileName, 0x593, file_020A7CF8);
+        SAVEDATA_PanicFail(sNetFileName, 0x593, file_020A7CF8);
     return session->init.maxConnectNum;
 }
 
@@ -1192,7 +1192,7 @@ u32 GFL_NET_GetParentSendSize(void)
     GFLNetSession *session = GFL_NET_GetSession();
 
     if (session == 0)
-        func_02034714(sNetFileName, 0x5B1, file_020A7D2C);
+        SAVEDATA_PanicFail(sNetFileName, 0x5B1, file_020A7D2C);
     return session->init.parentSendSize;
 }
 
@@ -1277,7 +1277,7 @@ void GFL_NET_SetLoginOption(u8 loginOption)
  */
 void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *fileName, u16 line)
 {
-    u8 *rawBlock = (u8 *)func_02030734(heapId, ((size + 0x24) & ~0x1fu) + 0x20, 1, fileName, line);
+    u8 *rawBlock = (u8 *)GFL_HEAP_Alloc(heapId, ((size + 0x24) & ~0x1fu) + 0x20, 1, fileName, line);
     u8 *alignedBlock = (u8 *)(((u32)rawBlock + 0x20) & ~0x1fu);
 
     *(void **)(alignedBlock - 4) = rawBlock;
@@ -1293,7 +1293,7 @@ void GFL_NET_FreeAligned(void *block)
     if (block == 0) {
         return;
     }
-    func_020307B0(*(void **)((u8 *)block - 4));
+    GFL_HEAP_Free(*(void **)((u8 *)block - 4));
 }
 
 /*

@@ -49,10 +49,10 @@
  *   ov094_id       0x0000005E  data
  *   ov095_id       0x0000005F  data
  *   ov096_id       0x00000060  data
- *   func_02034AC4  0x02034AC4  arm
- *   func_0208068C  0x0208068C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GX_SetBankForLCDC  0x0208068C  arm
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_ResetTextColor 0x0201DD60 thumb
@@ -61,7 +61,7 @@
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   gBtlvCoreVramBanks 0x021F387C data a4
  *   gBtlvCoreDispConfig 0x021F3850 data a4
@@ -71,7 +71,7 @@
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BTL_CLIENT_GetClientId 0x021D3D70 thumb ov093
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -85,7 +85,7 @@
  *   TCBL_Destroy  0x02031140  arm
  *   STRBUF_Delete  0x02045808  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BTLV_SCD_CreateInput  0x06899BE0  thumb
  *   BTLV_SCD_ShowCounterScreen  0x0689B780  thumb
  *   TCBL_Main  0x020310C4  arm
@@ -110,7 +110,7 @@
  *   BTLV_EFFECT_StartEffectWithColor  0x021F7CFC  thumb  ov094
  *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_EFFECT_GaugeStartHpChangeAnimated  0x021F80FC  thumb  ov094
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_0209C0A4  0x0209C0A4  arm
@@ -328,10 +328,10 @@ extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern u32 OS_GetConsoleType(void);
 extern int GF_OVERLAY_Load(const void *overlayId);
 extern void GF_OVERLAY_Unload(const void *overlayId);
-extern int func_02034AC4(const void *overlayId);
-extern void func_0208068C(unsigned int v);
+extern int GF_OVERLAY_Load(const void *overlayId);
+extern void GX_SetBankForLCDC(unsigned int v);
 extern u32 GFL_NET_IsNetTypeWifi(void);
-extern void func_02034A5C(const void *overlayId);
+extern void GF_OVERLAY_Unload(const void *overlayId);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
@@ -340,14 +340,14 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u16, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
-extern void func_0207D63C(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, const struct DispVram *vram, u32 heapId);
 extern void BTLV_EFFECT_Exit(void);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void G3D_SYSTEM_Exit(void);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 BTL_CLIENT_GetClientId(void *client);
 extern struct MsgBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -361,7 +361,7 @@ extern void BTLV_SCU_Delete(struct BtlvScu *scu);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void STRBUF_Delete(struct MsgBuf *msgBuffer);
 extern unsigned int GF_FONT_Delete(void *ptr);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void TCBL_Main(struct Tcbl *p);
 extern void BTLV_EFFECT_Main(void);
 extern void *BTLV_EFFECT_CreateSetupFromBattleMain(struct BtlContext *context, struct BtlvScu *scu, u16 heapId);
@@ -374,7 +374,7 @@ extern int BTLV_SCU_RunProc(struct BtlvScu *scu);
 extern u32 BTL_CLIENT_IsRemote(struct BtlClient *client);
 extern u16 BTL_CLIENT_GetQueuedCommandWord(struct BtlClient *client);
 extern void BTLV_SCD_ShowCounterScreen(struct BtlvAuxView *auxView, BtlvCounterCmd *cmd);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void BTLV_SCU_InitMessage(struct BtlvMessage *msg, int kind, int id);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *pokeParam);
 extern void BTLV_SCU_AppendMessageArg(struct BtlvMessage *msg, u32 val);
@@ -1188,11 +1188,11 @@ int BTLV_CORE_BytesEqual(int word)
 void BTLV_CORE_LoadOverlays(unsigned short heapId)
 {
     BTLV_CORE_InitDisplay(heapId);
-    func_02034AC4(ov094_id);
-    func_0208068C(0x80);
-    func_02034AC4(ov095_id);
+    GF_OVERLAY_Load(ov094_id);
+    GX_SetBankForLCDC(0x80);
+    GF_OVERLAY_Load(ov095_id);
     if (GFL_NET_IsNetTypeWifi() == 0) {
-        func_02034AC4(ov096_id);
+        GF_OVERLAY_Load(ov096_id);
     }
 }
 
@@ -1201,10 +1201,10 @@ void BTLV_CORE_LoadOverlays(unsigned short heapId)
 void BTLV_CORE_UnloadOverlays(void)
 {
     BTLV_CORE_ExitDisplay();
-    func_02034A5C(ov094_id);
-    func_02034A5C(ov095_id);
+    GF_OVERLAY_Unload(ov094_id);
+    GF_OVERLAY_Unload(ov095_id);
     if (GFL_NET_IsNetTypeWifi() == 0) {
-        func_02034A5C(ov096_id);
+        GF_OVERLAY_Unload(ov096_id);
     }
 }
 
@@ -1242,7 +1242,7 @@ void BTLV_CORE_InitDisplay(u16 heapId)
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 16);
     G3X_SetFog(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
-    func_0207D63C((void *)&BLDCNT, 2, 0x3d, 0x1f, 3);
+    G2x_SetBlendAlpha_((void *)&BLDCNT, 2, 0x3d, 0x1f, 3);
     CLACT_InitSystem(&gBtlvCoreBgConfig, &gBtlvCoreVramBanks, heapId);
 }
 
@@ -1262,7 +1262,7 @@ void BTLV_CORE_ExitDisplay(void)
 struct BtlvCore *BTLV_CORE_Create(void *context, void *client, u32 monTable, int param, u16 heapId)
 {
     struct BtlvCore *core;
-    core = func_02030734(heapId, 0x188, 0, gBtlvCoreFileName, 0x12d);
+    core = GFL_HEAP_Alloc(heapId, 0x188, 0, gBtlvCoreFileName, 0x12d);
     core->context = context;
     core->client = client;
     core->monTable = (struct BtlMonTable *)monTable;
@@ -1293,7 +1293,7 @@ void BTLV_CORE_Delete(struct BtlvCore *core)
     STRBUF_Delete(core->msgBuffer);
     GF_FONT_Delete(core->fontMain);
     GF_FONT_Delete(core->fontSub);
-    func_020307B0(core);
+    GFL_HEAP_Free(core);
 }
 
 
@@ -1357,7 +1357,7 @@ int BTLV_CORE_StepOpeningEntry(struct BtlvCore *core, int *state, void *work)
     case 0:
         scene = BTLV_EFFECT_CreateSetupFromBattleMain(core->context, core->sceneUnit, core->heapId);
         BTLV_EFFECT_Init(scene, core->fontSub, core->heapId);
-        func_020307B0(scene);
+        GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
         BTLV_SCD_CreateInput(core->auxView);
         (*state)++;
@@ -1395,10 +1395,10 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
     case 0: {
         void *scene = BTLV_EFFECT_CreateSetupFromBattleMain(core->context, core->sceneUnit, core->heapId);
         BTLV_EFFECT_Init(scene, core->fontSub, core->heapId);
-        func_020307B0(scene);
+        GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
         BTLV_SCD_CreateInput(core->auxView);
-        w->msgBank = func_02045B38(0, 2, 0x14, core->heapId);
+        w->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x14, core->heapId);
         w->timer = 0;
         (*state)++;
         break;
@@ -1855,13 +1855,13 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
     case 0:
         if ((u8)(core->plist.mode + 0xff) <= 1) BTLV_SCD_StartInputSlideIn(core->auxView, 0);
         else BTLV_SCD_StartInputSlideIn(core->auxView, 1);
-        func_02034AC4(ov196_id);
+        GF_OVERLAY_Load(ov196_id);
         core->subStep++;
         break;
     case 1:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
-            func_02034AC4(ov198_id);
+            GF_OVERLAY_Load(ov198_id);
             B_PLIST_MAIN_Create(&core->plist);
             core->subStep++;
         }
@@ -1877,7 +1877,7 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
                     }
                 }
             }
-            func_02034A5C(ov198_id);
+            GF_OVERLAY_Unload(ov198_id);
             BTLV_SCD_StartInputSlideOut(core->auxView);
             BTLV_SCD_OnSlideOutStart(core->auxView);
             core->subStep++;
@@ -1887,7 +1887,7 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) core->subStep++;
         break;
     default:
-        func_02034A5C(ov196_id);
+        GF_OVERLAY_Unload(ov196_id);
         core->subStep = 0;
         return 1;
     }
@@ -1970,20 +1970,20 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
     case 0: break;
     case 1:
         BTLV_SCD_StartInputSlideIn(core->auxView, 1);
-        func_02034AC4(ov196_id);
+        GF_OVERLAY_Load(ov196_id);
         core->subStep = 2;
         break;
     case 2:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
-            func_02034AC4(ov197_id);
+            GF_OVERLAY_Load(ov197_id);
             B_BAG_MAIN_Create(&core->bag);
             core->subStep = 3;
         }
         break;
     case 3:
         if (core->bag.done) {
-            func_02034A5C(ov197_id);
+            GF_OVERLAY_Unload(ov197_id);
             if (core->bag.skipPartyPrompt == 0) core->subStep = 4;
             else core->subStep = 6;
         }
@@ -1991,14 +1991,14 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
     case 4:
         if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem, core->bag.selectedItemPage)) {
             core->plist.itemId = core->bag.selectedItem;
-            func_02034AC4(ov198_id);
+            GF_OVERLAY_Load(ov198_id);
             B_PLIST_MAIN_Create(&core->plist);
             core->subStep = 5;
         } else core->subStep = 6;
         break;
     case 5:
         if (core->plist.done) {
-            func_02034A5C(ov198_id);
+            GF_OVERLAY_Unload(ov198_id);
             core->subStep = 6;
         }
         break;
@@ -2009,7 +2009,7 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
         break;
     case 7:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
-            func_02034A5C(ov196_id);
+            GF_OVERLAY_Unload(ov196_id);
             core->subStep = 0;
             return 1;
         }
@@ -2866,8 +2866,8 @@ void BTLV_CORE_StartYesNoMenu(struct BtlvCore *core, struct BtlvMessage *yesMsg,
     BTLV_CORE_BuildMessage(yesMsg, work->yesText);
     BTLV_CORE_BuildMessage(noMsg, work->noText);
     BTLV_SCD_OpenChoiceScreen(core->auxView, work);
-    func_020307B0(work->yesText);
-    func_020307B0(work->noText);
+    GFL_HEAP_Free(work->yesText);
+    GFL_HEAP_Free(work->noText);
 }
 
 
@@ -2898,20 +2898,20 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
     switch (core->subStep) {
     case 0:
         BTLV_SCD_StartInputSlideIn(core->auxView, 0);
-        func_02034AC4(ov196_id);
+        GF_OVERLAY_Load(ov196_id);
         core->subStep++;
         break;
     case 1:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
-            func_02034AC4(ov198_id);
+            GF_OVERLAY_Load(ov198_id);
             B_PLIST_MAIN_Create(&core->plist);
             core->subStep++;
         }
         break;
     case 2:
         if (core->plist.done) {
-            func_02034A5C(ov198_id);
+            GF_OVERLAY_Unload(ov198_id);
             BTLV_SCD_StartInputSlideOut(core->auxView);
             BTLV_SCD_OnSlideOutStart(core->auxView);
             core->subStep++;
@@ -2922,7 +2922,7 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
         break;
     default:
         *outSlot = core->plist.result;
-        func_02034A5C(ov196_id);
+        GF_OVERLAY_Unload(ov196_id);
         core->subStep = 0;
         return 1;
     }

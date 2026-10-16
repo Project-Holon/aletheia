@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetEncEff 0x02189A08 thumb ov021
  *   ENCEFF_AllocWork 0x021CF52C thumb ov021
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
  *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
@@ -59,7 +59,7 @@ extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern struct Fld3dCi *FIELDMAP_GetFld3dCi(struct FieldMap *fieldMap);
 extern void *ENCEFF_AllocWork(struct EncEff *eff, u32 size, u32 heapId);
 extern EncEffNameCutInWork *ENCEFF_GetWork(struct EncEff *eff);
-extern struct GameEvent *func_020122C0(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern struct GameEvent *FLD3D_CI_StartNameSequence(struct GameSystem *gameSystem, struct Fld3dCi *ci, int tableIndex, int fadeVariant);
 extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
@@ -312,7 +312,7 @@ struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct Fi
     work->flashCount = 0;
     work->tableIndex = tableIndex;
     work->fadeVariant = fadeVariant;
-    return func_020122C0(gameSystem, 0, ENCEFF_NameCutInEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, ENCEFF_NameCutInEventMain, 0);
 }
 
 
@@ -352,7 +352,7 @@ int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
                 if (child != 0) {
                     GAME_EVENT_CallEvent(event, child);
                 } else {
-                    child = func_020122C0(gameSystem, event, ENCEFF_NameCutInFadeOutEventMain, 0);
+                    child = GAME_EVENT_Create(gameSystem, event, ENCEFF_NameCutInFadeOutEventMain, 0);
                     GAME_EVENT_CallEvent(event, child);
                 }
                 *state = *state + 1;

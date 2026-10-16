@@ -15,14 +15,14 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Copy  0x02045838  arm
  *   d_02172A60     0x02172A60  data  ov010  a1
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
  *   FIELD_CAMERA_ANIME_GetCurrentParam  0x0218FE78  thumb  ov021
  *   FIELD_CAMERA_ANIME_Start  0x0218FF00  thumb  ov021
@@ -44,7 +44,7 @@
  *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
@@ -104,19 +104,19 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_Create  0x02031324  arm
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_Delete 0x0203133C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PROCSYS_Main  0x02031330  arm
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_StartTimingSync  0x0203D594  arm
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_CheckTimingSync  0x0203D5A0  arm
  *   PROCSYS_Push  0x02031348  arm
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   id_0000005D    0x0000005D  data  a1
  *   d_021F03C4     0x021F03C4  data  a4 ov093
  *   d_021EFDAC     0x021EFDAC  data  a4 ov026
@@ -135,7 +135,7 @@
  *   GAME_EVENT_Create   0x020122C0  thumb
  *   GAME_EVENT_GetWork   0x020124E8  thumb
  *   SCRCMD_MSGWIN_GetBalloonSide  0x021B0A40  thumb  ov021
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
@@ -325,12 +325,12 @@ typedef struct SceneEventWork {
     void *extra;                /* 0x0C */
 } SceneEventWork;
 extern void *GAME_DATA_GetSaveControl(GameData *gameData);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Copy(Strbuf *dst, Strbuf *src);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void STRBUF_Delete(Strbuf *s);
-extern void func_020307B0(void *);
+extern void GFL_HEAP_Free(void *);
 extern void FIELD_CAMERA_ANIME_Setup(void *playerObj);
 extern void FIELD_CAMERA_ANIME_GetCurrentParam(void *camera, int *startArgs);
 extern int FIELD_CAMERA_ANIME_Start(u32 a);
@@ -352,7 +352,7 @@ extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *, FieldMap *, u32, 
 extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(GameSystem *gameSystem, FieldMap *fieldMap, u32 id, Pos *pos, u32 flag);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *next);
 extern void GAME_EVENT_ChangeEvent(GameEvent *event, GameEvent *next);
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, void *func, u32 size);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, void *func, u32 size);
 extern void *func_020124E8(GameEvent *event);
 extern void *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern void *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
@@ -409,19 +409,19 @@ extern GameEvent *FIELD_STATUS_CreateSubProcEvent(GameSystem *gameSystem, FieldM
 extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 extern void **PROCSYS_AllocProcWork(void *proc, int size, int heapId);
 extern void *PROCSYS_Create(int heapId);
-extern void func_0203133C(void *w);
-extern void func_020315D4(void *proc);
+extern void PROCSYS_Delete(void *w);
+extern void PROCSYS_FreeProcWork(void *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern unsigned int PROCSYS_Main(void *p);
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_StartTimingSync(int, int);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_NET_CheckTimingSync(int, int);
 extern void PROCSYS_Push(int, int, char *, int);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 extern void GAMESYSTEM_CallProc(GameSystem *gameSystem, u32 id, const void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(GameSystem *gameSystem);
 extern GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, FieldMap *fieldMap);
@@ -434,7 +434,7 @@ extern GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(GameSystem *gameSys
 extern GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(GameSystem *gameSystem);
 extern void *BSUBWAY_SCR_GetNameinEncounterWork(EncounterContext *ctx);
 extern int SCRCMD_MSGWIN_GetBalloonSide(void *m2, VecFx32 *pos);
-extern void *func_020071CC(void *saveControl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(void *saveControl, u32 id);
 extern void *BSUBWAY_SAVEDATA_AllocHistoryCopy(void *bsubwaySave, u32 heap);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(void *scriptWork);
 extern void *GAME_DATA_GetFieldSave(GameData *gameData);
@@ -491,7 +491,7 @@ extern char d_02172548[];
  */
 NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short species, short traits, int maxLen, Strbuf *initialName, void *pokedex)
 {
-    NameInArgs *args = func_02030734(heapId, sizeof(NameInArgs), 0, d_02172A60, 0x37);
+    NameInArgs *args = GFL_HEAP_Alloc(heapId, sizeof(NameInArgs), 0, d_02172A60, 0x37);
     MI_CpuFill8(args, 0, sizeof(NameInArgs));
     args->kind = kind;
     args->maxLen = maxLen;
@@ -515,7 +515,7 @@ NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short speci
  */
 NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int maxLen, Strbuf *initialName, void *pokedex)
 {
-    NameInArgs *args = func_02030734(heapId, sizeof(NameInArgs), 0, d_02172A60, 0x59);
+    NameInArgs *args = GFL_HEAP_Alloc(heapId, sizeof(NameInArgs), 0, d_02172A60, 0x59);
     MI_CpuFill8(args, 0, sizeof(NameInArgs));
     args->kind = 1;
     args->maxLen = maxLen;
@@ -554,7 +554,7 @@ NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, void *mon, int
 void NAMEIN_SETUP_FreeArgs(NameInArgs *args)
 {
     STRBUF_Delete(args->name);
-    func_020307B0(args);
+    GFL_HEAP_Free(args);
 }
 
 
@@ -654,7 +654,7 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
 
 GameEvent *NAMEIN_SETUP_StartFallEvent(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, (void *)NAMEIN_SETUP_RunFallEvent, 0x64);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunFallEvent, 0x64);
     FallEventWork *work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -843,7 +843,7 @@ GameEvent *NAMEIN_SETUP_StartLandEvent(GameSystem *gameSystem, FieldMap *fieldMa
     GameEvent *event;
     LandEventWork *work;
 
-    event = func_020122C0(gameSystem, 0, (void *)NAMEIN_SETUP_RunLandEvent, 0x14);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunLandEvent, 0x14);
     work = func_020124E8(event);
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->gameSystem = gameSystem;
@@ -885,7 +885,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
         MI_CpuCopy8(work->partyScreen.pickedSlots, work->pickedSlotsOut, 6);
         *work->pickedSlotOut = work->partyScreen.pickedSlot;
         *work->pickedSubOut = work->partyScreen.pickedSub;
-        func_020307B0(work->partyScreen.regulation);
+        GFL_HEAP_Free(work->partyScreen.regulation);
         (*state)++;
         break;
     case 5:
@@ -929,7 +929,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
 
     gameData = ICA_ANIME_GetField1C(gameSystem);
     fieldMap = ICA_ANIME_GetField20(gameSystem);
-    event = func_020122C0(gameSystem, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -1063,13 +1063,13 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
  * };
  * extern char MSGDATA_AllocSite[];
  * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
- * extern void func_020307B0(void *);
+ * extern void GFL_HEAP_Free(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
- * extern void func_0204960C(void *,u32);
+ * extern void ARC_TOOL_SeekHandle(void *,u32);
  * extern void STRBUF_Clear(void *);
  * extern void STRBUF_SetChars(void *,const void *,u16);
- * extern void func_02045E04(void *,u32);
- * extern void func_02046180(struct MsgBank *);
+ * extern void MSGDATA_DecryptStrbuf(void *,u32);
+ * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
@@ -1078,10 +1078,10 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
  *         STRBUF_Clear(dest);
  *         return;
  *     }
- *     func_02046180(bank);
+ *     MSGDATA_RefreshLanguage(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
- *         func_0204960C(bank->stream,pos + (index * 8 + 4));
+ *         ARC_TOOL_SeekHandle(bank->stream,pos + (index * 8 + 4));
  *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
@@ -1093,17 +1093,17 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
  *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
- *             func_0204960C(bank->stream,
+ *             ARC_TOOL_SeekHandle(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
  *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
  *             STRBUF_SetChars(dest,buf,e->len);
- *             func_020307B0(buf);
+ *             GFL_HEAP_Free(buf);
  *         }
  *     } else {
  *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
- *     func_02045E04(dest,index);
+ *     MSGDATA_DecryptStrbuf(dest,index);
  * }
  * lever: task, ctx, x, proc declaration order restores pointer spill slots.
  */
@@ -1124,7 +1124,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     gameData = ICA_ANIME_GetField1C(gameSystem);
     fieldMap = ICA_ANIME_GetField20(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
-    event = func_020122C0(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonEvent, 0xD8);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonEvent, 0xD8);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->npcId = npcId;
@@ -1194,7 +1194,7 @@ GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem)
     HistoryScreenWork *work;
 
     fieldMap = ICA_ANIME_GetField20(gameSystem);
-    event = func_020122C0(gameSystem, 0, (void *)NAMEIN_SETUP_RunHistoryScreenEvent, 0x14);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunHistoryScreenEvent, 0x14);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -1230,8 +1230,8 @@ int NAMEIN_SETUP_InitHostProc(void *proc, int *seq, void *pwk, void *mywk)
  */
 int NAMEIN_SETUP_ExitHostProc(void *proc, int *seq, void *pwk, void **mywk)
 {
-    func_0203133C(*mywk);
-    func_020315D4(proc);
+    PROCSYS_Delete(*mywk);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x76);
     return 1;
 }
@@ -1252,13 +1252,13 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, int *mywk)
     int status = PROCSYS_Main((void *)mywk[0]);
     switch (*seq) {
     case 0:
-        func_02034AC4((s32)id_0000005D);
+        GF_OVERLAY_Load((s32)id_0000005D);
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
         GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8);
         *seq = 1;
         break;
     case 1:
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             *seq = 4;
             break;
         }
@@ -1277,7 +1277,7 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, int *mywk)
         break;
     case 4:
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
-        func_02034A5C((s32)id_0000005D);
+        GF_OVERLAY_Unload((s32)id_0000005D);
         *seq = 5;
         break;
     case 5:
@@ -1320,7 +1320,7 @@ GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInf
 {
     GameEvent *event;
     ProcCallWork *work;
-    event = func_020122C0(gameSystem, 0, (void *)NAMEIN_SETUP_RunProcCallEvent, 0x3c);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunProcCallEvent, 0x3c);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->transitionInfo = transitionInfo;
@@ -1391,7 +1391,7 @@ GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldM
 {
     GameEvent *event;
     SceneEventWork *work;
-    event = func_020122C0(gameSystem, 0, (void *)NAMEIN_SETUP_RunSceneEvent, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunSceneEvent, 0x10);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->transitionInfo = transitionInfo;
@@ -1483,7 +1483,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     gameData = ICA_ANIME_GetField1C(gameSystem);
     fieldMap = ICA_ANIME_GetField20(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
-    event = func_020122C0(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonWaitEvent, 0x1C);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonWaitEvent, 0x1C);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     occupyInfo = GAME_DATA_GetOccupyInfo(gameData);
@@ -1495,9 +1495,9 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     work->pos.x += offset.x;
     work->pos.y += offset.y;
     work->pos.z += offset.z;
-    entries = BSUBWAY_SAVEDATA_AllocHistoryCopy(func_020071CC(GAME_DATA_GetSaveControl(gameData), 0x3b), 4);
+    entries = BSUBWAY_SAVEDATA_AllocHistoryCopy(SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3b), 4);
     work->name = PMSI_PARAM_ToString(entries[recordIndex].nameChars, 4);
-    func_020307B0(entries);
+    GFL_HEAP_Free(entries);
     SCRCMD_MSGWIN_GetBalloonTailParams(dir, &balloonKind, &balloonFlags);
     work->balloon = FIELD_MSGBG_AddTalkWin(balloonManager, balloonKind, &work->pos, work->name, 0, balloonFlags);
     return event;

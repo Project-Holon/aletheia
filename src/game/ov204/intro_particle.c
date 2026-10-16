@@ -13,8 +13,8 @@
  * Cut from intro_g3d.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   PARTICLE_InitManager 0x02050B80 arm
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm
  *   PARTICLE_ReleaseCamera 0x02051758 arm
@@ -58,9 +58,9 @@ typedef struct IntroParticleWork {
     unsigned char data[18432];  /* 0x0C: PARTICLE_CreateSystemDefault work */
 } IntroParticleWork;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void PARTICLE_InitManager(unsigned);
 
@@ -99,7 +99,7 @@ char *INTRO_PARTICLE_Create(void *owner,unsigned heap)
     IntroParticleCameraParams config;
     IntroParticleWork *p;
     PARTICLE_InitManager(heap);
-    p=func_02030734(heap,18444,1,d_021C0B30,86);
+    p=GFL_HEAP_Alloc(heap,18444,1,d_021C0B30,86);
     p->system=(void *)PARTICLE_CreateSystemDefault((int)p->data,18432,1,heap);
     p->owner=owner;
     p->heapId=heap;
@@ -120,7 +120,7 @@ char *INTRO_PARTICLE_Create(void *owner,unsigned heap)
 void INTRO_PARTICLE_Delete(char *a)
 {
     PARTICLE_ExitManager();
-    func_020307B0(a);
+    GFL_HEAP_Free(a);
 }
 
 void INTRO_PARTICLE_Main(int a0) { PARTICLE_Main(); }

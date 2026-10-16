@@ -48,7 +48,7 @@
  *   WIH_DWC_Dummy       0x02010884  thumb
  *   DC_InvalidateRange  0x020862B8  arm
  *   MI_CpuCopy8         0x02082D44  arm
- *   func_02034714       0x02034714  arm
+ *   SAVEDATA_PanicFail       0x02034714  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   WM_EndScan                     0x0208F808  arm
@@ -311,7 +311,7 @@ extern int WM_StartScanEx(void (*cb)(void *), void *scanParam);
 extern void WIH_DWC_RequestAlertLevel(u32 linkLevel);
 extern void WIH_DWC_Dummy(void);
 extern void DC_InvalidateRange(void *p, u32 size);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 int OS_DisableInterrupts(void);
 void OS_RestoreInterrupts(int irqState);
 extern int WM_EndScan(void *callback);
@@ -869,7 +869,7 @@ void DWCi_MOV_WH_StateOutStartScan(void *arg)
                                                 cb->linkLevel[i]);
             if (WIH_IsMatchingParent(&work->scanBssDesc) != 0) {
                 if (gWihWork->judgeScanFunc == 0)
-                    func_02034714(sWihAssertText, 0, sWihAssertText);
+                    SAVEDATA_PanicFail(sWihAssertText, 0, sWihAssertText);
                 if (gWihWork->judgeScanFunc(&work->scanBssDesc) != 0)
                     found = 1;
             }

@@ -13,18 +13,18 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BgTextLabel_SetPalette  0x021C1038  thumb  ov217
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BgTextLabel_PrintText 0x021C0F78 thumb ov217
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   d_021C4058 0x021C4058 data a1
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -39,7 +39,7 @@
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   BMP_WIN_GetWidth  0x02045738  arm
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
 #include "research_shared_types.h"
@@ -74,10 +74,10 @@ struct BgTextLabel {
     u32 visible;
 };
 
-extern u32 func_020307B0(void *mem);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 GFL_HEAP_Free(void *mem);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 BMP_WIN_Create(u32 bgLayer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 startChar);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void *BMP_WIN_GetBmp(struct BmpWin *win);
@@ -85,7 +85,7 @@ extern void BMP_Clear(struct BmpPixels *pixels, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(unsigned int bgLayerBit);
+extern void BG_SYS_SetFlagField06(unsigned int bgLayerBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palette);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
@@ -94,7 +94,7 @@ extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
 extern void BG_SYS_FillTileMap(u32 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 func_0201D304(struct StrObj *text, u32 font, u32 spacing);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *text, u32 font, u32 spacing);
 
 struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId);
 void BgTextLabel_Destroy(struct BgTextLabel *label);
@@ -109,7 +109,7 @@ extern const char d_021C4058[];
 /* Creates a label and its BMP window from config. */
 struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId)
 {
-    struct BgTextLabel *label = func_02030734(heapId, 32, 0, d_021C4058, 55);
+    struct BgTextLabel *label = GFL_HEAP_Alloc(heapId, 32, 0, d_021C4058, 55);
     label->config = *config;
     label->font = font;
     label->msgBank = msgBank;
@@ -122,15 +122,15 @@ struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u
 void BgTextLabel_Destroy(struct BgTextLabel *label)
 {
     BMP_WIN_Delete(label->window);
-    func_020307B0(label);
+    GFL_HEAP_Free(label);
 }
 
 /* Fetches message msgIndex from the label's message bank and prints it. */
 u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, u32 msgIndex)
 {
-    void *text = func_02045EC0((struct MsgBank *)label->msgBank, msgIndex);
+    void *text = MSGDATA_AllocString((struct MsgBank *)label->msgBank, msgIndex);
     BgTextLabel_PrintText(label, text);
-    return func_020307B0(text);
+    return GFL_HEAP_Free(text);
 }
 
 /*
@@ -158,7 +158,7 @@ void BgTextLabel_PrintText(struct BgTextLabel *label, void *text)
         window = label->window;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
     }
 }
 
@@ -172,11 +172,11 @@ void BgTextLabel_SetVisible(struct BgTextLabel *label, int visible)
         struct BmpWin *window = label->window;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
     } else if (label->visible != 0 && visible == 0) {
         struct BmpWin *window = label->window;
         BMP_WIN_ClearScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
     }
     label->visible = visible;
 }
@@ -193,7 +193,7 @@ void BgTextLabel_SetPalette(struct BgTextLabel *label, u8 palette)
     width = BMP_WIN_GetDispWidth(label->window);
     height = BMP_WIN_GetDispHeight(label->window);
     BG_SYS_FillTileMap(bgLayer, x, y, width, height, palette);
-    if (label->visible != 0) func_02041B6C(BMP_WIN_GetBgLayer(label->window));
+    if (label->visible != 0) BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(label->window));
 }
 
 /* Horizontal offset that centres text in the window (never negative). */
@@ -202,7 +202,7 @@ int BgTextLabel_GetCenterOffset(struct BgTextLabel *label, void *text)
     int offset;
     int space;
     space = BMP_WIN_GetWidth(label->window) * 8;
-    space = space - func_0201D304((struct StrObj *)text, label->font, 0);
+    space = space - GF_FONT_MeasureWidestLine((struct StrObj *)text, label->font, 0);
     offset = (int)(0.5f * (float)space);
     if (offset < 0) {
         offset = 0;

@@ -21,9 +21,9 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   func_0200BAF4  0x0200BAF4  thumb
+ *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
  *   POKEPARTY_Copy  0x0201AC2C  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   POKEPARTY_RemoveMember  0x0201A9C8  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -91,9 +91,9 @@ extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32 POKE_TOOL_GetPartyValue(void *pokemon, u32 paramId, u32 defaultValue);
 extern u32 POKEPARTY_Add(struct Party *party, const struct Pokemon *pokemon);
-extern void *func_0200BAF4(int battleBox, int heapId);
+extern void *BATTLE_BOX_CreateParty(int battleBox, int heapId);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern void POKE_TOOL_HealParty(void *party);
 extern u32 POKEPARTY_RemoveMember(struct Party *party, s32 index);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -148,9 +148,9 @@ void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
                 POKEPARTY_Add(work->party, member);
         }
     } else {
-        boxParty = func_0200BAF4(battleBox, 4);
+        boxParty = BATTLE_BOX_CreateParty(battleBox, 4);
         POKEPARTY_Copy(boxParty, work->party);
-        func_020307B0(boxParty);
+        GFL_HEAP_Free(boxParty);
     }
     POKE_TOOL_HealParty(work->party);
     MUSICAL_EVENT_SetPartyLevel50(work->party);

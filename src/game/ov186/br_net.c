@@ -15,17 +15,17 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_NET_Create 0x021FF408 thumb ov186
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   ov125_id 0x0000007D data
  *   BR_NET_IsFatal 0x021FF8D4 thumb ov186
  *   BR_NET_Destroy 0x021FF4E4 thumb ov186
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   BR_NET_Main 0x021FF52C thumb ov186
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
  *   GDS_RAP_Init 0x021D6660 thumb ov125
@@ -61,9 +61,9 @@
  */
 #include "br_types.h"
 
-extern void func_02034AC4(int);
+extern void GF_OVERLAY_Load(int);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
@@ -73,9 +73,9 @@ extern char ov125_id[];
 
 extern void *MI_CpuFill8(void *dst, u32 value, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern const void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
@@ -89,7 +89,7 @@ typedef int (*BrNetErrorHook)(struct BrNet *net, int unused, int errorKind, int 
 
 extern void DWC_RAP_SetErrorHookCallback(BrNetErrorHook hook, struct BrNet *net);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void GFL_USE_StopAllSe(void);
 
@@ -239,8 +239,8 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u32 
 {
     struct BrNet *net;
     GdsRapInitParams params;
-    func_02034AC4((int)ov125_id);
-    net=func_02030734(heapId,sizeof(struct BrNet),0,gBrNetSourceFile,0x97);
+    GF_OVERLAY_Load((int)ov125_id);
+    net=GFL_HEAP_Alloc(heapId,sizeof(struct BrNet),0,gBrNetSourceFile,0x97);
     MI_CpuFill8(net,0,sizeof(struct BrNet));
     net->gameData=gameData;
     MI_CpuFill8(&params,0,sizeof(GdsRapInitParams));
@@ -273,8 +273,8 @@ void BR_NET_Destroy(struct BrNet *net)
         GDS_RAP_Exit(&net->rap);
         net->rapActive = 0;
     }
-    func_020307B0(net);
-    func_02034A5C((int)ov125_id);
+    GFL_HEAP_Free(net);
+    GF_OVERLAY_Unload((int)ov125_id);
 }
 
 void BR_NET_Main(struct BrNet *net)
@@ -291,7 +291,7 @@ void BR_NET_Main(struct BrNet *net)
  */
 void BR_NET_StartRequest(struct BrNet *net, int kind, const union BrNetRequest *request)
 {
-    if(kind>=BR_NET_REQUEST_COUNT)func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+    if(kind>=BR_NET_REQUEST_COUNT)SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     if(request){
         net->request=*request;
     }
@@ -306,7 +306,7 @@ void BR_NET_StartRequest(struct BrNet *net, int kind, const union BrNetRequest *
     case BR_NET_REQUEST_SEARCH_KIND3:BR_NET_SetStep(net->task,BR_NET_StepSearchKind3);break;
     case BR_NET_REQUEST_SEARCH_KIND2:BR_NET_SetStep(net->task,BR_NET_StepSearchKind2);break;
     case BR_NET_REQUEST_MARK_VIDEO:BR_NET_SetStep(net->task,BR_NET_StepMarkVideo);break;
-    default:func_02034714(gBrNetAssertString,0,gBrNetAssertString);break;
+    default:SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);break;
     }
 }
 
@@ -482,63 +482,63 @@ void BR_NET_StepWaitRequest(struct BrNetTask *task, u32 *counter, struct BrNet *
 void BR_NET_StepUploadEntry(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestUploadEntry(&net->rap,(const GdsProfileBlock *)net->profile,net->request.payload))
-        func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepDownloadEntries(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestDownloadEntries(&net->rap,net->request.downloadKey))
-        func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepUploadVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestUploadVideo(&net->rap,net->profile))
-        func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepGetVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestGetVideo(&net->rap,net->request.dataNumber.lo,net->request.dataNumber.hi))
-        func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchVideos(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if (!GDS_RAP_RequestSearchVideos(&net->rap, net->request.search.keyId, net->request.search.category, net->request.search.mode, net->request.search.flag))
-        func_02034714(gBrNetAssertString, 0, gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString, 0, gBrNetAssertString);
     BR_NET_SetStep(task, BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind1(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind1(&net->rap))
-        func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind3(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind3(&net->rap))
-        func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind2(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind2(&net->rap))
-        func_02034714(gBrNetAssertString,0,gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepMarkVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if (!GDS_RAP_RequestMarkVideo(&net->rap, net->request.dataNumber.lo, net->request.dataNumber.hi))
-        func_02034714(gBrNetAssertString, 0, gBrNetAssertString);
+        SAVEDATA_PanicFail(gBrNetAssertString, 0, gBrNetAssertString);
     BR_NET_SetStep(task, BR_NET_StepWaitRequest);
 }
 
@@ -556,14 +556,14 @@ void BR_NET_OnMarkVideo(void *userData, GdsRapResult *result) { ((struct BrNet *
 
 struct BrNetTask *BR_NET_CreateTask(struct BrNet *net, BrNetStepFunc step, u32 heapId)
 {
-    struct BrNetTask *task=func_02030734(heapId,sizeof(struct BrNetTask),0,gBrNetSourceFile,0x44f);
+    struct BrNetTask *task=GFL_HEAP_Alloc(heapId,sizeof(struct BrNetTask),0,gBrNetSourceFile,0x44f);
     MI_CpuFill8(task,0,sizeof(struct BrNetTask));
     task->net=net;
     BR_NET_SetStep(task,step);
     return task;
 }
 
-void BR_NET_DestroyTask(struct BrNetTask *task) {func_020307B0(task);}
+void BR_NET_DestroyTask(struct BrNetTask *task) {GFL_HEAP_Free(task);}
 
 void BR_NET_RunTask(struct BrNetTask *task)
 {

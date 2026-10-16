@@ -16,7 +16,7 @@
  * symbols:
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   gEntranceInEventTable     0x021D9BB0  data  ov021  a4
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_GROUND_ANIME_CreateB  0x021A7E3C  thumb  ov021
@@ -56,7 +56,7 @@ struct IssDungeonSys;
 struct BgmInfo;
 
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern GameEvent *FIELD_GROUND_ANIME_CreateB(EntranceParam *param);
@@ -129,7 +129,7 @@ GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param)
         eventKind = ENTRANCE_EVENT_CAMERA;
         break;
     }
-    event = func_020122C0(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceInWork));
+    event = GAME_EVENT_Create(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceInWork));
     work = func_020124E8(event);
     work->animHandle = 0;
     work->param = param;

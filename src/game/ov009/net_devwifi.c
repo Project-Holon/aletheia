@@ -14,12 +14,12 @@
  *
  * symbols:
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   _pSetupParam     0x021A8260  data  ov009  a4
  *   _sNetDevwifiFile     0x021A1C4C  data  ov009  a1
  *   GFL_NET_GetWifiUserData 0x0203D5EC arm
  *   GFL_NET_GetFriendList 0x0203D610 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   DWC_GetAIDBitmap 0x0216B908 arm ov009
  *   DWC_GetLinkLevel  0x0205CCD8  arm
  *   DWC_GetLastErrorEx  0x02059E38  arm
@@ -52,13 +52,13 @@
 #include "dwc_rap_types.h"
 #include "net_devwifi_shared_types.h"
 
-void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_NET_GetWifiUserData(void);
 
 extern u32 GFL_NET_GetFriendList(void);
 
-u32 func_020307B0(void *block);
+u32 GFL_HEAP_Free(void *block);
 
 extern int DWC_GetAIDBitmap(void);
 
@@ -185,7 +185,7 @@ int GFL_NET_DEVWIFI_Setup(int heapId, int param)
         return 0;
     netInit = GFL_NET_GetInitParam();
     DWC_RAPCOMMON_CreateHeap(netInit->wifiHeapId, netInit->heapSize);
-    _pSetupParam = func_02030734(heapId, 8, 1, _sNetDevwifiFile, 0xba);
+    _pSetupParam = GFL_HEAP_Alloc(heapId, 8, 1, _sNetDevwifiFile, 0xba);
     *_pSetupParam = param;
     return 1;
 }
@@ -230,7 +230,7 @@ int GFL_NET_DEVWIFI_Cleanup(void (*doneCallback)(int))
         DWC_RAP_Shutdown();
         if (doneCallback != 0)
             doneCallback(1);
-        func_020307B0(_pSetupParam);
+        GFL_HEAP_Free(_pSetupParam);
         _pSetupParam = 0;
     }
     DWC_RAPCOMMON_DestroyHeap();

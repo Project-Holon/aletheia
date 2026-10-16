@@ -13,8 +13,8 @@
  * Cut from zukan.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   open 0x020490F4 arm
  *   close 0x02049238 arm
  *   initial 0x021C983C thumb ov212
@@ -48,9 +48,9 @@ struct Search {
   void *personal; u16 resultCount; u16 pad42; u16 *result;
 };
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
 extern void *open(u32, u16);
 
@@ -108,7 +108,7 @@ extern int g_021C9968[];
 
 void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
 {
-    struct Search *q = func_02030734(heap, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
+    struct Search *q = GFL_HEAP_Alloc(heap, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
 
     q->save = p;
     q->query = b;
@@ -123,13 +123,13 @@ void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
 /*
  * Bottom-up unblocker for the last unresolved site of
  * src/pending/ZKNSEARCH_MAIN_UpdateSearchEngine.c.  Thumb tail-call veneer into the ARM9
- * func_020307B0 (the image is `ldr r3,[pc,#0]; bx r3; .word 0x020307B0`);
+ * GFL_HEAP_Free (the image is `ldr r3,[pc,#0]; bx r3; .word 0x020307B0`);
  * disasm emits it as an unlabelled `.word` run, so no listing class attests
  * it.  Addresses are Black-image addresses.
  */
 void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0)
 {
-    func_020307B0((void *)a0);
+    GFL_HEAP_Free((void *)a0);
 }
 
 /*
@@ -286,7 +286,7 @@ unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int a0, int a1, int a2, int a3, u16
 
     if (a1 == 0 && a2 == 0) {
         u16 i;
-        buf = func_02030734(a3, 0x512, 0, g_021C99A8, 0x3B1);
+        buf = GFL_HEAP_Alloc(a3, 0x512, 0, g_021C99A8, 0x3B1);
         for (i = 0; i < 0x289;) {
             buf[i] = i + 1;
             i++;

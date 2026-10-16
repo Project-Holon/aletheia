@@ -17,7 +17,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   func_02005728 0x02005728 thumb
  *   BG_SYS_PushTile 0x020409B4 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -34,18 +34,18 @@
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021B74BC 0x021B74BC data
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_020056EC 0x020056EC thumb
@@ -60,7 +60,7 @@
  *   d_021B7480 0x021B7480 data a1
  *   func_02049DF4 0x02049DF4 arm
  *   MIi_CpuCopy32  0x02082A90  arm
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
 
@@ -99,7 +99,7 @@ struct LocalTvtChara {
     u8 labelWidth;              /* 0x07, returned by LOCAL_TVT_CHARA_GetState */
     union { int value; unsigned int valueU; } state; /* 0x08 */
     void *tileSrc;              /* 0x0C, tile source record, filled by func_02049DF4 */
-    union { int handle; void *handlePtr; } gfx;      /* 0x10, freed by func_020307B0 */
+    union { int handle; void *handlePtr; } gfx;      /* 0x10, freed by GFL_HEAP_Free */
     int flag;                   /* 0x14, label transfer pending */
     struct BmpWin *window;      /* 0x18, label window */
     u32 paletteHandle;          /* 0x1C, CLACT palette handle */
@@ -132,7 +132,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int func_02005728(int);
 
@@ -162,7 +162,7 @@ extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern unsigned int BMP_WIN_Delete(struct BmpWin *d);
 
-extern void func_02041B6C(unsigned);
+extern void BG_SYS_SetFlagField06(unsigned);
 
 extern void BMP_Clear(struct Bmp *buf, u8 value);
 
@@ -176,7 +176,7 @@ extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -184,7 +184,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 
@@ -204,7 +204,7 @@ extern void *func_02049DF4(void *archive, unsigned id, unsigned flags, void *out
 
 extern void MIi_CpuCopy32(int, int, int);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 
@@ -248,7 +248,7 @@ char *LOCAL_TVT_CHARA_Create(char *p,int index)
 {
     char *q;
     if(((u8 *)((struct LocalTvtSys *)p)->menuCharaTable)[index]==0xff) return 0;
-    q=func_02030734(((struct LocalTvtSys *)p)->heapId,0x3c,0,d_021B74BC,0x7a);
+    q=GFL_HEAP_Alloc(((struct LocalTvtSys *)p)->heapId,0x3c,0,d_021B74BC,0x7a);
     ((struct LocalTvtChara *)q)->index=index;
     ((struct LocalTvtChara *)q)->charId=((u8 *)((struct LocalTvtSys *)p)->menuCharaTable)[index];
     ((struct LocalTvtChara *)q)->subId=(*(u8 * *)&((struct LocalTvtSys *)p)->menuCharaTable+index)[4];
@@ -268,7 +268,7 @@ char *LOCAL_TVT_CHARA_Create(char *p,int index)
     return q;
 }
 
-void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p) {CLACT_DeleteActor(((struct LocalTvtChara *)p)->actorA);CLACT_DeleteActor(((struct LocalTvtChara *)p)->actorB);CLACT_ReleasePalette(((struct LocalTvtChara *)p)->paletteHandle);CLACT_ReleaseCharacter(((struct LocalTvtChara *)p)->charHandle);CLACT_ReleaseCellAnim(((struct LocalTvtChara *)p)->cellHandle);BMP_WIN_Delete(((struct LocalTvtChara *)p)->window);if(((struct LocalTvtChara *)p)->gfx.handlePtr)func_020307B0(((struct LocalTvtChara *)p)->gfx.handlePtr);func_020307B0(p);}
+void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p) {CLACT_DeleteActor(((struct LocalTvtChara *)p)->actorA);CLACT_DeleteActor(((struct LocalTvtChara *)p)->actorB);CLACT_ReleasePalette(((struct LocalTvtChara *)p)->paletteHandle);CLACT_ReleaseCharacter(((struct LocalTvtChara *)p)->charHandle);CLACT_ReleaseCellAnim(((struct LocalTvtChara *)p)->cellHandle);BMP_WIN_Delete(((struct LocalTvtChara *)p)->window);if(((struct LocalTvtChara *)p)->gfx.handlePtr)GFL_HEAP_Free(((struct LocalTvtChara *)p)->gfx.handlePtr);GFL_HEAP_Free(p);}
 
 void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
 {
@@ -291,7 +291,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
         ((struct LocalTvtChara *)q)->step++;
         if(((struct LocalTvtChara *)q)->step*0x3000u>=size) {
             ((struct LocalTvtChara *)q)->state.valueU=3;
-            func_020307B0(((struct LocalTvtChara *)q)->gfx.handlePtr);
+            GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
             ((struct LocalTvtChara *)q)->gfx.handlePtr=0;
         }
         break;
@@ -306,7 +306,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
         ((struct LocalTvtChara *)q)->step++;
         if(((struct LocalTvtChara *)q)->step*0x3000u>=size) {
             ((struct LocalTvtChara *)q)->state.valueU=5;
-            func_020307B0(((struct LocalTvtChara *)q)->gfx.handlePtr);
+            GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
             ((struct LocalTvtChara *)q)->gfx.handlePtr=0;
         }
         break;
@@ -359,8 +359,8 @@ void LOCAL_TVT_CHARA_SetupPalette(char *p,u8 *q)
     ARC_UTIL_UploadPaletteFromHandle(((struct LocalTvtSys *)p)->arcHandle,((struct LocalTvtSys *)p)->timeSlot+d_021B7480[((struct LocalTvtChara *)q)->subId*2],2,0,0x6000+((struct LocalTvtChara *)q)->index*0x200,0x200,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_FillTileMap(2,(((struct LocalTvtChara *)q)->index%2)*16,(((struct LocalTvtChara *)q)->index/2)*height,16,height,((struct LocalTvtChara *)q)->index);
     BG_SYS_FillTileMap(3,(((struct LocalTvtChara *)q)->index%2)*16,(((struct LocalTvtChara *)q)->index/2)*height,16,height,((struct LocalTvtChara *)q)->index);
-    func_02041B6C(3);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(3);
+    BG_SYS_SetFlagField06(2);
 }
 
 /*
@@ -376,10 +376,10 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
     else { step = 0x3000; base = 0x1c00; }
     LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, (d_021B7481 + 4)[((struct LocalTvtChara *)q)->charId * 3]);
     LOCAL_TVT_CHARA_CopyTiles((int)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x10000, step);
-    func_020307B0(((struct LocalTvtChara *)q)->gfx.handlePtr);
+    GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
     LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, d_021B7481[((struct LocalTvtChara *)q)->subId * 2] + ((struct LocalTvtSys *)p)->timeSlot * 2);
     LOCAL_TVT_CHARA_CopyTiles((int)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x28000, step);
-    func_020307B0(((struct LocalTvtChara *)q)->gfx.handlePtr);
+    GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
     ((struct LocalTvtChara *)q)->paletteHandle = CLACT_RegisterPaletteCompressed(((struct LocalTvtSys *)p)->arcHandle, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3], 0, (u16)((((struct LocalTvtChara *)q)->index * 2 + 4) << 5), ((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtChara *)q)->charHandle = CLACT_RegisterCharacter(((struct LocalTvtSys *)p)->arcHandle, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3] + 1, 0, 0, ((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtChara *)q)->cellHandle = CLACT_RegisterCellAnim(((struct LocalTvtSys *)p)->arcHandle, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3] + 2, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3] + 3, ((struct LocalTvtSys *)p)->heapId);
@@ -418,7 +418,7 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
     BMP_WIN_TransferChars(((struct LocalTvtChara *)q)->window);
     BMP_WIN_MakeScreen((struct Cfg *)((struct LocalTvtChara *)q)->window);
     BG_SYS_PushTile(0);
-    s=func_02045EC0(((struct LocalTvtSys *)p)->msgBankA.ptr, ((struct LocalTvtChara *)q)->charId);
+    s=MSGDATA_AllocString(((struct LocalTvtSys *)p)->msgBankA.ptr, ((struct LocalTvtChara *)q)->charId);
     if(((struct LocalTvtChara *)q)->charId==0 || ((struct LocalTvtChara *)q)->charId==5){
         dst=STRBUF_Create(128,((struct LocalTvtSys *)p)->heapId);
         save=GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData);
@@ -429,7 +429,7 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         WORDSET_DeleteStrbufED04(ws);
         s=dst;
     }
-    ((struct LocalTvtChara *)q)->labelWidth=func_0201D304(s,((struct LocalTvtSys *)p)->font.value,0);
+    ((struct LocalTvtChara *)q)->labelWidth=GF_FONT_MeasureWidestLine(s,((struct LocalTvtSys *)p)->font.value,0);
     PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2+1),1,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
     PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2-1),1,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
     PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),2,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
@@ -442,7 +442,7 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
 void LOCAL_TVT_CHARA_ShowWindow(int a, int *p)
 {
     BMP_WIN_MakeScreen((struct Cfg *)(((struct LocalTvtChara *)p)->window));
-    func_02041B6C(0);
+    BG_SYS_SetFlagField06(0);
 }
 
 unsigned LOCAL_TVT_CHARA_GetState(unsigned char *p) {return ((struct LocalTvtChara *)p)->labelWidth;}

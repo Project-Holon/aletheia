@@ -13,8 +13,8 @@
  * Cut from shinka_demo_view.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
@@ -65,7 +65,7 @@
  *   G3D_SYSTEM_GetLookAt 0x02046AFC arm
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   NNS_G3dGlbBaseTrans 0x0206A9DC arm
- *   func_02082B60 0x02082B60 arm
+ *   MI_Copy36B 0x02082B60 arm
  *   NNS_G3dGlbBaseScale 0x0206AA0C arm
  *   NNS_G3dGeFlushBuffer 0x0206DB80 arm
  *   G3D_SYSTEM_SetProjection 0x02046858 arm
@@ -80,11 +80,11 @@
  *   func_02082A7C 0x02082A7C arm
  *   MIi_CpuCopy32 0x02082A90 arm
  *   BMP_ConvertToLinear 0x02044F64 arm
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   BMP_Delete 0x020437AC arm
  *   _ll_mul 0x0209C054 arm
  *   FX_Sqrt 0x0207C7B4 arm
- *   func_0207C768 0x0207C768 arm
+ *   FX_Div 0x0207C768 arm
  *   MTX_RotY43_ 0x0207B640 thumb
  *   MTX_MultVec43 0x0207BC08 arm
  *   FX_InvSqrt 0x0207C7E8 arm
@@ -278,9 +278,9 @@ typedef struct {fx32 x,y,z;} Vec;
 
 typedef struct {fx32 a[12];} Matrix;
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, void *);
 
@@ -364,7 +364,7 @@ extern void MTX_Identity33_(MtxFx33 *m);
 
 extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
 
-extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
+extern void MI_Copy36B(const MtxFx33 *src, MtxFx33 *dst);
 
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
 
@@ -394,13 +394,13 @@ extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
 extern void BMP_Delete(void *p);
 
 extern int FX_Sqrt(int);
 
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 extern void MTX_RotY43_(Matrix *,fx32,fx32);
 
@@ -541,7 +541,7 @@ extern const u8 d_02208E38[];
 
 Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
 {
-    Owner *o = func_02030734(heap, 0x60, 1, d_02208F68, 0x201);
+    Owner *o = GFL_HEAP_Alloc(heap, 0x60, 1, d_02208F68, 0x201);
 
     o->heap = heap;
     o->f08 = f08;
@@ -549,7 +549,7 @@ Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
     o->f0c = f0c;
     o->res1 = 0;
     if (f08 == 0) {
-        o->res1 = func_02030734(o->heap, POKE_TOOL_GetPartyParamSize(), 1, d_02208F68, 0x213);
+        o->res1 = GFL_HEAP_Alloc(o->heap, POKE_TOOL_GetPartyParamSize(), 1, d_02208F68, 0x213);
         POKE_TOOL_CopyPartyPokemon(o->res0, o->res1);
         POKE_TOOL_ChangeSpecies(o->res1, o->f0c);
     }
@@ -577,7 +577,7 @@ Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
     return o;
 }
 
-void SHINKA_DEMO_VIEW_Destroy(char *p){SHINKA_DEMO_VIEW_DeleteWork(p);SHINKA_DEMO_VIEW_DeleteModels((Owner *)((Owner *)p));SHINKA_DEMO_VIEW_ExitMcss(p);if(((Owner *)p)->res1)func_020307B0(((Owner *)p)->res1);func_020307B0(p);}
+void SHINKA_DEMO_VIEW_Destroy(char *p){SHINKA_DEMO_VIEW_DeleteWork(p);SHINKA_DEMO_VIEW_DeleteModels((Owner *)((Owner *)p));SHINKA_DEMO_VIEW_ExitMcss(p);if(((Owner *)p)->res1)GFL_HEAP_Free(((Owner *)p)->res1);GFL_HEAP_Free(p);}
 
 void SHINKA_DEMO_VIEW_Main(char *p)
 {
@@ -935,7 +935,7 @@ static inline fx32 FX_CosIdx(int idx)
 
 void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 {
-    Work *w = func_02030734(o->heap, sizeof(Work), 1, d_02208F68, 0x54c);
+    Work *w = GFL_HEAP_Alloc(o->heap, sizeof(Work), 1, d_02208F68, 0x54c);
     Grid *g;
     u32 a, b, c;
     u8 j, k;
@@ -994,7 +994,7 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-void SHINKA_DEMO_VIEW_DeleteWork(char *p){char *q;u8 i;q=*(char * *)&((Owner *)p)->work;G3D_CAMERA_Delete((void *)(((Work *)q)->camera));if(((Work *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((Work *)q)->quad,((Owner *)p)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)p)->heap);}func_020307B0(q);}
+void SHINKA_DEMO_VIEW_DeleteWork(char *p){char *q;u8 i;q=*(char * *)&((Owner *)p)->work;G3D_CAMERA_Delete((void *)(((Work *)q)->camera));if(((Work *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((Work *)q)->quad,((Owner *)p)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)p)->heap);}GFL_HEAP_Free(q);}
 
 void SHINKA_DEMO_VIEW_Update(Owner *o)
 {
@@ -1039,7 +1039,7 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
 
         MTX_Identity33_(&rot);
         NNS_G3dGlbBaseTrans(&trans);
-        func_02082B60(&rot, &d_02148BCC.baseRot);
+        MI_Copy36B(&rot, &d_02148BCC.baseRot);
         d_02148BCC.flag &= ~0xa4;
         NNS_G3dGlbBaseScale(&scale);
     }
@@ -1159,7 +1159,7 @@ int SHINKA_DEMO_VIEW_AreModelsState4(char *a)
 
 Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
 {
-    Grid *g = func_02030734(heap, sizeof(Grid), 1, d_02208F68, 0x720);
+    Grid *g = GFL_HEAP_Alloc(heap, sizeof(Grid), 1, d_02208F68, 0x720);
     u32 chrFile;
     u32 plttFile;
     u8 *src;
@@ -1205,17 +1205,17 @@ Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5
         }
     }
     BMP_ConvertToLinear(g->canvas, 0, heap);
-    func_02061CA4(0, tex, (u32)BMP_GetPixels(g->canvas), 0x2000);
-    func_02061CA4((void *)1, pltt, (u32)g->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, tex, (u32)BMP_GetPixels(g->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, pltt, (u32)g->pltt->raw, 0x20);
     return g;
 }
 
 void SHINKA_DEMO_VIEW_DeleteGrid(char *p, int a1)
 {
     BMP_Delete(((Grid *)p)->canvas);
-    func_020307B0(((Grid *)p)->chrRes);
-    func_020307B0(((Grid *)p)->plttRes);
-    func_020307B0(p);
+    GFL_HEAP_Free(((Grid *)p)->chrRes);
+    GFL_HEAP_Free(((Grid *)p)->plttRes);
+    GFL_HEAP_Free(p);
 }
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
@@ -1311,14 +1311,14 @@ void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap)
             l1 = FX_Sqrt((fx32)((lx * lx + 0x800) >> 12) + (fx32)((lz * lz + 0x800) >> 12));
             l2 = FX_Sqrt((fx32)((ly * ly + 0x800) >> 12));
             if (l1 > 0x1000) {
-                e->f40 = func_0207C768(dx, l1);
-                e->f48 = func_0207C768(dz, l1);
+                e->f40 = FX_Div(dx, l1);
+                e->f48 = FX_Div(dz, l1);
             } else {
                 e->f40 = dx;
                 e->f48 = dz;
             }
             if (l2 > 0x1000)
-                e->f44 = func_0207C768(dy, l2);
+                e->f44 = FX_Div(dy, l2);
             else
                 e->f44 = dy;
             e->f64 = 0;
@@ -1782,7 +1782,7 @@ void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x)
         }
         p->pal[i] = r | (g << 5) | (b << 10);
     }
-    func_02061CA4((void *)1, p->plttAddr, (u32)p->pal, 0x20);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, p->plttAddr, (u32)p->pal, 0x20);
 }
 
 int SHINKA_DEMO_VIEW_IsGridState0(char *p, u16 a1)
@@ -1834,7 +1834,7 @@ void SHINKA_DEMO_VIEW_UpdateGridFade(Grid *p, int x)
 
 Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap)
 {
-    Quad *p = func_02030734(heap, sizeof(Quad), 1, d_02208F68, 0xd31);
+    Quad *p = GFL_HEAP_Alloc(heap, sizeof(Quad), 1, d_02208F68, 0xd31);
 
     p->tex = tex;
     p->pltt = pltt;
@@ -1866,7 +1866,7 @@ Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap)
     return p;
 }
 
-void SHINKA_DEMO_VIEW_FreeQuad(void *p,int n){func_020307B0(p);}
+void SHINKA_DEMO_VIEW_FreeQuad(void *p,int n){GFL_HEAP_Free(p);}
 
 /*
  * The rounding is the SDK FX_F32_TO_FX32 shape applied to an integer

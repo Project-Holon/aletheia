@@ -13,15 +13,15 @@
  * Cut from manual_common.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   MANUAL_GRAPHIC_GetClactUnit 0x021B9A08 thumb ov225
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -44,14 +44,14 @@
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   gManualCommonListHeadPos 0x021BBF8C data ov225 a2
  *   gManualCommonListRowPos 0x021BBF94 data ov225 a2
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_02061CA4 0x02061CA4 arm
- *   func_020355C4 0x020355C4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
@@ -116,15 +116,15 @@ struct ManualPoint {short x,y;};
 
 struct ManualQuad { short x,y,z,w; };
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
 
@@ -132,7 +132,7 @@ extern u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),BMP_WIN_Delete(struct Descriptor *);
 
-extern void *func_02045EC0(struct MsgBank *,unsigned);
+extern void *MSGDATA_AllocString(struct MsgBank *,unsigned);
 
 extern void STRBUF_Delete(struct U16Vec *);
 
@@ -176,7 +176,7 @@ extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
 
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32,u32,u32,u32,u32,u32,u16);
 
@@ -184,9 +184,9 @@ extern void BG_SYS_FreeSlot(unsigned);
 
 extern struct ManualRes *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
 
-extern int func_02061CA4(void *, unsigned, void *, int);
+extern int NNS_GfdRegisterNewVramTransferTask(void *, unsigned, void *, int);
 
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 
@@ -268,7 +268,7 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
   int count;
   s16 y;
   int mode;
-  work = func_02030734(data->heap, 0x98, 1, gManualCommonListWorkAllocFile, 0xdf);
+  work = GFL_HEAP_Alloc(data->heap, 0x98, 1, gManualCommonListWorkAllocFile, 0xdf);
   work->owner = owner;
   *((u32 *) (owner + 0x10)) = 0;
   work->data = data;
@@ -294,7 +294,7 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
   pos.x = 240;
   pos.y = y;
   CLACT_AddActorSurfacePos(work->actor, (const struct ManualClactPos *)&pos, 1);
-  work->task = func_020056A0((u32) MANUAL_COMMON_ListWorkTaskNoop, (u32) work, 1);
+  work->task = GFL_USE_AddMainTask((u32) MANUAL_COMMON_ListWorkTaskNoop, (u32) work, 1);
   work->state = 0;
   work->dragging = 0;
   work->dirty = 0;
@@ -312,9 +312,9 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
 
 void MANUAL_COMMON_DeleteListWork(char *work)
 {
-    func_02030EAC(((struct ManualListWork *)work)->task);
+    TCB_DeleteTask(((struct ManualListWork *)work)->task);
     BG_SYS_ResetSlot(5, 3, 0);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -381,7 +381,7 @@ void MANUAL_COMMON_LoadListWorkAssets(char *work)
     u8 i;
     char *parent;
     func_02049B68(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,0,4,0,0x40,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
-    func_02049658(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,2,4,0,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    ARC_UTIL_UploadBgCharFromHandle(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,2,4,0,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,5,4,0,0,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     *(int *)&((struct ManualListWork *)work)->reg1=CLACT_RegisterPaletteEx(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,1,1,0,0,1,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     *(int *)&((struct ManualListWork *)work)->reg0=CLACT_RegisterCharacter(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,3,0,1,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
@@ -408,10 +408,10 @@ void MANUAL_COMMON_CreateListWorkMenu(char *work)
     BG_SYS_FreeSlot(5);
     *(struct ManualRes * *)&((struct ManualListWork *)work)->resource = APP_TASKMENU_RES_Create(5, 4, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->font, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue1, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     ((struct ManualListWork *)work)->field4C = 0x1ce7;
-    func_02061CA4((void *)31, 154, work + 0x4c, 2);
-    func_02061CA4((void *)31, 186, work + 0x4c, 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 154, work + 0x4c, 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 186, work + 0x4c, 2);
     MANUAL_COMMON_RebuildListWindows(work);
-    if (func_020355C4() == 0) {
+    if (UI_GetInputMode() == 0) {
         APP_TASKMENU_WIN_SetActive(*(struct Obj **)(work + MANUAL_COMMON_GetCursorIndex((u16 **)work) * 4 + 0xc), 1);
         ((struct ManualListWork *)work)->dirty = 0;
     }
@@ -433,7 +433,7 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
     hit=TOUCHPANEL_HitTrg(rect);
     count=MANUAL_COMMON_GetVisibleCount((u16 **)work);
     last=MANUAL_COMMON_GetLastVisible((u16 **)work);
-    if(func_020355C4()==0) {
+    if(UI_GetInputMode()==0) {
         if(hit>=0 && hit<count) {
             func_020355D8(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
@@ -447,7 +447,7 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
             return 0;
         }
     }
-    if(func_020355C4()==0) {
+    if(UI_GetInputMode()==0) {
         if(KEY_GetTrg()&1) {
             APP_TASKMENU_WIN_SetDecide(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -669,7 +669,7 @@ void MANUAL_COMMON_RebuildListWindows(char *work)
     }
     for(i=first;i<=last;i++) {
         if (*(u8 **)(work+i*4+0xc)) APP_TASKMENU_WIN_DeleteNoClear();
-        entry.resource=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->bank1,*(u16 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+2));
+        entry.resource=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->bank1,*(u16 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+2));
         if(i==0 || i==7) entry.tag=0x3da3; else entry.tag=0x39e3;
         entry.flags=0;
         if(((struct ManualListWork *)work)->listReady)

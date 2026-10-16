@@ -60,7 +60,7 @@
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
  *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02008550  0x02008550  thumb
@@ -92,7 +92,7 @@
  *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
  *   BTLV_CORE_Create  0x021E8F20  thumb  ov093
  *   BTL_POKEPARAM_GetUsedMoveTotal 0x021D54B4 thumb ov093
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   gBtlServerFileName 0x021F3A60 data a4
  *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
  *   STRBUF_Delete  0x02045808  arm
@@ -425,7 +425,7 @@
  *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
  *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
  *   gBtlClientFileName 0x021F3A88 data a4
@@ -665,7 +665,7 @@ typedef char *va_list;
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 #define va_arg(ap, t) (*(t *)((ap += 4) - 4))
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern char gBtlEmptyString[];
 extern const u8 gBtlServerCmdLayouts[];
 extern s32 gBtlServerCmdArgBuffer[];
@@ -674,7 +674,7 @@ extern s32 gBtlServerCmdArgBuffer[];
 void BTL_SERVER_CMD_WriteU8(BtlServerCmdQueue *queue, u8 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE) {
-        func_02034714(gBtlEmptyString, 0, gBtlEmptyString);
+        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value;
 }
@@ -691,7 +691,7 @@ u8 BTL_SERVER_CMD_ReadU8(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU16(BtlServerCmdQueue *queue, u16 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 1) {
-        func_02034714(gBtlEmptyString, 0, gBtlEmptyString);
+        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value >> 8;
     queue->data[queue->writePos++] = value;
@@ -721,7 +721,7 @@ u32 BTL_SERVER_CMD_ReadU16(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU24(BtlServerCmdQueue *queue, u32 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 2) {
-        func_02034714(gBtlEmptyString, 0, gBtlEmptyString);
+        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value >> 16;
     queue->data[queue->writePos++] = value >> 8;
@@ -743,7 +743,7 @@ u32 BTL_SERVER_CMD_ReadU24(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU32(BtlServerCmdQueue *queue, u32 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 3) {
-        func_02034714(gBtlEmptyString, 0, gBtlEmptyString);
+        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value >> 24;
     queue->data[queue->writePos++] = value >> 16;

@@ -1,7 +1,7 @@
 /*
  * file:     fx_cp.c
  * unit:     yes
- * function: func_0207C768, FX_Inv, FX_InvFx64c, FX_Sqrt, FX_InvSqrt, func_0207C848, func_0207C86C, FX_InvAsync, FX_SqrtAsync, FX_GetSqrtResult, func_0207C930, FX_DivS32, FX_ModS32
+ * function: FX_Div, FX_Inv, FX_InvFx64c, FX_Sqrt, FX_InvSqrt, func_0207C848, FX_GetDivResult, FX_InvAsync, FX_SqrtAsync, FX_GetSqrtResult, FX_DivAsync, FX_DivS32, FX_ModS32
  * address:  0x0207C768
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0207C86C  0x0207C86C  arm
+ *   FX_GetDivResult  0x0207C86C  arm
  *   FX_InvAsync   0x0207C8A0  arm
  *   FX_GetSqrtResult   0x0207C904  arm
  *   FX_SqrtAsync           0x0207C8D0  arm
@@ -62,7 +62,7 @@ typedef volatile u16       vu16;
 
 typedef signed int         s32;
 
-extern u32 func_0207C86C(void);
+extern u32 FX_GetDivResult(void);
 extern void FX_InvAsync(fx32 denom);
 extern fx32 FX_GetSqrtResult(void);
 extern void FX_SqrtAsync(fx32 x);
@@ -101,7 +101,7 @@ u32 FX_Div(u32 numer, u32 denom)
 fx32 FX_Inv(fx32 denom)
 {
     FX_InvAsync(denom);
-    return func_0207C86C();
+    return FX_GetDivResult();
 }
 
 

@@ -25,7 +25,7 @@
  *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
  *   gBtlEventVarStack 0x021F3ECC data a4
  *   gBtlEventEmptyString  0x021F3AB4  data
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  */
 #include "btl_event_types.h"
 
@@ -37,7 +37,7 @@ extern int BTL_POKEPARAM_HasSick(void *poke, int condition);
 extern int BTL_POKEPARAM_TestTurnFlag(void *poke, u32 condition);
 extern int BTL_FIELD_GetStaticSlotObject(int);
 extern int HAND_WAZA_IsKeptOnSuspend(void *factor, u32 *work);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 void BTL_EVENT_InitFactorList(void);
 void BTL_EVENT_ClearSuspendedFlags(void);
 void BTL_EVENT_DebugPrintFactorList(void);
@@ -441,7 +441,7 @@ void BTL_EVENT_PushVarFrame(int line)
     if (stack->frameTop < BTL_EVENT_VAR_MAX - 1) {
         stack->keys[stack->frameTop++] = 1;
     } else {
-        func_02034714(gBtlEventEmptyString, 0, gBtlEventEmptyString);
+        SAVEDATA_PanicFail(gBtlEventEmptyString, 0, gBtlEventEmptyString);
     }
 }
 

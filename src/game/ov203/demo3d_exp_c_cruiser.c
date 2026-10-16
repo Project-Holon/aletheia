@@ -13,25 +13,25 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   DEMO3D_ENGINE_GetFrame 0x021BE620 thumb ov203
  *   DEMO3D_GRAPHIC_GetUnit 0x021BDF30 thumb ov203
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021C3D5C 0x021C3D5C data a1
  *   d_021C3BD0 0x021C3BD0 data a2
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  */
 
 struct Obj;
@@ -74,23 +74,23 @@ typedef struct Demo3dCruiserGfx {
 
 typedef unsigned char u8;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 extern int DEMO3D_ENGINE_GetFrame(char *p);
 extern int DEMO3D_GRAPHIC_GetUnit(char *p);
 extern void UI_SCENE_LoadActorGfx(Demo3dCruiserActorGfx *, Demo3dCruiserActorConfig *, int, unsigned short);
 extern int UI_SCENE_CreateActor(Demo3dCruiserActorGfx *, int, unsigned char, unsigned char, unsigned char, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
 extern void UI_SCENE_FreeActorGfx(void *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap);
 void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p);
 void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p);
@@ -101,10 +101,10 @@ extern const struct Vec2 d_021C3BD0[];
 
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
 {
-    void *h = func_020490F4(85, heap);
+    void *h = ARC_TOOL_CreateHandle(85, heap);
     func_02049B68(h, 3, 4, 0, 0, heap);
-    func_02049658(h, 9, 6, 0, 0, 0, heap);
-    func_020498F4(h, 18, 6, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromHandle(h, 9, 6, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 18, 6, 0, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -117,7 +117,7 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     Demo3dCruiserGfx *a;
     int resource;
     Demo3dCruiserActorConfig config;
-    a = (Demo3dCruiserGfx *)func_02030734(p->heapId, 24, 1, d_021C3D5C, 0xB3);
+    a = (Demo3dCruiserGfx *)GFL_HEAP_Alloc(p->heapId, 24, 1, d_021C3D5C, 0xB3);
     p->gfx = a;
     DEMO3D_EXP_C_CRUISER_LoadTextures(p->heapId);
     a->step = (DEMO3D_ENGINE_GetFrame(p->model) >> 12) / 100;
@@ -137,7 +137,7 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     a->actor = (struct Obj *)UI_SCENE_CreateActor(&a->actorGfx, resource, d_021C3BD0[a->step].x, d_021C3BD0[a->step].y, 0, p->heapId);
     CLACT_SetActorDrawEnable(a->actor, 1);
     CLACT_SetActorAutoAnim(a->actor, 1);
-    func_02040588(6, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
@@ -163,5 +163,5 @@ void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
 void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *arg0)
 {
     UI_SCENE_FreeActorGfx(&((Demo3dCruiserGfx *)arg0->gfx)->actorGfx);
-    func_020307B0(arg0->gfx);
+    GFL_HEAP_Free(arg0->gfx);
 }

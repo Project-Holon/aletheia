@@ -13,16 +13,16 @@
  * Cut from touchpanel.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734                    0x02030734  arm
- *   func_020307B0                    0x020307B0  arm
- *   func_02034714                    0x02034714  arm
+ *   GFL_HEAP_Alloc                    0x02030734  arm
+ *   GFL_HEAP_Free                    0x020307B0  arm
+ *   SAVEDATA_PanicFail                    0x02034714  arm
  *   GX_GetBankForOBJ                 0x02080C24  arm
  *   GX_GetBankForSubOBJ              0x02080C64  arm
  *   GX_LoadOAM                       0x0207E684  arm
  *   GXS_LoadOAM                      0x0207E708  arm
  *   func_0200F168                    0x0200F168  thumb
  *   func_0200F16C                    0x0200F16C  thumb
- *   func_020490F4                    0x020490F4  arm
+ *   ARC_TOOL_CreateHandle                    0x020490F4  arm
  *   func_02049B68                    0x02049B68  arm
  *   func_02049800                    0x02049800  arm
  *   ARC_TOOL_DeleteHandle                    0x02049238  arm
@@ -83,11 +83,11 @@ typedef struct {
     u32 palette;
 } WmIconArcData;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02034714(const char *file, u32 line, const char *expr);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 
 extern u32  GX_GetBankForOBJ(void);
 
@@ -101,7 +101,7 @@ extern u32  func_0200F168(void);
 
 extern void func_0200F16C(WmIconArcData *ids);
 
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
 extern void func_02049B68(void *arc, u32 dataId, int palType, int offset, int size, int heapId);
 
@@ -170,7 +170,7 @@ WmIcon *GFL_NET_WM_ICON_Create(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVar
                       WmIcon *icon, u32 screen, u32 screenChanged, u32 level)
 {
     if (icon == 0)
-        icon = func_02030734((u16)(((u16)heapId & 0x7fff) | 0x8000), sizeof(WmIcon), 0,
+        icon = GFL_HEAP_Alloc((u16)(((u16)heapId & 0x7fff) | 0x8000), sizeof(WmIcon), 0,
                              wm_icon_File, 100);
     icon->x = x;
     icon->y = y;
@@ -267,7 +267,7 @@ u32 GFL_NET_WM_ICON_GetCharName(u32 engine, u32 charNo)
         return charNo;
     case 0x00300010:
     default:
-        func_02034714(wm_icon_File, 0xfb, wm_icon_AssertObjMapping);
+        SAVEDATA_PanicFail(wm_icon_File, 0xfb, wm_icon_AssertObjMapping);
         return charNo;
     }
 }
@@ -295,7 +295,7 @@ void GFL_NET_WM_ICON_Delete(WmIcon *icon)
         oam[2] = 0x40000200;
         ((volatile u16 *)oam)[6] = 0;
     }
-    func_020307B0(icon);
+    GFL_HEAP_Free(icon);
 }
 
 void GFL_NET_WM_ICON_SetScreen(WmIcon *icon, u32 isTop, u32 heapId)
@@ -326,7 +326,7 @@ void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId)
     int charIdx;
     int charOffset;
 
-    arc = func_020490F4(func_0200F168(), (u16)((heapId & 0x7fff) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(func_0200F168(), (u16)((heapId & 0x7fff) | 0x8000));
     func_0200F16C(&ids);
     if (engine == 1) {
         palType = 1;

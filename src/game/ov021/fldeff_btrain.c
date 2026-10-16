@@ -14,8 +14,8 @@
  * Split from trial_house.c at 0x021D0140 (lane L136, __FILE__ anchor fldeff_btrain.c at 021D0140 (sFldeffBtrainFileName); callback table g_021DB8DC targets 029C/0308/0328/034C).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sFldeffBtrainFileName     0x021DE608  data  ov021  a4
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
@@ -103,8 +103,8 @@ typedef struct BtrainWork {
 extern void MTX_Identity33_(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
@@ -150,7 +150,7 @@ extern const G3dObjectStatus sBtrainDrawStatus;            /* draw status templa
 /* Allocates the resources of the Battle Subway train effect; nothing loads yet. */
 BtrainRes *FLDEFF_BTRAIN_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    BtrainRes *res = func_02030734(heapId, sizeof(BtrainRes), 1, sFldeffBtrainFileName, 0x5f);
+    BtrainRes *res = GFL_HEAP_Alloc(heapId, sizeof(BtrainRes), 1, sFldeffBtrainFileName, 0x5f);
 
     res->fieldEffect = fieldEffect;
     return res;
@@ -159,7 +159,7 @@ BtrainRes *FLDEFF_BTRAIN_Create(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_BTRAIN_Delete(FieldEffectSys *fieldEffect, BtrainRes *res)
 {
     FLDEFF_BTRAIN_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 /* Loads the model of one train kind (once) and the shared animations. */

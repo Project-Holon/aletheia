@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0215F3D0  0x0215F3D0  arm  ov009
+ *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   SOCLi_GetWriteBufferFreeSize  0x0215E2C0  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -27,7 +27,7 @@ typedef struct {
 	signed char flag_mode;
 } Socket;
 
-extern int func_0215F3D0(Socket *socket);
+extern int SOCL_SocketIsInvalid(Socket *socket);
 extern unsigned long OS_DisableInterrupts(void);
 extern long SOCLi_GetWriteBufferFreeSize(Socket *socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -59,7 +59,7 @@ int SOCL_GetStatus(int s)
 
 	result = 0;
 	socket = (Socket *)s;
-	if (func_0215F3D0(socket)) {
+	if (SOCL_SocketIsInvalid(socket)) {
 		result |= 0x80;
 	} else {
 		if (socket->state & 0x40) {

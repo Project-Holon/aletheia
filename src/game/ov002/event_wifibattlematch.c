@@ -25,14 +25,14 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   ov199_id       0x000000C7  data   a1
  *   d_02213C4C     0x02213C4C  data   ov199  a4
  *   d_02154460     0x02154460  data   ov002  a4
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
  */
@@ -81,11 +81,11 @@ extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
-void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *func_020124E8(struct GameEvent *event);
 u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
@@ -120,7 +120,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
         (*seq)++;
         break;
     case 3:
-        param = func_02030734(4, 0x14, 1, d_02154460, 0x86);
+        param = GFL_HEAP_Alloc(4, 0x14, 1, d_02154460, 0x86);
         work->param = param;
         param->entryMode = work->entryMode;
         param->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -131,7 +131,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
         break;
     case 4:
         if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
-            func_020307B0(work->param);
+            GFL_HEAP_Free(work->param);
             (*seq)++;
         }
         break;
@@ -162,7 +162,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
  */
 void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind)
 {
-    void *event = func_020122C0(gameSystem, 0, EVENT_WIFIBATTLEMATCH_Main, 0x20);
+    void *event = GAME_EVENT_Create(gameSystem, 0, EVENT_WIFIBATTLEMATCH_Main, 0x20);
     WifiBattleMatchEventWork *work;
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))

@@ -59,6 +59,8 @@
  *   gDwcConnectionArray  0x021AA8A0  data
  *   gDwcNodeInfoBuffer  0x021AA920  data
  *   DWCi_GetMathRand32  0x021685CC  arm
+ *   DWCi_SetError  0x02059F54  arm  arm9
+ *   DWC_Free  0x0205A1B0  arm  arm9
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
@@ -350,7 +352,7 @@ void DWC_ShutdownFriendsMatch(void)
         gt2CloseSocket(gDwcGlobalState.st->gt2Socket);
         gDwcGlobalState.st->gt2Socket = 0;
     }
-    func_0205A1B0(4, gDwcGlobalState.st, 0);
+    DWC_Free(4, gDwcGlobalState.st, 0);
     gDwcGlobalState.st = 0;
 }
 

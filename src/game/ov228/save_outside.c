@@ -23,14 +23,14 @@
  *   save_outside.c string, then zeros through 0x021DFF80; no follower.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   BACKUP_SYSTEM_ReadFlash  0x020334CC  arm
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_021DFF60     0x021DFF60  data a1
  *   BACKUP_SYSTEM_WriteFlashAsync  0x02033494  arm
  *   BACKUP_SYSTEM_CheckFlashAsync  0x020334B0  arm
- *   func_020071CC 0x020071CC thumb
+ *   SAVE_CONTROL_GetBlock 0x020071CC thumb
  *   MYSTERY_DATA_DecryptBuffer 0x0200A50C thumb
  *   MYSTERY_DATA_EncryptBuffer 0x0200A4B8 thumb
  *   MI_CpuCopy8  0x02082D44  arm  arm9
@@ -64,14 +64,14 @@ typedef struct {
     u16 pad37E;            /* 0x37E padding, never read */
 } SaveOutsideWork;
 
-extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *site,u16 tag);
 extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void MI_CpuCopy8(const void *src,void *dest,u32 size);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32, void *, u32);
 extern int BACKUP_SYSTEM_CheckFlashAsync(u16, u16 *);
-extern void *func_020071CC(struct HeapManager *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct HeapManager *ctrl, u32 id);
 extern void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind);
 extern void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind);
 extern void func_02082A7C(u32 data,void *dest,u32 size);
@@ -109,9 +109,9 @@ void *SAVE_OUTSIDE_Load(u32 heap)
     int idx;
 
     chosen=-1;
-    work=(SaveOutsideWork *)func_02030734(heap,0x380,1,d_021DFF60,0x5b);
+    work=(SaveOutsideWork *)GFL_HEAP_Alloc(heap,0x380,1,d_021DFF60,0x5b);
     copies[0]=(u8 *)work;
-    copies[1]=func_02030734(heap,0x374,1,d_021DFF60,0x5d);
+    copies[1]=GFL_HEAP_Alloc(heap,0x374,1,d_021DFF60,0x5d);
     for(idx=0;idx<2;idx++){
         readOk[idx]=0;
         crcBad[idx]=0;
@@ -147,7 +147,7 @@ void *SAVE_OUTSIDE_Load(u32 heap)
         }
     }
     if(chosen==1)MI_CpuCopy8(copies[1],copies[0],0x374);
-    func_020307B0(copies[1]);
+    GFL_HEAP_Free(copies[1]);
     if(chosen!=-1)work->loaded=1;
     return work;
 }
@@ -157,13 +157,13 @@ void *SAVE_OUTSIDE_Load(u32 heap)
 /*
  * Unlabelled leaf in ov228 (it saves nothing; the listing prints it as
  * .word data after the pool at 021DFDB4): a one-argument forwarding tail call to
- * the heap free func_020307B0, `ldr r3, [pc]; bx r3` plus the pool word.
+ * the heap free GFL_HEAP_Free, `ldr r3, [pc]; bx r3` plus the pool word.
  * Its caller is arm9 MYSTERY_DATA_Unload (mystery_data.c), whose MATCH park
  * names this address as its only unwitnessed call.
  */
 void SAVE_OUTSIDE_Free(void *p)
 {
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -255,7 +255,7 @@ void SAVE_OUTSIDE_CopyPayload(SaveOutsideWork *work, void *ctrl)
     u8 *src;
     int i;
     int j;
-    buf = func_020071CC(ctrl, 0x22);
+    buf = SAVE_CONTROL_GetBlock(ctrl, 0x22);
     src = (u8 *)work + 0xC;
     MYSTERY_DATA_DecryptBuffer(buf, 1);
     MYSTERY_DATA_DecryptBuffer(src, 0);
@@ -274,8 +274,8 @@ void SAVE_OUTSIDE_CopyPayload(SaveOutsideWork *work, void *ctrl)
 void SAVE_OUTSIDE_ClearFlash(u32 heap)
 {
     void *p;
-    p=func_02030734(heap,2048,0,d_021DFF60,339);
+    p=GFL_HEAP_Alloc(heap,2048,0,d_021DFF60,339);
     func_02082A7C(0xFFFFFFFF,p,2048);
     BACKUP_SYSTEM_WriteFlash(0x7F800,(int)p,2048);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }

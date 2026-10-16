@@ -41,12 +41,12 @@
  *   func_020056EC  0x020056EC  thumb
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_02172878 0x02172878 data a1
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   d_02172868 0x02172868 data a1
  *   d_02172808 0x02172808 data a1
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   func_020084F4  0x020084F4  thumb
@@ -64,7 +64,7 @@
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   SAVE_EVENT_WriteWithDate  0x0202F2AC  thumb
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   sGiftRibbonIds     0x02170068  data
  *   GAME_VERSION_Code     0x0209DF08  data  a1
@@ -75,7 +75,7 @@
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   GAME_COMM_GetGameData  0x02026478  thumb
@@ -96,7 +96,7 @@
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb
  *   INTRUDE_COMM_IsRequestFromSelf  0x02176258  thumb
  *   INTRUDE_COMM_GetRequesterNetId  0x02176230  thumb
- *   func_02008500  0x02008500  thumb
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  */
 struct Entry;
@@ -233,9 +233,9 @@ extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 func_020056EC(u32 range);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_StartChangeoverChild(int a0);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
-extern int func_020307B0();
+extern int GFL_HEAP_Free();
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *status);
 extern const void *func_020084F4(const struct MyStatus *status);
@@ -252,14 +252,14 @@ extern void *POKE_TOOL_Dummy(void *p);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern u16 STRBUF_GetEosChar(void);
-extern void *func_02045EC0(struct StrBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct StrBank *bank, u32 index);
 extern int STRBUF_Delete();
 extern GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u32 GAME_COMM_GetCounter(GameComm *comm);
 extern IntrudeCommSys *GAME_COMM_GetWork(GameComm *comm);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GAME_COMM_GetKind(GameComm *comm);
 extern u32 GAME_COMM_IsTransition(GameComm *comm);
 extern struct GameData *GAME_COMM_GetGameData(GameComm *comm);
@@ -279,7 +279,7 @@ extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, int flag);
 extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
 extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
 extern int INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *work, IntrudeSession *session);
-extern void func_02008500(const struct MyStatus *src, struct MyStatus *dst);
+extern void MYSTATUS_NameToStrbuf(const struct MyStatus *src, struct MyStatus *dst);
 extern int GFL_NET_IsSessionNull(void);
 void DELIVERY_IRC_SetStep(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
 void DELIVERY_IRC_SetStepAtLine(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
@@ -584,7 +584,7 @@ void DELIVERY_IRC_StepWaitInit(DeliveryIrcWork *work)
 
 void *DELIVERY_IRC_Create(const DeliveryIrcParam *param)
 {
-    void *work = func_02030734(param->heapId, 0x684, 1, d_02172878, 0x1CD);
+    void *work = GFL_HEAP_Alloc(param->heapId, 0x684, 1, d_02172878, 0x1CD);
     MI_CpuCopy8((void *)param, work, 0x7C);
     return work;
 }
@@ -631,7 +631,7 @@ void DELIVERY_IRC_Main(DeliveryIrcWork *work)
 
 int DELIVERY_IRC_Delete(DeliveryIrcWork *work)
 {
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
     return GFL_NET_Exit(0);
 }
 
@@ -792,7 +792,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     else
         POKE_TOOL_SetPartyValue(mon, 0xC, gift->language);
     if (gift->nickname[0] == 0) {
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
         result = 0;
         goto out;
     }
@@ -805,7 +805,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     POKE_TOOL_SetPartyValue(mon, 0x95, gift->eggLocation);
     POKE_TOOL_SetPartyValue(mon, 0x96, gift->metLocation);
     if (gift->otName[0] == 0) {
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
         result = 0;
         goto out;
     }
@@ -819,7 +819,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         POKE_TOOL_SetPartyValue(mon, 0x9A, func_02008550(GAME_DATA_GetMyStatus(gameData)));
     if (gift->isEgg) {
         POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
-        eggName = func_02045EC0(gSpeciesNameBank, 0x28A);
+        eggName = MSGDATA_AllocString(gSpeciesNameBank, 0x28A);
         POKE_TOOL_SetPartyValue(mon, 0x73, (u32)eggName);
         STRBUF_Delete(eggName);
         POKE_TOOL_SetPartyValue(mon, 9, 10);
@@ -832,7 +832,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     POKE_TOOL_RecalcParam(mon);
     result = 0;
     if (POKE_TOOL_GetPartyValue(mon, 3, 0) != 0)
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
     else
         result = mon;
 out:
@@ -863,7 +863,7 @@ IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(GameComm *comm)
 {
     IntrudeCommSys *work = GAME_COMM_GetWork(comm);
 
-    if (func_0200FB24() != 0 || GAME_COMM_GetKind(comm) != 2 || GAME_COMM_IsTransition(comm) == 1 || work == 0)
+    if (GFL_NET_ERR_GetErrorLevel() != 0 || GAME_COMM_GetKind(comm) != 2 || GAME_COMM_IsTransition(comm) == 1 || work == 0)
         return 0;
     return work;
 }
@@ -1211,7 +1211,7 @@ int INTRUDE_COMM_GetRequesterStatus(GameComm *comm, struct MyStatus *out)
 
     if (work == 0 || INTRUDE_COMM_IsSessionActive(&work->session) == 0)
         return 0;
-    func_02008500(GAME_DATA_GetPlayerStatus(gameData, INTRUDE_COMM_GetRequesterNetId(work, &work->session)), out);
+    MYSTATUS_NameToStrbuf(GAME_DATA_GetPlayerStatus(gameData, INTRUDE_COMM_GetRequesterNetId(work, &work->session)), out);
     return 1;
 }
 

@@ -74,16 +74,16 @@
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
- *   func_0203133C 0x0203133C arm
- *   func_02034AC4 0x02034AC4 arm
- *   func_02034A5C 0x02034A5C arm
+ *   PROCSYS_Delete 0x0203133C arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_IsIdle 0x0203D210 arm
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn 0x021BE92C thumb ov021
@@ -106,7 +106,7 @@
  *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
  *   GFL_USE_GetBgmNo   0x02005C44  thumb
  *   REGULATION_Create   0x0200ADF0  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GFL_USE_SetSleepVolumeHooks  0x020057AC  thumb  arm9
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
@@ -114,6 +114,8 @@
  *   PM_VOICE_ResetMasterVolume  0x02006740  thumb  arm9
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb  arm9
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb  arm9
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb  arm9
+ *   GFL_NET_ERR_WaitLinkClosed  0x0200FBB0  thumb  arm9
  */
 #include "event_wificlub_types.h"
 
@@ -188,12 +190,12 @@ extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *PROCSYS_Create(int heapId);
 extern void PROCSYS_Push(void *task, u32 overlayId, u32 procData, u32 param);
 extern u32 PROCSYS_Main(void *task);
-extern void func_0203133C(void *task);
+extern void PROCSYS_Delete(void *task);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
 extern u32 func_02009A34(void *battleRecord);
-extern int func_02034AC4(int overlayId);
-extern void func_02034A5C(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 extern void WIFICLUB_RunPeerAddrRoutine(char *scratchBuffer);
 extern int BTL_SETUP_Delete(int battleSetup);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
@@ -202,14 +204,14 @@ extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *handle, u32 rangeStart, u32 rangeEnd);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *handle, u32 rangeStart, u32 rangeEnd);
 extern int GFL_NET_GetRunState(void);
-extern u32 func_0200FB24(void);
-extern u32 func_0200FBB0(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
+extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 index);
 extern void func_02009BB8(void *battleRecord, int ruleIndex, int win, int lose, int draw);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern int GFL_NET_Exit(int);
 extern u32 GFL_NET_IsIdle(void);
 void *func_020124E8(struct GameEvent *event);
@@ -217,7 +219,7 @@ void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *POKEPARTY_Create(u32 heapId);
 void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 void *REGULATION_Create(u32 heapId);
-void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
 void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq);
 void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, void *gameData, int seq);
@@ -472,7 +474,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         break;
     case 10:
         if (PROCSYS_Main(work->loginTask)) { GFL_NET_ERR_ShowScreen(0); return 0; }
-        func_0203133C(work->loginTask);
+        PROCSYS_Delete(work->loginTask);
         if (!work->login.result) {
             if (!func_02009A34((void *)GAME_DATA_GetField1A0(work->paramGameData))) *seq = 30;
             else { *seq = 11; GFL_USE_FadeOutBgm(6); }
@@ -492,13 +494,13 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         break;
     case 31:
         if (PROCSYS_Main(work->loginTask)) { GFL_NET_ERR_ShowScreen(0); return 0; }
-        func_0203133C(work->loginTask);
+        PROCSYS_Delete(work->loginTask);
         GFL_USE_FadeOutBgm(6);
         *seq = 4;
         break;
     case 11:
-        func_02034AC4((int)ov099_id);
-        func_02034AC4((int)ov067_id);
+        GF_OVERLAY_Load((int)ov099_id);
+        GF_OVERLAY_Load((int)ov067_id);
         WIFICLUB_RunPeerAddrRoutine((char *)work->session->scratchBuffer);
         if (work->battleSetup) { BTL_SETUP_Delete((int)work->battleSetup); work->battleSetup = 0; }
         GAME_EVENT_CallProc(work->event, (u32)ov127_id, (u32)d_021C37E8, (u32)work->session);
@@ -508,8 +510,8 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         *seq = d_02154C40[work->session->menuChoice].nextSeq;
         if (work->session->menuChoice == 1) work->login.useSaveData = 1;
         work->menuSelection = d_02154C40[work->session->menuChoice].selection;
-        func_02034A5C((int)ov067_id);
-        func_02034A5C((int)ov099_id);
+        GF_OVERLAY_Unload((int)ov067_id);
+        GF_OVERLAY_Unload((int)ov099_id);
         break;
     case 13:
         EVENT_WIFICLUB_BuildBattleEntry(work, (void *)ICA_ANIME_GetField1C(gameSystem), step);
@@ -529,15 +531,15 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
             }
         } else {
             EVENT_WIFICLUB_SetBattleParty(work, (void *)ICA_ANIME_GetField1C(gameSystem), step);
-            func_02034AC4((int)ov093_id);
+            GF_OVERLAY_Load((int)ov093_id);
             GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
             GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 100, 10);
             ++*seq;
         }
         break;
     case 15:
-        if (!GFL_NET_GetRunState() || func_0200FB24()) {
-            func_0200FBB0(); GFL_NET_ERR_ShowSimpleScreen(); goto cleanup;
+        if (!GFL_NET_GetRunState() || GFL_NET_ERR_GetErrorLevel()) {
+            GFL_NET_ERR_WaitLinkClosed(); GFL_NET_ERR_ShowSimpleScreen(); goto cleanup;
         }
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 100, 10)) ++*seq;
         break;
@@ -564,7 +566,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         work->startParam.sides = work->sides;
         work->startParam.enabled = 1;
         work->trainerRecord = GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(work->gameSystem));
-        func_02034A5C((int)ov093_id);
+        GF_OVERLAY_Unload((int)ov093_id);
         GAME_EVENT_CallProc(work->event, (u32)ov008_id, (u32)d_0215513C, (u32)&work->startParam);
         ++*seq;
         break;
@@ -599,7 +601,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         }
         break;
     case 21:
-        request = func_02030734(4, 0x14, 0, d_02154C80, 0x24b);
+        request = GFL_HEAP_Alloc(4, 0x14, 0, d_02154C80, 0x24b);
         request->gameData = ICA_ANIME_GetField1C(work->gameSystem);
         request->party = work->tradeParam.party;
         request->partyIndex = work->tradeParam.partyIndex;
@@ -612,7 +614,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         *seq = 22;
         break;
     case 22:
-        func_020307B0(work->tradeParam.evolutionRequest);
+        GFL_HEAP_Free(work->tradeParam.evolutionRequest);
         work->tradeParam.result = 1;
         *seq = 19;
         if (!GFL_NET_GetRunState()) {
@@ -647,7 +649,7 @@ menu:
 
 /*
  * Cleanup helper. The battle setup is freed and cleared only when non-NULL;
- * the six blx sites are ARM func_020307B0. The 0x5A<<2 (0x168) field is a
+ * the six blx sites are ARM GFL_HEAP_Free. The 0x5A<<2 (0x168) field is a
  * Thumb encoding artefact, not evidence of a second pointer.
  */
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
@@ -657,12 +659,12 @@ void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
         BTL_SETUP_Delete(battleSetup);
         work->battleSetup = 0;
     }
-    func_020307B0(work->session->party[0]);
-    func_020307B0(work->session->party[1]);
-    func_020307B0(work->session->regulation);
-    func_020307B0(work->battleParty);
-    func_020307B0(work->session->scratchBuffer);
-    func_020307B0(work->session);
+    GFL_HEAP_Free(work->session->party[0]);
+    GFL_HEAP_Free(work->session->party[1]);
+    GFL_HEAP_Free(work->session->regulation);
+    GFL_HEAP_Free(work->battleParty);
+    GFL_HEAP_Free(work->session->scratchBuffer);
+    GFL_HEAP_Free(work->session);
 }
 
 
@@ -680,8 +682,8 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
     work->fieldMap = fieldMap;
     work->event = event;
     work->hideFieldObjects = hideFieldObjects;
-    work->session = func_02030734(0x8004, 0x4c, 1, d_02154C80, 0x2b0);
-    work->session->scratchBuffer = func_02030734(0x8004, 0x20, 1, d_02154C80, 0x2b1);
+    work->session = GFL_HEAP_Alloc(0x8004, 0x4c, 1, d_02154C80, 0x2b0);
+    work->session->scratchBuffer = GFL_HEAP_Alloc(0x8004, 0x20, 1, d_02154C80, 0x2b1);
     work->session->gameData = ICA_ANIME_GetField1C(work->gameSystem);
     work->session->saveControl = GAME_DATA_GetSaveControl(work->session->gameData);
     work->session->rulesLoaded = 1;
@@ -705,7 +707,7 @@ int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects)
 {
     int event;
 
-    event = (int)func_020122C0((void *)gameSystem, 0, EVENT_WIFICLUB_Main, 0x174);
+    event = (int)GAME_EVENT_Create((void *)gameSystem, 0, EVENT_WIFICLUB_Main, 0x174);
     EVENT_WIFICLUB_InitWork((void *)event, (void *)gameSystem, fieldMap, hideFieldObjects);
     return event;
 }

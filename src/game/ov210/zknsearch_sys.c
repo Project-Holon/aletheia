@@ -17,7 +17,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   ZKNSEARCH_MAIN_RunState  0x021BCF50  thumb  ov210
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   d_02FE0000 0x02FE0000 data a4
  *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -28,6 +28,8 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021C0754  0x021C0754  data  a4
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm  arm9
+ *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
+ *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
 #include "zknsearch_types.h"
 
@@ -41,10 +43,10 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32 ZKNSEARCH_MAIN_RunState(u8 *p);
-extern void func_020315D4(void *p);
+extern void PROCSYS_FreeProcWork(void *p);
 extern void GFL_HEAP_DeleteChecked(u32);
-extern u32 func_020056A0(void (*)(void), u8 *, u32);
-extern u32 func_02030EAC(u32 a);
+extern u32 GFL_USE_AddMainTask(void (*)(void), u8 *, u32);
+extern u32 TCB_DeleteTask(u32 a);
 extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(void *p);
@@ -90,7 +92,7 @@ u32 ZKNSEARCH_SYS_IsReady(u32 a, u32 b, u32 c, u32 d)
 
 u32 ZKNSEARCH_SYS_Delete(void *p)
 {
-    func_020315D4(p);
+    PROCSYS_FreeProcWork(p);
     GFL_HEAP_DeleteChecked(0x7b);
     return 1;
 }
@@ -98,13 +100,13 @@ u32 ZKNSEARCH_SYS_Delete(void *p)
 
 void ZKNSEARCH_SYS_RegisterVBlank(u8 *p)
 {
-    ((ZknSearchWork *)p)->vblank = func_020056A0((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, p, 0);
+    ((ZknSearchWork *)p)->vblank = GFL_USE_AddMainTask((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, p, 0);
 }
 
 
 u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *p)
 {
-    return func_02030EAC(((ZknSearchWork *)p)->vblank);
+    return TCB_DeleteTask(((ZknSearchWork *)p)->vblank);
 }
 
 void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *p)
@@ -133,7 +135,7 @@ void ZKNSEARCH_SYS_RegisterHBlank(u8 *p)
 
 u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p)
 {
-    return func_02030EAC(((ZknSearchWork *)p)->hblank);
+    return TCB_DeleteTask(((ZknSearchWork *)p)->hblank);
 }
 
 /*

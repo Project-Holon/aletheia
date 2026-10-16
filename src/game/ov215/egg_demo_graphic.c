@@ -13,7 +13,7 @@
  * Cut from egg_demo_view.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -22,18 +22,18 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_021F73E0 0x021F73E0 data a4
  *   d_021F71C4 0x021F71C4 data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021F7178 0x021F7178 data a4
  *   d_021F71F4 0x021F71F4 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -59,7 +59,7 @@
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_02047964 0x02047964 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
@@ -97,7 +97,7 @@ struct EggDemoGraphic {
     struct Node *vblankTask;
 };
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
 extern void MI_CpuFill8(void *,int,int);
 
@@ -115,13 +115,13 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
 
-extern void *func_020056A0(void (*)(int,char *),char *,unsigned);
+extern void *GFL_USE_AddMainTask(void (*)(int,char *),char *,unsigned);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_Create(unsigned);
 
@@ -133,7 +133,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_FreeSlot(u8);
 
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -173,7 +173,7 @@ extern void G3D_SYSTEM_Exit(int);
 
 extern void func_02047964(void);
 
-extern void func_02048AD0(struct Light *);
+extern void G3D_CAMERA_Reset(struct Light *);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -237,7 +237,7 @@ extern const struct Vec3 d_021F7160,d_021F7154,d_021F716C;
 char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heapId)
 {
     char *work;
-    work=func_02030734(heapId,16,0,d_021F73E0,466);
+    work=GFL_HEAP_Alloc(heapId,16,0,d_021F73E0,466);
     MI_CpuFill8(work,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
@@ -253,13 +253,13 @@ char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heapId)
     EGG_DEMO_GRAPHIC_InitBg(work,heapId);
     EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(work+4),(int)d_021F71C4,heapId);
     EGG_DEMO_GRAPHIC_InitG3d((void **)(work+8),heapId);
-    ((struct EggDemoGraphic *)work)->vblankTask=func_020056A0(EGG_DEMO_GRAPHIC_VBlank,work,0);
+    ((struct EggDemoGraphic *)work)->vblankTask=GFL_USE_AddMainTask(EGG_DEMO_GRAPHIC_VBlank,work,0);
     return work;
 }
 
 void EGG_DEMO_GRAPHIC_Delete(char *work)
 {
-    func_02030EAC(((struct EggDemoGraphic *)work)->vblankTask);
+    TCB_DeleteTask(((struct EggDemoGraphic *)work)->vblankTask);
     EGG_DEMO_GRAPHIC_DeleteG3d((int *)(work+8));
     EGG_DEMO_GRAPHIC_DeleteClact(work+4);
     EGG_DEMO_GRAPHIC_DeleteBg(work);
@@ -269,7 +269,7 @@ void EGG_DEMO_GRAPHIC_Delete(char *work)
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
     MI_CpuFill8(work,0,16);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void EGG_DEMO_GRAPHIC_Draw(char *work)
@@ -300,7 +300,7 @@ void EGG_DEMO_GRAPHIC_InitBg(void *bgWork,unsigned heapId)
     for(i=0;i<6;i++) {
         BG_SYS_InitBgLayer((u8)d_021F71F4[i].layer,&d_021F71F4[i].template,(u8)d_021F71F4[i].type);
         BG_SYS_FreeSlot(d_021F71F4[i].layer);
-        func_02040588(d_021F71F4[i].layer,d_021F71F4[i].enable);
+        BG_SYS_SetPlaneVisible(d_021F71F4[i].layer,d_021F71F4[i].enable);
     }
 }
 
@@ -357,6 +357,6 @@ void EGG_DEMO_GRAPHIC_DeleteG3d(int *g3d)
 /*
  * extent: includes cleared tiny follower EGG_DEMO_GRAPHIC_DrawG3dEnd; no further code included.
  */
-void EGG_DEMO_GRAPHIC_DrawG3d(void *g3d){func_02047964();func_02048AD0(((struct EggDemoG3d *)g3d)->camera);G3D_SYSTEM_ApplyLookAt();}
+void EGG_DEMO_GRAPHIC_DrawG3d(void *g3d){func_02047964();G3D_CAMERA_Reset(((struct EggDemoG3d *)g3d)->camera);G3D_SYSTEM_ApplyLookAt();}
 
 void EGG_DEMO_GRAPHIC_DrawG3dEnd(void *unused){G3D_SYSTEM_DrawEnd();}

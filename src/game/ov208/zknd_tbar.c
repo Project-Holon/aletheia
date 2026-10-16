@@ -13,10 +13,10 @@
  * Cut from zukan_detail_common.c, zukan_detail_graphic.c, zukan_detail_form.c, ov208_func_021C80CC.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
- *   func_02049740  0x02049740  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
@@ -62,9 +62,9 @@
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
@@ -94,7 +94,7 @@ struct Ov208Pos {
     u8  layer;
 };
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -105,7 +105,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern u32  APP_ICON_GetArchiveId(void);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern u32  APP_ICON_GetStatusAnimFileId(void);
 
@@ -261,7 +261,7 @@ struct Ov208Mgr *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u16 heap)
 
     palOfs = 0;
     size = list->count * sizeof(struct Ov208Rec) + 0x28;
-    set = func_02030734(heap, size, 0, data_021C8DD8, 0x107);
+    set = GFL_HEAP_Alloc(heap, size, 0, data_021C8DD8, 0x107);
     MI_CpuFill8(set, 0, size);
     set->count = list->count;
     set->f8 = 0;
@@ -285,7 +285,7 @@ void ZKND_TBAR_DeleteButtonList(struct Ov208Mgr *m)
     for (i = 0; i < m->count; i++)
         ZKND_TBAR_DeleteButton((char *)(&m->recs[i]));
     ZKND_TBAR_ReleaseButtonResources((char *)&m->bg);
-    func_020307B0(m);
+    GFL_HEAP_Free(m);
 }
 
 void ZKND_TBAR_UpdateButtons(struct Ov208Mgr *p)
@@ -440,10 +440,10 @@ void ZKND_TBAR_LoadButtonResources(struct Ov208Bg *p, u32 channel, u32 objChanne
 
     MI_CpuFill8(p, 0, sizeof(*p));
     p->fc = channel;
-    h = func_020490F4(APP_ICON_GetArchiveId(), heap);
+    h = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heap);
     if (skip == 0) {
         func_02049B68(h, APP_ICON_GetStatusAnimFileId(), palOfs, pal << 5, 0x20, heap);
-        p->f10 = func_02049740(h, APP_ICON_GetStatusFrameFileId(), p->fc, 0x800, 0, heap);
+        p->f10 = ARC_UTIL_RegisterObjCharFromHandle(h, APP_ICON_GetStatusFrameFileId(), p->fc, 0x800, 0, heap);
         ZKND_TBAR_LoadCellArchive(h, APP_ICON_GetStatusDataFileId(), p->fc, (u16)p->f10, 0, 0x15, 0x20, 0x18,
                             0, 0x15, 0x20, 3, pal, 0, heap);
     }
@@ -493,7 +493,7 @@ void ZKND_TBAR_LoadCellArchive(void *a0, u32 a1, u32 channel, u32 add, u8 a4, u8
         BG_SYS_FillTileMap(channel, x, y, w, h, pal);
         BG_SYS_PushTile(channel);
     }
-    func_020307B0((void *)file);
+    GFL_HEAP_Free((void *)file);
 }
 
 void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struct Ov208ActDesc *desc,

@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   ICA_ANIME_GetField24  0x02012138  thumb
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
@@ -30,7 +30,7 @@
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAME_DATA_GetMyParty   0x02012934  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -45,7 +45,7 @@
  *   func_02008FEC  0x02008FEC  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   MAILTOOL_HasMail  0x021C3E00  thumb  ov136
  *   ov136_id       0x00000088  data
  *   d_02172978     0x02172978  data  a1
@@ -302,7 +302,7 @@ typedef struct RtcTime {
 } RtcTime;
 
 
-extern GameEvent *func_020122C0(GameSystem *gameSystem, void *parent, void *func, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern GameData *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
 
@@ -313,9 +313,9 @@ extern void *ICA_ANIME_GetField20(const GameSystem *gameSystem);
 extern GameComm *ICA_ANIME_GetField24(const GameSystem *gameSystem);
 
 
-extern int func_020307B0();
+extern int GFL_HEAP_Free();
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 
 extern u32 GAME_COMM_GetKind(GameComm *gameComm);
@@ -337,7 +337,7 @@ extern void *GAME_DATA_GetMyParty(const GameData *gameData);
 extern void *func_0200873C(void *saveControl);
 
 
-extern int func_02034AC4(int handle);
+extern int GF_OVERLAY_Load(int handle);
 
 
 extern void MI_CpuFill8();
@@ -366,7 +366,7 @@ extern void *GAME_DATA_GetMyItem(const GameData *gameData);
 extern void *func_02008FEC(GameData *gameData);
 extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u8 GAME_DATA_GetSeason(const GameData *gameData);
-extern void func_02034A5C(int handle);
+extern void GF_OVERLAY_Unload(int handle);
 extern u32 MAILTOOL_HasMail(void *mailParam);
 extern u32 GAME_DATA_GetBgmInfo(const GameData *gameData);
 extern u32 GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
@@ -500,7 +500,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     u32 value;
 
     gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
-    list = func_02030734(4, 0x98, 1, d_02172978, 0x330);
+    list = GFL_HEAP_Alloc(4, 0x98, 1, d_02172978, 0x330);
     list->party = GAME_DATA_GetMyParty(gameData);
     list->carry = work->carry;
     list->myItem = GAME_DATA_GetMyItem(gameData);
@@ -579,9 +579,9 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     } else if (mode == 9) {
         int mailResult;
 
-        func_02034AC4((u32)ov136_id);
+        GF_OVERLAY_Load((u32)ov136_id);
         mailResult = MAILTOOL_HasMail(source);
-        func_02034A5C((u32)ov136_id);
+        GF_OVERLAY_Unload((u32)ov136_id);
         if (work->purpose == 0) {
             list->listMode = 0xB;
             list->selectedSlot = work->resultSlot;
@@ -676,7 +676,7 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     GameData *gameData;
     int bgmInfo;
 
-    param = func_02030734(4, 0x10, 0, (const char *)d_02172978, 0x49b);
+    param = GFL_HEAP_Alloc(4, 0x10, 0, (const char *)d_02172978, 0x49b);
     MI_CpuFill8(param, 0, 0x10);
     gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
     param->gameData = gameData;
@@ -983,7 +983,7 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardVi
  */
 TownMapParam *EVENT_FIELD_PROCLINK_CreateTownMapParam(ProcLinkWork *work)
 {
-    TownMapParam *param = func_02030734(4, 0x18, 1, d_02172978, 0x68A);
+    TownMapParam *param = GFL_HEAP_Alloc(4, 0x18, 1, d_02172978, 0x68A);
     void *playerWork;
     void *gameData;
 
@@ -1054,7 +1054,7 @@ ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work)
     ConfigParam *param;
 
     func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->context->gameSystem)));
-    param = func_02030734(4, 8, 1, d_02172978, 0x705);
+    param = GFL_HEAP_Alloc(4, 8, 1, d_02172978, 0x705);
     param->gameSystem = work->context->gameSystem;
     return param;
 }
@@ -1093,7 +1093,7 @@ TrainerCardParam *EVENT_FIELD_PROCLINK_CreateTrainerCardParam(ProcLinkWork *work
 {
     TrainerCardParam *param;
 
-    param = func_02030734(4, 8, 1, d_02172978, 0x74C);
+    param = GFL_HEAP_Alloc(4, 8, 1, d_02172978, 0x74C);
     param->gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
     return param;
 }
@@ -1128,7 +1128,7 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
     u16 itemId;
 
     gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
-    func_02034AC4((u32)ov136_id);
+    GF_OVERLAY_Load((u32)ov136_id);
     if (mode == 0) {
         party = GAME_DATA_GetMyParty(gameData);
         slot = listResult->selectedSlot;
@@ -1174,7 +1174,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
             nextState = 0;
         }
         work->nextState = nextState;
-        func_02034A5C((u32)ov136_id);
+        GF_OVERLAY_Unload((u32)ov136_id);
         return 4;
     }
     if (work->childResult == 2) {
@@ -1188,20 +1188,20 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
         } else {
             work->nextState = 2;
         }
-        func_02034A5C((u32)ov136_id);
+        GF_OVERLAY_Unload((u32)ov136_id);
         return 4;
     }
     work->nextState = 2;
-    func_02034A5C((u32)ov136_id);
+    GF_OVERLAY_Unload((u32)ov136_id);
     return 4;
 }
 
 
 void EVENT_FIELD_PROCLINK_UnloadMailOverlay(void *mailParam)
 {
-    func_02034AC4((u32)ov136_id);
+    GF_OVERLAY_Load((u32)ov136_id);
     MAILTOOL_DeleteArgs(mailParam);
-    func_02034A5C((u32)ov136_id);
+    GF_OVERLAY_Unload((u32)ov136_id);
 }
 
 
@@ -1229,7 +1229,7 @@ EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, 
             mon = POKEPARTY_GetMember(party, listResult->selectedSlot);
             targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 0, *GAME_DATA_GetField114(gameData), GAME_DATA_GetSeason(gameData), &method, 4);
         }
-        request = func_02030734(4, 0x14, 0, d_02172978, 0x868);
+        request = GFL_HEAP_Alloc(4, 0x14, 0, d_02172978, 0x868);
         request->gameData = gameData;
         request->party = party;
         request->targetSpecies = targetSpecies;
@@ -1265,7 +1265,7 @@ ReportParam *EVENT_FIELD_PROCLINK_CreateReportParam(ProcLinkWork *work)
 {
     ReportParam *param;
 
-    param = func_02030734(4, 0x10, 1, d_02172978, 0x8AC);
+    param = GFL_HEAP_Alloc(4, 0x10, 1, d_02172978, 0x8AC);
     param->gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
     return param;
 }
@@ -1300,7 +1300,7 @@ int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param)
  */
 GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_FreeEventMain, 0x1C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_FreeEventMain, 0x1C);
     ReportEventWork *work = func_020124E8(event);
 
     MI_CpuFill8(work, 0, 0x1C);
@@ -1328,10 +1328,10 @@ int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork 
 }
 
 
-/* Thumb tail call into the ARM function func_020307B0: ldr r3,[pc]; bx r3. */
+/* Thumb tail call into the ARM function GFL_HEAP_Free: ldr r3,[pc]; bx r3. */
 void EVENT_FIELD_PROCLINK_FreeAnimWork(void)
 {
-    func_020307B0();
+    GFL_HEAP_Free();
 }
 
 
@@ -1409,7 +1409,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fi
     GameEvent *event;
     MapAnimWork *work;
 
-    event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_AnimEventMain, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_AnimEventMain, 0x10);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -1445,7 +1445,7 @@ int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *w
  */
 GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_ObjAnimEventMain, 0x34);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_ObjAnimEventMain, 0x34);
     ObjAnimWork *work = func_020124E8(event);
 
     EVENT_FIELD_PROCLINK_ClearAnimNode(work);
@@ -1595,7 +1595,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
     GameEvent *event;
     HopWork *work;
 
-    event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_HopEventMain, 0x24);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_HopEventMain, 0x24);
     work = func_020124E8(event);
     work->object = object;
     work->owner = (void *)FIELDMAP_GetEffect(ICA_ANIME_GetField20(gameSystem));
@@ -1646,7 +1646,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, Game
     GameEvent *event;
     CommProcWork *work;
 
-    event = func_020122C0(gameSystem, parent, EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
+    event = GAME_EVENT_Create(gameSystem, parent, EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, 0x24);
     work->gameSystem = gameSystem;

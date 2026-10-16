@@ -26,11 +26,11 @@
  *   ghttpStartup  0x021C1FF8  arm  ov114
  *   current_time  0x0217F264  arm  ov009
  *   ArrayLength  0x02184200  arm  ov009
- *   func_02184208  0x02184208  arm  ov009
+ *   ArrayNth  0x02184208  arm  ov009
  *   func_02184324  0x02184324  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   ghttpCleanup                  0x021C204C  arm ov114
- *   func_021841B0                  0x021841B0  arm ov009
+ *   ArrayFree                  0x021841B0  arm ov009
  *   gsiInterlockedDecrement                  0x0217F0D8  arm ov009
  *   ArrayAppend                  0x02184234  arm ov009
  *   gsimalloc                  0x0217EAB0  arm ov009
@@ -78,11 +78,11 @@ extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFree
 extern void ghttpStartup(void);
 extern unsigned int current_time(void);
 extern int ArrayLength(const int *p);
-extern void *func_02184208(void *array, int n);
+extern void *ArrayNth(void *array, int n);
 extern void func_02184324(void *array, int n);
 extern void gsifree(void *ptr);
 extern void ghttpCleanup(void);
-extern void func_021841B0(void *array);
+extern void ArrayFree(void *array);
 extern unsigned int gsiInterlockedDecrement(unsigned int *value);
 extern void ArrayAppend(void *array, void *elem);
 extern void *gsimalloc(unsigned long size);
@@ -216,7 +216,7 @@ int gsCoreTaskThink(GSTask *theTask)
             gsiEnterCriticalSection(aCore->mQueueCrit);
             len = ArrayLength(aCore->mTaskArray);
             for (i = 0; i < len; i++) {
-                if (*(GSTask **)func_02184208(aCore->mTaskArray, i) == theTask) {
+                if (*(GSTask **)ArrayNth(aCore->mTaskArray, i) == theTask) {
                     func_02184324(aCore->mTaskArray, i);
                     gsifree(theTask);
                     break;
@@ -261,7 +261,7 @@ void gsCoreThink(unsigned int theMS)
     if (len > 0)
         allTasksAreDead = 0;
     for (i = len - 1; i >= 0; i--) {
-        task = *(GSTask **)func_02184208(aCore->mTaskArray, i);
+        task = *(GSTask **)ArrayNth(aCore->mTaskArray, i);
         if (task->mAutoThink != 0)
             gsCoreTaskThink(task);
         if (theMS != 0 && current_time() - aStartTime > theMS)
@@ -270,7 +270,7 @@ void gsCoreThink(unsigned int theMS)
     if (aCore->mIsShuttingDown != 0 && allTasksAreDead) {
         ghttpCleanup();
         if (aCore->mTaskArray != 0) {
-            func_021841B0(aCore->mTaskArray);
+            ArrayFree(aCore->mTaskArray);
             aCore->mTaskArray = 0;
         }
         aCore->mIsShuttingDown = 0;
@@ -304,7 +304,7 @@ void gsCoreShutdown(void)
     aCore->mIsShuttingDown = 1;
     len = ArrayLength(aCore->mTaskArray);
     for (i = 0; i < len; i++)
-        gsiCoreCancelTask(*(GSTask **)func_02184208(aCore->mTaskArray, i));
+        gsiCoreCancelTask(*(GSTask **)ArrayNth(aCore->mTaskArray, i));
     gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 

@@ -21,6 +21,7 @@
  *   func_02008654  0x02008654  thumb
  *   _ull_mul       0x0209C054  arm
  *   _PlayTimeLatch  0x02146170  data  a8
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "battle_rec_types.h"
 typedef unsigned char u8;
@@ -58,7 +59,7 @@ struct IntrudeSave {
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeOccupy *occupy);
 
@@ -202,7 +203,7 @@ void INTRUDE_AddMissionBonusScore(struct IntrudeSave *intrude, s32 add)
  */
 struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x35);
+    return SAVE_CONTROL_GetBlock(save, 0x35);
 }
 
 void INTRUDE_StoreOccupy(struct SaveControl *save, const u16 *src)

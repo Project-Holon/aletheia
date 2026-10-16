@@ -21,12 +21,12 @@
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   POKE_REGULATION_Load  0x0201A354  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   WORDSET_Callback  0x0201EE60  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   sScrcmdFldBattleFileName     0x021DE248  data  a1
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -36,8 +36,8 @@
  *   POKE_REGULATION_CheckParty  0x0201A090  thumb
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
- *   func_0200BAF4  0x0200BAF4  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   PARTY_SELECT_LIST_Create  0x021CC720  thumb  ov021
  *   PARTY_SELECT_LIST_Main  0x021CC810  thumb  ov021
@@ -81,12 +81,12 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u16 SCRCMD_WORK_GetHeapId(void *a0);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *POKE_REGULATION_Load(int a, int b);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
@@ -95,8 +95,8 @@ extern int func_02019ED4(void *rules, void *party);
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void *BATTLE_BOX_GetFromSave(void *);
 extern u32 BATTLE_BOX_HasMon(void *a);
-extern void *func_0200BAF4(int a0, int a1);
-extern struct FieldTask *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *BATTLE_BOX_CreateParty(int a0, int a1);
+extern struct FieldTask *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct FieldTask *p);
 extern struct PartySelectList *PARTY_SELECT_LIST_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern int PARTY_SELECT_LIST_Main(struct PartySelectList *p);
@@ -155,7 +155,7 @@ int SCRCMD_FLD_BATTLE_CheckPartyRegulation(struct ScriptVm *vm, struct ScrcmdWor
         isSubwayRules = 0;
     }
     task = SCRCMD_FLD_BATTLE_CreatePartyCheckTask(gameSystem, isSubwayRules, rules, resultOut, heapId);
-    func_020307B0(rules);
+    GFL_HEAP_Free(rules);
     if (task == 0) {
         return 0;
     }
@@ -177,8 +177,8 @@ u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *gameData, void *wordSet, u3
     for (i = 0; i < count; i++) {
         WORDSET_Callback(wordSet, i, speciesList[i]);
     }
-    func_020307B0(speciesList);
-    func_020307B0(regulation);
+    GFL_HEAP_Free(speciesList);
+    GFL_HEAP_Free(regulation);
     return count;
 }
 
@@ -197,7 +197,7 @@ u16 *SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(u8 *regulation, void *gameData, 
 
     *count = 0;
     zukan = ZUKAN_SAVE_GetFromGameData(gameData);
-    speciesList = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x40, 1, sScrcmdFldBattleFileName, 0xac);
+    speciesList = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), 0x40, 1, sScrcmdFldBattleFileName, 0xac);
     for (species = 0; species < 0x28b; species++) {
         if (regulation[0xa + species / 8] & (1 << (species % 8))) {
             if (ZUKAN_SAVE_IsCaught(zukan, (u16)species)) {
@@ -247,7 +247,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
     battleRec = BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     if (BATTLE_BOX_HasMon(battleRec) == 1) {
         mask = 0;
-        recordParty = func_0200BAF4((int)battleRec, heapId);
+        recordParty = BATTLE_BOX_CreateParty((int)battleRec, heapId);
         if (isSubwayRules) {
             recordPartyInvalid = func_02019ED4(rules, recordParty);
         } else {
@@ -264,12 +264,12 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
     }
     if (playerPartyInvalid && recordPartyInvalid) {
         if (recordParty) {
-            func_020307B0(recordParty);
+            GFL_HEAP_Free(recordParty);
         }
         *result = 3;
         return 0;
     }
-    task = func_020122C0(gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
+    task = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
     playerFlag = 0;
     taskWork = func_020124E8(task);
     taskWork->gameSystem = gameSystem;
@@ -306,7 +306,7 @@ int SCRCMD_FLD_BATTLE_PartyCheckTaskMain(struct FieldTask *fieldTask, int *state
             if (cancelled == 1) {
                 *taskWork->result = 3;
             }
-            func_020307B0(taskWork->recordParty);
+            GFL_HEAP_Free(taskWork->recordParty);
             return 1;
         }
         break;

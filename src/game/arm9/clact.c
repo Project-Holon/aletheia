@@ -23,13 +23,13 @@
  *   VMAN_Free  0x020346B8  arm
  *   NNSi_G2dIsVramHandleSet   0x020637BC  arm
  *   NNSi_G2dGetVramHandleValue   0x020637B4  arm
- *   func_0207E780   0x0207E780  arm
- *   func_0207E804   0x0207E804  arm
+ *   GX_LoadOBJ   0x0207E780  arm
+ *   GXS_LoadOBJ   0x0207E804  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   NNSi_G2dIsVramHandleSetEx  0x0206380C  arm
  *   NNSi_G2dGetVramHandleEx  0x02063800  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
- *   func_0207E5D0  0x0207E5D0  arm
+ *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   NNSi_G2dGetCellAnimFrameIdx   0x02062F1C  arm
  *   g_020A7F3C     0x020A7F3C  data
  *   NNS_G2dInitOamManagerModule  0x02063078  arm
@@ -99,7 +99,7 @@
  *   NNSi_G2dLoadVramResourceList  0x02063F4C  arm
  *   GX_GetBankForOBJExtPltt  0x02080C34  arm
  *   GX_GetBankForSubOBJExtPltt  0x02080C74  arm
- *   func_0208068C  0x0208068C  arm
+ *   GX_SetBankForLCDC  0x0208068C  arm
  *   GX_SetBankForOBJExtPltt  0x020801F8  arm
  *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
  *   NNS_G2dGetUnpackedCellBank  0x02062820  arm
@@ -567,13 +567,13 @@ extern void VMAN_Free(struct VramAllocator *owner, struct VramBlock *p);
 extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
 extern int NNSi_G2dGetVramHandleValue(int *p, int i);
 extern void DC_FlushRange(void *a, u32 b);
-extern void func_0207E780(void *a, void *b, u32 c);
-extern void func_0207E804(void *a, void *b, u32 c);
+extern void GX_LoadOBJ(void *a, void *b, u32 c);
+extern void GXS_LoadOBJ(void *a, void *b, u32 c);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
 extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 extern void GX_LoadOBJPltt(void *dest, void *src, u32 size);
-extern void func_0207E5D0(void *dest, void *src, u32 size);
+extern void GXS_LoadOBJPltt(void *dest, void *src, u32 size);
 extern u16 NNSi_G2dGetCellAnimFrameIdx(const struct AnimCtrl *n);
 extern void NNS_G2dInitOamManagerModule(void);
 extern unsigned int NNSi_G2dReserveOamManagerSpan(void *p, int a, int b, int which);
@@ -634,7 +634,7 @@ extern void NNSi_G2dLoadVramResourceBySel(struct PaletteData *s, u32 size, int m
                          struct PlttSlot *ent);
 extern u16 GX_GetBankForOBJExtPltt(void);
 extern u16 GX_GetBankForSubOBJExtPltt(void);
-extern void func_0208068C(void);
+extern void GX_SetBankForLCDC(void);
 extern void GX_SetBankForOBJExtPltt(int objExtPltt);
 extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 extern void NNSi_G2dLoadVramResourceList(struct PaletteData *self, struct PaletteCompInfo *list, u32 base, int sel, struct PaletteProxy *out);
@@ -1231,14 +1231,14 @@ void CLACT_TransferCharacter(int idx, struct CharData *char_data)
     if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
         void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
         DC_FlushRange((void *)char_data->raw, char_data->size);
-        func_0207E780((void *)char_data->raw, vram_addr, char_data->size);
+        GX_LoadOBJ((void *)char_data->raw, vram_addr, char_data->size);
     }
     if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
         return;
     {
         void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
         DC_FlushRange((void *)char_data->raw, char_data->size);
-        func_0207E804((void *)char_data->raw, vram_addr, char_data->size);
+        GXS_LoadOBJ((void *)char_data->raw, vram_addr, char_data->size);
     }
 }
 
@@ -1250,7 +1250,7 @@ void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int t
         if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
             void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
             DC_FlushRange(src, size);
-            func_0207E780(src, (char *)vram_addr + offset, size);
+            GX_LoadOBJ(src, (char *)vram_addr + offset, size);
         }
     }
     if (target == 1 || target == 2) {
@@ -1259,7 +1259,7 @@ void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int t
         {
             void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
             DC_FlushRange(src, size);
-            func_0207E804(src, (char *)vram_addr + offset, size);
+            GXS_LoadOBJ(src, (char *)vram_addr + offset, size);
         }
     }
 }
@@ -1448,7 +1448,7 @@ void CLACT_ReleasePalette(u32 idx)
  * Flush both halves of one slot of the 0x18-byte-stride table at +0x110 of
  * the singleton behind 0x02146A74 into the destination the caller supplies.
  * Each half is guarded by NNSi_G2dIsVramHandleSetEx, fetched with NNSi_G2dGetVramHandleEx and
- * written through GX_LoadOBJPltt (selector 1) or func_0207E5D0 (selector 2),
+ * written through GX_LoadOBJPltt (selector 1) or GXS_LoadOBJPltt (selector 2),
  * with DC_FlushRange invalidating the destination first.
  *
  * `count` is in 32-byte units; zero means "use the length the destination
@@ -1484,7 +1484,7 @@ void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 siz
         void *src = (void *)NNSi_G2dGetVramHandleEx((char *)(&g_ClactSystem->res.pltts[idx]), 2);
 
         DC_FlushRange((void *)dest->raw, size);
-        func_0207E5D0((void *)dest->raw, src, size);
+        GXS_LoadOBJPltt((void *)dest->raw, src, size);
     }
 }
 
@@ -6668,13 +6668,13 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
 
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = GX_GetBankForOBJExtPltt();
-        if (extended) func_0208068C();
+        if (extended) GX_SetBankForLCDC();
         NNSi_G2dLoadVramResourceBySel(pltt_data, vram_offset, 1, (struct PlttSlot *)(slots + slot_off));
         if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = GX_GetBankForSubOBJExtPltt();
-        if (extended) func_0208068C();
+        if (extended) GX_SetBankForLCDC();
         NNSi_G2dLoadVramResourceBySel(pltt_data, vram_offset, 2, (struct PlttSlot *)(slots + slot_off));
         if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }
@@ -6733,13 +6733,13 @@ void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vra
 
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = GX_GetBankForOBJExtPltt();
-        if (extended) func_0208068C();
+        if (extended) GX_SetBankForLCDC();
         NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 1, (struct PaletteProxy *)slot);
         if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = GX_GetBankForSubOBJExtPltt();
-        if (extended) func_0208068C();
+        if (extended) GX_SetBankForLCDC();
         NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 2, (struct PaletteProxy *)slot);
         if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }

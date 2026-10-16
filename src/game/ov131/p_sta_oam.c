@@ -16,8 +16,8 @@
  * the functions in this range use no sub-screen work struct (OAM and bitmap helpers the sub-screens call).
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -26,7 +26,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BMP_GetPixels 0x020437D4 arm
@@ -36,8 +36,8 @@
  *   BMP_GetByteSize 0x020437EC arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
- *   func_0207E780 0x0207E780 arm
- *   func_0207E804 0x0207E804 arm
+ *   GX_LoadOBJ 0x0207E780 arm
+ *   GXS_LoadOBJ 0x0207E804 arm
  *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
  */
 #include "p_status_types.h"
@@ -52,8 +52,8 @@ typedef unsigned int u32;
 
 typedef signed short s16;
 
-extern u32 func_020307B0(void *p);
-extern void *func_020490F4(u32 id, u32 heap);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
 extern int CLACT_RegisterCellAnim(void *arc, u32 fileId, u32 a, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
@@ -62,7 +62,7 @@ extern void CLACT_ReleaseCellAnim(u32 cellRes);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct StaOamPoint *delta, u32 space);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
@@ -71,8 +71,8 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void DWCi_ScreenDC_FlushRange(void *dst, int size);
 extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 screen);
-extern void func_0207E780(void *dst, void *src, u32 size);
-extern void func_0207E804(void *dst, void *src, u32 size);
+extern void GX_LoadOBJ(void *dst, void *src, u32 size);
+extern void GXS_LoadOBJ(void *dst, void *src, u32 size);
 struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit);
 void P_STA_OAM_DeleteManager(struct StaOamManager *mgr);
 struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mgr, const struct StaOamBitmapDesc *desc);
@@ -90,7 +90,7 @@ extern const struct StaRibbonInfo P_STA_RIBBON_InfoTable[];
 
 
 struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit) {
-    struct StaOamManager *mgr = func_02030734(heapId, 0x14, 1, P_STA_OAM_FileName, 0x5d);
+    struct StaOamManager *mgr = GFL_HEAP_Alloc(heapId, 0x14, 1, P_STA_OAM_FileName, 0x5d);
     int i;
     mgr->heapId = heapId;
     mgr->clunit = (void *)clunit;
@@ -102,7 +102,7 @@ struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit) {
 void P_STA_OAM_DeleteManager(struct StaOamManager *mgr)
 {
     P_STA_OAM_FreeCellRes(mgr);
-    func_020307B0(mgr);
+    GFL_HEAP_Free(mgr);
 }
 
 
@@ -117,7 +117,7 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     void *arc;
     int mode;
     struct Bmp *bmp;
-    grid = func_02030734(mgr->heapId, 0x24, 1, P_STA_OAM_FileName, 0x8a);
+    grid = GFL_HEAP_Alloc(mgr->heapId, 0x24, 1, P_STA_OAM_FileName, 0x8a);
     bmp = desc->bmp;
     grid->bmp = bmp;
     cols = ((u32)BMP_GetWidth(bmp) >> 6) & 0xff;
@@ -128,7 +128,7 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     grid->rows = rows;
     grid->space = desc->space;
     grid->screen = desc->screen;
-    arc = func_020490F4(0x4e, mgr->heapId);
+    arc = ARC_TOOL_CreateHandle(0x4e, mgr->heapId);
     for (i = 0; i < rows; i++) {
         for (j = 0; j < cols; j++) {
             mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, (u32)arc);
@@ -155,7 +155,7 @@ void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid)
             CLACT_DeleteActor(grid->actor[j + i * grid->cols]);
         }
     }
-    func_020307B0(grid);
+    GFL_HEAP_Free(grid);
 }
 
 
@@ -182,7 +182,7 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     void (*copy)(void *, void *, u32);
     dst0 = BMP_GetPixels(grid->bmp);
     DWCi_ScreenDC_FlushRange(dst0, BMP_GetByteSize(grid->bmp));
-    if (grid->screen == 0) copy = func_0207E780; else copy = func_0207E804;
+    if (grid->screen == 0) copy = GX_LoadOBJ; else copy = GXS_LoadOBJ;
     wt = (u32)BMP_GetWidth(grid->bmp) >> 3;
     rem = (u32)BMP_GetHeight(grid->bmp) >> 3;
     rem = rem % 4;

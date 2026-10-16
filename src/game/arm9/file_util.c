@@ -13,7 +13,7 @@
  * Cut from bmp_menulist.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_0200575C  0x0200575C  thumb
  *   FS_InitFile  0x020788AC  arm
  *   FS_OpenFile  0x02078C18  arm
@@ -22,14 +22,14 @@
  *   FS_SeekFile    0x02078B44  arm
  *   FS_ReadFile    0x02078B70  arm
  *   FS_GetLength   0x02078C28  arm
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   ITEM_GFX_GetRowIndex       0x0202F170  thumb
- *   func_020490F4       0x020490F4  arm
+ *   ARC_TOOL_CreateHandle       0x020490F4  arm
  *   ARC_TOOL_LoadHandleMember       0x02049250  arm
  *   ARC_TOOL_LoadMember       0x02048F60  arm
  *   item_gfx_member     0x0209EB6C  data
  *   item_gfx_member_x   0x0209E9E8  data
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   g_0209EAA0     0x0209EAA0  data
@@ -134,9 +134,9 @@ struct ItemRecord {
     } u;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern void *func_0200575C(u32 archiveId);
 
@@ -154,13 +154,13 @@ extern u32   FS_GetLength(struct FSFile *file);
 
 extern u32   ITEM_GFX_GetRowIndex(u32 item);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dst);
 
@@ -275,7 +275,7 @@ void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
     if (size == 0) {
         size = FS_GetLength(&file);
     }
-    data = func_02030734(heap, size, 0, FILE_UTIL_FILE_NAME, 0xAC);
+    data = GFL_HEAP_Alloc(heap, size, 0, FILE_UTIL_FILE_NAME, 0xAC);
     FS_SeekFile(&file, offset, 0);
     FS_ReadFile(&file, data, size);
     FS_CloseFile(&file);
@@ -380,7 +380,7 @@ u32 FILE_UTIL_GetBaseIndex(void)
 
 void *FILE_UTIL_Create_0F14(u32 heap)
 {
-    return func_020490F4(0x18, heap);
+    return ARC_TOOL_CreateHandle(0x18, heap);
 }
 
 void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap)
@@ -433,7 +433,7 @@ void FILE_UTIL_ReadString(void *dst, u32 entry, u32 heap)
     if (entry > 0x272) {
         entry = 0;
     }
-    bank = func_02045B38(0, 2, 0x36, heap);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0x36, heap);
     MSGDATA_ReadString(bank, entry, dst);
     MSGDATA_Delete(bank);
 }
@@ -461,7 +461,7 @@ void FILE_UTIL_ReadStringAlt(void *dst, u32 entry, u32 heap)
     if (entry > 0x272) {
         entry = 0;
     }
-    bank = func_02045B38(0, 2, 0x35, heap);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0x35, heap);
     MSGDATA_ReadString(bank, entry, dst);
     MSGDATA_Delete(bank);
 }
@@ -486,7 +486,7 @@ u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap)
 
     record = FILE_UTIL_CreateArcTool0F34(item, 0, (u16)((heap & 0x7FFF) | 0x8000));
     value = FILE_UTIL_Get_1014(record, sel);
-    func_020307B0(record);
+    GFL_HEAP_Free(record);
     return value;
 }
 

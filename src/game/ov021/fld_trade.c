@@ -14,7 +14,7 @@
  * Split from fld_trade_p01.c and fld_trade_p02.c (lane CL125b): __FILE__ anchor 021CC03C (d_021DE59C "fld_trade.c").
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ARC_TOOL_LoadMemberRange  0x02048F88  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Init  0x020084A0  thumb
@@ -23,9 +23,9 @@
  *   func_020084D4  0x020084D4  thumb
  *   func_0200854C  0x0200854C  thumb
  *   d_021DE59C  0x021DE59C  data  ov021
- *   func_020307B0  0x020307B0  arm
- *   func_02045B38  0x02045B38  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   POKE_TOOL_AdjustPersonalRnd  0x0201862C  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
@@ -53,7 +53,7 @@
  *   d_02208C40     0x02208C40  data  ov195  a4
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  */
 struct U16Vec;
@@ -137,7 +137,7 @@ typedef struct FldTradeEvent {
     FldTradeEvolveParam *evolveParam;   /* 0x58 */
 } FldTradeEvent;
 
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void *ARC_TOOL_LoadMemberRange(u32 archive_id, u32 member, u32 heap, u32 mode, u32 *size_out);
 extern void *MYSTATUS_Create(int a0);
 extern void MYSTATUS_Init(struct Sub0200852CObj *);
@@ -145,9 +145,9 @@ extern void STRBUF_ToChars(struct U16Vec *, u16 *, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020084D4(u32 value, void *dst);
 extern void func_0200854C(int, u32);
-extern u32 func_020307B0(void *p);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 GFL_HEAP_Free(void *p);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 POKE_TOOL_AdjustPersonalRnd(u32 id, u16 species, u16 formNo, u8 gender, u8 a4, int a5);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
@@ -171,7 +171,7 @@ extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Desc *event);
 
 FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId);
@@ -201,11 +201,11 @@ FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
     int otName;
     char nameBuf[0x100];
 
-    holder = func_02030734((u16)heapId, 0x14, 1, d_021DE59C, 0x5d);
+    holder = GFL_HEAP_Alloc((u16)heapId, 0x14, 1, d_021DE59C, 0x5d);
     holder->heapId = (u16)heapId;
     holder->tradeId = tradeId;
     holder->data = ARC_TOOL_LoadMemberRange(0xa5, tradeId, (u16)heapId, 0, (u32 *)0x6c);
-    holder->mon = func_02030734((u16)heapId, 0xdc, 0, d_021DE59C, 0x65);
+    holder->mon = GFL_HEAP_Alloc((u16)heapId, 0xdc, 0, d_021DE59C, 0x65);
     holder->traderStatus = (void *)MYSTATUS_Create(heapId);
     MYSTATUS_Init((struct Sub0200852CObj *)holder->traderStatus);
     otName = (int)FLD_TRADE_GetMessageString(heapId, holder->data->otNameMsgId);
@@ -218,10 +218,10 @@ FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
 
 void FLD_TRADE_Delete(FldTradeHolder *holder)
 {
-    func_020307B0(holder->data);
-    func_020307B0(holder->mon);
-    func_020307B0(holder->traderStatus);
-    func_020307B0(holder);
+    GFL_HEAP_Free(holder->data);
+    GFL_HEAP_Free(holder->mon);
+    GFL_HEAP_Free(holder->traderStatus);
+    GFL_HEAP_Free(holder);
 }
 
 u32 FLD_TRADE_GetWantedSpecies(FldTradeHolder *holder)
@@ -237,8 +237,8 @@ u32 FLD_TRADE_GetWantedGender(FldTradeHolder *holder)
 /* Copies one string of message bank 0x23. */
 void *FLD_TRADE_GetMessageString(u32 heapId, u32 msgId)
 {
-    void *bank = func_02045B38(0, 2, 0x23, (u16)heapId);
-    void *str = func_02045EC0(bank, msgId);
+    void *bank = MSGDATA_CreateFromArchive(0, 2, 0x23, (u16)heapId);
+    void *str = MSGDATA_AllocString(bank, msgId);
     MSGDATA_Delete(bank);
     return str;
 }
@@ -390,7 +390,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
     case 3:
         newSpecies = SHINKA_CHECK_CheckEvolution(party, sentMon, 1, 0, GAME_DATA_GetSeason(gameData), &evolveMethod, 4);
         if (newSpecies != 0) {
-            evolveParam = func_02030734(4, 0x14, 0, d_021DE59C, 0x1F0);
+            evolveParam = GFL_HEAP_Alloc(4, 0x14, 0, d_021DE59C, 0x1F0);
             evolveParam->gameData = gameData;
             evolveParam->party = party;
             evolveParam->newSpecies = newSpecies;
@@ -405,7 +405,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
         break;
     case 4:
         if (work->evolveParam != 0)
-            func_020307B0(work->evolveParam);
+            GFL_HEAP_Free(work->evolveParam);
         FLD_TRADE_Delete(work->holder);
         return 1;
     }
@@ -422,7 +422,7 @@ void *FLD_TRADE_CreateEvent(void *gsys, u32 tradeId, u32 partyIndex)
 
     gameData = GAMESYSTEM_GetGameData(gsys);
     party = GAME_DATA_GetMyParty(gameData);
-    event = func_020122C0(gsys, 0, (void *)FLD_TRADE_EventMain, 0x5c);
+    event = GAME_EVENT_Create(gsys, 0, (void *)FLD_TRADE_EventMain, 0x5c);
     work = func_020124E8(event);
     work->gsys = gsys;
     work->gameData = gameData;

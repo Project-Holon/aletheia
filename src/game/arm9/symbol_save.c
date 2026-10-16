@@ -17,11 +17,11 @@
  *   MI_CpuFill8         0x02082BCC  arm
  *   GF_STANDARD_Checksum  0x0203F2FC  arm
  *   GF_STANDARD_Shuffle  0x0203F328  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   sSymbolBandRanges  0x0209DE90  data
  *   _s32_div_f  0x0209C0A4  arm
- *   func_02030734     0x02030734  arm
- *   func_020307B0     0x020307B0  arm
+ *   GFL_HEAP_Alloc     0x02030734  arm
+ *   GFL_HEAP_Free     0x020307B0  arm
  *   SAVE_CONTROL_ReadRecordFromFlash     0x02007248  thumb
  *   memcmp            0x0203EFC8  arm
  *   sFileName_symbol_save    0x020A720C  data
@@ -68,7 +68,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GF_STANDARD_Checksum(const void *p, u32 len);
 
@@ -76,9 +76,9 @@ extern void GF_STANDARD_Shuffle(void *p, u32 size, u32 seed);
 
 extern void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed);
 
-extern void *func_020071CC(struct SaveBlockTable *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveBlockTable *ctrl, u32 id);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u32 e);
 
@@ -196,11 +196,11 @@ void SYMBOL_SAVE_InitBlock(struct SymbolSave *save)
 }
 
 /*
- * Unlabelled leaf: tail-calls func_020071CC(p, 0x3d).
+ * Unlabelled leaf: tail-calls SAVE_CONTROL_GetBlock(p, 0x3d).
  */
 void *SYMBOL_SAVE_GetBlock(void *saveData)
 {
-    return func_020071CC(saveData, 0x3d);
+    return SAVE_CONTROL_GetBlock(saveData, 0x3d);
 }
 
 /*
@@ -429,7 +429,7 @@ u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 match
     s32 slotIndex;
     s32 recordIndex;
 
-    save = func_02030734((u32)heapId, 0x850, 1, sFileName_symbol_save, 0x1ac);
+    save = GFL_HEAP_Alloc((u32)heapId, 0x850, 1, sFileName_symbol_save, 0x1ac);
     for (slotIndex = 0; slotIndex < 2; slotIndex++) {
         if (SAVE_CONTROL_ReadRecordFromFlash(saveData, 0x3d, slotIndex, save, 0x850) == 1) {
             SYMBOL_SAVE_FinalizeChecksum(save);
@@ -448,7 +448,7 @@ u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 match
         }
         if (found == 1) break;
     }
-    func_020307B0(save);
+    GFL_HEAP_Free(save);
     return found;
 }
 
@@ -474,7 +474,7 @@ void SYMBOL_SAVE_InitBitBlock(struct SymbolBitSave *save)
 
 void *SYMBOL_SAVE_GetBitBlock(void *saveData)
 {
-    return func_020071CC(saveData, 0x3f);
+    return SAVE_CONTROL_GetBlock(saveData, 0x3f);
 }
 
 /*

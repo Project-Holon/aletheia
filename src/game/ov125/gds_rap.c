@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GDS_SOCKET_GetMaxReplySize 0x021D8600 arm ov125
- *   func_02030734 0x02030734 arm
- *   func_02045B38 0x02045B38 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   GDS_SOCKET_Begin 0x021D8598 arm ov125
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   ov114_id 0x00000072 data
  *   sGdsRapFileName 0x021D8D00 data a4
  *   sGdsServerHost 0x021D8D0C data a4
@@ -31,8 +31,8 @@
  *   GDS_SOCKET_Shutdown 0x021D85B4 arm ov125
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   sGdsSearchCategories 0x021D8C80 data a2
  *   GDS_SOCKET_GetState 0x021D85C0 arm ov125
@@ -76,11 +76,11 @@
  *   sGdsEmptyString2 0x021D8D2C data a4
  *   d_0214616C 0x0214616C data a4
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
- *   func_020073D8 0x020073D8 thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
  *   BATTLE_REC_Clear 0x0200B448 thumb
  *   GAME_DATA_PartSaveStart 0x02012E4C thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
- *   func_020072A4 0x020072A4 thumb
+ *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
  *   gGdsSocket 0x021D9E40 data a4
  *   gGdsHostTail 0x021DA040 data a4
  *   GDS_SOCKET_ResetConnection 0x021D7808 arm ov125
@@ -102,8 +102,8 @@
  *   GDS_SOCKET_GetRequestSize 0x021D891C arm ov125
  *   GDS_SOCKET_StartThread 0x021D7D30 arm ov125
  *   func_02092344 0x02092344 arm
- *   func_0205A16C  0x0205A16C  arm
- *   func_0205A1B0 0x0205A1B0 arm
+ *   DWC_Alloc  0x0205A16C  arm
+ *   DWC_Free 0x0205A1B0 arm
  *   OS_LockMutex  0x02086028  arm
  *   gGdsSocketMutex     0x021DA174  data  a4
  *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
@@ -123,14 +123,14 @@ typedef signed int s32;
 struct MyStatus;
 struct SaveControl;
 
-extern int func_02034AC4(s32 overlayId);
-extern void func_02034A5C(s32 overlayId);
-extern void func_02034714(const char *file, u32 line, const char *message);
+extern int GF_OVERLAY_Load(s32 overlayId);
+extern void GF_OVERLAY_Unload(s32 overlayId);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *message);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
@@ -143,8 +143,8 @@ extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
 extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
-extern void *func_020073D8(struct SaveControl *save, u32 id, u32 arg);
-extern void func_020072A4(struct SaveControl *save, u32 id);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 extern void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
@@ -243,7 +243,7 @@ extern struct BattleRecSave *d_0214616C;
 
 int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
 {
-    func_02034AC4((int)ov114_id);
+    GF_OVERLAY_Load((int)ov114_id);
     MI_CpuFill8(work, 0, sizeof(GdsRapWork));
     work->heapId = params->heapId;
     work->gameData = params->gameData;
@@ -252,16 +252,16 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->lastSocketState = -1;
     work->requestId = GDS_REQUEST_NONE;
     work->finishedRequestId = GDS_REQUEST_NONE;
-    work->replyBuffer = func_02030734(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, sGdsRapFileName, 0x84);
+    work->replyBuffer = GFL_HEAP_Alloc(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, sGdsRapFileName, 0x84);
     MI_CpuFill8(work->replyBuffer, 0, GDS_SOCKET_GetMaxReplySize(-1));
-    work->msgData = func_02045B38(0, 2, 0xE8, params->heapId);
+    work->msgData = MSGDATA_CreateFromArchive(0, 2, 0xE8, params->heapId);
     work->wordSet = WORDSET_CreateDefault(params->heapId);
     work->strBuf = STRBUF_Create(0x100, params->heapId);
     work->client.profileId = params->profileId;
     work->client.packetType = 0x15;
     work->client.protocolVersion = 2;
     if (GDS_SOCKET_Begin(&work->client, sGdsServerHost, 0x3071) != 1)
-        func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+        SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
     work->active = 1;
     work->initialized = 1;
     return 1;
@@ -279,8 +279,8 @@ void GDS_RAP_Exit(GdsRapWork *work)
     STRBUF_Delete(work->strBuf);
     WORDSET_DeleteStrbufED04(work->wordSet);
     MSGDATA_Delete(work->msgData);
-    func_020307B0(work->replyBuffer);
-    func_02034A5C((int)ov114_id);
+    GFL_HEAP_Free(work->replyBuffer);
+    GF_OVERLAY_Unload((int)ov114_id);
 }
 
 
@@ -326,7 +326,7 @@ int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile)
 int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int categoryIndex, int mode, u8 flag)
 {
     if (!GDS_RAP_IsIdle(work)) return 0;
-    if (categoryIndex >= 20) func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+    if (categoryIndex >= 20) SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
     MI_CpuFill8(&work->args.search, 0, 16);
     work->args.search.keyId = keyId;
     work->args.search.category = sGdsSearchCategories[categoryIndex].category;
@@ -435,7 +435,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
         case 0:
             video = GDS_RAP_GetVideoWork();
             if (work->session != 0)
-                func_02034714(sGdsEmptyString, ret, sGdsEmptyString);
+                SAVEDATA_PanicFail(sGdsEmptyString, ret, sGdsEmptyString);
             work->session = NHTTP_RAP_Create((u16)work->heapId, func_0200853C(GAME_DATA_GetMyStatus(work->gameData)), work->profileSource);
             NHTTP_RAP_AllocPostData(work->session, (u16)work->heapId, 0x540, 3);
             BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
@@ -445,9 +445,9 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
                 work->memberCount += (u8)video->body.party[i].count;
             }
             if (!NHTTP_RAP_CreatePostRequest(work->session))
-                func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+                SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
             if (!(NHTTP_RAP_StartConnection(work->session) == 0 ? 1 : 0))
-                func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+                SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
             work->step++;
             break;
         case 1:
@@ -551,7 +551,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
         ret = GDS_SOCKET_SendMarkVideo(work->arg2.dataNumber.lo, work->arg2.dataNumber.hi, work->replyBuffer);
         break;
     default:
-        func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+        SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
         break;
     }
     if (ret == 1)
@@ -679,7 +679,7 @@ int GDS_RAP_ReadReply(GdsRapWork *work)
     int result = 1;
     reply = (const GdsReply *)GDS_SOCKET_GetReply();
     GDS_SOCKET_GetReplySize();
-    if (work->finishedRequestId != reply->requestId) func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+    if (work->finishedRequestId != reply->requestId) SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
     work->pending.callback = 0;
     switch (reply->requestId) {
     case 0: break;
@@ -791,7 +791,7 @@ int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
     count = list->count;
     if (count > max) {
         count = max;
-        func_02034714(sGdsEmptyString2, 0, sGdsEmptyString2);
+        SAVEDATA_PanicFail(sGdsEmptyString2, 0, sGdsEmptyString2);
     }
     MI_CpuFill8(dst, 0, max * sizeof(GdsVideoListing));
     i = 0;
@@ -904,11 +904,11 @@ int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 
 
 
 
-void GDS_RAP_StartVideoSave(struct GameData *gameData, u8 heap, u32 id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); SAVE_CONTROL_LoadExtraSave(save,id,heap); BATTLE_REC_Clear(func_020073D8(save,id,0)); GAME_DATA_PartSaveStart(gameData,id);}
+void GDS_RAP_StartVideoSave(struct GameData *gameData, u8 heap, u32 id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); SAVE_CONTROL_LoadExtraSave(save,id,heap); BATTLE_REC_Clear(SAVE_CONTROL_GetExtraSaveRecord(save,id,0)); GAME_DATA_PartSaveStart(gameData,id);}
 
 
 
-int GDS_RAP_StepVideoSave(struct GameData *gameData, int id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); int r=GAME_DATA_PartSaveMain(gameData,id); if(r==2 || r==3) func_020072A4(save,id); return r;}
+int GDS_RAP_StepVideoSave(struct GameData *gameData, int id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); int r=GAME_DATA_PartSaveMain(gameData,id); if(r==2 || r==3) SAVE_CONTROL_DeleteExtraSave(save,id); return r;}
 
 
 
@@ -938,8 +938,8 @@ extern int GDS_SOCKET_GetMaxReplySizeOf(int requestId);
 extern int GDS_SOCKET_GetRequestSize(int requestId);
 extern int GDS_SOCKET_StartThread(void);
 extern void *func_02092344(void *dest, const void *src, unsigned n);
-extern char *func_0205A16C(int heap, int size);
-extern void func_0205A1B0(int heap, int ptr, int flags);
+extern char *DWC_Alloc(int heap, int size);
+extern void DWC_Free(int heap, int ptr, int flags);
 extern void OS_LockMutex(void *mutex);
 int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *client);
 void GDS_SOCKET_ResetConnection(void);
@@ -1182,11 +1182,11 @@ int GDS_SOCKET_GetErrorUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUn
  */
 char *GDS_SOCKET_Alloc(int size)
 {
-    return func_0205A16C(0, size);
+    return DWC_Alloc(0, size);
 }
 
 
-void GDS_SOCKET_Free(int ptr){if(ptr)func_0205A1B0(0,ptr,0);}
+void GDS_SOCKET_Free(int ptr){if(ptr)DWC_Free(0,ptr,0);}
 
 
 

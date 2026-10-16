@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_02007210  0x02007210  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   func_020071EC  0x020071EC  thumb
- *   func_020351F8  0x020351F8  arm
+ *   UI_SetIntrDataGlobal  0x020351F8  arm
  *   SAVE_CONTROL_StartSave  0x02007150  thumb
  *   func_02008764  0x02008764  thumb
  *   func_02007218  0x02007218  thumb
@@ -32,11 +32,11 @@ struct Sub020071E4Ctrl;
 struct Sub02007168;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
-extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned int, unsigned int, int, const char *, unsigned short);
 extern unsigned char func_020071EC(const struct Sub020071E4Ctrl *);
-extern void func_020351F8(u32 a, u32 b);
+extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 int SAVE_CONTROL_StartSave(int a0);
 void func_02008764(void *);
 u8 func_02007218(const struct Sub020071E4Ctrl *ctrl);
@@ -62,25 +62,25 @@ typedef struct SaveControlIntr {
 
 
 /*
- * func_020351F8 (arm) resolves through the matched entry
+ * UI_SetIntrDataGlobal (arm) resolves through the matched entry
  * src/matched/arm9/UI_SetIntrDataGlobal.c.
  */
 void *SAVE_CONTROL_INTR_Create(int heapId, int saveControl)
 {
-    SaveControlIntr *intr = (SaveControlIntr *)func_02030734(heapId, 0x10, 1, (const char *)0x021BDA0C, 0x45);
+    SaveControlIntr *intr = (SaveControlIntr *)GFL_HEAP_Alloc(heapId, 0x10, 1, (const char *)0x021BDA0C, 0x45);
     intr->saveControl = (void *)saveControl;
     if (func_020071EC((const struct Sub020071E4Ctrl *)saveControl) == 1) {
         intr->cancelled = 1;
     } else {
-        func_020351F8(0x021BD3B9, (int)intr);
+        UI_SetIntrDataGlobal(0x021BD3B9, (int)intr);
     }
     return intr;
 }
 
 void SAVE_CONTROL_INTR_Delete(void *p)
 {
-    func_020351F8(0, 0);
-    func_020307B0(p);
+    UI_SetIntrDataGlobal(0, 0);
+    GFL_HEAP_Free(p);
 }
 
 

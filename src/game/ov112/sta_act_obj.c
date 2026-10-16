@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F83F8 0x021F83F8 data a4
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -57,8 +57,8 @@ typedef struct {
     StaActObjEntry entries[5];
 } StaActObjObject;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void GFL_HEAP_Free(void *);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
@@ -81,7 +81,7 @@ StaActObjObject *STA_ACT_OBJ_Create(u16 heap, void *board)
     StaActObjObject *o;
     u8 i;
     i=0;
-    o=func_02030734(heap,148,0,d_021F83F8,79);
+    o=GFL_HEAP_Alloc(heap,148,0,d_021F83F8,79);
     o->heap=heap;
     o->board=board;
     o->count=0;
@@ -89,7 +89,7 @@ StaActObjObject *STA_ACT_OBJ_Create(u16 heap, void *board)
     return o;
 }
 
-void STA_ACT_OBJ_Delete(char *p) {u8 i;for(i=0;i<5;i++)if(((StaActObjObject *)p)->entries[i].active==1)STA_ACT_OBJ_FreeEntry((u32 *)p,&((StaActObjObject *)p)->entries[i]);func_020307B0(p);}
+void STA_ACT_OBJ_Delete(char *p) {u8 i;for(i=0;i<5;i++)if(((StaActObjObject *)p)->entries[i].active==1)STA_ACT_OBJ_FreeEntry((u32 *)p,&((StaActObjObject *)p)->entries[i]);GFL_HEAP_Free(p);}
 
 /*
  * lever: Load adds the index before offset eight; the call adds offset eight before the index.

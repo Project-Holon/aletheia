@@ -94,7 +94,7 @@ typedef struct {
     u8 bitmap[0x600];        /* 0x74 signature bitmap */
 } ViewerInfo;
 
-/* Character graphics data, written by func_02049DB4 into work->chr. */
+/* Character graphics data, written by ARC_UTIL_LoadBgCharDataFromArchive into work->chr. */
 typedef struct {
     u8 pad0[0x10];
     u32 size;
@@ -269,7 +269,7 @@ typedef struct {
  * The size must stay 0x1C8.
  */
 typedef struct {
-    void *arc;               /* 0x000 archive handle (func_020490F4) */
+    void *arc;               /* 0x000 archive handle (ARC_TOOL_CreateHandle) */
     void *font;              /* 0x004 GfFont */
     void *bgWindow;          /* 0x008 bmp window (VIEWER_ACTOR_InitBgWindow) */
     void *printWindow;       /* 0x00C window used for printing (= bgWindow) */

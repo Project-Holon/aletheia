@@ -14,8 +14,8 @@
  *
  * symbols:
  *   d_021DE4D4  0x021DE4D4  data  ov021  a4
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "field_task_types.h"
 
@@ -25,9 +25,9 @@ enum {
     FIELD_TASK_STATE_FINISHED = 2,
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern char d_021DE4D4[];
 
@@ -54,9 +54,9 @@ void FIELD_TASK_RunCheck(FieldTask *task);
 /* Allocates a task and its work block. */
 FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
 {
-    FieldTask *task = func_02030734(heapId, 0xc, 0, d_021DE4D4, 0x3b);
+    FieldTask *task = GFL_HEAP_Alloc(heapId, 0xc, 0, d_021DE4D4, 0x3b);
     task->state = FIELD_TASK_STATE_CREATED;
-    task->work = func_02030734(heapId, workSize, 1, d_021DE4D4, 0x3d);
+    task->work = GFL_HEAP_Alloc(heapId, workSize, 1, d_021DE4D4, 0x3d);
     task->check = check;
     return task;
 }
@@ -64,8 +64,8 @@ FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
 /* Frees the work block and the task. */
 void FIELD_TASK_Delete(FieldTask *task)
 {
-    func_020307B0(task->work);
-    func_020307B0(task);
+    GFL_HEAP_Free(task->work);
+    GFL_HEAP_Free(task);
 }
 
 /* Runs the check callback once. */

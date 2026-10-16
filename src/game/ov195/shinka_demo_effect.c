@@ -13,8 +13,8 @@
  * Cut from shinka_demo_view.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   FX_SinCosTable_ 0x020A1B38 data
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   d_02208F7C 0x02208F7C data
@@ -40,7 +40,7 @@
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   d_02208EC0 0x02208EC0 data
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_020489F4 0x020489F4 arm
+ *   G3D_UTIL_GetUnitObjIdx 0x020489F4 arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
@@ -140,9 +140,9 @@ typedef struct EffectParticle {
 
 typedef struct EffectNode {u16 id;u16 pad02;fx32 tx,ty,tz,sx,sy,sz;u8 mtx[0x24];u32 f40;} EffectNode;
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MTX_Identity33_(MtxFx33 *m);
 
@@ -180,7 +180,7 @@ extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
 extern u16 G3D_UTIL_AddUnit(void *res, void *name);
 
-extern u32 func_020489F4(u8 *a0, int i);
+extern u32 G3D_UTIL_GetUnitObjIdx(u8 *a0, int i);
 
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 
@@ -262,7 +262,7 @@ extern char d_02208EC0[];
 
 Node *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n)
 {
-    Node *p = func_02030734(heap, n * sizeof(Node), 1, d_02208F7C, 0xe8);
+    Node *p = GFL_HEAP_Alloc(heap, n * sizeof(Node), 1, d_02208F7C, 0xe8);
     u16 i;
 
     for (i = 0; i < n; i++) {
@@ -277,11 +277,11 @@ Node *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n)
     return p;
 }
 
-void SHINKA_DEMO_EFFECT_FreeNode(void *p){func_020307B0(p);}
+void SHINKA_DEMO_EFFECT_FreeNode(void *p){GFL_HEAP_Free(p);}
 
 EffectModel *SHINKA_DEMO_EFFECT_Create(u16 heap, u32 x)
 {
-    EffectModel *p = func_02030734(heap, sizeof(EffectModel), 1, d_02208F7C, 0x150);
+    EffectModel *p = GFL_HEAP_Alloc(heap, sizeof(EffectModel), 1, d_02208F7C, 0x150);
 
     p->heap = heap;
     p->mode = x;
@@ -301,7 +301,7 @@ void SHINKA_DEMO_EFFECT_Destroy(char *a)
     SHINKA_DEMO_EFFECT_RemoveUnit(a);
     SHINKA_DEMO_EFFECT_DeleteUnit(a);
     SHINKA_DEMO_EFFECT_DeleteParticle((char *)(((EffectModel *)a)->ptc));
-    func_020307B0(a);
+    GFL_HEAP_Free(a);
 }
 
 void SHINKA_DEMO_EFFECT_Main(EffectModel *p)
@@ -422,7 +422,7 @@ Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 a, void *b)
     prm.f18 = 0x400000;
     prm.f1c = 0;
 
-    p = func_02030734(heap, sizeof(Ptc), 1, d_02208F7C, 0x2e5);
+    p = GFL_HEAP_Alloc(heap, sizeof(Ptc), 1, d_02208F7C, 0x2e5);
     p->f00 = 0;
     p->f02 = 0;
     p->f04 = a;
@@ -442,7 +442,7 @@ Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 a, void *b)
 void SHINKA_DEMO_EFFECT_DeleteParticle(char *a)
 {
     PARTICLE_ExitManager();
-    func_020307B0(a);
+    GFL_HEAP_Free(a);
 }
 
 void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *p)
@@ -504,7 +504,7 @@ void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *p)
     p->f18 = G3D_UTIL_AddUnit(p->res, d_02208EC0);
     p->count = 1;
     p->nodes = (EffectNode *)SHINKA_DEMO_EFFECT_CreateNodes(p->heap, p->count);
-    id = func_020489F4(p->res, p->f18);
+    id = G3D_UTIL_GetUnitObjIdx(p->res, p->f18);
     n = p->nodes;
     p->f1a = 0;
     n->id = id;

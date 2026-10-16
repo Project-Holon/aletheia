@@ -36,7 +36,7 @@
  *   ENCEFF_GetWork 0x021CF560 thumb ov021
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   SCREENTEX_SetupCamera 0x0202E688 thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FADE_Start  0x0204E720  arm
@@ -72,7 +72,7 @@ struct G3dRec;
 struct G3dSys;
 struct Rec;
 struct Tagged;
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void SCREENTEX_SetupCamera(void *object);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
@@ -141,7 +141,7 @@ void *ENCEFF_StartModelScene(void *gameSystem, struct FieldMap *fieldMap, u32 mo
     void *event;
 
     scene = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffModelScene), 0x50);
-    event = func_020122C0(gameSystem, 0, ENCEFF_ModelSceneEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_ModelSceneEventMain, 0);
     scene->fieldMap = fieldMap;
     scene->modelIndex = modelIndex;
     scene->animeIndex = animeIndex;

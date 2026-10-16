@@ -13,17 +13,17 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   sTpokeData82   0x020A76CC  data
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Clear  0x0204581C  arm
@@ -106,21 +106,21 @@ struct TrainerKindRecord {
     u16 group : 5;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int   ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);
 extern u32   ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void  ARC_TOOL_DeleteHandle(void *h);
 u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype);
 int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
 u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Clear(struct U16Vec *vec);
@@ -154,7 +154,7 @@ Tpoke *TPOKE_DATA_Create(int heap)
     Tpoke *p;
     u32 size;
 
-    p = (Tpoke *)func_02030734(heap, 0x10, 1, sTpokeData82, 82);
+    p = (Tpoke *)GFL_HEAP_Alloc(heap, 0x10, 1, sTpokeData82, 82);
     p->handle = ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
     p->count = size >> 3;
     p->buf = ARC_TOOL_LoadMember(0x30, 0, heap);
@@ -169,9 +169,9 @@ Tpoke *TPOKE_DATA_Create(int heap)
 
 void TPOKE_Delete(Tpoke *tpoke)
 {
-    func_020307B0(tpoke->buf);
-    func_020307B0((void *)tpoke->handle);
-    func_020307B0(tpoke);
+    GFL_HEAP_Free(tpoke->buf);
+    GFL_HEAP_Free((void *)tpoke->handle);
+    GFL_HEAP_Free(tpoke);
 }
 
 
@@ -326,7 +326,7 @@ u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
 
     end = ARC_TOOL_GetMemberSize(0x5a, 0);
     ARC_TOOL_ReadMemberRange(rec, 0x5b, 0, key * 2, (u32 *)2);
-    h = func_020490F4(0x5a, heap);
+    h = ARC_TOOL_CreateHandle(0x5a, heap);
 
     while (rec[0] != end) {
         ARC_TOOL_ReadHandleMemberRange(h, 0, rec[0], 4, &rec[1]);
@@ -353,10 +353,10 @@ void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
     void *bank;
     u32   end;
 
-    bank = func_02045B38(0, 2, 0xbd, heap);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0xbd, heap);
     end = ARC_TOOL_GetMemberSize(0x5a, 0);
     ARC_TOOL_ReadMemberRange(rec, 0x5b, 0, key * 2, (u32 *)2);
-    h = func_020490F4(0x5a, heap);
+    h = ARC_TOOL_CreateHandle(0x5a, heap);
 
     while (rec[0] != end) {
         ARC_TOOL_ReadHandleMemberRange(h, 0, rec[0], 4, &rec[1]);

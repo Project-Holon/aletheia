@@ -13,9 +13,9 @@
  * Cut from bmp_oam.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   g_020A7484     0x020A7484  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   PALANM_CopyHwPaletteToSlot   0x020216D4  thumb
@@ -33,9 +33,9 @@ struct ActorTool {
     u8  slot[2][16];
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern s32 CLACT_RegisterPaletteEx(void *src, u32 resId, u32 bank, u32 vramOff, u16 reserved, u16 len, u16 flags);
 
@@ -71,7 +71,7 @@ extern char  g_020A7484[];
 
 struct ActorTool *ACTOR_TOOL_Create(u32 heapId, u8 bank0Count, u8 bank1Count)
 {
-    struct ActorTool *tool = func_02030734(heapId, 0x28, 1, g_020A7484, 0x51);
+    struct ActorTool *tool = GFL_HEAP_Alloc(heapId, 0x28, 1, g_020A7484, 0x51);
     int bank, slotIdx;
 
     tool->slotCount[0] = bank0Count;
@@ -86,7 +86,7 @@ struct ActorTool *ACTOR_TOOL_Create(u32 heapId, u8 bank0Count, u8 bank1Count)
 
 void ACTOR_TOOL_Delete(struct ActorTool *tool)
 {
-    func_020307B0(tool);
+    GFL_HEAP_Free(tool);
 }
 
 /*

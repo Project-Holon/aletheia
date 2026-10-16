@@ -18,9 +18,9 @@
  *   gDwcLoginControl  0x021AA874  data
  *   DWCi_IsError  0x02059F38  arm
  *   func_02185948  0x02185948  arm  ov009
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv  0x0209C00C  arm
- *   func_02059F54  0x02059F54  arm
+ *   DWCi_SetError  0x02059F54  arm
  *   DWCi_Auth_IsFinished  0x02178E70  arm  ov009
  *   DWCi_Auth_AbortAuthentication  0x02178DA4  arm  ov009
  *   DWCi_Auth_ShutdownAuthentication  0x02178EF4  arm  ov009
@@ -46,8 +46,8 @@
  *   OS_GetTick     0x020870D0  arm
  *   DWCi_Acc_SetPlayerId  0x020590F0  arm
  *   DWCi_Auth_StartAuthentication  0x02178D14  arm  ov009
- *   func_0205A16C  0x0205A16C  arm
- *   func_0205A1B0  0x0205A1B0  arm
+ *   DWC_Alloc  0x0205A16C  arm
+ *   DWC_Free  0x0205A1B0  arm
  *   DWCi_Auth_ProcessAuthentication  0x02178DB4  arm  ov009
  *   DWCi_Auth_IsSucceeded  0x02178E80  arm  ov009
  *   DWCi_Auth_GetGameSpyToken  0x02178EA0  arm  ov009
@@ -160,7 +160,7 @@ void DWCi_LoginProcess(void)
 		if (gDwcLoginControl->connection != 0 && *gDwcLoginControl->connection != 0)
 			func_02185948(gDwcLoginControl->connection);
 		if (gDwcLoginControl->connectFlag != 0) {
-			elapsed = func_020870D0() - gDwcLoginControl->tick;
+			elapsed = OS_GetTick() - gDwcLoginControl->tick;
 			if (elapsed * 64 / 0x82ea > 60000) {
 				DWCi_StopLogin(6, -61070);
 				gDwcLoginControl->connectFlag = 0;
@@ -203,7 +203,7 @@ DWCstAccUserData *DWCi_GetUserData(void)
 void DWCi_StopLogin(int error, int errorCode)
 {
     if (gDwcLoginControl == 0 || error == 0) return;
-    func_02059F54(error, errorCode);
+    DWCi_SetError(error, errorCode);
     if (gDwcLoginControl->callback != 0) {
         gDwcLoginControl->callback(error, 0, gDwcLoginControl->param);
     }
@@ -356,7 +356,7 @@ void DWCi_GPConnect(GPCallback callback, int next_state)
 	int gpResult;
 	u64 tick;
 
-	tick = func_020870D0();
+	tick = OS_GetTick();
 	gDwcLoginControl->tick = tick;
 	gDwcLoginControl->connectFlag = 1;
 	gpResult = gpConnectPreAuthenticatedA(gDwcLoginControl->connection, gDwcLoginControl->authToken, gDwcLoginControl->partnerChallenge, 1, 0, callback, 0);
@@ -387,7 +387,7 @@ int DWCi_RemoteLogin(void)
         DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->loginId, gDwcLoginControl->gamecode, gDwcLoginControl->username);
         userid = 0;
     }
-    return DWCi_Auth_StartAuthentication(gDwcLoginControl->playerName, gDwcLoginControl->gsbrcd, userid, func_0205A16C, func_0205A1B0);
+    return DWCi_Auth_StartAuthentication(gDwcLoginControl->playerName, gDwcLoginControl->gsbrcd, userid, DWC_Alloc, DWC_Free);
 }
 
 

@@ -15,23 +15,23 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02034AC4 0x02034AC4 arm
- *   func_02030734 0x02030734 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   KEY_GetCont 0x0203630C arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MUSICAL_MCSS_Create 0x021F4284 thumb ov112
  *   WIPE_SYS_Start 0x0202208C thumb
  *   d_021F836C 0x021F836C data a4
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   MUSICAL_MCSS_Delete 0x021F4300 thumb ov112
- *   func_02030EAC 0x02030EAC arm
- *   func_02034A5C 0x02034A5C arm
- *   func_020307B0 0x020307B0 arm
- *   func_020315D4 0x020315D4 arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ov_abs_84 0x00000084 data
  *   MUSICAL_MCSS_Main 0x021F4350 thumb ov112
@@ -84,9 +84,9 @@ extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 
@@ -94,7 +94,7 @@ extern u16 STRBUF_GetEosChar(void);
 
 extern u32 KEY_GetCont(void);
 
-extern void *func_020056A0(u32,u32,u32);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
 
 extern void *MUSICAL_MCSS_Create(u8 *,u32,u32,u32,u16);
 
@@ -104,17 +104,17 @@ extern unsigned WIPE_SYS_EndCheck(void);
 
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void MUSICAL_MCSS_Delete(u8 *);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
@@ -184,10 +184,10 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
  GFL_HEAP_CreateChildHeap(1,74,1<<19);
  p=PROCSYS_AllocProcWork(owner,20,74);p->heap=74;
  if(save==0){
-  func_02034AC4((u32)ov132_id);
-  p->save=func_02030734(74,20,0,d_021F836C,110);
+  GF_OVERLAY_Load((u32)ov132_id);
+  p->save=GFL_HEAP_Alloc(74,20,0,d_021F836C,110);
   length=ConfigSize;
-  p->save->config=func_02030734(74,length,1,d_021F836C,111);
+  p->save->config=GFL_HEAP_Alloc(74,length,1,d_021F836C,111);
   p->save->b=0;
   cfg=p->save->config;
   GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&options));
@@ -224,8 +224,8 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   if(KEY_GetCont()&256)p->save->a=1;else p->save->a=0;
   p->save->c=0;
  }else p->save=(Save *)save;
- if(p->save->b==1)func_02034AC4((u32)ov132_id);
- p->task=func_020056A0((u32)MUSICAL_SHOT_SYS_VBlank,(u32)p,64);
+ if(p->save->b==1)GF_OVERLAY_Load((u32)ov132_id);
+ p->task=GFL_USE_AddMainTask((u32)MUSICAL_SHOT_SYS_VBlank,(u32)p,64);
  MUSICAL_SHOT_SYS_InitGraphics((u8 *)p);
  p->scene=MUSICAL_SHOT_SYS_CreateScene(p->save->config,p->heap);
  p->actors=MUSICAL_MCSS_Create(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
@@ -236,18 +236,18 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     if (!WIPE_SYS_EndCheck()) return 0;
     GXx_SetMasterBrightness_((void *)0x0400006c,-16);
     GXx_SetMasterBrightness_((void *)0x0400106c,-16);
-    func_0207D63C((void *)0x04000050,0,0,31,31);
+    G2x_SetBlendAlpha_((void *)0x04000050,0,0,31,31);
     MUSICAL_MCSS_Delete(((State *)p)->actors);
     MUSICAL_SHOT_SYS_DeleteScene(((State *)p)->scene);
     MUSICAL_SHOT_SYS_ExitGraphics(p);
-    func_02030EAC(((State *)p)->task);
-    if (((State *)p)->save->b==1) func_02034A5C((int)ov_abs_84);
+    TCB_DeleteTask(((State *)p)->task);
+    if (((State *)p)->save->b==1) GF_OVERLAY_Unload((int)ov_abs_84);
     if (flag==0) {
-        func_020307B0(((State *)p)->save->config);
-        func_020307B0(((State *)p)->save);
-        func_02034A5C((int)ov_abs_84);
+        GFL_HEAP_Free(((State *)p)->save->config);
+        GFL_HEAP_Free(((State *)p)->save);
+        GF_OVERLAY_Unload((int)ov_abs_84);
     }
-    func_020315D4(owner);
+    PROCSYS_FreeProcWork(owner);
     GFL_HEAP_DeleteChecked(74);
     return 1;
 }

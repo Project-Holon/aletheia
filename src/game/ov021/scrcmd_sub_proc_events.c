@@ -23,7 +23,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -87,7 +87,7 @@ typedef struct SubProcEventWork {
 } SubProcEventWork;
 
 extern void *GAME_DATA_GetSaveControl(struct SaveControl *gameData);
-struct GameEvent *func_020122C0(void *owner, void *parent, void *handler, u32 workSize);
+struct GameEvent *GAME_EVENT_Create(void *owner, void *parent, void *handler, u32 workSize);
 void *func_020124E8(struct GameEvent *event);
 extern void *FIELD_STATUS_CreateSubProcEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork);
 extern void *FIELD_STATUS_CreateSubProcNoFadeEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork);
@@ -123,7 +123,7 @@ extern char ov171_id[];
  */
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode)
 {
-    void *task = func_020122C0(gameSystem, 0, SCRCMD_NameInEventMain, 0x10);
+    void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NameInEventMain, 0x10);
     NameInEventWork *work = func_020124E8(task);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -170,7 +170,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     if ((int)POKEPARTY_GetCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem))) <= partyIndex) {
         partyIndex = 0;
     }
-    event = (int)func_020122C0(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
+    event = (int)GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
     work = func_020124E8((struct GameEvent *)event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -221,7 +221,7 @@ int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventW
  */
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result)
 {
-    void *task = func_020122C0(gameSystem, 0, SCRCMD_SubProcEventMain, 0x14);
+    void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SubProcEventMain, 0x14);
     SubProcEventWork *work = func_020124E8(task);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);

@@ -39,6 +39,9 @@
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
  *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
  *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
+ *   OS_SendMessage  0x02085DBC  arm  arm9
+ *   OS_ReceiveMessage  0x02085E50  arm  arm9
+ *   OS_GetTick  0x020870D0  arm  arm9
  */
 typedef unsigned int u32;
 typedef signed int s32;
@@ -123,11 +126,11 @@ extern u32 data_027340EC[];
 extern u16 data_04000208;
 
 extern u32 OS_IsRunOnTwl(void);
-extern u64 func_020870D0(void);
-extern void func_02085DBC(u32*, u32, u32);
+extern u64 OS_GetTick(void);
+extern void OS_SendMessage(u32*, u32, u32);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_Sleep(u32);
-extern u32 func_02085E50(u32*, u32*, u32);
+extern u32 OS_ReceiveMessage(u32*, u32*, u32);
 extern void func_02087974(void);
 extern void PXI_Init(void);
 extern u32 PXI_IsCallbackReady(u32, u32);
@@ -219,7 +222,7 @@ void CAMERA_CameraIntr(void) {
             cb(0);
         }
     } else {
-        data_02732FC8.tick = func_020870D0();
+        data_02732FC8.tick = OS_GetTick();
         cb = data_02732FC8.cbA;
         if (cb != 0) {
             cb(0);
@@ -295,7 +298,7 @@ u32 CAMERA_GetExposureFromPhotoMode(u32 a0) {
 void CAMERA_GoReboot(void) {
     data_02732FC8.busy = 1;
     data_02733FC8.f1ac++;
-    func_02085DBC(data_0273417C, 0, 0);
+    OS_SendMessage(data_0273417C, 0, 0);
 }
 
 
@@ -502,7 +505,7 @@ void CAMERA_MonitorThread(void) {
     OS_DisableInterrupts();
     for (;;) {
         OS_Sleep(100);
-        if (func_02085E50(data_0273417C, &msg, 0) != 0) {
+        if (OS_ReceiveMessage(data_0273417C, &msg, 0) != 0) {
             goto handle;
         }
         if (data_02733FC8.f1ac != 0) {
@@ -519,7 +522,7 @@ void CAMERA_MonitorThread(void) {
             continue;
         }
         data_02733FC8.f1b0 = 0;
-        d = (s32)(func_020870D0() - data_02732FC8.tick);
+        d = (s32)(OS_GetTick() - data_02732FC8.tick);
         if ((u64)(s64)d < 0x7FD88) {
             continue;
         }
@@ -726,7 +729,7 @@ u32 CAMERA_I2CActivateAsyncCore(u32 a0, CamPxiCallback a1, u32 a2)
     if (data_02733FC8.f1ac == 0) {
         data_02733FC8.value = 0;
     }
-    tick = func_020870D0();
+    tick = OS_GetTick();
     data_02732FC8.tick = tick;
     return CameraSendPxiCommand(0x10, 1, a0 & 0xff) != 0 ? 0 : 4;
 }

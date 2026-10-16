@@ -13,7 +13,7 @@
  * Cut from config.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
  *   mystatus_file_name      0x020A70AC  data
  *   sub_0201F41C        0x0201F41C  thumb
  *   STRBUF_SetString        0x02045924  arm
@@ -31,7 +31,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 /* The debug allocator: heap, size, clear, __FILE__ string, __LINE__. */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 
@@ -51,7 +51,7 @@ void MYSTATUS_NameToStrbuf(const u16 *name, struct Strbuf *buf);
 
 void *MYSTATUS_Create(int heap_id)
 {
-    struct MyStatus *mystatus = func_02030734((u16)heap_id, sizeof(struct MyStatus), 0, mystatus_file_name, 0x34);
+    struct MyStatus *mystatus = GFL_HEAP_Alloc((u16)heap_id, sizeof(struct MyStatus), 0, mystatus_file_name, 0x34);
     MYSTATUS_Init(mystatus);
     return mystatus;
 }

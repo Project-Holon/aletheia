@@ -17,7 +17,7 @@
  *   MTX_Identity33_  0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
@@ -45,7 +45,7 @@
  *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   sFishingDrawStatus  0x021D92FC  data
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 #include "../ov010/fldmmdl_types.h"
 #include "field_effect_types.h"
@@ -116,8 +116,8 @@ typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const G
 extern void MTX_Identity33_(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
@@ -160,7 +160,7 @@ extern G3dObjectStatus sFishingDrawStatus;                     /* draw status te
 /* Loads the resources of the fishing rod effect. */
 FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    FishingRodRes *res = func_02030734(heapId, 0x18, 1, sFldeffFishingFileName, 0x60);
+    FishingRodRes *res = GFL_HEAP_Alloc(heapId, 0x18, 1, sFldeffFishingFileName, 0x60);
     res->fieldEffect = fieldEffect;
     FLDEFF_FISHING_LoadResources(res);
     return res;
@@ -169,7 +169,7 @@ FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res)
 {
     FLDEFF_FISHING_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 void FLDEFF_FISHING_LoadResources(FishingRodRes *res)

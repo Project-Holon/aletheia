@@ -29,7 +29,7 @@
  *   NNS_FndAllocFromFrmHeapEx  0x02061124  arm
  *   NNS_FndAppendListObject  0x020604AC  arm
  *   SND_GetCurrentCommandTag  0x02089D40  arm
- *   func_02089B38  0x02089B38  arm
+ *   SND_FlushCommand  0x02089B38  arm
  *   SND_WaitForCommandProc  0x02089CD4  arm
  *   SND_AssignWaveArc  0x0208A2BC  arm
  *   DC_StoreRange  0x020862D4  arm
@@ -68,7 +68,7 @@ extern int  NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName);
 extern int  NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
 extern void NNS_FndInitList(NNSFndList *list, int offset);
 extern u32  SND_GetCurrentCommandTag(void);
-extern void func_02089B38(u32 block);
+extern void SND_FlushCommand(u32 block);
 extern void SND_WaitForCommandProc(u32 tag);
 extern void SND_AssignWaveArc(u32 bank, u32 waveArcIndex, u32 waveArc);
 extern void DC_StoreRange(void *addr, u32 size);
@@ -614,7 +614,7 @@ int NNSi_SndHeapAllocLevel(NNSSndHeap *heap)
 void NNSi_SndHeapFlushCommands(void)
 {
     u32 tag = SND_GetCurrentCommandTag();
-    func_02089B38(1);
+    SND_FlushCommand(1);
     SND_WaitForCommandProc(tag);
 }
 

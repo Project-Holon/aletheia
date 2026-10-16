@@ -13,8 +13,8 @@
  * Cut from time_icon.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734    0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   comm_player_support_File     0x020A77EC  data
  *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Init  0x020084A0  thumb
@@ -56,9 +56,9 @@ struct PeerBook {
     u8 macs[3][6];                  /* 0x22 */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 
@@ -124,7 +124,7 @@ extern const char comm_player_support_File[];
 
 struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId)
 {
-    struct CommPlayerSupport *support = func_02030734(heapId, 0x4c, 1, comm_player_support_File, 0x2c);
+    struct CommPlayerSupport *support = GFL_HEAP_Alloc(heapId, 0x4c, 1, comm_player_support_File, 0x2c);
 
     COMM_PLAYER_SUPPORT_Init(support);
     return support;
@@ -138,7 +138,7 @@ struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId)
  */
 void COMM_PLAYER_SUPPORT_Delete(void *support)
 {
-    func_020307B0(support);
+    GFL_HEAP_Free(support);
 }
 
 void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support)

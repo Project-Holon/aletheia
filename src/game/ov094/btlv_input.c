@@ -13,27 +13,27 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   ARC_UTIL_LoadScreenDataFromArchive  0x02049E34  arm
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
- *   func_02030CB0  0x02030CB0  arm
- *   func_02030CBC  0x02030CBC  arm
- *   func_020056A0  0x020056A0  thumb
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   TCB_Noop 0x02030DA4 arm
  *   TCB_Main  0x02030D28  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   KEY_GetTrg 0x020362DC arm
  *   PALANM_BlendColors  0x02021F64  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -70,7 +70,7 @@
  *   CLACT_GetUnitDrawEnable  0x0204B248  arm
  *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
@@ -88,8 +88,8 @@
  *   d_0220AE98     0x0220AE98  data
  *   d_0220AEA4     0x0220AEA4  data
  *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb  ov093
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
  *   PALANM_GetDefaultWork 0x02021728 thumb
  *   MIi_CpuCopy16 0x02082A60 arm
@@ -157,7 +157,7 @@
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  *   FADE_Start  0x0204E720  arm  arm9
  *   FADE_IsActive  0x0204E804  arm  arm9
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
@@ -181,6 +181,7 @@
  *   BG_SYS_ClearLayer  0x0204152C  arm  arm9
  *   APP_ICON_GetTypePaletteOffset  0x020275EC  thumb  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
  */
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
@@ -512,29 +513,29 @@ typedef struct BtlvInputButtonFlashTask {
 } BtlvInputButtonFlashTask;
 
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *BTL_MAIN_GetCompetitor(void ***);
 
-extern unsigned func_02030CB0(unsigned);
+extern unsigned TCB_GetTaskOffset(unsigned);
 
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 
-extern void *func_020056A0(void (*)(void *, void *), void *, int);
+extern void *GFL_USE_AddMainTask(void (*)(void *, void *), void *, int);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void TCB_Noop(void *);
 
 extern void * TCB_Main(struct Ctx *c);
 
-extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
+extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
@@ -543,7 +544,7 @@ extern u32 KEY_GetTrg(void);
 
 extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
@@ -553,7 +554,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
@@ -585,7 +586,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
@@ -637,7 +638,7 @@ extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 
@@ -655,9 +656,9 @@ extern int BTLV_FINGER_CURSOR_IsActive(void *h);
 
 extern int BTL_POKEPARAM_IsTransformed(struct BtlPokeParam *p);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
@@ -687,7 +688,7 @@ extern int FADE_IsActive(void);
 
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern int FX_ModS32(int n, int d);
 
@@ -1075,10 +1076,10 @@ BtlvInput *BTLV_INPUT_Create(int a, int b, int c, int d, int e, int f, int g, in
     BtlvInputVisibilityTask *r;
     int i;
 
-    input = func_02030734(heap, 0x2e0, 1, d_0220AEB0, 0x39a);
+    input = GFL_HEAP_Alloc(heap, 0x2e0, 1, d_0220AEB0, 0x39a);
     input->heap = heap;
-    input->taskMgrMem = func_02030734(input->heap, func_02030CB0(8), 1, d_0220AEB0, 0x39e);
-    input->taskMgr = func_02030CBC(8, input->taskMgrMem);
+    input->taskMgrMem = GFL_HEAP_Alloc(input->heap, TCB_GetTaskOffset(8), 1, d_0220AEB0, 0x39e);
+    input->taskMgr = TCB_Init(8, input->taskMgrMem);
     input->infoWinParam = (void *)a;
     input->font = (void *)e;
     input->battleType = b;
@@ -1102,13 +1103,13 @@ BtlvInput *BTLV_INPUT_Create(int a, int b, int c, int d, int e, int f, int g, in
     for (i = 0; i < 4; i++) {
         input->typeChr[i] = -1;
     }
-    input->msgData = func_02045B38(0, 2, 12, input->heap);
+    input->msgData = MSGDATA_CreateFromArchive(0, 2, 12, input->heap);
     input->pending = -1;
     BTLV_INPUT_LoadScreenResources(input);
-    r = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x3cc);
+    r = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x3cc);
     r->owner = input;
     r->mode = g;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, (void (*)(void *, void *))(BTLV_INPUT_VisibilityTaskMain), r, 0), 0);
+    BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, (void (*)(void *, void *))(BTLV_INPUT_VisibilityTaskMain), r, 0), 0);
     return input;
 }
 
@@ -1122,8 +1123,8 @@ void BTLV_INPUT_Delete(BtlvInput *input)
     if (input->fingerCursor != 0)
         BTLV_FINGER_CURSOR_Delete(input->fingerCursor);
     TCB_Noop(input->taskMgr);
-    func_020307B0(input->taskMgrMem);
-    func_020307B0(input);
+    GFL_HEAP_Free(input->taskMgrMem);
+    GFL_HEAP_Free(input);
 }
 
 void BTLV_INPUT_UpdateInfoWindow(BtlvInput *input)
@@ -1141,7 +1142,7 @@ void BTLV_INPUT_InfoWindowTask(void *unused, void *arg)
 void BTLV_INPUT_LoadScreenResources(BtlvInput *input)
 {
     BG_SYS_ApplyGraphicsMode((const struct BgVramReq *)d_0220A3D4, 1);
-    input->arc = func_020490F4(0xb, input->heap);
+    input->arc = ARC_TOOL_CreateHandle(0xb, input->heap);
     input->unitWaza = CLACT_CreateUnit(4, 2, input->heap);
     input->unitButtons = CLACT_CreateUnit(0xc, 2, input->heap);
     input->unitCursors = CLACT_CreateUnit(6, 0, input->heap);
@@ -1163,13 +1164,13 @@ void BTLV_INPUT_LoadScreenResources(BtlvInput *input)
     BMP_WIN_MakeScreen(input->bmpWinB);
     BG_SYS_PushTile(6);
     INFOWIN_Init(6, 15, input->infoWinParam, input->heap);
-    func_02040588(6, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
     GFL_NET_RestartWithDefaultTimeout(0, input->heap);
     PALANM_CopyHwPaletteToSlot(input->palAnm, 3, 0xe0, 0x20);
     input->flags.redraw = 1;
     if (input->infoWinEnabled == 1)
-        input->infoWinTask = func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_INPUT_InfoWindowTask, input, 0);
+        input->infoWinTask = TCB_AddTask(BTLV_EFFECT_GetOwner(), BTLV_INPUT_InfoWindowTask, input, 0);
     BTLV_INPUT_ChangeScreen(input, 0, 0);
 }
 
@@ -1250,7 +1251,7 @@ void BTLV_INPUT_ReleaseScreenResources(BtlvInput *input)
     INFOWIN_Exit();
     BTLV_INPUT_ReleaseBgLayers();
     if (input->infoWinTask != 0) {
-        func_02030EAC(input->infoWinTask);
+        TCB_DeleteTask(input->infoWinTask);
         input->infoWinTask = 0;
     }
     if (input->arc != 0) {
@@ -1274,7 +1275,7 @@ void BTLV_INPUT_ReleaseBgLayers(void)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        func_02040588((u8)(i + 4), (int)0);
+        BG_SYS_SetPlaneVisible((u8)(i + 4), (int)0);
         BG_SYS_FreeLayerBuf((u8)(i + 4));
     }
 }
@@ -1291,14 +1292,14 @@ void BTLV_INPUT_StartPaletteFadeTask(BtlvInput *input, int flag)
 {
     int *p;
 
-    p = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x4F7);
+    p = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x4F7);
     if (flag == 1)
         PALANM_RequestFade(input->palAnm, 0xA, 0xFFFF, 1, 0, 0x10, 0, input->taskMgr);
     else
         PALANM_RequestFade(input->palAnm, 0xA, 0xFFFF, 1, 0xC, 0x10, 0, input->taskMgr);
     input->flags.fadeKind = 1;
     p[0] = (int)input;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, (void ( *)(void *, void *))(BTLV_INPUT_WaitFadeTaskMain), p, 0), (int)BTLV_INPUT_WaitFadeTaskEnd);
+    BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, (void ( *)(void *, void *))(BTLV_INPUT_WaitFadeTaskMain), p, 0), (int)BTLV_INPUT_WaitFadeTaskEnd);
 }
 
 /*
@@ -1309,7 +1310,7 @@ void BTLV_INPUT_StartPaletteFadeTask(BtlvInput *input, int flag)
 void BTLV_INPUT_StartScreenFadeTask(BtlvInput *input)
 {
     BtlvInput **q;
-    q = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x50c);
+    q = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x50c);
     if (GXx_GetMasterBrightness_((volatile u16 *)0x0400106c) <= 0)
         FADE_Start(2, 0x10, 0, 0);
     else
@@ -1317,7 +1318,7 @@ void BTLV_INPUT_StartScreenFadeTask(BtlvInput *input)
     BTLV_INPUT_LoadScreenResources(input);
     input->flags.fadeKind = 2;
     *q = input;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, (void ( *)(void *, void *))(BTLV_INPUT_WaitFadeTaskMain), q, 0), (int)BTLV_INPUT_WaitFadeTaskEnd);
+    BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, (void ( *)(void *, void *))(BTLV_INPUT_WaitFadeTaskMain), q, 0), (int)BTLV_INPUT_WaitFadeTaskEnd);
 }
 
 /*
@@ -1347,7 +1348,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
             BTLV_INPUT_StartBgScrollOffsetTask((void *)input, -1, 0, 0, 0, 0, 2, 1);
             PALANM_RequestFade(input->palAnm, 2, 3, 1, 12, 12, 0x842, input->taskMgr);
         } else {
-            t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x549);
+            t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x549);
             input->flags.busy = 1;
             t->input = input;
             if (input->infoWinEnabled == 1)
@@ -1355,10 +1356,10 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
             BTLV_INPUT_DeleteWazaCursorActors((void *)input);
             BTLV_INPUT_DeleteActionButtonActors((void *)input);
             if (input->screen == 1 || input->screen == 4) {
-                BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_WaitScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+                BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_WaitScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
             } else {
                 t->fromScreen = input->screen;
-                BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_WaitScreenOpenInstantTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+                BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_WaitScreenOpenInstantTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
             }
             PALANM_RequestFadeOverwrite(input->palAnm, 2, 3, 1, 0, 12, 0x842, input->taskMgr);
             if (CLACT_GetUnitDrawEnable(input->unitCursors) != 0) {
@@ -1372,7 +1373,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
     case 1: {
         Arg1 *a = arg;
         BtlvInputTask *t1;
-        t1 = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x570);
+        t1 = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x570);
         input->battlePos = a->fbc;
         BTLV_INPUT_PrepareCommandSelect((void *)input);
         BTLV_EFFECT_SetIntroState(2);
@@ -1399,20 +1400,20 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
         BTLV_INPUT_DrawRunButtonText((void *)input, (char *)a);
         if (input->screen == 2 || input->screen == 5) {
             BTLV_INPUT_SetActionUnitVisible((void *)input, 0);
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ActionScreenOpenInstantTask, t1, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_ActionScreenOpenInstantTask, t1, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         } else {
             BTLV_INPUT_CreateWazaCursorActors((void *)input, 0);
             if (a->f94 != 0)
                 BTLV_INPUT_CreateWazaCursorActors((void *)input, 1);
             input->flags.doubleCursor = a->f94;
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ActionScreenOpenTask, t1, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_ActionScreenOpenTask, t1, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         }
         break;
     }
     case 2: {
         Arg2 *a = arg;
         BtlvInputTask *t2;
-        t2 = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x5bd);
+        t2 = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x5bd);
         BTLV_INPUT_DrawWazaButtons((void *)input, (const Slots *)((const struct Slots *)a));
         input->flags.busy = 1;
         t2->input = input;
@@ -1426,38 +1427,38 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
             BTLV_EFFECT_StartEffect(0x244);
         }
         if (input->screen == 3) {
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_WazaScreenCloseTask, t2, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_WazaScreenCloseTask, t2, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         } else if (input->screen == 0) {
             BTLV_INPUT_CreateWazaCursorActors((void *)input, 0);
             if (input->flags.doubleCursor)
                 BTLV_INPUT_CreateWazaCursorActors((void *)input, 1);
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_WazaScreenOpenTask, t2, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_WazaScreenOpenTask, t2, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         } else {
             BTLV_INPUT_DeleteActionButtonActors((void *)input);
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_WazaScreenOpenInstantTask, t2, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_WazaScreenOpenInstantTask, t2, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         }
         break;
     }
     case 3:
-        t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x5ec);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x5ec);
         BTLV_INPUT_DrawTargetButtons((void *)input, (Out *)((struct Out *)t), (const BtlvInputTargetInfo *)arg);
         input->flags.busy = 1;
         t->input = input;
         t->slot = ((u8 *)arg)[0x48];
-        BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_TargetScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+        BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_TargetScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         break;
     case 4:
-        t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x5f8);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x5f8);
         BTLV_INPUT_DrawMessageText((void *)input, arg);
         input->flags.busy = 1;
         t->input = input;
         input->flags2.inputEnabled = ((int *)arg)[2];
-        BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_MessageScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+        BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_MessageScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         break;
     case 5: {
         Arg5 *a = arg;
         int k;
-        t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x605);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x605);
         if (input->screen != 0) {
             input->flags.bits17 = 0;
             input->flags.slotIndex = 0;
@@ -1474,9 +1475,9 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
             BTLV_INPUT_CreateWazaCursorActors((void *)input, 0);
             if (input->flags.doubleCursor)
                 BTLV_INPUT_CreateWazaCursorActors((void *)input, 1);
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ListScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_ListScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         } else {
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ListScreenOpenInstantTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_ListScreenOpenInstantTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         }
         break;
     }
@@ -1493,11 +1494,11 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
         case 2:
         case 3:
             GF_FONT_SetTextColor(1, 2, 0);
-            w = func_02045EC0(input->msgData, a->fc + 8);
+            w = MSGDATA_AllocString(input->msgData, a->fc + 8);
             break;
         }
         if (input->screen == 0) {
-            t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x65f);
+            t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x65f);
             input->flags.busy = 1;
             t->input = input;
             if (a->fc == 0) {
@@ -1508,7 +1509,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
                 t->scrollY = 0;
             }
             t->text = w;
-            BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_SelectScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+            BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_SelectScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         } else {
             if (a->fc == 0)
                 BTLV_INPUT_StartBgScrollOffsetTask((void *)input, 4, 0, 0x100, 2, 2, 2, 2);
@@ -1525,10 +1526,10 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
         break;
     }
     case 7:
-        t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x68c);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x68c);
         input->flags.busy = 1;
         t->input = input;
-        BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ConfirmScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
+        BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_ConfirmScreenOpenTask, t, 1), (int)BTLV_INPUT_TaskEndClearBusyBit);
         input->enabled[0] = 1;
         input->enabled[1] = 1;
         break;
@@ -1758,9 +1759,9 @@ void BTLV_INPUT_LoadCommonGraphics(BtlvInput *input)
     u32 file;
     int i;
 
-    func_02049658(input->arc, 0x5b, 4, 0, 0, 0, input->heap);
-    func_02049658(input->arc, 0x71, 7, 0, 0x8000, 0, input->heap);
-    func_020498F4(input->arc, 0x72, 7, 0, 0, 0, input->heap);
+    ARC_UTIL_UploadBgCharFromHandle(input->arc, 0x5b, 4, 0, 0, 0, input->heap);
+    ARC_UTIL_UploadBgCharFromHandle(input->arc, 0x71, 7, 0, 0x8000, 0, input->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(input->arc, 0x72, 7, 0, 0, 0, input->heap);
     PALANM_LoadHandlePaletteToSlot(input->palAnm, input->arc, 0x5c, input->heap, 1, 0x1e0, 0);
     if (input->infoWinEnabled == 1)
         MIi_CpuCopy16((const void *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), input->palBackup, 0x20);
@@ -1770,7 +1771,7 @@ void BTLV_INPUT_LoadCommonGraphics(BtlvInput *input)
     PALANM_CopyHwPaletteToSlot(input->palAnm, 3, (u16)(CLACT_GetPaletteVramAddress(input->resCommonPal, 1) >> 1), 0x100);
     input->resButtonChr = CLACT_RegisterCharacter(input->arc, 0x77, 0, 1, input->heap);
     input->resButtonCell = CLACT_RegisterCellAnim(input->arc, 0x78, 0x79, input->heap);
-    arc = func_020490F4(APP_ICON_GetArchiveId(), (u16)((input->heap & 0x7fff) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), (u16)((input->heap & 0x7fff) | 0x8000));
     file = APP_ICON_GetTypePaletteFileId(0);
     input->typeCell = CLACT_RegisterCellAnim(arc, file, APP_ICON_GetTypeAnimFileId(0), input->heap);
     input->typePal = CLACT_RegisterPalette(arc, APP_ICON_GetTouchBarFileId(), 1, 0x100, input->heap);
@@ -1789,8 +1790,8 @@ void BTLV_INPUT_ActionScreenOpenTask(void *task, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
-        func_020498F4((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
         BTLV_INPUT_PlayConfirmSe((void *)ctx->input);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0, 1, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(ctx->input, 0x3000, 0x1000, -0x400, 0x98);
@@ -1805,9 +1806,9 @@ void BTLV_INPUT_ActionScreenOpenTask(void *task, void *arg)
     default:
         if (ctx->input->flags.animTasks == 0) {
             BMP_WIN_TransferChars(ctx->input->bmpWinB);
-            func_02040588(4, 1);
-            func_02040588(5, 1);
-            func_02040588(7, 0);
+            BG_SYS_SetPlaneVisible(4, 1);
+            BG_SYS_SetPlaneVisible(5, 1);
+            BG_SYS_SetPlaneVisible(7, 0);
             BTLV_INPUT_DeleteTask((void *)ctx->input, task);
         }
         break;
@@ -1820,8 +1821,8 @@ void BTLV_INPUT_WazaScreenOpenTask(void *task, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
-        func_020498F4((void *)ctx->input->arc, 0x6f, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x6f, 5, 0, 0, 0, ctx->input->heap);
         BTLV_INPUT_PlayConfirmSe((void *)ctx->input);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0, 0, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(ctx->input, 0x3000, 0x1000, -0x400, 0x98);
@@ -1832,9 +1833,9 @@ void BTLV_INPUT_WazaScreenOpenTask(void *task, void *arg)
     case 1:
         if (ctx->input->flags.animTasks == 0) {
             if (ctx->input->battleType == 2 && ctx->slot != 4) {
-                func_020498F4((void *)ctx->input->arc, 0x5e, 4, 0, 0, 0, ctx->input->heap);
+                ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x5e, 4, 0, 0, 0, ctx->input->heap);
             } else {
-                func_020498F4((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
+                ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
             }
             BMP_WIN_MakeScreen(ctx->input->bmpWinA);
             BG_SYS_PushTile(6);
@@ -1874,7 +1875,7 @@ void BTLV_INPUT_WazaScreenOpenInstantTask(void *task, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
         BG_SYS_PushTile(6);
         BTLV_INPUT_StartBgWipeTask(ctx->input, 0x100, 0x1c0, 8, 8);
@@ -1909,8 +1910,8 @@ void BTLV_INPUT_ActionScreenOpenInstantTask(void *task, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
-        func_020498F4((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
         BMP_WIN_MakeScreen(ctx->input->bmpWinB);
         BTLV_INPUT_BlendWindowPalette((void *)ctx->input);
         BG_SYS_PushTile(6);
@@ -1947,14 +1948,14 @@ void BTLV_INPUT_TargetScreenOpenTask(void *a0, void *arg)
 
     int z = 0;
 
-    func_020498F4((void *)ctx->input->arc, 0x5d, 4, 0, z, z, ctx->input->heap);
-    func_020498F4((void *)ctx->input->arc, ctx->bgFile, 4, 0x440, 0x380, z, ctx->input->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x5d, 4, 0, z, z, ctx->input->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, ctx->bgFile, 4, 0x440, 0x380, z, ctx->input->heap);
     BMP_WIN_MakeScreen(ctx->input->bmpWinA);
     BG_SYS_PushTile(6);
     if (ctx->input->battleType == 2) {
-        func_020498F4((void *)ctx->input->arc, 0x6a, 5, 0, z, z, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x6a, 5, 0, z, z, ctx->input->heap);
     } else {
-        func_020498F4((void *)ctx->input->arc, 0x69, 5, 0, z, z, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x69, 5, 0, z, z, ctx->input->heap);
     }
     BMP_WIN_TransferChars(ctx->input->bmpWinA);
     BTLV_INPUT_DeleteTask((void *)ctx->input, (void *)a0);
@@ -1966,14 +1967,14 @@ void BTLV_INPUT_WazaScreenCloseTask(void *a0, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0xc0, 2, 2, 2, 2);
         ctx->state = ctx->state + 1;
         break;
     case 1:
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
         BG_SYS_PushTile(6);
-        func_020498F4((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
         BMP_WIN_TransferChars(ctx->input->bmpWinA);
         CLACT_SetUnitDrawEnable(ctx->input->unitWaza, 1);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0x100, 0xc0, 2, 2, 2, 2);
@@ -1992,9 +1993,9 @@ void BTLV_INPUT_WaitScreenOpenTask(void *a0, void *arg)
         ctx->state = ctx->state + 1;
         break;
     case 1:
-        func_02040588(4, 0);
-        func_02040588(5, 0);
-        func_02040588(7, 1);
+        BG_SYS_SetPlaneVisible(4, 0);
+        BG_SYS_SetPlaneVisible(5, 0);
+        BG_SYS_SetPlaneVisible(7, 1);
         ctx->state = ctx->state + 1;
         break;
     case 2:
@@ -2011,8 +2012,8 @@ void BTLV_INPUT_WaitScreenOpenInstantTask(void *task, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
-        func_020498F4((void *)ctx->input->arc, 0x6e, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x6e, 5, 0, 0, 0, ctx->input->heap);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0xc0, 1, 1, 2, 0);
         ctx->state++;
         break;
@@ -2035,9 +2036,9 @@ void BTLV_INPUT_WaitScreenOpenInstantTask(void *task, void *arg)
         }
         break;
     case 4:
-        func_02040588(4, 0);
-        func_02040588(5, 0);
-        func_02040588(7, 1);
+        BG_SYS_SetPlaneVisible(4, 0);
+        BG_SYS_SetPlaneVisible(5, 0);
+        BG_SYS_SetPlaneVisible(7, 1);
         ctx->state++;
         break;
     case 5:
@@ -2064,8 +2065,8 @@ void BTLV_INPUT_MessageScreenOpenTask(void *h, void *arg)
     case 1:
         if (ctx->input->flags.animTasks == 0) {
             BTLV_INPUT_StartPaletteCycleTask((void *)ctx->input, 0, 0);
-            func_02040588(5, 1);
-            func_02040588(7, 0);
+            BG_SYS_SetPlaneVisible(5, 1);
+            BG_SYS_SetPlaneVisible(7, 0);
             ctx->state++;
         }
         break;
@@ -2088,8 +2089,8 @@ void BTLV_INPUT_ListScreenOpenTask(void *h, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
-        func_020498F4((void *)ctx->input->arc, 0x6f, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x6f, 5, 0, 0, 0, ctx->input->heap);
         BTLV_INPUT_PlayConfirmSe((void *)ctx->input);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0, 0, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(ctx->input, 0x3000, 0x1000, -0x400, 0x98);
@@ -2099,7 +2100,7 @@ void BTLV_INPUT_ListScreenOpenTask(void *h, void *arg)
         break;
     case 1:
         if (ctx->input->flags.animTasks == 0) {
-            func_020498F4((void *)ctx->input->arc, 0x64, 4, 0, 0, 0, ctx->input->heap);
+            ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x64, 4, 0, 0, 0, ctx->input->heap);
             BMP_WIN_MakeScreen(ctx->input->bmpWinA);
             BG_SYS_PushTile(6);
             BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].start, d_0220A4EC[ctx->input->flags.slotIndex].end, 8, 8);
@@ -2134,8 +2135,8 @@ void BTLV_INPUT_SelectScreenOpenTask(void *h, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, 0x62, 4, 0, 0, 0, ctx->input->heap);
-        func_020498F4((void *)ctx->input->arc, 0x6d, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x62, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x6d, 5, 0, 0, 0, ctx->input->heap);
         BTLV_INPUT_PlayConfirmSe((void *)ctx->input);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0, 1, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(ctx->input, 0x3000, 0x1000, -0x400, 0x98);
@@ -2166,8 +2167,8 @@ void BTLV_INPUT_ConfirmScreenOpenTask(void *h, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, 0x63, 4, 0, 0, 0, ctx->input->heap);
-        func_020498F4((void *)ctx->input->arc, 0x6b, 5, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x63, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x6b, 5, 0, 0, 0, ctx->input->heap);
         BTLV_INPUT_PlayConfirmSe((void *)ctx->input);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0, 1, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(ctx->input, 0x3000, 0x1000, -0x400, 0x98);
@@ -2178,9 +2179,9 @@ void BTLV_INPUT_ConfirmScreenOpenTask(void *h, void *arg)
     case 1:
     default:
         if (ctx->input->flags.animTasks == 0) {
-            func_02040588(4, 1);
-            func_02040588(5, 1);
-            func_02040588(7, 0);
+            BG_SYS_SetPlaneVisible(4, 1);
+            BG_SYS_SetPlaneVisible(5, 1);
+            BG_SYS_SetPlaneVisible(7, 0);
             BTLV_INPUT_DeleteTask((void *)ctx->input, h);
         }
         break;
@@ -2193,7 +2194,7 @@ void BTLV_INPUT_ListScreenOpenInstantTask(void *h, void *arg)
 
     switch (ctx->state) {
     case 0:
-        func_020498F4((void *)ctx->input->arc, 0x64, 4, 0, 0, 0, ctx->input->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)ctx->input->arc, 0x64, 4, 0, 0, 0, ctx->input->heap);
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
         BTLV_INPUT_RestoreWindowPalette((void *)ctx->input);
         BG_SYS_PushTile(6);
@@ -2280,13 +2281,13 @@ void BTLV_INPUT_StartBgScrollTask(BtlvInput *input, int a1, int a2, int a3, int 
 {
     BtlvInputSlideTask *o;
 
-    o = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 0x14, 0, d_0220AEB0, 0xb97);
+    o = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 0x14, 0, d_0220AEB0, 0xb97);
     o->input = input;
     o->cur = a1;
     o->goal = a2;
     o->step = a3;
     o->scroll = a4;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_020056A0(BTLV_INPUT_BgScrollTaskMain, o, 0), (int)BTLV_INPUT_BgScrollTaskEnd);
+    BTLV_INPUT_RegisterTask((void *)input, (int)GFL_USE_AddMainTask(BTLV_INPUT_BgScrollTaskMain, o, 0), (int)BTLV_INPUT_BgScrollTaskEnd);
     input->flags.animTasks = input->flags.animTasks + 1;
 }
 
@@ -2317,14 +2318,14 @@ void BTLV_INPUT_StartBgWipeTask(BtlvInput *input, int a1, int a2, int a3, int a4
 {
     BtlvInputScrollTask *o;
 
-    o = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 0x18, 0, d_0220AEB0, 0xbd5);
+    o = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 0x18, 0, d_0220AEB0, 0xbd5);
     o->input = input;
     o->state = 0;
     o->x = a1;
     o->y = a2;
     o->dy = a3;
     o->count = a4;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_020056A0(BTLV_INPUT_BgWipeTaskMain, o, 0), (int)BTLV_INPUT_BgWipeTaskEnd);
+    BTLV_INPUT_RegisterTask((void *)input, (int)GFL_USE_AddMainTask(BTLV_INPUT_BgWipeTaskMain, o, 0), (int)BTLV_INPUT_BgWipeTaskEnd);
     input->flags.animTasks = input->flags.animTasks + 1;
 }
 
@@ -2355,12 +2356,12 @@ void BTLV_INPUT_StartPaletteCycleTask(BtlvInput *input, int unused, int palSet)
 {
     BtlvInputPaletteCycleTask *t;
 
-    t = func_02030734(HEAPID(input->heap), 0x10, 0, d_0220AEB0, 0xc10);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x10, 0, d_0220AEB0, 0xc10);
     t->input = input;
     t->tab = 0;
     t->palSet = palSet;
     t->count = 2;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_020056A0(BTLV_INPUT_PaletteCycleTaskMain, t, 0), (int)BTLV_INPUT_PaletteCycleTaskEnd);
+    BTLV_INPUT_RegisterTask((void *)input, (int)GFL_USE_AddMainTask(BTLV_INPUT_PaletteCycleTaskMain, t, 0), (int)BTLV_INPUT_PaletteCycleTaskEnd);
     input->flags.animTasks = input->flags.animTasks + 1;
 }
 
@@ -2403,7 +2404,7 @@ void BTLV_INPUT_CreateCursorActors(BtlvInput *input, int rowIndex, int animIndex
     BtlvInputCursorRow *row;
     Quad quad;
 
-    t = func_02030734(HEAPID(input->heap), 0x20, 0, d_0220AEB0, 0xc53);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x20, 0, d_0220AEB0, 0xc53);
     quad = d_0220A53C;
     t->input = input;
     t->unit = CLACT_CreateUnit(6, 0, input->heap);
@@ -2421,7 +2422,7 @@ void BTLV_INPUT_CreateCursorActors(BtlvInput *input, int rowIndex, int animIndex
             CLACT_SetActorAnimSeq(t->actors[i], v);
         }
     }
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_CursorActorTaskMain, t, 0), (int)BTLV_INPUT_CursorActorTaskEnd);
+    BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_CursorActorTaskMain, t, 0), (int)BTLV_INPUT_CursorActorTaskEnd);
     input->flags.animTasks++;
 }
 
@@ -2454,10 +2455,10 @@ void BTLV_INPUT_StartPaletteFlashTask(BtlvInput *input, int kind)
 {
     BtlvInputPaletteFlashTask *t;
 
-    t = func_02030734(HEAPID(input->heap), 8, 0, d_0220AEB0, 0xcc9);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), 8, 0, d_0220AEB0, 0xcc9);
     t->input = input;
     t->kind = kind;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_PaletteFlashTaskMain, t, 0), (int)BTLV_INPUT_PaletteFlashTaskEnd);
+    BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_PaletteFlashTaskMain, t, 0), (int)BTLV_INPUT_PaletteFlashTaskEnd);
     input->flags.animTasks = input->flags.animTasks + 1;
 }
 
@@ -2509,7 +2510,7 @@ void BTLV_INPUT_StartBgScrollOffsetTask(BtlvInput *input, int bg, int scrollX, i
 {
     BtlvInputBgScrollOffsetTask *t;
 
-    t = func_02030734(HEAPID(input->heap), 0x20, 0, d_0220AEB0, 0xd1d);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x20, 0, d_0220AEB0, 0xd1d);
     t->input = input;
     t->bg = bg;
     t->scrollX = scrollX;
@@ -2518,7 +2519,7 @@ void BTLV_INPUT_StartBgScrollOffsetTask(BtlvInput *input, int bg, int scrollX, i
     t->bg5 = bg5;
     t->bg6 = bg6;
     t->bg7 = bg7;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_020056A0(BTLV_INPUT_BgScrollOffsetTaskMain, t, 0), 0);
+    BTLV_INPUT_RegisterTask((void *)input, (int)GFL_USE_AddMainTask(BTLV_INPUT_BgScrollOffsetTaskMain, t, 0), 0);
 }
 
 void BTLV_INPUT_BgScrollOffsetTaskMain(void *task, void *arg)
@@ -2530,16 +2531,16 @@ void BTLV_INPUT_BgScrollOffsetTaskMain(void *task, void *arg)
         BG_SYS_FillScrollArea((u8)t->bg, (int)3, (int)t->scrollY);
     }
     if (t->bg4 != 2) {
-        func_02040588((int)4, (u8)t->bg4);
+        BG_SYS_SetPlaneVisible((int)4, (u8)t->bg4);
     }
     if (t->bg5 != 2) {
-        func_02040588((int)5, (u8)t->bg5);
+        BG_SYS_SetPlaneVisible((int)5, (u8)t->bg5);
     }
     if (t->bg6 != 2) {
-        func_02040588((int)6, (u8)t->bg6);
+        BG_SYS_SetPlaneVisible((int)6, (u8)t->bg6);
     }
     if (t->bg7 != 2) {
-        func_02040588((int)7, (u8)t->bg7);
+        BG_SYS_SetPlaneVisible((int)7, (u8)t->bg7);
     }
     BTLV_INPUT_DeleteTask((void *)t->input, task);
 }
@@ -2591,12 +2592,12 @@ void BTLV_INPUT_StartScreenTransition(BtlvInput *input, int screen)
     BtlvInputTask *t;
     int k;
 
-    t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0xd8c);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0xd8c);
     k = input->flags.slotIndex;
     input->flags.slotIndex = d_0220A38C[k][screen - 5];
     input->flags.busy = 1;
     t->input = input;
-    BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ScreenResetTask, t, 1), (int)((void *)BTLV_INPUT_TaskEndClearBusyBit));
+    BTLV_INPUT_RegisterTask((void *)input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_ScreenResetTask, t, 1), (int)((void *)BTLV_INPUT_TaskEndClearBusyBit));
     BTLV_EFFECT_ResetIntroState(2);
     BTLV_EFFECT_StartEffect(d_0220A3E4[k][screen - 5]);
 }
@@ -2688,7 +2689,7 @@ void BTLV_INPUT_WindowCloseTaskMain(void *a0, void *arg)
 
 void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, int *outCapacity)
 {
-    int n = func_0201D304(str, font, 0);
+    int n = GF_FONT_MeasureWidestLine(str, font, 0);
     int q = n / 8;
     if (FX_ModS32(n, 8) != 0)
         q++;
@@ -2894,11 +2895,11 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
     enum { VRAM_BASE = 0x06600000 } vram;
 
     str1 = STRBUF_Create(0x10, input->heap);
-    m0 = func_02045EC0(input->msgData, 0);
-    m1 = func_02045EC0(input->msgData, 1);
+    m0 = MSGDATA_AllocString(input->msgData, 0);
+    m1 = MSGDATA_AllocString(input->msgData, 1);
     font = (int)WORDSET_CreateDefault(input->heap);
     str2 = STRBUF_Create(0x10, input->heap);
-    m2 = func_02045EC0(input->msgData, 2);
+    m2 = MSGDATA_AllocString(input->msgData, 2);
     CLACT_SetUnitDrawEnable(input->unitWaza, 0);
     for (i = 0; (i < 4) ? 1 : 0; i++) {
         if (q->id[i] != 0) {
@@ -2913,7 +2914,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
             CLACT_GetActorImageProxy(input->wazaActors[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
             MIi_CpuCopy16(((BtlvInputScreenFile *)cd)->tileGfx, (void *)(vram + buf.w[2]), 0x100);
-            func_020307B0(chr);
+            GFL_HEAP_Free(chr);
             GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
             GF_FONT_SetTextColor(1, 2, 0);
             WORDSET_SetSlotFromMsgCB((struct WordSet *)font, 0, q->id[i]);
@@ -2940,7 +2941,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
         heap = (input->heap & 0x7fff) | 0x8000;
         pltt = ARC_UTIL_LoadPaletteBlockFromArchive(0xb, file, (u32)(&pd), heap);
         PALANM_CopyToSlot(input->palAnm, ((BtlvInputPaletteFile *)pd)->palette, (int)1, (u16)(i * 16 + 0x90), 0x20);
-        func_020307B0(pltt);
+        GFL_HEAP_Free(pltt);
     }
     input->enabled[i] = 1;
     if (input->battleType == 2) {
@@ -2982,7 +2983,7 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const BtlvInputTar
     GF_FONT_SetTextColor(1, 2, 0);
     for (i = 0; i < n; i++) {
         if (p->buttons[i].show != 0) {
-            w = func_02045EC0(input->msgData, p->buttons[i].kind + 3);
+            w = MSGDATA_AllocString(input->msgData, p->buttons[i].kind + 3);
             WORDSET_SetSlotMonSpecies((void *)h, 0, p->buttons[i].text);
             WORDSET_CopyTaggedText((struct WordSet *)h, v, w);
             BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, (int)input->font, &ww, &hh);
@@ -3004,12 +3005,12 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const BtlvInputTar
     for (i = 0; i < m; i++) {
         r = ARC_UTIL_LoadPaletteBlockFromArchive(11, 0xd3, (u32)(&res), (u16)((input->heap & 0x7fff) | 0x8000));
         PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), res->palette, 1, (u16)(i * 16 + 0x70), 0x20);
-        func_020307B0(r);
+        GFL_HEAP_Free(r);
     }
     for (m *= 2; i < m; i++) {
         r = ARC_UTIL_LoadPaletteBlockFromArchive(11, 0xd4, (u32)(&res), (u16)((input->heap & 0x7fff) | 0x8000));
         PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), res->palette, 1, (u16)(i * 16 + 0x70), 0x20);
-        func_020307B0(r);
+        GFL_HEAP_Free(r);
     }
 }
 
@@ -3025,7 +3026,7 @@ void BTLV_INPUT_DrawMessageText(BtlvInput *input, const int *c)
     PRINTSYS_Print((void *)input->bmpA, 0x80 - w / 2, 0x40, (void *)c[1], (void *)input->font);
     input->enabled[0] = 1;
     input->enabled[1] = 1;
-    func_020498F4((void *)input->arc, 0x6b, 5, 0, 0, 0, input->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)input->arc, 0x6b, 5, 0, 0, 0, input->heap);
 }
 
 /*
@@ -3087,7 +3088,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *b)
     u8 c[3];
     h = (int)WORDSET_CreateDefault(input->heap);
     v = STRBUF_Create(8, input->heap);
-    w = func_02045EC0(input->msgData, 6);
+    w = MSGDATA_AllocString(input->msgData, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(9, 10, 0);
     WORDSET_SetSlotNumber(h, 0, b[2], 3, 2, 1);
@@ -3099,7 +3100,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *b)
     WORDSET_CopyTaggedText((void *)h, v, w);
     PRINTSYS_Print((void *)(input->bmpA), 0x60, 8, v, (void *)(input->font));
     GF_FONT_SetTextColor(1, 2, 0);
-    extra = func_02045EC0(input->msgData, 7);
+    extra = MSGDATA_AllocString(input->msgData, 7);
     PRINTSYS_Print((void *)(input->bmpA), 0x7c, 8, extra, (void *)(input->font));
     STRBUF_Delete(extra);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
@@ -3177,7 +3178,7 @@ void BTLV_INPUT_CreateActionButtons(BtlvInput *input, BtlvInputPartyInfo *info)
     k = 0;
     if (input->battleType == 0 || input->battleType == 3)
         return;
-    arc = func_020490F4(7, (u16)((input->heap & 0x7fff) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(7, (u16)((input->heap & 0x7fff) | 0x8000));
     input->pokeCell = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryIdSub(), input->heap);
     input->pokePal = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0x160, input->heap);
     PALANM_CopyHwPaletteToSlot(input->palAnm, 3, (u16)(CLACT_GetPaletteVramAddress(input->pokePal, 1) >> 1), 0x60);
@@ -3186,10 +3187,10 @@ void BTLV_INPUT_CreateActionButtons(BtlvInput *input, BtlvInputPartyInfo *info)
     *(volatile u16 *)0x04001042 = 0x100;
     *(volatile u16 *)0x04001046 = 0;
     if (n > 1) {
-        r = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x1145);
+        r = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x1145);
         r[0] = input;
         r[1] = (void *)n;
-        BTLV_INPUT_RegisterTask(input, (int)func_020056A0(BTLV_INPUT_WindowOpenTaskMain, r, 0), 0);
+        BTLV_INPUT_RegisterTask(input, (int)GFL_USE_AddMainTask(BTLV_INPUT_WindowOpenTaskMain, r, 0), 0);
     }
     for (i = 0; i < n; i++) {
         if (info->species[i] != 0) {
@@ -3246,9 +3247,9 @@ void BTLV_INPUT_DeleteActionButtonActors(BtlvInput *input)
         input->pokePal = -1;
     }
     if (!empty) {
-        ctx = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x11b2);
+        ctx = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x11b2);
         ctx[0] = (int)input;
-        BTLV_INPUT_RegisterTask(input, (int)func_020056A0(BTLV_INPUT_WindowCloseTaskMain, ctx, 0), 0);
+        BTLV_INPUT_RegisterTask(input, (int)GFL_USE_AddMainTask(BTLV_INPUT_WindowCloseTaskMain, ctx, 0), 0);
     }
 }
 
@@ -3281,9 +3282,9 @@ void BTLV_INPUT_CreateStatusIcons(BtlvInput *input, int n)
     CLACT_SetActorAutoAnim(input->statusActors[1], 1);
     CLACT_SetActorAnimSeq(input->statusActors[1], 14);
     CLACT_SetActorPaletteOffset(input->statusActors[1], (u8)a.v[index], 0);
-    q = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x11ec);
+    q = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x11ec);
     q[0] = (void *)input;
-    BTLV_INPUT_RegisterTask(input, (int)func_02030DA8((void *)input->taskMgr, BTLV_INPUT_CursorMoveTaskMain, q, 0), (int)((void *)BTLV_INPUT_CursorMoveTaskEnd));
+    BTLV_INPUT_RegisterTask(input, (int)TCB_AddTask((void *)input->taskMgr, BTLV_INPUT_CursorMoveTaskMain, q, 0), (int)((void *)BTLV_INPUT_CursorMoveTaskEnd));
     input->flags.animTasks++;
 }
 
@@ -3445,7 +3446,7 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input)
     CLACT_SetActorAutoAnim(input->backActor, 1);
     CLACT_SetActorAnimSeq(input->backActor, 0x14);
     str = STRBUF_Create(0x10, input->heap);
-    msg = func_02045EC0(input->msgData, 0);
+    msg = MSGDATA_AllocString(input->msgData, 0);
     font = (int)WORDSET_CreateDefault(input->heap);
     bmp = BMP_Create(0xe, 4, 0x20, input->heap);
     BMP_Clear(bmp, 0);
@@ -3693,7 +3694,7 @@ int BTLV_INPUT_SetSelection(BtlvInput *input, int a, int b)
         input->pending = a | 0x8000;
     else
         input->pending = a;
-    c = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 0x10, 0, d_0220AEB0, 0x1440);
+    c = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), 0x10, 0, d_0220AEB0, 0x1440);
     flag = 0;
     if ((0x10000 & b) == 0)
         flag = 1;
@@ -3705,7 +3706,7 @@ int BTLV_INPUT_SetSelection(BtlvInput *input, int a, int b)
         c->flag = 1;
     else
         c->flag = 0;
-    BTLV_INPUT_RegisterTask(input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ButtonFlashTaskMain, c, 0), (int)((void *)BTLV_INPUT_ButtonFlashTaskEnd));
+    BTLV_INPUT_RegisterTask(input, (int)TCB_AddTask(input->taskMgr, BTLV_INPUT_ButtonFlashTaskMain, c, 0), (int)((void *)BTLV_INPUT_ButtonFlashTaskEnd));
     return -1;
 }
 
@@ -3755,7 +3756,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
         return;
     h = (int)WORDSET_CreateDefault(input->heap);
     v = STRBUF_Create(6, input->heap);
-    w = func_02045EC0(input->msgData, 8);
+    w = MSGDATA_AllocString(input->msgData, 8);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(1, 2, 0);
     WORDSET_SetSlotNumber((u32)((struct WordSet *)h), 0, ((Arg1 *)runInfo)->runTextId, 2, 0, 1);
@@ -3825,8 +3826,8 @@ void BTLV_INPUT_DeleteTask(BtlvInput *input, void *task)
         if (cb != 0)
             cb(task);
         if (r != 0)
-            func_020307B0(r);
-        func_02030EAC(task);
+            GFL_HEAP_Free(r);
+        TCB_DeleteTask(task);
         *(int *)((char *)input->tasks + off) = 0;
         *(int *)(t + off) = 0;
     }

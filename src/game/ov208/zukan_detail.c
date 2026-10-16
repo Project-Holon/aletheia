@@ -14,8 +14,8 @@
  * is the function whose own __FILE__ pool anchor names this file (string 0x021C8DB0).
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0  arm
  *   func_021BEA00 0x021BEA00 thumb
  *   ZUKAN_DETAIL_AREA_SetHeapId 0x021BF784 thumb ov208
  *   ZUKAN_DETAIL_VOICE_SetHeapId 0x021C255C thumb
@@ -32,9 +32,9 @@
 #include "zukan_detail_shared_types.h"
 #include "zukan_detail_main_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void func_021BEA00(void *mem, u32 heap);
 
@@ -72,28 +72,28 @@ void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s)
     if (s->node != 0)
         ZUKAN_DETAIL_PROCSYS_FreeNode(s->node);
     if (s->mem != 0)
-        func_020307B0(s->mem);
+        GFL_HEAP_Free(s->mem);
     switch (m->mode) {
     case 1:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1c3);
+        mem = GFL_HEAP_Alloc(s->heap, 2, 1, d_021C8DB0, 0x1c3);
         func_021BEA00(mem, s->heap);
         s->mem = mem;
         tbl = d_021C8508;
         break;
     case 2:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1cb);
+        mem = GFL_HEAP_Alloc(s->heap, 2, 1, d_021C8DB0, 0x1cb);
         ZUKAN_DETAIL_AREA_SetHeapId(mem, s->heap);
         s->mem = mem;
         tbl = d_021C8590;
         break;
     case 3:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1d3);
+        mem = GFL_HEAP_Alloc(s->heap, 2, 1, d_021C8DB0, 0x1d3);
         ZUKAN_DETAIL_VOICE_SetHeapId(mem, s->heap);
         s->mem = mem;
         tbl = d_021C86F0;
         break;
     case 4:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1db);
+        mem = GFL_HEAP_Alloc(s->heap, 2, 1, d_021C8DB0, 0x1db);
         ZUKAN_DETAIL_FORM_SetHeapId(mem, s->heap);
         s->mem = mem;
         tbl = d_021C881C;

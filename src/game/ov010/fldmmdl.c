@@ -14,13 +14,13 @@
  * Split from fldmmdl.c at 0x0216BFD4 and 0x0216CC58 (__FILE__ anchors: namein_setup.c up to 0x0216CC40, fldmmdl.c from 0x0216CC58).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   d_02172B48     0x02172B48  data  ov010  a1
- *   func_02030CB0  0x02030CB0  arm
- *   func_02030CBC  0x02030CBC  arm
- *   func_020490F4  0x020490F4  arm
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   TCB_Noop  0x02030DA4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FLDMMDL_ACMD_DeleteDrawSys  0x02197C4C  thumb
@@ -39,8 +39,8 @@
  *   FLDMMDL_RAIL_MOVE_UpdateMove   0x0219D6CC  thumb
  *   FLDMMDL_ACMD_DrawIfInitialized  0x02197C78  thumb
  *   FLDMMDL_MOVE_IsGridInObjectRect  0x02163C04  thumb  ov010
- *   func_02030DA8  0x02030DA8  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_AddTask  0x02030DA8  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
  *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
@@ -73,12 +73,12 @@ typedef struct MmdlSearchList {
     Mmdl *mmdl[16];
 } MmdlSearchList;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern int func_020307B0(void *mem);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern int GFL_HEAP_Free(void *mem);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u32 func_02030CB0(u32 capacity);
-extern void *func_02030CBC(u32 capacity, void *work);
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern u32 TCB_GetTaskOffset(u32 capacity);
+extern void *TCB_Init(u32 capacity, void *work);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void TCB_Noop(void *tcbSys);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void FLDMMDL_ACMD_DeleteDrawSys(MmdlSys *sys);
@@ -97,8 +97,8 @@ extern void FLDMMDL_MOVE_UpdateMove(Mmdl *mmdl);
 extern void FLDMMDL_RAIL_MOVE_UpdateMove(Mmdl *mmdl);
 extern void FLDMMDL_ACMD_DrawIfInitialized(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_IsGridInObjectRect(Mmdl *mmdl, u32 gridX, u32 gridZ, u32 flag);
-extern void *func_02030DA8(void *tcbSys, void (*proc)(void *tcb, void *work), void *work, int priority);
-extern void func_02030EAC(void *tcb);
+extern void *TCB_AddTask(void *tcbSys, void (*proc)(void *tcb, void *work), void *work, int priority);
+extern void TCB_DeleteTask(void *tcb);
 extern void FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
 extern void FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 member);
@@ -356,23 +356,23 @@ extern const MmdlDrawProcList *d_021D770C[];
 
 MmdlSys *FLDMMDL_CreateSys(int heapId, int mmdlMax, void *saveData)
 {
-    MmdlSys *sys = func_02030734(heapId, sizeof(MmdlSys), 1, d_02172B48, 0xc3);
-    sys->mmdlBuf = func_02030734(heapId, mmdlMax * sizeof(Mmdl), 1, d_02172B48, 0xc4);
+    MmdlSys *sys = GFL_HEAP_Alloc(heapId, sizeof(MmdlSys), 1, d_02172B48, 0xc3);
+    sys->mmdlBuf = GFL_HEAP_Alloc(heapId, mmdlMax * sizeof(Mmdl), 1, d_02172B48, 0xc4);
     sys->mmdlMax = mmdlMax;
     sys->sysHeapId = heapId;
     sys->saveData = saveData;
     sys->tcbPriority = 0x80;
     FLDMMDL_OpenObjCodeArc(sys, heapId);
-    sys->objCodeParamCache = func_02030734(heapId, 0x310, 1, d_02172B48, 0xcf);
+    sys->objCodeParamCache = GFL_HEAP_Alloc(heapId, 0x310, 1, d_02172B48, 0xcf);
     return sys;
 }
 
 void FLDMMDL_DeleteSys(MmdlSys *sys)
 {
     FLDMMDL_CloseObjCodeArc(sys);
-    func_020307B0(sys->objCodeParamCache);
-    func_020307B0(sys->mmdlBuf);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys->objCodeParamCache);
+    GFL_HEAP_Free(sys->mmdlBuf);
+    GFL_HEAP_Free(sys);
 }
 
 void FLDMMDL_ClearObjCodeParamCache(MmdlSys *sys)
@@ -388,11 +388,11 @@ void FLDMMDL_SetupSysProc(MmdlSys *sys, int heapId, void *gameData, void *fieldM
     sys->heapId = heapId;
     sys->gameData = gameData;
     sys->fieldMap = fieldMap;
-    tcbWork = func_02030734(heapId, func_02030CB0(sys->mmdlMax), 0, d_02172B48, 0x109);
+    tcbWork = GFL_HEAP_Alloc(heapId, TCB_GetTaskOffset(sys->mmdlMax), 0, d_02172B48, 0x109);
     mmdlMax = sys->mmdlMax;
     sys->tcbSysWork = tcbWork;
-    sys->tcbSys = func_02030CBC(mmdlMax, tcbWork);
-    sys->resArcHandle = func_020490F4(0x31, heapId);
+    sys->tcbSys = TCB_Init(mmdlMax, tcbWork);
+    sys->resArcHandle = ARC_TOOL_CreateHandle(0x31, heapId);
     sys->nogridMapper = nogridMapper;
     FLDMMDL_SysSetStatusBit(sys, MMDLSYS_STABIT_MOVE_INIT);
 }
@@ -400,7 +400,7 @@ void FLDMMDL_SetupSysProc(MmdlSys *sys, int heapId, void *gameData, void *fieldM
 void FLDMMDL_ReleaseSysProc(MmdlSys *sys)
 {
     TCB_Noop(sys->tcbSys);
-    func_020307B0(sys->tcbSysWork);
+    GFL_HEAP_Free(sys->tcbSysWork);
     ARC_TOOL_DeleteHandle(sys->resArcHandle);
     FLDMMDL_SysClearStatusBit(sys, MMDLSYS_STABIT_MOVE_INIT);
 }
@@ -1901,13 +1901,13 @@ void FLDMMDL_AddMoveTcb(Mmdl *mmdl, MmdlSys *sys)
         offset = 1;
     else if (FLDMMDL_GetObjId(mmdl) == 0xff)
         offset--;
-    mmdl->moveTcb = func_02030DA8(FLDMMDL_SysGetTcbSys(sys), FLDMMDL_MoveTcbProc, mmdl, priority + offset);
+    mmdl->moveTcb = TCB_AddTask(FLDMMDL_SysGetTcbSys(sys), FLDMMDL_MoveTcbProc, mmdl, priority + offset);
 }
 
 void FLDMMDL_DeleteMoveTcb(Mmdl *mmdl)
 {
     if (mmdl->moveTcb != 0) {
-        func_02030EAC(mmdl->moveTcb);
+        TCB_DeleteTask(mmdl->moveTcb);
         mmdl->moveTcb = 0;
     }
 }
@@ -2046,7 +2046,7 @@ void FLDMMDL_ChangeObjCode(Mmdl *mmdl, u32 objCode)
 
 void FLDMMDL_OpenObjCodeArc(MmdlSys *sys, int heapId)
 {
-    sys->objCodeArcHandle = func_020490F4(0x30, heapId);
+    sys->objCodeArcHandle = ARC_TOOL_CreateHandle(0x30, heapId);
 }
 
 void FLDMMDL_CloseObjCodeArc(MmdlSys *sys)

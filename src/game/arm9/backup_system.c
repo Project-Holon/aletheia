@@ -14,17 +14,17 @@
  * Split from backup_system.c at 0x02033534 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
  *   MATHi_CRC16InitTable  0x020819B8  arm
  *   str_020A7848   0x020A7848  data
  *   svsys     0x02146994  data
  *   SAVEDATA_GetTotalSize  0x02033BF8  arm
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   str_020A7858   0x020A7858  data
  *   str_020A7868   0x020A7868  data
  *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *   MIi_CpuCopy16  0x02082A60  arm
@@ -134,12 +134,12 @@ typedef struct SaveRecordFooter {
     u16 crc;          /* CRC of the payload */
 } SaveRecordFooter;
 
-extern void *func_02030734(u16 heap_id, u32 size, int align, const char *file,
+extern void *GFL_HEAP_Alloc(u16 heap_id, u32 size, int align, const char *file,
                          u16 line);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
 extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
-extern void func_02034714(const char *file, u32 line, const char *expr);
-extern u32 func_020307B0(void *mem);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void  UI_SetKeepAwakeFlagsGlobal(u32 flag);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
@@ -246,7 +246,7 @@ extern const char str_020A7888[];
  */
 void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func)
 {
-    BackupSystem *work = func_02030734((u16)heap_id, 0x210, 0, str_020A7848, 0xdf);
+    BackupSystem *work = GFL_HEAP_Alloc((u16)heap_id, 0x210, 0, str_020A7848, 0xdf);
 
     svsys = work;
     func_02082A7C(0, work, 0x210);
@@ -262,7 +262,7 @@ void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func)
 /*
  * backup_system.c.  The save-block constructor; its already-matched caller
  * src/matched/BACKUP_SYSTEM_Create.c fixes the five-argument signature.  The
- * allocator func_02030734 takes (heap, size, align, __FILE__, __LINE__)
+ * allocator GFL_HEAP_Alloc takes (heap, size, align, __FILE__, __LINE__)
  * with the line on the stack: 0x10e, 0x125 and 0x131.  0x154 is the block
  * size, kept live in sb, and the second assert's line 0x116 is derived from
  * it as `sub r1, sb, #0x3e` and the last allocation's 0x131 as
@@ -285,16 +285,16 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
     SaveDataTable *table;
 
     if (svsys == 0)
-        func_02034714(str_020A7848, 0x10c, (const char *)str_020A7858);
+        SAVEDATA_PanicFail(str_020A7848, 0x10c, (const char *)str_020A7858);
 
-    sv = func_02030734(heap_id, 0x154, 1, str_020A7848, 0x10e);
+    sv = GFL_HEAP_Alloc(heap_id, 0x154, 1, str_020A7848, 0x10e);
     sv->area_addr[0] = param->main_addr;
     sv->area_addr[1] = param->backup_addr;
     sv->savearea_size = param->savearea_size;
     sv->magic_id = param->magic_id;
 
     if (svwk != 0 && svwk_size < sv->savearea_size)
-        func_02034714(str_020A7848, 0x154 - 0x3e, (const char *)str_020A7868);
+        SAVEDATA_PanicFail(str_020A7848, 0x154 - 0x3e, (const char *)str_020A7868);
 
     sv->crc_table_size = param->table_num << 1;
     if ((param->table_num & 1) != 0)
@@ -305,7 +305,7 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
     if ((n & 0xf) != 0)
         sv->block_area_size = sv->block_area_size + 4;
 
-    sv->block_area = func_02030734(heap_id, sv->block_area_size, 1, str_020A7848,
+    sv->block_area = GFL_HEAP_Alloc(heap_id, sv->block_area_size, 1, str_020A7848,
                                  0x125);
     table = SAVEDATA_CreateTable((u16)heap_id, param->table_def, param->table_num, sv->savearea_size, 0x10, 4, sv->crc_table_size);
     sv->table = table;
@@ -314,7 +314,7 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
         sv->svwk = svwk;
         sv->work_allocated = 0;
     } else {
-        sv->svwk = func_02030734(heap_id, sv->savearea_size, 1, str_020A7848,
+        sv->svwk = GFL_HEAP_Alloc(heap_id, sv->savearea_size, 1, str_020A7848,
                                     0x131);
         sv->work_allocated = 1;
     }
@@ -381,11 +381,11 @@ BackupSaveData *BACKUP_SYSTEM_CreateWithWork(const SaveDataParam *param, u32 hea
 void BACKUP_SYSTEM_Delete(BackupSaveData *sv)
 {
     SAVEDATA_DeleteTable(sv->table);
-    func_020307B0(sv->block_area);
+    GFL_HEAP_Free(sv->block_area);
     if (sv->work_allocated == 1) {
-        func_020307B0(sv->svwk);
+        GFL_HEAP_Free(sv->svwk);
     }
-    func_020307B0(sv);
+    GFL_HEAP_Free(sv);
 }
 
 
@@ -478,7 +478,7 @@ int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id)
     u32 off;
     void *page;
 
-    page = func_02030734((u16)heap_id, 0x1000, 0, str_020A7848, 0x1e8);
+    page = GFL_HEAP_Alloc((u16)heap_id, 0x1000, 0, str_020A7848, 0x1e8);
 
     one = 1;
     UI_SetKeepAwakeFlagsGlobal(one);
@@ -491,7 +491,7 @@ int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id)
     for (off = 0; off < sv->savearea_size; off += 0x1000)
         FLASH_ACCESS_Write(off + sv->area_addr[0], (u32)page, 0x1000, svsys->write_error_func);
 
-    func_020307B0(page);
+    GFL_HEAP_Free(page);
     BACKUP_SYSTEM_ClearWork(sv);
     sv->data_exists = 0;
 
@@ -952,7 +952,7 @@ static inline u16 BACKUP_SYSTEM_GetRecordCount(SaveRecordFooter *rec)
 /*
  * backup_system.c.  The two-copy load: read both copies of the save area
  * (FLASH_ACCESS_Read at BACKUP_SYSTEM_GetAreaAddr(self, 1) into the staging buffer self->svwk
- * and at (self, 2) into a heap block from func_02030734, line 0x429), repair
+ * and at (self, 2) into a heap block from GFL_HEAP_Alloc, line 0x429), repair
  * one copy from the other when only one read failed, check both footers
  * (BACKUP_SYSTEM_GetFooterInfo, the mode == 1 generation test), cross-copy the footer block
  * when exactly one is bad, pick the newer good copy, then walk every record
@@ -967,7 +967,7 @@ static inline u16 BACKUP_SYSTEM_GetRecordCount(SaveRecordFooter *rec)
  * locals (image: AB r4, B r8, A r7).  Either change alone is 13 or 22 bytes
  * out; the earlier 9-byte residue was this one register swap.  The inline
  * cnt16 on the two record-counter compares and the one-argument
- * BACKUP_SYSTEM_ClearBlockAreas are load-bearing (wave 12); func_02030734 uses its real
+ * BACKUP_SYSTEM_ClearBlockAreas are load-bearing (wave 12); GFL_HEAP_Alloc uses its real
  * prototype with an explicit (u16) heap.
  *
  * Verified with:
@@ -998,13 +998,13 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
 
     BACKUP_SYSTEM_ClearBlockAreas(sv);
     work1 = sv->svwk;
-    work2 = func_02030734((u16)heap_id, sv->data_size, 0, str_020A7848, 0x429);
+    work2 = GFL_HEAP_Alloc((u16)heap_id, sv->data_size, 0, str_020A7848, 0x429);
     read1 = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 1), (u32)work1, sv->data_size, svsys->read_error_func);
     read2 = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 2), (u32)work2, sv->data_size, svsys->read_error_func);
     if (read1 == 0 && read2 == 0) {
         BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         func_02082A7C(0, work1, sv->data_size);
-        func_020307B0(work2);
+        GFL_HEAP_Free(work2);
         return 0;
     }
     if (read1 == 1 && read2 == 0) {
@@ -1041,11 +1041,11 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
     } else {
         if (info1[0] == 1 || info2[0] == 1) {
             BACKUP_SYSTEM_FillBlockAreas(sv, 1);
-            func_020307B0(work2);
+            GFL_HEAP_Free(work2);
             return 3;
         }
         BACKUP_SYSTEM_FillBlockAreas(sv, 1);
-        func_020307B0(work2);
+        GFL_HEAP_Free(work2);
         return 0;
     }
 
@@ -1118,7 +1118,7 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
     }
     if (pass >= 2) {
         BACKUP_SYSTEM_FillBlockAreas(sv, 1);
-        func_020307B0(work2);
+        GFL_HEAP_Free(work2);
         return 3;
     }
 
@@ -1132,7 +1132,7 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
         }
     }
     BACKUP_SYSTEM_SetSaveCount(sv, counts[pass]);
-    func_020307B0(work2);
+    GFL_HEAP_Free(work2);
     for (id = 0; id < SAVEDATA_GetTableMax(sv->table); id++)
         BACKUP_SYSTEM_GetBlockArea(sv, id);
     return 1;
@@ -1554,7 +1554,7 @@ int BACKUP_SYSTEM_SaveSeqMain(BackupSaveData *sv, u32 *pass_done)
                     BACKUP_SYSTEM_SetBlockArea(sv, sv->write_block, 1);
                 } else if (result == 0) {
                     if (yield != 1)
-                        func_02034714(str_020A7848, 0x72A, str_020A7888);
+                        SAVEDATA_PanicFail(str_020A7848, 0x72A, str_020A7888);
                     return 0;
                 } else {
                     goto next;

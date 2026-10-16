@@ -22,7 +22,7 @@
  *   VCT_DSP_SuppressEchoWithReference  0x021B3604  arm  ov013
  *   VCT_DSP_UpdateVoiceGate  0x021B3084  arm  ov013
  *   VCT_ADPCM_EncodePacket  0x021B04A8  arm  ov013
- *   func_02080D24  0x02080D24  arm
+ *   MATH_CountPopulation  0x02080D24  arm
  *   gVctReceiveSources  0x021B3CBC  data  ov013  a4
  *   gVctFrameSpecs  0x021B3AD0  data  ov013  a1
  *   VCT_POOL_AllocFrame  0x021B2FB0  arm  ov013
@@ -42,7 +42,7 @@
  *   gVctReadyHead 0x021B4BAC data a4
  *   gVctReadyCount 0x021B4BB8 data a4
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   VCT_SESSION_AllocPeer 0x021B24FC arm ov013
  *   gVctPeerPool  0x021B4BE0  data  a4
  *   VCT_SESSION_InitPacketHeader  0x021B2848  arm  ov013
@@ -62,7 +62,7 @@ extern int VCT_DSP_HighPassFilter(short *samples, u32 byteCount);
 extern void VCT_DSP_SuppressEchoWithReference(short *samples, u32 byteCount, u32 rms);
 extern int VCT_DSP_UpdateVoiceGate(u32 energy, u32 rms, u8 *outFlag);
 extern void VCT_ADPCM_EncodePacket(AdpcmHeader *header, void *dst, int sampleCount, AdpcmState *state, int mode);
-extern u8 func_02080D24(u32 mask);
+extern u8 MATH_CountPopulation(u32 mask);
 extern VctRxPacket *VCT_POOL_AllocFrame(void);
 extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
@@ -72,7 +72,7 @@ extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern int DWC_SendUnreliable(unsigned char aid, void *buffer, int size);
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern VctPeer *VCT_SESSION_AllocPeer(unsigned int index);
 extern void VCT_SESSION_InitPacketHeader(void *peer, void *message, unsigned int type);
 extern int VCT_SESSION_CheckCommandAllowed(void *peer, const u8 *message);
@@ -251,7 +251,7 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
 
     gVctSendBuffer.pendingMask = gVctSendState.memberMask;
     gVctSendBuffer.pendingMask = gVctSendState.memberMask & ~(1 << gVctSession.localId);
-    gVctSendBuffer.scheduleRow = func_02080D24(gVctSendBuffer.pendingMask) - 1;
+    gVctSendBuffer.scheduleRow = MATH_CountPopulation(gVctSendBuffer.pendingMask) - 1;
     if (gVctSendBuffer.scheduleRow > 7)
         return 0;
     gVctSendBuffer.scheduleStep = 0;
@@ -1061,7 +1061,7 @@ int VCT_AUDIO_TrackPacketTiming(VctReceiveSource *source, VctRxPacket *packet)
             source->jitterOut = source->jitter = source->jitter + ((delta - source->jitter) >> 4);
     }
     packet->playTick = source->playoutDelay + ((unsigned int)timestampDelta + source->tick0);
-    now = func_020870D0();
+    now = OS_GetTick();
     if (packet->playTick + 0x8B18 < now)
         return 0;
     if (packet->playTick > now + 0x7FD88)
@@ -1303,7 +1303,7 @@ int VCT_SESSION_InitPeerPool(VctInitParams *params)
     gVctGroup.peerMask = 0;
     gVctGroup.peerCount = 0;
     gVctSession.sessionFlags = 0;
-    gVctPeerPool.tickFunc = (void *)func_020870D0;
+    gVctPeerPool.tickFunc = (void *)OS_GetTick;
     gVctPeerPool.rngMul = 0x5D588B65;
     gVctPeerPool.rngAdd = 0x269EC3;
     return 1;

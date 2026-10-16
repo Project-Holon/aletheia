@@ -16,8 +16,8 @@
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   sFldeffD06DenkiFileName  0x021DE544  data  ov021  a4
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
@@ -163,8 +163,8 @@ typedef struct D06DenkiPulseWork {
 } D06DenkiPulseWork;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
@@ -234,7 +234,7 @@ extern G3dObjectStatus sD06DenkiPulseDrawStatus;                     /* pulse dr
 /* Loads the resources of the three effects. */
 D06DenkiRes *FLDEFF_D06DENKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    D06DenkiRes *res = func_02030734(heapId, 0x34, 1, sFldeffD06DenkiFileName, 0xa9);
+    D06DenkiRes *res = GFL_HEAP_Alloc(heapId, 0x34, 1, sFldeffD06DenkiFileName, 0xa9);
     res->fieldEffect = fieldEffect;
     FLDEFF_D06DENKI_LoadResources(res);
     return res;
@@ -248,7 +248,7 @@ D06DenkiRes *FLDEFF_D06DENKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_D06DENKI_Delete(FieldEffectSys *fieldEffect, D06DenkiRes *res)
 {
     FLDEFF_D06DENKI_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 

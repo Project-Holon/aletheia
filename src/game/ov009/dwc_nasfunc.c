@@ -37,8 +37,8 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   DWC_Auth_GetResult  0x02178224  arm  ov009
  *   DWC_Auth_Destroy  0x02178144  arm  ov009
- *   func_0205A1B0  0x0205A1B0  arm
- *   func_02059F54  0x02059F54  arm
+ *   DWC_Free  0x0205A1B0  arm
+ *   DWCi_SetError  0x02059F54  arm
  */
 typedef struct NasTimeDiff {
     int valid;

@@ -13,7 +13,7 @@
  * Cut from mystery_util.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -22,13 +22,13 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_021DFB8C 0x021DFB8C data a1
  *   d_021DF604 0x021DF604 data a4
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_02030EAC 0x02030EAC arm
- *   func_020307B0 0x020307B0 arm
- *   func_02040588 0x02040588 arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   PARTICLE_InitManager 0x02050B80 arm
  *   d_021DF598 0x021DF598 data a4
@@ -64,7 +64,7 @@
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
  *   func_02047964 0x02047964 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   PARTICLE_Main 0x02050BE8 arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
@@ -85,7 +85,7 @@ typedef struct { int a,b,c,d; } BgSysGraphicsMode;
 /* One BG_SYS_InitBgLayer descriptor in d_021DF634. */
 typedef struct { u32 id; u32 config[8]; u32 a; u32 b; } BgLayerEntry;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const void *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *site, u16 tag);
 
 extern void MI_CpuFill8(void *, int, u32);
 
@@ -103,15 +103,15 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
 
-extern void *func_020056A0(void (*)(void *,u8 *),void *,int);
+extern void *GFL_USE_AddMainTask(void (*)(void *,u8 *),void *,int);
 
-extern void func_02030EAC(void *n);
+extern void TCB_DeleteTask(void *n);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_SetGraphicsMode(const void *cfg);
 
@@ -169,7 +169,7 @@ extern void G3D_SYSTEM_Exit(void);
 
 extern void func_02047964(void);
 
-extern void func_02048AD0(void *l);
+extern void G3D_CAMERA_Reset(void *l);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -245,7 +245,7 @@ extern const u32 d_021DF580[];
 u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
 {
     u8 *p;
-    p=func_02030734(heap,28,0,d_021DFB8C,448);
+    p=GFL_HEAP_Alloc(heap,28,0,d_021DFB8C,448);
     MI_CpuFill8(p,0,28);
     ((MysteryGraphicWork *)p)->heapId=heap;
     *(volatile u16 *)0x04000050=0;
@@ -261,7 +261,7 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
     GF_FONT_InitTextColor();
     MYSTERY_GRAPHIC_InitBg(p,heap);
     MYSTERY_GRAPHIC_InitClact((void **)(p+4),(u32)d_021DF604,heap);
-    ((MysteryGraphicWork *)p)->updateTask=func_020056A0(MYSTERY_GRAPHIC_VBlank,p,0);
+    ((MysteryGraphicWork *)p)->updateTask=GFL_USE_AddMainTask(MYSTERY_GRAPHIC_VBlank,p,0);
     return p;
 }
 
@@ -270,7 +270,7 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
  */
 void MYSTERY_GRAPHIC_Delete(u8 *p)
 {
-    func_02030EAC(((MysteryGraphicWork *)p)->updateTask);
+    TCB_DeleteTask(((MysteryGraphicWork *)p)->updateTask);
     MYSTERY_GRAPHIC_ExitClact(p+4);
     MYSTERY_GRAPHIC_ExitBg(p);
     GF_FONT_SetDefaultTextColor();
@@ -279,7 +279,7 @@ void MYSTERY_GRAPHIC_Delete(u8 *p)
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
     MI_CpuFill8(p,0,28);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -300,7 +300,7 @@ unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p) { return MYSTERY_GRAPHIC_GetFirst
 void MYSTERY_GRAPHIC_StartRender(u8 *p)
 {
     BgSysGraphicsMode c;
-    func_02040588(0,0);
+    BG_SYS_SetPlaneVisible(0,0);
     c=d_021DF598;
     c.d=1;
     BG_SYS_SetGraphicsMode((const struct DispConfig *)(&c));
@@ -308,7 +308,7 @@ void MYSTERY_GRAPHIC_StartRender(u8 *p)
     PARTICLE_InitManager(((MysteryGraphicWork *)p)->heapId);
 }
 
-void MYSTERY_GRAPHIC_StopRender(char *p) { func_02040588(0,0);PARTICLE_ExitManager();MYSTERY_GRAPHIC_ExitCamera(p+12);BG_SYS_SetGraphicsMode((const struct DispConfig *)&d_021DF598); }
+void MYSTERY_GRAPHIC_StopRender(char *p) { BG_SYS_SetPlaneVisible(0,0);PARTICLE_ExitManager();MYSTERY_GRAPHIC_ExitCamera(p+12);BG_SYS_SetGraphicsMode((const struct DispConfig *)&d_021DF598); }
 
 void MYSTERY_GRAPHIC_VBlank(void *a, u8 *q)
 {
@@ -331,7 +331,7 @@ void MYSTERY_GRAPHIC_InitBg(void *p, u32 a)
         id = e->id;
         BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)e->config, (u8)e->a);
         BG_SYS_FreeSlot((u8)id);
-        func_02040588((u8)id, (u8)e->b);
+        BG_SYS_SetPlaneVisible((u8)id, (u8)e->b);
         ++i;
     } while (i < 7);
 }
@@ -401,7 +401,7 @@ void MYSTERY_GRAPHIC_ExitCamera(char *p)
 void MYSTERY_GRAPHIC_RenderScene(void **p) {
     if(((MysteryGraphicCamera *)p)->enabled) {
         func_02047964();
-        func_02048AD0(((MysteryGraphicCamera *)p)->handle);
+        G3D_CAMERA_Reset(((MysteryGraphicCamera *)p)->handle);
         G3D_SYSTEM_ApplyLookAt();
         PARTICLE_Main();
     }

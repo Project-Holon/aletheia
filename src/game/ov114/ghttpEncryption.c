@@ -28,9 +28,9 @@
  *   strcmp 0x020948E0  arm
  *   gsDebugFormat 0x0217D254  arm
  *   ghiGetServerAddressFromUrl  0x021c1020  arm   ov114
- *   func_021843E8  0x021843e8  arm   ov009
+ *   ArraySearch  0x021843e8  arm   ov009
  *   gsifree  0x0217eae0  arm   ov009
- *   func_02184208  0x02184208  arm   ov009
+ *   ArrayNth  0x02184208  arm   ov009
  *   ghiCompareCertUrl  0x021c121c  arm   ov114
  *   gGhttpRootCaTable     0x021d3b40  data  ov114
  *   sFuncNameGhiEncryptorGetRootCAList     0x021ce6f9  data  ov114
@@ -42,7 +42,7 @@
  *   sGhttpSslOutOfMemoryCannot     0x021CE858  data
  *   ArrayDeleteAt  0x0218437C  arm   ov009
  *   ArrayLength  0x02184200  arm   ov009
- *   func_021841B0  0x021841B0  arm   ov009
+ *   ArrayFree  0x021841B0  arm   ov009
  *   sFuncNameGhiEncryptorCleanupTwlRootCA     0x021CE72E  data
  *   sGhttpSslNullPointerOrEmpty3     0x021CE8A4  data
  *   sFuncNameSslAuthCallback                       0x021ce686 data
@@ -120,14 +120,14 @@ extern int ghiEncryptorSslDecryptFunc(GHIConnection *connection, void *encryptor
 extern int strcmp(const char *s1, const char *s2);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern char *ghiGetServerAddressFromUrl(char *);
-extern int func_021843E8(void *array, void *key, GHTTPArrayCompareFunc compare, int start, int isSorted);
+extern int ArraySearch(void *array, void *key, GHTTPArrayCompareFunc compare, int start, int isSorted);
 extern void gsifree(void *);
-extern void *func_02184208(void *, int);
+extern void *ArrayNth(void *, int);
 extern void *func_02184144(int elementSize, int growBy, GHTTPArrayElementFreeFunc freeFunc);
 extern void func_021842D0(void *array, void *element, GHTTPArrayCompareFunc compare);
 extern void ArrayDeleteAt(int a, int b);
 extern int ArrayLength(const int *p);
-extern void func_021841B0(void *);
+extern void ArrayFree(void *);
 extern void OS_GetLowEntropyData(unsigned long *);
 extern void CPS_SslAddRandomSeed(void *, unsigned long);
 extern void *gsimalloc(unsigned long);
@@ -274,13 +274,13 @@ void *ghiEncryptorGetRootCAList(char *url)
         return 0;
     }
     certInfo.serverUrl = ghiGetServerAddressFromUrl(url);
-    pos = func_021843E8(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
+    pos = ArraySearch(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
     gsifree(certInfo.serverUrl);
     if (pos == -1) {
         gsDebugFormat(8, (char *)4, 1, sGhttpSslCouldNotFindUrl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorGetRootCAList, 0x323, url);
         return 0;
     }
-    certInfoToReturn = func_02184208(gGhttpRootCaTable, pos);
+    certInfoToReturn = ArrayNth(gGhttpRootCaTable, pos);
     return certInfoToReturn->caList;
 }
 
@@ -324,12 +324,12 @@ int ghiEncryptorSetTwlRootCA(char *url, void *theRootCAList)
     certInfo.serverUrl = ghiGetServerAddressFromUrl(url);
     certInfo.caList = theRootCAList;
     certInfo.refCount = 1;
-    pos = func_021843E8(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
+    pos = ArraySearch(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
     if (pos == -1) {
         func_021842D0(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl);
     } else {
         gsifree(certInfo.serverUrl);
-        certInfoToUpdate = func_02184208(gGhttpRootCaTable, pos);
+        certInfoToUpdate = ArrayNth(gGhttpRootCaTable, pos);
         certInfoToUpdate->refCount++;
     }
     return 1;
@@ -353,17 +353,17 @@ int ghiEncryptorCleanupTwlRootCA(char *url)
         return 0;
     }
     certInfo.serverUrl = ghiGetServerAddressFromUrl(url);
-    pos = func_021843E8(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
+    pos = ArraySearch(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
     if (pos == -1) {
         gsDebugFormat(8, (char *)4, 1, sGhttpSslCouldNotFindUrl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorCleanupTwlRootCA, 0x38a, url);
         result = 0;
     } else {
-        certInfoToUpdate = func_02184208(gGhttpRootCaTable, pos);
+        certInfoToUpdate = ArrayNth(gGhttpRootCaTable, pos);
         certInfoToUpdate->refCount--;
         if (certInfoToUpdate->refCount <= 0) {
             ArrayDeleteAt((int)gGhttpRootCaTable, pos);
             if (ArrayLength(gGhttpRootCaTable) == 0) {
-                func_021841B0(gGhttpRootCaTable);
+                ArrayFree(gGhttpRootCaTable);
                 gGhttpRootCaTable = 0;
             }
         }

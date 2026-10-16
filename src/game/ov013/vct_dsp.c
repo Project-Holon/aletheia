@@ -40,6 +40,7 @@
  *   VCT_AUDIO_DecodePendingFrames  0x021B111C  arm ov013
  *   VCT_AUDIO_ReceiveFrame  0x021B0F38  arm
  *   VCT_SESSION_HandlePacket  0x021B2488  arm
+ *   OS_GetTick  0x020870D0  arm  arm9
  */
 #include "vct_types.h"
 
@@ -66,7 +67,7 @@ extern void VCT_SESSION_ClearMemberCount(void);
 extern void VCT_SESSION_CheckAnnounceTimeout(void);
 extern int VCT_AUDIO_SendFrameStep(void);
 extern int VCT_AUDIO_DecodePendingFrames(void);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern int VCT_AUDIO_ReceiveFrame(int senderId, VctAudioFrame *frame, int length, unsigned long long tick);
 extern int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
 void VCT_DSP_ResetVoiceGate(void);
@@ -592,7 +593,7 @@ int VCT_ParseFrame(int senderId, VctFrameHeader *header, int length, VctEvent *e
         return 0;
     eventOut->code = 0;
     eventOut->peer = 0;
-    tick = func_020870D0();
+    tick = OS_GetTick();
     if ((header->type & 0xf0) == 0x40) {
         gVctState.audioFrameCount++;
         VCT_AUDIO_ReceiveFrame(senderId, (VctAudioFrame *)header, length, tick);

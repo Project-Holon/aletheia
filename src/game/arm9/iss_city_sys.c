@@ -14,9 +14,9 @@
  *
  * symbols:
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ISS_CITY_SYS_sSourceFileName     0x020A76E8  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
@@ -55,11 +55,11 @@ struct IssCitySys {
     u8 currentUnit;         /* index into units, or ISS_CITY_UNIT_NONE */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
 
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 
@@ -165,7 +165,7 @@ extern const char ISS_CITY_SYS_sSourceFileName[];
  */
 struct IssCitySys *ISS_CITY_SYS_Create(struct PlayerWork *player, u32 heapId)
 {
-    struct IssCitySys *sys = func_02030734(heapId, sizeof(struct IssCitySys), 0,
+    struct IssCitySys *sys = GFL_HEAP_Alloc(heapId, sizeof(struct IssCitySys), 0,
                                            ISS_CITY_SYS_sSourceFileName, 0x92);
 
     ISS_CITY_SYS_InitState(sys, heapId, player);
@@ -176,7 +176,7 @@ struct IssCitySys *ISS_CITY_SYS_Create(struct PlayerWork *player, u32 heapId)
 void ISS_CITY_SYS_Delete(struct IssCitySys *sys)
 {
     ISS_CITY_SYS_ReleaseUnits(sys);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 /*
@@ -261,7 +261,7 @@ void ISS_CITY_SYS_LoadUnits(struct IssCitySys *sys, u32 heapId)
     s32 memberCount = ARC_TOOL_GetArchiveFileCount(0x84);
     s32 i;
     sys->unitCount = memberCount;
-    sys->units = func_02030734(heapId, memberCount << 2, 0, ISS_CITY_SYS_sSourceFileName, 0x14d);
+    sys->units = GFL_HEAP_Alloc(heapId, memberCount << 2, 0, ISS_CITY_SYS_sSourceFileName, 0x14d);
     for (i = 0; i < memberCount; i++) {
         sys->units[i] = ISS_CITY_UNIT_Create(heapId, i);
     }
@@ -274,7 +274,7 @@ void ISS_CITY_SYS_FreeUnits(struct IssCitySys *sys)
     for (i = 0; i < count; i++) {
         ISS_CITY_UNIT_Delete(sys->units[i]);
     }
-    func_020307B0(sys->units);
+    GFL_HEAP_Free(sys->units);
     sys->units = 0;
 }
 

@@ -14,13 +14,13 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
  *   gPleasureBoatFileName     0x021DE534  data  a4
  *   d_00000024     0x00000024  data  a4
@@ -43,11 +43,11 @@
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern int func_02034AC4(s32 overlayId);
+extern int GF_OVERLAY_Load(s32 overlayId);
 
-extern void func_02034A5C(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 
 extern void GIMMICK_INIT_SetCartLanesFlags(PleasureBoatWork *work);
 
@@ -71,7 +71,7 @@ int PLEASURE_BOAT_GetStat(PleasureBoatWork *work, int kind);
 
 PleasureBoatWork *PLEASURE_BOAT_Create(void)
 {
-    PleasureBoatWork *work = func_02030734(5, sizeof(PleasureBoatWork), 1, &gPleasureBoatFileName, 0x31);
+    PleasureBoatWork *work = GFL_HEAP_Alloc(5, sizeof(PleasureBoatWork), 1, &gPleasureBoatFileName, 0x31);
     work->eventPending = 0;
     work->timeTicks = 0;
     work->periodCount = 0;
@@ -80,9 +80,9 @@ PleasureBoatWork *PLEASURE_BOAT_Create(void)
     work->groupCount[2] = 0;
     work->groupCount[3] = 0;
     work->locked = 0;
-    func_02034AC4((int)d_00000024); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
+    GF_OVERLAY_Load((int)d_00000024); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
     GIMMICK_INIT_SetCartLanesFlags(work);
-    func_02034A5C((int)d_00000024);
+    GF_OVERLAY_Unload((int)d_00000024);
     return work;
 }
 

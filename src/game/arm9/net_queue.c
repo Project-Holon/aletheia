@@ -13,9 +13,9 @@
  * Cut from touchpanel.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734                    0x02030734  arm
- *   func_020307B0                    0x020307B0  arm
- *   func_02034714                    0x02034714  arm
+ *   GFL_HEAP_Alloc                    0x02030734  arm
+ *   GFL_HEAP_Free                    0x020307B0  arm
+ *   SAVEDATA_PanicFail                    0x02034714  arm
  *   MI_CpuFill8                      0x02082BCC  arm
  *   MI_CpuCopy8                      0x02082D44  arm
  *   _pTouchPanelWork                 0x021469C4  data
@@ -32,11 +32,11 @@
 #include "net_types.h"
 #include "net_queue_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02034714(const char *file, u32 line, const char *expr);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
@@ -214,15 +214,15 @@ int GFL_NET_QUEUE_Put(NetQueue *queue, u32 command, const u8 *pDataArea, u32 siz
     NetQueueNode *node = GFL_NET_QUEUE_GetFreeNode(queue);
 
     if (node == 0) {
-        func_02034714(net_queue_File, 0xdb, net_queue_AssertZero);
+        SAVEDATA_PanicFail(net_queue_File, 0xdb, net_queue_AssertZero);
         return 0;
     }
     if (!((u16)size < 0xffff / 2)) {
-        func_02034714(net_queue_File, 0xdf, net_queue_AssertSize);
+        SAVEDATA_PanicFail(net_queue_File, 0xdf, net_queue_AssertSize);
     }
     if (copyToRing != 0) {
         if (!((int)(size + 5) < (int)GFL_NET_RING_BUFF_GetFreeSize(queue->ring))) {
-            func_02034714(net_queue_File, 0xe3, net_queue_AssertZero);
+            SAVEDATA_PanicFail(net_queue_File, 0xe3, net_queue_AssertZero);
             return 0;
         }
         GFL_NET_RING_BUFF_Write(queue->ring, pDataArea, size);
@@ -271,7 +271,7 @@ void GFL_NET_QUEUE_RemoveNext(NetQueue *queue)
     if (GFL_NET_QUEUE_PopList(&queue->slow) != 0) {
         return;
     }
-    func_02034714(net_queue_File, 0x12f, net_queue_AssertRet);
+    SAVEDATA_PanicFail(net_queue_File, 0x12f, net_queue_AssertRet);
 }
 
 /*
@@ -310,7 +310,7 @@ done:
 void GFL_NET_QUEUE_Init(NetQueue *queue, u32 nodeMax, NetRingBuff *ring, u32 heapId)
 {
     MI_CpuFill8(queue, 0, sizeof(NetQueue));
-    queue->nodes = func_02030734(heapId, nodeMax * sizeof(NetQueueNode), 1, net_queue_File, 0x173);
+    queue->nodes = GFL_HEAP_Alloc(heapId, nodeMax * sizeof(NetQueueNode), 1, net_queue_File, 0x173);
     queue->nodeMax = nodeMax;
     queue->ring = ring;
 }
@@ -327,7 +327,7 @@ void GFL_NET_QUEUE_Reset(NetQueue *queue)
 
 void GFL_NET_QUEUE_Exit(NetQueue *queue)
 {
-    func_020307B0(queue->nodes);
+    GFL_HEAP_Free(queue->nodes);
 }
 
 /* Is a node with this command queued? */

@@ -16,13 +16,13 @@
  *   d_021796A0  0x021796A0  data  a4
  *   sDevWirelessWork 0x021797A0  data   a4
  *   sFileNetDevWireless 0x0217976C  data   a1
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   NET_WHPIPE_Create  0x02177280  thumb  ov014
  *   NET_WHPIPE_IsIdle 0x02177AA8 thumb ov014
  *   NET_WHPIPE_Update 0x0217796C thumb ov014
  *   NET_WHPIPE_RequestFinalize 0x021776C4 thumb ov014
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   NET_WHPIPE_RequestEnd 0x02177EB0 thumb ov014
  *   NET_WHPIPE_ClearEntries 0x02177560 thumb ov014
  *   NET_WHPIPE_GetEntryBeaconData 0x02177B2C thumb ov014
@@ -51,13 +51,13 @@ typedef struct DevWirelessWork {
     void (*onEndedCallback)(void *result);  /* called once the pipe has shut down */
 } DevWirelessWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *GFL_NET_GetInitParam(void);
 extern int NET_WHPIPE_Create(int a, int b, u32 c, int d);
 extern int NET_WHPIPE_IsIdle(void);
 extern void NET_WHPIPE_Update(u32);
 extern int NET_WHPIPE_RequestFinalize(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int NET_WHPIPE_RequestEnd(int a);
 extern void NET_WHPIPE_ClearEntries(void);
 /* Pipe layer (net_whpipe.c, net_whpipe_p02.c) */
@@ -126,7 +126,7 @@ int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userD
 
     if (sDevWirelessWork != 0)
         return 0;
-    work = func_02030734(heapId, 8, 1, sFileNetDevWireless, 0xb4);
+    work = GFL_HEAP_Alloc(heapId, 8, 1, sFileNetDevWireless, 0xb4);
     forListening = 1;
     sDevWirelessWork = work;
     work->setupParam = setupParam;
@@ -177,7 +177,7 @@ int GFL_NET_DEVWIRELESS_OnShutdownDone(void *result)
 {
     if (sDevWirelessWork->onEndedCallback != 0)
         sDevWirelessWork->onEndedCallback(result);
-    func_020307B0(sDevWirelessWork);
+    GFL_HEAP_Free(sDevWirelessWork);
     sDevWirelessWork = 0;
     return 1;
 }

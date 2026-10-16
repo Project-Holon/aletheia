@@ -18,8 +18,8 @@
  *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
  *   BR_GRAPHIC_Draw 0x021FC4C8 thumb ov186
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -27,18 +27,18 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_02200D4C 0x02200D4C data a1
  *   d_0220093C 0x0220093C data a4
  *   d_0220096C 0x0220096C data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_02200900 0x02200900 data a4
  *   d_0220099C 0x0220099C data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -62,7 +62,7 @@
 struct Cfg;
 struct Node;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct DispVram;
 
@@ -74,7 +74,7 @@ typedef struct BrBgLayerRow {unsigned id;BrBgTemplate template;unsigned type,ena
 
 typedef struct DispConfig {unsigned words[4];} DispConfig;
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
 extern void MI_CpuFill8(void *,int,int);
 
@@ -86,9 +86,9 @@ extern void BMP_SetDisplaySwap(unsigned);
 
 extern void BG_SYS_ResetSubDisplay(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),GF_FONT_InitTextColor(void);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -102,7 +102,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BrBgTemplate *tmpl, u32 ty
 
 extern void BG_SYS_FreeSlot(unsigned char);
 
-extern void func_02040588(unsigned char,unsigned char);
+extern void BG_SYS_SetPlaneVisible(unsigned char,unsigned char);
 
 extern void BG_SYS_Update(void);
 
@@ -182,7 +182,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId)
 {
     const struct DispVram *config;
     struct BrGraphic *gfx;
-    gfx=func_02030734(heapId,16,0,d_02200D4C,0x1d5);
+    gfx=GFL_HEAP_Alloc(heapId,16,0,d_02200D4C,0x1d5);
     MI_CpuFill8(gfx,0,16);
     switch(mode){case 0:config=&d_0220093C;break;case 1:config=&d_0220096C;break;}
     *(volatile unsigned short *)0x04000050=0;
@@ -193,7 +193,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId)
     BG_SYS_ResetSubDisplay();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();GF_FONT_InitTextColor();
     BR_GRAPHIC_InitBgWindows(&gfx->bgState,heapId);
     BR_GRAPHIC_InitActors((int *)&gfx->actors,(int)config,heapId);
-    gfx->vblankTask=func_020056A0((unsigned)BR_GRAPHIC_VBlankTask,(unsigned)gfx,0);
+    gfx->vblankTask=GFL_USE_AddMainTask((unsigned)BR_GRAPHIC_VBlankTask,(unsigned)gfx,0);
     return gfx;
 }
 
@@ -202,7 +202,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId)
  */
 void BR_GRAPHIC_Destroy(struct BrGraphic *gfx)
 {
-    func_02030EAC(gfx->vblankTask);
+    TCB_DeleteTask(gfx->vblankTask);
     BR_GRAPHIC_ExitActors(&gfx->actors);
     BR_GRAPHIC_ExitBgWindows(&gfx->bgState);
     GF_FONT_SetDefaultTextColor();
@@ -211,7 +211,7 @@ void BR_GRAPHIC_Destroy(struct BrGraphic *gfx)
     *(volatile unsigned *)0x04000000&=~0xe000;
     *(volatile unsigned *)0x04001000&=~0xe000;
     MI_CpuFill8(gfx,0,16);
-    func_020307B0(gfx);
+    GFL_HEAP_Free(gfx);
 }
 
 void BR_GRAPHIC_Draw(struct BrGraphic *gfx)
@@ -241,7 +241,7 @@ void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId)
         r=&d_0220099C[i];id=r->id;
         BG_SYS_InitBgLayer((unsigned char)id,&r->template,(unsigned char)r->type);
         BG_SYS_FreeSlot(id);
-        func_02040588(id,r->enable);
+        BG_SYS_SetPlaneVisible(id,r->enable);
     }
 }
 
@@ -289,6 +289,6 @@ void BR_GRAPHIC_End3d(void)
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
         if(id<4){BG_SYS_InitBgLayer((unsigned char)id,&r->template,(unsigned char)r->type);BG_SYS_FreeSlot(id);}
-        func_02040588((unsigned char)id,(unsigned char)r->enable);
+        BG_SYS_SetPlaneVisible((unsigned char)id,(unsigned char)r->enable);
     }
 }

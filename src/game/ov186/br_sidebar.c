@@ -19,8 +19,8 @@
  *   BR_SIDEBAR_StartWobble 0x021FEE4C thumb ov186
  *   BR_SIDEBAR_Destroy 0x021FEDC4 thumb ov186
  *   BR_SIDEBAR_Update 0x021FEE00 thumb ov186
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -48,9 +48,9 @@
  */
 #include "br_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void CLACT_DeleteActor(struct Actor *actor);
 
@@ -129,7 +129,7 @@ typedef char BrSidebarCheckConfig[sizeof(struct BrSidebarConfig) == 24 ? 1 : -1]
 
 struct BrSidebar *BR_SIDEBAR_Create(struct Bank *unit, int unused, struct BrRes *res, u16 heapId)
 {
-    struct BrSidebar *sidebar = func_02030734(heapId, sizeof(struct BrSidebar), 0, gBrSidebarSourceFile, 0x132);
+    struct BrSidebar *sidebar = GFL_HEAP_Alloc(heapId, sizeof(struct BrSidebar), 0, gBrSidebarSourceFile, 0x132);
     int i;
     MI_CpuFill8(sidebar, 0, sizeof(struct BrSidebar));
     BR_RES_LoadSprite(res, 4, heapId);
@@ -147,7 +147,7 @@ void BR_SIDEBAR_Destroy(struct BrSidebar *sidebar, struct BrRes *res)
             BR_SIDEBAR_DestroySlot(&sidebar->slot[i]);
     BR_RES_ReleaseSprite(res,4);
     BR_RES_ReleaseSprite(res,5);
-    func_020307B0(sidebar);
+    GFL_HEAP_Free(sidebar);
 }
 
 void BR_SIDEBAR_Update(struct BrSidebar *sidebar)

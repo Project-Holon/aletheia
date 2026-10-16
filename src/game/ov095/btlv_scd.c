@@ -15,7 +15,7 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_021B9AF8  0x021B9AF8  thumb
  *   BTL_CLIENT_GetClientId  0x021D3D70  thumb
@@ -56,7 +56,7 @@
  *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb
  *   func_021D62A8  0x021D62A8  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BTLV_INPUT_Delete  0x022021F4  thumb
  *   BTL_CALC_ActionSetNone  0x021D8434  thumb
@@ -186,8 +186,8 @@ extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
 extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
 
 /* System services. */
-extern BtlvAuxView *func_02030734(u16 heapId, int size, int clear, u8 *site, int tag);
-extern void func_020307B0(void *block);
+extern BtlvAuxView *GFL_HEAP_Alloc(u16 heapId, int size, int clear, u8 *site, int tag);
+extern void GFL_HEAP_Free(void *block);
 extern void MIi_CpuClear16(u32 value, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BG_SYS_SetSubPlaneVisible(int planeMask, int visible);
@@ -276,7 +276,7 @@ BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, 
 {
     BtlvAuxView *view;
 
-    view = func_02030734(heapId, 0xb4, 1, gBtlvScdFileName, 0xc8);
+    view = GFL_HEAP_Alloc(heapId, 0xb4, 1, gBtlvScdFileName, 0xc8);
     view->core = core;
     view->mainModule = mainModule;
     view->pokeCon = pokeCon;
@@ -382,7 +382,7 @@ void BTLV_SCD_Delete(BtlvAuxView *view)
     PRINTSYS_QUE_Delete(view->printQueue);
     STRBUF_Delete(view->msgBuffer);
     BTLV_INPUT_Delete(view->input);
-    func_020307B0(view);
+    GFL_HEAP_Free(view);
 }
 
 /* Empties the task stack. */

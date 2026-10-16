@@ -1,7 +1,7 @@
 /*
  * file:     g2.c
  * unit:     yes
- * function: G2x_SetBGyAffine_, func_0207D63C, G2x_SetBlendBrightness_, G2x_SetBlendBrightnessExt_, DWCi_WindowG2x_ChangeBlendBrightness_
+ * function: G2x_SetBGyAffine_, G2x_SetBlendAlpha_, G2x_SetBlendBrightness_, G2x_SetBlendBrightnessExt_, DWCi_WindowG2x_ChangeBlendBrightness_
  * address:  0x0207D59C
  * region:   arm9
  * compiler: dsi/1.1p1

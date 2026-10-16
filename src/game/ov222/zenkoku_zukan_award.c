@@ -20,31 +20,31 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0207D518 0x0207D518 arm
+ *   GXS_SetGraphicsMode 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   tbl_021BA1F4 0x021BA1F4 data a4
  *   tbl_021BA360 0x021BA360 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete 0x021B9FB8 thumb ov222
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   d_021BA1F4 0x021BA1F4 data a4
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -58,7 +58,7 @@
  *   func_0200873C 0x0200873C thumb
  *   CONFIG_GetAppliedFlag 0x020083E4 thumb
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -66,25 +66,25 @@
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   d_021BA220 0x021BA220 data a1
  *   d_021BA1E0 0x021BA1E0 data a1
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_LoadPltt 0x02040E78 arm
  *   BMP_WIN_GetCharOffset 0x02045768 arm
  *   BG_SYS_DrawTile 0x02041090 arm
@@ -181,8 +181,8 @@ struct ZenkokuZukanAwardWork {
     void *graphic;               /* +0x08 ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create */
     struct GfFont *font;         /* +0x0C GF_FONT_Create */
     void *printQue;              /* +0x10 PRINTSYS_QUE_Create */
-    void *task;                  /* +0x14 func_020056A0 proc */
-    struct MsgBank *msgBank;     /* +0x18 func_02045B38, freed by MSGDATA_Delete */
+    void *task;                  /* +0x14 GFL_USE_AddMainTask proc */
+    struct MsgBank *msgBank;     /* +0x18 MSGDATA_CreateFromArchive, freed by MSGDATA_Delete */
     void *windows[5];            /* +0x1C BMP window descriptors */
     u32 done[5];                 /* +0x30 set once a window is uploaded */
     u8 countdown;                /* +0x44 */
@@ -200,26 +200,26 @@ extern void *ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void BG_SYS_SetVisibleLayer(int,u16);
-extern void *func_020056A0(u32,void*,u32);
+extern void *GFL_USE_AddMainTask(u32,void*,u32);
 extern char *GAME_DATA_GetMyStatus(void*);
-extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
+extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGraphicsMode(BGMode);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
 extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char*);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 extern int GFL_USE_IsBgmFading(void);
@@ -240,7 +240,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int CONFIG_GetAppliedFlag(unsigned short *p);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -248,23 +248,23 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern void *func_02030734(u32,u32,int,const char*,u16);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char*,u16);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_LoadPltt(u32,void*,u32,u32);
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern void BG_SYS_DrawTile(u32,u32,u32,u32,u8,u8);
@@ -334,26 +334,26 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
  *(u32*)(p+16)=PRINTSYS_QUE_Create((void*)*(u16*)p);
  BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(2,0);
- *(void**)(p+20)=func_020056A0((u32)ZENKOKU_ZUKAN_AWARD_Task,p,1);
+ *(void**)(p+20)=GFL_USE_AddMainTask((u32)ZENKOKU_ZUKAN_AWARD_Task,p,1);
  ZENKOKU_ZUKAN_AWARD_LoadBgAssets((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupWindows((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupTiles((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_CreateActor((struct ZenkokuZukanAwardWork *)p);
  settings=GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;
- BG_SYS_ClearSubPlanes();func_0207D518(i);BG_SYS_ClearSubBgPlanes();
+ BG_SYS_ClearSubPlanes();GXS_SetGraphicsMode(i);BG_SYS_ClearSubBgPlanes();
  do {
   row=&tbl_021BA1F4[i];id=row->id;
-  BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);BG_SYS_FreeSlot(id);func_02040588(id,row->enable);
+  BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);BG_SYS_FreeSlot(id);BG_SYS_SetPlaneVisible(id,row->enable);
   i++;
  } while((u32)i<1u);
  BG_SYS_SetSubPlaneVisible(16,1);
  heap=*(u16*)p;
  selected=1;if(*(u8*)(settings+29)!=1) selected=0;
- h=func_020490F4(30,heap);
+ h=ARC_TOOL_CreateHandle(30,heap);
  zero=0;
  func_02049B68(h,tbl_021BA360[selected].a,4,zero,zero,heap);
- func_02049658(h,tbl_021BA360[selected].b,4,zero,zero,zero,heap);
- func_020498F4(h,tbl_021BA360[selected].c,4,zero,zero,zero,heap);
+ ARC_UTIL_UploadBgCharFromHandle(h,tbl_021BA360[selected].b,4,zero,zero,zero,heap);
+ ARC_UTIL_UploadBgPaletteFromHandle(h,tbl_021BA360[selected].c,4,zero,zero,zero,heap);
  ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);ZENKOKU_ZUKAN_AWARD_SetupActorPos((char *)p);
  FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16*)p);
  if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
@@ -373,12 +373,12 @@ int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p)
  ZENKOKU_ZUKAN_AWARD_DeleteActor((struct ZenkokuZukanAwardWork *)p);
  ZENKOKU_ZUKAN_AWARD_DeleteWindows((struct ZenkokuZukanAwardWork *)p);
  ZENKOKU_ZUKAN_AWARD_Noop((struct ZenkokuZukanAwardWork *)p);
- func_02030EAC(((struct ZenkokuZukanAwardWork *)p)->task);
+ TCB_DeleteTask(((struct ZenkokuZukanAwardWork *)p)->task);
  PRINTSYS_QUE_Clear(((struct ZenkokuZukanAwardWork *)p)->printQue);
  PRINTSYS_QUE_Delete(((struct ZenkokuZukanAwardWork *)p)->printQue);
  GF_FONT_Delete(((struct ZenkokuZukanAwardWork *)p)->font);
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete((char *)((struct ZenkokuZukanAwardWork *)p)->graphic);
- func_020315D4(scene);
+ PROCSYS_FreeProcWork(scene);
  GFL_HEAP_DeleteChecked(0x83);
  return 1;
 }
@@ -425,10 +425,10 @@ void ZENKOKU_ZUKAN_AWARD_Task(void) {}
 void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(struct ZenkokuZukanAwardWork *p)
 {
     void *h;
-    h=func_020490F4(0xca,p->heap);
+    h=ARC_TOOL_CreateHandle(0xca,p->heap);
     func_02049B68(h,2,0,0,0x1e0,p->heap);
-    func_02049658(h,5,1,0,0,0,p->heap);
-    func_020498F4(h,7,1,0,0,0,p->heap);
+    ARC_UTIL_UploadBgCharFromHandle(h,5,1,0,0,0,p->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h,7,1,0,0,0,p->heap);
     ARC_TOOL_DeleteHandle(h);
     BG_SYS_PushTile(1);
 }
@@ -453,7 +453,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
     p->done[0] = 1;
     p->done[1] = 1;
     ARC_UTIL_UploadPaletteFromArchive(0x17, 5, 0, 0, 0x1e0, 0x20, p->heap);
-    p->msgBank = func_02045B38(0, 3, 1, p->heap);
+    p->msgBank = MSGDATA_CreateFromArchive(0, 3, 1, p->heap);
     for (i = 0; i < 5; i++) {
         p->windows[i] = (void *)BMP_WIN_Create(d_021BA220[i*9], d_021BA220[i*9+1], d_021BA220[i*9+2], d_021BA220[i*9+3], d_021BA220[i*9+4], d_021BA220[i*9+5], d_021BA220[i*9+6]);
         BMP_Clear(BMP_WIN_GetBmp(p->windows[i]), 0);
@@ -466,25 +466,25 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
         }
     }
     ws = (u32)WORDSET_CreateDefault(p->heap);
-    t = (u32)func_02045EC0(p->msgBank, 4);
+    t = (u32)MSGDATA_AllocString(p->msgBank, 4);
     x = (u32)STRBUF_Create(0x20, p->heap);
     off = 0;
     WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, msg);
     WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)x, (void *)t);
-    func_0201D304((struct StrObj *)x, (u32)p->font, 0);
+    GF_FONT_MeasureWidestLine((struct StrObj *)x, (u32)p->font, 0);
     BMP_GetWidth(BMP_WIN_GetBmp(p->windows[2]));
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[2]), 0, 0, x, (u32)p->font, 0x440);
     STRBUF_Delete((struct U16Vec *)x);
     STRBUF_Delete((struct U16Vec *)t);
     WORDSET_DeleteStrbufED04((struct WordSet *)ws);
-    t = (u32)func_02045EC0(p->msgBank, 6);
-    x = (u16)func_0201D304((struct StrObj *)t, (u32)p->font, 0);
+    t = (u32)MSGDATA_AllocString(p->msgBank, 6);
+    x = (u16)GF_FONT_MeasureWidestLine((struct StrObj *)t, (u32)p->font, 0);
     h = BMP_GetWidth(BMP_WIN_GetBmp(p->windows[3]));
     if (h >= x && flag == 1) off = ((int)(h - x)) / 2;
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[3]), off, 0, t, (u32)p->font, 0x440);
     STRBUF_Delete((struct U16Vec *)t);
-    t = (u32)func_02045EC0(p->msgBank, 5);
-    func_0201D304((struct StrObj *)t, (u32)p->font, 0);
+    t = (u32)MSGDATA_AllocString(p->msgBank, 5);
+    GF_FONT_MeasureWidestLine((struct StrObj *)t, (u32)p->font, 0);
     BMP_GetWidth(BMP_WIN_GetBmp(p->windows[4]));
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[4]), 0, 0, t, (u32)p->font, 0x440);
     STRBUF_Delete((struct U16Vec *)t);
@@ -492,7 +492,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
         void *d = p->windows[i];
         BMP_WIN_TransferChars(d);
         BMP_WIN_MakeScreen(d);
-        func_02041B6C(BMP_WIN_GetBgLayer(d));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
     }
     ZENKOKU_ZUKAN_AWARD_FlushWindows(p);
 }
@@ -510,7 +510,7 @@ void ZENKOKU_ZUKAN_AWARD_FlushWindows(struct ZenkokuZukanAwardWork *p)
         if(p->done[i]==0){
             if(PRINTSYS_QUE_IsExistTarget(p->printQue,BMP_WIN_GetBmp(p->windows[i]))==0){
                 void*h=p->windows[i];
-                BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);func_02041B6C(BMP_WIN_GetBgLayer(h));
+                BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(h));
                 p->done[i]=1;
             }
         }
@@ -533,29 +533,29 @@ void ZENKOKU_ZUKAN_AWARD_SetupTiles(struct ZenkokuZukanAwardWork *p)
  u16 index;
  unsigned long tile;
  u8 x,y;
- buf=func_02030734(p->heap,32,1,d_021BA378,0x3db);
+ buf=GFL_HEAP_Alloc(p->heap,32,1,d_021BA378,0x3db);
  index=0;
  buf[0]=0;
  buf[1]=0x1d29;
  buf[2]=0x3210;
  buf[3]=0;
  BG_SYS_LoadPltt(2,buf,32,480);
- func_020307B0(buf);
+ GFL_HEAP_Free(buf);
  BMP_Clear(BMP_WIN_GetBmp(p->windows[1]),3);
  BMP_WIN_TransferChars(p->windows[1]);
- tiles=func_02030734(p->heap,1536,1,d_021BA378,0x3ec);
+ tiles=GFL_HEAP_Alloc(p->heap,1536,1,d_021BA378,0x3ec);
  tile=BMP_WIN_GetCharOffset(p->windows[1])|0xf000;
  for(y=0;y<24;y++) for(x=0;x<32;x++) {tiles[index]=tile;index++;}
  BG_SYS_DrawTile(2,(u32)tiles,0,24,32,24);
  BG_SYS_PushTile(2);
- func_020307B0(tiles);
+ GFL_HEAP_Free(tiles);
 }
 
 void ZENKOKU_ZUKAN_AWARD_CreateActor(struct ZenkokuZukanAwardWork *p)
 {
  u32 t;
  void *h;
- h=func_020490F4(0xca,p->heap);
+ h=ARC_TOOL_CreateHandle(0xca,p->heap);
  p->paletteId=CLACT_RegisterPaletteEx(h,0,0,0,0,2,p->heap);
  p->charId=CLACT_RegisterCharacter(h,3,0,0,p->heap);
  p->cellAnimId=CLACT_RegisterCellAnim(h,8,9,p->heap);

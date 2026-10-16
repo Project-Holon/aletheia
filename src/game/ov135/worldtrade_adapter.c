@@ -17,17 +17,17 @@
  *   WORLDTRADE_ADAPTER_InitPrinter  0x022026D8  thumb
  *   WORLDTRADE_ADAPTER_UpdatePrinter 0x02202770 thumb ov135
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
  *   STRBUF_Create 0x020457B0 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   WORLDTRADE_ADAPTER_CreateMonFromBox  0x022025E4  thumb
  *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -45,7 +45,7 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
  *   func_02007664  0x02007664  thumb
- *   func_020076D0  0x020076D0  thumb
+ *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
  *   func_0200752C  0x0200752C  thumb
  *   WORLDTRADE_ADAPTER_ClearWindowScreen 0x02202644 thumb ov135
  *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb
@@ -62,12 +62,12 @@
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
  *   WORLDTRADE_BOX_IsSpeciesFlagged 0x021F6DE8 thumb ov135
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORLDTRADE_GetIsDeposited  0x0200AD8C  thumb
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORLDTRADE_SetIsDeposited  0x0200AD94  thumb
@@ -110,20 +110,21 @@
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
  */
 #include "worldtrade_types.h"
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -155,7 +156,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 
-extern int func_020076D0(void *save, int *pbox, int *pslot);
+extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 
@@ -208,7 +209,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 
-extern void func_02041B6C(u32 v);
+extern void BG_SYS_SetFlagField06(u32 v);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
@@ -264,7 +265,7 @@ extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
@@ -381,7 +382,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag)
         WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)func_02007A18(p->ctx->save, p->box, p->slot), (u32)mon);
         if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
         func_02007664(p->ctx->save, p->box, p->slot);
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
     } else {
         mon = POKEPARTY_GetMember(p->ctx->party, p->slot);
         if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
@@ -420,7 +421,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
         slot -= 1;
     } else {
         pos = 0;
-        func_020076D0((void *)p->ctx->box, (int *)(&box), (int *)(&pos));
+        BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&box), (int *)(&pos));
         func_0200752C((void **)p->ctx->box, box, (const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->box_u = box;
         slot = pos;
@@ -449,7 +450,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,voi
         pos--;
     } else {
         u32 slot=0;
-        func_020076D0(p->ctx->save,(int *)(&index),(int *)(&slot));
+        BOX_SAVEDATA_FindFreeSlot(p->ctx->save,(int *)(&index),(int *)(&slot));
         func_0200752C(p->ctx->save,index,(const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->box_u=index;
         pos=slot;
@@ -516,8 +517,8 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
     u32 id;
 
     id = (heap & 0x7FFF) | 0x8000;
-    bank = func_02045B38(0, 2, 0x51, (u16)id);
-    str = func_02045EC0(bank, 0xF);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0x51, (u16)id);
+    str = MSGDATA_AllocString(bank, 0xF);
     MSGDATA_Delete(bank);
     POKE_TOOL_SetDefaultName(mon);
     POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)STRBUF_GetChars(str));
@@ -526,7 +527,7 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
         POKE_TOOL_GetPartyValue(mon, 0xA7, (u32)buf);
         func_02008F88(buf, STRBUF_GetChars(str));
         POKE_TOOL_SetPartyValue(mon, 0xA7, (u32)buf);
-        func_020307B0(buf);
+        GFL_HEAP_Free(buf);
     }
     STRBUF_Delete(str);
 }
@@ -539,7 +540,7 @@ void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c)
     void *blk = POKE_TOOL_CreateFromBoxParam((void *)c, 0x48);
 
     WORDSET_SetSlotMonSpecies((void *)a, b, blk);
-    func_020307B0(blk);
+    GFL_HEAP_Free(blk);
 }
 
 /*
@@ -547,7 +548,7 @@ void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c)
  */
 void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap)
 {
-    return func_02030734(heap, POKE_TOOL_GetPartyParamSize(), 0, g_02203F5C, 0x47);
+    return GFL_HEAP_Alloc(heap, POKE_TOOL_GetPartyParamSize(), 0, g_02203F5C, 0x47);
 }
 
 /*
@@ -569,7 +570,7 @@ void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 a, int kind)
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)a));
         break;
     case 1:
-        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)a));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)a));
         break;
     }
 }
@@ -579,7 +580,7 @@ void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 a, int kind)
  */
 u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 t1 = (u32)func_02045EC0((struct MsgBank *)b, c);
+    u32 t1 = (u32)MSGDATA_AllocString((struct MsgBank *)b, c);
     u32 t2 = (u32)STRBUF_Create(0x200, d);
 
     WORDSET_CopyTaggedText((struct WordSet *)a, (void *)t2, (void *)t1);
@@ -595,7 +596,7 @@ void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k)
     u32 h = (u32)POKE_TOOL_CreateFromBoxParam((struct Mon *)p, 0x48);
 
     WORLDTRADE_ADAPTER_CopyMon(h, k);
-    func_020307B0((void *)h);
+    GFL_HEAP_Free((void *)h);
 }
 
 /*
@@ -611,7 +612,7 @@ u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon)
  */
 int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, u32 a, u32 c)
 {
-    return func_0201D304((struct StrObj *)a, *p, (u16)c);
+    return GF_FONT_MeasureWidestLine((struct StrObj *)a, *p, (u16)c);
 }
 
 void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
@@ -733,7 +734,7 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, u32 str, u32 x, u32 y, u32
         }
     }
     if (found == 0) {
-        func_02034714((void *)0x02203F74, 0, (void *)0x02203F74);
+        SAVEDATA_PanicFail((void *)0x02203F74, 0, (void *)0x02203F74);
     }
     found->win = win;
     found->busy = 0;
@@ -764,12 +765,12 @@ MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap)
 {
     MsgSys *ctx;
 
-    ctx = func_02030734(heap, 0x74, 0, (const char *)g_02203F5C, 0x1DD);
+    ctx = GFL_HEAP_Alloc(heap, 0x74, 0, (const char *)g_02203F5C, 0x1DD);
     MI_CpuFill8(ctx, 0, 0x74);
     ctx->heap = heap;
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
     ctx->queue = (void *)PRINTSYS_QUE_Create((void *)heap);
-    ctx->bank = func_02045B38(0, 2, 0xD0, heap);
+    ctx->bank = MSGDATA_CreateFromArchive(0, 2, 0xD0, heap);
     ctx->words = WORDSET_CreateDefault(heap);
     return ctx;
 }
@@ -783,7 +784,7 @@ void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p)
     MSGDATA_Delete((struct Rec *)p->bank);
     PRINTSYS_QUE_Delete((struct PrintSys *)p->queue);
     GF_FONT_Delete(p->font);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void WORLDTRADE_ADAPTER_UpdateMessageSystem(MsgSys *q)
@@ -831,14 +832,14 @@ void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, 
             return;
         }
     }
-    func_02034714((void *)0x02203F74, 0, (void *)0x02203F74);
+    SAVEDATA_PanicFail((void *)0x02203F74, 0, (void *)0x02203F74);
 }
 
 #pragma thumb on
 
 void WORLDTRADE_ADAPTER_QueueMessagePrint(MsgSys *p, int unusedArg, void *win, int x, int y)
 {
-    void *buf = func_02045EC0(p->bank, 0xfe);
+    void *buf = MSGDATA_AllocString(p->bank, 0xfe);
     int i;
 
     for (i = 0; i < 8; i++) {
@@ -857,5 +858,5 @@ void WORLDTRADE_ADAPTER_QueueMessagePrint(MsgSys *p, int unusedArg, void *win, i
             return;
         }
     }
-    func_02034714((void *)0x02203F74, 0, (void *)0x02203F74);
+    SAVEDATA_PanicFail((void *)0x02203F74, 0, (void *)0x02203F74);
 }

@@ -19,14 +19,14 @@
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
  *   d_021C9944 0x021C9944 data a4
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   PROCSYS_Push 0x02031348 arm
  *   d_021C99A0 0x021C99A0 data a1
  *   d_021BC8BC 0x021BC8BC data ov211 a4
  *   ov211_id 0x000000D3 data a1
  *   d_021BE794 0x021BE794 data ov209 a4
  *   ov209_id 0x000000D1 data a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021C0714 0x021C0714 data ov210 a4
  *   ov210_id 0x000000D2 data a1
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -42,6 +42,8 @@
  *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm  arm9
  *   ZUKAN_SEARCH_ENGINE_LoadSpeciesIds 0x021C976C thumb ov212
+ *   PROCSYS_Delete  0x0203133C  arm  arm9
+ *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
 #include "zukan_shared_types.h"
 
@@ -144,15 +146,15 @@ extern void *PROCSYS_Create(int);
 
 extern unsigned PROCSYS_Main(void *);
 
-extern void func_0203133C(struct S020314B8 *);
+extern void PROCSYS_Delete(struct S020314B8 *);
 
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
 extern void PROCSYS_Push(struct ProcSys *,unsigned,unsigned,unsigned);
 
@@ -272,8 +274,8 @@ int ZUKAN_Update(int a,int b,int c,struct ZukanWork *p){if(p->state==9)return 1;
 
 int ZUKAN_Delete(struct Proc *obj, void *b, void *c, struct ZukanWork *p) {
     ZUKAN_FreeIdList(p);
-    func_0203133C(p->proc);
-    func_020315D4(obj);
+    PROCSYS_Delete(p->proc);
+    PROCSYS_FreeProcWork(obj);
     GFL_HEAP_DeleteChecked(105);
     return 1;
 }
@@ -281,7 +283,7 @@ int ZUKAN_Delete(struct Proc *obj, void *b, void *c, struct ZukanWork *p) {
 void ZUKAN_FreeIdList(struct ZukanWork *p)
 {
     if (p->idList != 0) {
-        func_020307B0(p->idList);
+        GFL_HEAP_Free(p->idList);
         p->idList = 0;
     }
 }
@@ -303,7 +305,7 @@ u32 ZUKAN_GetResumeState(struct ZukanWork *p)
 void ZUKAN_StartProc211(struct ZukanWork *p)
 {
     struct ZukanSearchOwner *q;
-    q=func_02030734(105,12,0,d_021C99A0,297);
+    q=GFL_HEAP_Alloc(105,12,0,d_021C99A0,297);
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->context=p->ctx->myStatus;
@@ -324,7 +326,7 @@ int ZUKAN_ResumeProc211(struct ZukanWork *p) {
         break;
     case 2: result = 3; break;
     }
-    func_020307B0(p->subWork);
+    GFL_HEAP_Free(p->subWork);
     return result;
 }
 
@@ -334,7 +336,7 @@ int ZUKAN_ResumeProc211(struct ZukanWork *p) {
  */
 void ZUKAN_StartProc209(struct ZukanWork *p)
 {
-    struct ZukanListArgs *q=func_02030734(105,20,0,d_021C99A0,359);
+    struct ZukanListArgs *q=GFL_HEAP_Alloc(105,20,0,d_021C99A0,359);
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->save=p->ctx->zukanSave;
@@ -383,7 +385,7 @@ int ZUKAN_ResumeProc209(struct ZukanWork *p)
     }
     p->ctx->result=0;result=9;
 done:
-    func_020307B0(p->subWork);
+    GFL_HEAP_Free(p->subWork);
     return result;
 }
 
@@ -394,7 +396,7 @@ done:
 void ZUKAN_StartProc210(struct ZukanWork *p)
 {
     struct ZknSearchArgs *q;
-    q=func_02030734(105,24,0,d_021C99A0,455);
+    q=GFL_HEAP_Alloc(105,24,0,d_021C99A0,455);
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->save=p->ctx->zukanSave;
@@ -431,7 +433,7 @@ int ZUKAN_ResumeProc210(struct ZukanWork *p)
         result=9;
         break;
     }
-    func_020307B0(p->subWork);
+    GFL_HEAP_Free(p->subWork);
     return result;
 }
 
@@ -444,7 +446,7 @@ void ZUKAN_StartProc208(struct ZukanWork *p)
     struct ZukanDetailArgs *q;
     u16 selected,i;
     selected=ZUKAN_SAVE_GetLastViewedSpecies(ZUKAN_SAVE_GetFromGameData(p->ctx->gameData));
-    q=func_02030734(105,20,0,d_021C99A0,530);
+    q=GFL_HEAP_Alloc(105,20,0,d_021C99A0,530);
     q->gameData=p->ctx->gameData;
     q->mode=p->subMode;
     q->idList=p->idList;
@@ -476,7 +478,7 @@ int ZUKAN_ResumeProc208(struct ZukanWork *p)
         result = 3;
         break;
     }
-    func_020307B0(p->subWork);
+    GFL_HEAP_Free(p->subWork);
     return result;
 }
 

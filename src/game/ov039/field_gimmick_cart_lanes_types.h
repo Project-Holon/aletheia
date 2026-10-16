@@ -161,13 +161,13 @@ extern FieldGimmickCartLanesSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *g
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
 extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u16 scriptId, int targetObj, int param, u16 heapId);
 extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int arg1, int heapId);
-extern struct Tcb *func_02030DA8(struct TcbSys *tcbSys, void (*callback)(struct Tcb *, struct FieldMap *),
+extern struct Tcb *TCB_AddTask(struct TcbSys *tcbSys, void (*callback)(struct Tcb *, struct FieldMap *),
                                  struct FieldMap *work, u32 priority);
-extern void func_02030EAC(struct Tcb *tcb);
+extern void TCB_DeleteTask(struct Tcb *tcb);
 
 extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);

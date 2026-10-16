@@ -16,14 +16,14 @@
  *   ListViewState_Create  0x021C0DC4  thumb  ov217
  *   ListViewState_Reset  0x021C0DE4  thumb  ov217
  *   ListViewState_Destroy  0x021C0DDC  thumb  ov217
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ListViewState_GetMode 0x021C0DF0 thumb ov217
  *   ListViewState_GetScrollX 0x021C0DF4 thumb ov217
  *   ListViewState_GetScrollY 0x021C0DF8 thumb ov217
  *   ListViewState_SetScrollY 0x021C0E04 thumb ov217
  *   ListViewState_SetScrollX 0x021C0E00 thumb ov217
  *   ListViewState_SetMode 0x021C0DFC thumb ov217
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 #include "research_shared_types.h"
 
@@ -34,8 +34,8 @@ struct ListViewState {
     int scrollY;
 };
 
-extern u32 func_020307B0(void *mem);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *mem);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 u32 ListViewState_Create(u32 heapId);
 void ListViewState_Destroy(void *state);
@@ -50,12 +50,12 @@ void ListViewState_SetScrollY(struct ListViewState *state, u32 scrollY);
 /* Allocates a zero-filled state record. */
 u32 ListViewState_Create(u32 heapId)
 {
-    return (u32)func_02030734(heapId, 12, 1, (const char *)0x21C4034, 32);
+    return (u32)GFL_HEAP_Alloc(heapId, 12, 1, (const char *)0x21C4034, 32);
 }
 
 void ListViewState_Destroy(void *state)
 {
-    func_020307B0(state);
+    GFL_HEAP_Free(state);
 }
 
 /* Resets to mode 0, scroll X 0, scroll Y at its minimum -24. */

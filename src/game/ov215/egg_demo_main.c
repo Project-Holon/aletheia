@@ -19,8 +19,8 @@
  *   FADE_Start 0x0204E720 arm
  *   PROCSYS_Create 0x02031324 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_Delete 0x0203133C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   KEY_GetTrg 0x020362DC arm
  *   PROCSYS_Main 0x02031330 arm
@@ -67,29 +67,29 @@
  *   EGG_DEMO_GRAPHIC_Draw3d 0x021F64E4 thumb ov215
  *   EGG_DEMO_VIEW_Draw 0x021F6A24 thumb ov215
  *   EGG_DEMO_GRAPHIC_DrawEnd 0x021F64F0 thumb ov215
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   EGG_DEMO_GRAPHIC_Create 0x021F63CC thumb ov215
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   EGG_DEMO_MENU_Create 0x021F6060 thumb ov215
  *   EGG_DEMO_MENU_InitDialog 0x021F6280 thumb ov215
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   EGG_DEMO_VIEW_Create 0x021F6720 thumb ov215
  *   EGG_DEMO_VIEW_Delete 0x021F67B0 thumb ov215
  *   EGG_DEMO_MENU_Noop 0x021F62C8 thumb ov215
  *   EGG_DEMO_MENU_Delete 0x021F6114 thumb ov215
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   EGG_DEMO_GRAPHIC_Delete 0x021F6474 thumb ov215
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -146,7 +146,7 @@ extern void MI_CpuFill8(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void *PROCSYS_Create(int a0);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_0203133C(struct S020314B8 *),func_020315D4(struct Proc *),GFL_HEAP_DeleteChecked(u32);
+extern void PROCSYS_Delete(struct S020314B8 *),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(u32);
 extern u32 KEY_GetTrg(void),PROCSYS_Main(void *);
 extern int FADE_IsActive(void);
 extern void EGG_DEMO_VIEW_SetActive(char *);
@@ -176,29 +176,29 @@ extern void EGG_DEMO_MENU_FadeInBgm(u32 *,u32 *),EGG_DEMO_MAIN_UpdateBgm(u8 *,u8
 extern void EGG_DEMO_VIEW_Update(char *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void EGG_DEMO_GRAPHIC_Draw(char *),EGG_DEMO_GRAPHIC_Draw3d(char *),EGG_DEMO_VIEW_Draw(char *),EGG_DEMO_GRAPHIC_DrawEnd(char *);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern char *EGG_DEMO_GRAPHIC_Create(u32,u16);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern void *func_020056A0(u32,u32,u32);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void EGG_DEMO_MENU_Create(int,char *);
 extern void EGG_DEMO_MENU_InitDialog(int,u8 *);
 extern void BG_SYS_SetVisibleLayer(int,u16);
-extern void func_0207D63C(u32 *,u32,u32,int,int);
+extern void G2x_SetBlendAlpha_(u32 *,u32,u32,int,int);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern char *EGG_DEMO_VIEW_Create(u32,void *);
 extern void EGG_DEMO_VIEW_Delete(char *p);
 extern void EGG_DEMO_MENU_Noop(int a0, char *a1);
 extern void EGG_DEMO_MENU_Delete(void *unused, char *p);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void EGG_DEMO_GRAPHIC_Delete(char *p);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
-extern unsigned int func_02049658(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
-extern void func_020498F4(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
+extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32 index);
 extern int CLACT_RegisterPaletteEx(void *, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
@@ -277,7 +277,7 @@ int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args)
 }
 
 
-int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { func_0203133C(*(struct S020314B8 * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);func_020315D4(task);GFL_HEAP_DeleteChecked(143);return 1; }
+int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { PROCSYS_Delete(*(struct S020314B8 * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);PROCSYS_FreeProcWork(task);GFL_HEAP_DeleteChecked(143);return 1; }
 
 
 /*
@@ -360,7 +360,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
 void EGG_DEMO_MAIN_OnVBlank(void *unused, char *work)
 {
     if (((struct EggDemoWork *)work)->vblankFlag) {
-        func_02040588(1, 1);
+        BG_SYS_SetPlaneVisible(1, 1);
         ((struct EggDemoWork *)work)->vblankFlag = 0;
     }
 }
@@ -369,11 +369,11 @@ void EGG_DEMO_MAIN_OnVBlank(void *unused, char *work)
 void EGG_DEMO_MAIN_Init(int args,char *work)
 {
     u8 i;
-    for (i=0;i<=7;i++) func_02040588(i,0);
+    for (i=0;i<=7;i++) BG_SYS_SetPlaneVisible(i,0);
     ((struct EggDemoWork *)work)->graphic=EGG_DEMO_GRAPHIC_Create(1,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->font=GF_FONT_Create(23,0,0,0,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->printQue=PRINTSYS_QUE_Create((void *)(u32)((struct EggDemoWork *)work)->heapId);
-    ((struct EggDemoWork *)work)->vblankTask=func_020056A0((u32)EGG_DEMO_MAIN_OnVBlank,(u32)work,1);
+    ((struct EggDemoWork *)work)->vblankTask=GFL_USE_AddMainTask((u32)EGG_DEMO_MAIN_OnVBlank,(u32)work,1);
     EGG_DEMO_MAIN_LoadGraphics(args,work);
     EGG_DEMO_MAIN_InitActors(args,(struct EggDemoWork *)work);
     EGG_DEMO_MENU_Create(args,work);
@@ -382,10 +382,10 @@ void EGG_DEMO_MAIN_Init(int args,char *work)
     BG_SYS_SetVisibleLayer(2,1);
     BG_SYS_SetVisibleLayer(1,0);
     BG_SYS_SetVisibleLayer(4,0);
-    func_02040588(0,1);
-    func_02040588(2,1);
-    func_02040588(4,1);
-    func_0207D63C((u32 *)0x04000050,1,47,0,0);
+    BG_SYS_SetPlaneVisible(0,1);
+    BG_SYS_SetPlaneVisible(2,1);
+    BG_SYS_SetPlaneVisible(4,1);
+    G2x_SetBlendAlpha_((u32 *)0x04000050,1,47,0,0);
     BG_SYS_LoadPlttEntry(0,0x4210);
     BG_SYS_LoadPlttEntry(4,0);
     *(char * *)&((struct EggDemoWork *)work)->view=EGG_DEMO_VIEW_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoArgs *)((u32)args))->mon);
@@ -399,7 +399,7 @@ void EGG_DEMO_MAIN_DeleteResources(u32 args,char *work)
     EGG_DEMO_MENU_Delete((void *)args,work);
     EGG_DEMO_MAIN_DeleteActors((void *)args,work);
     EGG_DEMO_MAIN_Noop(args,work);
-    func_02030EAC((struct Node *)(((struct EggDemoWork *)work)->vblankTask));
+    TCB_DeleteTask((struct Node *)(((struct EggDemoWork *)work)->vblankTask));
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct EggDemoWork *)work)->printQue));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct EggDemoWork *)work)->printQue));
     GF_FONT_Delete((void *)(((struct EggDemoWork *)work)->font));
@@ -410,10 +410,10 @@ void EGG_DEMO_MAIN_DeleteResources(u32 args,char *work)
 
 void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work)
 {
-    void *h = func_020490F4(189, ((struct EggDemoWork *)work)->heapId);
+    void *h = ARC_TOOL_CreateHandle(189, ((struct EggDemoWork *)work)->heapId);
     func_02049B68(h, 3, 0, 0, 32, ((struct EggDemoWork *)work)->heapId);
-    func_02049658(h, 5, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
-    func_020498F4(h, 4, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(h, 5, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 4, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
     ARC_TOOL_DeleteHandle(h);
     BG_SYS_PushTile(2);
 }
@@ -434,7 +434,7 @@ void EGG_DEMO_MAIN_Noop(int a0, char *a1)
 void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *work)
 {
     unsigned char i;
-    void *h = func_020490F4(189, work->heapId);
+    void *h = ARC_TOOL_CreateHandle(189, work->heapId);
     char *tmp1;
     unsigned int tmp2;
     int tmp;

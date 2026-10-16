@@ -20,8 +20,8 @@
  *   d_021BC990    0x021BC990 data ov211
  *   BG_SYS_Update 0x020419E4 arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
@@ -46,7 +46,7 @@
  *   close 0x02049238 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
- *   func_020073D8 0x020073D8 thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
  *   func_0200E8D8 0x0200E8D8 thumb
  *   func_0200E8CC 0x0200E8CC thumb
  *   func_0200E8D0 0x0200E8D0 thumb
@@ -59,7 +59,7 @@
  *   func_0207F5B0 0x0207F5B0 arm
  *   func_0207F5C8 0x0207F5C8 arm
  *   func_0207F65C 0x0207F65C arm
- *   func_020072A4 0x020072A4 thumb
+ *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
@@ -108,8 +108,8 @@ typedef unsigned char  u8;
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Update(void);
-extern void *func_020056A0(unsigned,unsigned,unsigned);
-extern void func_02030EAC(struct Node *);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+extern void TCB_DeleteTask(struct Node *);
 extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -127,7 +127,7 @@ extern void tiles(void *,u32,u32,u32,u32,u32,u16);
 extern void close(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
-extern void *func_020073D8(struct Sub020073D8Ctrl *,u32,u32);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *,u32,u32);
 extern u32 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
@@ -135,7 +135,7 @@ extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32,u32),func_0207F428(void);
 extern void func_0207F5B0(void),func_0207F5C8(const void *,u32,u32),func_0207F65C(void);
-extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
+extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
 extern void BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
 extern void ZUKAN_StartWipeIn(unsigned);
 extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *),ZUKAN_SEARCH_SCREEN_DeleteBg(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
@@ -187,11 +187,11 @@ void ZUKAN_SEARCH_SCREEN_VBlank(void){BG_SYS_Update();*(unsigned *)((unsigned)SD
 
 
 
-void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=func_020056A0((unsigned)ZUKAN_SEARCH_SCREEN_VBlank,(unsigned)p,0);}
+void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=GFL_USE_AddMainTask((unsigned)ZUKAN_SEARCH_SCREEN_VBlank,(unsigned)p,0);}
 
 
 
-void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){func_02030EAC((struct Node *)p->vblankNode);}
+void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){TCB_DeleteTask((struct Node *)p->vblankNode);}
 
 
 
@@ -265,7 +265,7 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
     void *save,*block,*tiles,*palette;
     save=GAME_DATA_GetSaveControl(p->owner->gameData);
     if(SAVE_CONTROL_LoadExtraSave(save,7,0x807e)==1){
-        block=func_020073D8(save,7,0);
+        block=SAVE_CONTROL_GetExtraSaveRecord(save,7,0);
         if(block!=0&&func_0200E8D8(block)==1){
             tiles=func_0200E8CC(block);
             palette=func_0200E8D0(block);
@@ -283,7 +283,7 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
             func_0207F65C();
         }
     }
-    func_020072A4(save,7);
+    SAVE_CONTROL_DeleteExtraSave(save,7);
 }
 
 

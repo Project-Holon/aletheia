@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734     0x02030734  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc     0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   gPersonalCache      0x02146270  data
  *   sPokeToolFile  0x020A72E4  data
  *   MAIL_Create  0x02008F08  thumb
@@ -298,8 +298,8 @@ struct MailData;
 
 #include "poke_tool_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *ptr);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *ptr);
 extern void POKE_PERSONAL_OpenHandle(u32 heapId);
 extern struct Mail *MAIL_Create(int heapId);
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
@@ -483,7 +483,7 @@ u32 POKE_TOOL_GetPartyParamSize(void)
 
 
 /*
- * Allocate a record (0xA0 is the __LINE__ passed to func_02030734 with the
+ * Allocate a record (0xA0 is the __LINE__ passed to GFL_HEAP_Alloc with the
  * poke_tool.c __FILE__ anchor) and initialise it through POKE_TOOL_SetupPartyParam.
  * Wave 11, 2026-09-23.  The "one remaining codegen wall" of
  * docs/families/poke_tool.h section 11 was a declaration error: the id is a
@@ -493,7 +493,7 @@ u32 POKE_TOOL_GetPartyParamSize(void)
  */
 struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, u64 otId, u16 heapId)
 {
-    struct PokemonParam *pp = func_02030734(heapId, POKE_TOOL_GetPartyParamSize(), 1, sPokeToolFile, 0xa0);
+    struct PokemonParam *pp = GFL_HEAP_Alloc(heapId, POKE_TOOL_GetPartyParamSize(), 1, sPokeToolFile, 0xa0);
     if (pp != 0) {
         POKE_TOOL_SetupPartyParam(pp, species, level, otId);
     }
@@ -510,7 +510,7 @@ struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, u64 otId, u16 heap
  */
 struct PokemonParam *POKE_TOOL_CreateEx(u16 species, u16 level, u64 otId, u32 ivs, u64 personality, u16 heapId)
 {
-    struct PokemonParam *pp = func_02030734(heapId, POKE_TOOL_GetPartyParamSize(), 1, sPokeToolFile, 0xba);
+    struct PokemonParam *pp = GFL_HEAP_Alloc(heapId, POKE_TOOL_GetPartyParamSize(), 1, sPokeToolFile, 0xba);
     if (pp != 0) {
         POKE_TOOL_SetupPartyParamEx(pp, species, level, otId, ivs, personality);
     }
@@ -590,7 +590,7 @@ struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, u16 
     POKE_TOOL_SetPartyValue(copy, POKE_TOOL_PARAM_MAX_HP, 0);
     mail = MAIL_Create((u16)((heapId & 0x7fff) | 0x8000));
     POKE_TOOL_SetPartyValue(copy, POKE_TOOL_PARAM_MAIL, (u32)mail);
-    func_020307B0(mail);
+    GFL_HEAP_Free(mail);
     POKE_TOOL_RecalcParam(copy);
     return copy;
 }
@@ -662,7 +662,7 @@ void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level
     POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_LEVEL, level);
     mail = MAIL_Create(0x8000);
     POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_MAIL, (u32)mail);
-    func_020307B0(mail);
+    GFL_HEAP_Free(mail);
     POKE_TOOL_RecalcParam(pp);
 }
 
@@ -1824,7 +1824,7 @@ u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapI
     struct LevelUpMove endCheck;
     struct LevelUpMove cur;
 
-    table = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x68, 0, sPokeToolFile, 0x644);
+    table = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), 0x68, 0, sPokeToolFile, 0x644);
     species = POKE_TOOL_GetPartyValue(pp, POKE_TOOL_PARAM_SPECIES, 0);
     form = POKE_TOOL_GetPartyValue(pp, POKE_TOOL_PARAM_FORM, 0);
     level = POKE_TOOL_GetPartyValue(pp, POKE_TOOL_PARAM_LEVEL, 0);
@@ -1848,7 +1848,7 @@ u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapI
         }
         (*tableIndex)++;
     }
-    func_020307B0(table);
+    GFL_HEAP_Free(table);
     return result;
 }
 

@@ -13,8 +13,8 @@
  * Cut from musical_shot_sys.c, musical_mcss.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MUSICAL_MCSS_DeleteActorPool 0x021F4948 thumb ov112
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
  *   d_021F83A4 0x021F83A4 data a1
@@ -46,13 +46,14 @@
  *   MUSICAL_MCSS_SetModeC 0x021F5064 thumb ov112
  *   MUSICAL_MCSS_GetStateA 0x021F50D0 thumb ov112
  *   MUSICAL_MCSS_GetStateB 0x021F50E0 thumb ov112
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm  arm9
  */
 #include "musical_shot_sys_shared_types.h"
 #include "mus_shot_photo_shared_types.h"
 #include "mus_shot_info_shared_types.h"
 #include "mus_item_draw_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct Manager0204F684;
 
@@ -108,7 +109,7 @@ struct Trip { u32 a,b,c; };
 
 typedef struct { u8 x,y; } Pair;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void NNS_GfdResetVramTransferTaskQueue(void);
 
@@ -124,7 +125,7 @@ extern void BILLBOARD_GetImageSizeFromFlags(int,u16 *,u16 *);
 
 extern void *G3D_SYSTEM_CreateResourceArc(u32,u32);
 
-extern void func_02046EFC(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
 extern u32 BILLBOARD_AddImage(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 
@@ -239,8 +240,8 @@ McssActorPool *MUSICAL_MCSS_CreateActorPool(u32 owner,int count,u16 heap)
     int i=0;
     McssActorPool *p;
     int j;
-    p=func_02030734(heap,0x34,0,d_021F83A4,0x55);
-    p->entries=func_02030734(heap,count*0x24,0,d_021F83A4,0x57);
+    p=GFL_HEAP_Alloc(heap,0x34,0,d_021F83A4,0x55);
+    p->entries=GFL_HEAP_Alloc(heap,count*0x24,0,d_021F83A4,0x57);
     p->heap=heap;
     p->count=count;
     p->owner=owner;
@@ -262,8 +263,8 @@ void MUSICAL_MCSS_DeleteActorPool(u8 *p)
         if ((*(McssActorElem **)(p+8))[i].bits.active==1)
             MUSICAL_MCSS_FreeElem(p,(u8 *)(&(*(McssActorElem **)(p+8))[i]));
     }
-    func_020307B0(*(void **)(p+8));
-    func_020307B0(p);
+    GFL_HEAP_Free(*(void **)(p+8));
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -333,7 +334,7 @@ int MUSICAL_MCSS_GetFlagB(u8 *p) { return MUSICAL_MCSS_GetStateB((const unsigned
 
 void *MUSICAL_MCSS_CreateResourceArc(int type) { return G3D_SYSTEM_CreateResourceArc(45,MUSICAL_MCSS_GetArcFileCount(type)); }
 
-void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0) { func_02046EFC(a0); }
+void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0) { G3D_SYSTEM_DeleteResource(a0); }
 
 u16 MUSICAL_MCSS_NoOp4(u32 p) { u16 n; int i; n=((McssActorPool *)p)->count; for (i=0;i<n;i++) { if (((McssActorPool *)p)->entries[i].bits.active==0) break; } if (i==n) return 0; return i; }
 

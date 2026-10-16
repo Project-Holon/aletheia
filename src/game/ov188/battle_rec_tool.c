@@ -23,11 +23,11 @@
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021EF360 0x021EF360 data a4
  *   MYSTATUS_Copy 0x02008494 thumb
  *   STRBUF_ToChars 0x02045A38 arm
@@ -71,7 +71,7 @@ extern struct PokemonParam *POKEPARTY_GetMember(struct Party *p, u32 idx);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 
@@ -79,7 +79,7 @@ extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 
 extern u32 POKEPARTY_Add(struct Party *p, const struct PokemonParam *src);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MYSTATUS_Copy(void *, void *);
 
@@ -301,14 +301,14 @@ void BATTLE_REC_TOOL_UnpackParty(struct BattleRecParty *rec, struct Party *party
 {
     int i;
     struct PokemonParam *mon;
-    mon=func_02030734((u16)((heapId & 0x7FFF)|0x8000),POKE_TOOL_GetPartyParamSize(),1,d_021EF360,173);
+    mon=GFL_HEAP_Alloc((u16)((heapId & 0x7FFF)|0x8000),POKE_TOOL_GetPartyParamSize(),1,d_021EF360,173);
     POKEPARTY_InitEx(party,rec->capacity);
     for(i=0;i<rec->count;i++) {
         BATTLE_REC_TOOL_UnpackMon(&rec->members[i],mon);
         POKE_TOOL_SetPartyValue(mon,159,0);
         POKEPARTY_Add(party,mon);
     }
-    func_020307B0(mon);
+    GFL_HEAP_Free(mon);
 }
 
 void BATTLE_REC_TOOL_PackParties(struct BattleSetupParam *setup, struct BattleRecData *rec)

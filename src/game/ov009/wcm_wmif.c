@@ -68,7 +68,7 @@
  *   WM_StartDCF         0x0208fe64 arm
  *   WcmWmcbStartDCF     0x021677a4 arm ov009
  *   func_02166E5C  0x02166E5C  arm  ov009
- *   func_021659B4  0x021659B4  arm  ov009
+ *   WCMi_Notify  0x021659B4  arm  ov009
  *   WCMi_ShelterRssi    0x02166804  arm  ov009
  *   WCMi_CpsifRecvCallback    0x02166358  arm  ov009
  *   WM_Disconnect    0x0208F938  arm

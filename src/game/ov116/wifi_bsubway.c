@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   ov_id 0x00000072 data
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -43,9 +43,9 @@
  *   WIFI_BSUBWAY_GRAPHIC_DeleteTextParam 0x021D730C thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_Noop 0x021D73D0 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_NoopRetry 0x021D7420 thumb ov116
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   DPW_BT_GetRoomNumAsync 0x021C941C arm ov114
  *   DPW_BT_DownloadPlayerAsync 0x021C94A0 arm ov114
  *   func_02025C1C 0x02025C1C thumb
@@ -56,7 +56,7 @@
  *   GDS_PROFILE_SetSubwaySaveBitAndStamp 0x0200DD28 thumb
  *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
  *   MYSTATUS_Create 0x0200846C thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02008510 0x02008510 thumb
@@ -66,13 +66,13 @@
  *   DWC_CheckProfanityExAsync 0x0217BC44 arm ov009
  *   STRBUF_Delete 0x02045808 arm
  *   DWC_CheckProfanityProcess 0x0217BC90 arm ov009
- *   func_02045B38 0x02045B38 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   NHTTP_RAP_InitTrainerInfo 0x021B9B00 thumb ov114
  *   DPW_BT_SetProfileAsync 0x021C9744 arm ov114
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_02009470 0x02009470 thumb
+ *   WIFI_HISTORY_GetBlock 0x02009470 thumb
  *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_0200E6F0 0x0200E6F0 thumb
  *   func_020084F4 0x020084F4 thumb
@@ -128,6 +128,7 @@
  *   BSUBWAY_SAVEDATA_SetTrainers  0x0200DE6C  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
  *   GDS_PROFILE_GetScoreRecScoreHigh  0x0200DCFC  thumb  arm9
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb  arm9
  */
 
 #include "ov116_types.h"
@@ -172,7 +173,7 @@ struct Record { unsigned short id:11; unsigned short rest:5; };
 
 
 
-extern int func_02034AC4(int handle);
+extern int GF_OVERLAY_Load(int handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
@@ -183,7 +184,7 @@ extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
@@ -207,9 +208,9 @@ extern void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p);
 extern void WIFI_BSUBWAY_GRAPHIC_Noop(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void func_02034A5C(int handle);
+extern void GF_OVERLAY_Unload(int handle);
 extern int GFL_USE_PopBgm(void);
 extern int FADE_IsActive(void);
 extern void DPW_BT_GetRoomNumAsync(unsigned x);
@@ -223,7 +224,7 @@ extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 
 extern void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q);
 extern void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void *MYSTATUS_Create(int);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MYSTATUS_Copy(void *, void *);
 extern void *func_02008510(void *, int);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
@@ -232,13 +233,13 @@ extern u16 STRBUF_GetEosChar(void);
 extern int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int DWC_CheckProfanityProcess(void);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void NHTTP_RAP_InitTrainerInfo(u8 *,int);
 extern void DPW_BT_SetProfileAsync(unsigned char *p, unsigned x);
-extern struct Sub02009470Obj *func_02009470(void *sys);
+extern struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys);
 extern void *func_0200E6F0(u32);
 extern const void *func_020084F4(const void *p);
 extern void MI_CpuCopy8(const void *, void *, u32);
@@ -327,7 +328,7 @@ extern u8 ov129_id[];
 int WIFI_BSUBWAY_Create(void *task,int unused,u8 *parent) {
     u8 *work;
     void *saveControl;
-    func_02034AC4((int)ov_id);
+    GF_OVERLAY_Load((int)ov_id);
     GFL_HEAP_CreateChildHeap(1,125,0x18000);
     work=PROCSYS_AllocProcWork(task,0x185c,125);
     MI_CpuFill8(work,0,0x185c);
@@ -351,7 +352,7 @@ int WIFI_BSUBWAY_Step(void *unusedA,int *state,int unusedB,u8 *work)
 {
     int result;
     if(WIFI_BSUBWAY_IsTransferReady(work,*state)!=0) {
-        if(WIFI_BSUBWAY_AsyncHasError(work+0x182c)!=0 || func_0200FB24()!=0) *state=20;
+        if(WIFI_BSUBWAY_AsyncHasError(work+0x182c)!=0 || GFL_NET_ERR_GetErrorLevel()!=0) *state=20;
     }
     switch(*state) {
     case 0: GFL_USE_FadeOutBgm(6); ++*state; break;
@@ -388,9 +389,9 @@ int WIFI_BSUBWAY_Delete(void *unusedA, int unusedB, int unusedC, u8 *work) {
     WIFI_BSUBWAY_GRAPHIC_NoopRetry(work);
     WIFI_BSUBWAY_StatusDelete(work + 0x1610);
     WIFI_BSUBWAY_GRAPHIC_DeleteWindow(work + 4);
-    func_020315D4(unusedA);
+    PROCSYS_FreeProcWork(unusedA);
     GFL_HEAP_DeleteChecked(125);
-    func_02034A5C((int)ov_id);
+    GF_OVERLAY_Unload((int)ov_id);
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);
     GFL_USE_FadeInBgmFull(60);
@@ -463,7 +464,7 @@ void WIFI_BSUBWAY_SaveHistory(unsigned char *trainers,void *save) { BSUBWAY_SAVE
 
 void WIFI_BSUBWAY_StatusInit(unsigned char *status,int heapId) { MI_CpuFill8(status,0,0x21c); ((struct WifiBsubwayStatus *)status)->mystatus=MYSTATUS_Create(heapId); }
 
-void WIFI_BSUBWAY_StatusDelete(unsigned char *status) { if(((struct WifiBsubwayStatus *)status)->mystatus) { func_020307B0(((struct WifiBsubwayStatus *)status)->mystatus); ((struct WifiBsubwayStatus *)status)->mystatus=0; } }
+void WIFI_BSUBWAY_StatusDelete(unsigned char *status) { if(((struct WifiBsubwayStatus *)status)->mystatus) { GFL_HEAP_Free(((struct WifiBsubwayStatus *)status)->mystatus); ((struct WifiBsubwayStatus *)status)->mystatus=0; } }
 
 /*
  * extent: two zero alignment bytes at 021D6C4E follow the epilogue.
@@ -498,8 +499,8 @@ int WIFI_BSUBWAY_StatusCheckMessage(u8 *status,unsigned heapId) {
     if(pollResult) hasBadWords = ((struct WifiBsubwayStatus *)status)->badWordCount>0;
     if(pollResult==0) return 0;
     if(pollResult==1 && hasBadWords==1) {
-        msgBank = func_02045B38(0,2,0x51,heapId);
-        msg = func_02045EC0(msgBank,15);
+        msgBank = MSGDATA_CreateFromArchive(0,2,0x51,heapId);
+        msg = MSGDATA_AllocString(msgBank,15);
         MSGDATA_Delete(msgBank);
         func_020084E4((u16 *)((struct WifiBsubwayStatus *)status)->mystatus,msg);
         STRBUF_Delete(msg);
@@ -509,10 +510,10 @@ int WIFI_BSUBWAY_StatusCheckMessage(u8 *status,unsigned heapId) {
 }
 
 /*
- *   extern int func_020071CC(void *,int);
- *   int GAME_DATA_GetSaveBlock3A(void **p) { return func_020071CC(*p,58); }
- *   extern int func_020071CC(void *,int);
- *   int GAME_DATA_GetSaveBlock3B(void **p) { return func_020071CC(*p,59); }
+ *   extern int SAVE_CONTROL_GetBlock(void *,int);
+ *   int GAME_DATA_GetSaveBlock3A(void **p) { return SAVE_CONTROL_GetBlock(*p,58); }
+ *   extern int SAVE_CONTROL_GetBlock(void *,int);
+ *   int GAME_DATA_GetSaveBlock3B(void **p) { return SAVE_CONTROL_GetBlock(*p,59); }
  */
 void WIFI_BSUBWAY_StartProfileUpload(u8 *status,void *saveControl,u8 *async) {
     int saveBlockB,saveBlockA,recordCount;
@@ -533,8 +534,8 @@ int WIFI_BSUBWAY_FinishProfileUpload(unsigned char *status,unsigned char *async)
 /*
  * singleton tu --suggest-split returns MATCH252, no viable partition.
  * fixed dsi/1.1p1 -O4,p Thumb; copied prior 6CBC blocker, owner the integrator.
- *   extern int func_020071CC(void *, int);
- *   int GAME_DATA_GetSaveBlock3A(void **p) { return func_020071CC(*p, 58); }
+ *   extern int SAVE_CONTROL_GetBlock(void *, int);
+ *   int GAME_DATA_GetSaveBlock3A(void **p) { return SAVE_CONTROL_GetBlock(*p, 58); }
  * evidence: 084F4 is bx lr and preserves its incoming pointer in r0;
  * caller consumes it despite the matched callee's void signature.
  * evidence: 08550's matched body returns zero-extended byte +1d;
@@ -550,7 +551,7 @@ void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, void *train
     void *profile, *saveBlockA, *saveData;
     int i;
     profile = GAME_DATA_GetSaveControl(saveControl);
-    func_02009470(profile);
+    WIFI_HISTORY_GetBlock(profile);
     GAME_DATA_GetField1A0(saveControl);
     saveBlockA = GAME_DATA_GetSaveBlock3A(saveControl);
     saveData = func_0200E6F0((u32)profile);

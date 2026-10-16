@@ -14,8 +14,8 @@
  * Split from bsubway_scr.c at 0x021C939C: land_data_patch.c __FILE__ anchor at 0x021C939C.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_021DE558  0x021DE558  data  ov021  a4
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -35,8 +35,8 @@ typedef struct LandAttrBlock {
     u16 width;
 } LandAttrBlock;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void FIELD_BUILDMODEL_RegisterObject(u32 a, u32 b, u32 *c, u32 d);
@@ -51,15 +51,15 @@ extern char d_021DE558[];
 /* Allocates a patch handle and loads patch file patchId. */
 u32 *LAND_DATA_PATCH_Create(u32 patchId, u32 heapId)
 {
-    u32 *patch = func_02030734(heapId, 4, 1, d_021DE558, 0x4f);
+    u32 *patch = GFL_HEAP_Alloc(heapId, 4, 1, d_021DE558, 0x4f);
     patch[0] = ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
     return patch;
 }
 
 void LAND_DATA_PATCH_Delete(void **patch)
 {
-    func_020307B0(patch[0]);
-    func_020307B0(patch);
+    GFL_HEAP_Free(patch[0]);
+    GFL_HEAP_Free(patch);
 }
 
 /* Copies a height x width rectangle of attribute cells from the patch into the map attributes. */

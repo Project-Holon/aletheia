@@ -49,7 +49,7 @@
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   sLiftElevatorLiftHeights    0x021F4490  data  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
@@ -118,7 +118,7 @@ extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *expObj, u16 unit);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
-extern struct GameEvent *func_020122C0(void *owner, void *a, void *eventFunc, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *eventFunc, u32 size);
 extern void *GAME_EVENT_GetGameSystem(void *event);
 extern void *FIELDMAP_GetCamera(void *fieldMap);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *fieldMap);
@@ -303,7 +303,7 @@ void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex)
         work->stepY = step;
     }
     work->obstacleAnimeState = 0;
-    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain, 0);
 }
 
 
@@ -337,7 +337,7 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(void *gameSystem, int isRisin
         step = 0x2000;
     }
     work->stepY = step;
-    func_020122C0(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain, 0);
+    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain, 0);
 }
 
 

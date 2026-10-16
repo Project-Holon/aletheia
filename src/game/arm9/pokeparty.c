@@ -16,20 +16,21 @@
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_02030734 0x02030734  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   pokeparty_File  0x020A7304  data
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   _pPersonalArc  0x0214652C  data
  *   poke_personal_File  0x020A7310  data
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   GF_STANDARD_Rand  0x0203F0A8  arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
+ *   ARC_TOOL_SeekHandle  0x0204960C  arm
  */
 #include "pokeparty_shared_types.h"
 
@@ -96,9 +97,9 @@ extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
 
 extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 
-extern void *func_02030734(u32 heap, u32 size, int fromTail, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
 
-extern u32   func_020307B0(void *ptr);
+extern u32   GFL_HEAP_Free(void *ptr);
 
 extern void  MIi_CpuClearFast(u32 value, void *dest, u32 size);
 
@@ -106,11 +107,11 @@ extern void  POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
-extern struct ArcHandle *func_020490F4(unsigned int arcId, unsigned int heap);
+extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heap);
 
 extern u32   ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 dataId);
 
-extern void  func_0204960C(struct ArcHandle *arc, u32 offset);
+extern void  ARC_TOOL_SeekHandle(struct ArcHandle *arc, u32 offset);
 
 extern void  ARC_TOOL_ReadHandle(struct ArcHandle *arc, u32 size, void *dst);
 
@@ -248,7 +249,7 @@ extern const char poke_personal_File[];
  */
 struct Party *POKEPARTY_Create(u32 heap)
 {
-    struct Party *party = (struct Party *)func_02030734(heap, sizeof(struct Party), 0,
+    struct Party *party = (struct Party *)GFL_HEAP_Alloc(heap, sizeof(struct Party), 0,
                                                    pokeparty_File, 65);
 
     POKEPARTY_Init(party);
@@ -526,13 +527,13 @@ u32 POKEPARTY_SwapMembers(struct Party *party, u32 pos1, u32 pos2, u32 heap)
 {
     u32 flags1;
     u32 flags2;
-    struct PokemonParam *tmp = (struct PokemonParam *)func_02030734(heap, sizeof(struct PokemonParam), 0,
+    struct PokemonParam *tmp = (struct PokemonParam *)GFL_HEAP_Alloc(heap, sizeof(struct PokemonParam), 0,
                                                            pokeparty_File, 382);
 
     *tmp = party->members[pos1];
     party->members[pos1] = party->members[pos2];
     party->members[pos2] = *tmp;
-    func_020307B0(tmp);
+    GFL_HEAP_Free(tmp);
     flags1 = POKEPARTY_GetSlotFlag(party, pos1);
     flags2 = POKEPARTY_GetSlotFlag(party, pos2);
     POKEPARTY_SetSlotFlag(party, pos1, flags2);
@@ -720,7 +721,7 @@ u32 POKEPARTY_FindFirst(struct Party *party, PartyMemberPredicate pred)
 void POKE_PERSONAL_OpenHandle(u32 heap)
 {
     if (_pPersonalArc == 0) {
-        _pPersonalArc = func_020490F4(0x10, heap);
+        _pPersonalArc = ARC_TOOL_CreateHandle(0x10, heap);
     }
 }
 
@@ -745,7 +746,7 @@ void POKE_PERSONAL_LoadData(u32 species, int form, void *dst)
     u32 dataId = POKE_PERSONAL_GetFormDataId(species, form);
 
     dataId = ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, dataId);
-    func_0204960C(_pPersonalArc, dataId);
+    ARC_TOOL_SeekHandle(_pPersonalArc, dataId);
     ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, dst);
 }
 
@@ -757,7 +758,7 @@ void POKE_PERSONAL_LoadData(u32 species, int form, void *dst)
  * the result goes straight to one handler call with a literal id of 0x12.
  *
  * POKE_PERSONAL_Create constructs an object from the debug allocator,
- * func_02030734(heap, size, zero, file, tag), with the __FILE__
+ * GFL_HEAP_Alloc(heap, size, zero, file, tag), with the __FILE__
  * argument an ABS32 into the packed string area rather than a locally
  * emitted string (docs/idioms/file-string-is-an-abs32-into-the-string-area.md).
  * The string is "poke_personal.c" at 0x020A7310, attested by the `string`
@@ -782,7 +783,7 @@ void POKE_PERSONAL_LoadDataDirect(u32 species, int form, void *dst)
 
 struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heap)
 {
-    struct PersonalData *data = func_02030734(heap, 0x3C, 0, poke_personal_File, 0x76);
+    struct PersonalData *data = GFL_HEAP_Alloc(heap, 0x3C, 0, poke_personal_File, 0x76);
 
     POKE_PERSONAL_LoadData(species, form, data);
     return data;
@@ -812,7 +813,7 @@ struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heap)
  */
 void POKE_PERSONAL_Delete(struct PersonalData *data)
 {
-    func_020307B0(data);
+    GFL_HEAP_Free(data);
 }
 
 /*
@@ -1066,7 +1067,7 @@ u32 POKE_PERSONAL_GetFormDataId(u32 species, s32 form)
     if ((u16)(species + 0xFD76) <= 1) {
         return 0;
     }
-    func_0204960C(_pPersonalArc, ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, species));
+    ARC_TOOL_SeekHandle(_pPersonalArc, ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, species));
     ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, &data);
     if (data.formStatsIndex == 0 || data.formCount <= form || form == 0) {
         return species;

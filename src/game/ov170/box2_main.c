@@ -22,7 +22,7 @@
  *   func_020076B4 0x020076B4 thumb
  *   PROCSYS_Create 0x02031324 arm
  *   BOX2_SEQ_UpdatePrintQueue  0x021E1E34  thumb  ov170
- *   func_02030EAC  0x02030EAC  arm  arm9
+ *   TCB_DeleteTask  0x02030EAC  arm  arm9
  *   BOX2_SEQ_FlushDirtyBmpWins  0x021EAB04  thumb  ov170
  *   BG_SYS_Update  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
@@ -48,28 +48,28 @@
  *   d_021EF84C 0x021EF84C data
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020490F4  0x020490F4  arm
- *   func_02049658  0x02049658  arm
- *   func_02049740  0x02049740  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
- *   func_0207D63C  0x0207D63C  arm
- *   func_02045B38 0x02045B38 arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
@@ -79,7 +79,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CURSOR_MOVE_GetState 0x020260F0 thumb
  *   func_020355D8 0x020355D8 arm
@@ -142,7 +142,7 @@
  *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
  *   BOX2_UI_FindSlotPos 0x021EDA70 thumb
  *   BOX2_SEQ_SwapSlotActorsB 0x021ECBD8 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F1400 0x021F1400 data a1
  *   GAME_DATA_GetBoxSave  0x02012F98  thumb
  *   func_02007C34  0x02007C34  thumb
@@ -331,6 +331,9 @@
  *   BOX2_SEQ_GetActorDrawEnable 0x021EC01C thumb ov170
  *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb ov170
  *   BOX2_SEQ_ShowHandSlots 0x021ED2F4 thumb ov170
+ *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
+ *   PROCSYS_Delete  0x0203133C  arm  arm9
+ *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
 #include "box2_types.h"
 
@@ -368,15 +371,15 @@ extern int BOX2_SEQ_UpdatePrintQueue(BoxTask *p, int *state);
 
 extern void func_0200780C(void *save, u32 box);
 
-extern void func_0203133C(struct S020314B8 *p);
+extern void PROCSYS_Delete(struct S020314B8 *p);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
-extern int func_020056A0(void *, void *, int);
+extern int GFL_USE_AddMainTask(void *, void *, int);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void BOX2_SEQ_FlushDirtyBmpWins(BoxWork *w);
 
@@ -456,8 +459,8 @@ int BOX2_MAIN_Main(int a, int b, int c, int *d)
 int BOX2_MAIN_Exit(int a, int b, int c, int *d)
 {
     func_0200780C((void *)(*(int *)(*d + 4)), ((BoxTask *)d)->curBox);
-    func_0203133C((struct S020314B8 *)d[1]);
-    func_020315D4((struct Proc *)a);
+    PROCSYS_Delete((struct S020314B8 *)d[1]);
+    PROCSYS_FreeProcWork((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x4b);
     return 1;
 }
@@ -467,15 +470,15 @@ int BOX2_MAIN_Exit(int a, int b, int c, int *d)
  */
 void BOX2_MAIN_CreateVBlankTask(BoxTask *p)
 {
-    (*(int *)&p->work->vblankTask) = func_020056A0((void *)BOX2_MAIN_VBlankHandler, p, 0);
+    (*(int *)&p->work->vblankTask) = GFL_USE_AddMainTask((void *)BOX2_MAIN_VBlankHandler, p, 0);
 }
 
 /*
- * Tail call func_02030EAC with the word at +0x2c/+0x54.
+ * Tail call TCB_DeleteTask with the word at +0x2c/+0x54.
  */
 void BOX2_MAIN_DeleteVBlankTask(BoxTask *p)
 {
-    func_02030EAC(p->work->vblankTask);
+    TCB_DeleteTask(p->work->vblankTask);
 }
 
 void BOX2_MAIN_VBlankHandler(u32 a, BoxTask *p)
@@ -704,13 +707,13 @@ extern void BG_SYS_FreeLayerBuf(unsigned);
 
 extern void BG_SYS_Delete(void);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 
@@ -720,7 +723,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3
 
 extern void BG_SYS_LoadPltt(u32 a, void *src, u32 size, u32 ofs);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -732,13 +735,13 @@ extern u32 APP_ICON_GetStatusDataFileId(void);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 
-extern void func_02049B40(u32, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
 
 extern void *PALANM_Create(u32 heap);
 
@@ -748,9 +751,9 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
 extern u32 PALANM_Delete(void *a0);
 
-extern void func_0207D63C(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
@@ -771,7 +774,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 
@@ -907,7 +910,7 @@ extern void BOX2_UI_FindSlotPos(BoxWork *a0, int a1, short *a2, short *a3);
 
 extern void BOX2_SEQ_SwapSlotActorsB(BoxWork *p, int i);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 
@@ -1372,14 +1375,14 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     u16 *b;
     u32 i;
 
-    arc = func_020490F4(0x74, 0x4c);
-    func_02049658((void *)arc, 0xc, 1, 0, 0, 1, 0x4c);
-    func_02049740((void *)arc, 3, 2, 0, 1, 0x4c);
-    func_020498F4((void *)arc, 2, 2, 0, 0, 1, 0x4c);
-    func_02049658((void *)arc, 1, 3, 0, 0, 1, 0x4c);
-    func_020498F4((void *)arc, 0, 3, 0, 0, 1, 0x4c);
+    arc = ARC_TOOL_CreateHandle(0x74, 0x4c);
+    ARC_UTIL_UploadBgCharFromHandle((void *)arc, 0xc, 1, 0, 0, 1, 0x4c);
+    ARC_UTIL_RegisterObjCharFromHandle((void *)arc, 3, 2, 0, 1, 0x4c);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)arc, 2, 2, 0, 0, 1, 0x4c);
+    ARC_UTIL_UploadBgCharFromHandle((void *)arc, 1, 3, 0, 0, 1, 0x4c);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)arc, 0, 3, 0, 0, 1, 0x4c);
     func_02049B68((void *)arc, 4, 0, 0, 0x80, 0x4c);
-    func_02049658((void *)arc, 0x3e, 1, 1000, 0x300, 1, 0x4c);
+    ARC_UTIL_UploadBgCharFromHandle((void *)arc, 0x3e, 1, 1000, 0x300, 1, 0x4c);
     func_02049B68((void *)arc, 0x3f, 0, 0x180, 0x40, 0x4c);
     pal = ARC_UTIL_LoadPaletteBlockFromArchive(APP_ICON_GetArchiveId(), 0x1f, (u32)(&pd), 0x804c);
     src = pd->fC;
@@ -1388,29 +1391,29 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     src += 0x14;
     ofs += 0x20;
     BG_SYS_LoadPltt(0, src, 4, ofs);
-    func_020307B0((void *)pal);
-    func_02049658((void *)arc, 6, 5, 0, 0, 1, 0x4c);
-    func_020498F4((void *)arc, 5, 5, 0, 0, 1, 0x4c);
-    func_02049658((void *)arc, 6, 6, 0, 0, 1, 0x4c);
+    GFL_HEAP_Free((void *)pal);
+    ARC_UTIL_UploadBgCharFromHandle((void *)arc, 6, 5, 0, 0, 1, 0x4c);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)arc, 5, 5, 0, 0, 1, 0x4c);
+    ARC_UTIL_UploadBgCharFromHandle((void *)arc, 6, 6, 0, 0, 1, 0x4c);
     func_02049B68((void *)arc, 7, 4, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc);
-    arc2 = func_020490F4(APP_ICON_GetArchiveId(), 0x4c);
-    func_02049740((void *)arc2, APP_ICON_GetStatusFrameFileId(), 0, 0, 0, 0x4c);
+    arc2 = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x4c);
+    ARC_UTIL_RegisterObjCharFromHandle((void *)arc2, APP_ICON_GetStatusFrameFileId(), 0, 0, 0, 0x4c);
     func_02049B68((void *)arc2, APP_ICON_GetStatusAnimFileId(), 0, 0xe0, 0x20, 0x4c);
-    func_020498F4((void *)arc2, APP_ICON_GetStatusDataFileId(), 0, 0, 0, 0, 0x4c);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)arc2, APP_ICON_GetStatusDataFileId(), 0, 0, 0, 0, 0x4c);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 7);
-    func_02041B6C(0);
-    r6 = func_02049740((void *)arc2, APP_ICON_GetStatusFrameFileId(), 2, 0, 0, 0x4c);
+    BG_SYS_SetFlagField06(0);
+    r6 = ARC_UTIL_RegisterObjCharFromHandle((void *)arc2, APP_ICON_GetStatusFrameFileId(), 2, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc2);
     a = (u16 *)BG_SYS_GetBuf(0);
     b = (u16 *)BG_SYS_GetBuf(2);
     for (i = 0; i < 0x60u; i++) {
         *(u16 *)((char *)b + 0x540 + i * 2) = r6 + *(u16 *)((char *)a + 0x540 + i * 2);
     }
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     *(int *)(ctx->f2c + 0x178) = (int)BMP_MENUWORK_LoadFrameGfx(0, 10, 0, 0x4c);
-    func_02049B40(0x17, 5, 0, 0x160, 0x20, 0x4c);
-    func_02049B40(0x17, 5, 4, 0x1e0, 0x20, 0x4c);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x160, 0x20, 0x4c);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, 0x4c);
 }
 
 /*
@@ -1433,7 +1436,7 @@ void BOX2_MAIN_DeletePalAnm(int *p)
 void BOX2_MAIN_SetDisplayControl(int a)
 {
     if (a == 1)
-        func_0207D63C(0x04000050, 0, 0x2a, 6, 0xa);
+        G2x_SetBlendAlpha_(0x04000050, 0, 0x2a, 6, 0xa);
     else
         *(volatile unsigned short *)0x04000050 = 0;
 }
@@ -1441,7 +1444,7 @@ void BOX2_MAIN_SetDisplayControl(int a)
 
 void BOX2_MAIN_CreateTextSystem(char *p)
 {
-    (*(void **)((char *)((BoxTask *)(p))->work + (0x80))) = func_02045B38(0,2,9,0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x80))) = MSGDATA_CreateFromArchive(0,2,9,0x4c);
     (*(void **)((char *)((BoxTask *)(p))->work + (0x78))) = GF_FONT_Create(0x17,0,1,0,0x4c);
     (*(void **)((char *)((BoxTask *)(p))->work + (0x7c))) = GF_FONT_Create(0x17,3,0,0,0x4c);
     (*(void **)((char *)((BoxTask *)(p))->work + (0x84))) = WORDSET_CreateDefault(0x4c);
@@ -1489,10 +1492,10 @@ void BOX2_MAIN_DeleteTextSystem(char *p)
 
 void BOX2_MAIN_CreateTaskMenu(char *p)
 {
-    (*(void **)((char *)((BoxTask *)(p))->work + (0x184)))=func_02045EC0((*(void **)((char *)((BoxTask *)(p))->work + (0x80))),0x6e);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x184)))=MSGDATA_AllocString((*(void **)((char *)((BoxTask *)(p))->work + (0x80))),0x6e);
     (*(unsigned short *)((char *)((BoxTask *)(p))->work + (0x188)))=0x39e3;
     (*(void **)((char *)((BoxTask *)(p))->work + (0x18c)))=0;
-    (*(void **)((char *)((BoxTask *)(p))->work + (0x190)))=func_02045EC0((*(void **)((char *)((BoxTask *)(p))->work + (0x80))),0x6f);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x190)))=MSGDATA_AllocString((*(void **)((char *)((BoxTask *)(p))->work + (0x80))),0x6f);
     (*(unsigned short *)((char *)((BoxTask *)(p))->work + (0x194)))=0x39e3;
     (*(void **)((char *)((BoxTask *)(p))->work + (0x198)))=0;
     (*(void **)((char *)((BoxTask *)(p))->work + (0x19c)))=APP_TASKMENU_RES_Create(0,8,(u32)(*(void **)((char *)((BoxTask *)(p))->work + (0x78))),(u32)(*(void **)((char *)((BoxTask *)(p))->work + (0x8c))),0x4c);
@@ -1544,7 +1547,7 @@ int BOX2_MAIN_IsTaskMenuFinished(BoxTask *p)
             BOX2_SEQ_SetActorAutoAnim((BoxWork *)p->work, f->id, f->lo);
         } else {
             BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->lo);
-            func_02041B6C(f->id);
+            BG_SYS_SetFlagField06(f->id);
         }
         f->state++;
         break;
@@ -1556,7 +1559,7 @@ int BOX2_MAIN_IsTaskMenuFinished(BoxTask *p)
             f->count++;
             if (f->count == 4) {
                 BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->hi);
-                func_02041B6C(f->id);
+                BG_SYS_SetFlagField06(f->id);
                 f->count = 0;
                 f->state++;
             }
@@ -1719,7 +1722,7 @@ void BOX2_MAIN_MoveMonToParty(unsigned char *p,unsigned short *q,unsigned short 
     slot=t[2]-30;
     func_020075B0((*(void ***)p)[1],box,q[2],POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((*(void ***)p)[2],slot)));
     POKEPARTY_SetMember((*(void ***)p)[2],slot,m);
-    func_020307B0((void *)m);
+    GFL_HEAP_Free((void *)m);
     BOX2_UI_DrawSlot((BoxTask *)p,box);
 }
 
@@ -1729,7 +1732,7 @@ void BOX2_MAIN_AddMonToParty(unsigned char *p, unsigned short *q)
     m = POKE_TOOL_CreateFromBoxParam((struct Mon *)BOX2_MAIN_GetMonAt((void ***)p,p[0x17],q[2]),0x804c);
     POKEPARTY_Add((*(void ***)p)[2],m);
     BOX2_MAIN_ClearSlot((char **)p,p[0x17],q[2]);
-    func_020307B0((void *)m);
+    GFL_HEAP_Free((void *)m);
     BOX2_UI_DrawSlot((BoxTask *)p,p[0x17]);
 }
 
@@ -1881,7 +1884,7 @@ void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b)
     POKE_TOOL_ChangeBoxForm((int)a, b);
     r = POKE_TOOL_CreateFromBoxParam((struct Mon *)a, 0x4c);
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((void *)(*(u32 *)*pp)), r);
-    func_020307B0((void *)r);
+    GFL_HEAP_Free((void *)r);
 }
 
 /*
@@ -1968,11 +1971,11 @@ void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx)
 void BOX2_MAIN_LoadFormTable(char *p) { ((BoxTask *)p)->work->formTable=POKE_PERSONAL_LoadFormTable(76,0);((BoxTask *)p)->work->nationalDexEnabled=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(**(void ** *)&((BoxTask *)p)->params)); }
 
 /*
- * Tail call func_020307B0 with the word at +0x2c/+0x180.
+ * Tail call GFL_HEAP_Free with the word at +0x2c/+0x180.
  */
 void BOX2_MAIN_DeleteFormTable(BoxTask *p)
 {
-    func_020307B0((void *)p->work->formTable);
+    GFL_HEAP_Free((void *)p->work->formTable);
 }
 
 int BOX2_MAIN_GetBoxValue(char *p, u32 a) { u16 n;n=BOX2_MAIN_GetPartyValueAt((void ***)p,a,((BoxTask *)p)->curBox,5,0);return func_020092AC(*(u8 * *)&((BoxTask *)p)->params->extra,n); }
@@ -2587,7 +2590,7 @@ void BOX2_MAIN_ResetMovers(BoxTask *p)
     void *m;
     unsigned i;
     int r;
-    p->work->scroll=func_02030734(0x804c,12,0,d_021F1400,0xa70);
+    p->work->scroll=GFL_HEAP_Alloc(0x804c,12,0,d_021F1400,0xa70);
     s=p->work->scroll;
     s->p=*(void **)((char *)p->work +*(unsigned char *)((char *)p->work +p->cursorSlot+0x3dd2)*4+0x9e74);
     s->index=0;
@@ -2600,11 +2603,11 @@ void BOX2_MAIN_ResetMovers(BoxTask *p)
 }
 
 /*
- * Tail call func_020307B0 with the pooled-offset word.
+ * Tail call GFL_HEAP_Free with the pooled-offset word.
  */
 void BOX2_MAIN_DeleteScroll(BoxTask *p)
 {
-    func_020307B0((void *)p->work->scroll);
+    GFL_HEAP_Free((void *)p->work->scroll);
 }
 
 /*
@@ -2818,7 +2821,7 @@ void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c)
 
     r = ARC_UTIL_LoadBgCharDataFromArchive(0x74, b + 0xe, 1, (u32)(&out), 0x4c);
     BG_SYS_LoadTileData(3, (const void *)(((BoxArcTile *)(out))->data), ((BoxArcTile *)(out))->size, (u32)c);
-    func_020307B0((void *)r);
+    GFL_HEAP_Free((void *)r);
 }
 
 /*
@@ -2827,7 +2830,7 @@ void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c)
  */
 void BOX2_MAIN_LoadBgPaletteTile(int a, int b, int c)
 {
-    func_02049B40(0x74, b + 0x26, 0, c << 5, 0x20, 0x4c);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x74, b + 0x26, 0, c << 5, 0x20, 0x4c);
 }
 
 /*
@@ -2865,7 +2868,7 @@ void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 p
         }while(col<21);
         ++row;
     }while(row<20);
-    func_020307B0((void *)handle);
+    GFL_HEAP_Free((void *)handle);
     BG_SYS_SetTileEntry(3,0xe287,cur,0,2,20,17);
     BG_SYS_SetTileEntry(3,0xe2b0,cur,5,2,1,17);
 }
@@ -2875,7 +2878,7 @@ void BOX2_MAIN_LoadBgTiles(void *a, void *b, int c, void *d, int e)
     BOX2_MAIN_LoadBgCharTile((int)a, (int)b, d);
     BOX2_MAIN_LoadBgPaletteTile((int)a, (int)b, e);
     BOX2_MAIN_LoadBgTileSet(a, b, c, (unsigned int)d, e);
-    func_02041B6C(3);
+    BG_SYS_SetFlagField06(3);
 }
 
 void BOX2_MAIN_SetBoxScroll(BoxTask *p, void *a, int dir)
@@ -2936,7 +2939,7 @@ void BOX2_MAIN_LoadBoxPalette(BoxTask *p, int a)
     BOX2_MAIN_LoadBgCharTile((unsigned int)p, a, (void *)offset);
     PALANM_LoadArcPaletteToSlot(p->work->palAnm, 0x74, a + 0x26, 0x4C, 0, 0x20, bank << 4);
     BOX2_MAIN_LoadBgTileSet(p, (void *)a, p->work->scrollOffset, offset, bank);
-    func_02041B6C(3);
+    BG_SYS_SetFlagField06(3);
 }
 
 /*
@@ -2957,7 +2960,7 @@ Summary *BOX2_MAIN_CreateSummary(void *mon)
     unsigned i;
 
     if (POKE_TOOL_GetBoxValue((void *)mon, 0xA9, 0) != 0) {
-        s = func_02030734(0x4C, 0x1C, 0, d_021F1400, 0xCD2);
+        s = GFL_HEAP_Alloc(0x4C, 0x1C, 0, d_021F1400, 0xCD2);
         s->mon = mon;
         s->species = POKE_TOOL_GetBoxValue((void *)mon, 5, 0);
         s->form = POKE_TOOL_GetBoxValue((void *)mon, 6, 0);
@@ -2997,7 +3000,7 @@ Summary *BOX2_MAIN_CreateSummary(void *mon)
 
 void BOX2_MAIN_DeleteHandle(void *s)
 {
-    func_020307B0((void *)s);
+    GFL_HEAP_Free((void *)s);
 }
 
 /*
@@ -3198,7 +3201,7 @@ int BOX2_MAIN_PushPartyScene(BoxTask *p)
 {
     PokeStatusArgs *r;
     unsigned mode;
-    r = func_02030734(0x4B, 0x28, 0, d_021F1400, 0xEAC);
+    r = GFL_HEAP_Alloc(0x4B, 0x28, 0, d_021F1400, 0xEAC);
     if (p->cursorSlot < 30) {
         r->mon = (void *)BOX2_MAIN_GetMonAt((void ***)p, p->heldSlot, 0);
         r->kind = 2;
@@ -3239,7 +3242,7 @@ int BOX2_MAIN_PushPartySceneB(BoxTask *p)
         else
             p->cursorSlot = ((PokeStatusArgs *)(q))->slot + 0x1e;
     }
-    func_020307B0((void *)(((BoxTask *)(p))->subArgs));
+    GFL_HEAP_Free((void *)(((BoxTask *)(p))->subArgs));
     return 0;
 }
 
@@ -3260,7 +3263,7 @@ int BOX2_MAIN_PopSubArgs(BoxTask *p)
     char *q = *(char * *)&p->subArgs;
 
     ((BoxTask *)(p))->subResult = ((PokeStatusArgs *)(q))->subResult;
-    func_020307B0((void *)q);
+    GFL_HEAP_Free((void *)q);
     return 0;
 }
 
@@ -3272,7 +3275,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *p)
     int value;
     NameInRequest *r;
     value = (int)BEACON_GetBlock(GAME_DATA_GetSaveControl((*(void ***)p)[0]));
-    r = func_02030734(0x4B, 8, 1, d_021F1400, 0xF1F);
+    r = GFL_HEAP_Alloc(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = STRBUF_Create(20, 0x4B);
     func_0200785C((*(void ***)p)[1], p->curBox, r->text);
     r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (int)r->text, value);
@@ -3283,7 +3286,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *p)
 
 
 
-int BOX2_MAIN_PopNameScene(u8 *p){char **q;q=*(char ** *)&((BoxTask *)p)->subArgs;if(((BoxNameArgs *)((*q)))->done==0)func_02007898(((BoxTask *)p)->params->boxSave,p[0x14],((BoxNameArgs *)((*q)))->text);((BoxTask *)p)->subResult=((BoxNameArgs *)((*q)))->done;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);func_020307B0(((BoxTask *)p)->subArgs);return 0;}
+int BOX2_MAIN_PopNameScene(u8 *p){char **q;q=*(char ** *)&((BoxTask *)p)->subArgs;if(((BoxNameArgs *)((*q)))->done==0)func_02007898(((BoxTask *)p)->params->boxSave,p[0x14],((BoxNameArgs *)((*q)))->text);((BoxTask *)p)->subResult=((BoxNameArgs *)((*q)))->done;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);GFL_HEAP_Free(((BoxTask *)p)->subArgs);return 0;}
 
 void BOX2_MAIN_MoveCursorActor(BoxTask *p, int x, int y)
 {

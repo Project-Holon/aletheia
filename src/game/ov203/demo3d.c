@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   DEMO3D_GRAPHIC_Create 0x021BDDD8 thumb ov203
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   DEMO3D_ENGINE_Create 0x021BE160 thumb ov203
@@ -28,9 +28,9 @@
  *   DEMO3D_DATA_GetTextureSize 0x021BE948 thumb ov203
  *   ov067_id 0x00000043 data a1
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   DEMO3D_ENGINE_Delete 0x021BE4B4 thumb ov203
  *   DEMO3D_GRAPHIC_Delete 0x021BDE98 thumb ov203
  *   DEMO3D_GRAPHIC_Draw 0x021BDF00 thumb ov203
@@ -43,10 +43,10 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021C3CC0 0x021C3CC0 data a1
  *   d_021C3BC4 0x021C3BC4 data a4
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
@@ -107,14 +107,14 @@ typedef unsigned int   u32;
 
 typedef enum { ShadingToon = 0, ShadingHighlight = 1 } GXShading;
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, int, unsigned);
 extern void *DEMO3D_GRAPHIC_Create(unsigned, void *, unsigned);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned PRINTSYS_QUE_Create(void *);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap);
@@ -125,9 +125,9 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void DEMO3D_ENGINE_Delete(char *ctx);
 extern void DEMO3D_GRAPHIC_Delete(char *ctx);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void DEMO3D_GRAPHIC_Draw(unsigned char *);
 extern int DEMO3D_ENGINE_Update(const struct Demo3dContext *ctx, u32 frames);
@@ -138,8 +138,8 @@ extern void WIPE_SetMstBrightColor(unsigned);
 extern unsigned FADE_GetSpeed(void);
 extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern unsigned KEY_GetTrg(void);
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetLowBit(unsigned);
 extern void G3X_SetFog(int, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, int);
@@ -168,20 +168,20 @@ int DEMO3D_Init(void *manager, int unused, Demo3dArg *p)
     int delta;
     unsigned one = 1;
     unsigned heap = 0x6c;
-    func_02034AC4((int)ov067_id);
+    GF_OVERLAY_Load((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x6c, 0x130000);
     w = PROCSYS_AllocProcWork(manager, sizeof(Demo3dWork), 0x6c);
     MI_CpuFill8(w, 0, sizeof(Demo3dWork));
     w->heapId = heap;
     w->arg = p;
     w->view = DEMO3D_GRAPHIC_Create(1, p->data, w->heapId);
-    w->msg = func_02045B38(0, 2, 0x41, w->heapId);
+    w->msg = MSGDATA_CreateFromArchive(0, 2, 0x41, w->heapId);
     w->str = (void *)PRINTSYS_QUE_Create((void *)w->heapId);
-    func_02040588(6, 0);
-    func_02040588(4, 0);
-    func_02040588(3, 0);
-    func_02040588(2, 0);
-    func_02040588(1, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
+    BG_SYS_SetPlaneVisible(3, 0);
+    BG_SYS_SetPlaneVisible(2, 0);
+    BG_SYS_SetPlaneVisible(1, 0);
     BG_SYS_SetMainPlaneVisible(0x10, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
     w->model = DEMO3D_ENGINE_Create(w->view, (struct Cfg *)p, w->heapId);
@@ -201,9 +201,9 @@ int DEMO3D_Exit(void *a, void *b, void *c, Demo3dWork *work)
     PRINTSYS_QUE_Delete(work->str);
     DEMO3D_ENGINE_Delete(work->model);
     DEMO3D_GRAPHIC_Delete(work->view);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(0x6c);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
 
@@ -276,7 +276,7 @@ int DEMO3D_CheckSkip(Demo3dWork *p){if(p->arg->phase!=0||!WIPE_SYS_EndCheck())re
 Demo3dContext *DEMO3D_CreateContext(int mode, void *a, void *b, unsigned heap)
 {
     Demo3dContext *ctx;
-    ctx = func_02030734(heap, 24, 1, d_021C3CC0, 0x1e1);
+    ctx = GFL_HEAP_Alloc(heap, 24, 1, d_021C3CC0, 0x1e1);
     ctx->view = a;
     ctx->model = b;
     ctx->heapId = heap;
@@ -297,7 +297,7 @@ void DEMO3D_DeleteContext(Demo3dContext *a)
 {
     if (a->methods)
         a->methods->destroy(a);
-    func_020307B0(a);
+    GFL_HEAP_Free(a);
 }
 
 

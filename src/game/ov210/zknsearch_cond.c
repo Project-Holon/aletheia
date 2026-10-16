@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   d_021C0C98 0x021C0C98 data a4
  */
 #include "zknsearch_types.h"
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0C98;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 struct FrameList;
 struct Tmpl;
 extern struct FrameList *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
@@ -30,10 +30,10 @@ struct MsgBank;
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 void ZKNSEARCH_COND_InitFrameList(char *ctx)
 {
-    void *archive = func_020490F4(159, 0x807b);
+    void *archive = ARC_TOOL_CreateHandle(159, 0x807b);
     Template config;
     unsigned i;
     config = d_021C0C98;
@@ -45,5 +45,5 @@ void ZKNSEARCH_COND_InitFrameList(char *ctx)
     FRAME_LIST_CopyMapToBuffer(((ZknSearchWork *)ctx)->frameList, (unsigned int)archive, 97, 0, 0);
     FRAME_LIST_LoadPalettes(((ZknSearchWork *)ctx)->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 96; i <= 105; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i - 96); ((void **)(ctx + 0x64))[i] = func_02045EC0(((ZknSearchWork *)ctx)->msgBank, i); }
+    for (i = 96; i <= 105; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i - 96); ((void **)(ctx + 0x64))[i] = MSGDATA_AllocString(((ZknSearchWork *)ctx)->msgBank, i); }
 }

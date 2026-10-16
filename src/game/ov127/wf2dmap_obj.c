@@ -13,8 +13,8 @@
  * Cut from wf2dmap_map.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   sWf2dmapObjFileName 0x021C6120 data a1
  *   WF2DMAP_OBJCMD_Update 0x021C4CB4 thumb ov127
  *   MI_CpuFill8 0x02082BCC arm
@@ -47,9 +47,9 @@ typedef struct Wf2dmapCmdDesc {
     u8 value;               /* 0x06 */
 } Wf2dmapCmdDesc;
 
-extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void WF2DMAP_OBJCMD_Update(u8 *p);
 
@@ -110,9 +110,9 @@ extern unsigned char sWf2dmapDirectionTable[];
 Wf2dmapObjList *WF2DMAP_OBJ_CreateList(u32 count, u32 heap)
 {
     Wf2dmapObjList *p;
-    p = func_02030734(heap, 8, 1, sWf2dmapObjFileName, 128);
+    p = GFL_HEAP_Alloc(heap, 8, 1, sWf2dmapObjFileName, 128);
     p->count = count;
-    p->entries = func_02030734(heap, 24 * p->count, 1, sWf2dmapObjFileName, 133);
+    p->entries = GFL_HEAP_Alloc(heap, 24 * p->count, 1, sWf2dmapObjFileName, 133);
     return p;
 }
 
@@ -121,8 +121,8 @@ Wf2dmapObjList *WF2DMAP_OBJ_CreateList(u32 count, u32 heap)
  */
 void WF2DMAP_OBJ_DeleteList(u8 *p)
 {
-    func_020307B0(((Wf2dmapObjList *)p)->entries);
-    func_020307B0(p);
+    GFL_HEAP_Free(((Wf2dmapObjList *)p)->entries);
+    GFL_HEAP_Free(p);
 }
 
 void WF2DMAP_OBJ_DispatchById(void *a, u8 *q)

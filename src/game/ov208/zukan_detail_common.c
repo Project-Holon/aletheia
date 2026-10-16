@@ -13,14 +13,14 @@
  * Cut from zukan_detail_common.c, zukan_detail_graphic.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0  arm
  *   d_021C8D98     0x021C8D98  data  ov208  a4
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  *   G2x_SetBlendBrightnessExt_  0x0207D67C  arm
- *   func_02030CB0 0x02030CB0 arm
- *   func_02030CBC 0x02030CBC arm
+ *   TCB_GetTaskOffset 0x02030CB0 arm
+ *   TCB_Init 0x02030CBC arm
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
@@ -33,13 +33,13 @@
  *   PALANM_LoadHandlePaletteToSlotAt 0x02021660 thumb
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
  *   PALANM_RequestFade 0x0202173C thumb
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
- *   func_02049740  0x02049740  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   func_02049990  0x02049990  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   data_021C80E0  0x021C80E0  data
  *   data_021C80E8  0x021C80E8  data
  *   data_021C80F0  0x021C80F0  data
@@ -117,9 +117,9 @@ struct Ov208Win {
     u8  flashTimer;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
@@ -127,9 +127,9 @@ extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 
 extern void G2x_SetBlendBrightnessExt_(unsigned int, int, int, int, int, int);
 
-extern u32 func_02030CB0(u32);
+extern u32 TCB_GetTaskOffset(u32);
 
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 
 extern void *PALANM_Create(u32);
 
@@ -155,11 +155,11 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 o
 
 extern int PALANM_RequestFade(void *,unsigned short,unsigned short,short,unsigned char,unsigned char,unsigned short,void *);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
@@ -167,7 +167,7 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
@@ -262,7 +262,7 @@ extern const struct Ov208BgArc data_021C80F0[2];
 void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h,
                     unsigned short i, void *j)
 {
-    struct Ov208Ctx *p = (struct Ov208Ctx *)func_02030734(a, 0x24, 1, d_021C8D98, 0x60);
+    struct Ov208Ctx *p = (struct Ov208Ctx *)GFL_HEAP_Alloc(a, 0x24, 1, d_021C8D98, 0x60);
 
     p->blk = b;
     p->display = c;
@@ -281,7 +281,7 @@ void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *
  */
 void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0)
 {
-    func_020307B0(a0);
+    GFL_HEAP_Free(a0);
 }
 
 /*
@@ -364,12 +364,12 @@ void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p)
 
 void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap)
 {
-    return func_02030734(heap, 20, 1, d_021C8D98, 0x113);
+    return GFL_HEAP_Alloc(heap, 20, 1, d_021C8D98, 0x113);
 }
 
 void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *a0)
 {
-    func_020307B0(a0);
+    GFL_HEAP_Free(a0);
 }
 
 void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *main, struct Ov208Blend *sub)
@@ -460,9 +460,9 @@ void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, struct Ov208Blend *p)
 
 struct Ov208PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask)
 {
-    struct Ov208PalFade *p=func_02030734(heap,20,1,d_021C8D98,0x1e5);
-    p->memory=func_02030734(heap,func_02030CB0(2),1,d_021C8D98,0x1e8);
-    p->tcb=func_02030CBC(2,p->memory);
+    struct Ov208PalFade *p=GFL_HEAP_Alloc(heap,20,1,d_021C8D98,0x1e5);
+    p->memory=GFL_HEAP_Alloc(heap,TCB_GetTaskOffset(2),1,d_021C8D98,0x1e8);
+    p->tcb=TCB_Init(2,p->memory);
     p->slots=PALANM_Create(heap);
     PALANM_SetAutoTransfer(p->slots,1);
     p->slotMask=mask;
@@ -487,8 +487,8 @@ void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(struct Ov208PalFade *p)
     if(p->slotMask&1)PALANM_FreeSlotBuffers(p->slots,0);
     PALANM_Delete(p->slots);
     TCB_Noop(p->tcb);
-    func_020307B0(p->memory);
-    func_020307B0((void *)((unsigned)p));
+    GFL_HEAP_Free(p->memory);
+    GFL_HEAP_Free((void *)((unsigned)p));
 }
 
 /*
@@ -592,7 +592,7 @@ struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 l
     u32 type;
     u32 scr;
 
-    w = func_02030734(heap, sizeof(*w), 1, d_021C8D98, 0x323);
+    w = GFL_HEAP_Alloc(heap, sizeof(*w), 1, d_021C8D98, 0x323);
     if (layer < 4) {
         sub = 0;
         type = 0;
@@ -600,12 +600,12 @@ struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 l
         sub = 1;
         type = 4;
     }
-    h = func_020490F4(0x9f, heap);
+    h = ARC_TOOL_CreateHandle(0x9f, heap);
     ARC_UTIL_UploadPaletteFromHandle(h, data_021C80F0[sub].chr, type, data_021C80E8[sub][kind] << 5, pal << 5,
                   0x20, heap);
     ARC_UTIL_UploadPaletteFromHandle(h, data_021C80F0[sub].chr, type, data_021C80E0[sub][kind] << 5,
                   objPal << 5, 0x20, heap);
-    w->chrOfs = func_02049740(h, data_021C80F0[sub].scr, layer, 0, 0, heap);
+    w->chrOfs = ARC_UTIL_RegisterObjCharFromHandle(h, data_021C80F0[sub].scr, layer, 0, 0, heap);
     scr = data_021C80F0[sub].size;
     if (kind == 3 && sub == 0)
         scr = 0x20;
@@ -613,7 +613,7 @@ struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 l
     BG_SYS_FillTileMap(layer, 0, 0x15, 0x20, 3, pal);
     BG_SYS_FillTileMap(layer, 0, 0, 0x20, 0x15, objPal);
     ARC_TOOL_DeleteHandle(h);
-    func_02041B6C(layer);
+    BG_SYS_SetFlagField06(layer);
     w->layer = layer;
     w->flashTimer = 4;
     return w;
@@ -629,7 +629,7 @@ void ZUKAN_DETAIL_COMMON_FreeBgPalette(struct Ov208Win *p)
 
     w = p->chrOfs;
     BG_SYS_DeleteHalf(p->layer, (unsigned short)w, (unsigned short)(w >> 16));
-    func_020307B0((void *)((int)p));
+    GFL_HEAP_Free((void *)((int)p));
 }
 
 void ZUKAN_DETAIL_COMMON_TickFlashEffect(struct Ov208Win *p)
@@ -654,15 +654,15 @@ u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 coun
     type = 0;
     if (layer >= 4)
         type = 4;
-    h = func_020490F4(arc, heap);
+    h = ARC_TOOL_CreateHandle(arc, heap);
     if (skip == 0)
         ARC_UTIL_UploadPaletteFromHandle(h, chr, type, palOfs << 5, pal << 5, count << 5, heap);
     if (skip == 0)
-        chrOfs = func_02049740(h, scr, layer, 0, 0, heap);
+        chrOfs = ARC_UTIL_RegisterObjCharFromHandle(h, scr, layer, 0, 0, heap);
     func_02049990(h, cell, layer, 0, (u16)chrOfs, 0, 0, heap);
     BG_SYS_FillTileMap(layer, 0, 0, 0x20, 0x18, pal);
     ARC_TOOL_DeleteHandle(h);
-    func_02041B6C(layer);
+    BG_SYS_SetFlagField06(layer);
     return chrOfs;
 }
 

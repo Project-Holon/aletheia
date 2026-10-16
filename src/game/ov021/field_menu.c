@@ -16,7 +16,7 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFieldMenuFileName     0x021DDF94  data  ov021  a1
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -25,16 +25,16 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
- *   func_020355C4  0x020355C4  arm
- *   func_020056A0  0x020056A0  thumb
+ *   UI_GetInputMode  0x020355C4  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   FIELD_MENU_ColorTask  0x021A8D40  thumb  ov021
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   FIELD_MENU_GetLayoutType  0x021A8B18  thumb  ov021
  *   FIELD_MENU_LoadGraphics  0x021A8874  thumb  ov021
  *   FIELD_MENU_CreateItems  0x021A8BB8  thumb  ov021
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELD_MENU_UpdateSelection  0x021A90E0  thumb  ov021
  *   FIELD_MENU_SetScrolledOut  0x021A8DD8  thumb  ov021
  *   GAME_DATA_GetFrameRate  0x020129C4  thumb
@@ -43,7 +43,7 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb
  *   FIELD_MENU_DeleteItem  0x021A926C  thumb  ov021
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_DeleteRenderer  0x0204B084  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
@@ -54,7 +54,7 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   FIELD_SUBSCREEN_LoadBackdrop  0x021A12D4  thumb  ov021
@@ -80,8 +80,8 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02049B68  0x02049B68  arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -103,21 +103,21 @@
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   gFieldMenuLayouts  0x021D8D24  data  a4
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   gFieldMenuDefaultName     0x021D8C0C  data  ov021  a2
  *   STRBUF_Create  0x020457B0  arm
  *   func_020084BC  0x020084BC  thumb
  *   func_020084F4  0x020084F4  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   gFieldMenuMsgIds     0x021D8B34  data  a2
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   gFieldMenuIconRes     0x021D8CAC  data  ov021  a4
  *   func_02008550  0x02008550  thumb
  *   gFieldMenuWindowPos     0x021D8B18  data  ov021  a1
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_STANDARD_Get_F684  0x0203F684  arm
- *   func_0207E5D0  0x0207E5D0  arm
+ *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   gFieldMenuCursorMoves     0x021D8C4C  data  ov021  a1
  *   gFieldMenuSlotCol     0x021D8B26  data  ov021  a1
  *   gFieldMenuSlotRow     0x021D8B27  data  ov021  a1
@@ -141,7 +141,7 @@
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   func_02049EF4  0x02049EF4  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -346,7 +346,7 @@ typedef struct FieldMenuItemInit {
 struct BgTemplate;
 struct BigObj;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void *FIELDMAP_GetGameSystem(void *fieldMap);
 extern void *ICA_ANIME_GetField1C(void *gameSystem);
 extern void *ICA_ANIME_GetField114(void *gameSystem);
@@ -354,17 +354,17 @@ extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
 extern void *GAME_DATA_GetEventWork(void *gameData);
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
-extern u8 func_020355C4(void);
-extern void *func_020056A0(void *callback, void *work, int priority);
+extern u8 UI_GetInputMode(void);
+extern void *GFL_USE_AddMainTask(void *callback, void *work, int priority);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
-extern u32 func_02040588(u8 layer, u8 visible);
+extern u32 BG_SYS_SetPlaneVisible(u8 layer, u8 visible);
 extern u8 GAME_DATA_GetFrameRate(void *gameData);
 extern void CLACT_SetActorDrawEnable(void *actor, u32 drawEnable);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_ResumeField(void *parent, u32 heapId);
-extern void func_02030EAC(void *tcb);
+extern void TCB_DeleteTask(void *tcb);
 extern void CLACT_DeleteActor(void *actor);
 extern void CLACT_DeleteRenderer(void *surface);
 extern u32 CLACT_DeleteUnit(void *unit);
@@ -375,7 +375,7 @@ extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void BG_SYS_FreeLayerBuf(u32 layer);
 extern void PRINTSYS_QUE_Clear(void *printQue);
 extern void PRINTSYS_QUE_Delete(void *printQue);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_PushTile(u32 layer);
 extern u32 PRINTSYS_QUE_IsFinished(void *printQue);
 extern void FIELD_SUBSCREEN_LoadBackdrop(void *parent, u32 heapId);
@@ -391,8 +391,8 @@ extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void BG_SYS_ClearSlot(u32 layer);
 extern void func_02049B68(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
-extern void func_02049658(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
-extern void func_020498F4(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void ARC_UTIL_UploadBgCharFromHandle(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void *CLACT_RegisterPaletteEx(void *arcHandle, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
 extern void *CLACT_RegisterCharacter(void *arcHandle, u32 b, u32 c, u32 d, u16 heapId);
 extern void *CLACT_RegisterCellAnim(void *arcHandle, u32 first, u32 second, u32 heapId);
@@ -413,17 +413,17 @@ extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
 extern u32 ZONEDATA_IsZone34(u16 zoneId);
 extern int GAME_DATA_GetIntrudeCount(void *gameData);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
-extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern int func_020084BC(const void *myStatus);
 extern const void *func_020084F4(const void *myStatus);
 extern void STRBUF_SetString(void *strbuf, const void *src);
-extern void *func_02045EC0(void *msgBank, u32 index);
+extern void *MSGDATA_AllocString(void *msgBank, u32 index);
 extern u8 func_02008550(const void *myStatus);
 extern void STRBUF_Delete(void *strbuf);
 extern u32 MSGDATA_Delete(void *msgBank);
 extern short GF_STANDARD_Get_F684(unsigned short x);
-extern void func_0207E5D0(void *src, u32 off, u32 n);
+extern void GXS_LoadOBJPltt(void *src, u32 off, u32 n);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
 extern void func_020355D8(u8 v);
@@ -443,7 +443,7 @@ extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void *func_02049EF4(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
 extern void BG_SYS_DrawTileEx(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_02041B6C(u8 layer);
+extern void BG_SYS_SetFlagField06(u8 layer);
 
 extern const struct BgTemplate gFieldMenuBgTemplate5;
 extern const struct BgTemplate gFieldMenuBgTemplate6;
@@ -500,7 +500,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     void *arcHandle;
     u32 layoutType;
 
-    menu = func_02030734(heapId, 0x138, 0, gFieldMenuFileName, 0x134);
+    menu = GFL_HEAP_Alloc(heapId, 0x138, 0, gFieldMenuFileName, 0x134);
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     gameData = ICA_ANIME_GetField1C(gameSystem);
     menu->heapId = heapId;
@@ -514,19 +514,19 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     menu->mapInfo = FIELDMAP_GetMsgBg(fieldMap);
     menu->cursorCol = 0;
     menu->cursorRow = 0;
-    menu->cursorDirty = menu->keyCursorActive = func_020355C4() ^ 1;
+    menu->cursorDirty = menu->keyCursorActive = UI_GetInputMode() ^ 1;
     menu->selectedItem = 0;
-    menu->colorTask = func_020056A0(FIELD_MENU_ColorTask, menu, 0);
+    menu->colorTask = GFL_USE_AddMainTask(FIELD_MENU_ColorTask, menu, 0);
     menu->printQue = PRINTSYS_QUE_Create(menu->heapId);
     menu->scrollDirty = 0;
     menu->scrollY = 0;
-    arcHandle = func_020490F4(0x47, menu->subHeapId);
+    arcHandle = ARC_TOOL_CreateHandle(0x47, menu->subHeapId);
     layoutType = FIELD_MENU_GetLayoutType(gameData, menu->eventWork, menu->zoneId);
     menu->layoutType = layoutType;
     FIELD_MENU_LoadGraphics(menu, arcHandle, layoutType, menu->mapInfo);
     FIELD_MENU_CreateItems(menu, arcHandle, layoutType);
     ARC_TOOL_DeleteHandle(arcHandle);
-    func_02040588(1, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
     if (slideIn == 1) {
         menu->cursorCol = 0;
         menu->cursorRow = 0;
@@ -562,7 +562,7 @@ void FIELD_MENU_Delete(FieldMenu *menu)
         FIELD_MENU_DeleteItem(menu, &menu->items[i]);
     }
     FIELD_MENU_NotifyParentOnExit(menu);
-    func_02030EAC(menu->colorTask);
+    TCB_DeleteTask(menu->colorTask);
     CLACT_DeleteActor(menu->backActor);
     CLACT_DeleteActor(menu->cursorActor);
     CLACT_DeleteRenderer(menu->clactSurface);
@@ -579,17 +579,17 @@ void FIELD_MENU_Delete(FieldMenu *menu)
     BG_SYS_FreeLayerBuf(6);
     PRINTSYS_QUE_Clear(menu->printQue);
     PRINTSYS_QUE_Delete(menu->printQue);
-    func_020307B0(menu);
+    GFL_HEAP_Free(menu);
 }
 
 /* Shows the menu BG layers again after a slide or a wipe. */
 int FIELD_MENU_ShowBgLayers(void)
 {
     BG_SYS_PushTile(6);
-    func_02040588(4, 1);
-    func_02040588(5, 1);
-    func_02040588(6, 1);
-    return func_02040588(7, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
+    return BG_SYS_SetPlaneVisible(7, 1);
 }
 
 /* Per-frame update; returns the print queue state for the parent's main. */
@@ -643,19 +643,19 @@ u32 FIELD_MENU_Update(FieldMenu *menu)
             break;
         }
         menu->state = FIELD_MENU_STATE_DECIDE;
-        func_02040588(5, 1);
-        func_02040588(6, 1);
-        func_02040588(7, 1);
-        func_02040588(4, 1);
+        BG_SYS_SetPlaneVisible(5, 1);
+        BG_SYS_SetPlaneVisible(6, 1);
+        BG_SYS_SetPlaneVisible(7, 1);
+        BG_SYS_SetPlaneVisible(4, 1);
         break;
     case FIELD_MENU_STATE_DECIDE:
         if (menu->exitRequested == 1 || menu->cursorRow == 3) {
             menu->state = FIELD_MENU_STATE_SLIDE_OUT;
             GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_CLOSE);
-            func_02040588(4, 0);
-            func_02040588(5, 1);
-            func_02040588(6, 1);
-            func_02040588(7, 1);
+            BG_SYS_SetPlaneVisible(4, 0);
+            BG_SYS_SetPlaneVisible(5, 1);
+            BG_SYS_SetPlaneVisible(6, 1);
+            BG_SYS_SetPlaneVisible(7, 1);
             CLACT_SetActorDrawEnable(menu->backActor, 0);
         } else {
             item = menu->selectedItem;
@@ -754,23 +754,23 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
 
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
     BG_SYS_InitBgLayer(5, &gFieldMenuBgTemplate5, 0);
-    func_02040588(5, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
     BG_SYS_ClearSlot(5);
     BG_SYS_InitBgLayer(6, &gFieldMenuBgTemplate6, 0);
-    func_02040588(6, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_ClearSlot(6);
     BG_SYS_InitBgLayer(7, &gFieldMenuBgTemplate7, 0);
-    func_02040588(7, 1);
+    BG_SYS_SetPlaneVisible(7, 1);
     BG_SYS_ClearSlot(7);
     BG_SYS_FillScrollArea(6, 3, -FIELD_MENU_LAYER6_OFFSET);
     func_02049B68(arcHandle, 0, 4, 0, 0, menu->subHeapId);
-    func_02049658(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
-    func_020498F4(arcHandle, gFieldMenuScreenIds[layoutType], 5, 0, 0, 0, menu->subHeapId);
-    func_020498F4(arcHandle, 0xE, 7, 0, 0, 0, menu->subHeapId);
+    ARC_UTIL_UploadBgCharFromHandle(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arcHandle, gFieldMenuScreenIds[layoutType], 5, 0, 0, 0, menu->subHeapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arcHandle, 0xE, 7, 0, 0, 0, menu->subHeapId);
     menu->palRes = CLACT_RegisterPaletteEx(arcHandle, 1, 1, 0, 0, 0xB, menu->heapId);
     menu->charRes = CLACT_RegisterCharacter(arcHandle, 0xD, 0, 1, menu->heapId);
     menu->cellRes = CLACT_RegisterCellAnim(arcHandle, 0x1C, 0x26, menu->heapId);
-    commonArc = func_020490F4(APP_ICON_GetArchiveId(), menu->subHeapId);
+    commonArc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), menu->subHeapId);
     menu->palResB = CLACT_RegisterPaletteEx(commonArc, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x160, 0, 2, menu->heapId);
     menu->charResB = CLACT_RegisterCharacter(commonArc, APP_ICON_GetMoveKindAnimFileId(), 0, 1, menu->heapId);
     cellId = APP_ICON_GetStatusCellFileId(0);
@@ -804,7 +804,7 @@ void FIELD_MENU_LoadFrameBg(int heapId, int hideFrame)
 {
     FIELD_MENU_LoadScreen(heapId, 4);
     if (hideFrame != 0) {
-        func_02040588(4, 0);
+        BG_SYS_SetPlaneVisible(4, 0);
     }
 }
 
@@ -859,7 +859,7 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
     FieldMenuName nameBuf;
     FieldMenuName defaultName;
 
-    msgBank = func_02045B38(0, 2, 0x22, menu->subHeapId);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, 0x22, menu->subHeapId);
     for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
         menu->items[i].inUse = 0;
     }
@@ -877,7 +877,7 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
                 STRBUF_SetString(init.text, nameBuf.chars);
             }
         } else {
-            init.text = func_02045EC0(msgBank, gFieldMenuMsgIds[buttonId]);
+            init.text = MSGDATA_AllocString(msgBank, gFieldMenuMsgIds[buttonId]);
         }
         init.buttonId = buttonId;
         if (j != FIELD_MENU_ITEM_BACK) {
@@ -924,10 +924,10 @@ void FIELD_MENU_ColorTask(void *taskHandle, FieldMenu *menu)
     u16 colors[2];
 
     colors[1] = (wave * 8 / 0x2000 + 9) | ((0x1F << 10) | ((wave * 5 / 0x2000 + 0x12) << 5));
-    func_0207E5D0(&colors[1], 0x142, 2);
+    GXS_LoadOBJPltt(&colors[1], 0x142, 2);
     colors[0] = (wave * 0x1F / 0x2000) |
                 (((wave * 6 / 0x2000 + 0x19) << 10) | ((wave * 13 / 0x2000 + 0x12) << 5));
-    func_0207E5D0(&colors[0], 0x15E, 2);
+    GXS_LoadOBJPltt(&colors[0], 0x15E, 2);
     menu->colorPhase += 6;
 }
 
@@ -1202,9 +1202,9 @@ void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)
     u16 *tiles;
     void *arcHandle;
 
-    arcHandle = func_020490F4(APP_ICON_GetArchiveId(), heapId);
+    arcHandle = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
     func_02049B68(arcHandle, APP_ICON_GetStatusAnimFileId(), 4, 0x60, 0x20, heapId);
-    func_02049658(arcHandle, APP_ICON_GetStatusFrameFileId(), layer, 0x80, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arcHandle, APP_ICON_GetStatusFrameFileId(), layer, 0x80, 0, 0, heapId);
     screenBuf = func_02049EF4(arcHandle, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, heapId);
     ARC_TOOL_DeleteHandle(arcHandle);
     tiles = screen->tiles;
@@ -1212,6 +1212,6 @@ void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)
         tiles[i] = (tiles[i] + 0x80) | 0x3000;
     }
     BG_SYS_DrawTileEx((u8)layer, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
-    func_02041B6C(layer);
-    func_020307B0(screenBuf);
+    BG_SYS_SetFlagField06(layer);
+    GFL_HEAP_Free(screenBuf);
 }

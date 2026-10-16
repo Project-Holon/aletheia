@@ -13,12 +13,12 @@
  * Cut from sta_acting.c, script_command.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   STA_ACT_BUTTON_Create 0x021FA5B0 thumb ov132
  *   STA_ACT_BUTTON_Delete 0x021FA64C thumb ov132
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STA_ACT_BUTTON_Update 0x021FA6CC thumb ov132
  *   STA_ACT_BUTTON_SetVisible  0x021FAAB8  thumb
  *   d_021FDCD8 0x021FDCD8 data a4
@@ -53,8 +53,8 @@
  *   NNS_G3dGetTex 0x0206E964 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0207E5D0 0x0207E5D0 arm
- *   func_0207E804 0x0207E804 arm
+ *   GXS_LoadOBJPltt 0x0207E5D0 arm
+ *   GXS_LoadOBJ 0x0207E804 arm
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
@@ -78,9 +78,9 @@ typedef struct {short x,y;} Pos;
 
 typedef struct {short x,y,index;u8 a,b;} Params;
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void CLACT_DeleteActor(struct Actor *p);
 
@@ -120,7 +120,7 @@ extern int MUSICAL_MCSS_NoOp6(int *);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
@@ -138,9 +138,9 @@ extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 
 extern void DWCi_ScreenDC_FlushRange(void *,u32);
 
-extern void func_0207E5D0(const void *,u32,u32);
+extern void GXS_LoadOBJPltt(const void *,u32,u32);
 
-extern void func_0207E804(const void *,void *,u32);
+extern void GXS_LoadOBJ(const void *,void *,u32);
 
 char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b);
 
@@ -177,7 +177,7 @@ static inline void outside(int wnd, int effect)
  */
 char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b)
 {
-    char *p = func_02030734(heap, 0x60, 0, d_021FDCD8, 87);
+    char *p = GFL_HEAP_Alloc(heap, 0x60, 0, d_021FDCD8, 87);
     ((struct TaskObj *)p)->f0 = heap;
     ((struct TaskObj *)p)->f4 = a;
     *(char * *)&((struct TaskObj *)p)->f8 = b;
@@ -216,7 +216,7 @@ void STA_ACT_BUTTON_Delete(char *p)
     CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->f30.p));
     CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->f3C.p));
     CLACT_DeleteUnit(((struct TaskObj *)p)->f18);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -282,7 +282,7 @@ void STA_ACT_BUTTON_CreateActors(char *p)
     table=(u8 *)STA_ACTING_GetActorCount((u8 *)(*(char * *)&((struct TaskObj *)p)->f4));
     ((struct TaskObj *)p)->f18=CLACT_CreateUnit(5,0,((struct TaskObj *)p)->f0);
     CLACT_SetUnitDefaultRenderer(((struct TaskObj *)p)->f18);
-    narc=func_020490F4(47,((struct TaskObj *)p)->f0);
+    narc=ARC_TOOL_CreateHandle(47,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f1C=CLACT_RegisterPaletteEx(narc,0,1,0,0,2,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f28=CLACT_RegisterCharacter(narc,6,0,1,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f34=CLACT_RegisterCellAnim(narc,18,21,((struct TaskObj *)p)->f0);
@@ -290,7 +290,7 @@ void STA_ACT_BUTTON_CreateActors(char *p)
     *(int *)&((struct TaskObj *)p)->f2C=CLACT_RegisterCharacter(narc,7,0,1,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f38=CLACT_RegisterCellAnim(narc,19,22,((struct TaskObj *)p)->f0);
     ARC_TOOL_DeleteHandle(narc);
-    narc=func_020490F4(46,((struct TaskObj *)p)->f0);
+    narc=ARC_TOOL_CreateHandle(46,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f24=CLACT_RegisterPalette(narc,0,1,96,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f30=CLACT_RegisterCharacter(narc,26,0,1,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f3C=CLACT_RegisterCellAnim(narc,18,22,((struct TaskObj *)p)->f0);
@@ -349,7 +349,7 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
     dst=(u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(p+0x28),1);
     dst+=(slot<<11);
     DWCi_ScreenDC_FlushRange(tex+palOffset,palSize);
-    func_0207E5D0(tex+palOffset,slot*32,palSize);
+    GXS_LoadOBJPltt(tex+palOffset,slot*32,palSize);
     DWCi_ScreenDC_FlushRange(src,charSize);
     switch(type) {
     case 34: x=2; y=2; type=4; height=4; break;
@@ -360,11 +360,11 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
     for(block=0;block<height;block++) {
         for(line=0;line<8;line++) {
             for(col=0;col<type;col++) {
-                func_0207E804(src+(col*4+(block*32*type+line*type*4)),dst+(line*4+((col+x)*32+((block+y)*256))),4);
+                GXS_LoadOBJ(src+(col*4+(block*32*type+line*type*4)),dst+(line*4+((col+x)*32+((block+y)*256))),4);
             }
         }
     }
-    func_020307B0((void *)blob);
+    GFL_HEAP_Free((void *)blob);
 }
 
 void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag)

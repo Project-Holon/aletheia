@@ -13,32 +13,32 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BTL_REC_SEL_GRAPHIC_Create 0x021BB178 thumb ov214
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GAME_DATA_GetMyItem 0x0201292C thumb
  *   func_02007F68 0x02007F68 thumb
- *   func_020056A0 0x020056A0 thumb
- *   func_02045B38 0x02045B38 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   ov67_id 0x00000043 data a1
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BTL_REC_SEL_GRAPHIC_Delete 0x021BB220 thumb ov214
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov067_id 0x00000043 data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   KEY_GetTrg 0x020362DC arm
@@ -59,16 +59,16 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BTL_REC_SEL_GRAPHIC_Draw 0x021BB27C thumb ov214
  *   BTL_REC_SEL_GRAPHIC_Draw3d 0x021BB290 thumb ov214
  *   BTL_REC_SEL_GRAPHIC_DrawEnd 0x021BB29C thumb ov214
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_LoadPltt 0x02040E78 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02049B40 0x02049B40 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -76,7 +76,7 @@
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   d_021BB658 0x021BB658 data a1
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -89,7 +89,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   KEY_GetCont 0x0203630C arm
@@ -125,30 +125,30 @@
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   d_021BB4C4 0x021BB4C4 data a1
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049740 0x02049740 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0204989C 0x0204989C arm
+ *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0207D518 0x0207D518 arm
+ *   GXS_SetGraphicsMode 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BB498 0x021BB498 data a4
  *   d_021BB640 0x021BB640 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_02030CB0 0x02030CB0 arm
- *   func_02030CBC 0x02030CBC arm
+ *   TCB_GetTaskOffset 0x02030CB0 arm
+ *   TCB_Init 0x02030CBC arm
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
@@ -294,11 +294,11 @@ struct Rect {u16 h[4];};
 
 typedef enum { GX_SHADING_TOON, GX_SHADING_HIGHLIGHT } GXShading;
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,u32,u32);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void FADE_Start(u32,int,int,int);
@@ -307,18 +307,18 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
-extern u32 func_020056A0(void(*)(void*),void*,u32);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern u32 GFL_USE_AddMainTask(void(*)(void*),void*,u32);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void BTL_REC_SEL_GRAPHIC_Delete(char *p);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void func_02034A5C(int handle);
+extern void GF_OVERLAY_Unload(int handle);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 KEY_GetTrg(void);
 extern int FADE_IsActive(void);
@@ -336,14 +336,14 @@ extern u32 BATTLE_REC_BeginSave(void*,u16,u32,u32,u32,u16*,u16*);
 extern void BATTLE_REC_DecodeWork(void),TIME_ICON_Delete(u8*),GFL_USE_PlaySeDefaultVolume(u32);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BTL_REC_SEL_GRAPHIC_Draw(u8*),BTL_REC_SEL_GRAPHIC_Draw3d(u8*),BTL_REC_SEL_GRAPHIC_DrawEnd(char*);
-extern void *func_02030734(u32,u32,int,const char*,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char*,u16);
 extern void BG_SYS_LoadPltt(u32,void*,u32,u32);
-extern void func_020307B0(void *);
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void GFL_HEAP_Free(void *);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -351,7 +351,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void *BMP_MENUWORK_LoadFrameGfx(void*,u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void TCBL_Destroy(struct S02031140 *p);
@@ -363,7 +363,7 @@ extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern signed char MSG_SPEED_GetWait(void);
 extern void*PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 extern unsigned PRINTSYS_PrintStreamGetState(void*);
@@ -396,28 +396,28 @@ extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *o, u32 v, u32 flag);
 extern void CLACT_DeleteActor(struct ClactActor *p);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
-extern unsigned int func_02049740(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
+extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0207D518(u32);
+extern void GXS_SetGraphicsMode(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_FreeLayerBuf(u8);
-extern u32 func_02030CB0(u32);
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern u32 TCB_GetTaskOffset(u32);
+extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 extern void *PALANM_Create(u32);
 extern void PALANM_SetAutoTransfer(struct PalAnmObj *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
@@ -508,12 +508,12 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     char *work;
     u8 layer;
     enum {K=3} k;
-    func_02034AC4((int)ov67_id);
+    GF_OVERLAY_Load((int)ov67_id);
     GFL_HEAP_CreateChildHeap(1,0x75,0x50000);
     work=PROCSYS_AllocProcWork(manager,0x2f0,0x75);
     MI_CpuFill8(work,0,0x2f0);
     ((struct BtlRecSel *)work)->heap=0x75;
-    for(layer=0;layer<=7;layer++)func_02040588(layer,0);
+    for(layer=0;layer<=7;layer++)BG_SYS_SetPlaneVisible(layer,0);
     *(void* *)&((struct BtlRecSel *)work)->graphic=BTL_REC_SEL_GRAPHIC_Create(1,((struct BtlRecSel *)work)->heap);
     *(void* *)&((struct BtlRecSel *)work)->font=GF_FONT_Create(23,0,0,0,((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->printQue[0]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
@@ -522,12 +522,12 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     ((struct BtlRecSel *)work)->printQue[3]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->itemCount=func_02007F68(GAME_DATA_GetMyItem(*(void* *)&((struct BtlRecSelMgr *)mgr)->gameData),0x1d1,1,((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->exitRequest=0;
-    ((struct BtlRecSel *)work)->task=func_020056A0((void (*)(void *))BTL_REC_SEL_VBlank,work,1);
-    *(void* *)&((struct BtlRecSel *)work)->msgBank=func_02045B38(0,2,19,((struct BtlRecSel *)work)->heap);
+    ((struct BtlRecSel *)work)->task=GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,1);
+    *(void* *)&((struct BtlRecSel *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,19,((struct BtlRecSel *)work)->heap);
     BTL_REC_SEL_InitBgRun((int)mgr,work);BTL_REC_SEL_ClearLayer(mgr,work);BTL_REC_SEL_InitSubBg((void **)mgr,work);
     BTL_REC_SEL_InitWindows(mgr,(struct BtlRecSel *)work);BTL_REC_SEL_DrawWindow((int)mgr,work);BTL_REC_SEL_InitPalette((int)mgr,work);BTL_REC_SEL_CreateWindows((int)mgr,work);
     BG_SYS_SetVisibleLayer(2,2);k=K;BG_SYS_SetVisibleLayer(k,1);BG_SYS_SetVisibleLayer(1,0);
-    func_02040588(2,1);func_02040588(3,1);func_02040588(1,1);
+    BG_SYS_SetPlaneVisible(2,1);BG_SYS_SetPlaneVisible(3,1);BG_SYS_SetPlaneVisible(1,1);
     BG_SYS_LoadPlttEntry(0,0);BG_SYS_LoadPlttEntry(4,0);FADE_Start(3,16,16,0);
     if(((struct BtlRecSel *)work)->itemCount){
         if(((struct BtlRecSelMgr *)mgr)->isMulti){
@@ -561,7 +561,7 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
     BTL_REC_SEL_DeleteSubBg(state,work);
     BTL_REC_SEL_DeleteBgRun(state,(u8 *)work);
     MSGDATA_Delete(*(struct Rec * *)&((struct BtlRecSel *)work)->msgBank);
-    func_02030EAC((struct Node *)(((struct BtlRecSel *)work)->task));
+    TCB_DeleteTask((struct Node *)(((struct BtlRecSel *)work)->task));
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[3]));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[3]));
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[2]));
@@ -572,9 +572,9 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[0]));
     GF_FONT_Delete((void *)((struct BtlRecSel *)work)->font);
     BTL_REC_SEL_GRAPHIC_Delete(*(char * *)&((struct BtlRecSel *)work)->graphic);
-    func_020315D4(mgr);
+    PROCSYS_FreeProcWork(mgr);
     GFL_HEAP_DeleteChecked(117);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
 
@@ -630,7 +630,7 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
  * BTL_REC_SEL_StartEntryB 0x021B9EFC thumb ov214
  * GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  * GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
- * func_0200FB24 0x0200FB24 thumb
+ * GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  * GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  * BTL_REC_SEL_MainTcbl 0x021BA058 thumb ov214
  * BTL_REC_SEL_TickTimer 0x021BA45C thumb ov214
@@ -779,7 +779,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     case 17:
         done=1;
         if((*(u32*)(mgr+8))){
-            if(!func_0200FB24())done=GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
+            if(!GFL_NET_ERR_GetErrorLevel())done=GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
             if(done)TIME_ICON_Delete((u8*)(((struct BtlRecSel *)work)->timeIcon));
         }
         if(done)BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,18,3,0,16,2,0);
@@ -880,11 +880,11 @@ static inline void init_palette(struct Palette *pal)
 
 void BTL_REC_SEL_InitWindows(void *unused, struct BtlRecSel *work)
 {
-    struct Palette *pal = func_02030734(work->heap,6,1,d_021BB658,0x5e9);
+    struct Palette *pal = GFL_HEAP_Alloc(work->heap,6,1,d_021BB658,0x5e9);
     init_palette(pal);
     BG_SYS_LoadPltt(2,pal,6,0x13a);
-    func_020307B0(pal);
-    func_02049B40(0x17,5,0,0x180,0x20,work->heap);
+    GFL_HEAP_Free(pal);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x180,0x20,work->heap);
     work->win0=(void *)BMP_WIN_Create(1,0,0,1,1,9,0);
     BMP_Clear(BMP_WIN_GetBmp(work->win0),0);
     BMP_WIN_TransferChars(work->win0);
@@ -894,7 +894,7 @@ void BTL_REC_SEL_InitWindows(void *unused, struct BtlRecSel *work)
     work->frameRun=(u32)BMP_MENUWORK_LoadFrameGfx((void*)1,0xa,0,work->heap);
     work->tcbl=TCBL_Create(work->heap,work->heap,1,0);
     GF_FONT_SetTextColor(1,2,0xf);
-    func_02041B6C(1);
+    BG_SYS_SetFlagField06(1);
     work->printStream=0;
     work->streamWait=0;
     work->waitTimer=0;
@@ -933,7 +933,7 @@ void BTL_REC_SEL_MainTcbl(int unused,char *work){TCBL_Main(*(struct Tcbl * *)&((
 /*
  * Parameter evidence: original narrows third input to u16 before BMP_MENUWORK_DrawWindow.
  */
-void BTL_REC_SEL_DrawWindow(int unused,char *work){struct Descriptor *d;BMP_MENUWORK_DrawWindow(((struct BtlRecSel *)work)->win1,1,(unsigned short)(((struct BtlRecSel *)work)->frameRun),10);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));}
+void BTL_REC_SEL_DrawWindow(int unused,char *work){struct Descriptor *d;BMP_MENUWORK_DrawWindow(((struct BtlRecSel *)work)->win1,1,(unsigned short)(((struct BtlRecSel *)work)->frameRun),10);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));}
 
 
 
@@ -952,7 +952,7 @@ void BTL_REC_SEL_ClearWindowWhite(int unused, char *work)
     d = ((struct BtlRecSel *)work)->win1;
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen((struct Cfg *)d);
-    func_02041B6C(BMP_WIN_GetBgLayer(d));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
 }
 
 
@@ -962,7 +962,7 @@ void BTL_REC_SEL_ClearWindowWhite(int unused, char *work)
 /*
  * Tail: two zero alignment bytes at 021BA106.
  */
-void BTL_REC_SEL_ClearWindowClear(int unused,char *work){struct Descriptor *d;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1),0);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));}
+void BTL_REC_SEL_ClearWindowClear(int unused,char *work){struct Descriptor *d;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1),0);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));}
 
 
 
@@ -979,7 +979,7 @@ void BTL_REC_SEL_PrintEntry(int unused,char*work,unsigned entry,int v)
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->win1),15);
     if(*(void* *)&((struct BtlRecSel *)work)->printStream)PRINTSYS_PrintStreamDelete(*(void* *)&((struct BtlRecSel *)work)->printStream);
     if(*(void* *)&((struct BtlRecSel *)work)->strbuf)STRBUF_Delete(*(void* *)&((struct BtlRecSel *)work)->strbuf);
-    *(void* *)&((struct BtlRecSel *)work)->strbuf=func_02045EC0(*(void* *)&((struct BtlRecSel *)work)->msgBank,entry);
+    *(void* *)&((struct BtlRecSel *)work)->strbuf=MSGDATA_AllocString(*(void* *)&((struct BtlRecSel *)work)->msgBank,entry);
     waitTime=MSG_SPEED_GetWait();
     *(void* *)&((struct BtlRecSel *)work)->printStream=PRINTSYS_PrintStream(*(unsigned *)&((struct BtlRecSel *)work)->win1,0,0,*(unsigned *)&((struct BtlRecSel *)work)->strbuf,((struct BtlRecSel *)work)->font,waitTime,(u32)((struct BtlRecSel *)work)->tcbl,2,((struct BtlRecSel *)work)->heap,15);
     ((struct BtlRecSel *)work)->streamWait=v;
@@ -1036,7 +1036,7 @@ void BTL_REC_SEL_PrintQueEntry(void*mgr,char*work,unsigned entry)
     if(*(void* *)&((struct BtlRecSel *)work)->printStream)PRINTSYS_PrintStreamDelete(*(void* *)&((struct BtlRecSel *)work)->printStream);
     *(int *)&((struct BtlRecSel *)work)->printStream=0;
     if(*(void* *)&((struct BtlRecSel *)work)->strbuf)STRBUF_Delete(*(void* *)&((struct BtlRecSel *)work)->strbuf);
-    *(void* *)&((struct BtlRecSel *)work)->strbuf=func_02045EC0(*(void* *)&((struct BtlRecSel *)work)->msgBank,entry);
+    *(void* *)&((struct BtlRecSel *)work)->strbuf=MSGDATA_AllocString(*(void* *)&((struct BtlRecSel *)work)->msgBank,entry);
     *(int *)&((struct BtlRecSel *)work)->windowShown=0;
     PRINTSYS_PrintQue(*(void* *)&((struct BtlRecSel *)work)->printQue[0],(unsigned)BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->win1),0,0,*(void* *)&((struct BtlRecSel *)work)->strbuf,((struct BtlRecSel *)work)->font);
     BTL_REC_SEL_IsEntryShown((int)mgr,(u8 *)work);
@@ -1046,7 +1046,7 @@ void BTL_REC_SEL_PrintQueEntry(void*mgr,char*work,unsigned entry)
 
 
 
-u32 BTL_REC_SEL_IsEntryShown(int unused,u8 *work){struct Descriptor *d;if(((struct BtlRecSel *)work)->windowShown==0){if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[0],BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1))==0){d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));((struct BtlRecSel *)work)->windowShown=1;}}return ((struct BtlRecSel *)work)->windowShown;}
+u32 BTL_REC_SEL_IsEntryShown(int unused,u8 *work){struct Descriptor *d;if(((struct BtlRecSel *)work)->windowShown==0){if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[0],BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1))==0){d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));((struct BtlRecSel *)work)->windowShown=1;}}return ((struct BtlRecSel *)work)->windowShown;}
 
 
 
@@ -1058,11 +1058,11 @@ void BTL_REC_SEL_InitPalette(int unused,char*work)
     u16*colors;
     off=BG_SYS_CreateRun(1,0x500,1);
     BG_SYS_DeleteHalf(1,off,0x500);
-    func_02049B40(0x17,5,0,0x160,0x20,((struct BtlRecSel *)work)->heap);
-    colors=func_02030734(((struct BtlRecSel *)work)->heap,6,1,d_021BB658,0x6f9);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x160,0x20,((struct BtlRecSel *)work)->heap);
+    colors=GFL_HEAP_Alloc(((struct BtlRecSel *)work)->heap,6,1,d_021BB658,0x6f9);
     colors[0]=0x294b;colors[1]=0x5694;colors[2]=0x7fff;
     BG_SYS_LoadPltt(2,colors,6,0x17a);
-    func_020307B0(colors);
+    GFL_HEAP_Free(colors);
     ((struct BtlRecSel *)work)->yesNo.a=1;((struct BtlRecSel *)work)->yesNo.b=0x18;((struct BtlRecSel *)work)->yesNo.c=0xd;((struct BtlRecSel *)work)->yesNo.d=0xb;
     ((struct BtlRecSel *)work)->yesNo.e=off;
 }
@@ -1150,7 +1150,7 @@ void BTL_REC_SEL_ShowWindows(void *unused,struct BtlRecSel *work)
                 d=work->winHandles[idx];
                 BMP_WIN_TransferChars(d);
                 BMP_WIN_MakeScreen((struct Cfg *)d);
-                func_02041B6C(BMP_WIN_GetBgLayer(d));
+                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
                 work->winShown[idx]=1;
             }
         }
@@ -1160,7 +1160,7 @@ void BTL_REC_SEL_ShowWindows(void *unused,struct BtlRecSel *work)
             d=work->winHandles[2];
             BMP_WIN_TransferChars(d);
             BMP_WIN_MakeScreen((struct Cfg *)d);
-            func_02041B6C(BMP_WIN_GetBgLayer(d));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
             ((struct BtlRecSel *)work)->winShown[2]=1;
         }
     }
@@ -1169,7 +1169,7 @@ void BTL_REC_SEL_ShowWindows(void *unused,struct BtlRecSel *work)
             d=work->winHandles[3];
             BMP_WIN_TransferChars(d);
             BMP_WIN_MakeScreen((struct Cfg *)d);
-            func_02041B6C(BMP_WIN_GetBgLayer(d));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
             ((struct BtlRecSel *)work)->winShown[3]=1;
         }
     }
@@ -1180,11 +1180,11 @@ void BTL_REC_SEL_ShowWindows(void *unused,struct BtlRecSel *work)
 void BTL_REC_SEL_PrintList(void*mgr,char*work)
 {
     void*h;
-    h=func_02045EC0(*(void* *)&((struct BtlRecSel *)work)->msgBank,19);
+    h=MSGDATA_AllocString(*(void* *)&((struct BtlRecSel *)work)->msgBank,19);
     PRINTSYS_PrintQueColor(*(void* *)&((struct BtlRecSel *)work)->printQue[1],(unsigned)BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->winHandles[0]),4,1,(unsigned)h,((struct BtlRecSel *)work)->font,0x440);
     STRBUF_Delete(h);
     ((struct BtlRecSel *)work)->winShown[0]=0;
-    h=func_02045EC0(*(void* *)&((struct BtlRecSel *)work)->msgBank,((struct BtlRecSel *)work)->msgIndex);
+    h=MSGDATA_AllocString(*(void* *)&((struct BtlRecSel *)work)->msgBank,((struct BtlRecSel *)work)->msgIndex);
     PRINTSYS_PrintQueColor(*(void* *)&((struct BtlRecSel *)work)->printQue[1],(unsigned)BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->winHandles[1]),4,1,(unsigned)h,((struct BtlRecSel *)work)->font,0x440);
     STRBUF_Delete(h);
     ((struct BtlRecSel *)work)->winShown[1]=0;
@@ -1203,7 +1203,7 @@ void BTL_REC_SEL_ClearList(int unused,char*work)
         h=((struct BtlRecSel *)work)->winHandles[idx];
         BMP_WIN_TransferChars(h);
         BMP_WIN_MakeScreen(h);
-        func_02041B6C(BMP_WIN_GetBgLayer(h));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(h));
         ((struct BtlRecSel *)work)->winShown[idx]=1;
     }
 }
@@ -1236,12 +1236,12 @@ void BTL_REC_SEL_ResetTimer(void*mgr,char*work)
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[2]));
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->winHandles[2]),0);
     h=*(void* *)&((struct BtlRecSel *)work)->winHandles[2];
-    BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);func_02041B6C(BMP_WIN_GetBgLayer(h));
+    BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(h));
     ((struct BtlRecSel *)work)->winShown[2]=1;
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[3]));
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->winHandles[3]),0);
     h=*(void* *)&((struct BtlRecSel *)work)->winHandles[3];
-    BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);func_02041B6C(BMP_WIN_GetBgLayer(h));
+    BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(h));
     ((struct BtlRecSel *)work)->winShown[3]=1;
     if(((struct BtlRecSel *)work)->flag3C)BTL_REC_SEL_ClearLayer(mgr,work);
     ((struct BtlRecSel *)work)->lastMode=0;
@@ -1288,7 +1288,7 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
 
     if (mode != e->lastMode) {
         PRINTSYS_QUE_Clear(e->printQue[2]);
-        strbuf1 = (int)func_02045EC0(e->msgBank, 0x10);
+        strbuf1 = (int)MSGDATA_AllocString(e->msgBank, 0x10);
         bmp1 = (int)BMP_WIN_GetBmp(e->winHandles[2]);
         PRINTSYS_PrintQueColor(e->printQue[2], bmp1, 4, 1, strbuf1, e->font, colorFlag);
         e->winShown[2] = 0;
@@ -1297,7 +1297,7 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
 
     if (mode != e->lastMode || v != e->lastValue) {
         font = (int)WORDSET_CreateDefault(e->heap);
-        strbuf2 = (int)func_02045EC0(e->msgBank, 0x12);
+        strbuf2 = (int)MSGDATA_AllocString(e->msgBank, 0x12);
         buf = (int)STRBUF_Create(8, e->heap);
         PRINTSYS_QUE_Clear(e->printQue[3]);
         WORDSET_SetSlotNumber((struct WordSet *)font, 1, v, 2, 2, 1);
@@ -1439,9 +1439,9 @@ void BTL_REC_SEL_SetMode(int unused,char*work)
 
 void BTL_REC_SEL_InitBgRun(int unused, char *work)
 {
-    void *h = func_020490F4(188, ((struct BtlRecSel *)work)->heap);
+    void *h = ARC_TOOL_CreateHandle(188, ((struct BtlRecSel *)work)->heap);
     func_02049B68(h, 0, 0, 0, 320, ((struct BtlRecSel *)work)->heap);
-    ((struct BtlRecSel *)work)->bgRunMain = func_02049740(h, 1, 2, 0, 0, ((struct BtlRecSel *)work)->heap);
+    ((struct BtlRecSel *)work)->bgRunMain = ARC_UTIL_RegisterObjCharFromHandle(h, 1, 2, 0, 0, ((struct BtlRecSel *)work)->heap);
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -1455,19 +1455,19 @@ void BTL_REC_SEL_DeleteBgRun(int unused,u8 *work){u32 v=((struct BtlRecSel *)wor
 
 
 
-void BTL_REC_SEL_InitBgGfx1(int unused,u8 *work){func_0204989C(188,2,2,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);func_02041B6C(2);BG_SYS_ResetSlot(3,3,0);}
+void BTL_REC_SEL_InitBgGfx1(int unused,u8 *work){ARC_UTIL_UploadBgPaletteFromArchive(188,2,2,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);BG_SYS_SetFlagField06(2);BG_SYS_ResetSlot(3,3,0);}
 
 
 
 
 
-void BTL_REC_SEL_InitBgGfx2(int unused,u8 *work){enum{K=2}k=K;func_0204989C(188,3,k,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);func_02041B6C(2);k-=10;BG_SYS_FillScrollArea(3,3,k);}
+void BTL_REC_SEL_InitBgGfx2(int unused,u8 *work){enum{K=2}k=K;ARC_UTIL_UploadBgPaletteFromArchive(188,3,k,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);BG_SYS_SetFlagField06(2);k-=10;BG_SYS_FillScrollArea(3,3,k);}
 
 
 
 
 
-void BTL_REC_SEL_InitBgGfx3(int unused,u8 *work){enum{K=3}k;func_0204989C(188,4,2,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);func_02041B6C(2);k=K;BG_SYS_FillScrollArea(3,3,k-11);}
+void BTL_REC_SEL_InitBgGfx3(int unused,u8 *work){enum{K=3}k;ARC_UTIL_UploadBgPaletteFromArchive(188,4,2,(u16)(((struct BtlRecSel *)work)->bgRunMain),0,0,((struct BtlRecSel *)work)->heap);BG_SYS_SetFlagField06(2);k=K;BG_SYS_FillScrollArea(3,3,k-11);}
 
 
 
@@ -1490,23 +1490,23 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |=0x10000;
     BG_SYS_ClearSubPlanes();
-    func_0207D518(0);
+    GXS_SetGraphicsMode(0);
     BG_SYS_ClearSubBgPlanes();
     for (rowIndex=0;rowIndex<1U;rowIndex++) {
         row=d_021BB498[rowIndex];
         layer=row[0];
         BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate *)(row+1),(u8)row[9]);
         BG_SYS_FreeSlot(layer);
-        func_02040588(layer,row[10]);
+        BG_SYS_SetPlaneVisible(layer,row[10]);
     }
     BG_SYS_SetSubPlaneVisible(16,1);
     heap=((struct BtlRecSel *)work)->heap;
     which=1;
     if (gender!=1) which=0;
-    arc=func_020490F4(30,heap);
+    arc=ARC_TOOL_CreateHandle(30,heap);
     func_02049B68(arc,d_021BB640[which][0],4,0,0,heap);
-    func_02049658(arc,d_021BB640[which][1],4,0,0,0,heap);
-    func_020498F4(arc,d_021BB640[which][2],4,0,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(arc,d_021BB640[which][1],4,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,d_021BB640[which][2],4,0,0,0,heap);
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_PushTile(4);
 }
@@ -1539,8 +1539,8 @@ void BTL_REC_SEL_DeleteUiActor(int unused,u8 *work){BTL_REC_SEL_DeleteActor(((st
 
 void BTL_REC_SEL_InitPalanm(int unused,char *work)
 {
-    ((struct BtlRecSel *)work)->palBuf=func_02030734(((struct BtlRecSel *)work)->heap,func_02030CB0(2),1,d_021BB658,2403);
-    ((struct BtlRecSel *)work)->tcb=func_02030CBC(2,((struct BtlRecSel *)work)->palBuf);
+    ((struct BtlRecSel *)work)->palBuf=GFL_HEAP_Alloc(((struct BtlRecSel *)work)->heap,TCB_GetTaskOffset(2),1,d_021BB658,2403);
+    ((struct BtlRecSel *)work)->tcb=TCB_Init(2,((struct BtlRecSel *)work)->palBuf);
     ((struct BtlRecSel *)work)->palanm=PALANM_Create(((struct BtlRecSel *)work)->heap);
     PALANM_SetAutoTransfer(((struct BtlRecSel *)work)->palanm,1);
     PALANM_AllocSlotBuffers(((struct BtlRecSel *)work)->palanm,0,448,((struct BtlRecSel *)work)->heap);
@@ -1554,7 +1554,7 @@ void BTL_REC_SEL_InitPalanm(int unused,char *work)
 
 
 
-void BTL_REC_SEL_DeletePalanm(int unused,u8 *work){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct BtlRecSel *)work)->palanm,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct BtlRecSel *)work)->palanm,2);PALANM_Delete(((struct BtlRecSel *)work)->palanm);TCB_Noop(((struct BtlRecSel *)work)->tcb);func_020307B0(((struct BtlRecSel *)work)->palBuf);}
+void BTL_REC_SEL_DeletePalanm(int unused,u8 *work){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct BtlRecSel *)work)->palanm,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct BtlRecSel *)work)->palanm,2);PALANM_Delete(((struct BtlRecSel *)work)->palanm);TCB_Noop(((struct BtlRecSel *)work)->tcb);GFL_HEAP_Free(((struct BtlRecSel *)work)->palBuf);}
 
 
 

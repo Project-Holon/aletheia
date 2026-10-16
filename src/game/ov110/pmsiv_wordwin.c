@@ -13,12 +13,12 @@
  * Cut from pms_input.c, pmsiv_wordwin.c, pms_select_graphic.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PMS_INPUT_GetUiInputModePtr 0x021BF6D4 thumb ov110
  *   PMSIV_WORDWIN_Create 0x021BF844 thumb ov110
  *   PMSIV_WORDWIN_Setup 0x021BF8F4 thumb ov110
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -60,7 +60,7 @@
  *   PMSIV_BGSCROLL_Step 0x021BC7DC thumb ov110
  *   PMSIV_FADE_StartBlend 0x021BC868 thumb ov110
  *   PMSIV_FADE_IsBlendDone 0x021BC898 thumb ov110
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
@@ -105,11 +105,11 @@ struct PmsPos3 { int x, y, z; };
 
 #define REG_BLDCNT_ADDR 0x04000050
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -153,7 +153,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
 
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
 
@@ -251,7 +251,7 @@ int PMSIV_WORDWIN_IsPickAnimDone(struct PmsivWordwin *p);
 
 /* Allocates the word window and its two bitmap windows. */
 struct PmsivWordwin *PMSIV_WORDWIN_Create(struct PmsInputView *view, PmsInput *input, struct PmsInputData *wordData) {
-    struct PmsivWordwin *p=func_02030734(42,160,0,gPmsivWordwinFileName,154);
+    struct PmsivWordwin *p=GFL_HEAP_Alloc(42,160,0,gPmsivWordwinFileName,154);
     p->view=view; p->input=input; p->wordData=wordData;
     p->wordText=STRBUF_Create(32,42);
     p->listWindow=(void *)BMP_WIN_Create(2,3,0,26,32,13,1);
@@ -268,7 +268,7 @@ void PMSIV_WORDWIN_Delete(struct PmsivWordwin *p) {
     if(p->wordText) STRBUF_Delete(p->wordText);
     BMP_WIN_Delete(p->wrapWindow);
     BMP_WIN_Delete(p->listWindow);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /* Clears the list window and creates the actors. */
@@ -278,7 +278,7 @@ void PMSIV_WORDWIN_Setup(struct PmsivWordwin *p) {
     BMP_Clear(BMP_WIN_GetBmp(p->listWindow),0);
     BMP_WIN_MakeScreen(p->listWindow);
     BMP_WIN_TransferChars(p->listWindow);
-    BG_SYS_PushTile(2); PMSIV_WORDWIN_CreateActors(p); func_02040588(2,0);
+    BG_SYS_PushTile(2); PMSIV_WORDWIN_CreateActors(p); BG_SYS_SetPlaneVisible(2,0);
 }
 
 /* Creates the cursor, the scroll thumb and the ten decoration actors. */
@@ -362,8 +362,8 @@ static inline void visible(Window wnd) {
 /* Starts the window effect that opens the list. */
 void PMSIV_WORDWIN_StartOpen(struct PmsivWordwin *p) {
     PMS_INPUT_VIEW_LoadBgPalette(p->view,1);
-    func_0207D63C((void *)REG_BLDCNT_ADDR,4,63,0,16);
-    func_02040588(2,1);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,4,63,0,16);
+    BG_SYS_SetPlaneVisible(2,1);
     inside(31,1);
     p->savedWinOut.raw=*(volatile u8 *)REG_WINOUT_ADDR;
     p->savedDispWindows=(IO_U32(REG_DISPCNT_ADDR) & 0xe000)>>13;
@@ -405,7 +405,7 @@ int PMSIV_WORDWIN_FinishClose(struct PmsivWordwin *p) {
     if(p->fadeBusy==0) {
     if(PMSIV_FADE_IsBlendDone(&p->fade)) {
         for(i=0;i<10;i++) CLACT_SetActorDrawEnable(p->items[i],0);
-        func_02040588(2,0);
+        BG_SYS_SetPlaneVisible(2,0);
         outside_b(p->savedWinOut.bits.plane,p->savedWinOut.bits.effect);
         visible_b(p->savedDispWindows);
         return 1;

@@ -14,8 +14,8 @@
  * Split from weather_task.c (lane L141): __FILE__ anchor 021A3804 (gFieldPlayerCoreFileName "field_player_core.c"); 021A36E4 is the core constructor called by field_player.c 021A2E50.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
@@ -98,8 +98,8 @@ typedef signed int s32;
 
 struct GameData;
 
-extern u32 func_020307B0(void *work);
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *work);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
@@ -217,7 +217,7 @@ FieldPlayerCore *FIELD_PLAYER_CORE_Create(struct PlayerWork *playerWork, FieldMa
     int objCodeOverride;
     Mmdl *mmdl;
 
-    core = func_02030734(heapId, 0x34, 1, gFieldPlayerCoreFileName, 0x97);
+    core = GFL_HEAP_Alloc(heapId, 0x34, 1, gFieldPlayerCoreFileName, 0x97);
     core->playerWork = playerWork;
     core->fieldMap = fieldMap;
     core->gameSystem = FIELDMAP_GetGameSystem(fieldMap);
@@ -258,7 +258,7 @@ FieldPlayerCore *FIELD_PLAYER_CORE_Create(struct PlayerWork *playerWork, FieldMa
 
 void FIELD_PLAYER_CORE_Delete(FieldPlayerCore *core)
 {
-    func_020307B0(core);
+    GFL_HEAP_Free(core);
 }
 
 /* Moves the step phase on after a step: 1 and 2 are the two halves, 3 the end. */

@@ -23,11 +23,11 @@
  *   g_02FFFC3C 0x02FFFC3C data a4
  *   ov90_id 0x0000005A data a1
  *   PLIST_COMM_End 0x021B6108 thumb ov090
- *   func_02034A5C 0x02034A5C arm
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
+ *   PROCSYS_Delete 0x0203133C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   PLIST_COMM_Update 0x021B6114 thumb ov090
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
@@ -36,7 +36,7 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   gPartyListProcData 0x021BED00 data a4 ov091
@@ -152,11 +152,11 @@ extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void *PROCSYS_Create(int kind);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 commandBase, const void *table, u32 count, void *work);
 extern void PLIST_COMM_End(void *work);
-extern void func_02034A5C(int overlayId);
-extern void func_0203133C(void *handle);
-extern void func_020315D4(void *handle);
+extern void GF_OVERLAY_Unload(int overlayId);
+extern void PROCSYS_Delete(void *handle);
+extern void PROCSYS_FreeProcWork(void *handle);
 extern void PLIST_COMM_Update(void *work);
-extern int func_02034AC4(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
 extern void PROCSYS_Push(void *handle, int a, const void *procData, void *work);
 extern u32 PROCSYS_Main(void *handle);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
@@ -165,7 +165,7 @@ extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(struct NetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 c, u32 d, u32 e);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, unsigned int syncNo, unsigned int syncGroup);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, unsigned int syncNo, unsigned int syncGroup);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_NET_GetRunState(void);
 extern int DWC_RAPCOMMON_HandleNetError(int a, int b);
 extern void *GAME_DATA_GetSaveControl(void *sys);
@@ -232,9 +232,9 @@ int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
 int NET_PARTY_COMMAND_Exit(void *arg0, u32 a, u32 b, char *work)
 {
     PLIST_COMM_End(work + 4);
-    func_02034A5C((int)ov90_id);
-    func_0203133C(((NetPartyWork *)work)->procHandle);
-    func_020315D4(arg0);
+    GF_OVERLAY_Unload((int)ov90_id);
+    PROCSYS_Delete(((NetPartyWork *)work)->procHandle);
+    PROCSYS_FreeProcWork(arg0);
     return 1;
 }
 
@@ -260,7 +260,7 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
     PLIST_COMM_Update(work + 4);
     switch (((NetPartyWork *)work)->state) {
     case 0:
-        func_02034AC4((int)ov91_id);
+        GF_OVERLAY_Load((int)ov91_id);
         PROCSYS_Push(((NetPartyWork *)work)->procHandle, -1, gPartyListProcData, work + 4);
         ((NetPartyWork *)work)->state = 1;
         break;
@@ -268,7 +268,7 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
         if (PROCSYS_Main(((NetPartyWork *)work)->procHandle) == 0) ((NetPartyWork *)work)->state = 2;
         break;
     case 2:
-        func_02034A5C((int)ov91_id);
+        GF_OVERLAY_Unload((int)ov91_id);
         if (((NetPartyWork *)work)->list.resultKind == 1) {
             ((NetPartyWork *)work)->status.pos = ((NetPartyWork *)work)->list.cursor;
             ((NetPartyWork *)work)->state = 3;
@@ -299,17 +299,17 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct NetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47) != 0) return 1;
         break;
     case 3:
-        func_02034AC4((int)ov131_id);
+        GF_OVERLAY_Load((int)ov131_id);
         PROCSYS_Push(((NetPartyWork *)work)->procHandle, -1, gPokeStatusProcData, work + 156);
         ((NetPartyWork *)work)->state = 4;
         break;
     case 4:
         if (((NetPartyWork *)work)->list.statusPresent == 1 && ((NetPartyWork *)work)->list.countdown == 0) ((NetPartyWork *)work)->status.forceExit = 1;
-        if (func_0200FB24() != 0) ((NetPartyWork *)work)->status.forceExit = 1;
+        if (GFL_NET_ERR_GetErrorLevel() != 0) ((NetPartyWork *)work)->status.forceExit = 1;
         if (PROCSYS_Main(((NetPartyWork *)work)->procHandle) == 0) ((NetPartyWork *)work)->state = 5;
         break;
     case 5:
-        func_02034A5C((int)ov131_id);
+        GF_OVERLAY_Unload((int)ov131_id);
         ((NetPartyWork *)work)->list.cursor = ((NetPartyWork *)work)->status.pos;
         ((NetPartyWork *)work)->state = 0;
         break;
@@ -384,7 +384,7 @@ void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetParty
         param->countdown = 0;
     }
     param->receivedCount = 0;
-    func_02034AC4((int)ov90_id);
+    GF_OVERLAY_Load((int)ov90_id);
     PLIST_COMM_Start(param);
 }
 

@@ -16,7 +16,7 @@
  *   _GPowerState  0x021461E8  data
  *   _u32_div_f   0x0209C2B0  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -30,10 +30,10 @@
  *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   _TimeZoneTable  0x0209DF24  data  a1
  *   _TimeZoneLightTable  0x0209DF10  data  a1
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   func_020315D4     0x020315D4  arm
- *   func_0203133C  0x0203133C  arm
+ *   PROCSYS_FreeProcWork     0x020315D4  arm
+ *   PROCSYS_Delete  0x0203133C  arm
  */
 #include "script_vm_types.h"
 #include "vm_shared_types.h"
@@ -86,13 +86,13 @@ struct SaveScreenWork {
     struct ProcSys *procSys;
 };
 
-extern void func_0203133C(struct ProcSys *procSys);
+extern void PROCSYS_Delete(struct ProcSys *procSys);
 
-extern void func_020315D4(struct Proc *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId);
 
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 
 extern void POKE_TOOL_HealParty(void *party);
 
@@ -114,7 +114,7 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern void GF_STANDARD_SetField00(struct RtcTime *time);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 
@@ -224,8 +224,8 @@ extern const u8 _TimeZoneLightTable[][5];
 
 int VM_Exit(struct Proc *proc, u32 *seq, void *param, struct SaveScreenWork *work)
 {
-    func_0203133C(work->procSys);
-    func_020315D4(proc);
+    PROCSYS_Delete(work->procSys);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x5b);
     return 1;
 }
@@ -499,7 +499,7 @@ GPowerData *GPOWER_LoadPowerTable(u32 heapId)
  */
 void GPOWER_FreePowerTable(GPowerData *table)
 {
-    func_020307B0(table);
+    GFL_HEAP_Free(table);
 }
 
 /*
@@ -824,7 +824,7 @@ ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params)
     ScriptVm *vm;
 
     size = params->ringCap * 4 + sizeof(ScriptVm) + params->stackCap * 4;
-    vm = (ScriptVm *)func_02030734(heapId, size, 0, _VmFileName, 96);
+    vm = (ScriptVm *)GFL_HEAP_Alloc(heapId, size, 0, _VmFileName, 96);
     MI_CpuFill8(vm, 0, size);
     vm->params = *params;
     vm->ring = (u32 *)(vm + 1);
@@ -834,7 +834,7 @@ ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params)
 
 void VM_Delete(ScriptVm *vm)
 {
-    func_020307B0(vm);
+    GFL_HEAP_Free(vm);
 }
 
 /*

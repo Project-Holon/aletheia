@@ -17,19 +17,19 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BEACON_GetBlock 0x0200C0F0 thumb
  *   BEACON_SetRank 0x0200C1B0 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   func_02005654 0x02005654 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
  *   gMbParentUi 0x021F6EA0 data a4
  *   UI_ClearKeepAwakeFlagsGlobal 0x02034FB8 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   func_0200566C 0x0200566C thumb
  *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_GetEventWorkAddress 0x020143CC thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MB_UTIL_MSG_Delete 0x021F1520 thumb ov107
  *   MB_UTIL_MSG_SetWindowLayout 0x021F1628 thumb ov107
  *   MB_UTIL_MSG_PrintStream 0x021F1704 thumb ov107
@@ -49,8 +49,8 @@
  *   FS_GetLength 0x02078C28 arm
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
- *   func_02034714 0x02034714 arm
- *   func_02030734 0x02030734 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   GAME_DATA_IsSaving 0x02012E40 thumb
@@ -75,7 +75,7 @@
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -103,10 +103,10 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
@@ -124,8 +124,8 @@
  *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
  *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045B38 0x02045B38 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -147,10 +147,10 @@
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   MIi_CpuCopy16 0x02082A60 arm
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   CARD_SetPulledOutCallback 0x020774A0 arm
  *   ov014_id 0x0000000E data
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   WIH_GetSysState 0x02178E4C thumb ov014
  *   WIH_StartMeasureChannel 0x02178E84 thumb ov014
  *   WIH_Finalize 0x02179498 thumb ov014
@@ -158,7 +158,7 @@
  *   WIH_Initialize 0x021790E4 thumb ov014
  *   GFL_NET_WM_ICON_EasyStart 0x02037010 arm
  *   GFL_NET_WM_ICON_EasySetScreen 0x02037118 arm
- *   func_020351F8 0x020351F8 arm
+ *   UI_SetIntrDataGlobal 0x020351F8 arm
  *   MB_UTIL_MSG_DeleteWordSet 0x021F18EC thumb ov107
  *   MB_UTIL_MSG_PrintQueued 0x021F17E0 thumb ov107
  *   MB_UTIL_MSG_SetTimeIconPending 0x021F1B38 thumb ov107
@@ -185,7 +185,7 @@
  *   OS_WaitIrq 0x0208459C arm
  *   BEACON_SetBestScore 0x0200C18C thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   func_02008DAC  0x02008DAC  thumb
+ *   RECORD_AddCounter  0x02008DAC  thumb
  *   SAVE_EVENT_StoreTodayDate  0x0202F27C  thumb
  *   func_020074D8  0x020074D8  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
@@ -208,10 +208,10 @@
  *   KEY_GetCont 0x0203630C arm
  *   GAME_DATA_Create 0x020124F4 thumb
  *   GAME_DATA_Delete 0x02012704 thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_0200FB24 0x0200FB24 thumb
- *   func_0200FBB0 0x0200FBB0 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
+ *   GFL_NET_ERR_WaitLinkClosed 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   UI_SoftReset 0x02035544 arm
@@ -376,18 +376,18 @@ extern void *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *GAME_DATA_GetSaveControl(void *);
 extern void *BEACON_GetBlock(void *);
 extern void BEACON_SetRank(void *,u32);
-extern void *func_020056A0(u32,u32,u32);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern int func_02005654(int,int);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void UI_SetKeepAwakeFlagsGlobal(u32);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
-extern void func_02030EAC(void *n);
+extern void TCB_DeleteTask(void *n);
 extern void func_0200566C(void);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u32 GAME_DATA_GetEventWork(const void *p);
 extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MB_UTIL_MSG_Delete(struct MbMsgWork *p);
 extern u8 GAME_DATA_IsSaving(const u8 *);
 extern void GAME_DATA_SaveCancel(char *p);
@@ -415,8 +415,8 @@ extern int FS_CloseFile(File *);
 extern int FS_SeekFile(void *file, long offset, int origin);
 extern s32 FS_ReadFile(void *file, void *buffer, s32 length);
 extern u32 FS_GetLength(void *a0);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 GAME_DATA_GetBoxManager(const void *p);
 extern u32 func_02008DF0(void *obj, int i);
@@ -433,7 +433,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 extern void CLACT_InitSystem(const void *,u32,u32);
 extern void *CLACT_CreateUnit(int,u8,u32);
 extern void CLACT_SetUnitDefaultRenderer(void *);
@@ -448,10 +448,10 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -469,8 +469,8 @@ extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void *BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045B38(u32,u32,u32,u32);
-extern void *func_02045EC0(void *,u32);
+extern void *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+extern void *MSGDATA_AllocString(void *,u32);
 extern void *BMP_WIN_GetBmp(void *);
 extern void BMP_Clear(void *,u8);
 extern void *MB_UTIL_MSG_GetFont(void *p);
@@ -492,9 +492,9 @@ extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
 extern u16 STRBUF_GetLength(void *vec);
 extern u16 *STRBUF_GetChars(void *vec);
 extern void MIi_CpuCopy16(const void *, void *, int);
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern void CARD_SetPulledOutCallback(int (*callback)(void));
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern int WIH_GetSysState(void);
 extern int WIH_StartMeasureChannel(void);
 extern int WIH_Finalize(void);
@@ -502,7 +502,7 @@ extern void WIH_FreeWork(void);
 extern int WIH_Initialize(u32,int,int);
 extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32);
 extern void GFL_NET_WM_ICON_EasySetScreen(u32,u32);
-extern void func_020351F8(u32 a, u32 b);
+extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 extern void MB_UTIL_MSG_DeleteWordSet(void *);
 extern void MB_UTIL_MSG_PrintQueued(void *,int);
 extern void MB_UTIL_MSG_SetTimeIconPending(struct MbMsgWork *p, u32 v);
@@ -524,7 +524,7 @@ extern u8 BEACON_GetRank(void *p);
 extern void OS_WaitIrq(int clear, u32 irqFlags);
 extern void BEACON_SetBestScore(void *p, u32 v);
 void *ZUKAN_SAVE_GetFromGameData(void *);
-u32 func_02008DAC(void *obj, int i, u32 delta);
+u32 RECORD_AddCounter(void *obj, int i, u32 delta);
 void SAVE_EVENT_StoreTodayDate(void *);
 int func_020074D8(void **save, const void *src);
 void *POKE_TOOL_CreateFromBoxParam(void *p, u32 heap);
@@ -547,10 +547,10 @@ extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern unsigned int KEY_GetCont(void);
 extern void *GAME_DATA_Create(u16);
 extern void GAME_DATA_Delete(unsigned char *);
-extern void func_020315D4(void *);
+extern void PROCSYS_FreeProcWork(void *);
 extern void GFL_HEAP_DeleteChecked(u32);
-extern u32 func_0200FB24(void);
-extern int func_0200FBB0(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
+extern int GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowScreen(int);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void UI_SoftReset(int);
@@ -724,7 +724,7 @@ void MB_COMM_SYS_Init(MbCommSysWork *p)
         p->saveState = 0;
         gMbParentUi.vblankCounter = 0;
     }
-    p->vblankTask = func_020056A0((u32)MB_COMM_SYS_VBlank, (u32)p, 8);
+    p->vblankTask = GFL_USE_AddMainTask((u32)MB_COMM_SYS_VBlank, (u32)p, 8);
     if (!p->standalone) {
         func_02005654((int)MB_COMM_SYS_VBlankRefreshBg, 0);
     } else {
@@ -748,7 +748,7 @@ void MB_COMM_SYS_Exit(MbCommSysWork *p)
     u16 *eventWorkB;
 
     UI_ClearKeepAwakeFlagsGlobal(16);
-    func_02030EAC(p->vblankTask);
+    TCB_DeleteTask(p->vblankTask);
     func_0200566C();
     GFL_NET_WM_ICON_EasyEnd();
     if (p->standalone == 1) {
@@ -761,7 +761,7 @@ void MB_COMM_SYS_Exit(MbCommSysWork *p)
         *eventWorkB = p->transferCount;
     }
     if (p->payload)
-        func_020307B0(p->payload);
+        GFL_HEAP_Free(p->payload);
     MB_COMM_SYS_DeleteNetState(p->net);
     MB_UTIL_MSG_Delete(p->msg);
     MB_COMM_SYS_ExitDisplay(p);
@@ -776,13 +776,13 @@ static inline void MbCommSys_LoadPayload(MbCommSysWork *p)
     name = func_0200575C(142);
     FS_InitFile(&file);
     if (!FS_OpenFile(&file, name))
-        func_02034714(d_021F6E08, 0, d_021F6E08);
+        SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
     FS_SeekFile(&file, 0, 0);
     p->payloadSize = FS_GetLength(&file);
-    p->payload = func_02030734(p->heapId, p->payloadSize, 1, d_021F6E0C, 660);
+    p->payload = GFL_HEAP_Alloc(p->heapId, p->payloadSize, 1, d_021F6E0C, 660);
     FS_ReadFile(&file, p->payload, p->payloadSize);
     if (!FS_CloseFile(&file))
-        func_02034714(d_021F6E08, 0, d_021F6E08);
+        SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
     p->phase = 13;
 }
 
@@ -1128,9 +1128,9 @@ void MB_COMM_SYS_InitDisplay(MbCommSysWork *p)
     MB_COMM_SYS_InitBgLayer(&d_021F6B10, 6, 0);
     MB_COMM_SYS_InitBgLayer(&d_021F6B30, 7, 0);
     if (!p->standalone)
-        func_02040588(6, 1);
+        BG_SYS_SetPlaneVisible(6, 1);
     else
-        func_02040588(6, 0);
+        BG_SYS_SetPlaneVisible(6, 0);
     clactInit = gClActorInitParam;
     clactInit.dimensions[0] = 64;
     CLACT_InitSystem(&clactInit, (u32)&d_021F6C10, p->heapId);
@@ -1165,7 +1165,7 @@ void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p)
 void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode)
 {
     BG_SYS_InitBgLayer(layer, bgTemplate, mode);
-    func_02040588(layer, 1);
+    BG_SYS_SetPlaneVisible(layer, 1);
     BG_SYS_FreeSlot(layer);
     BG_SYS_PushTile(layer);
 }
@@ -1178,46 +1178,46 @@ void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
     struct Placement placement;
 
     if (!p->standalone) {
-        archive = func_020490F4(139, p->heapId);
+        archive = ARC_TOOL_CreateHandle(139, p->heapId);
         func_02049B68(archive, 1, 4, 0, 0, p->heapId);
-        func_02049658(archive, 5, 7, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 9, 7, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 5, 7, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 9, 7, 0, 0, 0, p->heapId);
         func_02049B68(archive, 0, 0, 0, 0, p->heapId);
-        func_02049658(archive, 4, 3, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 8, 3, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 4, 3, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 8, 3, 0, 0, 0, p->heapId);
         ARC_UTIL_UploadPaletteFromHandle(archive, 2, 0, 288, 288, 128, p->heapId);
-        func_02049658(archive, 6, 2, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 10, 2, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 6, 2, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 10, 2, 0, 0, 0, p->heapId);
         ARC_UTIL_UploadPaletteFromHandle(archive, 3, 0, 416, 416, 32, p->heapId);
-        func_02049658(archive, 7, 0, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 11, 0, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 7, 0, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 11, 0, 0, 0, 0, p->heapId);
         BG_SYS_PushTile(2);
         ARC_TOOL_DeleteHandle(archive);
     } else {
-        archive = func_020490F4(34, p->heapId);
+        archive = ARC_TOOL_CreateHandle(34, p->heapId);
         func_02049B68(archive, 6, 4, 0, 0, p->heapId);
-        func_02049658(archive, 15, 7, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 31, 7, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 15, 7, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 31, 7, 0, 0, 0, p->heapId);
         func_02049B68(archive, 6, 0, 0, 0, p->heapId);
-        func_02049658(archive, 15, 3, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 31, 3, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 15, 3, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 31, 3, 0, 0, 0, p->heapId);
         ARC_TOOL_DeleteHandle(archive);
-        archive = func_020490F4(139, p->heapId);
+        archive = ARC_TOOL_CreateHandle(139, p->heapId);
         ARC_UTIL_UploadPaletteFromHandle(archive, 2, 4, 288, 288, 128, p->heapId);
-        func_02049658(archive, 6, 5, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 10, 5, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 6, 5, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 10, 5, 0, 0, 0, p->heapId);
         ARC_UTIL_UploadPaletteFromHandle(archive, 3, 4, 416, 416, 32, p->heapId);
-        func_02049658(archive, 7, 4, 0, 0, 0, p->heapId);
-        func_020498F4(archive, 11, 4, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(archive, 7, 4, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(archive, 11, 4, 0, 0, 0, p->heapId);
         BG_SYS_PushTile(5);
-        func_02040588(5, 0);
-        func_02040588(4, 0);
+        BG_SYS_SetPlaneVisible(5, 0);
+        BG_SYS_SetPlaneVisible(4, 0);
         ARC_TOOL_DeleteHandle(archive);
     }
-    archive = func_020490F4(APP_ICON_GetArchiveId(), p->heapId);
+    archive = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), p->heapId);
     func_02049B68(archive, APP_ICON_GetStatusAnimFileId(), 4, 256, 32, p->heapId);
-    func_02049658(archive, APP_ICON_GetStatusFrameFileId(), 6, 0, 0, 0, p->heapId);
-    func_020498F4(archive, APP_ICON_GetStatusDataFileId(), 6, 0, 0, 0, p->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(archive, APP_ICON_GetStatusFrameFileId(), 6, 0, 0, 0, p->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, APP_ICON_GetStatusDataFileId(), 6, 0, 0, 0, p->heapId);
     BG_SYS_FillTileMap(6, 0, 21, 32, 3, 8);
     BG_SYS_PushTile(6);
     p->paletteId = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0, 0, 3, p->heapId);
@@ -1262,18 +1262,18 @@ void MB_COMM_SYS_DrawTitle(MbCommSysWork *p)
         gMbParentUi.textOnSubScreen = 0;
         textBg = 2;
     }
-    func_02040588(textBg, 0);
-    archive = func_020490F4(22, p->heapId);
+    BG_SYS_SetPlaneVisible(textBg, 0);
+    archive = ARC_TOOL_CreateHandle(22, p->heapId);
     func_02049B68(archive, 0, 4, 224, 32, p->heapId);
     func_02049B68(archive, 0, 0, 224, 32, p->heapId);
-    func_02049658(archive, 1, textBg, 0, 0, 0, p->heapId);
-    func_020498F4(archive, 2, textBg, 0, 0, 0, p->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 1, textBg, 0, 0, 0, p->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 2, textBg, 0, 0, 0, p->heapId);
     BG_SYS_FillTileMap(textBg, 0, 0, 32, 24, 7);
     BG_SYS_PushTile(textBg);
     ARC_TOOL_DeleteHandle(archive);
     window = BMP_WIN_Create(textBg, 1, 4, 30, 8, 7, 1);
-    bank = func_02045B38(0, 2, 0x52, p->heapId);
-    text = func_02045EC0(bank, 1);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0x52, p->heapId);
+    text = MSGDATA_AllocString(bank, 1);
     BMP_Clear(BMP_WIN_GetBmp(window), 7);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(window), 0, 0, text, (void *)MB_UTIL_MSG_GetFont(p->msg), 0x1167);
     BMP_WIN_TransferChars(window);
@@ -1305,22 +1305,22 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
     ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
     p->subPhase = 0;
     p->recruitPhase = 0;
-    p->gameNameBuf = func_02030734(p->heapId, 0x60, 1, d_021F6E0C, 0x553);
-    p->gameIntroBuf = func_02030734(p->heapId, 0xC0, 1, d_021F6E0C, 0x554);
+    p->gameNameBuf = GFL_HEAP_Alloc(p->heapId, 0x60, 1, d_021F6E0C, 0x553);
+    p->gameIntroBuf = GFL_HEAP_Alloc(p->heapId, 0xC0, 1, d_021F6E0C, 0x554);
     MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
     MB_UTIL_MSG_CreateWordSet(p->msg);
     MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, func_02008534(ownerData), 5);
     if (p->standalone == 0)
-        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xC);
+        msgPiece = MSGDATA_AllocString(MB_UTIL_MSG_GetMsgData(p->msg), 0xC);
     else
-        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xF);
+        msgPiece = MSGDATA_AllocString(MB_UTIL_MSG_GetMsgData(p->msg), 0xF);
     nameStr = STRBUF_Create(0x100, p->heapId);
     WORDSET_CopyTaggedText(MB_UTIL_MSG_GetWordSet(p->msg), nameStr, msgPiece);
     STRBUF_Delete(msgPiece);
     if (p->standalone == 0)
-        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xD);
+        msgPiece = MSGDATA_AllocString(MB_UTIL_MSG_GetMsgData(p->msg), 0xD);
     else
-        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0x10);
+        msgPiece = MSGDATA_AllocString(MB_UTIL_MSG_GetMsgData(p->msg), 0x10);
     introStr = msgPiece;
     nameLength = (u32)STRBUF_GetLength(nameStr);
     introLength = (u32)STRBUF_GetLength(introStr);
@@ -1348,13 +1348,13 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
             p->gameNameBuf[i] = c - 0xFEE0;
     }
     p->lobbyAccepted = 0;
-    func_02034AC4((int)ov014_id);
+    GF_OVERLAY_Load((int)ov014_id);
     if (p->standalone == 0) {
-        func_02040588(2, 1);
-        func_02040588(0, 1);
+        BG_SYS_SetPlaneVisible(2, 1);
+        BG_SYS_SetPlaneVisible(0, 1);
     } else {
-        func_02040588(5, 1);
-        func_02040588(4, 1);
+        BG_SYS_SetPlaneVisible(5, 1);
+        BG_SYS_SetPlaneVisible(4, 1);
     }
     CARD_SetPulledOutCallback(MB_COMM_SYS_ShowTextPlane);
 }
@@ -1362,16 +1362,16 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
 /* Frees the game name and description strings and hides the BG layers they used. */
 void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p)
 {
-    func_02034A5C((int)ov014_id);
+    GF_OVERLAY_Unload((int)ov014_id);
     CARD_SetPulledOutCallback(0);
-    func_020307B0(p->gameNameBuf);
-    func_020307B0(p->gameIntroBuf);
+    GFL_HEAP_Free(p->gameNameBuf);
+    GFL_HEAP_Free(p->gameIntroBuf);
     if (!p->standalone) {
-        func_02040588(2, 0);
-        func_02040588(0, 0);
+        BG_SYS_SetPlaneVisible(2, 0);
+        BG_SYS_SetPlaneVisible(0, 0);
     } else {
-        func_02040588(5, 0);
-        func_02040588(4, 0);
+        BG_SYS_SetPlaneVisible(5, 0);
+        BG_SYS_SetPlaneVisible(4, 0);
     }
 }
 
@@ -1401,7 +1401,7 @@ int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
         else
             GFL_NET_WM_ICON_EasySetScreen(1, p->heapId);
         p->subPhase = 1;
-        func_020351F8((u32)MB_COMM_SYS_ResetHook, (u32)p);
+        UI_SetIntrDataGlobal((u32)MB_COMM_SYS_ResetHook, (u32)p);
         break;
     case 1:
         if (WIH_GetSysState() == 1 && WIH_StartMeasureChannel() == 1)
@@ -1457,7 +1457,7 @@ int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
         break;
     case 7:
         if (gMbParentUi.wmEndDone == 1) {
-            func_020351F8(0, 0);
+            UI_SetIntrDataGlobal(0, 0);
             WIH_FreeWork();
             return 1;
         }
@@ -1557,7 +1557,7 @@ void MB_COMM_SYS_MainRecruit(MbCommSysWork *p)
             answer = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
         if (answer == 1) {
             if (MB_PARENT_SYS_GetState() != 2)
-                func_02034714(d_021F6E08, 0, d_021F6E08);
+                SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
             MB_COMM_SYS_UpdateSaveState(p, 4);
             MB_PARENT_SYS_Cancel();
             p->recruitPhase = 4;
@@ -1698,8 +1698,8 @@ void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
     received = MB_COMM_SYS_GetMonCount(p->net);
     if (p->standalone == 0) {
         trainerRecord = GAME_DATA_GetTrainerRecord(p->arg->gameData);
-        func_02008DAC(trainerRecord, 7, received);
-        func_02008DAC(trainerRecord, 0x54, received);
+        RECORD_AddCounter(trainerRecord, 7, received);
+        RECORD_AddCounter(trainerRecord, 0x54, received);
     }
     for (i = 0; i < received; i++) {
         mon = MB_COMM_SYS_GetMon(p->net, i);
@@ -1707,9 +1707,9 @@ void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
         added = func_020074D8(party, mon);
         mon = POKE_TOOL_CreateFromBoxParam(mon, p->heapId);
         ZUKAN_SAVE_RegisterCaught(dex, mon);
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
         if (added != 1)
-            func_02034714(d_021F6E08, 0, d_021F6E08);
+            SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
     }
 }
 
@@ -2077,7 +2077,7 @@ int MB_COMM_SYS_ShowTextPlane(void)
 {
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    func_02040588(gMbParentUi.textOnSubScreen == 1 ? 4 : 2, 1);
+    BG_SYS_SetPlaneVisible(gMbParentUi.textOnSubScreen == 1 ? 4 : 2, 1);
     return 1;
 }
 
@@ -2091,7 +2091,7 @@ int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument)
     GFL_HEAP_CreateChildHeap(1, 93, 0x130000);
     p = PROCSYS_AllocProcWork(task, 188, 93);
     if (!argument) {
-        argument = func_02030734(93, 8, 0, d_021F6E0C, 2788);
+        argument = GFL_HEAP_Alloc(93, 8, 0, d_021F6E0C, 2788);
         if (KEY_GetCont() & 256) {
             argument->standalone = 1;
         } else {
@@ -2130,23 +2130,23 @@ int MB_COMM_SYS_ProcExit(void *task, int unused, int keep, MbCommSysWork *p)
     MB_COMM_SYS_Exit(p);
     if (!keep) {
         GAME_DATA_Delete(p->arg->gameData);
-        func_020307B0(p->arg);
+        GFL_HEAP_Free(p->arg);
     } else if (p->arg->standalone == 1) {
         GAME_DATA_Delete(p->arg->gameData);
-        func_020307B0(p->arg);
+        GFL_HEAP_Free(p->arg);
     }
-    func_020315D4(task);
+    PROCSYS_FreeProcWork(task);
     GFL_HEAP_DeleteChecked(93);
     if (errorRequested == 1) {
         if (standalone) {
-            if (wasSaving == 1 || func_0200FB24() == 1) {
-                func_0200FBB0();
+            if (wasSaving == 1 || GFL_NET_ERR_GetErrorLevel() == 1) {
+                GFL_NET_ERR_WaitLinkClosed();
                 GFL_NET_ERR_ShowScreen(1);
             } else {
                 GFL_NET_ERR_ShowScreen(0);
             }
         } else if (wasSaving == 1) {
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_ERR_ShowScreen(1);
         }
     }
@@ -2162,7 +2162,7 @@ int MB_COMM_SYS_ProcMain(int a, int b, int c, MbCommSysWork *p)
 {
     if (MB_COMM_SYS_Main(p) == 1)
         return 1;
-    if (func_0200FB24() != 0 && p->errorScreenRequested == 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0 && p->errorScreenRequested == 0) {
         GFL_NET_ERR_RequestScreen();
         p->errorScreenRequested = 1;
     }

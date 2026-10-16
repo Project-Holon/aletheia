@@ -13,12 +13,12 @@
  * Cut from camera_system.c, draw_system.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   OS_Terminate 0x02088234 arm
  *   OS_EnableIrqMask 0x02084968 arm
- *   func_020351F8 0x020351F8 arm
+ *   UI_SetIntrDataGlobal 0x020351F8 arm
  *   d_021C71C0 0x021C71C0 data a4
  *   g_021C88E0 0x021C88E0 data a4
  *   OS_Sleep 0x02085A38 arm
@@ -42,7 +42,7 @@
  *   MI_StopNDma  0x0272FCE0  arm
  *   MI_Camera_NDmaRecvAsync  0x0272FE54  arm
  *   UI_ClearKeepAwakeFlagsGlobal 0x02034FB8 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_GetMemberSize 0x020490A8 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   ARC_TOOL_ReadMember 0x02048F4C arm
@@ -95,7 +95,7 @@ typedef struct Camera {
     u32 bufSize;
 } Camera;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void UI_SetKeepAwakeFlagsGlobal(int);
 
@@ -105,7 +105,7 @@ extern void OS_Terminate(void);
 
 extern void OS_EnableIrqMask(int);
 
-extern void func_020351F8(u32 a, u32 b);
+extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 
 extern void OS_Sleep(u32 msec);
 
@@ -149,7 +149,7 @@ int DSPi_LoadG711Core(void *, int, int);
 
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 
@@ -255,7 +255,7 @@ Camera *CTVT_CAMERA_Create(int id)
     char buf[0x48];
 
     z = 0;
-    p = func_02030734(id, 0x50, 0, d_021C71C0, 0x6F);
+    p = GFL_HEAP_Alloc(id, 0x50, 0, d_021C71C0, 0x6F);
     g_021C88E0 = p;
     p->heapId = id;
     p->frames = 0;
@@ -310,7 +310,7 @@ Camera *CTVT_CAMERA_Create(int id)
     if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core(buf, 0xFF, 0xFF);
     else r = 0;
     if (r == 0) OS_Terminate();
-    func_020351F8((u32)((void *)CTVT_CAMERA_OnPowerOff), (u32)p);
+    UI_SetIntrDataGlobal((u32)((void *)CTVT_CAMERA_OnPowerOff), (u32)p);
     return p;
 }
 
@@ -334,7 +334,7 @@ test:
 
 void CTVT_CAMERA_Delete(Camera *p)
 {
-    func_020351F8(0, 0);
+    UI_SetIntrDataGlobal(0, 0);
     if (OS_IsRunOnTwl() != 0) DSPi_StopSoundCore();
     if (OS_IsRunOnTwl() != 0) DSPi_UnloadG711Core();
     CTVT_CAMERA_StopCapture(p);
@@ -344,7 +344,7 @@ void CTVT_CAMERA_Delete(Camera *p)
     CTVT_CAMERA_FreeShutterSound(p);
     CTVT_CAMERA_FreeFrames(p);
     UI_ClearKeepAwakeFlagsGlobal(0x40);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
     g_021C88E0 = 0;
 }
 
@@ -511,7 +511,7 @@ void CTVT_CAMERA_AllocFrames(Camera *p, int count, u16 heap)
     u32 height = CTVT_CAMERA_GetHeight(p);
     u8 i;
     if (p->frames == 0) {
-        p->frames = func_02030734(p->heapId, count * 4, 0, d_021C71C0, 0x1D7);
+        p->frames = GFL_HEAP_Alloc(p->heapId, count * 4, 0, d_021C71C0, 0x1D7);
         p->frameCount = count;
         for (i = 0; i < count; i++)
             p->frames[i] = GFL_NET_AllocAligned(heap, height * (width * 2), d_021C71C0, 0x1DC);
@@ -528,7 +528,7 @@ void CTVT_CAMERA_FreeFrames(Camera *p)
         for (i = 0; i < p->frameCount; i++)
             GFL_NET_FreeAligned(p->frames[i]);
     }
-    func_020307B0(p->frames);
+    GFL_HEAP_Free(p->frames);
     p->frameCount = 0;
     p->frames = 0;
 }

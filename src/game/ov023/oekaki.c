@@ -29,7 +29,7 @@
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   UNION_APP_GetMemberCount  0x021841A4  thumb  ov022
  *   UNION_APP_GetJoinedBits  0x021841A0  thumb  ov022
- *   func_02080D24  0x02080D24  arm
+ *   MATH_CountPopulation  0x02080D24  arm
  *   UNION_APP_Open  0x02184134  thumb  ov022
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_COMMAND_SetSendSlot  0x0203AA94  arm
@@ -41,11 +41,11 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_020490F4  0x020490F4  arm
- *   func_020056A0  0x020056A0  thumb
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   OEKAKI_CreateActors  0x02184D30  thumb  ov023
  *   OEKAKI_CreateWindows  0x02184ECC  thumb  ov023
  *   OEKAKI_EnableDisplays  0x02186564  thumb  ov023
@@ -66,9 +66,9 @@
  *   CLACT_DrawSystem  0x0204A600  arm
  *   TCBL_Main  0x020310C4  arm
  *   OEKAKI_UpdatePrintJobs  0x02186708  thumb  ov023
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   gOekakiSceneTable     0x02186E80  data   a4
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
@@ -79,7 +79,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   BG_SYS_Update  0x020419E4  arm
@@ -98,17 +98,17 @@
  *   STRBUF_Create  0x020457B0  arm
  *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
  *   func_02045CAC  0x02045CAC  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gOekakiFileName     0x02186F58  data  ov023  a4
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02049B68  0x02049B68  arm
- *   func_02049B40  0x02049B40  arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   CLACT_InitSystem  0x0204A48C  arm
@@ -170,7 +170,7 @@
  *   GF_STANDARD_Get_F684  0x0203F684  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   BMP_FillRect  0x02043AF4  arm
- *   func_02008500  0x02008500  thumb
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   GFL_NET_ResetSendQueue  0x0203D56C  arm
  *   OEKAKI_FillSendGroup  0x02186A04  thumb  ov023
@@ -196,6 +196,8 @@
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm  arm9
+ *   MSGDATA_AllocString  0x02045EC0  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -247,7 +249,7 @@ extern void BG_SYS_PushTile(u32 layer);
 extern void MIi_CpuClearFast(int value, void *dst, u32 size);
 extern int UNION_APP_GetMemberCount(UnionAppWork *app);
 extern unsigned char UNION_APP_GetJoinedBits(UnionAppWork *app);
-extern u32 func_02080D24(u32 x);
+extern u32 MATH_CountPopulation(u32 x);
 extern void UNION_APP_Open(UnionAppWork *app);
 extern NetHandle *GFL_NET_HANDLE_GetNetHandle(s32 netId);
 extern u32 GFL_NET_COMMAND_SetSendSlot(NetHandle *dest, u32 targetBits, u32 commandId, u32 size, const void *data);
@@ -259,11 +261,11 @@ extern void *PROCSYS_AllocProcWork(void *task, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BG_SYS_Create(u16 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 heapId);
-extern void *func_020490F4(u32 id, u32 heapId);
-extern void *func_020056A0(void (*callback)(void), void *context, int priority);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
+extern void *GFL_USE_AddMainTask(void (*callback)(void), void *context, int priority);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -273,8 +275,8 @@ extern void UNION_APP_RequestReset(UnionAppWork *app);
 extern u32 UNION_APP_IsResetDone(UnionAppWork *app);
 extern void CLACT_DrawSystem(void);
 extern void TCBL_Main(TcbList *taskList);
-extern u32 func_0200FB24(void);
-extern void func_02030EAC(void *task);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
+extern void TCB_DeleteTask(void *task);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCellAnim(u32);
@@ -283,7 +285,7 @@ extern void CLACT_ExitSystem(void);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(void *font);
-extern void func_020315D4(struct Proc *task);
+extern void PROCSYS_FreeProcWork(struct Proc *task);
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 void CLACT_VBlankSystem(void);
 void BG_SYS_Update(void);
@@ -294,16 +296,16 @@ extern void BG_SYS_ClearSlot(u32 bgId);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, StrBuf *dest);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(StrBuf *vec);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 void BG_SYS_FreeLayerBuf(u32 layer);
 void BG_SYS_Delete(void);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern u32 APP_ICON_GetArchiveId(void);
 extern void CLACT_InitSystem(const void *config, const struct DispVram *vram, u32 heapId);
@@ -433,7 +435,7 @@ extern void BMP_Delete(struct Bmp *p);
 extern short GF_STANDARD_Get_F684(unsigned short x);
 extern void GX_LoadOBJPltt(void *src, unsigned long offset, unsigned long size);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 color);
-extern void func_02008500(UnionAppEntry *entry, StrBuf *dst);
+extern void MYSTATUS_NameToStrbuf(UnionAppEntry *entry, StrBuf *dst);
 extern void PRINTSYS_PrintQueColor(TextPrinter *printer, struct Bmp *bmp, u32 x, u32 y, StrBuf *text, void *font, u16 color);
 extern int  GFL_NET_ResetSendQueue(void *h);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, StrBuf *dst, StrBuf *src);
@@ -444,9 +446,9 @@ extern void *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, StrBuf *t
 extern u32 PRINTSYS_PrintStreamGetState(void *stream);
 extern u32 KEY_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *h);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, TextPrinter *printer, u16 heap);
-extern StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern TaskMenu *APP_TASKMENU_OpenMenu(MenuTemplate *tmpl, TaskMenuRes *res);
 extern void APP_TASKMENU_UpdateMenu(TaskMenu *menu);
 extern u32 APP_TASKMENU_IsFinish(TaskMenu *);
@@ -688,7 +690,7 @@ void OEKAKI_RecvSyncMessage(int netId, int size, const OekakiSyncMsg *msg, Oekak
         switch (msg->kind) {
         case OEKAKI_SYNC_CHECK:
             if (work->baseMemberCount != UNION_APP_GetMemberCount(work->param->app)
-                || work->baseMemberCount != func_02080D24(UNION_APP_GetJoinedBits(work->param->app))) {
+                || work->baseMemberCount != MATH_CountPopulation(UNION_APP_GetJoinedBits(work->param->app))) {
                 work->stateMsg.accepted = 0;
             } else {
                 work->stateMsg.accepted = 1;
@@ -844,15 +846,15 @@ int OEKAKI_Init(void *task, int *state, OekakiParam *param)
         MI_CpuFill8(work, 0, OEKAKI_WORK_SIZE);
         BG_SYS_Create(OEKAKI_HEAP_ID);
         work->wordSet = WORDSET_CreateDefault(OEKAKI_HEAP_ID);
-        work->msgBank = func_02045B38(0, 2, 0x53, OEKAKI_HEAP_ID);
+        work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x53, OEKAKI_HEAP_ID);
         work->font = GF_FONT_Create(0x17, 0, 0, 0, OEKAKI_HEAP_ID);
         OEKAKI_SetVramBanks();
         OEKAKI_SetupBgs();
         WIPE_SYS_Start(0, 9, 9, 0, 0x10, 1, OEKAKI_HEAP_ID);
         work->param = param;
-        archive = func_020490F4(0xbf, OEKAKI_HEAP_ID);
+        archive = ARC_TOOL_CreateHandle(0xbf, OEKAKI_HEAP_ID);
         OEKAKI_LoadBgGraphics(work, archive);
-        work->vblankTask = func_020056A0(OEKAKI_VBlankTask, work, 0);
+        work->vblankTask = GFL_USE_AddMainTask(OEKAKI_VBlankTask, work, 0);
         OEKAKI_InitWork(work);
         OEKAKI_LoadSpriteResources(work, archive);
         OEKAKI_CreateActors(work);
@@ -940,7 +942,7 @@ int OEKAKI_Main(void *task, int *state, int unused, OekakiWork *work)
     CLACT_DrawSystem();
     TCBL_Main(work->taskList);
     OEKAKI_UpdatePrintJobs(work);
-    if (WIPE_SYS_EndCheck() != 0 && func_0200FB24() != 0) {
+    if (WIPE_SYS_EndCheck() != 0 && GFL_NET_ERR_GetErrorLevel() != 0) {
         return 1;
     }
     return 0;
@@ -957,7 +959,7 @@ int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work)
 {
     switch (*seq) {
     case 0:
-        func_02030EAC(work->vblankTask);
+        TCB_DeleteTask(work->vblankTask);
         CLACT_ReleaseCharacter(work->nameTagRes.charRes);
         CLACT_ReleasePalette(work->nameTagRes.plttRes);
         CLACT_ReleaseCellAnim(work->nameTagRes.cellRes);
@@ -993,7 +995,7 @@ int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work)
         break;
     case 3:
         OEKAKI_FreeWork(work);
-        func_020315D4(task);
+        PROCSYS_FreeProcWork(task);
         GFL_HEAP_DeleteChecked(OEKAKI_HEAP_ID);
         return 1;
     }
@@ -1127,7 +1129,7 @@ void OEKAKI_InitWork(OekakiWork *work)
     GFL_NET_SYSTEM_GetCurrentAid();
     OEKAKI_SetNextScene(work, 4);
     func_02045CAC(work->msgBank, 7, work->labelText);
-    work->tempBuf = func_02030734(OEKAKI_HEAP_ID, 0x3C00, zero, gOekakiFileName, 0x31D);
+    work->tempBuf = GFL_HEAP_Alloc(OEKAKI_HEAP_ID, 0x3C00, zero, gOekakiFileName, 0x31D);
     work->lastMemberCount = zero;
 }
 
@@ -1135,7 +1137,7 @@ void OEKAKI_InitWork(OekakiWork *work)
 void OEKAKI_FreeWork(OekakiWork *work)
 {
     int i;
-    func_020307B0(work->tempBuf);
+    GFL_HEAP_Free(work->tempBuf);
     for (i = 0; i < OEKAKI_MEMBER_MAX; i++)
         STRBUF_Delete(work->playerName[i]);
     STRBUF_Delete(work->messageText);
@@ -1162,12 +1164,12 @@ void OEKAKI_LoadBgGraphics(OekakiWork *work, void *archive)
 {
     func_02049B68(archive, 0, 0, 0, 0x180, OEKAKI_HEAP_ID);
     func_02049B68(archive, 1, 4, 0, 0x180, OEKAKI_HEAP_ID);
-    func_02049B40(0x17, 5, 0, 0x1A0, 0x20, OEKAKI_HEAP_ID);
-    func_02049B40(0x17, 5, 4, 0x1A0, 0x20, OEKAKI_HEAP_ID);
-    func_02049658(archive, 2, 2, 0, 0x2000, 0, OEKAKI_HEAP_ID);
-    func_020498F4(archive, 6, 2, 0, 0x600, 0, OEKAKI_HEAP_ID);
-    func_02049658(archive, 4, 5, 0, 0x2000, 0, OEKAKI_HEAP_ID);
-    func_020498F4(archive, 7, 5, 0, 0x600, 0, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1A0, 0x20, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1A0, 0x20, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 2, 2, 0, 0x2000, 0, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 6, 2, 0, 0x600, 0, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 4, 5, 0, 0x2000, 0, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 7, 5, 0, 0x600, 0, OEKAKI_HEAP_ID);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 10, 0, OEKAKI_HEAP_ID);
     BMP_MENUWORK_LoadCharAndPltt(0, 0x1F, 11, 0, OEKAKI_HEAP_ID);
 }
@@ -1179,7 +1181,7 @@ void OEKAKI_LoadSpriteResources(OekakiWork *work, void *archive)
     void *uiArchive;
     u32 plttIndex;
 
-    uiArchive = func_020490F4(APP_ICON_GetArchiveId(), OEKAKI_HEAP_ID);
+    uiArchive = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), OEKAKI_HEAP_ID);
     CLACT_InitSystem(gClActorInitParam, &gOekakiVramBanks, OEKAKI_HEAP_ID);
     work->clactSys = CLACT_CreateUnit(0x35, 1, OEKAKI_HEAP_ID);
     work->cursorRes.charRes = CLACT_RegisterCharacter(archive, 3, 0, 0, OEKAKI_HEAP_ID);
@@ -2082,7 +2084,7 @@ void OEKAKI_RefreshNamePlates(struct BmpWin **windows, u16 color, OekakiWork *p)
         BMP_FillRect(BMP_WIN_GetBmp(windows[i]), 0, 0, 0x50, 0x10, 0);
     for (i = 0; i < 5; i++) {
         if (p->memberSlot[i].current != 0) {
-            func_02008500(p->memberSlot[i].current, p->playerName[i]);
+            MYSTATUS_NameToStrbuf(p->memberSlot[i].current, p->playerName[i]);
             if (selfId == i) {
                 printer = p->namePrinter;
                 PRINTSYS_PrintQueColor(printer, BMP_WIN_GetBmp(p->printJob[i].window), 0, 0, p->playerName[i], p->font, 0xc80);
@@ -2360,11 +2362,11 @@ void OEKAKI_EnableDisplays(void)
 {
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
-    func_02040588(0, 1);
-    func_02040588(1, 1);
-    func_02040588(2, 1);
-    func_02040588(4, 1);
-    func_02040588(5, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
     *(volatile u16 *)0x04000304 = *(volatile u16 *)0x04000304 & 0xFFFF7FFF;
 }
 
@@ -2378,7 +2380,7 @@ TaskMenu *OEKAKI_OpenYesNoMenu(OekakiWork *p)
     p->menuRes = APP_TASKMENU_RES_Create(0, 2, p->font, p->messagePrinter, 0x28);
     for (i = 0; i < 2; i++) {
         init = &gOekakiMenuItemInit[i];
-        p->menuItem[i].text = func_02045EC0(p->msgBank, gOekakiMenuItemInit[i].msgId);
+        p->menuItem[i].text = MSGDATA_AllocString(p->msgBank, gOekakiMenuItemInit[i].msgId);
         p->menuItem[i].color = 0x39E3;
         p->menuItem[i].result = init->result;
     }

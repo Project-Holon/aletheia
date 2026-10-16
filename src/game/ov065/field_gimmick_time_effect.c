@@ -40,7 +40,7 @@
  *   FLD_EXP_OBJ_GetAnimeFrame  0x021BE6E8  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain 0x021F38D0 thumb ov065
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -74,7 +74,7 @@ extern void FLD_EXP_OBJ_UpdateAnimes(int expObj);
 extern int FLD_EXP_OBJ_GetAnimeFrame(int expObj, int unit, int model, int animeIdx);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int FLD_EXP_OBJ_IsAnimeStopped(void *anime);
-extern void *func_020122C0(void *owner, void *a, void *eventFunc, u32 size);
+extern void *GAME_EVENT_Create(void *owner, void *a, void *eventFunc, u32 size);
 extern int FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain(void *event);
 void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap);
 void FIELD_GIMMICK_TIME_EFFECT_Exit(unsigned char *fieldMap);
@@ -171,7 +171,7 @@ void FIELD_GIMMICK_TIME_EFFECT_StartEffect(int fieldMap)
 
 void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent(void *gameSystem)
 {
-    return func_020122C0(gameSystem, 0, (void *)FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (void *)FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain, 0);
 }
 
 int FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain(void *event)

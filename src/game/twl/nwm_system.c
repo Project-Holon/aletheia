@@ -19,6 +19,8 @@
  *   OS_Terminate  0x02088234  arm  arm9
  *   PMi_InsertPreSleepCallbackEx  0x0208C848  arm  arm9
  *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,8 +39,8 @@ typedef struct Msg {
     u32 w10;
 } Msg;
 
-extern void func_020862B8(u32, u32);
-extern void func_020862D4(u32, u32);
+extern void DC_InvalidateRange(u32, u32);
+extern void DC_StoreRange(u32, u32);
 extern void PM_DeletePostExitCallback(u32);
 extern void MI_CpuFill8(u32, u32, u32);
 extern void OS_GetMacAddress(u8 *);
@@ -74,11 +76,11 @@ void NWMi_ClearFifoRecvFlag(void) {
     if (base != 0) {
         r5 = (u8 *)*(u32 *)(base + 0x2274);
         r4 = 1;
-        func_020862B8((u32)r5, r4);
+        DC_InvalidateRange((u32)r5, r4);
         val = r5[0];
         if (val & 1) {
             r5[0] = val & 0xFE;
-            func_020862D4((u32)r5, r4);
+            DC_StoreRange((u32)r5, r4);
         }
     }
 }
@@ -99,10 +101,10 @@ void NWMi_ReceiveFifo9(u32 a0, Msg *msg, u32 a2) {
     if (msg->type >= 0x14) {
         return;
     }
-    func_020862B8(*(u32 *)(base + 0x227C), 0x100);
-    func_020862B8(*(u32 *)(base + 0x2278), 0xC0);
+    DC_InvalidateRange(*(u32 *)(base + 0x227C), 0x100);
+    DC_InvalidateRange(*(u32 *)(base + 0x2278), 0xC0);
     if ((u32)msg != *(u32 *)(base + 0x227C)) {
-        func_020862B8((u32)msg, 0x100);
+        DC_InvalidateRange((u32)msg, 0x100);
     }
     type = msg->type;
     if ((type == 3 && msg->sub != 0) || (type == 4 && msg->sub == 0) || type == 0x13) {
@@ -119,14 +121,14 @@ void NWMi_ReceiveFifo9(u32 a0, Msg *msg, u32 a2) {
         type = msg->type;
         handler = *(void (**)(Msg *))(base + type * 4 + 0x2284);
         if (type == 7) {
-            func_020862B8(msg->w10, msg->w0c);
+            DC_InvalidateRange(msg->w10, msg->w0c);
         }
         if (handler != 0) {
             handler(msg);
         }
     }
     MI_CpuFill8((u32)msg, 0, 0x100);
-    func_020862D4((u32)msg, 0x100);
+    DC_StoreRange((u32)msg, 0x100);
     if (base != 0) {
         NWMi_ClearFifoRecvFlag();
     }
@@ -137,7 +139,7 @@ u32 NWM_GetState(void) {
     u32 r1 = 0;
     if (base != 0) {
         u32 ptr = *(u32 *)(base + 0x2278);
-        func_020862B8(ptr, 2);
+        DC_InvalidateRange(ptr, 2);
         r1 = *(u16 *)(ptr + 0x24);
     }
     return r1;
@@ -153,7 +155,7 @@ u32 NWMi_CheckState(u32 n, ...) {
     if (st != 0 && st != 2) {
         return st;
     }
-    func_020862B8(*(u32 *)(base + 0x2278) + 0x24, 2);
+    DC_InvalidateRange(*(u32 *)(base + 0x2278) + 0x24, 2);
     cur = *(u16 *)(*(u32 *)(base + 0x2278) + 0x24);
     ret = 3;
     va_start(ap, n);

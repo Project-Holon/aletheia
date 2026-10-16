@@ -62,17 +62,17 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_Create  0x02031324  arm
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
- *   func_0203133C  0x0203133C  arm
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_Delete  0x0203133C  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
- *   func_02034A5C  0x02034A5C  arm
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   BATTLE_REC_FreeWork  0x0200B424  thumb
  *   BATTLE_REC_AllocWork  0x0200B400  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -91,7 +91,7 @@
  *   d_021F03C4     0x021F03C4  data   ov093  a4
  *   d_021EFDAC     0x021EFDAC  data   ov093  a4
  *   d_021BB474     0x021BB474  data   ov214  a4
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -178,17 +178,17 @@ typedef signed int     s32;
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_Delete(struct S020314B8 *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern unsigned int PROCSYS_Main(void *p);
 extern void PROCSYS_Push(int h, u32 id, void *a, void *b);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void func_02034A5C(s32 handle);
-extern int func_02034AC4(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern void BATTLE_REC_FreeWork(void);
 extern void BATTLE_REC_AllocWork(u32 heap);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -198,7 +198,7 @@ extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern void BATTLE_REC_TOOL_PackSetup(void *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void GAMESYSTEM_CallProc(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
@@ -237,11 +237,11 @@ int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys)
 {
     if (((EventBattleRecSaveTask *)taskWork)->commBattleActive == 1) {
-        if (func_0200FB24() != 0)
+        if (GFL_NET_ERR_GetErrorLevel() != 0)
             GFL_NET_ERR_RequestScreen();
     }
-    func_0203133C((struct S020314B8 *)*procsys);
-    func_020315D4(procWork);
+    PROCSYS_Delete((struct S020314B8 *)*procsys);
+    PROCSYS_FreeProcWork(procWork);
     GFL_HEAP_DeleteChecked(0x76);
     return 1;
 }
@@ -265,11 +265,11 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
     int lastPlayer, firstTeamBase, secondTeamBase, i, j, playerIndexBit, nameRow;
     u32 versionOk;
 
-    if (procsysBusy != 1 && func_0200FB24() != 0 && *stage >= 0 && *stage < 13) {
+    if (procsysBusy != 1 && GFL_NET_ERR_GetErrorLevel() != 0 && *stage >= 0 && *stage < 13) {
         if (ctx->cmdTableAdded == 1)
             GFL_NET_COMMAND_DeleteCommandTable(0x100);
         if (ctx->overlayLoaded == 1)
-            func_02034A5C((u32)ov093_id);
+            GF_OVERLAY_Unload((u32)ov093_id);
         if (ctx->recordWorkAllocated == 1)
             BATTLE_REC_FreeWork();
         return 1;
@@ -321,7 +321,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         break;
     case 6:
         ctx->overlayLoaded = 1;
-        func_02034AC4((u32)ov093_id);
+        GF_OVERLAY_Load((u32)ov093_id);
         ctx->cmdTableAdded = 1;
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
         GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC8);
@@ -355,7 +355,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             break;
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         ctx->cmdTableAdded = 0;
-        func_02034A5C((u32)ov093_id);
+        GF_OVERLAY_Unload((u32)ov093_id);
         ctx->overlayLoaded = 0;
         BATTLE_REC_LoadToolOverlay();
         BATTLE_REC_TOOL_PackSetup(work->info);
@@ -458,7 +458,7 @@ void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args)
 
 void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag)
 {
-    void *event = func_020122C0(gameSystem, 0, (void *)((int)EVENT_BATTLE_REC_SAVE_EventMain), 0x40);
+    void *event = GAME_EVENT_Create(gameSystem, 0, (void *)((int)EVENT_BATTLE_REC_SAVE_EventMain), 0x40);
     u32 *work = func_020124E8(event);
 
     work[0] = (u32)gameSystem;

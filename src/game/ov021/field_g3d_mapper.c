@@ -16,13 +16,13 @@
  * symbols:
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
  *   G3D_SYSTEM_TransVramTextureAndCut  0x020470A8  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
  *   gFieldG3dMapperSrcName     0x021DD9EC  data  ov021  a4
  *   FIELD_WFBC_Create  0x021938AC  thumb ov021
@@ -115,12 +115,12 @@ extern int FX_ModS32(int a, int b);
 extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
-extern void *func_02030734(u16 heapId, u32 size, u32 clear, const void *site, u32 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clear, const void *site, u32 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberId);
 extern u32 G3D_SYSTEM_TransVramTextureAndCut(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void func_02046EFC(G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
 extern G3dResTexView *NNS_G3dGetTex(void *file);
 extern void PALANM_ConvertGrayTable(u16 *palette, int count, const u8 *tintTable);
@@ -258,7 +258,7 @@ static inline void SetVecFx32(VecFx32 *dst, s32 x, s32 y, s32 z)
 
 FieldG3dMapper *FIELD_G3D_MAPPER_Create(u16 heapId, u16 buildModelParam)
 {
-    FieldG3dMapper *mapper = func_02030734(heapId, 0x74, 1, gFieldG3dMapperSrcName, 0xf9);
+    FieldG3dMapper *mapper = GFL_HEAP_Alloc(heapId, 0x74, 1, gFieldG3dMapperSrcName, 0xf9);
     mapper->heapId = heapId;
     mapper->focusPos.x = 0;
     mapper->focusPos.y = 0;
@@ -288,7 +288,7 @@ int FIELD_G3D_MAPPER_Delete(FieldG3dMapper *mapper)
         FIELD_BUILDMODEL_Delete(mapper->buildModel);
         mapper->buildModel = 0;
     }
-    return func_020307B0(mapper);
+    return GFL_HEAP_Free(mapper);
 }
 
 void FIELD_G3D_MAPPER_UpdateBlocking(FieldG3dMapper *mapper)
@@ -451,7 +451,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
     if (newCount > 900 || newWidth > 30 || newDepth > 30)
         return 0;
 
-    newGrid = func_02030734((u16)((mapper->heapId & 0x7FFF) | 0x8000), newCount * 4, 0, gFieldG3dMapperSrcName, 0x25F);
+    newGrid = GFL_HEAP_Alloc((u16)((mapper->heapId & 0x7FFF) | 0x8000), newCount * 4, 0, gFieldG3dMapperSrcName, 0x25F);
     for (row = 0; row < mapper->gridDepth; row++) {
         for (col = 0; col < mapper->gridWidth; col++)
             newGrid[row * newWidth + col] = mapper->blockGrid[row * mapper->gridWidth + col];
@@ -478,7 +478,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
     mapper->gridDepth = newDepth;
     mapper->blockCount = newCount;
     func_02159C00((struct MapMatrix *)GAME_DATA_GetFieldWork(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
-    func_020307B0(newGrid);
+    GFL_HEAP_Free(newGrid);
     return 1;
 }
 
@@ -540,9 +540,9 @@ void FIELD_G3D_MAPPER_Setup(FieldG3dMapper *mapper, const FieldG3dMapperSetup *s
     config.placementCountB = 0;
     config.extraParam0 = 0x1000000;
     config.extraParam1 = 0x400000;
-    mapper->slots = func_02030734(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperSlot), 1, gFieldG3dMapperSrcName, 0x306);
-    mapper->cells = func_02030734(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperCell), 1, gFieldG3dMapperSrcName, 0x307);
-    mapper->drawOrder = func_02030734(mapper->heapId, mapper->slotCount, 1, gFieldG3dMapperSrcName, 0x308);
+    mapper->slots = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperSlot), 1, gFieldG3dMapperSrcName, 0x306);
+    mapper->cells = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperCell), 1, gFieldG3dMapperSrcName, 0x307);
+    mapper->drawOrder = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount, 1, gFieldG3dMapperSrcName, 0x308);
     for (i = 0; i < mapper->slotCount; i++) {
         FIELD_G3D_MAPPER_ResetCell(&mapper->slots[i].cell);
         FIELD_G3D_MAPPER_InitSlotRes(&mapper->slots[i].res, mapper, i, mapper->heapId);
@@ -568,9 +568,9 @@ void FIELD_G3D_MAPPER_ReleaseBlocks(FieldG3dMapper *mapper)
             FIELD_G3D_MAP_Destroy(mapper->slots[i].map);
             FIELD_G3D_MAPPER_FreeGroundAnimeSlot(&mapper->slots[i].res.groundAnimeSlot);
         }
-        func_020307B0(mapper->slots);
-        func_020307B0(mapper->cells);
-        func_020307B0(mapper->drawOrder);
+        GFL_HEAP_Free(mapper->slots);
+        GFL_HEAP_Free(mapper->cells);
+        GFL_HEAP_Free(mapper->drawOrder);
         mapper->cells = 0;
         mapper->slots = 0;
         mapper->drawOrder = 0;
@@ -622,7 +622,7 @@ void FIELD_G3D_MAPPER_FreeTexture(FieldG3dMapper *mapper)
 {
     if (mapper->textureRes != 0) {
         G3D_SYSTEM_FreeVramTexture(mapper->textureRes);
-        func_02046EFC(mapper->textureRes);
+        G3D_SYSTEM_DeleteResource(mapper->textureRes);
         mapper->textureRes = 0;
     }
 }

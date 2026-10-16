@@ -95,7 +95,7 @@ typedef struct {
 } RequestConfig;
 
 typedef struct {
-    void *msgBank;          /* 00 message bank (func_02045B38) */
+    void *msgBank;          /* 00 message bank (MSGDATA_CreateFromArchive) */
     void *wordSet;          /* 04 word set (WORDSET_Create) */
     void *record;           /* 08 print record handle */
     void *window;           /* 0C menu window returned by WIFIBATTLEMATCH_UTIL_CreateMenu */

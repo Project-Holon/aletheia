@@ -15,8 +15,8 @@
  * symbols:
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02030734        0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc        0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sBmpMenuFile    0x020A7384  data
  *   BMP_CURSOR_Create   0x02020D18  thumb
  *   BMP_CURSOR_SetTileBitmap   0x02020DC8  thumb
@@ -28,7 +28,7 @@
  *   BMP_Clear   0x02043B5C  arm
  *   PRINTSYS_PrintQue   0x0201C6FC  thumb
  *   BMP_CURSOR_Draw   0x02020D5C  thumb
- *   func_02045B38   0x02045B38  arm
+ *   MSGDATA_CreateFromArchive   0x02045B38  arm
  *   MSGDATA_Delete   0x02045C04  arm
  *   MI_CpuFill8     0x02082BCC  arm
  *   BMP_WIN_Create   0x020450F0  arm
@@ -48,6 +48,7 @@
  *   BMP_MENUWORK_Create 0x0201F81C thumb arm9
  *   BMP_MENUWORK_Delete 0x0201F868 thumb arm9
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb arm9
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  */
 #include "bmp_menuwork_shared_types.h"
 
@@ -110,9 +111,9 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern struct BmpCursor *BMP_CURSOR_Create(u32 heap);
 
@@ -128,7 +129,7 @@ extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 
 extern void BMP_FillRect(void *bitmap, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 
-extern u32 func_0201D304(const void *str, struct GfFont *font, u32 flags);
+extern u32 GF_FONT_MeasureWidestLine(const void *str, struct GfFont *font, u32 flags);
 
 extern void BMP_Clear(void *bitmap, u8 value);
 
@@ -136,7 +137,7 @@ extern void PRINTSYS_PrintQue(void *que, void *bitmap, u32 x, u32 y, const void 
 
 extern void BMP_CURSOR_Draw(struct BmpCursor *c, u32 x, u32 y, PrintUtil *util, void *que, struct GfFont *font);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
@@ -229,7 +230,7 @@ extern char sBmpMenuFile[];
  */
 BmpMenu *BMP_MENU_Create(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask)
 {
-    BmpMenu *menu = func_02030734((u32)(int)heapId, sizeof(BmpMenu), 1, sBmpMenuFile, 0x61);
+    BmpMenu *menu = GFL_HEAP_Alloc((u32)(int)heapId, sizeof(BmpMenu), 1, sBmpMenuFile, 0x61);
 
     menu->header = *header;
     menu->cursor = BMP_CURSOR_Create(heapId);
@@ -278,7 +279,7 @@ void BMP_MENU_Delete(BmpMenu *menu, u8 *outSelected)
         *outSelected = menu->selected;
     }
     BMP_CURSOR_Delete(menu->cursor);
-    func_020307B0(menu);
+    GFL_HEAP_Free(menu);
 }
 
 /*
@@ -458,7 +459,7 @@ u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu)
     u8 idx;
 
     for (idx = 0; idx < menu->header.numColumns * menu->header.itemsPerColumn; idx++) {
-        u32 width = (u8)func_0201D304(menu->header.items[idx].u.text, menu->header.fontH, 0);
+        u32 width = (u8)GF_FONT_MeasureWidestLine(menu->header.items[idx].u.text, menu->header.fontH, 0);
 
         if (maxWidth < width) {
             maxWidth = width;
@@ -562,7 +563,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
     BmpMenuWork *items;
     BmpMenu *menu;
 
-    yesNoText = func_02045B38(0, 2, 0xE9, heapId);
+    yesNoText = MSGDATA_CreateFromArchive(0, 2, 0xE9, heapId);
     items = BMP_MENUWORK_Create(2, (int)(u16)heapId);
     BMP_MENUWORK_AddMsgItem(items, yesNoText, 0, 0, heapId);
     BMP_MENUWORK_AddMsgItem(items, yesNoText, 1, -2, heapId);
@@ -576,7 +577,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
     header.lineSpacing = 1;
     header.cursorMode = 0;
     header.wrap = 0;
-    header.util = func_02030734(heapId, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
+    header.util = GFL_HEAP_Alloc(heapId, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
     header.fontH = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     header.lineHeight = GF_FONT_GetField58(header.fontH);
     header.xPad = 10;
@@ -616,7 +617,7 @@ void BMP_MENU_DeleteYesNo(BmpMenu *menu)
 {
     PRINTSYS_QUE_Clear(menu->header.que);
     PRINTSYS_QUE_Delete(menu->header.que);
-    func_020307B0(menu->header.util);
+    GFL_HEAP_Free(menu->header.util);
     BMP_MENUWORK_DrawWindowBorder(menu->header.win, 0);
     GF_FONT_Delete(menu->header.fontH);
     BMP_MENUWORK_Delete(menu->header.items);

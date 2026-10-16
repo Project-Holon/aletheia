@@ -13,9 +13,9 @@
  * Cut from ica_anime.c, btl_setup.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8        0x02082BCC  arm
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   GAME_DATA_IsWalkCountEnabled  0x02012A24  thumb
  *   GAME_DATA_IncWalkCount  0x020129FC  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
@@ -38,7 +38,7 @@
  *   EVENTDATA_SYSTEM_Clear  0x021623DC  thumb  ov010
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  *   MAP_MATRIX_Create  0x02159B48  thumb  ov010
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   FLDMMDL_CreateSys  0x0216CC58  thumb  ov010
  *   FIELD_SOUND_SYSTEM_Create  0x02028844  thumb
  *   FIELD_STATUS_Create  0x02014428  thumb
@@ -111,7 +111,7 @@
  *   func_02008658  0x02008658  thumb
  *   TRADE_HISTORY_GetFromSave  0x02009EC8  thumb
  *   func_020089C0  0x020089C0  thumb
- *   func_02009448  0x02009448  thumb
+ *   GAME_SYNC_GetBlock  0x02009448  thumb
  *   func_02007B44  0x02007B44  thumb
  *   SAVE_CONTROL_StartSave  0x02007150  thumb
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
@@ -141,11 +141,11 @@ struct BagCursor;
 
 struct Situation;
 
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct SaveControl *func_020070A4(void);
 
@@ -179,7 +179,7 @@ void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);
 
 extern u16 *MAP_MATRIX_Create(int heapId);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern void *FLDMMDL_CreateSys(int heapId, int count, int saveBlock);
 
@@ -320,7 +320,7 @@ extern const char _GameDataFileName[];
  *           Every one of the 528 concrete bytes is correct; only the four
  *           relocation FIELDS stay wildcarded.
  * The constructor of the big game_data object destroyed by GAME_DATA_Delete.
- * 0x6B0 bytes from func_02030734(heap, 0x6B0, 1, "game_data.c", 0xAD); the
+ * 0x6B0 bytes from GFL_HEAP_Alloc(heap, 0x6B0, 1, "game_data.c", 0xAD); the
  * field offsets are the destructor's, read through a u8 * so the compiler
  * derives them all from the two pooled/scaled bases 0x1C4 (= 0x71 << 2),
  * 0x158 (= 0x56 << 2) and 0x6AC.
@@ -362,7 +362,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     struct PlayerStatus *status;
     void *eventData;
 
-    gameData = func_02030734(heapId, sizeof(struct GameData), 1, _GameDataFileName, 0xAD);
+    gameData = GFL_HEAP_Alloc(heapId, sizeof(struct GameData), 1, _GameDataFileName, 0xAD);
     gameData->saveControl = func_020070A4();
     gameData->season = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     gameData->subscreenType = 0;
@@ -387,12 +387,12 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     EVENTDATA_SYSTEM_Clear(eventData);
     gameData->eventWork = GAME_DATA_GetEventWorkFromSave(gameData->saveControl);
     gameData->fieldWork = (u32)MAP_MATRIX_Create(heapId);
-    gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, (u32)func_020071CC(gameData->saveControl, 0x33));
+    gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, (u32)SAVE_CONTROL_GetBlock(gameData->saveControl, 0x33));
     gameData->bgmInfo = (u32)FIELD_SOUND_SYSTEM_Create(gameData, heapId);
     gameData->moveModelSys = (void *)FIELD_STATUS_Create(heapId);
     gameData->mapMatrix = (u32)func_02008254(heapId);
-    gameData->myItem = func_020071CC(gameData->saveControl, 0x19);
-    gameData->myParty = func_020071CC(gameData->saveControl, 0x1A);
+    gameData->myItem = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x19);
+    gameData->myParty = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x1A);
     gameData->config = func_0200873C(gameData->saveControl);
     gameData->boxManager = (u32)func_02007AA4(heapId, (u32)gameData->saveControl);
     gameData->wifiList = (u32)WIFILIST_Create(heapId);
@@ -445,21 +445,21 @@ struct GameData *GAME_DATA_Create(u16 heapId)
  */
 void GAME_DATA_Delete(struct GameData *gameData)
 {
-    func_020307B0(gameData->playTime);
+    GFL_HEAP_Free(gameData->playTime);
     CALENDER_Delete(gameData->musicalWork);
     BEACON_STATUS_Delete(gameData->itemUseWork);
     func_0202E794((void *)gameData->pmsWork);
     FIELD_ENCOUNT_ST_Delete((void *)gameData->fieldGimmick);
     func_02006E64((struct BagCursor *)gameData->bagCursor);
-    func_020307B0((void *)gameData->wifiList);
+    GFL_HEAP_Free((void *)gameData->wifiList);
     func_02007AC8((void *)gameData->boxManager);
-    func_020307B0((void *)gameData->mapMatrix);
+    GFL_HEAP_Free((void *)gameData->mapMatrix);
     FLDMMDL_DeleteSys((int)gameData->occupyInfo);
     MAP_MATRIX_Delete((void *)gameData->fieldWork);
     EVENTDATA_SYSTEM_Delete((int)gameData->eventData);
     FIELD_STATUS_Delete((u32)gameData->moveModelSys);
     FIELD_SOUND_SYSTEM_Delete((struct BgmInfo *)gameData->bgmInfo);
-    func_020307B0(gameData);
+    GFL_HEAP_Free(gameData);
 }
 
 struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index)
@@ -776,7 +776,7 @@ extern void *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
 
 extern void *func_020089C0(struct SaveControl *save);
 
-extern void *func_02009448(struct SaveControl *save);
+extern void *GAME_SYNC_GetBlock(struct SaveControl *save);
 
 extern void *func_02007B44(struct SaveControl *save);
 
@@ -1509,7 +1509,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     func_02008808(gd->saveControl, player);
     func_020088B8(gd->saveControl, player);
     occupy = GAME_DATA_GetOccupyInfo(gd);
-    func_0200EEAC(occupy, func_020071CC(gd->saveControl, 0x29));
+    func_0200EEAC(occupy, SAVE_CONTROL_GetBlock(gd->saveControl, 0x29));
     INTRUDE_LoadOccupy(gd->saveControl, (u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
     unionInfo = GAME_DATA_GetSecondUnionInfo(gd);
     MUSICAL_SHOT_CopyPhotoRev(MUSICAL_SHOT_GetFromSave(gd->saveControl), unionInfo);
@@ -1552,7 +1552,7 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     func_020087E8(gd->saveControl, player);
     func_02008860(gd->saveControl, player);
     occupy = GAME_DATA_GetOccupyInfo(gd);
-    NET_DEVICE_TABLE_BuildFromProducer(occupy, func_020071CC(gd->saveControl, 0x29));
+    NET_DEVICE_TABLE_BuildFromProducer(occupy, SAVE_CONTROL_GetBlock(gd->saveControl, 0x29));
     INTRUDE_StoreOccupy(gd->saveControl, (const u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
     unionInfo = GAME_DATA_GetSecondUnionInfo(gd);
     MUSICAL_SHOT_CopyPhoto(MUSICAL_SHOT_GetFromSave(gd->saveControl), unionInfo);
@@ -1709,19 +1709,19 @@ struct GameData *GAME_DATA_SetCurrentEvent(struct GameData *gd, void *event)
 }
 
 /*
- * Unlabelled Thumb tail-call thunk: func_020071CC(*p, 0x3a).
+ * Unlabelled Thumb tail-call thunk: SAVE_CONTROL_GetBlock(*p, 0x3a).
  */
 void *GAME_DATA_GetSaveBlock3A(struct GameData *gd)
 {
-    return func_020071CC(gd->saveControl, 0x3a);
+    return SAVE_CONTROL_GetBlock(gd->saveControl, 0x3a);
 }
 
 /*
- * Unlabelled Thumb tail-call thunk: func_020071CC(*p, 0x3b).
+ * Unlabelled Thumb tail-call thunk: SAVE_CONTROL_GetBlock(*p, 0x3b).
  */
 void *GAME_DATA_GetSaveBlock3B(struct GameData *gd)
 {
-    return func_020071CC(gd->saveControl, 0x3b);
+    return SAVE_CONTROL_GetBlock(gd->saveControl, 0x3b);
 }
 
 void *GAME_DATA_GetMiscSave(struct GameData *gd)
@@ -1748,7 +1748,7 @@ int GAME_DATA_GetPmsWork(struct GameData *gd)
 
 void *GAME_DATA_GetTrainerRecord(struct GameData *gd)
 {
-    return func_020071CC(gd->saveControl, 0x26);
+    return SAVE_CONTROL_GetBlock(gd->saveControl, 0x26);
 }
 
 /*
@@ -1760,11 +1760,11 @@ u8 *GAME_DATA_GetSaveSyncBlock(struct GameData *gd)
 }
 
 /*
- * Unlabelled leaf: tail-calls func_020071CC(*(void **)p, 0x2a).
+ * Unlabelled leaf: tail-calls SAVE_CONTROL_GetBlock(*(void **)p, 0x2a).
  */
 void *GAME_DATA_GetSaveBlock2A(struct GameData *gd)
 {
-    return func_020071CC(gd->saveControl, 0x2a);
+    return SAVE_CONTROL_GetBlock(gd->saveControl, 0x2a);
 }
 
 /*
@@ -1797,7 +1797,7 @@ void *GAME_DATA_GetSaveBlock21(struct GameData *gd)
  */
 void *GAME_DATA_GetSaveBlock42(struct GameData *gd)
 {
-    return func_020071CC(gd->saveControl, 0x42);
+    return SAVE_CONTROL_GetBlock(gd->saveControl, 0x42);
 }
 
 void GAME_DATA_SetExternalWork(struct GameData *gd, void *work)
@@ -1816,12 +1816,12 @@ void *GAME_DATA_GetExternalWork(struct GameData *gd)
 }
 
 /*
- * Unlabelled leaf: tail-calls func_02009448(*p).  Filed as the witness for
+ * Unlabelled leaf: tail-calls GAME_SYNC_GetBlock(*p).  Filed as the witness for
  * ov021 SCRCMD_CheckWifiListFlags, SCRCMD_WifiListOperation and SCRCMD_SetWifiFriendNameWord.
  */
 void *GAME_DATA_GetSaveBlockWork(struct GameData *gd)
 {
-    return func_02009448(gd->saveControl);
+    return GAME_SYNC_GetBlock(gd->saveControl);
 }
 
 /*
@@ -1865,10 +1865,10 @@ struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd)
 
 void *GAME_DATA_GetSaveBlock43(struct GameData *gd)
 {
-    return func_020071CC(gd->saveControl, 0x43);
+    return SAVE_CONTROL_GetBlock(gd->saveControl, 0x43);
 }
 
 void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x2d);
+    return SAVE_CONTROL_GetBlock(save, 0x2d);
 }

@@ -15,8 +15,8 @@
  * function).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
@@ -110,9 +110,9 @@ typedef struct FldeffGrassParam {
     int index;                            /* 0x20 which of the eight images */
 } FldeffGrassParam;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *FIELDMAP_GetGameSystem(struct FieldMap *fieldmap);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern int FLDMMDL_GetGridNowX(const Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(const Mmdl *mmdl);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 arcHandle, u32 fileId);
@@ -184,7 +184,7 @@ FldeffGrass *FLDEFF_GRASS_Create(FieldEffectSys *sys, int heapId)
 {
     FldeffGrass *grass;
 
-    grass = func_02030734(heapId, sizeof(FldeffGrass), 1, d_021DE070, 0x6c);
+    grass = GFL_HEAP_Alloc(heapId, sizeof(FldeffGrass), 1, d_021DE070, 0x6c);
     grass->fieldEffect = sys;
     grass->billboardAct = FIELDMAP_GetGroundBbdAct(FIELD_EFFECT_GetFieldMap(sys));
     FLDEFF_GRASS_CreateSlots(grass);
@@ -203,7 +203,7 @@ FldeffGrass *FLDEFF_GRASS_Create(FieldEffectSys *sys, int heapId)
 void FLDEFF_GRASS_Delete(FieldEffectSys *sys, FldeffGrass *grass)
 {
     FLDEFF_GRASS_DeleteSlots(grass);
-    func_020307B0(grass);
+    GFL_HEAP_Free(grass);
 }
 
 

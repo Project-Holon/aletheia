@@ -14,14 +14,14 @@
  * Split from weather_task.c (lane L141): __FILE__ anchor 021A6D98 (gFieldMapCtrlNogridWorkFileName "fieldmap_ctrl_nogrid_work.c"); 021A6CB8 creates the work via 021A6D58, same shape as fieldmap_ctrl_grid.c 021A2D88.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
  *   FIELDMAP_SetTargetPos  0x02188D40  thumb  ov021
  *   FIELDMAP_SetCtrlWork  0x02188CAC  thumb  ov021
  *   FIELDMAP_GetCtrlWork  0x02188CA4  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFieldMapCtrlNogridWorkFileName     0x021DDF1C  data  a1
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetCont  0x0203630C  arm
@@ -56,8 +56,8 @@ typedef struct FieldMapCtrlNogridWork {
     u32 reserved;                   /* 0x04: cleared by the allocation, never used */
 } FieldMapCtrlNogridWork;
 
-extern u32 func_020307B0(void *memory);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern u32 GFL_HEAP_Free(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
@@ -132,7 +132,7 @@ VecFx32 *FIELDMAP_CTRL_NOGRID_WORK_GetTargetPos(FieldMap *fieldMap)
 FieldMapCtrlNogridWork *FIELDMAP_CTRL_NOGRID_WORK_CreateWork(FieldMap *fieldMap, u32 heapId)
 {
     struct FieldNogridMapper *nogridMapper = FIELDMAP_GetNogridMapper(fieldMap);
-    FieldMapCtrlNogridWork *work = func_02030734(heapId, sizeof(FieldMapCtrlNogridWork), 1, gFieldMapCtrlNogridWorkFileName, 0x3e);
+    FieldMapCtrlNogridWork *work = GFL_HEAP_Alloc(heapId, sizeof(FieldMapCtrlNogridWork), 1, gFieldMapCtrlNogridWorkFileName, 0x3e);
     struct FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
 
     work->player = player;
@@ -144,7 +144,7 @@ FieldMapCtrlNogridWork *FIELDMAP_CTRL_NOGRID_WORK_CreateWork(FieldMap *fieldMap,
 /* Frees the work. */
 void FIELDMAP_CTRL_NOGRID_WORK_FreeWork(void *work)
 {
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /* Moves the player along the rails with this frame's keys. */

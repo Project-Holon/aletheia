@@ -14,22 +14,22 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020355C4  0x020355C4  arm
+ *   UI_GetInputMode  0x020355C4  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -38,7 +38,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
@@ -51,8 +51,8 @@
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
- *   func_02049B40  0x02049B40  arm
- *   func_02049DB4  0x02049DB4  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
  *   gPlistMenuAllocSite     0x021BED38  data  ov091  a1
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb
  *   gPlistMenuFixedItems     0x021BEC80  data  a4
@@ -60,7 +60,7 @@
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   gPlistMenuLabelMsgIds     0x021BEC8C  data  ov091  a4
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
@@ -78,12 +78,12 @@
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   APP_ICON_GetItemCellFileId 0x02027694 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   APP_ICON_GetItemPaletteFileId 0x02027698 thumb
@@ -147,26 +147,26 @@ struct Bank;
 
 #define MENU_APPEND(v) do { menu->ids[menu->count] = (v); menu->count++; } while (0)
 #define ITEM_PARAM(k) FILE_UTIL_Get_1014(itemData, (k))
-#define ITEM_DONE(k) {func_020307B0(itemData);return(k);}
+#define ITEM_DONE(k) {GFL_HEAP_Free(itemData);return(k);}
 #define DESC ((struct Descriptor *)work->descriptor)
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern void func_020355D8(int mode);
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 param, u32 extra);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern unsigned KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 a, u32 b, u8 season, u32 *out, u16 heapId);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *printSys, void *bmp, short x, short y, struct Strbuf *str, void *font, u16 flags);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -175,7 +175,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(void *printSys, void *bmp);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
@@ -188,14 +188,14 @@ extern void BMP_Clear(void *charBuf, u8 value);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 APP_ICON_GetArchiveId(void);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, void **out, u16 a4);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, void **out, u16 a4);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(const PlistTaskMenuTemplate *tmpl, void *arg1);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 void APP_TASKMENU_UpdateMenu(struct TaskMenu *m);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenu *m);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, const PlistMenuEntry *entry, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void APP_TASKMENU_WIN_Delete(void *win);
@@ -210,13 +210,13 @@ extern unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item);
 extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
 extern u32 POKE_TOOL_GetBoxParamIndex(u32 id);
 extern void GAME_BEACON_SetPokeLevelUp(int);
-extern u32 func_0201D304(struct Strbuf *s, void *font, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, void *font, u32 b);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 APP_ICON_GetItemCellFileId(void);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern u32 APP_ICON_GetItemPaletteFileId(void);
@@ -309,16 +309,16 @@ PlistMenu *PLIST_MENU_Create(PokelistWork *work)
 {
     PlistMenu *menu;
 
-    menu = func_02030734(work->heapId, sizeof(PlistMenu), 0, gPlistMenuAllocSite, 0x63);
-    func_02049B40(APP_ICON_GetArchiveId(), 0x1f, 0, 0x20, 0x40, work->heapId);
-    menu->windowRes = func_02049DB4(APP_ICON_GetArchiveId(), 0x20, 0, (void **)&menu->windowOut, work->heapId);
+    menu = GFL_HEAP_Alloc(work->heapId, sizeof(PlistMenu), 0, gPlistMenuAllocSite, 0x63);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(APP_ICON_GetArchiveId(), 0x1f, 0, 0x20, 0x40, work->heapId);
+    menu->windowRes = ARC_UTIL_LoadBgCharDataFromArchive(APP_ICON_GetArchiveId(), 0x20, 0, (void **)&menu->windowOut, work->heapId);
     return menu;
 }
 
 void PLIST_MENU_Delete(PokelistWork *work, PlistMenu *menu)
 {
-    func_020307B0(menu->windowRes);
-    func_020307B0(menu);
+    GFL_HEAP_Free(menu->windowRes);
+    GFL_HEAP_Free(menu);
 }
 
 void PLIST_MENU_Open(PokelistWork *work, PlistMenu *menu, int *items)
@@ -363,7 +363,7 @@ void PLIST_MENU_Close(PokelistWork *work, PlistMenu *menu)
     APP_TASKMENU_CloseMenu(menu->taskMenu);
     for (i = 0; i < menu->count; i++)
         STRBUF_Delete(menu->entries[i].label);
-    work->touchMode = func_020355C4();
+    work->touchMode = UI_GetInputMode();
 }
 
 void PLIST_MENU_Update(PokelistWork *work, PlistMenu *menu)
@@ -445,11 +445,11 @@ struct Strbuf *PLIST_MENU_CreateCommandLabel(PokelistWork *work, PlistMenu *menu
     int h;
     if (id >= 0x10 && id <= 0x13) {
         r = POKE_TOOL_GetPartyValue((void *)work->selectedMon, id + 0x26, 0);
-        h = (int)func_02045B38(0, 2, 0xcb, work->heapId);
-        r = (int)func_02045EC0((struct MsgBank *)h, r);
+        h = (int)MSGDATA_CreateFromArchive(0, 2, 0xcb, work->heapId);
+        r = (int)MSGDATA_AllocString((struct MsgBank *)h, r);
         MSGDATA_Delete((struct MsgBank *)h);
     } else {
-        r = (int)func_02045EC0(work->msgBank, gPlistMenuLabelMsgIds[id]);
+        r = (int)MSGDATA_AllocString(work->msgBank, gPlistMenuLabelMsgIds[id]);
     }
     return (struct Strbuf *)r;
 }
@@ -458,7 +458,7 @@ int PLIST_MENU_CreateButtonWindow(PokelistWork *work, int unused, int id, int x,
 {
     PlistMenuEntry entry;
     int r;
-    entry.label = func_02045EC0(work->msgBank, id);
+    entry.label = MSGDATA_AllocString(work->msgBank, id);
     entry.color = 0x39e3;
     if (disabled == 0) {
         entry.disabled = 0;
@@ -796,22 +796,22 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         work->descriptor = BMP_WIN_Create((int)0, (u8)1, (u8)1, (int)14, 12, 14, 1);
         BMP_MENUWORK_DrawWindow(DESC, 1, 1, 12);
         BMP_Clear(BMP_WIN_GetBmp(DESC), 15);
-        desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
+        desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc));
         for (i = 0; i < 6; i++) {
             delta = POKE_TOOL_GetPartyValue((void *)work->selectedMon, gPlistStatParamIds[i], 0) - work->levelUpMoveStat[i];
             if (delta >= 10) flag = 1;
-            msg = func_02045EC0(work->msgBank, i + 0x95); y = i << 4;
+            msg = MSGDATA_AllocString(work->msgBank, i + 0x95); y = i << 4;
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), 0, (s16)(i << 4), msg, work->fontMain, 0x440);
             STRBUF_Delete(msg);
-            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
+            msg = MSGDATA_AllocString(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
-            width = func_0201D304(numStr, work->fontMain, 0);
+            width = GF_FONT_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
         }
         for (j = 0; j < 6; j++) {
             x = flag == 1 ? 72 : 80;
-            msg = func_02045EC0(work->msgBank, 0x9b);
+            msg = MSGDATA_AllocString(work->msgBank, 0x9b);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), x, (s16)(j << 4), msg, work->fontMain, 0x440);
             STRBUF_Delete(msg);
         }
@@ -819,7 +819,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
     }
     case 1:
         if (PRINTSYS_QUE_IsExistTarget(work->printSys, BMP_WIN_GetBmp(DESC)) == 0) {
-            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc)); work->inputStage = 2;
+            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc)); work->inputStage = 2;
         } break;
     case 2:
         if ((KEY_GetTrg() & 1) || (KEY_GetTrg() & 2) || TOUCHPANEL_GetTrg() == 1) { GFL_USE_PlaySeDefaultVolume(0x547); work->inputStage = 3; }
@@ -832,9 +832,9 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         BMP_FillRect(BMP_WIN_GetBmp(DESC), 0x50, 0, 0x20, 0x60, 15);
         for (i = 0; i < 6; i++) {
             delta = POKE_TOOL_GetPartyValue((void *)work->selectedMon, gPlistStatParamIds[i], 0);
-            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
+            msg = MSGDATA_AllocString(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
-            width = func_0201D304(numStr, work->fontMain, 0);
+            width = GF_FONT_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
         }
@@ -842,7 +842,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
     }
     case 4:
         if (PRINTSYS_QUE_IsExistTarget(work->printSys, BMP_WIN_GetBmp(DESC)) == 0) {
-            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc)); work->inputStage = 5;
+            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc)); work->inputStage = 5;
         } break;
     case 5:
         if ((KEY_GetTrg() & 1) || (KEY_GetTrg() & 2) || TOUCHPANEL_GetTrg() == 1) {
@@ -983,30 +983,30 @@ void PLIST_MENU_DeleteBank(PokelistWork *work)
 void PLIST_MENU_LoadResources(PokelistWork *work)
 {
     void *h, *h2;
-    h = func_020490F4(0x4c, work->heapId);
+    h = ARC_TOOL_CreateHandle(0x4c, work->heapId);
     ARC_UTIL_UploadPaletteFromHandle(h, 1, 4, 0x20, 0x20, 0x20, work->heapId);
     func_02049B68(h, 0, 4, 0x1a0, 0x20, work->heapId);
-    func_02049658(h, 9, 6, 0, 0, 0, work->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(h, 9, 6, 0, 0, 0, work->heapId);
     if (work->arg->timerShown == 1) {
         switch (work->arg->battleKind) {
-        case 1: func_020498F4(h, 0x11, 6, 0, 0, 0, work->heapId); break;
-        case 2: func_020498F4(h, 0x10, 6, 0, 0, 0, work->heapId); break;
+        case 1: ARC_UTIL_UploadBgPaletteFromHandle(h, 0x11, 6, 0, 0, 0, work->heapId); break;
+        case 2: ARC_UTIL_UploadBgPaletteFromHandle(h, 0x10, 6, 0, 0, 0, work->heapId); break;
         }
     }
     ARC_TOOL_DeleteHandle(h);
-    h2 = func_020490F4(APP_ICON_GetArchiveId(), work->heapId);
+    h2 = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), work->heapId);
     work->charRes[3] = CLACT_RegisterPalette(h, APP_ICON_GetItemCellFileId(), 1, 0x60, work->heapId);
     work->palRes[4] = CLACT_RegisterCharacter(h, APP_ICON_GetItemPaletteFileId(), 0, 1, work->heapId);
     work->cellRes[4] = CLACT_RegisterCellAnim(h, APP_ICON_GetItemAnimFileId(2), APP_ICON_GetItemFrameFileId(2), work->heapId);
     if (work->arg->timerRunning == 1) {
         func_02049B68(h, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, work->heapId);
-        func_02049658(h, APP_ICON_GetStatusFrameFileId(), 5, 0, 0, 0, work->heapId);
-        func_020498F4(h, APP_ICON_GetStatusDataFileId(), 5, 0, 0, 0, work->heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h, APP_ICON_GetStatusFrameFileId(), 5, 0, 0, 0, work->heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h, APP_ICON_GetStatusDataFileId(), 5, 0, 0, 0, work->heapId);
         BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x20, 2);
-        func_02041B6C(5);
+        BG_SYS_SetFlagField06(5);
     }
     ARC_TOOL_DeleteHandle(h2);
-    h = func_020490F4(7, work->heapId);
+    h = ARC_TOOL_CreateHandle(7, work->heapId);
     work->charRes[7] = CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), 1, 0xc0, work->heapId);
     ARC_TOOL_DeleteHandle(h);
     /* stand-in: with the timer palette inside a padding view, &tail->timerPalette is

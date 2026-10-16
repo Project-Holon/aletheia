@@ -14,11 +14,11 @@
  * Split from net_state.c at 0x0203A494 (__FILE__ anchor boundary).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   d_020A7A20   0x020A7A20  data  a1
  *   str_020A7A24   0x020A7A24  data
@@ -27,7 +27,7 @@
  *   str_020A7A34   0x020A7A34  data
  *   g_020387A0     0x020387A0  data
  *   g_020A7A20      0x020A7A20  data
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap   0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
@@ -128,17 +128,17 @@ typedef unsigned short u16;
 #include "net_types.h"
 typedef signed int     s32;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *MI_CpuFill8(void *dst, int val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
@@ -267,7 +267,7 @@ void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userDa
     int memberIdx;
 
     if (_pCommandWork == 0) {
-        _pCommandWork = func_02030734(0, 0x22c, 1, g_020A7AF8, 0x96);
+        _pCommandWork = GFL_HEAP_Alloc(0, 0x22c, 1, g_020A7AF8, 0x96);
     }
     GFL_NET_COMMAND_AddCommandTable(groupKey, commandList, listNum, userData);
     g_020A7AE8.userData = userData;
@@ -310,7 +310,7 @@ void GFL_NET_COMMAND_Exit(void)
     if (_pCommandWork == 0)
         return;
     MI_CpuFill8(_pCommandWork, 0, 0x22c);
-    func_020307B0(_pCommandWork);
+    GFL_HEAP_Free(_pCommandWork);
     _pCommandWork = 0;
 }
 
@@ -527,7 +527,7 @@ struct NetCommandTable *GFL_NET_COMMAND_GetCommandTable(u32 command)
 
     if (group == 0) {
         if (g_020A7AE8.listNum <= index)
-            func_02034714(g_020A7AF8, 0x10D, g_020A7B08);
+            SAVEDATA_PanicFail(g_020A7AF8, 0x10D, g_020A7B08);
         return &g_020A7AE8_arr;
     }
     for (tableIdx = 0; tableIdx < 4; tableIdx++) {
@@ -1001,7 +1001,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
     if (GFL_NET_COMMAND_GetHugeBuffer(*((u16 *)(header + 6)), netId, *((u32 *)header)) == 0)
         return;
     if (_pCommandWork->aNetHugeRecv[slotIdx].used != 0)
-        func_02034714(g_020A7AF8, 0x1ff, g_020A7B20);
+        SAVEDATA_PanicFail(g_020A7AF8, 0x1ff, g_020A7B20);
     _pCommandWork->aNetHugeRecv[slotIdx].used = 1;
     {
         u32 size = *((u32 *)header);
@@ -1009,7 +1009,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
         _pCommandWork->aNetHugeRecv[slotIdx].data = GFL_NET_COMMAND_GetHugeBuffer(*((u16 *)(header + 6)), netId, size);
     }
     if (_pCommandWork->aNetHugeRecv[slotIdx].data == 0)
-        func_02034714(g_020A7AF8, 0x203, g_020A7B50);
+        SAVEDATA_PanicFail(g_020A7AF8, 0x203, g_020A7B50);
     command = *((u16 *)(header + 6));
     chunkSize = *((u16 *)(header + 8));
     destMask = *((u16 *)(header + 0xa));
@@ -1092,7 +1092,7 @@ u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 total
     slot->totalSize = totalSize;
     chunkLimit = session->init.childSendSize - 0xc;
     if (chunkLimit <= 0)
-        func_02034714(g_020A7AF8, 0x22b, g_020A7B78);
+        SAVEDATA_PanicFail(g_020A7AF8, 0x22b, g_020A7B78);
     slot->chunkSize = session->init.childSendSize - 0xc;
     slot->chunkCount = totalSize / slot->chunkSize;
     slot->lastChunkSize = totalSize % slot->chunkSize;

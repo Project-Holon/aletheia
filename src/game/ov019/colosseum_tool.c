@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02080D24  0x02080D24  arm
+ *   MATH_CountPopulation  0x02080D24  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   func_02008550  0x02008550  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -58,7 +58,7 @@ typedef struct { int x,y,z; } VecFx32;
 
 extern int  GFL_NET_GetNegotiationNum(void);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern unsigned int func_02080D24(int a);
+extern unsigned int MATH_CountPopulation(int a);
 extern u32 GFL_NET_GetHandleNetID(void *p);
 extern u8 func_02008550(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
@@ -208,7 +208,7 @@ int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum)
         if (colosseum->finished[i] == 1)
             n++;
     }
-    if (n >= GFL_NET_GetNegotiationNum() || n >= (int)func_02080D24(value))
+    if (n >= GFL_NET_GetNegotiationNum() || n >= (int)MATH_CountPopulation(value))
         return 1;
     return 0;
 }

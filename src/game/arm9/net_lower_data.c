@@ -31,6 +31,9 @@
  *   func_02034734   0x02034734  arm
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_SendDataMask  0x0203D4D0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  */
 struct GFLNetHandle;
 typedef unsigned char  u8;
@@ -86,10 +89,10 @@ struct NetLdataCommand {
     u32 size : 30;
 };
 
-extern void func_02034714(const char *file, u32 line, const char *expr);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern void func_02034734(const char *file, u32 line, const char *fmt, ...);
-extern void *func_02030734(u32 heapId, u32 size, int clearFlag, const char *file, u16 line);
-extern u32 func_020307B0(void *block);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clearFlag, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *block);
 extern int  GFL_NET_GetRunState(void);
 extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
 extern int  GFL_NET_SYSTEM_GetParentRingDataSize(void);
@@ -128,8 +131,8 @@ void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode)
 {
     u8 i;
     if (_pNetLdataWork != 0)
-        func_02034714(sSrcFileName, 0x65, sAssertWorkIsNull);
-    _pNetLdataWork = (struct NetLdataWork *)func_02030734(heapId, NET_LDATA_WORK_SIZE, 1, sSrcFileName, 0x67);
+        SAVEDATA_PanicFail(sSrcFileName, 0x65, sAssertWorkIsNull);
+    _pNetLdataWork = (struct NetLdataWork *)GFL_HEAP_Alloc(heapId, NET_LDATA_WORK_SIZE, 1, sSrcFileName, 0x67);
     _pNetLdataWork->sendData = 0;
     _pNetLdataWork->sendSize = 0;
     _pNetLdataWork->sentSize = 0;
@@ -148,16 +151,16 @@ void GFL_NET_LOWER_DATA_Exit(void)
 {
     u8 i;
     if (_pNetLdataWork == 0)
-        func_02034714(sSrcFileName, 0x81, sAssertWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0x81, sAssertWorkNotNull);
     for (i = 0; i < NET_LDATA_MAX_POST_WORK; i++) {
         struct NetLdataPostWork *postWork = _pNetLdataWork->postWork[i];
         if (postWork == 0)
             continue;
         if (postWork->ownsBuf == 1)
-            func_020307B0((void *)postWork->buf);
-        func_020307B0(_pNetLdataWork->postWork[i]);
+            GFL_HEAP_Free((void *)postWork->buf);
+        GFL_HEAP_Free(_pNetLdataWork->postWork[i]);
     }
-    func_020307B0(_pNetLdataWork);
+    GFL_HEAP_Free(_pNetLdataWork);
     _pNetLdataWork = 0;
 }
 
@@ -166,9 +169,9 @@ void GFL_NET_LOWER_DATA_Exit(void)
 void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, int isParent)
 {
     if (_pNetLdataWork == 0)
-        func_02034714(sSrcFileName, 0x9f, sAssertWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0x9f, sAssertWorkNotNull);
     if (_pNetLdataWork->sendData != 0)
-        func_02034714(sSrcFileName, 0xa0, sAssertSendDataIsNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0xa0, sAssertSendDataIsNull);
     _pNetLdataWork->sendData = sendData;
     _pNetLdataWork->sendSize = sendSize;
     _pNetLdataWork->sendTarget = (u8)sendTarget;
@@ -183,10 +186,10 @@ void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, 
 void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 buf)
 {
     if (_pNetLdataWork == 0)
-        func_02034714(sSrcFileName, 0xcf, sAssertWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0xcf, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] != 0)
-        func_02034714(sSrcFileName, 0xd0, sAssertPostWorkIsNull);
-    _pNetLdataWork->postWork[netId] = (struct NetLdataPostWork *)func_02030734(heapId, NET_LDATA_POST_WORK_SIZE, 1, sSrcFileName, 0xd2);
+        SAVEDATA_PanicFail(sSrcFileName, 0xd0, sAssertPostWorkIsNull);
+    _pNetLdataWork->postWork[netId] = (struct NetLdataPostWork *)GFL_HEAP_Alloc(heapId, NET_LDATA_POST_WORK_SIZE, 1, sSrcFileName, 0xd2);
     _pNetLdataWork->postWork[netId]->buf = buf;
     _pNetLdataWork->postWork[netId]->bufSize = bufSize;
     _pNetLdataWork->postWork[netId]->ownsBuf = 0;
@@ -197,13 +200,13 @@ void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
 {
     struct NetLdataPostWork *postWork;
     if (_pNetLdataWork == 0)
-        func_02034714(sSrcFileName, 0xe2, sAssertWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0xe2, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] == 0)
-        func_02034714(sSrcFileName, 0xe3, sAssertPostWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0xe3, sAssertPostWorkNotNull);
     postWork = _pNetLdataWork->postWork[netId];
     if (postWork->ownsBuf == 1)
-        func_020307B0((void *)postWork->buf);
-    func_020307B0(_pNetLdataWork->postWork[netId]);
+        GFL_HEAP_Free((void *)postWork->buf);
+    GFL_HEAP_Free(_pNetLdataWork->postWork[netId]);
     _pNetLdataWork->postWork[netId] = 0;
 }
 
@@ -212,9 +215,9 @@ void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
 int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
 {
     if (_pNetLdataWork == 0)
-        func_02034714(sSrcFileName, 0xf6, sAssertWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0xf6, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] == 0)
-        func_02034714(sSrcFileName, 0xf7, sAssertPostWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0xf7, sAssertPostWorkNotNull);
     return _pNetLdataWork->postWork[netId]->buf;
 }
 
@@ -222,9 +225,9 @@ int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
 int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int netId)
 {
     if (_pNetLdataWork == 0)
-        func_02034714(sSrcFileName, 0x105, sAssertWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0x105, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] == 0)
-        func_02034714(sSrcFileName, 0x106, sAssertPostWorkNotNull);
+        SAVEDATA_PanicFail(sSrcFileName, 0x106, sAssertPostWorkNotNull);
     return _pNetLdataWork->postWork[netId]->recvSize;
 }
 

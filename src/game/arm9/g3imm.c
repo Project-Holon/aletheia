@@ -1,7 +1,7 @@
 /*
  * file:     g3imm.c
  * unit:     yes
- * function: func_0207D8C4, func_0207D8E0, func_0207D8FC, func_0207D918, func_0207D934, G3_MultTransMtx33
+ * function: func_0207D8C4, func_0207D8E0, func_0207D8FC, G3_MultMtx43, func_0207D934, G3_MultTransMtx33
  * address:  0x0207D8C4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,8 +15,8 @@
  * symbols:
  *   GX_SendFifo64B   0x02080CA8  arm
  *   GX_SendFifo48B   0x02080C84  arm
- *   func_02082B60   0x02082B60  arm
  *   MI_Copy36B   0x02082B60  arm
+ *   func_02082B60   0x02082B60  arm
  */
 typedef long fx32;
 

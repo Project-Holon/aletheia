@@ -15,8 +15,8 @@
  * function).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FX_SinCosTable_   0x020A1B38  data  a2
  *   FIELD_G3DOBJ_DeleteObject  0x021C6628  thumb  ov021
@@ -93,8 +93,8 @@ typedef struct FldeffKemuriWork {
     u16 objIdx;                           /* 0x08 object index in the G3D object control */
 } FldeffKemuriWork;
 
-extern u32 func_020307B0(void *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern void *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
 extern void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc);
@@ -133,7 +133,7 @@ FldeffKemuri *FLDEFF_KEMURI_Create(FieldEffectSys *sys, int heapId)
 {
     FldeffKemuri *kemuri;
 
-    kemuri = func_02030734(heapId, sizeof(FldeffKemuri), 1, d_021DE038, 0x52);
+    kemuri = GFL_HEAP_Alloc(heapId, sizeof(FldeffKemuri), 1, d_021DE038, 0x52);
     kemuri->fieldEffect = sys;
     FLDEFF_KEMURI_LoadResource(kemuri);
     return kemuri;
@@ -150,7 +150,7 @@ FldeffKemuri *FLDEFF_KEMURI_Create(FieldEffectSys *sys, int heapId)
 void FLDEFF_KEMURI_Delete(FieldEffectSys *sys, FldeffKemuri *kemuri)
 {
     FLDEFF_KEMURI_FreeResource(kemuri);
-    func_020307B0(kemuri);
+    GFL_HEAP_Free(kemuri);
 }
 
 

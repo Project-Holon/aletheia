@@ -29,8 +29,8 @@
  *   BMP_GetHeight  0x020437E4  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_GetField16  0x0204169C  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   BMP_CURSOR_Create 0x02020D18 thumb arm9
  *   BMP_CURSOR_Delete 0x02020D3C thumb arm9
  *   BMP_CURSOR_Draw 0x02020D5C thumb arm9
@@ -116,7 +116,7 @@ struct BmpMenuList {
     u8 noCancel;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
@@ -128,7 +128,7 @@ extern unsigned int KEY_GetRepeat(void);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern void PRINTSYS_PrintQueColor(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
 
@@ -216,7 +216,7 @@ struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 s
 {
     struct BmpMenuList *menu;
 
-    menu = (struct BmpMenuList *)func_02030734(heap, 0x50, 1, BMP_MENULIST_FILE_NAME, 0x69);
+    menu = (struct BmpMenuList *)GFL_HEAP_Alloc(heap, 0x50, 1, BMP_MENULIST_FILE_NAME, 0x69);
     *(struct MenuTemplate *)menu = *menuTemplate;
     menu->cursor = BMP_CURSOR_Create(heap);
     menu->scroll = scroll;
@@ -347,7 +347,7 @@ void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
         *outRow = menu->row;
     }
     BMP_CURSOR_Delete(menu->cursor);
-    func_020307B0(menu);
+    GFL_HEAP_Free(menu);
 }
 
 /*
@@ -996,7 +996,7 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * BMP_CURSOR_Create is a debug-allocator constructor in the
- * `func_02030734(heap, size, count, file, line)` shape documented for
+ * `GFL_HEAP_Alloc(heap, size, count, file, line)` shape documented for
  * playtime.c: it allocates a 12-byte object tagged with the string at
  * 0x020A73A0 and line 0x3a, zeroing the first word when the allocation
  * succeeds.  0x020A73A0 spells "bmp_cursor.c", the second original source

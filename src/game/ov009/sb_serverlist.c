@@ -40,7 +40,7 @@
  *   ArraySort  0x021843C8  arm  ov009
  *   ArrayAppend  0x02184234  arm  ov009
  *   ArrayLength  0x02184200  arm  ov009
- *   func_02184208  0x02184208  arm  ov009
+ *   ArrayNth  0x02184208  arm  ov009
  *   SBServerGetPublicInetAddress  0x0219E1EC  arm  ov009
  *   SBServerGetPublicQueryPortNBO  0x0219E218  arm  ov009
  *   SBServerSetNext  0x0219E264  arm  ov009
@@ -78,7 +78,7 @@
  *   rand  0x02094694  arm  ov009
  *   send  0x0217EC90  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
- *   func_021841B0  0x021841B0  arm  ov009
+ *   ArrayFree  0x021841B0  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   func_0219DFC0  0x0219DFC0  arm  ov009
  *   GOACryptInit  0x0219D2F0  arm  ov009
@@ -96,7 +96,7 @@
  *   GOADecrypt  0x0219D478  arm  ov009
  *   memmove  0x02092364  arm
  *   memmove        0x02092364  arm
- *   func_0217EF50  0x0217EF50  arm  ov009
+ *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   recv  0x0217EC4C  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  */
@@ -189,7 +189,7 @@ extern int strcmp_nocase(const char *a, const char *b);
 extern void ArraySort(int *p, int b);
 extern void ArrayAppend(void *array, void *newElem);
 extern int ArrayLength(const void *array);
-extern void *func_02184208(void *a, int n);
+extern void *ArrayNth(void *a, int n);
 extern int SBServerGetPublicInetAddress(const int *p);
 extern unsigned short SBServerGetPublicQueryPortNBO(const unsigned short *p);
 extern void SBServerSetNext(int *p, int v);
@@ -220,7 +220,7 @@ extern void *unit_02092344(void *dst, const void *src, unsigned long n);
 extern int func_02094694(void);
 extern int send(int sock, char *buf, int len, int flags);
 extern void *gsimalloc(unsigned long size);
-extern void func_021841B0(void *a);
+extern void ArrayFree(void *a);
 extern void gsifree(void *p);
 extern void func_0219DFC0(SBServerList *slist);
 extern void GOACryptInit(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
@@ -234,7 +234,7 @@ extern void SBServerSetState(SBServer *server, unsigned char state);
 extern SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport);
 extern int SBIsNullServer(int v);
 extern void GOADecrypt(void *state, unsigned char *bp, int len);
-extern int func_0217EF50(int sock);
+extern int CanReceiveOnSocket(int sock);
 extern int recv(int sock, char *buf, int len, int flags);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 int prevKeyCompare(SBServer *server1, SBServer *server2);
@@ -533,7 +533,7 @@ int SBServerListFindServer(SBServerList *slist, void *findserver)
 	int numservers, i;
 	numservers = ArrayLength(slist->servers);
 	for (i = 0; i < numservers; i++)
-		if (findserver == *(void **)func_02184208(slist->servers, i))
+		if (findserver == *(void **)ArrayNth(slist->servers, i))
 			return i;
 	return -1;
 }
@@ -554,7 +554,7 @@ int SBServerListFindServerByIP(SBServerList *slist, unsigned int ip, unsigned sh
 	int i;
 	numservers = ArrayLength(slist->servers);
 	for (i = 0; i < numservers; i++) {
-		server = *(void **)func_02184208(slist->servers, i);
+		server = *(void **)ArrayNth(slist->servers, i);
 		if (ip == SBServerGetPublicInetAddress(server) && port == SBServerGetPublicQueryPortNBO(server))
 			return i;
 	}
@@ -591,7 +591,7 @@ void AddServerToDeadlist(SBServerList *slist, SBServer *server)
 void SBServerListRemoveAt(SBServerList *slist, int index)
 {
 	SBServer *server;
-	server = *(SBServer **)func_02184208(slist->servers, index);
+	server = *(SBServer **)ArrayNth(slist->servers, index);
 	slist->ListCallback(slist, 2, server, slist->instance);
 	ArrayDeleteAt((int)slist->servers, index);
 	AddServerToDeadlist((SBServerList *)slist, (SBServer *)server);
@@ -618,7 +618,7 @@ void SBServerListCount(void *list)
  */
 SBServer *SBServerListNth(SBServerList *slist, int index)
 {
-    return *(SBServer **)func_02184208(slist->servers, index);
+    return *(SBServer **)ArrayNth(slist->servers, index);
 }
 
 
@@ -655,7 +655,7 @@ void SBServerListClear(SBServerList *slist)
 	int nservers;
 	nservers = ArrayLength(slist->servers);
 	for (i = 0; i < nservers; i++)
-		AddServerToDeadlist((SBServerList *)slist, *(void **)func_02184208(slist->servers, i));
+		AddServerToDeadlist((SBServerList *)slist, *(void **)ArrayNth(slist->servers, i));
 	func_0218452C(slist->servers);
 	SBFreeDeadList(slist);
 }
@@ -1103,8 +1103,8 @@ void FreeKeyList(SBServerList *slist)
 	if (slist->keylist == 0)
 		return;
 	for (i = 0; i < ArrayLength(slist->keylist); i++)
-		SBReleaseStr(slist, *(char **)func_02184208(slist->keylist, i));
-	func_021841B0(slist->keylist);
+		SBReleaseStr(slist, *(char **)ArrayNth(slist->keylist, i));
+	ArrayFree(slist->keylist);
 	slist->keylist = 0;
 }
 
@@ -1146,7 +1146,7 @@ void SBServerListCleanup(SBServerList *slist)
     SBServerListClear((SBServerList *)slist);
     func_0219DFC0(slist);
     if (slist->servers != 0)
-        func_021841B0(slist->servers);
+        ArrayFree(slist->servers);
     slist->servers = 0;
 }
 
@@ -1240,7 +1240,7 @@ int AllKeysPresent(SBServerList *slist, char *buf, int len)
 	int strindex;
 	numkeys = ArrayLength(slist->keylist);
 	for (i = 0; i < numkeys; i++) {
-		switch (((struct KeyEnt *)func_02184208(slist->keylist, i))->keyType) {
+		switch (((struct KeyEnt *)ArrayNth(slist->keylist, i))->keyType) {
 		case 1:
 			buf += 1;
 			len -= 1;
@@ -1354,7 +1354,7 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
     if (flags & 0x40) {
         numkeys = ArrayLength(slist->keylist);
         for (i = 0; i < numkeys; i++) {
-            ki = (KeyInfo *)func_02184208(slist->keylist, i);
+            ki = (KeyInfo *)ArrayNth(slist->keylist, i);
             switch (ki->keyType) {
             case 1:
                 func_0219E084(server, ki->keyName, (unsigned char)*buf++);
@@ -1862,7 +1862,7 @@ int ProcessIncomingData(SBServerList *slist)
 	int err;
 	int len;
 	int oldlen;
-	if (!func_0217EF50(slist->slsocket))
+	if (!CanReceiveOnSocket(slist->slsocket))
 		return 0;
 	oldlen = slist->inbufferlen;
 	err = 0;
@@ -1964,7 +1964,7 @@ int ProcessLanData(SBServerList *slist)
     SBServer *server;
 
     saddrlen = 8;
-    while (func_0217EF50(slist->slsocket)) {
+    while (CanReceiveOnSocket(slist->slsocket)) {
         error = func_0217EC60(slist->slsocket, indata, 1499, 0, &saddr, &saddrlen);
         if (error == -1)
             continue;

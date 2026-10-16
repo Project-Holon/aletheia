@@ -16,8 +16,8 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   d_0220DA68 0x0220DA68 data a4
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02045EC0 0x02045EC0 arm
- *   func_0201D304 0x0201D304 thumb
+ *   MSGDATA_AllocString 0x02045EC0 arm
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -42,21 +42,21 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   B_APP_TOOL_Update 0x0220B0B0 thumb
  *   B_APP_TOOL_ShowWindows  0x0220B094  thumb  ov196
  *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   func_020081DC 0x020081DC thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_0220DB3C 0x0220DB3C data a4
  *   d_0220DB3F 0x0220DB3F data a4
  *   ITEM_GFX_IsFlagClear 0x0202F114 thumb
  *   ITEM_GFX_GetItemId 0x0202F138 thumb
  *   ITEM_GFX_GetExtraValue 0x0202F144 thumb
  *   BGWINFRM_Create 0x0202C9B4 thumb
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
  *   BGWINFRM_SetClipArea 0x0202CFEC thumb
  *   BGWINFRM_SetFrameDataArcHandle 0x0202CB18 thumb
@@ -78,7 +78,7 @@
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   PALANM_CopyToSlot 0x020215BC thumb
@@ -104,10 +104,10 @@
  *   BTLV_FINGER_CURSOR_DeleteActor 0x02209C18 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   d_0220E0E0 0x0220E0E0 data a1
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
- *   func_02030DA8 0x02030DA8 arm
+ *   TCB_AddTask 0x02030DA8 arm
  *   func_0200829C 0x0200829C thumb
  *   func_020082B0 0x020082B0 thumb
  *   func_020082B4 0x020082B4 thumb
@@ -141,7 +141,7 @@
  *   WIPE_SYS_ExeEnd 0x020221B8 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   B_APP_TOOL_Delete 0x0220AF64 thumb ov196
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BTLV_FINGER_CURSOR_IsActive 0x02209C2C thumb
  *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
@@ -153,11 +153,11 @@
  *   d_0220DF00 0x0220DF00 data a4
  *   d_0220DEC0 0x0220DEC0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -229,7 +229,7 @@ struct Pair {
 /* the bag menu data handed to B_BAG_MAIN_Create; the work struct keeps a pointer to it */
 struct BagMenu {
     void *savedata;            /* 0x00 savedata block */
-    unsigned int printWidth;   /* 0x04 width/limit passed to the printer and func_0201D304 */
+    unsigned int printWidth;   /* 0x04 width/limit passed to the printer and GF_FONT_MeasureWidestLine */
     int mode;                  /* 0x08 menu mode 1/2/3 */
     unsigned short heapId;     /* 0x0C heap id used for every allocation */
     void *pocketMask;          /* 0x10 pocket membership bit table */
@@ -315,8 +315,8 @@ struct BgTemplate {u32 a,b,size,c;u8 d,e,f,g;u32 h;u8 i,j,k,l;u32 m;};
 
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
@@ -335,18 +335,18 @@ extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern int B_APP_TOOL_Update(void *, int, int);
 extern u32 B_APP_TOOL_ShowWindows(u8 *, u32);
 extern u32 MYITEM_SAVEDATA_HasItem(u8 *,u16,u16,u16);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern struct Item *func_020081DC(u8 *base, u32 id, u32 index);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern unsigned ITEM_GFX_IsFlagClear(const unsigned char *,unsigned);
 extern unsigned short ITEM_GFX_GetItemId(unsigned);
 extern u32 ITEM_GFX_GetExtraValue(u32);
 extern struct WinMgr *BGWINFRM_Create(u32,u32,u32);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_SetClipArea(struct Obj *o, u32 i, u8 a, u8 b, s8 c, s8 d);
 extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr,u32,void *,u32,u32);
@@ -367,7 +367,7 @@ extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
@@ -388,10 +388,10 @@ extern void BTLV_FINGER_CURSOR_Delete(int);
 extern void BTLV_FINGER_CURSOR_Start(u32, u32, u32, u32, u32, u32);
 extern void BTLV_FINGER_CURSOR_DeleteActor(int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void *BTLV_EFFECT_GetOwner(void);
 extern int BTLV_EFFECT_GetPalanm(void);
-extern void *func_02030DA8(void *, u32, void *, u32);
+extern void *TCB_AddTask(void *, u32, void *, u32);
 extern void func_0200829C(const struct MyItemSave *p, int i, s16 *a, s16 *b);
 extern u16 func_020082B0(const struct MyItemSave *p);
 extern u16 func_020082B4(const struct MyItemSave *p);
@@ -423,18 +423,18 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void WIPE_SYS_ExeEnd(void);
 extern void TCBL_Destroy(struct S02031140 *);
 extern void B_APP_TOOL_Delete(void *);
-extern void func_02030EAC(struct Node *);
+extern void TCB_DeleteTask(struct Node *);
 extern int BTLV_FINGER_CURSOR_IsActive(void *);
 extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16);
-extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
+extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,unsigned,unsigned);
 extern struct WordSet *WORDSET_CreateDefault(unsigned);
 extern unsigned PRINTSYS_QUE_Create(void *);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
@@ -619,8 +619,8 @@ void B_BAG_MAIN_DrawPage(char *a, int which)
 void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour)
 {
     int handle=*(int *)(p+0x28+i*8);
-    int text=(int)func_02045EC0((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
-    int width=func_0201D304((struct StrObj *)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+    int text=(int)MSGDATA_AllocString((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
+    int width=GF_FONT_MeasureWidestLine((struct StrObj *)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     int x=(BMP_WIN_GetWidth((struct Descriptor *)handle)*8-width)>>1;
     int font=(int)((struct BagWork *)p)->printSys;
     int surface=(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x28+i*8));
@@ -647,7 +647,7 @@ void B_BAG_MAIN_DrawLabels(char *p)
     B_BAG_MAIN_PrintLabel(p,2,7,0,0x3C40);
     B_BAG_MAIN_PrintLabel(p,3,6,0,0x3C40);
     if(*(unsigned short *)(p + 0x540)!=0){
-        text=func_02045EC0(((struct BagWork *)p)->msgBank,8);
+        text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,8);
         font=((struct BagWork *)p)->printSys;
         surface=BMP_WIN_GetBmp(((struct BagWork *)p)->win[4].handle);
         PRINTSYS_PrintQueColor(font,(u32)surface,0,0,(u32)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
@@ -677,11 +677,11 @@ void B_BAG_MAIN_DrawItemName(char *p,u32 i,int id,int w,int unused,int unused2)
     BMP_Clear(BMP_WIN_GetBmp(handle),0);
     page=(u32)p+((u8 *)p)[0x533]*0x90;
     if(*(u16 *)(page+i*4+0x150)!=0){
-        text=func_02045EC0(((struct BagWork *)p)->msgBank,*(u32 *)(d_0220DA38+id*8));
+        text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,*(u32 *)(d_0220DA38+id*8));
         page=(u32)p+((u8 *)p)[0x533]*0x90;
         WORDSET_Callback_EF40(((struct BagWork *)p)->wordSet,0,*(u16 *)(page+i*4+0x150));
         WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
-        width=func_0201D304(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+        width=GF_FONT_MeasureWidestLine(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
         width=BMP_WIN_GetWidth(handle)*8-width;
         font=((struct BagWork *)p)->printSys;
         surface=BMP_WIN_GetBmp(*(void **)(windows+w*8));
@@ -715,7 +715,7 @@ void B_BAG_MAIN_DrawItemInfo(char *p, u32 i, int id, int w, int unused, int y, i
   page = ((u32) p) + (((u8 *) p)[0x533] * 0x90);
   if (((*((u16 *) ((page + (i * 4)) + 0x152))) != 0) && ((*((int *) ((*((char **) p)) + 8))) != 1))
   {
-    text = func_02045EC0(*((void **) (p + 0xC)), *((u32 *) (d_0220DA3C + (id * 8))));
+    text = MSGDATA_AllocString(*((void **) (p + 0xC)), *((u32 *) (d_0220DA3C + (id * 8))));
     page = ((u32) p) + (((u8 *) p)[0x533] * 0x90);
     WORDSET_SetSlotNumber(*((void **) (p + 0x10)), 0, *((u16 *) (((u32) (page + (i * 4))) + 0x152)), 3, 0, 1);
     tmp2 = p + 0x14;
@@ -783,20 +783,20 @@ void B_BAG_MAIN_DrawHeader(char *p)
     void *font;
     void *lastSurface;
     BMP_Clear(surface,0);
-    text=func_02045EC0(((struct BagWork *)p)->msgBank,28);
-    width=func_0201D304(text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+    text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,28);
+    width=GF_FONT_MeasureWidestLine(text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     x=(BMP_WIN_GetWidth(handle)*8-width)/2;
     PRINTSYS_PrintQueColor(((struct BagWork *)p)->printSys,(u32)surface,(s16)x,(s16)4,(u32)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct BagWork *)p)->msgBank,29);
+    text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,29);
     WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,((u8 *)p+((u8 *)p)[0x533])[0x539]+1,2,0,1);
     WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
     PRINTSYS_PrintQueColor(((struct BagWork *)p)->printSys,(u32)surface,(s16)(x+width),(s16)4,(u32)(((struct BagWork *)p)->strBuf),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
     STRBUF_Delete(text);
-    text=func_02045EC0(((struct BagWork *)p)->msgBank,30);
+    text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,30);
     WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,*(s16 *)(*(char * *)&((struct BagWork *)p)->itemData+((u8 *)p)[0x533]*2+0x38)+1,2,0,1);
     WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
-    width=func_0201D304(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+    width=GF_FONT_MeasureWidestLine(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     font=((struct BagWork *)p)->printSys;
     lastSurface=BMP_WIN_GetBmp(((struct BagWork *)p)->win[30].handle);
     PRINTSYS_PrintQueColor(font,(u32)lastSurface,(s16)(x-width),(s16)4,(u32)(((struct BagWork *)p)->strBuf),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
@@ -838,7 +838,7 @@ void B_BAG_MAIN_DrawItemsPage(char *a)
 void B_BAG_MAIN_DrawDescription(u8 *p, u32 idx)
 {
     void *win = *(void **)(p + 0x120);
-    void *msg = func_02045EC0(*(void **)(p + 0xc), 9);
+    void *msg = MSGDATA_AllocString(*(void **)(p + 0xc), 9);
     u8 sel = *(u8 *)(p + 0x533);
     u8 *row = p + sel * 0x90;
     void *w;
@@ -934,7 +934,7 @@ void B_BAG_MAIN_StartItemMsg(char *p)
     d = *(void **)(p + 0x24);
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen(d);
-    func_02041B6C(BMP_WIN_GetBgLayer(d));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
 }
 
 
@@ -1026,7 +1026,7 @@ void B_BAG_MAIN_BuildPocketLists(u8 *p)
         }
         i++;
     } while (i < 3);
-    func_020307B0(tbl);
+    GFL_HEAP_Free(tbl);
     for (i = 0; i < 4; i++) {
         u8 v = p[i + 0x535];
         u8 *s;
@@ -1104,7 +1104,7 @@ void B_BAG_MAIN_InitFrames(char *p)
     void *arc;
     unsigned i;
     ((struct BagWork *)p)->frameMgr=BGWINFRM_Create(2,14,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
-    arc=func_020490F4(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7FFF)|0x8000));
+    arc=ARC_TOOL_CreateHandle(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7FFF)|0x8000));
     for(i=0;i<14;i++){
         BGWINFRM_AddFrame(((struct BagWork *)p)->frameMgr,i,6,d_0220DB44[i].w,d_0220DB44[i].h);
         BGWINFRM_SetClipArea(((struct BagWork *)p)->frameMgr,i,0,64,0,64);
@@ -1307,7 +1307,7 @@ void B_BAG_MAIN_RegisterItemChars(char *p)
     int a;
     if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==1) {item=(unsigned)ITEM_GFX_GetItemId(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
-    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
+    arc=ARC_TOOL_CreateHandle(FILE_UTIL_GetItemCount(),(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
     for(i=0;i<7;i++) {
         *(int *)(p+i*4+0x544)=CLACT_RegisterCharacter(arc,FILE_UTIL_Get(item,first),0,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
         *(int *)(p+i*4+0x568)=CLACT_RegisterPalette(arc,FILE_UTIL_Get(item,second),1,(u16)(i*32),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
@@ -1332,10 +1332,10 @@ void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset)
     void *arc;
     void *data,*buffer;
     if(((struct BagMenu *)q)->mode==1) {first=3;second=4;} else {first=1;second=2;}
-    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct BagMenu *)q)->heapId&0x7fff)|0x8000));
+    arc=ARC_TOOL_CreateHandle(FILE_UTIL_GetItemCount(),(u16)((((struct BagMenu *)q)->heapId&0x7fff)|0x8000));
     buffer=ARC_UTIL_LoadScreenDataFromHandle(arc,FILE_UTIL_Get(item,first),0,(u32)(&data),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     CLACT_TransferCharacter(*(int *)(p+slot*4+0x544),data);
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
     PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((unsigned)arc),FILE_UTIL_Get(item,second),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,offset*16);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -1351,10 +1351,10 @@ void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot)
     unsigned archive;
     if(((struct BagMenu *)q)->mode==1) {
         archive=FILE_UTIL_GetItemCount();
-        func_02049B40(archive,FILE_UTIL_Get(item,4),5,slot*32,32,((struct BagMenu *)q)->heapId);
+        ARC_UTIL_UploadPaletteFromArchiveWhole(archive,FILE_UTIL_Get(item,4),5,slot*32,32,((struct BagMenu *)q)->heapId);
     } else {
         archive=FILE_UTIL_GetItemCount();
-        func_02049B40(archive,FILE_UTIL_Get(item,2),5,slot*32,32,((struct BagMenu *)q)->heapId);
+        ARC_UTIL_UploadPaletteFromArchiveWhole(archive,FILE_UTIL_Get(item,2),5,slot*32,32,((struct BagMenu *)q)->heapId);
     }
 }
 
@@ -1365,7 +1365,7 @@ void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot)
 
 void B_BAG_MAIN_RegisterCursorGraphics(char *p)
 {
-    void *arc = func_020490F4(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
+    void *arc = ARC_TOOL_CreateHandle(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
     *(int *)(p + 0x560)=CLACT_RegisterCharacter(arc,13,1,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     *(int *)(p + 0x584)=CLACT_RegisterPalette(arc,14,1,224,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     *(int *)(p + 0x590)=CLACT_RegisterCellAnim(arc,15,16,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
@@ -1380,7 +1380,7 @@ void B_BAG_MAIN_RegisterCursorGraphics(char *p)
 
 void B_BAG_MAIN_RegisterIconGraphics(char *p)
 {
-    void *arc = func_020490F4(11,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
+    void *arc = ARC_TOOL_CreateHandle(11,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
     char *data;
     void *buf;
     *(int *)(p + 0x564)=CLACT_RegisterCharacter(arc,119,0,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
@@ -1388,7 +1388,7 @@ void B_BAG_MAIN_RegisterIconGraphics(char *p)
     *(int *)(p + 0x594)=CLACT_RegisterCellAnim(arc,120,121,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     buf=ARC_UTIL_LoadPaletteBlockFromHandle(arc,116,(u32)(&data),(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
     PALANM_CopyToSlot(((struct BagWork *)p)->palAnm,((struct ScreenData *)data)->data+128,3,128,32);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1613,8 +1613,8 @@ void B_BAG_MAIN_Create(u8 *arg)
     u32 i;
     int v;
     int sz = 0x5A4;
-    p = func_02030734(*(u16 *)(arg + 0xc), sz, 1, d_0220E0E0, 0xB1);
-    q = func_02030DA8(BTLV_EFFECT_GetOwner(), (u32)B_BAG_MAIN_Main, p, 0x64);
+    p = GFL_HEAP_Alloc(*(u16 *)(arg + 0xc), sz, 1, d_0220E0E0, 0xB1);
+    q = TCB_AddTask(BTLV_EFFECT_GetOwner(), (u32)B_BAG_MAIN_Main, p, 0x64);
     *(u8 **)p = arg;
     *(void **)(p + 8) = (void *)BTLV_EFFECT_GetPalanm();
     z = 0;
@@ -1989,13 +1989,13 @@ int B_BAG_MAIN_StateChooseItem(char *p)
  * };
  * extern char MSGDATA_AllocSite[];
  * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
- * extern void func_020307B0(void *);
+ * extern void GFL_HEAP_Free(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
- * extern void func_0204960C(void *,u32);
+ * extern void ARC_TOOL_SeekHandle(void *,u32);
  * extern void STRBUF_Clear(void *);
  * extern void STRBUF_SetChars(void *,const void *,u16);
- * extern void func_02045E04(void *,u32);
- * extern void func_02046180(struct MsgBank *);
+ * extern void MSGDATA_DecryptStrbuf(void *,u32);
+ * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
  * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
@@ -2004,10 +2004,10 @@ int B_BAG_MAIN_StateChooseItem(char *p)
  *         STRBUF_Clear(dest);
  *         return;
  *     }
- *     func_02046180(bank);
+ *     MSGDATA_RefreshLanguage(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
- *         func_0204960C(bank->stream,pos + (index * 8 + 4));
+ *         ARC_TOOL_SeekHandle(bank->stream,pos + (index * 8 + 4));
  *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
@@ -2019,17 +2019,17 @@ int B_BAG_MAIN_StateChooseItem(char *p)
  *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
- *             func_0204960C(bank->stream,
+ *             ARC_TOOL_SeekHandle(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
  *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
  *             STRBUF_SetChars(dest,buf,e->len);
- *             func_020307B0(buf);
+ *             GFL_HEAP_Free(buf);
  *         }
  *     } else {
  *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
- *     func_02045E04(dest,index);
+ *     MSGDATA_DecryptStrbuf(dest,index);
  * }
  */
 int B_BAG_MAIN_StateShowMessage(char *p)
@@ -2211,8 +2211,8 @@ int B_BAG_MAIN_StateExit(struct Node *task, char *p)
         }
     }
     ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->done = 1;
-    func_02030EAC(task);
-    func_020307B0(p);
+    TCB_DeleteTask(task);
+    GFL_HEAP_Free(p);
     return 1;
 }
 
@@ -2289,7 +2289,7 @@ void B_BAG_MAIN_InitBg(char *p)
  b4=d_0220DEC0;BG_SYS_InitBgLayer(4,&b4,0);BG_SYS_ClearSlot(4);
  BG_SYS_InitRun(5,32,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
  BG_SYS_InitRun(4,32,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
- func_02041B6C(5);func_02041B6C(4);BG_SYS_SetSubPlaneVisible(15,1);
+ BG_SYS_SetFlagField06(5);BG_SYS_SetFlagField06(4);BG_SYS_SetSubPlaneVisible(15,1);
 }
 
 
@@ -2310,10 +2310,10 @@ void B_BAG_MAIN_ExitBg(void)
 
 void B_BAG_MAIN_LoadBgGraphics(char *p)
 {
-    void *handle = func_020490F4(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId & 0x7fff) | 0x8000));
-    func_02049658(handle, 0, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
-    func_020498F4(handle, 3, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
-    func_020498F4(handle, 2, 7, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    void *handle = ARC_TOOL_CreateHandle(99,(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId & 0x7fff) | 0x8000));
+    ARC_UTIL_UploadBgCharFromHandle(handle, 0, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(handle, 3, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(handle, 2, 7, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     PALANM_LoadHandlePaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, (void *)((u32)handle), 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 224, 0);
     ARC_TOOL_DeleteHandle(handle);
     BMP_MENUWORK_LoadCharAndPltt(4, 1, 11, 0, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
@@ -2324,7 +2324,7 @@ void B_BAG_MAIN_LoadBgGraphics(char *p)
 
 
 
-void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=func_02045B38(0,2,17,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=WORDSET_CreateDefault(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((void *)((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=STRBUF_Create(512,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);}
+void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,17,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=WORDSET_CreateDefault(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((void *)((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=STRBUF_Create(512,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);}
 
 
 

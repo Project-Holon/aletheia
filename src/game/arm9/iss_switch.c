@@ -13,8 +13,8 @@
  * Cut from iss_switch_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   IssSwitchFileName      0x020A7780  data
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -56,9 +56,9 @@ struct RtcDate {
     u32 week;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 
@@ -158,7 +158,7 @@ extern struct Pair gTbl_0209FFF4[];
 
 void *ISS_SWITCH_Alloc(u32 heapId)
 {
-    return func_02030734(heapId, 0xc, 0, IssSwitchFileName, 0x115);
+    return GFL_HEAP_Alloc(heapId, 0xc, 0, IssSwitchFileName, 0x115);
 }
 
 /*
@@ -176,7 +176,7 @@ void *ISS_SWITCH_Alloc(u32 heapId)
  */
 u32 ISS_SWITCH_Free(void *sw)
 {
-    return func_020307B0(sw);
+    return GFL_HEAP_Free(sw);
 }
 
 void ISS_SWITCH_Init(struct IssSwitch *sw)

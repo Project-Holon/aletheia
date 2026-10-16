@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02008FEC 0x02008FEC thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MAIL_Create 0x02008F08 thumb
@@ -24,26 +24,26 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02008FA8 0x02008FA8 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
  *   PROCSYS_Push 0x02031348 arm
- *   func_02034AC4 0x02034AC4 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   PMSI_PARAM_CheckCanceled 0x0202411C thumb
  *   PMSI_PARAM_GetSentence 0x02024134 thumb
  *   PMSI_PARAM_GetWord 0x02024124 thumb
  *   PMSI_PARAM_Delete 0x020240FC thumb
- *   func_02008C58 0x02008C58 thumb
+ *   RECORD_GetFromSave 0x02008C58 thumb
  *   func_02008DF0 0x02008DF0 thumb
  *   ov110_id 0x0000006E data
  *   D_021C7750 0x021C7750 data
  *   D_021C775C 0x021C775C data
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
- *   func_0203084C 0x0203084C arm
+ *   PROCSYS_Delete 0x0203133C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
+ *   GFL_HEAP_GetHeapHeadChecked 0x0203084C arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_ClearSentence 0x0202428C thumb
  *   PMSI_PARAM_Create 0x02024044 thumb
@@ -69,7 +69,7 @@ struct Proc;
 struct Proc;
 
 extern struct MailData *func_02008FEC(void *sys);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Mail *MAIL_Create(int heapId);
@@ -78,23 +78,23 @@ extern void func_02008F48(struct Mail *mail, u8 kind, u32 unused, void *p);
 extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 extern void func_02008FA8(struct Mail *mail, u32 value);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern u32 PROCSYS_Main(void *p);
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
-extern int func_02034AC4(int handle);
-extern void func_02034A5C(int handle);
+extern int GF_OVERLAY_Load(int handle);
+extern void GF_OVERLAY_Unload(int handle);
 extern int PMSI_PARAM_CheckCanceled(struct PmsiParam *p);
 extern void PMSI_PARAM_GetSentence(struct PmsiParam *a, struct PmsData *b);
 extern unsigned int PMSI_PARAM_GetWord(struct PmsiParam *p);
 extern void PMSI_PARAM_Delete(struct PmsiParam *a);
-extern struct Sub02008C20Obj *func_02008C58(struct SaveControl *sys);
+extern struct Sub02008C20Obj *RECORD_GetFromSave(struct SaveControl *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void func_0203133C(void *v);
-extern void func_020315D4(struct Proc *v);
-extern void func_0203084C(u16 v);
+extern void PROCSYS_Delete(void *v);
+extern void PROCSYS_FreeProcWork(struct Proc *v);
+extern void GFL_HEAP_GetHeapHeadChecked(u16 v);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *p);
 extern struct PmsiParam *PMSI_PARAM_Create(u32 kind, u32 a1, struct PmsData *src, u32 flag, struct SaveControl *sys, u32 heapId);
@@ -125,7 +125,7 @@ void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsi
     struct MailArgs *args;
     struct MailData *mailData;
     mailData = func_02008FEC(a);
-    args = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x43);
+    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x43);
     MIi_CpuClearFast(0, args, 0x1C);
     args->designId = d;
     args->monIndex = c;
@@ -143,7 +143,7 @@ void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsi
 void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap)
 {
     struct MailArgs *args;
-    args = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x97);
+    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x97);
     MIi_CpuClearFast(0, args, 0x1C);
     args->mode = 0;
     args->saveControl = GAME_DATA_GetSaveControl(a);
@@ -155,7 +155,7 @@ void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap)
 void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap)
 {
     struct MailArgs *args;
-    args = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0xB9);
+    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0xB9);
     MIi_CpuClearFast(0, args, 0x1C);
     args->mode = 0;
     args->saveControl = GAME_DATA_GetSaveControl(a);
@@ -182,8 +182,8 @@ int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon)
 void MAILTOOL_DeleteArgs(struct MailArgs *args)
 {
     if (args->mail)
-        func_020307B0(args->mail);
-    func_020307B0(args);
+        GFL_HEAP_Free(args->mail);
+    GFL_HEAP_Free(args);
 }
 
 /*
@@ -241,7 +241,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
             struct MailDraft *draft = proc->draft;
             if (draft->result == 4) {
                 MAILSYS_WriteMessageToMail(args->mail, draft);
-                func_02008DF0(func_02008C58(args->saveControl), 0x1D);
+                func_02008DF0(RECORD_GetFromSave(args->saveControl), 0x1D);
                 r = 1;
             } else {
                 r = 0;
@@ -250,7 +250,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
         }
         return 1;
     case 3:
-        func_02034AC4((int)ov110_id);
+        GF_OVERLAY_Load((int)ov110_id);
         MAILTOOL_StartWordInput(proc, args);
         PROCSYS_Push(proc->procSys, (u32)-1, D_021C775C, proc->pmsiParam);
         *state = 4;
@@ -267,7 +267,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
                 proc->draft->messageId = PMSI_PARAM_GetWord(proc->pmsiParam);
         }
         PMSI_PARAM_Delete(proc->pmsiParam);
-        func_02034A5C((int)ov110_id);
+        GF_OVERLAY_Unload((int)ov110_id);
         *state = 0;
         break;
     }
@@ -277,11 +277,11 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
 int MAILTOOL_ProcExit(u32 a, void *b, void *c, struct MailToolProc *proc)
 {
     u16 h;
-    func_0203133C(proc->procSys);
+    PROCSYS_Delete(proc->procSys);
     MAILSYS_DeleteMessage(proc->draft);
     h = (u16)proc->heapId;
-    func_020315D4((struct Proc *)a);
-    func_0203084C(h);
+    PROCSYS_FreeProcWork((struct Proc *)a);
+    GFL_HEAP_GetHeapHeadChecked(h);
     GFL_HEAP_DeleteChecked(h);
     return 1;
 }

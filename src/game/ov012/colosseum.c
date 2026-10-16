@@ -13,8 +13,8 @@
  * Cut from union_comm.c, unit_0217422C.c, colosseum.c, ov012_func_02175358.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   COLOSSEUM_SendPackage  0x02174C90  thumb  ov012
@@ -26,7 +26,7 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
@@ -79,7 +79,7 @@ extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 
 extern void POKEPARTY_Init(struct Party *party);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void GFL_NET_COMMAND_AddCommandTable(u32 baseCommand, const u32 *table, u32 count, UnionRoomWork *work);
 
@@ -145,13 +145,13 @@ typedef struct ColosseumBattleInfo {
     void *trainerRecord;                                /* 0x54 */
 } ColosseumBattleInfo;
 
-extern void func_02034714(const char *file, u32 line, const char *msg);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *msg);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
 extern int POKE_REGULATION_GetDataSize(void);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption);
 
@@ -267,7 +267,7 @@ extern char gColosseumAllocFile[];
 
 u8 *COLOSSEUM_GetRecvBuffer(int netId, u8 *buffer, int size)
 {
-    if (size > COLOSSEUM_RECV_BUFFER_SIZE) func_02034714(gColosseumAssertText1, 0, gColosseumAssertText1);
+    if (size > COLOSSEUM_RECV_BUFFER_SIZE) SAVEDATA_PanicFail(gColosseumAssertText1, 0, gColosseumAssertText1);
     return buffer + 4 + (netId << 11);
 }
 
@@ -453,10 +453,10 @@ ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSyste
     u32 flag;
 
     selfNetId = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
-    work = func_02030734(COLOSSEUM_HEAP_ID, sizeof(ColosseumWork), 1, gColosseumAllocFile, 0x35);
+    work = GFL_HEAP_Alloc(COLOSSEUM_HEAP_ID, sizeof(ColosseumWork), 1, gColosseumAllocFile, 0x35);
     work->commPlayer = COMM_PLAYER_Create(COLOSSEUM_PLAYER_MAX, gameSystem, COLOSSEUM_HEAP_ID, 0);
     for (i = 0; i < 4; i++) {
-        work->trainerCard[i] = func_02030734(COLOSSEUM_HEAP_ID, 0x678, 1, gColosseumAllocFile, 0x38);
+        work->trainerCard[i] = GFL_HEAP_Alloc(COLOSSEUM_HEAP_ID, 0x678, 1, gColosseumAllocFile, 0x38);
         work->party[i] = POKEPARTY_Create(COLOSSEUM_HEAP_ID);
     }
     for (i = 0; i < 4; i++) {
@@ -486,11 +486,11 @@ void COLOSSEUM_Delete(ColosseumWork *work, void *gameSystem)
     int i;
 
     for (i = 0; i < 4; i++) {
-        func_020307B0(work->trainerCard[i]);
-        func_020307B0(work->party[i]);
+        GFL_HEAP_Free(work->trainerCard[i]);
+        GFL_HEAP_Free(work->party[i]);
     }
     COMM_PLAYER_Delete(gameSystem, work->commPlayer);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void COLOSSEUM_SetStartFlag(ColosseumWork *work, int flag)
@@ -666,7 +666,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
         count++;
     }
     if (count != 2 && count != 4) {
-        func_02034714(gColosseumAssertText2, 0, gColosseumAssertText2);
+        SAVEDATA_PanicFail(gColosseumAssertText2, 0, gColosseumAssertText2);
     }
     selfPosition = work->battlePosition[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())];
     for (i = 0; i < count; i++) {
@@ -680,7 +680,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
         }
         slot = base + (position >> 1);
         if (slot >= count) {
-            func_02034714(gColosseumAssertText2, 0, gColosseumAssertText2);
+            SAVEDATA_PanicFail(gColosseumAssertText2, 0, gColosseumAssertText2);
         }
         COLOSSEUM_SetupBattleMember(work, &out->member[slot], (u8)i, heapId);
     }

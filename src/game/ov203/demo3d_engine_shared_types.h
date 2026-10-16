@@ -38,7 +38,7 @@ typedef struct Demo3dCfg {
 
 /*
  * Engine context of the demo3d demo (0x88 bytes; DEMO3D_ENGINE_Create allocates it
- * with func_02030734(heap, 0x88, 1, ...)).  DEMO3D_ENGINE_Update also views the 0x30
+ * with GFL_HEAP_Alloc(heap, 0x88, 1, ...)).  DEMO3D_ENGINE_Update also views the 0x30
  * block as its G3D draw arguments.
  */
 struct Ctx {

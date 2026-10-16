@@ -19,7 +19,7 @@
  *   FLD_EXP_OBJ_GetModelStatus 0x021BE480 thumb ov021
  *   FLD_EXP_OBJ_SetAnimeLoop 0x021BE6B8 thumb ov021
  *   FIELDMAP_GetTcblSys 0x02188D30 thumb ov021
- *   func_02030DA8 0x02030DA8 arm
+ *   TCB_AddTask 0x02030DA8 arm
  *   sCartSetup 0x021F4C18 data ov039 a4
  *   sModelPos00 0x021F4D60 data ov039 a4
  *   sModelPos01 0x021F4D0C data ov039 a4
@@ -61,7 +61,7 @@
  *   sStopDocks    0x021F4C28 data ov039 a1
  *   sRideAnimeOrigin    0x021F4D54 data ov039 a4
  *   sLaneRideOffsets    0x021F4CA0 data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
@@ -70,7 +70,7 @@
  *   G3D_SYSTEM_GetObjectAnimeFrame 0x02047828 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   FLD_EXP_OBJ_SetAnimeEnabled 0x021BE700 thumb ov021
  *   FLD_EXP_OBJ_SetAnimeFrame 0x021BE6CC thumb ov021
@@ -186,7 +186,7 @@ void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap)
         FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, model, leverStateB, FLD_EXP_OBJ_GetAnimeLastFrame(FLD_EXP_OBJ_GetAnime(expObj, 0, model, leverStateB)));
     }
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    work->task = func_02030DA8(FIELDMAP_GetTcblSys(fieldMap), FIELD_GIMMICK_CART_LANES_UpdateTask, fieldMap, 0);
+    work->task = TCB_AddTask(FIELDMAP_GetTcblSys(fieldMap), FIELD_GIMMICK_CART_LANES_UpdateTask, fieldMap, 0);
     for (n = 0; n < FIELD_GIMMICK_CART_LANES_LANE_COUNT; n++) {
         work->switchRequest[n] = 0;
         work->activeCart[n] = n * 2 + save->laneState[n];
@@ -317,7 +317,7 @@ void FIELD_GIMMICK_CART_LANES_End(struct FieldMap *fieldMap)
     FieldGimmickCartLanesWork *work = FIELDMAP_GetCommonWork(fieldMap, 1);
 
     FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP);
-    func_02030EAC(work->task);
+    TCB_DeleteTask(work->task);
     FIELDMAP_FreeCommonWork(fieldMap, 1);
     FLD_EXP_OBJ_RemoveUnit(expObj, 0);
 }
@@ -402,7 +402,7 @@ struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *
     if (lane >= FIELD_GIMMICK_CART_LANES_LANE_COUNT) {
         return 0;
     }
-    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_CART_LANES_SwitchEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CART_LANES_SwitchEventMain, 0);
     work->switchLane = lane;
     return event;
 }
@@ -516,9 +516,9 @@ struct GameEvent *FIELD_GIMMICK_CART_LANES_CheckRideEvent(struct GameSystem *gam
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u8)lane, cartAnimeIndex), 1);
         work->rideLane = lane;
         if (FIELD_GIMMICK_CART_LANES_IsLaneLocked(save, lane)) {
-            return func_020122C0(gameSystem, 0, FIELD_GIMMICK_CART_LANES_RideRefusedEventMain, 0);
+            return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CART_LANES_RideRefusedEventMain, 0);
         }
-        return func_020122C0(gameSystem, 0, FIELD_GIMMICK_CART_LANES_RideEventMain, 0);
+        return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CART_LANES_RideEventMain, 0);
     }
     return 0;
 }

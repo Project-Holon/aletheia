@@ -13,24 +13,25 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030EAC   0x02030EAC  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  *   GX_LoadBGPltt   0x0207E3D0  arm
- *   func_0207E468   0x0207E468  arm
+ *   GXS_LoadBGPltt   0x0207E468  arm
  *   g_wipeSys                0x021467A4  data
  *   CARD_GetBackupSectorSize  0x0204E6E0  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   g_wipePatternHandlers  0x0209F538  data
  *   func_02005624  0x02005624  thumb
- *   func_02030734  0x02030734  arm
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   g_wipeSourceFile     0x020A73C8  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   WIPE_SUB_ResolveColor  0x020225F4  thumb
  *   WIPE_SUB_GetEndColor  0x02022608  thumb
  *   WIPE_SUB_RequestBrightnessReset  0x02022640  thumb
  *   WIPE_SUB_ApplyEndBrightness  0x02022670  thumb
  *   WIPE_SUB_ClearSys  0x020226A0  thumb
  *   WIPE_SUB_SetWindowVisible  0x02023B48  thumb
+ *   TCB_AddTask  0x02030DA8  arm
  */
 struct Node;
 #include "wipe_types.h"
@@ -67,16 +68,16 @@ typedef struct {
 } PaletteFade;
 
 typedef u32 (*FuncPtr)(void *);
-extern void func_02030DA8(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFade *p, s32 pri);
-extern u32 func_02030EAC(struct Node *n);
+extern void TCB_AddTask(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFade *p, s32 pri);
+extern u32 TCB_DeleteTask(struct Node *n);
 extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
-extern void func_0207E468(void *a, u32 b, u32 c);
+extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
 extern u32   CARD_GetBackupSectorSize(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void *func_02005624(u32 a, u32 b, u32 c);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020056A0(void *fn, void *arg, u32 prio);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
+extern u32 GFL_HEAP_Free(void *p);
 void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
 void WIPE_SYS_Main(void);
 u32 WIPE_SYS_EndCheck(void);
@@ -378,7 +379,7 @@ void WIPE_SetBackColor(u32 a)
     u32 *p = &a;
 
     GX_LoadBGPltt(p, 0, 2);
-    func_0207E468(p, 0, 2);
+    GXS_LoadBGPltt(p, 0, 2);
 }
 
 /*
@@ -671,7 +672,7 @@ void WIPE_SetHBlankSlot(struct WipeHBlankSlots *p, void *ctx, Handler fn, u32 id
  * It clears this slot's user word FIRST, and only then checks whether both
  * user words have gone to zero; when they have and the vblank/task handle at
  * g_wipeSys.hblankTask is still live, it releases that handle through
- * func_02030EAC and nulls it.  The slot's handler is then re-armed with the
+ * TCB_DeleteTask and nulls it.  The slot's handler is then re-armed with the
  * do-nothing WIPE_DummyHBlank rather than a null, the same convention
  * WIPE_InitHBlankSlots uses, and the context pointer cleared last.
  *
@@ -697,7 +698,7 @@ void WIPE_ClearHBlankSlot(struct WipeHBlankSlots *p, u32 idx)
 
     p->active[idx] = zero;
     if (p->active[0] == 0 && p->active[1] == 0 && g_wipeSys.hblankTask != 0) {
-        func_02030EAC(g_wipeSys.hblankTask);
+        TCB_DeleteTask(g_wipeSys.hblankTask);
         g_wipeSys.hblankTask = (void *)zero;
     }
     p->func[idx] = WIPE_DummyHBlank;
@@ -714,22 +715,22 @@ void WIPE_RequestSetHBlankSlot(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
     u32 *p;
 
-    p = (u32 *)func_02030734((u16)(((u16)a4 & 0x7FFF) | 0x8000), 0x10, 0,
+    p = (u32 *)GFL_HEAP_Alloc((u16)(((u16)a4 & 0x7FFF) | 0x8000), 0x10, 0,
                              g_wipeSourceFile, 0x3E8);
     p[0] = a0;
     p[1] = a1;
     p[2] = a2;
     p[3] = a3;
-    func_020056A0((void *)WIPE_SetHBlankSlotTask, p, 0x400);
+    GFL_USE_AddMainTask((void *)WIPE_SetHBlankSlotTask, p, 0x400);
 }
 
 void WIPE_RequestClearHBlankSlot(u32 a0, u32 a1, u32 a2)
 {
-    u32 *p = func_02030734((u16)(((u16)a2 & 0x7fff) | 0x8000), 8, 0, g_wipeSourceFile, 0x401);
+    u32 *p = GFL_HEAP_Alloc((u16)(((u16)a2 & 0x7fff) | 0x8000), 8, 0, g_wipeSourceFile, 0x401);
 
     p[0] = a0;
     p[1] = a1;
-    func_020056A0((void *)WIPE_ClearHBlankSlotTask, p, 8 << 7);
+    GFL_USE_AddMainTask((void *)WIPE_ClearHBlankSlotTask, p, 8 << 7);
 }
 
 /*
@@ -738,15 +739,15 @@ void WIPE_RequestClearHBlankSlot(u32 a0, u32 a1, u32 a2)
 void WIPE_SetHBlankSlotTask(void *a0, u32 *a1)
 {
     WIPE_SetHBlankSlot((struct WipeHBlankSlots *)a1[0], (void *)a1[1], (Handler)a1[2], a1[3]);
-    func_02030EAC(a0);
-    func_020307B0(a1);
+    TCB_DeleteTask(a0);
+    GFL_HEAP_Free(a1);
 }
 
 void WIPE_ClearHBlankSlotTask(struct Node *a0, u32 *a1)
 {
     WIPE_ClearHBlankSlot((struct WipeHBlankSlots *)a1[0], a1[1]);
-    func_02030EAC(a0);
-    func_020307B0(a1);
+    TCB_DeleteTask(a0);
+    GFL_HEAP_Free(a1);
 }
 
 /*

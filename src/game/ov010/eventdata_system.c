@@ -14,11 +14,11 @@
  * The zone event data system (anchor: allocation of the 0xAA8-byte EventDataSystem).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   d_0217299C     0x0217299C  data  ov010  a1
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
  *   ZONEDATA_GetEventDataId  0x02013ECC  thumb
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
@@ -31,7 +31,7 @@
  *   EVENTDATA_SYSTEM_GetHiddenItemFlag  0x02164708  thumb  ov010
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   ZONEDATA_DirToRailKey 0x0201441C thumb
- *   func_0207C768 0x0207C768 arm
+ *   FX_Div 0x0207C768 arm
  *   MI_CpuFill8    0x02082BCC  arm
  */
 
@@ -157,10 +157,10 @@ typedef struct VecFx32 {
     fx32 z;
 } VecFx32;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern int func_020307B0();
+extern int GFL_HEAP_Free();
 extern int FIELD_ENCOUNT_ST_LoadEncountData(struct EncountData *encount, int a, int b, int n);
 extern unsigned ZONEDATA_GetEventDataId(unsigned);
 extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcFile *, unsigned);
@@ -173,7 +173,7 @@ extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 extern u16 EVENTDATA_SYSTEM_GetHiddenItemFlag(u16 id);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u8 ZONEDATA_DirToRailKey(int m);
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 EventDataSystem *EVENTDATA_SYSTEM_Create(int heapId);
 void EVENTDATA_SYSTEM_Delete(EventDataSystem *system);
@@ -239,10 +239,10 @@ extern char d_0217299C[];
 
 EventDataSystem *EVENTDATA_SYSTEM_Create(int heapId)
 {
-    EventDataSystem *system = func_02030734(heapId, 0xAA8, 1, d_0217299C, 0xAF);
-    system->eventArc = func_020490F4(0x7D, heapId);
-    system->encountArc = func_020490F4(0x7E, heapId);
-    system->auxArc = func_020490F4(0x39, heapId);
+    EventDataSystem *system = GFL_HEAP_Alloc(heapId, 0xAA8, 1, d_0217299C, 0xAF);
+    system->eventArc = ARC_TOOL_CreateHandle(0x7D, heapId);
+    system->encountArc = ARC_TOOL_CreateHandle(0x7E, heapId);
+    system->auxArc = ARC_TOOL_CreateHandle(0x39, heapId);
     return system;
 }
 
@@ -251,7 +251,7 @@ void EVENTDATA_SYSTEM_Delete(EventDataSystem *system)
     ARC_TOOL_DeleteHandle((void *)system->eventArc);
     ARC_TOOL_DeleteHandle((void *)system->encountArc);
     ARC_TOOL_DeleteHandle((void *)system->auxArc);
-    func_020307B0(system);
+    GFL_HEAP_Free(system);
 }
 
 void EVENTDATA_SYSTEM_Clear(EventDataSystem *system) { EVENTDATA_SYSTEM_ClearEventTables(system); (system->specialScripts)=(char *)system+0x2328; system->encountLoaded=0; system->encountFlag=0; }
@@ -1141,10 +1141,10 @@ void EVENTDATA_SYSTEM_GetPosEventCenterPos(const struct EventRec *event, int *po
 {
     const u16 *areaWords = (const u16 *)event->area;
     int y, x, z;
-    z = func_0207C768(areaWords[3] << 16, 0x2000);
+    z = FX_Div(areaWords[3] << 16, 0x2000);
     z = ((unsigned)areaWords[1] << 16) + z;
     y = ((const s16 *)areaWords)[4] << 12;
-    x = func_0207C768(areaWords[2] << 16, 0x2000);
+    x = FX_Div(areaWords[2] << 16, 0x2000);
     pos[2] = z;
     pos[0] = ((unsigned)event->area[0] << 16) + x;
     pos[1] = y;

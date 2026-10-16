@@ -13,7 +13,7 @@
  * Cut from game_beacon_search.c, game_beacon_accessor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_BEACON_ACCESSOR_FileName 0x021729D4 data a4
  *   GAME_BEACON_ACCESSOR_ActionCheckFuncs     0x02171CA8  data
  *   STRBUF_SetStringN  0x02045994  arm
@@ -64,7 +64,7 @@ typedef struct GameBeaconActionAttr {
     u8 group;
 } GameBeaconActionAttr;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
 
@@ -174,12 +174,12 @@ extern const GameBeaconActionAttr GAME_BEACON_ACCESSOR_ActionTable[];
 
 GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32 heapId)
 {
-    return func_02030734(heapId, sizeof(GameBeaconInfo), 1, GAME_BEACON_ACCESSOR_FileName, 0x1b3);
+    return GFL_HEAP_Alloc(heapId, sizeof(GameBeaconInfo), 1, GAME_BEACON_ACCESSOR_FileName, 0x1b3);
 }
 
 GameBeaconInfoTable *GAME_BEACON_ACCESSOR_AllocTable(u32 heapId)
 {
-    GameBeaconInfoTable *table = func_02030734(heapId, sizeof(GameBeaconInfoTable), 1, GAME_BEACON_ACCESSOR_FileName, 0x1c1);
+    GameBeaconInfoTable *table = GFL_HEAP_Alloc(heapId, sizeof(GameBeaconInfoTable), 1, GAME_BEACON_ACCESSOR_FileName, 0x1c1);
 
     table->head = 0;
     table->count = 0;

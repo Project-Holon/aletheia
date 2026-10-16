@@ -33,6 +33,9 @@
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -116,9 +119,9 @@ extern void VEC_CrossProduct(const struct Vec *a, const struct Vec *b,
                              struct Vec *out);
 extern s32  VEC_DotProduct(const struct Vec *a, const struct Vec *b);
 extern void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 paramKind, u32 unused, u32 value);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 func_020307B0(void *p);
-extern void *func_020490F4(u32 archiveId, u32 heapId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
 extern u16 func_0204961C(void *archive);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void   ARC_TOOL_DeleteHandle(void *archive);
@@ -151,7 +154,7 @@ void ISS_ZONE_SYS_StepFade(struct IssZone *zone);
  */
 struct IssZone *ISS_ZONE_SYS_Create(u32 heapId)
 {
-    struct IssZone *zone = (struct IssZone *)func_02030734(heapId, 0x18, 0,
+    struct IssZone *zone = (struct IssZone *)GFL_HEAP_Alloc(heapId, 0x18, 0,
                                                            (const void *)0x020A7748, 0x55);
 
     zone->active = 0;
@@ -170,9 +173,9 @@ struct IssZone *ISS_ZONE_SYS_Create(u32 heapId)
 void ISS_ZONE_SYS_Delete(struct IssZone *zone)
 {
     if (zone->records != 0) {
-        func_020307B0(zone->records);
+        GFL_HEAP_Free(zone->records);
     }
-    func_020307B0(zone);
+    GFL_HEAP_Free(zone);
 }
 
 /* Per-frame update: runs the fade step when a record is selected. */
@@ -225,12 +228,12 @@ void ISS_ZONE_SYS_Stop(struct IssZone *zone)
  */
 void ISS_ZONE_SYS_LoadRecords(struct IssZone *zone, u32 heapId)
 {
-    void *archive = func_020490F4(0x88, (u16)((heapId & 0x7fff) | 0x8000));
+    void *archive = ARC_TOOL_CreateHandle(0x88, (u16)((heapId & 0x7fff) | 0x8000));
     int   count = func_0204961C(archive);
     int   i;
 
     zone->recordCount = (u8)count;
-    zone->records = (struct IssZoneRecord *)func_02030734(heapId, (u32)(count << 3), 0,
+    zone->records = (struct IssZoneRecord *)GFL_HEAP_Alloc(heapId, (u32)(count << 3), 0,
                                          (const void *)0x020A7748, 0xd2);
 
     for (i = 0; i < count; i++) {

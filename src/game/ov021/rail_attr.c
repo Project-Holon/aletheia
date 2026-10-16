@@ -14,9 +14,9 @@
  *
  * symbols:
  *   d_021DE2C4     0x021DE2C4  data  a4
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 #include "fldmmdl_rail_types.h"
 
@@ -42,8 +42,8 @@ typedef struct RailAttr {
     RailAttrLine **lines;    /* 0x0C: one pointer per line into data */
 } RailAttr;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void GFL_HEAP_Free(void *p);
 extern void *ARC_UTIL_LoadMemberWithSize(int arcId, int dataId, int compressed, int heapId, u32 *outSize);
 
 RailAttr *RAIL_ATTR_Create(int heapId);
@@ -56,13 +56,13 @@ extern int d_021DE2C4;
 
 RailAttr *RAIL_ATTR_Create(int heapId)
 {
-    return func_02030734((u16)heapId, sizeof(RailAttr), 1, (const char *)&d_021DE2C4, 0x5C);
+    return GFL_HEAP_Alloc((u16)heapId, sizeof(RailAttr), 1, (const char *)&d_021DE2C4, 0x5C);
 }
 
 void RAIL_ATTR_Delete(RailAttr *attr)
 {
     RAIL_ATTR_Release(attr);
-    func_020307B0(attr);
+    GFL_HEAP_Free(attr);
 }
 
 void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId)
@@ -72,7 +72,7 @@ void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId)
 
     attr->data = ARC_UTIL_LoadMemberWithSize(RAIL_ATTR_ARC_ID, dataId, 0, (u16)heapId, &attr->dataSize);
     attr->lineCount = *(u32 *)attr->data;
-    attr->lines = func_02030734((u16)heapId, attr->lineCount * 4, 1, (const char *)&d_021DE2C4, 0x86);
+    attr->lines = GFL_HEAP_Alloc((u16)heapId, attr->lineCount * 4, 1, (const char *)&d_021DE2C4, 0x86);
     offset = 4;
     for (i = 0; i < attr->lineCount; i++) {
         RailAttrLine *line;
@@ -86,8 +86,8 @@ void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId)
 void RAIL_ATTR_Release(RailAttr *attr)
 {
     if (attr->data != 0) {
-        func_020307B0(attr->lines);
-        func_020307B0(attr->data);
+        GFL_HEAP_Free(attr->lines);
+        GFL_HEAP_Free(attr->data);
         attr->lineCount = 0;
         attr->lines = 0;
         attr->data = 0;

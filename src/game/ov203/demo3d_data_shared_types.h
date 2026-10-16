@@ -7,7 +7,7 @@ struct GfFont;
 
 /*
  * Command-system context of the demo3d demo (0x30 bytes; DEMO3D_CMDSYS_Create
- * allocates it with func_02030734(heap, 0x30, 1, ...)).  The demo3d command
+ * allocates it with GFL_HEAP_Alloc(heap, 0x30, 1, ...)).  The demo3d command
  * handlers receive it as their first argument.
  */
 typedef struct Demo3dCmdContext {

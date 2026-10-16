@@ -24,7 +24,7 @@
  *   RTC_GetDateTime  0x020889C0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   WCM_GetApMacAddress  0x02166384  arm  ov009
- *   func_020862B8  0x020862B8  arm
+ *   DC_InvalidateRange  0x020862B8  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   DWC_AC_GetApType  0x0205BDD0  arm
  *   WCM_GetApEssid  0x021663C8  arm  ov009
@@ -132,7 +132,7 @@ extern void OS_GetOwnerInfo(OSOwnerInfo *info);
 extern int RTC_GetDateTime(RTCDate *date, RTCTime *time);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned char *WCM_GetApMacAddress(void);
-extern void func_020862B8(void *startAddr, unsigned long nBytes);
+extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned char DWC_AC_GetApType(void);
 extern unsigned char *WCM_GetApEssid(unsigned short *length);
@@ -235,7 +235,7 @@ int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     preirq = OS_DisableInterrupts();
 
     wcmbssid = WCM_GetApMacAddress();
-    func_020862B8(wcmbssid, 6);
+    DC_InvalidateRange(wcmbssid, 6);
     if (wcmbssid == 0) {
         OS_RestoreInterrupts(preirq);
         return 0;
@@ -249,7 +249,7 @@ int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     OS_SNPrintf(cal->apinfo, sizeof(cal->apinfo), gDwcCalFmtApInfo, aptype);
 
     wcmessid = WCM_GetApEssid(&wcmessidlen);
-    func_020862B8(wcmessid, 32);
+    DC_InvalidateRange(wcmessid, 32);
     if (wcmessid == 0) {
         OS_RestoreInterrupts(preirq);
         return 0;

@@ -13,13 +13,13 @@
  * Cut from pdc.c, ov098_func_021B6CDC.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C 0x02034A5C arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   BTLV_EFFECT_CreateSetup 0x021F73F0 thumb ov094
  *   BTLV_EFFECT_Init 0x021F7544 thumb ov094
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_INPUT_CreateDefault 0x02202058 thumb ov094
  *   TCBL_Create 0x0203101C arm
@@ -124,13 +124,13 @@ struct PdcViewParams {
     u16 height;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02034AC4(int overlayId);
-extern void func_02034A5C(int overlayId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int GF_OVERLAY_Load(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
 extern void *BTLV_EFFECT_CreateSetup(int, int, void *scene, int, u16 *params, int, int, u16 heapId);
 extern void BTLV_EFFECT_Init(void *screen, struct GfFont *font, u16 heapId);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern struct PdcMenu *BTLV_INPUT_CreateDefault(struct GameData *gameData, int, int, struct GfFont *font, u32 *menuWork, u16 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -227,7 +227,7 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     void *screen;
     struct GameData *gameData;
 
-    sys = func_02030734(heapId, 0x78, 1, gPdcMainSrcName, 0x5e);
+    sys = GFL_HEAP_Alloc(heapId, 0x78, 1, gPdcMainSrcName, 0x5e);
     sys->heapId = heapId;
     sys->args = args;
     PDC_MAIN_InitGraphics(sys->heapId);
@@ -237,7 +237,7 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     params = gPdcViewParams;
     screen = BTLV_EFFECT_CreateSetup(0, 0, PDC_GetScene(args), 0, (u16 *)&params, 0, 0, sys->heapId);
     BTLV_EFFECT_Init(screen, sys->msgFont, sys->heapId);
-    func_020307B0(screen);
+    GFL_HEAP_Free(screen);
     gameData = PDC_GetGameData(args);
     sys->menu = BTLV_INPUT_CreateDefault(gameData, 0, BTLV_EFFECT_GetPalanm(), sys->font, &sys->menuWork, sys->heapId);
     sys->tcbl = TCBL_Create(heapId, heapId, 64, 128);
@@ -268,8 +268,8 @@ void PDC_MAIN_Delete(struct PdcSys *sys)
     GF_FONT_Delete(sys->font);
     GF_FONT_Delete(sys->msgFont);
     PDC_MAIN_ExitGraphics();
-    func_020307B0(sys->workBuf);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys->workBuf);
+    GFL_HEAP_Free(sys);
 }
 
 void PDC_MAIN_SetStep(struct PdcSys *sys, PdcStep step) { sys->state = 0; sys->step = step; }
@@ -393,19 +393,19 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         sys->select.menuWork = (u8 *)&sys->menuWork;
         sys->select.enabled = 1;
         BTLV_INPUT_StartPaletteFadeTask(sys->menu, 1);
-        func_02034AC4((int)ov196_id);
+        GF_OVERLAY_Load((int)ov196_id);
         sys->state++;
         break;
     case 1:
         if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
-            func_02034AC4((int)ov197_id);
+            GF_OVERLAY_Load((int)ov197_id);
             B_BAG_MAIN_Create(&sys->select);
             sys->state++;
         }
         break;
     case 2:
         if (sys->select.done) {
-            func_02034A5C((int)ov196_id); func_02034A5C((int)ov197_id);
+            GF_OVERLAY_Unload((int)ov196_id); GF_OVERLAY_Unload((int)ov197_id);
             BTLV_INPUT_StartScreenFadeTask(sys->menu);
             if (sys->select.chosenItem == 0) sys->state = 3;
             else {

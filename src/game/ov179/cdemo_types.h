@@ -30,7 +30,7 @@ struct CdemoState {
     struct CdemoScript *script;            /* 0000: current script record */
     void               *arcHandle;         /* 0004: graphics archive handle */
     struct CdemoPaletteBlock palettes[3];  /* 0008: three 0x2004 blocks */
-    void               *task;              /* 6014: task started by func_020056A0 */
+    void               *task;              /* 6014: task started by GFL_USE_AddMainTask */
     int                 scriptStart;       /* 6018: script table base */
     int                 scriptCursor;      /* 601C: current command pointer */
     int                 count;             /* 6020: command counter */

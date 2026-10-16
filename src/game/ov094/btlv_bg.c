@@ -13,18 +13,18 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   BTLV_BG_Create  0x0220975C  thumb  ov094
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   BTLV_BG_Delete 0x0220977C thumb ov094
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_GetTaskUserData   0x02030EE8  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   func_020407E8  0x020407E8  arm
  *   func_02040804  0x02040804  arm
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
@@ -41,7 +41,7 @@
 #include "btlv_camera_shared_types.h"
 #include "btlv_bg_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 func_020407E8(u32 layer);
 
@@ -69,13 +69,13 @@ typedef struct BtlvBgScrollJob {
 /* Two arguments carried to the deferred scroll apply task. */
 typedef struct { int scrollX, scrollY; } BtlvBgScrollArgs;
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
-extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
+extern void *TCB_AddTask(void *, void (*)(void *, void *), void *, u32);
 
-extern void *func_020056A0(void (*callback)(void *), void *context, int priority);
+extern void *GFL_USE_AddMainTask(void (*callback)(void *), void *context, int priority);
 
-extern u32 func_0207C768(u32 value, u32 divisor);
+extern u32 FX_Div(u32 value, u32 divisor);
 
 extern void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *outDelta, int frames);
 
@@ -107,7 +107,7 @@ extern char sBtlvBgSiteName[];
 
 BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId)
 {
-    BtlvBg *bg = func_02030734(heapId, 0xc, 1, sBtlvBgSiteName, 0x48);
+    BtlvBg *bg = GFL_HEAP_Alloc(heapId, 0xc, 1, sBtlvBgSiteName, 0x48);
     bg->taskSystem = taskSystem;
     bg->heapId = heapId;
     return bg;
@@ -115,17 +115,17 @@ BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId)
 
 void BTLV_BG_Delete(BtlvBg *bg)
 {
-    func_020307B0(bg);
+    GFL_HEAP_Free(bg);
 }
 
 void BTLV_BG_SetScroll(BtlvBg *bg, u32 scrollX, u32 scrollY)
 {
     BtlvBgScrollArgs *args;
 
-    args = func_02030734((u16)((bg->heapId & 0x7fff) | 0x8000), 8, 0, sBtlvBgSiteName, 0x67);
+    args = GFL_HEAP_Alloc((u16)((bg->heapId & 0x7fff) | 0x8000), 8, 0, sBtlvBgSiteName, 0x67);
     args->scrollX = scrollX;
     args->scrollY = scrollY;
-    BTLV_EFFECT_RegisterTask(func_020056A0(BTLV_BG_ApplyScrollTask, args, 0), 0, 0);
+    BTLV_EFFECT_RegisterTask(GFL_USE_AddMainTask(BTLV_BG_ApplyScrollTask, args, 0), 0, 0);
 }
 
 void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int frames, int phaseFrames, int cycleFrames)
@@ -169,7 +169,7 @@ void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, BtlvVec3 *origin, BtlvVec3 *am
                    void (*onTick)(void *, void *))
 {
     BtlvBgScrollJob *job;
-    job = func_02030734(bg->heapId, 0x4c, 0, sBtlvBgSiteName, 0xb8);
+    job = GFL_HEAP_Alloc(bg->heapId, 0x4c, 0, sBtlvBgSiteName, 0xb8);
     job->bg = bg;
     job->pos.x = origin->x;
     job->pos.y = origin->y;
@@ -194,15 +194,15 @@ void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, BtlvVec3 *origin, BtlvVec3 *am
         job->mover.countReset *= 2;
         job->mover.repeat *= 2;
     case 2:
-        job->mover.step.x = func_0207C768(amount->x, BTLV_BG_ToFixedRounded(frames));
-        job->mover.step.y = func_0207C768(amount->y, BTLV_BG_ToFixedRounded(frames));
-        job->mover.step.z = func_0207C768(amount->z, BTLV_BG_ToFixedRounded(frames));
+        job->mover.step.x = FX_Div(amount->x, BTLV_BG_ToFixedRounded(frames));
+        job->mover.step.y = FX_Div(amount->y, BTLV_BG_ToFixedRounded(frames));
+        job->mover.step.z = FX_Div(amount->z, BTLV_BG_ToFixedRounded(frames));
         break;
     case 0:
     default:
         break;
     }
-    BTLV_EFFECT_RegisterTask(func_02030DA8(bg->taskSystem, onTick, job, 0), BTLV_BG_OnScrollJobEnd, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(bg->taskSystem, onTick, job, 0), BTLV_BG_OnScrollJobEnd, 0);
 }
 
 void BTLV_BG_ScrollTask(void *task, void *arg)
@@ -235,7 +235,7 @@ void BTLV_BG_OnScrollJobEnd(void *task)
 }
 
 /*
- * Task callback passed to func_020056A0 by BTLV_BG_SetScroll (leaf of that
+ * Task callback passed to GFL_USE_AddMainTask by BTLV_BG_SetScroll (leaf of that
  * caller: its pool word 0x02209A55 names this unlabelled Thumb function).
  * Applies the queued scroll values to BG layer 3, then ends the task.
  */

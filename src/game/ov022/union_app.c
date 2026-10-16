@@ -13,16 +13,16 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   sUnionAppFile     0x021841C0  data  a1
- *   func_020307B0  0x020307B0  arm
- *   func_02080D24  0x02080D24  arm
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   MATH_CountPopulation  0x02080D24  arm
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
  *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
@@ -51,15 +51,15 @@ typedef struct { s32 x, y, z; } VecFx32;
 struct Entry;
 struct Link;
 struct Sub0200852CObj;
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, unsigned short line);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *file, unsigned short line);
 extern u32 GFL_NET_IsParentAid(void);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void OS_GetMacAddress(void *p);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern u32 func_020307B0(void *p);
-extern u32 func_02080D24(u32 a);
-extern u32 func_0200FB24(void);
+extern u32 GFL_HEAP_Free(void *p);
+extern u32 MATH_CountPopulation(u32 a);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void UNION_COMM_RequestShutdown(UnionRoomWork *work);
 extern int UNION_COMM_IsResetting(UnionRoomWork *work);
 extern u32 GFL_NET_IsConnectMember(u32 index);
@@ -118,7 +118,7 @@ UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, 
     UnionAppWork *app;
     UnionAppEntry entry;
 
-    app = func_02030734(heapId, UNION_APP_WORK_SIZE, 1, (const char *)sUnionAppFile, 0x4d);
+    app = GFL_HEAP_Alloc(heapId, UNION_APP_WORK_SIZE, 1, (const char *)sUnionAppFile, 0x4d);
     if (GFL_NET_IsParentAid() == 1) {
         app->joinedBits = 3;
     }
@@ -141,7 +141,7 @@ UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, 
  */
 void UNION_APP_Delete(UnionAppWork *app)
 {
-    func_020307B0(app);
+    GFL_HEAP_Free(app);
 }
 
 
@@ -156,7 +156,7 @@ int UNION_APP_TryAcceptMember(UnionAppWork *app, int netId)
     if (app->phase == UNION_APP_PHASE_CLOSED) {
         return 0;
     }
-    memberCount = func_02080D24(app->joinedBits);
+    memberCount = MATH_CountPopulation(app->joinedBits);
     if (app->phase == UNION_APP_PHASE_LIMITED) {
         limitedCount = app->limitedCount;
         if (limitedCount + 1 > app->limitedMax) {
@@ -176,7 +176,7 @@ int UNION_APP_TryAcceptMember(UnionAppWork *app, int netId)
 
 void UNION_APP_Update(UnionAppWork *app, UnionRoomWork *work)
 {
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         return;
     }
     if (app->resetDone == 1) {
@@ -604,5 +604,5 @@ unsigned char UNION_APP_GetJoinedBits(UnionAppWork *app)
 
 int UNION_APP_GetMemberCount(UnionAppWork *app)
 {
-    return func_02080D24(app->joinedBits);
+    return MATH_CountPopulation(app->joinedBits);
 }

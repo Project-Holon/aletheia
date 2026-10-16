@@ -85,7 +85,7 @@ typedef struct MysteryGraphicWork {
     unsigned int displayState;    /* 0x00 cleared while BG/BMP is created/destroyed */
     MysteryGraphicClact clact;    /* 0x04 */
     MysteryGraphicCamera camera;  /* 0x0C */
-    void *updateTask;             /* 0x14 func_020056A0 task driving the module */
+    void *updateTask;             /* 0x14 GFL_USE_AddMainTask task driving the module */
     unsigned short heapId;        /* 0x18 heap the object was allocated from */
 } MysteryGraphicWork;
 

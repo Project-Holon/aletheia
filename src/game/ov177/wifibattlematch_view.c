@@ -13,15 +13,15 @@
  * Cut from wifibattlematch_view.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021E8DBC 0x021E8DBC data a1
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049B40 0x02049B40 arm
- *   func_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -31,21 +31,21 @@
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   FX_SinCosTable_  0x020A1B38  data  a2
- *   func_02061CA4    0x02061CA4  arm
- *   func_02045B38 0x02045B38 arm
+ *   NNS_GfdRegisterNewVramTransferTask    0x02061CA4  arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
@@ -112,6 +112,10 @@
  *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb  arm9
  *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb  arm9
  *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb  arm9
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb  arm9
+ *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb  arm9
+ *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm  arm9
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm  arm9
  */
 #include "wifibattlematch_graphic_shared_types.h"
 #include "wifibattlematch_view_shared_types.h"
@@ -250,21 +254,21 @@ typedef struct {
     short base[14];
 } WifiBattleMatchViewPartyWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, u8, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
@@ -290,11 +294,11 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 
-extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern struct WordSet *WORDSET_CreateDefault(u16 heap);
 
@@ -302,13 +306,13 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -320,7 +324,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern void func_0207D63C(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 
 extern void CLACT_AddActorSurfacePos(void *, const Pt *, u16);
 
@@ -358,7 +362,7 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 
-extern void func_02008500(void *, void *);
+extern void MYSTATUS_NameToStrbuf(void *, void *);
 
 extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 
@@ -406,7 +410,7 @@ extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
 extern u8 func_02008554(const struct PlayerStatus *obj);
 
-extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 
 extern u32 BG_SYS_GetBuf(int);
 
@@ -438,7 +442,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
 extern void GFL_USE_StopSeSlot(int i);
 
-extern void *func_0200BAF4(int a0, int a1);
+extern void *BATTLE_BOX_CreateParty(int a0, int a1);
 
 extern unsigned POKEPARTY_GetCount(void *party);
 
@@ -583,15 +587,15 @@ u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
     u32 *out;
     u8 *data;
     u32 l, m;
-    w = func_02030734(heap, 0x7c, 0, d_021E8DBC, 0x7d);
+    w = GFL_HEAP_Alloc(heap, 0x7c, 0, d_021E8DBC, 0x7d);
     MI_CpuFill8(w, 0, 0x7c);
     k = 0x85;
     c = (heap & 0x7fff) | 0x8000;
-    h = func_020490F4(k, (u16)c);
+    h = ARC_TOOL_CreateHandle(k, (u16)c);
     func_02049B68(h, 0, 0, 0, 0, c);
     func_02049B68(h, 0, 4, 0, 0, c);
-    func_02049658(h, 2, 3, 0, 0, 0, c);
-    func_02049658(h, 2, 7, 0, 0, 0, c);
+    ARC_UTIL_UploadBgCharFromHandle(h, 2, 3, 0, 0, 0, c);
+    ARC_UTIL_UploadBgCharFromHandle(h, 2, 7, 0, 0, 0, c);
     WIFIBATTLEMATCH_VIEW_LoadBgPalette((int)w, mode, heap);
     w[0] = CLACT_RegisterPalette(h, 1, 0, 0, c);
     w[2] = CLACT_RegisterCharacter(h, 3, 0, 0, c);
@@ -604,12 +608,12 @@ u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
     MI_CpuCopy8(data, (u8 *)w + 0x38, 0x20);
     k += 0x9b;
     MI_CpuCopy8(data + k, (u8 *)w + 0x58, 0x20);
-    func_020307B0(hd);
+    GFL_HEAP_Free(hd);
     ARC_TOOL_DeleteHandle(h);
     l = 0x17;
     m = 5;
-    func_02049B40(l, m, 0, 0x1e0, 0x20, c);
-    func_02049B40(l, m, 4, 0x1e0, 0x20, c);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(l, m, 0, 0x1e0, 0x20, c);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(l, m, 4, 0x1e0, 0x20, c);
     BG_SYS_Init(0, 0, 1, 0);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xd, 0, c);
     BMP_MENUWORK_LoadCharAndPltt(0, 0xa, 0xe, 0, c);
@@ -629,26 +633,26 @@ void WIFIBATTLEMATCH_VIEW_Delete(WifiBattleMatchViewRoot *p)
     CLACT_ReleaseCharacter(p->d);
     CLACT_ReleaseCellAnim(p->f);
     BG_SYS_SetTileUnit(0, 1, 0);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color)
 {
     int h;
     unsigned c = (color & 0x7fff) | 0x8000;
-    h = (int)func_020490F4((int)0x85, (unsigned short)c);
-    func_020498F4((void *)h, 5, 3, 0, 0, 0, c);
-    func_020498F4((void *)h, 6, 7, 0, 0, 0, c);
+    h = (int)ARC_TOOL_CreateHandle((int)0x85, (unsigned short)c);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 5, 3, 0, 0, 0, c);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 6, 7, 0, 0, 0, c);
     switch (mode) {
     case 2:
-        func_020498F4((void *)h, 8, 6, 0, 0, 0, c);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 8, 6, 0, 0, 0, c);
         break;
     case 3:
-        func_020498F4((void *)h, 10, 2, 0, 0, 0, c);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 10, 2, 0, 0, 0, c);
         break;
     case 0:
     case 1:
-        func_020498F4((void *)h, 10, 6, 0, 0, 0, c);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 10, 6, 0, 0, 0, c);
         break;
     }
     BG_SYS_FillScrollArea(2, 0, -256);
@@ -734,7 +738,7 @@ void WIFIBATTLEMATCH_VIEW_BlendColors(u32 slot, u16 *out, const u16 *phase, u32 
     r = (u8)(r0 + (((r1 - r0) * f) >> 12));
     g = (u8)(g0 + (((g1 - g0) * f) >> 12));
     *out = (u16)((bl << 10) | (r | (g << 5)));
-    func_02061CA4((void *)slot, a * 32 + b * 2, (u32)out, 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)slot, a * 32 + b * 2, (u32)out, 2);
 }
 
 /*
@@ -749,31 +753,31 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
     int x, x1, x2;
     u16 w;
 
-    msg = func_02045B38(0, 2, 0xa3, heap);
+    msg = MSGDATA_CreateFromArchive(0, 2, 0xa3, heap);
     ws = WORDSET_CreateDefault(heap);
     buf = STRBUF_Create(0x20, heap);
     x = (u16)(BMP_WIN_GetWidth((void *)p[0]) << 3);
 
-    e = func_02045EC0(msg, 2);
+    e = MSGDATA_AllocString(msg, 2);
     WORDSET_SetSlotNumber(ws, 0, c1, 8, 0, 1);
     WORDSET_CopyTaggedText(ws, buf, e);
-    w = func_0201D304((struct StrObj *)buf, str, 0);
+    w = GF_FONT_MeasureWidestLine((struct StrObj *)buf, str, 0);
     x1 = x - w;
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x1, 0, buf, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
 
-    e = func_02045EC0(msg, 0);
-    w = func_0201D304(e, str, 0);
+    e = MSGDATA_AllocString(msg, 0);
+    w = GF_FONT_MeasureWidestLine(e, str, 0);
     x2 = x1 - w;
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x2, 0, e, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
 
-    e = func_02045EC0(msg, 1);
+    e = MSGDATA_AllocString(msg, 1);
     WORDSET_SetSlotNumber(ws, 0, c2, 8, 0, 1);
     WORDSET_CopyTaggedText(ws, buf, e);
-    w = func_0201D304((struct StrObj *)buf, str, 0);
+    w = GF_FONT_MeasureWidestLine((struct StrObj *)buf, str, 0);
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)(x2 - w), 0, buf, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
@@ -794,7 +798,7 @@ Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *i
     int alt;
     Pt pos;
     size = 0x229 + 0x1b;
-    w = func_02030734(heap, size, 0, d_021E8DBC, 0x229);
+    w = GFL_HEAP_Alloc(heap, size, 0, d_021E8DBC, 0x229);
     MI_CpuFill8(w, 0, size);
     w->bg = 5;
     w->palette = 15;
@@ -802,7 +806,7 @@ Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *i
     w->spritePalSlot = 7;
     w->layer = 1;
     alt = 1;
-    func_0207D63C((void *)0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *)0x04001050, 4, 8, 15, 3);
     kind = WIFIBATTLEMATCH_VIEW_GetEntryValue(info->total, info->a, info->b);
     if (kind != 5) alt = 0;
     WIFIBATTLEMATCH_VIEW_SetupMainWindow(w, a1, info, a2, a5, a6, a7, a8, alt, heap);
@@ -814,7 +818,7 @@ Work *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *i
     BG_SYS_FillTileMap(6, 0, 0, 0x20, 6, 1);
     BG_SYS_FillTileMap(6, 0, 6, 0x20, 18, kind + 3);
     BG_SYS_PushTile(6);
-    func_0207D63C((void *)0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *)0x04001050, 4, 8, 15, 3);
     return w;
 }
 
@@ -824,7 +828,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteMainWindow(void *p)
     WIFIBATTLEMATCH_VIEW_DeleteActorFromInfo(p);
     WIFIBATTLEMATCH_VIEW_DeletePokeActor(p);
     WIFIBATTLEMATCH_VIEW_DeleteWindow(p);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap)
@@ -833,7 +837,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *
   Layer layer;
   Pt pos;
   WifiBattleMatchViewStatusInfo *tmp;
-  w = func_02030734(heap, 0x244, 0, d_021E8DBC, 0x27f);
+  w = GFL_HEAP_Alloc(heap, 0x244, 0, d_021E8DBC, 0x27f);
   MI_CpuFill8(w, 0, 0x244);
   *((void **) (w + 0x238)) = record;
   *((u16 *) (w + 0x23c)) = heap;
@@ -846,7 +850,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *
     *((u8 *) (w + 0x232)) = 5;
     *((u8 *) (w + 0x233)) = 9;
     *((u32 *) (w + 0x234)) = 0;
-    func_0207D63C((void *) 0x04000050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) 0x04000050, 4, 8, 15, 3);
   }
   else
   {
@@ -856,7 +860,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *
     *((u8 *) (w + 0x233)) = 7;
     *((u32 *) (w + 0x234)) = 1;
     layer = 6;
-    func_0207D63C((void *) 0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) 0x04001050, 4, 8, 15, 3);
   }
   tmp = (WifiBattleMatchViewStatusInfo *) info;
   switch (*((u16 *) (info + 0xaa)))
@@ -893,7 +897,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteStatusWindow(void *p)
     WIFIBATTLEMATCH_VIEW_DeletePokeActor(p);
     WIFIBATTLEMATCH_VIEW_DeletePokeActors(p);
     WIFIBATTLEMATCH_VIEW_DeleteWindow(p);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -946,7 +950,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
             if(o)CLACT_SetActorDrawEnable(o,1);
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],1);
-        s=func_02045EC0(mgr,17);
+        s=MSGDATA_AllocString(mgr,17);
         PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,font,0x3c40);
         ((Work *)p)->slots[7].shown=1;
         break;
@@ -961,7 +965,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
             if(o)CLACT_SetActorDrawEnable(o,1);
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
-        s=func_02045EC0(mgr,18);
+        s=MSGDATA_AllocString(mgr,18);
         PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,font,0x3c40);
         ((Work *)p)->slots[7].shown=1;
         break;
@@ -976,7 +980,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
             if(o)CLACT_SetActorDrawEnable(o,0);
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
-        s=func_02045EC0(mgr,19);
+        s=MSGDATA_AllocString(mgr,19);
         PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,font,0x3c40);
         ((Work *)p)->slots[7].shown=1;
         break;
@@ -990,7 +994,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, vo
   Layer layer;
   Pt pos;
   WifiBattleMatchViewTimeInfo *tmp;
-  w = func_02030734(heap, 0x244, 0, d_021E8DBC, 0x354);
+  w = GFL_HEAP_Alloc(heap, 0x244, 0, d_021E8DBC, 0x354);
   MI_CpuFill8(w, 0, 0x244);
   *((void **) (w + 0x238)) = record;
   *((u16 *) (w + 0x23c)) = heap;
@@ -1003,7 +1007,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, vo
     *((u8 *) (w + 0x232)) = 5;
     *((u8 *) (w + 0x233)) = 9;
     *((u32 *) (w + 0x234)) = 0;
-    func_0207D63C((void *) 0x04000050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) 0x04000050, 4, 8, 15, 3);
   }
   else
   {
@@ -1013,7 +1017,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, vo
     *((u8 *) (w + 0x233)) = 7;
     *((u32 *) (w + 0x234)) = 1;
     layer = 6;
-    func_0207D63C((void *) 0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) 0x04001050, 4, 8, 15, 3);
   }
   tmp = (WifiBattleMatchViewTimeInfo *) info;
   switch (*((u16 *) (info + 0xa8)))
@@ -1050,7 +1054,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteDateWindow(void *p)
     WIFIBATTLEMATCH_VIEW_DeletePokeActor(p);
     WIFIBATTLEMATCH_VIEW_DeletePokeActors(p);
     WIFIBATTLEMATCH_VIEW_DeleteWindow(p);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 a5)
@@ -1095,7 +1099,7 @@ void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *pri
             if(o)CLACT_SetActorDrawEnable(o,1);
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],1);
-        s=func_02045EC0(mgr,17);
+        s=MSGDATA_AllocString(mgr,17);
         PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,font,0x3c40);
         ((Work *)p)->slots[9].shown=1;
         break;
@@ -1110,7 +1114,7 @@ void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *pri
             if(o)CLACT_SetActorDrawEnable(o,1);
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
-        s=func_02045EC0(mgr,18);
+        s=MSGDATA_AllocString(mgr,18);
         PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,font,0x3c40);
         ((Work *)p)->slots[9].shown=1;
         break;
@@ -1125,7 +1129,7 @@ void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *pri
             if(o)CLACT_SetActorDrawEnable(o,0);
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
-        s=func_02045EC0(mgr,19);
+        s=MSGDATA_AllocString(mgr,19);
         PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,font,0x3c40);
         ((Work *)p)->slots[9].shown=1;
         break;
@@ -1348,7 +1352,7 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const WifiBattle
             color = 0x3c40;
             break;
         case 2:
-            func_02008500(a3, s2);
+            MYSTATUS_NameToStrbuf(a3, s2);
             color = 0x3c40;
             break;
         case 3:
@@ -1432,7 +1436,7 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTime
             color = 0x3c40;
             break;
         case 2:
-            func_02008500(a3, s2);
+            MYSTATUS_NameToStrbuf(a3, s2);
             color = 0x3c40;
             break;
         case 3:
@@ -1512,7 +1516,7 @@ void WIFIBATTLEMATCH_VIEW_CreatePokeActors(Work *w, void *owner, void *rec, u16 
     u8 gender;
     int i;
     Request req, sub;
-    h = func_020490F4(7, heap);
+    h = ARC_TOOL_CreateHandle(7, heap);
     w->pal = (void *)CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), w->layer, (u16)(w->palSlot << 5), (heap & 0x7fff) | 0x8000);
     w->cell = (void *)CLACT_RegisterCellAnim(h, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), heap);
     for (i = 0; i < 6; i++) {
@@ -1522,7 +1526,7 @@ void WIFIBATTLEMATCH_VIEW_CreatePokeActors(Work *w, void *owner, void *rec, u16 
         w->chr[i] = (void *)CLACT_RegisterCharacter(h, POKE_TOOL_CalcGraphicIndex((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
     }
     ARC_TOOL_DeleteHandle(h);
-    h = func_020490F4(APP_ICON_GetArchiveId(), heap);
+    h = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heap);
     w->pal2 = (void *)CLACT_RegisterPaletteEx(h, APP_ICON_GetItemCellFileId(), w->layer, (u16)((w->palSlot + 3) << 5), (u32)0, (u32)1, (heap & 0x7fff) | 0x8000);
     w->chr2 = (void *)CLACT_RegisterCharacter(h, APP_ICON_GetItemPaletteFileId(), 0, w->layer, (heap & 0x7fff) | 0x8000);
     w->cell2 = (void *)CLACT_RegisterCellAnim(h, APP_ICON_GetItemAnimFileId(2), APP_ICON_GetItemFrameFileId(2), heap);
@@ -1587,7 +1591,7 @@ void WIFIBATTLEMATCH_VIEW_CreatePokeActor(unsigned char *p, unsigned idx, void *
 {
     void *handle;
     Request req;
-    handle = func_020490F4(0x20, heap);
+    handle = ARC_TOOL_CreateHandle(0x20, heap);
     ((Work *)p)->actorPal = CLACT_RegisterPaletteEx(handle, 0, ((Work *)p)->layer, p[0x233] * 32, d_021E8CBE[idx], 1, heap);
     ((Work *)p)->actorChr = CLACT_RegisterCharacter(handle, idx + 0x31, 0, ((Work *)p)->layer, heap);
     ((Work *)p)->actorCell = CLACT_RegisterCellAnim(handle, 0x41, 0x42, heap);
@@ -1663,7 +1667,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     WifiBattleMatchViewRecordWork *w;
     u32 kind;
     int alt;
-    w = func_02030734(heap, 0x9c, 0, d_021E8DBC, 0x952);
+    w = GFL_HEAP_Alloc(heap, 0x9c, 0, d_021E8DBC, 0x952);
     MI_CpuFill8(w, 0, 0x9c);
     w->owner = owner;
     w->mode = mode;
@@ -1676,7 +1680,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
         alt = kind == 5;
     WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (unsigned)a3, a4, a5, a6, alt, heap);
     WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, func_02008554((const struct PlayerStatus *)rec), a1, heap);
-    func_0204989C(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
+    ARC_UTIL_UploadBgPaletteFromArchive(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
     case 2:
     case 3:
@@ -1708,7 +1712,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     BG_SYS_PushTile(2);
     BG_SYS_FillScrollArea(2, 0, ~0xff);
     BG_SYS_FillScrollArea(1, 0, ~0xff);
-    func_0207D63C((void *)0x04000050, 4, 8, 0xf, 3);
+    G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0xf, 3);
     return w;
 }
 
@@ -1727,7 +1731,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(char *p)
     PMS_DRAW_Delete(((WifiBattleMatchViewRecordWork *)p)->menu);
     BG_SYS_FillScrollArea(2, 0, -256);
     BG_SYS_FillScrollArea(1, 0, -256);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 int WIFIBATTLEMATCH_VIEW_UpdateRecordWindow(void *p, void *mgr)
@@ -1913,7 +1917,7 @@ void WIFIBATTLEMATCH_VIEW_CreateRecordActor(char *p, unsigned idx, void *owner, 
 {
     void *handle;
     Request req;
-    handle = func_020490F4(0x20, heap);
+    handle = ARC_TOOL_CreateHandle(0x20, heap);
     ((WifiBattleMatchViewRecordWork *)p)->recPal = CLACT_RegisterPaletteEx(handle, 0, 0, 0x140, d_021E8CBE[idx], 1, heap);
     ((WifiBattleMatchViewRecordWork *)p)->recChr = CLACT_RegisterCharacter(handle, idx + 0x31, 0, 0, heap);
     ((WifiBattleMatchViewRecordWork *)p)->recCell = CLACT_RegisterCellAnim(handle, 0x41, 0x42, heap);
@@ -1983,7 +1987,7 @@ void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *owner, void *src, u16 heap)
 {
     void **objs;
     Request req;
-    objs = func_02030734(heap, 8, 0, d_021E8DBC, 0xBEF);
+    objs = GFL_HEAP_Alloc(heap, 8, 0, d_021E8DBC, 0xBEF);
     MI_CpuFill8(objs, 0, 8);
     MI_CpuFill8(&req, 0, 8);
     req.x = 0x80;
@@ -2005,7 +2009,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p)
 {
     CLACT_DeleteActor((struct Obj *)(*(int *)((char *)p + 4)));
     CLACT_DeleteActor((struct Obj *)(*(int *)p));
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -2057,12 +2061,12 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
     Request req;
     Request req2;
     Pt pos;
-    work = func_02030734(heap, sizeof(WifiBattleMatchViewPartyWork), 0, d_021E8DBC, 0xC8A);
+    work = GFL_HEAP_Alloc(heap, sizeof(WifiBattleMatchViewPartyWork), 0, d_021E8DBC, 0xC8A);
     MI_CpuFill8(work, 0, sizeof(WifiBattleMatchViewPartyWork));
     h = HeapTemp(heap);
-    party = func_0200BAF4((int)src, (u16)h);
-    func_0204989C((int)0x85, (int)7, (int)2, (int)0, (int)0, (int)0, h);
-    handle = func_020490F4(7, (unsigned)heap);
+    party = BATTLE_BOX_CreateParty((int)src, (u16)h);
+    ARC_UTIL_UploadBgPaletteFromArchive((int)0x85, (int)7, (int)2, (int)0, (int)0, (int)0, h);
+    handle = ARC_TOOL_CreateHandle(7, (unsigned)heap);
     work->pal = (void *)CLACT_RegisterPaletteCompressed(handle, POKE_TOOL_GetIconPaletteArcId(), 0, 0xA0, h);
     work->cell = (void *)CLACT_RegisterCellAnim(handle, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), (u16)h);
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
@@ -2072,7 +2076,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
         }
     }
     ARC_TOOL_DeleteHandle(handle);
-    handle = func_020490F4(APP_ICON_GetArchiveId(), (unsigned)heap);
+    handle = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), (unsigned)heap);
     work->palB = (void *)CLACT_RegisterPaletteEx(handle, APP_ICON_GetItemCellFileId(), 0, 0x100, 0, 1, (heap & 0x7FFF) | 0x8000);
     work->cellB = (void *)CLACT_RegisterCellAnim(handle, APP_ICON_GetItemAnimFileId((int)2), APP_ICON_GetItemFrameFileId((int)2), (u16)((heap & 0x7FFF) | 0x8000));
     work->chrB = (void *)CLACT_RegisterCharacter(handle, APP_ICON_GetItemPaletteFileId(), 0, 0, (heap & 0x7FFF) | 0x8000);
@@ -2100,9 +2104,9 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
     }
     fmt = WORDSET_CreateDefault((u16)((heap & 0x7FFF) | 0x8000));
     buf = STRBUF_Create(0x80, (u16)((heap & 0x7FFF) | 0x8000));
-    sLevel = func_02045EC0(msg, 0x63);
-    sMale = func_02045EC0(msg, 0x64);
-    sFemale = func_02045EC0(msg, 0x65);
+    sLevel = MSGDATA_AllocString(msg, 0x63);
+    sMale = MSGDATA_AllocString(msg, 0x64);
+    sFemale = MSGDATA_AllocString(msg, 0x65);
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         mon = POKEPARTY_GetMember(party, (int)i);
         if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0) {
@@ -2123,7 +2127,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
             level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
             WORDSET_SetSlotNumber(fmt, 0, level, 3, 1, 1);
             WORDSET_CopyTaggedText(fmt, buf, sLevel);
-            x = 20 - func_0201D304(buf, font, 0) / 2;
+            x = 20 - GF_FONT_MeasureWidestLine(buf, font, 0) / 2;
             PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), x, 0x24, buf, font, 0x440);
             work->ent[i].shown = 1;
         }
@@ -2142,8 +2146,8 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
     }
     BG_SYS_FillScrollArea((int)2, (int)0, (int)(-0x100));
     BG_SYS_FillScrollArea((int)1, (int)0, (int)(-0x100));
-    func_020307B0(party);
-    func_0207D63C((void *)0x04000050, 4, 8, 15, 3);
+    GFL_HEAP_Free(party);
+    G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 15, 3);
     return work;
 }
 
@@ -2158,7 +2162,7 @@ void WIFIBATTLEMATCH_VIEW_DeletePartyWindow(char *p)
  for(i=0;i<14;i++)if(*(void **)(p+i*4+0x30)!=0)CLACT_DeleteActor(*(void **)(p+i*4+0x30));
  CLACT_ReleaseCharacter((u32)(((WifiBattleMatchViewPartyWork *)p)->chrB));CLACT_ReleaseCellAnim((u32)(((WifiBattleMatchViewPartyWork *)p)->cellB));CLACT_ReleasePalette((u32)(((WifiBattleMatchViewPartyWork *)p)->palB));
  for(i=0;i<6;i++)if(*(void **)(p+i*4+0x30)!=0)CLACT_ReleaseCharacter((u32)(*(void **)(p+i*4+4)));
- CLACT_ReleaseCellAnim((u32)(((WifiBattleMatchViewPartyWork *)p)->cell));CLACT_ReleasePalette((u32)(((WifiBattleMatchViewPartyWork *)p)->pal));func_020307B0(p);
+ CLACT_ReleaseCellAnim((u32)(((WifiBattleMatchViewPartyWork *)p)->cell));CLACT_ReleasePalette((u32)(((WifiBattleMatchViewPartyWork *)p)->pal));GFL_HEAP_Free(p);
 }
 
 int WIFIBATTLEMATCH_VIEW_StepPartyWindow(WifiBattleMatchViewPartyWork *p)

@@ -39,7 +39,7 @@
  *   PM_DeletePreSleepCallback  0x0208C86C  arm
  *   func_0208C884  0x0208C884  arm
  *   SND_GetCurrentCommandTag  0x02089D40  arm
- *   func_02089B38  0x02089B38  arm
+ *   SND_FlushCommand  0x02089B38  arm
  *   SND_WaitForCommandProc  0x02089CD4  arm
  *   NNSi_SndWaveOutLockChannels  0x0207292C  arm
  *   SND_CHANNEL_UnlockChannels  0x02072974  arm
@@ -75,7 +75,7 @@ extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
 extern void PM_DeletePreSleepCallback(void *p);
 extern void func_0208C884(void *p);
 extern u32  SND_GetCurrentCommandTag(void);
-extern void func_02089B38(u32 a);
+extern void SND_FlushCommand(u32 a);
 extern void SND_WaitForCommandProc(u32 a);
 extern void NNS_SndWaveOutFreeChannel(u32 timerNo);
 extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *elem);
@@ -265,12 +265,12 @@ void NNS_SndStrmSetVolume(SndStrm *strm, s32 volume)
 
 /*
  * Stops the stream: when it was started, stops its timer channels, stops the
- * two alarms, clears the started bit and brackets func_02089B38(1) with the
+ * two alarms, clears the started bit and brackets SND_FlushCommand(1) with the
  * save/restore pair SND_GetCurrentCommandTag / SND_WaitForCommandProc.  The unguarded tail call to
  * NNSi_SndStrmReleaseTimer runs either way.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell: the literal 1 is live
- * twice (the `1 << timerNo` shift argument and the func_02089B38 argument), and
+ * twice (the `1 << timerNo` shift argument and the SND_FlushCommand argument), and
  * 1.1p1 pools it into a callee-saved register where the image rematerialises
  * it.  The guard is a SIGNED one-bit bitfield: the image reads it
  * `lsl #30 / asrs #31`.
@@ -284,7 +284,7 @@ void NNS_SndStrmStop(SndStrm *strm)
         func_0208C884(&strm->alarm[1]);
         strm->isStarted = 0;
         saved = SND_GetCurrentCommandTag();
-        func_02089B38(1);
+        SND_FlushCommand(1);
         SND_WaitForCommandProc(saved);
     }
     NNSi_SndStrmReleaseTimer(strm);
@@ -336,7 +336,7 @@ void NNSi_SndStrmUpdate(SndStrm *strm, u32 isTimerCall)
 
 /*
  * Alarm handler: when the stream was started, stops its timer channels and
- * brackets func_02089B38(1) with SND_GetCurrentCommandTag / SND_WaitForCommandProc.  It is
+ * brackets SND_FlushCommand(1) with SND_GetCurrentCommandTag / SND_WaitForCommandProc.  It is
  * NNS_SndStrmStop's tail without the alarm teardowns.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell, as NNS_SndStrmSetVolume and
@@ -348,6 +348,6 @@ void NNSi_SndStrmAlarmHandler(SndStrm *strm)
     if (!strm->isStarted) return;
     SND_StopTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
     saved = SND_GetCurrentCommandTag();
-    func_02089B38(1);
+    SND_FlushCommand(1);
     SND_WaitForCommandProc(saved);
 }

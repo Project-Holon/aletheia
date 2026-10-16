@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   d_021C0C70 0x021C0C70 data a4
  *   ZKNSEARCH_MAIN_LookupEntryId 0x021BCEF4 thumb ov210
  *   d_021C0C48 0x021C0C48 data a4
@@ -34,13 +34,13 @@ typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; u
 
 
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern struct FrameList *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
 extern void FRAME_LIST_CopyMapToBuffer(unsigned char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 ZKNSEARCH_MAIN_LookupEntryId(int a0, int a1);
 void ZKNSEARCH_LIST_InitFrameList(char *ctx);
 void ZKNSEARCH_LIST_InitFrameList2(char *ctx);
@@ -49,7 +49,7 @@ extern const Template d_021C0C48;
 
 void ZKNSEARCH_LIST_InitFrameList(char *ctx)
 {
-    void *archive = func_020490F4(159, 0x807b);
+    void *archive = ARC_TOOL_CreateHandle(159, 0x807b);
     Template config;
     unsigned i;
     config = d_021C0C70;
@@ -61,12 +61,12 @@ void ZKNSEARCH_LIST_InitFrameList(char *ctx)
     FRAME_LIST_CopyMapToBuffer(((ZknSearchWork *)ctx)->frameList, (unsigned int)archive, 97, 0, 0);
     FRAME_LIST_LoadPalettes(((ZknSearchWork *)ctx)->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i < 26; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(((ZknSearchWork *)ctx)->msgBank, i + 51); }
+    for (i = 0; i < 26; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i); ((void **)(ctx + 0x1e4))[i] = MSGDATA_AllocString(((ZknSearchWork *)ctx)->msgBank, i + 51); }
 }
 
 void ZKNSEARCH_LIST_InitFrameList2(char *ctx)
 {
-    void *archive = func_020490F4(159, 0x807b);
+    void *archive = ARC_TOOL_CreateHandle(159, 0x807b);
     Template config;
     unsigned i;
     config = d_021C0C48;
@@ -78,5 +78,5 @@ void ZKNSEARCH_LIST_InitFrameList2(char *ctx)
     FRAME_LIST_CopyMapToBuffer(((ZknSearchWork *)ctx)->frameList, (unsigned int)archive, 97, 0, 0);
     FRAME_LIST_LoadPalettes(((ZknSearchWork *)ctx)->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i <= 16; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(((ZknSearchWork *)ctx)->msgBank, ZKNSEARCH_MAIN_LookupEntryId((int)ctx, i)); }
+    for (i = 0; i <= 16; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i); ((void **)(ctx + 0x1e4))[i] = MSGDATA_AllocString(((ZknSearchWork *)ctx)->msgBank, ZKNSEARCH_MAIN_LookupEntryId((int)ctx, i)); }
 }

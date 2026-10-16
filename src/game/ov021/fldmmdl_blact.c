@@ -20,7 +20,7 @@
  *   func_020473B8  0x020473B8  arm
  *   BILLBOARD_AddImageFromVramKeys  0x0204F044  arm
  *   BILLBOARD_ACT_AddSlot  0x02050238  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   sBlactCellSize     0x021D75C4  data  a4
  *   sBlactTexFmt     0x021D8064  data  a4
  *   BILLBOARD_ACT_GetSlotBoardId  0x02050330  arm
@@ -33,7 +33,7 @@
  *   sBlactFileName     0x021DDD70  data  a1
  *   sBlactBoardScale     0x021D8058  data  a4
  *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
  *   FLDMMDL_LoadObjCodeParam  0x0216E2E8  thumb  ov010
  *   FLDMMDL_GetCachedObjCodeCount  0x0216E2E0  thumb  ov010
@@ -51,7 +51,7 @@
  *   FLDMMDL_CheckSameObjCodeOther  0x0216DFC4  thumb  ov010
  *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
  *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FLDMMDL_GetObjCodeParamBlActRes  0x0216E3C8  thumb  ov010
  *   FLDMMDL_SysGetResArcHandle  0x0216D518  thumb  ov010
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
@@ -72,7 +72,7 @@ extern u32 func_02047388(void *res);
 extern u32 func_020473B8(void *res);
 extern int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texKey, int plttKey, int a3, u32 texFmt, u8 cellWidth, u8 cellHeight);
 extern u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 imageId, u32 c);
-extern void func_02046EFC(void *res);
+extern void G3D_SYSTEM_DeleteResource(void *res);
 extern u16 BILLBOARD_ACT_GetSlotBoardId(struct BbActSys *sys, int slotIndex);
 extern int BILLBOARD_ACT_DeleteSlot(struct BbActSys *sys, int slotIndex);
 extern void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int imageId);
@@ -81,7 +81,7 @@ extern void FLDMMDL_SysSetBlActCont(MmdlSys *sys, BlactSys *cont);
 extern void BILLBOARD_SetScale(struct BbBoard *board, VecFx32 *scale);
 extern void BILLBOARD_SetPolyIdBase(struct BbBoard *board, u8 *polyIdBase);
 extern BlactSys *FLDMMDL_SysGetBlActCont(MmdlSys *sys);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 extern void FLDMMDL_LoadObjCodeParam(MmdlSys *sys, u32 code, MmdlObjCodeParam *out);
 extern u16 FLDMMDL_GetCachedObjCodeCount(MmdlSys *sys);
@@ -98,7 +98,7 @@ extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count
 extern int FLDMMDL_CheckSameObjCodeOther(Mmdl *mmdl, u32 code);
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *sys, u16 first, u32 count);
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern u16 *FLDMMDL_GetObjCodeParamBlActRes(const MmdlObjCodeParam *param);
 extern void *FLDMMDL_SysGetResArcHandle(MmdlSys *sys);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arcHandle, u32 dataId);
@@ -184,7 +184,7 @@ int FLDMMDL_BLACT_AddVramSlot(struct BbActSys *sys, void *res, u32 mdlSize, u32 
         u16 *cellSize = sBlactCellSize[mdlSize];
         u32 texKey = func_02047388(res);
         slotIndex = BILLBOARD_ACT_AddSlot(sys, BILLBOARD_AddImageFromVramKeys(board, texKey, func_020473B8(res), 0, sBlactTexFmt[texSize], (u8)cellSize[0], (u8)cellSize[1]), 0);
-        func_02046EFC(res);
+        G3D_SYSTEM_DeleteResource(res);
     }
     return slotIndex;
 }
@@ -199,7 +199,7 @@ void FLDMMDL_BLACT_DeleteVramSlot(struct BbActSys *sys, u32 slotIndex)
 
 void FLDMMDL_BLACT_Init(MmdlSys *mmdlSys, struct BbActSys *bbdActSys, u32 resMax)
 {
-    BlactSys *cont = func_02030734(FLDMMDL_SysGetHeapId(mmdlSys), 0x24, 1, (const char *)sBlactFileName, 360);
+    BlactSys *cont = GFL_HEAP_Alloc(FLDMMDL_SysGetHeapId(mmdlSys), 0x24, 1, (const char *)sBlactFileName, 360);
     struct BbBoard *board;
     VecFx32 scale;
     u8 polyIdBase;
@@ -223,7 +223,7 @@ void FLDMMDL_BLACT_Exit(MmdlSys *mmdlSys)
     FLDMMDL_BLACT_DeleteCodeChange(cont);
     FLDMMDL_BLACT_DeleteReserve(cont);
     FLDMMDL_BLACT_DeleteAllRes(cont);
-    func_020307B0(cont);
+    GFL_HEAP_Free(cont);
     FLDMMDL_SysSetBlActCont(mmdlSys, 0);
 }
 
@@ -437,7 +437,7 @@ void FLDMMDL_BLACT_GetActorSize(Mmdl *mmdl, u16 *width, u16 *height)
 
 void FLDMMDL_BLACT_InitResTable(BlactResTable *table, u32 count, u32 heapId)
 {
-    BlactResIndex *entry = func_02030734(heapId, count * sizeof(BlactResIndex), 1, (const char *)sBlactFileName, 0x484);
+    BlactResIndex *entry = GFL_HEAP_Alloc(heapId, count * sizeof(BlactResIndex), 1, (const char *)sBlactFileName, 0x484);
     table->count = count;
     table->entries = entry;
     do {
@@ -449,7 +449,7 @@ void FLDMMDL_BLACT_InitResTable(BlactResTable *table, u32 count, u32 heapId)
 
 void FLDMMDL_BLACT_FreeResTable(BlactResTable *table)
 {
-    func_020307B0(table->entries);
+    GFL_HEAP_Free(table->entries);
 }
 
 void FLDMMDL_BLACT_AddResIndex(BlactResTable *table, u16 code, u16 slotIndex, u16 flags)
@@ -558,21 +558,21 @@ int FLDMMDL_BLACT_FindRes(BlactSys *cont, u32 code, u16 *slotIndex, u16 *flags)
 void FLDMMDL_BLACT_CreateReserve(BlactSys *cont)
 {
     u32 heapId = FLDMMDL_SysGetHeapId(cont->mmdlSys);
-    BlactReserve *reserve = func_02030734(heapId, sizeof(BlactReserve), 1, (const char *)sBlactFileName, 1491);
+    BlactReserve *reserve = GFL_HEAP_Alloc(heapId, sizeof(BlactReserve), 1, (const char *)sBlactFileName, 1491);
     BlactResReserve *res;
     int i;
     reserve->resReserveMax = cont->resMax;
     reserve->actReserveMax = FLDMMDL_SysGetMmdlMax(cont->mmdlSys);
     reserve->addResMax = 1;
-    res = func_02030734(heapId, sizeof(BlactResReserve) * reserve->resReserveMax, 1, (const char *)sBlactFileName, 1498);
+    res = GFL_HEAP_Alloc(heapId, sizeof(BlactResReserve) * reserve->resReserveMax, 1, (const char *)sBlactFileName, 1498);
     reserve->resReserve = res;
     i = 0;
     if (i < reserve->resReserveMax) {
         for (; i < reserve->resReserveMax; i++, res++)
             res->code = 0xFFFF;
     }
-    reserve->addRes = func_02030734(heapId, sizeof(BlactAddRes) * reserve->addResMax, 1, (const char *)sBlactFileName, 1511);
-    reserve->actReserve = func_02030734(heapId, sizeof(BlactEntry) * reserve->actReserveMax, 1, (const char *)sBlactFileName, 1513);
+    reserve->addRes = GFL_HEAP_Alloc(heapId, sizeof(BlactAddRes) * reserve->addResMax, 1, (const char *)sBlactFileName, 1511);
+    reserve->actReserve = GFL_HEAP_Alloc(heapId, sizeof(BlactEntry) * reserve->actReserveMax, 1, (const char *)sBlactFileName, 1513);
     reserve->isActive = 1;
     cont->reserve = reserve;
 }
@@ -586,25 +586,25 @@ void FLDMMDL_BLACT_DeleteReserve(BlactSys *cont)
     if (reserve == 0) return;
     i = 0;
     reserve->isActive = i;
-    func_020307B0(reserve->resReserve);
+    GFL_HEAP_Free(reserve->resReserve);
     addRes = reserve->addRes;
     if (i < reserve->addResMax) {
         for (; i < reserve->addResMax; i++, addRes++) {
             if (addRes->resHandle != 0)
-                func_02046EFC(addRes->resHandle);
+                G3D_SYSTEM_DeleteResource(addRes->resHandle);
         }
     }
-    func_020307B0(reserve->addRes);
+    GFL_HEAP_Free(reserve->addRes);
     i = 0;
     entry = reserve->actReserve;
     if (i < reserve->actReserveMax) {
         for (; i < reserve->actReserveMax; i++, entry++) {
             if (entry->outBlactId != 0 && entry->resHandle != 0)
-                func_02046EFC(entry->resHandle);
+                G3D_SYSTEM_DeleteResource(entry->resHandle);
         }
     }
-    func_020307B0(reserve->actReserve);
-    func_020307B0(reserve);
+    GFL_HEAP_Free(reserve->actReserve);
+    GFL_HEAP_Free(reserve);
     cont->reserve = 0;
 }
 
@@ -797,7 +797,7 @@ int FLDMMDL_BLACT_CancelReservedRes(BlactSys *cont, unsigned int code)
     for (; j < addCount; j++, addRes++) {
         if (addRes->resHandle != 0 && addRes->code == code) {
             addRes->isReady = 0;
-            func_02046EFC(addRes->resHandle);
+            G3D_SYSTEM_DeleteResource(addRes->resHandle);
             addRes->resHandle = 0;
             return 1;
         }
@@ -929,7 +929,7 @@ void FLDMMDL_BLACT_CancelReservedActor(BlactSys *cont, Mmdl *mmdl)
                 }
             }
             if (entry->resHandle != 0) {
-                func_02046EFC(entry->resHandle);
+                G3D_SYSTEM_DeleteResource(entry->resHandle);
                 entry->resHandle = 0;
             }
             FLDMMDL_BLACT_ClearActorReserve(entry);
@@ -994,7 +994,7 @@ void FLDMMDL_BLACT_ChangeObjCode(Mmdl *mmdl, unsigned int code)
 void FLDMMDL_BLACT_CreateCodeChange(BlactSys *cont)
 {
     cont->codeChanges =
-        func_02030734(FLDMMDL_SysGetHeapId(cont->mmdlSys), sizeof(BlactCodeChange) * FLDMMDL_BLACT_CODE_CHANGE_MAX, 1, (const char *)sBlactFileName, 0x979);
+        GFL_HEAP_Alloc(FLDMMDL_SysGetHeapId(cont->mmdlSys), sizeof(BlactCodeChange) * FLDMMDL_BLACT_CODE_CHANGE_MAX, 1, (const char *)sBlactFileName, 0x979);
 }
 
 void FLDMMDL_BLACT_DeleteCodeChange(BlactSys *cont)
@@ -1008,7 +1008,7 @@ void FLDMMDL_BLACT_DeleteCodeChange(BlactSys *cont)
                 change->mmdl = 0;
             }
         }
-        func_020307B0(cont->codeChanges);
+        GFL_HEAP_Free(cont->codeChanges);
     }
 }
 

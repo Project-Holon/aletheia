@@ -17,15 +17,15 @@
  *   func_02184144  0x02184144  arm  ov009
  *   gpiSetErrorString  0x02193734  arm  ov009
  *   gGpiKeysErrorOutOfMemory  0x021A4D80  data
- *   func_021841B0  0x021841B0  arm  ov009
+ *   ArrayFree  0x021841B0  arm  ov009
  *   strcmp                0x020948E0  arm
  *   goastrdup  0x0217F1E0  arm  ov009
  *   func_021842D0  0x021842D0  arm  ov009
  *   gGpiKeysErrorInvalidName  0x021A4D90  data
  *   gGpiKeysErrorInvalidValue  0x021A4DA4  data
  *   func_0218D864  0x0218D864  arm  ov009
- *   func_021843E8  0x021843E8  arm  ov009
- *   func_02184208  0x02184208  arm  ov009
+ *   ArraySearch  0x021843E8  arm  ov009
+ *   ArrayNth  0x02184208  arm  ov009
  *   ArrayLength  0x02184200  arm   ov009
  *   OS_SPrintf  0x02084F40  arm
  *   strlen  0x0209477C  arm
@@ -53,13 +53,13 @@ typedef unsigned char  u8;
 extern void gsifree(void *ptr);
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
 extern void gpiSetErrorString(int *p, int b);
-extern void func_021841B0(void *array);
+extern void ArrayFree(void *array);
 extern int strcmp(const char *s1, const char *s2);
 extern char *goastrdup(char *src);
 extern void func_021842D0(void *array, void *newElem, int (*comparator)(void *, void *));
 extern int func_0218D864(void *elem1, void *elem2);
-extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void *func_02184208(void *array, int n);
+extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
+extern void *ArrayNth(void *array, int n);
 extern int ArrayLength(const int *p);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int strlen(const u8 *s);
@@ -147,7 +147,7 @@ void gpiStatusInfoKeysDestroy(void **connection)
 
     if (iconnection->extendedInfoKeys == 0)
         return;
-    func_021841B0(iconnection->extendedInfoKeys);
+    ArrayFree(iconnection->extendedInfoKeys);
     iconnection->extendedInfoKeys = 0;
 }
 
@@ -203,9 +203,9 @@ int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newK
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
-    anIndex = func_021843E8(keys, &aKey, func_0218D864, 0, 1);
+    anIndex = ArraySearch(keys, &aKey, func_0218D864, 0, 1);
     if (anIndex != -1) {
-        aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
+        aKeyFound = (struct GPIKey *)ArrayNth(keys, anIndex);
         gsifree(aKeyFound->keyValue);
         aKeyFound->keyValue = goastrdup(newKeyValue);
     }
@@ -230,9 +230,9 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
-    anIndex = func_021843E8(keys, &aKey, func_0218D864, 0, 1);
+    anIndex = ArraySearch(keys, &aKey, func_0218D864, 0, 1);
     if (anIndex != -1) {
-        aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
+        aKeyFound = (struct GPIKey *)ArrayNth(keys, anIndex);
         *keyValue = aKeyFound->keyValue;
     }
     gsifree(aKey.keyName);
@@ -286,7 +286,7 @@ int gpiSaveKeysToBuffer(void **connection, char **buffer)
     OS_SPrintf(keysHeader, gGpiKeysHeaderFmt, aLength);
 
     for (i = 0; i < aLength; i++) {
-        GPIKey *aKey = (GPIKey *)func_02184208(iconnection->extendedInfoKeys, i);
+        GPIKey *aKey = (GPIKey *)ArrayNth(iconnection->extendedInfoKeys, i);
         base64KeyNameLen = B64LEN(aKey->keyName);
         base64KeyValLen = B64LEN(aKey->keyValue);
         sizeKeys += base64KeyNameLen + 2 + base64KeyValLen;
@@ -303,7 +303,7 @@ int gpiSaveKeysToBuffer(void **connection, char **buffer)
     tempPoint = *buffer + bytesWritten;
 
     for (i = 0; i < aLength; i++) {
-        GPIKey *aKey = (GPIKey *)func_02184208(iconnection->extendedInfoKeys, i);
+        GPIKey *aKey = (GPIKey *)ArrayNth(iconnection->extendedInfoKeys, i);
         strcat((u8 *)tempPoint, (const u8 *)gGpiKeysBackslash);
         tempPoint++;
         B64ENC(aKey->keyName, tempPoint);

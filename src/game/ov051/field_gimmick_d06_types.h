@@ -112,10 +112,10 @@ extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern struct G3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *memory);
 extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *effects, int *effectIds, int count);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern void MI_CpuFill(void *dst, int data, int size);

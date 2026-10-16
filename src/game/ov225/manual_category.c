@@ -13,8 +13,8 @@
  * Cut from manual_category.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MANUAL_COMMON_GetGroupCount 0x021B9C50 thumb ov225
  *   MANUAL_COMMON_GetGroupValue1 0x021B9C34 thumb ov225
  *   MANUAL_COMMON_GetGroupValue2 0x021B9C40 thumb ov225
@@ -23,9 +23,9 @@
  *   MANUAL_COMMON_GetGroupValue0 0x021B9C28 thumb ov225
  *   MANUAL_COMMON_CreateListWork 0x021BA65C thumb ov225
  *   gManualCategoryListAllocFile 0x021BC048 data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   MANUAL_COMMON_DeleteListWork 0x021BA740 thumb ov225
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MANUAL_COMMON_UpdateListWork 0x021BA760 thumb ov225
  */
 #include "manual_category_shared_types.h"
@@ -39,9 +39,9 @@ struct ManualListOwner {
     u16 pad0A;
 };
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern u16 MANUAL_COMMON_GetGroupCount(const char *p);
 
@@ -57,11 +57,11 @@ extern u16 MANUAL_COMMON_GetGroupValue0(char *,int);
 
 extern void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
 
-extern void func_02030EAC(struct Node *);
+extern void TCB_DeleteTask(struct Node *);
 
 extern void MANUAL_COMMON_DeleteListWork(char *);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int MANUAL_COMMON_UpdateListWork(char *p);
 
@@ -80,7 +80,7 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
     char *q;
     u16 groups,items;
     u16 i,j,valid;
-    q=func_02030734(((struct ManualData *)data)->heap,0x24,1,gManualCategoryListAllocFile,0x5c);
+    q=GFL_HEAP_Alloc(((struct ManualData *)data)->heap,0x24,1,gManualCategoryListAllocFile,0x5c);
     *(char * *)&((struct ManualMenuList *)q)->owner=p;
     ((struct ManualListOwner *)p)->hasDetail=0;
     ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->detailEntry=0;
@@ -88,7 +88,7 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
     ((struct ManualMenuList *)q)->ready=0;
     groups=MANUAL_COMMON_GetGroupCount(*(char * *)&((struct ManualData *)data)->assets);
     ((struct ManualMenuList *)q)->entryCount=0;
-    *(char * *)&((struct ManualMenuList *)q)->entries=func_02030734(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->heap,groups*8,1,gManualCategoryListAllocFile,0x71);
+    *(char * *)&((struct ManualMenuList *)q)->entries=GFL_HEAP_Alloc(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->heap,groups*8,1,gManualCategoryListAllocFile,0x71);
     for(i=0;i<groups;i++) {
         valid=0;
         items=MANUAL_COMMON_GetGroupValue1(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
@@ -108,7 +108,7 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
     ((struct ManualMenuList *)q)->savedA=*(u16 *)*(char * *)&((struct ManualMenuList *)q)->owner;
     ((struct ManualMenuList *)q)->savedB=((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->originY;
     *(char * *)&((struct ManualMenuList *)q)->widget=MANUAL_COMMON_CreateListWork(q+8,(struct ManualData *)data);
-    ((struct ManualMenuList *)q)->task=func_020056A0((unsigned)MANUAL_CATEGORY_TaskNoop,(unsigned)q,1);
+    ((struct ManualMenuList *)q)->task=GFL_USE_AddMainTask((unsigned)MANUAL_CATEGORY_TaskNoop,(unsigned)q,1);
     return q;
 }
 
@@ -118,7 +118,7 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
  */
 void MANUAL_CATEGORY_DeleteList(char *p)
 {
-    func_02030EAC(*(struct Node * *)&((struct ManualMenuList *)p)->task);
+    TCB_DeleteTask(*(struct Node * *)&((struct ManualMenuList *)p)->task);
     *(u16 *)*(char * *)&((struct ManualMenuList *)p)->owner = ((struct ManualMenuList *)p)->savedA;
     ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY = ((struct ManualMenuList *)p)->savedB;
     if (((struct ManualMenuList *)p)->mode == 0) ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 0;
@@ -127,8 +127,8 @@ void MANUAL_CATEGORY_DeleteList(char *p)
         ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->detailEntry = *(u16 *)(*(char * *)&((struct ManualMenuList *)p)->entries + ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY * 8);
     }
     MANUAL_COMMON_DeleteListWork(*(char * *)&((struct ManualMenuList *)p)->widget);
-    func_020307B0(((struct ManualMenuList *)p)->entries);
-    func_020307B0(p);
+    GFL_HEAP_Free(((struct ManualMenuList *)p)->entries);
+    GFL_HEAP_Free(p);
 }
 
 int MANUAL_CATEGORY_IsListFinished(char *p)

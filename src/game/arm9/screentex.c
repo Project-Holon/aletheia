@@ -13,7 +13,7 @@
  * Cut from codein_param.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734    0x02030734  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
  *   SCREENTEX_WorkTemplate     0x020A033C  data
  *   screentex_File     0x020A77E0  data
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
@@ -74,7 +74,7 @@ typedef struct {
     MtxFx33  rotation;
 } CameraBlock;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern int G3D_SYSTEM_GetResourceSize(void);
 
@@ -179,8 +179,8 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount)
     u32 vramBanks;
     u32 slotBits;
 
-    control = func_02030734(heapId, G3D_SYSTEM_GetResourceSize(), 0, screentex_File, 0x3b);
-    work = func_02030734(heapId, 0x8c, 0, screentex_File, 0x3c);
+    control = GFL_HEAP_Alloc(heapId, G3D_SYSTEM_GetResourceSize(), 0, screentex_File, 0x3b);
+    work = GFL_HEAP_Alloc(heapId, 0x8c, 0, screentex_File, 0x3c);
     MI_CpuCopy8(SCREENTEX_WorkTemplate, work, 0x8c);
     func_02046C9C(control, 2, (u32)work);
     texHeader = NNS_G3dGetTex(work);

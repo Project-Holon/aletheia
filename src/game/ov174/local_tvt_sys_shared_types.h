@@ -52,7 +52,7 @@ struct StepEntry {
 };
 
 /* The 8-byte game-mode record LocalTvtSys.modeData points at, created by
- * func_02030734 in LOCAL_TVT_SYS_ProcInit. */
+ * GFL_HEAP_Alloc in LOCAL_TVT_SYS_ProcInit. */
 struct LocalTvtSysMode {
     unsigned short mode;       /* 0x00 1, or 5 when the Select key is held */
     unsigned char pad_02[2];   /* 0x02 */
@@ -66,7 +66,7 @@ struct LocalTvtSysMode {
 struct LocalTvtSys {
     unsigned short heapId;                 /* 0x00 heap id, 0x55 */
     unsigned char pad_02[2];               /* 0x02 */
-    void *vblankTask;                      /* 0x04 func_020056A0 task */
+    void *vblankTask;                      /* 0x04 GFL_USE_AddMainTask task */
     int charaCount;                        /* 0x08 2 or 4 */
     unsigned char state;                   /* 0x0C main state machine */
     unsigned char highBase;                /* 0x0D 0 selects the low VRAM/palette base set, 1 the high */
@@ -79,7 +79,7 @@ struct LocalTvtSys {
     union { int asInt; void *ptr; } activeChara;  /* 0x2C active chara, or 0 */
     void *modeData;                        /* 0x30 struct LocalTvtSysMode */
     int pending;                           /* 0x34 step restart flag */
-    void *menuHandle;                      /* 0x38 loaded menu data, freed by func_020307B0 */
+    void *menuHandle;                      /* 0x38 loaded menu data, freed by GFL_HEAP_Free */
     void *menuCharaTable;                       /* 0x3C menu data */
     union { unsigned char *bytes; struct StepEntry *entries; } stepTable; /* 0x40 */
     union { unsigned int value; void *ptr; } palette;    /* 0x44 CLACT palette */

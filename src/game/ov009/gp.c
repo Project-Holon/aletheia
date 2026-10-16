@@ -40,7 +40,7 @@
  *   g_021A408C     0x021A408C  data
  *   g_021A4098     0x021A4098  data
  *   gpiAuthBuddyRequest  0x02188FD8  arm
- *   func_0218FD9C  0x0218FD9C  arm   ov009
+ *   gpiGetProfile  0x0218FD9C  arm   ov009
  *   gsifree  0x0217EAE0  arm   ov009
  *   gpiCanFreeProfile  0x02190140  arm   ov009
  *   gpiRemoveProfile  0x0218FF24  arm   ov009
@@ -95,7 +95,7 @@ extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
 extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
 extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 extern int gpiAuthBuddyRequest(void **connection, int profile);
-extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
+extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern void gsifree(void *ptr);
 extern int gpiCanFreeProfile(char *p);
 extern void gpiRemoveProfile(const int *p, void *profile);
@@ -421,7 +421,7 @@ int gpDenyBuddyRequest(void **connection, int profile)
         gpiSetErrorString((int *)connection, (int)g_021A4024);
         return 2;
     }
-    if (!func_0218FD9C(connection, profile, &pProfile))
+    if (!gpiGetProfile(connection, profile, &pProfile))
         return 0;
     pProfile->requestCount--;
     if (iconnection->infoCaching == 0 && pProfile->requestCount <= 0) {
@@ -516,9 +516,9 @@ int gpGetBuddyIndex(void **connection, int profile, int *index)
         *index = 0;
         return 0;
     }
-    if (func_0218FD9C(connection, profile, (GPIProfile * *)&pProfile) && pProfile->buddyStatus != 0)
+    if (gpiGetProfile(connection, profile, (GPIProfile * *)&pProfile) && pProfile->buddyStatus != 0)
         *index = pProfile->buddyStatus->buddyIndex;
-    else if (func_0218FD9C(connection, profile, (GPIProfile * *)&pProfile) && pProfile->buddyStatusInfo != 0)
+    else if (gpiGetProfile(connection, profile, (GPIProfile * *)&pProfile) && pProfile->buddyStatusInfo != 0)
         *index = pProfile->buddyStatusInfo->buddyIndex;
     else
         *index = -1;

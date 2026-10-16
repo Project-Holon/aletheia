@@ -1,7 +1,7 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: GFL_NET_ERR_PollNetState, func_0200F300, func_0200F34C, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, func_0200F520, func_0200F594, GFL_NET_ERR_InsertFriend, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, func_0200FB6C, func_0200FBA0, func_0200FBB0, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
+ * function: GFL_NET_ERR_PollNetState, func_0200F300, func_0200F34C, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, func_0200F520, func_0200F594, GFL_NET_ERR_InsertFriend, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, func_0200FA94, func_0200FAAC, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, func_0200FB6C, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
  * address:  0x0200F2D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@
  *   GFL_NET_GetWifiUserData   0x0203D5EC  arm
  *   GFL_NET_GetFriendList   0x0203D610  arm
  *   GFL_NET_GetFriendListNum   0x0203D634  arm
- *   func_02009860           0x02009860  thumb
+ *   WIFILIST_GetWork           0x02009860  thumb
  *   WIFILIST_GetDwcFriendData            0x020099C8  thumb
  *   func_02009A34           0x02009A34  thumb
  *   DWC_CheckFriendKey      0x02059354  arm
@@ -41,7 +41,7 @@
  *   DWC_RAP_GetVchatEnabled  0x02156B70  thumb  ov009
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   MI_CpuFill8       0x02082BCC  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_CheckError  0x0203D880  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
@@ -60,7 +60,7 @@
  *   UI_ClearFlags39Global  0x020351A0  arm
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
@@ -102,9 +102,9 @@
  *   BMP_CreateFromVram     0x02043754  arm
  *   WORDSET_CreateDefault     0x0201EC64  thumb
  *   GF_FONT_Create     0x0201D7EC  thumb
- *   func_02045B38     0x02045B38  arm
+ *   MSGDATA_CreateFromArchive     0x02045B38  arm
  *   WORDSET_SetSlotNumber     0x0201EFA4  thumb
- *   func_02045EC0     0x02045EC0  arm
+ *   MSGDATA_AllocString     0x02045EC0  arm
  *   STRBUF_Create     0x020457B0  arm
  *   WORDSET_CopyTaggedText     0x0201F250  thumb
  *   PRINTSYS_PrintColor     0x0201C7D0  thumb
@@ -304,7 +304,7 @@ extern int DWC_GetGsProfileId(void *userData, const void *friendData);
 extern u32 GFL_NET_GetWifiUserData(void);
 extern u32 GFL_NET_GetFriendList(void);
 extern u32 GFL_NET_GetFriendListNum(void);
-extern struct DWCstAccUserData *func_02009860(struct WifiFriendSave *save);
+extern struct DWCstAccUserData *WIFILIST_GetWork(struct WifiFriendSave *save);
 extern struct WifiFriendRecord *WIFILIST_GetDwcFriendData(struct WifiFriendSave *save, int slot);
 extern u32 func_02009A34(struct WifiFriendSave *save);
 extern int  DWC_CheckFriendKey(void *userData, u64 friendKey);
@@ -326,7 +326,7 @@ extern s16 DWC_RAP_GetVchatEnabled(void);
 extern void GFL_USE_SetBgmTrackVolume(u32 eventMask, u32 eventValue);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u32 func_02030734(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);
+extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);
 extern int GFL_NET_GetRunState(void);
 extern u32  GFL_NET_CheckError(void);
 extern int GFL_NET_SYSTEM_IsError(void);
@@ -347,7 +347,7 @@ extern void GXS_SetGraphicsMode(u32 bgMode);
 extern int UI_ClearFlags39Global(u32 mode);
 extern void GFL_USE_PollPowerExit(void);
 extern int   GFL_NET_IsSessionNull(void);
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 extern void GFL_NET_ClearExitFlag(void);
 extern int GFL_NET_Exit(int arg);
@@ -426,9 +426,9 @@ extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flag);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct U16String *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
@@ -566,7 +566,7 @@ int GFL_NET_ERR_FindFriendByKey(void *saveBlock, u64 friendKey, int *outSlot)
     int i;
     DWCFriendData token;
 
-    userData = func_02009860(saveBlock);
+    userData = WIFILIST_GetWork(saveBlock);
     i = 0;
     friends = (DWCFriendData *)WIFILIST_GetDwcFriendData(saveBlock, 0);
     friendCount = func_02009A34(saveBlock);
@@ -674,7 +674,7 @@ int GFL_NET_ERR_InsertFriend(void *saveData, void *profile, void *friendData, vo
             GFL_NET_ERR_StoreFriendRecord(saveData, profile, friendData, i, heapId, 0);
             return 1;
         }
-        mode = GFL_NET_ERR_CompareFriend(friendData, func_02009860(saveBlock), record);
+        mode = GFL_NET_ERR_CompareFriend(friendData, WIFILIST_GetWork(saveBlock), record);
         if (mode == 0) {
             GFL_NET_ERR_StoreFriendRecord(saveData, profile, friendData, i, heapId, 2);
             return 0;
@@ -718,9 +718,9 @@ void GFL_NET_ERR_Init(u32 heapId)
 
     MI_CpuFill8(work, 0, sizeof(NetErrWork));
 
-    work->bg1CharBackup = (void *)func_02030734((u16)heapId, NET_ERR_BG1_CHAR_SIZE, 0, srcFile, 0xbb);
-    work->bg1ScrBackup = (void *)func_02030734((u16)heapId, NET_ERR_BG1_SCR_SIZE, 0, srcFile, 0xbc);
-    work->plttBackup = (void *)func_02030734((u16)heapId, NET_ERR_PLTT_BACKUP_SIZE, 0, srcFile, 0xbd);
+    work->bg1CharBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_BG1_CHAR_SIZE, 0, srcFile, 0xbb);
+    work->bg1ScrBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_BG1_SCR_SIZE, 0, srcFile, 0xbc);
+    work->plttBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_PLTT_BACKUP_SIZE, 0, srcFile, 0xbd);
 }
 
 
@@ -1101,9 +1101,9 @@ void GFL_NET_ERR_ExitAndHalt(void)
 {
     NetErrWork *work = &gNetErrWork;
 
-    func_020307B0(work->bg1CharBackup);
-    func_020307B0(work->bg1ScrBackup);
-    func_020307B0(work->plttBackup);
+    GFL_HEAP_Free(work->bg1CharBackup);
+    GFL_HEAP_Free(work->bg1ScrBackup);
+    GFL_HEAP_Free(work->plttBackup);
     GFL_HEAP_DeleteChecked(NET_ERR_HEAP_ID);
 
     gNetErrWork.netType = NET_ERR_NETTYPE_NO_BACKUP;
@@ -1410,7 +1410,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
         dst = G2_GetBG1CharPtr();
         MIi_CpuCopy16(charData->pixels, dst, size);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].scrnFileId, 0, 1);
     if (NNS_G2dGetUnpackedScreenData(file, (void **)(&scrnData)) != 0) {
@@ -1421,7 +1421,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
         dst = G2_GetBG1ScrPtr();
         MIi_CpuCopy16(scrnData->data, dst, size);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].plttFileId, 0, 1);
     NNS_G2dGetUnpackedPaletteCompressInfo(file, (void **)(&unusedData));
@@ -1429,7 +1429,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
         DWCi_ScreenDC_FlushRange(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);
         MIi_CpuCopy16(plttData->colors, (void *)HW_BG_PLTT, NET_ERR_PLTT_BACKUP_SIZE);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }
 
 
@@ -1512,14 +1512,14 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
     font = GF_FONT_Create(0x17, 0, 0, 0, 1);
 
     if (useGenericMessage == 1) {
-        msgBank = func_02045B38(0, 2, 0xe8, 1);
+        msgBank = MSGDATA_CreateFromArchive(0, 2, 0xe8, 1);
         messageIndex = 0x40;
     } else {
         u8 netType = errWork->netType;
 
         if (netType == 1 || netType == 2 || netType == 6) {
             WORDSET_SetSlotNumber(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, 1);
-            msgBank = func_02045B38(0, 2, 0xe8, 1);
+            msgBank = MSGDATA_CreateFromArchive(0, 2, 0xe8, 1);
             if (errWork->fatalRaised != 0) {
                 messageIndex = errWork->messageId;
                 errWork->fatalRaised = 0;
@@ -1528,7 +1528,7 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
             }
         } else {
             WORDSET_SetSlotNumber(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
-            msgBank = func_02045B38(0, 2, 0x52, 1);
+            msgBank = MSGDATA_CreateFromArchive(0, 2, 0x52, 1);
             messageIndex = 1;
             if (messageVariant != 1) {
                 messageIndex = 0;
@@ -1536,7 +1536,7 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
         }
     }
 
-    message = func_02045EC0(msgBank, messageIndex);
+    message = MSGDATA_AllocString(msgBank, messageIndex);
     textBuf = STRBUF_Create(0x189, 1);
     WORDSET_CopyTaggedText(wordSet, textBuf, message);
     PRINTSYS_PrintColor(bmp, 0, 0, textBuf, font, 0x1167);

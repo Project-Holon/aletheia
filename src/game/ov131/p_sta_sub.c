@@ -16,21 +16,21 @@
  * the functions in this range use PStaSubWork (PStatusWork.subWork).
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_02048AD0 0x02048AD0 arm
- *   func_020498F4 0x020498F4 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   _ffix 0x0209C494 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   P_STA_SUB_FileName 0x021DC818 data a1
  *   MCSS_ResetVanishFlag 0x02015EB0 thumb
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
@@ -51,9 +51,9 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   func_02049F34 0x02049F34 arm
- *   func_02049DB4 0x02049DB4 arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive 0x02049DB4 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   d_021DC204 0x021DC204 data a4
@@ -230,11 +230,11 @@ struct StaSubFrameTable { int frame[2]; };
 /* Hit areas of the touch screen. */
 struct TouchHitTable { StaTouchRect rect[3]; };
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
-extern void func_02048AD0(void *camera);
-extern void func_020498F4(void *arc, u32 fileId, u32 a, u32 b, u32 c, u32 d, u16 heapId);
+extern void G3D_CAMERA_Reset(void *camera);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 fileId, u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern u32 APP_ICON_GetArchiveId(void);
 extern int APP_ICON_GetBallThrowCellFileId(int ballId);
 extern int APP_ICON_GetBallThrowAnimFileId(int ballId);
@@ -242,13 +242,13 @@ extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 POKE_TOOL_GetBoxValue(void *mon, int paramId, void *out);
-extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MCSS_ResetVanishFlag(void *mcss);
 extern void MCSS_SetVanishFlag(void *mcss);
 extern void MCSS_SetOfsPosition(void *mcss, const VecFx32 *src);
@@ -262,9 +262,9 @@ extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(u32 flag);
+extern void BG_SYS_SetFlagField06(u32 flag);
 extern void *func_02049F34(u32 arcId, u32 fileId, u32 out, u32 heapId);
-extern void *func_02049DB4(u32 arcId, u32 fileId, u32 a, u32 out, u16 heapId);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 fileId, u32 a, u32 out, u16 heapId);
 extern void CLACT_TransferPalette(u32 plttRes, void *pltt, u32 a);
 extern void CLACT_TransferCharacter(int chrRes, void *chr);
 extern u32 POKERUS_IsBoxCured(struct BoxPokemon *mon);
@@ -353,7 +353,7 @@ extern const short d_020A5078[];
 
 
 void *P_STA_SUB_Create(PStatusWork *wk) {
-    PStaSubWork *work = func_02030734(wk->heapId, 0x9c, 1, P_STA_SUB_FileName, 0x10d);
+    PStaSubWork *work = GFL_HEAP_Alloc(wk->heapId, 0x9c, 1, P_STA_SUB_FileName, 0x10d);
     work->mcss[STA_SUB_MCSS_FRONT] = 0;
     work->mcss[STA_SUB_MCSS_BACK] = 0;
     work->isTouching = 0;
@@ -364,7 +364,7 @@ void *P_STA_SUB_Create(PStatusWork *wk) {
 }
 
 void P_STA_SUB_Delete(PStatusWork *wk, PStaSubWork *work) {
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
@@ -401,7 +401,7 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
         MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_BACK], &ofsPos);
         MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
         func_02048AFC(wk->camera, &cameraPos);
-        func_02048AD0(wk->camera);
+        G3D_CAMERA_Reset(wk->camera);
     } else if (state == STA_SUB_FLIP_TO_BACK) {
         VecFx32 cameraPos = d_021DC198;
         VecFx32 scale = d_021DC210;
@@ -417,14 +417,14 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
             scale.y = scaleYTbl.frame[step];
             cameraPos.x = cameraXTbl.frame[step];
             func_02048AFC(wk->camera, &cameraPos);
-            func_02048AD0(wk->camera);
+            G3D_CAMERA_Reset(wk->camera);
             MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
         } else {
             MCSS_SetVanishFlag(work->mcss[STA_SUB_MCSS_FRONT]);
             MCSS_ResetVanishFlag(work->mcss[STA_SUB_MCSS_BACK]);
             MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], &scale);
             func_02048AFC(wk->camera, &cameraPos);
-            func_02048AD0(wk->camera);
+            G3D_CAMERA_Reset(wk->camera);
             work->showFront = 0;
             work->flipState = STA_SUB_FLIP_BACK;
             work->isTouching = 0;
@@ -434,7 +434,7 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
 
 void P_STA_SUB_LoadArcGraphics(PStatusWork *wk, int unused, void *arc)
 {
-    func_020498F4(arc, 0x3e, 2, 0, 0, 0, wk->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x3e, 2, 0, 0, 0, wk->heapId);
 }
 
 void P_STA_SUB_Exit(PStatusWork *wk, PStaSubWork *work) {
@@ -533,20 +533,20 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     win = work->nameWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
     win = work->itemWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
     ballId = POKE_TOOL_GetBoxValue(mon, 0x98, 0);
     ballArc = APP_ICON_GetArchiveId();
     ballBuf = func_02049F34(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), (u32)&ballPltt, wk->heapId);
     CLACT_TransferPalette(wk->objRes[1], ballPltt, 1);
-    func_020307B0(ballBuf);
+    GFL_HEAP_Free(ballBuf);
     ballArc = APP_ICON_GetArchiveId();
-    ballBuf = func_02049DB4(ballArc, APP_ICON_GetBallThrowAnimFileId(ballId), 0, (u32)&ballChr, wk->heapId);
+    ballBuf = ARC_UTIL_LoadBgCharDataFromArchive(ballArc, APP_ICON_GetBallThrowAnimFileId(ballId), 0, (u32)&ballChr, wk->heapId);
     CLACT_TransferCharacter((int)wk->objRes[14], ballChr);
-    func_020307B0(ballBuf);
+    GFL_HEAP_Free(ballBuf);
     CLACT_SetActorDrawEnable(work->ballObj, 1);
     marks = POKE_TOOL_GetBoxValue(mon, 11, 0);
     for (i = 0, markBit = 1; i < STA_SUB_ICON_MARK_COUNT; markBit = (u8)(markBit << 1), i++) {
@@ -567,7 +567,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         P_STA_SUB_ApplyMcssOffset(wk, work, &baseOfs);
         MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
         func_02048AFC(wk->camera, &cameraPos);
-        func_02048AD0(wk->camera);
+        G3D_CAMERA_Reset(wk->camera);
         work->flipState = STA_SUB_FLIP_IDLE;
     } else {
         VecFx32 cameraPos = d_021DC1A4;
@@ -578,7 +578,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         P_STA_SUB_ApplyMcssOffset(wk, work, &baseOfs);
         MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], &scale);
         func_02048AFC(wk->camera, &cameraPos);
-        func_02048AD0(wk->camera);
+        G3D_CAMERA_Reset(wk->camera);
         work->flipState = STA_SUB_FLIP_BACK;
     }
     if ((u8)POKE_TOOL_GetStatusCondition(pp) != 0) {
@@ -627,18 +627,18 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     name = STRBUF_Create(32, wk->heapId);
     POKE_TOOL_GetBoxValue(mon, 115, name);
     WORDSET_SetSlotTag(wordSet, 0, name, 0, 1, 2);
-    text = func_02045EC0(wk->msgData, 0);
+    text = MSGDATA_AllocString(wk->msgData, 0);
     WORDSET_CopyTaggedText(wordSet, buf, text);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 25, 1, buf, wk->font, 1088);
     STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     if (wk->isEgg == 0 && POKE_TOOL_GetBoxValue(mon, 173, 0) == 1) {
         u32 gender = POKE_TOOL_GetBoxValue(mon, 110, 0);
         if (gender == 0) {
-            buf = func_02045EC0(wk->msgData, 1);
+            buf = MSGDATA_AllocString(wk->msgData, 1);
             PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 89, 1, buf, wk->font, 5312);
             STRBUF_Delete(buf);
         } else if (gender == 1) {
-            buf = func_02045EC0(wk->msgData, 2);
+            buf = MSGDATA_AllocString(wk->msgData, 2);
             PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 89, 1, buf, wk->font, 3200);
             STRBUF_Delete(buf);
         }
@@ -647,19 +647,19 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
         struct Strbuf *levelText;
         wordSet = WORDSET_CreateDefault(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         WORDSET_SetSlotNumber(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
-        levelText = func_02045EC0(wk->msgData, 3);
+        levelText = MSGDATA_AllocString(wk->msgData, 3);
         WORDSET_CopyTaggedText(wordSet, buf, levelText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 9, 17, buf, wk->font, 1088);
         STRBUF_Delete(levelText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     }
-    buf = func_02045EC0(wk->msgData, 4);
+    buf = MSGDATA_AllocString(wk->msgData, 4);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 10, 1, buf, wk->font, 1088);
     STRBUF_Delete(buf);
     {
         struct Strbuf *itemText;
         wordSet = WORDSET_CreateDefault(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         WORDSET_Callback_EF40(wordSet, 0, POKE_TOOL_GetBoxValue(mon, 6, 0));
-        itemText = func_02045EC0(wk->msgData, 5);
+        itemText = MSGDATA_AllocString(wk->msgData, 5);
         WORDSET_CopyTaggedText(wordSet, buf, itemText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 6, 17, buf, wk->font, 1088);
         STRBUF_Delete(itemText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);

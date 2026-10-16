@@ -13,15 +13,15 @@
  * sdk:      gsiTimeNitro (gstimernitro.o)
  *
  * symbols:
- *   func_020870D0                  0x020870D0  arm
+ *   OS_GetTick                  0x020870D0  arm
  *   _ll_udiv                       0x0209C00C  arm
  */
 
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 
 long gsiTimeNitro(long *timer)
 {
-    long t = (long)((func_020870D0() * 64) / 0x01FF6210ULL);
+    long t = (long)((OS_GetTick() * 64) / 0x01FF6210ULL);
     if (timer != 0)
         *timer = t;
     return t;

@@ -16,15 +16,15 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   FILE_UTIL_Check136C 0x0202136C thumb
- *   func_020307B0 0x020307B0 arm
- *   func_02045EC0  0x02045EC0  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -49,7 +49,7 @@
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -105,15 +105,15 @@ struct CharBuf;
 extern void CLACT_SetActorDrawEnable(struct Obj *actor, unsigned int visible);
 extern void CLACT_AddActorSurfacePos(struct Obj *actor, const PlistPlatePos *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *actor, u16 animation);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 value);
 extern u32 FILE_UTIL_Check136C(u16 item);
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void *POKEPARTY_GetMember(void *party, u32 idx);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *window);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern struct Obj *CLACT_CreateRenderer(u16 *area, u32 mode, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -133,7 +133,7 @@ extern u32 POKE_TOOL_GetStatusCondition(void *mon);
 extern u32 CLACT_GetActorAnimFrame(struct Obj *actor);
 extern struct Obj *CLACT_CreateActor(struct Bank *bank, unsigned int a1, unsigned int a2, unsigned int a3, const PlistPlateActorSpec *spec, u16 a5, u16 heapId);
 extern void CLACT_SetActorAutoAnim(struct Obj *actor, unsigned int value);
-extern void *func_020490F4(u32 id, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 extern u32 POKE_TOOL_GetGraphicIndex(void *boxMon);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 d, u16 heapId);
@@ -214,7 +214,7 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
     int isOther = 0;
     enum PlateKind { PLATE_KIND_LEAD, PLATE_KIND_OTHER } kind;
     PlistPlateSurface surface;
-    plate = func_02030734(work->heapId, 0x44, 0, gPlistPlateSourceName, 0x9f);
+    plate = GFL_HEAP_Alloc(work->heapId, 0x44, 0, gPlistPlateSourceName, 0x9f);
     plate->slot = slot;
     plate->mon = mon;
     plate->isEmpty = 0;
@@ -256,7 +256,7 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
 
 PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot)
 {
-    PlistPlate *plate = func_02030734(work->heapId, 0x44, 0, gPlistPlateSourceName, 0xea);
+    PlistPlate *plate = GFL_HEAP_Alloc(work->heapId, 0x44, 0, gPlistPlateSourceName, 0xea);
     u8 *palette = (u8 *)work->paletteData + 0xc;
 
     BG_SYS_DrawTileEx(2, (u8)(gPlistPlateTileX[slot * 2] + 0x10), gPlistPlateTileY[slot * 2], 0x10, 6,
@@ -265,7 +265,7 @@ PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot)
     plate->mon = 0;
     plate->isEmpty = 1;
     plate->labelState = PLIST_PLATE_LABEL_NONE;
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     return plate;
 }
 
@@ -280,7 +280,7 @@ void PLIST_PLATE_Delete(void *unused, PlistPlate *plate)
         CLACT_DeleteUnit(plate->clactBank);
         CLACT_ReleaseCharacter(plate->iconResource);
     }
-    func_020307B0(plate);
+    GFL_HEAP_Free(plate);
 }
 
 void PLIST_PLATE_Update(PokelistWork *work, PlistPlate *plate)
@@ -297,7 +297,7 @@ void PLIST_PLATE_Update(PokelistWork *work, PlistPlate *plate)
             plate->textPending = 0;
             BMP_WIN_TransferChars((struct Descriptor *)work);
             BMP_WIN_MakeScreen((struct Descriptor *)work);
-            func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)work));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)work));
         }
     }
     if (plate->selected == 1 && POKE_TOOL_GetStatusCondition(plate->mon) == 0 && plate->hp != 0) {
@@ -353,7 +353,7 @@ void PLIST_PLATE_CreateMonIcon(PokelistWork *work, PlistPlate *plate)
     void *boxMon;
     int palette;
     PlistPlateActorSpec spec;
-    iconFile = func_020490F4(7, work->heapId);
+    iconFile = ARC_TOOL_CreateHandle(7, work->heapId);
     boxMon = POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(work->arg->party, plate->slot));
     plate->iconResource = CLACT_RegisterCharacter(iconFile, POKE_TOOL_GetGraphicIndex(boxMon), 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(iconFile);
@@ -555,7 +555,7 @@ void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
     struct WordSet *wordSet;
     void *eggText;
     wordSet = WORDSET_CreateDefault(work->heapId);
-    eggText = func_02045EC0(gSpeciesNameBank, PLIST_PLATE_MSG_EGG);
+    eggText = MSGDATA_AllocString(gSpeciesNameBank, PLIST_PLATE_MSG_EGG);
     WORDSET_SetSlotTag(wordSet, 0, eggText, 0, 1, 2);
     POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
     STRBUF_Delete(eggText);
@@ -608,7 +608,7 @@ void PLIST_PLATE_SetPalette(PokelistWork *work, PlistPlate *plate, int palette)
         BG_SYS_FillTileMap(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 7);
     else
         BG_SYS_FillTileMap(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, palette);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
 }
 
 void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int slideX)
@@ -632,8 +632,8 @@ void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int
     BG_SYS_DrawTileEx(2, (u8)slideX, y, 16, 6, (u32)((u8 *)work->paletteData + 12), gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 32, 32);
     BG_SYS_FillTileMap(2, slideX, y, 16, 6, 5);
     BMP_WIN_MakeScreen(plate->window);
-    func_02041B6C(1);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(1);
+    BG_SYS_SetFlagField06(2);
 }
 
 void PLIST_PLATE_ClearSlideTrail(PokelistWork *work, PlistPlate *plate, int slideX)

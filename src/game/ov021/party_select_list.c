@@ -14,12 +14,12 @@
  * Split from fld_trade_p01.c and fld_trade_p02.c (lane CL125b): __FILE__ anchor 021CC7B0 (d_021DE5C0 "party_select_list.c"); 021CD050..021CD1AC take the same 0xC4 work.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   d_021DE5BC  0x021DE5BC  data  a1
@@ -28,7 +28,7 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
  *   PARTY_SELECT_LIST_HideParty  0x021CD1AC  thumb  ov021
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb
@@ -147,17 +147,17 @@ typedef struct PartySelectList {
     u8 padC2[2];
 } PartySelectList;
 
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int POKE_TOOL_GetIconCellArcId(void);
@@ -254,8 +254,8 @@ PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *s
     PartySelectList *list;
 
     if (firstParty == 0 || secondParty == 0)
-        func_02034714(d_021DE5BC, 0, d_021DE5BC);
-    list = func_02030734(heapId, 0xc4, 1, d_021DE5C0, 0xd3);
+        SAVEDATA_PanicFail(d_021DE5BC, 0, d_021DE5BC);
+    list = GFL_HEAP_Alloc(heapId, 0xc4, 1, d_021DE5C0, 0xd3);
     list->owner = owner;
     list->party[0] = firstParty;
     list->party[1] = secondParty;
@@ -279,7 +279,7 @@ u32 PARTY_SELECT_LIST_Delete(PartySelectList *list, u32 *outFlag)
 
     result = PARTY_SELECT_LIST_GetResult(list, outFlag);
     if (list->finished != 1)
-        func_02034714(d_021DE5BC, 0, d_021DE5BC);
+        SAVEDATA_PanicFail(d_021DE5BC, 0, d_021DE5BC);
     PARTY_SELECT_LIST_DeleteStatusIcons(list);
     PARTY_SELECT_LIST_FreeStatusIconResources(list);
     PARTY_SELECT_LIST_DeleteMonIcons(list);
@@ -287,7 +287,7 @@ u32 PARTY_SELECT_LIST_Delete(PartySelectList *list, u32 *outFlag)
     PARTY_SELECT_LIST_FreeMessageResources(list);
     GF_FONT_Delete(list->font);
     CLACT_DeleteUnit(list->actorBank);
-    func_020307B0(list);
+    GFL_HEAP_Free(list);
     return result;
 }
 
@@ -364,7 +364,7 @@ void PARTY_SELECT_LIST_LoadMonIconResources(PartySelectList *list)
     int i;
     int count;
 
-    arc = func_020490F4(7, list->heapId);
+    arc = ARC_TOOL_CreateHandle(7, list->heapId);
     list->monIconPalette = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 0, 0x60, list->heapId);
     list->monIconCell = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), list->heapId);
     count = POKEPARTY_GetCount(list->party[0]);
@@ -486,7 +486,7 @@ void PARTY_SELECT_LIST_LoadStatusIconResources(PartySelectList *list)
     u32 cellRes;
     u32 animRes;
 
-    arc = func_020490F4(0x53, list->heapId);
+    arc = ARC_TOOL_CreateHandle(0x53, list->heapId);
     list->statusIconCell = CLACT_RegisterPaletteEx(arc, APP_ICON_GetItemCellFileId(), 0, 0xc0, 0, 1, list->heapId);
     cellRes = APP_ICON_GetItemAnimFileId(1);
     animRes = APP_ICON_GetItemFrameFileId(1);

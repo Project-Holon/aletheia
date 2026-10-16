@@ -14,7 +14,7 @@
  * Split from scrcmd_screeneffects.c at 0x021B2830 (lane L135, __FILE__ anchor scrcmd_screeneffects.c at 021B2EBC; brightness, fade and screen effect commands).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
@@ -56,15 +56,15 @@
  *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
  *   FIELD_BUILDMODEL_CheckNodeKindFlag  0x0218C9A4  thumb  ov021
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
- *   func_02030734  0x02030734  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   FIELDMAP_SetScriptEffectBusy  0x02189A1C  thumb  ov021
  *   d_021DE14C     0x021DE14C  data  a4
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   FIELDMAP_ResetBgAffineShowMsg 0x02188DB0 thumb ov021
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   FIELD_PLACE_NAME_ForceShowForZone  0x021BC5A0  thumb  ov021
  */
@@ -98,7 +98,7 @@ typedef struct FadeEffectTask {
     u32 step;                       /* 0x14 */
 } FadeEffectTask;
 
-extern u32 func_020307B0(void *work);
+extern u32 GFL_HEAP_Free(void *work);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
 extern u16 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
@@ -138,14 +138,14 @@ extern void FIELD_BUILDMODEL_PlayNodeCurrentSlot(struct BuildModelNode *node, in
 extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
 extern int FIELD_BUILDMODEL_CheckNodeKindFlag(struct BuildModelNode *node);
 extern u32 FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void func_02030DA8(u32 tcbSys, void (*func)(), void *work, u32 priority);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern void TCB_AddTask(u32 tcbSys, void (*func)(), void *work, u32 priority);
 extern void FIELDMAP_SetScriptEffectBusy(struct FieldMap *fieldMap, u32 busy);
 extern unsigned int BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
 extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
 extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
-extern void func_02030EAC(struct Tcb *tcb);
+extern void TCB_DeleteTask(struct Tcb *tcb);
 extern void *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 extern void FIELD_PLACE_NAME_ForceShowForZone(void *placeName, u16 zoneId);
 extern u16 gScrcmdScreeneffectsNodeHandle;
@@ -598,9 +598,9 @@ int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct
 void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait)
 {
     int tcbSys = FIELDMAP_GetTcblSys(fieldMap);
-    FadeEffectTask *task = func_02030734(4, 0x18, 1, (const char *)&d_021DE14C, 0x369);
+    FadeEffectTask *task = GFL_HEAP_Alloc(4, 0x18, 1, (const char *)&d_021DE14C, 0x369);
 
-    func_02030DA8(tcbSys, SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
+    TCB_AddTask(tcbSys, SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
     FIELDMAP_SetScriptEffectBusy(fieldMap, 1);
     task->step = 0;
     task->gameSystem = gameSystem;
@@ -656,8 +656,8 @@ void SCRCMD_SCREENEFFECTS_StepFadeTask(struct Tcb *tcb, FadeEffectTask *task)
         }
         if (done) {
             FIELDMAP_SetScriptEffectBusy(task->fieldMap, 0);
-            func_02030EAC(tcb);
-            func_020307B0(task);
+            TCB_DeleteTask(tcb);
+            GFL_HEAP_Free(task);
         }
         break;
     }

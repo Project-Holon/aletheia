@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -24,7 +24,7 @@
  *   MYSTERY_GRAPHIC_GetClactUnit 0x021D9744 thumb ov121
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   MYSTERY_UTIL_CreateTask 0x021DA854 thumb ov121
  *   MYSTERY_UTIL_CreateMenuWindow 0x021D9CA4 thumb ov121
@@ -37,10 +37,10 @@
  *   MYSTERY_UTIL_DeleteTask 0x021DA890 thumb ov121
  *   MYSTERY_GRAPHIC_Delete 0x021D96C4 thumb ov121
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   OS_ResetSystem 0x02087BCC arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov_id 0x00000072 data
  *   MYSTERY_NET_Step 0x021DE300 thumb ov121
  *   MYSTERY_UTIL_DispatchTask 0x021DA898 thumb ov121
@@ -51,11 +51,11 @@
  *   MYSTERY_UTIL_IsWindowListDone 0x021DA2C8 thumb ov121
  *   MYSTERY_UTIL_Update 0x021DA840 thumb ov121
  *   MYSTERY_UTIL_GetTaskField04 0x021DA8AC thumb ov121
- *   func_02040588 0x02040588 arm
- *   func_020490F4 0x020490F4 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -64,7 +64,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_02049F78 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02005728 0x02005728 thumb
@@ -75,7 +75,7 @@
  *   func_02049F34 0x02049F34 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   MYSTERY_UTIL_BlendPalette 0x021DAAA4 thumb ov121
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm
  *   d_021DFB80 0x021DFB80 data ov121 a1
  *   PARTICLE_LoadArchiveMember  0x0205121C  arm
@@ -110,7 +110,7 @@
  *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
  *   MYSTERY_ALBUM_StartIntro 0x021DDF5C thumb ov121
  *   MYSTERY_ALBUM_IsIntroIdle 0x021DE014 thumb ov121
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   MYSTERY_ALBUM_Create 0x021DAC18 thumb ov121
  *   MYSTERY_ALBUM_Update 0x021DAEF0 thumb ov121
  *   MYSTERY_ALBUM_GetWindowState 0x021DB008 thumb ov121
@@ -130,7 +130,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0204989C 0x0204989C arm
+ *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   MYSTERY_UTIL_CreateDetailWindow 0x021DA4DC thumb ov121
@@ -156,7 +156,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
@@ -417,7 +417,7 @@ typedef char MysteryScroll_size_check[(sizeof(MysteryScroll) == 0x128) ? 1 : -1]
 typedef char MysteryClactActor_size_check[(sizeof(MysteryClactActor) == 0x9C) ? 1 : -1];
 typedef char MysteryPacket_size_check[(sizeof(MysteryPacket) == 0x2D0) ? 1 : -1];
 
-extern int func_02034AC4(int id);
+extern int GF_OVERLAY_Load(int id);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, int);
@@ -428,7 +428,7 @@ extern u8 *MYSTERY_GRAPHIC_Create(int arg, u16 heap);
 extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *MYSTERY_UTIL_CreateTask(void *, void *, u16);
 extern void *MYSTERY_UTIL_CreateMenuWindow(int a, u8 b, void *c, void *d, u16 heap);
@@ -445,10 +445,10 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void MYSTERY_GRAPHIC_Delete(u8 *p);
 extern void MYSTERY_DATA_Delete(void *);
 extern void GAME_DATA_Delete(u8 *p);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void OS_ResetSystem(u32 parameter);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void MYSTERY_NET_Step(char *p);
 extern void MYSTERY_UTIL_DispatchTask(char *p);
@@ -460,11 +460,11 @@ extern void MYSTERY_UTIL_UpdateMenuWindow(u8 *p);
 extern int MYSTERY_UTIL_IsWindowListDone(u8 *p);
 extern int MYSTERY_UTIL_Update(void **);
 extern int MYSTERY_UTIL_GetTaskField04(u32 *p);
-extern void func_02040588(unsigned char which, unsigned char enable);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68();
-extern void func_02049658();
-extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadBgCharFromHandle();
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -473,7 +473,7 @@ extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *,void *,int);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u32 func_02005728(u32 range);
@@ -484,7 +484,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void CLACT_TransferPalette(void *,void *,int);
 extern s32 MYSTERY_UTIL_BlendPalette(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern void PARTICLE_SetupSystem(int, int, int, int);
@@ -526,7 +526,7 @@ extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
 extern void MYSTERY_ALBUM_StepIntro(char *p);
 extern void MYSTERY_ALBUM_StartIntro(u8 *p);
 extern int MYSTERY_ALBUM_IsIntroIdle(char *p);
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 extern void *MYSTERY_ALBUM_Create(MysteryNetAlbumDesc *,int);
 extern void MYSTERY_ALBUM_Update(struct Obj *obj);
 extern int MYSTERY_ALBUM_GetWindowState(char *p);
@@ -542,7 +542,7 @@ extern void MYSTERY_UTIL_DeleteMenu(u8 *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0204989C(int,int,int,int,int,int,int);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(int,int,int,int,int,int,int);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32 index);
 extern void *MYSTERY_UTIL_CreateDetailWindow(MysteryMessageDesc *,int);
@@ -567,7 +567,7 @@ extern void POKE_TOOL_SetAbility(void *,u32,u32);
 extern u16 STRBUF_GetEosChar(void);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *POKE_TOOL_Dummy(void *);
 extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
 extern void POKE_TOOL_RecalcParam(void *);
@@ -683,7 +683,7 @@ extern const int d_021DF5E4[];
 int MYSTERY_Create(void *owner, u32 unused, u32 arg)
 {
     MysteryWork *work;
-    func_02034AC4((int)ov114_id);
+    GF_OVERLAY_Load((int)ov114_id);
     GFL_HEAP_CreateChildHeap(1, 29, 0xA0000);
     work = PROCSYS_AllocProcWork(owner, 0x69C, 29);
     MI_CpuFill8(work, 0, 0x69C);
@@ -695,8 +695,8 @@ int MYSTERY_Create(void *owner, u32 unused, u32 arg)
     MYSTERY_CreateClact((char *)&work->clact, (void *)MYSTERY_GRAPHIC_GetClactUnit((char *)work->graphic), 29);
     work->font.ptr = GF_FONT_Create(23, 0, 0, 0, 29);
     work->printQueue.val = PRINTSYS_QUE_Create((void *)29);
-    work->msgBank.ptr = func_02045B38(0, 2, 0x50, 29);
-    work->msgBankAlt.ptr = func_02045B38(0, 3, 0x9E, 29);
+    work->msgBank.ptr = MSGDATA_CreateFromArchive(0, 2, 0x50, 29);
+    work->msgBankAlt.ptr = MSGDATA_CreateFromArchive(0, 3, 0x9E, 29);
     work->wordSet.ptr = WORDSET_CreateDefault(29);
     work->task = MYSTERY_UTIL_CreateTask(work, (void *)MYSTERY_TaskInitSave, 29);
     work->textBox = MYSTERY_UTIL_CreateMenuWindow(1, 15, work->printQueue.ptr, work->font.ptr, 29);
@@ -729,10 +729,10 @@ int MYSTERY_Delete(void *a, int b, int c, char *p)
     MYSTERY_GRAPHIC_Delete(((MysteryWork *)p)->graphic);
     MYSTERY_DATA_Delete(((MysteryWork *)p)->mysteryData.ptr);
     GAME_DATA_Delete(((MysteryWork *)p)->gameData.ptr);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(29);
     OS_ResetSystem(0);
-    func_02034A5C((int)ov_id);
+    GF_OVERLAY_Unload((int)ov_id);
     GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
@@ -775,7 +775,7 @@ void MYSTERY_InitBgHeap(u16 *p,u16 heap)
     MI_CpuFill8(p,0,2);
     *p=heap;
     MYSTERY_SetupBg(p,0);
-    func_02040588(6,1);
+    BG_SYS_SetPlaneVisible(6,1);
 }
 
 
@@ -794,16 +794,16 @@ void MYSTERY_SetupBg(u16 *p,int mode)
     void *arc;
     switch (mode) {
     case 0:
-        arc=func_020490F4(34,heap);
+        arc=ARC_TOOL_CreateHandle(34,heap);
         func_02049B68(arc,6,0,0,0,heap);
         func_02049B68(arc,6,4,0,128,heap);
         func_02049B68(arc,7,4,32,32,heap);
-        func_02049658(arc,15,3,0,0,0,heap);
-        func_02049658(arc,15,7,0,0,0,heap);
-        func_020498F4(arc,31,3,0,0,0,heap);
-        func_020498F4(arc,31,7,0,0,0,heap);
+        ARC_UTIL_UploadBgCharFromHandle(arc,15,3,0,0,0,heap);
+        ARC_UTIL_UploadBgCharFromHandle(arc,15,7,0,0,0,heap);
+        ARC_UTIL_UploadBgPaletteFromHandle(arc,31,3,0,0,0,heap);
+        ARC_UTIL_UploadBgPaletteFromHandle(arc,31,7,0,0,0,heap);
         ARC_TOOL_DeleteHandle(arc);
-        arc=func_020490F4(23,heap);
+        arc=ARC_TOOL_CreateHandle(23,heap);
         func_02049B68(arc,5,0,480,32,heap);
         func_02049B68(arc,5,4,480,32,heap);
         ARC_TOOL_DeleteHandle(arc);
@@ -813,16 +813,16 @@ void MYSTERY_SetupBg(u16 *p,int mode)
         BG_SYS_InitRun(0,32,0,heap);
         break;
     case 1:
-        arc=func_020490F4(34,heap);
+        arc=ARC_TOOL_CreateHandle(34,heap);
         func_02049B68(arc,6,4,0,192,heap);
-        func_02049658(arc,15,6,0,0,0,heap);
-        func_020498F4(arc,21,6,0,0,0,heap);
+        ARC_UTIL_UploadBgCharFromHandle(arc,15,6,0,0,0,heap);
+        ARC_UTIL_UploadBgPaletteFromHandle(arc,21,6,0,0,0,heap);
         ARC_TOOL_DeleteHandle(arc);
         break;
     case 2:
-        arc=func_020490F4(34,heap);
-        func_02049658(arc,11,2,0,0,0,heap);
-        func_020498F4(arc,28,2,0,0,0,heap);
+        arc=ARC_TOOL_CreateHandle(34,heap);
+        ARC_UTIL_UploadBgCharFromHandle(arc,11,2,0,0,0,heap);
+        ARC_UTIL_UploadBgPaletteFromHandle(arc,28,2,0,0,0,heap);
         ARC_TOOL_DeleteHandle(arc);
         break;
     }
@@ -846,7 +846,7 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     void *allocation;
     void *arc;
     int i;
-    arc=func_020490F4(34,heap);
+    arc=ARC_TOOL_CreateHandle(34,heap);
     *(int *)&((MysteryClactActor *)p)->palette.val=CLACT_RegisterPalette(arc,8,2,0,heap);
     *(int *)&((MysteryClactActor *)p)->cellAnim.val=CLACT_RegisterCellAnim(arc,34,37,heap);
     *(int *)&((MysteryClactActor *)p)->character.val=CLACT_RegisterCharacter(arc,16,0,2,heap);
@@ -855,7 +855,7 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     MI_CpuCopy8(data,p+0xda,32);
     data+=32;
     MI_CpuCopy8(data,p+0xba,32);
-    func_020307B0(allocation);
+    GFL_HEAP_Free(allocation);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&point,0,8);
     ((MysteryClactActor *)p)->actors[0]=CLACT_CreateActor((void *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,&point,0,heap);
@@ -912,7 +912,7 @@ void MYSTERY_TransferPalette(u8 *p,int heap)
     void *raw;
     raw=func_02049F34(34,8,(u32)(&out),heap);
     CLACT_TransferPalette(((MysteryClactActor *)p)->palette.ptr,out,7);
-    func_020307B0(raw);
+    GFL_HEAP_Free(raw);
 }
 
 
@@ -956,7 +956,7 @@ void MYSTERY_CreateParticle(int *p, int heap)
     void *v;
     MI_CpuFill8(p, 0, 16);
     p[3] = 1;
-    v = func_02030734(heap, 0x4800, 0, d_021DFB80, 0x482);
+    v = GFL_HEAP_Alloc(heap, 0x4800, 0, d_021DFB80, 0x482);
     p[2] = (int)v;
     p[0] = (int)PARTICLE_CreateSystemDefault((int)v, 0x4800, 1, heap);
 }
@@ -971,7 +971,7 @@ void MYSTERY_CreateParticle(int *p, int heap)
  */
 void MYSTERY_DeleteParticle(void *p)
 {
-    func_020307B0(((MysteryParticle *)p)->buffer);
+    GFL_HEAP_Free(((MysteryParticle *)p)->buffer);
     MI_CpuFill8(p, 0, 0x10);
 }
 
@@ -1326,15 +1326,15 @@ void MYSTERY_TaskAlbum(void *task,u32 *state,u8 *p)
     switch (*state) {
     case 0:
         MYSTERY_GRAPHIC_StartRender(((MysteryWork *)p)->graphic);
-        func_02040588(1,1);
-        func_02040588(3,1);
+        BG_SYS_SetPlaneVisible(1,1);
+        BG_SYS_SetPlaneVisible(3,1);
         MYSTERY_CreateReceivedMon(p+12,(void *)MYSTERY_GRAPHIC_GetClactUnit(((MysteryWork *)p)->graphic),p+972,(void *)(*(int *)&((MysteryWork *)p)->gameData.ptr),p+660,p+912,p+312,29);
         MYSTERY_InitCardView(p+12,0);
         MYSTERY_UTIL_SetMenuMessage(((MysteryWork *)p)->textBox,((MysteryWork *)p)->msgBank.i,113,2);
         *state=1;
         break;
     case 1:
-        func_02040588(0,1);
+        BG_SYS_SetPlaneVisible(0,1);
         *state=2;
         break;
     case 2:
@@ -1373,16 +1373,16 @@ void MYSTERY_TaskAlbum(void *task,u32 *state,u8 *p)
         MYSTERY_DeleteCardMenu((char *)p);
         *(volatile u16 *)0x04000050=0;
         MYSTERY_GRAPHIC_StopRender(((MysteryWork *)p)->graphic);
-        func_02040588(1,1);
-        func_02040588(3,1);
+        BG_SYS_SetPlaneVisible(1,1);
+        BG_SYS_SetPlaneVisible(3,1);
         *state=11;
         break;
     case 11:
-        func_02040588(0,1);
+        BG_SYS_SetPlaneVisible(0,1);
         *state=12;
         break;
     case 12:
-        func_02040588(1,0);
+        BG_SYS_SetPlaneVisible(1,0);
         MI_CpuFill8(&d,0,48);
         d.w[0]=2;
         d.w[1]=0;
@@ -1490,7 +1490,7 @@ void MYSTERY_TaskAlbumView(void *task,u32 *state,u8 *p)
         ((MysteryWork *)p)->textBox=MYSTERY_UTIL_CreateMenuWindow(1,15,((MysteryWork *)p)->printQueue.ptr,((MysteryWork *)p)->font.ptr,29);
         MYSTERY_UTIL_DrawMenuWindow(((MysteryWork *)p)->textBox,10,14);
         MYSTERY_CreateCardMenu(p,0,29);
-        func_0207D63C((void *)0x04000050,4,24,15,3);
+        G2x_SetBlendAlpha_((void *)0x04000050,4,24,15,3);
         *state=6;
         break;
     case 6:
@@ -1558,7 +1558,7 @@ void MYSTERY_TaskNetAlbum(void *task,u32 *state,u8 *p)
         MYSTERY_TransferPalette(p+660,29);
         ((MysteryWork *)p)->textBox=MYSTERY_UTIL_CreateMenuWindow(1,15,((MysteryWork *)p)->printQueue.ptr,((MysteryWork *)p)->font.ptr,29);
         MYSTERY_UTIL_DrawMenuWindow(((MysteryWork *)p)->textBox,10,14);
-        func_0207D63C((void *)0x04000050,4,24,15,3);
+        G2x_SetBlendAlpha_((void *)0x04000050,4,24,15,3);
         MYSTERY_CreateCardMenu(p,0,29);
         *state=6;
         break;
@@ -1611,7 +1611,7 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
         ((MysteryWork *)p)->graphic=0;
         *state=3; return;
     case 3:
-        *(u8 * *)&((MysteryWork *)p)->saveParam=func_02030734(29,40,0,d_021DFB80,2664);
+        *(u8 * *)&((MysteryWork *)p)->saveParam=GFL_HEAP_Alloc(29,40,0,d_021DFB80,2664);
         MI_CpuFill8(((MysteryWork *)p)->saveParam,0,40);
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->gameData.val=((MysteryWork *)p)->gameData.val;
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->field04=0;
@@ -1629,7 +1629,7 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
         MYSTERY_CreateClact((char *)(p+660),(void *)MYSTERY_GRAPHIC_GetClactUnit(((MysteryWork *)p)->graphic),29);
         ((MysteryWork *)p)->textBox=MYSTERY_UTIL_CreateMenuWindow(1,15,((MysteryWork *)p)->printQueue.ptr,((MysteryWork *)p)->font.ptr,29);
         MYSTERY_UTIL_DrawMenuWindow(((MysteryWork *)p)->textBox,10,14);
-        func_0207D63C((void *)0x04000050,4,24,15,3);
+        G2x_SetBlendAlpha_((void *)0x04000050,4,24,15,3);
         GFL_NET_RestartWithDefaultTimeout(1,29);
         GFL_USE_CancelChangeAndPlayBgm(1154,65535);
         MYSTERY_SetScrollParam((unsigned int *)(p+312),1);
@@ -1645,7 +1645,7 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
     case 8:
         if(!((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->ready) MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_TaskReceive);
         else MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_TaskMenu);
-        func_020307B0(((MysteryWork *)p)->saveParam);
+        GFL_HEAP_Free(((MysteryWork *)p)->saveParam);
         break;
     }
 }
@@ -1746,28 +1746,28 @@ void MYSTERY_CreateCardMenu(u8 *p,u32 which,int heap)
         d.w[4]=127; d.w[5]=128; d.w[6]=129; d.w[7]=130; d.w[8]=4;
         break;
     }
-    archive=func_020490F4(34,heap);
+    archive=ARC_TOOL_CreateHandle(34,heap);
     func_02049B68(archive,6,0,0,160,heap);
-    func_02049658(archive,15,2,0,0,0,heap);
-    if(which==2) func_0204989C(34,30,2,0,0,0,heap);
-    else func_0204989C(34,29,2,0,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(archive,15,2,0,0,0,heap);
+    if(which==2) ARC_UTIL_UploadBgPaletteFromArchive(34,30,2,0,0,0,heap);
+    else ARC_UTIL_UploadBgPaletteFromArchive(34,29,2,0,0,0,heap);
     ARC_TOOL_DeleteHandle(archive);
     BG_SYS_FillTileMap(2,0,0,32,24,4);
     BG_SYS_PushTile(2);
-    func_02040588(2,1);
+    BG_SYS_SetPlaneVisible(2,1);
     ((MysteryWork *)p)->msgDialog=MYSTERY_UTIL_CreateDetailWindow(&d,heap);
     if(!d.w[0]) {
         for(i=0;i<4;i++) {
             if(d.w[4+i]) STRBUF_Delete((void *)d.w[4+i]);
         }
     }
-    func_0207D63C((void *)0x04000050,4,24,15,3);
+    G2x_SetBlendAlpha_((void *)0x04000050,4,24,15,3);
     MYSTERY_ResetActorAngle(p+660);
 }
 
 
 void MYSTERY_DeleteCardMenu(char *p) {
- if(((MysteryWork *)p)->msgDialog!=0) {BG_SYS_ClearSlot(2);BG_SYS_PushTile(2);func_02040588(2,0);MYSTERY_UTIL_DeleteDetailWindow(((MysteryWork *)p)->msgDialog);*(unsigned *)&((MysteryWork *)p)->msgDialog=0;}
+ if(((MysteryWork *)p)->msgDialog!=0) {BG_SYS_ClearSlot(2);BG_SYS_PushTile(2);BG_SYS_SetPlaneVisible(2,0);MYSTERY_UTIL_DeleteDetailWindow(((MysteryWork *)p)->msgDialog);*(unsigned *)&((MysteryWork *)p)->msgDialog=0;}
 }
 
 
@@ -1804,8 +1804,8 @@ void MYSTERY_CreatePartyMenu(u8 *p,int heap)
         STRBUF_Delete((void *)c.w[8]);
         MYSTERY_SetupBg((u16 *)(p+912),1);
         BG_SYS_PushTile(6);
-        func_02040588(6,1);
-        func_0207D63C((void *)0x04001050,4,24,15,3);
+        BG_SYS_SetPlaneVisible(6,1);
+        G2x_SetBlendAlpha_((void *)0x04001050,4,24,15,3);
     }
 }
 
@@ -1815,7 +1815,7 @@ void MYSTERY_DeletePartyMenu(char *p) {
   *(unsigned short *)0x04001050=0;
   MYSTERY_UTIL_ClearWindowList(((MysteryWork *)p)->menuB);MYSTERY_UTIL_DeleteWindowList(((MysteryWork *)p)->menuB);
   *(unsigned *)&((MysteryWork *)p)->menuB=0;
-  BG_SYS_PushTile(4);func_02040588(6,0);
+  BG_SYS_PushTile(4);BG_SYS_SetPlaneVisible(6,0);
  }
 }
 
@@ -1853,7 +1853,7 @@ void MYSTERY_DeletePartyMenu(char *p) {
  *   None closes it, so none is filed. Total compiles this lane: 24.
  * note 2026-10-05 (wave D9r lane P7b): 1055 -> 32 concrete bytes differ (size 1864 = the
  *   real extent; the final literal 0x2CA at +0x744 is shared with the original). Fix: the H(74)==0
- *   arm is a written-out copy of the failure block, `if(H(74)==0){func_020307B0(allocated);mon=0;
+ *   arm is a written-out copy of the failure block, `if(H(74)==0){GFL_HEAP_Free(allocated);mon=0;
  *   goto image;}`, not `goto failed` (the copy is cross-jumped into the b stub, the ability
  *   default arm then also becomes the b stub, as in the original; matched twin
  *   ov010_func_02157E9C does the same for its nick and OT-name arms). Also id is now a u64 local
@@ -1926,7 +1926,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
     base=*(u8 **)((u8 *)work.resdesc+12);
     MI_CpuCopy8(base,out+146,32);
     MI_CpuCopy8(base+palette*32,out+114,32);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
     for(i=0;i<32;i++) CLACT_SetActorPaletteOffset(MYSTERY_GetClactActor(list,i+1),(u8)palette,0);
     switch(desc[179]) {
     case 1:
@@ -1979,7 +1979,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         if(desc[29]==0) POKE_TOOL_SetPartyValue(allocated,12,GAME_LANGUAGE_Code);
         else POKE_TOOL_SetPartyValue(allocated,12,desc[29]);
         if(H(30)==0) {
-        failed: func_020307B0(allocated);
+        failed: GFL_HEAP_Free(allocated);
         nomon: mon=0;goto image;
         }
         if(H(30)!=STRBUF_GetEosChar()) POKE_TOOL_SetPartyValue(allocated,116,(u32)(desc+30));
@@ -1987,7 +1987,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         if(value==255) value=(u8)func_020056EC(25);
         POKE_TOOL_SetPartyValue(allocated,112,value);
         POKE_TOOL_SetPartyValue(allocated,149,H(56));POKE_TOOL_SetPartyValue(allocated,150,H(58));
-        if(H(74)==0) {func_020307B0(allocated);mon=0;goto image;}
+        if(H(74)==0) {GFL_HEAP_Free(allocated);mon=0;goto image;}
         if(H(74)==STRBUF_GetEosChar()) POKE_TOOL_SetPartyValue(allocated,142,(u32)func_020084F4(GAME_DATA_GetMyStatus(save)));
         else POKE_TOOL_SetPartyValue(allocated,142,(u32)(desc+74));
         value=desc[90];
@@ -1995,7 +1995,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         else {value=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
         if(desc[92]) {
             POKE_TOOL_SetPartyValue(allocated,76,1);
-            str=func_02045EC0(gSpeciesNameBank,650);
+            str=MSGDATA_AllocString(gSpeciesNameBank,650);
             POKE_TOOL_SetPartyValue(allocated,115,(u32)str);
             STRBUF_Delete(str);POKE_TOOL_SetPartyValue(allocated,9,10);
         }
@@ -2003,7 +2003,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         if(desc[92]) place=H(56);else place=H(58);
         SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(allocated),place,year-2000,month,day);
         POKE_TOOL_RecalcParam(allocated);
-        if(POKE_TOOL_GetPartyValue(allocated,3,0)!=0) {func_020307B0(allocated);mon=0;}
+        if(POKE_TOOL_GetPartyValue(allocated,3,0)!=0) {GFL_HEAP_Free(allocated);mon=0;}
         else mon=allocated;
         goto image;
     image:
@@ -2016,17 +2016,17 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         if(*(s16 *)(out+296)>48) clamp=48;
         else if(*(s16 *)(out+296)>=0) clamp=*(s16 *)(out+296);
         OH(296)=clamp;
-        ARC_TOOL_DeleteHandle((void *)arc);func_020307B0(mon);
+        ARC_TOOL_DeleteHandle((void *)arc);GFL_HEAP_Free(mon);
         break;
     case 2:
-        arc=(u32)func_020490F4(25,heap);
+        arc=(u32)ARC_TOOL_CreateHandle(25,heap);
         O(12)=CLACT_RegisterPalette((void *)arc,FILE_UTIL_Get((u16)D(0),2),0,448,heap);
         O(20)=CLACT_RegisterCellAnim((void *)arc,1,0,heap);
         O(16)=CLACT_RegisterCharacter((void *)arc,FILE_UTIL_Get((u16)D(0),1),0,0,heap);
         ARC_TOOL_DeleteHandle((void *)arc);OH(298)=4;OH(296)=8;
         break;
     case 3:
-        arc=(u32)func_020490F4(34,heap);
+        arc=(u32)ARC_TOOL_CreateHandle(34,heap);
         O(12)=CLACT_RegisterPalette((void *)arc,3,0,448,heap);
         O(20)=CLACT_RegisterCellAnim((void *)arc,33,36,heap);
         O(16)=CLACT_RegisterCharacter((void *)arc,12,0,0,heap);
@@ -2108,7 +2108,7 @@ void MYSTERY_DeleteCardView(u8 *p)
 {
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     if(MYSTERY_IsParticleCreated(p+280)) MYSTERY_DeleteParticle(p+280);
-    func_02040588(2,0);
+    BG_SYS_SetPlaneVisible(2,0);
     CLACT_DeleteActor(((MysteryCardView *)p)->actor);
     CLACT_ReleasePalette((u32)(((MysteryCardView *)p)->palette));
     CLACT_ReleaseCharacter((u32)(((MysteryCardView *)p)->character));
@@ -2142,13 +2142,13 @@ void MYSTERY_CardViewAnimScroll(u8 *p)
     s16 y;
     switch(((MysteryCardView *)p)->state) {
     case 0:
-        func_02040588(2,0);
+        BG_SYS_SetPlaneVisible(2,0);
         MYSTERY_SetupBg(((MysteryCardView *)p)->scrollA,2);
         ((MysteryCardView *)p)->state=1;
         return;
     case 1:
-        func_0207D63C((void *)0x04000050,4,8,0,16);
-        func_02040588(2,1);
+        G2x_SetBlendAlpha_((void *)0x04000050,4,8,0,16);
+        BG_SYS_SetPlaneVisible(2,1);
         ((MysteryCardView *)p)->step=0;
         ((MysteryCardView *)p)->state=2;
         return;
@@ -2210,13 +2210,13 @@ void MYSTERY_CardViewAnimReveal(u8 *p)
     case 0:
         MYSTERY_CreateParticle((int *)(p+0x118),((MysteryCardView *)p)->heap);
         MYSTERY_LoadParticle((int *)(p+0x118),0x22,0x26,((MysteryCardView *)p)->heap);
-        func_02040588(2,0);
+        BG_SYS_SetPlaneVisible(2,0);
         MYSTERY_SetupBg(*(u16 * *)&((MysteryCardView *)p)->scrollA,2);
         ((MysteryCardView *)p)->state=1;
         return;
     case 1:
-        func_0207D63C((void *)0x04000050,4,8,0,16);
-        func_02040588(2,1);
+        G2x_SetBlendAlpha_((void *)0x04000050,4,8,0,16);
+        BG_SYS_SetPlaneVisible(2,1);
         ((MysteryCardView *)p)->step=0;
         ((MysteryCardView *)p)->state=2;
         return;
@@ -2238,7 +2238,7 @@ void MYSTERY_CardViewAnimReveal(u8 *p)
         if((((MysteryCardView *)p)->step)++>180) {
             ((MysteryCardView *)p)->step=0;
             ((MysteryCardView *)p)->state=6;
-            func_0207D63C((void *)0x04000050,1,31,0,16);
+            G2x_SetBlendAlpha_((void *)0x04000050,1,31,0,16);
             MYSTERY_StartParticle((void **)(p+0x118),0);
             MYSTERY_StartParticle((void **)(p+0x118),1);
             MYSTERY_StartParticle((void **)(p+0x118),2);
@@ -2490,7 +2490,7 @@ unsigned MYSTERY_MeasureGraChar(int id,int heap)
         }
         if(found) break;
     }
-    func_020307B0(allocation);
+    GFL_HEAP_Free(allocation);
     return result;
 }
 

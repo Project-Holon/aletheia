@@ -23,10 +23,10 @@
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   PLIST_COMM_End 0x021B6108 thumb ov090
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov090_id 0x0000005A data
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_Delete 0x0203133C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ov091_id 0x0000005B data a1
  *   ov131_id 0x00000083 data a1
@@ -34,10 +34,10 @@
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_GetInitParam 0x0203D798 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
  *   PLIST_COMM_Update 0x021B6114 thumb ov090
@@ -201,16 +201,16 @@ extern void *PROCSYS_Create(int a0);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void PLIST_COMM_End(void *);
-extern void func_02034A5C(s32 handle);
-extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct Proc *p);
+extern void GF_OVERLAY_Unload(s32 handle);
+extern void PROCSYS_Delete(struct S020314B8 *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned);
 extern int GFL_NET_GetRunState(void);
 extern void *GFL_NET_GetInitParam(void);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern int DWC_RAPCOMMON_HandleNetError(void *,void *);
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void PROCSYS_Push(void *,u32,void *,void *);
 extern u32 PROCSYS_Main(void *);
 extern void PLIST_COMM_Update(u8 *);
@@ -287,8 +287,8 @@ int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusO
  unsigned n=*(unsigned char *)((char *)p+i+0x51);
  if(n!=0)POKEPARTY_Add(q->f1C,POKEPARTY_GetMember(q->f4,n-1));
  }
- PLIST_COMM_End((char *)p+8);func_02034A5C((unsigned)ov090_id);
- func_0203133C(p->fD0);func_020315D4(handle);GFL_HEAP_DeleteChecked(0x58);
+ PLIST_COMM_End((char *)p+8);GF_OVERLAY_Unload((unsigned)ov090_id);
+ PROCSYS_Delete(p->fD0);PROCSYS_FreeProcWork(handle);GFL_HEAP_DeleteChecked(0x58);
  return 1;
 }
 
@@ -310,7 +310,7 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
     }
     if(GFL_NET_GetRunState()) {
         if(*((u8 *)GFL_NET_GetInitParam()+0x65)==3) {
-            if(func_0200FB24()) {
+            if(GFL_NET_ERR_GetErrorLevel()) {
                 GFL_NET_ERR_RequestScreen();
                 q->f20=2;
                 ((PartyStatusObj1 *)p)->f6B=1;((PartyStatusObj1 *)p)->fC4=1;
@@ -326,19 +326,19 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
         }
     }
     switch(((PartyStatusObj1 *)p)->f0) {
-    case 0:func_02034AC4((int)ov091_id);
+    case 0:GF_OVERLAY_Load((int)ov091_id);
         PROCSYS_Push(((PartyStatusObj1 *)p)->fD0,-1,gPartyListProcData,p+8);((PartyStatusObj1 *)p)->f0=1;break;
     case 1:if(PROCSYS_Main(((PartyStatusObj1 *)p)->fD0)==0)((PartyStatusObj1 *)p)->f0=2;break;
-    case 2:func_02034A5C((int)ov091_id);
+    case 2:GF_OVERLAY_Unload((int)ov091_id);
         if(((PartyStatusObj1 *)p)->f48==1) {((PartyStatusObj1 *)p)->fAF=((PartyStatusObj1 *)p)->f44;((PartyStatusObj1 *)p)->f0=3;}
         else return 1;
         break;
-    case 3:func_02034AC4((int)ov131_id);
+    case 3:GF_OVERLAY_Load((int)ov131_id);
         PROCSYS_Push(((PartyStatusObj1 *)p)->fD0,-1,gPokeStatusProcData,p+0xa0);((PartyStatusObj1 *)p)->f0=4;break;
     case 4:
         if(((PartyStatusObj1 *)p)->f98==1 && ((PartyStatusObj1 *)p)->f68==0)((PartyStatusObj1 *)p)->fC4=1;
         if(PROCSYS_Main(((PartyStatusObj1 *)p)->fD0)==0)((PartyStatusObj1 *)p)->f0=5;break;
-    case 5:func_02034A5C((int)ov131_id);
+    case 5:GF_OVERLAY_Unload((int)ov131_id);
         if(((PartyStatusObj1 *)p)->f6B==0) {((PartyStatusObj1 *)p)->f44=((PartyStatusObj1 *)p)->fAF;((PartyStatusObj1 *)p)->f0=0;}
         else return 1;
         break;
@@ -420,7 +420,7 @@ void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
         out->f90 = 0;
         out->f60 = 0;
     }
-    func_02034AC4((int)ov90_id);
+    GF_OVERLAY_Load((int)ov90_id);
     PLIST_COMM_Start((u8 *)out);
 }
 
@@ -495,7 +495,7 @@ int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d)
         PARTY_STATUS_ExitSubWork(d, c);
         break;
     }
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }
@@ -541,7 +541,7 @@ int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
     switch(*state) {
     case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
     case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
-    case 2:func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);func_02034AC4((int)ov175_id);
+    case 2:GF_OVERLAY_Load((int)ov067_id);GF_OVERLAY_Load((int)ov114_id);GF_OVERLAY_Load((int)ov175_id);
         *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx[5],**(void ** *)&((PartyStatusObj7 *)ctx)->f0,0,88);++*state;break;
     case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
     case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
@@ -550,7 +550,7 @@ int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
     case 7:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
     case 8:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
     case 9:WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32)*out));*out=0;
-        func_02034A5C((int)ov175_id);func_02034A5C((int)ov114_id);func_02034A5C((int)ov067_id);++*state;break;
+        GF_OVERLAY_Unload((int)ov175_id);GF_OVERLAY_Unload((int)ov114_id);GF_OVERLAY_Unload((int)ov067_id);++*state;break;
     case 10:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
     case 11:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;
     }
@@ -565,9 +565,9 @@ void PARTY_STATUS_DestroySubWork(void **pp, u32 *c)
     if (*pp == 0)
         return;
     WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32)*pp));
-    func_02034A5C((u32)ov175_id);
-    func_02034A5C((u32)ov114_id);
-    func_02034A5C((u32)ov067_id);
+    GF_OVERLAY_Unload((u32)ov175_id);
+    GF_OVERLAY_Unload((u32)ov114_id);
+    GF_OVERLAY_Unload((u32)ov067_id);
 }
 
 
@@ -575,7 +575,7 @@ void PARTY_STATUS_DestroySubWork(void **pp, u32 *c)
 
 void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v)
 {
-    func_02034AC4((u32)ov176_id);
+    GF_OVERLAY_Load((u32)ov176_id);
     *out = (u32)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*pp, v);
 }
 
@@ -583,7 +583,7 @@ void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v)
 
 unsigned PARTY_STATUS_NetSync2(void **d,unsigned *c,unsigned *state)
 {
- if(func_0200FB24()!=0){GFL_NET_ERR_RequestScreen();c[2]=2;return 1;}
+ if(GFL_NET_ERR_GetErrorLevel()!=0){GFL_NET_ERR_RequestScreen();c[2]=2;return 1;}
  switch(*state) {
  case 0:++*state;break;
  case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
@@ -599,5 +599,5 @@ unsigned PARTY_STATUS_NetSync2(void **d,unsigned *c,unsigned *state)
 void PARTY_STATUS_ExitSubWork(int *p, void *c)
 {
     LIVEBATTLEMATCH_IRC_Delete(*p);
-    func_02034A5C((int)ov176_id);
+    GF_OVERLAY_Unload((int)ov176_id);
 }

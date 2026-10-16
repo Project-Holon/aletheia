@@ -23,8 +23,8 @@
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   BR_FADE_Update 0x021FE768 thumb ov186
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BR_FADE_LoadPalette 0x021FE8E8 thumb ov186
  *   BG_SYS_SetMainPlaneVisible   0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible   0x02043598  arm
@@ -38,7 +38,7 @@
  *   PALANM_BlendChannelMask 0x02022004 thumb
  *   PALANM_RequestFullTransfer 0x02021F08 thumb
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   PALANM_LoadHandlePaletteToSlotAt 0x02021660 thumb
  *   FADE_GetSpeed 0x0204E6E0 arm
  *   func_0209C0A4 0x0209C0A4 arm
@@ -52,9 +52,9 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 extern int FADE_IsActive(void);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
@@ -84,7 +84,7 @@ extern void PALANM_RequestFullTransfer(struct PalAnmSys *o, int v);
 
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 
-extern void func_0207D63C(unsigned, int, int, int, int);
+extern void G2x_SetBlendAlpha_(unsigned, int, int, int, int);
 
 extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *,void *,u32,u32,u32,u32,u16,u16);
 
@@ -132,7 +132,7 @@ extern const char d_02200D6C[];
 
 struct BrFade *BR_FADE_Create(unsigned heapId)
 {
-    struct BrFade *fade = func_02030734(heapId, 0x40, 0, d_02200D6C, 0x62);
+    struct BrFade *fade = GFL_HEAP_Alloc(heapId, 0x40, 0, d_02200D6C, 0x62);
     MI_CpuFill8(fade, 0, 0x40);
     fade->unused3C = 0xFFFF;
     fade->palAnm = PALANM_Create(heapId);
@@ -148,7 +148,7 @@ struct BrFade *BR_FADE_Create(unsigned heapId)
  * extent: two zero alignment bytes at 0x021FE766 follow; no follower.
  * ABI: 02021540's legacy source declares void(void), but this caller loads r0 from p+0x20 at 021FE758; its tail-forward target 020307B0 saves and reads r0. Preserve that pointer argument.
  */
-void BR_FADE_Delete(struct BrFade *fade) { PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,2); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,0); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,3); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,1); PALANM_Delete(fade->palAnm); func_020307B0(fade); }
+void BR_FADE_Delete(struct BrFade *fade) { PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,2); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,0); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,3); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,1); PALANM_Delete(fade->palAnm); GFL_HEAP_Free(fade); }
 
 void BR_FADE_Update(struct BrFade *fade)
 {
@@ -205,7 +205,7 @@ void BR_FADE_BlendFull(struct BrFade *fade, int planeMask)
 void BR_FADE_SetBlendLevel(int unused, int planeMask, int level)
 {
     if (planeMask & 1) {
-        func_0207D63C(0x04000050, 7, 31, level, 16 - level);
+        G2x_SetBlendAlpha_(0x04000050, 7, 31, level, 16 - level);
         if (level == 0) {
             BG_SYS_SetMainPlaneVisible(1, 0);
             BG_SYS_SetMainPlaneVisible(2, 0);
@@ -217,7 +217,7 @@ void BR_FADE_SetBlendLevel(int unused, int planeMask, int level)
         }
     }
     if (planeMask & 2) {
-        func_0207D63C(0x04001050, 3, 7, level, 16 - level);
+        G2x_SetBlendAlpha_(0x04001050, 3, 7, level, 16 - level);
         if (level == 0) {
             BG_SYS_SetSubPlaneVisible(1, 0);
             BG_SYS_SetSubPlaneVisible(2, 0);
@@ -310,8 +310,8 @@ int BR_FADE_StepBlend(struct BrFade *fade,int *state)
         int evA,evB,duration;
         if(fade->direction==0){evA=0;evB=16;}
         else if(fade->direction==1){evA=16;evB=0;}
-        if(fade->planeMask&1)func_0207D63C(0x04000050,7,31,evA,evB);
-        if(fade->planeMask&2)func_0207D63C(0x04001050,3,7,evA,evB);
+        if(fade->planeMask&1)G2x_SetBlendAlpha_(0x04000050,7,31,evA,evB);
+        if(fade->planeMask&2)G2x_SetBlendAlpha_(0x04001050,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
         if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
@@ -397,7 +397,7 @@ int BR_FADE_StepSubPlane3(struct BrFade *fade,int *state)
         if(fade->direction==0){evA=0;evB=16;}
         else if(fade->direction==1){evA=16;evB=0;}
         FADE_Start(4,start,end,fade->durationParam);
-        func_0207D63C(0x04001050,3,7,evA,evB);
+        G2x_SetBlendAlpha_(0x04001050,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
         if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());

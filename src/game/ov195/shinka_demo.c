@@ -52,15 +52,15 @@
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   GAME_BEACON_SetPokeEvolution 0x020272A4 thumb
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02030CB0 0x02030CB0 arm
- *   func_02030CBC 0x02030CBC arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   TCB_GetTaskOffset 0x02030CB0 arm
+ *   TCB_Init 0x02030CBC arm
  *   TCB_Main 0x02030D28 arm
  *   TCB_Noop 0x02030DA4 arm
- *   func_02034AC4 0x02034AC4 arm
- *   func_02034A5C 0x02034A5C arm
- *   func_020355C4 0x020355C4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
  *   FADE_IsActive 0x0204E804 arm
@@ -102,10 +102,10 @@
  *   SHINKA_DEMO_EFFECT_IsCameraReady 0x02208860 thumb ov195
  *   ov067_id 0x00000043 data
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   SHINKA_DEMO_GRAPHIC_Create 0x022058F8 thumb ov195
@@ -127,10 +127,10 @@
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   d_02208C4C 0x02208C4C data a4
@@ -146,16 +146,16 @@
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
@@ -175,7 +175,7 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_SetSlotMonName 0x0201EE84 thumb
@@ -359,15 +359,15 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern void PALANM_SetAutoTransfer(void *o, int v);
 /* Caller narrows only r0; r1 retains the full word, copied to the callee's u16 store. */
 extern void GAME_BEACON_SetPokeEvolution(u16,u32);
-extern void *func_02030734(u32,u32,int,const char *,u16);
-extern u32 func_020307B0(void *p);
-extern u32 func_02030CB0(u32);
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
+extern u32 GFL_HEAP_Free(void *p);
+extern u32 TCB_GetTaskOffset(u32);
+extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 extern void TCB_Main(struct Ctx *c);
 extern void TCB_Noop(void *);
-extern int func_02034AC4(int);
-extern void func_02034A5C(int);
-extern u8 func_020355C4(void);
+extern int GF_OVERLAY_Load(int);
+extern void GF_OVERLAY_Unload(int);
+extern u8 UI_GetInputMode(void);
 extern void func_020355D8(u32);
 extern u32 KEY_GetTrg(void);
 extern int FADE_IsActive(void);
@@ -404,10 +404,10 @@ extern int SHINKA_DEMO_VIEW_TrySecondForm(int *p);
 extern int SHINKA_DEMO_EFFECT_IsState4(int *p);
 extern int SHINKA_DEMO_EFFECT_IsCameraReady(int *p);
 extern void GFL_HEAP_CreateChildHeap(u32 parent, u32 id, u32 size);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
-extern void func_0207D63C(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
@@ -429,10 +429,10 @@ extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32 index);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -447,16 +447,16 @@ extern void CLACT_ReleasePalette(u32);
 extern void CLACT_SetActorAnimIndex(int, int);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void PALANM_TransferPalettes(void *p);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, int value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern u32 APP_KEYCURSOR_CreateDefault(int, int, int, u16);
@@ -478,7 +478,7 @@ extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
@@ -680,23 +680,23 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         ((u8 *)P(0x100))[0xc]=1;*(u32 *)((char *)P(0x100)+8)=A(0);*(u32 *)((char *)P(0x100)+0x24)=0;*(u32 *)P(0x100)=A(4);
         *(void **)((char *)P(0x100)+4)=func_0200873C(v);((u8 *)P(0x100))[0xe]=POKEPARTY_GetCount((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
-        func_02034AC4((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
+        GF_OVERLAY_Load((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
-    case 25:func_02034A5C((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
+    case 25:GF_OVERLAY_Unload((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
     case 26:
         if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
     case 27:
         if(FADE_IsActive())break;
-        W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;SHINKA_DEMO_GRAPHIC_ReleaseSubBg((int)P(4));B(0xac)=func_020355C4()==0;
-        P(0xa4)=func_02030734(H(0),func_02030CB0(8),0,(char *)d_02208F40,0x548);
-        MI_CpuFill8(P(0xa4),0,func_02030CB0(8));P(0xa0)=func_02030CBC(8,P(0xa4));P(0xa8)=PALANM_Create(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
+        W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;SHINKA_DEMO_GRAPHIC_ReleaseSubBg((int)P(4));B(0xac)=UI_GetInputMode()==0;
+        P(0xa4)=GFL_HEAP_Alloc(H(0),TCB_GetTaskOffset(8),0,(char *)d_02208F40,0x548);
+        MI_CpuFill8(P(0xa4),0,TCB_GetTaskOffset(8));P(0xa0)=TCB_Init(8,P(0xa4));P(0xa8)=PALANM_Create(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
         PALANM_AllocSlotBuffers(P(0xa8),1,0x1e0,H(0));PALANM_AllocSlotBuffers(P(0xa8),3,0x1e0,H(0));
         W(0xb0)=A(0);W(0xb4)=A(4);W(0xbc)=W(8);H(0xc0)=H(0);B(0xcf)=4;B(0xfc)=0;B(0xd0)=AB(0xa);H(0xd6)=H(0x1c);W(0xc4)=0;P(0xf4)=s+0xac;W(0xd8)=W(0xa0);W(0xdc)=W(0xa8);W(0xf0)=1;
-        func_02034AC4((int)ov196_id);func_02034AC4((int)ov198_id);B_PLIST_MAIN_Create((u8 *)(s+0xb0));FADE_Start(2,16,0,0);break;
+        GF_OVERLAY_Load((int)ov196_id);GF_OVERLAY_Load((int)ov198_id);B_PLIST_MAIN_Create((u8 *)(s+0xb0));FADE_Start(2,16,0,0);break;
     case 28:TCB_Main(P(0xa0));if(B(0xfc)){W(0x28)=29;FADE_Start(2,0,16,0);}break;
     case 29:
         if(FADE_IsActive())break;
-        W(0x28)=30;func_02034A5C((int)ov196_id);func_02034A5C((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));TCB_Noop(P(0xa0));func_020307B0(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
+        W(0x28)=30;GF_OVERLAY_Unload((int)ov196_id);GF_OVERLAY_Unload((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));TCB_Noop(P(0xa0));GFL_HEAP_Free(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
         SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
@@ -743,9 +743,9 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
 
     GFL_HEAP_CreateChildHeap(1, 0x68, 0x70000);
     s->heap = 0x68;
-    func_02034AC4((u32)ov067_id);
+    GF_OVERLAY_Load((u32)ov067_id);
     for (i = 0; i <= 7; i++)
-        func_02040588(i, 0);
+        BG_SYS_SetPlaneVisible(i, 0);
     s->graphic = SHINKA_DEMO_GRAPHIC_Create(1, s->heap);
     SHINKA_DEMO_GRAPHIC_SetupSubBg();
     s->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, s->heap);
@@ -761,9 +761,9 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
     BG_SYS_SetVisibleLayer(2, 1);
     BG_SYS_SetVisibleLayer(1, 0);
     BG_SYS_SetVisibleLayer(4, 2);
-    func_02040588(0, 1);
-    func_02040588(2, 1);
-    func_02040588(4, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
     BG_SYS_LoadPlttEntry(0, 0);
     BG_SYS_LoadPlttEntry(4, 0);
     if (s->state == 0) {
@@ -779,7 +779,7 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
         s->effect = SHINKA_DEMO_EFFECT_Create(s->heap, 0);
     else
         s->effect = SHINKA_DEMO_EFFECT_Create(s->heap, 1);
-    func_0207D63C(0x04000050, 1, 0x3e, 0, 0);
+    G2x_SetBlendAlpha_(0x04000050, 1, 0x3e, 0, 0);
 }
 
 
@@ -808,7 +808,7 @@ void SHINKA_DEMO_DeleteScene(int a, int *p)
     GF_FONT_Delete((void *)p[2]);
     SHINKA_DEMO_GRAPHIC_ReleaseSubBg(p[1]);
     SHINKA_DEMO_GRAPHIC_Destroy((char *)p[1]);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     GFL_HEAP_DeleteChecked(0x68);
 }
 
@@ -1128,11 +1128,11 @@ void SHINKA_DEMO_StopBgm(int a, char *b)
 
 void SHINKA_DEMO_LoadSprites(int a, char *b)
 {
-    void *h = func_020490F4(0xb6, ((struct Scene *)b)->heap);
+    void *h = ARC_TOOL_CreateHandle(0xb6, ((struct Scene *)b)->heap);
 
     func_02049B68(h, 3, 0, 0, 0x20, ((struct Scene *)b)->heap);
-    func_02049658(h, 5, 2, 0, 0, 0, ((struct Scene *)b)->heap);
-    func_020498F4(h, 4, 2, 0, 0, 0, ((struct Scene *)b)->heap);
+    ARC_UTIL_UploadBgCharFromHandle(h, 5, 2, 0, 0, 0, ((struct Scene *)b)->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 4, 2, 0, 0, 0, ((struct Scene *)b)->heap);
     ARC_TOOL_DeleteHandle(h);
     BG_SYS_PushTile(2);
 }
@@ -1154,7 +1154,7 @@ void SHINKA_DEMO_CreateActors(int a, char *b)
     u8 i;
     int z;
 
-    h = func_020490F4(0xb6, ((struct Scene *)b)->heap);
+    h = ARC_TOOL_CreateHandle(0xb6, ((struct Scene *)b)->heap);
     i = 0;
     ((struct Scene *)b)->palette = CLACT_RegisterPaletteEx(h, 3, 0, 0, i, 1, ((struct Scene *)b)->heap);
     ((struct Scene *)b)->character = CLACT_RegisterCharacter(h, 2, 0, 0, ((struct Scene *)b)->heap);
@@ -1237,12 +1237,12 @@ void SHINKA_DEMO_MainTask(int task, char *p)
 {
     switch (((struct Scene *)p)->windowState) {
     case 1:
-        func_02040588(1, 1);
+        BG_SYS_SetPlaneVisible(1, 1);
         ((struct Scene *)p)->subBgVisible = 1;
         ((struct Scene *)p)->windowState = 0;
         break;
     case 2:
-        func_02040588(1, 0);
+        BG_SYS_SetPlaneVisible(1, 0);
         ((struct Scene *)p)->subBgVisible = 0;
         ((struct Scene *)p)->windowState = 0;
         break;
@@ -1260,7 +1260,7 @@ void SHINKA_DEMO_SetupWindows(int a, char *b)
 {
     u32 p;
 
-    func_02049B40(0x17, 5, 0, 0x20, 0x20, ((struct Scene *)b)->heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x20, 0x20, ((struct Scene *)b)->heap);
     ((struct Scene *)b)->window = BMP_WIN_Create(1, 0, 0, 1, 1, 1, 0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Scene *)b)->window)), 0);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Scene *)b)->window);
@@ -1269,17 +1269,17 @@ void SHINKA_DEMO_SetupWindows(int a, char *b)
     p = ((struct Scene *)b)->menuWindow;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
     ((struct Scene *)b)->frameGfx = (u32)BMP_MENUWORK_LoadFrameGfx((void *)1, 2, 0, ((struct Scene *)b)->heap);
-    ((struct Scene *)b)->msgBankA = func_02045B38(0, 2, 0xac, ((struct Scene *)b)->heap);
-    ((struct Scene *)b)->msgBankB = func_02045B38(0, 2, 0xcc, ((struct Scene *)b)->heap);
+    ((struct Scene *)b)->msgBankA = MSGDATA_CreateFromArchive(0, 2, 0xac, ((struct Scene *)b)->heap);
+    ((struct Scene *)b)->msgBankB = MSGDATA_CreateFromArchive(0, 2, 0xcc, ((struct Scene *)b)->heap);
     ((struct Scene *)b)->tcbl = (u32)TCBL_Create(((struct Scene *)b)->heap, ((struct Scene *)b)->heap, 1, 0);
     GF_FONT_SetTextColor(1, 2, 0xf);
     ((struct Scene *)b)->strbufA = 0;
     ((struct Scene *)b)->printStream = 0;
     ((struct Scene *)b)->keyCursor = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, ((struct Scene *)b)->heap);
     ((struct Scene *)b)->windowState = 0;
-    func_02040588(1, 0);
+    BG_SYS_SetPlaneVisible(1, 0);
     ((struct Scene *)b)->subBgVisible = 0;
 }
 
@@ -1417,7 +1417,7 @@ void SHINKA_DEMO_ClearText(char *a, int b)
     p = ((struct Scene *)a)->menuWindow;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
     if (((struct Scene *)a)->printStream != 0)
         PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Scene *)a)->printStream));
     if (((struct Scene *)a)->strbufA != 0)
@@ -1457,7 +1457,7 @@ void SHINKA_DEMO_SetupMessageBox(int a, int *p, int flag)
 
 void SHINKA_DEMO_CreateConfirmMenu(int a, char *b)
 {
-    ((struct Scene *)b)->confirmMsgBank = (u32)func_02045B38(0, 2, 0xe9, ((struct Scene *)b)->heap);
+    ((struct Scene *)b)->confirmMsgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xe9, ((struct Scene *)b)->heap);
     ((struct Scene *)b)->yesNoMenu = (u32)YESNO_MENU_Create(((struct Scene *)b)->heap, 5, 0, 1, 0, SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)b)->graphic)),
                                        ((struct Scene *)b)->font, ((struct Scene *)b)->printQue, 0);
     ((struct Scene *)b)->strbufC = 0;
@@ -1492,9 +1492,9 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 
     int z;
 
     if (k0 == 4 && k1 == 4) {
-        r = (u32)func_02045EC0((struct MsgBank *)a, b);
+        r = (u32)MSGDATA_AllocString((struct MsgBank *)a, b);
     } else {
-        src = (u32)func_02045EC0((struct MsgBank *)a, b);
+        src = (u32)MSGDATA_AllocString((struct MsgBank *)a, b);
         w = (u32)WORDSET_CreateDefault(heap);
         p[0].kind = k0;
         p[0].val = v0;
@@ -1538,7 +1538,7 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
         return;
     if (func_02007F68(save, 4, 1, ((struct Scene *)b)->mainHeap) == 0)
         return;
-    p = (u32)func_02030734(((struct Scene *)b)->mainHeap, POKE_TOOL_GetPartyParamSize(), 1, (const char *)d_02208F40, 0xaf5);
+    p = (u32)GFL_HEAP_Alloc(((struct Scene *)b)->mainHeap, POKE_TOOL_GetPartyParamSize(), 1, (const char *)d_02208F40, 0xaf5);
     POKE_TOOL_CopyPartyPokemon((const struct RecDC *)(((struct Scene *)b)->partyMon), (struct RecDC *)p);
     POKE_TOOL_ChangeSpecies((void *)p, 0x124);
     POKE_TOOL_SetPartyValue((void *)p, 0x98, 4);
@@ -1550,17 +1550,17 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
         POKE_TOOL_SetPartyValue((void *)p, i, 0);
     for (i = 0x78; i < 0x8d; i++)
         POKE_TOOL_SetPartyValue((void *)p, i, 0);
-    v = (u32)func_02045EC0((struct MsgBank *)gSpeciesNameBank, POKE_TOOL_GetPartyValue((void *)p, 5, 0));
+    v = (u32)MSGDATA_AllocString((struct MsgBank *)gSpeciesNameBank, POKE_TOOL_GetPartyValue((void *)p, 5, 0));
     POKE_TOOL_SetPartyValue((void *)p, 0x73, v);
     STRBUF_Delete((struct U16Vec *)v);
     POKE_TOOL_SetPartyValue((void *)p, 0x9d, 0);
     v = (u32)MAIL_Create(((struct Scene *)b)->mainHeap);
     POKE_TOOL_SetPartyValue((void *)p, 0xa7, v);
-    func_020307B0((void *)v);
+    GFL_HEAP_Free((void *)v);
     POKE_TOOL_SetPartyValue((void *)p, 0x9f, 0);
     POKEPARTY_Add((void *)a[1], (void *)p);
     func_02007F1C(save, 4, 1, ((struct Scene *)b)->mainHeap);
-    func_020307B0((void *)p);
+    GFL_HEAP_Free((void *)p);
     q = (u32)ZUKAN_SAVE_GetFromGameData((void *)a[0]);
     ZUKAN_SAVE_RegisterSeen((struct Blk37 *)q, (void *)p);
     ZUKAN_SAVE_RegisterCaught((struct Blk37 *)q, (void *)p);

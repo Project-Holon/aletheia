@@ -13,8 +13,8 @@
  * Cut from demo3d_graphic.c, demo3d_data.c, demo3d_cmdsys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   DEMO3D_CMDSYS_Create 0x021BF7C0 thumb ov203
  *   DEMO3D_CMDSYS_Delete 0x021BF810 thumb ov203
  *   DEMO3D_CMDSYS_Update 0x021BF858 thumb
@@ -28,7 +28,7 @@
  *   DEMO3D_DATA_GetAnimIndex 0x021BE990 thumb ov203
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   TCBL_DeleteAllTasks 0x0203115C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -39,7 +39,7 @@
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_data_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct GfFont;
 
@@ -60,7 +60,7 @@ extern void GFL_USE_SetBgmPlayerParam(void *);
 
 extern void DEMO3D_DATA_DeleteCapture(int);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 DEMO3D_DATA_GetRecordField(u32 id);
 
@@ -72,7 +72,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned 
 
 extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern signed char MSG_SPEED_GetWait(void);
 
@@ -103,7 +103,7 @@ extern const char d_021C3D4C[];
 Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner,unsigned heap)
 {
     Demo3dCmdContext *p;
-    p=func_02030734(heap,0x30,1,d_021C3D4C,78);
+    p=GFL_HEAP_Alloc(heap,0x30,1,d_021C3D4C,78);
     p->owner=owner;p->heap=heap;p->alternate=(heap&0x7FFF)|0x8000;
     p->config=((struct Demo3dOwner *)owner)->config;p->previous=-1;
     DEMO3D_CMDSYS_Init((char *)p);
@@ -122,7 +122,7 @@ void DEMO3D_CMDSYS_Delete(char *p)
         DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,(char *)owner,r);
     }
     ((Demo3dCmdContext *)p)->done=1;
-    TCBL_Main(((Demo3dCmdContext *)p)->task);DEMO3D_CMDSYS_Release(p);func_020307B0(p);
+    TCBL_Main(((Demo3dCmdContext *)p)->task);DEMO3D_CMDSYS_Release(p);GFL_HEAP_Free(p);
 }
 
 void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
@@ -154,7 +154,7 @@ void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
 
 extern void (*d_021C3D00[])(Demo3dCmdContext *, char *, int *);
 
-void DEMO3D_CMDSYS_Init(char *p){((Demo3dCmdContext *)p)->task=TCBL_Create(((Demo3dCmdContext *)p)->heap,((Demo3dCmdContext *)p)->heap,16,128);((Demo3dCmdContext *)p)->text=GF_FONT_Create(23,0,0,0,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->assets=func_020490F4(161,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->flags[0]=MSG_SPEED_GetWait();}
+void DEMO3D_CMDSYS_Init(char *p){((Demo3dCmdContext *)p)->task=TCBL_Create(((Demo3dCmdContext *)p)->heap,((Demo3dCmdContext *)p)->heap,16,128);((Demo3dCmdContext *)p)->text=GF_FONT_Create(23,0,0,0,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->assets=ARC_TOOL_CreateHandle(161,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->flags[0]=MSG_SPEED_GetWait();}
 
 void DEMO3D_CMDSYS_Release(char *p)
 {

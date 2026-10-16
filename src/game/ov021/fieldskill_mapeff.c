@@ -13,8 +13,8 @@
  * Cut from field_flash.c, pleasure_boat.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   gFieldSkillMapEffFileName  0x021DE50C  data  ov021  a4
  *   FIELD_FLASH_Create 0x021C7DAC thumb ov021
  *   FIELD_FLASH_Delete 0x021C7DE0 thumb ov021
@@ -29,9 +29,9 @@ typedef struct FieldSkillMapEff {
     FieldFlash *flash;
 } FieldSkillMapEff;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern char gFieldSkillMapEffFileName[];
 
@@ -65,7 +65,7 @@ void FIELDSKILL_MAPEFF_ApplyFlash(FieldSkillMapEff *mapEff);
 
 FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(u32 flags, u32 heapId)
 {
-    FieldSkillMapEff *mapEff = func_02030734(heapId, sizeof(FieldSkillMapEff), 1, gFieldSkillMapEffFileName, 0x49);
+    FieldSkillMapEff *mapEff = GFL_HEAP_Alloc(heapId, sizeof(FieldSkillMapEff), 1, gFieldSkillMapEffFileName, 0x49);
     FIELDSKILL_MAPEFF_InitFlash(mapEff, flags, heapId);
     return mapEff;
 }
@@ -73,7 +73,7 @@ FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(u32 flags, u32 heapId)
 void FIELDSKILL_MAPEFF_Delete(FieldSkillMapEff *mapEff)
 {
     FIELDSKILL_MAPEFF_FreeFlash(mapEff);
-    func_020307B0(mapEff);
+    GFL_HEAP_Free(mapEff);
 }
 
 /* Tail-call thunk: forwards to FIELDSKILL_MAPEFF_UpdateFlash with no argument change. */

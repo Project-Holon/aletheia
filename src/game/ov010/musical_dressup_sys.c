@@ -13,10 +13,10 @@
  * Cut from musical_dressup_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   STA_NET_GetField48  0x021FD904  thumb  ov132
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
@@ -24,7 +24,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   sMusicalDressupSysFileName  0x02172730  data
  *   ov133_id  0x00000085  data
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   DUP_FITTING_Create  0x021B6100  thumb ov133
  *   DUP_FITTING_Main  0x021B63BC  thumb  ov133
  *   DUP_FITTING_Delete  0x021B6294  thumb ov133
@@ -41,13 +41,13 @@ typedef struct MusicalDressupWork {
     MusicalDressupParam *param;         /* 0x0C */
 } MusicalDressupWork;
 
-extern int func_02034AC4(s32 overlayId);
+extern int GF_OVERLAY_Load(s32 overlayId);
 
-extern void func_02034A5C(s32 overlayId);
+extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern u32 func_020307B0(void *ptr);
+extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
@@ -59,7 +59,7 @@ extern void *MUSICAL_SAVE_GetFromSave(void *saveControl);
 
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 
-extern void func_020315D4(void *proc);
+extern void PROCSYS_FreeProcWork(void *proc);
 
 extern void *DUP_FITTING_Create(void *param, int heapId);
 
@@ -91,10 +91,10 @@ int MUSICAL_DRESSUP_SYS_Init(void *proc, u32 *state, MusicalDressupParam *param)
 {
     MusicalDressupWork *work;
     *state = 0;
-    func_02034AC4((u32)ov133_id);
+    GF_OVERLAY_Load((u32)ov133_id);
     GFL_HEAP_CreateChildHeap(1, 0x2d, 1 << 18);
     work = PROCSYS_AllocProcWork(proc, 0x10, 0x2d);
-    work->paramCopy = func_02030734(0x2d, 0xc, 0, sMusicalDressupSysFileName, 0x4e);
+    work->paramCopy = GFL_HEAP_Alloc(0x2d, 0xc, 0, sMusicalDressupSysFileName, 0x4e);
     work->param = param;
     work->paramCopy[0] = ((u32 *)param)[0];
     work->paramCopy[1] = ((u32 *)param)[1];
@@ -108,10 +108,10 @@ int MUSICAL_DRESSUP_SYS_Init(void *proc, u32 *state, MusicalDressupParam *param)
  */
 int MUSICAL_DRESSUP_SYS_Exit(void *proc, int unused1, int unused2, MusicalDressupWork *work)
 {
-    func_020307B0(work->paramCopy);
-    func_020315D4(proc);
+    GFL_HEAP_Free(work->paramCopy);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x2d);
-    func_02034A5C((u32)ov133_id);
+    GF_OVERLAY_Unload((u32)ov133_id);
     return 1;
 }
 
@@ -153,7 +153,7 @@ MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *pe
     MusicalDressupParam *param;
     int zero = 0;
 
-    param = func_02030734(heapId, 12, 0, sMusicalDressupSysFileName, 0xa7);
+    param = GFL_HEAP_Alloc(heapId, 12, 0, sMusicalDressupSysFileName, 0xa7);
     param->session = (void *)zero;
     param->save = MUSICAL_SAVE_GetFromSave(saveControl);
     param->performer = performer;
@@ -166,5 +166,5 @@ MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *pe
  */
 void MUSICAL_DRESSUP_SYS_Delete(MusicalDressupParam *param)
 {
-    func_020307B0(param);
+    GFL_HEAP_Free(param);
 }

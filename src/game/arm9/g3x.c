@@ -1,7 +1,7 @@
 /*
  * file:     g3x.c
  * unit:     yes
- * function: G3X_Init, G3X_Reset, G3X_ClearFifo, G3X_InitMtxStack, G3X_ResetMtxStack, G3X_SetFog, G3X_GetClipMtx, G3X_GetVectorMtx, func_0207DCF8, G3X_SetFogTable, G3X_SetClearColor, G3X_InitTable, G3X_GetMtxStackLevelPV, G3X_GetMtxStackLevelPJ, G3X_SetDisp1DotDepth, G3X_GetBoxTestResult, GXi_NopClearFifo128_
+ * function: G3X_Init, G3X_Reset, G3X_ClearFifo, G3X_InitMtxStack, G3X_ResetMtxStack, G3X_SetFog, G3X_GetClipMtx, G3X_GetVectorMtx, G3X_SetEdgeColorTable, G3X_SetFogTable, G3X_SetClearColor, G3X_InitTable, G3X_GetMtxStackLevelPV, G3X_GetMtxStackLevelPJ, G3X_SetDisp1DotDepth, G3X_GetBoxTestResult, GXi_NopClearFifo128_
  * address:  0x0207D988
  * region:   arm9
  * compiler: dsi/1.1p1

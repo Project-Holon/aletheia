@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -24,14 +24,14 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
- *   func_02034AC4 0x02034AC4 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   func_020056EC 0x020056EC thumb
  *   POKE_TOOL_NormalizeForm 0x02019D30 thumb
  *   KEY_GetTrg  0x020362DC  arm
@@ -97,11 +97,11 @@
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   gGsyncStateAssertTag 0x021DABA4 data a1
- *   func_0200F7C0 0x0200F7C0 thumb
+ *   GFL_NET_ERR_HaltWithMessage 0x0200F7C0 thumb
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
- *   func_02009448 0x02009448 thumb
+ *   GAME_SYNC_GetBlock 0x02009448 thumb
  *   MUSICAL_DIST_SAVE_CreateFromData  0x0200C5C8  thumb  arm9
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb  arm9
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
@@ -166,6 +166,8 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
+ *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb  arm9
+ *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_download_types.h"
@@ -208,7 +210,7 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
@@ -228,7 +230,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,u8,u32);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 
@@ -236,17 +238,17 @@ extern void APP_TASKMENU_UpdateMenu(void *);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void DWC_RAP_SetErrorHookCallback(int a, int b);
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
 extern u32 func_020056EC(u32 range);
 
@@ -268,9 +270,9 @@ extern int GFL_USE_PushBgm(void);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
-extern struct Sub02009448Obj *func_02009448(void *sys);
+extern struct Sub02009448Obj *GAME_SYNC_GetBlock(void *sys);
 
-extern int func_020076D0(void *save, int *pbox, int *pslot);
+extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
@@ -312,7 +314,7 @@ extern int GAME_DATA_PartSaveMain(char *p, int a1);
 
 extern void func_0200734C(struct Sub02007324Ctrl *,unsigned int);
 
-extern struct Sub02009210Obj *func_02009210(void *sys);
+extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
 
 extern void func_020090F8(struct Sub020090B0Obj *obj, unsigned char value);
 
@@ -416,9 +418,9 @@ extern u8 *NHTTP_RAP_Create(int,int,int);
 
 extern void DWC_RAP_SetErrorCallback(int,int);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern void func_0200F7C0(u32 value);
+extern void GFL_NET_ERR_HaltWithMessage(u32 value);
 
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 
@@ -880,13 +882,13 @@ void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state)
     void *monData;
     int monSize;
     int monValue;
-    saveSystem=func_02009448(state->saveControl);
+    saveSystem=GAME_SYNC_GetBlock(state->saveControl);
     if (state->receivedMon) {
-        func_020307B0(state->receivedMon);
+        GFL_HEAP_Free(state->receivedMon);
         state->receivedMon=0;
     }
-    if (func_020076D0(state->boxSave,(int *)((char *)state+0x48),(int *)((char *)state+0x4c))) {
-        monData=func_02030734(state->heapId,POKE_TOOL_GetPartyParamSize(),1,gGsyncStateAllocSource,0x245);
+    if (BOX_SAVEDATA_FindFreeSlot(state->boxSave,(int *)((char *)state+0x48),(int *)((char *)state+0x4c))) {
+        monData=GFL_HEAP_Alloc(state->heapId,POKE_TOOL_GetPartyParamSize(),1,gGsyncStateAllocSource,0x245);
         monSize=POKE_TOOL_GetPartyParamSize();
         MI_CpuCopy8(func_02009290(saveSystem),monData,monSize);
         if (state->messageArg) {
@@ -910,7 +912,7 @@ void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state)
 void GSYNC_STATE_StateSaveFinishMessage(char *state)
 {
     NotifyCallback animCallback;
-    func_02009448(((GsyncStateWork *)state)->saveControl);
+    GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     if (GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)state)->saveData))==2) {
         ((GsyncStateWork *)state)->saveActive=0;
         ((GsyncStateWork *)state)->saveInProgress=0;
@@ -936,7 +938,7 @@ void GSYNC_STATE_StatePollResponse(char *state)
     if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))==0) {
         if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)==0) {
             NHTTP_RAP_GetRecvBuffer(((GsyncStateWork *)state)->httpConnection);
-            func_02009448(((GsyncStateWork *)state)->saveControl);
+            GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
             ((GsyncStateWork *)state)->netDone=1;
             GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveFinishMessage,0x2ae);
         }
@@ -967,7 +969,7 @@ void GSYNC_STATE_StateSaveStart(int state)
     int saveSystem;
     int slotIndex;
     u8 *monHeader;
-    saveSystem=(int)func_02009448((void *)((*(int *)&((GsyncStateWork *)state)->saveControl)));
+    saveSystem=(int)GAME_SYNC_GetBlock((void *)((*(int *)&((GsyncStateWork *)state)->saveControl)));
     ((GsyncStateWork *)state)->saveInProgress=1;
     GSYNC_STATE_LoadReceivedMon((GsyncStateWork *)state);
     if(GSYNC_STATE_IsCommReady((GsyncStateWork *)state)==0) {
@@ -995,14 +997,14 @@ void GSYNC_STATE_StateCleanupDownload(int state)
     GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x31d);
 }
 
-void GSYNC_STATE_StateFreeReceivedMon(u8 *state) { ((GsyncStateWork *)state)->wantMusicalSave=0; func_020307B0(((GsyncStateWork *)state)->iconBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->iconBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x328); }
+void GSYNC_STATE_StateFreeReceivedMon(u8 *state) { ((GsyncStateWork *)state)->wantMusicalSave=0; GFL_HEAP_Free(((GsyncStateWork *)state)->iconBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->iconBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x328); }
 
 void GSYNC_STATE_StateExtraSaveMain(u8 *state)
 {
     int saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
     if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),4)==2) {
         func_0200734C((struct Sub02007324Ctrl *)saveControl,4);
-        func_020090F8((struct Sub020090B0Obj *)func_02009210((void *)saveControl),1);
+        func_020090F8((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),1);
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeReceivedMon,0x333);
     }
 }
@@ -1022,16 +1024,16 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int state)
         return;
     }
     ((GsyncStateWork *)state)->netDone=1;
-    buffer=(int)func_02030734(((GsyncStateWork *)state)->heapId,0x3000,0,gGsyncStateAllocSource,0x34a);
+    buffer=(int)GFL_HEAP_Alloc(((GsyncStateWork *)state)->heapId,0x3000,0,gGsyncStateAllocSource,0x34a);
     (*(int *)&((GsyncStateWork *)state)->iconBuffer)=buffer;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,4,((GsyncStateWork *)state)->heapId,buffer,0x3000);
     MI_CpuCopy8(downloadData,(void *)buffer,0x2600);
-    func_02009108((struct Sub020090B0Obj *)func_02009210((void *)saveControl),checksum);
+    func_02009108((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),checksum);
     GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,4);
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMain,0x355);
 }
 
-void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *state) { ((GsyncStateWork *)state)->wantRecordSave=0; func_020307B0(((GsyncStateWork *)state)->extraSaveBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->extraSaveBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x360); }
+void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *state) { ((GsyncStateWork *)state)->wantRecordSave=0; GFL_HEAP_Free(((GsyncStateWork *)state)->extraSaveBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->extraSaveBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x360); }
 
 void GSYNC_STATE_StateExtraSaveMainSecond(char *state) { int saveControl; saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData)); if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),7)==2) { func_0200734C((struct Sub02007324Ctrl *)saveControl,7); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeExtraSaveBuffer,0x36a); } }
 
@@ -1050,7 +1052,7 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
         return;
     }
     ((GsyncStateWork *)state)->netDone=1;
-    buffer=(int)func_02030734(((GsyncStateWork *)state)->heapId,0x6800,0,gGsyncStateAllocSource,0x37d);
+    buffer=(int)GFL_HEAP_Alloc(((GsyncStateWork *)state)->heapId,0x6800,0,gGsyncStateAllocSource,0x37d);
     *(int *)&((GsyncStateWork *)state)->extraSaveBuffer=buffer;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,7,((GsyncStateWork *)state)->heapId,*(int *)&((GsyncStateWork *)state)->extraSaveBuffer,0x6800);
     MI_CpuCopy8(downloadData,((GsyncStateWork *)state)->extraSaveBuffer,0x6200);
@@ -1329,7 +1331,7 @@ int GSYNC_STATE_UpdateCurrentEntry(GsyncStateWork *state)
 {
     int slotIndex, otherIndex;
     char *list;
-    func_02009448(state->saveControl);
+    GAME_SYNC_GetBlock(state->saveControl);
     list = (char *)state->connection + 0xc;
     for (slotIndex = 0; slotIndex < 20; slotIndex++) {
         for (otherIndex = slotIndex + 1; otherIndex < 20; otherIndex++) {
@@ -1351,9 +1353,9 @@ void GSYNC_STATE_StateReceiveList(char *state)
         if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
         if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
         response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
-        saveSystem=func_02009448(((GsyncStateWork *)state)->saveControl);
+        saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
         listData=response+0x80;
-        listBuffer=func_02030734(((GsyncStateWork *)state)->heapId,0x11c,1,gGsyncStateAllocSource,0x573);
+        listBuffer=GFL_HEAP_Alloc(((GsyncStateWork *)state)->heapId,0x11c,1,gGsyncStateAllocSource,0x573);
         (*(void * *)&((GsyncStateWork *)state)->listBuffer)=listBuffer;
         MI_CpuCopy8(listData,listBuffer,0x11c);
         GSYNC_STATE_PrepareReceivedList((GsyncStateWork *)state,saveSystem,(GsyncConn *)listData,(int *)response);
@@ -1455,7 +1457,7 @@ void GSYNC_STATE_StateConfirmMenuSelect(char *state)
     (((GsyncStateWork *)state)->blinkTimer)++;
     if (APP_TASKMENU_IsFinish(((GsyncStateWork *)state)->confirmMenu)) {
         if (APP_TASKMENU_GetCursorPos(((GsyncStateWork *)state)->confirmMenu) == 0) {
-            if (func_020076D0(((GsyncStateWork *)state)->boxSave, (int *)(state + 0x48), (int *)(state + 0x4c)) == 0)
+            if (BOX_SAVEDATA_FindFreeSlot(((GsyncStateWork *)state)->boxSave, (int *)(state + 0x48), (int *)(state + 0x4c)) == 0)
                 GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitMessageThenPrintThird, 0x60f);
             else
                 GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateShowProgressMessage, 0x612);
@@ -1486,7 +1488,7 @@ void GSYNC_STATE_StateShowEmptyMessage(char *state)
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 12);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 6);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 8);
-    if (func_02009370((const struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)state)->saveControl)))
+    if (func_02009370((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl)))
         GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 21);
     else
         GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 10);
@@ -1504,7 +1506,7 @@ void GSYNC_STATE_StateWaitInputClearWindow(char *state)
 {
     if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
         GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
-        func_020092E0((struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)state)->saveControl), 1);
+        func_020092E0((struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl), 1);
         ((GsyncStateWork *)state)->responseValid = 1;
         GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSendFinalRequest, 0x6a2);
     }
@@ -1724,7 +1726,7 @@ void GSYNC_STATE_StateSendFinalRequest(char *state)
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x85c);
         return;
     }
-    rtcPacked=func_020093C8((const struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)state)->saveControl));
+    rtcPacked=func_020093C8((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl));
     saved.year=(u8)(rtcPacked>>24);
     saved.month=(u8)(rtcPacked>>16);
     saved.day=(u8)(rtcPacked>>8);
@@ -1762,7 +1764,7 @@ void GSYNC_STATE_StateWaitMessageThenNext(char *state)
 void GSYNC_STATE_StateShowCompletionMessage(char *state)
 {
     if (((GsyncStateWork *)state)->auxBuffer) {
-        func_020307B0(((GsyncStateWork *)state)->auxBuffer);
+        GFL_HEAP_Free(((GsyncStateWork *)state)->auxBuffer);
         ((GsyncStateWork *)state)->auxBuffer=0;
     }
     ((GsyncStateWork *)state)->progressPercent=100;
@@ -1784,7 +1786,7 @@ void GSYNC_STATE_StateSaveErrorExit(char *state)
     switch (GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)state)->saveData))) {
     case 1:
         if (((GsyncStateWork *)state)->receivedMonCopy) {
-            func_020307B0(((GsyncStateWork *)state)->receivedMonCopy);
+            GFL_HEAP_Free(((GsyncStateWork *)state)->receivedMonCopy);
             ((GsyncStateWork *)state)->receivedMonCopy=0;
         }
         break;
@@ -1806,7 +1808,7 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
 {
     void *saveSystem;
     struct GsyncRtcDate date;
-    saveSystem=func_02009448(((GsyncStateWork *)state)->saveControl);
+    saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     ((GsyncStateWork *)state)->monStored=0;
     GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&date);
     func_020093CC(saveSystem, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
@@ -1825,7 +1827,7 @@ void GSYNC_STATE_StateReceiveRecordResponse(char *state)
 {
     char *response;
     int resultCode;
-    func_02009448(((GsyncStateWork *)state)->saveControl);
+    GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     GSYNC_DISP_UpdateParticles(((GsyncStateWork *)state)->displayWork);
     if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)state)) {
         if (((GsyncStateWork *)state)->waitTicks==0) {
@@ -1876,7 +1878,7 @@ void GSYNC_STATE_StateSendRecordRequest(char *state)
 {
     int workAreaSize;
     unsigned int workArea;
-    func_02009448(((GsyncStateWork *)state)->saveControl);
+    GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
         ((GsyncStateWork *)state)->waitTicks=0;
         if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)state)) {
@@ -1932,9 +1934,9 @@ void GSYNC_STATE_StateStoreReceivedMon(char *state)
     void *saveSystem;
     void *monData;
     void *boxMon;
-    saveSystem=func_02009448(((GsyncStateWork *)state)->saveControl);
+    saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     if (((GsyncStateWork *)state)->receivedMon) {
-        func_020307B0(((GsyncStateWork *)state)->receivedMon);
+        GFL_HEAP_Free(((GsyncStateWork *)state)->receivedMon);
         ((GsyncStateWork *)state)->receivedMon=0;
     }
     boxMon=func_02007A18(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
@@ -1967,10 +1969,10 @@ void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *state)
 {
     void *saveSystem;
     void *monData;
-    saveSystem=func_02009448(state->saveControl);
+    saveSystem=GAME_SYNC_GetBlock(state->saveControl);
     if (state->receivedMonCopy) {
         MI_CpuCopy8(state->receivedMonCopy,saveSystem,func_02009228());
-        func_020307B0(state->receivedMonCopy);
+        GFL_HEAP_Free(state->receivedMonCopy);
         state->receivedMonCopy=0;
     }
     if (state->monStored) {
@@ -1990,12 +1992,12 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
 {
     GsyncStateWork *state;
     int profileValue;
-    func_02034AC4((int)ov114_id);
+    GF_OVERLAY_Load((int)ov114_id);
     GFL_HEAP_CreateChildHeap(1,98,0x88000);
     state=(GsyncStateWork *) PROCSYS_AllocProcWork(procSys,0xb0,98);
     MI_CpuFill8(state,0,0xb0);
     state->heapId=98;
-    if (!connection) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+    if (!connection) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
     if (connection) {
         state->connection=(char *)connection;
         (*(void * *)&state->saveData)=connection->saveData;
@@ -2004,24 +2006,24 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
         (*(unsigned int *)&state->boxSave)=GAME_DATA_GetBoxManager(connection->saveData);
         state->boxIndex=connection->boxIndex;
         state->slotIndex=connection->slotIndex;
-        state->responsePending=func_020092EC((const struct Sub02009210Obj *)func_02009448(state->saveControl));
+        state->responsePending=func_020092EC((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(state->saveControl));
         state->responseValid=state->responsePending;
-        func_02009448(state->saveControl);
+        GAME_SYNC_GetBlock(state->saveControl);
         switch (connection->state) {
         case 0:
-            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateSendParsedRequest,0xa89);
             break;
         case 1:
-            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateStoreReceivedMon,0xa8d);
             break;
         case 2:
-            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateStoreReceivedMon,0xa91);
             break;
         case 3:
-            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateSendParsedRequest,0xa95);
             break;
         case 4:
@@ -2046,7 +2048,7 @@ int GSYNC_STATE_ProcMain(void *unused0, int unused1, int unused2, GsyncStateWork
     int result;
     stateFunc=(void (*)(char *))state->stateHandler;
     result=1;
-    if (WIPE_SYS_EndCheck() && !state->netDone && func_0200FB24()) {
+    if (WIPE_SYS_EndCheck() && !state->netDone && GFL_NET_ERR_GetErrorLevel()) {
         if ((*(void * *)&state->downloadWork)) GSYNC_DOWNLOAD_CleanupOnce((GsyncDownloadWork *)((*(void * *)&state->downloadWork)));
         NHTTP_RAP_DeleteConnection(state->httpConnection);
         if (state->saveActive) {
@@ -2054,7 +2056,7 @@ int GSYNC_STATE_ProcMain(void *unused0, int unused1, int unused2, GsyncStateWork
             state->saveActive=0;
         }
         GSYNC_STATE_CommitReceivedMon(state);
-        if (state->saveInProgress) func_0200F7C0(41);
+        if (state->saveInProgress) GFL_NET_ERR_HaltWithMessage(41);
         WIPE_SetBrightnessFadeOut(0,0);
         WIPE_SetBrightnessFadeOut(1,0);
         DWC_RAPCOMMON_HandleNetError(1,0);
@@ -2077,24 +2079,24 @@ int GSYNC_STATE_ProcExit(void *procSys, int unused0, int unused1, GsyncStateWork
     if (!WIPE_SYS_EndCheck()) return 0;
     if (state->confirmMenu) APP_TASKMENU_CloseMenu(state->confirmMenu);
     if (state->listBuffer) {
-        func_020307B0(state->listBuffer);
+        GFL_HEAP_Free(state->listBuffer);
         state->listBuffer=0;
     }
     GSYNC_MESSAGE_ExitSystem((GsyncMessageWork *)(state->messageWork));
     GSYNC_DISP_Exit((GsyncDispWork *)(state->displayWork));
     GSYNC_DOWNLOAD_FreeWork((GsyncDownloadWork *)(state->downloadWork));
-    if (state->musicalSave) func_020307B0(state->musicalSave);
-    if (state->extraSaveBuffer) func_020307B0(state->extraSaveBuffer);
-    if (state->iconBuffer) func_020307B0(state->iconBuffer);
-    if (state->receivedMon) func_020307B0(state->receivedMon);
-    if (state->auxBuffer) func_020307B0(state->auxBuffer);
+    if (state->musicalSave) GFL_HEAP_Free(state->musicalSave);
+    if (state->extraSaveBuffer) GFL_HEAP_Free(state->extraSaveBuffer);
+    if (state->iconBuffer) GFL_HEAP_Free(state->iconBuffer);
+    if (state->receivedMon) GFL_HEAP_Free(state->receivedMon);
+    if (state->auxBuffer) GFL_HEAP_Free(state->auxBuffer);
     if (GFL_NET_GetRunState()) DWC_RAP_SetErrorHookCallback(0,0);
     if (state->httpConnection) {
         NHTTP_RAP_Destroy(state->httpConnection);
         DWC_RAP_SetErrorCallback(0,0);
     }
-    func_020315D4(procSys);
+    PROCSYS_FreeProcWork(procSys);
     GFL_HEAP_DeleteChecked(98);
-    func_02034A5C((int)ov114_id);
+    GF_OVERLAY_Unload((int)ov114_id);
     return 1;
 }

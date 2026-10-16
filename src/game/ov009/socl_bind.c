@@ -14,7 +14,7 @@
  *
  * symbols:
  *   SOCL_SocketIsInvalid     0x0215f3d0 arm
- *   func_0215F3D0  0x0215F3D0  arm  ov009
+ *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
  *   func_0215D5F8  0x0215D5F8  arm  ov009
  *   gCpsMyIp     0x021A82BC  data
  *   gCpsNetMask     0x021A827C  data
@@ -23,7 +23,7 @@
  *   SOCLi_ExecCommandPacketInRecvPipe   0x0215cf88 arm
  *   SOCLi_BindCallBack                  0x0215d650 arm
  *   OS_LockMutex  0x02086028  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   CPS_SocBind  0x0215AAB0  arm  ov009
  *   CPS_TcpConnect  0x0215AC60  arm  ov009
  */
@@ -77,7 +77,7 @@ typedef struct {
 } CmdBind;
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern int func_0215F3D0(struct SOCLSocket *socket);
+extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern int func_0215D5F8(struct SOCLSocket *socket);
 extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                             struct SOCLSocket *socket,
@@ -86,7 +86,7 @@ extern int SOCLi_ExecCommandPacketInRecvPipe(struct SOCLSocket *socket,
                                              struct SOCLiCommandPacket *command);
 extern int SOCLi_BindCallBack(void *arg);
 extern void OS_LockMutex(void *mutex);
-extern void func_02086078(void *mutex);
+extern void OS_UnlockMutex(void *mutex);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long CPS_TcpConnect(void);
 int SOCL_Bind(int s, unsigned short local_port);
@@ -130,7 +130,7 @@ int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip)
 {
 	struct SOCLSocket *socket = (struct SOCLSocket *)s;
 
-	if (func_0215F3D0(socket) != 0 || (socket->state & 8))
+	if (SOCL_SocketIsInvalid(socket) != 0 || (socket->state & 8))
 		return -0x1c;
 	{
 		int flag = 0;
@@ -225,7 +225,7 @@ int SOCLi_BindCallBack(void *arg)
 	if (cpacket->type == 0 || cpacket->type == 4) {
 		retcode = CPS_TcpConnect();
 	}
-	func_02086078(recv_pipe->mutex);
+	OS_UnlockMutex(recv_pipe->mutex);
 	if (retcode != 0) {
 		socket->flags |= 0x40;
 		return -76;

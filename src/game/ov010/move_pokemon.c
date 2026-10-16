@@ -19,7 +19,7 @@
  * symbols:
  *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
  *   FLD_WIPE_3DOBJ_CreateMapChangeEvent  0x021C8268  thumb
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
@@ -102,7 +102,7 @@ typedef struct Area {
 
 extern int GAME_BEACON_SEARCH_SetCountValue(u32 seId);
 extern int FLD_WIPE_3DOBJ_CreateMapChangeEvent(struct GameSystem *gameSystem, u32 fieldPlayer, u32 targetParam);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, void *func, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern u32 GAME_DATA_GetEventWork(struct GameData *gameData);
@@ -185,7 +185,7 @@ struct GameEvent *MOVE_POKEMON_CreateFlashEvent(const FieldSkillTarget *target, 
 {
     struct GameEvent *event;
 
-    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_FlashEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_FlashEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
@@ -248,7 +248,7 @@ struct GameEvent *MOVE_POKEMON_CreateDigEvent(const FieldSkillTarget *target, co
     struct GameEvent *event;
 
     GAME_BEACON_SEARCH_SetCountValue(91);
-    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_DigEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_DigEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
@@ -285,7 +285,7 @@ struct GameEvent *MOVE_POKEMON_CreateTeleportEvent(const FieldSkillTarget *targe
     struct GameEvent *event;
 
     GAME_BEACON_SEARCH_SetCountValue(100);
-    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_TeleportEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_TeleportEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
@@ -318,7 +318,7 @@ struct GameEvent *MOVE_POKEMON_CreateMilkDrinkEvent(const FieldSkillTarget *targ
 {
     struct GameEvent *event;
 
-    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_MilkDrinkEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_MilkDrinkEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
@@ -380,7 +380,7 @@ struct GameEvent *MOVE_POKEMON_CreateSweetScentEvent(const FieldSkillTarget *tar
 {
     struct GameEvent *event;
 
-    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SweetScentEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SweetScentEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
@@ -411,7 +411,7 @@ struct GameEvent *MOVE_POKEMON_CreateSoftBoiledEvent(const FieldSkillTarget *tar
 {
     struct GameEvent *event;
 
-    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SoftBoiledEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SoftBoiledEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }

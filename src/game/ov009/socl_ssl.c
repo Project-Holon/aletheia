@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0215F3D0  0x0215F3D0  arm  ov009
+ *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   SOCLi_ExecCommandPacketInRecvPipe  0x0215CF88  arm  ov009
  *   OS_LockMutex  0x02086028  arm
  *   CPS_SetSsl  0x02162E94  arm  ov009
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  */
 struct SOCLSocket {
 	unsigned char pad0[0xa0];
@@ -48,12 +48,12 @@ typedef struct {
 	void *con;
 } Cmd;
 
-extern int func_0215F3D0(struct SOCLSocket *socket);
+extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern void *func_0215CE3C(int (*handler)(void *), void *socket, long flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
 extern void OS_LockMutex(void *mutex);
 extern void CPS_SetSsl(int mode);
-extern void func_02086078(void *mutex);
+extern void OS_UnlockMutex(void *mutex);
 int SOCL_EnableSsl(int s, void *con);
 int SOCLi_ExecEnableSslCommand(void *socket, void *con);
 int SOCLi_EnableSslCallBack(void *arg);
@@ -80,7 +80,7 @@ int SOCL_EnableSsl(int s, void *con)
 {
 	struct SOCLSocket *socket = (struct SOCLSocket *)s;
 
-	if (func_0215F3D0(socket)) {
+	if (SOCL_SocketIsInvalid(socket)) {
 		return -28;
 	}
 	if (!isReady(socket)) {
@@ -132,6 +132,6 @@ int SOCLi_EnableSslCallBack(void *arg)
 		CPS_SetSsl(0);
 		cpsoc->ssl = 0;
 	}
-	func_02086078(recv_pipe->mutex);
+	OS_UnlockMutex(recv_pipe->mutex);
 	return 0;
 }

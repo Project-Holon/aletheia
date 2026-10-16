@@ -27,7 +27,7 @@
  *   nhttpCleanupCallback   0x021C64E0  arm
  *   NHTTP_GetConnectionStatus  0x021BF3BC  arm  ov114
  *   NHTTP_DeleteConnection  0x021BF184  arm  ov114
- *   func_02059F54  0x02059F54  arm
+ *   DWCi_SetError  0x02059F54  arm
  *   DWC_NdGetProgress  0x021C5E14  arm  ov114
  *   NHTTP_CancelConnection  0x021BF374  arm  ov114
  *   DWCi_Ndi_unprepareHttpCallback  0x021C797C  arm  ov114
@@ -96,6 +96,7 @@
  *   gDwciNdGlobalMutex  0x021D3C38  data
  *   OS_SNPrintf  0x02084F80  arm  arm9
  *   OS_InitMutex  0x02086004  arm  arm9
+ *   OS_SendMessage  0x02085DBC  arm  arm9
  *   @17416                          0x021CF510  data
  *   @17417                          0x021CF518  data
  *   @17442  0x021CF51C  data
@@ -103,7 +104,7 @@
  *   gDwciNdHttpMutex  0x021D3C20  data
  *   gDwcEncSession  0x021CF7AC  data
  *   OS_LockMutex  0x02086028  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   d_021D3C20   0x021D3C20  data
  *   OS_GetMacAddress  0x02087C6C  arm
  *   DWCi_Ndi_hexToStrFigure  0x021C7B48  arm  ov114
@@ -143,7 +144,7 @@ extern int NHTTP_Startup(void *alloc, void *free, int a);
 extern void NHTTP_CleanupAsync(void (*callback)(void));
 extern int NHTTP_GetConnectionStatus(void *handle);
 extern int NHTTP_DeleteConnection(void *handle);
-extern void func_02059F54(int error, int errorCode);
+extern void DWCi_SetError(int error, int errorCode);
 extern int DWC_NdGetProgress(unsigned long *received, unsigned long *contentlen);
 extern int NHTTP_CancelConnection(void *handle);
 extern int DWC_GetApInfo(NdApInfo *apinfo);
@@ -163,7 +164,7 @@ extern int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, 
 extern void OS_InitMutex(void *mutex);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
-extern void func_02085DBC(void *event, int a, int b);
+extern void OS_SendMessage(void *event, int a, int b);
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern int DWCi_Ndi_hexToStrFigure(char *p, unsigned long n, int figure);
 extern int NHTTPi_strToInt(char *s, int len);
@@ -579,31 +580,31 @@ void DWCi_NdSetError(int err, int serverError)
 {
     switch (err) {
     case 1:
-        func_02059F54(9, -31001);
+        DWCi_SetError(9, -31001);
         break;
     case 3:
-        func_02059F54(14, -31020);
+        DWCi_SetError(14, -31020);
         break;
     case 4:
-        func_02059F54(13, -31040);
+        DWCi_SetError(13, -31040);
         break;
     case 7:
-        func_02059F54(13, -31000 - serverError);
+        DWCi_SetError(13, -31000 - serverError);
         break;
     case 5:
-        func_02059F54(13, -31040);
+        DWCi_SetError(13, -31040);
         break;
     case 8:
-        func_02059F54(9, -31009);
+        DWCi_SetError(9, -31009);
         break;
     case 2:
-        func_02059F54(13, -31010);
+        DWCi_SetError(13, -31010);
         break;
     case 0:
     case 6:
         break;
     default:
-        func_02059F54(9, -31009);
+        DWCi_SetError(9, -31009);
         break;
     }
 }
@@ -1224,7 +1225,7 @@ void DWCi_Ndi_lockGlobal(void)
 
 void DWCi_Ndi_unlockGlobal(void)
 {
-    func_02086078(gDwciNdGlobalMutex);
+    OS_UnlockMutex(gDwciNdGlobalMutex);
 }
 
 int DWCi_Ndi_initHttpCallback(void)
@@ -1245,7 +1246,7 @@ int DWCi_Ndi_prepareHttpCallback(void)
     rc = (gDwciNdStatics.httpCallbackBusy == 0);
     if (rc)
         gDwciNdStatics.httpCallbackBusy = 1;
-    func_02086078(gDwciNdHttpMutex);
+    OS_UnlockMutex(gDwciNdHttpMutex);
     return rc;
 }
 
@@ -1261,7 +1262,7 @@ void DWCi_Ndi_unprepareHttpCallback(void)
  */
 void DWCi_Ndi_kickThread(void *threadEvent)
 {
-    func_02085DBC(threadEvent, 0, 0);
+    OS_SendMessage(threadEvent, 0, 0);
 }
 
 /*

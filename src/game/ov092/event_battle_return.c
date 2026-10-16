@@ -19,9 +19,9 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   STRBUF_Create  0x020457B0  arm
  *   PROCSYS_Create  0x02031324  arm
- *   func_0203133C 0x0203133C arm
+ *   PROCSYS_Delete 0x0203133C arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PROCSYS_Main 0x02031330 arm
  *   GAME_DATA_GetMyParty 0x02012934 thumb
@@ -35,16 +35,16 @@
  *   BEACON_AddPoints 0x0200C278 thumb
  *   BEACON_SubPoints 0x0200C29C thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02008500 0x02008500 thumb
+ *   MYSTATUS_NameToStrbuf 0x02008500 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetCapacity 0x0201AA14 thumb
  *   func_02007698 0x02007698 thumb
- *   func_020076D0 0x020076D0 thumb
- *   func_02045B38 0x02045B38 arm
+ *   BOX_SAVEDATA_FindFreeSlot 0x020076D0 thumb
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
@@ -72,8 +72,8 @@
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gCatchRegistrationProcData 0x0220BAB0 data a4 ov207
  *   data_021F5580 0x021F5580 data a4 ov194
  *   data_02208C40 0x02208C40 data a4 ov195
@@ -229,9 +229,9 @@ extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(struct ProcObj *proc, u32 size, u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct ProcSys *PROCSYS_Create(int heapId);
-extern void func_0203133C(struct ProcSys *procSys);
+extern void PROCSYS_Delete(struct ProcSys *procSys);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void func_020315D4(struct ProcObj *proc);
+extern void PROCSYS_FreeProcWork(struct ProcObj *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern u32 PROCSYS_Main(struct ProcSys *procSys);
 extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
@@ -245,16 +245,16 @@ extern struct MiscSave *GAME_DATA_GetMiscSave(const struct GameData *gameData);
 extern u32 BEACON_AddPoints(struct MiscSave *misc, u32 amount);
 extern u32 BEACON_SubPoints(struct MiscSave *misc, u32 amount);
 extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
-extern void func_02008500(struct MyStatus *status, struct Strbuf *name);
+extern void MYSTATUS_NameToStrbuf(struct MyStatus *status, struct Strbuf *name);
 extern void POKE_TOOL_SetPartyValue(struct PokemonParam *mon, u32 paramId, u32 value);
 extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern u32 POKEPARTY_GetCapacity(struct PokeParty *party);
 extern u32 func_02007698(struct BoxManager *boxManager);
-extern int func_020076D0(struct BoxManager *boxManager, int *box, int *slot);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern int BOX_SAVEDATA_FindFreeSlot(struct BoxManager *boxManager, int *box, int *slot);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
@@ -282,8 +282,8 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern u16 SHINKA_CHECK_CheckEvolution(struct PokeParty *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 func_020307B0(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *memory);
 extern u32 func_020056EC(u32 range);
 extern void POKE_TOOL_SetStatusCondition(struct PokemonParam *mon, u32 status);
 extern void FLDMMDL_ApplyBurmyFormForPlace(struct GameData *gameData, struct PokemonParam *mon, int burmyForm);
@@ -354,10 +354,10 @@ int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc)
 /* Step machine exit: frees the sub-proc system, both strings, the work and the heap. */
 int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work)
 {
-    func_0203133C(work->procSys);
+    PROCSYS_Delete(work->procSys);
     if (work->boxFullMsg) STRBUF_Delete(work->boxFullMsg);
     STRBUF_Delete(work->nameBuf);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(EVENT_BATTLE_RETURN_HEAP_ID);
     return 1;
 }
@@ -419,16 +419,16 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         EVENT_BATTLE_RETURN_ApplyNaturalCure(party);
         if (args->battleParam->outcome == BATTLE_OUTCOME_CAUGHT) {
             work->caughtMon = POKEPARTY_GetMember(args->battleParam->opponentParty, args->battleParam->capturedIndex);
-            func_02008500(myStatus, work->nameBuf);
+            MYSTATUS_NameToStrbuf(myStatus, work->nameBuf);
             POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_ORIGINAL_TRAINER_NAME, (u32)work->nameBuf);
             partyCount = (int)POKEPARTY_GetCount(party);
             if (partyCount >= (int)POKEPARTY_GetCapacity(party)) {
                 box = func_02007698(boxManager); boxSlot = 0;
-                func_020076D0(boxManager, &box, &boxSlot);
+                BOX_SAVEDATA_FindFreeSlot(boxManager, &box, &boxSlot);
                 work->boxNo = box;
-                msgBank = func_02045B38(0, 2, 234, EVENT_BATTLE_RETURN_HEAP_ID);
+                msgBank = MSGDATA_CreateFromArchive(0, 2, 234, EVENT_BATTLE_RETURN_HEAP_ID);
                 msgIndex = ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(args->gameData), EVENT_FLAG_BOX_NOTICE_SEEN) ? 177 : 176;
-                work->boxFullMsg = func_02045EC0(msgBank, msgIndex);
+                work->boxFullMsg = MSGDATA_AllocString(msgBank, msgIndex);
                 MSGDATA_Delete(msgBank);
             }
             SAVE_EVENT_Write(work->caughtMon, 0, myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(args->gameData))), work->heapId);
@@ -511,7 +511,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
                 work->levelUpMask = work->levelUpMask >> 1;
                 work->scanIndex++;
                 if (species) {
-                    evolutionRequest = func_02030734(work->heapId, 20, 0, (const char *)sSourceFileName, LINE_OF_HEAP_ALLOC);
+                    evolutionRequest = GFL_HEAP_Alloc(work->heapId, 20, 0, (const char *)sSourceFileName, LINE_OF_HEAP_ALLOC);
                     evolutionRequest->gameData = args->gameData; evolutionRequest->party = scanParty; evolutionRequest->targetSpecies = species; evolutionRequest->partySlot = slot; evolutionRequest->evolveCondition = method; evolutionRequest->fromTrade = 0; evolutionRequest->fromField = 1;
                     work->evolutionRequest = evolutionRequest;
                     PROCSYS_Push(work->procSys, (u32)ov195_id, &data_02208C40, evolutionRequest);
@@ -524,7 +524,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
     }
     case 5:
         if (busy != 1) {
-        func_020307B0(work->evolutionRequest);
+        GFL_HEAP_Free(work->evolutionRequest);
         work->evolutionRequest = 0;
         if (work->levelUpMask) *seq = 4;
         else ++*seq;
@@ -662,7 +662,7 @@ u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u32 heapId
     table = ARC_TOOL_LoadMember(BURMY_FORM_ARCHIVE, 0, heapId);
     record = &table[field->bgType];
     form = record->formByAttr[field->bgAttr];
-    func_020307B0(table);
+    GFL_HEAP_Free(table);
     return form;
 }
 

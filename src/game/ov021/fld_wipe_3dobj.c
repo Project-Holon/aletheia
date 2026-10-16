@@ -20,8 +20,8 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FADE_Start  0x0204E720  arm
  *   VEC_Subtract  0x0207CA00  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   gFldWipe3dObjFileName  0x021DE520  data  ov021  a4
  *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
@@ -30,11 +30,11 @@
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   G3D_SYSTEM_GetLookAt  0x02046AFC  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
- *   func_02082B60  0x02082B60  arm
+ *   MI_Copy36B  0x02082B60  arm
  *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   func_0206E394  0x0206E394  arm
  *   func_0206E4FC  0x0206E4FC  arm
@@ -54,7 +54,7 @@
  *   FLD3D_CI_StartMessageSequence  0x021C30B8  thumb  ov021
  *   gFld3dCiKeyTable     0x021DAAE0  data  a2
  *   gFld3dCiIdTable     0x021DAAE2  data  a2
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -172,9 +172,9 @@ extern void FADE_Start(u32 mode, u32 start, u32 end, u32 wait);
 
 extern void VEC_Subtract(VecFx32 *a, VecFx32 *b, VecFx32 *out);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 
@@ -184,7 +184,7 @@ extern void *G3D_SYSTEM_CreateRender(void *resArc, u32 index, void *param);
 
 extern void *G3D_SYSTEM_CreateObject(void *render, u32 *anime, int count);
 
-extern void func_02046EFC(void *resArc);
+extern void G3D_SYSTEM_DeleteResource(void *resArc);
 
 extern void G3D_SYSTEM_DeleteRender(void *render);
 
@@ -198,7 +198,7 @@ extern void VEC_Normalize(VecFx32 *src, VecFx32 *dst);
 
 extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
 
-extern void func_02082B60(Mtx43 *src, Mtx33 *dst);
+extern void MI_Copy36B(Mtx43 *src, Mtx33 *dst);
 
 extern G3dRenderRef *G3D_SYSTEM_GetRenderObj(void *render);
 
@@ -234,7 +234,7 @@ extern GameEvent *FLD3D_CI_StartPartyMemberSequence(GameSystem *gameSystem, Fld3
 
 extern GameEvent *FLD3D_CI_StartMessageSequence(GameSystem *gameSystem, Fld3dCi *ci, unsigned int value);
 
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
 
 extern void *func_020124E8(GameEvent *event);
 
@@ -336,7 +336,7 @@ int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq);
 
 FldWipe3dObj *FLD_WIPE_3DOBJ_Create(u32 heapId)
 {
-    FldWipe3dObj *obj = func_02030734(heapId, sizeof(FldWipe3dObj), 1, gFldWipe3dObjFileName, 0x24);
+    FldWipe3dObj *obj = GFL_HEAP_Alloc(heapId, sizeof(FldWipe3dObj), 1, gFldWipe3dObjFileName, 0x24);
     obj->resArc = G3D_SYSTEM_CreateResourceArc(0x4a, 0);
     obj->object = G3D_SYSTEM_CreateObject(G3D_SYSTEM_CreateRender(obj->resArc, 0, 0), 0, 0);
     return obj;
@@ -346,8 +346,8 @@ int FLD_WIPE_3DOBJ_Delete(FldWipe3dObj *obj)
 {
     G3D_SYSTEM_DeleteRender(G3D_SYSTEM_GetObjectRender(obj->object));
     G3D_SYSTEM_DeleteObject(obj->object);
-    func_02046EFC(obj->resArc);
-    return func_020307B0(obj);
+    G3D_SYSTEM_DeleteResource(obj->resArc);
+    return GFL_HEAP_Free(obj);
 }
 
 /* Draws the mask model as a camera-facing billboard of the given size and alpha. */
@@ -372,7 +372,7 @@ void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha)
     status.scale.x = size;
     status.scale.y = (int)(((long long)size * viewY + 0x800) >> 12);
     status.scale.z = 0x4000;
-    func_02082B60((Mtx43 *)NNS_G3dGlbGetInvCameraMtx(), &status.rotate);
+    MI_Copy36B((Mtx43 *)NNS_G3dGlbGetInvCameraMtx(), &status.rotate);
     mdl = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj->object))->rndObj;
     func_0206E394(mdl, 0, 0);
     func_0206E4FC(mdl, 0, 0);
@@ -477,7 +477,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
     GameEvent *event;
     WipeMapChangeWork *work;
     int cutInIdAfter;
-    event = func_020122C0(gameSystem, 0, FLD_WIPE_3DOBJ_MapChangeEventMain, 0x30);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD_WIPE_3DOBJ_MapChangeEventMain, 0x30);
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, 0x30);
     work->gameSystem = gameSystem;
@@ -613,7 +613,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
             mmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
             FLDMMDL_SetStatusBitVanish(mmdl, 0);
             FLDMMDL_SetDirDispCheckPause(mmdl, 1);
-            GAME_EVENT_CallEvent(event, func_020122C0(work->gameSystem, event, FLD_WIPE_3DOBJ_FadeOutEventMain, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(work->gameSystem, event, FLD_WIPE_3DOBJ_FadeOutEventMain, 0));
         }
         (*seq)++;
         break;

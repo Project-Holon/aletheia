@@ -13,11 +13,11 @@
  * Cut from codein_param.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734    0x02030734  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
  *   STRBUF_Create    0x020457B0  arm
  *   codein_param_File 0x020A77D0  data
  *   STRBUF_Delete  0x02045808  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "codein_param_shared_types.h"
 
@@ -33,13 +33,13 @@ struct CodeinParam {
     struct Strbuf *text;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u16 heapId);
 
 extern void STRBUF_Delete(struct Strbuf *str);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u32 maxLength, u32 *values);
 
@@ -65,7 +65,7 @@ struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u
     int i;
     struct CodeinParam *param;
 
-    param = func_02030734((u16)heapId, sizeof(struct CodeinParam), 0, codein_param_File, 0x37);
+    param = GFL_HEAP_Alloc((u16)heapId, sizeof(struct CodeinParam), 0, codein_param_File, 0x37);
     param->mode = mode;
     param->maxLength = maxLength;
     param->text = STRBUF_Create(maxLength + 1, (u16)heapId);
@@ -94,5 +94,5 @@ struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u
 void CODEIN_PARAM_Delete(struct CodeinParam *param)
 {
     STRBUF_Delete(param->text);
-    func_020307B0(param);
+    GFL_HEAP_Free(param);
 }

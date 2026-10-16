@@ -15,8 +15,8 @@
  * symbols:
  *   gDwcEncSession     0x021CF7AC  data
  *   strncpy  0x02094860  arm
- *   func_0205A16C  0x0205A16C  arm
- *   func_0205A1B0  0x0205A1B0  arm
+ *   DWC_Alloc  0x0205A16C  arm
+ *   DWC_Free  0x0205A1B0  arm
  *   func_020816B8  0x020816B8  arm
  *   strncmp  0x020949F4  arm
  *   B64Encode  0x0217FA90  arm  ov009

@@ -19,6 +19,8 @@
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   MI_CpuComp8  0x02082E74  arm  arm9
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -52,9 +54,9 @@ typedef struct ApCmd {
 
 extern u32 NWMi_CheckState(u32, ...);
 extern u32 NWMi_GetSystemWork(void);
-extern void func_020862B8(u32, u32);
+extern void DC_InvalidateRange(u32, u32);
 extern void MI_CpuFill8(void *, u32, u32);
-extern void func_020862D4(void *, u32);
+extern void DC_StoreRange(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
@@ -75,7 +77,7 @@ u32 NWM_StartScanEx(u32 a0, const ApInfo *a1) {
     if (base != 0) {
         u32 ptr = *(u32 *)(base + 0x2278);
         busy = 1;
-        func_020862B8(ptr + 7, 1);
+        DC_InvalidateRange(ptr + 7, 1);
         if (*(u8 *)(*(u32 *)(base + 0x2278) + 7) != 1) {
             busy = 0;
         }
@@ -98,7 +100,7 @@ u32 NWM_StartScanEx(u32 a0, const ApInfo *a1) {
         return 5;
     }
     MI_CpuFill8(a1->buf, 0, (a1->bufLen + 3) & ~3);
-    func_020862D4(a1->buf, (a1->bufLen + 3) & ~3);
+    DC_StoreRange(a1->buf, (a1->bufLen + 3) & ~3);
     r = 7;
     NWMi_SetCallbackTable(r, a0);
     cmd.cmd = r;

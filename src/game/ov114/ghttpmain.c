@@ -28,7 +28,7 @@
  *   ghiDoReceivingFile                    0x021c5430 arm  ov114
  *   gsDebugFormat                    0x0217d254 arm  ov009
  *   ghiRedirectConnection                    0x021c0e58 arm  ov114
- *   func_0217EF50                    0x0217ef50 arm  ov009
+ *   CanReceiveOnSocket                    0x0217ef50 arm  ov009
  *   ghiCloseConnection                    0x021c0b4c arm  ov114
  *   ghiCallCompletedCallback                    0x021c0244 arm  ov114
  *   ghiFreeConnectionData                    0x021c0c14 arm  ov114
@@ -77,7 +77,7 @@ extern void ghiDoReceivingHeaders(GHIConnection *connection);
 extern void ghiDoReceivingFile(GHIConnection *connection);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiRedirectConnection(GHIConnection *connection);
-extern int func_0217EF50(int sock);
+extern int CanReceiveOnSocket(int sock);
 extern int ghiCloseConnection(GHIConnection *connection);
 extern void ghiCallCompletedCallback(GHIConnection *connection);
 extern int ghiFreeConnectionData(GHIConnection *connection);
@@ -199,7 +199,7 @@ int ghiProcessConnection(GHIConnection *connection)
 
     completed = connection->completed;
     if (connection->result == 0x12 && !completed) {
-        if (!func_0217EF50(connection->socket))
+        if (!CanReceiveOnSocket(connection->socket))
             connection->completed = 1;
     }
 

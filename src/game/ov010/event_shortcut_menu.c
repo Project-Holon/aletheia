@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -49,7 +49,7 @@
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   func_02028754  0x02028754  thumb
  *   RECENT_ID_LIST_SAVEDATA_GetIdAt  0x0200C464  thumb
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  *   FIELD_MSGBG_ReleaseBg  0x02190344  thumb
  *   GAME_DATA_GetRtcWork  0x02012C0C  thumb
@@ -193,13 +193,13 @@ typedef struct ShortcutProcTask {
 } ShortcutProcTask;
 
 
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern void SCRIPT_WORK_SetParams(void *msgWindow, int messageIndex, int a, int b, u16 c);
-extern int func_020307B0();
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern int GFL_HEAP_Free();
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTemplate, void *work);
@@ -228,7 +228,7 @@ extern u32 GAME_DATA_GetPlayerObjectCode(const void *eventWork);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u32 func_02028754(const ShortcutAvailMask *mask, u32 bit);
 extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const ShortcutList *list, u32 slot);
-extern int func_02040588();
+extern int BG_SYS_SetPlaneVisible();
 extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern int FIELD_MSGBG_ReleaseBg();
 extern const u16 *GAME_DATA_GetRtcWork(struct GameData *gameData);
@@ -296,9 +296,9 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
 
     shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
     if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) == 1) {
-        event = func_020122C0(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
+        event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
     } else {
-        event = func_020122C0(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
+        event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
     }
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(ShortcutMenuWork));
@@ -307,7 +307,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     work->fieldMap = fieldMap;
     work->id = id;
     work->commClosed = 0;
-    work->link = func_02030734(4, sizeof(ShortcutLink), 0, d_02172960, 0xc2);
+    work->link = GFL_HEAP_Alloc(4, sizeof(ShortcutLink), 0, d_02172960, 0xc2);
     MI_CpuFill8(work->link, 0, sizeof(ShortcutLink));
     work->link->gameSystem = work->gameSystem;
     work->link->fieldMap = work->fieldMap;
@@ -412,7 +412,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
         break;
     case 7:
         if (EVENT_SHORTCUT_MENU_CloseLink(work, seq) != 0) {
-            func_020307B0(work->link);
+            GFL_HEAP_Free(work->link);
             FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
             return 1;
         }
@@ -445,7 +445,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
         if (EVENT_SHORTCUT_MENU_CloseLink(work, seq) != 0) {
             u32 nextEvent = work->link->nextEvent;
 
-            func_020307B0(work->link);
+            GFL_HEAP_Free(work->link);
             work->link = 0;
             GAME_EVENT_CallEvent(event, EVENTDATA_SYSTEM_CreateFieldLinkEvent(nextEvent, work->gameSystem, work->fieldMap));
             *seq = 13;
@@ -455,7 +455,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
         if (EVENT_SHORTCUT_MENU_CloseLink(work, seq) != 0) {
             u32 nextEvent = work->link->nextEvent;
 
-            func_020307B0(work->link);
+            GFL_HEAP_Free(work->link);
             work->link = 0;
             {
                 void *message;
@@ -478,7 +478,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
         return 1;
     case 14:
         if (EVENT_SHORTCUT_MENU_CloseLink(work, seq) != 0) {
-            func_020307B0(work->link);
+            GFL_HEAP_Free(work->link);
             work->link = 0;
             GAME_EVENT_CallEvent(event, EVENT_SHORTCUT_MENU_OpenMessage(work->gameSystem, 2));
             *seq = 15;
@@ -545,7 +545,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         }
         break;
     case 1:
-        func_020307B0(work->link);
+        GFL_HEAP_Free(work->link);
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         return 1;
     case 2:
@@ -566,7 +566,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         break;
     case 4:
         nextIndex = work->link->nextEvent;
-        func_020307B0(work->link);
+        GFL_HEAP_Free(work->link);
         work->link = 0;
         child = EVENTDATA_SYSTEM_CreateFieldLinkEvent(nextIndex, work->gameSystem, work->fieldMap);
         GAME_EVENT_CallEvent(event, child);
@@ -574,7 +574,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         break;
     case 5:
         nextIndex = work->link->nextEvent;
-        func_020307B0(work->link);
+        GFL_HEAP_Free(work->link);
         work->link = 0;
         if (nextIndex == 0) {
             if (GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetField114(ICA_ANIME_GetField1C(work->gameSystem))) == 1)
@@ -591,7 +591,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         return 1;
     case 7:
-        func_020307B0(work->link);
+        GFL_HEAP_Free(work->link);
         work->link = 0;
         GAME_EVENT_CallEvent(event, EVENT_SHORTCUT_MENU_OpenMessage(work->gameSystem, 2));
         *seq = 8;
@@ -757,7 +757,7 @@ void EVENT_SHORTCUT_MENU_OpenLink(int mode, ShortcutMenuWork *work)
     void *fieldComm;
 
     if (work->commObj == 0 && work->commClosed == 0) {
-        func_02040588(1, 0);
+        BG_SYS_SetPlaneVisible(1, 0);
         fieldComm = FIELDMAP_GetMsgBg(work->fieldMap);
         if (fieldComm != 0)
             FIELD_MSGBG_ReleaseBg(fieldComm);
@@ -781,7 +781,7 @@ int EVENT_SHORTCUT_MENU_CloseLink(ShortcutMenuWork *work, u32 *seq)
         switch (work->commCloseState) {
         case 0:
             if (work->commObj != 0) {
-                func_02040588(1, 0);
+                BG_SYS_SetPlaneVisible(1, 0);
                 SHORTCUT_MENU_Delete(work->commObj);
                 work->commObj = 0;
                 work->commCloseState = 1;
@@ -889,7 +889,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
     struct GameEvent *event;
     ShortcutProcTask *task;
 
-    event = func_020122C0(link->gameSystem, link->event, EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(ShortcutProcTask));
+    event = GAME_EVENT_Create(link->gameSystem, link->event, EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(ShortcutProcTask));
     task = func_020124E8(event);
     MI_CpuFill8(task, 0, sizeof(ShortcutProcTask));
     task->id = id;
@@ -1026,7 +1026,7 @@ int EVENT_SHORTCUT_MENU_ProcEventMain(struct GameEvent *event, u32 *seq, Shortcu
             *seq = 11;
         } else {
             if (task->procWork != 0) {
-                func_020307B0(task->procWork);
+                GFL_HEAP_Free(task->procWork);
                 task->procWork = 0;
             }
             *seq = 8;

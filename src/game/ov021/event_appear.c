@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -151,7 +151,7 @@ enum {
     EVENT_APPEAR_ACMD_END
 };
 
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EventAppearFunc func, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EventAppearFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
@@ -214,7 +214,7 @@ extern const VecFx32 d_021DA080;
 /* Creates the player drop event. */
 GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunPlayerDrop, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunPlayerDrop, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -225,7 +225,7 @@ GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSyst
 /* Creates the spin zoom event with an optional season scoreboard. */
 GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunSpinZoom, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoom, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -239,7 +239,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem
 /* Second copy of the spin zoom event; the map change events use the two as pairs. */
 GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunSpinZoomAlt, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoomAlt, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -253,7 +253,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event that ends with a smoke puff at the player. */
 GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunSpinZoomSmoke, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoomSmoke, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -264,7 +264,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameS
 /* Creates the descending spin event. */
 GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunDescendingSpin, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunDescendingSpin, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -275,7 +275,7 @@ GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *game
 /* Creates the move animation event. */
 GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunMoveAnime, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunMoveAnime, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8     0x02082BCC  arm
  *   func_0209C0A4   0x0209C0A4  arm
  *   GXx_SetMasterBrightness_   0x0207D534  arm
@@ -35,7 +35,7 @@ typedef struct Fade {
     s32 speed;    /* 0x1c */
 } Fade;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dst, u32 val, u32 size);
 extern s32   func_0209C0A4(s32 a, s32 b);
 extern void  GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
@@ -63,7 +63,7 @@ extern Fade *g_02146A7C;
  */
 void FADE_Create(u32 heap)
 {
-    g_02146A7C = func_02030734((u16)heap, 0x20, 0, fade_File, 50);
+    g_02146A7C = GFL_HEAP_Alloc((u16)heap, 0x20, 0, fade_File, 50);
 
     MI_CpuFill8(g_02146A7C, 0, 0x20);
     FADE_ResetSpeed();

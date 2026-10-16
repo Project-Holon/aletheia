@@ -18,8 +18,8 @@
  *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
  *   RESEARCH_COMMON_Create  0x021C097C  thumb  ov217
  *   RESEARCH_COMMON_Destroy  0x021C099C  thumb  ov217
- *   func_020490F4 0x020490F4 arm
- *   func_020307B0 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
  *   RESEARCH_COMMON_UpdatePaletteAnime 0x021C09D0 thumb ov217
@@ -63,7 +63,7 @@
  *   d_021C3F5C     0x021C3F5C  data   a4
  *   d_021C3F60     0x021C3F60  data   a1
  *   d_021C3F48  0x021C3F48  data  a1
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   CLACT_InitSystem  0x0204A48C  arm  arm9
  *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  */
@@ -88,8 +88,8 @@ struct PaletteAnimeBindData {
     u8 colorCount;
 };
 
-extern void *func_020490F4(unsigned int id, u32 heap);
-extern u32 func_020307B0(void *mem);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int enable);
 extern s32 CLACT_RegisterCharacter(void *arc, u32 id, u32 compressed, u32 vramType, u16 heapId);
@@ -107,7 +107,7 @@ extern u32 PALANM_Delete(void *palAnm);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 slot);
 extern void CLACT_ReleasePalette(u32 resId);
 extern void MI_CpuFill8(void *dst, int val, u32 n);
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *ctx);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern u32 CLACT_ExitSystem(u32 a);
@@ -297,13 +297,13 @@ void RESEARCH_COMMON_ClearFields(struct ResearchCommon *common)
 /* Allocates the 64-byte object. */
 struct ResearchCommon *RESEARCH_COMMON_Alloc(u32 heapId)
 {
-    return func_02030734(heapId, 64, 0, (const char *)0x21C4020, 481);
+    return GFL_HEAP_Alloc(heapId, 64, 0, (const char *)0x21C4020, 481);
 }
 
 /* Frees the object. */
 u32 RESEARCH_COMMON_Free(struct ResearchCommon *common)
 {
-    return func_020307B0(common);
+    return GFL_HEAP_Free(common);
 }
 
 /* Creates the CLACT system, resources, unit, actor, palette animation and touch table. */
@@ -365,7 +365,7 @@ void RESEARCH_COMMON_ClearResourceIds(struct ResearchCommon *common)
 void RESEARCH_COMMON_RegisterResources(struct ResearchCommon *common)
 {
     u16 heapId = common->heapId;
-    void *arc = func_020490F4(83, (u16)((heapId & 0x7FFF) | 0x8000));
+    void *arc = ARC_TOOL_CreateHandle(83, (u16)((heapId & 0x7FFF) | 0x8000));
     int charId = CLACT_RegisterCharacter(arc, 20, 0, 0, heapId);
     int paletteId = CLACT_RegisterPaletteEx(arc, 19, 0, 0, 0, 4, heapId);
     int cellAnimId = CLACT_RegisterCellAnim(arc, 21, 24, heapId);

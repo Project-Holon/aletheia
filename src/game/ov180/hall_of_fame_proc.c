@@ -14,9 +14,9 @@
  *
  * symbols:
  *   HALL_OF_FAME_RunState  0x021B6A10  thumb  ov180
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   SDK_AUTOLOAD_DTCM_START 0x02FE0000 data a4
  *   gHallOfFameVramBanksMain 0x021B8060 data a4
  *   gHallOfFameVramBanksSub 0x021B8090 data a4
@@ -33,6 +33,7 @@
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   DOUBLE3DDISP_Delete  0x0204EA64  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
+ *   TCB_DeleteTask  0x02030EAC  arm  arm9
  */
 #include "hall_of_fame.h"
 
@@ -46,10 +47,10 @@ struct DispConfig {
 extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void func_020315D4(struct Proc *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern int func_020056A0(void *func, void *work, int priority);
-extern void func_02030EAC(void *task);
+extern int GFL_USE_AddMainTask(void *func, void *work, int priority);
+extern void TCB_DeleteTask(void *task);
 extern void CLACT_VBlankSystem(void);
 extern void DOUBLE3DDISP_Delete(void);
 extern void BG_SYS_Update(void);
@@ -83,24 +84,24 @@ int HALL_OF_FAME_ProcMain(int proc, int unused, int unused2, HallOfFameWork *wor
 
 int HALL_OF_FAME_ProcExit(struct Proc *proc)
 {
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(HOF_HEAP_ID);
     return 1;
 }
 
 void HALL_OF_FAME_AddVBlankTaskMon(HallOfFameWork *work)
 {
-    work->vblankTask = (void *)func_020056A0((void *)HALL_OF_FAME_VBlankMon, work, 0);
+    work->vblankTask = (void *)GFL_USE_AddMainTask((void *)HALL_OF_FAME_VBlankMon, work, 0);
 }
 
 void HALL_OF_FAME_AddVBlankTaskTrainer(HallOfFameWork *work)
 {
-    work->vblankTask = (void *)func_020056A0((void *)HALL_OF_FAME_VBlankTrainer, work, 0);
+    work->vblankTask = (void *)GFL_USE_AddMainTask((void *)HALL_OF_FAME_VBlankTrainer, work, 0);
 }
 
 void HALL_OF_FAME_RemoveVBlankTask(HallOfFameWork *work)
 {
-    func_02030EAC(work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
 }
 
 /*

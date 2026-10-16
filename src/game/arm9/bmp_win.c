@@ -13,8 +13,8 @@
  * Cut from bmp.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sBmpWinHeapRecord     0x02146A50  data
  *   bmpWin_File   0x020A7E70  data
  *   BG_SYS_GetField16  0x0204169C  arm
@@ -55,9 +55,9 @@ struct BmpWin {
     struct Bmp *bmp;         /* +0x0c */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u8 BG_SYS_GetField16(int channel);
 
@@ -153,7 +153,7 @@ extern const char bmpWin_File[];    /* "bmp_win.c" */
  */
 void BMP_WIN_Init(u16 heapId)
 {
-    u16 *heapRecord = func_02030734(heapId, 4, 0, bmpWin_File, 0x4f);
+    u16 *heapRecord = GFL_HEAP_Alloc(heapId, 4, 0, bmpWin_File, 0x4f);
 
     sBmpWinHeapRecord = heapRecord;
     *heapRecord = heapId;
@@ -175,7 +175,7 @@ void BMP_WIN_Exit(void)
     if (sBmpWinHeapRecord == 0)
         return;
 
-    func_020307B0(sBmpWinHeapRecord);
+    GFL_HEAP_Free(sBmpWinHeapRecord);
     sBmpWinHeapRecord = 0;
 }
 
@@ -308,7 +308,7 @@ struct BmpWin *BMP_WIN_Alloc(u32 bgLayer, u32 posX, u32 posY,
     struct BmpWin *win;
     u32 tileBytes = is8bpp == 0 ? BMP_TILE_BYTES_4BPP : BMP_TILE_BYTES_8BPP;
 
-    win = func_02030734(*sBmpWinHeapRecord, 0x10, 0, bmpWin_File, 0xd5);
+    win = GFL_HEAP_Alloc(*sBmpWinHeapRecord, 0x10, 0, bmpWin_File, 0xd5);
 
     win->magic = BMP_WIN_MAGIC;
     win->bgLayer = bgLayer;
@@ -371,7 +371,7 @@ u32 BMP_WIN_Delete(struct BmpWin *win)
     }
     sub_0203FB44(win->bgLayer, win->charOffset, charCount * 32);
     BMP_Delete(win->bmp);
-    return func_020307B0(win);
+    return GFL_HEAP_Free(win);
 }
 
 /*
@@ -439,7 +439,7 @@ void BMP_WIN_MakeScreen(struct BmpWin *win)
     s32 index;
 
     if (BG_SYS_GetType(win->bgLayer) != 1) {
-        u16 *chars = func_02030734((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
+        u16 *chars = GFL_HEAP_Alloc((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
                                charCount * 2, 0, bmpWin_File, 0x133);
 
         cells = chars;
@@ -448,7 +448,7 @@ void BMP_WIN_MakeScreen(struct BmpWin *win)
             tile = tile + 1;
         }
     } else {
-        u8 *chars = func_02030734((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
+        u8 *chars = GFL_HEAP_Alloc((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
                               charCount, 0, bmpWin_File, 0x13e);
 
         cells = chars;
@@ -460,7 +460,7 @@ void BMP_WIN_MakeScreen(struct BmpWin *win)
 
     BG_SYS_DrawTileEx(win->bgLayer, win->posX, win->posY, win->dispWidth,
                   win->dispHeight, (u32)cells, 0, 0, win->width, win->height);
-    func_020307B0(cells);
+    GFL_HEAP_Free(cells);
 }
 
 /*

@@ -84,7 +84,7 @@
  *   OS_CreateExtraHeap  0x02086B98  arm
  *   OS_AllocFromHeap    0x020868E0  arm
  *   TCB_Main     0x02030D28  arm
- *   func_02030DA8     0x02030DA8  arm
+ *   TCB_AddTask     0x02030DA8  arm
  *   GF_STANDARD_RandSeed     0x0203F034  arm
  *   GF_STANDARD_CalcHash     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
@@ -151,6 +151,10 @@
  *   GF_STANDARD_Setup  0x0203F3F0  arm
  *   BG_SYS_Update  0x020419E4  arm
  *   DMA_UpdateChannels  0x02050A70  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -312,7 +316,7 @@ extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u32 GFL_NET_IsNetTypeBeacon(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 extern void MI_WaitDma(u32 mode);
-extern int func_02034AC4(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
 extern void PRINTSYS_Init(void *arg);
 extern void GFL_NET_SetupHeaps(u32 netType, u32 flagB, u32 flagC, u32 heapId);
 extern void WIH_DWC_CreateFilterBuffer(u32 heapId);
@@ -385,9 +389,9 @@ extern void  func_02034978(void);
 extern void func_020346EC(u32 mode, u32 flags, u32 waitCallback);
 extern void func_0203499C(u32 heapId, int n0, int n1, int n2);
 extern void  PROCSYS_CreateGlobal(u32 heapId);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
-extern u32   func_02030CB0(u32 capacity);
-extern struct TcbList *func_02030CBC(u32 capacity, void *buf);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
+extern u32   TCB_GetTaskOffset(u32 capacity);
+extern struct TcbList *TCB_Init(u32 capacity, void *buf);
 extern void  FADE_Create(u32 heapId);
 extern void BACKUP_SYSTEM_Init(u32 kind, u32 callbackA, u32 callbackB);
 extern void  TEXTPRINT_Init(u32 heapId);
@@ -400,7 +404,7 @@ extern int GFL_NET_ERR_PollNetState(void);
 extern int PROCSYS_MainGlobal(void);
 extern void GF_STANDARD_Setup(void);
 extern int TCB_Main(struct TcbList *list);
-extern struct Tcb *func_02030DA8(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+extern struct Tcb *TCB_AddTask(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 extern int BG_SYS_Update(int);
 extern int DMA_UpdateChannels(int);
 extern int FADE_Update(int);
@@ -662,7 +666,7 @@ void GFL_USE_PostIrqUpdate(void)
  *
  * Two spellings the original needs and that are not guessable from the bytes:
  *   * the first two calls pass FS_OVERLAY_ID-style absolute symbols, not the
- *     numbers 10 and 11. `func_02034AC4(10)` compiles `movs r0, #0xa` (2 bytes,
+ *     numbers 10 and 11. `GF_OVERLAY_Load(10)` compiles `movs r0, #0xa` (2 bytes,
  *     no pool word) where the original has `ldr r0, [pc, #0x94]` over a pool
  *     word 0x0000000A; declaring `extern u8 ov010_id[]` at 0x0000000A in the
  *     symbols block is what puts the pool word back. Same for 0x0000000B.
@@ -676,8 +680,8 @@ void GFL_USE_InitGameSystems(void)
 {
     int netHeapId = 0xC;
 
-    func_02034AC4((int)ov010_id);
-    func_02034AC4((int)ov011_id);
+    GF_OVERLAY_Load((int)ov010_id);
+    GF_OVERLAY_Load((int)ov011_id);
     PRINTSYS_Init(0);
     GFL_NET_SetupHeaps(1, 0, 1, netHeapId);
     WIH_DWC_CreateFilterBuffer(netHeapId);
@@ -944,11 +948,11 @@ void GFL_USE_InitSystem(void)
     func_0203499C(0, 0x10, 4, 4);
     PROCSYS_CreateGlobal(0);
 
-    _GflUse.runtime = func_02030734(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
-    _GflUse.runtime->hblankTaskBuf = func_02030734(0, func_02030CB0(4), 0, (const char *)s_gfl_use_c, 0x119);
-    _GflUse.runtime->hblankTasks = func_02030CBC(4, _GflUse.runtime->hblankTaskBuf);
-    _GflUse.runtime->mainTaskBuf = func_02030734(0, func_02030CB0(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
-    _GflUse.runtime->mainTasks = func_02030CBC(0x10, _GflUse.runtime->mainTaskBuf);
+    _GflUse.runtime = GFL_HEAP_Alloc(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
+    _GflUse.runtime->hblankTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(4), 0, (const char *)s_gfl_use_c, 0x119);
+    _GflUse.runtime->hblankTasks = TCB_Init(4, _GflUse.runtime->hblankTaskBuf);
+    _GflUse.runtime->mainTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
+    _GflUse.runtime->mainTasks = TCB_Init(0x10, _GflUse.runtime->mainTaskBuf);
 
     GFL_USE_InitRandom();
     FADE_Create(0);
@@ -1013,7 +1017,7 @@ void GFL_USE_RunHBlankTasks(void)
 
 struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
-    return func_02030DA8(_GflUse.runtime->hblankTasks, callback, work, priority);
+    return TCB_AddTask(_GflUse.runtime->hblankTasks, callback, work, priority);
 }
 
 
@@ -1165,7 +1169,7 @@ void GFL_USE_RunMainTasks(void)
  */
 struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
-    return func_02030DA8(_GflUse.runtime->mainTasks, callback, work, priority);
+    return TCB_AddTask(_GflUse.runtime->mainTasks, callback, work, priority);
 }
 
 

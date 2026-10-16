@@ -13,12 +13,12 @@
  * Cut from pms_input.c, pmsiv_wordwin.c, pms_select_graphic.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  *   PMSI_SEARCH_GetKeyCount 0x021BB1F4 thumb ov110
  *   PMSI_SEARCH_GetKeyPosition 0x021BB224 thumb ov110
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PMS_INPUT_VIEW_StartTask 0x021B9BEC thumb ov110
  *   PMS_INPUT_VIEW_IsIdle 0x021B9C74 thumb ov110
@@ -30,14 +30,14 @@
  *   KEY_GetRepeat 0x0203633C arm
  *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov067_id 0x00000043 data
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   PMSI_PARAM_GetInputMode 0x02024144 thumb
  *   PMSI_PARAM_GetUiInputMode 0x0202421C thumb
  *   PMSI_PARAM_GetResult 0x02024168 thumb
- *   func_02030CB0 0x02030CB0 arm
- *   func_02030CBC 0x02030CBC arm
+ *   TCB_GetTaskOffset 0x02030CB0 arm
+ *   TCB_Init 0x02030CBC arm
  *   PMS_INPUT_DATA_Create 0x021B95A0 thumb ov110
  *   PMS_INPUT_VIEW_Create 0x021B9A50 thumb ov110
  *   BUTTON_MAN_Create 0x02051B84 arm
@@ -56,7 +56,7 @@
  *   TCB_Noop 0x02030DA4 arm
  *   PMS_INPUT_DATA_Delete 0x021B95F4 thumb ov110
  *   PMSI_SEARCH_Delete 0x021BAF4C thumb ov110
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   PMS_INPUT_HandleWordList 0x021BEDEC thumb ov110
  *   PMS_INPUT_VIEW_UpdateEditFocus 0x021BAE24 thumb ov110
  *   PMS_INPUT_VIEW_UpdateCategoryFocus 0x021BAE94 thumb ov110
@@ -157,13 +157,13 @@ typedef unsigned int u32;
 
 struct Proc;
 
-extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 
-extern int func_02034AC4(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
 
-extern void func_02034A5C(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int parent, unsigned int heapId, unsigned int size);
 
@@ -171,13 +171,13 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void func_020315D4(struct Proc *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
-extern u32 func_02030CB0(u32 taskCount);
+extern u32 TCB_GetTaskOffset(u32 taskCount);
 
-extern struct TcbSystem *func_02030CBC(u32 taskCount, void *buf);
+extern struct TcbSystem *TCB_Init(u32 taskCount, void *buf);
 
 extern void TCB_Main(struct TcbSystem *tasks);
 
@@ -356,7 +356,7 @@ int PMS_INPUT_ProcInit(struct Proc *proc, int *seq, struct PmsiParam *param, voi
     struct PmsInput *input;
     switch (*seq) {
     case 0:
-        func_02034AC4((int)ov067_id);
+        GF_OVERLAY_Load((int)ov067_id);
         GFL_HEAP_CreateChildHeap(1, 41, 0x18000);
         GFL_HEAP_CreateChildHeap(1, 42, 0x32000);
         input = PMS_INPUT_Create(proc, param);
@@ -420,7 +420,7 @@ int PMS_INPUT_ProcExit(struct Proc *proc, int unused, int args, struct PmsInput 
     PMS_INPUT_Destroy(input, proc);
     GFL_HEAP_DeleteChecked(41);
     GFL_HEAP_DeleteChecked(42);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
 
@@ -435,9 +435,9 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     input->uiInputMode = PMSI_PARAM_GetUiInputMode(input->param);
     PMSI_PARAM_GetResult(input->param, input->words, (u16 *)&input->sentence);
     if (input->inputMode == PMS_INPUT_MODE_SENTENCE) PMS_INPUT_InitSentenceCursor(&input->sentenceCursor, &input->sentence);
-    taskBuf = func_02030734(41, func_02030CB0(5), 0, gPmsInputFileName, 579);
+    taskBuf = GFL_HEAP_Alloc(41, TCB_GetTaskOffset(5), 0, gPmsInputFileName, 579);
     input->taskBuf = taskBuf;
-    input->tasks = func_02030CBC(5, taskBuf);
+    input->tasks = TCB_Init(5, taskBuf);
     input->data = PMS_INPUT_DATA_Create(41, input->param);
     input->view = PMS_INPUT_VIEW_Create(input, input->data);
     input->buttonMan = BUTTON_MAN_Create(gPmsInputButtonRects, PMS_INPUT_OnButton, input, 41);
@@ -502,10 +502,10 @@ void PMS_INPUT_Destroy(struct PmsInput *input, struct Proc *proc)
     BUTTON_MAN_Delete(input->buttonMan);
     PMS_INPUT_VIEW_Delete(input->view);
     TCB_Noop(input->tasks);
-    func_020307B0(input->taskBuf);
+    GFL_HEAP_Free(input->taskBuf);
     PMS_INPUT_DATA_Delete(input->data);
     PMSI_SEARCH_Delete(input->search);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
 }
 
 /* Sets the main handler and the function that redraws the view when the input device changes. */

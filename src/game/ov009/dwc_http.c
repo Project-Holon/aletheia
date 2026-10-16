@@ -50,7 +50,7 @@
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_SocFlush  0x0215B584  arm  ov009
  *   func_02179814  0x02179814  arm  ov009
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   CPS_SocGetLength  0x0215B504  arm  ov009
  *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   MI_CpuCopy8  0x02082D44  arm
@@ -195,7 +195,7 @@ extern void CPS_SocUnRegister(void);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_SocFlush(void);
 extern int func_02179814(DWCHttp *http);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern long CPS_SocGetLength(void);
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
@@ -537,7 +537,7 @@ void DWCi_Http_Thread(void *arg)
 
     rep->write_index = rep->buffer;
     rep->buffer_tail = rep->buffer + rep->length;
-    lastactivetime = func_020870D0();
+    lastactivetime = OS_GetTick();
 
     for (;;) {
         if (gCpsMyIp == 0) {
@@ -548,7 +548,7 @@ void DWCi_Http_Thread(void *arg)
         if (len < 0)
             break;
         if (len > 0) {
-            lastactivetime = func_020870D0();
+            lastactivetime = OS_GetTick();
             s = CPS_SocRead((unsigned long *)&len);
             if (s == 0)
                 break;
@@ -572,7 +572,7 @@ void DWCi_Http_Thread(void *arg)
         }
         if (http->content_len >= 0 && http->receivedbody_len >= http->content_len)
             break;
-        nowtime = func_020870D0();
+        nowtime = OS_GetTick();
         if (((nowtime - lastactivetime) << 6) / 33514 > timeout) {
             http->error = 6;
             goto fail;

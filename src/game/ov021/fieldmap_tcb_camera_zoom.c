@@ -13,14 +13,14 @@
  * Cut from field_g3dobj.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   FIELD_CAMERA_GetDistance  0x0218ED54  thumb  ov021
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   gFieldmapTcbCameraZoomFileName     0x021DE4B8  data  ov021  a4
  *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb  ov021
  *   _ffix          0x0209C494  arm
@@ -49,9 +49,9 @@ extern fx32 FIELD_CAMERA_GetDistance(void *camera);
 
 extern void FIELD_CAMERA_SetDistance(void *camera, fx32 v);
 
-extern void func_02030DA8(u32 priority, void *cb, void *arg, int z);
+extern void TCB_AddTask(u32 priority, void *cb, void *arg, int z);
 
-extern void func_02030EAC(void *task);
+extern void TCB_DeleteTask(void *task);
 
 extern char gFieldmapTcbCameraZoomFileName[];   /* source file name used as allocation site */
 
@@ -63,9 +63,9 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w);
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Step(CameraZoomWork *w);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
 {
@@ -74,13 +74,13 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
     u32 priority = FIELDMAP_GetTcblSys(fieldMap);
     CameraZoomWork *w;
 
-    w = func_02030734((u16)((heapId & 0x7FFF) | 0x8000), sizeof(CameraZoomWork), 0, gFieldmapTcbCameraZoomFileName, 0x5F);
+    w = GFL_HEAP_Alloc((u16)((heapId & 0x7FFF) | 0x8000), sizeof(CameraZoomWork), 0, gFieldmapTcbCameraZoomFileName, 0x5F);
     w->frame = 0;
     w->frameMax = frames;
     w->startZoom = FIELD_CAMERA_GetDistance(camera);
     w->endZoom = zoomDelta + FIELD_CAMERA_GetDistance(camera);
     w->fieldMap = fieldMap;
-    func_02030DA8(priority, FIELDMAP_TCB_CAMERA_ZOOM_Main, w, 0);
+    TCB_AddTask(priority, FIELDMAP_TCB_CAMERA_ZOOM_Main, w, 0);
 }
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w)
@@ -88,8 +88,8 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w)
     FIELDMAP_TCB_CAMERA_ZOOM_Step(w);
     w->frame++;
     if (w->frameMax < w->frame) {
-        func_020307B0(w);
-        func_02030EAC(task);
+        GFL_HEAP_Free(w);
+        TCB_DeleteTask(task);
     }
 }
 

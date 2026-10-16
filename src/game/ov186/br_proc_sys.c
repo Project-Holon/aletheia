@@ -29,7 +29,7 @@
  *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   BR_SIDEBAR_Create 0x021FED50 thumb ov186
  *   BR_NET_Create 0x021FF408 thumb ov186
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
@@ -42,7 +42,7 @@
  *   ov125_id 0x0000007D data
  *   BR_NET_IsFatal 0x021FF8D4 thumb ov186
  *   BR_NET_Destroy 0x021FF4E4 thumb ov186
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   BR_SIDEBAR_Destroy 0x021FEDC4 thumb ov186
  *   BR_FADE_Delete 0x021FE734 thumb ov186
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
@@ -50,7 +50,7 @@
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_RES_Delete 0x021FB92C thumb ov186
  *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -58,13 +58,13 @@
  *   BR_SIDEBAR_Update 0x021FEE00 thumb ov186
  *   BR_GRAPHIC_Draw 0x021FC4C8 thumb ov186
  *   BR_NET_Main 0x021FF52C thumb ov186
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
- *   func_020071CC   0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
  *   MISC_SAVEDATA_GetBlock3C   0x0200E9F4  thumb
  *   MISC_SAVEDATA_GetStatsBase2   0x0200EA04  thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -74,11 +74,11 @@
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   MUSICAL_SAVE_GetFromSave 0x0200A5F8 thumb
  *   MUSICAL_SAVE_IsShowActive 0x0200A630 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   PROCSYS_Create 0x02031324 arm
  *   d_02200D04 0x02200D04 data a1
- *   func_0203133C  0x0203133C  arm
- *   func_020307B0  0x020307B0  arm
+ *   PROCSYS_Delete  0x0203133C  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
  *   d_02200D14 0x02200D14 data a1
@@ -281,7 +281,7 @@ extern char *BR_SIDEBAR_Create(int,int,char *,unsigned);
 
 extern char *BR_NET_Create(void *owner, void *arg, u32 heap);
 
-extern int func_02034AC4(int),GFL_NET_GetRunState(void);
+extern int GF_OVERLAY_Load(int),GFL_NET_GetRunState(void);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 
@@ -301,7 +301,7 @@ extern int BR_NET_IsFatal(char *);
 
 extern void BR_NET_Destroy(char *p);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
 extern void BR_SIDEBAR_Destroy(char *p, char *ctx);
 
@@ -317,7 +317,7 @@ extern void BR_RES_Delete(char *p);
 
 extern void BR_GRAPHIC_Destroy(char *);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -333,7 +333,7 @@ extern void BR_GRAPHIC_Draw(char *);
 
 extern void BR_NET_Main(char *p);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
@@ -343,7 +343,7 @@ extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
 
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 
-extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *, unsigned int);
 
 extern void *MISC_SAVEDATA_GetBlock3C(void *p);
 
@@ -363,13 +363,13 @@ extern u32 MUSICAL_SAVE_IsShowActive(struct Bits *p);
 
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *PROCSYS_Create(int a0);
 
-extern void func_0203133C(struct S020314B8 *);
+extern void PROCSYS_Delete(struct S020314B8 *);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void PROCSYS_Push(u32,u32,u32,void *);
 
@@ -503,7 +503,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     BR_PROC_SYS_LoadRecords((char *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1748),1,(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),0x5a);
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         ((struct BrProcSys *)p)->net=BR_NET_Create((void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->netArg),0x5a);
-    } else func_02034AC4((int)ov125_id);
+    } else GF_OVERLAY_Load((int)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
     if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) func_02028A58((void *)GAME_DATA_GetBgmInfo((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
@@ -522,7 +522,7 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     if(p[5]) {
         if(BR_NET_IsFatal((char *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
         BR_NET_Destroy((char *)p[5]); p[5]=0;
-    } else func_02034A5C((int)ov125_id);
+    } else GF_OVERLAY_Unload((int)ov125_id);
     BR_SIDEBAR_Destroy((char *)p[4],(char *)p[1]);
     BR_FADE_Delete((char *)p[3]);
     BR_PROC_SYS_Delete((int *)p[2]);
@@ -536,7 +536,7 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     BR_RES_ApplyBgSet(p[1],1);
     BR_RES_Delete((char *)p[1]);
     BR_GRAPHIC_Destroy((char *)p[0]);
-    func_020315D4((struct Proc *)sys);
+    PROCSYS_FreeProcWork((struct Proc *)sys);
     GFL_HEAP_DeleteChecked(0x5a);
     return 1;
 }
@@ -602,8 +602,8 @@ void BR_PROC_SYS_BuildChoiceRecord(int *out,int *source,int *ctx,int type)
             switch(ctx[2]) {
             case 0: out[0]=1; break;
             case 1: case 2: case 3: out[0]=2; break;
-            case 4: func_02034714(d_02200D00,0,d_02200D00); out[0]=7; break;
-            case 5: func_02034714(d_02200D00,0,d_02200D00); out[0]=7; break;
+            case 4: SAVEDATA_PanicFail(d_02200D00,0,d_02200D00); out[0]=7; break;
+            case 5: SAVEDATA_PanicFail(d_02200D00,0,d_02200D00); out[0]=7; break;
             }
             break;
         case 5: out[0]=7; break;
@@ -662,7 +662,7 @@ void BR_PROC_SYS_BuildBattleRecord(int *out,int *source,const char *ctx,int type
         sys=*(void **)(*(char **)((char *)source[6]+12)+4);
         BATTLE_REC_Load(GAME_DATA_GetSaveControl(sys),0x59,&result,out[2]);
         if(result==1) {if(!out[2]) GDS_PROFILE_Init((struct GdsProfile *)BATTLE_REC_GetWork(),sys);}
-        else func_02034714(d_02200D00,0,d_02200D00);
+        else SAVEDATA_PanicFail(d_02200D00,0,d_02200D00);
         return;
     case 5:
         out[2]=4;out[12]=*(int *)((char *)source[6]+8);
@@ -699,7 +699,7 @@ void BR_PROC_SYS_BuildProfileRecord(char *r5, int *r4)
     ((struct BrProcOutRecord *)r5)->kind = r4[3];
     ((struct BrProcOutRecord *)r5)->value2 = r4[2];
     ((struct BrProcOutRecord *)r5)->actor = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
-    ((struct BrProcOutRecord *)r5)->value3 = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
+    ((struct BrProcOutRecord *)r5)->value3 = (int)SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)x, 0x3a);
     ((struct BrProcOutRecord *)r5)->owner = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
 }
 
@@ -801,7 +801,7 @@ void BR_PROC_SYS_BuildRecord(int *out,int *source,int *ctx,int type)
         out[5]=(*(int **)((char *)source[6]+0xc))[1];
         out[6]=*(int *)((char *)source[6]+8)+0x1748;
     } else {
-        func_02034714(d_02200D00,0,d_02200D00);
+        SAVEDATA_PanicFail(d_02200D00,0,d_02200D00);
     }
 }
 
@@ -815,7 +815,7 @@ void BR_PROC_SYS_BuildRecord2(int *out,int *source,const char *ctx,int type)
 {
     unsigned a;
     int b,result;
-    if(type!=2) func_02034714(d_02200D00,0,d_02200D00);
+    if(type!=2) SAVEDATA_PanicFail(d_02200D00,0,d_02200D00);
     out[2]=source[1];
     out[0]=source[3];
     out[3]=source[5];
@@ -898,7 +898,7 @@ Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsig
 {
     Context *ctx;
     unsigned i = 0;
-    ctx = func_02030734(heap, 0x70, 0, d_02200D04, 0x77);
+    ctx = GFL_HEAP_Alloc(heap, 0x70, 0, d_02200D04, 0x77);
     MI_CpuFill8(ctx, 0, 0x70);
     ctx->heap = heap;
     ctx->count = count;
@@ -923,8 +923,8 @@ Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsig
 
 void BR_PROC_SYS_Delete(int *p)
 {
-    func_0203133C((struct S020314B8 *)p[0]);
-    func_020307B0(p);
+    PROCSYS_Delete((struct S020314B8 *)p[0]);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -940,23 +940,23 @@ void BR_PROC_SYS_RunSlot(char *p)
  case 0:*old=*current;*current=*next;((struct Context *)p)->state=1;break;
  case 1:{
   int mode;
-  if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
-  if(!current->ops->init)func_02034714(d_02200D14,0,d_02200D14);
-  current->work=func_02030734(((struct Context *)p)->heap,current->ops->size,0,d_02200D04,0xd2);
+  if(!current->active)SAVEDATA_PanicFail(d_02200D14,0,d_02200D14);
+  if(!current->ops->init)SAVEDATA_PanicFail(d_02200D14,0,d_02200D14);
+  current->work=GFL_HEAP_Alloc(((struct Context *)p)->heap,current->ops->size,0,d_02200D04,0xd2);
   MI_CpuFill8(current->work,0,current->ops->size);
   mode=-2;if(!((struct Context *)p)->loaded)mode=old->arg;
   current->ops->init(current->work,((struct Context *)p)->arg,old->work,mode);
   ((struct Context *)p)->loaded=0;
-  if(old->work)func_020307B0(old->work);
+  if(old->work)GFL_HEAP_Free(old->work);
   PROCSYS_Push(*(u32 *)&((struct Context *)p)->object,current->ops->fn,current->ops->id,current->work);
   ((struct Context *)p)->state=2;break;
  }
  case 2:if(!PROCSYS_Main((void *)((struct Context *)p)->object))((struct Context *)p)->state=3;break;
  case 3:
-  if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
+  if(!current->active)SAVEDATA_PanicFail(d_02200D14,0,d_02200D14);
   if(current->ops->update)current->ops->update(current->work,((struct Context *)p)->arg);
   if(((struct Context *)p)->pendingCount)((struct Context *)p)->state=0;
-  else{if(current->work)func_020307B0(current->work);((struct Context *)p)->state=4;}
+  else{if(current->work)GFL_HEAP_Free(current->work);((struct Context *)p)->state=4;}
   break;
  case 4:((struct Context *)p)->done=1;break;
  }
@@ -1001,10 +1001,10 @@ void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index)
     char *base = (char *)ctx[1];
     char *entry = base + index * 20;
     if (index >= ((struct Context *)ctx)->count)
-        func_02034714(d_02200D14, 0, d_02200D14);
+        SAVEDATA_PanicFail(d_02200D14, 0, d_02200D14);
     BR_PROC_SYS_InitEntry((char *)(&info), index, (int)entry);
     if (ctx[25] >= 6)
-        func_02034714(d_02200D14, 0, d_02200D14);
+        SAVEDATA_PanicFail(d_02200D14, 0, d_02200D14);
     ((unsigned (*)[6])((char *)ctx + 0x4c))[0][ctx[25]] = index;
     ctx[25]++;
     *(BrProcEntry *)((char *)ctx + 0x3c) = info;

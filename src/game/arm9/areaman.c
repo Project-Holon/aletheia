@@ -17,8 +17,8 @@
  * savedata.c ends exactly there.
  *
  * symbols:
- *   func_02030734    0x02030734  arm
- *   func_020307B0    0x020307B0  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
+ *   GFL_HEAP_Free    0x020307B0  arm
  *   MI_CpuFill8      0x02082BCC  arm
  *   areaman_File     0x020A7958  data
  *   _LongestFreeRun  0x020A06A0  data
@@ -45,8 +45,8 @@ struct AreaMan {
 
 #define AREAMAN_GUARD_WORD 0x573C765A
 
-extern void *func_02030734(u32 heap_id, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id);
@@ -96,7 +96,7 @@ struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id)
     }
     nbytes = (u16)n;
 
-    areaman = func_02030734(heap_id, nbytes + 0x10, 0, areaman_File, 0x94);
+    areaman = GFL_HEAP_Alloc(heap_id, nbytes + 0x10, 0, areaman_File, 0x94);
     areaman->area_count = (u16)area_count;
     areaman->bitmap_bytes = nbytes;
     areaman->guard = (u32 *)(areaman->bitmap + nbytes);
@@ -114,7 +114,7 @@ struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id)
  */
 u32 AREAMAN_Delete(void *areaman)
 {
-    return func_020307B0(areaman);
+    return GFL_HEAP_Free(areaman);
 }
 
 

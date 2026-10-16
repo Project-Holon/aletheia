@@ -14,6 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8          0x02082BCC  arm
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "battle_rec_types.h"
 typedef unsigned char u8;
@@ -46,7 +47,7 @@ struct DaycareSave {
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 void DAYCARE_SetEggReady(struct DaycareSave *daycare);
 
@@ -206,5 +207,5 @@ void DAYCARE_Init(struct DaycareSave *daycare)
 
 struct DaycareSave *DAYCARE_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x32);
+    return SAVE_CONTROL_GetBlock(save, 0x32);
 }

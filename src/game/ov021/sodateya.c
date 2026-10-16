@@ -40,7 +40,7 @@
  *   POKE_TOOL_IsShinyOtIdPersonality  0x02017ED8  thumb
  *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sSodateyaEggMoveSlotIds     0x021DA908  data  ov021  a4
  *   sSodateyaSharedMoveSlotIds     0x021DA8F8  data  ov021  a4
  *   FILE_UTIL_Get_12B0  0x020212B0  thumb
@@ -50,7 +50,7 @@
  *   POKE_TOOL_SetAbility  0x02018A00  thumb
  *   func_02008510  0x02008510  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKE_TOOL_RecoverAllPP  0x02018198  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
@@ -59,7 +59,7 @@
  *   sSodateyaEggIvIds     0x021DA948  data  ov021  a4
  *   FILE_UTIL_Check1288  0x02021288  thumb
  *   FILE_UTIL_GetId  0x0202130C  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   d_021DE458     0x021DE458  data  ov021
@@ -239,14 +239,14 @@ extern u32 func_02008530(const struct MyStatus *status);
 extern u32 POKE_TOOL_IsShinyOtIdPersonality(u32 otId, u32 personalRnd);
 extern void POKE_PERSONAL_LoadDataDirect(unsigned int species, int form, void *dest);
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heapId);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u16 FILE_UTIL_Get_12B0(u16 item);
 extern void POKE_TOOL_SetupPartyParamEx(struct Pokemon *mon, u16 species, u16 level, unsigned long long otId, u32 power, unsigned long long personalRnd);
 extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 dataId, u32 value);
 extern void POKE_TOOL_SetAbility(struct Pokemon *mon, u32 species, u32 form);
 extern struct StrBuf *func_02008510(struct MyStatus *status, int heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
-extern struct StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void SAVE_EVENT_Write(struct Pokemon *mon, u32 a1, struct MyStatus *status, u32 place, u16 heapId);
 extern void POKE_TOOL_RecoverAllPP(struct Pokemon *mon);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
@@ -310,7 +310,7 @@ extern MoveSlotIdTable sSodateyaEggMoveSlotIds;
 extern const MoveSlotIdTable sSodateyaSharedMoveSlotIds;
 extern MoveSlotIdTable sSodateyaTmMoveSlotIds;
 extern const StatTable sSodateyaEggIvIds;
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 void *GAME_DATA_GetMyParty(const void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void DAYCARE_SetSlotMon(void *dayCare, s32 slot, const void *mon);
@@ -367,7 +367,7 @@ extern const MoveSlotIdTable d_021DA8C8;
  */
 SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare)
 {
-    SodateyaWork *work = func_02030734(heapId, 0x10, 0, d_021DE458, 0x6A);
+    SodateyaWork *work = GFL_HEAP_Alloc(heapId, 0x10, 0, d_021DE458, 0x6A);
     work->heapId = heapId;
     work->fieldMap = fieldMap;
     work->dayCare = dayCare;
@@ -376,11 +376,11 @@ SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare)
 }
 
 /*
- * Tail-call thunk: forwards to func_020307B0 with no argument change.
+ * Tail-call thunk: forwards to GFL_HEAP_Free with no argument change.
  */
 void SODATEYA_Delete(void *work)
 {
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /* Deposits the party member at partyPos in the day care when there is room. */
@@ -447,7 +447,7 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
         SODATEYA_CreateEggMon(work, (struct Pokemon *)egg);
         POKEPARTY_Add(party, (void *)egg);
         DAYCARE_ClearEggReady(work->dayCare);
-        func_020307B0((void *)egg);
+        GFL_HEAP_Free((void *)egg);
         gameData = (u32)ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap));
         FORMCHANGE_UpdateSeasonForms((void *)gameData, party, GAME_DATA_GetSeason((void *)gameData));
     }
@@ -1330,7 +1330,7 @@ void SODATEYA_AddEggMoves(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
             }
         }
     }
-    func_020307B0(eggMoves);
+    GFL_HEAP_Free(eggMoves);
 }
 
 /*
@@ -1483,7 +1483,7 @@ void SODATEYA_SetupEggMon(struct Pokemon *mon, const DayCareEgg *egg, struct MyS
     str = func_02008510(myStatus, heapId);
     POKE_TOOL_SetPartyValue(mon, MON_DATA_OT_NAME, (u32)str);
     STRBUF_Delete(str);
-    str = func_02045EC0(gSpeciesNameBank, 0x28a);
+    str = MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
     POKE_TOOL_SetPartyValue(mon, MON_DATA_NICKNAME, (u32)str);
     STRBUF_Delete(str);
     SAVE_EVENT_Write(mon, 5, myStatus, metPlace, heapId);

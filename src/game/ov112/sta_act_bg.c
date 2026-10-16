@@ -13,8 +13,8 @@
  * Cut from sta_act_light.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021F8454 0x021F8454 data a1
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   MTX_Identity33_ 0x0207ADC4 arm
@@ -60,9 +60,9 @@ typedef struct {
     void *object;        /* 0x3C G3D object */
 } LightModel;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void func_020307B0(void *);
+extern void GFL_HEAP_Free(void *);
 
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
 
@@ -112,12 +112,12 @@ extern u32 d_021F8430[];
 
 extern struct Arg d_021F8418;
 
-u8 *STA_ACT_LIGHT_AllocElem(u32 heap,u32 v) { u8 *p; p=func_02030734(heap,64,0,d_021F8454,81); ((LightModel *)p)->heap=heap; ((LightModel *)p)->param=v; ((LightModel *)p)->frame=0; ((LightModel *)p)->resourceArc=0; return p; }
+u8 *STA_ACT_LIGHT_AllocElem(u32 heap,u32 v) { u8 *p; p=GFL_HEAP_Alloc(heap,64,0,d_021F8454,81); ((LightModel *)p)->heap=heap; ((LightModel *)p)->param=v; ((LightModel *)p)->frame=0; ((LightModel *)p)->resourceArc=0; return p; }
 
 /*
  * extent: two zero alignment bytes follow code.
  */
-void STA_ACT_LIGHT_DeleteModel(u8 *p) { if(((LightModel *)p)->resourceArc) STA_ACT_LIGHT_FreeModel((LightModel *)p); func_020307B0(p); }
+void STA_ACT_LIGHT_DeleteModel(u8 *p) { if(((LightModel *)p)->resourceArc) STA_ACT_LIGHT_FreeModel((LightModel *)p); GFL_HEAP_Free(p); }
 
 void STA_ACT_LIGHT_StepModelAnim(u8 *p) { u8 i; if(((LightModel *)p)->resourceArc) { for(i=0;i<3;i++) G3D_SYSTEM_LoopObjectAnimeFrame(((LightModel *)p)->object,i,4096); } }
 

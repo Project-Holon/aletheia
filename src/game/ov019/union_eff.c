@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_02034714  0x02034714  arm
  *   d_02180808     0x02180808  data   ov019 a4
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
@@ -24,7 +24,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_02180814     0x02180814  data  ov019 a4
  *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
- *   func_02046EFC 0x02046EFC arm
+ *   G3D_SYSTEM_DeleteResource 0x02046EFC arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   G3D_SYSTEM_CreateRender  0x02047400  arm
  *   G3D_SYSTEM_CreateAnime  0x02047564  arm
@@ -103,8 +103,8 @@ typedef struct UnionEffDrawStatus {
     s32 rotate[9];     /* 0x18 3x3 matrix */
 } UnionEffDrawStatus;
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
+extern u32 GFL_HEAP_Free(void *p);
 void func_02034714(const void *expr, u32 line, const void *file);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arc, u32 fileId);
@@ -112,7 +112,7 @@ extern int G3D_SYSTEM_TransVramTexture(void *self);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern int G3D_SYSTEM_FreeVramTexture(void *p);
-extern void func_02046EFC(void *p);
+extern void G3D_SYSTEM_DeleteResource(void *p);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
 extern void *G3D_SYSTEM_CreateAnime(void *render, const void *resAnime, int index);
@@ -172,7 +172,7 @@ extern const UnionEffDrawStatus d_02180758;
  */
 UnionEffWork *UNION_EFF_Create(u16 heapId)
 {
-    UnionEffWork *work = func_02030734(heapId, sizeof(UnionEffWork), 1, (const char *)d_02180808, 0x8e);
+    UnionEffWork *work = GFL_HEAP_Alloc(heapId, sizeof(UnionEffWork), 1, (const char *)d_02180808, 0x8e);
     UNION_EFF_InitAnimGroup(&work->anim, heapId);
     UNION_EFF_InitIconGroup(&work->icon, heapId);
     return work;
@@ -185,7 +185,7 @@ void UNION_EFF_Delete(UnionEffWork *work)
         UNION_EFF_ExitIconGroup(&work->icon);
         UNION_EFF_DeleteAnimGroupObjs(&work->anim);
         UNION_EFF_ExitAnimGroup(&work->anim);
-        func_020307B0(work);
+        GFL_HEAP_Free(work);
     }
 }
 
@@ -249,9 +249,9 @@ void UNION_EFF_InitAnimGroup(UnionEffAnimGroup *anim, u32 heapId)
 void UNION_EFF_ExitAnimGroup(UnionEffAnimGroup *anim)
 {
     G3D_SYSTEM_FreeVramTexture(anim->resModel);
-    func_02046EFC(anim->resAnime);
+    G3D_SYSTEM_DeleteResource(anim->resAnime);
     anim->resAnime = NULL;
-    func_02046EFC(anim->resModel);
+    G3D_SYSTEM_DeleteResource(anim->resModel);
     anim->resModel = NULL;
 }
 
@@ -355,8 +355,8 @@ void UNION_EFF_ExitIconGroup(UnionEffIconGroup *icon)
 {
     G3D_SYSTEM_FreeVramTexture(icon->resModel[0]);
     G3D_SYSTEM_FreeVramTexture(icon->resModel[1]);
-    func_02046EFC(icon->resModel[0]);
-    func_02046EFC(icon->resModel[1]);
+    G3D_SYSTEM_DeleteResource(icon->resModel[0]);
+    G3D_SYSTEM_DeleteResource(icon->resModel[1]);
     icon->resModel[0] = NULL;
     icon->resModel[1] = NULL;
 }

@@ -43,7 +43,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   VEC_CrossProduct  0x0207CAE8  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_0207D918  0x0207D918  arm
+ *   G3_MultMtx43  0x0207D918  arm
  *   func_0207D934  0x0207D934  arm
  *   G3X_GetVectorMtx  0x0207DCC8  arm
  *   func_0207D8E0  0x0207D8E0  arm
@@ -78,7 +78,7 @@ extern void func_02082A7C(u32 value, void *pDst, u32 size);
 extern void func_020834A8(void *pDst);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 extern void VEC_CrossProduct(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
-extern void func_0207D918(const MtxFx43 *pMtx);
+extern void G3_MultMtx43(const MtxFx43 *pMtx);
 extern void func_0207D934(const MtxFx33 *pMtx);
 extern int  G3X_GetVectorMtx(MtxFx33 *pMtx);
 extern void func_0207D8E0(const void *pMtx);
@@ -1077,7 +1077,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *pRS, u32 opt)
             NNSi_G3dBitVecSet(pRS->isEvpCached, idxNode);
             REG_MTX_RESTORE = p[0];
             REG_MTX_MODE = 1;
-            func_0207D918(&evpMtx[idxNode].invM);
+            G3_MultMtx43(&evpMtx[idxNode].invM);
         }
 
         if (i != 0) {

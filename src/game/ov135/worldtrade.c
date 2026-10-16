@@ -33,14 +33,14 @@
  *   d_02203A80 0x02203A80 data a4
  *   MSGDATA_Delete 0x02045C04 arm
  *   TCB_Noop 0x02030DA4 arm
- *   func_020307B0 0x020307B0 arm
- *   func_0203133C 0x0203133C arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   PROCSYS_Delete 0x0203133C arm
  *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   str_02203B08  0x02203B08  data  a1
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -53,11 +53,11 @@
  *   func_02008550  0x02008550  thumb
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   d_02202BE0     0x02202BE0  data
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   data_02202BC8 0x02202BC8 data a4
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
@@ -82,15 +82,15 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   tbl_02202BB8  0x02202BB8  data
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
- *   func_0200F7C0   0x0200F7C0  thumb
+ *   GFL_NET_ERR_HaltWithMessage   0x0200F7C0  thumb
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  *   GAME_DATA_SaveCancel  0x02012E08  thumb  arm9
@@ -128,16 +128,19 @@
  *   WORLDTRADE_ClearSelectedSpecies 0x021F4F90 thumb ov135
  *   WORLDTRADE_QueryGameData 0x021F4ED4 thumb ov135
  *   WORLDTRADE_CreateTimeIcon  0x021F4FA4  thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_Create  0x0201EC74  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
  *   G2x_SetBlendBrightness_  0x0207D658  arm  arm9
+ *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
+ *   TCB_GetTaskOffset  0x02030CB0  arm  arm9
+ *   TCB_Init  0x02030CBC  arm  arm9
  */
 #include "worldtrade_types.h"
 
-#define ASSERT(x) if (!(x)) func_02034714(str_02203B08, 0, str_02203B08)
+#define ASSERT(x) if (!(x)) SAVEDATA_PanicFail(str_02203B08, 0, str_02203B08)
 
 struct ProcSystem;
 
@@ -182,7 +185,7 @@ struct TaskMenuTmpl {
 
 typedef struct { BoxItem item[3]; } BoxItems3;
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
@@ -194,17 +197,17 @@ extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 
 extern void *PROCSYS_Create(int a0);
 
-extern u32 func_02030CB0(u32 n);
+extern u32 TCB_GetTaskOffset(u32 n);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 
 extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
 
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 
@@ -240,17 +243,17 @@ extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern void TCB_Noop(void *);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_0203133C(struct S020314B8 *p);
+extern void PROCSYS_Delete(struct S020314B8 *p);
 
 extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 
 extern void BG_SYS_Update(void);
 
@@ -258,9 +261,9 @@ extern void CLACT_VBlankSystem(void);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
@@ -292,7 +295,7 @@ extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -352,9 +355,9 @@ extern void BMP_WIN_Init(u16 heapId);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void *func_020056A0(void *callback, void *ctx, int a2);
+extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int a2);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void BMP_WIN_Exit(void);
 
@@ -364,7 +367,7 @@ extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
 extern void GAME_DATA_SaveCancel(char *p);
 
-extern void func_0200F7C0(u32 c);
+extern void GFL_NET_ERR_HaltWithMessage(u32 c);
 
 
 
@@ -466,23 +469,23 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args)
 {
     Work *p;
 
-    func_02034AC4((u32)ov114_id);
-    func_02034AC4((u32)ov067_id);
+    GF_OVERLAY_Load((u32)ov114_id);
+    GF_OVERLAY_Load((u32)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x48, 0x30100);
     p = PROCSYS_AllocProcWork(proc, sizeof(Work), 0x48);
     MI_CpuFill8(p, 0, sizeof(Work));
     g_02203F80 = p;
     p->fEA8 = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
     p->f12F0 = PROCSYS_Create(0x48);
-    p->recMem = func_02030734(0x48, func_02030CB0(8), 0, str_02203AF8, 0xA1);
-    p->rec_p = func_02030CBC(8, p->recMem);
+    p->recMem = GFL_HEAP_Alloc(0x48, TCB_GetTaskOffset(8), 0, str_02203AF8, 0xA1);
+    p->rec_p = TCB_Init(8, p->recMem);
     WORLDTRADE_ADAPTER_InitPrinter(p->tail, (u32)args->a20);
     p->words = WORDSET_Create(0xB, 0x40, 0x48);
-    p->msg[0] = func_02045B38(0, 2, 0xD0, 0x48);
-    p->msg[2] = func_02045B38(0, 2, 0xD1, 0x48);
-    p->msg[3] = func_02045B38(0, 2, 0xE8, 0x48);
-    p->msg[1] = func_02045B38(0, 2, 0x46, 0x48);
-    p->msg[4] = func_02045B38(0, 2, 0xE7, 0x48);
+    p->msg[0] = MSGDATA_CreateFromArchive(0, 2, 0xD0, 0x48);
+    p->msg[2] = MSGDATA_CreateFromArchive(0, 2, 0xD1, 0x48);
+    p->msg[3] = MSGDATA_CreateFromArchive(0, 2, 0xE8, 0x48);
+    p->msg[1] = MSGDATA_CreateFromArchive(0, 2, 0x46, 0x48);
+    p->msg[4] = MSGDATA_CreateFromArchive(0, 2, 0xE7, 0x48);
     WORLDTRADE_CallStateHandler((Work *)p, (Args *)args);
     BG_SYS_ClearGraphicsMemory(0);
     WORLDTRADE_ClearAndShowPlanes(p);
@@ -546,14 +549,14 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, Work *p)
     MSGDATA_Delete(p->msg_p);
     WORDSET_DeleteStrbufED04(p->words);
     TCB_Noop(p->rec_p);
-    func_020307B0(p->recMem);
-    func_0203133C(p->f12F0);
-    func_020307B0(p->fEA8);
+    GFL_HEAP_Free(p->recMem);
+    PROCSYS_Delete(p->f12F0);
+    GFL_HEAP_Free(p->fEA8);
     WORLDTRADE_ADAPTER_ExitPrinter((u8 *)p + 0xfa0);
-    func_020315D4(ctx);
+    PROCSYS_FreeProcWork(ctx);
     GFL_HEAP_DeleteChecked(0x48);
-    func_02034A5C((unsigned int)ov067_id);
-    func_02034A5C((unsigned int)ov114_id);
+    GF_OVERLAY_Unload((unsigned int)ov067_id);
+    GF_OVERLAY_Unload((unsigned int)ov114_id);
     return 1;
 }
 
@@ -661,7 +664,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     u32 pal;
     u32 chr;
 
-    arc = func_020490F4(0x60, 0x48);
+    arc = ARC_TOOL_CreateHandle(0x60, 0x48);
     CLACT_InitSystem((const struct Cfg *)d_02202BE0, mode, 0x48);
     p->res_res.f0 = (u32)CLACT_CreateUnit(0x60, 0, 0x48);
     p->res_res.f4 = CLACT_RegisterCharacter(arc, 0x11, 1, 0, 0x48);
@@ -684,7 +687,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     }
     DC_FlushRange(pd->data, 0x60);
     GX_LoadOBJPltt(pd->data, 0x100, 0x60);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
 
     if ((u8)(u32)func_02008550(p->ctx->f1C) == 1) {
         chr = 0x11;
@@ -697,7 +700,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
         cell = 0xC;
         pal = 4;
     }
-    arc = func_020490F4(0x1f, 0x48);
+    arc = ARC_TOOL_CreateHandle(0x1f, 0x48);
     p->res_res.f1C = CLACT_RegisterCharacter(arc, chr, 0, 1, 0x48);
     p->res_res.f20 = CLACT_RegisterPaletteEx(arc, pal, 1, 0, 0, 1, 0x48);
     p->res_res.f24 = CLACT_RegisterCellAnim(arc, cell, anm, 0x48);
@@ -726,14 +729,14 @@ void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int b,int unused,int a,int c,u8 flag)
     BoxItems2 items;
     struct TaskMenuTmpl menu;
     int on;
-    if (p->fE04) func_02034714(str_02203B08,0,str_02203B08);
-    if (p->fE08) func_02034714(str_02203B08,0,str_02203B08);
+    if (p->fE04) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    if (p->fE08) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
     p->fE04=APP_TASKMENU_RES_Create((u8)c,(u8)a,p->uiResA,p->uiResB,0x48);
     items=data_02202BC8;
     on=0;
     MI_CpuFill8(&menu,0,20);
-    items.item[0].text=func_02045EC0(p->bank,63);
-    items.item[1].text=func_02045EC0(p->bank,64);
+    items.item[0].text=MSGDATA_AllocString(p->bank,63);
+    items.item[1].text=MSGDATA_AllocString(p->bank,64);
     menu.heapId=0x48;
     menu.count=2;
     menu.entries=items.item;
@@ -760,12 +763,12 @@ void WORLDTRADE_OpenTaskMenuList(Work *p, u16 a, int count, int b)
     BoxItems3 items;
     struct TaskMenuTmpl menu;
     int i;
-    if (p->fE04) func_02034714(str_02203B08,0,str_02203B08);
-    if (p->fE08) func_02034714(str_02203B08,0,str_02203B08);
+    if (p->fE04) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    if (p->fE08) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
     p->fE04=APP_TASKMENU_RES_Create(a,10,p->uiResA,p->uiResB,0x48);
     items=data_02202C2C;
     MI_CpuFill8(&menu,0,20);
-    if ((u32)count>3) func_02034714(str_02203B08,0,str_02203B08);
+    if ((u32)count>3) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
     for(i=0;i<count;i++) items.item[i].a=*(u32 *)((u32)p->de8+i*8);
     menu.heapId=0x48;
     menu.count=count;
@@ -990,14 +993,14 @@ void WORLDTRADE_ClearAndShowPlanes(Work *p)
     *(vu16 *)0x04000050 = 0;
     *(vu16 *)0x04001050 = 0;
     if (p->vblank_p == 0) {
-        p->vblank_p = func_020056A0(WORLDTRADE_VBlankTask, p, 0);
+        p->vblank_p = GFL_USE_AddMainTask(WORLDTRADE_VBlankTask, p, 0);
     }
 }
 
 void WORLDTRADE_ExitPlanes(Work *p)
 {
     if (p->vblank_p != 0) {
-        func_02030EAC(p->vblank_p);
+        TCB_DeleteTask(p->vblank_p);
         p->vblank_p = 0;
     }
     *(vu16 *)0x04000050 = 0;
@@ -1012,5 +1015,5 @@ void WORLDTRADE_ExitPlanes(Work *p)
 void WORLDTRADE_CancelSave(Work *p)
 {
     GAME_DATA_SaveCancel(ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40));
-    func_0200F7C0(0x29);
+    GFL_NET_ERR_HaltWithMessage(0x29);
 }

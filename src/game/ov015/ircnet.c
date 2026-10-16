@@ -18,7 +18,7 @@
  *   gIrcNetHandlerTable  0x0217A9E0  data  a4
  *   gIrcNetAssertText  0x0217AAAC  data  ov015  a1
  *   gIrcNetWork  0x0217AAC0  data  ov015  a4
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
@@ -48,7 +48,7 @@ extern u8 gIrcNetAssertText[];
 extern u8 gIrcNetHandlerTable[];
 
 extern GFLNetSession *GFL_NET_GetInitParam(void);
-extern void func_02034714(const char *expr, unsigned int line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, unsigned int line, const char *file);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
@@ -233,7 +233,7 @@ void *IRCNET_GetHandlerTable(void)
 void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b)
 {
     if ((unsigned)n >= 0xA6)
-        func_02034714((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        SAVEDATA_PanicFail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     gIrcNetWork.packet.type = a;
     gIrcNetWork.packet.seq = b;
     if (dst != 0)
@@ -280,7 +280,7 @@ void IRCNET_SetFilter(int a)
 void IRCNET_Start(void)
 {
     if (gIrcNetWork.isRunning != 0)
-        func_02034714((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        SAVEDATA_PanicFail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     gIrcNetWork.isRunning = 1;
 }
 
@@ -309,7 +309,7 @@ int IRCNET_IsIdle(void)
 void IRCNET_QueueSend(void *dst, u8 a, u8 b)
 {
     if (gIrcNetWork.isSendReady != 1)
-        func_02034714((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        SAVEDATA_PanicFail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     IRCNET_SendPacket(dst, a, b, (u8)(gIrcNetWork.sendSeq | (gIrcNetWork.recvSeq << 4)));
     gIrcNetWork.pendingData = dst;
     gIrcNetWork.pendingSize = a;
@@ -343,7 +343,7 @@ int IRCNET_IsReceiver(void)
 
 /*
  * Receive handler for one packet: rejects a length of 0 or over 0xB4 (the over-length case also
- * reports through func_02034714), checks the checksum against GF_STANDARD_SetupCalc over the rest, filters
+ * reports through SAVEDATA_PanicFail), checks the checksum against GF_STANDARD_SetupCalc over the rest, filters
  * on the group id (through the optional hook), tracks the two session ids, then hands the payload
  * to the receive callback once per new sequence number.
  */
@@ -360,7 +360,7 @@ void IRCNET_OnRecv(u8 *rawPacket, u32 len, u32 type)
     hi = pkt->seq >> 4;
     gIrcNetWork.isSendReady = 1;
     if (len > 0xB4)
-        func_02034714((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        SAVEDATA_PanicFail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     if (!(len != 0 && len <= 0xB4))
         return;
     if (pkt->checksum != GF_STANDARD_SetupCalc(rawPacket + 2, len - 2))

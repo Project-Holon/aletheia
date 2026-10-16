@@ -54,6 +54,8 @@
  *   ISS_3DS_SYS_Enter 0x0202B8FC thumb arm9
  *   ISS_3DS_SYS_Leave 0x0202B904 thumb arm9
  *   ISS_3DS_SYS_OnZoneChange 0x0202B90C thumb arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "iss_sys_shared_types.h"
 
@@ -117,9 +119,9 @@ enum {
     ISS_MODE_COUNT = 9
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern IssRoadSys *ISS_ROAD_SYS_Create(const Location *loc, u32 heapId);
 
@@ -312,7 +314,7 @@ extern const IssModeHandler ISS_SYS_ModeTable[];
 /* Allocates the ISS object, clears it and creates the six subsystems. */
 IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId)
 {
-    IssSys *iss = func_02030734(heapId, sizeof(IssSys), 0, ISS_SYS_FileName, 0xa3);
+    IssSys *iss = GFL_HEAP_Alloc(heapId, sizeof(IssSys), 0, ISS_SYS_FileName, 0xa3);
 
     ISS_SYS_ClearFields(iss);
     ISS_SYS_Setup(iss, gameData, heapId);
@@ -323,7 +325,7 @@ IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId)
 void ISS_SYS_Delete(IssSys *iss)
 {
     ISS_SYS_DeleteSubsystems(iss);
-    func_020307B0(iss);
+    GFL_HEAP_Free(iss);
 }
 
 /* Per-frame update: when the BGM changed, switch the active mode; then step

@@ -14,8 +14,8 @@
  * Split from weather_task.c (lane L141): __FILE__ anchor 021A2DE0 (gFieldMapCtrlGridFileName "fieldmap_ctrl_grid.c"); 021A2D88 allocates the 0x10 holder, 021A2D30 before it is called from weather_task code.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
@@ -48,8 +48,8 @@ typedef struct FieldMapCtrlGridWork {
     u32 busy;               /* 0x0C: set from outside (union room) to stop the player update */
 } FieldMapCtrlGridWork;
 
-extern u32 func_020307B0(void *memory);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern u32 GFL_HEAP_Free(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
@@ -80,7 +80,7 @@ void FIELDMAP_CTRL_GRID_Create(FieldMap *fieldMap, VecFx32 *pos, int dir)
     FieldMapCtrlGridWork *work;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    work = func_02030734(heapId, sizeof(FieldMapCtrlGridWork), 1, (const char *)&gFieldMapCtrlGridFileName, 0x68);
+    work = GFL_HEAP_Alloc(heapId, sizeof(FieldMapCtrlGridWork), 1, (const char *)&gFieldMapCtrlGridFileName, 0x68);
     work->heapId = heapId;
     work->fieldMap = fieldMap;
     player = FIELDMAP_GetFieldPlayer(fieldMap);
@@ -94,7 +94,7 @@ void FIELDMAP_CTRL_GRID_Create(FieldMap *fieldMap, VecFx32 *pos, int dir)
 /* Destroy slot: frees the work. */
 void FIELDMAP_CTRL_GRID_Destroy(FieldMap *fieldMap)
 {
-    func_020307B0(FIELDMAP_GetCtrlWork(fieldMap));
+    GFL_HEAP_Free(FIELDMAP_GetCtrlWork(fieldMap));
 }
 
 /* Main slot: moves the player with this frame's keys unless the work is busy. */

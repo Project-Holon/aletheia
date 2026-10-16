@@ -118,7 +118,7 @@
  *   gpiCheckSocketConnect  0x02193488  arm   ov009
  *   g_021A4A58     0x021A4A58  data  ov009
  *   gsifree  0x0217eae0  arm   ov009
- *   func_021841B0  0x021841b0  arm   ov009
+ *   ArrayFree  0x021841b0  arm   ov009
  *   gpiRemoveProfile  0x0218ff24  arm   ov009
  *   gpiSendFromBuffer  0x0218998C  arm   ov009
  *   shutdown  0x0217EB9C  arm   ov009
@@ -214,7 +214,7 @@ extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GP
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern int gpiCheckSocketConnect(int *connection, int sock, int *state);
 extern void gsifree(void *ptr);
-extern void func_021841B0(void *array);
+extern void ArrayFree(void *array);
 extern void gpiRemoveProfile(const int *p, void *profile);
 extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
 extern int shutdown(int sock, int how);
@@ -883,7 +883,7 @@ int gpiDisconnectCleanupProfile(GPIConnection **connection, GPIProfile *profile)
         gsifree(profile->buddyStatusInfo->gameMapName);
         profile->buddyStatusInfo->gameMapName = 0;
         if (profile->buddyStatusInfo->extendedInfoKeys) {
-            func_021841B0(profile->buddyStatusInfo->extendedInfoKeys);
+            ArrayFree(profile->buddyStatusInfo->extendedInfoKeys);
             profile->buddyStatusInfo->extendedInfoKeys = 0;
         }
         gsifree(profile->buddyStatusInfo);

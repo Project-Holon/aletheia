@@ -14,8 +14,8 @@
  *
  * symbols:
  *   BILLBOARD_SetElemVisible 0x0204F720 arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   d_021F8464 0x021F8464 data a1
@@ -25,7 +25,7 @@
  *   MUSICAL_MCSS_GetRenderFlags 0x021F545C thumb ov112
  *   MUSICAL_MCSS_GetRenderMatrix 0x021F5464 thumb ov112
  *   VEC_Add 0x0207C9D0 arm
- *   func_0207AF38 0x0207AF38 thumb
+ *   MTX_RotZ33_ 0x0207AF38 thumb
  *   MTX_MultVec33 0x0207B51C arm
  *   VEC_Subtract 0x0207CA00 arm
  *   MUSICAL_MCSS_GetRenderPos 0x021F5350 thumb ov112
@@ -188,9 +188,9 @@ typedef struct {
 
 extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void func_020307B0(void *);
+extern void GFL_HEAP_Free(void *);
 
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
 
@@ -206,7 +206,7 @@ extern char *MUSICAL_MCSS_GetRenderMatrix(char *);
 
 extern void VEC_Add(const Vec3 *,const Vec3 *,Vec3 *);
 
-extern void func_0207AF38(Mtx *,int,int);
+extern void MTX_RotZ33_(Mtx *,int,int);
 
 extern void MTX_MultVec33(const Vec3 *,const Mtx *,Vec3 *);
 
@@ -376,7 +376,7 @@ u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e)
 {
     u8 i = 0;
     u8 *p;
-    p = func_02030734(heap, 0x440, 0, d_021F8464, 0x93);
+    p = GFL_HEAP_Alloc(heap, 0x440, 0, d_021F8464, 0x93);
     *(u16 *)p = heap;
     *(u32 *)(p + 4) = b;
     *(u32 *)(p + 0xc) = c;
@@ -400,7 +400,7 @@ void STA_ACT_LIGHT_DeleteBillboardImage(char *p) {
             STA_ACT_LIGHT_FreeElem((char *)((int)p), (char *)((int)(p + 0x14 + i * 0x108)));
     }
     BILLBOARD_DeleteImage((u8 *)((BillboardImage *)p)->board, ((BillboardImage *)p)->image);
-    func_020307B0((void *)((int)p));
+    GFL_HEAP_Free((void *)((int)p));
 }
 
 void STA_ACT_LIGHT_UpdateBillboard(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) STA_ACT_LIGHT_CalcSpriteXform(p,p+20+i*264); }
@@ -444,7 +444,7 @@ void STA_ACT_LIGHT_CalcSpriteXform(u8 *p,u8 *q)
     angle=((Elem *)q)->angle;
     delta.x=0;
     delta.y=b->y;
-    func_0207AF38(&matrix,-table[(angle>>4)*2],table[(angle>>4)*2+1]);
+    MTX_RotZ33_(&matrix,-table[(angle>>4)*2],table[(angle>>4)*2+1]);
     MTX_MultVec33((const Vec3 *)&delta, &matrix, (Vec3 *)(q+60));
     VEC_Subtract((const Vec3 *)&delta, (const Vec3 *)((Vec3 *)(q+60)), (Vec3 *)(q+60));
     pos.x=(pos.x-a->x-((Elem *)q)->f3C)/16;
@@ -509,7 +509,7 @@ void STA_ACT_LIGHT_SetSpritePos(u8 *self, u8 *q)
                     ang2 = (u16)((0x10000 + t->angleB + *(s16 *)(EA + 2)) % 0x10000);
                     MUSICAL_MCSS_GetRenderFlags(*(u8 **)(q + 0x58));
                     z = t->height;
-                    func_0207AF38(&mtx, -table[(ang0 >> 4) * 2], table[(ang0 >> 4) * 2 + 1]);
+                    MTX_RotZ33_(&mtx, -table[(ang0 >> 4) * 2], table[(ang0 >> 4) * 2 + 1]);
                     MTX_MultVec33((const Vec3 *)&t->offsetX, &mtx, (Vec3 *)&v1);
                     if (neg == 1) {
                         ang2 = (u16)(0x10000 - ang2);

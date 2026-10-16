@@ -25,12 +25,12 @@
  *   FLDMMDL_SetStatusBitFellowHit  0x0216DAE0  thumb  ov010
  *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
- *   func_02030734  0x02030734  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   RAIL_SLIPDOWN_TaskMain  0x021F377C  thumb  ov063
  *   gRailSlipdownSourceFile     0x021F3D80  data  a1
- *   func_02030EAC  0x02030EAC  arm
- *   func_020307B0  0x020307B0  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FLDMMDL_RAIL_GetDrawOffset 0x0219E764 thumb ov021
  *   VEC_Fx16Normalize 0x0207CDB8 arm
  *   FIELD_RAIL_WORK_GetPos 0x021B8028 thumb ov021
@@ -43,7 +43,7 @@
  *   VEC_Subtract 0x0207CA00 arm
  *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
- *   func_0207C768 0x0207C768 arm
+ *   FX_Div 0x0207C768 arm
  *   FX_Modf 0x0207D14C arm
  *   FIELD_CAMERA_EndDelay 0x0218F0A8 thumb ov021
  *   FIELD_CAMERA_IsDelayEnabled 0x0218F0E8 thumb ov021
@@ -90,11 +90,11 @@ extern int FLDMMDL_SetStatusBitAttrGetOff(struct Mmdl *mmdl, int value);
 extern void FLDMMDL_SetStatusBitFellowHit(struct Mmdl *mmdl, unsigned int value);
 extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
 extern void *FIELDMAP_GetTcblSys(void *fieldMap);
-extern RailSlipdown *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct TcbTask *func_02030DA8(void *tcblSys, void (*func)(void *tcb, RailSlipdown *slipdown), RailSlipdown *arg, u32 priority);
+extern RailSlipdown *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct TcbTask *TCB_AddTask(void *tcblSys, void (*func)(void *tcb, RailSlipdown *slipdown), RailSlipdown *arg, u32 priority);
 extern void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown);
-extern void func_02030EAC(struct TcbTask *task);
-extern u32 func_020307B0(void *p);
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern u32 GFL_HEAP_Free(void *p);
 RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
 void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown);
 int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown);
@@ -112,7 +112,7 @@ extern void FIELD_RAIL_GetLocationPos(struct RailManager *railMan, RailLocation 
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern int VEC_Mag(const VecFx32 *v);
 extern void VEC_Normalize(VecFx32 *in, VecFx32 *out);
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern int FX_Modf(int value, int *out);
 extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
 extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
@@ -148,7 +148,7 @@ RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl
 {
     RailSlipdown *slipdown;
 
-    slipdown = func_02030734(FIELDMAP_GetHeapId(fieldMap), 0x84, 1, gRailSlipdownSourceFile, 0x80);
+    slipdown = GFL_HEAP_Alloc(FIELDMAP_GetHeapId(fieldMap), 0x84, 1, gRailSlipdownSourceFile, 0x80);
     slipdown->nogridMapper = FIELDMAP_GetNogridMapper(fieldMap);
     slipdown->mmdl = mmdl;
     slipdown->railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
@@ -164,14 +164,14 @@ RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl
     FLDMMDL_SetStatusBitAttrGetOff(slipdown->mmdl, 1);
     FLDMMDL_SetStatusBitFellowHit(slipdown->mmdl, 0);
     FLDMMDL_OnMoveBitMovePause(slipdown->mmdl);
-    slipdown->task = func_02030DA8(FIELDMAP_GetTcblSys(fieldMap), RAIL_SLIPDOWN_TaskMain, slipdown, 0);
+    slipdown->task = TCB_AddTask(FIELDMAP_GetTcblSys(fieldMap), RAIL_SLIPDOWN_TaskMain, slipdown, 0);
     return slipdown;
 }
 
 void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown)
 {
-    func_02030EAC(slipdown->task);
-    func_020307B0(slipdown);
+    TCB_DeleteTask(slipdown->task);
+    GFL_HEAP_Free(slipdown);
 }
 
 int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown)
@@ -238,7 +238,7 @@ void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
         length = VEC_Mag(&slope);
         VEC_Normalize(&slope, &slope);
         setDir16(&slipdown->dir, slope.x, slope.y, slope.z);
-        length = func_0207C768(length, 0x8000);
+        length = FX_Div(length, 0x8000);
         if (FX_Modf(length, &length) == 0) slipdown->count = length>>12;
         else slipdown->count = (length>>12) + 1;
         slipdown->step = 0;
@@ -295,17 +295,17 @@ void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
         if (slipdown->player == 0) break;
         {
             int y, z;
-            z = slipdown->eyeStart.z + func_0207C768(fxmul(slipdown->eyeDelta.z, slipdown->step<<12), slipdown->count<<12);
-            y = slipdown->eyeStart.y + func_0207C768(fxmul(slipdown->eyeDelta.y, slipdown->step<<12), slipdown->count<<12);
-            eye.x = slipdown->eyeStart.x + func_0207C768(fxmul(slipdown->eyeDelta.x, slipdown->step<<12), slipdown->count<<12);
+            z = slipdown->eyeStart.z + FX_Div(fxmul(slipdown->eyeDelta.z, slipdown->step<<12), slipdown->count<<12);
+            y = slipdown->eyeStart.y + FX_Div(fxmul(slipdown->eyeDelta.y, slipdown->step<<12), slipdown->count<<12);
+            eye.x = slipdown->eyeStart.x + FX_Div(fxmul(slipdown->eyeDelta.x, slipdown->step<<12), slipdown->count<<12);
             eye.y = y;
             eye.z = z;
         }
         {
             int y, z;
-            z = slipdown->targetStart.z + func_0207C768(fxmul(slipdown->targetDelta.z, slipdown->step<<12), slipdown->count<<12);
-            y = slipdown->targetStart.y + func_0207C768(fxmul(slipdown->targetDelta.y, slipdown->step<<12), slipdown->count<<12);
-            target.x = slipdown->targetStart.x + func_0207C768(fxmul(slipdown->targetDelta.x, slipdown->step<<12), slipdown->count<<12);
+            z = slipdown->targetStart.z + FX_Div(fxmul(slipdown->targetDelta.z, slipdown->step<<12), slipdown->count<<12);
+            y = slipdown->targetStart.y + FX_Div(fxmul(slipdown->targetDelta.y, slipdown->step<<12), slipdown->count<<12);
+            target.x = slipdown->targetStart.x + FX_Div(fxmul(slipdown->targetDelta.x, slipdown->step<<12), slipdown->count<<12);
             target.y = y;
             target.z = z;
         }

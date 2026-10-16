@@ -13,8 +13,8 @@
  * Cut from g3d_util.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   DC_FlushRange  0x020862F0  arm
  *   ARC_TOOL_gArchiveTable     0x02146A68  data
@@ -45,7 +45,7 @@
  *   BG_SYS_DecodeTileSource  0x02040AF0  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   sub_02049B90   0x02049B90  arm
  *   sub_02049BDC   0x02049BDC  arm
  *   ARC_UTIL_gPaletteLoadFns     0x020A1364  data
@@ -124,9 +124,9 @@ struct PaletteBlock {
 
 typedef void (*GfxLoadFn)(u32 data, u32 dest, u32 size);
 
-extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void DWCi_ScreenDC_FlushRange(int a, int b);
 
@@ -178,7 +178,7 @@ extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offs
 
 extern void BG_SYS_PushTile(u8 channel);
 
-extern void func_02041B6C(u8 channel);
+extern void BG_SYS_SetFlagField06(u8 channel);
 
 extern void sub_02049B90(u32 a, u32 b, u32 c, u32 zero, u32 d, u32 e, u16 f);
 
@@ -382,7 +382,7 @@ extern const GfxLoadFn ARC_UTIL_gPaletteLoadFns[];
  * FS_ReadFile is the read and FS_CloseFile closes the handle again.
  *
  * Nothing survives the call, so this is the one-shot form: a caller that wants
- * the archive to stay open uses func_020490F4 instead.
+ * the archive to stay open uses ARC_TOOL_CreateHandle instead.
  *
  * Addresses are Black-image addresses.
  *
@@ -427,7 +427,7 @@ void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32
 
     ARC_TOOL_OpenArchive(&h, archiveID);
     memberSize = ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size);
-    buf = func_02030734(heapID, memberSize, 0, arc_tool_file, 0xbb);
+    buf = GFL_HEAP_Alloc(heapID, memberSize, 0, arc_tool_file, 0xbb);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&h), buf, memberSize);
     FS_CloseFile(&h);
     return buf;
@@ -685,7 +685,7 @@ void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 memberIdx, u16 heapID)
     FS_InitFile(&file);
     ((void (*)(struct ArcFile *f, const char *path))FS_OpenFile)(&file, path);
     size = ARC_TOOL_SeekMember((struct ArcHandle *)(&file), memberIdx, 0, 0);
-    p = func_02030734(heapID, size, 0, arc_tool_file, 0x182);
+    p = GFL_HEAP_Alloc(heapID, size, 0, arc_tool_file, 0x182);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&file), p, size);
     FS_CloseFile(&file);
     return p;
@@ -727,7 +727,7 @@ u32 ARC_TOOL_GetMemberSize(u32 archiveID, u32 memberIdx)
  */
 void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID)
 {
-    void *rec = func_02030734(heapID, 0x50, 0, arc_tool_file, 0x209);
+    void *rec = GFL_HEAP_Alloc(heapID, 0x50, 0, arc_tool_file, 0x209);
 
     ARC_TOOL_OpenArchive(rec, archiveID);
     ARC_TOOL_ReadHandleHeader(rec);
@@ -753,7 +753,7 @@ void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID)
  */
 void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heapID)
 {
-    void *handle = func_02030734(heapID, 0x50, 0, arc_tool_file, 0x21f);
+    void *handle = GFL_HEAP_Alloc(heapID, 0x50, 0, arc_tool_file, 0x21f);
 
     FS_InitFile(handle);
     FS_CreateFileFromMemory(handle, buf, size);
@@ -793,7 +793,7 @@ void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc)
 void ARC_TOOL_DeleteHandle(void *handle)
 {
     FS_CloseFile(handle);
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
 }
 
 /*
@@ -839,7 +839,7 @@ void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
     FS_SeekFile((struct ArcHandle *)arc, arc->imageBase + 8 + range[0], 0);
 
-    buf = func_02030734(heapID, range[1] - range[0], 0, arc_tool_file, 619);
+    buf = GFL_HEAP_Alloc(heapID, range[1] - range[0], 0, arc_tool_file, 619);
     if (buf != 0) {
         ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, buf, range[1] - range[0]);
     }
@@ -1346,7 +1346,7 @@ u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u
  * (+0x08); when `add` is non-zero, add it to every entry of the data at +0x0C
  * -- as halfwords (size / 2 of them) when BG_SYS_GetField16 says the channel is
  * not 8-bit, else as bytes; then upload through BG_SYS_DecodeTileSource plus the
- * flag-selected commit (func_02041B6C / BG_SYS_PushTile) or BG_SYS_PushTileSource, and
+ * flag-selected commit (BG_SYS_SetFlagField06 / BG_SYS_PushTile) or BG_SYS_PushTileSource, and
  * release the resource either way.  Every `and rN, r7, #0xff` is a callee's
  * u8 channel parameter, not a cast in the source.
  *
@@ -1380,14 +1380,14 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
         if ((int)BG_SYS_GetBuf((u8)channel) != 0) {
             BG_SYS_DecodeTileSource((u8)channel, pal->data, size, a2);
             if (flag != 0)
-                func_02041B6C(channel);
+                BG_SYS_SetFlagField06(channel);
             else
                 BG_SYS_PushTile(channel);
         } else {
             BG_SYS_PushTileSource((u8)channel, pal->data, size, a2);
         }
     }
-    return func_020307B0(file);
+    return GFL_HEAP_Free(file);
 }
 
 /*
@@ -1536,7 +1536,7 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
             break;
         }
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }
 
 /*
@@ -1551,7 +1551,7 @@ void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedCharacterDataEx(res, (void **)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1563,7 +1563,7 @@ void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedCharacterDataEx(res, (void **)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1575,7 +1575,7 @@ void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedCharacterData(res, (void **)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1587,7 +1587,7 @@ void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedCharacterData(res, (void **)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1599,7 +1599,7 @@ void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedScreenData(res, (void **)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1611,7 +1611,7 @@ void *ARC_UTIL_LoadPaletteDataFromHandle(void *a0, u32 a1, u32 a2, void **out, u
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedScreenData(res, out)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1623,7 +1623,7 @@ void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u16 a3)
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, 0, a3);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedPaletteData(res, (void **)a2)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1635,7 +1635,7 @@ void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u16 a3)
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, 0, a3);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedPaletteData(res, (void **)a2)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1647,7 +1647,7 @@ void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1659,7 +1659,7 @@ void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1671,7 +1671,7 @@ void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedAnimBankEx(res, a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1686,7 +1686,7 @@ void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedAnimBankEx(res, a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1698,7 +1698,7 @@ void *ARC_UTIL_LoadAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1710,7 +1710,7 @@ void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1722,7 +1722,7 @@ void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 
     void *res = (void *)ARC_UTIL_LoadMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNSi_G2dGetUnpackedAnimBank(res, a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }
@@ -1734,7 +1734,7 @@ void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16
     void *res = ARC_UTIL_LoadHandleMember(a0, a1, a2, a4);
     if (res != 0) {
         if (!NNSi_G2dGetUnpackedAnimBank(res, a3)) {
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
             return 0;
         }
     }

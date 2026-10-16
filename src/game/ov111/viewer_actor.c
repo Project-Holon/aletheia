@@ -22,10 +22,10 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   G3D_SYSTEM_Init  0x02046440  arm
- *   func_02048BC4  0x02048BC4  arm
- *   func_02048C58  0x02048C58  arm
+ *   G3D_LIGHT_CreateSlots  0x02048BC4  arm
+ *   G3D_LIGHT_ApplySlots  0x02048C58  arm
  *   G3D_SYSTEM_SetProjection  0x02046858  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   d_021C8810  0x021C8810  data
  *   d_021C896C  0x021C896C  data
  *   FX_SinCosTable_  0x020A1B38  data
@@ -45,7 +45,7 @@
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   G3D_UTIL_Delete  0x02047E54  arm
  *   MTX_Identity33_  0x0207ADC4  arm
- *   func_02048AD0  0x02048AD0  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_02047828  0x02047828  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   func_02047964  0x02047964  arm
@@ -110,7 +110,7 @@
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   func_02048A0C  0x02048A0C  arm
  *   func_02047250  0x02047250  arm
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   d_021C8874  0x021C8874  data
  */
 #include "viewer_types.h"
@@ -213,10 +213,10 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
-extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
-extern void func_02048C58(struct LightSlot *slots);
+extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
+extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void func_02048C4C(void *p);
 extern void G3D_SYSTEM_Exit(void);
 extern void *G3D_UTIL_Create(int a, int b, int heap);
@@ -229,7 +229,7 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
 extern void MTX_Identity33_(MtxFx33 *m);
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 extern void func_02047964(void);
@@ -287,7 +287,7 @@ extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
 extern u32 func_02048A0C(u8 *a0, int i);
 extern ViewerTexInfo *func_02047250(void *p);
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p);
 void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p);
 void VIEWER_ACTOR_Init3D(ViewerTextWork *p);
@@ -390,14 +390,14 @@ void VIEWER_ACTOR_Init3D(ViewerTextWork *p)
     void *light;
 
     G3D_SYSTEM_Init(0, 1, 0, 1, 0x1000, 0x27, 0);
-    light = func_02048BC4((const struct LightSet *)(&d_021C8810), 0x27);
+    light = G3D_LIGHT_CreateSlots((const struct LightSet *)(&d_021C8810), 0x27);
     p->lightSlot = light;
-    func_02048C58(light);
+    G3D_LIGHT_ApplySlots(light);
     cam = d_021C896C;
     cam.word[1] = FX_SinCosTable_[0x16C];
     cam.word[2] = FX_SinCosTable_[0x16D];
     G3D_SYSTEM_SetProjection((const u32 *)(&cam));
-    func_02040588(0, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
     *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~(0x2000 | 0x1000)) | 0x8);
 }
 
@@ -469,7 +469,7 @@ void VIEWER_ACTOR_DrawModel(ViewerTextWork *p)
     t.trans.y = 0;
     t.trans.z = 0;
     MTX_Identity33_(&t.rot);
-    func_02048AD0(p->camera);
+    G3D_CAMERA_Reset(p->camera);
     mdl = (void *)func_02048A18(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
     func_02047828(mdl, 0, &out);
@@ -1176,7 +1176,7 @@ void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k)
     dst = p->res170[k]->data;
     tex = func_02047250((void *)func_02048A0C(p->g3dUtil, 0));
     e = TexGetPltt(tex, idx);
-    func_02061CA4((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
 }
 
 

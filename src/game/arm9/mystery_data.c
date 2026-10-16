@@ -15,24 +15,26 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   SAVE_OUTSIDE_Prepare    0x021DFDC0  thumb
  *   SAVE_OUTSIDE_WriteAsync    0x021DFE00  thumb
  *   sMysteryDataFile      0x020A71A4  data
  *   SAVE_CONTROL_HasFlashSave   0x020071EC  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   SAVE_OUTSIDE_Load  0x021DFC20  thumb  ov228
  *   SAVE_OUTSIDE_IsLoaded  0x021DFE90  thumb  ov228
  *   SAVE_OUTSIDE_GetPayload  0x021DFEAC  thumb  ov228
  *   ov_id_E4       0x000000E4  data
  *   SAVE_OUTSIDE_Free  0x021DFDB8  thumb  ov228
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   GF_STANDARD_Checksum  0x0203F2FC  arm
  *   GF_STANDARD_Shuffle  0x0203F328  arm
  *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "wifilist_tail_shared_types.h"
 
@@ -79,7 +81,7 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u8   SAVE_CONTROL_HasFlashSave(const struct SaveControl *save);
 
@@ -99,13 +101,13 @@ extern int  SAVE_OUTSIDE_WriteAsync(void *extraSave);
 
 extern int  GAME_DATA_SaveMain(struct GameData *gameData);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32  func_020307B0(void *p);
+extern u32  GFL_HEAP_Free(void *p);
 
-extern int  func_02034AC4(int overlayId);
+extern int  GF_OVERLAY_Load(int overlayId);
 
-extern void func_02034A5C(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 
 extern void *SAVE_OUTSIDE_Load(u32 heapId);
 
@@ -469,7 +471,7 @@ int MYSTERY_DATA_SaveMain(struct MysteryData *data, struct GameData *gameData)
 
 struct MysteryData *MYSTERY_DATA_Create(struct SaveControl *save, int mode, u32 heapId)
 {
-    struct MysteryData *data = func_02030734(heapId, sizeof(struct MysteryData), 0, sMysteryDataFile, 0x260);
+    struct MysteryData *data = GFL_HEAP_Alloc(heapId, sizeof(struct MysteryData), 0, sMysteryDataFile, 0x260);
 
     MI_CpuFill8(data, 0, sizeof(struct MysteryData));
     MYSTERY_DATA_Load(data, save, mode, heapId);
@@ -479,7 +481,7 @@ struct MysteryData *MYSTERY_DATA_Create(struct SaveControl *save, int mode, u32 
 void MYSTERY_DATA_Delete(struct MysteryData *data)
 {
     MYSTERY_DATA_Unload(data);
-    func_020307B0(data);
+    GFL_HEAP_Free(data);
 }
 
 /*
@@ -550,11 +552,11 @@ void MYSTERY_DATA_Load(struct MysteryData *data, struct SaveControl *save, int m
         break;
     }
     if (inMainSave != 0) {
-        data->buffer = func_020071CC(save, 0x22);
+        data->buffer = SAVE_CONTROL_GetBlock(save, 0x22);
         data->saveType = 1;
         return;
     }
-    func_02034AC4((int)ov_id_E4);
+    GF_OVERLAY_Load((int)ov_id_E4);
     work = SAVE_OUTSIDE_Load(heapId);
     data->extraSave = work;
     data->buffer = SAVE_OUTSIDE_GetPayload(work);
@@ -567,7 +569,7 @@ void MYSTERY_DATA_Load(struct MysteryData *data, struct SaveControl *save, int m
 
 /*
  * note:     wave 16: promoted.  0x021DFDB8 is an unlabelled ov228 leaf, a
- *           one-argument tail call to the ARM heap free func_020307B0, now
+ *           one-argument tail call to the ARM heap free GFL_HEAP_Free, now
  *           matched in src/matched/SAVE_OUTSIDE_Free.c (shard ov228/pkt_021DFC20);
  *           the ov228 hint below makes the site `matched, overlay`.
  * Third pass, lane 1: this row was DIFF for two passes and is now byte-correct.
@@ -578,7 +580,7 @@ void MYSTERY_DATA_Load(struct MysteryData *data, struct SaveControl *save, int m
  *   ...
  *   0200A3F8  e4 00 00 00  0x000000E4
  *
- * a small constant loaded from the pool where `func_02034A5C(0xe4)` gives
+ * a small constant loaded from the pool where `GF_OVERLAY_Unload(0xe4)` gives
  * `movs r0, #0xe4`.  That is the reading of
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md: a pool
  * word holding a value too small to be an address is an `R_ARM_ABS32` against
@@ -599,7 +601,7 @@ void MYSTERY_DATA_Unload(struct MysteryData *data)
     switch (data->saveType) {
     case 0:
         SAVE_OUTSIDE_Free(data->extraSave);
-        func_02034A5C((int)ov_id_E4);
+        GF_OVERLAY_Unload((int)ov_id_E4);
         break;
     case 1:
         break;

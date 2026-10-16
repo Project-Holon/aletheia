@@ -19,7 +19,7 @@
  *   FIELD_EFFECT_GetObjectMode  0x021AC1A0  thumb  ov021
  *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
  *   sFldeffNamipokeFileName  0x021DE080  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   FIELD_G3DOBJ_InitResDesc  0x021C6AE0  thumb  ov021
@@ -61,6 +61,7 @@
  *   sNamipokeSplashFuncs  0x021D9170  data
  *   sNamipokeSplashOffsets     0x021D91F8  data  a4
  *   FIELD_G3DOBJ_IncAnimeFrame  0x021C6694  thumb  ov021
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -217,8 +218,8 @@ extern void VEC_Fx16Normalize(s16 *in, s16 *out);
 extern s32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
 extern void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, MtxFx33 *dst);
 extern void BUTTON_MAN_MakeLookAtMtx(const VecFx32 *v, MtxFx33 *dst);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern FieldG3dObjSys *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *fieldEffect);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
@@ -286,7 +287,7 @@ NamipokeRes *FLDEFF_NAMIPOKE_Create(FieldEffectSys *fieldEffect, int heapId)
 {
     NamipokeRes *res;
 
-    res = func_02030734(heapId, 0xc, 1, sFldeffNamipokeFileName, 0xac);
+    res = GFL_HEAP_Alloc(heapId, 0xc, 1, sFldeffNamipokeFileName, 0xac);
     res->fieldEffect = fieldEffect;
     FLDEFF_NAMIPOKE_LoadResources(res);
     return res;
@@ -300,7 +301,7 @@ NamipokeRes *FLDEFF_NAMIPOKE_Create(FieldEffectSys *fieldEffect, int heapId)
 void FLDEFF_NAMIPOKE_Delete(FieldEffectSys *fieldEffect, NamipokeRes *res)
 {
     FLDEFF_NAMIPOKE_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 /* Loads the wave model, and the wake model with its two animations. */
@@ -717,7 +718,7 @@ NamipokeSplashRes *FLDEFF_NAMIPOKE_SPLASH_Create(FieldEffectSys *fieldEffect, in
 {
     NamipokeSplashRes *res;
 
-    res = func_02030734(heapId, 0x10, 1, sFldeffNamipokeFileName, 0x3cf);
+    res = GFL_HEAP_Alloc(heapId, 0x10, 1, sFldeffNamipokeFileName, 0x3cf);
     res->fieldEffect = fieldEffect;
     FLDEFF_NAMIPOKE_SPLASH_LoadResources(res);
     return res;
@@ -731,7 +732,7 @@ NamipokeSplashRes *FLDEFF_NAMIPOKE_SPLASH_Create(FieldEffectSys *fieldEffect, in
 void FLDEFF_NAMIPOKE_SPLASH_Delete(FieldEffectSys *fieldEffect, NamipokeSplashRes *res)
 {
     FLDEFF_NAMIPOKE_SPLASH_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 /*

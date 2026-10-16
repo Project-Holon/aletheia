@@ -43,23 +43,23 @@
  *   BEACON_GetFromSave 0x0200C0E8 thumb
  *   BEACON_GetGatePoints 0x0200C3B0 thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   GIMMICK_OBJ_ELBOARD_ReadGateInfo  0x021F4C10  thumb  ov048
  *   gGateSourceFileName     0x021F5224  data  ov048  a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   FLD_EXP_OBJ_SetAnimeEnabled 0x021BE700 thumb ov021
  *   gGateBoardAnimeTable 0x021F50D2 data a2
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
- *   func_020073D8  0x020073D8  thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
  *   func_0200ECD0  0x0200ECD0  thumb
  *   MISC_SAVEDATA_ExportRingRecord  0x0200ECF0  thumb
- *   func_020072A4  0x020072A4  thumb
+ *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
@@ -99,8 +99,8 @@ extern void BEACON_SetGatePoints(struct MiscSave *miscSave, u16 value);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u32 heapId);
-extern struct ExtraSaveRecord *func_020073D8(struct SaveControl *saveControl, u32 id, u32 value);
-extern void func_020072A4(struct SaveControl *saveControl, u32 id);
+extern struct ExtraSaveRecord *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 value);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
 extern u32 func_0200ECB4(struct ExtraSaveRecord *record);
 extern int func_0200ECD0(struct ExtraSaveRecord *record, int index);
 extern void MISC_SAVEDATA_ExportRingRecord(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
@@ -108,8 +108,8 @@ extern int MISC_SAVEDATA_FindFreeRecordSlot(void *saveBlock);
 extern void MISC_SAVEDATA_ExportRecord(void *saveBlock, int index, GateListEntry *entry);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *memory);
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void MI_CpuFill8(void *dst, int value, int size);
@@ -350,7 +350,7 @@ void FIELD_GIMMICK_GATE_LoadBoardRecord(GateWork *work)
         zoneId = FIELDMAP_GetZoneId(work->fieldMap);
         i = 0;
         /* 0x387: line of the allocation in the original source file */
-        work->record = func_02030734(work->heapId, sizeof(GateBoardRecord), 0, gGateSourceFileName, 0x387);
+        work->record = GFL_HEAP_Alloc(work->heapId, sizeof(GateBoardRecord), 0, gGateSourceFileName, 0x387);
         recordCount = ARC_TOOL_GetArchiveFileCount(GATE_BOARD_ARCHIVE_ID);
         for (; i < recordCount; i++) {
             GIMMICK_OBJ_ELBOARD_ReadGateInfo(&record, GATE_BOARD_ARCHIVE_ID, i);
@@ -368,7 +368,7 @@ void FIELD_GIMMICK_GATE_LoadBoardRecord(GateWork *work)
 void FIELD_GIMMICK_GATE_FreeBoardRecord(GateWork *work)
 {
     if (work->record) {
-        func_020307B0(work->record);
+        GFL_HEAP_Free(work->record);
         work->record = 0;
     }
 }
@@ -463,7 +463,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
     *count = 0;
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
     if (SAVE_CONTROL_LoadExtraSave(saveControl, GATE_EXTRA_SAVE_ID, work->heapId) - 1 <= 1) {
-        record = func_020073D8(saveControl, GATE_EXTRA_SAVE_ID, i);
+        record = SAVE_CONTROL_GetExtraSaveRecord(saveControl, GATE_EXTRA_SAVE_ID, i);
         if (func_0200ECB4(record) != 0) {
             *count = func_0200ECD0(record, i);
             for (; i < *count; i++) {
@@ -476,7 +476,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
             }
         }
     }
-    func_020072A4(saveControl, GATE_EXTRA_SAVE_ID);
+    SAVE_CONTROL_DeleteExtraSave(saveControl, GATE_EXTRA_SAVE_ID);
 }
 
 /* Reads the values of the save block list (count and one value per entry). */
@@ -507,7 +507,7 @@ void FIELD_GIMMICK_GATE_LoadNewsList(GateWork *work)
     if (work->newsList == 0) {
         count = ARC_TOOL_GetArchiveFileCount(GATE_NEWS_ARCHIVE_ID);
         /* 0x4cb: line of the allocation in the original source file */
-        work->newsList = func_02030734(work->heapId, count * sizeof(GateNewsEntry), 0, gGateSourceFileName, 0x4cb);
+        work->newsList = GFL_HEAP_Alloc(work->heapId, count * sizeof(GateNewsEntry), 0, gGateSourceFileName, 0x4cb);
         for (i = 0; i < count; i++) {
             GIMMICK_OBJ_ELBOARD_ReadGateEntry(&work->newsList[i], GATE_NEWS_ARCHIVE_ID, i);
         }
@@ -519,7 +519,7 @@ void FIELD_GIMMICK_GATE_LoadNewsList(GateWork *work)
 void FIELD_GIMMICK_GATE_FreeNewsList(GateWork *work)
 {
     if (work->newsList) {
-        func_020307B0(work->newsList);
+        GFL_HEAP_Free(work->newsList);
         work->newsList = 0;
         work->newsCount = 0;
     }

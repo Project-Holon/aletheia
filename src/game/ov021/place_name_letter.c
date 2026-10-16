@@ -14,8 +14,8 @@
  * Split from field_place_name.c at 0x021BD148 (lane SP3, __FILE__ anchors, certain cut).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   gPlaceNameLetterFileName     0x021DE368  data  a4
@@ -28,8 +28,8 @@
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   BMP_OAM_UploadChars  0x020257D0  thumb
  *   BMP_OAM_SetEnabled  0x02025774  thumb
- *   func_0201D304  0x0201D304  thumb
- *   func_0201D42C  0x0201D42C  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   GF_FONT_CountLines  0x0201D42C  thumb
  *   BMP_OAM_Create  0x020255A0  thumb  arm9
  *   BMP_OAM_Delete  0x0202570C  thumb  arm9
  *   BMP_OAM_SetPos  0x0202590C  thumb  arm9
@@ -67,8 +67,8 @@ typedef struct BmpOamParam {
 #define PLACE_NAME_LETTER_BMP_DEPTH 0x20
 #define PLACE_NAME_LETTER_PRINT_COLOR 0x440
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern void STRBUF_Delete(Strbuf *strbuf);
 extern void MI_CpuFill8(void *dst, int value, int size);
@@ -84,8 +84,8 @@ extern void PRINTSYS_PrintColor(Bmp *bmp, s16 x, s16 y, Strbuf *strbuf, GfFont *
 extern void BMP_OAM_UploadChars(BmpOam *bmpOam);
 extern void BMP_OAM_SetPos(BmpOam *bmpOam, int x, int y);
 extern void BMP_OAM_SetEnabled(BmpOam *bmpOam, unsigned int visible);
-extern u32 func_0201D304(Strbuf *strbuf, GfFont *font, u32 spacing);
-extern u32 func_0201D42C(Strbuf *strbuf, GfFont *font);
+extern u32 GF_FONT_MeasureWidestLine(Strbuf *strbuf, GfFont *font, u32 spacing);
+extern u32 GF_FONT_CountLines(Strbuf *strbuf, GfFont *font);
 PlaceNameLetter *PLACE_NAME_LETTER_Create(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId);
 void PLACE_NAME_LETTER_Delete(PlaceNameLetter *letter);
 void PLACE_NAME_LETTER_Setup(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
@@ -214,12 +214,12 @@ unsigned int PLACE_NAME_LETTER_IsActive(PlaceNameLetter *letter)
 
 PlaceNameLetter *PLACE_NAME_LETTER_AllocWork(u32 heapId)
 {
-    return func_02030734(heapId, 0x4C, 0, (const char *)&gPlaceNameLetterFileName, 0x170);
+    return GFL_HEAP_Alloc(heapId, 0x4C, 0, (const char *)&gPlaceNameLetterFileName, 0x170);
 }
 
 u32 PLACE_NAME_LETTER_FreeWork(PlaceNameLetter *letter)
 {
-    return func_020307B0(letter);
+    return GFL_HEAP_Free(letter);
 }
 
 void PLACE_NAME_LETTER_InitWork(PlaceNameLetter *letter)
@@ -521,7 +521,7 @@ void PLACE_NAME_LETTER_MeasureChar(GfFont *font, u16 ch, u32 heapId, u8 *width, 
     chars[1] = STRBUF_GetEosChar();
     strbuf = STRBUF_Create(2, heapId);
     STRBUF_SetStringN(strbuf, chars, 2);
-    *width = func_0201D304(strbuf, font, 0);
-    *height = func_0201D42C(strbuf, font);
+    *width = GF_FONT_MeasureWidestLine(strbuf, font, 0);
+    *height = GF_FONT_CountLines(strbuf, font);
     STRBUF_Delete(strbuf);
 }

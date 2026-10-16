@@ -13,7 +13,7 @@
  * Cut from mailtool.c, mailview.c, unit_021C5518.c, unit_021C5B40.c, mb_seq.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete  0x02045808  arm
  *   MAILVIEW_HideAllPlanes 0x021C4AF8 thumb ov136
@@ -29,11 +29,11 @@
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BG_SYS_Update 0x020419E4 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
- *   func_02030CB0 0x02030CB0 arm
- *   func_02030CBC 0x02030CBC arm
- *   func_02030DA8 0x02030DA8 arm
+ *   TCB_GetTaskOffset 0x02030CB0 arm
+ *   TCB_Init 0x02030CBC arm
+ *   TCB_AddTask 0x02030DA8 arm
  *   d_021C7EF8 0x021C7EF8 data a1
  *   MSGDATA_Delete 0x02045C04 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
@@ -63,7 +63,7 @@
 
 struct DispVram;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void PALANM_BlendChannel(struct PalAnmSlot *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
@@ -73,13 +73,13 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Update(void);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
-extern u32 func_02030CB0(u32 idx);
-extern void *func_02030CBC(u32 capacity, void *mem);
-extern void *func_02030DA8(void *taskList, void (*task)(void *, struct MailEditProc *), struct MailEditProc *work, int prio);
+extern u32 TCB_GetTaskOffset(u32 idx);
+extern void *TCB_Init(u32 capacity, void *mem);
+extern void *TCB_AddTask(void *taskList, void (*task)(void *, struct MailEditProc *), struct MailEditProc *work, int prio);
 extern unsigned int MSGDATA_Delete(struct MsgData *msgData);
 extern u32 APP_TASKMENU_RES_Delete(struct AppTaskMenuRes *res);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
@@ -157,7 +157,7 @@ int MAILVIEW_SetupStep(struct MailEditProc *proc)
 {
     switch (proc->subStep) {
     case 0:
-        proc->msgData = func_02045B38(0, 2, 60, (u16)proc->heapId);
+        proc->msgData = MSGDATA_CreateFromArchive(0, 2, 60, (u16)proc->heapId);
         proc->msgBuf = STRBUF_Create(128, (u16)proc->heapId);
         MAILVIEW_InitBgs(proc);
         break;
@@ -189,10 +189,10 @@ void MAILVIEW_StartCursorBlendTask(struct MailEditProc *proc)
     PALANM_TransferPalettes(proc->palAnm);
     proc->blinkWeight = 0;
     proc->blinkDown = 0;
-    mem = func_02030734((u16)proc->heapId, func_02030CB0(3), 0, d_021C7EF8, 0x4F3);
+    mem = GFL_HEAP_Alloc((u16)proc->heapId, TCB_GetTaskOffset(3), 0, d_021C7EF8, 0x4F3);
     proc->blinkTaskMem = mem;
-    proc->blinkTaskList = func_02030CBC(3, mem);
-    proc->blinkTask = func_02030DA8(proc->blinkTaskList, MAILVIEW_CursorBlendTask, proc, 0);
+    proc->blinkTaskList = TCB_Init(3, mem);
+    proc->blinkTask = TCB_AddTask(proc->blinkTaskList, MAILVIEW_CursorBlendTask, proc, 0);
 }
 
 int MAILVIEW_Teardown(struct MailEditProc *proc)

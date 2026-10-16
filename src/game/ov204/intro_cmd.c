@@ -46,7 +46,7 @@
  *   PM_VOICE_Start  0x02006A64  thumb
  *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
  *   INTRO_G3D_MoveSlot1  0x021BF864  thumb ov204
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   INTRO_PARTICLE_StartEffect 0x021BFCE8 thumb ov204
  *   INTRO_G3D_SetVisible 0x021BFAE4 thumb
  *   INTRO_G3D_SetAnimFrame 0x021BFBC8 thumb
@@ -56,10 +56,10 @@
  *   KEY_GetTrg 0x020362DC arm
  *   INTRO_G3D_UpdateAnimFrame 0x021BFBA0 thumb ov204
  *   BG_SYS_DrawTileSub 0x020411E8 arm
- *   func_02040588 0x02040588 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02008550 0x02008550 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -76,9 +76,9 @@
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_GetActorObjMode 0x0204B6E4 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   gIntroCmdSite 0x021C0AAC data a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gIntroCmdCommandTable 0x021C09D8 data a4
  *   gIntroScenarioTables 0x021C0AB8 data a4
  *   gIntroSite 0x021C0AE4 data a1
@@ -181,7 +181,7 @@ extern u32 PM_VOICE_IsSlotActive(u32 i);
 
 extern int INTRO_G3D_MoveSlot1(char *p, int delta, int limit);
 
-extern void func_0207D63C(volatile void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(volatile void *, int, int, int, int);
 
 extern void INTRO_PARTICLE_StartEffect(u32*,u32,u32,u32);
 
@@ -199,13 +199,13 @@ extern int INTRO_G3D_UpdateAnimFrame(int *p);
 
 extern void BG_SYS_DrawTileSub(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 
 extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern u8 func_02008550(const struct IntroGameState *obj);
 
@@ -237,9 +237,9 @@ extern u32 CLACT_GetActorObjMode(const struct Actor *actor);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet*,u32,void*);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 int INTRO_CMD_CmdFade(char *p,int *state,int *q);
 
@@ -630,7 +630,7 @@ int INTRO_CMD_CmdMoveVoice(u8 *p, u32 *q)
     return 0;
 }
 
-int INTRO_CMD_CmdParticle(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;func_0207D63C((void*)0x04000050,1,9,0,0);INTRO_PARTICLE_StartEffect(work->particle,q[0],q[1],0);return 1;}
+int INTRO_CMD_CmdParticle(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;G2x_SetBlendAlpha_((void*)0x04000050,1,9,0,0);INTRO_PARTICLE_StartEffect(work->particle,q[0],q[1],0);return 1;}
 
 int INTRO_CMD_CmdSetVisible(char *a, int b, int *p)
 {
@@ -713,33 +713,33 @@ int INTRO_CMD_CmdDrawTile(IntroCmdWork *p,u32 *q)
 {
     switch (*q) {
     case 0:
-        func_02040588(2,1);
+        BG_SYS_SetPlaneVisible(2,1);
         BG_SYS_DrawTileSub(2,0,8,64,2,(u32)p->data,0,8,64,32);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 1:
         BG_SYS_DrawTileSub(2,0,7,64,1,(u32)p+0xA8,0,7,64,32);
         BG_SYS_DrawTileSub(2,0,10,64,1,(u32)p->data,0,10,64,32);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 2:
         BG_SYS_DrawTileSub(2,0,6,64,1,(u32)p+0xA8,0,6,64,32);
         BG_SYS_DrawTileSub(2,0,11,64,1,(u32)p->data,0,11,64,32);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 3:
         BG_SYS_DrawTileSub(2,0,5,64,1,(u32)p+0xA8,0,5,64,32);
         BG_SYS_DrawTileSub(2,0,12,64,1,(u32)p->data,0,12,64,32);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 4:
         BG_SYS_DrawTileSub(2,0,4,64,1,(u32)p+0xA8,0,4,64,32);
         BG_SYS_DrawTileSub(2,0,13,64,1,(u32)p->data,0,13,64,32);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         *q=0;
         return 1;
     }
@@ -755,29 +755,29 @@ int INTRO_CMD_CmdSetTile(void *p,u32 *q)
     case 0:
         BG_SYS_SetTileEntry(2,0,0,7,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,16,64,1,0);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 1:
         BG_SYS_SetTileEntry(2,0,0,8,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,15,64,1,0);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 2:
         BG_SYS_SetTileEntry(2,0,0,6,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,14,64,1,0);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 3:
         BG_SYS_SetTileEntry(2,0,0,5,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,13,64,1,0);
-        func_02041B6C(2);
+        BG_SYS_SetFlagField06(2);
         (*q)++;
         break;
     case 4:
-        func_02040588(2,0);
+        BG_SYS_SetPlaneVisible(2,0);
         *q=0;
         return 1;
     }
@@ -791,7 +791,7 @@ int INTRO_CMD_CreateActors(char *p)
     void *arc;
     u32 i;
     char *row;
-    arc=func_020490F4(170,work->heapId);
+    arc=ARC_TOOL_CreateHandle(170,work->heapId);
     if(func_02008550(((IntroArgs *)work->args)->gameState)==0){
         work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,6,0,0,work->heapId);
         work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,7,0,0,work->heapId);
@@ -841,7 +841,7 @@ int INTRO_CMD_CmdActorFadeIn(char *p, unsigned *state, unsigned *q)
     unsigned i;
     switch (*state) {
     case 0:
-        func_0207D63C((volatile void *)0x04000050, 0, 12, 0, 16);
+        G2x_SetBlendAlpha_((volatile void *)0x04000050, 0, 12, 0, 16);
         CLACT_SetActorObjMode(work->actor[q[0]], 1);
         CLACT_SetActorDrawEnable(work->actor[q[0]], 1);
         ++*state;
@@ -870,7 +870,7 @@ int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
     unsigned i;
     switch (*state) {
     case 0:
-        func_0207D63C((volatile void *)0x04000050, 0, 12, 16, 0);
+        G2x_SetBlendAlpha_((volatile void *)0x04000050, 0, 12, 16, 0);
         for (i = 0; i < 3; i++)
             CLACT_SetActorObjMode(work->actor[i], 1);
         ++*state;
@@ -896,7 +896,7 @@ void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;st
 
 char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
 {
-    IntroCmdWork *work = func_02030734(heap, 0x10d8, 1, gIntroCmdSite, 0x6f2);
+    IntroCmdWork *work = GFL_HEAP_Alloc(heap, 0x10d8, 1, gIntroCmdSite, 0x6f2);
     work->heapId = heap;
     work->args = d;
     work->mcss = (void *)c;
@@ -908,7 +908,7 @@ char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, uns
     return (char *)work;
 }
 
-void INTRO_CMD_Delete(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_MSG_Delete(work->msg);func_020307B0(work);}
+void INTRO_CMD_Delete(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_MSG_Delete(work->msg);GFL_HEAP_Free(work);}
 
 extern int (*const gIntroCmdCommandTable[])(void *, void *, void *);
 

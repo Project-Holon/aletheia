@@ -1,7 +1,7 @@
 /*
  * file:     os_cache.c
  * unit:     yes
- * function: DC_FlushAll, func_020862B8, func_020862D4, DWCi_ScreenDC_FlushRange, func_02086314, func_02086320, func_0208632C
+ * function: DC_FlushAll, DC_InvalidateRange, DC_StoreRange, DWCi_ScreenDC_FlushRange, func_02086314, func_02086320, func_0208632C
  * address:  0x02086284
  * region:   arm9
  * compiler: dsi/1.1p1

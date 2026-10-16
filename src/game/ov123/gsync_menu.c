@@ -22,7 +22,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   TIME_ICON_Delete 0x0202F038 thumb
@@ -37,18 +37,18 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   func_0201D304  0x0201D304  thumb
- *   func_0201D42C  0x0201D42C  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   GF_FONT_CountLines  0x0201D42C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BUTTON_MAN_Delete  0x02051C6C  arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   d_021DA638 0x021DA638 data a1
  *   d_021DA634 0x021DA634 data a1
  *   d_021DA63C 0x021DA63C data a1
@@ -57,13 +57,13 @@
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
- *   func_020490F4 0x020490F4 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049F78 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02049740 0x02049740 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   func_02049990 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
@@ -97,8 +97,8 @@
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   PALANM_GetTransWork 0x02021730 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0207E5D0 0x0207E5D0 arm
- *   func_0207E468 0x0207E468 arm
+ *   GXS_LoadOBJPltt 0x0207E5D0 arm
+ *   GXS_LoadBGPltt 0x0207E468 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
@@ -130,9 +130,9 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   TCBL_Create 0x0203101C arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020355D8 0x020355D8 arm
  *   d_021DA9F0 0x021DA9F0 data a4
@@ -147,18 +147,18 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   STRBUF_Clear 0x0204581C arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIH_DWC_PollStatus  0x0201058C  thumb  arm9
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb  arm9
@@ -203,7 +203,7 @@ extern void BG_SYS_PushTile(u32);
 
 extern void BG_SYS_SetVisibleLayer(int, u16);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_Init(u32, u32, u32, u32);
 
@@ -245,7 +245,7 @@ extern void BMP_WIN_ClearScreen(void *d);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 
 extern void *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -255,9 +255,9 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
-extern u32 func_0201D42C(struct StrObj *s, void *font);
+extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
 
 extern void PRINTSYS_Print(void *x, short y, short z, void *s, void *w);
 
@@ -267,7 +267,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern void BUTTON_MAN_Delete(void *p);
 
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 
 extern struct ClActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
@@ -279,9 +279,9 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 
@@ -289,9 +289,9 @@ extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
@@ -349,9 +349,9 @@ extern int PALANM_GetTransWork(char *p, int i);
 
 extern void DWCi_ScreenDC_FlushRange(void *, int);
 
-extern void func_0207E5D0(void *, int, int);
+extern void GXS_LoadOBJPltt(void *, int, int);
 
-extern void func_0207E468(void *, int, int);
+extern void GXS_LoadBGPltt(void *, int, int);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
@@ -421,9 +421,9 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *func_020056A0(void *,void *,int);
+extern void *GFL_USE_AddMainTask(void *,void *,int);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
@@ -433,7 +433,7 @@ extern void *PRINTSYS_QUE_Create(u32 heapId);
 
 extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, void *printQue, u16 heap);
 
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 
@@ -465,7 +465,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
@@ -485,7 +485,7 @@ extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
@@ -569,24 +569,24 @@ void GSYNC_MENU_InitBgLayers(GsyncMenuWork *work)
     BG_SYS_FreeSlot(0);
     BG_SYS_PushTile(0);
     BG_SYS_SetVisibleLayer(0, 0);
-    func_02040588(0, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
     bgTemplates[3] = d_021DA6B0;
     BG_SYS_InitBgLayer(4, &bgTemplates[3], 0);
-    func_02040588(4, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
     BG_SYS_PushTile(4);
     bgTemplates[2] = d_021DA6D0;
     BG_SYS_InitBgLayer(5, &bgTemplates[2], 0);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 32, 32, 17);
     BG_SYS_PushTile(5);
-    func_02040588(5, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
     bgTemplates[1] = d_021DA6F0;
     BG_SYS_InitBgLayer(6, &bgTemplates[1], 0);
-    func_02040588(6, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_PushTile(6);
     bgTemplates[0] = d_021DA710;
     BG_SYS_InitBgLayer(7, &bgTemplates[0], 0);
-    func_02040588(7, 1);
+    BG_SYS_SetPlaneVisible(7, 1);
     BG_SYS_PushTile(7);
 }
 
@@ -719,7 +719,7 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *w
         }
         work->buttonWins[buttonIndex] = 0;
     }
-    func_02049B40(0x17, 5, 4, 0x100, 0x20, work->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x100, 0x20, work->heapId);
     for (defIndex = 0; defIndex < count; defIndex++) {
         ButtonWinDef *def = &defs[defIndex];
         work->buttonWins[defIndex] = BMP_WIN_Create(7, (u8)def->x, (u8)def->y, (u8)def->width, (u8)def->height, 8, 0);
@@ -727,11 +727,11 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *w
         func_02045CAC(work->msgBank, messageIds[defIndex], work->msgBuf);
         GF_FONT_SetTextColor(0xF, 2, 0);
         if (centerX != 0)
-            textX = centerX[defIndex] - func_0201D304(work->msgBuf, (u32)work->font, 0) / 2;
+            textX = centerX[defIndex] - GF_FONT_MeasureWidestLine(work->msgBuf, (u32)work->font, 0) / 2;
         else
             textX = 0;
         if (centerY != 0)
-            textY = centerY[defIndex] - func_0201D42C(work->msgBuf, work->font) / 2;
+            textY = centerY[defIndex] - GF_FONT_CountLines(work->msgBuf, work->font) / 2;
         else
             textY = 0;
         PRINTSYS_Print(BMP_WIN_GetBmp(work->buttonWins[defIndex]), (short)textX, (short)textY, work->msgBuf, work->font);
@@ -753,7 +753,7 @@ void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work)
     for (buttonIndex = 0; buttonIndex < 4; buttonIndex++) {
         if (work->buttonWins[buttonIndex]) {
             BMP_WIN_ClearScreen(work->buttonWins[buttonIndex]);
-            func_02041B6C(5);
+            BG_SYS_SetFlagField06(5);
             BMP_MENUWORK_DrawWindowBorder(work->buttonWins[buttonIndex], 2);
             BMP_WIN_Delete(work->buttonWins[buttonIndex]);
         }
@@ -811,23 +811,23 @@ void GSYNC_MENU_LoadResources(GsyncMenuWork *work)
     GsyncPaletteData *paletteData;
     work->msgBuf = STRBUF_Create(300, work->heapId);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
-    work->msgBank = func_02045B38(0, 2, 39, work->heapId);
-    work->msgBankSub = func_02045B38(0, 2, 232, work->heapId);
-    arc = func_020490F4(29, work->heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 39, work->heapId);
+    work->msgBankSub = MSGDATA_CreateFromArchive(0, 2, 232, work->heapId);
+    arc = ARC_TOOL_CreateHandle(29, work->heapId);
     func_02049B68(arc, 1, 4, 0, 0, work->heapId);
     func_02049B68(arc, 0, 0, 0, 0, work->heapId);
     paletteBlock = func_02049F78(arc, 1, (u32)(&paletteData), work->heapId);
     MI_CpuCopy8(paletteData->rawData, work->palette, 0xe0);
     MI_CpuCopy8(paletteData->rawData, work->paletteDim, 0xe0);
     GSYNC_MENU_AddPaletteEntries(work->paletteDim, (const u16 *)d_021DA9D0, 7);
-    func_020307B0(paletteBlock);
-    work->charBase = func_02049740(arc, 4, 4, 0, 0, work->heapId);
+    GFL_HEAP_Free(paletteBlock);
+    work->charBase = ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 4, 0, 0, work->heapId);
     func_02049990(arc, 9, 4, 0, (u16)(work->charBase), 0, 0, work->heapId);
     func_02049990(arc, 14, 6, 0, (u16)(work->charBase), 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     work->bgFrame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heapId);
-    func_02049B40(23, 5, 4, 0x1a0, 32, work->heapId);
-    arc = func_020490F4(29, work->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 0x1a0, 32, work->heapId);
+    arc = ARC_TOOL_CreateHandle(29, work->heapId);
     work->charHandle = CLACT_RegisterCharacter(arc, 5, 0, 1, work->heapId);
     work->palHandle = CLACT_RegisterPaletteEx(arc, 3, 1, 0, 0, 10, work->heapId);
     work->cellHandle = CLACT_RegisterCellAnim(arc, 7, 16, work->heapId);
@@ -977,8 +977,8 @@ void GSYNC_MENU_FadePaletteSlot(GsyncMenuWork *work, int palSlot, int rowCount)
     transBuf = (void *)PALANM_GetTransWork(palAnm, palSlot);
     DWCi_ScreenDC_FlushRange(transBuf, byteSize);
     switch (palSlot) {
-    case 3: func_0207E5D0(transBuf, 0, byteSize); break;
-    case 1: func_0207E468(transBuf, 0, byteSize); break;
+    case 3: GXS_LoadOBJPltt(transBuf, 0, byteSize); break;
+    case 1: GXS_LoadBGPltt(transBuf, 0, byteSize); break;
     }
     PALANM_FreeSlotBuffers(palAnm, palSlot);
     PALANM_Delete(palAnm);
@@ -993,8 +993,8 @@ void GSYNC_MENU_SetPaletteFade(GsyncMenuWork *work, int enable)
         GSYNC_MENU_FadePaletteSlot(work, 3, 14);
         GSYNC_MENU_FadePaletteSlot(work, 1, 9);
     } else {
-        func_0207E5D0(work->palBufMain, 0, 0x1c0);
-        func_0207E468(work->palBufSub, 0, 0x120);
+        GXS_LoadOBJPltt(work->palBufMain, 0, 0x1c0);
+        GXS_LoadBGPltt(work->palBufSub, 0, 0x120);
     }
 }
 
@@ -1030,7 +1030,7 @@ void GSYNC_MENU_HideMessage(GsyncMenuWork *work)
     }
     BMP_MENUWORK_DrawWindowBorder(work->msgWin, 2);
     BMP_WIN_ClearScreen(work->msgWin);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
 }
 
 void GSYNC_MENU_DeleteMessageWindow(GsyncMenuWork *work)
@@ -1085,7 +1085,7 @@ void GSYNC_MENU_PrintMessage(GsyncMenuWork *work, int lineCount, int stream)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bgFrame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
 }
 
 void GSYNC_MENU_PrintMessageNoStream(GsyncMenuWork *work)
@@ -1198,16 +1198,16 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct Cfg *)d_021DA658, (u32)d_021DA9F0, work->heapId);
     work->clactUnit = CLACT_CreateUnit(40, 0, work->heapId);
-    work->vblankTcb = func_020056A0(GSYNC_MENU_VBlank, work, 0);
+    work->vblankTcb = GFL_USE_AddMainTask(GSYNC_MENU_VBlank, work, 0);
     GSYNC_MENU_InitBgLayers(work);
     GSYNC_MENU_LoadResources(work);
-    work->palBufMain = func_02030734(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);
-    work->palBufSub = func_02030734(work->heapId, 0x200, 0, d_021DAA20, 0x5a7);
+    work->palBufMain = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);
+    work->palBufSub = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a7);
     work->tcbl = TCBL_Create(work->heapId, work->heapId, 3, 0);
     work->keyCursor = APP_KEYCURSOR_CreateDefault(15, 0, 1, work->heapId);
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heapId);
-    func_0207D63C((void *)0x04001050, 4, 1, 15, 4);
+    G2x_SetBlendAlpha_((void *)0x04001050, 4, 1, 15, 4);
     color = 0;
     if (param->fadeFromWhite) color = 0x7fff;
     WIPE_SYS_Start(0, 1, 1, (u16)color, 6, 1, work->heapId);
@@ -1262,7 +1262,7 @@ int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWor
     CLACT_ReleasePalette(work->palHandle);
     CLACT_ReleaseCharacter(work->charHandle);
     CLACT_ReleaseCellAnim(work->cellHandle);
-    func_02030EAC(work->vblankTcb);
+    TCB_DeleteTask(work->vblankTcb);
     CLACT_DeleteUnit(work->clactUnit);
     CLACT_ExitSystem();
     if (work->timeIcon) {
@@ -1276,8 +1276,8 @@ int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWor
     }
     GSYNC_MENU_FreeResources(work);
     param->result = work->exitMode;
-    func_020307B0(work->palBufMain);
-    func_020307B0(work->palBufSub);
+    GFL_HEAP_Free(work->palBufMain);
+    GFL_HEAP_Free(work->palBufSub);
     APP_KEYCURSOR_Delete(work->keyCursor);
     BG_SYS_FreeLayerBuf(5);
     PRINTSYS_QUE_Clear(work->printQue);
@@ -1287,7 +1287,7 @@ int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWor
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
     BMP_WIN_Exit();
     BG_SYS_Delete();
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(31);
     return 1;
 }

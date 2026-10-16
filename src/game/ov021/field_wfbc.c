@@ -15,10 +15,10 @@
  * Split from field_wfbc.c at 0x021938AC (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_02030734  0x02030734  arm  arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  *   sFieldWfbcFileName     0x021DDA60  data   ov021  a1
  *   FLDMMDL_SysSetDrawEnable  0x0216D974  thumb  ov010
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   LAND_DATA_PATCH_Create  0x021C939C  thumb  ov021
  *   LAND_DATA_PATCH_OverwriteAttr  0x021C93E4  thumb  ov021
  *   LAND_DATA_PATCH_AddBuildModels  0x021C9450  thumb  ov021
@@ -38,7 +38,7 @@
  *   FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag  0x02186764  thumb
  *   FIELD_WFBC_DATA_LOCAL_HasArrivalFlag  0x02186770  thumb
  *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
@@ -75,8 +75,8 @@ typedef unsigned long long u64;
 
 #include "field_wfbc_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void FLDMMDL_SysSetDrawEnable(struct MmdlSys *mmdlSys, int flag);
 extern struct LandDataPatch *LAND_DATA_PATCH_Create(u32 blockId, u32 heapId);
 extern void LAND_DATA_PATCH_OverwriteAttr(struct LandDataPatch *patch, void *attrBuf, u32 srcX, u32 srcZ, u32 dstX, u32 dstZ, u32 sizeX, u32 sizeZ);
@@ -96,7 +96,7 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 bufIndex, struc
 extern void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(WfbcPerson *person);
 extern int FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(WfbcPerson *person);
 extern struct WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int type, int heapId);
-extern struct ArcHandle *func_020490F4(unsigned int arcId, unsigned int heapId);
+extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
 extern u8 *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct WfbcNpcData *npcData, int cityType, int heapId);
 extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(u8 *posTable);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
@@ -159,7 +159,7 @@ extern int sBlockTableMemberIds[];
 
 FieldWfbc *FIELD_WFBC_Create(u32 heapId)
 {
-    FieldWfbc *wfbc = func_02030734(heapId, sizeof(FieldWfbc), 1, sFieldWfbcFileName, 0x12A);
+    FieldWfbc *wfbc = GFL_HEAP_Alloc(heapId, sizeof(FieldWfbc), 1, sFieldWfbcFileName, 0x12A);
     FIELD_WFBC_Clear(wfbc);
     return wfbc;
 }
@@ -170,7 +170,7 @@ u32 FIELD_WFBC_Delete(FieldWfbc *wfbc)
     if (wfbc->mmdlSys != 0) {
         FLDMMDL_SysSetDrawEnable(wfbc->mmdlSys, 1);
     }
-    return func_020307B0(wfbc);
+    return GFL_HEAP_Free(wfbc);
 }
 
 int FIELD_WFBC_GetPeopleNum(FieldWfbc *wfbc)
@@ -248,7 +248,7 @@ void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *e
     heapId = (heapId & 0x7FFF) | 0x8000;
     entries = ARC_TOOL_LoadHandleMember(wfbc->arcHandle, sConnectListMemberIds[wfbc->cityType], (u16)heapId);
     entryNum >>= 3;
-    placedConnects = func_02030734((u16)heapId, entryNum * 4, 1, sFieldWfbcFileName, 0x208);
+    placedConnects = GFL_HEAP_Alloc((u16)heapId, entryNum * 4, 1, sFieldWfbcFileName, 0x208);
     placedNum = 0;
     for (i = 0; i < entryNum; i++) {
         cur = &entries[i];
@@ -270,8 +270,8 @@ void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *e
             }
         }
     }
-    func_020307B0(placedConnects);
-    func_020307B0(entries);
+    GFL_HEAP_Free(placedConnects);
+    GFL_HEAP_Free(entries);
 }
 
 void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, int camera, int heapId)
@@ -279,7 +279,7 @@ void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, int camera, int heapId)
     u16 *values;
     values = ARC_UTIL_LoadHandleMember(wfbc->arcHandle, 0x24, 0, (u16)((heapId & 0x7fff) | 0x8000));
     FIELD_CAMERA_SetSetting((u32 *)camera, values[FIELD_WFBC_GetPeopleNum(wfbc)]);
-    func_020307B0(values);
+    GFL_HEAP_Free(values);
 }
 
 void FIELD_WFBC_SetMmdlSys(FieldWfbc *wfbc, struct MmdlSys *mmdlSys)
@@ -322,7 +322,7 @@ void FIELD_WFBC_SetWordSetParentName(FieldWfbc *wfbc, struct WordSet *wordSet, i
     func_020084D4(myStatus, people->person.parentName);
     func_0200852C(myStatus, people->person.parentId);
     WORDSET_SetSlotMyStatus(wordSet, bufIndex, myStatus);
-    func_020307B0(myStatus);
+    GFL_HEAP_Free(myStatus);
 }
 
 void FIELD_WFBC_ClearPeopleArrivalFlag(FieldWfbc *wfbc, u32 npcId)
@@ -354,12 +354,12 @@ void FIELD_WFBC_LoadResources(FieldWfbc *wfbc, int heapId)
     if (wfbc->npcData == 0) {
         i = 0;
         wfbc->npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, heapId);
-        wfbc->people = func_02030734(heapId, 10 * sizeof(FieldWfbcPeople), 1, sFieldWfbcFileName, 0x39e);
+        wfbc->people = GFL_HEAP_Alloc(heapId, 10 * sizeof(FieldWfbcPeople), 1, sFieldWfbcFileName, 0x39e);
         for (i = 0; i < 10; i++) {
             FIELD_WFBC_PEOPLE_Clear(&wfbc->people[i]);
         }
-        wfbc->arcHandle = func_020490F4(0x9a, heapId);
-        wfbc->blockTable = func_02030734(heapId, sizeof(FieldWfbcBlockTable), 1, sFieldWfbcFileName, 0x3ab);
+        wfbc->arcHandle = ARC_TOOL_CreateHandle(0x9a, heapId);
+        wfbc->blockTable = GFL_HEAP_Alloc(heapId, sizeof(FieldWfbcBlockTable), 1, sFieldWfbcFileName, 0x3ab);
         wfbc->mmdlPosTable = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(wfbc->npcData, wfbc->cityType, heapId);
     }
 }
@@ -368,10 +368,10 @@ void FIELD_WFBC_FreeResources(FieldWfbc *wfbc)
 {
     if (wfbc->npcData != 0) {
         FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(wfbc->mmdlPosTable);
-        func_020307B0(wfbc->blockTable);
+        GFL_HEAP_Free(wfbc->blockTable);
         ARC_TOOL_DeleteHandle(wfbc->arcHandle);
         FIELD_WFBC_DATA_LOCAL_CloseNpcData(wfbc->npcData);
-        func_020307B0(wfbc->people);
+        GFL_HEAP_Free(wfbc->people);
         wfbc->npcData = 0;
         wfbc->people = 0;
         wfbc->arcHandle = 0;

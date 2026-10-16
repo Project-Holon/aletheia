@@ -11,7 +11,7 @@ struct DupFittingWork {
     unsigned short heapId;        /* 0x0000 heap the work object was allocated from */
     unsigned char  pad_2[2];
     void          *parent;        /* 0x0004 owning screen object */
-    void          *task;          /* 0x0008 func_020056A0 task handle */
+    void          *task;          /* 0x0008 GFL_USE_AddMainTask task handle */
     int            state;         /* 0x000C screen state */
     int            progress;      /* 0x0010 panel slide progress 0..192 */
     int            touchTrg;      /* 0x0014 TOUCHPANEL_GetTrg edge */

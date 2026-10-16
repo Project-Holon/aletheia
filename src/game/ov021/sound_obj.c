@@ -14,12 +14,12 @@
  * Split from fldeff_splash.c at 0x021C4D14 (lane FXC, CL129: allocations with the sound_obj.c file string at 021C4D14 and 021C4D7C).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   func_0202B57C  0x0202B57C  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   ISS_3DS_SYS_IsSourceActive  0x0202B928  thumb
  *   ISS_3DS_SYS_StartSource  0x0202B920  thumb
  *   gSoundObjFileName     0x021DE48C  data  a4
@@ -118,8 +118,8 @@ typedef struct BbActRec {
     u32 count;
 } BbActRec;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
@@ -157,7 +157,7 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
     SoundObj *obj;
 
     iss3dsSys = (void *)func_0202B57C((void *)GAMESYSTEM_GetIssSystem((u32 *)FIELDMAP_GetGameSystem((void *)fieldMap)));
-    obj = func_02030734(heapId, 0x18, 0, gSoundObjFileName, 0x3c);
+    obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x3c);
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;
     obj->iss3dsSys = iss3dsSys;
@@ -174,7 +174,7 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
 SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, SoundObjTarget *target)
 {
     u32 heapId = FIELDMAP_GetHeapId((u8 *)fieldMap);
-    SoundObj *obj = func_02030734(heapId, 0x18, 0, gSoundObjFileName, 0x61);
+    SoundObj *obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x61);
 
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;
@@ -189,7 +189,7 @@ int SOUND_OBJ_Delete(SoundObj *obj)
     if (obj->anime != 0) {
         ICA_ANIME_Delete((struct IcaAnime *)obj->anime);
     }
-    return func_020307B0(obj);
+    return GFL_HEAP_Free(obj);
 }
 
 /* Restarts the animation with a new stream. */

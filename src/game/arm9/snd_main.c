@@ -20,7 +20,7 @@
  *   sSndMutex                    0x02151454  data
  *   OS_LockMutex    0x02086028  arm
  *   s_data_02151454  0x02151454  data
- *   func_02086078    0x02086078  arm
+ *   OS_UnlockMutex    0x02086078  arm
  */
 typedef int BOOL;
 
@@ -30,7 +30,7 @@ extern void OS_InitMutex(OSMutex *mutex);
 extern void SND_CommandInit(void);
 extern void SND_AlarmInit(void);
 extern void OS_LockMutex(void *arg);
-extern void func_02086078(void *arg);
+extern void OS_UnlockMutex(void *arg);
 void SND_Init(void);
 void SNDi_LockMutex(void);
 void SNDi_UnlockMutex(void);
@@ -62,5 +62,5 @@ void SNDi_LockMutex(void)
 
 void SNDi_UnlockMutex(void)
 {
-    func_02086078(&sSndMutex);
+    OS_UnlockMutex(&sSndMutex);
 }

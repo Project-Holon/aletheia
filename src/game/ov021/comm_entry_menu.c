@@ -19,13 +19,13 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   MYSTATUS_Copy  0x02008494  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
@@ -46,7 +46,7 @@
  *   COMM_ENTRY_SendAccept  0x021CF378  thumb  ov021
  *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  *   COMM_ENTRY_IsOtherMemberConnected  0x021CF12C  thumb  ov021
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_StartByNetType  0x0203D01C  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
@@ -57,7 +57,7 @@
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
- *   func_02080D24  0x02080D24  arm
+ *   MATH_CountPopulation  0x02080D24  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_BeaconScanStart  0x0203D010  arm
@@ -466,13 +466,13 @@ extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 slot, u32 number, u32 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *format);
 extern int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
 extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData);
-extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 msgId);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 msgId);
 extern void MYSTATUS_Copy(const void *myStatus, void *dst);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void GFL_NET_SetLoginOption(u8 a0);
@@ -493,11 +493,11 @@ extern int GFL_NET_GetNegotiationNum(void);
 extern void GFL_NET_NotifyUserEvent(GFLNetHandle *handle, void *arg);
 extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 extern u32 GFL_NET_IsConnectMember(u32 netId);
-extern u32 func_02080D24(int bits);
+extern u32 MATH_CountPopulation(int bits);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
 extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_BeaconScanStart(void);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *ws, u32 slot, const void *myStatus);
 extern int GFL_NET_Exit(int a0);
@@ -630,17 +630,17 @@ CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap
     GFLNetInitializeStruct *netInit;
 
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
-    menu = func_02030734(heapId, sizeof(CommEntryMenu), 1, d_021DE5E8, 0x179);
+    menu = GFL_HEAP_Alloc(heapId, sizeof(CommEntryMenu), 1, d_021DE5E8, 0x179);
     menu->wordSet = WORDSET_CreateDefault(heapId);
     menu->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x1e);
     menu->sysWin = FIELD_MSGBG_CreateBottomSysWin(msgBg, menu->msgData);
     menu->msgStr = STRBUF_Create(0x64, heapId);
-    menu->nameFormat = func_02045EC0(menu->msgData, 7);
+    menu->nameFormat = MSGDATA_AllocString(menu->msgData, 7);
     menu->nameStr = STRBUF_Create(0x40, heapId);
     if (isChild == 1) {
-        menu->remainingFormat = func_02045EC0(menu->msgData, 3);
+        menu->remainingFormat = MSGDATA_AllocString(menu->msgData, 3);
     } else {
-        menu->remainingFormat = func_02045EC0(menu->msgData, 2);
+        menu->remainingFormat = MSGDATA_AllocString(menu->msgData, 2);
     }
     menu->remainingStr = STRBUF_Create(0x20, heapId);
     menu->minMembers = minMembers;
@@ -687,7 +687,7 @@ u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu)
     if (GFL_NET_GetRunState() == 1) {
         COMM_ENTRY_EndNetCommands();
     }
-    func_020307B0(menu);
+    GFL_HEAP_Free(menu);
     return acceptedMask;
 }
 
@@ -869,7 +869,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
             }
         }
         if (menu->readyMask == repliedMask) {
-            if (func_02080D24(menu->readyBits) < menu->minMembers) {
+            if (MATH_CountPopulation(menu->readyBits) < menu->minMembers) {
                 menu->state = RECRUIT_SEND_ABORT;
             } else {
                 menu->state = RECRUIT_SEND_START;
@@ -887,7 +887,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
         if (COMM_ENTRY_SendAccept(menu->netMode) == 1) {
             menu->result = COMM_ENTRY_RESULT_START;
             menu->state = RECRUIT_WAIT_START_SYNC;
-            menu->readyCount = func_02080D24(menu->readyBits);
+            menu->readyCount = MATH_CountPopulation(menu->readyBits);
             GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         }
         break;
@@ -947,7 +947,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
         return 1;
     }
 
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         menu->result = COMM_ENTRY_RESULT_NET_ERROR;
         return 1;
     }
@@ -1088,7 +1088,7 @@ int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
         COMM_ENTRY_MENU_CloseWindows(menu);
         return 1;
     }
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         COMM_ENTRY_ResetLeaveConfirm(menu);
         COMM_ENTRY_MENU_EndYesNo(menu);
         menu->result = COMM_ENTRY_RESULT_NET_ERROR;
@@ -1184,7 +1184,7 @@ int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu)
         COMM_ENTRY_MENU_CloseWindows(menu);
         return 1;
     }
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         COMM_ENTRY_ResetLeaveConfirm(menu);
         menu->result = COMM_ENTRY_RESULT_NET_ERROR;
         return 1;
@@ -1306,7 +1306,7 @@ int COMM_ENTRY_MENU_MainMode3(CommEntryMenu *menu)
         COMM_ENTRY_MENU_CloseWindows(menu);
         return 1;
     }
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         COMM_ENTRY_ResetLeaveConfirm(menu);
         menu->result = COMM_ENTRY_RESULT_NET_ERROR;
         return 1;
@@ -1831,7 +1831,7 @@ void COMM_ENTRY_MENU_PrintMessage(CommEntryMenu *menu, u32 msgId)
     if (msgId == COMM_ENTRY_MSG_WAIT_FOR_MEMBERS && menu->lastMessageId == COMM_ENTRY_MSG_WAIT_FOR_MEMBERS)
         return;
     menu->lastMessageId = msgId;
-    format = func_02045EC0(menu->msgData, msgId);
+    format = MSGDATA_AllocString(menu->msgData, msgId);
     WORDSET_CopyTaggedText(menu->wordSet, menu->msgStr, format);
     STRBUF_Delete(format);
     FIELD_MSGBG_ClearSysWin(menu->sysWin);

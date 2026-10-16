@@ -59,9 +59,9 @@
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   SND_SetWaveDataAddress  0x0208A640  arm
  *   SND_GetWaveDataAddress  0x0208A674  arm
- *   func_02030734       0x02030734  arm
+ *   GFL_HEAP_Alloc       0x02030734  arm
  *   NNS_SndWaveOutIsPlaying       0x02072CC4  arm
- *   func_020307B0       0x020307B0  arm
+ *   GFL_HEAP_Free       0x020307B0  arm
  *   NNS_SndWaveOutAllocChannel  0x02072A44  arm
  *   NNS_SndWaveOutStart  0x02072AA0  arm
  *   NNS_SndArcGetFileSize  0x0207457C  arm
@@ -332,8 +332,8 @@ extern int   GFL_USE_GetSndStackDepth(void);
 extern int   GFL_USE_PopSndSlot(void);
 
 /* Calls into the voice channel layer and the other data readers. */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern void  func_020307B0(void *block);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void  GFL_HEAP_Free(void *block);
 extern int   NNS_SndWaveOutIsPlaying(struct SndChannel *channel);
 extern struct SndChannel *NNS_SndWaveOutAllocChannel(u32 channelNo);
 extern int   NNS_SndWaveOutStart(struct SndChannel *channel, u32 format, void *data,
@@ -525,7 +525,7 @@ void PM_VOICE_AllocBuffers(int extraVoices, u32 heapId)
     for (i = 1; i < extraVoices + 1; i++) {
         voice = &_VoiceSystem.voices[i];
         if (voice->buffer == 0) {
-            void *block = func_02030734(heapId, PM_VOICE_BUFFER_SIZE, 1, _PmVoiceFile, 0x105);
+            void *block = GFL_HEAP_Alloc(heapId, PM_VOICE_BUFFER_SIZE, 1, _PmVoiceFile, 0x105);
 
             voice->buffer = block;
             voice->data = block;
@@ -546,7 +546,7 @@ void PM_VOICE_FreeBuffers(void)
     for (i = 0; i < _VoiceSystem.count; i++) {
         voice = &_VoiceSystem.voices[i];
         if (voice->buffer != 0 && voice->ownsBuffer == 1) {
-            func_020307B0(voice->buffer);
+            GFL_HEAP_Free(voice->buffer);
             PM_VOICE_ClearSlot(voice);
         }
     }
@@ -1022,9 +1022,9 @@ void SND_MIC_Init(u16 heapId)
     struct SndMic *mic;
     void *sampleBuffer;
 
-    mic = func_02030734(heapId, 0x28, 0, _SndMicFile, 0x59);
+    mic = GFL_HEAP_Alloc(heapId, 0x28, 0, _SndMicFile, 0x59);
     MI_CpuFill8(mic, 0, 0x28);
-    sampleBuffer = func_02030734(heapId, 0x2014, 0, _SndMicFile, 0x5f);
+    sampleBuffer = GFL_HEAP_Alloc(heapId, 0x2014, 0, _SndMicFile, 0x5f);
     MI_CpuFill8(sampleBuffer, 0, 0x2014);
     mic->sampleBuffer = sampleBuffer;
     PM_SetAmp(1);
@@ -1049,8 +1049,8 @@ void SND_MIC_Init(u16 heapId)
 void SND_MIC_Exit(void)
 {
     PM_SetAmp(0);
-    func_020307B0(_SndMic->sampleBuffer);
-    func_020307B0(_SndMic);
+    GFL_HEAP_Free(_SndMic->sampleBuffer);
+    GFL_HEAP_Free(_SndMic);
 }
 
 /* Add `ticks` to the recorded time while recording and below the limit. */

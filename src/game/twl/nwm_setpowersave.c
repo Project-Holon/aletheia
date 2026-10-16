@@ -16,6 +16,7 @@
  *   NWMi_SetCallbackTable  0x02703A34  arm
  *   NWMi_SendCommand  0x02703A74  arm
  *   NWMi_CheckState  0x027028E4  arm
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -28,7 +29,7 @@ typedef struct TwlWork {
 
 extern u32 NWMi_CheckState(u32, u32, u32);
 extern TwlWork *NWMi_GetSystemWork(void);
-extern void func_020862B8(u8 *, u32);
+extern void DC_InvalidateRange(u8 *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32);
 
@@ -43,7 +44,7 @@ u32 NWM_SetPowerSaveMode(u32 a0, u32 a1) {
     }
     w = NWMi_GetSystemWork();
     if (w != 0) {
-        func_020862B8(w->busy + 14, 1);
+        DC_InvalidateRange(w->busy + 14, 1);
         busy = (w->busy[14] == 1);
     } else {
         busy = 0;

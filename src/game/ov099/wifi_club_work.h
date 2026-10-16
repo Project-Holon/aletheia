@@ -282,7 +282,7 @@ typedef struct WifiClubPanelScreen {
 typedef struct WifiClubMenuPending { BmpWin *win; u8 pending; u8 pad05[3]; } WifiClubMenuPending;
 
 typedef struct WifiClubWork {
-    /* 0x000 */ void *updateTask;            /* task running WIFICLUB_VBlankTask, deleted with func_02030EAC */
+    /* 0x000 */ void *updateTask;            /* task running WIFICLUB_VBlankTask, deleted with TCB_DeleteTask */
     /* 0x004 */ void *friendList;            /* func_02009864(list, idx, field): 8 trainer id, 9 sex, 2..7 stats */
     /* 0x008 */ WifiClubPlayerStatus *localStatus;
     u8 pad0C[4];

@@ -18,20 +18,20 @@
  *   sPalAnmTimer  0x02146788  data
  *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv    0x0209C00C  arm
- *   func_02030734      0x02030734  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
  *   MI_CpuFill8        0x02082BCC  arm
  *   sPalAnmFileName 0x020A73BC  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sPalAnmFileName 0x020A73BC  data
  *   MIi_CpuCopy16  0x02082A60  arm
  *   func_02049F34  0x02049F34  arm
  *   func_02049F78  0x02049F78  arm
- *   func_02030EAC   0x02030EAC  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  *   DWCi_ScreenDC_FlushRange   0x020862F0  arm
  *   GX_LoadBGPltt   0x0207E3D0  arm
- *   func_0207E468   0x0207E468  arm
+ *   GXS_LoadBGPltt   0x0207E468  arm
  *   GX_LoadOBJPltt   0x0207E51C  arm
- *   func_0207E5D0   0x0207E5D0  arm
+ *   GXS_LoadOBJPltt   0x0207E5D0  arm
  *   func_0207F308   0x0207F308  arm
  *   func_0207F394   0x0207F394  arm
  *   func_0207F428   0x0207F428  arm
@@ -45,6 +45,7 @@
  *   func_0207F6C0   0x0207F6C0  arm
  *   func_0207F754   0x0207F754  arm
  *   GAME_DATA_CheckPlayTime  0x02012FBC  thumb
+ *   TCB_AddTask  0x02030DA8  arm
  *   0  0x05000000  main BG
  *   1  0x05000400  sub BG
  *   2  0x05000200  main OBJ
@@ -83,9 +84,9 @@ struct PalAnmRes {
 
 extern u64 OS_GetTick(void);
 extern u32 GAME_DATA_CheckPlayTime(u8 *target, u32 elapsedUnits);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 allocTag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 allocTag);
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
@@ -155,17 +156,17 @@ struct Rgb555 {
     u16 pad : 1;
 };
 
-extern u32 func_02030EAC(struct Node *n);
+extern u32 TCB_DeleteTask(struct Node *n);
 
 extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
 
 extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 
-extern void func_0207E468(void *a, u32 b, u32 c);
+extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
 
 extern void GX_LoadOBJPltt(void *a, u32 b, u32 c);
 
-extern void func_0207E5D0(void *a, u32 b, u32 c);
+extern void GXS_LoadOBJPltt(void *a, u32 b, u32 c);
 
 extern void func_0207F308(void);
 
@@ -385,19 +386,19 @@ void PALANM_UpdateTimer(u8 *target)
  */
 void *PALANM_Create(u32 heapId)
 {
-    void *ctx = func_02030734((u16)heapId, 0x120, 0, sPalAnmFileName, 88);
+    void *ctx = GFL_HEAP_Alloc((u16)heapId, 0x120, 0, sPalAnmFileName, 88);
     MI_CpuFill8(ctx, 0, 0x120);
     return ctx;
 }
 
 /*
- * Unlabelled Thumb leaf: a bare tail call to func_020307B0 with no arguments
+ * Unlabelled Thumb leaf: a bare tail call to GFL_HEAP_Free with no arguments
  * (`ldr r3,[pc,#0]; bx r3`; the pool word names 0x020307B0).  Disasm.py gave
  * it no func_ label because it has no prologue.
  */
 u32 PALANM_Delete(void *ctx)
 {
-    return func_020307B0(ctx);
+    return GFL_HEAP_Free(ctx);
 }
 
 /*
@@ -434,8 +435,8 @@ void PALANM_SetSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, void *rawBu
  */
 void PALANM_AllocSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapId)
 {
-    void *rawBuf = func_02030734(heapId, size, 0, sPalAnmFileName, 142);
-    void *workBuf = func_02030734(heapId, size, 0, sPalAnmFileName, 143);
+    void *rawBuf = GFL_HEAP_Alloc(heapId, size, 0, sPalAnmFileName, 142);
+    void *workBuf = GFL_HEAP_Alloc(heapId, size, 0, sPalAnmFileName, 143);
     PALANM_SetSlotBuffers((struct PalAnmSlot *)palSlots, slotIdx, rawBuf, workBuf, size);
 }
 
@@ -453,8 +454,8 @@ void PALANM_AllocSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size,
  */
 void PALANM_FreeSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx)
 {
-    func_020307B0(palSlots[slotIdx].rawBuf);
-    func_020307B0(palSlots[slotIdx].workBuf);
+    GFL_HEAP_Free(palSlots[slotIdx].rawBuf);
+    GFL_HEAP_Free(palSlots[slotIdx].workBuf);
 }
 
 /*
@@ -509,7 +510,7 @@ void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 f
         byteSize = res->byteSize;
     }
     PALANM_CopyToSlot((struct PalAnmSlot *)palSlots, res->data + srcOffset, slotIdx, dstOffset, (u16)byteSize);
-    func_020307B0(block);
+    GFL_HEAP_Free(block);
 }
 
 /*
@@ -561,7 +562,7 @@ void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHand
         byteSize = res->byteSize;
     }
     PALANM_CopyToSlot((struct PalAnmSlot *)palSlots, res->data + srcOffset, slotIdx, dstOffset, (u16)byteSize);
-    func_020307B0(block);
+    GFL_HEAP_Free(block);
 }
 
 /*
@@ -657,7 +658,7 @@ int PALANM_GetTransWork(char *p, int i)
  * once (PALANM_ApplyFade, 0x10 for channels 0..3, 0x100 for 4..0xD) and
  * restore `col`. If any channel started, OR the mask into requestBits and, when the tick
  * is not registered yet (b_x), set b_x, requestFlag = 1, clear the latch and
- * register PALANM_FadeTask with func_02030DA8 at priority -2. Returns 1 when
+ * register PALANM_FadeTask with TCB_AddTask at priority -2. Returns 1 when
  * a channel started.
  *
  * Written fresh in wave 20 (lane palanm_fresh). The 33-byte residue of
@@ -698,7 +699,7 @@ int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, 
             p->taskActive = 1;
             p->requestFlag = 1;
             p->forceStop = 0;
-            func_02030DA8(ctx, (void (*)(void *, PaletteFade *))PALANM_FadeTask, p, -2);
+            TCB_AddTask(ctx, (void (*)(void *, PaletteFade *))PALANM_FadeTask, p, -2);
         }
     }
     return ret;
@@ -713,7 +714,7 @@ int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, 
  * once (PALANM_ApplyFade, 0x10 for channels 0..3, 0x100 for 4..0xD) and
  * restore `col`. If any channel started, store the mask to requestBits and, when the tick
  * is not registered yet (b_x), set b_x, requestFlag = 1, clear the latch and
- * register PALANM_FadeTask with func_02030DA8 at priority -2. Returns 1 when
+ * register PALANM_FadeTask with TCB_AddTask at priority -2. Returns 1 when
  * a channel started.
  *
  * Written fresh in wave 20 (lane palanm_fresh). The 33-byte residue of
@@ -754,7 +755,7 @@ int PALANM_RequestFadeOverwrite(PaletteFade *p, u16 mask, u16 col, s16 step, u8 
             p->taskActive = 1;
             p->requestFlag = 1;
             p->forceStop = 0;
-            func_02030DA8(ctx, (void (*)(void *, PaletteFade *))PALANM_FadeTask, p, -2);
+            TCB_AddTask(ctx, (void (*)(void *, PaletteFade *))PALANM_FadeTask, p, -2);
         }
     }
     return ret;
@@ -897,7 +898,7 @@ void PALANM_FadeTask(void *a, PaletteFade *p)
         p->transBits = 0;
         p->requestBits = 0;
         p->taskActive = 0;
-        func_02030EAC(a);
+        TCB_DeleteTask(a);
         return;
     }
 
@@ -910,7 +911,7 @@ void PALANM_FadeTask(void *a, PaletteFade *p)
     PALANM_StepObjFades(p);
     if (p->requestBits == 0) {
         p->taskActive = 0;
-        func_02030EAC(a);
+        TCB_DeleteTask(a);
     }
 }
 
@@ -1129,13 +1130,13 @@ void PALANM_TransferPalettes(PaletteFade *p)
             GX_LoadBGPltt(c->transWork, 0, c->size);
             break;
         case 1:
-            func_0207E468(c->transWork, 0, c->size);
+            GXS_LoadBGPltt(c->transWork, 0, c->size);
             break;
         case 2:
             GX_LoadOBJPltt(c->transWork, 0, c->size);
             break;
         case 3:
-            func_0207E5D0(c->transWork, 0, c->size);
+            GXS_LoadOBJPltt(c->transWork, 0, c->size);
             break;
         case 4:
             func_0207F308();

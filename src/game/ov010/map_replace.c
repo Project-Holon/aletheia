@@ -19,9 +19,9 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   d_021728BC  0x021728BC  data
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
@@ -99,9 +99,9 @@ typedef struct WarpDataEntry {
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void ZONEDATA_SetEventFlag(char *, int);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void ARC_TOOL_DeleteHandle(void *arc);
@@ -126,9 +126,9 @@ extern const u16 d_02170FF0[][10];
 
 MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem)
 {
-    MapReplace *replace = func_02030734(heapId, sizeof(MapReplace), 1, d_021728BC, 0x77);
+    MapReplace *replace = GFL_HEAP_Alloc(heapId, sizeof(MapReplace), 1, d_021728BC, 0x77);
     replace->heapId = heapId;
-    replace->arc = func_020490F4(10, heapId);
+    replace->arc = ARC_TOOL_CreateHandle(10, heapId);
     replace->recordCount = (u16)ARC_TOOL_GetHandleMemberSize(replace->arc, 0) / sizeof(MapReplaceRecord);
     MAP_REPLACE_SetupFlags(replace->variant, gameSystem);
     return replace;
@@ -152,7 +152,7 @@ u32 MAP_REPLACE_LoadRecord(MapReplace *replace, int index)
 int MAP_REPLACE_Delete(MapReplace *replace)
 {
     ARC_TOOL_DeleteHandle(replace->arc);
-    return func_020307B0(replace);
+    return GFL_HEAP_Free(replace);
 }
 
 

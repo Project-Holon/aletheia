@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -22,19 +22,19 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_021BA4F8 0x021BA4F8 data a4
  *   d_021BA428 0x021BA428 data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   TH_AWARD_GRAPHIC_GetValue 0x021BA310 thumb ov220
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021BA3FC 0x021BA3FC data a4
  *   d_021BA458 0x021BA458 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -71,10 +71,10 @@ struct ThAwardGraphic {
     u32 bgState;           /* +0x00 zeroed by SetupBg and CleanupBg, never read */
     struct ClactCtx clact; /* +0x04 CLACT context */
     u32 pad8;              /* +0x08 never read; record is 16 bytes (Create alloc size) */
-    struct Node *proc;     /* +0x0C task proc from func_020056A0 */
+    struct Node *proc;     /* +0x0C task proc from GFL_USE_AddMainTask */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
@@ -83,17 +83,17 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void *func_020056A0(void *,void *,int);
-extern void func_02030EAC(struct Node *);
+extern void *GFL_USE_AddMainTask(void *,void *,int);
+extern void TCB_DeleteTask(struct Node *);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 TH_AWARD_GRAPHIC_GetValue(u32*);
 extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
-extern void func_02040588(unsigned char, unsigned char);
+extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -129,7 +129,7 @@ extern struct DispConfig d_021BA3FC;
 void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
 {
     unsigned char *p;
-    p=func_02030734(heap,16,0,d_021BA4F8,0x1CA);
+    p=GFL_HEAP_Alloc(heap,16,0,d_021BA4F8,0x1CA);
     MI_CpuFill8(p,0,16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
@@ -144,14 +144,14 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
     GF_FONT_InitTextColor();
     TH_AWARD_GRAPHIC_SetupBg(p,heap);
     TH_AWARD_GRAPHIC_SetupClact(p+4,(int)&d_021BA428,heap);
-    ((struct ThAwardGraphic *)p)->proc=func_020056A0((void *)TH_AWARD_GRAPHIC_Task,p,0);
+    ((struct ThAwardGraphic *)p)->proc=GFL_USE_AddMainTask((void *)TH_AWARD_GRAPHIC_Task,p,0);
     return p;
 }
 
 
 void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
 {
-    func_02030EAC(((struct ThAwardGraphic *)p)->proc);
+    TCB_DeleteTask(((struct ThAwardGraphic *)p)->proc);
     TH_AWARD_GRAPHIC_DeleteClact((char *)p+4);
     TH_AWARD_GRAPHIC_CleanupBg(p);
     GF_FONT_SetDefaultTextColor();
@@ -160,7 +160,7 @@ void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
     MI_CpuFill8(p,0,16);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -196,7 +196,7 @@ void TH_AWARD_GRAPHIC_SetupBg(void *p, unsigned heap)
         layer = row[0];
         BG_SYS_InitBgLayer((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
         BG_SYS_FreeSlot(layer);
-        func_02040588(layer, row[10]);
+        BG_SYS_SetPlaneVisible(layer, row[10]);
     }
 }
 

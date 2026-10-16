@@ -42,7 +42,7 @@
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb
  *   FIELD_PLAYER_GetDirDisp 0x021A3050 thumb ov021
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E4  0x020124E4  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
@@ -116,7 +116,7 @@ extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *fieldPlayer);
-extern struct GameEvent *func_020122C0(void *owner, void *work, void *run, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *work, void *run, u32 size);
 extern void *func_020124E4(struct GameEvent *event);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *fieldPlayer);
 extern int FLDMMDL_CheckEndAcmd(void *mmdl);
@@ -347,11 +347,11 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
     if (workOrDoor < 7) {
         if (exactCell != 0) {
             if (doorOpen == 1)
-                func_020122C0((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor, 0);
+                GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor, 0);
             else
-                func_020122C0((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor, 0);
+                GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor, 0);
         } else {
-            func_020122C0((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide, 0);
+            GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide, 0);
         }
     } else {
         return 0;
@@ -446,7 +446,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
                     *state = *state + 1;
             }
         } else {
-            GAME_EVENT_ChangeEvent((struct GameEvent *)event, (u32 *)func_020122C0(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, 0));
+            GAME_EVENT_ChangeEvent((struct GameEvent *)event, (u32 *)GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, 0));
             return 0;
         }
         break;
@@ -702,7 +702,7 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(void *gameSystem, int switchIdx
     FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((char *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     if (switchIdx >= 8) return 0;
     runtime->switchIdx = switchIdx;
-    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch, 0);
 }
 
 
@@ -714,7 +714,7 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *gameSystem, int plateIdx)
     FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((char *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     if (plateIdx >= 10) return 0;
     runtime->plateIdx = plateIdx;
-    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressPlate, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressPlate, 0);
 }
 
 
@@ -725,7 +725,7 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(void *gameSystem, int variant
 {
     FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((char *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     runtime->scriptVariant = variant;
-    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventScripted, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventScripted, 0);
 }
 
 

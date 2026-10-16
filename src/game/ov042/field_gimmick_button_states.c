@@ -37,7 +37,7 @@
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot  0x021F3980  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
@@ -127,7 +127,7 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (stateModel >= FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT)
         return 0;
-    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
     if (event != 0) {
         work->stateModel = stateModel;
         work->showLastFrame = showLastFrame;
@@ -150,7 +150,7 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSyst
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (oneShotIndex > FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_COUNT)
         return 0;
-    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
     work->oneShotIndex = oneShotIndex;
     return event;
 }

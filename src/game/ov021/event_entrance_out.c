@@ -15,7 +15,7 @@
  *
  * symbols:
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   gEntranceOutEventTable     0x021D9BC8  data  ov021  a4
@@ -41,7 +41,7 @@ typedef unsigned char u8;
 struct BgmInfo;
 
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EntranceOutEventFunc func, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EntranceOutEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 extern struct BgmInfo *GAME_DATA_GetBgmInfo(const GameData *gameData);
@@ -99,7 +99,7 @@ GameEvent *EVENT_ENTRANCE_OUT_Create(EntranceParam *param)
         eventKind = ENTRANCE_EVENT_CAMERA;
         break;
     }
-    event = func_020122C0(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceOutWork));
+    event = GAME_EVENT_Create(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceOutWork));
     ((EntranceOutWork *)func_020124E8(event))->param = param;
     return event;
 }

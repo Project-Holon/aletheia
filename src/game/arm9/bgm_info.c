@@ -14,16 +14,16 @@
  * Split from bgm_info.c at 0x02006E40 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_02030734       0x02030734  arm
- *   func_020307B0       0x020307B0  arm
+ *   GFL_HEAP_Alloc       0x02030734  arm
+ *   GFL_HEAP_Free       0x020307B0  arm
  *   bgm_info_File  0x020A7048  data
  *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct BgmInfoTable {
     u8   count;
@@ -81,7 +81,7 @@ extern const char bgm_info_File[];
  */
 struct BgmInfoTable *BGM_INFO_Create(u32 heapId)
 {
-    struct BgmInfoTable *table = func_02030734(
+    struct BgmInfoTable *table = GFL_HEAP_Alloc(
         heapId, sizeof(struct BgmInfoTable), 0, bgm_info_File, 0x47);
 
     BGM_INFO_Load(table, heapId);
@@ -90,9 +90,9 @@ struct BgmInfoTable *BGM_INFO_Create(u32 heapId)
 
 void BGM_INFO_Free(struct BgmInfoTable *table)
 {
-    func_020307B0(table->bgmId);
-    func_020307B0(table->issMode);
-    func_020307B0(table);
+    GFL_HEAP_Free(table->bgmId);
+    GFL_HEAP_Free(table->issMode);
+    GFL_HEAP_Free(table);
 }
 
 u8 BGM_INFO_GetIssMode(const struct BgmInfoTable *table, u16 bgmId)
@@ -115,9 +115,9 @@ void BGM_INFO_Load(struct BgmInfoTable *table, u32 heapId)
     offset = 0;
     ARC_TOOL_ReadMemberRange(table, 0x57, 0, offset, (u32 *)1);
     offset++;
-    table->bgmId = func_02030734(heapId, table->count * 2, 0, bgm_info_File,
+    table->bgmId = GFL_HEAP_Alloc(heapId, table->count * 2, 0, bgm_info_File,
                                0xAF);
-    table->issMode = func_02030734(heapId, table->count, 0, bgm_info_File, 0xB0);
+    table->issMode = GFL_HEAP_Alloc(heapId, table->count, 0, bgm_info_File, 0xB0);
     for (i = 0; i < table->count; i++) {
         ARC_TOOL_ReadMemberRange(&table->bgmId[i], 0x57, 0, offset, (u32 *)2);
         ARC_TOOL_ReadMemberRange(&table->issMode[i], 0x57, 0, offset + 2, (u32 *)1);

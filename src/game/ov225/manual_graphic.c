@@ -19,7 +19,7 @@
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MANUAL_COMMON_CreateData 0x021B9D18 thumb ov225
  *   MANUAL_COMMON_CreateDialog 0x021BB2B4 thumb ov225
  *   MANUAL_COMMON_DeleteDialog 0x021BB308 thumb ov225
@@ -27,8 +27,8 @@
  *   MANUAL_CATEGORY_DeleteDetailList 0x021BBA14 thumb ov225
  *   MANUAL_CATEGORY_DeleteOption 0x021BBAE8 thumb ov225
  *   MANUAL_COMMON_DeleteData 0x021B9DEC thumb ov225
- *   func_02030EAC 0x02030EAC arm
- *   func_020315D4 0x020315D4 arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_IsActive 0x0204E804 arm
  *   MANUAL_COMMON_UpdateDialog 0x021BB31C thumb ov225
@@ -47,7 +47,7 @@
  *   MANUAL_CATEGORY_UpdateOption 0x021BBB0C thumb ov225
  *   MANUAL_CATEGORY_CreateDetailList 0x021BB854 thumb ov225
  *   MANUAL_COMMON_DrawData 0x021B9E60 thumb ov225
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -57,14 +57,14 @@
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   file 0x021BBFE0 data ov225 a1
  *   vram 0x021BBE1C data ov225
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   config 0x021BBDF0 data ov225
  *   gManualGraphicMainBgLayerTable 0x021BBE4C data ov225
  *   d_021BBE4C 0x021BBE4C data a4
@@ -141,7 +141,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *MANUAL_COMMON_CreateData(void *,u16);
 extern void BG_SYS_SetVisibleLayer(int,u16);
-extern void *func_020056A0(void (*)(void *,char *),void *,u32);
+extern void *GFL_USE_AddMainTask(void (*)(void *,char *),void *,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern char *MANUAL_COMMON_CreateDialog(char *,char *);
@@ -150,8 +150,8 @@ extern void MANUAL_CATEGORY_DeleteList(char *p);
 extern void MANUAL_CATEGORY_DeleteDetailList(char *p);
 extern void MANUAL_CATEGORY_DeleteOption(char *p);
 extern void MANUAL_COMMON_DeleteData(char *p);
-extern void func_02030EAC(struct Node *n);
-extern void func_020315D4(struct Proc *p);
+extern void TCB_DeleteTask(struct Node *n);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern int MANUAL_COMMON_UpdateDialog(char *);
@@ -170,7 +170,7 @@ extern char *MANUAL_CATEGORY_CreateOption(char *,char *);
 extern int MANUAL_CATEGORY_UpdateOption(char *);
 extern struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct Owner *p, struct Data *data);
 extern void MANUAL_COMMON_DrawData(char *);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BMP_SetDisplaySwap(u32);
@@ -178,14 +178,14 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8, u8);
+extern void BG_SYS_SetPlaneVisible(u8, u8);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -235,7 +235,7 @@ int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args)
     BG_SYS_SetVisibleLayer(5,2);
     BG_SYS_SetVisibleLayer(6,1);
     BG_SYS_SetVisibleLayer(7,0);
-    work->task = func_020056A0(MANUAL_GRAPHIC_TaskNoop,work,1);
+    work->task = GFL_USE_AddMainTask(MANUAL_GRAPHIC_TaskNoop,work,1);
     FADE_Start(3,16,0,0);
     GFL_NET_RestartWithDefaultTimeout(0,work->heap);
     work->listBuf[0] = 0;
@@ -262,9 +262,9 @@ int MANUAL_GRAPHIC_Exit(void *proc, void *unusedA, void *unusedB, char *work)
     case 2: MANUAL_CATEGORY_DeleteDetailList(((struct ManualWork *)work)->detailList); break;
     case 3: MANUAL_CATEGORY_DeleteOption(((struct ManualWork *)work)->optionList); break;
     }
-    func_02030EAC(((struct ManualWork *)work)->task);
+    TCB_DeleteTask(((struct ManualWork *)work)->task);
     MANUAL_COMMON_DeleteData(((struct ManualWork *)work)->data);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x90);
     return 1;
 }
@@ -383,7 +383,7 @@ static inline void GXS_SetVisibleWnd(int window) {
 
 void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
-    char *screen = func_02030734(heap, 16, 0, file, 454);
+    char *screen = GFL_HEAP_Alloc(heap, 16, 0, file, 454);
     MI_CpuFill8(screen, 0, 16);
     G2_BlendNone();
     G2S_BlendNone();
@@ -398,13 +398,13 @@ void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap)
     GF_FONT_InitTextColor();
     MANUAL_GRAPHIC_CreateBg(screen, heap);
     MANUAL_GRAPHIC_CreateClactUnit((unsigned char *)screen + 4, (int)vram, heap);
-    ((struct ManualScreen *)screen)->task = func_020056A0(MANUAL_GRAPHIC_VBlankScreen, screen, 0);
+    ((struct ManualScreen *)screen)->task = GFL_USE_AddMainTask(MANUAL_GRAPHIC_VBlankScreen, screen, 0);
     return screen;
 }
 
 void MANUAL_GRAPHIC_DeleteScreen(char *screen)
 {
-    func_02030EAC(((struct ManualScreen *)screen)->task);
+    TCB_DeleteTask(((struct ManualScreen *)screen)->task);
     MANUAL_GRAPHIC_DeleteClactUnit(screen + 4);
     MANUAL_GRAPHIC_DeleteBg(screen);
     GF_FONT_SetDefaultTextColor();
@@ -413,7 +413,7 @@ void MANUAL_GRAPHIC_DeleteScreen(char *screen)
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     MI_CpuFill8(screen, 0, 16);
-    func_020307B0(screen);
+    GFL_HEAP_Free(screen);
 }
 
 
@@ -444,7 +444,7 @@ void MANUAL_GRAPHIC_CreateBg(void *screen, u32 heap)
         u32 id = row->id;
         BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)row->bg, (u8)row->kind);
         BG_SYS_FreeSlot(id);
-        func_02040588(id, row->visible);
+        BG_SYS_SetPlaneVisible(id, row->visible);
     }
 }
 

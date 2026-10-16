@@ -14,13 +14,13 @@
  *
  * symbols:
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_020307B0 0x020307B0 arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02008550  0x02008550  thumb
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -31,11 +31,11 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02049B40 0x02049B40 arm
- *   func_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -47,7 +47,7 @@
  *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
  *   MSGDATA_AllocString   0x02045EC0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -71,7 +71,7 @@
  *   g_02202F44  0x02202F44  data  ov135
  *   g_02202FA4  0x02202FA4  data  ov135
  *   func_02049624 0x02049624 arm
- *   func_0204989C 0x0204989C arm
+ *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   tbl_02202EC0 0x02202EC0 data a2
  *   MIi_CpuClearFast 0x02082AC0 arm
@@ -156,21 +156,21 @@ typedef struct { u32 ptrs[4]; u16 count, rows; u32 extra[8]; } MenuSrc;
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -194,7 +194,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_ClearSlot(u32 i);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
@@ -202,11 +202,11 @@ extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5,
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern void WORLDTRADE_TITLE_LoadSubBgSwap(Work *);
 
@@ -284,7 +284,7 @@ extern void WORLDTRADE_INPUT_MenuDelete(u8 *p);
 
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
-extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 
 extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 
@@ -576,25 +576,25 @@ void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
         BG_SYS_InitBgLayer(0, &t, 0);
     }
     BG_SYS_ClearSlot(0);
-    func_02040588(0, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
     {
         struct BgTemplate t = g_02202F84;
         BG_SYS_InitBgLayer(1, &t, 0);
     }
-    func_02040588(1, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
     {
         struct BgTemplate t = g_02202F44;
         BG_SYS_InitBgLayer(2, &t, 0);
     }
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x18, 0);
     BG_SYS_PushTile(2);
-    func_02040588(2, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
     {
         struct BgTemplate t = g_02202FA4;
         BG_SYS_InitBgLayer(3, &t, 0);
     }
     BG_SYS_ClearSlot(3);
-    func_02040588(3, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
     BG_SYS_InitRun(0, 0x20, 0, 0x48);
     BG_SYS_InitRun(3, 0x20, 0, 0x48);
 }
@@ -612,14 +612,14 @@ void WORLDTRADE_DEPOSIT_ExitBgPlanes(void)
 
 void WORLDTRADE_DEPOSIT_LoadBgGraphics(Work *p)
 {
-    void *h = func_020490F4(0x60, 0x48);
-    func_02049B40(0x60, 0, 0, 0, 0x40, 0x48);
-    func_02049B40(0x17, 5, 0, 0x1A0, 0x20, 0x48);
+    void *h = ARC_TOOL_CreateHandle(0x60, 0x48);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x60, 0, 0, 0, 0x40, 0x48);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1A0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 14, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 31, 11, 0, 0x48);
     func_02049624((void *)0x60, (void *)9, (void *)1, 0, 0, 1, 0x48);
-    func_0204989C(0x60, 20, 1, 0, 0x600, 1, 0x48);
-    func_02049658(h, 12, 2, 0, 0, 1, 0x48);
+    ARC_UTIL_UploadBgPaletteFromArchive(0x60, 20, 1, 0, 0x600, 1, 0x48);
+    ARC_UTIL_UploadBgCharFromHandle(h, 12, 2, 0, 0, 1, 0x48);
     WORLDTRADE_TITLE_LoadSubBgSwap(p);
     ARC_TOOL_DeleteHandle(h);
 }
@@ -686,14 +686,14 @@ void WORLDTRADE_DEPOSIT_DeleteActors(Work *p)
 void WORLDTRADE_DEPOSIT_CreateStrings(Work *p)
 {
     p->str = STRBUF_Create(0xB4, 0x48);
-    (*(void **)&p->st) = func_02030734(0x48, 0x30, 0, g_02203C00, 0x2B4);
+    (*(void **)&p->st) = GFL_HEAP_Alloc(0x48, 0x30, 0, g_02203C00, 0x2B4);
     MIi_CpuClearFast(0, (void *)p->st, 0x30);
     ((DepositState *)p->st)->speciesList = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &((DepositState *)p->st)->speciesCount);
     ((DepositState *)p->st)->speciesFlags = WORLDTRADE_DEPOSIT_GetSpeciesFlag(0x48);
     WORLDTRADE_ENTER_ClearListRange((u8 *)p + 0xEEC);
 }
 
-void WORLDTRADE_DEPOSIT_DeleteStrings(Work *p) { func_020307B0(((DepositState *)p->st)->speciesFlags); func_020307B0(((DepositState *)p->st)->speciesList); func_020307B0((void *)p->st); STRBUF_Delete(p->str); }
+void WORLDTRADE_DEPOSIT_DeleteStrings(Work *p) { GFL_HEAP_Free(((DepositState *)p->st)->speciesFlags); GFL_HEAP_Free(((DepositState *)p->st)->speciesList); GFL_HEAP_Free((void *)p->st); STRBUF_Delete(p->str); }
 
 int WORLDTRADE_DEPOSIT_WaitWipeIn(Work *p) { if(WIPE_SYS_EndCheck()){WORLDTRADE_DEPOSIT_PrintMessage(p,9,1,0,0xf0f);WORLDTRADE_SetNextState(p,16,1);}return 2; }
 
@@ -973,7 +973,7 @@ void WORLDTRADE_DEPOSIT_PrintName(void *win, void *bank, u32 index, u32 y, u32 x
     void *str;
 
     if (index != 0) {
-        str = func_02045EC0(bank, index);
+        str = MSGDATA_AllocString(bank, index);
         WORLDTRADE_INPUT_PrintStringAlignedLine(win, str, 0, x, y, color, g);
         STRBUF_Delete(str);
     }
@@ -984,7 +984,7 @@ void WORLDTRADE_DEPOSIT_PrintBankString(void *win, void *bank, u32 index, u32 y,
     void *str;
 
     if (index != 0) {
-        str = func_02045EC0(bank, index);
+        str = MSGDATA_AllocString(bank, index);
         WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, 0, y, 0, color, g);
         STRBUF_Delete(str);
     }
@@ -995,11 +995,11 @@ void WORLDTRADE_DEPOSIT_PrintMessageLine(void *win, void *bank, void *bank2, u32
     void *str;
 
     if (index != 0) {
-        str = func_02045EC0(bank, index);
+        str = MSGDATA_AllocString(bank, index);
         WORLDTRADE_INPUT_PrintStringAlignedLine(win, str, 0, x, y, color, g);
         STRBUF_Delete(str);
     } else {
-        str = func_02045EC0(bank2, 0xBB);
+        str = MSGDATA_AllocString(bank2, 0xBB);
         WORLDTRADE_INPUT_PrintStringAlignedLine(win, str, 0, x, y, color, g);
         STRBUF_Delete(str);
     }
@@ -1021,7 +1021,7 @@ void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *win, void *bank, int mode, i
     void *str;
 
     if (force != 0 || mode != 3) {
-        str = func_02045EC0(bank, tbl_02202EB0[mode]);
+        str = MSGDATA_AllocString(bank, tbl_02202EB0[mode]);
         if (y > 3) {
             WORLDTRADE_INPUT_PrintStringAlignedLine(win, str, y, x, 0, WORLDTRADE_DEPOSIT_GetModeFontColor(mode, color), g);
         } else {
@@ -1036,7 +1036,7 @@ void WORLDTRADE_DEPOSIT_PrintModeLabel(void *win, void *bank, int mode, int forc
     void *str;
 
     if (force != 0 || mode != 3) {
-        str = func_02045EC0(bank, tbl_02202EB0[mode]);
+        str = MSGDATA_AllocString(bank, tbl_02202EB0[mode]);
         WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, x, y, 0, WORLDTRADE_DEPOSIT_GetModeFontColor(mode, color), g);
         STRBUF_Delete(str);
     }
@@ -1057,7 +1057,7 @@ void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 
         if (alt != 0) {
             tab = tbl_02202FC4;
         }
-        str = func_02045EC0(bank, tab[idx].id);
+        str = MSGDATA_AllocString(bank, tab[idx].id);
         WORLDTRADE_INPUT_PrintStringAlignedLine(win, str, x, y, e, color, (void *)g);
         STRBUF_Delete(str);
     }
@@ -1068,7 +1068,7 @@ void WORLDTRADE_DEPOSIT_DrawRequestWindow(void *bank, void *names, int unused, v
     int i;
     void *str;
     int show = 1;
-    str = func_02045EC0(bank, 0x6b);
+    str = MSGDATA_AllocString(bank, 0x6b);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], str, 1, 0, 0, 0x440, g);
     for (i = 1; i < 3; i++)
         BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
@@ -1090,7 +1090,7 @@ void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *bank, void *names, int unused
     int i;
     void *str;
     int show = 1;
-    str = func_02045EC0(bank, 0x6b);
+    str = MSGDATA_AllocString(bank, 0x6b);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], str, 0, 0, 0, 0x440, g);
     for (i = 1; i < 3; i++)
         BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
@@ -1124,7 +1124,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     form = POKE_TOOL_GetBoxValue(mon, 0x6E, 0) + 1;
     gender = POKE_TOOL_CalcBoxLevel(mon);
     has = POKE_TOOL_GetBoxValue(mon, 0xAD, 0);
-    title = func_02045EC0(bank, 0x6E);
+    title = MSGDATA_AllocString(bank, 0x6E);
     WORDSET_SetSlotNumber(ws, 3, gender, 3, 0, 1);
     place = (void *)WORLDTRADE_ADAPTER_CreateString((u32)ws, (u32)bank, 0x72, 0x48);
     if (form != 3) {
@@ -1161,7 +1161,7 @@ u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count)
 void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end)
 {
     if (i >= 0x1B) {
-        func_02034714((void *)0x02203C18, 0, (void *)0x02203C18);
+        SAVEDATA_PanicFail((void *)0x02203C18, 0, (void *)0x02203C18);
     }
     *start = tbl_0220307C[i];
     *end = tbl_0220307C[i + 1];
@@ -1175,7 +1175,7 @@ u8 *WORLDTRADE_DEPOSIT_GetSpeciesFlag(u32 id)
     u16 *tbl;
     u32 n;
 
-    buf = func_02030734(0x48, 0x28A, 0, (const char *)g_02203C00, 0x796);
+    buf = GFL_HEAP_Alloc(0x48, 0x28A, 0, (const char *)g_02203C00, 0x796);
     MIi_CpuClearFast(0, buf, 0x28A);
     tbl = (u16 *)ARC_UTIL_LoadMemberWithSize(0x62, 4, 0, (u16)id, &size);
     n = size / 2;
@@ -1184,7 +1184,7 @@ u8 *WORLDTRADE_DEPOSIT_GetSpeciesFlag(u32 id)
             buf[tbl[i]] = 1;
         }
     }
-    func_020307B0(tbl);
+    GFL_HEAP_Free(tbl);
     return buf;
 }
 
@@ -1288,10 +1288,10 @@ void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int i, int kind)
     const TableRow *table;
     if (kind == 0) {
         table = tbl_0220301C;
-        if (i >= 12) func_02034714(str_02203C18, 0, str_02203C18);
+        if (i >= 12) SAVEDATA_PanicFail(str_02203C18, 0, str_02203C18);
     } else {
         table = tbl_02202FC4;
-        if (i >= 11) func_02034714(str_02203C18, 0, str_02203C18);
+        if (i >= 11) SAVEDATA_PanicFail(str_02203C18, 0, str_02203C18);
     }
     dst[3] = table[i].x;
     dst[4] = table[i].y;

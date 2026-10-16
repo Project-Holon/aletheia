@@ -13,8 +13,8 @@
  * Cut from field_task_manager.c, field_flash.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_021DE4E4     0x021DE4E4  data  ov021  a4
  *   FIELD_TASK_MANAGER_FreeSlot  0x021C6E74  thumb  ov021
  *   FIELD_TASK_MANAGER_UpdateSlot  0x021C6E94  thumb  ov021
@@ -70,9 +70,9 @@
 #include "field_task_types.h"
 #include "field_flash_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void FIELD_TASK_MANAGER_SetSlot(FieldTaskManager *manager, u8 slot, FieldTask *task, FieldTask *prerequisite);
 
@@ -105,11 +105,11 @@ int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
 /* Allocates a manager with count slots. */
 FieldTaskManager *FIELD_TASK_MANAGER_Create(int count, int heapId)
 {
-    FieldTaskManager *manager = func_02030734(heapId, 12, 0, (const char *)&d_021DE4E4, 0x34);
+    FieldTaskManager *manager = GFL_HEAP_Alloc(heapId, 12, 0, (const char *)&d_021DE4E4, 0x34);
 
     manager->count = count;
-    manager->tasks = func_02030734(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x36);
-    manager->prerequisites = func_02030734(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x37);
+    manager->tasks = GFL_HEAP_Alloc(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x36);
+    manager->prerequisites = GFL_HEAP_Alloc(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x37);
     return manager;
 }
 
@@ -119,9 +119,9 @@ void FIELD_TASK_MANAGER_Delete(FieldTaskManager *manager)
     int slot;
     for (slot = 0; slot < manager->count; slot++)
         FIELD_TASK_MANAGER_FreeSlot(manager, slot);
-    func_020307B0(manager->tasks);
-    func_020307B0(manager->prerequisites);
-    func_020307B0(manager);
+    GFL_HEAP_Free(manager->tasks);
+    GFL_HEAP_Free(manager->prerequisites);
+    GFL_HEAP_Free(manager);
 }
 
 /* Per frame: run the running tasks, start tasks whose prerequisite finished, free finished tasks. */

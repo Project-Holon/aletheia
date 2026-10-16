@@ -28,16 +28,16 @@
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  *   sSpPokeGimmickPairBSetup     0x021F3E84  data  a4
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FLD_EXP_OBJ_AddUnit  0x021BE310  thumb  ov021
  *   sSpPokeGimmickFileName     0x021F4080  data  ov059  a1
  *   sSpPokeGimmickSetup     0x021F3E74  data  a4
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FLD_EXP_OBJ_GetAnimeFrame  0x021BE6E8  thumb  ov021
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
@@ -69,12 +69,12 @@ extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
 extern void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int enable);
 extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 func_020307B0(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *memory);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex);
 extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int frame);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
 
 void SP_POKE_GIMMICK_LoadModelScene(struct FieldMap *fieldMap);
@@ -208,7 +208,7 @@ void SP_POKE_GIMMICK_Init(struct FieldMap *fieldMap)
     heapId = (FIELDMAP_GetHeapId(fieldMap) & 0x7FFF) | 0x8000;
     FIELDMAP_AllocCommonWork(fieldMap, 1, (u16)heapId, 0x28);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    work->swapObjectIds = func_02030734((u16)heapId, 4, 1, sSpPokeGimmickFileName, 0x1D1);
+    work->swapObjectIds = GFL_HEAP_Alloc((u16)heapId, 4, 1, sSpPokeGimmickFileName, 0x1D1);
     FLD_EXP_OBJ_AddUnit(expObj, &sSpPokeGimmickSetup, 0);
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, 1, 1);
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, 0, 1);
@@ -237,7 +237,7 @@ void SP_POKE_GIMMICK_Exit(struct FieldMap *fieldMap)
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    func_020307B0(work->swapObjectIds);
+    GFL_HEAP_Free(work->swapObjectIds);
     FIELDMAP_FreeCommonWork(fieldMap, 1);
     FLD_EXP_OBJ_RemoveUnit(expObj, 0);
 }
@@ -282,7 +282,7 @@ struct GameEvent *SP_POKE_GIMMICK_StartMove(struct GameSystem *gameSystem, int s
     work->moveFrames = frames;
     work->moveElapsed = 0;
     work->moveBump = bump;
-    event = func_020122C0(gameSystem, 0, SP_POKE_GIMMICK_MoveEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_MoveEventMain, 0);
     work->side = side;
     return event;
 }
@@ -320,7 +320,7 @@ void SP_POKE_GIMMICK_StartWaitAnimeProgress(struct GameSystem *gameSystem, int s
     SpPokeGimmickWork *work;
 
     work = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(gameSystem), 1);
-    func_020122C0(gameSystem, 0, SP_POKE_GIMMICK_WaitAnimeProgressEventMain, 0);
+    GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_WaitAnimeProgressEventMain, 0);
     work->side = side;
 }
 
@@ -330,7 +330,7 @@ void SP_POKE_GIMMICK_StartWaitAnimeEnd(struct GameSystem *gameSystem, int side)
     SpPokeGimmickWork *work;
 
     work = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(gameSystem), 1);
-    func_020122C0(gameSystem, 0, SP_POKE_GIMMICK_WaitAnimeEndEventMain, 0);
+    GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_WaitAnimeEndEventMain, 0);
     work->side = side;
 }
 
@@ -453,7 +453,7 @@ void SP_POKE_GIMMICK_StartSwapNpc(struct GameSystem *gameSystem, VecFx32 *pos, u
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i, 1);
         FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i, 0);
     }
-    func_020122C0(gameSystem, 0, SP_POKE_GIMMICK_SwapNpcEventMain, 0);
+    GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_SwapNpcEventMain, 0);
 }
 
 /*

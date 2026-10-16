@@ -43,7 +43,7 @@
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   func_02008530  0x02008530  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02008500  0x02008500  thumb
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   STRBUF_IsEqual  0x0204589C  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_02008550  0x02008550  thumb
@@ -59,14 +59,14 @@
  *   POKE_TOOL_SetRotomFormMove  0x02017A20  thumb
  *   WAZA_OSHIE_CreateMoveList  0x0216F948  thumb  ov010
  *   WAZA_OSHIE_IsListEntryValid  0x0216FAA0  thumb  ov010
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sScrcmdAllowedParamIds 0x02171182 data a1
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   func_02008510  0x02008510  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   SAVE_EVENT_Write  0x0202F190  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   gSpeciesNameBank     0x020A7370  data
@@ -89,7 +89,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   sAllocSiteScrcmdProc     0x021728F0  data  a1
@@ -136,8 +136,8 @@
  *   ov002_id       0x00000002  data
  *   EVENT_MENUPROC_Entry  0x021543BC  thumb  ov003
  *   ov003_id       0x00000003  data
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
  *   ov037_id       0x00000025  data
  *   GIMMICK_INIT_SetFlagAnimeFlag 0x021F36E8 thumb ov037
@@ -349,7 +349,7 @@ extern u32 func_02008530(const struct MyStatus *obj);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_02008500(void *player, void *str);
+extern void MYSTATUS_NameToStrbuf(void *player, void *str);
 
 extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
 
@@ -373,7 +373,7 @@ extern u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap);
 
 extern int WAZA_OSHIE_IsListEntryValid(u16 *);
 
-extern u32 func_020307B0(void *);
+extern u32 GFL_HEAP_Free(void *);
 
 extern void POKE_TOOL_RecalcParam(void *);
 
@@ -387,7 +387,7 @@ extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *, u32 field);
 
 extern void POKE_PERSONAL_Delete(void *);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void SAVE_EVENT_Write(void *mon, u32, void *, u32, u32 heap);
 
@@ -431,7 +431,7 @@ extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
 
 extern void *SCRIPT_WORK_GetUserWorkPtr(void *);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void GAMESYSTEM_CallProc(struct GameSystem *, u32 id, void *, void *);
 
@@ -483,9 +483,9 @@ extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
 
 extern void EVENT_MENUPROC_Entry(void);
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 
 extern void GIMMICK_INIT_SetCartLanesFlags(unsigned int, int, int);
 
@@ -1539,7 +1539,7 @@ int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
     playerName = STRBUF_Create(16, heapId);
     if (monOtName != 0 && playerName != 0) {
         POKE_TOOL_GetPartyValue(mon, 0x8D, (u32)monOtName);
-        func_02008500(myStatus, playerName);
+        MYSTATUS_NameToStrbuf(myStatus, playerName);
         if (STRBUF_IsEqual(monOtName, playerName) == 0) {
             STRBUF_Delete(monOtName);
             STRBUF_Delete(playerName);
@@ -1624,7 +1624,7 @@ callArg1 = heapId + 0;
     relearnMoves = WAZA_OSHIE_CreateMoveList((void *)callArg0, callArg1);
     callArg0 = WAZA_OSHIE_IsListEntryValid(relearnMoves);
 *resultVar = callArg0;
-    callArg0 = func_020307B0(relearnMoves);
+    callArg0 = GFL_HEAP_Free(relearnMoves);
 done:
 callArg0 = 0;
     return callArg0;
@@ -1845,13 +1845,13 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     POKE_PERSONAL_Delete((void *)personal);
     POKE_TOOL_SetPartyValue(mon, 9, hatchCycles);
     POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
-    tempStrbuf = (u32)func_02045EC0(gSpeciesNameBank, 0x28A);
+    tempStrbuf = (u32)MSGDATA_AllocString(gSpeciesNameBank, 0x28A);
     POKE_TOOL_SetPartyValue(mon, 0x73, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
     POKE_TOOL_RecalcParam(mon);
     SAVE_EVENT_Write(mon, 5, myStatus, 0xEA63, heapId);
     POKEPARTY_Add(party, mon);
-    func_020307B0(mon);
+    GFL_HEAP_Free(mon);
     *resultVar = 1;
     return 0;
 }
@@ -1889,7 +1889,7 @@ int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
     func_020074D8(boxManager, (const struct BoxPokemonParam *)((u32)POKE_TOOL_GetBoxParam(mon)));
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
-    func_020307B0(mon);
+    GFL_HEAP_Free(mon);
     return 1;
 }
 
@@ -1904,7 +1904,7 @@ int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
     POKEPARTY_Add(party, mon);
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
-    func_020307B0(mon);
+    GFL_HEAP_Free(mon);
     return 1;
 }
 
@@ -1987,7 +1987,7 @@ void SCRCMD_PROC_StartOverlayProc(void *vm, void *cmdWork, u32 overlayId, const 
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     handoffSlot = SCRIPT_WORK_GetUserWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork));
-    handoff = func_02030734(4, sizeof(ScriptProcHandoff), 1, sAllocSiteScrcmdProc, 0x8B);
+    handoff = GFL_HEAP_Alloc(4, sizeof(ScriptProcHandoff), 1, sAllocSiteScrcmdProc, 0x8B);
     handoff->work = procWork;
     handoff->userData = userData;
     handoff->onFinish = onFinish;
@@ -2023,11 +2023,11 @@ callArg0 = handoff + 0;
 noCallback:
 callArg0 = (int)((ScriptProcHandoff *)handoff)->work;
     if (callArg0 == 0) goto freeUserData;
-    func_020307B0((void *)callArg0);
+    GFL_HEAP_Free((void *)callArg0);
 freeUserData:
 callArg0 = (int)((ScriptProcHandoff *)handoff)->userData;
     if (callArg0 == 0) goto clearSlot;
-    func_020307B0((void *)callArg0);
+    GFL_HEAP_Free((void *)callArg0);
 clearSlot:
 callArg0 = cmdWorkOrSlot + 0;
     callArg0 = SCRIPT_WORK_FreeUserWork(callArg0);
@@ -2057,8 +2057,8 @@ void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData)
     else
         *resultVars->selectedVar = B_TRUE;
     *resultVars->itemVar = bagParam->itemId;
-    func_020307B0(closeData->resultVars);
-    func_020307B0(closeData->bagParam);
+    GFL_HEAP_Free(closeData->resultVars);
+    GFL_HEAP_Free(closeData->bagParam);
 }
 
 /*
@@ -2092,7 +2092,7 @@ int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
     else
         bagType = 0;
     bagParam = BAG_PARAM_Create((const struct GameData *)SCRCMD_WORK_GetGameData(cmdWork), 0, bagType, 4);
-    closeData = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
+    closeData = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
     closeData[0] = selectedVar;
     closeData[1] = itemVar;
     SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov070_id, gItemMenuProcData, bagParam, (u32)SCRCMD_PROC_OnBagClosed, (u32)closeData);
@@ -2110,7 +2110,7 @@ void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData)
         *callbackData->resultVar = 1;
     else
         *callbackData->resultVar = 0;
-    func_020307B0(callbackData->param);
+    GFL_HEAP_Free(callbackData->param);
 }
 
 /*
@@ -2134,8 +2134,8 @@ int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    gtsParam = func_02030734(4, 8, 0, sAllocSiteScrcmdProc, 0x14F);
-    callbackData = func_02030734(4, 8, 0, sAllocSiteScrcmdProc, 0x150);
+    gtsParam = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x14F);
+    callbackData = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x150);
     gtsParam[0] = (u32)gameData;
     callbackData[0] = (u32)gtsParam;
     callbackData[1] = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -2162,7 +2162,7 @@ callArg0 = (int)((RelearnCallbackData *)callbackData)->resultVar;
 *(u16 *)callArg0 = callArg1;
 callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
 callArg0 = (int)((MoveRelearnParam *)callArg0)->relearnMoves;
-    callArg0 = (int)func_020307B0((void *)callArg0);
+    callArg0 = (int)GFL_HEAP_Free((void *)callArg0);
 callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
     callArg0 = WAZA_OSHIE_Delete(callArg0);
     return callArg0;}
@@ -2208,7 +2208,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
     relearnMoves = WAZA_OSHIE_CreateMoveList(mon, 4);
     relearnParam = WAZA_OSHIE_Create(4);
     MoveRelearnParam_Init(relearnParam, mon, myStatus, gameSystem, relearnMoves);
-    callbackData = func_02030734(4, 8, 0, sAllocSiteScrcmdProc, 0x19B);
+    callbackData = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x19B);
     callbackData[0] = (u32)relearnParam;
     callbackData[1] = resultVar;
     SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, (int)fieldMap, (u32)ov173_id, (int)gMoveRelearnProcData, (int)relearnParam, (int)((void *)SCRCMD_PROC_OnMoveRelearnDone), (int)callbackData));
@@ -2245,7 +2245,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     SCRCMD_WORK_GetScriptWork(cmdWork);
     commState = (CommState *)INTRUDE_COMM_GetWorkIfRunning((int)gameComm);
-    work = func_02030734(4, sizeof(ProfileProcWork), 1, sAllocSiteScrcmdProc, 0x1BC);
+    work = GFL_HEAP_Alloc(4, sizeof(ProfileProcWork), 1, sAllocSiteScrcmdProc, 0x1BC);
     if (commState != 0 && commState->localPlayerId != GAME_DATA_GetExitMode(gameData)
         && INTRUDE_COMM_GetMemberNameNetId((u8 *)(&commState->records[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1
         && ((u8 *)commState)[0x922] == 1) {
@@ -2300,7 +2300,7 @@ int SCRCMD_PROC_CallValueScreen(void *vm, void *cmdWork)
     ValueProcParam *param;
 
     value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x205);
+    param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x205);
     param->value = value;
     param->gameData = SCRCMD_WORK_GetGameData(cmdWork);
     SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov174_id, gLocalTvtSysProcData, param, 0, 0);
@@ -2340,19 +2340,19 @@ int SCRCMD_PROC_CallModeScreen(void *vm, void *cmdWork)
     }
     switch (screenMode) {
     case 0:
-        param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x22B);
+        param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x22B);
         param->gameData = gameData;
         param->value = value;
         SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov221_id, gChihouZukanAwardProcData, param, 0, 0);
         break;
     case 1:
-        param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x233);
+        param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x233);
         param->gameData = gameData;
         param->value = value;
         SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov222_id, gZenkokuZukanAwardProcData, param, 0, 0);
         break;
     case 2:
-        myStatusParam = func_02030734(4, 4, 1, sAllocSiteScrcmdProc, 0x23C);
+        myStatusParam = GFL_HEAP_Alloc(4, 4, 1, sAllocSiteScrcmdProc, 0x23C);
         *myStatusParam = myStatus;
         SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov224_id, gSubwayMapProcData, myStatusParam, 0, 0);
         break;
@@ -2374,7 +2374,7 @@ int SCRCMD_PROC_CallWordScreen(void *vm, void *cmdWork)
     u32 *param;
 
     value = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x254);
+    param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x254);
     param[0] = value;
     SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov223_id, gPselProcData, param, 0, 0);
     return 1;
@@ -2467,9 +2467,9 @@ int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     u16 *firstVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u16 *secondVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    func_02034AC4((u32)ov037_id);
+    GF_OVERLAY_Load((u32)ov037_id);
     GIMMICK_INIT_SetCartLanesFlags((unsigned int)gameSystem, *firstVar, *secondVar);
-    func_02034A5C((u32)ov037_id);
+    GF_OVERLAY_Unload((u32)ov037_id);
     return 0;
 }
 
@@ -2477,9 +2477,9 @@ int SCRCMD_PROC_Ov037SetValueA(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_02034AC4((int)ov037_id);
+    GF_OVERLAY_Load((int)ov037_id);
     GIMMICK_INIT_SetFlagAnimeFlag(gameSystem, value);
-    func_02034A5C((int)ov037_id);
+    GF_OVERLAY_Unload((int)ov037_id);
     return 0;
 }
 
@@ -2487,9 +2487,9 @@ int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_02034AC4((int)ov037_id);
+    GF_OVERLAY_Load((int)ov037_id);
     GIMMICK_INIT_SetButtonStatesFlags((unsigned int)gameSystem, value);
-    func_02034A5C((int)ov037_id);
+    GF_OVERLAY_Unload((int)ov037_id);
     return 0;
 }
 
@@ -2505,18 +2505,18 @@ int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
     resultVars[5] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     resultVars[6] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     resultVars[7] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    func_02034AC4((u32)ov037_id);
+    GF_OVERLAY_Load((u32)ov037_id);
     GIMMICK_INIT_RestorePlateDoorsState((unsigned int)gameSystem, resultVars);
-    func_02034A5C((u32)ov037_id);
+    GF_OVERLAY_Unload((u32)ov037_id);
     return 0;
 }
 
 int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    func_02034AC4((int)ov037_id);
+    GF_OVERLAY_Load((int)ov037_id);
     GIMMICK_INIT_ResetRotatingRoomPanels((unsigned int)gameSystem);
-    func_02034A5C((int)ov037_id);
+    GF_OVERLAY_Unload((int)ov037_id);
     return 0;
 }
 

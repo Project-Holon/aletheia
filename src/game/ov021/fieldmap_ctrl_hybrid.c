@@ -14,8 +14,8 @@
  * Split from weather_task.c (lane L141): __FILE__ anchor 021A6F14 (gFieldMapCtrlHybridFileName "fieldmap_ctrl_hybrid.c"); 021A6DC0..021A6DC4 read the same holder (mode f0, core at +4) that 021A6F24 uses.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
@@ -122,8 +122,8 @@ typedef struct FieldMapCtrlHybridModeTable {
     FieldMapCtrlHybridModelParam modelParam;                                /* 0x08 */
 } FieldMapCtrlHybridModeTable;
 
-extern u32 func_020307B0(void *memory);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern u32 GFL_HEAP_Free(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
@@ -247,7 +247,7 @@ void FIELDMAP_CTRL_HYBRID_Create(FieldMap *fieldMap, VecFx32 *pos, u16 dir)
 
     saveRecord = GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    work = func_02030734(heapId, sizeof(FieldMapCtrlHybridWork), 1, &gFieldMapCtrlHybridFileName, 0xbd);
+    work = GFL_HEAP_Alloc(heapId, sizeof(FieldMapCtrlHybridWork), 1, &gFieldMapCtrlHybridFileName, 0xbd);
     FIELDMAP_SetCtrlWork(fieldMap, work);
     work->player = FIELDMAP_GetFieldPlayer(fieldMap);
     mode = GAME_DATA_GetPlayerMoveForm(saveRecord);
@@ -273,7 +273,7 @@ void FIELDMAP_CTRL_HYBRID_Create(FieldMap *fieldMap, VecFx32 *pos, u16 dir)
 /* Destroy slot: frees the work. */
 void FIELDMAP_CTRL_HYBRID_Destroy(FieldMap *fieldMap)
 {
-    func_020307B0(FIELDMAP_GetCtrlWork(fieldMap));
+    GFL_HEAP_Free(FIELDMAP_GetCtrlWork(fieldMap));
 }
 
 /* Main slot: runs the update of the current mode, then reads back the player position. */

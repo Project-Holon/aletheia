@@ -15,15 +15,15 @@
  *
  * symbols:
  *   sFldExpObjFileName  0x021DE390  data
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   G3D_UTIL_Create  0x02047CFC  arm
  *   G3D_UTIL_Delete  0x02047E54  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G3D_UTIL_AddUnitLoaded  0x02047F4C  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
- *   func_020489F4  0x020489F4  arm
+ *   G3D_UTIL_GetUnitObjIdx  0x020489F4  arm
  *   func_02048A18  0x02048A18  arm
  *   func_02048A00  0x02048A00  arm
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
@@ -33,7 +33,7 @@
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
  *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   G3D_UTIL_AddUnitFromArchive  0x02048010  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm  arm9
@@ -43,15 +43,15 @@
 
 typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern struct G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapId);
 extern void G3D_UTIL_Delete(struct G3dUtil *util);
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 extern u16 G3D_UTIL_AddUnitLoaded(struct G3dUtil *util, const G3dUtilSetup *setup);
 extern void MTX_Identity33_(MtxFx33 *mtx);
 extern struct G3dAnime *G3D_SYSTEM_GetObjectAnime(struct G3dObject *obj, int anmIdx);
 extern void G3D_UTIL_RemoveUnit(struct G3dUtil *util, u32 unitId);
-extern u32 func_020489F4(struct G3dUtil *util, int unitId);
+extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, int unitId);
 extern struct G3dObject *func_02048A18(struct G3dUtil *util, int objIdx);
 extern u16 func_02048A00(struct G3dUtil *util, int unitId);
 extern int G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, G3dObjectStatus *status);
@@ -63,7 +63,7 @@ extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx3
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 extern int G3D_SYSTEM_DisableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(struct G3dAnime *anime);
-extern void *func_020490F4(u32 archiveId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
 extern u16 G3D_UTIL_AddUnitFromArchive(struct G3dUtil *util, const G3dUtilSetup *setup, void *archive);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 
@@ -96,7 +96,7 @@ extern const char sFldExpObjFileName[];
 
 FldExpObjCnt *FLD_EXP_OBJ_Create(u32 resCount, u32 objCount, u32 heapId)
 {
-    FldExpObjCnt *cnt = func_02030734((u16)heapId, sizeof(FldExpObjCnt), 1, sFldExpObjFileName, 0x4c);
+    FldExpObjCnt *cnt = GFL_HEAP_Alloc((u16)heapId, sizeof(FldExpObjCnt), 1, sFldExpObjFileName, 0x4c);
 
     cnt->util = G3D_UTIL_Create(resCount, objCount, heapId);
     cnt->heapId = heapId;
@@ -113,7 +113,7 @@ void FLD_EXP_OBJ_Delete(FldExpObjCnt *cnt)
         }
     }
     G3D_UTIL_Delete(cnt->util);
-    func_020307B0(cnt);
+    GFL_HEAP_Free(cnt);
 }
 
 static inline void SetVecFx32(VecFx32 *dst, fx32 x, fx32 y, fx32 z)
@@ -142,9 +142,9 @@ void FLD_EXP_OBJ_AddUnit(FldExpObjCnt *cnt, G3dUtilSetup *setup, u16 unitIdx)
     cnt->units[unitIdx].modelCount = modelCount;
     cnt->units[unitIdx].active = 1;
     cnt->units[unitIdx].unitId = unitId;
-    models = func_02030734((u16)cnt->heapId, modelCount * sizeof(FldExpObjModel), 1, sFldExpObjFileName, 0x8b);
+    models = GFL_HEAP_Alloc((u16)cnt->heapId, modelCount * sizeof(FldExpObjModel), 1, sFldExpObjFileName, 0x8b);
     cnt->units[unitIdx].models = models;
-    cnt->units[unitIdx].animeSets = func_02030734((u16)cnt->heapId, modelCount * sizeof(FldExpObjAnimeSet), 1, sFldExpObjFileName, 0x8e);
+    cnt->units[unitIdx].animeSets = GFL_HEAP_Alloc((u16)cnt->heapId, modelCount * sizeof(FldExpObjAnimeSet), 1, sFldExpObjFileName, 0x8e);
     for (modelIdx = 0; modelIdx < modelCount; modelIdx++) {
         int animeIdx;
         FldExpObjModel *model;
@@ -180,9 +180,9 @@ void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *cnt, u16 unitIdx)
 
     if (cnt->units[unitIdx].active != 0 && unitIdx < FLD_EXP_OBJ_UNIT_MAX) {
         for (modelIdx = 0; modelIdx < cnt->units[unitIdx].modelCount; modelIdx++)
-            func_020307B0(cnt->units[unitIdx].animeSets[modelIdx].anime);
-        func_020307B0(cnt->units[unitIdx].animeSets);
-        func_020307B0(cnt->units[unitIdx].models);
+            GFL_HEAP_Free(cnt->units[unitIdx].animeSets[modelIdx].anime);
+        GFL_HEAP_Free(cnt->units[unitIdx].animeSets);
+        GFL_HEAP_Free(cnt->units[unitIdx].models);
         G3D_UTIL_RemoveUnit(cnt->util, cnt->units[unitIdx].unitId);
         cnt->units[unitIdx].active = 0;
     }
@@ -228,7 +228,7 @@ struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *cnt, u32 unitIdx, int
     if (unitIdx >= FLD_EXP_OBJ_UNIT_MAX) {
         return 0;
     }
-    firstObjIdx = func_020489F4(cnt->util, cnt->units[unitIdx].unitId);
+    firstObjIdx = G3D_UTIL_GetUnitObjIdx(cnt->util, cnt->units[unitIdx].unitId);
     return func_02048A18(cnt->util, (u16)(firstObjIdx + modelIdx));
 }
 
@@ -245,7 +245,7 @@ void FLD_EXP_OBJ_Draw(FldExpObjCnt *cnt)
 
     for (unitIdx = 0; unitIdx < FLD_EXP_OBJ_UNIT_MAX; unitIdx++) {
         if (cnt->units[unitIdx].active == 1) {
-            firstObjIdx = func_020489F4(cnt->util, cnt->units[unitIdx].unitId);
+            firstObjIdx = G3D_UTIL_GetUnitObjIdx(cnt->util, cnt->units[unitIdx].unitId);
             modelCount = func_02048A00(cnt->util, cnt->units[unitIdx].unitId);
             for (modelIdx = 0; modelIdx < modelCount; modelIdx++) {
                 if (cnt->units[unitIdx].models[modelIdx].hidden == 0) {
@@ -300,7 +300,7 @@ void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *cnt)
  */
 void FLD_EXP_OBJ_InitAnimeSet(FldExpObjAnimeSet *animeSet, int count, int heapId)
 {
-    FldExpObjAnime *anime = func_02030734((u16)heapId, count << 4, 1, sFldExpObjFileName, 0x19D);
+    FldExpObjAnime *anime = GFL_HEAP_Alloc((u16)heapId, count << 4, 1, sFldExpObjFileName, 0x19D);
     int i;
 
     animeSet->anime = anime;
@@ -412,16 +412,16 @@ void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *cnt, const G3dUtilSetup *setup
     FldExpObjModel *models;
     u16 modelIdx;
 
-    archive = func_020490F4(setup->resTbl->arc, (u16)(((u16)cnt->heapId & 0x7FFF) | 0x8000));
+    archive = ARC_TOOL_CreateHandle(setup->resTbl->arc, (u16)(((u16)cnt->heapId & 0x7FFF) | 0x8000));
     unitId = G3D_UTIL_AddUnitFromArchive(cnt->util, setup, archive);
     ARC_TOOL_DeleteHandle(archive);
     modelCount = setup->objCount;
     cnt->units[unitIdx].modelCount = modelCount;
     cnt->units[unitIdx].active = 1;
     cnt->units[unitIdx].unitId = unitId;
-    models = func_02030734((u16)cnt->heapId, modelCount * sizeof(FldExpObjModel), 1, sFldExpObjFileName, 0x23E);
+    models = GFL_HEAP_Alloc((u16)cnt->heapId, modelCount * sizeof(FldExpObjModel), 1, sFldExpObjFileName, 0x23E);
     cnt->units[unitIdx].models = models;
-    cnt->units[unitIdx].animeSets = func_02030734((u16)cnt->heapId, modelCount * sizeof(FldExpObjAnimeSet), 1, sFldExpObjFileName, 0x241);
+    cnt->units[unitIdx].animeSets = GFL_HEAP_Alloc((u16)cnt->heapId, modelCount * sizeof(FldExpObjAnimeSet), 1, sFldExpObjFileName, 0x241);
     for (modelIdx = 0; modelIdx < modelCount; modelIdx++) {
         int animeIdx;
         FldExpObjModel *model;

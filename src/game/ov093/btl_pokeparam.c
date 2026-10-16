@@ -63,11 +63,11 @@
  *   BTLV_CORE_PollFadeInDone 0x021EAE14 thumb ov093
  *   gBtlNet 0x021F3B88 data ov093 a4
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
- *   func_020307B0 0x020307B0 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
@@ -162,7 +162,7 @@
  *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
  *   gBtlEventVarStack 0x021F3ECC data a4
  *   gBtlEventEmptyString  0x021F3AB4  data
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   _ll_mul        0x0209C054  arm
  *   d_021F6360 0x021F6360 data a4
  *   gBtlCalcFileName 0x021F3AB8 data a1
@@ -177,7 +177,7 @@ typedef struct BtlPokeParam BtlPokeParam;
 typedef struct PokemonParam PokemonParam;
 
 int BTL_POKEPARAM_HasSick(BtlPokeParam *pp, int condition);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 POKE_TOOL_GetPartyValue(PokemonParam *mon, u32 paramId, u32 arg);
@@ -590,7 +590,7 @@ void BTL_POKEPARAM_ClearMoveFlags(BtlPokeParam *pp)
 /* BTL_POKEPARAM_Delete: tail-call thunk to the heap release function. */
 void BTL_POKEPARAM_Delete(BtlPokeParam *pp)
 {
-    func_020307B0(pp);
+    GFL_HEAP_Free(pp);
 }
 
 /* BTL_POKEPARAM_InitStatStages: tail-call thunk to BTL_POKEPARAM_SetNeutralStatStages. */

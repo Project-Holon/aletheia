@@ -21,13 +21,13 @@
  * three ranges are contiguous and merge into this file at cut time.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   VM_GetU32  0x0201134C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -77,13 +77,13 @@ struct ScriptCheckTask {
 
 typedef enum { SCRIPT_CHECK_BIT = 1 } ScriptCheckBit;
 
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *fileName, u16 line);
-extern int func_020307B0(void *block);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *fileName, u16 line);
+extern int GFL_HEAP_Free(void *block);
 extern int STRBUF_Delete(void *buffer);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern u32 GAME_DATA_GetEventWork(void *gameData);
 extern void *func_020124E8(void *task);
-extern void *func_020122C0(void *gameSystem, void *arg, ScriptCheckTaskFn callback, unsigned int size);
+extern void *GAME_EVENT_Create(void *gameSystem, void *arg, ScriptCheckTaskFn callback, unsigned int size);
 extern u16 *ZONEDATA_GetEventWorkAddress(u32 eventWork, u32 id);
 extern u32 VM_GetU32(ScriptVm *vm);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
@@ -178,7 +178,7 @@ int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
 
 ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork)
 {
-    ScriptWork *work = func_02030734(heapId, 0x14C, 1, sScriptWorkFileName, 0xAF);
+    ScriptWork *work = GFL_HEAP_Alloc(heapId, 0x14C, 1, sScriptWorkFileName, 0xAF);
     work->magic = SCRIPT_WORK_MAGIC;
     work->heapId = heapId;
     work->gameSystem = gameSystem;
@@ -214,7 +214,7 @@ int SCRIPT_WORK_Delete(ScriptWork *work)
     if (work->tempBuffer != 0)
         STRBUF_Delete(work->tempBuffer);
     SCRCMD_WORK_DeleteCommon(work->cmdWork);
-    return func_020307B0(work);
+    return GFL_HEAP_Free(work);
 }
 
 void *SCRIPT_WORK_GetEvent(ScriptWork *work) { return work->event; }
@@ -277,7 +277,7 @@ void *SCRIPT_WORK_GetUserWork(ScriptWork *work) { return work->userWork; }
 void SCRIPT_WORK_FreeUserWork(ScriptWork *work)
 {
     if (work->userWork != 0) {
-        func_020307B0(work->userWork);
+        GFL_HEAP_Free(work->userWork);
         work->userWork = 0;
     }
 }
@@ -327,7 +327,7 @@ int SCRIPT_WORK_SetParams(ScriptWork *work, int param0, int param1, int param2, 
 
 void *SCRIPT_WORK_BackupLocalWork(ScriptWork *work)
 {
-    void *backup = func_02030734(work->heapId, 0x7e, 1, sScriptWorkFileName, 0x21b);
+    void *backup = GFL_HEAP_Alloc(work->heapId, 0x7e, 1, sScriptWorkFileName, 0x21b);
     MIi_CpuCopy16(SCRIPT_WORK_GetLocalWork(work, 0x8020), backup, 0x7e);
     return backup;
 }
@@ -336,7 +336,7 @@ void SCRIPT_WORK_RestoreLocalWork(ScriptWork *work, void *backup)
 {
     u16 *localWorks = SCRIPT_WORK_GetLocalWork(work, 0x8020);
     MIi_CpuCopy16(backup, localWorks, 0x7e);
-    func_020307B0(backup);
+    GFL_HEAP_Free(backup);
 }
 
 void SCRIPT_WORK_SetReturnScriptId(ScriptWork *work, u32 scriptId) { work->returnScriptId = scriptId; }
@@ -442,7 +442,7 @@ void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm)
 {
     void *scriptCtl = SCRCMD_WORK_GetScriptWork(vm);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(vm);
-    void *taskHandle = func_020122C0(gameSystem, 0, SCRIPT_WORK_RunCheckTask, sizeof(ScriptCheckTask));
+    void *taskHandle = GAME_EVENT_Create(gameSystem, 0, SCRIPT_WORK_RunCheckTask, sizeof(ScriptCheckTask));
     ScriptCheckTask *task = func_020124E8(taskHandle);
     task->gameSystem = gameSystem;
     task->vm = vm;

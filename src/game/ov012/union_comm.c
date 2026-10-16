@@ -14,22 +14,22 @@
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   REGULATION_Create  0x0200ADF0  thumb
  *   sUnionCommFile   0x02175600  data  ov012  a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   sUnionNetInit 0x02175380 data ov012 a4
  *   GFL_NET_EndDeviceWrapper 0x0203D0FC arm
  *   GFL_NET_SetErrorCheckEnabled  0x0203D8C4  arm
  *   GFL_NET_Exit 0x0203CEAC arm
- *   func_0200FB24 0x0200FB24 thumb
- *   func_0200FBA0 0x0200FBA0 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
+ *   GFL_NET_ERR_ResetState 0x0200FBA0 thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_02080D24  0x02080D24  arm
+ *   MATH_CountPopulation  0x02080D24  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
@@ -73,11 +73,11 @@ typedef struct { int x, y, z; } VecFx32;
 
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
 extern struct Regulation *REGULATION_Create(u32 heapId);
 
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
@@ -89,9 +89,9 @@ extern void GFL_NET_SetErrorCheckEnabled(u32 enable);
 
 extern int GFL_NET_Exit(void (*exitCallback)(UnionRoomWork *work));
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern void func_0200FBA0(void);
+extern void GFL_NET_ERR_ResetState(void);
 
 extern int GFL_NET_GetRunState(void);
 
@@ -99,7 +99,7 @@ extern void NET_WHPIPE_PublishBeacon(void);
 
 extern u32 GFL_NET_IsParentAid(void);
 
-extern int func_02080D24(u8 bits);
+extern int MATH_CountPopulation(u8 bits);
 
 extern int GFL_NET_GetNegotiationNum(void);
 
@@ -260,7 +260,7 @@ UnionRoomWork *UNION_COMM_Create(UnionParentWork *parent)
     UnionRoomWork *work;
 
     GFL_HEAP_CreateChildHeap(4, UNION_HEAP_ID, 0x8a00);
-    work = func_02030734(UNION_HEAP_ID, sizeof(UnionRoomWork), 1, sUnionCommFile, 0x89);
+    work = GFL_HEAP_Alloc(UNION_HEAP_ID, sizeof(UnionRoomWork), 1, sUnionCommFile, 0x89);
     work->parent = parent;
     UNION_COMM_InitSituation(work);
     work->mySituation.chatUpdated = 1;
@@ -272,11 +272,11 @@ UnionRoomWork *UNION_COMM_Create(UnionParentWork *parent)
 
 void UNION_COMM_Delete(UnionParentWork *parent, UnionRoomWork *work)
 {
-    if (work->regulation != 0) func_020307B0(work->regulation);
+    if (work->regulation != 0) GFL_HEAP_Free(work->regulation);
     UNION_COMM_ReleaseWorks(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
     GFL_HEAP_DeleteChecked(UNION_HEAP_ID);
-    func_020307B0(parent);
+    GFL_HEAP_Free(parent);
 }
 
 UnionRoomWork *UNION_COMM_InitComm(int *seq, UnionParentWork *parent)
@@ -318,7 +318,7 @@ int UNION_COMM_ExitWait(int *seq, UnionParentWork *parent, UnionRoomWork *work)
 {
     if (work->commState == 5) {
         UNION_COMM_Delete(parent, work);
-        if (func_0200FB24() != 0) func_0200FBA0();
+        if (GFL_NET_ERR_GetErrorLevel() != 0) GFL_NET_ERR_ResetState();
         return 1;
     }
     return 0;
@@ -427,7 +427,7 @@ void UNION_COMM_Update(int *seq, UnionParentWork *parent, UnionRoomWork *work)
     UNION_COMM_UpdateColosseum(work);
     UNION_COMM_SendEntryReplies(work);
     UNION_COMM_UpdateConnectSync(work);
-    if (func_0200FB24() != 0 && GFL_NET_IsParentAid() == 1 && work->colosseum != 0
+    if (GFL_NET_ERR_GetErrorLevel() != 0 && GFL_NET_IsParentAid() == 1 && work->colosseum != 0
         && work->colosseum->startFlag == 1
         && work->mySituation.playCategory == UNION_PLAY_CATEGORY_COLOSSEUM
         && work->colosseum->leaveSent == 0) {
@@ -444,7 +444,7 @@ void UNION_COMM_UpdateConnectSync(UnionRoomWork *work)
     if (situation->connect.syncActive == 0) {
         return;
     }
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         return;
     }
     switch (situation->connect.syncStep) {
@@ -454,7 +454,7 @@ void UNION_COMM_UpdateConnectSync(UnionRoomWork *work)
         }
         break;
     case 1:
-        if (func_02080D24(situation->connect.syncReadyBits) >= GFL_NET_GetNegotiationNum()) {
+        if (MATH_CountPopulation(situation->connect.syncReadyBits) >= GFL_NET_GetNegotiationNum()) {
             GFL_NET_SetLoginOption(0);
             situation->connect.syncStep++;
         }
@@ -651,19 +651,19 @@ void UNION_COMM_ReleaseWorks(UnionRoomWork *work)
 {
     work->partnerCard = 0;
     if (work->myTrainerCard != 0) {
-        func_020307B0(work->myTrainerCard);
+        GFL_HEAP_Free(work->myTrainerCard);
         work->myTrainerCard = 0;
     }
     if (work->recvTrainerCard != 0) {
-        func_020307B0(work->recvTrainerCard);
+        GFL_HEAP_Free(work->recvTrainerCard);
         work->recvTrainerCard = 0;
     }
     if (work->partySelectParam != 0) {
-        func_020307B0(work->partySelectParam);
+        GFL_HEAP_Free(work->partySelectParam);
         work->partySelectParam = 0;
     }
     if (work->partySelect != 0) {
-        func_020307B0(work->partySelect);
+        GFL_HEAP_Free(work->partySelect);
         work->partySelect = 0;
     }
     if (work->app != 0) {

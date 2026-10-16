@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   sWifi2dcharFileName 0x021C6100 data a1
  *   WF2DMAP_MAP_IsEmpty 0x021C4790 thumb ov127
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
@@ -106,11 +106,11 @@ typedef struct Wifi2dcharPoint { u16 x, y; } Wifi2dcharPoint;
 /* 6-byte actor position passed to CLACT_CreateActor. */
 typedef struct Wifi2dcharActorPos { s16 x, y, z; u8 a, b; } Wifi2dcharActorPos;
 
-extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, u16 heap);
 extern int WF2DMAP_MAP_IsEmpty(char *p);
 extern void ARC_TOOL_DeleteHandle(u32);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorBgPriority(u32, u32);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
@@ -193,17 +193,17 @@ Wifi2dcharContext *WIFI_2DCHAR_Create(void *a, void *b, u32 count, u32 heap)
 {
     Wifi2dcharContext *p;
     int i;
-    p = func_02030734(heap, 820, 1, sWifi2dcharFileName, 339);
+    p = GFL_HEAP_Alloc(heap, 820, 1, sWifi2dcharFileName, 339);
     p->ownerA = a;
     p->ownerB = b;
-    p->charHandle = func_020490F4(31, heap);
-    p->paletteSource = func_020490F4(32, heap);
+    p->charHandle = ARC_TOOL_CreateHandle(31, heap);
+    p->paletteSource = ARC_TOOL_CreateHandle(32, heap);
     for (i = 0; i < 18; i++) p->cells[i].handle = -1;
     ((Wifi2dcharContext *)p)->bmpCharHandle = -1;
     ((Wifi2dcharContext *)p)->paletteHandle = -1;
     WIFI_2DCHAR_RegisterCellAnims((char *)p, 0, heap);
     p->actorCount = count;
-    p->actors = func_02030734(heap, 24 * p->actorCount, 1, sWifi2dcharFileName, 379);
+    p->actors = GFL_HEAP_Alloc(heap, 24 * p->actorCount, 1, sWifi2dcharFileName, 379);
     return p;
 }
 
@@ -220,8 +220,8 @@ void WIFI_2DCHAR_Delete(u8 *p)
     WIFI_2DCHAR_ReleaseCells(p);
     ARC_TOOL_DeleteHandle((u32)((Wifi2dcharContext *)p)->charHandle);
     ARC_TOOL_DeleteHandle((u32)((Wifi2dcharContext *)p)->paletteSource);
-    func_020307B0(((Wifi2dcharContext *)p)->actors);
-    func_020307B0(p);
+    GFL_HEAP_Free(((Wifi2dcharContext *)p)->actors);
+    GFL_HEAP_Free(p);
 }
 
 

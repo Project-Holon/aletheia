@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_RAIL_Create  0x021B7884  thumb  ov021
  *   FIELD_RAIL_LOADER_Create  0x0219EF44  thumb  ov021
  *   d_021DE2D0     0x021DE2D0  data  a4
@@ -87,8 +87,8 @@ typedef struct FieldNogridMapperRes {
     u16 sceneAreaDataId;   /* scene area file, or NOGRID_MAPPER_RES_NONE */
 } FieldNogridMapperRes;
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, int fieldCamera);
 extern FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);
 extern RailAttr *RAIL_ATTR_Create(int heapId);
@@ -147,7 +147,7 @@ extern int d_021DE2D0;
 
 FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader)
 {
-    FieldNogridMapper *mapper = func_02030734((u16)heapId, sizeof(FieldNogridMapper), 1, (const char *)&d_021DE2D0, 0x47);
+    FieldNogridMapper *mapper = GFL_HEAP_Alloc((u16)heapId, sizeof(FieldNogridMapper), 1, (const char *)&d_021DE2D0, 0x47);
 
     mapper->railMan = FIELD_RAIL_Create(heapId, RAIL_WORK_MAX, fieldCamera);
     mapper->railLoader = FIELD_RAIL_LOADER_Create(heapId);
@@ -162,7 +162,7 @@ int FIELD_NOGRID_MAPPER_Delete(FieldNogridMapper *mapper)
     RAIL_ATTR_Delete(mapper->railAttr);
     FIELD_RAIL_Delete(mapper->railMan);
     FIELD_RAIL_LOADER_Delete(mapper->railLoader);
-    return func_020307B0(mapper);
+    return GFL_HEAP_Free(mapper);
 }
 
 void FIELD_NOGRID_MAPPER_SetActive(FieldNogridMapper *mapper, int active)
@@ -197,10 +197,10 @@ void FIELD_NOGRID_MAPPER_LoadData(FieldNogridMapper *mapper, const FieldNogridMa
 void FIELD_NOGRID_MAPPER_LoadDataFromArc(FieldNogridMapper *mapper, u32 resId, u32 heapId)
 {
     int size = ARC_TOOL_GetMemberSize(NOGRID_MAPPER_RES_ARC_ID, resId);
-    FieldNogridMapperRes *res = func_02030734((u16)(((u16)heapId & 0x7FFF) | 0x8000), size, 1, (const char *)&d_021DE2D0, 0xdd);
+    FieldNogridMapperRes *res = GFL_HEAP_Alloc((u16)(((u16)heapId & 0x7FFF) | 0x8000), size, 1, (const char *)&d_021DE2D0, 0xdd);
     ARC_TOOL_ReadMember(res, NOGRID_MAPPER_RES_ARC_ID, resId);
     FIELD_NOGRID_MAPPER_LoadData(mapper, res, heapId);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 void FIELD_NOGRID_MAPPER_ReleaseData(FieldNogridMapper *mapper)
@@ -260,13 +260,13 @@ void FIELD_NOGRID_MAPPER_CalcZoneRailLocation(FieldNogridMapper *mapper, u32 zon
     FieldNogridMapperRes *res;
     FieldRailLoader *loader;
     tempHeapId = (heapId & 0x7FFF) | 0x8000;
-    res = func_02030734(tempHeapId, ARC_TOOL_GetMemberSize(NOGRID_MAPPER_RES_ARC_ID, ZONEDATA_GetSpecialKind(zoneId)), 1, (const char *)&d_021DE2D0, 0x1c9);
+    res = GFL_HEAP_Alloc(tempHeapId, ARC_TOOL_GetMemberSize(NOGRID_MAPPER_RES_ARC_ID, ZONEDATA_GetSpecialKind(zoneId)), 1, (const char *)&d_021DE2D0, 0x1c9);
     ARC_TOOL_ReadMember(res, NOGRID_MAPPER_RES_ARC_ID, ZONEDATA_GetSpecialKind(zoneId));
     loader = FIELD_RAIL_LOADER_Create(tempHeapId);
     FIELD_RAIL_LOADER_Load(loader, res->railDataId, tempHeapId);
     FIELD_RAIL_MakeLineLocation(mapper->railMan, FIELD_RAIL_LOADER_GetSetting(loader), railIndex, lineGrid, widthPos, outLocation);
     FIELD_RAIL_LOADER_Delete(loader);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 RailManager *FIELD_NOGRID_MAPPER_GetRailMan(FieldNogridMapper *mapper)

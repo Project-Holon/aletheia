@@ -17,7 +17,7 @@
  *   gVctGroup  0x021B4BD0  data  ov013  a4
  *   gVctAnnounceTimeout  0x021B3C48  data  ov013  a4
  *   gVctPeerPool  0x021B4BE0  data  a4
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   VCT_SESSION_BuildGroupCommand  0x021B2010  arm  ov013
  *   VCT_SESSION_BuildPeerReply  0x021B20D4  arm  ov013
  *   DWC_SendReliable  0x02176E90  arm  ov009
@@ -36,7 +36,7 @@
  */
 #include "vct_types.h"
 
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 extern int DWC_SendReliable(int peerId, VctPacket *packet, int length);
 extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned int);
 extern void MIi_CpuClearFast(int, void *, u32);
@@ -85,7 +85,7 @@ void VCT_SESSION_CheckAnnounceTimeout(void)
 {
     u64 now;
 
-    now = func_020870D0();
+    now = OS_GetTick();
     if (gVctSession.mode != 2)
         return;
     if (gVctSession.sharedSession == 0)
@@ -490,7 +490,7 @@ int VCT_SESSION_HandleSharedPacket(VctPacket *packet, VctEvent *event)
     }
     if (event->code == 10) {
         VCT_SESSION_BroadcastState(1);
-        gVctGroup.announceTick = func_020870D0();
+        gVctGroup.announceTick = OS_GetTick();
     } else {
         VCT_SESSION_BroadcastState(0);
         gVctGroup.announceTick = 0;

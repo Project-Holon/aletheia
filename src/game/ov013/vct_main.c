@@ -36,7 +36,7 @@
  *   VCT_MAIN_ReleasePeer  0x021AEDEC  thumb ov013
  *   VCT_SESSION_RemoveMember  0x021B074C  arm ov013
  *   DWC_RAP_CleanupVchat  0x02156400  thumb ov009
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   VCT_Update  0x021B386C  arm ov013
  *   DWC_GetMyAID  0x0216B838  arm ov009
@@ -49,7 +49,7 @@
  *   NNS_SndStrmSetVolume  0x02073AD0  arm
  *   NNS_SndStrmSetup  0x020738C0  arm
  *   VCT_MAIN_StreamCallback  0x021AEB7C  thumb ov013
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   VCT_MAIN_OnEventGroup  0x021AED08  thumb ov013
  *   VCT_MAIN_OnEventPair  0x021AED30  thumb ov013
  *   VCT_Init  0x021B370C  arm ov013
@@ -129,9 +129,9 @@ extern void NNS_SndStrmFreeChannel(void *stream);
 extern void func_02082AC0(int value, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void func_02082B0C(const void *src, void *dst, u32 size);
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 extern u16 OS_GetTickLo(void);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 /* Wi-Fi glue (ov009). */
 extern void DWC_RAP_CleanupVchat(void);
@@ -433,7 +433,7 @@ void VCT_MAIN_Update(int sendPaused)
     u64 tick;
 
     gVctWork->sendPaused = sendPaused;
-    tick = func_020870D0();
+    tick = OS_GetTick();
     gVctWork->microsecondDebt +=
         (s32)(((u32)tick - (u32)gVctWork->lastTick) * 64000 / 33514) - VCT_FRAME_MICROSECONDS;
     if (gVctWork->microsecondDebt < -10000) {
@@ -521,7 +521,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     if (NNS_SndStrmSetup(gVctWork->audioStream, 1, gVctWork->playbackBuffers, VCT_BUFFER_BYTES,
                       APP_ENV_IsRunOnTwl() ? 0x40 : 0x41, 2, VCT_MAIN_StreamCallback,
                       gVctWork) == 0) {
-        func_02034714(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+        SAVEDATA_PanicFail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
     gVctWork->linkState = 0;
     gVctWork->pendingPeer = 0;
@@ -530,7 +530,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     param.peerCount = peerCount;
     param.localId = DWC_GetMyAID();
     if (param.localId == -1) {
-        func_02034714(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+        SAVEDATA_PanicFail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
     if (gVctWork->mode == 3) {
         param.eventCallback = VCT_MAIN_OnEventGroup;
@@ -1356,7 +1356,7 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 length)
   sequence = gVctSendState.sequence;
   gVctSendState.sequence = gVctSendState.sequence + 1;
   header->seq = sequence;
-  header->timestamp = (u32) (func_020870D0() / (u32)frameType);
+  header->timestamp = (u32) (OS_GetTick() / (u32)frameType);
   gVctSendBuffer.writeCount++;
   return 1;
 }
@@ -1391,7 +1391,7 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMa
     isFirstTry = 1;
     queuedCount = VCT_AUDIO_GetReadyCount(channelIndex);
     while (queuedCount != 0) {
-        nowTick = func_020870D0();
+        nowTick = OS_GetTick();
         packet = VCT_AUDIO_PeekReadyPacket(channelIndex);
         if (packet != 0) {
             if (packet->playTick > nowTick + 0x34) {

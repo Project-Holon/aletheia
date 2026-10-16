@@ -14,13 +14,13 @@
  *
  * symbols:
  *   DPW_TR_Main 0x021C7C1C arm ov114
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
@@ -88,14 +88,15 @@
  *   WORLDTRADE_INPUT_PrintStringPlain  0x021F90A0  thumb
  *   WORLDTRADE_INPUT_PrintStringTop  0x021F9088  thumb  ov135
  *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
+ *   WIFILIST_GetWork  0x02009860  thumb  arm9
  */
 #include "worldtrade_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -149,7 +150,7 @@ extern void DWC_NASLoginAsync(void);
 
 extern int DWC_NASLoginProcess(void);
 
-extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
+extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 
 extern int WIFILIST_GetGsProfileId(void *a0);
 
@@ -451,7 +452,7 @@ int WORLDTRADE_ENTER_InitDwcTrade(Work *p)
     void *handle;
     u32 id;
     u64 key;
-    handle = func_02009860(p->ctx->wifiList);
+    handle = WIFILIST_GetWork(p->ctx->wifiList);
     func_02008540(p->ctx->f1C, WIFILIST_GetGsProfileId(p->ctx->wifiList));
     id = func_0200853C(p->ctx->f1C);
     key = DWC_CreateFriendKey(handle);
@@ -608,7 +609,7 @@ done:
 int WORLDTRADE_ENTER_PushWifiSetup(Work *p)
 {
     NetSaveProcArgs *args;
-    p->saveArgs = func_02030734(0x48, sizeof(NetSaveProcArgs), 0, str_02203C34, 0x263);
+    p->saveArgs = GFL_HEAP_Alloc(0x48, sizeof(NetSaveProcArgs), 0, str_02203C34, 0x263);
     MI_CpuFill8(p->saveArgs, 0, sizeof(NetSaveProcArgs));
     args = p->saveArgs;
     args->handle = ICA_ANIME_GetField1C(p->ctx->f40);
@@ -638,7 +639,7 @@ int WORLDTRADE_ENTER_StateWaitWifiSetup(Work *p)
             p->state = 1;
             break;
         }
-        func_020307B0((void *)p->req);
+        GFL_HEAP_Free((void *)p->req);
     }
     return 2;
 }
@@ -646,7 +647,7 @@ int WORLDTRADE_ENTER_StateWaitWifiSetup(Work *p)
 int WORLDTRADE_ENTER_PushWifiError(Work *p)
 {
     NetProcArgs *args;
-    p->netArgs = func_02030734(72, sizeof(NetProcArgs), 0, str_02203C34, 689);
+    p->netArgs = GFL_HEAP_Alloc(72, sizeof(NetProcArgs), 0, str_02203C34, 689);
     MI_CpuFill8(p->netArgs, 0, sizeof(NetProcArgs));
     args = p->netArgs;
     args->save = ICA_ANIME_GetField1C(p->ctx->f40);
@@ -663,7 +664,7 @@ int WORLDTRADE_ENTER_PushWifiError(Work *p)
 int WORLDTRADE_ENTER_StateWaitWifiError(Work *p)
 {
     if (p->busy_u == 0) {
-        func_020307B0(p->req);
+        GFL_HEAP_Free(p->req);
         WORLDTRADE_SetStateAndReturn(p, 0, 0);
         p->state = 1;
     }
@@ -821,7 +822,7 @@ void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e)
 void WORLDTRADE_INPUT_PrintBankString(Work *p, void *bank, u32 index, int unused1, int unused2, int slow)
 {
     void *str;
-    str = func_02045EC0(bank, index);
+    str = MSGDATA_AllocString(bank, index);
     WORDSET_CopyTaggedText(p->words, p->str, str);
     STRBUF_Delete(str);
     BMP_Clear(BMP_WIN_GetBmp(p->d40), 15);
@@ -874,7 +875,7 @@ void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g)
 {
     void *str;
 
-    str = func_02045EC0(bank, tbl_022031EC[idx]);
+    str = MSGDATA_AllocString(bank, tbl_022031EC[idx]);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, 0, 0, 0x440, (u32)g);
     STRBUF_Delete(str);
 }

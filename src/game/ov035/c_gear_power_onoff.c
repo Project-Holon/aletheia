@@ -13,18 +13,18 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
  *   ICA_ANIME_GetField24 0x02012138 thumb
  *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   ICA_ANIME_IsConfigFlagSet 0x0201214C thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   sPowerOnOffTable 0x021F0640 data ov035 a4
  *   FIELD_SUBSCREEN_SetPanelResult 0x021A0FA0 thumb ov021
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   FIELD_SUBSCREEN_LoadBackdrop 0x021A12D4 thumb ov021
@@ -33,16 +33,16 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02049B68 0x02049B68 arm
- *   func_02049740 0x02049740 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   func_02049990 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   sBgCharFileIds    0x021F05B0 data a4
@@ -54,7 +54,7 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_SetDispHeight 0x02045790 arm
@@ -70,7 +70,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_MENUWORK_DeleteHalf 0x0201F614 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
@@ -136,16 +136,16 @@ typedef struct CGearPowerOnOffTable {
     struct Strbuf *noLabel;
 } CGearPowerOnOffTable;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *ICA_ANIME_GetField24(const void *gameSystem);
 extern int APP_ENV_InitParentalControl(void);
 extern u32 ICA_ANIME_IsConfigFlagSet(const void *gameSystem);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *subscreen, int mode);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned int heapId);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 extern struct PrintQue *PRINTSYS_QUE_Create(unsigned int heapId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_LoadBackdrop(FieldSubscreen *subscreen, u32 heapId);
@@ -154,16 +154,16 @@ extern void PRINTSYS_QUE_Clear(struct PrintQue *printQue);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_PushTile(u32 layer);
-extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
+extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 func_02008550(const struct MyStatus *myStatus);
 extern void func_02049B68(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
-extern u32 func_02049740(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 size, u32 heap);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 size, u32 heap);
 extern void func_02049990(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
     u32 heap);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
@@ -171,7 +171,7 @@ extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern u32 APP_TASKMENU_RES_Delete(void *taskMenuRes);
-extern void func_02049B40(int, int, int, int, int, int);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, int);
 extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, unsigned int a1, unsigned int a2, unsigned int a3);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_SetDispHeight(struct BmpWin *window, u8 v);
@@ -187,7 +187,7 @@ extern int APP_KEYCURSOR_Delete(void *keyCursor);
 extern void TCBL_Destroy(void *tcbl);
 extern u32 BMP_WIN_Delete(struct BmpWin *window);
 extern void BMP_MENUWORK_DeleteHalf(int, unsigned int);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_Print(void *bitmap, s16 x, s16 y, struct Strbuf *msg, struct GfFont *font);
 extern void BMP_MENUWORK_DrawWindowEx(struct BmpWin *window, u32 kind, void *menuWork, u32 pal);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *window, u32 kind);
@@ -240,7 +240,7 @@ extern const struct BgTemplate sBgTemplate6;
 
 CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId)
 {
-    CGearPowerOnOffWork *work = func_02030734(heapId, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
+    CGearPowerOnOffWork *work = GFL_HEAP_Alloc(heapId, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
     work->gameSystem = gameSystem;
     work->beacon = ICA_ANIME_GetField24(gameSystem);
     work->subscreen = subscreen;
@@ -258,7 +258,7 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
 
 
 
-void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work) { C_GEAR_POWER_ONOFF_ExitScreen(work); func_020307B0(work); }
+void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work) { C_GEAR_POWER_ONOFF_ExitScreen(work); GFL_HEAP_Free(work); }
 
 
 
@@ -271,7 +271,7 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
 {
     work->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     GF_FONT_SetDefaultTextColor();
-    work->msgBank = func_02045B38(0, 2, 0x16, heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x16, heapId);
     work->printQue = PRINTSYS_QUE_Create(heapId);
     C_GEAR_POWER_ONOFF_InitBgs(work, heapId);
     C_GEAR_POWER_ONOFF_CreateTaskMenuRes(work, heapId);
@@ -295,23 +295,23 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
     u32 charAlloc;
 
     for (i = 4; i <= 7; i++)
-        func_02040588((u8)i, 0);
+        BG_SYS_SetPlaneVisible((u8)i, 0);
     BG_SYS_InitBgLayer(6, &sBgTemplate6, 0);
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
-    func_02040588((u8)6, 1);
+    BG_SYS_SetPlaneVisible((u8)6, 1);
     BG_SYS_InitBgLayer(5, &sBgTemplate5, 0);
     BG_SYS_ClearSlot(5);
     BG_SYS_PushTile(5);
-    func_02040588((u8)5, 1);
+    BG_SYS_SetPlaneVisible((u8)5, 1);
     BG_SYS_InitBgLayer(4, &sBgTemplate4, 0);
     BG_SYS_ClearSlot(4);
     BG_SYS_PushTile(4);
-    func_02040588((u8)4, 1);
-    arc = func_020490F4(0x1E, heapId);
+    BG_SYS_SetPlaneVisible((u8)4, 1);
+    arc = ARC_TOOL_CreateHandle(0x1E, heapId);
     i = func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem)));
     func_02049B68(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
-    charAlloc = func_02049740(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
+    charAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
     work->bgCharAlloc = charAlloc;
     func_02049990(arc, 3, 6, 0, (u16)charAlloc, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
@@ -328,9 +328,9 @@ void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
-    func_02040588(6, 0);
-    func_02040588(5, 0);
-    func_02040588(4, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
+    BG_SYS_SetPlaneVisible(5, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
 }
 
 
@@ -356,7 +356,7 @@ void C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(CGearPowerOnOffWork *work)
 
 void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
 {
-    func_02049B40(0x17, 5, 4, 0x20, 0x20, heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x20, 0x20, heapId);
     work->bmpMenuWork = BMP_MENUWORK_LoadFrameGfx(5, 2, 0, heapId);
     work->messageWindow = BMP_WIN_Create(5, 1, 1, 0x1E, 6, 1, 1);
     work->menuWindow = BMP_WIN_Create(5, 1, 0xD, 0x1E, 0xA, 1, 1);
@@ -401,7 +401,7 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
 
 void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId)
 {
-    struct Strbuf *msg = func_02045EC0(work->msgBank, msgId);
+    struct Strbuf *msg = MSGDATA_AllocString(work->msgBank, msgId);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
     BMP_MENUWORK_DrawWindowEx(window, 0, work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
@@ -414,7 +414,7 @@ void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *w
 
 void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId, int height)
 {
-    struct Strbuf *msg = func_02045EC0(work->msgBank, msgId);
+    struct Strbuf *msg = MSGDATA_AllocString(work->msgBank, msgId);
 
     BMP_WIN_SetDispHeight(window, height);
     BMP_Clear(BMP_WIN_GetBmp(window), 15);
@@ -435,8 +435,8 @@ void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId)
     CGearPowerOnOffTable *table = &sPowerOnOffTable;
 
     table->menuHeapId = heapId;
-    table->yesLabel = func_02045EC0(work->msgBank, 5);
-    table->noLabel = func_02045EC0(work->msgBank, 6);
+    table->yesLabel = MSGDATA_AllocString(work->msgBank, 5);
+    table->noLabel = MSGDATA_AllocString(work->msgBank, 6);
     work->taskMenu = APP_TASKMENU_OpenMenuFastDecide(&table->menuHeapId, work->taskMenuRes);
     APP_TASKMENU_SetDisableKey(work->taskMenu, 1);
     STRBUF_Delete(table->yesLabel);

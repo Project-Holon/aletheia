@@ -24,13 +24,13 @@
  *   BTL_SETUP_SetParty  0x02013128  thumb
  *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   EVENT_BATTLE_REC_SAVE_Start  0x021550A0  thumb  ov008
  *   ov008_id       0x00000008  data
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MUSICAL_MCSS_LoadActorData  0x021F4F14  thumb  ov112
  *   MUSICAL_MCSS_GetElemA  0x021F5140  thumb  ov112
@@ -43,7 +43,7 @@
  *   BTL_SETUP_FreeSlots  0x020130DC  thumb
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
  *   BTL_SETUP_ApplyRegulation  0x02013160  thumb
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   d_0217277C     0x0217277C  data
  *   MUSICAL_STAGE_SYS_CreateNpcPerformer 0x02156FD0 thumb ov010
  *   MUSICAL_STAGE_SYS_SetPerformerProp 0x0215700C thumb ov010
@@ -101,9 +101,9 @@ extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *setup, u32 flag
 
 extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *gameSys, u32 overlayId, void *proc, void *procArg);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern u32 func_020307B0(void *ptr);
+extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
 
@@ -111,7 +111,7 @@ extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSys, void *fieldMap, i
 
 extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
 
-extern struct GameEvent *func_020122C0(void *gameSys, void *a, void *proc, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
 extern void *func_020124E8(struct GameEvent *event);
 
@@ -135,7 +135,7 @@ extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *gameSys);
 
 extern void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *setup, void *regulation, u32 heapId);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 /* Overlay ids (absolute linker symbols) and data of other overlays. */
 extern u8 ov008_id[];
@@ -222,7 +222,7 @@ MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musica
     u8 second;
     u8 round;
 
-    program = func_02030734(heapId, 0x10, 0, sMusicalProgramFileName, 100);
+    program = GFL_HEAP_Alloc(heapId, 0x10, 0, sMusicalProgramFileName, 100);
     program->catalog.programs = musicalSystem->programs;
     for (i = 0; i < 4; i++) {
         program->categoryBonus[i] = 0;
@@ -273,7 +273,7 @@ MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musica
  */
 int MUSICAL_PROGRAM_Delete(MusicalShowProgram *program){
 
-    func_020307B0(program);
+    GFL_HEAP_Free(program);
 }
 
 /*
@@ -512,7 +512,7 @@ int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work)
 struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request)
 {
     int formation = 0x29;
-    struct GameEvent *event = func_020122C0(gameSys, 0, IRC_BATTLE_TASK_Main, 0xFC);
+    struct GameEvent *event = GAME_EVENT_Create(gameSys, 0, IRC_BATTLE_TASK_Main, 0xFC);
     IrcBattleTaskWork *work = func_020124E8(event);
     struct BattleSetupParam *setup;
     void *sysData;
@@ -578,7 +578,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
         BTL_SETUP_SetupCommMulti(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
         break;
     default:
-        func_02034714((const char *)d_0217277C, 0, (const char *)d_0217277C);
+        SAVEDATA_PanicFail((const char *)d_0217277C, 0, (const char *)d_0217277C);
         return 0;
     }
     BTL_SETUP_SetParty(setup, request->party, 0);

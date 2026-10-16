@@ -24,7 +24,7 @@
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   gDwcAuth     0x021AB188  data
  *   OS_LockMutex  0x02086028  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   func_021797D4  0x021797D4  arm  ov009
  *   OS_JoinThread  0x02085710  arm
  *   DWC_Http_Destroy  0x02179CF4  arm
@@ -39,7 +39,7 @@
  *   gDwcAuthNasUrl  0x021A2374  data  ov009
  *   gDwcWiFiInfo  0x021AB190  data  ov009
  *   gMslRefToken  0x02150FEC  data
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
  *   OS_Sleep  0x02085A38  arm
  *   DWC_Http_ParseResult  0x0217A484  arm  ov009
@@ -49,7 +49,7 @@
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
  *   atoi  0x020964E0  arm
- *   func_0217A77C  0x0217A77C  arm  ov009
+ *   DWC_Http_GetBase64DecodedResult  0x0217A77C  arm  ov009
  *   strtol  0x02095F40  arm
  *   strlen  0x0209477C  arm
  *   func_0217A7C8  0x0217A7C8  arm  ov009
@@ -134,7 +134,7 @@ extern int OS_IsThreadTerminated(void *thread);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stack_size, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
 extern void OS_LockMutex(OSMutex *mutex);
-extern void func_02086078(OSMutex *mutex);
+extern void OS_UnlockMutex(OSMutex *mutex);
 extern void func_021797D4(DWCHttp *http);
 extern void OS_JoinThread(void *thread);
 extern void DWC_Http_Destroy(DWCHttp *http);
@@ -145,7 +145,7 @@ extern void DWCi_BM_GetWiFiInfo(struct DWCWiFiInfo *buf);
 extern int DWC_Http_FinishHeader(DWCHttp *http);
 extern unsigned long OS_GetThreadPriority(void *thread);
 extern void DWC_Http_StartThread(DWCHttp *http, unsigned long prio);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern void OS_Sleep(unsigned long msec);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern int DWCi_AUTH_UpDateWiFiID(struct DWCWiFiInfo *wifiinfo, void *work);
@@ -154,7 +154,7 @@ extern int DWCi_AUTH_MakeWiFiID(void *work);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 extern int atoi(u32 a0);
-extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
+extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern s32 strtol(u32 a0, u32 *a1, u32 a2);
 extern int strlen(const u8 *s);
 extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_len);
@@ -275,7 +275,7 @@ void DWC_Auth_Abort(void)
 		return;
 	OS_LockMutex(&gDwcAuthGlobal.auth->mutex);
 	gDwcAuthGlobal.auth->abort_flag = 1;
-	func_02086078(&gDwcAuthGlobal.auth->mutex);
+	OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
 	if (gDwcAuthGlobal.auth->http != 0)
 		func_021797D4(gDwcAuthGlobal.auth->http);
 	if (gDwcAuthGlobal.auth->started == 0)
@@ -336,7 +336,7 @@ int DWC_Auth_GetError(void)
 		return 0x16;
 	OS_LockMutex(&gDwcAuthGlobal.auth->mutex);
 	error = gDwcAuthGlobal.auth->error;
-	func_02086078(&gDwcAuthGlobal.auth->mutex);
+	OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
 	return error;
 }
 
@@ -459,16 +459,16 @@ void DWCi_Auth_Thread(void *arg)
             }
         }
 
-        startwait = func_020870D0();
-        while (((func_020870D0() - startwait) << 6) / 33514 < 5000) {
+        startwait = OS_GetTick();
+        while (((OS_GetTick() - startwait) << 6) / 33514 < 5000) {
             OS_LockMutex(&gDwcAuthGlobal.auth->mutex);
             if (gDwcAuthGlobal.auth->abort_flag == 1) {
                 gDwcAuthGlobal.auth->result.returncode = 20100;
-                func_02086078(&gDwcAuthGlobal.auth->mutex);
+                OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
                 DWCi_Auth_SetError(20);
                 return;
             }
-            func_02086078(&gDwcAuthGlobal.auth->mutex);
+            OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
             OS_Sleep(5000);
         }
 
@@ -477,10 +477,10 @@ void DWCi_Auth_Thread(void *arg)
         gDwcAuthGlobal.auth->error = DWCi_Auth_Start(getwifiinfofromflash);
         if (gDwcAuthGlobal.auth->error != 0) {
             gDwcAuthGlobal.auth->result.returncode = 20100;
-            func_02086078(&gDwcAuthGlobal.auth->mutex);
+            OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
             return;
         }
-        func_02086078(&gDwcAuthGlobal.auth->mutex);
+        OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
     }
 }
 
@@ -575,7 +575,7 @@ int DWCi_Auth_FillResult(void)
         gDwcAuthGlobal.auth->result.returncode = returncode + 23000;
         return 18;
     }
-    if (func_0217A77C(gDwcAuthGlobal.auth->http, gDwcAuthLabelReturnCd, gDwcAuthGlobal.auth->result.retcode, 4) <= 0) {
+    if (DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelReturnCd, gDwcAuthGlobal.auth->result.retcode, 4) <= 0) {
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 14;
     }
@@ -591,10 +591,10 @@ int DWCi_Auth_FillResult(void)
         gDwcAuthGlobal.auth->result.challenge[0] = 0;
         gDwcAuthGlobal.auth->result.datetime[0] = 0;
         gDwcAuthGlobal.auth->result.cookie[0] = 0;
-        func_0217A77C(gDwcAuthGlobal.auth->http, gDwcAuthLabelToken, gDwcAuthGlobal.auth->result.token, 0x12d);
-        func_0217A77C(gDwcAuthGlobal.auth->http, gDwcAuthLabelLocator, gDwcAuthGlobal.auth->result.locator, 0x33);
-        func_0217A77C(gDwcAuthGlobal.auth->http, gDwcAuthLabelChallenge, gDwcAuthGlobal.auth->result.challenge, 9);
-        func_0217A77C(gDwcAuthGlobal.auth->http, gDwcAuthLabelDateTime, gDwcAuthGlobal.auth->result.datetime, 0xf);
+        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelToken, gDwcAuthGlobal.auth->result.token, 0x12d);
+        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelLocator, gDwcAuthGlobal.auth->result.locator, 0x33);
+        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelChallenge, gDwcAuthGlobal.auth->result.challenge, 9);
+        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelDateTime, gDwcAuthGlobal.auth->result.datetime, 0xf);
         func_0217A7C8(gDwcAuthGlobal.auth->http, gDwcAuthLabelSetCookie, gDwcAuthGlobal.auth->result.cookie, 0x41);
         gDwcAuthGlobal.auth->result.cookieEnd = 0;
         if (returncode != 40)
@@ -655,5 +655,5 @@ void DWCi_Auth_SetError(int error)
 {
 	OS_LockMutex(&gDwcAuthGlobal.auth->mutex);
 	gDwcAuthGlobal.auth->error = error;
-	func_02086078(&gDwcAuthGlobal.auth->mutex);
+	OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
 }

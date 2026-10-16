@@ -17,12 +17,12 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_020124E8  0x020124E8  thumb
  *   abs_id_4b      0x0000004B  data
  *   abs_id_4d      0x0000004D  data
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -33,7 +33,7 @@
  *   POKEPARTY_Create  0x0201A920  thumb
  *   d_021DE674     0x021DE674  data  a4
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
- *   func_020073D8  0x020073D8  thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
  *   BATTLE_EXAMINATION_IsDeliveryValid  0x0200E5A0  thumb
  *   BATTLE_EXAMINATION_IsDeliveryUnused  0x0200E5CC  thumb
  *   func_0200734C  0x0200734C  thumb
@@ -54,7 +54,7 @@
  *   BATTLE_EXAMINATION_LoadDelivery  0x0200E608  thumb
  *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
  *   GFL_NET_IsIdle  0x0203D210  arm
- *   func_02008C58  0x02008C58  thumb
+ *   RECORD_GetFromSave  0x02008C58  thumb
  *   func_02008E88  0x02008E88  thumb
  *   func_02008E68  0x02008E68  thumb
  *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
@@ -199,10 +199,10 @@ typedef struct TrialHouseSaveTaskWork {
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 KEY_GetTrg(void);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *func_020124E8(GameEvent *event);
-extern GameEvent *func_020122C0(GameSystem *gameSystem, void *arg, int (*func)(GameEvent *event, u32 *seq, void *work), u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *arg, int (*func)(GameEvent *event, u32 *seq, void *work), u32 workSize);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
@@ -212,7 +212,7 @@ extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
 extern Party *POKEPARTY_Create(u32 heapId);
 extern void POKEPARTY_InitEx(Party *party, s32 capacity);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
-extern TrialHouseDelivery *func_020073D8(SaveControl *saveControl, u32 blockId, u32 arg);
+extern TrialHouseDelivery *SAVE_CONTROL_GetExtraSaveRecord(SaveControl *saveControl, u32 blockId, u32 arg);
 extern void func_0200734C(SaveControl *saveControl, unsigned int blockId);
 extern int BATTLE_EXAMINATION_IsDeliveryValid(TrialHouseDelivery *delivery);
 extern int BATTLE_EXAMINATION_IsDeliveryUnused(TrialHouseDelivery *delivery);
@@ -221,7 +221,7 @@ extern u16 BATTLE_EXAMINATION_GetDeliveryId(TrialHouseDelivery *delivery);
 extern void BATTLE_EXAMINATION_LoadDelivery(GameData *gameData, TrialHouseDelivery *src, u32 heapId);
 extern void func_0200E684(TrialHouseDelivery *delivery);
 extern TrialHouseSave *func_0200E8F8(SaveControl *saveControl);
-extern RecordBlock *func_02008C58(SaveControl *saveControl);
+extern RecordBlock *RECORD_GetFromSave(SaveControl *saveControl);
 extern void func_02008E88(RecordBlock *record, u32 value);
 extern void func_02008E68(RecordBlock *record, u32 value);
 extern u32 func_020056EC(u32 range);
@@ -279,9 +279,9 @@ TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem)
 
     deliverySize = BATTLE_EXAMINATION_GetBlockSize();
     GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)); /* result unused in the original */
-    work = func_02030734(TRIAL_HOUSE_HEAP_ID, sizeof(TrialHouseWork), 1, d_021DE674, 0x5D);
+    work = GFL_HEAP_Alloc(TRIAL_HOUSE_HEAP_ID, sizeof(TrialHouseWork), 1, d_021DE674, 0x5D);
     work->heapId = TRIAL_HOUSE_HEAP_ID;
-    work->delivery = func_02030734(TRIAL_HOUSE_HEAP_ID, deliverySize, 1, d_021DE674, 0x5F);
+    work->delivery = GFL_HEAP_Alloc(TRIAL_HOUSE_HEAP_ID, deliverySize, 1, d_021DE674, 0x5F);
     TRIAL_HOUSE_LoadDeliveryState(gameSystem, work);
     work->playerParty = POKEPARTY_Create(work->heapId);
     return work;
@@ -296,10 +296,10 @@ void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work)
     void *buf;
 
     saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
-    buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x79);
+    buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x79);
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE);
     state = TRIAL_HOUSE_DELIVERY_NONE;
-    delivery = func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
+    delivery = SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
     if (BATTLE_EXAMINATION_IsDeliveryValid(delivery)) {
         int notUsed = BATTLE_EXAMINATION_IsDeliveryUnused(delivery);
         state = TRIAL_HOUSE_DELIVERY_FRESH;
@@ -308,16 +308,16 @@ void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work)
         }
     }
     func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
     work->deliveryState = state;
 }
 
 void TRIAL_HOUSE_DeleteWork(GameSystem *gameSystem, TrialHouseWork **slot)
 {
     if (*slot != 0) {
-        func_020307B0((*slot)->delivery);
-        func_020307B0((*slot)->playerParty);
-        func_020307B0(*slot);
+        GFL_HEAP_Free((*slot)->delivery);
+        GFL_HEAP_Free((*slot)->playerParty);
+        GFL_HEAP_Free(*slot);
         *slot = 0;
     }
 }
@@ -417,12 +417,12 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *ds
     void *buf;
 
     saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
-    buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x14C);
+    buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x14C);
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
-        *dst = *BATTLE_EXAMINATION_GetTrainerSlot(func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
+        *dst = *BATTLE_EXAMINATION_GetTrainerSlot(SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
     }
     func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
 }
 
 /*
@@ -446,7 +446,7 @@ GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork
     GameEvent *event;
     TrialHouseDeliveryTaskWork *task;
 
-    event = func_020122C0(gameSystem, 0, TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
     task = func_020124E8(event);
     task->gameSystem = gameSystem;
     task->result = result;
@@ -646,15 +646,15 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
 
     if (work->deliveryState != 0) {
         saveControl2 = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
-        buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x277);
+        buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x277);
         if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
-            MI_CpuCopy8(func_020073D8(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
+            MI_CpuCopy8(SAVE_CONTROL_GetExtraSaveRecord(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
         }
-        func_020307B0(buf);
+        GFL_HEAP_Free(buf);
         func_0200734C(saveControl2, TRIAL_HOUSE_SAVE_BLOCK);
     }
 
-    record = func_02008C58(saveControl);
+    record = RECORD_GetFromSave(saveControl);
     func_02008E88(record, score);
     func_02008E68(record, (u8)rank);
 }
@@ -676,7 +676,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mo
     TrialHouseSaveTaskWork *task;
     FieldSaveAnime *saveAnime;
 
-    event = func_020122C0(gameSystem, 0, TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
     task = func_020124E8(event);
     task->gameSystem = gameSystem;
     task->buffer = 0;
@@ -735,9 +735,9 @@ int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
 
     switch (*seq) {
     case 0:
-        task->buffer = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 0, d_021DE674, 0x34C);
+        task->buffer = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 0, d_021DE674, 0x34C);
         SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, task->buffer, TRIAL_HOUSE_SAVE_BUF_SIZE);
-        delivery = func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
+        delivery = SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
         if (task->mode == 1) {
             func_0200E684(delivery);
         } else {
@@ -749,7 +749,7 @@ int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
     case 1:
         if (GAME_DATA_PartSaveMain(gameData, TRIAL_HOUSE_SAVE_BLOCK) == 2) {
             func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
-            func_020307B0(task->buffer);
+            GFL_HEAP_Free(task->buffer);
             FIELD_SAVEANIME_Stop(task->saveAnime);
             FIELD_SAVEANIME_Delete(task->saveAnime);
             return 1;

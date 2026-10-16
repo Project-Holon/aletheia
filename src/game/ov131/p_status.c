@@ -14,16 +14,16 @@
  * Split from p_sta_oam.c at 0x021D65D8 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_020355C4 0x020355C4 arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MIi_CpuCopy16 0x02082A60 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   func_020355D8 0x020355D8 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   WIPE_SYS_Start 0x0202208C thumb
@@ -46,8 +46,8 @@
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   func_02040588 0x02040588 arm
- *   func_0207D63C 0x0207D63C arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -55,8 +55,8 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_02048AD0 0x02048AD0 arm
- *   func_0207DCF8 0x0207DCF8 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   G3X_SetEdgeColorTable 0x0207DCF8 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
  *   MCSS_Init 0x02014B08 thumb
@@ -80,10 +80,10 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -98,8 +98,8 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
- *   func_02049B40 0x02049B40 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -111,7 +111,7 @@
  *   KEY_GetRepeat 0x0203633C arm
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   _CursorColorsFrom 0x021DBFA8 data a2
  *   _CursorColorsTo 0x021DBFB8 data a2
  *   FX_SinCosTable_ 0x020A1B38 data
@@ -121,7 +121,7 @@
  *   PM_VOICE_Play 0x02006984 thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -129,7 +129,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   KEY_GetCont 0x0203630C arm
  *   POKEPARTY_Create 0x0201A920 thumb
  *   POKEPARTY_InitEx 0x0201A954 thumb
@@ -145,7 +145,7 @@
  *   _DebugMovesParty 0x021DC138 data a2
  *   _DebugMovesArray 0x021DC144 data a2
  *   GAME_DATA_Delete 0x02012704 thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -231,6 +231,7 @@
  *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -308,16 +309,16 @@ typedef struct { u16 move[5]; } DebugMoves;
 #define HW_VBLANK_COUNT_BUF 0x02FFFC3C
 static inline u32 OS_GetVBlankCount(void) { return *(volatile u32 *)HW_VBLANK_COUNT_BUF; }
 
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void *func_020056A0(u32,u32,u32);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void MIi_CpuCopy16(const void *,void *,u32);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_02030EAC(struct Tcb *n);
+extern void TCB_DeleteTask(struct Tcb *n);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void func_020355D8(u8);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -338,16 +339,16 @@ extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void func_02040588(unsigned int which, unsigned char enable);
-extern void func_0207D63C(u32 *,u32,u32,u32,u32);
+extern void BG_SYS_SetPlaneVisible(unsigned int which, unsigned char enable);
+extern void G2x_SetBlendAlpha_(u32 *,u32,u32,u32,u32);
 extern void CLACT_InitSystem(const struct ClactSysSetup *cfg, u32 arg, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
-extern void func_02048AD0(struct Camera *l);
-extern void func_0207DCF8(const void *);
+extern void G3D_CAMERA_Reset(struct Camera *l);
+extern void G3X_SetEdgeColorTable(const void *);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),BG_SYS_SetLowBit(u32);
 extern void *MCSS_Init(u32,void *);
 extern void MCSS_SetTextureTransAdrs(void *,u32);
@@ -364,10 +365,10 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
@@ -408,8 +409,8 @@ extern void CLACT_SetActorAutoAnim(struct ClactObj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct ClactObj *p, u32 v);
 extern void CLACT_DeleteActor(struct ClactObj *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -420,7 +421,7 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern void POKE_TOOL_ClearPartyParam(struct PokePara *p);
 extern u32 POKE_TOOL_GetBoxValue(void *p, int id, void *v);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
@@ -434,17 +435,17 @@ extern u32 POKE_TOOL_DecodePartyParam(struct PokePara *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct PokePara *p, u32 f);
 extern u32 POKE_TOOL_DecodeBoxParam(struct PokePara *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct PokePara *p, u32 f);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct StrBuf *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct HeapSys *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 KEY_GetCont(void);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
@@ -457,7 +458,7 @@ extern void POKE_TOOL_SetupBoxParam(void *obj,u16 species,u16 level,u64 id);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_Create(u16);
 extern void GAME_DATA_Delete(u8 *p);
-extern void func_020315D4(struct SaveData *p);
+extern void PROCSYS_FreeProcWork(struct SaveData *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int P_STATUS_InitWork(PStatusWork *wk);
 int P_STATUS_ExitWork(PStatusWork *wk);
@@ -591,7 +592,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
     wk->pushedButton = (void *)0;
     wk->playCryReq=0;
     wk->restoreModeAll=0;
-    wk->inputType=func_020355C4();
+    wk->inputType=UI_GetInputMode();
     if (wk->param->mode==3) {
         wk->param->mode=2;
         wk->restoreModeAll=1;
@@ -606,7 +607,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
     P_STATUS_LoadObjResource(wk);
     P_STATUS_InitMessage(wk);
     P_STATUS_CreateButtonActors(wk);
-    wk->vblankTask=func_020056A0((u32)P_STATUS_VBlankTask,(u32)wk,8);
+    wk->vblankTask=GFL_USE_AddMainTask((u32)P_STATUS_VBlankTask,(u32)wk,8);
     wk->blinkAngle=0;
     MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x6c),wk->savedCursorPal,12);
     MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x160),wk->glowPalBase,64);
@@ -654,7 +655,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
 int P_STATUS_ExitWork(PStatusWork *wk)
 {
     u8 i;
-    func_02030EAC(wk->vblankTask);
+    TCB_DeleteTask(wk->vblankTask);
     wk->param->pos=wk->pos;
     P_STATUS_DeleteButtonActors(wk);
     P_STATUS_ExitMessage(wk);
@@ -673,7 +674,7 @@ int P_STATUS_ExitWork(PStatusWork *wk)
         wk->restoreModeAll=0;
     }
     func_020355D8(wk->inputType);
-    if(wk->tempPP) func_020307B0(wk->tempPP);
+    if(wk->tempPP) GFL_HEAP_Free(wk->tempPP);
     return 1;
 }
 
@@ -864,10 +865,10 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     BG_SYS_Create(wk->heapId);BMP_WIN_Init(wk->heapId);
     BG_SYS_SetGraphicsMode(&_DispConfig);
     P_STATUS_InitBgLayer(&_BgSetups[6],1,0);P_STATUS_InitBgLayer(&_BgSetups[4],2,0);P_STATUS_InitBgLayer(&_BgSetups[0],3,0);
-    func_02040588(0,1);
+    BG_SYS_SetPlaneVisible(0,1);
     P_STATUS_InitBgLayer(&_BgSetups[1],4,0);P_STATUS_InitBgLayer(&_BgSetups[2],5,0);P_STATUS_InitBgLayer(&_BgSetups[3],6,0);P_STATUS_InitBgLayer(&_BgSetups[5],7,0);
-    func_0207D63C((u32 *)HW_REG_BLDCNT,4,30,13,16);
-    func_0207D63C((u32 *)HW_REG_BLDCNT_SUB,4,8,13,16);
+    G2x_SetBlendAlpha_((u32 *)HW_REG_BLDCNT,4,30,13,16);
+    G2x_SetBlendAlpha_((u32 *)HW_REG_BLDCNT_SUB,4,8,13,16);
     setup=ClactSysDefaultSetup;setup.limits[0]=110;
     CLACT_InitSystem(&setup,(u32)(&_VramBankConfig),wk->heapId);
     wk->clunit=CLACT_CreateUnit(96,0,wk->heapId);
@@ -875,8 +876,8 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);
     G3D_SYSTEM_Init(0,2,0,1,0,wk->heapId,0);
     wk->camera=G3D_CAMERA_Create(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,&_CameraVecs[0],&_CameraVecs[2],&_CameraVecs[1],wk->heapId);
-    func_02048AD0(wk->camera);
-    func_0207DCF8(_EdgeColorTable);
+    G3D_CAMERA_Reset(wk->camera);
+    G3X_SetEdgeColorTable(_EdgeColorTable);
     *(volatile u16 *)HW_REG_DISP3DCNT &= ~0x3020;
     G3D_SYSTEM_SetSwapBuffersMode(0,0);BG_SYS_SetLowBit(0);
     wk->mcssSys=MCSS_Init(2,(void *)wk->heapId);
@@ -941,7 +942,7 @@ void P_STATUS_ExitGraphics(PStatusWork *wk)
 void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
 {
     BG_SYS_InitBgLayer(bg,(const struct BgTemplate *)cfg,mode);
-    func_02040588(bg,1);
+    BG_SYS_SetPlaneVisible(bg,1);
     BG_SYS_FreeSlot(bg);
     BG_SYS_PushTile(bg);
 }
@@ -972,15 +973,15 @@ void P_STATUS_LoadObjResource(PStatusWork *wk)
     void *statusArc;
     void *commonArc;
     u8 i;
-    statusArc=func_020490F4(78,wk->heapId);
+    statusArc=ARC_TOOL_CreateHandle(78,wk->heapId);
     func_02049B68(statusArc,0,0,0,0,wk->heapId);
-    func_02049658(statusArc,8,2,0,0,0,wk->heapId);
-    func_020498F4(statusArc,70,3,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(statusArc,8,2,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(statusArc,70,3,0,0,0,wk->heapId);
     func_02049B68(statusArc,1,4,0,0,wk->heapId);
-    func_02049658(statusArc,10,6,0,0,0,wk->heapId);
-    func_02049658(statusArc,9,5,0,0,0,wk->heapId);
-    func_020498F4(statusArc,71,7,0,0,0,wk->heapId);
-    func_020498F4(statusArc,65,5,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(statusArc,10,6,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(statusArc,9,5,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(statusArc,71,7,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(statusArc,65,5,0,0,0,wk->heapId);
     wk->objRes[PSTATUS_RES_PLTT_START + 0]=CLACT_RegisterPaletteEx(statusArc,3,0,0,0,4,wk->heapId);
     wk->objRes[PSTATUS_RES_PLTT_START + 6]=CLACT_RegisterPaletteEx(statusArc,5,0,0x160,0,2,wk->heapId);
     wk->objRes[PSTATUS_RES_PLTT_START + 7]=CLACT_RegisterPaletteEx(statusArc,6,1,0,0,5,wk->heapId);
@@ -995,10 +996,10 @@ void P_STATUS_LoadObjResource(PStatusWork *wk)
     wk->objRes[PSTATUS_RES_CELL_START + 8]=CLACT_RegisterCellAnim(statusArc,80,131,wk->heapId);
     wk->objRes[PSTATUS_RES_CELL_START + 11]=CLACT_RegisterCellAnim(statusArc,82,133,wk->heapId);
     wk->objRes[PSTATUS_RES_CELL_START + 12]=CLACT_RegisterCellAnim(statusArc,79,130,wk->heapId);
-    commonArc=func_020490F4(APP_ICON_GetArchiveId(),wk->heapId);
+    commonArc=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),wk->heapId);
     func_02049B68(commonArc,APP_ICON_GetStatusAnimFileId(),0,0x120,32,wk->heapId);
-    func_02049658(commonArc,APP_ICON_GetStatusFrameFileId(),1,0,0,0,wk->heapId);
-    func_020498F4(commonArc,APP_ICON_GetStatusDataFileId(),1,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(commonArc,APP_ICON_GetStatusFrameFileId(),1,0,0,0,wk->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(commonArc,APP_ICON_GetStatusDataFileId(),1,0,0,0,wk->heapId);
     BG_SYS_FillTileMap(1,0,21,32,3,9);
     func_02049B68(commonArc,0,4,0x1a0,32,wk->heapId);
     wk->objRes[PSTATUS_RES_PLTT_START + 5]=CLACT_RegisterPaletteEx(commonArc,1,1,0x100,0,1,wk->heapId);
@@ -1165,9 +1166,9 @@ void P_STATUS_DeleteButtonActors(PStatusWork *wk)
 void P_STATUS_InitMessage(PStatusWork *wk)
 {
     wk->font=GF_FONT_Create(23,0,0,0,wk->heapId);
-    wk->msgData=func_02045B38(0,2,158,wk->heapId);
-    func_02049B40(23,5,0,448,32,wk->heapId);
-    func_02049B40(23,5,4,448,32,wk->heapId);
+    wk->msgData=MSGDATA_CreateFromArchive(0,2,158,wk->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,448,32,wk->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,448,32,wk->heapId);
     {
         enum { COLOR=0x4e59 } color=COLOR;
         enum { BASE=(HW_PLTT_SUB_BG + 0x1c0) } base=BASE;
@@ -1497,7 +1498,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_1 > 31) b_1 = 31;
         wk->cursorPal[n_1] = (b_1 << 10) | ((g_1 << 5) | r_1);
     }
-    func_02061CA4((void *)14, 0x6c, (u32)wk->cursorPal, 8);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x6c, (u32)wk->cursorPal, 8);
 
     for (n_1 = 0; n_1 < 16; n_1++) {
         ca_2 = wk->glowPalBase[n_1];
@@ -1516,7 +1517,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_2 > 31) b_2 = 31;
         wk->glowPal[n_1] = (b_2 << 10) | ((g_2 << 5) | r_2);
     }
-    func_02061CA4((void *)14, 0x180, (u32)wk->glowPal, 0x20);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x180, (u32)wk->glowPal, 0x20);
 
     for (n_1 = 12; n_1 <= 14; n_1++) {
         ca_3 = wk->markPalBase[n_1];
@@ -1543,7 +1544,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_3 > 31) b_3 = 31;
         wk->markPal[n_1] = (b_3 << 10) | ((g_3 << 5) | r_3);
     }
-    return func_02061CA4((void *)14, 0x1a0, (u32)wk->markPal, 0x20);
+    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (u32)wk->markPal, 0x20);
 }
 
 
@@ -1607,7 +1608,7 @@ int P_STATUS_ChangePokemon(PStatusWork *wk,int direction)
  if(found==1) {
  wk->pos=newPos;
  if(wk->param->ppt==2) {
- if(wk->tempPP) {POKE_TOOL_ClearPartyParam(wk->tempPP);func_020307B0(wk->tempPP);}
+ if(wk->tempPP) {POKE_TOOL_ClearPartyParam(wk->tempPP);GFL_HEAP_Free(wk->tempPP);}
  wk->tempPP=POKE_TOOL_CreateFromBoxParam(P_STATUS_GetPokePara(wk),wk->heapId);
  }
  P_STATUS_LoadPokemonState(wk);
@@ -1942,7 +1943,7 @@ void P_STATUS_SetFastMode(PStatusWork *wk,int fastMode)
 
 void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color)
 {
- void *text=func_02045EC0(wk->msgData,msgId);
+ void *text=MSGDATA_AllocString(wk->msgData,msgId);
  PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)x,(short)y,(u32)text,(int)wk->font,color);
  STRBUF_Delete(text);
 }
@@ -1975,7 +1976,7 @@ void P_STATUS_PrintMsgToWin(PStatusWork *wk,unsigned int bmpWinData,int msgId,in
 void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
  void *str=STRBUF_Create(16,wk->heapId);
- void *fmt=func_02045EC0(wk->msgData,msgId);
+ void *fmt=MSGDATA_AllocString(wk->msgData,msgId);
  WORDSET_CopyTaggedText(wordSet,str,fmt);
  PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)x,(short)y,(u32)str,(int)wk->font,color);
  STRBUF_Delete(fmt);
@@ -2008,10 +2009,10 @@ void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk,unsigned int bmpWinData,void 
 void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
  void *str=STRBUF_Create(16,wk->heapId);
- void *fmt=func_02045EC0(wk->msgData,msgId);
+ void *fmt=MSGDATA_AllocString(wk->msgData,msgId);
  int width;
  WORDSET_CopyTaggedText(wordSet,str,fmt);
- width=func_0201D304(str,(int)wk->font,0);
+ width=GF_FONT_MeasureWidestLine(str,(int)wk->font,0);
  PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)(x-width),(short)y,(u32)str,(int)wk->font,color);
  STRBUF_Delete(fmt);
  STRBUF_Delete(str);
@@ -2134,7 +2135,7 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
         wk->heapId=0x42;
         i=0;
         if(param==0) {
-            param=func_02030734(1,0x28,0,_SourceFileName,0x4d);
+            param=GFL_HEAP_Alloc(1,0x28,0,_SourceFileName,0x4d);
             if((KEY_GetCont()&0x400)==0) {
                 void *party;
                 void *pokePara;
@@ -2145,7 +2146,7 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
                     SetPartyMoves(pokePara,_DebugMovesParty);
                     POKE_TOOL_SetPartyValue(pokePara,0x9a,0);
                     POKEPARTY_Add(party,pokePara);
-                    func_020307B0(pokePara);
+                    GFL_HEAP_Free(pokePara);
                 }
                 param->pos=0;
                 param->ppd=party;
@@ -2156,7 +2157,7 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
                 u8 *monArray;
                 u32 byteOffset;
                 monSize=POKE_TOOL_GetBoxParamSize();
-                param->ppd=func_02030734(1,monSize*0x1e,1,_SourceFileName,0x81);
+                param->ppd=GFL_HEAP_Alloc(1,monSize*0x1e,1,_SourceFileName,0x81);
                 param->ppt=2;
                 param->max=0x1e;
                 param->pos=0xff;
@@ -2219,10 +2220,10 @@ int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk
     if (!P_STATUS_ExitWork(mywk)) return 0;
     if (!pwk) {
         GAME_DATA_Delete(mywk->param->config);
-        func_020307B0(mywk->param->ppd);
-        func_020307B0(mywk->param);
+        GFL_HEAP_Free(mywk->param->ppd);
+        GFL_HEAP_Free(mywk->param);
     }
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x42);
     return 1;
 }

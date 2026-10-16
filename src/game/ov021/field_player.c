@@ -14,8 +14,8 @@
  * Split from weather_task.c (lane L141): __FILE__ anchor 021A2E8C (gFieldPlayerFileName "field_player.c"); wrapper layer that forwards to core (+4), grid (+8) and nogrid (+C) objects.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFieldPlayerFileName     0x021DDEA8  data  a4
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
@@ -136,8 +136,8 @@ struct GameData;
 struct FieldG3dMapper;
 struct FieldNogridMapper;
 
-extern u32 func_020307B0(void *work);
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *work);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
 extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *playerWork, const FieldPlayerLocationPos *pos);
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
@@ -247,7 +247,7 @@ extern const FieldPlayerFormRow gFieldPlayerFormTable[];
  */
 FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId)
 {
-    FieldPlayer *player = func_02030734(heapId, 0x10, 1, (const char *)&gFieldPlayerFileName, 0x4C);
+    FieldPlayer *player = GFL_HEAP_Alloc(heapId, 0x10, 1, (const char *)&gFieldPlayerFileName, 0x4C);
 
     player->fieldMap = fieldMap;
     player->core = FIELD_PLAYER_CORE_Create(playerWork, fieldMap, pos, sex, heapId);
@@ -263,7 +263,7 @@ int FIELD_PLAYER_Delete(FieldPlayer *player)
         FIELD_PLAYER_NOGRID_Delete(player->nogrid);
     }
     FIELD_PLAYER_CORE_Delete(player->core);
-    return func_020307B0(player);
+    return GFL_HEAP_Free(player);
 }
 
 void FIELD_PLAYER_SaveToPlayerWork(FieldPlayer *player)

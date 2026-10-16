@@ -13,8 +13,8 @@
  * Cut from draw_system.c, ctvt_comm.c, ctvt_draw.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G2_GetBG2ScrPtr  0x0207E008  arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
  *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
@@ -30,7 +30,7 @@
  *   COMM_TVT_SYS_HideSlotMarker 0x021BE2E0 thumb ov172
  *   COMM_TVT_SYS_GetSprites 0x021BDFFC thumb ov172
  *   DRAW_SYSTEM_PushStroke 0x021B6E88 thumb ov172
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -59,7 +59,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   COMM_TVT_SYS_ToggleViewSwapped 0x021BE0B8 thumb ov172
  *   CTVT_CAMVIEW_IsLayoutChanging 0x021B77B4 thumb ov172
  *   COMM_TVT_SYS_ToggleHalfRes 0x021BE08C thumb ov172
@@ -67,7 +67,7 @@
  *   COMM_TVT_SYS_GetFont 0x021BE034 thumb ov172
  *   COMM_TVT_SYS_GetMsgData 0x021BE03C thumb ov172
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
@@ -107,9 +107,9 @@
  *   gCtvtDrawEraserButtonAnimSeq     0x021C6FB6  data
  *   gCtvtDrawStampButtonAnimSeq     0x021C6FB8  data
  *   CTVT_COMM_GetNetMode  0x021B80E4  thumb  ov172
- *   func_02041B6C  0x02041B6C  arm
- *   func_02040588  0x02040588  arm
- *   func_020490F4 0x020490F4 arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
@@ -120,24 +120,24 @@
 #include "ctvt_types.h"
 
 /* ARM9 library. */
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern void GFL_HEAP_Free(void *p);
 extern void *G2_GetBG2ScrPtr(void);
 extern u32 G2_GetBG3ScrPtr(void);
-extern s32 func_02061CA4(u32 dmaNo, u32 dest, u16 *src, s32 size);
-extern void func_020498F4(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern s32 NNS_GfdRegisterNewVramTransferTask(u32 dmaNo, u32 dest, u16 *src, s32 size);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void BG_SYS_PushTile(u32 layer);
-extern void func_02040588(u32 which, u8 enable);
+extern void BG_SYS_SetPlaneVisible(u32 which, u8 enable);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
-extern struct ArcHandle *func_020490F4(u32 id, u32 heapId);
+extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void BG_SYS_ResetSlot(u32 a, u32 b, u32 c);
-extern void func_02041B6C(u32 layer);
+extern void BG_SYS_SetFlagField06(u32 layer);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int a1, int a2, int a3);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
@@ -165,7 +165,7 @@ extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct StrBuf *func_02045EC0(struct MsgData *msg, u32 index);
+extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msg, u32 index);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *que, void *bmp, short x, u32 y, struct StrBuf *text, u32 font, u32 flags);
 extern void PRINTSYS_QUE_Clear(struct PrintQue *que);
@@ -239,7 +239,7 @@ void CTVT_DRAW_ClosePickers(CtvtWork *work, CtvtDrawScene *scene);
 /* Allocates the drawing board record and sets its pen defaults. */
 CtvtDrawScene *CTVT_DRAW_Create(CtvtWork *work, u16 heapId)
 {
-    CtvtDrawScene *scene = func_02030734(heapId, sizeof(CtvtDrawScene), 1, (const char *)0x021C7228, 0xcf);
+    CtvtDrawScene *scene = GFL_HEAP_Alloc(heapId, sizeof(CtvtDrawScene), 1, (const char *)0x021C7228, 0xcf);
 
     scene->penSize = 0;
     scene->stampKind = 3;
@@ -251,7 +251,7 @@ CtvtDrawScene *CTVT_DRAW_Create(CtvtWork *work, u16 heapId)
 
 void CTVT_DRAW_Free(CtvtWork *work, CtvtDrawScene *scene)
 {
-    func_020307B0(scene);
+    GFL_HEAP_Free(scene);
 }
 
 /* Builds the drawing board screen: loads the graphics, creates the button and picker
@@ -268,14 +268,14 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     struct StrBuf *text;
 
     heapId = COMM_TVT_SYS_GetHeapId(work);
-    func_020498F4(COMM_TVT_SYS_GetArc(work), 0x10, 7, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(COMM_TVT_SYS_GetArc(work), 0x10, 7, 0, 0, 0, heapId);
     BG_SYS_PushTile(7);
-    func_02040588(5, 0);
+    BG_SYS_SetPlaneVisible(5, 0);
     {
         u32 t = REG_POWCNT1;
         REG_POWCNT1 = t & 0xFFFF7FFF;
     }
-    arc = func_020490F4(APP_ICON_GetArchiveId(), heapId);
+    arc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
     BG_SYS_ClearSlot(0);
     func_02049990(arc, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, heapId);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
@@ -357,7 +357,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     printQue = COMM_TVT_SYS_GetPrintQue(work);
     scene->titleWin = BMP_WIN_Create(4, 3, 1, 0x1c, 2, 0xa, 1);
     BMP_Clear(BMP_WIN_GetBmp(scene->titleWin), 0);
-    text = func_02045EC0(msgData, 0xb);
+    text = MSGDATA_AllocString(msgData, 0xb);
     PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->titleWin), 1, 0, text, font, 0x440);
     STRBUF_Delete(text);
     scene->titlePending = 1;
@@ -425,7 +425,7 @@ void CTVT_DRAW_Exit(CtvtWork *work, CtvtDrawScene *scene)
     BG_SYS_FillScrollArea(0, 3, 0);
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
-    func_02040588(5, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
     REG_POWCNT1 |= 0x8000;
     COMM_TVT_SYS_ClearNameWindows(work);
 }
@@ -573,7 +573,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
             BMP_MENUWORK_DrawWindow(scene->helpWin, 2, 0x140, 9);
             BMP_WIN_TransferChars(scene->helpWin);
             BMP_WIN_MakeScreen(scene->helpWin);
-            func_02041B6C(4);
+            BG_SYS_SetFlagField06(4);
             i = 0;
             scene->helpPending = 0;
             if (scene->helpPage == 1) {
@@ -634,7 +634,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     sine = (s16)((s32)(sine + 0x1000) / 2);
     sine = (u8)(((s32)sine * -9 >> 12) + 0x1c);
     scene->fadeColor = sine | (sine << 5) | (sine << 10);
-    func_02061CA4(0xe, 0xde, &scene->fadeColor, 2);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0xde, &scene->fadeColor, 2);
     return 3;
 }
 
@@ -1000,41 +1000,41 @@ void CTVT_DRAW_ShowHelp(CtvtWork *work, CtvtDrawScene *scene, int page)
         scene->helpWin = BMP_WIN_Create(4, 2, 8, 0x1c, 0xd, 0xa, 1);
         BMP_Clear(BMP_WIN_GetBmp(scene->helpWin), 0xf);
         BMP_WIN_TransferChars(scene->helpWin);
-        textMsg6 = func_02045EC0(msgData, 6);
+        textMsg6 = MSGDATA_AllocString(msgData, 6);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x4, textMsg6, font, 0x440);
         STRBUF_Delete(textMsg6);
-        textMsg7 = func_02045EC0(msgData, 7);
+        textMsg7 = MSGDATA_AllocString(msgData, 7);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x18, textMsg7, font, 0x440);
         STRBUF_Delete(textMsg7);
-        textMsg8 = func_02045EC0(msgData, 8);
+        textMsg8 = MSGDATA_AllocString(msgData, 8);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x2c, textMsg8, font, 0x440);
         STRBUF_Delete(textMsg8);
-        textMsg10 = func_02045EC0(msgData, 10);
+        textMsg10 = MSGDATA_AllocString(msgData, 10);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x40, textMsg10, font, 0x440);
         STRBUF_Delete(textMsg10);
-        textMsg5Or9 = func_02045EC0(msgData, 9);
+        textMsg5Or9 = MSGDATA_AllocString(msgData, 9);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x54, textMsg5Or9, font, 0x440);
         STRBUF_Delete(textMsg5Or9);
     } else {
         scene->helpWin = BMP_WIN_Create(4, 2, 0x10, 0x1c, 6, 0xa, 1);
         BMP_Clear(BMP_WIN_GetBmp(scene->helpWin), 0xf);
         BMP_WIN_TransferChars(scene->helpWin);
-        textMsg0 = func_02045EC0(msgData, 0);
+        textMsg0 = MSGDATA_AllocString(msgData, 0);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x0, textMsg0, font, 0x440);
         STRBUF_Delete(textMsg0);
-        textMsg1 = func_02045EC0(msgData, 1);
+        textMsg1 = MSGDATA_AllocString(msgData, 1);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x10, textMsg1, font, 0x440);
         STRBUF_Delete(textMsg1);
-        textMsg2 = func_02045EC0(msgData, 2);
+        textMsg2 = MSGDATA_AllocString(msgData, 2);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x20, textMsg2, font, 0x440);
         STRBUF_Delete(textMsg2);
-        textMsg3 = func_02045EC0(msgData, 3);
+        textMsg3 = MSGDATA_AllocString(msgData, 3);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x0, textMsg3, font, 0x440);
         STRBUF_Delete(textMsg3);
-        textMsg4 = func_02045EC0(msgData, 4);
+        textMsg4 = MSGDATA_AllocString(msgData, 4);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x10, textMsg4, font, 0x440);
         STRBUF_Delete(textMsg4);
-        textMsg5Or9 = func_02045EC0(msgData, 5);
+        textMsg5Or9 = MSGDATA_AllocString(msgData, 5);
         PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x20, textMsg5Or9, font, 0x440);
         STRBUF_Delete(textMsg5Or9);
     }
@@ -1070,7 +1070,7 @@ void CTVT_DRAW_ShowMessage(CtvtWork *work, CtvtDrawScene *scene, int msgId)
     scene->messageWin = BMP_WIN_Create(0, 1, scene->panelTarget == 0 ? 4 : 1, 30, 4, 10, 1);
     PRINTSYS_QUE_Clear(printQue);
     BMP_Clear(BMP_WIN_GetBmp(scene->messageWin), 15);
-    text = func_02045EC0(msgData, msgId);
+    text = MSGDATA_AllocString(msgData, msgId);
     PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->messageWin), 0, 0, text, font, 1088);
     STRBUF_Delete(text);
     BMP_WIN_TransferChars(scene->messageWin);

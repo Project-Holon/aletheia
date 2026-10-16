@@ -20,18 +20,18 @@
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   d_021DE5FC     0x021DE5FC  data  ov021  a4
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GFL_HEAP_GetAllocatableSize  0x0203038C  arm
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_020124E8  0x020124E8  thumb
  *   d_021DB4FC     0x021DB4FC  data  a4
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   abs_id_4b      0x0000004B  data
  *   abs_id_4d      0x0000004D  data
  *   ov075_id       0x0000004B  data
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -53,7 +53,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
@@ -81,7 +81,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   STRBUF_SetStringN  0x02045994  arm
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
- *   func_02009470  0x02009470  thumb
+ *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   func_0200E878  0x0200E878  thumb
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
  *   func_02009634  0x02009634  thumb
@@ -227,14 +227,14 @@ enum {
     WIFI_HISTORY_FIELD_INFO = 6
 };
 
-extern u32 func_020307B0(void *work);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *work);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern u32 GFL_HEAP_GetAllocatableSize(u32 key);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void *func_020124E8(struct GameEvent *event);
-extern int func_02034AC4(s32 overlayId);
-extern void func_02034A5C(s32 overlayId);
+extern int GF_OVERLAY_Load(s32 overlayId);
+extern void GF_OVERLAY_Unload(s32 overlayId);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern u16 ZONEDATA_GetParentZoneId(u32 zoneId);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
@@ -256,7 +256,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *
 extern u16 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern u16 VM_GetU16(struct ScriptVm *vm);
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
@@ -289,7 +289,7 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 length);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
-extern struct WifiHistory *func_02009470(struct SaveControl *saveControl);
+extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
 extern struct HistoryEntry *func_0200973C(struct WifiHistory *history, int index);
 extern u32 func_02009634(const struct WifiHistory *history, u32 index, u32 field);
 extern u8 func_02009628(const struct WifiHistory *history);
@@ -366,7 +366,7 @@ int SCRCMD_HasPlayerLanguage(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 EncEffWork *ENCEFF_Create(u32 heapId, struct FieldMap *fieldMap)
 {
-    EncEffWork *eff = func_02030734(heapId, sizeof(EncEffWork), 1, d_021DE5FC, 0x6c);
+    EncEffWork *eff = GFL_HEAP_Alloc(heapId, sizeof(EncEffWork), 1, d_021DE5FC, 0x6c);
 
     eff->fieldMap = fieldMap;
     eff->overlayCount = 0;
@@ -377,7 +377,7 @@ int ENCEFF_Delete(EncEffWork *eff)
 {
     ENCEFF_FreeWork(eff);
     ENCEFF_UnloadOverlays(eff);
-    return func_020307B0(eff);
+    return GFL_HEAP_Free(eff);
 }
 
 /* Builds the effect of kind idx from the table, loading its overlay first. */
@@ -418,14 +418,14 @@ void ENCEFF_RunUpdate(EncEffWork *eff, u32 unused, u32 arg0, u32 arg1)
 
 void ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId)
 {
-    eff->effectWork = func_02030734(heapId, size, 1, d_021DE5FC, 0xe3);
+    eff->effectWork = GFL_HEAP_Alloc(heapId, size, 1, d_021DE5FC, 0xe3);
 }
 
 void ENCEFF_FreeWork(EncEffWork *eff)
 {
     void *work = eff->effectWork;
     if (work != 0) {
-        func_020307B0(work);
+        GFL_HEAP_Free(work);
         eff->effectWork = 0;
     }
 }
@@ -438,7 +438,7 @@ void *ENCEFF_GetWork(EncEffWork *eff)
 /* Loads an overlay and remembers its id for the unload. */
 void ENCEFF_LoadOverlay(EncEffWork *eff, u32 overlayId)
 {
-    func_02034AC4(overlayId);
+    GF_OVERLAY_Load(overlayId);
     eff->overlayIds[eff->overlayCount++] = overlayId;
 }
 
@@ -462,7 +462,7 @@ void ENCEFF_UnloadOverlays(EncEffWork *eff)
         while (eff->overlayCount > 0) {
             i = eff->overlayCount - 1;
             if (eff->overlayIds[i] != 0) {
-                func_02034A5C(eff->overlayIds[i]);
+                GF_OVERLAY_Unload(eff->overlayIds[i]);
             }
             eff->overlayCount--;
         }
@@ -624,7 +624,7 @@ int SCRCMD_StartCountOtherOtIdsTask(struct ScriptVm *vm, struct ScrcmdWork *cmdW
     struct MyStatus *myStatus;
     OtCountTask *task;
 
-    taskEvent = func_020122C0(gameSystem, 0, SCRCMD_CountOtherOtIdsTaskMain, 0xd8);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, SCRCMD_CountOtherOtIdsTaskMain, 0xd8);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     task = func_020124E8(taskEvent);
     task->playerId = func_02008530(myStatus);
@@ -872,7 +872,7 @@ int INTRUDE_OfferEventMain(struct GameEvent *event, u32 seq, const IntrudeOfferS
 /* Takes offer slot slotIndex out of the log and starts the event task that shows it. */
 struct GameEvent *INTRUDE_StartOfferEvent(struct GameSystem *gameSystem, u32 heapId, int slotIndex)
 {
-    struct GameEvent *taskEvent = func_020122C0(gameSystem, 0, INTRUDE_OfferEventMain, 0x14);
+    struct GameEvent *taskEvent = GAME_EVENT_Create(gameSystem, 0, INTRUDE_OfferEventMain, 0x14);
     IntrudeOfferSlot *offer = func_020124E8(taskEvent);
 
     INTRUDE_TakeOfferSlot(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), slotIndex, offer);
@@ -889,7 +889,7 @@ void SCRCMD_FillPartnerCandidates(struct GameSystem *gameSystem, int language, u
     PartnerCandidates *candidates = GAME_DATA_GetSaveSyncBlock(gameData);
 
     if (language < 0xe9) {
-        SCRCMD_CollectPartnersByLanguage(func_02009470(GAME_DATA_GetSaveControl(gameData)), candidates, language, mode);
+        SCRCMD_CollectPartnersByLanguage(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData)), candidates, language, mode);
         return;
     }
     func_0200E878(candidates);
@@ -948,7 +948,7 @@ int SCRCMD_GetPartnerGreetingMessage(struct WordSet *wordSet, struct GameSystem 
 
     isSpecialLanguage = 0;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    history = func_02009470(GAME_DATA_GetSaveControl(gameData));
+    history = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData));
     if (index >= PARTNER_CANDIDATE_MAX) {
         return 4;
     }
@@ -994,7 +994,7 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
     u32 value;
     u8 language;
 
-    history = func_02009470(GAME_DATA_GetSaveControl(gameData));
+    history = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData));
     language = GAME_DATA_GetSaveSyncBlock(gameData)->language;
     entry = func_0200973C(history, historyIndex);
     WORDSET_SetSlotFromMsgE7(wordSet, 0, language);
@@ -1029,7 +1029,7 @@ int SCRCMD_GetWifiHistoryCountryCount(struct ScriptVm *vm, struct ScrcmdWork *cm
     arg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    history = func_02009470(GAME_DATA_GetSaveControl(gameData));
+    history = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData));
     *resultVar = WIFI_HISTORY_GetDisplayCount(history, GAME_DATA_GetMyStatus(gameData), arg);
     return 0;
 }
@@ -1043,7 +1043,7 @@ int SCRCMD_GetWifiHistoryEntryCount(struct ScriptVm *vm, struct ScrcmdWork *cmdW
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *resultVar = WIFI_HISTORY_GetFirstFreeEntry(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
+    *resultVar = WIFI_HISTORY_GetFirstFreeEntry(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
     return 0;
 }
 
@@ -1061,7 +1061,7 @@ int SCRCMD_MarkPartnerCandidate(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     candidateIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     historyIndex = SCRCMD_GetPartnerCandidateHistoryIndex(candidates, candidateIndex);
     if (historyIndex != 0xff) {
-        func_02009698(func_02009470(GAME_DATA_GetSaveControl(gameData)), historyIndex, WIFI_HISTORY_FIELD_MARKED, 1);
+        func_02009698(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData)), historyIndex, WIFI_HISTORY_FIELD_MARKED, 1);
     }
     return 0;
 }
@@ -1082,7 +1082,7 @@ int SCRCMD_IsPartnerCandidateMarked(struct ScriptVm *vm, struct ScrcmdWork *cmdW
     *resultVar = 0;
     historyIndex = SCRCMD_GetPartnerCandidateHistoryIndex(candidates, candidateIndex);
     if (historyIndex != 0xff) {
-        if ((u8)func_02009634(func_02009470(GAME_DATA_GetSaveControl(gameData)), historyIndex, WIFI_HISTORY_FIELD_MARKED)) {
+        if ((u8)func_02009634(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData)), historyIndex, WIFI_HISTORY_FIELD_MARKED)) {
             *resultVar = 1;
         }
     }
@@ -1098,7 +1098,7 @@ int SCRCMD_SetWifiHistoryRatingLevel(struct ScriptVm *vm, struct ScrcmdWork *cmd
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     ratingLevel = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    WIFI_HISTORY_SetRatingLevel(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), ratingLevel);
+    WIFI_HISTORY_SetRatingLevel(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), ratingLevel);
     return 0;
 }
 
@@ -1111,7 +1111,7 @@ int SCRCMD_SetWifiHistoryGreetingSet(struct ScriptVm *vm, struct ScrcmdWork *cmd
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     greetingSet = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    WIFI_HISTORY_SetGreetingSet(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), greetingSet);
+    WIFI_HISTORY_SetGreetingSet(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), greetingSet);
     return 0;
 }
 
@@ -1124,7 +1124,7 @@ int SCRCMD_GetWifiHistoryGreetingSet(struct ScriptVm *vm, struct ScrcmdWork *cmd
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *resultVar = func_02009628(func_02009470(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
+    *resultVar = func_02009628(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
     return 0;
 }
 

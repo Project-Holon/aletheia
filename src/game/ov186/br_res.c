@@ -20,19 +20,19 @@
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_RES_Delete 0x021FB92C thumb ov186
- *   func_02034714 0x02034714 arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_Create 0x0201EC74 thumb
  *   d_02200D3C 0x02200D3C data a1
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020490F4 0x020490F4 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_PushTile 0x020409B4 arm
@@ -60,19 +60,19 @@
 
 struct MsgDataRec {void *a,*b;unsigned char pad[12];void *handle;};
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, int, int);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void *WORDSET_Create(unsigned,unsigned,unsigned);
 
@@ -80,11 +80,11 @@ extern unsigned int MSGDATA_Delete(struct MsgDataRec *rec);
 
 extern unsigned int GF_FONT_Delete(void *ptr);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -166,151 +166,151 @@ extern const u32 d_022008E0[];
 void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId)
 {
     struct BrRes *res;
-    res=func_02030734(heapId,0xfc,0,d_02200D3C,0x60);
+    res=GFL_HEAP_Alloc(heapId,0xfc,0,d_02200D3C,0x60);
     MI_CpuFill8(res,0,0xfc);
     res->useCustomSet=useCustomSet;
     if(res->useCustomSet){res->palSet=palSet;if(res->palSet==1)res->palSet=0;}
     else res->palSet=1;
     res->font=GF_FONT_Create(0x17,0,0,0,heapId);
-    res->msgData=func_02045B38(0,2,5,heapId);
+    res->msgData=MSGDATA_CreateFromArchive(0,2,5,heapId);
     res->wordSet=WORDSET_Create(8,0x40,heapId);
     BR_RES_LoadUiPalette(res,0,heapId);
     BR_RES_LoadUiPalette(res,1,heapId);
     return res;
 }
 
-void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_DeleteStrbufED04(res->wordSet);MSGDATA_Delete((struct MsgDataRec *)res->msgData);GF_FONT_Delete(res->font);func_020307B0(res);}
+void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_DeleteStrbufED04(res->wordSet);MSGDATA_Delete((struct MsgDataRec *)res->msgData);GF_FONT_Delete(res->font);GFL_HEAP_Free(res);}
 
 void BR_RES_LoadBgGraphics(void *unusedCtx,unsigned kind,unsigned short heapId)
 {
     void *h;
-    h=func_020490F4(0x89,heapId);
+    h=ARC_TOOL_CreateHandle(0x89,heapId);
     switch(kind) {
     case 0:
-        func_02049658(h,0x26,3,0,0,0,heapId);
-        func_020498F4(h,0x28,3,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x26,3,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x28,3,0,0,0,heapId);
         break;
     case 1:
-        func_02049658(h,0x26,6,0,0,0,heapId);
-        func_020498F4(h,0x28,6,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x26,6,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x28,6,0,0,0,heapId);
         break;
     case 2:
-        func_02049658(h,0x6b,0,0,0,0,heapId);
-        func_020498F4(h,0x2,0,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x6b,0,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x2,0,0,0,0,heapId);
         break;
     case 3:
-        func_02049658(h,0x26,2,0,0,0,heapId);
-        func_020498F4(h,0x27,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x26,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x27,2,0,0,0,heapId);
         break;
     case 4:
-        func_02049658(h,0x26,2,0,0,0,heapId);
-        func_020498F4(h,0x1a,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x26,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x1a,2,0,0,0,heapId);
         break;
     case 5:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x5,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x5,5,0,0,0,heapId);
         break;
     case 6:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x2d,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x2d,2,0,0,0,heapId);
         break;
     case 7:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x2c,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x2c,2,0,0,0,heapId);
         break;
     case 8:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x2b,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x2b,2,0,0,0,heapId);
         break;
     case 9:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x61,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x61,5,0,0,0,heapId);
         break;
     case 10:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x63,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x63,2,0,0,0,heapId);
         break;
     case 11:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x64,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x64,2,0,0,0,heapId);
         break;
     case 12:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x65,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x65,2,0,0,0,heapId);
         break;
     case 13:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x66,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x66,2,0,0,0,heapId);
         break;
     case 19:
-        func_02049658(h,0x6b,2,0,0,0,heapId);
-        func_020498F4(h,0x2,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x6b,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x2,2,0,0,0,heapId);
         break;
     case 14:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x62,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x62,2,0,0,0,heapId);
         break;
     case 15:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x67,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x67,5,0,0,0,heapId);
         break;
     case 18:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x68,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x68,2,0,0,0,heapId);
         break;
     case 17:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x69,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x69,2,0,0,0,heapId);
         break;
     case 16:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x6a,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x6a,2,0,0,0,heapId);
         break;
     case 20:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x1f,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x1f,5,0,0,0,heapId);
         break;
     case 21:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x1d,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x1d,5,0,0,0,heapId);
         break;
     case 22:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0xd,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0xd,5,0,0,0,heapId);
         break;
     case 23:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0xe,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0xe,5,0,0,0,heapId);
         break;
     case 24:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x3,2,0,0,0,heapId);
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,6,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x3,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,6,5,0,0,0,heapId);
         break;
     case 25:
-        func_02049658(h,0x21,2,0,0,0,heapId);
-        func_020498F4(h,0x1b,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,2,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x1b,2,0,0,0,heapId);
         break;
     case 26:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x1e,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x1e,5,0,0,0,heapId);
         break;
     case 28:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x1c,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x1c,5,0,0,0,heapId);
         break;
     case 27:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x20,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x20,5,0,0,0,heapId);
         break;
     case 29:
-        func_02049658(h,0x26,5,0,0,0,heapId);
-        func_020498F4(h,0x12,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x26,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x12,5,0,0,0,heapId);
         break;
     case 30:
-        func_02049658(h,0x21,5,0,0,0,heapId);
-        func_020498F4(h,0x2f,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgCharFromHandle(h,0x21,5,0,0,0,heapId);
+        ARC_UTIL_UploadBgPaletteFromHandle(h,0x2f,5,0,0,0,heapId);
         break;
     }
     ARC_TOOL_DeleteHandle(h);
@@ -340,12 +340,12 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
     sprite = &res->sprite[spriteIndex];
 
     if (res->spriteLoaded[spriteIndex] != 0) {
-        func_02034714(d_02200D48, 0, d_02200D48);
+        SAVEDATA_PanicFail(d_02200D48, 0, d_02200D48);
     }
 
     switch (spriteIndex) {
     case 4: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[0];
         sprite->charId = CLACT_RegisterCharacter(h, 0x24, 0, 0, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x15, 0x14, heapId);
@@ -353,7 +353,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 5: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[1];
         sprite->charId = CLACT_RegisterCharacter(h, 0x24, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x15, 0x14, heapId);
@@ -361,7 +361,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 0: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[0];
         sprite->charId = CLACT_RegisterCharacter(h, 0x22, 0, 0, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 9, 0xa, heapId);
@@ -369,7 +369,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 1: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[1];
         sprite->charId = CLACT_RegisterCharacter(h, 0x22, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 9, 0xa, heapId);
@@ -377,7 +377,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 2: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[0];
         sprite->charId = CLACT_RegisterCharacter(h, 0x3f, 0, 0, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x3d, 0x3e, heapId);
@@ -385,7 +385,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 3: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[1];
         sprite->charId = CLACT_RegisterCharacter(h, 0x3f, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x3d, 0x3e, heapId);
@@ -393,7 +393,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 6: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[1];
         sprite->charId = CLACT_RegisterCharacter(h, 0x23, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 7, 8, heapId);
@@ -401,7 +401,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 8: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[1];
         sprite->charId = CLACT_RegisterCharacter(h, 0x56, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x55, 0x54, heapId);
@@ -409,7 +409,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 7: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[0];
         sprite->charId = CLACT_RegisterCharacter(h, 0x56, 0, 0, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x55, 0x54, heapId);
@@ -417,7 +417,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 11: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = CLACT_RegisterPaletteEx(h, 0x13, 1, 0x80, 0, 1, heapId);
         sprite->charId = CLACT_RegisterCharacter(h, 0xf, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x10, 0x11, heapId);
@@ -425,7 +425,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 12: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = CLACT_RegisterPaletteEx(h, 0x33, 1, 0xa0, 0, 1, heapId);
         sprite->charId = CLACT_RegisterCharacter(h, 0x32, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x30, 0x31, heapId);
@@ -433,7 +433,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 9: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[0];
         sprite->charId = CLACT_RegisterCharacter(h, 0x36, 0, 0, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x34, 0x35, heapId);
@@ -441,7 +441,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 10: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[1];
         sprite->charId = CLACT_RegisterCharacter(h, 0x36, 0, 1, heapId);
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x34, 0x35, heapId);
@@ -449,7 +449,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
         break;
     }
     case 13: {
-        void *h = func_020490F4(0x89, heapId);
+        void *h = ARC_TOOL_CreateHandle(0x89, heapId);
         sprite->paletteId = res->paletteId[0];
         sprite->cellAnimId = (u32)CLACT_RegisterCellAnim(h, 0x29, 0x2a, heapId);
         sprite->charId = CLACT_RegisterCharacter(h, 0x25, 0, 0, heapId);
@@ -486,7 +486,7 @@ int BR_RES_GetSprite(struct BrRes *res,unsigned spriteIndex,void *outSprite) { i
 void BR_RES_LoadUiPalette(struct BrRes *res,unsigned screen,unsigned heapId)
 {
     void *h;
-    h=func_020490F4(0x89,heapId);
+    h=ARC_TOOL_CreateHandle(0x89,heapId);
     res->paletteId[screen]=CLACT_RegisterPaletteEx(h,BR_RES_GetPaletteFileId(res->palSet),screen,0,0,13,heapId);
     if(screen==0){
         func_02049B68(h,BR_RES_GetCharFileId(res->palSet),0,0,0,heapId);
@@ -538,7 +538,7 @@ int BR_RES_GetPalSet(struct BrRes *res) { return res->palSet; }
 void BR_RES_LoadFadePalettes(struct BrRes *res,void *fade,unsigned short heapId)
 {
     void *h;
-    h=func_020490F4(0x89,heapId);
+    h=ARC_TOOL_CreateHandle(0x89,heapId);
     BR_FADE_LoadPalette(fade,h,BR_RES_GetPaletteFileId(res->palSet),2,0,0x1C0,heapId);
     BR_FADE_LoadPalette(fade,h,BR_RES_GetPaletteFileId(res->palSet),3,0,0x1C0,heapId);
     BR_FADE_LoadPalette(fade,h,BR_RES_GetCharFileId(res->palSet),0,0,0,heapId);
@@ -548,10 +548,10 @@ void BR_RES_LoadFadePalettes(struct BrRes *res,void *fade,unsigned short heapId)
     ARC_TOOL_DeleteHandle(h);
 }
 
-unsigned short BR_RES_GetPaletteFileId(unsigned palSet) { if(palSet>=8)func_02034714(d_02200D48,0,d_02200D48);return d_022008C0[palSet]; }
+unsigned short BR_RES_GetPaletteFileId(unsigned palSet) { if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return d_022008C0[palSet]; }
 
-unsigned short BR_RES_GetCharFileId(unsigned palSet) { if(palSet>=8)func_02034714(d_02200D48,0,d_02200D48);return d_022008A0[palSet]; }
+unsigned short BR_RES_GetCharFileId(unsigned palSet) { if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return d_022008A0[palSet]; }
 
-unsigned short BR_RES_GetScreenFileId(unsigned palSet) { if(palSet>=8)func_02034714(d_02200D48,0,d_02200D48);return d_02200880[palSet]; }
+unsigned short BR_RES_GetScreenFileId(unsigned palSet) { if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return d_02200880[palSet]; }
 
-u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)func_02034714(d_02200D48,0,d_02200D48);return *(const u32*)((u32)d_022008E0+palSet*4);}
+u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return *(const u32*)((u32)d_022008E0+palSet*4);}

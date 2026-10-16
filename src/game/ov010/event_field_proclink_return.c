@@ -23,7 +23,7 @@
  *   FIELD_WFBC_DATA_LOCAL_InsertPersonForCity  0x02186520  thumb
  *   d_0217144C     0x0217144C  data  ov010  a4
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   d_02172990     0x02172990  data  ov010  a4
  *   MI_CpuFill8    0x02082BCC  arm
  */
@@ -90,7 +90,7 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkSys *procLink, int linkId, unsigned mode);
 extern void FIELD_WFBC_DATA_LOCAL_InsertPersonForCity(ProcLinkRequest *request, int arg, ProcLinkEntry *entry);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 void EVENT_FIELD_PROCLINK_CompactReturnList(ProcLinkSys *procLink, int listIndex);
 void EVENT_FIELD_PROCLINK_ClearReturnEntry(ProcLinkEntry *entry);
@@ -380,7 +380,7 @@ void EVENT_FIELD_PROCLINK_CompactEntryList(char *entries)
 
 int EVENT_FIELD_PROCLINK_IsNetConnected(int unused)
 {
-    if (func_0200FB24() == 0)
+    if (GFL_NET_ERR_GetErrorLevel() == 0)
         return 0;
     return 1;
 }

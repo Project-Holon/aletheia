@@ -13,17 +13,17 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Create 0x0203101C arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   TALKMSGWIN_Create 0x02194670 thumb ov021
  *   d_021F6E38 0x021F6E38 data a4
  *   ov021_id 0x00000015 data
@@ -40,8 +40,8 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
@@ -55,7 +55,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
@@ -170,17 +170,17 @@ typedef struct MbYesNoMsgWork {
     void *yesNoMenu;
 } MbYesNoMsgWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct PrintSys *PRINTSYS_QUE_Create(void *heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintSys *que, u16 heap);
 extern unsigned APP_KEYCURSOR_CreateDefault(int, int, int, unsigned);
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern struct TalkMsgWin *TALKMSGWIN_Create(u16 *param);
 extern void TALKMSGWIN_Delete(struct TalkMsgWin *win);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
@@ -195,8 +195,8 @@ extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
-extern u32 func_020307B0(void *p);
-extern void func_02034A5C(int);
+extern u32 GFL_HEAP_Free(void *p);
+extern void GF_OVERLAY_Unload(int);
 extern void TCBL_Main(struct Tcbl *tcbl);
 extern void APP_KEYCURSOR_Update(u32 cursor, struct PrintStream *stream, struct BmpWin *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *);
@@ -210,7 +210,7 @@ void *BMP_WIN_GetBmp(struct BmpWin *p);
 void BMP_Clear(void *buf, u8 value);
 void BMP_WIN_MakeScreen(struct BmpWin *win);
 void BG_SYS_PushTile(u32 index);
-struct StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
+struct StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 void WORDSET_CopyTaggedText(struct WordSet *ws, struct StrBuf *dst, struct StrBuf *src);
 int TALKMSGWIN_DrawWindowFrame(struct TalkMsgWin *, struct BmpWin *, int);
@@ -258,7 +258,7 @@ void MB_UTIL_MSG_SetKeyWaitFlag(MbMsgWork *work, int flag);
 void MB_UTIL_MSG_SetTimeIconPending(MbMsgWork *work, int pending);
 
 /*
- * 2026-10-05 (wave P8 W4): 0x15 in the pool is an overlay id (ov021_id, passed to func_02034AC4). The sixth parameter is copied to an int local cursor first (stored to cursorMode, later passed to APP_KEYCURSOR_CreateDefault); without the local the copy is propagated and the frame is 4 bytes short. EXACT in c99 and c.
+ * 2026-10-05 (wave P8 W4): 0x15 in the pool is an overlay id (ov021_id, passed to GF_OVERLAY_Load). The sixth parameter is copied to an int local cursor first (stored to cursorMode, later passed to APP_KEYCURSOR_CreateDefault); without the local the copy is propagated and the frame is 4 bytes short. EXACT in c99 and c.
  */
 MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgFile, u32 useTalkWin, u32 cursorMode)
 {
@@ -266,7 +266,7 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     MbTalkWinParam talk;
     int cursor;
 
-    w = (MbMsgWork *)func_02030734(heapId, 0x60, 1, d_021F6E38, 0x66);
+    w = (MbMsgWork *)GFL_HEAP_Alloc(heapId, 0x60, 1, d_021F6E38, 0x66);
     w->heapId = heapId;
     w->bgFrame = bgFrame;
     w->menuBgFrame = menuBgFrame;
@@ -274,12 +274,12 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     w->cursorMode = cursor;
     w->window = 0;
     w->font = GF_FONT_Create(0x17, 0, 0, 0, w->heapId);
-    w->msgData = func_02045B38(0, 2, (u16)msgFile, w->heapId);
+    w->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)msgFile, w->heapId);
     BMP_MENUWORK_LoadCharAndPltt(bgFrame, 1, 0xD, 0, w->heapId);
     if (bgFrame < 4)
-        func_02049B40(0x17, 5, 0, 0x1C0, 0x20, w->heapId);
+        ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1C0, 0x20, w->heapId);
     else
-        func_02049B40(0x17, 5, 4, 0x1C0, 0x20, w->heapId);
+        ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1C0, 0x20, w->heapId);
     GF_FONT_SetDefaultTextColor();
     w->tcbl = TCBL_Create(w->heapId, w->heapId, 3, 0x100);
     w->stream = 0;
@@ -290,7 +290,7 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     w->taskMenu = 0;
     w->yesNoMenu = 0;
     w->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
-    func_02034AC4((int)ov021_id);
+    GF_OVERLAY_Load((int)ov021_id);
     if (useTalkWin == 1) {
         talk.heapId = heapId;
         talk.reserved = 0;
@@ -336,8 +336,8 @@ void MB_UTIL_MSG_Delete(MbMsgWork *work)
         BMP_WIN_Delete(work->window);
     GF_FONT_Delete(work->font);
     TCBL_Destroy(work->tcbl);
-    func_020307B0(work);
-    func_02034A5C((int)ov021_id);
+    GFL_HEAP_Free(work);
+    GF_OVERLAY_Unload((int)ov021_id);
 }
 
 void MB_UTIL_MSG_Main(MbMsgWork *work)
@@ -425,7 +425,7 @@ void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
         work->message = 0;
     }
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0xF);
-    work->message = func_02045EC0(work->msgData, msgId);
+    work->message = MSGDATA_AllocString(work->msgData, msgId);
     if (work->wordSet != 0) {
         expanded = STRBUF_Create(0x17B, work->heapId);
         WORDSET_CopyTaggedText(work->wordSet, expanded, work->message);
@@ -462,7 +462,7 @@ void MB_UTIL_MSG_PrintQueued(MbMsgWork *work, int msgId)
         work->message = 0;
     }
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0xF);
-    work->message = func_02045EC0(work->msgData, msgId);
+    work->message = MSGDATA_AllocString(work->msgData, msgId);
     if (work->wordSet != 0) {
         expanded = STRBUF_Create(0x17B, work->heapId);
         WORDSET_CopyTaggedText(work->wordSet, expanded, work->message);
@@ -523,8 +523,8 @@ void MB_UTIL_MSG_OpenYesNoTaskMenu(MbMsgWork *work, int layout)
 {
     MbMenuEntry entries[2];
     MbMenuTemplate tmpl;
-    entries[0].label = func_02045EC0(work->msgData, 18);
-    entries[1].label = func_02045EC0(work->msgData, 19);
+    entries[0].label = MSGDATA_AllocString(work->msgData, 18);
+    entries[1].label = MSGDATA_AllocString(work->msgData, 19);
     entries[0].color = 0x39E3;
     entries[1].color = 0x39E3;
     entries[0].value = 0;
@@ -578,7 +578,7 @@ int MB_UTIL_MSG_ProcessYesNoMenu(MbMsgWork *work)
 void MB_UTIL_MSG_PrintStreamSystemMsg(MbMsgWork *work, int speed)
 {
     struct MsgBank *sysMsg;
-    sysMsg = func_02045B38(0, 3, 158, work->heapId);
+    sysMsg = MSGDATA_CreateFromArchive(0, 3, 158, work->heapId);
     if (work->stream) {
         PRINTSYS_PrintStreamDelete(work->stream);
         work->stream = 0;
@@ -590,7 +590,7 @@ void MB_UTIL_MSG_PrintStreamSystemMsg(MbMsgWork *work, int speed)
         work->message = 0;
     }
     BMP_Clear(BMP_WIN_GetBmp(work->window), 15);
-    work->message = func_02045EC0(sysMsg, 22);
+    work->message = MSGDATA_AllocString(sysMsg, 22);
     work->stream = PRINTSYS_PrintStream(work->window, 0, 0, work->message, work->font, speed, work->tcbl, 2, work->heapId, 15);
     BMP_MENUWORK_DrawWindow(work->window, 1, 1, 13);
     MSGDATA_Delete(sysMsg);

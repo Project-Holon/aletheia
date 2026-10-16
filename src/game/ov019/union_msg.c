@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_020307B0  0x020307B0  arm
- *   func_02034714  0x02034714  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
@@ -67,7 +67,7 @@
  *   STRBUF_SetString  0x02045924  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
  *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   d_021807F8     0x021807F8  data  a1
@@ -160,10 +160,10 @@ typedef struct UnionTilePos {
     s16 z;
 } UnionTilePos;
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
 extern void *GAME_DATA_GetSaveControl(void *p);
-extern u32 func_020307B0(void *p);
-void func_02034714(const void *expr, u32 line, const void *file);
+extern u32 GFL_HEAP_Free(void *p);
+void SAVEDATA_PanicFail(const void *expr, u32 line, const void *file);
 extern void MI_CpuCopy8(const void *a, void *b, int c);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const void *obj);
@@ -177,7 +177,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetString(void *o, const void *src);
 extern void WORDSET_SetSlotTag(void *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(void *vec);
-extern void *func_02045EC0(void *bank, u32 index);
+extern void *MSGDATA_AllocString(void *bank, u32 index);
 extern void WORDSET_SetSlotFromMsgE7(void *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(void *p, u32 i, u32 a, u32 n);
 extern void *PMS_WORD_GetSaveData(int a0);
@@ -625,9 +625,9 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
 
     myStatus = (u32)unisys->parent->myStatus;
     if (unisys->msgWork.msgData == 0)
-        func_02034714(d_021807F8, 0, d_021807F8);
+        SAVEDATA_PanicFail(d_021807F8, 0, d_021807F8);
     if (unisys->msgWork.wordSet == 0)
-        func_02034714(d_021807F8, 0, d_021807F8);
+        SAVEDATA_PanicFail(d_021807F8, 0, d_021807F8);
 
     partner = situation->connect.talkParam;
     if (partner != 0) {
@@ -655,7 +655,7 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
     case 8: greetingMsgId = 0xee; break;
     default: greetingMsgId = 0xed; break;
     }
-    greetingStr = func_02045EC0(unisys->msgWork.msgData, greetingMsgId);
+    greetingStr = MSGDATA_AllocString(unisys->msgWork.msgData, greetingMsgId);
     WORDSET_SetSlotTag(unisys->msgWork.wordSet, 2, greetingStr, sex, 1, language);
     STRBUF_Delete(greetingStr);
 
@@ -728,7 +728,7 @@ void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldmap)
 
     if (unisys->msgWork.talkWin == 0) {
         if (unisys->msgWork.msgData != 0)
-            func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+            SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
         fieldMsgBg = FIELDMAP_GetMsgBg(fieldmap);
         unisys->msgWork.msgData = (struct MsgBank *)FIELD_MSGBG_CreateMsgData(fieldMsgBg, 200);
         unisys->msgWork.strTemp = (struct Strbuf *)STRBUF_Create(0x100, UNION_HEAP_ID);
@@ -764,7 +764,7 @@ void UNION_MSG_DeleteTalkWindow(UnionRoomWork *unisys)
 void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 msgId)
 {
     if (unisys->msgWork.talkWin == 0) {
-        func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     MSGDATA_ReadString(unisys->msgWork.msgData, msgId, unisys->msgWork.strTemp);
     WORDSET_CopyTaggedText(unisys->msgWork.wordSet, unisys->msgWork.strExpand, unisys->msgWork.strTemp);
@@ -811,7 +811,7 @@ int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes)
     int result;
 
     if (unisys->msgWork.yesNo == 0) {
-        func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     result = FIELD_MSGBG_YesNoMenuMain(unisys->msgWork.yesNo);
     if (result == 2) {
@@ -847,13 +847,13 @@ int UNION_MSG_SelectMenu(UnionRoomWork *unisys, u32 fieldmap)
     u32 fieldMsgBg = FIELDMAP_GetMsgBg((u8 *)fieldmap);
 
     if (fieldMsgBg == 0) {
-        func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     if (fieldMsgBg != 0 && FIELD_MSGBG_IsPrintQueFinished((u8 *)fieldMsgBg) == 0) {
         return -1;
     }
     if (unisys->msgWork.menu == 0) {
-        func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     return FIELD_MSGBG_MenuFuncMain(unisys->msgWork.menu);
 }
@@ -899,20 +899,20 @@ void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldmap, int kind, u8 *a
         t.posY = 5;
 
     if (kind == 1) {
-        obj = func_02030734(0x41, 0x30, 1, d_021807FC, 0x647);
+        obj = GFL_HEAP_Alloc(0x41, 0x30, 1, d_021807FC, 0x647);
         MI_CpuCopy8(d_0218050C, obj, 0x30);
         obj[0] = arg[0] + 0xff;
         obj[2] = arg[1] + 0x104;
         obj[4] = arg[2] + 0x106;
         UNION_MSG_SetupMenu(unisys, fieldmap, (u32)obj, v, (u32)(&t));
-        func_020307B0(obj);
+        GFL_HEAP_Free(obj);
     } else if (kind == 5) {
-        obj = func_02030734(0x41, 0x28, 1, d_021807FC, 0x657);
+        obj = GFL_HEAP_Alloc(0x41, 0x28, 1, d_021807FC, 0x657);
         MI_CpuCopy8(d_021804B4, obj, 0x28);
         obj[0] = arg[1] + 0x104;
         obj[2] = arg[2] + 0x106;
         UNION_MSG_SetupMenu(unisys, fieldmap, (u32)obj, v, (u32)(&t));
-        func_020307B0(obj);
+        GFL_HEAP_Free(obj);
     } else {
         UNION_MSG_SetupMenu(unisys, fieldmap, (u32)d_021805A4[kind].items, v, (u32)(&t));
     }
@@ -1017,7 +1017,7 @@ int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, 
             break;
         }
     }
-    func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+    SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     return 0;
 }
 
@@ -1063,11 +1063,11 @@ void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, u32 fieldmap, u32 fa
     int flag;
 
     if (unisys->msgWork.wordSet == 0)
-        func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     if (unisys->msgWork.infoWin != 0)
-        func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     if (unisys->regulationText != 0)
-        func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
 
     flag = 1;
     if (mode != 1)

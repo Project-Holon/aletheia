@@ -16,7 +16,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8         0x02082BCC  arm
  *   sFileName_bsubway_savedata  0x020A71F8  data
- *   func_02030734     0x02030734  arm
+ *   GFL_HEAP_Alloc     0x02030734  arm
  */
 #include "bsubway_savedata_shared_types.h"
 
@@ -73,7 +73,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwaySave *save);
 
@@ -229,7 +229,7 @@ u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwaySave *save)
 
 struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heapId)
 {
-    struct HistoryBuf *copy = func_02030734(heapId, sizeof(save->history), 1,
+    struct HistoryBuf *copy = GFL_HEAP_Alloc(heapId, sizeof(save->history), 1,
                                         sFileName_bsubway_savedata, 0x508);
 
     MI_CpuCopy8(&save->history, copy, sizeof(save->history));

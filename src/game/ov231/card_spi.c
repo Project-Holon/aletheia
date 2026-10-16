@@ -18,7 +18,7 @@
  * symbols:
  *   _ull_mul  0x0209C054  arm
  *   _ll_udiv  0x0209C00C  arm
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   func_02075E9C  0x02075E9C  arm
  *   OS_LockCard  0x02084DF4  arm
  *   OS_UnLockCard  0x02084E2C  arm
@@ -50,7 +50,7 @@ typedef struct {
     u8 *rxCursor;
 } CardSpiTransfer;
 
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 extern void func_02075E9C(u16 a);
 extern int OS_LockCard(unsigned short lockID);
 extern void OS_UnLockCard(u16 a);
@@ -79,16 +79,16 @@ int CARD_SPI_RunCommand(void)
     d_02180A30 = 8;
     func_02075E9C(d_02180A00);
     OS_LockCard(d_02180A00);
-    start = func_020870D0();
+    start = OS_GetTick();
     do {
-        d = func_020870D0() - start;
+        d = OS_GetTick() - start;
     } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
     CARD_SPI_WaitNotBusy();
     CARD_SPI_SetControl(0x42);
     response = CARD_SPI_ExchangeByte(&d_02180A20_b);
-    start = func_020870D0();
+    start = OS_GetTick();
     do {
-        d = func_020870D0() - start;
+        d = OS_GetTick() - start;
     } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
     CARD_SPI_SetControl(2);
     CARD_SPI_ReceiveByte(&d_02180A20_b);
@@ -117,8 +117,8 @@ u8 CARD_SPI_ExchangeByte(CardSpiTransfer *xfer)
     u64 start;
     volatile u16 v;
 
-    start = func_020870D0();
-    while ((func_020870D0() - start) * 64000 / 33514 < 50)
+    start = OS_GetTick();
+    while ((OS_GetTick() - start) * 64000 / 33514 < 50)
         ;
     *(volatile u16 *)0x040001A2 = *xfer->txCursor;
     xfer->txCursor += 1;
@@ -134,8 +134,8 @@ u8 CARD_SPI_ExchangeByte(CardSpiTransfer *xfer)
 void CARD_SPI_ReceiveByte(CardSpiTransfer *xfer)
 {
     u64 start;
-    start=func_020870D0();
-    while((func_020870D0()-start)*64000/33514<50) ;
+    start=OS_GetTick();
+    while((OS_GetTick()-start)*64000/33514<50) ;
     *(volatile u16 *)0x040001A2=0;
     CARD_SPI_WaitNotBusy();
     *xfer->rxCursor=*(volatile u16 *)0x040001A2;

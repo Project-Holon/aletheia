@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   PLAYER_VOLUME_FADER_Create  0x02028760  thumb
  *   RINGTONE_SYS_Create  0x02029F14  thumb
  *   GFL_USE_SetSeqStartFilter  0x02005D08  thumb
  *   g_020A7590     0x020A7590  data
  *   PLAYER_VOLUME_FADER_Delete  0x02028784  thumb
  *   RINGTONE_SYS_Delete  0x02029F44  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   _s32_div_f  0x0209C0A4  arm
  *   g_020A7518  0x020A7518  data
  *   g_020A7554  0x020A7554  data
@@ -108,14 +108,14 @@ typedef struct SoundEntryRecord {
     u32 checkId : 24;
 } SoundEntryRecord;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *PLAYER_VOLUME_FADER_Create(void *a, int v);
 extern u32 *RINGTONE_SYS_Create(u32 a0, u32 a1);
 extern void GFL_USE_SetSeqStartFilter(int (*hook)(u32 id));
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void RINGTONE_SYS_Delete(void *p);
 extern void PLAYER_VOLUME_FADER_Delete(struct Fader *p);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void RINGTONE_SYS_Update(void *p);
 extern void PLAYER_VOLUME_FADER_Update(struct Fader *s);
 extern void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);
@@ -213,7 +213,7 @@ FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(void *desc, u32 heap)
 {
     FieldSoundSystem *s;
 
-    s = func_02030734(heap, sizeof(FieldSoundSystem), 1, g_020A7590, 331);
+    s = GFL_HEAP_Alloc(heap, sizeof(FieldSoundSystem), 1, g_020A7590, 331);
     FIELD_SOUND_SYSTEM_Init(s, desc);
     s->volumeFader = PLAYER_VOLUME_FADER_Create((void *)heap, 0);
     s->ringtone = RINGTONE_SYS_Create(heap, (u32)s->volumeFader);
@@ -228,7 +228,7 @@ void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s)
     GFL_USE_SetSeqStartFilter(0);
     RINGTONE_SYS_Delete(s->ringtone);
     PLAYER_VOLUME_FADER_Delete(s->volumeFader);
-    func_020307B0(s);
+    GFL_HEAP_Free(s);
 }
 
 

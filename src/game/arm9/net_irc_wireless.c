@@ -13,9 +13,9 @@
  * Cut from net.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_02034714  0x02034714  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -51,11 +51,11 @@
 #include "net_shared_types.h"
 #include "net_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
@@ -175,7 +175,7 @@ GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct
     if (gNetIrcWirelessLink != 0 && gNetIrcWirelessLink->active == 1)
         return (GFLNetInitializeStruct *)src;
 
-    link = func_02030734((u16)((src->parentHeapId & 0x7FFF) | 0x8000), sizeof(NetIrcWirelessLink), 1, sNetIrcWirelessFileName, 0x72);
+    link = GFL_HEAP_Alloc((u16)((src->parentHeapId & 0x7FFF) | 0x8000), sizeof(NetIrcWirelessLink), 1, sNetIrcWirelessFileName, 0x72);
     link->init = *src;
     link->callbackArg = callbackArg;
     link->savedConnectEndFunc = src->connectEndFunc;
@@ -204,7 +204,7 @@ void GFL_NET_IRC_WIRELESS_Destroy(void)
         return;
     }
     UI_ClearKeepAwakeFlagsGlobal(0x20);
-    func_020307B0(gNetIrcWirelessLink);
+    GFL_HEAP_Free(gNetIrcWirelessLink);
     gNetIrcWirelessLink = 0;
 }
 
@@ -289,7 +289,7 @@ void GFL_NET_IRC_WIRELESS_CopyMacAddress(void *dst, u32 slot)
     if (link != 0) {
         MI_CpuCopy8(link->macs.mac[slot].addr, dst, 6);
     } else {
-        func_02034714(sNetIrcWirelessFileName, 0x109, (const char *)str_020A7D48);
+        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x109, (const char *)str_020A7D48);
     }
 }
 
@@ -580,7 +580,7 @@ void GFL_NET_IRC_WIRELESS_AddMacList(u32 unusedA, u32 unusedB, struct NetMacList
     int macCount;
 
     if (macList->count >= 4) {
-        func_02034714(sNetIrcWirelessFileName, 0x2a5, (const char *)str_020A7D4C);
+        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x2a5, (const char *)str_020A7D4C);
     }
     macCount = macList->count;
     if (macCount > 4) {
@@ -613,7 +613,7 @@ u32 GFL_NET_IRC_WIRELESS_RetryStep(void)
 void GFL_NET_IRC_WIRELESS_RequestRetry(int netId)
 {
     if (gNetIrcWirelessLink == 0)
-        func_02034714(sNetIrcWirelessFileName, 0x2e4, s_020A7D68);
+        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x2e4, s_020A7D68);
     if (gNetIrcWirelessLink != 0) {
         gNetIrcWirelessLink->requestedNetIDPlus1 = (u8)(netId + 1);
         gNetIrcWirelessLink->retryEnabled = 1;
@@ -633,7 +633,7 @@ int GFL_NET_IRC_WIRELESS_GetRetryCountValue(void)
 void GFL_NET_IRC_WIRELESS_SetGameKindOverride(int gameKind)
 {
     if (gNetIrcWirelessLink == 0)
-        func_02034714(sNetIrcWirelessFileName, 0x31a, s_020A7D68);
+        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x31a, s_020A7D68);
     if (gNetIrcWirelessLink != 0)
         gNetIrcWirelessLink->gameKindOverride = (u8)gameKind;
 }

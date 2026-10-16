@@ -16,23 +16,23 @@
  *   FRAME_LIST_UpdateInit 0x021B7A64 thumb ov067
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   UI_SCENE_Delete 0x021B613C thumb ov067
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   UN_SELECT_GRAPHIC_Delete 0x021BA8F0 thumb ov218
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov067_id 0x00000043 data a1
  *   UI_SCENE_Step 0x021B6144 thumb ov067
  *   UN_SELECT_GRAPHIC_Update 0x021BA94C thumb ov218
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   func_02049DF4 0x02049DF4 arm
  *   BG_SYS_LoadTileData 0x02040B1C arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
@@ -41,7 +41,7 @@
  *   d_021BAC20 0x021BAC20 data a4
  *   TOUCHBAR_Delete 0x021B639C thumb ov067
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
@@ -49,11 +49,11 @@
  *   BRIGHTNESS_ChangeReset 0x02023F98 thumb
  *   BRIGHTNESS_ChangeRequest 0x02023EF4 thumb
  *   d_021BB088 0x021BB088 data ov218 a4
- *   func_02030734 0x02030734 arm
- *   func_02049B40 0x02049B40 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -67,7 +67,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -107,7 +107,7 @@
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
  *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
  *   FRAME_LIST_Delete 0x021B796C thumb ov067
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
@@ -116,7 +116,7 @@
  *   UI_SCENE_Create 0x021B6100 thumb ov067
  *   UN_SELECT_GRAPHIC_GetActor 0x021BA960 thumb ov218
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   func_02005624 0x02005624 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   FRAME_LIST_Update 0x021B7AB0 thumb ov067
@@ -258,7 +258,7 @@ typedef char UnSelectWork_SizeCheck[sizeof(struct UnSelectWork) == 0x330 ? 1 : -
 
 /*
  * UN_SELECT record.  UN_SELECT_Create allocates it as 0x234 bytes with
- * func_02030734 and fills the head; UN_SELECT_DeleteRecord tears it down.
+ * GFL_HEAP_Alloc and fills the head; UN_SELECT_DeleteRecord tears it down.
  * UN_SELECT_CreateFrameList fills itemText with one message buffer per row.
  * Replaces the address-named stand-in views this file used for the record.
  */
@@ -266,7 +266,7 @@ struct UnSelectRecord {
     u16 heapId;              /* +0x000 heap the record was allocated from */
     u8 pad_02[2];
     union { void *ptr; u32 handle; int value; } tcbl;  /* +0x004 TCBL_Create handle */
-    union { void *ptr; u32 handle; } msgBank;          /* +0x008 func_02045B38 message bank */
+    union { void *ptr; u32 handle; } msgBank;          /* +0x008 MSGDATA_CreateFromArchive message bank */
     union { void *ptr; u32 handle; } font;             /* +0x00C GF_FONT_Create font */
     union { void *ptr; int value; } printQue;          /* +0x010 PRINTSYS_QUE_Create queue */
     void *wordSet;           /* +0x014 WORDSET_CreateDefault */
@@ -283,22 +283,22 @@ typedef char UnSelectRecord_SizeCheck[sizeof(struct UnSelectRecord) == 0x234 ? 1
 extern int FRAME_LIST_UpdateInit(struct FrameList *p);
 extern void FADE_Start(unsigned int, int, int, int);
 extern int FADE_IsActive(void);
-extern void func_02030EAC(struct Node *);
+extern void TCB_DeleteTask(struct Node *);
 extern void UI_SCENE_Delete(void *);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void UN_SELECT_GRAPHIC_Delete(char *);
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern int UI_SCENE_Step(struct UiScene *);
 extern void UN_SELECT_GRAPHIC_Update(char *);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void MI_CpuFill8(void *, u32, u32);
 extern struct TouchBar *TOUCHBAR_Create(UnSelectTouchBarParams *, int);
@@ -306,18 +306,18 @@ extern void TOUCHBAR_SetAllButtonsBgPriority(u8 *, u32);
 extern void TOUCHBAR_SetButtonSound(unsigned char *p, unsigned int id, int v);
 extern void TOUCHBAR_Delete(u8 *);
 extern void TOUCHBAR_Update(struct TouchBar *p);
-extern void *func_02045EC0(struct MsgBank *, u32);
+extern void *MSGDATA_AllocString(struct MsgBank *, u32);
 extern void STRBUF_Delete(struct U16Vec *);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *, void *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
 extern void APP_TASKMENU_UpdateMenu(Obj *);
 extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
-extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -331,7 +331,7 @@ extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
@@ -370,7 +370,7 @@ extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void FRAME_LIST_Delete(struct FrameList *);
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
@@ -378,7 +378,7 @@ extern char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap);
 extern void *UI_SCENE_Create(u32,void *,u8,u16,void *);
 extern u32 UN_SELECT_GRAPHIC_GetActor(char *p);
 extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void func_0207D63C(u32 *,u32,u32,u32,u32);
+extern void G2x_SetBlendAlpha_(u32 *,u32,u32,u32,u32);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern int FRAME_LIST_Update(struct FrameList *p);
@@ -502,7 +502,7 @@ int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p)
         break;
     case 2: {
         u16 heap;
-        func_02030EAC(((struct UnSelectWork *)p)->taskProc);
+        TCB_DeleteTask(((struct UnSelectWork *)p)->taskProc);
         *(volatile u16 *)0x04000050 = 0;
         *(volatile u16 *)0x04001050 = 0;
         UN_SELECT_DeleteFrameList(p);
@@ -514,9 +514,9 @@ int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p)
         UN_SELECT_Delete(((struct UnSelectWork *)p)->touchBar);
         UN_SELECT_GRAPHIC_Delete(((struct UnSelectWork *)p)->graphic);
         heap = ((struct UnSelectWork *)p)->heapId;
-        func_020315D4(ctx);
+        PROCSYS_FreeProcWork(ctx);
         GFL_HEAP_DeleteChecked(heap);
-        func_02034A5C((int)ov067_id);
+        GF_OVERLAY_Unload((int)ov067_id);
         return 1;
     }
     }
@@ -562,17 +562,17 @@ void UN_SELECT_LoadBg(u8 *p, u16 heap)
     u8 *o1;
     int a;
     int i;
-    h = func_020490F4(0xc1, heap);
+    h = ARC_TOOL_CreateHandle(0xc1, heap);
     func_02049B68(h, 1, 0, 0, 0xe0, heap);
     func_02049B68(h, 1, 4, 0, 0xe0, heap);
-    func_02049658(h, 0xc, 4, 0, 0x200, 0, heap);
-    func_020498F4(h, 6, 7, 0, 0, 0, heap);
-    func_020498F4(h, 0xd, 4, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromHandle(h, 0xc, 4, 0, 0x200, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 6, 7, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 0xd, 4, 0, 0, 0, heap);
     w1 = func_02049DF4(h, 0, 0, (u32)((void **)&o1), heap);
-    func_020498F4(h, 5, 3, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 5, 3, 0, 0, 0, heap);
     w2 = func_02049DF4(h, 0, 0, (u32)((void **)&o2), heap);
-    func_02049658(h, 2, 2, 0, 0, 0, heap);
-    func_02049658(h, 2, 6, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromHandle(h, 2, 2, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromHandle(h, 2, 6, 0, 0, 0, heap);
     for (i = 0; i < 0x82; i++) {
         u8 *buf;
         a = 0x81 - i;
@@ -591,9 +591,9 @@ void UN_SELECT_LoadBg(u8 *p, u16 heap)
         }
     }
     BG_SYS_LoadTileData(7, *(void **)(o1 + 0x14), *(u32 *)(o1 + 0x10), 0);
-    func_020307B0(w1);
+    GFL_HEAP_Free(w1);
     BG_SYS_LoadTileData(3, *(void **)(o2 + 0x14), *(u32 *)(o2 + 0x10), 0);
-    func_020307B0(w2);
+    GFL_HEAP_Free(w2);
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -650,7 +650,7 @@ struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 hea
     struct TaskMenu *menu;
     u32 i;
     for (i = 0; i < 2; i++) {
-        items[i].text = func_02045EC0(bank, i + 235);
+        items[i].text = MSGDATA_AllocString(bank, i + 235);
         items[i].color = 0x39e3;
         items[i].value = 0;
     }
@@ -720,12 +720,12 @@ void *UN_SELECT_Create(u16 heap)
 {
     char *p;
     void *window;
-    p=func_02030734(heap,0x234,1,d_021BB088,0x3cc);
+    p=GFL_HEAP_Alloc(heap,0x234,1,d_021BB088,0x3cc);
     ((struct UnSelectRecord *)p)->heapId=heap;
-    func_02049B40(23,5,0,0x1c0,32,heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,0x1c0,32,heap);
     BMP_MENUWORK_LoadCharAndPltt(0,1,15,0,heap);
     ((struct UnSelectRecord *)p)->wordSet=WORDSET_CreateDefault(heap);
-    ((struct UnSelectRecord *)p)->msgBank.ptr=func_02045B38(0,2,229,heap);
+    ((struct UnSelectRecord *)p)->msgBank.ptr=MSGDATA_CreateFromArchive(0,2,229,heap);
     ((struct UnSelectRecord *)p)->printQue.ptr=(void *)PRINTSYS_QUE_Create((void *)heap);
     ((struct UnSelectRecord *)p)->font.ptr=GF_FONT_Create(23,0,0,0,heap);
     ((struct UnSelectRecord *)p)->text=STRBUF_Create(1600,heap);
@@ -739,7 +739,7 @@ void *UN_SELECT_Create(u16 heap)
     PRINTSYS_Print(BMP_WIN_GetBmp(window),4,0,((struct UnSelectRecord *)p)->text,((struct UnSelectRecord *)p)->font.ptr);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(BMP_WIN_GetBgLayer(window));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
     return p;
 }
 
@@ -760,7 +760,7 @@ void UN_SELECT_DeleteRecord(char *p)
     GF_FONT_Delete(((struct UnSelectRecord *)p)->font.ptr);
     TCBL_Destroy(((struct UnSelectRecord *)p)->tcbl.ptr);
     WORDSET_DeleteStrbufED04(((struct UnSelectRecord *)p)->wordSet);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -809,7 +809,7 @@ void UN_SELECT_DrawMessage(char *p, u32 id)
     BMP_MENUWORK_DrawWindow(((struct UnSelectRecord *)p)->window, 2, 1, 15);
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen((struct Cfg *)obj);
-    func_02041B6C(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
 }
 
 
@@ -946,21 +946,21 @@ void UN_SELECT_CreateFrameList(char *p)
         }
     }
     ((struct UnSelectWork *)p)->frameList=FRAME_LIST_Create((struct Tmpl *)(&template_021BB060),((struct UnSelectWork *)p)->heapId);
-    archive=func_020490F4(193,((struct UnSelectWork *)p)->heapId);
+    archive=ARC_TOOL_CreateHandle(193,((struct UnSelectWork *)p)->heapId);
     FRAME_LIST_CopyMapToBuffer(((struct UnSelectWork *)p)->frameList,(u32)archive,3,0,0);
     FRAME_LIST_CopyMapToBuffer(((struct UnSelectWork *)p)->frameList,(u32)archive,4,0,1);
     FRAME_LIST_LoadPalettes(((struct UnSelectWork *)p)->frameList,archive,1,2,3);
     ARC_TOOL_DeleteHandle(archive);
-    bank=func_02045B38(0,2,229,((struct UnSelectWork *)p)->heapId);
+    bank=MSGDATA_CreateFromArchive(0,2,229,((struct UnSelectWork *)p)->heapId);
     for(i=0;i<130;i++) {
         offset=i*4;
         disabled=1;
         if(((struct UnSelectWork *)p)->itemEnabled[i]==1)disabled=0;
         FRAME_LIST_AddItem(((struct UnSelectWork *)p)->frameList,disabled,i);
         if(disabled==0)
-            ((struct UnSelectRecord *)((struct UnSelectWork *)p)->record)->itemText[i]=func_02045EC0(bank,*(int *)((char *)tbl_021BAC80+offset));
+            ((struct UnSelectRecord *)((struct UnSelectWork *)p)->record)->itemText[i]=MSGDATA_AllocString(bank,*(int *)((char *)tbl_021BAC80+offset));
         else
-            ((struct UnSelectRecord *)((struct UnSelectWork *)p)->record)->itemText[i]=func_02045EC0(bank,238);
+            ((struct UnSelectRecord *)((struct UnSelectWork *)p)->record)->itemText[i]=MSGDATA_AllocString(bank,238);
     }
     MSGDATA_Delete(bank);
 }
@@ -980,7 +980,7 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
     char *p;
     int i,value;
     u32 a,b;
-    func_02034AC4((int)ov067_id);
+    GF_OVERLAY_Load((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1,122,0x30000);
     p=PROCSYS_AllocProcWork(owner,0x330,122);
     MI_CpuFill8(p,0,0x330);
@@ -1010,7 +1010,7 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
     UN_SELECT_CreateFrameList(p);
     UN_SELECT_SetupActors(p);
     UN_SELECT_InitActorPositions(p);
-    func_0207D63C((u32 *)0x04001050,4,8,6,10);
+    G2x_SetBlendAlpha_((u32 *)0x04001050,4,8,6,10);
     ((struct UnSelectWork *)p)->taskProc=func_02005624((u32)UN_SELECT_Callback,(u32)p,0);
     GFL_NET_RestartWithDefaultTimeout(1,((struct UnSelectWork *)p)->heapId);
     return p;
@@ -1222,7 +1222,7 @@ void UN_SELECT_LoadActors(char *ctx)
     ((struct UnSelectWork *)ctx)->characterId = -1;
     ((struct UnSelectWork *)ctx)->paletteId = -1;
     ((struct UnSelectWork *)ctx)->cellAnimId = -1;
-    archive = func_020490F4(193, heap);
+    archive = ARC_TOOL_CreateHandle(193, heap);
     ((struct UnSelectWork *)ctx)->characterId = CLACT_RegisterCharacter((void *)((unsigned)archive), 10, 0, 2, heap);
     ((struct UnSelectWork *)ctx)->paletteId = CLACT_RegisterPalette((void *)archive, 11, 2, 96, heap);
     ((struct UnSelectWork *)ctx)->cellAnimId = CLACT_RegisterCellAnim((void *)((unsigned)archive), 9, 8, heap);

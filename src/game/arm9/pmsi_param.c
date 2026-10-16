@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuCopy8   0x02082D44  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   file_020A745C  0x020A745C  data
@@ -31,9 +31,9 @@
  *   WORDSET_CopyTaggedText    0x0201F250  thumb
  *   STRBUF_Create    0x020457B0  arm
  *   STRBUF_Delete    0x02045808  arm
- *   func_02045B38    0x02045B38  arm
+ *   MSGDATA_CreateFromArchive    0x02045B38  arm
  *   MSGDATA_Delete    0x02045C04  arm
- *   func_02045EC0    0x02045EC0  arm
+ *   MSGDATA_AllocString    0x02045EC0  arm
  *   g_0209F724  0x0209F724  data
  *   g_0209F71C  0x0209F71C  data
  *   data_0209F734  0x0209F734  data
@@ -86,10 +86,10 @@ struct SpecialWordTable {
     u16 words[12];
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *func_020071CC(struct WinPanel020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct WinPanel020071CCCtrl *ctrl, u32 id);
 extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *a0);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 unit_020355C4(void);
@@ -102,8 +102,8 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void  *STRBUF_Create(u32 size, u16 heap);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern struct MsgBank *func_02045B38(int resident, int arcId, u32 fileId, u16 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 GF_FONT_CountControlTag(void *s);
 struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSentence, u32 optionFlag, void *saveControl, u32 heapId);
 void PMSI_PARAM_Delete(void *obj);
@@ -205,9 +205,9 @@ struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSent
     struct PmsiParam *obj;
     int i;
 
-    obj = (struct PmsiParam *)func_02030734((u16)heapId, 0x20, 1, (const char *)file_020A745C, 0x56);
+    obj = (struct PmsiParam *)GFL_HEAP_Alloc((u16)heapId, 0x20, 1, (const char *)file_020A745C, 0x56);
     obj->inputMode = (u8)inputMode;
-    obj->saveWork = func_020071CC(saveControl, 0x37);
+    obj->saveWork = SAVE_CONTROL_GetBlock(saveControl, 0x37);
     obj->wordSave = PMS_WORD_GetSaveData(saveControl);
     obj->eventFlagSet = (u8)ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWorkFromSave(saveControl), 0x960);
     obj->closed = 0;
@@ -242,7 +242,7 @@ struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSent
  */
 void PMSI_PARAM_Delete(void *obj)
 {
-    func_020307B0(obj);
+    GFL_HEAP_Free(obj);
 }
 
 void PMSI_PARAM_SetWord(struct PmsiParam *obj, u16 word)
@@ -570,9 +570,9 @@ void *PMSI_PARAM_ToStringWords(const struct PmsData *sentence, u32 heapId, int w
             WORDSET_SetSlotMarkerFlag(wordSet, i, 1);
         }
     }
-    bank = func_02045B38(0, 2, Table_0209F724[sentence->sentenceType], (u16)heapId);
+    bank = MSGDATA_CreateFromArchive(0, 2, Table_0209F724[sentence->sentenceType], (u16)heapId);
     buffer = STRBUF_Create(0x100, (u16)heapId);
-    message = func_02045EC0(bank, sentence->sentenceId);
+    message = MSGDATA_AllocString(bank, sentence->sentenceId);
     WORDSET_CopyTaggedText(wordSet, buffer, message);
     STRBUF_Delete(message);
     MSGDATA_Delete(bank);
@@ -586,8 +586,8 @@ void *PMSI_PARAM_GetSourceString(const struct PmsData *sentence, u32 heapId)
     void *bank;
     u16 heap = (u16)heapId;
 
-    bank = func_02045B38(0, 2, Table_0209F724[sentence->sentenceType], heap);
-    message = func_02045EC0(bank, sentence->sentenceId);
+    bank = MSGDATA_CreateFromArchive(0, 2, Table_0209F724[sentence->sentenceType], heap);
+    message = MSGDATA_AllocString(bank, sentence->sentenceId);
     MSGDATA_Delete(bank);
 
     return message;
@@ -616,8 +616,8 @@ int PMSI_PARAM_IsComplete(struct PmsData *sentence, u16 heapId)
 
 u32 PMSI_PARAM_GetWordCount(u32 sentenceType, u32 sentenceId, u16 heapId)
 {
-    struct MsgBank *bank = func_02045B38(0, 2, g_0209F724[sentenceType], heapId);
-    void *message = func_02045EC0(bank, sentenceId);
+    struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 2, g_0209F724[sentenceType], heapId);
+    void *message = MSGDATA_AllocString(bank, sentenceId);
     u32 length;
 
     MSGDATA_Delete((struct Rec *)bank);

@@ -25,7 +25,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0200E918 0x0200E918 thumb
+ *   MISC_SAVEDATA_GetKeyByte 0x0200E918 thumb
  *   REGULATION_GetRuleValue 0x0200AE54 thumb
  *   func_02008554 0x02008554 thumb
  *   REGULATION_Card_GetCupName 0x0200B074 thumb
@@ -43,17 +43,17 @@
  *   WIFIBATTLEMATCH_VIEW_DeletePartyWindow 0x021E82BC thumb ov177
  *   WIFIBATTLEMATCH_VIEW_StepPartyWindow 0x021E8338 thumb ov177
  *   WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt 0x021E8420 thumb ov177
- *   func_0200BAF4 0x0200BAF4 thumb
+ *   BATTLE_BOX_CreateParty 0x0200BAF4 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_0200E6E8  0x0200E6E8  thumb
+ *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   ov067_id       0x00000043  data
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   WIFIBATTLEMATCH_VIEW_LoadBgPalette 0x021E58A4 thumb ov177
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_Create 0x0201EC74 thumb
  *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
  *   d_0217E61C 0x0217E61C data a1
@@ -137,7 +137,7 @@ extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *, int, u32);
-extern u8 func_0200E918(const u8 *, u32);
+extern u8 MISC_SAVEDATA_GetKeyByte(const u8 *, u32);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern u8 func_02008554(const struct PlayerStatus *obj);
 extern u8 *REGULATION_Card_GetCupName(struct Reg2 *p);
@@ -155,16 +155,16 @@ extern int WIFIBATTLEMATCH_VIEW_CreatePartyWindow(int,int,int,int,int,int,unsign
 extern void WIFIBATTLEMATCH_VIEW_DeletePartyWindow(char *);
 extern int WIFIBATTLEMATCH_VIEW_StepPartyWindow(void *);
 extern int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(void *);
-extern void *func_0200BAF4(int,int);
+extern void *BATTLE_BOX_CreateParty(int,int);
 extern int POKE_REGULATION_GetDataSize(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int MYSTATUS_GetSize(void);
 extern void OS_GetMacAddress(void *p);
-extern void *func_0200E6E8(u32 a);
+extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern int WORDSET_Create(int,int,int);
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p);
@@ -266,9 +266,9 @@ void DIGITALCARDCHECK_CreateRecord(u8 *p)
     x = (int)GAME_DATA_GetMyStatus(((struct LiveBattleMatchWork *)p)->save);
     table = WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int * *)&((struct LiveBattleMatchWork *)p)->graphic);
     MI_CpuFill8(&rec, 0, 0xAC);
-    rec.fa0 = func_0200E918(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 1);
-    rec.fa2 = func_0200E918(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 2);
-    rec.fa4 = func_0200E918(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 0);
+    rec.fa0 = MISC_SAVEDATA_GetKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 1);
+    rec.fa2 = MISC_SAVEDATA_GetKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 2);
+    rec.fa4 = MISC_SAVEDATA_GetKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 0);
     rec.fa6 = REGULATION_GetRuleValue((struct Reg *)box, 0x16);
     rec.f9c = func_02008554((const struct PlayerStatus *)x);
     MI_CpuCopy8(REGULATION_Card_GetCupName(((struct LiveBattleMatchWork *)p)->card), &rec, 0x92);
@@ -368,7 +368,7 @@ int DIGITALCARDCHECK_IsRecord3DoneB(u8 *p){return WIFIBATTLEMATCH_VIEW_StepParty
 
 
 
-void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)),((struct LiveBattleMatchWork *)p)->heap);MI_CpuCopy8(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}
+void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q) {void *v;v=BATTLE_BOX_CreateParty((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)),((struct LiveBattleMatchWork *)p)->heap);MI_CpuCopy8(v,q,POKE_REGULATION_GetDataSize());GFL_HEAP_Free(v);}
 
 
 
@@ -393,13 +393,13 @@ void DIGITALCARDCHECK_BuildBattleRecord(u8 *p, u8 *q)
     x = (u32)GAME_DATA_GetMyStatus(r);
     MI_CpuCopy8((void *)x, p, MYSTATUS_GetSize());
     OS_GetMacAddress(p + 0x20);
-    MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
-    a = (u32)func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
+    MISC_SAVEDATA_CopyQuadRecord(SAVEDATA_GetExtraBlockThunk((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
+    a = (u32)BATTLE_BOX_CreateParty((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
     MI_CpuCopy8((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
-    func_020307B0((void *)a);
-    ((struct BattleRecord *)p)->stat1 = func_0200E918((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 1);
-    ((struct BattleRecord *)p)->stat2 = func_0200E918((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 2);
-    ((struct BattleRecord *)p)->stat0 = func_0200E918((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 0);
+    GFL_HEAP_Free((void *)a);
+    ((struct BattleRecord *)p)->stat1 = MISC_SAVEDATA_GetKeyByte((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 1);
+    ((struct BattleRecord *)p)->stat2 = MISC_SAVEDATA_GetKeyByte((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 2);
+    ((struct BattleRecord *)p)->stat0 = MISC_SAVEDATA_GetKeyByte((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 0);
     ((struct BattleRecord *)p)->cardValue = REGULATION_Card_GetValue((struct Reg2 *)(((struct LiveBattleMatchWork *)q)->card), 2);
 }
 
@@ -420,12 +420,12 @@ void DIGITALCARDCHECK_SetBattleRecordValue(int *p, int *q)
 Request *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
 {
     Request *r;
-    r = func_02030734(heap, 0x38, 0, d_0217E61C, 0x9A);
+    r = GFL_HEAP_Alloc(heap, 0x38, 0, d_0217E61C, 0x9A);
     MI_CpuFill8(r, 0, 0x38);
     r->config = *p;
     r->heap = heap;
     WIFIBATTLEMATCH_VIEW_LoadBgPalette(r->config.view, 3, heap);
-    r->msgBank = (void *)func_02045B38(0, 2, 0xD2, heap);
+    r->msgBank = (void *)MSGDATA_CreateFromArchive(0, 2, 0xD2, heap);
     r->wordSet = (void *)WORDSET_Create(8, 0x40, heap);
     r->callback = (int)WIFIBATTLEMATCH_UTIL_CreateCallback((int)r, (int)DIGITALCARDCHECK_SelectPhase, heap);
     return r;
@@ -434,7 +434,7 @@ Request *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
 
 
 
-void DIGITALCARDCHECK_Delete(int *p) {WIFIBATTLEMATCH_UTIL_DeleteCallback((void *)p[4]);DIGITALCARDCHECK_DeleteInitRecord(p);WORDSET_DeleteStrbufED04((struct WordSet *)p[1]);MSGDATA_Delete((struct Rec *)p[0]);func_020307B0(p);}
+void DIGITALCARDCHECK_Delete(int *p) {WIFIBATTLEMATCH_UTIL_DeleteCallback((void *)p[4]);DIGITALCARDCHECK_DeleteInitRecord(p);WORDSET_DeleteStrbufED04((struct WordSet *)p[1]);MSGDATA_Delete((struct Rec *)p[0]);GFL_HEAP_Free(p);}
 
 
 
@@ -742,8 +742,8 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(REGULATION_Card_GetCupName(obj), &rec, 0x92);
             table = (const u8 *)MISC_SAVEDATA_GetRecordBase((int)stats);
-            rec.a0 = func_0200E918(table, 1); rec.a2 = func_0200E918(table, 2);
-            rec.v.h.a4 = func_0200E918(table, 0);
+            rec.a0 = MISC_SAVEDATA_GetKeyByte(table, 1); rec.a2 = MISC_SAVEDATA_GetKeyByte(table, 2);
+            rec.v.h.a4 = MISC_SAVEDATA_GetKeyByte(table, 0);
             rec.v.h.a6 = REGULATION_GetRuleValue(reg, 22);
             rec.user = (u8 *)func_02008554((const struct PlayerStatus *)win);
             a = REGULATION_Card_GetValue(obj, 6); b = REGULATION_Card_GetValue(obj, 5); c = REGULATION_Card_GetValue(obj, 4);

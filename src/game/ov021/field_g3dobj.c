@@ -13,7 +13,7 @@
  * Cut from field_g3dobj.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -39,15 +39,15 @@
  *   FLD_VREQ_SetMainBlendAlpha  0x021D325C  thumb  ov021
  *   FLD_VREQ_SetBgVisible  0x021D3244  thumb  ov021
  *   gSweetScentFadeBgPos     0x021DAAB4  data  a2
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFieldG3dobjFileName     0x021DE4A8  data  ov021  a1
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   MTX_Identity33_  0x0207ADC4  arm
@@ -63,7 +63,7 @@
  *   PALANM_ConvertGrayTable   0x02022040  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   MI_CpuFill  0x02082C60  arm
  *   G3D_SYSTEM_CreateRender  0x02047400  arm
  *   G3D_SYSTEM_CreateAnime  0x02047564  arm
@@ -109,7 +109,7 @@ typedef struct BgPoint {
     u16 y;
 } BgPoint;
 
-extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 
 extern void *func_020124E8(void *task);
 
@@ -159,7 +159,7 @@ extern void FLD_VREQ_SetMainBlendAlpha(void *p, u32 a, u32 b, u32 c, u32 d);
 
 extern void FLD_VREQ_SetBgVisible(void *p, int i, u8 v);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 
@@ -263,9 +263,9 @@ typedef struct FieldG3dObjCtrl {
     const u8 *palTable;                    /* palette conversion table, 0 = none */
 } FieldG3dObjCtrl;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuFill(void *p, int v, int n);
 
@@ -307,7 +307,7 @@ extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
 
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 
-extern void func_02046EFC(G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *model, u32 modelIdx, G3dResource *texture);
 
@@ -394,7 +394,7 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
     void *task;
     SweetScentWork *w;
 
-    task = func_020122C0(gameSys, 0, SWEET_SCENT_EventMain, sizeof(SweetScentWork));
+    task = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_EventMain, sizeof(SweetScentWork));
     w = func_020124E8(task);
     MI_CpuFill8(w, 0, sizeof(SweetScentWork));
     w->partyIdx = partyIdx;
@@ -484,7 +484,7 @@ void SWEET_SCENT_StartFade(void *task, void *gameSys, void *fieldMap)
     void *fadeTask;
     SweetScentFade *fade;
 
-    fadeTask = func_020122C0(gameSys, 0, SWEET_SCENT_FadeMain, sizeof(SweetScentFade));
+    fadeTask = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_FadeMain, sizeof(SweetScentFade));
     fade = func_020124E8(fadeTask);
     fade->bgLayer = 3;
     fade->level = 0;
@@ -544,7 +544,7 @@ void SWEET_SCENT_FadeSetup(SweetScentFade *fade)
     BgPoint pos;
 
     pos = gSweetScentFadeBgPos;
-    func_02040588(fade->bgLayer, 0);
+    BG_SYS_SetPlaneVisible(fade->bgLayer, 0);
     BG_SYS_LoadPltt(fade->bgLayer, &pos, 8, 0x20);
     BG_SYS_Init(fade->bgLayer, 1, 1, 0x100);
     BG_SYS_SetTileEntry(fade->bgLayer, 0x100, 0, 0, 0x20, 0x20, 1);
@@ -567,9 +567,9 @@ FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u32 heapId, u32 resCount, u32 objCount)
 {
     FieldG3dObjCtrl *ctrl;
 
-    ctrl = func_02030734(heapId, sizeof(FieldG3dObjCtrl), 1, gFieldG3dobjFileName, 0x72);
-    ctrl->resTbl = func_02030734(heapId, resCount * sizeof(FieldG3dObjRes), 1, gFieldG3dobjFileName, 0x75);
-    ctrl->objTbl = func_02030734(heapId, objCount * sizeof(FieldG3dObj), 1, gFieldG3dobjFileName, 0x78);
+    ctrl = GFL_HEAP_Alloc(heapId, sizeof(FieldG3dObjCtrl), 1, gFieldG3dobjFileName, 0x72);
+    ctrl->resTbl = GFL_HEAP_Alloc(heapId, resCount * sizeof(FieldG3dObjRes), 1, gFieldG3dobjFileName, 0x75);
+    ctrl->objTbl = GFL_HEAP_Alloc(heapId, objCount * sizeof(FieldG3dObj), 1, gFieldG3dobjFileName, 0x78);
     ctrl->heapId = heapId;
     ctrl->resCount = resCount;
     ctrl->objCount = objCount;
@@ -592,7 +592,7 @@ void FIELD_G3DOBJ_Delete(FieldG3dObjCtrl *ctrl)
                 FIELD_G3DOBJ_DestroyObject(obj, &ctrl->resTbl[obj->resIdx]);
             obj++;
         }
-    func_020307B0(ctrl->objTbl);
+    GFL_HEAP_Free(ctrl->objTbl);
     i = 0;
     res = ctrl->resTbl;
     if (i < ctrl->resCount)
@@ -600,8 +600,8 @@ void FIELD_G3DOBJ_Delete(FieldG3dObjCtrl *ctrl)
             FIELD_G3DOBJ_FreeResource(res);
             res++;
         }
-    func_020307B0(ctrl->resTbl);
-    func_020307B0(ctrl);
+    GFL_HEAP_Free(ctrl->resTbl);
+    GFL_HEAP_Free(ctrl);
 }
 
 void FIELD_G3DOBJ_Update(FieldG3dObjCtrl *ctrl)
@@ -902,12 +902,12 @@ void FIELD_G3DOBJ_FreeResource(FieldG3dObjRes *res)
             G3D_SYSTEM_FreeVramTexture(res->model);
     }
     if (res->texture != 0)
-        func_02046EFC(res->texture);
+        G3D_SYSTEM_DeleteResource(res->texture);
     if (res->model != 0)
-        func_02046EFC(res->model);
+        G3D_SYSTEM_DeleteResource(res->model);
     if (res->animeCount != 0) {
         for (i = 0; i < res->animeCount; i++)
-            func_02046EFC(res->anime[i]);
+            G3D_SYSTEM_DeleteResource(res->anime[i]);
     }
     MI_CpuFill(res, 0, sizeof(FieldG3dObjRes));
     res->state = FIELD_G3DOBJ_RES_READY;

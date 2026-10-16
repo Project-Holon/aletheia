@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: func_02034E24, func_02034EF8, func_02034F5C, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, func_02035080, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, func_02035120, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, func_0203515C, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, func_020351BC, UI_TestFlags39Global, func_020351EC, func_020351F8, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
+ * function: func_02034E24, func_02034EF8, func_02034F5C, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, func_02035080, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, func_02035120, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, func_0203515C, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, func_020351BC, UI_TestFlags39Global, func_020351EC, UI_SetIntrDataGlobal, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  * ui_p02.c folded in here as one whole TU (0x020353B0..0x02035750).
  *
  * symbols:
- *   func_02030734    0x02030734  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
  *   MI_CpuFill8      0x02082BCC  arm
  *   KEY_Create    0x02035EE8  arm
  *   TOUCHPANEL_Create    0x020357E0  arm
@@ -115,7 +115,7 @@ struct UiCtx {
 
 typedef unsigned short u16;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void *KEY_Create(u32 heap);
 extern void *TOUCHPANEL_Create(u32 heap);
@@ -259,7 +259,7 @@ void UI_Create(u32 heap, u8 mode)
     u32 a;
     u32 b;
 
-    p = func_02030734(heap, sizeof(struct UiCtx), 0, s_UiFile, 58);
+    p = GFL_HEAP_Alloc(heap, sizeof(struct UiCtx), 0, s_UiFile, 58);
     MI_CpuFill8(p, 0, sizeof(struct UiCtx));
 
     p->keyWork = KEY_Create(heap);

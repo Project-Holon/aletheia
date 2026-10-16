@@ -32,7 +32,7 @@
  *   gGpiProfileErrorUnexpectedData     0x021a51d8  data
  *   gGpiProfileKeyProfileId     0x021a5208  data
  *   gGpiProfileErrorOutOfMemory     0x021a5214  data
- *   func_0218FD9C  0x0218FD9C  arm  ov009
+ *   gpiGetProfile  0x0218FD9C  arm  ov009
  *   func_0218474C  0x0218474C  arm  ov009
  *   TableLookup                      0x0218482C arm
  *   gGpiProfileResponseDpr     0x021a5224  data
@@ -66,7 +66,7 @@ extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(int *p, int b);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern void gpiRemoveOperation(void **connection, GPIOperation *operation);
-extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
+extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern void func_0218474C(void *table, void *newElem);
 extern void * TableLookup(void * table, void * elemKey);
 extern int TableRemove(void * table, void * delElem);
@@ -255,7 +255,7 @@ GPIProfile *gpiProfileListAdd(void **connection, int id)
 
     if (id <= 0)
         return 0;
-    if (func_0218FD9C(connection, id, &pProfile))
+    if (gpiGetProfile(connection, id, &pProfile))
         return pProfile;
     {
         GPIProfile profile = {0};
@@ -270,7 +270,7 @@ GPIProfile *gpiProfileListAdd(void **connection, int id)
         func_0218474C(profileList->profileList.profileTable, &profile);
         profileList->profileList.num++;
     }
-    if (func_0218FD9C(connection, id, &pProfile))
+    if (gpiGetProfile(connection, id, &pProfile))
         return pProfile;
     return 0;
 }

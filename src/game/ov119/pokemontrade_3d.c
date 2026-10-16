@@ -20,22 +20,22 @@
  *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
  *   POKETRADE_3D_AddPokemonMcssFlipped  0x021E36A8  thumb  ov119
  *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   DWC_RAP_SetVchatTalkLock 0x0215642C thumb ov009
  *   POKETRADE_3D_UploadCubeTextures 0x021E31FC thumb ov119
  *   G3D_CAMERA_Delete 0x02048AC4 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   POKETRADE_3D_RemoveCurrentUnit 0x021E3230 thumb ov119
  *   POKETRADE_3D_Init3DScene 0x021E30EC thumb ov119
  *   POKETRADE_3D_CreateTouchbar 0x021E3C20 thumb ov119
  *   POKETRADE_3D_AddPokemonMcssPlain 0x021E36C8 thumb ov119
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   func_02047964 0x02047964 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   POKETRADE_3D_Update3DScene 0x021E31B4 thumb ov119
  *   POKETRADE_3D_Delete3DScene 0x021E31BC thumb ov119
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   FX_SinCosTable_    0x020A1B38  data
  *   ICA_ANIME_CreateStream 0x02011510 thumb
@@ -104,7 +104,7 @@
  *   func_02083194 0x02083194 arm
  *   func_0207FA0C 0x0207FA0C arm
  *   func_0207FA40 0x0207FA40 arm
- *   func_0207FADC 0x0207FADC arm
+ *   GX_EndLoadTexPltt 0x0207FADC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   TOUCHBAR_SetAllButtonsPriority 0x021B6520 thumb ov067
  *   gTouchbarTemplate 0x021E7C0C data a4
@@ -121,11 +121,11 @@ extern void DWC_RAP_SetVchatTalkLock(int);
 
 extern void func_02047964(void);
 
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -211,7 +211,7 @@ typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } Tou
 
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 
@@ -225,7 +225,7 @@ extern void ICA_ANIME_Delete(struct IcaAnime *p);
 
 extern void PARTICLE_InitManager(u32 heap);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 
@@ -319,7 +319,7 @@ extern void func_0207FA0C(void);
 
 extern void func_0207FA40(const void *, int, int);
 
-extern void func_0207FADC(void);
+extern void GX_EndLoadTexPltt(void);
 
 extern void *TOUCHBAR_Create(TouchbarConfig *, int);
 
@@ -486,7 +486,7 @@ void POKETRADE_3D_InitParticleSystems(ParticleManager *p) {
     PARTICLE_InitManager(p->heap);
     p->archiveMember=0;
     for(i=0;i<9;i++) {
-        p->buffer[i]=func_02030734(p->heap,0x4800,1,gParticleBufferAllocTag,0x201);
+        p->buffer[i]=GFL_HEAP_Alloc(p->heap,0x4800,1,gParticleBufferAllocTag,0x201);
         switch(i) {
         case 0: case 1: case 2: case 5: case 6: case 8: flag=0; break;
         case 3: case 4: case 7: default: flag=1; break;
@@ -528,12 +528,12 @@ void POKETRADE_3D_ExitParticleManager(ParticleManager *p, int a1)
 
     PARTICLE_ExitManager();
     if (p->archiveMember != 0) {
-        func_020307B0(p->archiveMember);
+        GFL_HEAP_Free(p->archiveMember);
         p->archiveMember = 0;
     }
     for (i = 0; i < 9; i++) {
         if (p->buffer[i] != 0) {
-            func_020307B0(p->buffer[i]);
+            GFL_HEAP_Free(p->buffer[i]);
             p->buffer[i] = 0;
         }
     }
@@ -549,7 +549,7 @@ void POKETRADE_3D_InitTradeParticleSet(ParticleManager *p)
     PARTICLE_InitManager(p->heap);
     for (i = 0; i < 6; i++) {
         q = &p->system[i];
-        buf = func_02030734(p->heap, 0x4800, 1, gParticleBufferAllocTag, 0x273);
+        buf = GFL_HEAP_Alloc(p->heap, 0x4800, 1, gParticleBufferAllocTag, 0x273);
         q[9] = buf;
         *q = (void *)PARTICLE_CreateSystemDefault((int)buf, 0x4800, 0, p->heap);
     }
@@ -585,7 +585,7 @@ void POKETRADE_3D_Delete3DScene(char *p) {
     if (((TradeWork *)p)->particleManager) {
         POKETRADE_3D_ExitParticleManager(((TradeWork *)p)->particleManager,6);
         POKETRADE_3D_FreeParticleResources(((TradeWork *)p)->particleManager);
-        func_020307B0(((TradeWork *)p)->particleManager);
+        GFL_HEAP_Free(((TradeWork *)p)->particleManager);
         ((TradeWork *)p)->particleManager=0;
     }
     POKETRADE_SAVE_Free3DLightSet();
@@ -652,7 +652,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
             G3D_SYSTEM_LoopObjectAnimeFrame(q, (u16)i, gAnimeFrameCfg.amount);
     }
     func_02047964();
-    func_02048AD0(((TradeWork *)p)->subCamera);
+    G3D_CAMERA_Reset(((TradeWork *)p)->subCamera);
     G3D_SYSTEM_ApplyLookAt();
     if (((TradeWork *)p)->particleManager != 0) {
         PARTICLE_DrawAllSystems();
@@ -868,7 +868,7 @@ void POKETRADE_3D_UploadTexturePages(char *p, int count)
     char *v;
     int i;
     func_0207F7A0();
-    v = func_02030734(((TradeWork *)p)->heapId, 0x200, 1, gParticleBufferAllocTag, 0x510);
+    v = GFL_HEAP_Alloc(((TradeWork *)p)->heapId, 0x200, 1, gParticleBufferAllocTag, 0x510);
     for (i = 0; i < count; i++) {
         MI_CpuFill8(v, 0, 0x200);
         if (i == 0)
@@ -878,7 +878,7 @@ void POKETRADE_3D_UploadTexturePages(char *p, int count)
         DWCi_ScreenDC_FlushRange(v, 0x200);
         func_0207F7FC(v, i * 0x200 + 0x3000, 0x200);
     }
-    func_020307B0(v);
+    GFL_HEAP_Free(v);
     func_0207F9B4();
     POKETRADE_3D_LoadTexturePalette(p);
 }
@@ -985,7 +985,7 @@ void POKETRADE_3D_LoadTexturePalette(char *p)
     void *allocation;
     void *descriptor;
     char *data;
-    v = func_020490F4(0x74, ((TradeWork *)p)->heapId);
+    v = ARC_TOOL_CreateHandle(0x74, ((TradeWork *)p)->heapId);
     allocation = func_02049F78(v, 0x48, (u32)(&descriptor), ((TradeWork *)p)->heapId);
     data = ((IcaTexture *)descriptor)->data;
     DWCi_ScreenDC_FlushRange(data + 32, 32);
@@ -994,9 +994,9 @@ void POKETRADE_3D_LoadTexturePalette(char *p)
     DWCi_ScreenDC_FlushRange(data + 32, 32);
     func_0207FA0C();
     func_0207FA40(data + 32, 0x2000, 32);
-    func_0207FADC();
+    GX_EndLoadTexPltt();
     MI_CpuCopy8(data + 32, p + 0x1134, 32);
-    func_020307B0(allocation);
+    GFL_HEAP_Free(allocation);
     ARC_TOOL_DeleteHandle(v);
 }
 
@@ -1020,7 +1020,7 @@ void POKETRADE_3D_FadeTexturePalette(char *p)
     }
     func_0207FA0C();
     func_0207FA40(p + 0x1154, 0x2000, 32);
-    func_0207FADC();
+    GX_EndLoadTexPltt();
 }
 
 void POKETRADE_3D_CreateTouchbar(char *p)

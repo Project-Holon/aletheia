@@ -16,7 +16,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetMyStatus   0x02012944  thumb
  *   STRBUF_Create   0x020457B0  arm
- *   func_02008500   0x02008500  thumb
+ *   MYSTATUS_NameToStrbuf   0x02008500  thumb
  *   g_020A74B0      0x020A74B0  data
  *   STRBUF_Delete  0x02045808  arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -87,7 +87,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *a0);
 
 extern struct U16Vec *STRBUF_Create(u32 a0, u32 a1);
 
-extern void func_02008500(void *a0, void *a1);
+extern void MYSTATUS_NameToStrbuf(void *a0, void *a1);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -131,8 +131,8 @@ struct VecSet *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1)
         e = base + i;
         e->buf1 = STRBUF_Create(8, a0);
         e->buf2 = STRBUF_Create(8, a0);
-        func_02008500(q, e->buf1);
-        func_02008500(q, e->buf2);
+        MYSTATUS_NameToStrbuf(q, e->buf1);
+        MYSTATUS_NameToStrbuf(q, e->buf2);
     }
     return p;
 }

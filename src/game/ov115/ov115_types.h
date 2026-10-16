@@ -62,7 +62,7 @@ struct WifiloginDisp {
     unsigned int mode;          /* 0x0008: display mode (0 or 1) */
     unsigned short heapId;      /* 0x000C: child heap of the display */
     unsigned char pad0E[2];     /* 0x000E */
-    void *frameTask;            /* 0x0010: per-frame task (func_020056A0) */
+    void *frameTask;            /* 0x0010: per-frame task (GFL_USE_AddMainTask) */
     unsigned int paletteReady;  /* 0x0014: set once the palette is uploaded */
     unsigned char pad18[0x950]; /* 0x0018: palette blend buffers and colour tables */
     short palIndex;             /* 0x0968: palette index (0..59) */

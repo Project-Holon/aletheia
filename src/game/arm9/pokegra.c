@@ -13,8 +13,8 @@
  * Cut from iss_switch_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   PokegraFileName    0x020A77AC  data
  *   MIi_CpuCopyFast 0x02082B0C  arm
  *   SpindaSpotTables  0x020A779C  data
@@ -30,7 +30,7 @@
  *   APP_ICON_GetBallCellFileId   0x02027710  thumb
  *   APP_ICON_GetBallPaletteFileId   0x02027714  thumb
  *   APP_ICON_GetArchiveId   0x020275E4  thumb
- *   func_020490F4   0x020490F4  arm
+ *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   CLACT_RegisterCellAnim   0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle   0x02049238  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
@@ -67,9 +67,9 @@ struct NNSG2dCharacterData {
 
 typedef enum { POKEGRA_DIR_OFFSET_FRONT } PokegraDirOffset;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 
@@ -89,7 +89,7 @@ extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
 
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern int APP_ICON_GetBallCellFileId(int a);
 
@@ -187,7 +187,7 @@ void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId)
     int i;
     u32 offset;
 
-    work = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x1200, 1, PokegraFileName, 0x100);
+    work = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), 0x1200, 1, PokegraFileName, 0x100);
     MIi_CpuCopyFast(raw, work, 0x1200);
 
     rowBytes = 0x180;
@@ -209,7 +209,7 @@ void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId)
         MIi_CpuCopyFast(work + offset, raw + (i * 12 + 0x68) * 32, 0x80);
         offset += 0x80;
     }
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId)
@@ -220,7 +220,7 @@ void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId)
     s32 offset;
 
     raw = ((struct NNSG2dCharacterData *)charData)->pRawData;
-    work = (u8 *)func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x1200,
+    work = (u8 *)GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), 0x1200,
                               1, PokegraFileName, 313);
     MIi_CpuCopyFast(raw, work, 0x1200);
 
@@ -241,7 +241,7 @@ void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId)
         MIi_CpuCopyFast(work + (i * 12 + 0x68) * 32, raw + offset, 0x80);
         offset += 0x80;
     }
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -591,7 +591,7 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
 
 void *POKEGRA_OpenHandle(u32 heapId)
 {
-    return func_020490F4(POKEGRA_GetArcID(), heapId);
+    return ARC_TOOL_CreateHandle(POKEGRA_GetArcID(), heapId);
 }
 
 int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType,
@@ -609,7 +609,7 @@ int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rar
  * 0x147 it additionally runs the same tail through POKEGRA_LoadCharData with the
  * address of a local out-slot, hands that slot's word to CLACT_TransferCharacter
  * alongside the request handle, and releases POKEGRA_LoadCharData's result through
- * func_020307B0. The request handle is returned either way.
+ * GFL_HEAP_Free. The request handle is returned either way.
  *
  * Three things the C has to say exactly, all found this session (the
  * earlier DIFF is docs/notes/POKEGRA_RegisterCgr.c.txt):
@@ -649,7 +649,7 @@ u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u3
     if (monsNo == 0x147) {
         charFile = (u32)POKEGRA_LoadCharData((u32 *)(&charData), monsNo, formNo, sex, rare, dir, egg, personality, heapId);
         CLACT_TransferCharacter(cgrIndex, (struct Sub0204A9D0 *)((u32)charData));
-        func_020307B0((void *)charFile);
+        GFL_HEAP_Free((void *)charFile);
     }
     return cgrIndex;
 }
@@ -657,7 +657,7 @@ u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u3
 /*
  * Builds a record out of an argument struct passed by value in the caller's
  * frame: both cursors come from APP_ICON_GetBallCellFileId/APP_ICON_GetBallPaletteFileId on the same +8
- * word, the handle from func_020490F4 keyed on the +0x10 halfword with the
+ * word, the handle from ARC_TOOL_CreateHandle keyed on the +0x10 halfword with the
  * mode word from APP_ICON_GetArchiveId, and CLACT_RegisterCellAnim assembles the pair into
  * it; the handle is released before the assembled record is returned.
  *
@@ -685,7 +685,7 @@ u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile
 
     cellDatId = APP_ICON_GetBallCellFileId(mapping);
     anmDatId = APP_ICON_GetBallPaletteFileId(mapping);
-    handle = func_020490F4(APP_ICON_GetArchiveId(), heapId);
+    handle = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
     cellIndex = CLACT_RegisterCellAnim(handle, cellDatId, anmDatId, heapId);
     ARC_TOOL_DeleteHandle(handle);
     return cellIndex;
@@ -754,7 +754,7 @@ u32 POKEGRA_RegisterCellAnimPP(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 
 
 void *POKEGRA_OpenTrainerHandle(u32 heapId)
 {
-    return func_020490F4(POKEGRA_GetTrainerArcID(0), heapId);
+    return ARC_TOOL_CreateHandle(POKEGRA_GetTrainerArcID(0), heapId);
 }
 
 s32 POKEGRA_RegisterTrainerPalette(u32 handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId)
@@ -776,7 +776,7 @@ s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u1
 
     cellDatId = APP_ICON_GetBallAnimFileId(mapping);
     anmDatId = APP_ICON_GetBallFrameFileId(mapping);
-    handle = func_020490F4(APP_ICON_GetArchiveId(), heapId);
+    handle = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
     cellIndex = CLACT_RegisterCellAnim(handle, cellDatId, anmDatId, heapId);
     ARC_TOOL_DeleteHandle(handle);
     return cellIndex;
@@ -788,7 +788,7 @@ s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u1
  * the first, POKEGRA_GetTrainerCgrArcIndex for the second), pulls the entry out of the
  * archive set named by the fifth, stack-passed u16 argument, hands the
  * unpacked payload to its consumer and then frees the container with
- * the common finalizer func_020307B0.
+ * the common finalizer GFL_HEAP_Free.
  *
  * The u16 fifth argument is re-read from the incoming argument area for
  * the second call rather than cached, so it is spelled as a `volatile
@@ -803,9 +803,9 @@ void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *
     file = ARC_TOOL_LoadHandleMember(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
     NNS_G2dGetUnpackedPaletteData(file, &palData);
     CLACT_TransferPalette(palDst, palData, 1);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 
     file = func_02049E74(handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (u32)(&charData), heapId);
     CLACT_TransferCharacter((int)charDst, charData);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }

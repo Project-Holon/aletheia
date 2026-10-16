@@ -15,24 +15,24 @@
  * the functions in this range use struct StaOamSub8C (PStatusWork.infoWork).
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   d_021DC824 0x021DC824 data a1
@@ -128,25 +128,25 @@ struct PStaInfoWork {
 struct StaInfoStatIds { u32 id[6]; };
 struct StaInfoStatRows { u8 row[6][6]; };
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
 extern void BG_SYS_PushTile(u32);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern u32 POKE_TOOL_GetBoxValue(void *mon, int paramId, void *out);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
@@ -196,7 +196,7 @@ extern const u32 d_021DC24C[6];
 extern const u8 d_021DC264[6][6];
 
 PStaInfoWork *P_STA_INFO_AllocWork(PStatusWork *wk) {
- PStaInfoWork *work=func_02030734(wk->heapId,0x6c,0,d_021DC824,0xc1);
+ PStaInfoWork *work=GFL_HEAP_Alloc(wk->heapId,0x6c,0,d_021DC824,0xc1);
  work->isDrawn=0;
  work->isWinActive=0;
  work->dexTable=POKE_PERSONAL_LoadFormTable(wk->heapId,0);
@@ -205,8 +205,8 @@ PStaInfoWork *P_STA_INFO_AllocWork(PStatusWork *wk) {
 
 void P_STA_INFO_FreeWork(PStatusWork *wk, PStaInfoWork *work)
 {
-    func_020307B0(work->dexTable);
-    func_020307B0(work);
+    GFL_HEAP_Free(work->dexTable);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -221,11 +221,11 @@ void P_STA_INFO_LoadResources(PStatusWork *wk, PStaInfoWork *work, void *arc)
     work->eggScrnFile = func_02049EF4(arc, 72, 0, &work->eggScrnData, wk->heapId);
     work->palFile = func_02049EF4(arc, 64, 0, &work->palData, wk->heapId);
     work->barScrnFile = func_02049EF4(arc, 65, 0, &work->barScrnData, wk->heapId);
-    work->msgInfo = func_02045B38(0, 2, 188, wk->heapId);
-    work->msgPlaceBank89 = func_02045B38(0, 2, 89, wk->heapId);
-    work->msgPlaceBank92 = func_02045B38(0, 2, 92, wk->heapId);
-    work->msgPlaceBank90 = func_02045B38(0, 2, 90, wk->heapId);
-    work->msgPlaceBank91 = func_02045B38(0, 2, 91, wk->heapId);
+    work->msgInfo = MSGDATA_CreateFromArchive(0, 2, 188, wk->heapId);
+    work->msgPlaceBank89 = MSGDATA_CreateFromArchive(0, 2, 89, wk->heapId);
+    work->msgPlaceBank92 = MSGDATA_CreateFromArchive(0, 2, 92, wk->heapId);
+    work->msgPlaceBank90 = MSGDATA_CreateFromArchive(0, 2, 90, wk->heapId);
+    work->msgPlaceBank91 = MSGDATA_CreateFromArchive(0, 2, 91, wk->heapId);
 }
 
 void P_STA_INFO_FreeResources(PStatusWork *wk, PStaInfoWork *work)
@@ -236,10 +236,10 @@ void P_STA_INFO_FreeResources(PStatusWork *wk, PStaInfoWork *work)
     MSGDATA_Delete(work->msgPlaceBank92);
     MSGDATA_Delete(work->msgPlaceBank90);
     MSGDATA_Delete(work->msgPlaceBank91);
-    func_020307B0(work->bgScrnFile);
-    func_020307B0(work->eggScrnFile);
-    func_020307B0(work->palFile);
-    func_020307B0(work->barScrnFile);
+    GFL_HEAP_Free(work->bgScrnFile);
+    GFL_HEAP_Free(work->eggScrnFile);
+    GFL_HEAP_Free(work->palFile);
+    GFL_HEAP_Free(work->barScrnFile);
 }
 
 void P_STA_INFO_Setup(PStatusWork *wk, PStaInfoWork *work)
@@ -267,11 +267,11 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
     mon=P_STATUS_GetPokePara(wk);
     if(wk->isEgg==0) BG_SYS_DrawTileEx(2,0,0,32,24,(u32)((u8 *)work->bgScrnData+12),0,0,32,32);
     else BG_SYS_DrawTileEx(2,0,0,32,24,(u32)((u8 *)work->eggScrnData+12),0,0,32,32);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     BG_SYS_DecodeTile(6,(u8 *)work->palData+12,((StaGraphicsFile *)((u8 *)work->palData))->dataSize);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(6);
     BG_SYS_DrawTileEx(5,0,0,32,3,(u32)((u8 *)work->barScrnData+12),0,0,32,32);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
     for(i=0;i<10;i++) {
         win=work->win[i];
         BMP_WIN_TransferChars(win);
@@ -322,9 +322,9 @@ void P_STA_INFO_DeleteWindows(PStatusWork *wk, PStaInfoWork *work) {
 void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *work)
 {
     BG_SYS_SetTileEntry(1, 0, 0, 0, 19, 21, 16);
-    func_02041B6C(1);
+    BG_SYS_SetFlagField06(1);
     BG_SYS_ClearLayerEx(4, 0);
-    func_02041B6C(4);
+    BG_SYS_SetFlagField06(4);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0], 0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[1], 0);
     CLACT_SetActorAnimSeq(wk->buttonActor[0], 0);
@@ -368,8 +368,8 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         }
         WORDSET_DeleteStrbufED04(dexWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_SPECIES],10,1,1,0x3c40);
-        if(wk->isEgg==0) {species=POKE_TOOL_GetBoxValue(mon,5,0); speciesName=func_02045EC0(gSpeciesNameBank,species);}
-        else speciesName=func_02045EC0(gSpeciesNameBank,0x28a);
+        if(wk->isEgg==0) {species=POKE_TOOL_GetBoxValue(mon,5,0); speciesName=MSGDATA_AllocString(gSpeciesNameBank,species);}
+        else speciesName=MSGDATA_AllocString(gSpeciesNameBank,0x28a);
         bmp=BMP_WIN_GetBmp(work->win[STA_INFO_WIN_SPECIES]);
         color=0x440;
         PRINTSYS_PrintQueColor(wk->printQue,bmp,0x41,1,speciesName,wk->font,color);
@@ -488,7 +488,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     isOriginalTrainer = POKE_TOOL_IsBoxOwnedByPlayer(mon, GAME_DATA_GetMyStatus(wk->param->config));
 
     if (isEgg == 0) {
-        msgStr = func_02045EC0(work->msgInfo, natureMsg);
+        msgStr = MSGDATA_AllocString(work->msgInfo, natureMsg);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)1, msgStr, wk->font, 0x440);
         STRBUF_Delete(msgStr);
         textY = 0x10;
@@ -580,7 +580,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     WORDSET_SetSlotNumber(wordSet, 6, eggMonth, 2, bestStat, 1);
     WORDSET_SetSlotNumber(wordSet, 7, eggDay, 2, bestStat, 1);
     WORDSET_SetSlotTag(wordSet, 8, eggPlaceStr, bestStat, 1, 2);
-    msgStr = func_02045EC0(work->msgInfo, msgId);
+    msgStr = MSGDATA_AllocString(work->msgInfo, msgId);
     WORDSET_CopyTaggedText(wordSet, infoStr, msgStr);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), infoStr, wk->font, 0x440);
     WORDSET_DeleteStrbufED04(wordSet);
@@ -608,7 +608,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
                 bestStat = row[i];
             }
         }
-        msgStr = func_02045EC0(work->msgInfo, bestStat * 5 + 0x35 + bestValue % 5);
+        msgStr = MSGDATA_AllocString(work->msgInfo, bestStat * 5 + 0x35 + bestValue % 5);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), msgStr, wk->font, 0x440);
         STRBUF_Delete(msgStr);
     } else {
@@ -622,7 +622,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
         } else {
             eggMsgId = 0x5a;
         }
-        msgStr = func_02045EC0(work->msgInfo, eggMsgId);
+        msgStr = MSGDATA_AllocString(work->msgInfo, eggMsgId);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), msgStr, wk->font, 0x440);
         STRBUF_Delete(msgStr);
     }
@@ -633,10 +633,10 @@ void *P_STA_INFO_GetPlaceName(PStatusWork *wk, PStaInfoWork *work, unsigned int 
     unsigned int bank = EVENT_ID_GetBank(placeId);
     unsigned int index = EVENT_ID_GetIndex(placeId);
     switch (bank) {
-    case 89: return func_02045EC0(work->msgPlaceBank89, index);
-    case 92: return func_02045EC0(work->msgPlaceBank92, index);
-    case 90: return func_02045EC0(work->msgPlaceBank90, index);
-    case 91: return func_02045EC0(work->msgPlaceBank91, index);
-    default: return func_02045EC0(work->msgPlaceBank89, 0);
+    case 89: return MSGDATA_AllocString(work->msgPlaceBank89, index);
+    case 92: return MSGDATA_AllocString(work->msgPlaceBank92, index);
+    case 90: return MSGDATA_AllocString(work->msgPlaceBank90, index);
+    case 91: return MSGDATA_AllocString(work->msgPlaceBank91, index);
+    default: return MSGDATA_AllocString(work->msgPlaceBank89, 0);
     }
 }

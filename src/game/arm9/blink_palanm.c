@@ -13,14 +13,14 @@
  * Cut from time_icon.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734    0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   blink_palanm_File    0x020A7804  data
  *   func_02049F78      0x02049F78  arm
  *   FX_SinCosTable_  0x020A1B38  data
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  */
 #include "comm_player_support_shared_types.h"
 #include "blink_palanm_shared_types.h"
@@ -49,15 +49,15 @@ struct PaletteFile {
     u8 *colors;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
 extern struct ResourceFile *func_02049F78(void *archive, u32 fileId, u32 outData, u32 heapId);
 
-extern s32 func_02061CA4(u32 targetMask, u32 firstColor, u32 colors, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(u32 targetMask, u32 firstColor, u32 colors, s32 size);
 
 struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heapId);
 
@@ -85,8 +85,8 @@ struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode
 {
     struct BlinkPalAnm *anm;
 
-    anm = func_02030734(heapId, sizeof(struct BlinkPalAnm), 0, blink_palanm_File, 0x3c);
-    anm->outColors = func_02030734(heapId, (u32)colorCount * 2, 0, blink_palanm_File, 0x3d);
+    anm = GFL_HEAP_Alloc(heapId, sizeof(struct BlinkPalAnm), 0, blink_palanm_File, 0x3c);
+    anm->outColors = GFL_HEAP_Alloc(heapId, (u32)colorCount * 2, 0, blink_palanm_File, 0x3d);
     anm->firstColor = firstColor;
     anm->colorCount = colorCount;
     anm->phase = 0;
@@ -116,15 +116,15 @@ void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileI
     struct ResourceFile *handle;
     u8 *colors;
 
-    anm->srcColors = func_02030734(anm->heapId, (u32)anm->colorCount * 2, 0, blink_palanm_File,
+    anm->srcColors = GFL_HEAP_Alloc(anm->heapId, (u32)anm->colorCount * 2, 0, blink_palanm_File,
                                    0x83);
-    anm->dstColors = func_02030734(anm->heapId, (u32)anm->colorCount * 2, 0, blink_palanm_File,
+    anm->dstColors = GFL_HEAP_Alloc(anm->heapId, (u32)anm->colorCount * 2, 0, blink_palanm_File,
                                    0x84);
     handle = func_02049F78(archive, fileId, (u32)(&file), anm->heapId);
     colors = file->colors;
     MI_CpuCopy8(colors + srcStart * 2, anm->srcColors, (int)((u32)anm->colorCount * 2));
     MI_CpuCopy8(colors + dstStart * 2, anm->dstColors, (int)((u32)anm->colorCount * 2));
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
 }
 
 /*
@@ -141,10 +141,10 @@ void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileI
  */
 u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm)
 {
-    func_020307B0(anm->dstColors);
-    func_020307B0(anm->srcColors);
-    func_020307B0(anm->outColors);
-    return func_020307B0(anm);
+    GFL_HEAP_Free(anm->dstColors);
+    GFL_HEAP_Free(anm->srcColors);
+    GFL_HEAP_Free(anm->outColors);
+    return GFL_HEAP_Free(anm);
 }
 
 /*
@@ -152,7 +152,7 @@ u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm)
  * at +0x10 by 0x400 (wrapping at 0x10000), takes the fade scale as
  * (FX_SinCosTable_[phase >> 4 pair, second entry] + 0x1000) / 2, blends
  * every color of the src row toward the dst row into the output row, then
- * hands the output row to func_02061CA4.
+ * hands the output row to NNS_GfdRegisterNewVramTransferTask.
  *
  * Two facts closed it (wave 13).  The colors are u16 locals, not s32: with
  * `s32 b` the dst channel extraction is scheduled differently (46 out).  And
@@ -194,7 +194,7 @@ s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm)
         anm->outColors[i] = (u16)((red << 10) | (blue | (green << 5)));
     }
 
-    return func_02061CA4(anm->targetMask, anm->firstColor * 2, (u32)anm->outColors, anm->colorCount * 2);
+    return NNS_GfdRegisterNewVramTransferTask(anm->targetMask, anm->firstColor * 2, (u32)anm->outColors, anm->colorCount * 2);
 }
 
 /*

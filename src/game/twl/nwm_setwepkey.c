@@ -17,6 +17,8 @@
  *   NWMi_SendCommandDirect  0x02703B24  arm
  *   NWMi_CheckState  0x027028E4  arm
  *   MI_CpuCopy8  0x02082D44  arm  arm9
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -37,8 +39,8 @@ typedef struct TwlMsg {
 
 extern u32 NWMi_CheckState(u32, u32);
 extern TwlWork *NWMi_GetSystemWork(void);
-extern void func_020862B8(u8 *, u32);
-extern void func_020862D4(const void *, u32);
+extern void DC_InvalidateRange(u8 *, u32);
+extern void DC_StoreRange(const void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
@@ -56,7 +58,7 @@ u32 NWM_SetWEPKey(u32 a0, u32 a1, u32 a2, const u8 *a3, u16 a4) {
     }
     w = NWMi_GetSystemWork();
     if (w != 0) {
-        func_020862B8(w->busy + 13, 1);
+        DC_InvalidateRange(w->busy + 13, 1);
         busy = (w->busy[13] == 1);
     } else {
         busy = 0;
@@ -80,7 +82,7 @@ u32 NWM_SetWEPKey(u32 a0, u32 a1, u32 a2, const u8 *a3, u16 a4) {
     default:
         return 5;
     }
-    func_020862D4(a3, 0x50);
+    DC_StoreRange(a3, 0x50);
     NWMi_SetCallbackTable(13, a0);
     msg.len = 13;
     msg.w4 = a2;

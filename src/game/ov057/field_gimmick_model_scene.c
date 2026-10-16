@@ -14,7 +14,7 @@
  *
  * symbols:
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_CheckResourceType  0x02046F50  arm
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
@@ -41,7 +41,7 @@
 #include "field_gimmick_model_scene_types.h"
 
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *func_020490F4(u32 archiveId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(void *archiveHandle, u32 fileId);
 extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *resource, u32 kind);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *resource);
@@ -78,7 +78,7 @@ void FIELD_GIMMICK_MODEL_SCENE_Load(void *unused, struct FieldMap *fieldMap, Mod
     int i;
     u32 modelIndex;
 
-    archiveHandle = func_020490F4(0xbe, (u16)((FIELDMAP_GetHeapId(fieldMap) & 0x7fff) | 0x8000));
+    archiveHandle = ARC_TOOL_CreateHandle(0xbe, (u16)((FIELDMAP_GetHeapId(fieldMap) & 0x7fff) | 0x8000));
     for (i = 0; i < MODEL_SCENE_RESOURCE_COUNT; i++) {
         scene->resource[i] = G3D_SYSTEM_CreateResourceArcHandle(archiveHandle, sModelSceneResourceFileIds[i]);
         if (G3D_SYSTEM_CheckResourceType(scene->resource[i], G3D_RES_KIND_TEX)) {

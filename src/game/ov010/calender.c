@@ -32,7 +32,7 @@
  *   FIELDMAP_CheckPlayerRequest  0x02188BF8  thumb ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb ov021
  *   FIELD_PLAYER_WaitModelReady  0x021A34F8  thumb ov021
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   EVENT_MAPCHANGE_CreateIntrudeWarpEvent 0x02185140 thumb ov020
  *   FIELDMAP_GetSubscreen 0x02188CCC thumb ov021
@@ -43,14 +43,14 @@
  *   func_020056EC  0x020056EC  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   FIELD_GIMMICK_BRIDGE_ResetSave 0x021F3800 thumb ov047
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov_id_47 0x0000002F data
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   CalenderFileName 0x021729B0 data ov010 a1
- *   func_020307B0  0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FIELD_CLOCK_GetMonth 0x021690D0 thumb ov010
  *   FIELD_CLOCK_GetDay 0x021690E0 thumb ov010
@@ -201,7 +201,7 @@ extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern u32 FIELDMAP_CheckPlayerRequest(struct FieldMap *fieldMap);
 extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *fieldPlayer);
 extern int FIELD_PLAYER_WaitModelReady(struct FieldPlayer *fieldPlayer);
-extern struct GameEvent *func_020122C0(void *gameSystem, void *parent, void *func, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
 extern void EVENT_MAPCHANGE_CreateIntrudeWarpEvent(struct GameSystem *gameSystem, int id, const void *position, int flags);
 extern void *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
@@ -211,12 +211,12 @@ extern u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *eventWork);
 extern u32 func_020056EC(u32 range);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *work);
-extern int func_02034AC4(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
 extern void FIELD_GIMMICK_BRIDGE_ResetSave(struct GameSystem *gameSystem);
-extern void func_02034A5C(int overlayId);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void func_020307B0(void *ptr);
-extern struct ArcFile *func_020490F4(u32 arcId, u32 heapId);
+extern void GF_OVERLAY_Unload(int overlayId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void GFL_HEAP_Free(void *ptr);
+extern struct ArcFile *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(struct ArcFile *arc);
 extern int FIELD_CLOCK_GetMonth(struct GameData *gameData);
 extern int FIELD_CLOCK_GetDay(struct GameData *gameData);
@@ -414,7 +414,7 @@ struct GameEvent *EVENTDATA_SYSTEM_CreateFieldLinkEnterEvent(struct FieldMap *fi
     struct GameEvent *event;
     LinkEnterWork *work;
 
-    event = func_020122C0(gameSystem, 0, (void *)EVENTDATA_SYSTEM_FieldLinkEnterEvent, sizeof(LinkEnterWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENTDATA_SYSTEM_FieldLinkEnterEvent, sizeof(LinkEnterWork));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->frameCount = 0;
@@ -455,7 +455,7 @@ int EVENTDATA_SYSTEM_ToggleSubscreenEvent(struct GameEvent *event, u32 *seq, Sub
 /* Creates the event of EVENTDATA_SYSTEM_ToggleSubscreenEvent (field link entry 5). */
 struct GameEvent *EVENTDATA_SYSTEM_CreateToggleSubscreenEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
 {
-    struct GameEvent *event = func_020122C0(gameSystem, 0, (void *)EVENTDATA_SYSTEM_ToggleSubscreenEvent, sizeof(SubscreenToggleWork));
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENTDATA_SYSTEM_ToggleSubscreenEvent, sizeof(SubscreenToggleWork));
     SubscreenToggleWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -514,9 +514,9 @@ int EVENTDATA_SYSTEM_ScrCmdRunOverlay47(struct ScriptVm *vm, struct ScrCmdWork *
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(work);
 
-    func_02034AC4(OVERLAY_ID_47);
+    GF_OVERLAY_Load(OVERLAY_ID_47);
     FIELD_GIMMICK_BRIDGE_ResetSave(gameSystem);
-    func_02034A5C(OVERLAY_ID_47);
+    GF_OVERLAY_Unload(OVERLAY_ID_47);
     return 0;
 }
 
@@ -529,7 +529,7 @@ CalenderWork *CALENDER_Create(struct GameData *gameData, u32 heapId)
 {
     CalenderWork *calender;
 
-    calender = func_02030734(heapId, sizeof(CalenderWork), 0, CalenderFileName, 0x53);
+    calender = GFL_HEAP_Alloc(heapId, sizeof(CalenderWork), 0, CalenderFileName, 0x53);
     CALENDER_ClearResources(calender);
     calender->heapId = heapId;
     calender->gameData = gameData;
@@ -542,7 +542,7 @@ CalenderWork *CALENDER_Create(struct GameData *gameData, u32 heapId)
 void CALENDER_Delete(CalenderWork *calender)
 {
     CALENDER_CloseArchive(calender);
-    func_020307B0(calender);
+    GFL_HEAP_Free(calender);
 }
 
 /*
@@ -569,7 +569,7 @@ struct ArcFile *CALENDER_OpenArchive(CalenderWork *calender)
 {
     struct ArcFile *arc;
 
-    arc = func_020490F4(CALENDER_ARC_ID, calender->heapId);
+    arc = ARC_TOOL_CreateHandle(CALENDER_ARC_ID, calender->heapId);
     calender->arc = arc;
     return arc;
 }
@@ -661,7 +661,7 @@ int FLD_FACEUP_ScrCmdStart(struct ScriptVm *vm, struct ScrCmdWork *work)
     void *task;
 
     SCRIPT_WORK_SetCheckFlag(7);
-    func_02034AC4(OVERLAY_ID_52);
+    GF_OVERLAY_Load(OVERLAY_ID_52);
     task = FLD_FACEUP_Create(type, variant, option, gameSystem, work);
     if (task == 0) {
         return 1;
@@ -685,7 +685,7 @@ int FLD_FACEUP_ScrCmdPrepareField(struct ScriptVm *vm, struct ScrCmdWork *work)
 int FLD_FACEUP_ScrCmdWaitEnd(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
     struct ScriptSystem *scriptSystem = SCRCMD_WORK_GetScriptWork(work);
-    struct GameEvent *event = func_020122C0(SCRCMD_WORK_GetGameSystem(work), 0, (void *)FLD_FACEUP_EndEvent, 0);
+    struct GameEvent *event = GAME_EVENT_Create(SCRCMD_WORK_GetGameSystem(work), 0, (void *)FLD_FACEUP_EndEvent, 0);
 
     if (event == 0) {
         return 1;
@@ -699,7 +699,7 @@ int FLD_FACEUP_Finish(FaceUpEndWork *work)
 {
     FLD_FACEUP_Delete(ICA_ANIME_GetField20(work->gameSystem));
     SCRIPT_WORK_ResetCheckFlag(7);
-    func_02034A5C(OVERLAY_ID_52);
+    GF_OVERLAY_Unload(OVERLAY_ID_52);
     return 1;
 }
 
@@ -715,7 +715,7 @@ int FLD_FACEUP_EndEvent(struct GameEvent *event, int *seq)
         break;
     case 1:
         SCRIPT_WORK_ResetCheckFlag(7);
-        func_02034A5C(OVERLAY_ID_52);
+        GF_OVERLAY_Unload(OVERLAY_ID_52);
         return 1;
     }
     return 0;

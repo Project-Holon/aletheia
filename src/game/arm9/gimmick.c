@@ -15,6 +15,7 @@
  * symbols:
  *   MI_CpuFill8          0x02082BCC  arm
  *   MIi_CpuCopy32  0x02082A90  arm
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "battle_rec_types.h"
 typedef unsigned char u8;
@@ -35,7 +36,7 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
 extern void MIi_CpuCopy32(const void *src, void *dest, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 u32 GIMMICK_WORK_GetSize(void);
 
@@ -131,10 +132,10 @@ s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmick)
 
 void GIMMICK_WORK_Save(const struct GimmickWork *src, struct SaveControl *save)
 {
-    MIi_CpuCopy32(src, func_020071CC(save, 0x30), sizeof(struct GimmickWork));
+    MIi_CpuCopy32(src, SAVE_CONTROL_GetBlock(save, 0x30), sizeof(struct GimmickWork));
 }
 
 void GIMMICK_WORK_Load(struct SaveControl *save, struct GimmickWork *dest)
 {
-    MIi_CpuCopy32(func_020071CC(save, 0x30), dest, sizeof(struct GimmickWork));
+    MIi_CpuCopy32(SAVE_CONTROL_GetBlock(save, 0x30), dest, sizeof(struct GimmickWork));
 }

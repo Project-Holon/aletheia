@@ -34,13 +34,13 @@
  *   DWC_GetGsProfileId              0x020598EC arm
  *   gpGetReversBuddiesList          0x02186564 arm ov009
  *   s_bNeedCloseStatsConnection     0x021AA860 data
- *   func_02059F54  0x02059F54  arm
+ *   DWCi_SetError  0x02059F54  arm
  *   DWCi_IsServerUpdating  0x02168D7C  arm
  *   DWCi_CloseFriendProcess  0x02169294  arm
  *   gpGetInfo  0x02185BD8  arm
  *   DWCi_GPGetInfoCallback_RecvAuthMessage  0x02169E18  arm
  *   func_021861A8  0x021861A8  arm  ov009
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   gpSetStatusA  0x0218627C  arm  ov009
  *   DWC_GetFriendStatus  0x0216870C  arm  ov009
  *   func_02185948  0x02185948  arm  ov009
@@ -214,13 +214,13 @@ extern void *DWC_Alloc(int name, unsigned long size);
 extern DWCstAccUserData *DWCi_GetUserData(void);
 extern int DWC_GetGsProfileId(DWCstAccUserData *userdata, DWCstAccFriendData *frienddata);
 extern int gpGetReversBuddiesList(void **connection, int *targets, int numOfTargets, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern void func_02059F54(int error, int errorCode);
+extern void DWCi_SetError(int error, int errorCode);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern int gpGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_021861A8(void **connection, int profile);
 extern int gpDeleteBuddy(void **connection, int profile);
 extern int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status);
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 extern int gpSetStatusA(void **connection, int status, const char *statusString, const char *locationString);
 extern int func_02185948(void *conn);
 extern int gpGetNumBuddies(void **connection, int *numBuddies);
@@ -587,7 +587,7 @@ void DWCi_UpdateServersAsync(int a0, int a1, void (*a2)(int, u8, int), int a3, v
 void DWCi_StopFriendProcess(int error, int errorCode)
 {
     if (stpFriendCnt == 0 || error == 0) return;
-    func_02059F54(error, errorCode);
+    DWCi_SetError(error, errorCode);
     if (DWCi_IsServerUpdating() != 0) {
         if (stpFriendCnt->reversePids != 0) {
             DWC_Free(4, stpFriendCnt->reversePids, 0);
@@ -687,7 +687,7 @@ void DWCi_InitGPProcessCount(void)
 
     if (p == 0) return;
     p->pollCount = 0;
-    stpFriendCnt->lastTick = func_020870D0();
+    stpFriendCnt->lastTick = OS_GetTick();
 }
 
 
@@ -743,12 +743,12 @@ int DWCi_GPProcess(void)
 	FriendCnt *w;
 	u64 tick;
 	result = 0;
-	tick = func_020870D0();
+	tick = OS_GetTick();
 	w = stpFriendCnt;
 	if ((tick - w->lastTick) * 64 / 33514 >= 300) {
 		w->pollCount++;
 		result = func_02185948(stpFriendCnt->connection);
-		stpFriendCnt->lastTick = func_020870D0();
+		stpFriendCnt->lastTick = OS_GetTick();
 	}
 	return result;
 }

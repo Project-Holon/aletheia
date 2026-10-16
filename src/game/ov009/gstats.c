@@ -40,9 +40,9 @@
  *   gGstatsValueBuffers   0x021AE21C  data
  *   gGstatsEmptyString  0x021A5890  data
  *   @13818       0x021A1A64  data
- *   func_0217EF50 0x0217EF50 arm
+ *   CanReceiveOnSocket 0x0217EF50 arm
  *   ArrayLength 0x02184200  arm
- *   func_02184208 0x02184208  arm
+ *   ArrayNth 0x02184208  arm
  *   value_for_key_safe 0x02193FD0  arm
  *   atoi 0x020964E0  arm
  *   gGstatsKeyPauthr   0x021A5898  data
@@ -64,7 +64,7 @@
  *   xcode_buf 0x02193EB8  arm
  *   gGstatsNullKey   0x021A57F0  data
  *   ArrayDeleteAt 0x0218437C  arm
- *   func_021841B0 0x021841B0  arm
+ *   ArrayFree 0x021841B0  arm
  *   @14079       0x021A1A54  data
  *   gGstatsCryptKey   0x021A5800  data
  *   func_021937D0 0x021937D0  arm
@@ -116,17 +116,17 @@ extern int closesocket(int sock);
 extern void gsifree(void *ptr);
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern int recv(int sock, char *buf, int len, int flags);
-extern int func_0217EF50(int sock);
+extern int CanReceiveOnSocket(int sock);
 extern void *memmove(void *dest, const void *src, unsigned int n);
 extern u8 *strcat(u8 *dest, const u8 *src);
 extern char *strstr(const char *s, const char *sub);
 extern int strlen(const u8 *s);
 extern int ArrayLength(const int *p);
-extern int *func_02184208(void *array, int n);
+extern int *ArrayNth(void *array, int n);
 extern int atoi(u32 a0);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void ArrayDeleteAt(int a, int b);
-extern void func_021841B0(void *array);
+extern void ArrayFree(void *array);
 extern void *func_021937D0(void *set, char *name, int type, void *initialvalue);
 extern void OS_SPrintf(char *buf, const char *fmt, char *b, int n);
 
@@ -307,7 +307,7 @@ int GetPlayerIndex(int *game, int pnum)
         game = gGstatsConn.game;
     if (game == 0)
         return pnum;
-    return *(int *)func_02184208((void *)game[7], pnum);
+    return *(int *)ArrayNth((void *)game[7], pnum);
 }
 
 /*
@@ -319,7 +319,7 @@ int GetTeamIndex(int *game, int tnum)
         game = gGstatsConn.game;
     if (game == 0)
         return tnum;
-    return *(int *)func_02184208((void *)game[8], tnum);
+    return *(int *)ArrayNth((void *)game[8], tnum);
 }
 
 /*
@@ -339,7 +339,7 @@ void ClosePendingCallbacks(void)
         xcode_buf(connerror, 15);
         CallReqCallback(i, 0, 0, connerror, 0);
     }
-    func_021841B0(gGstatsConn.requests);
+    ArrayFree(gGstatsConn.requests);
     gGstatsConn.requests = 0;
 }
 
@@ -352,7 +352,7 @@ void CallReqCallback(int reqindex, int success, long modified, char *data, int l
 
     if (reqindex < 0 || reqindex >= ArrayLength(gGstatsConn.requests))
         return;
-    req = (serverreq_t *)func_02184208(gGstatsConn.requests, reqindex);
+    req = (serverreq_t *)ArrayNth(gGstatsConn.requests, reqindex);
     if (req->callback != 0) {
         switch (req->type) {
         case 0:
@@ -478,7 +478,7 @@ void ProcessGetPid(char *buf, int len)
     reqindex = FindRequest(3, lid, 0);
     if (reqindex == -1)
         return;
-    func_02184208(gGstatsConn.requests, reqindex)[2] = pid;
+    ArrayNth(gGstatsConn.requests, reqindex)[2] = pid;
     CallReqCallback(reqindex, pid > 0, 0, 0, 0);
 }
 
@@ -498,7 +498,7 @@ void ProcessPlayerAuth(char *buf, int len)
     reqindex = FindRequest(0, lid, 0);
     if (reqindex == -1)
         return;
-    func_02184208(gGstatsConn.requests, reqindex)[2] = pid;
+    ArrayNth(gGstatsConn.requests, reqindex)[2] = pid;
     CallReqCallback(reqindex, pid > 0, 0, errmsg, 0);
 }
 
@@ -513,7 +513,7 @@ int FindRequest(int reqtype, int localid, int profileid)
     if (gGstatsConn.requests == 0)
         return -1;
     for (i = 0; i < ArrayLength(gGstatsConn.requests); i++) {
-        req = func_02184208(gGstatsConn.requests, i);
+        req = ArrayNth(gGstatsConn.requests, i);
         if (req[0] == reqtype && req[1] == localid && req[2] == profileid)
             return i;
     }
@@ -543,7 +543,7 @@ char *FindFinal(char *buff, int len)
  */
 int PersistCanReceiveOnSocket(int sock)
 {
-    return func_0217EF50(sock);
+    return CanReceiveOnSocket(sock);
 }
 
 /*

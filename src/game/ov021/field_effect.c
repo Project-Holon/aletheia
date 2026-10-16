@@ -15,11 +15,11 @@
  * function), 0x021ABEAC, 0x021ABF68, 0x021ABFFC.
  *
  * symbols:
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
@@ -35,13 +35,15 @@
  *   d_021D8F04     0x021D8F04  data  a4
  *   FIELDMAP_GetG3dObjCtrl  0x02188CD8  thumb  ov021
  *   gFieldEffectResourceDefs  0x021D8F60  data  a4
- *   func_02030CB0  0x02030CB0  arm
- *   func_02030CBC  0x02030CBC  arm
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
  *   TCB_Noop  0x02030DA4  arm
  *   TCB_Main  0x02030D28  arm
  *   PALANM_ConvertGrayTable  0x02022040  thumb
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm  arm9
  *   NNS_G3dGetTex  0x0206E964  arm  arm9
+ *   TCB_AddTask  0x02030DA8  arm  arm9
+ *   TCB_DeleteTask  0x02030EAC  arm  arm9
  */
 #include "field_effect_types.h"
 
@@ -53,12 +55,12 @@ typedef struct PaletteResource {
     u32 palOffset;
 } PaletteResource;
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void *FIELDMAP_GetGameSystem(void *p);
-extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
+extern void *GFL_HEAP_Alloc(u32 a, u32 b, int c, const char *d, u16 e);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern u32 ZONEDATA_GetAreaId(u32 id);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
@@ -70,12 +72,12 @@ extern void BILLBOARD_SetQuadShape(u8 *dst, u8 val);
 extern void BILLBOARD_SetScale(u8 *dst, VecFx32 *src);
 extern void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src);
 extern u32 FIELDMAP_GetG3dObjCtrl(u8 *p);
-extern u32 func_02030CB0(u32 idx);
-extern int func_02030CBC(u32 capacity, void *buffer);
+extern u32 TCB_GetTaskOffset(u32 idx);
+extern int TCB_Init(u32 capacity, void *buffer);
 extern void TCB_Noop(int a);
 extern void TCB_Main(int taskSys);
-extern void *func_02030DA8(u32 taskSys, void (*cb)(void), void *arg, u32 pri);
-extern void func_02030EAC(void *tcb);
+extern void *TCB_AddTask(u32 taskSys, void (*cb)(void), void *arg, u32 pri);
+extern void TCB_DeleteTask(void *tcb);
 extern void *G3D_SYSTEM_GetResourceFile(void *p);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
@@ -129,11 +131,11 @@ FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapI
     VecFx32 vec;
     u8 zero;
 
-    sys = func_02030734(heapId, 0x28, 1, d_021DE018, 0x7e);
+    sys = GFL_HEAP_Alloc(heapId, 0x28, 1, d_021DE018, 0x7e);
     sys->resourceCount = resourceCount;
     sys->heapId = heapId;
     sys->fieldmap = fieldmap;
-    sys->arcHandle = (int)func_020490F4(0x4b, heapId);
+    sys->arcHandle = (int)ARC_TOOL_CreateHandle(0x4b, heapId);
     ZONEDATA_GetAreaId(FIELDMAP_GetZoneId((u8 *)fieldmap));
     sys->modelBaseOffset = COMM_PLAYER_SUPPORT_GetInfoCode(FIELDMAP_GetGameSystem(fieldmap));
     sys->modelBaseOffsetAlt = ZONEDATA_GetAreaInnerOuter((void *)FIELDMAP_GetAreaData((u8 *)fieldmap));
@@ -152,7 +154,7 @@ int FIELD_EFFECT_Delete(FieldEffectSys *sys, u32 unused0, u32 unused1, u32 unuse
     FIELD_EFFECT_ExitObjectSystem(sys);
     FIELD_EFFECT_FreeResourceTable(sys);
     ARC_TOOL_DeleteHandle((void *)sys->arcHandle);
-    return func_020307B0(sys);
+    return GFL_HEAP_Free(sys);
 }
 
 void FIELD_EFFECT_Update(FieldEffectSys *sys)
@@ -235,7 +237,7 @@ void FIELD_EFFECT_InitResourceTable(FieldEffectSys *sys)
     FieldEffectResource *slot;
     int i;
 
-    slot = sys->resources = func_02030734(sys->heapId, sys->resourceCount * 8, 1, d_021DE018, 0x174);
+    slot = sys->resources = GFL_HEAP_Alloc(sys->heapId, sys->resourceCount * 8, 1, d_021DE018, 0x174);
     i = 0;
     if (sys->resourceCount > 0) {
         for (; i < sys->resourceCount; i++) {
@@ -261,7 +263,7 @@ void FIELD_EFFECT_FreeResourceTable(FieldEffectSys *sys)
             }
         }
     }
-    func_020307B0(sys->resources);
+    GFL_HEAP_Free(sys->resources);
     sys->resources = 0;
 }
 
@@ -297,8 +299,8 @@ FieldEffectResourceDef *FIELD_EFFECT_GetResourceDef(int id)
 void FIELD_EFFECT_InitObjectSystem(FieldEffectSys *sys, int objectCount)
 {
     sys->objectCount = objectCount;
-    sys->taskBuffer = func_02030734(sys->heapId, func_02030CB0(objectCount), 0, d_021DE018, 0x1db);
-    sys->taskSys = func_02030CBC(objectCount, sys->taskBuffer);
+    sys->taskBuffer = GFL_HEAP_Alloc(sys->heapId, TCB_GetTaskOffset(objectCount), 0, d_021DE018, 0x1db);
+    sys->taskSys = TCB_Init(objectCount, sys->taskBuffer);
     sys->objMgr = FIELD_EFFECT_CreateObjectMgr(sys->heapId, sys->taskSys, objectCount);
 }
 
@@ -312,7 +314,7 @@ void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys)
     if (sys->objMgr != 0) {
         FIELD_EFFECT_DeleteObjectMgr(sys->objMgr);
         TCB_Noop(sys->taskSys);
-        func_020307B0(sys->taskBuffer);
+        GFL_HEAP_Free(sys->taskBuffer);
     }
 }
 
@@ -334,10 +336,10 @@ FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, int taskSys, int obj
 {
     FieldEffectObjMgr *mgr;
 
-    mgr = func_02030734(heapId, 0x10, 1, d_021DE018, 0x23a);
+    mgr = GFL_HEAP_Alloc(heapId, 0x10, 1, d_021DE018, 0x23a);
     mgr->count = objectCount;
     mgr->heapId = heapId;
-    mgr->objs = func_02030734(heapId, objectCount * 0xd4, 1, d_021DE018, 0x23e);
+    mgr->objs = GFL_HEAP_Alloc(heapId, objectCount * 0xd4, 1, d_021DE018, 0x23e);
     mgr->taskSys = taskSys;
     return mgr;
 }
@@ -351,8 +353,8 @@ void FIELD_EFFECT_DeleteObjectMgr(FieldEffectObjMgr *mgr)
             FIELD_EFFECT_DeleteObject(&mgr->objs[i]);
         }
     }
-    func_020307B0(mgr->objs);
-    func_020307B0(mgr);
+    GFL_HEAP_Free(mgr->objs);
+    GFL_HEAP_Free(mgr);
 }
 
 void FIELD_EFFECT_DrawObjectMgr(FieldEffectObjMgr *mgr)
@@ -380,7 +382,7 @@ FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldE
             if (pos != 0)
                 obj->pos = *pos;
             obj->mgr = mgr;
-            obj->task = func_02030DA8(mgr->taskSys, (void (*)(void))FIELD_EFFECT_ObjectTask, obj, priority);
+            obj->task = TCB_AddTask(mgr->taskSys, (void (*)(void))FIELD_EFFECT_ObjectTask, obj, priority);
             break;
         }
         i++;
@@ -408,7 +410,7 @@ void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj)
 {
     if (obj != 0) {
         obj->funcs.exit(obj, obj->work);
-        func_02030EAC(obj->task);
+        TCB_DeleteTask(obj->task);
         obj->active = 0;
     }
 }

@@ -28,11 +28,11 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   STRBUF_Create       0x020457B0  arm
- *   func_02045B38       0x02045B38  arm
- *   func_02045EC0       0x02045EC0  arm
+ *   MSGDATA_CreateFromArchive       0x02045B38  arm
+ *   MSGDATA_AllocString       0x02045EC0  arm
  *   STRBUF_ToChars       0x02045A38  arm
  *   STRBUF_SetString       0x02045924  arm
  *   STRBUF_Delete       0x02045808  arm
@@ -43,12 +43,12 @@
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_02049EF4  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MIi_CpuCopy16     0x02082A60  arm
  *   app_taskmenu_File  0x020A74E0  data
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -59,14 +59,14 @@
  *   PRINTSYS_PrintQueColor   0x0201C724  thumb
  *   FX_SinCosTable_   0x020A1B38  data
  *   NNS_GfdRegisterNewVramTransferTask   0x02061CA4  arm
- *   func_020355C4 0x020355C4  arm
+ *   UI_GetInputMode 0x020355C4  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetRepeat  0x0203633C  arm
  *   func_020355D8  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_02049DB4   0x02049DB4  arm
- *   func_02049B40   0x02049B40  arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive   0x02049DB4  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole   0x02049B40  arm
  *   GF_FONT_MeasureWidestLine   0x0201D304  thumb
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
@@ -222,15 +222,15 @@ typedef struct PrintStreamCtrl {
 } PrintStreamCtrl;
 
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern struct StrBuf *STRBUF_Create(u32 length, u32 heapId);
-extern struct MsgData *func_02045B38(u32 loadType, u32 arcId, u32 datId, u32 heapId);
-extern struct StrBuf *func_02045EC0(struct MsgData *msgData, u32 strId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 loadType, u32 arcId, u32 datId, u32 heapId);
+extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msgData, u32 strId);
 extern void STRBUF_ToChars(struct StrBuf *str, u16 *code, u32 length);
 extern void STRBUF_SetString(struct StrBuf *str, const u16 *code);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern void *BG_SYS_GetBuf(int bgFrame);
 extern void *func_02049EF4(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -238,7 +238,7 @@ extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32 POKE_TOOL_GetPartyValue(const struct PokemonParam *pp, int paramId, void *buf);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *printQue);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *printQue, struct Bmp *bmp);
-extern void func_02041B6C(u32 bgFrame);
+extern void BG_SYS_SetFlagField06(u32 bgFrame);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
@@ -252,14 +252,14 @@ extern void PRINTSYS_PrintQueColor(struct PrintQueue *printQue, struct Bmp *bmp,
                          struct StrBuf *str, struct GFont *font, u16 color);
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palNo);
 extern s32 NNS_GfdRegisterNewVramTransferTask(u32 transType, u32 offset, const void *src, s32 size);
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
 extern void func_020355D8(u8 isTouch);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int TOUCHPANEL_HitTrg(const void *hitTbl);
-extern void *func_02049DB4(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
-extern void func_02049B40(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
 extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *str, struct GFont *font, u32 margin);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
@@ -401,10 +401,10 @@ BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId)
     struct StrBuf *str;
     u16 code[10];
 
-    bs = func_02030734(heapId, sizeof(BeaconStatus), 1, beacon_status_File, 42);
+    bs = GFL_HEAP_Alloc(heapId, sizeof(BeaconStatus), 1, beacon_status_File, 42);
     bs->message = STRBUF_Create(9, heapId);
-    msgData = func_02045B38(0, 2, 8, msgHeapId);
-    str = func_02045EC0(msgData, 0x11);
+    msgData = MSGDATA_CreateFromArchive(0, 2, 8, msgHeapId);
+    str = MSGDATA_AllocString(msgData, 0x11);
     STRBUF_ToChars(str, code, 9);
     STRBUF_SetString(bs->message, code);
     STRBUF_Delete(str);
@@ -416,7 +416,7 @@ void BEACON_STATUS_Delete(BeaconStatus *bs)
 {
     STRBUF_Delete(bs->message);
     MI_CpuFill8(bs, 0, sizeof(BeaconStatus));
-    func_020307B0(bs);
+    GFL_HEAP_Free(bs);
 }
 
 u8 *BEACON_STATUS_GetLog(BeaconStatus *bs)
@@ -560,7 +560,7 @@ void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int c
     scrn = (BarScreen *)BG_SYS_GetBuf(bgFrame);
     fileBuf = func_02049EF4(arc, 0x1d, 0, &file, heapId);
     MI_CpuCopy8(((BarScreen *)((u8 *)file + 0xc))->barCells, scrn->barCells, 0xc0);
-    func_020307B0(fileBuf);
+    GFL_HEAP_Free(fileBuf);
     for (i = 0; i < 0x60; i++)
         scrn->barCells[i] = (palNo << 12) + (charOffset + (scrn->barCells[i] & 0xfff));
 }
@@ -780,11 +780,11 @@ TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res)
     u8 width;
     u8 height;
 
-    menu = func_02030734((u16)init->heapId, sizeof(TaskMenuWork), 0, app_taskmenu_File, 162);
+    menu = GFL_HEAP_Alloc((u16)init->heapId, sizeof(TaskMenuWork), 0, app_taskmenu_File, 162);
     menu->init = *init;
     menu->res = res;
-    menu->winWork = func_02030734((u16)menu->init.heapId, menu->init.itemNum * sizeof(struct BmpWin *), 0, app_taskmenu_File, 168);
-    menu->itemWork = func_02030734((u16)menu->init.heapId, menu->init.itemNum * sizeof(TaskMenuItem), 0, app_taskmenu_File, 169);
+    menu->winWork = GFL_HEAP_Alloc((u16)menu->init.heapId, menu->init.itemNum * sizeof(struct BmpWin *), 0, app_taskmenu_File, 168);
+    menu->itemWork = GFL_HEAP_Alloc((u16)menu->init.heapId, menu->init.itemNum * sizeof(TaskMenuItem), 0, app_taskmenu_File, 169);
     MIi_CpuCopy16(menu->init.itemWork, menu->itemWork, menu->init.itemNum * sizeof(TaskMenuItem));
     menu->isDecide = 0;
     menu->isDisableKey = 0;
@@ -803,7 +803,7 @@ TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res)
     }
     menu->init.height = height;
     APP_TASKMENU_CreateWindows(menu, res);
-    if (func_020355C4() == 0) {
+    if (UI_GetInputMode() == 0) {
         APP_TASKMENU_SetWinActive(menu->winWork[menu->cursorPos], menu->res, 1);
     }
     menu->isUpdateTrans = 1;
@@ -845,10 +845,10 @@ void APP_TASKMENU_CloseMenu(TaskMenuWork *menu)
         BMP_WIN_ClearScreen(menu->winWork[j]);
         BMP_WIN_Delete(menu->winWork[j]);
     }
-    func_02041B6C(bgFrame);
-    func_020307B0(menu->winWork);
-    func_020307B0(menu->itemWork);
-    func_020307B0(menu);
+    BG_SYS_SetFlagField06(bgFrame);
+    GFL_HEAP_Free(menu->winWork);
+    GFL_HEAP_Free(menu->itemWork);
+    GFL_HEAP_Free(menu);
 }
 
 /*
@@ -880,7 +880,7 @@ void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu)
         struct BmpWin *win = menu->winWork[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_02041B6C(BMP_WIN_GetBgLayer(win));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
     }
     menu->isUpdateTrans = 0;
 }
@@ -978,7 +978,7 @@ void APP_TASKMENU_CreateWindows(TaskMenuWork *menu, TaskMenuRes *res)
         win = menu->winWork[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_02041B6C(BMP_WIN_GetBgLayer(win));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
     }
 }
 
@@ -991,7 +991,7 @@ void APP_TASKMENU_SetWinActive(struct BmpWin *win, TaskMenuRes *res, int isActiv
         BMP_WIN_SetPalette(win, (u8)(res->palNo + 1));
     }
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
 }
 
 /*
@@ -1075,7 +1075,7 @@ void APP_TASKMENU_SetCursorPos(TaskMenuWork *menu, int pos)
     int i;
 
     menu->cursorPos = pos;
-    if (func_020355C4() != 0) {
+    if (UI_GetInputMode() != 0) {
         return;
     }
     for (i = 0; i < menu->init.itemNum; i++) {
@@ -1108,7 +1108,7 @@ void APP_TASKMENU_UpdateKey(TaskMenuWork *menu)
     if (menu->isDisableKey == 1) {
         return;
     }
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         if ((trg & 2) == 0) {
             if ((trg & 0xC3) == 0) {
                 return;
@@ -1219,7 +1219,7 @@ TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font,
     u32 pltType;
 
     pltType = 0;
-    res = func_02030734(heapId, sizeof(TaskMenuRes), 0, app_taskmenu_File, 0x2c6);
+    res = GFL_HEAP_Alloc(heapId, sizeof(TaskMenuRes), 0, app_taskmenu_File, 0x2c6);
     MI_CpuFill8(res, 0, sizeof(TaskMenuRes));
     res->bgFrame = bgFrame;
     res->palNo = palNo;
@@ -1228,15 +1228,15 @@ TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font,
     if (bgFrame > 3) {
         pltType = 4;
     }
-    res->chrBuf = func_02049DB4(APP_ICON_GetArchiveId(), 0x20, 0, &res->chrData, heapId);
-    func_02049B40(APP_ICON_GetArchiveId(), 0x1f, pltType, palNo << 5, 0x40, heapId);
+    res->chrBuf = ARC_UTIL_LoadBgCharDataFromArchive(APP_ICON_GetArchiveId(), 0x20, 0, &res->chrData, heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(APP_ICON_GetArchiveId(), 0x1f, pltType, palNo << 5, 0x40, heapId);
     return res;
 }
 
 void APP_TASKMENU_RES_Delete(TaskMenuRes *res)
 {
-    func_020307B0(res->chrBuf);
-    func_020307B0(res);
+    GFL_HEAP_Free(res->chrBuf);
+    GFL_HEAP_Free(res);
 }
 
 /* A single window three characters high, transferred at once. */
@@ -1252,7 +1252,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateEx(TaskMenuRes *res, const TaskMenuItem *ite
     struct BmpWin *bmpWin = win->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
     return win;
 }
 
@@ -1262,7 +1262,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateExNoScreen(TaskMenuRes *res, const TaskMenuI
 {
     TaskMenuWin *win = APP_TASKMENU_WIN_CreateCore(res, item, charPosX, charPosY, width, height, anmSpeed, isCenter, heapId);
     BMP_WIN_MakeScreen(win->bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer(win->bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win->bmpWin));
     return win;
 }
 
@@ -1285,7 +1285,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *i
     u32 frameStyle;
 
     strX = 2;
-    win = func_02030734(heapId, sizeof(TaskMenuWin), 0, app_taskmenu_File, 0x337);
+    win = GFL_HEAP_Alloc(heapId, sizeof(TaskMenuWin), 0, app_taskmenu_File, 0x337);
     MI_CpuFill8(win, 0, sizeof(TaskMenuWin));
     win->res = res;
     win->isUpdateTrans = 1;
@@ -1320,7 +1320,7 @@ void APP_TASKMENU_WIN_DeleteNoClear(TaskMenuWin *win)
 void APP_TASKMENU_WIN_Free(TaskMenuWin *win)
 {
     BMP_WIN_Delete(win->bmpWin);
-    func_020307B0(win);
+    GFL_HEAP_Free(win);
 }
 
 /*
@@ -1338,7 +1338,7 @@ void APP_TASKMENU_WIN_Update(TaskMenuWin *win)
             bmpWin = win->bmpWin;
             BMP_WIN_TransferChars(bmpWin);
             BMP_WIN_MakeScreen(bmpWin);
-            func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
             win->isUpdateTrans = 0;
         }
     }
@@ -1427,7 +1427,7 @@ void APP_TASKMENU_WIN_ChangePalette(TaskMenuWin *win, TaskMenuRes *res, u32 palN
     win->activeColor1 = color1;
     BMP_WIN_SetPalette(win->bmpWin, (u8)(palNo + 1));
     BMP_WIN_MakeScreen(win->bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer(win->bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win->bmpWin));
 }
 
 /*
@@ -1506,13 +1506,13 @@ nextrow:
 void APP_TASKMENU_WIN_ClearScreen(TaskMenuWin *win)
 {
     BMP_WIN_ClearScreen(win->bmpWin);
-    func_02041B6C((u8)win->res->bgFrame);
+    BG_SYS_SetFlagField06((u8)win->res->bgFrame);
 }
 
 void APP_TASKMENU_WIN_TransChar(TaskMenuWin *win)
 {
     BMP_WIN_MakeScreen(win->bmpWin);
-    func_02041B6C((u8)win->res->bgFrame);
+    BG_SYS_SetFlagField06((u8)win->res->bgFrame);
 }
 
 u32 APP_TASKMENU_WIN_IsUpdateTrans(TaskMenuWin *win)

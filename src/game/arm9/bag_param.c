@@ -13,7 +13,7 @@
  * Cut from iss_switch_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   BagParamFileName  0x020A77C4  data
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
@@ -44,7 +44,7 @@ struct BagParam {
     int   cycleFlag;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
@@ -69,7 +69,7 @@ extern char BagParamFileName[];
 /*
  * Allocates and fills one record of a per-something description list,
  * followed by eight "read the sub-object" calls.  The fifth argument to
- * func_02030734 is the pool-relative caller tag (0x37 here, the same 0x3c/
+ * GFL_HEAP_Alloc is the pool-relative caller tag (0x37 here, the same 0x3c/
  * 0x3d/0x83/0x84 tags in the neighbours are the same convention).
  *
  * Argument order of MI_CpuCopy8 is (src, dst, n): the original loads r1
@@ -87,7 +87,7 @@ extern char BagParamFileName[];
 void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, int heapId)
 {
     int   saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)gameData);
-    struct BagParam *param = func_02030734(heapId, 0x3c, 1, BagParamFileName, 0x37);
+    struct BagParam *param = GFL_HEAP_Alloc(heapId, 0x3c, 1, BagParamFileName, 0x37);
 
     param->gameData = (void *)gameData;
     param->myStatus = func_0200873C((void *)saveControl);

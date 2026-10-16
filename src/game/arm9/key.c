@@ -15,7 +15,7 @@
  * symbols:
  *   UI_GetContext                     0x02035224  arm
  *   UI_GetPointerValue                     0x0203521C  arm
- *   func_02030734                    0x02030734  arm
+ *   GFL_HEAP_Alloc                    0x02030734  arm
  *   MI_CpuFill8                      0x02082BCC  arm
  *   _pTouchPanelWork                 0x021469C4  data
  *   key_File                         0x020A799C  data
@@ -40,7 +40,7 @@ extern UiCtx *UI_GetContext(void);
 
 extern KeyWork *UI_GetPointerValue(UiCtx *ui);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
@@ -95,7 +95,7 @@ extern const char key_File[];
  * every 8 frames. */
 KeyWork *KEY_Create(u32 heapId)
 {
-    KeyWork *key = func_02030734(heapId, sizeof(KeyWork), 0, key_File, 0x44);
+    KeyWork *key = GFL_HEAP_Alloc(heapId, sizeof(KeyWork), 0, key_File, 0x44);
 
     MI_CpuFill8(key, 0, sizeof(KeyWork));
     key->repeatSpeed = 8;

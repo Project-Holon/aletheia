@@ -90,7 +90,7 @@
  *   gpiAppendIntToBuffer  0x0218949C  arm   ov009
  *   gGpiBuddyKeyT     0x021A4464  data  ov009
  *   gpiGetPeerByProfile  0x0218F0B8  arm   ov009
- *   func_0218FD9C  0x0218FD9C  arm   ov009
+ *   gpiGetProfile  0x0218FD9C  arm   ov009
  *   gpiAddPeer  0x0218F150  arm   ov009
  *   func_0218F1E0  0x0218F1E0  arm   ov009
  *   gpiPeerStartConnect  0x0218F248  arm   ov009
@@ -116,7 +116,7 @@
  *   gpiCanFreeProfile       0x02190140  arm
  *   gpiRemoveProfile        0x0218FF24  arm
  *   func_0218FFFC  0x0218FFFC  arm   ov009
- *   func_021841B0  0x021841B0  arm   ov009
+ *   ArrayFree  0x021841B0  arm   ov009
  *   gGpiBuddyKeyDelBuddy     0x021A44AC  data
  *   gGpiBuddyKeyDelProfileId     0x021A44B8  data
  */
@@ -178,7 +178,7 @@ extern void strzcpy(char *dest, char *src, int len);
 extern int gpiAppendStringToBuffer(void **connection, GPIBuffer *buffer, const char *string);
 extern int gpiAppendIntToBuffer(void **connection, GPIBuffer *buffer, int value);
 extern GPIPeer *gpiGetPeerByProfile(void **connection, int profileid);
-extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
+extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate);
 extern int func_0218F1E0(void **connection, GPIPeer *peer);
 extern int gpiPeerStartConnect(void **connection, GPIPeer *peer);
@@ -197,7 +197,7 @@ extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile
 extern int gpiCanFreeProfile(GPIProfile *profile);
 extern void gpiRemoveProfile(void **connection, GPIProfile *profile);
 extern int func_0218FFFC(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
-extern void func_021841B0(void *array);
+extern void ArrayFree(void *array);
 int gpiSendAuthBuddyRequest(void **connection, GPIProfile *profile);
 int gpiProcessRecvBuddyList(void **connection, char *input);
 int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message);
@@ -766,7 +766,7 @@ int gpiSendBuddyMessage(void **connection, int profileid, int type, char *messag
 
     peer = gpiGetPeerByProfile(connection, profileid);
     if (peer == 0) {
-        if (!func_0218FD9C(connection, profileid, &profile) || profile->buddyStatusInfo == 0 || profile->buddyStatusInfo->port == 0) {
+        if (!gpiGetProfile(connection, profileid, &profile) || profile->buddyStatusInfo == 0 || profile->buddyStatusInfo->port == 0) {
             if (sendOption == 0xb00)
                 return GP_NETWORK_ERROR;
             return gpiSendServerBuddyMessage(connection, profileid, type, message);
@@ -784,7 +784,7 @@ int gpiSendBuddyMessage(void **connection, int profileid, int type, char *messag
                 return result;
         }
     } else if (peer->state == 0x6a) {
-        if (func_0218FD9C(connection, profileid, &profile)) {
+        if (gpiGetProfile(connection, profileid, &profile)) {
             if (profile->buddyStatusInfo != 0)
                 profile->buddyStatusInfo->port = 0;
             if (sendOption == 0xb00)
@@ -840,7 +840,7 @@ int gpiBuddyHandleKeyReply(void **connection, GPIPeer *peer, char *buffer)
 {
     GPIProfile *pProfile;
 
-    if (!func_0218FD9C(connection, peer->profile, &pProfile)) {
+    if (!gpiGetProfile(connection, peer->profile, &pProfile)) {
         gpiSetErrorString(connection, gGpiBuddyErrorInvalidProfile);
         return 2;
     }
@@ -1012,7 +1012,7 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int index;
 
-    if (!func_0218FD9C(connection, profile, &pProfile)) {
+    if (!gpiGetProfile(connection, profile, &pProfile)) {
         gpiSetErrorString(connection, gGpiBuddyErrorInvalidProfile);
         return 2;
     }
@@ -1051,7 +1051,7 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
         gsifree(pProfile->buddyStatusInfo);
         pProfile->buddyStatusInfo = 0;
         if (pProfile->buddyStatusInfo->extendedInfoKeys) {
-            func_021841B0(pProfile->buddyStatusInfo->extendedInfoKeys);
+            ArrayFree(pProfile->buddyStatusInfo->extendedInfoKeys);
             pProfile->buddyStatusInfo->extendedInfoKeys = 0;
         }
         iconnection->profileList.numBuddies--;
@@ -1069,7 +1069,7 @@ int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted)
         gpiSetErrorString(connection, gGpiBuddyErrorInvalidProfile);
         return 2;
     }
-    if (func_0218FD9C(connection, id, &pProfile))
+    if (gpiGetProfile(connection, id, &pProfile))
         pProfile->deletedLocally = isDeleted;
     return 0;
 }

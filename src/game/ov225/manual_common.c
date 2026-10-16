@@ -13,14 +13,14 @@
  * Cut from manual_common.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MANUAL_GRAPHIC_CreateScreen 0x021B9900 thumb ov225
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_02045B38 0x02045B38 arm
- *   func_020490F4 0x020490F4 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
  *   gManualCommonDataAllocFile 0x021BC004 data ov225 a1
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -33,7 +33,7 @@
  *   MANUAL_GRAPHIC_DrawScreen 0x021B99F4 thumb ov225
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   GX_LoadBG2Scr 0x0207EB78 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MANUAL_COMMON_CreateMenuTable 0x021B9B3C thumb ov225
  *   MANUAL_COMMON_DeleteMenuTable 0x021B9BA4 thumb ov225
@@ -48,11 +48,11 @@ struct GfFont;
 
 struct Rec;
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *, int, int, u32, u32 *);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *MANUAL_GRAPHIC_CreateScreen(u32,u32);
 
@@ -60,9 +60,9 @@ extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 
 extern u32 PRINTSYS_QUE_Create(void *);
 
-extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 
@@ -86,7 +86,7 @@ extern void DWCi_ScreenDC_FlushRange(const void *,unsigned);
 
 extern void GX_LoadBG2Scr(const void *,unsigned,unsigned);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),BMP_WIN_Delete(struct Descriptor *);
 
@@ -116,17 +116,17 @@ extern const char gManualCommonDataAllocFile[];
 
 void *MANUAL_COMMON_CreateData(void *owner,u16 heap)
 {
-    struct ManualData *data=func_02030734(heap,0x38,1,gManualCommonDataAllocFile,0x4b);
+    struct ManualData *data=GFL_HEAP_Alloc(heap,0x38,1,gManualCommonDataAllocFile,0x4b);
     data->owner=owner; data->heap=heap;
     data->screen=MANUAL_GRAPHIC_CreateScreen(1,data->heap);
     data->font=(u32)GF_FONT_Create(23,0,0,0,data->heap);
     data->printQue0=(u32)PRINTSYS_QUE_Create((void *)(u32)data->heap);
     data->printQue1=(u32)PRINTSYS_QUE_Create((void *)(u32)data->heap);
     data->printQue2=(u32)PRINTSYS_QUE_Create((void *)(u32)data->heap);
-    data->bank0=func_02045B38(0,2,61,data->heap);
-    data->bank1=func_02045B38(0,2,62,data->heap);
-    data->arc0=func_020490F4(223,data->heap);
-    data->arc1=func_020490F4(231,data->heap);
+    data->bank0=MSGDATA_CreateFromArchive(0,2,61,data->heap);
+    data->bank1=MSGDATA_CreateFromArchive(0,2,62,data->heap);
+    data->arc0=ARC_TOOL_CreateHandle(223,data->heap);
+    data->arc1=ARC_TOOL_CreateHandle(231,data->heap);
     ARC_UTIL_UploadPaletteFromArchive(23,5,4,0,64,32,data->heap);
     data->assets=MANUAL_COMMON_CreateMenuTable(data->arc0,data->heap);
     MANUAL_COMMON_InitDisplay(data);
@@ -144,7 +144,7 @@ void MANUAL_COMMON_DeleteData(char *data)
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)data)->printQue0);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct ManualData *)data)->printQue0);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)data)->printQue1);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct ManualData *)data)->printQue1);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)data)->printQue2);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct ManualData *)data)->printQue2);
-    GF_FONT_Delete((void *)((struct ManualData *)data)->font);MANUAL_GRAPHIC_DeleteScreen(*(char * *)&((struct ManualData *)data)->screen);func_020307B0(data);
+    GF_FONT_Delete((void *)((struct ManualData *)data)->font);MANUAL_GRAPHIC_DeleteScreen(*(char * *)&((struct ManualData *)data)->screen);GFL_HEAP_Free(data);
 }
 
 void MANUAL_COMMON_DrawData(char *data){PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct ManualData *)data)->printQue0);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct ManualData *)data)->printQue1);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct ManualData *)data)->printQue2);MANUAL_GRAPHIC_DrawScreen(*(char * *)&((struct ManualData *)data)->screen);}
@@ -156,18 +156,18 @@ void MANUAL_COMMON_SetScreenId(char *data,unsigned id)
         void *buf;
         ((struct ManualData *)data)->id=id;
         if(((struct ManualData *)data)->id==0xffff) {
-            buf=func_02030734(((struct ManualData *)data)->heap,0x18000,1,gManualCommonDataAllocFile,245);
+            buf=GFL_HEAP_Alloc(((struct ManualData *)data)->heap,0x18000,1,gManualCommonDataAllocFile,245);
             size=0x18000;
         } else {
             buf=ARC_UTIL_LoadHandleMemberWithSize(((struct ManualData *)data)->arc1,((struct ManualData *)data)->id,1,((struct ManualData *)data)->heap,&size);
         }
-        DWCi_ScreenDC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);func_020307B0(buf);
+        DWCi_ScreenDC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);GFL_HEAP_Free(buf);
     }
 }
 
 /*
  * volatile: 021B9EEC,021B9EF8 re-read 0400000C;021B9F02 read 04000008.
  */
-void MANUAL_COMMON_InitDisplay(void *unused){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;func_02040588(2,1);}
+void MANUAL_COMMON_InitDisplay(void *unused){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;BG_SYS_SetPlaneVisible(2,1);}
 
 void MANUAL_COMMON_DataNoop(void *unused){}

@@ -23,7 +23,7 @@
  *   init 0x021B9E50 data a2
  *   KEY_GetTrg 0x020362DC arm
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
- *   func_0207E468 0x0207E468 arm
+ *   GXS_LoadBGPltt 0x0207E468 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -40,15 +40,15 @@
  *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   TCBL_Main 0x020310C4 arm
  *   TIME_ICON_Update 0x0202F0B0 thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
- *   func_0208068C 0x0208068C arm
+ *   GX_SetBankForLCDC 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   GX_DisableBankForLCDC 0x02080B98 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02049B40 0x02049B40 arm
- *   func_02045B38 0x02045B38 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BMP_WIN_Create 0x020450F0 arm
@@ -90,15 +90,15 @@
  *   func_02008650 0x02008650 thumb
  *   func_02008654 0x02008654 thumb
  *   func_02008D1C 0x02008D1C thumb
- *   func_02008DAC 0x02008DAC thumb
+ *   RECORD_AddCounter 0x02008DAC thumb
  *   func_02008DFC 0x02008DFC thumb
  *   FIELD_CLOCK_SaveTimestamp 0x02169120 thumb ov010
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
- *   func_020073D8 0x020073D8 thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
  *   MISC_SAVEDATA_AppendPartyRecord 0x0200EBD0 thumb
  *   GAME_DATA_PartSaveStart 0x02012E4C thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
- *   func_020072A4 0x020072A4 thumb
+ *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021B9EFC 0x021B9EFC data a4
@@ -107,7 +107,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  */
 
 typedef struct SaveScreenWork {
@@ -200,7 +200,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern u32 KEY_GetTrg(void);
 extern u32 GPOWER_GetSpecialPowerId(void);
-extern void func_0207E468(void *,u32,u32);
+extern void GXS_LoadBGPltt(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
@@ -217,15 +217,15 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
 extern void TIME_ICON_Update(u8 *p);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BMP_SetDisplaySwap(u32);
-extern void func_0208068C(u32);
+extern void GX_SetBankForLCDC(u32);
 extern void MIi_CpuClearFast(u32,u32,u32);
 extern void GX_DisableBankForLCDC(void);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
 extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
@@ -264,21 +264,21 @@ extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u8 func_02008654(const struct PlayTime *p);
 extern u32 func_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value);
-extern u32 func_02008DAC(struct Sub02008C20Obj *,int,u32);
+extern u32 RECORD_AddCounter(struct Sub02008C20Obj *,int,u32);
 extern u32 func_02008DFC(struct Sub02008C20Obj *,int);
 extern void FIELD_CLOCK_SaveTimestamp(void *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
-extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *a1, void *date, u32 heap);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 a);
 extern int GAME_DATA_PartSaveMain(char *,int);
-extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
+extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 int SAVE_SCREEN_Init(void *owner,int unused,void **args);
 int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveScreenWork *p);
 int SAVE_SCREEN_Exit(void *p);
@@ -338,7 +338,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
         *(u16 *)0x04000050=zero;
         *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&0xffffe0ff)|256;
         if(GPOWER_GetSpecialPowerId()==21)mode=3;
-        else {func_0207E468(&local,zero,2);mode=12;}
+        else {GXS_LoadBGPltt(&local,zero,2);mode=12;}
         FADE_Start(mode,16,zero,zero);(*state)++;break;
     }
     case 2:if(!FADE_IsActive())*state=3;break;
@@ -409,13 +409,13 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
 
 int SAVE_SCREEN_Exit(void *p)
 {
-    func_020315D4(p);
+    PROCSYS_FreeProcWork(p);
     GFL_HEAP_DeleteChecked(0x54);
     return 1;
 }
 
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=func_02045B38(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
 
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)
@@ -442,7 +442,7 @@ void SAVE_SCREEN_SetupBackground(u16 heap)
     BG_SYS_SetGraphicsMode((void *)d_021B9E60);
     zero=0;
     BG_SYS_InitBgLayer(0,(const struct BgTemplate *)d_021B9E70,0);
-    func_02049B40(23,7,0,416,32,heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,7,0,416,32,heap);
     if(GPOWER_GetSpecialPowerId()==20) BG_SYS_LoadPlttEntry(zero,65535);
     else BG_SYS_LoadPlttEntry(zero,zero);
     BMP_WIN_Init(heap);
@@ -482,7 +482,7 @@ void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
 }
 
 
-void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);obj=GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx);if(func_020071F0(save)==0)func_02008DAC(obj,71,1); }
+void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);obj=GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx);if(func_020071F0(save)==0)RECORD_AddCounter(obj,71,1); }
 
 
 void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p) { if(func_02008DFC(GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&p->ctx); }
@@ -496,7 +496,7 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
     object=GAME_DATA_GetMyParty(p->ctx);
     save=GAME_DATA_GetSaveControl(p->ctx);
     SAVE_CONTROL_LoadExtraSave(save,8,4);
-    record=func_020073D8(save,8,0);
+    record=SAVE_CONTROL_GetExtraSaveRecord(save,8,0);
     if(func_020071F0(save)==0) {
         MISC_SAVEDATA_AppendPartyRecord(record,object,date,4);
         GAME_DATA_PartSaveStart(p->ctx,8);
@@ -505,7 +505,7 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
 }
 
 
-void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);if(func_020071F0(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&p->ctx,8);if(n-2<=1) { func_020072A4(save,8);p->saveDoneFlag=1; } } }
+void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);if(func_020071F0(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&p->ctx,8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
 
 
 int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork(obj,28,84);func_02082A7C(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
@@ -518,10 +518,10 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
     keys=KEY_GetTrg();
     switch(*state){
     case 0:
-        func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();
+        GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();
         SAVE_SCREEN_SetupNoticeBackground(p->heapId);
         p->font=GF_FONT_Create(23,0,0,0,p->heapId);
-        p->msgBank=func_02045B38(0,2,37,p->heapId);
+        p->msgBank=MSGDATA_CreateFromArchive(0,2,37,p->heapId);
         p->wordset=WORDSET_CreateDefault(p->heapId);
         p->bmpWin=(void *)BMP_WIN_Create(0,2,7,27,15,13,1);
         if(p->mode==0)SAVE_SCREEN_PrintText(p,3,6,0);
@@ -554,7 +554,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
 
 int SAVE_SCREEN_NoticeExit(void *p)
 {
-    func_020315D4(p);
+    PROCSYS_FreeProcWork(p);
     GFL_HEAP_DeleteChecked(0x54);
     return 1;
 }
@@ -566,7 +566,7 @@ void SAVE_SCREEN_SetupNoticeBackground(u16 heap)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B9EFC);
     BG_SYS_SetGraphicsMode((void *)d_021B9ECC);
     BG_SYS_InitBgLayer(0,(const struct BgTemplate *)d_021B9EDC,0);
-    func_02049B40(23,7,0,416,32,heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,7,0,416,32,heap);
     BG_SYS_LoadPlttEntry(0,0);
     BMP_WIN_Init(heap);
 }
@@ -589,5 +589,5 @@ void SAVE_SCREEN_PrintText(SaveScreenNoticeWork *p,u32 index,s16 x,s16 y)
     STRBUF_Delete(msgBuf);
     STRBUF_Delete(drawBuf);
     BMP_WIN_TransferChars(p->bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer(p->bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(p->bmpWin));
 }

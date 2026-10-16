@@ -34,7 +34,7 @@
  *   FIELD_SOUND_SYSTEM_ClaimSlot 0x02028A7C thumb
  *   FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains  0x021F391C  thumb  ov058
  *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
- *   func_0207AF1C  0x0207AF1C  thumb
+ *   MTX_RotY33_  0x0207AF1C  thumb
  *   FX_SinCosTable_     0x020A1B38  data  a2
  */
 #include "../ov021/fld_exp_obj_types.h"
@@ -200,14 +200,14 @@ void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(FieldGimmickLaneTrainsWork *work,
     model->trans.z = FIELD_GIMMICK_LANE_TRAINS_EAST_TRACK_Z;
     sinValue = FX_SinCosTable_[0x800];
     cosEast = FX_SinCosTable_[0x801];
-    func_0207AF1C(&model->rotate, sinValue, cosEast);
+    MTX_RotY33_(&model->rotate, sinValue, cosEast);
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, leadModel, 1);
 
     model = FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u16)trailModel);
     model->trans.x = FIELD_GIMMICK_LANE_TRAINS_TRACK_MIN_X - FIELD_GIMMICK_LANE_TRAINS_TRAIL_GAP;
     model->trans.y = FIELD_GIMMICK_LANE_TRAINS_TRAIN_Y;
     model->trans.z = FIELD_GIMMICK_LANE_TRAINS_EAST_TRACK_Z;
-    func_0207AF1C(&model->rotate, sinValue, cosEast);
+    MTX_RotY33_(&model->rotate, sinValue, cosEast);
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, trailModel, 1);
 
     model = FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u16)(leadModel + 2));
@@ -216,13 +216,13 @@ void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(FieldGimmickLaneTrainsWork *work,
     model->trans.z = FIELD_GIMMICK_LANE_TRAINS_WEST_TRACK_Z;
     sinValue = FX_SinCosTable_[0x1800];
     cosWest = FX_SinCosTable_[0x1801];
-    func_0207AF1C(&model->rotate, sinValue, cosWest);
+    MTX_RotY33_(&model->rotate, sinValue, cosWest);
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, leadModel + 2, 1);
 
     model = FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u16)(trailModel + 2));
     model->trans.x = FIELD_GIMMICK_LANE_TRAINS_TRACK_MAX_X + FIELD_GIMMICK_LANE_TRAINS_TRAIL_GAP;
     model->trans.y = FIELD_GIMMICK_LANE_TRAINS_TRAIN_Y;
     model->trans.z = FIELD_GIMMICK_LANE_TRAINS_WEST_TRACK_Z;
-    func_0207AF1C(&model->rotate, sinValue, cosWest);
+    MTX_RotY33_(&model->rotate, sinValue, cosWest);
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, trailModel + 2, 1);
 }

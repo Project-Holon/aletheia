@@ -21,15 +21,15 @@
  * at 0x0203499C.
  *
  * symbols:
- *   func_02030734              0x02030734  arm
- *   func_020307B0              0x020307B0  arm
+ *   GFL_HEAP_Alloc              0x02030734  arm
+ *   GFL_HEAP_Free              0x020307B0  arm
  *   MIi_CpuClear32             0x02082A7C  arm
  *   AREAMAN_Create             0x02033C00  arm
  *   AREAMAN_Delete             0x02033C9C  arm
  *   AREAMAN_Alloc              0x02033CA8  arm
  *   AREAMAN_Free               0x0203422C  arm
  *   GX_ResetBankForBG          0x020808F4  arm
- *   func_0207FDCC              0x0207FDCC  arm
+ *   GX_SetBankForBG              0x0207FDCC  arm
  *   GX_SetGraphicsMode         0x0207D4B0  arm
  *   GXx_SetMasterBrightness_   0x0207D534  arm
  *   TEXTPRINT_Init             0x0204E130  arm
@@ -114,8 +114,8 @@ struct PanicHandlers {
 #define BG_PLTT_1    (*(vu16 *)0x05000002)
 #define BG_PLTT_2    (*(vu16 *)0x05000004)
 
-extern void *func_02030734(u32 heap_id, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
 
 struct AreaMan;
@@ -125,7 +125,7 @@ s32 AREAMAN_Alloc(struct AreaMan *areaman, u32 len);
 void AREAMAN_Free(struct AreaMan *areaman, u32 start, s32 len);
 
 extern int GX_ResetBankForBG(void);
-extern void func_0207FDCC(u32 enable);
+extern void GX_SetBankForBG(u32 enable);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void TEXTPRINT_Init(u32 fontId);
@@ -193,7 +193,7 @@ struct VmanBank *VMAN_Create(u16 heap_id, u32 mode, u32 bank_flags, u32 base, u3
     struct VmanBank *bank;
     u32 size;
 
-    bank = func_02030734(heap_id, 8, 0, vman_File, 0x7a);
+    bank = GFL_HEAP_Alloc(heap_id, 8, 0, vman_File, 0x7a);
     size = VMAN_GetBankSetSize(bank_flags) - base;
     if (mode == 1)
         bank->unit_size = VMAN_GetUnitSize(mode_arg);
@@ -211,7 +211,7 @@ struct VmanBank *VMAN_Create(u16 heap_id, u32 mode, u32 bank_flags, u32 base, u3
 void VMAN_Delete(struct VmanBank *bank)
 {
     AREAMAN_Delete(bank->areaman);
-    func_020307B0(bank);
+    GFL_HEAP_Free(bank);
 }
 
 
@@ -414,7 +414,7 @@ void GF_OVERLAY_PanicInit(void)
 
     REG_DISPCNT = REG_DISPCNT & ~0x1f00;
     GX_ResetBankForBG();
-    func_0207FDCC(1);
+    GX_SetBankForBG(1);
 
     REG_POWCNT = REG_POWCNT & ~0x8000;
     GX_SetGraphicsMode(1, 0, 0);

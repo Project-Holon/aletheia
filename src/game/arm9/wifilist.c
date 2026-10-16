@@ -36,15 +36,16 @@
  *     WIFILIST_IsFriendDataValid  0x02009A1C  thumb
  *     WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb
  *     WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
- *     func_020071CC  0x020071CC  thumb
+ *     SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *     func_0200856C  0x0200856C  thumb
- *     func_02034A5C  0x02034A5C  arm
- *     func_02034AC4  0x02034AC4  arm
+ *     GF_OVERLAY_Unload  0x02034A5C  arm
+ *     GF_OVERLAY_Load  0x02034AC4  arm
  *     ov_id_09       0x00000009  data
  *     ov_id_0A       0x0000000A  data
  *     ov_id_0B       0x0000000B  data
  *     ov_id_0D       0x0000000D  data
  *     sWifilistFile  0x020A7198  data
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 #define GAME_SYNC_BLOCK_ID 0x23
 #define WIFI_HISTORY_BLOCK_ID 0x1D
@@ -132,12 +133,12 @@ extern void MYSTATUS_SetLanguageAndVersion(struct MyStatus *status, u8 country, 
 extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct WifiHistory *history);
 extern u8 func_0200856C(const struct MyStatus *status);
 extern u32 WIFI_HISTORY_IsCountryVisited(const struct WifiHistory *history, u32 country);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void func_02009800(struct WifiList *list);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dst, int val, unsigned n);
-extern void func_02034A5C(int handle);
-extern int func_02034AC4(int id);
+extern void GF_OVERLAY_Unload(int handle);
+extern int GF_OVERLAY_Load(int id);
 extern void DWC_RAPCOMMON_InitUserData(void *p);
 extern int  DWC_IsValidFriendData(const void *friendData);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
@@ -208,7 +209,7 @@ extern void DWC_CreateExchangeToken(void *userData, void *friendData);
 extern int  DWC_GetGsProfileId(void *userData, void *friendData);
 extern int  DWC_CheckValidConsole(void *userData);
 extern int  DWC_CheckHasProfile(void *userData);
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 extern u32  MYSTATUS_GetId(const struct MyStatus *status);
 extern u8   MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
 extern const void *MYSTATUS_GetName(const void *status);
@@ -668,7 +669,7 @@ u32 WIFILIST_GetWorkSize(void)
 
 struct WifiList *WIFILIST_Create(int heapId)
 {
-    struct WifiList *list = func_02030734((unsigned short)heapId, sizeof(struct WifiList), 1, sWifilistFile, 0x39);
+    struct WifiList *list = GFL_HEAP_Alloc((unsigned short)heapId, sizeof(struct WifiList), 1, sWifilistFile, 0x39);
     func_02009800(list);
     return list;
 }
@@ -720,15 +721,15 @@ void WIFILIST_Copy(const struct WifiList *src, struct WifiList *dest)
 void WIFILIST_Init(struct WifiList *list)
 {
     MI_CpuFill8(list, 0, sizeof(struct WifiList));
-    func_02034A5C((int)ov_id_0A);
-    func_02034A5C((int)ov_id_0B);
-    func_02034AC4((int)ov_id_0D);
-    func_02034AC4((int)ov_id_09);
+    GF_OVERLAY_Unload((int)ov_id_0A);
+    GF_OVERLAY_Unload((int)ov_id_0B);
+    GF_OVERLAY_Load((int)ov_id_0D);
+    GF_OVERLAY_Load((int)ov_id_09);
     DWC_RAPCOMMON_InitUserData(list);
-    func_02034A5C((int)ov_id_09);
-    func_02034A5C((int)ov_id_0D);
-    func_02034AC4((int)ov_id_0A);
-    func_02034AC4((int)ov_id_0B);
+    GF_OVERLAY_Unload((int)ov_id_09);
+    GF_OVERLAY_Unload((int)ov_id_0D);
+    GF_OVERLAY_Load((int)ov_id_0A);
+    GF_OVERLAY_Load((int)ov_id_0B);
 }
 
 
@@ -1116,7 +1117,7 @@ int WIFILIST_GetGsProfileId(struct WifiList *list)
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
  * alias: the DWC-facing end of wifilist.c.  WIFILIST_GetFromSave is the one that names
- * the save block: it fetches block id 0x1E out of func_020071CC and hands it
+ * the save block: it fetches block id 0x1E out of SAVE_CONTROL_GetBlock and hands it
  * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
  * friend list lives in block 0x1E.
  *
@@ -1182,7 +1183,7 @@ u32 WIFILIST_IsProfileValid(struct WifiList *list)
 
 struct WifiList *WIFILIST_GetFromSave(struct SaveControl *save)
 {
-    struct WifiList *list = func_020071CC(save, 0x1E);
+    struct WifiList *list = SAVE_CONTROL_GetBlock(save, 0x1E);
 
     WIFILIST_GetFriendInfo(list, 0);
     return list;

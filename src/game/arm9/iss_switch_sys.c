@@ -13,9 +13,9 @@
  * Cut from iss_switch_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   IssSwitchSysFileName     0x020A7758  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  *   ISS_SWITCH_SET_Alloc 0x0202C384 thumb arm9
@@ -44,9 +44,9 @@ struct IssSwitchSys {
     struct IssSwitchSet *activeSet;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 
@@ -339,12 +339,12 @@ void ISS_SWITCH_SYS_Init(void *obj)
  */
 void *ISS_SWITCH_SYS_Alloc(u32 heapId)
 {
-    return func_02030734(heapId, 0x10, 0, IssSwitchSysFileName, 0x10A);
+    return GFL_HEAP_Alloc(heapId, 0x10, 0, IssSwitchSysFileName, 0x10A);
 }
 
 void ISS_SWITCH_SYS_Free(void *sys)
 {
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 /*
@@ -372,7 +372,7 @@ void ISS_SWITCH_SYS_CreateSets(u8 *p, u16 heapId)
 
     n = ARC_TOOL_GetArchiveFileCount(0x93);
     sys->setCount = (u8)n;
-    sys->sets = func_02030734(heapId, (u32)(n << 2), 0,
+    sys->sets = GFL_HEAP_Alloc(heapId, (u32)(n << 2), 0,
                               IssSwitchSysFileName, 0x13a);
     for (i = 0; (int)i < n; i++) {
         struct IssSwitchSet *set = (struct IssSwitchSet *)ISS_SWITCH_SET_Create((void *)heapId);
@@ -400,7 +400,7 @@ void ISS_SWITCH_SYS_DeleteSets(u8 *p)
     for (i = 0; i < n; i++) {
         ISS_SWITCH_SET_Delete(sys->sets[i]);
     }
-    func_020307B0(sys->sets);
+    GFL_HEAP_Free(sys->sets);
     sys->setCount = 0;
     sys->sets = 0;
     sys->activeSet = 0;

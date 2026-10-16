@@ -16,12 +16,12 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   BR_UTIL_DeleteTask  0x021FD714  thumb  ov186
@@ -35,7 +35,7 @@
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   STRBUF_Clone 0x02045874 arm
  *   memset 0x02082BCC arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   BMP_Create 0x02043678 arm
@@ -47,7 +47,7 @@
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_RegisterCharacter    0x0204A6C8  arm
@@ -71,9 +71,9 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
- *   func_0201D304 0x0201D304 thumb
- *   func_0201D42C 0x0201D42C thumb
- *   func_02041B6C 0x02041B6C arm
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   GF_FONT_CountLines 0x0201D42C thumb
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
@@ -125,7 +125,7 @@
  *   d_02200AD8 0x02200AD8 data a4
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   VEC_Mag 0x0207CBD0 arm
- *   func_0207C768 0x0207C768 arm
+ *   FX_Div 0x0207C768 arm
  *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
  *   BR_UTIL_GetListMenuHitId 0x021FCDA8 thumb ov186
  *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
@@ -147,9 +147,9 @@ extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 
 extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
@@ -157,7 +157,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
@@ -318,13 +318,13 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
-extern u32 func_0201D42C(struct StrObj *s, void *font);
+extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
 
-extern void func_02034714(const char *,u32,const char *);
+extern void SAVEDATA_PanicFail(const char *,u32,const char *);
 
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 
 extern struct Actor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, int heap);
 
@@ -400,7 +400,7 @@ extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 
-extern void *func_020490F4(u32,u16);
+extern void *ARC_TOOL_CreateHandle(u32,u16);
 
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 
@@ -430,7 +430,7 @@ extern void CLACT_AddActorSurfacePos(void *,const ShortPair *,u16);
 
 extern long VEC_Mag(const VecFx32 *);
 
-extern u32 func_0207C768(u32,u32);
+extern u32 FX_Div(u32,u32);
 
 void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap);
 
@@ -584,7 +584,7 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
 {
     char *p;
     void *bmp;
-    p=func_02030734(heap,0x24,0,d_02200D5C,0x5f);
+    p=GFL_HEAP_Alloc(heap,0x24,0,d_02200D5C,0x5f);
     MI_CpuFill8(p,0,0x24);
     ((BrUtilTextWin *)p)->clearColor=0;
     ((BrUtilTextWin *)p)->owner=owner;
@@ -602,7 +602,7 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
     return p;
 }
 
-void BR_UTIL_Delete(u8*p){BMP_WIN_ClearScreen(*(void* *)&((BrUtilTextWin *)p)->window);BMP_WIN_Delete(*(void* *)&((BrUtilTextWin *)p)->window);STRBUF_Delete(*(void* *)&((BrUtilTextWin *)p)->strbuf);func_020307B0(p);}
+void BR_UTIL_Delete(u8*p){BMP_WIN_ClearScreen(*(void* *)&((BrUtilTextWin *)p)->window);BMP_WIN_Delete(*(void* *)&((BrUtilTextWin *)p)->window);STRBUF_Delete(*(void* *)&((BrUtilTextWin *)p)->strbuf);GFL_HEAP_Free(p);}
 
 void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned short value)
 {
@@ -642,8 +642,8 @@ void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font
     case 0:*out=*base;break;
     case 1:
         x=(unsigned)BMP_GetWidth(bmp)>>1;y=(unsigned)BMP_GetHeight(bmp)>>1;
-        x-=func_0201D304(text,(unsigned)font,0)>>1;
-        y-=func_0201D42C(text,font)>>1;
+        x-=GF_FONT_MeasureWidestLine(text,(unsigned)font,0)>>1;
+        y-=GF_FONT_CountLines(text,font)>>1;
         out->x=x+base->x;out->y=y+base->y;break;
     }
 }
@@ -662,7 +662,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     int font;
     int i;
     size=cfg->count*4+0x8c;
-    p=func_02030734(heap,size,0,d_02200D5C,0x1a1);
+    p=GFL_HEAP_Alloc(heap,size,0,d_02200D5C,0x1a1);
     MI_CpuFill8(p,0,size);
     p->cfg=*cfg;
     p->selected=0;p->last=cfg->count;
@@ -674,13 +674,13 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     if(cfg->selection) {p->start=cfg->selection[0];p->index=cfg->selection[1];}
     if(p->cfg.mode==0) {
         for(i=0;i<p->visible;i++) {
-            if(i>=10) func_02034714(d_02200D68,0,d_02200D68);
+            if(i>=10) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
             p->areas[i].left=p->cfg.x*8;
             p->areas[i].top=(p->cfg.y+i*p->cfg.spacing)*8;
             p->areas[i].right=(p->cfg.x+p->cfg.width)*8;
             p->areas[i].bottom=(p->cfg.y+(i+1)*p->cfg.spacing)*8;
         }
-        if(i>=10) func_02034714(d_02200D68,0,d_02200D68);
+        if(i>=10) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
         p->areas[i].left=255;p->areas[i].top=255;p->areas[i].right=255;p->areas[i].bottom=255;
         p->methods[0]=(void (*)(void))BR_UTIL_ScrollRows;p->methods[1]=(void (*)(void))BR_UTIL_NeedsScroll;p->methods[2]=(void (*)(void))BR_UTIL_HandleRowTouch;
     } else if(p->cfg.mode==1) {
@@ -689,16 +689,16 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     }
     p->descriptor=BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
     BMP_WIN_MakeScreen((struct Cfg *)p->descriptor);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p->descriptor));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p->descriptor));
     i=0;
     MI_CpuFill8(&arrow,0,8);
     if(cfg->bg<4) {
         BR_RES_LoadSprite(p->cfg.resources,7,heap);
-        if(!BR_RES_GetSprite(p->cfg.resources,7,&arrows)) func_02034714(d_02200D68,0,d_02200D68);
+        if(!BR_RES_GetSprite(p->cfg.resources,7,&arrows)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
         mode=0;
     } else {
         BR_RES_LoadSprite(p->cfg.resources,8,heap);
-        if(!BR_RES_GetSprite(p->cfg.resources,8,&arrows)) func_02034714(d_02200D68,0,d_02200D68);
+        if(!BR_RES_GetSprite(p->cfg.resources,8,&arrows)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
         mode=1;
     }
     arrow.x=128;arrow.flag=0;
@@ -715,7 +715,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);
     MI_CpuFill8(&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
-    if(!BR_RES_GetSprite(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite(p->cfg.resources,6,&marks)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
         p->handles[i]=(u32)CLACT_CreateActor((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
@@ -762,7 +762,7 @@ void BR_UTIL_DeleteListMenu(char *p)
         ((BrUtilListMenu *)p)->cfg.selection[0]=((BrUtilListMenu *)p)->start;
         ((BrUtilListMenu *)p)->cfg.selection[1]=((BrUtilListMenu *)p)->index;
     }
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void BR_UTIL_MainListMenu(char *p)
@@ -797,14 +797,14 @@ int BR_UTIL_GetListMenuHitId(char *p)
 
 void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v)
 {
-    if(i>=*(u32 *)(p+4))func_02034714(d_02200D68,0,d_02200D68);
-    if(*(u32 *)(*(u32 *)p+i*8)!=0)func_02034714(d_02200D68,0,d_02200D68);
+    if(i>=*(u32 *)(p+4))SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+    if(*(u32 *)(*(u32 *)p+i*8)!=0)SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
     *(u32 *)((u32)p+i*4+0x8c)=v;
 }
 
 u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 {
-    if(i>=((BrUtilListMenu *)p)->cfg.count)func_02034714(d_02200D68,0,d_02200D68);
+    if(i>=((BrUtilListMenu *)p)->cfg.count)SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
     return *(u32 *)((u32)p+i*4+0x8c);
 }
 
@@ -818,7 +818,7 @@ int BR_UTIL_GetListMenuField(char *p,unsigned field)
     case 1:return ((BrUtilListMenu *)p)->start;
     case 2:return ((BrUtilListMenu *)p)->dragDir;
     case 3:return ((BrUtilListMenu *)p)->cfg.count;
-    default:func_02034714(d_02200D68,0,d_02200D68);return 0;
+    default:SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);return 0;
     }
 }
 
@@ -1264,7 +1264,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
     u32 k2,k1,k3,k4;
     void *text;
     u32 A,B,C,D;
-    p=func_02030734(heap,0x44,0,d_02200D5C,0x541);
+    p=GFL_HEAP_Alloc(heap,0x44,0,d_02200D5C,0x541);
     MI_CpuFill8(p,0,0x44);
     *(char **)(p+0x1c)=q;
     font=(void *)BR_RES_GetFont(q);
@@ -1286,7 +1286,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             void *msg;
             text=STRBUF_Create(0x80,(u16)heap);
             name=GDS_PROFILE_CreateNameStr(prof,heap);
-            msg=func_02045EC0(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(prof),1,2);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(name);
@@ -1299,7 +1299,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             void *msg;
             v=GDS_PROFILE_GetVariant(prof);
             text=STRBUF_Create(0x80,(u16)heap);
-            msg=func_02045EC0(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             WORDSET_SetSlotMonth(words,0,v);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
@@ -1311,7 +1311,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             void *msg;
             v=GDS_PROFILE_GetRecordWord1C(prof);
             text=STRBUF_Create(0x80,(u16)heap);
-            msg=func_02045EC0(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             WORDSET_SetSlotFromMsgE7(words,0,v);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
@@ -1325,7 +1325,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             v=GDS_PROFILE_GetRecordWord1C(prof);
             w=GDS_PROFILE_GetRecordWord30(prof);
             text=STRBUF_Create(0x80,(u16)heap);
-            msg=func_02045EC0(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             WORDSET_DeleteMsgdataF094(words,0,v,w);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
@@ -1351,7 +1351,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             break;
             }
         default:
-            text=func_02045EC0(bank,d_02200B34[i].msg);
+            text=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             break;
         }
         if(ready) {
@@ -1369,7 +1369,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         void *h;
         Req r;
         hf=(heap&0x7fff)|0x8000;
-        h=func_020490F4(7,hf);
+        h=ARC_TOOL_CreateHandle(7,hf);
         *(int *)(p+0x2c)=CLACT_RegisterPaletteCompressed(h,POKE_TOOL_GetIconPaletteArcId(),0,0x80,hf);
         *(int *)(p+0x34)=CLACT_RegisterCellAnim(h,POKE_TOOL_GetIconCellArcId(),POKE_TOOL_GetIconCellEntryId(),(u16)hf);
         *(int *)(p+0x30)=CLACT_RegisterCharacter(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
@@ -1389,7 +1389,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         } else {
             k3=6;k1=0x17;k2=0x15;k4=0x16;
         }
-        h=func_020490F4(0x1f,(heap&0x7fff)|0x8000);
+        h=ARC_TOOL_CreateHandle(0x1f,(heap&0x7fff)|0x8000);
         *(int *)(p+0x38)=CLACT_RegisterPaletteEx(h,k3,0,0x1a0,0,1,heap);
         *(int *)(p+0x40)=CLACT_RegisterCellAnim(h,k2,k4,(u16)heap);
         *(int *)(p+0x3c)=CLACT_RegisterCharacter(h,k1,0,0,heap);
@@ -1401,7 +1401,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         u32 k;
         void *h;
         k=GDS_PROFILE_GetCountry(prof);
-        h=func_020490F4(0x20,(heap&0x7fff)|0x8000);
+        h=ARC_TOOL_CreateHandle(0x20,(heap&0x7fff)|0x8000);
         *(int *)(p+0x38)=CLACT_RegisterPaletteEx(h,0,0,0x1a0,d_02200AFC[k],1,heap);
         *(int *)(p+0x40)=CLACT_RegisterCellAnim(h,0x41,0x42,(u16)heap);
         *(int *)(p+0x3c)=CLACT_RegisterCharacter(h,k+0x31,0,0,heap);
@@ -1426,7 +1426,7 @@ void BR_UTIL_DeleteProfileScreen(int *p)
     if(p[10]) {CLACT_DeleteActor((struct Actor *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
     if(p[9]) {CLACT_DeleteActor((struct Actor *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {BR_UTIL_Delete((void *)p[i]);p[i]=0;}
-    PMS_DRAW_Delete((struct Actor *)p[8]);BR_RES_ApplyBgSet(p[7],8);func_020307B0(p);BG_SYS_PushTile(1);
+    PMS_DRAW_Delete((struct Actor *)p[8]);BR_RES_ApplyBgSet(p[7],8);GFL_HEAP_Free(p);BG_SYS_PushTile(1);
 }
 
 int BR_UTIL_MainProfileScreen(u8 *p)
@@ -1441,7 +1441,7 @@ int BR_UTIL_MainProfileScreen(u8 *p)
 int *BR_UTIL_CreateTask(int payload,int callback,u32 heap)
 {
     int *p;
-    p=func_02030734(heap,16,0,d_02200D5C,0x6a2);
+    p=GFL_HEAP_Alloc(heap,16,0,d_02200D5C,0x6a2);
     MI_CpuFill8(p,0,16);
     p[2]=payload;
     BR_UTIL_SetTaskStep(p,callback);
@@ -1450,7 +1450,7 @@ int *BR_UTIL_CreateTask(int payload,int callback,u32 heap)
 
 void BR_UTIL_DeleteTask(void *p)
 {
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void BR_UTIL_RunTask(u8 *p)
@@ -1491,13 +1491,13 @@ char *BR_UTIL_CreateHandles(unsigned owner,char *resources,int index,int heap)
     unsigned short res;
     char *p;
     int i;
-    p=func_02030734(heap,0x264,0,d_02200D5C,0x7CA);
+    p=GFL_HEAP_Alloc(heap,0x264,0,d_02200D5C,0x7CA);
     MI_CpuFill8(p,0,0x264);
     ((BrUtilEffect *)p)->resources=resources;((BrUtilEffect *)p)->index=index;
     ((BrUtilEffect *)p)->task=BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
     BR_RES_LoadSprite(((BrUtilEffect *)p)->resources,index+9,heap);
     MI_CpuFill8(&pair,0,8);
-    if(!BR_RES_GetSprite(((BrUtilEffect *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite(((BrUtilEffect *)p)->resources,index+9,&triple)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
     i=0;
     res=index;
     for(;i<12;i++) {
@@ -1518,7 +1518,7 @@ void BR_UTIL_DeleteHandles(char *r5)
         CLACT_DeleteActor((struct Actor *)(*(int *)(r5 + 0x1F8 + i * 4)));
     BR_RES_ReleaseSprite(((BrUtilEffect *)r5)->resources, ((BrUtilEffect *)r5)->index + 9);
     BR_UTIL_DeleteTask((void *)((BrUtilEffect *)r5)->task);
-    func_020307B0((int *)r5);
+    GFL_HEAP_Free((int *)r5);
 }
 
 void BR_UTIL_RunHandles(char *p)
@@ -1990,8 +1990,8 @@ int BR_UTIL_StepFollow(char *p,int *out)
     delta.z=0;
     length=VEC_Mag(&delta);
     if(length) {
-        x=func_0207C768((int)(((long long)delta.x* ((BrUtilFollow *)p)->speed+2048)>>12),length);
-        y=func_0207C768((int)(((long long)delta.y* ((BrUtilFollow *)p)->speed+2048)>>12),length);
+        x=FX_Div((int)(((long long)delta.x* ((BrUtilFollow *)p)->speed+2048)>>12),length);
+        y=FX_Div((int)(((long long)delta.y* ((BrUtilFollow *)p)->speed+2048)>>12),length);
         if((delta.x<0?-delta.x:delta.x)>(x<0?-x:x))((BrUtilFollow *)p)->posX+=x;
         else ((BrUtilFollow *)p)->posX=roundFixed(((BrUtilFollow *)p)->target[0]);
         if((delta.y<0?-delta.y:delta.y)>(y<0?-y:y))((BrUtilFollow *)p)->posY+=y;

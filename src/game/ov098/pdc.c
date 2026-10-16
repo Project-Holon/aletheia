@@ -13,30 +13,30 @@
  * Cut from pdc.c, ov098_func_021B6CDC.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   gPdcSrcName 0x021B6E60 data a1
  *   ov094_id       0x0000005E  data
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   PDC_MAIN_Create 0x021B61E8 thumb ov098
  *   PDC_MAIN_Update 0x021B6308 thumb ov098
  *   PDC_MAIN_Delete 0x021B632C thumb ov098
  */
 #include "pdc_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02034AC4(int overlayId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int GF_OVERLAY_Load(int overlayId);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MIi_CpuClearFast(int value, void *dst, u32 size);
-extern void func_020315D4(struct Proc *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern void func_02034A5C(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 
 extern struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId);
 extern int PDC_MAIN_Update(struct PdcSys *sys);
@@ -51,7 +51,7 @@ struct PdcArgs *PDC_CreateArgs(struct GameData *gameData, struct PokemonParam *m
 {
     struct PdcArgs *args;
 
-    args = func_02030734(heapId, 0x20, 0, gPdcSrcName, 0x50);
+    args = GFL_HEAP_Alloc(heapId, 0x20, 0, gPdcSrcName, 0x50);
     args->gameData = gameData;
     args->mon = mon;
     args->scene = scene;
@@ -103,7 +103,7 @@ int PDC_ProcInit(struct Proc *proc, int seq, struct PdcArgs *args)
 {
     struct PdcProc *work;
 
-    func_02034AC4((int)ov094_id);
+    GF_OVERLAY_Load((int)ov094_id);
     GFL_HEAP_CreateChildHeap(1, 0x85, 0xc0000);
     work = PROCSYS_AllocProcWork(proc, 0xc, 0x85);
     MIi_CpuClearFast(0, work, 0xc);
@@ -125,8 +125,8 @@ int PDC_ProcMain(struct Proc *proc, int seq, int unused, struct PdcProc *work)
 int PDC_ProcExit(struct Proc *proc, int seq, int unused, struct PdcProc *work)
 {
     PDC_MAIN_Delete(work->sys);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x85);
-    func_02034A5C((int)ov094_id);
+    GF_OVERLAY_Unload((int)ov094_id);
     return 1;
 }

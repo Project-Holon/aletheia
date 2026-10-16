@@ -1,7 +1,7 @@
 /*
  * file:     msgdata.c
  * unit:     yes
- * function: func_02045B38, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, func_02045E04, MSGDATA_DecryptUnits, func_02045EC0, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex, MSGDATA_SetLanguage, DWCi_Language
+ * function: MSGDATA_CreateFromArchive, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, MSGDATA_DecryptStrbuf, MSGDATA_DecryptUnits, MSGDATA_AllocString, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex, MSGDATA_SetLanguage, DWCi_Language
  * address:  0x02045B38
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,18 +23,18 @@
  *       --func MSGDATA_SetLanguage --addr 0x020461D4 --cc 1.1p1 --arm
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MSGDATA_AllocSite     0x020A7E8C  data
  *   func_020461B8  0x020461B8  arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   STRBUF_Clear  0x0204581C  arm
- *   func_02045E04  0x02045E04  arm
- *   func_02046180  0x02046180  arm
+ *   MSGDATA_DecryptStrbuf  0x02045E04  arm
+ *   MSGDATA_RefreshLanguage  0x02046180  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
- *   func_0204960C  0x0204960C  arm
+ *   ARC_TOOL_SeekHandle  0x0204960C  arm
  *   sub_02045E3C  0x02045E3C  arm
  *   sub_0204960C  0x0204960C  arm
  *   sub_020495F4  0x020495F4  arm
@@ -124,15 +124,15 @@ struct MsgBankLoad {
     u8 resident;
 };
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *arc, u32 member);
 extern s32 sub_020461E4(const struct MsgFile *file);
 extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
-extern void func_0204960C(void *stream, u32 pos);
+extern void ARC_TOOL_SeekHandle(void *stream, u32 pos);
 extern void STRBUF_Clear(struct Strbuf *vec);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -202,7 +202,7 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
 
     bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, 0x1c, 0, MSGDATA_AllocSite, 0x68);
     bank->heapId = (u16)heapId;
-    bank->stream = func_020490F4(arcId, heapId);
+    bank->stream = ARC_TOOL_CreateHandle(arcId, heapId);
     origin = ARC_TOOL_GetHandleMemberOffset(bank->stream, fileId);
     bank->origin = origin;
     bank->resident = (u8)resident;
@@ -240,13 +240,13 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
 u32 MSGDATA_Delete(struct MsgBank *bank)
 {
     if (bank->stream != 0) {
-        func_020307B0((void *)bank->file);
+        GFL_HEAP_Free((void *)bank->file);
         if (bank->base != 0) {
-            func_020307B0(bank->base);
+            GFL_HEAP_Free(bank->base);
         }
         ARC_TOOL_DeleteHandle(bank->stream);
     }
-    return func_020307B0(bank);
+    return GFL_HEAP_Free(bank);
 }
 
 
@@ -336,7 +336,7 @@ void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
     if (bank->resident == 0) {
         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
 
-        func_0204960C(bank->stream, pos + (index * 8 + 4));
+        ARC_TOOL_SeekHandle(bank->stream, pos + (index * 8 + 4));
         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
         entry = &bank->cache;
     } else {
@@ -350,18 +350,18 @@ void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
         encrypted = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
                                  0, MSGDATA_AllocSite, 0xd6);
         if (encrypted != 0) {
-            func_0204960C(bank->stream,
+            ARC_TOOL_SeekHandle(bank->stream,
                           entry->offset + (bank->origin
                               + bank->file->langOff[bank->langIndex]));
             ARC_TOOL_ReadHandle(bank->stream, size, encrypted);
             STRBUF_SetChars(dest, encrypted, entry->length);
-            func_020307B0(encrypted);
+            GFL_HEAP_Free(encrypted);
         }
     } else {
         STRBUF_SetChars(dest, (u8 *)bank->base + entry->offset, entry->length);
     }
 
-    func_02045E04(dest, index);
+    MSGDATA_DecryptStrbuf(dest, index);
 }
 
 
@@ -455,7 +455,7 @@ struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index)
     if (bank->resident == 0) {
         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
 
-        func_0204960C(bank->stream, pos + (index * 8 + 4));
+        ARC_TOOL_SeekHandle(bank->stream, pos + (index * 8 + 4));
         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
         entry = &bank->cache;
     } else {
@@ -513,7 +513,7 @@ void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
 
     if (bank->resident == 0) {
         u32 sectionOffset = bank->file->langOff[bank->langIndex];
-        func_0204960C(bank->stream, (bank->origin + sectionOffset) + (msgIndex * 8 + 4));
+        ARC_TOOL_SeekHandle(bank->stream, (bank->origin + sectionOffset) + (msgIndex * 8 + 4));
         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
         entry = &bank->cache;
     } else {
@@ -532,7 +532,7 @@ void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
         }
         {
             u32 sectionOffset = bank->file->langOff[bank->langIndex];
-            func_0204960C(bank->stream, (bank->origin + sectionOffset) + entry->offset);
+            ARC_TOOL_SeekHandle(bank->stream, (bank->origin + sectionOffset) + entry->offset);
             ARC_TOOL_ReadHandle(bank->stream, readBytes, str);
         }
     } else {
@@ -586,7 +586,7 @@ struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
     struct MsgFileHeader *hp;
     struct MsgFile *file;
 
-    func_0204960C(stream, origin);
+    ARC_TOOL_SeekHandle(stream, origin);
     hp = (struct MsgFileHeader *)hdr;
     ARC_TOOL_ReadHandle(stream, sizeof(struct MsgFileHeader), hp);
 
@@ -621,9 +621,9 @@ void MSGDATA_LoadBank(struct MsgBankLoad *bank)
     if (bank->stream == 0) {
         bank->base = (u8 *)bank->file + sectionOffset;
     } else {
-        func_0204960C(bank->stream, bank->origin + sectionOffset);
+        ARC_TOOL_SeekHandle(bank->stream, bank->origin + sectionOffset);
         ARC_TOOL_ReadHandle(bank->stream, 4, &size);
-        func_0204960C(bank->stream, bank->origin + sectionOffset);
+        ARC_TOOL_SeekHandle(bank->stream, bank->origin + sectionOffset);
         ARC_TOOL_ReadHandle(bank->stream, size, bank->base);
     }
 }

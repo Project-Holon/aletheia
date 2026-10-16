@@ -13,7 +13,7 @@
  * Cut from demo3d_graphic.c, demo3d_data.c, demo3d_cmdsys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -22,14 +22,14 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_021C3CCC 0x021C3CCC data a1
  *   d_021BFBC4 0x021BFBC4 data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   func_02048CDC 0x02048CDC arm
- *   func_02048C58 0x02048C58 arm
+ *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   VEC_Fx16Normalize 0x0207CDB8 arm
  *   func_02048CA4 0x02048CA4 arm
  *   BG_SYS_Create 0x0203F8F4 arm
@@ -37,7 +37,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   d_021BFB50 0x021BFB50 data a4
  *   d_021BFC24 0x021BFC24 data a4
@@ -56,7 +56,7 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
- *   func_02048BC4 0x02048BC4 arm
+ *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
  *   DEMO3D_SetupGx 0x021BDD40 thumb ov203
  *   d_021BFB48 0x021BFB48 data a4
  *   func_02048C4C 0x02048C4C arm
@@ -95,7 +95,7 @@ typedef struct Demo3dGraphicG3d { int tag; struct LightSlot *lightSlots; } Demo3
 
 typedef signed short s16;
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 
@@ -113,17 +113,17 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
 
-extern void *func_020056A0(unsigned, unsigned, unsigned);
+extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void func_02048CDC(struct LightSlot *,unsigned,unsigned short *);
 
-extern void func_02048C58(struct LightSlot *);
+extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 
 extern void VEC_Fx16Normalize(int, void *);
 
@@ -139,7 +139,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_FreeSlot(unsigned char);
 
-extern void func_02040588(unsigned char, unsigned char);
+extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 
 extern void BG_SYS_Init(unsigned, unsigned, unsigned, unsigned);
 
@@ -174,7 +174,7 @@ extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u16 fifoSize, s16 heap, void (*setup)(void));
 
-extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
+extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 
 extern void DEMO3D_SetupGx(void);
 
@@ -259,7 +259,7 @@ extern const struct LightSet d_021BFB48;
  */
 Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
 {
-    Demo3dGraphic *ctx = func_02030734(heap, 24, 0, d_021C3CCC, 0x15a);
+    Demo3dGraphic *ctx = GFL_HEAP_Alloc(heap, 24, 0, d_021C3CCC, 0x15a);
     MI_CpuFill8(ctx, 0, 24);
     ctx->engineOn = DEMO3D_DATA_GetAnimCount(config);
     *(volatile unsigned short *)0x04000050 = 0;
@@ -276,7 +276,7 @@ Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
     if (ctx->engineOn == 0) {
         DEMO3D_GRAPHIC_InitBg(ctx, heap);
         DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (int)d_021BFBC4, heap);
-        ctx->proc = func_020056A0((unsigned)DEMO3D_GRAPHIC_VBlank, (unsigned)ctx, 0);
+        ctx->proc = GFL_USE_AddMainTask((unsigned)DEMO3D_GRAPHIC_VBlank, (unsigned)ctx, 0);
     }
     DEMO3D_GRAPHIC_InitG3d((Demo3dGraphicG3d *)&ctx->g3dTag, heap);
     return ctx;
@@ -284,7 +284,7 @@ Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
 
 void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx)
 {
-    if (ctx->engineOn == 0) func_02030EAC(ctx->proc);
+    if (ctx->engineOn == 0) TCB_DeleteTask(ctx->proc);
     DEMO3D_GRAPHIC_DeleteG3d((Demo3dGraphicG3d *)&ctx->g3dTag);
     if (ctx->engineOn == 0) {
         DEMO3D_GRAPHIC_DeleteClact((Demo3dGraphicClact *)&ctx->clact);
@@ -296,7 +296,7 @@ void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx)
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
     MI_CpuFill8(ctx, 0, 24);
-    func_020307B0(ctx);
+    GFL_HEAP_Free(ctx);
 }
 
 /*
@@ -323,7 +323,7 @@ void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colo
     func_02048CDC(p->lightSlots,1,colors+1);
     func_02048CDC(p->lightSlots,2,colors+2);
     func_02048CDC(p->lightSlots,3,colors+3);
-    func_02048C58(p->lightSlots);
+    G3D_LIGHT_ApplySlots(p->lightSlots);
 }
 
 void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p,unsigned i,unsigned short val){func_02048CDC(p->lightSlots,i,&val);}
@@ -357,7 +357,7 @@ void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, unsigned heap)
         layer = descriptor->layer;
         BG_SYS_InitBgLayer((unsigned char)layer, (const struct BgTemplate *)descriptor->config, (unsigned char)descriptor->type);
         BG_SYS_FreeSlot(layer);
-        func_02040588(layer, descriptor->enable);
+        BG_SYS_SetPlaneVisible(layer, descriptor->enable);
     }
     BG_SYS_Init(1, 0, 1, 0);
 }
@@ -369,7 +369,7 @@ void DEMO3D_GRAPHIC_DeleteBg(Demo3dGraphic *ctx)
     BG_SYS_SetTileUnit(1, 1, 0);
     for (; i < 4; i++) {
         layer = d_021BFC24[i].layer;
-        func_02040588((unsigned char)layer, 0);
+        BG_SYS_SetPlaneVisible((unsigned char)layer, 0);
         BG_SYS_FreeLayerBuf((unsigned char)layer);
     }
     BMP_WIN_Exit();
@@ -410,8 +410,8 @@ int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p){return (int)p->unit;}
 void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 {
     G3D_SYSTEM_Init(0, 2, 0, 4, 0, heap, DEMO3D_SetupGx);
-    p->lightSlots = func_02048BC4(&d_021BFB48, heap);
-    func_02048C58(p->lightSlots);
+    p->lightSlots = G3D_LIGHT_CreateSlots(&d_021BFB48, heap);
+    G3D_LIGHT_ApplySlots(p->lightSlots);
 }
 
 void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p)

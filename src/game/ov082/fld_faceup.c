@@ -14,21 +14,21 @@
  *
  * symbols:
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetFaceUpWorkPtr  0x02189A60  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetTextSpeed  0x02008374  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
- *   func_02030DA8  0x02030DA8  arm
- *   func_020056A0  0x020056A0  thumb
+ *   TCB_AddTask  0x02030DA8  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   gFldFaceupFileName     0x021F5920  data  a1
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   func_0207D63C  0x0207D63C  arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_ReleaseSysFrame  0x02190378  thumb  ov021
  *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
@@ -41,11 +41,11 @@
  *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   gFldFaceupBgTemplate     0x021F58F4  data  a4
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
@@ -107,21 +107,21 @@ typedef enum { GX_BG_SCRBASE_0x0000 = 0, GX_BG_SCRBASE_0x1000 = 2 } GXBGScrBase;
 typedef enum { GX_BG_CHARBASE_0x00000 = 0, GX_BG_CHARBASE_0x04000 = 1 } GXBGCharBase;
 
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern FaceupWork **FIELDMAP_GetFaceUpWorkPtr(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
 extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
-extern struct GameEvent *func_020122C0(const struct GameSystem *gameSystem, struct GameEvent *parent,
+extern struct GameEvent *GAME_EVENT_Create(const struct GameSystem *gameSystem, struct GameEvent *parent,
                                        int (*proc)(struct GameEvent *event, int *seq), u32 size);
 extern struct TcbSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
-extern void *func_02030DA8(struct TcbSys *tcbSys, void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
-extern void *func_020056A0(void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
+extern void *TCB_AddTask(struct TcbSys *tcbSys, void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
+extern void *GFL_USE_AddMainTask(void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 screens, s32 start, s32 end, s32 speed);
 extern int FADE_IsActive(void);
-extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
+extern void G2x_SetBlendAlpha_(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern int FIELD_MSGBG_ReleaseSysFrame(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
@@ -134,10 +134,10 @@ extern s32 NNS_G2dGetUnpackedPaletteData(void *file, UnpackedPaletteData **out);
 extern void BG_SYS_LoadTileData(int bgId, const void *src, u32 size, u32 tileOffset);
 extern void BG_SYS_PushTileSource(u32 bgId, const void *src, u32 size, u32 mapOffset);
 extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
-extern u32 func_020307B0(void *work);
+extern u32 GFL_HEAP_Free(void *work);
 extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
-extern void func_02040588(unsigned char bgId, unsigned char enable);
-extern void func_02030EAC(void *tcb);
+extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
+extern void TCB_DeleteTask(void *tcb);
 extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 extern void BG_SYS_FreeSlot(int bgId);
 extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
@@ -183,7 +183,7 @@ struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBot
     struct GameEvent *event;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    work = func_02030734(FACEUP_HEAP_ID, 0x78, 1, gFldFaceupFileName, 0xa2);
+    work = GFL_HEAP_Alloc(FACEUP_HEAP_ID, 0x78, 1, gFldFaceupFileName, 0xa2);
     if (*FIELDMAP_GetFaceUpWorkPtr(fieldMap) != 0)
         return 0;
     *FIELDMAP_GetFaceUpWorkPtr(fieldMap) = work;
@@ -200,9 +200,9 @@ struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBot
     else
         work->mouth.delayReload = 1;
     work->blink.delayReload = 2;
-    event = func_020122C0(gameSystem, 0, FLD_FACEUP_OpenEventMain, 0);
-    work->updateTask = func_02030DA8(FIELDMAP_GetTcblSys(fieldMap), FLD_FACEUP_UpdateTaskMain, work, 0);
-    work->vblankTask = func_020056A0(FLD_FACEUP_VBlankUpload, work, 1);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD_FACEUP_OpenEventMain, 0);
+    work->updateTask = TCB_AddTask(FIELDMAP_GetTcblSys(fieldMap), FLD_FACEUP_UpdateTaskMain, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(FLD_FACEUP_VBlankUpload, work, 1);
     work->lipSyncStopped = 0;
     work->waitingForText = 1;
     return event;
@@ -282,7 +282,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     work->savedBg3Control.raw = reg_G2_BG3CNT;
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256,
                          GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x04000);
-    func_0207D63C(&reg_G2_BLDCNT, 8, 4, 0, 16);
+    G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 8, 4, 0, 16);
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     if (FIELD_MSGBG_ReleaseSysFrame(msgBg) != 0)
         FIELD_MSGBG_RequestSysFrame(msgBg);
@@ -306,29 +306,29 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceCharIndex, FACEUP_BG_HEAP_ID);
     NNS_G2dGetUnpackedCharacterDataEx(file, &faceChar);
     BG_SYS_LoadTileData(2, faceChar->data, faceChar->size, 0);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceScreenIndex, FACEUP_BG_HEAP_ID);
     NNS_G2dGetUnpackedScreenData(file, &faceScreen);
     BG_SYS_PushTileSource(2, faceScreen->data, faceScreen->size, 0);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, facePaletteIndex, FACEUP_BG_HEAP_ID);
     NNS_G2dGetUnpackedPaletteData(file, &facePalette);
     BG_SYS_LoadPltt(2, facePalette->data, 0x140, 0);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 7, FACEUP_BG_HEAP_ID);
     NNS_G2dGetUnpackedCharacterDataEx(file, &partsChar);
     BG_SYS_LoadTileData(3, partsChar->data, partsChar->size, 0);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 11, FACEUP_BG_HEAP_ID);
     NNS_G2dGetUnpackedScreenData(file, &partsScreen);
     BG_SYS_PushTileSource(3, partsScreen->data, partsScreen->size, 0);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
     BG_SYS_SetVisibleLayer(0, 3);
     BG_SYS_SetVisibleLayer(1, 0);
     BG_SYS_SetVisibleLayer(2, 2);
     BG_SYS_SetVisibleLayer(3, 1);
-    func_02040588(2, 1);
-    func_02040588(3, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
 }
 
 
@@ -341,7 +341,7 @@ struct GameEvent *FLD_FACEUP_StartClose(struct GameSystem *gameSystem)
 
     if (*FIELDMAP_GetFaceUpWorkPtr(fieldMap) == 0)
         return 0;
-    return func_020122C0(gameSystem, 0, FLD_FACEUP_CloseEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FLD_FACEUP_CloseEventMain, 0);
 }
 
 
@@ -389,7 +389,7 @@ int FLD_FACEUP_CloseEventMain(struct GameEvent *event, int *seq)
     case 1:
         if (FADE_IsActive() != 0)
             break;
-        func_02030EAC(work->updateTask);
+        TCB_DeleteTask(work->updateTask);
         (*seq)++;
         break;
     case 2:
@@ -397,7 +397,7 @@ int FLD_FACEUP_CloseEventMain(struct GameEvent *event, int *seq)
             break;
         if (work->mouth.uploadPending != 0)
             break;
-        func_02030EAC(work->vblankTask);
+        TCB_DeleteTask(work->vblankTask);
         fadeBothScreens = work->fadeBothScreens;
         FLD_FACEUP_Release(fieldMap, work);
         if (fadeBothScreens != 0)
@@ -433,7 +433,7 @@ void FLD_FACEUP_Release(struct FieldMap *fieldMap, FaceupWork *work)
     reg_G2_BLDCNT = 0;
     FLD_FACEUP_RestoreBgPriorities(work);
     FLD_FACEUP_RestoreVisiblePlanes(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
     *FIELDMAP_GetFaceUpWorkPtr(fieldMap) = 0;
 }
 
@@ -496,7 +496,7 @@ int FLD_FACEUP_StepFadeIn(FaceupWork *work)
 
     work->fadeFrame = work->fadeFrame + 1;
     blendLevel = (work->fadeFrame << 4) / 30;
-    func_0207D63C(&reg_G2_BLDCNT, 8, 4, blendLevel, 16 - blendLevel);
+    G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 8, 4, blendLevel, 16 - blendLevel);
     if (work->fadeFrame >= 30)
         return 1;
     return 0;

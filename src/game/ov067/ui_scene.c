@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_021B9540     0x021B9540  data  a1
- *   func_020307B0 0x020307B0 arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -42,10 +42,10 @@ typedef unsigned int u32;
 #define ACTOR_GFX_FLAG_NO_CHAR_RANGE 0x1 /* load the character data without charBase and charSize */
 #define ACTOR_GFX_FLAG_PLTT_OPTION 0x2   /* passed to the palette loader as its option */
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u32 func_020307B0(void *p);
-extern void *func_020490F4(u32 id, u32 heap);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteCompressed(void *arc, u32 charId, u32 screen, u32 plttOffset, u16 heapId);
 extern int CLACT_RegisterPaletteEx(void *arc, u32 charId, u32 screen, u32 plttOffset, u16 charBase, u16 charSize, u32 heapId);
 extern int CLACT_RegisterCharacter(void *arc, u32 plttId, u32 option, u32 screen, u32 heapId);
@@ -72,7 +72,7 @@ struct UiScene *UI_SCENE_Create(u32 heapId, const struct UiSceneEntry *entries, 
 {
     struct UiScene *scene;
 
-    scene = func_02030734(heapId, UI_SCENE_SIZE, 0, d_021B9540, 0x4e);
+    scene = GFL_HEAP_Alloc(heapId, UI_SCENE_SIZE, 0, d_021B9540, 0x4e);
     MI_CpuFill8(scene, 0, UI_SCENE_SIZE);
     scene->entries = entries;
     scene->param = param;
@@ -85,7 +85,7 @@ struct UiScene *UI_SCENE_Create(u32 heapId, const struct UiSceneEntry *entries, 
 
 void UI_SCENE_Delete(struct UiScene *scene)
 {
-    func_020307B0(scene);
+    GFL_HEAP_Free(scene);
 }
 
 
@@ -172,7 +172,7 @@ void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys,
     void *arc;
 
     plttOption = desc->flags & ACTOR_GFX_FLAG_PLTT_OPTION;
-    arc = func_020490F4(desc->arcId, heapId);
+    arc = ARC_TOOL_CreateHandle(desc->arcId, heapId);
     if (desc->flags & ACTOR_GFX_FLAG_NO_CHAR_RANGE)
         out->charHandle = CLACT_RegisterPaletteCompressed(arc, desc->charId, desc->screen, (u16)(desc->plttSlot << 5), heapId);
     else

@@ -13,16 +13,16 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   sWf2dmapScrdrawFileName 0x021C6144 data a1
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   CLACT_SetSurfacePos 0x0204B09C arm
  *   sWf2dmapPaletteDesc 0x021C60C4 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_02040588 0x02040588 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
@@ -82,14 +82,14 @@ typedef struct Wf2dmapSurface {
     u16 tileY;              /* 0x1A: last drawn tile row */
 } Wf2dmapSurface;
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void CLACT_SetSurfacePos(void *,int,void *);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_InitBgLayer(u8,void *,int);
-extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void BG_SYS_SetTileEntry(u8,int,int,int,u8,u8,u8);
 extern void BG_SYS_DrawTileEx(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
@@ -116,7 +116,7 @@ int WF2DMAP_SCRDRAW_GetPointX(const Wf2dmapPoint *p) { return p->x; }
 
 Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const u8 *res, u32 heap)
 {
-    Wf2dmapBitmapDesc *desc = func_02030734((u16)heap, 28, 1, sWf2dmapScrdrawFileName, 104);
+    Wf2dmapBitmapDesc *desc = GFL_HEAP_Alloc((u16)heap, 28, 1, sWf2dmapScrdrawFileName, 104);
     desc->src = src;
     desc->count = count;
     desc->type = res[0];
@@ -129,8 +129,8 @@ Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const 
 
 void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *desc)
 {
-    func_020307B0(((Wf2dmapBitmapDesc *)desc)->palette);
-    func_020307B0(desc);
+    GFL_HEAP_Free(((Wf2dmapBitmapDesc *)desc)->palette);
+    GFL_HEAP_Free(desc);
 }
 
 /*
@@ -164,7 +164,7 @@ void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *res)
     desc.bytes[8]=res[5]; desc.bytes[9]=res[6]; desc.bytes[10]=0; desc.tail=res[7];
     BG_SYS_FreeLayerBuf((u8)id);
     BG_SYS_InitBgLayer(id,&desc,0);
-    func_02040588(id,1);
+    BG_SYS_SetPlaneVisible(id,1);
 }
 
 void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y)
@@ -174,7 +174,7 @@ void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y)
     if(tx!=((Wf2dmapSurface *)surface)->tileX||ty!=((Wf2dmapSurface *)surface)->tileY) {
         ((Wf2dmapSurface *)surface)->tileY=ty; ((Wf2dmapSurface *)surface)->tileX=tx;
         WF2DMAP_SCRDRAW_DrawTilesClipped(((Wf2dmapSurface *)surface)->surface,((Wf2dmapSurface *)surface)->layer,(unsigned int)(((Wf2dmapSurface *)surface)->size),-tx,-ty);
-        func_02041B6C((u8)(((Wf2dmapSurface *)surface)->layer));
+        BG_SYS_SetFlagField06((u8)(((Wf2dmapSurface *)surface)->layer));
     }
     BG_SYS_ResetSlot((u8)(((Wf2dmapSurface *)surface)->layer),(int)0,(int)rx);
     BG_SYS_ResetSlot((u8)(((Wf2dmapSurface *)surface)->layer),(int)3,(int)ry);

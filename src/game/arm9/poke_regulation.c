@@ -40,13 +40,13 @@
  *   STRBUF_Create   0x020457B0  arm
  *   func_02045CAC   0x02045CAC  arm
  *   WORDSET_CopyTaggedText   0x0201F250  thumb
- *   func_02045EC0  0x02045EC0  arm
- *   func_02030734 0x02030734  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
+ *   GFL_HEAP_Alloc 0x02030734  arm
  *   STRBUF_Delete 0x02045808  arm
- *   func_02045B38 0x02045B38  arm
+ *   MSGDATA_CreateFromArchive 0x02045B38  arm
  *   POKE_REGULATION_LineFns  0x0209E444  data
  *   MSGDATA_Delete   0x02045C04  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   POKE_REGULATION_InitialOrder      0x0209E424  data
  *   POKE_PERSONAL_LoadData 0x0201ADA4 thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
@@ -137,12 +137,12 @@ extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 number,
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *format);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 void POKE_CRYPTO_XorBlock(u16 *data, u32 size, u32 seed);
 u16 POKE_CRYPTO_NextRandom(u32 *state);
 u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size);
@@ -1465,7 +1465,7 @@ struct Strbuf *POKE_REGULATION_GetBannedSpeciesLine(const struct Regulation *reg
     messageId = 0x10;
     if (i != 0x52)
         messageId = 0x11;
-    return func_02045EC0(text->bank, messageId);
+    return MSGDATA_AllocString(text->bank, messageId);
 }
 
 
@@ -1479,7 +1479,7 @@ struct Strbuf *POKE_REGULATION_GetSpeciesClauseLine(const struct Regulation *reg
 
     if (reg->speciesClause != 1)
         messageId = 0x13;
-    return func_02045EC0(text->bank, messageId);
+    return MSGDATA_AllocString(text->bank, messageId);
 }
 
 
@@ -1493,7 +1493,7 @@ struct Strbuf *POKE_REGULATION_GetItemClauseLine(const struct Regulation *reg, s
 
     if (reg->itemClause != 1)
         messageId = 0x15;
-    return func_02045EC0(text->bank, messageId);
+    return MSGDATA_AllocString(text->bank, messageId);
 }
 
 
@@ -1513,7 +1513,7 @@ struct Strbuf *POKE_REGULATION_GetBattleModeLine(const struct Regulation *reg, s
         if (battleMode != 0)
             messageId = 0x16;
     }
-    return func_02045EC0(text->bank, messageId);
+    return MSGDATA_AllocString(text->bank, messageId);
 }
 
 
@@ -1538,8 +1538,8 @@ struct RegulationText *POKE_REGULATION_CreateText(const struct Regulation *reg, 
     int i;
     u32 regulationMode;
 
-    text = (struct RegulationText *)func_02030734(heapId, 0x38, 1, poke_regulation_File, 0x312);
-    text->bank = func_02045B38(0, 2, 0xa5, heapId);
+    text = (struct RegulationText *)GFL_HEAP_Alloc(heapId, 0x38, 1, poke_regulation_File, 0x312);
+    text->bank = MSGDATA_CreateFromArchive(0, 2, 0xa5, heapId);
     scratch = STRBUF_Create(0x40, heapId);
     regulationMode = reg->battleMode;
     if (regulationMode == 2)
@@ -1547,7 +1547,7 @@ struct RegulationText *POKE_REGULATION_CreateText(const struct Regulation *reg, 
     else
         text->battleMode = regulationMode;
     for (i = 0; i < 6; i++) {
-        text->labels[i] = func_02045EC0(text->bank, i);
+        text->labels[i] = MSGDATA_AllocString(text->bank, i);
         text->lines[i] = POKE_REGULATION_LineFns[i](reg, wordSet, text, scratch, heapId);
     }
     STRBUF_Delete(scratch);
@@ -1585,7 +1585,7 @@ void POKE_REGULATION_DeleteText(struct RegulationText *text)
         STRBUF_Delete(text->lines[i]);
     }
     MSGDATA_Delete(text->bank);
-    func_020307B0(text);
+    GFL_HEAP_Free(text);
 }
 
 

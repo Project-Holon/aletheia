@@ -16,21 +16,21 @@
  *   gIntroG3dDefaultPos 0x021C08FC data
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_SetAnmStopFlag 0x02015E04 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   MCSS_ResetVanishFlag 0x02015EB0 thumb
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   MCSS_SetAnimeIndex 0x02016028 thumb
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   MCSS_SetAnimCallback 0x02015F2C thumb
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   MCSS_SetAlpha 0x02015FBC thumb
  *   MCSS_SetMepachiFlag 0x02015DB0 thumb
  *   MCSS_ResetMepachiFlag 0x02015DC0 thumb
  *   MCSS_RestartAnime 0x02016374 thumb
  *   MCSS_GetPosition 0x02015C30 thumb
  *   MCSS_SetPosition 0x02015C48 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   G3D_UTIL_Create 0x02047CFC arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
@@ -45,7 +45,7 @@
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   G3D_SYSTEM_IncObjectAnimeFrame 0x020478B8 arm
@@ -104,7 +104,7 @@ extern void *POKE_TOOL_Create(unsigned short, unsigned short, unsigned long long
 
 extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 
@@ -124,7 +124,7 @@ extern void MCSS_SetAnimeIndex(void *, unsigned int);
 
 extern void MCSS_ResetAnmStopFlag(void *);
 
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void MCSS_SetAlpha(char *p, int v);
 
@@ -138,7 +138,7 @@ extern void MCSS_GetPosition(void *p, u32 *out);
 
 extern void MCSS_SetPosition(void *p, u32 *src);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void *G3D_UTIL_Create(u16,u16,u32);
 
@@ -158,7 +158,7 @@ extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 
 extern void G3D_UTIL_Delete(struct Rec *);
 
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 
 extern void MTX_Identity33_(void *);
 
@@ -225,7 +225,7 @@ void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned 
     IntroVec pos = gIntroG3dDefaultPos;
     void *tmp = POKE_TOOL_Create((unsigned short)species, 0, 0, work->heapId);
     MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct Stats *)data, 0);
-    func_020307B0(tmp);
+    GFL_HEAP_Free(tmp);
     work->slots[i].object = MCSS_Add(work->sys, a, b, c, (const struct Sub150 *)data);
     MCSS_SetScale(work->slots[i].object, (u32 *)(&pos));
     MCSS_SetAnmStopFlag(work->slots[i].object);
@@ -275,7 +275,7 @@ void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index)
 void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha)
 {
     IntroMcssWork *work = (IntroMcssWork *)p;
-    func_0207D63C((void *)0x04000050,1,9,0,0);
+    G2x_SetBlendAlpha_((void *)0x04000050,1,9,0,0);
     if(alpha>31)alpha=31;
     MCSS_SetAlpha((char *)work->slots[index].object,(u8)alpha);
 }
@@ -350,7 +350,7 @@ char *INTRO_G3D_Create(void *owner,int kind,u32 heap)
     IntroG3dWork *p;
     Vec3 a,b,c;
     void *obj;
-    p=func_02030734(heap,48,1,gIntroG3dSite,162);
+    p=GFL_HEAP_Alloc(heap,48,1,gIntroG3dSite,162);
     p->heapId=heap;
     p->owner=owner;
     p->util=G3D_UTIL_Create(10,16,heap);
@@ -374,14 +374,14 @@ void INTRO_G3D_Delete(char *p)
     id=work->unitId;
     if(id!=65535) G3D_UTIL_RemoveUnit(work->util,id);
     G3D_UTIL_Delete(work->util);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void INTRO_G3D_Draw(char *p)
 {
     struct Transform { int pos[3]; int scale[3]; int matrix[9]; } t;
     IntroG3dWork *work = (IntroG3dWork *)p;
-    func_02048AD0(work->camera);
+    G3D_CAMERA_Reset(work->camera);
     if (work->visible != 0 && work->active != 0)
     {
         t.pos[0] = 0;
@@ -401,7 +401,7 @@ int INTRO_G3D_UpdateIntro(char *p)
     switch (work->introState)
     {
     case 0:
-        func_0207D63C((void *)0x04000050, 1, 9, 0, 0);
+        G2x_SetBlendAlpha_((void *)0x04000050, 1, 9, 0, 0);
         GFL_USE_PlaySeDefaultVolume(0x555);
         ++work->introState;
     case 1:

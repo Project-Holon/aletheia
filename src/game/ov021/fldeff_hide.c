@@ -14,8 +14,8 @@
  * Split from trial_house.c at 0x021D038C (lane L136, __FILE__ anchor fldeff_hide.c at 021D038C (sFldeffHideFileName); callback table g_021DB93C targets 04D8/0504/0520/0568).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
@@ -104,8 +104,8 @@ typedef struct HideWork {
     u32 animeFrame;                              /* 0x20 */
 } HideWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern FieldG3dObjSys *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *fieldEffect);
 extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
@@ -160,7 +160,7 @@ extern u32 sHideEndSeIds[HIDE_KIND_COUNT];                /* sound effect played
 /* Loads the resources of the hide effect. */
 HideRes *FLDEFF_HIDE_CreateResources(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    HideRes *res = func_02030734(heapId, sizeof(HideRes), 1, sFldeffHideFileName, 0x6b);
+    HideRes *res = GFL_HEAP_Alloc(heapId, sizeof(HideRes), 1, sFldeffHideFileName, 0x6b);
 
     res->fieldEffect = fieldEffect;
     FLDEFF_HIDE_LoadResources(res);
@@ -170,7 +170,7 @@ HideRes *FLDEFF_HIDE_CreateResources(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_HIDE_DeleteResources(FieldEffectSys *fieldEffect, HideRes *res)
 {
     FLDEFF_HIDE_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 /* Loads the model of each kind and adds its object (drawn by the effect itself). */

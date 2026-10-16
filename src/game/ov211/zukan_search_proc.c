@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   d_021BC8D8 0x021BC8D8 data a4
  */
@@ -27,7 +27,7 @@ struct Proc;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct ProcSystem *,unsigned,unsigned);
 extern void MI_CpuFill8(void *,int,int);
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner);
 int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work);
@@ -39,6 +39,6 @@ int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearc
 
 int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work){return ZUKAN_SEARCH_PROC_Update(work)==0;}
 
-int ZUKAN_SEARCH_PROC_Delete(struct Proc *obj){func_020315D4(obj);GFL_HEAP_DeleteChecked(126);return 1;}
+int ZUKAN_SEARCH_PROC_Delete(struct Proc *obj){PROCSYS_FreeProcWork(obj);GFL_HEAP_DeleteChecked(126);return 1;}
 
 int ZUKAN_SEARCH_PROC_Update(struct ZukanSearchWork *work){work->procState=(*(unsigned (**)(struct ZukanSearchWork *))(d_021BC8D8+work->procState*4))(work);return work->procState!=6;}

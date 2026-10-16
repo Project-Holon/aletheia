@@ -14,11 +14,11 @@
  * Split from fld_trade_p01.c and fld_trade_p02.c (lane CL125b): __FILE__ anchor 021CD1EC (d_021DE5D4 "field_bbd_color.c").
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   d_021DE5D4  0x021DE5D4  data  ov021
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   VEC_Fx16Normalize  0x0207CDB8  arm
  *   BILLBOARD_SetFixedNormal  0x0204ED4C  arm
@@ -54,9 +54,9 @@ typedef struct FieldBbdColor {
     FieldBbdColorData data;
 } FieldBbdColor;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern void VEC_Fx16Normalize(u16 *a, u16 *b);
@@ -76,15 +76,15 @@ extern const char d_021DE5D4[];
 /* Opens archive 0xAF for the billboard color sets. */
 FieldBbdColor *FIELD_BBD_COLOR_Create(u32 heapId)
 {
-    FieldBbdColor *bbdColor = func_02030734(heapId, 0x28, 1, d_021DE5D4, 0x5b);
-    bbdColor->arc = func_020490F4(0xaf, heapId);
+    FieldBbdColor *bbdColor = GFL_HEAP_Alloc(heapId, 0x28, 1, d_021DE5D4, 0x5b);
+    bbdColor->arc = ARC_TOOL_CreateHandle(0xaf, heapId);
     return bbdColor;
 }
 
 int FIELD_BBD_COLOR_Delete(FieldBbdColor *bbdColor)
 {
     ARC_TOOL_DeleteHandle(bbdColor->arc);
-    return func_020307B0(bbdColor);
+    return GFL_HEAP_Free(bbdColor);
 }
 
 void FIELD_BBD_COLOR_Load(FieldBbdColor *bbdColor, u32 colorId)

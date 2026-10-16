@@ -16,8 +16,8 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -27,7 +27,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -43,7 +43,7 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb ov021
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   PMSI_PARAM_ToString  0x0202435C  thumb
@@ -86,7 +86,7 @@
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_020056EC  0x020056EC  thumb
  *   func_0209C2B0  0x0209C2B0  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   g_0217208C  0x0217208C  data  ov010  a2
  *   g_0217208E  0x0217208E  data  ov010  a2
@@ -100,7 +100,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
- *   func_0200BAF4  0x0200BAF4  thumb
+ *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
  *   EVENT_BATTLE_CreateForcedWinTask 0x0216E910 thumb ov010
  *   func_0200E8F8  0x0200E8F8  thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
@@ -117,7 +117,7 @@
  *   POKERUS_DecreaseDays  0x0201B100  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   RECORD_FoldPairs  0x02008E30  thumb
- *   func_02009470  0x02009470  thumb
+ *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   func_0200952C  0x0200952C  thumb
  *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
@@ -431,8 +431,8 @@ typedef struct FieldClock {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern PokemonParam *func_02030734(u32 heapKind, u32 size, int unused, const char *file, u16 line);
-extern void func_020307B0(void *p);
+extern PokemonParam *GFL_HEAP_Alloc(u32 heapKind, u32 size, int unused, const char *file, u16 line);
+extern void GFL_HEAP_Free(void *p);
 extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
@@ -441,7 +441,7 @@ extern u8 func_02008550(const MyStatus *myStatus);
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
 extern u32 POKE_TOOL_GetPartyValue(PokemonParam *mon, u32 id, u32 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, GameEventFunc main, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc main, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void POKE_REGULATION_LoadInto(int regulationId, Regulation *dest);
 extern ZukanSave *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
@@ -457,7 +457,7 @@ extern u32 POKEPARTY_GetCapacity(Party *party);
 extern u32 POKEPARTY_Add(Party *party, const PokemonParam *mon);
 extern FldMsgBalloonSys *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dest);
 extern void MSGDATA_Delete(MsgData *msgData);
 extern Strbuf *PMSI_PARAM_ToString(PmsData *pms, unsigned int heapId);
@@ -498,7 +498,7 @@ extern void ARC_TOOL_ReadMember(void *dest, u32 archiveId, u32 member);
 extern void *ARC_UTIL_LoadMember(int archiveId, int member, int flag, int heapId);
 extern u32 func_020056EC(u32 range);
 extern int func_0209C2B0();
-extern Strbuf *func_02045EC0(MsgData *msgData, u32 index);
+extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
 extern void STRBUF_ToChars(Strbuf *strbuf, u16 *dest, u32 maxLen);
 extern GameEvent *FIELD_SUBSCREEN_RequestModeWithCallback(FieldMap *fieldMap, u32 a, u32 callback, u32 callbackArg);
 extern int FIELDMAP_GetSubscreen(FieldMap *fieldMap);
@@ -510,7 +510,7 @@ extern u32 GAMESYSTEM_TryStartAutoComm(GameSystem *gameSystem);
 extern Party *GAME_DATA_GetMyParty(GameData *gameData);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern void *BATTLE_BOX_GetFromSave(SaveControl *saveControl);
-extern Party *func_0200BAF4(void *a, int b);
+extern Party *BATTLE_BOX_CreateParty(void *a, int b);
 extern int EVENT_BATTLE_CreateForcedWinTask(GameSystem *gameSystem, FieldMap *fieldMap, BtlSetup *bs);
 extern TrialHouseSave *func_0200E8F8(SaveControl *saveControl);
 extern void GAME_EVENT_CallProc(GameEvent *event, u32 overlayId, u32 procTemplate, void *procParam);
@@ -525,7 +525,7 @@ extern void MOVE_POKEMON_SAVE_RollStartLocation(SaveControl *saveControl);
 extern void POKERUS_DecreaseDays(Party *party, int days);
 extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern void RECORD_FoldPairs(void *trainerRecord);
-extern void *func_02009470(SaveControl *saveControl);
+extern void *WIFI_HISTORY_GetBlock(SaveControl *saveControl);
 extern void func_0200952C(void *obj);
 extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(GameData *gameData, int days, int a);
 extern void *SYMBOL_SAVE_GetBitBlock(SaveControl *saveControl);
@@ -613,7 +613,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     u8 maxCount;
 
     fieldMap = ICA_ANIME_GetField20(gameSystem);
-    event = func_020122C0(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PokeListEventMain, 0x198);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PokeListEventMain, 0x198);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -728,13 +728,13 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
 
     gameData = ICA_ANIME_GetField1C(gameSystem);
     balloonSys = FIELDMAP_GetMsgBg(ICA_ANIME_GetField20(gameSystem));
-    event = func_020122C0(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrainerMsgEventMain, 0x1c);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrainerMsgEventMain, 0x1c);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     if (trainers->introMsg.sentenceType == 0xFFFF) {
         MsgData *msgData;
         work->message = STRBUF_Create(0x5c, 4);
-        msgData = func_02045B38(0, 2, 0xb8, 4);
+        msgData = MSGDATA_CreateFromArchive(0, 2, 0xb8, 4);
         func_02045CAC(msgData, trainers->introMsg.sentenceId, work->message);
         MSGDATA_Delete(msgData);
     } else {
@@ -847,7 +847,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     bs->myStatus[client] = myStatus;
     party = bs->parties[client];
     POKEPARTY_InitEx(party, 6);
-    tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x253);
+    tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x253);
     POKE_TOOL_ClearPartyParam(tempMon);
     for (; i < monCount; i++) {
         srcMon = POKEPARTY_GetMember(playerParty, i);
@@ -856,7 +856,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
             POKE_TOOL_SetLevelAndRecalc(tempMon, 0x32);
         POKEPARTY_Add(party, tempMon);
     }
-    func_020307B0(tempMon);
+    GFL_HEAP_Free(tempMon);
 
     client = BTL_CLIENT_ENEMY1;
     trainerData = bs->trainers[client];
@@ -887,12 +887,12 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     }
     enemy1Party = bs->parties[client];
     POKEPARTY_InitEx(enemy1Party, 6);
-    tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x29E);
+    tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x29E);
     for (i = 0; i < monCount; i++) {
         FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerA->mons[i], tempMon);
         POKEPARTY_Add(enemy1Party, tempMon);
     }
-    func_020307B0(tempMon);
+    GFL_HEAP_Free(tempMon);
 
     if (bs->battleRule != 0) {
         client = BTL_CLIENT_ENEMY2;
@@ -904,12 +904,12 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         STRBUF_SetString(trainerData->name, trainerC->name);
         enemy2Party = bs->parties[client];
         POKEPARTY_InitEx(enemy2Party, 6);
-        tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2C4);
+        tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2C4);
         for (i = 0; i < monCount; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerC->mons[i], tempMon);
             POKEPARTY_Add(enemy2Party, tempMon);
         }
-        func_020307B0(tempMon);
+        GFL_HEAP_Free(tempMon);
     }
     if (bs->battleRule == 3) {
         client = BTL_CLIENT_PARTNER;
@@ -922,12 +922,12 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[4]);
         partnerParty = bs->parties[client];
         POKEPARTY_InitEx(partnerParty, 6);
-        tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2F3);
+        tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2F3);
         for (i = 0; i < monCount; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerB->mons[i], tempMon);
             POKEPARTY_Add(partnerParty, tempMon);
         }
-        func_020307B0(tempMon);
+        GFL_HEAP_Free(tempMon);
     }
     BTL_SETUP_ChangeToSubway(bs);
     return bs;
@@ -1192,7 +1192,7 @@ int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, i
 {
     BtlInstGroup *group = FLD_BTL_INST_TOOL_InitTrainerHeader(trainer, trainerIndex, heapId);
     int itemRuleDropped = FLD_BTL_INST_TOOL_DrawTrainerParty(group, trainerIndex, trainer->mons, (u8)count, exclSpecies, exclItems, draw, heapId);
-    func_020307B0(group);
+    GFL_HEAP_Free(group);
     return itemRuleDropped;
 }
 
@@ -1207,7 +1207,7 @@ int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, i
  */
 BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerIndex, int heapId)
 {
-    MsgData *nameBank = func_02045B38(0, 2, 11, heapId);
+    MsgData *nameBank = MSGDATA_CreateFromArchive(0, 2, 11, heapId);
     BtlInstGroup *group;
     Strbuf *name;
     MI_CpuFill8(trainer, 0, 0x120);
@@ -1216,7 +1216,7 @@ BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int t
     trainer->introMsg.sentenceType = 0xFFFF;
     trainer->introMsg.sentenceId = trainerIndex * 3;
     trainer->trainerType = group->trainerType;
-    name = func_02045EC0(nameBank, trainerIndex);
+    name = MSGDATA_AllocString(nameBank, trainerIndex);
     STRBUF_ToChars(name, trainer->name, 16);
     STRBUF_Delete(name);
     MSGDATA_Delete(nameBank);
@@ -1444,7 +1444,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(GameSystem *gameSystem, int re
     GameEvent *event;
     CommResetWork *work;
     ICA_ANIME_GetField1C(gameSystem);
-    event = func_020122C0(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, 0xc);
     work->gameSystem = gameSystem;
@@ -1470,7 +1470,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
     int listArg;
     Party *party;
     gameData = ICA_ANIME_GetField1C(gameSystem);
-    event = func_020122C0(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PartySelectStepEventMain, 0x34);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PartySelectStepEventMain, 0x34);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = ICA_ANIME_GetField20(gameSystem);
@@ -1493,7 +1493,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
         work->tempParty = 0;
         party = GAME_DATA_GetMyParty(gameData);
     } else {
-        party = func_0200BAF4(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData)), 5);
+        party = BATTLE_BOX_CreateParty(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData)), 5);
         work->tempParty = party;
     }
     work->party = party;
@@ -1523,7 +1523,7 @@ int FLD_BTL_INST_TOOL_PartySelectStepEventMain(GameEvent *event, int *step, Part
     }
     case 1:
         if (work->tempParty != 0)
-            func_020307B0(work->tempParty);
+            GFL_HEAP_Free(work->tempParty);
         if (work->resultCommand != 0 || work->resultSlot - 7 <= 1)
             *work->resultOk = 0;
         else
@@ -1611,7 +1611,7 @@ void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, BtlInstResult *resu
 GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int arg0, int arg1)
 {
     GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
-    GameEvent *event = func_020122C0(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrialHouseAwardEventMain, 0x18);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrialHouseAwardEventMain, 0x18);
     TrialHouseAwardEventWork *work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = ICA_ANIME_GetField20(gameSystem);
@@ -1747,7 +1747,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
     MOVE_POKEMON_SAVE_RollStartLocation(saveControl);
     POKERUS_DecreaseDays(GAME_DATA_GetMyParty(gameData), days);
     RECORD_FoldPairs(GAME_DATA_GetTrainerRecord(gameData));
-    func_0200952C(func_02009470(saveControl));
+    func_0200952C(WIFI_HISTORY_GetBlock(saveControl));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(gameData, days, 4);
     MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock(saveControl));
     func_0200AB04(IRC_RANKING_GetFromSave(saveControl));

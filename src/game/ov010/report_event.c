@@ -14,19 +14,19 @@
  * Split from comm_player.c at 0x02169AB8: report_event.c __FILE__ string (0x02172A50) in the allocation call of 0x02169AB8.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
@@ -61,7 +61,7 @@
  *   TCBL_Destroy  0x02031140  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -72,7 +72,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
@@ -227,19 +227,19 @@ enum {
     REPORT_EVENT_AVATAR_END = 8
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void GFL_HEAP_Free(void *p);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern FieldAvatar *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern FieldMmdl *FIELD_PLAYER_GetMmdl(FieldAvatar *avatar);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern MsgData *func_02045B38(u32 type, u32 arcId, u32 fileId, u32 heapId);
+extern MsgData *MSGDATA_CreateFromArchive(u32 type, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dest);
 extern void MSGDATA_Delete(MsgData *msgData);
 extern u32 KEY_GetTrg(void);
 extern void STRBUF_Delete(Strbuf *str);
-extern Strbuf *func_02045EC0(MsgData *msgData, u32 index);
+extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
 extern FieldCommLink *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
 extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern int FIELD_SUBSCREEN_RequestMode(FieldCommLink *link, u32 mode);
@@ -273,7 +273,7 @@ extern void APP_KEYCURSOR_Delete(AppKeyCursor *keyCursor);
 extern void TCBL_Destroy(TcblSystem *tcbl);
 extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u8 height, u8 palette, u8 charOffset);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 bgLayer, u32 charOffset, u32 palette, u32 type, u32 heapId);
-extern void func_02049B40(u32 arcId, u32 fileId, u32 palType, u32 offset, u32 size, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palType, u32 offset, u32 size, u32 heapId);
 extern void BMP_WIN_Delete(BmpWin *bmpWin);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
@@ -284,7 +284,7 @@ extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *s
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(BmpWin *bmpWin);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern u32 PRINTSYS_PrintStreamGetState(PrintStream *stream);
 extern void PRINTSYS_PrintStreamShortWait(PrintStream *stream, int wait);
 extern void PRINTSYS_PrintStreamReleasePause(PrintStream *stream);
@@ -356,8 +356,8 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
     case REPORT_EVENT_STATE_CREATE:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(w->fieldMap)) == 1
             && FIELD_SUBSCREEN_IsReportReady(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
-            w->res = func_02030734(w->heapId, 0x50, 0, d_02172A50, 0x9F);
-            w->res->msgData = func_02045B38(0, 3, 0x9E, w->heapId);
+            w->res = GFL_HEAP_Alloc(w->heapId, 0x50, 0, d_02172A50, 0x9F);
+            w->res->msgData = MSGDATA_CreateFromArchive(0, 3, 0x9E, w->heapId);
             w->res->message = STRBUF_Create(0x200, w->heapId);
             w->res->tcbl = TCBL_Create(w->heapId, w->heapId, 1, 4);
             w->res->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, w->heapId);
@@ -446,7 +446,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             REPORT_EVENT_StopSaveEffect(w);
             REPORT_EVENT_EndAvatarAnim(w);
             wordSet = WORDSET_CreateDefault(w->heapId);
-            message = func_02045EC0(w->res->msgData, REPORT_EVENT_MSG_SAVED);
+            message = MSGDATA_AllocString(w->res->msgData, REPORT_EVENT_MSG_SAVED);
             WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(w->gameSystem)));
             WORDSET_CopyTaggedText(wordSet, w->res->message, message);
             STRBUF_Delete(message);
@@ -514,7 +514,7 @@ void REPORT_EVENT_Free(ReportEventWork *w)
     TCBL_Destroy(w->res->tcbl);
     STRBUF_Delete(w->res->message);
     MSGDATA_Delete(w->res->msgData);
-    func_020307B0(w->res);
+    GFL_HEAP_Free(w->res);
 }
 
 /* Creates the message window on layer 6 and loads its frame graphics and palette. */
@@ -524,7 +524,7 @@ void REPORT_EVENT_CreateMessageWindow(ReportEventWork *w)
 
     w->res->window.bmpWin = BMP_WIN_Create(bgLayer, 1, 1, 0x1E, 4, 12, 1);
     BMP_MENUWORK_LoadCharAndPltt(6, 1, 13, 0, w->heapId);
-    func_02049B40(0x17, 5, 4, bgLayer << 6, 0x20, w->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, bgLayer << 6, 0x20, w->heapId);
 }
 
 void REPORT_EVENT_DeleteMessageWindow(ReportEventWork *w)
@@ -555,7 +555,7 @@ void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 /* Advances the print stream; A, B or a touch speeds it up and continues after a pause. Returns 0 once it has finished. */
@@ -607,7 +607,7 @@ void REPORT_EVENT_QueueMessage(ReportEventWork *w, u32 msgIndex)
 
     BMP_Clear(BMP_WIN_GetBmp(w->res->window.bmpWin), 15);
     BMP_MENUWORK_DrawWindow(w->res->window.bmpWin, 2, 1, 13);
-    message = func_02045EC0(w->res->msgData, msgIndex);
+    message = MSGDATA_AllocString(w->res->msgData, msgIndex);
     font = FIELD_MSGBG_GetFont(w->msgContext);
     window = &w->res->window;
     printQue = w->res->printQue;
@@ -617,7 +617,7 @@ void REPORT_EVENT_QueueMessage(ReportEventWork *w, u32 msgIndex)
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 /* Runs the print queue and transfers the window once its job is done. Returns the queue's finished flag. */
@@ -642,11 +642,11 @@ void REPORT_EVENT_CreateMenuResources(ReportEventWork *w)
     MsgData *msgData;
     u32 font;
 
-    msgData = func_02045B38(0, 2, 0xA8, w->heapId);
-    w->res->menuItems[0].str = func_02045EC0(msgData, 8);
+    msgData = MSGDATA_CreateFromArchive(0, 2, 0xA8, w->heapId);
+    w->res->menuItems[0].str = MSGDATA_AllocString(msgData, 8);
     w->res->menuItems[0].msgColor = 0x39E3;
     w->res->menuItems[0].type = 0;
-    w->res->menuItems[1].str = func_02045EC0(msgData, 9);
+    w->res->menuItems[1].str = MSGDATA_AllocString(msgData, 9);
     w->res->menuItems[1].msgColor = 0x39E3;
     w->res->menuItems[1].type = 0;
     MSGDATA_Delete(msgData);

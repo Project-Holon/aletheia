@@ -14,8 +14,8 @@
  * Split from fldmmdl_g3dobj.c at 0x0219EF14 (__FILE__ anchor field_rail_loader.c at 0x0219EF44; 0x0219EF14 fills the loader setting with the loader data at 0x021DDDA0..0x021DDDF0).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  *   d_021DDDB8     0x021DDDB8  data
@@ -69,8 +69,8 @@ typedef struct {
 
 #define _RAIL_DATA_ARCHIVE  0x4f
 
-extern u32 func_020307B0(void *mem);
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
+extern u32 GFL_HEAP_Free(void *mem);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
 extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int a2, int heapId, u32 *outSize);
@@ -108,7 +108,7 @@ void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting)
 
 FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId)
 {
-    FieldRailLoader *loader = (FieldRailLoader *)func_02030734((u16)heapId, 0x38, 1, d_021DDE08, 0xC0);
+    FieldRailLoader *loader = (FieldRailLoader *)GFL_HEAP_Alloc((u16)heapId, 0x38, 1, d_021DDE08, 0xC0);
     FIELD_RAIL_LOADER_InitSetting(&loader->setting);
     return loader;
 }
@@ -116,7 +116,7 @@ FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId)
 void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader)
 {
     FIELD_RAIL_LOADER_Unload(loader);
-    func_020307B0(loader);
+    GFL_HEAP_Free(loader);
 }
 
 /* Load rail data file `member` and find its sections. */
@@ -140,7 +140,7 @@ void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId)
 void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader)
 {
     if (loader->data != 0) {
-        func_020307B0(loader->data);
+        GFL_HEAP_Free(loader->data);
         loader->data = 0;
     }
     FIELD_RAIL_LOADER_InitSetting(&loader->setting);

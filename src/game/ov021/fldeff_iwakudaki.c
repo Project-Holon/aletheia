@@ -17,11 +17,11 @@
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   sFldeffIwakudakiFileName  0x021DE10C  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   sIwakudakiAnimeFiles     0x021DE0FC  data  a4
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FIELD_EFFECT_IsResourceLoaded  0x021ABE8C  thumb  ov021
@@ -42,9 +42,10 @@
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   G3D_SYSTEM_TransAllocatedTexture  0x02047204  arm  arm9
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm  arm9
+ *   TCB_DeleteTask  0x02030EAC  arm  arm9
  */
 #include "../ov010/fldmmdl_types.h"
 #include "field_effect_types.h"
@@ -115,15 +116,15 @@ typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const G
 extern void MTX_Identity33_(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_AllocVramTexture(G3dResource *res);
-extern void *func_020056A0(void (*func)(void *task, void *work), void *work, int priority);
+extern void *GFL_USE_AddMainTask(void (*func)(void *task, void *work), void *work, int priority);
 extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void func_02030EAC(void *task);
+extern void TCB_DeleteTask(void *task);
 extern int G3D_SYSTEM_TransAllocatedTexture(G3dResource *res);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern int FIELD_EFFECT_IsResourceLoaded(FieldEffectSys *fieldEffect, int effectId);
@@ -165,7 +166,7 @@ extern G3dObjectStatus sIwakudakiDrawStatus;                     /* draw status 
 /* Loads the resources of the Rock Smash effect. */
 IwakudakiRes *FLDEFF_IWAKUDAKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    IwakudakiRes *res = func_02030734(heapId, 0x20, 1, sFldeffIwakudakiFileName, 0x67);
+    IwakudakiRes *res = GFL_HEAP_Alloc(heapId, 0x20, 1, sFldeffIwakudakiFileName, 0x67);
     res->fieldEffect = fieldEffect;
     FLDEFF_IWAKUDAKI_LoadResources(res);
     return res;
@@ -174,7 +175,7 @@ IwakudakiRes *FLDEFF_IWAKUDAKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_IWAKUDAKI_Delete(FieldEffectSys *fieldEffect, IwakudakiRes *res)
 {
     FLDEFF_IWAKUDAKI_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 void FLDEFF_IWAKUDAKI_LoadResources(IwakudakiRes *res)
@@ -184,7 +185,7 @@ void FLDEFF_IWAKUDAKI_LoadResources(IwakudakiRes *res)
 
     res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, IWAKUDAKI_MODEL_FILE);
     G3D_SYSTEM_AllocVramTexture(res->model);
-    res->uploadTask = func_020056A0(FLDEFF_IWAKUDAKI_UploadTexturesTask, res, 0);
+    res->uploadTask = GFL_USE_AddMainTask(FLDEFF_IWAKUDAKI_UploadTexturesTask, res, 0);
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++)
         res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, sIwakudakiAnimeFiles[i]);
 }
@@ -197,7 +198,7 @@ void FLDEFF_IWAKUDAKI_FreeResources(IwakudakiRes *res)
         G3D_SYSTEM_DeleteResource(res->anime[i]);
     G3D_SYSTEM_FreeVramTexture(res->model);
     G3D_SYSTEM_DeleteResource(res->model);
-    func_02030EAC(res->uploadTask);
+    TCB_DeleteTask(res->uploadTask);
 }
 
 /* Task: uploads the model textures to VRAM once. */

@@ -79,7 +79,7 @@
  *   FIELDMAP_GetZoneEffectWork  0x02189A70  thumb  ov021
  *   FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume  0x021F3B10  thumb  ov053
  *   GAME_COMM_GetWork  0x02026474  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   EVENT_MAPCHANGE_CreateSpecialLocationEvent  0x021850FC  thumb  ov020
  *   UNION_MAIN_GetFieldRequest  0x0217391C  thumb  ov012
  *   UNION_MAIN_IsExitStarted  0x02173928  thumb  ov012
@@ -190,7 +190,7 @@
  *   FIELD_PLAYER_ChangeToNormalForm  0x021A2FD0  thumb
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   FIELD_PLAYER_SetGridMoveState  0x021A35A0  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELD_PLAYER_GetPosInDir  0x021A3364  thumb
  *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb
@@ -453,7 +453,7 @@ extern void FIELD_PLAYER_ResetGridMove(void **p);
 extern u32 FIELDMAP_GetZoneEffectWork(FieldMap *fieldMap);
 extern void FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume(void);
 extern u32 GAME_COMM_GetWork(void *obj);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void *EVENT_MAPCHANGE_CreateSpecialLocationEvent(void *p, FieldMap *fieldMap);
 extern int UNION_MAIN_GetFieldRequest(u8 *p);
 extern int UNION_MAIN_IsExitStarted(u8 *p);
@@ -573,7 +573,7 @@ extern int FLDMMDL_CheckEndAcmd(void *o);
 extern int FIELD_PLAYER_ChangeToNormalForm(void *a);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
 extern void FIELD_PLAYER_SetGridMoveState(u32 *p, int a);
-struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
+struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(void *p);
 extern void FIELD_PLAYER_GetPosInDir(u32 *a, int b, int *out);
 extern int MAP_ATTR_IsLongHopEdge(int a);
@@ -894,7 +894,7 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
     commWork = (void *)GAME_COMM_GetWork(gameComm);
     FIELD_EVENT_CHECK_InitInput(&input, gameSystem, fieldMap);
     if (commWork == 0) {
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             if (WIPE_SYS_EndCheck() != 0)
                 return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
             return 0;
@@ -1874,7 +1874,7 @@ int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *task, int *seq, LedgeJumpWork *wor
 
 int FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles)
 {
-    int h = (int)func_020122C0((void *)gameSystem, 0, FIELD_EVENT_CHECK_LedgeJumpTaskMain, 0x10);
+    int h = (int)GAME_EVENT_Create((void *)gameSystem, 0, FIELD_EVENT_CHECK_LedgeJumpTaskMain, 0x10);
     LedgeJumpWork *work = func_020124E8((void *)h);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

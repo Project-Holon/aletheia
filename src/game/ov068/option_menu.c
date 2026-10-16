@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   TCBL_Create  0x0203101C  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -28,9 +28,9 @@
  *   ov067_id       0x00000043  data
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -44,9 +44,9 @@
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   GF_FONT_InitTextColor  0x0201DD60  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   gOptionMenuDispVram     0x021BB598  data  a4
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   BG_SYS_Create  0x0203F8F4  arm
@@ -54,17 +54,17 @@
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_Init  0x02040C14  arm
- *   func_020490F4  0x020490F4  arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049DF4  0x02049DF4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02049F34  0x02049F34  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   gOptionMenuDispConfig  0x021BB540  data  a4
  *   gOptionMenuBgLayers  0x021BB614  data  a4
@@ -73,15 +73,15 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
- *   func_02045EC0  0x02045EC0  arm
- *   func_0201D304  0x0201D304  thumb
+ *   MSGDATA_AllocString  0x02045EC0  arm
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
@@ -90,7 +90,7 @@
  *   gOptionMenuLabels     0x021BB820  data  ov068  a4
  *   BG_SYS_Update  0x020419E4  arm
  *   FX_SinCosTable_     0x020A1B38  data  a2
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
@@ -119,7 +119,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetCont  0x0203630C  arm
- *   func_020355C4  0x020355C4  arm
+ *   UI_GetInputMode  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -228,23 +228,23 @@ struct DispVram;
 struct DispConfig;
 struct ClInitParam;
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 type, u16 style, struct GfFont *font, struct PrintSys *printSys, u16 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct TaskList *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveData *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Config *func_0200873C(struct SaveData *saveData);
 extern void TCBL_Destroy(struct TaskList *taskList);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
-extern void func_020315D4(struct Proc *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern void func_02034A5C(int a);
+extern void GF_OVERLAY_Unload(int a);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *menuRes);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
 extern u32 GF_FONT_Delete(struct GfFont *font);
@@ -258,8 +258,8 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern struct Task *func_020056A0(void (*fn)(struct Task *, OptionMenuScreen *), OptionMenuScreen *arg, u32 priority);
-extern void func_02030EAC(struct Task *task);
+extern struct Task *GFL_USE_AddMainTask(void (*fn)(struct Task *, OptionMenuScreen *), OptionMenuScreen *arg, u32 priority);
+extern void TCB_DeleteTask(struct Task *task);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void BG_SYS_Create(u16 heapId);
@@ -267,25 +267,25 @@ extern void BMP_WIN_Init(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const BgTemplate *layout, u32 type);
 extern void BG_SYS_FreeSlot(u8 id);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
-extern void *func_020490F4(u32 id, u32 heapId);
-extern u32 func_02049658(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void func_020498F4(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void func_02049B68(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 heapId);
 extern void *func_02049DF4(void *arc, u32 id, u32 b, ScreenData **out, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void *func_02049F34(u32 arcId, u32 id, PaletteResource **out, u32 heapId);
-extern void func_020307B0(void *p);
+extern void GFL_HEAP_Free(void *p);
 extern struct BmpWindow *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWindow *window);
 extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern struct StringBuf *func_02045EC0(struct MsgBank *msgBank, u32 index);
-extern u32 func_0201D304(struct StringBuf *str, struct GfFont *font, u32 a);
+extern struct StringBuf *MSGDATA_AllocString(struct MsgBank *msgBank, u32 index);
+extern u32 GF_FONT_MeasureWidestLine(struct StringBuf *str, struct GfFont *font, u32 a);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWindow *window);
 extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
 extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StringBuf *str, struct GfFont *font);
@@ -293,12 +293,12 @@ extern void PRINTSYS_PrintColor(struct Bitmap *bitmap, s16 x, s16 y, struct Stri
 extern void BMP_WIN_TransferChars(struct BmpWindow *window);
 extern void BMP_WIN_MakeScreen(struct BmpWindow *window);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWindow *window);
-extern void func_02041B6C(u32 a);
+extern void BG_SYS_SetFlagField06(u32 a);
 extern void STRBUF_Delete(struct StringBuf *str);
 extern void *BMP_GetPixels(const struct Bitmap *bitmap);
 extern void MIi_CpuCopy32(u32 a, u32 b, u32 size);
 extern u8 BMP_WIN_GetWidth(struct BmpWindow *window);
-extern s32 func_02061CA4(u32 kind, u32 offset, const void *src, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(u32 kind, u32 offset, const void *src, s32 size);
 extern void CLACT_InitSystem(const struct ClInitParam *param, const void *res, u32 heapId);
 extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
@@ -325,7 +325,7 @@ extern u32 TOUCHPANEL_GetPointTrg(int *x, int *y);
 extern u32 TOUCHPANEL_GetPointCont(int *x, int *y);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern struct StringBuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -509,7 +509,7 @@ int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args)
     OptionMenuWork *work;
     struct GameData *gameData;
 
-    func_02034AC4((u32)ov067_id);
+    GF_OVERLAY_Load((u32)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x1c, 0x21000);
     work = PROCSYS_AllocProcWork(proc, sizeof(OptionMenuWork), 0x1c);
     MI_CpuFill8(work, 0, sizeof(OptionMenuWork));
@@ -520,7 +520,7 @@ int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args)
     work->printSys = PRINTSYS_QUE_Create(0x1c);
     work->buttonMenuRes = APP_TASKMENU_RES_Create(0, 0xd, work->font, work->printSys, 0x1c);
     work->messageMenuRes = APP_TASKMENU_RES_Create(3, 9, work->font, work->printSys, 0x1c);
-    work->msgBank = func_02045B38(0, 2, 0x1d, 0x1c);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x1d, 0x1c);
     work->taskList = TCBL_Create(0x1c, 0x1c, 0x20, 0x20);
     OPTION_MENU_InitSettings(&work->savedSettings, func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem))));
     OPTION_MENU_InitRunner(&work->runner, work, OPTION_MENU_StateFadeIn);
@@ -549,9 +549,9 @@ int OPTION_MENU_Exit(struct Proc *proc, int *seq, void *args, OptionMenuWork *wo
     PRINTSYS_QUE_Delete(work->printSys);
     GF_FONT_Delete(work->font);
     OPTION_MENU_ExitScreen(&work->screen);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x1c);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
 
@@ -584,12 +584,12 @@ void OPTION_MENU_InitScreen(OptionMenuScreen *screen, u16 heapId)
     GF_FONT_SetTextColor(0xf, 0xe, 0);
     OPTION_MENU_InitGfx(&screen->gfx, heapId);
     OPTION_MENU_InitSprites(&screen->sprites, &gOptionMenuDispVram, heapId);
-    screen->task = func_020056A0(OPTION_MENU_ScreenTaskMain, screen, 0);
+    screen->task = GFL_USE_AddMainTask(OPTION_MENU_ScreenTaskMain, screen, 0);
 }
 
 void OPTION_MENU_ExitScreen(OptionMenuScreen *screen)
 {
-    func_02030EAC(screen->task);
+    TCB_DeleteTask(screen->task);
     OPTION_MENU_ExitSprites(&screen->sprites);
     OPTION_MENU_ExitGfx(&screen->gfx);
     GF_FONT_SetDefaultTextColor();
@@ -634,7 +634,7 @@ void OPTION_MENU_ScreenTaskMain(struct Task *task, OptionMenuScreen *screen)
 }
 
 /*
- * note 2026-10-05 (recoup R14): func_02049658 returns u32 (as in ov210 021BC5DC); declared void it
+ * note 2026-10-05 (recoup R14): ARC_UTIL_UploadBgCharFromHandle returns u32 (as in ov210 021BC5DC); declared void it
  *   made the build copy the zero from r5 (adds rN,r5,#0) for the register zero arguments after
  *   02049BDC. EXACT in c99 and c with the u32 return.
  */
@@ -654,33 +654,33 @@ void OPTION_MENU_InitGfx(OptionMenuGfx *gfx, u16 heapId)
         layerId = gOptionMenuBgLayers[i].layerId;
         BG_SYS_InitBgLayer((u8)layerId, &gOptionMenuBgLayers[i].layout, (u8)gOptionMenuBgLayers[i].mapType);
         BG_SYS_FreeSlot(layerId);
-        func_02040588(layerId, 1);
+        BG_SYS_SetPlaneVisible(layerId, 1);
     }
-    func_02040588(3, 0);
+    BG_SYS_SetPlaneVisible(3, 0);
     BG_SYS_Init(4, 0, 1, 0);
     BG_SYS_Init(3, 0, 1, 0);
-    arc = func_020490F4(0x1b, heapId);
+    arc = ARC_TOOL_CreateHandle(0x1b, heapId);
     func_02049B68(arc, 1, 0, 0, 0, heapId);
-    func_02049658(arc, 0xd, 0, 0, 0, 0, heapId);
-    func_020498F4(arc, 0xe, 0, 0, 0, 0, heapId);
-    func_02049658(arc, 0, 2, 0, 0, 0, heapId);
-    func_020498F4(arc, 2, 2, 0, 0, 0, heapId);
-    func_02049658(arc, 0x10, 3, 1, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 0xd, 0, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 0xe, 0, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 0, 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 2, 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 0x10, 3, 1, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromHandle(arc, 8, 0, 0x80, 0x1e0, 0x20, heapId);
     gfx->screenBuffer = func_02049DF4(arc, 0xf, 0, &gfx->screenData, heapId);
     func_02049B68(arc, 8, 4, 0, 0, heapId);
-    func_02049658(arc, 7, 5, 0, 0, 0, heapId);
-    func_020498F4(arc, 9, 5, 0, 0, 0, heapId);
-    func_02049658(arc, 0x10, 4, 1, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 7, 5, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 9, 5, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 0x10, 4, 1, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
     buffer = func_02049F34(0x1b, 1, &pltt, heapId);
     MI_CpuCopy8(pltt->colors + 0xe0, gfx->palette, 0x20);
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
     gfx->windows[OPTION_WINDOW_DESCRIPTION] = BMP_WIN_Create(4, 1, 0x13, 0x1e, 4, 4, 1);
     gfx->windows[OPTION_WINDOW_MESSAGE] = BMP_WIN_Create(3, 1, 1, 0x1e, 4, 0xf, 1);
     gfx->windows[OPTION_WINDOW_TITLE] = BMP_WIN_Create(0, 0, 0, 0x10, 3, 8, 1);
     OPTION_MENU_CreateLabelWindows(gfx);
-    func_02040588(4, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
 }
 
 void OPTION_MENU_ExitGfx(OptionMenuGfx *gfx)
@@ -692,7 +692,7 @@ void OPTION_MENU_ExitGfx(OptionMenuGfx *gfx)
             BMP_WIN_Delete(gfx->windows[i]);
         }
     }
-    func_020307B0(gfx->screenBuffer);
+    GFL_HEAP_Free(gfx->screenBuffer);
     BG_SYS_SetTileUnit(4, 1, 0);
     i = 0;
     BG_SYS_SetTileUnit(3, 1, 0);
@@ -719,7 +719,7 @@ struct BmpWindow *OPTION_MENU_GetGfxWindow(OptionMenuGfx *gfx, int index)
 /*
  * The rounded width goes through a u8 local that is both stored to the
  * table row and passed on (the call reloading the field is 4 bytes longer).
- * func_0201D304 takes the string first and the font second.
+ * GF_FONT_MeasureWidestLine takes the string first and the font second.
  */
 void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
 {
@@ -734,7 +734,7 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
     u8 width;
 
     font = GF_FONT_Create(0x17, 0, 0, 0, 0x1c);
-    msgBank = func_02045B38(0, 2, 0x1d, 0x1c);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, 0x1d, 0x1c);
     for (i = 0; i < OPTION_WINDOW_LABEL_COUNT; i++) {
         x = 0;
         switch (i) {
@@ -749,8 +749,8 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
             break;
         }
         label = &gOptionMenuLabels[i];
-        str = func_02045EC0(msgBank, gOptionMenuLabels[i].messageId);
-        width = (x + func_0201D304(str, font, 0) + 7) >> 3;
+        str = MSGDATA_AllocString(msgBank, gOptionMenuLabels[i].messageId);
+        width = (x + GF_FONT_MeasureWidestLine(str, font, 0) + 7) >> 3;
         label->width = width;
         gfx->windows[i] = BMP_WIN_Create(1, label->x, label->y, width, label->height, 0, 1);
         BMP_Clear(BMP_WIN_GetBmp(gfx->windows[i]), 0);
@@ -758,19 +758,19 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
         window = gfx->windows[i];
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
         STRBUF_Delete(str);
     }
     charData = gfx->screenData->charData;
     MIi_CpuCopy32((u32)charData, (u32)BMP_GetPixels(BMP_WIN_GetBmp(gfx->windows[OPTION_WINDOW_TITLE])), 0x600);
-    str = func_02045EC0(msgBank, 0);
+    str = MSGDATA_AllocString(msgBank, 0);
     x = BMP_WIN_GetWidth(gfx->windows[OPTION_WINDOW_TITLE]) * 4;
-    x -= func_0201D304(str, font, 0) >> 1;
+    x -= GF_FONT_MeasureWidestLine(str, font, 0) >> 1;
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(gfx->windows[OPTION_WINDOW_TITLE]), x, 4, str, font, 0x3dc1);
     window = gfx->windows[OPTION_WINDOW_TITLE];
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(BMP_WIN_GetBgLayer(window));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
     STRBUF_Delete(str);
     MSGDATA_Delete(msgBank);
     GF_FONT_Delete(font);
@@ -791,7 +791,7 @@ void OPTION_MENU_FlushGfx(OptionMenuGfx *gfx)
  * BGR555 cross-fade of one palette entry: advance the u16 phase at *angle by
  * step (wrapping at 0x10000), take weight = (table[phase >> 4 pair, second entry]
  * + 0x1000) / 2 as an s16 from the table at 0x020A1B38, blend each channel
- * of color0 toward color1 by weight >> 12, store to *outColor and hand it to func_02061CA4.
+ * of color0 toward color1 by weight >> 12, store to *outColor and hand it to NNS_GfdRegisterNewVramTransferTask.
  * Twin: arm9 BLINK_PALANM_Update (blink_palanm.c).  What closed it: all six
  * channels as u8 locals extracted in mask-then-shift form, the blended
  * channels as s32 with a u8 cast, and the pack `(b << 10) | (r | (g << 5))`
@@ -822,7 +822,7 @@ void BLINK_PALANM_BlendStep(u16 *outColor, u16 *angle, int step, u32 paletteInde
     r = (u8)(r0 + (((r1 - r0) * weight) >> 12));
     g = (u8)(g0 + (((g1 - g0) * weight) >> 12));
     *outColor = (u16)((b << 10) | (r | (g << 5)));
-    func_02061CA4(15, paletteIndex * 32 + slot * 2, outColor, 2);
+    NNS_GfdRegisterNewVramTransferTask(15, paletteIndex * 32 + slot * 2, outColor, 2);
 }
 
 void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 heapId)
@@ -837,7 +837,7 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
     CLACT_SetUnitDefaultRenderer(sprites->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
-    arc = func_020490F4(0x1b, heapId);
+    arc = ARC_TOOL_CreateHandle(0x1b, heapId);
     sprites->plttRes = CLACT_RegisterPalette(arc, 6, 0, 0, heapId);
     sprites->mainCharRes = CLACT_RegisterCharacter(arc, 5, 0, 0, heapId);
     sprites->mainCellRes = CLACT_RegisterCellAnim(arc, 4, 3, heapId);
@@ -959,7 +959,7 @@ void OPTION_MENU_ReadInput(OptionMenuInput *input)
     }
     trigger = KEY_GetTrg();
     held = KEY_GetCont();
-    if (trigger != 0 && func_020355C4() == 1 && (trigger & (OPTION_KEY_X | OPTION_KEY_Y | OPTION_KEY_B)) == 0) {
+    if (trigger != 0 && UI_GetInputMode() == 1 && (trigger & (OPTION_KEY_X | OPTION_KEY_Y | OPTION_KEY_B)) == 0) {
         func_020355D8(0);
         input->command = OPTION_INPUT_KEY_ACTIVATE;
         GFL_USE_PlaySeDefaultVolume(OPTION_SE_CURSOR);
@@ -1193,20 +1193,20 @@ void OPTION_MENU_UpdateButtons(OptionMenuButtons *buttons, const OptionMenuInput
     case OPTION_INPUT_TOUCH:
         OPTION_MENU_GetInputPoint(input, 0, &touch);
         if (OPTION_MENU_IsPointInRect(&gOptionMenuConfirmRect, &touch) && buttons->choice != OPTION_BUTTON_CONFIRM) {
-            func_02040588(4, 0);
+            BG_SYS_SetPlaneVisible(4, 0);
             GFL_USE_PlaySeDefaultVolume(OPTION_SE_CONFIRM);
             buttons->choice = OPTION_BUTTON_CONFIRM;
             buttons->decided = 1;
             buttons->focusChanged = 1;
-            if (func_020355C4() == 0)
+            if (UI_GetInputMode() == 0)
                 func_020355D8(1);
         } else if (OPTION_MENU_IsPointInRect(&gOptionMenuCancelRect, &touch) && buttons->choice != OPTION_BUTTON_CANCEL) {
-            func_02040588(4, 0);
+            BG_SYS_SetPlaneVisible(4, 0);
             GFL_USE_PlaySeDefaultVolume(OPTION_SE_CANCEL);
             buttons->choice = OPTION_BUTTON_CANCEL;
             buttons->decided = 1;
             buttons->focusChanged = 1;
-            if (func_020355C4() == 0)
+            if (UI_GetInputMode() == 0)
                 func_020355D8(1);
         } else if (buttons->choice != OPTION_BUTTON_NONE) {
             buttons->choice = OPTION_BUTTON_NONE;
@@ -1266,10 +1266,10 @@ void OPTION_MENU_UpdateButtons(OptionMenuButtons *buttons, const OptionMenuInput
         TOUCHBAR_Update(buttons->returnButton);
         result = TOUCHBAR_GetPressedButtonIdIfPressing(buttons->returnButton);
         if (result != 0) {
-            if (result == 6 && func_020355C4() == 1)
+            if (result == 6 && UI_GetInputMode() == 1)
                 buttons->focusChanged = 1;
         } else {
-            if (func_020355C4() == 1)
+            if (UI_GetInputMode() == 1)
                 buttons->focusChanged = 1;
         }
         result = TOUCHBAR_GetPressedButtonIdIfDone(buttons->returnButton);
@@ -1341,7 +1341,7 @@ void OPTION_MENU_CreateButtonWindows(OptionMenuButtons *buttons, u32 heapId)
         if (buttons->items[i].label != 0) {
             STRBUF_Delete(buttons->items[i].label);
         }
-        buttons->items[i].label = func_02045EC0(buttons->msgBank, i + 8);
+        buttons->items[i].label = MSGDATA_AllocString(buttons->msgBank, i + 8);
         buttons->items[i].color = 0x39e3;
         buttons->items[i].value = i;
         if (buttons->buttons[i] != 0) {
@@ -1377,7 +1377,7 @@ void OPTION_MENU_InitList(OptionMenuList *list, u16 mainLayer, u16 subLayer, Opt
         list->choiceActors[i] = OPTION_MENU_GetScreenSpriteActor(screen, i + OPTION_ACTOR_CHOICE_FIRST);
     }
     OPTION_MENU_ScrollList(list, -8, -192, 192);
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         list->cursor = -1;
         OPTION_MENU_DrawList(list, 0);
         list->redraw = 0;
@@ -1448,7 +1448,7 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
         OPTION_MENU_DrawList(list, 0);
         OPTION_MENU_RestartScreenBlink(screen);
         list->redraw = 1;
-        if (func_020355C4() == 0)
+        if (UI_GetInputMode() == 0)
             func_020355D8(1);
         break;
     case OPTION_INPUT_RIGHT:
@@ -1499,10 +1499,10 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
                 useStream = 0;
                 wait = 0;
             }
-            func_02040588(4, 1);
+            BG_SYS_SetPlaneVisible(4, 1);
             OPTION_MENU_PrintText(helpText, gOptionMenuSettingRows[list->cursor].descriptionId, wait, useStream);
         } else {
-            func_02040588(4, 0);
+            BG_SYS_SetPlaneVisible(4, 0);
         }
         list->redraw = 0;
     }
@@ -1513,7 +1513,7 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
 void OPTION_MENU_ClearListHighlight(OptionMenuList *list, OptionMenuScreen *screen)
 {
     OPTION_MENU_DrawList(list, 0);
-    func_02040588(4, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
     OPTION_MENU_RestartScreenBlink(screen);
 }
 
@@ -1582,8 +1582,8 @@ void OPTION_MENU_DrawList(OptionMenuList *list, int highlight)
     }
     if (highlight)
         BG_SYS_FillTileMap((u8)(list->subLayer), 0, list->cursor * 3 + 2, 0x20, 3, 7);
-    func_02041B6C((u8)(list->subLayer));
-    func_02041B6C((u8)(list->mainLayer));
+    BG_SYS_SetFlagField06((u8)(list->subLayer));
+    BG_SYS_SetFlagField06((u8)(list->mainLayer));
     for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
         if (list->cursor == gOptionMenuChoices[i].settingIndex && highlight) {
             if (OPTION_MENU_IsChoiceSelected(&list->settings, i))
@@ -1705,7 +1705,7 @@ void OPTION_MENU_InitMessageBox(OptionMenuMessageBox *box, struct BmpWindow *win
     box->menuRes = menuRes;
     OPTION_MENU_InitTextBox(&box->text, window, font, msgBank, taskList, printSys, heapId);
     for (i = 0; i < 2; i++) {
-        box->items[i].label = func_02045EC0(msgBank, i + 0x22);
+        box->items[i].label = MSGDATA_AllocString(msgBank, i + 0x22);
         box->items[i].color = 0x39E3;
         box->items[i].value = 0;
     }
@@ -1754,7 +1754,7 @@ void OPTION_MENU_UpdateMessageBox(OptionMenuMessageBox *box)
 void OPTION_MENU_PrintDiscardPrompt(OptionMenuMessageBox *box, u32 wait)
 {
     G2x_SetBlendBrightness_(REG_A_BLDCNT_ADDR, 23, 8);
-    func_02040588(3, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
     OPTION_MENU_PrintText(&box->text, 33, wait, 0);
 }
 
@@ -1771,8 +1771,8 @@ void OPTION_MENU_PrintHelpMessage(OptionMenuMessageBox *box, u32 messageId, u32 
     struct MsgBank *msgBank;
 
     G2x_SetBlendBrightness_(REG_A_BLDCNT_ADDR, 0x17, 8);
-    func_02040588(3, 1);
-    msgBank = func_02045B38(0, 3, 0x9e, 0x801C);
+    BG_SYS_SetPlaneVisible(3, 1);
+    msgBank = MSGDATA_CreateFromArchive(0, 3, 0x9e, 0x801C);
     OPTION_MENU_PrintTextFromBank(&box->text, msgBank, messageId, wait, 1);
     MSGDATA_Delete(msgBank);
 }
@@ -1784,7 +1784,7 @@ void OPTION_MENU_PrintHelpMessage(OptionMenuMessageBox *box, u32 messageId, u32 
 void OPTION_MENU_PrintMessage(OptionMenuMessageBox *box, u32 messageId, u32 wait)
 {
     G2x_SetBlendBrightness_(REG_A_BLDCNT_ADDR, 23, 8);
-    func_02040588(3, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
     OPTION_MENU_PrintText(&box->text, messageId, wait, 1);
 }
 
@@ -1792,7 +1792,7 @@ int OPTION_MENU_IsMessageDone(OptionMenuMessageBox *box)
 {
     if (OPTION_MENU_IsTextDone(&box->text)) {
         REG_A_BLDCNT = 0;
-        func_02040588(3, 0);
+        BG_SYS_SetPlaneVisible(3, 0);
         return 1;
     }
     return 0;
@@ -2090,7 +2090,7 @@ void OPTION_MENU_StateDiscardPrompt(OptionMenuRunner *runner, u32 *state, Option
     case 0:
         OPTION_MENU_GetListSettings(&work->list, &settings);
         OPTION_MENU_PrintDiscardPrompt(&work->messageBox, OPTION_MENU_GetTextSpeedWait(&settings));
-        func_02040588(4, 0);
+        BG_SYS_SetPlaneVisible(4, 0);
         *state = 1;
         break;
     case 1:

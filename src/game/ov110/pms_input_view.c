@@ -13,8 +13,8 @@
  * Cut from pms_input_view.c, unit_021BB224.c, unit_021BB240.c, unit_021BB250.c, unit_021BB260.c, unit_021BB270.c, pmsiv_category.c, unit_021BBE80.c, pmsiv_menu.c, pmsiv_wordwin.c, pms_select_graphic.c, ov110_func_021C1848.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gPmsInputViewHeapSite 0x021C3C20 data a4
  *   gClActorInitParam 0x020A1448 data a4
  *   gPmsInputVramBanks 0x021C3714 data a4
@@ -25,10 +25,10 @@
  *   BMP_WIN_Init 0x02045088 arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   PMS_INPUT_GetTasks 0x021BF7D0 thumb ov110
- *   func_02030DA8 0x02030DA8 arm
- *   func_020490F4 0x020490F4 arm
+ *   TCB_AddTask 0x02030DA8 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PMSIV_MENU_Delete 0x021BCA30 thumb ov110
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -53,11 +53,11 @@
  *   PMSIV_CATEGORY_Setup 0x021BB328 thumb ov110
  *   PMSIV_WORDWIN_Create 0x021BF844 thumb ov110
  *   PMSIV_WORDWIN_Setup 0x021BF8F4 thumb ov110
- *   func_020498F4 0x020498F4 arm
- *   func_02049658 0x02049658 arm
- *   func_02040588 0x02040588 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -173,15 +173,15 @@
  *   PMSIV_WORDWIN_GetThumbRow  0x021BFE60  thumb  ov110
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   gPmsInputHelpMessageIds 0x021C3744 data ov110 a4
- *   func_02045B38 0x02045B38 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -193,7 +193,7 @@
  *   PMS_INPUT_VIEW_CreateActor 0x021BAC78 thumb ov110
  *   PMS_INPUT_VIEW_GetMenu 0x021BAC3C thumb ov110
  *   PMS_INPUT_VIEW_GetPrintQue 0x021BAC4C thumb ov110
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   PMS_INPUT_VIEW_GetCursorRes 0x021BAC50 thumb ov110
  *   PMS_INPUT_VIEW_AddVBlankTask 0x021B9BA4 thumb ov110
  *   PMS_INPUT_VIEW_GetClactUnit 0x021BAC40 thumb ov110
@@ -245,8 +245,8 @@ struct ScreenPos { short x, y; };
 
 typedef struct { u32 values[6]; } HelpMessageTable;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
 extern void CLACT_InitSystem(const void *initParam, const void *vramBanks, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -254,10 +254,10 @@ extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 PMS_INPUT_GetTasks(struct PmsInput *input);
-extern void *func_02030DA8(u32 tcbList, ViewTaskFunc func, void *work, int priority);
-extern void *func_020490F4(u32 id, u32 heapId);
+extern void *TCB_AddTask(u32 tcbList, ViewTaskFunc func, void *work, int priority);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void func_02030EAC(void *tcb);
+extern void TCB_DeleteTask(void *tcb);
 extern void PMSIV_MENU_Delete(struct PmsivMenu *menu);
 extern unsigned int CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void CLACT_ReleasePalette(unsigned int);
@@ -266,7 +266,7 @@ extern void CLACT_ReleaseCellAnim(unsigned int);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void *func_020056A0(void (*fn)(void *, void *), void *work, int priority);
+extern void *GFL_USE_AddMainTask(void (*fn)(void *, void *), void *work, int priority);
 extern void CLACT_DrawSystem(void);
 extern void PMSIV_MENU_Update(struct PmsivMenu *menu);
 extern unsigned int PRINTSYS_QUE_Main(struct PrintQue *queue);
@@ -282,11 +282,11 @@ extern struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, st
 extern void PMSIV_CATEGORY_Setup(struct PmsivCategory *category, void *arcHandle);
 extern struct PmsivWordwin *PMSIV_WORDWIN_Create(struct PmsInputView *view, struct PmsInput *input, struct PmsInputData *wordData);
 extern void PMSIV_WORDWIN_Setup(struct PmsivWordwin *wordwin);
-extern void func_020498F4(void *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 flags, u16 heapId);
-extern u32 func_02049658(void *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 flags, u16 heapId);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 flags, u16 heapId);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 flags, u16 heapId);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *handle, u32 fileId, u32 paletteType, u32 offset, u32 size, u32 flags, u16 heapId);
-extern int func_02061CA4(u32 target, u32 offset, const void *data, int size);
+extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *data, int size);
 extern void BG_SYS_FillTileMap(u8 bgId, u8 x, u8 y, u8 width, u8 height, u8 paletteBank);
 extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
@@ -397,8 +397,8 @@ extern u32 PMSIV_WORDWIN_GetThumb(struct PmsivWordwin *wordwin, struct ScreenPos
 extern void PMSIV_WORDWIN_SetThumbY(struct PmsivWordwin *wordwin, int y);
 extern unsigned PMSIV_WORDWIN_GetThumbRow(struct PmsivWordwin *wordwin, unsigned n);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *handle, u32 fileId, u32 bgType, u32 flags, u32 offset, u32 size, u32 shift, u16 heapId);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgData *msgData, u32 index);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, u32 x, u32 y, void *str, struct GfFont *font, u16 color);
 extern void STRBUF_Delete(void *str);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
@@ -406,7 +406,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(unsigned);
+extern void BG_SYS_SetFlagField06(unsigned);
 
 extern const char gPmsInputViewHeapSite[];
 extern const u8 gClActorInitParam[];
@@ -438,7 +438,7 @@ void PMS_INPUT_VIEW_UpdateWordwinFocus(struct PmsInputView *view, struct PmsInpu
 void *PMS_INPUT_VIEW_Create(struct PmsInput *input, struct PmsInputData *wordData) {
     struct PmsInputView *view;
     int i;
-    view=func_02030734(PMS_INPUT_VIEW_HEAP_ID,sizeof(struct PmsInputView),0,gPmsInputViewHeapSite,0xdf);
+    view=GFL_HEAP_Alloc(PMS_INPUT_VIEW_HEAP_ID,sizeof(struct PmsInputView),0,gPmsInputViewHeapSite,0xdf);
     if(view!=0) {
         view->menu=0;
         view->printQue=0;
@@ -451,14 +451,14 @@ void *PMS_INPUT_VIEW_Create(struct PmsInput *input, struct PmsInputData *wordDat
         BMP_WIN_Init(PMS_INPUT_VIEW_HEAP_ID);
         GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_MAIN,-16);
         GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_SUB,-16);
-        view->mainTask=func_02030DA8(PMS_INPUT_GetTasks(input),(ViewTaskFunc)PMS_INPUT_VIEW_MainTask,view,2);
+        view->mainTask=TCB_AddTask(PMS_INPUT_GetTasks(input),(ViewTaskFunc)PMS_INPUT_VIEW_MainTask,view,2);
         view->vblankTask=PMS_INPUT_VIEW_AddVBlankTask(PMS_INPUT_VIEW_VBlankTask,view,1);
         for(i=0;i<PMS_INPUT_VIEW_TASK_SLOTS;++i) view->eventTasks[i]=0;
         view->helpTextPending=0;
         view->inWordPick=0;
         view->paletteChanged=0;
         view->paletteVariant=0;
-        view->arcHandle=func_020490F4(43,PMS_INPUT_VIEW_HEAP_ID);
+        view->arcHandle=ARC_TOOL_CreateHandle(43,PMS_INPUT_VIEW_HEAP_ID);
     }
     return view;
 }
@@ -469,10 +469,10 @@ void PMS_INPUT_VIEW_Delete(struct PmsInputView *view) {
         ARC_TOOL_DeleteHandle(view->arcHandle);
         for (i=0; i<PMS_INPUT_VIEW_TASK_SLOTS; ++i) {
             void *r = view->eventTasks[i];
-            if (r) func_02030EAC(r);
+            if (r) TCB_DeleteTask(r);
         }
-        func_02030EAC(view->mainTask);
-        func_02030EAC(view->vblankTask);
+        TCB_DeleteTask(view->mainTask);
+        TCB_DeleteTask(view->vblankTask);
         PMSIV_MENU_Delete(view->menu);
         CLACT_DeleteUnit(view->clactUnit);
         for (j=0; j<PMS_INPUT_VIEW_SCREEN_COUNT; ++j) {
@@ -486,11 +486,11 @@ void PMS_INPUT_VIEW_Delete(struct PmsInputView *view) {
         CLACT_ExitSystem();
         BMP_WIN_Exit();
         BG_SYS_Delete();
-        func_020307B0(view);
+        GFL_HEAP_Free(view);
     }
 }
 
-void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *work, int priority) { return func_020056A0(fn, work, priority); }
+void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *work, int priority) { return GFL_USE_AddMainTask(fn, work, priority); }
 
 void PMS_INPUT_VIEW_MainTask(void *tcb, void *work) {
     struct PmsInputView *view = work;
@@ -515,7 +515,7 @@ void PMS_INPUT_VIEW_StartTask(struct PmsInputView *view, int id) {
     struct PmsInputViewTask *task;
     table = gPmsInputViewTaskTable;
     if (id >= PMS_INPUT_VIEW_TASK_COUNT) return;
-    task = func_02030734(PMS_INPUT_VIEW_HEAP_ID, sizeof(struct PmsInputViewTask), 0, gPmsInputViewHeapSite, 493);
+    task = GFL_HEAP_Alloc(PMS_INPUT_VIEW_HEAP_ID, sizeof(struct PmsInputViewTask), 0, gPmsInputViewHeapSite, 493);
     if (!task) return;
     task->state = 0;
     task->id = id;
@@ -525,7 +525,7 @@ void PMS_INPUT_VIEW_StartTask(struct PmsInputView *view, int id) {
     for (i=0; i<PMS_INPUT_VIEW_TASK_SLOTS; ++i) {
         if (!view->eventTasks[i]) {
             task->slot = i;
-            view->eventTasks[i] = func_02030DA8(PMS_INPUT_GetTasks(view->input), table.entries[id], task, 1);
+            view->eventTasks[i] = TCB_AddTask(PMS_INPUT_GetTasks(view->input), table.entries[id], task, 1);
             return;
         }
     }
@@ -550,9 +550,9 @@ int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int id) {
 
 void PMS_INPUT_VIEW_EndTask(struct PmsInputViewTask *task)
 {
-    func_02030EAC(task->view->eventTasks[task->slot]);
+    TCB_DeleteTask(task->view->eventTasks[task->slot]);
     task->view->eventTasks[task->slot] = 0;
-    func_020307B0(task);
+    GFL_HEAP_Free(task);
 }
 
 void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
@@ -566,7 +566,7 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     BG_SYS_ClearSubPlanes();
     REG_DISPCNT_MAIN &= ~0x1f00;
     REG_DISPCNT_SUB &= ~0x1f00;
-    h=func_020490F4(43,42);
+    h=ARC_TOOL_CreateHandle(43,42);
     PMS_INPUT_VIEW_InitDisplay(task);
     PMS_INPUT_VIEW_RegisterSpriteResources(task,h);
     task->view->edit=PMSIV_EDIT_Create(task->view,task->input,task->wordData);
@@ -575,18 +575,18 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     PMSIV_CATEGORY_Setup(task->view->category,h);
     task->view->wordwin=PMSIV_WORDWIN_Create(task->view,task->input,task->wordData);
     PMSIV_WORDWIN_Setup(task->view->wordwin);
-    func_020498F4(h,30,5,0,0,0,42);
-    func_02049658(h,18,5,0,0,0,42);
-    func_020498F4(h,31,6,0,0,0,42);
-    func_02049658(h,18,6,0,0,0,42);
-    func_02040588(6,0);
+    ARC_UTIL_UploadBgPaletteFromHandle(h,30,5,0,0,0,42);
+    ARC_UTIL_UploadBgCharFromHandle(h,18,5,0,0,0,42);
+    ARC_UTIL_UploadBgPaletteFromHandle(h,31,6,0,0,0,42);
+    ARC_UTIL_UploadBgCharFromHandle(h,18,6,0,0,0,42);
+    BG_SYS_SetPlaneVisible(6,0);
     ARC_UTIL_UploadPaletteFromHandle(h,4,4,128,160,32,42);
     task->view->helpBgColor[0]=0x294b;
-    func_02061CA4(31,188,&task->view->helpBgColor[0],2);
+    NNS_GfdRegisterNewVramTransferTask(31,188,&task->view->helpBgColor[0],2);
     task->view->helpBgColor[1]=0x5694;
-    func_02061CA4(31,190,&task->view->helpBgColor[1],2);
-    func_02049658(h,18,7,0,0,0,42);
-    func_020498F4(h,24,7,0,0,0,42);
+    NNS_GfdRegisterNewVramTransferTask(31,190,&task->view->helpBgColor[1],2);
+    ARC_UTIL_UploadBgCharFromHandle(h,18,7,0,0,0,42);
+    ARC_UTIL_UploadBgPaletteFromHandle(h,24,7,0,0,0,42);
     BG_SYS_FillTileMap(7,0,0,32,32,5);
     task->view->helpWin=BMP_WIN_Create(7,3,5,26,7,5,1);
     BMP_Clear(BMP_WIN_GetBmp(task->view->helpWin),7);
@@ -596,12 +596,12 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     PMS_INPUT_VIEW_LoadBgPalette(task->view,0);
     task->view->menu=PMSIV_MENU_Create(task->view,task->input,task->wordData);
     PMSIV_MENU_ShowEditEntries(task->view->menu);
-    func_02040588(0,1);
+    BG_SYS_SetPlaneVisible(0,1);
     BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
     GX_DispOn();
-    func_02049658(h,16,3,0,0,0,42);
-    func_02049658(h,17,3,96,0,0,42);
+    ARC_UTIL_UploadBgCharFromHandle(h,16,3,0,0,0,42);
+    ARC_UTIL_UploadBgCharFromHandle(h,17,3,96,0,0,42);
     ARC_TOOL_DeleteHandle(h);
     PMS_INPUT_VIEW_EndTask(task);
 }
@@ -680,7 +680,7 @@ void PMS_INPUT_VIEW_InitDisplay(struct PmsInputViewTask *task) {
     BG_SYS_InitBgLayer(7,gPmsInputBgTemplate7,0);
     for(i=0;i<=7;++i) {
         BG_SYS_ClearSlot((u8)i);
-        func_02040588((u8)i,1);
+        BG_SYS_SetPlaneVisible((u8)i,1);
     }
     view->font=GF_FONT_Create(23,0,0,0,42);
     view->printQue=PRINTSYS_QUE_CreateEx(0x500,42);
@@ -1376,8 +1376,8 @@ void PMS_INPUT_VIEW_PrintHelpMessage(struct PmsInputViewTask *task,int index)
     struct PmsInputView *view;
     table=gPmsInputHelpMessageIds;
     BMP_Clear(BMP_WIN_GetBmp(task->view->helpWin),7);
-    msgData=func_02045B38(0,2,146,PMS_INPUT_VIEW_HEAP_ID);
-    str=func_02045EC0(msgData,table.values[index]);
+    msgData=MSGDATA_CreateFromArchive(0,2,146,PMS_INPUT_VIEW_HEAP_ID);
+    str=MSGDATA_AllocString(msgData,table.values[index]);
     view=task->view;
     PRINTSYS_PrintQueColor(task->view->printQue,BMP_WIN_GetBmp(view->helpWin),2,4,str,view->font,0x39e7);
     task->view->helpTextPending=1;
@@ -1392,7 +1392,7 @@ void PMS_INPUT_VIEW_FlushHelpText(struct PmsInputView *view)
         win=view->helpWin;
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_02041B6C(BMP_WIN_GetBgLayer(win));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
         view->helpTextPending=0;
     }
 }

@@ -13,7 +13,7 @@
  * Cut from config.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
  *   g_save_block_table      0x0209DD64  data
  *   config_file_name      0x020A70A0  data
  *   func_020461D4  0x020461D4  arm
@@ -28,7 +28,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 /* The debug allocator: heap, size, clear, __FILE__ string, __LINE__. */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void KEY_SetControlModeTable(const void *arg);
 
@@ -47,7 +47,7 @@ void CONFIG_InitKeyControlTable(void)
 
 void *CONFIG_Create(int heap_id)
 {
-    struct Config *config = func_02030734((u16)heap_id, sizeof(struct Config), 0, config_file_name, 0x4d);
+    struct Config *config = GFL_HEAP_Alloc((u16)heap_id, sizeof(struct Config), 0, config_file_name, 0x4d);
     CONFIG_Init(config);
     return config;
 }

@@ -20,7 +20,7 @@
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MUSICAL_EVENT_Create  0x02155A98  thumb  ov010
@@ -28,7 +28,7 @@
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   func_02011290  0x02011290  thumb
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MUSICAL_SAVE_NoOp  0x0200A640  thumb
  *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
@@ -71,8 +71,8 @@
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
- *   func_02045B38  0x02045B38  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   EVENT_POKE_STATUS_CreatePokeSelectStatusEvent 0x0215A168 thumb ov010
@@ -82,17 +82,17 @@
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   VM_SetWait  0x020113D0  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
  *   MUS_COMM_FUNC_SetTimingSync  0x021FCDEC  thumb  ov132
  *   STA_SLOT_GetRecordTable  0x021FDA6C  thumb  ov132
  *   d_021BB6A4     0x021BB6A4  data  ov100
  *   ov100_id       0x00000064  data
  *   GAME_DATA_SetExternalWork  0x02012F74  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   ov132_id       0x00000084  data
- *   func_020307B0  0x020307B0  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   MUS_COMM_FUNC_Create  0x021FC644  thumb  ov132
  *   MUS_COMM_FUNC_Delete  0x021FC684  thumb
  *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
@@ -113,7 +113,7 @@
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   STA_NET_GetIndexedWord57  0x021FD910  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02009448  0x02009448  thumb
+ *   GAME_SYNC_GetBlock  0x02009448  thumb
  *   func_02009370  0x02009370  thumb
  *   PDW_POSTMAN_CountUnreceivable  0x021B76F8  thumb  ov021
  *   PDW_POSTMAN_CreateListEvent  0x021B7794  thumb  ov021
@@ -420,7 +420,7 @@ extern void ICA_ANIME_SetField30(struct GameSystem *gameSys, u32 state);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSys, u32 procId, void *procData, void *procArg);
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSys);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSys);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSys, void *parent, EventTaskFn taskFn, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSys, void *parent, EventTaskFn taskFn, u32 workSize);
 extern void *func_020124E8(struct GameEvent *task);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *task);
 extern void GAME_EVENT_CallEvent(struct GameEvent *task, struct GameEvent *callee);
@@ -447,17 +447,17 @@ extern u16 FIELD_STATUS_GetMapEffectMask(struct MoveModelSys *moveModelSys);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSys, struct FieldMap *fieldMap, u32 overlayId, const void *procData, void *procArg, SubProcCallback callback, void *callbackArg);
 
 /* overlay loading, heap, string helpers */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 func_020307B0(void *ptr);
-extern int func_02034AC4(s32 overlayId);
-extern void func_02034A5C(s32 overlayId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *ptr);
+extern int GF_OVERLAY_Load(s32 overlayId);
+extern void GF_OVERLAY_Unload(s32 overlayId);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern u32 func_02005728(u32 range);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 slot, const struct Strbuf *str, u32 grammar, u32 form, u32 count);
 extern void WORDSET_SetSlotFromMsg118(struct WordSet *wordSet, u32 slot, u32 value);
@@ -504,7 +504,7 @@ extern u32 MUSICAL_MCSS_CreateMon(struct Pokemon *mon, int mode);
 extern u32 func_02008530(struct MyStatus *myStatus);
 
 /* ov132 comm session, ov021 comm entry menu */
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void MUS_COMM_FUNC_SetTimingSync(int session, int memberCount);
 extern unsigned char *STA_SLOT_GetRecordTable(struct GameData *gameData);
@@ -522,7 +522,7 @@ extern int STA_NET_GetIndexedWord5E();
 extern int STA_NET_GetIndexedWord57();
 
 /* wifilist and ov021 postman service */
-extern struct WifiList *func_02009448(void *saveBlock);
+extern struct WifiList *GAME_SYNC_GetBlock(void *saveBlock);
 extern u32 func_02009370(const struct WifiList *wifiList);
 extern int PDW_POSTMAN_CountUnreceivable(struct GameData *gameData, int key, struct WifiList *wifiList);
 extern void *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSys);
@@ -702,7 +702,7 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
         MusicalStartTask *startTask;
 
         startMode = (mode == 0) ? 0 : 1;
-        task = func_020122C0(gameSys, 0, SCRCMD_MUSICAL_TaskStartMusical, sizeof(MusicalStartTask));
+        task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskStartMusical, sizeof(MusicalStartTask));
         startTask = func_020124E8(task);
         MI_CpuFill8(startTask, 0, sizeof(MusicalStartTask));
         startTask->musicalSeq = MUSICAL_EVENT_Create(gameSys, gameData, arg, startMode, link);
@@ -716,8 +716,8 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
         struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(gameData);
         MusicalProcBox *box;
 
-        box = func_02030734(4, sizeof(MusicalProcBox), 1, d_02172914, 0xA9);
-        box->args = func_02030734(4, 0x14, 1, d_02172914, 0xAA);
+        box = GFL_HEAP_Alloc(4, sizeof(MusicalProcBox), 1, d_02172914, 0xA9);
+        box->args = GFL_HEAP_Alloc(4, 0x14, 1, d_02172914, 0xAA);
         box->args->startMode = 0;
         box->args->saveBits = MUSICAL_SAVE_NoOp(musical);
         box->args->isOffline = 1;
@@ -746,10 +746,10 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     musicalSave = (u32)GAME_DATA_GetSaveBlock2A(gameData);
     musicalSystem = MUSICAL_MCSS_CreateMon(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex), 4);
-    task = func_020122C0(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
+    task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     systemTask = func_020124E8(task);
     MI_CpuFill8(systemTask, 0, 4);
-    systemTask->args = func_02030734(4, 0xc, 1, d_02172914, 0xd7);
+    systemTask->args = GFL_HEAP_Alloc(4, 0xc, 1, d_02172914, 0xd7);
     systemTask->args->musicalSystem = musicalSystem;
     systemTask->args->musicalSave = musicalSave;
     systemTask->args->startMode = 0;
@@ -1075,10 +1075,10 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
     case 1:
     case 8:
         if (kind == 1)
-            msgData = func_02045B38(0, 2, 0x4F, heapId);
+            msgData = MSGDATA_CreateFromArchive(0, 2, 0x4F, heapId);
         else
-            msgData = func_02045B38(0, 2, 0x11A, heapId);
-        str = func_02045EC0(msgData, arg + 3);
+            msgData = MSGDATA_CreateFromArchive(0, 2, 0x11A, heapId);
+        str = MSGDATA_AllocString(msgData, arg + 3);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
@@ -1089,15 +1089,15 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
         STRBUF_Delete(str);
         break;
     case 3:
-        msgData = func_02045B38(0, 2, 0x4B, heapId);
-        str = func_02045EC0(msgData, arg);
+        msgData = MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        str = MSGDATA_AllocString(msgData, arg);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
         break;
     case 4:
-        msgData = func_02045B38(0, 2, 0x4B, heapId);
-        str = func_02045EC0(msgData, arg + 4);
+        msgData = MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        str = MSGDATA_AllocString(msgData, arg + 4);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
@@ -1152,9 +1152,9 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
             labelIds[2] = slotOrder[2] + 4;
         else
             labelIds[2] = slotOrder[3] + 4;
-        msgData = func_02045B38(0, 2, 0x4B, heapId);
+        msgData = MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         for (i = 0; i < 3; i++) {
-            str = func_02045EC0(msgData, labelIds[i]);
+            str = MSGDATA_AllocString(msgData, labelIds[i]);
             WORDSET_SetSlotTag(wordSet, i, str, 0, 1, 2);
             STRBUF_Delete(str);
         }
@@ -1273,7 +1273,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitSessionFinish);
         return 1;
     case 18: {
-        MusicalLinkWait *wait = func_02030734(0x8004, 8, (u32)1, d_02172914, (u32)0x3C8);
+        MusicalLinkWait *wait = GFL_HEAP_Alloc(0x8004, 8, (u32)1, d_02172914, (u32)0x3C8);
 
         wait->scriptWork = scriptWork;
         wait->link = link;
@@ -1297,7 +1297,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
             *resultVar = 0;
         break;
     case 21:
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             ICA_ANIME_SetField30(gameSys, 1);
             *resultVar = 1;
         } else {
@@ -1317,22 +1317,22 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
  */
 void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptCtl *unused, struct GameData *gameData)
 {
-    MusicalLinkWork *link = func_02030734(4, 0x38, 1, d_02172914, 0x413);
+    MusicalLinkWork *link = GFL_HEAP_Alloc(4, 0x38, 1, d_02172914, 0x413);
 
     link->musicalEvent = 0;
     link->session = 0;
     GAME_DATA_SetExternalWork(gameData, link);
-    func_02034AC4((u32)ov132_id);
-    func_02034AC4((u32)ov112_id);
+    GF_OVERLAY_Load((u32)ov132_id);
+    GF_OVERLAY_Load((u32)ov112_id);
 }
 
 
 /* Unload overlays 112 and 132, free the link work and detach it. */
 void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLinkWork *link, struct GameData *gameData)
 {
-    func_02034A5C((u32)ov112_id);
-    func_02034A5C((u32)ov132_id);
-    func_020307B0(link);
+    GF_OVERLAY_Unload((u32)ov112_id);
+    GF_OVERLAY_Unload((u32)ov132_id);
+    GFL_HEAP_Free(link);
     GAME_DATA_SetExternalWork(gameData, 0);
 }
 
@@ -1441,8 +1441,8 @@ int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, u32 *state, void 
         (*state)++;
         break;
     case 6:
-        func_020307B0((void *)systemTask->args->musicalSystem);
-        func_020307B0(systemTask->args);
+        GFL_HEAP_Free((void *)systemTask->args->musicalSystem);
+        GFL_HEAP_Free(systemTask->args);
         return 1;
     }
     return 0;
@@ -1454,7 +1454,7 @@ void SCRCMD_MUSICAL_FreeProcArgs(void *callbackArg)
 {
     MusicalProcBox *box = callbackArg;
 
-    func_020307B0(box->args);
+    GFL_HEAP_Free(box->args);
 }
 
 
@@ -1650,7 +1650,7 @@ int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, struct ScriptWork *scriptWork
 
 /*
  * Script command with a six-way sub-command switch over an ov021 service
- * (0x021B76B4..0x021B7794) on the wifi list func_02009448 returns;
+ * (0x021B76B4..0x021B7794) on the wifi list GAME_SYNC_GetBlock returns;
  * sub-commands 0, 1 and 4 write a halfword result through the result
  * variable, 5 formats a value into the word set.
  */
@@ -1671,7 +1671,7 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork)
     key = SCRCMD_WORK_GetHeapId(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    wifiList = func_02009448(GAME_DATA_GetSaveControl(gameData));
+    wifiList = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     limit = (int)func_02009370(wifiList);
     if (ICA_ANIME_GetField20(gameSys) == 0 && cmd != 0) {
         return 0;
@@ -1739,13 +1739,13 @@ int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *row, struct ArcFile *arc, u32 z
 /* Allocate the 0x20-byte field encounter state. */
 void *FIELD_ENCOUNT_ST_Create(u32 heapId)
 {
-    return func_02030734(heapId, 32, 1, d_02172928, 45);
+    return GFL_HEAP_Alloc(heapId, 32, 1, d_02172928, 45);
 }
 
 
 void FIELD_ENCOUNT_ST_Delete(void *encountState)
 {
-    func_020307B0(encountState);
+    GFL_HEAP_Free(encountState);
 }
 
 
@@ -1881,7 +1881,7 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
     MOVE_POKEMON_SAVE_SetEntryField(entry, 6, level);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 9, flag);
     myStatus = GAME_DATA_GetMyStatus(gameData);
-    mon = func_02030734(0x8003, POKE_TOOL_GetPartyParamSize(), 1, d_0217293C, 0x12E);
+    mon = GFL_HEAP_Alloc(0x8003, POKE_TOOL_GetPartyParamSize(), 1, d_0217293C, 0x12E);
     POKE_TOOL_SetupPartyParamEx(mon, species, level, func_02008530(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 7, 0);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 8, 1);
@@ -1890,7 +1890,7 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
     MOVE_POKEMON_SAVE_SetEntryField(entry, 10, POKE_TOOL_GetPartyValue(mon, 0x70, 0));
     MOVE_POKEMON_SAVE_SetEntryField(entry, 5, POKE_TOOL_GetPartyValue(mon, 0xA1, 0));
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetBlock(save), mon);
-    func_020307B0(mon);
+    GFL_HEAP_Free(mon);
     MOVE_POKEMON_MoveToNeighbor(block, (u32)((void *)GAME_DATA_GetSeason(gameData)), slot, 5);
     MOVE_POKEMON_SAVE_SetEntryState(block, slot, 1);
 }
@@ -2189,7 +2189,7 @@ int MOVE_POKEMON_CheckCut(FieldSkillInfo *info)
 
 struct GameEvent *MOVE_POKEMON_CreateCutEvent(SkillTarget *target, FieldSkillInfo *info)
 {
-    struct GameEvent *event = func_020122C0(info->gameSys, 0, MOVE_POKEMON_CutEventMain, 20);
+    struct GameEvent *event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_CutEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
     return event;
 }
@@ -2232,7 +2232,7 @@ int MOVE_POKEMON_CheckFly(FieldSkillInfo *info)
 struct GameEvent *MOVE_POKEMON_CreateFlyEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     struct GameEvent *event;
-    event = func_020122C0(info->gameSys, 0, MOVE_POKEMON_FlyEventMain, 20);
+    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_FlyEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
     return event;
 }
@@ -2266,7 +2266,7 @@ int MOVE_POKEMON_CheckSurf(FieldSkillInfo *info)
 struct GameEvent *MOVE_POKEMON_CreateSurfEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     struct GameEvent *event;
-    event = func_020122C0(info->gameSys, 0, MOVE_POKEMON_SurfEventMain, 20);
+    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_SurfEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
     return event;
 }
@@ -2296,7 +2296,7 @@ int MOVE_POKEMON_CheckStrength(FieldSkillInfo *info)
 struct GameEvent *MOVE_POKEMON_CreateStrengthEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     struct GameEvent *event;
-    event = func_020122C0(info->gameSys, 0, MOVE_POKEMON_StrengthEventMain, 20);
+    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_StrengthEventMain, 20);
     MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
     return event;
 }

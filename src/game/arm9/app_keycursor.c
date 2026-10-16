@@ -13,7 +13,7 @@
  * Cut from app_keycursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
  *   BMP_CreateFromBuffer      0x020436FC  arm
  *   app_keycursor_File 0x020A74F0  data
  *   BMP_Delete  0x020437AC  arm
@@ -26,7 +26,7 @@
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "app_keycursor_shared_types.h"
 
@@ -61,7 +61,7 @@ struct Obj {
 
 struct Descriptor;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
@@ -85,7 +85,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap, void *pixels);
 
@@ -111,7 +111,7 @@ struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap,
 {
     struct KeyCursor *k;
 
-    k = func_02030734(heap, sizeof(struct KeyCursor), 1, app_keycursor_File,
+    k = GFL_HEAP_Alloc(heap, sizeof(struct KeyCursor), 1, app_keycursor_File,
                       149);
 
     k->id = id;
@@ -125,7 +125,7 @@ struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap,
 void APP_KEYCURSOR_Delete(struct KeyCursor *k)
 {
     BMP_Delete(k->item);
-    func_020307B0(k);
+    GFL_HEAP_Free(k);
 }
 
 void APP_KEYCURSOR_DrawMark(struct KeyCursor *k, const struct Bmp *bmp, u32 color)

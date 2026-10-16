@@ -28,16 +28,16 @@
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   d_021C2E30     0x021C2E30  data  ov217  a4
  *   d_021C2E60     0x021C2E60  data  a4
  *   d_021C2E40     0x021C2E40  data  ov217  a4
  *   d_021C2E80     0x021C2E80  data  ov217  a4
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
  *   BG_SYS_LoadPltt 0x02040E78 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   NNS_G2dGetUnpackedCharacterDataEx 0x02062A4C arm
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
@@ -80,7 +80,7 @@
  *   d_021C2EE0  0x021C2EE0  data  a4
  *   RingQueue_Create  0x021C0E08  thumb  ov217
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   d_021C2EEC 0x021C2EEC data a4
  *   d_021C2F78 0x021C2F78 data a4
@@ -112,7 +112,7 @@
  *   func_02005654  0x02005654  thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   FADE_Start  0x0204E720  arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
@@ -126,7 +126,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm  arm9
  *   FADE_IsActive  0x0204E804  arm  arm9
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   RESEARCH_LIST_Create 0x021BAB80 thumb ov217
  *   RESEARCH_LIST_Destroy 0x021BABB4 thumb ov217
  *   RESEARCH_LIST_Update 0x021BABC4 thumb ov217
@@ -142,6 +142,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BMP_SetDisplaySwap  0x0204363C  arm  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
+ *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
 #include "research_shared_types.h"
 
@@ -218,7 +219,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern void BMP_SetDisplaySwap(u32 swap);
 
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 
 extern u32 ICA_ANIME_GetUnk330(const struct Ctx *);
 
@@ -252,13 +253,13 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u32 BG_SYS_Delete();
 
 extern u32 BG_SYS_FreeLayerBuf(u32 i);
 
-extern void *func_020490F4(unsigned int id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
@@ -266,7 +267,7 @@ extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *, void **);
 
 extern void BG_SYS_LoadPltt(u32, void *, u32, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *, void **);
 
@@ -349,13 +350,13 @@ extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 
 extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -363,7 +364,7 @@ extern int RingQueue_Create(int a0, int a1);
 
 extern void RingQueue_Destroy(void *p);
 
-extern void func_0207D63C(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
+extern void G2x_SetBlendAlpha_(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 
 extern void BMP_WIN_Init(u16);
 
@@ -731,7 +732,7 @@ u32 RESEARCH_TOP_ReleaseProc(u32 procsys, u32 unused1, u32 unused2, u32 proc)
     RESEARCH_TOP_DestroyListView(proc);
     RESEARCH_TOP_DestroyCommon(proc);
     RESEARCH_TOP_ExitBackgrounds();
-    func_020315D4((struct Proc *)procsys);
+    PROCSYS_FreeProcWork((struct Proc *)procsys);
     return 1;
 }
 
@@ -945,10 +946,10 @@ void RESEARCH_TOP_InitBackgrounds(unsigned short heapId)
     BG_SYS_SetGraphicsMode((struct DispConfig *)(&d_021C2E30));
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&d_021C2E60), 0);
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&d_021C2E40), 0);
-    func_02040588(4, 1);
-    func_02040588(5, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&d_021C2E80), 0);
-    func_02040588(1, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
 }
 
 u32 RESEARCH_TOP_ExitBackgrounds(void)
@@ -966,25 +967,25 @@ void RESEARCH_TOP_LoadSubAssets(u32 heap)
     void *screen2;
     struct ArcFile *arc;
     void *buffer;
-    arc = func_020490F4(192, heap);
+    arc = ARC_TOOL_CreateHandle(192, heap);
     buffer = ARC_TOOL_LoadHandleMember(arc, 9, heap);
     NNS_G2dGetUnpackedPaletteData(buffer, &palette);
     BG_SYS_LoadPltt(4, ((struct ArcMember *)palette)->data, 512, 0);
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 10, heap);
     NNS_G2dGetUnpackedCharacterDataEx(buffer, &character);
     BG_SYS_LoadTileData(4, ((struct CharAnimMember *)character)->data, ((struct CharAnimMember *)character)->size, 0);
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 11, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen);
     BG_SYS_DrawTile(4, (u32)((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(4);
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 12, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen2);
     BG_SYS_DrawTile(5, (u32)((char *)screen2 + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(5);
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1534,12 +1535,12 @@ u32 RESEARCH_TOP_GetInputFlag(void *obj)
 
 u32 RESEARCH_TOP_AllocListObject(u32 heapId)
 {
-    return (u32)func_02030734(heapId, 144, 0, (const char *)0x21C3FEC, 1486);
+    return (u32)GFL_HEAP_Alloc(heapId, 144, 0, (const char *)0x21C3FEC, 1486);
 }
 
 u32 RESEARCH_TOP_FreeListObject(void *obj)
 {
-    return func_020307B0(obj);
+    return GFL_HEAP_Free(obj);
 }
 
 /*
@@ -1601,7 +1602,7 @@ void RESEARCH_TOP_CreateMessages(char *obj)
     int i = 0;
     do {
         int offset = i * 4;
-        *(u32 *)(obj + offset + 0xc) = (u32)func_02045B38((int)0, (int)2, (u16)(*(u32 *)((char *)d_021C2ED8 + offset)), (u16)(((struct ResearchObjC *)obj)->heapId));
+        *(u32 *)(obj + offset + 0xc) = (u32)MSGDATA_CreateFromArchive((int)0, (int)2, (u16)(*(u32 *)((char *)d_021C2ED8 + offset)), (u16)(((struct ResearchObjC *)obj)->heapId));
         i++;
     } while (i < 2);
 }
@@ -1647,10 +1648,10 @@ void RESEARCH_TOP_InitOverlayBackgrounds(char *obj)
     BG_SYS_SetGraphicsMode(&d_021C2EEC);
     BG_SYS_InitBgLayer(6,&d_021C2F78,0);BG_SYS_InitBgLayer(7,&d_021C2F18,0);
     BG_SYS_InitBgLayer(2,&d_021C2F38,0);BG_SYS_InitBgLayer(3,&d_021C2F58,0);
-    func_02040588(4,1);func_02040588(5,1);func_02040588(6,1);func_02040588(7,1);
-    func_02040588(1,1);func_02040588(2,1);func_02040588(3,1);
-    func_0207D63C((volatile unsigned *)0x04001050,2,1,7,15);
-    func_0207D63C((volatile unsigned *)0x04000050,4,2,16,5);
+    BG_SYS_SetPlaneVisible(4,1);BG_SYS_SetPlaneVisible(5,1);BG_SYS_SetPlaneVisible(6,1);BG_SYS_SetPlaneVisible(7,1);
+    BG_SYS_SetPlaneVisible(1,1);BG_SYS_SetPlaneVisible(2,1);BG_SYS_SetPlaneVisible(3,1);
+    G2x_SetBlendAlpha_((volatile unsigned *)0x04001050,2,1,7,15);
+    G2x_SetBlendAlpha_((volatile unsigned *)0x04000050,4,2,16,5);
     BMP_WIN_Init(((struct ResearchObjC *)obj)->heapId);
 }
 
@@ -1665,12 +1666,12 @@ void RESEARCH_TOP_ExitOverlayBackgrounds(u32 obj)
 
 void RESEARCH_TOP_LoadBackground6(char *obj)
 {
-    struct ArcFile *arc=func_020490F4(192,((struct ResearchObjC *)obj)->heapId);
+    struct ArcFile *arc=ARC_TOOL_CreateHandle(192,((struct ResearchObjC *)obj)->heapId);
     void *file=ARC_TOOL_LoadHandleMember(arc,13,((struct ResearchObjC *)obj)->heapId);
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
     BG_SYS_DrawTile(6,(unsigned)((char *)data+12),0,0,32,24);
-    BG_SYS_PushTile(6);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
+    BG_SYS_PushTile(6);GFL_HEAP_Free(file);ARC_TOOL_DeleteHandle(arc);
 }
 
 void RESEARCH_TOP_DummyBg7(u32 unused)
@@ -1690,12 +1691,12 @@ void RESEARCH_TOP_ShowBackground7(u32 obj)
 
 void RESEARCH_TOP_LoadBackground2(char *obj)
 {
-    struct ArcFile *arc=func_020490F4(192,((struct ResearchObjC *)obj)->heapId);
+    struct ArcFile *arc=ARC_TOOL_CreateHandle(192,((struct ResearchObjC *)obj)->heapId);
     void *file=ARC_TOOL_LoadHandleMember(arc,4,((struct ResearchObjC *)obj)->heapId);
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
     BG_SYS_DrawTile(2,(unsigned)((char *)data+12),0,0,32,24);
-    BG_SYS_PushTile(2);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
+    BG_SYS_PushTile(2);GFL_HEAP_Free(file);ARC_TOOL_DeleteHandle(arc);
 }
 
 void RESEARCH_TOP_DummyBg3(u32 unused)
@@ -1763,7 +1764,7 @@ void RESEARCH_TOP_ClearResources(void *obj)
 void RESEARCH_TOP_RegisterEntryResources(struct ResearchObjC *p)
 {
     u16 heap=p->heapId;
-    void *arc=func_020490F4(192,heap);
+    void *arc=ARC_TOOL_CreateHandle(192,heap);
     int charHandle=CLACT_RegisterCharacter((void *)((unsigned)arc),15,0,1,heap);
     int paletteHandle=CLACT_RegisterPalette((void *)arc,16,1,0,heap);
     int cellHandle=CLACT_RegisterCellAnim((void *)((unsigned)arc),14,17,heap);
@@ -1781,7 +1782,7 @@ u32 RESEARCH_TOP_ReleaseEntryResources(u32 obj)
 void RESEARCH_TOP_RegisterCursorResources(struct ResearchObjC *p)
 {
     u16 heap=p->heapId;
-    void *arc=func_020490F4(192,heap);
+    void *arc=ARC_TOOL_CreateHandle(192,heap);
     int charHandle=CLACT_RegisterCharacter((void *)((unsigned)arc),15,0,0,heap);
     int paletteHandle=CLACT_RegisterPaletteEx((void *)((unsigned)arc),16,0,192,0,4,heap);
     int cellHandle=CLACT_RegisterCellAnim((void *)((unsigned)arc),14,17,heap);

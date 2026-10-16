@@ -16,7 +16,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   MIi_CpuCopy32  0x02082A90  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MIi_CpuCopy32(int, int, int);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 KEY_GetTrg(void);
 extern int GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_FadeOutBgm(unsigned v);
@@ -79,7 +79,7 @@ void CDEMO_WIPE_LoadPalette(void *obj, int a, int b)
     p = (char *)obj + 8 + a * 0x2004;
     ((struct CdemoPaletteBlock *)p)->count = ((struct CdemoPaletteEntry *)ptr)->size;
     MIi_CpuCopy32(((struct CdemoPaletteEntry *)ptr)->data, (int)p, ((struct CdemoPaletteBlock *)p)->count);
-    func_020307B0((void *)t);
+    GFL_HEAP_Free((void *)t);
 }
 
 extern int (*const d_021B6A04[])(char *);

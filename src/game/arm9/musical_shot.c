@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   EVENT_FIELD_PROCLINK_InitEventdataSystem    0x02161D98  thumb  ov010
  *   EVENT_FIELD_PROCLINK_InitIdList    0x02161EEC  thumb  ov010
  *   EVENT_FIELD_PROCLINK_InitReturnHeader    0x02161F00  thumb  ov010
@@ -34,7 +34,7 @@ struct MusicalShot {
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(char *photo);
 
@@ -148,7 +148,7 @@ void MUSICAL_SHOT_Init(struct MusicalShot *shot)
  */
 struct MusicalShot *MUSICAL_SHOT_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x2B);
+    return SAVE_CONTROL_GetBlock(save, 0x2B);
 }
 
 void MUSICAL_SHOT_CopyPhoto(struct MusicalShotPhoto *dest, const struct MusicalShotPhoto *src)

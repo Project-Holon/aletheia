@@ -23,18 +23,18 @@
  *   WIFIBATTLEMATCH_UTIL_UpdateMenu  0x021E8A00  thumb  ov177
  *   WIFIBATTLEMATCH_UTIL_PrintMessage  0x021E8738  thumb  ov177
  *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   WIFIBATTLEMATCH_UTIL_ClearBmp 0x021E8870 thumb ov177
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_0217E634 0x0217E634 data a1
  *   d_0217E544 0x0217E544 data a4
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
- *   func_020307B0  0x020307B0  arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   DELIVERY_IRC_Delete 0x02157E8C thumb ov010
- *   func_0200FBB0 0x0200FBB0 thumb
+ *   GFL_NET_ERR_WaitLinkClosed 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   IRCNET_SetFilter 0x021799C0 thumb ov015
@@ -50,7 +50,7 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   d_0217E64C 0x0217E64C data a1
  *   DELIVERY_IRC_Create 0x02157DD8 thumb ov010
  *   DELIVERY_IRC_Main 0x02157E78 thumb ov010
@@ -89,16 +89,16 @@ extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(int);
 extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(int);
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
-extern int func_02040588(int, int);
+extern int BG_SYS_SetPlaneVisible(int, int);
 extern void WIFIBATTLEMATCH_UTIL_ClearBmp(struct WifibattlematchUtilWork *);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
-extern u32 func_020307B0(void *p);
-extern u32 func_0200FB24(void);
+extern u32 GFL_HEAP_Free(void *p);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int DELIVERY_IRC_Delete(void *a0);
-extern u32 func_0200FBB0(void);
+extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
 extern void IRCNET_SetFilter(int);
@@ -111,7 +111,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void MI_CpuCopy8(void *,const void *,u32);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void *DELIVERY_IRC_Create(u8 *p);
 extern void DELIVERY_IRC_Main(u8 *p);
 extern int DELIVERY_IRC_Start(void *p);
@@ -230,7 +230,7 @@ int LIVEBATTLEMATCH_IRC_GetMenuValue(int *p) {return WIFIBATTLEMATCH_UTIL_GetBus
  */
 int LIVEBATTLEMATCH_IRC_ToggleSe(int a0, int b)
 {
-    return func_02040588(0, (unsigned char)b);
+    return BG_SYS_SetPlaneVisible(0, (unsigned char)b);
 }
 
 
@@ -245,7 +245,7 @@ void LIVEBATTLEMATCH_IRC_DeleteMenuRecord(int *p)
 
 void *LIVEBATTLEMATCH_IRC_Create(int unused, int heap)
 {
-    char *p = func_02030734(heap, 0x1020, 0, d_0217E634, 0x8E);
+    char *p = GFL_HEAP_Alloc(heap, 0x1020, 0, d_0217E634, 0x8E);
     MI_CpuFill8(p, 0, 0x1020);
     ((struct LiveBattleMatchIrcWork *)p)->heap = heap;
     if (GFL_NET_GetRunState())
@@ -259,14 +259,14 @@ void LIVEBATTLEMATCH_IRC_Delete(int *p)
 {
     if (GFL_NET_GetRunState())
         GFL_NET_COMMAND_DeleteCommandTable(0x1f00);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
 void LIVEBATTLEMATCH_IRC_NoOp(void) {}
 
 
-int LIVEBATTLEMATCH_IRC_CheckError(u8 *p) {if(func_0200FB24()!=0) {if(((struct LiveBattleMatchIrcWork *)p)->delivery!=0) {DELIVERY_IRC_Delete((void *)(((struct LiveBattleMatchIrcWork *)p)->delivery));((struct LiveBattleMatchIrcWork *)p)->delivery=0;}func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();return 1;}return 0;}
+int LIVEBATTLEMATCH_IRC_CheckError(u8 *p) {if(GFL_NET_ERR_GetErrorLevel()!=0) {if(((struct LiveBattleMatchIrcWork *)p)->delivery!=0) {DELIVERY_IRC_Delete((void *)(((struct LiveBattleMatchIrcWork *)p)->delivery));((struct LiveBattleMatchIrcWork *)p)->delivery=0;}GFL_NET_ERR_WaitLinkClosed();GFL_NET_ERR_ShowSimpleScreen();return 1;}return 0;}
 
 
 int LIVEBATTLEMATCH_IRC_InitState(int *p){*p=0;return 1;}
@@ -412,7 +412,7 @@ void LIVEBATTLEMATCH_IRC_CreateDelivery(char *p, unsigned value)
     config.entries[0].mask = 0x200000;
     config.entryCount = 1;
     if (((struct LiveBattleMatchIrcWork *)p)->delivery)
-        func_02034714(d_0217E64C, 0, d_0217E64C);
+        SAVEDATA_PanicFail(d_0217E64C, 0, d_0217E64C);
     ((struct LiveBattleMatchIrcWork *)p)->delivery = DELIVERY_IRC_Create((u8 *)(&config));
     ((struct LiveBattleMatchIrcWork *)p)->state = 0;
 }
@@ -519,7 +519,7 @@ void LIVEBATTLEMATCH_IRC_RecvHandler3(u32 a, void *b, void *c, u8 *p, struct Ent
 int LIVEBATTLEMATCH_IRC_RecvHandler4(int a, int b)
 {
     if (a == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
-        func_02034714(d_0217E64C, 0, d_0217E64C);
+        SAVEDATA_PanicFail(d_0217E64C, 0, d_0217E64C);
         return 0;
     }
     return b + 6;

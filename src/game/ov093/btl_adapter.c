@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0   0x020307B0  arm arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm arm9
  *   MI_CpuCopy8  0x02082D44  arm
  *   gBtlAdapterSlots  0x021F6388  data  a4
  *   gBtlAdapterMode  0x021F6384  data  a4
@@ -29,7 +29,7 @@
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -153,9 +153,9 @@ typedef struct {
     int tier;
 } BtlMsgEffectArgsB;
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BTL_NET_ExpectReplies(u32 netId);
 extern u32 BTL_NET_SendServerCmd(u32 channel, struct BtlAdapterPacket *packet, u32 size);
 extern int BTL_NET_AreAllRepliesReceived(void);
@@ -166,7 +166,7 @@ extern u32 BTL_NET_SendClientReply(const u8 *data, u32 size);
 extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlSystem *battle, int flag);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void STRBUF_Delete(struct Strbuf *buf);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
@@ -282,7 +282,7 @@ BtlAdapter *BTL_ADAPTER_Create(u32 owner, int channel, u32 netId, u32 heapId)
 
     adapter = 0;
     if (gBtlAdapterSlots[channel] == 0) {
-        adapter = func_02030734(heapId, sizeof(BtlAdapter), 1, gBtlAdapterFileName, 0x7e);
+        adapter = GFL_HEAP_Alloc(heapId, sizeof(BtlAdapter), 1, gBtlAdapterFileName, 0x7e);
         adapter->owner = owner;
         adapter->channel = channel;
         adapter->netId = (u8)netId;
@@ -311,7 +311,7 @@ void BTL_ADAPTER_ResetCommand(BtlAdapter *adapter)
 
 void BTL_ADAPTER_Delete(BtlAdapter *adapter)
 {
-    func_020307B0(adapter);
+    GFL_HEAP_Free(adapter);
 }
 
 
@@ -468,7 +468,7 @@ void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *po
     gBtlMsgState.wordSet = WORDSET_CreateDefault(heapId);
     gBtlMsgState.msgBuf = STRBUF_Create(0x200 >> 1, heapId);
     for (i = 0; i < 8; i++) {
-        gBtlMsgState.banks[i] = func_02045B38(0, 2, sBtlMsgBankFileIds[i], heapId);
+        gBtlMsgState.banks[i] = MSGDATA_CreateFromArchive(0, 2, sBtlMsgBankFileIds[i], heapId);
     }
 }
 

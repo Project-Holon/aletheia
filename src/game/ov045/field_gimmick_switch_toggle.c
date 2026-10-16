@@ -48,6 +48,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb
  *   FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose  0x021F3938  thumb  ov045
+ *   GAME_EVENT_Create  0x020122C0  thumb  arm9
  */
 #include "field_gimmick_switch_toggle_types.h"
 
@@ -80,7 +81,7 @@ extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int workId);
 extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObj *expObj, u16 unitIndex);
 extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObj *expObj);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
 extern int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, int *state);
 extern int FIELDMAP_GetCtrlType(struct FieldMap *fieldMap);
 extern void *FIELDMAP_GetCtrlWork(struct FieldMap *fieldMap);
@@ -179,7 +180,7 @@ struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(struct G
     if (switchIndex >= FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc, 0);
 }
 
 struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent(struct GameSystem *gameSystem, int switchIndex)
@@ -193,7 +194,7 @@ struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent(struct Game
     if (switchIndex >= FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc, 0);
 }
 
 

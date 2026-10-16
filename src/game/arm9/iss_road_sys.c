@@ -13,10 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ISS_ROAD_SYS_UpdateVolume  0x0202B230  thumb
  *   ISS_ROAD_SYS_ApplyVolume  0x0202B2BC  thumb
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 
 struct PlayerWork;
@@ -38,9 +39,9 @@ typedef struct IssRoadSys {
 
 typedef unsigned short u16;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
 extern void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road);
 IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId);
@@ -65,7 +66,7 @@ void ISS_ROAD_SYS_Deactivate(IssRoadSys *road);
  */
 IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId)
 {
-    IssRoadSys *road = (IssRoadSys *)func_02030734(heapId, 0x18, 0,
+    IssRoadSys *road = (IssRoadSys *)GFL_HEAP_Alloc(heapId, 0x18, 0,
                                                    (const void *)0x020A7708, 0x4a);
     const PlayerPosition *position;
 
@@ -84,7 +85,7 @@ IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId)
 
 void ISS_ROAD_SYS_Delete(void *road)
 {
-    func_020307B0(road);
+    GFL_HEAP_Free(road);
 }
 
 

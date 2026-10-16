@@ -71,10 +71,10 @@
  *   d_021F332C     0x021F332C  data  a4
  *   func_02049F78  0x02049F78  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_0207E468  0x0207E468  arm
- *   func_020307B0  0x020307B0  arm
+ *   GXS_LoadBGPltt  0x0207E468  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
- *   func_02049658  0x02049658  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   func_02049990  0x02049990  arm
  *   d_021F31E0     0x021F31E0  data  a4
  *   d_021F32E0     0x021F32E0  data  a4
@@ -85,14 +85,14 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   d_021F31C8     0x021F31C8  data  a4
  *   d_021F33CC     0x021F33CC  data  a4
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   d_021F338C     0x021F338C  data  ov029  a4
  *   d_021F33AC     0x021F33AC  data  a4
  *   d_021F336C     0x021F336C  data  ov029  a4
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -135,11 +135,11 @@
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   func_021F2BF0  0x021F2BF0  thumb  ov029
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
- *   func_02009210  0x02009210  thumb
+ *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
  *   MUSICAL_DIST_SAVE_IsFooterSet  0x0200C6F0  thumb
  *   BG_SYS_LoadTileData  0x02040B1C  arm
@@ -150,15 +150,15 @@
  *   TCB_Main  0x02030D28  arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   ICA_ANIME_IsConfigFlagSet  0x0201214C  thumb
- *   func_020490F4  0x020490F4  arm
- *   func_02030CB0  0x02030CB0  arm
- *   func_02030CBC  0x02030CBC  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
  *   func_02009100  0x02009100  thumb
  *   PALANM_Create  0x02021518  thumb
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   UI_SetSleepHookGlobal  0x02035010  arm
  *   UI_SetWakeHookGlobal  0x02035040  arm
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
@@ -168,7 +168,7 @@
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
  *   TCB_Noop  0x02030DA4  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   func_02028A70  0x02028A70  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -180,7 +180,7 @@
  *   func_02009134 0x02009134 thumb
  *   func_02009160 0x02009160 thumb
  *   gCGearFadeSteps     0x021F3224  data  a4
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   EVENT_GSYNC_Entry  0x02154668  thumb  ov000
@@ -278,21 +278,21 @@ extern u32 BG_SYS_GetBuf(int channel);
 extern void func_020091AC(struct HexMap *obj, int row, int col, int kind, int marked, int flagged);
 extern void *func_02049F78(void *archive, u32 member, CGearFileInfo **outFile, u32 heapId);
 extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
-extern void func_0207E468(void *a, u32 b, u32 c);
-extern u32 func_020307B0(void *p);
+extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern s32 CLACT_RegisterPalette(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
 extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern void func_0207D63C(u32, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32, int, int, int, int);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
@@ -330,11 +330,11 @@ extern void CLACT_SetActorDrawPriority(struct Actor *node, u32 val);
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
 extern void C_GEAR_TickIndicators(CGearWork *work);
 extern void C_GEAR_TickTabFrame(CGearWork *work);
-extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern struct SaveCtrl *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveCtrl *sv, u32 id, u8 heap, void *buf, u32 size);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
-extern struct HexMap *func_02009210(void *saveSys);
+extern struct HexMap *BLOCK20_SAVEDATA_GetBlock(void *saveSys);
 extern u16 func_0200910C(const struct HexMap *obj);
 extern u32 MUSICAL_DIST_SAVE_IsFooterSet(const u8 *bgData);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
@@ -344,15 +344,15 @@ extern void func_0200734C(struct SaveCtrl *sv, u32 id);
 extern void TCB_Main(struct FadeCtx *ctx);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 extern u32 ICA_ANIME_IsConfigFlagSet(const struct GameSystem *p);
-extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_02030CB0(u32 n);
-extern struct FadeCtx *func_02030CBC(u32 capacity, void *mem);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern u32 TCB_GetTaskOffset(u32 n);
+extern struct FadeCtx *TCB_Init(u32 capacity, void *mem);
 extern u8 func_02009100(const struct HexMap *obj);
 extern struct PalAnmSlot *PALANM_Create(u32 heapId);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern struct VBlankTask *func_020056A0(void (*callback)(void *, CGearWork *), CGearWork *work, int priority);
+extern struct VBlankTask *GFL_USE_AddMainTask(void (*callback)(void *, CGearWork *), CGearWork *work, int priority);
 extern void UI_SetSleepHookGlobal(void (*callback)(CGearWork *), CGearWork *work);
 extern void UI_SetWakeHookGlobal(void (*callback)(CGearWork *), CGearWork *work);
 extern void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx);
@@ -366,7 +366,7 @@ extern void GFL_NET_RestartNoTimeout(void);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
 extern void TCB_Noop(struct FadeCtx *ctx);
-extern void func_02030EAC(struct VBlankTask *task);
+extern void TCB_DeleteTask(struct VBlankTask *task);
 extern struct SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
 extern void func_02028A70(struct SoundSys *sys);
 extern void ARC_TOOL_DeleteHandle(void *archive);
@@ -531,7 +531,7 @@ extern char d_021F3272[];
 extern const u8 d_021F3520[];
 extern const char d_021F3554[];
 typedef struct GameEvent *(*GameEventCreatorFn)(struct GameSystem *gameSystem, void *arg);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, void *handler, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *handler, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
 extern struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *arg);
@@ -2055,24 +2055,24 @@ u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
     if (loadPalettes) {
         handle = func_02049F78(work->archive, d_021F31E0[theme], &file, 0x8070);
         DWCi_ScreenDC_FlushRange(file->data, file->size);
-        func_0207E468(file->data, 0, file->size);
+        GXS_LoadBGPltt(file->data, 0, file->size);
         fileData = file->data;
         for (colorIdx = 0; colorIdx < 5; colorIdx++) {
             for (slot = 0; slot < 3; slot++) {
                 work->basePalette[slot][colorIdx] = ((u16 *)(fileData + (colorIdx + 1) * 0x20))[d_021F31A8[slot]];
             }
         }
-        func_020307B0(handle);
+        GFL_HEAP_Free(handle);
         handle = func_02049F78(work->archive, 0x17, &file, 0x8070);
         for (k = 0; k < 9; k++) {
             C_GEAR_LoadTargetPalette(work, file->data, k);
         }
-        func_020307B0(handle);
+        GFL_HEAP_Free(handle);
     }
     charSize = 0x5000;
     charBase = BG_SYS_CreateRun(6, charSize, 0);
     work->bgCharBlock = (u16)charBase | (charSize << 16);
-    func_02049658(work->archive, d_021F32E0[skin][theme], 6, charBase, 0, 0, 0x70);
+    ARC_UTIL_UploadBgCharFromHandle(work->archive, d_021F32E0[skin][theme], 6, charBase, 0, 0, 0x70);
     return func_02049990(work->archive, 2, 6, 0, (u16)work->bgCharBlock, 0, 0, 0x70);
 }
 
@@ -2105,7 +2105,7 @@ void C_GEAR_LoadSpriteResources(CGearWork *work, int theme)
     for (; i < 17; i++) {
         work->beaconColors[i] = base[d_021F33CC[i]];
     }
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
     GFL_NET_RestartWithTimeout(0xda, 0xe);
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
 }
@@ -2143,12 +2143,12 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
     int i;
 
     for (i = 4; i <= 7; i++) {
-        func_02040588(i, 0);
+        BG_SYS_SetPlaneVisible(i, 0);
     }
     {
         struct BgTemplate t = d_021F338C;
         BG_SYS_InitBgLayer(6, &t, 0);
-        func_02040588(6, 1);
+        BG_SYS_SetPlaneVisible(6, 1);
         BG_SYS_SetVisibleLayer(6, 3);
         BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(6);
@@ -2156,7 +2156,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
     {
         struct BgTemplate t = d_021F33AC;
         BG_SYS_InitBgLayer(5, &t, 0);
-        func_02040588(5, 1);
+        BG_SYS_SetPlaneVisible(5, 1);
         BG_SYS_SetVisibleLayer(5, 1);
         BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(5);
@@ -2164,7 +2164,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
     {
         struct BgTemplate t = d_021F336C;
         BG_SYS_InitBgLayer(4, &t, 0);
-        func_02040588(4, 1);
+        BG_SYS_SetPlaneVisible(4, 1);
         BG_SYS_SetVisibleLayer(4, 2);
         BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(4);
@@ -2182,7 +2182,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
 
 void C_GEAR_SetupSubScreenBlend(CGearWork *work)
 {
-    func_0207D63C(0x04001050, 2, 0x15, 9, 0x10);
+    G2x_SetBlendAlpha_(0x04001050, 2, 0x15, 9, 0x10);
 }
 
 
@@ -2692,9 +2692,9 @@ void C_GEAR_FreeGraphics(CGearWork *work)
     BG_SYS_FreeLayerBuf(4);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(6);
-    func_02040588(4, 0);
-    func_02040588(5, 0);
-    func_02040588(6, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
+    BG_SYS_SetPlaneVisible(5, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
 }
 
 
@@ -3003,11 +3003,11 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
     u16 *pal;
 
     result = 0;
-    buf = func_02030734(0x70, 0x3000, 0, d_021F3554, 0x104E);
+    buf = GFL_HEAP_Alloc(0x70, 0x3000, 0, d_021F3554, 0x104E);
     saveSys = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveSys, 4, 0x70, buf, 0x3000) == 1) {
         crc = GF_STANDARD_SetupCalc(buf, 0x2600);
-        savedCrc = func_0200910C(func_02009210(saveSys));
+        savedCrc = func_0200910C(BLOCK20_SAVEDATA_GetBlock(saveSys));
         charBase = (u16)work->bgCharBlock;
         if (crc == savedCrc && MUSICAL_DIST_SAVE_IsFooterSet(buf) != 0) {
             result = 1;
@@ -3024,7 +3024,7 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
         }
     }
     func_0200734C(saveSys, 4);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
     return result;
 }
 
@@ -3120,9 +3120,9 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
     work->agbSlotPresent = 1;
     work->command = 0;
     work->lastCommand = 0;
-    work->archive = func_020490F4(0x1e, 0x70);
-    work->fadeMem = func_02030734(0x70, func_02030CB0(4), 1, d_021F3554, 4280);
-    work->fadeCtx = func_02030CBC(4, work->fadeMem);
+    work->archive = ARC_TOOL_CreateHandle(0x1e, 0x70);
+    work->fadeMem = GFL_HEAP_Alloc(0x70, TCB_GetTaskOffset(4), 1, d_021F3554, 4280);
+    work->fadeCtx = TCB_Init(4, work->fadeMem);
     if (introMode != 0) {
         C_GEAR_ChangeStep(work, C_GEAR_StepOpen, 4284);
     } else {
@@ -3144,7 +3144,7 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
     PALANM_CopyHwPaletteToSlot(work->palAnm, 1, 0, 0x1C0);
     C_GEAR_TintPalettes(work, work->commEnabled);
     PALANM_TransferPalettes(work->palAnm);
-    work->palTransferTask = func_020056A0(C_GEAR_TransferPalettesTask, work, 1);
+    work->palTransferTask = GFL_USE_AddMainTask(C_GEAR_TransferPalettesTask, work, 1);
     UI_SetSleepHookGlobal(C_GEAR_OnCommDisconnect, work);
     UI_SetWakeHookGlobal(C_GEAR_OnCommEvent, work);
     C_GEAR_CreateFadeFx(work, &work->fadeFx);
@@ -3187,8 +3187,8 @@ void C_GEAR_Cleanup(CGearWork *work)
     PALANM_FreeSlotBuffers(work->palAnm, 1);
     PALANM_Delete(work->palAnm);
     TCB_Noop(work->fadeCtx);
-    func_020307B0(work->fadeMem);
-    func_02030EAC(work->palTransferTask);
+    GFL_HEAP_Free(work->fadeMem);
+    TCB_DeleteTask(work->palTransferTask);
     if (work->lastCommand != 5) {
         func_02028A70(GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(work->gameSystem)));
     }
@@ -3205,7 +3205,7 @@ void C_GEAR_Cleanup(CGearWork *work)
 CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
 {
     CGearWork *work;
-    work = func_02030734(0x70, sizeof(CGearWork), 1, d_021F3554, 0x1147);
+    work = GFL_HEAP_Alloc(0x70, sizeof(CGearWork), 1, d_021F3554, 0x1147);
     C_GEAR_Init(work, hexMap, parentWork, gameSystem, introMode);
     return work;
 }
@@ -3314,7 +3314,7 @@ void C_GEAR_Nop(void)
 void C_GEAR_Destroy(CGearWork *work)
 {
     C_GEAR_Cleanup(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 
@@ -3676,7 +3676,7 @@ int C_GEAR_StepFadeFx(CGearFadeFx *fx)
 
 struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
 {
-    struct GameEvent *event = func_020122C0(work->gameSystem, 0, C_GEAR_PanelEventMain, 8);
+    struct GameEvent *event = GAME_EVENT_Create(work->gameSystem, 0, C_GEAR_PanelEventMain, 8);
     CGearEventWork *req = func_020124E8(event);
 
     req->work = work;
@@ -3750,7 +3750,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         next = FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->gameSystem, fieldMap, 4);
         break;
     case 12:
-        args = func_02030734(4, 8, 1, d_021F3554, 0x14B7);
+        args = GFL_HEAP_Alloc(4, 8, 1, d_021F3554, 0x14B7);
         args->playerData = (u8 *)GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem));
         args->gameSystem = work->gameSystem;
         next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (u32)abs_id_124, d_021D4D40, args, 0, args);

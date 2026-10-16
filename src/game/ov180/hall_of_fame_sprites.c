@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   gHallOfFameTrainerPaletteIds 0x021B82D4 data a4
  *   BMP_OAM_Delete 0x0202570C thumb
@@ -26,7 +26,7 @@
  *   BMP_Create 0x02043678 arm
  *   BMP_OAM_Create 0x020255A0 thumb
  *   BMP_Clear 0x02043B5C arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
@@ -34,7 +34,7 @@
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_OAM_SetEnabled 0x02025774 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
@@ -103,10 +103,10 @@ typedef struct HofRendererSetup {
     u32 words[8];
 } HofRendererSetup;
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void CLACT_TransferPalette(int,void *,int);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(unsigned char *);
 extern void BMP_OAM_Delete(struct Grid *);
 extern void BMP_Delete(struct Bmp *);
@@ -115,7 +115,7 @@ extern void BMP_OAM_UploadChars(struct Obj *);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_Clear(struct CharBuf *,u8);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *);
 extern struct Sav *POKE_TOOL_Dummy(struct Sav *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *);
@@ -123,7 +123,7 @@ extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *,u32);
 extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *,u32,void *);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
-extern u32 func_0201D304(struct StrObj *,u32,u32);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *,u32,u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void BMP_OAM_SetEnabled(u8 *,u32);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
@@ -159,10 +159,10 @@ void HALL_OF_FAME_LoadUiPalette(HallOfFameWork *work)
     void *palette;
     unsigned char *bank;
     void *buffer;
-    bank = func_020490F4(216, 0x808d);
+    bank = ARC_TOOL_CreateHandle(216, 0x808d);
     buffer = ARC_UTIL_LoadPaletteBlockFromHandle(bank, gHallOfFameTrainerPaletteIds[work->effectStyle], (u32)&palette, HOF_HEAP_ID);
     CLACT_TransferPalette(work->paletteIds[2], palette, 1);
-    func_020307B0(buffer);
+    GFL_HEAP_Free(buffer);
     ARC_TOOL_DeleteHandle(bank);
 }
 
@@ -213,7 +213,7 @@ void HALL_OF_FAME_CreateMonPlates(HallOfFameWork *work)
     param.y = 16;
     work->plates[0].oam = BMP_OAM_Create(work->oamSys, (const struct Param *)&param);
     BMP_Clear(work->plates[0].bmp, 0);
-    str = func_02045EC0(work->msgData, 0);
+    str = MSGDATA_AllocString(work->msgData, 0);
     HALL_OF_FAME_PrintToPlate(work, 0, work->fontMain, str, 12, 0);
     STRBUF_Delete(str);
     plate = &work->plates[1];
@@ -232,16 +232,16 @@ void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
     mon = POKE_TOOL_Dummy(work->partyMons[work->monIndex]);
     lock = POKE_TOOL_DecodeBoxParam(mon);
     BMP_Clear(work->plates[1].bmp, 0);
-    str = func_02045EC0(work->msgData, 1);
+    str = MSGDATA_AllocString(work->msgData, 1);
     WORDSET_SetSlotMonSpeciesAlt(work->wordSet, 0, mon);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct U16Vec *)str);
-    str = func_02045EC0(work->msgData, 2);
-    width = func_0201D304(str, (u32)work->fontMain, 0);
+    str = MSGDATA_AllocString(work->msgData, 2);
+    width = GF_FONT_MeasureWidestLine(str, (u32)work->fontMain, 0);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, str, 112, 0);
     STRBUF_Delete((struct U16Vec *)str);
-    str = func_02045EC0(work->msgData, 3);
+    str = MSGDATA_AllocString(work->msgData, 3);
     WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetBoxValue(mon, 158, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, width + 112, 0);
@@ -269,8 +269,8 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     work->plates[2].oam = BMP_OAM_Create(work->oamSys, (const struct Param *)&param);
     BMP_OAM_SetEnabled(work->plates[2].oam, 0);
     BMP_Clear(work->plates[2].bmp, 0);
-    str = func_02045EC0(work->msgData, 4);
-    width = func_0201D304(str, (u32)work->fontMain, 0);
+    str = MSGDATA_AllocString(work->msgData, 4);
+    width = GF_FONT_MeasureWidestLine(str, (u32)work->fontMain, 0);
     HALL_OF_FAME_PrintToPlate(work, 2, work->fontMain, str, (256 - width) / 2, 0);
     STRBUF_Delete((struct U16Vec *)str);
     plate = &work->plates[3];
@@ -281,17 +281,17 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     work->plates[3].oam = BMP_OAM_Create(work->oamSys, (const struct Param *)&param);
     BMP_OAM_SetEnabled(work->plates[3].oam, 0);
     BMP_Clear(work->plates[3].bmp, 0);
-    str = func_02045EC0(work->msgData, 5);
+    str = MSGDATA_AllocString(work->msgData, 5);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->args->myStatus);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct U16Vec *)str);
-    str = func_02045EC0(work->msgData, 6);
+    str = MSGDATA_AllocString(work->msgData, 6);
     WORDSET_SetSlotNumber(work->wordSet, 0, func_02008534(work->args->myStatus), 5, 2, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 92, 0);
     STRBUF_Delete((struct U16Vec *)str);
-    str = func_02045EC0(work->msgData, 7);
+    str = MSGDATA_AllocString(work->msgData, 7);
     WORDSET_SetSlotNumber(work->wordSet, 0, func_0200864C(work->args->playTime), 3, 0, 1);
     WORDSET_SetSlotNumber(work->wordSet, 1, func_02008650(work->args->playTime), 2, 2, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
@@ -318,12 +318,12 @@ void HALL_OF_FAME_SetPlateEnabled(HallOfFameWork *work, int plate, unsigned enab
 
 void HALL_OF_FAME_LoadUiResources(HallOfFameWork *work)
 {
-    void *handle = func_020490F4(0xD8, 0x808D);
+    void *handle = ARC_TOOL_CreateHandle(0xD8, 0x808D);
     work->charIds[2] = CLACT_RegisterCharacter(handle, 0x18, 0, 0, 0x8D);
     work->paletteIds[2] = CLACT_RegisterPalette(handle, 3, 0, 0, 0x8D);
     work->cellAnimIds[2] = CLACT_RegisterCellAnim(handle, 0x1A, 0x20, 0x8D);
     ARC_TOOL_DeleteHandle(handle);
-    handle = func_020490F4(0x17, 0x808D);
+    handle = ARC_TOOL_CreateHandle(0x17, 0x808D);
     work->paletteIds[3] = CLACT_RegisterPaletteCompressed(handle, 5, 0, 0xA0, 0x8D);
     ARC_TOOL_DeleteHandle(handle);
 }
@@ -391,7 +391,7 @@ void HALL_OF_FAME_CreateTrainerSceneObjects(HallOfFameWork *work)
     work->actors[HOF_ACTOR_RING_BOTTOM] = HALL_OF_FAME_CreateActorFromTemplate(work, &gHallOfFameRingBottomTemplate);
     HALL_OF_FAME_SetActorVisible(work, HOF_ACTOR_RING_TOP, 0);
     HALL_OF_FAME_SetActorVisible(work, HOF_ACTOR_RING_BOTTOM, 0);
-    handle = func_020490F4(216, 0x808d);
+    handle = ARC_TOOL_CreateHandle(216, 0x808d);
     work->charIds[5] = CLACT_RegisterCharacter(handle, 25, 0, 1, HOF_HEAP_ID);
     work->paletteIds[6] = CLACT_RegisterPalette(handle, 3, 1, 0, HOF_HEAP_ID);
     work->cellAnimIds[5] = CLACT_RegisterCellAnim(handle, 27, 33, HOF_HEAP_ID);

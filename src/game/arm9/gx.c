@@ -1,7 +1,7 @@
 /*
  * file:     gx.c
  * unit:     yes
- * function: func_0207D204, GX_SetVCountEqVal, GX_HBlankIntr, GX_VBlankIntr, func_0207D41C, GX_DispOff, GX_DispOn, GX_SetGraphicsMode, func_0207D518, GXx_SetMasterBrightness_, GXx_GetMasterBrightness_
+ * function: func_0207D204, GX_SetVCountEqVal, GX_HBlankIntr, GX_VBlankIntr, func_0207D41C, GX_DispOff, GX_DispOn, GX_SetGraphicsMode, GXS_SetGraphicsMode, GXx_SetMasterBrightness_, GXx_GetMasterBrightness_
  * address:  0x0207D204
  * region:   arm9
  * compiler: dsi/1.1p1

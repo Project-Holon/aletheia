@@ -26,6 +26,7 @@
  *   NHTTPi_LockMutexThunk  0x021B9B58  arm  ov114
  *   OS_SleepThread  0x020857B0  arm  arm9
  *   OS_WakeupThread  0x02085800  arm  arm9
+ *   OS_UnlockMutex  0x02086078  arm  arm9
  */
 typedef unsigned int u32;
 #include "nhttp_types.h"
@@ -51,7 +52,7 @@ extern void NHTTPi_InitListInfo(NHTTPListInfo *);
 extern void NHTTPi_InitRequestInfo(NHTTPReqInfo *);
 extern void NHTTPi_InitThreadInfo(NHTTPThreadInfo *);
 extern void NHTTPi_LockMutexThunk(NHTTPMutexInfo *mutexInfo_p);
-extern void func_02086078(void *mutexInfo_p);
+extern void OS_UnlockMutex(void *mutexInfo_p);
 NHTTPStaticResource *NHTTPi_GetStaticResource(void);
 void NHTTPi_WaitForCompletion(NHTTPWaiter *waiter_p);
 void NHTTPi_NotifyCompletion(NHTTPWaiter *waiter_p);
@@ -516,7 +517,7 @@ void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p)
  */
 void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p)
 {
-    func_02086078(mutexInfo_p);
+    OS_UnlockMutex(mutexInfo_p);
 }
 
 

@@ -13,22 +13,22 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   RingQueue_Push  0x021C0E4C  thumb  ov217
  *   RingQueue_Pop  0x021C0E54  thumb  ov217
  *   RingQueue_IsEmpty  0x021C0E64  thumb  ov217
  *   RingQueue_Create  0x021C0E08  thumb  ov217
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
  *   d_021C4050  0x021C4050  data  a4
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   RingQueue_Reset  0x021C0E5C  thumb  ov217
  */
 #include "research_shared_types.h"
 
 #include "ring_queue.h"
 
-extern u32 func_020307B0(void *mem);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *mem);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 int RingQueue_Create(int capacity, int heapId);
 void RingQueue_Destroy(struct RingQueue *queue);
@@ -50,7 +50,7 @@ extern const int d_021C4050[];
 int RingQueue_Create(int capacity, int heapId)
 {
     int queue;
-    queue = (int)func_02030734(heapId, 0x10, 0, (const char *)d_021C4050, 0x3C);
+    queue = (int)GFL_HEAP_Alloc(heapId, 0x10, 0, (const char *)d_021C4050, 0x3C);
     RingQueue_ClearFields((struct RingQueue *)queue);
     RingQueue_AllocBuffer((struct RingQueue *)queue, capacity, heapId);
     return queue;
@@ -59,7 +59,7 @@ int RingQueue_Create(int capacity, int heapId)
 void RingQueue_Destroy(struct RingQueue *queue)
 {
     RingQueue_FreeBuffer(queue);
-    func_020307B0(queue);
+    GFL_HEAP_Free(queue);
 }
 
 void RingQueue_Push(struct RingQueue *queue, int value)
@@ -101,13 +101,13 @@ void RingQueue_ClearFields(struct RingQueue *queue)
 
 void RingQueue_AllocBuffer(struct RingQueue *queue, u32 capacity, u32 heapId)
 {
-    queue->buffer = (u32 *)func_02030734(heapId, capacity << 2, 0, (const char *)0x21C4050, 211);
+    queue->buffer = (u32 *)GFL_HEAP_Alloc(heapId, capacity << 2, 0, (const char *)0x21C4050, 211);
     queue->capacity = capacity;
 }
 
 void RingQueue_FreeBuffer(struct RingQueue *queue)
 {
-    func_020307B0(queue->buffer);
+    GFL_HEAP_Free(queue->buffer);
 }
 
 /* Stores value at the write index and advances it, wrapping at capacity. */

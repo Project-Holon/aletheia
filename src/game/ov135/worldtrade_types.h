@@ -235,7 +235,7 @@ typedef struct {
     u16 b[10]; /* +0x18 */
 } SelTable;
 
-/* Arguments of the ov115 save-network process (gNetSaveMainProc), allocated by func_02030734. */
+/* Arguments of the ov115 save-network process (gNetSaveMainProc), allocated by GFL_HEAP_Alloc. */
 typedef struct {
     void *handle; /* +0x0 */
     u32 mode; /* +0x4 */

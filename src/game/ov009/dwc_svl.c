@@ -14,7 +14,7 @@
  *           DWCi_Svl_ParseHttp (libdwcauth.TWL.HYB.a dwc_svl.o)
  *
  * symbols:
- *   func_02059F54  0x02059F54  arm
+ *   DWCi_SetError  0x02059F54  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_Terminate  0x02088234  arm
@@ -31,7 +31,7 @@
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
  *   atoi  0x020964E0  arm
- *   func_0217A77C  0x0217A77C  arm  ov009
+ *   DWC_Http_GetBase64DecodedResult  0x0217A77C  arm  ov009
  *   gDwcSvlWorkarea     0x021ACEF4  data ov009
  *   gDwcHttpParamArg     0x021A2358  data ov009
  *   gDwcSvlNasUrl     0x021A2840  data ov009
@@ -169,7 +169,7 @@ typedef struct DWCAuthHttpParam {
     char *url;
 } DWCAuthHttpParam;
 
-extern void func_02059F54(int error, int errorCode);
+extern void DWCi_SetError(int error, int errorCode);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int OS_IsThreadTerminated(OSThread *thread);
 extern void OS_Terminate(void);
@@ -186,7 +186,7 @@ extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 extern int atoi(u32 a0);
-extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
+extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 int DWCi_Svl_ParseHttp(void);
 
 extern DWCSvlIntWorkarea *gDwcSvlWorkarea;
@@ -209,14 +209,14 @@ int DWC_Svl_Init(DWCSvlAlloc alloc, DWCSvlFree free)
     void *p;
 
     if (gDwcSvlWorkarea != 0) {
-        func_02059F54(9, -24100);
+        DWCi_SetError(9, -24100);
         return 0;
     }
 
     p = alloc(0, sizeof(DWCSvlIntWorkarea));
     gDwcSvlWorkarea = p;
     if (p == 0) {
-        func_02059F54(9, -24100);
+        DWCi_SetError(9, -24100);
         return 0;
     }
 
@@ -269,33 +269,33 @@ int DWC_Svl_GetTokenAsync(char *svc, DWCSvlResult *result)
     httpparam.timeout = 20000;
 
     if (DWC_Http_Create(&gDwcSvlWorkarea->http, &httpparam) != 0) {
-        func_02059F54(9, -24100);
+        DWCi_SetError(9, -24100);
         return 0;
     }
 
     if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(&gDwcSvlWorkarea->http, &calinfo, 0)) {
         DWC_Http_Destroy(&gDwcSvlWorkarea->http);
-        func_02059F54(9, -24100);
+        DWCi_SetError(9, -24100);
         return 0;
     }
 
     if (DWC_Http_Add_PostBase64Item(&gDwcSvlWorkarea->http, gDwcSvlPostLabelAction, gDwcSvlPostValueSvcloc, 6) != 0
         || DWC_Http_Add_PostBase64Item(&gDwcSvlWorkarea->http, gDwcSvlPostLabelSvc, svc, 4) != 0) {
         DWC_Http_Destroy(&gDwcSvlWorkarea->http);
-        func_02059F54(9, -24100);
+        DWCi_SetError(9, -24100);
         return 0;
     }
 
     if (DWC_Http_FinishHeader(&gDwcSvlWorkarea->http) != 0) {
         DWC_Http_Destroy(&gDwcSvlWorkarea->http);
-        func_02059F54(9, -24100);
+        DWCi_SetError(9, -24100);
         return 0;
     }
 
     DWC_Http_StartThread(&gDwcSvlWorkarea->http, OS_GetThreadPriority(gMslRefToken.current) - 1);
     if (gDwcSvlWorkarea->http.thread.id == 0) {
         DWC_Http_Destroy(&gDwcSvlWorkarea->http);
-        func_02059F54(9, -24100);
+        DWCi_SetError(9, -24100);
         return 0;
     }
     return 1;
@@ -326,7 +326,7 @@ int DWC_Svl_Process(void)
             return 5;
         default:
             DWC_Http_Destroy(&gDwcSvlWorkarea->http);
-            func_02059F54(0x10, -24101);
+            DWCi_SetError(0x10, -24101);
             return 4;
         }
     }
@@ -344,7 +344,7 @@ int DWCi_Svl_ParseHttp(void)
     DWCHttp *DWChttp = &gDwcSvlWorkarea->http;
 
     if (!DWC_Http_ParseResult(DWChttp, 0)) {
-        func_02059F54(15, -25101);
+        DWCi_SetError(15, -25101);
         return 0;
     }
 
@@ -354,37 +354,37 @@ int DWCi_Svl_ParseHttp(void)
 
     strp = func_0217A728(DWChttp, gDwcSvlLabelHttpResult);
     if (strp == 0) {
-        func_02059F54(15, -25101);
+        DWCi_SetError(15, -25101);
         return 0;
     }
     httpretcode = atoi((u32)strp);
     if (errno == 34) {
-        func_02059F54(15, -25101);
+        DWCi_SetError(15, -25101);
         return 0;
     }
     if (httpretcode != 200) {
-        func_02059F54(15, -25000 - httpretcode);
+        DWCi_SetError(15, -25000 - httpretcode);
         return 0;
     }
 
-    if (func_0217A77C(DWChttp, gDwcSvlLabelReturnCd, retcode, 4) <= 0) {
-        func_02059F54(15, -25101);
+    if (DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelReturnCd, retcode, 4) <= 0) {
+        DWCi_SetError(15, -25101);
         return 0;
     }
     httpretcode = atoi((u32)retcode);
     if (errno == 34) {
-        func_02059F54(15, -25101);
+        DWCi_SetError(15, -25101);
         return 0;
     }
     if (httpretcode >= 100) {
-        func_02059F54(15, -24000 - httpretcode);
+        DWCi_SetError(15, -24000 - httpretcode);
         return 0;
     }
 
-    if (func_0217A77C(DWChttp, gDwcSvlLabelSvcHost, gDwcSvlWorkarea->result->svlhost, 64) < 0
-        || func_0217A77C(DWChttp, gDwcSvlLabelServiceToken, gDwcSvlWorkarea->result->svltoken, 300) < 0
-        || func_0217A77C(DWChttp, gDwcSvlLabelStatusData, retcode, 1) < 0) {
-        func_02059F54(15, -25101);
+    if (DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelSvcHost, gDwcSvlWorkarea->result->svlhost, 64) < 0
+        || DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelServiceToken, gDwcSvlWorkarea->result->svltoken, 300) < 0
+        || DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelStatusData, retcode, 1) < 0) {
+        DWCi_SetError(15, -25101);
         return 0;
     }
 

@@ -13,13 +13,13 @@
  * Cut from iss_switch_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BMP_WIN_GetPosX  0x02045758  arm
  *   BMP_WIN_GetPosY  0x02045760  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter   0x0204A6C8  arm
- *   func_020490F4   0x020490F4  arm
+ *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   CLACT_RegisterCellAnim   0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle   0x02049238  arm
  *   MI_CpuFill8    0x02082BCC  arm
@@ -30,7 +30,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
@@ -175,9 +175,9 @@ struct ItemValueEntry {
     u16 value  : 6;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 
@@ -187,7 +187,7 @@ extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 engine, u32 a3, u32 s0, 
 
 extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -207,7 +207,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
@@ -367,7 +367,7 @@ struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font
     u32 size;
     u16 heap;
     int i;
-    struct PmsDraw *alloc = func_02030734(heapId, 0x34, 1, PmsDrawFileName, 0x81);
+    struct PmsDraw *alloc = GFL_HEAP_Alloc(heapId, 0x34, 1, PmsDrawFileName, 0x81);
 
     wk = alloc;
     MI_CpuFill8(wk, 0, 0x34);
@@ -379,7 +379,7 @@ struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font
     wk->nullColorPalette = 0xf;
     wk->followBgScroll = 0;
     size = elemMax * 0x28;
-    wk->elems = func_02030734(heap, size, 1, PmsDrawFileName, 0x8c);
+    wk->elems = GFL_HEAP_Alloc(heap, size, 1, PmsDrawFileName, 0x8c);
     MI_CpuFill8(wk->elems, 0, size);
     wk->res[0] = clunit;
     wk->res[1] = drawType;
@@ -424,9 +424,9 @@ void PMS_DRAW_Delete(struct PmsDraw *wk)
         PMS_DRAW_DeleteElem(wk->elems + i);
     }
 
-    func_020307B0(wk->elems);
+    GFL_HEAP_Free(wk->elems);
     PMS_DRAW_ReleaseResources((struct PmsDrawRes *)wk->res);
-    func_020307B0(wk);
+    GFL_HEAP_Free(wk);
 }
 
 void PMS_DRAW_Print(u32 wk, u32 bmpWin, u32 pms, u32 id)
@@ -546,7 +546,7 @@ void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
     bmpWin = dst->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
 
     for (i = 0; i < 2; i++) {
         surface = PMS_DRAW_GetFrameSurface(BMP_WIN_GetBgLayer(src->bmpWin));
@@ -668,7 +668,7 @@ void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u32 heapId)
     cgrDatId = PMS_DRAW_GetDecoCgrIndex(res[1]);
     celDatId = PMS_DRAW_GetDecoCelIndex(res[1]);
     anmDatId = PMS_DRAW_GetDecoAnmIndex(res[1]);
-    handle = func_020490F4(0x2b, heapId);
+    handle = ARC_TOOL_CreateHandle(0x2b, heapId);
     res[2] = CLACT_RegisterPaletteEx(handle, 1, res[1], (u16)(plttOffset << 5), 0, 5, heapId);
     res[3] = CLACT_RegisterCharacter(handle, anmDatId, 0, res[1], heapId);
     res[4] = CLACT_RegisterCellAnim(handle, cgrDatId, celDatId, heapId);
@@ -900,7 +900,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     STRBUF_Delete(word);
     STRBUF_Delete(str);
     BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
     elem->flags.bits.active = 1;
     elem->flags.bits.visible = 1;
 }
@@ -946,7 +946,7 @@ void PMS_DRAW_SetElemVisible(struct PmsElem *elem, u32 visible)
         BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
     else
         BMP_WIN_ClearScreen((struct Descriptor *)elem->bmpWin);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
     for (i = 0; i < 2; i++) {
         if (elem->isDeco[i] != 0)
             CLACT_SetActorDrawEnable(elem->decoActor[i], visible);

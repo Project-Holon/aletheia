@@ -16,9 +16,9 @@
  *   gFkDemoCameraSettingId  0x021F42B0  data
  *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
@@ -31,7 +31,7 @@
  *   FIELD_SUBPROC_End  0x021BBA1C  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   gFkDemoDrawTemplate     0x021F42C0  data  a4
  *   FIELD_BUILDMODEL_CreateNodeNearPos  0x0218C7D8  thumb  ov021
  *   FIELD_BUILDMODEL_GetFirstEntryNearPos  0x0218C654  thumb  ov021
@@ -71,7 +71,7 @@
  *   VEC_Add  0x0207C9D0  arm
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  *   gFkDemoOrigin     0x021F426C  data  a4
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   MTX_Identity33_  0x0207ADC4  arm
  *   func_02008550  0x02008550  thumb
@@ -89,7 +89,7 @@
  *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   FLDMMDL_InitGridPosition  0x0216E084  thumb  ov010
  *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
@@ -118,10 +118,10 @@ extern struct G3dAnmObjHead *G3D_SYSTEM_GetAnimeObj(struct G3dAnime *anime);
 extern struct FieldSubproc *FIELD_SUBPROC_Start(int overlayId, struct FieldmapFunc *mapFunc, const struct FieldSubprocTemplate *tmpl);
 extern FkDemoDrawWork *FIELD_SUBPROC_GetWork(const struct FieldSubproc *proc);
 extern void FIELD_SUBPROC_End(struct FieldSubproc *proc);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, FkDemoEventFunc func, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, FkDemoEventFunc func, u32 workSize);
 extern FkDemoWork *func_020124E8(struct GameEvent *event);
-extern struct Tcb *func_020056A0(FkDemoTcbFunc callback, FkDemoWork *work, u32 priority);
-extern void func_02030EAC(struct Tcb *tcb);
+extern struct Tcb *GFL_USE_AddMainTask(FkDemoTcbFunc callback, FkDemoWork *work, u32 priority);
+extern void TCB_DeleteTask(struct Tcb *tcb);
 extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
 extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMan *man, int kind, const VecFx32 *pos);
@@ -154,7 +154,7 @@ extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, const VecFx32 *ey
 extern void G3D_CAMERA_Delete(struct G3dCamera *g3dCamera);
 extern void ICA_ANIME_SetCameraStatus(struct G3dCamera *g3dCamera, struct IcaAnime *anime);
 extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern struct ArcFile *func_020490F4(u32 arcId, u32 heapId);
+extern struct ArcFile *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern void MTX_Identity33_(MtxFx33 *matrix);
 extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcFile *arc, u32 memberId);
@@ -169,7 +169,7 @@ extern void G3D_SYSTEM_DeleteObject(struct G3dObject *object);
 extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
 extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
 extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
-extern void func_02046EFC(struct G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, u32 hidden);
 extern void FLDMMDL_InitGridPosition(struct Mmdl *mmdl, unsigned int tileX, unsigned int tileY, unsigned int tileZ, u16 dir);
 extern int FLDMMDL_MOVE_UpdateHeight(struct Mmdl *mmdl);
@@ -253,12 +253,12 @@ struct GameEvent *FIELD_FK_DEMO_CreateEvent(struct GameSystem *gameSystem, struc
     FkDemoWork *work;
 
     FIELDMAP_GetHeapId(fieldMap);
-    event = func_020122C0(gameSystem, 0, FIELD_FK_DEMO_EventMain, sizeof(FkDemoWork));
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_FK_DEMO_EventMain, sizeof(FkDemoWork));
     work = func_020124E8(event);
     work->fieldMap = fieldMap;
     work->gameSystem = gameSystem;
     work->variant = variant;
-    work->uploadTcb = func_020056A0(FIELD_FK_DEMO_UploadModelTask, work, 0);
+    work->uploadTcb = GFL_USE_AddMainTask(FIELD_FK_DEMO_UploadModelTask, work, 0);
     return event;
 }
 
@@ -317,7 +317,7 @@ int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work)
     case 4:
         FIELD_FK_DEMO_SetPlayerHidden(&work->model, 0);
         FIELD_SUBPROC_End(work->drawProc);
-        func_02030EAC(work->uploadTcb);
+        TCB_DeleteTask(work->uploadTcb);
         FIELD_FK_DEMO_DeleteModel(&work->model);
         FIELD_FK_DEMO_DeleteSoundAnime(&work->soundAnime);
         FIELD_FK_DEMO_ExitCamera(&work->camera);
@@ -478,7 +478,7 @@ void FIELD_FK_DEMO_InitModel(FkDemoModel *model, struct FieldPlayer *player, str
     int fileBase;
 
     variant = (u32)variant; /* stand-in: the plain unsigned parameter gives other registers (checked) */
-    arc = func_020490F4(FK_DEMO_ARC_ID, (u16)((heapId & 0x7fff) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(FK_DEMO_ARC_ID, (u16)((heapId & 0x7fff) | 0x8000));
     model->animeFrame = 0;
     model->playerHidden = 0;
     model->endTile = gFkDemoEndTile[variant];
@@ -532,9 +532,9 @@ void FIELD_FK_DEMO_DeleteModel(FkDemoModel *model)
     G3D_SYSTEM_DeleteAnime(model->anime[1]);
     G3D_SYSTEM_DeleteRender(model->render);
     G3D_SYSTEM_FreeVramTexture(model->modelRes);
-    func_02046EFC(model->modelRes);
-    func_02046EFC(model->sharedAnimeRes);
-    func_02046EFC(model->genderAnimeRes);
+    G3D_SYSTEM_DeleteResource(model->modelRes);
+    G3D_SYSTEM_DeleteResource(model->sharedAnimeRes);
+    G3D_SYSTEM_DeleteResource(model->genderAnimeRes);
 }
 
 /* Advances both model animations by one frame; returns 1 on the last frame. */

@@ -23,7 +23,7 @@
  *   BR_UTIL_DeleteHandles 0x021FD820 thumb ov186
  *   BR_UTIL_DeleteTask 0x021FD714 thumb ov186
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   BR_UTIL_RunTask 0x021FD71C thumb ov186
  *   BR_UTIL_RunHandles 0x021FD854 thumb ov186
  *   BR_UTIL_IsTaskIdle 0x021FD72C thumb ov186
@@ -66,8 +66,8 @@
  *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
  *   BR_FADE_SetBlendColor 0x021FE7F4 thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021E3280 0x021E3280 data a4
  *   BR_RES_LoadFadePalettes  0x021FC240  thumb  ov186
@@ -94,7 +94,7 @@
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   GDS_RAP_SaveVideoSecured 0x021D7630 thumb ov125
  *   d_021E3960 0x021E3960 data a1
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   BATTLE_REC_DecodeWork 0x0200B490 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
@@ -103,7 +103,7 @@
  *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
  *   GDS_PROFILE_ExportRecord 0x0200D774 thumb
@@ -113,7 +113,7 @@
  *   _ll_udiv 0x0209C00C arm
  *   _ull_mod 0x0209C018 arm
  *   d_021E32C8 0x021E32C8 data a4
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
@@ -177,7 +177,7 @@
  *   BMP_Create 0x02043678 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_SetString 0x02045924 arm
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BR_UTIL_SetListItemBitmap 0x021FCDAC thumb ov186
  *   BR_UTIL_RefreshList 0x021FCE50 thumb ov186
@@ -197,7 +197,7 @@
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021E37A8 0x021E37A8 data a4
  *   d_021E3734 0x021E3734 data a2
  *   d_021E3740 0x021E3740 data a4
@@ -224,7 +224,7 @@
  *   d_021E37D8 0x021E37D8 data ov183
  *   gSpeciesNameBank 0x020A7370 data a4
  *   g_021E3808     0x021E3808  data  ov183
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021E3968 0x021E3968 data ov183
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   d_021E3974 0x021E3974 data a4
@@ -470,7 +470,7 @@ extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTask(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void BR_UTIL_RunTask(u8 *p);
 extern void BR_UTIL_RunHandles(char *);
 extern int BR_UTIL_IsTaskIdle(int *);
@@ -508,8 +508,8 @@ extern int BR_BTN_GetPlacement(char *,int *,int *);
 extern int BR_RES_GetPalSet(char *),BR_RES_GetCurrentSetParam(char *);
 extern void BR_RES_SetPalSet(char *,int),BR_FADE_SetBlendColor(int *,int);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
-extern void *func_020056A0(void (*)(void),void *,int);
-extern void func_02030EAC(struct Node *n);
+extern void *GFL_USE_AddMainTask(void (*)(void),void *,int);
+extern void TCB_DeleteTask(struct Node *n);
 extern void BR_RES_LoadFadePalettes(char *p, void *owner, unsigned short heap);
 extern void * BMP_OAM_CreateSys(unsigned,void *);
 extern char * BATTLE_REC_GetHeader(void);
@@ -533,7 +533,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void BATTLE_REC_SetData(const void *,const void *,const void *,unsigned int);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern int GDS_RAP_SaveVideoSecured(void *a, int x, u16 *state, u16 *b, u16 c);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void BATTLE_REC_DecodeWork(void);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern int BR_RES_GetWordSet(char *);
@@ -541,14 +541,14 @@ extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
 extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern int POKE_TOOL_GetIconPaletteArcId(void),POKE_TOOL_GetIconCellArcId(void),POKE_TOOL_GetIconCellEntryId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -594,7 +594,7 @@ extern void *BR_UTIL_CreateListMenu(const CodeinListMenuConfig *,u16);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v);
 extern void BR_UTIL_RefreshList(char *p);
@@ -615,7 +615,7 @@ extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern void *func_02049E74(void *,u32,u32,u32,u16);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void CLACT_GetCharacterProxy(u32,struct Rec *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern int BR_BTN_TestHitBox(u32 *p, int a1, int a2);
@@ -632,7 +632,7 @@ extern void BMP_MENUWORK_AddStrItem(BmpMenuWorkSlot *table, u32 a, u32 b, u32 ta
 extern u8 BMP_OAM_GetRecordValue(u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BUTTON_MAN_Delete(void *);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -933,7 +933,7 @@ int BR_CODEIN_SidebarCreate(int *task, int unused, char *p)
 
 
 
-int BR_CODEIN_SidebarDestroy(struct Proc *task,int b,int c,struct CodeinWorkB *p) { BR_UTIL_DeleteHandles(*(char * *)&p->f14); BR_UTIL_DeleteHandles(*(char * *)&p->f18); PRINTSYS_QUE_Delete((*(void * *)&p->fC)); BR_UTIL_DeleteTask((void *)(p->f0)); func_020315D4(task); return 1; }
+int BR_CODEIN_SidebarDestroy(struct Proc *task,int b,int c,struct CodeinWorkB *p) { BR_UTIL_DeleteHandles(*(char * *)&p->f14); BR_UTIL_DeleteHandles(*(char * *)&p->f18); PRINTSYS_QUE_Delete((*(void * *)&p->fC)); BR_UTIL_DeleteTask((void *)(p->f0)); PROCSYS_FreeProcWork(task); return 1; }
 
 
 
@@ -1147,7 +1147,7 @@ int BR_CODEIN_ButtonCreate(int *task,int b,char *p)
 /*
  * lever: Explicit call arms preserve the original conditional argument branch.
  */
-int BR_CODEIN_ButtonDestroy(struct Proc *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) BR_RES_ApplyBgSet(q->f18,3); else BR_RES_ApplyBgSet(q->f18,4); BR_BTN_Delete(*(u8 * *)&p->f0); BR_UTIL_DeleteHandles(*(char * *)&p->f4); func_020315D4(task); return 1; }
+int BR_CODEIN_ButtonDestroy(struct Proc *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) BR_RES_ApplyBgSet(q->f18,3); else BR_RES_ApplyBgSet(q->f18,4); BR_BTN_Delete(*(u8 * *)&p->f0); BR_UTIL_DeleteHandles(*(char * *)&p->f4); PROCSYS_FreeProcWork(task); return 1; }
 
 
 
@@ -1198,8 +1198,8 @@ int BR_CODEIN_ButtonMain(int *task,int *state,struct CodeinWorkB *p,struct Codei
         BR_FADE_Start(p->f10,3,3,1);*state=7;break;
     }
     case 7: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=8;break;
-    case 8: (*(void * *)&q->f8)=func_020056A0((void (*)(void))BR_CODEIN_ButtonLoadFadePalettes,q,0);q->f10=0;*state=9;break;
-    case 9: if(q->f10) {func_02030EAC((*(void * *)&q->f8));*state=10;}break;
+    case 8: (*(void * *)&q->f8)=GFL_USE_AddMainTask((void (*)(void))BR_CODEIN_ButtonLoadFadePalettes,q,0);q->f10=0;*state=9;break;
+    case 9: if(q->f10) {TCB_DeleteTask((*(void * *)&q->f8));*state=10;}break;
     case 10: BR_FADE_Start(p->f10,3,3,0);*state=11;break;
     case 11: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=2;break;
     }
@@ -1357,7 +1357,7 @@ int BR_CODEIN_RecordDestroy(int task,int b,char *q,char *p)
     BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkB *)p)->f8)));
     PRINTSYS_QUE_Delete((*(void * *)&((struct CodeinWorkB *)p)->f4));
     BMP_OAM_DeleteSys((void *)(((struct CodeinWorkB *)p)->f0));
-    func_020315D4((struct Proc *)task);
+    PROCSYS_FreeProcWork((struct Proc *)task);
     return 1;
 }
 
@@ -1817,7 +1817,7 @@ void BR_CODEIN_RecordStepSave(int *a,int *state,char *p)
     case 2: *state=3;break;
     case 3: *(u16 *)(p+0xb6)=0;*(u16 *)(p+0xb8)=0;*state=4;break;
     case 4:
-        if(*(int *)(*(char **)(p+0xd0)+8)>3) func_02034714(d_021E3960,0,d_021E3960);
+        if(*(int *)(*(char **)(p+0xd0)+8)>3) SAVEDATA_PanicFail(d_021E3960,0,d_021E3960);
         if(GDS_RAP_SaveVideoSecured((void *)(*(int *)(*(char **)(p+0xd0)+0x28)),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(u16 *)(p+0xb8),*(u16 *)(p+0xb4))==2) {
             BATTLE_REC_DecodeWork();
             *(int *)(p+0xc8)=(int)BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),5,0);
@@ -1952,7 +1952,7 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                 void *message;
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 name=GDS_PROFILE_CreateNameStr(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
-                message=func_02045EC0(bank,d->message);
+                message=MSGDATA_AllocString(bank,d->message);
                 WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(*(RecGet **)(p+0xc0)),1,2);
                 WORDSET_CopyTaggedText(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
@@ -1963,7 +1963,7 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                 {
                 u32 selector;
                 selector=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),3,0);
-                text=func_02045EC0(bank,selector+d->message);
+                text=MSGDATA_AllocString(bank,selector+d->message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);ready=1;break;
                 }
             case 2:
@@ -1980,8 +1980,8 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                 high=quotient/100000ULL;
                 temporary=GDS_PROFILE_ExportRecord(*(GdsProfile **)(p+0xc0),(GdsRecord *)record,*(u16 *)(p+0xb4));
                 if(temporary) {
-                    message=func_02045EC0(bank,13);STRBUF_Delete((U16Vec *)temporary);
-                } else message=func_02045EC0(bank,d->message);
+                    message=MSGDATA_AllocString(bank,13);STRBUF_Delete((U16Vec *)temporary);
+                } else message=MSGDATA_AllocString(bank,d->message);
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 WORDSET_SetSlotNumber(words,2,low,5,2,1);WORDSET_SetSlotNumber(words,1,middle,5,2,1);WORDSET_SetSlotNumber(words,0,high,2,2,1);
                 WORDSET_CopyTaggedText(words,text,message);
@@ -1994,14 +1994,14 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
                     void *message;
                     count=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),2,0);
                     text=STRBUF_Create(128,*(u16 *)(p+0xb4));
-                    message=func_02045EC0(bank,d->message);
+                    message=MSGDATA_AllocString(bank,d->message);
                     WORDSET_SetSlotNumber(words,0,count,4,0,1);WORDSET_CopyTaggedText(words,text,message);STRBUF_Delete((U16Vec *)message);
                     BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
             case 4:
                 if(BR_CODEIN_RecordIsType2(*(void **)(p+0xc4))) {
-                    text=func_02045EC0(bank,d->message);
+                    text=MSGDATA_AllocString(bank,d->message);
                     BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
@@ -2082,7 +2082,7 @@ void BR_CODEIN_RecordSetupActors(char *p,void *manager,void *party,u16 heap)
     const Point16 *coords;
     char *slot;
     int mapping;
-    archive=func_020490F4(7,(u16)((heap&0x7fff)|0x8000));
+    archive=ARC_TOOL_CreateHandle(7,(u16)((heap&0x7fff)|0x8000));
     *(void **)(p+0x48)=(void *)CLACT_RegisterPaletteCompressed(archive,POKE_TOOL_GetIconPaletteArcId(),0,128,heap);
     mapping=POKE_TOOL_GetIconCellArcId();
     *(void **)(p+0x4c)=(void *)CLACT_RegisterCellAnim(archive,mapping,POKE_TOOL_GetIconCellEntryId(),heap);
@@ -2554,7 +2554,7 @@ int BR_CODEIN_ListDestroy(struct Proc *a, int unused, char *q, char *p)
     BR_UTIL_DeleteHandles(*(char * *)&((struct CodeinWorkA *)p)->f74);
     PRINTSYS_QUE_Delete(((struct CodeinWorkA *)p)->f4);
     BMP_OAM_DeleteSys(((struct CodeinWorkA *)p)->f0);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     return 1;
 }
 
@@ -2679,14 +2679,14 @@ void BR_CODEIN_ListSetupRowA(char *p,char *q)
   BR_UTIL_SetTextLayout(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
-    obj=func_02045EC0((struct MsgBank *)second,BR_CODEIN_ListIsEventA((void *)(*(int *)(q+0x10)),(char *)(*(int *)(q+0x14)))?0x83:0x7e);break;
+    obj=MSGDATA_AllocString((struct MsgBank *)second,BR_CODEIN_ListIsEventA((void *)(*(int *)(q+0x10)),(char *)(*(int *)(q+0x14)))?0x83:0x7e);break;
    case 2:
-    obj=func_02045EC0((struct MsgBank *)second,GDS_PROFILE_GetScoreRecCountC(*(void **)(q+0x10),select)?0x91:0x87);break;
+    obj=MSGDATA_AllocString((struct MsgBank *)second,GDS_PROFILE_GetScoreRecCountC(*(void **)(q+0x10),select)?0x91:0x87);break;
    case 3:{
     void *base;
     number1=GDS_PROFILE_GetScoreRecCountA(*(void **)(q+0x10),select);
     number1=(number1>9999)?9999:number1;
-    base=func_02045EC0((struct MsgBank *)second,rec->value);
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
     WORDSET_SetSlotNumber((void *)third,0,number1,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
@@ -2696,13 +2696,13 @@ void BR_CODEIN_ListSetupRowA(char *p,char *q)
     void *base;
     number2=GDS_PROFILE_GetScoreRecCountB(*(void **)(q+0x10),select);
     number2=(number2>9999)?9999:number2;
-    base=func_02045EC0((struct MsgBank *)second,rec->value);
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
     WORDSET_SetSlotNumber((void *)third,0,number2,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
    }
-   default:obj=func_02045EC0((struct MsgBank *)second,rec->value);break;
+   default:obj=MSGDATA_AllocString((struct MsgBank *)second,rec->value);break;
   }
   BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   STRBUF_Delete(obj);
@@ -2744,14 +2744,14 @@ void BR_CODEIN_ListSetupRowB(char *p,char *q)
   BR_UTIL_SetTextLayout(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
-    obj=func_02045EC0((struct MsgBank *)second,BR_CODEIN_ListIsEventB((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?0x84:0x7f);break;
+    obj=MSGDATA_AllocString((struct MsgBank *)second,BR_CODEIN_ListIsEventB((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?0x84:0x7f);break;
    case 2:
-    obj=func_02045EC0((struct MsgBank *)second,GDS_PROFILE_GetScoreRecCountC(*(void **)(q+0x10),select)?0x91:0x87);break;
+    obj=MSGDATA_AllocString((struct MsgBank *)second,GDS_PROFILE_GetScoreRecCountC(*(void **)(q+0x10),select)?0x91:0x87);break;
    case 3:{
     void *base;
     number1=GDS_PROFILE_GetScoreRecCountA(*(void **)(q+0x10),select);
     number1=(number1>9999)?9999:number1;
-    base=func_02045EC0((struct MsgBank *)second,rec->value);
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
     WORDSET_SetSlotNumber((void *)third,0,number1,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
@@ -2761,13 +2761,13 @@ void BR_CODEIN_ListSetupRowB(char *p,char *q)
     void *base;
     number2=GDS_PROFILE_GetScoreRecCountB(*(void **)(q+0x10),select);
     number2=(number2>9999)?9999:number2;
-    base=func_02045EC0((struct MsgBank *)second,rec->value);
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
     WORDSET_SetSlotNumber((void *)third,0,number2,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
    }
-   default:obj=func_02045EC0((struct MsgBank *)second,rec->value);break;
+   default:obj=MSGDATA_AllocString((struct MsgBank *)second,rec->value);break;
   }
   BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   STRBUF_Delete(obj);
@@ -2835,11 +2835,11 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
       {
       }
       case 1:
-        obj = func_02045EC0((struct MsgBank *)second, (BR_CODEIN_ListIsEventC((void *)(*((int *) (q + 0x10))), (void *)(*((int *) (q + 0x14))))) ? (0x85) : (0x80));
+        obj = MSGDATA_AllocString((struct MsgBank *)second, (BR_CODEIN_ListIsEventC((void *)(*((int *) (q + 0x10))), (void *)(*((int *) (q + 0x14))))) ? (0x85) : (0x80));
         break;
 
       case 3:
-        obj = func_02045EC0((struct MsgBank *)second, (GDS_PROFILE_GetScoreRecCountC(*((void **) (q + 0x10)), select)) ? (0x91) : (0x87));
+        obj = MSGDATA_AllocString((struct MsgBank *)second, (GDS_PROFILE_GetScoreRecCountC(*((void **) (q + 0x10)), select)) ? (0x91) : (0x87));
         break;
 
       case 4:
@@ -2848,7 +2848,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
         number1 = GDS_PROFILE_GetScoreRecCountA(*((void **) (q + 0x10)), select);
         if (number1 > 9999)
           number1 = 9999;
-        base = func_02045EC0((struct MsgBank *)second, rec->value);
+        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
         obj = STRBUF_Create(0x80, *((u16 *) (p + 0x7c)));
         WORDSET_SetSlotNumber((void *) third, 0, number1, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
@@ -2862,7 +2862,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
         number2 = GDS_PROFILE_GetScoreRecCountB(*((void **) (q + 0x10)), select);
         if (number2 > 9999)
           number2 = 9999;
-        base = func_02045EC0((struct MsgBank *)second, rec->value);
+        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
         obj = STRBUF_Create(0x80, *((u16 *) (p + 0x7c)));
         WORDSET_SetSlotNumber((void *) third, 0, number2, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
@@ -2871,7 +2871,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
       }
 
       case 10:
-        obj = func_02045EC0((struct MsgBank *)second, (GDS_PROFILE_GetScoreRecCountC(*((void **) (q + 0x10)), select2)) ? (0x91) : (0x87));
+        obj = MSGDATA_AllocString((struct MsgBank *)second, (GDS_PROFILE_GetScoreRecCountC(*((void **) (q + 0x10)), select2)) ? (0x91) : (0x87));
         break;
 
       case 11:
@@ -2880,7 +2880,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
         number3 = GDS_PROFILE_GetScoreRecCountA(*((void **) (q + 0x10)), select2);
         if (number3 > 9999)
           number3 = 9999;
-        base = func_02045EC0((struct MsgBank *)second, rec->value);
+        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
         obj = STRBUF_Create(0x80, *((u16 *) (p + 0x7c)));
         WORDSET_SetSlotNumber((void *) third, 0, number3, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
@@ -2894,7 +2894,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
         number4 = GDS_PROFILE_GetScoreRecCountB(*((void **) (q + 0x10)), select2);
         if (number4 > 9999)
           number4 = 9999;
-        base = func_02045EC0((struct MsgBank *)second, rec->value);
+        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
         obj = STRBUF_Create(0x80, *((u16 *) (p + 0x7c)));
         WORDSET_SetSlotNumber((void *) third, 0, number4, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
@@ -2903,7 +2903,7 @@ void BR_CODEIN_ListSetupRowC(char *p, char *q)
       }
 
       default:
-        obj = func_02045EC0((struct MsgBank *)second, rec->value);
+        obj = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
         break;
 
     }
@@ -2945,12 +2945,12 @@ void BR_CODEIN_ListSetupRowD(char *p,char *q)
   ((struct CodeinWorkC *)slot)->f34=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,((struct CodeinWorkA *)p)->f4,((struct CodeinWorkA *)p)->f7C);
   if(i==4){
    v=GDS_PROFILE_GetScoreRecLevel((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
-   text=(int)func_02045EC0((struct MsgBank *)second,rec->value);
+   text=(int)MSGDATA_AllocString((struct MsgBank *)second,rec->value);
    obj=STRBUF_Create(0x80,((struct CodeinWorkA *)p)->f7C);
    WORDSET_SetSlotNumber((void *)third,0,v,2,1,1);
    WORDSET_CopyTaggedText((void *)third,obj,(void *)text);
    STRBUF_Delete((struct U16Vec *)text);
-  }else obj=(void *)func_02045EC0((struct MsgBank *)second,rec->value);
+  }else obj=(void *)MSGDATA_AllocString((struct MsgBank *)second,rec->value);
   BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinWorkC *)slot)->f34,obj,(void *)first,0x3da0);
   STRBUF_Delete((struct U16Vec *)((int)obj));
  }
@@ -3229,7 +3229,7 @@ int BR_CODEIN_ResultDestroy(void *a, int b, char *q, struct CodeinWorkA *p)
     BR_UTIL_DeleteHandles(p->f64);
     PRINTSYS_QUE_Delete(p->f4);
     BMP_OAM_DeleteSys(p->f0);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     return 1;
 }
 
@@ -3331,10 +3331,10 @@ void BR_CODEIN_ResultSetupRowA(struct CodeinWorkA *p,char *q)
         case 9: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,7,0),4,1,1); break;
         case 10: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,8,0),4,1,1); break;
         case 11: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,9,0),4,1,1); break;
-        default: text=func_02045EC0((struct MsgBank *)bank,rec->value); flag=0; break;
+        default: text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value); flag=0; break;
         }
         if(flag) {
-            base=func_02045EC0((struct MsgBank *)bank,rec->value);
+            base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
             text=STRBUF_Create(128,p->f6C);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
@@ -3370,9 +3370,9 @@ void BR_CODEIN_ResultSetupRowB(struct CodeinWorkA *p,char *q)
         BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-3,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,2);flag=1;}
-        else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
+        else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
-            base=func_02045EC0((struct MsgBank *)bank,rec->value);
+            base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
             text=STRBUF_Create(128,p->f6C);
             WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1,1);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
@@ -3409,9 +3409,9 @@ void BR_CODEIN_ResultSetupRowC(struct CodeinWorkA *p,char *q)
         BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-13,2);flag=1;}
-        else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
+        else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
-            base=func_02045EC0((struct MsgBank *)bank,rec->value);
+            base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
             text=STRBUF_Create(128,p->f6C);
             WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1,1);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
@@ -3494,15 +3494,15 @@ void BR_CODEIN_ResultTeardown(struct CodeinWorkA *p, char *q)
  * extern char MSGDATA_AllocSite[];
  * extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
- * extern void func_020307B0(void *p);
+ * extern void GFL_HEAP_Free(void *p);
  * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
- * extern void func_0204960C(void *stream, u32 pos);
+ * extern void ARC_TOOL_SeekHandle(void *stream, u32 pos);
  * extern void STRBUF_Clear(void *dest);
  * extern void STRBUF_SetChars(void *dest, const void *src, u16 len);
- * extern void func_02045E04(void *dest, u32 index);
+ * extern void MSGDATA_DecryptStrbuf(void *dest, u32 index);
  * extern u8 func_020461B8(const void *file);
  * extern void MSGDATA_LoadBank(struct MsgBank *bank);
- * extern void func_02046180(struct MsgBank *bank);
+ * extern void MSGDATA_RefreshLanguage(struct MsgBank *bank);
  *
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
  * {
@@ -3514,12 +3514,12 @@ void BR_CODEIN_ResultTeardown(struct CodeinWorkA *p, char *q)
  *         return;
  *     }
  *
- *     func_02046180(bank);
+ *     MSGDATA_RefreshLanguage(bank);
  *
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *
- *         func_0204960C(bank->stream, pos + (index * 8 + 4));
+ *         ARC_TOOL_SeekHandle(bank->stream, pos + (index * 8 + 4));
  *         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
  *         e = &bank->cache;
  *     } else {
@@ -3533,18 +3533,18 @@ void BR_CODEIN_ResultTeardown(struct CodeinWorkA *p, char *q)
  *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
  *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
- *             func_0204960C(bank->stream,
+ *             ARC_TOOL_SeekHandle(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
  *             ARC_TOOL_ReadHandle(bank->stream, size, buf);
  *             STRBUF_SetChars(dest, buf, e->len);
- *             func_020307B0(buf);
+ *             GFL_HEAP_Free(buf);
  *         }
  *     } else {
  *         STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len);
  *     }
  *
- *     func_02045E04(dest, index);
+ *     MSGDATA_DecryptStrbuf(dest, index);
  * }
  */
 void BR_CODEIN_ResultSetupButtons(char *p,char *q)
@@ -3702,7 +3702,7 @@ int BR_CODEIN_StatDestroy(void *a, int b, struct CodeinArgA *q, struct CodeinWor
     for (i = 0; i < 2; i++) BR_UTIL_DeleteHandles(*(void **)((char *)p + 0x1C + i * 4));
     BMP_OAM_DeleteSys(p->f0);
     PRINTSYS_QUE_Delete(p->f14);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     return 1;
 }
 
@@ -3756,7 +3756,7 @@ void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinWorkD *p)
     MI_CpuFill8(&config,0,8);
     config.a=80;config.b=168;config.c=0;config.flag=1;
     if(!BR_RES_GetSprite((void *)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 6, (Triple *)&triple))
-        func_02034714(d_021E3964,0,d_021E3964);
+        SAVEDATA_PanicFail(d_021E3964,0,d_021E3964);
     p->f4=BR_BTN_CreateFromMessage(&config,4,96,1,(*(int *)&((struct CodeinSubA *)(p->f108))->fC),(*(int *)&p->f0),font,bank,&triple,p->f18);
     p->f8=BR_UTIL_Create(4,11,6,10,4,14,p->f14,p->f18);
     BR_UTIL_SetTextFromMessage(*(char * *)&p->f8,(void *)bank,(void *)0x55,(void *)font,0x3da0);
@@ -3867,7 +3867,7 @@ void BR_CODEIN_StatStepMenu(int *task, int *state, char *p)
             Point args;
             selection=BR_CODEIN_SearchGetHitId(p+0x28);
             if (selection>=((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f1C))->f1718)
-                func_02034714(d_021E3964,0,d_021E3964);
+                SAVEDATA_PanicFail(d_021E3964,0,d_021E3964);
             ((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f1C))->f171C=selection;
             BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f14,2);
             BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_StatStepFadeOut);
@@ -3895,7 +3895,7 @@ void BR_CODEIN_SearchStep(int *task,u32 *state,char *p)
         case 1: mode=6; break;
         case 2: mode=7; break;
         case 3: initial=*(Point *)(*(char **)(p+0x108)+0x20); mode=4; break;
-        default: func_02034714(d_021E3964,0,d_021E3964); break;
+        default: SAVEDATA_PanicFail(d_021E3964,0,d_021E3964); break;
         }
         MI_CpuFill8(*(void **)(*(char **)(p+0x108)+0x1c),0,0x1720);
         *(u32 *)(p+0xfc)=0;
@@ -3919,7 +3919,7 @@ void BR_CODEIN_SearchStep(int *task,u32 *state,char *p)
             case 1: success=BR_NET_GetSearchResultsForRanking(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
             case 2: success=BR_NET_GetSearchResultsForNewest(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
             case 3: success=BR_NET_GetSearchResults(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
-            default: func_02034714(d_021E3964,0,d_021E3964); break;
+            default: SAVEDATA_PanicFail(d_021E3964,0,d_021E3964); break;
             }
             if(success) {
                 for(i=0;i<(*(struct CodeinRecordData **)(*(char **)(p+0x108)+0x1c))->count;i++) {
@@ -4045,7 +4045,7 @@ void BR_CODEIN_SearchCreateList(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 
     cfg.selection=sel;
     p->view=BR_UTIL_CreateListMenu((const CodeinListMenuConfig *)&cfg, heap);
     buf1=STRBUF_Create(0xff,heap);
-    msg=func_02045EC0((struct MsgBank *)second,0x7a);
+    msg=MSGDATA_AllocString((struct MsgBank *)second,0x7a);
     buf2=STRBUF_Create(0xff,heap);
     for(i=0;i<*(int *)(base+0x1718);i++){
         bmp=BMP_Create(cfg.width,cfg.spacing,0x20,heap);
@@ -4053,7 +4053,7 @@ void BR_CODEIN_SearchCreateList(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 
         WORDSET_SetSlotNumber(p->words,0,i+1,2,0,1);
         WORDSET_CopyTaggedText(p->words,buf1,msg);
         STRBUF_SetString(buf2,(const u16 *)(base+i*0xc4));
-        PRINTSYS_PrintColor(bmp,(short)(16-func_0201D304(buf1,first,0)),4,buf1,(void *)first,0x3DA0);
+        PRINTSYS_PrintColor(bmp,(short)(16-GF_FONT_MeasureWidestLine(buf1,first,0)),4,buf1,(void *)first,0x3DA0);
         PRINTSYS_PrintColor(bmp,0x14,4,buf2,(void *)first,0x3DA0);
         BR_UTIL_SetListItemBitmap(p->view,(u16)i,(u32)bmp);
     }
@@ -4141,7 +4141,7 @@ void BR_CODEIN_SearchCreateActor(struct CodeinSearchState *p,u32 mgr,u16 heap)
     n=*(int *)(p->source+0x1718);
     n=(n>=5)?5:n;
     mode=(heap&0x7fff)|0x8000;
-    archive=func_020490F4(7,(u16)mode);
+    archive=ARC_TOOL_CreateHandle(7,(u16)mode);
     i=0;
     p->shared0=CLACT_RegisterPaletteCompressed(archive,POKE_TOOL_GetIconPaletteArcId(),0,0x80,heap);
     p->shared1=CLACT_RegisterCellAnim(archive,POKE_TOOL_GetIconCellArcId(),POKE_TOOL_GetIconCellEntryId(),heap);
@@ -4241,7 +4241,7 @@ void BR_CODEIN_SearchUpdateActor(struct CodeinSearchState *p,int first,short ste
         }
     }
     mode=(heap&0x7fff)|0x8000;
-    archive=func_020490F4(7,(u16)mode);
+    archive=ARC_TOOL_CreateHandle(7,(u16)mode);
     if(step==-1) { --p->cursor; if(p->cursor<0) p->cursor=4; }
     for(j=0;j<6;j++) {
         if(step==1) i=4; else if(step==-1) i=0;
@@ -4252,7 +4252,7 @@ void BR_CODEIN_SearchUpdateActor(struct CodeinSearchState *p,int first,short ste
             CLACT_GetCharacterProxy(p->indices[p->cursor][j],&loaded);
             CLACT_SetActorImageProxy(p->sprites[i][j],(const struct Struct36 *)(&loaded));
             CLACT_SetActorPaletteOffset((struct Obj *)p->sprites[i][j],POKE_TOOL_CalcIconPalette(entries.species[j],entries.form[j],entries.gender[j],0),0);
-            func_020307B0(handle);
+            GFL_HEAP_Free(handle);
             CLACT_SetActorDrawEnable((struct Obj *)p->sprites[i][j],1);
         } else CLACT_SetActorDrawEnable((struct Obj *)p->sprites[i][j],0);
     }
@@ -4402,7 +4402,7 @@ int BR_CODEIN_CodeDestroy(void *p, int unused, struct CodeinArgA *q, char *data)
     BR_UTIL_DeleteTextWin(((struct CodeinDataA *)data)->f38, q->f8);
     BMP_OAM_DeleteSys(((struct CodeinDataA *)data)->f44);
     PRINTSYS_QUE_Delete(((struct CodeinDataA *)data)->f48);
-    func_020315D4(p);
+    PROCSYS_FreeProcWork(p);
     return 1;
 }
 
@@ -4753,7 +4753,7 @@ int BR_CODEIN_CodeSetupPokeList(struct CodeinWorkB *p,struct CodeinArgA *q)
     v=GAME_DATA_GetMyStatus((*(void * *)&q->f10));
     a=func_0200856C(v);b=func_02008570(v);
     ws=BR_RES_GetWordSet(*(char * *)&q->f8);
-    data=func_02045EC0((void *)second,125);
+    data=MSGDATA_AllocString((void *)second,125);
     if(!BMP_OAM_GetRecordValue(a))WORDSET_SetSlotFromMsgE7((void *)ws,0,a);
     else WORDSET_DeleteMsgdataF094((void *)ws,0,a,b);
     WORDSET_CopyTaggedText((void *)ws,text,data);
@@ -4893,7 +4893,7 @@ void BR_CODEIN_CodeSetMenuText(struct CodeinWorkB *p,struct CodeinArgB *q,int mo
             return;
         }
         ws=BR_RES_GetWordSet(*(char * *)&q->f8);
-        data=func_02045EC0((void *)second,24);
+        data=MSGDATA_AllocString((void *)second,24);
         text=STRBUF_Create(128,p->f54);
         if(!BMP_OAM_GetRecordValue(q->f16))WORDSET_SetSlotFromMsgE7((void *)ws,0,q->f16);
         else WORDSET_DeleteMsgdataF094((void *)ws,0,q->f16,q->f17);
@@ -4982,7 +4982,7 @@ int BR_CODEIN_CodeDestroy2(void *a, int unused, int *q, void **p)
     BR_RES_ReleaseSprite((char *)q[2], 6);
     BR_RES_ReleaseSprite((char *)q[2], 12);
     BR_RES_ReleaseSprite((char *)q[2], 11);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     return 1;
 }
 
@@ -5034,16 +5034,16 @@ int BR_CODEIN_CodeMain2(int unused, int *state, int *q, int *p)
 char *BR_CODEIN_ProfileCreate(const CfgTpl *src, u16 heap)
 {
     char *p;
-    p = func_02030734(heap, 0x368, 0, d_021E3968, 56);
+    p = GFL_HEAP_Alloc(heap, 0x368, 0, d_021E3968, 56);
     MI_CpuFill8(p, 0, 0x368);
     *(CfgTpl *)(p + 0x324) = *src;
     ((struct CodeinWorkA *)p)->f34C = heap;
     (*(int *)&((struct CodeinWorkA *)p)->f25C) = src->words[7];
     ((struct CodeinWorkA *)p)->f310 = BR_RES_GetFont((char *)src->words[8]);
-    ((struct CodeinWorkA *)p)->f258 = func_020490F4(59, ((struct CodeinWorkA *)p)->f34C);
+    ((struct CodeinWorkA *)p)->f258 = ARC_TOOL_CreateHandle(59, ((struct CodeinWorkA *)p)->f34C);
     BR_CODEIN_ProfileUpdateActor((CodeinProfileState *)p);
     BR_CODEIN_ProfileCreateButtons(p);
-    ((struct CodeinWorkA *)p)->f314 = func_020056A0(BR_CODEIN_ProfileNoop, p, 16);
+    ((struct CodeinWorkA *)p)->f314 = GFL_USE_AddMainTask(BR_CODEIN_ProfileNoop, p, 16);
     return p;
 }
 
@@ -5070,7 +5070,7 @@ u64 BR_CODEIN_ProfileGetValue(char *p)
 
 
 
-void BR_CODEIN_ProfileDestroy(struct CodeinWorkA *p){func_02030EAC(p->f314);BR_CODEIN_ProfileDeleteActor(p);ARC_TOOL_DeleteHandle(p->f258);BUTTON_MAN_Delete(p->f294);func_020307B0(p);}
+void BR_CODEIN_ProfileDestroy(struct CodeinWorkA *p){TCB_DeleteTask(p->f314);BR_CODEIN_ProfileDeleteActor(p);ARC_TOOL_DeleteHandle(p->f258);BUTTON_MAN_Delete(p->f294);GFL_HEAP_Free(p);}
 
 
 
@@ -5078,7 +5078,7 @@ struct Object *BR_CODEIN_ProfileCreateObject(int heap, int n, void *a, void *b, 
 {
     int i;
     struct Object *p;
-    p = func_02030734((u16)heap, 40, 0, d_021E3968, 192);
+    p = GFL_HEAP_Alloc((u16)heap, 40, 0, d_021E3968, 192);
     p->a = a;
     p->b = b;
     p->capacity = n;
@@ -5094,7 +5094,7 @@ struct Object *BR_CODEIN_ProfileCreateObject(int heap, int n, void *a, void *b, 
 /*
  * extent: existing matched callback 021E083C and its alignment follow the pool.
  */
-void BR_CODEIN_ProfileDestroyObject(struct CodeinWorkB *p){if(!p->f18)func_02034714(d_021E3974,0,d_021E3974);if(!p)func_02034714(d_021E3974,0,d_021E3974);STRBUF_Delete(p->f18);func_020307B0(p);}
+void BR_CODEIN_ProfileDestroyObject(struct CodeinWorkB *p){if(!p->f18)SAVEDATA_PanicFail(d_021E3974,0,d_021E3974);if(!p)SAVEDATA_PanicFail(d_021E3974,0,d_021E3974);STRBUF_Delete(p->f18);GFL_HEAP_Free(p);}
 
 
 
@@ -5111,15 +5111,15 @@ void BR_CODEIN_ProfileNoop(void)
 void BR_CODEIN_ProfileSetupSprite(char *p)
 {
     struct Triple t;
-    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 11, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 11, &t)) SAVEDATA_PanicFail(d_021E3978, 0, d_021E3978);
     ((struct CodeinWorkA *)p)->f260 = t.c;
     ((struct CodeinWorkA *)p)->f26C = t.b;
     ((struct CodeinWorkA *)p)->f284 = t.a;
-    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 12, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 12, &t)) SAVEDATA_PanicFail(d_021E3978, 0, d_021E3978);
     ((struct CodeinWorkA *)p)->f268 = t.c;
     ((struct CodeinWorkA *)p)->f274 = t.b;
     ((struct CodeinWorkA *)p)->f28C = t.a;
-    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 6, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 6, &t)) SAVEDATA_PanicFail(d_021E3978, 0, d_021E3978);
     *(int *)&((struct CodeinWorkA *)p)->f264 = t.c;
     *(int *)&((struct CodeinWorkA *)p)->f270 = t.b;
     *(int *)&((struct CodeinWorkA *)p)->f288 = t.a;
@@ -5412,7 +5412,7 @@ void BR_CODEIN_ProfileDeleteOam(struct CodeinWorkA *p){ BMP_OAM_Delete(*(struct 
 
 void BR_CODEIN_ProfileDeleteBgHandle(char *p)
 {
-    ARC_TOOL_DeleteHandle(func_020490F4(0x17, ((struct CodeinWorkA *)p)->f34C));
+    ARC_TOOL_DeleteHandle(ARC_TOOL_CreateHandle(0x17, ((struct CodeinWorkA *)p)->f34C));
 }
 
 
@@ -5436,7 +5436,7 @@ void BR_CODEIN_ProfilePrintOamObject(const Object *object,Index index,int x,int 
     struct Grid **slots;
     CodeinProfileDescriptor desc;
     source=BR_RES_GetMsgData(*(char * *)&((struct CodeinWorkA *)p)->f344);
-    source=(int)func_02045EC0((struct MsgBank *)source,d_021E3850[index]);
+    source=(int)MSGDATA_AllocString((struct MsgBank *)source,d_021E3850[index]);
     handle=(int)BMP_Create(10,2,32,((struct CodeinWorkA *)p)->f34C);
     PRINTSYS_Print((void *)handle,1,0,(void *)source,(void *)(((struct CodeinWorkA *)p)->f310));
     xx=((u8 *)(p+0x29a))[(index+22)*4];
@@ -6072,7 +6072,7 @@ int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
 
 
 
-int BR_CODEIN_UploadDestroy(struct Proc *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)p+i*4+16));BR_UTIL_DeleteTextWin(p->fC,q->f8);PRINTSYS_QUE_Delete(p->f0);BR_UTIL_DeleteTask((void *)((*(int *)&p->f4)));func_020315D4(a);return 1;}
+int BR_CODEIN_UploadDestroy(struct Proc *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)p+i*4+16));BR_UTIL_DeleteTextWin(p->fC,q->f8);PRINTSYS_QUE_Delete(p->f0);BR_UTIL_DeleteTask((void *)((*(int *)&p->f4)));PROCSYS_FreeProcWork(a);return 1;}
 
 
 
@@ -6150,7 +6150,7 @@ void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinWorkB *p) {
                     if(BR_NET_GetUploadedDataNumber((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),&total)) {
                         bank=(void *)BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8);
                         ws=(void *)BR_RES_GetWordSet(*(char * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8);
-                        str=func_02045EC0(bank,334);expanded=STRBUF_Create(128,0x8059);
+                        str=MSGDATA_AllocString(bank,334);expanded=STRBUF_Create(128,0x8059);
                         copy=total;quotient=copy/100000;
                         WORDSET_SetSlotNumber(ws,2,(u32)(copy%100000),5,2,1);
                         WORDSET_SetSlotNumber(ws,1,(u32)(quotient%100000),5,2,1);
@@ -6181,7 +6181,7 @@ int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg)
 {
     char *p;
     int i;
-    if (((struct CodeinArgC *)arg)->f0>=4) func_02034714(d_021E39B4,0,d_021E39B4);
+    if (((struct CodeinArgC *)arg)->f0>=4) SAVEDATA_PanicFail(d_021E39B4,0,d_021E39B4);
     p=PROCSYS_AllocProcWork(obj,40,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->f10)));
     MI_CpuFill8(p,0,40);
     ((struct CodeinWorkC *)p)->f20=arg;
@@ -6207,7 +6207,7 @@ int BR_CODEIN_SaveDestroy(int obj,int b,char *arg,char *p)
     else { BR_CODEIN_SaveDeleteTextWin(p,arg); BR_CODEIN_SaveTeardown(p,arg); }
     PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&((struct CodeinWorkA *)p)->f0)));
     BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkA *)p)->f8)));
-    func_020315D4((struct Proc *)obj);
+    PROCSYS_FreeProcWork((struct Proc *)obj);
     return 1;
 }
 
@@ -6319,7 +6319,7 @@ void BR_CODEIN_SaveSetupText(char *p,const Input *q) {
     u16 *tmp2;
     if(!((struct CodeinWorkC *)p)->f4) ((struct CodeinWorkC *)p)->f4=BR_UTIL_CreateTextWin((int)q->owner,(void *)(((struct CodeinWorkC *)p)->f0),((struct CodeinWorkC *)p)->f1C);
     ws=(struct WordSet *)BR_RES_GetWordSet(q->owner);
-    str=func_02045EC0((struct MsgBank *)BR_RES_GetMsgData(q->owner),321);
+    str=MSGDATA_AllocString((struct MsgBank *)BR_RES_GetMsgData(q->owner),321);
     tmp2=(u16 *)(p+28);
     expanded=STRBUF_Create(128,*tmp2);
     tmp1=q->base;
@@ -6452,7 +6452,7 @@ int BR_CODEIN_SoclDestroy(int obj,int b,int c,char *p)
     BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkA *)p)->fC)));
     BMP_OAM_DeleteSys((void *)((*(int *)&((struct CodeinWorkA *)p)->f0)));
     BR_PROC_SYS_PopEntry((unsigned int *)(((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f3C))->f10));
-    func_020315D4((struct Proc *)obj);
+    PROCSYS_FreeProcWork((struct Proc *)obj);
     return 1;
 }
 
@@ -6772,7 +6772,7 @@ void BR_CODEIN_SoclSetupText(char *p, const char *q)
   if (!(*((void **) (p + 8))))
     *((void **) (p + 8)) = BR_UTIL_CreateTextWin(*((int *) (q + 8)), (void *)(*((int *) (p + 4))), *((u16 *) (p + 0x38)));
   a = (void *) BR_RES_GetWordSet(*((char **) (q + 8)));
-  s = func_02045EC0((struct MsgBank *)BR_RES_GetMsgData(*((char **) (q + 8))), 0x141);
+  s = MSGDATA_AllocString((struct MsgBank *)BR_RES_GetMsgData(*((char **) (q + 8))), 0x141);
   b = STRBUF_Create(0x80, *((u16 *) (p + 0x38)));
   index = *((unsigned *) (p + 0x10));
   index = index * 4;

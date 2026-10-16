@@ -17,9 +17,9 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
  *   FLDMMDL_BLACT_Exit  0x0219C5D0  thumb  ov021
  *   FLDMMDL_SysGetG3dObjCont  0x0216D528  thumb
@@ -40,7 +40,7 @@
  *   FLDMMDL_SysGetHeapId  0x0216D4F8  thumb  ov010
  *   FLDMMDL_SysGetTcbPriority  0x0216D4F4  thumb  ov010
  *   FLDMMDL_SysGetTcbSys  0x0216D514  thumb  ov010
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   d_021DDBE0  0x021DDBE0  data  a4
  *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
@@ -432,10 +432,10 @@ extern int FLDEFF_GYOE_IsFinished(u32 effect);
 extern void FIELD_EFFECT_DeleteObject(u32 effect);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern int func_020307B0(void *mem);
-extern void func_02030DA8(void *tcbSys, void (*func)(void *, MmdlAcmdListWork *), void *work, u32 priority);
-extern void func_02030EAC(void *tcb);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern int GFL_HEAP_Free(void *mem);
+extern void TCB_AddTask(void *tcbSys, void (*func)(void *, MmdlAcmdListWork *), void *work, u32 priority);
+extern void TCB_DeleteTask(void *tcb);
 extern void *TCBL_GetTaskUserData(void *tcb);
 
 extern u8 d_021DDBE0;
@@ -571,9 +571,9 @@ void FLDMMDL_ACMD_ListCreate(Mmdl *mmdl, const MmdlAcmdListEntry *list)
     u32 priority;
 
     mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
-    work = func_02030734((u16)(0x8000 | (FLDMMDL_SysGetHeapId(mmdlSys) & 0x7fff)), sizeof(MmdlAcmdListWork), 1, (const char *)&d_021DDBE0, 0x115);
+    work = GFL_HEAP_Alloc((u16)(0x8000 | (FLDMMDL_SysGetHeapId(mmdlSys) & 0x7fff)), sizeof(MmdlAcmdListWork), 1, (const char *)&d_021DDBE0, 0x115);
     priority = FLDMMDL_SysGetTcbPriority(FLDMMDL_GetMmdlSys(mmdl)) - 2;
-    func_02030DA8(FLDMMDL_SysGetTcbSys(mmdlSys), FLDMMDL_ACMD_ListTaskMain, work, priority);
+    TCB_AddTask(FLDMMDL_SysGetTcbSys(mmdlSys), FLDMMDL_ACMD_ListTaskMain, work, priority);
     work->mmdl = mmdl;
     work->list = list;
 }
@@ -589,8 +589,8 @@ void FLDMMDL_ACMD_ListDelete(void *tcb)
 
     work = TCBL_GetTaskUserData(tcb);
     FLDMMDL_EndAcmd(work->mmdl);
-    func_020307B0(work);
-    func_02030EAC(tcb);
+    GFL_HEAP_Free(work);
+    TCB_DeleteTask(tcb);
 }
 
 void FLDMMDL_ACMD_ListTaskMain(void *tcb, MmdlAcmdListWork *work)

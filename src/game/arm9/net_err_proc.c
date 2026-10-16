@@ -32,6 +32,7 @@
  *   GAME_DATA_Delete  0x02012704  thumb
  *   OS_ResetSystem  0x02087BCC  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  */
 
 struct ProcSysProc;
@@ -70,7 +71,7 @@ typedef struct NetSaveDeleteWork {
 } NetSaveDeleteWork;
 
 extern void GAME_DATA_Delete(unsigned char *p);
-extern void func_020315D4(struct ProcSysProc *p);
+extern void PROCSYS_FreeProcWork(struct ProcSysProc *p);
 extern void  BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void  BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
@@ -91,7 +92,7 @@ extern u8 d_0220B294[];
 extern u8 gNetSaveRetryProc[];
 
 
-int GFL_NET_SAVE_DeleteScreenWork(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((NetSaveDeleteWork *)(char *)(a3))->gameData); func_020315D4((struct ProcSysProc *)((a0 + 0) + 0)); t2 = GFL_HEAP_DeleteChecked((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
+int GFL_NET_SAVE_DeleteScreenWork(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((NetSaveDeleteWork *)(char *)(a3))->gameData); PROCSYS_FreeProcWork((struct ProcSysProc *)((a0 + 0) + 0)); t2 = GFL_HEAP_DeleteChecked((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
 
 
 /*

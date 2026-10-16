@@ -15,12 +15,12 @@
  * symbols:
  *   WORLDTRADE_SUBLCD_CreateActors 0x021FF6A4 thumb ov135
  *   WORLDTRADE_SUBLCD_UpdateSlotPalettes 0x021FFB20 thumb ov135
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   func_02049F34  0x02049F34  arm
  *   DC_FlushRange  0x020862F0  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   WORLDTRADE_SUBLCD_FreeResources  0x021FFCD4  thumb
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositionsLower 0x021FFD74 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -28,7 +28,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
@@ -37,22 +37,22 @@
  *   WORLDTRADE_SetActorSurfacePos 0x021F4EA0 thumb ov135
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   tbl_022038A2   0x022038A2  data  a2
- *   func_02030DA8 0x02030DA8 arm
+ *   TCB_AddTask 0x02030DA8 arm
  *   TCBL_GetTaskUserData 0x02030EE8 arm
  *   str_02203E44 0x02203E44 data a1
  *   d_022038BE 0x022038BE data a2
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   func_02049E34  0x02049E34  arm
- *   func_0207E804 0x0207E804 arm
- *   func_0207E5D0 0x0207E5D0 arm
+ *   GXS_LoadOBJ 0x0207E804 arm
+ *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   d_02203884 0x02203884 data a2
  *   d_02203892 0x02203892 data a1
  */
 #include "worldtrade_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 
@@ -60,7 +60,7 @@ extern void DC_FlushRange(void *p, u32 size);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
@@ -92,7 +92,7 @@ extern int TOUCHPANEL_HitTrg(const void *);
 
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-extern void *func_02030DA8(void *, void (*)(void *, Anim *), void *, int);
+extern void *TCB_AddTask(void *, void (*)(void *, Anim *), void *, int);
 
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
@@ -100,9 +100,9 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern void func_0207E804(void *, int, int);
+extern void GXS_LoadOBJ(void *, int, int);
 
-extern void func_0207E5D0(void *, int, int);
+extern void GXS_LoadOBJPltt(void *, int, int);
 
 void WORLDTRADE_SUBLCD_CreateActors(Work *p);
 
@@ -203,8 +203,8 @@ void WORLDTRADE_SUBLCD_StartAnimTaskA(Work *p)
 {
     Anim *a;
     WORLDTRADE_SUBLCD_CreateActors((Work *)p);
-    p->fF98 = func_02030734(0x48, 12, 0, str_02203E44, 0xD4);
-    p->fE14 = func_02030DA8(p->rec_p, WORLDTRADE_SUBLCD_AnimTaskA, p->fF98, 5);
+    p->fF98 = GFL_HEAP_Alloc(0x48, 12, 0, str_02203E44, 0xD4);
+    p->fE14 = TCB_AddTask(p->rec_p, WORLDTRADE_SUBLCD_AnimTaskA, p->fF98, 5);
     a = (Anim *)TCBL_GetTaskUserData(p->fE14);
     a->state = 0;
     a->y = -40;
@@ -255,8 +255,8 @@ void WORLDTRADE_SUBLCD_AnimTaskA(void *task, Anim *a)
     case 3:
         GFL_USE_PlaySeDefaultVolume(0x55C);
         a->p->active = 1;
-        func_020307B0(a);
-        func_02030EAC(task);
+        GFL_HEAP_Free(a);
+        TCB_DeleteTask(task);
         break;
     }
 }
@@ -264,8 +264,8 @@ void WORLDTRADE_SUBLCD_AnimTaskA(void *task, Anim *a)
 void WORLDTRADE_SUBLCD_StartAnimTaskB(Work *p)
 {
     Anim *a;
-    p->fF98 = func_02030734(0x48, 12, 0, str_02203E44, 0x150);
-    p->fE14 = func_02030DA8(p->rec_p, WORLDTRADE_SUBLCD_AnimTaskB, p->fF98, 5);
+    p->fF98 = GFL_HEAP_Alloc(0x48, 12, 0, str_02203E44, 0x150);
+    p->fE14 = TCB_AddTask(p->rec_p, WORLDTRADE_SUBLCD_AnimTaskB, p->fF98, 5);
     a = (Anim *)TCBL_GetTaskUserData(p->fE14);
     a->state = 0;
     a->y = 0x8A;
@@ -305,8 +305,8 @@ void WORLDTRADE_SUBLCD_AnimTaskB(void *task, Anim *a)
         break;
     case 3:
         p->active = 1;
-        func_020307B0(a);
-        func_02030EAC(task);
+        GFL_HEAP_Free(a);
+        TCB_DeleteTask(task);
         break;
     }
 }
@@ -408,8 +408,8 @@ void WORLDTRADE_SUBLCD_LoadSlotPalette(CharData **chr, McssPlttData *q, int k, i
     if (n > 16) n = 16;
     else if (n < 0) n = 0;
     dst = q->data;
-    func_0207E804(chr[n]->pixels, d_02203884[k], 512);
-    func_0207E5D0(dst + d_02203892[n] * 32, (k + 2) * 32, 32);
+    GXS_LoadOBJ(chr[n]->pixels, d_02203884[k], 512);
+    GXS_LoadOBJPltt(dst + d_02203892[n] * 32, (k + 2) * 32, 32);
 }
 
 void WORLDTRADE_SUBLCD_FreeResources(Work *p)
@@ -418,12 +418,12 @@ void WORLDTRADE_SUBLCD_FreeResources(Work *p)
 
     if (p->active != 0) {
         if (p->main != 0) {
-            func_020307B0(p->main);
+            GFL_HEAP_Free(p->main);
             p->main = 0;
         }
         for (i = 0; i < 16; i++) {
             if (p->buf[i] != 0) {
-                func_020307B0(p->buf[i]);
+                GFL_HEAP_Free(p->buf[i]);
                 p->buf[i] = 0;
             }
         }

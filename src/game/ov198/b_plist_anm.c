@@ -17,10 +17,10 @@
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   B_PLIST_MAIN_IsBattleSlot 0x02210F04 thumb ov198
  *   d_02211A74 0x02211A74 data a4
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_DrawTile 0x02041090 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   d_02212540 0x02212540 data a4
  *   B_PLIST_MAIN_GetSlotState 0x02210B00 thumb ov198
  *   PALANM_CopyToSlot 0x020215BC thumb
@@ -42,10 +42,10 @@ typedef struct { u8 a, b, c, d, e, f; } WinSpec;
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern u32 B_PLIST_MAIN_IsBattleSlot(u32,u32);
-extern void *func_02030734(u32,u32,int,const char *,u16);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_DrawTile(u32,u32,u32,u32,u8,u8);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern int B_PLIST_MAIN_GetSlotState(u8 *p, int i);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern int B_PLIST_MAIN_PopSelectionPair(u8 *,u8 *,u8 *,int);
@@ -192,11 +192,11 @@ void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode)
     unsigned long tableOffset=state*4;
     u32 height=((const u8 *)d_02211A74)[tableOffset+3];
     u32 width=((const u8 *)d_02211A74)[tableOffset+2];
-    void *buf=func_02030734((u16)((((struct B_PlistWork *)p)->owner->heapId&0x7FFF)|0x8000),width*height*2,0,d_02212540,0x205);
+    void *buf=GFL_HEAP_Alloc((u16)((((struct B_PlistWork *)p)->owner->heapId&0x7FFF)|0x8000),width*height*2,0,d_02212540,0x205);
     B_PLIST_ANM_ApplyTilePalette(p,buf,state,flag,mode);
     BG_SYS_DrawTile(6,(u32)buf,((const u8 *)d_02211A74)[tableOffset],((const u8 *)d_02211A74)[tableOffset+1],width,height);
-    func_02041B6C(6);
-    func_020307B0(buf);
+    BG_SYS_SetFlagField06(6);
+    GFL_HEAP_Free(buf);
 }
 
 void B_PLIST_ANM_StartPaletteAnim(u8 *p,unsigned int state)

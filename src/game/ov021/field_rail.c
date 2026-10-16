@@ -14,8 +14,8 @@
  *
  * symbols:
  *   _s32_div_f     0x0209C0A4  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_RAIL_WORK_Init  0x021B9164  thumb
  *   sRailFileName     0x021DE2A0  data  a1
  *   FIELD_RAIL_CLOSED_Clear  0x021B9464  thumb  ov021
@@ -90,7 +90,7 @@
  *   FIELD_RAIL_WORK_GetUnitScale  0x021B8308  thumb  ov021
  *   FIELD_RAIL_WORK_GetStartPoint  0x021B833C  thumb  ov021
  *   FIELD_RAIL_WORK_GetEndPoint  0x021B834C  thumb  ov021
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D9A54     0x021D9A54  data  ov021  a4
  *   FIELD_RAIL_WORK_GetLinePos  0x021B835C  thumb  ov021
@@ -122,7 +122,7 @@
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   FIELD_RAIL_WORK_GetPointCamera  0x021B836C  thumb  ov021
  *   FIELD_RAIL_WORK_GetMode  0x021B82F0  thumb  ov021
- *   func_0207CFB8  0x0207CFB8  arm
+ *   FX_Atan2Idx  0x0207CFB8  arm
  *   FIELD_RAIL_WORK_GetStepVector  0x021B8050  thumb  ov021
  *   VEC_Fx16Mag  0x0207CC30  arm
  *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
@@ -216,8 +216,8 @@
 #define FX32_ONE ((int)0x00001000L)
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *mem);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *mem);
 extern s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 size);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -334,7 +334,7 @@ extern const u8 gRailStepSizes[];
 
 extern void BUTTON_MAN_ScaleVec(const VecFx32 *v, int scale, VecFx32 *dst);
 extern void VEC_MultAdd(int scale, VecFx32 *a, VecFx32 *b, VecFx32 *c);
-extern int func_0207CFB8(int a, int b);
+extern int FX_Atan2Idx(int a, int b);
 extern int VEC_Fx16Mag(s16 *v);
 extern fx32 VEC_Mag(const VecFx32 *v);
 extern fx32 FX_Div(fx32 numer, fx32 denom);
@@ -405,17 +405,17 @@ RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, struct FieldCamera *fiel
     u32 i;
     RailManager *manager;
 
-    manager = func_02030734(heapId, 0x74, 1, sRailFileName, 302);
+    manager = GFL_HEAP_Alloc(heapId, 0x74, 1, sRailFileName, 302);
     manager->heapId = heapId;
     manager->dataLoaded = 0;
     manager->running = 1;
     manager->fieldCamera = fieldCamera;
     manager->focusWork = 0;
-    manager->works = func_02030734(heapId, 0x7c * workMax, 1, sRailFileName, 311);
+    manager->works = GFL_HEAP_Alloc(heapId, 0x7c * workMax, 1, sRailFileName, 311);
     manager->workCount = workMax;
     for (i = 0; i < workMax; i++)
         FIELD_RAIL_WORK_Init(&manager->works[i], &manager->setting, manager);
-    manager->probeWork = func_02030734(heapId, 0x7c, 1, sRailFileName, 319);
+    manager->probeWork = GFL_HEAP_Alloc(heapId, 0x7c, 1, sRailFileName, 319);
     FIELD_RAIL_WORK_Init(manager->probeWork, &manager->setting, manager);
     manager->probeWork->inUse = 1;
     return manager;
@@ -423,9 +423,9 @@ RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, struct FieldCamera *fiel
 
 void FIELD_RAIL_Delete(RailManager *manager)
 {
-    func_020307B0(manager->probeWork);
-    func_020307B0(manager->works);
-    func_020307B0(manager);
+    GFL_HEAP_Free(manager->probeWork);
+    GFL_HEAP_Free(manager->works);
+    GFL_HEAP_Free(manager);
 }
 
 void FIELD_RAIL_SetSetting(RailManager *manager, FieldRailSetting *setting)
@@ -2872,7 +2872,7 @@ void FIELD_RAIL_CAMERA_YawFromPoint(RailManager *manager)
     anchor.z = camera->param[3];
     VEC_Subtract(&toFocus, &anchor, &toFocus);
     VEC_Normalize(&toFocus, &toFocus);
-    yaw = func_0207CFB8(toFocus.x, toFocus.z);
+    yaw = FX_Atan2Idx(toFocus.x, toFocus.z);
     FIELD_CAMERA_SetPitch(fieldCamera, camera->param[0]);
     FIELD_CAMERA_SetDistance(fieldCamera, camera->param[1]);
     FIELD_CAMERA_SetYaw(fieldCamera, yaw);
@@ -2892,7 +2892,7 @@ void FIELD_RAIL_CAMERA_FollowHeading(RailManager *manager)
     FIELD_CAMERA_EnterMode(fieldCamera, 0);
     FIELD_CAMERA_ResumeTargetTrace(FIELD_RAIL_GetFieldCamera(manager));
     FIELD_RAIL_WORK_GetStepVector(focusWork, stepVec);
-    heading = func_0207CFB8(-stepVec[0], -stepVec[2]);
+    heading = FX_Atan2Idx(-stepVec[0], -stepVec[2]);
     FIELD_CAMERA_SetPitch(fieldCamera, camera->param[1]);
     FIELD_CAMERA_SetDistance(fieldCamera, camera->param[2]);
     FIELD_CAMERA_SetYaw(fieldCamera, (u16)(heading + camera->param[0]));
@@ -2912,11 +2912,11 @@ void FIELD_RAIL_CAMERA_FollowHeadingSlope(RailManager *manager)
     FIELD_CAMERA_EnterMode(fieldCamera, 0);
     FIELD_CAMERA_ResumeTargetTrace(FIELD_RAIL_GetFieldCamera(manager));
     FIELD_RAIL_WORK_GetStepVector(focusWork, &stepVec[3]);
-    heading = func_0207CFB8(-stepVec[3], -stepVec[5]);
+    heading = FX_Atan2Idx(-stepVec[3], -stepVec[5]);
     stepVec[0] = stepVec[3];
     stepVec[2] = stepVec[5];
     stepVec[1] = 0;
-    slope = func_0207CFB8(-stepVec[4], VEC_Fx16Mag(stepVec));
+    slope = FX_Atan2Idx(-stepVec[4], VEC_Fx16Mag(stepVec));
     FIELD_CAMERA_SetPitch(fieldCamera, slope + camera->param[1]);
     FIELD_CAMERA_SetDistance(fieldCamera, camera->param[2]);
     FIELD_CAMERA_SetYaw(fieldCamera, (u16)(heading + camera->param[0]));
@@ -2937,7 +2937,7 @@ void FIELD_RAIL_CAMERA_FollowHeadingAtCentre(RailManager *manager)
     FIELD_CAMERA_EnterMode(fieldCamera, 0);
     FIELD_CAMERA_StopTargetTrace(FIELD_RAIL_GetFieldCamera(manager));
     FIELD_RAIL_WORK_GetStepVector(focusWork, stepVec);
-    heading = func_0207CFB8(-stepVec[0], -stepVec[2]);
+    heading = FX_Atan2Idx(-stepVec[0], -stepVec[2]);
     FIELD_CAMERA_SetPitch(fieldCamera, camera->param[1]);
     FIELD_CAMERA_SetDistance(fieldCamera, camera->param[2]);
     FIELD_CAMERA_SetYaw(fieldCamera, (u16)(heading + camera->param[0]));

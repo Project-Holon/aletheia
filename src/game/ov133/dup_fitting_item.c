@@ -13,8 +13,8 @@
  * Cut from dup_fitting_item.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MUSICAL_MCSS_FreeElemImage 0x021F4D74 thumb ov112
  *   MUSICAL_MCSS_AddImageNoVram 0x021F4C1C thumb ov112
  *   d_020A8148    0x020A8148 data
@@ -28,9 +28,9 @@
 #include "dup_fitting_types.h"
 #include "dup_fitting_types.h"
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
 
@@ -114,9 +114,9 @@ extern u32 (*d_020A8148)(u32, u32, u32);
 
 void DUP_FITTING_ITEM_NoOp(u8 *p, u8 n){}
 
-u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int n){u8 *p;p=func_02030734(heap,16,0,d_021BA610,76);((struct DupFittingItemList *)p)->heapId=heap;((struct DupFittingItemList *)p)->count=0;((struct DupFittingItemList *)p)->max=n;((struct DupFittingItemList *)p)->head=0;((struct DupFittingItemList *)p)->tail=0;return p;}
+u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int n){u8 *p;p=GFL_HEAP_Alloc(heap,16,0,d_021BA610,76);((struct DupFittingItemList *)p)->heapId=heap;((struct DupFittingItemList *)p)->count=0;((struct DupFittingItemList *)p)->max=n;((struct DupFittingItemList *)p)->head=0;((struct DupFittingItemList *)p)->tail=0;return p;}
 
-void DUP_FITTING_ITEM_DeleteList(void *p){func_020307B0(p);}
+void DUP_FITTING_ITEM_DeleteList(void *p){GFL_HEAP_Free(p);}
 
 void DUP_FITTING_ITEM_InsertElem(u8*p,u8*q){if(((struct DupFittingItemList *)p)->count<((struct DupFittingItemList *)p)->max){if(!*(u8* *)&((struct DupFittingItemList *)p)->head)*(u8* *)&((struct DupFittingItemList *)p)->head=q;else *(u8* *)&((struct DupFittingItemElem *)(*(u8* *)&((struct DupFittingItemList *)p)->tail))->next=q;*(u8* *)&((struct DupFittingItemList *)p)->tail=q;*(u8* *)&((struct DupFittingItemElem *)q)->next=0;(((struct DupFittingItemList *)p)->count)++;}}
 
@@ -133,9 +133,9 @@ int DUP_FITTING_ITEM_ListIsFull(char *p)
     return ((struct DupFittingItemList *)p)->count == ((struct DupFittingItemList *)p)->max;
 }
 
-u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*q, u8*r, int*v){u8*p;p=func_02030734(heap,52,0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)p)->next=0;*(u8* *)&((struct DupFittingItemElem *)p)->data=r;*(u8 **)&((struct DupFittingItemElem *)p)->renderElem=MUSICAL_MCSS_AddImageNoVram((u8 *)q,((struct DupFittingItemData *)r)->id,((struct DupFittingItemData *)r)->f4,(Vec *)v);((struct DupFittingItemElem *)p)->f1C=0;((struct DupFittingItemElem *)p)->f20=10;return p;}
+u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*q, u8*r, int*v){u8*p;p=GFL_HEAP_Alloc(heap,52,0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)p)->next=0;*(u8* *)&((struct DupFittingItemElem *)p)->data=r;*(u8 **)&((struct DupFittingItemElem *)p)->renderElem=MUSICAL_MCSS_AddImageNoVram((u8 *)q,((struct DupFittingItemData *)r)->id,((struct DupFittingItemData *)r)->f4,(Vec *)v);((struct DupFittingItemElem *)p)->f1C=0;((struct DupFittingItemElem *)p)->f20=10;return p;}
 
-void DUP_FITTING_ITEM_DeleteElem(u8*p,u8*q){MUSICAL_MCSS_FreeElem(q,*(u8* *)&((struct DupFittingItemElem *)p)->renderElem);func_020307B0(p);}
+void DUP_FITTING_ITEM_DeleteElem(u8*p,u8*q){MUSICAL_MCSS_FreeElem(q,*(u8* *)&((struct DupFittingItemElem *)p)->renderElem);GFL_HEAP_Free(p);}
 
 void DUP_FITTING_ITEM_FreeElemImage(u8*p,u8*q,u8*r){*(u8* *)&((struct DupFittingItemElem *)p)->data=r;MUSICAL_MCSS_FreeElemImage(q,*(u8* *)&((struct DupFittingItemElem *)p)->renderElem,((struct DupFittingItemData *)r)->id,((struct DupFittingItemData *)r)->f4);}
 

@@ -19,6 +19,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
+ *   OS_UnlockMutex  0x02086078  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -60,7 +61,7 @@ extern u32 func_020879EC(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enable);
 extern void OS_LockMutex(void *mutex);
-extern void func_02086078(void *mutex);
+extern void OS_UnlockMutex(void *mutex);
 extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern void SVC_WaitByLoop(u32);
 extern void OS_SleepThread(u32 *);
@@ -149,7 +150,7 @@ Big *FATFSi_AllocateEmergencyCommandBuffer(u32 a0) {
 
 void FATFSi_FreeCommandBuffer(Big *a0) {
     if (a0 == data_027343E0.spare) {
-        func_02086078(data_0273442C);
+        OS_UnlockMutex(data_0273442C);
     }
 }
 

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   overlay67 0x00000043 data
  *   overlay206 0x000000CE data
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -24,14 +24,14 @@
  *   ZUKAN_INFO_CreateFromMon 0x021B9DE0 thumb ov206
  *   ZUKAN_NICKNAME_Create 0x0220B55C thumb ov207
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   FADE_Start 0x0204E720 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   ZUKAN_NICKNAME_Delete 0x0220B6E4 thumb ov207
  *   ZUKAN_INFO_Delete 0x021BA2CC thumb ov206
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ZUKAN_INFO_Update 0x021BA374 thumb ov206
  *   ZUKAN_NICKNAME_Main 0x0220B72C thumb ov207
  *   FADE_IsActive 0x0204E804 arm
@@ -50,15 +50,15 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049740 0x02049740 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   func_02040588 0x02040588 arm
- *   func_02030734 0x02030734 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -69,7 +69,7 @@
  *   d_0220BC20 0x0220BC20 data a1
  *   d_0220BAE8 0x0220BAE8 data a4
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
@@ -151,7 +151,7 @@ typedef char ZukanTorokuWork_size_check[(sizeof(ZukanTorokuWork) == 0x34) ? 1 : 
 typedef char ZukanTorokuDisplay_size_check[(sizeof(ZukanTorokuDisplay) == 0x10) ? 1 : -1];
 typedef char ZukanTorokuBgEntry_size_check[(sizeof(ZukanTorokuBgEntry) == 44) ? 1 : -1];
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
@@ -160,17 +160,17 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void *func_020056A0(u32,u32,u32);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void FADE_Start(u32,int,int,int);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void ZUKAN_NICKNAME_Delete(unsigned *p);
 extern void ZUKAN_INFO_Delete(char *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern void ZUKAN_INFO_Update(char *);
 extern int ZUKAN_NICKNAME_Main(char *);
 extern int FADE_IsActive(void);
@@ -189,15 +189,15 @@ extern int ZUKAN_NICKNAME_GetResult(char *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_02040588(unsigned char which, unsigned char enable);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BMP_SetDisplaySwap(u32 swap);
@@ -206,7 +206,7 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -261,8 +261,8 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
 {
     ZukanTorokuWork *work;
     int mode;
-    func_02034AC4((int)overlay67);
-    func_02034AC4((int)overlay206);
+    GF_OVERLAY_Load((int)overlay67);
+    GF_OVERLAY_Load((int)overlay206);
     GFL_HEAP_CreateChildHeap((u32)((void *)1),0x6a,0x80000);
     work=PROCSYS_AllocProcWork(owner,0x34,0x6a);
     MI_CpuFill8(work,0,0x34);
@@ -277,7 +277,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,args[6]);
     GFL_NET_RestartWithDefaultTimeout(0,work->heapId);
     if(work->state==1) ZUKAN_TOROKU_GRAPHIC_CreateBg(work);
-    work->task=func_020056A0((u32)ZUKAN_TOROKU_GRAPHIC_ClearTask,(u32)work,1);
+    work->task=GFL_USE_AddMainTask((u32)ZUKAN_TOROKU_GRAPHIC_ClearTask,(u32)work,1);
     FADE_Start(3,16,0,2);
     return 1;
 }
@@ -291,7 +291,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
  */
 int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work)
 {
-    func_02030EAC((void *)work->task);
+    TCB_DeleteTask((void *)work->task);
     ZUKAN_TOROKU_GRAPHIC_DeleteBg(work);
     ZUKAN_NICKNAME_Delete((void *)work->nickname);
     ZUKAN_INFO_Delete((void *)work->menu);
@@ -299,10 +299,10 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work)
     PRINTSYS_QUE_Delete((void *)work->printQueue);
     GF_FONT_Delete((void *)work->font);
     ZUKAN_TOROKU_GRAPHIC_DeleteDisplay((void *)work->display);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(106);
-    func_02034A5C((OverlayId)overlay206);
-    func_02034A5C((OverlayId)overlay67);
+    GF_OVERLAY_Unload((OverlayId)overlay206);
+    GF_OVERLAY_Unload((OverlayId)overlay67);
     return 1;
 }
 
@@ -393,10 +393,10 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
     BG_SYS_ClearSlot(3);
     BG_SYS_SetVisibleLayer(1,3);
     BG_SYS_SetVisibleLayer(3,0);
-    r=func_020490F4(159,work->heapId);
+    r=ARC_TOOL_CreateHandle(159,work->heapId);
     func_02049B68(r,7,0,0,32,work->heapId);
-    work->bgHandle=func_02049740(r,17,1,2048,0,work->heapId);
-    func_020498F4(r,(int)39,(int)1,(u16)work->bgHandle,(int)1536,(int)0,(unsigned)work->heapId);
+    work->bgHandle=ARC_UTIL_RegisterObjCharFromHandle(r,17,1,2048,0,work->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(r,(int)39,(int)1,(u16)work->bgHandle,(int)1536,(int)0,(unsigned)work->heapId);
     ARC_TOOL_DeleteHandle(r);
     BG_SYS_PushTile(1);
 }
@@ -417,8 +417,8 @@ void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work)
 {
     if (work->bgActive != 0)
     {
-        func_02040588(0, 0);
-        func_02040588(2, 0);
+        BG_SYS_SetPlaneVisible(0, 0);
+        BG_SYS_SetPlaneVisible(2, 0);
         work->bgActive = 0;
     }
 }
@@ -432,7 +432,7 @@ void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work)
  */
 void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
 {
-    ZukanTorokuDisplay *display=func_02030734(heap,16,0,d_0220BC20,455);
+    ZukanTorokuDisplay *display=GFL_HEAP_Alloc(heap,16,0,d_0220BC20,455);
     MI_CpuFill8(display,0,16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
@@ -447,7 +447,7 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     GF_FONT_InitTextColor();
     ZUKAN_TOROKU_GRAPHIC_InitBg(display,heap);
     ZUKAN_TOROKU_GRAPHIC_InitActors((struct Bank **)&display->actors,(int)d_0220BAE8,heap);
-    display->vblankTask=(void *)func_020056A0((u32)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (u32)display, 0);
+    display->vblankTask=(void *)GFL_USE_AddMainTask((u32)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (u32)display, 0);
     return display;
 }
 
@@ -460,7 +460,7 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
  */
 void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display)
 {
-    func_02030EAC((void *)display->vblankTask);
+    TCB_DeleteTask((void *)display->vblankTask);
     ZUKAN_TOROKU_GRAPHIC_DeleteActors(&display->actors);
     ZUKAN_TOROKU_GRAPHIC_ExitBg(display);
     GF_FONT_SetDefaultTextColor();
@@ -469,7 +469,7 @@ void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     MI_CpuFill8(display,0,16);
-    func_020307B0(display);
+    GFL_HEAP_Free(display);
 }
 
 
@@ -511,7 +511,7 @@ void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap)
         unsigned id=e->bgId;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->bgTemplate,(u8)e->type);
         BG_SYS_FreeSlot(id);
-        func_02040588(id,e->enable);
+        BG_SYS_SetPlaneVisible(id,e->enable);
     }
 }
 

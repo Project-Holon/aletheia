@@ -17,10 +17,10 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   PROCSYS_Main  0x02031330  arm
- *   func_0203133C  0x0203133C  arm
+ *   PROCSYS_Delete  0x0203133C  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -28,7 +28,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008554  0x02008554  thumb
  *   GAME_BEACON_SetTrainerView  0x02027174  thumb
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Push 0x02031348 arm
@@ -46,8 +46,8 @@
  *   func_020089C0  0x020089C0  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_02008B14  0x02008B14  thumb
- *   func_02008C58  0x02008C58  thumb
- *   func_0200E6E8  0x0200E6E8  thumb
+ *   RECORD_GetFromSave  0x02008C58  thumb
+ *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb
  *   func_020084BC  0x020084BC  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
@@ -210,17 +210,17 @@ typedef struct EditWork {
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void *ICA_ANIME_GetField1C(const struct GameSystem *p);
 extern void *ICA_ANIME_GetField20(const struct GameSystem *p);
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern unsigned int PROCSYS_Main(void *p);
-extern int func_0203133C();
+extern int PROCSYS_Delete();
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008554(const struct MyStatus *obj);
 extern int GAME_BEACON_SetTrainerView();
-extern void func_020315D4(struct ProcSys *p);
+extern void PROCSYS_FreeProcWork(struct ProcSys *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern void *PROCSYS_Create(int a0);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
@@ -241,8 +241,8 @@ extern u32 func_02008DFC(struct RecordBlock *obj, int i);
 extern struct TrainerCardSignature *func_020089C0(void *gameSystem);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveClockOwner *func_02008B14(void *gameSystem);
-extern struct RecordBlock *func_02008C58(void *gameSystem);
-extern void *func_0200E6E8(u32 a);
+extern struct RecordBlock *RECORD_GetFromSave(void *gameSystem);
+extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern int func_020084BC(const u16 *values);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct MyStatus *obj);
@@ -315,7 +315,7 @@ extern u16 d_02172620[][7];
 int TRCARD_SYS_RunChildProc(void **childSlot)
 {
     if (*childSlot != 0 && PROCSYS_Main(*childSlot) == 0) {
-        func_0203133C(*childSlot);
+        PROCSYS_Delete(*childSlot);
         *childSlot = 0;
         return 1;
     }
@@ -333,9 +333,9 @@ int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param)
     work = PROCSYS_AllocProcWork(proc, 0x20, 0x26);
     MI_CpuFill8(work, 0, 0x20);
     work->heapId = 0x26;
-    work->param = func_02030734((u16)work->heapId, 0x18, 1, d_02172B64, 0x9f);
+    work->param = GFL_HEAP_Alloc((u16)work->heapId, 0x18, 1, d_02172B64, 0x9f);
     *work->param = *param;
-    work->param->profile = func_02030734((u16)work->heapId, 0x678, 1, d_02172B64, 0xa1);
+    work->param->profile = GFL_HEAP_Alloc((u16)work->heapId, 0x678, 1, d_02172B64, 0xa1);
     TRCARD_SYS_BuildProfile(work->param->profile, param->saveData, 0, work->param->linkFlag, (u16)work->heapId);
     work->outfit = work->param->profile->outfit;
     return 1;
@@ -407,9 +407,9 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
             outfit = GAME_BEACON_SetTrainerView(outfit);
     }
     param->result = work->param->result;
-    func_020307B0(work->param->profile);
-    func_020307B0(work->param);
-    func_020315D4((struct ProcSys *)proc);
+    GFL_HEAP_Free(work->param->profile);
+    GFL_HEAP_Free(work->param);
+    PROCSYS_FreeProcWork((struct ProcSys *)proc);
     GFL_HEAP_DeleteChecked(0x26);
     return 1;
 }
@@ -419,8 +419,8 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
 
 int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work)
 {
-    func_020307B0((void *)work->param);
-    func_020315D4(proc);
+    GFL_HEAP_Free((void *)work->param);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x26);
     return 1;
 }
@@ -617,7 +617,7 @@ u32 TRCARD_SYS_SumCappedRecords(void *records, int group, u32 cap)
  * witness. 0x02010F7C is `ldr r3, =0x02048F61; adds r2, r0, #0; movs r0,
  * #0x26; movs r1, #0; bx r3` (a heap-id forwarder, `return
  * ARC_TOOL_LoadMember(0x26, 0, heap);`), 0x02010F8C is `ldr r3, =0x020307B1;
- * bx r3` (`func_020307B0(p);`). Matching either thunk (ARM9 territory)
+ * bx r3` (`GFL_HEAP_Free(p);`). Matching either thunk (ARM9 territory)
  * closes that site.
  */
 void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int flag, volatile u16 heap)
@@ -643,8 +643,8 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     myStatus = GAME_DATA_GetMyStatus(save);
     badges = GAME_DATA_GetMiscSave(save);
     saveClock = (SaveClock *)func_02008B14(playerSave);
-    records = func_02008C58(playerSave);
-    beaconData = func_0200E6E8((u32)playerSave);
+    records = RECORD_GetFromSave(playerSave);
+    beaconData = SAVEDATA_GetExtraBlockThunk((u32)playerSave);
     zukan = ZUKAN_SAVE_GetFromGameData(save);
 
     if (func_020084BC(myStatus) == 0) {
@@ -752,7 +752,7 @@ ViewWork *TRCARD_SYS_CreateViewWork(void *cardData, u32 heapId, void *profile)
 {
     ViewWork *view;
 
-    view = func_02030734(heapId, 24, 1, d_02172B64, 0x321);
+    view = GFL_HEAP_Alloc(heapId, 24, 1, d_02172B64, 0x321);
     MI_CpuFill8(view, 0, 24);
     view->bmpWin = 0;
     view->cardData = cardData;
@@ -768,7 +768,7 @@ EditWork *TRCARD_SYS_CreateEditWork(void *cardData, u8 *profile, u32 heapId)
 {
     EditWork *edit;
 
-    edit = func_02030734(heapId, 24, 1, d_02172B64, 0x33a);
+    edit = GFL_HEAP_Alloc(heapId, 24, 1, d_02172B64, 0x33a);
     edit->profile = profile;
     edit->cardData = cardData;
     edit->phase = 0;
@@ -786,7 +786,7 @@ EditWork *TRCARD_SYS_CreateEditWork(void *cardData, u8 *profile, u32 heapId)
  *
  * Byte-correct (MATCH*, the 136-byte extent includes two bytes of pad).
  * unlabelled ARM9 Thumb thunk (`ldr r0, [r0]; ldr r3, =0x020071CD;
- * movs r1, #0x3a; bx r3`, i.e. `return func_020071CC(*p, 0x3A);`, with the
+ * movs r1, #0x3a; bx r3`, i.e. `return SAVE_CONTROL_GetBlock(*p, 0x3A);`, with the
  * sibling at 0x02012F00 passing 0x3B) whose only caller is this function.
  * Matching that thunk (ARM9 territory) or seeding its start closes this file.
  */

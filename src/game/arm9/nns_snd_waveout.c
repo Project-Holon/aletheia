@@ -42,7 +42,7 @@
  *   SND_SetChannelTimer  0x02089618  arm
  *   SND_IsFinishedCommandTag 0x02089D6C  arm
  *   SND_GetChannelStatus 0x0208A07C  arm
- *   func_02089B38   0x02089B38  arm
+ *   SND_FlushCommand   0x02089B38  arm
  *   SND_WaitForCommandProc   0x02089CD4  arm
  *   SND_SetChannelVolume  0x02089638  arm
  */
@@ -77,7 +77,7 @@ extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
 extern void SND_SetChannelTimer(u32 chBitMask, int timer);
 extern int SND_IsFinishedCommandTag(u32 tag);
 extern u32 SND_GetChannelStatus(void);
-extern void func_02089B38(int v);
+extern void SND_FlushCommand(int v);
 extern void SND_WaitForCommandProc(u32 tag);
 int NNSi_SndWaveOutLockChannels(int mask);
 void SND_CHANNEL_UnlockChannels(u32 channelMask);
@@ -291,7 +291,7 @@ void NNS_SndWaveOutWaitIdle(NNSSndWaveOutHandle *handle)
         if ((SND_GetChannelStatus() & (1 << handle->channelNo)) == 0)
             return;
         commandTag = SND_GetCurrentCommandTag();
-        func_02089B38(1);
+        SND_FlushCommand(1);
         SND_WaitForCommandProc(commandTag);
     } else {
         if (handle->started == 0) {

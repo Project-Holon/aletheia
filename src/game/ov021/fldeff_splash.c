@@ -23,7 +23,7 @@
  *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
  *   FIELDMAP_GetGroundBbdAct  0x02188C90  thumb  ov021
  *   gFldeffSplashFileName     0x021DE47C  data  ov021
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   FIELD_EFFECT_ApplyPaletteTable  0x021AC1F0  thumb  ov021
@@ -53,7 +53,7 @@
  *   FIELD_G3DOBJ_SetObjectRedrawFlag  0x021C6828  thumb  ov021
  *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  *   FIELD_G3DOBJ_DrawObject  0x021C67F4  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   abs_id_C2      0x000000C2  data
  *   ov171_id       0x000000AB  data  a1
  *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm  arm9
@@ -177,10 +177,10 @@ extern void BILLBOARD_ACT_SetEntryList(void *p, int idx, u32 h);
 extern void BILLBOARD_ACT_SetEntryEnabled(void *p, int idx, u32 v);
 extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
 extern u32 BILLBOARD_ACT_GetEntryLastCommand(u8 *p, int i, u16 *out);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 FIELD_EFFECT_GetFieldMap(u8 *p);
 extern u32 FIELDMAP_GetGroundBbdAct(u8 *p);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 FIELD_EFFECT_GetArcHandle(u8 *p);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
 extern void FIELD_EFFECT_ApplyPaletteTable(struct FieldEffectSys *x, void *b);
@@ -237,7 +237,7 @@ extern char ov171_id[];
 /* Splash, billboard kind: allocates the record (0xC bytes) and loads its image. */
 SplashBoardRes *FLDEFF_SPLASH_CreateBoardRes(FieldEffectSys *sys, u32 heapId)
 {
-    SplashBoardRes *res = func_02030734(heapId, 0xC, 1, gFldeffSplashFileName, 0x7D);
+    SplashBoardRes *res = GFL_HEAP_Alloc(heapId, 0xC, 1, gFldeffSplashFileName, 0x7D);
 
     res->sys = sys;
     res->actSys = (struct BbActSys *)FIELDMAP_GetGroundBbdAct((u8 *)FIELD_EFFECT_GetFieldMap((u8 *)sys));
@@ -249,7 +249,7 @@ SplashBoardRes *FLDEFF_SPLASH_CreateBoardRes(FieldEffectSys *sys, u32 heapId)
 void FLDEFF_SPLASH_DeleteBoardRes(u32 unused, SplashBoardRes *res)
 {
     FLDEFF_SPLASH_UnloadBoardImage(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 /* Registers the splash image in the ground billboard system. */
@@ -343,7 +343,7 @@ void FLDEFF_SPLASH_DrawBoardObj(void) {}
 /* Splash, model kind: allocates the record (8 bytes) and loads its model. */
 SplashModelRes *FLDEFF_SPLASH_CreateModelRes(FieldEffectSys *sys, u32 heapId)
 {
-    SplashModelRes *res = func_02030734(heapId, 8, 1, gFldeffSplashFileName, 0x163);
+    SplashModelRes *res = GFL_HEAP_Alloc(heapId, 8, 1, gFldeffSplashFileName, 0x163);
 
     res->sys = sys;
     FLDEFF_SPLASH_LoadModel(res);
@@ -354,7 +354,7 @@ SplashModelRes *FLDEFF_SPLASH_CreateModelRes(FieldEffectSys *sys, u32 heapId)
 void FLDEFF_SPLASH_DeleteModelRes(u32 unused, SplashModelRes *res)
 {
     FLDEFF_SPLASH_UnloadModel(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 /* Loads the splash model resource and creates its object (hidden from the batch draw). */

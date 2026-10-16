@@ -16,8 +16,8 @@
  * symbols:
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   d_021DDA38  0x021DDA38  data  ov021  a4
@@ -113,8 +113,8 @@ FieldCameraAnimeData *FIELD_CAMERA_ANIME_GetData(FieldCameraAnime *anime);
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void *func_02030734(u16 heapId, u32 size, u32 flag, const char *file, u32 line);
-extern u32 func_020307B0(void *mem);
+extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 flag, const char *file, u32 line);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern u32 FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
@@ -188,12 +188,12 @@ void FIELD_CAMERA_ANIME_Restore(FieldCameraAnime *anime)
 
 FieldCameraAnime *FIELD_CAMERA_ANIME_Alloc(u16 heapId)
 {
-    return func_02030734(heapId, sizeof(FieldCameraAnime), 0, d_021DDA38, 0xee);
+    return GFL_HEAP_Alloc(heapId, sizeof(FieldCameraAnime), 0, d_021DDA38, 0xee);
 }
 
 void FIELD_CAMERA_ANIME_Free(FieldCameraAnime *anime)
 {
-    func_020307B0(anime);
+    GFL_HEAP_Free(anime);
 }
 
 void FIELD_CAMERA_ANIME_Init(FieldCameraAnime *anime, FieldMap *fieldMap)

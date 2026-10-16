@@ -27,8 +27,8 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8     0x02082BCC  arm
  *   FLDMMDL_LoadObjCodeParam   0x0216E2E8  thumb  ov010
- *   func_02034A5C  0x02034A5C  arm
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_NET_DEVWIFI_GetDeviceTable  0x0215536C  thumb  ov009
  *   GFL_NET_DEVWIRELESS_GetDeviceTable  0x02177020  thumb  ov014
  *   IRCNET_GetHandlerTable  0x021798D4  thumb  ov015
@@ -103,8 +103,8 @@ typedef struct NetDeviceHeader {
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void FLDMMDL_LoadObjCodeParam(const MmdlSys *sys, u32 objCode, MmdlObjCodeParam *out);
-extern void func_02034A5C(s32 handle);
-extern int func_02034AC4(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern void *GFL_NET_DEVWIFI_GetDeviceTable(void);
 extern void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
 extern void *IRCNET_GetHandlerTable(void);
@@ -505,31 +505,31 @@ int NET_DEVICE_TABLE_Select(u32 sel)
 {
     switch (sel) {
     case 6:
-        func_02034A5C((u32)ov_id_0A);
-        func_02034A5C((u32)ov_id_0B);
-        func_02034AC4((u32)ov_id_09);
-        func_02034AC4((u32)ov_id_0D);
-        func_02034AC4((u32)ov_id_72);
+        GF_OVERLAY_Unload((u32)ov_id_0A);
+        GF_OVERLAY_Unload((u32)ov_id_0B);
+        GF_OVERLAY_Load((u32)ov_id_09);
+        GF_OVERLAY_Load((u32)ov_id_0D);
+        GF_OVERLAY_Load((u32)ov_id_72);
         return (int)GFL_NET_DEVWIFI_GetDeviceTable();
     case 1:
-        func_02034A5C((u32)ov_id_0A);
-        func_02034A5C((u32)ov_id_0B);
-        func_02034AC4((u32)ov_id_09);
-        func_02034AC4((u32)ov_id_0D);
+        GF_OVERLAY_Unload((u32)ov_id_0A);
+        GF_OVERLAY_Unload((u32)ov_id_0B);
+        GF_OVERLAY_Load((u32)ov_id_09);
+        GF_OVERLAY_Load((u32)ov_id_0D);
         return (int)GFL_NET_DEVWIFI_GetDeviceTable();
     case 2:
-        func_02034A5C((u32)ov_id_0A);
-        func_02034A5C((u32)ov_id_0B);
-        func_02034AC4((u32)ov_id_09);
-        func_02034AC4((u32)ov_id_0D);
+        GF_OVERLAY_Unload((u32)ov_id_0A);
+        GF_OVERLAY_Unload((u32)ov_id_0B);
+        GF_OVERLAY_Load((u32)ov_id_09);
+        GF_OVERLAY_Load((u32)ov_id_0D);
         return (int)GFL_NET_DEVWIFI_GetDeviceTable();
     case 0:
     case 5:
-        func_02034AC4((u32)ov_id_0E);
+        GF_OVERLAY_Load((u32)ov_id_0E);
         return (int)GFL_NET_DEVWIRELESS_GetDeviceTable();
     case 3:
     case 4:
-        func_02034AC4((u32)ov_id_0F);
+        GF_OVERLAY_Load((u32)ov_id_0F);
         return (int)IRCNET_GetHandlerTable();
     }
     return 0;
@@ -540,31 +540,31 @@ void NET_DEVICE_TABLE_Reset(u32 sel)
 {
     switch (sel) {
     case 6:
-        func_02034A5C((u32)ov_id_72);
-        func_02034A5C((u32)ov_id_09);
-        func_02034A5C((u32)ov_id_0D);
-        func_02034AC4((u32)ov_id_0A);
-        func_02034AC4((u32)ov_id_0B);
+        GF_OVERLAY_Unload((u32)ov_id_72);
+        GF_OVERLAY_Unload((u32)ov_id_09);
+        GF_OVERLAY_Unload((u32)ov_id_0D);
+        GF_OVERLAY_Load((u32)ov_id_0A);
+        GF_OVERLAY_Load((u32)ov_id_0B);
         break;
     case 1:
-        func_02034A5C((u32)ov_id_09);
-        func_02034A5C((u32)ov_id_0D);
-        func_02034AC4((u32)ov_id_0A);
-        func_02034AC4((u32)ov_id_0B);
+        GF_OVERLAY_Unload((u32)ov_id_09);
+        GF_OVERLAY_Unload((u32)ov_id_0D);
+        GF_OVERLAY_Load((u32)ov_id_0A);
+        GF_OVERLAY_Load((u32)ov_id_0B);
         break;
     case 2:
-        func_02034A5C((u32)ov_id_09);
-        func_02034A5C((u32)ov_id_0D);
-        func_02034AC4((u32)ov_id_0A);
-        func_02034AC4((u32)ov_id_0B);
+        GF_OVERLAY_Unload((u32)ov_id_09);
+        GF_OVERLAY_Unload((u32)ov_id_0D);
+        GF_OVERLAY_Load((u32)ov_id_0A);
+        GF_OVERLAY_Load((u32)ov_id_0B);
         break;
     case 0:
     case 5:
-        func_02034A5C((u32)ov_id_0E);
+        GF_OVERLAY_Unload((u32)ov_id_0E);
         break;
     case 3:
     case 4:
-        func_02034A5C((u32)ov_id_0F);
+        GF_OVERLAY_Unload((u32)ov_id_0F);
         break;
     }
 }

@@ -14,8 +14,8 @@
  * Split from weather_task.c (lane L141): __FILE__ anchor 021A41A0 (sFieldPlayerGridFile "field_player_grid.c"); 021A4140 is the grid constructor.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
@@ -152,8 +152,8 @@ typedef struct FieldPlayerGridCallbackSound {
 
 typedef int (*FieldPlayerGridForcedMoveFunc)(FieldPlayerGrid *grid, int dir);
 
-extern u32 func_020307B0(void *memory);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *memory);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
 extern void FLDMMDL_GetPos(Mmdl *mmdl, VecFx32 *out);
@@ -340,7 +340,7 @@ FieldPlayerGrid *FIELD_PLAYER_GRID_Create(FieldPlayerCore *core, u32 heapId)
 {
     FieldPlayerGrid *grid;
 
-    grid = func_02030734(heapId, 0x20, 1, (const char *)sFieldPlayerGridFile, 0x17D);
+    grid = GFL_HEAP_Alloc(heapId, 0x20, 1, (const char *)sFieldPlayerGridFile, 0x17D);
     grid->core = core;
     grid->fieldMap = FIELD_PLAYER_CORE_GetFieldMap(core);
     grid->soundId = FIELD_PLAYER_GRID_SOUND_NONE;
@@ -361,7 +361,7 @@ FieldPlayerGrid *FIELD_PLAYER_GRID_Create(FieldPlayerCore *core, u32 heapId)
 
 void FIELD_PLAYER_GRID_Delete(FieldPlayerGrid *grid)
 {
-    func_020307B0(grid);
+    GFL_HEAP_Free(grid);
 }
 
 

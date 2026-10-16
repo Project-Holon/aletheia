@@ -13,11 +13,11 @@
  * Cut from sta_acting.c, script_command.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
  *   MUS_COMM_FUNC_CheckTimingSync 0x021FCE00 thumb ov132
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GF_STANDARD_Rand 0x0203F0A8 arm
@@ -118,9 +118,9 @@ struct Context { char pad0[0x60]; struct Record rec[4]; };
 /* The callback owner is the 0x1ac-byte allocation in 021FC644, viewed as
    struct ActingHost. */
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 
@@ -144,7 +144,7 @@ extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 
 extern void GFL_NET_SetLoginOption(u8 a0);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
@@ -277,7 +277,7 @@ extern char d_021FDC38[];
 void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d)
 {
     char *p;
-    p = func_02030734(4, 0x1ac, 1, d_021FDE5C, 0x14c);
+    p = GFL_HEAP_Alloc(4, 0x1ac, 1, d_021FDE5C, 0x14c);
     ((struct ActingHost *)p)->fC = d;
     ((struct ActingHost *)p)->f54 = b;
     ((struct ActingHost *)p)->f58 = ICA_ANIME_GetField1C(b);
@@ -318,23 +318,23 @@ int MUS_COMM_FUNC_UpdateNetState(int *state,u8 *p)
   break;
  case 1:
   if(MUS_COMM_FUNC_CheckTimingSync((char *)p,0x41)==1) *state=2;
-  if(GFL_NET_GetNegotiationNum()<=1 || func_0200FB24()!=0) *state=10;
+  if(GFL_NET_GetNegotiationNum()<=1 || GFL_NET_ERR_GetErrorLevel()!=0) *state=10;
   break;
  case 2:
   if(((struct ActingHost *)p)->f8==0) {GFL_NET_Exit(0);return 1;}
   if(GFL_NET_IsParentAid()==0) {
    if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),1,0,0)==1) return 1;
   } else if(GFL_NET_GetNegotiationNum()<=1) {GFL_NET_Exit(0);return 1;}
-  if(func_0200FB24()!=0) *state=10;
+  if(GFL_NET_ERR_GetErrorLevel()!=0) *state=10;
   break;
  case 10:
-  if(func_0200FB24()!=0) ICA_ANIME_SetField30(*(struct Ctx * *)&((struct ActingHost *)p)->f54,1);
+  if(GFL_NET_ERR_GetErrorLevel()!=0) ICA_ANIME_SetField30(*(struct Ctx * *)&((struct ActingHost *)p)->f54,1);
   GFL_NET_Exit(0);return 1;
  }
  return 0;
 }
 
-int MUS_COMM_FUNC_WaitSessionNull(int unused,int unused1,void *p) { if(GFL_NET_IsSessionNull()==1) {func_020307B0(p);return 1;} return 0; }
+int MUS_COMM_FUNC_WaitSessionNull(int unused,int unused1,void *p) { if(GFL_NET_IsSessionNull()==1) {GFL_HEAP_Free(p);return 1;} return 0; }
 
 void MUS_COMM_FUNC_Task(int unused,int unused1,char *p) { MUS_COMM_FUNC_Update(p); }
 
@@ -369,9 +369,9 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   W(row,0x78)=0;
   W(row,0x64)=0;W(row,0x68)=0;W(row,0x6C)=0;
   row[0x70]=10;row[0x71]=10;
-  P(row,0x7C)=func_02030734(((struct ActingHost *)p)->f0,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
+  P(row,0x7C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
   size1=MYSTATUS_GetSize();
-  P(row,0x8C)=func_02030734(((struct ActingHost *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
+  P(row,0x8C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
   clear8(P(row,0x7C),POKE_TOOL_GetPartyParamSize()+0x7C);
   size2=MYSTATUS_GetSize();
   clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
@@ -383,9 +383,9 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  ((struct ActingHost *)p)->f12C=MUSICAL_SAVE_GetFanPoints(data);
  ((struct ActingHost *)p)->f130=a;((struct ActingHost *)p)->f134=b;
  W(p,0x138)=0;W(p,0x124)=0;
- P(p,0x128)=func_02030734(((struct ActingHost *)p)->f0,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
+ P(p,0x128)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=MYSTATUS_GetSize();
- P(p,0x13C)=func_02030734(((struct ActingHost *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
+ P(p,0x13C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
  p[0x14C]=0;W(p,0x150)=0;
  W(p,0x158)=0;W(p,0x15C)=0;W(p,0x160)=0;W(p,0x164)=0;
@@ -408,14 +408,14 @@ void MUS_COMM_FUNC_DeleteBuffers(char *p)
     for(i=0;i<4;i++) {
         q=p+i*0x30;
         if(((struct ActingScene *)q)->f7C) {
-            func_020307B0(((struct ActingScene *)q)->f8C);
-            func_020307B0(((struct ActingScene *)q)->f7C);
+            GFL_HEAP_Free(((struct ActingScene *)q)->f8C);
+            GFL_HEAP_Free(((struct ActingScene *)q)->f7C);
         }
     }
-    if(((struct ActingHost *)p)->f124) func_020307B0(((struct ActingHost *)p)->f124);
-    if(((struct ActingHost *)p)->f138) func_020307B0(((struct ActingHost *)p)->f138);
-    if(((struct ActingHost *)p)->f128) func_020307B0(((struct ActingHost *)p)->f128);
-    if(((struct ActingHost *)p)->f13C) func_020307B0(((struct ActingHost *)p)->f13C);
+    if(((struct ActingHost *)p)->f124) GFL_HEAP_Free(((struct ActingHost *)p)->f124);
+    if(((struct ActingHost *)p)->f138) GFL_HEAP_Free(((struct ActingHost *)p)->f138);
+    if(((struct ActingHost *)p)->f128) GFL_HEAP_Free(((struct ActingHost *)p)->f128);
+    if(((struct ActingHost *)p)->f13C) GFL_HEAP_Free(((struct ActingHost *)p)->f13C);
 }
 
 void MUS_COMM_FUNC_SetReady(char *p)
@@ -447,7 +447,7 @@ void MUS_COMM_FUNC_Update(char *p)
     u8 list[4];
     u32 v;
     u32 ok;
-    if (func_0200FB24()) {
+    if (GFL_NET_ERR_GetErrorLevel()) {
         *(int *)(p + 4) = 1;
         if (GFL_NET_IsSessionNull() == 0) GFL_NET_Exit(0);
     }
@@ -643,7 +643,7 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
     case 4:
       if ((*((u32 *) (p + 0x48))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 4)) = func_02030734(4, q->data, 0, d_021FDE5C, 0x4c4);
+      *((void **) ((*((char **) (p + 0x140))) + 4)) = GFL_HEAP_Alloc(4, q->data, 0, d_021FDE5C, 0x4c4);
       *((u32 *) ((*((char **) (p + 0x140))) + 0x20)) = q->data;
     }
       *((u32 *) (p + 0x164)) = 1;
@@ -652,7 +652,7 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
     case 5:
       if ((*((u32 *) (p + 0x48))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 8)) = func_02030734(44, q->data, 0, d_021FDE5C, 0x4cd);
+      *((void **) ((*((char **) (p + 0x140))) + 8)) = GFL_HEAP_Alloc(44, q->data, 0, d_021FDE5C, 0x4cd);
       *((u32 *) ((*((char **) (p + 0x140))) + 0x24)) = q->data;
     }
       *((u32 *) (p + 0x168)) = 1;
@@ -661,7 +661,7 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
     case 6:
       if ((*((u32 *) (p + 0x48))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 12)) = func_02030734(44, q->data, 0, d_021FDE5C, 0x4d6);
+      *((void **) ((*((char **) (p + 0x140))) + 12)) = GFL_HEAP_Alloc(44, q->data, 0, d_021FDE5C, 0x4d6);
       *((u32 *) ((*((char **) (p + 0x140))) + 0x28)) = q->data;
     }
       *((u32 *) (p + 0x16c)) = 1;
@@ -672,7 +672,7 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
       *((u32 *) (p + 0x17c)) = 3;
     else
     {
-      *((void **) ((*((char **) (0x140 + p))) + 16)) = func_02030734(44, q->data, 0, d_021FDE5C, 0x4e3);
+      *((void **) ((*((char **) (0x140 + p))) + 16)) = GFL_HEAP_Alloc(44, q->data, 0, d_021FDE5C, 0x4e3);
       *((u32 *) ((*((char **) (p + 0x140))) + 0x2c)) = q->data;
     }
       break;
@@ -760,10 +760,10 @@ u32 MUS_COMM_FUNC_SendMyStatus(struct ActingHost *p)
 {
     u32 a, b;
     char *q, *t;
-    if(p->f138) func_020307B0(p->f138);
+    if(p->f138) GFL_HEAP_Free(p->f138);
     a=MYSTATUS_GetSize();
     b=POKE_TOOL_GetBoxParamSize();
-    q=func_02030734(p->f0,a+4+b,0,d_021FDE5C,0x533);
+    q=GFL_HEAP_Alloc(p->f0,a+4+b,0,d_021FDE5C,0x533);
     p->f138=q;
     t=q+4+MYSTATUS_GetSize();
     MI_CpuCopy8(&p->f12C,q,4);
@@ -842,9 +842,9 @@ int MUS_COMM_FUNC_SendStatusBlock(char *p, char *src)
     void *h;
     u32 n;
     int zero;
-    if(((struct ActingHost *)p)->f124) func_020307B0(((struct ActingHost *)p)->f124);
+    if(((struct ActingHost *)p)->f124) GFL_HEAP_Free(((struct ActingHost *)p)->f124);
     n=POKE_TOOL_GetPartyParamSize();
-    q=func_02030734(((struct ActingHost *)p)->f0,n+0x7c,0,d_021FDE5C,0x5be);
+    q=GFL_HEAP_Alloc(((struct ActingHost *)p)->f0,n+0x7c,0,d_021FDE5C,0x5be);
     zero=0;
     ((struct ActingHost *)p)->f124=q;
     MI_CpuCopy8(src,q,0x7c);

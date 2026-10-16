@@ -1,7 +1,7 @@
 /*
  * file:     gx_load3d.c
  * unit:     yes
- * function: GX_BeginLoadTex, GX_LoadTex, GX_EndLoadTex, GX_BeginLoadTexPltt, GX_LoadTexPltt, func_0207FADC, func_0207FB2C, GX_LoadClearImageColor, GX_LoadClearImageDepth, GX_EndLoadClearImage
+ * function: GX_BeginLoadTex, GX_LoadTex, GX_EndLoadTex, GX_BeginLoadTexPltt, GX_LoadTexPltt, GX_EndLoadTexPltt, func_0207FB2C, GX_LoadClearImageColor, GX_LoadClearImageDepth, GX_EndLoadClearImage
  * address:  0x0207F7A0
  * region:   arm9
  * compiler: dsi/1.1p1

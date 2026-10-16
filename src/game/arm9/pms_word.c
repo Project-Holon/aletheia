@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuCopy8   0x02082D44  arm
- *   func_020071CC  0x020071CC  thumb
- *   func_02045B38    0x02045B38  arm
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
+ *   MSGDATA_CreateFromArchive    0x02045B38  arm
  *   MSGDATA_Delete    0x02045C04  arm
  *   g_pmsWordSourceFile   0x020A746C  data  a1
  *   g_pmsWordBankFileIds  0x0209F7AC  data
@@ -54,12 +54,12 @@ typedef struct Group {
     int count;
 } Group;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *func_020071CC(struct WinPanel020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct WinPanel020071CCCtrl *ctrl, u32 id);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern struct MsgBank *func_02045B38(int resident, int arcId, u32 fileId, u16 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void STRBUF_Clear(struct U16Vec *vec);
 struct PmsWordSys *PMS_WORD_Create(u32 heapId);
@@ -97,10 +97,10 @@ struct PmsWordSys *PMS_WORD_Create(u32 heapId)
     int i;
     struct PmsWordSys *p;
 
-    p = func_02030734((u16)heapId, 0x38, 0, g_pmsWordSourceFile, 0x32);
+    p = GFL_HEAP_Alloc((u16)heapId, 0x38, 0, g_pmsWordSourceFile, 0x32);
     for (i = 0; i < 13; i++) {
         p->heapId = heapId;
-        p->msg[i] = func_02045B38(0, 2, g_pmsWordBankFileIds[i], heapId);
+        p->msg[i] = MSGDATA_CreateFromArchive(0, 2, g_pmsWordBankFileIds[i], heapId);
     }
     return p;
 }
@@ -110,7 +110,7 @@ void PMS_WORD_Delete(struct PmsWordSys *p)
     int i;
     for (i = 0; i < 0xd; i++)
         MSGDATA_Delete((struct Rec *)p->msg[i]);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void PMS_WORD_GetString(struct PmsWordSys *p, u32 id, void *dest)
@@ -138,7 +138,7 @@ void PMS_WORD_LoadString(u32 id, void *dest, u16 heap)
 
         PMS_WORD_SplitWordId(id, &bank, &entry);
         bank = g_pmsWordBankFileIds[bank];
-        arc = func_02045B38(0, 2, bank, heap);
+        arc = MSGDATA_CreateFromArchive(0, 2, bank, heap);
         MSGDATA_ReadString(arc, entry, dest);
         MSGDATA_Delete(arc);
     } else {
@@ -241,7 +241,7 @@ void PMS_WORD_InitSave(struct PmsWord *p)
 
 void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl)
 {
-    return func_020071CC(ctrl, 0x27);
+    return SAVE_CONTROL_GetBlock(ctrl, 0x27);
 }
 
 int PMS_WORD_CheckFlag(const u32 *p, u32 idx){return (*p >> idx) & 1;}

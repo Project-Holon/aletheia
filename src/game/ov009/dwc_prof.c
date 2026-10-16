@@ -46,12 +46,12 @@
  *   gMslRefToken     0x02150FEC  data
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   DWC_AC_GetApType  0x0205BDD0  arm
- *   func_02059F54  0x02059F54  arm
+ *   DWCi_SetError  0x02059F54  arm
  *   DWC_Http_ParseResult  0x0217A484  arm  ov009
  *   func_0217A728  0x0217A728  arm  ov009
  *   func_02168250  0x02168250  arm  ov009
  *   atoi  0x020964E0  arm
- *   func_0217A77C  0x0217A77C  arm  ov009
+ *   DWC_Http_GetBase64DecodedResult  0x0217A77C  arm  ov009
  *   gDwcProfFieldNames     0x021A27B8  data ov009
  *   gDwcProfLabelDate     0x021A2818  data ov009
  *   gDwcProfLabelHttpResult     0x021A2820  data ov009
@@ -149,12 +149,12 @@ extern void *func_0217C050(unsigned long name, long size);
 extern void func_0217C060(unsigned long name, void *ptr, long size);
 extern int OS_IsThreadTerminated(OSThread *thread);
 extern unsigned char DWC_AC_GetApType(void);
-extern void func_02059F54(int error, int errorCode);
+extern void DWCi_SetError(int error, int errorCode);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 extern int atoi(u32 a0);
-extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
+extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void *DWC_Alloc(int name, unsigned long size);
 int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, char *region);
 /*
@@ -357,17 +357,17 @@ int DWC_CheckProfanityProcess(void)
                 retval = 2;
             break;
         case 2:
-            func_02059F54(8, -52100 - aptype);
+            DWCi_SetError(8, -52100 - aptype);
             retval = 3;
             break;
         case 3:
         case 4:
         case 6:
-            func_02059F54(18, -33010);
+            DWCi_SetError(18, -33010);
             retval = 3;
             break;
         default:
-            func_02059F54(18, -33030);
+            DWCi_SetError(18, -33030);
             retval = 3;
             break;
         }
@@ -413,20 +413,20 @@ int DWCi_Prof_ParseResponse(void)
     if (errno == 34 || httpretcode != 200)
         goto error;
 
-    if (func_0217A77C(DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
+    if (DWC_Http_GetBase64DecodedResult(DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
         goto error;
     httpretcode = atoi((u32)retcode);
     if (errno == 34)
         goto error;
     if (httpretcode == 1 || (httpretcode >= 100 && httpretcode != 100)) {
-        func_02059F54(17, -33000 - httpretcode);
+        DWCi_SetError(17, -33000 - httpretcode);
         return 0;
     }
 
     for (i = 0; i < sizeof(regionResultFieldName.name) / sizeof(char *) - 1; i++) {
         if (regionResultFieldName.name[i] == 0)
             continue;
-        decodedStringLength = func_0217A77C(DWChttp, regionResultFieldName.name[i], result, sizeof(result));
+        decodedStringLength = DWC_Http_GetBase64DecodedResult(DWChttp, regionResultFieldName.name[i], result, sizeof(result));
         if (decodedStringLength < 0)
             goto error;
         if (decodedStringLength == 0)
@@ -440,7 +440,7 @@ int DWCi_Prof_ParseResponse(void)
         }
     }
 
-    decodedStringLength = func_0217A77C(DWChttp, gDwcProfLabelPrWords, result, sizeof(result));
+    decodedStringLength = DWC_Http_GetBase64DecodedResult(DWChttp, gDwcProfLabelPrWords, result, sizeof(result));
     if (decodedStringLength < 0)
         goto error;
     if (decodedStringLength == 0)
@@ -461,7 +461,7 @@ int DWCi_Prof_ParseResponse(void)
     return 1;
 
 error:
-    func_02059F54(17, -33020);
+    DWCi_SetError(17, -33020);
     return 0;
 }
 

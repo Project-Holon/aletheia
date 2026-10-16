@@ -16,14 +16,14 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   POKE_TOOL_IsShiny 0x02017EAC thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   func_02049B68 0x02049B68 arm
- *   func_02049740 0x02049740 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049990 0x02049990 arm
@@ -31,13 +31,13 @@
  *   ARC_TOOL_GetHandleMemberSize 0x020493D4 arm
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
  *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
- *   func_020307B0 0x020307B0 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BC220 0x021BC220 data
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -47,7 +47,7 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -57,11 +57,11 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -73,7 +73,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_Delete  0x020437AC  arm
  *   BMP_CreateFromArchive  0x0204384C  arm
  *   BMP_Blit  0x020439A0  arm
@@ -104,11 +104,11 @@
  *   d_021BC128 0x021BC128 data a2
  *   d_021BC150 0x021BC150 data a1
  *   FX_SinCosTable_ 0x020A1B38 data
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   func_020490F4 0x020490F4 arm
- *   func_02045B38 0x02045B38 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   tbl_021BC134 0x021BC134 data
  *   tbl_021BC1C4 0x021BC1C4 data
  *   tbl_021BC184 0x021BC184 data
@@ -292,14 +292,14 @@ struct UnpackedPalette {
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 extern u8 POKE_TOOL_GetGender(void *);
 extern unsigned POKE_TOOL_IsShiny(void *);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
@@ -307,12 +307,12 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern u32 func_020307B0(void *p);
-extern void *func_020056A0(void (*cb)(int, char *), void *arg, int pri);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_USE_AddMainTask(void (*cb)(int, char *), void *arg, int pri);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32 layer);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -322,7 +322,7 @@ extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern void POKE_PERSONAL_Delete(void *p);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u32 c, u32 d, u32 slot);
@@ -331,11 +331,11 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -344,7 +344,7 @@ extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void BMP_Delete(struct Bmp *p);
@@ -372,11 +372,11 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_AddActorSurfacePos(void *, ActorSurfacePos *, unsigned short);
 extern void *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
 extern void CLACT_TransferCharacterPart(int a, void *b, unsigned int c, int d, int e);
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern u32 APP_ICON_GetArchiveId(void);
 extern int POKEGRA_OpenHandle(int a0);
-extern void *func_020490F4(u32 id, u32 heap);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void ARC_TOOL_DeleteHandle(void *);
 void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned a2,unsigned a3,unsigned a4,unsigned a5,u8 a6,unsigned a7,unsigned a8,unsigned a9,unsigned a10,unsigned a11,unsigned a12);
@@ -529,7 +529,7 @@ void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6
     int y;
     u32 hh;
 
-    p = func_02030734(heap, 0x2b4, 0, d_021BC220, 0x42f);
+    p = GFL_HEAP_Alloc(heap, 0x2b4, 0, d_021BC220, 0x42f);
     MI_CpuFill8(p, 0, 0x2b4);
     ((struct ZukanInfo *)p)->heap = heap;
     ((struct ZukanInfo *)p)->species = a1;
@@ -590,24 +590,24 @@ void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6
     if (((struct ZukanInfo *)p)->form >= hh) ((struct ZukanInfo *)p)->form = 0;
     h = ((struct ZukanInfo *)p)->w[0];
     func_02049B68(h, 9, ((struct ZukanInfo *)p)->bgConfig, 0, 0x60, ((struct ZukanInfo *)p)->heap);
-    ((struct ZukanInfo *)p)->charHandle = func_02049740(h, 0x19, ((struct ZukanInfo *)p)->layerUpper, 0x1000, 0, ((struct ZukanInfo *)p)->heap);
-    func_020498F4(h, 0x28, ((struct ZukanInfo *)p)->layerUpper, (u16)((struct ZukanInfo *)p)->charHandle, 0x800, 0, ((struct ZukanInfo *)p)->heap);
-    ((struct ZukanInfo *)p)->charHandle2 = func_02049740(h, 0x19, ((struct ZukanInfo *)p)->layerLower, 0x1000, 0, ((struct ZukanInfo *)p)->heap);
-    func_020498F4(h, 0x1f, ((struct ZukanInfo *)p)->layerLower, (u16)((struct ZukanInfo *)p)->charHandle2, 0x800, 0, ((struct ZukanInfo *)p)->heap);
+    ((struct ZukanInfo *)p)->charHandle = ARC_UTIL_RegisterObjCharFromHandle(h, 0x19, ((struct ZukanInfo *)p)->layerUpper, 0x1000, 0, ((struct ZukanInfo *)p)->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 0x28, ((struct ZukanInfo *)p)->layerUpper, (u16)((struct ZukanInfo *)p)->charHandle, 0x800, 0, ((struct ZukanInfo *)p)->heap);
+    ((struct ZukanInfo *)p)->charHandle2 = ARC_UTIL_RegisterObjCharFromHandle(h, 0x19, ((struct ZukanInfo *)p)->layerLower, 0x1000, 0, ((struct ZukanInfo *)p)->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 0x1f, ((struct ZukanInfo *)p)->layerLower, (u16)((struct ZukanInfo *)p)->charHandle2, 0x800, 0, ((struct ZukanInfo *)p)->heap);
     ((struct ZukanInfo *)p)->gfxSlot = 0;
     ((struct ZukanInfo *)p)->hidden = 0;
     if (((struct ZukanInfo *)p)->mode == 2 && ((struct ZukanInfo *)p)->femaleFlag == 1) {
         BG_SYS_SetTileEntry(((struct ZukanInfo *)p)->layerUpper, 0, 0, 0, 0x20, 3, 0x11);
         h = ((struct ZukanInfo *)p)->w[0];
         ARC_UTIL_UploadPaletteFromHandle(h, 2, ((struct ZukanInfo *)p)->bgConfig, 0, 0x80, 0x40, ((struct ZukanInfo *)p)->heap);
-        ((struct ZukanInfo *)p)->cellHandle = func_02049740(h, 0xc, ((struct ZukanInfo *)p)->layerLower, 0x2000, 0, ((struct ZukanInfo *)p)->heap);
+        ((struct ZukanInfo *)p)->cellHandle = ARC_UTIL_RegisterObjCharFromHandle(h, 0xc, ((struct ZukanInfo *)p)->layerLower, 0x2000, 0, ((struct ZukanInfo *)p)->heap);
         ((struct ZukanInfo *)p)->gfxSlot = 1;
         func_02049990(h, 0x24, ((struct ZukanInfo *)p)->layerLower, 0x400, (u16)((struct ZukanInfo *)p)->cellHandle, 0x800, 0, ((struct ZukanInfo *)p)->heap);
         BG_SYS_FillTileMap(((struct ZukanInfo *)p)->layerLower, 0, 0x20, 0x20, 0x15, 4);
         BG_SYS_FillTileMap(((struct ZukanInfo *)p)->layerLower, 0, 0x35, 0x20, 3, 5);
     }
     h = ((struct ZukanInfo *)p)->w[0];
-    buf = func_02030734(((struct ZukanInfo *)p)->heap, ARC_TOOL_GetHandleMemberSize(h, 9), 0, d_021BC220, 0x4f7);
+    buf = GFL_HEAP_Alloc(((struct ZukanInfo *)p)->heap, ARC_TOOL_GetHandleMemberSize(h, 9), 0, d_021BC220, 0x4f7);
     ARC_TOOL_ReadHandleMember(h, 9, buf);
     NNS_G2dGetUnpackedPaletteData(buf, &res);
     data = *(char * *)&((struct UnpackedPalette *)res)->palette;
@@ -615,10 +615,10 @@ void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6
         ((struct ZukanInfo *)p)->palA[i] = *(u16 *)(data + i * 2 + 0x22);
         ((struct ZukanInfo *)p)->palB[i] = *(u16 *)(data + i * 2 + 0x42);
     }
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
     ZUKAN_INFO_CreateBgBmp((struct ZukanInfo *)p);
     ZUKAN_INFO_FlushMainWindow(p);
-    ((struct ZukanInfo *)p)->task = func_020056A0(ZUKAN_INFO_Task, p, 1);
+    ((struct ZukanInfo *)p)->task = GFL_USE_AddMainTask(ZUKAN_INFO_Task, p, 1);
     ZUKAN_INFO_CreateIconActors((struct ZukanInfo *)p);
     ZUKAN_INFO_InitFormGfx((struct ZukanInfo *)p);
     if (((struct ZukanInfo *)p)->mode == 0 || ((struct ZukanInfo *)p)->mode == 2) {
@@ -672,7 +672,7 @@ void ZUKAN_INFO_Delete(char *p)
     if(((struct ZukanInfo *)p)->mode==2) ZUKAN_INFO_ClearDisplay(p);
     ZUKAN_INFO_DeleteFormGfx(p);
     ZUKAN_INFO_DeleteIconActors(p);
-    func_02030EAC(((struct ZukanInfo *)p)->task);
+    TCB_DeleteTask(((struct ZukanInfo *)p)->task);
     ZUKAN_INFO_DeleteMainWindows(p);
     if(((struct ZukanInfo *)p)->gfxSlot!=0) {
         BG_SYS_DeleteHalf(((struct ZukanInfo *)p)->layerLower,(u16)((struct ZukanInfo *)p)->cellHandle,(u16)(((struct ZukanInfo *)p)->cellHandle>>16));
@@ -683,7 +683,7 @@ void ZUKAN_INFO_Delete(char *p)
     ZUKAN_INFO_FreeResources((struct ZukanInfo *)p);
     PRINTSYS_QUE_Clear(((struct ZukanInfo *)p)->printQue);
     PRINTSYS_QUE_Delete(((struct ZukanInfo *)p)->printQue);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -944,8 +944,8 @@ void ZUKAN_INFO_Show(struct ZukanInfo *p)
 {
     if (!p->hidden) {
         p->hidden = 1;
-        func_02040588(p->layerMain, 0);
-        func_02040588(p->layerUpper, 0);
+        BG_SYS_SetPlaneVisible(p->layerMain, 0);
+        BG_SYS_SetPlaneVisible(p->layerUpper, 0);
         BG_SYS_ResetSlot(p->layerLower, 3, -256);
         ZUKAN_INFO_SetSlotDrawEnable((struct ZukanInfo *)p, p->hidden == 0);
     }
@@ -960,8 +960,8 @@ void ZUKAN_INFO_Hide(struct ZukanInfo *p)
 {
     if (p->hidden) {
         p->hidden = 0;
-        func_02040588(p->layerMain, 1);
-        func_02040588(p->layerUpper, 1);
+        BG_SYS_SetPlaneVisible(p->layerMain, 1);
+        BG_SYS_SetPlaneVisible(p->layerUpper, 1);
         BG_SYS_ResetSlot(p->layerLower, 3, -p->yOffset);
         ZUKAN_INFO_SetSlotDrawEnable((struct ZukanInfo *)p, p->hidden == 0);
     }
@@ -1023,7 +1023,7 @@ void ZUKAN_INFO_DeleteWindows(char *p)
         ((struct ZukanInfo *)p)->slotDirty[i]=1;
         BMP_WIN_Delete((struct Descriptor *)((struct ZukanInfo *)p)->win[i]);
     }
-    func_020307B0(((struct ZukanInfo *)p)->speciesTable);
+    GFL_HEAP_Free(((struct ZukanInfo *)p)->speciesTable);
 }
 
 
@@ -1045,12 +1045,12 @@ void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,un
     switch(alignment) {
     case 0: x=right; break;
     case 1: {
-        unsigned short width=func_0201D304((struct StrObj *)text,font,0);
+        unsigned short width=GF_FONT_MeasureWidestLine((struct StrObj *)text,font,0);
         x=right-width;
         break;
     }
     case 2: {
-        unsigned short width=func_0201D304((struct StrObj *)text,font,0);
+        unsigned short width=GF_FONT_MeasureWidestLine((struct StrObj *)text,font,0);
         x=(BMP_GetWidth((const struct Bmp *)buffer)-width)/2;
         break;
     }
@@ -1068,7 +1068,7 @@ void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,un
 
 void ZUKAN_INFO_DrawMessage(int heap,int window,struct MsgBank *bank,void *printer,int font,int message,unsigned short x,unsigned short y,unsigned short color,int alignment,int expansion)
 {
-    int text=(int)func_02045EC0(bank,message);
+    int text=(int)MSGDATA_AllocString(bank,message);
     ZUKAN_INFO_DrawText(heap,window,printer,font,text,x,y,color,alignment,expansion);
     STRBUF_Delete((struct U16Vec *)text);
 }
@@ -1115,7 +1115,7 @@ void ZUKAN_INFO_DrawMainPage(char *p)
     if (((struct ZukanInfo *)p)->formTableNeeded == 0) {
         u16 *tab = POKE_PERSONAL_LoadFormTable(((struct ZukanInfo *)p)->heap, 0);
         r7 = tab[((struct ZukanInfo *)p)->species];
-        func_020307B0(tab);
+        GFL_HEAP_Free(tab);
     }
     if (r7 != 0x3e7) {
         h2 = (u32)WORDSET_CreateDefault(((struct ZukanInfo *)p)->heap);
@@ -1125,7 +1125,7 @@ void ZUKAN_INFO_DrawMainPage(char *p)
     } else {
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, *(int *)&((struct ZukanInfo *)p)->win[1], (void *)(((struct ZukanInfo *)p)->printQue), ((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[1], 8, 5, 0x3e7 + 0x59, 0, 0);
     }
-    name = func_02045EC0(gSpeciesNameBank, ((struct ZukanInfo *)p)->species);
+    name = MSGDATA_AllocString(gSpeciesNameBank, ((struct ZukanInfo *)p)->species);
     PRINTSYS_PrintQueColor((void *)(((struct ZukanInfo *)p)->printQue), (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct ZukanInfo *)p)->win[1]), 0x30, 5, (u32)name, ((struct ZukanInfo *)p)->font, 0x440);
     STRBUF_Delete(name);
     m = 0;
@@ -1182,7 +1182,7 @@ void ZUKAN_INFO_DrawPage(char *p, int idx)
     if (((struct ZukanInfo *)p)->formTableNeeded == 0) {
         unsigned short *tab = POKE_PERSONAL_LoadFormTable(((struct ZukanInfo *)p)->heap, 0);
         c = tab[((struct ZukanInfo *)p)->species];
-        func_020307B0(tab);
+        GFL_HEAP_Free(tab);
     }
     if (c != 0x3e7) {
         h = (int)WORDSET_CreateDefault(((struct ZukanInfo *)p)->heap);
@@ -1249,7 +1249,7 @@ void ZUKAN_INFO_FlushSlotWindows(char *p)
             int window = ((struct ZukanInfo *)p)->win[i];
             BMP_WIN_TransferChars((struct Descriptor *)window);
             BMP_WIN_MakeScreen((struct Cfg *)window);
-            func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)window));
             ((struct ZukanInfo *)p)->slotDirty[i] = 1;
         }
     }
@@ -1321,13 +1321,13 @@ void ZUKAN_INFO_FlushMainWindow(void *obj)
         p = ((struct ZukanInfo *)obj)->winMain;
         BMP_WIN_TransferChars((struct Descriptor *)p);
         BMP_WIN_MakeScreen((struct Cfg *)p);
-        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
         return;
     }
     p = ((struct ZukanInfo *)obj)->winAlt;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
 }
 
 
@@ -1681,7 +1681,7 @@ void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, in
             CLACT_TransferCharacterPart((int)((void *)p->charIds[row][j]), (void *)(data + ((tb + (1 << 10)) + ta)), 0x80, 0x80, ifv);
         }
     }
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
     for (j = 0; j < 2; j++) {
         if (p->charIds[row][j] != -1) {
             p->actorSlots[row][j] = CLACT_CreateActor((void *)p->clactUnit, (u32)p->charIds[row][j], p->paletteHandle, p->cellAnimHandle, &rr[j], (unsigned short)tern, p->heap);
@@ -1911,7 +1911,7 @@ s32 ZUKAN_INFO_BlendPalette(struct ZukanInfo *p)
         u8 c3 = a3 + (((b3 - a3) * f) >> 12);
         p->palBuf[i] = c1 | (c2 << 5) | (c3 << 10);
     }
-    return func_02061CA4((void *)(p->femaleFlag == 0 ? 0xf : 0x1f), 0x22, (u32)p->palBuf, 0xa);
+    return NNS_GfdRegisterNewVramTransferTask((void *)(p->femaleFlag == 0 ? 0xf : 0x1f), 0x22, (u32)p->palBuf, 0xa);
 }
 
 
@@ -1956,19 +1956,19 @@ void ZUKAN_INFO_LoadResources(struct ZukanInfo *p)
     for (i = 0; i < 7; i++) {
         switch (i) {
         case 3:
-            p->w[i] = func_020490F4(APP_ICON_GetArchiveId(), p->heap);
+            p->w[i] = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), p->heap);
             break;
         case 4:
             p->w[i] = (void *)POKEGRA_OpenHandle(p->heap);
             break;
         case 5:
-            p->w[i] = func_020490F4(ZUKAN_INFO_GetTypeArchiveId(), p->heap);
+            p->w[i] = ARC_TOOL_CreateHandle(ZUKAN_INFO_GetTypeArchiveId(), p->heap);
             break;
         case 6:
-            p->w[i] = func_020490F4(ZUKAN_INFO_GetIconArchiveId(), p->heap);
+            p->w[i] = ARC_TOOL_CreateHandle(ZUKAN_INFO_GetIconArchiveId(), p->heap);
             break;
         default:
-            p->w[i] = func_020490F4(tbl_021BC134[i], p->heap);
+            p->w[i] = ARC_TOOL_CreateHandle(tbl_021BC134[i], p->heap);
             break;
         }
     }
@@ -1978,28 +1978,28 @@ void ZUKAN_INFO_LoadResources(struct ZukanInfo *p)
             if (p->g[0] != 0)
                 p->objs[i] = p->g[0];
             else
-                p->objs[i] = func_02045B38(0, 2, tbl_021BC1C4[i], p->heap);
+                p->objs[i] = MSGDATA_CreateFromArchive(0, 2, tbl_021BC1C4[i], p->heap);
             break;
         case 2:
             if (p->g[1] != 0)
                 p->objs[i] = p->g[1];
             else
-                p->objs[i] = func_02045B38(0, 2, tbl_021BC1C4[i], p->heap);
+                p->objs[i] = MSGDATA_CreateFromArchive(0, 2, tbl_021BC1C4[i], p->heap);
             break;
         case 3:
             if (p->g[2] != 0)
                 p->objs[i] = p->g[2];
             else
-                p->objs[i] = func_02045B38(0, 2, tbl_021BC1C4[i], p->heap);
+                p->objs[i] = MSGDATA_CreateFromArchive(0, 2, tbl_021BC1C4[i], p->heap);
             break;
         default:
-            p->objs[i] = func_02045B38(0, 2, tbl_021BC1C4[i], p->heap);
+            p->objs[i] = MSGDATA_CreateFromArchive(0, 2, tbl_021BC1C4[i], p->heap);
             break;
         }
     }
     p->x = POKE_PERSONAL_Create(p->species, p->form, p->heap);
     for (i = 0; i < 16; i++)
-        p->text.str[i] = func_02045EC0(p->objs[0], tbl_021BC184[i]);
+        p->text.str[i] = MSGDATA_AllocString(p->objs[0], tbl_021BC184[i]);
 }
 
 

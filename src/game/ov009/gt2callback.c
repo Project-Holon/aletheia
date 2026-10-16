@@ -15,7 +15,7 @@
  * symbols:
  *   gti2CloseSocket  0x02197FDC  arm  ov009
  *   func_02197FDC  0x02197FDC  arm  ov009
- *   func_02184208  0x02184208  arm  ov009
+ *   ArrayNth  0x02184208  arm  ov009
  */
 struct GTI2Connection;
 struct GTI2Socket;
@@ -68,7 +68,7 @@ typedef int (*Hook)(char *p, int a1, int a2, int a3, int a4);
 
 extern void gti2CloseSocket(GTI2Socket *socket);
 extern void func_02197FDC(GTI2Socket *sock);
-extern FilterCb *func_02184208(void *array, int n);
+extern FilterCb *ArrayNth(void *array, int n);
 int gti2SocketErrorCallback(GTI2Socket *socket);
 int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
 int gti2ConnectedCallback(GTI2Connection *c, int result, unsigned char *msg, int len);
@@ -255,7 +255,7 @@ int gti2SendFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, 
 
 	if (!c)
 		return 1;
-	callback = func_02184208(c->sendFilters, filterID);
+	callback = ArrayNth(c->sendFilters, filterID);
 	if (!callback)
 		return 1;
 	if (!len || !msg) {
@@ -286,7 +286,7 @@ int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *ms
 
 	if (!c)
 		return 1;
-	callback = func_02184208(c->receiveFilters, filterID);
+	callback = ArrayNth(c->receiveFilters, filterID);
 	if (!callback)
 		return 1;
 	if (!len || !msg) {

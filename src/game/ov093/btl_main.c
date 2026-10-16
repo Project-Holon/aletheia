@@ -47,8 +47,8 @@
  *   BTL_REC_IsChannelDone 0x021EE894 thumb ov093
  *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
- *   func_020307B0 0x020307B0 arm
- *   func_020315D4 0x020315D4 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
  *   BTL_FIELD_Delete 0x021EF980 thumb ov093
@@ -123,8 +123,8 @@
  *   BTL_NET_FreeAfterPlayerInfoUse 0x021D4A04 thumb ov093
  *   BTL_TRAINER_SLOT_InitFromPacket 0x021B9EF0 thumb ov093
  *   BTL_MAIN_CopyClientPlayerStatus 0x021BA670 thumb ov093
- *   func_02045B38 0x02045B38 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
@@ -152,8 +152,8 @@
  *   BTL_CLIENT_MarkCommandIssued 0x021CD914 thumb ov093
  *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   ov231_id 0x000000E7 data
- *   func_02034AC4 0x02034AC4 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   CARD_SPI_CheckCardId 0x021809D8 thumb ov231
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
@@ -317,7 +317,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int level);
 extern void BTL_FIELD_Delete(struct BtlField *field);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BTL_NET_FreeRelayPacket(void *p);
 extern void BTL_CALC_Exit(void);
 extern void BTL_MAIN_FreeParties(struct BtlMain *main);
@@ -329,7 +329,7 @@ extern void BTLV_CORE_UnloadOverlays(void);
 extern void GFL_USE_SetPlayersAudible(int, u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
-extern void func_020315D4(struct ProcHandle *proc);
+extern void PROCSYS_FreeProcWork(struct ProcHandle *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BTLV_CORE_UnloadDsiOverlay(void);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
@@ -386,8 +386,8 @@ extern void BTL_NET_FreeRelayedPlayerInfo(void);
 extern void BTL_NET_FreeAfterPlayerInfoUse(void);
 extern void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct BtlTrainerPacket *src);
 extern void BTL_MAIN_CopyClientPlayerStatus(struct BtlMain *main, u8 client, void *src);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(void *bank);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -414,8 +414,8 @@ extern void BTLV_CORE_Update(struct BtlvCore *viewCore);
 extern void BTL_SERVER_GetFinalData(struct BtlServer *server, void *buf);
 extern void BTL_CLIENT_MarkCommandIssued(struct BtlClient *client);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
-extern int func_02034AC4(int id);
-extern void func_02034A5C(int id);
+extern int GF_OVERLAY_Load(int id);
+extern void GF_OVERLAY_Unload(int id);
 extern int CARD_SPI_CheckCardId(void);
 extern u16 BTL_POKEPARAM_GetSpecies(void *mon);
 extern int ZUKAN_SAVE_IsCaught(void *,unsigned int);
@@ -918,7 +918,7 @@ int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct Btl
         break;
     case 3:
         if (main->field) { BTL_FIELD_Delete(main->field); main->field = 0; }
-        if (main->tempBuffer) { func_020307B0(main->tempBuffer); main->tempBuffer = 0; }
+        if (main->tempBuffer) { GFL_HEAP_Free(main->tempBuffer); main->tempBuffer = 0; }
         if (main->netBuffer) { BTL_NET_FreeRelayPacket(main->netBuffer); main->netBuffer = 0; }
         BTL_CALC_Exit();
         BTL_MAIN_FreeParties(main);
@@ -937,7 +937,7 @@ int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct Btl
         GFL_USE_SetPlayersAudible(1, 62);
         PM_VOICE_ResetMasterVolume();
         if (main->flags.sleepHooksSet) { RINGTONE_SYS_RegisterSleepCallbacks(); main->flags.sleepHooksSet = 0; }
-        func_020315D4(proc);
+        PROCSYS_FreeProcWork(proc);
         GFL_HEAP_DeleteChecked(19);
         GFL_HEAP_DeleteChecked(20);
         GFL_HEAP_DeleteChecked(18);
@@ -1676,8 +1676,8 @@ int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
                     BTL_TRAINER_SLOT_InitPlayer(&main->trainers[i], main->heapId, status);
                     if (i != main->ownClientId && setup->bits.hidePlayerNames) {
                         int j;
-                        bank = func_02045B38(0, 2, 0x51, main->heapId);
-                        nameStr = func_02045EC0(bank, 15);
+                        bank = MSGDATA_CreateFromArchive(0, 2, 0x51, main->heapId);
+                        nameStr = MSGDATA_AllocString(bank, 15);
                         MSGDATA_Delete(bank);
                         src = STRBUF_GetChars(nameStr);
                         for (j = 0; j < 15 && (u32)j < STRBUF_GetLength(nameStr); ++j) buf[j] = src[j];
@@ -1686,8 +1686,8 @@ int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
                         STRBUF_Delete(nameStr);
                         func_020084D4((u32)(main->trainers[i].handle), dst);
                         STRBUF_Delete(main->trainers[i].name);
-                        bank = func_02045B38(0, 2, 0x51, main->heapId);
-                        defaultName = func_02045EC0(bank, 15);
+                        bank = MSGDATA_CreateFromArchive(0, 2, 0x51, main->heapId);
+                        defaultName = MSGDATA_AllocString(bank, 15);
                         MSGDATA_Delete(bank);
                         main->trainers[i].name = defaultName;
                     }
@@ -2134,9 +2134,9 @@ int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main)
 {
     int r;
     if (main->setup->competitor <= 1) {
-        func_02034AC4((int)ov231_id);
+        GF_OVERLAY_Load((int)ov231_id);
         r = CARD_SPI_CheckCardId();
-        func_02034A5C((int)ov231_id);
+        GF_OVERLAY_Unload((int)ov231_id);
         if (r == 0) {
             return 0;
         }
@@ -4811,17 +4811,17 @@ void BTL_MAIN_FreeTrainerSlotsAndVoices(struct BtlMain *main)
 
     for (i = 0; i < 4; i++) {
         if (main->trainers[i].handle) {
-            func_020307B0(main->trainers[i].handle);
+            GFL_HEAP_Free(main->trainers[i].handle);
             main->trainers[i].handle = 0;
         }
         if (main->trainers[i].name) {
-            func_020307B0(main->trainers[i].name);
+            GFL_HEAP_Free(main->trainers[i].name);
             main->trainers[i].name = 0;
         }
     }
     for (i = 0; i < 4; i++) {
         if (main->voices[i]) {
-            func_020307B0(main->voices[i]);
+            GFL_HEAP_Free(main->voices[i]);
             main->voices[i] = 0;
         }
     }
@@ -5263,16 +5263,16 @@ void BTL_MAIN_FreeParties(struct BtlMain *main)
 
     for (i = 0; i < 4; i++) {
         if (main->battleParties[i]) {
-            func_020307B0(main->battleParties[i]);
+            GFL_HEAP_Free(main->battleParties[i]);
             main->battleParties[i] = 0;
         }
         if (main->savedParties[i]) {
-            func_020307B0(main->savedParties[i]);
+            GFL_HEAP_Free(main->savedParties[i]);
             main->savedParties[i] = 0;
         }
     }
     if (main->tempParty) {
-        func_020307B0(main->tempParty);
+        GFL_HEAP_Free(main->tempParty);
         main->tempParty = 0;
     }
 }

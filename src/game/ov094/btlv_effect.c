@@ -18,8 +18,8 @@
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   GFL_HEAP_Free 0x020307B0 arm
- *   func_020307B0  0x020307B0  arm
- *   func_0207C768  0x0207C768  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   FX_Div  0x0207C768  arm
  *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_IsOwnClientSecondTeam 0x021B8FE4 thumb ov093
@@ -30,8 +30,8 @@
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_GetFieldSituation 0x021B8714 thumb ov093
- *   func_02030CB0  0x02030CB0  arm
- *   func_02030CBC  0x02030CBC  arm
+ *   TCB_GetTaskOffset  0x02030CB0  arm
+ *   TCB_Init  0x02030CBC  arm
  *   gBtlvEff     0x0220AF20  data   a4
  *   PALANM_Create  0x02021518  thumb
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
@@ -42,7 +42,7 @@
  *   BTLV_TIMER_Create  0x02209224  thumb  ov094
  *   BTLV_BG_Create  0x0220975C  thumb  ov094
  *   PARTICLE_InitManager  0x02050B80  arm
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   PM_VOICE_AllocBuffers  0x02006674  thumb
  *   PM_VOICE_FreeBuffers 0x020066E8 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -50,14 +50,14 @@
  *   BTLV_TIMER_Delete 0x022092E8 thumb ov094
  *   BTLV_BG_Delete 0x0220977C thumb ov094
  *   PARTICLE_ExitManager 0x02050ED4 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   TCB_Noop 0x02030DA4 arm
  *   TCB_Main  0x02030D28  arm
  *   func_02047964  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   PARTICLE_Main  0x02050BE8  arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   d_02209D0C     0x02209D0C  data   ov094  a1
  *   BTLV_GAUGE_StartHpChangeAnimated  0x02207B4C  thumb  ov094
@@ -77,7 +77,7 @@
  *   BTLV_B_GAUGE_IsPartyBallBarActive 0x022090A4 thumb ov094
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BTLV_TIMER_Start 0x02209318 thumb ov094
  *   BTLV_TIMER_SetVisible  0x022094BC  thumb  ov094
  *   BTLV_TIMER_IsExpired  0x02209500  thumb ov094
@@ -102,7 +102,7 @@
  *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   FX_Div  0x0207C768  arm
  *   PALANM_BlendColors  0x02021F64  thumb
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   BTLV_EFFECT_IsBgmSaved 0x021F882C thumb ov094
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
@@ -251,9 +251,9 @@ extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 
@@ -273,9 +273,9 @@ extern void *BTL_MAIN_GetCompetitor(void ***);
 
 extern char *BTL_MAIN_GetFieldSituation(char **);
 
-extern unsigned func_02030CB0(unsigned);
+extern unsigned TCB_GetTaskOffset(unsigned);
 
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 
 extern struct PalAnmSlot *PALANM_Create(u32 heap);
 
@@ -295,7 +295,7 @@ BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
 
 extern void PARTICLE_InitManager(u32);
 
-extern void *func_020056A0(void (*)(void *, void *), void *, int);
+extern void *GFL_USE_AddMainTask(void (*)(void *, void *), void *, int);
 
 extern void PM_VOICE_AllocBuffers(int n, u32 heap);
 
@@ -311,7 +311,7 @@ void BTLV_BG_Delete(BtlvBg *bg);
 
 extern void PARTICLE_ExitManager(void);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void TCB_Noop(void *);
 
@@ -325,7 +325,7 @@ extern void PARTICLE_Main(void);
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
-extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
+extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 
 extern int WAZA_TOOL_GetDamageType(int);
 
@@ -363,7 +363,7 @@ extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, 
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy);
 
@@ -408,7 +408,7 @@ extern u32 FX_Div(u32 a, u32 b);
 
 extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
 BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap);
 
@@ -847,8 +847,8 @@ void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
     gBtlvEff = w;
     w->setup = *p;
     w->heap = heap;
-    gBtlvEff->taskBuf = GFL_HEAP_Alloc(heap, func_02030CB0(0x20), 1, gBtlvEffectFileName, 0x11c);
-    gBtlvEff->owner = func_02030CBC(0x20, gBtlvEff->taskBuf);
+    gBtlvEff->taskBuf = GFL_HEAP_Alloc(heap, TCB_GetTaskOffset(0x20), 1, gBtlvEffectFileName, 0x11c);
+    gBtlvEff->owner = TCB_Init(0x20, gBtlvEff->taskBuf);
     gBtlvEff->effvm = BTLV_EFFVM_Create(gBtlvEff->owner, heap);
     gBtlvEff->palanm = PALANM_Create(heap);
     PALANM_SetAutoTransfer(gBtlvEff->palanm, 1);
@@ -876,7 +876,7 @@ void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
         r.z = 0;
         G3D_SYSTEM_SetLight(0, &r);
     }
-    func_020307B0(tbl);
+    GFL_HEAP_Free(tbl);
     gBtlvEff->camera = BTLV_CAMERA_Create(gBtlvEff->owner, heap);
     gBtlvEff->clact = BTLV_CLACT_Create(gBtlvEff->owner, heap);
     gBtlvEff->gauge = BTLV_GAUGE_Create(font, heap);
@@ -894,7 +894,7 @@ void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
             gBtlvEff->introTimerMax = 900;
         }
     }
-    gBtlvEff->vblankTask = func_020056A0(BTLV_EFFECT_VBlankTask, 0, 1);
+    gBtlvEff->vblankTask = GFL_USE_AddMainTask(BTLV_EFFECT_VBlankTask, 0, 1);
     PM_VOICE_AllocBuffers(2, gBtlvEff->heap);
 }
 
@@ -918,10 +918,10 @@ void BTLV_EFFECT_Exit(void)
         BTLV_BG_Delete(gBtlvEff->bg);
         PARTICLE_ExitManager();
         BTLV_EFFVM_Destroy(gBtlvEff->effvm);
-        func_02030EAC(gBtlvEff->vblankTask);
+        TCB_DeleteTask(gBtlvEff->vblankTask);
         TCB_Noop(gBtlvEff->owner);
-        func_020307B0(gBtlvEff->taskBuf);
-        func_020307B0(gBtlvEff);
+        GFL_HEAP_Free(gBtlvEff->taskBuf);
+        GFL_HEAP_Free(gBtlvEff);
         gBtlvEff = 0;
     }
 }
@@ -966,7 +966,7 @@ void BTLV_EFFECT_StartEffect(u32 a)
     o->attackerPos = 0xff;
     o->defenderPos = 0xff;
     o->scriptId = a;
-    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
 void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b)
@@ -982,7 +982,7 @@ void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b)
     o->attackerPos = a;
     o->defenderPos = 0xff;
     o->scriptId = b;
-    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
 void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c)
@@ -998,7 +998,7 @@ void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c)
     o->attackerPos = a;
     o->defenderPos = b;
     o->scriptId = c;
-    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
 void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *r)
@@ -1023,7 +1023,7 @@ void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *r)
     o->params->kind = r->kind;
     o->params->variant = r->variant;
     o->params->option = r->option;
-    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
 /*
@@ -1062,7 +1062,7 @@ void BTLV_EFFECT_StartDamageTintTask(int a, int b)
     else
         o->color = 0x6318;
     gBtlvEff->damageTintTaskMask |= BTLV_EFFECT_GetBitMask(a);
-    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DamageTintTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM0, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_DamageTintTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM0, 0);
 }
 
 /*
@@ -1110,7 +1110,7 @@ void BTLV_EFFECT_StartHitTask(void *a, int b)
     BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, b, a);
     BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, a, &o->addWork, b);
     gBtlvEff->hitTaskMask |= BTLV_EFFECT_GetBitMask(b);
-    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_SequenceTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM1, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_SequenceTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM1, 0);
 }
 
 void BTLV_EFFECT_ResetPokeSprite(void *a, int b)
@@ -1403,7 +1403,7 @@ void BTLV_EFFECT_SetStageLayerEnable(u32 a, u32 b)
         BTLV_FIELD_SetState(gBtlvEff->field, b);
         break;
     case 2:
-        func_02040588(3, (u8)(b ^ 1));
+        BG_SYS_SetPlaneVisible(3, (u8)(b ^ 1));
         break;
     case 3:
         BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 0, b);
@@ -1424,7 +1424,7 @@ void BTLV_EFFECT_StartPokeSpriteTransitionTask(int a, int b, int c)
         s->pos = b;
         s->playSound = c;
         gBtlvEff->spriteTransitionTaskMask |= BTLV_EFFECT_GetBitMask(b);
-        BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_PokeSpriteTransitionTaskMain, s, 0), BTLV_EFFECT_ClearTaskMaskM2, 0);
+        BTLV_EFFECT_RegisterTask(TCB_AddTask(gBtlvEff->owner, BTLV_EFFECT_PokeSpriteTransitionTaskMain, s, 0), BTLV_EFFECT_ClearTaskMaskM2, 0);
     }
 }
 
@@ -2060,7 +2060,7 @@ void BTLV_EFFECT_FreeTaskArg(void *h)
 {
     BtlvEffQueuedScript *task = TCBL_GetTaskUserData(h);
     if (task->params != 0)
-        func_020307B0(task->params);
+        GFL_HEAP_Free(task->params);
 }
 
 /*
@@ -2120,7 +2120,7 @@ void BTLV_EFFECT_ComputeScalarStep(fx32 from, fx32 to, fx32 *stepOut, fx32 frame
         return;
     if (frames == 0)
         frames = 0x1000;
-    *stepOut = func_0207C768(to - from, frames);
+    *stepOut = FX_Div(to - from, frames);
     if (*stepOut == 0) {
         if (to > from)
             *stepOut = 1;
@@ -2256,7 +2256,7 @@ void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade)
                 size = tex->plttInfo.sizePltt << 3;
                 vramOffset = (u16)tex->plttInfo.vramKey << 3;
                 PALANM_BlendColors((u16 *)((char *)tex + tex->plttInfo.ofsPlttData), fade->palettes[i], (u16)(size >> 1), fade->current, fade->color);
-                func_02061CA4((void *)1, vramOffset, (u32)fade->palettes[i], size);
+                NNS_GfdRegisterNewVramTransferTask((void *)1, vramOffset, (u32)fade->palettes[i], size);
             }
             if (fade->current == fade->target) {
                 fade->enabled = 0;

@@ -15,9 +15,9 @@
  * Split from field_palace_sys.c at 0x021D33A8 (__FILE__ anchor field_palace_sys.c at 0x021D33A8).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_021DE6D4     0x021DE6D4  data  ov021
@@ -69,9 +69,9 @@ typedef struct PalaceZoneFlag {
 #define PALACE_ZONE_FLAG_COUNT 25
 
 extern const char d_021DE6D4[];  /* "field_palace_sys.c" */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
@@ -97,7 +97,7 @@ extern PalaceZoneFlag sPalaceZoneFlags[];
  */
 FieldPalaceSys *FIELD_PALACE_SYS_Create(u16 heapId, struct GameSystem *gameSystem, void *fieldMap, u16 zoneId)
 {
-    FieldPalaceSys *sys = func_02030734(heapId, sizeof(FieldPalaceSys), 1, d_021DE6D4, 0x43);
+    FieldPalaceSys *sys = GFL_HEAP_Alloc(heapId, sizeof(FieldPalaceSys), 1, d_021DE6D4, 0x43);
 
     sys->gameSystem = gameSystem;
     sys->fieldMap = fieldMap;
@@ -109,9 +109,9 @@ FieldPalaceSys *FIELD_PALACE_SYS_Create(u16 heapId, struct GameSystem *gameSyste
 void FIELD_PALACE_SYS_Delete(FieldPalaceSys *sys)
 {
     if (sys->palTable != 0) {
-        func_020307B0(sys->palTable);
+        GFL_HEAP_Free(sys->palTable);
     }
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 u8 *FIELD_PALACE_SYS_GetPalTable(FieldPalaceSys *sys)
@@ -176,7 +176,7 @@ void FIELD_PALACE_SYS_LoadPalTable(FieldPalaceSys *sys, u32 fileId, int zoneId, 
 
     found = 0;
     tempHeapId = (heapId & 0x7fff) | 0x8000;
-    arc = func_020490F4(_PALACE_PAL_ARC_ID, tempHeapId & 0xffff);
+    arc = ARC_TOOL_CreateHandle(_PALACE_PAL_ARC_ID, tempHeapId & 0xffff);
     areaGroup = ((int)ZONEDATA_GetAreaId(zoneId) - 2) / 4 + 1;
     records = ARC_UTIL_LoadHandleMemberWithSize(arc, fileId, 0, (u16)tempHeapId, &size);
     for (i = 1; i < size / sizeof(FieldPalacePalRecord); i++) {
@@ -189,9 +189,9 @@ void FIELD_PALACE_SYS_LoadPalTable(FieldPalaceSys *sys, u32 fileId, int zoneId, 
     if (!found) {
         i = 0;
     }
-    sys->palTable = func_02030734(heapId, _PALACE_PAL_TABLE_SIZE, 0, d_021DE6D4, 0xd4);
+    sys->palTable = GFL_HEAP_Alloc(heapId, _PALACE_PAL_TABLE_SIZE, 0, d_021DE6D4, 0xd4);
     MI_CpuCopy8(records[i].palTable, sys->palTable, _PALACE_PAL_TABLE_SIZE);
-    func_020307B0(records);
+    GFL_HEAP_Free(records);
     ARC_TOOL_DeleteHandle(arc);
 }
 

@@ -43,7 +43,7 @@
  *   func_021C4D14  0x021C4D14  thumb  ov021
  *   SOUND_OBJ_CreateNoSource  0x021C4D7C  thumb  ov021
  *   SOUND_OBJ_SetAnime  0x021C4DC0  thumb  ov021
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sSoundObjsWaitMembers     0x021F3CF0  data  a4
  *   ARC_TOOL_ReadMemberRange 0x02048F74 arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
@@ -189,7 +189,7 @@ void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(FieldGimmickSoundObjsWork *work, s
     soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans, 8, params[0] << 12, params[1]);
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 3, 10);
     work->soundObj[0] = soundObj;
-    func_020307B0(params);
+    GFL_HEAP_Free(params);
     soundObj = SOUND_OBJ_CreateNoSource(fieldMap, FLD_EXP_OBJ_GetModelStatus(expObj, 0, 1));
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 5, 10);
     work->soundObj[1] = soundObj;
@@ -197,7 +197,7 @@ void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(FieldGimmickSoundObjsWork *work, s
     soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 2)->trans, 9, params[0] << 12, params[1]);
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 8, 10);
     work->soundObj[2] = soundObj;
-    func_020307B0(params);
+    GFL_HEAP_Free(params);
     soundObj = SOUND_OBJ_CreateNoSource(fieldMap, FLD_EXP_OBJ_GetModelStatus(expObj, 0, 3));
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 10, 10);
     work->soundObj[3] = soundObj;
@@ -205,7 +205,7 @@ void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(FieldGimmickSoundObjsWork *work, s
     soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 4)->trans, 7, params[0] << 12, params[1]);
     SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 11, 10);
     work->soundObj[4] = soundObj;
-    func_020307B0(params);
+    GFL_HEAP_Free(params);
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++)
         work->waitFrames[i] = 0;
     FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits(work);
@@ -223,7 +223,7 @@ void FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits(FieldGimmickSoundObjsWork *work)
         int *limits = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_ARC_ID, members.member[i], work->heapId);
         work->minWait[i] = limits[0];
         work->maxWait[i] = limits[1];
-        func_020307B0(limits);
+        GFL_HEAP_Free(limits);
     }
 }
 

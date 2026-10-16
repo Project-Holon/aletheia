@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   sWf2dmapCmdqFileName 0x021C6158 data a1
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   _u32_div_f 0x0209C2B0 arm
  */
 
@@ -46,8 +46,8 @@ typedef struct Wf2dmapCmdStore {
     u16 capacity;
 } Wf2dmapCmdStore;
 
-extern void *func_02030734(u16, u32, int, const char *, u16);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 _u32_div_f(u32, u32);
 extern int WF2DMAP_CMDQ_Pop(Wf2dmapCmdRing *, Wf2dmapCmdPos *);
 extern const char sWf2dmapCmdqFileName[];
@@ -55,9 +55,9 @@ extern const char sWf2dmapCmdqFileName[];
 Wf2dmapCmdStore *WF2DMAP_CMDQ_CreateStore(int n, int heap)
 {
     Wf2dmapCmdStore *p;
-    p = func_02030734(heap, 12, 1, sWf2dmapCmdqFileName, 211);
+    p = GFL_HEAP_Alloc(heap, 12, 1, sWf2dmapCmdqFileName, 211);
     p->slotCount = n + 1;
-    p->entries = func_02030734(heap, p->slotCount * 4, 1, sWf2dmapCmdqFileName, 216);
+    p->entries = GFL_HEAP_Alloc(heap, p->slotCount * 4, 1, sWf2dmapCmdqFileName, 216);
     p->usedCount = 0;
     p->capacity = 0;
     return p;
@@ -69,8 +69,8 @@ Wf2dmapCmdStore *WF2DMAP_CMDQ_CreateStore(int n, int heap)
  */
 void WF2DMAP_CMDQ_DeleteStore(u8 *p)
 {
-    func_020307B0(((Wf2dmapCmdStore *)p)->entries);
-    func_020307B0(p);
+    GFL_HEAP_Free(((Wf2dmapCmdStore *)p)->entries);
+    GFL_HEAP_Free(p);
 }
 
 void WF2DMAP_CMDQ_Push(Wf2dmapCmdRing *p, const Wf2dmapCmdPos *q) { Wf2dmapCmdPos tmp; if ((p->writeIndex + 1u) % p->slotCount == p->readIndex) WF2DMAP_CMDQ_Pop(p, &tmp); p->entries[p->writeIndex] = *q; p->writeIndex = (p->writeIndex + 1u) % p->slotCount; }

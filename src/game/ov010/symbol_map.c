@@ -24,12 +24,12 @@
  *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
  *   g_SymbolMapGridTable 0x02171EF4 data a4
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   COMM_PLAYER_GetListPage  0x0216749C  thumb  ov010
  *   MI_CpuCopy8    0x02082D44  arm
  *   g_SymbolMapFileName     0x021729EC  data  a1
  *   EVENT_FIELD_PROCLINK_StartCommProc 0x02161CDC thumb ov010
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_020124E8 0x020124E8 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   ov203_id 0x000000CB data a1
@@ -45,8 +45,8 @@
  *   PLEASURE_BOAT_GetPassengerExtra  0x021C87B8  thumb ov021
  *   PLEASURE_BOAT_GetPassengerOccupied  0x021C87C8  thumb ov021
  *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
- *   func_020122C0  0x020122C0  thumb
- *   func_02009470  0x02009470  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
+ *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
  *   func_020095C8  0x020095C8  thumb
  *   func_0200973C  0x0200973C  thumb
@@ -251,19 +251,19 @@ extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *link);
 
 extern int GAME_DATA_GetSymbolMapFlag(u8 *gameData);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 
 extern u16 COMM_PLAYER_GetListPage(SymbolMapEntry *entries, SymbolMapEntry *out, u32 capacity, int page, u8 *count);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern struct GameTask *func_020122C0(void *parent, void *reserved, void *mainFunc, u32 workSize);
+extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
 
 extern void *func_020124E8(struct GameTask *task);
 
 extern void EVENT_FIELD_PROCLINK_StartCommProc(void *work, void *gameSystem, u8 startFlag, u8 param);
 
-extern int func_020307B0();
+extern int GFL_HEAP_Free();
 
 extern void GAME_EVENT_CallProc(struct GameTask *task, u32 overlayId, u32 procTable, u32 param);
 
@@ -289,7 +289,7 @@ extern u32 PLEASURE_BOAT_GetPassengerOccupied(void *eventState, u32 index);
 
 extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *task);
 
-extern struct SymbolMapSave *func_02009470(void *saveControl);
+extern struct SymbolMapSave *WIFI_HISTORY_GetBlock(void *saveControl);
 
 extern u32 WIFI_HISTORY_IsCountryVisited(const struct SymbolMapSave *save, u32 index);
 
@@ -648,7 +648,7 @@ u8 *SYMBOL_MAP_GetSelectionGrid(void *gameSystem) {
  * Twin search: grep -rl -E "COMM_PLAYER_GetListPage|COMM_PLAYER_GetState849|COMM_PLAYER_GetState848" src/matched src/pending
  * (hits ov010 02166434, 021673C4, 021673A8, 0216749C, ov011 02174D5C); ov010 02166434 has
  * the same front half and was the shape source. Callees return real types: INTRUDE_COMM_GetPartnerSlot u8,
- * GAME_DATA_GetSymbolMapFlag int, COMM_PLAYER_GetListPage u16, COMM_PLAYER_GetState849/A8 u8, func_02030734 void *.
+ * GAME_DATA_GetSymbolMapFlag int, COMM_PLAYER_GetListPage u16, COMM_PLAYER_GetState849/A8 u8, GFL_HEAP_Alloc void *.
  */
 SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u32 *outStart)
 {
@@ -665,7 +665,7 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     comm = (void *)ICA_ANIME_GetField24(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(gameData);
-        record = func_02030734(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1C9);
+        record = GFL_HEAP_Alloc(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1C9);
         *outStart = COMM_PLAYER_GetListPage(saveData, record->entries, 20, page, &count);
         record->entryCount = count;
         record->symbolIndex = COMM_PLAYER_GetState849(saveData);
@@ -677,7 +677,7 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     partnerLink = (void *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
     if (partnerLink == 0)
         return 0;
-    record = func_02030734(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1DC);
+    record = GFL_HEAP_Alloc(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1DC);
     MI_CpuCopy8(INTRUDE_COMM_GetPartnerRecord(partnerLink), record, sizeof(SymbolMapLinkRecord));
     *outStart = 530;
     return record;
@@ -755,7 +755,7 @@ u32 SYMBOL_MAP_GetEventStateEntryValue(void *entries, u32 index)
 void *SYMBOL_MAP_CreateRecordTask(void *gameSystem, void *progress, void *outCompleted) {
     struct GameTask *task;
     SymbolMapRecordWork *work;
-    task = func_020122C0(gameSystem, 0, SYMBOL_MAP_RecordTaskMain, 32);
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_RecordTaskMain, 32);
     work = func_020124E8(task);
     work->progress = progress;
     work->outCompleted = outCompleted;
@@ -767,7 +767,7 @@ void *SYMBOL_MAP_CreateRecordTask(void *gameSystem, void *progress, void *outCom
 void SYMBOL_MAP_DeleteLinkRecord(SymbolMapOwner *owner)
 {
     if (owner->linkRecord != 0) {
-        func_020307B0(owner->linkRecord);
+        GFL_HEAP_Free(owner->linkRecord);
         owner->linkRecord = 0;
     }
 }
@@ -928,13 +928,13 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
     int count;
     int flagIndex;
 
-    task = func_020122C0(gameSystem, 0, SYMBOL_MAP_PickerTaskMain, 0x128);
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PickerTaskMain, 0x128);
     work = func_020124E8(task);
     work->mode = mode;
     work->outPicked = (u16 *)outPicked;
     work->outKind = (u16 *)outKind;
     work->outValue = (u16 *)outValue;
-    save = func_02009470(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
+    save = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
     for (i = 1; i < 0xE9; i++) {
         flagIndex = i - 1;
         if (WIFI_HISTORY_IsCountryVisited(save, i))
@@ -1142,7 +1142,7 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
 void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void *poke) {
     struct GameTask *task;
     PokeEventWork *work;
-    task = func_020122C0(gameSystem, 0, SYMBOL_MAP_PokeEventTaskMain, 24);
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PokeEventTaskMain, 24);
     work = func_020124E8(task);
     work->gameSystem = gameSystem;
     work->transitionArg = (u32)transitionArg;
@@ -1192,7 +1192,7 @@ int SYMBOL_MAP_CheckEventFlag(void *gameData, u32 flagId)
     void *myStatus = GAME_DATA_GetMyStatus(gameData);
     void *save;
     int result;
-    save = func_02009470(GAME_DATA_GetSaveControl(gameData));
+    save = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData));
     switch (flagId) {
     case 0xF000:
         return FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, 1, myStatus);
@@ -1236,7 +1236,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     outWord1 = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outResult = SCRIPT_WORK_ReadWorkPointer(vm, work);
     mode = 0;
-    task = func_020122C0(gameSystem, 0, SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
     inputWork = func_020124E8(task);
     MI_CpuFill8(inputWork, 0, sizeof(PmsInputWork));
     inputWork->kind = kind;

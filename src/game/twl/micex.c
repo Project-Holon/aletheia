@@ -17,6 +17,8 @@
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
+ *   OS_SendMessage  0x02085DBC  arm  arm9
+ *   OS_ReceiveMessage  0x02085E50  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -45,8 +47,8 @@ extern MicexState *MICEXi_GetLimitedSamplingCallback(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 extern void OS_InitMessageQueue(u32 *, u32 *, u32);
-extern u32 func_02085E50(u32 *, u32 *, u32);
-extern u32 func_02085DBC(u32, u32, u32);
+extern u32 OS_ReceiveMessage(u32 *, u32 *, u32);
+extern u32 OS_SendMessage(u32, u32, u32);
 extern s32 PXI_SendWordByFifo(u32, u32, u32);
 extern u32 data_02150FEC[];
 
@@ -69,7 +71,7 @@ u32 MICEXi_StartLimitedSampling(const MicexReq *a0) {
     OS_InitMessageQueue(queue, &buf, 1);
     res = MICEXi_StartLimitedSamplingAsync(a0, (u32)MicexSyncCallback, (u32)queue);
     if (res == 0) {
-        func_02085E50(queue, &res, 1);
+        OS_ReceiveMessage(queue, &res, 1);
     }
     return res;
 }
@@ -159,7 +161,7 @@ u32 MICEXi_StopLimitedSampling(void) {
     res = MICEXi_StopLimitedSamplingAsync((u32)MicexSyncCallback, (u32)queue);
     msg = res;
     if (msg == 0) {
-        func_02085E50(queue, &msg, 1);
+        OS_ReceiveMessage(queue, &msg, 1);
     }
     return msg;
 }
@@ -184,7 +186,7 @@ u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1) {
 }
 
 void MicexSyncCallback(u32 a0, u32 a1) {
-    func_02085DBC(a1, a0, 0);
+    OS_SendMessage(a1, a0, 0);
 }
 
 u32 MicexStartLimitedSampling(u32 a0, u32 a1, u32 a2, u32 a3) {

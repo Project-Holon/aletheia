@@ -1,7 +1,7 @@
 /*
  * file:     gx_load2d.c
  * unit:     yes
- * function: GX_LoadBGPltt, GXS_LoadBGPltt, GX_LoadOBJPltt, GXS_LoadOBJPltt, GX_LoadOAM, GXS_LoadOAM, GX_LoadOBJ, func_0207E804, func_0207E888, GXS_LoadBG0Scr, GX_LoadBG1Scr, GXS_LoadBG1Scr, GX_LoadBG2Scr, GXS_LoadBG2Scr, GX_LoadBG3Scr, GXS_LoadBG3Scr, GX_LoadBG0Char, GXS_LoadBG0Char, GX_LoadBG1Char, GXS_LoadBG1Char, GX_LoadBG2Char, GXS_LoadBG2Char, GX_LoadBG3Char, GXS_LoadBG3Char, func_0207F308, func_0207F394, func_0207F428, func_0207F47C, func_0207F4C4, func_0207F560, func_0207F5B0, func_0207F5C8, func_0207F65C, func_0207F6A8, func_0207F6C0, func_0207F754
+ * function: GX_LoadBGPltt, GXS_LoadBGPltt, GX_LoadOBJPltt, GXS_LoadOBJPltt, GX_LoadOAM, GXS_LoadOAM, GX_LoadOBJ, GXS_LoadOBJ, func_0207E888, GXS_LoadBG0Scr, GX_LoadBG1Scr, GXS_LoadBG1Scr, GX_LoadBG2Scr, GXS_LoadBG2Scr, GX_LoadBG3Scr, GXS_LoadBG3Scr, GX_LoadBG0Char, GXS_LoadBG0Char, GX_LoadBG1Char, GXS_LoadBG1Char, GX_LoadBG2Char, GXS_LoadBG2Char, GX_LoadBG3Char, GXS_LoadBG3Char, func_0207F308, func_0207F394, func_0207F428, func_0207F47C, func_0207F4C4, func_0207F560, func_0207F5B0, func_0207F5C8, func_0207F65C, func_0207F6A8, func_0207F6C0, func_0207F754
  * address:  0x0207E3D0
  * region:   arm9
  * compiler: dsi/1.1p1

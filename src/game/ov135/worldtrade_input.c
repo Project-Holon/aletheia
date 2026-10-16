@@ -17,19 +17,19 @@
  * symbols:
  *   WORLDTRADE_ADAPTER_InitPrinter  0x022026D8  thumb
  *   WORLDTRADE_ADAPTER_UpdatePrinter 0x02202770 thumb ov135
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_020355C4  0x020355C4  arm
+ *   UI_GetInputMode  0x020355C4  arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -164,17 +164,17 @@ typedef struct {
     int f4;
 } Layout;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -420,7 +420,7 @@ InputMenu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b)
 {
     InputMenu *m;
 
-    m = func_02030734(0x48, 0x1b8, 0, (const char *)g_02203CD8, 0x336);
+    m = GFL_HEAP_Alloc(0x48, 0x1b8, 0, (const char *)g_02203CD8, 0x336);
     m->w00 = init->w00;
     m->w04 = init->w04;
     m->obj = init->obj;
@@ -498,7 +498,7 @@ void WORLDTRADE_INPUT_MenuDelete(Menu *p)
     WORLDTRADE_ADAPTER_ExitPrinter((u8 *)p + 0x7c);
     WORLDTRADE_ADAPTER_ExitMessageSystem(p->num);
     BGWINFRM_Delete(*(struct WinMgr * *)&p->mgr);
-    func_020307B0((void *)((u32)p));
+    GFL_HEAP_Free((void *)((u32)p));
 }
 
 
@@ -546,7 +546,7 @@ int WORLDTRADE_INPUT_CheckTouch(Menu *p, int mode)
  * Cursor input for the ten-entry mode-4 menu: the mode-6 grid of nine
  * entries with one button (9). Returns the entry, -2 for cancel (B or
  * the button), -1 for nothing or an entry `enable` marks off. A grid
- * position past 9 under A reports through func_02034714 (raw address
+ * position past 9 under A reports through SAVEDATA_PanicFail (raw address
  * 0x02203CEC, a plain constant as in WORLDTRADE_ADAPTER_QueueMessagePrint).
  */
 int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
@@ -558,7 +558,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
     if (old < 9) {
         p->last = old;
     }
-    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -612,7 +612,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
             GFL_USE_PlaySeDefaultVolume(0x54C);
             ret = r;
         }
-        if (ret == -1 && func_020355C4() == 0) {
+        if (ret == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
         }
         func_020355D8(1);
@@ -624,7 +624,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
             return -2;
         }
         if (p->pos >= 9) {
-            func_02034714((void *)0x02203CEC, 0, (void *)0x02203CEC);
+            SAVEDATA_PanicFail((void *)0x02203CEC, 0, (void *)0x02203CEC);
         }
         if (enable == 0 || enable[p->pos] != 0) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
@@ -675,7 +675,7 @@ int WORLDTRADE_INPUT_UpdateButtonRow(Menu *p, int base)
     if (old < 3) {
         p->last = old;
     }
-    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -720,7 +720,7 @@ int WORLDTRADE_INPUT_UpdateButtonRow(Menu *p, int base)
             GFL_USE_PlaySeDefaultVolume(0x54C);
         } else {
             r = -1;
-            if (func_020355C4() == 0) {
+            if (UI_GetInputMode() == 0) {
                 CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
             }
         }
@@ -826,7 +826,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4(Menu *m)
     int r;
 
     old = m->pos;
-    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 1);
         func_020355D8(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -870,7 +870,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4(Menu *m)
             }
         }
         r = WORLDTRADE_INPUT_HandlePagedKey4((Menu *)m, r);
-        if (r == -1 && func_020355C4() == 0) {
+        if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 0);
         }
         func_020355D8(1);
@@ -894,7 +894,7 @@ int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Menu *p)
     int old = p->pos;
     int r;
 
-    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -1013,7 +1013,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *m)
     int r;
 
     old = m->pos;
-    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 1);
         func_020355D8(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -1057,7 +1057,7 @@ int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *m)
             }
         }
         r = WORLDTRADE_INPUT_HandlePagedKey4Alt((Menu *)m, r);
-        if (r == -1 && func_020355C4() == 0) {
+        if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 0);
         }
         func_020355D8(1);
@@ -1107,7 +1107,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Menu *p, u8 *enable)
     if (old < 9) {
         p->last = old;
     }
-    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -1173,7 +1173,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Menu *p, u8 *enable)
         } else {
             r = -1;
         }
-        if (r == -1 && func_020355C4() == 0) {
+        if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
         }
         func_020355D8(1);
@@ -1261,7 +1261,7 @@ int WORLDTRADE_INPUT_UpdatePagedList5(Menu *m)
     int r;
 
     old = m->pos;
-    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 1);
         func_020355D8(0);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -1305,7 +1305,7 @@ int WORLDTRADE_INPUT_UpdatePagedList5(Menu *m)
             }
         }
         r = WORLDTRADE_INPUT_HandlePagedKey5((Menu *)m, r);
-        if (r == -1 && func_020355C4() == 0) {
+        if (r == -1 && UI_GetInputMode() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
         }
         func_020355D8(1);
@@ -1338,7 +1338,7 @@ void WORLDTRADE_INPUT_DrawFrame(Menu *p, int mode, int pos)
     g = (u8 *)p;
     g += 124;
     for (i = 0; i < 9; i++) {
-        str = func_02045EC0(p->bank, i + 116);
+        str = MSGDATA_AllocString(p->bank, i + 116);
         if (mode == 4) {
             if (WORLDTRADE_INPUT_CategoryHasSpecies(p, i) == 1) {
                 color = 0x3dc2;
@@ -1360,7 +1360,7 @@ void WORLDTRADE_INPUT_DrawFrame(Menu *p, int mode, int pos)
         STRBUF_Delete(str);
     }
     if (mode == 6) {
-        str = func_02045EC0(p->bank, 188);
+        str = MSGDATA_AllocString(p->bank, 188);
         WORLDTRADE_INPUT_PutBmpWinString(p->mgr, (*(void ***)p)[15], str, 2, 0x3dc2, (u8 *)p + 124);
         STRBUF_Delete(str);
     }
@@ -1377,7 +1377,7 @@ void WORLDTRADE_INPUT_DrawThreeOptionScreen(Menu *p)
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     func_021F9260(p, 1);
     for (i = 0; i < 3; i++) {
-        str = func_02045EC0(p->bank, i + 130);
+        str = MSGDATA_AllocString(p->bank, i + 130);
         WORLDTRADE_INPUT_PutBmpWinString(p->mgr, (*(void ***)p)[i], str, 2, 0x3dc2, (u8 *)p + 124);
         STRBUF_Delete(str);
     }
@@ -1432,7 +1432,7 @@ int WORLDTRADE_INPUT_StateNone(void)
 int WORLDTRADE_INPUT_StateWaitFrameIn(Menu *p)
 {
     if (!BGWINFRM_IsMoving(*(struct WinMgr * *)&p->mgr, 0)) {
-        if (func_020355C4() == 1)
+        if (UI_GetInputMode() == 1)
             CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 0);
         else
             CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
@@ -1561,7 +1561,7 @@ int WORLDTRADE_INPUT_DrawCategoryScreen(Menu *p)
     MI_CpuFill8((u8 *)p + 96, 1, 26);
     g = (u8 *)p + 124;
     for (i = 0; i < 9; i++) {
-        str = func_02045EC0(p->bank, i + 116);
+        str = MSGDATA_AllocString(p->bank, i + 116);
         if (WORLDTRADE_INPUT_CategoryHasSpecies(p, i) == 1) {
             color = 0x3dc2;
             ((u8 *)p)[i + 96] = 1;
@@ -1579,7 +1579,7 @@ int WORLDTRADE_INPUT_DrawCategoryScreen(Menu *p)
     p->pos = p->layout;
     CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     p->state = 7;
-    if (func_020355C4() == 1)
+    if (UI_GetInputMode() == 1)
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     else
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
@@ -1617,7 +1617,7 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(Menu *m)
         m->pos = m->start;
     }
     WORLDTRADE_SetActorPos(m->cursor, (tbl_022032C6[m->pos].x + 0x10) * 8, tbl_022032C6[m->pos].y * 8);
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
     } else {
         CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 1);
@@ -1660,7 +1660,7 @@ int WORLDTRADE_INPUT_StateRestoreCursor(Menu *p)
     u32 v;
     int n;
 
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         v = p->cursor;
         n = 0;
     } else {
@@ -1709,7 +1709,7 @@ int WORLDTRADE_INPUT_CreateSpeciesMenu(Item **menu, void *msg, void *bank, u32 x
             BMP_MENUWORK_AddMsgItem((struct Slot *)*menu, (u32)msg, list[i], list[i], 0x48);
         }
     }
-    func_020307B0(list);
+    GFL_HEAP_Free(list);
     return n;
 }
 
@@ -1765,7 +1765,7 @@ int WORLDTRADE_INPUT_DrawSpeciesListScreen(Menu *p)
     WORLDTRADE_SetActorPos(p->cursor, tbl_02203220[p->pos].x, tbl_02203220[p->pos].y);
     WORLDTRADE_SetActorPos(p->up, 0xE4, 0x78);
     WORLDTRADE_SetActorPos(p->down, 0x9A, 0x78);
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     } else {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
@@ -1910,7 +1910,7 @@ int WORLDTRADE_INPUT_StateReturnToCategoryAlt(Menu *p)
     CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     p->pos = p->layout;
     WORLDTRADE_SetActorPos(p->cursor, (tbl_02203298[p->pos].x + 16) * 8, tbl_02203298[p->pos].y * 8);
-    if (func_020355C4() == 1) CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
+    if (UI_GetInputMode() == 1) CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     else CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     p->state = 19;
     return -1;
@@ -1946,7 +1946,7 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(Menu *p)
         p->pos = p->start;
     }
     WORLDTRADE_SetActorPos(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     } else {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
@@ -2013,7 +2013,7 @@ int WORLDTRADE_INPUT_StateRestoreCursorAlt(Menu *p)
 
     p->state = 0x16;
     p->pos = p->start;
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         v = p->cursor;
         n = 0;
     } else {
@@ -2041,7 +2041,7 @@ int WORLDTRADE_INPUT_DrawConditionListScreen(Menu *p)
     WORLDTRADE_SetActorPos(p->cursor,tbl_02203236[p->pos].x,tbl_02203236[p->pos].y);
     WORLDTRADE_SetActorPos(p->up,0xB0,0x88);
     WORLDTRADE_SetActorPos(p->down,0x58,0x88);
-    if(func_020355C4()==1)
+    if(UI_GetInputMode()==1)
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor,0);
     else
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor,1);
@@ -2210,7 +2210,7 @@ int WORLDTRADE_INPUT_StateGenderListClose(Menu *p) { if(CLACT_IsActorAnimActive(
 
 void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g)
 {
-    void *str = func_02045EC0(bank, index);
+    void *str = MSGDATA_AllocString(bank, index);
 
     WORLDTRADE_INPUT_PutBmpWinString(mgr, win, str, x, color, g);
     STRBUF_Delete(str);
@@ -2219,7 +2219,7 @@ void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 ind
 
 void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *g)
 {
-    void *str = func_02045EC0(bank, index);
+    void *str = MSGDATA_AllocString(bank, index);
 
     WORLDTRADE_ADAPTER_PrintQueColor(win, 0, (u32)str, 0, 0, 0, 0x3DC2, (u32)g);
     BMP_WIN_TransferChars(win);
@@ -2251,7 +2251,7 @@ int WORLDTRADE_INPUT_CountSpeciesInList(Menu *m, u32 idx)
     WORLDTRADE_DEPOSIT_GetSpeciesRange(idx, &start, &end);
     n = end - start;
     r = WORLDTRADE_INPUT_CheckSpeciesSeen(m->x2c, (u32)m->bag, n, list, start, end);
-    func_020307B0(list);
+    GFL_HEAP_Free(list);
     return r;
 }
 

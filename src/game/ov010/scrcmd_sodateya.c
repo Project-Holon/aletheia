@@ -17,16 +17,16 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_STATUS_CreateFieldOpenEvent   0x020145CC  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   sAllocSiteScrcmdSodateya     0x02172900  data
  */
@@ -71,13 +71,13 @@ extern void *GAMESYSTEM_GetGameData(const struct GameSystem *);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 
-extern u32 func_020307B0(void *);
+extern u32 GFL_HEAP_Free(void *);
 
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 
 extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
 
@@ -89,7 +89,7 @@ extern void *FIELD_STATUS_CreateSubProcListEvent(char *, int, int, int);
 
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *);
 
-extern struct GameEvent *func_020122C0(void *owner, void *, void *, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *, void *, u32 size);
 
 extern void *func_020124E8(struct GameEvent *);
 
@@ -127,8 +127,8 @@ int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *w
         break;
     case 5:
         *work->resultVar = work->menuParam->selectedPos;
-        func_020307B0(work->menuParam);
-        func_020307B0(work->menuState);
+        GFL_HEAP_Free(work->menuParam);
+        GFL_HEAP_Free(work->menuState);
         return 1;
     }
     return 0;
@@ -139,7 +139,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     void *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
     u32 zukanSave = (u32)ZUKAN_SAVE_GetFromGameData(gameData);
-    PartyMenuParam *menuParam = func_02030734(4, 0x98, 0, sAllocSiteScrcmdSodateya, 0x22B);
+    PartyMenuParam *menuParam = GFL_HEAP_Alloc(4, 0x98, 0, sAllocSiteScrcmdSodateya, 0x22B);
     PartyMenuState *menuState;
     DaycareEventWork *work;
     void *event;
@@ -147,7 +147,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     menuParam->menuType = 0x12;
     menuParam->cursorPos = 0;
     menuParam->selectedPos = 0;
-    menuState = func_02030734(4, 0x28, 0, sAllocSiteScrcmdSodateya, 0x232);
+    menuState = GFL_HEAP_Alloc(4, 0x28, 0, sAllocSiteScrcmdSodateya, 0x232);
     menuState->party = menuParam->party;
     menuState->listWork = menuParam->listWork;
     menuState->gameData = (u32)gameData;
@@ -157,7 +157,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     menuState->reserved10 = 0;
     menuState->selectedPos = 0;
     menuState->zukanSave = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
-    event = func_020122C0(gameSystem, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, 0x14);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, 0x14);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

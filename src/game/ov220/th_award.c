@@ -20,18 +20,18 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0207D518 0x0207D518 arm
+ *   GXS_SetGraphicsMode 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   FADE_Start 0x0204E720 arm
@@ -40,11 +40,11 @@
  *   bgtable 0x021BA370 data a4
  *   resources 0x021BA4E0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   TH_AWARD_GRAPHIC_Delete 0x021BA178 thumb ov220
  *   d_021BA370 0x021BA370 data a4
@@ -63,7 +63,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   TH_AWARD_GRAPHIC_Update 0x021BA1CC thumb ov220
  *   sounds 0x021BA3B0 data a4
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -89,14 +89,14 @@
  *   table 0x021BA3AC data ov220 a1
  *   coords 0x021BA338 data ov220 a2
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
- *   func_02045EC0 0x02045EC0 arm
- *   func_0201D304 0x0201D304 thumb
+ *   MSGDATA_AllocString 0x02045EC0 arm
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -176,12 +176,12 @@ struct ThAwardWork {
     void *graphic;               /* +0x08 TH_AWARD_GRAPHIC_Create */
     struct GfFont *font;         /* +0x0C GF_FONT_Create */
     void *printQue;              /* +0x10 PRINTSYS_QUE_Create */
-    void *task;                  /* +0x14 func_020056A0 proc */
+    void *task;                  /* +0x14 GFL_USE_AddMainTask proc */
     u8 speciesCount;             /* +0x18 number of species actors (3 or 4) */
     u8 pad19[3];                 /* +0x19 */
     struct ThAwardSlot slots[4]; /* +0x1C species actor registrations */
     void *actors[4];             /* +0x4C species actors */
-    struct MsgBank *msgBank;     /* +0x5C func_02045B38, freed by MSGDATA_Delete */
+    struct MsgBank *msgBank;     /* +0x5C MSGDATA_CreateFromArchive, freed by MSGDATA_Delete */
     void *windows[4];            /* +0x60 BMP window descriptors */
     u32 uploadDone[4];           /* +0x70 set once a window is uploaded */
     u32 allUploaded;             /* +0x80 set after all windows uploaded */
@@ -206,25 +206,25 @@ extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void BG_SYS_SetVisibleLayer(int,u16);
-extern void *func_020056A0(u32,u32,u32);
-extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(int);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
+extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGraphicsMode(int);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
 extern void FADE_Start(u32,int,int,int);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
 extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),GFL_USE_IsBgmPlaying(void),FADE_IsActive(void);
 extern void GFL_USE_SetBgmPlayerParam(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
@@ -234,7 +234,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_020355D8(u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void TH_AWARD_GRAPHIC_Update(char*);
 extern void ARC_TOOL_DeleteHandle(void *),BG_SYS_PushTile(unsigned);
@@ -256,14 +256,14 @@ extern void CLACT_ReleaseCellAnim(unsigned),CLACT_ReleaseCharacter(unsigned),CLA
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -325,7 +325,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     p->font=GF_FONT_Create(23,0,0,0,p->heap);
     p->printQue=(void *)PRINTSYS_QUE_Create((void *)(u32)p->heap);
     BG_SYS_SetVisibleLayer(1,2);BG_SYS_SetVisibleLayer(2,1);BG_SYS_SetVisibleLayer(3,0);
-    p->task=func_020056A0((u32)TH_AWARD_TaskNoop,(u32)p,1);
+    p->task=GFL_USE_AddMainTask((u32)TH_AWARD_TaskNoop,(u32)p,1);
     if (p->args->hasExtra) desc=(char *)p->args->base+0x14;
     else desc=(char *)p->args->base;
     if (!*(u8 *)desc) p->bgmIndex=7;
@@ -334,22 +334,22 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |= 0x10000;
-    BG_SYS_ClearSubPlanes();func_0207D518(0);BG_SYS_ClearSubBgPlanes();
+    BG_SYS_ClearSubPlanes();GXS_SetGraphicsMode(0);BG_SYS_ClearSubBgPlanes();
     i=0;
     do {
         const struct Row *r=(const struct Row *)((u32)bgtable+i*44);
         u32 layer=r->id;
         BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate*)r->body,(u8)r->kind);
-        BG_SYS_FreeSlot(layer);func_02040588(layer,r->on);
+        BG_SYS_FreeSlot(layer);BG_SYS_SetPlaneVisible(layer,r->on);
     } while ((u32)++i<1);
     BG_SYS_SetSubPlaneVisible(16,1);
     heap=p->heap;
     variant=1;
     if (p->args->kind!=1) variant=0;
-    owner=func_020490F4(30,heap);
+    owner=ARC_TOOL_CreateHandle(30,heap);
     func_02049B68(owner,resources[variant].a,4,0,0,heap);
-    func_02049658(owner,resources[variant].b,4,0,0,0,heap);
-    func_020498F4(owner,resources[variant].c,4,0,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(owner,resources[variant].b,4,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(owner,resources[variant].c,4,0,0,0,heap);
     ARC_TOOL_DeleteHandle(owner);BG_SYS_PushTile(4);FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,p->heap);
     if (p->args->flag0C && p->bgmIndex!=7) GFL_USE_FadeOutBgm(6);
     return 1;
@@ -377,12 +377,12 @@ int TH_AWARD_Exit(void *state,int unused1,int unused2,char *p)
     TH_AWARD_DeleteBgActors((struct ThAwardWork *)p);
     TH_AWARD_DeleteSpeciesActors((struct ThAwardWork *)p);
     TH_AWARD_Noop(p);
-    func_02030EAC(((struct ThAwardWork *)p)->task);
+    TCB_DeleteTask(((struct ThAwardWork *)p)->task);
     PRINTSYS_QUE_Clear(((struct ThAwardWork *)p)->printQue);
     PRINTSYS_QUE_Delete(((struct ThAwardWork *)p)->printQue);
     GF_FONT_Delete(((struct ThAwardWork *)p)->font);
     TH_AWARD_GRAPHIC_Delete(((struct ThAwardWork *)p)->graphic);
-    func_020315D4(state);
+    PROCSYS_FreeProcWork(state);
     GFL_HEAP_DeleteChecked(131);
     return 1;
 }
@@ -438,7 +438,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
     if (PRINTSYS_QUE_Main(((struct ThAwardWork *)p)->printQue) && !((struct ThAwardWork *)p)->allUploaded) {
         for (i=1;i<4;i++) {
             void *v=((struct ThAwardWork *)p)->windows[i];
-            BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);func_02041B6C(BMP_WIN_GetBgLayer(v));
+            BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(v));
         }
         ((struct ThAwardWork *)p)->allUploaded=1;
     }
@@ -467,11 +467,11 @@ void TH_AWARD_TaskNoop(void) {}
 void TH_AWARD_LoadBgAssets(struct ThAwardWork *p)
 {
     void *object;
-    object=func_020490F4(201,p->heap);
+    object=ARC_TOOL_CreateHandle(201,p->heap);
     func_02049B68(object,0,0,0,64,p->heap);
-    func_02049658(object,2,2,0,0,0,p->heap);
-    func_020498F4(object,4,2,0,0,0,p->heap);
-    func_020498F4(object,5,1,0,0,0,p->heap);
+    ARC_UTIL_UploadBgCharFromHandle(object,2,2,0,0,0,p->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(object,4,2,0,0,0,p->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(object,5,1,0,0,0,p->heap);
     ARC_TOOL_DeleteHandle(object);
     BG_SYS_PushTile(2);
     BG_SYS_PushTile(1);
@@ -521,7 +521,7 @@ void TH_AWARD_CreateSpeciesActors(char *p)
       *((u8 *) (p + 0x18)) = 4;
       coords = coords4;
     }
-    owner = func_020490F4(7, *((u16 *) p));
+    owner = ARC_TOOL_CreateHandle(7, *((u16 *) p));
     for (i = 0; i < (*((u8 *) (p + 0x18))); i++)
     {
       species = *((u16 *) (desc + i * 4 + 4));
@@ -573,7 +573,7 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
     if(p->bgmIndex!=7){
         p->bgSlotCount=*(const u8*)((u32)table+p->bgmIndex*12);
         if(*(volatile u8 *)&p->bgSlotCount){
-            owner=func_020490F4(201,p->heap);
+            owner=ARC_TOOL_CreateHandle(201,p->heap);
             p->paletteId=CLACT_RegisterPaletteEx(owner,1,0,0,0,1,p->heap);
             p->charId=CLACT_RegisterCharacter(owner,3,0,0,p->heap);
             p->cellAnimId=CLACT_RegisterCellAnim(owner,6,7,p->heap);
@@ -633,7 +633,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     }
     if (b[0] == 0) return;
     ARC_UTIL_UploadPaletteFromArchive(0x17, 5, 0, 0, 0x40, 0x20, p->heap);
-    p->msgBank = func_02045B38(0, 3, 0x1CD, p->heap);
+    p->msgBank = MSGDATA_CreateFromArchive(0, 3, 0x1CD, p->heap);
     for (i = 0; i < 4; i++) {
         p->windows[i] = (void *)BMP_WIN_Create(d_021BA354[i*7], d_021BA354[i*7+1], d_021BA354[i*7+2], d_021BA354[i*7+3], d_021BA354[i*7+4], d_021BA354[i*7+5], d_021BA354[i*7+6]);
         BMP_Clear(BMP_WIN_GetBmp(p->windows[i]), (u32)0);
@@ -645,12 +645,12 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     } else {
         idx = 0x26;
         if (b[1]) idx = 0x27;
-        x = func_02045EC0(p->msgBank, idx);
+        x = MSGDATA_AllocString(p->msgBank, idx);
     }
-    y = func_02045EC0(p->msgBank, 0x28);
+    y = MSGDATA_AllocString(p->msgBank, 0x28);
     off = 0;
-    w1 = (u16)func_0201D304(x, (u32)p->font, 0);
-    h = (u16)func_0201D304(y, (u32)p->font, 0);
+    w1 = (u16)GF_FONT_MeasureWidestLine(x, (u32)p->font, 0);
+    h = (u16)GF_FONT_MeasureWidestLine(y, (u32)p->font, 0);
     n = w1 + 8 + h;
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[1]));
     if (h >= n) off = ((int)(h - n)) / 2;
@@ -662,14 +662,14 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     m = *(u16 *)(b + 2);
     if (m > 9999) m = 9999;
     g = WORDSET_CreateDefault(p->heap);
-    t = func_02045EC0(p->msgBank, 0x2a);
+    t = MSGDATA_AllocString(p->msgBank, 0x2a);
     z = STRBUF_Create(5, (u16)p->heap);
     off = 0;
     WORDSET_SetSlotNumber(g, 0, (u16)m, 4, 0, 1);
     WORDSET_CopyTaggedText(g, z, t);
-    q = func_02045EC0(p->msgBank, 0x29);
-    w1 = (u16)func_0201D304(z, (u32)p->font, 0);
-    h = (u16)func_0201D304(q, (u32)p->font, 0);
+    q = MSGDATA_AllocString(p->msgBank, 0x29);
+    w1 = (u16)GF_FONT_MeasureWidestLine(z, (u32)p->font, 0);
+    h = (u16)GF_FONT_MeasureWidestLine(q, (u32)p->font, 0);
     n = w1 + 8 + h;
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[2]));
     if (h >= n) off = ((int)(h - n)) / 2;
@@ -680,8 +680,8 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     STRBUF_Delete(z);
     STRBUF_Delete(t);
     WORDSET_DeleteStrbufED04(g);
-    y = func_02045EC0(p->msgBank, d_021BA3A8[TH_AWARD_GetLevelIndex(*(u16 *)(b + 2))].msg);
-    w1 = (u16)func_0201D304(y, (u32)p->font, 0);
+    y = MSGDATA_AllocString(p->msgBank, d_021BA3A8[TH_AWARD_GetLevelIndex(*(u16 *)(b + 2))].msg);
+    w1 = (u16)GF_FONT_MeasureWidestLine(y, (u32)p->font, 0);
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[3]));
     off = ((int)(h - w1)) / 2;
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[3]), (s16)off, d_021BA314[3], (u32)y, (u32)p->font, 0x440);
@@ -690,7 +690,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
         void *d = p->windows[i];
         BMP_WIN_TransferChars(d);
         BMP_WIN_MakeScreen(d);
-        func_02041B6C(BMP_WIN_GetBgLayer(d));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
     }
     TH_AWARD_UploadWindows(p);
 }
@@ -711,7 +711,7 @@ void TH_AWARD_UploadWindows(struct ThAwardWork *o)
                 void *p = o->windows[i];
                 BMP_WIN_TransferChars(p);
                 BMP_WIN_MakeScreen(p);
-                func_02041B6C(BMP_WIN_GetBgLayer(p));
+                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(p));
                 o->uploadDone[i] = 1;
             }
         }

@@ -16,17 +16,17 @@
  *   OS_ResetSystem                 0x02087BCC  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   DWC_StartUtility  0x021C0970  arm
  *   sDwcRaputilFileName  0x021DAAA0  data  a1
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   NET_DEVICE_TABLE_Select 0x0200F17C thumb
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   ov107_id 0x0000006B data a1
  *   NET_DEVICE_TABLE_Reset 0x0200F234 thumb
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   WIH_DWC_ResetFilterState 0x020107CC thumb
  */
@@ -36,16 +36,16 @@ typedef unsigned int   u32;
 
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int x);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern int OS_IsRunOnTwl(void);
 extern int DWC_StartUtility(void *work, int language, int param);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern int NET_DEVICE_TABLE_Select(u32);
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void OS_ResetSystem(unsigned int);
 extern void NET_DEVICE_TABLE_Reset(u32);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void WIH_DWC_ResetFilterState(void);
 void DWC_RAPUTIL_RunUtility(int heapId);
@@ -66,16 +66,16 @@ void DWC_RAPUTIL_RunUtility(int heapId)
     void *utilWork;
 
     savedIrq = OS_DisableInterrupts();
-    utilWork = func_02030734(heapId, 0x40000, 1, sDwcRaputilFileName, 0x3d);
+    utilWork = GFL_HEAP_Alloc(heapId, 0x40000, 1, sDwcRaputilFileName, 0x3d);
     if (OS_IsRunOnTwl() == 0)
         DWC_StartUtility(utilWork, 1, 0);
-    func_020307B0(utilWork);
+    GFL_HEAP_Free(utilWork);
     OS_RestoreInterrupts(savedIrq);
     REG_IME;
     REG_IME = 1;
 }
 
-int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); NET_DEVICE_TABLE_Select(1); func_02034AC4((int)ov107_id); return 1; }
+int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); NET_DEVICE_TABLE_Select(1); GF_OVERLAY_Load((int)ov107_id); return 1; }
 
 
 int DWC_RAPUTIL_Main(void)
@@ -91,4 +91,4 @@ int DWC_RAPUTIL_ResetSystem(void)
     return 1;
 }
 
-int DWC_RAPUTIL_Exit(void) { NET_DEVICE_TABLE_Reset(1); func_02034A5C((int)ov107_id); GFL_HEAP_DeleteChecked(15); WIH_DWC_ResetFilterState(); return 1; }
+int DWC_RAPUTIL_Exit(void) { NET_DEVICE_TABLE_Reset(1); GF_OVERLAY_Unload((int)ov107_id); GFL_HEAP_DeleteChecked(15); WIH_DWC_ResetFilterState(); return 1; }

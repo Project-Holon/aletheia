@@ -16,7 +16,7 @@
  * symbols:
  *   FADE_IsActive  0x0204E804  arm
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -47,7 +47,7 @@
  *   FIELD_BUILDMODEL_CollectEntriesInRect  0x0218C584  thumb  ov021
  *   FIELD_BUILDMODEL_CreateNodeFromEntry  0x0218C724  thumb  ov021
  *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb  ov021
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_TASK_CreatePlayerPosTween  0x021C754C  thumb  ov021
  *   FIELD_BUILDMODEL_IsNodeSlotIdle  0x0218C8FC  thumb  ov021
@@ -189,7 +189,7 @@ enum {
     EVENT_DISAPPEAR_RISE_END
 };
 
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EventDisappearFunc func, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EventDisappearFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
@@ -229,7 +229,7 @@ extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot,
 extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot);
 extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
 extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
-extern unsigned int func_020307B0(void *block);
+extern unsigned int GFL_HEAP_Free(void *block);
 extern unsigned int KEY_GetCont(void);
 extern int FADE_IsActive(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
@@ -267,7 +267,7 @@ static inline void VEC_Set(VecFx32 *dst, int x, int y, int z)
 /* Creates the walk event: the player walks to targetPos and falls. */
 GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunWalkFall, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunWalkFall, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -281,7 +281,7 @@ GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -295,7 +295,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event with the player effect. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoomEffect, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoomEffect, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -309,7 +309,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *g
 /* Creates the spin fade event. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunSpinFade, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinFade, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -322,7 +322,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSys
 /* Creates the rising spin event. */
 GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunRisingSpin, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunRisingSpin, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -386,7 +386,7 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
         } else {
             work->buildNode = 0;
         }
-        func_020307B0(entries);
+        GFL_HEAP_Free(entries);
         *seq = EVENT_DISAPPEAR_WALK_MOVE;
         break;
     case EVENT_DISAPPEAR_WALK_MOVE:

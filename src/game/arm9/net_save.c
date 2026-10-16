@@ -23,9 +23,9 @@
  *
  * symbols:
  *   sNetSaveFile     0x020A725C  data
- *   func_02030734    0x02030734  arm
- *   func_020307B0    0x020307B0  arm
- *   func_0200FB24    0x0200FB24  thumb
+ *   GFL_HEAP_Alloc    0x02030734  arm
+ *   GFL_HEAP_Free    0x020307B0  arm
+ *   GFL_NET_ERR_GetErrorLevel    0x0200FB24  thumb
  *   GAME_DATA_SaveCancel   0x02012E08  thumb
  *   GAME_DATA_SaveStart    0x02012DAC  thumb
  *   GAME_DATA_SaveMain     0x02012DD0  thumb
@@ -107,11 +107,11 @@ struct NetSaveProcWork {
     u32 state;                              /* +0x1D4 */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern struct Link *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *link, u32 timingId, u32 size);
-extern u32 func_020307B0(void *task);
-extern u32  func_0200FB24(void);
+extern u32 GFL_HEAP_Free(void *task);
+extern u32  GFL_NET_ERR_GetErrorLevel(void);
 extern void GAME_DATA_SaveCancel(u32 gameData);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *link, u32 timingId, u32 size);
 extern int GAME_DATA_SaveStart(u32 gameData);
@@ -170,10 +170,10 @@ void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveT
  * net_save.c task constructors for the 0x14-byte task object, its poll, and
  * the eight-byte tail-call stub GFL_NET_SAVE_Delete (a tail call into the ARM
  * function 0x020307B0).  Both constructors end with the same two statements:
- * the debug allocator func_02030734(heap, 0x14, 1, "net_save.c", line)
+ * the debug allocator GFL_HEAP_Alloc(heap, 0x14, 1, "net_save.c", line)
  * (0x020A725C is two bytes into the "net_save.c" string at 0x020A7258) and
  * GFL_NET_SAVE_SetStep(p, GFL_NET_SAVE_StepBegin).  GFL_NET_SAVE_CheckFinished calls the callback with
- * the object in r0, then tests func_0200FB24()'s result; that call has no
+ * the object in r0, then tests GFL_NET_ERR_GetErrorLevel()'s result; that call has no
  * argument of its own (r0 still holds the callback's return value).  The
  * two `return 1` arms are written separately and the +0x08 load is re-read
  * after the calls.
@@ -186,7 +186,7 @@ void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveT
  *   GFL_NET_SAVE_Create   allocator + one stored field (+0x0C)
  *   GFL_NET_SAVE_CreateWithCallback   allocator + three stored fields (+0x00, +0x04, +0x0C)
  *   GFL_NET_SAVE_CheckFinished   fire the +0x08 callback, then two liveness tests
- *   (0x02010934)    `ldr r3, [pc, #0]; bx r3; .word func_020307B0`
+ *   (0x02010934)    `ldr r3, [pc, #0]; bx r3; .word GFL_HEAP_Free`
  *
  * The stub is a real function: `ov119` at 0x021E0C5C and `ov137` at
  * 0x021DF696 both `bl` it.  It carries no label because it has no prologue
@@ -199,14 +199,14 @@ void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveT
  * their own field before the bl), so the listing labels it GFL_NET_SAVE_Delete.
  *
  * Both constructors end with the same two statements: the SDK debug
- * allocator func_02030734(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
+ * allocator GFL_HEAP_Alloc(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
  * two bytes into the "net_save.c" string at 0x020A7258, so the file anchor is
  * net_save.c - and then GFL_NET_SAVE_SetStep(p, GFL_NET_SAVE_StepBegin), which stores the
  * callback into +0x08.  The two pool words per constructor are the file
  * string and that callback address with its Thumb bit, 0x0201093D.
  *
  * GFL_NET_SAVE_CheckFinished calls the callback with the object in r0, then tests
- * func_0200FB24()'s result.  That call is left with no argument of its own:
+ * GFL_NET_ERR_GetErrorLevel()'s result.  That call is left with no argument of its own:
  * r0 still holds whatever the callback returned, which is what the original
  * does and what a no-argument call in the source produces.  The two `return
  * 1` arms are written separately (two `movs r0, #1` epilogues in the
@@ -222,7 +222,7 @@ struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData)
 {
     struct NetSaveTask *task;
 
-    task = func_02030734(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
+    task = GFL_HEAP_Alloc(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
     task->gameData = gameData;
     GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepBegin);
@@ -234,7 +234,7 @@ struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, vo
 {
     struct NetSaveTask *task;
 
-    task = func_02030734(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x87);
+    task = GFL_HEAP_Alloc(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x87);
     task->progressCallback = callback;
     task->callbackArg = callbackArg;
     task->gameData = gameData;
@@ -248,7 +248,7 @@ u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task)
 {
     if (task->step != 0)
         task->step(task);
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         if (task->gameData != 0)
             GAME_DATA_SaveCancel(task->gameData);
         return 1;
@@ -260,7 +260,7 @@ u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task)
 
 void GFL_NET_SAVE_Delete(struct NetSaveTask *task)
 {
-    func_020307B0(task);
+    GFL_HEAP_Free(task);
 }
 
 
@@ -424,7 +424,7 @@ int GFL_NET_SAVE_InitWork(void *proc)
  *           passes ov123_id (0x7B, attested `overlay_id`) and this pointer
  *           in one PROCSYS_PushGlobal call; PROCSYS_PushInternal -> PROCSYS_NewProc stores
  *           the id at Proc+4 and the pointer at Proc+0 (ProcData), and
- *           PROCSYS_StepProc loads overlay Proc+4 (func_02034AC4) before it
+ *           PROCSYS_StepProc loads overlay Proc+4 (GF_OVERLAY_Load) before it
  *           calls any ProcData callback.  So ov123 is resident whenever the
  *           pointer is dereferenced.  Independently, ov123's bytes at
  *           0x021DA9A8 are three Thumb pointers 0x021DA479/0x021DA54D/

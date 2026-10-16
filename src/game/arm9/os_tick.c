@@ -1,7 +1,7 @@
 /*
  * file:     os_tick.c
  * unit:     yes
- * function: OS_InitTick, OS_IsTickAvailable, OSi_CountUpTick, func_020870D0, OS_GetTickLo
+ * function: OS_InitTick, OS_IsTickAvailable, OSi_CountUpTick, OS_GetTick, OS_GetTickLo
  * address:  0x02086FE8
  * region:   arm9
  * compiler: dsi/1.1p1

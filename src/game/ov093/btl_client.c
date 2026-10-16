@@ -61,7 +61,7 @@
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
  *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02008550  0x02008550  thumb
@@ -423,7 +423,7 @@
  *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
  *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
  *   gBtlClientFileName 0x021F3A88 data a4
@@ -726,7 +726,7 @@
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
@@ -994,7 +994,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKEPARTY_Init(struct Party *p);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *, int);
 extern u32 RECORD_AddCounter(struct Sub02008C20Obj *, int, u32);
@@ -1709,9 +1709,9 @@ BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int ne
 void BTL_CLIENT_Delete(BtlClient *client) {
  if(client->timeLimitTimer)BTL_REC_DeleteBuffer(client->timeLimitTimer);
  if(client->recorder)TR_AI_Delete(client->recorder);
- func_020307B0(client->workBuffer);
+ GFL_HEAP_Free(client->workBuffer);
  BTL_ADAPTER_Delete(client->netChannel);
- func_020307B0(client);
+ GFL_HEAP_Free(client);
 }
 
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client) {*(u8 *)&client->flags|=2;}

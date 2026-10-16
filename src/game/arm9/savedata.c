@@ -18,8 +18,8 @@
  * module prefix).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   MIi_CpuClear32   0x02082A7C  arm
  *   savedata_File  0x020A78CC  data
@@ -65,8 +65,8 @@ struct SaveDataTable {
     u32 footer_size;                /* +0x18 */
 };
 
-extern void *func_02030734(u32 heap_id, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
 
@@ -92,14 +92,14 @@ extern const u8 savedata_AssertGmdataidInRange[];
 struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
                                     u32 header_size, u32 block_overhead, u32 footer_size)
 {
-    struct SaveDataTable *svdt = func_02030734(heap_id, 0x1c, 0, savedata_File, 0x49);
+    struct SaveDataTable *svdt = GFL_HEAP_Alloc(heap_id, 0x1c, 0, savedata_File, 0x49);
 
     MIi_CpuClear32(0, svdt, 0x1c);
     svdt->table = table;
     svdt->table_max = table_max;
     svdt->size_limit = size_limit;
     svdt->header_size = header_size;
-    svdt->layout = func_02030734(heap_id, table_max * 12, 1, savedata_File, 0x4f);
+    svdt->layout = GFL_HEAP_Alloc(heap_id, table_max * 12, 1, savedata_File, 0x4f);
     svdt->footer_size = footer_size;
     SAVEDATA_BuildLayout(svdt, block_overhead);
     return svdt;
@@ -111,8 +111,8 @@ struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *tab
  */
 void SAVEDATA_DeleteTable(struct SaveDataTable *svdt)
 {
-    func_020307B0(svdt->layout);
-    func_020307B0(svdt);
+    GFL_HEAP_Free(svdt->layout);
+    GFL_HEAP_Free(svdt);
 }
 
 

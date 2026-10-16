@@ -14,10 +14,10 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
@@ -40,7 +40,7 @@
  *   STRBUF_Clone 0x02045874 arm
  *   memset 0x02082BCC arm
  *   _s32_div_f 0x0209C0A4 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   BMP_Create 0x02043678 arm
@@ -125,9 +125,9 @@ typedef struct PtS { s16 x, y; } PtS;
 
 struct Vec2{short x,y;};
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, int, int);
 
@@ -143,7 +143,7 @@ extern void BR_UTIL_DeleteTask(void *p);
 
 extern void BR_UTIL_DeleteTextWin(void *p, int a1);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BMP_OAM_DeleteSys(void *p);
 
@@ -171,7 +171,7 @@ extern void *memset(void *,int,unsigned);
 
 extern int _s32_div_f(int,int);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern struct Actor *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 
@@ -366,8 +366,8 @@ struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
     int i;
     int arch;
     u8 buf[0x44];
-    if (a >= 12) func_02034714(d_02200D18, 0, d_02200D18);
-    p = func_02030734(heap, 0x60, 0, d_02200D1C, 0x13F);
+    if (a >= 12) SAVEDATA_PanicFail(d_02200D18, 0, d_02200D18);
+    p = GFL_HEAP_Alloc(heap, 0x60, 0, d_02200D1C, 0x13F);
     MI_CpuFill8(p, 0, 0x60);
     p->resBase = c;
     p->oamData = b;
@@ -386,10 +386,10 @@ struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
     BR_RES_LoadSprite((char *)p->resBase, p->spriteIndex + 1, heap);
     p->rowCount = BR_BTN_DATA_GetMaxSectionCount(p->dataTable);
     size = p->rowCount * 0x44;
-    p->rowRecords = func_02030734(heap, size, 0, d_02200D1C, 0x167);
+    p->rowRecords = GFL_HEAP_Alloc(heap, size, 0, d_02200D1C, 0x167);
     MI_CpuFill8(p->rowRecords, 0, size);
     p->maxRows = 6;
-    p->tailRecords = func_02030734(heap, 0x198, 0, d_02200D1C, 0x171);
+    p->tailRecords = GFL_HEAP_Alloc(heap, 0x198, 0, d_02200D1C, 0x171);
     MI_CpuFill8(p->tailRecords, 0, 0x198);
     p->task = BR_UTIL_CreateTask((int)p, (int)BR_BTN_SetupInput, heap);
     if (p->resultSet->count != 0) {
@@ -433,16 +433,16 @@ void BR_BTN_Delete(u8 *p)
     }
     for (i = 0; i < ((struct BrBtn *)p)->recordCount; i++)
         BR_BTN_DeleteRecord((Button *)(((struct BrBtn *)p)->tailRecords + i * 0x44));
-    func_020307B0((void *)((struct BrBtn *)p)->tailRecords);
+    GFL_HEAP_Free((void *)((struct BrBtn *)p)->tailRecords);
     for (i = 0; i < ((struct BrBtn *)p)->sectionCount; i++)
         BR_BTN_DeleteRecord((Button *)(((struct BrBtn *)p)->rowRecords + i * 0x44));
-    func_020307B0((void *)((struct BrBtn *)p)->rowRecords);
+    GFL_HEAP_Free((void *)((struct BrBtn *)p)->rowRecords);
     BR_RES_ReleaseSprite((char *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex);
     BR_RES_ReleaseSprite((char *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex + 1);
     BR_BTN_DATA_Delete((void *)(((struct BrBtn *)p)->dataTable));
     BMP_OAM_DeleteSys((void *)(((struct BrBtn *)p)->oamSys));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BrBtn *)p)->printQue));
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void BR_BTN_UpdatePrint(char *p) { BR_UTIL_RunTask((u8 *)(((struct BrBtn *)p)->task));PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct BrBtn *)p)->printQue);if(*(char * *)&((struct BrBtn *)p)->textWin)BR_UTIL_FlushWindow(*(char * *)&((struct BrBtn *)p)->textWin); }
@@ -461,7 +461,7 @@ void BR_BTN_PushRecord(struct BrBtn *ctx, int a1, int a2)
     int i;
 
     if (ctx->recordCount >= ctx->maxRows)
-        func_02034714((const char *)d_02200D18, 0, (const char *)d_02200D18);
+        SAVEDATA_PanicFail((const char *)d_02200D18, 0, (const char *)d_02200D18);
     BR_BTN_CopyRecord(ctx, (Button *)(*(u8 * *)&ctx->tailRecords + ctx->recordCount * 0x44), (const Button *)a1, a2);
     ctx->recordCount++;
     for (i = 0; i < ctx->recordCount; i++) {
@@ -498,7 +498,7 @@ void BR_BTN_BuildSection(struct BrBtn *p,int section,const int *pos)
  }
 }
 
-void BR_BTN_PushPosPair(char *p,int x,int y) { if(((struct BrBtnResultSet *)p)->count>=6)func_02034714(d_02200D18,0,d_02200D18);*(unsigned short *)((unsigned)p+((struct BrBtnResultSet *)p)->count*4)=x;*(unsigned short *)((unsigned)p+((struct BrBtnResultSet *)p)->count*4+2)=y;(((struct BrBtnResultSet *)p)->count)++; }
+void BR_BTN_PushPosPair(char *p,int x,int y) { if(((struct BrBtnResultSet *)p)->count>=6)SAVEDATA_PanicFail(d_02200D18,0,d_02200D18);*(unsigned short *)((unsigned)p+((struct BrBtnResultSet *)p)->count*4)=x;*(unsigned short *)((unsigned)p+((struct BrBtnResultSet *)p)->count*4+2)=y;(((struct BrBtnResultSet *)p)->count)++; }
 
 void BR_BTN_PopPosPair(char *p) { if (((struct BrBtnResultSet *)p)->count!=0) (((struct BrBtnResultSet *)p)->count)--; }
 
@@ -624,7 +624,7 @@ void BR_BTN_UpdatePress(void *p,int *state,struct BrBtn *ctx)
   BR_BTN_PopPosPair((char *)ctx->resultSet);
   if(BR_BTN_Init(ctx, (Button *)&record)){
    section=BR_BTN_GetRowField((Button *)&record, 4);
-   if(!record.active)func_02034714(d_02200D18,0,d_02200D18);
+   if(!record.active)SAVEDATA_PanicFail(d_02200D18,0,d_02200D18);
    other[0]=BR_BTN_DATA_GetRowField(record.object,0);
    other[1]=BR_BTN_DATA_GetRowField(record.object,1);
    BR_BTN_BuildSection(ctx,section,other);
@@ -843,7 +843,7 @@ void BR_BTN_InitRecord(Button *ctx, void *object, unsigned a, void *b, char *own
     BrBtnCreateConfig config;
     const void *work;
     unsigned short heap_value;
-    if (ctx->active) func_02034714(d_02200D18, 0, d_02200D18);
+    if (ctx->active) SAVEDATA_PanicFail(d_02200D18, 0, d_02200D18);
     MI_CpuFill8(ctx, 0, 0x44);
     ctx->active = 1;
     ctx->enabled = 1;
@@ -955,8 +955,8 @@ void BR_BTN_SetMode(Button *ctx, int mode)
 
 void BR_BTN_CopyRecord(void *ctx, Button *dest, const Button *source, int mode)
 {
-    if (dest->active != 0) func_02034714(d_02200D18, 0, d_02200D18);
-    if (source->active != 1) func_02034714(d_02200D18, 0, d_02200D18);
+    if (dest->active != 0) SAVEDATA_PanicFail(d_02200D18, 0, d_02200D18);
+    if (source->active != 1) SAVEDATA_PanicFail(d_02200D18, 0, d_02200D18);
     *dest = *source;
     if (source->enabled != mode) BR_BTN_SetMode(dest, mode);
 }
@@ -986,7 +986,7 @@ int BR_BTN_GetRowField(Button *ctx, int kind)
     case 7: result = BR_BTN_DATA_GetRowField(ctx->object, 11); break;
     case 8: result = BR_BTN_DATA_GetRowField(ctx->object, 0); break;
     case 9: result = BR_BTN_DATA_GetRowField(ctx->object, 1); break;
-    default: result = 0; func_02034714(d_02200D18, 0, d_02200D18); break;
+    default: result = 0; SAVEDATA_PanicFail(d_02200D18, 0, d_02200D18); break;
     }
     return result;
 }
@@ -1182,7 +1182,7 @@ void *BR_BTN_CreateFromMessage(void *ctx, int file, unsigned short a, int b, int
 {
     void *data;
     void *result;
-    data = func_02045EC0((struct MsgBank *)archive, file);
+    data = MSGDATA_AllocString((struct MsgBank *)archive, file);
     result = BR_BTN_CreateObject((const Point *)ctx, data, a, b, c, (void *)d, (void *)e, (const BrBtnSpriteIds *)config, heap);
     STRBUF_Delete(data);
     return result;
@@ -1198,7 +1198,7 @@ struct BrButton *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,u32 
     u32 value;
     struct BrButton *p;
     value=b;config=triple;
-    p=func_02030734(heap,24,0,d_02200D1C,0xA3B);
+    p=GFL_HEAP_Alloc(heap,24,0,d_02200D1C,0xA3B);
     MI_CpuFill8(p,0,24);
     p->paramA=a;p->surface=value;
     p->actor=CLACT_CreateActor((void *)c,config->y,config->z,config->x,pt,value,heap);
@@ -1216,7 +1216,7 @@ struct BrButton *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,u32 
     return p;
 }
 
-void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete(*(struct Grid * *)&((struct BrButton *)p)->grid);BMP_Delete(*(struct Bmp * *)&((struct BrButton *)p)->bmp);CLACT_DeleteActor(*(struct Actor * *)&((struct BrButton *)p)->actor);func_020307B0(p); }
+void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete(*(struct Grid * *)&((struct BrButton *)p)->grid);BMP_Delete(*(struct Bmp * *)&((struct BrButton *)p)->bmp);CLACT_DeleteActor(*(struct Actor * *)&((struct BrButton *)p)->actor);GFL_HEAP_Free(p); }
 
 int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y)
 {

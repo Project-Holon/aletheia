@@ -16,7 +16,7 @@
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -79,7 +79,7 @@ typedef struct NameInEvent {
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *vec);
-extern struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAME_DATA_GetSaveControl(struct SaveControl *p);
@@ -117,7 +117,7 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     struct GameEvent *event;
     NameInEvent *work;
 
-    event = func_020122C0(gameSystem, parentEvent, EVENT_NAMEIN_Main, 0x50);
+    event = GAME_EVENT_Create(gameSystem, parentEvent, EVENT_NAMEIN_Main, 0x50);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020307B0       0x020307B0  arm
+ *   GFL_HEAP_Free       0x020307B0  arm
  *   func_0200D59C_File  0x020A71E8  data
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   STRBUF_GetEosChar    0x02045A98  arm
@@ -33,6 +33,9 @@
  *   POKE_TOOL_FilterSpecies  0x02019D58  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   WIFI_HISTORY_GetBlock  0x02009470  thumb
+ *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 struct GameSys;
 struct ProgressBlock;
@@ -169,16 +172,16 @@ struct Stamp {
 };
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void OS_GetOwnerInfo(void *info);
 extern u16   STRBUF_GetEosChar(void);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct GameSys *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern struct SaveDataObj *func_02009470(void *sys);
-extern void *func_0200E6E8(u32 a);
+extern struct SaveDataObj *WIFI_HISTORY_GetBlock(void *sys);
+extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct RecordData *src, int idx, struct RecordData *dst);
 extern const void *func_020084F4(const void *p);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
@@ -294,7 +297,7 @@ extern const char func_0200D59C_File[];
  */
 struct GdsProfile *GDS_PROFILE_Create(u32 heap)
 {
-    struct GdsProfile *profile = func_02030734((u16)heap, sizeof(struct GdsProfile),
+    struct GdsProfile *profile = GFL_HEAP_Alloc((u16)heap, sizeof(struct GdsProfile),
                                          0, func_0200D59C_File, 0x50);
 
     MI_CpuFill8(profile, 0, sizeof(struct GdsProfile));
@@ -305,7 +308,7 @@ struct GdsProfile *GDS_PROFILE_Create(u32 heap)
 
 void GDS_PROFILE_Delete(struct GdsProfile *profile)
 {
-    func_020307B0(profile);
+    GFL_HEAP_Free(profile);
 }
 
 
@@ -360,9 +363,9 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     void *recordEnv;
     s32 i;
 
-    func_02009470(saveData);
+    WIFI_HISTORY_GetBlock(saveData);
     progress = GAME_DATA_GetMiscSave(sys);
-    recordEnv = func_0200E6E8((u32)saveData);
+    recordEnv = SAVEDATA_GetExtraBlockThunk((u32)saveData);
     OS_GetOwnerInfo(&info);
     BEACON_GetSelect(progress, &playHours, &playMinutes, &cleared, &nationalDex);
 

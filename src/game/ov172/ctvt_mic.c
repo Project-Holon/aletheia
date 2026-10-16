@@ -13,12 +13,12 @@
  * Cut from draw_system.c, ctvt_comm.c, ctvt_draw.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_02082A7C 0x02082A7C arm
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   CTVT_MIC_Create 0x021B9F9C thumb ov172
  *   CTVT_MIC_Delete 0x021BA01C thumb ov172
  *   CTVT_MIC_Update 0x021BA050 thumb ov172
@@ -68,7 +68,7 @@
  */
 #include "ctvt_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 typedef enum MICResult { MIC_SUCCESS, MIC_BUSY, MIC_ILLEGAL, MIC_SEND_ERROR } MICResult;
 
@@ -84,7 +84,7 @@ typedef struct MICAutoParam {
 
 extern int OS_IsRunOnTwl();
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 
@@ -148,7 +148,7 @@ extern CtvtMic *gCtvtMic;
 
 CtvtMic *CTVT_MIC_Create(u32 heap)
 {
-    CtvtMic *mic = func_02030734(heap, 36, 1, gCtvtMicAllocSite, 87);
+    CtvtMic *mic = GFL_HEAP_Alloc(heap, 36, 1, gCtvtMicAllocSite, 87);
     MIC_Init();
     PM_Init();
     PM_SetAmp(1);
@@ -172,7 +172,7 @@ void CTVT_MIC_Delete(CtvtMic *mic)
     CTVT_MIC_FreeChannel(mic);
     PM_SetAmp(0);
     GFL_NET_FreeAligned(mic->buffer);
-    func_020307B0(mic);
+    GFL_HEAP_Free(mic);
 }
 
 void CTVT_MIC_Update(CtvtMic *mic)
@@ -265,7 +265,7 @@ extern int CTVT_ADPCM_Decode(int a, int b, int c);
 
 extern int  NNS_SndWaveOutAllocChannel(int size);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void NNSi_SndWaveOutUnlockChannel(struct NnsWaveOutSlot *slot);
 
@@ -320,7 +320,7 @@ void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)
 
     mic->channel = v;
     if (v == 0) {
-        func_02034714((void *)0x021C7224, 0, (void *)0x021C7224);
+        SAVEDATA_PanicFail((void *)0x021C7224, 0, (void *)0x021C7224);
     }
     mic->playing = 0;
 }

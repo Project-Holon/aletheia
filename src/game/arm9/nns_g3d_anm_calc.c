@@ -39,7 +39,7 @@
  *   data_020A8228    0x020A8228  data
  *   data_020A822C    0x020A822C  data
  *   NNS_G3dGetResDataByName  0x0206E62C  arm
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   NNSi_G3dTexPatAnmGetFrameValue  0x0206EA58  arm
  *   NNSi_G3dGetTexPatAnmTexNameByIdx  0x0206EA00  arm
  *   NNSi_G3dGetTexPatAnmPlttNameByIdx  0x0206EA2C  arm
@@ -48,8 +48,8 @@
  *   g_02149BC0  0x02149BC0  data
  *   FX_DivAsync       0x0207C930  arm
  *   FX_GetDivResult   0x0207C86C  arm
- *   func_0207C930  0x0207C930  arm
- *   func_0207C86C  0x0207C86C  arm
+ *   FX_DivAsync  0x0207C930  arm
+ *   FX_GetDivResult  0x0207C86C  arm
  *   g_dispatch       0x020A8438  data a4
  *   MIi_CpuCopy32  0x02082A90  arm
  *   g_02149BB4     0x02149BB4  data
@@ -69,15 +69,15 @@ extern void func_020834A8(void *p);
 extern void VEC_Normalize(const int *src, int *dst);
 s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
 extern void *NNS_G3dGetResDataByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
-extern fx32 func_0207C768(fx32 numer, fx32 denom);
+extern fx32 FX_Div(fx32 numer, fx32 denom);
 extern const NNSG3dResTexPatAnmFV *NNSi_G3dTexPatAnmGetFrameValue(const NNSG3dResTexPatAnm *pPatAnm, u32 dataIdx, u32 frame);
 extern const NNSG3dResName *NNSi_G3dGetTexPatAnmTexNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
 extern const NNSG3dResName *NNSi_G3dGetTexPatAnmPlttNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void FX_DivAsync(s32 num, s32 den);
 extern s32  FX_GetDivResult(void);
-extern void func_0207C930(fx32 numer, fx32 denom);
-extern fx32 func_0207C86C(void);
+extern void FX_DivAsync(fx32 numer, fx32 denom);
+extern fx32 FX_GetDivResult(void);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, const NNSG3dResJntAnm *pJntAnm, const NNSG3dResMdl *pMdl);
 void NNSi_G3dAnmCalcNsBca(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx);
@@ -1948,8 +1948,8 @@ void NNSi_G3dAnmSetTexParam(const NNSG3dResTex *pTex, const NNSG3dResName *pName
     {
         u32 width = (pData->extraParam & 0x7ff) >> 0;
         u32 height = (pData->extraParam & (0x7ff << 11)) >> 11;
-        pResult->magW = (width != pResult->origWidth) ? func_0207C768((fx32)(width << 12), (fx32)(pResult->origWidth << 12)) : 0x1000;
-        pResult->magH = (height != pResult->origHeight) ? func_0207C768((fx32)(height << 12), (fx32)(pResult->origHeight << 12)) : 0x1000;
+        pResult->magW = (width != pResult->origWidth) ? FX_Div((fx32)(width << 12), (fx32)(pResult->origWidth << 12)) : 0x1000;
+        pResult->magH = (height != pResult->origHeight) ? FX_Div((fx32)(height << 12), (fx32)(pResult->origHeight << 12)) : 0x1000;
     }
 }
 
@@ -2356,7 +2356,7 @@ void NNSi_G3dTexMtxScaleRot4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
 
     width = (s32)pResult->origWidth << 12;
     height = (s32)pResult->origHeight << 12;
-    func_0207C930(height, width);
+    FX_DivAsync(height, width);
 
     cosR = (s32)pResult->cosR;
     scaleS = pResult->scaleS;
@@ -2371,9 +2371,9 @@ void NNSi_G3dTexMtxScaleRot4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
 
     pMtx->_00 = scaleSCos;
     pMtx->_11 = scaleTCos;
-    pMtx->_01 = ((0 - scaleTSin) * func_0207C86C()) >> 12;
+    pMtx->_01 = ((0 - scaleTSin) * FX_GetDivResult()) >> 12;
 
-    func_0207C930(width, height);
+    FX_DivAsync(width, height);
 
     u = pResult->scaleS - (scaleSSin + scaleSCos);
     n = u;
@@ -2383,7 +2383,7 @@ void NNSi_G3dTexMtxScaleRot4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
     n = n + 0x2000;
     pMtx->_31 = ((s32)pResult->origHeight * n) << 3;
 
-    pMtx->_10 = (scaleSSin * func_0207C86C()) >> 12;
+    pMtx->_10 = (scaleSSin * FX_GetDivResult()) >> 12;
 }
 
 /*

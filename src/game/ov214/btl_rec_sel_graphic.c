@@ -15,7 +15,7 @@
  * trailing: code ends at 021BB474; subsequent words are data.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -24,19 +24,19 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   site 0x021BB668 data ov214
  *   config 0x021BB588 data ov214
  *   config2 0x021BB53C data ov214
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   records 0x021BB5B8 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
@@ -62,6 +62,7 @@
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm  arm9
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm  arm9
  */
 
 struct DispVram;
@@ -95,7 +96,7 @@ struct BtlRecSelClact {
     struct Bank *bank;
 };
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -104,16 +105,16 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern u32 func_020056A0(void (*)(void *),void *,u32);
-extern void func_02030EAC(struct Node *n);
+extern u32 GFL_USE_AddMainTask(void (*)(void *),void *,u32);
+extern void TCB_DeleteTask(struct Node *n);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -133,7 +134,7 @@ extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,stru
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 extern void func_02047964(void);
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap);
@@ -173,7 +174,7 @@ extern struct Vec3 vec1,vec2,vec3;
  */
 char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
 {
-    char *p=func_02030734(heap,16,0,site,458);
+    char *p=GFL_HEAP_Alloc(heap,16,0,site,458);
     MI_CpuFill8(p,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
@@ -189,7 +190,7 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
     BTL_REC_SEL_GRAPHIC_InitBg(p,heap);
     BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(int)config,heap);
     BTL_REC_SEL_GRAPHIC_InitG3d((u32 **)(p+8),heap);
-    ((struct BtlRecSelGraphic *)p)->vblankHandle=func_020056A0((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,0);
+    ((struct BtlRecSelGraphic *)p)->vblankHandle=GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,0);
     return p;
 }
 
@@ -200,7 +201,7 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
 
 void BTL_REC_SEL_GRAPHIC_Delete(char *p)
 {
-    func_02030EAC((struct Node *)((struct BtlRecSelGraphic *)p)->vblankHandle);
+    TCB_DeleteTask((struct Node *)((struct BtlRecSelGraphic *)p)->vblankHandle);
     BTL_REC_SEL_GRAPHIC_DeleteG3d((int *)(p+8));
     BTL_REC_SEL_GRAPHIC_DeleteClact(p+4);
     BTL_REC_SEL_GRAPHIC_DeleteBg(p);
@@ -210,7 +211,7 @@ void BTL_REC_SEL_GRAPHIC_Delete(char *p)
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     MI_CpuFill8(p,0,16);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -264,7 +265,7 @@ void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap)
         u32 id=r->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)r->template_data,(u8)r->type);
         BG_SYS_FreeSlot(id);
-        func_02040588(id,r->enabled);
+        BG_SYS_SetPlaneVisible(id,r->enabled);
     }
 }
 
@@ -345,7 +346,7 @@ void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p)
 void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p)
 {
     func_02047964();
-    func_02048AD0((struct Light *)(*p));
+    G3D_CAMERA_Reset((struct Light *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }
 

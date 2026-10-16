@@ -14,7 +14,7 @@
  *
  * symbols:
  *   ov112_id 0x00000070 data
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   BR_PROC_SYS_GetSlotId 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -23,15 +23,15 @@
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
  *   BR_UTIL_DeleteTask 0x021FD714 thumb ov186
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   BR_UTIL_DeleteHandles 0x021FD820 thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_020315D4 0x020315D4 arm
- *   func_02034A5C 0x02034A5C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   BR_NET_HandleNetError 0x021FF88C thumb ov186
  *   BR_PROC_SYS_FlushWindows 0x021F9C6C thumb ov186
  *   BR_UTIL_RunTask 0x021FD71C thumb ov186
@@ -76,7 +76,7 @@
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BR_UTIL_CreateProfileScreen 0x021FD1C4 thumb ov186
@@ -110,7 +110,7 @@ typedef struct Config {u16 x,y,z; unsigned char a,b;} Config;
 
 typedef struct Triple {int a,b,c;} Triple;
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern unsigned BR_PROC_SYS_GetSlotId(void *p);
 extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
@@ -119,15 +119,15 @@ extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void BR_RES_LoadSprite(char *base, u32 idx, u32 area);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern void BR_UTIL_DeleteTask(void *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_UTIL_DeleteHandles(char *);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(void *p);
-extern void func_02034A5C(int);
+extern void PROCSYS_FreeProcWork(void *p);
+extern void GF_OVERLAY_Unload(int);
 extern int BR_NET_HandleNetError(char *);
 extern void BR_PROC_SYS_FlushWindows(char *);
 extern void BR_UTIL_RunTask(u8 *p);
@@ -168,7 +168,7 @@ extern void BR_GRAPHIC_End3d(void *,unsigned);
 extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
 extern void BR_RES_LoadBgGraphics(void *,unsigned,u16);
 extern int BR_RES_GetSprite(void *,unsigned,void *);
-extern void func_02034714(const char *,unsigned,const char *);
+extern void SAVEDATA_PanicFail(const char *,unsigned,const char *);
 extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
 extern void BR_BTN_DeleteObject(char *p);
@@ -226,7 +226,7 @@ int BR_POKESEARCH_CreateWork(void *procSys,int unused,char *owner)
     char *work;
     void *graphic;
     int handleIndex;
-    func_02034AC4((int)ov112_id);
+    GF_OVERLAY_Load((int)ov112_id);
     work=PROCSYS_AllocProcWork(procSys,88,BR_PROC_SYS_GetSlotId(((struct BrDownloadOwner *)owner)->proc.proc));
     MI_CpuFill8(work,0,88);
     *(char * *)&((struct BrPokeSearchWork *)work)->owner=owner;
@@ -236,7 +236,7 @@ int BR_POKESEARCH_CreateWork(void *procSys,int unused,char *owner)
     ((struct BrPokeSearchWork *)work)->oamData.oamData=BMP_OAM_CreateSys(((struct BrPokeSearchWork *)work)->heapId,graphic);
     for (handleIndex=0;handleIndex<2;handleIndex++) ((void **)&((struct BrPokeSearchWork *)work)->listParam)[handleIndex]=BR_UTIL_CreateHandles((unsigned int)graphic,(char *)(((struct BrDownloadOwner *)owner)->res.resHandle),handleIndex,((struct BrPokeSearchWork *)work)->heapId);
     BR_RES_LoadSprite((char *)(((struct BrDownloadOwner *)owner)->res.resHandle),6,((struct BrPokeSearchWork *)work)->heapId);
-    func_02040588(0,1);
+    BG_SYS_SetPlaneVisible(0,1);
     BR_POKESEARCH_CreateSearch(work,(int *)owner);
     ((struct BrPokeSearchWork *)work)->task.task=BR_UTIL_CreateTask((int)work,(int)BR_POKESEARCH_OpenTask,((struct BrPokeSearchWork *)work)->heapId);
     return 1;
@@ -266,8 +266,8 @@ int BR_POKESEARCH_DestroyWork(int procSys,int unused,char *owner,char *work)
     for (handleIndex=0;handleIndex<2;handleIndex++) BR_UTIL_DeleteHandles(((char **)&((struct BrPokeSearchWork *)work)->listParam)[handleIndex]);
     BMP_OAM_DeleteSys((void *)(((struct BrPokeSearchWork *)work)->oamData.oamHandle));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BrPokeSearchWork *)work)->printQue.printQueHandle));
-    func_020315D4((void *)procSys);
-    func_02034A5C((int)ov112_id);
+    PROCSYS_FreeProcWork((void *)procSys);
+    GF_OVERLAY_Unload((int)ov112_id);
     return 1;
 }
 
@@ -646,7 +646,7 @@ void BR_POKESEARCH_CreateDetail(char *work,char *owner)
         MI_CpuFill8(&pos,0,8);
         pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
         graphic=(void *)BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)owner)->graphic.graphic);
-        if (!BR_RES_GetSprite(((struct BrDownloadOwner *)owner)->res.res,6,&sprite)) func_02034714("",0,"");
+        if (!BR_RES_GetSprite(((struct BrDownloadOwner *)owner)->res.res,6,&sprite)) SAVEDATA_PanicFail("",0,"");
         ((struct BrPokeSearchWork *)work)->backButton.backButton=BR_BTN_CreateFromMessage(&pos,4,0x60,1,(int)graphic,((struct BrPokeSearchWork *)work)->oamData.oamHandle,font,msgData,&sprite,((struct BrPokeSearchWork *)work)->heapId);
         ((struct BrPokeSearchWork *)work)->detailWin=BR_UTIL_Create(4,8,3,0x10,2,0xe,((struct BrPokeSearchWork *)work)->printQue.printQuePtr,((struct BrPokeSearchWork *)work)->heapId);
         BR_UTIL_SetTextFromMessage(*(char * *)&((struct BrPokeSearchWork *)work)->detailWin,(void *)msgData,(void *)0x71,(void *)font,0x3da0);

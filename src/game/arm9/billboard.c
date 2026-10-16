@@ -13,10 +13,10 @@
  * Cut from billboard.c, billboard_image.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   sBillboard     0x020A7FA4  data
  *   BILLBOARD_DeleteAllImages  0x0204F27C  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G3D_SYSTEM_TransVramTexture   0x02046FF8  arm
  *   G3D_SYSTEM_GetTexVramKey   0x02047388  arm
  *   G3D_SYSTEM_GetPlttVramKey   0x020473B8  arm
@@ -67,9 +67,9 @@ struct Blob28 { u32 w[7]; };   /* 28 bytes, align 4 -> ldm/stm 16 + 12 */
 
 void BILLBOARD_DeleteAllImages(struct BbBoard *board);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void *BILLBOARD_Create(u8 *src, void *heap);
 
@@ -101,7 +101,7 @@ extern const char sBillboard[];
  * billboard.c's board constructor; the only allocation site in the image
  * whose __FILE__ word is 0x020A7FA4 ("billboard.c", the NUL of
  * "battle_disp.c" at 0x020A7FA3 fixes where it starts).  Caller is
- * func_0204FF18.  Three func_02030734 calls at lines 153, 159 and 161: the
+ * func_0204FF18.  Three GFL_HEAP_Alloc calls at lines 153, 159 and 161: the
  * 0x3c-byte board, its count0 * 0x28 record array and its count1 * 0x1c
  * element array.
  *
@@ -120,11 +120,11 @@ void *BILLBOARD_Create(u8 *src, void *heap)
     int i;
 
     file = sBillboard;
-    h = (struct BbBoard *)func_02030734((int)heap, sizeof(struct BbBoard), 1, file, 153);
+    h = (struct BbBoard *)GFL_HEAP_Alloc((int)heap, sizeof(struct BbBoard), 1, file, 153);
     h->heapId = (u16)(int)heap;
     *(struct Blob28 *)((u8 *)h + 0x0c) = *(struct Blob28 *)src;
-    h->images = (struct BbImage *)func_02030734((int)heap, h->imageCount * 0x28, 1, file, 159);
-    h->elems = (struct BbElem *)func_02030734((int)heap, h->elemCount * 0x1c, 1, file, 161);
+    h->images = (struct BbImage *)GFL_HEAP_Alloc((int)heap, h->imageCount * 0x28, 1, file, 159);
+    h->elems = (struct BbElem *)GFL_HEAP_Alloc((int)heap, h->elemCount * 0x1c, 1, file, 161);
     for (i = 0; i < h->imageCount; i++) {
         h->images[i].handle = 0;
         h->images[i].texFmt = 5;
@@ -149,9 +149,9 @@ void *BILLBOARD_Create(u8 *src, void *heap)
 void BILLBOARD_Delete(void *p)
 {
     BILLBOARD_DeleteAllImages(p);
-    func_020307B0(((struct BbBoard *)p)->elems);
-    func_020307B0(((struct BbBoard *)p)->images);
-    func_020307B0(p);
+    GFL_HEAP_Free(((struct BbBoard *)p)->elems);
+    GFL_HEAP_Free(((struct BbBoard *)p)->images);
+    GFL_HEAP_Free(p);
 }
 
 /*

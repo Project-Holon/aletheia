@@ -13,15 +13,15 @@
  * Cut from zukan_detail_common.c, zukan_detail_graphic.c, zukan_detail_form.c, ov208_func_021C80CC.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_Create 0x021BD8C0 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_Delete 0x021BD954 thumb ov208
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId 0x021BDB08 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId 0x021BDB54 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_Update 0x021BD974 thumb
@@ -59,7 +59,7 @@
  *   func_02049F34  0x02049F34  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   FX_SinCosTable_ 0x020A1B38 data
  *   data_021C8390  0x021C8390  data
  *   data_021C83C8  0x021C83C8  data
@@ -92,19 +92,19 @@
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -112,7 +112,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern u32  CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -166,7 +166,7 @@ extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
 void ZKND_TBAR_DeleteButtonList(struct Ov208Mgr *m);
 
@@ -296,7 +296,7 @@ extern s16 FX_SinCosTable_[];
 
 char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
 {
-    struct Ov208Scene *p=func_02030734(heap,0x11c,1,d_021C8DE4,0x148);
+    struct Ov208Scene *p=GFL_HEAP_Alloc(heap,0x11c,1,d_021C8DE4,0x148);
     p->heap=heap;p->dexFlags=arg;
     p->state=0;p->prevMode=0;p->mode=0;
     p->prevKind=1;p->kind=0;p->arrowKind=0;p->scrollIdx=0;
@@ -307,7 +307,7 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
     p->mgr=0;func_021BDCF8(p);
     ZKND_TBAR_SetTouchEnable(p->mgr,0);
     p->pos=24;ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)p,p->pos);
-    p->task=func_020056A0((unsigned)ZUKAN_DETAIL_TOUCHBAR_FlushBar,(unsigned)p,1);
+    p->task=GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_TOUCHBAR_FlushBar,(unsigned)p,1);
     return (char *)p;
 }
 
@@ -316,10 +316,10 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
  */
 void ZUKAN_DETAIL_TOUCHBAR_Delete(struct Ov208Scene *m)
 {
-    func_02030EAC(m->task);
+    TCB_DeleteTask(m->task);
     ZUKAN_DETAIL_TOUCHBAR_ReleaseResources((char *)m);
     CLACT_DeleteUnit(m->clactUnit);
-    func_020307B0(m);
+    GFL_HEAP_Free(m);
 }
 
 void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
@@ -618,7 +618,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
     u8 i;
     int v;
 
-    h = func_020490F4(0x9f, p->heap);
+    h = ARC_TOOL_CreateHandle(0x9f, p->heap);
     p->palRes0 = CLACT_RegisterPaletteEx(h, 3, 0, 0x160, 0, 3, p->heap);
     p->charRes0 = CLACT_RegisterCharacter(h, 0xd, 0, 0, p->heap);
     p->cellRes0 = CLACT_RegisterCellAnim(h, 0x1b, 0x2c, p->heap);
@@ -793,7 +793,7 @@ void ZUKAN_DETAIL_TOUCHBAR_FreeAnimBuffer(u8 *p)
     data = pltt->data;
     MI_CpuCopy8(data + 0x20, p + 0xb6, 0x20);
     MI_CpuCopy8(data + 0x60, p + 0xd6, 0x20);
-    func_020307B0((void *)file);
+    GFL_HEAP_Free((void *)file);
     ((struct Ov208Scene *)p)->phase = 0;
 }
 
@@ -873,7 +873,7 @@ s32 ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable(struct Ov208Scene *m)
         u8 b = b1 + ((b2 - b1) * t >> 12);
         m->palOut[i] = r | g << 5 | b << 10;
     }
-    return func_02061CA4((void *)14, 0x1a0, (u32)m->palOut, 0x20);
+    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (u32)m->palOut, 0x20);
 }
 
 /*
@@ -933,7 +933,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources(struct Ov208Scene *p)
     void *h;
     u8 i;
 
-    h = func_020490F4(0x55, p->heap);
+    h = ARC_TOOL_CreateHandle(0x55, p->heap);
     p->palRes1 = CLACT_RegisterPaletteEx(h, 2, 0, 0x160, 2, 3, p->heap);
     p->charRes1 = CLACT_RegisterCharacter(h, 8, 0, 0, p->heap);
     p->cellRes1 = CLACT_RegisterCellAnim(h, 0xc, 0x13, p->heap);
@@ -979,7 +979,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources(struct Ov208Scene *p)
     void *h;
     u8 i;
 
-    h = func_020490F4(0x9f, p->heap);
+    h = ARC_TOOL_CreateHandle(0x9f, p->heap);
     p->palRes2 = CLACT_RegisterPaletteEx(h, 3, 0, 0x160, 0, 3, p->heap);
     p->charRes2 = CLACT_RegisterCharacter(h, 0xd, 0, 0, p->heap);
     p->cellRes2 = CLACT_RegisterCellAnim(h, 0x1b, 0x2c, p->heap);

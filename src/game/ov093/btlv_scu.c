@@ -15,7 +15,7 @@
  * symbols:
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
- *   func_02030734  0x02030734  arm    arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm    arm9
  *   gBtlvScuFileName     0x021F3AD0  data   a4
  *   STRBUF_Create  0x020457B0  arm    arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
@@ -25,7 +25,7 @@
  *   PALANM_CopyToSlot 0x020215BC thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_0204989C 0x0204989C arm
+ *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -33,20 +33,20 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   gBtlvScuBgTemplateMsg 0x021F3930 data a4
  *   gBtlvScuBgTemplateName 0x021F3950 data a4
  *   gBtlvScuBgTemplateBack 0x021F3970 data a4
- *   func_020490F4  0x020490F4  arm
- *   func_02049740  0x02049740  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02049658  0x02049658  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FADE_IsActive   0x0204E804  arm
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
@@ -129,13 +129,13 @@
  *   BTLV_EFFECT_StartHitTask  0x021F7D80  thumb  ov094
  *   BTLV_EFFECT_ResetPokeSprite  0x021F7E38  thumb  ov094
  *   BTLV_EFFECT_GaugeInitSlotFromBattlePoke  0x021F803C  thumb  ov094
- *   func_0207D63C  0x0207D63C  arm  arm9
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm  arm9
  *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
  *   BTL_MAIN_GetPosParity  0x021B9AE0  thumb  ov093
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   BTLV_EFFECT_TimerSetVisible  0x021F8504  thumb  ov094
  *   BTLV_EFFECT_ResumeVmWait  0x021F8B28  thumb  ov094
- *   func_02049DB4  0x02049DB4  arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
  *   BMP_Create  0x02043678  arm
  *   BMP_Delete  0x020437AC  arm
  *   BTLV_EFFECT_SetPokeEffectValue  0x021F8AE8  thumb  ov094
@@ -176,7 +176,7 @@
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
@@ -228,6 +228,7 @@
  *   BTL_MSG_GetUiString  0x021EF694  thumb
  *   BTL_MSG_BuildBallStatusOpen  0x021EF71C  thumb
  *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
  */
 #include "btlv_scu_types.h"
 #include "btlv_core_types.h"
@@ -297,7 +298,7 @@ struct BtlvScuFadeTask {
 
 extern u32 BTL_CLIENT_IsMainStepActive(struct BtlClient *client);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern struct MsgBuf *STRBUF_Create(int, int);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
@@ -306,7 +307,7 @@ extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct CharBuf *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -314,17 +315,17 @@ extern void BMP_WIN_DrawFrame(struct BmpWin *win, u16 base, u32 pal);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BG_SYS_PushTile(u32 index);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
 extern void STRBUF_Delete(struct MsgBuf *buf);
-extern u32 func_020307B0(void *p);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 GFL_HEAP_Free(void *p);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_ClearSlot(u32 i);
 extern int BTL_MAIN_GetCompetitor(struct BtlContext *);
 extern u32 BTL_MAIN_GetRule(struct BtlContext *);
@@ -396,13 +397,13 @@ extern void *BTL_POKEPARAM_GetMon(struct BtlPokeParam *mon);
 extern void BTLV_EFFECT_StartHitTask(void *mon, int viewPos);
 extern void BTLV_EFFECT_ResetPokeSprite(void *mon, int viewPos);
 extern void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(struct BtlContext *ctx, struct BtlPokeParam *mon, u32 viewPos);
-extern void func_0207D63C(int reg, int mode, int planes, int evA, int evB);
+extern void G2x_SetBlendAlpha_(int reg, int mode, int planes, int evA, int evB);
 extern unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlContext *ctx);
 extern u8 BTL_MAIN_GetPosParity(u32 viewPos);
 extern int BTL_MAIN_IsLocalSide(struct BtlContext *ctx, u8 parity);
 extern void BTLV_EFFECT_TimerSetVisible(u32 target, u32 hideFlag, u32 param);
 extern int BTLV_EFFECT_ResumeVmWait(void);
-extern void *func_02049DB4(u32 arcId, u32 fileId, u32 zero, BtlvScuNameGfx **out, u16 heapId);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 fileId, u32 zero, BtlvScuNameGfx **out, u16 heapId);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void BTLV_EFFECT_SetPokeEffectValue(int viewPos, u32 speciesId);
@@ -415,7 +416,7 @@ extern u32 PALANM_GetFadeRequestBits(const char *slots);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern u32 func_0201D33C(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
-extern u32 func_0201D304(struct MsgBuf *buf, void *font, u32 start);
+extern u32 GF_FONT_MeasureWidestLine(struct MsgBuf *buf, void *font, u32 start);
 extern u32 func_0201D37C(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void *BTL_SIDE_GetSlotOfClientThunk(struct BtlMonTable *monTable, int clientIndex);
@@ -630,7 +631,7 @@ void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param) { msg->param = 
 BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId)
 {
     BtlvScu *scu;
-    scu = func_02030734(heapId, 0x180, 1, (const char *)gBtlvScuFileName, 0x151);
+    scu = GFL_HEAP_Alloc(heapId, 0x180, 1, (const char *)gBtlvScuFileName, 0x151);
     scu->core = core;
     scu->context = context;
     scu->monTable = monTable;
@@ -670,8 +671,8 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
     BG_SYS_Init(1, 0, 1, 0);
     frameTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0x59, 1);
     scu->msgTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0xd5, 3);
-    func_0204989C(0xb, 0xd7, 2, 0, 0, 0, scu->heapId);
-    func_0204989C(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
+    ARC_UTIL_UploadBgPaletteFromArchive(0xb, 0xd7, 2, 0, 0, 0, scu->heapId);
+    ARC_UTIL_UploadBgPaletteFromArchive(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
     scu->msgWin = BMP_WIN_Create(1, 1, 0x13, 0x1e, 4, 0, 0);
     scu->msgWinChars = BMP_WIN_GetBmp(scu->msgWin);
     BMP_WIN_MakeScreen(scu->msgWin);
@@ -687,10 +688,10 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
     BG_SYS_PushTile(1);
     BG_SYS_PushTile(2);
     BG_SYS_PushTile(3);
-    func_02040588(0, 1);
-    func_02040588(1, 1);
-    func_02040588(2, 1);
-    func_02040588(3, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
 }
 
@@ -699,8 +700,8 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
 
 u16 BTLV_SCU_LoadArcTiles(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer)
 {
-    void *handle = func_020490F4(arcId, (u16)((scu->heapId & 0x7fff) | 0x8000));
-    u32 tileOffset = func_02049740(handle, fileId, layer, 0, 0, (u16)((scu->heapId & 0x7fff) | 0x8000));
+    void *handle = ARC_TOOL_CreateHandle(arcId, (u16)((scu->heapId & 0x7fff) | 0x8000));
+    u32 tileOffset = ARC_UTIL_RegisterObjCharFromHandle(handle, fileId, layer, 0, 0, (u16)((scu->heapId & 0x7fff) | 0x8000));
 
     ARC_TOOL_DeleteHandle(handle);
     return (u16)tileOffset;
@@ -737,7 +738,7 @@ void BTLV_SCU_Delete(BtlvScu *scu)
         scu->wordBuf0 = 0;
     }
     STRBUF_Delete(scu->textBuf);
-    func_020307B0(scu);
+    GFL_HEAP_Free(scu);
 }
 
 
@@ -749,13 +750,13 @@ void BTLV_SCU_Delete(BtlvScu *scu)
  */
 void BTLV_SCU_ReloadGraphics(const BtlvScu *scu)
 {
-    void *handle = func_020490F4(0xb, (u16)((scu->heapId & 0x7fff) | 0x8000));
+    void *handle = ARC_TOOL_CreateHandle(0xb, (u16)((scu->heapId & 0x7fff) | 0x8000));
 
-    func_02049658(handle, 0xd5, 3, scu->msgTile, 0, 0, scu->heapId);
-    func_02049658(handle, 0xdd, 3, scu->nameTile, 0, 0, scu->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(handle, 0xd5, 3, scu->msgTile, 0, 0, scu->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(handle, 0xdd, 3, scu->nameTile, 0, 0, scu->heapId);
     ARC_TOOL_DeleteHandle(handle);
     BG_SYS_ClearSlot(3);
-    func_0204989C(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
+    ARC_UTIL_UploadBgPaletteFromArchive(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
 }
 
 
@@ -2605,7 +2606,7 @@ void BTLV_SCU_InitMsgWinFade(BtlvScuWinSlide *fade, struct BmpWin *win)
     fade->state = 0;
     fade->evA = 0x1f000;
     fade->evB = 0x7000;
-    func_0207D63C(REG_BLDCNT, 2, 0x3d, 0x1f, 7);
+    G2x_SetBlendAlpha_(REG_BLDCNT, 2, 0x3d, 0x1f, 7);
 }
 
 
@@ -2685,7 +2686,7 @@ int BTLV_SCU_UpdateMsgWinFade(BtlvScuWinSlide *fade)
         }
         break;
     }
-    func_0207D63C(REG_BLDCNT, 2, 0x3d, (u8)(fade->evA >> 12), (u8)(fade->evB >> 12));
+    G2x_SetBlendAlpha_(REG_BLDCNT, 2, 0x3d, (u8)(fade->evA >> 12), (u8)(fade->evB >> 12));
     return 0;
 }
 
@@ -2892,7 +2893,7 @@ void BTLV_SCU_ProcNamePlateMosaicAt(BtlvScu *scu, u32 viewPos)
 void BTLV_SCU_InitNamePlates(BtlvScu *scu, u32 tile)
 {
     u32 i;
-    scu->nameGfxFile = func_02049DB4(0xb, 0xd5, 0, &scu->nameGfx, scu->heapId);
+    scu->nameGfxFile = ARC_UTIL_LoadBgCharDataFromArchive(0xb, 0xd5, 0, &scu->nameGfx, scu->heapId);
     for (i = 0; i < 2; i++) {
         scu->namePlates[i].scu = scu;
         scu->namePlates[i].sideIdx = i;
@@ -2919,7 +2920,7 @@ void BTLV_SCU_FreeNamePlates(BtlvScu *scu)
         }
     }
     if (scu->nameGfxFile != 0) {
-        func_020307B0(scu->nameGfxFile);
+        GFL_HEAP_Free(scu->nameGfxFile);
         scu->nameGfxFile = 0;
     }
 }
@@ -3079,7 +3080,7 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
         func_0201D37C(scu->wordBuf0, scu->wordBuf1, 1);
         PRINTSYS_Print(plate->bmp, right, 18, scu->wordBuf1, scu->fontSub);
     } else {
-        center = (0x88 - func_0201D304(scu->wordBuf0, scu->fontSub, 0)) / 2;
+        center = (0x88 - GF_FONT_MeasureWidestLine(scu->wordBuf0, scu->fontSub, 0)) / 2;
         if ((int)center < 0) center = 0;
         PRINTSYS_Print(plate->bmp, center, 18, scu->wordBuf0, scu->fontSub);
     }

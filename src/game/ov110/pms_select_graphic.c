@@ -13,29 +13,29 @@
  * Cut from pms_input.c, pmsiv_wordwin.c, pms_select_graphic.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02034AC4 0x02034AC4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov067_id 0x00000043 data
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   PMSI_PARAM_GetSentenceType 0x0202452C thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -56,7 +56,7 @@
  *   PROCSYS_Create 0x02031324 arm
  *   PMS_SELECT_GRAPHIC_Setup 0x021C0490 thumb ov110
  *   PMS_SELECT_GRAPHIC_Teardown 0x021C05B0 thumb ov110
- *   func_0203133C 0x0203133C arm
+ *   PROCSYS_Delete 0x0203133C arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   PMS_DRAW_IsPrintEnd 0x0202DC98 thumb
  *   PMS_SELECT_GRAPHIC_SetResult 0x021C0250 thumb ov110
@@ -65,9 +65,9 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BMP_WIN_Exit 0x020450C8 arm
@@ -79,10 +79,10 @@
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_020498F4 0x020498F4 arm
- *   func_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -91,14 +91,14 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   func_02049B68 0x02049B68 arm
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   FX_SinCosTable_ 0x020A1B38 data
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
@@ -106,12 +106,12 @@
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_020355C4 0x020355C4 arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   func_020355D8 0x020355D8 arm
- *   func_02049740 0x02049740 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   func_02049990 0x02049990 arm
  *   func_02049EF4 0x02049EF4 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
@@ -190,28 +190,28 @@ struct Proc;
 /* State numbers of the main step. */
 #define PMS_SELECT_GRAPHIC_STATE_FINISHED 16
 
-extern void func_020315D4(struct Proc *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetRepeat(void);
 extern char ov067_id[];
 extern const u8 overlay_id[];
-extern u32 func_020307B0(void *p);
-extern void *func_02030734(unsigned heapId, unsigned size, int zero, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_HEAP_Alloc(unsigned heapId, unsigned size, int zero, const char *file, u16 line);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void MI_CpuFill8(void *dst, int value, unsigned size);
-extern int func_02034AC4(int handle);
-extern void func_02034A5C(int handle);
+extern int GF_OVERLAY_Load(int handle);
+extern void GF_OVERLAY_Unload(int handle);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern void *PROCSYS_Create(int heapId);
 extern u32 PROCSYS_Main(void *procList);
-extern void func_0203133C(void *procList);
+extern void PROCSYS_Delete(void *procList);
 extern void PROCSYS_Push(void *procList, int, void *procData, void *param);
-extern void *func_020056A0(void (*task)(int, void *), void *work, unsigned priority);
-extern void func_02030EAC(void *task);
+extern void *GFL_USE_AddMainTask(void (*task)(int, void *), void *work, unsigned priority);
+extern void TCB_DeleteTask(void *task);
 
 /* Window, text and font. */
 extern void *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
@@ -225,8 +225,8 @@ extern void BMP_WIN_Init(u16 heapId);
 extern void BMP_WIN_Exit(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 GF_FONT_Delete(void *font);
-extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(void *bank, u32 index);
+extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(void *bank, u32 index);
 extern void STRBUF_Delete(void *str);
 extern unsigned int MSGDATA_Delete(void *bank);
 extern u32 PRINTSYS_QUE_Create(void *heapId);
@@ -260,9 +260,9 @@ extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_FreeSlot(u8 bgId);
-extern void func_02040588(u8 bgId, u8 value);
+extern void BG_SYS_SetPlaneVisible(u8 bgId, u8 value);
 extern void BG_SYS_ClearLayerEx(int, u16);
-extern void func_02041B6C(u32 bgLayer);
+extern void BG_SYS_SetFlagField06(u32 bgLayer);
 extern void BG_SYS_Update(void);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_ClearMainPlanes(void);
@@ -277,22 +277,22 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void BRIGHTNESS_Set(u32, u32, u32);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern void func_020355D8(u8 isTouch);
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 extern short FX_SinCosTable_[];
 
 /* Archive and palette helpers. */
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern int func_02061CA4(void *, u32, u32, int);
+extern int NNS_GfdRegisterNewVramTransferTask(void *, u32, u32, int);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049B40(u32, u32, u32, u32, u32, u16);
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void *func_02049EF4(void *, u32, u32, void **, u16);
 
@@ -408,7 +408,7 @@ void PMS_SELECT_GRAPHIC_VBlankSceneActors(void *unit);
 int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelectGraphicArgs *args)
 {
     struct PmsSelectGraphic *p;
-    func_02034AC4((unsigned)overlay_id);
+    GF_OVERLAY_Load((unsigned)overlay_id);
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_A_ADDR, -16);
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_B_ADDR, -16);
     GFL_HEAP_CreateChildHeap(1, PMS_SELECT_GRAPHIC_HEAP_ID, 0x1c000);
@@ -419,7 +419,7 @@ int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelect
     p->saveData = PMS_WORD_GetSaveData((int)args->pmsSystem);
     p->args = args;
     p->font = GF_FONT_Create(23, 0, 0, 0, p->heapId);
-    p->msgBank = func_02045B38(0, 2, 146, p->heapId);
+    p->msgBank = MSGDATA_CreateFromArchive(0, 2, 146, p->heapId);
     p->printQueue = (void *)PRINTSYS_QUE_Create((void *)p->heapId);
     p->procList = PROCSYS_Create(p->heapId);
     p->prevSelected = 255;
@@ -432,14 +432,14 @@ int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelect
 int PMS_SELECT_GRAPHIC_ProcExit(struct Proc *proc, int unused, int unused2, struct PmsSelectGraphic *p)
 {
     PMS_SELECT_GRAPHIC_Teardown(p);
-    func_0203133C(p->procList);
+    PROCSYS_Delete(p->procList);
     PRINTSYS_QUE_Clear(p->printQueue);
     PRINTSYS_QUE_Delete(p->printQueue);
     MSGDATA_Delete(p->msgBank);
     GF_FONT_Delete(p->font);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(PMS_SELECT_GRAPHIC_HEAP_ID);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
 
@@ -517,7 +517,7 @@ int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct 
         break;
     case 13:
         PMS_SELECT_GRAPHIC_Teardown(p);
-        func_02034A5C((int)ov067_id);
+        GF_OVERLAY_Unload((int)ov067_id);
         PMS_SELECT_GRAPHIC_SetResult(state, p, 14);
         return 0;
     case 14:
@@ -525,7 +525,7 @@ int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct 
         return 0;
     case 15:
         if (running != 1 && PMS_SELECT_GRAPHIC_StepCloseEditScreen(&p->subState, p)) {
-            func_02034AC4((u32)ov067_id);
+            GF_OVERLAY_Load((u32)ov067_id);
             PMS_SELECT_GRAPHIC_Setup(p);
             PMS_SELECT_GRAPHIC_SetResult(state, p, 1);
         }
@@ -539,7 +539,7 @@ int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct 
             window = p->bg.titleWindow;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            func_02041B6C(BMP_WIN_GetBgLayer(window));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
             p->bg.titlePending = 0;
         }
     }
@@ -561,7 +561,7 @@ void PMS_SELECT_GRAPHIC_Setup(struct PmsSelectGraphic *p)
     p->touchScrolling = 0;
     p->touchBarActive = 1;
     enabled = 1;
-    if (func_020355C4() != 1) enabled = 0;
+    if (UI_GetInputMode() != 1) enabled = 0;
     p->isTouch = enabled;
     p->prevSelected = p->selected;
     if (p->selected == 255) {
@@ -623,31 +623,31 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
 {
     void *h;
     void *str;
-    h = func_020490F4((unsigned int)43, heap);
+    h = ARC_TOOL_CreateHandle((unsigned int)43, heap);
     func_02049B68(h, 0, 0, 0, 288, heap);
     func_02049B68(h, 0, 4, 0, 256, heap);
-    func_02049B40(23, 5, 0, 288, 32, heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 288, 32, heap);
     bg->palette[0] = 0x7fff;
-    func_02061CA4((void *)15, 316, (u32)&bg->palette[0], 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)15, 316, (u32)&bg->palette[0], 2);
     bg->palette[1] = 0x7fff;
-    func_02061CA4((void *)15, 314, (u32)&bg->palette[1], 2);
-    func_02049658(h, 10, 4, 0, 0, 0, heap);
-    func_020498F4(h, 21, 4, 0, 0, 0, heap);
-    bg->tileRange = func_02049740(h, 10, 3, 0, 0, heap);
+    NNS_GfdRegisterNewVramTransferTask((void *)15, 314, (u32)&bg->palette[1], 2);
+    ARC_UTIL_UploadBgCharFromHandle(h, 10, 4, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 21, 4, 0, 0, 0, heap);
+    bg->tileRange = ARC_UTIL_RegisterObjCharFromHandle(h, 10, 3, 0, 0, heap);
     func_02049990(h, 22, 3, 0, (u16)bg->tileRange, 0, 0, heap);
-    func_02049658(h, 11, 2, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromHandle(h, 11, 2, 0, 0, 0, heap);
     bg->screenMem = func_02049EF4(h, 23, 0, (void **)&bg->screen, heap);
     ARC_UTIL_UploadPaletteFromHandle(h, 4, 4, 128, 256, 32, heap);
     bg->palette[2] = 0x294b;
-    func_02061CA4((void *)31, 284, (u32)&bg->palette[2], 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 284, (u32)&bg->palette[2], 2);
     bg->palette[3] = 0x5694;
-    func_02061CA4((void *)31, 286, (u32)&bg->palette[3], 2);
-    func_02049658(h, 18, 5, 0, 0, 0, heap);
-    func_020498F4(h, 24, 5, 0, 0, 0, heap);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 286, (u32)&bg->palette[3], 2);
+    ARC_UTIL_UploadBgCharFromHandle(h, 18, 5, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(h, 24, 5, 0, 0, 0, heap);
     BG_SYS_FillTileMap(5, 0, 0, 32, 32, 8);
     bg->titleWindow = BMP_WIN_Create(5, 3, 5, 26, 7, 8, 1);
     BMP_Clear(BMP_WIN_GetBmp(bg->titleWindow), 7);
-    str = func_02045EC0(bank, 21);
+    str = MSGDATA_AllocString(bank, 21);
     PRINTSYS_PrintQueColor(print, (u32)BMP_WIN_GetBmp(bg->titleWindow), 2, 4, (u32)str, font, 0x39e7);
     bg->titlePending = 1;
     STRBUF_Delete(str);
@@ -658,7 +658,7 @@ void PMS_SELECT_GRAPHIC_DeleteBg(struct PmsSelectGraphicBg *bg)
 {
     BMP_WIN_Delete(bg->titleWindow);
     BG_SYS_DeleteHalf(3, (u16)bg->tileRange, (u16)(bg->tileRange >> 16));
-    func_020307B0(bg->screenMem);
+    GFL_HEAP_Free(bg->screenMem);
 }
 
 /* Recolours the row background tiles of one row (palette pal + 2) and uploads them. */
@@ -682,7 +682,7 @@ void PMS_SELECT_GRAPHIC_ColorRowBg(struct PmsSelectGraphicBg *bg, u8 row, u32 pa
         data[i] = v + ((pal + 2) << 12);
     }
     BG_SYS_DrawTileEx(2, 0, (u8)(row * 6 + 1), (u8)w, 6, (u32)((u8 *)bg->screen + 12), 0, 0, (u8)w, (u8)h);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
 }
 
 static inline void BlendColor555(u16 *p, int n, u16 a, u16 b)
@@ -712,7 +712,7 @@ void PMS_SELECT_GRAPHIC_BlendBlinkColors(u16 *angle, u16 *out, const struct PmsS
     t = (FX_SinCosTable_[(*angle >> 4) * 2 + 1] + 0x1000) / 2;
     for (i = 0; i < count; i++) {
         BlendColor555(&out[i], t, recs[i].c, recs[i].d);
-        func_02061CA4((void *)15, (recs[i].x << 5) + (recs[i].y << 1), (u32)(&out[i]), 2);
+        NNS_GfdRegisterNewVramTransferTask((void *)15, (recs[i].x << 5) + (recs[i].y << 1), (u32)(&out[i]), 2);
     }
 }
 
@@ -749,7 +749,7 @@ void PMS_SELECT_GRAPHIC_ColorTitleBg(struct PmsSelectGraphicBg *bg, int pal)
         data[i] = v + ((pal + 2) << 12);
     }
     BG_SYS_DrawTileEx(2, 0, 0, (u8)w, 1, (u32)((u8 *)bg->screen + 12), 0, 5, (u8)w, (u8)h);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
 }
 
 TouchBar *PMS_SELECT_GRAPHIC_CreateTouchBar(int unused, void *actorUnit, int heap)
@@ -787,7 +787,7 @@ void *PMS_SELECT_GRAPHIC_OpenRowMenu(void *res, void *bank, u16 heapId)
     u32 i;
     void *menu;
     for (i = 0; i < 3; i++) {
-        items[i].text = func_02045EC0(bank, gPmsSelectGraphicMenuTextIds[i]);
+        items[i].text = MSGDATA_AllocString(bank, gPmsSelectGraphicMenuTextIds[i]);
         items[i].color = 0x39E3;
         items[i].type = 0;
     }
@@ -1050,7 +1050,7 @@ int PMS_SELECT_GRAPHIC_FlushRowWindow(void *printQueue, void *window, int *pendi
     if (*pending == 1 && PRINTSYS_QUE_IsExistTarget(printQueue, bmp) == 0) {
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
         *pending = 0;
         return 1;
     }
@@ -1062,7 +1062,7 @@ void PMS_SELECT_GRAPHIC_DrawNewRow(struct PmsSelectGraphic *p, u8 row, int unuse
 {
     void *str;
     u16 color;
-    str = func_02045EC0(p->msgBank, 17);
+    str = MSGDATA_AllocString(p->msgBank, 17);
     PMS_SELECT_GRAPHIC_ColorRowBg(&p->bg, row, 6, flag);
     if (flag) {
         BMP_Clear(BMP_WIN_GetBmp(p->rowWindows[row]), 14);
@@ -1074,7 +1074,7 @@ void PMS_SELECT_GRAPHIC_DrawNewRow(struct PmsSelectGraphic *p, u8 row, int unuse
     PRINTSYS_PrintQueColor(p->printQueue, (u32)BMP_WIN_GetBmp(p->rowWindows[row]), 0, 0, (u32)str, (u32)p->font, color);
     STRBUF_Delete(str);
     BMP_WIN_MakeScreen(p->rowWindows[row]);
-    func_02041B6C(BMP_WIN_GetBgLayer(p->rowWindows[row]));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(p->rowWindows[row]));
     p->rowPending[row] = 1;
 }
 
@@ -1139,7 +1139,7 @@ int PMS_SELECT_GRAPHIC_StepList(void *unused, struct PmsSelectGraphic *p)
             if (TOUCHBAR_GetPressedButtonIdIfPressing(p->touchBar) != -1) p->touchBarActive = 0;
             result = TOUCHBAR_GetPressedButtonIdIfDone(p->touchBar);
             if (result != -1) p->touchBarActive = 1;
-            p->isTouch = func_020355C4() == 1;
+            p->isTouch = UI_GetInputMode() == 1;
         }
         switch (result) {
         case -1: break;
@@ -1203,7 +1203,7 @@ int PMS_SELECT_GRAPHIC_StepRowMenu(void *unused, struct PmsSelectGraphic *p)
 int PMS_SELECT_GRAPHIC_StepCloseRowMenu(void *unused, struct PmsSelectGraphic *p)
 {
     PMS_SELECT_GRAPHIC_CloseRowMenu(p->taskMenu);
-    p->isTouch = func_020355C4() == 1;
+    p->isTouch = UI_GetInputMode() == 1;
     if (p->nextState == 4) {
         BRIGHTNESS_Set(0, 30, 1);
         PMS_SELECT_GRAPHIC_ResetBgBlink(&p->bg);
@@ -1255,7 +1255,7 @@ int PMS_SELECT_GRAPHIC_StepCloseEditScreen(int *step, struct PmsSelectGraphic *p
 struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 heap)
 {
     struct PmsSelectGraphicScene *scene;
-    scene = func_02030734(heap, sizeof(struct PmsSelectGraphicScene), 0, gPmsSelectGraphicSceneFileName, 0x151);
+    scene = GFL_HEAP_Alloc(heap, sizeof(struct PmsSelectGraphicScene), 0, gPmsSelectGraphicSceneFileName, 0x151);
     MI_CpuFill8(scene, 0, sizeof(struct PmsSelectGraphicScene));
     *(volatile u16 *)REG_BLDCNT_A_ADDR = 0;
     *(volatile u16 *)REG_BLDCNT_B_ADDR = 0;
@@ -1268,7 +1268,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
     GF_FONT_InitTextColor();
     PMS_SELECT_GRAPHIC_InitSceneBgs(scene, heap);
     PMS_SELECT_GRAPHIC_InitSceneActors(&scene->actorUnit, (unsigned)gPmsSelectGraphicVramBanks, heap);
-    scene->drawTask = func_020056A0(PMS_SELECT_GRAPHIC_SceneTask, scene, 0);
+    scene->drawTask = GFL_USE_AddMainTask(PMS_SELECT_GRAPHIC_SceneTask, scene, 0);
     return scene;
 }
 
@@ -1277,7 +1277,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
  */
 void PMS_SELECT_GRAPHIC_DeleteScene(struct PmsSelectGraphicScene *scene)
 {
-    func_02030EAC(scene->drawTask);
+    TCB_DeleteTask(scene->drawTask);
     PMS_SELECT_GRAPHIC_ExitSceneActors(&scene->actorUnit);
     PMS_SELECT_GRAPHIC_ExitSceneBgs(scene);
     GF_FONT_SetDefaultTextColor();
@@ -1286,7 +1286,7 @@ void PMS_SELECT_GRAPHIC_DeleteScene(struct PmsSelectGraphicScene *scene)
     *(volatile unsigned *)REG_DISPCNT_A_ADDR &= ~DISPCNT_WINDOW_ENABLE_MASK;
     *(volatile unsigned *)REG_DISPCNT_B_ADDR &= ~DISPCNT_WINDOW_ENABLE_MASK;
     MI_CpuFill8(scene, 0, sizeof(struct PmsSelectGraphicScene));
-    func_020307B0(scene);
+    GFL_HEAP_Free(scene);
 }
 
 void PMS_SELECT_GRAPHIC_UpdateScene(struct PmsSelectGraphicScene *scene) { PMS_SELECT_GRAPHIC_DrawSceneActors(&scene->actorUnit); PMS_SELECT_GRAPHIC_UpdateSceneNothing(scene); }
@@ -1316,7 +1316,7 @@ void PMS_SELECT_GRAPHIC_InitSceneBgs(struct PmsSelectGraphicScene *scene, u16 he
         id = row->id;
         BG_SYS_InitBgLayer((u8)id, row->bg, (u8)row->pal);
         BG_SYS_FreeSlot(id);
-        func_02040588(id, row->value);
+        BG_SYS_SetPlaneVisible(id, row->value);
     }
 }
 

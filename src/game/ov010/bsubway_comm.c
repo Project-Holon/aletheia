@@ -32,7 +32,7 @@
  *   BSUBWAY_SCR_GetWinCount  0x021CA234  thumb  ov021
  *   BSUBWAY_SCR_GetStageNo  0x021CA2CC  thumb  ov021
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  */
@@ -63,7 +63,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u16 BSUBWAY_SCR_GetWinCount(u8 *p);
 extern u16 BSUBWAY_SCR_GetStageNo(u16 v);
 extern void MI_CpuCopy8(void *dst, void *src, int n);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_NET_SendToHandle(struct NetHandle *a, u32 b, u32 c, u32 d);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 void BSUBWAY_COMM_NetInit(void *arg);
@@ -283,7 +283,7 @@ void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u16 arg)
 int BSUBWAY_COMM_SendData(BsubwayScrWork *work)
 {
     u16 command;
-    if (func_0200FB24() != 0)
+    if (GFL_NET_ERR_GetErrorLevel() != 0)
         return 1;
     command = work->sendCommand;
     if (command >= 0x2C08)
@@ -306,7 +306,7 @@ void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 mode)
 int BSUBWAY_COMM_IsRecvEnd(BsubwayScrWork *work, u16 *result)
 {
     int expected;
-    if (func_0200FB24() != 0)
+    if (GFL_NET_ERR_GetErrorLevel() != 0)
         return 1;
     expected = 1;
     if (work->recvMode != 1)

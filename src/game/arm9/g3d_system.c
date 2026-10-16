@@ -25,8 +25,8 @@
  *   NNS_GfdDefaultFuncFreeTexVram    0x020A8144  data
  *   NNS_GfdDefaultFuncAllocPlttVram  0x020A8148  data
  *   NNS_GfdDefaultFuncFreePlttVram   0x020A814C  data
- *   func_02030734      0x02030734  arm
- *   func_020307B0      0x020307B0  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
+ *   GFL_HEAP_Free      0x020307B0  arm
  *   GFL_HEAP_InitAllocatorChecked      0x020307C8  arm
  *   func_020307E0      0x020307E0  arm
  *   func_02030BBC      0x02030BBC  arm
@@ -295,8 +295,8 @@ typedef struct {
 
 #include "g3d_system_types.h"
 
-extern void *func_02030734(u16 heapId, u32 size, int clear, const char *file, int line);
-extern void  func_020307B0(void *memory);
+extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *file, int line);
+extern void  GFL_HEAP_Free(void *memory);
 extern void  GFL_HEAP_InitAllocatorChecked(NNSFndAllocator *allocator, u16 heapId, u32 align);
 extern void  func_020307E0(void *memory, u32 newSize);
 extern void *func_02030BBC(u32 size);
@@ -458,7 +458,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
     G3dLight light;
     u32 workSize;
 
-    _G3dSystem.work = func_02030734((u16)heapId, 0xa0, 0, G3D_SYSTEM_FileName, 0x5c);
+    _G3dSystem.work = GFL_HEAP_Alloc((u16)heapId, 0xa0, 0, G3D_SYSTEM_FileName, 0x5c);
     _G3dSystem.work->heapId = heapId;
     _G3dSystem.work->texManagerMode = texManMode;
     _G3dSystem.work->plttManagerMode = plttManMode;
@@ -475,7 +475,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
 
     if (texManMode == 0) {
         workSize = NNSi_GfdSizeToGranuleTex(texManSize << 7);
-        _G3dSystem.work->texManagerWork = func_02030734(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x7e);
+        _G3dSystem.work->texManagerWork = GFL_HEAP_Alloc(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x7e);
         NNSi_GfdInitTexVramManager(texManSize << 17, 0, (u32)_G3dSystem.work->texManagerWork, workSize, 1);
     } else {
         NNS_GfdInitVramManager((u16)texManSize, 1);
@@ -484,7 +484,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
 
     if (plttManMode == 0) {
         workSize = NNSi_GfdSizeToGranulePltt(plttManSize << 9);
-        _G3dSystem.work->plttManagerWork = func_02030734(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x8d);
+        _G3dSystem.work->plttManagerWork = GFL_HEAP_Alloc(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x8d);
         NNSi_GfdInitPlttVramManager(plttManSize << 14, (u32)_G3dSystem.work->plttManagerWork, workSize, 1);
     } else {
         NNS_GfdInitVramManager((u16)(plttManSize << 14), 1);
@@ -532,15 +532,15 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
 void G3D_SYSTEM_Exit(void)
 {
     if (_G3dSystem.work->plttManagerWork != 0)
-        func_020307B0(_G3dSystem.work->plttManagerWork);
+        GFL_HEAP_Free(_G3dSystem.work->plttManagerWork);
     if (_G3dSystem.work->texManagerWork != 0)
-        func_020307B0(_G3dSystem.work->texManagerWork);
+        GFL_HEAP_Free(_G3dSystem.work->texManagerWork);
 
     if (func_0206DB24() == 1) {
         func_02030BC8((u32)NNS_G3dGeReleaseBuffer());
     }
 
-    func_020307B0(_G3dSystem.work);
+    GFL_HEAP_Free(_G3dSystem.work);
     _G3dSystem.work = 0;
 }
 
@@ -779,7 +779,7 @@ void G3D_SYSTEM_InitResourceByFile(G3dResource *res, NNSG3dResFileHeader *file)
 /* Load a resource file from an archive. */
 G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId)
 {
-    G3dResource *res = func_02030734(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2b4);
+    G3dResource *res = GFL_HEAP_Alloc(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2b4);
 
     G3D_SYSTEM_InitResourceByFile(res, ARC_TOOL_LoadMember(arcId, dataId, _G3dSystem.work->heapId));
     return res;
@@ -788,7 +788,7 @@ G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId)
 /* Load a resource file through an open archive handle. */
 G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId)
 {
-    G3dResource *res = func_02030734(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2c8);
+    G3dResource *res = GFL_HEAP_Alloc(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2c8);
 
     G3D_SYSTEM_InitResourceByFile(res, ARC_TOOL_LoadHandleMember(arc, dataId, _G3dSystem.work->heapId));
     return res;
@@ -797,7 +797,7 @@ G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataI
 /* Load a resource file from an archive given by path. */
 G3dResource *G3D_SYSTEM_CreateResourcePath(const char *path, u32 dataId)
 {
-    G3dResource *res = func_02030734(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2dc);
+    G3dResource *res = GFL_HEAP_Alloc(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2dc);
 
     G3D_SYSTEM_InitResourceByFile(res, ARC_TOOL_LoadMemberFromPath(path, dataId, _G3dSystem.work->heapId));
     return res;
@@ -813,10 +813,10 @@ void G3D_SYSTEM_DeleteResource(G3dResource *res)
     }
     res->magic = G3D_RESOURCE_MAGIC - 1;
     if (res->file != 0) {
-        func_020307B0(res->file);
+        GFL_HEAP_Free(res->file);
         res->file = 0;
     }
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 void *G3D_SYSTEM_GetResourceFile(G3dResource *res)
@@ -1095,7 +1095,7 @@ have:
 
     if (texRes != 0) tex = NNS_G3dGetTex(texRes->file);
 
-    render = func_02030734(_G3dSystem.work->heapId, 0x10, 0, G3D_SYSTEM_FileName, 0x608);
+    render = GFL_HEAP_Alloc(_G3dSystem.work->heapId, 0x10, 0, G3D_SYSTEM_FileName, 0x608);
     render->magic = G3D_RENDER_MAGIC;
     render->mdlRes = mdlRes;
     render->texRes = texRes;
@@ -1117,7 +1117,7 @@ void G3D_SYSTEM_DeleteRender(G3dRender *render)
 
     NNS_G3dFreeRenderObj(&_G3dSystem.work->allocator, render->rndObj);
     render->magic = G3D_RENDER_MAGIC - 1;
-    func_020307B0(render);
+    GFL_HEAP_Free(render);
 }
 
 G3dResource *G3D_SYSTEM_GetRenderMdlRes(G3dRender *render)
@@ -1150,7 +1150,7 @@ G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, u
     NNSG3dResMdl *resMdl;
     NNSG3dResTex *tex = 0;
 
-    anime = func_02030734(_G3dSystem.work->heapId, 0xC, 0, G3D_SYSTEM_FileName, 0x6D2);
+    anime = GFL_HEAP_Alloc(_G3dSystem.work->heapId, 0xC, 0, G3D_SYSTEM_FileName, 0x6D2);
     anime->magic = G3D_ANIME_MAGIC;
     anime->anmRes = anmRes;
     anm = NNS_G3dGetAnmByIdx(anmRes->file, anmIdx);
@@ -1171,7 +1171,7 @@ void G3D_SYSTEM_DeleteAnime(G3dAnime *anime)
 
     NNS_G3dFreeAnmObj(&_G3dSystem.work->allocator, anime->anmObj);
     anime->magic = G3D_ANIME_MAGIC - 1;
-    func_020307B0(anime);
+    GFL_HEAP_Free(anime);
 }
 
 NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(G3dAnime *anime)
@@ -1185,14 +1185,14 @@ G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anm
     G3dObject *obj;
     int i;
 
-    obj = func_02030734(_G3dSystem.work->heapId, 0x10, 0, G3D_SYSTEM_FileName, 0x75b);
+    obj = GFL_HEAP_Alloc(_G3dSystem.work->heapId, 0x10, 0, G3D_SYSTEM_FileName, 0x75b);
     obj->magic = G3D_OBJECT_MAGIC;
     obj->render = render;
     obj->anmCount = (u16)anmCount;
     if (anmCount == 0) {
         obj->anmTbl = 0;
     } else {
-        obj->anmTbl = func_02030734(_G3dSystem.work->heapId, anmCount * 4, 1, G3D_SYSTEM_FileName, 0x765);
+        obj->anmTbl = GFL_HEAP_Alloc(_G3dSystem.work->heapId, anmCount * 4, 1, G3D_SYSTEM_FileName, 0x765);
         if (anmTbl != 0 && anmCount > 0) {
             for (i = 0; i < anmCount; i++)
                 obj->anmTbl[i] = anmTbl[i];
@@ -1209,12 +1209,12 @@ void G3D_SYSTEM_DeleteObject(G3dObject *obj)
         return;
 
     if (obj->anmTbl != 0) {
-        func_020307B0(obj->anmTbl);
+        GFL_HEAP_Free(obj->anmTbl);
         obj->anmTbl = 0;
     }
 
     obj->magic = G3D_OBJECT_MAGIC - 1;
-    func_020307B0(obj);
+    GFL_HEAP_Free(obj);
 }
 
 G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj)

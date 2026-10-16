@@ -13,9 +13,9 @@
  * Cut from wf2dmap_map.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   sWf2dmapMapFileName 0x021C6110 data a1
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   sWf2dmapEmptyCell 0x021C600C data a4
  */
@@ -34,9 +34,9 @@ typedef union Wf2dmapCell {
     struct { u32 flag:1; u32 value:31; } bits;
 } Wf2dmapCell;
 
-extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(void *,const void *,u32);
 
@@ -67,13 +67,13 @@ int WF2DMAP_MAP_IsEmpty(char *p)
     return ((Wf2dmapMapGrid *)p)->entries == 0;
 }
 
-Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap) { Wf2dmapMapGrid *p;p=func_02030734(heap,8,1,sWf2dmapMapFileName,76);p->width=w;p->height=h;p->entries=func_02030734(heap,p->width*p->height*4,1,sWf2dmapMapFileName,83);return p; }
+Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap) { Wf2dmapMapGrid *p;p=GFL_HEAP_Alloc(heap,8,1,sWf2dmapMapFileName,76);p->width=w;p->height=h;p->entries=GFL_HEAP_Alloc(heap,p->width*p->height*4,1,sWf2dmapMapFileName,83);return p; }
 
 /*
  * Extent remainder: 2-byte zero padding, filed getters 021C47F8/47FC,
  * and separately filed follower ov127_func_021C4800.c.
  */
-void WF2DMAP_MAP_DeleteGrid(u8 *p) { func_020307B0(((Wf2dmapMapGrid *)p)->entries);func_020307B0(p); }
+void WF2DMAP_MAP_DeleteGrid(u8 *p) { GFL_HEAP_Free(((Wf2dmapMapGrid *)p)->entries);GFL_HEAP_Free(p); }
 
 /*
  * Leaf: ldrh r0,[r0]; bx lr.  Blocker of ov099 func_021BA0F8.

@@ -39,7 +39,7 @@
  *   FIELD_RAIL_TryStepLocation  0x021B7CD8  thumb  ov021
  *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
  *   FIELD_RAIL_GetUnitScale  0x021B7C38  thumb  ov021
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
  *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
  *   FIELD_RAIL_WORK_GetPrevPos  0x021B7ED4  thumb  ov021
@@ -57,7 +57,7 @@
  *   FLDMMDL_SetGridNowZ  0x0216D874  thumb  ov010
  *   FIELD_RAIL_WORK_GetStepVector  0x021B8050  thumb  ov021
  *   FIELD_RAIL_WORK_GetLineKey  0x021B80D8  thumb  ov021
- *   func_0207AF1C  0x0207AF1C  thumb
+ *   MTX_RotY33_  0x0207AF1C  thumb
  *   MTX_MultVec33  0x0207B51C  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D84D4     0x021D84D4  data  ov021  a1
@@ -186,7 +186,7 @@ extern int FIELD_RAIL_WORK_IsLocationValid(RailWork *railWork, RailLocation *loc
 extern int FIELD_RAIL_TryStepLocation(RailManager *mgr, RailLocation *loc, u32 key, RailLocation *outLoc);
 extern void FIELD_RAIL_GetLocationPos(RailManager *mgr, RailLocation *loc, VecFx32 *outPos);
 extern int FIELD_RAIL_GetUnitScale(RailManager *mgr);
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter);
 extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bits);
 extern void FIELD_RAIL_WORK_GetPrevPos(RailWork *railWork, VecFx32 *outPos);
@@ -204,7 +204,7 @@ extern void FLDMMDL_SetGridNowY(Mmdl *mmdl, int gridY);
 extern void FLDMMDL_SetGridNowZ(Mmdl *mmdl, int gridZ);
 extern void FIELD_RAIL_WORK_GetStepVector(RailWork *railWork, s16 *outOffset);
 extern u32 FIELD_RAIL_WORK_GetLineKey(RailWork *railWork);
-extern void func_0207AF1C(s32 *outMtx, s32 sin, s32 cos);
+extern void MTX_RotY33_(s32 *outMtx, s32 sin, s32 cos);
 extern void MTX_MultVec33(VecFx32 *vec, s32 *mtx, VecFx32 *outVec);
 extern void VEC_Normalize(VecFx32 *vec, VecFx32 *outVec);
 extern int FLDMMDL_MOVE_GetRailMoveRequest(Mmdl *mmdl, RailLocation *outLoc);
@@ -428,7 +428,7 @@ int FLDMMDL_RAIL_CheckHitMmdl(Mmdl *mmdl, RailLocation *loc)
     railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(mmdlSys));
     iter = 0;
     FIELD_RAIL_GetLocationPos(railMgr, loc, &targetPos);
-    reach = func_0207C768(FIELD_RAIL_GetUnitScale(railMgr), 0x4000);
+    reach = FX_Div(FIELD_RAIL_GetUnitScale(railMgr), 0x4000);
     while (FLDMMDL_SysSearchUseMmdl(mmdlSys, &other, &iter) == 1) {
         mask = _STATUSBIT_NO_RAIL;
         if (other == mmdl) {
@@ -472,7 +472,7 @@ Mmdl *FLDMMDL_RAIL_SearchMmdlByLocation(MmdlSys *mmdlSys, RailLocation *loc, u32
     iter = 0;
     railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(mmdlSys));
     FIELD_RAIL_GetLocationPos(railMgr, loc, &targetPos);
-    reach = func_0207C768(FIELD_RAIL_GetUnitScale(railMgr), 0x4000);
+    reach = FX_Div(FIELD_RAIL_GetUnitScale(railMgr), 0x4000);
     while (FLDMMDL_SysSearchUseMmdl(mmdlSys, &other, &iter) == 1) {
         mask = _STATUSBIT_NO_RAIL;
         notCounted = (FLDMMDL_CheckStatusBit(other, mask) == 0);
@@ -577,7 +577,7 @@ void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *outOffset)
     cos = FX_SinCosTable_[sinIndex + 1];
     outOffset[1] = (s16)(((s64)cos * outOffset[1] + 0x800) >> 12);
     setVec(&offsetVec, outOffset[0], outOffset[1], outOffset[2]);
-    func_0207AF1C(rotMtx, FX_SinCosTable_[sinIndex], cos);
+    MTX_RotY33_(rotMtx, FX_SinCosTable_[sinIndex], cos);
     MTX_MultVec33(&offsetVec, rotMtx, &offsetVec);
     VEC_Normalize(&offsetVec, &offsetVec);
     setVec16(outOffset, offsetVec.x, offsetVec.y, offsetVec.z);

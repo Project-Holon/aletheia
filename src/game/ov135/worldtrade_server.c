@@ -15,10 +15,10 @@
  * symbols:
  *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02034714 0x02034714 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   memset 0x02082BCC arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -34,10 +34,10 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   WORLDTRADE_TITLE_LoadMainBgSwap 0x02200AB4 thumb ov135
  *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
  *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
@@ -71,8 +71,8 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
- *   func_0200FBB0  0x0200FBB0  thumb
- *   func_0200FBA0  0x0200FBA0  thumb
+ *   GFL_NET_ERR_WaitLinkClosed  0x0200FBB0  thumb
+ *   GFL_NET_ERR_ResetState  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   g_02203E94  0x02203E94  data  ov135
@@ -108,7 +108,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   DWC_CheckProfanityExAsync 0x0217BC44 arm ov009
  *   DWC_CheckProfanityProcess 0x0217BC90 arm ov009
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   func_02008DF0  0x02008DF0  thumb
  *   WORLDTRADE_GetReturnBox  0x0200ADE0  thumb
  *   DPW_TR_TradeAsync 0x021C8C68 arm ov114
@@ -147,13 +147,13 @@
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -172,13 +172,13 @@ extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
 extern void BG_SYS_ClearSlot(u32 i);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
@@ -264,9 +264,9 @@ extern int GXx_GetMasterBrightness_(vu16 *reg);
 
 extern int DPW_TR_IsAsyncEnd();
 
-extern u32 func_0200FBB0(void);
+extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 
-extern void func_0200FBA0(void);
+extern void GFL_NET_ERR_ResetState(void);
 
 extern void GFL_NET_STATE_SetWifiError(void);
 
@@ -554,7 +554,7 @@ extern struct BgTemplate g_02203A34;
 
 extern const char str_02203F58[];
 
-int WORLDTRADE_SERVER_Init(Work *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((*(unsigned int *)&p->kind)==11) { func_02040588(4,0); func_02040588(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->f12E4=0; return 1; }
+int WORLDTRADE_SERVER_Init(Work *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((*(unsigned int *)&p->kind)==11) { BG_SYS_SetPlaneVisible(4,0); BG_SYS_SetPlaneVisible(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->f12E4=0; return 1; }
 
 /*
  * State-table dispatch through the table at 0x02203E94.
@@ -582,19 +582,19 @@ void WORLDTRADE_SERVER_SetupBgPlanes(void)
         BG_SYS_InitBgLayer(0, &t, 0);
     }
     BG_SYS_ClearSlot(0);
-    func_02040588(0, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
     {
         struct BgTemplate t = g_02203A54;
         BG_SYS_InitBgLayer(1, &t, 0);
     }
     BG_SYS_ClearSlot(1);
-    func_02040588(1, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
     {
         struct BgTemplate t = g_02203A34;
         BG_SYS_InitBgLayer(2, &t, 0);
     }
     BG_SYS_ClearSlot(2);
-    func_02040588(2, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
     BG_SYS_InitRun(0, 0x20, 0, 0x48);
     BG_SYS_InitRun(1, 0x20, 0, 0x48);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -609,12 +609,12 @@ void WORLDTRADE_SERVER_ExitBgPlanes(void)
 
 void WORLDTRADE_SERVER_LoadBgGraphics(Work *p)
 {
-    func_02049B40(0x17, 5, 0, 0x1a0, 0x20, 0x48);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 0x1f, 0xb, 0, 0x48);
     if (p->active == 0) {
-        func_02040588(4, 0);
-        func_02040588(5, 0);
+        BG_SYS_SetPlaneVisible(4, 0);
+        BG_SYS_SetPlaneVisible(5, 0);
         BG_SYS_SetSubPlaneVisible(0x10, 0);
     }
     if (p->f1C_u == 9) {
@@ -697,7 +697,7 @@ int WORLDTRADE_SERVER_StartRequest(Work *p)
         GFL_NET_RestartWithDefaultTimeout(1, 0x48);
         break;
     default:
-        func_02034714(str_02203F58, 0, str_02203F58);
+        SAVEDATA_PanicFail(str_02203F58, 0, str_02203F58);
         break;
     }
     WORLDTRADE_CreateTimeIcon(p);
@@ -714,9 +714,9 @@ int WORLDTRADE_SERVER_SendUploadRequest(Work *p)
     *(u8 * *)&p->wm=NHTTP_RAP_Create(0x48,func_0200853C(p->ctx->f1C),(int)((u8 *)p+0x116C));
     NHTTP_RAP_AllocPostData(*(u8 * *)&p->wm,0x48,POKE_TOOL_GetPartyParamSize(),1);
     NHTTP_RAP_AppendPostData(*(u8 * *)&p->wm,(int)mon,POKE_TOOL_GetPartyParamSize());
-    if(NHTTP_RAP_CreatePostRequest(*(u8 * *)&p->wm)==0) func_02034714(str_02203F58,0,str_02203F58);
+    if(NHTTP_RAP_CreatePostRequest(*(u8 * *)&p->wm)==0) SAVEDATA_PanicFail(str_02203F58,0,str_02203F58);
     ready=NHTTP_RAP_StartConnection(*(u8 **)((u8 *)p+0x10E0))==0;
-    if(ready==0) func_02034714(str_02203F58,0,str_02203F58);
+    if(ready==0) SAVEDATA_PanicFail(str_02203F58,0,str_02203F58);
     p->state=3;
     return 2;
 }
@@ -801,9 +801,9 @@ int WORLDTRADE_SERVER_PollUploadResponse(Work *p)
         p->state_i = 0x2B;
         NHTTP_RAP_FreePostData(p->wm);
         NHTTP_RAP_Destroy(p->wm);
-        func_0200FBB0();
+        GFL_NET_ERR_WaitLinkClosed();
         GFL_NET_STATE_SetWifiError();
-        func_0200FBA0();
+        GFL_NET_ERR_ResetState();
         GFL_NET_STATE_ClearErrorMode();
     }
     return 2;
@@ -848,8 +848,8 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
     if (done) {
         if (positive) {
             dst = (u16 *)(p + 0x1f4);
-            bank = func_02045B38(0, 2, 0x51, 0x48);
-            str = func_02045EC0(bank, 0xf);
+            bank = MSGDATA_CreateFromArchive(0, 2, 0x51, 0x48);
+            str = MSGDATA_AllocString(bank, 0xf);
             MSGDATA_Delete(bank);
             text = STRBUF_GetChars(str);
             for (i = 0; i < 7 && (u32)i < STRBUF_GetLength(str); i++) dst[i] = text[i];
@@ -861,9 +861,9 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
         if ((((Work *)p)->timer)++ == 0xe10) {
             ((Work *)p)->err = -5;
             ((Work *)p)->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
         }
     }
@@ -919,9 +919,9 @@ int WORLDTRADE_SERVER_WaitUploadResult(Work *p)
         case 14:
             (*(unsigned int *)&p->err) = n;
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 4:
@@ -944,9 +944,9 @@ int WORLDTRADE_SERVER_WaitUploadResult(Work *p)
         case 13:
             (*(unsigned int *)&p->err) = n;
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 2:
@@ -1074,16 +1074,16 @@ int WORLDTRADE_SERVER_WaitDownload(Work *p)
             break;
         case 12:
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 11:
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 3:
@@ -1095,9 +1095,9 @@ int WORLDTRADE_SERVER_WaitDownload(Work *p)
         case 13:
             (*(unsigned int *)&p->err) = n;
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 2:
@@ -1216,7 +1216,7 @@ int WORLDTRADE_SERVER_WaitTrade(Work *p)
         case -15: case -14: case -2:
             p->err=r;
             p->state=0x2B;
-            func_0200FBB0(); GFL_NET_STATE_SetWifiError(); func_0200FBA0(); GFL_NET_STATE_ClearErrorMode();
+            GFL_NET_ERR_WaitLinkClosed(); GFL_NET_STATE_SetWifiError(); GFL_NET_ERR_ResetState(); GFL_NET_STATE_ClearErrorMode();
             break;
         case -13:
             WORLDTRADE_CancelSave(p);
@@ -1321,7 +1321,7 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
                 p->state_i = 0x26;
                 WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)mon, WORLDTRADE_GetReturnBox(p->ctx->sys), 0);
                 WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);
-                func_020307B0(mon);
+                GFL_HEAP_Free(mon);
             } else {
                 WORLDTRADE_SERVER_ShowResultByMode(p);
             }
@@ -1335,7 +1335,7 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
                 p->mode = 3;
                 p->state_i = 0x26;
                 WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);
-                func_020307B0(mon);
+                GFL_HEAP_Free(mon);
             }
             break;
         case -15:
@@ -1344,9 +1344,9 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
         case -2:
             p->err = r;
             p->state_i = 0x2B;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case -13:
@@ -1421,9 +1421,9 @@ int WORLDTRADE_SERVER_WaitDownloadB(Work *p)
         case 13:
             (*(unsigned int *)&p->err) = n;
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             return 2;
         case 4:
@@ -1478,7 +1478,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *r, void *old
     MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(p->ctx->saveData), r->trainerId);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     func_02009DE8(TRADE_HISTORY_GetFromSave(p->ctx->saveData), copy);
-    func_020307B0(copy);
+    GFL_HEAP_Free(copy);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     memset(&rec, 0, sizeof(rec));
     MYSTATUS_Copy(copy, &rec);
@@ -1490,7 +1490,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *r, void *old
     rec.flags = (rec.flags & ~7) | (r->profileFlagA & 7);
     rec.y = r->profileFlagC;
     COMM_HISTORY_InsertIfNamed((u32)(p->ctx->status), (u32)(&rec));
-    func_020307B0(copy);
+    GFL_HEAP_Free(copy);
 }
 
 /*
@@ -1616,9 +1616,9 @@ int WORLDTRADE_SERVER_WaitDelete(Work *p)
         case 12:
             (*(unsigned int *)&p->err) = n;
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 3:
@@ -1728,9 +1728,9 @@ int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(Work *p)
         case 10:
             (*(unsigned int *)&p->err) = n;
             p->state = 0x2b;
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 0:

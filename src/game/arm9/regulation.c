@@ -19,6 +19,9 @@
  *   func_0200ADF0_File  0x020A71B4  data
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_Delete  0x02045C04  arm
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  */
 #include "wifilist_tail_shared_types.h"
 #include "musical_save_shared_types.h"
@@ -116,9 +119,9 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern u16  GF_STANDARD_SetupCalc(const void *data, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
@@ -132,7 +135,7 @@ extern struct PokeParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
 extern u32 POKE_TOOL_GetPartyValue(struct PokeParam *mon, u32 param, u32 arg);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 u32 REGULATION_GetCompetitionSize(void);
 
@@ -191,7 +194,7 @@ u32 REGULATION_GetCompetitionSize(void)
 
 struct Regulation *REGULATION_Create(u32 heapId)
 {
-    return func_02030734(heapId, sizeof(struct Regulation), 1, func_0200ADF0_File,
+    return GFL_HEAP_Alloc(heapId, sizeof(struct Regulation), 1, func_0200ADF0_File,
                          0x73);
 }
 
@@ -206,7 +209,7 @@ void REGULATION_NoOp(void)
 
 void REGULATION_GetCupName(struct Regulation *rule, void *dest)
 {
-    struct MsgBank *bank = func_02045B38(0, 2, 0xA6, 1);
+    struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 2, 0xA6, 1);
     func_02045CAC(bank, rule->cupNo, dest);
     MSGDATA_Delete(bank);
 }
@@ -430,5 +433,5 @@ void BATTLE_COMPETITION_Init(struct BattleCompetitionSave *competition)
 
 struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x2F);
+    return SAVE_CONTROL_GetBlock(save, 0x2F);
 }

@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   INTRO_MCSS_Create 0x021BF594 thumb ov204
  *   INTRO_G3D_Create 0x021BF8DC thumb ov204
  *   INTRO_PARTICLE_Create 0x021BFC24 thumb ov204
@@ -30,9 +30,9 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   INTRO_CMD_Delete 0x021BEF74 thumb ov204
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   INTRO_CMD_Main  0x021BEF88  thumb  ov204
  *   INTRO_G3D_UpdateIdleAnim  0x021BF898  thumb  ov204
  *   INTRO_MCSS_Main 0x021BF610  thumb  ov204
@@ -44,7 +44,7 @@
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   d_021BFDAC 0x021BFDAC data a2
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
@@ -52,19 +52,19 @@
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   gIntroGraphicSite 0x021C09C0 data a4
  *   d_021BFE4C 0x021BFE4C data a4
  *   d_021BFE1C 0x021BFE1C data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021BFD80 0x021BFD80 data a4
  *   d_021BFF1C 0x021BFF1C data a4
  *   BG_SYS_Update 0x020419E4 arm
@@ -83,15 +83,15 @@
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_02048B6C 0x02048B6C arm
  *   func_02048B60 0x02048B60 arm
- *   func_02048BC4 0x02048BC4 arm
- *   func_02048C58 0x02048C58 arm
+ *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
+ *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   gIntroGraphicCameraPos 0x021BFD68 data a4
  *   gIntroGraphicCameraTarget 0x021BFD5C data a4
  *   gIntroGraphicCameraUp 0x021BFD74 data a4
  *   d_020A1EB8 0x020A1EB8 data a2
  *   d_021BFD4C 0x021BFD4C data a4
  *   d_021BFD54 0x021BFD54 data a4
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_02047964 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -107,10 +107,10 @@
  *   INTRO_MSG_MainMenuList 0x021BF528 thumb ov204
  *   INTRO_MSG_GetMenuChoice 0x021BF538 thumb ov204
  *   gIntroGraphicHandlerTable 0x021C09D0 data a4
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -165,7 +165,7 @@ typedef struct IntroGraphicWork {
     void *args;                 /* 0x04: IntroArgs */
     void *display;              /* 0x08: IntroDisplay */
     void *font;                 /* 0x0C: GF_FONT_Create result */
-    void *msgBank;              /* 0x10: func_02045B38 result */
+    void *msgBank;              /* 0x10: MSGDATA_CreateFromArchive result */
     void *cmdWork;              /* 0x14: IntroCmdWork */
     void *mcss;                 /* 0x18: IntroMcssWork */
     void *g3d;                  /* 0x1C: IntroG3dWork */
@@ -180,7 +180,7 @@ typedef struct IntroClact {
 /* The 3D camera holder (8 bytes): camera and light slot. */
 typedef struct IntroCamera {
     void *camera;               /* 0x00: G3D_CAMERA_Create result */
-    void *lightSlot;            /* 0x04: func_02048BC4 result */
+    void *lightSlot;            /* 0x04: G3D_LIGHT_CreateSlots result */
 } IntroCamera;
 
 /*
@@ -190,15 +190,15 @@ typedef struct IntroDisplay {
     unsigned int bg;            /* 0x00: bg system slot, only ever zeroed */
     IntroClact clact;           /* 0x04 */
     IntroCamera camera;         /* 0x08 */
-    void *vblank;               /* 0x10: func_020056A0 result */
+    void *vblank;               /* 0x10: GFL_USE_AddMainTask result */
 } IntroDisplay;
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
-extern struct MsgBank *func_02045B38(unsigned, unsigned, unsigned, unsigned);
+extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned, unsigned, unsigned, unsigned);
 extern void *INTRO_MCSS_Create(unsigned int heap, int kind);
 extern char *INTRO_G3D_Create(void *owner, int kind, u32 heap);
 extern char *INTRO_PARTICLE_Create(void *owner, unsigned heap);
@@ -209,9 +209,9 @@ extern void INTRO_G3D_Delete(char *);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void INTRO_CMD_Delete(u8 *p);
-extern void func_020315D4(struct Proc *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 extern int INTRO_CMD_Main(char *p);
 extern void INTRO_G3D_UpdateIdleAnim(char *p);
 extern void INTRO_MCSS_Main(u8 *p);
@@ -222,7 +222,7 @@ extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
@@ -230,16 +230,16 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void GF_FONT_InitTextColor(void);
-extern void *func_020056A0(u32,u32,u32);
-extern void func_02030EAC(struct Node *);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
+extern void TCB_DeleteTask(struct Node *);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
-extern void func_02040588(unsigned char, unsigned char);
+extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern u32 BMP_GetVisiblePlane(void);
@@ -259,13 +259,13 @@ extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u3
                           Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
 extern void func_02048B6C(struct Light *l, const u32 *in);
 extern void func_02048B60(struct Light *l, const u32 *in);
-extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
-extern void func_02048C58(struct LightSlot *slots);
+extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
+extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void func_02048C4C(u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 /* Original consumes 02048AD0's live r0 through the next veneer call. */
-extern void *func_02048AD0(struct Light *);
+extern void *G3D_CAMERA_Reset(struct Light *);
 extern void func_02047964(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
@@ -275,10 +275,10 @@ extern int INTRO_CMD_AddCommand(IntroCmdWork *, IntroCommand *);
 extern void INTRO_MSG_CreateMenuList(char *p, u32 *entries, u32 count, int flag);
 extern void INTRO_MSG_MainMenuList(u8 *p);
 extern int INTRO_MSG_GetMenuChoice(u8 *p, int *out);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
 extern void MIi_CpuCopy16(const void *,void *,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -336,7 +336,7 @@ extern const struct LightSet d_021BFD54;
 int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
 {
     IntroGraphicWork *work;
-    func_02034AC4((int)ov067_id);
+    GF_OVERLAY_Load((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 111, 0x100000);
     work = PROCSYS_AllocProcWork(owner, 0x24, 111);
     MI_CpuFill8(work, 0, 0x24);
@@ -344,7 +344,7 @@ int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
     work->args = args;
     work->display = INTRO_GRAPHIC_CreateDisplay(1, ((IntroArgs *)args)->mode, work->heapId);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
-    work->msgBank = func_02045B38(0, 2, 65, work->heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 65, work->heapId);
     work->mcss = INTRO_MCSS_Create(work->heapId, ((IntroArgs *)work->args)->mode);
     work->g3d = INTRO_G3D_Create(work->display, ((IntroArgs *)work->args)->mode, work->heapId);
     work->particle = INTRO_PARTICLE_Create(work->display, work->heapId);
@@ -366,9 +366,9 @@ int INTRO_GRAPHIC_Delete(struct Proc *owner, int unused1, int unused2, char *p)
     INTRO_CMD_Delete(work->cmdWork);
     INTRO_GRAPHIC_DeleteDisplay(work->display);
     heap = work->heapId;
-    func_020315D4(owner);
+    PROCSYS_FreeProcWork(owner);
     GFL_HEAP_DeleteChecked((unsigned)heap);
-    func_02034A5C((unsigned)ov067_id);
+    GF_OVERLAY_Unload((unsigned)ov067_id);
     return 1;
 }
 
@@ -438,7 +438,7 @@ void INTRO_GRAPHIC_Setup3d(void)
 void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
 {
     IntroDisplay *disp;
-    disp=func_02030734(heap,20,0,gIntroGraphicSite,406);
+    disp=GFL_HEAP_Alloc(heap,20,0,gIntroGraphicSite,406);
     MI_CpuFill8(disp,0,20);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
@@ -461,7 +461,7 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
         INTRO_GRAPHIC_InitCamera(&disp->camera,heap);
     }
     GF_FONT_InitTextColor();
-    disp->vblank=func_020056A0((u32)INTRO_GRAPHIC_VBlank,(u32)disp,0);
+    disp->vblank=GFL_USE_AddMainTask((u32)INTRO_GRAPHIC_VBlank,(u32)disp,0);
     return disp;
 }
 
@@ -473,7 +473,7 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
 void INTRO_GRAPHIC_DeleteDisplay(unsigned char *p)
 {
     IntroDisplay *disp = (IntroDisplay *)p;
-    func_02030EAC(disp->vblank);
+    TCB_DeleteTask(disp->vblank);
     INTRO_GRAPHIC_DeleteCamera(&disp->camera);
     INTRO_GRAPHIC_DeleteClact(&disp->clact);
     INTRO_GRAPHIC_ExitBg(disp);
@@ -483,7 +483,7 @@ void INTRO_GRAPHIC_DeleteDisplay(unsigned char *p)
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
     MI_CpuFill8(disp, 0, 0x14);
-    func_020307B0(disp);
+    GFL_HEAP_Free(disp);
 }
 
 
@@ -536,7 +536,7 @@ void INTRO_GRAPHIC_InitBg(IntroDisplay *disp, unsigned heap)
         layer = row[0];
         BG_SYS_InitBgLayer((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
         BG_SYS_FreeSlot(layer);
-        func_02040588(layer, row[10]);
+        BG_SYS_SetPlaneVisible(layer, row[10]);
     }
 }
 
@@ -586,10 +586,10 @@ void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap)
     BG_SYS_InitBgLayer(4,&t4,0);
     t5=d_021BFEBC;
     BG_SYS_InitBgLayer(6,&t5,0);
-    func_02040588(1,1);
-    func_02040588(3,1);
-    func_02040588(4,1);
-    func_02040588(6,1);
+    BG_SYS_SetPlaneVisible(1,1);
+    BG_SYS_SetPlaneVisible(3,1);
+    BG_SYS_SetPlaneVisible(4,1);
+    BG_SYS_SetPlaneVisible(6,1);
 }
 
 
@@ -646,8 +646,8 @@ void INTRO_GRAPHIC_InitCamera(IntroCamera *cam, u16 heap)
     near_clip = 0x19A;
     func_02048B6C(cam->camera, &far_clip);
     func_02048B60(cam->camera, &near_clip);
-    cam->lightSlot = func_02048BC4(&d_021BFD4C, heap);
-    func_02048C58(cam->lightSlot);
+    cam->lightSlot = G3D_LIGHT_CreateSlots(&d_021BFD4C, heap);
+    G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
 
 
@@ -661,8 +661,8 @@ void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap)
     near_clip = 0x19A;
     func_02048B6C(cam->camera, &far_clip);
     func_02048B60(cam->camera, &near_clip);
-    cam->lightSlot = func_02048BC4(&d_021BFD54, heap);
-    func_02048C58(cam->lightSlot);
+    cam->lightSlot = G3D_LIGHT_CreateSlots(&d_021BFD54, heap);
+    G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
 
 
@@ -677,7 +677,7 @@ void INTRO_GRAPHIC_DeleteCamera(IntroCamera *cam)
 
 
 
-void INTRO_GRAPHIC_DrawCamera(IntroCamera *cam){func_02048AD0(cam->camera);func_02047964();G3D_SYSTEM_ApplyLookAt();}
+void INTRO_GRAPHIC_DrawCamera(IntroCamera *cam){G3D_CAMERA_Reset(cam->camera);func_02047964();G3D_SYSTEM_ApplyLookAt();}
 
 
 
@@ -785,18 +785,18 @@ int INTRO_GRAPHIC_CmdLoadPalette(char *p,void *unused,int *state)
     u16 heap;
     void *arc,*out,*buf;
     heap=work->heapId;
-    arc=func_020490F4(0xAA,heap);
+    arc=ARC_TOOL_CreateHandle(0xAA,heap);
     func_02049B68(arc,1,0,0,64,heap);
     func_02049B68(arc,1,4,0,32,heap);
-    func_02049658(arc,0,6,0,0,0,heap);
-    func_020498F4(arc,2,6,0,0,0,heap);
-    func_02049658(arc,0,3,0,0,0,heap);
-    func_020498F4(arc,3,3,0,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(arc,0,6,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,2,6,0,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(arc,0,3,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,3,3,0,0,0,heap);
     if (*state==1) {
-        func_02049658(arc,12,2,0,0,0,heap);
+        ARC_UTIL_UploadBgCharFromHandle(arc,12,2,0,0,0,heap);
         buf=ARC_UTIL_LoadPaletteDataFromHandle(arc,14,0,(void **)&out,heap);
         MIi_CpuCopy16((char *)out+12,work->data,4096);
-        func_020307B0(buf);
+        GFL_HEAP_Free(buf);
     }
     ARC_TOOL_DeleteHandle(arc);
     return 1;

@@ -41,9 +41,9 @@
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
- *   func_020307B0   0x020307B0  arm arm9
+ *   GFL_HEAP_Free   0x020307B0  arm arm9
  *   MI_CpuCopy8  0x02082D44  arm
  *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
  *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
@@ -61,7 +61,7 @@
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
@@ -121,8 +121,8 @@
  */
 #include "btl_field_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 HAND_FIELD_AddFactor(u32 slot, int arg);
 extern BtlFieldSlotKey BTLV_CORE_GetZeroMasked(void);
 extern u32 BTLV_CORE_GetSlotPosition(BtlFieldSlotKey key);
@@ -271,7 +271,7 @@ int BTL_FIELD_GetStaticSlotObject(int arg)
 
 BtlFieldState *BTL_FIELD_Create(u32 heapId)
 {
-    BtlFieldState *state = func_02030734(heapId, 0x168, 1, gBtlFieldFileName, 0x10c);
+    BtlFieldState *state = GFL_HEAP_Alloc(heapId, 0x168, 1, gBtlFieldFileName, 0x10c);
 
     BTL_FIELD_Init(state, 0);
     return state;
@@ -279,7 +279,7 @@ BtlFieldState *BTL_FIELD_Create(u32 heapId)
 
 
 
-void BTL_FIELD_Delete(void *state) { func_020307B0(state); }
+void BTL_FIELD_Delete(void *state) { GFL_HEAP_Free(state); }
 
 
 

@@ -19,8 +19,8 @@
  *   OS_InitMessageQueue  0x02085D94  arm
  *   OS_ReceiveMessage           0x02085e50 arm
  *   SOCLiCommandPacketQueue    0x021aa484 data
- *   func_02085DBC  0x02085DBC  arm
- *   func_02085E50  0x02085E50  arm
+ *   OS_SendMessage  0x02085DBC  arm
+ *   OS_ReceiveMessage  0x02085E50  arm
  *   OS_ReadMessage  0x02085F8C  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_DisableScheduler  0x02085B30  arm
@@ -39,7 +39,7 @@ typedef unsigned int u32;
 
 extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, long flags);
-extern int func_02085DBC(struct OSMessageQueue *mq, void *msg, long flags);
+extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, long flags);
 extern int OS_ReadMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_DisableScheduler(void);
@@ -149,7 +149,7 @@ struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
 void SOCLi_FreeCommandPacket(void *ptr)
 {
     if (ptr != 0) {
-        func_02085DBC(&SOCLiCommandPacketQueue, ptr, 0);
+        OS_SendMessage(&SOCLiCommandPacketQueue, ptr, 0);
     }
 }
 
@@ -183,7 +183,7 @@ int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet)
         blocking = 1;
     else
         blocking = 0;
-    sent = func_02085DBC((struct OSMessageQueue *)queue, packet, blocking);
+    sent = OS_SendMessage((struct OSMessageQueue *)queue, packet, blocking);
     if (sent == 0)
         SOCLi_FreeCommandPacket(packet);
     return sent ? 0 : -0x2A;
@@ -285,7 +285,7 @@ void SOCLi_CommandPacketHandler(void *arg)
 			command->target.reply->result = result;
 		}
 		if (command->response_queue != 0) {
-			func_02085DBC((struct OSMessageQueue *)command->response_queue, (void *)result, 0);
+			OS_SendMessage((struct OSMessageQueue *)command->response_queue, (void *)result, 0);
 		}
 		SOCLi_FreeCommandPacket(command);
 		OS_EnableScheduler();

@@ -44,6 +44,7 @@
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
  *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
  *   OS_LockMutex  0x02086028  arm
+ *   OS_UnlockMutex  0x02086078  arm
  */
 
 struct Entry;
@@ -132,7 +133,7 @@ extern s32 NNS_SndFaderGet(SndFader *o);
 extern void NNS_SndFaderUpdate(SndFader *obj);
 extern int NNS_SndFaderIsFinished(SndFader *obj);
 extern void OS_LockMutex(void *p);
-extern void func_02086078(void *p);
+extern void OS_UnlockMutex(void *p);
 extern void NNSi_SndStrmStopIfSetup(SndStrm *o);
 extern void NNS_SndStrmFreeChannel(SndStrm *x);
 extern void NNS_FndAppendListObject(void *list, void *object);
@@ -487,11 +488,11 @@ void NNSi_SndTrackStop(struct SndTrack *track)
     if (track->active != 0)
         track->releaseCallback(track);
     NNSi_SndTrackClose(track);
-    func_02086078(g_02150178);
+    OS_UnlockMutex(g_02150178);
     p = *(u8 **)(g_0214EA90 + 4);
     if (p == 0)
         return;
-    func_02086078(p + 0x10c8);
+    OS_UnlockMutex(p + 0x10c8);
 }
 
 

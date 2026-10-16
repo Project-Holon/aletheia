@@ -14,8 +14,8 @@
  * Split from field_wfbc.c at 0x02194284 (lane CL120, __FILE__ anchors).
  *
  * symbols:
- *   func_02030734  0x02030734  arm  arm9
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   sFieldCommActorFileName 0x021DDA70  data  a4
  *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
@@ -39,7 +39,7 @@
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -100,8 +100,8 @@ typedef struct SubscreenChangeEventWork {
     u8 seq;
 } SubscreenChangeEventWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 MI_CpuFill8(void *dst, int value, int size);
 extern int FLDMMDL_GetGridNowY(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_IsGridInObjectRect(Mmdl *mmdl, int gridX, int gridZ, int flag);
@@ -123,7 +123,7 @@ extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, int status);
 extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
 extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, int (*callback)(struct GameEvent *, int *, void *), u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*callback)(struct GameEvent *, int *, void *), u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *subscreen);
 extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
@@ -155,11 +155,11 @@ extern MmdlHeader sCommActorMmdlHeader;
 FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime)
 {
     int size = sizeof(FieldCommActor);
-    FieldCommActorCtrl *ctrl = func_02030734(heapId, size, 1, sFieldCommActorFileName, 0x5d);
+    FieldCommActorCtrl *ctrl = GFL_HEAP_Alloc(heapId, size, 1, sFieldCommActorFileName, 0x5d);
     ctrl->actorMax = actorMax;
     ctrl->useRunAnime = useRunAnime;
     ctrl->mmdlSys = mmdlSys;
-    ctrl->actors = func_02030734(heapId, size * actorMax, 1, sFieldCommActorFileName, 0x63);
+    ctrl->actors = GFL_HEAP_Alloc(heapId, size * actorMax, 1, sFieldCommActorFileName, 0x63);
     return ctrl;
 }
 
@@ -177,8 +177,8 @@ void FIELD_COMM_ACTOR_CTRL_Delete(FieldCommActorCtrl *ctrl)
             actor++;
         }
     }
-    func_020307B0(ctrl->actors);
-    func_020307B0(ctrl);
+    GFL_HEAP_Free(ctrl->actors);
+    GFL_HEAP_Free(ctrl);
 }
 
 void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish)
@@ -357,7 +357,7 @@ struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem 
     struct GameEvent *event;
     SubscreenChangeEventWork *work;
     FIELDMAP_GetSubscreen(fieldMap);
-    event = func_020122C0(gameSystem, 0, FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(SubscreenChangeEventWork));
     work->gameSystem = gameSystem;

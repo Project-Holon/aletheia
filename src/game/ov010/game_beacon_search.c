@@ -13,13 +13,13 @@
  * Cut from game_beacon_search.c, game_beacon_accessor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   CALENDER_OverlaySequenceEvent 0x02164A2C thumb ov010
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   ICA_ANIME_GetField24  0x02012138  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_BEACON_SEARCH_FileName     0x021729BC  data  ov010  a1
@@ -29,9 +29,9 @@
  *   func_02010360 0x02010360 thumb
  *   WIH_DWC_Delete 0x020103E4 thumb
  *   GFL_NET_Exit 0x0203CEAC arm
- *   func_020307B0 0x020307B0 arm
- *   func_0200FB24 0x0200FB24 thumb
- *   func_0200FBA0 0x0200FBA0 thumb
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
+ *   GFL_NET_ERR_ResetState 0x0200FBA0 thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02035390  0x02035390  arm
@@ -190,7 +190,7 @@ typedef struct OwnerFlags {
     u32 reserved1 : 26;
 } OwnerFlags;
 
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, int (*func)(struct GameEvent *, u32 *, void *), u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*func)(struct GameEvent *, u32 *, void *), u32 workSize);
 
 extern void *func_020124E8(struct GameEvent *event);
 
@@ -202,7 +202,7 @@ extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GAME_COMM_GetLastKind(struct GameComm *gameComm);
 
@@ -218,11 +218,11 @@ extern void WIH_DWC_Delete(u8 *wihDwc);
 
 extern int GFL_NET_Exit(void (*callback)(void *work));
 
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern void func_0200FBA0(void);
+extern void GFL_NET_ERR_ResetState(void);
 
 extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 
@@ -536,7 +536,7 @@ extern const u8 GAME_BEACON_SEARCH_PresetEventTable[5];
 
 struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unused, u8 mode)
 {
-    struct GameEvent *event = func_020122C0(gameSystem, 0, CALENDER_OverlaySequenceEvent, sizeof(CalenderEventWork));
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, CALENDER_OverlaySequenceEvent, sizeof(CalenderEventWork));
     CalenderEventWork *work = func_020124E8(event);
     struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
 
@@ -552,7 +552,7 @@ GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *g
 {
     struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     struct GameComm *gameComm = ICA_ANIME_GetField24(gameSystem);
-    GameBeaconSearchWork *work = func_02030734(5, sizeof(GameBeaconSearchWork), 1, GAME_BEACON_SEARCH_FileName, 0x9c);
+    GameBeaconSearchWork *work = GFL_HEAP_Alloc(5, sizeof(GameBeaconSearchWork), 1, GAME_BEACON_SEARCH_FileName, 0x9c);
 
     work->gameData = gameData;
     work->lastZoneId = 0x1ab;
@@ -597,9 +597,9 @@ int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *
 int GAME_BEACON_SEARCH_FreeWork(void *unused0, void *unused1, GameBeaconSearchWork *work)
 {
     if (work->state == 0) {
-        func_020307B0(work);
-        if (func_0200FB24()) {
-            func_0200FBA0();
+        GFL_HEAP_Free(work);
+        if (GFL_NET_ERR_GetErrorLevel()) {
+            GFL_NET_ERR_ResetState();
         }
         return 1;
     }
@@ -632,7 +632,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
     index = 0;
     if (GAME_DATA_IsSaving(gameData) == 1)
         return;
-    if (func_0200FB24()) {
+    if (GFL_NET_ERR_GetErrorLevel()) {
         GAME_COMM_RequestExitNoCallback(gameComm);
         return;
     }
@@ -651,7 +651,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
                 if (zoneId != work->lastZoneId) {
                     work->lastZoneId = zoneId;
                     if (INTRUDE_COMM_IsListedId(zoneId) == 1) {
-                        request = func_02030734(0x8005, sizeof(GameBeaconConnectRequest), 1, GAME_BEACON_SEARCH_FileName, 0x154);
+                        request = GFL_HEAP_Alloc(0x8005, sizeof(GameBeaconConnectRequest), 1, GAME_BEACON_SEARCH_FileName, 0x154);
                         request->gameSystem = gameSystem;
                         MI_CpuCopy8(target->macAddress, request->macAddress, 6);
                         GAME_COMM_RequestExit(gameComm, GAME_BEACON_SEARCH_StartConnectEvent, request);
@@ -829,10 +829,10 @@ void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel)
 
     MI_CpuCopy8(request->macAddress, macAddress, 6);
     gameComm = ICA_ANIME_GetField24(gameSystem);
-    func_020307B0(request);
+    GFL_HEAP_Free(request);
     if (cancel == 0 && GAMESYSTEM_CanStartAutoComm(gameSystem) == 1 && GAME_COMM_GetNotifyFlag(gameComm) == 0
         && GFL_NET_GetRunState() == 0 && GAME_COMM_GetKind(gameComm) == 0) {
-        event = func_02030734(5, sizeof(GameBeaconConnectEvent), 1, GAME_BEACON_SEARCH_FileName, 0x287);
+        event = GFL_HEAP_Alloc(5, sizeof(GameBeaconConnectEvent), 1, GAME_BEACON_SEARCH_FileName, 0x287);
         event->gameSystem = gameSystem;
         event->gameComm = ICA_ANIME_GetField24(gameSystem);
         MI_CpuCopy8(macAddress, event->macAddress, 6);

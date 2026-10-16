@@ -19,12 +19,12 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
@@ -72,8 +72,8 @@
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02045B38  0x02045B38  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
  *   sMusicalEventFileName  0x02172714  data
@@ -85,7 +85,7 @@
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   NATSUKI_Calc  0x0201B7A0  thumb
  *   func_02008DF0  0x02008DF0  thumb
- *   func_02008DAC  0x02008DAC  thumb
+ *   RECORD_AddCounter  0x02008DAC  thumb
  *   MUSICAL_SAVE_GetProgram  0x0200A750  thumb
  *   STA_NET_GetSlotWordByIndex  0x021FD8F8  thumb  ov132
  *   MUSICAL_SAVE_IsPropOwned  0x0200A644  thumb
@@ -270,17 +270,17 @@ extern u32 GAMESYSTEM_GetProcStatus(void *gameSys);
 
 extern void *GAMESYSTEM_GetGameData(void *gameSys);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern void *GAME_DATA_GetTrainerRecord(void *gameData);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern u32 func_020307B0(void *ptr);
+extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
 
-extern struct GameEvent *func_020122C0(void *gameSys, void *a, void *proc, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
 extern void *func_020124E8(struct GameEvent *event);
 
@@ -370,9 +370,9 @@ extern void STRBUF_ToChars(void *strbuf, u16 *out, u32 n);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
-extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void *func_02045EC0(void *msgData, u32 index);
+extern void *MSGDATA_AllocString(void *msgData, u32 index);
 
 extern void MSGDATA_Delete(void *msgData);
 
@@ -394,7 +394,7 @@ extern void NATSUKI_Calc(void *mon, int a1, int a2, int a3);
 
 extern u32 func_02008DF0(void *trainerRecord, int id);
 
-extern u32 func_02008DAC(void *trainerRecord, int id, u32 delta);
+extern u32 RECORD_AddCounter(void *trainerRecord, int id, u32 delta);
 
 extern struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *save, u32 index);
 
@@ -573,7 +573,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     void *nickname;
 
     GFL_HEAP_CreateChildHeap(1, 0x802C, 0x42000);
-    event = func_020122C0(gameSys, 0, MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
+    event = GAME_EVENT_Create(gameSys, 0, MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
     work = func_020124E8(event);
     work->gameSys = gameSys;
     work->gameData = gameData;
@@ -830,13 +830,13 @@ int MUSICAL_EVENT_Free(MusicalEventWork *work)
     if (work->stage != 0)
         MUSICAL_STAGE_SYS_Delete(work->stage);
     if (work->result != 0) {
-        func_020307B0(work->result->record);
-        func_020307B0(work->result);
+        GFL_HEAP_Free(work->result->record);
+        GFL_HEAP_Free(work->result);
     }
     if (work->musicalSystem != 0)
         MUSICAL_MCSS_FreeMon(work->musicalSystem);
     if (work->localPerformer != 0)
-        func_020307B0(work->localPerformer);
+        GFL_HEAP_Free(work->localPerformer);
     if (work->program != 0)
         MUSICAL_PROGRAM_Delete(work->program);
     link = work->link;
@@ -965,8 +965,8 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
     u8 right;
     u8 k;
 
-    work->result = func_02030734(4, 0x14, 0, sMusicalEventFileName, 0x312);
-    work->result->record = func_02030734(4, 0x1b0, 1, sMusicalEventFileName, 0x313);
+    work->result = GFL_HEAP_Alloc(4, 0x14, 0, sMusicalEventFileName, 0x312);
+    work->result->record = GFL_HEAP_Alloc(4, 0x1b0, 1, sMusicalEventFileName, 0x313);
     work->result->state = 0;
     work->result->session = work->session;
     record = work->result->record;
@@ -1009,8 +1009,8 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
         } else {
             u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, MUSICAL_EVENT_GetPlayerOfSlot(work, i)));
 
-            msgData = func_02045B38(0, 2, 0x4C, 4);
-            title = func_02045EC0(msgData, nameId);
+            msgData = MSGDATA_CreateFromArchive(0, 2, 0x4C, 4);
+            title = MSGDATA_AllocString(msgData, nameId);
             STRBUF_ToChars(title, (u16 *)record->performers[i].name, 8);
             STRBUF_Delete(title);
             MSGDATA_Delete(msgData);
@@ -1101,7 +1101,7 @@ void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work)
         if (localScore == topScore && localScore != 0)
             func_02008DF0(trainerRecord, 0x75);
     }
-    func_02008DAC(trainerRecord, 0x76, localScore);
+    RECORD_AddCounter(trainerRecord, 0x76, localScore);
 }
 
 /*
@@ -1132,7 +1132,7 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
     const u8 *row;
     u8 round;
 
-    candidates = func_02030734(4, 0x28, 1, sMusicalEventFileName, 0x3F9);
+    candidates = GFL_HEAP_Alloc(4, 0x28, 1, sMusicalEventFileName, 0x3F9);
     scoreSum = 0;
     for (i = 0; i < 10; i++) {
         program = MUSICAL_SAVE_GetProgram(work->save, i);
@@ -1192,7 +1192,7 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
             candidateCount--;
         }
     }
-    func_020307B0(candidates);
+    GFL_HEAP_Free(candidates);
 }
 
 /*
@@ -1366,7 +1366,7 @@ void *MUSICAL_EVENT_AllocTitleString(MusicalEventWork *work, int heapId)
     void *msgData;
 
     msgData = MSGDATA_CreateFromMemory(work->musicalSystem->msgFile, heapId);
-    title = func_02045EC0(msgData, 0);
+    title = MSGDATA_AllocString(msgData, 0);
     MSGDATA_Delete(msgData);
     return title;
 }
@@ -1501,8 +1501,8 @@ void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *word
     }
     if (!done) {
         u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, player));
-        void *msgData = func_02045B38(0, 2, 0x4C, 4);
-        void *str = func_02045EC0(msgData, nameId);
+        void *msgData = MSGDATA_CreateFromArchive(0, 2, 0x4C, 4);
+        void *str = MSGDATA_AllocString(msgData, nameId);
 
         WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, 2);
         STRBUF_Delete(str);
@@ -1534,8 +1534,8 @@ void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wor
     }
     if (!done) {
         u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, player));
-        void *msgData = func_02045B38(0, 2, 0x4D, 4);
-        void *str = func_02045EC0(msgData, nameId);
+        void *msgData = MSGDATA_CreateFromArchive(0, 2, 0x4D, 4);
+        void *str = MSGDATA_AllocString(msgData, nameId);
 
         WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, 2);
         STRBUF_Delete(str);
@@ -1570,7 +1570,7 @@ void MUSICAL_EVENT_CheckNetError(MusicalEventWork *work)
     int linkMode = work->linkMode;
 
     if (linkMode == 1) {
-        if (func_0200FB24()) {
+        if (GFL_NET_ERR_GetErrorLevel()) {
             if (work->aborted == 0) {
                 work->aborted = 1;
             }

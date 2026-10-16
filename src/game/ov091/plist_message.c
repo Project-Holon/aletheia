@@ -14,17 +14,17 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02041B6C  0x02041B6C  arm
- *   func_020307B0 0x020307B0 arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
@@ -84,17 +84,17 @@ struct MsgData;
 struct Bmp;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void func_02041B6C(u32 bit);
-extern u32 func_020307B0(void *p);
+extern void BG_SYS_SetFlagField06(u32 bit);
+extern u32 GFL_HEAP_Free(void *p);
 extern unsigned KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern struct Strbuf *func_02045EC0(struct MsgData *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, void *bitmap, short x, short y, struct Strbuf *text, void *font, u16 flags);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct BmpWin *BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, void *bitmap);
@@ -169,7 +169,7 @@ PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
 {
     PlistMessage *msg;
 
-    msg = func_02030734(work->heapId, sizeof(PlistMessage), 0, sPlistMessageAllocSite, 0x64);
+    msg = GFL_HEAP_Alloc(work->heapId, sizeof(PlistMessage), 0, sPlistMessageAllocSite, 0x64);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xc, 0, work->heapId);
     msg->taskList = TCBL_Create(work->heapId, work->heapId, 1, 0);
     msg->stream = 0;
@@ -200,7 +200,7 @@ void PLIST_MESSAGE_Destroy(PokelistWork *work, PlistMessage *msg)
     PRINTSYS_QUE_Delete(msg->printSys);
     APP_KEYCURSOR_Delete(msg->keyCursor);
     TCBL_Destroy(msg->taskList);
-    func_020307B0(msg);
+    GFL_HEAP_Free(msg);
 }
 
 void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
@@ -225,7 +225,7 @@ void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
         msg->printing = 0;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
         if (msg->promptRequested == 1) {
             msg->promptRequested = 0;
             msg->prompt = TIME_ICON_CreateNode(msg->taskList, msg->window, 15, 16, work->heapId);
@@ -280,7 +280,7 @@ void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageI
     struct Strbuf *text;
     struct Strbuf *expanded;
 
-    text = func_02045EC0(work->msgBank, messageId);
+    text = MSGDATA_AllocString(work->msgBank, messageId);
     if (msg->wordSet != 0) {
         expanded = STRBUF_Create(0x100, work->heapId);
         WORDSET_CopyTaggedText(msg->wordSet, expanded, text);
@@ -299,7 +299,7 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
     struct Strbuf *text;
     struct Strbuf *expanded;
 
-    text = func_02045EC0(work->msgBank, messageId);
+    text = MSGDATA_AllocString(work->msgBank, messageId);
     if (msg->wordSet != 0) {
         expanded = STRBUF_Create(0x100, work->heapId);
         WORDSET_CopyTaggedText(msg->wordSet, expanded, text);
@@ -374,7 +374,7 @@ void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
     window = msg->window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(BMP_WIN_GetBgLayer(window));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
 }
 
 void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused) { BMP_MENUWORK_LoadCharAndPltt(0, 1, 12, 0, work->heapId); }

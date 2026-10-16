@@ -14,9 +14,9 @@
  * Split from field_msgbg.c at 0x0218E018: field_camera.c __FILE__ anchor; the functions before it are called only from field_g3d_mapper.c.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   VEC_Add  0x0207C9D0  arm
@@ -39,7 +39,7 @@
  *   func_02048AFC  0x02048AFC  arm
  *   gFieldCameraUpdateModeFuncs  0x021D3E44  data  ov021  a4
  *   VEC_Mag  0x0207CBD0  arm
- *   func_0207CFB8  0x0207CFB8  arm
+ *   FX_Atan2Idx  0x0207CFB8  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_DotProduct  0x0207CA68  arm
  *   gFieldCameraUpVec     0x021D3E2C  data   ov021  a4
@@ -79,9 +79,9 @@ typedef struct { s16 x, y, z; } VecS16;
 typedef void (*FieldCameraEnterFunc)(FieldCamera *camera);
 
 extern u32 MI_CpuFill8(void *, int, u32);
-extern void *func_02030734(u16, u32, u32, const void *, u32);
-extern u32 func_020307B0(void *);
-extern void *func_020490F4(u32, u32);
+extern void *GFL_HEAP_Alloc(u16, u32, u32, const void *, u32);
+extern u32 GFL_HEAP_Free(void *);
+extern void *ARC_TOOL_CreateHandle(u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void VEC_Add(VecFx32 *, VecFx32 *, VecFx32 *);
 extern int func_02048B78(struct G3dCamera *camera);
@@ -97,7 +97,7 @@ extern void VEC_MultAdd(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
 extern void func_02048B44(struct G3dCamera *camera, const VecFx32 *in);
 extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *in);
 extern int VEC_Mag(void *a);
-extern int func_0207CFB8(int a, int b);
+extern int FX_Atan2Idx(int a, int b);
 extern void VEC_Subtract(VecFx32 *, VecFx32 *, VecFx32 *);
 extern int VEC_DotProduct(VecFx32 *a, VecFx32 *b);
 extern void func_02048B60(struct G3dCamera *camera, const u32 *in);
@@ -224,7 +224,7 @@ extern VecFx32 gFieldCameraRingRefVec;
 FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId)
 {
     int fovSin;
-    FieldCamera *camera = func_02030734(heapId, 0x1b0, 1, gFieldCameraFileName, 0x80);
+    FieldCamera *camera = GFL_HEAP_Alloc(heapId, 0x1b0, 1, gFieldCameraFileName, 0x80);
 
     camera->settingId = settingId;
     camera->mode = mode;
@@ -251,8 +251,8 @@ FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dC
         func_02048B88(g3dCamera, (unsigned int *)(&fovSin));
         camera->fov = FX_AcosIdx(fovSin);
     }
-    camera->settingArc = func_020490F4(0x3c, camera->heapId);
-    camera->areaArc = func_020490F4(0x6c, camera->heapId);
+    camera->settingArc = ARC_TOOL_CreateHandle(0x3c, camera->heapId);
+    camera->areaArc = ARC_TOOL_CreateHandle(0x6c, camera->heapId);
     camera->areaId = 0xffff;
     FIELD_CAMERA_LoadSetting(camera, targetSrc);
     FIELD_CAMERA_CreateDelay(7, 6, 2, heapId, camera);
@@ -265,7 +265,7 @@ void FIELD_CAMERA_Delete(FieldCamera *camera)
     ARC_TOOL_DeleteHandle(camera->settingArc);
     ARC_TOOL_DeleteHandle(camera->areaArc);
     FIELD_CAMERA_DeleteDelay(camera);
-    func_020307B0(camera);
+    GFL_HEAP_Free(camera);
 }
 
 /* Per frame: runs the move callback, then the update of the current mode. */
@@ -535,8 +535,8 @@ void FIELD_CAMERA_CalcAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance)
     flat.x = unit.x;
     flat.y = 0;
     flat.z = unit.z;
-    angles[1] = func_0207CFB8(unit.y, VEC_Mag(&flat));
-    angles[0] = func_0207CFB8(unit.x, unit.z);
+    angles[1] = FX_Atan2Idx(unit.y, VEC_Mag(&flat));
+    angles[0] = FX_Atan2Idx(unit.x, unit.z);
     FIELD_CAMERA_RefineAngles(&unit, angles[0], angles[1], angles, &angles[1]);
     *pitch = angles[1];
     *yaw = angles[0];
@@ -606,7 +606,7 @@ void FIELD_CAMERA_UpdateViewAngles(FieldCamera *camera, VecFx32 *targetPos, VecF
 
     VEC_Subtract(eyePos, targetPos, &dir);
     VEC_Normalize(&dir, &dir);
-    camera->viewYaw = func_0207CFB8(dir.x, dir.z);
+    camera->viewYaw = FX_Atan2Idx(dir.x, dir.z);
     up = gFieldCameraUpVec;
     upDot = VEC_DotProduct(&up, &dir);
     flat = dir;
@@ -615,7 +615,7 @@ void FIELD_CAMERA_UpdateViewAngles(FieldCamera *camera, VecFx32 *targetPos, VecF
     VEC_Normalize(&flat, &flat);
     flatDot = VEC_DotProduct(&flat, &dir);
     if (flatDot != 0) {
-        pitch = func_0207CFB8(upDot, flatDot);
+        pitch = FX_Atan2Idx(upDot, flatDot);
     }
     camera->viewPitch = pitch;
 }
@@ -931,9 +931,9 @@ void FIELD_CAMERA_CreateDelay(int count, u32 delayFrames, u32 flags, u32 heapId,
 {
     if (camera->traceTarget != 0) {
         int i = 0;
-        FieldCameraDelay *delay = func_02030734(heapId, sizeof(FieldCameraDelay), 0, gFieldCameraFileName, 0x6aa);
-        delay->targetLog = func_02030734(heapId, count * sizeof(VecFx32), 0, gFieldCameraFileName, 0x6ab);
-        delay->eyeLog = func_02030734(heapId, count * sizeof(VecFx32), 0, gFieldCameraFileName, 0x6ac);
+        FieldCameraDelay *delay = GFL_HEAP_Alloc(heapId, sizeof(FieldCameraDelay), 0, gFieldCameraFileName, 0x6aa);
+        delay->targetLog = GFL_HEAP_Alloc(heapId, count * sizeof(VecFx32), 0, gFieldCameraFileName, 0x6ab);
+        delay->eyeLog = GFL_HEAP_Alloc(heapId, count * sizeof(VecFx32), 0, gFieldCameraFileName, 0x6ac);
         for (; i < count; i++) {
             VecFx32 *entry = &delay->targetLog[i];
             entry->x = 0;
@@ -967,9 +967,9 @@ void FIELD_CAMERA_CreateDelay(int count, u32 delayFrames, u32 flags, u32 heapId,
 void FIELD_CAMERA_DeleteDelay(FieldCamera *camera)
 {
     if (camera->delay != 0) {
-        func_020307B0(camera->delay->targetLog);
-        func_020307B0(camera->delay->eyeLog);
-        func_020307B0(camera->delay);
+        GFL_HEAP_Free(camera->delay->targetLog);
+        GFL_HEAP_Free(camera->delay->eyeLog);
+        GFL_HEAP_Free(camera->delay);
         camera->delay = 0;
     }
 }
@@ -1087,7 +1087,7 @@ void FIELD_CAMERA_LoadAreas(FieldCamera *camera, u32 areaId, u32 heapId)
     if (camera->areaId != areaId) {
         set = ARC_UTIL_LoadHandleMember(camera->areaArc, areaId, 0, (u16)((heapId & 0x7fff) | 0x8000));
         FIELD_CAMERA_CopyAreas(camera, set);
-        func_020307B0(set);
+        GFL_HEAP_Free(set);
         camera->areaId = areaId;
     }
 }

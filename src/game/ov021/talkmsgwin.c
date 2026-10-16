@@ -14,9 +14,9 @@
  * Split from field_wfbc.c at 0x02194670 (lane CL120, __FILE__ anchors).
  *
  * symbols:
- *   func_0207C768  0x0207C768  arm
- *   func_02030734  0x02030734  arm  arm9
- *   func_020307B0  0x020307B0  arm
+ *   FX_Div  0x0207C768  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   TCBL_Create  0x0203101C  arm
  *   sTalkMsgWinFileName     0x021DDAC4  data  a4
  *   d_020A8140     0x020A8140  data  a4
@@ -48,14 +48,14 @@
  *   func_02048B20  0x02048B20  arm
  *   func_02048B44  0x02048B44  arm
  *   func_02048B60  0x02048B60  arm
- *   func_02048AD0  0x02048AD0  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   G3i_LookAt_  0x0207D7C4  arm
  *   func_02048AE8  0x02048AE8  arm
  *   func_02048B0C  0x02048B0C  arm
  *   func_02048B30  0x02048B30  arm
  *   func_02048B54  0x02048B54  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   func_02049624  0x02049624  arm
  *   func_0207F7A0  0x0207F7A0  arm
  *   DC_FlushRange  0x020862F0  arm
@@ -63,7 +63,7 @@
  *   func_0207F9B4  0x0207F9B4  arm
  *   func_0207FA0C  0x0207FA0C  arm
  *   func_0207FA40  0x0207FA40  arm
- *   func_0207FADC  0x0207FADC  arm
+ *   GX_EndLoadTexPltt  0x0207FADC  arm
  *   sTalkMsgWinTexture     0x021DDA84  data  a4
  *   sTalkMsgWinPalette     0x021DDAA4  data  a4
  *   BG_SYS_SetTileEntry  0x02041300  arm
@@ -87,9 +87,9 @@
 #define reg_G3_BEGIN_VTXS      (*(volatile u32 *)0x04000500)
 #define reg_G3_END_VTXS        (*(volatile u32 *)0x04000504)
 
-extern s32 func_0207C768(s32 numerator, s32 denominator);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020307B0(void *p);
+extern s32 FX_Div(s32 numerator, s32 denominator);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void GFL_HEAP_Free(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void TCBL_Main(struct Tcbl *tcbl);
 extern void NNS_G3dGeFlushBuffer(void);
@@ -117,14 +117,14 @@ extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *eye);
 extern void func_02048B20(struct G3dCamera *camera, const VecFx32 *vec);
 extern void func_02048B44(struct G3dCamera *camera, const VecFx32 *vec);
 extern void func_02048B60(struct G3dCamera *camera, const s32 *scale);
-extern void func_02048AD0(struct G3dCamera *camera);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int a, int b);
 extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B54(struct G3dCamera *camera, s32 *out);
 extern void BG_SYS_ClearSlot(u32 bgLayer);
-extern void func_02049B40(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u16 heapId);
 extern u32 func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u16 heapId);
 extern void func_0207F7A0(void);
 extern void DC_FlushRange(void *p, u32 size);
@@ -132,7 +132,7 @@ extern void func_0207F7FC(void *src, u32 offset, u32 size);
 extern void func_0207F9B4(void);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(void *src, u32 offset, u32 size);
-extern void func_0207FADC(void);
+extern void GX_EndLoadTexPltt(void);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
 extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
 extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
@@ -209,7 +209,7 @@ TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param)
     TalkMsgWinSys *sys;
     int i;
 
-    sys = func_02030734(param->heapId, sizeof(TalkMsgWinSys), 1, sTalkMsgWinFileName, 0xec);
+    sys = GFL_HEAP_Alloc(param->heapId, sizeof(TalkMsgWinSys), 1, sTalkMsgWinFileName, 0xec);
     sys->param = *param;
     sys->tcbl = TCBL_Create(param->heapId, param->heapId, TALKMSGWIN_MAX, 0x20);
     for (i = 0; i < TALKMSGWIN_MAX; i++)
@@ -269,7 +269,7 @@ void TALKMSGWIN_Delete(TalkMsgWinSys *sys)
     d_020A814C(sys->plttKey);
     d_020A8144(sys->texKey);
     TCBL_Destroy(sys->tcbl);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 /* Plain text window: no balloon polygon, frame only. */
@@ -945,16 +945,16 @@ void TALKMSGWIN_BuildShape(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *t
     win->shape.tip.x = 0;
     win->shape.tip.y = 0;
     win->shape.tip.z = 0;
-    setVec16(&win->shape.tailBaseA, func_0207C768(offsetA.x, maxDist), func_0207C768(offsetA.y, maxDist), func_0207C768(offsetA.z, maxDist));
-    setVec16(&win->shape.tailBaseB, func_0207C768(offsetB.x, maxDist), func_0207C768(offsetB.y, maxDist), func_0207C768(offsetB.z, maxDist));
-    setVec16(&win->shape.cornerTopLeft, func_0207C768(offsetTopLeft.x, maxDist), func_0207C768(offsetTopLeft.y, maxDist),
-             func_0207C768(offsetTopLeft.z, maxDist));
-    setVec16(&win->shape.cornerTopRight, func_0207C768(offsetTopRight.x, maxDist), func_0207C768(offsetTopRight.y, maxDist),
-             func_0207C768(offsetTopRight.z, maxDist));
-    setVec16(&win->shape.cornerBottomLeft, func_0207C768(offsetBottomLeft.x, maxDist),
-             func_0207C768(offsetBottomLeft.y, maxDist), func_0207C768(offsetBottomLeft.z, maxDist));
-    setVec16(&win->shape.cornerBottomRight, func_0207C768(offsetBottomRight.x, maxDist),
-             func_0207C768(offsetBottomRight.y, maxDist), func_0207C768(offsetBottomRight.z, maxDist));
+    setVec16(&win->shape.tailBaseA, FX_Div(offsetA.x, maxDist), FX_Div(offsetA.y, maxDist), FX_Div(offsetA.z, maxDist));
+    setVec16(&win->shape.tailBaseB, FX_Div(offsetB.x, maxDist), FX_Div(offsetB.y, maxDist), FX_Div(offsetB.z, maxDist));
+    setVec16(&win->shape.cornerTopLeft, FX_Div(offsetTopLeft.x, maxDist), FX_Div(offsetTopLeft.y, maxDist),
+             FX_Div(offsetTopLeft.z, maxDist));
+    setVec16(&win->shape.cornerTopRight, FX_Div(offsetTopRight.x, maxDist), FX_Div(offsetTopRight.y, maxDist),
+             FX_Div(offsetTopRight.z, maxDist));
+    setVec16(&win->shape.cornerBottomLeft, FX_Div(offsetBottomLeft.x, maxDist),
+             FX_Div(offsetBottomLeft.y, maxDist), FX_Div(offsetBottomLeft.z, maxDist));
+    setVec16(&win->shape.cornerBottomRight, FX_Div(offsetBottomRight.x, maxDist),
+             FX_Div(offsetBottomRight.y, maxDist), FX_Div(offsetBottomRight.z, maxDist));
 }
 
 /* Recomputes the balloon polygon of a window. Returns 1 when the tail side changed. */
@@ -1019,7 +1019,7 @@ void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject)
         func_02048B20(sys->param.camera, &up);
         func_02048B44(sys->param.camera, &target);
         func_02048B60(sys->param.camera, &scale);
-        func_02048AD0(sys->param.camera);
+        G3D_CAMERA_Reset(sys->param.camera);
         return;
     }
     G3i_LookAt_(&eye, &up, &target, 1, 0);
@@ -1041,7 +1041,7 @@ void TALKMSGWIN_RestoreCamera(TalkMsgWinSys *sys)
     func_02048B20(sys->param.camera, &sys->savedUp);
     func_02048B44(sys->param.camera, &sys->savedTarget);
     func_02048B60(sys->param.camera, &sys->savedScale);
-    func_02048AD0(sys->param.camera);
+    G3D_CAMERA_Reset(sys->param.camera);
 }
 
 /* Loads the frame palette and tiles (archive 5, files 0 and 5). Returns the tile data size. */
@@ -1064,7 +1064,7 @@ u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param)
         screenSelect = 4;
         break;
     }
-    func_02049B40(5, 0, screenSelect, param->framePalette << 5, 0x20, param->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, param->framePalette << 5, 0x20, param->heapId);
     return func_02049624(5, 5, param->bgLayer, param->frameBaseTile, 0, 0, param->heapId);
 }
 
@@ -1078,7 +1078,7 @@ void TALKMSGWIN_UploadTexture(TalkMsgWinSys *sys)
     func_0207FA0C();
     DC_FlushRange(sTalkMsgWinPalette, 0x20);
     func_0207FA40(sTalkMsgWinPalette, (u16)sys->plttKey << 3, 0x20);
-    func_0207FADC();
+    GX_EndLoadTexPltt();
 }
 
 /* Reloads the frame palette and tiles; same as TALKMSGWIN_LoadFrameGraphics without the result. */
@@ -1103,7 +1103,7 @@ void TALKMSGWIN_ReloadFrameGraphics(TalkMsgWinSys *sys)
         screenSelect = 4;
         break;
     }
-    func_02049B40(5, 0, screenSelect, (u32)sys->param.framePalette << 5, 0x20, sys->param.heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, (u32)sys->param.framePalette << 5, 0x20, sys->param.heapId);
     func_02049624(5, 5, sys->param.bgLayer, sys->param.frameBaseTile, 0, 0, sys->param.heapId);
 }
 

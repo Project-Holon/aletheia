@@ -31,7 +31,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
  *   FADE_Start  0x0204E720  arm
@@ -39,8 +39,8 @@
  *   ENCEFF_GetEffect 0x021CF51C thumb ov021
  *   G3X_SetClearColor 0x0207DD24 arm
  *   ENCEFF_DrawScreenTexEffect 0x021F52D8 thumb ov075
- *   func_0207AF1C 0x0207AF1C thumb
- *   func_0207AF38 0x0207AF38 thumb
+ *   MTX_RotY33_ 0x0207AF1C thumb
+ *   MTX_RotZ33_ 0x0207AF38 thumb
  *   func_0207D934 0x0207D934 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021F5A58 0x021F5A58 data a4
@@ -50,15 +50,15 @@
 #include "enceff_g3_inline.h"
 
 struct Desc;
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
 extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
 extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int clearImage);
 extern void ENCEFF_DrawScreenTexEffect(struct GameEvent *effect);
-extern void func_0207AF1C(Mtx33 *mtx, int sinValue, int cosValue);
-extern void func_0207AF38(Mtx33 *mtx, int sinValue, int cosValue);
+extern void MTX_RotY33_(Mtx33 *mtx, int sinValue, int cosValue);
+extern void MTX_RotZ33_(Mtx33 *mtx, int sinValue, int cosValue);
 extern void func_0207D934(const Mtx33 *mtx);
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
 int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state);
@@ -87,7 +87,7 @@ void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int u
     int row;
 
     work = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffGridWork), 0x50);
-    event = func_020122C0(gameSystem, 0, ENCEFF_CellGridEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_CellGridEventMain, 0);
     cellWidth = param->cellWidth;
     cellHeight = param->cellHeight;
     pixelWidth = cellWidth * 8;
@@ -230,10 +230,10 @@ void ENCEFF_DrawCellGrid(EncEffGridWork *work)
             G3_Translate(pos.x, pos.y, pos.z);
             G3_Scale(scale.x, scale.y, scale.z);
             angleIndex = cell->angleY >> 4;
-            func_0207AF1C(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
+            MTX_RotY33_(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
             func_0207D934(&mtx);
             angleIndex = cell->angleZ >> 4;
-            func_0207AF38(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
+            MTX_RotZ33_(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
             func_0207D934(&mtx);
             REG_BEGIN_VTXS = 1;
             REG_NORMAL = 0x20000000;

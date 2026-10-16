@@ -29,6 +29,7 @@
  *   FS_SeekFile  0x02078B44  arm  arm9
  *   FS_WriteFile  0x02078BC4  arm  arm9
  *   FS_CreateFileFromMemory  0x0207A940  arm  arm9
+ *   OS_ReceiveMessage  0x02085E50  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -104,7 +105,7 @@ extern void OS_InitMessageQueue(void *, void **, int);
 extern void OS_CreateThread(void *, void (*)(void *), void *, void *, u32, u32);
 extern void OS_WakeupThreadDirect(void *);
 extern BOOL OS_SendMessage(void *, void *, int);
-extern BOOL func_02085E50(void *queue, void *msg, s32 flags);
+extern BOOL OS_ReceiveMessage(void *queue, void *msg, s32 flags);
 extern BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
 extern void FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
@@ -173,7 +174,7 @@ void DSPi_FileIOProc(void *arg)
             if (index < 8) {
                 break;
             }
-            func_02085E50(p->queue, msg, 1);
+            OS_ReceiveMessage(p->queue, msg, 1);
         }
         p->pending &= ~(1 << index);
         OS_RestoreInterrupts(state);

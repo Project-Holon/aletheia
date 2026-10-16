@@ -34,7 +34,7 @@
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
@@ -66,7 +66,7 @@ extern void FLD_EXP_OBJ_RemoveUnit(u8 *expObj, u16 unit);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
 extern void  FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, int animeIdx, int enabled);
-extern struct GameEvent *func_020122C0(void *owner, void *a, void *eventFunc, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *eventFunc, u32 size);
 extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *FIELDMAP_GetCamera(void *fieldMap);
 extern u32 FIELD_CAMERA_GetTraceTarget(u8 *camera);
@@ -151,7 +151,7 @@ void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending)
         step = 0x2000;
     }
     work->stepY = step;
-    func_020122C0(gameSystem, 0, FIELD_GIMMICK_LIFT_LiftEventMain, 0);
+    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_LIFT_LiftEventMain, 0);
 }
 
 

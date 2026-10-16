@@ -16,7 +16,7 @@
  * shape follows ov073's ENCEFF_NameCutInEventMain.
  *
  * symbols:
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   G3i_PerspectiveW_  0x0207D704  arm
@@ -31,16 +31,16 @@
  *   GX_GetBankForTex  0x02080C44  arm
  *   GX_DisableBankForLCDC  0x02080B98  arm
  *   func_02080294  0x02080294  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   func_0208068C 0x0208068C arm
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GX_SetBankForLCDC 0x0208068C arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  */
 #include "../ov021/fieldmap_types.h"
@@ -54,7 +54,7 @@
  */
 typedef enum { BANK_NONE, BANK_A = 1, BANK_B = 2, BANK_C = 4 } Bank;
 
-extern struct GameEvent *func_020122C0(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void G3i_PerspectiveW_(int a, int b, int c, int d, int e, int f, int g, int h);
@@ -68,15 +68,15 @@ extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
 extern u16 GX_GetBankForTex(void);
 extern void GX_DisableBankForLCDC(void);
 extern void func_02080294(u32 bank);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void *ENCEFF_GetWork(struct EncEff *eff);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
 extern int FADE_IsActive(void);
-extern void func_0208068C(int);
-extern void *func_020056A0(u32, u32, u32);
-extern void func_02030EAC(void *task);
+extern void GX_SetBankForLCDC(int);
+extern void *GFL_USE_AddMainTask(u32, u32, u32);
+extern void TCB_DeleteTask(void *task);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
@@ -100,7 +100,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem
     struct GameEvent *event;
     EncEffScreenTexWork *work;
 
-    event = func_020122C0(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexFlashEventMain, 48);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexFlashEventMain, 48);
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, 48);
     work->cameraPos = *cameraPos;
@@ -116,7 +116,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, Vec
     struct GameEvent *event;
     EncEffScreenTexWork *work;
 
-    event = func_020122C0(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexEventMain, 0x30);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexEventMain, 0x30);
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, 0x30);
     work->cameraPos = *cameraPos;
@@ -213,8 +213,8 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
         }
         break;
     case 5:
-        func_02040588(2, 1);
-        func_02040588(0, 1);
+        BG_SYS_SetPlaneVisible(2, 1);
+        BG_SYS_SetPlaneVisible(0, 1);
         FIELDMAP_SetDrawMode(fieldMap, 2);
         child = work->start(gameSystem);
         work->effectWork = ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap));
@@ -237,8 +237,8 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
 void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work)
 {
     work->captureDone = 0;
-    func_0208068C(8);
-    func_020056A0((u32)ENCEFF_ScreenCaptureTask, (u32)&work->captureDone, 0);
+    GX_SetBankForLCDC(8);
+    GFL_USE_AddMainTask((u32)ENCEFF_ScreenCaptureTask, (u32)&work->captureDone, 0);
 }
 
 
@@ -246,7 +246,7 @@ void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work)
 void ENCEFF_ScreenCaptureTask(void *task, int *captureDone)
 {
     REG_DISPCAPCNT = 0x81330010;
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
     if (captureDone)
         *captureDone = 1;
 }
@@ -299,8 +299,8 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
         }
         break;
     case 2:
-        func_02040588(2, 1);
-        func_02040588(0, 1);
+        BG_SYS_SetPlaneVisible(2, 1);
+        BG_SYS_SetPlaneVisible(0, 1);
         FIELDMAP_SetDrawMode(fieldMap, 2);
         child = work->start(gameSystem);
         work->effectWork = ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap));

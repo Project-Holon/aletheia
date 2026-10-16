@@ -15,14 +15,14 @@
  * function); 0x021AB768..0x021AB7C0 dispatch the callback tables only for 0x021AB660.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFldSceneAreaFileName  0x021DDFC8  data  a4
  */
 #include "fld_scenearea_types.h"
 
-extern u32 func_020307B0(void *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern char gFldSceneAreaFileName[];
 
 FldSceneArea *FLD_SCENEAREA_Create(int heapId, void *camera, void *fieldMap);
@@ -41,7 +41,7 @@ void FLD_SCENEAREA_RunAction(const FldSceneAreaCallbacks *callbacks, int actionI
 /* 0x021DDFC8 is the "fld_scenearea.c" file-name string; 0x51 is its line. */
 FldSceneArea *FLD_SCENEAREA_Create(int heapId, void *camera, void *fieldMap)
 {
-    FldSceneArea *sceneArea = func_02030734((u16)heapId, sizeof(FldSceneArea), 1, gFldSceneAreaFileName, 0x51);
+    FldSceneArea *sceneArea = GFL_HEAP_Alloc((u16)heapId, sizeof(FldSceneArea), 1, gFldSceneAreaFileName, 0x51);
     sceneArea->camera = camera;
     sceneArea->fieldMap = fieldMap;
     sceneArea->current = FLD_SCENEAREA_NO_AREA;
@@ -52,7 +52,7 @@ FldSceneArea *FLD_SCENEAREA_Create(int heapId, void *camera, void *fieldMap)
 void FLD_SCENEAREA_Delete(FldSceneArea *sceneArea)
 {
     FLD_SCENEAREA_ClearData(sceneArea);
-    func_020307B0(sceneArea);
+    GFL_HEAP_Free(sceneArea);
 }
 
 /* Installs a record array (count entries) and the check and action tables. */

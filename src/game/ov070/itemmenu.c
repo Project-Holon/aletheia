@@ -14,7 +14,7 @@
  *
  * symbols:
  *   KEY_SetRepeatSpeed 0x02036270 arm
- *   func_020355C4 0x020355C4 arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   ITEMMENU_DrawMoveInfo 0x021B9850 thumb ov070
  *   ITEMMENU_HideMoveInfo 0x021B9AAC thumb ov070
  *   ITEMMENU_PrintItemList 0x021BA218 thumb ov070
@@ -87,12 +87,12 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   sQuantityTouchRects     0x021BB960  data  a1
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MYITEM_SAVEDATA_CopyPocket   0x02007CC8  thumb
  *   FILE_UTIL_Create_0F14  0x02020F14  thumb
  *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
  *   FILE_UTIL_Get_1014  0x02021014  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MATH_QSort     0x02081BE4  arm
  *   sHeapSiteName     0x021BBBC0  data  ov070  a1
@@ -109,7 +109,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   TCBL_Main  0x020310C4  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -125,12 +125,12 @@
  *   BUTTON_MAN_Delete  0x02051C6C  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   BLINK_PALANM_Create  0x0202E940  thumb
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   BLINK_PALANM_LoadPalettes  0x0202E9AC  thumb
- *   func_0202EA20 0x0202EA20 thumb
+ *   BLINK_PALANM_Delete 0x0202EA20 thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -144,7 +144,7 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   sBgLayer0Template     0x021BBB40  data  a4
  *   sBgLayer1Template     0x021BBB60  data  a4
@@ -155,7 +155,7 @@
  *   sBgLayer6Template     0x021BBB00  data  a4
  *   func_02008550  0x02008550  thumb
  *   func_02049B68  0x02049B68  arm
- *   func_02049740  0x02049740  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   func_02049990  0x02049990  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -196,7 +196,7 @@
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_0207E780  0x0207E780  arm
+ *   GX_LoadOBJ  0x0207E780  arm
  *   COMM_HISTORY_ScaleSpan  0x0202EE0C  thumb
  *   sSideButtonAnimSeqs     0x021BBAA8  data  ov070  a1
  *   sSideButtonXPositions     0x021BBA6C  data  a1
@@ -223,12 +223,12 @@
  *   KEY_GetCont  0x0203630C  arm
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   WORDSET_SetSlotFromMsg37  0x0201F14C  thumb
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BEACON_GetPoints 0x0200C274 thumb
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   BG_SYS_DrawTile  0x02041090  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_020056BC  0x020056BC  thumb
  *   PALANM_RequestFade  0x0202173C  thumb
@@ -270,6 +270,9 @@
  *   APP_ICON_GetMoveKindPaletteOffset  0x02027604  thumb  arm9
  *   APP_ICON_GetMoveKindCellFileId  0x02027610  thumb  arm9
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
+ *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm  arm9
  */
 
 #include "itemmenu_types.h"
@@ -457,7 +460,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
 extern unsigned int FILE_UTIL_Check136C(u16 v);
@@ -485,12 +488,12 @@ extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 extern int TOUCHPANEL_HitCont(const void *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
 extern void *FILE_UTIL_Create_0F14(u32 a);
 extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
 extern u32 FILE_UTIL_Get_1014(struct ItemData *p, u32 sel);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(SortEntry *, SortEntry *), void *buf);
 extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *p);
@@ -503,7 +506,7 @@ extern void CLACT_VBlankSystem();
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_02030EAC(struct TcblTask *n);
+extern void TCB_DeleteTask(struct TcblTask *n);
 extern void func_02008298(struct BagCursor *p, u16 v);
 extern void func_02008288(struct BagCursor *p, int i, s16 a, s16 b);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *s);
@@ -522,12 +525,12 @@ extern void BUTTON_MAN_Delete(struct ButtonTask *task);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
-extern void func_020315D4(struct Proc *a);
+extern void PROCSYS_FreeProcWork(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(unsigned int a);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *p, u8 *a1, u32 a2, u32 a3, u32 a4);
-extern u32 func_0202EA20(struct BlinkPalAnm *p);
+extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *p);
 extern void CLACT_SetActorAnimFrame(struct Actor *p, u32 value);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern int TOUCHPANEL_HitTrg(const void *p);
@@ -540,11 +543,11 @@ extern int GAME_DATA_GetIntrudeCount(const struct GameData *p);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(int bg);
 extern void BG_SYS_PushTile(u32 layer);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -560,7 +563,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -605,7 +608,7 @@ extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
-extern void func_0207E780(void *, void *, u32);
+extern void GX_LoadOBJ(void *, void *, u32);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 COMM_HISTORY_ScaleSpan(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned);
@@ -626,12 +629,12 @@ extern void PRINTSYS_PrintStreamReleasePause(struct TextStream *stream);
 extern unsigned int KEY_GetCont(void);
 extern void PRINTSYS_PrintStreamShortWait(struct TextStream *p, s32 v);
 extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
-extern u32 func_0201D304(struct Strbuf *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, u32 a, u32 b);
 extern u32 BEACON_GetPoints(struct MiscSave *);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern void BG_SYS_DrawTile(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern u32 func_020056BC(void);
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, FadeStep step, u8 b, u8 c, u16 d, u32 ctx);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
@@ -643,13 +646,13 @@ extern void KEY_GetRepeatSpeed();
 extern void func_0200816C();
 extern int func_02008284(struct BagCursor *p);
 extern void func_02008270(struct BagCursor *p, int i, s16 *a, s16 *b);
-extern void *func_02045B38();
+extern void *MSGDATA_CreateFromArchive();
 extern void *WORDSET_CreateDefault();
 extern void *PRINTSYS_QUE_CreateEx();
 extern struct KeyCursor *APP_KEYCURSOR_CreateDefault();
 extern int GF_FONT_Create();
 extern struct ButtonTask *BUTTON_MAN_Create();
-extern struct TcblTask *func_020056A0();
+extern struct TcblTask *GFL_USE_AddMainTask();
 extern struct Tcbl *TCBL_Create();
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create();
 extern void GFL_NET_RestartWithDefaultTimeout();
@@ -878,7 +881,7 @@ void ITEMMENU_ForceRedrawList(ItemMenuWork *work)
 
 void ITEMMENU_RedrawList(ItemMenuWork *work)
 {
-    if (func_020355C4() == 0)
+    if (UI_GetInputMode() == 0)
         ITEMMENU_DrawMoveInfo(work);
     else
         ITEMMENU_HideMoveInfo(work);
@@ -1570,9 +1573,9 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
             }
             break;
         case 8:
-            if (func_020355C4() == 1)
+            if (UI_GetInputMode() == 1)
                 ITEMMENU_HideMoveInfo(work);
-            ITEMMENU_SetCursorActive(work, func_020355C4() == 0);
+            ITEMMENU_SetCursorActive(work, UI_GetInputMode() == 0);
             ITEMMENU_UpdateSideButtons(work, 1);
             CLACT_SetActorAutoAnim(work->cursorActor, 1);
             ITEMMENU_ReturnToBagMain(work);
@@ -1674,7 +1677,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
     }
     if (work->isTouchActive == 1)
         return;
-    if (func_020355C4() == 1) {
+    if (UI_GetInputMode() == 1) {
         keys = KEY_GetTrg();
         if (keys == 0)
             return;
@@ -1716,7 +1719,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
         } else {
             ITEMMENU_TogglePocketSortFlag(work);
         }
-        if (func_020355C4() != 1)
+        if (UI_GetInputMode() != 1)
             return;
         ITEMMENU_DrawMoveInfo(work);
         ITEMMENU_SetCursorActive(work, 1);
@@ -1790,7 +1793,7 @@ void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work)
         BG_SYS_ClearSlot(3);
         CLACT_SetActorAutoAnim(work->cursorActor, 1);
         ITEMMENU_UpdateSideButtons(work, 1);
-        if (func_020355C4() == 1) {
+        if (UI_GetInputMode() == 1) {
             ITEMMENU_HideMoveInfo(work);
             ITEMMENU_SetCursorActive(work, 0);
         } else {
@@ -1909,7 +1912,7 @@ void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
         CLACT_SetActorAutoAnim(work->cursorActor, 1);
         cursorActive = 1;
         ITEMMENU_UpdateSideButtons(work, 1);
-        if (func_020355C4() != 0)
+        if (UI_GetInputMode() != 0)
             cursorActive = 0;
         ITEMMENU_SetCursorActive(work, cursorActive);
         ITEMMENU_ReturnToBagMain(work);
@@ -2106,7 +2109,7 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
         ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessageDismiss);
         break;
     case 1:
-        ITEMMENU_SetCursorActive(work, func_020355C4() == 0);
+        ITEMMENU_SetCursorActive(work, UI_GetInputMode() == 0);
         ITEMMENU_SetTask(work, ITEMMENU_TaskReturnToListFromQuantity);
         break;
     }
@@ -2303,8 +2306,8 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     u32 iconKind;
     SortEntry *entry;
 
-    ents = func_02030734(work->heapId, 0x9B0, 0, sHeapSiteName, 0xB35);
-    items = func_02030734(work->heapId, 0x4D8, 0, sHeapSiteName, 0xB36);
+    ents = GFL_HEAP_Alloc(work->heapId, 0x9B0, 0, sHeapSiteName, 0xB35);
+    items = GFL_HEAP_Alloc(work->heapId, 0x4D8, 0, sHeapSiteName, 0xB36);
     MYITEM_SAVEDATA_CopyPocket(work->bag, items, work->currentPocket, 1);
     itemCount = ITEMMENU_GetItemCount(work);
     itemArchive = (int)FILE_UTIL_Create_0F14(work->heapId);
@@ -2314,7 +2317,7 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
         iconKind = FILE_UTIL_Get_1014((struct ItemData *)itemData, 0xF);
         entry->key = (iconKind << 28) + (FILE_UTIL_Get_1014((struct ItemData *)itemData, 0x11) << 16) + items[i].itemId;
         entry->item = items[i];
-        func_020307B0((void *)itemData);
+        GFL_HEAP_Free((void *)itemData);
     }
     ARC_TOOL_DeleteHandle((void *)itemArchive);
     MATH_QSort(ents, itemCount, 8, ITEMMENU_CompareSortEntries, 0);
@@ -2322,8 +2325,8 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
         items[i] = ents[i].item;
     }
     MYITEM_SAVEDATA_CopyPocket(work->bag, items, work->currentPocket, 0);
-    func_020307B0(items);
-    func_020307B0(ents);
+    GFL_HEAP_Free(items);
+    GFL_HEAP_Free(ents);
 }
 
 
@@ -2477,7 +2480,7 @@ void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
             }
         }
         actions[3] = 8;
-        func_020307B0(itemData);
+        GFL_HEAP_Free(itemData);
     }
 }
 
@@ -2704,7 +2707,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
         if (i == work->currentPocket) { work->cursorRow = scrollPos; work->scrollOffset = cursorPos - 1; }
         func_02008288(work->bagCursor, i, scrollPos, cursorPos);
     }
-    work->msgBank = func_02045B38(0, 2, 3, work->heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 3, work->heapId);
     work->tempString = STRBUF_Create(0xc8, work->heapId);
     work->messageString = STRBUF_Create(0xc8, work->heapId);
     work->listStrings = STRBUF_Create(0x40, work->heapId);
@@ -2721,12 +2724,12 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     work->taskSys = BUTTON_MAN_Create(sButtonHitTable, ITEMMENU_HandleTouchTarget, work, work->heapId);
     ITEMMENU_CreateBlinkPalAnm(work);
     ITEMMENU_AllocPalAnmSlots(work);
-    work->unitList = func_020056A0(ITEMMENU_VBlankCallback, work, 0);
+    work->unitList = GFL_USE_AddMainTask(ITEMMENU_VBlankCallback, work, 0);
     work->touchTask = TCBL_Create(work->heapId, work->heapId, 1, 0);
     ITEMMENU_PrintPocketName(work);
     work->taskMenuState = APP_TASKMENU_RES_Create(3, 9, work->menuTaskArg, work->printSys, work->heapId);
     GFL_NET_RestartWithDefaultTimeout(1, work->heapId);
-    ITEMMENU_SetCursorActive(work, func_020355C4() ? 0 : 1);
+    ITEMMENU_SetCursorActive(work, UI_GetInputMode() ? 0 : 1);
     ITEMMENU_ResetDisplayLayers();
     ITEMMENU_SetTask(work, ITEMMENU_TaskStartFadeIn);
     return 1;
@@ -2769,7 +2772,7 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
         return 0;
     if (PRINTSYS_QUE_IsFinished(work->printSys) == 0)
         return 0;
-    func_02030EAC(work->unitList);
+    TCB_DeleteTask(work->unitList);
     func_02008298(work->bagCursor, work->currentPocket);
     func_02008288(work->bagCursor, (u16)work->currentPocket, work->cursorRow, work->scrollOffset + 1);
     APP_TASKMENU_RES_Delete(work->taskMenuState);
@@ -2799,7 +2802,7 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
     parentArgs->nextState = work->nextState;
     parentArgs->selectedItemId = work->selectedItemId;
     KEY_SetRepeatSpeed(work->keyRepeatDelay, work->keyRepeatInterval);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0xE);
     return 1;
 }
@@ -2840,7 +2843,7 @@ void ITEMMENU_CreateBlinkPalAnm(ItemMenuWork *work)
     void *archive;
     *(struct BlinkPalAnm * *)&work->blinkPalAnm =
         BLINK_PALANM_Create(0x10, 0x10, 0xFFFE, work->heapId);
-    archive = func_020490F4(0x58, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     BLINK_PALANM_LoadPalettes(*(struct BlinkPalAnm * *)&work->blinkPalAnm, archive, 0x15, 0x10, 0x20);
     ARC_TOOL_DeleteHandle(archive);
 }
@@ -2853,7 +2856,7 @@ void ITEMMENU_CreateBlinkPalAnm(ItemMenuWork *work)
 
 void ITEMMENU_DeleteBlinkPalAnm(ItemMenuWork *work)
 {
-    func_0202EA20(*(struct BlinkPalAnm * *)&work->blinkPalAnm);
+    BLINK_PALANM_Delete(*(struct BlinkPalAnm * *)&work->blinkPalAnm);
 }
 
 
@@ -3020,7 +3023,7 @@ void ITEMMENU_TaskReopenListFromQuantity(ItemMenuWork *work)
     CLACT_SetActorAutoAnim(work->cursorActor, 1);
     ITEMMENU_UpdateSideButtons(work, 1);
     flag = 1;
-    if (func_020355C4())
+    if (UI_GetInputMode())
         flag = 0;
     ITEMMENU_SetCursorActive(work, flag);
     ITEMMENU_ReturnToBagMain(work);
@@ -3040,7 +3043,7 @@ void ITEMMENU_TaskReturnFromQuantity(ItemMenuWork *work)
     CLACT_SetActorAutoAnim(work->cursorActor, 1);
     ITEMMENU_UpdateSideButtons(work, 1);
     cursorActive = 1;
-    if (func_020355C4()) {
+    if (UI_GetInputMode()) {
         cursorActive = 0;
     }
     ITEMMENU_SetCursorActive(work, cursorActive);
@@ -3197,39 +3200,39 @@ void ITEMMENU_InitDisplayBanks(void)
     BG_SYS_InitBgLayer(0, &layer0Template, 0);
     BG_SYS_FreeSlot(0);
     BG_SYS_PushTile(0);
-    func_02040588(0, 0);
+    BG_SYS_SetPlaneVisible(0, 0);
 
     layer1Template = sBgLayer1Template;
     BG_SYS_InitBgLayer(1, &layer1Template, 0);
     BG_SYS_FreeSlot(1);
     BG_SYS_PushTile(1);
-    func_02040588(1, 0);
+    BG_SYS_SetPlaneVisible(1, 0);
 
     layer2Template = sBgLayer2Template;
     BG_SYS_InitBgLayer(2, &layer2Template, 0);
     BG_SYS_FreeSlot(2);
     BG_SYS_PushTile(2);
-    func_02040588(2, 0);
+    BG_SYS_SetPlaneVisible(2, 0);
 
     layer3Template = sBgLayer3Template;
     BG_SYS_InitBgLayer(3, &layer3Template, 0);
     BG_SYS_Init(3, 0, 1, 0);
     BG_SYS_FreeSlot(3);
     BG_SYS_PushTile(3);
-    func_02040588(3, 0);
+    BG_SYS_SetPlaneVisible(3, 0);
 
     layer4Template = sBgLayer4Template;
     BG_SYS_InitBgLayer(4, &layer4Template, 0);
-    func_02040588(4, 0);
+    BG_SYS_SetPlaneVisible(4, 0);
     BG_SYS_PushTile(4);
 
     layer5Template = sBgLayer5Template;
     BG_SYS_InitBgLayer(5, &layer5Template, 0);
-    func_02040588(5, 0);
+    BG_SYS_SetPlaneVisible(5, 0);
 
     layer6Template = sBgLayer6Template;
     BG_SYS_InitBgLayer(6, &layer6Template, 0);
-    func_02040588(6, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
     BG_SYS_Init(6, 0, 1, 0);
     BG_SYS_ClearSlot(6);
 }
@@ -3242,13 +3245,13 @@ void ITEMMENU_InitDisplayBanks(void)
 
 void ITEMMENU_ResetDisplayLayers(void)
 {
-    func_02040588(0, 1);
-    func_02040588(1, 1);
-    func_02040588(2, 1);
-    func_02040588(3, 1);
-    func_02040588(4, 1);
-    func_02040588(5, 1);
-    func_02040588(6, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
 }
 
 
@@ -3270,7 +3273,7 @@ void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive)
         screenFileId = 2;
     }
     func_02049B68((void *)archive, paletteFileId, 0, 0, 0x20, work->heapId);
-    charBase = func_02049740((void *)archive, charFileId, 0, 0, 0, work->heapId);
+    charBase = ARC_UTIL_RegisterObjCharFromHandle((void *)archive, charFileId, 0, 0, 0, work->heapId);
     work->frameCounter = charBase;
     func_02049990((void *)archive, screenFileId, 0, 0, (unsigned short)charBase, 0, 0, work->heapId);
 }
@@ -3317,7 +3320,7 @@ static inline void LoadIcons(ItemMenuWork *work)
     u32 cellFileId;
     u32 i;
 
-    archive = func_020490F4(APP_ICON_GetArchiveId(), work->heapId);
+    archive = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), work->heapId);
     work->cursorCharRes2 = CLACT_RegisterPaletteEx(archive, APP_ICON_GetTouchBarFileId(), 1, 0x80, 0, 3, work->heapId);
     cellFileId = APP_ICON_GetTypePaletteFileId(2);
     work->cursorPaletteRes2 = CLACT_RegisterCellAnim(archive, cellFileId, APP_ICON_GetTypeAnimFileId(2), work->heapId);
@@ -3359,28 +3362,28 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     ITEMMENU_InitDisplayBanks();
     GF_FONT_SetDefaultTextColor();
     work->keyRepeatPacked = (u32)BMP_MENUWORK_LoadFrameGfx((void *)3, 13, 0, work->heapId);
-    archive = func_020490F4(0x58, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     func_02049B68(archive, 8, 4, 0, 0, work->heapId);
     if (func_02008550(work->myStatus) == 0)
         ARC_UTIL_UploadPaletteFromHandle(archive, 8, 4, 0x20, 0, 0x20, work->heapId);
-    charBase = func_02049740(archive, 6, 4, 0, 0, work->heapId);
+    charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 6, 4, 0, 0, work->heapId);
     work->bgPaletteA = charBase;
     func_02049990(archive, 7, 4, 0, (u16)charBase, 0, 0, work->heapId);
     ITEMMENU_LoadBagGraphics(work, (int)archive);
-    charBase = func_02049740(archive, 0x11, 5, 0, 0, work->heapId);
+    charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 0x11, 5, 0, 0, work->heapId);
     work->bgPaletteB = charBase;
     func_02049990(archive, 0x17, 5, 0, (u16)charBase, 0, 0, work->heapId);
     ITEMMENU_LoadTabGraphics(work, archive);
-    work->bgPaletteD = func_02049740(archive, 0x21, 3, 0, 0, work->heapId);
+    work->bgPaletteD = ARC_UTIL_RegisterObjCharFromHandle(archive, 0x21, 3, 0, 0, work->heapId);
     func_02049B68(archive, 0x22, 0, 0x60, 0x20, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
-    func_02049B40(0x17, 5, 0, 0x180, 0x20, work->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x180, 0x20, work->heapId);
     work->clactSys = CLACT_CreateUnit(0x34, 0, work->heapId);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
-    archive = func_020490F4(0x53, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x53, work->heapId);
     func_02049B68(archive, 0x1B, 0, 0x100, 0x20, work->heapId);
-    charBase = func_02049740(archive, 0x1C, 1, 0, 0, work->heapId);
+    charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 0x1C, 1, 0, 0, work->heapId);
     work->bgPaletteC = charBase;
     func_02049990(archive, 0x1D, 1, 0, (u16)charBase + 0x8000, 0, 0, work->heapId);
     BG_SYS_PushTile(1);
@@ -3410,7 +3413,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
         CLACT_SetActorPaletteOffset(work->typeActors[i], APP_ICON_GetTypePaletteOffset((u8)i), 1);
         CLACT_SetActorDrawEnable(work->typeActors[i], 0);
     }
-    archive = func_020490F4(0x58, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     work->cursorCharRes = CLACT_RegisterPaletteEx(archive, 0x27, 0, 0x80, 0, 2, work->heapId);
     work->cursorPaletteRes = CLACT_RegisterCharacter(archive, 0x26, 0, 0, work->heapId);
     work->cursorCellRes = CLACT_RegisterCellAnim(archive, 0x25, 0x24, work->heapId);
@@ -3456,7 +3459,7 @@ void ITEMMENU_ApplyBgPalettes(ItemMenuWork *work)
 
 
 
-void ITEMMENU_SetLayersVisible(void *p, int v) { func_02040588(5, v); func_02040588(6, v); }
+void ITEMMENU_SetLayersVisible(void *p, int v) { BG_SYS_SetPlaneVisible(5, v); BG_SYS_SetPlaneVisible(6, v); }
 
 
 
@@ -3644,7 +3647,7 @@ void ITEMMENU_InitWindows(ItemMenuWork *work)
     BMP_WIN_MakeScreen((work->listWindows[ITEMMENU_WINDOW_ITEM_PRICE].window));
     BMP_WIN_MakeScreen((work->listWindows[ITEMMENU_WINDOW_ITEM_DESC].window));
     BMP_WIN_MakeScreen((work->listWindows[ITEMMENU_WINDOW_ITEM_NAME].window));
-    bg = func_020490F4(0x19, work->heapId);
+    bg = ARC_TOOL_CreateHandle(0x19, work->heapId);
     work->cellTransRes = CLACT_RegisterCellAnim(bg, 1, 0, work->heapId);
     ARC_TOOL_DeleteHandle(bg);
     func_02045CAC(work->msgBank, 0x66, work->tempString);
@@ -3657,7 +3660,7 @@ void ITEMMENU_InitWindows(ItemMenuWork *work)
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_ITEM_NAME], work->tempString, 0x70, (TextCoord)0x18, 0x3DC0);
     func_02045CAC(work->msgBank, 0x5a, work->tempString);
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_ITEM_NAME], work->tempString, 0xd0, (TextCoord)4, 0x3DC0);
-    if (func_020355C4() == 0) {
+    if (UI_GetInputMode() == 0) {
         ITEMMENU_DrawMoveInfo(work);
     }
 }
@@ -3686,7 +3689,7 @@ void ITEMMENU_CreateMovingCursor(ItemMenuWork *work, int id)
     if (work->movingCursorActor != 0) {
         ITEMMENU_DestroyMovingCursor(work);
     }
-    archive = func_020490F4(0x19, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x19, work->heapId);
     work->cellRes = CLACT_RegisterPaletteEx(archive, FILE_UTIL_Get(id, 2), 1, 0, 0, 1, work->heapId);
     work->cellAnimRes = CLACT_RegisterCharacter(archive, FILE_UTIL_Get(id, 1), 0, 1, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
@@ -3729,7 +3732,7 @@ void ITEMMENU_LoadPocketGraphics(ItemMenuWork *work)
     void *archive;
     int i;
 
-    archive = func_020490F4(0x58, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     work->pocketCharRes = CLACT_RegisterPaletteEx(archive, 0x20, 0, 0x1a0, 0, 1, work->heapId);
     work->pocketPaletteRes = CLACT_RegisterCharacter(archive, 0x1f, 0, 0, work->heapId);
     work->pocketCellRes = CLACT_RegisterCellAnim(archive, 0x1e, 0x1d, work->heapId);
@@ -3897,7 +3900,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
         } else {
             work->slotAnimIndex[i] = 1;
         }
-        func_020307B0((void *)itemData);
+        GFL_HEAP_Free((void *)itemData);
     }
     ARC_TOOL_DeleteHandle((void *)itemArchive);
     work->busyCount = 1;
@@ -3919,7 +3922,7 @@ void ITEMMENU_SnapSelectorToCursor(ItemMenuWork *work)
     CLACT_GetActorSurfacePos(work->selectorActor, &surfacePos, 0xFFFF);
     surfacePos.y = (work->cursorRow + 1) * 0x18;
     CLACT_AddActorSurfacePos(work->selectorActor, &surfacePos, 0xFFFF);
-    if (func_020355C4() == 0) {
+    if (UI_GetInputMode() == 0) {
         ITEMMENU_UpdateSlotActorPosition(work, 1);
     }
     BLINK_PALANM_ResetPhase(work->blinkPalAnm);
@@ -3950,10 +3953,10 @@ void ITEMMENU_UploadSlotGraphics(ItemMenuWork *work)
         srcChars = (u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(workBytes + i * 4 + 0x5F4), 0);
         dstPixels = BMP_GetPixels(*(void **)(workBytes + i * 4 + 0x614));
         DWCi_ScreenDC_FlushRange(dstPixels, BMP_GetByteSize(*(void **)(workBytes + i * 4 + 0x614)));
-        func_0207E780(dstPixels + 0x100, srcChars + 0x80, 0x80);
-        func_0207E780(dstPixels + 0x280, srcChars + 0x100, 0x80);
-        func_0207E780(dstPixels, srcChars + 0x300, 0x100);
-        func_0207E780(dstPixels + 0x180, srcChars + 0x400, 0x100);
+        GX_LoadOBJ(dstPixels + 0x100, srcChars + 0x80, 0x80);
+        GX_LoadOBJ(dstPixels + 0x280, srcChars + 0x100, 0x80);
+        GX_LoadOBJ(dstPixels, srcChars + 0x300, 0x100);
+        GX_LoadOBJ(dstPixels + 0x180, srcChars + 0x400, 0x100);
         if (*(u32 *)(workBytes + i * 4 + 0x654) != 0) {
             if (work->currentPocket == 4) {
                 if (ITEMMENU_IsBrowseMode(work) == 1 && *(u32 *)(workBytes + i * 4 + 0x654) != 3) {
@@ -4189,7 +4192,7 @@ void ITEMMENU_OpenPopupList(ItemMenuWork *work, int *msgIds, int entryCount)
 
 void ITEMMENU_LoadBgPaletteMode(ItemMenuWork *work, int mode)
 {
-    void *archive = func_020490F4(0x58, work->heapId);
+    void *archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
 
     if (mode != 2) {
         ARC_UTIL_UploadBgPaletteAddFromHandleExt(archive, 0x17, 5, 0, (u16)work->bgPaletteB, 0, 0, work->heapId);
@@ -4368,7 +4371,7 @@ void ITEMMENU_PrintPocketCount(ItemMenuWork *work, int itemCount)
     func_02045CAC(work->msgBank, 0x8B, work->tempString);
     WORDSET_SetSlotFromMsg37(work->wordSet, 0, itemCount);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    freeWidth = 0x60 - func_0201D304(work->messageString, work->menuTaskArg, 0);
+    freeWidth = 0x60 - GF_FONT_MeasureWidestLine(work->messageString, work->menuTaskArg, 0);
     ITEMMENU_PrintToWindow(work, &work->messageWindows[1], work->messageString, (unsigned short)(freeWidth >> 1), 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->messageWindows[1]);
 }
@@ -4460,7 +4463,7 @@ void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
     u16 *tiles;
     int tileCount;
 
-    archive = func_020490F4(0x58, work->heapId);
+    archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     screenData = (int)ARC_UTIL_LoadHandleMember(archive, 0x23, 0, work->heapId);
     i = 0;
     if (NNS_G2dGetUnpackedScreenData((void *)screenData, (void **)(&screenImage))) {
@@ -4470,9 +4473,9 @@ void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
             tiles[i] += (u16)((u16)(int)work->bgPaletteD | 0x3000);
         }
         BG_SYS_DrawTile(3, (unsigned int)screenImage->data, 0x10, 0xC, (unsigned)screenImage->width >> 3, (unsigned)screenImage->height >> 3);
-        func_02041B6C(3);
+        BG_SYS_SetFlagField06(3);
     }
-    func_020307B0((void *)screenData);
+    GFL_HEAP_Free((void *)screenData);
     ARC_TOOL_DeleteHandle(archive);
 }
 
@@ -4688,7 +4691,7 @@ void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str,
 void ITEMMENU_FlushWindowAt(ItemMenuWindow *slot)
 {
     BMP_WIN_MakeScreen(slot->window);
-    func_02041B6C(BMP_WIN_GetBgLayer(slot->window));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(slot->window));
 }
 
 

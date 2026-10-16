@@ -13,9 +13,9 @@
  * Cut from ica_anime.c, btl_setup.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8        0x02082BCC  arm
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0200873C  0x0200873C  thumb
  *   MI_CpuCopy8  0x02082D44  arm
@@ -36,7 +36,7 @@
  *   BEACON_GetFromSave   0x0200C0E8  thumb
  *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   ZONEDATA_CheckEventFlag   0x020142E8  thumb
- *   func_020076D0   0x020076D0  thumb
+ *   BOX_SAVEDATA_FindFreeSlot   0x020076D0  thumb
  *   POKEPARTY_GetCapacity   0x0201AA14  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   MYSTATUS_Create   0x0200846C  thumb
@@ -62,7 +62,7 @@
 #include "ica_anime_shared_types.h"
 #include "game_data_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 struct Regulation;
 
@@ -76,7 +76,7 @@ extern struct Config *func_0200873C(struct SaveControl *save);
 
 extern void MI_CpuFill8(void *dst, int c, u32 n);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 
@@ -118,7 +118,7 @@ extern u32  POKEPARTY_GetCount(struct Party *party);
 
 extern u32 POKEPARTY_GetCapacity(struct Party *party);
 
-extern int func_020076D0(u32 boxManager, u32 *tray, u32 *pos);
+extern int BOX_SAVEDATA_FindFreeSlot(u32 boxManager, u32 *tray, u32 *pos);
 
 extern void *MYSTATUS_Create(u16 heap);
 
@@ -230,7 +230,7 @@ void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap);
 struct BattleSetupParam *BTL_SETUP_Create(u32 heap)
 {
     struct BattleSetupParam *param;
-    param = func_02030734(heap, 0xf0, 0, sBtlSetupFileName, 0x31);
+    param = GFL_HEAP_Alloc(heap, 0xf0, 0, sBtlSetupFileName, 0x31);
     BTL_SETUP_Clear(param);
     return param;
 }
@@ -238,7 +238,7 @@ struct BattleSetupParam *BTL_SETUP_Create(u32 heap)
 void BTL_SETUP_Delete(struct BattleSetupParam *param)
 {
     BTL_SETUP_FreeSlots(param);
-    func_020307B0(param);
+    GFL_HEAP_Free(param);
 }
 
 /*
@@ -264,14 +264,14 @@ void BTL_SETUP_FreeSlots(struct BattleSetupParam *param)
     int i;
     for (i = 0; i < 4; i++) {
         if (param->party[i] != 0)
-            func_020307B0(param->party[i]);
+            GFL_HEAP_Free(param->party[i]);
         if (param->trainerData[i] != 0)
             BTL_SETUP_DeleteTrainerData(param->trainerData[i]);
         if (i != 0 && param->playerStatus[i] != 0)
-            func_020307B0(param->playerStatus[i]);
+            GFL_HEAP_Free(param->playerStatus[i]);
     }
     if (param->recordBuffer != 0)
-        func_020307B0(param->recordBuffer);
+        GFL_HEAP_Free(param->recordBuffer);
     MI_CpuFill8(param, 0, 0xf0);
 }
 
@@ -419,7 +419,7 @@ void BTL_SETUP_InitFieldSituation(struct FieldSituation *sit)
 struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap)
 {
     struct BattleTrainerData *tr;
-    tr = func_02030734(heap, 0x28, 1, sBtlSetupFileName, 0xef);
+    tr = GFL_HEAP_Alloc(heap, 0x28, 1, sBtlSetupFileName, 0xef);
     tr->name = STRBUF_Create(0x10, heap);
     tr->trainerId = 0;
     PMSI_PARAM_ClearSentence(tr->winWord);
@@ -430,7 +430,7 @@ struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap)
 void BTL_SETUP_DeleteTrainerData(struct BattleTrainerData *tr)
 {
     STRBUF_Delete(tr->name);
-    func_020307B0(tr);
+    GFL_HEAP_Free(tr);
 }
 
 /*
@@ -620,7 +620,7 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
  * first drafts declared POKEPARTY_Copy variadic; with every call written with
  * both arguments, the plain (src, dst) prototype gives the same bytes.
  *
- * (2) func_020076D0 takes THREE arguments, and its first is the return
+ * (2) BOX_SAVEDATA_FindFreeSlot takes THREE arguments, and its first is the return
  * value of the GAME_DATA_GetBoxManager call immediately above it.  The original sets
  * only r1 and r2 (`add r1, sp, #4; add r2, sp, #0`) and leaves r0 holding
  * what GAME_DATA_GetBoxManager returned.  Declaring it with two parameters puts the
@@ -669,7 +669,7 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
     box = GAME_DATA_GetBoxManager(gd);
     tray = 0;
     pos = 0;
-    if (func_020076D0(box, &tray, &pos) == 0) {
+    if (BOX_SAVEDATA_FindFreeSlot(box, &tray, &pos) == 0) {
         BTL_SETUP_SetStatusFlag(param, 0x40);
     }
 }
@@ -1046,7 +1046,7 @@ void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd
 void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *param)
 {
     if (param->config != 0) {
-        func_020307B0(param->config);
+        GFL_HEAP_Free(param->config);
         param->config = 0;
     }
     BTL_SETUP_FreeSlots(param);
@@ -1096,6 +1096,6 @@ void BTL_SETUP_ChangeToSubway(struct BattleSetupParam *param)
 void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap)
 {
     if (param->recordBuffer == 0) {
-        param->recordBuffer = func_02030734(heap, 3 << 10, 0, sBtlSetupFileName, 0x39a);
+        param->recordBuffer = GFL_HEAP_Alloc(heap, 3 << 10, 0, sBtlSetupFileName, 0x39a);
     }
 }

@@ -13,16 +13,16 @@
  * Category and kana key picker of the easy-chat input screen: the 12 category buttons, the kana key grid, the title bar and the word list that scrolls in below it.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PMS_INPUT_GetUiInputModePtr 0x021BF6D4 thumb ov110
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PMSIV_CATEGORY_Create 0x021BB290 thumb ov110
  *   PMSIV_CATEGORY_Setup 0x021BB328 thumb ov110
- *   func_020498F4 0x020498F4 arm
- *   func_02049658 0x02049658 arm
- *   func_02040588 0x02040588 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -53,14 +53,14 @@
  *   PMSIV_CATEGORY_IsFadeOutDone 0x021BB82C thumb ov110
  *   PMSIV_CATEGORY_StartSelectAnim 0x021BBB84 thumb ov110
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
- *   func_02045B38 0x02045B38 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   sPmsivCategoryAllocSite 0x021C3C44 data a1
@@ -72,7 +72,7 @@
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   PMSI_SEARCH_GetKeyCount 0x021BB1F4 thumb ov110
  *   PMSI_SEARCH_GetKeyLabel 0x021BB1F8 thumb ov110
@@ -90,7 +90,7 @@
  *   PMSIV_BGSCROLL_Step 0x021BC7DC thumb ov110
  *   PMSIV_FADE_StartBlend 0x021BC868 thumb ov110
  *   PMSIV_FADE_IsBlendDone 0x021BC898 thumb ov110
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   PMS_INPUT_SetSearchArg 0x021BF7D4 thumb ov110
  *   func_02040804 0x02040804 arm
@@ -141,24 +141,24 @@ struct PmsivCategory {
 
 typedef struct { short x, y; } ScreenPos;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int *PMS_INPUT_GetUiInputModePtr(struct PmsInputState *input);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u8 PMS_INPUT_GetBrowseMode(struct PmsInputState *input);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern void func_02041B6C(unsigned);
+extern void BG_SYS_SetFlagField06(unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_FillScrollArea(u32, u32, u32);
@@ -168,7 +168,7 @@ extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 extern u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *wordData, int category);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_Print(void *, short, short, void *, void *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -188,9 +188,9 @@ extern void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int ax
 extern int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll);
 extern void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames);
 extern int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade);
-extern void func_0207D63C(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 extern void BG_SYS_ResetSlot(u32, u32, u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void PMS_INPUT_SetSearchArg(struct PmsInputState *input, void *out);
 extern u8 PMS_INPUT_GetInitialCount(struct PmsInputState *input);
 extern u32 func_02040804(unsigned);
@@ -240,7 +240,7 @@ extern const ScreenPos sPmsivCategoryCursorOrigin;
 struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, struct PmsInputState *input, struct PmsInputData *wordData)
 {
     struct PmsivCategory *p;
-    p = func_02030734(PMSIV_CATEGORY_HEAP, sizeof(struct PmsivCategory), 0, sPmsivCategoryAllocSite, 220);
+    p = GFL_HEAP_Alloc(PMSIV_CATEGORY_HEAP, sizeof(struct PmsivCategory), 0, sPmsivCategoryAllocSite, 220);
     p->view = view;
     p->input = input;
     p->wordData = wordData;
@@ -263,7 +263,7 @@ void PMSIV_CATEGORY_Delete(struct PmsivCategory *p)
     if (p->kanaWindow) BMP_WIN_Delete(p->kanaWindow);
     if (p->titleWindow) BMP_WIN_Delete(p->titleWindow);
     if (p->listWindow) BMP_WIN_Delete(p->listWindow);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 static inline void setWindowInside(int layers, int effect)
@@ -285,8 +285,8 @@ static inline void setWindowOutside(int layers, int effect)
 void PMSIV_CATEGORY_Setup(struct PmsivCategory *p, u32 data)
 {
     u32 bytes, q;
-    func_020498F4((void *)data, 27, 1, 0, 0, 0, PMSIV_CATEGORY_HEAP);
-    bytes = func_02049658((void *)data, 15, 1, 0, 0, 0, PMSIV_CATEGORY_HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)data, 27, 1, 0, 0, 0, PMSIV_CATEGORY_HEAP);
+    bytes = ARC_UTIL_UploadBgCharFromHandle((void *)data, 15, 1, 0, 0, 0, PMSIV_CATEGORY_HEAP);
     q = (u32)PMSIV_CATEGORY_MakeCategoryButtons(p, (u8 *)(bytes / 32));
     q = (u32)PMSIV_CATEGORY_MakeKanaWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeTitleWindow(p, (u8 *)q);
@@ -313,21 +313,21 @@ u8 *PMSIV_CATEGORY_MakeCategoryButtons(struct PmsivCategory *p, u8 *q)
     struct Descriptor *window;
     u32 width;
     font = PMS_INPUT_VIEW_GetFont(p->view);
-    bank = func_02045B38(0, 2, 145, PMSIV_CATEGORY_HEAP);
+    bank = MSGDATA_CreateFromArchive(0, 2, 145, PMSIV_CATEGORY_HEAP);
     x = 1;
     y = 9;
     for (i = 0; i < PMSIV_CATEGORY_COUNT; i++) {
         if (i != 0 && i % 3 == 0) { x = 1; y += 3; }
         if (PMS_INPUT_DATA_GetCategoryWordCount(p->wordData, i)) {
-            label = func_02045EC0(bank, sPmsivCategoryLabelIds[i]);
+            label = MSGDATA_AllocString(bank, sPmsivCategoryLabelIds[i]);
             GF_FONT_SetTextColor(1, 2, 15);
         } else {
-            label = func_02045EC0(bank, 13);
+            label = MSGDATA_AllocString(bank, 13);
             GF_FONT_SetTextColor(3, 4, 15);
         }
         window = BMP_WIN_Create(1, (u8)x, (u8)y, 9, 2, 12, 1);
         BMP_Clear(BMP_WIN_GetBmp(window), 15);
-        width = 72 - func_0201D304(label, font, 0);
+        width = 72 - GF_FONT_MeasureWidestLine(label, font, 0);
         PRINTSYS_Print(BMP_WIN_GetBmp(window), width >> 1, 0, label, (void *)font);
         BMP_WIN_MakeScreen((struct Cfg *)window);
         BMP_WIN_TransferChars(window);
@@ -521,7 +521,7 @@ void PMSIV_CATEGORY_StartBlendOut(struct PmsivCategory *p)
 int PMSIV_CATEGORY_IsBlendOutDone(struct PmsivCategory *p)
 {
     if (PMSIV_FADE_IsBlendDone(&p->fade) != 0) {
-        func_02040588(1, 0);
+        BG_SYS_SetPlaneVisible(1, 0);
         return 1;
     }
     return 0;
@@ -532,8 +532,8 @@ int PMSIV_CATEGORY_IsBlendOutDone(struct PmsivCategory *p)
  */
 void PMSIV_CATEGORY_StartBlendIn(struct PmsivCategory *p)
 {
-    func_0207D63C((void *)0x04000050, 2, 63, 0, 16);
-    func_02040588(1, 1);
+    G2x_SetBlendAlpha_((void *)0x04000050, 2, 63, 0, 16);
+    BG_SYS_SetPlaneVisible(1, 1);
     PMSIV_FADE_StartBlend(&p->fade, 2, 63, 0, 124, 12);
 }
 
@@ -554,7 +554,7 @@ void PMSIV_CATEGORY_RefreshScreens(struct PmsivCategory *p)
 {
     void *handle;
     int i;
-    handle = func_020490F4(43, PMSIV_CATEGORY_HEAP);
+    handle = ARC_TOOL_CreateHandle(43, PMSIV_CATEGORY_HEAP);
     if (PMS_INPUT_GetBrowseMode(p->input) == 0) {
         ARC_UTIL_UploadBgPaletteAddFromHandleExt(handle, 27, 1, 0, 0, 0, 0, PMSIV_CATEGORY_HEAP);
         for (i = 0; i < PMSIV_CATEGORY_COUNT; i++) BMP_WIN_MakeScreen((struct Cfg *)p->categoryWindows[i]);
@@ -564,7 +564,7 @@ void PMSIV_CATEGORY_RefreshScreens(struct PmsivCategory *p)
         BMP_WIN_MakeScreen((struct Cfg *)p->titleWindow);
     }
     ARC_TOOL_DeleteHandle(handle);
-    func_02041B6C(1);
+    BG_SYS_SetFlagField06(1);
 }
 
 int PMSIV_CATEGORY_IsReady(struct PmsivCategory *p)
@@ -584,7 +584,7 @@ void PMSIV_CATEGORY_DrawTitle(struct PmsivCategory *p)
     STRBUF_Delete(title);
     BMP_WIN_MakeScreen((struct Cfg *)window);
     BMP_WIN_TransferChars(window);
-    func_02041B6C(1);
+    BG_SYS_SetFlagField06(1);
 }
 
 /*
@@ -635,8 +635,8 @@ void PMSIV_CATEGORY_DrawWordList(struct PmsivCategory *p, unsigned count)
     else if (height < 48) height = 48;
     PMSIV_BGSCROLL_Start(&p->scroll, 6, 1, height - base, 8);
     BMP_WIN_MakeScreen((struct Cfg *)p->listWindow);
-    func_02041B6C(6);
-    func_02040588(6, 1);
+    BG_SYS_SetFlagField06(6);
+    BG_SYS_SetPlaneVisible(6, 1);
 }
 
 int PMSIV_CATEGORY_IsListReady(struct PmsivCategory *p, int waitForPrint)
@@ -657,7 +657,7 @@ int PMSIV_CATEGORY_IsListReady(struct PmsivCategory *p, int waitForPrint)
     }
     scrollDone = PMSIV_BGSCROLL_Step(&p->scroll);
     if (printDone && scrollDone) {
-        if (waitForPrint == 0) func_02040588(6, 0);
+        if (waitForPrint == 0) BG_SYS_SetPlaneVisible(6, 0);
         return 1;
     }
     return 0;

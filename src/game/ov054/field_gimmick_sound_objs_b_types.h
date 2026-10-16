@@ -76,7 +76,7 @@ extern int *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
 extern struct SoundObj *func_021C4D14(struct FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 radius, u32 amplitude);
 extern void SOUND_OBJ_SetAnime(struct SoundObj *obj, u32 arcId, u32 dataId, u32 bufferFrames);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern FieldGimmickSoundObjsBSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);

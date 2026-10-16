@@ -15,11 +15,11 @@
  * symbols:
  *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
  *   ov067_id  0x00000043  data
- *   func_020307B0 0x020307B0 arm
- *   func_02034A5C 0x02034A5C arm
- *   func_02034714 0x02034714 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -37,7 +37,7 @@
  *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   d_02208C40     0x02208C40  data  ov195
  *   ov195_id       0x000000C3  data
  *   MYSTATUS_Create  0x0200846C  thumb
@@ -50,7 +50,7 @@
  *   func_02008574  0x02008574  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
  *   func_02007664  0x02007664  thumb
- *   func_020076D0  0x020076D0  thumb
+ *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
  *   func_0200752C  0x0200752C  thumb
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
@@ -67,19 +67,19 @@ typedef struct {
     u32 profileId;
 } TradePartnerInfo;
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 struct Ctx;
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
@@ -126,7 +126,7 @@ extern void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 
 extern void func_02007664(void *save, u32 box, u32 slot);
 
-extern int func_020076D0(void *save, int *pbox, int *pslot);
+extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 
@@ -172,7 +172,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
     void *tmpl;
 
     WORLDTRADE_ExitPlanes(p);
-    p->req = func_02030734(0x48, 0x44, 0, str_02203B6C, 0x5E);
+    p->req = GFL_HEAP_Alloc(0x48, 0x44, 0, str_02203B6C, 0x5E);
     MI_CpuFill8(p->req, 0, 0x44);
     d = p->req;
     p->fEA4 = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
@@ -213,7 +213,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
         tmpl = d_021E75CC;
         break;
     default:
-        func_02034714((void *)0x02203B80, 0, (void *)0x02203B80);
+        SAVEDATA_PanicFail((void *)0x02203B80, 0, (void *)0x02203B80);
         break;
     }
     PROCSYS_Push(p->f12F0, (u32)ov119_id, tmpl, p->req);
@@ -254,10 +254,10 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 Req *w;
 
                 if (p->req != 0) {
-                    func_020307B0(p->req);
+                    GFL_HEAP_Free(p->req);
                     p->req = 0;
                 }
-                p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0xEB);
+                p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0xEB);
                 MI_CpuFill8(p->req, 0, 0x14);
                 w = p->req;
                 w->f0 = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
@@ -268,7 +268,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 w->fB = out;
                 w->fC = 1;
                 w->f10 = 0;
-                func_02034A5C((u32)ov067_id);
+                GF_OVERLAY_Unload((u32)ov067_id);
                 PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                 p->state_i = 1;
             } else {
@@ -294,10 +294,10 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                     Req *w;
 
                     if (p->req != 0) {
-                        func_020307B0(p->req);
+                        GFL_HEAP_Free(p->req);
                         p->req = 0;
                     }
-                    p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0x130);
+                    p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0x130);
                     MI_CpuFill8(p->req, 0, 0x14);
                     w = p->req;
                     w->f0 = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
@@ -308,7 +308,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                     w->fB = out;
                     w->fC = 1;
                     w->f10 = 0;
-                    func_02034A5C((u32)ov067_id);
+                    GF_OVERLAY_Unload((u32)ov067_id);
                     PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                     p->state_i = 1;
                 } else {
@@ -319,7 +319,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 WORLDTRADE_SetStateAndReturn(p, 1, 0);
                 ret = 3;
             }
-            func_020307B0(mon);
+            GFL_HEAP_Free(mon);
         } else {
             WORLDTRADE_SetStateAndReturn(p, 1, 0);
             ret = 3;
@@ -334,13 +334,13 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
             void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((Work *)p, p->kind);
 
             POKE_TOOL_CopyPartyPokemon(POKEPARTY_GetMember(w->list, 0), e);
-            func_020307B0(w->list);
-            func_020307B0(p->req);
+            GFL_HEAP_Free(w->list);
+            GFL_HEAP_Free(p->req);
             p->req = 0;
         }
         WORLDTRADE_DEMO_InitSlotRecord((Work *)p);
         *(volatile u32 *)0x04000000 &= ~0xE000;
-        func_02034AC4((u32)ov067_id);
+        GF_OVERLAY_Load((u32)ov067_id);
         WORLDTRADE_SetStateAndReturn(p, 7, 0xC);
         ret = 3;
         break;
@@ -354,12 +354,12 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
 int WORLDTRADE_DEMO_Exit(Work *p)
 {
     if (p->info) {
-        func_020307B0(p->info);
+        GFL_HEAP_Free(p->info);
         p->info = 0;
     }
-    func_020307B0(p->fEA4);
+    GFL_HEAP_Free(p->fEA4);
     if (p->req) {
-        func_020307B0(p->req);
+        GFL_HEAP_Free(p->req);
         p->req = 0;
     }
     p->f12F8 = 0;
@@ -389,7 +389,7 @@ TradePartnerInfo *WORLDTRADE_DEMO_ReadMyStatus(Entry *e)
 /*
  * Return the slot record for a kind: kind 9 is the current 0x128-byte
  * entry of the +0x20C array (index at +0xD4), kinds 10 and 8 share the
- * record at +0xE4. Any other kind reports through func_02034714 (raw
+ * record at +0xE4. Any other kind reports through SAVEDATA_PanicFail (raw
  * address 0x02203B80, a plain constant as in WORLDTRADE_ADAPTER_QueueMessagePrint) and yields 0.
  */
 Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind)
@@ -401,7 +401,7 @@ Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind)
     } else if (kind == 8) {
         return &p->single;
     }
-    func_02034714((void *)0x02203B80, 0, (void *)0x02203B80);
+    SAVEDATA_PanicFail((void *)0x02203B80, 0, (void *)0x02203B80);
     return 0;
 }
 
@@ -424,7 +424,7 @@ void WORLDTRADE_DEMO_InitSlotRecord(Work *p)
         a = 0;
         b = 0;
         func_02007664((void *)p->ctx->box, p->box_u, p->pos);
-        func_020076D0((void *)p->ctx->box, (int *)(&a), (int *)(&b));
+        BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&a), (int *)(&b));
         func_0200752C((void **)p->ctx->box, a, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
     }
 }

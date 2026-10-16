@@ -15,34 +15,34 @@
  * the functions in this range use PStaRibbonWork (PStatusWork.ribbonWork).
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   KEY_GetRepeat 0x0203633C arm
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
@@ -229,17 +229,17 @@ enum StaRibbonVramPart {
     STA_RIBBON_VRAM_ZERO
 };
 
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animSeq);
 extern void BG_SYS_PushTile(u32 bgId);
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void CLACT_ReleaseCharacter(u32 charRes);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern int TOUCHPANEL_HitTrg(const void *hitTable);
 extern u32 PRINTSYS_QUE_IsFinished(const void *printQue);
@@ -247,18 +247,18 @@ extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 POKE_TOOL_GetBoxValue(void *pp, int paramId, void *buf);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, void *str, void *font, u16 colors);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(u32 bgId);
+extern void BG_SYS_SetFlagField06(u32 bgId);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
@@ -326,17 +326,17 @@ extern const char P_STA_RIBBON_FileName[];
 extern const StaRibbonKindCount P_STA_RIBBON_KindCountInit;
 
 void *P_STA_RIBBON_Create(PStatusWork *wk) {
- PStaRibbonWork *work = func_02030734(wk->heapId, 0x3b8, 0, P_STA_RIBBON_FileName, 0xaf);
+ PStaRibbonWork *work = GFL_HEAP_Alloc(wk->heapId, 0x3b8, 0, P_STA_RIBBON_FileName, 0xaf);
  work->isActive = 0;
  work->seCooldown = 0;
- work->msgBank = func_02045B38(0, 2, 0xaa, wk->heapId);
+ work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0xaa, wk->heapId);
  return work;
 }
 
 void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *work)
 {
     MSGDATA_Delete(work->msgBank);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *work)
@@ -365,11 +365,11 @@ void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *work, void *a
 void P_STA_RIBBON_FreeArcGraphics(PStatusWork *wk, PStaRibbonWork *work) {
  if (work->isActive == 1) P_STA_RIBBON_Deactivate(wk, work);
  P_STA_OAM_DeleteManager(work->oamMgr);
- func_020307B0(work->iconChrMem);
- func_020307B0(work->listScrnMem);
- func_020307B0(work->listPalMem);
- func_020307B0(work->detailPalMem);
- func_020307B0(work->titleScrnMem);
+ GFL_HEAP_Free(work->iconChrMem);
+ GFL_HEAP_Free(work->listScrnMem);
+ GFL_HEAP_Free(work->listPalMem);
+ GFL_HEAP_Free(work->detailPalMem);
+ GFL_HEAP_Free(work->titleScrnMem);
 }
 
 /*
@@ -677,11 +677,11 @@ void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *work)
     u8 i;
     u16 ownedIdx;
     BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->listScrn->data,0,0,32,32);
-    func_02041B6C(2);
+    BG_SYS_SetFlagField06(2);
     BG_SYS_DecodeTile(6,work->listPal->data,work->listPal->dataSize);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(6);
     BG_SYS_DrawTileEx(5,0,0,32,3,(u32)work->titleScrn->data,0,0,32,32);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
         ownedIdx=work->rows[i].ownedIdx;
         P_STA_OAM_SetBitmapActorsPos(work->rows[i].actors,8,P_STA_RIBBON_GetRowY(work,i));
@@ -775,7 +775,7 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     source=BMP_GetPixels(row->bmp);
     if (row->ownedIdx==work->selectedOwned) pixels+=0x660;
     MI_CpuCopy8(pixels,source,0x660);
-    text=func_02045EC0(work->msgBank,owned->category+160);
+    text=MSGDATA_AllocString(work->msgBank,owned->category+160);
     buffer=STRBUF_Create(32,wk->heapId);
     wordSet=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(wordSet,0,owned->number,2,2,1);
@@ -887,10 +887,10 @@ void P_STA_RIBBON_PrintDetail(PStatusWork *wk, PStaRibbonWork *work)
     work->titleWin=BMP_WIN_Create(4,5,7,22,2,14,1);
     work->descWin=BMP_WIN_Create(4,1,16,30,4,14,1);
     ribbonNo=work->owned[work->selectedOwned].ribbonNo;
-    text=func_02045EC0(work->msgBank,P_STA_RIBBON_GetRibbonInfo(ribbonNo,3));
+    text=MSGDATA_AllocString(work->msgBank,P_STA_RIBBON_GetRibbonInfo(ribbonNo,3));
     PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->titleWin),1,1,text,wk->font,1088);
     STRBUF_Delete(text);
-    text=func_02045EC0(work->msgBank,P_STA_RIBBON_GetRibbonDescMsg(ribbonNo));
+    text=MSGDATA_AllocString(work->msgBank,P_STA_RIBBON_GetRibbonDescMsg(ribbonNo));
     PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->descWin),1,1,text,wk->font,1088);
     STRBUF_Delete(text);
     work->isTextPending=1;
@@ -914,12 +914,12 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     win=work->titleWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
     win=work->descWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
-    archive=func_020490F4(78,wk->heapId);
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    archive=ARC_TOOL_CreateHandle(78,wk->heapId);
     work->detailChrRes=CLACT_RegisterCharacter(archive,P_STA_RIBBON_GetRibbonInfo(ribbonNo,1),0,1,wk->heapId);
     ARC_TOOL_DeleteHandle(archive);
     pos.x=128;
@@ -931,7 +931,7 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     CLACT_SetActorPaletteOffset(work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
     CLACT_SetActorDrawEnable(work->detailObj,1);
     BG_SYS_DecodeTile(6,work->detailPal->data,work->detailPal->dataSize);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(6);
     work->isDetailShown=1;
 }
 
@@ -953,9 +953,9 @@ void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work)
         CLACT_ReleaseCharacter(work->detailChrRes);
         CLACT_DeleteActor(work->detailObj);
         BG_SYS_ClearLayerEx(4,0);
-        func_02041B6C(4);
+        BG_SYS_SetFlagField06(4);
         work->isDetailShown=0;
         BG_SYS_DecodeTile(6,work->listPal->data,work->listPal->dataSize);
-        func_02041B6C(6);
+        BG_SYS_SetFlagField06(6);
     }
 }

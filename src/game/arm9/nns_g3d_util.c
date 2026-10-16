@@ -18,7 +18,7 @@
  *   FX_InvAsync  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
  *   NNS_G3dGlbGetViewPort  0x0206AE94  arm
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   NNS_G3dGlbGetInvVPMtx  0x0206AE2C  arm
  */
 #include "nns_g3d_glb_types.h"
@@ -31,7 +31,7 @@ extern void MTX_MultVec43(const VecFx32 *src, const MtxFx43 *m, VecFx32 *dst);
 extern void FX_InvAsync(fx32 d);
 extern fx64c func_0207C848(void);
 extern void NNS_G3dGlbGetViewPort(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern void *NNS_G3dGlbGetInvVPMtx(void);
 int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py);
 int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32 *pNear, VecFx32 *pFar);
@@ -107,7 +107,7 @@ int NNS_G3dWorldPosToScrPos(const VecFx32 *pWorld, int *px, int *py)
  * NitroSystem G3D NNS_G3dScrPosToWorldLine (util.c): screen pixel to the
  * world-space near point (and, when pFar is non-null, far point) through the
  * inverse view-projection matrix NNS_G3dGlbGetInvVPMtx returns. FX_Div is
- * func_0207C768, FX_InvAsync FX_InvAsync, FX_GetInvResultFx64c
+ * FX_Div, FX_InvAsync FX_InvAsync, FX_GetInvResultFx64c
  * func_0207C848, the viewport unpack NNS_G3dGlbGetViewPort. Returns -1 when the
  * pixel is outside the viewport, else 0.
  *
@@ -130,8 +130,8 @@ int NNS_G3dScrPosToWorldLine(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
     {
         int dx = x2 - x1;
         int dy = y2 - y1;
-        x = func_0207C768((px - x1) << 12, dx << 12);
-        y = func_0207C768((py + y1 - 191) << 12, -dy << 12);
+        x = FX_Div((px - x1) << 12, dx << 12);
+        y = FX_Div((py + y1 - 191) << 12, -dy << 12);
     }
     if (x < 0 || y < 0 || x > 0x1000 || y > 0x1000)
         rval = -1;

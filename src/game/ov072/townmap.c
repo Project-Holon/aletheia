@@ -13,31 +13,31 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   ov067_id       0x00000043  data
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BG_SYS_FillScrollArea  0x02040618  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_020056A0  0x020056A0  thumb
- *   func_02030EAC  0x02030EAC  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   func_020355C4 0x020355C4 arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   d_021BBB78 0x021BBB78 data ov072 a4
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -74,9 +74,9 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   BUTTON_MAN_ScaleVec  0x020520A4  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   d_021BBD60     0x021BBD60  data  ov072
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   SYMBOL_MAP_ResolveZoneId 0x02166C7C thumb ov010
  *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb  ov010
  *   CLACT_SetActorAffineMode  0x0204B570  arm
@@ -141,7 +141,7 @@
  *   BG_SYS_SetAffine  0x02041FB0  arm
  *   BG_SYS_SetScrollY  0x02041F6C  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   TOWNMAP_MapSetZoom  0x021BA5B0  thumb
  *   TOWNMAP_TownIsRevealed  0x021BA834  thumb
  *   BMP_WIN_Create  0x020450F0  arm
@@ -156,7 +156,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   TOWNMAP_TownGetField  0x021BA774  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
@@ -242,30 +242,30 @@ struct Pt { u16 x; u16 y; };
 
 typedef struct { u32 w[8]; } BgTemplate;
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct HeapTask *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern u32 func_020056A0(void (*cb)(void *, void *), void *arg, int pri);
-extern void func_02030EAC(struct Node *n);
+extern u32 GFL_USE_AddMainTask(void (*cb)(void *, void *), void *arg, int pri);
+extern void TCB_DeleteTask(struct Node *n);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 int FADE_IsActive(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern u8 func_020355C4(void);
-extern void *func_020490F4(u32 id, u32 heap);
+extern u8 UI_GetInputMode(void);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern u32 CLACT_RegisterCharacter(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -301,8 +301,8 @@ extern int VEC_Mag(const struct Vec3 *v);
 extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *d);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 SYMBOL_MAP_ResolveZoneId(void *a, u32 b);
 extern int SYMBOL_MAP_CheckEventFlag(void *a, u32 msg);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
@@ -432,12 +432,12 @@ extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
 extern u32 ZONEDATA_GetPlaceNameId(u32 townId);
 extern void func_02045CAC(struct MsgBank *msg, u32 index, struct StrBuf *dest);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 func_0201D304(struct StrBuf *text, void *font, u32 spacing);
+extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *text, void *font, u32 spacing);
 extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(u32 bgBit);
+extern void BG_SYS_SetFlagField06(u32 bgBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
 
@@ -450,15 +450,15 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     int pickMode;
     TownMapTown *town;
 
-    func_02034AC4((u32)ov067_id);
+    GF_OVERLAY_Load((u32)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x44, 0x60000);
     work = PROCSYS_AllocProcWork(taskArg, 0x144, 0x44);
     MI_CpuFill8(work, 0, 0x144);
     work->args = args;
     pickMode = work->args->mode == 2;
     work->fontSystem = GF_FONT_Create(0x17, 0, 0, 0, 0x44);
-    work->nameMsg = func_02045B38(0, 2, 0x59, 0x44);
-    work->detailMsg = func_02045B38(0, 2, 0xb9, 0x44);
+    work->nameMsg = MSGDATA_CreateFromArchive(0, 2, 0x59, 0x44);
+    work->detailMsg = MSGDATA_CreateFromArchive(0, 2, 0xb9, 0x44);
     work->gfx = TOWNMAP_GRH_Create(0x44);
     work->mapInfo = TOWNMAP_GRH_LoadTownInfo(0x44);
     TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
@@ -497,14 +497,14 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     if (GFL_NET_GetRunState()) {
         GFL_NET_RestartWithDefaultTimeout(1, 0x44);
     }
-    work->vblankTask = func_020056A0(TOWNMAP_GRH_EmptyTask, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(TOWNMAP_GRH_EmptyTask, work, 0);
     return 1;
 }
 
 
 int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
 {
-    func_02030EAC((struct Node *)work->vblankTask);
+    TCB_DeleteTask((struct Node *)work->vblankTask);
     TOWNMAP_GRH_ClearTouch(&work->touch);
     TOWNMAP_ExitSelection(&work->selection);
     TOWNMAP_ClearScroll(&work->scroll);
@@ -521,9 +521,9 @@ int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
     MSGDATA_Delete((struct Rec *)work->detailMsg);
     MSGDATA_Delete((struct Rec *)work->nameMsg);
     GF_FONT_Delete(work->fontSystem);
-    func_020315D4(taskArg);
+    PROCSYS_FreeProcWork(taskArg);
     GFL_HEAP_DeleteChecked(0x44);
-    func_02034A5C((u32)ov067_id);
+    GF_OVERLAY_Unload((u32)ov067_id);
     return 1;
 }
 
@@ -650,7 +650,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
                     GFL_USE_PlaySeDefaultVolume(0x54c); TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut);
                 }
             }
-            if (func_020355C4()==0) pressed=1; else pressed=TOWNMAP_CursorIsPressed(&work->cursor);
+            if (UI_GetInputMode()==0) pressed=1; else pressed=TOWNMAP_CursorIsPressed(&work->cursor);
             if (pressed != 0) {
                 hovered=TOWNMAP_MapFindTownUnderCursor(&work->map, &work->cursor);
                 if (hovered!=work->hoverTown && hovered!=0) {
@@ -715,7 +715,7 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet,
 
     MI_CpuFill8(bar, 0, 0x20);
     bar->ctx = ctx;
-    archive = func_020490F4(0x55, heapId);
+    archive = ARC_TOOL_CreateHandle(0x55, heapId);
     bar->charRes = CLACT_RegisterPaletteEx(archive, 2, 0, 0, 0, 4, heapId);
     bar->plttRes = (s32)CLACT_RegisterCharacter(archive, 8, 0, 0, (u32)heapId);
     bar->cellRes = CLACT_RegisterCellAnim(archive, 0xc, 0x13, heapId);
@@ -838,7 +838,7 @@ void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSpr
     CLACT_SetActorBgPriority((int)cursor->hoverSprite, 2);
     CLACT_SetActorDrawPriority(cursor->hoverSprite, 3);
     CLACT_SetActorAutoAnim(cursor->hoverSprite, 1);
-    if (func_020355C4() == 0) {
+    if (UI_GetInputMode() == 0) {
         CLACT_SetActorDrawEnable(cursor->arrowSprite, one);
     } else {
         CLACT_SetActorDrawEnable(cursor->arrowSprite, zero);
@@ -889,7 +889,7 @@ void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
         keyDir.x += 0x1000;
         moved = 1;
     }
-    if (cursor->snapToTown != 0 && func_020355C4() == 0 && (town = TOWNMAP_MapFindNearestTown(map, cursor)) != 0) {
+    if (cursor->snapToTown != 0 && UI_GetInputMode() == 0 && (town = TOWNMAP_MapFindNearestTown(map, cursor)) != 0) {
         TOWNMAP_MapGetScroll(map, &scroll);
         townPos.x = FX_F32_TO_FX32(scroll.x + TOWNMAP_TownGetField(town, 4));
         townPos.y = FX_F32_TO_FX32(scroll.y + TOWNMAP_TownGetField(town, 5));
@@ -944,7 +944,7 @@ void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
             cursor->y = touchY;
         }
     }
-    if (func_020355C4() == 0)
+    if (UI_GetInputMode() == 0)
         CLACT_SetActorDrawEnable((struct Actor *)cursor->arrowSprite, 1);
     else
         CLACT_SetActorDrawEnable((struct Actor *)cursor->arrowSprite, 0);
@@ -1033,7 +1033,7 @@ void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, To
     MI_CpuFill8(map, 0, 0x28);
     map->townCount = 0x3d;
     map->gameData = (void *)gameData;
-    map->towns = func_02030734(heapId, map->townCount * 0x44, 0, d_021BBD60, 0x8C5);
+    map->towns = GFL_HEAP_Alloc(heapId, map->townCount * 0x44, 0, d_021BBD60, 0x8C5);
     MI_CpuFill8(map->towns, 0, map->townCount * 0x44);
     TOWNMAP_GRH_GetResourceIds(gfx, &markerBank0, &markerBank1, &markerBank2);
     for (; i < map->townCount; i++) {
@@ -1057,7 +1057,7 @@ void TOWNMAP_MapFree(TownMapMap *map)
     TOWNMAP_DeleteMarker(&map->marker);
     for (i = 0; i < map->townCount; i++)
         TOWNMAP_TownFree(&map->towns[i]);
-    func_020307B0(map->towns);
+    GFL_HEAP_Free(map->towns);
     MI_CpuFill8(map, 0, 40);
 }
 
@@ -1695,7 +1695,7 @@ void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town)
     if (town != 0) {
         func_02045CAC(sel->box.msg, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(town, 0)), sel->box.text);
         centerX = ((u32)BMP_WIN_GetWidth(sel->box.win) << 3) / 2;
-        halfWidth = func_0201D304(sel->box.text, sel->box.font, 0) >> 1;
+        halfWidth = GF_FONT_MeasureWidestLine(sel->box.text, sel->box.font, 0) >> 1;
         centerX = centerX - halfWidth;
         PRINTSYS_Print(bitmap, centerX, 0x30, sel->box.text, sel->box.font);
         msgId = TOWNMAP_TownGetField(town, 0x11);
@@ -1739,7 +1739,7 @@ void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town)
     win = sel->box.win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
 }
 
 void TOWNMAP_ClearSelection(TownMapSelection *sel)
@@ -1747,5 +1747,5 @@ void TOWNMAP_ClearSelection(TownMapSelection *sel)
     struct BmpWin *win = sel->box.win;
 
     BMP_WIN_ClearScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
 }

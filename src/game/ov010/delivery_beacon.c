@@ -14,10 +14,10 @@
  *
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   gDeliveryBeaconAllocSite  0x021727F4  data
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   gDeliveryBeaconAssertText 0x021727F0 data a4
  *   NET_WHPIPE_GetEntryBeaconData  0x02177B2C  thumb  ov014
  *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
@@ -29,7 +29,7 @@
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
  *   gDeliveryBeaconNetInit  0x02172780  data  ov010
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  */
 typedef unsigned char u8;
@@ -83,9 +83,9 @@ typedef struct DeliveryBeacon {
     DeliveryBeaconStepFunc step;          /* 31BC */
 } DeliveryBeacon;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern DeliveryBeaconSlot *NET_WHPIPE_GetEntryBeaconData(int index);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
@@ -95,7 +95,7 @@ extern void GF_STANDARD_Shuffle(u16 *data, u32 size, u32 seed);
 extern void GFL_NET_BeaconScanStart(void);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
-extern u32 func_020307B0(void *ptr);
+extern u32 GFL_HEAP_Free(void *ptr);
 extern int GFL_NET_Exit(int arg);
 DeliveryBeaconSlot *DELIVERY_BEACON_GetCursorSlot(DeliveryBeacon *work);
 void DELIVERY_BEACON_SetStep(DeliveryBeacon *work, DeliveryBeaconStepFunc step);
@@ -174,7 +174,7 @@ DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
 {
     DeliveryBeacon *work;
 
-    work = func_02030734(param->heapId, 0x31C0, 1, gDeliveryBeaconAllocSite, 0x127);
+    work = GFL_HEAP_Alloc(param->heapId, 0x31C0, 1, gDeliveryBeaconAllocSite, 0x127);
     MI_CpuCopy8(param, work, sizeof(DeliveryBeaconParam));
     return work;
 }
@@ -183,7 +183,7 @@ DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
 void DELIVERY_BEACON_CheckDestSize(DeliveryBeacon *work)
 {
     if (work->param.destSize != 0 && work->param.destSize >= DELIVERY_BEACON_SLOTS_PER_PAGE * DELIVERY_BEACON_PIECE_SIZE)
-        func_02034714(gDeliveryBeaconAssertText, 0, gDeliveryBeaconAssertText);
+        SAVEDATA_PanicFail(gDeliveryBeaconAssertText, 0, gDeliveryBeaconAssertText);
 }
 
 
@@ -342,7 +342,7 @@ int DELIVERY_BEACON_Delete(DeliveryBeacon *work)
 {
     int result;
 
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
     result = GFL_NET_Exit(0);
     return result;
 }

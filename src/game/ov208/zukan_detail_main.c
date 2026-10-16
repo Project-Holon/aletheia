@@ -16,7 +16,7 @@
  * four functions kept here have no __FILE__ anchor.
  *
  * symbols:
- *   func_020307B0 0x020307B0  arm
+ *   GFL_HEAP_Free 0x020307B0  arm
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -25,7 +25,7 @@
  *   ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics 0x021BCEC0 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   ZUKAN_SAVE_GetDexObtained 0x0200CA54 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_Create 0x021BD8C0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Create 0x021BE710 thumb
@@ -33,11 +33,11 @@
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   ZUKAN_DETAIL_HEADBAR_Delete 0x021BE778 thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_Delete 0x021BD954 thumb ov208
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId 0x021BDB08 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId 0x021BDB54 thumb
@@ -66,7 +66,7 @@ struct Proc;
 
 struct Ov208Fade;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
@@ -84,7 +84,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
-extern int func_020056A0(void (*fn)(void), void *arg, int n);
+extern int GFL_USE_AddMainTask(void (*fn)(void), void *arg, int n);
 
 extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
 
@@ -100,7 +100,7 @@ extern void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Mgr *m);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_Delete(struct Ov208Mgr *m);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
@@ -108,7 +108,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -167,7 +167,7 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
     p->display = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 0);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, p->heap);
     p->printer = (void *)PRINTSYS_QUE_Create((void *)p->heap);
-    p->task = (void *)func_020056A0(ZUKAN_DETAIL_MAIN_NoOp, p, 1);
+    p->task = (void *)GFL_USE_AddMainTask(ZUKAN_DETAIL_MAIN_NoOp, p, 1);
 
     p->touchbar = ZUKAN_DETAIL_TOUCHBAR_Create(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
     p->headbar = ZUKAN_DETAIL_HEADBAR_Create(p->heap, (unsigned int)p->font);
@@ -188,16 +188,16 @@ int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
 {
     FADE_Start(3,16,16,0);
     if(((struct Ov208Main *)p)->node)ZUKAN_DETAIL_PROCSYS_FreeNode(((struct Ov208Main *)p)->node);
-    if(((struct Ov208Main *)p)->mem)func_020307B0((void *)(((struct Ov208Main *)p)->mem));
+    if(((struct Ov208Main *)p)->mem)GFL_HEAP_Free((void *)(((struct Ov208Main *)p)->mem));
     ZUKAN_DETAIL_COMMON_DeleteContext(((struct Ov208Main *)p)->context);
     ZUKAN_DETAIL_HEADBAR_Delete(((struct Ov208Main *)p)->headbar);
     ZUKAN_DETAIL_TOUCHBAR_Delete(((struct Ov208Main *)p)->touchbar);
-    func_02030EAC(((struct Ov208Main *)p)->task);
+    TCB_DeleteTask(((struct Ov208Main *)p)->task);
     PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned *)&((struct Ov208Main *)p)->printer));
     PRINTSYS_QUE_Delete(((struct Ov208Main *)p)->printer);
     GF_FONT_Delete(((struct Ov208Main *)p)->font);
     ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Ov208Main *)p)->display);
-    func_020315D4(a);
+    PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(149);
     return 1;
 }

@@ -15,7 +15,7 @@
  * symbols:
  *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
@@ -27,9 +27,9 @@
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
  *   FIELDMAP_CheckCommExit  0x02189734  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   SCRCMD_NETWORK_sFileName     0x0217294C  data  ov010  a4
  *   VM_SetWait  0x020113D0  thumb
  *   APP_ENV_InitParentalControl  0x0202EB44  thumb
@@ -87,7 +87,7 @@
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   BEACON_SetGatePoints  0x0200C3B8  thumb
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   EVENT_MAPCHANGE_CreateByMode 0x02183B6C thumb ov020
  *   EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent      0x0218571C  thumb  ov020
  *   abs_id_14      0x00000014  data
@@ -345,7 +345,7 @@ extern void EVENTDATA_SYSTEM_SetNpcObjCode(struct EventDataSystem *eventData, un
 extern void VM_SetWait(ScriptVm *vm, ScriptWorkWaitFn waitFn);
 
 /* game system, game event, game data */
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, EventTaskFn taskFn, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, EventTaskFn taskFn, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
@@ -385,12 +385,12 @@ extern int BEACON_SetGatePoints(struct MiscSave *miscSave, int value);
 extern u32 GPOWER_GetSpecialPowerId(void);
 
 /* heap, archive, random, overlays, memory */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *ptr);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *ptr);
 extern int ARC_UTIL_LoadMember(int archiveId, int memberId, int heapId, int flags);
 extern u32 func_020056EC(u32 range);
-extern int func_02034AC4(s32 overlayId);
-extern void func_02034A5C(s32 overlayId);
+extern int GF_OVERLAY_Load(s32 overlayId);
+extern void GF_OVERLAY_Unload(s32 overlayId);
 extern int GF_OVERLAY_Load(int overlayId);
 extern void GF_OVERLAY_Unload(int overlayId);
 extern void MI_CpuFill8(void *dst, int value, int size);
@@ -519,11 +519,11 @@ int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
     case 0:
         return 0;
     case 1:
-        func_020307B0(waitWork);
+        GFL_HEAP_Free(waitWork);
         return 1;
     case 2:
         *waitWork->resultVar = 2;
-        func_020307B0(waitWork);
+        GFL_HEAP_Free(waitWork);
         return 1;
     default:
         return 0;
@@ -539,7 +539,7 @@ int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
 
     slot = SCRIPT_WORK_GetUserWorkPtr(SCRCMD_WORK_GetScriptWork(scriptWork));
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    waitWork = func_02030734(4, 4, 1, SCRCMD_NETWORK_sFileName, 0x63);
+    waitWork = GFL_HEAP_Alloc(4, 4, 1, SCRCMD_NETWORK_sFileName, 0x63);
     *slot = waitWork;
     waitWork->resultVar = resultVar;
     *resultVar = 0;
@@ -648,7 +648,7 @@ int SCRCMD_NETWORK_CmdFreeNpcTable(ScriptVm *vm, struct ScriptWork *scriptWork)
     void *table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
 
     if (table != 0) {
-        func_020307B0(table);
+        GFL_HEAP_Free(table);
         SCRIPT_WORK_SetReturnFlag(scriptCtl, 0);
     }
     return 0;
@@ -855,7 +855,7 @@ int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *wo
 struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem)
 {
     struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
-    struct GameEvent *event = func_020122C0(gameSystem, 0, SCRCMD_NETWORK_CommProcEventMain, sizeof(CommProcEventWork));
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_CommProcEventMain, sizeof(CommProcEventWork));
     CommProcEventWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -964,7 +964,7 @@ int SCRCMD_NETWORK_CommBattleEventMain(struct GameEvent *event, u32 *seq, void *
 struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSystem, int mode)
 {
     struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
-    struct GameEvent *event = func_020122C0(gameSystem, 0, SCRCMD_NETWORK_CommBattleEventMain, 0x7C);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_CommBattleEventMain, 0x7C);
     CommBattleWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -1085,7 +1085,7 @@ int SCRCMD_NETWORK_SetupMiscSave(CommBattleWork *work)
 
 struct GameEvent *SCRCMD_NETWORK_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam)
 {
-    func_02034AC4((u32)ov020_id);
+    GF_OVERLAY_Load((u32)ov020_id);
     return EVENT_MAPCHANGE_CreateByMode(gameSystem, initParam);
 }
 
@@ -1256,7 +1256,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSyst
 
     FIELDMAP_GetSubscreen(fieldMap);
     if (createNew != 0) {
-        event = func_020122C0(gameSystem, 0, SCRCMD_NETWORK_WifiProcEventMain, 0x34);
+        event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_WifiProcEventMain, 0x34);
     } else {
         GAME_EVENT_Change(event, SCRCMD_NETWORK_WifiProcEventMain, 0x34);
     }
@@ -1278,7 +1278,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *
     int linkMode;
 
     link = FIELDMAP_GetSubscreen(fieldMap);
-    event = func_020122C0(gameSystem, 0, SCRCMD_NETWORK_BattleRecordLinkEventMain, workSize);
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_BattleRecordLinkEventMain, workSize);
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, workSize);
     work->gameSystem = gameSystem;

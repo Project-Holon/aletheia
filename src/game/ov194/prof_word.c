@@ -18,12 +18,12 @@
  * at its declaration fixes the register of n.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
  *   GF_STANDARD_ShuffleEx 0x0203F37C arm
  *   d_021F57B8 0x021F57B8 data a1
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  */
 typedef struct { unsigned data[7], size[7]; } Resources;
@@ -38,10 +38,10 @@ typedef signed short   s16;
 
 typedef signed char    s8;
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 extern int ARC_UTIL_LoadMemberWithSize(int, int, int, int, unsigned *);
 extern void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern u16 STRBUF_GetEosChar(void);
 Resources *PROF_WORD_Create(unsigned short heap);
@@ -62,7 +62,7 @@ Resources *PROF_WORD_Create(unsigned short heap)
     int i;
     Resources *p;
     unsigned *sizes;
-    p = func_02030734(heap, 0x38, 1, d_021F57B8, 0x38);
+    p = GFL_HEAP_Alloc(heap, 0x38, 1, d_021F57B8, 0x38);
     sizes = (unsigned *)p;
     i = 0;
     sizes = p->size;
@@ -83,9 +83,9 @@ void PROF_WORD_Delete(u8 *p)
     int i;
 
     for (i = 0; i < 7; i++) {
-        func_020307B0((void *)(*(u32 *)(p + i * 4)));
+        GFL_HEAP_Free((void *)(*(u32 *)(p + i * 4)));
     }
-    func_020307B0((void *)((u32)p));
+    GFL_HEAP_Free((void *)((u32)p));
 }
 
 
@@ -110,7 +110,7 @@ int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
             GF_STANDARD_ShuffleEx((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
         { u32 currentHeap=heap; result=PROF_WORD_CompareChunks(buf,i,currentHeap,(const u16 *)data,size); }
-        if(cache==0) func_020307B0((void *)data);
+        if(cache==0) GFL_HEAP_Free((void *)data);
         if(result==1) break;
     }
     return result;

@@ -1,7 +1,7 @@
 /*
  * file:     mail.c
  * unit:     yes
- * function: TRCARD_SIGN_GetSize, TRCARD_SIGN_Init, TRCARD_SIGN_GetFromSave, TRCARD_SIGN_GetBitmap, func_02008A54, func_02008A7C, func_02008ACC, func_02008ADC, CONSOLE_STAMP_GetSize, CONSOLE_STAMP_Init, func_02008B08, func_02008B14, func_02008B20, func_02008B4C, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, func_02008C20, RECORD_Init, func_02008C58, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, RECORD_GetCeiling, func_02008D1C, func_02008D58, func_02008DAC, func_02008DF0, func_02008DFC, RECORD_FoldPairs, func_02008E68, func_02008E78, func_02008E88, func_02008EAC, func_02008EF8, MAIL_Create, func_02008F3C, func_02008F48, func_02008F80, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, func_02008FFC, func_02009004, MAIL_FindEmptySlot, func_0200902C, func_0200903C, func_02009050, func_02009074, func_020090A0, func_020090B0, CGEAR_SAVE_Init, func_020090D8, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, CGEAR_SAVE_GetPanelValue, CGEAR_SAVE_GetPanelFlag
+ * function: TRCARD_SIGN_GetSize, TRCARD_SIGN_Init, TRCARD_SIGN_GetFromSave, TRCARD_SIGN_GetBitmap, func_02008A54, func_02008A7C, func_02008ACC, func_02008ADC, CONSOLE_STAMP_GetSize, CONSOLE_STAMP_Init, func_02008B08, func_02008B14, func_02008B20, func_02008B4C, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, func_02008C20, RECORD_Init, RECORD_GetFromSave, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, RECORD_GetCeiling, func_02008D1C, func_02008D58, RECORD_AddCounter, func_02008DF0, func_02008DFC, RECORD_FoldPairs, func_02008E68, func_02008E78, func_02008E88, func_02008EAC, func_02008EF8, MAIL_Create, func_02008F3C, func_02008F48, func_02008F80, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, func_02008FFC, func_02009004, MAIL_FindEmptySlot, func_0200902C, func_0200903C, func_02009050, func_02009074, func_020090A0, func_020090B0, CGEAR_SAVE_Init, func_020090D8, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, CGEAR_SAVE_GetPanelValue, CGEAR_SAVE_GetPanelFlag
  * address:  0x020089A8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -44,6 +44,7 @@
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -222,7 +223,7 @@ extern void sub_0203F37C(void *data, u32 size, u32 key);
 extern u16  STRBUF_GetEosChar(void);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *pms);
 extern void sub_02024570(struct PmsData *dest, const struct PmsData *src);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                            u16 tag);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern const u16 *MYSTATUS_GetName(const struct MyStatus *status);
@@ -786,7 +787,7 @@ int MAIL_IsDesignValid(const struct Mail *mail)
 
 struct Mail *MAIL_Create(int heapId)
 {
-    struct Mail *mail = func_02030734((unsigned short)((heapId & 0x7fff) | 0x8000),
+    struct Mail *mail = GFL_HEAP_Alloc((unsigned short)((heapId & 0x7fff) | 0x8000),
                                       sizeof(struct Mail), 0, MAIL_FileName, 0x87);
 
     MAIL_Init(mail);

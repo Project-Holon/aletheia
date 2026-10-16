@@ -19,7 +19,7 @@
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GX_ResetBankForBG  0x020808F4  arm
  *   GX_ResetBankForSubBG  0x020809A0  arm
- *   func_0207FDCC  0x0207FDCC  arm
+ *   GX_SetBankForBG  0x0207FDCC  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   func_02082A7C  0x02082A7C  arm
@@ -27,7 +27,7 @@
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   MIi_CpuCopy16  0x02082A60  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   G2_GetBG1ScrPtr  0x0207DFB4  arm
  *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
@@ -35,8 +35,8 @@
  *   MIi_CpuClear16  0x02082A48  arm
  *   BMP_CreateFromVram  0x02043754  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_02045B38  0x02045B38  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -94,7 +94,7 @@ extern void func_02034F5C(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern int GX_ResetBankForBG(void);
 extern int GX_ResetBankForSubBG(void);
-extern void func_0207FDCC(int mode);
+extern void GX_SetBankForBG(int mode);
 extern void GX_SetGraphicsMode(int layer, int x, int y);
 extern void *G2_GetBG1CharPtr(void);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
@@ -102,7 +102,7 @@ extern int ARC_UTIL_LoadMember(int arcId, int fileId, int resident, int heapId);
 extern signed int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(void *data, u32 size);
 extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
-extern u32 func_020307B0(void *ptr);
+extern u32 GFL_HEAP_Free(void *ptr);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern void *G2_GetBG1ScrPtr(void);
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
@@ -110,8 +110,8 @@ extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **ou
 extern void MIi_CpuClear16(int value, u32 dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern struct GfFont *GF_FONT_Create(int fontId, int a1, int a2, int a3, u32 heapId);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
@@ -165,7 +165,7 @@ void ERROR_SCREEN_Setup(int messageIndex)
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_SUB, -16);
     GX_ResetBankForBG();
     GX_ResetBankForSubBG();
-    func_0207FDCC(4);
+    GX_SetBankForBG(4);
     GX_SetGraphicsMode(1, 0, 0);
     REG_DISPCNT_MAIN = (REG_DISPCNT_MAIN & 0xFFFFE0FF) | (1 << 9);
     REG_DISPCNT_MAIN &= 0xFFFF1FFF;
@@ -211,14 +211,14 @@ void ERROR_SCREEN_LoadBackground(void)
         DWCi_ScreenDC_FlushRange(charData->pixels, charData->sizeBytes);
         CopyToVram(charData->pixels, G2_GetBG1CharPtr(), charData->sizeBytes);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
     if (NNS_G2dGetUnpackedScreenData(file, (void **)(&screenData))) {
         DWCi_ScreenDC_FlushRange(screenData->tiles, screenData->sizeBytes);
         CopyToVram(screenData->tiles, G2_GetBG1ScrPtr(), screenData->sizeBytes);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &unusedBlock);
@@ -226,7 +226,7 @@ void ERROR_SCREEN_LoadBackground(void)
         DWCi_ScreenDC_FlushRange(paletteData->colors, 0x20);
         CopyToVram(paletteData->colors, (void *)PLTT_MAIN_BG, 0x20);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }
 
 
@@ -252,8 +252,8 @@ void ERROR_SCREEN_PrintMessage(int messageIndex)
     MIi_CpuClear16(0x7777, (u32)G2_GetBG1CharPtr() + 0x400, 0x3C00);
     bmp = BMP_CreateFromVram((void *)((u32)G2_GetBG1CharPtr() + 0x400), 30, 16, 32, 1);
     font = GF_FONT_Create(0x17, 0, 0, 0, 1);
-    bank = func_02045B38(0, 2, 0xe8, 1);
-    message = func_02045EC0(bank, messageIndex);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0xe8, 1);
+    message = MSGDATA_AllocString(bank, messageIndex);
     PRINTSYS_PrintColor(bmp, 0, 0, message, font, 0x1167);
     STRBUF_Delete(message);
     MSGDATA_Delete(bank);

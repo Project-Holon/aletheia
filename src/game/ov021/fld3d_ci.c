@@ -13,14 +13,14 @@
  * Cut from field_player_grid_event.c, fld3d_ci.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02030734  0x02030734  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   G3D_UTIL_Create  0x02047CFC  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   d_021DE3D8     0x021DE3D8  data  a4
@@ -31,8 +31,8 @@
  *   d_020A1EB8     0x020A1EB8  data  a4
  *   G3D_UTIL_AddUnit  0x02047E88  arm
  *   MTX_Identity33_  0x0207ADC4  arm
- *   func_02048AD0  0x02048AD0  arm
- *   func_020489F4  0x020489F4  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
+ *   G3D_UTIL_GetUnitObjIdx  0x020489F4  arm
  *   func_02048A00  0x02048A00  arm
  *   func_02048A18  0x02048A18  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
@@ -44,8 +44,8 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  *   abs_id_4A      0x0000004A  data
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   ENCEFF_GetScreenTexParam  0x021F54E0  thumb  ov075
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
@@ -59,9 +59,9 @@
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
- *   func_0207FDCC  0x0207FDCC  arm
- *   func_0207D63C  0x0207D63C  arm
- *   func_02040588  0x02040588  arm
+ *   GX_SetBankForBG  0x0207FDCC  arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_GetFog  0x02188C64  thumb  ov021
  *   FIELD_FOG_SetFlag  0x021A01A4  thumb  ov021
  *   func_02030830  0x02030830  arm
@@ -71,7 +71,7 @@
  *   G3X_SetClearColor  0x0207DD24  arm
  *   FIELDMAP_GetLight  0x02188C60  thumb  ov021
  *   FIELD_LIGHT_Reflect  0x021A0568  thumb  ov021
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   FIELD_MSGBG_ReloadBg  0x02193068  thumb  ov021
@@ -110,12 +110,12 @@
  *   func_02082A7C  0x02082A7C  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_ConvertToLinear  0x02044F64  arm
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetTex  0x0206E964  arm
- *   func_02049DB4  0x02049DB4  arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
@@ -127,17 +127,17 @@
  *   d_021DE428     0x021DE428  data  ov021  a4
  *   d_021DE43C     0x021DE43C  data  ov021  a4
  *   d_021DE448     0x021DE448  data  ov021  a4
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   WORDSET_ParsePackedLimits  0x0201F4A0  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   WAZA_OSHIE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
  *   MSGDATA_Delete  0x02045C04  arm
@@ -153,6 +153,7 @@
  *   FLD_PARTICLE_LoadResource 0x021C1A98 thumb ov021
  *   FLD_PARTICLE_StartEmitter 0x021C1AA8 thumb ov021
  *   FLD_PARTICLE_IsEffectFinished 0x021C1AB4 thumb ov021
+ *   GX_SetBankForLCDC  0x0208068C  arm  arm9
  */
 #include "fld3d_ci_types.h"
 #include "field_player_grid_event_shared_types.h"
@@ -165,9 +166,9 @@ typedef struct Bmp Bmp;
 
 struct Bmp;
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *G3D_UTIL_Create(int a, int b, int heap);
 
@@ -181,9 +182,9 @@ extern u32 G3D_UTIL_AddUnit(u32, u32);
 
 extern u32 MTX_Identity33_(u32);
 
-void func_02048AD0(void *camera);
+void G3D_CAMERA_Reset(void *camera);
 
-u32 func_020489F4(void *gfxUnits, int index);
+u32 G3D_UTIL_GetUnitObjIdx(void *gfxUnits, int index);
 
 u32 func_02048A00(void *gfxUnits, int index);
 
@@ -193,7 +194,7 @@ void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
 
 u32 GFL_HEAP_GetAllocatableSize(int a);
 
-extern void *func_020122C0(void *gameSystem, void *parent, void *func, u32 workSize);
+extern void *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 workSize);
 
 extern void *func_020124E8(void *event);
 
@@ -207,9 +208,9 @@ u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 u32 POKE_TOOL_IsShiny(void *p);
 
-int func_02034AC4(signed int id);
+int GF_OVERLAY_Load(signed int id);
 
-void func_02034A5C(int id);
+void GF_OVERLAY_Unload(int id);
 
 int *ENCEFF_GetScreenTexParam(int a);
 
@@ -239,11 +240,11 @@ extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
 extern void BG_SYS_SetGraphicsMode(void *dispConfig);
 
-extern void func_0207FDCC(int a);
+extern void GX_SetBankForBG(int a);
 
-extern void func_0207D63C(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u32 FIELDMAP_GetFog(u8 *p);
 
@@ -263,7 +264,7 @@ extern u32 FIELDMAP_GetLight(u8 *p);
 
 extern void FIELD_LIGHT_Reflect(u8 *p, int force);
 
-extern void *func_020056A0(void *callback, void *ctx, int a2);
+extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int a2);
 
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 
@@ -293,9 +294,9 @@ int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-extern void func_0208068C(u32 a);
+extern void GX_SetBankForLCDC(u32 a);
 
-extern void func_02030EAC(void *n);
+extern void TCB_DeleteTask(void *n);
 
 extern u8 BG_SYS_Get(u32 layer);
 
@@ -345,7 +346,7 @@ extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
 void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
@@ -355,7 +356,7 @@ extern void *G3D_SYSTEM_GetResourceFile(void *p);
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
-extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 
@@ -367,13 +368,13 @@ extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 
 extern int func_0208CC78(const char *s);
 
-extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void *WORDSET_CreateDefault(u32 heap);
 
 extern void *STRBUF_Create(u32 size, u16 heap);
 
-extern void *func_02045EC0(void *bank, u32 index);
+extern void *MSGDATA_AllocString(void *bank, u32 index);
 
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *playerStatus);
 
@@ -387,7 +388,7 @@ extern void WORDSET_ParsePackedLimits(void *dst, void *src);
 
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern u32 func_0201D304(void *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(void *s, u32 a, u32 b);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -561,7 +562,7 @@ Fld3dCi *FLD3D_CI_Create(u32 heapId, FldParticle *particle)
 {
     Fld3dCi *ci;
 
-    ci = func_02030734(heapId, 0x138, 1, (const char *)&d_021DE3D8, 0x158);
+    ci = GFL_HEAP_Alloc(heapId, 0x138, 1, (const char *)&d_021DE3D8, 0x158);
     ci->gfxUnits = G3D_UTIL_Create(8, 2, heapId);
     ci->heapId = heapId;
     ci->particle = particle;
@@ -588,7 +589,7 @@ void FLD3D_CI_Delete(Fld3dCi *ci)
     G3D_CAMERA_Delete(ci->cameraPersp);
     G3D_CAMERA_Delete(ci->cameraOrtho);
     G3D_UTIL_Delete(ci->gfxUnits);
-    func_020307B0(ci);
+    GFL_HEAP_Free(ci);
 }
 
 /* Adds the sequence's resource table as a graphics unit and resets the draw status. */
@@ -614,11 +615,11 @@ void FLD3D_CI_DrawEffect(Fld3dCi *ci)
     u8 i;
 
     if (ci->cameraSelect == 0)
-        func_02048AD0(ci->cameraPersp);
+        G3D_CAMERA_Reset(ci->cameraPersp);
     else
-        func_02048AD0(ci->cameraOrtho);
+        G3D_CAMERA_Reset(ci->cameraOrtho);
     if (ci->effectUnit != -1) {
-        first = (int)func_020489F4(ci->gfxUnits, (u16)ci->effectUnit);
+        first = (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)ci->effectUnit);
         count = (int)func_02048A00(ci->gfxUnits, (u16)ci->effectUnit);
         for (i = 0; i < count; i++) {
             object = (int)func_02048A18(ci->gfxUnits, (u16)(first + i));
@@ -642,7 +643,7 @@ void *FLD3D_CI_StartSequence(void *gameSystem, Fld3dCi *ci, int sequenceId)
     ci->extraTask = 0;
     ci->finishStep = 0;
     ci->cameraSelect = 0;
-    event = func_020122C0(gameSystem, 0, FLD3D_CI_EventMain, 0x40);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD3D_CI_EventMain, 0x40);
     FLD3D_CI_InitEventWork(ci, func_020124E8(event));
     return event;
 }
@@ -697,11 +698,11 @@ void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, 
     Fld3dCiEventWork *work;
     Fld3dCiIcon *icon;
 
-    func_02034AC4((int)abs_id_4A);
+    GF_OVERLAY_Load((int)abs_id_4A);
     row = ENCEFF_GetScreenTexParam(tableIndex);
     event = FLD3D_CI_StartSequence(gameSystem, ci, (u8)(*row));
     if (event == 0) {
-        func_02034A5C((int)abs_id_4A);
+        GF_OVERLAY_Unload((int)abs_id_4A);
         return 0;
     }
     work = func_020124E8(event);
@@ -725,7 +726,7 @@ void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, 
         icon->secondNameCentered = 1;
     else
         icon->secondNameCentered = 0;
-    func_02034A5C((int)abs_id_4A);
+    GF_OVERLAY_Unload((int)abs_id_4A);
     return event;
 }
 
@@ -751,7 +752,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         FLD3D_CI_SaveLayerPriorities(ci);
         FLD3D_CI_SaveVisiblePlanes(ci);
         if (FLD3D_CI_IsAltFadeSequence(ci->sequenceId) == 0)
-            GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, event, FLD3D_CI_FadeOutTask, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, FLD3D_CI_FadeOutTask, 0));
         (*state)++;
         break;
     case 1:
@@ -779,16 +780,16 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         bgMode = d_021DA710;
         BG_SYS_SetGraphicsMode(&bgMode);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x4084;
-        func_0207FDCC(8);
-        func_0207D63C(0x04000050, 0, 4, 0, 0);
-        func_02040588(2, 1);
+        GX_SetBankForBG(8);
+        G2x_SetBlendAlpha_(0x04000050, 0, 4, 0, 0);
+        BG_SYS_SetPlaneVisible(2, 1);
         FIELD_FOG_SetFlag(FIELDMAP_GetFog(fieldMap), 0);
         (*state)++;
         break;
     case 4:
         FLD3D_CI_SetupSequence(event, ci, &work->seq, (u8)ci->sequenceId);
-        func_02040588(2, 1);
-        func_02040588(0, 1);
+        BG_SYS_SetPlaneVisible(2, 1);
+        BG_SYS_SetPlaneVisible(0, 1);
         func_02030830(ci->heapId);
         FIELDMAP_SetDrawMode(fieldMap, 1);
         if (work->seq.darkenScreen)
@@ -797,9 +798,9 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         break;
     case 5:
         if (FLD3D_CI_IsAltFadeSequence(ci->sequenceId))
-            GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, event, FLD3D_CI_FadeInAltTask, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, FLD3D_CI_FadeInAltTask, 0));
         else
-            GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, event, FLD3D_CI_FadeInTask, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, FLD3D_CI_FadeInTask, 0));
         (*state)++;
         break;
     case 6:
@@ -837,7 +838,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
             FLDMMDL_SetDirDispCheckPause((int)mmdlSys, 1);
             FIELDMAP_SetUpdateStopped(fieldMap, 0);
         } else {
-            func_02040588(0, 0);
+            BG_SYS_SetPlaneVisible(0, 0);
             G3X_SetClearColor(0, 0x1f, 0x7fff, 0, 0);
         }
         FIELD_FOG_SetFlag(FIELDMAP_GetFog(fieldMap), 1);
@@ -846,7 +847,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
     case 9:
         FIELD_LIGHT_Reflect((u8 *)FIELDMAP_GetLight(fieldMap), 1);
         ci->displayRestoreDone = 0;
-        func_020056A0(FLD3D_CI_DisplayRestoreTask, &ci->displayRestoreDone, 0);
+        GFL_USE_AddMainTask(FLD3D_CI_DisplayRestoreTask, &ci->displayRestoreDone, 0);
         (*state)++;
         break;
     case 10:
@@ -914,7 +915,7 @@ int FLD3D_CI_UpdateTrackA(Fld3dCi *ci)
     if (ci->waitDelay[0] != 0) {
         (ci->waitDelay[0])--;
     } else {
-        object = func_02048A18(ci->gfxUnits, (int)func_020489F4(ci->gfxUnits, (u16)(ci->effectUnit)));
+        object = func_02048A18(ci->gfxUnits, (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)));
         count = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
         for (i = 0; i < count; i++)
             result = G3D_SYSTEM_IncObjectAnimeFrame((G3dObject *)object, i, 0x1000);
@@ -937,7 +938,7 @@ int FLD3D_CI_UpdateTrackB(Fld3dCi *ci)
     if (ci->waitDelay[1] != 0) {
         (ci->waitDelay[1])--;
     } else {
-        object = (int)func_02048A18(ci->gfxUnits, (u16)((int)func_020489F4(ci->gfxUnits, (u16)(ci->effectUnit)) + 1));
+        object = (int)func_02048A18(ci->gfxUnits, (u16)((int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)) + 1));
         count = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
         for (i = 0; i < count; i++)
             result = G3D_SYSTEM_IncObjectAnimeFrame((G3dObject *)object, i, 0x1000);
@@ -968,7 +969,7 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     } else {
         effectRes = 0;
     }
-    first = (int)func_020489F4(ci->gfxUnits, (u16)ci->effectUnit);
+    first = (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)ci->effectUnit);
     unitCount = (int)func_02048A00(ci->gfxUnits, (u16)ci->effectUnit);
     for (unit = 0; unit < unitCount; unit++) {
         object = (int)func_02048A18(ci->gfxUnits, (u16)(first + unit));
@@ -1002,7 +1003,7 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
         ci->trackWatched[1] = 1;
     if (ci->extraTask != 0) {
         object = (int)GAME_EVENT_GetGameSystem(event);
-        GAME_EVENT_CallEvent(event, func_020122C0((void *)object, event, (void *)(ci->extraTask), (int)0));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create((void *)object, event, (void *)(ci->extraTask), (int)0));
     }
 }
 
@@ -1071,16 +1072,16 @@ void FLD3D_CI_LoadSequence(Fld3dCiSeq *seq, u32 sequenceId, u32 heapId)
     baseC = baseB + trackBCount;
     total = trackACount + trackBCount + trackCCount;
     if (total != 0) {
-        seq->resources = func_02030734(heapId, total * 12, 1, (const char *)&d_021DE3D8, 0x566);
+        seq->resources = GFL_HEAP_Alloc(heapId, total * 12, 1, (const char *)&d_021DE3D8, 0x566);
     }
     if (trackACount != 0) {
-        seq->tracks = func_02030734(heapId, trackACount * 16, 1, (const char *)&d_021DE3D8, 0x56a);
+        seq->tracks = GFL_HEAP_Alloc(heapId, trackACount * 16, 1, (const char *)&d_021DE3D8, 0x56a);
     }
     if (trackBCount != 0) {
-        seq->refsB = func_02030734(heapId, trackBCount * 4, 1, (const char *)&d_021DE3D8, 0x56e);
+        seq->refsB = GFL_HEAP_Alloc(heapId, trackBCount * 4, 1, (const char *)&d_021DE3D8, 0x56e);
     }
     if (trackCCount != 0) {
-        seq->refsC = func_02030734(heapId, trackCCount * 4, 1, (const char *)&d_021DE3D8, 0x572);
+        seq->refsC = GFL_HEAP_Alloc(heapId, trackCCount * 4, 1, (const char *)&d_021DE3D8, 0x572);
     }
     seq->total = total;
     seq->trackACount = trackACount;
@@ -1142,13 +1143,13 @@ void FLD3D_CI_LoadSequence(Fld3dCiSeq *seq, u32 sequenceId, u32 heapId)
 void FLD3D_CI_FreeSequence(Fld3dCiSeq *seq)
 {
     if (seq->refsB != 0)
-        func_020307B0(seq->refsB);
+        GFL_HEAP_Free(seq->refsB);
     if (seq->refsC != 0)
-        func_020307B0(seq->refsC);
+        GFL_HEAP_Free(seq->refsC);
     if (seq->tracks != 0)
-        func_020307B0(seq->tracks);
+        GFL_HEAP_Free(seq->tracks);
     if (seq->resources != 0)
-        func_020307B0(seq->resources);
+        GFL_HEAP_Free(seq->resources);
 }
 
 /*
@@ -1157,8 +1158,8 @@ void FLD3D_CI_FreeSequence(Fld3dCiSeq *seq)
 void FLD3D_CI_StartScreenCapture(Fld3dCi *ci)
 {
     ci->captureDone = 0;
-    func_0208068C(8);
-    func_020056A0(FLD3D_CI_CaptureTask, &ci->captureDone, 0);
+    GX_SetBankForLCDC(8);
+    GFL_USE_AddMainTask(FLD3D_CI_CaptureTask, &ci->captureDone, 0);
 }
 
 /*
@@ -1167,7 +1168,7 @@ void FLD3D_CI_StartScreenCapture(Fld3dCi *ci)
 void FLD3D_CI_CaptureTask(void *task, u32 *done)
 {
     *(volatile u32 *)0x04000064 = 0x81330010;
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
     if (done != 0)
         *done = 1;
 }
@@ -1218,8 +1219,8 @@ int FLD3D_CI_PokemonExtraTask(void *event, int *state)
         break;
     case 1:
         BMP_Delete(ci->canvas);
-        func_020307B0(ci->chrRes);
-        func_020307B0(ci->plttRes);
+        GFL_HEAP_Free(ci->chrRes);
+        GFL_HEAP_Free(ci->plttRes);
         (*state)++;
         break;
     case 2:
@@ -1332,8 +1333,8 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
         }
     }
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
-    func_02061CA4(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
-    func_02061CA4((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
     func_02030830(ci->heapId);
 }
 
@@ -1426,7 +1427,7 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
     plttOffset = FLD3D_CI_FindPalette(modelRes, plttName);
     ci->chr = 0;
     ci->pltt = 0;
-    ci->chrRes = func_02049DB4(0xb4, chrFile, 1, (u32)(&ci->chr), heapId);
+    ci->chrRes = ARC_UTIL_LoadBgCharDataFromArchive(0xb4, chrFile, 1, (u32)(&ci->chr), heapId);
     ci->plttRes = func_02049F34(0xb4, plttFile, (u32)(&ci->pltt), heapId);
     chrSrc = ci->chr->raw;
     tileBuf = BMP_GetPixels(ci->canvas);
@@ -1438,8 +1439,8 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
         }
     }
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
-    func_02061CA4(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
-    func_02061CA4((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
     func_02030830(ci->heapId);
 }
 
@@ -1491,8 +1492,8 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
         break;
     case 1:
         BMP_Delete(ci->canvas);
-        func_020307B0(ci->chrRes);
-        func_020307B0(ci->plttRes);
+        GFL_HEAP_Free(ci->chrRes);
+        GFL_HEAP_Free(ci->plttRes);
         FLD3D_CI_DrawMessageTexture(playerStatus, ci, d_021DE404, d_021DE40C, icon->nameMsgId, 0);
         (*state)++;
         break;
@@ -1514,8 +1515,8 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
         break;
     case 3:
         BMP_Delete(ci->canvas);
-        func_020307B0(ci->chrRes);
-        func_020307B0(ci->plttRes);
+        GFL_HEAP_Free(ci->chrRes);
+        GFL_HEAP_Free(ci->plttRes);
         FLD3D_CI_DrawMessageTexture(playerStatus, ci, d_021DE43C, d_021DE448, 0, icon->secondNameCentered);
         (*state)++;
         break;
@@ -1604,17 +1605,17 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
 
     texBlock = (void *)func_02048A0C(ci->gfxUnits, 0);
     heapId = ci->heapId;
-    msgBank = func_02045B38(0, 2, 0xb0, heapId);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, 0xb0, heapId);
     if (msgId == 0) {
         wordSet = WORDSET_CreateDefault((u16)((heapId & 0x7FFF) | 0x8000));
         text = STRBUF_Create(8, (heapId & 0x7FFF) | 0x8000);
-        rawMsg = func_02045EC0(msgBank, msgId);
+        rawMsg = MSGDATA_AllocString(msgBank, msgId);
         WORDSET_SetSlotMyStatus(wordSet, 0, playerStatus);
         WORDSET_CopyTaggedText(wordSet, text, rawMsg);
         STRBUF_Delete(rawMsg);
         WORDSET_DeleteStrbufED04(wordSet);
     } else {
-        rawMsg = func_02045EC0(msgBank, msgId);
+        rawMsg = MSGDATA_AllocString(msgBank, msgId);
         text = STRBUF_Create(0x10, (heapId & 0x7FFF) | 0x8000);
         WORDSET_ParsePackedLimits(text, rawMsg);
         STRBUF_Delete(rawMsg);
@@ -1622,7 +1623,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     xOffset = 0;
     if (centered != 0) {
         font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
-        xOffset = func_0201D304(text, (u32)font, 0);
+        xOffset = GF_FONT_MeasureWidestLine(text, (u32)font, 0);
         GF_FONT_Delete(font);
         xOffset = 0x3c - xOffset;
         if (xOffset < 0)
@@ -1633,8 +1634,8 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     palette[1] = 0x7FFF;
     palette[2] = 0;
     WAZA_OSHIE_LoadTexPlttByName(texBlock, texName, palette, plttName, (u32)text, xOffset, 0, 0x440, heapId, texKey);
-    func_020307B0(ci->plttRes);
-    func_020307B0(text);
+    GFL_HEAP_Free(ci->plttRes);
+    GFL_HEAP_Free(text);
     MSGDATA_Delete(msgBank);
 }
 
@@ -1676,7 +1677,7 @@ void FLD3D_CI_DarkenCapturedScreen(u32 unused)
         *pixel = (a << 15) | (b << 10) | (g << 5) | r;
         pixel++;
     }
-    func_0207FDCC(oldBankState);
+    GX_SetBankForBG(oldBankState);
 }
 
 /*
@@ -1709,10 +1710,10 @@ void FLD3D_CI_PlayCueSound(Fld3dCi *ci)
 void FLD3D_CI_DisplayRestoreTask(void *task, u32 *done)
 {
     Fld3dCiDispSetup setup;
-    func_02040588(0, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
     setup = d_021DA700;
     BG_SYS_SetGraphicsMode(&setup);
-    func_02030EAC(task);
+    TCB_DeleteTask(task);
     if (done != 0)
         *done = 1;
 }

@@ -24,14 +24,14 @@
  *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   FIELD_CAMERA_PopState  0x0218F878  thumb  ov021
- *   func_020307B0  0x020307B0  arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   func_02005728  0x02005728  thumb
@@ -43,7 +43,7 @@
  *   FIELD_NOGRID_MAPPER_SetActive  0x021BB260  thumb  ov021
  *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   FIELD_CAMERA_PushState  0x0218F818  thumb  ov021
  *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
  *   VM_ReadU16  0x02011330  thumb
@@ -148,9 +148,9 @@ extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 
 extern void FIELD_CAMERA_PopState(u8 *a);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -162,7 +162,7 @@ extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 
 extern u32 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, u32 x);
 
@@ -182,7 +182,7 @@ extern u32 FIELD_NOGRID_MAPPER_SetActive(u32, u32);
 
 extern void SCRIPT_WORK_SetCheckFlag(int n);
 
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 
 extern void FIELD_CAMERA_PushState(u8 *a);
 
@@ -285,8 +285,8 @@ int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(struct ScriptVm *vm, struct ScrcmdWor
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     season = GAME_DATA_GetSeason(gameData);
-    archive = func_020490F4(0x7e, 0x8015);
-    speciesList = func_02030734(0x8015, 0x78, 1, d_021DE234, 0xf8);
+    archive = ARC_TOOL_CreateHandle(0x7e, 0x8015);
+    speciesList = GFL_HEAP_Alloc(0x8015, 0x78, 1, d_021DE234, 0xf8);
     for (tableIndex = 0; tableIndex < 6; tableIndex++) {
         if (FIELD_ENCOUNT_ST_LoadEncountData(&record, archive, d_021D98D0[tableIndex], season)) {
             if (record.hasSetA) {
@@ -302,7 +302,7 @@ int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(struct ScriptVm *vm, struct ScrcmdWor
         }
     }
     *resultVar = speciesList[func_02005728(count)];
-    func_020307B0(speciesList);
+    GFL_HEAP_Free(speciesList);
     ARC_TOOL_DeleteHandle(archive);
     return 0;
 }
@@ -340,7 +340,7 @@ int SCRCMD_PROC_FLD_BeginFieldRegionRelease(struct ScriptVm *vm, struct ScrcmdWo
     if (FIELD_CAMERA_HasDelay(fieldRegion) != 0) {
         FIELD_CAMERA_EndDelay(fieldRegion);
         fieldRegion = SCRCMD_WORK_GetScriptWork(cmdWork);
-        SCRIPT_SYS_CallEvent(fieldRegion, func_020122C0(gameSystem, 0, (void *)SCRCMD_PROC_FLD_PollFieldRegionStart, 0));
+        SCRIPT_SYS_CallEvent(fieldRegion, GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_PROC_FLD_PollFieldRegionStart, 0));
         if (FIELDMAP_GetMoveKind(fieldMap) == 1) {
             FIELD_NOGRID_MAPPER_SetActive(FIELDMAP_GetNogridMapper(fieldMap), 0);
         }
@@ -440,7 +440,7 @@ int SCRCMD_PROC_FLD_CallFieldRegionWaitEvent(struct ScriptVm *vm, struct ScrcmdW
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, func_020122C0(gameSystem, 0, SCRCMD_PROC_FLD_PollFieldRegionIdle, 0));
+    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_Create(gameSystem, 0, SCRCMD_PROC_FLD_PollFieldRegionIdle, 0));
     return 1;
 }
 

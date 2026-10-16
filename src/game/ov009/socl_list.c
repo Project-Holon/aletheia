@@ -1,7 +1,7 @@
 /*
  * file:     socl_list.c
  * unit:     yes
- * function: SOCLi_SocketRegister, func_0215F2F4, SOCLi_SocketRegisterTrash, SOCLi_SocketUnregister, SOCLi_SocketUnregisterList, func_0215F36C, SOCLi_SocketUnregisterTrash, func_0215F3D0, SOCL_SocketIsInTrash
+ * function: SOCLi_SocketRegister, func_0215F2F4, SOCLi_SocketRegisterTrash, SOCLi_SocketUnregister, SOCLi_SocketUnregisterList, func_0215F36C, SOCLi_SocketUnregisterTrash, SOCL_SocketIsInvalid, SOCL_SocketIsInTrash
  * address:  0x0215F2DC
  * region:   ov009
  * compiler: dsi/1.1p1

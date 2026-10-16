@@ -13,11 +13,11 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030EAC 0x02030EAC arm
- *   func_02030DA8  0x02030DA8  arm
- *   func_02030734  0x02030734  arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   TCB_AddTask  0x02030DA8  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
@@ -47,15 +47,15 @@
 #include "btlv_effvm_types.h"
 #include "btlv_clact_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02030EAC(void *task);
+extern void TCB_DeleteTask(void *task);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileIdx, u32 compressed, u32 vramMode, u16 heapId);
 
@@ -103,7 +103,7 @@ typedef struct ClactAnimCommand {
 
 extern void ARC_TOOL_DeleteHandle(void *archive);
 
-extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
+extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
 
 extern void BTLV_FINGER_CURSOR_TaskHideAfterDelay(void *task, void *work);
 
@@ -144,8 +144,8 @@ BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, u32 palSlot, u16 
     BtlvFingerCursor *cursor;
     void *archive;
 
-    cursor = func_02030734(heapId, 0x30, 1, d_0220AEFC, 0x52);
-    archive = func_020490F4(0xb, (u16)((heapId & 0x7fff) | 0x8000));
+    cursor = GFL_HEAP_Alloc(heapId, 0x30, 1, d_0220AEFC, 0x52);
+    archive = ARC_TOOL_CreateHandle(0xb, (u16)((heapId & 0x7fff) | 0x8000));
     cursor->heapId = heapId;
     cursor->charResId = CLACT_RegisterCharacter(archive, 0xd9, 0, 1, heapId);
     cursor->cellResId = CLACT_RegisterCellAnim(archive, 0xdb, 0xdc, heapId);
@@ -153,19 +153,19 @@ BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, u32 palSlot, u16 
     PALANM_CopyHwPaletteToSlot(palAnmSlots, 3, (u16)(CLACT_GetPaletteVramAddress(cursor->palResId, 1) >> 1), 0x20);
     cursor->clactUnit = CLACT_CreateUnit(1, 0, heapId);
     ARC_TOOL_DeleteHandle(archive);
-    cursor->task = func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_FINGER_CURSOR_TaskHideAfterDelay, cursor, 0);
+    cursor->task = TCB_AddTask(BTLV_EFFECT_GetOwner(), BTLV_FINGER_CURSOR_TaskHideAfterDelay, cursor, 0);
     return cursor;
 }
 
 void BTLV_FINGER_CURSOR_Delete(BtlvFingerCursor *cursor)
 {
-    func_02030EAC(cursor->task);
+    TCB_DeleteTask(cursor->task);
     BTLV_FINGER_CURSOR_DeleteActor(cursor);
     CLACT_ReleaseCharacter(cursor->charResId);
     CLACT_ReleaseCellAnim(cursor->cellResId);
     CLACT_ReleasePalette(cursor->palResId);
     CLACT_DeleteUnit(cursor->clactUnit);
-    func_020307B0(cursor);
+    GFL_HEAP_Free(cursor);
 }
 
 /*

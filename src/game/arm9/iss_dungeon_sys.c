@@ -21,6 +21,8 @@
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 struct PlayerWork;
 struct GameData;
@@ -85,10 +87,10 @@ extern void GFL_USE_SetBgmTrackVolume(u32 a, u32 b);
 extern void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d);
 extern u32 *GFL_USE_GetBgmHandle(void);
 extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u8 GAME_DATA_GetSeason(const struct GameData *gd);
 void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
 u32 ISS_ROAD_SYS_HasPlayerMoved(IssRoadSys *road);
@@ -222,10 +224,10 @@ void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex)
 DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId)
 {
     u32 i;
-    DungeonSoundTable *table = (DungeonSoundTable *)func_02030734(heapId, 8, 0, (const void *)0x020A7718, 0x77);
+    DungeonSoundTable *table = (DungeonSoundTable *)GFL_HEAP_Alloc(heapId, 8, 0, (const void *)0x020A7718, 0x77);
 
     table->count = (u8)ARC_TOOL_GetArchiveFileCount(0x92);
-    table->records = (DungeonSoundRecord *)func_02030734(heapId, 0x1c * table->count, 0,
+    table->records = (DungeonSoundRecord *)GFL_HEAP_Alloc(heapId, 0x1c * table->count, 0,
                                          (const void *)0x020A7718, 0x79);
 
     for (i = 0; (int)i < (int)table->count; i++) {
@@ -239,8 +241,8 @@ DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId)
  */
 void ISS_DUNGEON_SYS_DeleteTable(DungeonSoundTable *table)
 {
-    func_020307B0(table->records);
-    func_020307B0(table);
+    GFL_HEAP_Free(table->records);
+    GFL_HEAP_Free(table);
 }
 
 /*
@@ -280,7 +282,7 @@ DungeonSoundRecord *ISS_DUNGEON_SYS_FindRecord(DungeonSoundTable *table, u16 are
  */
 IssDungeonSys *ISS_DUNGEON_SYS_Create(struct GameData *gameData, struct PlayerWork *player, u32 heapId)
 {
-    IssDungeonSys *dungeon = (IssDungeonSys *)func_02030734(heapId, 0x38, 0,
+    IssDungeonSys *dungeon = (IssDungeonSys *)GFL_HEAP_Alloc(heapId, 0x38, 0,
                                                   (const void *)0x020A7718, 0x109);
 
     dungeon->heapId = (u16)heapId;
@@ -303,7 +305,7 @@ void ISS_DUNGEON_SYS_Delete(IssDungeonSys *dungeon)
 {
     ISS_DUNGEON_SYS_Stop(dungeon);
     ISS_DUNGEON_SYS_DeleteTable(dungeon->table);
-    func_020307B0(dungeon);
+    GFL_HEAP_Free(dungeon);
 }
 
 /*

@@ -15,8 +15,8 @@
  * symbols:
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
- *   func_02030734  0x02030734  arm
- *   func_02045B38  0x02045B38  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
@@ -27,7 +27,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
@@ -50,8 +50,8 @@
  *   func_02009364  0x02009364  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02009448  0x02009448  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_SYNC_GetBlock  0x02009448  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   MYSTERY_DATA_IsCardExist  0x0200A0E4  thumb
@@ -127,9 +127,9 @@ typedef struct PdwPostmanEventWork {
 
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *msgData);
 extern void MSGDATA_ReadString(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
@@ -162,8 +162,8 @@ extern int func_02007E50(struct MyItem *bag, int itemId, int count, int heapId);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct PdwPostmanSave *func_02009448(struct SaveControl *save);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+extern struct PdwPostmanSave *GAME_SYNC_GetBlock(struct SaveControl *save);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern u32 MYSTERY_DATA_IsCardExist(struct MysteryData *data, u32 slot);
 extern int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, unsigned int slot);
@@ -193,12 +193,12 @@ PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostm
     int height;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    listWin = func_02030734(heapId, sizeof(PdwPostmanListWin), 1, sPdwPostmanFileName, 0x73);
+    listWin = GFL_HEAP_Alloc(heapId, sizeof(PdwPostmanListWin), 1, sPdwPostmanFileName, 0x73);
     listWin->heapId = heapId;
     listWin->fieldMap = fieldMap;
     listWin->items = items;
     listWin->itemCount = itemCount;
-    listWin->msgData = func_02045B38(0, 3, 0x13B, heapId);
+    listWin->msgData = MSGDATA_CreateFromArchive(0, 3, 0x13B, heapId);
     listWin->wordSet = WORDSET_CreateDefault(heapId);
     listWin->strBuf = STRBUF_Create(0x80, heapId);
     listWin->expandBuf = STRBUF_Create(0x80, heapId);
@@ -217,7 +217,7 @@ int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin)
     STRBUF_Delete(listWin->expandBuf);
     WORDSET_DeleteStrbufED04(listWin->wordSet);
     MSGDATA_Delete(listWin->msgData);
-    return func_020307B0(listWin);
+    return GFL_HEAP_Free(listWin);
 }
 
 /* Print one line per gift: the item name, then its quantity. */
@@ -226,7 +226,7 @@ void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin)
     struct MsgBank *itemNames;
     int i;
 
-    itemNames = func_02045B38(0, 2, 0x36, (u16)((listWin->heapId & 0x7fff) | 0x8000));
+    itemNames = MSGDATA_CreateFromArchive(0, 2, 0x36, (u16)((listWin->heapId & 0x7fff) | 0x8000));
     for (i = 0; i < listWin->itemCount; i++) {
         MSGDATA_ReadString(itemNames, listWin->items[i].itemId, listWin->strBuf);
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0, i * PDW_POSTMAN_LINE_HEIGHT, listWin->strBuf);
@@ -282,7 +282,7 @@ int PDW_POSTMAN_ListEvent(struct GameEvent *event, int *seq, void *eventWork)
         break;
     case 4:
         if (work->pageTop + PDW_POSTMAN_PAGE_ITEMS >= work->itemCount) {
-            func_020307B0(work->items);
+            GFL_HEAP_Free(work->items);
             return 1;
         }
         work->pageTop += PDW_POSTMAN_PAGE_ITEMS;
@@ -303,7 +303,7 @@ PdwPostmanItem *PDW_POSTMAN_CreateReceivableList(struct GameData *gameData, u32 
     u16 itemCount;
 
     bag = GAME_DATA_GetMyItem(gameData);
-    items = func_02030734(heapId, sizeof(PdwPostmanItem) * PDW_POSTMAN_ITEM_MAX, 1, sPdwPostmanFileName, 0x14d);
+    items = GFL_HEAP_Alloc(heapId, sizeof(PdwPostmanItem) * PDW_POSTMAN_ITEM_MAX, 1, sPdwPostmanFileName, 0x14d);
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
@@ -396,8 +396,8 @@ struct GameEvent *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSystem)
     PdwPostmanEventWork *work;
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    save = func_02009448(GAME_DATA_GetSaveControl(gameData));
-    event = func_020122C0(gameSystem, 0, PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
+    save = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    event = GAME_EVENT_Create(gameSystem, 0, PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
     work = func_020124E8(event);
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->pageTop = 0;

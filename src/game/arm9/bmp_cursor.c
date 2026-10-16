@@ -18,20 +18,20 @@
  *   BMP_CURSOR_FILE_NAME     0x020A73A0  data
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_Delete  0x020437AC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   BMP_Blit  0x020439A0  arm
  *   BMP_CURSOR_TileData     0x0209E8CC  data
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   BMP_CreateFromBuffer  0x020436FC  arm
  */
 #include "bmp_menulist_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
@@ -59,7 +59,7 @@ extern const u8 BMP_CURSOR_TileData[];
 
 struct MenuCursor *BMP_CURSOR_Create(u32 heap)
 {
-    struct MenuCursor *cursor = func_02030734((u16)heap, 0xc, 1, BMP_CURSOR_FILE_NAME, 0x3a);
+    struct MenuCursor *cursor = GFL_HEAP_Alloc((u16)heap, 0xc, 1, BMP_CURSOR_FILE_NAME, 0x3a);
 
     if (cursor != 0) {
         cursor->mode = 0;
@@ -83,7 +83,7 @@ void BMP_CURSOR_Delete(struct MenuCursor *cursor)
     if (cursor->tile != 0) {
         BMP_Delete(cursor->tile);
     }
-    func_020307B0(cursor);
+    GFL_HEAP_Free(cursor);
 }
 
 /*

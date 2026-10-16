@@ -29,7 +29,7 @@
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
  *   IRC_COMPATIBLE_MENU_ButtonRows 0x021B8AD4 data a4
  *   IRC_APPBAR_Delete 0x021B71C0 thumb ov101
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -39,9 +39,9 @@
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   IRC_COMPATIBLE_MENU_VramBankConfig 0x021B8B2C data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -62,8 +62,8 @@
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
- *   func_0201D304 0x0201D304 thumb
- *   func_0201D42C 0x0201D42C thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   GF_FONT_CountLines 0x0201D42C thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   IRC_APPBAR_GetResult 0x021B7250 thumb ov101
@@ -87,7 +87,7 @@
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
- *   func_020870D0 0x020870D0 arm
+ *   OS_GetTick 0x020870D0 arm
  *   func_0209C2B0 0x0209C2B0 arm
  *   IRC_APPBAR_IsPressed 0x021B7254 thumb ov101
  *   COMPATIBLE_IRC_SYS_ClearValues 0x021B63C4 thumb ov101
@@ -95,7 +95,7 @@
  *   COMPATIBLE_IRC_SYS_IsPartnerReady 0x021B62FC thumb ov101
  *   IRC_APPBAR_Update 0x021B71E4 thumb ov101
  *   BUTTON_MAN_Create 0x02051B84 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
@@ -127,7 +127,7 @@
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -157,6 +157,12 @@
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm  arm9
  *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm  arm9
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm  arm9
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm  arm9
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm  arm9
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm  arm9
  */
 #include "irc_screen_types.h"
 #include "../ov101/irc_appbar.h"
@@ -293,7 +299,7 @@ extern void *func_020070A4(void);
 extern void *IRC_RANKING_GetFromSave(void *saveControl);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
-extern void func_020315D4(void *proc);
+extern void PROCSYS_FreeProcWork(void *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned heapId);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
@@ -303,20 +309,20 @@ extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BMP_SetDisplaySwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_SetVramBanks(const void *config);
-extern unsigned func_020056A0(void (*task)(unsigned, void *), void *work, unsigned priority);
-extern void func_02030EAC(unsigned task);
+extern unsigned GFL_USE_AddMainTask(void (*task)(unsigned, void *), void *work, unsigned priority);
+extern void TCB_DeleteTask(unsigned task);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(const void *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const void *template, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8, u8);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void BG_SYS_SetPlaneVisible(u8, u8);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(unsigned, unsigned, unsigned);
@@ -346,9 +352,9 @@ extern void CLACT_VBlankSystem(void);
 extern void GF_FONT_InitTextColor(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
-extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u32 heap);
-extern void func_02049B40(unsigned, unsigned, unsigned, unsigned, unsigned, u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern void WORDSET_DeleteStrbufED04(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
 extern void PRINTSYS_QUE_Delete(void *printQueue);
@@ -369,8 +375,8 @@ extern void func_02045CAC(void *msgData, u32 msgId, void *dest);
 extern void PRINTSYS_PrintQue(void *printQueue, void *bmp, u32 x, u32 y, void *strBuf, void *font);
 extern u8 BMP_WIN_GetWidth(void *bmpWin);
 extern u8 BMP_WIN_GetHeight(void *bmpWin);
-extern u32 func_0201D304(void *strBuf, void *font, u32 margin);
-extern u32 func_0201D42C(void *strBuf, void *font);
+extern u32 GF_FONT_MeasureWidestLine(void *strBuf, void *font, u32 margin);
+extern u32 GF_FONT_CountLines(void *strBuf, void *font);
 extern void PRINTSYS_QUE_Clear(void *printQueue);
 extern void PRINTSYS_PrintQueColor(void *printQueue, void *bmp, u32 x, u32 y, void *strBuf, void *font, u16 color);
 extern void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys);
@@ -390,13 +396,13 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 extern u32 func_02008530(const u8 *myStatus);
 extern void MISC_SAVEDATA_InsertRecentValue(void *saveData, u32 value);
-extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern u32 func_0209C2B0(u32, u32);
 extern void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_IsPartnerReady(IrcSys *sys);
 extern void *BUTTON_MAN_Create(u8 *bounds, void (*callback)(u16, int, struct IrcButtons *), struct IrcButtons *userData, u32 heapId);
-extern void *func_02045EC0(void *msgData, u32 msgId);
+extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void PRINTSYS_Print(void *bmp, s16 x, s16 y, void *strBuf, void *font);
 extern void GF_FONT_SetDefaultTextColor(void);
@@ -533,7 +539,7 @@ int IRC_COMPATIBLE_MENU_ProcExit(void *proc, int unused, int unused2, IrcMenuWor
     IRC_COMPATIBLE_MENU_ExitBackgrounds(&work->bg);
     IRC_COMPATIBLE_MENU_ExitDisplay(work);
     IRC_COMPATIBLE_MENU_ExitText(&work->text);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x3b);
     return 1;
 }
@@ -591,12 +597,12 @@ void IRC_COMPATIBLE_MENU_InitDisplay(IrcMenuWork *work, u16 heapId)
     BG_SYS_ResetSubDisplay();
     BG_SYS_SetVramBanks(IRC_COMPATIBLE_MENU_VramBankConfig);
     IRC_COMPATIBLE_MENU_InitSprites(&work->sprites, IRC_COMPATIBLE_MENU_VramBankConfig, heapId);
-    work->vblankTask = func_020056A0(IRC_COMPATIBLE_MENU_VBlankTask, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_VBlankTask, work, 0);
 }
 
 void IRC_COMPATIBLE_MENU_ExitDisplay(IrcMenuWork *work)
 {
-    func_02030EAC(work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
     IRC_COMPATIBLE_MENU_ExitSprites(&work->sprites);
 }
 
@@ -628,23 +634,23 @@ void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
         layer = IRC_COMPATIBLE_MENU_BgLayerIds[i];
         BG_SYS_InitBgLayer((u8)layer, IRC_COMPATIBLE_MENU_BgTemplates[i], (u8)IRC_COMPATIBLE_MENU_BgLayerTypes[i]);
         BG_SYS_FreeSlot(layer);
-        func_02040588(layer, 1);
+        BG_SYS_SetPlaneVisible(layer, 1);
     }
-    arc = func_020490F4(94, heapId);
+    arc = ARC_TOOL_CreateHandle(94, heapId);
     func_02049B68(arc, 1, 0, 0, 0, heapId);
     func_02049B68(arc, 1, 4, 0, 0, heapId);
-    func_02049658(arc, 0, 3, 0, 0, 0, heapId);
-    func_02049658(arc, 0, 6, 0, 0, 0, heapId);
-    func_02049658(arc, 48, 4, 0, 0, 0, heapId);
-    func_02049658(arc, 42, 2, 0, 0, 0, heapId);
-    func_020498F4(arc, 4, 3, 0, 0, 0, heapId);
-    func_020498F4(arc, 4, 6, 0, 0, 0, heapId);
-    func_020498F4(arc, 44, 4, 0, 0, 0, heapId);
-    func_020498F4(arc, 43, 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 0, 3, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 0, 6, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 48, 4, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, 42, 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 4, 3, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 4, 6, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 44, 4, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 43, 2, 0, 0, 0, heapId);
     BG_SYS_Init(5, 0, 1, 0);
-    bg->charRange = func_02049740(arc, 49, 5, 0, 0, heapId);
+    bg->charRange = ARC_UTIL_RegisterObjCharFromHandle(arc, 49, 5, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    bg->vblankTask = func_020056A0(IRC_COMPATIBLE_MENU_BackgroundVBlank, bg, 0);
+    bg->vblankTask = GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_BackgroundVBlank, bg, 0);
 }
 
 /*
@@ -654,7 +660,7 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(IrcBgSetup *bg)
 {
     int i;
     unsigned range;
-    func_02030EAC(bg->vblankTask);
+    TCB_DeleteTask(bg->vblankTask);
     range = bg->charRange;
     BG_SYS_DeleteHalf(5, (u16)range, (u16)(range >> 16));
     BG_SYS_SetTileUnit(5, 1, 0);
@@ -679,7 +685,7 @@ void IRC_COMPATIBLE_MENU_InitSprites(IrcMenuSprites *sprites, const void *config
     CLACT_SetUnitDefaultRenderer(sprites->res.unit);
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
-    arc = func_020490F4(94, heapId);
+    arc = ARC_TOOL_CreateHandle(94, heapId);
     sprites->res.palette = CLACT_RegisterPalette(arc, 12, 1, 0, heapId);
     sprites->res.characters = CLACT_RegisterCharacter(arc, 11, 0, 1, heapId);
     sprites->res.cellAnim = CLACT_RegisterCellAnim(arc, 10, 9, heapId);
@@ -731,10 +737,10 @@ void IRC_COMPATIBLE_MENU_InitText(IrcTextSystem *text, u16 heapId)
     GF_FONT_InitTextColor();
     text->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
-    text->msgData = func_02045B38(0, 2, 0x31, heapId);
+    text->msgData = MSGDATA_CreateFromArchive(0, 2, 0x31, heapId);
     text->wordSet = WORDSET_CreateDefault(heapId);
-    func_02049B40(0x17, 5, 4, 0, 0x20, heapId);
-    func_02049B40(0x17, 5, 0, 0, 0x20, heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0, 0x20, heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0, 0x20, heapId);
 }
 
 void IRC_COMPATIBLE_MENU_ExitText(IrcTextSystem *text)
@@ -844,8 +850,8 @@ void IRC_COMPATIBLE_MENU_PrintMessageCentered(IrcWindow *win, IrcTextSystem *tex
     func_02045CAC(msgData, msgId, win->strBuf);
     x = BMP_WIN_GetWidth(win->bmpWin) * 4;
     y = BMP_WIN_GetHeight(win->bmpWin) * 4;
-    x -= (u16)(func_0201D304(win->strBuf, font, 0) >> 1);
-    y -= (u16)(func_0201D42C(win->strBuf, font) >> 1);
+    x -= (u16)(GF_FONT_MeasureWidestLine(win->strBuf, font, 0) >> 1);
+    y -= (u16)(GF_FONT_CountLines(win->strBuf, font) >> 1);
     PRINTSYS_QUE_Clear(printQueue);
     PRINTSYS_PrintQueColor(printQueue, BMP_WIN_GetBmp(win->printWin), (s16)x, (s16)y, win->strBuf, font, 0x3dc1);
     win->printPending = 1;
@@ -917,7 +923,7 @@ void IRC_COMPATIBLE_MENU_HandleChoice(IrcMenuWork *work, u16 *state)
     case 0:
         work->choice = 2;
         work->flag = 0;
-        work->startTime = func_0209C2B0((u32)func_020870D0() << 6, 33514);
+        work->startTime = func_0209C2B0((u32)OS_GetTick() << 6, 33514);
         *state = 1;
         break;
     case 1:
@@ -932,7 +938,7 @@ void IRC_COMPATIBLE_MENU_HandleChoice(IrcMenuWork *work, u16 *state)
                 break;
             }
         }
-        work->elapsed = func_0209C2B0((u32)func_020870D0() << 6, 33514) - work->startTime;
+        work->elapsed = func_0209C2B0((u32)OS_GetTick() << 6, 33514) - work->startTime;
         if (IRC_APPBAR_IsPressed(work->appBar)) IRC_COMPATIBLE_MENU_SetButtonsEnabled(&work->buttons, 0);
         if (IRC_APPBAR_GetResult(work->appBar) == 1) {
             COMPATIBLE_IRC_SYS_ResetStep(work->args->view);
@@ -1058,10 +1064,10 @@ void IRC_COMPATIBLE_MENU_InitButtons(IrcButtons *buttons, int bgLayer, const Irc
         BMP_WIN_TransferChars(bmpWin);
         BMP_WIN_MakeScreen(bmpWin);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
-        label = func_02045EC0(IRC_COMPATIBLE_MENU_TextGetMsgData(text), rows[i].msgId);
+        label = MSGDATA_AllocString(IRC_COMPATIBLE_MENU_TextGetMsgData(text), rows[i].msgId);
         GF_FONT_SetTextColor(15, 14, 4);
-        width = func_0201D304(label, IRC_COMPATIBLE_MENU_TextGetFont(text), 0);
-        height = func_0201D42C(label, IRC_COMPATIBLE_MENU_TextGetFont(text));
+        width = GF_FONT_MeasureWidestLine(label, IRC_COMPATIBLE_MENU_TextGetFont(text), 0);
+        height = GF_FONT_CountLines(label, IRC_COMPATIBLE_MENU_TextGetFont(text));
         bmp = BMP_WIN_GetBmp(buttons->windows[i]);
         PRINTSYS_Print(bmp, (row->width - 8) * 4 - (width >> 1), (row->height - 2) * 4 - (height >> 1), label, IRC_COMPATIBLE_MENU_TextGetFont(text));
         STRBUF_Delete(label);

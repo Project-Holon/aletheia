@@ -17,22 +17,22 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   CODEIN_PARAM_Create 0x0202E4EC thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   PALANM_Create 0x02021518 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
- *   func_0207D63C 0x0207D63C arm
- *   func_020056A0 0x020056A0 thumb
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021DA800 0x021DA800 data a4
  *   CLACT_DrawSystem  0x0204A600  arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -44,7 +44,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_02082A7C 0x02082A7C arm
@@ -82,15 +82,15 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_02049B68 0x02049B68 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -110,10 +110,10 @@
  *   BMP_OAM_Delete 0x0202570C thumb
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_02045B38 0x02045B38 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   BMP_Create 0x02043678 arm
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_Create 0x020255A0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
@@ -378,19 +378,19 @@ extern void GFL_HEAP_CreateChildHeap(unsigned a, unsigned b, unsigned c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned size, unsigned heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern struct Param *CODEIN_PARAM_Create(unsigned heap, unsigned a1, unsigned a2, unsigned a3, unsigned *src);
-extern unsigned func_020307B0(void *p);
+extern unsigned GFL_HEAP_Free(void *p);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
-extern void *func_020490F4(unsigned id, unsigned heap);
+extern void *ARC_TOOL_CreateHandle(unsigned id, unsigned heap);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void * PALANM_Create(unsigned);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned heapId);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, unsigned idx, unsigned size, unsigned heap);
-extern void func_0207D63C(void *,int,int,int,int);
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
 extern void CLACT_DrawSystem(void *);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern unsigned GF_FONT_Delete(void *ptr);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
@@ -402,7 +402,7 @@ extern unsigned PALANM_Delete(void *a0);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BUTTON_MAN_Delete(void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned heap);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -430,15 +430,15 @@ extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_ReleasePalette(u32 i);
@@ -458,10 +458,10 @@ extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void BMP_OAM_Delete(struct Grid *);
 extern void BMP_OAM_DeleteSys(void *);
 extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_UploadChars(struct Obj *o);
@@ -571,11 +571,11 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
         sizes[0]=4; sizes[1]=4; sizes[2]=4;
         param=(Param *)CODEIN_PARAM_Create(50,0,0,12,sizes);
         *(Param *)(scene+0x328)=*param;
-        func_020307B0(param);
+        GFL_HEAP_Free(param);
     } else *(Param *)(scene+0x328)=*cfg;
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
-    ((Wf2dmapScene *)scene)->arcHandle=func_020490F4(59,50);
+    ((Wf2dmapScene *)scene)->arcHandle=ARC_TOOL_CreateHandle(59,50);
     BG_SYS_Create(50); BMP_WIN_Init(50);
     ((Wf2dmapScene *)scene)->palAnm.handle=PALANM_Create(50);
     ((Wf2dmapScene *)scene)->font.handle=GF_FONT_Create(23,0,0,0,50);
@@ -583,9 +583,9 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     PALANM_AllocSlotBuffers(((Wf2dmapScene *)scene)->palAnm.handle,0,512,50);
     WF2DMAP_SCENE_InitBg();
     WF2DMAP_SCENE_InitClact((char *)scene,(unsigned int)d_021DA800); WF2DMAP_SCENE_BuildGrid((char *)scene); WF2DMAP_SCENE_CreateButtons((char *)scene);
-    func_0207D63C((void *)0x04000050,0,6,15,7);
-    func_0207D63C((void *)0x04001050,0,14,7,8);
-    ((Wf2dmapScene *)scene)->vblankTask=func_020056A0((unsigned)WF2DMAP_SCENE_VBlank,(unsigned)scene,16);
+    G2x_SetBlendAlpha_((void *)0x04000050,0,6,15,7);
+    G2x_SetBlendAlpha_((void *)0x04001050,0,14,7,8);
+    ((Wf2dmapScene *)scene)->vblankTask=GFL_USE_AddMainTask((unsigned)WF2DMAP_SCENE_VBlank,(unsigned)scene,16);
     GFL_NET_RestartWithDefaultTimeout(1,50);
     return 1;
 }
@@ -617,7 +617,7 @@ int WF2DMAP_SCENE_Draw(int a, int b, int c, int scene)
  */
 int WF2DMAP_SCENE_Delete(void *procWork,int b,int c,char *scene)
 {
-    func_02030EAC(((Wf2dmapScene *)scene)->vblankTask);
+    TCB_DeleteTask(((Wf2dmapScene *)scene)->vblankTask);
     GF_FONT_Delete(((Wf2dmapScene *)scene)->font.handle);
     WF2DMAP_SCENE_DeleteActors(scene);
     BMP_WIN_Exit();
@@ -631,7 +631,7 @@ int WF2DMAP_SCENE_Delete(void *procWork,int b,int c,char *scene)
     ARC_TOOL_DeleteHandle(((Wf2dmapScene *)scene)->arcHandle);
     BUTTON_MAN_Delete(((Wf2dmapScene *)scene)->buttonMan);
     if(c==0) STRBUF_Delete(((Wf2dmapScene *)scene)->strbuf.handle);
-    func_020315D4(procWork);
+    PROCSYS_FreeProcWork(procWork);
     GFL_HEAP_DeleteChecked(50);
     return 1;
 }
@@ -1382,11 +1382,11 @@ void WF2DMAP_SCENE_LoadActorAssets(char *scene)
 {
     void *palAnm=((Wf2dmapScene *)scene)->palAnm.handle;
     void *arc=((Wf2dmapScene *)scene)->arcHandle;
-    func_02049658(arc,6,1,0,0,0,50);
-    func_020498F4(arc,10,1,0,0,0,50);
+    ARC_UTIL_UploadBgCharFromHandle(arc,6,1,0,0,0,50);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,10,1,0,0,0,50);
     PALANM_LoadArcPaletteToSlot(palAnm,59,1,50,0,64,0);
-    func_02049658(arc,7,5,0,0,0,50);
-    func_020498F4(arc,11,5,0,0,0,50);
+    ARC_UTIL_UploadBgCharFromHandle(arc,7,5,0,0,0,50);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,11,5,0,0,0,50);
     func_02049B68(arc,2,4,0,0,50);
     ((Wf2dmapScene *)scene)->paletteA=CLACT_RegisterPalette(arc,0,0,0,50);
     ((Wf2dmapScene *)scene)->charA=CLACT_RegisterCharacter(arc,5,0,0,50);
@@ -1398,7 +1398,7 @@ void WF2DMAP_SCENE_LoadActorAssets(char *scene)
     ((Wf2dmapScene *)scene)->charB=CLACT_RegisterCharacter(arc,8,0,0,50);
     ((Wf2dmapScene *)scene)->cellAnimB=CLACT_RegisterCellAnim(arc,13,16,50);
     BMP_MENUWORK_LoadCharAndPltt(4,1,11,0,50);
-    func_02049B40(23,5,4,384,32,50);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,384,32,50);
 }
 
 
@@ -1736,7 +1736,7 @@ void WF2DMAP_SCENE_DeleteOam(u8 *scene) { CLACT_ReleasePalette(((Wf2dmapScene *)
 
 
 
-void WF2DMAP_SCENE_RegisterCompressedPalette(u8 *scene) { void *arc; arc=func_020490F4(23,50); ((Wf2dmapScene *)scene)->oamPalette=CLACT_RegisterPaletteCompressed(arc,5,0,128,50); ARC_TOOL_DeleteHandle(arc); }
+void WF2DMAP_SCENE_RegisterCompressedPalette(u8 *scene) { void *arc; arc=ARC_TOOL_CreateHandle(23,50); ((Wf2dmapScene *)scene)->oamPalette=CLACT_RegisterPaletteCompressed(arc,5,0,128,50); ARC_TOOL_DeleteHandle(arc); }
 
 
 
@@ -1758,10 +1758,10 @@ void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int u
     short yPos;
     u16 xPos;
     int zero=0;
-    bank=func_02045B38(0,2,25,50);
-    msg=func_02045EC0(bank,index+3);
+    bank=MSGDATA_CreateFromArchive(0,2,25,50);
+    msg=MSGDATA_AllocString(bank,index+3);
     bmp=BMP_Create(10,2,32,50);
-    PRINTSYS_PrintColor(bmp,(80-(int)func_0201D304(msg,*(u32 *)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
+    PRINTSYS_PrintColor(bmp,(80-(int)GF_FONT_MeasureWidestLine(msg,*(u32 *)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
     xPos=(scene+(index+22)*4)[0x29a]+20;
     yPos=((scene+(index+22)*4)[0x298]+(scene+(index+22)*4)[0x299])/2;
     param.bmp=bmp;
@@ -1798,8 +1798,8 @@ void WF2DMAP_SCENE_CreateWindow(void **windowOut,int msgId,int x,int y,int w,int
 void WF2DMAP_SCENE_DrawMessage(void *window,int msgId,void *msgBank,u32 number)
 {
     void *ws=WORDSET_CreateDefault(50);
-    void *bank=func_02045B38(0,2,25,50);
-    void *msg=func_02045EC0(bank,msgId);
+    void *bank=MSGDATA_CreateFromArchive(0,2,25,50);
+    void *msg=MSGDATA_AllocString(bank,msgId);
     void *out=STRBUF_Create(88,50);
     WORDSET_SetSlotNumber(ws,0,number,2,2,1);
     WORDSET_CopyTaggedText(ws,out,msg);

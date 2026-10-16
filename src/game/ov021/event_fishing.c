@@ -19,7 +19,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   abs_id_C2      0x000000C2  data
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
@@ -108,7 +108,7 @@ typedef struct BbActRec {
 
 extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
@@ -197,7 +197,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     FishingWork *work;
     int hasEncounter;
 
-    task = func_020122C0(gameSystem, 0, FISHING_EventMain, sizeof(FishingWork));
+    task = GAME_EVENT_Create(gameSystem, 0, FISHING_EventMain, sizeof(FishingWork));
     work = func_020124E8(task);
     MI_CpuFill8(work, 0, sizeof(FishingWork));
     work->gameSystem = gameSystem;

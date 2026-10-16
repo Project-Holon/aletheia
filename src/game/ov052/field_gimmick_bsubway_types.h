@@ -105,8 +105,8 @@ extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern struct FieldEffectObj *FLDEFF_BTRAIN_Start(struct FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos);
 extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *fieldEffect, const int *effectIds, int count);
 extern void FIELD_G3D_MAPPER_SetOriginOffset(struct FieldG3dMapper *mapper, VecFx32 *offset);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 
 void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int zoneId, int *slotId, int *handlerIndex);
 

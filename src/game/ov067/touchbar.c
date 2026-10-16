@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020307B0 0x020307B0 arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -31,7 +31,7 @@
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   func_02049B68  0x02049B68  arm
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
- *   func_02049740  0x02049740  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   APP_ICON_GetMoveKindPaletteFileId  0x02027614  thumb
  *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
@@ -59,11 +59,11 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045EC0  0x02045EC0  arm
- *   func_0201D304  0x0201D304  thumb
+ *   MSGDATA_AllocString  0x02045EC0  arm
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -94,10 +94,10 @@ typedef struct {
     u8 redraw;
 } TouchBarWindow;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern u32 func_020307B0(void *ptr);
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern u32 GFL_HEAP_Free(void *ptr);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern s32 CLACT_RegisterPaletteEx(void *arc, u32 fileId, u32 screen, u32 offset, u16 count, u16 mode, u32 heapId);
 extern s32 CLACT_RegisterCharacter(void *arc, u32 fileId, u32 flags, u32 screen, u32 heapId);
 extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellFile, u32 animFile, u32 heapId);
@@ -111,7 +111,7 @@ extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern void func_02049B68(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 func_02049740(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
@@ -138,11 +138,11 @@ extern void PRINTSYS_PrintQueColor(void *textCtx, u32 bitmapBuffer, u32 x, u32 y
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int bgPriority);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u16 heapId);
 extern void *STRBUF_Create(u32 size, u16 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_0201D304(struct StrObj *str, u32 fontId, u32 spacing);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *str, u32 fontId, u32 spacing);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padMode, u32 flags);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
@@ -205,7 +205,7 @@ TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId)
     u32 i;
 
     size = params->count * sizeof(TouchBarButton) + 0x20;
-    bar = func_02030734(heapId, size, 0, gTouchBarSourceName, 0x123);
+    bar = GFL_HEAP_Alloc(heapId, size, 0, gTouchBarSourceName, 0x123);
     screen = 0;
     MI_CpuFill8(bar, 0, size);
     bar->buttonCount = params->count;
@@ -230,7 +230,7 @@ void TOUCHBAR_Delete(TouchBar *bar)
     for (i = 0; i < bar->buttonCount; i++)
         TOUCHBAR_FreeButton(&bar->buttons[i]);
     TOUCHBAR_FreeGfx(&bar->gfx);
-    func_020307B0(bar);
+    GFL_HEAP_Free(bar);
 }
 
 
@@ -411,10 +411,10 @@ void TOUCHBAR_LoadGfx(TouchBarGfx *gfx, u8 bgLayer, u32 screen, u32 bgPlttTarget
 
     MI_CpuFill8(gfx, 0, sizeof(TouchBarGfx));
     gfx->bgLayer = bgLayer;
-    arc = func_020490F4(APP_ICON_GetArchiveId(), heapId);
+    arc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
     if (skipBgGfx == 0) {
         func_02049B68(arc, APP_ICON_GetStatusAnimFileId(), bgPlttTarget, bgPlttSlot << 5, 0x20, heapId);
-        gfx->tileAlloc = func_02049740(arc, APP_ICON_GetStatusFrameFileId(), gfx->bgLayer, 0x800, 0, heapId);
+        gfx->tileAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, APP_ICON_GetStatusFrameFileId(), gfx->bgLayer, 0x800, 0, heapId);
         TOUCHBAR_LoadCharToBg(arc, APP_ICON_GetStatusDataFileId(), gfx->bgLayer, (u16)gfx->tileAlloc,
                       0, 0x15, 0x20, 0x18, 0, 0x15, 0x20, 3, bgPlttSlot, 0, heapId);
     }
@@ -487,7 +487,7 @@ void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset,
         BG_SYS_FillTileMap(bgLayer, dstX, dstY, dstWidth, dstHeight, plttSlot);
         BG_SYS_PushTile(bgLayer);
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }
 
 
@@ -741,20 +741,20 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     void *str;
     u16 strWidth;
 
-    msgBank = func_02045B38(0, 2, 0xa3, heapId);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, 0xa3, heapId);
     wordSet = WORDSET_CreateDefault(heapId);
     buf = STRBUF_Create(0xa, heapId);
-    str = func_02045EC0(msgBank, 0);
-    strWidth = func_0201D304(str, fontId, 0);
+    str = MSGDATA_AllocString(msgBank, 0);
+    strWidth = GF_FONT_MeasureWidestLine(str, fontId, 0);
     TOUCHBAR_PrintAligned(window, textCtx, x, y, (u32)str, fontId, color, 2);
     x = x - TOUCHBAR_GetStringAlignOffset(str, fontId, 2);
     STRBUF_Delete(str);
-    str = func_02045EC0(msgBank, 1);
+    str = MSGDATA_AllocString(msgBank, 1);
     WORDSET_SetSlotNumber(wordSet, 0, firstNumber, 8, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, str);
     TOUCHBAR_PrintAligned(window, textCtx, x, y, (u32)buf, fontId, color, 1);
     STRBUF_Delete(str);
-    str = func_02045EC0(msgBank, 2);
+    str = MSGDATA_AllocString(msgBank, 2);
     WORDSET_SetSlotNumber(wordSet, 0, secondNumber, 8, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, str);
     TOUCHBAR_PrintAligned(window, textCtx, x + strWidth, y, (u32)buf, fontId, color, 0);
@@ -767,7 +767,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
 
 u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode)
 {
-    if (alignMode == 1) return func_0201D304(str, fontId, 0);
-    if (alignMode == 2) return func_0201D304(str, fontId, 0) >> 1;
+    if (alignMode == 1) return GF_FONT_MeasureWidestLine(str, fontId, 0);
+    if (alignMode == 2) return GF_FONT_MeasureWidestLine(str, fontId, 0) >> 1;
     return 0;
 }

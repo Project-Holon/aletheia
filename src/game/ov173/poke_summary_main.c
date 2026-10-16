@@ -31,11 +31,11 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   d_021B81FC 0x021B81FC data a4
  *   d_021B81EC 0x021B81EC data a4
  *   POKE_SUMMARY_ACTOR_ToggleTaskMenu 0x021B7EB0 thumb ov173
@@ -45,17 +45,17 @@
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   BMP_SetDisplaySwap  0x0204363C  arm
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKE_SUMMARY_ACTOR_CreateActors  0x021B7A00  thumb  ov173
  *   POKE_SUMMARY_ACTOR_CreateSound  0x021B7C44  thumb  ov173
  *   POKE_SUMMARY_ACTOR_SetIdleAnim  0x021B8040  thumb  ov173
  *   POKE_SUMMARY_ACTOR_UpdateSound 0x021B7C7C thumb ov173
  *   POKE_SUMMARY_ACTOR_DeleteSystem 0x021B7694 thumb ov173
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   POKE_SUMMARY_ACTOR_FlushPendingTransfers 0x021B7908 thumb ov173
  *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -66,7 +66,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_InitRun 0x02040B94 arm
  *   d_021B8280 0x021B8280 data a4
  *   d_021B82F0 0x021B82F0 data a4
@@ -78,25 +78,25 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049EF4  0x02049EF4  arm
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_021B8420 0x021B8420 data a4
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -122,7 +122,7 @@
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_SUMMARY_ACTOR_LayoutMoveActors 0x021B7968 thumb ov173
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -244,11 +244,11 @@ extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Destroy(struct TcblWork *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct ProcOwner *p);
+extern void PROCSYS_FreeProcWork(struct ProcOwner *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -256,17 +256,17 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void BMP_SetDisplaySwap(u32 swap);
-extern u32 func_020056A0(void (*cb)(void), void *p, int n);
+extern u32 GFL_USE_AddMainTask(void (*cb)(void), void *p, int n);
 extern void ARC_TOOL_DeleteHandle(u32 a);
 extern void POKE_SUMMARY_ACTOR_CreateActors(char *p, void *arg);
 extern void POKE_SUMMARY_ACTOR_CreateSound(u8 *p);
 extern void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *p);
 extern int POKE_SUMMARY_ACTOR_UpdateSound(int *);
 extern void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p);
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 extern void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *);
 extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
@@ -276,29 +276,29 @@ extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern void BG_SYS_Delete(void);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern u32 APP_KEYCURSOR_CreateDefault(int,int,int,int);
 extern int APP_KEYCURSOR_Delete(int);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -330,7 +330,7 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -475,7 +475,7 @@ int POKE_SUMMARY_MAIN_Update(void *unused0,u32 *state,void *unused2,u8 *p)
 
 
 
-int POKE_SUMMARY_MAIN_Delete(void *p,u32 a,u32 b,char *ctx) { POKE_SUMMARY_MAIN_ExitScreen(ctx); TCBL_Destroy(((struct PokeSummaryWork *)ctx)->tcbl); GF_FONT_Delete(((struct PokeSummaryWork *)ctx)->font); func_020315D4(p); GFL_HEAP_DeleteChecked(79); return 1; }
+int POKE_SUMMARY_MAIN_Delete(void *p,u32 a,u32 b,char *ctx) { POKE_SUMMARY_MAIN_ExitScreen(ctx); TCBL_Destroy(((struct PokeSummaryWork *)ctx)->tcbl); GF_FONT_Delete(((struct PokeSummaryWork *)ctx)->font); PROCSYS_FreeProcWork(p); GFL_HEAP_DeleteChecked(79); return 1; }
 
 
 
@@ -488,13 +488,13 @@ void POKE_SUMMARY_MAIN_CreateTaskMenu(u8 *p)
     ((struct PokeSummaryWork *)p)->taskMenuRes=APP_TASKMENU_RES_Create(4,10,(u32)((struct PokeSummaryWork *)p)->font,(u32)((struct PokeSummaryWork *)p)->printQueue,79);
     for(i=0;i<2;i++) {
         r=&d_021B81FC[i];
-        ((struct PokeSummaryWork *)p)->moveEntries[i].text=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,r->id);
+        ((struct PokeSummaryWork *)p)->moveEntries[i].text=MSGDATA_AllocString(((struct PokeSummaryWork *)p)->msgBank,r->id);
         ((struct PokeSummaryWork *)p)->moveEntries[i].number=14819;
         ((struct PokeSummaryWork *)p)->moveEntries[i].value=r->value;
     }
     for(i=0;i<2;i++) {
         r=&((Row *)d_021B81EC)[i];
-        ((struct PokeSummaryWork *)p)->moveEntries[2+i].text=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,r->id);
+        ((struct PokeSummaryWork *)p)->moveEntries[2+i].text=MSGDATA_AllocString(((struct PokeSummaryWork *)p)->msgBank,r->id);
         ((struct PokeSummaryWork *)p)->moveEntries[2+i].number=14819;
         ((struct PokeSummaryWork *)p)->moveEntries[2+i].value=r->value;
     }
@@ -542,7 +542,7 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *p)
     BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
-    q = func_020490F4(0x7c, 0x4f);
+    q = ARC_TOOL_CreateHandle(0x7c, 0x4f);
     POKE_SUMMARY_MAIN_SetVramBanks();
     POKE_SUMMARY_MAIN_InitDisplay();
     POKE_SUMMARY_MAIN_CreateMsgWindows(p, q);
@@ -556,7 +556,7 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *p)
     POKE_SUMMARY_ACTOR_SetIdleAnim(p);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x4f);
     BMP_SetDisplaySwap(1);
-    ((struct PokeSummaryWork *)p)->vblankTask = (void *)func_020056A0((void (*)(void))POKE_SUMMARY_MAIN_VBlankCallback, p, 0x10);
+    ((struct PokeSummaryWork *)p)->vblankTask = (void *)GFL_USE_AddMainTask((void (*)(void))POKE_SUMMARY_MAIN_VBlankCallback, p, 0x10);
     ARC_TOOL_DeleteHandle((u32)q);
     POKE_SUMMARY_MAIN_CreateTaskMenu(p);
 }
@@ -564,7 +564,7 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *p)
 
 
 
-void POKE_SUMMARY_MAIN_ExitScreen(char *p) { POKE_SUMMARY_MAIN_DeleteTaskMenu((u8 *)p); POKE_SUMMARY_ACTOR_UpdateSound((int *)p); POKE_SUMMARY_MAIN_DeleteMoveList(p); POKE_SUMMARY_MAIN_DeleteBmpWindows(p); POKE_SUMMARY_MAIN_DeleteMsgWindow((int *)p); POKE_SUMMARY_MAIN_ExitDisplay(); POKE_SUMMARY_MAIN_DeleteText(p); POKE_SUMMARY_ACTOR_DeleteSystem((u8 *)p); func_02030EAC(((struct PokeSummaryWork *)p)->vblankTask); }
+void POKE_SUMMARY_MAIN_ExitScreen(char *p) { POKE_SUMMARY_MAIN_DeleteTaskMenu((u8 *)p); POKE_SUMMARY_ACTOR_UpdateSound((int *)p); POKE_SUMMARY_MAIN_DeleteMoveList(p); POKE_SUMMARY_MAIN_DeleteBmpWindows(p); POKE_SUMMARY_MAIN_DeleteMsgWindow((int *)p); POKE_SUMMARY_MAIN_ExitDisplay(); POKE_SUMMARY_MAIN_DeleteText(p); POKE_SUMMARY_ACTOR_DeleteSystem((u8 *)p); TCB_DeleteTask(((struct PokeSummaryWork *)p)->vblankTask); }
 
 
 
@@ -600,8 +600,8 @@ void POKE_SUMMARY_MAIN_InitDisplay(void)
     d=d_021B82B0;BG_SYS_InitBgLayer(6,&d,0);BG_SYS_ClearSlot(6);
     e=d_021B82D0;BG_SYS_InitBgLayer(5,&e,0);BG_SYS_ClearSlot(5);
     f=d_021B8310;BG_SYS_InitBgLayer(7,&f,0);BG_SYS_ClearSlot(7);
-    func_02040588(2,1);func_02040588(3,1);func_02040588(4,1);
-    func_02040588(5,1);func_02040588(6,1);func_02040588(7,1);
+    BG_SYS_SetPlaneVisible(2,1);BG_SYS_SetPlaneVisible(3,1);BG_SYS_SetPlaneVisible(4,1);
+    BG_SYS_SetPlaneVisible(5,1);BG_SYS_SetPlaneVisible(6,1);BG_SYS_SetPlaneVisible(7,1);
     BG_SYS_InitRun(2,32,0,79);BG_SYS_InitRun(4,32,0,79);
     BG_SYS_InitRun(5,32,0,79);BG_SYS_InitRun(2,32,0,79);BG_SYS_InitRun(4,32,0,79);
     *(u16 *)0x04000050=0;*(u16 *)0x04001050=0;
@@ -635,17 +635,17 @@ void POKE_SUMMARY_MAIN_CreateMsgWindows(u8 *p, u8 *q)
     u32 v = 1 << 0xb;
     void *t;
 
-    func_02049658(q, 1, 3, 0, 0, 0, 0x4f);
-    func_020498F4(q, 4, 3, 0, v, 0, 0x4f);
+    ARC_UTIL_UploadBgCharFromHandle(q, 1, 3, 0, 0, 0, 0x4f);
+    ARC_UTIL_UploadBgPaletteFromHandle(q, 4, 3, 0, v, 0, 0x4f);
     func_02049B68(q, 0, 0, 0, 0, 0x4f);
-    func_02049658(q, 1, 7, 0, 0, 0, 0x4f);
-    func_020498F4(q, 2, 7, 0, v, 0, 0x4f);
+    ARC_UTIL_UploadBgCharFromHandle(q, 1, 7, 0, 0, 0, 0x4f);
+    ARC_UTIL_UploadBgPaletteFromHandle(q, 2, 7, 0, v, 0, 0x4f);
     func_02049B68(q, 0, 4, 0, 0, 0x4f);
     t = func_02049EF4(q, 3, 0, (void **)&((struct PokeSummaryWork *)p)->tmpHandle, 0x4f);
     ((struct PokeSummaryWork *)p)->msgWindow = t;
-    func_02049B40(0x17, 5, 4, 0x1c0, 0x20, 0x4f);
-    func_02049B40(0x17, 5, 0, 0x1e0, 0x20, 0x4f);
-    func_02049B40(0x17, 5, 4, 0x1e0, 0x20, 0x4f);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1c0, 0x20, 0x4f);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1e0, 0x20, 0x4f);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, 0x4f);
     BMP_MENUWORK_LoadCharAndPltt(4, 1, 0xd, 0, 0x4f);
 }
 
@@ -655,7 +655,7 @@ void POKE_SUMMARY_MAIN_CreateMsgWindows(u8 *p, u8 *q)
 
 int POKE_SUMMARY_MAIN_DeleteMsgWindow(int *p)
 {
-    return func_020307B0((void *)(((struct PokeSummaryWork *)p)->msgWindow));
+    return GFL_HEAP_Free((void *)(((struct PokeSummaryWork *)p)->msgWindow));
 }
 
 
@@ -671,7 +671,7 @@ void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *p)
     }
     h=(u32)((struct PokeSummaryWork *)p)->bmpWindows[9];
     BMP_WIN_ClearScreen((struct Descriptor *)h);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     ((struct PokeSummaryWork *)p)->keyCursor=(void *)APP_KEYCURSOR_CreateDefault(15,1,1,79);
 }
 
@@ -686,7 +686,7 @@ void POKE_SUMMARY_MAIN_DeleteBmpWindows(char *p) { u32 i; APP_KEYCURSOR_Delete((
 
 
 
-void POKE_SUMMARY_MAIN_CreateText(char *p) { ((struct PokeSummaryWork *)p)->msgBank=func_02045B38(0,2,204,79); ((struct PokeSummaryWork *)p)->wordSet=WORDSET_CreateDefault(79); ((struct PokeSummaryWork *)p)->strBufA=STRBUF_Create(256,79); ((struct PokeSummaryWork *)p)->strBufB=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,25); ((struct PokeSummaryWork *)p)->strBufC=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,31); }
+void POKE_SUMMARY_MAIN_CreateText(char *p) { ((struct PokeSummaryWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,204,79); ((struct PokeSummaryWork *)p)->wordSet=WORDSET_CreateDefault(79); ((struct PokeSummaryWork *)p)->strBufA=STRBUF_Create(256,79); ((struct PokeSummaryWork *)p)->strBufB=MSGDATA_AllocString(((struct PokeSummaryWork *)p)->msgBank,25); ((struct PokeSummaryWork *)p)->strBufC=MSGDATA_AllocString(((struct PokeSummaryWork *)p)->msgBank,31); }
 
 
 
@@ -890,11 +890,11 @@ u32 POKE_SUMMARY_MAIN_PrintAligned(char *p, int index, u32 font, u16 w, int alig
     switch (align) {
     case 0: x = 0; break;
     case 1:
-        width = (u8)func_0201D304(((struct PokeSummaryWork *)p)->strBufA, font, 0);
+        width = (u8)GF_FONT_MeasureWidestLine(((struct PokeSummaryWork *)p)->strBufA, font, 0);
         x = (u8)((u8)(BMP_WIN_GetWidth(((struct PokeSummaryWork *)p)->bmpWindows[index]) * 8) - width);
         break;
     case 2:
-        width = (u8)func_0201D304(((struct PokeSummaryWork *)p)->strBufA, font, 0);
+        width = (u8)GF_FONT_MeasureWidestLine(((struct PokeSummaryWork *)p)->strBufA, font, 0);
         x = (u8)(((int)(u8)(BMP_WIN_GetWidth(((struct PokeSummaryWork *)p)->bmpWindows[index]) * 8) - width) / 2);
         break;
     }
@@ -907,7 +907,7 @@ u32 POKE_SUMMARY_MAIN_PrintAligned(char *p, int index, u32 font, u16 w, int alig
 
 
 
-void POKE_SUMMARY_MAIN_PrintValue(char *p,u32 idx,u32 a,u32 b,u8 c) { void *s; s=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,idx); WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,0,a,b,c,1); WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,s); STRBUF_Delete(s); }
+void POKE_SUMMARY_MAIN_PrintValue(char *p,u32 idx,u32 a,u32 b,u8 c) { void *s; s=MSGDATA_AllocString(((struct PokeSummaryWork *)p)->msgBank,idx); WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,0,a,b,c,1); WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,s); STRBUF_Delete(s); }
 
 
 
@@ -919,7 +919,7 @@ static inline void flush(void *win)
 {
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
 }
 
 
@@ -951,13 +951,13 @@ static inline void flush(void *win)
  * };
  * extern char MSGDATA_AllocSite[];
  * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
- * extern void func_020307B0(void *);
+ * extern void GFL_HEAP_Free(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
- * extern void func_0204960C(void *,u32);
+ * extern void ARC_TOOL_SeekHandle(void *,u32);
  * extern void STRBUF_Clear(void *);
  * extern void STRBUF_SetChars(void *,const void *,u16);
- * extern void func_02045E04(void *,u32);
- * extern void func_02046180(struct MsgBank *);
+ * extern void MSGDATA_DecryptStrbuf(void *,u32);
+ * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
@@ -966,10 +966,10 @@ static inline void flush(void *win)
  *         STRBUF_Clear(dest);
  *         return;
  *     }
- *     func_02046180(bank);
+ *     MSGDATA_RefreshLanguage(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
- *         func_0204960C(bank->stream,pos + (index * 8 + 4));
+ *         ARC_TOOL_SeekHandle(bank->stream,pos + (index * 8 + 4));
  *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
@@ -981,17 +981,17 @@ static inline void flush(void *win)
  *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
- *             func_0204960C(bank->stream,
+ *             ARC_TOOL_SeekHandle(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
  *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
  *             STRBUF_SetChars(dest,buf,e->len);
- *             func_020307B0(buf);
+ *             GFL_HEAP_Free(buf);
  *         }
  *     } else {
  *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
- *     func_02045E04(dest,index);
+ *     MSGDATA_DecryptStrbuf(dest,index);
  * }
  * abi: 6BF8 font widened to u32 because original forwards a full word without truncation; 185F4 bare return preserves the visibly loaded pointer argument and live r0 result.
  */
@@ -1018,7 +1018,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,temp);
     POKE_SUMMARY_MAIN_PrintAligned(p,13,(u32)((struct PokeSummaryWork *)p)->font,0x3c40,0,4);
     flush(((struct PokeSummaryWork *)p)->bmpWindows[13]);
-    bank=func_02045B38(0,2,0xcb,79);
+    bank=MSGDATA_CreateFromArchive(0,2,0xcb,79);
     mon=POKE_TOOL_GetBoxParam(((struct PokeSummaryWork *)p)->mon->party);
     for(i=0;i<4;i++) {
         move=POKE_TOOL_GetBoxValue(mon,0x36+i,0);
@@ -1108,8 +1108,8 @@ void POKE_SUMMARY_MAIN_RedrawMoveList(char *p)
     q = ((struct PokeSummaryWork *)p)->bmpWindows[11];
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_02041B6C(BMP_WIN_GetBgLayer(q));
-    func_02041B6C(7);
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(q));
+    BG_SYS_SetFlagField06(7);
     POKE_SUMMARY_ACTOR_LayoutMoveActors(p);
 }
 
@@ -1127,7 +1127,7 @@ void POKE_SUMMARY_MAIN_BuildMoveList(char *p)
     ((struct PokeSummaryWork *)p)->moveCount = POKE_SUMMARY_MAIN_CountMoves((struct ScanContext *)p);
     ((struct PokeSummaryWork *)p)->menuWork = BMP_MENUWORK_Create(((struct PokeSummaryWork *)p)->moveCount, 0x4f);
     i = 0;
-    bank = func_02045B38(0, 2, 0xcb, 0x4f);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0xcb, 0x4f);
     for (; i < ((struct PokeSummaryWork *)p)->moveCount; i++) {
         move = ((u16 *)((struct PokeSummaryWork *)p)->mon->moveList)[i];
         if (move != 0xffff) {
@@ -1163,7 +1163,7 @@ void POKE_SUMMARY_MAIN_DeleteMoveList(char *p)
 static inline void clear(void *win)
 {
     BMP_WIN_ClearScreen(win);
-    func_02041B6C(BMP_WIN_GetBgLayer(win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
 }
 
 
@@ -1194,13 +1194,13 @@ static inline void clear(void *win)
  * };
  * extern char MSGDATA_AllocSite[];
  * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
- * extern void func_020307B0(void *);
+ * extern void GFL_HEAP_Free(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
- * extern void func_0204960C(void *,u32);
+ * extern void ARC_TOOL_SeekHandle(void *,u32);
  * extern void STRBUF_Clear(void *);
  * extern void STRBUF_SetChars(void *,const void *,u16);
- * extern void func_02045E04(void *,u32);
- * extern void func_02046180(struct MsgBank *);
+ * extern void MSGDATA_DecryptStrbuf(void *,u32);
+ * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
@@ -1209,10 +1209,10 @@ static inline void clear(void *win)
  *         STRBUF_Clear(dest);
  *         return;
  *     }
- *     func_02046180(bank);
+ *     MSGDATA_RefreshLanguage(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
- *         func_0204960C(bank->stream,pos + (index * 8 + 4));
+ *         ARC_TOOL_SeekHandle(bank->stream,pos + (index * 8 + 4));
  *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
@@ -1224,17 +1224,17 @@ static inline void clear(void *win)
  *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
- *             func_0204960C(bank->stream,
+ *             ARC_TOOL_SeekHandle(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
  *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
  *             STRBUF_SetChars(dest,buf,e->len);
- *             func_020307B0(buf);
+ *             GFL_HEAP_Free(buf);
  *         }
  *     } else {
  *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
- *     func_02045E04(dest,index);
+ *     MSGDATA_DecryptStrbuf(dest,index);
  * }
  * abi: 6BF8 font extern widened to u32: the original forwards the full p+0x60 word without narrowing.
  */
@@ -1257,7 +1257,7 @@ void POKE_SUMMARY_MAIN_DrawMoveDetail(char *p,int move)
         if(value==0 || WAZA_TOOL_IsAlwaysHit(move)!=0) func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x21,((struct PokeSummaryWork *)p)->strBufA);
         else POKE_SUMMARY_MAIN_PrintValue(p,0x1e,value,3,0);
         POKE_SUMMARY_MAIN_PrintAligned(p,5,(u32)((struct PokeSummaryWork *)p)->font,0x440,1,0);
-        bank=func_02045B38(0,2,0xca,79);
+        bank=MSGDATA_CreateFromArchive(0,2,0xca,79);
         func_02045CAC(bank,move,((struct PokeSummaryWork *)p)->strBufA);
         POKE_SUMMARY_MAIN_PrintAligned(p,6,(u32)((struct PokeSummaryWork *)p)->font,0x440,0,0);
         MSGDATA_Delete(bank);
@@ -1306,7 +1306,7 @@ void POKE_SUMMARY_MAIN_SetTextByKind(char *p, u32 kind)
     case 9: WORDSET_SetSlotMyStatus(((struct PokeSummaryWork *)p)->wordSet, 2, (void *)(((struct PokeSummaryWork *)p)->mon->myStatus)); break;
     case 10: WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)p)->wordSet, 0, POKE_SUMMARY_MAIN_GetMoveWord((int *)p)); break;
     }
-    str = func_02045EC0(((struct PokeSummaryWork *)p)->msgBank, d_021B8350[((struct PokeSummaryWork *)p)->mon->messageTableIndex][kind]);
+    str = MSGDATA_AllocString(((struct PokeSummaryWork *)p)->msgBank, d_021B8350[((struct PokeSummaryWork *)p)->mon->messageTableIndex][kind]);
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet, ((struct PokeSummaryWork *)p)->strBufA, str);
     STRBUF_Delete(str);
 }
@@ -1375,7 +1375,7 @@ void POKE_SUMMARY_MAIN_ClearWindow(char *p)
     BMP_MENUWORK_DrawWindowBorder((void *)(((struct PokeSummaryWork *)p)->bmpWindows[7]), 2);
     x = (u32)((struct PokeSummaryWork *)p)->bmpWindows[7];
     BMP_WIN_ClearScreen((struct Descriptor *)x);
-    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)x));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)x));
 }
 
 

@@ -13,9 +13,9 @@
  * Cut from zukan_detail_common.c, zukan_detail_graphic.c, zukan_detail_form.c, ov208_func_021C80CC.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021C8D80 0x021C8D80 data a1
- *   func_020307B0 0x020307B0  arm
+ *   GFL_HEAP_Free 0x020307B0  arm
  *   ZUKAN_DETAIL_PROCSYS_AllocBuffer 0x021BC32C thumb
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
  */
@@ -23,9 +23,9 @@
 
 typedef void (*Vfn)(char *self, char *a, int b, int c, int d);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct Ov208Fsm *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap);
 
@@ -45,7 +45,7 @@ extern const char d_021C8D80[];
 
 struct Ov208Fsm *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap)
 {
-    struct Ov208Fsm *p = func_02030734(heap, 20, 0, d_021C8D80, 0x4f);
+    struct Ov208Fsm *p = GFL_HEAP_Alloc(heap, 20, 0, d_021C8D80, 0x4f);
     p->callbacks = (Ov208FsmCallback *)owner;
     p->state = 0;
     p->counter = 0;
@@ -56,7 +56,7 @@ struct Ov208Fsm *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap)
 
 void ZUKAN_DETAIL_PROCSYS_FreeNode(void *p)
 {
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 int ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(struct Ov208Fsm *p,int arg)
@@ -102,12 +102,12 @@ void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int v)
 
 void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap)
 {
-    p->work = func_02030734(heap, size, 0, d_021C8D80, 0xc8);
+    p->work = GFL_HEAP_Alloc(heap, size, 0, d_021C8D80, 0xc8);
     return p->work;
 }
 
 void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *p)
 {
-    func_020307B0(((struct Ov208Fsm *)p)->work);
+    GFL_HEAP_Free(((struct Ov208Fsm *)p)->work);
     ((struct Ov208Fsm *)p)->work = 0;
 }

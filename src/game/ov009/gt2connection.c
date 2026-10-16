@@ -39,7 +39,7 @@
  *   TableRemove  0x021847BC arm
  *   ArrayAppend  0x02184234 arm
  *   gsifree  0x0217EAE0  arm  ov009
- *   func_021841B0  0x021841B0  arm  ov009
+ *   ArrayFree  0x021841B0  arm  ov009
  */
 struct GTI2Socket;
 struct DArrayImplementation;
@@ -125,7 +125,7 @@ extern int gti2SendClose(struct GTI2Connection *connection);
 extern int TableRemove(struct HashImplementation *table, void *delElem);
 extern void ArrayAppend(struct DArrayImplementation *array, void *newElem);
 extern void gsifree(void *ptr);
-extern void func_021841B0(void *array);
+extern void ArrayFree(void *array);
 int gti2NewOutgoingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
 int gti2NewIncomingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
 int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks);
@@ -406,12 +406,12 @@ void gti2ConnectionCleanup(struct GTI2Connection *c)
 	if (c->buf50)
 		gsifree(c->buf50);
 	if (c->arr5c)
-		func_021841B0(c->arr5c);
+		ArrayFree(c->arr5c);
 	if (c->outgoingBuffers)
-		func_021841B0(c->outgoingBuffers);
+		ArrayFree(c->outgoingBuffers);
 	if (c->arr98)
-		func_021841B0(c->arr98);
+		ArrayFree(c->arr98);
 	if (c->arr9c)
-		func_021841B0(c->arr9c);
+		ArrayFree(c->arr9c);
 	gsifree(c);
 }

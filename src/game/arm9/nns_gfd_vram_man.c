@@ -20,6 +20,7 @@
  *   GX_LoadBG2Scr  0x0207EB78  arm
  *   GX_LoadBG0Char  0x0207EE68  arm
  *   GX_LoadBG2Char  0x0207F0B8  arm
+ *   GX_EndLoadTexPltt  0x0207FADC  arm
  */
 
 typedef unsigned char  u8;
@@ -46,7 +47,7 @@ extern void func_0207F7FC(u32 a, u32 b, u32 c);
 extern void func_0207F9B4(void);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(u32 a, u32 b, u32 c);
-extern void func_0207FADC(void);
+extern void GX_EndLoadTexPltt(void);
 extern void func_0207FB2C(void);
 extern void func_0207FBBC(u32 a, u32 c);
 extern void func_0207FCE4(void);
@@ -329,7 +330,7 @@ void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
 {
     func_0207FA0C();
     func_0207FA40(a, b, c);
-    func_0207FADC();
+    GX_EndLoadTexPltt();
 }
 
 

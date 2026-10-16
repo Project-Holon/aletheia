@@ -15,7 +15,7 @@
  * symbols:
  *   g_TextPrintWork     0x02146A78  data
  *   SYSTEMFONT_Load  0x020461F4  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   SYSTEMFONT_GetGlyphHeight  0x020463C0  arm
  *   SYSTEMFONT_GetGlyphWidth  0x020463D8  arm
  *   SYSTEMFONT_SetColors  0x020463E0  arm
@@ -27,6 +27,7 @@
  *   s_textprint_c   0x020A7F80  data
  *   g_TextPrintSymbolKeys  0x020A1480  data
  *   g_TextPrintSymbolGlyphs  0x020A1482  data
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 struct Bmp;
 typedef unsigned char  u8;
@@ -65,8 +66,8 @@ extern u16   STRBUF_GetEosChar(void);  /* string terminator code */
 extern void SYSTEMFONT_GetGlyph(int glyphIndex, u8 *glyphOut);
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
 extern void BMP_Delete(struct Bmp *bmp);
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern u32 func_020307B0(void *block);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *block);
 void TEXTPRINT_Init(u32 fontId);
 extern void SYSTEMFONT_Load(u32 fontId);
 void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console);
@@ -116,7 +117,7 @@ void TEXTPRINT_Init(u32 fontId)
 {
     if (g_TextPrintWork == 0) {
         SYSTEMFONT_Load(fontId);
-        g_TextPrintWork = func_02030734(0, 0x26, 0, s_textprint_c, 51);
+        g_TextPrintWork = GFL_HEAP_Alloc(0, 0x26, 0, s_textprint_c, 51);
     }
 }
 
@@ -200,11 +201,11 @@ void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console)
  */
 void TEXTPRINT_PrintText(char *text, TextParam *console)
 {
-    void *codeBuf = func_02030734(0, 0x200, 0, s_textprint_c, 0xae);
+    void *codeBuf = GFL_HEAP_Alloc(0, 0x200, 0, s_textprint_c, 0xae);
 
     TEXTPRINT_SjisToGlyphCodes(text, codeBuf, 0x100);
     TEXTPRINT_PrintCodes((const u16 *)codeBuf, console);
-    func_020307B0(codeBuf);
+    GFL_HEAP_Free(codeBuf);
 }
 
 

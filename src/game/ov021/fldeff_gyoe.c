@@ -13,8 +13,8 @@
  * Split by lane CL115 from field_nogrid_mapper.c at the __FILE__ anchor cuts.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   d_021DE2E8     0x021DE2E8  data  a4
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
@@ -60,8 +60,8 @@ typedef struct FldeffGyoeTaskParam {
     u32 fieldMap;              /* 0x18 */
 } FldeffGyoeTaskParam;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void GFL_HEAP_Free(void *p);
 extern void *FIELD_EFFECT_GetArcHandle(void *fieldEffectCtrl);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *g3dHeap, u32 resId);
 extern int G3D_SYSTEM_TransVramTexture(void *resource);
@@ -87,7 +87,7 @@ extern int d_021DE2E8;
 
 FldeffGyoe *FLDEFF_GYOE_Init(void *fieldEffectCtrl, int heapId)
 {
-    FldeffGyoe *gyoe = func_02030734(heapId, sizeof(FldeffGyoe), 1, (const char *)&d_021DE2E8, 0x6F);
+    FldeffGyoe *gyoe = GFL_HEAP_Alloc(heapId, sizeof(FldeffGyoe), 1, (const char *)&d_021DE2E8, 0x6F);
     gyoe->fieldEffectCtrl = fieldEffectCtrl;
     FLDEFF_GYOE_InitResource(gyoe);
     return gyoe;
@@ -96,7 +96,7 @@ FldeffGyoe *FLDEFF_GYOE_Init(void *fieldEffectCtrl, int heapId)
 void FLDEFF_GYOE_Delete(void *fieldEffectCtrl, FldeffGyoe *gyoe)
 {
     FLDEFF_GYOE_DeleteResource(gyoe);
-    func_020307B0(gyoe);
+    GFL_HEAP_Free(gyoe);
 }
 
 void FLDEFF_GYOE_InitResource(FldeffGyoe *gyoe)

@@ -13,14 +13,14 @@
  * Message editor panel of the easy-chat input screen: the sentence being composed on both screens, word slots, free-text parser, panel scroll and the screen fade helpers.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PMS_INPUT_GetUiInputModePtr 0x021BF6D4 thumb ov110
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PMSIV_EDIT_Create 0x021BBC5C thumb ov110
  *   PMSIV_EDIT_Setup 0x021BBD60 thumb ov110
- *   func_020498F4 0x020498F4 arm
- *   func_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -39,13 +39,13 @@
  *   PMSIV_EDIT_GetSlotCount  0x021BC6DC  thumb  ov110
  *   PMSIV_EDIT_GetSlotWordId  0x021BC6E0  thumb  ov110
  *   PMSIV_EDIT_GetSlotRect  0x021BC320  thumb  ov110
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -53,7 +53,7 @@
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   PMS_INPUT_VIEW_GetUiRes 0x021BAC64 thumb ov110
  *   PMS_INPUT_VIEW_CreateActor 0x021BAC78 thumb ov110
@@ -66,7 +66,7 @@
  *   PMSIV_BGSCROLL_Step 0x021BC7DC thumb ov110
  *   PMSIV_FADE_StartBlend 0x021BC868 thumb ov110
  *   PMSIV_FADE_IsBlendDone 0x021BC898 thumb ov110
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   sPmsivEditAllocSite 0x021C3C58 data a1
  *   BMP_CURSOR_Create 0x02020D18 thumb
  *   BGWINFRM_Create 0x0202C9B4 thumb
@@ -83,7 +83,7 @@
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02005624 0x02005624 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   func_021BBE80 0x021BBE80 thumb ov110
  *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
@@ -93,7 +93,7 @@
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   PMS_INPUT_GetSentenceType 0x021BF6E4 thumb ov110
  *   GX_LoadBGPltt 0x0207E3D0 arm
- *   func_0207E468 0x0207E468 arm
+ *   GXS_LoadBGPltt 0x0207E468 arm
  *   PMS_INPUT_VIEW_GetCursorRes 0x021BAC50 thumb ov110
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   PMS_INPUT_GetWord 0x021BF6F0 thumb ov110
@@ -196,30 +196,30 @@ typedef volatile unsigned short vu16;
 
 struct WinMgr;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int *PMS_INPUT_GetUiInputModePtr(struct PmsInputState *input);
-extern void func_02030EAC(struct Node *n);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void TCB_DeleteTask(struct Node *n);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void func_02041B6C(unsigned);
+extern void BG_SYS_SetFlagField06(unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_FillScrollArea(u32, u32, u32);
 extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void BMP_WIN_MakeScreen(struct Descriptor *window);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *, struct ActorSetup *, int, int);
-extern void func_0207D63C(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 extern void *BMP_CURSOR_Create(unsigned);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
@@ -231,7 +231,7 @@ extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 extern void BG_SYS_SetTileEntry(unsigned, int, int, int, u8, u8, u8);
 extern void *func_02005624(u32 a, u32 b, u32 c);
-extern void *func_020056A0(void *, void *, unsigned);
+extern void *GFL_USE_AddMainTask(void *, void *, unsigned);
 extern short CLACT_GetActorSurfacePosAxis(struct Obj *, u16 surface, unsigned axis);
 extern void CLACT_SetActorSurfacePosAxis(struct Obj *, short pos, u16 surface, unsigned axis);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -241,7 +241,7 @@ extern void DWCi_ScreenDC_FlushRange(void *, unsigned);
 extern unsigned PMS_INPUT_GetInputMode(struct PmsInputState *input);
 extern int PMS_INPUT_GetSentenceType(struct PmsInputState *input);
 extern void GX_LoadBGPltt(void *, int, int);
-extern void func_0207E468(void *, int, int);
+extern void GXS_LoadBGPltt(void *, int, int);
 extern void PMS_INPUT_VIEW_GetCursorRes(struct PmsInputView *view, struct ActorSetup *out, int i);
 extern void *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct ActorSetup *setup, int x, int y, int a, int mode);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -283,7 +283,7 @@ extern const char sPmsivEditAllocSite[];
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param)
 {
     struct PmsivEdit *p;
-    p = func_02030734(PMSIV_EDIT_HEAP, sizeof(struct PmsivEdit), 1, sPmsivEditAllocSite, 211);
+    p = GFL_HEAP_Alloc(PMSIV_EDIT_HEAP, sizeof(struct PmsivEdit), 1, sPmsivEditAllocSite, 211);
     p->view = view;
     p->input = input;
     p->param = param;
@@ -292,7 +292,7 @@ struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputSt
     p->cursors[1] = 0;
     p->scrollTask = 0;
     p->text = STRBUF_Create(128, PMSIV_EDIT_HEAP);
-    p->messageBank = func_02045B38(0, 2, 146, PMSIV_EDIT_HEAP);
+    p->messageBank = MSGDATA_CreateFromArchive(0, 2, 146, PMSIV_EDIT_HEAP);
     p->bmpCursor = BMP_CURSOR_Create(PMSIV_EDIT_HEAP);
     p->scrollOffset = 0;
     p->bgOffset = 0;
@@ -306,8 +306,8 @@ struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputSt
 void PMSIV_EDIT_Delete(struct PmsivEdit *p)
 {
     BGWINFRM_Delete(p->frameMgr);
-    if (p->frameTask) func_02030EAC(p->frameTask);
-    if (p->scrollTask) func_02030EAC(p->scrollTask);
+    if (p->frameTask) TCB_DeleteTask(p->frameTask);
+    if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
     if (p->bmpCursor) BMP_CURSOR_Delete(p->bmpCursor);
     if (p->cursors[0]) CLACT_DeleteActor(p->cursors[0]);
     if (p->cursors[1]) CLACT_DeleteActor(p->cursors[1]);
@@ -315,7 +315,7 @@ void PMSIV_EDIT_Delete(struct PmsivEdit *p)
     if (p->text) STRBUF_Delete(p->text);
     BMP_WIN_Delete(p->windows[0]);
     BMP_WIN_Delete(p->windows[1]);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 /*
@@ -324,12 +324,12 @@ void PMSIV_EDIT_Delete(struct PmsivEdit *p)
 void PMSIV_EDIT_Setup(struct PmsivEdit *p, u32 arcHandle)
 {
     PMSIV_EDIT_LoadPalette(p, (void *)arcHandle);
-    func_020498F4((void *)arcHandle, 25, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
-    func_020498F4((void *)arcHandle, 25, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)arcHandle, 25, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)arcHandle, 25, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
     p->bgOffset = -192;
     BG_SYS_FillScrollArea(4, 3, p->bgOffset);
-    func_02049658((void *)arcHandle, 14, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
-    func_02049658((void *)arcHandle, 14, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
+    ARC_UTIL_UploadBgCharFromHandle((void *)arcHandle, 14, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
+    ARC_UTIL_UploadBgCharFromHandle((void *)arcHandle, 14, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
     p->windows[0] = BMP_WIN_Create(0, 3, 1, 28, 4, 0, 1);
     p->windows[1] = BMP_WIN_Create(4, 3, 1, 28, 4, 0, 1);
     BMP_WIN_MakeScreen(p->windows[0]);
@@ -402,12 +402,12 @@ void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing)
 {
     p->scrollStep = 0;
     p->scrollClosing = closing;
-    if (p->scrollTask) func_02030EAC(p->scrollTask);
+    if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
     p->scrollTask = func_02005624((u32)GX_GetVCount, (u32)p, 1);
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
-    if (p->frameTask) func_02030EAC(p->frameTask);
-    p->frameTask = func_020056A0(PMSIV_EDIT_UpdateFramePosition, p, 1);
+    if (p->frameTask) TCB_DeleteTask(p->frameTask);
+    p->frameTask = GFL_USE_AddMainTask(PMSIV_EDIT_UpdateFramePosition, p, 1);
 }
 
 /*
@@ -433,9 +433,9 @@ int PMSIV_EDIT_StepPanelScroll(struct PmsivEdit *p)
     }
     p->scrollStep++;
     if (p->scrollClosing && p->scrollStep == 7) {
-        func_02030EAC(p->scrollTask);
+        TCB_DeleteTask(p->scrollTask);
         p->scrollTask = 0;
-        func_02030EAC(p->frameTask);
+        TCB_DeleteTask(p->frameTask);
         p->frameTask = 0;
     }
     p->frameDirty = 1;
@@ -454,7 +454,7 @@ void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle)
     handle = func_02049F78(arcHandle, 6, (u32)((void **)&data), PMSIV_EDIT_HEAP);
     MIi_CpuCopy16(data->rawData, p->palette, PMSIV_EDIT_PALETTE_BYTES);
     DWCi_ScreenDC_FlushRange(p->palette, PMSIV_EDIT_PALETTE_BYTES);
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
 }
 
 void PMSIV_EDIT_ApplyPalette(struct PmsivEdit *p)
@@ -462,10 +462,10 @@ void PMSIV_EDIT_ApplyPalette(struct PmsivEdit *p)
     if (PMS_INPUT_GetInputMode(p->input) == PMSIV_EDIT_MODE_FREE_TEXT && (unsigned)PMS_INPUT_GetSentenceType(p->input) < 5) {
         unsigned n = (unsigned)PMS_INPUT_GetSentenceType(p->input) + 1;
         GX_LoadBGPltt(p->palette + n * 32, 0, 32);
-        func_0207E468(p->palette + n * 32, 0, 32);
+        GXS_LoadBGPltt(p->palette + n * 32, 0, 32);
     } else {
         GX_LoadBGPltt(p->palette, 0, 32);
-        func_0207E468(p->palette, 0, 32);
+        GXS_LoadBGPltt(p->palette, 0, 32);
     }
 }
 
@@ -540,8 +540,8 @@ void PMSIV_EDIT_Redraw(struct PmsivEdit *p)
         }
         BMP_WIN_TransferChars(p->windows[i]);
     }
-    func_02041B6C(0);
-    func_02041B6C(4);
+    BG_SYS_SetFlagField06(0);
+    BG_SYS_SetFlagField06(4);
 }
 
 /*
@@ -574,7 +574,7 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 s
         case PMSIV_EDIT_TOKEN_TEXT:
             GF_FONT_SetTextColor(1, 2, 15);
             PRINTSYS_Print(BMP_WIN_GetBmp(window), x, y, run, (void *)font);
-            x += func_0201D304((struct StrObj *)run, font, 0);
+            x += GF_FONT_MeasureWidestLine((struct StrObj *)run, font, 0);
             break;
         case PMSIV_EDIT_TOKEN_SLOT: {
             wordId = p->parser.slotWordId;
@@ -796,7 +796,7 @@ int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll)
         break;
     case 1:
         if (scroll->framesLeft == 0) {
-            func_02030EAC(scroll->task);
+            TCB_DeleteTask(scroll->task);
             ++scroll->state;
             return 1;
         }
@@ -834,7 +834,7 @@ int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade)
 {
     if (fade->done == 0) {
         if (fade->framesLeft == 0) {
-            func_02030EAC(fade->task);
+            TCB_DeleteTask(fade->task);
             fade->done += 1;
             return 1;
         }
@@ -856,7 +856,7 @@ void PMSIV_FADE_BlendTask(void *task, void *arg)
         level = fade->target >> 3;
     }
     if (level > 16) level = 16;
-    func_0207D63C((void *)0x04000050, fade->planeMask, fade->secondPlaneMask, level, 16 - level);
+    G2x_SetBlendAlpha_((void *)0x04000050, fade->planeMask, fade->secondPlaneMask, level, 16 - level);
 }
 
 /*
@@ -878,7 +878,7 @@ int PMSIV_FADE_IsBrightnessDone(struct PmsivFade *fade)
 {
     if (fade->done == 0) {
         if (fade->framesLeft == 0) {
-            func_02030EAC(fade->task);
+            TCB_DeleteTask(fade->task);
             ++fade->done;
             return 1;
         }

@@ -23,13 +23,14 @@
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02041B6C 0x02041B6C arm
- *   func_02030734        0x02030734  arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   GFL_HEAP_Alloc        0x02030734  arm
  *   sBmpMenuWorkFile     0x020A7374  data
- *   func_020307B0  0x020307B0  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Clone  0x02045874  arm
  *   STRBUF_Delete  0x02045808  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  */
 #include "bmp_menuwork_shared_types.h"
 
@@ -37,7 +38,7 @@ struct U16Vec;
 
 extern void func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u32 heapId);
 
-extern void func_02049B40(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u32 heapId);
 
 extern void *func_020496E4(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flagB, u32 heapId);
 
@@ -58,13 +59,13 @@ extern u8 BMP_WIN_GetDispHeight(struct BmpWin *p);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern struct U16Vec *STRBUF_Clone(const struct U16Vec *src, u32 heapId);
 
@@ -182,9 +183,9 @@ void BMP_MENUWORK_LoadPltt(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
     u32 palFileId = BMP_MENUWORK_GetPlttFileId(frameId);
 
     if (layer < 4) {
-        func_02049B40(5, palFileId, 0, palSlot * 32, 0x20, heapId);
+        ARC_UTIL_UploadPaletteFromArchiveWhole(5, palFileId, 0, palSlot * 32, 0x20, heapId);
     } else {
-        func_02049B40(5, palFileId, 4, palSlot * 32, 0x20, heapId);
+        ARC_UTIL_UploadPaletteFromArchiveWhole(5, palFileId, 4, palSlot * 32, 0x20, heapId);
     }
 }
 
@@ -328,7 +329,7 @@ void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u
     if (commitMode == 0) {
         BG_SYS_PushTile(bgId);
     } else if (commitMode == 1) {
-        func_02041B6C(bgId);
+        BG_SYS_SetFlagField06(bgId);
     }
 }
 
@@ -384,7 +385,7 @@ void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode)
         return;
     }
     if (commitMode == 1) {
-        func_02041B6C(bgId);
+        BG_SYS_SetFlagField06(bgId);
     }
 }
 
@@ -408,7 +409,7 @@ BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId)
     BmpMenuWork *items;
     u32 idx;
 
-    items = func_02030734((u16)heapId, (count + 1) * sizeof(BmpMenuWork), 1, sBmpMenuWorkFile, 0x29);
+    items = GFL_HEAP_Alloc((u16)heapId, (count + 1) * sizeof(BmpMenuWork), 1, sBmpMenuWorkFile, 0x29);
     if (items != 0) {
         for (idx = 0; idx < count; idx++) {
             items[idx].u.text = 0;
@@ -435,12 +436,12 @@ BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId)
 u32 BMP_MENUWORK_Delete(void *items)
 {
     BMP_MENUWORK_ReleaseItems(items);
-    return func_020307B0(items);
+    return GFL_HEAP_Free(items);
 }
 
 /*
  * Claims a slot through BMP_MENUWORK_FindFreeEntry and, if one was free, fills it with the
- * handle func_02045EC0 returns and the caller's tag.  The tag word the
+ * handle MSGDATA_AllocString returns and the caller's tag.  The tag word the
  * claim function writes back is never used here; it lands in the pushed r3
  * home slot at sp+0, which is exactly why the prologue pushes r3 at all.
  * A failed claim is silent.
@@ -457,7 +458,7 @@ void BMP_MENUWORK_AddMsgItem(BmpMenuWork *items, struct MsgBank *bank, u32 msgId
 
     entry = BMP_MENUWORK_FindFreeEntry(items, &unused);
     if (entry != 0) {
-        entry->u.handle = func_02045EC0(bank, msgId);
+        entry->u.handle = MSGDATA_AllocString(bank, msgId);
         entry->value = param;
     }
 }

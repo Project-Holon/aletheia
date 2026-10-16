@@ -13,13 +13,13 @@
  * Cut from pdc.c, ov098_func_021B6CDC.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   CONFIG_GetTextSpeed 0x02008374 thumb
  *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -32,7 +32,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   gPdcMsgSrcName 0x021B6E74 data a4
  *   gPdcMsgBgTemplate 0x021B6E24 data a4
  *   STRBUF_Delete 0x02045808 arm
@@ -41,7 +41,7 @@
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -57,7 +57,7 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   PRINTSYS_PrintStreamStop  0x0201CE0C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
- *   func_0207D63C  0x0207D63C  arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   PDC_GetMon 0x021B6140 thumb ov098
  *   PDC_GetMyStatus 0x021B6148 thumb ov098
  */
@@ -66,13 +66,13 @@
 struct BgTemplate;
 struct PalAnmSlot;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BG_SYS_InitBgLayer(u32 layer, const struct BgTemplate *template, u32 mode);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 CONFIG_GetTextSpeed(struct Config *config);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 textSpeed);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -85,14 +85,14 @@ extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 heig
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern void BMP_WIN_DrawFrame(struct BmpWin *window, u16 frameIndex, u32 palette);
 extern void BG_SYS_PushTile(u32);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void PRINTSYS_PrintStreamDelete(void *stream);
 extern void BG_SYS_FreeLayerBuf(int);
 extern void MSGDATA_Delete(struct MsgBank *msgBank);
 extern void BMP_WIN_Delete(struct BmpWin *window);
-extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct MyStatus *myStatus);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
@@ -108,7 +108,7 @@ extern void *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, struct St
                                   int speed, struct Tcbl *tcbl, u32 unused, u16 heapId, u16 color);
 extern void PRINTSYS_PrintStreamStop(void *stream);
 extern void PRINTSYS_Print(void *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
-extern void func_0207D63C(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 
 extern struct PokemonParam *PDC_GetMon(struct PdcArgs *args);
 extern struct MyStatus *PDC_GetMyStatus(struct PdcArgs *args);
@@ -141,11 +141,11 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     struct PdcMsg *msg;
     u32 frameIndex;
 
-    msg = func_02030734(heapId, 0x48, 1, gPdcMsgSrcName, 0x82);
+    msg = GFL_HEAP_Alloc(heapId, 0x48, 1, gPdcMsgSrcName, 0x82);
     BG_SYS_InitBgLayer(1, &gPdcMsgBgTemplate, 0);
     msg->heapId = heapId;
     msg->tcbl = tcbl;
-    msg->msgBank = func_02045B38(0, 2, 0x56, msg->heapId);
+    msg->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x56, msg->heapId);
     msg->font = font;
     msg->textSpeed = MSG_SPEED_GetWaitForSpeed(CONFIG_GetTextSpeed(config));
     msg->strbuf = STRBUF_Create(0x100, heapId);
@@ -158,7 +158,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     BMP_WIN_MakeScreen(msg->window);
     BMP_WIN_DrawFrame(msg->window, frameIndex, 0);
     BG_SYS_PushTile(1);
-    func_02040588(1, 0);
+    BG_SYS_SetPlaneVisible(1, 0);
     PDC_MSG_InitBlend(&msg->blend, msg->window);
     return msg;
 }
@@ -171,13 +171,13 @@ void PDC_MSG_Delete(struct PdcMsg *msg)
     BG_SYS_FreeLayerBuf(1);
     MSGDATA_Delete(msg->msgBank);
     BMP_WIN_Delete(msg->window);
-    func_020307B0(msg);
+    GFL_HEAP_Free(msg);
 }
 
 void PDC_MSG_PrintMessage0(struct PdcMsg *msg, struct PdcArgs *args) {
     struct Strbuf *str;
     struct PokemonParam *mon;
-    str = func_02045EC0(msg->msgBank, 0);
+    str = MSGDATA_AllocString(msg->msgBank, 0);
     mon = PDC_GetMon(args);
     WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
@@ -188,7 +188,7 @@ void PDC_MSG_PrintMessage0(struct PdcMsg *msg, struct PdcArgs *args) {
 void PDC_MSG_PrintMessage3(struct PdcMsg *msg, struct PdcArgs *args) {
     struct Strbuf *str;
     struct MyStatus *myStatus;
-    str = func_02045EC0(msg->msgBank, 3);
+    str = MSGDATA_AllocString(msg->msgBank, 3);
     myStatus = PDC_GetMyStatus(args);
     WORDSET_SetSlotMyStatus(msg->wordSet, 0, myStatus);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
@@ -199,7 +199,7 @@ void PDC_MSG_PrintMessage3(struct PdcMsg *msg, struct PdcArgs *args) {
 void PDC_MSG_PrintMessage1(struct PdcMsg *msg, struct PdcArgs *args) {
     struct Strbuf *str;
     struct PokemonParam *mon;
-    str = func_02045EC0(msg->msgBank, 1);
+    str = MSGDATA_AllocString(msg->msgBank, 1);
     mon = PDC_GetMon(args);
     WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
@@ -210,7 +210,7 @@ void PDC_MSG_PrintMessage1(struct PdcMsg *msg, struct PdcArgs *args) {
 void PDC_MSG_PrintMessage2(struct PdcMsg *msg, struct PdcArgs *args) {
     struct Strbuf *str;
     struct PokemonParam *mon;
-    str = func_02045EC0(msg->msgBank, 2);
+    str = MSGDATA_AllocString(msg->msgBank, 2);
     mon = PDC_GetMon(args);
     WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
@@ -222,7 +222,7 @@ void PDC_MSG_PrintMessage4(struct PdcMsg *msg, struct PdcArgs *args)
 {
     struct Strbuf *str;
     struct MyStatus *myStatus;
-    str=func_02045EC0(msg->msgBank, 4);
+    str=MSGDATA_AllocString(msg->msgBank, 4);
     myStatus=PDC_GetMyStatus(args);
     WORDSET_SetSlotMyStatus(msg->wordSet, 0, myStatus);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
@@ -307,7 +307,7 @@ void PDC_MSG_StartPrint(struct PdcMsg *msg, int waitFrames)
 {
     BMP_Clear(BMP_WIN_GetBmp(msg->window), 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);
-    func_02040588(1, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
     if (waitFrames != 0) {
         PRINTSYS_PrintStreamStop(msg->printStream = PRINTSYS_PrintStream(msg->window, 0, 0,
                                   msg->strbuf, msg->font,
@@ -334,7 +334,7 @@ void PDC_MSG_InitBlend(struct PdcBlend *blend, struct BmpWin *window)
     blend->state = PDC_BLEND_HIDDEN;
     blend->alphaA = 0x1f000;
     blend->alphaB = 0x7000;
-    func_0207D63C(0x04000050, 2, 0x3d, 0x1f, 7);
+    G2x_SetBlendAlpha_(0x04000050, 2, 0x3d, 0x1f, 7);
 }
 
 /*
@@ -404,7 +404,7 @@ int PDC_MSG_BlendUpdate(struct PdcBlend *blend)
         break;
     }
 
-    func_0207D63C(0x04000050, 2, 0x3d,
+    G2x_SetBlendAlpha_(0x04000050, 2, 0x3d,
                   (u8)(blend->alphaA >> 12), (u8)(blend->alphaB >> 12));
     return 0;
 }

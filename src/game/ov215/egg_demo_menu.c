@@ -16,17 +16,17 @@
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02041B6C 0x02041B6C arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   TCBL_Destroy 0x02031140 arm
@@ -38,7 +38,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -89,17 +89,17 @@ typedef signed int     s32;
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void func_02041B6C(u32);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void TCBL_Destroy(struct S02031140 *p);
@@ -111,7 +111,7 @@ extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32 index);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -159,7 +159,7 @@ void EGG_DEMO_MENU_FadeInBgm(void)
 
 void EGG_DEMO_MENU_Create(int unused,char *work)
 {
-    func_02049B40(23,5,0,32,32,((struct EggDemoWork *)work)->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,32,32,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->windowSub=(void *)BMP_WIN_Create(1,0,0,1,1,1,0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct EggDemoWork *)work)->windowSub)),0);
     BMP_WIN_TransferChars((struct Descriptor *)((struct EggDemoWork *)work)->windowSub);
@@ -167,14 +167,14 @@ void EGG_DEMO_MENU_Create(int unused,char *work)
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct EggDemoWork *)work)->window)),15);
     BMP_WIN_TransferChars((struct Descriptor *)((struct EggDemoWork *)work)->window);
     ((struct EggDemoWork *)work)->frameGfx=(u32)BMP_MENUWORK_LoadFrameGfx((void *)1,2,0,((struct EggDemoWork *)work)->heapId);
-    ((struct EggDemoWork *)work)->msgBank=func_02045B38(0,3,260,((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,3,260,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->tcbl=TCBL_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoWork *)work)->heapId,1,0);
     GF_FONT_SetTextColor(1,2,15);
-    func_02041B6C(1);
+    BG_SYS_SetFlagField06(1);
     ((struct EggDemoWork *)work)->printStream=0;
     ((struct EggDemoWork *)work)->textBuf=0;
     ((struct EggDemoWork *)work)->vblankFlag=0;
-    func_02040588(1,0);
+    BG_SYS_SetPlaneVisible(1,0);
 }
 
 void EGG_DEMO_MENU_Delete(void *unused,char *work)
@@ -212,7 +212,7 @@ void EGG_DEMO_MENU_SetText(char *args,char *work,unsigned entry)
     BMP_Clear(BMP_WIN_GetBmp(((struct EggDemoWork *)work)->window),15);
     if(((struct EggDemoWork *)work)->printStream) PRINTSYS_PrintStreamDelete(((struct EggDemoWork *)work)->printStream);
     if(((struct EggDemoWork *)work)->textBuf) STRBUF_Delete(((struct EggDemoWork *)work)->textBuf);
-    text=func_02045EC0(((struct EggDemoWork *)work)->msgBank,entry);
+    text=MSGDATA_AllocString(((struct EggDemoWork *)work)->msgBank,entry);
     words=WORDSET_CreateDefault(((struct EggDemoWork *)work)->heapId);
     WORDSET_SetSlotMonName(words,0,((struct EggDemoArgs *)args)->mon);
     buffer=STRBUF_Create(256,((struct EggDemoWork *)work)->heapId);

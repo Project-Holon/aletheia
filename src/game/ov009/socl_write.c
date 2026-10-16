@@ -11,17 +11,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215F3D0  0x0215F3D0  arm  ov009
+ *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
  *   OS_TryLockMutex  0x020860D0  arm
  *   OS_LockMutex  0x02086028  arm
  *   SOCLi_WriteBuffer  0x0215E138  arm  ov009
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   SOCLi_ExecWriteCommand  0x0215E2E4  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_SleepThread  0x020857B0  arm
  *   func_0215CE3C  0x0215CE3C  arm  ov009
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   SOCLi_ExecCommandPacketInSendPipe  0x0215CF98  arm  ov009
  *   SOCLi_WriteCallBack  0x0215E450  arm  ov009
@@ -109,14 +109,14 @@ typedef struct {
 	Thr *cur;
 } Info;
 
-extern int func_0215F3D0(struct SOCLSocket *socket);
+extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern int OS_TryLockMutex(void *mutex);
 extern void OS_LockMutex(void *mutex);
-extern void func_02086078(void *mutex);
+extern void OS_UnlockMutex(void *mutex);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct SOCLiCommandWrite *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
-extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
+extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned short CPS_SocGetEport(void);
 extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandWrite *command);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
@@ -169,7 +169,7 @@ int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port
     struct SOCLiSocketSendCommandPipe *send_pipe;
     struct SOCLSocket *socket = (struct SOCLSocket *)s;
 
-    if (func_0215F3D0(socket))
+    if (SOCL_SocketIsInvalid(socket))
         return -0x1c;
     if (!isNotReady(socket))
         return -0x27;
@@ -187,7 +187,7 @@ int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port
         flag_block = 1;
     }
     result = SOCLi_WriteBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
-    func_02086078(send_pipe->mutex);
+    OS_UnlockMutex(send_pipe->mutex);
     return result;
 }
 
@@ -354,9 +354,9 @@ static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buff
         wrtbuf_in = buffer_len - command->buffer1_len;
         command->buffer2 = wrtbuf;
         command->buffer2_len = wrtbuf_in;
-        func_02082EA4(buffer + command->buffer1_len, command->buffer2, command->buffer2_len);
+        MI_CpuCopy(buffer + command->buffer1_len, command->buffer2, command->buffer2_len);
     }
-    func_02082EA4(buffer, command->buffer1, command->buffer1_len);
+    MI_CpuCopy(buffer, command->buffer1, command->buffer1_len);
     saved_send_buffer_in = send_pipe->buffer.in;
     command->wrtbuf_after = wrtbuf_in;
     send_pipe->buffer.in = command->wrtbuf_after;
@@ -524,12 +524,12 @@ int SOCLi_MemCpy(u8 *dst, int len, struct SOCLiCommandWrite *r)
         m = len - n;
     }
     if (n > 0) {
-        func_02082EA4(r->buffer1, dst, n);
+        MI_CpuCopy(r->buffer1, dst, n);
         r->buffer1 += n;
         r->buffer1_len -= n;
     }
     if (m > 0) {
-        func_02082EA4(r->buffer2, dst + n, m);
+        MI_CpuCopy(r->buffer2, dst + n, m);
         r->buffer2 += m;
         r->buffer2_len -= m;
     }

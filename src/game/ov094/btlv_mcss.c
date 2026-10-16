@@ -14,14 +14,14 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_02030EAC 0x02030EAC arm
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   FX_Div  0x0207C768  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   MCSS_Init  0x02014B08  thumb
@@ -167,7 +167,7 @@ struct McssAnimCtrl {
     int active;             /* 0x0c: 0 pauses the animation, 1 runs it */
 };
 
-struct TcblTask; /* task record of the task list (func_02030DA8) */
+struct TcblTask; /* task record of the task list (TCB_AddTask) */
 
 /* Linear move state stepped by BTLV_EFFECT_StepMover: BtlvMover (0x3c bytes) from btlv_camera_shared_types.h. */
 
@@ -219,10 +219,10 @@ typedef struct BtlvMcssAnimEntry {
 } BtlvMcssAnimEntry;
 
 /* Arm9 helpers */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern void func_02030EAC(struct TcblTask *task);
-extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 priority);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
+extern void TCB_DeleteTask(struct TcblTask *task);
+extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 priority);
 extern void *TCBL_GetTaskUserData(struct TcblTask *task);
 extern u32 GF_STANDARD_Rand(void);
 extern u32 FX_Div(u32 a, u32 b);
@@ -464,7 +464,7 @@ BtlvMcssWork *BTLV_MCSS_Create(int rule, void *taskOwner, u16 heapId)
     BtlvMcssWork *w;
     int sysParam = 0xe;
     int i;
-    w = func_02030734(heapId, 0x5b4, 1, gBtlvMcssSourceFileName, 0x184);
+    w = GFL_HEAP_Alloc(heapId, 0x5b4, 1, gBtlvMcssSourceFileName, 0x184);
     w->mcss = MCSS_Init(sysParam, heapId);
     w->taskOwner = taskOwner;
     w->heapId = heapId;
@@ -490,7 +490,7 @@ void BTLV_MCSS_Delete(BtlvMcssWork *w)
             BTLV_MCSS_RemoveSprite(w, pos);
     }
     MCSS_Exit(w->mcss);
-    func_020307B0(w);
+    GFL_HEAP_Free(w);
 }
 
 /*
@@ -701,8 +701,8 @@ void BTLV_MCSS_RemoveSprite(BtlvMcssWork *w, int pos)
     MCSS_Del(w->mcss, w->sprites[idx].mcss);
     w->sprites[idx].mcss = 0;
     if (w->sprites[idx].animWatchTask != 0) {
-        func_020307B0(TCBL_GetTaskUserData(w->sprites[idx].animWatchTask));
-        func_02030EAC(w->sprites[idx].animWatchTask);
+        GFL_HEAP_Free(TCBL_GetTaskUserData(w->sprites[idx].animWatchTask));
+        TCB_DeleteTask(w->sprites[idx].animWatchTask);
         w->sprites[idx].animWatchTask = 0;
     }
 }
@@ -1082,7 +1082,7 @@ void BTLV_MCSS_StartBlinkTask(BtlvMcssWork *w, int pos, int kind, int interval, 
         BTLV_MCSS_SetBlinkMode(w, pos, 0);
         return;
     case 2:
-        task = func_02030734((u16)((w->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0x5e5);
+        task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0x5e5);
         task->work = w;
         task->pos = pos;
         task->kind = kind;
@@ -1091,7 +1091,7 @@ void BTLV_MCSS_StartBlinkTask(BtlvMcssWork *w, int pos, int kind, int interval, 
         task->count = toggles * 2;
         w->blinkSerial[pos]++;
         task->serial = w->blinkSerial[pos];
-        BTLV_EFFECT_RegisterTask(func_02030DA8(w->taskOwner, BTLV_MCSS_BlinkTaskMain, task, 0), BTLV_MCSS_BlinkTaskEnd, 2);
+        BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_BlinkTaskMain, task, 0), BTLV_MCSS_BlinkTaskEnd, 2);
         w->blinkTaskMask |= BTLV_EFFECT_GetBitMask(pos);
         return;
     }
@@ -1121,7 +1121,7 @@ void BTLV_MCSS_StartAlphaTween(BtlvMcssWork *w, int pos, int kind, int alpha, in
  */
 void BTLV_MCSS_StartShakeTask(BtlvMcssWork *w, BtlvMcssShakeParams *params)
 {
-    BtlvMcssShakeParams *task = func_02030734((u16)((w->heapId & 0x7fff) | 0x8000), 0x3c, 0, gBtlvMcssSourceFileName, 0x627);
+    BtlvMcssShakeParams *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x3c, 0, gBtlvMcssSourceFileName, 0x627);
     task->work = w;
     task->pos = params->pos;
     task->mode = params->mode;
@@ -1143,13 +1143,13 @@ void BTLV_MCSS_StartShakeTask(BtlvMcssWork *w, BtlvMcssShakeParams *params)
     task->phaseStep = 0x10000 / params->stepsPerCycle;
     w->positionSerial[task->pos]++;
     task->serial = w->positionSerial[task->pos];
-    BTLV_EFFECT_RegisterTask(func_02030DA8(w->taskOwner, BTLV_MCSS_ShakeTaskMain, task, 0), BTLV_MCSS_ShakeTaskEnd, 2);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_ShakeTaskMain, task, 0), BTLV_MCSS_ShakeTaskEnd, 2);
     w->positionTweenMask |= BTLV_EFFECT_GetBitMask(task->pos);
 }
 
 void BTLV_MCSS_StartBounceTask(BtlvMcssWork *w, BtlvMcssBounceParams *params)
 {
-    BtlvMcssBounceParams *task = func_02030734((u16)((w->heapId & 0x7fff) | 0x8000), 0x2c, 0, gBtlvMcssSourceFileName, 0x660);
+    BtlvMcssBounceParams *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x2c, 0, gBtlvMcssSourceFileName, 0x660);
     int idx = BTLV_MCSS_FindSpriteIndex(w, params->pos);
 
     if (idx == -1)
@@ -1161,7 +1161,7 @@ void BTLV_MCSS_StartBounceTask(BtlvMcssWork *w, BtlvMcssBounceParams *params)
     MCSS_GetPosition(w->sprites[idx].mcss, &task->startPosition);
     w->positionSerial[task->pos]++;
     task->serial = w->positionSerial[task->pos];
-    BTLV_EFFECT_RegisterTask(func_02030DA8(w->taskOwner, BTLV_MCSS_BounceTaskMain, task, 0), BTLV_MCSS_BounceTaskEnd, 2);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_BounceTaskMain, task, 0), BTLV_MCSS_BounceTaskEnd, 2);
     w->positionTweenMask |= BTLV_EFFECT_GetBitMask(task->pos);
 }
 
@@ -1475,7 +1475,7 @@ int BTLV_MCSS_PlayCry(BtlvMcssWork *w, int pos, int pitch, int pan, int chorusPa
 /* Start the formation turn of a rotation battle: side 0 or 1, dir 0 or 1. */
 void BTLV_MCSS_StartRotation(BtlvMcssWork *w, int side, int dir, int playSound)
 {
-    BtlvMcssRotationTask *task = func_02030734((u16)((w->heapId & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
+    BtlvMcssRotationTask *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
 
     task->work = w;
     task->state = 0;
@@ -1483,7 +1483,7 @@ void BTLV_MCSS_StartRotation(BtlvMcssWork *w, int side, int dir, int playSound)
     task->side = side;
     task->dir = dir;
     w->flags.rotating = 1;
-    BTLV_EFFECT_RegisterTask(func_02030DA8(w->taskOwner, BTLV_MCSS_RotationTaskMain, task, 0), BTLV_MCSS_RotationTaskEnd, 2);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, BTLV_MCSS_RotationTaskMain, task, 0), BTLV_MCSS_RotationTaskEnd, 2);
 }
 
 int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *w, int pos)
@@ -1710,7 +1710,7 @@ void BTLV_MCSS_ApplySlotScale(BtlvMcssWork *w, int pos)
 void BTLV_MCSS_CreateTweenTask(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *from, BtlvMcssVec *to, int frames,
                    int waitFrames, int repeat, void (*fn)(void *, void *), void (*endCb)(void *), int mirrorOdd, u8 serial)
 {
-    BtlvMcssTween *task = func_02030734((u16)((w->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0xa4e);
+    BtlvMcssTween *task = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0xa4e);
 
     task->work = w;
     task->pos = pos;
@@ -1749,7 +1749,7 @@ void BTLV_MCSS_CreateTweenTask(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *
         }
         break;
     }
-    BTLV_EFFECT_RegisterTask(func_02030DA8(w->taskOwner, fn, task, 0), endCb, 2);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(w->taskOwner, fn, task, 0), endCb, 2);
 }
 
 /* Position tween task. */
@@ -2205,15 +2205,15 @@ void BTLV_MCSS_AnimWatchTaskMain(void *task, void *arg)
     int off;
     char *e;
     if (i == -1) {
-        func_020307B0(q);
-        func_02030EAC(task);
+        GFL_HEAP_Free(q);
+        TCB_DeleteTask(task);
         return;
     }
     off = i * 0x5c;
     e = (char *)w->sprites;
     if (*(struct McssSprite **)(e + off) == 0) {
-        func_020307B0(q);
-        func_02030EAC(task);
+        GFL_HEAP_Free(q);
+        TCB_DeleteTask(task);
         return;
     }
     switch (q->state) {
@@ -2233,8 +2233,8 @@ void BTLV_MCSS_AnimWatchTaskMain(void *task, void *arg)
         return;
     case 2:
         MCSS_SetAnimCallback(*(struct McssSprite **)(e + off), i, BTLV_MCSS_IdleAnimCallback, 1);
-        func_020307B0(q);
-        func_02030EAC(task);
+        GFL_HEAP_Free(q);
+        TCB_DeleteTask(task);
         *(void **)((char *)w + off + 0x30) = 0;
         break;
     }
@@ -2350,10 +2350,10 @@ void BTLV_MCSS_IdleAnimCallback(int pos)
     draw = GF_STANDARD_Rand();
     if ((u32)(((u64)draw * n) >> 32) != 0) return;
     w->sprites[pos].flags.idleCounter = 3;
-    watch = func_02030734((u16)((w->heapId & 0x7fff) | 0x8000), 12, 1, gBtlvMcssSourceFileName, 0xd5e);
+    watch = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 12, 1, gBtlvMcssSourceFileName, 0xd5e);
     watch->pos = pos;
     if (MCSS_GetAnimSeqNum(sprites[pos].mcss) > 1) MCSS_SetAnimeIndex(sprites[pos].mcss, 1);
-    w->sprites[pos].animWatchTask = func_02030DA8(w->taskOwner, BTLV_MCSS_AnimWatchTaskMain, watch, 0);
+    w->sprites[pos].animWatchTask = TCB_AddTask(w->taskOwner, BTLV_MCSS_AnimWatchTaskMain, watch, 0);
 }
 
 /*

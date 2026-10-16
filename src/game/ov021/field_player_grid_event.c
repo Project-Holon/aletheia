@@ -13,7 +13,7 @@
  * Cut from field_player_grid_event.c, fld3d_ci.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
@@ -22,7 +22,7 @@
  *   FLDMMDL_CheckEndAcmd 0x0216D454 thumb ov010
  *   FLDMMDL_EndAcmd 0x0216D480 thumb ov010
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_PLAYER_GRID_GetCore  0x021A5728  thumb  ov021
  *   FIELD_PLAYER_GRID_GetMmdl  0x021A572C  thumb  ov021
  *   FIELD_PLAYER_CORE_ChooseMoveDirFromKeys  0x021A3AB8  thumb  ov021
@@ -54,15 +54,15 @@
  *   FLDMMDL_SetDrawOffsetOutside  0x0216D8E0  thumb  ov010
  *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
  *   FLDMMDL_StoreMovedPos  0x0216E57C  thumb  ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFileFieldPlayerGridEvent     0x021DE3AC  data  ov021  a4
  *   FIELD_PLAYER_GetFieldMap  0x021A3068  thumb  ov021
  *   FIELD_PLAYER_GetGrid  0x021A36E0  thumb  ov021
  *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb  ov021
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
@@ -174,19 +174,19 @@ typedef struct JumpWork {
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
-extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, int (*func)(), u32 workSize);
+extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, int (*func)(), u32 workSize);
 
 extern void *func_020124E8(GameEvent *event);
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
-extern void func_02030DA8(TcblSys *tcblSys, void (*func)(), void *work, u32 priority);
+extern void TCB_AddTask(TcblSys *tcblSys, void (*func)(), void *work, u32 priority);
 
 extern void *TCBL_GetTaskUserData(TcblTask *task);
 
-extern u32 func_02030EAC(TcblTask *task);
+extern u32 TCB_DeleteTask(TcblTask *task);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 
@@ -470,7 +470,7 @@ GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayer *player, u
     BoulderDropWork *work;
 
     core = FIELD_PLAYER_GRID_GetCore(player);
-    event = func_020122C0(FIELD_PLAYER_CORE_GetGameSystem(core), 0, FIELD_PLAYER_GRID_EVENT_BoulderDropEvent, sizeof(BoulderDropWork));
+    event = GAME_EVENT_Create(FIELD_PLAYER_CORE_GetGameSystem(core), 0, FIELD_PLAYER_GRID_EVENT_BoulderDropEvent, sizeof(BoulderDropWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(BoulderDropWork));
     work->player = player;
@@ -563,14 +563,14 @@ void FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 att
 {
     HopWork *work;
 
-    work = func_02030734((u16)(0x8000 | (heapId & 0x7fff)), sizeof(HopWork), 1, (const char *)&gFileFieldPlayerGridEvent, 0x1e6);
+    work = GFL_HEAP_Alloc((u16)(0x8000 | (heapId & 0x7fff)), sizeof(HopWork), 1, (const char *)&gFileFieldPlayerGridEvent, 0x1e6);
     work->fieldMap = FIELD_PLAYER_GetFieldMap(player);
     work->startDir = dir;
     work->player = player;
     work->gameSystem = FIELD_PLAYER_GetGrid(player);
     if (MAP_ATTR_IsLongHopEdge(MAP_ATTR_GetTerrainId(attr)) == 1)
         work->isLong = 1;
-    func_02030DA8(FIELDMAP_GetTcblSys(work->fieldMap), FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
+    TCB_AddTask(FIELDMAP_GetTcblSys(work->fieldMap), FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
 }
 
 int FIELD_PLAYER_GRID_EVENT_IsHopDone(TcblTask *task)
@@ -580,8 +580,8 @@ int FIELD_PLAYER_GRID_EVENT_IsHopDone(TcblTask *task)
 
 int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(TcblTask *task)
 {
-    func_020307B0(TCBL_GetTaskUserData(task));
-    return func_02030EAC(task);
+    GFL_HEAP_Free(TCBL_GetTaskUserData(task));
+    return TCB_DeleteTask(task);
 }
 
 void FIELD_PLAYER_GRID_EVENT_HopTask(TcblTask *task, HopWork *work)
@@ -661,7 +661,7 @@ void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 at
     MmdlVec ahead;
     int aheadHeight;
 
-    work = func_02030734((u16)(0x8000 | (heapId & 0x7fff)), sizeof(JumpWork), 1, (const char *)&gFileFieldPlayerGridEvent, 0x2b3);
+    work = GFL_HEAP_Alloc((u16)(0x8000 | (heapId & 0x7fff)), sizeof(JumpWork), 1, (const char *)&gFileFieldPlayerGridEvent, 0x2b3);
     work->dir = dir;
     work->player = player;
     work->fieldMap = FIELD_PLAYER_GetFieldMap(player);
@@ -673,7 +673,7 @@ void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 at
     if (aheadHeight > start.y)
         work->targetHigher = 1;
     work->gameSystem = FIELD_PLAYER_GetGrid(work->player);
-    func_02030DA8(FIELDMAP_GetTcblSys(work->fieldMap), FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
+    TCB_AddTask(FIELDMAP_GetTcblSys(work->fieldMap), FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
 }
 
 int FIELD_PLAYER_GRID_EVENT_IsJumpDone(TcblTask *task)
@@ -683,8 +683,8 @@ int FIELD_PLAYER_GRID_EVENT_IsJumpDone(TcblTask *task)
 
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(TcblTask *task)
 {
-    func_020307B0(TCBL_GetTaskUserData(task));
-    func_02030EAC(task);
+    GFL_HEAP_Free(TCBL_GetTaskUserData(task));
+    TCB_DeleteTask(task);
 }
 
 /*

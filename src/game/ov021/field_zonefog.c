@@ -14,9 +14,9 @@
  * Split from field_fog.c (CL110): __FILE__ anchor field_zonefog.c at 0x021A02C4; ends at the field_light.c anchor 0x021A03D0.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   d_021DDE28     0x021DDE28  data
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
@@ -45,9 +45,9 @@ typedef struct {
     void *arcHandle;
 } FieldZoneFog;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
-extern void *func_020490F4(u32 arcId, u32 heapId);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern void *ARC_UTIL_LoadHandleMember(void *arcHandle, u32 dataId, u32 heapLow, u32 heapId);
 void FIELD_ZONEFOG_Clear(FieldZoneFog *zoneFog);
@@ -55,9 +55,9 @@ extern char d_021DDE28[];
 
 FieldZoneFog *FIELD_ZONEFOG_Create(u16 heapId)
 {
-    FieldZoneFog *zoneFog = (FieldZoneFog *)func_02030734(heapId, sizeof(FieldZoneFog), 1, d_021DDE28, 0x51);
+    FieldZoneFog *zoneFog = (FieldZoneFog *)GFL_HEAP_Alloc(heapId, sizeof(FieldZoneFog), 1, d_021DDE28, 0x51);
     zoneFog->lightId = ZONEFOG_ID_NONE;
-    zoneFog->arcHandle = func_020490F4(ZONEFOG_ARC_ID, heapId);
+    zoneFog->arcHandle = ARC_TOOL_CreateHandle(ZONEFOG_ARC_ID, heapId);
     return zoneFog;
 }
 
@@ -65,7 +65,7 @@ int FIELD_ZONEFOG_Delete(FieldZoneFog *zoneFog)
 {
     ARC_TOOL_DeleteHandle(zoneFog->arcHandle);
     FIELD_ZONEFOG_Clear(zoneFog);
-    return func_020307B0(zoneFog);
+    return GFL_HEAP_Free(zoneFog);
 }
 
 /* Loads the requested fog record once the wait count reaches zero. */
@@ -98,7 +98,7 @@ u8 FIELD_ZONEFOG_IsLoadRequest(FieldZoneFog *zoneFog)
 void FIELD_ZONEFOG_Clear(FieldZoneFog *zoneFog)
 {
     if (zoneFog->data != 0) {
-        func_020307B0(zoneFog->data);
+        GFL_HEAP_Free(zoneFog->data);
         zoneFog->data = 0;
     }
     zoneFog->lightId = ZONEFOG_ID_NONE;

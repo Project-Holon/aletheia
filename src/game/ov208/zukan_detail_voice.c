@@ -13,13 +13,13 @@
  * Cut from zukan_detail_headbar.c, zukan_detail_page.c, zukan_detail_voice.c, zukan_detail_form.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02041B6C  0x02041B6C  arm
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
@@ -28,7 +28,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_Delete        0x020437AC  arm
- *   func_02045EC0        0x02045EC0  arm
+ *   MSGDATA_AllocString        0x02045EC0  arm
  *   PRINTSYS_PrintQueColor        0x0201C724  thumb
  *   STRBUF_Delete        0x02045808  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
@@ -70,7 +70,7 @@
  *   func_021BE844 0x021BE844 thumb
  *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb
  *   ZUKAN_DETAIL_COMMON_GetGraphics 0x021BC3B0 thumb
- *   func_021BDBA0 0x021BDBA0 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
  *   func_021BE854 0x021BE854 thumb
  *   func_021BC46C 0x021BC46C thumb
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
@@ -92,9 +92,9 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
- *   func_0207D63C 0x0207D63C  arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C  arm
  *   ov208_func_021BCF4C  0x021BCF4C  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault  0x021BC610  thumb  ov208
  *   PM_VOICE_IsAnyActive  0x02006650  thumb
@@ -153,7 +153,7 @@
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled 0x021BDAE8 thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive 0x021BDC2C thumb ov208
  *   gSpeciesNameBank 0x020A7370 data a4
- *   func_020870D0 0x020870D0 arm
+ *   OS_GetTick 0x020870D0 arm
  *   ov208_func_021C3208 0x021C3208 thumb ov208
  *   ov208_func_021C337C 0x021C337C thumb ov208
  *   ov208_func_021C3378 0x021C3378 thumb ov208
@@ -179,17 +179,17 @@
 #include "zukan_detail_shared_types.h"
 #include "zukan_detail_form_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
@@ -282,7 +282,7 @@ extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *ctx);
 
 extern int ZUKAN_DETAIL_COMMON_GetGraphics(int *ctx);
 
-extern void func_021BDBA0(void *s);
+extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
 extern void func_021BE854(void *s);
 
@@ -398,15 +398,15 @@ typedef unsigned long long u64;
 extern const u8 data_021C8704[7][9];
 extern const struct ZukanDetailVoiceDigitSlots data_021C86EC;
 
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 
 typedef signed char    s8;
 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-extern void *func_02045EC0(struct MsgBank *bank,u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank,u32 index);
 
-extern u32 func_0201D304(struct StrObj *s,u32 a,u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s,u32 a,u32 b);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -416,13 +416,13 @@ extern void STRBUF_Delete(struct U16Vec *s);
 
 extern void BMP_Clear(struct CharBuf *p, u8 v);
 
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 
 extern u16 ov208_func_021BC3C0(int key);
 
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
-extern void *func_02030734(u32 heap,u32 size,int clear,const char *file,u16 line);
+extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *file,u16 line);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
@@ -445,7 +445,7 @@ extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 
 extern void BG_SYS_DrawTile(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
 
-extern void func_0207D63C(u32 reg,int p1,int p2,int ev1,int ev2);
+extern void G2x_SetBlendAlpha_(u32 reg,int p1,int p2,int ev1,int ev2);
 
 extern struct MsgBank *gSpeciesNameBank;
 
@@ -519,7 +519,7 @@ u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unu
     voice->shownMs = 1;
     voice->bgmPhase = 0;
     ZUKAN_DETAIL_VOICE_FadeOutBgm(heapIdPtr, voice, ctx);
-    voice->task = func_020056A0((unsigned)ZUKAN_DETAIL_VOICE_ApplyPendingDisplay, (unsigned)voice, 1);
+    voice->task = GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_VOICE_ApplyPendingDisplay, (unsigned)voice, 1);
     voice->blendTop = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heapIdPtr);
     voice->blendBottom = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heapIdPtr);
     ZUKAN_DETAIL_COMMON_InitBrightnessTarget(voice->blendTop);
@@ -561,7 +561,7 @@ u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct
     if (voice->bgmPhase != 3) {
         ZUKAN_DETAIL_VOICE_RestoreBgm(heapIdPtr, voice, ctx);
     }
-    func_02030EAC(voice->task);
+    TCB_DeleteTask(voice->task);
     ZUKAN_DETAIL_PROCSYS_FreeBuffer(workAlloc);
     return 1;
 }
@@ -627,7 +627,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         break;
     case 3:
         if (ZUKAN_DETAIL_COMMON_IsFadeBusy(voice->palFade) == 0 && func_021BDAD0(scene) == 2 && func_021BE840(icon) == 2) {
-            func_021BDBA0(scene);
+            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scene);
             ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
             *seq = 4;
         }
@@ -726,18 +726,18 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapId
         voice->exitMode = 1;
         return;
     case 3:
-        func_021BDBA0((struct Ov208Scene *)sceneObj);
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         return;
     case 4:
-        func_021BDBA0((struct Ov208Scene *)sceneObj);
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         return;
     case 5:
         GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sceneObj));
-        func_021BDBA0((struct Ov208Scene *)sceneObj);
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         return;
     default:
         if (flag != 0) {
-            func_021BDBA0((struct Ov208Scene *)sceneObj);
+            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         }
         break;
     }
@@ -799,7 +799,7 @@ void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoi
     u8 i;
     struct ZukanDetailVoiceActorPos pos;
 
-    arc = (int)func_020490F4(0x9f, *heapIdPtr);
+    arc = (int)ARC_TOOL_CreateHandle(0x9f, *heapIdPtr);
     i = 0;
     voice->gfxRes[1] = CLACT_RegisterPaletteEx((void *)arc, 3, 0, 0, 0, 4, *heapIdPtr);
     voice->gfxRes[0] = CLACT_RegisterCharacter((void *)arc, 0xd, 0, 0, *heapIdPtr);
@@ -999,8 +999,8 @@ void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice 
     struct StrObj *name;
     u16 textWidth;
     u16 winWidth;
-    name = func_02045EC0(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry((void *)ctx));
-    textWidth = func_0201D304(name, voice->font, 0);
+    name = MSGDATA_AllocString(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry((void *)ctx));
+    textWidth = GF_FONT_MeasureWidestLine(name, voice->font, 0);
     winWidth = BMP_GetWidth(BMP_WIN_GetBmp(voice->nameWin));
     PRINTSYS_PrintQueColor(voice->printQue, (u32)BMP_WIN_GetBmp(voice->nameWin), (s16)((u16)((winWidth - textWidth) / 2)), (s16)1, (u32)name, voice->font, 0x3c40);
     STRBUF_Delete((struct U16Vec *)name);
@@ -1023,7 +1023,7 @@ void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice
             win = voice->nameWin;
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen((struct Cfg *)win);
-            func_02041B6C(BMP_WIN_GetBgLayer(win));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
             voice->namePending = 0;
         }
     }
@@ -1063,7 +1063,7 @@ void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVo
     u16 rem;
     u16 hund;
     if (voice->voicePlaying != 0) {
-        now = func_020870D0();
+        now = OS_GetTick();
         start = *(u64 *)&voice->startTick[0];
         if (now >= start)
             diff = now - start;
@@ -1148,7 +1148,7 @@ void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice 
         ZUKAN_SAVE_GetViewGenderAndForm(zukanSave, species, &gender, &shiny, &formNo, *heapIdPtr);
         voice->voiceHandle = PM_VOICE_Play(species, formNo, 0x40, 0, 0, 0, 0, 0);
         voice->elapsedMs = 0;
-        *(u64 *)&voice->startTick[0] = func_020870D0();
+        *(u64 *)&voice->startTick[0] = OS_GetTick();
         voice->voicePlaying = 1;
         ZUKAN_DETAIL_VOICE_DrawWaveform(heapIdPtr, voice, ctx, species, formNo);
         ov208_func_021C31CC(heapIdPtr, voice, ctx);
@@ -1157,7 +1157,7 @@ void ZUKAN_DETAIL_VOICE_HandlePlayInput(u16 *heapIdPtr, struct ZukanDetailVoice 
 
 void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
 {
-    voice->waveTileMap = func_02030734(*heapIdPtr, 0x3a2, 1, data_021C8E28, 0x8a1);
+    voice->waveTileMap = GFL_HEAP_Alloc(*heapIdPtr, 0x3a2, 1, data_021C8E28, 0x8a1);
     voice->waveWin = (struct Descriptor *)BMP_WIN_Create(3, 1, 2, 31, 15, 1, 1);
     ZUKAN_DETAIL_VOICE_InitWaveformState(heapIdPtr, voice, ctx);
     voice->waveBmp = BMP_Create(121, 15, 32, *heapIdPtr);
@@ -1170,7 +1170,7 @@ void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, struct ZukanDetailVoi
 {
     BMP_Delete((struct Bmp *)voice->waveBmp);
     BMP_WIN_Delete(voice->waveWin);
-    func_020307B0(voice->waveTileMap);
+    GFL_HEAP_Free(voice->waveTileMap);
 }
 
 void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx)
@@ -1346,8 +1346,8 @@ void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoic
     }
     for (i = 0; i < 6; i++)
         CLACT_SetActorObjMode(voice->actor[i], 0);
-    func_0207D63C(0x04000050, 4, 0x3f, 0x10, 8);
-    func_0207D63C(0x04001050, 0, 0x3f, 0xc, 4);
+    G2x_SetBlendAlpha_(0x04000050, 4, 0x3f, 0x10, 8);
+    G2x_SetBlendAlpha_(0x04001050, 0, 0x3f, 0xc, 4);
 }
 
 void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice *voice, int ctx)

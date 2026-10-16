@@ -25,7 +25,7 @@
  *   ENCEFF_StartScreenTexEffect 0x021F529C thumb ov075
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
  *   FADE_Start  0x0204E720  arm
@@ -51,7 +51,7 @@ extern void *ENCEFF_StartScreenTexEffectFlash(void *gameSystem, const VecFx32 *c
 extern void *ENCEFF_StartScreenTexEffect(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern EncEffRipple *ENCEFF_GetWork(struct EncEffWork *eff);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
@@ -108,7 +108,7 @@ void *ENCEFF_StartRipple(void *gameSystem)
     int i;
 
     ripple = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = func_020122C0(gameSystem, 0, ENCEFF_RippleEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 8;
@@ -317,7 +317,7 @@ void *ENCEFF_StartRippleBurst(void *gameSystem)
     int i;
 
     ripple = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = func_020122C0(gameSystem, 0, ENCEFF_RippleEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 2;

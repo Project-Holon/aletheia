@@ -22,7 +22,7 @@
  *   DWCi_MOV_WH_GetLastError  0x02178E68  thumb  ov014
  *   g_pWhPipeWork  0x021797A4  data   a4
  *   sFileNetWhPipe 0x02179780  data   a1
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   WM_GetNextTgid  0x0208F1B4  arm
  *   WIH_Initialize  0x021790E4  thumb  ov014
@@ -35,11 +35,11 @@
  *   DWCi_MOV_WH_StartScan  0x021785B4  thumb  ov014
  *   WIH_Finalize  0x02179498  thumb  ov014
  *   DWCi_MOV_WH_StateInEndKeyShare  0x0217945C  thumb  ov014
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   OS_Terminate  0x02088234  arm
  *   sEmptyString   0x02179790  data   a4
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   WIH_GetOwnAid  0x021795A4  thumb  ov014
  *   WIH_End  0x02179570  thumb  ov014
  *   GFL_NET_CallErrorStateFunc  0x0203D720  arm
@@ -76,7 +76,7 @@ extern u32 GFL_NET_GetGameKind(void);
 extern u16 WIH_DWC_GetAlertLevel(void);
 extern int WM_GetLinkLevel(void);
 int DWCi_MOV_WH_GetLastError(void);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GFL_NET_GetInitParam(void);
 extern u16 WM_GetNextTgid(void);
 extern int WIH_Initialize(u32 heap, int a, int b);
@@ -89,10 +89,10 @@ extern void DWCi_MOV_WH_SetReceiver(void *cb);
 extern int DWCi_MOV_WH_StartScan(u32 a, u16 *b, u32 c);
 extern int WIH_Finalize(void);
 extern void DWCi_MOV_WH_StateInEndKeyShare(void);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int GFL_NET_GetRunState(void);
 extern void OS_Terminate(void);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 unsigned short WIH_GetOwnAid(void);
 int WIH_End(void (*cb)(int));
 void GFL_NET_CallErrorStateFunc(u32 a);
@@ -315,7 +315,7 @@ int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
     init = GFL_NET_GetInitParam();
     if (g_pWhPipeWork != 0)
         return 0;
-    work = func_02030734(heapId, 0xCF8, 1, sFileNetWhPipe, 0xed);
+    work = GFL_HEAP_Alloc(heapId, 0xCF8, 1, sFileNetWhPipe, 0xed);
     g_pWhPipeWork = work;
     work->channel = 0xff;
     if (WIH_Initialize(heapId, wmParam, forListening) == 0)
@@ -561,7 +561,7 @@ int NET_WHPIPE_RequestFinalize(void)
 void NET_WHPIPE_Destroy(void)
 {
     if (g_pWhPipeWork != 0) {
-        func_020307B0(g_pWhPipeWork);
+        GFL_HEAP_Free(g_pWhPipeWork);
         g_pWhPipeWork = 0;
     }
 }
@@ -649,7 +649,7 @@ void NET_WHPIPE_RefreshBeacon(void)
     if (getSize != 0) {
         size = getSize(work->userData);
         if (size > WHPIPE_BEACON_DATA_SIZE)
-            func_02034714((const char *)sEmptyString, 0, (const char *)sEmptyString);
+            SAVEDATA_PanicFail((const char *)sEmptyString, 0, (const char *)sEmptyString);
         MI_CpuCopy8((void *)init->getBeaconData(work->userData), beacon->data, size);
     }
     if (beacon->connectedNum != NET_WHPIPE_GetConnectedNum()) {

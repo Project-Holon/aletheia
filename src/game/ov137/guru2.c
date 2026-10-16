@@ -18,11 +18,11 @@
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
  *   gGuru2EntryStateTable 0x021E1A50 data a4
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
- *   func_02030734 0x02030734 arm
+ *   PROCSYS_Delete 0x0203133C arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   gGuru2AllocFileName 0x021E2260 data a4
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PROCSYS_Push 0x02031348 arm
  *   gGuru2LobbyProcData 0x021E1A38 data a4
  *   d_0000005B 0x0000005B data a1
@@ -61,13 +61,13 @@ extern void *PROCSYS_Create(int a0);
 
 extern u32 PROCSYS_Main(void *);
 
-extern void func_0203133C(struct S020314B8 *p);
+extern void PROCSYS_Delete(struct S020314B8 *p);
 
-extern void func_020315D4(struct Proc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void PROCSYS_Push(void *,int,const void *,void *);
 
@@ -155,15 +155,15 @@ int GURU2_EntryProcMain(void *obj,int a,int b,struct Guru2Entry *p)
 
 int GURU2_EntryProcExit(void *obj,int a,int b,struct Guru2Entry *p)
 {
-    func_0203133C(p->procHandle);
-    func_020315D4(obj);
+    PROCSYS_Delete(p->procHandle);
+    PROCSYS_FreeProcWork(obj);
     return 1;
 }
 
 struct Guru2Session *GURU2_SessionCreate(struct Guru2Param *param,int heap)
 {
     struct Guru2Session *p;
-    p=func_02030734((u16)heap,36,0,gGuru2AllocFileName,171);
+    p=GFL_HEAP_Alloc((u16)heap,36,0,gGuru2AllocFileName,171);
     MI_CpuFill8(p,0,36);
     p->param=param;
     p->comm=GURU2_COMM_Create(p,heap);
@@ -174,7 +174,7 @@ void GURU2_SessionDestroy(struct Guru2Session *p)
 {
     GURU2_COMM_Exit(p->comm);
     GURU2_COMM_Destroy(p->comm);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 unsigned int GURU2_SessionGetArgs(struct Guru2Session *p) { return p->startConfirmed; }
@@ -190,14 +190,14 @@ int GURU2_EntryStateStartReceipt(struct Guru2Entry *p)
 }
 
 /*
- * func_02030734 0x02030734 arm
+ * GFL_HEAP_Alloc 0x02030734 arm
  * gGuru2AllocFileName 0x021E2260 data a4
  */
 struct Guru2PartyListParam *GURU2_PartyListArgsCreate(struct Guru2Entry *p,int a,int b)
 {
     struct Guru2PartyListParam *v;
     int i;
-    v=func_02030734(4,sizeof(struct Guru2PartyListParam),1,gGuru2AllocFileName,256);
+    v=GFL_HEAP_Alloc(4,sizeof(struct Guru2PartyListParam),1,gGuru2AllocFileName,256);
     v->party=GAME_DATA_GetMyParty(p->gameData);
     v->playerData=GAME_DATA_GetMyItem(p->gameData);
     v->initialMode=0;
@@ -231,8 +231,8 @@ int GURU2_EntryStateOpenPartyList(struct Guru2Entry *p)
 }
 
 /*
- * func_020307B0 0x020307B0 arm
- * func_02030734 0x02030734 arm
+ * GFL_HEAP_Free 0x020307B0 arm
+ * GFL_HEAP_Alloc 0x02030734 arm
  * MI_CpuFill8 0x02082BCC arm
  * PROCSYS_Push 0x02031348 arm
  * gGuru2AllocFileName 0x021E2260 data a4
@@ -246,11 +246,11 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
     int mode=v->result,sel=v->cursor;
     void *q;
     void *r;
-    func_020307B0(v);
+    GFL_HEAP_Free(v);
     if(mode==1) {
         GAME_DATA_GetMyStatus(p->gameData);
         q=ZUKAN_SAVE_GetFromGameData(p->gameData);
-        p->statusParam=func_02030734(4,40,0,gGuru2AllocFileName,328);
+        p->statusParam=GFL_HEAP_Alloc(4,40,0,gGuru2AllocFileName,328);
         MI_CpuFill8(p->statusParam,0,40);
         r=GAME_DATA_GetMyParty(p->gameData);
         p->statusParam->party=r;
@@ -280,7 +280,7 @@ int GURU2_EntryStateReopenPartyList(struct Guru2Entry *p)
     u8 a;
     struct Guru2PartyListParam *v;
     a=p->statusParam->cursor;
-    func_020307B0(p->statusParam);
+    GFL_HEAP_Free(p->statusParam);
     v=GURU2_PartyListArgsCreate(p,21,a);
     p->partyListParam=v;
     PROCSYS_Push(p->procHandle,(int)d_0000005B,gPartyListProcData,v);

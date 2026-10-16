@@ -18,13 +18,14 @@
  *   NWMi_CheckState  0x027028E4  arm
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 
 extern u32 NWMi_CheckState(u32, ...);
 extern u32 NWMi_GetSystemWork(void);
-extern void func_020862B8(u32, u32);
+extern void DC_InvalidateRange(u32, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32);
 extern u32 PM_GetExitFactor(void);
@@ -40,7 +41,7 @@ void NWMi_ForceExit(void);
 static inline u32 flag_set(u32 n) {
     u32 base = NWMi_GetSystemWork();
     if (base != 0) {
-        func_020862B8(*(u32 *)(base + 0x2278) + n, 1);
+        DC_InvalidateRange(*(u32 *)(base + 0x2278) + n, 1);
         return *(u8 *)(*(u32 *)(base + 0x2278) + n) == 1;
     }
     return 0;
@@ -57,7 +58,7 @@ u32 NWM_UnloadDevice(u32 a0) {
     if (base != 0) {
         u32 ptr = *(u32 *)(base + 0x2278);
         busy = 1;
-        func_020862B8(ptr + 4, 1);
+        DC_InvalidateRange(ptr + 4, 1);
         if (*(u8 *)(*(u32 *)(base + 0x2278) + 4) != 1) {
             busy = 0;
         }
@@ -87,7 +88,7 @@ u32 NWMi_ForceUnloadDevice(u32 a0) {
     if (base != 0) {
         u32 ptr = *(u32 *)(base + 0x2278);
         busy = 1;
-        func_020862B8(ptr + 4, 1);
+        DC_InvalidateRange(ptr + 4, 1);
         if (*(u8 *)(*(u32 *)(base + 0x2278) + 4) != 1) {
             busy = 0;
         }

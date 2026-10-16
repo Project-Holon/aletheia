@@ -16,9 +16,9 @@
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
  *   BG_SYS_DrawTile 0x02041090 arm
  *   BG_SYS_PushTile 0x020409B4 arm
@@ -49,7 +49,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   RingQueue_Create  0x021C0E08  thumb  ov217
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
@@ -81,12 +81,12 @@
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   PALETTE_ANIME_IsRunning  0x021C2A10  thumb  ov217
  *   BMP_OAM_SetEnabled  0x02025774  thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BMP_Create 0x02043678 arm
  *   BMP_CreateFromArchive 0x0204384C arm
  *   BMP_Blit 0x020439A0 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   BMP_Delete 0x020437AC arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_CreateSys  0x02025538  thumb
@@ -95,7 +95,7 @@
  *   BMP_OAM_UploadChars  0x020257D0  thumb
  *   BMP_OAM_Delete  0x0202570C  thumb
  *   PALANM_Delete  0x02021540  thumb
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   ARROW_Update  0x021C20C4  thumb  ov217
  *   RESEARCH_GRAPH_InitOverlayBackgrounds  0x021BFFC8  thumb  ov217
  *   RESEARCH_GRAPH_LoadBackground6  0x021C00AC  thumb  ov217
@@ -218,7 +218,7 @@
  *   PERCENTAGE_Destroy  0x021C270C  thumb  ov217
  *   G3X_Init 0x0207D988 arm
  *   G3X_InitMtxStack 0x0207DB1C arm
- *   func_0207DCF8 0x0207DCF8 arm
+ *   G3X_SetEdgeColorTable 0x0207DCF8 arm
  *   d_021C365C 0x021C365C data a4
  *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
@@ -251,13 +251,13 @@
  *   d_021C377C 0x021C377C data a4
  *   d_021C3A28  0x021C3A28  data  a4
  *   RESEARCH_GRAPH_TransferPalettes  0x021BF6BC  thumb  ov217
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   RESEARCH_GRAPH_GetContext  0x021BF734  thumb  ov217
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
@@ -356,11 +356,11 @@ extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void *func_020490F4(unsigned int id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
@@ -424,13 +424,13 @@ extern unsigned RESEARCH_COMMON_GetAppResource(void *);
 
 extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -518,7 +518,7 @@ extern struct Bmp *BMP_CreateFromArchive(u32,u32,u32,u32);
 
 extern void BMP_Blit(struct Bmp *,struct Bmp *,u32,u32,int,int,u32,u32,u32);
 
-extern void *func_02045EC0(struct MsgBank *,u32);
+extern void *MSGDATA_AllocString(struct MsgBank *,u32);
 
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 
@@ -538,9 +538,9 @@ extern u32 PALANM_Delete(void *a0);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern int func_020056A0(void (*)(void), void *, int);
+extern int GFL_USE_AddMainTask(void (*)(void), void *, int);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void ARROW_Update(void *h);
 
@@ -750,7 +750,7 @@ extern void G3X_Init(void);
 
 extern void G3X_InitMtxStack(void);
 
-extern void func_0207DCF8(const void *);
+extern void G3X_SetEdgeColorTable(const void *);
 
 void *RESEARCH_GRAPH_Create(void *p);
 
@@ -2434,7 +2434,7 @@ void RESEARCH_GRAPH_LoadBackground(char *p)
     struct ArcFile *arc;
     void *file,*out;
     unsigned id;
-    arc=func_020490F4(192,((struct ResearchObjB *)p)->heapId);
+    arc=ARC_TOOL_CreateHandle(192,((struct ResearchObjB *)p)->heapId);
     if (((struct ResearchObjB *)p)->detailMode!=0) id=8;
     else if (RESEARCH_GRAPH_GetGroupValue(p)==0) id=6;
     else {
@@ -2445,7 +2445,7 @@ void RESEARCH_GRAPH_LoadBackground(char *p)
     NNS_G2dGetUnpackedScreenData(file,&out);
     BG_SYS_DrawTile(2,(unsigned)out+12,0,0,32,32);
     BG_SYS_PushTile(2);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -2493,8 +2493,8 @@ void RESEARCH_GRAPH_PrintSliceLabel(char *p)
 
     b = RESEARCH_GRAPH_GetEntryValue(p);
     c = CircleGraph_GetPercentByKey(o, (u8)k);
-    x = func_02045EC0(((struct ResearchObjB *)p)->msgBankA, 0xd);
-    y = func_02045EC0(((struct ResearchObjB *)p)->msgBankB, k);
+    x = MSGDATA_AllocString(((struct ResearchObjB *)p)->msgBankA, 0xd);
+    y = MSGDATA_AllocString(((struct ResearchObjB *)p)->msgBankB, k);
     z = STRBUF_Create(0x80, ((struct ResearchObjB *)p)->heapId);
     WORDSET_SetSlotNumber(((struct ResearchObjB *)p)->wordSet, 0, a + 1, 2, 1, 1);
     WORDSET_SetSlotTag(((struct ResearchObjB *)p)->wordSet, 1, y, 0, 1, 2);
@@ -2520,8 +2520,8 @@ void RESEARCH_GRAPH_PrintTimeLabel(char *p)
         return;
     }
     index=RESEARCH_GRAPH_GetEntryIdBySave((unsigned char *)p);
-    a=func_02045EC0(*(struct MsgBank * *)&((struct ResearchObjB *)p)->msgBankA,14);
-    b=func_02045EC0(*(struct MsgBank * *)&((struct ResearchObjB *)p)->msgBankB,index);
+    a=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ResearchObjB *)p)->msgBankA,14);
+    b=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ResearchObjB *)p)->msgBankB,index);
     buf=STRBUF_Create(128,((struct ResearchObjB *)p)->heapId);
     WORDSET_SetSlotTag(*(struct WordSet * *)&((struct ResearchObjB *)p)->wordSet,0,b,0,1,2);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct ResearchObjB *)p)->wordSet,buf,a);
@@ -2559,7 +2559,7 @@ void RESEARCH_GRAPH_PrintTeamLabel(char *p)
     }
     x = RESEARCH_GRAPH_GetGroupValue(p);
     c = ((struct ResearchObjB *)p)->wordSet;
-    a = func_02045EC0(((struct ResearchObjB *)p)->msgBankA, k);
+    a = MSGDATA_AllocString(((struct ResearchObjB *)p)->msgBankA, k);
     b = STRBUF_Create(0x80, ((struct ResearchObjB *)p)->heapId);
     WORDSET_SetSlotNumber(c, 0, x, 6, 1, 1);
     WORDSET_CopyTaggedText(c, b, a);
@@ -3036,7 +3036,7 @@ u32 RESEARCH_GRAPH_GetMarkerActor(void *p, u32 i)
 
 u32 RESEARCH_GRAPH_Alloc(u32 a0)
 {
-    return (u32)func_02030734(a0, 1000, 0, (const char *)0x21C400C, 4096);
+    return (u32)GFL_HEAP_Alloc(a0, 1000, 0, (const char *)0x21C400C, 4096);
 }
 
 void RESEARCH_GRAPH_InitFields(char *p)
@@ -3084,7 +3084,7 @@ void RESEARCH_GRAPH_InitFields(char *p)
 
 u32 RESEARCH_GRAPH_Free(void *a0)
 {
-    return func_020307B0(a0);
+    return GFL_HEAP_Free(a0);
 }
 
 /*
@@ -3149,7 +3149,7 @@ void RESEARCH_GRAPH_CreateMessages(MessageView *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        p->messages[i] = (u32)func_02045B38(0, 2, (u16)d_021C3650[i], (u16)p->heapId);
+        p->messages[i] = (u32)MSGDATA_CreateFromArchive(0, 2, (u16)d_021C3650[i], (u16)p->heapId);
     }
 }
 
@@ -3402,7 +3402,7 @@ void RESEARCH_GRAPH_InitScreen(void)
     *(volatile u32 *)0x04000454 = 0;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x10;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x20;
-    func_0207DCF8(d_021C365C);
+    G3X_SetEdgeColorTable(d_021C365C);
 }
 
 struct DispConfig { u32 graphicsMode, bgMode, vramMode, layerMode; };
@@ -3425,7 +3425,7 @@ extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void func_0207D63C(u32 *, u32, u32, int, int);
+extern void G2x_SetBlendAlpha_(u32 *, u32, u32, int, int);
 
 extern u32 BG_SYS_FreeLayerBuf();
 
@@ -3468,8 +3468,8 @@ void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p)
     BG_SYS_SetPlaneVisible(1, 1);
     BG_SYS_SetPlaneVisible(2, 1);
     BG_SYS_SetPlaneVisible(3, 1);
-    func_0207D63C((u32 *)0x04001050, 2, 1, 7, 15);
-    func_0207D63C((u32 *)0x04000050, 4, 2, 16, 5);
+    G2x_SetBlendAlpha_((u32 *)0x04001050, 2, 1, 7, 15);
+    G2x_SetBlendAlpha_((u32 *)0x04000050, 4, 2, 16, 5);
     BMP_WIN_Init(((struct ResearchObjB *)p)->heapId);
 }
 
@@ -3493,12 +3493,12 @@ void RESEARCH_GRAPH_LoadBackground6(char *p)
     void *out;
     void *h;
     void *blob;
-    h = func_020490F4(192, ((struct ResearchObjB *)p)->heapId);
+    h = ARC_TOOL_CreateHandle(192, ((struct ResearchObjB *)p)->heapId);
     blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 13, ((struct ResearchObjB *)p)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
     BG_SYS_DrawTile(6, (u32)((char *)out + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(6);
-    func_020307B0((void *)((u32)blob));
+    GFL_HEAP_Free((void *)((u32)blob));
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -3535,12 +3535,12 @@ void RESEARCH_GRAPH_LoadBackground2(char *p)
     void *out;
     void *h;
     void *blob;
-    h = func_020490F4(192, ((struct ResearchObjB *)p)->heapId);
+    h = ARC_TOOL_CreateHandle(192, ((struct ResearchObjB *)p)->heapId);
     blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 7, ((struct ResearchObjB *)p)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
     BG_SYS_DrawTile(2, (u32)((char *)out + 12), 0, 0, 32, 32);
     BG_SYS_PushTile(2);
-    func_020307B0((void *)((u32)blob));
+    GFL_HEAP_Free((void *)((u32)blob));
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -3619,7 +3619,7 @@ void RESEARCH_GRAPH_DestroyLabels(int *p)
 void RESEARCH_GRAPH_RegisterEntryResources(char *p)
 {
     u16 heap = ((struct ResearchObjB *)p)->heapId;
-    void *h = func_020490F4(192, heap);
+    void *h = ARC_TOOL_CreateHandle(192, heap);
     int a = CLACT_RegisterCharacter((void *)((u32)h), 15, 0, 1, heap);
     int b = CLACT_RegisterPalette((void *)h, 16, 1, 0, heap);
     int c = CLACT_RegisterCellAnim((void *)((u32)h), 14, 17, heap);
@@ -3639,13 +3639,13 @@ u32 RESEARCH_GRAPH_ReleaseEntryResources(u32 a0)
 void RESEARCH_GRAPH_RegisterCursorResources(char *p)
 {
     u16 heap = ((struct ResearchObjB *)p)->heapId;
-    void *h = func_020490F4(192, heap);
+    void *h = ARC_TOOL_CreateHandle(192, heap);
     int a = CLACT_RegisterCharacter((void *)((u32)h), 15, 0, 0, heap);
     int b = CLACT_RegisterPaletteEx((void *)((u32)h), 16, 0, 192, 0, 3, heap);
     int c = CLACT_RegisterCellAnim((void *)((u32)h), 14, 17, heap);
     int d;
     ARC_TOOL_DeleteHandle(h);
-    h = func_020490F4(83, heap);
+    h = ARC_TOOL_CreateHandle(83, heap);
     d = CLACT_RegisterPaletteEx((void *)((u32)h), 31, 0, 128, 0, 2, heap);
     ARC_TOOL_DeleteHandle(h);
     ((struct ResearchObjB *)p)->clactUnits[0] = a;
@@ -3759,9 +3759,9 @@ void RESEARCH_GRAPH_DrawBmps(u8 *p)
             dest=p+i*4;
             BMP_Blit(bmp,*(struct Bmp * *)&((struct ResearchObjB *)dest)->bmps[0],0,0,0,0,q->x<<3,q->y<<3,q->b);
             color=((q->r&31)<<10)|((q->g&31)<<5)|(q->b&31);
-            text=func_02045EC0(*(struct MsgBank **)(p+12+q->bank*4),q->index);
+            text=MSGDATA_AllocString(*(struct MsgBank **)(p+12+q->bank*4),q->index);
             PRINTSYS_PrintColor(((struct ResearchObjB *)dest)->bmps[0],q->px,q->py,text,(void *)((struct ResearchObjB *)p)->font,color);
-            func_020307B0(text);
+            GFL_HEAP_Free(text);
             BMP_Delete((struct Bmp *)bmp);
         }
     }
@@ -3828,9 +3828,9 @@ void RESEARCH_GRAPH_DrawBadge(u8 *p)
     }
     BMP_Delete((struct Bmp *)bmp);
     color = ((E->r & 31) << 10) | ((E->g & 31) << 5) | (E->b & 31);
-    text = func_02045EC0(*(struct MsgBank **)(p + 12 + E->bank * 4), E->index);
+    text = MSGDATA_AllocString(*(struct MsgBank **)(p + 12 + E->bank * 4), E->index);
     PRINTSYS_PrintColor(*(void **)(p + 0x3B4), E->px, E->py, text, *(void **)(p + 8), color);
-    func_020307B0(text);
+    GFL_HEAP_Free(text);
 }
 
 void RESEARCH_GRAPH_DeleteBmps(int *p)
@@ -3976,17 +3976,17 @@ void RESEARCH_GRAPH_RestartNetwork(u32 a0)
 
 void RESEARCH_GRAPH_RegisterVBlank(char *p)
 {
-    ((struct ResearchObjB *)p)->vblankNode = func_020056A0((void (*)(void))RESEARCH_GRAPH_TransferPalettes, p, 0);
+    ((struct ResearchObjB *)p)->vblankNode = GFL_USE_AddMainTask((void (*)(void))RESEARCH_GRAPH_TransferPalettes, p, 0);
 }
 
 /*
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 960)), 960 to func_02030EAC.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 960)), 960 to TCB_DeleteTask.
  *
  * Addresses are Black-image addresses.
  */
 void RESEARCH_GRAPH_UnregisterVBlank(u8 *a0)
 {
-    func_02030EAC((struct Node *)((u32)(((struct ResearchObjB *)a0)->vblankNode)));
+    TCB_DeleteTask((struct Node *)((u32)(((struct ResearchObjB *)a0)->vblankNode)));
 }
 
 u32 RESEARCH_GRAPH_ClampByte(s32 v)

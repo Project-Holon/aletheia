@@ -15,12 +15,12 @@
  *
  * symbols:
  *   FLDMMDL_SysGetHeapId  0x0216D4F8  thumb  ov010
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
  *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
  *   FLDMMDL_CheckSameObjCodeOther  0x0216DFC4  thumb  ov010
  *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FLDMMDL_SysGetResArcHandle  0x0216D518  thumb  ov010
  *   FLDMMDL_SysGetMmdlMax  0x0216D4F0  thumb  ov010
  *   FLDMMDL_SysSetG3dObjCont  0x0216D524  thumb  ov010
@@ -52,12 +52,12 @@ typedef struct {
     MmdlG3dObjRes *resTable;
 } MmdlG3dObjCont;
 extern u32 FLDMMDL_SysGetHeapId(u8 *p);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *FLDMMDL_GetMmdlSys(void *a0);
 extern void *FLDMMDL_GetObjCodeParam(void *p);
 extern int FLDMMDL_CheckSameObjCodeOther(void *a, u32 id);
 extern u16 FLDMMDL_GetObjCode(void *p);
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern u32 FLDMMDL_SysGetResArcHandle(u8 *p);
 extern u16 FLDMMDL_SysGetMmdlMax(void *p);
 extern void FLDMMDL_SysSetG3dObjCont(void *p, void *v);
@@ -107,7 +107,7 @@ void FLDMMDL_G3DOBJ_Create(int mmdlSys, int objCtrl)
     int heapId;
     MmdlG3dObjCont *cont;
     heapId = FLDMMDL_SysGetHeapId((u8 *)mmdlSys);
-    cont = (MmdlG3dObjCont *)func_02030734(heapId, sizeof(MmdlG3dObjCont), 1, (const char *)d_021DDD80, 0x48);
+    cont = (MmdlG3dObjCont *)GFL_HEAP_Alloc(heapId, sizeof(MmdlG3dObjCont), 1, (const char *)d_021DDD80, 0x48);
     cont->mmdlSys = mmdlSys;
     cont->objCtrl = objCtrl;
     cont->resMax = FLDMMDL_SysGetMmdlMax((void *)mmdlSys);
@@ -118,7 +118,7 @@ void FLDMMDL_G3DOBJ_Delete(u32 mmdlSys)
 {
     MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((u8 *)mmdlSys);
     FLDMMDL_G3DOBJ_DeleteResTable(cont);
-    func_020307B0(cont);
+    GFL_HEAP_Free(cont);
 }
 u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 mmdl)
 {
@@ -128,7 +128,7 @@ u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 mmdl)
 void FLDMMDL_G3DOBJ_InitResTable(MmdlG3dObjCont *cont, int heapId)
 {
     int i;
-    cont->resTable = (MmdlG3dObjRes *)func_02030734(heapId, cont->resMax * 4, 1, (const char *)d_021DDD80, 0x7f);
+    cont->resTable = (MmdlG3dObjRes *)GFL_HEAP_Alloc(heapId, cont->resMax * 4, 1, (const char *)d_021DDD80, 0x7f);
     for (i = 0; i < (int)cont->resMax; i++) {
         cont->resTable[i].code = 0xFFFF;
     }
@@ -144,7 +144,7 @@ void FLDMMDL_G3DOBJ_DeleteResTable(MmdlG3dObjCont *cont)
             }
         }
     }
-    func_020307B0(cont->resTable);
+    GFL_HEAP_Free(cont->resTable);
 }
 u16 FLDMMDL_G3DOBJ_AddResEntry(MmdlG3dObjCont *cont, u32 code, u32 resIdx)
 {

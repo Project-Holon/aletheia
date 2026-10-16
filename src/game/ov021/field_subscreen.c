@@ -15,8 +15,8 @@
  * Split from field_fog.c (CL110): __FILE__ anchor field_subscreen.c at 0x021A0CF4; ends at field_3dbg.c (0x021A10D4, certain cut).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_021A0EE4  0x021A0EE4  thumb  ov021
  *   d_021DDE48  0x021DDE48  data  ov021
  *   d_021D872C  0x021D872C  data  a4
@@ -29,7 +29,7 @@
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02009210  0x02009210  thumb
+ *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
  *   func_020090E0  0x020090E0  thumb
  *   ZONEDATA_IsZone34  0x02013D20  thumb
  *   ZONEDATA_IsZone4BPair  0x02013D00  thumb
@@ -43,12 +43,12 @@
  *   GAMESYSTEM_GetAlwaysNetFlag  0x0201214C  thumb
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   GAMESYSTEM_ClearNetOffBySleep  0x02012210  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   C_GEAR_Create  0x021F279C  thumb  ov029
  *   abs_id_1d      0x0000001D  data
  *   C_GEAR_Open  0x021F27D8  thumb  ov029
  *   C_GEAR_Destroy  0x021F2984  thumb  ov029
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   C_GEAR_HandleCommand  0x021F29D8  thumb  ov029
  *   C_GEAR_Nop 0x021F2980 thumb ov029
  *   C_GEAR_Restart  0x021F2994  thumb  ov029
@@ -67,7 +67,7 @@
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   BG_SYS_ClearLayer  0x0204152C  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -84,9 +84,9 @@
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
  *   FIELD_MENU_GetSelectedButtonId  0x021A8E10  thumb  ov021
  *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
- *   func_02049658  0x02049658  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FLD_VREQ_SetBgVisible  0x021D3244  thumb  ov021
@@ -179,7 +179,7 @@ extern void NO_GEAR_Destroy(void *noGear);
 extern void NO_GEAR_Hook(void *noGear);
 extern void NO_GEAR_Update(void *noGear);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void func_02040588(u8 bgId, u8 visible);
+extern void BG_SYS_SetPlaneVisible(u8 bgId, u8 visible);
 extern void BG_SYS_FreeSlot(u32 bgId);
 extern void BG_SYS_ClearLayer(int bgId, u16 value);
 extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
@@ -196,9 +196,9 @@ extern void FIELD_MENU_ApplyBgScroll(struct FieldMenu *menu);
 extern u32 FIELD_SUBSCREEN_GetMode(FieldSubscreen *work);
 extern u32 FIELD_MENU_GetSelectedButtonId(struct FieldMenu *menu);
 extern void FIELD_MENU_SelectButton(struct FieldMenu *menu, u32 buttonId);
-extern struct ArchiveHandle *func_020490F4(unsigned int archiveId, unsigned int heapId);
+extern struct ArchiveHandle *ARC_TOOL_CreateHandle(unsigned int archiveId, unsigned int heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 type, u32 offset, u32 srcOffset, u32 size, u32 heapId);
-extern void func_02049658(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 mode, u32 heapId);
+extern void ARC_UTIL_UploadBgCharFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 mode, u32 heapId);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(struct ArchiveHandle *handle);
 extern void FLD_VREQ_SetBgVisible(struct FieldVReq *vreq, int index, u8 value);
@@ -282,8 +282,8 @@ extern unsigned char abs_id_20[];
 extern unsigned char abs_id_21[];
 extern unsigned char abs_id_22[];
 extern unsigned char abs_id_23[];
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern int FIELDMAP_IsEventActive(void *fieldMap);
 extern void WIPE_SYS_Start(void *screen, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -291,7 +291,7 @@ extern void *FIELDMAP_GetGameSystem(void *fieldMap);
 extern u16 FIELDMAP_GetZoneId(void *fieldMap);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern void *func_02009210(void *cgearSaveBase);
+extern void *BLOCK20_SAVEDATA_GetBlock(void *cgearSaveBase);
 extern u32 func_020090E0(void *cgearSave);
 extern u32 ZONEDATA_IsZone34(void);
 extern u32 ZONEDATA_IsZone4BPair(u32);
@@ -305,11 +305,11 @@ extern void func_02009200(void *cgearSave, u32 commState);
 extern u32 GAMESYSTEM_GetAlwaysNetFlag(void *gameSystem);
 extern u32 GAMESYSTEM_IsNetOffBySleep(void *gameSystem);
 extern void GAMESYSTEM_ClearNetOffBySleep(void *gameSystem);
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void *C_GEAR_Create(void *cgearSave, FieldSubscreen *work, void *gameSystem, int showPowerOff);
 extern void *C_GEAR_Open(void *cgearSave, FieldSubscreen *work, void *gameSystem, void (*callback)(int), u32 callbackArg, u32 commState);
 extern void C_GEAR_Destroy(void *cgear);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *work, int result);
 void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work);
 void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work);
@@ -331,7 +331,7 @@ FieldSubscreen *FIELD_SUBSCREEN_Create(u32 heapId, void *fieldMap, u32 mode)
     FieldSubscreen *work;
     u32 resolved;
 
-    work = (FieldSubscreen *)func_02030734((u16)heapId, sizeof(FieldSubscreen), 1, (const char *)d_021DDE48, 0x13c);
+    work = (FieldSubscreen *)GFL_HEAP_Alloc((u16)heapId, sizeof(FieldSubscreen), 1, (const char *)d_021DDE48, 0x13c);
     work->state = FIELD_SUBSCREEN_STATE_RUN;
     work->heapId = heapId;
     work->cgear = 0;
@@ -347,7 +347,7 @@ u8 FIELD_SUBSCREEN_Delete(FieldSubscreen *work)
 {
     u32 mode = work->mode;
     d_021D872C[mode].exit(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
     return mode;
 }
 
@@ -431,7 +431,7 @@ u32 FIELD_SUBSCREEN_ResolveMode(FieldSubscreen *work, u32 mode)
         zoneId = FIELDMAP_GetZoneId(work->fieldMap);
         if (ZONEDATA_IsZone34() != 0 || ZONEDATA_IsZone4BPair(zoneId) != 0)
             return FIELD_SUBSCREEN_MODE_NO_CGEAR;
-        cgearSave = func_02009210(GAME_DATA_GetSaveControl(gameData));
+        cgearSave = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gameData));
         if (func_020090E0(cgearSave) == 0)
             return FIELD_SUBSCREEN_MODE_NO_CGEAR;
     }
@@ -503,8 +503,8 @@ void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work)
     void *cgearSave;
     u32 cgearPowered, commState;
     gameSystem = FIELDMAP_GetGameSystem(work->fieldMap);
-    cgearSave = func_02009210(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
-    func_02034AC4((int)abs_id_1d);
+    cgearSave = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
+    GF_OVERLAY_Load((int)abs_id_1d);
     cgearPowered = func_02009208(cgearSave);
     commState = GAMESYSTEM_GetAlwaysNetFlag(gameSystem);
     work->cgear = C_GEAR_Create(cgearSave, work, gameSystem, commState == 1 && cgearPowered == 0);
@@ -521,9 +521,9 @@ void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work)
     u32 commState;
     gameSystem = FIELDMAP_GetGameSystem(work->fieldMap);
     cgearSaveBase = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
-    func_02034AC4((int)abs_id_1d);
+    GF_OVERLAY_Load((int)abs_id_1d);
     commState = GAMESYSTEM_GetAlwaysNetFlag(gameSystem);
-    cgearSave = func_02009210(cgearSaveBase);
+    cgearSave = BLOCK20_SAVEDATA_GetBlock(cgearSaveBase);
     work->cgear = C_GEAR_Open(cgearSave, work, FIELDMAP_GetGameSystem(work->fieldMap), work->callback, work->callbackArg, commState);
     func_02009200(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
@@ -535,7 +535,7 @@ void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitCGear(FieldSubscreen *work)
 {
     C_GEAR_Destroy(work->cgear);
-    func_02034A5C((int)abs_id_1d);
+    GF_OVERLAY_Unload((int)abs_id_1d);
 }
 
 u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work) { return C_GEAR_Nop((u32)work->cgear); }
@@ -545,7 +545,7 @@ u32 FIELD_3DBG_UpdateCGear(FieldSubscreen *work, u32 active)
     u32 gameSystem, savedValue;
     if (active != 0) {
         gameSystem = (u32)FIELDMAP_GetGameSystem(work->fieldMap);
-        savedValue = (u32)func_02009210(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)gameSystem)));
+        savedValue = (u32)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)gameSystem)));
         if (GAMESYSTEM_IsNetOffBySleep((void *)gameSystem) != 0) {
             if (GAMESYSTEM_GetAlwaysNetFlag((void *)gameSystem) != 0) {
                 GAMESYSTEM_ClearNetOffBySleep((void *)gameSystem);
@@ -578,8 +578,8 @@ void FIELD_SUBSCREEN_InitNoGear(FieldSubscreen *work)
 {
     void *cgearSave;
 
-    func_02034AC4(FIELD_SUBSCREEN_OVERLAY_NO_GEAR);
-    cgearSave = func_02009210(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap))));
+    GF_OVERLAY_Load(FIELD_SUBSCREEN_OVERLAY_NO_GEAR);
+    cgearSave = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap))));
     work->cgear = NO_GEAR_Create(cgearSave, work, FIELDMAP_GetGameSystem(work->fieldMap));
 }
 
@@ -587,7 +587,7 @@ void FIELD_SUBSCREEN_InitNoGear(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitNoGear(FieldSubscreen *work)
 {
     NO_GEAR_Destroy(work->cgear);
-    func_02034A5C(FIELD_SUBSCREEN_OVERLAY_NO_GEAR);
+    GF_OVERLAY_Unload(FIELD_SUBSCREEN_OVERLAY_NO_GEAR);
 }
 
 /* Mode 5 slot at table offset 0x14: calls the panel's empty hook. */
@@ -615,7 +615,7 @@ void FIELD_SUBSCREEN_InitMenu(FieldSubscreen *work, u32 prevMode)
     if (prevMode == FIELD_SUBSCREEN_MODE_CGEAR || prevMode - 2 <= 4)
         slideIn = 1;
     BG_SYS_InitBgLayer(4, &d_021D8708, 0);
-    func_02040588(4, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
     BG_SYS_FreeSlot(4);
     BG_SYS_ClearLayer(4, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
@@ -669,14 +669,14 @@ void FIELD_SUBSCREEN_SetMenuSelectedButton(FieldSubscreen *work, u32 buttonId)
 /*
  * Loads the lower screen backdrop (palette, tiles and tile map from archive
  * 0x47) and shows layer 1 of the field request block.
- * Lever: func_020490F4 takes (id, heap); passing heapId as its second argument
+ * Lever: ARC_TOOL_CreateHandle takes (id, heap); passing heapId as its second argument
  * is what gives heapId its register before the constant's.
  */
 void FIELD_SUBSCREEN_LoadBackdrop(FieldSubscreen *work, u32 heapId)
 {
-    struct ArchiveHandle *archive = func_020490F4(0x47, heapId);
+    struct ArchiveHandle *archive = ARC_TOOL_CreateHandle(0x47, heapId);
     ARC_UTIL_UploadPaletteFromHandle(archive, 0, 0, 0x140, 0x140, 0x20, heapId);
-    func_02049658(archive, 3, 1, 0x64, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 3, 1, 0x64, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 0xf, 1, 0, 0x64, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(archive);
     FLD_VREQ_SetMainBlendBrightnessExt(FIELDMAP_GetVReq(work->fieldMap), 1, 0, 0, 0, -6);
@@ -694,7 +694,7 @@ void *FIELD_SUBSCREEN_GetCGear(FieldSubscreen *work)
 /* Mode 2 init: loads overlay 31 and creates the Union Room panel. */
 void FIELD_SUBSCREEN_InitUnion(FieldSubscreen *work)
 {
-    func_02034AC4(FIELD_SUBSCREEN_OVERLAY_UNION);
+    GF_OVERLAY_Load(FIELD_SUBSCREEN_OVERLAY_UNION);
     work->cgear = ov031_func_021EFEC0(FIELDMAP_GetGameSystem(work->fieldMap));
 }
 
@@ -702,7 +702,7 @@ void FIELD_SUBSCREEN_InitUnion(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitUnion(FieldSubscreen *work)
 {
     UNION_SUBDISP_Delete(work->cgear);
-    func_02034A5C(FIELD_SUBSCREEN_OVERLAY_UNION);
+    GF_OVERLAY_Unload(FIELD_SUBSCREEN_OVERLAY_UNION);
 }
 
 /* Mode 2 update: the panel takes touch input only while the Union Room link runs. */
@@ -763,7 +763,7 @@ void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode)
 /* Mode 4 (beacon view, overlay 0x20) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work)
 {
-    func_02034AC4((int)abs_id_20);
+    GF_OVERLAY_Load((int)abs_id_20);
     work->cgear = BEACON_VIEW_Create(FIELDMAP_GetGameSystem(work->fieldMap), work);
 }
 
@@ -771,7 +771,7 @@ void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work)
 {
     func_022022FC(work->cgear);
-    func_02034A5C((int)abs_id_20);
+    GF_OVERLAY_Unload((int)abs_id_20);
 }
 
 /* Mode 4 update. */
@@ -786,7 +786,7 @@ int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work) { return BEACON
 /* Mode 6 (dowsing, overlay 0x21) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)
 {
-    func_02034AC4((int)abs_id_21);
+    GF_OVERLAY_Load((int)abs_id_21);
     work->cgear = DOWSING_Create(0x70, work->heapId, work, work->fieldMap);
 }
 
@@ -794,7 +794,7 @@ void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitDowsing(FieldSubscreen *work)
 {
     func_02210124(work->cgear);
-    func_02034A5C((int)abs_id_21);
+    GF_OVERLAY_Unload((int)abs_id_21);
 }
 
 /* Mode 6 update. */
@@ -806,7 +806,7 @@ int FIELD_SUBSCREEN_UpdateDowsingNoTransition(FieldSubscreen *work) { return DOW
 /* Mode 7 (save report, overlay 0x22) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitReport(FieldSubscreen *work)
 {
-    func_02034AC4((int)abs_id_22);
+    GF_OVERLAY_Load((int)abs_id_22);
     work->cgear = REPORT_Create(FIELDMAP_GetGameSystem(work->fieldMap), work->heapId);
 }
 
@@ -814,7 +814,7 @@ void FIELD_SUBSCREEN_InitReport(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitReport(FieldSubscreen *work)
 {
     REPORT_Delete(work->cgear);
-    func_02034A5C((int)abs_id_22);
+    GF_OVERLAY_Unload((int)abs_id_22);
 }
 
 /* Mode 7 update: show the panel objects once the print queue is idle. */
@@ -868,7 +868,7 @@ int FIELD_SUBSCREEN_CheckReportSaveCounter(FieldSubscreen *work)
 /* Mode 9 (power on/off, overlay 0x23) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitPowerOnoff(FieldSubscreen *work)
 {
-    func_02034AC4((int)abs_id_23);
+    GF_OVERLAY_Load((int)abs_id_23);
     work->cgear = ov035_func_021EFEC0(work, FIELDMAP_GetGameSystem(work->fieldMap), 0x70);
 }
 
@@ -879,5 +879,5 @@ int FIELD_SUBSCREEN_UpdatePowerOnoff(FieldSubscreen *work) { return C_GEAR_POWER
 void FIELD_SUBSCREEN_ExitPowerOnoff(FieldSubscreen *work)
 {
     C_GEAR_POWER_ONOFF_Delete(work->cgear);
-    func_02034A5C((int)abs_id_23);
+    GF_OVERLAY_Unload((int)abs_id_23);
 }

@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020307B0 0x020307B0 arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02049B68  0x02049B68  arm
- *   func_02049740  0x02049740  arm
+ *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
@@ -33,15 +33,15 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   d_021B9564     0x021B9564  data  a1
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
- *   func_020498F4  0x020498F4  arm
- *   func_02040588  0x02040588  arm
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
@@ -52,14 +52,14 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041B6C  0x02041B6C  arm
- *   func_020355C4  0x020355C4  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   UI_GetInputMode  0x020355C4  arm
  *   d_021B94C4     0x021B94C4  data  a1
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
  *   d_021B94D0     0x021B94D0  data  a2
  *   d_021B94B8  0x021B94B8  data  a1
  *   d_021B94BC  0x021B94BC  data  a1
- *   func_02061CA4  0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   UI_SCENE_LoadActorGfx  0x021B6208  thumb
  *   UI_SCENE_FreeActorGfx  0x021B6284  thumb
  *   UI_SCENE_CreateActor  0x021B629C  thumb
@@ -88,7 +88,7 @@ typedef signed int s32;
 #define YESNO_MENU_KEY_UP 0x40
 #define YESNO_MENU_KEY_DOWN 0x80
 
-/* Input mode of func_020355C4 / func_020355D8. */
+/* Input mode of UI_GetInputMode / func_020355D8. */
 #define YESNO_MENU_INPUT_KEYS 0
 #define YESNO_MENU_INPUT_TOUCH 1
 
@@ -100,13 +100,13 @@ typedef signed int s32;
 struct CharBuf;
 struct StrBuf;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u32 func_020307B0(void *p);
-extern void *func_020490F4(u32 id, u32 heap);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void func_02049B68(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
-extern u32 func_02049740(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void BG_SYS_PushTile(u8 layer);
@@ -120,14 +120,14 @@ extern struct CharBuf *BMP_WIN_GetBmp(struct TextWindow *window);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printer, struct CharBuf *chars, s16 x, s16 y, struct StrBuf *text, u32 fontId, u16 color);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
-extern u32 func_0201D304(struct StrBuf *text, u32 fontId, u32 spacing);
+extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *text, u32 fontId, u32 spacing);
 extern void BG_SYS_FreeSlot(u32 layer);
 extern u32 ARC_TOOL_GetHandleMemberSize(void *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(void *arc, u32 member, void *dest);
 extern s32 NNS_G2dGetUnpackedPaletteData(void *file, void **out);
-extern void func_020498F4(void *arc, u32 mapId, u32 layer, u32 tileOffset, u32 size, u32 blockOffset, u16 heapId);
-extern void func_02040588(unsigned char layer, unsigned char enable);
-extern void func_02049B40(u32 arcId, u32 plttId, u32 target, u32 offset, u32 size, u16 heapId);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 mapId, u32 layer, u32 tileOffset, u32 size, u32 blockOffset, u16 heapId);
+extern void BG_SYS_SetPlaneVisible(unsigned char layer, unsigned char enable);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 plttId, u32 target, u32 offset, u32 size, u16 heapId);
 extern struct TextWindow *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 tiles, u8 height, u8 plttSlot, u8 flags);
 extern void BMP_Clear(struct CharBuf *chars, u8 fill);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -138,10 +138,10 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct CharBuf *
 extern void BMP_WIN_TransferChars(struct TextWindow *window);
 extern void BMP_WIN_MakeScreen(struct TextWindow *window);
 extern u8 BMP_WIN_GetBgLayer(struct TextWindow *window);
-extern void func_02041B6C(u32 bit);
-extern u8 func_020355C4(void);
+extern void BG_SYS_SetFlagField06(u32 bit);
+extern u8 UI_GetInputMode(void);
 extern int TOUCHPANEL_HitPoint(YesNoTouchTable *table, u32 x, u32 y);
-extern s32 func_02061CA4(u32 region, u32 offset, const void *src, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(u32 region, u32 offset, const void *src, s32 size);
 void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
 void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx);
 struct Actor *UI_SCENE_CreateActor(ActorGfxSet *gfx, void *actorSys, u16 x, u16 y, u8 animIndex, u16 heapId);
@@ -173,7 +173,7 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     u8 j;
     u32 isSubScreen;
 
-    menu = func_02030734(heapId, YESNO_MENU_SIZE, 0, d_021B9564, 0xd3);
+    menu = GFL_HEAP_Alloc(heapId, YESNO_MENU_SIZE, 0, d_021B9564, 0xd3);
     plttTarget = 0;
     MI_CpuFill8(menu, 0, YESNO_MENU_SIZE);
     menu->heapId = heapId;
@@ -200,8 +200,8 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     menu->state = YESNO_MENU_STATE_IDLE;
     menu->answer = YESNO_MENU_ANSWER_PENDING;
     menu->cursorIndex = 0;
-    arc = func_020490F4(0x53, menu->heapId);
-    file = func_02030734(menu->heapId, ARC_TOOL_GetHandleMemberSize(arc, 0xa3), 0, d_021B9564, 0x10d);
+    arc = ARC_TOOL_CreateHandle(0x53, menu->heapId);
+    file = GFL_HEAP_Alloc(menu->heapId, ARC_TOOL_GetHandleMemberSize(arc, 0xa3), 0, d_021B9564, 0x10d);
     ARC_TOOL_ReadHandleMember(arc, 0xa3, file);
     NNS_G2dGetUnpackedPaletteData(file, (void **)(&plttFile));
     colors = plttFile->colors[0];
@@ -210,23 +210,23 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
             menu->palette[i][j] = colors[(i + 1) * 16 + j];
         }
     }
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
     func_02049B68(arc, 0xa3, menu->plttTarget, menu->yesPlttSlot << 5, 0x40, menu->heapId);
-    menu->buttonTileAlloc = func_02049740(arc, 0xa4, menu->buttonBgLayer, 0x1a0, 0, menu->heapId);
-    func_020498F4(arc, 0xa5, menu->buttonBgLayer, (u16)menu->buttonTileAlloc, 0x600, 0, menu->heapId);
+    menu->buttonTileAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, 0xa4, menu->buttonBgLayer, 0x1a0, 0, menu->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, 0xa5, menu->buttonBgLayer, (u16)menu->buttonTileAlloc, 0x600, 0, menu->heapId);
     BG_SYS_FillTileMap(menu->buttonBgLayer, 0, 0, 0x20, 0xb, menu->yesPlttSlot);
     BG_SYS_FillTileMap(menu->buttonBgLayer, 0, 0xb, 0x20, 0xd, menu->noPlttSlot);
     BG_SYS_PushTile(menu->buttonBgLayer);
     ARC_TOOL_DeleteHandle(arc);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->yesPlttSlot, menu->palette);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->noPlttSlot, menu->palette);
-    func_02040588(menu->buttonBgLayer, 0);
-    func_02049B40(0x17, 5, menu->plttTarget, menu->textPlttSlot << 5, 0x20, menu->heapId);
+    BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 0);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, menu->plttTarget, menu->textPlttSlot << 5, 0x20, menu->heapId);
     menu->windowUpper = BMP_WIN_Create(menu->textBgLayer, 0, 5, 0x20, 6, menu->textPlttSlot, 1);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowUpper), 0);
     menu->windowLower = BMP_WIN_Create(menu->textBgLayer, 0, 0xb, 0x20, 6, menu->textPlttSlot, 1);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowLower), 0);
-    func_02040588(menu->textBgLayer, 0);
+    BG_SYS_SetPlaneVisible(menu->textBgLayer, 0);
     desc.screen = menu->isSubScreen;
     desc.flags = 0;
     desc.arcId = 0xb;
@@ -266,7 +266,7 @@ void YESNO_MENU_Delete(YesNoMenu *menu)
     BMP_WIN_Delete(menu->windowLower);
     tileAlloc = menu->buttonTileAlloc;
     BG_SYS_DeleteHalf(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
-    func_020307B0(menu);
+    GFL_HEAP_Free(menu);
 }
 
 
@@ -288,31 +288,31 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *
     }
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->yesPlttSlot, menu->palette);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->noPlttSlot, menu->palette);
-    func_02040588(menu->buttonBgLayer, 1);
+    BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 1);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowUpper), 0);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowLower), 0);
-    textWidth = func_0201D304(upperText, menu->fontId, 0);
+    textWidth = GF_FONT_MeasureWidestLine(upperText, menu->fontId, 0);
     PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp(menu->windowUpper), (u16)((0x100 - textWidth) / 2), 0x10, upperText, menu->fontId, 0x3c40);
-    textWidth = func_0201D304(lowerText, menu->fontId, 0);
+    textWidth = GF_FONT_MeasureWidestLine(lowerText, menu->fontId, 0);
     PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp(menu->windowLower), (u16)((0x100 - textWidth) / 2), 0x10, lowerText, menu->fontId, 0x3c40);
     menu->upperDone = 0;
     menu->lowerDone = 0;
-    func_02040588(menu->textBgLayer, 1);
+    BG_SYS_SetPlaneVisible(menu->textBgLayer, 1);
     if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowUpper)) == 0) {
         window = menu->windowUpper;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
         menu->upperDone = 1;
     }
     if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowLower)) == 0) {
         window = menu->windowLower;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(BMP_WIN_GetBgLayer(window));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
         menu->lowerDone = 1;
     }
-    if (func_020355C4() == YESNO_MENU_INPUT_KEYS) {
+    if (UI_GetInputMode() == YESNO_MENU_INPUT_KEYS) {
         for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
             CLACT_SetActorDrawEnable(menu->buttonActors[i], 1);
             CLACT_SetActorAutoAnim(menu->buttonActors[i], 1);
@@ -327,18 +327,18 @@ void YESNO_MENU_Close(YesNoMenu *menu)
     struct TextWindow *window;
     u8 i;
 
-    func_02040588(menu->buttonBgLayer, 0);
-    func_02040588(menu->textBgLayer, 0);
+    BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 0);
+    BG_SYS_SetPlaneVisible(menu->textBgLayer, 0);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowUpper), 0);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowLower), 0);
     window = menu->windowUpper;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(BMP_WIN_GetBgLayer(window));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
     window = menu->windowLower;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(BMP_WIN_GetBgLayer(window));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
     for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
         CLACT_SetActorDrawEnable(menu->buttonActors[i], 0);
         CLACT_SetActorAutoAnim(menu->buttonActors[i], 0);
@@ -379,7 +379,7 @@ void YESNO_MENU_Update(YesNoMenu *menu)
             handled = 1;
             func_020355D8(YESNO_MENU_INPUT_KEYS);
         }
-        if (!handled && func_020355C4() == YESNO_MENU_INPUT_KEYS && keys != 0) {
+        if (!handled && UI_GetInputMode() == YESNO_MENU_INPUT_KEYS && keys != 0) {
             cursorMoved = 0;
             if (keys & YESNO_MENU_KEY_A) {
                 if (menu->cursorIndex == 0) {
@@ -426,7 +426,7 @@ void YESNO_MENU_Update(YesNoMenu *menu)
                 func_020355D8(YESNO_MENU_INPUT_TOUCH);
             }
         }
-        if (!handled && func_020355C4() == YESNO_MENU_INPUT_TOUCH && keys != 0) {
+        if (!handled && UI_GetInputMode() == YESNO_MENU_INPUT_TOUCH && keys != 0) {
             for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
                 CLACT_SetActorDrawEnable(menu->buttonActors[i], 1);
                 CLACT_SetActorAutoAnim(menu->buttonActors[i], 1);
@@ -465,14 +465,14 @@ void YESNO_MENU_Update(YesNoMenu *menu)
             window = menu->windowUpper;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            func_02041B6C(BMP_WIN_GetBgLayer(window));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
             menu->upperDone = 1;
         }
         if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowLower)) == 0) {
             window = menu->windowLower;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            func_02041B6C(BMP_WIN_GetBgLayer(window));
+            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
             menu->lowerDone = 1;
         }
     }
@@ -524,5 +524,5 @@ void YESNO_MENU_CopyPalette(int target, u8 slot, void *colors)
     default:
         return;
     }
-    func_02061CA4(region, slot << 5, colors, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(region, slot << 5, colors, 0x20);
 }

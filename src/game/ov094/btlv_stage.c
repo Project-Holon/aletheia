@@ -24,12 +24,12 @@
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
- *   func_0207DCF8 0x0207DCF8 arm
+ *   G3X_SetEdgeColorTable 0x0207DCF8 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   gBtlvStageFileName 0x0220AC40 data
  *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
@@ -61,7 +61,7 @@ extern void *G3D_SYSTEM_GetResourceFile(G3dResource *);
 
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 
-extern void func_0207DCF8(void *);
+extern void G3X_SetEdgeColorTable(void *);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -69,7 +69,7 @@ extern void G3D_SYSTEM_DeleteAnime(G3dAnime *);
 
 extern void G3D_SYSTEM_DeleteResource(G3dResource *);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void G3D_SYSTEM_DeleteObject(G3dObject *);
 
@@ -184,7 +184,7 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         stage->status[0].trans.z = 0xa000;
         stage->status[1].trans.z = -0xf000;
     }
-    func_0207DCF8(&table[group]);
+    G3X_SetEdgeColorTable(&table[group]);
     GFL_HEAP_Free(table);
     return stage;
 }
@@ -201,20 +201,20 @@ void BTLV_STAGE_Delete(BtlvStage *stage)
             G3D_SYSTEM_DeleteResource(stage->animResource[i]);
         }
         for (side = 0; side < 2; side++) {
-            func_020307B0(stage->anime[side]);
-            func_020307B0(stage->animState[side]);
+            GFL_HEAP_Free(stage->anime[side]);
+            GFL_HEAP_Free(stage->animState[side]);
         }
-        func_020307B0(stage->animResource);
+        GFL_HEAP_Free(stage->animResource);
     }
     for (side = 0; side < 2; side++) {
         G3D_SYSTEM_DeleteObject(stage->object[side]);
         G3D_SYSTEM_DeleteRender(stage->render[side]);
     }
     G3D_SYSTEM_DeleteResource(stage->resource);
-    func_020307B0(*stage->palFade.palettes);
-    func_020307B0(stage->palFade.palettes);
-    func_020307B0(stage->palFade.resources);
-    func_020307B0(stage);
+    GFL_HEAP_Free(*stage->palFade.palettes);
+    GFL_HEAP_Free(stage->palFade.palettes);
+    GFL_HEAP_Free(stage->palFade.resources);
+    GFL_HEAP_Free(stage);
 }
 
 void BTLV_STAGE_UpdateLayerAnims(BtlvStage *stage)

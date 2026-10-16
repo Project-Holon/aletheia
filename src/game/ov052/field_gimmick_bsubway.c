@@ -23,10 +23,10 @@
  *   sFieldGimmickBsubwayZoneHandlers     0x021F3A2C  data  a4
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FLDEFF_BTRAIN_Start  0x021D0218  thumb  ov021
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   sFieldGimmickBsubwayFileName     0x021F3AC0  data  ov052  a4
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_G3D_MAPPER_SetOriginOffset  0x0218DC4C  thumb  ov021
  *   sFieldGimmickBsubwaySwayIntervals     0x021F39CC  data  a4
@@ -147,7 +147,7 @@ void FIELD_GIMMICK_BSUBWAY_InitTrain(BsubwayZoneGimmick *zone, struct FieldMap *
     int effectId;
     struct FieldEffectSys *fieldEffect = FIELDMAP_GetEffect(fieldMap);
 
-    zone->work.raw = func_02030734(zone->heapId, sizeof(BsubwayTrainWork), 1, sFieldGimmickBsubwayFileName, 0x112);
+    zone->work.raw = GFL_HEAP_Alloc(zone->heapId, sizeof(BsubwayTrainWork), 1, sFieldGimmickBsubwayFileName, 0x112);
     effectId = BSUBWAY_EFFECT_ID_TRAIN;
     FIELD_EFFECT_LoadResources(fieldEffect, &effectId, 1);
 }
@@ -155,7 +155,7 @@ void FIELD_GIMMICK_BSUBWAY_InitTrain(BsubwayZoneGimmick *zone, struct FieldMap *
 /* Train handler exit. */
 void FIELD_GIMMICK_BSUBWAY_ExitTrain(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    func_020307B0(zone->work.raw);
+    GFL_HEAP_Free(zone->work.raw);
 }
 
 /* Script command: stops the sway of the train, when the player is in the train zone. */
@@ -176,13 +176,13 @@ void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(struct FieldMap *fieldMap)
 /* Sway handler init. */
 void FIELD_GIMMICK_BSUBWAY_InitTrainSway(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    zone->work.raw = func_02030734(zone->heapId, sizeof(BsubwayTrainSway), 1, sFieldGimmickBsubwayFileName, 0x164);
+    zone->work.raw = GFL_HEAP_Alloc(zone->heapId, sizeof(BsubwayTrainSway), 1, sFieldGimmickBsubwayFileName, 0x164);
 }
 
 /* Sway handler exit. */
 void FIELD_GIMMICK_BSUBWAY_ExitTrainSway(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    func_020307B0(zone->work.raw);
+    GFL_HEAP_Free(zone->work.raw);
 }
 
 /*

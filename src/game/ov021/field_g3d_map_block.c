@@ -35,7 +35,7 @@
  *   FIELD_G3D_MAPPER_SlotResGetWfbc  0x0218DD08  thumb ov021
  *   FIELD_G3D_MAPPER_SlotResGetSlotIndex  0x0218DD0C  thumb ov021
  *   FIELD_G3D_MAPPER_SlotResGetHeapId  0x0218DD10  thumb ov021
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   FIELD_WFBC_PatchLandData 0x02193924 thumb ov021
  */
 typedef unsigned char u8;
@@ -115,7 +115,7 @@ extern struct FieldWfbc *FIELD_G3D_MAPPER_SlotResGetWfbc(struct FieldG3dMapper *
 extern int FIELD_G3D_MAPPER_SlotResGetSlotIndex(struct FieldG3dMapper *mapper);
 extern u16 FIELD_G3D_MAPPER_SlotResGetHeapId(struct FieldG3dMapper *mapper);
 extern int FIELD_WFBC_PatchLandData(struct FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
-extern u32 func_0207C768(u32 dividend, u32 divisor);
+extern u32 FX_Div(u32 dividend, u32 divisor);
 
 /*
  * From here on: callbacks of the field 3D map block types (see
@@ -402,7 +402,7 @@ void FIELD_G3D_MAP_BLOCK_GetCollisionPlane(CollisionPlane *out, const int *mapDa
         fx32 dotZ = FX_MUL(out->normalZ, pos->z);
         fx32 dotX = FX_MUL(out->normalX, pos->x);
         out->attr = tile->attr;
-        out->height = baseHeight + func_0207C768(-(planeDist + (dotX + dotZ)), normalY);
+        out->height = baseHeight + FX_Div(-(planeDist + (dotX + dotZ)), normalY);
     }
     out->valid = 1;
 }

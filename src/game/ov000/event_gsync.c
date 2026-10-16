@@ -34,7 +34,7 @@
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02009448  0x02009448  thumb
+ *   GAME_SYNC_GetBlock  0x02009448  thumb
  *   func_02009304  0x02009304  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -43,7 +43,7 @@
  *   func_020079A0  0x020079A0  thumb
  *   func_0200873C  0x0200873C  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
@@ -57,7 +57,7 @@
  *   gNetSaveMainProc     0x021D6338  data   ov115  a4
  *   gNetSaveRetryProc     0x021D654C  data   ov115  a4
  *   d_021EF78C     0x021EF78C  data   ov170  a4
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  */
@@ -172,7 +172,7 @@ extern void GFL_USE_SetBgmPlayerParam(void *param);
 extern int GFL_USE_PushBgm(void);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct WifiList *func_02009448(void *saveControl);
+extern struct WifiList *GAME_SYNC_GetBlock(void *saveControl);
 extern u8 func_02009304(const struct WifiList *wifiList);
 extern struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
@@ -181,11 +181,11 @@ extern u8 *GAME_DATA_GetMyStatus(void *gameData);
 extern int func_020079A0(void *boxManager);
 extern struct Config *func_0200873C(void *saveControl);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void  GFL_NET_ERR_RequestScreen(void);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
-struct GameEvent *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void *func_020124E8(struct GameEvent *event);
 struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
@@ -285,7 +285,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 13:
         return 1;
     case 16:
-        wifiFlag = func_02009304(func_02009448(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
+        wifiFlag = func_02009304(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
         if (func_020079A0(GAME_DATA_GetBoxManager(ICA_ANIME_GetField1C(gameSystem))) == 0 && wifiFlag == 0) {
             work->menuResult = 4;
             *seq = 19;
@@ -307,7 +307,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
             if (work->login.result == 1) {
                 *seq = 10;
             } else {
-                if (func_02009304(func_02009448(work->saveControl)) == 0) {
+                if (func_02009304(GAME_SYNC_GetBlock(work->saveControl)) == 0) {
                     work->menuResult = 3;
                     *seq = 19;
                 } else {
@@ -352,7 +352,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         (*seq)++;
         break;
     case 22:
-        if (func_0200FB24()) {
+        if (GFL_NET_ERR_GetErrorLevel()) {
             GFL_NET_ERR_RequestScreen();
             GFL_NET_ERR_ShowScreen(0);
             work->login.useSaveData = 1;
@@ -417,7 +417,7 @@ void *EVENT_GSYNC_Create(void *gameSystem)
     GsyncEventWorkInit *work;
     struct GameData *gameData;
 
-    event = func_020122C0(gameSystem, 0, EVENT_GSYNC_Main, 0x2CC);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_GSYNC_Main, 0x2CC);
     work = func_020124E8(event);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->gameData = gameData;

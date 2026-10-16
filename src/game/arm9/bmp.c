@@ -13,7 +13,7 @@
  * Cut from bmp.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0208068C  0x0208068C  arm
+ *   GX_SetBankForLCDC  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   GX_DisableBankForLCDC  0x02080B98  arm
  *   GX_ResetBankForBG  0x020808F4  arm
@@ -26,7 +26,7 @@
  *   func_020809F0  0x020809F0  arm
  *   GX_ResetBankForTex  0x02080964  arm
  *   GX_ResetBankForTexPltt  0x02080978  arm
- *   func_0207FDCC  0x0207FDCC  arm
+ *   GX_SetBankForBG  0x0207FDCC  arm
  *   GX_SetBankForBGExtPltt  0x02080100  arm
  *   GX_SetBankForSubBG  0x020806B0  arm
  *   GX_SetBankForSubBGExtPltt  0x020807BC  arm
@@ -38,9 +38,9 @@
  *   GX_SetBankForTexPltt  0x0208040C  arm
  *   gVisiblePlanes  0x02146A48  data
  *   GX_DispOn  0x0207D46C  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   bmp_File       0x020A7E68  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_UTIL_LoadMember       0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx       0x02062A4C  arm
  *   OS_Terminate        0x02088234  arm
@@ -99,7 +99,7 @@ struct CharData {
 
 typedef signed short   s16_p07;
 
-extern void func_0208068C(u32 banks);
+extern void GX_SetBankForLCDC(u32 banks);
 
 extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
 
@@ -109,9 +109,9 @@ extern int GX_ResetBankForBG(void);
 
 extern void GX_DispOn(void);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 
@@ -227,7 +227,7 @@ extern const char bmp_File[];       /* "bmp.c" */
  */
 void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
 {
-    func_0208068C((keepBanks ^ 0xffff) & 0x1ff);
+    GX_SetBankForLCDC((keepBanks ^ 0xffff) & 0x1ff);
 
     MIi_CpuClearFast(0, (void *)0x06800000, 0xa4000);
     GX_DisableBankForLCDC();
@@ -256,7 +256,7 @@ extern int GX_ResetBankForTex(void);
 
 extern void GX_ResetBankForTexPltt(void);
 
-extern void func_0207FDCC(GXVRam v);   /* GX_SetBankForBG */
+extern void GX_SetBankForBG(GXVRam v);   /* GX_SetBankForBG */
 
 extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
 
@@ -315,7 +315,7 @@ void BG_SYS_SetVramBanks(const struct DispVram *banks)
     func_020809F0();
     GX_ResetBankForTex();
     GX_ResetBankForTexPltt();
-    func_0207FDCC(banks->main_bg);
+    GX_SetBankForBG(banks->main_bg);
     GX_SetBankForBGExtPltt(banks->main_bg_expltt);
     GX_SetBankForSubBG(banks->sub_bg);
     GX_SetBankForSubBGExtPltt(banks->sub_bg_expltt);
@@ -539,13 +539,13 @@ struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapI
 {
     struct Bmp *bmp;
 
-    bmp = func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 97);
+    bmp = GFL_HEAP_Alloc(heapId, sizeof(struct Bmp), 0, bmp_File, 97);
 
     bmp->width  = widthTiles * 8;
     bmp->height = heightTiles * 8;
     bmp->tileBytes  = tileBytes;
 
-    bmp->pixels = func_02030734(heapId, tileBytes * (widthTiles * heightTiles), 1,
+    bmp->pixels = GFL_HEAP_Alloc(heapId, tileBytes * (widthTiles * heightTiles), 1,
                                 bmp_File, 103);
     bmp->storage = BMP_STORAGE_OWNED;
 
@@ -568,7 +568,7 @@ struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 widthTiles, u32 heightTiles, 
 {
     struct Bmp *bmp;
 
-    bmp = func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 123);
+    bmp = GFL_HEAP_Alloc(heapId, sizeof(struct Bmp), 0, bmp_File, 123);
 
     bmp->width  = widthTiles * 8;
     bmp->height = heightTiles * 8;
@@ -595,7 +595,7 @@ struct Bmp *BMP_CreateFromVram(void *pixels, u32 widthTiles, u32 heightTiles, u3
 {
     struct Bmp *bmp;
 
-    bmp = func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 148);
+    bmp = GFL_HEAP_Alloc(heapId, sizeof(struct Bmp), 0, bmp_File, 148);
 
     bmp->width  = widthTiles * 8;
     bmp->height = heightTiles * 8;
@@ -619,9 +619,9 @@ struct Bmp *BMP_CreateFromVram(void *pixels, u32 widthTiles, u32 heightTiles, u3
 void BMP_Delete(struct Bmp *bmp)
 {
     if (bmp->storage == BMP_STORAGE_OWNED)
-        func_020307B0(bmp->pixels);
+        GFL_HEAP_Free(bmp->pixels);
 
-    func_020307B0(bmp);
+    GFL_HEAP_Free(bmp);
 }
 
 /*
@@ -743,14 +743,14 @@ struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 h
     void       *resource;
     struct CharData *charData;
 
-    bmp = (struct Bmp *)func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 266);
+    bmp = (struct Bmp *)GFL_HEAP_Alloc(heapId, sizeof(struct Bmp), 0, bmp_File, 266);
     resource = (void *)ARC_UTIL_LoadMember(arcId, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
     if (NNS_G2dGetUnpackedCharacterDataEx(resource, &charData) == 0) {
         OS_Terminate();
         return 0;
     }
     BMP_InitFromCharData(bmp, charData, heapId);
-    func_020307B0(resource);
+    GFL_HEAP_Free(resource);
     return bmp;
 }
 
@@ -790,7 +790,7 @@ void BMP_InitFromCharData(struct Bmp *bmp, struct CharData *charData, u32 heapId
 {
     bmp->width = charData->widthTiles * 8;
     bmp->height = charData->heightTiles * 8;
-    bmp->pixels = func_02030734(heapId, charData->size, 0, bmp_File, 321);
+    bmp->pixels = GFL_HEAP_Alloc(heapId, charData->size, 0, bmp_File, 321);
     bmp->storage = BMP_STORAGE_OWNED;
     switch (charData->pixelFormat) {
     case 3:

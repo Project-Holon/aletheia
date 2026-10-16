@@ -23,18 +23,18 @@
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELD_GIMMICK_D06_GetGimmickId  0x021F3D94  thumb  ov051
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
  *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb
  *   FLDMMDL_GetObjId  0x0216D588  thumb
  *   gGimmickD06SourceFile     0x021F40A0  data  ov051  a4
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb
  *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb
  *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill  0x02082C60  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
@@ -176,7 +176,7 @@ void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap)
     effects = FIELDMAP_GetEffect(fieldMap);
     zoneId = FIELDMAP_GetZoneId(fieldMap);
     save = GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(zoneId));
-    work = func_02030734(heapId, sizeof(GimmickD06Work), 1, gGimmickD06SourceFile, 0xca);
+    work = GFL_HEAP_Alloc(heapId, sizeof(GimmickD06Work), 1, gGimmickD06SourceFile, 0xca);
     save->work = work;
     work->save = save;
     work->fieldMap = fieldMap;
@@ -224,7 +224,7 @@ void FIELD_GIMMICK_D06_Exit(struct FieldMap *fieldMap)
     FIELDMAP_GetHeapId(fieldMap);
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     FIELDMAP_GetEffect(fieldMap);
-    func_020307B0(GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work);
+    GFL_HEAP_Free(GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work);
 }
 
 /*
@@ -302,9 +302,9 @@ struct GameEvent *FIELD_GIMMICK_D06_CreateSlideEvent(struct FieldMap *fieldMap, 
         return 0;
     steps = FIELD_GIMMICK_D06_GetSlideSteps(work, slot, direction);
     if (steps == 0)
-        event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_D06_EventStoneBlocked, 0x10);
+        event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventStoneBlocked, 0x10);
     else
-        event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_D06_EventSlideStone, 0x10);
+        event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventSlideStone, 0x10);
     slide = func_020124E8(event);
     MI_CpuFill(slide, 0, 0x10);
     slide->direction = direction;

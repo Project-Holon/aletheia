@@ -14,11 +14,11 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
- *   func_02045EC0 0x02045EC0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   d_022007F0 0x022007F0 data a4
  *   d_02200D28 0x02200D28 data a1
  *   d_02200D38 0x02200D38 data a1
@@ -37,15 +37,15 @@ struct U16Vec;
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, int, int);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern struct WordSet *WORDSET_CreateDefault(unsigned int heapId);
 
@@ -87,14 +87,14 @@ void *BR_BTN_DATA_Create(int *configPtr, int heapId)
     int i;
     int *table;
     for (i = 0; i < 12; i++) total += d_022007F0[i].count;
-    table = func_02030734(heapId, total * 24 + 4, 0, d_02200D28, 0x429);
+    table = GFL_HEAP_Alloc(heapId, total * 24 + 4, 0, d_02200D28, 0x429);
     MI_CpuFill8(table, 0, total * 24 + 4);
     *table = *configPtr;
     BR_BTN_DATA_Fill((struct BrBtnTable *)table);
     return table;
 }
 
-void BR_BTN_DATA_Delete(void *table) { func_020307B0(table); }
+void BR_BTN_DATA_Delete(void *table) { GFL_HEAP_Free(table); }
 
 void BR_BTN_DATA_Fill(struct BrBtnTable *table)
 {
@@ -116,7 +116,7 @@ void BR_BTN_DATA_Fill(struct BrBtnTable *table)
             case 1: row->enabled = config[0]; break;
             case 2: case 3: case 4:
                 index = row->kind - 2;
-                if (index >= 4) func_02034714(d_02200D38, 0, d_02200D38);
+                if (index >= 4) SAVEDATA_PanicFail(d_02200D38, 0, d_02200D38);
                 row->enabled = config[index + 1];
                 if (row->enabled) row->msgId = 26;
                 break;
@@ -132,18 +132,18 @@ void *BR_BTN_DATA_GetRow(struct BrBtnTable *table, int section, unsigned item)
 {
     int i;
     int total;
-    if (section >= 12) func_02034714(d_02200D38, 0, d_02200D38);
-    if (item >= d_022007F0[section].count) func_02034714(d_02200D38, 0, d_02200D38);
+    if (section >= 12) SAVEDATA_PanicFail(d_02200D38, 0, d_02200D38);
+    if (item >= d_022007F0[section].count) SAVEDATA_PanicFail(d_02200D38, 0, d_02200D38);
     total = 0;
     for (i = 0; i < section; i++) total += d_022007F0[i].count;
     return &table->records[total + item];
 }
 
-unsigned short BR_BTN_DATA_GetSectionCount(void *table, int section) { if(section>=12)func_02034714(d_02200D38,0,d_02200D38);return d_022007F0[section].count; }
+unsigned short BR_BTN_DATA_GetSectionCount(void *table, int section) { if(section>=12)SAVEDATA_PanicFail(d_02200D38,0,d_02200D38);return d_022007F0[section].count; }
 
 unsigned BR_BTN_DATA_GetMaxSectionCount(void *table) { unsigned best=0;int section;for(section=0;section<12;section++){if(best<BR_BTN_DATA_GetSectionCount(table,section)) best=BR_BTN_DATA_GetSectionCount(table,section);}return best; }
 
-int BR_BTN_DATA_GetRowField(void *record,int fieldIndex) { if(fieldIndex>=12)func_02034714(d_02200D38,0,d_02200D38);return ((u16 *)record)[fieldIndex]; }
+int BR_BTN_DATA_GetRowField(void *record,int fieldIndex) { if(fieldIndex>=12)SAVEDATA_PanicFail(d_02200D38,0,d_02200D38);return ((u16 *)record)[fieldIndex]; }
 
 void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct MsgBank *archive,unsigned short heapId)
 {
@@ -156,16 +156,16 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
         if((*wordSetSrc)[index]!=0){
             wordSet=WORDSET_CreateDefault((unsigned short)((heapId&0x7fff)|0x8000));
             WORDSET_SetSlotTag(wordSet,0,(const void *)((*wordSetSrc+index)[4]),(*wordSetSrc+index)[8],1,2);
-            src=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));
+            src=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
             WORDSET_CopyTaggedText(wordSet,result,src);
             WORDSET_DeleteStrbufED04(wordSet);
             STRBUF_Delete(src);
         }else{
-            result=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));
+            result=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
         }
     }else{
-        result=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));
+        result=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
     }
     return result;
 }

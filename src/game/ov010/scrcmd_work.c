@@ -25,9 +25,9 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  *   ZONEDATA_SetDirectLocation 0x02014184 thumb
  *   MAP_REPLACE_IsValidWarpId  0x02159F84  thumb  ov010
@@ -41,7 +41,7 @@
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb
  *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
  *   BMP_MENUWORK_CountItems  0x0201F91C  thumb
@@ -120,9 +120,9 @@
  *   BEACON_GetSlotState 0x0200C308 thumb
  *   BEACON_SetSlotState   0x0200C2F0  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
- *   func_020073D8  0x020073D8  thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
- *   func_020072A4  0x020072A4  thumb
+ *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
  *   GAME_DATA_GetField158  0x02012844  thumb
  *   EVENTDATA_SYSTEM_SetBgEventGridPos  0x02162A74  thumb  ov010
  *   EVENTDATA_SYSTEM_SetConnectGridPos  0x02162708  thumb  ov010
@@ -318,8 +318,8 @@ extern unsigned char func_020071EC(const struct SaveControl *saveControl);
 extern u8 func_020071E4(const struct SaveControl *saveControl);
 extern void func_0200723C(struct SaveControl *saveControl, unsigned *used, unsigned *total);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u8 heapId);
-extern void *func_020073D8(struct SaveControl *saveControl, u32 id, u32 index);
-extern void func_020072A4(struct SaveControl *saveControl, u32 id);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 index);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
 extern void func_02007A68(struct BoxManager *boxManager, u32 bits);
 extern u32 func_0200ECB4(void *extraSave);
 extern struct RecordSave *func_020089C0(struct SaveControl *saveControl);
@@ -356,8 +356,8 @@ extern int EVENT_BATTLE_IsResultSilent(u32 fieldMode, int silent);
 extern void *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
 
 /* system */
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void func_02082A7C(int value, void *dest, int size);
 extern void MI_CpuFill8(void *dest, int value, int size);
 extern u32 KEY_GetTrg(void);
@@ -368,7 +368,7 @@ extern void GF_STANDARD_SetField00_F4E4(RtcDate *date);
 extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heapId);
 
 /* message data, strings, menus */
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern int MSGDATA_Delete(struct MsgBank *msgData);
 extern void func_02045CAC(struct MsgBank *msgData, unsigned int index, struct Strbuf *dest);
 extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
@@ -399,7 +399,7 @@ void SCRCMD_WORK_MenuCursorCallback(struct BmpMenuList *list);
 
 ScrcmdCommonWork *SCRCMD_WORK_CreateCommon(struct ScriptWork *scriptWork, int heapId)
 {
-    ScrcmdCommonWork *common = func_02030734(heapId, 0x110, 1, sScrcmdWorkFileName, 0x78);
+    ScrcmdCommonWork *common = GFL_HEAP_Alloc(heapId, 0x110, 1, sScrcmdWorkFileName, 0x78);
 
     common->scriptWork = scriptWork;
     common->gameSystem = SCRIPT_WORK_GetGameSystem(scriptWork);
@@ -412,7 +412,7 @@ ScrcmdCommonWork *SCRCMD_WORK_CreateCommon(struct ScriptWork *scriptWork, int he
 /* Tail call through a pool word and `bx r3` into the arm9 heap free. */
 void SCRCMD_WORK_DeleteCommon(ScrcmdCommonWork *common)
 {
-    func_020307B0(common);
+    GFL_HEAP_Free(common);
 }
 
 /*
@@ -422,7 +422,7 @@ ScrcmdWork *SCRCMD_WORK_Create(const ScrcmdWorkParam *param, int heapId)
 {
     ScrcmdWork *work;
     const ScrcmdWorkParam *src;
-    work = func_02030734((unsigned short)((heapId & 0x7fff) | 0x8000), 0x24, 1, sScrcmdWorkFileName, 0x94);
+    work = GFL_HEAP_Alloc((unsigned short)((heapId & 0x7fff) | 0x8000), 0x24, 1, sScrcmdWorkFileName, 0x94);
     src = param;
     work->heapId = heapId;
     work->param = *src;
@@ -435,11 +435,11 @@ void SCRCMD_WORK_DeleteAnimeTasks(ScrcmdWork *work);
 void SCRCMD_WORK_Delete(ScrcmdWork *work)
 {
     if (work->savedLocalWork != NULL)
-        func_020307B0(work->savedLocalWork);
+        GFL_HEAP_Free(work->savedLocalWork);
     if (work->msgData != NULL)
         MSGDATA_Delete(work->msgData);
     SCRCMD_WORK_DeleteAnimeTasks(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 u16 SCRCMD_WORK_GetHeapId(ScrcmdWork *work)
@@ -632,7 +632,7 @@ void SCRCMD_WORK_DeleteAnimeTasks(ScrcmdWork *work)
  */
 void SCRCMD_WORK_LoadMsgData(ScrcmdWork *work, unsigned arcId, unsigned fileId)
 {
-    work->msgData = func_02045B38(0, (u16)arcId, (u16)fileId, work->heapId);
+    work->msgData = MSGDATA_CreateFromArchive(0, (u16)arcId, (u16)fileId, work->heapId);
     work->msgDataId = fileId;
 }
 
@@ -655,7 +655,7 @@ void SCRCMD_WORK_InitMenu(ScrcmdWork *work, unsigned short x, unsigned short y,
     func_02082A7C(0, menu->itemHelp, 0x80);
     if (menu->msgData == NULL) {
         menu->ownsMsgData = 1;
-        menu->msgData = func_02045B38(0, 3, 0x80 + 0x86, work->heapId);
+        menu->msgData = MSGDATA_CreateFromArchive(0, 3, 0x80 + 0x86, work->heapId);
     }
     menu->items = FIELD_MSGBG_CreateMenuItems(0x20, work->heapId);
 }
@@ -1055,7 +1055,7 @@ int SCRCMD_WORK_CmdRegisterZukanSeen(struct ScriptVm *vm, ScrcmdWork *work)
     case 1:
         break;
     }
-    func_020307B0(pokemon);
+    GFL_HEAP_Free(pokemon);
     return 0;
 }
 
@@ -1215,7 +1215,7 @@ int SCRCMD_WORK_CmdCheckExtraSaveData(struct ScriptVm *vm, ScrcmdWork *work)
             break;
         case 1:
         case 2:
-            if (func_0200ECB4(func_020073D8(saveControl, 8, 0)) == 0) {
+            if (func_0200ECB4(SAVE_CONTROL_GetExtraSaveRecord(saveControl, 8, 0)) == 0) {
                 *ret = 0;
             } else {
                 *ret = 1;
@@ -1225,7 +1225,7 @@ int SCRCMD_WORK_CmdCheckExtraSaveData(struct ScriptVm *vm, ScrcmdWork *work)
             *ret = 2;
             break;
         }
-        func_020072A4(saveControl, 8);
+        SAVE_CONTROL_DeleteExtraSave(saveControl, 8);
     } else {
         *ret = 0;
     }

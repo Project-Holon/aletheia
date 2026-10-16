@@ -15,9 +15,9 @@
  * The fade helpers 0x021A0260..0x021A02A8 are called only by this file.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   d_021DDE1C     0x021DDE1C  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G3X_SetFog  0x0207DC44  arm
  *   G3X_SetFogTable  0x0207DD10  arm
  */
@@ -51,8 +51,8 @@ typedef struct {
     u32 changed;
 } FieldFog;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
 extern void G3X_SetFogTable(u8 *fogTable);
 void FIELD_FOG_InitFogTable(FieldFog *fog);
@@ -65,7 +65,7 @@ extern char d_021DDE1C[];
 
 FieldFog *FIELD_FOG_Create(u16 heapId)
 {
-    FieldFog *fog = (FieldFog *)func_02030734(heapId, sizeof(FieldFog), 1, d_021DDE1C, 0x89);
+    FieldFog *fog = (FieldFog *)GFL_HEAP_Alloc(heapId, sizeof(FieldFog), 1, d_021DDE1C, 0x89);
     fog->blendMode = 0;
     fog->alpha = 0x1F;
     fog->offset = 0x7FFF;
@@ -75,7 +75,7 @@ FieldFog *FIELD_FOG_Create(u16 heapId)
 
 void FIELD_FOG_Delete(FieldFog *fog)
 {
-    func_020307B0(fog);
+    GFL_HEAP_Free(fog);
 }
 
 void FIELD_FOG_Main(FieldFog *fog)

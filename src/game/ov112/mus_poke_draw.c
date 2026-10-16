@@ -13,7 +13,7 @@
  * Cut from musical_shot_sys.c, musical_mcss.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MUSICAL_MCSS_DeleteRenderObj 0x021F51B0 thumb ov112
  *   MUSICAL_MCSS_TickAnim 0x021F51E8 thumb ov112
  *   MUSICAL_MCSS_DrawRenderObj 0x021F51F4 thumb ov112
@@ -58,7 +58,7 @@
 #include "mus_item_draw_shared_types.h"
 #include "mus_poke_draw_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 typedef struct { int f0, f4, active; } Fields;
 
@@ -204,7 +204,7 @@ void *MUSICAL_MCSS_CreateRenderObj(u32 heap)
     return p;
 }
 
-void MUSICAL_MCSS_DeleteRenderObj(int a) { int i; for(i=0;i<8;i++) { if(((Fields *)(a+i*556))->active==1)MUSICAL_MCSS_FreeRenderObj(a,a+8+i*556); } MUSICAL_MCSS_FreeRenderPool(((Scene *)a)->main); func_020307B0((void *)a); }
+void MUSICAL_MCSS_DeleteRenderObj(int a) { int i; for(i=0;i<8;i++) { if(((Fields *)(a+i*556))->active==1)MUSICAL_MCSS_FreeRenderObj(a,a+8+i*556); } MUSICAL_MCSS_FreeRenderPool(((Scene *)a)->main); GFL_HEAP_Free((void *)a); }
 
 void MUSICAL_MCSS_TickAnim(u8 *p) { MUSICAL_MCSS_TickMCAnim((char *)(((Scene *)p)->main)); }
 

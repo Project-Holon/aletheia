@@ -6,7 +6,7 @@
  * summary screen). Shared by b_plist_main.c, b_plist_draw.c and b_plist_anm.c.
  *
  * The three files all operate on one work object (B_PlistWork, 0x2544 bytes)
- * allocated by func_02030734. Its first field points at the shared app object
+ * allocated by GFL_HEAP_Alloc. Its first field points at the shared app object
  * (B_PlistHost) and the tail holds a table of text windows. The old ObjNNNNN
  * views disagreed on the type at several offsets; the fields below use a union
  * wherever two views read the same offset with different but equal-size types.
@@ -100,7 +100,7 @@ struct B_PlistWork {
     u8    pad14[3];             /* 0x0014 */
     struct { u8 low : 3; u8 kind : 4; u8 high : 1; } monFlags; /* 0x0017 */
     u8    pad18[0x10];          /* 0x0018 */
-    void *task;                 /* 0x0028 task installed by func_02030DA8 */
+    void *task;                 /* 0x0028 task installed by TCB_AddTask */
     void *palAnmSlot;           /* 0x002C */
     u8    pad30[0x1A4];         /* 0x0030 */
     union { void *tcbl; u32 tcblWord; } u1D4; /* 0x01D4 tile-cache block */

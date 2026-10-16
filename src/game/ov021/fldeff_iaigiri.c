@@ -15,8 +15,8 @@
  *
  * symbols:
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
@@ -115,8 +115,8 @@ typedef struct IaigiriTaskWork {
 } IaigiriTaskWork;
 
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
@@ -162,7 +162,7 @@ extern G3dObjectStatus sIaigiriDrawStatus;                     /* draw status te
 /* Loads the resources of the Cut effect. */
 IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    IaigiriRes *res = func_02030734(heapId, 0x1c, 1, sFldeffIaigiriFileName, 0x66);
+    IaigiriRes *res = GFL_HEAP_Alloc(heapId, 0x1c, 1, sFldeffIaigiriFileName, 0x66);
     res->fieldEffect = fieldEffect;
     FLDEFF_IAIGIRI_LoadResources(res);
     return res;
@@ -176,7 +176,7 @@ IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_IAIGIRI_Delete(FieldEffectSys *fieldEffect, IaigiriRes *res)
 {
     FLDEFF_IAIGIRI_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 

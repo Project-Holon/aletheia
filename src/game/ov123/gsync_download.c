@@ -13,10 +13,10 @@
  * Cut from gsync_state.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   func_0200F7DC 0x0200F7DC thumb
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   sGsyncDownloadFileName 0x021DAA40 data ov123 a1
  *   sGsyncDownloadAssertText 0x021DAA54 data ov123 a1
  *   gGsyncDownloadWork 0x021DAC20 data ov123 a4
@@ -36,13 +36,13 @@
 #include "../ov114/dwci_nd_types.h"
 #include "gsync_download_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void func_0200F7DC(void);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void DWC_RAP_SetErrorHookCallback(int a, int b);
 
@@ -142,11 +142,11 @@ void GSYNC_DOWNLOAD_SetRequestMode(void *unused, u32 err, int serverError)
 GsyncDownloadWork *GSYNC_DOWNLOAD_AllocWork(int heap, int fileBufferSize)
 {
     GsyncDownloadWork *work;
-    work = (GsyncDownloadWork *)func_02030734(heap, sizeof(GsyncDownloadWork), 1, sGsyncDownloadFileName, 0x88);
+    work = (GsyncDownloadWork *)GFL_HEAP_Alloc(heap, sizeof(GsyncDownloadWork), 1, sGsyncDownloadFileName, 0x88);
     if (gGsyncDownloadWork)
-        func_02034714(sGsyncDownloadAssertText, 0, sGsyncDownloadAssertText);
+        SAVEDATA_PanicFail(sGsyncDownloadAssertText, 0, sGsyncDownloadAssertText);
     gGsyncDownloadWork = work;
-    work->fileBuffer = func_02030734(heap, fileBufferSize + 0x40, 0, sGsyncDownloadFileName, 0x8c);
+    work->fileBuffer = GFL_HEAP_Alloc(heap, fileBufferSize + 0x40, 0, sGsyncDownloadFileName, 0x8c);
     work->fileBufferSize = fileBufferSize;
     return work;
 }
@@ -155,8 +155,8 @@ void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work)
 {
     if (gGsyncDownloadWork) {
         DWC_RAP_SetErrorHookCallback(0, 0);
-        func_020307B0(work->fileBuffer);
-        func_020307B0(work);
+        GFL_HEAP_Free(work->fileBuffer);
+        GFL_HEAP_Free(work);
         gGsyncDownloadWork = 0;
     }
 }

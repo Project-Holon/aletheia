@@ -13,13 +13,13 @@
  * Cut from zukan_detail_headbar.c, zukan_detail_page.c, zukan_detail_voice.c, zukan_detail_form.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0  arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Free 0x020307B0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -41,9 +41,9 @@
  *   func_02049F34  0x02049F34  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   FX_SinCosTable_ 0x020A1B38 data
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   ov067_id 0x00000043 data
  *   ov206_id 0x000000CE data
  *   ZUKAN_DETAIL_PROCSYS_AllocBuffer 0x021BC32C thumb
@@ -53,7 +53,7 @@
  *   ZUKAN_INFO_Delete 0x021BA2CC thumb ov206
  *   ZUKAN_DETAIL_COMMON_FreeBlendWork 0x021BC464 thumb ov208
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
  *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
  *   func_021BDAD0 0x021BDAD0 thumb
@@ -73,7 +73,7 @@
  *   ZUKAN_INFO_Show 0x021BA7C8 thumb ov206
  *   func_021BC4D8 0x021BC4D8 thumb
  *   func_021BC4C8 0x021BC4C8 thumb
- *   func_021BDBA0 0x021BDBA0 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
  *   func_021BC4E4 0x021BC4E4 thumb
  *   func_021BE854 0x021BE854 thumb
  *   ZUKAN_INFO_Update 0x021BA374 thumb ov206
@@ -108,19 +108,19 @@
 #include "zukan_detail_shared_types.h"
 
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
@@ -255,9 +255,9 @@ extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
-extern int func_02034AC4(s32 handle);
+extern int GF_OVERLAY_Load(s32 handle);
 
 extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap);
 
@@ -273,7 +273,7 @@ extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *);
 
 extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
 extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 
@@ -313,7 +313,7 @@ extern void func_021BC4D8(struct Ov208Blend *b);
 
 extern int func_021BC4C8(struct Ov208Blend *b);
 
-extern void func_021BDBA0(void *s);
+extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
 extern void func_021BC4E4(struct Ov208Blend *b);
 
@@ -419,11 +419,11 @@ extern s16 FX_SinCosTable_[];
 int ZUKAN_DETAIL_INFO_Init(void *owner, int unused, u16 *heap)
 {
     struct Ov208InfoWork *s;
-    func_02034AC4((u32)ov067_id);
-    func_02034AC4((u32)ov206_id);
+    GF_OVERLAY_Load((u32)ov067_id);
+    GF_OVERLAY_Load((u32)ov206_id);
     s = ZUKAN_DETAIL_PROCSYS_AllocBuffer(owner, 0x120, *heap);
     MI_CpuFill8(s, 0, 0x120);
-    s->task = (void *)func_020056A0((unsigned)ZUKAN_DETAIL_INFO_NoOp, (unsigned)s, 1);
+    s->task = (void *)GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_INFO_NoOp, (unsigned)s, 1);
     s->f94 = 6;
     s->f98 = 6;
     s->f10c = 0;
@@ -452,8 +452,8 @@ int ZUKAN_DETAIL_INFO_Exit(char *first,unsigned unused,int owner,char *q,unsigne
     MSGDATA_Delete((struct Rec *)((struct Ov208InfoWork *)q)->msg1);
     MSGDATA_Delete((struct Rec *)((struct Ov208InfoWork *)q)->msg0);
     ZUKAN_DETAIL_COMMON_FreeBlendWork(((struct Ov208InfoWork *)q)->f10);ZUKAN_DETAIL_COMMON_FreeBlendWork(((struct Ov208InfoWork *)q)->fc);
-    func_02030EAC((struct Node *)((struct Ov208InfoWork *)q)->task);ZUKAN_DETAIL_PROCSYS_FreeBuffer(first);
-    func_02034A5C((int)ov206_id);func_02034A5C((int)ov067_id);return 1;
+    TCB_DeleteTask((struct Node *)((struct Ov208InfoWork *)q)->task);ZUKAN_DETAIL_PROCSYS_FreeBuffer(first);
+    GF_OVERLAY_Unload((int)ov206_id);GF_OVERLAY_Unload((int)ov067_id);return 1;
 }
 
 /*
@@ -494,9 +494,9 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
     case 0:
         *state = 1;
         p->font = GF_FONT_Create(0x17, 0, 1, 0, h->heap);
-        p->msg0 = func_02045B38(1, 2, 0x104, h->heap);
-        p->msg1 = func_02045B38(1, 2, 0xf5, h->heap);
-        p->msg2 = func_02045B38(1, 2, 0x10c, h->heap);
+        p->msg0 = MSGDATA_CreateFromArchive(1, 2, 0x104, h->heap);
+        p->msg1 = MSGDATA_CreateFromArchive(1, 2, 0xf5, h->heap);
+        p->msg2 = MSGDATA_CreateFromArchive(1, 2, 0x10c, h->heap);
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
                 BG_SYS_FillScrollArea(i, 0, 0);
@@ -535,7 +535,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         break;
     case 2:
         if (func_021BC4C8(p->fc) == 0 && func_021BDAD0(scn) == 2 && func_021BE840(icon) == 2) {
-            func_021BDBA0(scn);
+            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scn);
             ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scn, 1);
             *state = 3;
         }
@@ -628,18 +628,18 @@ void ZUKAN_DETAIL_INFO_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov2
         st->f14 = 1;
         return;
     case 3:
-        func_021BDBA0((void *)sc);
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
         return;
     case 4:
-        func_021BDBA0((void *)sc);
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
         return;
     case 5:
         GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(obj), 0x11, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
-        func_021BDBA0((void *)sc);
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
         return;
     default:
         if (flag != 0) {
-            func_021BDBA0((void *)sc);
+            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
         }
         break;
     }
@@ -794,7 +794,7 @@ void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, int key)
     scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
     owner = ZUKAN_DETAIL_GRAPHIC_Reset3dState((char *)ZUKAN_DETAIL_COMMON_GetDisplay((int *)key));
     i = 0;
-    arc = func_020490F4(0x9f, *heap);
+    arc = ARC_TOOL_CreateHandle(0x9f, *heap);
     ((struct Ov208InfoWork *)p)->palRes = ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(scene);
     ((struct Ov208InfoWork *)p)->charRes = CLACT_RegisterCharacter(arc, 0xd, 0, 0, *heap);
     ((struct Ov208InfoWork *)p)->cellRes = CLACT_RegisterCellAnim(arc, 0x1b, 0x2c, *heap);
@@ -910,10 +910,10 @@ void ZUKAN_DETAIL_INFO_LoadHighlightPalettes(u16 *heap, u8 *p, int *ctx)
     data = pltt->data;
     MI_CpuCopy8(data + 0x20, p + 0xa8, 32);
     MI_CpuCopy8(data + 0x60, p + 0xc8, 32);
-    func_020307B0((void *)file);
+    GFL_HEAP_Free((void *)file);
     ((struct Ov208InfoWork *)p)->f108 = 0;
     MI_CpuCopy8(p + 0xa8, p + 0xe8, 32);
-    func_02061CA4((void *)14, 192, (u32)(p + 0xe8), 32);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, 192, (u32)(p + 0xe8), 32);
 }
 
 void ZUKAN_DETAIL_INFO_NoOpHighlight(int unused0, char *unused1, unsigned unused2)
@@ -984,6 +984,6 @@ void ZUKAN_DETAIL_INFO_UpdateHighlightBlink(struct Ov208Heap *a0, struct Ov208In
                 | ((unsigned char)(b + ((ratio * ((unsigned char)((B & 0x7c00) >> 10) - b)) >> 12)) << 10));
         }
 
-        func_02061CA4((void *)0xe, 0xc0, (int)e->dst, 0x20);
+        NNS_GfdRegisterNewVramTransferTask((void *)0xe, 0xc0, (int)e->dst, 0x20);
     }
 }

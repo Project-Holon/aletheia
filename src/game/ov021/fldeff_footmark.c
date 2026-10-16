@@ -20,8 +20,8 @@
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  *   FIELD_EFFECT_GetObjectPos    0x021AC1B8  thumb  ov021
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
  *   d_021DE30C  0x021DE30C  data
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
@@ -78,9 +78,9 @@ typedef struct FootmarkDirRow { u8 slot[4]; } FootmarkDirRow;
 
 void *FIELD_EFFECT_GetFieldMap(void *fieldEffectCtrl);
 
-void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
+void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *FIELDMAP_GetEffectBbdAct(void *fieldMap);
 
@@ -114,7 +114,7 @@ FootmarkEffectWork *FLDEFF_FOOTMARK_Init(void *fieldEffectCtrl, u32 heapId)
 {
     FootmarkEffectWork *effWork;
 
-    effWork = func_02030734(heapId, 0x40, 1, d_021DE30C, 0x9d);
+    effWork = GFL_HEAP_Alloc(heapId, 0x40, 1, d_021DE30C, 0x9d);
     effWork->fieldEffectCtrl = fieldEffectCtrl;
     effWork->bbActSys = FIELDMAP_GetEffectBbdAct(FIELD_EFFECT_GetFieldMap(fieldEffectCtrl));
     FLDEFF_FOOTMARK_InitResource(effWork);
@@ -125,7 +125,7 @@ FootmarkEffectWork *FLDEFF_FOOTMARK_Init(void *fieldEffectCtrl, u32 heapId)
 void FLDEFF_FOOTMARK_Delete(u32 unused, FootmarkEffectWork *effWork)
 {
     FLDEFF_FOOTMARK_DeleteResource(effWork);
-    func_020307B0(effWork);
+    GFL_HEAP_Free(effWork);
 }
 
 void FLDEFF_FOOTMARK_InitResource(FootmarkEffectWork *effWork)

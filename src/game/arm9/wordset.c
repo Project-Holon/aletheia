@@ -16,8 +16,8 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Clear  0x0204581C  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   gWordsetFileName  0x020A7364  data  a1
  *   STRBUF_Create   0x020457B0  arm
  *   gSpeciesNameBank   0x020A7370  data
@@ -45,6 +45,7 @@
  *   GF_FONT_SkipTag 0x0201D688 thumb arm9
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  */
 #include "gf_font_shared_types.h"
 
@@ -64,9 +65,9 @@ extern void STRBUF_AppendChar(struct Strbuf *text, u16 value);
 
 extern u16 STRBUF_GetLength(struct Strbuf *text);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -80,7 +81,7 @@ extern void STRBUF_Delete(struct Strbuf *text);
 
 extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 
-extern struct MsgBank *func_02045B38(u32 isResident, u32 archiveId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 isResident, u32 archiveId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
@@ -234,7 +235,7 @@ extern const u16 gPackedCharTable[];
  * wordset.c's constructor, the function src/matched/unit_0201EC64.c tail
  * calls with the default counts (8 slots, 0x20 bytes of string each).  It
  * allocates a 0x10-byte header and an array of `n` 0xc-byte WordSlot records
- * through the debug allocator func_02030734(heap, size, flag, file, line),
+ * through the debug allocator GFL_HEAP_Alloc(heap, size, flag, file, line),
  * gives the header and every entry a string object from STRBUF_Create, and
  * returns 0 as soon as any allocation fails.
  *
@@ -292,7 +293,7 @@ struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId)
     struct WordSet *words;
     u32 slot = 0;
 
-    words = func_02030734(heapId, 0x10, 0, gWordsetFileName, 0x9F);
+    words = GFL_HEAP_Alloc(heapId, 0x10, 0, gWordsetFileName, 0x9F);
     if (words == 0) {
         goto fail;
     }
@@ -302,7 +303,7 @@ struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId)
     if (words->scratch == 0) {
         goto fail;
     }
-    words->slots = func_02030734(heapId, slotCount * 0xc, slot, gWordsetFileName, 0xA8);
+    words->slots = GFL_HEAP_Alloc(heapId, slotCount * 0xc, slot, gWordsetFileName, 0xA8);
     if (words->slots == 0) {
         goto fail;
     }
@@ -387,13 +388,13 @@ u32 WORDSET_DeleteStrbufED04(struct WordSet *words)
             }
             STRBUF_Delete(words->slots[slot].text);
         }
-        func_020307B0(words->slots);
+        GFL_HEAP_Free(words->slots);
     }
     if (words->scratch != 0) {
         STRBUF_Delete(words->scratch);
     }
     words->slotCount = 0;
-    return func_020307B0(words);
+    return GFL_HEAP_Free(words);
 }
 
 void WORDSET_Init(struct WordTag *tag)
@@ -423,7 +424,7 @@ void WORDSET_SetSlotText(struct WordSet *words, u32 slot, struct Strbuf *src,
 
 void WORDSET_SetSlotFromMessage(struct WordSet *words, u32 slot, u32 messageId, u32 entryIndex)
 {
-    struct MsgBank *bank = func_02045B38(0, 2, (u16)messageId, (u16)words->heapId);
+    struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 2, (u16)messageId, (u16)words->heapId);
 
     if (bank != 0) {
         func_02045CAC(bank, entryIndex, words->scratch);
@@ -601,7 +602,7 @@ void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source)
 
 void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
 {
-    struct MsgBank *bank = func_02045B38(0, 2, (u16)0xE7, (u16)words->heapId);
+    struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 2, (u16)0xE7, (u16)words->heapId);
 
     if (bank != 0) {
         if (entryIndex < func_02045F50(bank)) {
@@ -639,7 +640,7 @@ void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 ent
     struct MsgBank *bank;
 
     if (messageId != 0 && entryIndex != 0) {
-        bank = func_02045B38(0, 2, (u16)messageId, (u16)words->heapId);
+        bank = MSGDATA_CreateFromArchive(0, 2, (u16)messageId, (u16)words->heapId);
         if (bank != 0) {
             if (entryIndex < func_02045F50(bank)) {
                 func_02045CAC(bank, entryIndex, words->scratch);
@@ -760,7 +761,7 @@ void WORDSET_SetSlotFromMsg38(struct WordSet *words, u32 slot, u32 entryIndex)
 
 void WORDSET_DrawF1E0(struct WordSet *words, u32 slot, u32 weekday)
 {
-    struct MsgBank *bank = func_02045B38(0, 3, (u16)0x1CD, (u16)words->heapId);
+    struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 3, (u16)0x1CD, (u16)words->heapId);
 
     WORDSET_ResetSlot(words, slot);
     if (weekday <= 6 && bank != 0) {
@@ -872,7 +873,7 @@ void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct St
  * outside this region, so the `literal` class has witnesses to spare.
  *
  * WORDSET_LoadSpeciesNameBank takes its heap id as a u16: the 4th argument of
- * func_02045B38 is a u16 and the original passes the incoming register
+ * MSGDATA_CreateFromArchive is a u16 and the original passes the incoming register
  * straight through with no `lsls`/`lsrs` truncation pair, which a u32
  * parameter would have cost.
  *
@@ -892,7 +893,7 @@ void WORDSET_ClearAllSlots(struct WordSet *words)
 
 void WORDSET_LoadSpeciesNameBank(u16 heapId)
 {
-    gSpeciesNameBank = func_02045B38(0, 2, 0x46, heapId);
+    gSpeciesNameBank = MSGDATA_CreateFromArchive(0, 2, 0x46, heapId);
 }
 
 /*

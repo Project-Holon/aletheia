@@ -14,7 +14,7 @@
  * Split from comm_player.c at 0x0216A298: after the last report_event.c helper; trial house script commands (name guess, no anchor).
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   MI_CpuFill8  0x02082BCC  arm
@@ -24,7 +24,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
@@ -53,7 +53,7 @@
  *   TRIAL_HOUSE_LoadTrainer  0x021D0AC0  thumb  ov021
  *   TRIAL_HOUSE_CreateTrainerMsgEvent  0x021D0BD8  thumb  ov021
  *   TRIAL_HOUSE_SetUseDeliveredTrainers  0x021D0AB8  thumb
- *   func_02008C58 0x02008C58 thumb
+ *   RECORD_GetFromSave 0x02008C58 thumb
  *   func_02008E68 0x02008E68 thumb
  *   func_02008E78  0x02008E78  thumb
  *   TRIAL_HOUSE_CreateDeliveryTask  0x021D0BE4  thumb  ov021
@@ -93,8 +93,8 @@
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02007E50  0x02007E50  thumb
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   func_0200873C  0x0200873C  thumb
  *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   func_02007F1C  0x02007F1C  thumb
@@ -242,7 +242,7 @@ extern struct PokedexSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData)
 extern void ZUKAN_SAVE_RegisterSeen(struct PokedexSave *pokedex, struct PokemonParam *mon);
 
 /* Game events. */
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
@@ -263,7 +263,7 @@ extern u8 VM_GetTimeZoneLight(int season, int timeZone);
 extern u16 GF_STANDARD_SetupCalc(const void *src, u32 len);
 extern void WORDSET_SetSlotMonName(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern void func_020307B0(void *block);
+extern void GFL_HEAP_Free(void *block);
 
 /* Field models and the field map. */
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
@@ -290,7 +290,7 @@ extern void TRIAL_HOUSE_ComputeScoreAndRank(struct GameSystem *gameSystem, Trial
 extern int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *gameSystem, TrialHouseWork *work);
 extern struct GameEvent *TRIAL_HOUSE_CreateSaveTask(struct GameSystem *gameSystem, TrialHouseWork *work, int param);
 extern int TRIAL_HOUSE_GetRecordSlotsState(struct GameSystem *gameSystem);
-extern struct RecordBlock *func_02008C58(struct SaveControl *saveControl);
+extern struct RecordBlock *RECORD_GetFromSave(struct SaveControl *saveControl);
 extern void func_02008E68(struct RecordBlock *record, u8 rank);
 extern u8 func_02008E78(struct RecordBlock *record);
 extern struct GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(struct GameSystem *gameSystem, TrialHouseWork *work, int regulationId, int useTempParty, u16 *resultOk);
@@ -324,8 +324,8 @@ extern void *EVENT_PDC_RETURN_CreateArgs(struct GameData *gameData, int accepted
 extern void EVENT_PDC_RETURN_DeleteArgs(void *screen);
 extern u32 func_02007E50(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
 extern u32 func_02007F1C(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
-extern int func_02034AC4(u32 overlayId);
-extern void func_02034A5C(u32 overlayId);
+extern int GF_OVERLAY_Load(u32 overlayId);
+extern void GF_OVERLAY_Unload(u32 overlayId);
 extern const s16 FX_SinCosTable_[];
 extern u8 ov098_id[];
 extern u8 ov227_id[];
@@ -617,7 +617,7 @@ int SCRCMD_TRIALHOUSE_SetRank(ScriptVm *vm, ScrcmdWork *cmdWork)
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
     rank = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_02008E68(func_02008C58(GAME_DATA_GetSaveControl(gameData)), rank);
+    func_02008E68(RECORD_GetFromSave(GAME_DATA_GetSaveControl(gameData)), rank);
     return 0;
 }
 
@@ -634,7 +634,7 @@ int SCRCMD_TRIALHOUSE_GetRank(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameData = ICA_ANIME_GetField1C(gameSystem);
     outRank = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    *outRank = func_02008E78(func_02008C58(saveControl));
+    *outRank = func_02008E78(RECORD_GetFromSave(saveControl));
     return 0;
 }
 
@@ -736,7 +736,7 @@ int SCRCMD_MMDL_StartRise(ScriptVm *vm, ScrcmdWork *cmdWork)
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     height = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     frames = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    event = func_020122C0(gameSystem, 0, SCRCMD_MMDL_RiseEventMain, sizeof(MmdlRiseWork));
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_MMDL_RiseEventMain, sizeof(MmdlRiseWork));
     work = func_020124E8(event);
     work->frames = frames;
     work->frame = 0;
@@ -778,7 +778,7 @@ int SCRCMD_MMDL_StartOrbit(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    event = func_020122C0(gameSystem, 0, SCRCMD_MMDL_OrbitEventMain, sizeof(MmdlOrbitWork));
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_MMDL_OrbitEventMain, sizeof(MmdlOrbitWork));
     work = func_020124E8(event);
     work->frame = 0;
     mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(ICA_ANIME_GetField20(gameSystem)), objId);
@@ -955,7 +955,7 @@ int SCRCMD_SYMBOL_ApplyLinkRecord(ScriptVm *vm, ScrcmdWork *cmdWork)
     record = SYMBOL_MAP_CreateLinkRecord(SCRCMD_WORK_GetHeapId(cmdWork), gameSystem, &start);
     if (record != 0) {
         INTRUDE_FIELD_SpawnSymbolMons(fieldMap, start, record, record->entryCount, record->page);
-        func_020307B0(record);
+        GFL_HEAP_Free(record);
     }
     return 0;
 }
@@ -1014,7 +1014,7 @@ int SCRCMD_SYMBOL_SetObjectPokemonWord(ScriptVm *vm, ScrcmdWork *cmdWork)
         mon = SCRCMD_SYMBOL_CreateObjectPokemon(cmdWork, mmdl, SCRCMD_WORK_GetHeapId(cmdWork), &key);
         if (mon != 0) {
             WORDSET_SetSlotMonName(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork)), wordSetIndex, mon);
-            func_020307B0(mon);
+            GFL_HEAP_Free(mon);
         }
     }
     return 0;
@@ -1155,7 +1155,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
     SymbolViewWork *work;
 
     gameData = ICA_ANIME_GetField1C(gameSystem);
-    event = func_020122C0(gameSystem, 0, SCRCMD_SYMBOL_ViewEventMain, sizeof(SymbolViewWork));
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SYMBOL_ViewEventMain, sizeof(SymbolViewWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(SymbolViewWork));
     work->fieldMap = fieldMap;
@@ -1219,7 +1219,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         struct SaveControl *saveControl = GAME_DATA_GetSaveControl(gameData);
 
         func_02007E50(GAME_DATA_GetMyItem(gameData), SYMBOL_VIEW_ITEM_ID, 1, work->heapId);
-        func_02034AC4(FS_OVERLAY_ID(ov098));
+        GF_OVERLAY_Load(FS_OVERLAY_ID(ov098));
         work->selectScreen = PDC_CreateArgs(gameData, work->mon, &work->scene, GAME_DATA_GetMyStatus(gameData), GAME_DATA_GetMyItem(gameData),
                                            func_0200873C(saveControl), ZUKAN_SAVE_GetBlock(saveControl), work->heapId);
         GAME_EVENT_CallProc(event, -1, gPdcProcData, work->selectScreen);
@@ -1244,8 +1244,8 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
             *work->resultOut = 1;
         else
             *work->resultOut = 0;
-        func_02034A5C(FS_OVERLAY_ID(ov098));
-        func_02034AC4(FS_OVERLAY_ID(ov227));
+        GF_OVERLAY_Unload(FS_OVERLAY_ID(ov098));
+        GF_OVERLAY_Load(FS_OVERLAY_ID(ov227));
         work->resultScreen = EVENT_PDC_RETURN_CreateArgs(gameData, ok, work->mon, work->heapId);
         GAME_EVENT_CallProc(event, -1, d_021B98A4, work->resultScreen);
         func_02007F1C(GAME_DATA_GetMyItem(gameData), SYMBOL_VIEW_ITEM_ID, 1, work->heapId);
@@ -1254,7 +1254,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
     }
     case 6:
         EVENT_PDC_RETURN_DeleteArgs(work->resultScreen);
-        func_02034A5C(FS_OVERLAY_ID(ov227));
+        GF_OVERLAY_Unload(FS_OVERLAY_ID(ov227));
         GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(gameSystem));
         (*state)++;
         break;
@@ -1267,8 +1267,8 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         (*state)++;
         break;
     default:
-        func_020307B0(work->mon);
-        func_020307B0(work->selectScreen);
+        GFL_HEAP_Free(work->mon);
+        GFL_HEAP_Free(work->selectScreen);
         return 1;
     }
     return 0;

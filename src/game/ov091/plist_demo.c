@@ -19,7 +19,7 @@
  * symbols:
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
@@ -59,7 +59,7 @@ struct RtcTime;
 struct PokemonParam;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 POKE_TOOL_GetStatusCondition(void *p);
 void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
@@ -240,33 +240,33 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
   result = 0;
   if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1)
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return result;
   }
   status = POKE_TOOL_GetStatusCondition(mon);
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_SLEEP) != 0) && (status == 2))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_POISON) != 0) && (status == 5))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_BURN) != 0) && (status == 4))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_FREEZE) != 0) && (status == 3))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_CURES_PARALYSIS) != 0) && (status == 1))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   hp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HP, 0);
@@ -274,19 +274,19 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
   {
     if (hp == 0)
     {
-      func_020307B0(itemRec);
+      GFL_HEAP_Free(itemRec);
       return 1;
     }
   }
   else
     if (((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_HP) != 0) && (hp != 0)) && (hp < POKE_TOOL_GetPartyValue(mon, PLIST_MON_MAX_HP, 0)))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_LEVEL) != 0) && (POKE_TOOL_GetPartyValue(mon, PLIST_MON_LEVEL, 0) < 100))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RAISES_PP_UPS) != 0) || (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_MAXES_PP_UPS) != 0))
@@ -294,13 +294,13 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     result = 0;
     if ((POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, 0) < 3) && (WAZA_TOOL_GetMaxPP((u16) POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_ID, 0), result) >= 5))
     {
-      func_020307B0(itemRec);
+      GFL_HEAP_Free(itemRec);
       return 1;
     }
   }
   if ((FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_PP_ONE) != 0) && (POKE_TOOL_IsPPRestorable(mon, moveSlot) == 1))
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 1;
   }
   if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_RESTORES_PP_ALL) != 0)
@@ -309,7 +309,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if (POKE_TOOL_IsPPRestorable(mon, i) == 1)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -330,7 +330,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if ((((evHp < 100) || (ignoreCap != 0)) && (evHp < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -339,12 +339,12 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if (evHp > 0)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
       if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -356,7 +356,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if ((((evAtk < 100) || (ignoreCap != 0)) && (evAtk < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -365,12 +365,12 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if (evAtk > 0)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
       if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -382,7 +382,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if ((((evDef < 100) || (ignoreCap != 0)) && (evDef < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -391,12 +391,12 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if (evDef > 0)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
       if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -408,7 +408,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if ((((evSpeed < 100) || (ignoreCap != 0)) && (evSpeed < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -417,12 +417,12 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if (evSpeed > 0)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
       if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -434,7 +434,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if ((((evSpAtk < 100) || (ignoreCap != 0)) && (evSpAtk < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -443,12 +443,12 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if (evSpAtk > 0)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
       if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -461,7 +461,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if ((((evSpDef < 100) || (ignoreCap != 0)) && (evSpDef < 255)) && ((((((evHp + evAtk) + evDef) + evSpeed) + evSpAtk) + evSpDef) < 510))
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
@@ -470,18 +470,18 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
     {
       if (evSpDef > 0)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
       if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
-        func_020307B0(itemRec);
+        GFL_HEAP_Free(itemRec);
         return 1;
       }
     }
   }
   {
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return 0;
   }
 }
@@ -502,7 +502,7 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
     int originalStatus, status, evSpAtk, evSpDef, ignoreCap, amount;
     int evHp, hp, evAtk, maxHp, evDef, evSpeed, level, friendship, result, i;
     itemRec = FILE_UTIL_CreateArcTool0F34(item, 0, (u16)heap);
-    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1) { func_020307B0(itemRec); return changed; }
+    if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1) { GFL_HEAP_Free(itemRec); return changed; }
     applicable = 0;
     originalStatus = POKE_TOOL_GetPartyValue(mon, PLIST_MON_STATUS, 0);
     status = originalStatus;
@@ -598,25 +598,25 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
         if (result != -1) { POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_SPDEF, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
-    if (changed == 0 && applicable == 1) { func_020307B0(itemRec); return 0; }
+    if (changed == 0 && applicable == 1) { GFL_HEAP_Free(itemRec); return 0; }
     friendship = POKE_TOOL_GetPartyValue(mon, PLIST_MON_FRIENDSHIP, 0);
     if (friendship < 100) {
         if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW)) {
             PLIST_DEMO_ApplyFriendshipItem(mon, friendship, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT), item, arg, heap);
-            func_020307B0(itemRec); return changed;
+            GFL_HEAP_Free(itemRec); return changed;
         }
     } else if (friendship >= 100 && friendship < 200) {
         if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_MID)) {
             PLIST_DEMO_ApplyFriendshipItem(mon, friendship, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT), item, arg, heap);
-            func_020307B0(itemRec); return changed;
+            GFL_HEAP_Free(itemRec); return changed;
         }
     } else if (friendship >= 200 && friendship <= 255) {
         if (FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH)) {
             PLIST_DEMO_ApplyFriendshipItem(mon, friendship, FILE_UTIL_Get_1014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT), item, arg, heap);
-            func_020307B0(itemRec); return changed;
+            GFL_HEAP_Free(itemRec); return changed;
         }
     }
-    func_020307B0(itemRec);
+    GFL_HEAP_Free(itemRec);
     return changed;
 }
 

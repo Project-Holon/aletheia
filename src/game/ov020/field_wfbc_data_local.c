@@ -24,8 +24,8 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerObjectCode 0x02012B28 thumb
  *   GAME_DATA_SetPlayerObjectCode 0x02012B2C thumb
- *   func_02045B38  0x02045B38  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MAIL_Create  0x02008F08  thumb
  *   func_02008F88  0x02008F88  thumb
@@ -37,7 +37,7 @@
  *   func_02008FC4  0x02008FC4  thumb
  *   func_02008FEC  0x02008FEC  thumb
  *   func_0200903C  0x0200903C  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   d_02187DA4  0x02187DA4  data  ov020  a4
@@ -48,7 +48,7 @@
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   func_02008B14 0x02008B14 thumb
  *   FORMCHANGE_RevertShayminAtNight 0x0216A358 thumb ov010
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_02187EA0 0x02187EA0 data ov020 a1
  *   FLDMMDL_GetObjId  0x0216D588  thumb
  *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
@@ -72,7 +72,7 @@
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_020084F4 0x020084F4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
@@ -115,7 +115,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetReturnSlots  0x02158434  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
@@ -148,7 +148,7 @@
  *   WAZA_OSHIE_GetTexFormatCount  0x0216FC4C  thumb  ov010
  *   WAZA_OSHIE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
  *   EL_SCOREBOARD_SourceFileName     0x02187EDC  data  ov020  a4
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
  *   func_020124EC  0x020124EC  thumb
  *   COMM_PLAYER_SUPPORT_PrevSeason  0x0202E8B8  thumb
@@ -177,7 +177,7 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  *   G2x_SetBlendBrightness_  0x0207D658  arm
- *   func_0207D63C  0x0207D63C  arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_0209BE04  0x0209BE04  arm
  *   func_0209CE10  0x0209CE10  arm
@@ -186,7 +186,7 @@
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
  *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   FIELDMAP_SetSubscreenBusy 0x02189A50 thumb ov021
  */
@@ -225,11 +225,11 @@ typedef unsigned long long u64;
 #include "../ov010/script_work_types.h"
 #include "../ov021/field_wfbc_types.h"
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *p);
-struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-u32 func_020307B0(void *p);
+struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+u32 GFL_HEAP_Free(void *p);
 void STRBUF_Delete(struct Strbuf *vec);
 u32 MSGDATA_Delete(struct MsgData *rec);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u16 FLDMMDL_GetObjId(const struct Mmdl *mmdl);
 extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(WfbcPerson *person);
 extern u32 func_02008530(const struct MyStatus *obj);
@@ -249,7 +249,7 @@ extern void FLDMMDL_InitPosRecord(MmdlHeader *header, u16 gridX, u16 gridZ, int 
 extern u16 STRBUF_GetEosChar(void);
 extern const void *func_020084F4(const void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
 extern void ARC_TOOL_DeleteHandle(void *p);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int member,
@@ -292,7 +292,7 @@ u32 FIELDMAP_GetMsgBg(void *fieldSystem);
 void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 void *INTRUDE_COMM_GetWorkIfRunning(void *eventWork);
 void *INTRUDE_COMM_GetReturnSlots(void *eventWork);
-struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *proc, u32 workSize);
+struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *proc, u32 workSize);
 void *func_020124E8(struct GameEvent *p);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 struct WordSet *WORDSET_CreateDefault(u32 heap);
@@ -711,7 +711,7 @@ MmdlHeader *FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(WfbcData *data, int which, i
         people = data->people;
     else
         people = data->backPeople;
-    headers = func_02030734(heapId, total * 0x24, 1, d_02187EB4, 0x2E3);
+    headers = GFL_HEAP_Alloc(heapId, total * 0x24, 1, d_02187EB4, 0x2E3);
     count = 0;
     npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, heapId);
     positions = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(npcData, data->cityType, heapId);
@@ -853,15 +853,15 @@ int FIELD_WFBC_DATA_LOCAL_IsMoodLow(const WfbcPerson *person)
 
 WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int fileId, int heapId)
 {
-    WfbcNpcData *npcData = func_02030734(heapId, 0x38, 1, (const char *)&d_02187EB4, 0x448);
+    WfbcNpcData *npcData = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)&d_02187EB4, 0x448);
 
-    npcData->arc = func_020490F4(0x9a, heapId);
+    npcData->arc = ARC_TOOL_CreateHandle(0x9a, heapId);
     ARC_TOOL_ReadHandleMember(npcData->arc, fileId, &npcData->record);
     npcData->fileId = fileId;
     return npcData;
 }
 
-void FIELD_WFBC_DATA_LOCAL_CloseNpcData(WfbcNpcData *npcData) { ARC_TOOL_DeleteHandle(npcData->arc); func_020307B0(npcData); }
+void FIELD_WFBC_DATA_LOCAL_CloseNpcData(WfbcNpcData *npcData) { ARC_TOOL_DeleteHandle(npcData->arc); GFL_HEAP_Free(npcData); }
 
 void FIELD_WFBC_DATA_LOCAL_LoadNpcData(WfbcNpcData *npcData, u32 fileId) { ARC_TOOL_ReadHandleMember(npcData->arc, fileId, &npcData->record); npcData->fileId = fileId; }
 
@@ -878,7 +878,7 @@ WfbcPosition *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(WfbcNpcData *npcData, 
 /*
  * Follower 02186844 is already filed separately.
  */
-void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(WfbcPosition *positions) { func_020307B0(positions); }
+void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(WfbcPosition *positions) { GFL_HEAP_Free(positions); }
 
 /*
  * Unlabelled leaf: address of the i-th two-byte pair of a table.
@@ -926,7 +926,7 @@ MmdlHeader *FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders(u16 *itemSlots, int whic
     heapId = (u16)((heapSeed & 0x7FFF) | 0x8000);
     total = FIELD_WFBC_DATA_LOCAL_CountItemSlots(itemSlots);
     count = 0;
-    headers = func_02030734(heapId, total * 0x24, 1, d_02187EB4, 0x561);
+    headers = GFL_HEAP_Alloc(heapId, total * 0x24, 1, d_02187EB4, 0x561);
     npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, heapId);
     positions = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(npcData, cityType, heapId);
     i = 0;
@@ -1385,13 +1385,13 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     if (returnList == 0)
         return 0;
     returnList = INTRUDE_COMM_GetReturnSlots(returnList);
-    event = func_020122C0(gameSystem, 0, FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain, 0x58);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain, 0x58);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldSystem = fieldSystem;
     work->msgBuf = STRBUF_Create(0x100, heapId);
     work->tmpBuf = STRBUF_Create(0x100, heapId);
-    work->msgData = func_02045B38(0, 3, 0x142, heapId);
+    work->msgData = MSGDATA_CreateFromArchive(0, 3, 0x142, heapId);
     work->wordSet = WORDSET_CreateDefault(heapId);
     work->msgBgSys = msgBgSys;
     work->returnList = returnList;
@@ -1416,7 +1416,7 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
 }
 
 /*
- * The step callback FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent registers (func_020122C0's third
+ * The step callback FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent registers (GAME_EVENT_Create's third
  * argument) for the 0x58-byte work block it fills.
  */
 int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *state, WfbcTalkEvent *talk)

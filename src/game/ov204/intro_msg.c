@@ -17,14 +17,14 @@
  *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   func_02041B6C 0x02041B6C arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gIntroSite 0x021C0AE4 data a1
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -45,7 +45,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_02045CAC 0x02045CAC arm
@@ -58,7 +58,7 @@
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
- *   func_02020CF8 0x02020CF8 thumb
+ *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   func_02020D10 0x02020D10 thumb
@@ -139,7 +139,7 @@ typedef struct IntroMsgWork {
     unsigned char pad_2[2];
     void *printSys;          /* 0x04: PRINTSYS_QUE_Create result */
     void *wordSet;           /* 0x08: WORDSET_CreateDefault result */
-    void *msgBank;           /* 0x0C: func_02045B38 result */
+    void *msgBank;           /* 0x0C: MSGDATA_CreateFromArchive result */
     void *font;              /* 0x10: GF_FONT_Create result */
     void *printStream;       /* 0x14: PRINTSYS_PrintStream result */
     void *tcbl;              /* 0x18: TCBL_Create result */
@@ -163,11 +163,11 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern u32 KEY_GetTrg(void);
 
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
@@ -175,7 +175,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
@@ -217,7 +217,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void TCBL_Main(struct Tcbl*);
 
@@ -257,7 +257,7 @@ extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 
-extern void func_02020CF8(struct Obj *p, int heap);
+extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 
 extern void BG_SYS_PushTile(u32 index);
 
@@ -313,12 +313,12 @@ char *INTRO_MSG_Create(u16 heap)
 {
     IntroMsgWork *p;
     void *obj;
-    p=func_02030734(heap,72,1,gIntroSite,129);
+    p=GFL_HEAP_Alloc(heap,72,1,gIntroSite,129);
     p->heapId=heap;
     p->wordSet=WORDSET_CreateDefault(heap);
     p->printSys=(void *)PRINTSYS_QUE_Create((void *)heap);
     p->tcbl=TCBL_Create(p->heapId,p->heapId,2,0);
-    func_02049B40(23,5,0,320,32,heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,320,32,heap);
     BMP_MENUWORK_LoadCharAndPltt(1,7,9,0,heap);
     BMP_MENUWORK_LoadCharAndPltt(1,16,8,1,heap);
     p->font=GF_FONT_Create(23,0,1,0,p->heapId);
@@ -327,7 +327,7 @@ char *INTRO_MSG_Create(u16 heap)
     p->menuWin=(void *)BMP_WIN_Create(1,22,13,9,4,10,1);
     BMP_Clear(BMP_WIN_GetBmp(p->menuWin),0);
     obj=p->menuWin;
-    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_02041B6C(BMP_WIN_GetBgLayer(obj));
+    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
     p->textWin=(void *)BMP_WIN_Create(1,1,19,30,4,10,1);
     p->keyCursor=APP_KEYCURSOR_CreateDefault(15,1,1,p->heapId);
     p->timeIcon=TIME_ICON_Alloc(p->heapId);
@@ -352,7 +352,7 @@ void INTRO_MSG_Delete(char *p)
     if (work->msgBank)
         MSGDATA_Delete(work->msgBank);
     WORDSET_DeleteStrbufED04(work->wordSet);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void INTRO_MSG_SetMsgBank(char *p, unsigned a, unsigned short b)
@@ -362,7 +362,7 @@ void INTRO_MSG_SetMsgBank(char *p, unsigned a, unsigned short b)
     {
         MSGDATA_Delete(work->msgBank);
     }
-    work->msgBank = func_02045B38(a, 2, b, work->heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(a, 2, b, work->heapId);
 }
 
 void INTRO_MSG_Main(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;TCBL_Main(work->tcbl);PRINTSYS_QUE_Main(work->printSys);}
@@ -386,7 +386,7 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
         BMP_MENUWORK_DrawWindow(desc, 1, 16, 8);
     BMP_WIN_TransferChars(desc);
     BMP_WIN_MakeScreen(desc);
-    func_02041B6C(BMP_WIN_GetBgLayer(desc));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc));
 }
 
 void INTRO_MSG_DrawWindowBorder(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;BMP_MENUWORK_DrawWindowBorder(work->textWin,0);}
@@ -437,10 +437,10 @@ int *INTRO_MSG_InitMenuDesc(char *p, int v)
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
  *   u32 size; struct MsgEntry *e;
  *   if (index >= bank->file->count) { STRBUF_Clear(dest); return; }
- *   func_02046180(bank);
+ *   MSGDATA_RefreshLanguage(bank);
  *   if (bank->resident == 0) {
  *     u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
- *     func_0204960C(bank->stream, pos + (index * 8 + 4));
+ *     ARC_TOOL_SeekHandle(bank->stream, pos + (index * 8 + 4));
  *     ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache); e = &bank->cache;
  *   } else { e = (struct MsgEntry *)((u8 *)bank->base + 4) + index; }
  *   if (bank->resident == 0) {
@@ -448,13 +448,13 @@ int *INTRO_MSG_InitMenuDesc(char *p, int v)
  *     buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),
  *                       size, 0, MSGDATA_AllocSite, 0xd6);
  *     if (buf != 0) {
- *       func_0204960C(bank->stream, e->off + (bank->origin
+ *       ARC_TOOL_SeekHandle(bank->stream, e->off + (bank->origin
  *                     + bank->file->langOff[bank->langIndex]));
  *       ARC_TOOL_ReadHandle(bank->stream, size, buf);
- *       STRBUF_SetChars(dest, buf, e->len); func_020307B0(buf);
+ *       STRBUF_SetChars(dest, buf, e->len); GFL_HEAP_Free(buf);
  *     }
  *   } else { STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len); }
- *   func_02045E04(dest, index);
+ *   MSGDATA_DecryptStrbuf(dest, index);
  * }
  * lever: u16 heap local places its word home at sp+8; u32 swaps it with
  * the entry pointer at sp+12, leaving seven differing concrete bytes.
@@ -489,7 +489,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
     config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.textParam=work->font;
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
-    func_02020CF8(*(void **)state,(u32)heap);
+    BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
     BMP_MENUWORK_DrawWindow(obj,1,7,9);
     if(flag)func_02020D10(*(void **)state,0);

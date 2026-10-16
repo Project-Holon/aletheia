@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "wifilist_tail_shared_types.h"
 #include "musical_save_shared_types.h"
@@ -57,7 +57,7 @@ struct MusicalSave {
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 u32 MUSICAL_SAVE_GetSize(void);
 
@@ -156,7 +156,7 @@ void MUSICAL_SAVE_Init(struct MusicalSave *musical)
 
 struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x2A);
+    return SAVE_CONTROL_GetBlock(save, 0x2A);
 }
 
 void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical)

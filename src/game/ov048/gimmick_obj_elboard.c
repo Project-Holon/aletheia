@@ -25,9 +25,9 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
  *   WORDSET_Create  0x0201EC74  thumb
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -62,16 +62,16 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   gElboardFileName     0x021F523C  data  a1
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
  *   EL_SCOREBOARD_CreateLamp  0x021875F4  thumb  ov020
@@ -104,7 +104,7 @@
  *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020122C0 0x020122C0 thumb
+ *   GAME_EVENT_Create 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  */
 
@@ -248,9 +248,9 @@ extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number
 extern void WORDSET_SetSlotMonth(struct WordSet *wordSet, u32 index, u32 month);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct WordSet *WORDSET_Create(u32 wordMax, u32 bufLen, u16 heapId);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 ZONEDATA_GetPlaceNameId(u32 placeId);
-extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *str, u32 sex, u32 singular, u32 lang);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
@@ -278,15 +278,15 @@ extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *cmdWork);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int func_0209C0A4(int a, int b);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 animIndex, s32 *frame);
 extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 animIndex);
 extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 animIndex);
-extern u32 func_0201D304(struct Strbuf *str, struct GfFont *font, u32 spacing);
+extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 spacing);
 extern G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
 extern G3dResource *G3D_SYSTEM_GetRenderTexRes(G3dRender *render);
 extern struct ElboardText *EL_SCOREBOARD_CreateLamp(G3dResource *texRes, const char *textureName, const char *paletteName, struct Strbuf *str, u16 width, u16 flag, u16 heapId);
@@ -312,7 +312,7 @@ extern void FIELD_TASK_MANAGER_AddTask(struct FieldTaskManager *taskManager, str
 extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *taskManager);
 extern u32 KEY_GetTrg(void);
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, GameEventFunc func, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 void GIMMICK_OBJ_ELBOARD_AddMessage(GateWork *work, ElboardMessage *msg, int kind, GateNewsEntry *entry);
 void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work);
@@ -507,16 +507,16 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
     GIMMICK_OBJ_ELBOARD_CollectHighlights(work, &highlights);
     bufLen = 0x100;
     words = WORDSET_Create(4, bufLen, work->heapId);
-    placeNames = func_02045B38(0, 2, 0x59, work->heapId);
-    boardText = func_02045B38(0, 2, 0x26, work->heapId);
+    placeNames = MSGDATA_CreateFromArchive(0, 2, 0x59, work->heapId);
+    boardText = MSGDATA_CreateFromArchive(0, 2, 0x26, work->heapId);
     for (i = 0; i < 4; i++) {
         if (highlights.placeId[i] == ELBOARD_NO_PLACE)
             continue;
         kindIndex = highlights.kind[i];
-        placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(highlights.placeId[i]));
-        labelText = func_02045EC0(boardText, gElboardLabelMsgId[kindIndex]);
+        placeName = MSGDATA_AllocString(placeNames, ZONEDATA_GetPlaceNameId(highlights.placeId[i]));
+        labelText = MSGDATA_AllocString(boardText, gElboardLabelMsgId[kindIndex]);
         pairWords = WORDSET_Create(2, bufLen, work->heapId);
-        pairTemplate = func_02045EC0(boardText, 0xc0);
+        pairTemplate = MSGDATA_AllocString(boardText, 0xc0);
         pairText = STRBUF_Create(0x40, work->heapId);
         WORDSET_SetSlotTag(pairWords, 0, placeName, 0, 1, 0);
         WORDSET_SetSlotTag(pairWords, 1, labelText, 0, 1, 0);
@@ -573,8 +573,8 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
     if (placeId == 0x159 && GAME_DATA_GetSeason(work->gameData) == 3)
         return;
     words = WORDSET_CreateDefault(work->heapId);
-    placeNames = func_02045B38(0, 2, 0x59, work->heapId);
-    placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(placeId));
+    placeNames = MSGDATA_CreateFromArchive(0, 2, 0x59, work->heapId);
+    placeName = MSGDATA_AllocString(placeNames, ZONEDATA_GetPlaceNameId(placeId));
     WORDSET_SetSlotTag(words, 0, placeName, 0, 1, 0);
     STRBUF_Delete(placeName);
     MSGDATA_Delete(placeNames);
@@ -947,7 +947,7 @@ GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(ElboardConfig *config)
     int i;
     GimmickObjElboard *board;
 
-    board = func_02030734(config->heapId, 0x1c, 0, gElboardFileName, 0x60);
+    board = GFL_HEAP_Alloc(config->heapId, 0x1c, 0, gElboardFileName, 0x60);
     i = 0;
     board->heapId = config->heapId;
     board->lineCount = i;
@@ -956,8 +956,8 @@ GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(ElboardConfig *config)
     board->trailChars = config->trailChars;
     board->render = config->render;
     board->scroll = i;
-    board->lines = func_02030734(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, 0x6d);
-    board->startRequest = func_02030734(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, 0x6f);
+    board->lines = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, 0x6d);
+    board->startRequest = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, 0x6f);
     for (i = 0; i < config->lineCapacity; i++) {
         board->lines[i] = 0;
         board->startRequest[i] = 0;
@@ -982,9 +982,9 @@ void GIMMICK_OBJ_ELBOARD_Delete(GimmickObjElboard *board)
     GF_FONT_Delete(board->font);
     for (i = 0; i < board->lineCount; i++)
         GIMMICK_OBJ_ELBOARD_DeleteLine(board->lines[i]);
-    func_020307B0(board->lines);
-    func_020307B0(board->startRequest);
-    func_020307B0(board);
+    GFL_HEAP_Free(board->lines);
+    GFL_HEAP_Free(board->startRequest);
+    GFL_HEAP_Free(board);
 }
 
 void GIMMICK_OBJ_ELBOARD_Advance(GimmickObjElboard *board, int step)
@@ -1033,8 +1033,8 @@ void GIMMICK_OBJ_ELBOARD_SetScroll(GimmickObjElboard *board, int scroll)
     frame = scroll >> 12;
     totalFrames = 0;
     /* heap id with the high bit set: the temporary arrays come from the other end of the heap */
-    lineStart = (int *)func_02030734((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, 0x11A);
-    localFrame = (int *)func_02030734((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, 0x11C);
+    lineStart = (int *)GFL_HEAP_Alloc((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, 0x11A);
+    localFrame = (int *)GFL_HEAP_Alloc((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, 0x11C);
     board->scroll = scroll;
     for (i = 0; i < board->lineCount; i++) {
         board->startRequest[i] = 0;
@@ -1082,8 +1082,8 @@ void GIMMICK_OBJ_ELBOARD_SetScroll(GimmickObjElboard *board, int scroll)
         }
         board->startRequest[j] = flag;
     }
-    func_020307B0(lineStart);
-    func_020307B0(localFrame);
+    GFL_HEAP_Free(lineStart);
+    GFL_HEAP_Free(localFrame);
 }
 
 
@@ -1105,19 +1105,19 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
     int textAndTrail;
     fx32 animFrames;
 
-    line = func_02030734(board->heapId, 0x24, 0, gElboardFileName, 0x180);
-    msgData = func_02045B38(0, (u16)msg->arcId, (u16)msg->fileId, board->heapId);
+    line = GFL_HEAP_Alloc(board->heapId, 0x24, 0, gElboardFileName, 0x180);
+    msgData = MSGDATA_CreateFromArchive(0, (u16)msg->arcId, (u16)msg->fileId, board->heapId);
     if (msg->wordSet != 0) {
         str = STRBUF_Create(0xC0, board->heapId);
-        tmp = func_02045EC0(msgData, msg->msgId);
+        tmp = MSGDATA_AllocString(msgData, msg->msgId);
         WORDSET_CopyTaggedText(msg->wordSet, str, tmp);
-        func_020307B0(tmp);
+        GFL_HEAP_Free(tmp);
     } else {
-        str = func_02045EC0(msgData, msg->msgId);
+        str = MSGDATA_AllocString(msgData, msg->msgId);
     }
-    width = func_0201D304(str, board->font, 1);
+    width = GF_FONT_MeasureWidestLine(str, board->font, 1);
     line->text = EL_SCOREBOARD_CreateLamp(G3D_SYSTEM_GetRenderTexRes(G3D_SYSTEM_GetObjectRender(board->render)), msg->textureName, msg->paletteName, str, board->leadChars * 14, 1, board->heapId);
-    func_020307B0(str);
+    GFL_HEAP_Free(str);
     MSGDATA_Delete(msgData);
     animFrames = G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(board->render, msg->animIndex))->resAnm->numFrame << 12;
     leadWidth = board->leadChars * 13;
@@ -1142,7 +1142,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
 void GIMMICK_OBJ_ELBOARD_DeleteLine(ElboardLine *line)
 {
     EL_SCOREBOARD_DeleteLamp(line->text);
-    func_020307B0(line);
+    GFL_HEAP_Free(line);
 }
 
 void GIMMICK_OBJ_ELBOARD_StartLine(ElboardLine *line)
@@ -1308,7 +1308,7 @@ struct GameEvent *GIMMICK_OBJ_ELBOARD_CreateCameraEvent(struct GameSystem *gameS
     struct GameEvent *event;
     GateCameraEventWork *work;
 
-    event = func_020122C0(gameSystem, 0, GIMMICK_OBJ_ELBOARD_CameraEventMain, 0x20);
+    event = GAME_EVENT_Create(gameSystem, 0, GIMMICK_OBJ_ELBOARD_CameraEventMain, 0x20);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

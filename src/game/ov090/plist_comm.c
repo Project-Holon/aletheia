@@ -18,7 +18,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   gPartyListCommandTable     0x021B6228  data  a4
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
@@ -54,7 +54,7 @@ extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, u32 syncNo, u32 syncGroup);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, u32 syncNo, u32 syncGroup);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 commandBase, const void *commandTable, u32 commandCount, void *work);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_SendData(struct NetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 c, u32 d, u32 e);
 extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
 void PLIST_COMM_Start(PartyListCommWork *work);
@@ -99,7 +99,7 @@ void PLIST_COMM_Update(PartyListCommWork *work)
     case 2:
         break;
     }
-    if (func_0200FB24() != 0 && work->commFinished == 0)
+    if (GFL_NET_ERR_GetErrorLevel() != 0 && work->commFinished == 0)
         work->commFinished = 1;
 }
 

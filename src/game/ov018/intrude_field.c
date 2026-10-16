@@ -21,7 +21,7 @@
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
@@ -35,7 +35,7 @@
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
  *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -64,7 +64,7 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_IsStepToOwnArea  0x021584A4  thumb
@@ -105,7 +105,7 @@
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GAME_COMM_RequestExit  0x0202640C  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_COMM_Start  0x020263D8  thumb
  *   INTRUDE_FIELD_gStartParamFile     0x02183AE0  data   a1
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
@@ -151,7 +151,7 @@
  *   INTRUDE_FIELD_gSymbolMonMmdlHeader     0x0218362C  data   a4
  *   FLDMMDL_GetParam 0x0216D63C thumb ov010
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_02008530  0x02008530  thumb
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
@@ -377,7 +377,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *playerWork);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern u32 ZONEDATA_IsZoneGroup118To120(u32 zoneId);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
@@ -394,12 +394,12 @@ extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern void GAME_COMM_RequestExit(struct GameComm *gameComm, u32 callback, u32 callbackArg);
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, u32 param);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const void *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *file, u16 line);
 extern int func_02035390(void);
 extern int func_020353B0(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, void *eventFunc, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *eventFunc, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
@@ -419,11 +419,11 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct P
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct STRBUF *func_02045EC0(struct MsgData *msgData, u32 index);
+extern struct STRBUF *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern void STRBUF_Delete(struct STRBUF *strbuf);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u8 *ARC_UTIL_LoadMember(int arcId, int a1, int a2, int heapId);
-extern void func_020307B0(void *ptr);
+extern void GFL_HEAP_Free(void *ptr);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 trainerId, int species, int form, int sex, int a4, int a5);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heapId);
 extern void POKE_TOOL_SetupPartyParamEx(void *mon, u16 species, u16 level, unsigned long long id, u32 power, unsigned long long rnd);
@@ -612,7 +612,7 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
     if (work->specialZoneEntered == 0 && ZONEDATA_IsZone117(zoneId) == 1)
         work->specialZoneEntered = 1;
     INTRUDE_FIELD_AddAreaMaps(fieldMap, gameSystem, work);
-    if (work->step != 7 || func_0200FB24() != 0)
+    if (work->step != 7 || GFL_NET_ERR_GetErrorLevel() != 0)
         return;
     if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
         if (work->zoneCheck == 0) {
@@ -679,7 +679,7 @@ struct GameEvent *INTRUDE_FIELD_CreateEdgeBlockTask(struct GameSystem *gameSyste
     struct GameEvent *event;
     EdgeBlockWork *work;
 
-    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_TaskEdgeBlock, sizeof(EdgeBlockWork));
+    event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_TaskEdgeBlock, sizeof(EdgeBlockWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(EdgeBlockWork));
     work->fieldMap = fieldMap;
@@ -779,7 +779,7 @@ struct GameEvent *INTRUDE_FIELD_CreateAreaChangeTask(struct GameSystem *gameSyst
     struct GameEvent *event;
     AreaChangeWork *work;
 
-    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_TaskAreaChange, sizeof(AreaChangeWork));
+    event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_TaskAreaChange, sizeof(AreaChangeWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(AreaChangeWork));
     work->fieldMap = fieldMap;
@@ -848,9 +848,9 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
             nameText = STRBUF_Create(0x100, 0x15);
             WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, intrudeWork->localPeer.intrudeId));
             if (work->sessionBusy == 1)
-                template = func_02045EC0(work->msgData, 0x50);
+                template = MSGDATA_AllocString(work->msgData, 0x50);
             else
-                template = func_02045EC0(work->msgData, 0x51);
+                template = MSGDATA_AllocString(work->msgData, 0x51);
             WORDSET_CopyTaggedText(work->wordSet, nameText, template);
             FIELD_MSGBG_MsgWinPrintStr(work->msgWin, 0, 0, nameText);
             STRBUF_Delete(template);
@@ -955,7 +955,7 @@ struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSy
     struct GameEvent *event;
     ExitConfirmWork *eventWork;
 
-    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_EventExitConfirm, sizeof(ExitConfirmWork));
+    event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_EventExitConfirm, sizeof(ExitConfirmWork));
     eventWork = func_020124E8(event);
     MI_CpuFill8(eventWork, 0, sizeof(ExitConfirmWork));
     return event;
@@ -1021,7 +1021,7 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
         }
         break;
     case 3:
-        if (func_0200FB24() == 0 && GAME_COMM_GetKind(gameComm) == 2) {
+        if (GFL_NET_ERR_GetErrorLevel() == 0 && GAME_COMM_GetKind(gameComm) == 2) {
             GAME_COMM_RequestExitNoCallback(gameComm);
             work->endMsgWin = FIELD_MSGBG_CreateBottomMsgWin(FIELDMAP_GetMsgBg(fieldMap), work->msgData);
             FIELD_MSGBG_MsgWinPrintMsg(work->endMsgWin, 0, 0, 0x14);
@@ -1102,7 +1102,7 @@ struct GameEvent *INTRUDE_FIELD_CreateNoticeEvent(struct GameSystem *gameSystem,
     struct GameEvent *event;
     NoticeEventWork *work;
 
-    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_EventNotice, sizeof(NoticeEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_EventNotice, sizeof(NoticeEventWork));
     work = func_020124E8(event);
     return event;
 }
@@ -1183,7 +1183,7 @@ void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (GAME_COMM_IsTransition(gameComm) == 1)
         return;
-    if (func_0200FB24() != 0)
+    if (GFL_NET_ERR_GetErrorLevel() != 0)
         return;
     if (func_02035390() == 1 && func_020353B0() == 1)
         return;
@@ -1227,13 +1227,13 @@ void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
     IntrudeStartParam *param;
 
     gameComm = ICA_ANIME_GetField24(gameSystem);
-    if (func_0200FB24() != 0)
+    if (GFL_NET_ERR_GetErrorLevel() != 0)
         return;
     if (ICA_ANIME_GetUnk330(gameSystem) == 1)
         return;
     if (func_02035390() == 1 && func_020353B0() == 1)
         return;
-    param = func_02030734(0x8005, 0x10, 1, INTRUDE_FIELD_gStartParamFile, 0x528);
+    param = GFL_HEAP_Alloc(0x8005, 0x10, 1, INTRUDE_FIELD_gStartParamFile, 0x528);
     param->startKind = 1;
     param->gameSystem = gameSystem;
     param->gameComm = gameComm;
@@ -1699,7 +1699,7 @@ void *INTRUDE_FIELD_CreateSymbolMon(int heapId, struct GameData *gameData, const
 
     levelTable = ARC_UTIL_LoadMember(0xE3, 0, 0, heapId);
     level = levelTable[entry->species];
-    func_020307B0(levelTable);
+    GFL_HEAP_Free(levelTable);
     trainerId = func_02008530(GAME_DATA_GetMyStatus(gameData));
     personality = POKE_TOOL_CreatePersonalRnd(trainerId, (u16)entry->species, (u16)entry->form, entry->sex, 0, 0);
     mon = POKE_TOOL_Create(entry->species, level, -1, heapId);
@@ -1768,7 +1768,7 @@ struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSyst
 
     offer = INTRUDE_COMM_GetActiveSessionRequest(&work->session);
     ICA_ANIME_GetField1C(gameSystem);
-    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_EventOfferInfo, sizeof(OfferEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_EventOfferInfo, sizeof(OfferEventWork));
     eventWork = func_020124E8(event);
     MI_CpuFill8(eventWork, 0, sizeof(OfferEventWork));
     eventWork->senderNetId = senderNetId;

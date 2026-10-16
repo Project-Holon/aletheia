@@ -25,7 +25,7 @@
  *   func_02184144  0x02184144  arm  ov009
  *   func_021846B4  0x021846B4  arm  ov009
  *   socket  0x0217EB18  arm  ov009
- *   func_021841B0  0x021841B0  arm  ov009
+ *   ArrayFree  0x021841B0  arm  ov009
  *   func_0217EBB0  0x0217EBB0  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
@@ -100,7 +100,7 @@ extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAl
                                                  void (*elemFreeFn)(void *));
 extern void func_021846B4(struct HashImplementation *table);
 extern int socket(int pf, int type, int protocol);
-extern void func_021841B0(struct DArrayImplementation *array);
+extern void ArrayFree(struct DArrayImplementation *array);
 extern int func_0217EBB0(int sock, void *addr, int len);
 extern int closesocket(int sock);
 extern int func_0217ED0C(int sock, void *addr, int *len);
@@ -251,7 +251,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
 
     if (socketTemp->socket == -1) {
         func_021846B4(socketTemp->connections);
-        func_021841B0(socketTemp->closedConnections);
+        ArrayFree(socketTemp->closedConnections);
         gsifree(socketTemp);
         return 3;
     }
@@ -266,7 +266,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
         if (rcode == -1) {
             closesocket(socketTemp->socket);
             func_021846B4(socketTemp->connections);
-            func_021841B0(socketTemp->closedConnections);
+            ArrayFree(socketTemp->closedConnections);
             gsifree(socketTemp);
             return 3;
         }
@@ -370,13 +370,13 @@ failed:
         gsifree(connectionPtr->incomingBuffer.buffer);
         gsifree(connectionPtr->outgoingBuffer.buffer);
         if (connectionPtr->incomingBufferMessages)
-            func_021841B0(connectionPtr->incomingBufferMessages);
+            ArrayFree(connectionPtr->incomingBufferMessages);
         if (connectionPtr->outgoingBufferMessages)
-            func_021841B0(connectionPtr->outgoingBufferMessages);
+            ArrayFree(connectionPtr->outgoingBufferMessages);
         if (connectionPtr->sendFilters)
-            func_021841B0(connectionPtr->sendFilters);
+            ArrayFree(connectionPtr->sendFilters);
         if (connectionPtr->receiveFilters)
-            func_021841B0(connectionPtr->receiveFilters);
+            ArrayFree(connectionPtr->receiveFilters);
         gsifree(connectionPtr);
     }
     return 1;

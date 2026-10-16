@@ -14,8 +14,8 @@
  *
  * symbols:
  *   gBtlCalcFileName 0x021F3AB8 data a1
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gBtlCalcWork  0x021F6360  data  ov093
  *   gBtlStatStageRatios 0x021F0448 data a1
  *   _u32_div_f 0x0209C2B0 arm
@@ -76,9 +76,9 @@
 
 struct BtlParty;
 
-extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned int, unsigned int, int, const char *, unsigned short);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern unsigned int _u32_div_f(unsigned int, unsigned int);
 
@@ -278,11 +278,11 @@ extern u8 gBtlCalcHitCountThresholds[6];
 /* Money lost on defeat per level point, by badge count (0 to 8). */
 extern u8 gBtlCalcDefeatMoneyScales[];
 
-void BTL_CALC_Init(const BtlRngState *rng, unsigned int heapId) { gBtlCalcWork.workTable=func_02030734(heapId,0x460,1,(const char *)gBtlCalcFileName,0x50); gBtlCalcWork.rng=*rng; }
+void BTL_CALC_Init(const BtlRngState *rng, unsigned int heapId) { gBtlCalcWork.workTable=GFL_HEAP_Alloc(heapId,0x460,1,(const char *)gBtlCalcFileName,0x50); gBtlCalcWork.rng=*rng; }
 
 void BTL_CALC_SetRngState(const BtlRngState *rng) { gBtlCalcWork.rng = *rng; }
 
-void BTL_CALC_Exit(void) { if (gBtlCalcWork.workTable) { func_020307B0(gBtlCalcWork.workTable); gBtlCalcWork.workTable = 0; } }
+void BTL_CALC_Exit(void) { if (gBtlCalcWork.workTable) { GFL_HEAP_Free(gBtlCalcWork.workTable); gBtlCalcWork.workTable = 0; } }
 
 u32 BTL_CALC_Random(u32 range)
 {

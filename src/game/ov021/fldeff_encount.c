@@ -18,7 +18,7 @@
  *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
  *   FIELD_EFFECT_GetObjectMode  0x021AC1A0  thumb  ov021
  *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
@@ -34,7 +34,7 @@
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
  *   FIELD_EFFECT_GetModelBaseOffsetAlt  0x021ABE2C  thumb  ov021
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
@@ -56,6 +56,7 @@
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm  arm9
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm  arm9
  *   MTX_Identity33_  0x0207ADC4  arm  arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -142,8 +143,8 @@ typedef struct EncountWork {
     EncountSys *encount;     /* 0x34 */
 } EncountWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *fieldEffect);
@@ -165,7 +166,7 @@ extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
 extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
-extern void func_02046EFC(G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern int FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern void *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
@@ -246,7 +247,7 @@ EncountModelSet *FLDEFF_ENCOUNT_CreateKind5(FieldEffectSys *fieldEffect, int hea
 void FLDEFF_ENCOUNT_Delete(FieldEffectSys *fieldEffect, EncountModelSet *set)
 {
     FLDEFF_ENCOUNT_FreeResources(set);
-    func_020307B0(set);
+    GFL_HEAP_Free(set);
 }
 
 /* Creates the resources of one kind of the rustling-spot effect. */
@@ -254,7 +255,7 @@ EncountModelSet *FLDEFF_ENCOUNT_Create(FieldEffectSys *fieldEffect, int heapId, 
 {
     EncountModelSet *set;
 
-    set = func_02030734(heapId, 0x98, 1, sFldeffEncountFileName, 0x11e);
+    set = GFL_HEAP_Alloc(heapId, 0x98, 1, sFldeffEncountFileName, 0x11e);
     set->fieldEffect = fieldEffect;
     FLDEFF_ENCOUNT_LoadKind(set, kind);
     return set;
@@ -354,11 +355,11 @@ void FLDEFF_ENCOUNT_FreeResources(EncountModelSet *set)
         FLDEFF_ENCOUNT_DeleteDrawSet(&set->draw[i], set);
     }
     for (i = 0; i < set->desc.animeCount * set->desc.modelCount; i++) {
-        func_02046EFC(set->anime[i]);
+        G3D_SYSTEM_DeleteResource(set->anime[i]);
     }
     for (i = 0; i < set->desc.modelCount; i++) {
         G3D_SYSTEM_FreeVramTexture(set->model[i]);
-        func_02046EFC(set->model[i]);
+        G3D_SYSTEM_DeleteResource(set->model[i]);
     }
 }
 

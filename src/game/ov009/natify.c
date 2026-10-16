@@ -32,7 +32,7 @@
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A5970  0x021A5970  data
  *   g_021A5994  0x021A5994  data
- *   func_0217EF50  0x0217EF50  arm  ov009
+ *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   func_020923F0  0x020923F0  arm
@@ -129,7 +129,7 @@ extern SOCHostEnt *getlocalhost(void);
 extern int func_0217F038(SOCInAddr *addr);
 extern int func_0217ED0C(int sock, void *addr, int *len);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
-extern int func_0217EF50(int sock);
+extern int CanReceiveOnSocket(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
 extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
@@ -352,7 +352,7 @@ int Think(int sock, NAT *nat)
         gotADDRESS1b && gotADDRESS2 && gotADDRESS3)
         return 0;
 
-    if (sock != -1 && func_0217EF50(sock)) do {
+    if (sock != -1 && CanReceiveOnSocket(sock)) do {
         length = func_0217EC60(sock, g_021AE498, 512, 0, &saddr, &saddrlen);
         if (length == -1) {
             gsDebugFormat(7, 0, 8, g_021A59B4, GOAGetLastError(sock));
@@ -412,7 +412,7 @@ int Think(int sock, NAT *nat)
             gsDebugFormat(7, 0, 16, g_021A5A50, p.cookie, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
             OutputMapping(&nat->mappings[p.cookie]);
         }
-    } while (sock != -1 && func_0217EF50(sock));
+    } while (sock != -1 && CanReceiveOnSocket(sock));
 
     return 1;
 }

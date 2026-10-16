@@ -18,22 +18,22 @@
  *   CLACT_CreateRenderer  0x0204B034  arm
  *   CLACT_SetUnitRenderer  0x0204B258  arm
  *   WEATHER_TASK_Create  0x021A1DB4  thumb  ov021
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   g_WeatherSourceName     0x021DDE74  data
  *   gWeatherBillboardDescs     0x021D8850  data
  *   gWeatherSurfaceInits     0x021D8840  data
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_3DBG_CreateBillboard  0x021A15A4  thumb  ov021
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   CLACT_DeleteRenderer  0x0204B084  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   FIELD_3DBG_DeleteBillboard  0x021A15D4  thumb  ov021
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   gWeatherTransitionHandlers     0x021DDE6C  data  ov021  a4
  *   FIELD_3DBG_DrawBillboard  0x021A15F4  thumb  ov021
  *   gWeatherTable     0x021D8868  data  ov021  a4
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   FIELD_3DBG_ReleaseBillboardTextureVram  0x021A1670  thumb  ov021
  *   WEATHER_TASK_Delete  0x021A1DF8  thumb  ov021
  *   WEATHER_TASK_Update  0x021A1E08  thumb  ov021
@@ -47,22 +47,22 @@
 struct Bank;
 struct TextureList;
 
-extern void func_02030EAC(int taskId);
+extern void TCB_DeleteTask(int taskId);
 extern void CLACT_DeleteRenderer(struct TextureList *list);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern int FIELD_3DBG_DeleteBillboard(Field3dbgBillboard *billboard);
-extern u32 func_020307B0(void *p);
-extern int func_02034AC4(s32 overlayId);
-extern void func_02034A5C(int overlayId);
+extern u32 GFL_HEAP_Free(void *p);
+extern int GF_OVERLAY_Load(s32 overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
 void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard);
 void FIELD_3DBG_ReleaseBillboardTextureVram(Field3dbgBillboard *billboard);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct TextureList *CLACT_CreateRenderer(const void *desc, u32 count, u32 heapId);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, struct TextureList *list);
 extern struct WeatherTaskSys *WEATHER_TASK_Create(struct Bank *bank, u32 obj10, u32 obj14, u32 obj18, u32 obj1C, WeatherSys *sys, u32 weatherParam, u16 zoneId, u16 heapId);
-extern int func_020056A0(void (*cb)(int taskId, void *work), void *work, int priority);
+extern int GFL_USE_AddMainTask(void (*cb)(int taskId, void *work), void *work, int priority);
 WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weatherParam, u16 zoneId, u16 heapId);
 void WEATHER_Delete(WeatherSys *sys);
 void WEATHER_Update(WeatherSys *sys, u16 frames);
@@ -107,7 +107,7 @@ WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weath
 {
     int i;
     int j;
-    WeatherSys *sys = func_02030734(heapId, sizeof(WeatherSys), 1, g_WeatherSourceName, 0x158);
+    WeatherSys *sys = GFL_HEAP_Alloc(heapId, sizeof(WeatherSys), 1, g_WeatherSourceName, 0x158);
 
     for (i = 0; i < 2; i++) {
         sys->billboards[i] = FIELD_3DBG_CreateBillboard(&gWeatherBillboardDescs[i], heapId);
@@ -124,7 +124,7 @@ WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weath
     for (j = 0; j < 2; j++) {
         sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, obj10, obj14, obj18, obj1C, sys, weatherParam, zoneId, heapId);
     }
-    sys->updateTaskId = func_020056A0(WEATHER_ReleaseBillboardVramTask, sys, 0x40);
+    sys->updateTaskId = GFL_USE_AddMainTask(WEATHER_ReleaseBillboardVramTask, sys, 0x40);
     return sys;
 }
 
@@ -133,7 +133,7 @@ void WEATHER_Delete(WeatherSys *sys)
 {
     int i;
 
-    func_02030EAC(sys->updateTaskId);
+    TCB_DeleteTask(sys->updateTaskId);
     for (i = 0; i < 2; i++) {
         WEATHER_TASK_Delete(sys->tasks[i]);
     }
@@ -143,7 +143,7 @@ void WEATHER_Delete(WeatherSys *sys)
     for (i = 0; i < 2; i++) {
         FIELD_3DBG_DeleteBillboard(sys->billboards[i]);
     }
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 /* Run the handler of the current transition mode, apply a queued request once idle, update both tasks. */
@@ -236,14 +236,14 @@ u16 WEATHER_GetWeatherId(WeatherSys *sys)
 void WEATHER_LoadOverlay(WeatherSys *sys, u32 overlayId)
 {
     sys->loadedOverlayId = overlayId;
-    func_02034AC4(overlayId);
+    GF_OVERLAY_Load(overlayId);
 }
 
 /* Unload the weather overlay if one is loaded. */
 void WEATHER_UnloadOverlay(WeatherSys *sys)
 {
     if (sys->loadedOverlayId != -1) {
-        func_02034A5C(sys->loadedOverlayId);
+        GF_OVERLAY_Unload(sys->loadedOverlayId);
         sys->loadedOverlayId = -1;
     }
 }

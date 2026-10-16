@@ -18,7 +18,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -51,7 +51,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-struct GameEvent *func_020122C0(void *gameSystem, void *eventFileName, void *eventMain, u32 workSize);
+struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *eventFileName, void *eventMain, u32 workSize);
 u32 GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(void *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
@@ -85,7 +85,7 @@ void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
     int *work;
 
     GAMESYSTEM_GetGameData(gameSystem);
-    event = func_020122C0(gameSystem, 0, EVENT_BSUBWAY_COMM_EventMain, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_BSUBWAY_COMM_EventMain, 0x10);
     work = func_020124E8(event);
     work[0] = value;
     work[1] = (int)gameSystem;

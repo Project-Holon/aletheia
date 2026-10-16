@@ -28,7 +28,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
  */
@@ -71,7 +71,7 @@ extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *func_020124E8(struct GameEvent *event);
 u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
@@ -128,7 +128,7 @@ u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *wo
  */
 void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind)
 {
-    void *event = func_020122C0(gameSystem, 0, EVENT_MENUPROC_Main, 0x1C);
+    void *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MENUPROC_Main, 0x1C);
     MenuProcEventWork *work;
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))

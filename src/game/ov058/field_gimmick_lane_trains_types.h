@@ -82,7 +82,7 @@ extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
 extern void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int cullDraw);
 extern void func_021BE4A4(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int cullDraw);
-extern void func_0207AF1C(MtxFx33 *matrix, s32 sin, s32 cos);
+extern void MTX_RotY33_(MtxFx33 *matrix, s32 sin, s32 cos);
 
 /* Sine and cosine of each angle step (short pairs, arm9 table). */
 extern short FX_SinCosTable_[];

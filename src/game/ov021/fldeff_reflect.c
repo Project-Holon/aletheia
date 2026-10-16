@@ -22,7 +22,7 @@
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
  *   BILLBOARD_ACT_GetEntryElemId  0x020508C4  arm
  *   d_021DE320     0x021DE320  data  a4
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   gReflectTaskHeader  0x021D9B64  data
  *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
  *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
@@ -59,7 +59,7 @@
  *   gReflectMdlSizeOffsetZ     0x021D9B40  data  a4
  *   gReflectTypeOffsetY     0x021D9B58  data  a4
  *   gReflectMdlSizeOffsetY     0x021D9B4C  data  a4
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  */
 struct Actor;
 struct BbBoard;
@@ -119,8 +119,8 @@ extern int FIELD_EFFECT_GetObjectParam(u32 task);
 extern void FIELD_EFFECT_DeleteObject(int task);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *bbActSys);
 extern u32 BILLBOARD_ACT_GetEntryElemId(u32 bbActSys, u16 actId);
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern u32 FLDMMDL_SysGetBlActCont(void *mmdlSys);
 extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *blActCont);
 extern int FLDMMDL_GetCheckInfo(int mmdl, int checkInfo);
@@ -174,7 +174,7 @@ extern const fx32 gReflectMdlSizeOffsetY[];
 
 ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId)
 {
-    ReflectEffectWork *effWork = func_02030734(heapId, 4, 1, (const char *)&d_021DE320, 0x78);
+    ReflectEffectWork *effWork = GFL_HEAP_Alloc(heapId, 4, 1, (const char *)&d_021DE320, 0x78);
 
     effWork->fieldEffectCtrl = fieldEffectCtrl;
     FLDEFF_REFLECT_InitResource();
@@ -184,7 +184,7 @@ ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId)
 void FLDEFF_REFLECT_Delete(u32 fieldEffectCtrl, u8 *effWork)
 {
     FLDEFF_REFLECT_DeleteResource(effWork);
-    func_020307B0(effWork);
+    GFL_HEAP_Free(effWork);
 }
 
 void FLDEFF_REFLECT_InitResource(void)

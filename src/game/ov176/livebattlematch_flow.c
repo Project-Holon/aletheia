@@ -20,14 +20,14 @@
  *   WIFIBATTLEMATCH_UTIL_IsCallbackNull 0x021E8A90 thumb ov177
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera  0x021E5548  thumb  ov177
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
- *   func_02034714 0x02034714 arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
@@ -92,11 +92,11 @@
  *   DIGITALCARDCHECK_CopyRegulation 0x0217D2BC thumb ov176
  *   POKEPARTY_GetBattleReadyCount 0x0201AA50 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
- *   func_0200BAF4 0x0200BAF4 thumb
+ *   BATTLE_BOX_CreateParty 0x0200BAF4 thumb
  *   BATTLE_BOX_SetLockFlags 0x0200BBC8 thumb
  *   REGULATION_BuildParty 0x0200B2A4 thumb
  *   DIGITALCARDCHECK_BuildBattleRecord 0x0217D2F0 thumb ov176
- *   func_0200E918 0x0200E918 thumb
+ *   MISC_SAVEDATA_GetKeyByte 0x0200E918 thumb
  *   REGULATION_GetRuleValue 0x0200AE54 thumb
  *   BATTLE_BOX_ClearLockFlags 0x0200BBD8 thumb
  *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
@@ -119,7 +119,7 @@
  *   LIVEBATTLEMATCH_IRC_RecvSyncValue 0x0217E2F8 thumb ov176
  *   LIVEBATTLEMATCH_IRC_ResetState 0x0217E1B8 thumb ov176
  *   LIVEBATTLEMATCH_IRC_EndSession 0x0217E1C0 thumb ov176
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   DIGITALCARDCHECK_CreateRecord2 0x0217D1C8 thumb ov176
  *   DIGITALCARDCHECK_IsRecord2Done 0x0217D238 thumb ov176
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
@@ -175,7 +175,7 @@ extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -185,11 +185,11 @@ extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BATTLE_REC_ClearWork(void);
 
@@ -315,7 +315,7 @@ extern unsigned int POKEPARTY_GetBattleReadyCount(void *);
 
 extern int POKE_REGULATION_CheckParty(void *,void *,unsigned int *);
 
-extern void * func_0200BAF4(int,int);
+extern void * BATTLE_BOX_CreateParty(int,int);
 
 extern void BATTLE_BOX_SetLockFlags(struct Obj *p, unsigned int v);
 
@@ -323,7 +323,7 @@ extern void REGULATION_BuildParty(int,int);
 
 extern void DIGITALCARDCHECK_BuildBattleRecord(u8 *,u8 *);
 
-extern u8 func_0200E918(const u8 *base, unsigned int idx);
+extern u8 MISC_SAVEDATA_GetKeyByte(const u8 *base, unsigned int idx);
 
 extern unsigned int REGULATION_GetRuleValue(struct Reg *p, unsigned int id);
 
@@ -369,7 +369,7 @@ extern int LIVEBATTLEMATCH_IRC_ResetState(int *);
 
 extern int LIVEBATTLEMATCH_IRC_EndSession(int *);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void DIGITALCARDCHECK_CreateRecord2(char *,int);
 
@@ -432,15 +432,15 @@ u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap)
     int size=0x109;
     u8 *p;
     size=0x1dc;
-    p=func_02030734(heap,size,0,d_0217E600,0x109);
+    p=GFL_HEAP_Alloc(heap,size,0,d_0217E600,0x109);
     MI_CpuFill8(p,0,size);
     *(LiveBattleMatchInit *)(p+0x1a0)=*src;
     *(u16 *)(p+0x1c8)=heap;
     *(u32 *)(p+0x1d0)=BATTLE_REC_IsDataExist();
     WIFIBATTLEMATCH_VIEW_LoadBgPalette(*(int *)(p+0x1b0),1,heap);
     *(void **)(p+0x2c)=WORDSET_Create(8,0x40,heap);
-    *(void **)(p+0x20)=func_02045B38(0,2,0x3a,heap);
-    *(void **)(p+0x24)=func_02045B38(0,2,0xd2,heap);
+    *(void **)(p+0x20)=MSGDATA_CreateFromArchive(0,2,0x3a,heap);
+    *(void **)(p+0x24)=MSGDATA_CreateFromArchive(0,2,0xd2,heap);
     *(void **)(p+0x28)=GF_FONT_Create(0x17,3,0,0,heap);
     *(int **)p=WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,(int)LIVEBATTLEMATCH_FLOW_SelectPhase,heap);
     *(void **)(p+0xc)=LIVEBATTLEMATCH_IRC_Create(*(int *)(p+0x1b8),heap);
@@ -455,7 +455,7 @@ u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap)
 
 void LIVEBATTLEMATCH_FLOW_Delete(int *p)
 {
-    func_020307B0((void *)p[12]);
+    GFL_HEAP_Free((void *)p[12]);
     if (p[0x67] == 1) UI_ClearFlags39Global(8);
     DIGITALCARDCHECK_DeleteRecord(p);
     DIGITALCARDCHECK_DeleteRecord2(p);
@@ -466,7 +466,7 @@ void LIVEBATTLEMATCH_FLOW_Delete(int *p)
     MSGDATA_Delete((struct Rec *)p[9]);
     MSGDATA_Delete((struct Rec *)p[8]);
     WORDSET_DeleteStrbufED04((struct WordSet *)p[11]);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void LIVEBATTLEMATCH_FLOW_Release(int *p)
@@ -496,7 +496,7 @@ void LIVEBATTLEMATCH_FLOW_SelectPhase(int p,int *state,char *q)
         break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Card); break;
     case 3: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub); break;
-    default: func_02034714(d_0217E618,0,d_0217E618); break;
+    default: SAVEDATA_PanicFail(d_0217E618,0,d_0217E618); break;
     }
 }
 
@@ -620,11 +620,11 @@ void LIVEBATTLEMATCH_FLOW_Confirm(int *sys,unsigned int *state,u8 *p)
         void *base=GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save);
         void *rules=BATTLE_BOX_GetFromSave(base);
         void *entry=REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base),1);
-        void *tmp=func_0200BAF4((int)rules,0x8056);
+        void *tmp=BATTLE_BOX_CreateParty((int)rules,0x8056);
         BATTLE_BOX_SetLockFlags(rules,2);
         REGULATION_Card_SetValue(((struct LiveBattleMatchWork *)p)->card,10,2);
         REGULATION_BuildParty((int)entry,(int)tmp);
-        func_020307B0(tmp);
+        GFL_HEAP_Free(tmp);
         *state=14;break;
     }
     case 14:DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,15);break;
@@ -652,7 +652,7 @@ void LIVEBATTLEMATCH_FLOW_Battle(int *sys,unsigned int *state,u8 *p)
     case 3:DIGITALCARDCHECK_UpdateMenu(p,39,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,4);break;
     case 4:{
         void *v=REGULATION_NoOp(((struct LiveBattleMatchWork *)p)->card);
-        unsigned sel=func_0200E918(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0);
+        unsigned sel=MISC_SAVEDATA_GetKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0);
         if(sel>=REGULATION_GetRuleValue(v,22))WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Sub);else *state=5;break;
     }
     case 5:DIGITALCARDCHECK_UpdateMenu(p,12,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,6);break;
@@ -748,15 +748,15 @@ void LIVEBATTLEMATCH_FLOW_Result(int *sys,unsigned int *state,u8 *p)
     case 25:if(LIVEBATTLEMATCH_IRC_EndSession(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=26;break;
     case 26:DIGITALCARDCHECK_UpdateMenu(p,36,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,39);break;
     case 27:DIGITALCARDCHECK_UpdateMenu(p,23,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,28);break;
-    case 28:if((((struct LiveBattleMatchWork *)p)->timer)++>120){((struct LiveBattleMatchWork *)p)->timer=0;func_02040588(0,0);*state=29;}break;
+    case 28:if((((struct LiveBattleMatchWork *)p)->timer)++>120){((struct LiveBattleMatchWork *)p)->timer=0;BG_SYS_SetPlaneVisible(0,0);*state=29;}break;
     case 29:DIGITALCARDCHECK_CreateRecord2((char *)p,*(int *)&((struct LiveBattleMatchWork *)p)->partyData);*state=30;break;
     case 30:if(DIGITALCARDCHECK_IsRecord2Done(p))*state=31;break;
     case 31:if((((struct LiveBattleMatchWork *)p)->timer)++>300){((struct LiveBattleMatchWork *)p)->timer=0;*state=32;}break;
-    case 32:func_02040588(0,1);DIGITALCARDCHECK_UpdateMenu(p,24,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,33);break;
+    case 32:BG_SYS_SetPlaneVisible(0,1);DIGITALCARDCHECK_UpdateMenu(p,24,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,33);break;
     case 33:DIGITALCARDCHECK_UpdateMenu(p,35,2);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,34);break;
     case 34:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f);*state=35;break;
     case 35:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f))*state=36;break;
-    case 36:func_02040588(0,1);DIGITALCARDCHECK_UpdateMenu(p,38,2);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,37);break;
+    case 36:BG_SYS_SetPlaneVisible(0,1);DIGITALCARDCHECK_UpdateMenu(p,38,2);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,37);break;
     case 37:
         if((((struct LiveBattleMatchWork *)p)->timer)++>60){
             void *v=REGULATION_NoOp(((struct LiveBattleMatchWork *)p)->card);
@@ -785,7 +785,7 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
     case 3:{
         int a=0;
         int b;
-        u8 index=(unsigned int)func_0200E918(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0);
+        u8 index=(unsigned int)MISC_SAVEDATA_GetKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0);
         func_0200E958(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData+0x20);
         func_0200E978(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,0,(*(u8 **)(p+0x1c4))[8]);
         func_0200E978(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,1,(*(u8 **)(p+0x1c4))[9]);
@@ -794,7 +794,7 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
         case 1:case 4:a=1;break;
         case 0:case 3:b=1;break;
         case 2:break;
-        default:func_02034714(d_0217E618,0,d_0217E618);break;
+        default:SAVEDATA_PanicFail(d_0217E618,0,d_0217E618);break;
         }
         func_0200E920(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,1,a);
         func_0200E920(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,2,b);
@@ -826,7 +826,7 @@ void LIVEBATTLEMATCH_FLOW_Sub(int *a, int *state, u8 *p)
         break;
     case 1:
         record = REGULATION_NoOp(((struct LiveBattleMatchWork *)p)->card);
-        value = func_0200E918(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 0);
+        value = MISC_SAVEDATA_GetKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 0);
         if (value >= REGULATION_GetRuleValue(record, 0x16)) *state = 2;
         else *state = 16;
         break;

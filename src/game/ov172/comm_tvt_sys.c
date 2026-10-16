@@ -13,8 +13,8 @@
  * Cut from draw_system.c, ctvt_comm.c, ctvt_draw.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
  *   COMM_TVT_SYS_IsNetIdle 0x021BE100 thumb ov172
@@ -35,7 +35,7 @@
  *   COMM_TVT_SYS_IsLaunchModeCall 0x021BE0D8 thumb ov172
  *   COMM_TVT_SYS_GetLaunchParams 0x021BE004 thumb ov172
  *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   COMM_TVT_SYS_ClearNameWindows 0x021BE1A4 thumb ov172
  *   COMM_TVT_SYS_SetMemberCount 0x021BE058 thumb ov172
  *   COMM_TVT_SYS_SetSelfSlot 0x021BE0A8 thumb ov172
@@ -65,7 +65,7 @@
  *   COMM_TVT_SYS_ToggleHalfRes 0x021BE08C thumb ov172
  *   COMM_TVT_SYS_GetFont 0x021BE034 thumb ov172
  *   COMM_TVT_SYS_GetMsgData 0x021BE03C thumb ov172
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   COMM_TVT_SYS_OpenConfirmMenu 0x021BE11C thumb ov172
  *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
@@ -75,7 +75,7 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
  *   func_02008510 0x02008510 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   CTVT_TALK_GetMic  0x021B9F98  thumb
  *   CTVT_COMM_SendSlotHit 0x021B8720 thumb ov172
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
@@ -94,6 +94,7 @@
  *   CTVT_CALL_WorkDelete 0x021BD3B8 thumb ov172
  *   CTVT_CALL_WorkMain 0x021BD43C thumb ov172
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
+ *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
 #include "ctvt_types.h"
 
@@ -141,15 +142,15 @@ extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void STRBUF_Delete(struct StrBuf *str);
-extern struct StrBuf *func_02045EC0(struct MsgData *msg, u32 index);
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_020307B0(void *p);
+extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msg, u32 index);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern void GFL_HEAP_Free(void *p);
 extern void CLACT_SetActorDrawEnable(struct ClActor *actor, u32 enable);
 extern void CLACT_RestartActorAnim(struct ClActor *actor);
 extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const void *delta, u32 space);
 extern u32 func_02008530(const struct PeerObj *obj);
 extern struct StrBuf *func_02008510(struct StrBuf *src, int heapId);
-extern u32 func_0201D304(struct StrBuf *str, u32 font, u32 flags);
+extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *str, u32 font, u32 flags);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
 extern struct TimeIcon *TIME_ICON_CreateNode(void *src, void *arg, u8 x, u8 y, u16 heapId);
 extern u32 APP_ENV_IsRunOnTwl(void);
@@ -162,9 +163,9 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
 extern struct GameData *GAME_DATA_Create(u16 heapId);
 extern unsigned int KEY_GetCont(void);
-extern void func_020315D4(struct ProcSys *proc);
+extern void PROCSYS_FreeProcWork(struct ProcSys *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void CTVT_CALL_WorkInit(CtvtWork *work);
 extern void CTVT_CALL_WorkDelete(CtvtWork *work);
@@ -404,8 +405,8 @@ struct TaskMenu *COMM_TVT_SYS_OpenConfirmMenu(CtvtWork *work)
     CtvtMenuTemplate menu = {0};
     CtvtMenuItem items[2] = {0};
     struct TaskMenu *result;
-    items[0].label = func_02045EC0(work->msgData, 34);
-    items[1].label = func_02045EC0(work->msgData, 35);
+    items[0].label = MSGDATA_AllocString(work->msgData, 34);
+    items[1].label = MSGDATA_AllocString(work->msgData, 35);
     items[0].value = 14819;
     items[1].value = 14819;
     items[0].reserved = 0;
@@ -471,7 +472,7 @@ void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
     place.xTable = d_021C704C;
     place.yTable = d_021C7048;
     name = func_02008510(CTVT_COMM_GetSlotParam(work, work->comm, idx), work->heapId);
-    nameWidth = (u8)func_0201D304(name, work->font, 0);
+    nameWidth = (u8)GF_FONT_MeasureWidestLine(name, work->font, 0);
     STRBUF_Delete(name);
     { u32 baseX = place.xTable.b[markerIndex]; place.x = baseX + (nameWidth >> 1); }
     place.y = place.yTable.b[markerIndex];
@@ -520,7 +521,7 @@ int COMM_TVT_SYS_ProcInit(struct ProcSys *proc, int unused, CtvtLaunchParams *la
     work = PROCSYS_AllocProcWork(proc, 0x1fc, 109);
     work->heapId = 109;
     if (launch == 0) {
-        work->launch = func_02030734(1, 16, 1, (const char *)d_021C724C, 1357);
+        work->launch = GFL_HEAP_Alloc(1, 16, 1, (const char *)d_021C724C, 1357);
         work->launch->gameData = GAME_DATA_Create(1);
         work->launch->mode = 0;
         if (KEY_GetCont() & 0x100) work->launch->mode = 1;
@@ -536,9 +537,9 @@ int COMM_TVT_SYS_ProcExit(struct ProcSys *proc, void *unused, int keepLaunch, Ct
 {
     CTVT_CALL_WorkDelete(work);
     if (keepLaunch == 0) {
-        func_020307B0(work->launch);
+        GFL_HEAP_Free(work->launch);
     }
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x6d);
     return 1;
 }
@@ -546,7 +547,7 @@ int COMM_TVT_SYS_ProcExit(struct ProcSys *proc, void *unused, int keepLaunch, Ct
 /* Process main: forwards to the running screen and shows the network error screen once. */
 int COMM_TVT_SYS_ProcMain(void *proc, void *unused1, void *unused2, CtvtWork *work)
 {
-    if (func_0200FB24() != 0 && work->netErrorPending == 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0 && work->netErrorPending == 0) {
         GFL_NET_ERR_RequestScreen();
         work->netErrorPending = 1;
     }

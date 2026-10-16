@@ -33,7 +33,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   POKETRADE_SAVE_FreeIfSet  0x021DFD24  thumb  ov119
  *   POKETRADE_MCSS_SlideCreate  0x021DFB84  thumb  ov119
  *   MCSS_SetAnimCallback  0x02015F2C  thumb
@@ -53,6 +53,7 @@
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm  arm9
  */
 #include "../ov118/pokemontrade_demo_types.h"
 
@@ -96,7 +97,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -112,7 +113,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void POKETRADE_SAVE_FreeIfSet(u32 *p);
 extern void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId);
 extern void MCSS_SetAnimCallback(u32 obj, void *arg, void (*cb)(void), int a);
@@ -237,7 +238,7 @@ void POKETRADE_DEMO_COMMON_ShowUnitActor(void *p)
 
 void POKETRADE_DEMO_COMMON_LoadUnitResources(void *p)
 {
-    void *res = func_020490F4(0x67, ((PokeTradeDemoWork *)p)->heapId);
+    void *res = ARC_TOOL_CreateHandle(0x67, ((PokeTradeDemoWork *)p)->heapId);
     ((PokeTradeDemoWork *)p)->characterHandle = CLACT_RegisterCharacter(res, 2, 0, 0, ((PokeTradeDemoWork *)p)->heapId);
     ((PokeTradeDemoWork *)p)->paletteHandle = CLACT_RegisterPaletteEx(res, 3, 0, 0xE0, 0, 1, ((PokeTradeDemoWork *)p)->heapId);
     ((PokeTradeDemoWork *)p)->cellAnimHandle = CLACT_RegisterCellAnim(res, 1, 0, ((PokeTradeDemoWork *)p)->heapId);
@@ -316,7 +317,7 @@ void POKETRADE_DEMO_COMMON_StepStartSlides(u8 *p)
     Vec b;
 
     POKETRADE_DEMO_COMMON_SetFrame(p, 0);
-    ((PokeTradeDemoWork *)p)->fade = func_02030734(((PokeTradeDemoWork *)p)->heapId, 4, 1, d_021D55B0, 0xF5);
+    ((PokeTradeDemoWork *)p)->fade = GFL_HEAP_Alloc(((PokeTradeDemoWork *)p)->heapId, 4, 1, d_021D55B0, 0xF5);
     ((PokeTradeDemoWork *)p)->fade[0] = POKETRADE_DEMO_COMMON_PassThrough(0xE);
     ((PokeTradeDemoWork *)p)->fade[1] = 0;
     ((PokeTradeDemoWork *)p)->fade[2] = 0;

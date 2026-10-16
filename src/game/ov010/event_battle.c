@@ -16,7 +16,7 @@
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -41,13 +41,13 @@
  *   ENCEFF_SelectEffectAndBgmForTrainer  0x021CF748  thumb  ov021
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   POKE_TOOL_SetupPartyParam  0x0201756C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb  ov021
  *   BTL_SETUP_SetupDemo  0x020135C0  thumb
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   d_02172B54     0x02172B54  data
  *   GAME_DATA_GetSaveBlock43  0x02012FD8  thumb
  *   MISC_SAVEDATA_GetMonEntryFlag   0x0200E740  thumb
@@ -73,9 +73,9 @@
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
  *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  *   COMM_PLAYER_SUPPORT_StashMode  0x0202E80C  thumb
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
- *   func_020056A0  0x020056A0  thumb
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   GAMESYSTEM_ReadTimerTwice  0x02011D34  thumb
  *   FLD_BTL_INST_TOOL_AddBattleTally  0x02168D30  thumb  ov010
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
@@ -194,7 +194,7 @@ typedef struct BattleEndCtx {
 
 extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
-extern struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct GameEvent *p);
 extern void *BTL_SETUP_GetParty(void *p, int i);
 extern void *POKEPARTY_GetMember(void *party, u32 i);
@@ -219,13 +219,13 @@ extern void BTL_SETUP_SetStatusFlag(char *p, int v);
 extern void ENCEFF_SelectEffectAndBgmForTrainer(u32 a, u32 x, int *out, u16 *out2);
 extern void *POKEPARTY_Create(u16 heap);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void POKE_TOOL_SetupPartyParam(void *mon, u16 species, u16 level, u64 id);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKEPARTY_Add(struct PokeParty *p, const struct PokemonParam *src);
 extern void FIELD_ENCOUNT_SetFieldSituation(struct BtlSetup *out, void *a1, void *a2);
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *p1, void *p2, BattleLocation *loc, u32 heap);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *GAME_DATA_GetSaveBlock43(void **p);
 extern u32   MISC_SAVEDATA_GetMonEntryFlag(const void *obj, u32 idx);
 extern void *GAME_EVENT_GetWork(struct GameEvent *p);
@@ -250,9 +250,9 @@ extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
 extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
 extern void COMM_PLAYER_SUPPORT_StashMode(u32 *p);
-extern int func_02034AC4(s32 handle);
-extern void func_02034A5C(s32 handle);
-extern void *func_020056A0(void (*callback)(void *, void *), void *work, u32 key);
+extern int GF_OVERLAY_Load(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
+extern void *GFL_USE_AddMainTask(void (*callback)(void *, void *), void *work, u32 key);
 extern void GAMESYSTEM_ReadTimerTwice(void);
 extern void FLD_BTL_INST_TOOL_AddBattleTally(struct TallyRecord *r, struct Result *s);
 extern int FIELDMAP_GetEncEff(unsigned char *p);
@@ -348,7 +348,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
 
     switch (*state) {
     case 0:
-        taskEvent = func_020122C0(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
+        taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
         work = func_020124E8(taskEvent);
         EVENT_BATTLE_InitTaskWork(work, gameSystem, args->btlSetup);
         hasWildOpponent = 1;
@@ -401,7 +401,7 @@ int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetu
     struct GameEvent *taskEvent;
     ScriptedBattleArgs *args;
 
-    taskEvent = func_020122C0((void *)gameSystem, 0, EVENT_BATTLE_ProcScriptedBattle, 0x10);
+    taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_BATTLE_ProcScriptedBattle, 0x10);
     args = func_020124E8(taskEvent);
     args->gameSystem = (void *)gameSystem;
     args->btlSetup = (BattleKindHead *)btlSetup;
@@ -424,7 +424,7 @@ int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMo
     int records;
     int btlSetup;
 
-    taskEvent = func_020122C0((void *)gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
+    taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
     task = func_020124E8(taskEvent);
     battleObj = FIELDMAP_GetEncount((u8 *)battleSrc);
     records = (int)GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
@@ -452,7 +452,7 @@ int EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetu
     struct GameEvent *taskEvent;
     BattleTask *task;
 
-    taskEvent = func_020122C0((void *)gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
+    taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
     task = func_020124E8(taskEvent);
     EVENT_BATTLE_InitTaskWork(task, (void *)gameSystem, (void *)btlSetup);
     task->isScripted = 0;
@@ -471,7 +471,7 @@ int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *bt
     struct GameEvent *taskEvent;
     BattleTask *task;
 
-    taskEvent = func_020122C0(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
     task = func_020124E8(taskEvent);
     EVENT_BATTLE_InitTaskWork(task, gameSystem, btlSetup);
     task->isScripted = 0;
@@ -507,7 +507,7 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapI
     btlSetup = BTL_SETUP_Create(heapId);
     playerParty = POKEPARTY_Create(tempHeapId);
     opponentParty = POKEPARTY_Create(tempHeapId);
-    pokemon = func_02030734(tempHeapId, POKE_TOOL_GetPartyParamSize(), 1, d_02172B54, 0x1DA);
+    pokemon = GFL_HEAP_Alloc(tempHeapId, POKE_TOOL_GetPartyParamSize(), 1, d_02172B54, 0x1DA);
     POKE_TOOL_SetupPartyParam(pokemon, 572, 7, 0);
     POKE_TOOL_SetPartyValue(pokemon, 0x36, 1);
     POKE_TOOL_SetPartyValue(pokemon, 0x37, 45);
@@ -524,10 +524,10 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapI
     location.battleBg = 5;
     location.terrain = 0;
     BTL_SETUP_SetupDemo(btlSetup, gameData, playerParty, opponentParty, &location, heapId);
-    func_020307B0(pokemon);
-    func_020307B0(opponentParty);
-    func_020307B0(playerParty);
-    battleTask = func_020122C0(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
+    GFL_HEAP_Free(pokemon);
+    GFL_HEAP_Free(opponentParty);
+    GFL_HEAP_Free(playerParty);
+    battleTask = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
     work = func_020124E8(battleTask);
     EVENT_BATTLE_InitTaskWork(work, gameSystem, btlSetup);
     work->isScripted = 1;
@@ -542,9 +542,9 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapI
 /*
  * Every concrete byte matches; the one wildcard is the bl to 0x02012FD8, an
  * unlabelled 12-byte arm9 Thumb leaf (ldr r0,[r0]; tail call
- * func_020071CC(r0, 0x43)) with no label, no shard and so no witness.
- * as `void *GAME_DATA_GetSaveBlock43(void **p) { return func_020071CC(*p, 0x43); }`
- * (symbols: func_020071CC 0x020071CC thumb), which is outside an overlay
+ * SAVE_CONTROL_GetBlock(r0, 0x43)) with no label, no shard and so no witness.
+ * as `void *GAME_DATA_GetSaveBlock43(void **p) { return SAVE_CONTROL_GetBlock(*p, 0x43); }`
+ * (symbols: SAVE_CONTROL_GetBlock 0x020071CC thumb), which is outside an overlay
  * lane's write set; once it has a shard this file should verify EXACT.
  *
  * The level argument to POKE_TOOL_SetupPartyParamEx is passed untruncated here, so its
@@ -658,7 +658,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         (*state)++;
         break;
     case 5:
-        func_02034AC4((s32)ov230_id);
+        GF_OVERLAY_Load((s32)ov230_id);
         FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 0);
         COMM_PLAYER_SUPPORT_StashMode((void *)GAME_DATA_GetPmsWork((int)gameData));
         (*state)++;
@@ -691,7 +691,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
             GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(gameSystem, 0x1E));
         else
             GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(gameSystem));
-        func_02034A5C((s32)ov230_id);
+        GF_OVERLAY_Unload((s32)ov230_id);
         (*state)++;
         break;
     }
@@ -722,7 +722,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         return 1;
     }
     if (integritySum % 0x1933 != 0) {
-        func_020056A0((void (*)(void *, void *))GAMESYSTEM_ReadTimerTwice, 0, 0x7F);
+        GFL_USE_AddMainTask((void (*)(void *, void *))GAMESYSTEM_ReadTimerTwice, 0, 0x7F);
         g_0214624C++;
     }
     return 0;

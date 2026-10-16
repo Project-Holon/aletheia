@@ -13,9 +13,9 @@
  * Cut from manual_category.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020056A0 0x020056A0 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gManualCategoryOptionAllocFile 0x021BC06C data a1
  *   MANUAL_COMMON_SetTouchbarState 0x021BA068 thumb ov225
  *   MANUAL_COMMON_SetTouchbarSelection 0x021BA0F0 thumb ov225
@@ -26,14 +26,14 @@
  *   MANUAL_COMMON_GetTouchbarPressed 0x021BA158 thumb ov225
  *   MANUAL_COMMON_GetTouchbarSelected 0x021BA154 thumb ov225
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   gManualCategorySlotRecords 0x021BBFA8 data a1
@@ -43,7 +43,7 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  */
 #include "manual_category_shared_types.h"
 
@@ -88,11 +88,11 @@ struct ManualOptionOwner {
 
 typedef struct { u8 v[9]; } ManualSlotRecord;
 
-extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MANUAL_COMMON_SetTouchbarState(char *, unsigned);
 
@@ -112,7 +112,7 @@ extern unsigned MANUAL_COMMON_GetTouchbarSelected(char *p);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
@@ -126,7 +126,7 @@ extern void BMP_Clear(struct CharBuf *p,u8 value);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *p);
 
-extern void *func_02045EC0(struct MsgBank *p,u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *p,u32 index);
 
 extern void PRINTSYS_PrintQueColor(void *p,u32 a,u32 b,u32 c,u32 d,u32 e,u16 f);
 
@@ -144,7 +144,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *p);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_02041B6C(u32 channel);
+extern void BG_SYS_SetFlagField06(u32 channel);
 
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data);
 
@@ -178,7 +178,7 @@ extern const ManualSlotRecord gManualCategorySlotRecords[];
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
 {
     char *q;
-    q = func_02030734(((struct ManualData *)data)->heap, 64, 1, gManualCategoryOptionAllocFile, 156);
+    q = GFL_HEAP_Alloc(((struct ManualData *)data)->heap, 64, 1, gManualCategoryOptionAllocFile, 156);
     *(char * *)&((struct ManualOptionWork *)q)->owner = p;
     ((struct ManualOptionOwner *)p)->closeFlag = 0;
     *(char * *)&((struct ManualOptionWork *)q)->data = data;
@@ -187,7 +187,7 @@ char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
     MANUAL_CATEGORY_LoadOptionAssets(q);
     MANUAL_CATEGORY_SetOptionBgMode(q);
     MANUAL_CATEGORY_CreateOptionSlots((u8 *)q);
-    ((struct ManualOptionWork *)q)->task = func_020056A0((unsigned)MANUAL_CATEGORY_OptionTaskNoop, (unsigned)q, 1);
+    ((struct ManualOptionWork *)q)->task = GFL_USE_AddMainTask((unsigned)MANUAL_CATEGORY_OptionTaskNoop, (unsigned)q, 1);
     ((struct ManualOptionWork *)q)->state = 0;
     q[0x3c] = -1;
     MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, 3);
@@ -196,7 +196,7 @@ char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
     return q;
 }
 
-void MANUAL_CATEGORY_DeleteOption(char *p) { MANUAL_COMMON_SetScreenId(*(char * *)&((struct ManualOptionWork *)p)->data,MANUAL_COMMON_GetDefaultId(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->assets)); TCB_DeleteTask(*(struct Node * *)&((struct ManualOptionWork *)p)->task); func_020307B0(p); }
+void MANUAL_CATEGORY_DeleteOption(char *p) { MANUAL_COMMON_SetScreenId(*(char * *)&((struct ManualOptionWork *)p)->data,MANUAL_COMMON_GetDefaultId(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->assets)); TCB_DeleteTask(*(struct Node * *)&((struct ManualOptionWork *)p)->task); GFL_HEAP_Free(p); }
 
 int MANUAL_CATEGORY_UpdateOption(char *p)
 {
@@ -263,7 +263,7 @@ void MANUAL_CATEGORY_OptionTaskNoop(void *p)
 void MANUAL_CATEGORY_LoadOptionAssets(char *p)
 {
     func_02049B68((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
-    func_02049658((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
     ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 6, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
 }
 
@@ -290,7 +290,7 @@ void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
     ((struct ManualOptionWork *)p)->que[0]=((struct ManualData *)owner)->printQue[0];
     *(u32 *)&((struct ManualOptionWork *)p)->que[1]=(u32)((struct ManualData *)owner)->printQue[0];
     ((struct ManualOptionWork *)p)->que[2]=((struct ManualData *)owner)->printQue[1];
-    string=(struct U16Vec *)func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)owner)->bank[1],((struct ManualOptionOwner *)(*(u8 * *)&((struct ManualOptionWork *)p)->owner))->selectedId);
+    string=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)owner)->bank[1],((struct ManualOptionOwner *)(*(u8 * *)&((struct ManualOptionWork *)p)->owner))->selectedId);
     PRINTSYS_PrintQueColor(((struct ManualOptionWork *)p)->que[1],(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualOptionWork *)p)->bg[1]),0,1,(u32)string,(u32)((struct ManualData *)(*(u8 * *)&((struct ManualOptionWork *)p)->data))->font,0x3C40);
     STRBUF_Delete(string);
     ((struct ManualOptionWork *)p)->flag[1]=1;
@@ -311,7 +311,7 @@ void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
                 descriptor=*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg;
                 BMP_WIN_TransferChars(descriptor);
                 BMP_WIN_MakeScreen((struct Cfg *)descriptor);
-                func_02041B6C(BMP_WIN_GetBgLayer(descriptor));
+                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(descriptor));
                 ((struct ManualOptionWork *)slot)->flag[0]=0;
             }
         }
@@ -324,7 +324,7 @@ void MANUAL_CATEGORY_DrawOption(char *p)
 
     PRINTSYS_QUE_Clear(((struct ManualOptionWork *)p)->que[2]);
     BMP_Clear(BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]), 0);
-    r = func_02045EC0(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->bank[1],
+    r = MSGDATA_AllocString(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->bank[1],
                       *(u16 *)(*(char * *)&((struct ManualOptionWork *)p)->owner + (((struct ManualOptionWork *)p)->cursor << 2) + 6));
     PRINTSYS_PrintQueColor(((struct ManualOptionWork *)p)->que[2], (u32)BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]),
                   4, 6, (u32)r, (u32)((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->font, 0x440);

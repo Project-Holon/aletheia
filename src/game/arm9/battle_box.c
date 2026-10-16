@@ -15,9 +15,9 @@
  * symbols:
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   MI_CpuFill8          0x02082BCC  arm
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
@@ -27,6 +27,7 @@
  *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "battle_rec_types.h"
 typedef unsigned char u8;
@@ -71,11 +72,11 @@ extern u32 POKE_TOOL_GetBoxValue(struct BoxMon *mon, u32 param, u32 arg);
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
@@ -152,7 +153,7 @@ void BATTLE_BOX_Init(struct BattleBoxSave *box)
     for (i = 0; i < 6; i++) {
         POKE_TOOL_ClearBoxParam(&box->group.mon[i]);
     }
-    msg = func_02045B38(0, 2, 9, 1);
+    msg = MSGDATA_CreateFromArchive(0, 2, 9, 1);
     if (msg != 0) {
         MSGDATA_ReadUnits(msg, 6, box->boxName, sizeof(box->boxName));
         MSGDATA_Delete(msg);
@@ -165,7 +166,7 @@ void BATTLE_BOX_Init(struct BattleBoxSave *box)
  */
 struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x31);
+    return SAVE_CONTROL_GetBlock(save, 0x31);
 }
 
 /*
@@ -184,7 +185,7 @@ struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save)
  *
  * It is a range of its own because the function on either side of it is a
  * near miss: BATTLE_BOX_GetFromSave before it, which has no witness for 0x020271CC,
- * and func_0200BAF4 after it, which is fifteen bytes of register numbering.
+ * and BATTLE_BOX_CreateParty after it, which is fifteen bytes of register numbering.
  * Its only caller, BATTLE_BOX_StoreParty, is therefore outside this range and is what
  * attests it. *
  */
@@ -221,7 +222,7 @@ struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap)
         }
         mon = POKE_TOOL_CreateFromBoxParam(mon, (u16)tempHeap);
         POKEPARTY_Add(party, mon);
-        func_020307B0(mon);
+        GFL_HEAP_Free(mon);
     }
     return party;
 }
@@ -258,9 +259,9 @@ void BATTLE_BOX_StoreParty(struct BoxMonGroup *box, struct Party *party)
  *
  * BATTLE_BOX_GetMon, which it calls, is the first function of
  * src/matched/unit_0200BBC8.c; the other caller of that address is
- * func_0200BAF4 at 0x0200BB1E, and that call is what attests it here.
+ * BATTLE_BOX_CreateParty at 0x0200BB1E, and that call is what attests it here.
  *
- * func_0200BAF4 itself is a near miss.  Its 100 bytes reproduce in size and
+ * BATTLE_BOX_CreateParty itself is a near miss.  Its 100 bytes reproduce in size and
  * in every instruction, and fifteen bytes differ, all of them register
  * numbers: the original keeps the id parameter in r5 and the loop counter in
  * r4, where this source coalesces the two into r4 because the counter is born

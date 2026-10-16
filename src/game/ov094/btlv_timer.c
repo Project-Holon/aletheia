@@ -13,16 +13,16 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BTLV_TIMER_Create  0x02209224  thumb  ov094
  *   BTLV_TIMER_Delete 0x022092E8 thumb ov094
- *   func_02030EAC 0x02030EAC arm
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   BTLV_TIMER_Start 0x02209318 thumb ov094
  *   BTLV_TIMER_SetVisible  0x022094BC  thumb  ov094
  *   BTLV_TIMER_IsExpired  0x02209500  thumb ov094
- *   func_02030734  0x02030734  arm
- *   func_020490F4 0x020490F4 arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
@@ -43,7 +43,7 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   sBtlvTimerSiteName     0x0220AEE0  data  ov094
- *   func_020870D0 0x020870D0 arm
+ *   OS_GetTick 0x020870D0 arm
  *   sBtlvTimerRowY 0x0220ABC0 data a4
  *   sBtlvTimerColumnX 0x0220ABC8 data a4
  *   sBtlvTimerSpriteZ 0x0220ABE0 data a4
@@ -53,9 +53,9 @@
 #include "btlv_effect_shared_types.h"
 #include "btlv_timer_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern int BTLV_EFFECT_GetPalanm(void);
 
@@ -97,19 +97,19 @@ extern void CLACT_ReleasePalette(u32 paletteId);
 
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 
-extern u32 func_020307B0(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern struct ClactActor *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 
-extern u64 func_020870D0(void);
+extern u64 OS_GetTick(void);
 
-extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
+extern void *TCB_AddTask(void *, void (*)(void *, void *), void *, u32);
 
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 
-extern void func_02030EAC(struct Task *task);
+extern void TCB_DeleteTask(struct Task *task);
 
 extern void CLACT_SetUnitDrawEnable(struct ClactUnit *unit, u32 mode);
 
@@ -153,9 +153,9 @@ BtlvTimer *BTLV_TIMER_Create(u16 heapId)
     void *archive;
     void *palSlots;
 
-    timer = func_02030734(heapId, 0x78, 1, sBtlvTimerSiteName, 0x81);
+    timer = GFL_HEAP_Alloc(heapId, 0x78, 1, sBtlvTimerSiteName, 0x81);
     timer->heapId = heapId;
-    archive = func_020490F4(0xb, (u16)((timer->heapId & 0x7fff) | 0x8000));
+    archive = ARC_TOOL_CreateHandle(0xb, (u16)((timer->heapId & 0x7fff) | 0x8000));
     timer->unit[0] = CLACT_CreateUnit(6, 0, timer->heapId);
     timer->unit[1] = CLACT_CreateUnit(6, 0, timer->heapId);
     timer->charResId = CLACT_RegisterCharacter(archive, 0x7a, 0, 0, timer->heapId);
@@ -175,7 +175,7 @@ void BTLV_TIMER_Delete(BtlvTimer *timer)
     CLACT_ReleasePalette(timer->paletteResId);
     CLACT_DeleteUnit(timer->unit[0]);
     CLACT_DeleteUnit(timer->unit[1]);
-    func_020307B0(timer);
+    GFL_HEAP_Free(timer);
 }
 
 /*
@@ -214,11 +214,11 @@ void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy)
     if (secondsEnemy > 5999) secondsEnemy = 5999;
     timer->limit[0] = secondsPlayer;
     timer->limit[1] = secondsEnemy;
-    timer->startTick[1] = func_020870D0();
+    timer->startTick[1] = OS_GetTick();
     timer->startTick[0] = timer->startTick[1];
     BTLV_TIMER_SetVisible(timer, 0, 0, 0);
     BTLV_TIMER_SetVisible(timer, 1, 0, 0);
-    timer->tickTask = func_02030DA8(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_TIMER_TickTask, timer, 0);
+    timer->tickTask = TCB_AddTask(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_TIMER_TickTask, timer, 0);
 }
 
 void BTLV_TIMER_DeleteActors(BtlvTimer *timer)
@@ -235,11 +235,11 @@ void BTLV_TIMER_DeleteActors(BtlvTimer *timer)
         }
     }
     if (timer->tickTask != 0) {
-        func_02030EAC(timer->tickTask);
+        TCB_DeleteTask(timer->tickTask);
         timer->tickTask = 0;
     }
     if (timer->spareTask != 0) {
-        func_02030EAC(timer->spareTask);
+        TCB_DeleteTask(timer->spareTask);
         timer->spareTask = 0;
     }
 }
@@ -248,7 +248,7 @@ void BTLV_TIMER_SetVisible(BtlvTimer *timer, int side, int visible, int restart)
 {
     if (timer->side[side].actor[0] != 0) {
         if (visible == 1 && restart == 1) {
-            timer->startTick[side] = func_020870D0();
+            timer->startTick[side] = OS_GetTick();
             timer->animBase[side] = 0;
             BTLV_TIMER_Redraw(timer, side);
         }
@@ -260,7 +260,7 @@ int BTLV_TIMER_IsExpired(BtlvTimer *timer, int side)
 {
     u64 elapsed;
 
-    elapsed = func_020870D0() - timer->startTick[side];
+    elapsed = OS_GetTick() - timer->startTick[side];
     elapsed = (elapsed << 6) / 33514000ULL;
     return timer->limit[side] - (int)elapsed <= 0;
 }
@@ -272,7 +272,7 @@ void BTLV_TIMER_Redraw(BtlvTimer *timer, int side)
 {
     SidePair warningSeconds = sBtlvTimerWarningSeconds;
     int iconOffset = side == 0 ? BTLV_TIMER_SIDE_PLAYER : BTLV_TIMER_SIDE_ENEMY;
-    int remaining = timer->limit[side] - (int)(((func_020870D0() - timer->startTick[side]) * 64) / 33514000);
+    int remaining = timer->limit[side] - (int)(((OS_GetTick() - timer->startTick[side]) * 64) / 33514000);
     int minutes, seconds, minuteTens, minuteOnes, secondTens, secondOnes;
     if (timer->side[side].actor[BTLV_TIMER_SLOT_ICON] == 0)
         return;

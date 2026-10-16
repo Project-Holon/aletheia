@@ -22,7 +22,7 @@
  *   gMslTwlFlag  0x02153B88  data
  *   OS_LockMutex  0x02086028  arm
  *   OS_TryLockMutex  0x020860D0  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   MSL_CONSOLE_IO_RegisterDestructor  0x0209D728  arm
  *   gMslRefToken  0x02150FEC  data
  *   g_02153B8C  0x02153B8C  data
@@ -48,7 +48,7 @@ extern void OS_LockMutex(void *mutex);
 
 extern int OS_TryLockMutex(void *mutex);
 
-extern void func_02086078(void *mutex);
+extern void OS_UnlockMutex(void *mutex);
 
 extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
 
@@ -234,7 +234,7 @@ void MSL_C_LIB_SetTwlFlag(int x)
  *   MATCH  compiled 204 = original 204, 7 of 8 sites resolved
  *     +0010 OS_TryLockMutex [label x20]   +0070 OS_LockMutex [label x25]
  *     +0090 MSL_CONSOLE_IO_RegisterDestructor [UNRESOLVED - no witness outside this range]
- *     +00B0 func_02086078 [label x25]
+ *     +00B0 OS_UnlockMutex [label x25]
  *     +00BC gMslMutexTable [literal x15]    +00C0 gMslRefToken [literal x60]
  *     +00C4 g_02153B8C [literal x15]    +00C8 g_02153BB0 [literal x15]
  *   every concrete byte right, no wildcard byte is inside a branch opcode.
@@ -255,7 +255,7 @@ u32 MSL_C_LIB_LockRegisterDestructor(u32 arg)
     }
     r = MSL_CONSOLE_IO_RegisterDestructor(arg);
     if (--g_02153BB0 == 0) {
-        func_02086078(gMslMutexTable);
+        OS_UnlockMutex(gMslMutexTable);
     }
     return r;
 }

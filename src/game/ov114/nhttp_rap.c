@@ -23,14 +23,14 @@
  *   NHTTP_SetRootCA 0x021BE9C8 arm ov114
  *   NHTTP_AddHeaderField 0x021BE6BC arm ov114
  *   NHTTP_SetBasicAuthorization 0x021BE8E8 arm ov114
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0208D80C 0x0208D80C arm
  *   NHTTP_StartConnection  0x021BF308  arm  ov114
  *   NHTTP_Cleanup  0x021BE698  arm  ov114
  *   NHTTP_DeleteConnection  0x021BF184  arm  ov114
  *   NHTTP_GetResultCode  0x021BE880  arm  ov114
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   sNHTTPRapCryptoHeapId 0x021CE31C data a2
  *   sNHTTPRapSignatureModulus 0x021CE320 data a4
@@ -47,6 +47,7 @@
  *   NHTTP_RAP_EvilCheckCryptoAlloc 0x021B9AA8 thumb ov114
  *   NHTTP_RAP_EvilCheckCryptoFree 0x021B9AF8 thumb ov114
  *   STD_CopyString  0x0208CADC  arm  arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
@@ -65,7 +66,7 @@ extern int NHTTP_AddHeaderField(NHTTPConnection *connection_p, const char *label
 
 extern int NHTTP_SetBasicAuthorization(NHTTPConnection *connection_p, char *username_p, char *password_p);
 
-extern void func_02034714(const char *,u32,const char *);
+extern void SAVEDATA_PanicFail(const char *,u32,const char *);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
@@ -85,9 +86,9 @@ extern int NHTTP_GetConnectionProgress(NHTTPConnection *connection_p, int *recei
 
 extern int NHTTP_GetHeaderAll(NHTTPConnection *connection_p, char **value_pp);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *GFL_NET_AllocAligned(unsigned int a, unsigned int size, const char *c, unsigned short d);
 
@@ -185,7 +186,7 @@ int NHTTP_RAP_CreateRequest(int index, NHTTPRapSession *session_p)
 {
     NHTTPConnection *connection_p;
     if(NHTTP_Startup(NHTTP_RAP_Alloc,NHTTP_RAP_Free,12)!=0) {
-        func_02034714(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(session_p==0) return 0;
@@ -193,23 +194,23 @@ int NHTTP_RAP_CreateRequest(int index, NHTTPRapSession *session_p)
     if(index==4) func_0208D80C(session_p->url,400,sNHTTPRapRequestTable[index].urlFormat,session_p->source_p+69);
     else func_0208D80C(session_p->url,400,sNHTTPRapRequestTable[index].urlFormat,session_p->gameCode,21,2,1,session_p->source_p+69);
     connection_p=NHTTP_CreateConnection(session_p->url,sNHTTPRapRequestTable[index].method,session_p->recvBuf,1024,NHTTP_RAP_ConnectionCallback,session_p);
-    if(connection_p==0) func_02034714(sNHTTPRapStrings,0,sNHTTPRapStrings);
+    if(connection_p==0) SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
     if(connection_p==0) return 0;
     session_p->connection_p=connection_p;
     if(NHTTP_SetRootCA(connection_p,sNHTTPRapRootCA,1)<0) {
-        func_02034714(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(NHTTP_AddHeaderField(connection_p,sNHTTPRapStrings+4,sNHTTPRapStrings+12)!=0) {
-        func_02034714(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(NHTTP_AddHeaderField(connection_p,sNHTTPRapStrings+16,sNHTTPRapStrings+28)!=0) {
-        func_02034714(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(NHTTP_SetBasicAuthorization(connection_p,sNHTTPRapStrings+40,sNHTTPRapStrings+48)!=0) {
-        func_02034714(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     return 1;
@@ -280,7 +281,7 @@ char *NHTTP_RAP_GetRecvBuffer(NHTTPRapSession *session_p) { if(session_p==0) ret
 
 NHTTPRapSession *NHTTP_RAP_Create(u32 heapId, u32 gameCode, char *source_p)
 {
-    NHTTPRapSession *session_p = func_02030734(heapId, 0x5a8, 1, (const char *)0x021CE310, 0x1aa);
+    NHTTPRapSession *session_p = GFL_HEAP_Alloc(heapId, 0x5a8, 1, (const char *)0x021CE310, 0x1aa);
 
     *(NHTTPRapSession **)0x021CF960 = session_p;
     session_p->gameCode = gameCode;
@@ -296,7 +297,7 @@ void NHTTP_RAP_Destroy(NHTTPRapSession *session_p)
     if (session_p == 0)
         return;
     NHTTP_RAP_FreePostData(session_p);
-    func_020307B0(session_p);
+    GFL_HEAP_Free(session_p);
 }
 
 void NHTTP_RAP_WritePostHeader(NHTTPRapSession *session_p, int id)
@@ -343,7 +344,7 @@ int NHTTP_RAP_CreatePostRequest(NHTTPRapSession *session_p)
     NHTTPConnection *connection_p;
     if (session_p == 0) return 0;
     if (NHTTP_Startup(NHTTP_RAP_Alloc, NHTTP_RAP_Free, 12) != 0) {
-        func_02034714(sNHTTPRapStrings, 0, sNHTTPRapStrings);
+        SAVEDATA_PanicFail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
         return 0;
     }
     MI_CpuFill8(session_p->url, 0, 4);
@@ -351,12 +352,12 @@ int NHTTP_RAP_CreatePostRequest(NHTTPRapSession *session_p)
     connection_p = NHTTP_CreateConnection((char *)sNHTTPRapRequestTable[7].urlFormat, sNHTTPRapRequestTable[7].method, session_p->recvBuf, 0x400, NHTTP_RAP_ConnectionCallback, 0);
     if (connection_p == 0) {
         NHTTP_GetError();
-        if (connection_p == 0) func_02034714(sNHTTPRapStrings, 0, sNHTTPRapStrings);
+        if (connection_p == 0) SAVEDATA_PanicFail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
         return 0;
     }
     session_p->connection_p = connection_p;
     if (NHTTP_SetRootCA(connection_p, sNHTTPRapRootCA, 1) < 0) {
-        func_02034714(sNHTTPRapStrings, 0, sNHTTPRapStrings);
+        SAVEDATA_PanicFail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
         return 0;
     }
     NHTTP_AddPostDataRaw(connection_p, session_p->postBuf_p, session_p->postLen);

@@ -22,7 +22,7 @@
  *   gSpeciesNameBank      0x020A7370  data
  *   MIi_CpuCopy32 0x02082A90  arm
  *   OS_GetMacAddress 0x02087C6C  arm
- *   func_0200E918  0x0200E918  thumb
+ *   MISC_SAVEDATA_GetKeyByte  0x0200E918  thumb
  *   func_0200E938  0x0200E938  thumb
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -165,7 +165,7 @@ extern void  OS_GetMacAddress(void *obj);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern u8 func_0200E918(const u8 *base, u32 idx);
+extern u8 MISC_SAVEDATA_GetKeyByte(const u8 *base, u32 idx);
 
 extern void func_0200E938(u8 *obj, u32 id, void *dest);
 
@@ -175,7 +175,7 @@ extern void func_0200E904(void *p);
 
 extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 
-extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
 extern u32 POKEPARTY_GetCount(void *p);
 
@@ -698,7 +698,7 @@ void MISC_SAVEDATA_SetKeyField(u8 *obj, u32 id, u32 extra, u8 value)
 }
 
 /*
- * Linear search over up to 10 stored 6-byte keys: func_0200E918(base, 0)
+ * Linear search over up to 10 stored 6-byte keys: MISC_SAVEDATA_GetKeyByte(base, 0)
  * gives the stored count (capped at 10), func_0200E938 copies the i'th key
  * into a stack buffer, and GF_STANDARD_CompareBytes (DWC's own key comparator)
  * compares it against the caller's key. Returns 1 on the first match, 0
@@ -717,7 +717,7 @@ void MISC_SAVEDATA_SetKeyField(u8 *obj, u32 id, u32 extra, u8 value)
 u32 MISC_SAVEDATA_FindKey(void *keys, void *key)
 {
     int i;
-    int count = func_0200E918(keys, 0);
+    int count = MISC_SAVEDATA_GetKeyByte(keys, 0);
     u8 buf[6];
 
     if (count > 10) {
@@ -760,7 +760,7 @@ void MISC_SAVEDATA_InitMacAndStats(void *record)
  */
 void *MISC_SAVEDATA_GetBlock3C(void *saveData)
 {
-    return func_020071CC(saveData, 0x3c);
+    return SAVE_CONTROL_GetBlock(saveData, 0x3c);
 }
 
 /*
@@ -1079,7 +1079,7 @@ void MISC_SAVEDATA_InitShortBlock(void *block)
 
 void *MISC_SAVEDATA_GetBlock44(void *saveData)
 {
-    return func_020071CC(saveData, 0x44);
+    return SAVE_CONTROL_GetBlock(saveData, 0x44);
 }
 
 /*

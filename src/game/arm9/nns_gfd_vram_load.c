@@ -27,6 +27,10 @@
  *   NNSi_GfdRingIsFull  0x02061860  arm
  *   GX_LoadOAM  0x0207E684  arm
  *   GXS_LoadOAM  0x0207E708  arm
+ *   GXS_LoadBGPltt  0x0207E468  arm
+ *   GXS_LoadOBJPltt  0x0207E5D0  arm
+ *   GX_LoadOBJ  0x0207E780  arm
+ *   GXS_LoadOBJ  0x0207E804  arm
  */
 
 typedef unsigned int u32;
@@ -66,7 +70,7 @@ extern void func_0207F308(void);
 extern void func_0207F394(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207F428(void);
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207E780(const void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207EEFC(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207F024(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207F14C(const void *pSrc, u32 offset, u32 szByte);
@@ -75,8 +79,8 @@ extern void func_0207E944(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207EABC(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207EC34(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207EDAC(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207E5D0(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207E468(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadOBJPltt(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadBGPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207F6A8(void);
 extern void func_0207F6C0(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207F754(void);
@@ -84,7 +88,7 @@ extern void func_0207F5B0(void);
 extern void func_0207F5C8(const void *pSrc, u32 offset, u32 szByte);
 extern void func_0207F65C(void);
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);
-extern void func_0207E804(const void *pSrc, u32 offset, u32 szByte);
+extern void GXS_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
 extern void DWCi_ScreenDC_FlushRange(u32, u32);
 extern int NNSi_GfdRingIsFull(NNSiGfdVramTransferTaskQueue *pQueue);
 extern u32 NNSi_GfdRingNextIndex(NNSiGfdVramTransferTaskQueue *pQueue, u32 index);
@@ -146,7 +150,7 @@ void NNSi_GfdLoadMainOam(const void *pSrc, u32 offset, u32 szByte)
 
 void NNSi_GfdLoadMainObjChar(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207E780(pSrc, offset, szByte);
+    GX_LoadOBJ(pSrc, offset, szByte);
 }
 
 
@@ -212,13 +216,13 @@ void NNSi_GfdLoadSubBg3ScrAffine(const void *pSrc, u32 offset, u32 szByte)
 
 void NNSi_GfdLoadSubObjPltt(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207E5D0(pSrc, offset, szByte);
+    GXS_LoadOBJPltt(pSrc, offset, szByte);
 }
 
 
 void NNSi_GfdLoadSubBgPltt(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207E468(pSrc, offset, szByte);
+    GXS_LoadBGPltt(pSrc, offset, szByte);
 }
 
 
@@ -246,7 +250,7 @@ void NNSi_GfdLoadSubOam(const void *pSrc, u32 offset, u32 szByte)
 
 void NNSi_GfdLoadSubObjChar(const void *pSrc, u32 offset, u32 szByte)
 {
-    func_0207E804(pSrc, offset, szByte);
+    GXS_LoadOBJ(pSrc, offset, szByte);
 }
 
 

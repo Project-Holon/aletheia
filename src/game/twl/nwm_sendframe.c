@@ -18,6 +18,7 @@
  *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -32,7 +33,7 @@ extern TwlWork *NWMi_GetSystemWork(void);
 extern u32 NWMi_CheckState(u32, u32);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-extern void func_020862D4(void *, u32);
+extern void DC_StoreRange(void *, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32, void *, u32);
 extern void MI_CpuCopy8(u32, u32, u32);
 void NWMi_AddMACHeader(u32 a0, u32 a1, u8 *a2, u32 a3);
@@ -52,9 +53,9 @@ u32 NWM_SendFrame(u32 a0, u32 a1, u8 *a2, u32 a3) {
         OS_RestoreInterrupts(saved);
         return 5;
     }
-    func_020862D4(a2, a3);
+    DC_StoreRange(a2, a3);
     NWMi_AddMACHeader(a1, (u32)(w->buf + 0x40), a2, a3);
-    func_020862D4(a2, 0xE);
+    DC_StoreRange(a2, 0xE);
     r = NWMi_SendCommand(0xB, 3, a0, a2, a3);
     if (r == 0) {
         return 2;

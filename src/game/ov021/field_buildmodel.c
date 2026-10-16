@@ -14,12 +14,12 @@
  * Split from field_msgbg.c at 0x0218B754: field_buildmodel.c __FILE__ anchor in its allocation call.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gBuildModelFileName     0x021DD9CC  data  ov021  a4
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   func_0204961C  0x0204961C  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -27,7 +27,7 @@
  *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
  *   G3D_SYSTEM_TransVramTextureAndCut  0x020470A8  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   gBuildModelAnimKindTable     0x021D3DC4  data  a4
  *   TIMEZONE_GetNowTimeZone  0x020113D8  thumb
  *   gBuildModelSeasonAnimSlot     0x021D3D50  data  a4
@@ -57,7 +57,7 @@
  *   FIELD_G3D_MAP_ClearPlacement  0x0216940C  thumb
  *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
  *   VEC_Add  0x0207C9D0  arm
- *   func_0207AF1C  0x0207AF1C  thumb
+ *   MTX_RotY33_  0x0207AF1C  thumb
  *   FX_SinCosTable_     0x020A1B38  data   a2
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   gBuildModelKindTable     0x021D3D88  data   a2
@@ -258,18 +258,18 @@ typedef struct BuildModelMan {
 
 
 extern u32 MI_CpuFill8(void *, int, u32);
-extern void *func_02030734(u16, u32, u32, const void *, u32);
-extern u32 func_020307B0(void *);
+extern void *GFL_HEAP_Alloc(u16, u32, u32, const void *, u32);
+extern u32 GFL_HEAP_Free(void *);
 extern u32 ZONEDATA_GetAreaId(u32 id);
 extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
-extern void *func_020490F4(u32, u32);
+extern void *ARC_TOOL_CreateHandle(u32, u32);
 extern u16 func_0204961C(void *obj);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *);
 void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
 u32 G3D_SYSTEM_TransVramTextureAndCut(void *p);
 int G3D_SYSTEM_FreeVramTexture(u32 *p);
-void func_02046EFC(struct Tagged *p);
+void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 u32 TIMEZONE_GetNowTimeZone(u32 row);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(struct S02046CE0 *out, u32 *tag);
@@ -295,7 +295,7 @@ extern u32 *FIELD_G3D_MAP_GetPlacement(u8 *base, u32 idx);
 extern void FIELD_G3D_MAP_ClearPlacement(void *o, u32 i);
 extern void FIELD_G3D_MAP_GetPos(int o, BuildModelVec *v);
 extern void VEC_Add(void *, void *, void *);
-extern void func_0207AF1C(void *m, int a, int b);
+extern void MTX_RotY33_(void *m, int a, int b);
 void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 int GFL_USE_GetSeSlot(u32 a0);
 int GFL_USE_IsSeSlotBusy(u32 a0);
@@ -409,7 +409,7 @@ BuildModelMan *FIELD_BUILDMODEL_Create(u16 heapId, void *fieldMap, u16 dateKey)
     unsigned j;
     int z = 0;
 
-    man = (BuildModelMan *)func_02030734(heapId, 0x13F8, 0, gBuildModelFileName, 0x193);
+    man = (BuildModelMan *)GFL_HEAP_Alloc(heapId, 0x13F8, 0, gBuildModelFileName, 0x193);
     man->heapId = heapId;
     man->fieldMap = fieldMap;
     FIELD_BUILDMODEL_InitSeason(&man->season, dateKey);
@@ -442,7 +442,7 @@ void FIELD_BUILDMODEL_Delete(BuildModelMan *man)
     FIELD_BUILDMODEL_DeleteModels(man);
     FIELD_BUILDMODEL_FreeModelArchive(man);
     FIELD_BUILDMODEL_DeleteG3dResources(man);
-    func_020307B0(man);
+    GFL_HEAP_Free(man);
 }
 
 void FIELD_BUILDMODEL_UpdateSeason(BuildModelMan *man)
@@ -626,7 +626,7 @@ void FIELD_BUILDMODEL_LoadModelArchive(BuildModelMan *man, u16 archiveId, u32 me
     void *arc;
     u8 *data;
 
-    arc = func_020490F4(archiveId, (u16)((man->heapId & 0x7fff) | 0x8000));
+    arc = ARC_TOOL_CreateHandle(archiveId, (u16)((man->heapId & 0x7fff) | 0x8000));
     if (func_0204961C(arc) <= member)
         member = 0;
     data = ARC_TOOL_LoadHandleMember(arc, member, man->heapId);
@@ -639,7 +639,7 @@ void FIELD_BUILDMODEL_LoadModelArchive(BuildModelMan *man, u16 archiveId, u32 me
 
 int FIELD_BUILDMODEL_FreeModelArchive(BuildModelMan *man)
 {
-    func_020307B0(man->archive);
+    GFL_HEAP_Free(man->archive);
     man->modelCount = 0;
     return 107 << 2;
 }
@@ -720,7 +720,7 @@ void FIELD_BUILDMODEL_DeleteG3dResources(BuildModelMan *man)
 {
     if (man->g3dResources != 0) {
         G3D_SYSTEM_FreeVramTexture(man->g3dResources);
-        func_02046EFC(man->g3dResources);
+        G3D_SYSTEM_DeleteResource(man->g3dResources);
         man->g3dResources = 0;
     }
 }
@@ -793,7 +793,7 @@ void FIELD_BUILDMODEL_CreateModels(BuildModelMan *man, int extraResource)
     unsigned char i;
     if (n != 0) {
         man->modelInfoCount = n;
-        man->modelInfos = func_02030734(man->heapId, n * 0x18, 1, gBuildModelFileName, 0x45F);
+        man->modelInfos = GFL_HEAP_Alloc(man->heapId, n * 0x18, 1, gBuildModelFileName, 0x45F);
         for (i = 0; i < man->modelInfoCount; i++)
             FIELD_BUILDMODEL_LoadModel(man, &man->modelInfos[i], i, extraResource);
     }
@@ -805,7 +805,7 @@ void FIELD_BUILDMODEL_DeleteModels(BuildModelMan *man)
     if (man->modelInfos != 0) {
         for (i = 0; i < man->modelInfoCount; i++)
             FIELD_BUILDMODEL_FreeModel(&man->modelInfos[i]);
-        func_020307B0(man->modelInfos);
+        GFL_HEAP_Free(man->modelInfos);
         man->modelInfoCount = 0;
         man->modelInfos = 0;
     }
@@ -818,9 +818,9 @@ void FIELD_BUILDMODEL_CreateAnimSets(BuildModelMan *man, BuildModelHandleTable *
     n = man->modelCount;
     if (n != 0) {
         out->count = n;
-        out->handles = func_02030734(man->heapId, n << 3, 1, gBuildModelFileName, 0x490);
+        out->handles = GFL_HEAP_Alloc(man->heapId, n << 3, 1, gBuildModelFileName, 0x490);
         man->animSetCount = n;
-        man->animSets = func_02030734(man->heapId, n * 0x18, 1, gBuildModelFileName, 0x494);
+        man->animSets = GFL_HEAP_Alloc(man->heapId, n * 0x18, 1, gBuildModelFileName, 0x494);
         for (i = 0; i < man->animSetCount; i++) {
             BuildModelAnimSet *sets = man->animSets;
             BuildModelModel *models = man->modelInfos;
@@ -835,17 +835,17 @@ void FIELD_BUILDMODEL_DeleteAnimSets(BuildModelMan *man, BuildModelHandleTable *
 {
     u32 i;
     if (table->handles != 0) {
-        func_020307B0(table->handles);
+        GFL_HEAP_Free(table->handles);
         table->handles = 0;
     }
     if (table->extra != 0) {
-        func_020307B0(table->extra);
+        GFL_HEAP_Free(table->extra);
         table->extra = 0;
     }
     if (man->animSets != 0) {
         for (i = 0; i < man->animSetCount; i++)
             FIELD_BUILDMODEL_FreeAnimSet(&man->animSets[i]);
-        func_020307B0(man->animSets);
+        GFL_HEAP_Free(man->animSets);
         man->animSetCount = 0;
         man->animSets = 0;
     }
@@ -857,13 +857,13 @@ void FIELD_BUILDMODEL_LoadModel(BuildModelMan *man, BuildModelModel *out, int in
     int count;
     int i;
     out->def = FIELD_BUILDMODEL_GetModelDef(man, index);
-    out->resource = func_02030734(man->heapId, G3D_SYSTEM_GetResourceSize(), 1, gBuildModelFileName, 0x4d0);
+    out->resource = GFL_HEAP_Alloc(man->heapId, G3D_SYSTEM_GetResourceSize(), 1, gBuildModelFileName, 0x4d0);
     G3D_SYSTEM_InitResourceByFile(out->resource, (u32 *)FIELD_BUILDMODEL_GetModelResourceData((char *)man->archive, index));
     anims = FIELD_BUILDMODEL_GetModelAnimDefs(out->def);
     count = FIELD_BUILDMODEL_CountAnimResources((int *)anims);
     for (i = 0; i < BUILDMODEL_ANIM_SLOTS; i++) {
         if (i < count) {
-            out->animResource[i] = func_02030734(man->heapId, G3D_SYSTEM_GetResourceSize(), 1, gBuildModelFileName, 0x4db);
+            out->animResource[i] = GFL_HEAP_Alloc(man->heapId, G3D_SYSTEM_GetResourceSize(), 1, gBuildModelFileName, 0x4db);
             G3D_SYSTEM_InitResourceByFile(out->animResource[i], (u32 *)FIELD_BUILDMODEL_GetAnimResourceData(anims, i));
         } else {
             out->animResource[i] = 0;
@@ -876,12 +876,12 @@ void FIELD_BUILDMODEL_FreeModel(BuildModelModel *model)
     int i;
     for (i = 0; i < BUILDMODEL_ANIM_SLOTS; i++) {
         if (model->animResource[i] != 0) {
-            func_020307B0(model->animResource[i]);
+            GFL_HEAP_Free(model->animResource[i]);
             model->animResource[i] = 0;
         }
     }
     if (model->resource != 0) {
-        func_020307B0(model->resource);
+        GFL_HEAP_Free(model->resource);
         model->resource = 0;
     }
 }
@@ -1284,7 +1284,7 @@ BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(BuildModelMan *man, Buil
     BuildModelVec pos;
     int n = 0;
     u32 i;
-    list = func_02030734(man->heapId, 0x80, 1, gBuildModelFileName, 0x749);
+    list = GFL_HEAP_Alloc(man->heapId, 0x80, 1, gBuildModelFileName, 0x749);
     for (i = 0; i < BUILDMODEL_ENTRY_COUNT; i++) {
         entry = &man->entries[i];
         if (entry->object == 0)
@@ -1307,7 +1307,7 @@ BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryInRect(BuildModelMan *man, int ki
     int count;
     BuildModelEntry **list = FIELD_BUILDMODEL_CollectEntriesInRect(man, rect, kind, &count);
     BuildModelEntry *first = *list;
-    func_020307B0(list);
+    GFL_HEAP_Free(list);
     return first;
 }
 
@@ -1358,12 +1358,12 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(BuildModelMan *man, BuildMo
     BuildModelNode *node;
     BuildModelVec fieldOffset;
     int facing;
-    node = func_02030734(man->heapId, 0x60, 0, gBuildModelFileName, 0x7E9);
+    node = GFL_HEAP_Alloc(man->heapId, 0x60, 0, gBuildModelFileName, 0x7E9);
     node->man = man;
     node->entry = entry;
     node->slot = 0xFFFF;
     facing = instance->facing >> 4;
-    func_0207AF1C(node->matrix, FX_SinCosTable_[facing * 2], FX_SinCosTable_[facing * 2 + 1]);
+    MTX_RotY33_(node->matrix, FX_SinCosTable_[facing * 2], FX_SinCosTable_[facing * 2 + 1]);
     FIELD_G3D_MAP_GetPos((int)entry->object, &node->pos);
     VEC_Add(&node->pos, &instance->pos, &node->pos);
     FIELD_G3D_MAPPER_GetOriginOffset(man->fieldMap, &fieldOffset);
@@ -1390,7 +1390,7 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(BuildModelMan *man, int kind,
  */
 BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromBlock(BuildModelMan *man, u32 tableId, BuildModelBlock *src)
 {
-    BuildModelNode *node = func_02030734(man->heapId, 0x60, 0, gBuildModelFileName, 0x825);
+    BuildModelNode *node = GFL_HEAP_Alloc(man->heapId, 0x60, 0, gBuildModelFileName, 0x825);
     node->man = man;
     node->entry = 0;
     node->slot = 0xFFFF;
@@ -1407,7 +1407,7 @@ void FIELD_BUILDMODEL_DeleteNode(BuildModelNode *node)
         FIELD_BUILDMODEL_FreeAnimSet(&node->animSet);
         if (node->entry != 0)
             FIELD_BUILDMODEL_SwapEntryModelId(node->entry, 1);
-        func_020307B0(node);
+        GFL_HEAP_Free(node);
     }
 }
 

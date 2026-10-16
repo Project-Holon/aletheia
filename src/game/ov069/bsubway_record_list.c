@@ -33,27 +33,27 @@
  *   BSUBWAY_RECORD_LIST_ExitText  0x021B9DE8  thumb  ov069
  *   BSUBWAY_RECORD_LIST_DeleteWindows  0x021B9CD8  thumb  ov069
  *   BSUBWAY_RECORD_LIST_DeleteActors  0x021B9BF0  thumb  ov069
- *   func_020315D4  0x020315D4  arm
- *   func_0203084C  0x0203084C  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
+ *   GFL_HEAP_GetHeapHeadChecked  0x0203084C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   BG_SYS_Update  0x020419E4  arm
- *   func_020490F4  0x020490F4  arm
- *   func_02045B38  0x02045B38  arm
- *   func_02045EC0  0x02045EC0  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Create  0x0201EC74  thumb
- *   func_020056A0  0x020056A0  thumb
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   GAME_DATA_GetSaveBlock3B  0x02012EFC  thumb
  *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
  *   BSUBWAY_SAVEDATA_CountHistoryEntries  0x0200DF94  thumb
  *   BSUBWAY_RECORD_LIST_InitPageCount  0x021BA350  thumb  ov069
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   sRecordListVramBanks 0x021BA620 data a4
@@ -62,7 +62,7 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   sRecordListDispConfig  0x021BA65C  data  a4
  *   sRecordListBgTemplates  0x021BA7A0  data  a4
  *   sRecordListBgIds  0x021BA60C  data  a4
@@ -72,11 +72,11 @@
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
@@ -141,7 +141,7 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_SetStringN  0x02045994  arm
  *   PMSI_PARAM_ToString  0x0202435C  thumb
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   KEY_GetTrg 0x020362DC arm
  *   sTouchRects 0x021BA5FC data a4
@@ -201,25 +201,25 @@ extern int BSUBWAY_RECORD_LIST_DeleteCursor(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work);
-extern void func_020315D4(struct Proc *p);
-extern void *func_0203084C(u32 heapId);
+extern void PROCSYS_FreeProcWork(struct Proc *p);
+extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void *func_020490F4(u32 id, u32 heap);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 *STRBUF_GetChars(struct Strbuf *vec);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern void *func_020056A0(void (*fn)(void), void *arg, u32 priority);
+extern void *GFL_USE_AddMainTask(void (*fn)(void), void *arg, u32 priority);
 extern void *GAME_DATA_GetSaveBlock3B(struct GameData *gameData);
 extern struct BsubwayWifiRecordList *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwayWifiData *saveBlock, u32 heap);
 extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct BsubwayWifiRecordList *recordList);
 extern void BSUBWAY_RECORD_LIST_InitPageCount(BsubwayRecordListWork *work);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(struct Strbuf *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void func_02030EAC(void *task);
+extern void TCB_DeleteTask(void *task);
 extern void ARC_TOOL_DeleteHandle(void *p);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
@@ -227,18 +227,18 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u8);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FreeLayerBuf(u32 layer);
 extern void BG_SYS_Delete(void);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32 index);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
@@ -367,7 +367,7 @@ extern void WORDSET_DeleteMsgdataF094(struct WordSet *wordSet, u32 index, u32 tr
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
 extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
 extern struct Strbuf *PMSI_PARAM_ToString(const BsubwayPmsData *pms, unsigned int heap);
-extern void func_02041B6C(u32);
+extern void BG_SYS_SetFlagField06(u32);
 extern int TOUCHPANEL_HitTrg(const void *rects);
 extern unsigned KEY_GetTrg(void);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animIndex);
@@ -453,8 +453,8 @@ int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     BSUBWAY_RECORD_LIST_DeleteFrames(work);
     BSUBWAY_RECORD_LIST_ReleaseBgLayers(work);
     BSUBWAY_RECORD_LIST_FreeWork(work);
-    func_020315D4((struct Proc *)proc);
-    func_0203084C(0x80);
+    PROCSYS_FreeProcWork((struct Proc *)proc);
+    GFL_HEAP_GetHeapHeadChecked(0x80);
     GFL_HEAP_DeleteChecked(0x80);
     return 1;
 }
@@ -474,15 +474,15 @@ void BSUBWAY_RECORD_LIST_InitWork(BsubwayRecordListWork *work, BsubwayRecordList
 
     work->args = args;
     work->chosenEntry = 0;
-    work->arcHandle = func_020490F4(0xc7, 0x80);
-    work->msgBank = func_02045B38(0, 2, 0x39, 0x80);
+    work->arcHandle = ARC_TOOL_CreateHandle(0xc7, 0x80);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x39, 0x80);
     for (i = 0; i < BSUBWAY_RECORD_LIST_MESSAGE_COUNT; i++) {
-        work->messages[i] = func_02045EC0(work->msgBank, i);
+        work->messages[i] = MSGDATA_AllocString(work->msgBank, i);
         STRBUF_GetChars(work->messages[i]);
     }
     work->textBuf = STRBUF_Create(0x40, 0x80);
     work->wordSet = WORDSET_Create(8, 0x40, 0x80);
-    work->vblankTask = func_020056A0(BSUBWAY_RECORD_LIST_VBlankTask, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(BSUBWAY_RECORD_LIST_VBlankTask, work, 0);
     work->recordList = BSUBWAY_SAVEDATA_AllocHistoryCopy(GAME_DATA_GetSaveBlock3B(work->args->gameData), 0x80);
     work->entryCount = BSUBWAY_SAVEDATA_CountHistoryEntries(work->recordList);
     BSUBWAY_RECORD_LIST_InitPageCount(work);
@@ -494,14 +494,14 @@ void BSUBWAY_RECORD_LIST_FreeWork(BsubwayRecordListWork *work)
 {
     int i;
 
-    func_020307B0(work->recordList);
+    GFL_HEAP_Free(work->recordList);
     for (i = 0; i < BSUBWAY_RECORD_LIST_MESSAGE_COUNT; i++) {
         STRBUF_Delete(work->messages[i]);
     }
     STRBUF_Delete(work->textBuf);
     WORDSET_DeleteStrbufED04(work->wordSet);
     MSGDATA_Delete(work->msgBank);
-    func_02030EAC(work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
     ARC_TOOL_DeleteHandle(work->arcHandle);
 }
 
@@ -526,11 +526,11 @@ void BSUBWAY_RECORD_LIST_SetupBgLayers(BsubwayRecordListWork *unusedWork)
         BG_SYS_InitBgLayer((u8)bgId, &bgTemplates.bg[i], 0);
         BG_SYS_ClearSlot(bgId);
         BG_SYS_InitRun(bgId, 0x20, 0, 0x80);
-        func_02040588(bgId, 1);
+        BG_SYS_SetPlaneVisible(bgId, 1);
     }
-    func_02040588(6, 0);
-    func_02040588(7, 0);
-    func_02040588(3, 0);
+    BG_SYS_SetPlaneVisible(6, 0);
+    BG_SYS_SetPlaneVisible(7, 0);
+    BG_SYS_SetPlaneVisible(3, 0);
 }
 
 
@@ -544,23 +544,23 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
     void *spriteArc;
     int i;
 
-    func_02049658(uiArc, 5, 5, 0, 0, 1, 0x80);
-    func_020498F4(uiArc, 4, 5, 0, 0, 1, 0x80);
+    ARC_UTIL_UploadBgCharFromHandle(uiArc, 5, 5, 0, 0, 1, 0x80);
+    ARC_UTIL_UploadBgPaletteFromHandle(uiArc, 4, 5, 0, 0, 1, 0x80);
     func_02049B68(uiArc, 6, 4, 0, 0, 0x80);
-    func_02049658(uiArc, 1, 2, 0, 0, 1, 0x80);
-    func_020498F4(uiArc, 0, 2, 0, 0, 1, 0x80);
+    ARC_UTIL_UploadBgCharFromHandle(uiArc, 1, 2, 0, 0, 1, 0x80);
+    ARC_UTIL_UploadBgPaletteFromHandle(uiArc, 0, 2, 0, 0, 1, 0x80);
     func_02049B68(uiArc, 2, 0, 0, 0, 0x80);
-    func_02049658(uiArc, 1, 1, 0, 0, 1, 0x80);
-    func_020498F4(uiArc, 0, 1, 0, 0, 1, 0x80);
-    spriteArc = func_020490F4(APP_ICON_GetArchiveId(), 0x80);
-    func_02049658(spriteArc, APP_ICON_GetStatusFrameFileId(), 1, 0, 0, 0, 0x80);
-    func_020498F4(spriteArc, APP_ICON_GetStatusDataFileId(), 1, 0, 0, 0, 0x80);
+    ARC_UTIL_UploadBgCharFromHandle(uiArc, 1, 1, 0, 0, 1, 0x80);
+    ARC_UTIL_UploadBgPaletteFromHandle(uiArc, 0, 1, 0, 0, 1, 0x80);
+    spriteArc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x80);
+    ARC_UTIL_UploadBgCharFromHandle(spriteArc, APP_ICON_GetStatusFrameFileId(), 1, 0, 0, 0, 0x80);
+    ARC_UTIL_UploadBgPaletteFromHandle(spriteArc, APP_ICON_GetStatusDataFileId(), 1, 0, 0, 0, 0x80);
     ARC_UTIL_UploadPaletteFromHandle(spriteArc, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x1C0, 0x20, 0x80);
     BG_SYS_FillTileMap(1, 0, 0x15, 0x20, 3, 0xE);
     BG_SYS_PushTile(1);
     ARC_TOOL_DeleteHandle(spriteArc);
-    func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x80);
-    func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x80);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1E0, 0x20, 0x80);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1E0, 0x20, 0x80);
     work->frameMgr = BGWINFRM_Create(2, 10, 0x80);
     for (i = 0; i < BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE; i++) {
         BGWINFRM_AddFrame(work->frameMgr, i, 1, 0xE, 4);
@@ -582,7 +582,7 @@ void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
     void *spriteArc;
     u32 cellAnimId;
 
-    spriteArc = func_020490F4(APP_ICON_GetArchiveId(), 0x80);
+    spriteArc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x80);
     CLACT_InitSystem(&gClActorInitParam, &sRecordListVramBanks, 0x80);
     work->actorBank = CLACT_CreateUnit(4, 1, 0x80);
     work->subActorBank = CLACT_CreateUnit(2, 1, 0x80);
@@ -884,11 +884,11 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
         STRBUF_Delete(greetingStr);
     } else {
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_NAME];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(BMP_WIN_GetBgLayer(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_SCORE];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(BMP_WIN_GetBgLayer(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_GREETING];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(BMP_WIN_GetBgLayer(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
     }
     STRBUF_Delete(nameStr);
 }

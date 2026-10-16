@@ -20,21 +20,21 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   VM_ReadU16  0x02011330  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   GAME_DATA_SetCurrentEvent  0x02012EE4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   d_021DE58C     0x021DE58C  data  ov021
  *   func_02008550  0x02008550  thumb
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GDS_PROFILE_SetFieldRecFlag1  0x0200D868  thumb
  *   GDS_PROFILE_ClearFieldRec  0x0200D85C  thumb
  *   GDS_PROFILE_ClearFieldRecCount03  0x0200DA14  thumb
@@ -64,7 +64,7 @@
  *   GDS_PROFILE_DecScoreRecLevel  0x0200DBFC  thumb
  *   data_021DACD0  0x021DACD0  data
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
- *   func_0200BAF4  0x0200BAF4  thumb
+ *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0209C0A4  0x0209C0A4  arm
  *   GDS_PROFILE_CalcScoreRecScore  0x0200DC94  thumb
@@ -97,7 +97,7 @@
  *   BSUBWAY_SAVEDATA_CountHistoryEntries  0x0200DF94  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   ICA_ANIME_SetField30  0x02012124  thumb
@@ -321,20 +321,20 @@ extern void *ICA_ANIME_GetField1C(const struct GameSystem *p);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern u16 VM_ReadU16(struct ScriptStream *s);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern struct Task *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern struct Task *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Task *p);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FLDMMDL_SetDirDispCheckPause(int a, int b);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern void FLDMMDL_GetPos(const struct MapObj *a, struct VecFx32 *v);
 extern void *GAME_DATA_SetCurrentEvent(GameData *gameData, BsubwayScrWork *work);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct GameData *p);
 extern u8 func_02008550(const struct MyStatus *obj);
-extern void *func_020071CC(struct SaveControl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *ctrl, u32 id);
 extern void GDS_PROFILE_SetFieldRecFlag1(struct BsubwayPlayData *p, u32 v);
 extern void GDS_PROFILE_ClearFieldRec(struct BsubwayPlayData *p);
 extern void GDS_PROFILE_ClearFieldRecCount03(struct BsubwayPlayData *p);
@@ -362,7 +362,7 @@ extern void GDS_PROFILE_IncScoreRecLevel(struct BsubwayScoreData *p);
 extern u8 GDS_PROFILE_UpdateScoreRecStreak(struct BsubwayScoreData *p, u32 kind);
 extern void GDS_PROFILE_DecScoreRecLevel(struct BsubwayScoreData *p);
 extern void *BATTLE_BOX_GetFromSave(void *p);
-extern void *func_0200BAF4(int a0, int a1);
+extern void *BATTLE_BOX_CreateParty(int a0, int a1);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 extern int func_0209C0A4(int a, int b);
 extern void GDS_PROFILE_CalcScoreRecScore(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
@@ -438,7 +438,7 @@ extern void MISC_SAVEDATA_InsertRecentValue(struct GdsProfileSave *l, u32 val);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void ICA_ANIME_SetField30(struct GameSystem *p, u32 v);
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern int BSUBWAY_COMM_SendData(BsubwayScrWork *work);
 extern int BSUBWAY_COMM_CheckTimingSync(int a0);
@@ -593,14 +593,14 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
     gameData = ICA_ANIME_GetField1C(gameSystem);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    work = func_02030734(4, 0x7EC, 1, d_021DE58C, 0x5f);
+    work = GFL_HEAP_Alloc(4, 0x7EC, 1, d_021DE58C, 0x5f);
     work->heapId = 4;
     work->magic = 0x12345678;
     work->gameData = gameData;
     work->romCode = func_02008550(myStatus);
-    work->playData = func_020071CC(saveControl, 0x39);
-    work->scoreData = func_020071CC(saveControl, 0x3a);
-    work->wifiData = func_020071CC(saveControl, 0x3b);
+    work->playData = SAVE_CONTROL_GetBlock(saveControl, 0x39);
+    work->scoreData = SAVE_CONTROL_GetBlock(saveControl, 0x3a);
+    work->wifiData = SAVE_CONTROL_GetBlock(saveControl, 0x3b);
     GDS_PROFILE_SetFieldRecFlag1(work->playData, 0);
     GAME_DATA_SetCurrentEvent(gameData, work);
     if (resume == 0) {
@@ -650,7 +650,7 @@ void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
 {
     if (work != 0) {
         if (work->partyCopy != 0) {
-            func_020307B0(work->partyCopy);
+            GFL_HEAP_Free(work->partyCopy);
             work->partyCopy = 0;
         }
         if (work->btlSetup != 0) {
@@ -658,7 +658,7 @@ void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
             work->btlSetup = 0;
         }
         MI_CpuFill8(work, 0, 0x7EC);
-        func_020307B0(work);
+        GFL_HEAP_Free(work);
     }
     GAME_DATA_SetCurrentEvent(ICA_ANIME_GetField1C(gameSystem), 0);
 }
@@ -780,8 +780,8 @@ void BSUBWAY_SCR_SavePlayDataMembers(BsubwayScrWork *work)
 u32 BSUBWAY_SCR_ResetPlayMode(const struct GameSystem *gameSystem)
 {
     u32 saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)ICA_ANIME_GetField1C(gameSystem));
-    u32 playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
-    u32 scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
+    u32 playData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x39);
+    u32 scoreData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3a);
     u8 playMode = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 0, 0);
 
     GDS_PROFILE_ClearFieldRecCount03((struct BsubwayPlayData *)playData);
@@ -1129,8 +1129,8 @@ int BSUBWAY_SCR_UpdateStageRank(void *scoreData, int unused, int mode)
 void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work)
 {
     if (work->partyCopy != 0)
-        func_020307B0(work->partyCopy);
-    work->partyCopy = func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)), 4);
+        GFL_HEAP_Free(work->partyCopy);
+    work->partyCopy = BATTLE_BOX_CreateParty((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)), 4);
 }
 
 
@@ -1371,14 +1371,14 @@ void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot)
     void *party;
 
     i = 0;
-    buf = func_02030734((u16)(((u16)work->heapId & 0x7fff) | 0x8000), 0xb4, 0, d_021DE58C, 0x89a);
+    buf = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7fff) | 0x8000), 0xb4, 0, d_021DE58C, 0x89a);
     MI_CpuFill8(buf, 0, 0xb4);
     party = BSUBWAY_SCR_GetParty(work);
     for (; i < 3; i++)
         BSUBWAY_SCR_PackBattleMon(&buf[i], (u32)POKEPARTY_GetMember(party, work->memberIndex[i]));
     GDS_PROFILE_SetScoreRecBlob(work->scoreData, slot, buf);
     MI_CpuFill8(buf, 0, 0xb4);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
 }
 
 
@@ -1494,10 +1494,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)gameData);
     eventFlags = GAME_DATA_GetEventWork((const struct GameData *)gameData);
     work = GAME_DATA_GetCurrentEvent((struct GameData *)gameData);
-    playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
+    playData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x39);
     playMode = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 0, 0);
-    scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
-    wifiData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3b);
+    scoreData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3a);
+    wifiData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3b);
     fieldMap = ICA_ANIME_GetField20((void *)gameSystem);
     cmd = VM_ReadU16(scriptCtx);
     arg1 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
@@ -1722,7 +1722,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_GET_WIFI_RECORD_COUNT: {
         void *recordList = BSUBWAY_SAVEDATA_AllocHistoryCopy((struct BsubwayWifiData *)wifiData, 4);
         *resultDst = BSUBWAY_SAVEDATA_CountHistoryEntries(recordList);
-        func_020307B0(recordList);
+        GFL_HEAP_Free(recordList);
         break;
     }
     case BSUBWAY_SCR_CMD_START_SCREEN_TASK: {
@@ -1958,15 +1958,15 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         partySource = GDS_PROFILE_GetFieldRecField((struct BsubwayPlayData *)playData, 10, 0);
         regulation = POKE_REGULATION_Load(BSUBWAY_SCR_GetRegulationNo(playMode), 4);
         if (partySource == 1) {
-            recordParty = func_0200BAF4((u32)BATTLE_BOX_GetFromSave((void *)saveControl), 4);
+            recordParty = BATTLE_BOX_CreateParty((u32)BATTLE_BOX_GetFromSave((void *)saveControl), 4);
             checkedParty = recordParty;
         } else {
             checkedParty = GAME_DATA_GetMyParty((void *)gameData);
         }
         checkResult = func_02019ED4(regulation, checkedParty);
-        func_020307B0(regulation);
+        GFL_HEAP_Free(regulation);
         if (recordParty != NULL)
-            func_020307B0(recordParty);
+            GFL_HEAP_Free(recordParty);
         if (checkResult <= 1)
             *resultDst = 1;
         break;
@@ -2192,7 +2192,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_IS_SYSTEM_FLAG_SET:
         *resultDst = 0;
-        if (func_0200FB24() != 0)
+        if (GFL_NET_ERR_GetErrorLevel() != 0)
             *resultDst = 1;
         break;
     case BSUBWAY_SCR_CMD_IS_BATTLE_REC_PLAYABLE: {
@@ -2240,7 +2240,7 @@ int BSUBWAY_SCR_WaitTimingSync(u32 unused, u32 script)
     gameData = ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptWork));
     work = GAME_DATA_GetCurrentEvent(gameData);
     resultDst = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, work->resultWorkId);
-    if (func_0200FB24() != 0) {
+    if (GFL_NET_ERR_GetErrorLevel() != 0) {
         *resultDst = 0;
         return 1;
     }
@@ -2270,8 +2270,8 @@ int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 script)
     GAME_DATA_GetEventWork(gameData);
     work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
-    GDS_PROFILE_GetFieldRecField(func_020071CC(saveControl, 0x39), 0, 0);
-    func_020071CC(saveControl, 0x3A);
+    GDS_PROFILE_GetFieldRecField(SAVE_CONTROL_GetBlock(saveControl, 0x39), 0, 0);
+    SAVE_CONTROL_GetBlock(saveControl, 0x3A);
     commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
     if (commResult != 0) {
         COMM_ENTRY_MENU_Delete((u32 *)work->commTask);
@@ -2311,8 +2311,8 @@ int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 script)
     GAME_DATA_GetEventWork(gameData);
     work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
-    GDS_PROFILE_GetFieldRecField(func_020071CC(saveControl, 0x39), 0, 0);
-    func_020071CC(saveControl, 0x3A);
+    GDS_PROFILE_GetFieldRecField(SAVE_CONTROL_GetBlock(saveControl, 0x39), 0, 0);
+    SAVE_CONTROL_GetBlock(saveControl, 0x3A);
     commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
     if (commResult != 0) {
         COMM_ENTRY_MENU_Delete((u32 *)work->commTask);
@@ -2403,7 +2403,7 @@ int BSUBWAY_SCR_CommShutdownMain(void *task, int *state, BsubwayScrWork **work)
  */
 void *BSUBWAY_SCR_CreateCommShutdownTask(void *gameSystem, u32 script)
 {
-    void *task = func_020122C0(gameSystem, 0, (TaskFn)BSUBWAY_SCR_CommShutdownMain, 4);
+    void *task = GAME_EVENT_Create(gameSystem, 0, (TaskFn)BSUBWAY_SCR_CommShutdownMain, 4);
     *(u32 *)func_020124E8(task) = script;
     return task;
 }
@@ -2457,7 +2457,7 @@ int BSUBWAY_SCR_YesNoMenuMain(void *task, int *state, ScreenTaskWork *taskWork)
 
 void *BSUBWAY_SCR_CreateYesNoMenuTask(void *gameSystem, u32 script, u32 resultDst, u32 arg)
 {
-    void *task = func_020122C0(gameSystem, 0, (TaskFn)BSUBWAY_SCR_YesNoMenuMain, 0x10);
+    void *task = GAME_EVENT_Create(gameSystem, 0, (TaskFn)BSUBWAY_SCR_YesNoMenuMain, 0x10);
     u32 *taskWork = func_020124E8(task);
 
     taskWork[0] = script;
@@ -2500,7 +2500,7 @@ void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void 
     playMode = work->playMode;
     if (playMode == 4) {
         spawnPos = d_021DADD0;
-        recordList = (u8 *)BSUBWAY_SAVEDATA_AllocHistoryCopy(func_020071CC(GAME_DATA_GetSaveControl(gameData), 0x3B), (int)4);
+        recordList = (u8 *)BSUBWAY_SAVEDATA_AllocHistoryCopy(SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3B), (int)4);
         recordCount = BSUBWAY_SAVEDATA_CountHistoryEntries((struct BsubwayWifiRecordList *)recordList);
         if (recordCount != 0) {
             recordEntry = recordList + (recordCount - 1) * 0x22;
@@ -2520,7 +2520,7 @@ void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void 
                 recordCount--;
             }
         }
-        func_020307B0(recordList);
+        GFL_HEAP_Free(recordList);
         return;
     }
     spawnEntry = d_021DAEBC;
@@ -2753,7 +2753,7 @@ u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, int gameSystem)
     for (i = 0; i < work->memberNum; i++)
         POKEPARTY_Add(partyList, POKEPARTY_GetMember(party, work->memberIndex[i]));
     result = (u32)FLD_BTL_INST_TOOL_CreateBtlSetup((void *)gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
-    func_020307B0(partyList);
+    GFL_HEAP_Free(partyList);
     return result;
 }
 
@@ -2947,7 +2947,7 @@ void BSUBWAY_SCR_CreatePartnerMons(BsubwayScrWork *work, BtlInstTrainer *trainer
     iv = BSUBWAY_SCR_GetMonIv(trainerNo);
     for (i = 0; i < 2; i++)
         FLD_BTL_INST_TOOL_BuildBattleMon(&trainer->mons[i], draw->ids[i], draw->otId, draw->pids[i], iv, i, useItem, heapId);
-    func_020307B0(trainerData);
+    GFL_HEAP_Free(trainerData);
 }
 
 

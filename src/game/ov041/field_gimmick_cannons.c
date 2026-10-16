@@ -25,7 +25,7 @@
  *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
- *   func_0207AF1C  0x0207AF1C  thumb
+ *   MTX_RotY33_  0x0207AF1C  thumb
  *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
@@ -38,7 +38,7 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   FIELD_GIMMICK_CANNONS_UpdateBounce  0x021F4000  thumb  ov041
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
@@ -141,7 +141,7 @@ extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern void *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
 extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
@@ -154,7 +154,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, u16 m
 extern int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
-extern void func_0207AF1C(void *matrix, int sin, int cos);
+extern void MTX_RotY33_(void *matrix, int sin, int cos);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, const VecFx32 *pos);
 extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
@@ -231,7 +231,7 @@ void FIELD_GIMMICK_CANNONS_Init(struct FieldMap *fieldMap)
         FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, i, 1);
         status->trans = cannonPos.pos[i];
         sinCosIndex = ((gCannonsCannonQuarterTurns[i] << 14) >> 4) * 2;
-        func_0207AF1C(&status->rotate, FX_SinCosTable_[sinCosIndex], FX_SinCosTable_[sinCosIndex + 1]);
+        MTX_RotY33_(&status->rotate, FX_SinCosTable_[sinCosIndex], FX_SinCosTable_[sinCosIndex + 1]);
         for (j = 0; j < FIELD_GIMMICK_CANNONS_DIRECTION_COUNT; j++) {
             FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)i, (u16)(j * 2)), 0);
             FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)i, (u16)(j * 2 + 1)), 0);
@@ -294,7 +294,7 @@ struct GameEvent *FIELD_GIMMICK_CANNONS_CreateLaunchEvent(struct GameSystem *gam
     if (cannonIndex >= FIELD_GIMMICK_CANNONS_CANNON_COUNT) {
         return 0;
     }
-    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_CANNONS_EventLaunch, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CANNONS_EventLaunch, 0);
     work->cannonIndex = cannonIndex;
     work->facing = facing;
     return event;

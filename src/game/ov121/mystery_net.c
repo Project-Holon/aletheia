@@ -14,22 +14,22 @@
  * Split from mystery_net.c at 0x021DE2A0 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_GetInitParam 0x0203D798 arm
  *   WIH_DWC_Delete 0x020103E4 thumb
- *   func_0200FBA0 0x0200FBA0 thumb
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_ResetState 0x0200FBA0 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_STATE_GetError 0x0203CA98 arm
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   func_02059F18 0x02059F18 arm
- *   func_0200FBB0 0x0200FBB0 thumb
+ *   GFL_NET_ERR_WaitLinkClosed 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
- *   func_0200FA84 0x0200FA84 thumb
+ *   GFL_NET_ERR_HaltIfActive 0x0200FA84 thumb
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -70,6 +70,7 @@
  *   MYSTERY_NET_BuildPokemonFromRecord 0x021DEFAC thumb ov121
  *   WIH_DWC_PollStatus  0x0201058C  thumb  arm9
  *   SAVE_EVENT_WriteWithDate  0x0202F2AC  thumb  arm9
+ *   MSGDATA_AllocString  0x02045EC0  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -77,7 +78,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 typedef unsigned short u16;
-extern unsigned int func_020307B0(void *p);
+extern unsigned int GFL_HEAP_Free(void *p);
 
 #define Q(k) (*(u32 *)(q+(k)))
 #define W(k) (*(u32 *)(p+(k)))
@@ -107,18 +108,18 @@ typedef struct { char pad[0x6e0];u32 flag; } Flag;
 typedef enum { NO_DIGIT = -1 } Digit;
 extern void MI_CpuCopy8(const void *,void *,int);
 extern void MI_CpuFill8(void *,int,u32);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int GFL_NET_GetRunState(void);
 extern char *GFL_NET_GetInitParam(void);
 extern void WIH_DWC_Delete(u8 *);
-extern void func_0200FBA0(void);
-extern u32 func_0200FB24(void);
+extern void GFL_NET_ERR_ResetState(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_STATE_GetError(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_02059F18(void);
-extern u32 func_0200FBB0(void);
+extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
-extern void func_0200FA84(void);
+extern void GFL_NET_ERR_HaltIfActive(void);
 extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
@@ -205,7 +206,7 @@ extern const signed char d_021DFA8C[][2];
 void *MYSTERY_NET_Create(void *arg,int heap)
 {
     char *p;
-    p=func_02030734(heap,0x17a8,0,d_021DFBC0,315);
+    p=GFL_HEAP_Alloc(heap,0x17a8,0,d_021DFBC0,315);
     MI_CpuFill8(p,0,0x17a8);
     ((MysteryNetWork *)p)->heapId=heap;
     ((MysteryNetWork *)p)->param=arg;
@@ -223,7 +224,7 @@ void *MYSTERY_NET_Create(void *arg,int heap)
 void MYSTERY_NET_Delete(u8 *p)
 {
     MYSTERY_NET_ClearTask(p);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -317,7 +318,7 @@ int MYSTERY_NET_UpdateWifiError(void *p)
 
 
 
-void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {WIH_DWC_Delete(*(u8 * *)&((MysteryNetWork *)p)->wihHandle); *(int *)&((MysteryNetWork *)p)->wihHandle=0;} MYSTERY_NET_SetAction(p,0); func_0200FBA0();}
+void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {WIH_DWC_Delete(*(u8 * *)&((MysteryNetWork *)p)->wihHandle); *(int *)&((MysteryNetWork *)p)->wihHandle=0;} MYSTERY_NET_SetAction(p,0); GFL_NET_ERR_ResetState();}
 
 
 
@@ -325,19 +326,19 @@ void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {
 int MYSTERY_NET_HandleWifiError(char *p)
 {
     int result=0;
-    if (func_0200FB24()) {
+    if (GFL_NET_ERR_GetErrorLevel()) {
         switch (*(unsigned *)(GFL_NET_STATE_GetError()+4)) {
         case 1: case 2: case 3: case 4: case 5: case 6:
             if (((MysteryNetWork *)p)->nd.busy==1) return result;
             GFL_NET_STATE_SetWifiError();
             func_02059F18();
-            func_0200FBB0();
+            GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_ERR_ShowSimpleScreen();
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             result=1; break;
         case 7:
             GFL_NET_STATE_SetWifiError();
-            func_0200FA84();
+            GFL_NET_ERR_HaltIfActive();
             result=3; break;
         case 0: default: break;
         }
@@ -347,11 +348,11 @@ int MYSTERY_NET_HandleWifiError(char *p)
 
 
 
-int MYSTERY_NET_ShowWifiError(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();func_0200FBA0();r=1;} return r;}
+int MYSTERY_NET_ShowWifiError(void *a0) {int r=0; if(GFL_NET_ERR_GetErrorLevel()) {GFL_NET_ERR_WaitLinkClosed();GFL_NET_ERR_ShowSimpleScreen();GFL_NET_ERR_ResetState();r=1;} return r;}
 
 
 
-int MYSTERY_NET_ShowWifiErrorDw(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();func_0200FBA0();r=1;} return r;}
+int MYSTERY_NET_ShowWifiErrorDw(void *a0) {int r=0; if(GFL_NET_ERR_GetErrorLevel()) {GFL_NET_ERR_WaitLinkClosed();GFL_NET_ERR_ShowSimpleScreen();GFL_NET_ERR_ResetState();r=1;} return r;}
 
 
 
@@ -870,7 +871,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Dummy(void *p);
 extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void POKE_TOOL_RecalcParam(void *p);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 static inline int chk1(const struct Rec *r)
@@ -1051,7 +1052,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             else
                 POKE_TOOL_SetPartyValue(mon, 0xc, r->f1D);
             if (r->f1E == 0) {
-                func_020307B0(mon);
+                GFL_HEAP_Free(mon);
                 res = 0;
                 goto end;
             }
@@ -1066,7 +1067,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             POKE_TOOL_SetPartyValue(mon, 0x95, r->f38);
             POKE_TOOL_SetPartyValue(mon, 0x96, r->f3A);
             if (r->f4A == 0) {
-                func_020307B0(mon);
+                GFL_HEAP_Free(mon);
                 res = 0;
                 goto end;
             }
@@ -1086,7 +1087,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             if (r->f5C != 0) {
                 void *s;
                 POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
-                s = func_02045EC0(gSpeciesNameBank, 0x28a);
+                s = MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
                 POKE_TOOL_SetPartyValue(mon, 0x73, (u32)s);
                 STRBUF_Delete(s);
                 POKE_TOOL_SetPartyValue(mon, 9, 10);
@@ -1103,7 +1104,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             POKE_TOOL_RecalcParam(mon);
             res = 0;
             if (POKE_TOOL_GetPartyValue(mon, 3, 0) != 0)
-                func_020307B0(mon);
+                GFL_HEAP_Free(mon);
             else
                 res = mon;
         }
@@ -1111,7 +1112,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
         if (res == 0)
             count++;
         else
-            func_020307B0(res);
+            GFL_HEAP_Free(res);
         break;
     case 2:
         t = chk2(r);

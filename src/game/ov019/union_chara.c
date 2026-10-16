@@ -21,7 +21,7 @@
  *   gUnionCharaSeatPos     0x0218001C  data  ov019  a2
  *   gUnionCharaMemberOffset     0x0217FFE4  data  ov019  a2
  *   FLDMMDL_SysSearchObjId 0x0216DE94 thumb ov010
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   gUnionEmptyString0 0x021807E0 data a1
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   ICA_ANIME_GetField20  0x0201210C  thumb
@@ -88,7 +88,7 @@ extern int FLDMMDL_AddMmdl(int mmdlSys, void *header, int param);
 
 extern void *FLDMMDL_SysSearchObjId(void *mmdlSys, unsigned int objId);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *mmdl, unsigned int vanish);
 
@@ -282,7 +282,7 @@ int UNION_CHARA_CheckTalkable(UnionRoomWork *work, u16 objId)
     return 0;
 }
 
-void *UNION_CHARA_GetMmdl(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { u16 objId; void *mmdl; objId = UNION_CHARA_MakeObjId(beaconPc,slot); mmdl = FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData),objId); if(mmdl == 0) func_02034714(gUnionEmptyString0,0,gUnionEmptyString0); return mmdl; }
+void *UNION_CHARA_GetMmdl(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { u16 objId; void *mmdl; objId = UNION_CHARA_MakeObjId(beaconPc,slot); mmdl = FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData),objId); if(mmdl == 0) SAVEDATA_PanicFail(gUnionEmptyString0,0,gUnionEmptyString0); return mmdl; }
 
 UnionCharaSlot *UNION_CHARA_AddSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionMember *member, int memberIndex, int visible, int *mmdlOut)
 {
@@ -306,7 +306,7 @@ UnionCharaSlot *UNION_CHARA_AddSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc
             return slot;
         }
     }
-    func_02034714(gUnionEmptyString0, 0, gUnionEmptyString0);
+    SAVEDATA_PanicFail(gUnionEmptyString0, 0, gUnionEmptyString0);
     return 0;
 }
 

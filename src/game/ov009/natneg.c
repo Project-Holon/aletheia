@@ -31,7 +31,7 @@
  *   matchup2ip        0x021AE6C0  data
  *   matchup1ip        0x021AE6C4  data
  *   ArrayLength  0x02184200  arm  ov009
- *   func_02184208  0x02184208  arm  ov009
+ *   ArrayNth  0x02184208  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   ArrayAppend  0x02184234  arm  ov009
  *   func_02184324  0x02184324  arm  ov009
@@ -87,7 +87,7 @@
  *   FindNegotiatorForCookie  0x021990D4  arm
  *   gNatNegCancelNotFoundFmt               0x021A5E2C  data
  *   gNatNegCancelFmt               0x021A5E5C  data
- *   func_0217EF50            0x0217EF50  arm ov009
+ *   CanReceiveOnSocket            0x0217EF50  arm ov009
  *   func_0217EC60            0x0217EC60  arm ov009
  *   GOAGetLastError            0x0217ED54  arm ov009
  *   gNatNegThinkNullFmt               0x021A5E88  data
@@ -275,7 +275,7 @@ extern unsigned int current_time(void);
 extern void Util_RandSeed(unsigned long seed);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern int ArrayLength(void *array);
-extern void *func_02184208(void *array, int n);
+extern void *ArrayNth(void *array, int n);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ArrayAppend(void *array, void *newElem);
 extern void func_02184324(void *array, int n);
@@ -299,7 +299,7 @@ extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern int socket(int pf, int type, int protocol);
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
-extern int func_0217EF50(int sock);
+extern int CanReceiveOnSocket(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
 NATNegotiator *AddNegotiator(void);
@@ -465,7 +465,7 @@ NATNegotiator *FindNegotiatorForCookie(int cookie)
     if (!negotiateList)
         return 0;
     for (i = 0; i < ArrayLength(negotiateList); i++) {
-        neg = (NATNegotiator *)func_02184208(negotiateList, i);
+        neg = (NATNegotiator *)ArrayNth(negotiateList, i);
         if (neg->cookie == cookie)
             return neg;
     }
@@ -485,7 +485,7 @@ NATNegotiator *AddNegotiator(void)
     if (!negotiateList)
         negotiateList = func_02184144(sizeof(NATNegotiator), 4, 0);
     ArrayAppend(negotiateList, &_neg);
-    return (NATNegotiator *)func_02184208(negotiateList, ArrayLength(negotiateList) - 1);
+    return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength(negotiateList) - 1);
 }
 
 
@@ -500,7 +500,7 @@ void RemoveNegotiator(NATNegotiator *neg)
     int i;
 
     for (i = 0; i < ArrayLength(negotiateList); i++) {
-        if (neg == func_02184208(negotiateList, i)) {
+        if (neg == ArrayNth(negotiateList, i)) {
             func_02184324(negotiateList, i);
             return;
         }
@@ -1013,7 +1013,7 @@ void NegotiateThink(NATNegotiator *neg)
 
     if (neg->negotiateSock != -1) {
         do {
-            if (!func_0217EF50(neg->negotiateSock))
+            if (!CanReceiveOnSocket(neg->negotiateSock))
                 break;
             error = func_0217EC60(neg->negotiateSock, gNatNegRecvBuf, 512, 0, &saddr, &saddrlen);
             if (error == -1) {
@@ -1106,7 +1106,7 @@ void NNThink(void *p)
     if (!gNatnegGlobals.negotiateList)
         return;
     for (i = ArrayLength(gNatnegGlobals.negotiateList) - 1; i >= 0; i--)
-        NegotiateThink(func_02184208(gNatnegGlobals.negotiateList, i));
+        NegotiateThink(ArrayNth(gNatnegGlobals.negotiateList, i));
 }
 
 

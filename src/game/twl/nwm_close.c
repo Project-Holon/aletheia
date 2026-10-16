@@ -16,12 +16,13 @@
  *   NWMi_SetCallbackTable  0x02703A34  arm
  *   NWMi_SendCommand  0x02703A74  arm
  *   NWMi_CheckState  0x027028E4  arm
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
  */
 typedef unsigned int u32;
 
 extern u32 NWMi_CheckState(u32, u32);
 extern u32 NWMi_GetSystemWork(void);
-extern void func_020862B8(u32, u32);
+extern void DC_InvalidateRange(u32, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand(u32, u32);
 
@@ -36,7 +37,7 @@ u32 NWM_Close(u32 a0) {
     if (base != 0) {
         u32 ptr = *(u32 *)(base + 0x2278);
         busy = 1;
-        func_020862B8(ptr + 6, 1);
+        DC_InvalidateRange(ptr + 6, 1);
         if (*(unsigned char *)(*(u32 *)(base + 0x2278) + 6) != 1) {
             busy = 0;
         }

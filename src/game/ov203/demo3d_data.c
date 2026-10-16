@@ -13,14 +13,14 @@
  * Cut from demo3d_graphic.c, demo3d_data.c, demo3d_cmdsys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   memset 0x02082BCC arm
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   FX_Div 0x0207C768 arm
  *   d_021C3CF0 0x021C3CF0 data a1
  *   d_021C0348 0x021C0348 data a4
@@ -33,7 +33,7 @@
  *   TCBL_GetWork 0x02031290 arm
  *   GX_GetBankForLCDC 0x02080C54 arm
  *   GX_SetGraphicsMode 0x0207D4B0 arm
- *   func_0208068C 0x0208068C arm
+ *   GX_SetBankForLCDC 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   TCBL_DeleteTask 0x02031194 arm
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
@@ -66,7 +66,7 @@
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -78,8 +78,8 @@
  *   GAME_VERSION_Code 0x0209DF08 data a1
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   func_02049990 0x02049990 arm
- *   func_0207D63C 0x0207D63C arm
- *   func_02049658 0x02049658 arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   memset 0x02082BCC arm
  *   DEMO3D_DATA_CreateCapture 0x021BE9B8 thumb
  *   DEMO3D_DATA_DeleteCapture 0x021BE9E8 thumb
@@ -126,15 +126,15 @@ typedef struct Demo3dDataExtra {
 
 typedef char Demo3dDataExtra_SizeCheck[(sizeof(Demo3dDataExtra) == 0x10) ? 1 : -1];
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
-extern void *func_020056A0(unsigned, unsigned, unsigned);
+extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_FreeSlot(unsigned char);
 
@@ -172,9 +172,9 @@ void *DEMO3D_DATA_Create(unsigned heap)
     Entry *entries;
     char *extra;
     int i;
-    ctx = func_02030734(heap, 16, 1, d_021C3CF0, 0xab);
-    entries = func_02030734(heap, 72, 1, d_021C3CF0, 0xac);
-    extra = func_02030734(heap, 16, 1, d_021C3CF0, 0xad);
+    ctx = GFL_HEAP_Alloc(heap, 16, 1, d_021C3CF0, 0xab);
+    entries = GFL_HEAP_Alloc(heap, 72, 1, d_021C3CF0, 0xac);
+    extra = GFL_HEAP_Alloc(heap, 16, 1, d_021C3CF0, 0xad);
     for (i = 0; i < 6; i++) {
         entries[i].x = 160;
         entries[i].flag = 0;
@@ -187,9 +187,9 @@ void *DEMO3D_DATA_Create(unsigned heap)
 
 void DEMO3D_DATA_Delete(char *a)
 {
-    func_020307B0(((Demo3dData *)a)->extra);
-    func_020307B0(((Demo3dData *)a)->entries);
-    func_020307B0(a);
+    GFL_HEAP_Free(((Demo3dData *)a)->extra);
+    GFL_HEAP_Free(((Demo3dData *)a)->entries);
+    GFL_HEAP_Free(a);
 }
 
 void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type)
@@ -288,7 +288,7 @@ extern unsigned short GX_GetBankForLCDC(void);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
-extern void func_0208068C(int);
+extern void GX_SetBankForLCDC(int);
 
 extern void MIi_CpuClearFast(unsigned,void *,unsigned);
 
@@ -379,19 +379,19 @@ void *DEMO3D_DATA_CreateTask(void *manager, const Config *source)
     ctx->active = 0;
     ctx->id = GX_GetBankForLCDC();
     DEMO3D_DATA_StartCapture((struct CaptureConfig *)((char *)ctx + 4));
-    func_020056A0((unsigned)DEMO3D_DATA_FinishTask, (unsigned)ctx, 0);
+    GFL_USE_AddMainTask((unsigned)DEMO3D_DATA_FinishTask, (unsigned)ctx, 0);
     return (void *)ctx;
 }
 
 void DEMO3D_DATA_DeleteTask(int *s,unsigned a,unsigned b,unsigned c)
 {
-    GX_SetGraphicsMode(a,b,c);func_0208068C(s[0]);
+    GX_SetGraphicsMode(a,b,c);GX_SetBankForLCDC(s[0]);
     switch(s[1]){
     case 2:MIi_CpuClearFast(0,(void *)0x06800000,0x20000);break;
     case 6:MIi_CpuClearFast(0,(void *)0x06820000,0x20000);break;
     case 10:MIi_CpuClearFast(0,(void *)0x06840000,0x20000);break;
     case 14:MIi_CpuClearFast(0,(void *)0x06860000,0x20000);break;
-    default:func_0208068C(0);break;
+    default:GX_SetBankForLCDC(0);break;
     }
     TCBL_DeleteTask((struct TcblNode *)s[13]);
 }
@@ -412,7 +412,7 @@ void DEMO3D_DATA_FinishTask(void *node,int *s)
 {
     int bank;
     switch(s[1]){case 2:bank=1;break;case 6:bank=2;break;case 10:bank=4;break;case 14:bank=8;break;default:bank=0;break;}
-    func_0208068C(bank);GX_SetGraphicsMode(s[1],s[2],s[3]);s[12]=1;func_02030EAC(node);
+    GX_SetBankForLCDC(bank);GX_SetGraphicsMode(s[1],s[2],s[3]);s[12]=1;TCB_DeleteTask(node);
 }
 
 /*
@@ -622,7 +622,7 @@ extern void BG_SYS_SetVisibleLayer(int,u16);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
@@ -642,15 +642,15 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void BMP_MENUWORK_DeleteHalf(int a, u32 x);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
 extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
 
-extern void func_0207D63C(u32,int,int,int,int);
+extern void G2x_SetBlendAlpha_(u32,int,int,int,int);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern void *memset(void *,int,unsigned);
 
@@ -893,7 +893,7 @@ void DEMO3D_DATA_CreateMessageWindow(char *p,Demo3dMessageWindowWork *out,int a,
     MI_CpuFill8(out,0,0x28);
     out->a=a;out->c=c;out->ctx=p;out->b=b;
     out->text=BMP_MENUWORK_LoadFrameGfx((void *)1,0,1,((Demo3dCmdContext *)p)->alternate);
-    func_02049B40(23,5,0,32,32,((Demo3dCmdContext *)p)->alternate);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,32,32,((Demo3dCmdContext *)p)->alternate);
     out->window=(void *)BMP_WIN_Create(1,d,e,f,g,1,0);
     BMP_Clear(BMP_WIN_GetBmp(out->window),15);
 }
@@ -907,7 +907,7 @@ void DEMO3D_DATA_DeleteMessageWindow(char *p)
     STRBUF_Delete(*(void **)(p+0x24));GF_FONT_SetDefaultTextColor();
     BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x1C),1);BMP_WIN_Delete(*(void **)(p+0x1C));
     BMP_MENUWORK_DeleteHalf(1,*(int *)(p+0x18));MI_CpuFill8(p,0,0x28);
-    BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(0,0);func_02040588(1,0);
+    BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(0,0);BG_SYS_SetPlaneVisible(1,0);
 }
 
 void DEMO3D_DATA_TaskFade(char *p,int unused,int *record)
@@ -950,7 +950,7 @@ void DEMO3D_DATA_FadeMain(struct TcblNode *task,struct Demo3dFadeContext *ctx)
         ctx->step=FX_Div(0x10000,(int)a);
         BG_SYS_SetVisibleLayer(1,0);
         BG_SYS_SetVisibleLayer(0,1);
-        func_0207D63C(0x04000050,2,1,0,16);
+        G2x_SetBlendAlpha_(0x04000050,2,1,0,16);
         BG_SYS_SetPlaneVisible(1,1);
         ctx->state++;
         break;
@@ -999,10 +999,10 @@ void DEMO3D_DATA_CreateFadeWork(char *p,Demo3dFadeWindowWork *out,int a,int b,in
 {
     MI_CpuFill8(out,0,0x2C);
     out->ctx=p;out->c=d;out->a=a;out->d=c;out->b=b;out->e=e;out->f=f;
-    func_02049658((void *)(((Demo3dCmdContext *)p)->assets),out->b,1,0,0,1,((Demo3dCmdContext *)p)->alternate);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((Demo3dCmdContext *)p)->assets),out->b,1,0,0,1,((Demo3dCmdContext *)p)->alternate);
 }
 
-void DEMO3D_DATA_DeleteFadeWork(void *p){unsigned z=0;memset(p,0,0x2c);func_02040588(1,0);BG_SYS_SetVisibleLayer(0,0);BG_SYS_SetVisibleLayer(1,1);*(volatile unsigned short *)0x04000050=z;BG_SYS_FreeSlot(1);}
+void DEMO3D_DATA_DeleteFadeWork(void *p){unsigned z=0;memset(p,0,0x2c);BG_SYS_SetPlaneVisible(1,0);BG_SYS_SetVisibleLayer(0,0);BG_SYS_SetVisibleLayer(1,1);*(volatile unsigned short *)0x04000050=z;BG_SYS_FreeSlot(1);}
 
 void DEMO3D_DATA_TaskCreateCapture(char *a, int unused, int *p)
 {

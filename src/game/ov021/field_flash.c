@@ -13,13 +13,13 @@
  * Cut from field_task_manager.c, field_flash.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   gFieldFlashFileName  0x021DE4FC  data  ov021  a4
  *   gFlashCommandTable  0x021DAAD0  data  ov021  a4
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   FLD_WIPE_3DOBJ_Create 0x021C8018 thumb ov021
  *   FLD_WIPE_3DOBJ_Delete 0x021C8054 thumb ov021
  *   FLD_WIPE_3DOBJ_Draw 0x021C8078 thumb ov021
@@ -27,9 +27,9 @@
 #include "field_task_types.h"
 #include "field_flash_shared_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 enum FlashState {
     FLASH_STATE_OFF = 0,
@@ -42,7 +42,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 extern char gFieldFlashFileName[];
 
@@ -92,7 +92,7 @@ void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha);
 
 FieldFlash *FIELD_FLASH_Create(u32 heapId)
 {
-    FieldFlash *flash = func_02030734(heapId, sizeof(FieldFlash), 1, gFieldFlashFileName, 0x7a);
+    FieldFlash *flash = GFL_HEAP_Alloc(heapId, sizeof(FieldFlash), 1, gFieldFlashFileName, 0x7a);
     flash->model = FLD_WIPE_3DOBJ_Create(heapId);
     flash->state = FLASH_STATE_OFF;
     flash->pendingCommand = FLASH_CMD_NONE;
@@ -105,7 +105,7 @@ void FIELD_FLASH_Delete(FieldFlash *flash)
     if (flash != 0) {
         FIELD_FLASH_ClearTween(&flash->tween);
         FLD_WIPE_3DOBJ_Delete(flash->model);
-        func_020307B0(flash);
+        GFL_HEAP_Free(flash);
     }
 }
 
@@ -176,7 +176,7 @@ int FIELD_FLASH_StepTween(FlashTween *tween)
 {
     if (tween->frame < tween->frames) {
         tween->frame = tween->frame + 1;
-        tween->size = tween->sizeStart + func_0207C768((int)(((long long)tween->sizeDelta * (tween->frame << 12) + 0x800) >> 12), tween->frames << 12);
+        tween->size = tween->sizeStart + FX_Div((int)(((long long)tween->sizeDelta * (tween->frame << 12) + 0x800) >> 12), tween->frames << 12);
         tween->alpha = tween->alphaStart + tween->alphaDelta * tween->frame / tween->frames;
         return 0;
     }

@@ -14,10 +14,10 @@
  * Split from field_palace_sys.c at 0x021D30B8 (__FILE__ anchor event_game_manual.c at 0x021D30B8 (first anchored function)).
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -45,10 +45,10 @@ typedef struct EventGameManualWork {
     u16 *resultOut;                 /* 0x0C */
 } EventGameManualWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *p);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
@@ -69,12 +69,12 @@ struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *r
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    event = func_020122C0(gameSystem, 0, EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->resultOut = resultOut;
-    work->param = func_02030734(4, sizeof(GameManualParam), 0, d_021DE698, 0x4a);
+    work->param = GFL_HEAP_Alloc(4, sizeof(GameManualParam), 0, d_021DE698, 0x4a);
     work->param->gameData = gameData;
     return event;
 }
@@ -96,7 +96,7 @@ u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWor
         break;
     case 1:
         EVENT_GAME_MANUAL_SetResult(work);
-        func_020307B0(work->param);
+        GFL_HEAP_Free(work->param);
         return 1;
     }
     return 0;

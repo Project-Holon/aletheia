@@ -14,10 +14,10 @@
  *
  * symbols:
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   func_020124E8 0x020124E8 thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -34,7 +34,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   FIELDMAP_GetHeapId 0x02188C84 thumb ov021
  *   FIELDMAP_GetMsgBg 0x02188C54 thumb ov021
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb
@@ -99,13 +99,13 @@ typedef struct ResearchReportWork {
 
 extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 
-extern struct GameTask *func_020122C0(void *parent, void *reserved, void *mainFunc, u32 workSize);
+extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
 
 extern void *func_020124E8(struct GameTask *task);
 
-extern int func_020307B0();
+extern int GFL_HEAP_Free();
 
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int transitionArg);
 
@@ -133,7 +133,7 @@ extern u16 FIELDMAP_GetHeapId(void *fieldMap);
 
 extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern int MSGDATA_Delete();
 
@@ -249,7 +249,7 @@ int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork
         *state = 5;
         break;
     case 5:
-        func_020307B0(work->param);
+        GFL_HEAP_Free(work->param);
         return 1;
     }
     return 0;
@@ -260,11 +260,11 @@ void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg) 
     struct GameTask *task;
     ResearchTopTaskWork *work;
     ResearchTopParam *param;
-    task = func_020122C0(gameSystem, 0, EVENT_RESEARCH_RADAR_TopTaskMain, 12);
+    task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_TopTaskMain, 12);
     work = func_020124E8(task);
     work->gameSystem = gameSystem;
     work->transitionArg = (int)transitionArg;
-    param = func_02030734(4, 4, 0, g_ResearchRadarFileName, 117);
+    param = GFL_HEAP_Alloc(4, 4, 0, g_ResearchRadarFileName, 117);
     work->param = param;
     param->gameSystem = gameSystem;
     return task;
@@ -304,7 +304,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
 
 void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
     struct GameTask *task;
-    task = func_020122C0(gameSystem, 0, EVENT_RESEARCH_RADAR_ReportTaskMain, 32);
+    task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_ReportTaskMain, 32);
     EVENT_RESEARCH_RADAR_InitReportWork(func_020124E8(task), gameSystem);
     return task;
 }
@@ -328,7 +328,7 @@ struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(ResearchReportWork *work,
 {
     struct MsgBank *bank;
 
-    bank = func_02045B38(0, 3, 0x2f, work->heapId);
+    bank = MSGDATA_CreateFromArchive(0, 3, 0x2f, work->heapId);
     work->msgBank = bank;
     return bank;
 }

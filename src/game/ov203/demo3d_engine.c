@@ -13,8 +13,8 @@
  * Cut from demo3d_graphic.c, demo3d_data.c, demo3d_cmdsys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   FX_Div 0x0207C768 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
@@ -55,12 +55,12 @@
  *   ICA_ANIME_SetCameraStatus 0x02011B8C thumb
  *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   DOUBLE3DDISP_SetDrawDone 0x0204EA4C arm
  *   ICA_ANIME_GetFrameNum 0x02011608 thumb
  *   ZONEDATA_GetTimeLightColors 0x0201493C thumb
- *   func_0207DCF8 0x0207DCF8 arm
+ *   G3X_SetEdgeColorTable 0x0207DCF8 arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetFogTable 0x0207DD10 arm
  *   G3X_SetClearColor 0x0207DD24 arm
@@ -134,9 +134,9 @@ struct Record {
     u16 edgecolors[8];
 };
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 
@@ -208,7 +208,7 @@ extern u32 G3D_UTIL_GetObject(u8 *,int);
 
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
 
-extern void func_02048AD0(struct Light *);
+extern void G3D_CAMERA_Reset(struct Light *);
 
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 
@@ -218,7 +218,7 @@ extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *p);
 
 extern void ZONEDATA_GetTimeLightColors(u32,u32,u32,u32,u32,u16 *,u16);
 
-extern void func_0207DCF8(const u16 *);
+extern void G3X_SetEdgeColorTable(const u16 *);
 
 extern void G3X_SetFog(BOOL,GXFogBlend,GXFogSlope,int);
 
@@ -318,7 +318,7 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     void *e;
     u32 h;
 
-    ctx = func_02030734(heap, 0x88, 1, d_021C3CE0, 0x79);
+    ctx = GFL_HEAP_Alloc(heap, 0x88, 1, d_021C3CE0, 0x79);
     ctx->graphic = owner;
     ctx->id = cfg->f4;
     ctx->data.id = ctx->id;
@@ -363,7 +363,7 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     ctx->scale[5] = 0x1000;
     MTX_Identity33_(ctx->matrix);
     ctx->count = DEMO3D_ENGINE_GetAnimeKind(ctx->id);
-    ctx->indices = func_02030734(heap, ctx->count * 2, 1, d_021C3CE0, 0xB7);
+    ctx->indices = GFL_HEAP_Alloc(heap, ctx->count * 2, 1, d_021C3CE0, 0xB7);
     ctx->anime = DEMO3D_ENGINE_CreateAnimeStream(ctx->id, heap, 10);
     if (ctx->data.frame)
         r = _fadd(0x3f000000, _ffltu(ctx->data.frame << 12));
@@ -409,8 +409,8 @@ void DEMO3D_ENGINE_Delete(struct Ctx *ctx, int b, int c, u32 d)
         G3D_UTIL_RemoveUnit((struct Ctx *)ctx->table, ctx->indices[i]);
     }
     G3D_UTIL_Delete((struct Rec *)ctx->table);
-    func_020307B0(ctx->indices);
-    func_020307B0(ctx);
+    GFL_HEAP_Free(ctx->indices);
+    GFL_HEAP_Free(ctx);
 }
 
 /*
@@ -450,7 +450,7 @@ int DEMO3D_ENGINE_Update(const struct Ctx *ctx, u32 frames)
         for(j=0;j<count;j++) G3D_SYSTEM_LoopObjectAnimeFrame(obj,(u16)j,advance);
     }
     if(ctx->animeOn != 0) DEMO3D_ENGINE_SetClipPlanes((struct Ctx *)ctx,ctx->light);
-    func_02048AD0(ctx->light);
+    G3D_CAMERA_Reset(ctx->light);
     DEMO3D_GRAPHIC_UpdateLookAt((Demo3dGraphic *)ctx->graphic);
     for(i=0;i<ctx->count;i++) {
         G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject((u8 *)ctx->table,ctx->indices[i]),(struct Arg *)ctx->scale);
@@ -503,7 +503,7 @@ void DEMO3D_ENGINE_SetupLighting(struct Ctx *ctx,struct Config *cfg,const struct
     Test(record->test,((struct Record *)ctx->cam)->ref);
     Blend(record->blend);
     Edge(record->edge);
-    if(record->edge) func_0207DCF8(record->edgecolors);
+    if(record->edge) G3X_SetEdgeColorTable(record->edgecolors);
     G3X_SetFog(record->fog,(GXFogBlend)record->mode,(GXFogSlope)record->slope,record->offset);
     if(record->fog) {
         *(volatile u32 *)0x04000358=record->fogcolor|(record->fogalpha<<16);

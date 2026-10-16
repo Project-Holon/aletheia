@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020355D8  0x020355D8  arm
@@ -26,8 +26,8 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_02041B6C  0x02041B6C  arm
- *   func_020355C4  0x020355C4  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   UI_GetInputMode  0x020355C4  arm
  *   gFrameListSourceFile     0x021B9574  data  ov067  a1
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   BLINK_PALANM_Create  0x0202E940  thumb
@@ -36,7 +36,7 @@
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   MIi_CpuCopy32  0x02082A90  arm
  *   BGWINFRM_Delete       0x0202CA0C  thumb
- *   func_0202EA20       0x0202EA20  thumb
+ *   BLINK_PALANM_Delete       0x0202EA20  thumb
  *   PRINTSYS_QUE_Delete       0x0201C4C0  thumb
  *   func_02049EF4 0x02049EF4 arm
  *   MIi_CpuCopy16 0x02082A60 arm
@@ -70,8 +70,8 @@
 
 struct Bitmap;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *ptr);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *ptr);
 extern void BG_SYS_DrawTileEx(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
 extern void func_020355D8(u8 value);
@@ -83,15 +83,15 @@ extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 heig
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct Bitmap *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void func_02041B6C(u32 layer);
-extern u8 func_020355C4(void);
+extern void BG_SYS_SetFlagField06(u32 layer);
+extern u8 UI_GetInputMode(void);
 extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 size, u32 heapId);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 bgLayer, u16 heapId);
 extern struct BgWinFrm *BGWINFRM_Create(u32 kind, u32 frameCount, u32 heapId);
 extern void BGWINFRM_AddFrame(struct BgWinFrm *mgr, u32 index, u32 bgLayer, u32 width, u32 height);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
-extern u32 func_0202EA20(struct BlinkPalAnm *anim);
+extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anim);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
 extern void *func_02049EF4(void *source, u32 fileIndex, u32 memberIndex, void **outData, u16 heapId);
 extern void MIi_CpuCopy16(const void *src, void *dst, int size);
@@ -184,25 +184,25 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
     u32 index;
     u32 entryCount;
 
-    list = func_02030734(heapId, sizeof(FrameList), 1, gFrameListSourceFile, 0xf5);
+    list = GFL_HEAP_Alloc(heapId, sizeof(FrameList), 1, gFrameListSourceFile, 0xf5);
     list->params = *params;
     list->heapId = heapId;
     list->touchY = -1;
     list->prevTouchY = -1;
     list->printer = PRINTSYS_QUE_CreateEx(0x800, heapId);
     list->cursorAnim = BLINK_PALANM_Create(list->params.cursorPltt << 4, 0x10, list->params.bgLayer, list->heapId);
-    list->items = func_02030734(list->heapId, list->params.itemCount * 8, 1, gFrameListSourceFile, 0x104);
+    list->items = GFL_HEAP_Alloc(list->heapId, list->params.itemCount * 8, 1, gFrameListSourceFile, 0x104);
     if (list->params.mapCount != 0) {
-        list->maps = func_02030734(list->heapId, list->params.mapCount * 4, 0, gFrameListSourceFile, 0x109);
+        list->maps = GFL_HEAP_Alloc(list->heapId, list->params.mapCount * 4, 0, gFrameListSourceFile, 0x109);
         for (index = 0; index < list->params.mapCount; index++)
-            list->maps[index] = func_02030734(list->heapId, list->params.tileWidth * list->params.rowHeight * 2, 0, gFrameListSourceFile, 0x10b);
+            list->maps[index] = GFL_HEAP_Alloc(list->heapId, list->params.tileWidth * list->params.rowHeight * 2, 0, gFrameListSourceFile, 0x10b);
     }
     list->windowCount = 0x18 / list->params.rowHeight + 2;
     list->windowCountHalf = list->windowCount;
     if (list->params.bgLayerB != 0xff)
         list->windowCount = list->windowCount * 2;
     list->frameMgr = BGWINFRM_Create(2, list->windowCount, list->heapId);
-    list->windows = func_02030734(list->heapId, list->windowCount * 8, 0, gFrameListSourceFile, 0x117);
+    list->windows = GFL_HEAP_Alloc(list->heapId, list->windowCount * 8, 0, gFrameListSourceFile, 0x117);
     for (index = 0; index < list->windowCount; index++) {
         if (list->params.bgLayerB != 0xff && list->windowCountHalf <= index) {
             BGWINFRM_AddFrame(list->frameMgr, index, list->params.bgLayerB, list->params.tileWidth, list->params.rowHeight);
@@ -223,7 +223,7 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
                 break;
             entryCount++;
         }
-        list->hitRects = func_02030734(list->heapId, (entryCount + 1) * 4, 0, gFrameListSourceFile, 0x13e);
+        list->hitRects = GFL_HEAP_Alloc(list->heapId, (entryCount + 1) * 4, 0, gFrameListSourceFile, 0x13e);
         for (index = 0; index < entryCount + 1; index++)
             MIi_CpuCopy32(&list->params.hitEntries[index], &list->hitRects[index], 4);
     }
@@ -246,7 +246,7 @@ void FRAME_LIST_Delete(FrameList *list)
         ENV_SetResourceSet(list->maps);
     }
     ENV_SetResourceSet(list->items);
-    func_0202EA20(list->cursorAnim);
+    BLINK_PALANM_Delete(list->cursorAnim);
     PRINTSYS_QUE_Delete(list->printer);
     ENV_SetResourceSet(list);
 }
@@ -271,7 +271,7 @@ void FRAME_LIST_CopyMapToBuffer(FrameList *list, void *source, u32 fileIndex, u3
     void *handle;
     handle = func_02049EF4(source, fileIndex, memberIndex, &data, list->heapId);
     MIi_CpuCopy16((u8 *)data + 0xc, list->maps[mapSlot], list->params.tileWidth * list->params.rowHeight * 2);
-    func_020307B0(handle);
+    GFL_HEAP_Free(handle);
 }
 
 void FRAME_LIST_LoadPalettes(FrameList *list, u8 *palettes, u32 firstSlot, u32 srcSlot, u32 slotCount)
@@ -326,7 +326,7 @@ int FRAME_LIST_Update(FrameList *list)
             result = -8;
         break;
     case 4:
-        if (func_020355C4() == 0 && (KEY_GetTrg() & 1))
+        if (UI_GetInputMode() == 0 && (KEY_GetTrg() & 1))
             result = list->cursor;
         if (list->repeatDelay == 0)
             list->state = 0;
@@ -436,7 +436,7 @@ int FRAME_LIST_ReadTouch(FrameList *list)
     hitIndex = TOUCHPANEL_HitTrg(list->hitRects);
     if (hitIndex == -1)
         return FRAME_LIST_EVENT_NONE;
-    savedTouchMode = func_020355C4();
+    savedTouchMode = UI_GetInputMode();
     func_020355D8(1);
     switch (list->params.hitEntries[hitIndex].kind) {
     case FRAME_LIST_HIT_ROW_CONFIRM:
@@ -512,7 +512,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
 {
     int lastRow;
 
-    if ((KEY_GetTrg() & 0x3f1) && func_020355C4() == 1) {
+    if ((KEY_GetTrg() & 0x3f1) && UI_GetInputMode() == 1) {
         func_020355D8(0);
         list->prevCursor = 0xff;
         list->repeatDelay = 8;
@@ -686,7 +686,7 @@ int FRAME_LIST_HandleInput(FrameList *list)
         GFL_USE_PlaySeDefaultVolume(0x645);
         return -8;
     case FRAME_LIST_EVENT_CONFIRM:
-        if (func_020355C4() == 1) {
+        if (UI_GetInputMode() == 1) {
             FRAME_LIST_SetCursorHighlight(list, (u16)list->cursor, (u16)list->prevCursor);
             list->params.ops->onCursor(list->params.userData, list->cursor + list->scrollPos, 1);
         }
@@ -1271,7 +1271,7 @@ void FRAME_LIST_ScrollBgRows(FrameList *list, int windowIndex, s8 y)
         BG_SYS_DrawTileEx(bgFrame, list->params.tileX, (u8)y, list->params.tileWidth, 1, frameBuffer, 0, tileRow, list->params.tileWidth, list->params.rowHeight);
         y++;
     }
-    func_02041B6C((u8)bgFrame);
+    BG_SYS_SetFlagField06((u8)bgFrame);
 }
 
 
@@ -1287,7 +1287,7 @@ void FRAME_LIST_ClearBgRows(FrameList *list, u32 layer, s8 y)
         BG_SYS_SetTileEntry(layer, 0, list->params.tileX, (u8)y, list->params.tileWidth, 1, 0);
         y++;
     }
-    func_02041B6C(layer);
+    BG_SYS_SetFlagField06(layer);
 }
 
 
@@ -1349,7 +1349,7 @@ void FRAME_LIST_SetRowPalette(FrameList *list, int row, u32 pltt)
         BG_SYS_FillTileMap(list->params.bgLayer, list->params.tileX, (u8)pos, list->params.tileWidth, 1, (u8)pltt);
         pos++;
     }
-    func_02041B6C(list->params.bgLayer);
+    BG_SYS_SetFlagField06(list->params.bgLayer);
 }
 
 
@@ -1357,7 +1357,7 @@ void FRAME_LIST_SetCursorHighlight(FrameList *list, u32 newRow, u32 oldRow)
 {
     if (oldRow < list->visibleCount)
         FRAME_LIST_SetRowPalette(list, oldRow, (u16)(list->maps[list->items[list->scrollPos + oldRow].mapIndex][0] >> 12));
-    if (newRow < list->visibleCount && func_020355C4() == 0) {
+    if (newRow < list->visibleCount && UI_GetInputMode() == 0) {
         BLINK_PALANM_ResetPhase(list->cursorAnim);
         FRAME_LIST_SetRowPalette(list, newRow, list->params.cursorPltt);
     }

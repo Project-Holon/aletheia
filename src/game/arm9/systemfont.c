@@ -16,7 +16,7 @@
  *   gSystemFont        0x02146A58  data
  *   kBuiltinFontData   0x020A08D0  data
  *   systemfont_File    0x020A7E98  data
- *   func_02030734      0x02030734  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
  *   FS_InitFile        0x020788AC  arm
  *   FS_OpenFile        0x02078C18  arm
  *   FS_GetLength       0x02078C28  arm
@@ -51,7 +51,7 @@ struct SystemFont {
     u32 isBuiltin;         /* 1: data is the built-in table, 0: allocated and read from a file */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  FS_InitFile(struct FSFile *file);
 extern u32   FS_OpenFile(struct FSFile *file, u32 fontFile);
 extern u32   FS_GetLength(struct FSFile *file);
@@ -119,13 +119,13 @@ void SYSTEMFONT_Load(u32 fontFile)
         return;
     }
 
-    gSystemFont = func_02030734(0, 0x10, 0, systemfont_File, 68);
+    gSystemFont = GFL_HEAP_Alloc(0, 0x10, 0, systemfont_File, 68);
 
     if (fontFile != 0) {
         FS_InitFile(&file);
         if (FS_OpenFile(&file, fontFile) == 1) {
             size = FS_GetLength(&file);
-            gSystemFont->data = func_02030734(0, size, 0, systemfont_File,
+            gSystemFont->data = GFL_HEAP_Alloc(0, size, 0, systemfont_File,
                                               77);
             FS_ReadFile(&file, gSystemFont->data, size);
             FS_CloseFile(&file);

@@ -13,8 +13,8 @@
  * Cut from draw_system.c, ctvt_comm.c, ctvt_draw.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
@@ -27,9 +27,9 @@
  *   COMM_TVT_SYS_GetTalkStatus 0x021BDFEC thumb ov172
  *   MIi_CpuCopy16 0x02082A60 arm
  *   d_021C7200 0x021C7200 data a4
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
- *   func_0207D63C 0x0207D63C arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -68,7 +68,7 @@
  *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   COMM_TVT_SYS_ToggleViewSwapped 0x021BE0B8 thumb ov172
  *   CTVT_CAMVIEW_IsLayoutChanging 0x021B77B4 thumb ov172
  *   COMM_TVT_SYS_ToggleHalfRes 0x021BE08C thumb ov172
@@ -92,7 +92,7 @@
  *   COMM_TVT_SYS_GetFont 0x021BE034 thumb ov172
  *   COMM_TVT_SYS_GetMsgData 0x021BE03C thumb ov172
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
@@ -139,7 +139,7 @@
 #include "ctvt_types.h"
 #include "ctvt_talk_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct Bmp;
 
@@ -147,15 +147,15 @@ struct Rect { u16 x; u16 y; u16 z; u8 a; u8 b; };
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MIi_CpuCopy16(const void *, void *, u32);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void func_0207D63C(void *, u32, u32, u32, u32);
+extern void G2x_SetBlendAlpha_(void *, u32, u32, u32, u32);
 
 extern void BG_SYS_PushTile(u32 layer);
 
@@ -217,7 +217,7 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern u32 KEY_GetTrg(void);
 
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
 extern u32 CTVT_CAMVIEW_IsLayoutChanging(int unused, void *p);
 
@@ -245,7 +245,7 @@ extern int func_0209C494(int a);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -369,9 +369,9 @@ char *CTVT_TALK_Create(char *unused, u16 heap)
 {
     char *q;
     u8 i;
-    q = func_02030734(heap, 0xac, 1, d_021C7200, 0xd7);
+    q = GFL_HEAP_Alloc(heap, 0xac, 1, d_021C7200, 0xd7);
     ((CtvtTalk *)q)->mic = CTVT_MIC_Create(heap);
-    ((CtvtTalk *)q)->packetPool = func_02030734(heap, 0x808, 1, d_021C7200, 0xda);
+    ((CtvtTalk *)q)->packetPool = GFL_HEAP_Alloc(heap, 0x808, 1, d_021C7200, 0xda);
     ((CtvtTalk *)q)->packet = ((CtvtTalk *)q)->packetPool;
     ((CtvtTalk *)q)->packetPayload = (char *)((CtvtTalk *)q)->packetPool + 8;
     ((CtvtTalk *)q)->levelIndex = 4;
@@ -382,9 +382,9 @@ char *CTVT_TALK_Create(char *unused, u16 heap)
 
 void CTVT_TALK_Delete(void *a0, char *a1)
 {
-    func_020307B0(((CtvtTalk *)a1)->packet);
+    GFL_HEAP_Free(((CtvtTalk *)a1)->packet);
     CTVT_MIC_Delete((char *)((CtvtTalk *)a1)->mic);
-    func_020307B0(a1);
+    GFL_HEAP_Free(a1);
 }
 
 /*
@@ -402,11 +402,11 @@ void CTVT_TALK_Init(void *a, char *p)
 
     h = COMM_TVT_SYS_GetHeapId(a);
     g = (void *)COMM_TVT_SYS_GetArc(a);
-    func_02049658(g, 0xB, 6, 0, 0, 0, h);
-    func_020498F4(g, 0x11, 6, 0, 0, 0, h);
-    func_02049658(g, 0xB, 5, 0, 0x5000, 0, h);
-    func_020498F4(g, 0xF, 5, 0, 0, 0, h);
-    func_0207D63C((void *)0x04001050, 2, 0x14, 5, 0xF);
+    ARC_UTIL_UploadBgCharFromHandle(g, 0xB, 6, 0, 0, 0, h);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0x11, 6, 0, 0, 0, h);
+    ARC_UTIL_UploadBgCharFromHandle(g, 0xB, 5, 0, 0x5000, 0, h);
+    ARC_UTIL_UploadBgPaletteFromHandle(g, 0xF, 5, 0, 0, 0, h);
+    G2x_SetBlendAlpha_((void *)0x04001050, 2, 0x14, 5, 0xF);
     BG_SYS_PushTile(6);
     BG_SYS_PushTile(5);
     rc.x = 0x80;
@@ -678,11 +678,11 @@ u32 CTVT_TALK_Main(void *p, CtvtTalk *s)
         s->flashCounter++;
         if (s->flashCounter > 6) {
             s->flashActive = 0;
-            func_02061CA4((void *)0x1F, 0x20, (u32)s->savedPalette, 0x20);
+            NNS_GfdRegisterNewVramTransferTask((void *)0x1F, 0x20, (u32)s->savedPalette, 0x20);
         } else if (s->flashCounter % 12 < 6) {
-            func_02061CA4((void *)0x1F, 0x20, (u32)s->flashPalette, 0x20);
+            NNS_GfdRegisterNewVramTransferTask((void *)0x1F, 0x20, (u32)s->flashPalette, 0x20);
         } else {
-            func_02061CA4((void *)0x1F, 0x20, (u32)s->savedPalette, 0x20);
+            NNS_GfdRegisterNewVramTransferTask((void *)0x1F, 0x20, (u32)s->savedPalette, 0x20);
         }
     }
     if (s->voiceActive == 0 && s->state != 8 && s->state < 11 && CTVT_MIC_GetPlayState(s->mic) == 1) {
@@ -1054,7 +1054,7 @@ void CTVT_TALK_ShowMessage(void *p, char *q, int id)
     u32 text;
     PRINTSYS_QUE_Clear((struct PrintSys *)sys);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)q)->messageWin)), 15);
-    text = (u32)func_02045EC0((struct MsgBank *)msgs, id);
+    text = (u32)MSGDATA_AllocString((struct MsgBank *)msgs, id);
     PRINTSYS_PrintQueColor((void *)sys, (u32)BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)q)->messageWin), 0, 0, text, font, 1088);
     STRBUF_Delete((struct U16Vec *)text);
     BMP_WIN_TransferChars((struct Descriptor *)((CtvtTalk *)q)->messageWin);

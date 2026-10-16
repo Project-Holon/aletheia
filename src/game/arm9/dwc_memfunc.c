@@ -1,7 +1,7 @@
 /*
  * file:     dwc_memfunc.c
  * unit:     yes
- * function: DWCi_GetAllocateHeader, func_0205A134, DWCi_GetAllocateSize, func_0205A158, func_0205A16C, DWC_AllocEx, func_0205A1B0, DWC_Realloc, func_0205A200, func_0205A26C, func_0205A280, func_0205A29C, func_0205A2B4
+ * function: DWCi_GetAllocateHeader, func_0205A134, DWCi_GetAllocateSize, func_0205A158, DWC_Alloc, DWC_AllocEx, DWC_Free, DWC_Realloc, func_0205A200, func_0205A26C, func_0205A280, func_0205A29C, func_0205A2B4
  * address:  0x0205A12C
  * region:   arm9
  * compiler: dsi/1.1p1

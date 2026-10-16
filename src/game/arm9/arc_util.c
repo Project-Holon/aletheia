@@ -13,8 +13,8 @@
  * Cut from g3d_util.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734      0x02030734  arm
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc      0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   MI_UncompressLZ8  0x020834C0  arm
  *   arc_util_file   0x020A7F30  data
  *   ARC_TOOL_ReadMember 0x02048F4C arm arm9
@@ -28,9 +28,9 @@ struct LzHeader {
     u32 sizeAndType;
 };
 
-extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_UncompressLZ8(const void *src, void *dest);
 
@@ -57,7 +57,7 @@ extern const char arc_util_file[];
 /*
  * arc_util.c's "open a member and read it" entry.  The three __LINE__
  * constants 1599, 1603 and 1611 are the only three the pool carries, and
- * each is the fifth argument of a func_02030734 call whose fourth
+ * each is the fifth argument of a GFL_HEAP_Alloc call whose fourth
  * argument is the file-name word at 0x020A7F30 ("arc_util.c").
  */
 int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, u16 heapID)
@@ -68,16 +68,16 @@ int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, u16 heapID
 
     if (decompress != 0) {
         size = ARC_TOOL_GetMemberSize(archiveID, memberIdx);
-        buf = (int)func_02030734((u16)((heapID & 0x7fff) | 0x8000), size, 0, arc_util_file, 1599);
+        buf = (int)GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), size, 0, arc_util_file, 1599);
     } else {
         size = ARC_TOOL_GetMemberSize(archiveID, memberIdx);
-        buf = (int)func_02030734(heapID, size, 0, arc_util_file, 1603);
+        buf = (int)GFL_HEAP_Alloc(heapID, size, 0, arc_util_file, 1603);
     }
     ARC_TOOL_ReadMember((void *)buf, archiveID, memberIdx);
     if (decompress != 0) {
-        outBuf = (int)func_02030734(heapID, ((struct LzHeader *)buf)->sizeAndType >> 8, 0, arc_util_file, 1611);
+        outBuf = (int)GFL_HEAP_Alloc(heapID, ((struct LzHeader *)buf)->sizeAndType >> 8, 0, arc_util_file, 1611);
         ((int (*)(int a0, int a1))MI_UncompressLZ8)(buf, outBuf);
-        func_020307B0((void *)buf);
+        GFL_HEAP_Free((void *)buf);
         buf = outBuf;
     }
     return buf;
@@ -95,16 +95,16 @@ int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u1
 
     *out = ARC_TOOL_GetMemberSize(archiveID, memberIdx);
     if (decompress != 0) {
-        buf = (int)func_02030734((u16)((heapID & 0x7fff) | 0x8000), *out, 0, arc_util_file, 1642);
+        buf = (int)GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), *out, 0, arc_util_file, 1642);
     } else {
-        buf = (int)func_02030734(heapID, *out, 0, arc_util_file, 1646);
+        buf = (int)GFL_HEAP_Alloc(heapID, *out, 0, arc_util_file, 1646);
     }
     ARC_TOOL_ReadMember((void *)buf, archiveID, memberIdx);
     if (decompress != 0) {
         *out = ((struct LzHeader *)buf)->sizeAndType >> 8;
-        outBuf = (int)func_02030734(heapID, *out, 0, arc_util_file, 1656);
+        outBuf = (int)GFL_HEAP_Alloc(heapID, *out, 0, arc_util_file, 1656);
         ((int (*)(int a0, int a1))MI_UncompressLZ8)(buf, outBuf);
-        func_020307B0((void *)buf);
+        GFL_HEAP_Free((void *)buf);
         buf = outBuf;
     }
     return buf;
@@ -139,18 +139,18 @@ void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileID, int decompress, 
 
     *out_size = ARC_TOOL_GetHandleMemberSize(narc, fileID);
     if (decompress != 0) {
-        buf = func_02030734((u16)(((u16)heapID & 0x7FFF) | 0x8000), *out_size, 0, arc_util_file, 1709);
+        buf = GFL_HEAP_Alloc((u16)(((u16)heapID & 0x7FFF) | 0x8000), *out_size, 0, arc_util_file, 1709);
     } else {
-        buf = func_02030734((u16)heapID, *out_size, 0, arc_util_file, 1713);
+        buf = GFL_HEAP_Alloc((u16)heapID, *out_size, 0, arc_util_file, 1713);
     }
     if (buf != 0) {
         ARC_TOOL_ReadHandleMember(narc, fileID, buf);
         if (decompress != 0) {
             *out_size = ((struct LzHeader *)buf)->sizeAndType >> 8;
-            outBuf = func_02030734((u16)heapID, *out_size, 0, arc_util_file, 1725);
+            outBuf = GFL_HEAP_Alloc((u16)heapID, *out_size, 0, arc_util_file, 1725);
             if (outBuf != 0) {
                 MI_UncompressLZ8(buf, outBuf);
-                func_020307B0(buf);
+                GFL_HEAP_Free(buf);
             }
             buf = outBuf;
         }

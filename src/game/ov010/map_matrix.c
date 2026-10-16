@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
  *   d_021728AC  0x021728AC  data
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   MAP_MATRIX_SetupFromFile  0x02159D04  thumb  ov010
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MAP_MATRIX_PosToBlock  0x02159D68  thumb  ov010
  *   MAP_MATRIX_IsInRange  0x02159C2C  thumb  ov010
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
@@ -66,11 +66,11 @@ struct MatrixFile {
 
 struct MapReplace;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082A7C(int, void *, int);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile *file, u32 matrixId, u16 zoneId);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int MAP_MATRIX_PosToBlock(int pos);
 u16 MAP_MATRIX_GetZoneId(const struct MapMatrix *matrix, u32 x, u32 z);
 int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId);
@@ -88,7 +88,7 @@ extern const char d_021728AC[];
 
 struct MapMatrix *MAP_MATRIX_Create(int heapId)
 {
-    struct MapMatrix *matrix = func_02030734(heapId, sizeof(struct MapMatrix), 1, d_021728AC, 0x4b);
+    struct MapMatrix *matrix = GFL_HEAP_Alloc(heapId, sizeof(struct MapMatrix), 1, d_021728AC, 0x4b);
     matrix->heapId = heapId;
     func_02082A7C(-1, matrix->mapGrid, sizeof(matrix->mapGrid));
     func_02082A7C(0xffff, matrix->zoneGrid, sizeof(matrix->zoneGrid));
@@ -101,7 +101,7 @@ int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heap
 {
     void *file = ARC_TOOL_LoadMember(9, matrixId, heapId);
     MAP_MATRIX_SetupFromFile(matrix, file, matrixId, zoneId);
-    return func_020307B0(file);
+    return GFL_HEAP_Free(file);
 }
 
 
@@ -114,7 +114,7 @@ int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heap
  */
 void MAP_MATRIX_Delete(struct MapMatrix *matrix)
 {
-    func_020307B0(matrix);
+    GFL_HEAP_Free(matrix);
 }
 
 

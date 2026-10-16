@@ -13,13 +13,13 @@
  * Cut from manual_common.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   KEY_GetRepeat 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
@@ -27,10 +27,10 @@
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_020355C4 0x020355C4 arm
+ *   UI_GetInputMode 0x020355C4 arm
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
@@ -72,19 +72,19 @@ struct ManualListBuffer {
     u32 choice;     /* 0x04 */
 };
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 
-extern void *func_020056A0(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),BMP_WIN_Delete(struct Descriptor *);
 
-extern void *func_02045EC0(struct MsgBank *,unsigned);
+extern void *MSGDATA_AllocString(struct MsgBank *,unsigned);
 
 extern void STRBUF_Delete(struct U16Vec *);
 
@@ -100,13 +100,13 @@ extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
 
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32,u32,u32,u32,u32,u32,u16);
 
 extern struct ManualRes *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
 
-extern u8 func_020355C4(void);
+extern u8 UI_GetInputMode(void);
 
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 
@@ -157,13 +157,13 @@ extern const u8 gManualCommonDialogHitRects[];
 char *MANUAL_COMMON_CreateDialog(char *owner, char *data)
 {
     char *dialog;
-    dialog = func_02030734(((struct ManualData *)data)->heap, 32, 1, gManualCommonDialogAllocFile, 157);
+    dialog = GFL_HEAP_Alloc(((struct ManualData *)data)->heap, 32, 1, gManualCommonDialogAllocFile, 157);
     *(char * *)&((struct ManualDialog *)dialog)->owner = owner;
     ((struct ManualListBuffer *)owner)->choice = 1;
     *(char * *)&((struct ManualDialog *)dialog)->data = data;
     MANUAL_COMMON_LoadDialogAssets(dialog);
     MANUAL_COMMON_SetDialogBgMode(dialog);
-    ((struct ManualDialog *)dialog)->task = func_020056A0((unsigned)MANUAL_COMMON_DialogTaskNoop, (unsigned)dialog, 1);
+    ((struct ManualDialog *)dialog)->task = GFL_USE_AddMainTask((unsigned)MANUAL_COMMON_DialogTaskNoop, (unsigned)dialog, 1);
     ((struct ManualDialog *)dialog)->state = 0;
     dialog[0x1c] = -1;
     MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->group, 0);
@@ -172,8 +172,8 @@ char *MANUAL_COMMON_CreateDialog(char *owner, char *data)
 
 void MANUAL_COMMON_DeleteDialog(char *dialog)
 {
-    func_02030EAC((struct Node *)(((struct ManualDialog *)dialog)->task));
-    func_020307B0(dialog);
+    TCB_DeleteTask((struct Node *)(((struct ManualDialog *)dialog)->task));
+    GFL_HEAP_Free(dialog);
 }
 
 /*
@@ -236,7 +236,7 @@ void MANUAL_COMMON_DialogTaskNoop(void *unused)
 void MANUAL_COMMON_LoadDialogAssets(char *dialog)
 {
     func_02049B68((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
-    func_02049658((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
     ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 4, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
     MANUAL_COMMON_CreateDialogWindows(dialog);
 }
@@ -246,17 +246,17 @@ void MANUAL_COMMON_CreateDialogWindows(char *dialog)
     struct ManualTaskEntry entries[2];
     u8 i;
     *(struct ManualRes * *)&((struct ManualDialog *)dialog)->resource = APP_TASKMENU_RES_Create(5, 4, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->font, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
-    entries[0].resource = func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 0);
+    entries[0].resource = MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 0);
     entries[0].tag = 0x39e3;
     entries[0].flags = 0;
-    entries[1].resource = func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 1);
+    entries[1].resource = MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 1);
     entries[1].tag = 0x39e3;
     entries[1].flags = 0;
     for (i = 0; i < 2; i++) {
         *(unsigned *)(dialog + i * 4 + 0xc) = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct ManualDialog *)dialog)->resource, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
         STRBUF_Delete(entries[i].resource);
     }
-    if (func_020355C4() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc), 1);
+    if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc), 1);
 }
 
 void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_SetFlagField06(4); }
@@ -271,7 +271,7 @@ void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(
 int MANUAL_COMMON_UpdateDialogInput(char *dialog)
 {
     int hit=TOUCHPANEL_HitTrg(gManualCommonDialogHitRects);
-    if(func_020355C4()==0) {
+    if(UI_GetInputMode()==0) {
         if(hit>=0 && hit<=1) {
             func_020355D8(1);
             APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
@@ -284,7 +284,7 @@ int MANUAL_COMMON_UpdateDialogInput(char *dialog)
             return 0;
         }
     }
-    if(func_020355C4()==0) {
+    if(UI_GetInputMode()==0) {
         if(KEY_GetTrg()&1) {
             APP_TASKMENU_WIN_SetDecide(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x54c);

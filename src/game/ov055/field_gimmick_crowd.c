@@ -46,11 +46,11 @@
  *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
  *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FLDMMDL_SetStatusBitHeightGetOff 0x0216DB4C thumb ov010
  *   FLDMMDL_SetStatusBitAttrGetOff 0x0216DC98 thumb ov010
@@ -63,7 +63,7 @@
  *   FLDMMDL_CheckStatusBitVanish  0x0216DAB4  thumb  ov010
  *   FLDMMDL_GetGridOldX  0x0216D804  thumb  ov010
  *   FLDMMDL_GetGridOldZ  0x0216D81C  thumb  ov010
- *   func_02045B38  0x02045B38  arm
+ *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   CROWD_CloseChatterSlot 0x021F45A4 thumb ov055
  *   MSGDATA_Delete 0x02045C04 arm
  *   gCrowdChatterSlotX 0x021F45E0 data a1
@@ -227,11 +227,11 @@ extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
 extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
 extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 walkCmd);
-extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, u16 heap);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
 extern int FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
@@ -244,7 +244,7 @@ extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bit);
 extern int FLDMMDL_CheckStatusBitVanish(Mmdl *mmdl);
 extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void CROWD_CloseChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void FIELD_MSGBG_AddSubMsgWinMsg(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 windowId, u8 x, u8 y, u8 width, u8 height);
@@ -568,7 +568,7 @@ void CROWD_LoadConfig(CrowdConfig *config, int timeZone, int zoneId, u16 heapId)
     int j;
 
     tempHeapId = (heapId & 0x7fff) | 0x8000;
-    arc = func_020490F4(0xba, tempHeapId);
+    arc = ARC_TOOL_CreateHandle(0xba, tempHeapId);
     zoneTable = ARC_TOOL_LoadHandleMember(arc, 5, (u16)tempHeapId);
     count = ARC_TOOL_GetHandleMemberSize(arc, 5) >> 2;
     for (i = 0; i < count; i++) {
@@ -576,7 +576,7 @@ void CROWD_LoadConfig(CrowdConfig *config, int timeZone, int zoneId, u16 heapId)
             break;
     }
     ARC_TOOL_ReadHandleMemberRange(arc, i, 0, 0x32, config);
-    func_020307B0(zoneTable);
+    GFL_HEAP_Free(zoneTable);
     count = ARC_TOOL_GetHandleMemberSize(arc, 6);
     config->modelTable = ARC_TOOL_LoadHandleMember(arc, 6, (u16)heapId);
     config->modelTableCount = count >> 4;
@@ -586,7 +586,7 @@ void CROWD_LoadConfig(CrowdConfig *config, int timeZone, int zoneId, u16 heapId)
 }
 
 /* Free the model table of the setup. */
-void CROWD_FreeConfig(CrowdConfig *config) { func_020307B0(config->modelTable); config->modelTable=0; }
+void CROWD_FreeConfig(CrowdConfig *config) { GFL_HEAP_Free(config->modelTable); config->modelTable=0; }
 
 /* Per frame: count up the spawn timers and put a new person on the map when one runs out. */
 void CROWD_UpdateSpawns(CrowdConfig *config, CrowdWork *work, int timeZone)
@@ -842,7 +842,7 @@ void CROWD_InitChatter(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const Cr
     interval = config->intervalByTimeZone[timeZone];
     chatter->timer = i;
     chatter->interval = 0x10 + rand % interval;
-    chatter->msgData = func_02045B38(0, 3, 0x9f, heapId);
+    chatter->msgData = MSGDATA_CreateFromArchive(0, 3, 0x9f, heapId);
     chatter->msgBg = msgBg;
     chatter->nextSlot = rand & 0xf;
     for (i = 0; i < CROWD_CHATTER_SLOT_MAX; i++) {

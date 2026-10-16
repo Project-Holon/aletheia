@@ -15,18 +15,18 @@
  * symbols:
  *   GFL_HEAP_Free   0x020307B0  arm
  *   ARC_TOOL_LoadMember       0x02048F60  arm
- *   func_02030734     0x02030734  arm
+ *   GFL_HEAP_Alloc     0x02030734  arm
  *   NNSi_G2dInitVramHandleEx     0x020637D4  arm
  *   func_02049F34     0x02049F34  arm
- *   func_020056A0     0x020056A0  thumb
+ *   GFL_USE_AddMainTask     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
  *   MCSS_CloseHandle   0x02014CD4  thumb
  *   TCBL_GetTaskUserData   0x02030EE8  arm
- *   func_020307B0   0x020307B0  arm
- *   func_02030EAC   0x02030EAC  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  *   MCSS_Del   0x02015BA4  thumb
  *   MCSS_RestartAnime  0x02016374  thumb
- *   func_020490F4         0x020490F4  arm
+ *   ARC_TOOL_CreateHandle         0x020490F4  arm
  *   ENV_SetResourceSet_2  0x02049238  arm
  *   MCSS_FreeResource  0x02016BA0  thumb
  *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
@@ -55,7 +55,7 @@
  *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
  *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
  *   PALANM_BlendColors  0x02021F64  thumb
- *   func_02030DA8  0x02030DA8  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   NNS_G2dRestartMCAnimation  0x02064CBC  arm
  *   NNSi_G2dLoadVramResourceSub  0x02063A54  arm
@@ -98,6 +98,7 @@
  *   NNSi_G2dInitVramHandle  0x02063790  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
+ *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
  */
 #include "field_status_shared_types.h"
 #include "zone_light_shared_types.h"
@@ -444,21 +445,21 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void NNSi_G2dInitVramHandleEx(u32 *proxy);
 
 extern void *func_02049F34(u32 arcId, u32 member, McssPlttData **out, u32 heap);
 
-extern void *func_020056A0(void *fn, void *work, u32 priority);
+extern void *GFL_USE_AddMainTask(void *fn, void *work, u32 priority);
 
 extern void MCSS_CloseHandle(McssSys *sys);
 
 extern void *TCBL_GetTaskUserData(void *task);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void func_02030EAC(void *task);
+extern void TCB_DeleteTask(void *task);
 
 extern void MCSS_Del(McssSys *sys, McssWork *work);
 
@@ -466,7 +467,7 @@ extern void NNS_G2dTickMCAnimation(McssAnimCtrl *ctrl, fx32 speed);
 
 extern void MCSS_RestartAnime(McssWork *work);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void  ENV_SetResourceSet_2(void *arcHandle);
 
@@ -508,7 +509,7 @@ extern void *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
 
 extern void NNS_G2dSetAnimSequenceToMCAnimation(McssAnimCtrl *ctrl, void *seq);
 
-extern void *func_02030DA8(void *taskSys, void *callback, void *work, int priority);
+extern void *TCB_AddTask(void *taskSys, void *callback, void *work, int priority);
 
 extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
 
@@ -524,7 +525,7 @@ extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, v
 
 extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
 
-extern void *func_02049DB4(u32 arcId, u32 member, u32 flag, McssTransTask *out, u16 heap);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 member, u32 flag, McssTransTask *out, u16 heap);
 
 extern void NNSi_G2dInitVramHandle(u32 *vramAddr);
 
@@ -808,21 +809,21 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     McssTransTask *task;
     u32 subHeapId;
 
-    sys = func_02030734(heapId, 0x4c, 1, sFileMcss, 0x78);
+    sys = GFL_HEAP_Alloc(heapId, 0x4c, 1, sFileMcss, 0x78);
     sys->maxCount = maxCount;
     sys->heapId = heapId;
     sys->globalScale = 0x1000;
-    sys->works = func_02030734(heapId, maxCount * 4, 1, sFileMcss, 0x7f);
+    sys->works = GFL_HEAP_Alloc(heapId, maxCount * 4, 1, sFileMcss, 0x7f);
     sys->texTransAdrs = 9 << 14;
     sys->plttTransAdrs = 0x1000;
     NNSi_G2dInitVramHandleEx((u32 *)&sys->shadowPltt);
     subHeapId = (heapId & 0x7fff) | 0x8000;
-    task = func_02030734((u32)((void *)(u16)subHeapId), 0x2c, 1, sFileMcss, 0x8e);
+    task = GFL_HEAP_Alloc((u32)((void *)(u16)subHeapId), 0x2c, 1, sFileMcss, 0x8e);
     task->sys = sys;
     task->plttProxyOut = &sys->shadowPltt;
     task->plttDest = 0x1100;
     task->plttBuf = func_02049F34(0xb, 0x58, &task->plttData, (u16)subHeapId);
-    sys->shadowPlttTask = func_020056A0((void *)MCSS_TransTextureTask, task, 0);
+    sys->shadowPlttTask = GFL_USE_AddMainTask((void *)MCSS_TransTextureTask, task, 0);
     return sys;
 }
 
@@ -844,10 +845,10 @@ void MCSS_Exit(McssSys *sys)
     if (sys->shadowPlttTask != 0) {
         McssTransTask *task = TCBL_GetTaskUserData(sys->shadowPlttTask);
 
-        func_020307B0(task->plttData->data);
-        func_020307B0(task->plttData);
-        func_020307B0(task);
-        func_02030EAC(sys->shadowPlttTask);
+        GFL_HEAP_Free(task->plttData->data);
+        GFL_HEAP_Free(task->plttData);
+        GFL_HEAP_Free(task);
+        TCB_DeleteTask(sys->shadowPlttTask);
         sys->shadowPlttTask = 0;
     }
     for (i = 0; i < sys->maxCount; i++) {
@@ -858,8 +859,8 @@ void MCSS_Exit(McssSys *sys)
             MCSS_Del(sys, work);
         }
     }
-    func_020307B0(sys->works);
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys->works);
+    GFL_HEAP_Free(sys);
 }
 
 /*
@@ -921,7 +922,7 @@ void MCSS_Main(McssSys *sys)
  *
  * alias: an acquire/release pair on the same object. MCSS_OpenHandle only
  * acts the first time (its own field at +0 is the guard); it records the
- * argument at +4 and installs whatever func_020490F4 returns at +0.
+ * argument at +4 and installs whatever ARC_TOOL_CreateHandle returns at +0.
  * MCSS_CloseHandle is the release: if +0 is set it tears it down and clears
  * both fields.
  *
@@ -950,7 +951,7 @@ void MCSS_OpenHandle(McssSys *sys, u32 arcId)
 {
     if (sys->arcHandle == 0) {
         sys->arcId = arcId;
-        sys->arcHandle = func_020490F4(arcId, (u16)sys->heapId);
+        sys->arcHandle = ARC_TOOL_CreateHandle(arcId, (u16)sys->heapId);
     }
 }
 
@@ -1493,7 +1494,7 @@ McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addW
 
     for (i = 0; i < sys->maxCount; i++) {
         if (sys->works[i] == 0) {
-            sys->works[i] = func_02030734((u16)sys->heapId, sizeof(McssWork), 1,
+            sys->works[i] = GFL_HEAP_Alloc((u16)sys->heapId, sizeof(McssWork), 1,
                                           sFileMcss,
                                           906);
             sys->works[i]->index = i;
@@ -1542,7 +1543,7 @@ McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addW
  * (MCSS_DeleteTextureTask for +0, MCSS_DeletePaletteTask for +4 and +8) and zeroes the field;
  * it then clears a slot this object owns in an array reached through
  * sys->+0x14, indexed by the object's own field at +0x148, and finally
- * hands the object to func_020307B0 through an interworking blx.
+ * hands the object to GFL_HEAP_Free through an interworking blx.
  *
  * The four followers are unlabelled leaf accessors on the same class of
  * object, found in the .word run disasm.py left undecoded immediately
@@ -1581,7 +1582,7 @@ void MCSS_Del(McssSys *sys, McssWork *work)
     index = work->index;
     works = sys->works;
     works[index] = 0;
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 void MCSS_SetOrthoMode(McssSys *sys)
@@ -2175,7 +2176,7 @@ void MCSS_SetPaletteTransAdrs(McssSys *sys, unsigned int adrs)
  * +0x28 and a caller-supplied flag truncated to 16 bits (the explicit
  * lsls/lsrs #0x10 pair in the original is exactly that narrowing cast in
  * the callee, not something the caller is trusted to have done), releases
- * the handle at +0x98 through func_020307B0 if one is set, calls
+ * the handle at +0x98 through GFL_HEAP_Free if one is set, calls
  * MCSS_InitAnimCtrl(a, 1), passes the derived value into NNS_G2dSetAnimSequenceToMCAnimation on the
  * member at +0x34, then clears bit 0 of the word at +0x144.
  *
@@ -2197,7 +2198,7 @@ void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex)
     void *seq = NNS_G2dGetAnimSequenceByIdx(work->multiCellAnimBank, (u16)animeIndex);
 
     if (work->animWork != 0) {
-        func_020307B0(work->animWork);
+        GFL_HEAP_Free(work->animWork);
     }
 
     MCSS_InitAnimCtrl(work, 1);
@@ -2310,7 +2311,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 {
     McssTransTask *task;
 
-    task = func_02030734(
+    task = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
             0x2c, 1, sFileMcss, 0x761);
 
@@ -2320,14 +2321,14 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
     task->plttProxyOut = &work->plttProxy;
     task->plttDest = sys->plttTransAdrs + (work->index << 5);
 
-    task->plttData = func_02030734(
+    task->plttData = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
             0x10, 0, sFileMcss, 0x769);
 
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = 0;
     task->plttData->byteSize = work->plttByteSize;
-    task->plttData->data = func_02030734(
+    task->plttData->data = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
             work->plttByteSize, 0, sFileMcss, 0x76e);
 
@@ -2345,15 +2346,15 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 
     if (work->flags.bits.paletteFadeFlag == 0) {
         if (sys->taskSys != 0) {
-            work->paletteTask = func_02030DA8(sys->taskSys,
+            work->paletteTask = TCB_AddTask(sys->taskSys,
                                              MCSS_TransPaletteTask, task, 0);
         } else {
-            work->paletteTask = func_020056A0(MCSS_TransPaletteTask, task, 0);
+            work->paletteTask = GFL_USE_AddMainTask(MCSS_TransPaletteTask, task, 0);
         }
     } else {
-        func_020307B0(task->plttData->data);
-        func_020307B0(task->plttData);
-        func_020307B0(task);
+        GFL_HEAP_Free(task->plttData->data);
+        GFL_HEAP_Free(task->plttData);
+        GFL_HEAP_Free(task);
     }
 
     work->flags.raw |= 0x10000000;
@@ -2366,7 +2367,7 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     void *handle;
 
     hasTaskSys = 1;
-    task = func_02030734((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x2C, 1, sFileMcss, 1942);
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x2C, 1, sFileMcss, 1942);
     task->sys = sys;
     if (sys->taskSys == 0) {
         hasTaskSys = 0;
@@ -2377,12 +2378,12 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     task->plttDest = sys->plttTransAdrs + (work->index << 5);
 
     hasTaskSys = 0;
-    task->plttData = func_02030734((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x10, 0, sFileMcss, 1950);
+    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x10, 0, sFileMcss, 1950);
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = hasTaskSys;
     task->plttData->byteSize = work->plttByteSize;
 
-    task->plttData->data = func_02030734((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, 1950 + 5);
+    task->plttData->data = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, 1950 + 5);
     MIi_CpuCopy16(work->plttOriginal, task->plttData->data, work->plttByteSize);
 
     if (work->paletteTask != 0) {
@@ -2391,9 +2392,9 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     }
 
     if (sys->taskSys != 0) {
-        handle = func_02030DA8(sys->taskSys, MCSS_TransPaletteTask, task, 0);
+        handle = TCB_AddTask(sys->taskSys, MCSS_TransPaletteTask, task, 0);
     } else {
-        handle = func_020056A0(MCSS_TransPaletteTask, task, 0);
+        handle = GFL_USE_AddMainTask(MCSS_TransPaletteTask, task, 0);
     }
     work->paletteTask = handle;
 
@@ -2515,7 +2516,7 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     work->cellHeader = cellHeader;
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
-    task = func_02030734((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
                          0x2C, 1, sFileMcss, 0x840);
     task->sys = sys;
     if (sys->taskSys == 0) {
@@ -2528,15 +2529,15 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     task->plttDest = sys->plttTransAdrs + (index << 5);
     task->work = work;
 
-    task->texBuf = func_02049DB4(addWork->arcId, addWork->textureMember, 1, task,
+    task->texBuf = ARC_UTIL_LoadBgCharDataFromArchive(addWork->arcId, addWork->textureMember, 1, task,
                                  (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
     task->plttBuf = func_02049F34(addWork->arcId, addWork->paletteMember, &task->plttData,
                                   (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
 
-    work->plttOriginal = func_02030734(heap,
+    work->plttOriginal = GFL_HEAP_Alloc(heap,
                                        task->plttData->byteSize, 0,
                                        sFileMcss, 0x858);
-    work->plttCurrent = func_02030734(heap,
+    work->plttCurrent = GFL_HEAP_Alloc(heap,
                                       task->plttData->byteSize, 0,
                                       sFileMcss, 0x858 + 1);
     work->plttByteSize = task->plttData->byteSize;
@@ -2553,9 +2554,9 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
         MCSS_ApplyMosaic(work, task);
     }
     if (sys->taskSys != 0) {
-        work->textureTask = func_02030DA8(sys->taskSys, MCSS_TransTextureTask, task, 0);
+        work->textureTask = TCB_AddTask(sys->taskSys, MCSS_TransTextureTask, task, 0);
     } else {
-        work->textureTask = func_020056A0(MCSS_TransTextureTask, task, 0);
+        work->textureTask = GFL_USE_AddMainTask(MCSS_TransTextureTask, task, 0);
     }
 }
 
@@ -2595,7 +2596,7 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     work->cellHeader = cellHeader;
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
-    task = func_02030734((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
                          0x2C, 1, sFileMcss, 0x8AB);
     task->sys = sys;
     if (sys->taskSys == 0) {
@@ -2613,10 +2614,10 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     task->plttBuf = func_02049F78(arcHandle, addWork->paletteMember, &task->plttData,
                                   (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
 
-    work->plttOriginal = func_02030734((u16)work->heapId,
+    work->plttOriginal = GFL_HEAP_Alloc((u16)work->heapId,
                                        task->plttData->byteSize, 0,
                                        sFileMcss, 0x8C3);
-    work->plttCurrent = func_02030734((u16)work->heapId,
+    work->plttCurrent = GFL_HEAP_Alloc((u16)work->heapId,
                                       task->plttData->byteSize, 0,
                                       sFileMcss, 0x8C3 + 1);
     work->plttByteSize = task->plttData->byteSize;
@@ -2633,9 +2634,9 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
         MCSS_ApplyMosaic(work, task);
     }
     if (sys->taskSys != 0) {
-        work->textureTask = func_02030DA8(sys->taskSys, MCSS_TransTextureTask, task, 0);
+        work->textureTask = TCB_AddTask(sys->taskSys, MCSS_TransTextureTask, task, 0);
     } else {
-        work->textureTask = func_020056A0(MCSS_TransTextureTask, task, 0);
+        work->textureTask = GFL_USE_AddMainTask(MCSS_TransTextureTask, task, 0);
     }
 }
 
@@ -2711,7 +2712,7 @@ void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task)
  */
 void MCSS_InitAnimCtrl(McssWork *work, int kind)
 {
-    work->animWork = func_02030734((unsigned short)work->heapId,
+    work->animWork = GFL_HEAP_Alloc((unsigned short)work->heapId,
                                    NNS_G2dGetMCWorkAreaSize(work->multiCellBank, kind),
                                    0, sFileMcss, 0x970);
     NNS_G2dInitMCAnimation(&work->animCtrl, work->animWork, work->cellAnimBank,
@@ -2771,7 +2772,7 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     }
 
     flag = 1;
-    task = func_02030734((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x2C, 1, sFileMcss, 0x9A1);
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x2C, 1, sFileMcss, 0x9A1);
     task->sys = sys;
     if (sys->taskSys == 0) {
         flag = 0;
@@ -2782,11 +2783,11 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     task->plttDest = sys->plttTransAdrs + (work->index << 5);
 
     flag = 0;
-    task->plttData = func_02030734((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x10, 0, sFileMcss, 0x9A9);
+    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x10, 0, sFileMcss, 0x9A9);
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = flag;
     task->plttData->byteSize = work->plttByteSize;
-    task->plttData->data = func_02030734((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, 0x9A9 + 5);
+    task->plttData->data = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, 0x9A9 + 5);
 
     if (work->flags.bits.plttCurrentValid) {
         PALANM_BlendColors(work->plttCurrent, task->plttData->data, ((s32)work->plttByteSize / 2), *(u8 *)&work->fadeStart, (u16)work->fadeColor);
@@ -2800,9 +2801,9 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     }
 
     if (sys->taskSys != 0) {
-        handle = func_02030DA8(sys->taskSys, MCSS_TransPaletteTask, task, 0);
+        handle = TCB_AddTask(sys->taskSys, MCSS_TransPaletteTask, task, 0);
     } else {
-        handle = func_020056A0(MCSS_TransPaletteTask, task, 0);
+        handle = GFL_USE_AddMainTask(MCSS_TransPaletteTask, task, 0);
     }
     work->fadeTask = handle;
 
@@ -2837,7 +2838,7 @@ dec:
  *
  * alias: a teardown chain on the same object class as unit_02015BA4.c.
  * MCSS_FreeResource releases eight pointer fields of the object through
- * func_020307B0 (a generic release call reached by blx, so it is ARM),
+ * GFL_HEAP_Free (a generic release call reached by blx, so it is ARM),
  * zeroes three of them (+0x98, +0xd4, +0xd8, all past the immediate str
  * reach so the compiler adds the offset into a register first), then
  * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
@@ -2845,7 +2846,7 @@ dec:
  * that field's value before zeroing it too. MCSS_DeleteTextureTask turns an id into
  * an object through TCBL_GetTaskUserData, releases one or two of the object's own
  * pointer fields the same way, releases the object itself, and finally
- * releases the id through func_02030EAC.
+ * releases the id through TCB_DeleteTask.
  *
  * The immediate follower, MCSS_DeletePaletteTask (38 bytes, same shape over a third
  * field, one level of extra indirection), is a documented near miss: this
@@ -2860,14 +2861,14 @@ dec:
  */
 void MCSS_FreeResource(McssWork *work)
 {
-    func_020307B0(work->cellFile);
-    func_020307B0(work->cellAnimFile);
-    func_020307B0(work->multiCellFile);
-    func_020307B0(work->multiCellAnimFile);
-    func_020307B0(work->animWork);
-    func_020307B0(work->cellHeader);
-    func_020307B0(work->plttOriginal);
-    func_020307B0(work->plttCurrent);
+    GFL_HEAP_Free(work->cellFile);
+    GFL_HEAP_Free(work->cellAnimFile);
+    GFL_HEAP_Free(work->multiCellFile);
+    GFL_HEAP_Free(work->multiCellAnimFile);
+    GFL_HEAP_Free(work->animWork);
+    GFL_HEAP_Free(work->cellHeader);
+    GFL_HEAP_Free(work->plttOriginal);
+    GFL_HEAP_Free(work->plttCurrent);
 
     work->animWork = 0;
     work->plttOriginal = 0;
@@ -2892,22 +2893,22 @@ void MCSS_DeleteTextureTask(void *taskHandle)
     McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
 
     if (task->texBuf != 0) {
-        func_020307B0(task->texBuf);
+        GFL_HEAP_Free(task->texBuf);
     }
     if (task->plttBuf != 0) {
-        func_020307B0(task->plttBuf);
+        GFL_HEAP_Free(task->plttBuf);
     }
-    func_020307B0(task);
-    func_02030EAC(taskHandle);
+    GFL_HEAP_Free(task);
+    TCB_DeleteTask(taskHandle);
 }
 
 void MCSS_DeletePaletteTask(void *taskHandle)
 {
     McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
-    func_020307B0(task->plttData->data);
-    func_020307B0(task->plttData);
-    func_020307B0(task);
-    func_02030EAC(taskHandle);
+    GFL_HEAP_Free(task->plttData->data);
+    GFL_HEAP_Free(task->plttData);
+    GFL_HEAP_Free(task);
+    TCB_DeleteTask(taskHandle);
 }
 
 /*

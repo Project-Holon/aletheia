@@ -14,8 +14,8 @@
  * Split from weather_task.c (lane L141): __FILE__ anchors 021A1DF4 and 021A2920 (gWeatherTaskFileName "weather_task.c"); constructor 021A1DB4 allocates the 0x784-byte task.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gWeatherTaskFileName     0x021DDE80  data  ov021  a4
  *   FIELD_FOG_FADE_IsFade  0x021A0244  thumb  ov021
  *   FIELD_LIGHT_ChangeTable  0x021A0590  thumb  ov021
@@ -47,7 +47,7 @@
  *   func_02048B30  0x02048B30  arm
  *   func_02048AE8  0x02048AE8  arm
  *   VEC_Distance  0x0207CF3C  arm
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   g_DefaultProjectionMtx  0x02148B54  data
  *   CLACT_GetActorPos  0x0204B53C  arm
  *   CLACT_SetActorPos  0x0204B528  arm
@@ -61,7 +61,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   gWeatherStagePhase  0x021D88E8  data  a1
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -93,8 +93,8 @@ typedef struct FieldSoundSystem FieldSoundSystem;
 typedef struct FieldZoneFog FieldZoneFog;
 typedef struct Actor Actor;
 
-extern u32 func_020307B0(void *p);
-extern void *func_02030734(u32 heapId, u32 size, int flag, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int flag, const char *file, u16 line);
 extern int FIELD_FOG_FADE_IsFade(FieldFog *fog);
 extern u32 FIELD_LIGHT_ChangeTable(FieldLight *light, u32 arcId, u32 memberId, u32 frames);
 void FIELD_LIGHT_ReloadZoneTable(FieldLight *light);
@@ -125,7 +125,7 @@ void *FIELD_CAMERA_GetG3dCamera(FieldCamera *camera);
 void func_02048B30(void *camera, VecFx32 *out);
 extern void func_02048AE8(void *camera, VecFx32 *out);
 extern fx32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 void CLACT_GetActorPos(const Actor *actor, WeatherScreenPos *out);
 void CLACT_SetActorPos(Actor *actor, const WeatherScreenPos *src);
 int GFL_USE_IsLoaderBusy(void);
@@ -137,7 +137,7 @@ extern void CLACT_GetActorSurfacePos(Actor *actor, WeatherScreenPos *out, u16 sp
 u32 CLACT_AddActorSurfacePos(Actor *actor, const WeatherScreenPos *pos, u32 space);
 void MI_CpuFill8(void *p, int value, int size);
 void CLACT_SetActorDrawEnable(Actor *actor, unsigned int enabled);
-void *func_020490F4(unsigned int archiveId, unsigned int heapId);
+void *ARC_TOOL_CreateHandle(unsigned int archiveId, unsigned int heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 int CLACT_RegisterCharacter(void *archive, int a, int b, int c, int heapId);
 int CLACT_RegisterPaletteEx(void *archive, int a, int b, int c, int d, int e, int heapId);
@@ -262,7 +262,7 @@ WeatherTaskSys *WEATHER_TASK_Create(void *textureBank, FieldCamera *camera, Fiel
 {
     WeatherTaskSys *task;
 
-    task = func_02030734(heapId, sizeof(WeatherTaskSys), 1, (const char *)gWeatherTaskFileName, 0x17E);
+    task = GFL_HEAP_Alloc(heapId, sizeof(WeatherTaskSys), 1, (const char *)gWeatherTaskFileName, 0x17E);
     task->textureBank = textureBank;
     task->camera = camera;
     task->fog = fog;
@@ -278,7 +278,7 @@ WeatherTaskSys *WEATHER_TASK_Create(void *textureBank, FieldCamera *camera, Fiel
 void WEATHER_TASK_Delete(WeatherTaskSys *task)
 {
     WEATHER_TASK_ForceEnd(task);
-    func_020307B0(task);
+    GFL_HEAP_Free(task);
 }
 
 
@@ -725,7 +725,7 @@ void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task)
 /*
  * Turns the camera movement since the last call into a scroll in whole
  * pixels. A jump beyond the limits is treated as a warp: no scroll.
- * func_0207C768 is FX_Div, VEC_Distance VEC_Distance.
+ * FX_Div is FX_Div, VEC_Distance VEC_Distance.
  */
 void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY)
 {
@@ -756,14 +756,14 @@ void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY)
         return;
     }
     WEATHER_TASK_GetViewScale(&g_DefaultProjectionMtx, VEC_Distance(&pos, &target), &width, &height);
-    width = func_0207C768(width, 0x100000);
-    height = func_0207C768(height, 0xC0000);
+    width = FX_Div(width, 0x100000);
+    height = FX_Div(height, 0xC0000);
     signX = 0x1000;
     if (dx < 0) {
         signX = -0x1000;
         dx = -dx;
     }
-    dx = func_0207C768(dx, width);
+    dx = FX_Div(dx, width);
     if (signX < 0) {
         dx = 0 - dx;
         dx += 0x1000;
@@ -773,7 +773,7 @@ void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY)
         signZ = -0x1000;
         dz = -dz;
     }
-    dz = func_0207C768(dz, height);
+    dz = FX_Div(dz, height);
     if (signZ < 0) {
         dz = 0 - dz;
         dz += 0x1000;
@@ -1044,7 +1044,7 @@ void WEATHER_TASK_AllocParticles(WeatherTaskSys *task, u16 heapId)
 {
     int i;
 
-    task->workBuffer = func_02030734(heapId, task->kind->workBufferSize, 1, (const char *)&gWeatherTaskFileName, 0x874);
+    task->workBuffer = GFL_HEAP_Alloc(heapId, task->kind->workBufferSize, 1, (const char *)&gWeatherTaskFileName, 0x874);
     if (task->kind->hasSprites != 0) {
         for (i = 0; i < WEATHER_PARTICLE_MAX; i++) {
             WEATHER_TASK_CreateParticleActor(&task->particles[i], task, &task->resources, task->textureBank, heapId);
@@ -1058,7 +1058,7 @@ void WEATHER_TASK_FreeParticles(WeatherTaskSys *task)
     int i;
 
     if (task->workBuffer != 0) {
-        func_020307B0(task->workBuffer);
+        GFL_HEAP_Free(task->workBuffer);
         task->workBuffer = 0;
     }
     if (task->kind->hasSprites != 0) {
@@ -1086,7 +1086,7 @@ u8 WEATHER_TASK_IsStarted(WeatherTaskSys *task)
 void WEATHER_TASK_LoadArchive(WeatherResourceSet *resources, const WeatherKindDef *kind, u32 heapId)
 {
     if (kind->hasSprites != 0 || kind->billboardCount != 0)
-        resources->archive = func_020490F4(kind->archiveId, heapId);
+        resources->archive = ARC_TOOL_CreateHandle(kind->archiveId, heapId);
 }
 
 
@@ -1357,6 +1357,6 @@ void WEATHER_TASK_ApplyFogChange(WeatherTaskSys *task)
 
 void WEATHER_TASK_GetViewScale(WeatherViewScale *scale, int distance, int *outWidth, int *outHeight)
 {
-    *outHeight = (int)(((long long)(int)func_0207C768(distance, scale->heightRef) * 0x2000 + 0x800) >> 12);
-    *outWidth = (int)(((long long)(int)func_0207C768(distance, scale->widthRef) * 0x2000 + 0x800) >> 12);
+    *outHeight = (int)(((long long)(int)FX_Div(distance, scale->heightRef) * 0x2000 + 0x800) >> 12);
+    *outWidth = (int)(((long long)(int)FX_Div(distance, scale->widthRef) * 0x2000 + 0x800) >> 12);
 }

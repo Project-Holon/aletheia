@@ -13,7 +13,7 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
@@ -24,7 +24,7 @@
  *   PERCENTAGE_Create 0x021C26E8 thumb ov217
  *   PERCENTAGE_Destroy  0x021C270C  thumb  ov217
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
  */
@@ -53,11 +53,11 @@ struct Percentage {
     struct PercentageTemplate tmpl;
 };
 
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int enable);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct SurfacePos *pos, u32 space);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 seq);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
@@ -239,13 +239,13 @@ void PERCENTAGE_GetHundredsPosition(const struct Percentage *pct, s16 *x, s16 *y
 /* Allocates the 52-byte object. */
 struct Percentage *PERCENTAGE_Alloc(u32 heapId)
 {
-    return func_02030734(heapId, 52, 0, (const char *)0x21C407C, 420);
+    return GFL_HEAP_Alloc(heapId, 52, 0, (const char *)0x21C407C, 420);
 }
 
 /* Frees the object. */
 u32 PERCENTAGE_Free(struct Percentage *pct)
 {
-    return func_020307B0(pct);
+    return GFL_HEAP_Free(pct);
 }
 
 /* Clears the value, unit and actor pointers and records the heap id. */

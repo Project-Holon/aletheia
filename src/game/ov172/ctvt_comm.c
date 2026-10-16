@@ -13,10 +13,10 @@
  * Cut from draw_system.c, ctvt_comm.c, ctvt_draw.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   COMM_TVT_SYS_IsNetIdle 0x021BE100 thumb ov172
  *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
  *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
@@ -53,7 +53,7 @@
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_StartSession  0x0203CBAC  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
@@ -121,7 +121,7 @@
  */
 #include "ctvt_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 
 
@@ -142,7 +142,7 @@ typedef struct { u8 x[0x21]; } PeerStatusBlock;
 /* Frequency table indexed by the voice level of a received packet. */
 typedef struct { u16 value[9]; } CtvtFreqTable;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 
 extern void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
@@ -191,7 +191,7 @@ extern int GFL_NET_IsSessionNull(void);
 
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern void GFL_NET_StartSession(struct GflNetSessionReq *req, u32 a2, u32 a3);
 
@@ -386,7 +386,7 @@ char *CTVT_COMM_Create(void *work, u16 heapId)
     char *comm;
     u8 slot;
     u8 digit;
-    comm = func_02030734(heapId, 0x3e0, 1, gCtvtCommAllocSite, 0xf4);
+    comm = GFL_HEAP_Alloc(heapId, 0x3e0, 1, gCtvtCommAllocSite, 0xf4);
     ((CtvtComm *)comm)->work = work;
     ((CtvtComm *)comm)->netState = 0;
     ((CtvtComm *)comm)->memberCount = 1;
@@ -408,8 +408,8 @@ char *CTVT_COMM_Create(void *work, u16 heapId)
     ((CtvtComm *)comm)->sendBusy = 0;
     ((CtvtComm *)comm)->postBusy = 0;
     ((CtvtComm *)comm)->playPending = 0;
-    ((CtvtComm *)comm)->voiceRec = func_02030734(heapId, 0x208, 1, gCtvtCommAllocSite, 0x116);
-    ((CtvtComm *)comm)->decodeBuf = func_02030734(heapId, 0xc800, 1, gCtvtCommAllocSite, 0x117);
+    ((CtvtComm *)comm)->voiceRec = GFL_HEAP_Alloc(heapId, 0x208, 1, gCtvtCommAllocSite, 0x116);
+    ((CtvtComm *)comm)->decodeBuf = GFL_HEAP_Alloc(heapId, 0xc800, 1, gCtvtCommAllocSite, 0x117);
     ((CtvtComm *)comm)->writeCursor = 0;
     ((CtvtComm *)comm)->readCursor = 0;
     ((CtvtComm *)comm)->markerSlot = 0xff;
@@ -441,8 +441,8 @@ void CTVT_COMM_Delete(void *work, char *comm)
 {
     u8 slot;
     GFL_NET_LOWER_DATA_Exit();
-    func_020307B0(((CtvtComm *)comm)->decodeBuf);
-    func_020307B0(((CtvtComm *)comm)->voiceRec);
+    GFL_HEAP_Free(((CtvtComm *)comm)->decodeBuf);
+    GFL_HEAP_Free(((CtvtComm *)comm)->voiceRec);
     GFL_NET_FreeAligned(((CtvtComm *)comm)->frameBuf);
     GFL_NET_FreeAligned(((CtvtComm *)comm)->jpegOut);
     GFL_NET_FreeAligned(((CtvtComm *)comm)->jpegWork);
@@ -450,7 +450,7 @@ void CTVT_COMM_Delete(void *work, char *comm)
         if (COMM_TVT_SYS_IsLaunchModeCall(work) == 0 || slot == 0)
             GFL_NET_FreeAligned(((CtvtComm *)comm)->postWork[slot]);
     }
-    func_020307B0(comm);
+    GFL_HEAP_Free(comm);
 }
 
 void CTVT_COMM_Main(void *work, char *comm)
@@ -547,7 +547,7 @@ void CTVT_COMM_Main(void *work, char *comm)
             GFL_NET_COMMAND_DeleteCommandTable(0x2000);
             ((CtvtComm *)comm)->netState = 12;
         }
-        if (func_0200FB24() != 0) {
+        if (GFL_NET_ERR_GetErrorLevel() != 0) {
             GFL_NET_COMMAND_DeleteCommandTable(0x2000);
             ((CtvtComm *)comm)->netState = 12;
         }

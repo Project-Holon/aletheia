@@ -13,7 +13,7 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   RingQueue_Push  0x021C0E4C  thumb  ov217
  *   RingQueue_Pop  0x021C0E54  thumb  ov217
  *   RingQueue_IsEmpty  0x021C0E64  thumb  ov217
@@ -39,7 +39,7 @@
  *   CircleGraph_IsAnimating  0x021C11F4  thumb  ov217
  *   CircleGraph_Create 0x021C10C8 thumb ov217
  *   CircleGraph_Destroy 0x021C10D8 thumb ov217
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   d_021C4064 0x021C4064 data a1
  *   d_02148D8C  0x02148D8C  data  a4
  *   d_02148D98  0x02148D98  data  a4
@@ -88,8 +88,8 @@ typedef char CircleGraphSizeCheck[(sizeof(struct CircleGraph) == 4044) ? 1 : -1]
 typedef char CircleGraphEntrySizeCheck[(sizeof(struct CircleGraphEntry) == 20) ? 1 : -1];
 typedef char CircleGraphVertexSizeCheck[(sizeof(struct CircleGraphVertex) == 10) ? 1 : -1];
 
-extern u32 func_020307B0(void *mem);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 GFL_HEAP_Free(void *mem);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 /* SDK: G3i_LookAt_ */
 extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int flag, int unused);
@@ -878,14 +878,14 @@ void CircleGraph_InitFields(struct CircleGraph *graph, u32 heapId)
 
 struct CircleGraph *CircleGraph_Alloc(u32 heapId)
 {
-    struct CircleGraph *graph = func_02030734(heapId, sizeof(struct CircleGraph), 0, d_021C4064, 1588);
+    struct CircleGraph *graph = GFL_HEAP_Alloc(heapId, sizeof(struct CircleGraph), 0, d_021C4064, 1588);
     CircleGraph_InitFields(graph, heapId);
     return graph;
 }
 
 u32 CircleGraph_Free(struct CircleGraph *graph)
 {
-    return func_020307B0(graph);
+    return GFL_HEAP_Free(graph);
 }
 
 /* Creates the command queue, 10 commands deep. */

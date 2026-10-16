@@ -21,10 +21,10 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020315D4  0x020315D4  arm
+ *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   func_020056A0  0x020056A0  thumb
- *   func_02030EAC  0x02030EAC  arm
+ *   GFL_USE_AddMainTask  0x020056A0  thumb
+ *   TCB_DeleteTask  0x02030EAC  arm
  *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
@@ -46,14 +46,14 @@
  *   d_021DEAE0 0x021DEAE0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
- *   func_02049658  0x02049658  arm
- *   func_020498F4  0x020498F4  arm
+ *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DrawTile  0x02041090  arm
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   PALANM_Create  0x02021518  thumb
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
@@ -61,8 +61,8 @@
  *   PALANM_BlendChannelMask 0x02022004 thumb
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
- *   func_0207D63C  0x0207D63C  arm
- *   func_02045B38 0x02045B38 arm
+ *   G2x_SetBlendAlpha_  0x0207D63C  arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -78,21 +78,21 @@
  *   MISC_SAVEDATA_ExportRecord 0x0200EC2C thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
- *   func_020073D8 0x020073D8 thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
  *   func_0200ECD0 0x0200ECD0 thumb
  *   func_0200ECC4 0x0200ECC4 thumb
  *   MISC_SAVEDATA_GetRingRecordDate 0x0200ED14 thumb
  *   MISC_SAVEDATA_ExportRingRecord 0x0200ECF0 thumb
- *   func_020072A4 0x020072A4 thumb
+ *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
  *   sStateHandlers 0x021DEB5C data a4
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BMP_SetDisplaySwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   ov067_id       0x00000043  data
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -110,14 +110,14 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   WORDSET_Callback 0x0201EE60 thumb
@@ -209,10 +209,10 @@ typedef struct DendouViewPosYX { s16 y, x; } DendouViewPosYX;
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void func_020315D4(void *work);
+extern void PROCSYS_FreeProcWork(void *work);
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
-extern int func_020056A0(void (*task)(void *, const DendouViewWork *), DendouViewWork *work, int priority);
-extern int func_02030EAC(int taskId);
+extern int GFL_USE_AddMainTask(void (*task)(void *, const DendouViewWork *), DendouViewWork *work, int priority);
+extern int TCB_DeleteTask(int taskId);
 extern void BG_SYS_Update(void), CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *palAnm);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
@@ -222,14 +222,14 @@ extern void BG_SYS_SetGraphicsMode(BgDispConfig *);
 extern void BG_SYS_InitBgLayer(u32 layer, const BgTemplate *, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32), BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void BG_SYS_FreeLayerBuf(unsigned), BG_SYS_Delete(void);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 BG_SYS_GetBuf(int a);
 extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct PalAnmSlot *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *palAnm, u32 idx, u32 size, u32 heap);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *palAnm, u32 idx);
@@ -237,8 +237,8 @@ extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
 extern void PALANM_BlendChannelMask(struct PalAnmSlot *palAnm, unsigned, u16, unsigned, unsigned);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palAnm, int v);
 extern u32 PALANM_GetFadeRequestBits(struct PalAnmSlot *palAnm);
-extern void func_0207D63C(int, int, int, int, int);
-extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void G2x_SetBlendAlpha_(int, int, int, int, int);
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
@@ -254,19 +254,19 @@ extern void func_0200EC98(const void *saveBlock, u32 *date);
 extern void MISC_SAVEDATA_ExportRecord(const void *saveBlock, int index, DendouViewMember *dst);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSave(void *saveControl, u32 id, u8 heap);
-extern void *func_020073D8(void *saveControl, u32 id, u32 v);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(void *saveControl, u32 id, u32 v);
 extern int func_0200ECD0(void *extraData, int row);
 extern u32 func_0200ECC4(void *extraData, u32 row);
 extern void MISC_SAVEDATA_GetRingRecordDate(void *extraData, int row, u32 *date);
 extern void MISC_SAVEDATA_ExportRingRecord(void *extraData, u32 row, u32 member, DendouViewMember *dst);
-extern void func_020072A4(void *saveControl, u32 id);
-extern int func_02034AC4(s32 overlayId);
+extern void SAVE_CONTROL_DeleteExtraSave(void *saveControl, u32 id);
+extern int GF_OVERLAY_Load(s32 overlayId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BMP_SetDisplaySwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *que);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -282,14 +282,14 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *que, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern void TOUCHBAR_PrintAligned(DendouViewWindow *window, struct PrintQue *que, u16 x, u16 y, struct Strbuf *str, struct GfFont *font, u16 color, u32 align);
-extern u32 func_0201D304(struct Strbuf *str, struct GfFont *font, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 b);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BMP_OAM_UploadChars(struct BmpOam *oam);
 extern void WORDSET_Callback(struct WordSet *wordSet, u32 i, u16 v);
@@ -456,19 +456,19 @@ int DENDOU_VIEW_ProcMain(int unusedA, int unusedB, int unusedC, DendouViewWork *
 
 int DENDOU_VIEW_ProcExit(void *work)
 {
-    func_020315D4(work);
+    PROCSYS_FreeProcWork(work);
     GFL_HEAP_DeleteChecked(DENDOU_VIEW_HEAP);
     return 1;
 }
 
 void DENDOU_VIEW_StartVBlankTask(DendouViewWork *work)
 {
-    work->vblankTaskId = func_020056A0(DENDOU_VIEW_VBlankTask, work, 0);
+    work->vblankTaskId = GFL_USE_AddMainTask(DENDOU_VIEW_VBlankTask, work, 0);
 }
 
 int DENDOU_VIEW_StopVBlankTask(DendouViewWork *work)
 {
-    return func_02030EAC(work->vblankTaskId);
+    return TCB_DeleteTask(work->vblankTaskId);
 }
 
 /*
@@ -539,20 +539,20 @@ void DENDOU_VIEW_ExitBgs(void)
 
 void DENDOU_VIEW_LoadGraphics(void)
 {
-    void *archive = func_020490F4(0xd5, DENDOU_VIEW_HEAP_TAIL);
+    void *archive = ARC_TOOL_CreateHandle(0xd5, DENDOU_VIEW_HEAP_TAIL);
 
     func_02049B68(archive, 1, 0, 0, 0x80, DENDOU_VIEW_HEAP);
     func_02049B68(archive, 6, 4, 0, 0x40, DENDOU_VIEW_HEAP);
-    func_02049658(archive, 0, 0, 0, 0, 1, DENDOU_VIEW_HEAP);
-    func_02049658(archive, 5, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
-    func_020498F4(archive, 2, 0, 0, 0, 1, DENDOU_VIEW_HEAP);
-    func_020498F4(archive, 3, 1, 0, 0, 1, DENDOU_VIEW_HEAP);
-    func_020498F4(archive, 4, 2, 0, 0, 1, DENDOU_VIEW_HEAP);
-    func_020498F4(archive, 7, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 0, 0, 0, 0, 1, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadBgCharFromHandle(archive, 5, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 2, 0, 0, 0, 1, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 3, 1, 0, 0, 1, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 4, 2, 0, 0, 1, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle(archive, 7, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_TOOL_DeleteHandle(archive);
     BG_SYS_DrawTile(3, BG_SYS_GetBuf(0) + 0x540, 0, 0x15, 0x20, 3);
-    func_02049B40(0x17, 5, 0, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
-    func_02049B40(0x17, 5, 4, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
 }
 
 void DENDOU_VIEW_InitPalAnm(DendouViewWork *work)
@@ -587,12 +587,12 @@ int DENDOU_VIEW_IsPaletteFadeBusy(DendouViewWork *work)
 
 void DENDOU_VIEW_InitBlend(void)
 {
-    func_0207D63C(DENDOU_VIEW_REG_MAIN_BLDCNT, 6, 0x11, 0x10, 8);
+    G2x_SetBlendAlpha_(DENDOU_VIEW_REG_MAIN_BLDCNT, 6, 0x11, 0x10, 8);
 }
 
 void DENDOU_VIEW_InitText(DendouViewWork *work)
 {
-    work->msgData = func_02045B38(0, 2, 0x55, DENDOU_VIEW_HEAP);
+    work->msgData = MSGDATA_CreateFromArchive(0, 2, 0x55, DENDOU_VIEW_HEAP);
     work->fontBody = GF_FONT_Create(0x17, 0, 0, 0, DENDOU_VIEW_HEAP);
     work->fontLevelLabel = GF_FONT_Create(0x17, 3, 0, 0, DENDOU_VIEW_HEAP);
     work->wordSet = WORDSET_CreateDefault(DENDOU_VIEW_HEAP);
@@ -643,7 +643,7 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
         saveControl = GAME_DATA_GetSaveControl(params->gameData);
         extraSaveId = 8;
         if (SAVE_CONTROL_LoadExtraSave(saveControl, extraSaveId, DENDOU_VIEW_HEAP) == 1) {
-            extraData = func_020073D8(saveControl, extraSaveId, 0);
+            extraData = SAVE_CONTROL_GetExtraSaveRecord(saveControl, extraSaveId, 0);
             if (extraData) {
                 for (loadRow = 0; loadRow < DENDOU_VIEW_ROW_MAX; loadRow++) {
                     work->rows[loadRow].memberCount = func_0200ECD0(extraData, loadRow);
@@ -657,7 +657,7 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
                 }
             }
         }
-        func_020072A4(saveControl, extraSaveId);
+        SAVE_CONTROL_DeleteExtraSave(saveControl, extraSaveId);
     }
 }
 
@@ -684,7 +684,7 @@ int DENDOU_VIEW_RunState(DendouViewWork *work)
 
 void DENDOU_VIEW_StateInit(DendouViewWork *work)
 {
-    func_02034AC4((int)ov067_id);
+    GF_OVERLAY_Load((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)DENDOU_VIEW_REG_MAIN_BLDCNT = 0;
@@ -722,7 +722,7 @@ int DENDOU_VIEW_StateExit(DendouViewWork *work)
     *(volatile u16 *)DENDOU_VIEW_REG_SUB_BLDCNT = 0;
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     return DENDOU_VIEW_STATE_END;
 }
 
@@ -1146,7 +1146,7 @@ void DENDOU_VIEW_FlushWindows(DendouViewWork *work)
 void DENDOU_VIEW_PresentWindow(DendouViewWindow *window)
 {
     BMP_WIN_MakeScreen(window->win);
-    func_02041B6C(BMP_WIN_GetBgLayer(window->win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window->win));
 }
 
 /*
@@ -1161,17 +1161,17 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
     row = &work->rows[work->rowIndex];
     BMP_Clear(BMP_WIN_GetBmp(work->windows[0].win), 0);
     if (work->params->source == 0) {
-        titleText = func_02045EC0(work->msgData, 0);
+        titleText = MSGDATA_AllocString(work->msgData, 0);
         TOUCHBAR_PrintAligned(&work->windows[0], work->printQueue, 0, 0, titleText, work->fontBody, 0x440, 0);
         STRBUF_Delete(titleText);
     } else {
-        numberedText = func_02045EC0(work->msgData, 1);
+        numberedText = MSGDATA_AllocString(work->msgData, 1);
         WORDSET_SetSlotNumber(work->wordSet, 0, row->hallNumber, 4, 0, 1);
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numberedText);
         TOUCHBAR_PrintAligned(&work->windows[0], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
         STRBUF_Delete(numberedText);
     }
-    dateText = func_02045EC0(work->msgData, 2);
+    dateText = MSGDATA_AllocString(work->msgData, 2);
     WORDSET_SetSlotNumber(work->wordSet, 0, row->year, 2, 2, 1);
     WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, 1);
     WORDSET_SetSlotNumber(work->wordSet, 2, row->day, 2, 2, 1);
@@ -1195,17 +1195,17 @@ void DENDOU_VIEW_DrawPageCounter(DendouViewWork *work)
     if (work->rowCount == 1)
         return;
     BMP_Clear(work->pageBmp, 0);
-    labelText = func_02045EC0(work->msgData, 3);
-    labelWidth = func_0201D304(labelText, work->fontBody, 0);
+    labelText = MSGDATA_AllocString(work->msgData, 3);
+    labelWidth = GF_FONT_MeasureWidestLine(labelText, work->fontBody, 0);
     x = (40 - labelWidth) / 2;
     PRINTSYS_PrintColor(work->pageBmp, x, 4, labelText, work->fontBody, 0x1900);
     STRBUF_Delete(labelText);
-    numbersText = func_02045EC0(work->msgData, 4);
+    numbersText = MSGDATA_AllocString(work->msgData, 4);
     WORDSET_SetSlotNumber(work->wordSet, 0, work->rowIndex + 1, 2, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
     font = work->fontBody;
     text = work->textBuf;
-    numberWidth = func_0201D304(text, font, 0);
+    numberWidth = GF_FONT_MeasureWidestLine(text, font, 0);
     PRINTSYS_PrintColor(work->pageBmp, x - numberWidth, 4, text, font, 0x1900);
     WORDSET_SetSlotNumber(work->wordSet, 0, work->rowCount, 2, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
@@ -1225,45 +1225,45 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     u32 levelLabelWidth, i;
     member = &work->rows[work->rowIndex].members[work->cursor];
     BMP_Clear(BMP_WIN_GetBmp(work->windows[1].win), 0);
-    speciesText = func_02045EC0(work->msgData, 5);
+    speciesText = MSGDATA_AllocString(work->msgData, 5);
     WORDSET_Callback(work->wordSet, 0, member->species);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, speciesText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(speciesText);
     if (member->gender == 0) {
         if (member->species != SPECIES_NIDORAN_M) {
-            maleText = func_02045EC0(work->msgData, 6);
+            maleText = MSGDATA_AllocString(work->msgData, 6);
             TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 64, 0, maleText, work->fontBody, 0xc80, 0);
             STRBUF_Delete(maleText);
         }
     } else if (member->gender == 1) {
         if (member->species != SPECIES_NIDORAN_F) {
-            femaleText = func_02045EC0(work->msgData, 7);
+            femaleText = MSGDATA_AllocString(work->msgData, 7);
             TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 64, 0, femaleText, work->fontBody, 0x14c0, 0);
             STRBUF_Delete(femaleText);
         }
     }
-    levelLabelText = func_02045EC0(work->msgData, 11);
-    levelLabelWidth = func_0201D304(levelLabelText, work->fontLevelLabel, 0);
+    levelLabelText = MSGDATA_AllocString(work->msgData, 11);
+    levelLabelWidth = GF_FONT_MeasureWidestLine(levelLabelText, work->fontLevelLabel, 0);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 80, 4, levelLabelText, work->fontLevelLabel, 0x440, 0);
     STRBUF_Delete(levelLabelText);
-    levelText = func_02045EC0(work->msgData, 8);
+    levelText = MSGDATA_AllocString(work->msgData, 8);
     WORDSET_SetSlotNumber(work->wordSet, 0, member->level, 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, levelText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, levelLabelWidth + 80, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(levelText);
-    nicknameText = func_02045EC0(work->msgData, 9);
+    nicknameText = MSGDATA_AllocString(work->msgData, 9);
     WORDSET_SetSlotTag(work->wordSet, 0, member->nickname, 0, 1, 2);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, nicknameText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 24, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(nicknameText);
-    trainerText = func_02045EC0(work->msgData, 10);
+    trainerText = MSGDATA_AllocString(work->msgData, 10);
     WORDSET_SetSlotTag(work->wordSet, 0, member->trainerName, 0, 1, 2);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, trainerText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 48, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(trainerText);
     for (i = 0; i < 4; i++) {
-        moveText = func_02045EC0(work->msgData, i + 12);
+        moveText = MSGDATA_AllocString(work->msgData, i + 12);
         WORDSET_SetSlotFromMsgCB(work->wordSet, 0, member->moves[i]);
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, moveText);
         TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, (i & 1) * 96, (i >> 1) * 16 + 88, work->textBuf, work->fontBody, 0x440, 0);
@@ -1275,7 +1275,7 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
 void DENDOU_VIEW_ClearInfoWindow(DendouViewWork *work)
 {
     BMP_WIN_ClearScreen(work->windows[1].win);
-    func_02041B6C(BMP_WIN_GetBgLayer(work->windows[1].win));
+    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(work->windows[1].win));
     BMP_Clear(BMP_WIN_GetBmp(work->windows[1].win), 0);
     BMP_WIN_TransferChars(work->windows[1].win);
 }
@@ -1370,7 +1370,7 @@ void DENDOU_VIEW_LoadButtonResources(DendouViewWork *work)
         work->palIds[i] = -1;
     for (i = 0; i < DENDOU_VIEW_RESOURCE_MAX; ++i)
         work->cellIds[i] = -1;
-    archive = func_020490F4(APP_ICON_GetArchiveId(), DENDOU_VIEW_HEAP_TAIL);
+    archive = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), DENDOU_VIEW_HEAP_TAIL);
     work->cgrIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 0, DENDOU_VIEW_HEAP);
     work->palIds[DENDOU_VIEW_COMMON_RESOURCE] = CLACT_RegisterPalette(archive, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x180, DENDOU_VIEW_HEAP);
     cellArcId = APP_ICON_GetStatusCellFileId(2);

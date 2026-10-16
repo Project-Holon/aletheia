@@ -13,8 +13,8 @@
  * Cut from zonedata.c, field_status.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734     0x02030734  arm
- *   func_020307B0     0x020307B0  arm
+ *   GFL_HEAP_Alloc     0x02030734  arm
+ *   GFL_HEAP_Free     0x020307B0  arm
  *   sFieldStatusFile  0x020A72BC  data
  *   ENV_SetResourceSet  0x020307B0  arm
  *   SCRCMD_NETWORK_UnloadOv020  0x0215FA44  thumb  ov010
@@ -26,12 +26,12 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   ov091_id        0x0000005B  data
  *   ov131_id        0x00000083  data
  *   GAMESYSTEM_CallFieldProc  0x020120C0  thumb
- *   GAME_EVENT_Create  0x020122C0  thumb
+ *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -108,9 +108,9 @@ struct ProcPairWork {
     u8 *secondParam;                /* 0x0c */
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern void func_020307B0(void *p);
+extern void GFL_HEAP_Free(void *p);
 
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(struct GameData *gameData);
 
@@ -224,7 +224,7 @@ extern u8 ov131_id[];
  */
 void FIELD_STATUS_Create(u32 heapId)
 {
-    struct FieldStatus *fs = func_02030734(heapId, 0x14, 1, sFieldStatusFile, 0x33);
+    struct FieldStatus *fs = GFL_HEAP_Alloc(heapId, 0x14, 1, sFieldStatusFile, 0x33);
 
     fs->procAction = 0;
 }
@@ -259,7 +259,7 @@ void FIELD_STATUS_Create(u32 heapId)
  */
 void FIELD_STATUS_Delete(struct FieldStatus *fs)
 {
-    func_020307B0(fs);
+    GFL_HEAP_Free(fs);
 }
 
 u32 FIELD_STATUS_GetMapMode(struct FieldStatus *fs)
@@ -687,7 +687,7 @@ int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, u32 *seq, void *w
         break;
     case 2:
         if (wk->callbackWork != 0) {
-            func_020307B0(wk->callbackWork);
+            GFL_HEAP_Free(wk->callbackWork);
         }
         return 1;
     }
@@ -725,7 +725,7 @@ int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, u32 *seq, v
         break;
     case 2:
         if (wk->callbackWork != 0) {
-            func_020307B0(wk->callbackWork);
+            GFL_HEAP_Free(wk->callbackWork);
         }
         return 1;
     }

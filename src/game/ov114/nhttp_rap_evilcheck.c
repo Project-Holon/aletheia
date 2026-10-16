@@ -13,9 +13,9 @@
  * Cut from nhttp_rap.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   sNHTTPRapCryptoHeapId 0x021CE31C data a2
  *   sNHTTPRapEvilCheckEmptyString 0x021CE3B8 data a4
@@ -23,19 +23,20 @@
  *   OS_LockMutex  0x02086028  arm
  *   OS_InitMutex  0x02086004  arm  arm9
  *   WORDSET_CopyString  0x0201F41C  thumb  arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
 
 struct MYSTATUS;
 
-extern void func_02034714(const char *,u32,const char *);
+extern void SAVEDATA_PanicFail(const char *,u32,const char *);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
@@ -71,7 +72,7 @@ extern char sNHTTPRapEvilCheckEmptyString[], sNHTTPRapEvilCheckFileName[];
 u8 *NHTTP_RAP_EvilCheckAllocArray(int elemSize, int count, int heapId)
 {
     int size = count * elemSize;
-    u8 *p = func_02030734(heapId, size, 0, (const char *)0x021CE3A0, 0xb9);
+    u8 *p = GFL_HEAP_Alloc(heapId, size, 0, (const char *)0x021CE3A0, 0xb9);
 
     MI_CpuFill8(p, 0, size);
     return p;
@@ -79,7 +80,7 @@ u8 *NHTTP_RAP_EvilCheckAllocArray(int elemSize, int count, int heapId)
 
 void NHTTP_RAP_EvilCheckFreeArray(void *buf)
 {
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
 }
 
 void NHTTP_RAP_EvilCheckSetElement(u8 *base_p, const void *src_p, u32 elemSize, int index) { MI_CpuCopy8(src_p,base_p+elemSize*index,elemSize); }
@@ -88,16 +89,16 @@ void *NHTTP_RAP_EvilCheckCryptoAlloc(int size)
 {
     void *p;
     if (sNHTTPRapCryptoHeapId == 0xffff)
-        func_02034714(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
-    p = func_02030734(sNHTTPRapCryptoHeapId, size, 0, sNHTTPRapEvilCheckFileName, 0xe9);
+        SAVEDATA_PanicFail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
+    p = GFL_HEAP_Alloc(sNHTTPRapCryptoHeapId, size, 0, sNHTTPRapEvilCheckFileName, 0xe9);
     if (p == 0)
-        func_02034714(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
+        SAVEDATA_PanicFail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
     return p;
 }
 
 void NHTTP_RAP_EvilCheckCryptoFree(void *p)
 {
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATUS *mystatus_p)

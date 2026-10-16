@@ -13,7 +13,7 @@
  * Cut from double3Ddisp.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   double3Ddisp_File 0x020A7F94  data
  *   gDouble3Ddisp     0x02146A80  data
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
@@ -23,12 +23,12 @@
  *   GX_DisableBankForSubOBJ  0x02080BC0  arm
  *   GX_ResetBankForSubOBJ   0x020809B4  arm
  *   GX_SetBankForSubBG   0x020806B0  arm
- *   func_0208068C   0x0208068C  arm
+ *   GX_SetBankForLCDC   0x0208068C  arm
  *   GX_SetGraphicsMode   0x0207D4B0  arm
- *   func_0207D518   0x0207D518  arm
+ *   GXS_SetGraphicsMode   0x0207D518  arm
  *   GX_ResetBankForSubBG   0x020809A0  arm
  *   GX_SetBankForSubOBJ   0x0208074C  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "double3Ddisp_shared_types.h"
 
@@ -49,19 +49,19 @@ extern void GX_ResetBankForSubOBJ(void);
 
 extern void GX_SetBankForSubBG(int sub_bg);
 
-extern void func_0208068C(u32 v);
+extern void GX_SetBankForLCDC(u32 v);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
-extern void func_0207D518(u32 v);
+extern void GXS_SetGraphicsMode(u32 v);
 
 extern int GX_ResetBankForSubBG(void);
 
 extern void GX_SetBankForSubOBJ(int sub_obj);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern const char double3Ddisp_File[];
 
@@ -123,7 +123,7 @@ extern struct Double3Ddisp *gDouble3Ddisp;
  */
 void DOUBLE3DDISP_Init(u32 heap)
 {
-    gDouble3Ddisp = func_02030734(heap, 0x6c, 1, double3Ddisp_File, 63);
+    gDouble3Ddisp = GFL_HEAP_Alloc(heap, 0x6c, 1, double3Ddisp_File, 63);
 
     gDouble3Ddisp->heap = heap;
     gDouble3Ddisp->displayMode = 1;
@@ -182,7 +182,7 @@ int DOUBLE3DDISP_Exit(void)
     GX_DisableBankForLCDC();
     GX_DisableBankForSubBG();
     GX_DisableBankForSubOBJ();
-    func_020307B0(gDouble3Ddisp);
+    GFL_HEAP_Free(gDouble3Ddisp);
     gDouble3Ddisp = 0;
     return 0;
 }
@@ -262,10 +262,10 @@ void DOUBLE3DDISP_SetupGraphics(void)
     *(volatile u16 *)0x04000304 = v | 0x8000;
     GX_ResetBankForSubOBJ();
     GX_SetBankForSubBG(4);
-    func_0208068C(8);
+    GX_SetBankForLCDC(8);
     *(volatile u32 *)0x04000064 = 0x80330010;
     GX_SetGraphicsMode(1, 0, 1);
-    func_0207D518(5);
+    GXS_SetGraphicsMode(5);
     *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x400;
     *(volatile u16 *)0x0400100c = (*(volatile u16 *)0x0400100c & 0x43) | 0x84 | 0x4000;
     *(volatile u16 *)0x0400100c = *(volatile u16 *)0x0400100c & 0xffbf;
@@ -295,9 +295,9 @@ void DOUBLE3DDISP_SetupGraphicsSubObj(void)
     *(volatile u16 *)0x04000304 = (u16)(v & ~0x8000);
     GX_ResetBankForSubBG();
     GX_SetBankForSubOBJ(8);
-    func_0208068C(4);
+    GX_SetBankForLCDC(4);
     *(volatile u32 *)0x04000064 = 0x80320010;
     GX_SetGraphicsMode(1, 0, 1);
-    func_0207D518(5);
+    GXS_SetGraphicsMode(5);
     *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x1000;
 }

@@ -15,8 +15,8 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   abs_id_4b      0x0000004B  data
  *   abs_id_4d      0x0000004D  data
  *   abs_id_39      0x00000039  data
@@ -26,7 +26,7 @@
  *   G3D_SYSTEM_CreateRender  0x02047400  arm
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
@@ -132,14 +132,14 @@ typedef struct BubbleWork {
 } BubbleWork;
 
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void func_02046EFC(G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
 extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
@@ -204,7 +204,7 @@ void FLDEFF_BUBBLE_Start(Mmdl *mmdl, FieldEffectSys *fieldEffect)
 /* Loads the resources of the bubble effect. */
 BubbleRes *FLDEFF_BUBBLE_CreateRes(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    BubbleRes *res = func_02030734(heapId, 0x20, 1, d_021DE664, 0xd5);
+    BubbleRes *res = GFL_HEAP_Alloc(heapId, 0x20, 1, d_021DE664, 0xd5);
 
     res->fieldEffect = fieldEffect;
     FLDEFF_BUBBLE_LoadResources(res);
@@ -214,7 +214,7 @@ BubbleRes *FLDEFF_BUBBLE_CreateRes(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_BUBBLE_DeleteRes(FieldEffectSys *fieldEffect, BubbleRes *res)
 {
     FLDEFF_BUBBLE_FreeResources(res);
-    func_020307B0(res);
+    GFL_HEAP_Free(res);
 }
 
 void FLDEFF_BUBBLE_LoadResources(BubbleRes *res)
@@ -252,7 +252,7 @@ void FLDEFF_BUBBLE_FreeResources(BubbleRes *res)
         if (G3D_SYSTEM_CheckResourceType(res->res[i], 2)) {
             G3D_SYSTEM_FreeVramTexture(res->res[i]);
         }
-        func_02046EFC(res->res[i]);
+        G3D_SYSTEM_DeleteResource(res->res[i]);
     }
 }
 

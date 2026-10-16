@@ -13,8 +13,8 @@
  * Cut from intro_cmd.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gIntroSite 0x021C0AE4 data a1
  *   gIntroMcssSite 0x021C0AF0 data ov204
  *   MCSS_SetPaletteTransAdrs 0x02016024 thumb
@@ -39,9 +39,9 @@ struct McssSys;
 /* Opaque source row for MCSS_Add. */
 struct Sub150;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *MCSS_Init(u32 id, void *heap);
 
@@ -81,7 +81,7 @@ extern const IntroVec defaultPos;
 
 void *INTRO_MCSS_Create(unsigned int heap, int kind)
 {
-    IntroMcssWork *work = func_02030734(heap, 108, 1, gIntroMcssSite, 98);
+    IntroMcssWork *work = GFL_HEAP_Alloc(heap, 108, 1, gIntroMcssSite, 98);
     work->sys = MCSS_Init(8, (void *)heap);
     work->heapId = heap;
     if (kind != 7)
@@ -97,7 +97,7 @@ void INTRO_MCSS_Delete(u8 *p)
     int i;
     for(i=0;i<8;i++)if(work->slots[i].object!=0)MCSS_Del(work->sys,work->slots[i].object);
     MCSS_Exit(work->sys);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 void INTRO_MCSS_Main(u8 *p)

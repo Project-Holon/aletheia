@@ -13,8 +13,8 @@
  * Cut from draw_system.c, ctvt_comm.c, ctvt_draw.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   ARC_UTIL_LoadHandleMember 0x0204A380 arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
@@ -53,7 +53,7 @@
  *   COMM_TVT_SYS_GetMessageActive 0x021BE0AC thumb ov172
  *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
  *   MIi_CpuCopy32 0x02082A90 arm
- *   func_02034714 0x02034714 arm
+ *   SAVEDATA_PanicFail 0x02034714 arm
  *   COMM_TVT_SYS_GetCameraBusy 0x021BE0F8 thumb ov172
  *   COMM_TVT_SYS_SetCameraBusy 0x021BE0FC thumb ov172
  *   d_021C71F0 0x021C71F0 data a4
@@ -85,8 +85,8 @@
  */
 #include "ctvt_camera_types.h"
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *ARC_UTIL_LoadHandleMember(void *, u32, u32, u32);
 extern u32 COMM_TVT_SYS_GetArc(void *);
@@ -121,7 +121,7 @@ extern u32 COMM_TVT_SYS_GetSelfSlot(void *p);
 extern u32 COMM_TVT_SYS_GetMessageActive(void *p);
 extern u32 COMM_TVT_SYS_GetViewSwapped(void *p);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
-extern void func_02034714(const char *file, u32 line, const char *msg);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *msg);
 extern u32 COMM_TVT_SYS_GetCameraBusy(void *p);
 extern void COMM_TVT_SYS_SetCameraBusy(void *p, u32 v);
 extern unsigned int CTVT_COMM_IsSlotActive(int, char *, int);
@@ -172,7 +172,7 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
     void *halfPicture;
     u8 i;
 
-    view = func_02030734(heapId, 0xB4, 1, d_021C71E0, 0x67);
+    view = GFL_HEAP_Alloc(heapId, 0xB4, 1, d_021C71E0, 0x67);
     arcHandle = COMM_TVT_SYS_GetArc(work);
     if (COMM_TVT_SYS_IsNetIdle() == 1) {
         view->heapId = 0x6E;
@@ -183,9 +183,9 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
         CTVT_CAMERA_AllocFrames(view->camera, 2, (u16)((view->heapId & 0x7FFF) | 0x8000));
         CTVT_CAMERA_SetFrameCallback(view->camera, (u32)((void *)CTVT_CAMVIEW_OnCameraFrame), (u32)work);
         CTVT_CAMERA_StartCapture(view->camera);
-        view->spareBufA = func_02030734((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
-        view->spareBufB = func_02030734((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);
-        view->cropBuf = func_02030734((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x78);
+        view->spareBufA = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
+        view->spareBufB = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);
+        view->cropBuf = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x78);
         view->noSignalFull = ARC_UTIL_LoadHandleMember((void *)arcHandle, 0x19, 0, view->heapId);
         halfPicture = ARC_UTIL_LoadHandleMember((void *)arcHandle, 0x1A, 0, view->heapId);
     } else {
@@ -204,7 +204,7 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
     view->revealing = i;
     view->shutterReq0 = i;
     view->shutterReq1 = i;
-    view->screenBuf = func_02030734((u16)((heapId & 0x7FFF) | 0x8000), 0x18000, 1, d_021C71E0, 0x8C);
+    view->screenBuf = GFL_HEAP_Alloc((u16)((heapId & 0x7FFF) | 0x8000), 0x18000, 1, d_021C71E0, 0x8C);
     for (i = 0; i < 4; i++) {
         CTVT_CAMVIEW_SetWindowCurRect(&view->window[i], 0, 0, 0, 0);
         CTVT_CAMVIEW_SetWindowTargetRect(&view->window[i], 0, 0, 0, 0);
@@ -225,17 +225,17 @@ void CTVT_CAMVIEW_Delete(int unused, CtvtCamView *view)
     matrix[1] = 0;
     matrix[2] = 0;
     G2x_SetBGyAffine_((void *)0x04000030, matrix, 0, 0, 0, 0);
-    func_020307B0(view->screenBuf);
-    func_020307B0(view->noSignalHalf);
-    func_020307B0(view->noSignalFull);
+    GFL_HEAP_Free(view->screenBuf);
+    GFL_HEAP_Free(view->noSignalHalf);
+    GFL_HEAP_Free(view->noSignalFull);
     if (COMM_TVT_SYS_IsNetIdle() == 1) {
-        func_020307B0(view->cropBuf);
-        func_020307B0(view->spareBufA);
-        func_020307B0(view->spareBufB);
+        GFL_HEAP_Free(view->cropBuf);
+        GFL_HEAP_Free(view->spareBufA);
+        GFL_HEAP_Free(view->spareBufB);
         CTVT_CAMERA_Delete(view->camera);
         GFL_HEAP_DeleteChecked(110);
     }
-    func_020307B0(view);
+    GFL_HEAP_Free(view);
 }
 
 static inline void setWindow0(int x1, int y1, int x2, int y2)
@@ -461,7 +461,7 @@ void CTVT_CAMVIEW_OnCameraFrame(char *frame, void *work)
             MIi_CpuCopy32(frame + i * 0x200 + 0x80, (char *)view->cropBuf + i * 0x100, 0x100);
     }
     if (screenSplit == 0) {
-        func_02034714(d_021C71F0, 0, d_021C71F0);
+        SAVEDATA_PanicFail(d_021C71F0, 0, d_021C71F0);
         return;
     }
     slot = selfSlot;

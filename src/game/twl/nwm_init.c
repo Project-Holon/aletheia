@@ -23,6 +23,9 @@
  *   PXI_IsCallbackReady  0x020885EC  arm  arm9
  *   MIi_DmaFill32  0x020821C0  arm  arm9
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
+ *   OS_SendMessage  0x02085DBC  arm  arm9
+ *   DC_InvalidateRange  0x020862B8  arm  arm9
+ *   DC_StoreRange  0x020862D4  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -50,12 +53,12 @@ extern u32 WMi_CheckInitializedAfterMeasure(void);
 extern void OS_RestoreInterrupts(u32);
 extern void PXI_Init(void);
 extern u32 PXI_IsCallbackReady(u32, u32);
-extern void func_020862B8(void *, u32);
+extern void DC_InvalidateRange(void *, u32);
 extern void MIi_DmaFill32(u32, void *, u32, u32, u32);
-extern void func_020862D4(void *, u32);
+extern void DC_StoreRange(void *, u32);
 extern void NWMi_ClearFifoRecvFlag(void);
 extern void OS_InitMessageQueue(void *, void *, u32);
-extern void func_02085DBC(void *, void *, u32);
+extern void OS_SendMessage(void *, void *, u32);
 extern void func_020885A0(u32, void (*)(void));
 extern void NWMi_ReceiveFifo9(void);
 extern void MI_CpuFill8(void *, u32, u32);
@@ -104,10 +107,10 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         OS_RestoreInterrupts(irq);
         return 4;
     }
-    func_020862B8(buf, size);
+    DC_InvalidateRange(buf, size);
     MIi_DmaFill32(mode, buf, 0, size, 1);
     data_027341A4 = buf;
-    func_020862D4(&data_027341A4, 4);
+    DC_StoreRange(&data_027341A4, 4);
     data_027341A4->p274 = (u8 *)data_027341A4 + 0x22e0;
     data_027341A4->ring = (CamRing *)(data_027341A4->p274 + 0x20);
     data_027341A4->p27c = (u8 *)data_027341A4->ring + 0xc0;
@@ -116,15 +119,15 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
     OS_InitMessageQueue(data_027341A4->ctlA, data_027341A4->ctlB, 0x20);
     for (i = 0; i < 0x20; i++) {
         data_027341A4->lines[i][0] = 0x8000;
-        func_020862D4(data_027341A4->lines[i], 2);
-        func_02085DBC(data_027341A4->ctlA, data_027341A4->lines[i], 1);
+        DC_StoreRange(data_027341A4->lines[i], 2);
+        OS_SendMessage(data_027341A4->ctlA, data_027341A4->lines[i], 1);
     }
     func_020885A0(0x16, NWMi_ReceiveFifo9);
     MI_CpuFill8(data_027341A4->state, 0, 0x154);
     data_027341A0[0] = 1;
     data_027341A4->ring->ready = 1;
-    func_020862D4(data_027341A4, 0x22e0);
-    func_020862D4((void *)0x27341a0, 1);
+    DC_StoreRange(data_027341A4, 0x22e0);
+    DC_StoreRange((void *)0x27341a0, 1);
     OS_RestoreInterrupts(irq);
     return 0;
 }

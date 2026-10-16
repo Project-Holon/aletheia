@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 
 #include "msgsearch_types.h"
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
@@ -55,7 +55,7 @@ MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
     u32 i;
 
     size = bankCount * sizeof(struct MsgBank *) + MSGSEARCH_HEADER_SIZE;
-    search = func_02030734(heapId, size, 0, d_021B9558, 0x40);
+    search = GFL_HEAP_Alloc(heapId, size, 0, d_021B9558, 0x40);
     i = 0;
     MI_CpuFill8(search, 0, size);
     search->bankCount = bankCount;

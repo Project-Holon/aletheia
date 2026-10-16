@@ -13,8 +13,8 @@
  * Cut from camera_system.c, draw_system.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   d_021C71D0 0x021C71D0 data a4
@@ -80,8 +80,8 @@ typedef struct DrawBrush {
     u8 mask[32][32];
 } DrawBrush;
 
-extern void *func_02030734(u32, u32, int, const char *, u16);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
 extern void GFL_NET_FreeAligned(void *p);
 extern float _fflt(int);
@@ -110,7 +110,7 @@ void DRAW_SYSTEM_AdvanceIndex(DrawCanvas *canvas, u16 *idx);
 DrawCanvas *DRAW_SYSTEM_CreateCanvas(DrawCanvasParams *params)
 {
     DrawCanvas *canvas;
-    canvas = func_02030734(params->heapId, 20, 1, d_021C71D0, 64);
+    canvas = GFL_HEAP_Alloc(params->heapId, 20, 1, d_021C71D0, 64);
     canvas->strokes = GFL_NET_AllocAligned(params->heapId, params->capacity * 8, d_021C71D0, 65);
     canvas->kind = params->kind;
     canvas->capacity = params->capacity;
@@ -127,7 +127,7 @@ DrawCanvas *DRAW_SYSTEM_CreateCanvas(DrawCanvasParams *params)
 void DRAW_SYSTEM_DeleteCanvas(DrawCanvas *canvas)
 {
     GFL_NET_FreeAligned(canvas->strokes);
-    func_020307B0(canvas);
+    GFL_HEAP_Free(canvas);
 }
 
 /* Empty in the original. */

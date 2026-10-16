@@ -47,7 +47,7 @@ struct WifiBsubwayGraphic {
     void *tcbl;                      /* 0x9A8: TCBL text control */
 };
 
-/* Palette animation view. The callback context handed to func_020056A0 is
+/* Palette animation view. The callback context handed to GFL_USE_AddMainTask is
  * work+0x10, that is graphic+0xC, so this view starts at animCallback. */
 struct WifiBsubwayAnim {
     void *callback;                  /* 0x000 (graphic 0x00C) */

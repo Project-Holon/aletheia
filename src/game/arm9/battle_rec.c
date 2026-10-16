@@ -14,7 +14,7 @@
  *
  * symbols:
  *   _BattleRecFileName  0x020A71C4  data
- *   func_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   pBattleRec   0x0214616C  data
  *   MIi_CpuClear32  0x02082A7C  arm
  *   GF_STANDARD_Checksum   0x0203F2FC  arm
@@ -30,6 +30,11 @@
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
+ *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  */
 #include "battle_rec_types.h"
 typedef unsigned char u8;
@@ -51,7 +56,7 @@ extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
 
-extern void func_020072A4(struct SaveControl *save, u32 id);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
 
 extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
 
@@ -59,11 +64,11 @@ extern void func_02007324(struct SaveControl *save, u32 id, u32 heap, void *buf,
 
 extern void func_0200734C(struct SaveControl *save, u32 id);
 
-extern void *func_020073D8(struct SaveControl *save, u32 id, u32 arg);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern u32 func_020307B0(void *mem);
+extern u32 GFL_HEAP_Free(void *mem);
 
 extern u32 GF_STANDARD_Checksum(const u8 *data, u32 size);
 
@@ -79,9 +84,9 @@ extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
 
 extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
 
-extern int func_02034AC4(u32 overlayId);
+extern int GF_OVERLAY_Load(u32 overlayId);
 
-extern void func_02034A5C(u32 overlayId);
+extern void GF_OVERLAY_Unload(u32 overlayId);
 
 struct BattleRecSave *BATTLE_REC_Create(u32 heap);
 
@@ -157,7 +162,7 @@ extern char ov188_id[];
 
 struct BattleRecSave *BATTLE_REC_Create(u32 heap)
 {
-    struct BattleRecSave *rec = func_02030734(heap, 0x2000, 1, _BattleRecFileName, 0x67);
+    struct BattleRecSave *rec = GFL_HEAP_Alloc(heap, 0x2000, 1, _BattleRecFileName, 0x67);
 
     BATTLE_REC_Clear(rec);
     return rec;
@@ -193,7 +198,7 @@ struct BattleRecSave *BATTLE_REC_Create(u32 heap)
 void BATTLE_REC_AllocWork(u32 heap)
 {
     if (pBattleRec != 0) {
-        func_020307B0(pBattleRec);
+        GFL_HEAP_Free(pBattleRec);
         pBattleRec = 0;
     }
     pBattleRec = BATTLE_REC_Create(heap);
@@ -201,13 +206,13 @@ void BATTLE_REC_AllocWork(u32 heap)
 
 void BATTLE_REC_FreeWork(void)
 {
-    func_020307B0(pBattleRec);
+    GFL_HEAP_Free(pBattleRec);
     pBattleRec = 0;
 }
 
 void BATTLE_REC_Delete(struct BattleRecSave *rec)
 {
-    func_020307B0(rec);
+    GFL_HEAP_Free(rec);
 }
 
 u32 BATTLE_REC_GetWorkSize(void)
@@ -319,7 +324,7 @@ u32 BATTLE_REC_LoadToWork(struct SaveControl *save, struct BattleRecSave *rec, u
     u16 crc;
 
     *result = SAVE_CONTROL_LoadExtraSaveWithBuffer(save, id, heap, rec, 0x2000);
-    func_020072A4(save, id);
+    SAVE_CONTROL_DeleteExtraSave(save, id);
     if (*result == 0) {
         *result = 0;
         return 1;
@@ -370,7 +375,7 @@ struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u
  *
  * alias: inside "battle_rec.c".  The same classification BATTLE_REC_LoadToWork does,
  * over a record the save system already holds rather than one just read, and
- * with a `func_020072A4` release on every path instead of only on entry.  See
+ * with a `SAVE_CONTROL_DeleteExtraSave` release on every path instead of only on entry.  See
  * src/matched/unit_0200B4E0.c for why the two are separate files. *
  */
 u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 id)
@@ -380,15 +385,15 @@ u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 i
     u16 crc;
 
     *result = SAVE_CONTROL_LoadExtraSave(save, id, heap);
-    rec = func_020073D8(save, id, 0);
+    rec = SAVE_CONTROL_GetExtraSaveRecord(save, id, 0);
     if (*result == 0) {
         *result = 0;
-        func_020072A4(save, id);
+        SAVE_CONTROL_DeleteExtraSave(save, id);
         return 0;
     }
     if (*result != 1) {
         *result = 3;
-        func_020072A4(save, id);
+        SAVE_CONTROL_DeleteExtraSave(save, id);
         return 0;
     }
     body = &rec->body;
@@ -396,16 +401,16 @@ u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 i
     BATTLE_REC_Decode(body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
     if (BATTLE_REC_IsMagicBroken(save, rec) == 1) {
         *result = 0;
-        func_020072A4(save, id);
+        SAVE_CONTROL_DeleteExtraSave(save, id);
         return 0;
     }
     if (BATTLE_REC_IsValid(save, rec) == 0) {
         *result = 2;
-        func_020072A4(save, id);
+        SAVE_CONTROL_DeleteExtraSave(save, id);
         return 0;
     }
     *result = 1;
-    func_020072A4(save, id);
+    SAVE_CONTROL_DeleteExtraSave(save, id);
     return 1;
 }
 
@@ -864,7 +869,7 @@ void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body)
  */
 void BATTLE_REC_LoadToolOverlay(void)
 {
-    func_02034AC4((u32)ov188_id);
+    GF_OVERLAY_Load((u32)ov188_id);
 }
 
 /*
@@ -876,5 +881,5 @@ void BATTLE_REC_LoadToolOverlay(void)
  */
 void BATTLE_REC_UnloadToolOverlay(void)
 {
-    func_02034A5C((u32)ov188_id);
+    GF_OVERLAY_Unload((u32)ov188_id);
 }

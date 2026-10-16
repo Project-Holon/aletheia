@@ -13,10 +13,10 @@
  * Cut from namein_graphic_p03.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0 0x020307B0 arm
- *   func_020490F4  0x020490F4  arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   NNS_G3dGetTex 0x0206E964 arm
@@ -26,7 +26,7 @@
  *   CLACT_GetActorPaletteProxy 0x0204B764 arm
  *   NNSi_G2dGetVramHandleEx 0x02063800 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
- *   func_0207E5D0 0x0207E5D0 arm
+ *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   d_021F57A8 0x021F57A8 data ov194 a1
  */
 #include "namein_graphic_shared_types.h"
@@ -49,13 +49,13 @@ typedef struct NameinGraphicTex {
     unsigned short entryOffset;      /* 0x42 */
 } NameinGraphicTex;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_020490F4(unsigned,u16);
+extern void *ARC_TOOL_CreateHandle(unsigned,u16);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
 extern void MI_CpuCopy8(const void *, void *, unsigned);
 
@@ -75,7 +75,7 @@ extern int NNSi_G2dGetVramHandleEx(char *,int);
 
 extern void GX_LoadOBJPltt(void *,int,unsigned);
 
-extern void func_0207E5D0(void *,int,unsigned);
+extern void GXS_LoadOBJPltt(void *,int,unsigned);
 
 void NAMEIN_GRAPHIC_BlitTexture(const char *src, int width, int x, int y, int w, int h, char *dst);
 
@@ -132,22 +132,22 @@ void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst,unsigned arc,u32 member,u32 index,u16
 {
     Palette pal;
     u32 size=width*height*32;
-    void *archive=func_020490F4(arc,heap);
+    void *archive=ARC_TOOL_CreateHandle(arc,heap);
     u8 *raw=ARC_TOOL_LoadHandleMember(archive,member,heap);
     u8 *tex=NNS_G3dGetTex(raw);
     u8 *pixels;
     u32 offset;
     offset=(*(u32 *)entry(tex,index)&0xffff)*8;
     pixels=tex+((NameinGraphicTex *)tex)->pixelOffset;
-    void *buf=func_02030734((u16)((heap&0x7fff)|0x8000),size,0,d_021F57A8,95);
+    void *buf=GFL_HEAP_Alloc((u16)((heap&0x7fff)|0x8000),size,0,d_021F57A8,95);
     NAMEIN_GRAPHIC_BlitTexture((const char *)(pixels+offset),width,0,0,width,height,buf);
     CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex(dst),buf,size,pos,mode);
-    func_020307B0(buf);
+    GFL_HEAP_Free(buf);
     u32 poff=((NameinGraphicTex *)tex)->paletteOffset;
     DWCi_ScreenDC_FlushRange(tex+poff,32);
     CLACT_GetActorPaletteProxy((const char *)dst,(struct Struct20 *)(&pal));
     if(mode==0 || mode==2) GX_LoadOBJPltt(tex+poff,NNSi_G2dGetVramHandleEx((char *)&pal,1),32);
-    if(mode==1 || mode==2) func_0207E5D0(tex+poff,NNSi_G2dGetVramHandleEx((char *)&pal,2),32);
-    func_020307B0(raw);
+    if(mode==1 || mode==2) GXS_LoadOBJPltt(tex+poff,NNSi_G2dGetVramHandleEx((char *)&pal,2),32);
+    GFL_HEAP_Free(raw);
     ARC_TOOL_DeleteHandle(archive);
 }

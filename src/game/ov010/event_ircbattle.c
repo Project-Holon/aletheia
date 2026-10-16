@@ -19,17 +19,17 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_02034AC4  0x02034AC4  arm
- *   func_02034A5C  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
- *   func_0200FB24  0x0200FB24  thumb
- *   func_0200FBB0  0x0200FBB0  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
+ *   GFL_NET_ERR_WaitLinkClosed  0x0200FBB0  thumb
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
- *   func_0200FA84  0x0200FA84  thumb
- *   func_0200FBA0  0x0200FBA0  thumb
+ *   GFL_NET_ERR_HaltIfActive  0x0200FA84  thumb
+ *   GFL_NET_ERR_ResetState  0x0200FBA0  thumb
  *   BTL_SETUP_Create  0x02013090  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
@@ -46,8 +46,8 @@
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
@@ -74,7 +74,7 @@
  *   d_02208C40     0x02208C40  data  ov195
  *   d_021B74AC     0x021B74AC  data  ov101
  *   d_0216FEE0     0x0216FEE0  data
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -174,9 +174,9 @@ extern u32 GAMESYSTEM_GetProcStatus(void *gameSys);
 
 extern void *GAMESYSTEM_GetGameData(void *gameSys);
 
-extern int func_02034AC4(s32 overlayId);
+extern int GF_OVERLAY_Load(s32 overlayId);
 
-extern void func_02034A5C(s32 overlayId);
+extern void GF_OVERLAY_Unload(s32 overlayId);
 
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 
@@ -186,15 +186,15 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, u32 timi
 
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, u32 timing, u32 range);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern u32 func_0200FBB0(void);
+extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 
-extern void func_0200FA84(void);
+extern void GFL_NET_ERR_HaltIfActive(void);
 
-extern void func_0200FBA0(void);
+extern void GFL_NET_ERR_ResetState(void);
 
 extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
 
@@ -228,9 +228,9 @@ extern u32 GFL_NET_IsParentAid(void);
 
 extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *gameSys, u32 overlayId, void *proc, void *procArg);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern u32 func_020307B0(void *ptr);
+extern u32 GFL_HEAP_Free(void *ptr);
 
 extern int GFL_NET_GetRunState(void);
 
@@ -254,7 +254,7 @@ extern void MUSICAL_EVENT_UpdateFriendRecords(IrcBattleEntryWork *work, void *ga
 
 extern void MUSICAL_EVENT_BindParticipantSlots(IrcBattleEntryWork *work, void *gameSys);
 
-extern struct GameEvent *func_020122C0(void *gameSys, void *a, void *proc, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
 extern void GAME_EVENT_Change(void *event, void *proc, u32 size);
 
@@ -398,7 +398,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         }
         break;
     case 7:
-        func_02034AC4((u32)ov093_id);
+        GF_OVERLAY_Load((u32)ov093_id);
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12);
         (*step)++;
@@ -406,12 +406,12 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
     case 8:
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12))
             (*step)++;
-        if (func_0200FB24()) {
-            if (func_0200FBB0() == 1)
+        if (GFL_NET_ERR_GetErrorLevel()) {
+            if (GFL_NET_ERR_WaitLinkClosed() == 1)
                 GFL_NET_ERR_ShowSimpleScreen();
             else
-                func_0200FA84();
-            func_02034A5C((u32)ov093_id);
+                GFL_NET_ERR_HaltIfActive();
+            GF_OVERLAY_Unload((u32)ov093_id);
             *step = 20;
         }
         break;
@@ -461,14 +461,14 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         (*step)++;
         break;
     case 10:
-        if (func_0200FB24()) {
+        if (GFL_NET_ERR_GetErrorLevel()) {
             BTL_SETUP_Delete(work->setup);
             work->setup = 0;
-            if (func_0200FBB0() == 1)
+            if (GFL_NET_ERR_WaitLinkClosed() == 1)
                 GFL_NET_ERR_ShowSimpleScreen();
             else
-                func_0200FA84();
-            func_02034A5C((u32)ov093_id);
+                GFL_NET_ERR_HaltIfActive();
+            GF_OVERLAY_Unload((u32)ov093_id);
             *step = 20;
         } else if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12)) {
             if (GFL_NET_IsParentAid())
@@ -480,7 +480,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         break;
     case 11:
         MUSICAL_EVENT_BindParticipantSlots(work, gameSys);
-        func_02034A5C((u32)ov093_id);
+        GF_OVERLAY_Unload((u32)ov093_id);
         recArgs.setup = work->setup;
         recArgs.slotData = work->recorderSlots;
         recArgs.flag = 1;
@@ -512,7 +512,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         }
         break;
     case 15:
-        detail = func_02030734(4, 0x14, 0, d_02172700, 0x219);
+        detail = GFL_HEAP_Alloc(4, 0x14, 0, d_02172700, 0x219);
         detail->gameData = work->gameData;
         detail->partyList = work->pickArgs.partyList;
         detail->selection = work->pickArgs.selection;
@@ -526,18 +526,18 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         break;
     case 16:
         if (GAMESYSTEM_GetProcStatus(gameSys) == 0) {
-            func_020307B0(work->detailArgs);
+            GFL_HEAP_Free(work->detailArgs);
             work->pickArgs.repeatFlag = 1;
             *step = 13;
         }
         break;
     case 17:
-        if (GFL_NET_GetRunState() && func_0200FB24() == 0)
+        if (GFL_NET_GetRunState() && GFL_NET_ERR_GetErrorLevel() == 0)
             GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12);
         (*step)++;
         break;
     case 18:
-        if (GFL_NET_GetRunState() && func_0200FB24() == 0) {
+        if (GFL_NET_GetRunState() && GFL_NET_ERR_GetErrorLevel() == 0) {
             if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12) == 0)
                 break;
             work->waitFrames = 0;
@@ -560,7 +560,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         break;
     case 20:
         if (GFL_NET_GetRunState() == 0) {
-            func_0200FBA0();
+            GFL_NET_ERR_ResetState();
             *step = 21;
         }
         break;
@@ -609,7 +609,7 @@ struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, int unused, struct Game
     int i;
 
     if (create != 0)
-        event = func_020122C0(gameSys, 0, IRC_BATTLE_ENTRY_Main, 0xE8);
+        event = GAME_EVENT_Create(gameSys, 0, IRC_BATTLE_ENTRY_Main, 0xE8);
     else
         GAME_EVENT_Change(event, IRC_BATTLE_ENTRY_Main, 0xE8);
     task = func_020124E8(event);
@@ -630,8 +630,8 @@ void IRC_BATTLE_ENTRY_FreeParties(IrcBattleEntryWork *work)
     int i;
 
     for (i = 0; i < 4; i++)
-        func_020307B0(work->linkParties[i]);
-    func_020307B0(work->ownParty);
+        GFL_HEAP_Free(work->linkParties[i]);
+    GFL_HEAP_Free(work->ownParty);
 }
 
 /*

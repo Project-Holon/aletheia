@@ -25,12 +25,12 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELD_CAMERA_GetViewYawPtr  0x0218ED50  thumb  ov021
  *   FIELD_CAMERA_GetMoveGoal  0x0218FE70  thumb  ov021
- *   func_02030734  0x02030734  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   sScrcmdC03centerFileName     0x021DE25C  data  a1
  *   gCameraTurnAngle     0x021EE724  data  a2
- *   func_020307B0  0x020307B0  arm
- *   func_02030EAC  0x02030EAC  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
+ *   TCB_DeleteTask  0x02030EAC  arm
  */
 #include "../arm9/script_vm_types.h"
 
@@ -67,10 +67,10 @@ extern void *FIELDMAP_GetCamera(void *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern u8 *FIELD_CAMERA_GetViewYawPtr(u8 *p);
 extern u8 *FIELD_CAMERA_GetMoveGoal(u8 *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02030DA8(u32, void (*)(), void *, u32);
-extern u32 func_020307B0(void *p);
-extern void func_02030EAC(struct Tcb *tcb);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void TCB_AddTask(u32, void (*)(), void *, u32);
+extern u32 GFL_HEAP_Free(void *p);
+extern void TCB_DeleteTask(struct Tcb *tcb);
 int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work);
 void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn);
 extern const char sScrcmdC03centerFileName[];
@@ -108,7 +108,7 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     camera = FIELDMAP_GetCamera(gameSystem);
     mmdlSys = FIELDMAP_GetMmdlSys(gameSystem);
     frameCount = SCRIPT_WORK_ReadWorkValue(vm, work);
-    turn = func_02030734(heapId, 0x10, 1, sScrcmdC03centerFileName, 0x5d);
+    turn = GFL_HEAP_Alloc(heapId, 0x10, 1, sScrcmdC03centerFileName, 0x5d);
     gCameraTurnAngle = *(u16 *)FIELD_CAMERA_GetViewYawPtr(camera);
     FLDMMDL_SetAreaIdRef(mmdlSys, (u32)&g_021EE724_ref);
     cameraDirection = (FieldCameraDirection *)FIELD_CAMERA_GetMoveGoal(camera);
@@ -132,7 +132,7 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     }
     turn->frame = 0;
     turn->frameCount = frameCount;
-    func_02030DA8(tcbSys, SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
+    TCB_AddTask(tcbSys, SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
     return 0;
 }
 
@@ -143,7 +143,7 @@ void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn)
     gCameraTurnAngle = (turn->angleDelta * turn->frame) / turn->frameCount;
     gCameraTurnAngle = gCameraTurnAngle + (u16)turn->startAngle;
     if (turn->frame >= turn->frameCount) {
-        func_020307B0(turn);
-        func_02030EAC(tcb);
+        GFL_HEAP_Free(turn);
+        TCB_DeleteTask(tcb);
     }
 }

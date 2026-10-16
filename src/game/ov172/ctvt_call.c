@@ -13,8 +13,8 @@
  * Cut from draw_system.c, ctvt_comm.c, ctvt_draw.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   G2_GetBG2ScrPtr  0x0207E008  arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
@@ -32,8 +32,8 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
  *   COMM_TVT_SYS_PlaceSlotMarker 0x021BE210 thumb ov172
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -69,7 +69,7 @@
  *   COMM_TVT_SYS_GetFont 0x021BE034 thumb ov172
  *   COMM_TVT_SYS_GetMsgData 0x021BE03C thumb ov172
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
@@ -115,7 +115,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   func_02009D50  0x02009D50  thumb
@@ -124,11 +124,11 @@
  *   CTVT_COMM_Create 0x021B7BA8 thumb ov172
  *   CTVT_TALK_Create 0x021B8C3C thumb ov172
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   func_02028A70 0x02028A70 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   DRAW_SYSTEM_DeleteCanvas 0x021B6C34 thumb ov172
  *   CTVT_TALK_Delete 0x021B8CB0 thumb ov172
  *   CTVT_COMM_Delete 0x021B7DCC thumb ov172
@@ -151,7 +151,7 @@
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -171,7 +171,7 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -192,9 +192,9 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
- *   func_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   TCBL_Create 0x0203101C arm
@@ -209,7 +209,7 @@
  *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
  *   CTVT_COMM_GetMarkerSlot 0x021B8B68 thumb ov172
  *   func_02008510 0x02008510 thumb
- *   func_0201D304 0x0201D304 thumb
+ *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb  arm9
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm  arm9
@@ -378,21 +378,21 @@ struct CellCfg { u16 a; u16 b; u16 c; u8 d; u8 e; };
 
 extern void MI_CpuFill8(void *p, int v, int n);
 
-extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 
-extern unsigned int func_020307B0(void *p);
+extern unsigned int GFL_HEAP_Free(void *p);
 
-extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
 extern void BG_SYS_PushTile(unsigned int a);
 
-extern void func_02040588(u32 which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 
 extern unsigned int  APP_ICON_GetArchiveId(void);
 
 extern unsigned int  APP_ICON_GetStatusDataFileId(void);
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void BG_SYS_ClearSlot(unsigned int a);
 
@@ -410,7 +410,7 @@ extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned 
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 
-extern void *func_02045EC0(struct MsgBank *bank, unsigned long index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, unsigned long index);
 
 extern void PRINTSYS_PrintQueColor(void *owner, void *b, short x, u32 y, void *text, u32 font, u32 flags);
 
@@ -434,7 +434,7 @@ extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-extern void func_02041B6C(unsigned int a);
+extern void BG_SYS_SetFlagField06(unsigned int a);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 
@@ -454,7 +454,7 @@ extern unsigned long TOUCHPANEL_GetPointCont(unsigned long *outA, unsigned long 
 
 extern void BG_SYS_ResetSlot(unsigned int, unsigned int, unsigned int);
 
-extern unsigned int func_02049658(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
+extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 
@@ -538,7 +538,7 @@ extern char *CTVT_TALK_Create(char *unused, u16 heap);
 
 extern unsigned int DRAW_SYSTEM_CreateCanvas(Params *);
 
-extern unsigned int func_020056A0(void (*)(int, char *), char *, int);
+extern unsigned int GFL_USE_AddMainTask(void (*)(int, char *), char *, int);
 
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
@@ -546,7 +546,7 @@ extern void func_02028A70(struct SoundSys *sys);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int, unsigned int);
 
-extern void func_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void DRAW_SYSTEM_DeleteCanvas(char *);
 
@@ -664,11 +664,11 @@ extern void CLACT_ReleaseCellAnim(u32);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -700,7 +700,7 @@ extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
 
 extern void *func_02008510(void *a, int tag);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 char *CTVT_DRAW_Create(void *a, u16 b);
 
@@ -807,17 +807,17 @@ extern u8 d_021C7120[];
 
 void *CTVT_CALL_Create(int unused, void *p)
 {
-    return func_02030734((unsigned int)p, 0x408, 1, (const char *)g_021C7234, 0xd8);
+    return GFL_HEAP_Alloc((unsigned int)p, 0x408, 1, (const char *)g_021C7234, 0xd8);
 }
 
 /*
- * Tail call to func_020307B0, second argument forwarded.
+ * Tail call to GFL_HEAP_Free, second argument forwarded.
  *
  * Addresses are Black-image addresses.
  */
 void CTVT_CALL_Free(int unused, int v)
 {
-    func_020307B0((void *)v);
+    GFL_HEAP_Free((void *)v);
 }
 
 /*
@@ -847,8 +847,8 @@ void CTVT_CALL_Init(void *a0, u8 *p)
     owner = (unsigned int)COMM_TVT_SYS_GetArc(a0);
     o = (unsigned int)COMM_TVT_SYS_GetLaunchParams(a0);
     if (((CtvtLaunchParams *)o)->mode != 2 && ((CtvtLaunchParams *)o)->mode != 3 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
-        func_02049658((void *)owner, 0xb, 4, 0, 0xa << 10, 0, v);
-        func_020498F4((void *)owner, 0x12, 4, 0, 0, 0, v);
+        ARC_UTIL_UploadBgCharFromHandle((void *)owner, 0xb, 4, 0, 0xa << 10, 0, v);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)owner, 0x12, 4, 0, 0, 0, v);
         BG_SYS_PushTile(4);
     }
     d.b = 3;
@@ -910,7 +910,7 @@ void CTVT_CALL_Init(void *a0, u8 *p)
         ((CtvtCallEntry *)(ent + 0x1e4))->selected = 0;
         ((CtvtCallEntry *)(ent + 0x1e4))->dirty = 0;
         ((CtvtCallEntry *)(ent + 0x1e4))->row = 0xff;
-        ((CtvtCallEntry *)(ent + 0x1e4))->peer = (u8 *)func_02030734(v, 0x64, 1, (const char *)d_021C7234, 0xff + 0x4b);
+        ((CtvtCallEntry *)(ent + 0x1e4))->peer = (u8 *)GFL_HEAP_Alloc(v, 0x64, 1, (const char *)d_021C7234, 0xff + 0x4b);
         ((CtvtCallEntry *)(ent + 0x1e4))->level = 0;
     }
     for (k = 0; k < 15; k++) {
@@ -984,7 +984,7 @@ void CTVT_CALL_Exit(void *a0, char *a1)
     }
 
     for (j = 0; j < 0xf; j++)
-        func_020307B0((void *)(((CtvtCallEntry *)(a1 + j * 0x24 + 0x1e4))->peer));
+        GFL_HEAP_Free((void *)(((CtvtCallEntry *)(a1 + j * 0x24 + 0x1e4))->peer));
 
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
@@ -1196,8 +1196,8 @@ int CTVT_CALL_Update(void *a0, char *p)
                 CLACT_SetActorAnimSeq(OBJ, 1);
                 v = COMM_TVT_SYS_GetHeapId(a0);
                 w = (unsigned int)COMM_TVT_SYS_GetArc(a0);
-                func_02049658((void *)w, 0xb, 4, 0, 0x2800, 0, v);
-                func_020498F4((void *)w, 0x12, 4, 0, 0, 0, v);
+                ARC_UTIL_UploadBgCharFromHandle((void *)w, 0xb, 4, 0, 0x2800, 0, v);
+                ARC_UTIL_UploadBgPaletteFromHandle((void *)w, 0x12, 4, 0, 0, 0, v);
                 BG_SYS_PushTile(4);
             }
         }
@@ -1213,7 +1213,7 @@ int CTVT_CALL_Update(void *a0, char *p)
                     d = *(struct Descriptor **)(r + 0x54);
                     BMP_WIN_TransferChars(d);
                     BMP_WIN_MakeScreen((struct Cfg *)d);
-                    func_02041B6C(BMP_WIN_GetBgLayer(d));
+                    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
                     ((CtvtCallRow *)(r + 0x40))->pending = 0;
                 }
             }
@@ -1645,7 +1645,7 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
             STRBUF_SetStringN((struct Strbuf *)str, (const u16 *)(*(char * *)&((CtvtCallEntry *)e)->peer + 0x1a), 8);
         PRINTSYS_PrintQueColor((void *)sys, BMP_WIN_GetBmp((struct Descriptor *)((CtvtCallRow *)row)->win), 6, 0, (void *)str, font, 0x3c40);
         STRBUF_Delete((struct U16Vec *)str);
-        fmt = (unsigned long)func_02045EC0((struct MsgBank *)msgs, 0xe);
+        fmt = (unsigned long)MSGDATA_AllocString((struct MsgBank *)msgs, 0xe);
         buf = (unsigned long)STRBUF_Create(0x20, heap);
         if (((CtvtCallEntry *)e)->kind == 0x20)
             WORDSET_SetSlotNumber((struct WordSet *)ws, 0, COMM_PLAYER_SUPPORT_GetRecordField(((CtvtCallEntry *)e)->peer), 5, 2, 1);
@@ -1658,7 +1658,7 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
         if (((CtvtCallEntry *)e)->kind == 0x20) {
             p = *(u8 * *)&((CtvtCallEntry *)e)->peer;
             ((CtvtCallEntry *)e)->level = p[0x20];
-            fmt2 = (unsigned long)func_02045EC0((struct MsgBank *)msgs, 0x10);
+            fmt2 = (unsigned long)MSGDATA_AllocString((struct MsgBank *)msgs, 0x10);
             buf2 = (unsigned long)STRBUF_Create(0x20, heap);
             p += 0x20;
             WORDSET_SetSlotNumber((struct WordSet *)ws, 0, *p, 1, 0, 1);
@@ -1682,7 +1682,7 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
         WORDSET_DeleteStrbufED04((struct WordSet *)ws);
         ((CtvtCallRow *)row)->pending = 1;
     } else {
-        func_02041B6C(ctvtCallShowRowWindow((unsigned long)((CtvtCallRow *)row)->win));
+        BG_SYS_SetFlagField06(ctvtCallShowRowWindow((unsigned long)((CtvtCallRow *)row)->win));
     }
     ((CtvtCallRow *)row)->active = 0;
 }
@@ -1750,13 +1750,13 @@ void CTVT_CALL_UpdatePrompt(void *ctx, u8 *st)
         if (((CtvtCall *)st)->substate != 2) {
             struct Prompt p = {0};
 
-            func_02041B6C(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
+            BG_SYS_SetFlagField06(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
             BMP_MENUWORK_DrawWindowBorder((void *)(((CtvtCall *)st)->msgWin), 1);
             if (((CtvtCall *)st)->menuWin != 0) {
                 APP_TASKMENU_WIN_Delete((u8 *)(((CtvtCall *)st)->menuWin));
                 ((CtvtCall *)st)->menuWin = 0;
             }
-            p.str = (unsigned long)func_02045EC0((struct MsgBank *)msgs, 0x13);
+            p.str = (unsigned long)MSGDATA_AllocString((struct MsgBank *)msgs, 0x13);
             p.color = 0x39e3;
             p.flags = 0;
             ((CtvtCall *)st)->menuWin = APP_TASKMENU_WIN_Create(sys, (unsigned long)(&p), 0, 0x15, 0x15, heap);
@@ -1767,13 +1767,13 @@ void CTVT_CALL_UpdatePrompt(void *ctx, u8 *st)
         if (((CtvtCall *)st)->substate != 1) {
             struct Prompt p = {0};
 
-            func_02041B6C(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
+            BG_SYS_SetFlagField06(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
             BMP_MENUWORK_DrawWindowBorder((void *)(((CtvtCall *)st)->msgWin), 1);
             if (((CtvtCall *)st)->menuWin != 0) {
                 APP_TASKMENU_WIN_Delete((u8 *)(((CtvtCall *)st)->menuWin));
                 ((CtvtCall *)st)->menuWin = 0;
             }
-            p.str = (unsigned long)func_02045EC0((struct MsgBank *)msgs, 0x12);
+            p.str = (unsigned long)MSGDATA_AllocString((struct MsgBank *)msgs, 0x12);
             p.color = 0x39e3;
             p.flags = 0;
             ((CtvtCall *)st)->menuWin = APP_TASKMENU_WIN_Create(sys, (unsigned long)(&p), 0, 0x15, 0x15, heap);
@@ -1804,7 +1804,7 @@ void CTVT_CALL_UpdateTimeWindow(void *ctx, char *st)
     if (((CtvtCall *)st)->rowCount == 0) {
         CTVT_CALL_PrintTimeMessage(ctx, st, 0x1c);
         ((CtvtCall *)st)->timePending = 1;
-        func_02041B6C(ctvtCallShowTimeWindow(((CtvtCall *)st)->msgWin));
+        BG_SYS_SetFlagField06(ctvtCallShowTimeWindow(((CtvtCall *)st)->msgWin));
         BMP_MENUWORK_DrawWindowBorder((void *)(((CtvtCall *)st)->msgWin), 1);
     } else if (((CtvtCall *)st)->prevRowCount == 0 && ((CtvtCall *)st)->rowCount != 0) {
         CTVT_CALL_PrintMessage(ctx, st, 0x11);
@@ -1848,7 +1848,7 @@ void CTVT_CALL_PrintMessage(void *a0, char *a1, int a2)
     unsigned int w;
 
     BMP_Clear((struct CharBuf *)((unsigned int)BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)a1)->msgWin)), 0xf);
-    w = (unsigned int)func_02045EC0((struct MsgBank *)y, a2);
+    w = (unsigned int)MSGDATA_AllocString((struct MsgBank *)y, a2);
     PRINTSYS_PrintQueColor((void *)z, BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)a1)->msgWin), 0, 0, (void *)w, x, 0x440);
     STRBUF_Delete((struct U16Vec *)w);
     BMP_MENUWORK_DrawWindow((void *)(((CtvtCall *)a1)->msgWin), 2, 0x140, 9);
@@ -1863,7 +1863,7 @@ void CTVT_CALL_PrintTimeMessage(void *ctx, char *st, unsigned long msgId)
     unsigned long str;
 
     BMP_Clear((struct CharBuf *)((unsigned long)BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)st)->timeWin)), 0xf);
-    str = (unsigned long)func_02045EC0((struct MsgBank *)msgs, msgId);
+    str = (unsigned long)MSGDATA_AllocString((struct MsgBank *)msgs, msgId);
     PRINTSYS_PrintQueColor((void *)sys, BMP_WIN_GetBmp((struct Descriptor *)((CtvtCall *)st)->timeWin), 0, 0, (void *)str, font, 0x440);
     STRBUF_Delete((struct U16Vec *)str);
     BMP_MENUWORK_DrawWindow((void *)(((CtvtCall *)st)->timeWin), 2, 0x140, 9);
@@ -1913,7 +1913,7 @@ void CTVT_CALL_WorkInit(char *self)
     st.c = z;
     st.d = 0xc0;
     W(0x1f4) = DRAW_SYSTEM_CreateCanvas(&st);
-    W(4) = func_020056A0(CTVT_CALL_VBlank, self, 8);
+    W(4) = GFL_USE_AddMainTask(CTVT_CALL_VBlank, self, 8);
     W(8) = z;
     H(0x38) = z;
     H(0x3a) = z;
@@ -1962,7 +1962,7 @@ void CTVT_CALL_WorkDelete(u8 *p)
 {
     u8 i;
     for (i=0; i<4; i++) BMP_WIN_Delete((struct Descriptor *)(((CtvtWork *)p)->bmpWin[i]));
-    func_02030EAC((struct Node *)(((CtvtWork *)p)->vblankTask));
+    TCB_DeleteTask((struct Node *)(((CtvtWork *)p)->vblankTask));
     DRAW_SYSTEM_DeleteCanvas(*(char * *)&((CtvtWork *)p)->sprites);
     CTVT_CALL_Free((int)p, (int)((CtvtWork *)p)->call);
     CTVT_DRAW_Free((int)p, (int)((CtvtWork *)p)->draw);
@@ -2112,9 +2112,9 @@ void CTVT_CALL_InitDisplay(u8 *p)
     MI_CpuFill8((void *)G2_GetBG3ScrPtr(), 0, size);
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & ~3) | 1;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & ~3) | 2;
-    func_02040588(2, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
     mode = 3;
-    func_02040588(mode, 1);
+    BG_SYS_SetPlaneVisible(mode, 1);
     cfg = gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&cfg), (u32)d_021C7120, *(u16 *)p);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -2159,7 +2159,7 @@ void CTVT_CALL_ExitDisplay(void *a0)
 void CTVT_CALL_InitBgLayer(const struct BgTemplate *tmpl, u32 bgId, u32 type)
 {
     BG_SYS_InitBgLayer(bgId, tmpl, type);
-    func_02040588(bgId, 1);
+    BG_SYS_SetPlaneVisible(bgId, 1);
     BG_SYS_FreeSlot(bgId);
     BG_SYS_PushTile(bgId);
 }
@@ -2176,19 +2176,19 @@ void CTVT_CALL_InitGraphics(u8 *p)
     struct CellCfg cfg;
     struct PltData *pal;
     t = (struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)W(0x1f8));
-    BG = func_020490F4(0xac, HEAP);
+    BG = ARC_TOOL_CreateHandle(0xac, HEAP);
     if (func_02008550(t) == 0) {
         func_02049B68(BG, 7, 4, 0, 0xc0, HEAP);
     } else {
         func_02049B68(BG, 6, 4, 0, 0xc0, HEAP);
     }
     z = 0;
-    func_02049658(BG, 0xb, 7, 0, z, z, HEAP);
-    func_020498F4(BG, 0xe, 7, 0, z, z, HEAP);
+    ARC_UTIL_UploadBgCharFromHandle(BG, 0xb, 7, 0, z, z, HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle(BG, 0xe, 7, 0, z, z, HEAP);
     BG_SYS_PushTile(7);
     func_02049B68(BG, 0, 0, 0x20, 0x20, HEAP);
-    func_02049658(BG, 8, 1, 0, z, z, HEAP);
-    func_020498F4(BG, 0xd, 1, 0, z, z, HEAP);
+    ARC_UTIL_UploadBgCharFromHandle(BG, 8, 1, 0, z, z, HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle(BG, 0xd, 1, 0, z, z, HEAP);
     BG_SYS_PushTile(1);
     W(0x180) = CLACT_RegisterPaletteCompressed(BG, 3, 0, 0, HEAP);
     W(0x190) = CLACT_RegisterCharacter(BG, 0x18, 0, 0, HEAP);
@@ -2196,12 +2196,12 @@ void CTVT_CALL_InitGraphics(u8 *p)
     W(0x184) = CLACT_RegisterPaletteCompressed(BG, 3, 1, 0, HEAP);
     W(0x194) = CLACT_RegisterCharacter(BG, 0x17, 0, 1, HEAP);
     W(0x1a4) = CLACT_RegisterCellAnim(BG, 0x13, 0x15, HEAP);
-    dev = func_020490F4(APP_ICON_GetArchiveId(), HEAP);
+    dev = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), HEAP);
     func_02049B68(dev, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x20, HEAP);
-    func_02049658(dev, APP_ICON_GetStatusFrameFileId(), 0, 0, z, z, HEAP);
+    ARC_UTIL_UploadBgCharFromHandle(dev, APP_ICON_GetStatusFrameFileId(), 0, 0, z, z, HEAP);
     func_02049B68(dev, APP_ICON_GetStatusAnimFileId(), 4, 0xc0, 0x20, HEAP);
-    func_02049658(dev, APP_ICON_GetStatusFrameFileId(), 5, z, z, z, HEAP);
-    func_020498F4(dev, APP_ICON_GetStatusDataFileId(), 5, z, z, z, HEAP);
+    ARC_UTIL_UploadBgCharFromHandle(dev, APP_ICON_GetStatusFrameFileId(), 5, z, z, z, HEAP);
+    ARC_UTIL_UploadBgPaletteFromHandle(dev, APP_ICON_GetStatusDataFileId(), 5, z, z, z, HEAP);
     BG_SYS_FillTileMap(5, z, 0x15, 0x20, 3, 6);
     BG_SYS_PushTile(5);
     W(0x18c) = CLACT_RegisterPaletteEx(dev, APP_ICON_GetMoveKindPaletteFileId(), z, 0xe0, z, 3, HEAP);
@@ -2228,7 +2228,7 @@ void CTVT_CALL_InitGraphics(u8 *p)
         dev = func_02049F78(BG, 6, (u32)(&pal), HEAP);
     }
     MIi_CpuCopy32(pal->raw + 0xc0, p + 0x3c, 0x140);
-    func_020307B0(dev);
+    GFL_HEAP_Free(dev);
 }
 
 void CTVT_CALL_ReleaseGraphics(u8 *p)
@@ -2247,10 +2247,10 @@ void CTVT_CALL_ReleaseGraphics(u8 *p)
 void CTVT_CALL_InitText(u8 *p)
 {
     ((CtvtWork *)p)->font=(u32)GF_FONT_Create(23,0,0,0,((CtvtWork *)p)->heapId);
-    ((CtvtWork *)p)->msgData=(struct MsgData *)func_02045B38(0,2,27,((CtvtWork *)p)->heapId);
+    ((CtvtWork *)p)->msgData=(struct MsgData *)MSGDATA_CreateFromArchive(0,2,27,((CtvtWork *)p)->heapId);
     ((CtvtWork *)p)->printQue=(struct PrintQue *)PRINTSYS_QUE_CreateEx(0x800,((CtvtWork *)p)->heapId);
-    func_02049B40(23,5,0,0x140,32,((CtvtWork *)p)->heapId);
-    func_02049B40(23,5,4,0x140,32,((CtvtWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,0x140,32,((CtvtWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,0x140,32,((CtvtWork *)p)->heapId);
     GF_FONT_SetDefaultTextColor();
     BMP_MENUWORK_LoadCharAndPltt(4,0x140,9,0,((CtvtWork *)p)->heapId);
     BMP_MENUWORK_LoadCharAndPltt(0,0x200,9,0,((CtvtWork *)p)->heapId);
@@ -2339,7 +2339,7 @@ void CTVT_CALL_UpdateMemberWindows(u8 *p)
         w = (unsigned int)((CtvtWork *)p)->bmpWin[i];
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         p[0x1b5] -= (u8)m;
         found = 1;
     }
@@ -2356,7 +2356,7 @@ void CTVT_CALL_DrawMemberName(u8 *p, char *a, u32 b)
     void *s;
     int x;
     s = func_02008510(a, ((CtvtWork *)p)->heapId);
-    x = (0x60 - (u8)func_0201D304(s, ((CtvtWork *)p)->font, 0)) / 2;
+    x = (0x60 - (u8)GF_FONT_MeasureWidestLine(s, ((CtvtWork *)p)->font, 0)) / 2;
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x + 1, 1, s, ((CtvtWork *)p)->font, 0x400);
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x - 1, 1, s, ((CtvtWork *)p)->font, 0x400);
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x, 2, s, ((CtvtWork *)p)->font, 0x400);

@@ -14,12 +14,12 @@
  * Split from net_state.c at 0x0203AD74 (__FILE__ anchor boundary).
  *
  * symbols:
- *   func_02030734            0x02030734  arm
+ *   GFL_HEAP_Alloc            0x02030734  arm
  *   MI_CpuFill8              0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError            0x02039548  arm
- *   func_02034714            0x02034714  arm
+ *   SAVEDATA_PanicFail            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
- *   func_020307B0            0x020307B0  arm
+ *   GFL_HEAP_Free            0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid            0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap            0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError            0x020393D0  arm
@@ -125,17 +125,17 @@ struct RTCDate { u32 year; u32 month; u32 day; u32 week; };
 
 struct RTCTime { u32 hour; u32 minute; u32 second; };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
@@ -513,7 +513,7 @@ void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 
 
 /*
  * One-shot constructor: the singleton must still be NULL (otherwise
- * func_02034714(__FILE__, 0xb8, __FILE__)), 0x64 bytes are allocated with
+ * SAVEDATA_PanicFail(__FILE__, 0xb8, __FILE__)), 0x64 bytes are allocated with
  * the debug allocator, a halfword 0x32 and a byte 1 are set at +0x46 and
  * +0x4c, the embedded object at +0xc is initialised, and the 5-argument
  * delegate GFL_NET_COMMAND_Init is called with four zeros.
@@ -539,9 +539,9 @@ void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 
 void GFL_NET_STATE_InitWork(u32 heapId)
 {
     if (_pNetState != 0) {
-        func_02034714(_FileName, 0xb8, _AssertNetStateNull);
+        SAVEDATA_PanicFail(_FileName, 0xb8, _AssertNetStateNull);
     }
-    _pNetState = func_02030734(heapId, 0x64, 1, _FileName, 0xb9);
+    _pNetState = GFL_HEAP_Alloc(heapId, 0x64, 1, _FileName, 0xb9);
     _pNetState->timer = 0x32;
     _pNetState->parentRetry = 1;
     GFL_NET_STATE_InitRandom(&_pNetState->random);
@@ -676,7 +676,7 @@ void GFL_NET_STATE_InitRandom(MATHRandContext64 *context)
  * Shuts the network down when the transport's +0x74 virtual answers non-zero:
  * tears the tables down, saves the completion callback out of +0x28, drops
  * the context and finally calls the saved callback.  The callback load is
- * scheduled before func_020307B0 rather than after it and the context is
+ * scheduled before GFL_HEAP_Free rather than after it and the context is
  * zeroed after that call too - the store-landing-after-the-next-call shape,
  * so the C keeps the callback in a local across the call.
  *
@@ -696,7 +696,7 @@ void GFL_NET_STATE_FreeWork(struct NetStateWork *work)
     GFL_NET_WM_ICON_EasyEnd();
     GFL_NET_SYSTEM_FreeWork();
     exitCallback = _pNetState->exitCallback;
-    func_020307B0(_pNetState);
+    GFL_HEAP_Free(_pNetState);
     _pNetState = 0;
     if (exitCallback != 0)
         exitCallback();
@@ -1044,7 +1044,7 @@ void GFL_NET_STATE_StartConnectMac(void)
 void GFL_NET_STATE_ConnectMacAddress(int mac, int anyParent)
 {
     if ((int)_pNetState->aMacAddress & 1) {
-        func_02034714(_FileName, 395, _AssertMacAlign);
+        SAVEDATA_PanicFail(_FileName, 395, _AssertMacAlign);
     }
     if (mac != 0) {
         MI_CpuCopy8((void *)mac, _pNetState->aMacAddress, 6);
@@ -4338,7 +4338,7 @@ void GFL_NET_STATE_SetWifiError(void)
     }
 
     if (isWifiType == 0)
-        func_02034714(_FileName, 0x8B7, _AssertNetTypeWifi);
+        SAVEDATA_PanicFail(_FileName, 0x8B7, _AssertNetTypeWifi);
 
     _pNetState->errorInfo.errorCode = 0;
     _pNetState->errorInfo.errorType = 0;
@@ -4368,7 +4368,7 @@ void GFL_NET_STATE_SetWifiError(void)
 
 
 /*
- * Returns the object's work area at +0x30, reporting through func_02034714
+ * Returns the object's work area at +0x30, reporting through SAVEDATA_PanicFail
  * with the source file at 0x020A7BA8 and line 0x8CA (2250) when the object has
  * not been created - the report is not fatal, the address of the null object's
  * field is still what comes back.
@@ -4382,7 +4382,7 @@ void GFL_NET_STATE_SetWifiError(void)
 u32 GFL_NET_STATE_GetError(void)
 {
     if (_pNetState == 0)
-        func_02034714(_FileName, 0x8CA, _AssertNetState);
+        SAVEDATA_PanicFail(_FileName, 0x8CA, _AssertNetState);
     return (u32)&_pNetState->errorInfo;
 }
 
@@ -4408,11 +4408,11 @@ u32 GFL_NET_STATE_GetError(void)
 
 
 /*
- * Unlabelled ARM assert thunk: tail call func_02034714(_FileName, 0x8D8, _AssertWifiBattleError), the fall-through failure path after GFL_NET_STATE_GetError.
+ * Unlabelled ARM assert thunk: tail call SAVEDATA_PanicFail(_FileName, 0x8D8, _AssertWifiBattleError), the fall-through failure path after GFL_NET_STATE_GetError.
  */
 void GFL_NET_STATE_FatalError(void)
 {
-    func_02034714(_FileName, 0x8D8, _AssertWifiBattleError);
+    SAVEDATA_PanicFail(_FileName, 0x8D8, _AssertWifiBattleError);
 }
 
 

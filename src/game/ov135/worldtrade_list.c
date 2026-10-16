@@ -14,10 +14,10 @@
  *
  * symbols:
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_020490F4  0x020490F4  arm
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02045EC0 0x02045EC0 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -31,13 +31,13 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   func_02040588  0x02040588  arm
+ *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049B40 0x02049B40 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -57,7 +57,7 @@
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   WIPE_SYS_Start 0x0202208C thumb
- *   func_0204989C 0x0204989C arm
+ *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   WORLDTRADE_ADAPTER_CreateString  0x02202670  thumb
@@ -80,7 +80,7 @@
  *   g_02203618  0x02203618  data  ov135
  *   g_02203628  0x02203628  data  ov135
  *   g_02203648  0x02203648  data  ov135
- *   func_02041B6C  0x02041B6C  arm
+ *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   tbl_02203668   0x02203668  data  a4
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   WORDSET_ClearAllSlots  0x0201F31C  thumb
@@ -103,9 +103,9 @@
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -119,7 +119,7 @@ extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
 extern void BG_SYS_ClearSlot(u32 i);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
@@ -127,13 +127,13 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
@@ -164,7 +164,7 @@ extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
-extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 
 extern void WORLDTRADE_ClearBusyFlag(Work *p);
 
@@ -237,7 +237,7 @@ extern void *POKE_TOOL_GetBoxParam(void *mon);
 
 extern void WORLDTRADE_SetActorSurfacePos(void *, int, int);
 
-extern void func_02041B6C(u32 v);
+extern void BG_SYS_SetFlagField06(u32 v);
 
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
@@ -443,13 +443,13 @@ void WORLDTRADE_LIST_SetupBgPlanes(int y)
         BG_SYS_InitBgLayer(2, &t, 0);
     }
     BG_SYS_ClearSlot(2);
-    func_02040588(2, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
     {
         struct BgTemplate t = g_02203648;
 
         BG_SYS_InitBgLayer(1, &t, 0);
     }
-    func_02040588(1, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
     BG_SYS_InitRun(2, 0x20, 0, 0x48);
     BG_SYS_SetMainPlaneVisible(8, 0);
 }
@@ -472,18 +472,18 @@ void WORLDTRADE_LIST_LoadBgGraphics(Work *p)
 {
     void *h;
 
-    func_02049B40(0x17, 5, 0, 0x1a0, 0x20, 0x48);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(4, 1, 2, 0, 0x48);
-    h = func_020490F4(0x60, 0x48);
-    func_02049658(h, 0x10, 1, 0, 0xc00, 1, 0x48);
+    h = ARC_TOOL_CreateHandle(0x60, 0x48);
+    ARC_UTIL_UploadBgCharFromHandle(h, 0x10, 1, 0, 0xc00, 1, 0x48);
     func_02049B68(h, 6, 0, 0, 0x60, 0x48);
     if (p->flag == 0) {
-        func_02049658(h, 0xf, 6, 0, 0, 0, 0x48);
-        func_020498F4(h, 0x23, 6, 0, 0, 0, 0x48);
+        ARC_UTIL_UploadBgCharFromHandle(h, 0xf, 6, 0, 0, 0, 0x48);
+        ARC_UTIL_UploadBgPaletteFromHandle(h, 0x23, 6, 0, 0, 0, 0x48);
     }
     ARC_TOOL_DeleteHandle(h);
     if (p->flag == 0) {
-        func_02049B40(0x17, 5, 4, 0x20, 0x20, 0x48);
+        ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x20, 0x20, 0x48);
     }
 }
 
@@ -530,7 +530,7 @@ void WORLDTRADE_LIST_CreateWindows(Work *p)
         v = p->win_u16[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
 }
 
@@ -701,7 +701,7 @@ int WORLDTRADE_LIST_StateConfirmYesNoInput(Work *p)
 
 void WORLDTRADE_LIST_DrawSelectedRecord(Work *p)
 {
-    func_0204989C(0x60, 0x1E, 1, 0, 0x800, 1, 0x48);
+    ARC_UTIL_UploadBgPaletteFromArchive(0x60, 0x1E, 1, 0, 0x800, 1, 0x48);
     WORLDTRADE_LIST_PrintNames((Pane2 *)p->pane2_p5, p->name0, p->name1, p->fFA0);
     WORLDTRADE_LIST_PrintRecordRow((Pane *)(&p->pane), p->bank, p->names, (Rec *)(p->arr[p->cur].key), p->fFA0);
 }
@@ -760,7 +760,7 @@ void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
 
 void WORLDTRADE_LIST_PrintLabel(void *bank, Pane *pane, u32 index, void *g, u16 color)
 {
-    void *str = func_02045EC0(bank, index);
+    void *str = MSGDATA_AllocString(bank, index);
 
     WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win, str, 0, 2, 0, color, g);
     STRBUF_Delete(str);
@@ -768,7 +768,7 @@ void WORLDTRADE_LIST_PrintLabel(void *bank, Pane *pane, u32 index, void *g, u16 
 
 void WORLDTRADE_LIST_PrintHeader(void *bank, Pane *pane, u32 index, void *g)
 {
-    void *str = func_02045EC0(bank, index);
+    void *str = MSGDATA_AllocString(bank, index);
     void *win;
 
     WORLDTRADE_INPUT_PrintStringAlignedWrapped(pane->win, str, 0, 0, 1, 0x3C40, g);

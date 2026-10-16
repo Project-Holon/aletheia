@@ -13,20 +13,20 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0207C768  0x0207C768  arm
- *   func_02030DA8  0x02030DA8  arm
+ *   FX_Div  0x0207C768  arm
+ *   TCB_AddTask  0x02030DA8  arm
  *   PALANM_RequestFade  0x0202173C  thumb
  *   TCBL_GetTaskUserData   0x02030EE8  arm
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gBtlvClactFileName  0x0220AE88  data  a4
  *   CLACT_DrawSystem  0x0204A600  arm
  *   gBtlvClactDefaultActorInit 0x0220A368 data a4
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -60,17 +60,17 @@
 #include "btlv_effvm_shared_types.h"
 #include "btlv_clact_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 func_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
-extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
+extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
 
 extern int PALANM_RequestFade(struct PalAnmSlot *palanm, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *owner);
 
 extern u32 TCBL_GetTaskUserData(void *task);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern float _fflt(int);
 
@@ -86,7 +86,7 @@ extern unsigned int CLACT_DeleteUnit(struct Unit *unit);
 
 void CLACT_DrawSystem(void);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileIdx, u32 compressed, u32 vramMode, u16 heap);
 
@@ -173,7 +173,7 @@ extern const BtlvClactActorInit gBtlvClactDefaultActorInit;
 
 BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap)
 {
-    BtlvClact *clact = func_02030734(heap, 0x84, 1, gBtlvClactFileName, 0x4f);
+    BtlvClact *clact = GFL_HEAP_Alloc(heap, 0x84, 1, gBtlvClactFileName, 0x4f);
     clact->owner = owner;
     clact->heap = heap;
     clact->unit = CLACT_CreateUnit(7, 0, heap);
@@ -188,7 +188,7 @@ void BTLV_CLACT_Delete(BtlvClact *clact)
             BTLV_CLACT_ReleaseActor(clact, i);
     }
     CLACT_DeleteUnit(clact->unit);
-    func_020307B0(clact);
+    GFL_HEAP_Free(clact);
 }
 
 void BTLV_CLACT_Draw(void *unused)
@@ -204,7 +204,7 @@ int BTLV_CLACT_LoadActorSimple(BtlvClact *clact, int archiveId, int firstFile, s
 int BTLV_CLACT_LoadActor(BtlvClact *clact, u32 archiveId, int charFile, u32 palFile, int cellFile, int animFile, s16 x, s16 y, u32 scaleX, u32 scaleY)
 {
     BtlvClactActorInit init = gBtlvClactDefaultActorInit;
-    void *archive = func_020490F4(archiveId, (u16)((clact->heap & 0x7fff) | 0x8000));
+    void *archive = ARC_TOOL_CreateHandle(archiveId, (u16)((clact->heap & 0x7fff) | 0x8000));
     int i;
     struct PalAnmSlot *palanm;
     u32 vramAddr;
@@ -300,7 +300,7 @@ void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *st
                    void (*taskMain)(void *, void *), void (*taskEnd)(void *))
 {
     BtlvClactMoveTask *job;
-    job = func_02030734((u16)((clact->heap & 0x7fff) | 0x8000), 0x50, 0, gBtlvClactFileName, 0x197);
+    job = GFL_HEAP_Alloc((u16)((clact->heap & 0x7fff) | 0x8000), 0x50, 0, gBtlvClactFileName, 0x197);
     job->clact = clact;
     job->slot = slot;
     job->pos.x = start->x;
@@ -326,15 +326,15 @@ void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *st
         job->mover.countReset *= 2;
         job->mover.repeat *= 2;
     case 2:
-        job->mover.step.x = func_0207C768(end->x, FxFromInt(frames));
-        job->mover.step.y = func_0207C768(end->y, FxFromInt(frames));
-        job->mover.step.z = func_0207C768(end->z, FxFromInt(frames));
+        job->mover.step.x = FX_Div(end->x, FxFromInt(frames));
+        job->mover.step.y = FX_Div(end->y, FxFromInt(frames));
+        job->mover.step.z = FX_Div(end->z, FxFromInt(frames));
         break;
     case 0:
     default:
         break;
     }
-    BTLV_EFFECT_RegisterTask(func_02030DA8(clact->owner, taskMain, job, 0), taskEnd, 0);
+    BTLV_EFFECT_RegisterTask(TCB_AddTask(clact->owner, taskMain, job, 0), taskEnd, 0);
 }
 
 void BTLV_CLACT_MoveTaskMain(void *task, void *work)

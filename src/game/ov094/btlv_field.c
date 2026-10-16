@@ -27,7 +27,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
@@ -67,7 +67,7 @@ extern void G3D_SYSTEM_DeleteAnime(G3dAnime *);
 
 extern void G3D_SYSTEM_DeleteResource(G3dResource *);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void G3D_SYSTEM_DeleteObject(G3dObject *);
 
@@ -164,16 +164,16 @@ void BTLV_FIELD_Delete(BtlvField *field)
             G3D_SYSTEM_DeleteAnime(field->anime[i]);
             G3D_SYSTEM_DeleteResource(field->animResource[i]);
         }
-        func_020307B0(field->animState);
-        func_020307B0(field->anime);
-        func_020307B0(field->animResource);
+        GFL_HEAP_Free(field->animState);
+        GFL_HEAP_Free(field->anime);
+        GFL_HEAP_Free(field->animResource);
     }
     G3D_SYSTEM_DeleteRender(field->render);
     G3D_SYSTEM_DeleteResource(field->resource);
-    func_020307B0(*field->palFade.palettes);
-    func_020307B0(field->palFade.palettes);
-    func_020307B0(field->palFade.resources);
-    func_020307B0(field);
+    GFL_HEAP_Free(*field->palFade.palettes);
+    GFL_HEAP_Free(field->palFade.palettes);
+    GFL_HEAP_Free(field->palFade.resources);
+    GFL_HEAP_Free(field);
 }
 
 /*

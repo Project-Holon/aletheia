@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   gSpeciesNameBank     0x020A7370  data
  *   FIELD_PLAYER_GRID_EVENT_IsHopDone  0x021C1094  thumb  ov021
  *   FIELD_PLAYER_GRID_EVENT_DeleteHopTask  0x021C10A0  thumb  ov021
@@ -41,9 +41,9 @@
  *   FLDEFF_RIPPLE_CreateZoneStartWarpTask  0x021D2418  thumb  ov021
  *   FLDEFF_RIPPLE_CreateSpecialLocationWarpTask  0x021D2440  thumb  ov021
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02034AC4  0x02034AC4  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  *   FIELD_PLAYER_SetDirDisp  0x021A305C  thumb  ov021
  *   RAIL_SLIPDOWN_Create  0x021F36C0  thumb  ov063
  *   ov063_id       0x0000003F  data
@@ -71,6 +71,8 @@
  *   gRippleBoardCommands     0x021DE464  data  a4
  *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm  arm9
  *   BILLBOARD_ACT_GetEntryLastCommand  0x020508EC  arm  arm9
+ *   GFL_HEAP_Alloc  0x02030734  arm  arm9
+ *   GF_OVERLAY_Unload  0x02034A5C  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
 #include "field_effect_types.h"
@@ -144,7 +146,7 @@ typedef struct RippleStartParam {
     VecFx32 pos;
 } RippleStartParam;
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *SCRCMD_WORK_GetTargetObject(void *a);
 extern int FIELD_PLAYER_GRID_EVENT_IsHopDone(void *x);
 extern int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(u32 a);
@@ -171,15 +173,15 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *FLDEFF_RIPPLE_CreateZoneStartWarpTask(void *a, u32 b);
 extern void *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(void *a, u32 b, u32 c);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
-extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *p);
-extern int func_02034AC4(int a);
+extern int GF_OVERLAY_Load(int a);
 extern void FIELD_PLAYER_SetDirDisp(void *p, u32 b);
 extern void *RAIL_SLIPDOWN_Create(void *a, u32 b, u32 c, u32 d);
-extern void func_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 extern int RAIL_SLIPDOWN_IsDone(int *p);
 extern void RAIL_SLIPDOWN_Delete(u8 *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
 extern struct BbActSys *FIELDMAP_GetGroundBbdAct(struct FieldMap *fieldMap);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
@@ -346,12 +348,12 @@ int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork)
  */
 u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
 {
-    u32 task = (u32)func_020122C0((void *)a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
+    u32 task = (u32)GAME_EVENT_Create((void *)a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
     u32 *effectSlot = func_020124E8((void *)task);
     void *fieldMap;
     void *player;
 
-    func_02034AC4((int)ov063_id);
+    GF_OVERLAY_Load((int)ov063_id);
     fieldMap = FIELDMAP_GetFieldPlayer((void *)b);
     player = FIELD_PLAYER_GetMmdl((void *)fieldMap);
     FIELD_PLAYER_SetDirDisp(fieldMap, c);
@@ -364,10 +366,10 @@ u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
  */
 void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c)
 {
-    void *task = func_020122C0(a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
+    void *task = GAME_EVENT_Create(a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
     void **effectSlot = func_020124E8(task);
 
-    func_02034AC4((u32)ov063_id);
+    GF_OVERLAY_Load((u32)ov063_id);
     *effectSlot = RAIL_SLIPDOWN_Create(a, b, c, 0);
     return task;
 }
@@ -382,7 +384,7 @@ int RAIL_SLIPDOWN_UpdateTask(void *task)
 
     if (RAIL_SLIPDOWN_IsDone(*effectSlot) != 0) {
         RAIL_SLIPDOWN_Delete(*effectSlot);
-        func_02034A5C((u32)ov063_id);
+        GF_OVERLAY_Unload((u32)ov063_id);
         return 1;
     }
     return 0;
@@ -393,7 +395,7 @@ int RAIL_SLIPDOWN_UpdateTask(void *task)
  */
 RippleWork *FLDEFF_RIPPLE_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    RippleWork *work = func_02030734(heapId, 0xC, 1, sFldeffRippleFileName, 0x56);
+    RippleWork *work = GFL_HEAP_Alloc(heapId, 0xC, 1, sFldeffRippleFileName, 0x56);
 
     work->fieldEffect = fieldEffect;
     work->bbActSys = FIELDMAP_GetGroundBbdAct(FIELD_EFFECT_GetFieldMap(fieldEffect));
@@ -405,7 +407,7 @@ RippleWork *FLDEFF_RIPPLE_Create(FieldEffectSys *fieldEffect, u32 heapId)
 void FLDEFF_RIPPLE_Delete(u32 unused, RippleWork *work)
 {
     FLDEFF_RIPPLE_RemoveActor(work);
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /* Loads the ripple model and adds its billboard actor. */

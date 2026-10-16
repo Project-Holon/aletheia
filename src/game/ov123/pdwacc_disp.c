@@ -15,21 +15,21 @@
  * symbols:
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049F78 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0207E468 0x0207E468 arm
+ *   GXS_LoadBGPltt 0x0207E468 arm
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -44,23 +44,23 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_02030734 0x02030734 arm
- *   func_0207D63C 0x0207D63C arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   ov067_id 0x00000043 data
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   gGsyncClactConfig 0x020A1464 data a4
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ov_id 0x00000043 data
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   KEY_GetTrg  0x020362DC  arm
@@ -82,18 +82,18 @@
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
- *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   d_021DABFC 0x021DABFC data a1
  *   d_021DABCC 0x021DABCC data a4
  *   d_021DABBC 0x021DABBC data a4
  *   d_021DA8A8      0x021DA8A8  data
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   PALANM_BlendColors 0x02021F64 thumb
- *   func_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_02009448 0x02009448 thumb
+ *   GAME_SYNC_GetBlock 0x02009448 thumb
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb  arm9
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
@@ -120,7 +120,7 @@ extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void BG_SYS_PushTile(u32);
 
-extern void func_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_Init(u32, u32, u32, u32);
 
@@ -136,7 +136,7 @@ extern u8 APP_TASKMENU_GetCursorPos(const void *menu);
 
 extern void APP_TASKMENU_CloseMenu(void *m);
 
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 
@@ -144,7 +144,7 @@ extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -156,7 +156,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 
 extern void DWCi_ScreenDC_FlushRange(void *, int);
 
-extern void func_0207E468(void *, int, int);
+extern void GXS_LoadBGPltt(void *, int, int);
 
 extern int GAME_DATA_SaveMain(void *gameData);
 
@@ -188,11 +188,11 @@ extern void CLACT_InitSystem(const void *cfg, u32 arg, u32 heapId);
 
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *func_020056A0(void *,void *,int);
+extern void *GFL_USE_AddMainTask(void *,void *,int);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void func_0207D63C(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern void APP_TASKMENU_UpdateMenu(void *);
 
@@ -210,7 +210,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void func_02030EAC(void *n);
+extern void TCB_DeleteTask(void *n);
 
 extern u32 CLACT_DeleteUnit(void *bank);
 
@@ -218,11 +218,11 @@ extern void CLACT_ExitSystem(void);
 
 extern void BG_SYS_Delete(void);
 
-extern void func_020315D4(void *p);
+extern void PROCSYS_FreeProcWork(void *p);
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 
 extern void GX_LoadBGPltt(const void *, int, int);
 
@@ -234,7 +234,7 @@ extern void NHTTP_RAP_DeleteConnection(u8 *p);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
-extern void *func_02009448(void *sys);
+extern void *GAME_SYNC_GetBlock(void *sys);
 
 extern int NHTTP_RAP_GetResultCode(u8 *p);
 
@@ -264,13 +264,13 @@ extern u8 *NHTTP_RAP_Create(int,int,int);
 
 extern void DWC_RAP_SetErrorCallback(int,int);
 
-extern u32 func_0200FB24(void);
+extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 
-extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
@@ -348,9 +348,9 @@ extern const struct BgTemplate d_021DA8A8[8];
 PdwaccDispWork *PDWACC_DISP_Init(int heap)
 {
     PdwaccDispWork *disp;
-    disp=(PdwaccDispWork *) func_02030734(heap,0xb70,1,d_021DABFC,201);
+    disp=(PdwaccDispWork *) GFL_HEAP_Alloc(heap,0xb70,1,d_021DABFC,201);
     disp->heap=heap;
-    func_02034AC4((int)ov067_id);
+    GF_OVERLAY_Load((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BMP_SetDisplaySwap(1);
@@ -363,7 +363,7 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap)
     BG_SYS_SetGraphicsMode(d_021DABBC);
     PDWACC_DISP_InitBgLayers(disp);
     PDWACC_DISP_LoadResources(disp);
-    disp->vblankTask=func_020056A0(PDWACC_DISP_VBlankTask,disp,0);
+    disp->vblankTask=GFL_USE_AddMainTask(PDWACC_DISP_VBlankTask,disp,0);
     BG_SYS_SetSubVisiblePlanes(31);
     BG_SYS_SetMainVisiblePlanes(27);
     return disp;
@@ -376,7 +376,7 @@ void PDWACC_DISP_Exit(PdwaccDispWork *disp)
     int resourceIndex;
     PDWACC_DISP_DeleteActors(disp);
     if (disp->palette.task) {
-        func_02030EAC(disp->palette.task);
+        TCB_DeleteTask(disp->palette.task);
         disp->palette.task=0;
         disp->palette.enabled=0;
     }
@@ -384,18 +384,18 @@ void PDWACC_DISP_Exit(PdwaccDispWork *disp)
     do { if (disp->clactResources[resourceIndex]) CLACT_ReleasePalette((unsigned int)disp->clactResources[resourceIndex]); resourceIndex++; } while(resourceIndex<3);
     for(;resourceIndex<6;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCharacter((unsigned int)disp->clactResources[resourceIndex]);
     for(;resourceIndex<9;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCellAnim((unsigned int)disp->clactResources[resourceIndex]);
-    if (disp->unusedTask) func_02030EAC(disp->unusedTask);
-    func_02030EAC(disp->vblankTask);
+    if (disp->unusedTask) TCB_DeleteTask(disp->unusedTask);
+    TCB_DeleteTask(disp->vblankTask);
     CLACT_DeleteUnit(disp->clactUnit);
     CLACT_ExitSystem();
     BG_SYS_SetTileUnit(1,1,0);
     BG_SYS_SetTileUnit(6,1,0);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
-    func_02040588(5,0);
+    BG_SYS_SetPlaneVisible(5,0);
     BG_SYS_Delete();
-    func_020307B0(disp);
-    func_02034A5C((int)ov_id);
+    GFL_HEAP_Free(disp);
+    GF_OVERLAY_Unload((int)ov_id);
 }
 
 /*
@@ -409,51 +409,51 @@ void PDWACC_DISP_InitBgLayers(PdwaccDispWork *disp)
 
     bgTemplates[7] = d_021DA8A8[1];
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&bgTemplates[7]), 0);
-    func_02040588(0, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
     BG_SYS_PushTile(0);
 
     bgTemplates[6] = d_021DA8A8[4];
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&bgTemplates[6]), 0);
-    func_02040588(1, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
     BG_SYS_Init(1, 0, 1, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(1);
 
     bgTemplates[5] = d_021DA8A8[3];
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&bgTemplates[5]), 0);
-    func_02040588(2, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(2);
 
     bgTemplates[4] = d_021DA8A8[7];
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&bgTemplates[4]), 0);
-    func_02040588(3, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
     BG_SYS_Init(3, 0, 1, 0);
     BG_SYS_SetTileEntry(3, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(3);
 
     bgTemplates[3] = d_021DA8A8[5];
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&bgTemplates[3]), 0);
-    func_02040588(4, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
     BG_SYS_PushTile(4);
 
     bgTemplates[2] = d_021DA8A8[0];
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&bgTemplates[2]), 0);
-    func_02040588(5, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(5);
 
     bgTemplates[1] = d_021DA8A8[6];
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)(&bgTemplates[1]), 0);
-    func_02040588(6, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_Init(6, 0, 1, 0);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(6);
 
     bgTemplates[0] = d_021DA8A8[2];
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)(&bgTemplates[0]), 0);
-    func_02040588(7, 1);
+    BG_SYS_SetPlaneVisible(7, 1);
     BG_SYS_Init(7, 0, 1, 0);
     BG_SYS_SetTileEntry(7, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(7);
@@ -469,7 +469,7 @@ void PDWACC_DISP_VBlankTask(void)
 }
 
 /*
- * note 2026-10-05 (wD9r lane50): closed. func_02049658 returns a value (it ends in a call whose r0 it
+ * note 2026-10-05 (wD9r lane50): closed. ARC_UTIL_UploadBgCharFromHandle returns a value (it ends in a call whose r0 it
  *   keeps; ov110 func_021BB328 declares it u32); declared void, it moved the constant 3 into r5 and
  *   tied the late zero arguments to j. The two palette bases are assigned inside the outer loop (mwcc
  *   hoists them after i = 0), and the source row is written inline in the 02021F64 call.
@@ -490,22 +490,22 @@ void PDWACC_DISP_LoadResources(PdwaccDispWork *disp)
     int nextRow;
     u16 *dstRow;
     u16 heap;
-    archiveHandle = func_020490F4(0x91, disp->heap);
+    archiveHandle = ARC_TOOL_CreateHandle(0x91, disp->heap);
     blendRow = 0;
     func_02049B68(archiveHandle, 3, 4, 0, blendRow, disp->heap);
-    func_02049658(archiveHandle, 4, 4, 0, blendRow, blendRow, disp->heap);
-    func_020498F4(archiveHandle, 6, 4, 0, blendRow, blendRow, disp->heap);
+    ARC_UTIL_UploadBgCharFromHandle(archiveHandle, 4, 4, 0, blendRow, blendRow, disp->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(archiveHandle, 6, 4, 0, blendRow, blendRow, disp->heap);
     func_02049B68(archiveHandle, 3, 0, 0, blendRow, disp->heap);
-    func_02049658(archiveHandle, 4, 0, 0, blendRow, blendRow, disp->heap);
-    func_020498F4(archiveHandle, 5, 0, 0, blendRow, blendRow, disp->heap);
-    func_02049658(archiveHandle, 4, 3, 0, blendRow, blendRow, disp->heap);
-    func_020498F4(archiveHandle, 7, 3, 0, blendRow, blendRow, disp->heap);
+    ARC_UTIL_UploadBgCharFromHandle(archiveHandle, 4, 0, 0, blendRow, blendRow, disp->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(archiveHandle, 5, 0, 0, blendRow, blendRow, disp->heap);
+    ARC_UTIL_UploadBgCharFromHandle(archiveHandle, 4, 3, 0, blendRow, blendRow, disp->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(archiveHandle, 7, 3, 0, blendRow, blendRow, disp->heap);
     heap = disp->heap;
     MI_CpuFill8(&disp->palette, 0, sizeof(disp->palette));
     allocated = func_02049F78(archiveHandle, 2, (u32)&record, heap);
     MI_CpuCopy8(record->data, disp->palette.basePalettes, 0x1e0);
     MI_CpuCopy8(record->data, disp->palette.blendedPalettes, 0x1e0);
-    func_020307B0(allocated);
+    GFL_HEAP_Free(allocated);
     for (rowIndex = 0; rowIndex < 15; rowIndex++) {
         base1 = (u16 *)disp->palette.blendedPalettes;
         base0 = (u16 *)disp->palette.basePalettes;
@@ -530,8 +530,8 @@ void PDWACC_DISP_LoadResources(PdwaccDispWork *disp)
     }
     DWCi_ScreenDC_FlushRange(disp->palette.blendedPalettes, sizeof(disp->palette.blendedPalettes));
     disp->palette.enabled = 1;
-    disp->palette.task = func_020056A0((void *)PDWACC_DISP_PaletteTask, &disp->palette, 0x14);
-    func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
+    disp->palette.task = GFL_USE_AddMainTask((void *)PDWACC_DISP_PaletteTask, &disp->palette, 0x14);
+    G2x_SetBlendAlpha_((void *)0x04000050, 1, 8, 8, 0x10);
     disp->palette.bgLayer = 0;
     ARC_TOOL_DeleteHandle(archiveHandle);
 }
@@ -542,7 +542,7 @@ void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette)
         palette->halfStep^=1;
         if (!(*(volatile u8 *)&palette->halfStep&1)) {
             GX_LoadBGPltt(&palette->blendedPalettes[palette->frame][4],40,14);
-            func_0207E468(&palette->blendedPalettes[palette->frame][4],40,14);
+            GXS_LoadBGPltt(&palette->blendedPalettes[palette->frame][4],40,14);
             ++palette->frame;
             if (palette->frame>=60) palette->frame=0;
             BG_SYS_FillScrollArea(palette->bgLayer,2,7);
@@ -608,7 +608,7 @@ void PDWACC_STATE_StateSaveStart(PdwaccProc *proc) { if(PDWACC_MESSAGE_UpdateStr
 
 void PDWACC_STATE_StateRestartTimeIcon(PdwaccProc *proc) { PDWACC_MESSAGE_PrintStream(proc->message,6); PDWACC_MESSAGE_RestartTimeIcon(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateSaveStart,0x112); }
 
-void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(proc->message); func_020092E0(func_02009448(proc->saveControl),1); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
+void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(proc->message); func_020092E0(GAME_SYNC_GetBlock(proc->saveControl),1); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
 
 void PDWACC_STATE_StateWaitInputPrintNumbers(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,9); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitInputClearWindow,0x12a); } }
 
@@ -699,7 +699,7 @@ void PDWACC_STATE_DestroyHttpConnection(PdwaccProc *proc) { if(proc->connection)
 int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
 {
     PdwaccProc *proc;
-    func_02034AC4((int)ov114_id);
+    GF_OVERLAY_Load((int)ov114_id);
     proc=(PdwaccProc *) PROCSYS_AllocProcWork(procSys,0x74,param->heap);
     MI_CpuFill8(proc,0,0x74);
     proc->heap=param->heap;
@@ -729,14 +729,14 @@ int PDWACC_STATE_ProcMain(int unused0,int unused1,PdwaccProcParam *param,PdwaccP
     state = proc->state;
     result = 1;
     if (state) {
-        if (!func_0200FB24()) state(proc);
+        if (!GFL_NET_ERR_GetErrorLevel()) state(proc);
         result = 0;
     }
     if (proc->yesNoMenu) APP_TASKMENU_UpdateMenu(proc->yesNoMenu);
     PDWACC_DISP_Draw(proc->disp);
     PDWACC_MESSAGE_UpdateSystem(proc->message);
     if (WIPE_SYS_EndCheck()) {
-        if (func_0200FB24()) {
+        if (GFL_NET_ERR_GetErrorLevel()) {
             NHTTP_RAP_DeleteConnection(proc->connection);
             if (proc->saving) {
                 GAME_DATA_SaveCancel(proc->gameData);
@@ -748,7 +748,7 @@ int PDWACC_STATE_ProcMain(int unused0,int unused1,PdwaccProcParam *param,PdwaccP
             DWC_RAPCOMMON_HandleNetError(1,0);
             param->finished = 1;
         }
-    } else if (func_0200FB24()) result = 1;
+    } else if (GFL_NET_ERR_GetErrorLevel()) result = 1;
     return result;
 }
 
@@ -759,16 +759,16 @@ int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *
     PDWACC_MESSAGE_ExitSystem(proc->message);
     PDWACC_DISP_Exit(proc->disp);
     if (proc->unusedAlloc04)
-        func_020307B0(proc->unusedAlloc04);
+        GFL_HEAP_Free(proc->unusedAlloc04);
     if (proc->unusedAlloc24)
-        func_020307B0(proc->unusedAlloc24);
+        GFL_HEAP_Free(proc->unusedAlloc24);
     if (proc->connection) {
         NHTTP_RAP_Destroy(proc->connection);
         proc->connection = 0;
     }
     if (GFL_NET_GetRunState())
         DWC_RAP_SetErrorCallback(0, 0);
-    func_020315D4((void *)procHandle);
-    func_02034A5C((int)ov114_id);
+    PROCSYS_FreeProcWork((void *)procHandle);
+    GF_OVERLAY_Unload((int)ov114_id);
     return 1;
 }

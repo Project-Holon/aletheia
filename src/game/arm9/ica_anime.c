@@ -14,9 +14,9 @@
  *
  * symbols:
  *   _GPowerState  0x021461E8  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8        0x02082BCC  arm
- *   func_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   ICA_ANIME_AllocBuffer  0x02011770  thumb
  *   _IcaAnimeFileName  0x020A7270  data
  *   ARC_TOOL_DeleteHandle     0x02049238  arm
@@ -43,7 +43,7 @@
  *   func_02188390  0x02188390  arm  ov230d
  *   SCRCMD_NETWORK_CreateOv020Event  0x0215FA00  thumb  ov010
  *   GAMESYSTEM_Delete     0x02012088  thumb
- *   func_020315D4     0x020315D4  arm
+ *   PROCSYS_FreeProcWork     0x020315D4  arm
  *   OS_ResetSystem     0x02087BCC  arm
  *   PROCSYS_Create  0x02031324  arm
  *   CURSOR_MOVE_CreateVecSet  0x020261E4  thumb
@@ -66,14 +66,14 @@
  *   PALANM_UpdateTimer  0x02021464  thumb
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   FIELDMAP_IsReady     0x02188BE8  thumb  ov021
- *   func_0203133C  0x0203133C  arm
+ *   PROCSYS_Delete  0x0203133C  arm
  *   PROCSYS_Push  0x02031348  arm
  *   SDK_OVERLAY_ov021_ID          0x00000015  data
  *   FieldMapProcData  0x021D359C  data  ov021
  *   GAME_DATA_IsConfigFlagSet  0x02012BB0  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsNoGameEventZone  0x02013D34  thumb
- *   func_0200FB24  0x0200FB24  thumb
+ *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   INTRUDE_COMM_CheckEntryAllowed  0x02158318  thumb  ov010
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
@@ -96,6 +96,8 @@
  *   GAME_EVENT_StartByCreator 0x020123D8 thumb arm9
  *   GAME_DATA_Create 0x020124F4 thumb arm9
  *   GAME_DATA_Delete 0x02012704 thumb arm9
+ *   GF_OVERLAY_Unload  0x02034A5C  arm
+ *   GF_OVERLAY_Load  0x02034AC4  arm
  */
 #include "btl_setup_types.h"
 #include "script_vm_types.h"
@@ -149,15 +151,15 @@ struct GameSystemGlobal {
     struct GameInitWork initWork;
 };
 
-extern void func_0203133C(struct ProcSys *procSys);
+extern void PROCSYS_Delete(struct ProcSys *procSys);
 
-extern void func_020315D4(struct Proc *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
-extern u32 func_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void ARC_TOOL_DeleteHandle(struct ArcFile *arc);
 
@@ -185,7 +187,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int parentHeapId, unsigned int hea
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 
-extern int func_02034AC4(int overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
 
 extern u32   func_021882A0(void (*caller)(void), void (*target)(void), u32 arg);
 
@@ -194,7 +196,7 @@ extern u32   func_02188354(void (*caller)(void), void (*target)(void), u32 arg);
 extern u32   func_02188390(void (*caller)(void), void (*target)(void), u32 arg);
 
 //P
-extern void  func_02034A5C(s32 overlayId);
+extern void  GF_OVERLAY_Unload(s32 overlayId);
 
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
@@ -258,7 +260,7 @@ extern u16   GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 
 extern u32 ZONEDATA_IsNoGameEventZone(u32 zoneId);
 
-extern u32   func_0200FB24(void);
+extern u32   GFL_NET_ERR_GetErrorLevel(void);
 
 extern int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
 
@@ -455,7 +457,7 @@ extern u8 FieldMapProcData;
  */
 struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize)
 {
-    struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x54);
+    struct IcaAnime *anime = GFL_HEAP_Alloc(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x54);
 
     ICA_ANIME_Clear(anime);
     ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
@@ -479,7 +481,7 @@ struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataI
  */
 struct IcaAnime *ICA_ANIME_CreateWithStreamBuffer(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum, void *buffer, u32 bufferSize)
 {
-    struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x74);
+    struct IcaAnime *anime = GFL_HEAP_Alloc(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x74);
 
     ICA_ANIME_Clear(anime);
     ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
@@ -507,7 +509,7 @@ struct IcaAnime *ICA_ANIME_CreateFull(u32 heapId, u32 arcId, u32 dataId)
 {
     struct IcaAnime *anime;
 
-    anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x90);
+    anime = GFL_HEAP_Alloc(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x90);
     ICA_ANIME_Clear(anime);
     ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
     ICA_ANIME_AllocBuffer(anime, anime->frameNum);
@@ -529,7 +531,7 @@ struct IcaAnime *ICA_ANIME_CreateFull(u32 heapId, u32 arcId, u32 dataId)
  */
 struct IcaAnime *ICA_ANIME_CreateStream(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum)
 {
-    struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0xae);
+    struct IcaAnime *anime = GFL_HEAP_Alloc(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0xae);
 
     ICA_ANIME_Clear(anime);
     ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
@@ -557,13 +559,13 @@ void ICA_ANIME_Delete(struct IcaAnime *anime)
     ARC_TOOL_DeleteHandle(anime->arcHandle);
     if (anime->bufAllocated != 0) {
         if (anime->transBuf != 0)
-            func_020307B0(anime->transBuf);
+            GFL_HEAP_Free(anime->transBuf);
         if (anime->rotBuf != 0)
-            func_020307B0(anime->rotBuf);
+            GFL_HEAP_Free(anime->rotBuf);
         if (anime->scaleBuf != 0)
-            func_020307B0(anime->scaleBuf);
+            GFL_HEAP_Free(anime->scaleBuf);
     }
-    func_020307B0(anime);
+    GFL_HEAP_Free(anime);
 }
 
 /*
@@ -802,15 +804,15 @@ void ICA_ANIME_AllocBuffer(struct IcaAnime *anime, int bufFrameNum)
 {
     anime->bufFrameNum = bufFrameNum;
     if (anime->hasTrans != 0) {
-        anime->transBuf = func_02030734(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+        anime->transBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct Vec3),
                                         0, _IcaAnimeFileName, 0x25c);
     }
     if (anime->hasRot != 0) {
-        anime->rotBuf = func_02030734(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+        anime->rotBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct Vec3),
                                       0, _IcaAnimeFileName, 0x260);
     }
     if (anime->hasScale != 0) {
-        anime->scaleBuf = func_02030734(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+        anime->scaleBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct Vec3),
                                         0, _IcaAnimeFileName, 0x264);
     }
     anime->bufAllocated = 1;
@@ -913,7 +915,7 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
     if (anime->hasRot != 0) size += anime->bufFrameNum * 0xc;
     if (anime->hasTrans != 0) size += anime->bufFrameNum * 0xc;
 
-    floats = (volatile float *)func_02030734((u16)((anime->heapId & 0x7fff) | 0x8000), size, 0, _IcaAnimeFileName, 0x2bd);
+    floats = (volatile float *)GFL_HEAP_Alloc((u16)((anime->heapId & 0x7fff) | 0x8000), size, 0, _IcaAnimeFileName, 0x2bd);
     frameIdx = 0;
     ARC_TOOL_ReadHandleMemberRange(anime->arcHandle, anime->dataId, offset, size, (void *)floats);
 
@@ -938,7 +940,7 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
             value += 3;
         }
     }
-    func_020307B0((void *)floats);
+    GFL_HEAP_Free((void *)floats);
     anime->bufTopFrame = frame >> 12;
 }
 
@@ -1193,7 +1195,7 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     workSize = GAMESYSTEM_GetWorkSize();
     checkCaller = (u32)GAMESYSTEM_CallIfSet;
     checkSum = 0xc35ffb;
-    func_02034AC4((int)ov230_id);
+    GF_OVERLAY_Load((int)ov230_id);
     intact = 0;
     if (func_021882A0((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenalty, 0) == ~(u32)GAMESYSTEM_LeakHeapPenalty)
         intact = 1;
@@ -1208,7 +1210,7 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     GFL_HEAP_CreateChildHeap(1, 4, 4 << 14);
     func_02188390((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenaltyRepeat, 0);
     GFL_HEAP_CreateChildHeap(9, 5, 5 << 10);
-    func_02034A5C((s32)ov230_id);
+    GF_OVERLAY_Unload((s32)ov230_id);
     gameSystem = PROCSYS_AllocProcWork(proc, workSize, 3);
     MI_CpuFill8(gameSystem, 0, workSize);
     _GameSystemGlobal.gameSystem = gameSystem;
@@ -1259,7 +1261,7 @@ u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameS
 u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
 {
     GAMESYSTEM_Delete(gameSystem);
-    func_020315D4(proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(3);
     GFL_HEAP_DeleteChecked(4);
     GFL_HEAP_DeleteChecked(5);
@@ -1474,7 +1476,7 @@ void GAMESYSTEM_UpdateAutoComm(struct GameSystem *gameSystem)
  */
 void GAMESYSTEM_Delete(struct GameSystem *gameSystem)
 {
-    func_0203133C(gameSystem->procSys);
+    PROCSYS_Delete(gameSystem->procSys);
     GAMESYSTEM_Exit(gameSystem);
 }
 
@@ -1530,7 +1532,7 @@ void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *pro
  *           proc system: GAMESYSTEM_CallProc -> PROCSYS_Push -> PROCSYS_PushInternal ->
  *           PROCSYS_NewProc stores the id at Proc+4 and the pointer at Proc+0
  *           (ProcData), and PROCSYS_StepProc loads overlay Proc+4
- *           (func_02034AC4) before it calls any ProcData callback.  So ov021
+ *           (GF_OVERLAY_Load) before it calls any ProcData callback.  So ov021
  *           is resident whenever the pointer is dereferenced.  Independently,
  *           ov021's bytes at 0x021D359C are three Thumb pointers
  *           0x02187F01/0x02187FD1/0x02187FE9, each a func_ label in
@@ -1705,7 +1707,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
     zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
     if (gameSystem->commBlocked == 0
      && ZONEDATA_IsNoGameEventZone(zoneId) == 0
-     && func_0200FB24() == 0
+     && GFL_NET_ERR_GetErrorLevel() == 0
      && ICA_ANIME_IsConfigFlagSet(gameSystem) == 1
      && INTRUDE_COMM_CheckEntryAllowed(gameSystem) == 1
      && !(func_02035390() == 1 && func_020353B0() == 1)) {

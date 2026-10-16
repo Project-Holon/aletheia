@@ -23,6 +23,8 @@
  *   gMslRefToken 0x02150FEC data
  *   NHTTPi_CommThreadProcMain  0x021BE4D4  arm  ov114
  *   OS_JoinThread  0x02085710  arm  arm9
+ *   OS_SendMessage  0x02085DBC  arm  arm9
+ *   OS_ReceiveMessage  0x02085E50  arm  arm9
  */
 #include "nhttp_types.h"
 
@@ -40,8 +42,8 @@ extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void 
 extern void OS_WakeupThreadDirect(void *thread);
 extern void NHTTPi_CommThreadProc(void *);
 extern void OS_JoinThread(void *);
-extern void func_02085E50(void *, int *, int);
-extern void func_02085DBC(void *, int, int);
+extern void OS_ReceiveMessage(void *, int *, int);
+extern void OS_SendMessage(void *, int, int);
 extern void OS_Terminate(void);
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p);
 void NHTTPi_destroyCommThread(NHTTPThreadInfo *threadInfo_p, NHTTPBgnEndInfo *bgnEndInfo_p);
@@ -76,13 +78,13 @@ void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p)
 {
     int message;
 
-    func_02085E50(threadInfo_p->msgQueue, &message, 1);
+    OS_ReceiveMessage(threadInfo_p->msgQueue, &message, 1);
 }
 
 
 void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p)
 {
-    func_02085DBC(threadInfo_p->msgQueue, 0, 0);
+    OS_SendMessage(threadInfo_p->msgQueue, 0, 0);
 }
 
 

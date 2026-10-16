@@ -34,9 +34,9 @@
  *   GFL_USE_PollPowerExit    0x020053EC  thumb
  *   GFL_USE_UpdateSound      0x02005BC0  thumb
  *   PM_VOICE_StopFinished    0x020065FC  thumb
- *   func_02034714            0x02034714  arm
- *   func_02034AC4            0x02034AC4  arm
- *   func_02034A5C            0x02034A5C  arm
+ *   SAVEDATA_PanicFail            0x02034714  arm
+ *   GF_OVERLAY_Load            0x02034AC4  arm
+ *   GF_OVERLAY_Unload            0x02034A5C  arm
  *   func_0205FAA8            0x0205FAA8  arm
  *   sub_0202E8D8             0x0202E8D8  thumb
  *   gWihDwc                  0x021461E0  data
@@ -107,13 +107,13 @@ struct GFLNetInitializeStruct {
     u8 connectState;
 };
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
 extern u32  DWC_GetParseWMBssDescWorkSize(void);
-extern int func_02034AC4(int id);
+extern int GF_OVERLAY_Load(int id);
 extern void WIH_SetBeaconFoundCallback(u32 callback);
 extern void GFL_NET_FreeAligned(void *p);
-extern void func_02034A5C(int handle);
+extern void GF_OVERLAY_Unload(int handle);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u32 GF_STANDARD_GetStringLength(const u8 *s);
 extern s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 n);
@@ -216,10 +216,10 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
     struct WihContext *context;
 
     if (maxBeacons > 4) {
-        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     if (gWihDwc.context != 0) {
-        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     context = GFL_NET_AllocAligned((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
     context->maxBeacons = maxBeacons;
@@ -227,7 +227,7 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
     WIH_SetBeaconFoundCallback((u32)WIH_DWC_AddBeacon);
     gWihDwc.context = context;
     context->filterBuf = gWihDwc.filterBuf;
-    func_02034AC4((int)ov015_id);
+    GF_OVERLAY_Load((int)ov015_id);
     return context;
 }
 
@@ -265,7 +265,7 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
  * from a `movs`, so it is a symbol rather than an integer: see
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.  The
  * pool words on either side of this function (0x020103E0 and 0x02010428)
- * both hold 0x0F, and func_02034AC4 - the sibling entry point in
+ * both hold 0x0F, and GF_OVERLAY_Load - the sibling entry point in
  * src/pending/unit_0200BA58.c - takes the same kind of value, so this is
  * the same linker-defined id, spelled ov015_id here.  It is `literal`-
  * attested by 0x020103E0, which is outside this function's range.
@@ -287,13 +287,13 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
 void WIH_DWC_Delete(struct WihContext *context)
 {
     if (gWihDwc.context == 0) {
-        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     WIH_SetBeaconFoundCallback(0);
     GFL_NET_FreeAligned(context->matchWork);
     GFL_NET_FreeAligned(context);
     gWihDwc.context = 0;
-    func_02034A5C((int)ov015_id);
+    GF_OVERLAY_Unload((int)ov015_id);
 }
 
 
@@ -640,7 +640,7 @@ u32 WIH_DWC_PollStatus(void *searchKey)
 void WIH_DWC_CreateFilterBuffer(u32 heapId)
 {
     if (gWihDwc.filterBuf != 0) {
-        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     gWihDwc.filterBuf = GFL_NET_AllocAligned(heapId, 0xA00, (const char *)sWihDwcFile, 0x1C0);
 }
@@ -673,7 +673,7 @@ void WIH_DWC_CreateFilterBuffer(u32 heapId)
 void WIH_DWC_ResetFilterState(void)
 {
     if (gWihDwc.filterBuf == 0) {
-        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     func_0205FAA8(gWihDwc.filterBuf->filterState, 0);
 }

@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034AC4 0x02034AC4 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   ov067_id 0x00000043 data
  *   ov072_id 0x00000048 data
- *   func_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -38,14 +38,14 @@
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
  *   TOWNMAP_GRH_FreeTownInfo  0x021BBB34  thumb  ov072
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   TCBL_Create 0x0203101C arm
- *   func_020490F4 0x020490F4 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WORDSET_Create 0x0201EC74 thumb
- *   func_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -57,13 +57,13 @@
  *   TCBL_Destroy 0x02031140 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
- *   func_0207D63C 0x0207D63C arm
+ *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   d_021BDB4C 0x021BDB4C data a4
  *   TOUCHBAR_Delete 0x021B639C thumb ov067
@@ -99,7 +99,7 @@
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   sub_0202DBC4  0x0202DBC4  thumb
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -109,13 +109,13 @@
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   d_021BDDC0 0x021BDDC0 data a1
  *   d_021BDBD8 0x021BDBD8 data a4
- *   func_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021BDBAC 0x021BDBAC data a4
  *   d_021BDC28 0x021BDC28 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -144,9 +144,9 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   GX_LoadBGPltt 0x0207E3D0 arm
- *   func_0207E468 0x0207E468 arm
+ *   GXS_LoadBGPltt 0x0207E468 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
- *   func_0207E5D0 0x0207E5D0 arm
+ *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   GAME_BEACON_ACCESSOR_GetPmVersion  0x02165C48  thumb  ov010
  *   d_021BDDA2 0x021BDDA2 data a1
@@ -213,6 +213,7 @@
  *   WORDSET_SetSlotPokeData  0x0201F104  thumb  arm9
  *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb  arm9
  *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb  arm9
+ *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
  */
 
 #define REC1(w, j, i) ((struct BeaconDetailGraWinRec *)((char *)(w) + (j) * 0x80 + (i) * 16))
@@ -435,13 +436,13 @@ struct BeaconDetailGraSlotTask {
     u8 step; u8 pad_01[2]; u8 index; u8 direction; u8 flags; u8 pad_06[2]; int wait; u8 pad_0C[4]; void *owner; int *counter;
 };
 
-extern int func_02034AC4(int);
+extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *,int,int);
-extern void func_020315D4(struct GflHeap *);
+extern void PROCSYS_FreeProcWork(struct GflHeap *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void func_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern void TCBL_Main(struct Tcbl *);
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 extern unsigned PRINTSYS_QUE_IsFinished(const struct PrintSys *);
@@ -459,14 +460,14 @@ extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *);
 extern signed char MSG_SPEED_GetWait(void);
 extern int TOWNMAP_GRH_LoadTownInfo(int);
 extern void TOWNMAP_GRH_FreeTownInfo(void *p);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
 extern void *PRINTSYS_QUE_CreateEx(unsigned short,unsigned);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
+extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,unsigned,unsigned);
 extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct U16Vec *);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
@@ -478,13 +479,13 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void TCBL_Destroy(struct Tcbl *);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *,u32,u32);
 extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *,void **);
-extern void func_0207D63C(u32 *,u32,u32,int,int);
+extern void G2x_SetBlendAlpha_(u32 *,u32,u32,int,int);
 extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParam *,int);
 extern void TOUCHBAR_Delete(unsigned char *);
 extern void TOUCHBAR_Update(struct TouchBar *p);
@@ -517,7 +518,7 @@ extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
 extern void PMS_DRAW_Delete(struct ClactActor *p);
 extern int sub_0202DBC4(u32);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BMP_SetDisplaySwap(u32 swap);
@@ -525,14 +526,14 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void *func_020056A0(void (*)(void *,void *),void *,int);
-extern void func_02030EAC(struct Node *n);
+extern void *GFL_USE_AddMainTask(void (*)(void *,void *),void *,int);
+extern void TCB_DeleteTask(struct Node *n);
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_02040588(u8,u8);
+extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -557,9 +558,9 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned);
 extern void GX_LoadBGPltt(void *,unsigned,unsigned);
-extern void func_0207E468(void *,unsigned,unsigned);
+extern void GXS_LoadBGPltt(void *,unsigned,unsigned);
 extern void GX_LoadOBJPltt(void *,unsigned,unsigned);
-extern void func_0207E5D0(void *,unsigned,unsigned);
+extern void GXS_LoadOBJPltt(void *,unsigned,unsigned);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(void *a0);
 extern unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const char *);
@@ -716,8 +717,8 @@ extern const u8 d_021BDD88[];
 int BEACON_DETAIL_GRA_Init(struct ProcOwner *obj,int unused1,void *config)
 {
     char *p;
-    func_02034AC4((int)ov067_id);
-    func_02034AC4((int)ov072_id);
+    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((int)ov072_id);
     GFL_HEAP_CreateChildHeap(1,119,3<<16);
     p=PROCSYS_AllocProcWork(obj,620,119);
     MI_CpuFill8(p,0,620);
@@ -752,10 +753,10 @@ int BEACON_DETAIL_GRA_Exit(struct GflHeap *heap,int unused1,int unused2,char *p)
     BEACON_DETAIL_GRA_DeleteObjects(p);
     BEACON_DETAIL_GRA_Delete(p);
     BEACON_DETAIL_GRA_Destroy(*(unsigned * *)&((struct BeaconDetailGraWork *)p)->clactObj);
-    func_020315D4(heap);
+    PROCSYS_FreeProcWork(heap);
     GFL_HEAP_DeleteChecked(119);
-    func_02034A5C((int)ov072_id);
-    func_02034A5C((int)ov067_id);
+    GF_OVERLAY_Unload((int)ov072_id);
+    GF_OVERLAY_Unload((int)ov067_id);
     return 1;
 }
 
@@ -895,7 +896,7 @@ void BEACON_DETAIL_GRA_LoadBeaconInfo(u8 *p)
 void BEACON_DETAIL_GRA_Delete(char *p)
 {
     TOWNMAP_GRH_FreeTownInfo((void *)(((struct BeaconDetailGraWork *)p)->townInfo));
-    func_020307B0((void *)(((struct BeaconDetailGraWork *)p)->beaconRecord));
+    GFL_HEAP_Free((void *)(((struct BeaconDetailGraWork *)p)->beaconRecord));
 }
 
 
@@ -906,13 +907,13 @@ void BEACON_DETAIL_GRA_Delete(char *p)
 void BEACON_DETAIL_GRA_CreateObjects(char *p)
 {
     *(struct Tcbl * *)&((struct BeaconDetailGraWork *)p)->tcbl=TCBL_Create(((struct BeaconDetailGraWork *)p)->heapId,((struct BeaconDetailGraWork *)p)->heapId,64,128);
-    ((struct BeaconDetailGraWork *)p)->arcFile=func_020490F4(173,((struct BeaconDetailGraWork *)p)->heapId);
+    ((struct BeaconDetailGraWork *)p)->arcFile=ARC_TOOL_CreateHandle(173,((struct BeaconDetailGraWork *)p)->heapId);
     GF_FONT_SetTextColor(7,8,15);
     ((struct BeaconDetailGraWork *)p)->printQue=PRINTSYS_QUE_CreateEx(2048,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct GfFont * *)&((struct BeaconDetailGraWork *)p)->font.ptr=GF_FONT_Create(23,0,0,0,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet=WORDSET_Create(8,64,((struct BeaconDetailGraWork *)p)->heapId);
-    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank=func_02045B38(0,2,7,((struct BeaconDetailGraWork *)p)->heapId);
-    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank2=func_02045B38(0,2,231,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,7,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank2=MSGDATA_CreateFromArchive(0,2,231,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf=STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf2=STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf3=STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
@@ -947,29 +948,29 @@ void BEACON_DETAIL_GRA_DeleteObjects(char *p)
 void BEACON_DETAIL_GRA_LoadBackground(char *p,u16 heap)
 {
     struct ArcFile *arc;
-    arc=func_020490F4(85,heap);
+    arc=ARC_TOOL_CreateHandle(85,heap);
     func_02049B68(arc,0,0,0,512,heap);
     func_02049B68(((struct BeaconDetailGraWork *)p)->arcFile,28,4,0,512,heap);
-    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,30,4,0,0,1,heap);
-    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,30,5,0,0,1,heap);
-    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,30,7,0,0,1,heap);
-    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,32,4,0,0,1,heap);
-    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,32,5,0,0,1,heap);
-    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,33,7,0,0,1,heap);
+    ARC_UTIL_UploadBgCharFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,30,4,0,0,1,heap);
+    ARC_UTIL_UploadBgCharFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,30,5,0,0,1,heap);
+    ARC_UTIL_UploadBgCharFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,30,7,0,0,1,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,32,4,0,0,1,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,32,5,0,0,1,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,33,7,0,0,1,heap);
     BG_SYS_FillTileMap(5,0,0,32,24,1);
     BG_SYS_PushTile(5);
-    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,31,1,0,0,1,heap);
-    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,34,1,0,2048,1,heap);
-    func_02049658(arc,5,2,0,0,0,heap);
-    func_020498F4(arc,17,2,0,2048,0,heap);
-    func_02049658(arc,7,3,0,0,0,heap);
-    func_020498F4(arc,16,3,0,2048,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,31,1,0,0,1,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,34,1,0,2048,1,heap);
+    ARC_UTIL_UploadBgCharFromHandle(arc,5,2,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,17,2,0,2048,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(arc,7,3,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,16,3,0,2048,0,heap);
     ((struct BeaconDetailGraWork *)p)->charHandle=ARC_TOOL_LoadHandleMember(*(struct ArcFile * *)&((struct BeaconDetailGraWork *)p)->arcFile,29,((struct BeaconDetailGraWork *)p)->heapId);
     NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct BeaconDetailGraWork *)p)->charHandle,(void **)(p+280));
     ((struct BeaconDetailGraWork *)p)->charData=((struct BeaconDetailGraRes *)(*(char * *)&((struct BeaconDetailGraWork *)p)->charFile))->data;
     ARC_TOOL_DeleteHandle(arc);
-    func_0207D63C((u32 *)0x04000050,2,30,11,5);
-    func_0207D63C((u32 *)0x04001050,3,31,13,3);
+    G2x_SetBlendAlpha_((u32 *)0x04000050,2,30,11,5);
+    G2x_SetBlendAlpha_((u32 *)0x04001050,3,31,13,3);
 }
 
 
@@ -980,7 +981,7 @@ void BEACON_DETAIL_GRA_LoadBackground(char *p,u16 heap)
 
 void BEACON_DETAIL_GRA_FreeBackground(char *p)
 {
-    func_020307B0(((struct BeaconDetailGraWork *)p)->charHandle);
+    GFL_HEAP_Free(((struct BeaconDetailGraWork *)p)->charHandle);
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned short *)0x04000050 = 0;
 }
@@ -1057,7 +1058,7 @@ void BEACON_DETAIL_GRA_LoadTrainerGfx(char *p,u32 handle)
     a=configA;
     BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p, (int *)(p+92), (const struct ClactResConfig *)&a, (void *)handle);
     b=configB;
-    arc=func_020490F4(32,((struct BeaconDetailGraWork *)p)->gfxHeapId);
+    arc=ARC_TOOL_CreateHandle(32,((struct BeaconDetailGraWork *)p)->gfxHeapId);
     BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p, (int *)(p+128), (const struct ClactResConfig *)&b, (void *)((u32)arc));
     ((struct BeaconDetailGraWork *)p)->paletteHandle=ARC_TOOL_LoadHandleMember(arc,0,((struct BeaconDetailGraWork *)p)->heapId);
     NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct BeaconDetailGraWork *)p)->paletteHandle,(void **)(p+268));
@@ -1083,8 +1084,8 @@ void BEACON_DETAIL_GRA_FreeTrainerGfx(char *p)
 {
     int i;
     for(i=0;i<2;i++) BEACON_DETAIL_GRA_ReleaseActorGfx(p,p+0x68+i*12);
-    for(i=0;i<16;i++) func_020307B0(*(void **)(p+0x90+i*8));
-    func_020307B0(((struct BeaconDetailGraWork *)p)->paletteHandle);
+    for(i=0;i<16;i++) GFL_HEAP_Free(*(void **)(p+0x90+i*8));
+    GFL_HEAP_Free(((struct BeaconDetailGraWork *)p)->paletteHandle);
     BEACON_DETAIL_GRA_ReleaseActorGfx(p,p+0x80);
     BEACON_DETAIL_GRA_ReleaseActorGfx(p,p+0x5c);
     ARC_TOOL_DeleteHandle(((struct BeaconDetailGraWork *)p)->trainer.set);
@@ -1229,7 +1230,7 @@ int BEACON_DETAIL_GRA_IsPmsActive(u32 *p)
  */
 void *BEACON_DETAIL_GRA_Create(int a,int heap)
 {
-    unsigned *p=func_02030734(heap,16,0,d_021BDDC0,317);
+    unsigned *p=GFL_HEAP_Alloc(heap,16,0,d_021BDDC0,317);
     MI_CpuFill8(p,0,16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
@@ -1244,7 +1245,7 @@ void *BEACON_DETAIL_GRA_Create(int a,int heap)
     GF_FONT_InitTextColor();
     BEACON_DETAIL_GRA_InitBgSystem(p,heap);
     BEACON_DETAIL_GRA_InitClact((void **)(p+1),d_021BDBD8,heap);
-    p[3]=(unsigned)func_020056A0((void (*)(void *, void *))BEACON_DETAIL_GRA_Task,p,0);
+    p[3]=(unsigned)GFL_USE_AddMainTask((void (*)(void *, void *))BEACON_DETAIL_GRA_Task,p,0);
     return p;
 }
 
@@ -1253,7 +1254,7 @@ void *BEACON_DETAIL_GRA_Create(int a,int heap)
 
 void BEACON_DETAIL_GRA_Destroy(unsigned *p)
 {
-    func_02030EAC((void *)p[3]);
+    TCB_DeleteTask((void *)p[3]);
     BEACON_DETAIL_GRA_ExitClact((char *)(p+1));
     BEACON_DETAIL_GRA_ExitBgSystem(p);
     GF_FONT_SetDefaultTextColor();
@@ -1262,7 +1263,7 @@ void BEACON_DETAIL_GRA_Destroy(unsigned *p)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     MI_CpuFill8(p,0,16);
-    func_020307B0(p);
+    GFL_HEAP_Free(p);
 }
 
 
@@ -1305,7 +1306,7 @@ void BEACON_DETAIL_GRA_InitBgSystem(void *p,int heap)
         unsigned id=e->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->fields,(u8)e->a);
         BG_SYS_FreeSlot(id);
-        func_02040588(id,e->b);
+        BG_SYS_SetPlaneVisible(id,e->b);
     }
 }
 
@@ -1410,9 +1411,9 @@ void BEACON_DETAIL_GRA_LoadPalette(void *p,unsigned mode,unsigned a,unsigned b)
     DWCi_ScreenDC_FlushRange(p,y);
     switch(mode) {
     case 0: GX_LoadBGPltt(p,x,y); break;
-    case 1: func_0207E468(p,x,y); break;
+    case 1: GXS_LoadBGPltt(p,x,y); break;
     case 2: GX_LoadOBJPltt(p,x,y); break;
-    case 3: func_0207E5D0(p,x,y); break;
+    case 3: GXS_LoadOBJPltt(p,x,y); break;
     }
 }
 
@@ -1533,15 +1534,15 @@ void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
  * extern char MSGDATA_AllocSite[];
  * extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
- * extern void func_020307B0(void *p);
+ * extern void GFL_HEAP_Free(void *p);
  * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
- * extern void func_0204960C(void *stream, u32 pos);
+ * extern void ARC_TOOL_SeekHandle(void *stream, u32 pos);
  * extern void STRBUF_Clear(void *dest);
  * extern void STRBUF_SetChars(void *dest, const void *src, u16 len);
- * extern void func_02045E04(void *dest, u32 index);
+ * extern void MSGDATA_DecryptStrbuf(void *dest, u32 index);
  * extern u8 func_020461B8(const void *file);
  * extern void MSGDATA_LoadBank(struct MsgBank *bank);
- * extern void func_02046180(struct MsgBank *bank);
+ * extern void MSGDATA_RefreshLanguage(struct MsgBank *bank);
  *
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
  * {
@@ -1553,12 +1554,12 @@ void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
  *         return;
  *     }
  *
- *     func_02046180(bank);
+ *     MSGDATA_RefreshLanguage(bank);
  *
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *
- *         func_0204960C(bank->stream, pos + (index * 8 + 4));
+ *         ARC_TOOL_SeekHandle(bank->stream, pos + (index * 8 + 4));
  *         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
  *         e = &bank->cache;
  *     } else {
@@ -1572,18 +1573,18 @@ void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
  *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
  *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
- *             func_0204960C(bank->stream,
+ *             ARC_TOOL_SeekHandle(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
  *             ARC_TOOL_ReadHandle(bank->stream, size, buf);
  *             STRBUF_SetChars(dest, buf, e->len);
- *             func_020307B0(buf);
+ *             GFL_HEAP_Free(buf);
  *         }
  *     } else {
  *         STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len);
  *     }
  *
- *     func_02045E04(dest, index);
+ *     MSGDATA_DecryptStrbuf(dest, index);
  * }
  */
 void BEACON_DETAIL_GRA_PrintMsg(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}

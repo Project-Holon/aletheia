@@ -15,11 +15,11 @@
  * the words that appear in the filtered lists.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   PMS_WORD_Create 0x020247A8 thumb
  *   d_021C3B80 0x021C3B80 data a1
  *   PMS_WORD_Delete 0x020247F0 thumb
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021C1E80 0x021C1E80 data a4
  *   PMSI_PARAM_GetSaveWork 0x02024148 thumb
  *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
@@ -46,10 +46,10 @@ typedef struct {
     unsigned int wordCount;
 } CategorySource;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct PmsWordSys *PMS_WORD_Create(u32 heapId);
 extern void PMS_WORD_Delete(struct PmsWordSys *);
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void *PMSI_PARAM_GetSaveWork(void *p);
 extern u32 ZUKAN_SAVE_IsSeen(struct PokedexSave *p, u16 id);
 extern int PMSI_PARAM_GetEventFlag(void *);
@@ -89,7 +89,7 @@ struct PmsInputData *PMS_INPUT_DATA_Create(u32 heap, void *save)
 {
     struct PmsInputData *d;
     int i;
-    d = func_02030734((u16)heap, 0x1E50, 0, d_021C3B80, 88);
+    d = GFL_HEAP_Alloc((u16)heap, 0x1E50, 0, d_021C3B80, 88);
     d->saveData = save;
     d->wordSys = PMS_WORD_Create(heap);
     for (i = 0; i < PMS_INPUT_DATA_SEEN_BYTES; i++) d->seenBits[i] = 0;
@@ -102,7 +102,7 @@ void PMS_INPUT_DATA_Delete(struct PmsInputData *d)
 {
     if (d) {
         PMS_WORD_Delete(d->wordSys);
-        func_020307B0(d);
+        GFL_HEAP_Free(d);
     }
 }
 

@@ -20,7 +20,7 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
- *   func_02049B40  0x02049B40  arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -29,11 +29,11 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BUTTON_MAN_Delete  0x02051C6C  arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_02045B38 0x02045B38 arm
- *   func_020307B0 0x020307B0 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -47,7 +47,7 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_Init 0x02045088 arm
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   TCBL_Create 0x0203101C arm
  *   TCBL_Main 0x020310C4 arm
  *   TCBL_Destroy 0x02031140 arm
@@ -92,7 +92,7 @@ extern void BMP_WIN_ClearScreen(void *d);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 
 extern void *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -110,15 +110,15 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern void BUTTON_MAN_Delete(void *p);
 
-extern void func_02041B6C(u32 bit);
+extern void BG_SYS_SetFlagField06(u32 bit);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
 
@@ -148,7 +148,7 @@ extern void BMP_WIN_Init(u16);
 
 extern void GF_FONT_InitTextColor(void);
 
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
@@ -218,7 +218,7 @@ void PDWACC_MESSAGE_DeleteButtonManager(PdwaccMessageWork *work)
 PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
 {
     PdwaccMessageWork *work;
-    work = func_02030734(heap, 0xb4, 1, d_021DABA8, 0x9b);
+    work = GFL_HEAP_Alloc(heap, 0xb4, 1, d_021DABA8, 0x9b);
     work->heap = heap;
     BMP_WIN_Init(work->heap);
     GF_FONT_InitTextColor();
@@ -227,14 +227,14 @@ PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
     work->msgBuf = STRBUF_Create(400, work->heap);
     work->tmpBuf = STRBUF_Create(400, work->heap);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heap);
-    work->msgData = func_02045B38(0, 2, (u16)bank, work->heap);
+    work->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)bank, work->heap);
     work->wordSet = WORDSET_CreateDefault(work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heap);
     work->bg1Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)1, 12, 0, work->heap);
     work->bg5Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heap);
     work->bg6Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)6, 12, 0, work->heap);
-    func_02049B40(23, 5, 4, 352, 32, work->heap);
-    func_02049B40(23, 5, 0, 352, 32, work->heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 352, 32, work->heap);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 352, 32, work->heap);
     return work;
 }
 
@@ -275,7 +275,7 @@ void PDWACC_MESSAGE_ExitSystem(PdwaccMessageWork *work)
     for (windowIndex = 0; windowIndex < 12; windowIndex++) if (work->windows[windowIndex]) BMP_WIN_Delete(work->windows[windowIndex]);
     TCBL_Destroy(work->tcbl);
     BMP_WIN_Exit();
-    func_020307B0(work);
+    GFL_HEAP_Free(work);
 }
 
 /* Prints message msgId into the BG 5 message window, one character at a time. */
@@ -291,7 +291,7 @@ void PDWACC_MESSAGE_PrintStream(PdwaccMessageWork *work, int msgId)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
 }
 
 /*
@@ -333,7 +333,7 @@ void PDWACC_MESSAGE_ClearStream(PdwaccMessageWork *work)
     if (work->mainWin) {
         BMP_MENUWORK_DrawWindowBorder(work->mainWin, 2);
         BMP_WIN_ClearScreen(work->mainWin);
-        func_02041B6C(5);
+        BG_SYS_SetFlagField06(5);
         BMP_WIN_Delete(work->mainWin);
         work->mainWin = 0;
     }
@@ -379,14 +379,14 @@ void PDWACC_MESSAGE_PrintInWindow(PdwaccMessageWork *work, int msgId)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg6Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(6);
 }
 
 void PDWACC_MESSAGE_ClearWindow(PdwaccMessageWork *work)
 {
     BMP_MENUWORK_DrawWindowBorder(work->subWin, 2);
     BMP_WIN_ClearScreen(work->subWin);
-    func_02041B6C(6);
+    BG_SYS_SetFlagField06(6);
 }
 
 /* Writes the 10 character account code of value into buf: 5 bits per character from the value and its checksum. */
@@ -433,7 +433,7 @@ void PDWACC_MESSAGE_PrintNumberWindows(PdwaccMessageWork *work, int value, int u
     PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(5);
+    BG_SYS_SetFlagField06(5);
 }
 
 void PDWACC_MESSAGE_DeleteNumberWindows(PdwaccMessageWork *work)
@@ -445,7 +445,7 @@ void PDWACC_MESSAGE_DeleteNumberWindows(PdwaccMessageWork *work)
         BMP_WIN_ClearScreen(work->labelWin);
         BMP_WIN_Delete(work->codeWin);
         BMP_WIN_Delete(work->labelWin);
-        func_02041B6C(5);
+        BG_SYS_SetFlagField06(5);
         work->codeWin = 0;
         work->labelWin = 0;
     }

@@ -13,8 +13,8 @@
  * Cut from iss_switch_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BgWinFrmFileName  0x020A7790  data
  *   MIi_CpuCopy16  0x02082A60  arm
  *   ARC_UTIL_LoadPaletteDataFromArchive       0x02049EB4  arm
@@ -62,9 +62,9 @@ struct BgWinFrmWork {
     u32 heapId;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
@@ -167,12 +167,12 @@ struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId)
 {
     struct BgWinFrmWork *wk;
 
-    wk = func_02030734(heapId, sizeof(struct BgWinFrmWork), 0, BgWinFrmFileName, 0x56);
+    wk = GFL_HEAP_Alloc(heapId, sizeof(struct BgWinFrmWork), 0, BgWinFrmFileName, 0x56);
     wk->frameMax = frameMax;
     wk->heapId = heapId;
     wk->transMode = transMode;
     wk->moving = 0;
-    wk->frames = func_02030734(heapId, frameMax << 4, 1, BgWinFrmFileName, 0x5d);
+    wk->frames = GFL_HEAP_Alloc(heapId, frameMax << 4, 1, BgWinFrmFileName, 0x5d);
 
     return wk;
 }
@@ -183,11 +183,11 @@ void BGWINFRM_Delete(struct BgWinFrmWork *wk)
 
     for (i = 0; i < wk->frameMax; i++) {
         if (wk->frames[i].screen != 0) {
-            func_020307B0(wk->frames[i].screen);
+            GFL_HEAP_Free(wk->frames[i].screen);
         }
     }
-    func_020307B0(wk->frames);
-    func_020307B0(wk);
+    GFL_HEAP_Free(wk->frames);
+    GFL_HEAP_Free(wk);
 }
 
 /*
@@ -204,7 +204,7 @@ void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX,
 {
     struct BgWinFrame *frame = &wk->frames[idx];
 
-    frame->screen = func_02030734((u16)wk->heapId, sizeX * sizeY * 2, 1,
+    frame->screen = GFL_HEAP_Alloc((u16)wk->heapId, sizeX * sizeY * 2, 1,
                                     BgWinFrmFileName, 0x8a);
     frame->sizeX = (u16)sizeX;
     frame->sizeY = (u16)sizeY;
@@ -232,7 +232,7 @@ void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, u32 idx, u32 arcId, u32 d
 
     file = ARC_UTIL_LoadPaletteDataFromArchive(arcId, datId, compressed, (u32)(&data), wk->heapId);
     BGWINFRM_SetFrameData(wk, idx, (char *)data + 0xc);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }
 
 void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcHandle, u32 datId, u32 compressed)
@@ -242,7 +242,7 @@ void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcH
 
     file = func_02049EF4(arcHandle, datId, compressed, &data, wk->heapId);
     BGWINFRM_SetFrameData(wk, idx, (char *)data + 0xc);
-    func_020307B0(file);
+    GFL_HEAP_Free(file);
 }
 
 void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y)

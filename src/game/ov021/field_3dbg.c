@@ -18,9 +18,9 @@
  *   abs_id_22      0x00000022  data
  *   ov035_func_021EFEC0  0x021EFEC0  thumb  ov035
  *   abs_id_23      0x00000023  data
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   g_Field3dbgSourceName     0x021DDE5C  data
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   func_0207D8C4  0x0207D8C4  arm
  *   g_DefaultProjectionMtx     0x02148B54  data  a4
@@ -29,7 +29,7 @@
  *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
  *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   G3D_SYSTEM_TransAllocatedTexture  0x02047204  arm
  *   FX_Div            0x0207C768  arm
  *   MTX_Identity33_   0x0207ADC4  arm
@@ -84,15 +84,15 @@ typedef enum { GX_TEXFLIP_NONE = 0, GX_TEXFLIP_ST = 3 } GXTexFlip;
 typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttColor0;
 
 extern void *ov035_func_021EFEC0(void *work, void *gameSystem, u32 heapId);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 func_020307B0(void *p);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 GFL_HEAP_Free(void *p);
 extern void NNS_G3dGeFlushBuffer(void);
 extern void func_0207D8C4(ProjectionMtx *m);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void *ARC_TOOL_LoadHandleMember(void *archive, u32 fileId, u16 heapId);
 extern void G3D_SYSTEM_InitResourceByFile(void *dst, void *src);
 extern int G3D_SYSTEM_AllocVramTexture(void *resource);
-extern void func_02046EFC(struct G3dResource *resource);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *resource);
 extern int G3D_SYSTEM_FreeVramTexture(void *resource);
 u32 G3D_SYSTEM_TransAllocatedTexture(struct G3dResource *p);
 fx32 FX_Div(fx32 numer, fx32 denom);
@@ -134,7 +134,7 @@ extern const s16 FX_SinCosTable_[];
 /* Allocate a billboard and copy its size, distance and polygon id from desc. */
 Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId)
 {
-    Field3dbgBillboard *billboard = func_02030734((u16)heapId, 0x70, 1, g_Field3dbgSourceName, 0x95);
+    Field3dbgBillboard *billboard = GFL_HEAP_Alloc((u16)heapId, 0x70, 1, g_Field3dbgSourceName, 0x95);
     billboard->width = desc->width;
     billboard->height = desc->height;
     billboard->distance = desc->distance;
@@ -149,7 +149,7 @@ int FIELD_3DBG_DeleteBillboard(Field3dbgBillboard *billboard)
     if (FIELD_3DBG_IsTextureLoaded(&billboard->tex) != 0) {
         FIELD_3DBG_FreeTexture(&billboard->tex);
     }
-    return func_020307B0(billboard);
+    return GFL_HEAP_Free(billboard);
 }
 
 /* Draw the billboard as one textured quad. */
@@ -245,7 +245,7 @@ void FIELD_3DBG_LoadTexture(Field3dbgTexture *tex, void *archive, const Field3db
     tex->flip = desc->flip;
     tex->format = desc->format;
     tex->plttColor0 = desc->plttColor0;
-    tex->resource = func_02030734((u16)heapId, G3D_SYSTEM_GetResourceSize(), 1, g_Field3dbgSourceName, 0x2ad);
+    tex->resource = GFL_HEAP_Alloc((u16)heapId, G3D_SYSTEM_GetResourceSize(), 1, g_Field3dbgSourceName, 0x2ad);
     data = ARC_TOOL_LoadHandleMember(archive, desc->fileId, heapId);
     G3D_SYSTEM_InitResourceByFile(tex->resource, data);
     G3D_SYSTEM_AllocVramTexture(tex->resource);
@@ -257,7 +257,7 @@ void FIELD_3DBG_LoadTexture(Field3dbgTexture *tex, void *archive, const Field3db
 int FIELD_3DBG_FreeTexture(Field3dbgTexture *tex)
 {
     G3D_SYSTEM_FreeVramTexture(tex->resource);
-    func_02046EFC(tex->resource);
+    G3D_SYSTEM_DeleteResource(tex->resource);
     tex->resource = 0;
     tex->isLoaded = 0;
     return 0;

@@ -20,8 +20,8 @@
  * symbols:
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_Exit 0x0203CEAC arm
- *   func_02030734 0x02030734 arm
- *   func_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
@@ -33,7 +33,7 @@
  *   VM_Control  0x02011298  thumb
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   ZONEDATA_ResetEventFlagRange  0x02014368  thumb
  *   ZONEDATA_ClearEventWorkRange  0x020143D8  thumb
  *   GAME_DATA_GetEventData 0x02012844 thumb
@@ -50,7 +50,7 @@
  *   VM_GetUserData  0x02011324  thumb
  *   SCRCMD_WORK_Delete  0x0215A5A4  thumb  ov010
  *   VM_Delete  0x02011264  thumb
- *   func_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   ZONEDATA_GetScriptArcId  0x02013B5C  thumb
  *   ZONEDATA_GetMsgArcId  0x02013B68  thumb
  *   d_021701A8     0x021701A8  data  a4
@@ -119,8 +119,8 @@ typedef struct ScriptCmdPermit {
 
 extern int GFL_NET_GetRunState(void);
 extern int GFL_NET_Exit(int);
-extern void *func_02030734(u32, u32, int, const char *, u16);
-extern int func_020307B0();
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+extern int GFL_HEAP_Free();
 extern void *GAMESYSTEM_GetGameData(const void *p);
 extern void *GAME_DATA_GetEventWork(const void *p);
 int GFL_NET_IsSessionNull();
@@ -131,7 +131,7 @@ extern int GAME_EVENT_ChangeEvent();
 extern int VM_Control(ScriptVm *vm);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const void *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *p);
-extern GameEvent *func_020122C0(void *owner, void *a, int (*eventFunc)(void *, int *, ScriptEventWork *), unsigned int size);
+extern GameEvent *GAME_EVENT_Create(void *owner, void *a, int (*eventFunc)(void *, int *, ScriptEventWork *), unsigned int size);
 extern int ZONEDATA_ResetEventFlagRange(void *eventFlags, int first, int last);
 extern int ZONEDATA_ClearEventWorkRange(void *eventFlags, int first, int last);
 extern void *GAME_DATA_GetEventData(const void *p);
@@ -146,7 +146,7 @@ extern u32 VM_GetU32(ScriptVm *vm);
 extern void *VM_GetUserData(ScriptVm *vm);
 extern int SCRCMD_WORK_Delete(void *vmCtx);
 extern int VM_Delete();
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern u32 ZONEDATA_GetScriptArcId(u32 id);
 extern u16 ZONEDATA_GetMsgArcId(u16);
 extern void *ARC_UTIL_LoadMember(int archive, int fileId, int a, int heapId);
@@ -259,7 +259,7 @@ int SCRIPT_SYS_HasVm(void *scriptWork, int index)
  */
 ScriptSys *SCRIPT_SYS_Create(u32 heapId)
 {
-    ScriptSys *sys = func_02030734(heapId, 0x18, 1, d_02172888, 0xEF);
+    ScriptSys *sys = GFL_HEAP_Alloc(heapId, 0x18, 1, d_02172888, 0xEF);
     sys->heapId = heapId;
     return sys;
 }
@@ -269,7 +269,7 @@ ScriptSys *SCRIPT_SYS_Create(u32 heapId)
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_020307B0, the shape of the arm9 copy.
+ * thunk into GFL_HEAP_Free, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
@@ -281,7 +281,7 @@ ScriptSys *SCRIPT_SYS_Create(u32 heapId)
  */
 void SCRIPT_SYS_Delete(ScriptSys *sys)
 {
-    func_020307B0(sys);
+    GFL_HEAP_Free(sys);
 }
 
 
@@ -388,7 +388,7 @@ int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork)
 
 GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork)
 {
-    GameEvent *event = func_020122C0(fieldSys, 0, SCRIPT_SYS_EventMain, 8);
+    GameEvent *event = GAME_EVENT_Create(fieldSys, 0, SCRIPT_SYS_EventMain, 8);
     ScriptEventWork *eventWork = func_020124E8(event);
     eventWork->scriptSys = SCRIPT_SYS_Create(4);
     eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, parentWork, 0);
@@ -614,7 +614,7 @@ ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scri
 int SCRIPT_SYS_DeleteVm(ScriptVm *vm)
 {
     SCRCMD_WORK_Delete(VM_GetUserData(vm));
-    func_020307B0(vm->data);
+    GFL_HEAP_Free(vm->data);
     return VM_Delete(vm);
 }
 
@@ -637,7 +637,7 @@ u16 SCRIPT_SYS_GetScriptFileId(unsigned zoneId, unsigned scriptId, u16 *outFileI
         if (scriptId < table[i].firstId)
             continue;
         if (scriptId > table[i].lastId)
-            func_02034714(d_02172898, (int)0, d_02172898);
+            SAVEDATA_PanicFail(d_02172898, (int)0, d_02172898);
         range = &table[i];
         *outFileId = range->fileId;
         *outTextBank = range->textBank;

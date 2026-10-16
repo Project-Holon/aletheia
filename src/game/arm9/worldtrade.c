@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  */
@@ -34,7 +34,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
 
-extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u32  POKE_TOOL_GetPartyParamSize(void);
 
@@ -67,7 +67,7 @@ u16 WORLDTRADE_GetReturnBox(struct WorldTradeData *trade);
  */
 struct WorldTradeData *WORLDTRADE_GetFromSave(struct SaveControl *save)
 {
-    return func_020071CC(save, 0x2e);
+    return SAVE_CONTROL_GetBlock(save, 0x2e);
 }
 
 /*

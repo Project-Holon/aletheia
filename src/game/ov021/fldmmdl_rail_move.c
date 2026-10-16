@@ -27,7 +27,7 @@
  *   FIELD_NOGRID_MAPPER_GetAttribute  0x021BB3C4  thumb  ov021
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   VEC_Fx16Normalize  0x0207CDB8  arm
- *   func_0207CFB8  0x0207CFB8  arm
+ *   FX_Atan2Idx  0x0207CFB8  arm
  *   d_021D80E4     0x021D80E4  data   ov021  a1
  *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
  *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
@@ -164,7 +164,7 @@ extern void *FLDMMDL_SysGetNogridMapper(void *mmdlSys);
 extern u32 FIELD_NOGRID_MAPPER_GetAttribute(void *railMapper, RailLocation *location);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern void VEC_Fx16Normalize(s16 *src, s16 *dst);
-extern int func_0207CFB8(int y, int x);
+extern int FX_Atan2Idx(int y, int x);
 extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
 extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
 extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
@@ -342,7 +342,7 @@ u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(Mmdl *mmdl, int angle)
     FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, FLDMMDL_GetDirDisp(mmdl), vec);
     vec[1] = 0;
     VEC_Fx16Normalize(vec, vec);
-    relAngle = func_0207CFB8(vec[0], vec[2]) - angle;
+    relAngle = FX_Atan2Idx(vec[0], vec[2]) - angle;
     if (relAngle < 0) {
         relAngle += 0x10000;
     }

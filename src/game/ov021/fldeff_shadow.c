@@ -15,7 +15,7 @@
  * function); 0x021AC1A0..0x021AC1F0 are field_effect.c accessors called from many fldeff files.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
  *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
@@ -95,7 +95,7 @@ typedef struct FldeffShadowWork {
     u32 entryId;                          /* 0x14 billboard entry (0xFFFF: none) */
 } FldeffShadowWork;
 
-extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern const MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(const Mmdl *mmdl);
 extern struct BbActSys *FIELDMAP_GetEffectBbdAct(struct FieldMap *fieldmap);
@@ -143,7 +143,7 @@ FldeffShadow *FLDEFF_SHADOW_Create(FieldEffectSys *sys, int heapId)
 {
     FldeffShadow *shadow;
 
-    shadow = func_02030734(heapId, sizeof(FldeffShadow), 1, d_021DE028, 0x5c);
+    shadow = GFL_HEAP_Alloc(heapId, sizeof(FldeffShadow), 1, d_021DE028, 0x5c);
     shadow->fieldEffect = sys;
     shadow->baseOffset = gFldeffShadowBaseOffset;
     shadow->billboardAct = FIELDMAP_GetEffectBbdAct(FIELD_EFFECT_GetFieldMap(sys));

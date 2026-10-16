@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformsocket.c
  * unit:     yes
- * function: CheckRcode, socket, closesocket, func_0217EB40, shutdown, func_0217EBB0, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, func_0217ED0C, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, func_0217EF50, func_0217EF84, getlocalhost, func_0217F038
+ * function: CheckRcode, socket, closesocket, func_0217EB40, shutdown, func_0217EBB0, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, func_0217ED0C, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, CanReceiveOnSocket, func_0217EF84, getlocalhost, func_0217F038
  * address:  0x0217EB00
  * region:   ov009
  * compiler: dsi/1.1p1

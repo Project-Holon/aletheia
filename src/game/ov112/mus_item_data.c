@@ -13,8 +13,8 @@
  * Cut from musical_shot_sys.c, musical_mcss.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
- *   func_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   BILLBOARD_AddElem 0x0204F428 arm
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   d_021F83B4 0x021F83B4 data a1
@@ -22,7 +22,7 @@
 #include "musical_shot_sys_shared_types.h"
 #include "mus_item_draw_shared_types.h"
 
-extern u32 func_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 typedef signed char s8;
 
@@ -45,7 +45,7 @@ typedef struct McssActorData {
     void *table;            /* 0x04 MUSICAL_MCSS_GetElemPtr base */
 } McssActorData;
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 
@@ -81,14 +81,14 @@ extern char d_021F83B4[];
 
 u32 *MUSICAL_MCSS_LoadActorData(int heap)
 {
-    u32 *p = func_02030734(heap, 8, 0, d_021F83B4, 0x47);
+    u32 *p = GFL_HEAP_Alloc(heap, 8, 0, d_021F83B4, 0x47);
     int r = ARC_UTIL_LoadMember(45, 0x65, 0, heap);
     p[0] = r;
     p[1] = r;
     return p;
 }
 
-void MUSICAL_MCSS_FreeActorData(void **p) { func_020307B0(*p); func_020307B0(p); }
+void MUSICAL_MCSS_FreeActorData(void **p) { GFL_HEAP_Free(*p); GFL_HEAP_Free(p); }
 
 u8 *MUSICAL_MCSS_GetElemPtr(u8 *p, int i) { return *(u8 * *)&((McssActorData *)p)->table + i * 0xc; }
 
