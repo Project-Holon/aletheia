@@ -106,7 +106,7 @@ extern int ghiEncryptorCleanupRootCAList(char *url);
 void ghiHandleStatus(GHIConnection *connection);
 void ghttpStartup(void);
 void ghttpCleanup(void);
-int ghttpGetExA(const char *URL, const char *headers, char *buffer, int bufferSize, GHIPost *post, int throttle, int blocking, GHTTPProgressCallback progressCallback, GHTTPCompletedCallback completedCallback, void *param);
+int ghttpGetExA(const char *URL, const char *headers, char *buffer, int bufferSize, GHIPost *post, int throttle, int blocking, GHTTPProgressCallbackFn progressCallback, GHTTPCompletedCallbackFn completedCallback, void *param);
 void ghttpThink(void);
 int ghttpRequestThink(int request);
 void ghttpCancelRequest(int request);
@@ -280,8 +280,8 @@ void ghttpCleanup(void)
  */
 int ghttpGetExA(const char *URL, const char *headers, char *buffer, int bufferSize,
                   GHIPost *post, int throttle, int blocking,
-                  GHTTPProgressCallback progressCallback,
-                  GHTTPCompletedCallback completedCallback, void *param)
+                  GHTTPProgressCallbackFn progressCallback,
+                  GHTTPCompletedCallbackFn completedCallback, void *param)
 {
     GHIConnection *connection;
     int bResult;

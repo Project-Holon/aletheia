@@ -1,7 +1,7 @@
 /*
  * file:     cursor_move.c
  * unit:     yes
- * function: CURSOR_MOVE_GetTableValue, CURSOR_MOVE_GetTableGroup, CURSOR_MOVE_GetTableKind, CURSOR_MOVE_FindTableGroupIndex, CURSOR_MOVE_Create, CURSOR_MOVE_Delete, CURSOR_MOVE_EnableInput, CURSOR_MOVE_SetMode, CURSOR_MOVE_PollInput, CURSOR_MOVE_PollRepeatInput, CURSOR_MOVE_PollTouch, CURSOR_MOVE_GetNeighbour, CURSOR_MOVE_StartInput, CURSOR_MOVE_HandlePendingInput, CURSOR_MOVE_MoveCursor, CURSOR_MOVE_GetCurrent, CURSOR_MOVE_SetCurrent, CURSOR_MOVE_GetState, CURSOR_MOVE_SetState, CURSOR_MOVE_ClearSkipBit, CURSOR_MOVE_SetSkipBit, CURSOR_MOVE_GetEntry, CURSOR_MOVE_IsWrapNeighbour, CURSOR_MOVE_TestSkipBit, CURSOR_MOVE_CreateVecSet, CURSOR_MOVE_DeleteVecSet, GAME_COMM_Update
+ * function: CURSOR_MOVE_GetTableValue, CURSOR_MOVE_GetTableGroup, CURSOR_MOVE_GetTableKind, CURSOR_MOVE_FindTableGroupIndex, CURSOR_MOVE_Create, CURSOR_MOVE_Delete, CURSOR_MOVE_EnableInput, CURSOR_MOVE_SetMode, CURSOR_MOVE_PollInput, CURSOR_MOVE_PollRepeatInput, CURSOR_MOVE_PollTouch, CURSOR_MOVE_GetNeighbour, CURSOR_MOVE_StartInput, CURSOR_MOVE_HandlePendingInput, CURSOR_MOVE_MoveCursor, CURSOR_MOVE_GetCurrent, CURSOR_MOVE_SetCurrent, CURSOR_MOVE_GetState, CURSOR_MOVE_SetState, CURSOR_MOVE_ClearSkipBit, CURSOR_MOVE_SetSkipBit, CURSOR_MOVE_GetEntry, CURSOR_MOVE_IsWrapNeighbour, CURSOR_MOVE_TestSkipBit
  * address:  0x02025C74
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from cursor_move.c, game_comm.c by tools/splitfile.py.
  *
  * symbols:
  *   gCursorMoveTable  0x0209FB18  data
@@ -28,21 +28,8 @@
  *   CURSOR_MOVE_TestSkipBit  0x020261C4  thumb
  *   gCursorMoveTouchTag  0x0209FB58  data
  *   UI_SetInputMode  0x020355D8  arm
- *   func_02030734   0x02030734  arm
- *   GAME_DATA_GetMyStatus   0x02012944  thumb
- *   STRBUF_Create   0x020457B0  arm
- *   func_02008500   0x02008500  thumb
- *   g_020A74B0      0x020A74B0  data
- *   STRBUF_Delete  0x02045808  arm
- *   GFL_HEAP_Free  0x020307B0  arm
- *   GAME_COMM_KindTable     0x0209FB5C  data
- *   GAME_COMM_SetSeqState  0x02026490  thumb
  */
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "cursor_move_shared_types.h"
 
 /* One row of the 16-entry table at gCursorMoveTable. */
 struct CursorTableRow {
@@ -80,108 +67,73 @@ struct Cursor {
     u32 ctx;
 };
 
-struct VecSetItem {
-    u32 reserved00;
-    void *buf1;
-    void *buf2;
-};
-
-struct VecSet {
-    void *owner;
-    u8 reserved04[0x38];
-    struct VecSetItem items[6];
-};
-
-struct U16Vec;
-
-struct CursorCommSeq
-{
-  u32 frameCount;
-  u8 state;
-  u8 changed;
-  u8 reserved06;
-  u8 reserved07;
-};
-
-struct CursorComm
-{
-  u32 reserved00;
-  u8 exitRequest : 1;
-  u8 notifyFlag : 1;
-  u8 exitPending : 1;
-  u8 reserved3 : 5;
-  u8 kind;
-  u8 lastKind;
-  u8 reserved07;
-  u32 counter;
-  struct CursorCommSeq seq;
-  u32 param;
-  u32 work;
-  u32 exitArg;
-  void (*exitFunc)(u32, u32);
-};
-
-struct CursorCommKindFuncs
-{
-  u32 (*start)(struct CursorCommSeq *, u32);
-  u32 (*wait)(struct CursorCommSeq *, u32, u32);
-  void (*run)(struct CursorCommSeq *, u32, u32);
-  u32 (*stop)(struct CursorCommSeq *, u32, u32);
-  u32 (*end)(struct CursorCommSeq *, u32, u32);
-  u32 reserved14;
-  u32 reserved18;
-};
-
-/* the finish arm clears its fields through an enum-typed zero */
-typedef enum { Z0 } E;
-
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 GFL_HEAP_FreeMemory(void *p);
+
 extern void UI_SetInputMode(u8 v);
+
 extern u32 KEY_GetTrg(void);
+
 extern void func_020355D8(u8 v);
+
 extern unsigned int KEY_GetRepeat(void);
+
 extern int TOUCHPANEL_HitTrg(const void *key);
-extern u8 *GAME_DATA_GetMyStatus(void *a0);
-extern struct U16Vec *STRBUF_Create(u32 a0, u32 a1);
-extern void func_02008500(void *a0, void *a1);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GAME_COMM_SetSeqState(void *obj, u32 value);
+
 extern struct CursorTableRow gCursorMoveTable[];
+
 extern const char str_020A74A0[];
+
 extern const u8 gCursorMoveTouchTag[4];
-extern u32 g_020A74B0[];
-extern struct CursorCommKindFuncs GAME_COMM_KindTable[];
 
 u32 CURSOR_MOVE_GetTableValue(u32 x);
-u32 CURSOR_MOVE_GetTableGroup(u32 x);
-u32 CURSOR_MOVE_GetTableKind(u32 x);
-u32 CURSOR_MOVE_FindTableGroupIndex(u32 v);
-struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
-u32 CURSOR_MOVE_Delete(void *a0);
-void CURSOR_MOVE_EnableInput(struct Cursor *obj);
-void CURSOR_MOVE_SetMode(struct Cursor *obj);
-int CURSOR_MOVE_PollInput(struct Cursor *obj);
-int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
-int CURSOR_MOVE_PollTouch(struct Cursor *obj, int *out);
-u32 CURSOR_MOVE_GetNeighbour(const struct CursorEntry *entries, u32 idx, u32 type);
-int CURSOR_MOVE_StartInput(struct Cursor *obj);
-int CURSOR_MOVE_HandlePendingInput(struct Cursor *obj);
-int CURSOR_MOVE_MoveCursor(struct Cursor *obj, u32 dir, int sel);
-u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
-void CURSOR_MOVE_SetCurrent(struct Cursor *obj, u8 sel);
-u32 CURSOR_MOVE_GetState(struct Cursor *obj);
-void CURSOR_MOVE_SetState(struct Cursor *obj, u32 state);
-void CURSOR_MOVE_ClearSkipBit(struct Cursor *obj, u32 idx);
-void CURSOR_MOVE_SetSkipBit(struct Cursor *obj, u32 idx);
-struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, u32 idx);
-int CURSOR_MOVE_IsWrapNeighbour(const struct CursorEntry *entry, u32 type);
-int CURSOR_MOVE_TestSkipBit(const u32 *bitmap, u32 bit);
-struct VecSet *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1);
-void CURSOR_MOVE_DeleteVecSet(struct VecSet *obj);
-void GAME_COMM_Update(struct CursorComm *p);
 
+u32 CURSOR_MOVE_GetTableGroup(u32 x);
+
+u32 CURSOR_MOVE_GetTableKind(u32 x);
+
+u32 CURSOR_MOVE_FindTableGroupIndex(u32 v);
+
+struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
+
+u32 CURSOR_MOVE_Delete(void *a0);
+
+void CURSOR_MOVE_EnableInput(struct Cursor *obj);
+
+void CURSOR_MOVE_SetMode(struct Cursor *obj);
+
+int CURSOR_MOVE_PollInput(struct Cursor *obj);
+
+int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
+
+int CURSOR_MOVE_PollTouch(struct Cursor *obj, int *out);
+
+u32 CURSOR_MOVE_GetNeighbour(const struct CursorEntry *entries, u32 idx, u32 type);
+
+int CURSOR_MOVE_StartInput(struct Cursor *obj);
+
+int CURSOR_MOVE_HandlePendingInput(struct Cursor *obj);
+
+int CURSOR_MOVE_MoveCursor(struct Cursor *obj, u32 dir, int sel);
+
+u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
+
+void CURSOR_MOVE_SetCurrent(struct Cursor *obj, u8 sel);
+
+u32 CURSOR_MOVE_GetState(struct Cursor *obj);
+
+void CURSOR_MOVE_SetState(struct Cursor *obj, u32 state);
+
+void CURSOR_MOVE_ClearSkipBit(struct Cursor *obj, u32 idx);
+
+void CURSOR_MOVE_SetSkipBit(struct Cursor *obj, u32 idx);
+
+struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, u32 idx);
+
+int CURSOR_MOVE_IsWrapNeighbour(const struct CursorEntry *entry, u32 type);
+
+int CURSOR_MOVE_TestSkipBit(const u32 *bitmap, u32 bit);
 
 /*
  * Halfword accessor over the 0x10-entry table of 4-byte records at
@@ -198,7 +150,6 @@ u32 CURSOR_MOVE_GetTableValue(u32 x)
     return gCursorMoveTable[x].value;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module: byte accessor over a 0x10-entry
  * table of 4-byte records.
@@ -211,7 +162,6 @@ u32 CURSOR_MOVE_GetTableGroup(u32 x)
         return 2;
     return gCursorMoveTable[x].group;
 }
-
 
 /*
  * Two more leaves over the 0x10-entry table of 4-byte records at 0x0209FB18
@@ -228,7 +178,6 @@ u32 CURSOR_MOVE_GetTableKind(u32 x)
     return gCursorMoveTable[x].kind;
 }
 
-
 u32 CURSOR_MOVE_FindTableGroupIndex(u32 v)
 {
     u32 i;
@@ -239,7 +188,6 @@ u32 CURSOR_MOVE_FindTableGroupIndex(u32 v)
     }
     return 0;
 }
-
 
 struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId)
 {
@@ -260,7 +208,6 @@ struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl
     return p;
 }
 
-
 /*
  * Unlabelled Thumb leaf: a bare tail call to GFL_HEAP_FreeMemory with no arguments.
  * `ldr r3,[pc,#0]; bx r3` (the pool word names 0x02030164).  Disasm.py did
@@ -271,18 +218,15 @@ u32 CURSOR_MOVE_Delete(void *a0)
     return GFL_HEAP_FreeMemory(a0);
 }
 
-
 void CURSOR_MOVE_EnableInput(struct Cursor *obj)
 {
     obj->inputEnabled = 1;
 }
 
-
 void CURSOR_MOVE_SetMode(struct Cursor *obj)
 {
     obj->mode = 1;
 }
-
 
 /*
  * field_sound_system.c.  The primary-pad poll: with no pending selection, read the four direction bits of the button word and hand the matching entry to CURSOR_MOVE_MoveCursor; B answers the current slot and A answers -2.
@@ -335,7 +279,6 @@ int CURSOR_MOVE_PollInput(struct Cursor *obj)
     return -1;
 }
 
-
 /*
  * field_sound_system.c.  The secondary-pad twin of CURSOR_MOVE_PollInput: identical shape, but the four direction bits come from KEY_GetRepeat while the two action bits still come from KEY_GetTrg.
  *
@@ -387,7 +330,6 @@ int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj)
     }
     return -1;
 }
-
 
 /*
  * Scan the entry table hanging off the object for a live record: each
@@ -469,7 +411,6 @@ int CURSOR_MOVE_PollTouch(struct Cursor *obj, int *out)
     return res;
 }
 
-
 u32 CURSOR_MOVE_GetNeighbour(const struct CursorEntry *entries, u32 idx, u32 type)
 {
     switch (type) {
@@ -490,7 +431,6 @@ u32 CURSOR_MOVE_GetNeighbour(const struct CursorEntry *entries, u32 idx, u32 typ
     return idx;
 }
 
-
 int CURSOR_MOVE_StartInput(struct Cursor *obj)
 {
     int one = 1;
@@ -503,7 +443,6 @@ int CURSOR_MOVE_StartInput(struct Cursor *obj)
 
     return one - 5;
 }
-
 
 /*
  * Poll the pending-interrupt word and answer with the slot a matching mask
@@ -529,7 +468,6 @@ int CURSOR_MOVE_HandlePendingInput(struct Cursor *obj)
     }
     return -1;
 }
-
 
 /*
  * field_sound_system.c.  Moves the cursor from the current entry to the
@@ -598,7 +536,6 @@ loop:
     return -1;
 }
 
-
 /*
  * field_sound_system.c accessors following src/matched/CURSOR_MOVE_MoveCursor.c:
  * read the current cursor entry, set it (clearing the two trailing
@@ -609,7 +546,6 @@ u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj)
     return obj->cur;
 }
 
-
 void CURSOR_MOVE_SetCurrent(struct Cursor *obj, u8 sel)
 {
     obj->cur = sel;
@@ -617,12 +553,10 @@ void CURSOR_MOVE_SetCurrent(struct Cursor *obj, u8 sel)
     obj->saved = 0xff;
 }
 
-
 u32 CURSOR_MOVE_GetState(struct Cursor *obj)
 {
     return obj->state;
 }
-
 
 void CURSOR_MOVE_SetState(struct Cursor *obj, u32 state)
 {
@@ -635,7 +569,6 @@ void CURSOR_MOVE_SetState(struct Cursor *obj, u32 state)
         obj->vt->onCancel(obj->ctx, obj->cur, -1);
     }
 }
-
 
 /*
  * field_sound_system.c leaves after src/matched/sub_020260F4.c, on the
@@ -654,7 +587,6 @@ void CURSOR_MOVE_ClearSkipBit(struct Cursor *obj, u32 idx)
     }
 }
 
-
 void CURSOR_MOVE_SetSkipBit(struct Cursor *obj, u32 idx)
 {
     u32 w = idx / 32;
@@ -664,12 +596,10 @@ void CURSOR_MOVE_SetSkipBit(struct Cursor *obj, u32 idx)
     }
 }
 
-
 struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, u32 idx)
 {
     return &obj->entries[idx];
 }
-
 
 int CURSOR_MOVE_IsWrapNeighbour(const struct CursorEntry *entry, u32 type)
 {
@@ -698,7 +628,6 @@ int CURSOR_MOVE_IsWrapNeighbour(const struct CursorEntry *entry, u32 type)
     return 0;
 }
 
-
 int CURSOR_MOVE_TestSkipBit(const u32 *bitmap, u32 bit)
 {
     u32 mask = 1 << (bit & 0x1f);
@@ -708,148 +637,4 @@ int CURSOR_MOVE_TestSkipBit(const u32 *bitmap, u32 bit)
         res = 0;
     }
     return res;
-}
-
-
-/*
- * Allocate the 0x88-byte sprite for a1 (tag 0xe0), keep a1 as its first word,
- * then attach six sub-buffers: each starts at +0x3c with a 0xc stride, gets
- * two 8-byte allocations out of the a0 heap and registers both with the
- * resource handle GAME_DATA_GetMyStatus returned for a1.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/CURSOR_MOVE_CreateVecSet.c \
- *       --func CURSOR_MOVE_CreateVecSet --addr 0x020261E4 --cc 1.1p1 --thumb
- */
-struct VecSet *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1)
-{
-    int i;
-    struct VecSet *p;
-    struct VecSetItem *base;
-    struct VecSetItem *e;
-    u8 *q;
-
-    p = (struct VecSet *)GFL_HEAP_Alloc(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
-    p->owner = a1;
-    q = GAME_DATA_GetMyStatus(a1);
-    base = p->items;
-    for (i = 0; i < 6; i++) {
-        e = base + i;
-        e->buf1 = STRBUF_Create(8, a0);
-        e->buf2 = STRBUF_Create(8, a0);
-        func_02008500(q, e->buf1);
-        func_02008500(q, e->buf2);
-    }
-    return p;
-}
-
-
-void CURSOR_MOVE_DeleteVecSet(struct VecSet *obj)
-{
-    struct VecSetItem *items = obj->items;
-    int i;
-
-    for (i = 0; i < 6; i++) {
-        STRBUF_Delete(items[i].buf1);
-        STRBUF_Delete(items[i].buf2);
-    }
-    GFL_HEAP_Free(obj);
-}
-
-/*
- * game_comm.c: the per-frame request state machine.  The request kind
- * (+5) selects a 0x1C-byte record of callbacks in the table at 0x0209FB5C
- * (GAME_COMM_CallHandler and GAME_COMM_CallKindNotify read its words at +0x14 and +0x18); the
- * state byte of the 8-byte sub-object at +0xC is the dense switch.
- *
- * Closed 2026-09-24 (wave 21, lane E) after the DIFF 10 recorded in
- * docs/notes/pkt_0202627C.c.txt.  The lever is the finish arm's zero typed
- * as an enum (`E z = Z0` assigned first, then cb, a, b read in that order):
- * with -enum int an enum value is not constant-propagated the way a u32
- * zero is, so the zero keeps its own web (r2, shared with the bics mask)
- * and the callback takes r5 as in the image.  A u32 zero in the same
- * position is 13 out; see
- * docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md.
- *
- * Verified with:
- *   python3 tools/match.py one --src src/matched/GAME_COMM_Update.c \
- *       --func GAME_COMM_Update --addr 0x0202627C --cc 1.1p1 --thumb
- */
-void GAME_COMM_Update(struct CursorComm *p)
-{
-  struct CursorCommSeq *sub;
-  struct CursorCommKindFuncs *rec;
-  if ((p == 0) || (p->kind == 0))
-    return;
-  sub = &p->seq;
-  rec = &GAME_COMM_KindTable[p->kind];
-  if (sub->changed == 1)
-  {
-    sub->frameCount = 0;
-    sub->changed = 0;
-  }
-  switch (sub->state)
-  {
-    case 0:
-      if (rec->start != 0)
-      p->work = rec->start(sub, p->param);
-      p->lastKind = p->kind;
-      p->counter = 0;
-      GAME_COMM_SetSeqState(sub, 1);
-      break;
-
-    case 1:
-      if ((rec->wait == 0) || (rec->wait(sub, p->param, p->work) == 1))
-      GAME_COMM_SetSeqState(sub, 2);
-      break;
-
-    case 2:
-      if (p->exitRequest == 1)
-    {
-      p->exitRequest = 0;
-      GAME_COMM_SetSeqState(&p->seq, 3);
-      break;
-    }
-      rec->run(sub, p->param, p->work);
-      break;
-
-    case 3:
-      if (rec->stop != 0)
-    {
-      if (rec->stop(sub, p->param, p->work) == 1)
-        GAME_COMM_SetSeqState(sub, 4);
-    }
-    else
-    {
-      GAME_COMM_SetSeqState(sub, 4);
-    }
-      break;
-
-    case 4:
-      if ((rec->end != 0) && (rec->end(sub, p->param, p->work) != 1))
-      break;
-      GAME_COMM_SetSeqState(sub, 5);
-
-    case 5:
-    {
-      void (*cb)(u32, u32);
-      u32 a;
-      u32 b;
-      E z;
-      z = Z0;
-      cb = p->exitFunc;
-      a = p->exitArg;
-      b = p->notifyFlag;
-      p->work = z;
-      p->kind = z;
-      p->exitFunc = 0;
-      p->exitArg = z;
-      p->notifyFlag = 0;
-      if (cb != 0)
-        cb(a, b);
-      break;
-    }
-
-  }
-
 }

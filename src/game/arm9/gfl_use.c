@@ -1,7 +1,7 @@
 /*
  * file:     gfl_use.c
  * unit:     yes
- * function: func_02005124, GFL_USE_IsNetQuiet, GFL_USE_HBlankHandler, GFL_USE_VBlankHandler, GFL_USE_PostIrqUpdate, GFL_USE_InitGameSystems, GFL_USE_UpdateFrameSubsystems, GFL_USE_ApplySoundModeFromConfig, GFL_USE_InitSdk, GFL_USE_PollPowerExit, GFL_USE_PollTwlService, GFL_USE_CtrdgDummyInit, GFL_USE_OnPreExit, GFL_USE_InitSystem, GFL_USE_PollFrameInput, func_0200560C, func_02005610, func_02005624, GFL_USE_CallVBlankHook, func_02005654, func_0200566C, GFL_USE_RunMainTasks, func_020056A0, func_020056BC, func_020056C8, func_020056D0, func_020056EC, func_02005728, func_0200575C, func_02005768, func_02005794, GFL_USE_SetSleepVolumeHooks, GFL_USE_IsMuteHookActive, GFL_USE_SetSndStackHeap, func_020057E8, func_02005834, func_02005858, GFL_USE_InitSndStack, func_020058D0, func_02005900, func_0200590C, func_02005924, func_0200597C, func_020059A0, func_020059C8, func_02005A00, func_02005A4C, GFL_USE_LoadWaveArcSet, func_02005B04, GFL_USE_InitSound, GFL_USE_ResetSound
+ * function: NitroMain, GFL_USE_IsNetQuiet, GFL_USE_HBlankHandler, GFL_USE_VBlankHandler, GFL_USE_PostIrqUpdate, GFL_USE_InitGameSystems, GFL_USE_UpdateFrameSubsystems, GFL_USE_ApplySoundModeFromConfig, GFL_USE_InitSdk, GFL_USE_PollPowerExit, GFL_USE_PollTwlService, GFL_USE_CtrdgDummyInit, GFL_USE_OnPreExit, GFL_USE_InitSystem, GFL_USE_PollFrameInput, GFL_USE_NoOpFrameHook, GFL_USE_RunHBlankTasks, GFL_USE_AddHBlankTask, GFL_USE_CallVBlankHook, GFL_USE_SetVBlankHook, GFL_USE_ClearVBlankHook, GFL_USE_RunMainTasks, GFL_USE_AddMainTask, GFL_USE_GetMainTaskList, GFL_USE_InitRandomState, GFL_USE_InitRandom, GFL_USE_GetRandom, GFL_USE_GetRandomBelow, GFL_USE_GetArcPath, GFL_USE_WaitInputReady, GFL_USE_MuteSound, GFL_USE_UnmuteSound, GFL_USE_SetSleepVolumeHooks, GFL_USE_IsMuteHookActive, GFL_USE_SetSndStackHeap, GFL_USE_InitSndSlot, GFL_USE_BeginSndSlot, GFL_USE_EndSndSlot, GFL_USE_InitSndStack, GFL_USE_GetCurrentBgmId, GFL_USE_GetSndStackDepth, GFL_USE_GetCurrentSndHandle, GFL_USE_LoadBgmData, GFL_USE_SaveSeqBankState, GFL_USE_FinishBgmLoad, GFL_USE_UnloadBgmData, GFL_USE_PushSndSlot, GFL_USE_PopSndSlot, GFL_USE_LoadWaveArcSet, GFL_USE_ReleaseWaveArcSet, GFL_USE_InitSound, GFL_USE_ResetSound, GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, GFL_USE_IsLoaderBusy, GFL_USE_IsCardIrqEnabled, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, GFL_USE_FadeInBgm, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_FlushBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, GFL_USE_PlaySeInSlot, GFL_USE_PlaySe, GFL_USE_PlaySeDefaultVolume, GFL_USE_PlaySeWithVolume, GFL_USE_StopSeSlot, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, GFL_USE_IsAnySeBusy, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, GFL_USE_LoaderThreadSeqBank, GFL_USE_LoaderThreadWaves, GFL_USE_StartLoaderThread, GFL_USE_StopLoaderThread, GFL_USE_IsLoaderDone, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers
  * address:  0x02005124
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -11,6 +11,8 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Wave 13 lane A5 moved the GFL_USE_* sound manager (0x02005BC0..0x02006544)
+ * here from pm_voice.c, which abuts at 0x02005BC0.
  * The four 8-byte ARM linker veneers (`ldr pc, [pc, #-4]`) are asm functions under
  * `#pragma thumb off` ... `#pragma thumb reset`; their callers are Thumb, so the
  * interworking calls are BLX.
@@ -197,12 +199,62 @@ struct GflUseState {
 
 typedef signed int     s32;
 
+/* Sound-manager declarations carried over from pm_voice.c with the GFL_USE_*
+ * block. */
+#define SND_VOLUME_MAX       0x7F
+#define SND_TRACKS_ALL       0xFFFF
+#define SND_SE_SLOT_COUNT    5
+#define SND_PLAYER_BGM       0
+#define SND_PLAYER_FANFARE   6
+
+/* Phases of a background music change (SndState.changePhase). */
+#define BGM_CHANGE_FADE      0
+#define BGM_CHANGE_LOAD_SEQ  1
+#define BGM_CHANGE_LOAD_WAVE 2
+
+/* Sequence number whose buffers the sound code installs by hand. */
+#define SEQ_PRELOADED_BGM    0x3F2
+
+struct SndSeq;
+
+/* The driver's per-track status record (26 bytes), read back each frame. */
+struct SNDTrackInfo {
+    u8 raw[0x1A];
+};
+
+/* Handle on a playing sequence; the sound library fills the pointer. */
+struct SndHandle {
+    struct SndSeq *seq;
+};
+
+/* One sound effect slot: the sequence started there and its handle. */
+struct SeSlot {
+    u32 seqNo;
+    struct SndHandle handle;
+};
+
+/* Entries of the sound archive info tables (only the parts read here). */
+struct SndArcSeqEntry {
+    u32 fileId;
+    u16 bankNo;
+};
+
+struct SndArcBankEntry {
+    u32 fileId;
+    u16 waveArc[4];             /* 0xFFFF: unused */
+};
+
+struct SndArcWaveArcEntry {
+    u32 fileId : 24;
+    u32 flags : 8;
+};
+
 /* One level of the sound heap stack (BGM data loaded on top of the level below). */
 struct SndSlot {
     u32 inUse;
     u16 bgmId;                  /* 0xFFFF: no BGM loaded */
     u16 pad06;
-    u32 *handle;                /* sound handle of the BGM playing in this level */
+    struct SndHandle handle;    /* sound handle of the BGM playing in this level */
     u32 baseState;              /* heap state when the level was opened */
     u32 preBgmState;            /* heap state before the BGM data was loaded */
     u32 seqBankState;           /* heap state after sequence and bank were loaded */
@@ -216,16 +268,28 @@ struct SndStack {
     struct SndHeap **heapPtr;   /* points at SndState.heap */
 };
 
-/* Sound system state, 0x020AA260. */
+/*
+ * Sound system state, 0x020AA260. The first 0x1C bytes are the part this file
+ * sets up; the rest drives the timed change of the background music (fade out,
+ * load, fade in) and is used by the GFL_USE_* sound manager carried over from
+ * pm_voice.c.
+ */
 struct SndState {
-    u16 activeMask;
+    u16 activeMask;             /* 00: bit n set when track n reported a record */
     u16 pad02;
-    u32 requestedBgm;
-    u32 countdown;
-    u32 pad0C;
-    struct SndHeap *heap;
-    u32 active;
-    u32 currentBgm;
+    int (*startFilter)(u32 seqNo); /* 04: may veto the start of a sequence */
+    u32 countdown;              /* 08: frames left of the running fade */
+    u32 loaderSeqNo;            /* 0C: sequence the loader thread works on; its address is the thread argument */
+    struct SndHeap *heap;       /* 10: sound heap */
+    u32 loaderThread;           /* 14: nonzero once the loader thread was started */
+    u32 currentBgm;             /* 18 */
+    u32 changeActive;           /* 1C: 1 while a BGM change is pending */
+    u32 changePhase;            /* 20: BGM_CHANGE_* */
+    u16 fadeCounter;            /* 24: steps into the current fade */
+    u16 changeTrackMask;        /* 26: tracks left audible after the change (0xFFFF: all) */
+    u32 changeBgm;              /* 28: BGM to switch to */
+    int fadeInFrames;           /* 2C */
+    int fadeOutFrames;          /* 30 */
 };
 
 struct SndWaveSetHeader {
@@ -349,8 +413,8 @@ extern void NNS_SndSetMasterVolume(u32 volume);
 extern void UI_SetResumeAndSuspendHooks(u32 onCallback, u32 offCallback, u32 arg);
 extern u32  UI_GetSuspendHookGlobal(void);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
-extern void NNS_SndHandleInit(u32 **handle);
-extern void NNS_SndHandleReleaseSeq(u32 **handle);
+extern void NNS_SndHandleInit(struct SndHandle *handle);
+extern void NNS_SndHandleReleaseSeq(struct SndHandle *handle);
 extern int   NNS_SndHeapSaveState(struct SndHeap *heap);
 extern void  NNS_SndHeapLoadState(struct SndHeap *heap, u32 state);
 extern u32 NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
@@ -363,6 +427,45 @@ extern void SNDEXi_Init(void);
 extern u32 NNS_SndArcPlayerSetup(struct SndHeap *heap);
 extern void *NNS_SndArcGetGroupInfo(int index);
 extern void func_02074A54(int index, struct SndHeap *heap);
+/* Sound manager calls carried over from pm_voice.c. */
+extern void  NNS_SndBoot(void);
+extern u32   NNS_SndReadDriverInfo(void);
+extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
+extern void  NNS_SndHeapDestroy(struct SndHeap *heap);
+extern void  NNS_SndSetMasterPan(u32 monoFlag);
+extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
+extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
+extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value);
+extern void  NNS_SndHandleMoveVolume(struct SndHandle *handle, u32 volume, u32 frames);
+extern void  NNS_SndHandleSetVolume(struct SndHandle *handle, int volume);
+extern void  NNS_SndHandleSetTrackPause(struct SndHandle *handle, u32 trackMask, u32 mute);
+extern void  NNS_SndHandleSetTrackMute(struct SndHandle *handle, u32 trackMask, u32 mute);
+extern void  NNS_SndHandleSetTrackVolume(struct SndHandle *handle, u32 trackMask, int volumeIndex);
+extern void  NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask, u32 pitch);
+extern void  NNS_SndHandleSetTrackPan(struct SndHandle *handle, u32 trackMask, u32 pan);
+extern void  NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMask, u32 depth);
+extern void  NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 speed);
+extern void  NNS_SndHandleStop(struct SndHandle *handle, u32 tempoRatio);
+extern s32   NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo);
+extern u16   NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
+extern void  NNS_SndArcSetReadChunkSize(int loadFlags);
+extern void  OS_Sleep(u32 msec);
+extern struct SndArcSeqEntry  *NNS_SndArcGetSeqInfo(int seqNo);
+extern struct SndArcBankEntry *NNS_SndArcGetBankInfo(int bankNo);
+extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
+extern u8   *NNS_SndArcGetSeqParam(int seqNo);
+extern u32   NNS_SndArcPlayerStartSeq(struct SndHandle *handle, u32 seqNo);
+extern u32   NNS_SndArcPlayerStartSeqEx(struct SndHandle *handle, int playerNo, int bankNo, int priority, u32 seqNo);
+extern u32   NNS_SndArcLoadWaveArc(u32 waveArcNo, struct SndHeap *heap);
+extern void  NNS_SndArcSetFileAddress(u32 fileId, u32 address);
+extern u32   NNS_SndArcGetFileAddress(u32 fileId);
+extern void  SND_SetWaveDataAddress(u32 *waveArc, u32 waveIndex, u32 address);
+extern u32   SND_GetWaveDataAddress(u32 waveArc, u32 waveIndex);
+extern void  OS_CreateThread(struct OSThread *thread, void (*entry)(void *), void *arg,
+                           void *stack, u32 size, u32 prio);
+extern void  OS_DestroyThread(struct OSThread *thread);
+extern struct SNDTrackInfo _SndTrackInfo[];
+extern struct SeSlot _SeSlots[];
 extern void GFL_USE_InitSeSlots(void);
 extern void GFL_USE_CancelChangeDefaultFade(void);
 void NitroMain(void);
@@ -406,7 +509,7 @@ void GFL_USE_EndSndSlot(void);
 void GFL_USE_InitSndStack(u16 playerNo);
 u16 GFL_USE_GetCurrentBgmId(void);
 u32 GFL_USE_GetSndStackDepth(void);
-u32 **GFL_USE_GetCurrentSndHandle(void);
+struct SndHandle *GFL_USE_GetCurrentSndHandle(void);
 int GFL_USE_LoadBgmData(u32 bgmId);
 void GFL_USE_SaveSeqBankState(void);
 int GFL_USE_FinishBgmLoad(u32 bgmId);
@@ -1362,7 +1465,7 @@ u32 GFL_USE_GetSndStackDepth(void)
 }
 
 
-u32 **GFL_USE_GetCurrentSndHandle(void)
+struct SndHandle *GFL_USE_GetCurrentSndHandle(void)
 {
     return &_SndSlots[_SndStack.top].handle;
 }
@@ -1591,6 +1694,904 @@ void GFL_USE_ResetSound(int clearHeap)
     GFL_USE_CancelChangeDefaultFade();
     _SndState.activeMask = 0;
     _SndState.countdown = 0;
-    _SndState.active = 0;
-    _SndState.requestedBgm = 0;
+    _SndState.loaderThread = 0;
+    _SndState.startFilter = 0;
+}
+
+
+void GFL_USE_UpdateSound(void);
+void GFL_USE_ClearSndHeap(void);
+void GFL_USE_SetStereoOutput(u32 mode);
+struct SndHandle *GFL_USE_GetBgmHandle(void);
+u16 GFL_USE_GetBgmNo(void);
+u32 GFL_USE_GetTargetBgmNo(void);
+int GFL_USE_IsLoaderBusy(void);
+int GFL_USE_IsCardIrqEnabled(void);
+void GFL_USE_SetPlayersAudible(int enable, u32 playerMask);
+void GFL_USE_SetPlayerVolumes(u32 volume, u32 playerMask);
+int GFL_USE_IsSeqStartAllowed(u32 seqNo);
+void GFL_USE_SetSeqStartFilter(int (*filter)(u32 seqNo));
+void GFL_USE_StopBgm(void);
+void GFL_USE_CancelChangeAndStopBgm(void);
+u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask);
+void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
+void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short trackMask, int fadeOutFrames, int fadeInFrames);
+void GFL_USE_PlayFanfare(u32 seqNo);
+void GFL_USE_SetBgmPlayerParam(u32 value);
+void GFL_USE_FadeInBgmFull(u32 frames);
+void GFL_USE_FadeInBgm(u32 frames, u32 volume);
+void GFL_USE_FadeOutBgm(u32 frames);
+int GFL_USE_IsBgmFading(void);
+int GFL_USE_PushBgm(void);
+int GFL_USE_PopBgm(void);
+void GFL_USE_SetBgmAudibleTracks(u32 trackMask);
+void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 tempoRatio, u32 pitch, u32 pan);
+void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex);
+int GFL_USE_IsBgmPlaying(void);
+void GFL_USE_CancelChangeDefaultFade(void);
+void GFL_USE_BeginBgmChange(u32 bgmNo, u16 trackMask, int fadeOutFrames, int fadeInFrames);
+void GFL_USE_CancelBgmChange(void);
+void GFL_USE_FlushBgmChange(void);
+void GFL_USE_UpdateBgmChange(void);
+void GFL_USE_InitSeSlots(void);
+struct SndHandle *GFL_USE_GetSeHandle(int slot);
+int GFL_USE_GetSeSlot(u32 seqNo);
+void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
+void GFL_USE_PlaySe(u32 seqNo, u32 volume);
+void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
+void GFL_USE_PlaySeWithVolume(u32 seqNo, u32 volume);
+void GFL_USE_StopSeSlot(int slot);
+void GFL_USE_StopAllSe(void);
+int GFL_USE_IsSeSlotBusy(u32 slot);
+int GFL_USE_IsAnySeBusy(void);
+int GFL_USE_IsSeqPlaying(u32 seqNo);
+void GFL_USE_SetSeSlotParams(int slot, u32 tempoRatio, u32 pitch, u32 pan);
+void GFL_USE_SetSeSlotVolume(int slot, u32 volume);
+void GFL_USE_LoaderThreadSeqBank(void *arg);
+void GFL_USE_LoaderThreadWaves(void *arg);
+void GFL_USE_StartLoaderThread(u32 bgmNo, int mode);
+void GFL_USE_StopLoaderThread(void);
+int GFL_USE_IsLoaderDone(void);
+u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort);
+int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo);
+int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex);
+void GFL_USE_StartSeq(u32 seqNo);
+void GFL_USE_StopSeqAndUnload(void);
+void GFL_USE_ClearPreloadedBgmBuffers(void);
+
+
+/*
+ * Per-frame sound update: finish a pending BGM change step, let the sound
+ * library exchange commands with the sound processor, then ask the driver for
+ * the record of each of the 16 tracks and keep one bit per track that
+ * answered. The fade countdown ticks down by one.
+ *
+ * The state is spelled in full at every use rather than held in a pointer
+ * local: the image reloads its address from the literal pool for the tail,
+ * which a named local suppresses. The delay counter is read into a local so
+ * the load is reused by the store.
+ */
+void GFL_USE_UpdateSound(void)
+{
+    struct SndHandle *handle;
+    int trackNo;
+    u32 remaining;
+
+    GFL_USE_UpdateBgmChange();
+    NNS_SndBoot();
+    NNS_SndReadDriverInfo();
+    handle = GFL_USE_GetBgmHandle();
+    _SndState.activeMask = 0;
+    for (trackNo = 0; trackNo < 0x10; trackNo++) {
+        if (NNS_SndHandleReadTrackInfo(handle, trackNo, &_SndTrackInfo[trackNo]) == 1) {
+            _SndState.activeMask |= (u16)(1 << trackNo);
+        }
+    }
+    remaining = _SndState.countdown;
+    if (remaining != 0) {
+        _SndState.countdown = remaining - 1;
+    }
+}
+
+/*
+ * Tail call into an ARM routine: the Thumb code loads the address from the
+ * literal pool and branches with bx, because a direct branch cannot change
+ * instruction set or reach another section.
+ */
+void GFL_USE_ClearSndHeap(void)
+{
+    NNS_SndHeapDestroy(_SndState.heap);
+}
+
+/*
+ * The boolean replaces the parameter in r0, so the fall-through arm carries
+ * the literal 1. A `v = 1; if (mode == 1) v = 0;` form allocates a second
+ * register and moves every byte.
+ */
+void GFL_USE_SetStereoOutput(u32 mode)
+{
+    NNS_SndSetMasterPan(mode != 1);
+}
+
+/* Two eight byte forwarders (ldr r3, [pc]; bx r3). */
+struct SndHandle *GFL_USE_GetBgmHandle(void)
+{
+    return GFL_USE_GetCurrentSndHandle();
+}
+
+u16 GFL_USE_GetBgmNo(void)
+{
+    return GFL_USE_GetCurrentBgmId();
+}
+
+/* BGM that is playing, or the one a pending change will start. */
+u32 GFL_USE_GetTargetBgmNo(void)
+{
+    if (_SndState.changeActive == 0) {
+        return GFL_USE_GetCurrentBgmId();
+    }
+    return _SndState.changeBgm;
+}
+
+/* 1 while the loader thread was started and still runs. */
+int GFL_USE_IsLoaderBusy(void)
+{
+    if (_SndState.loaderThread == 0) {
+        return 0;
+    }
+    if (OS_IsThreadTerminated(&_WorkerThread) != 0) {
+        return 0;
+    }
+    return 1;
+}
+
+/*
+ * Reads the interrupt enable register (0x04000210) and reports bit 19, the
+ * card transfer interrupt. The mask is built with movs/lsls, not loaded.
+ */
+int GFL_USE_IsCardIrqEnabled(void)
+{
+    if (*(volatile u32 *)0x04000210 & 0x80000) {
+        return 1;
+    }
+    return 0;
+}
+
+/*
+ * Full or zero volume for a set of the five players. GFL_USE_SetPlayersAudible forwards
+ * its second argument without touching it, and both arms call the same
+ * function with a different first argument; computing the argument first
+ * would fold the two calls into one and make the function shorter.
+ */
+void GFL_USE_SetPlayersAudible(int enable, u32 playerMask)
+{
+    if (enable == 1) {
+        GFL_USE_SetPlayerVolumes(SND_VOLUME_MAX, playerMask);
+    } else {
+        GFL_USE_SetPlayerVolumes(0, playerMask);
+    }
+}
+
+void GFL_USE_SetPlayerVolumes(u32 volume, u32 playerMask)
+{
+    int playerNo;
+
+    for (playerNo = 0; playerNo < 5; playerNo++) {
+        if ((1 << playerNo) & playerMask) {
+            NNS_SndPlayerSetPlayerVolume(playerNo, volume);
+        }
+    }
+}
+
+/* Asks the start filter (when one is set) whether a sequence may start. */
+int GFL_USE_IsSeqStartAllowed(u32 seqNo)
+{
+    if (GFL_USE_IsLoaderBusy() == 0) {
+        return 1;
+    }
+    if (_SndState.startFilter == 0) {
+        return 0;
+    }
+    return _SndState.startFilter(seqNo);
+}
+
+void GFL_USE_SetSeqStartFilter(int (*filter)(u32 seqNo))
+{
+    _SndState.startFilter = filter;
+}
+
+/* Stop the BGM at once and drop its data from the sound heap. */
+void GFL_USE_StopBgm(void)
+{
+    NNS_SndHandleStopSeq(GFL_USE_GetCurrentSndHandle(), 0);
+    GFL_USE_UnloadBgmData();
+}
+
+void GFL_USE_CancelChangeAndStopBgm(void)
+{
+    GFL_USE_CancelBgmChange();
+    GFL_USE_StopBgm();
+}
+
+/*
+ * Start a BGM now: three guards, each with its own `return 0` epilogue (so
+ * they are separate ifs, not a shared exit), then the start call on the
+ * current handle with the BGM player and the sequence's own bank and
+ * priority (-1). Tracks outside trackMask are muted afterwards.
+ *
+ * The third failure return reads the zero local that the two -1 arguments
+ * were derived from instead of rematerialising `movs r0, #0`.
+ */
+u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask)
+{
+    u32 started;
+    int zero;
+
+    zero = 0;
+    if (GFL_USE_IsSeqStartAllowed(bgmNo) == 0) {
+        return 0;
+    }
+    GFL_USE_StopBgm();
+    if (GFL_USE_LoadBgmData(bgmNo) == 0) {
+        return 0;
+    }
+    started = NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, bgmNo);
+    if (started == 0) {
+        return zero;
+    }
+    if (trackMask != 0xFFFF) {
+        GFL_USE_SetBgmAudibleTracks(trackMask);
+    }
+    return started;
+}
+
+void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask)
+{
+    GFL_USE_CancelBgmChange();
+    GFL_USE_PlayBgm(bgmNo, trackMask);
+}
+
+/* Starts a timed BGM change: the same four arguments as GFL_USE_BeginBgmChange. */
+void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short trackMask,
+                   int fadeOutFrames, int fadeInFrames)
+{
+    GFL_USE_BeginBgmChange(bgmNo, trackMask, fadeOutFrames, fadeInFrames);
+}
+
+/*
+ * Play a sequence on the sixth player (fanfares) after dropping the BGM
+ * data. Five-argument call whose fifth argument goes on the stack. The two
+ * -1 arguments are derived from the 6 that was just materialised
+ * (movs r1, #6; subs r2, r1, #7; adds r3, r2, #0), a peephole that says
+ * nothing about the source.
+ */
+void GFL_USE_PlayFanfare(u32 seqNo)
+{
+    GFL_USE_CancelBgmChange();
+    if (GFL_USE_IsSeqStartAllowed(seqNo) == 0) {
+        return;
+    }
+    GFL_USE_StopBgm();
+    if (GFL_USE_LoadBgmData(seqNo) == 0) {
+        return;
+    }
+    NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_FANFARE, -1, -1, seqNo);
+}
+
+void GFL_USE_SetBgmPlayerParam(u32 value)
+{
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandlePauseSeq(GFL_USE_GetCurrentSndHandle(), value);
+}
+
+/* Fade in to full volume over `frames`. */
+void GFL_USE_FadeInBgmFull(u32 frames)
+{
+    GFL_USE_FadeInBgm(frames, SND_VOLUME_MAX);
+}
+
+/* Set the volume to zero, then fade up to `volume` over `frames`. */
+void GFL_USE_FadeInBgm(u32 frames, u32 volume)
+{
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleMoveVolume(GFL_USE_GetCurrentSndHandle(), 0, 0);
+    NNS_SndHandleMoveVolume(GFL_USE_GetCurrentSndHandle(), volume, frames);
+    _SndState.countdown = frames;
+}
+
+/* Fade out to zero over `frames`. */
+void GFL_USE_FadeOutBgm(u32 frames)
+{
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleMoveVolume(GFL_USE_GetCurrentSndHandle(), 0, frames);
+    _SndState.countdown = frames;
+}
+
+/*
+ * Boolean for `countdown != 0`: in Thumb a two exit branch shape, since
+ * there is no conditional move.
+ */
+int GFL_USE_IsBgmFading(void)
+{
+    return _SndState.countdown != 0;
+}
+
+/* Reset track mute and modulation, then push a level on the sound heap stack. */
+int GFL_USE_PushBgm(void)
+{
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleSetTrackPause(GFL_USE_GetCurrentSndHandle(), SND_TRACKS_ALL, 0);
+    NNS_SndHandleSetTrackModDepth(GFL_USE_GetCurrentSndHandle(), SND_TRACKS_ALL, 0);
+    NNS_SndHandleSetTrackModSpeed(GFL_USE_GetCurrentSndHandle(), SND_TRACKS_ALL, 0x10);
+    return GFL_USE_PushSndSlot();
+}
+
+/* Pop a level (stopping the BGM first) when the stack holds more than one. */
+int GFL_USE_PopBgm(void)
+{
+    int depth;
+
+    GFL_USE_FlushBgmChange();
+    depth = GFL_USE_GetSndStackDepth();
+    if (depth != 0) {
+        GFL_USE_StopBgm();
+        return GFL_USE_PopSndSlot();
+    }
+    return depth;
+}
+
+/*
+ * Leave only the tracks in `trackMask` audible: unmute everything, then mute
+ * the complement. The complement is the one's complement truncated to 16
+ * bits (lsls #16 / lsrs #16). 0xFFFF is a pool word, loaded once into a
+ * callee-saved register and reused as the first call's second argument.
+ */
+void GFL_USE_SetBgmAudibleTracks(u32 trackMask)
+{
+    u16 muteMask = (u16)(trackMask ^ 0xFFFF);
+
+    NNS_SndHandleSetTrackPause(GFL_USE_GetCurrentSndHandle(), 0xFFFF, 0);
+    if (muteMask != 0) {
+        NNS_SndHandleSetTrackMute(GFL_USE_GetCurrentSndHandle(), muteMask, 1);
+    }
+}
+
+/*
+ * Three optional settings, each skipped when the caller passes -1. The -1 is
+ * rebuilt before each test (movs/mvns) rather than held in a register, as an
+ * inline constant in three comparisons would be.
+ */
+void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 tempoRatio, u32 pitch, u32 pan)
+{
+    struct SndHandle *handle = GFL_USE_GetCurrentSndHandle();
+
+    if (tempoRatio != -1) {
+        NNS_SndHandleStop(handle, tempoRatio);
+    }
+    if (pitch != -1) {
+        NNS_SndHandleSetTrackPitch(handle, trackMask, pitch);
+    }
+    if (pan != -1) {
+        NNS_SndHandleSetTrackPan(handle, trackMask, pan);
+    }
+}
+
+/*
+ * The handle from GFL_USE_GetCurrentSndHandle stays in r0 across the two parameter moves,
+ * which is why the two `adds rN, rN, #0` copies come after the call.
+ */
+void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex)
+{
+    NNS_SndHandleSetTrackVolume(GFL_USE_GetCurrentSndHandle(), trackMask, (int)volumeIndex);
+}
+
+/*
+ * Nonzero when a BGM is current and the sound library counts the sequence
+ * as playing.
+ */
+int GFL_USE_IsBgmPlaying(void)
+{
+    if (GFL_USE_GetCurrentBgmId() == 0) {
+        return 0;
+    }
+    if (NNS_SndPlayerCountPlayingSeqBySeqNo(GFL_USE_GetCurrentBgmId()) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+/*
+ * Cancel the pending change and restore the default 60 frame fades. The tail
+ * call to GFL_USE_CancelBgmChange goes through a pool word and bx even though the
+ * target is in the same file: one section per function.
+ */
+void GFL_USE_CancelChangeDefaultFade(void)
+{
+    _SndState.fadeInFrames = 60;
+    _SndState.fadeOutFrames = 60;
+    GFL_USE_CancelBgmChange();
+}
+
+/* Queue a change to `bgmNo`: fade the current BGM out, load, fade the new one in. */
+void GFL_USE_BeginBgmChange(u32 bgmNo, u16 trackMask, int fadeOutFrames, int fadeInFrames)
+{
+    _SndState.changeTrackMask = trackMask;
+    _SndState.changeBgm = bgmNo;
+    _SndState.fadeInFrames = fadeInFrames;
+    _SndState.fadeOutFrames = fadeOutFrames;
+    _SndState.fadeCounter = fadeOutFrames;
+    GFL_USE_StopLoaderThread();
+    _SndState.changePhase = BGM_CHANGE_FADE;
+    _SndState.changeActive = 1;
+}
+
+/* Drop any pending change and put the volume back to maximum. */
+void GFL_USE_CancelBgmChange(void)
+{
+    _SndState.changeActive = 0;
+    _SndState.changeTrackMask = 0xFFFF;
+    _SndState.changeBgm = 0;
+    _SndState.fadeCounter = 0;
+    NNS_SndHandleSetVolume(GFL_USE_GetCurrentSndHandle(), SND_VOLUME_MAX);
+    _SndState.changePhase = BGM_CHANGE_FADE;
+    GFL_USE_StopLoaderThread();
+}
+
+/* Finish a pending change at once: wait for the loader, start the BGM, clear the request. */
+void GFL_USE_FlushBgmChange(void)
+{
+    u32 bgmNo;
+
+    if (_SndState.changeActive != 1) {
+        return;
+    }
+    bgmNo = GFL_USE_GetCurrentBgmId();
+    if (bgmNo != _SndState.changeBgm) {
+        while (_SndState.changePhase != BGM_CHANGE_FADE) {
+            GFL_USE_UpdateBgmChange();
+        }
+        GFL_USE_CancelChangeAndPlayBgm(_SndState.changeBgm, _SndState.changeTrackMask);
+    }
+    GFL_USE_CancelBgmChange();
+}
+
+/*
+ * Advance the BGM change by one step per call (the state machine that
+ * GFL_USE_UpdateSound runs every frame).
+ *
+ * BGM_CHANGE_FADE: when another BGM is playing, ramp the volume down over
+ * fadeOutFrames (fadeCounter * 0x7F / fadeOutFrames); at zero, stop it,
+ * start the loader thread on sequence and bank, and enter LOAD_SEQ. When the
+ * wanted BGM is already current, ramp the volume up over fadeInFrames and
+ * clear the request at the top. Both divisions are signed, so the compiler's
+ * own _s32_div_f helper is called, not _u32_div_f: fadeCounter is a u16
+ * promoted to int and both limits are int.
+ *
+ * BGM_CHANGE_LOAD_SEQ: when the loader is done, save the heap state and start
+ * the loader again for the wave archives.
+ * BGM_CHANGE_LOAD_WAVE: when it is done, record the BGM, start playing it
+ * (volume stays zero) and return to the fade phase for the fade in.
+ */
+void GFL_USE_UpdateBgmChange(void)
+{
+    struct SndHandle *handle = GFL_USE_GetCurrentSndHandle();
+    u16 bgmNo = GFL_USE_GetCurrentBgmId();
+
+    if (_SndState.changeActive == 0) {
+        return;
+    }
+    switch (_SndState.changePhase) {
+    case BGM_CHANGE_FADE:
+        if (bgmNo != 0) {
+            if (bgmNo != _SndState.changeBgm) {
+                if (_SndState.fadeCounter != 0) {
+                    _SndState.fadeCounter--;
+                    NNS_SndHandleSetVolume(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
+                                          _SndState.fadeOutFrames);
+                    return;
+                }
+                NNS_SndHandleSetVolume(handle, 0);
+            } else {
+                if (_SndState.fadeCounter < _SndState.fadeInFrames) {
+                    _SndState.fadeCounter++;
+                    NNS_SndHandleSetVolume(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
+                                          _SndState.fadeInFrames);
+                    return;
+                }
+                GFL_USE_CancelBgmChange();
+                return;
+            }
+        }
+        GFL_USE_StopBgm();
+        if (_SndState.changeBgm == 0) {
+            GFL_USE_CancelBgmChange();
+            return;
+        }
+        NNS_SndArcSetReadChunkSize(0x1300);
+        GFL_USE_StartLoaderThread(_SndState.changeBgm, 0);
+        _SndState.fadeCounter = 0;
+        _SndState.changePhase = BGM_CHANGE_LOAD_SEQ;
+        return;
+    case BGM_CHANGE_LOAD_SEQ:
+        if (GFL_USE_IsLoaderDone() == 1) {
+            GFL_USE_SaveSeqBankState();
+            GFL_USE_StartLoaderThread(_SndState.changeBgm, 1);
+            _SndState.changePhase = BGM_CHANGE_LOAD_WAVE;
+            return;
+        }
+        OS_Sleep(1);
+        return;
+    case BGM_CHANGE_LOAD_WAVE:
+        if (GFL_USE_IsLoaderDone() == 1) {
+            NNS_SndArcSetReadChunkSize(0);
+            GFL_USE_FinishBgmLoad(_SndState.changeBgm);
+            NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
+            NNS_SndHandleSetVolume(handle, 0);
+            _SndState.changePhase = BGM_CHANGE_FADE;
+            return;
+        }
+        OS_Sleep(1);
+        return;
+    }
+}
+
+/* Clear the five sound effect slots. */
+void GFL_USE_InitSeSlots(void)
+{
+    int slot;
+
+    for (slot = 0; slot < SND_SE_SLOT_COUNT; slot++) {
+        _SeSlots[slot].seqNo = 0;
+        NNS_SndHandleInit(&_SeSlots[slot].handle);
+    }
+}
+
+/* No prologue: lsls, adds, adds, bx lr. */
+struct SndHandle *GFL_USE_GetSeHandle(int slot)
+{
+    return &_SeSlots[slot].handle;
+}
+
+/*
+ * Sound effect slot (0 to 4) for a sequence: the sequence's own player
+ * number minus one. Numbers outside the sound effect range map to slot 1.
+ * Two `return 1`s cross-jump into one block, and the block lands between the
+ * second test and the body, which is what makes the second branch `blo`
+ * rather than the `bhs` a conjunction emits; the source has the two guards
+ * in this order, each with its own return.
+ */
+int GFL_USE_GetSeSlot(u32 seqNo)
+{
+    if (seqNo < 0x546) {
+        goto fail;
+    }
+    if (seqNo < 0x81B) {
+        goto ok;
+    }
+fail:
+    return 1;
+ok:
+    return NNS_SndArcGetSeqParam(seqNo)[5] - 1;
+}
+
+/*
+ * Start a sound effect in a given slot (player slot + 1) and remember the
+ * sequence number on success.
+ */
+void GFL_USE_PlaySeInSlot(u32 seqNo, int slot)
+{
+    if (GFL_USE_IsSeqStartAllowed(seqNo) == 0) {
+        return;
+    }
+    _SeSlots[slot].seqNo = 0;
+    if (NNS_SndArcPlayerStartSeqEx(&_SeSlots[slot].handle, slot + 1, -1, -1, seqNo) == 1) {
+        _SeSlots[slot].seqNo = seqNo;
+    }
+}
+
+/* Start a sound effect in its own slot; a volume below 0x80 is applied after the start. */
+void GFL_USE_PlaySe(u32 seqNo, u32 volume)
+{
+    int slot;
+
+    if (GFL_USE_IsSeqStartAllowed(seqNo) == 0) {
+        return;
+    }
+    slot = GFL_USE_GetSeSlot(seqNo);
+    _SeSlots[slot].seqNo = 0;
+    if (NNS_SndArcPlayerStartSeq(&_SeSlots[slot].handle, seqNo) != 1) {
+        return;
+    }
+    _SeSlots[slot].seqNo = seqNo;
+    if (volume < 0x80) {
+        GFL_USE_SetSeSlotVolume(slot, volume);
+    }
+}
+
+/*
+ * GFL_USE_PlaySeDefaultVolume and GFL_USE_PlaySeWithVolume both tail call GFL_USE_PlaySe through the same
+ * pool word: the first supplies -1 as the volume, the second passes both of
+ * its arguments through.
+ */
+void GFL_USE_PlaySeDefaultVolume(u32 seqNo)
+{
+    GFL_USE_PlaySe(seqNo, -1);
+}
+
+void GFL_USE_PlaySeWithVolume(u32 seqNo, u32 volume)
+{
+    GFL_USE_PlaySe(seqNo, volume);
+}
+
+void GFL_USE_StopSeSlot(int slot)
+{
+    NNS_SndHandleStopSeq(&_SeSlots[slot].handle, 0);
+}
+
+void GFL_USE_StopAllSe(void)
+{
+    int slot;
+
+    for (slot = 0; slot < SND_SE_SLOT_COUNT; slot++) {
+        GFL_USE_StopSeSlot(slot);
+    }
+}
+
+/*
+ * The player number is incremented in place before the call, so the source
+ * added one to the parameter rather than passing a computed local.
+ */
+int GFL_USE_IsSeSlotBusy(u32 slot)
+{
+    return NNS_SndPlayerGetActiveSeqCount(slot + 1) != 0;
+}
+
+int GFL_USE_IsAnySeBusy(void)
+{
+    int slot;
+
+    for (slot = 0; slot < SND_SE_SLOT_COUNT; slot++) {
+        if (GFL_USE_IsSeSlotBusy(slot) == 1) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int GFL_USE_IsSeqPlaying(u32 seqNo)
+{
+    if (NNS_SndPlayerCountPlayingSeqBySeqNo(seqNo) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+/* Optional tempo, pitch and pan of a sound effect slot; -1 leaves a setting alone. */
+void GFL_USE_SetSeSlotParams(int slot, u32 tempoRatio, u32 pitch, u32 pan)
+{
+    if (tempoRatio != -1) {
+        NNS_SndHandleStop(&_SeSlots[slot].handle, tempoRatio);
+    }
+    if (pitch != -1) {
+        NNS_SndHandleSetTrackPitch(&_SeSlots[slot].handle, 0xFFFF, pitch);
+    }
+    if (pan != -1) {
+        NNS_SndHandleSetTrackPan(&_SeSlots[slot].handle, 0xFFFF, pan);
+    }
+}
+
+void GFL_USE_SetSeSlotVolume(int slot, u32 volume)
+{
+    if (volume > SND_VOLUME_MAX) {
+        volume = SND_VOLUME_MAX;
+    }
+    NNS_SndHandleSetVolume(&_SeSlots[slot].handle, volume);
+}
+
+/*
+ * The two loader thread bodies and the routine that starts one. Both bodies
+ * are six instructions: read the sequence number the argument points at and
+ * tail call the archive load with load flags 3 (sequence and bank) or 4
+ * (wave archives). Their only references are the two pool words of
+ * GFL_USE_StartLoaderThread below.
+ */
+void GFL_USE_LoaderThreadSeqBank(void *arg)
+{
+    NNS_SndArcLoadSeqEx(*(u32 *)arg, 3, _SndState.heap);
+}
+
+void GFL_USE_LoaderThreadWaves(void *arg)
+{
+    NNS_SndArcLoadSeqEx(*(u32 *)arg, 4, _SndState.heap);
+}
+
+/*
+ * Start the loader thread for `bgmNo`: mode 0 loads sequence and bank, mode 1
+ * the wave archives. The thread object is at 0x020AA354, its stack ends at
+ * 0x020AA9B4 (0x400 bytes), the priority is 0x11. The thread argument is the
+ * address of loaderSeqNo, the word just written.
+ */
+void GFL_USE_StartLoaderThread(u32 bgmNo, int mode)
+{
+    _SndState.loaderSeqNo = bgmNo;
+    GFL_USE_StopLoaderThread();
+    switch (mode) {
+    case 0:
+        OS_CreateThread(&_WorkerThread, GFL_USE_LoaderThreadSeqBank, &_SndState.loaderSeqNo,
+                      _SndHeapBuf, 0x400, 0x11);
+        break;
+    case 1:
+        OS_CreateThread(&_WorkerThread, GFL_USE_LoaderThreadWaves, &_SndState.loaderSeqNo,
+                      _SndHeapBuf, 0x400, 0x11);
+        break;
+    }
+    OS_WakeupThreadDirect(&_WorkerThread);
+    _SndState.loaderThread = (u32)&_WorkerThread;
+}
+
+/* Destroy the loader thread when it was started and has not finished. */
+void GFL_USE_StopLoaderThread(void)
+{
+    if (_SndState.loaderThread != 0) {
+        if (OS_IsThreadTerminated(&_WorkerThread) == 0) {
+            OS_DestroyThread(&_WorkerThread);
+            _SndState.loaderThread = 0;
+        }
+    }
+}
+
+/* 1 when the loader thread finished; a thread that was never started counts as finished. */
+int GFL_USE_IsLoaderDone(void)
+{
+    if (_SndState.loaderThread == 0) {
+        return 1;
+    }
+    return OS_IsThreadTerminated(&_WorkerThread);
+}
+
+/*
+ * Caller driven version of the BGM change: `*step` is the state, advancing
+ * at most one step per call; every arm reports 0 except the step out of
+ * state 2, which reports 1. abort == 1 stops the BGM and resets the step.
+ *
+ * The abort arm is deliberately not an early `return 0`: written that way
+ * the compiler duplicates the `str r0, [r4]` and emits its own epilogue;
+ * with the arm falling through to one shared `return 0` the stores
+ * cross-jump into the single `str` at +0x3C. That `str` is the merge point
+ * of three paths (abort storing 0, state 0 and state 1 storing *step + 1).
+ * The `bne` at +0x0A jumps past the whole abort arm into the switch.
+ *
+ * In state 2 the two -1 arguments come from `zero - 1` (the compiler keeps
+ * the zero in r6), and the second argument of the start call is the
+ * leftover result of GFL_USE_GetCurrentSndHandle, which takes none.
+ */
+u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
+{
+    if (abort == 1) {
+        GFL_USE_StopBgm();
+        GFL_USE_StopLoaderThread();
+        *step = 0;
+    } else {
+        switch (*step) {
+        case 0:
+            NNS_SndArcSetReadChunkSize(0x1300);
+            GFL_USE_StartLoaderThread(bgmNo, 0);
+            (*step)++;
+            break;
+        case 1:
+            if (GFL_USE_IsLoaderDone() == 1) {
+                GFL_USE_SaveSeqBankState();
+                GFL_USE_StartLoaderThread(bgmNo, 1);
+                (*step)++;
+            } else {
+                OS_Sleep(2);
+            }
+            break;
+        case 2:
+            if (GFL_USE_IsLoaderDone() == 1) {
+                s32 zero = 0;
+
+                NNS_SndArcSetReadChunkSize(0);
+                GFL_USE_FinishBgmLoad(bgmNo);
+                NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), 0, zero - 1, zero - 1, bgmNo);
+                (*step)++;
+                return 1;
+            }
+            OS_Sleep(2);
+            break;
+        default:
+            break;
+        }
+    }
+    return 0;
+}
+
+/*
+ * Start a BGM whose sequence and bank files the caller already loaded:
+ * look up the sequence entry (file id, bank number) and the bank entry (file
+ * id, up to four wave archives), load every wave archive into the sound
+ * heap, bail out with 0 the first time one fails, then install the two
+ * buffers under their file ids.
+ *
+ * The sequence entry is read in two loads before the bank lookup: the file
+ * id word first, the bank number halfword second, and the bank number is
+ * passed to the bank lookup. The first member of the bank entry is a full
+ * 32 bit load.
+ */
+int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
+{
+    struct SndArcSeqEntry *seq;
+    struct SndArcBankEntry *bank;
+    u32 seqFileId;
+    u16 bankNo;
+    u32 bankFileId;
+    int i;
+
+    seq = NNS_SndArcGetSeqInfo(bgmNo);
+    seqFileId = seq->fileId;
+    bankNo = seq->bankNo;
+    bank = NNS_SndArcGetBankInfo(bankNo);
+    bankFileId = bank->fileId;
+    GFL_USE_SaveSeqBankState();
+    for (i = 0; i < 4; i++) {
+        if (bank->waveArc[i] != 0xFFFF) {
+            if (NNS_SndArcLoadWaveArc(bank->waveArc[i], _SndState.heap) == 0) {
+                return 0;
+            }
+        }
+    }
+    NNS_SndArcSetFileAddress(bankFileId, bankAddr);
+    NNS_SndArcSetFileAddress(seqFileId, seqAddr);
+    GFL_USE_FinishBgmLoad(bgmNo);
+    return 1;
+}
+
+/*
+ * Replace wave `waveIndex` of a wave archive by wave `srcWaveIndex` of
+ * another archive's data. The file id is a 24 bit unsigned bitfield (a
+ * lsls #8 / lsrs #8 pair); `& 0xFFFFFF` would load a pool word instead.
+ */
+int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex)
+{
+    struct SndArcWaveArcEntry *entry;
+    u32 *waveArcData;
+
+    entry = NNS_SndArcGetWaveArcInfo(waveArcNo);
+    if (entry == 0) {
+        return 0;
+    }
+    waveArcData = (u32 *)NNS_SndArcGetFileAddress(entry->fileId);
+    if (waveArcData == 0) {
+        return 0;
+    }
+    SND_SetWaveDataAddress(waveArcData, waveIndex, SND_GetWaveDataAddress(srcWaveArc, srcWaveIndex));
+    return 1;
+}
+
+/* Start a sequence on the current handle. */
+void GFL_USE_StartSeq(u32 seqNo)
+{
+    NNS_SndArcPlayerStartSeq(GFL_USE_GetCurrentSndHandle(), seqNo);
+}
+
+/* Same body as GFL_USE_StopBgm: stop the current sequence and drop its data. */
+void GFL_USE_StopSeqAndUnload(void)
+{
+    NNS_SndHandleStopSeq(GFL_USE_GetCurrentSndHandle(), 0);
+    GFL_USE_UnloadBgmData();
+}
+
+/*
+ * Forget the buffers that GFL_USE_InstallBgmBuffers installed for SEQ_PRELOADED_BGM:
+ * the bank file's data address and the sequence file's data address are
+ * set to zero. 0x3F2 is past the Thumb movs immediate range, so it arrives
+ * in r4 through a pool word and is used twice from there.
+ */
+void GFL_USE_ClearPreloadedBgmBuffers(void)
+{
+    u32 bankFileId = NNS_SndArcGetBankInfo(SEQ_PRELOADED_BGM)->fileId;
+    u32 seqFileId = NNS_SndArcGetSeqInfo(SEQ_PRELOADED_BGM)->fileId;
+
+    NNS_SndArcSetFileAddress(bankFileId, 0);
+    NNS_SndArcSetFileAddress(seqFileId, 0);
 }

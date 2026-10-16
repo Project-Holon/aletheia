@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_proc.c
  * unit:     yes
- * function: SCRCMD_PROC_LookupTableValue, SCRCMD_PROC_GetPartyMember, SCRCMD_PROC_GetPartyMemberParam, SCRCMD_PROC_CheckMonKnowsMove, SCRCMD_PROC_GetMonPairedParams, SCRCMD_PROC_HealParty, SCRCMD_PROC_GetMonEvTotal, SCRCMD_PROC_CheckMonParamMismatch, SCRCMD_PROC_CheckMonIsEgg, SCRCMD_PROC_GetMonFriendship, SCRCMD_PROC_ChangeMonFriendship, SCRCMD_PROC_GetMonSpeciesOrEgg, SCRCMD_PROC_GetMonForm, SCRCMD_PROC_FindFirstPartyIndex, SCRCMD_PROC_GetPartyCount, SCRCMD_PROC_CountPartyMonsOfSpecies, SCRCMD_PROC_GetBoxMonCount, SCRCMD_PROC_FindPartyMonBySpecies, SCRCMD_PROC_CheckPartyMonKnowsMove, SCRCMD_PROC_FindPartyMonWithMove, SCRCMD_PROC_AddMonToPartySimple, SCRCMD_PROC_AddMonToPartyDetailed, SCRCMD_PROC_CountMonMoves, SCRCMD_PROC_GetMonMove, SCRCMD_PROC_SetMonMove, SCRCMD_PROC_CheckMonIsPlayerOwned, SCRCMD_PROC_ChangeMonForm, SCRCMD_PROC_SetRotomFormMove, SCRCMD_PROC_GetRelearnableMoveCount, SCRCMD_PROC_CheckMonParamMatchesTable, SCRCMD_PROC_GetMonTripleParams, SCRCMD_PROC_SetMonParamChecked, SCRCMD_PROC_GetMonParamIfListed, SCRCMD_PROC_AddMonToBoxSimple, SCRCMD_PROC_AddMonToBoxDetailed, SCRCMD_PROC_AddEggToParty, SCRCMD_PROC_CreateMonFromSpec, SCRCMD_PROC_AddMonToBox, SCRCMD_PROC_AddMonToParty, SCRCMD_PROC_SetMiscValue, SCRCMD_PROC_AddMiscValue, SCRCMD_PROC_CheckMiscValueReached, SCRCMD_PROC_CallFieldOpenEvent, SCRCMD_PROC_CallFieldCloseEvent, SCRCMD_PROC_StartOverlayProc, SCRCMD_PROC_WaitOverlayProc, SCRCMD_PROC_ResetEventSlot, SCRCMD_PROC_OnBagClosed, SCRCMD_PROC_CallBagScreen, SCRCMD_PROC_OnGtsNegotiationDone, SCRCMD_PROC_CallGtsNegotiation, SCRCMD_PROC_OnMoveRelearnDone, SCRCMD_PROC_CallMoveRelearn, SCRCMD_PROC_CallPlayerProfile, SCRCMD_PROC_CallSubEvent, SCRCMD_PROC_CallValueScreen, SCRCMD_PROC_CallModeScreen, SCRCMD_PROC_CallWordScreen, SCRCMD_PROC_WaitNothing, SCRCMD_PROC_CallWifiBattleMatch, SCRCMD_PROC_CallMenuProc, SCRCMD_PROC_Ov037InitFromVars, SCRCMD_PROC_Ov037SetValueA, SCRCMD_PROC_Ov037SetValueB, SCRCMD_PROC_Ov037ReadEightVars, SCRCMD_PROC_Ov037Finish, SCRCMD_PROC_GetDaycareState, SCRCMD_PROC_DaycareInitFromParty, SCRCMD_PROC_StopDaycareTimer, SCRCMD_PROC_CallDaycarePartyMenu, SCRCMD_PROC_DepositDaycareMon, SCRCMD_PROC_WithdrawDaycareMon, SCRCMD_PROC_GetDaycareMonCount, SCRCMD_PROC_CheckDaycareEgg, SCRCMD_PROC_GetDaycareMonSpecies, SCRCMD_PROC_GetDaycareMonForm, SCRCMD_PROC_GetDaycareMonGender, SCRCMD_PROC_GetDaycareSlotExp, SCRCMD_PROC_GetDaycareSlotLevelsGrown, SCRCMD_PROC_GetDaycareSlotPrice, SCRCMD_PROC_GetDaycareMonGenderKindIfFirst, SCRCMD_PROC_GetDaycareGenderKind, SCRCMD_SODATEYA_RunPartyMenuEvent, SCRCMD_SODATEYA_Create
+ * function: SCRCMD_PROC_LookupTableValue, SCRCMD_PROC_GetPartyMember, SCRCMD_PROC_GetPartyMemberParam, SCRCMD_PROC_CheckMonKnowsMove, SCRCMD_PROC_GetMonPairedParams, SCRCMD_PROC_HealParty, SCRCMD_PROC_GetMonEvTotal, SCRCMD_PROC_CheckMonParamMismatch, SCRCMD_PROC_CheckMonIsEgg, SCRCMD_PROC_GetMonFriendship, SCRCMD_PROC_ChangeMonFriendship, SCRCMD_PROC_GetMonSpeciesOrEgg, SCRCMD_PROC_GetMonForm, SCRCMD_PROC_FindFirstPartyIndex, SCRCMD_PROC_GetPartyCount, SCRCMD_PROC_CountPartyMonsOfSpecies, SCRCMD_PROC_GetBoxMonCount, SCRCMD_PROC_FindPartyMonBySpecies, SCRCMD_PROC_CheckPartyMonKnowsMove, SCRCMD_PROC_FindPartyMonWithMove, SCRCMD_PROC_AddMonToPartySimple, SCRCMD_PROC_AddMonToPartyDetailed, SCRCMD_PROC_CountMonMoves, SCRCMD_PROC_GetMonMove, SCRCMD_PROC_SetMonMove, SCRCMD_PROC_CheckMonIsPlayerOwned, SCRCMD_PROC_ChangeMonForm, SCRCMD_PROC_SetRotomFormMove, SCRCMD_PROC_GetRelearnableMoveCount, SCRCMD_PROC_CheckMonParamMatchesTable, SCRCMD_PROC_GetMonTripleParams, SCRCMD_PROC_SetMonParamChecked, SCRCMD_PROC_GetMonParamIfListed, SCRCMD_PROC_AddMonToBoxSimple, SCRCMD_PROC_AddMonToBoxDetailed, SCRCMD_PROC_AddEggToParty, SCRCMD_PROC_CreateMonFromSpec, SCRCMD_PROC_AddMonToBox, SCRCMD_PROC_AddMonToParty, SCRCMD_PROC_SetMiscValue, SCRCMD_PROC_AddMiscValue, SCRCMD_PROC_CheckMiscValueReached, SCRCMD_PROC_CallFieldOpenEvent, SCRCMD_PROC_CallFieldCloseEvent, SCRCMD_PROC_StartOverlayProc, SCRCMD_PROC_WaitOverlayProc, SCRCMD_PROC_ResetEventSlot, SCRCMD_PROC_OnBagClosed, SCRCMD_PROC_CallBagScreen, SCRCMD_PROC_OnGtsNegotiationDone, SCRCMD_PROC_CallGtsNegotiation, SCRCMD_PROC_OnMoveRelearnDone, SCRCMD_PROC_CallMoveRelearn, SCRCMD_PROC_CallPlayerProfile, SCRCMD_PROC_CallSubEvent, SCRCMD_PROC_CallValueScreen, SCRCMD_PROC_CallModeScreen, SCRCMD_PROC_CallWordScreen, SCRCMD_PROC_WaitNothing, SCRCMD_PROC_CallWifiBattleMatch, SCRCMD_PROC_CallMenuProc, SCRCMD_PROC_Ov037InitFromVars, SCRCMD_PROC_Ov037SetValueA, SCRCMD_PROC_Ov037SetValueB, SCRCMD_PROC_Ov037ReadEightVars, SCRCMD_PROC_Ov037Finish, SCRCMD_PROC_GetDaycareState, SCRCMD_PROC_DaycareInitFromParty, SCRCMD_PROC_StopDaycareTimer, SCRCMD_PROC_CallDaycarePartyMenu, SCRCMD_PROC_DepositDaycareMon, SCRCMD_PROC_WithdrawDaycareMon, SCRCMD_PROC_GetDaycareMonCount, SCRCMD_PROC_CheckDaycareEgg, SCRCMD_PROC_GetDaycareMonSpecies, SCRCMD_PROC_GetDaycareMonForm, SCRCMD_PROC_GetDaycareMonGender, SCRCMD_PROC_GetDaycareSlotExp, SCRCMD_PROC_GetDaycareSlotLevelsGrown, SCRCMD_PROC_GetDaycareSlotPrice, SCRCMD_PROC_GetDaycareMonGenderKindIfFirst, SCRCMD_PROC_GetDaycareGenderKind
  * address:  0x0215B488
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from scrcmd_proc.c by tools/splitfile.py.
  *
  * symbols:
  *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
@@ -56,7 +56,6 @@
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   sScrcmdCompareTable     0x02171180  data   ov010  a2
  *   sScrcmdParamLimits     0x0217118E  data   ov010  a2
- *   d_02171190     0x02171190  data   ov010  a2
  *   POKE_TOOL_SetRotomFormMove  0x02017A20  thumb
  *   WAZA_OSHIE_CreateMoveList  0x0216F948  thumb  ov010
  *   WAZA_OSHIE_IsListEntryValid  0x0216FAA0  thumb  ov010
@@ -158,38 +157,31 @@
  *   SODATEYA_GetCurrentLevel 0x021C341C thumb ov021
  *   SODATEYA_GetLevelsGained 0x021C3490 thumb ov021
  *   SODATEYA_GetWithdrawCost 0x021C34B4 thumb ov021
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
- *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
- *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
- *   func_020122C0  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
- *   sAllocSiteScrcmdSodateya     0x02172900  data
+ *   SCRCMD_SODATEYA_Create 0x0215D2A4 thumb ov010
  */
+#include "scrcmd_proc_shared_types.h"
 
-struct GameData;
 struct ScriptVm;
+
 struct PokemonParam;
+
 struct Strbuf;
+
 struct MyStatus;
-struct ZukanSave;
-struct GameSystem;
+
 struct Party;
+
 struct MsgBank;
+
 struct PersonalData;
+
 struct PlayerWork;
+
 struct BoxPokemonParam;
+
 struct MiscSave;
-struct GameEvent;
+
 struct PlayerProfile;
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef short s16;
 
 typedef signed int     s32;
 
@@ -299,274 +291,459 @@ typedef struct WifiBattleMatchParam {
 
 typedef struct MenuProcParam { u32 fieldMap; u32 mode; } MenuProcParam;
 
-typedef struct PartyMenuParam {
-    void *party;        /* 0x00 */
-    u32 pad04[2];
-    u32 listWork;       /* 0x0C */
-    u32 pad10[9];
-    u32 menuType;       /* 0x34 */
-    u32 cursorPos;      /* 0x38 */
-    u32 selectedPos;    /* 0x3C */
-} PartyMenuParam;
-
-typedef struct PartyMenuState {
-    void *party;        /* 0x00 */
-    u32 listWork;       /* 0x04 */
-    u32 gameData;       /* 0x08 */
-    u8 enabled;         /* 0x0C */
-    u8 cursor;          /* 0x0D */
-    u8 partyCount;      /* 0x0E */
-    u8 selectedPos;     /* 0x0F */
-    u8 reserved10;      /* 0x10 */
-    u8 pad11[7];
-    u32 zukanSave;      /* 0x18 */
-} PartyMenuState;
-
-typedef struct DaycareEventWork {
-    void *gameSystem;           /* 0x00 */
-    void *fieldMap;             /* 0x04 */
-    PartyMenuParam *menuParam;  /* 0x08 */
-    PartyMenuState *menuState;  /* 0x0C */
-    u16 *resultVar;             /* 0x10 */
-} DaycareEventWork;
-
 extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *, void *);
-extern void *SCRCMD_WORK_GetGameData(void *);
-extern void *GAME_DATA_GetMyParty(const struct GameData *);
-extern u32 POKEPARTY_GetCount(void *);
-extern void *POKEPARTY_GetMember(void *, u32 idx);
-extern u32 POKE_TOOL_GetPartyValue(void *, u32 id, u32);
-extern void POKE_TOOL_HealParty(void *);
-extern u16 VM_GetU16(struct ScriptVm *);
-extern void POKE_TOOL_SetPartyValue(void *, u32 id, u32);
-extern u32 POKEPARTY_FindFirstBattleReady(void *);
-extern u32 POKEPARTY_FindFirstNonEgg(void *);
-extern u32 POKEPARTY_GetCapacity(void *);
-extern u32 POKEPARTY_GetNonEggCount(void *);
-extern u32 POKEPARTY_GetBattleReadyCount(void *);
-extern u32 POKEPARTY_GetEggCount(void *);
-extern u32 POKEPARTY_GetBadEggCount(void *);
-extern u32 GAME_DATA_GetBoxManager(const struct GameData *);
-extern int func_02007984(void *);
-extern int func_020079A0(void *);
-extern void *SCRCMD_WORK_GetGameSystem(void *);
-extern u16 SCRCMD_WORK_GetHeapId(void *);
-extern u8 *GAME_DATA_GetMyStatus(void *);
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *);
-extern void POKE_TOOL_PushMove(void *, int move);
-extern void POKE_TOOL_SetMoveSlot(void *, u16 move, u32 slot);
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
-extern u32 func_02008530(const struct MyStatus *obj);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02008500(void *player, void *str);
-extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
-extern void STRBUF_Delete(struct Strbuf *vec);
-extern u8 func_02008550(const struct MyStatus *obj);
-extern void *SCRCMD_WORK_GetScriptWork(void *);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *);
-extern u32 POKE_TOOL_ChangeForm(void *, u32);
-extern void *ZUKAN_SAVE_GetFromGameData(void *);
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *, void *);
-extern u32 POKE_TOOL_SetRotomFormMove(void *, u32 idx, u32 val);
-extern u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap);
-extern int WAZA_OSHIE_IsListEntryValid(u16 *);
-extern u32 func_020307B0(void *);
-extern void POKE_TOOL_RecalcParam(void *);
-extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heap);
-extern void *func_02008510(void *, int tag);
-extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
-extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *, u32 field);
-extern void POKE_PERSONAL_Delete(void *);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void SAVE_EVENT_Write(void *mon, u32, void *, u32, u32 heap);
-extern u32 POKEPARTY_Add(struct Party *, const struct PokemonParam *src);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32, int, int, int, int, int);
-extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
-extern int FILE_UTIL_Get_0FE4(u16, u32, u16);
-extern unsigned short PALANM_GetPairedCodeForFirst(int);
-extern void *GAME_DATA_GetMyPlayerWork(struct GameData *);
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *);
-extern u32 ZONEDATA_GetPlaceNameId(u32 id);
-extern void *POKE_TOOL_GetBoxParam(void *);
-extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
-extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
-extern void *GAME_DATA_GetMiscSave(int *);
-extern u32 BEACON_AddPoints(struct MiscSave *, u32);
-extern u32 BEACON_SubPoints(struct MiscSave *, u32);
-extern u32 BEACON_GetPoints(struct MiscSave *);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
-extern void SCRIPT_SYS_CallEvent(void *, void *);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
-extern void *SCRIPT_WORK_GetUserWorkPtr(void *);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void GAMESYSTEM_CallProc(struct GameSystem *, u32 id, void *, void *);
-extern void VM_SetWait(char *, int val);
-extern u32 SCRIPT_WORK_GetUserWork(void *);
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *);
-extern int SCRIPT_WORK_FreeUserWork();
-extern void *BAG_PARAM_Create(const struct GameData *, int, int, int);
-extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *, int, int, int, int, int, int);
-extern int WAZA_OSHIE_Delete();
-extern void *WAZA_OSHIE_Create(u32 heap);
-extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *, int, int, int, int, int, int);
-extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *);
-extern int INTRUDE_COMM_GetWorkIfRunning(int);
-extern u8 GAME_DATA_GetExitMode(const struct GameData *);
-extern u8 GAME_DATA_GetIntrudeIdByte(void *);
-extern int INTRUDE_COMM_GetMemberNameNetId(u8 *);
-extern PlayerName *INTRUDE_COMM_GetMemberEntry(CommState *, int idx);
-extern void *GAME_DATA_GetSaveControl(struct GameData *);
-extern u16 *INTRUDE_GetFromSave(void *);
-extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct PlayerProfile *o);
-extern void *SCRIPT_WORK_GetEvent(void *);
-extern void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *, void *, int kind, int sub, int flag);
-extern void GAME_BEACON_SEARCH_SetScriptEvent(void);
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *, u32, u32 (*fn)(void *, u32), u32);
-extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
-extern void EVENT_MENUPROC_Entry(void);
-extern int func_02034AC4(s32 handle);
-extern void func_02034A5C(s32 handle);
-extern void GIMMICK_INIT_SetCartLanesFlags(unsigned int, int, int);
-extern void GIMMICK_INIT_SetFlagAnimeFlag(void *, int);
-extern void GIMMICK_INIT_SetButtonStatesFlags(unsigned int, int);
-extern void GIMMICK_INIT_RestorePlateDoorsState(unsigned int, unsigned short **);
-extern void GIMMICK_INIT_ResetRotatingRoomPanels(unsigned int);
-extern void *FIELDMAP_GetSodateya(void *);
-extern int SODATEYA_HasEgg(void *);
-extern void SODATEYA_ReceiveEgg(unsigned int *, unsigned int);
-extern void SODATEYA_DeclineEgg(void **);
-extern void *DAYCARE_GetFromSave(void *);
-extern void SODATEYA_DepositPokemon(unsigned int *, unsigned int, unsigned int);
-extern void SODATEYA_WithdrawPokemon(unsigned int *, unsigned int, unsigned int);
-extern int SODATEYA_GetPokemonCount();
-extern u8 SODATEYA_GetCompatibility(void **);
-extern void *SODATEYA_GetPokemon(void *, unsigned int);
-extern int SODATEYA_GetCurrentLevel(unsigned int *, unsigned int);
-extern int SODATEYA_GetLevelsGained(void **, int);
-extern int SODATEYA_GetWithdrawCost(void **, int);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
-extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
-extern void *FIELD_STATUS_CreateSubProcListEvent(char *, int, int, int);
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *);
-extern struct GameEvent *func_020122C0(void *owner, void *, void *, u32 size);
-extern void *func_020124E8(struct GameEvent *);
-int SCRCMD_PROC_LookupTableValue(int, int);
-int SCRCMD_PROC_GetPartyMember(void *, u32, void **);
-int SCRCMD_PROC_GetPartyMemberParam(void *, void *, void *);
-int SCRCMD_PROC_CheckMonKnowsMove(int, int);
-int SCRCMD_PROC_GetMonPairedParams(int, int);
-int SCRCMD_PROC_HealParty(int, int);
-int SCRCMD_PROC_GetMonEvTotal(void *, void *);
-int SCRCMD_PROC_CheckMonParamMismatch(int, int, int);
-int SCRCMD_PROC_CheckMonIsEgg(int, int, int);
-int SCRCMD_PROC_GetMonFriendship(int, int, int);
-int SCRCMD_PROC_ChangeMonFriendship(int, int);
-int SCRCMD_PROC_GetMonSpeciesOrEgg(int, int);
-int SCRCMD_PROC_GetMonForm(int, int, int);
-int SCRCMD_PROC_FindFirstPartyIndex(int, int);
-int SCRCMD_PROC_GetPartyCount(void *, void *);
-int SCRCMD_PROC_CountPartyMonsOfSpecies(void *, void *);
-int SCRCMD_PROC_GetBoxMonCount(void *, void *);
-int SCRCMD_PROC_FindPartyMonBySpecies(void *, void *);
-int SCRCMD_PROC_CheckPartyMonKnowsMove(int, int, int);
-int SCRCMD_PROC_FindPartyMonWithMove(void *, void *);
-int SCRCMD_PROC_AddMonToPartySimple(void *, void *);
-int SCRCMD_PROC_AddMonToPartyDetailed(void *, void *);
-int SCRCMD_PROC_CountMonMoves(int, int, int);
-int SCRCMD_PROC_GetMonMove(void *, void *);
-int SCRCMD_PROC_SetMonMove(void *, void *);
-int SCRCMD_PROC_CheckMonIsPlayerOwned(void *, void *);
-int SCRCMD_PROC_ChangeMonForm(void *, void *);
-int SCRCMD_PROC_SetRotomFormMove(void *, void *);
-int SCRCMD_PROC_GetRelearnableMoveCount(int, int, int);
-int SCRCMD_PROC_CheckMonParamMatchesTable(void *, void *);
-int SCRCMD_PROC_GetMonTripleParams(void *, void *);
-int SCRCMD_PROC_SetMonParamChecked(void *, void *);
-int SCRCMD_PROC_GetMonParamIfListed(void *, void *);
-int SCRCMD_PROC_AddMonToBoxSimple(void *, void *);
-int SCRCMD_PROC_AddMonToBoxDetailed(void *, void *);
-int SCRCMD_PROC_AddEggToParty(void *, void *);
-void *SCRCMD_PROC_CreateMonFromSpec(void *, PokemonSpec *);
-int SCRCMD_PROC_AddMonToBox(void *, void *);
-int SCRCMD_PROC_AddMonToParty(void *, void *);
-int SCRCMD_PROC_SetMiscValue(int, int);
-int SCRCMD_PROC_AddMiscValue(int, int);
-int SCRCMD_PROC_CheckMiscValueReached(void *, void *);
-int SCRCMD_PROC_CallFieldOpenEvent(void *, void *);
-int SCRCMD_PROC_CallFieldCloseEvent(int, int);
-void SCRCMD_PROC_StartOverlayProc(void *, void *, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData);
-int SCRCMD_PROC_WaitOverlayProc(int, int);
-int SCRCMD_PROC_ResetEventSlot(int, int);
-void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData);
-int SCRCMD_PROC_CallBagScreen(void *, void *);
-void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData);
-int SCRCMD_PROC_CallGtsNegotiation(void *, void *);
-int SCRCMD_PROC_OnMoveRelearnDone(int, int);
-int SCRCMD_PROC_CallMoveRelearn(void *, void *);
-int SCRCMD_PROC_CallPlayerProfile(void *, void *);
-int SCRCMD_PROC_CallSubEvent(void *, void *);
-int SCRCMD_PROC_CallValueScreen(void *, void *);
-int SCRCMD_PROC_CallModeScreen(void *, void *);
-int SCRCMD_PROC_CallWordScreen(void *, void *);
-int SCRCMD_PROC_WaitNothing(int, int);
-int SCRCMD_PROC_CallWifiBattleMatch(void *, void *);
-int SCRCMD_PROC_CallMenuProc(void *, void *);
-int SCRCMD_PROC_Ov037InitFromVars(void *, void *);
-int SCRCMD_PROC_Ov037SetValueA(void *, void *);
-int SCRCMD_PROC_Ov037SetValueB(void *, void *);
-int SCRCMD_PROC_Ov037ReadEightVars(void *, void *);
-int SCRCMD_PROC_Ov037Finish(void *, void *);
-int SCRCMD_PROC_GetDaycareState(int, int);
-int SCRCMD_PROC_DaycareInitFromParty(void *, void *);
-int SCRCMD_PROC_StopDaycareTimer(int, int);
-int SCRCMD_PROC_CallDaycarePartyMenu(void *, void *);
-int SCRCMD_PROC_DepositDaycareMon(void *, void *);
-int SCRCMD_PROC_WithdrawDaycareMon(void *, void *);
-int SCRCMD_PROC_GetDaycareMonCount(int, int);
-int SCRCMD_PROC_CheckDaycareEgg(int, int);
-int SCRCMD_PROC_GetDaycareMonSpecies(void *, void *);
-int SCRCMD_PROC_GetDaycareMonForm(void *, void *);
-int SCRCMD_PROC_GetDaycareMonGender(void *, void *);
-int SCRCMD_PROC_GetDaycareSlotExp(void *, void *);
-int SCRCMD_PROC_GetDaycareSlotLevelsGrown(void *, void *);
-int SCRCMD_PROC_GetDaycareSlotPrice(void *, void *);
-int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(void *, void *);
-int SCRCMD_PROC_GetDaycareGenderKind(void *);
-int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *work);
-void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar);
-extern const u16 sScrcmdLookupTable[];
-extern u8 g0209DF08;
-extern u16 sScrcmdCompareTable[];
-extern struct { u16 paramId; u16 maxValue; } sScrcmdParamLimits[6];
-extern const u8 sScrcmdAllowedParamIds[];
-extern void *gSpeciesNameBank;
-extern const char sAllocSiteScrcmdProc[];
-extern const u8 gItemMenuProcData[];
-extern u8 ov070_id[];
-extern const u8 gMbSeqProcData[];
-extern u8 ov136_id[];
-extern const u8 gMoveRelearnProcData[];
-extern u8 ov173_id[];
-extern const u8 gPlayerProfileProcData[];
-extern u8 ov071_id[];
-extern const u8 gLocalTvtSysProcData[];
-extern u8 ov174_id[];
-extern const u8 gChihouZukanAwardProcData[];
-extern const u8 gZenkokuZukanAwardProcData[];
-extern const u8 gSubwayMapProcData[];
-extern u8 ov221_id[];
-extern u8 ov222_id[];
-extern u8 ov224_id[];
-extern const u8 gPselProcData[];
-extern u8 ov223_id[];
-extern u8 ov002_id[];
-extern char ov003_id[];
-extern char ov037_id[];
-extern const char sAllocSiteScrcmdSodateya[];
 
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *, void *);
+
+extern void *SCRCMD_WORK_GetGameData(void *);
+
+extern void *GAME_DATA_GetMyParty(const struct GameData *);
+
+extern u32 POKEPARTY_GetCount(void *);
+
+extern void *POKEPARTY_GetMember(void *, u32 idx);
+
+extern u32 POKE_TOOL_GetPartyValue(void *, u32 id, u32);
+
+extern void POKE_TOOL_HealParty(void *);
+
+extern u16 VM_GetU16(struct ScriptVm *);
+
+extern void POKE_TOOL_SetPartyValue(void *, u32 id, u32);
+
+extern u32 POKEPARTY_FindFirstBattleReady(void *);
+
+extern u32 POKEPARTY_FindFirstNonEgg(void *);
+
+extern u32 POKEPARTY_GetCapacity(void *);
+
+extern u32 POKEPARTY_GetNonEggCount(void *);
+
+extern u32 POKEPARTY_GetBattleReadyCount(void *);
+
+extern u32 POKEPARTY_GetEggCount(void *);
+
+extern u32 POKEPARTY_GetBadEggCount(void *);
+
+extern u32 GAME_DATA_GetBoxManager(const struct GameData *);
+
+extern int func_02007984(void *);
+
+extern int func_020079A0(void *);
+
+extern void *SCRCMD_WORK_GetGameSystem(void *);
+
+extern u16 SCRCMD_WORK_GetHeapId(void *);
+
+extern u8 *GAME_DATA_GetMyStatus(void *);
+
+extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *);
+
+extern void POKE_TOOL_PushMove(void *, int move);
+
+extern void POKE_TOOL_SetMoveSlot(void *, u16 move, u32 slot);
+
+extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
+
+extern u32 func_02008530(const struct MyStatus *obj);
+
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+
+extern void func_02008500(void *player, void *str);
+
+extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
+
+extern void STRBUF_Delete(struct Strbuf *vec);
+
+extern u8 func_02008550(const struct MyStatus *obj);
+
+extern void *SCRCMD_WORK_GetScriptWork(void *);
+
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *);
+
+extern u32 POKE_TOOL_ChangeForm(void *, u32);
+
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *, void *);
+
+extern u32 POKE_TOOL_SetRotomFormMove(void *, u32 idx, u32 val);
+
+extern u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap);
+
+extern int WAZA_OSHIE_IsListEntryValid(u16 *);
+
+extern u32 func_020307B0(void *);
+
+extern void POKE_TOOL_RecalcParam(void *);
+
+extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heap);
+
+extern void *func_02008510(void *, int tag);
+
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+
+extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *, u32 field);
+
+extern void POKE_PERSONAL_Delete(void *);
+
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+
+extern void SAVE_EVENT_Write(void *mon, u32, void *, u32, u32 heap);
+
+extern u32 POKEPARTY_Add(struct Party *, const struct PokemonParam *src);
+
+extern u32 POKE_TOOL_CreatePersonalRnd(u32, int, int, int, int, int);
+
+extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
+
+extern int FILE_UTIL_Get_0FE4(u16, u32, u16);
+
+extern unsigned short PALANM_GetPairedCodeForFirst(int);
+
+extern void *GAME_DATA_GetMyPlayerWork(struct GameData *);
+
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *);
+
+extern u32 ZONEDATA_GetPlaceNameId(u32 id);
+
+extern void *POKE_TOOL_GetBoxParam(void *);
+
+extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
+
+extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
+
+extern void *GAME_DATA_GetMiscSave(int *);
+
+extern u32 BEACON_AddPoints(struct MiscSave *, u32);
+
+extern u32 BEACON_SubPoints(struct MiscSave *, u32);
+
+extern u32 BEACON_GetPoints(struct MiscSave *);
+
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
+
+extern void SCRIPT_SYS_CallEvent(void *, void *);
+
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *);
+
+extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
+
+extern void *SCRIPT_WORK_GetUserWorkPtr(void *);
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern void GAMESYSTEM_CallProc(struct GameSystem *, u32 id, void *, void *);
+
+extern void VM_SetWait(char *, int val);
+
+extern u32 SCRIPT_WORK_GetUserWork(void *);
+
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *);
+
+extern int SCRIPT_WORK_FreeUserWork();
+
+extern void *BAG_PARAM_Create(const struct GameData *, int, int, int);
+
+extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *, int, int, int, int, int, int);
+
+extern int WAZA_OSHIE_Delete();
+
+extern void *WAZA_OSHIE_Create(u32 heap);
+
+extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *, int, int, int, int, int, int);
+
+extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *);
+
+extern int INTRUDE_COMM_GetWorkIfRunning(int);
+
+extern u8 GAME_DATA_GetExitMode(const struct GameData *);
+
+extern u8 GAME_DATA_GetIntrudeIdByte(void *);
+
+extern int INTRUDE_COMM_GetMemberNameNetId(u8 *);
+
+extern PlayerName *INTRUDE_COMM_GetMemberEntry(CommState *, int idx);
+
+extern void *GAME_DATA_GetSaveControl(struct GameData *);
+
+extern u16 *INTRUDE_GetFromSave(void *);
+
+extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct PlayerProfile *o);
+
+extern void *SCRIPT_WORK_GetEvent(void *);
+
+extern void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *, void *, int kind, int sub, int flag);
+
+extern void GAME_BEACON_SEARCH_SetScriptEvent(void);
+
+extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *, u32, u32 (*fn)(void *, u32), u32);
+
+extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
+
+extern void EVENT_MENUPROC_Entry(void);
+
+extern int func_02034AC4(s32 handle);
+
+extern void func_02034A5C(s32 handle);
+
+extern void GIMMICK_INIT_SetCartLanesFlags(unsigned int, int, int);
+
+extern void GIMMICK_INIT_SetFlagAnimeFlag(void *, int);
+
+extern void GIMMICK_INIT_SetButtonStatesFlags(unsigned int, int);
+
+extern void GIMMICK_INIT_RestorePlateDoorsState(unsigned int, unsigned short **);
+
+extern void GIMMICK_INIT_ResetRotatingRoomPanels(unsigned int);
+
+extern void *FIELDMAP_GetSodateya(void *);
+
+extern int SODATEYA_HasEgg(void *);
+
+extern void SODATEYA_ReceiveEgg(unsigned int *, unsigned int);
+
+extern void SODATEYA_DeclineEgg(void **);
+
+extern void *DAYCARE_GetFromSave(void *);
+
+extern void SODATEYA_DepositPokemon(unsigned int *, unsigned int, unsigned int);
+
+extern void SODATEYA_WithdrawPokemon(unsigned int *, unsigned int, unsigned int);
+
+extern int SODATEYA_GetPokemonCount();
+
+extern u8 SODATEYA_GetCompatibility(void **);
+
+extern void *SODATEYA_GetPokemon(void *, unsigned int);
+
+extern int SODATEYA_GetCurrentLevel(unsigned int *, unsigned int);
+
+extern int SODATEYA_GetLevelsGained(void **, int);
+
+extern int SODATEYA_GetWithdrawCost(void **, int);
+
+int SCRCMD_PROC_LookupTableValue(int, int);
+
+int SCRCMD_PROC_GetPartyMember(void *, u32, void **);
+
+int SCRCMD_PROC_GetPartyMemberParam(void *, void *, void *);
+
+int SCRCMD_PROC_CheckMonKnowsMove(int, int);
+
+int SCRCMD_PROC_GetMonPairedParams(int, int);
+
+int SCRCMD_PROC_HealParty(int, int);
+
+int SCRCMD_PROC_GetMonEvTotal(void *, void *);
+
+int SCRCMD_PROC_CheckMonParamMismatch(int, int, int);
+
+int SCRCMD_PROC_CheckMonIsEgg(int, int, int);
+
+int SCRCMD_PROC_GetMonFriendship(int, int, int);
+
+int SCRCMD_PROC_ChangeMonFriendship(int, int);
+
+int SCRCMD_PROC_GetMonSpeciesOrEgg(int, int);
+
+int SCRCMD_PROC_GetMonForm(int, int, int);
+
+int SCRCMD_PROC_FindFirstPartyIndex(int, int);
+
+int SCRCMD_PROC_GetPartyCount(void *, void *);
+
+int SCRCMD_PROC_CountPartyMonsOfSpecies(void *, void *);
+
+int SCRCMD_PROC_GetBoxMonCount(void *, void *);
+
+int SCRCMD_PROC_FindPartyMonBySpecies(void *, void *);
+
+int SCRCMD_PROC_CheckPartyMonKnowsMove(int, int, int);
+
+int SCRCMD_PROC_FindPartyMonWithMove(void *, void *);
+
+int SCRCMD_PROC_AddMonToPartySimple(void *, void *);
+
+int SCRCMD_PROC_AddMonToPartyDetailed(void *, void *);
+
+int SCRCMD_PROC_CountMonMoves(int, int, int);
+
+int SCRCMD_PROC_GetMonMove(void *, void *);
+
+int SCRCMD_PROC_SetMonMove(void *, void *);
+
+int SCRCMD_PROC_CheckMonIsPlayerOwned(void *, void *);
+
+int SCRCMD_PROC_ChangeMonForm(void *, void *);
+
+int SCRCMD_PROC_SetRotomFormMove(void *, void *);
+
+int SCRCMD_PROC_GetRelearnableMoveCount(int, int, int);
+
+int SCRCMD_PROC_CheckMonParamMatchesTable(void *, void *);
+
+int SCRCMD_PROC_GetMonTripleParams(void *, void *);
+
+int SCRCMD_PROC_SetMonParamChecked(void *, void *);
+
+int SCRCMD_PROC_GetMonParamIfListed(void *, void *);
+
+int SCRCMD_PROC_AddMonToBoxSimple(void *, void *);
+
+int SCRCMD_PROC_AddMonToBoxDetailed(void *, void *);
+
+int SCRCMD_PROC_AddEggToParty(void *, void *);
+
+void *SCRCMD_PROC_CreateMonFromSpec(void *, PokemonSpec *);
+
+int SCRCMD_PROC_AddMonToBox(void *, void *);
+
+int SCRCMD_PROC_AddMonToParty(void *, void *);
+
+int SCRCMD_PROC_SetMiscValue(int, int);
+
+int SCRCMD_PROC_AddMiscValue(int, int);
+
+int SCRCMD_PROC_CheckMiscValueReached(void *, void *);
+
+int SCRCMD_PROC_CallFieldOpenEvent(void *, void *);
+
+int SCRCMD_PROC_CallFieldCloseEvent(int, int);
+
+void SCRCMD_PROC_StartOverlayProc(void *, void *, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData);
+
+int SCRCMD_PROC_WaitOverlayProc(int, int);
+
+int SCRCMD_PROC_ResetEventSlot(int, int);
+
+void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData);
+
+int SCRCMD_PROC_CallBagScreen(void *, void *);
+
+void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData);
+
+int SCRCMD_PROC_CallGtsNegotiation(void *, void *);
+
+int SCRCMD_PROC_OnMoveRelearnDone(int, int);
+
+int SCRCMD_PROC_CallMoveRelearn(void *, void *);
+
+int SCRCMD_PROC_CallPlayerProfile(void *, void *);
+
+int SCRCMD_PROC_CallSubEvent(void *, void *);
+
+int SCRCMD_PROC_CallValueScreen(void *, void *);
+
+int SCRCMD_PROC_CallModeScreen(void *, void *);
+
+int SCRCMD_PROC_CallWordScreen(void *, void *);
+
+int SCRCMD_PROC_WaitNothing(int, int);
+
+int SCRCMD_PROC_CallWifiBattleMatch(void *, void *);
+
+int SCRCMD_PROC_CallMenuProc(void *, void *);
+
+int SCRCMD_PROC_Ov037InitFromVars(void *, void *);
+
+int SCRCMD_PROC_Ov037SetValueA(void *, void *);
+
+int SCRCMD_PROC_Ov037SetValueB(void *, void *);
+
+int SCRCMD_PROC_Ov037ReadEightVars(void *, void *);
+
+int SCRCMD_PROC_Ov037Finish(void *, void *);
+
+int SCRCMD_PROC_GetDaycareState(int, int);
+
+int SCRCMD_PROC_DaycareInitFromParty(void *, void *);
+
+int SCRCMD_PROC_StopDaycareTimer(int, int);
+
+int SCRCMD_PROC_CallDaycarePartyMenu(void *, void *);
+
+int SCRCMD_PROC_DepositDaycareMon(void *, void *);
+
+int SCRCMD_PROC_WithdrawDaycareMon(void *, void *);
+
+int SCRCMD_PROC_GetDaycareMonCount(int, int);
+
+int SCRCMD_PROC_CheckDaycareEgg(int, int);
+
+int SCRCMD_PROC_GetDaycareMonSpecies(void *, void *);
+
+int SCRCMD_PROC_GetDaycareMonForm(void *, void *);
+
+int SCRCMD_PROC_GetDaycareMonGender(void *, void *);
+
+int SCRCMD_PROC_GetDaycareSlotExp(void *, void *);
+
+int SCRCMD_PROC_GetDaycareSlotLevelsGrown(void *, void *);
+
+int SCRCMD_PROC_GetDaycareSlotPrice(void *, void *);
+
+int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(void *, void *);
+
+int SCRCMD_PROC_GetDaycareGenderKind(void *);
+
+void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar);
+
+extern const u16 sScrcmdLookupTable[];
+
+extern u8 g0209DF08;
+
+extern u16 sScrcmdCompareTable[];
+
+extern struct { u16 paramId; u16 maxValue; } sScrcmdParamLimits[6];
+
+extern const u8 sScrcmdAllowedParamIds[];
+
+extern void *gSpeciesNameBank;
+
+extern const char sAllocSiteScrcmdProc[];
+
+extern const u8 gItemMenuProcData[];
+
+extern u8 ov070_id[];
+
+extern const u8 gMbSeqProcData[];
+
+extern u8 ov136_id[];
+
+extern const u8 gMoveRelearnProcData[];
+
+extern u8 ov173_id[];
+
+extern const u8 gPlayerProfileProcData[];
+
+extern u8 ov071_id[];
+
+extern const u8 gLocalTvtSysProcData[];
+
+extern u8 ov174_id[];
+
+extern const u8 gChihouZukanAwardProcData[];
+
+extern const u8 gZenkokuZukanAwardProcData[];
+
+extern const u8 gSubwayMapProcData[];
+
+extern u8 ov221_id[];
+
+extern u8 ov222_id[];
+
+extern u8 ov224_id[];
+
+extern const u8 gPselProcData[];
+
+extern u8 ov223_id[];
+
+extern u8 ov002_id[];
+
+extern char ov003_id[];
+
+extern char ov037_id[];
 
 /*
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
@@ -578,8 +755,6 @@ int SCRCMD_PROC_LookupTableValue(int vm,int cmdWork)
     *resultVar = sScrcmdLookupTable[tableIndex];
     return 0;
 }
-
-
 
 int SCRCMD_PROC_GetPartyMember(void *cmdWork, u32 partyIndex, void **outMemberArg)
 {
@@ -607,8 +782,6 @@ store:
 *outMember = member;
     return isValid;}
 
-
-
 /*
  * Unpacks a record into a local and, when the overlay call says it took,
  * forwards the record and the third argument to the arm9 side.
@@ -622,8 +795,6 @@ int SCRCMD_PROC_GetPartyMemberParam(void *cmdWork, void *partyIndex, void *param
 
     return 0;
 }
-
-
 
 int SCRCMD_PROC_CheckMonKnowsMove(int callArg0, int callArg1)
 {
@@ -669,7 +840,6 @@ notFound:
 callArg0 = zero + 0;
     return callArg0;}
 
-
 int SCRCMD_PROC_GetMonPairedParams(int vm, int cmdWork)
 {
     u16 *firstResultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm, (void *)cmdWork);
@@ -685,8 +855,6 @@ int SCRCMD_PROC_GetMonPairedParams(int vm, int cmdWork)
     return 0;
 }
 
-
-
 int SCRCMD_PROC_HealParty(int callArg0, int callArg1)
 {
     void *gameData;
@@ -699,12 +867,9 @@ callArg0 = callArg1 + 0;
 callArg0 = 0;
     return callArg0;}
 
-
 #pragma opt_lifetimes off
 
-
 #pragma opt_propagation off
-
 
 /*
  * 2026-10-05 (wave P14 C6): closed with per-function opt_lifetimes off plus
@@ -731,13 +896,9 @@ int SCRCMD_PROC_GetMonEvTotal(void *vm, void *cmdWork)
     return 0;
 }
 
-
 #pragma opt_lifetimes reset
 
-
 #pragma opt_propagation reset
-
-
 
 int SCRCMD_PROC_CheckMonParamMismatch(int callArg0, int callArg1, int callArg2)
 {
@@ -784,8 +945,6 @@ callArg0 = 0;
     return callArg0;
 }
 
-
-
 int SCRCMD_PROC_CheckMonIsEgg(int callArg0, int callArg1, int callArg2)
 {
     unsigned char monSlot[4];
@@ -820,8 +979,6 @@ callArg0 = 0;
     return callArg0;
 }
 
-
-
 int SCRCMD_PROC_GetMonFriendship(int callArg0, int callArg1, int callArg2)
 {
     unsigned char monSlot[4];
@@ -855,7 +1012,6 @@ done:
 callArg0 = 0;
     return callArg0;
 }
-
 
 int SCRCMD_PROC_ChangeMonFriendship(int vm, int cmdWork)
 {
@@ -898,7 +1054,6 @@ int SCRCMD_PROC_ChangeMonFriendship(int vm, int cmdWork)
     return 0;
 }
 
-
 int SCRCMD_PROC_GetMonSpeciesOrEgg(int vm,int cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm,(void *)cmdWork);
@@ -906,8 +1061,6 @@ int SCRCMD_PROC_GetMonSpeciesOrEgg(int vm,int cmdWork)
     if (SCRCMD_PROC_GetPartyMemberParam((void *)cmdWork,(void *)partyIndex,(void *)0x4C) != 0) *resultVar = 0x28A; else *resultVar = SCRCMD_PROC_GetPartyMemberParam((void *)cmdWork,(void *)partyIndex,(void *)5);
     return 0;
 }
-
-
 
 int SCRCMD_PROC_GetMonForm(int callArg0, int callArg1, int callArg2)
 {
@@ -928,8 +1081,6 @@ callArg2 = 0x6f;
 *resultVar = callArg0;
 callArg0 = 0;
     return callArg0;}
-
-
 
 int SCRCMD_PROC_FindFirstPartyIndex(int callArg0, int callArg1)
 {
@@ -964,8 +1115,6 @@ store:
 *resultVar = callArg0;
 callArg0 = 0;
     return callArg0;}
-
-
 
 int SCRCMD_PROC_GetPartyCount(void *vm, void *cmdWork)
 {
@@ -1008,8 +1157,6 @@ int SCRCMD_PROC_GetPartyCount(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
 int SCRCMD_PROC_CountPartyMonsOfSpecies(void *vm, void *cmdWork)
 {
     u32 species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1037,8 +1184,6 @@ int SCRCMD_PROC_CountPartyMonsOfSpecies(void *vm, void *cmdWork)
     }
     return 0;
 }
-
-
 
 int SCRCMD_PROC_GetBoxMonCount(void *vm, void *cmdWork)
 {
@@ -1077,8 +1222,6 @@ int SCRCMD_PROC_GetBoxMonCount(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
 int SCRCMD_PROC_FindPartyMonBySpecies(void *vm, void *cmdWork)
 {
     u32 species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1111,8 +1254,6 @@ int SCRCMD_PROC_FindPartyMonBySpecies(void *vm, void *cmdWork)
     }
     return 0;
 }
-
-
 
 int SCRCMD_PROC_CheckPartyMonKnowsMove(int callArg0, int callArg1, int callArg2)
 {
@@ -1149,8 +1290,6 @@ callArg0 = 0;
     return callArg0;
 }
 
-
-
 int SCRCMD_PROC_FindPartyMonWithMove(void *vm, void *cmdWork)
 {
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
@@ -1168,8 +1307,6 @@ int SCRCMD_PROC_FindPartyMonWithMove(void *vm, void *cmdWork)
     }
     return 0;
 }
-
-
 
 int SCRCMD_PROC_AddMonToPartySimple(void *vm, void *cmdWork)
 {
@@ -1202,12 +1339,6 @@ int SCRCMD_PROC_AddMonToPartySimple(void *vm, void *cmdWork)
     *resultVar = SCRCMD_PROC_AddMonToParty(gameData, &spec);
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Sibling of SCRCMD_PROC_AddMonToPartySimple (same request record, eight reads instead of
@@ -1262,12 +1393,6 @@ int SCRCMD_PROC_AddMonToPartyDetailed(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_CountMonMoves(int callArg0, int callArg1, int callArg2)
 {
     int mon;
@@ -1306,12 +1431,6 @@ callArg0 = 0;
     return callArg0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_GetMonMove(void *vm, void *cmdWork)
 {
     u16 *resultVar;
@@ -1329,12 +1448,6 @@ int SCRCMD_PROC_GetMonMove(void *vm, void *cmdWork)
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Script command: reads a party slot, a move slot and a move. A move slot
@@ -1387,12 +1500,6 @@ int SCRCMD_PROC_SetMonMove(void *vm, void *cmdWork)
     POKE_TOOL_EncodePartyParam(mon, saved);
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * Script command: is the party member in the given slot the player's own
@@ -1458,12 +1565,6 @@ int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_ChangeMonForm(void *vm, void *cmdWork)
 {
     void *partyIndex = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1478,12 +1579,6 @@ int SCRCMD_PROC_ChangeMonForm(void *vm, void *cmdWork)
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_SetRotomFormMove(void *vm, void *cmdWork)
 {
@@ -1500,12 +1595,6 @@ int SCRCMD_PROC_SetRotomFormMove(void *vm, void *cmdWork)
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_GetRelearnableMoveCount(int callArg0, int callArg1, int callArg2)
 {
@@ -1541,12 +1630,6 @@ callArg0 = 0;
     return callArg0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_CheckMonParamMatchesTable(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -1561,12 +1644,6 @@ int SCRCMD_PROC_CheckMonParamMatchesTable(void *vm, void *cmdWork)
     }
     return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_GetMonTripleParams(void *vm, void *cmdWork)
 {
@@ -1587,12 +1664,6 @@ int SCRCMD_PROC_GetMonTripleParams(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_SetMonParamChecked(void *vm, void *cmdWork)
 {
     int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1612,11 +1683,6 @@ int SCRCMD_PROC_SetMonParamChecked(void *vm, void *cmdWork)
     }
     return 0;
 }
-
-
-
-
-
 
 /*
  * lever: selector remains live in r2 and is SCRCMD_PROC_GetPartyMemberParam's third argument.
@@ -1639,10 +1705,6 @@ int SCRCMD_PROC_GetMonParamIfListed(void *vm, void *cmdWork)
     *resultVar = 0;
     return 0;
 }
-
-
-
-
 
 /*
  * Script command: reads a destination variable and three arguments,
@@ -1680,10 +1742,6 @@ int SCRCMD_PROC_AddMonToBoxSimple(void *vm, void *cmdWork)
     *resultVar = SCRCMD_PROC_AddMonToBox(gameData, &spec);
     return 0;
 }
-
-
-
-
 
 /*
  * Script command, sibling of SCRCMD_PROC_AddMonToBoxSimple: reads a destination variable
@@ -1745,10 +1803,6 @@ int SCRCMD_PROC_AddMonToBoxDetailed(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
 /*
  * Script command: add a level-1 Pokemon egg of the given species and
  * form to the party (hatch counter from the personal data, the egg name
@@ -1802,10 +1856,6 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
 /*
  * lever: POKE_TOOL_CreateEx's matched signature has two u64 inputs; widening the
  * personality result to u64 schedules its high zero before the low-word store.
@@ -1828,11 +1878,6 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     return trainerIdOrMon;
 }
 
-
-
-
-
-
 int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
 {
     void *boxManager;
@@ -1847,11 +1892,6 @@ int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
     func_020307B0(mon);
     return 1;
 }
-
-
-
-
-
 
 int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
 {
@@ -1868,10 +1908,6 @@ int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
     return 1;
 }
 
-
-
-
-
 /*
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  */
@@ -1885,10 +1921,6 @@ int SCRCMD_PROC_SetMiscValue(int vm,int cmdWork)
     return 0;
 }
 
-
-
-
-
 int SCRCMD_PROC_AddMiscValue(int vm,int cmdWork)
 {
     void *gameData = SCRCMD_WORK_GetGameData((void *)cmdWork);
@@ -1899,11 +1931,6 @@ int SCRCMD_PROC_AddMiscValue(int vm,int cmdWork)
     return 0;
 }
 
-
-
-
-
-
 int SCRCMD_PROC_CheckMiscValueReached(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -1913,10 +1940,6 @@ int SCRCMD_PROC_CheckMiscValueReached(void *vm, void *cmdWork)
     *resultVar = value <= BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData)) ? 1 : 0;
     return 0;
 }
-
-
-
-
 
 /*
  * Two overlay lookups on the second argument, the second of them classified
@@ -1930,13 +1953,6 @@ int SCRCMD_PROC_CallFieldOpenEvent(void *vm, void *cmdWork)
 
     return 1;
 }
-
-
-
-
-
-
-
 
 int SCRCMD_PROC_CallFieldCloseEvent(int callArg0, int callArg1)
 {
@@ -1956,14 +1972,6 @@ callArg1 = callArg0 + 0;
     SCRIPT_SYS_CallEvent(eventSlot, (void *)callArg1);
 callArg0 = 1;
     return callArg0;}
-
-
-
-
-
-
-
-
 
 /*
  * Starts a child process from an overlay on behalf of a script command:
@@ -1987,14 +1995,6 @@ void SCRCMD_PROC_StartOverlayProc(void *vm, void *cmdWork, u32 overlayId, const 
     *handoffSlot = handoff;
     VM_SetWait(vm, (int)SCRCMD_PROC_WaitOverlayProc);
 }
-
-
-
-
-
-
-
-
 
 int SCRCMD_PROC_WaitOverlayProc(int callArg0, int callArg1)
 {
@@ -2034,14 +2034,6 @@ callArg0 = cmdWorkOrSlot + 0;
 callArg0 = 1;
     return callArg0;}
 
-
-
-
-
-
-
-
-
 int SCRCMD_PROC_ResetEventSlot(int callArg0, int callArg1)
 {
     void *eventSlot;
@@ -2051,12 +2043,6 @@ callArg0 = callArg1 + 0;
     callArg0 = SCRIPT_WORK_FreeUserWork(eventSlot);
 callArg0 = 1;
     return callArg0;}
-
-
-
-
-
-
 
 /*
  * lever: Stores in both if/else arms retain the zero-first full branch;
@@ -2074,13 +2060,6 @@ void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData)
     func_020307B0(closeData->resultVars);
     func_020307B0(closeData->bagParam);
 }
-
-
-
-
-
-
-
 
 /*
  * Script command: reads a selector and two words, maps the selector
@@ -2120,11 +2099,6 @@ int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
 /*
  * Unlabelled Thumb leaf (callback of SCRCMD_PROC_CallGtsNegotiation): stores whether the
  * first record's word at +4 equals 1 into the halfword the second record
@@ -2138,13 +2112,6 @@ void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData)
         *callbackData->resultVar = 0;
     func_020307B0(callbackData->param);
 }
-
-
-
-
-
-
-
 
 /*
  * Script command: allocates two 8-byte records (a work holding the
@@ -2176,13 +2143,6 @@ int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
-
-
 int SCRCMD_PROC_OnMoveRelearnDone(int callArg0, int callArg1)
 {
     int callbackData;
@@ -2207,13 +2167,6 @@ callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
     callArg0 = WAZA_OSHIE_Delete(callArg0);
     return callArg0;}
 
-
-
-
-
-
-
-
 static inline void MoveRelearnParam_Init(MoveRelearnParam *param, void *mon, void *myStatus, void *gameSystem, void *moves)
 {
     enum One { ONE = 1 } one;
@@ -2225,12 +2178,6 @@ static inline void MoveRelearnParam_Init(MoveRelearnParam *param, void *mon, voi
     one = ONE;
     param->enabled = one;
 }
-
-
-
-
-
-
 
 /*
  * lever: enum one assigned immediately before the enabled store in the inline
@@ -2267,13 +2214,6 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
     SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, (int)fieldMap, (u32)ov173_id, (int)gMoveRelearnProcData, (int)relearnParam, (int)((void *)SCRCMD_PROC_OnMoveRelearnDone), (int)callbackData));
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * Script command: opens the ov071 process on a 0x40-byte work. When the
@@ -2325,13 +2265,6 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
-
-
 /*
  * Script command: reads two words and stores EVENT_FIELD_PROCLINK_CreateCommExitEvent's result
  * (over the system and the script's cell) in the script's slot.
@@ -2350,13 +2283,6 @@ int SCRCMD_PROC_CallSubEvent(void *vm, void *cmdWork)
     SCRIPT_SYS_CallEvent(eventSlot, EVENT_FIELD_PROCLINK_CreateCommExitEvent(gameSystem, SCRIPT_WORK_GetEvent(eventSlot), firstArg, secondArg, 0));
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * Script command: reads one halfword and the system, boxes them in an
@@ -2380,13 +2306,6 @@ int SCRCMD_PROC_CallValueScreen(void *vm, void *cmdWork)
     SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov174_id, gLocalTvtSysProcData, param, 0, 0);
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * Script command: reads a mode (0-2) and a word; unless the mode is 2
@@ -2441,13 +2360,6 @@ int SCRCMD_PROC_CallModeScreen(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
-
-
 /*
  * Script command: reads one word from the script stream, boxes it in a
  * 4-byte hand-off record and opens overlay 0xDF over it.
@@ -2468,13 +2380,6 @@ int SCRCMD_PROC_CallWordScreen(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
-
-
 int SCRCMD_PROC_WaitNothing(int callArg0, int callArg1)
 {
     int cmdWorkCopy;
@@ -2488,13 +2393,6 @@ callArg0 = cmdWorkCopy + 0;
     gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
 callArg0 = 1;
     return callArg0;}
-
-
-
-
-
-
-
 
 /*
  * Script command: reads a kind (0xF-0x13 mapped to 0-4) and a flag (0/1),
@@ -2548,13 +2446,6 @@ int SCRCMD_PROC_CallWifiBattleMatch(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
-
-
 /*
  * The ov003 callback 0x021543BC (unlabelled leaf, formerly the blocker) is
  * matched in pkt_ov003_021543BC and attests as matched.
@@ -2571,13 +2462,6 @@ int SCRCMD_PROC_CallMenuProc(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
-
-
 int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2589,13 +2473,6 @@ int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
-
 int SCRCMD_PROC_Ov037SetValueA(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2606,12 +2483,6 @@ int SCRCMD_PROC_Ov037SetValueA(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2621,12 +2492,6 @@ int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
     func_02034A5C((int)ov037_id);
     return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
 {
@@ -2646,12 +2511,6 @@ int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2660,12 +2519,6 @@ int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
     func_02034A5C((int)ov037_id);
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * unblocked: SODATEYA_HasEgg (ov021, unlabelled leaf) was matched bottom-up
@@ -2689,12 +2542,6 @@ callArg0 = cmdWorkCopy + 0;
 callArg0 = 0;
     return callArg0;}
 
-
-
-
-
-
-
 int SCRCMD_PROC_DaycareInitFromParty(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2702,12 +2549,6 @@ int SCRCMD_PROC_DaycareInitFromParty(void *vm, void *cmdWork)
     SODATEYA_ReceiveEgg(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(gameSystem)), (unsigned int)party);
     return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_StopDaycareTimer(int callArg0, int callArg1)
 {
@@ -2720,12 +2561,6 @@ callArg0 = callArg1 + 0;
     SODATEYA_DeclineEgg((void **)FIELDMAP_GetSodateya(fieldMap));
 callArg0 = 0;
     return callArg0;}
-
-
-
-
-
-
 
 int SCRCMD_PROC_CallDaycarePartyMenu(void *vm, void *cmdWork)
 {
@@ -2740,12 +2575,6 @@ int SCRCMD_PROC_CallDaycarePartyMenu(void *vm, void *cmdWork)
     return 1;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_DepositDaycareMon(void *vm, void *cmdWork)
 {
     int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2754,12 +2583,6 @@ int SCRCMD_PROC_DepositDaycareMon(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_WithdrawDaycareMon(void *vm, void *cmdWork)
 {
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2767,12 +2590,6 @@ int SCRCMD_PROC_WithdrawDaycareMon(void *vm, void *cmdWork)
     SODATEYA_WithdrawPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot, (unsigned int)party);
     return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_GetDaycareMonCount(int callArg0, int callArg1)
 {    int cmdWorkCopy;
@@ -2790,12 +2607,6 @@ callArg0 = cmdWorkCopy + 0;
 callArg0 = 0;
     return callArg0;}
 
-
-
-
-
-
-
 int SCRCMD_PROC_CheckDaycareEgg(int callArg0, int callArg1)
 {    int cmdWorkCopy;
     unsigned short *resultVar;
@@ -2812,12 +2623,6 @@ callArg0 = cmdWorkCopy + 0;
 callArg0 = 0;
     return callArg0;}
 
-
-
-
-
-
-
 /*
  * interface: SODATEYA_GetPokemon has two observed inputs. Its full ov021 body
  * and 0200BCA8/0200BC2C read r0/r1 only; legacy trailing r2/r3 are omitted.
@@ -2832,12 +2637,6 @@ int SCRCMD_PROC_GetDaycareMonSpecies(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_GetDaycareMonForm(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -2847,12 +2646,6 @@ int SCRCMD_PROC_GetDaycareMonForm(void *vm, void *cmdWork)
 
     return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_GetDaycareMonGender(void *vm, void *cmdWork)
 {
@@ -2864,12 +2657,6 @@ int SCRCMD_PROC_GetDaycareMonGender(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_GetDaycareSlotExp(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -2878,11 +2665,6 @@ int SCRCMD_PROC_GetDaycareSlotExp(void *vm, void *cmdWork)
 
     return 0;
 }
-
-
-
-
-
 
 int SCRCMD_PROC_GetDaycareSlotLevelsGrown(void *vm,void *cmdWork)
 {
@@ -2894,11 +2676,6 @@ int SCRCMD_PROC_GetDaycareSlotLevelsGrown(void *vm,void *cmdWork)
  return 0;
 }
 
-
-
-
-
-
 int SCRCMD_PROC_GetDaycareSlotPrice(void *vm,void *cmdWork)
 {
  u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm,cmdWork);
@@ -2908,12 +2685,6 @@ int SCRCMD_PROC_GetDaycareSlotPrice(void *vm,void *cmdWork)
  *resultVar = SODATEYA_GetWithdrawCost(daycare,daycareSlot);
  return 0;
 }
-
-
-
-
-
-
 
 int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(void *vm, void *cmdWork)
 {
@@ -2931,12 +2702,6 @@ int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(void *vm, void *cmdWork)
     return 0;
 }
 
-
-
-
-
-
-
 int SCRCMD_PROC_GetDaycareGenderKind(void *mon)
 {
     int species = POKE_TOOL_GetPartyValue(mon, 5, 0);
@@ -2952,84 +2717,4 @@ int SCRCMD_PROC_GetDaycareGenderKind(void *mon)
     case 0: return 1;
     case 1: return 2;
     }
-}
-
-
-
-
-
-
-
-int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *work)
-{
-    u32 seqValue = *seq;
-    void *gameSystem = work->gameSystem;
-    switch (seqValue) {
-    case 0:
-        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, work->fieldMap, 0, 0));
-        *seq = 1;
-        break;
-    case 1:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
-        work->menuParam->selectedPos = work->menuState->selectedPos;
-        *seq = 2;
-        break;
-    case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (int)work->fieldMap, (int)work->menuParam, (int)work->menuState));
-        *seq = 3;
-        break;
-    case 3:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
-        *seq = 4;
-        break;
-    case 4:
-        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
-        *seq = 5;
-        break;
-    case 5:
-        *work->resultVar = work->menuParam->selectedPos;
-        func_020307B0(work->menuParam);
-        func_020307B0(work->menuState);
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
-{
-    void *gameData = GAMESYSTEM_GetGameData(gameSystem);
-    void *party = GAME_DATA_GetMyParty(gameData);
-    u32 zukanSave = (u32)ZUKAN_SAVE_GetFromGameData(gameData);
-    PartyMenuParam *menuParam = func_02030734(4, 0x98, 0, sAllocSiteScrcmdSodateya, 0x22B);
-    PartyMenuState *menuState;
-    DaycareEventWork *work;
-    void *event;
-    menuParam->party = party;
-    menuParam->menuType = 0x12;
-    menuParam->cursorPos = 0;
-    menuParam->selectedPos = 0;
-    menuState = func_02030734(4, 0x28, 0, sAllocSiteScrcmdSodateya, 0x232);
-    menuState->party = menuParam->party;
-    menuState->listWork = menuParam->listWork;
-    menuState->gameData = (u32)gameData;
-    menuState->enabled = 1;
-    menuState->partyCount = POKEPARTY_GetCount(party);
-    menuState->cursor = 0;
-    menuState->reserved10 = 0;
-    menuState->selectedPos = 0;
-    menuState->zukanSave = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
-    event = func_020122C0(gameSystem, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, 0x14);
-    work = func_020124E8(event);
-    work->gameSystem = gameSystem;
-    work->fieldMap = fieldMap;
-    work->menuParam = menuParam;
-    work->menuState = menuState;
-    work->resultVar = resultVar;
-    return event;
 }

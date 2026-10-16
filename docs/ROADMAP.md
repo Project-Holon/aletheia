@@ -6,11 +6,14 @@ byte-identical from C; game code is 100.00 percent fully linked and all code is
 100.00 percent fully linked (3,390,676 of 3,390,676 bytes, the SDK side
 included). The live figures are in `README.md`.
 
-The remaining milestone 3 work is a split campaign, not a move list: the
-`__FILE__` anchors prove 76 functions across 36 files that sit in a file other
-than their own original, and 88 of the consolidated cases need a file that does
-not exist yet (`S/INT13/split_list.tsv`, the wave 13 start list in
-`LAUNCHQ.md`).
+The remaining milestone 3 work has two parts. The split campaign is largely done
+(wave 13): 17 split lanes created 56 new originals and re-cut the over-merged
+files, so `src/game` now holds 1,267 `.c` files, all byte-exact, unnamed 13 of
+36,222, and `progress/report.json` reads 100.000 percent for game and SDK code.
+What remains is the corrected rename status: 1,096 stale `func_NNNN` references
+(1,033 after region correction) whose address holds a real name, plus the 51
+confirmed moves, the 13 overlays no lane has entered and the naming leftovers
+(`S/INT14/wave14.tsv`, the wave 14 start list in `LAUNCHQ.md`).
 
 ## Milestone 1: ROM extraction and rebuild (done)
 

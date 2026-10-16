@@ -45,7 +45,6 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
- *   GX_GetBankForLCDC 0x02045A98 arm
  *   NAMEIN_GRAPHIC_FindTableIndex 0x021F4ED8 thumb ov194
  *   NAMEIN_GRAPHIC_PickTable8 0x021F4E18 thumb ov194
  *   NAMEIN_GRAPHIC_CopyTableEntries 0x021F4DDC thumb ov194
@@ -170,7 +169,6 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern unsigned int GX_GetBankForLCDC(void);
 extern u16 NAMEIN_GRAPHIC_FindTableIndex(const char *p, const u16 *b);
 extern int NAMEIN_GRAPHIC_PickTable8(int,int,u16 *,int,u8 *);
 extern void NAMEIN_GRAPHIC_CopyTableEntries(const char *p, int i, u16 *dst, u32 n, u8 *count);
@@ -402,7 +400,7 @@ int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
     {
         *(unsigned short *)(p + (((NameinGraphicInputField *)p)->primaryLength << 1)) = v;
         ((NameinGraphicInputField *)p)->primaryLength += 1;
-        *(unsigned short *)(p + (((NameinGraphicInputField *)p)->primaryLength << 1)) = GX_GetBankForLCDC();
+        *(unsigned short *)(p + (((NameinGraphicInputField *)p)->primaryLength << 1)) = STRBUF_GetEosChar();
         ((NameinGraphicInputField *)p)->needsRefresh = 1;
         return 1;
     }
@@ -505,7 +503,7 @@ void NAMEIN_GRAPHIC_ClearSecondary(char *p)
     {
         unsigned int v;
         ((NameinGraphicInputField *)p)->secondaryLength = 0;
-        v = GX_GetBankForLCDC();
+        v = STRBUF_GetEosChar();
         *(unsigned short *)(p + 0x16 + (((NameinGraphicInputField *)p)->secondaryLength << 1)) = v;
         ((NameinGraphicInputField *)p)->needsRefresh = 1;
     }

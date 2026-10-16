@@ -1,5 +1,5 @@
 /*
- * function: func_021DFAA0
+ * function: scGetConnectionId
  * address:  0x021DFAA0
  * packet:   pkt_021DFAA0
  * region:   ov175
@@ -21,7 +21,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021DFAA0(u32 p)
+u32 scGetConnectionId(u32 p)
 {
     return p + 0x84;
 }

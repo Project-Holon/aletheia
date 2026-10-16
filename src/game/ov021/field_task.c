@@ -1,7 +1,7 @@
 /*
  * file:     field_task.c
  * unit:     yes
- * function: FIELD_TASK_Create, FIELD_TASK_Delete, FIELD_TASK_Update, FIELD_TASK_Start, FIELD_TASK_GetWork, FIELD_TASK_IsFinished, FIELD_TASK_GetState, FIELD_TASK_SetRunning, FIELD_TASK_SetFinished, FIELD_TASK_RunCheck, FIELD_TASK_MANAGER_Create, FIELD_TASK_MANAGER_Delete, FIELD_TASK_MANAGER_Update, FIELD_TASK_MANAGER_AddTask, FIELD_TASK_MANAGER_CountUsedSlots, FIELD_TASK_MANAGER_IsEmpty
+ * function: FIELD_TASK_Create, FIELD_TASK_Delete, FIELD_TASK_Update, FIELD_TASK_Start, FIELD_TASK_GetWork, FIELD_TASK_IsFinished, FIELD_TASK_GetState, FIELD_TASK_SetRunning, FIELD_TASK_SetFinished, FIELD_TASK_RunCheck
  * address:  0x021C6C70
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -10,21 +10,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- * Takes FIELD_TASK_MANAGER_IsEmpty (021C6E48) from unit_021C6E48.c (lane FXC3: contiguous, same FieldTaskManager).
+ * Cut from field_task.c by tools/splitfile.py.
  *
  * symbols:
  *   d_021DE4D4  0x021DE4D4  data  ov021  a4
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02030EAC  0x02030EAC  arm
- *   d_021DE4E4     0x021DE4E4  data  ov021  a4
- *   FIELD_TASK_MANAGER_FreeSlot  0x021C6E74  thumb  ov021
- *   FIELD_TASK_MANAGER_UpdateSlot  0x021C6E94  thumb  ov021
- *   FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone  0x021C6EA8  thumb  ov021
- *   FIELD_TASK_MANAGER_FreeSlotIfFinished  0x021C6EDC  thumb  ov021
- *   FIELD_TASK_MANAGER_SetSlot  0x021C6E5C  thumb  ov021
- *   FIELD_TASK_MANAGER_CountUsedSlots  0x021C6E20  thumb  ov021
  */
 #include "field_task_types.h"
 
@@ -35,31 +26,30 @@ enum {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 func_020307B0(void *p);
-extern void FIELD_TASK_MANAGER_SetSlot(FieldTaskManager *manager, u8 slot, FieldTask *task, FieldTask *prerequisite);
-extern void FIELD_TASK_MANAGER_FreeSlot(FieldTaskManager *manager, u8 slot);
-extern void FIELD_TASK_MANAGER_UpdateSlot(FieldTaskManager *manager, u8 slot);
-extern void FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(FieldTaskManager *manager, u8 slot);
-extern void FIELD_TASK_MANAGER_FreeSlotIfFinished(FieldTaskManager *manager, u8 slot);
+
 extern char d_021DE4D4[];
-extern int d_021DE4E4;
 
 FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check);
+
 void FIELD_TASK_Delete(FieldTask *task);
+
 void FIELD_TASK_Update(FieldTask *task);
+
 void FIELD_TASK_Start(FieldTask *task);
+
 u32 FIELD_TASK_GetWork(FieldTask *task);
+
 int FIELD_TASK_IsFinished(FieldTask *task);
+
 u32 FIELD_TASK_GetState(FieldTask *task);
+
 void FIELD_TASK_SetRunning(FieldTask *task);
+
 int FIELD_TASK_SetFinished(FieldTask *task);
+
 void FIELD_TASK_RunCheck(FieldTask *task);
-FieldTaskManager *FIELD_TASK_MANAGER_Create(int count, int heapId);
-void FIELD_TASK_MANAGER_Delete(FieldTaskManager *manager);
-void FIELD_TASK_MANAGER_Update(FieldTaskManager *manager);
-void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
-u8 FIELD_TASK_MANAGER_CountUsedSlots(FieldTaskManager *manager);
-int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
 
 /* Allocates a task and its work block. */
 FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
@@ -131,77 +121,4 @@ void FIELD_TASK_RunCheck(FieldTask *task)
         if (task->check(task->work) == 1)
             FIELD_TASK_SetFinished(task);
     }
-}
-
-/* Allocates a manager with count slots. */
-FieldTaskManager *FIELD_TASK_MANAGER_Create(int count, int heapId)
-{
-    FieldTaskManager *manager = func_02030734(heapId, 12, 0, (const char *)&d_021DE4E4, 0x34);
-
-    manager->count = count;
-    manager->tasks = func_02030734(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x36);
-    manager->prerequisites = func_02030734(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x37);
-    return manager;
-}
-
-/* Frees every task, both slot tables and the manager. */
-void FIELD_TASK_MANAGER_Delete(FieldTaskManager *manager)
-{
-    int slot;
-    for (slot = 0; slot < manager->count; slot++)
-        FIELD_TASK_MANAGER_FreeSlot(manager, slot);
-    func_020307B0(manager->tasks);
-    func_020307B0(manager->prerequisites);
-    func_020307B0(manager);
-}
-
-/* Per frame: run the running tasks, start tasks whose prerequisite finished, free finished tasks. */
-void FIELD_TASK_MANAGER_Update(FieldTaskManager *manager)
-{
-    int slot;
-
-    for (slot = 0; slot < manager->count; slot++)
-        FIELD_TASK_MANAGER_UpdateSlot(manager, slot);
-    for (slot = 0; slot < manager->count; slot++)
-        FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(manager, slot);
-    for (slot = 0; slot < manager->count; slot++)
-        FIELD_TASK_MANAGER_FreeSlotIfFinished(manager, slot);
-}
-
-/* Puts a task in the first free slot; starts it now unless it has a prerequisite.
- * With no free slot the task is freed. */
-void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite)
-{
-    int slot;
-
-    for (slot = 0; slot < manager->count; slot++) {
-        if (manager->tasks[slot] == 0) {
-            FIELD_TASK_MANAGER_SetSlot(manager, slot, task, prerequisite);
-            if (prerequisite == 0)
-                FIELD_TASK_Start(task);
-            return;
-        }
-    }
-    FIELD_TASK_Delete(task);
-}
-
-/* Returns the number of used slots. */
-u8 FIELD_TASK_MANAGER_CountUsedSlots(FieldTaskManager *manager)
-{
-    int slot;
-    u8 used = 0;
-    for (slot = 0; slot < manager->count; slot++) {
-        if (manager->tasks[slot] != 0)
-            used++;
-    }
-    return used;
-}
-
-/* TRUE when the manager has no task queued. */
-int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager)
-{
-    if (FIELD_TASK_MANAGER_CountUsedSlots(manager) == 0) {
-        return 1;
-    }
-    return 0;
 }

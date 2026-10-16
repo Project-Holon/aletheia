@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ghttp.c
  * unit:     yes
- * function: func_021BF520, DWC_GHTTPCleanupRootCAList, DWC_InitGHTTP, DWC_ShutdownGHTTP, DWC_ProcessGHTTP, func_021BF5D8, func_021BF67C, DWC_GetGHTTPDataEx, DWCi_GHTTPGetEx, DWC_CancelGHTTPRequest, DWCi_HandleGHTTPError, DWCi_AppendDWCGHTTPParam, DWCi_RemoveDWCGHTTPParamEntry, DWCi_FindDWCGHTTPParamEntryByReq, DWCi_RemoveAllDWCGHTTPParamEntry
+ * function: func_021BF520, DWC_GHTTPCleanupRootCAList, DWC_InitGHTTP, DWC_ShutdownGHTTP, DWC_ProcessGHTTP, GHTTPCompletedCallback, GHTTPProgressCallback, DWC_GetGHTTPDataEx, DWCi_GHTTPGetEx, DWC_CancelGHTTPRequest, DWCi_HandleGHTTPError, DWCi_AppendDWCGHTTPParam, DWCi_RemoveDWCGHTTPParamEntry, DWCi_FindDWCGHTTPParamEntryByReq, DWCi_RemoveAllDWCGHTTPParamEntry
  * address:  0x021BF520
  * region:   ov114
  * compiler: dsi/1.1p1
@@ -52,16 +52,16 @@ extern void func_02059F54(int error, int errorCode);
 extern void *DWC_Alloc(int name, unsigned long size);
 extern int ghttpGetExA(const char *url, const char *headers, char *buffer, int bufferSize,
                          GHIPost *post, int throttle, int blocking,
-                         GHTTPProgressCallback progressCallback,
-                         GHTTPCompletedCallback completedCallback, void *param);
+                         GHTTPProgressCallbackFn progressCallback,
+                         GHTTPCompletedCallbackFn completedCallback, void *param);
 
 int func_021BF520(char *url);
 int DWC_GHTTPCleanupRootCAList(char *url);
 int DWC_InitGHTTP(void);
 int DWC_ShutdownGHTTP(void);
 int DWC_ProcessGHTTP(void);
-int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param);
-void func_021BF67C(int request, int state, const char *buffer, int bufferLen, int bytesReceived, int totalSize, void *param);
+int GHTTPCompletedCallback(int request, int result, char *buffer, int bufferLen, void *param);
+void GHTTPProgressCallback(int request, int state, const char *buffer, int bufferLen, int bytesReceived, int totalSize, void *param);
 int DWC_GetGHTTPDataEx(char *url, int bufferLen, int bufferClear, DWCGHTTPProgressCallback progressCallback, DWCGHTTPCompletedCallback completedCallback, void *param);
 int DWCi_GHTTPGetEx(char *url, int bufferLen, int bufferClear, GHIPost **post, DWCGHTTPProgressCallback progressCallback, DWCGHTTPCompletedCallback completedCallback, void *param);
 void DWC_CancelGHTTPRequest(int request);
@@ -124,7 +124,7 @@ int DWC_ProcessGHTTP(void)
 /*
  * sdk:      GHTTPCompletedCallback (dwc_ghttp.o)
  */
-int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param)
+int GHTTPCompletedCallback(int request, int result, char *buffer, int bufferLen, void *param)
 {
     DWCGHTTPParamEntry *entry;
     DWCGHTTPCompletedCallback callback;
@@ -157,7 +157,7 @@ int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *pa
 /*
  * Progress callback handed to ghttp: forwards to the user callback stored in the entry.
  */
-void func_021BF67C(int request, int state, const char *buffer, int bufferLen, int bytesReceived, int totalSize, void *param)
+void GHTTPProgressCallback(int request, int state, const char *buffer, int bufferLen, int bytesReceived, int totalSize, void *param)
 {
     DWCGHTTPParamEntry *entry = param;
     DWCGHTTPProgressCallback callback = entry->param.progressCallback;
@@ -213,7 +213,7 @@ int DWCi_GHTTPGetEx(char *url, int bufferLen, int bufferClear, GHIPost **post,
         entry->buffer = buffer;
     }
     request = ghttpGetExA(url, 0, buffer, bufferLen, post == 0 ? 0 : *post, 0, 0,
-                            progressCallback == 0 ? 0 : func_021BF67C, func_021BF5D8, entry);
+                            progressCallback == 0 ? 0 : GHTTPProgressCallback, GHTTPCompletedCallback, entry);
     if (request < 0) {
         DWCi_HandleGHTTPError(request);
         completedCallback(0, 0, request, param);

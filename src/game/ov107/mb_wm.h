@@ -6,7 +6,7 @@
  * gMbWm (struct WmBase) holds the DMA number, the WM system buffer, the
  * MBiParam block (work) and the MB_CommCommonWork block (ext).
  */
-#include "mb_parent_sys.h"
+#include "mb_parent.h"
 
 typedef struct WMCallback {
     u16 apiid;

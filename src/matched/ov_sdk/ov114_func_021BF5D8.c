@@ -1,5 +1,5 @@
 /*
- * function: func_021BF5D8
+ * function: GHTTPCompletedCallback
  * address:  0x021BF5D8
  * packet:   pkt_ov114_021BF5D8
  * region:   ov114
@@ -31,7 +31,7 @@ extern void DWC_Free(int name, void *ptr, int size);
 struct Node;
 extern void DWCi_RemoveDWCGHTTPParamEntry(struct Node *x);
 
-int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param)
+int GHTTPCompletedCallback(int request, int result, char *buffer, int bufferLen, void *param)
 {
     Entry *parameter;
     CompletedCallback callback;

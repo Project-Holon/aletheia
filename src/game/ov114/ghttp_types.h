@@ -19,11 +19,11 @@ typedef enum { GHTTPFalse, GHTTPTrue } GHTTPBool;
 struct GHIConnection;
 struct GHIEncryptor;
 
-typedef void (*GHTTPProgressCallback)(int request, int state, const char *buffer,
+typedef void (*GHTTPProgressCallbackFn)(int request, int state, const char *buffer,
                                       int bufferLen, int bytesReceived,
                                       int totalSize, void *param);
 
-typedef int (*GHTTPCompletedCallback)(int request, int result, char *buffer,
+typedef int (*GHTTPCompletedCallbackFn)(int request, int result, char *buffer,
                                       int bufferLen, void *param);
 
 typedef void (*GHTTPPostCallback)(int request, int bytesPosted, int totalBytes,
@@ -166,8 +166,8 @@ typedef struct GHIConnection {
     int blocking;                       /* 0x038 */
     int persistConnection;              /* 0x03c */
     int result;                         /* 0x040 */
-    GHTTPProgressCallback progressCallback;   /* 0x044 */
-    GHTTPCompletedCallback completedCallback; /* 0x048 */
+    GHTTPProgressCallbackFn progressCallback;   /* 0x044 */
+    GHTTPCompletedCallbackFn completedCallback; /* 0x048 */
     void *callbackParam;                /* 0x04c */
     int socket;                         /* 0x050 */
     int socketError;                    /* 0x054 */

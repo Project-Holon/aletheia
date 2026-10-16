@@ -1,7 +1,7 @@
 /*
  * file:     fieldmap_func.c
  * unit:     yes
- * function: FLDEFF_GYOE_StartHeld, FLDEFF_GYOE_IsFinished, FLDEFF_GYOE_InitHeldTask, FLDEFF_GYOE_DeleteTask, FLDEFF_GYOE_UpdateHeldTask, FLDEFF_GYOE_UpdateTask, FLDEFF_GYOE_DrawTask, FLDEFF_GYOE_PlaySe, FLDEFF_GYOE_RotateByCamera, FLDEFF_GYOE_StepAnimation, FIELD_SUBPROC_MGR_Create, FIELD_SUBPROC_MGR_Delete, FIELD_SUBPROC_MGR_RunUpdate, FIELD_SUBPROC_MGR_RunDraw, FIELD_SUBPROC_UpdateTcb, FIELD_SUBPROC_DrawTcb, FIELD_SUBPROC_Start, FIELD_SUBPROC_End, FIELD_SUBPROC_GetWork, UNION_CHAT_LOG_Add, UNION_CHAT_LOG_TakeSlot, UNION_CHAT_LOG_GetLine, UNION_CHAT_LOG_IsNew, FLDEFF_FOOTMARK_Init, FLDEFF_FOOTMARK_Delete, FLDEFF_FOOTMARK_InitResource, FLDEFF_FOOTMARK_DeleteResource, FLDEFF_FOOTMARK_GetSlotIndex
+ * function: FLDEFF_GYOE_StartHeld, FLDEFF_GYOE_IsFinished, FLDEFF_GYOE_InitHeldTask, FLDEFF_GYOE_DeleteTask, FLDEFF_GYOE_UpdateHeldTask, FLDEFF_GYOE_UpdateTask, FLDEFF_GYOE_DrawTask, FLDEFF_GYOE_PlaySe, FLDEFF_GYOE_RotateByCamera, FLDEFF_GYOE_StepAnimation, FIELD_SUBPROC_MGR_Create, FIELD_SUBPROC_MGR_Delete, FIELD_SUBPROC_MGR_RunUpdate, FIELD_SUBPROC_MGR_RunDraw, FIELD_SUBPROC_UpdateTcb, FIELD_SUBPROC_DrawTcb, FIELD_SUBPROC_Start, FIELD_SUBPROC_End, FIELD_SUBPROC_GetWork, UNION_CHAT_LOG_Add, UNION_CHAT_LOG_TakeSlot, UNION_CHAT_LOG_GetLine, UNION_CHAT_LOG_IsNew
  * address:  0x021BB578
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from fieldmap_func.c, fldeff_footmark.c by tools/splitfile.py.
  *
  * symbols:
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
@@ -26,11 +26,6 @@
  *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  *   gGyoeDrawTransformInit       0x021D9AA4  data  a4
- *   _fflt            0x0209BDBC  arm
- *   _fadd            0x0209C95C  arm
- *   _fsub            0x0209CB8C  arm
- *   _ffix            0x0209C494  arm
- *   _ll_mul          0x0209C054  arm
  *   MIi_CpuCopyFast  0x02082B0C  arm
  *   NNS_G3dGlbFlush    0x0206A854  arm
  *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
@@ -73,36 +68,23 @@
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
  *   func_0200EDC4  0x0200EDC4  thumb
- *   _u32_div_f     0x0209C2B0  arm
  *   gUnionChatEmptyMac     0x021D9AE0  data  a4
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
- *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
- *   d_021DE30C  0x021DE30C  data
- *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
- *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
- *   FIELD_EFFECT_ApplyPaletteTable  0x021AC1F0  thumb  ov021
- *   BILLBOARD_ACT_CreateSlots  0x020500F0  arm
- *   gFootmarkResId     0x021D9B0C  data  a2
- *   gFootmarkSlotTable     0x021D9AE8  data  a4
- *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm  arm9
  */
-typedef unsigned int   u32;
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef signed short   s16;
-typedef signed char    s8;
-typedef signed int     s32;
-
 #include "../ov010/fldmmdl_types.h"
+
 typedef int fx32;
+
 typedef struct VecFx32 {
     fx32 x;
     fx32 y;
     fx32 z;
 } VecFx32;
+
 #include "../ov012/union_comm_types.h"
 
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
+
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
@@ -112,12 +94,11 @@ typedef struct VecFx32 {
  * sub-program manager (021BB890..021BBA6C), the union chat log
  * (021BBA70..021BBC58) and the start of fldeff_footmark.c (021BBCBC..).
  */
-
 typedef long long fx64;
 
 typedef struct { fx32 m[4][4]; } MtxFx44;
-typedef struct { fx32 m[3][3]; } MtxFx33;
 
+typedef struct { fx32 m[3][3]; } MtxFx33;
 
 struct FieldSubproc;
 
@@ -166,10 +147,12 @@ typedef struct GxState {
 } GxState;
 
 /* ---- field sub-program manager ---- */
-
 struct TcbList;
+
 struct Tcb;
+
 typedef void (*TcbFunc)(struct Tcb *tcb, void *work);
+
 typedef void (*FieldSubprocFunc)(struct FieldSubproc *proc, void *fieldSys, void *work);
 
 /* What a sub-program is made of (0x18 bytes). */
@@ -226,124 +209,166 @@ typedef struct UnionChatRing {
     int oldestIndex;           /* 0x440 absolute index of the oldest kept line */
 } UnionChatRing;
 
-/* ---- fldeff_footmark.c ---- */
-
-/* Same layout as FootmarkEffectWork in fldeff_footmark.c. */
-typedef struct FootmarkEffectWork {
-    void *fieldEffectCtrl;     /* 0x00 */
-    void *bbActSys;            /* 0x04 */
-    u16 resIdx[26];            /* 0x08 billboard slot per footmark picture */
-    int snowHeightOffset;      /* 0x3C */
-} FootmarkEffectWork;
-
-/* Billboard slot record handed to the slot allocator (0x0C bytes). */
-typedef struct FootmarkSlotRecord {
-    void *resource;            /* 0x00 */
-    u8 kind;                   /* 0x04 */
-    u8 flags;                  /* 0x05 */
-    u8 width;                  /* 0x06 */
-    u8 height;                 /* 0x07 */
-    u32 count;                 /* 0x08 */
-} FootmarkSlotRecord;
-
-typedef struct FootmarkDirRow { u8 slot[4]; } FootmarkDirRow;
-
 /* ---- externs ---- */
-
 int FIELD_EFFECT_GetResource(void *fieldEffectCtrl, u32 effectId);
+
 void FLDMMDL_GetCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
+
 void *FIELD_EFFECT_GetFieldMap(void *fieldEffectCtrl);
+
 void *FIELD_EFFECT_AddObject(void *fieldEffectCtrl, const void *taskHeader, int a2, int a3, FldeffGyoeTaskParam *param, int a5);
+
 extern void *FIELD_EFFECT_GetObjectWork(void *task);
+
 extern FldeffGyoeTaskParam *FIELD_EFFECT_GetObjectParam(void *task);
+
 extern void FIELD_EFFECT_UpdateObject(void *task);
+
 extern int FLDMMDL_CheckCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
+
 extern void FLDMMDL_GetPos(Mmdl *mmdl, VecFx32 *out);
+
 extern void FIELD_EFFECT_SetObjectPos(void *task, VecFx32 *pos);
+
 void FIELD_EFFECT_DeleteObject(void *task);
+
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
+
 extern void NNS_G3dGlbFlush(void);
+
 extern void NNS_G3dGeFlushBuffer(void);
+
 extern void MTX_Identity33_(MtxFx33 *mtx);
+
 extern void FIELD_EFFECT_GetObjectPos(void *task, G3dObjectTransform *transform);
+
 extern int G3D_SYSTEM_DrawObjectCulling(void *object, G3dObjectTransform *transform);
+
 void GFL_USE_PlaySeDefaultVolume(u32 seId);
+
 void func_02048AE8(void *g3dCamera, VecFx32 *out);
+
 void func_02048B0C(void *g3dCamera, VecFx32 *out);
+
 void func_02048B30(void *g3dCamera, VecFx32 *out);
+
 void MTX_LookAt(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
+
 void func_02082B60(int *mtx43, int *outMtx33);
+
 void func_0207B0A4(int *mtx33, int *outMtx33);
+
 void MTX_MultVec33(VecFx32 *src, int *mtx33, VecFx32 *dst);
+
 void *FIELDMAP_GetCamera(void *fieldMap);
+
 void *FIELD_CAMERA_GetG3dCamera(void *fieldCamera);
+
 void VEC_Add(VecFx32 *a, VecFx32 *b, VecFx32 *dst);
+
 void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
+
 u32 func_02030CB0(u32 capacity);
+
 struct TcbList *func_02030CBC(u32 capacity, struct TcbList *buf);
+
 extern u32 func_020307B0(void *p);
+
 extern void TCB_Main(struct TcbList *list);
+
 int func_02034AC4(s32 overlayId);
+
 struct Tcb *func_02030DA8(struct TcbList *list, TcbFunc fn, void *work, int priority);
+
 void func_02030EAC(struct Tcb *tcb);
+
 void func_02034A5C(int overlayId);
+
 void MI_CpuFill8(void *p, int v, int n);
+
 extern void func_02034714(const char *expr, u32 line, const char *file);
+
 u32 func_020084F8(void *myStatus, u16 *dst, u32 size);
+
 u8 func_02008550(void *myStatus);
+
 void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
+
 void OS_GetMacAddress(u8 *outMac);
+
 void MI_CpuCopy8(const void *src, void *dst, int n);
+
 void *ICA_ANIME_GetField1C(void *gameSystem);
+
 void *GAME_DATA_GetField1A0(void *gameData);
+
 void *GAME_DATA_GetSaveControl(void *gameData);
+
 void *MISC_SAVEDATA_GetBlock44(void *saveControl);
+
 int UNION_CHARA_IsWifiFriendBeacon(void *wifiList, UnionBeacon *beacon);
+
 int func_0200EDC4(void *list, u32 trainerId);
+
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
-extern void *FIELDMAP_GetEffectBbdAct(void *fieldMap);
-extern void *FIELD_EFFECT_GetArcHandle(void *fieldEffectCtrl);
-extern void *G3D_SYSTEM_CreateResourceArcHandle(void *g3dHeap, u32 resId);
-extern void FIELD_EFFECT_ApplyPaletteTable(void *fieldEffectCtrl, void *resource);
-extern u16 BILLBOARD_ACT_CreateSlots(void *bbActSys, const FootmarkSlotRecord *recs, u32 n);
-extern void BILLBOARD_ACT_DeleteSlots(void *bbActSys, u32 first, u32 count);
+
 void FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay);
+
 int FLDEFF_GYOE_IsFinished(void *task);
+
 void FLDEFF_GYOE_InitHeldTask(void *task, FldeffGyoeTaskWork *work);
+
 void FLDEFF_GYOE_DeleteTask(void);
+
 void FLDEFF_GYOE_UpdateHeldTask(void *task, FldeffGyoeTaskWork *work);
+
 void FLDEFF_GYOE_UpdateTask(void *task, FldeffGyoeTaskWork *work);
+
 void FLDEFF_GYOE_DrawTask(void *task, FldeffGyoeTaskWork *work);
+
 void FLDEFF_GYOE_PlaySe(int type);
+
 void FLDEFF_GYOE_RotateByCamera(void *g3dCamera, VecFx32 *src, VecFx32 *dst);
+
 void FLDEFF_GYOE_StepAnimation(FldeffGyoeTaskWork *work, VecFx32 *out);
+
 FieldSubprocMgr *FIELD_SUBPROC_MGR_Create(void *fieldSys, int heapId, int capacity);
+
 void FIELD_SUBPROC_MGR_Delete(FieldSubprocMgr *mgr);
+
 void FIELD_SUBPROC_MGR_RunUpdate(FieldSubprocMgr *mgr);
+
 void FIELD_SUBPROC_MGR_RunDraw(FieldSubprocMgr *mgr);
+
 void FIELD_SUBPROC_UpdateTcb(struct Tcb *tcb, FieldSubproc *proc);
+
 void FIELD_SUBPROC_DrawTcb(struct Tcb *tcb, FieldSubproc *proc);
+
 FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldSubprocMgr *mgr, const FieldSubprocTemplate *tmpl);
+
 void FIELD_SUBPROC_End(FieldSubproc *proc);
+
 void *FIELD_SUBPROC_GetWork(const FieldSubproc *proc);
+
 void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatPms, u8 chatType);
+
 UnionChatLine *UNION_CHAT_LOG_TakeSlot(UnionChatRing *ring);
+
 UnionChatLine *UNION_CHAT_LOG_GetLine(UnionChatRing *ring, u32 index);
+
 int UNION_CHAT_LOG_IsNew(UnionChatRing *ring, const void *mac, u16 chatCount);
-FootmarkEffectWork *FLDEFF_FOOTMARK_Init(void *fieldEffectCtrl, u32 heapId);
-void FLDEFF_FOOTMARK_Delete(u32 unused, FootmarkEffectWork *effWork);
-void FLDEFF_FOOTMARK_InitResource(FootmarkEffectWork *effWork);
-void FLDEFF_FOOTMARK_DeleteResource(FootmarkEffectWork *effWork);
-int FLDEFF_FOOTMARK_GetSlotIndex(FootmarkEffectWork *effWork, int type, int dir, int oldDir);
+
 extern int gGyoeHeldTaskHeader;
+
 extern const G3dObjectTransform gGyoeDrawTransformInit;
+
 extern MtxFx44 g_DefaultProjectionMtx;
+
 extern GxState SCREENTEX_CameraState;
+
 extern int d_021DE2F8;
+
 extern char gUnionChatEmptyMac[];
-extern const char d_021DE30C[];
-extern u16 gFootmarkResId[];
-extern FootmarkDirRow gFootmarkSlotTable[];
 
 /* Starts a mark that stays until its owner reads the finished flag. */
 void FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay)
@@ -736,64 +761,4 @@ int UNION_CHAT_LOG_IsNew(UnionChatRing *ring, const void *mac, u16 chatCount)
         }
     }
     return 1;
-}
-
-FootmarkEffectWork *FLDEFF_FOOTMARK_Init(void *fieldEffectCtrl, u32 heapId)
-{
-    FootmarkEffectWork *effWork;
-
-    effWork = func_02030734(heapId, 0x40, 1, d_021DE30C, 0x9d);
-    effWork->fieldEffectCtrl = fieldEffectCtrl;
-    effWork->bbActSys = FIELDMAP_GetEffectBbdAct(FIELD_EFFECT_GetFieldMap(fieldEffectCtrl));
-    FLDEFF_FOOTMARK_InitResource(effWork);
-    effWork->snowHeightOffset = 0x2000;
-    return effWork;
-}
-
-void FLDEFF_FOOTMARK_Delete(u32 unused, FootmarkEffectWork *effWork)
-{
-    FLDEFF_FOOTMARK_DeleteResource(effWork);
-    func_020307B0(effWork);
-}
-
-void FLDEFF_FOOTMARK_InitResource(FootmarkEffectWork *effWork)
-{
-    FootmarkSlotRecord record;
-    int i;
-    const u16 *resId = gFootmarkResId;
-    void *g3dHeap = FIELD_EFFECT_GetArcHandle(effWork->fieldEffectCtrl);
-
-    record.kind = 2;
-    record.flags = 0x11;
-    record.width = 0x10;
-    record.height = 0x10;
-    record.count = 1;
-    for (i = 0; i < 0x1a; i++, resId++) {
-        record.resource = G3D_SYSTEM_CreateResourceArcHandle(g3dHeap, *resId);
-        FIELD_EFFECT_ApplyPaletteTable(effWork->fieldEffectCtrl, record.resource);
-        effWork->resIdx[i] = BILLBOARD_ACT_CreateSlots(effWork->bbActSys, &record, 1);
-    }
-}
-
-void FLDEFF_FOOTMARK_DeleteResource(FootmarkEffectWork *effWork)
-{
-    int i;
-
-    for (i = 0; i < 0x1A; i++) {
-        BILLBOARD_ACT_DeleteSlots(effWork->bbActSys, effWork->resIdx[i], 1);
-    }
-}
-
-/* Picks the billboard slot of a footmark picture (oldDir selects the turn row). */
-int FLDEFF_FOOTMARK_GetSlotIndex(FootmarkEffectWork *effWork, int type, int dir, int oldDir)
-{
-    int slot = 0;
-    switch (type) {
-    case 0: slot = dir; break;
-    case 1: slot = gFootmarkSlotTable[oldDir].slot[dir]; break;
-    case 2: slot = dir + 10; break;
-    case 3: slot = gFootmarkSlotTable[oldDir].slot[dir] - 4; slot += 14; break;
-    case 4: slot = gFootmarkSlotTable[oldDir].slot[dir] - 4; slot += 20; break;
-    }
-    return slot;
 }

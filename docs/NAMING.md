@@ -325,3 +325,49 @@ naming debt. Sources: `S/APL-1/measured_unread.tsv` and
 | CommBtlDemoSide | pad08[1] | 0x09 | 1 | written from recordVersion; no reader |
 | WifiBattleMatchSysSetupOut | whole record | 0x00 | 0x50 | FillSetupRecord at p+0x1d0; no reader |
 | WifiBattleMatchSysWork | setupRuleValue / setupRecordVersion | 0x1B4 | 8 | ApplySetup; passed as FillSetupRecord `other`, never read |
+
+## Stale references (the corrected rename status)
+
+Recorded by INT14 on 2026-10-16. Every rename check before this one counted only
+DEFINITIONS (the brace parser over `src/game`, `countall.py`, the `function:`
+lists), so it reported renaming done while the tree still held `func_NNNN` names
+used as REFERENCES. A reference is a hand-written `extern` prototype, a
+file-scope prototype, a call site or a `symbols:`/`function:` header row whose
+name is `func_XXXXXXXX` or `sub_XXXXXXXX` while a real name exists at that
+address.
+
+INT14 re-measured over `src/game` (`S/INT14/measure.py`, output
+`S/INT14/stale_refs.tsv`), resolving a name against the region of the file that
+holds it and falling back to arm9 (overlays call arm9 functions). Unlike an
+address-only scan this does not cross regions: overlays share the address space,
+so an address-only index mixes a name from another overlay into the count. The
+figures:
+
+- 1,544 distinct `func_`/`sub_` names are used in `src/game`;
+- 1,033 are STALE (a different, real name exists at that address);
+- 412 are UNKNOWN (no name at that address);
+- 36 are GENUINE (the name matches the address);
+- 21,441 occurrences in 8,453 `(name, region, kind)` rows.
+
+The raw address-only count is 1,096 stale; the 63-name difference is the
+cross-region false positives (the address holds a name in another region while
+the name is still correct in the region that references it). Report the
+region-corrected 1,033 as the stale figure and the 1,096 as the raw count.
+
+111 names are blocked and must not be renamed as a plain reference fix:
+
+- 99 naming gaps: the target name is still `unit_XXXX`/`sub_XXXX`/`func_XXXX`,
+  so there is no correct name to move to yet; name the definition first.
+- 2 ambiguous addresses: the address carries a different name in another region
+  and the name is referenced from more than one region, so a name-keyed rename
+  is ambiguous; apply per file.
+- 10 accepted-duplicate names (the same vendor symbol at two addresses):
+  `sdkrename.py` refuses the second region; keep both.
+
+Applying the renames is byte-neutral: they are identifier changes to
+declarations and call sites, and a one-file test batch (`func_02030734` ->
+`GFL_HEAP_Alloc` and `func_020307B0` -> `GFL_HEAP_Free` in `arm9/net_save.c`)
+kept the file EXACT. Wave 14 applies the unblocked rows in three batches with
+`tools/sdkrename.py` (map columns `old, new, address, region`), verifying each
+changed file after the batch; the tree must be quiet because the tool edits every
+caller.

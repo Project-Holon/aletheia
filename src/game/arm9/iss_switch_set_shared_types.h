@@ -1,0 +1,16 @@
+#ifndef ISS_SWITCH_SET_SHARED_TYPES_H
+#define ISS_SWITCH_SET_SHARED_TYPES_H
+
+#include "iss_switch_sys_shared_types.h"
+
+typedef signed int s32;
+
+struct IssSwitch {
+    u32 state;
+    u16 fadeCount;
+    u16 fadeFrames;
+    u16 trackBits;
+    u8  pad_0A[2];
+};
+
+#endif

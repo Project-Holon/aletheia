@@ -1,8 +1,8 @@
 /*
  * file:     fld3d_ci.c
  * unit:     yes
- * function: FIELD_PLAYER_GRID_EVENT_RunStateTable, FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr, FLD_PARTICLE_Create, FLD_PARTICLE_CreateEffect, FLD_PARTICLE_DeleteEffect, FLD_PARTICLE_LoadResource, FLD_PARTICLE_StartEmitter, FLD_PARTICLE_IsEffectFinished, FLD_PARTICLE_Delete, FLD_PARTICLE_Exit, FLD3D_CI_Create, FLD3D_CI_Delete, FLD3D_CI_SetupEffectUnit, FLD3D_CI_DrawEffect, FLD3D_CI_StartSequence, FLD3D_CI_StartPokemonSequence, FLD3D_CI_StartPartyMemberSequence, FLD3D_CI_StartNameSequence, FLD3D_CI_EventMain, FLD3D_CI_UpdateStartDelays, FLD3D_CI_UpdateTrackA, FLD3D_CI_UpdateTrackB, FLD3D_CI_SetupSequence, FLD3D_CI_EndSequence, FLD3D_CI_StartTrack, FLD3D_CI_FollowTargetCallback, FLD3D_CI_LoadSequence, FLD3D_CI_FreeSequence, FLD3D_CI_StartScreenCapture, FLD3D_CI_CaptureTask, FLD3D_CI_SaveLayerPriorities, FLD3D_CI_SaveVisiblePlanes, FLD3D_CI_RestoreLayerPriorities, FLD3D_CI_RestoreVisiblePlanes, FLD3D_CI_PokemonExtraTask, FLD3D_CI_PokemonFinishStep, FLD3D_CI_LoadPokemonIconTexture, FLD3D_CI_FadeOutTask, FLD3D_CI_FadeInTask, FLD3D_CI_FadeInAltTask, FLD3D_CI_IsAltFadeSequence, FLD3D_CI_LoadNameTexture, FLD3D_CI_NameFinishStep, FLD3D_CI_NameExtraTask, FLD3D_CI_GetTexDataOffset, FLD3D_CI_GetPlttDataOffset, FLD3D_CI_FindTexture, FLD3D_CI_FindPalette, FLD3D_CI_CopyName, FLD3D_CI_DrawMessageTexture, FLD3D_CI_StartMessageSequence, FLD3D_CI_DarkenCapturedScreen, FLD3D_CI_InitEventWork, FLD3D_CI_PlayCueSound, FLD3D_CI_DisplayRestoreTask
- * address:  0x021C1988
+ * function: FLD3D_CI_Create, FLD3D_CI_Delete, FLD3D_CI_SetupEffectUnit, FLD3D_CI_DrawEffect, FLD3D_CI_StartSequence, FLD3D_CI_StartPokemonSequence, FLD3D_CI_StartPartyMemberSequence, FLD3D_CI_StartNameSequence, FLD3D_CI_EventMain, FLD3D_CI_UpdateStartDelays, FLD3D_CI_UpdateTrackA, FLD3D_CI_UpdateTrackB, FLD3D_CI_SetupSequence, FLD3D_CI_EndSequence, FLD3D_CI_StartTrack, FLD3D_CI_FollowTargetCallback, FLD3D_CI_LoadSequence, FLD3D_CI_FreeSequence, FLD3D_CI_StartScreenCapture, FLD3D_CI_CaptureTask, FLD3D_CI_SaveLayerPriorities, FLD3D_CI_SaveVisiblePlanes, FLD3D_CI_RestoreLayerPriorities, FLD3D_CI_RestoreVisiblePlanes, FLD3D_CI_PokemonExtraTask, FLD3D_CI_PokemonFinishStep, FLD3D_CI_LoadPokemonIconTexture, FLD3D_CI_FadeOutTask, FLD3D_CI_FadeInTask, FLD3D_CI_FadeInAltTask, FLD3D_CI_IsAltFadeSequence, FLD3D_CI_LoadNameTexture, FLD3D_CI_NameFinishStep, FLD3D_CI_NameExtraTask, FLD3D_CI_GetTexDataOffset, FLD3D_CI_GetPlttDataOffset, FLD3D_CI_FindTexture, FLD3D_CI_FindPalette, FLD3D_CI_CopyName, FLD3D_CI_DrawMessageTexture, FLD3D_CI_StartMessageSequence, FLD3D_CI_DarkenCapturedScreen, FLD3D_CI_InitEventWork, FLD3D_CI_PlayCueSound, FLD3D_CI_DisplayRestoreTask
+ * address:  0x021C1AF4
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,27 +10,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from field_player_grid_event.c, fld3d_ci.c by tools/splitfile.py.
  *
  * symbols:
- *   FIELD_PLAYER_GRID_EVENT_UpdateJumpDown  0x021C16AC  thumb  ov021
- *   d_021DA128     0x021DA128  data  ov021
- *   FIELD_PLAYER_GRID_GetMmdl  0x021A572C  thumb  ov021
- *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
- *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
- *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
- *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
- *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
- *   FLDMMDL_GetPosY  0x0216D8AC  thumb  ov010
- *   FLDMMDL_SysSearchGridPosHeight  0x0216DDDC  thumb  ov010
- *   func_02030734  0x02030734  arm
- *   PARTICLE_InitManager  0x02050B80  arm
- *   d_021DE3C8     0x021DE3C8  data  ov021  a4
- *   PARTICLE_DeleteSystem  0x02050DB8  arm
- *   PARTICLE_SetupSystem  0x02051230  arm
- *   PARTICLE_ExitManager  0x02050ED4  arm
+ *   func_020122C0  0x020122C0  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020307B0  0x020307B0  arm
- *   PARTICLE_Main  0x02050BE8  arm
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   func_02030734  0x02030734  arm
+ *   func_02030EAC  0x02030EAC  arm
  *   G3D_UTIL_Create  0x02047CFC  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   d_021DE3D8     0x021DE3D8  data  a4
@@ -47,8 +37,6 @@
  *   func_02048A18  0x02048A18  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   GFL_HEAP_GetAllocatableSize  0x0203038C  arm
- *   func_020122C0  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
  *   d_021DA7F4     0x021DA7F4  data  ov021  a4
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -65,7 +53,6 @@
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
@@ -158,347 +145,399 @@
  *   d_021DA700     0x021DA700  data  ov021
  *   G3D_UTIL_Delete  0x02047E54  arm  arm9
  *   G3D_CAMERA_Delete  0x02048AC4  arm  arm9
- *   PARTICLE_CreateSystemDefault  0x02050C04  arm  arm9
- *   PARTICLE_LoadArchiveMember  0x0205121C  arm  arm9
- *   PARTICLE_GetEffectCount  0x02051614  arm  arm9
- *   BUTTON_MAN_GetBlock  0x02051788  arm  arm9
- *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
- *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   NNS_G3dGetResDataByName  0x0206E62C  arm  arm9
  *   BG_SYS_Get  0x020416D4  arm  arm9
  *   GX_ResetBankForBG  0x020808F4  arm  arm9
+ *   FLD_PARTICLE_CreateEffect 0x021C1A48 thumb ov021
+ *   FLD_PARTICLE_DeleteEffect 0x021C1A84 thumb ov021
+ *   FLD_PARTICLE_LoadResource 0x021C1A98 thumb ov021
+ *   FLD_PARTICLE_StartEmitter 0x021C1AA8 thumb ov021
+ *   FLD_PARTICLE_IsEffectFinished 0x021C1AB4 thumb ov021
  */
 #include "fld3d_ci_types.h"
+#include "field_player_grid_event_shared_types.h"
 
 typedef signed char s8;
-typedef signed short s16;
+
 typedef volatile unsigned short vu16;
+
 typedef struct Bmp Bmp;
-typedef int (*Fld3dCiStateFunc)(u16 *state);
+
 struct Bmp;
 
-extern void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(u8 *p);
-extern void *FIELD_PLAYER_GRID_GetMmdl(u8 *p);
-extern void *FLDMMDL_GetMmdlSys(void *a0);
-extern int FLDMMDL_GetGridNowX(void *p);
-extern int FLDMMDL_MOVE_GetDirAddGridX(int a);
-extern int FLDMMDL_GetGridNowZ(void *p);
-extern int FLDMMDL_MOVE_GetDirAddGridZ(int a);
-extern u32 FLDMMDL_GetPosY(void *p);
-extern u8 *FLDMMDL_SysSearchGridPosHeight(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void PARTICLE_InitManager(u32);
-extern void *PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
-extern void *BUTTON_MAN_GetBlock(void *effect);
-extern void func_02048B60(void *effect, const u32 *in);
-extern void func_02048B6C(void *effect, const u32 *in);
-extern void PARTICLE_DeleteSystem(void *effect);
-extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
-extern u32 PARTICLE_SetupSystem(u32, u32, u32, u32);
-extern int PARTICLE_GetEffectCount(int **p);
+
 extern u32 func_020307B0(void *p);
-extern void PARTICLE_ExitManager(void);
-extern void PARTICLE_Main();
+
 extern void *G3D_UTIL_Create(int a, int b, int heap);
+
 extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
+
 extern u32 G3D_CAMERA_Delete(void *camera);
+
 extern void G3D_UTIL_Delete(void *gfxUnits);
+
 extern u32 G3D_UTIL_AddUnit(u32, u32);
+
 extern u32 MTX_Identity33_(u32);
+
 void func_02048AD0(void *camera);
+
 u32 func_020489F4(void *gfxUnits, int index);
+
 u32 func_02048A00(void *gfxUnits, int index);
+
 u32 func_02048A18(void *gfxUnits, int index);
+
 void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
+
 u32 GFL_HEAP_GetAllocatableSize(int a);
+
 extern void *func_020122C0(void *gameSystem, void *parent, void *func, u32 workSize);
+
 extern void *func_020124E8(void *event);
+
 void *ICA_ANIME_GetField1C(const void *p);
+
 void *GAME_DATA_GetMyParty(const void *p);
+
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
+
 u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+
 u32 POKE_TOOL_IsShiny(void *p);
+
 int func_02034AC4(signed int id);
+
 void func_02034A5C(int id);
+
 int *ENCEFF_GetScreenTexParam(int a);
+
 extern void *GAME_EVENT_GetGameSystem(void *event);
+
 extern void *ICA_ANIME_GetField20(const void *p);
+
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+
 extern void FLDMMDL_SysPauseMove(void *o);
+
 extern void GAME_EVENT_CallEvent(void *event, void *child);
+
 extern void *FIELDMAP_GetFieldPlayer(void *p);
+
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+
 extern void FLDMMDL_DeleteMmdl(u32 a);
+
 extern void FIELDMAP_SetUpdateStopped(u8 *p, u32 v);
+
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+
 extern void BG_SYS_SetGraphicsMode(void *dispConfig);
+
 extern void func_0207FDCC(int a);
+
 extern void func_0207D63C(int, int, int, int, int);
+
 extern void func_02040588(unsigned char which, unsigned char enable);
+
 extern u32 FIELDMAP_GetFog(u8 *p);
+
 extern int FIELD_FOG_SetFlag(u32 a, u32 b);
+
 extern void *func_02030830(u32 heapId);
+
 extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
+
 extern int GFL_USE_IsLoaderBusy(void);
+
 extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
+
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
+
 extern u32 FIELDMAP_GetLight(u8 *p);
+
 extern void FIELD_LIGHT_Reflect(u8 *p, int force);
+
 extern void *func_020056A0(void *callback, void *ctx, int a2);
+
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
+
 extern u32 FIELDMAP_GetPlaceName(u8 *p);
+
 extern void FIELD_MSGBG_ReloadBg(char *p);
+
 extern void FIELD_PLACE_NAME_RestoreWindow(u8 *p);
+
 extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
+
 extern void BG_SYS_FreeSlot(int);
+
 extern u32 *FLDMMDL_SysResumeMove(void *c);
+
 int G3D_SYSTEM_GetObjectAnimeCount(G3dObject *object);
+
 int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *object, int animIndex, int amount);
+
 u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animIndex);
+
 u16 BUTTON_MAN_GetResourceType(void *res);
+
 extern void G3D_UTIL_RemoveUnit(void *gfxUnits, u32 index);
+
 int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
+
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
+
 extern void func_0208068C(u32 a);
+
 extern void func_02030EAC(void *n);
+
 extern u8 BG_SYS_Get(u32 layer);
+
 u32 BMP_GetVisiblePlane(void);
+
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
+
 extern void *func_020124F0(void *event);
+
 void BMP_Delete(void *bmp);
+
 void PM_VOICE_GetPerapVoiceSave(void **out);
+
 unsigned int PM_VOICE_Play(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6, unsigned int a7);
+
 int PM_VOICE_IsAnyActive(void);
+
 s8 PM_VOICE_GetVolume(u32 i);
+
 void PM_VOICE_AddVolume(u32 idx, int delta);
+
 void PM_VOICE_StopAll(void);
+
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+
 extern u32 func_02048A0C(void *gfxUnits, int index);
+
 extern u32 func_02047388(void *texBlock);
+
 extern u32 func_020473B8(void *texBlock);
+
 extern int POKEGRA_GetArcID(void);
+
 extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+
 extern void *BMP_GetPixels(const struct Bmp *bmp);
+
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
+
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
+
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+
 void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+
 int FADE_IsActive(void);
+
 extern void *G3D_SYSTEM_GetResourceFile(void *p);
+
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern void *GAME_DATA_GetMyStatus(void *gameData);
+
 extern u8 func_02008550(const void *playerStatus);
+
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
+
 extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
+
 extern int func_0208CC78(const char *s);
+
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
 extern void *WORDSET_CreateDefault(u32 heap);
+
 extern void *STRBUF_Create(u32 size, u16 heap);
+
 extern void *func_02045EC0(void *bank, u32 index);
+
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *playerStatus);
+
 extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
+
 extern void STRBUF_Delete(void *vec);
+
 extern u32 WORDSET_DeleteStrbufED04(void *p);
+
 extern void WORDSET_ParsePackedLimits(void *dst, void *src);
+
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+
 extern u32 func_0201D304(void *s, u32 a, u32 b);
+
 extern u32 GF_FONT_Delete(void *ptr);
+
 extern int WAZA_OSHIE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 a6, u16 a7, u16 heap, void *texKey);
+
 extern u32 MSGDATA_Delete(void *rec);
+
 extern int GX_ResetBankForBG(void);
+
 extern void MI_CpuFill8(void *, unsigned, unsigned);
+
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
-u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(u8 *work, u32 direction);
-FldParticle *FLD_PARTICLE_Create(u32 heapId);
+
 void *FLD_PARTICLE_CreateEffect(FldParticle *particle);
+
 void FLD_PARTICLE_DeleteEffect(FldParticle *particle);
+
 void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId);
+
 int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 arg0, u32 arg1);
+
 int FLD_PARTICLE_IsEffectFinished(FldParticle *particle);
-u32 FLD_PARTICLE_Delete(FldParticle *particle);
-void FLD_PARTICLE_Exit(void);
+
 Fld3dCi *FLD3D_CI_Create(u32 heapId, FldParticle *particle);
+
 void FLD3D_CI_Delete(Fld3dCi *ci);
+
 int FLD3D_CI_SetupEffectUnit(Fld3dCi *ci, Fld3dCiResource **resourceTable);
+
 void FLD3D_CI_DrawEffect(Fld3dCi *ci);
+
 void *FLD3D_CI_StartSequence(void *gameSystem, Fld3dCi *ci, int sequenceId);
+
 void *FLD3D_CI_StartPokemonSequence(void *gameSystem, Fld3dCi *ci, int species, int form, int attr6E, int personality, int attr4C);
+
 void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, Fld3dCi *ci, int partyPos);
+
 void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, int fadeVariant);
+
 int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work);
+
 int FLD3D_CI_UpdateStartDelays(Fld3dCi *ci);
+
 int FLD3D_CI_UpdateTrackA(Fld3dCi *ci);
+
 int FLD3D_CI_UpdateTrackB(Fld3dCi *ci);
+
 void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int sequenceId);
+
 void FLD3D_CI_EndSequence(Fld3dCi *ci, Fld3dCiSeq *seq);
+
 void FLD3D_CI_StartTrack(Fld3dCi *ci, int track);
+
 void FLD3D_CI_FollowTargetCallback(Fld3dCiFollow *follow);
+
 void FLD3D_CI_LoadSequence(Fld3dCiSeq *seq, u32 sequenceId, u32 heapId);
+
 void FLD3D_CI_FreeSequence(Fld3dCiSeq *seq);
+
 void FLD3D_CI_StartScreenCapture(Fld3dCi *ci);
+
 void FLD3D_CI_CaptureTask(void *task, u32 *done);
+
 void FLD3D_CI_SaveLayerPriorities(Fld3dCi *ci);
+
 void FLD3D_CI_SaveVisiblePlanes(Fld3dCi *ci);
+
 void FLD3D_CI_RestoreLayerPriorities(Fld3dCi *ci);
+
 void FLD3D_CI_RestoreVisiblePlanes(Fld3dCi *ci);
+
 int FLD3D_CI_PokemonExtraTask(void *event, int *state);
+
 int FLD3D_CI_PokemonFinishStep(void *event, Fld3dCi *ci);
+
 void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci);
+
 int FLD3D_CI_FadeOutTask(void *event, int *state);
+
 int FLD3D_CI_FadeInTask(void *event, int *state);
+
 int FLD3D_CI_FadeInAltTask(void *event, u32 *state);
+
 int FLD3D_CI_IsAltFadeSequence(u16 sequenceId);
+
 void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *plttName, u32 chrFile, u32 plttFile);
+
 int FLD3D_CI_NameFinishStep(void *event, Fld3dCi *ci);
+
 int FLD3D_CI_NameExtraTask(void *event, int *state);
+
 int FLD3D_CI_GetTexDataOffset(Fld3dCiTexBlock *texBlock, Fld3dCiTexDictEntry *entry);
+
 int FLD3D_CI_GetPlttDataOffset(Fld3dCiTexBlock *texBlock, Fld3dCiPlttDictEntry *entry);
+
 int FLD3D_CI_FindTexture(Fld3dCiTexBlock *texBlock, const char *name);
+
 int FLD3D_CI_FindPalette(Fld3dCiTexBlock *texBlock, const char *name);
+
 void FLD3D_CI_CopyName(char *dst, const char *src);
+
 void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *texName, const char *plttName, u32 msgId, u32 centered);
+
 void *FLD3D_CI_StartMessageSequence(void *gameSystem, Fld3dCi *ci, u32 nameMsgId);
+
 void FLD3D_CI_DarkenCapturedScreen(u32 unused);
+
 void FLD3D_CI_InitEventWork(Fld3dCi *ci, Fld3dCiEventWork *work);
+
 void FLD3D_CI_PlayCueSound(Fld3dCi *ci);
+
 void FLD3D_CI_DisplayRestoreTask(void *task, u32 *done);
-extern Fld3dCiStateFunc d_021DA128[];
-extern u8 d_021DE3C8;
+
 extern u8 d_021DE3D8;
+
 extern const VecFx32 d_021DA6E8;
+
 extern const VecFx32 d_021DA6D0;
+
 extern const VecFx32 d_021DA6F4;
+
 extern const VecFx32 d_021DA6DC;
+
 extern const s16 d_020A1EB8[];
+
 extern u32 d_021DA7F4[];
+
 extern unsigned char abs_id_4A[];
+
 extern const Fld3dCiBgMode d_021DA710;
+
 extern char d_021DE3E4[];
+
 extern char d_021DE3F4[];
+
 extern char d_021DE404[];
+
 extern char d_021DE40C[];
+
 extern char d_021DE418[];
+
 extern char d_021DE428[];
+
 extern char d_021DE43C[];
+
 extern char d_021DE448[];
+
 extern Fld3dCiCue *d_021DA720[];
+
 extern const Fld3dCiDispSetup d_021DA700;
-
-/*
- * Runs the state table until a state returns other than 1.
- * Belongs to the grid event file (see cuts).
- */
-void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state)
-{
-    if (state[0] != 0) {
-        while (d_021DA128[(s16)state[1]](state) == 1)
-            ;
-    } else {
-        FIELD_PLAYER_GRID_EVENT_UpdateJumpDown((u8 *)state);
-    }
-}
-
-/* Belongs to the grid event file (see cuts). */
-u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(u8 *work, u32 direction)
-{
-    u32 mmdl;
-    u32 mapHandle;
-    int gridX;
-    int gridZ;
-
-    mmdl = (u32)FIELD_PLAYER_GRID_GetMmdl(work);
-    mapHandle = (u32)FLDMMDL_GetMmdlSys((void *)mmdl);
-    gridX = FLDMMDL_GetGridNowX((void *)mmdl);
-    gridX += FLDMMDL_MOVE_GetDirAddGridX(direction);
-    gridZ = FLDMMDL_GetGridNowZ((void *)mmdl);
-    gridZ += FLDMMDL_MOVE_GetDirAddGridZ(direction);
-    return (u32)FLDMMDL_SysSearchGridPosHeight(mapHandle, (s16)gridX, (s16)gridZ, (u32)FLDMMDL_GetPosY((void *)mmdl), (u32)1, 0);
-}
-
-FldParticle *FLD_PARTICLE_Create(u32 heapId)
-{
-    FldParticle *particle;
-
-    particle = func_02030734(heapId, 0x10, 1, (const char *)&d_021DE3C8, 0x2e);
-    particle->heapId = heapId;
-    PARTICLE_InitManager(heapId);
-    particle->workBuffer = func_02030734(heapId, 0x4800, 1, (const char *)&d_021DE3C8, 0x34);
-    return particle;
-}
-
-/*
- * Creates the effect instance and sets its two scale parameters.
- */
-void *FLD_PARTICLE_CreateEffect(FldParticle *particle)
-{
-    u32 effectScale;
-    u32 effectRange;
-    void *effect;
-
-    particle->effect = PARTICLE_CreateSystemDefault((int)particle->workBuffer, 0x4800, 1, particle->heapId);
-    effect = BUTTON_MAN_GetBlock(particle->effect);
-    effectScale = 1 << 12;
-    effectRange = 0x384000;
-    func_02048B60(effect, &effectScale);
-    func_02048B6C(effect, &effectRange);
-    return particle->effect;
-}
-
-void FLD_PARTICLE_DeleteEffect(FldParticle *particle)
-{
-    void *effect = particle->effect;
-    if (effect != 0) {
-        PARTICLE_DeleteSystem(effect);
-        particle->effect = 0;
-    }
-}
-
-/*
- * Loads a resource with the owner's heap id (tail call).
- */
-void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId)
-{
-    return (void *)PARTICLE_LoadArchiveMember(kind, resourceId, particle->heapId);
-}
-
-int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 arg0, u32 arg1)
-{
-    return PARTICLE_SetupSystem((u32)particle->effect, resource, arg0, arg1);
-}
-
-/* Returns 1 when the effect is gone or finished. */
-int FLD_PARTICLE_IsEffectFinished(FldParticle *particle)
-{
-    if (particle->effect == 0)
-        return 1;
-    if (PARTICLE_GetEffectCount((int **)particle->effect) == 0)
-        return 1;
-    return 0;
-}
-
-u32 FLD_PARTICLE_Delete(FldParticle *particle)
-{
-    FLD_PARTICLE_DeleteEffect(particle);
-    PARTICLE_ExitManager();
-    func_020307B0(particle->workBuffer);
-    return func_020307B0(particle);
-}
-
-/*
- * Tail-call thunk: forwards to PARTICLE_Main with no argument change.
- */
-void FLD_PARTICLE_Exit(void)
-{
-    PARTICLE_Main();
-}
 
 static inline void *MakeCamera(int kind, int param1, int param2, int param3, int param4, int nearClip, int farClip, int scaleW, VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *target, int heapId)
 {

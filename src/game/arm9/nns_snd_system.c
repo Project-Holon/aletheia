@@ -1,7 +1,7 @@
 /*
  * file:     nns_snd_system.c
  * unit:     yes
- * function: NNSi_G3dTexMtxScaleRot_Max, NNSi_G3dTexMtxRot_Max, func_020724E4, NNSi_G3dTexMtxIdentity_Max, NNSi_G3dSendTexMtx_Max, NNS_SndInit, NNS_SndBoot, NNS_SndSetMasterVolume, NNS_SndSetMasterPan, NNS_SndReadDriverInfo, NNS_SndReadTrackInfo, NNS_SndPrependPostSleepCallback, NNS_SndAppendPostSleepCallback
+ * function: NNSi_G3dTexMtxScaleRot_Max, NNSi_G3dTexMtxRot_Max, NNSi_G3dTexMtxScale_Max, NNSi_G3dTexMtxIdentity_Max, NNSi_G3dSendTexMtx_Max, NNS_SndInit, NNS_SndBoot, NNS_SndSetMasterVolume, NNS_SndSetMasterPan, NNS_SndReadDriverInfo, NNS_SndReadTrackInfo, NNS_SndPrependPostSleepCallback, NNS_SndAppendPostSleepCallback
  * address:  0x02072374
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -170,7 +170,7 @@ extern void SND_WaitForCommandProc(u32 a);
 extern void NNSi_SndCaptureReset(void);
 void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s);
 void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s);
-void func_020724E4(struct DST *d, struct SRC *s);
+void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s);
 void NNSi_G3dTexMtxIdentity_Max(struct DST *d);
 void NNSi_G3dSendTexMtx_Max(Obj *o);
 void NNS_SndInit(void);
@@ -377,7 +377,7 @@ void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s)
 
 
 
-void func_020724E4(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s)
 {
     d->f00 = s->f18;
     d->f14 = s->f1c;

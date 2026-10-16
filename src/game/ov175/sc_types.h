@@ -58,6 +58,7 @@
  *   sciWsCreateSession  0x021E0774  arm  ov175
  *   sciWsSetReportIntention  0x021E0A7C  arm  ov175
  *   sciWsSubmitReport  0x021E0DB8  arm  ov175
+ *   scGetConnectionId  0x021DFAA0  arm  ov175
  */
 #ifndef SC_TYPES_H
 #define SC_TYPES_H
@@ -234,7 +235,7 @@ int scInitialize(unsigned int theGameId, SCInterface **theInterfaceOut);
 int scShutdown(SCInterface *theInterface);
 int scThink(SCInterface *theInterface);
 unsigned char *scGetSessionId(SCInterface *theInterface);
-unsigned char *func_021DFAA0(SCInterface *theInterface);
+unsigned char *scGetConnectionId(SCInterface *theInterface);
 int scSetSessionId(SCInterface *theInterface, const char *theSessionId);
 int scCreateSession(SCInterface *theInterface, GSLoginCertificate *theCertificate,
                   GSLoginCertificatePrivate *thePrivateData, SCWebCallback theCallback, int theTimeoutMs,

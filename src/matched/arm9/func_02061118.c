@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   FNDHEAP_Finalize  0x0206074C  arm
  */
 
-extern void func_0206074C(void *heap);
-void NNS_FndDestroyFrmHeap(void *heap){ func_0206074C(heap); }
+extern void FNDHEAP_Finalize(void *heap);
+void NNS_FndDestroyFrmHeap(void *heap){ FNDHEAP_Finalize(heap); }

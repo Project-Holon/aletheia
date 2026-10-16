@@ -1,5 +1,5 @@
 /*
- * function: func_02183B60
+ * function: EVENT_MAPCHANGE_StartMarker
  * address:  0x02183B60
  * packet:   pkt_02183B60
  * region:   ov020
@@ -12,7 +12,7 @@
 
 typedef int (*fp)(void);
 
-int func_02183B60(int f)
+int EVENT_MAPCHANGE_StartMarker(int f)
 {
     if (f)
         ((fp)f)();

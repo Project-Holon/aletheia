@@ -1,8 +1,8 @@
 /*
  * file:     game_beacon_accessor.c
  * unit:     yes
- * function: GAME_BEACON_ACCESSOR_GetActionViewVariant, GAME_BEACON_ACCESSOR_RegisterRecordWords, GAME_BEACON_ACCESSOR_IsNoArgInvalid, GAME_BEACON_ACCESSOR_IsActionTrainerNoInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsNoValueInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid, GAME_BEACON_ACCESSOR_IsActionItemNoInvalid, GAME_BEACON_ACCESSOR_IsPlayTimeInvalid, GAME_BEACON_ACCESSOR_IsActionCountValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsDistributionItemNoInvalid, GAME_BEACON_ACCESSOR_IsActionMoveNoInvalid, GAME_BEACON_ACCESSOR_IsActionPresetEventInvalid, GAME_BEACON_ACCESSOR_IsActionByteValueInvalid, GAME_BEACON_ACCESSOR_IsActionHalfwordValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid
- * address:  0x02165FC0
+ * function: GAME_BEACON_ACCESSOR_AllocInfo, GAME_BEACON_ACCESSOR_AllocTable, GAME_BEACON_ACCESSOR_IsInfoInvalid, GAME_BEACON_ACCESSOR_IsDistributionAction, GAME_BEACON_ACCESSOR_GetPlayerName, GAME_BEACON_ACCESSOR_GetPmVersion, GAME_BEACON_ACCESSOR_GetLanguage, GAME_BEACON_ACCESSOR_GetNation, GAME_BEACON_ACCESSOR_GetArea, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst, GAME_BEACON_ACCESSOR_GetDetailsPms, GAME_BEACON_ACCESSOR_GetResearchTeamRank, GAME_BEACON_ACCESSOR_GetFavoriteColorRgb, GAME_BEACON_ACCESSOR_GetFavoriteColorIndex, GAME_BEACON_ACCESSOR_GetTrainerId, GAME_BEACON_ACCESSOR_GetTrainerAppearance, GAME_BEACON_ACCESSOR_GetSex, GAME_BEACON_ACCESSOR_GetPlayTime, GAME_BEACON_ACCESSOR_GetInfoVersion, GAME_BEACON_ACCESSOR_GetZoneId, GAME_BEACON_ACCESSOR_GetTownmapRootZoneId, GAME_BEACON_ACCESSOR_GetPassCount, GAME_BEACON_ACCESSOR_GetThanksCount, GAME_BEACON_ACCESSOR_GetGreeting, GAME_BEACON_ACCESSOR_GetThanksName, GAME_BEACON_ACCESSOR_GetFreeText, GAME_BEACON_ACCESSOR_GetDetailsType, GAME_BEACON_ACCESSOR_GetDetailsTrainerNo, GAME_BEACON_ACCESSOR_GetDetailsMonsNo, GAME_BEACON_ACCESSOR_GetActionNo, GAME_BEACON_ACCESSOR_GetActionMonsNo, GAME_BEACON_ACCESSOR_GetActionItemNo, GAME_BEACON_ACCESSOR_GetActionCountValue, GAME_BEACON_ACCESSOR_GetDistributionMonsNo, GAME_BEACON_ACCESSOR_GetDistributionItemNo, GAME_BEACON_ACCESSOR_GetDistributionSerial, GAME_BEACON_ACCESSOR_GetNickname, GAME_BEACON_ACCESSOR_GetActionTrainerNo, GAME_BEACON_ACCESSOR_GetPresetEventValue, GAME_BEACON_ACCESSOR_GetActionSpecialValue, GAME_BEACON_ACCESSOR_GetActionWordValue, GAME_BEACON_ACCESSOR_GetActionByteValue, GAME_BEACON_ACCESSOR_GetActionHalfwordValue, GAME_BEACON_ACCESSOR_GetActionCheckIndex, GAME_BEACON_ACCESSOR_GetActionViewVariant, GAME_BEACON_ACCESSOR_RegisterRecordWords, GAME_BEACON_ACCESSOR_IsNoArgInvalid, GAME_BEACON_ACCESSOR_IsActionTrainerNoInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsNoValueInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid, GAME_BEACON_ACCESSOR_IsActionItemNoInvalid, GAME_BEACON_ACCESSOR_IsPlayTimeInvalid, GAME_BEACON_ACCESSOR_IsActionCountValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsDistributionItemNoInvalid, GAME_BEACON_ACCESSOR_IsActionMoveNoInvalid, GAME_BEACON_ACCESSOR_IsActionPresetEventInvalid, GAME_BEACON_ACCESSOR_IsActionByteValueInvalid, GAME_BEACON_ACCESSOR_IsActionHalfwordValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid
+ * address:  0x02165B10
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,9 +10,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from unit_02165FC0.c by tools/splitfile.py.
+ * Cut from game_beacon_search.c, game_beacon_accessor.c by tools/splitfile.py.
  *
  * symbols:
+ *   func_02030734  0x02030734  arm
+ *   GAME_BEACON_ACCESSOR_FileName 0x021729D4 data a4
+ *   GAME_BEACON_ACCESSOR_ActionCheckFuncs     0x02171CA8  data
+ *   STRBUF_SetStringN  0x02045994  arm
+ *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
+ *   OSi_GetOwnerInfoExBuffer  0x02087D1C  arm
+ *   STRBUF_Clear  0x0204581C  arm
+ *   STRBUF_SetString  0x02045924  arm
  *   GAME_BEACON_ACCESSOR_ActionTable  0x02171CE8  data  a1
  *   WORDSET_ClearAllSlots  0x0201F31C  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -46,8 +54,499 @@
  *   GAME_BEACON_ACCESSOR_GetActionCheckIndex  0x02165FB4  thumb  ov010
  */
 #include "../arm9/game_beacon_types.h"
+#include "game_beacon_search_shared_types.h"
 
-struct StrBuf;
+typedef int (*GameBeaconActionCheckFunc)(const GameBeaconInfo *info);
+
+/* Per-action attributes, 2 bytes. */
+typedef struct GameBeaconActionAttr {
+    u8 checkIndex;              /* index into GAME_BEACON_ACCESSOR_ActionCheckFuncs */
+    u8 group;
+} GameBeaconActionAttr;
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
+
+extern u32 SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *bits, int id);
+
+extern const u16 *OSi_GetOwnerInfoExBuffer(void);
+
+extern void STRBUF_Clear(struct Strbuf *str);
+
+extern void STRBUF_SetString(struct Strbuf *str, const u16 *src);
+
+GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32 heapId);
+
+GameBeaconInfoTable *GAME_BEACON_ACCESSOR_AllocTable(u32 heapId);
+
+int GAME_BEACON_ACCESSOR_IsInfoInvalid(const GameBeaconInfo *info);
+
+int GAME_BEACON_ACCESSOR_IsDistributionAction(const GameBeaconInfo *info);
+
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(const GameBeaconInfo *info, struct Strbuf *name);
+
+u32 GAME_BEACON_ACCESSOR_GetPmVersion(const GameBeaconInfo *info);
+
+u32 GAME_BEACON_ACCESSOR_GetLanguage(const GameBeaconInfo *info);
+
+u8 GAME_BEACON_ACCESSOR_GetNation(const GameBeaconInfo *info);
+
+u8 GAME_BEACON_ACCESSOR_GetArea(const GameBeaconInfo *info);
+
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info);
+
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(const GameBeaconInfo *info);
+
+void GAME_BEACON_ACCESSOR_GetDetailsPms(const GameBeaconInfo *info, GameBeaconPms *pms);
+
+u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(const GameBeaconInfo *info);
+
+void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(u16 *rgb, const GameBeaconInfo *info);
+
+u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(const GameBeaconInfo *info);
+
+u16 GAME_BEACON_ACCESSOR_GetTrainerId(const GameBeaconInfo *info);
+
+u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(const GameBeaconInfo *info);
+
+extern u8 GAME_BEACON_ACCESSOR_GetSex(const GameBeaconInfo *info);
+
+void GAME_BEACON_ACCESSOR_GetPlayTime(const GameBeaconInfo *info, u16 *hours, u16 *minutes);
+
+u8 GAME_BEACON_ACCESSOR_GetInfoVersion(const GameBeaconInfo *info);
+
+u16 GAME_BEACON_ACCESSOR_GetZoneId(const GameBeaconInfo *info);
+
+u16 GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const GameBeaconInfo *info);
+
+u32 GAME_BEACON_ACCESSOR_GetPassCount(const GameBeaconInfo *info);
+
+u32 GAME_BEACON_ACCESSOR_GetThanksCount(const GameBeaconInfo *info);
+
+void GAME_BEACON_ACCESSOR_GetGreeting(const GameBeaconInfo *info, struct Strbuf *greeting);
+
+void GAME_BEACON_ACCESSOR_GetThanksName(const GameBeaconInfo *info, struct Strbuf *name);
+
+extern void GAME_BEACON_ACCESSOR_GetFreeText(const GameBeaconInfo *info, struct Strbuf *text);
+
+unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const GameBeaconInfo *info);
+
+u16 GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const GameBeaconInfo *info);
+
+u16 GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetActionNo(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetActionMonsNo(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetActionItemNo(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetActionCountValue(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetDistributionMonsNo(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetDistributionItemNo(const GameBeaconInfo *info);
+
+u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(const GameBeaconInfo *info);
+
+extern void GAME_BEACON_ACCESSOR_GetNickname(const GameBeaconInfo *info, struct Strbuf *nickname);
+
+extern u16 GAME_BEACON_ACCESSOR_GetActionTrainerNo(const GameBeaconInfo *info);
+
+extern u32 GAME_BEACON_ACCESSOR_GetPresetEventValue(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetActionSpecialValue(const GameBeaconInfo *info);
+
+extern u32 GAME_BEACON_ACCESSOR_GetActionWordValue(const GameBeaconInfo *info);
+
+extern u8 GAME_BEACON_ACCESSOR_GetActionByteValue(const GameBeaconInfo *info);
+
+extern u16 GAME_BEACON_ACCESSOR_GetActionHalfwordValue(const GameBeaconInfo *info);
+
+extern u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 action);
+
+extern const char GAME_BEACON_ACCESSOR_FileName[];
+
+extern const GameBeaconActionCheckFunc GAME_BEACON_ACCESSOR_ActionCheckFuncs[];
+
+extern const GameBeaconActionAttr GAME_BEACON_ACCESSOR_ActionTable[];
+
+GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32 heapId)
+{
+    return func_02030734(heapId, sizeof(GameBeaconInfo), 1, GAME_BEACON_ACCESSOR_FileName, 0x1b3);
+}
+
+GameBeaconInfoTable *GAME_BEACON_ACCESSOR_AllocTable(u32 heapId)
+{
+    GameBeaconInfoTable *table = func_02030734(heapId, sizeof(GameBeaconInfoTable), 1, GAME_BEACON_ACCESSOR_FileName, 0x1c1);
+
+    table->head = 0;
+    table->count = 0;
+    return table;
+}
+
+/* ------------------------------------------------------------------ *
+ * Beacon info accessors.
+ * ------------------------------------------------------------------ */
+
+/* Returns 1 when a field is out of range or the action check fails. */
+int GAME_BEACON_ACCESSOR_IsInfoInvalid(const GameBeaconInfo *info)
+{
+    if (info->action == 0 || info->action >= 0x33)
+        return 1;
+    if (info->detailsPms.bits.detailsType >= 6)
+        return 1;
+    if (info->researchTeamRank >= 6)
+        return 1;
+    if (info->playHours > 999 || info->playMinutes > 59)
+        return 1;
+    if (info->infoVersion > 0x2D && info->infoVersion != 0x30)
+        return 1;
+    if (info->zoneId >= 427 || info->townmapRootZoneId >= 427)
+        return 1;
+    if (info->thanksCount > 99999 || info->passCount > 99999)
+        return 1;
+    if (GAME_BEACON_ACCESSOR_ActionCheckFuncs[GAME_BEACON_ACCESSOR_GetActionCheckIndex(info->action)](info) != 0)
+        return 1;
+    return 0;
+}
+
+int GAME_BEACON_ACCESSOR_IsDistributionAction(const GameBeaconInfo *info)
+{
+    switch (info->action) {
+    case 0x19:
+    case 0x1A:
+    case 0x1B:
+    case 0x32:
+        return 1;
+    }
+    return 0;
+}
+
+void GAME_BEACON_ACCESSOR_GetPlayerName(const GameBeaconInfo *info, struct Strbuf *name)
+{
+    STRBUF_SetStringN(name, info->name, 8);
+}
+
+u32 GAME_BEACON_ACCESSOR_GetPmVersion(const GameBeaconInfo *info)
+{
+    return info->pmVersion;
+}
+
+u32 GAME_BEACON_ACCESSOR_GetLanguage(const GameBeaconInfo *info)
+{
+    return info->language;
+}
+
+u8 GAME_BEACON_ACCESSOR_GetNation(const GameBeaconInfo *info)
+{
+    return info->nation;
+}
+
+u8 GAME_BEACON_ACCESSOR_GetArea(const GameBeaconInfo *info)
+{
+    return info->area;
+}
+
+/* Questionnaire answers: 0xFF when the question has no answer. */
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info)
+{
+    u32 answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, 0x1a);
+
+    if (answer == 0)
+        return 0xff;
+    return answer;
+}
+
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(const GameBeaconInfo *info)
+{
+    u32 answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, 0x19);
+
+    if (answer == 0)
+        return 0xff;
+    return answer;
+}
+
+void GAME_BEACON_ACCESSOR_GetDetailsPms(const GameBeaconInfo *info, GameBeaconPms *pms)
+{
+    pms->sentenceType = info->detailsPms.bits.pmsSentenceType;
+    pms->sentenceId = info->detailsPms.bits.pmsSentenceId;
+    pms->word[0] = info->pmsWord[0];
+    pms->word[1] = info->pmsWord[1];
+}
+
+u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(const GameBeaconInfo *info)
+{
+    return info->researchTeamRank;
+}
+
+/* The owner color table has 16 entries. */
+void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(u16 *rgb, const GameBeaconInfo *info)
+{
+    int color = info->favoriteColor;
+    const u16 *colorTable = OSi_GetOwnerInfoExBuffer();
+
+    *rgb = colorTable[color & 0xF];
+}
+
+u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(const GameBeaconInfo *info)
+{
+    return info->favoriteColor;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetTrainerId(const GameBeaconInfo *info)
+{
+    return info->trainerId;
+}
+
+/* Trainer appearance: the female ones follow the 8 male ones. */
+u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(const GameBeaconInfo *info)
+{
+    if (info->sex == 0) {
+        return info->trainerView;
+    }
+    return info->trainerView + 8;
+}
+
+u8 GAME_BEACON_ACCESSOR_GetSex(const GameBeaconInfo *info)
+{
+    return info->sex;
+}
+
+void GAME_BEACON_ACCESSOR_GetPlayTime(const GameBeaconInfo *info, u16 *hours, u16 *minutes)
+{
+    *hours = info->playHours;
+    *minutes = info->playMinutes;
+}
+
+u8 GAME_BEACON_ACCESSOR_GetInfoVersion(const GameBeaconInfo *info)
+{
+    return info->infoVersion;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetZoneId(const GameBeaconInfo *info)
+{
+    return info->zoneId;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const GameBeaconInfo *info)
+{
+    return info->townmapRootZoneId;
+}
+
+u32 GAME_BEACON_ACCESSOR_GetPassCount(const GameBeaconInfo *info)
+{
+    return info->passCount;
+}
+
+u32 GAME_BEACON_ACCESSOR_GetThanksCount(const GameBeaconInfo *info)
+{
+    return info->thanksCount;
+}
+
+void GAME_BEACON_ACCESSOR_GetGreeting(const GameBeaconInfo *info, struct Strbuf *greeting)
+{
+    STRBUF_Clear(greeting);
+    STRBUF_SetStringN(greeting, info->greeting, 9);
+}
+
+void GAME_BEACON_ACCESSOR_GetThanksName(const GameBeaconInfo *info, struct Strbuf *name)
+{
+    if (info->action != 0x18) {
+        STRBUF_Clear(name);
+    } else {
+        STRBUF_SetString(name, info->actionData.text);
+    }
+}
+
+void GAME_BEACON_ACCESSOR_GetFreeText(const GameBeaconInfo *info, struct Strbuf *text)
+{
+    if (info->action != 0x31) {
+        STRBUF_Clear(text);
+    } else {
+        STRBUF_SetString(text, info->actionData.text);
+    }
+}
+
+unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const GameBeaconInfo *info)
+{
+    unsigned type = info->detailsPms.bits.detailsType;
+
+    if (type >= 6)
+        type = 5;
+    return type;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const GameBeaconInfo *info)
+{
+    unsigned type = info->detailsPms.bits.detailsType;
+    unsigned trainerNo = info->detailsValue;
+
+    switch (type) {
+    case 2:
+    case 3:
+    case 4:
+        if (trainerNo == 0 || trainerNo >= 616)
+            trainerNo = 1;
+        return trainerNo;
+    default:
+        return 1;
+    }
+}
+
+u16 GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const GameBeaconInfo *info)
+{
+    unsigned type = info->detailsPms.bits.detailsType;
+    unsigned monsNo = info->detailsValue;
+
+    switch (type) {
+    case 0:
+    case 1:
+        if (monsNo == 0 || monsNo > 649)
+            monsNo = 504;
+        return monsNo;
+    default:
+        return 504;
+    }
+}
+
+u16 GAME_BEACON_ACCESSOR_GetActionNo(const GameBeaconInfo *info)
+{
+    u16 action = info->action;
+
+    if (action == 0 || action >= 0x33)
+        action = 1;
+    return action;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetActionMonsNo(const GameBeaconInfo *info)
+{
+    switch (info->action) {
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 14:
+    case 15:
+    case 17:
+    case 38:
+        return info->actionArg;
+    }
+    return 0x1F8;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetActionItemNo(const GameBeaconInfo *info)
+{
+    if (info->action == 0x13 || info->action == 0x23)
+        return info->actionData.value;
+    return 0x11;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetActionCountValue(const GameBeaconInfo *info)
+{
+    if (info->action == 0x24)
+        return info->actionData.value;
+    return 1;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetDistributionMonsNo(const GameBeaconInfo *info)
+{
+    if (info->action == 0x19)
+        return info->actionData.special.monsNo;
+    return 0x1F8;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetDistributionItemNo(const GameBeaconInfo *info)
+{
+    if (info->action == 0x1A)
+        return info->actionData.special.itemNo;
+    return 0x11;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(const GameBeaconInfo *info)
+{
+    if (info->action == 0x32)
+        return info->actionData.special.serial;
+    return 0;
+}
+
+/* The case list has no effect; the original keeps it after the copy. */
+void GAME_BEACON_ACCESSOR_GetNickname(const GameBeaconInfo *info, struct Strbuf *nickname)
+{
+    STRBUF_Clear(nickname);
+    STRBUF_SetStringN(nickname, info->actionData.nickname, 11);
+    switch (info->action) {
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 38:
+    case 47:
+        return;
+    }
+}
+
+u16 GAME_BEACON_ACCESSOR_GetActionTrainerNo(const GameBeaconInfo *info)
+{
+    switch (info->action) {
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+        return info->actionData.value;
+    }
+    return 1;
+}
+
+u32 GAME_BEACON_ACCESSOR_GetPresetEventValue(const GameBeaconInfo *info)
+{
+    if (info->action == 0x16)
+        return info->actionData.wordValue;
+    return 1;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetActionSpecialValue(const GameBeaconInfo *info)
+{
+    if (info->action == 0x14)
+        return info->actionData.value;
+    return 1;
+}
+
+u32 GAME_BEACON_ACCESSOR_GetActionWordValue(const GameBeaconInfo *info)
+{
+    if (info->action == 0x29)
+        return info->actionData.wordValue;
+    return 1;
+}
+
+u8 GAME_BEACON_ACCESSOR_GetActionByteValue(const GameBeaconInfo *info)
+{
+    if (info->action == 0x2C)
+        return info->actionData.byteValue;
+    return 0;
+}
+
+u16 GAME_BEACON_ACCESSOR_GetActionHalfwordValue(const GameBeaconInfo *info)
+{
+    if (info->action == 0x30)
+        return info->actionData.value;
+    return 0;
+}
+
+u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 action)
+{
+    return GAME_BEACON_ACCESSOR_ActionTable[action].checkIndex;
+}
+
+struct Strbuf;
 
 struct WordSet;
 
@@ -80,9 +579,9 @@ enum BeaconPrintKind {
 
 extern void WORDSET_ClearAllSlots(struct WordSet *wordSet);
 
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void STRBUF_Delete(struct StrBuf *buf);
+extern void STRBUF_Delete(struct Strbuf *buf);
 
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 bufferIndex, const void *str, u32 sex, u32 flag, u32 language);
 
@@ -103,40 +602,6 @@ extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 bufferIndex, u
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 bufferIndex, s32 value);
 
 extern void WORDSET_DrawF1E0(struct WordSet *wordSet, u32 bufferIndex, u32 value);
-
-extern void GAME_BEACON_ACCESSOR_GetPlayerName(GameBeaconInfo *info, void *buf);
-
-extern u8 GAME_BEACON_ACCESSOR_GetSex(GameBeaconInfo *info);
-
-extern int GAME_BEACON_ACCESSOR_GetFreeText(int info, int buf);
-
-extern u16 GAME_BEACON_ACCESSOR_GetActionNo(GameBeaconInfo *info);
-
-extern u16 GAME_BEACON_ACCESSOR_GetActionMonsNo(GameBeaconInfo *info);
-
-extern u16 GAME_BEACON_ACCESSOR_GetActionItemNo(GameBeaconInfo *info);
-
-extern u16 GAME_BEACON_ACCESSOR_GetActionCountValue(GameBeaconInfo *info);
-
-extern u16 GAME_BEACON_ACCESSOR_GetDistributionMonsNo(GameBeaconInfo *info);
-
-extern u16 GAME_BEACON_ACCESSOR_GetDistributionItemNo(GameBeaconInfo *info);
-
-extern void GAME_BEACON_ACCESSOR_GetNickname(GameBeaconInfo *info, void *buf);
-
-extern u16 GAME_BEACON_ACCESSOR_GetActionTrainerNo(GameBeaconInfo *info);
-
-extern u32 GAME_BEACON_ACCESSOR_GetPresetEventValue(GameBeaconInfo *info);
-
-extern u16 GAME_BEACON_ACCESSOR_GetActionSpecialValue(GameBeaconInfo *info);
-
-extern u32 GAME_BEACON_ACCESSOR_GetActionWordValue(GameBeaconInfo *info);
-
-extern u8 GAME_BEACON_ACCESSOR_GetActionByteValue(GameBeaconInfo *info);
-
-extern u16 GAME_BEACON_ACCESSOR_GetActionHalfwordValue(GameBeaconInfo *info);
-
-extern u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 actionType);
 
 u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 actionType);
 
@@ -172,14 +637,12 @@ int GAME_BEACON_ACCESSOR_IsActionHalfwordValueInvalid(GameBeaconInfo *info);
 
 int GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid(GameBeaconInfo *info);
 
-extern const ActionTypeRow GAME_BEACON_ACCESSOR_ActionTable[];
-
 /*
  * Second byte of the two-byte table row for an action type.
  */
 u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 actionType)
 {
-    return GAME_BEACON_ACCESSOR_ActionTable[actionType].viewVariant;
+    return GAME_BEACON_ACCESSOR_ActionTable[actionType].group;
 }
 
 /*
@@ -189,7 +652,7 @@ u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 actionType)
  */
 void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordSet *wordSet, u32 heapId)
 {
-    struct StrBuf *buf;
+    struct Strbuf *buf;
     u8 printKind;
     u32 value;
 
@@ -243,7 +706,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         WORDSET_SetSlotFromMsgA0(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionHalfwordValue(info));
         break;
     case BEACON_PRINT_FREE_TEXT:
-        GAME_BEACON_ACCESSOR_GetFreeText((int)info, (int)buf);
+        GAME_BEACON_ACCESSOR_GetFreeText((const GameBeaconInfo *)info, (struct Strbuf *)buf);
         WORDSET_SetSlotTag(wordSet, 1, buf, GAME_BEACON_ACCESSOR_GetSex(info), 1, 2);
         break;
     case BEACON_PRINT_NONE:

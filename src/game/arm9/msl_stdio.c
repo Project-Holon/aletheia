@@ -1,7 +1,7 @@
 /*
  * file:     msl_stdio.c
  * unit:     yes
- * function: __prep_buffer, __load_buffer, __flush_buffer, fread, __fread, fclose, MSL_C_LIB_FlushStream, func_02091C40, __ftell, ftell, __fseek, fseek, rewind, MSL_C_LIB_PopCount64, __signbitd, __fpclassifyd, MSL_C_LIB_MbrToWc, MSL_C_LIB_WcToMb, MSL_C_LIB_CallFormatHook, MSL_C_LIB_WideToNarrow
+ * function: __prep_buffer, __load_buffer, __flush_buffer, fread, __fread, fclose, MSL_C_LIB_FlushStream, MSL_C_LIB_StrNICmp, __ftell, ftell, __fseek, fseek, rewind, MSL_C_LIB_PopCount64, __signbitd, __fpclassifyd, MSL_C_LIB_MbrToWc, MSL_C_LIB_WcToMb, MSL_C_LIB_CallFormatHook, MSL_C_LIB_WideToNarrow
  * address:  0x0209159C
  * region:   arm9
  * compiler: dsi/1.2
@@ -132,7 +132,7 @@ int fclose(u8 *stream);
 
 int MSL_C_LIB_FlushStream(struct MslStream *stream);
 
-int func_02091C40(const u8 *s1, const u8 *s2, int n);
+int MSL_C_LIB_StrNICmp(const u8 *s1, const u8 *s2, int n);
 
 int __ftell(struct MslStream *stream);
 
@@ -591,10 +591,10 @@ int MSL_C_LIB_FlushStream(struct MslStream *stream)
  * declared at block scope.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02091C40.c \
- *       --func func_02091C40 --addr 0x02091C40 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/MSL_C_LIB_StrNICmp.c \
+ *       --func MSL_C_LIB_StrNICmp --addr 0x02091C40 --arm --cc 1.1p1
  */
-int func_02091C40(const u8 *s1, const u8 *s2, int n)
+int MSL_C_LIB_StrNICmp(const u8 *s1, const u8 *s2, int n)
 {
     const u8 *tab;
     int i = 0;

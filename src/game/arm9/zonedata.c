@@ -1,7 +1,7 @@
 /*
  * file:     zonedata.c
  * unit:     yes
- * function: ZONEDATA_Init, ZONEDATA_Exit, func_02013A80, ZONEDATA_GetChangedZoneId, func_02013AD0, func_02013B10, ZONEDATA_GetAreaId, ZONEDATA_GetMatrixId, ZONEDATA_GetMapType, ZONEDATA_GetScriptArcId, ZONEDATA_GetMsgArcId, ZONEDATA_GetStartPos, ZONEDATA_GetStartRailPos, ZONEDATA_GetMapChangeType, ZONEDATA_GetCameraId, ZONEDATA_GetCameraAreaId, ZONEDATA_GetBgmId, ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRingtoneEnabled, ZONEDATA_IsFlyEnabled, ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled, ZONEDATA_IsRailMap, ZONEDATA_HasSpecialKind, ZONEDATA_GetSpecialKind, ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone34, ZONEDATA_IsNoGameEventZone, ZONEDATA_IsZone117, ZONEDATA_IsZoneGroup118To13C, ZONEDATA_IsZoneGroup118To120, ZONEDATA_IsRawZoneGroup121To13C, ZONEDATA_IsZoneInTableDFC0, ZONEDATA_IsZoneInTableDFEC, ZONEDATA_IsZone4E, ZONEDATA_IsNormalFieldZone, ZONEDATA_GetParentZoneId, ZONEDATA_GetPlaceNameId, ZONEDATA_GetPlaceNameWindow, ZONEDATA_IsFieldMatrix, ZONEDATA_IsSameMatrixGroup, ZONEDATA_GetEncountId, ZONEDATA_GetEventDataId, ZONEDATA_GetFieldEffectSetId, ZONEDATA_GetFogId, ZONEDATA_GetLightId, ZONEDATA_GetFieldSkillMapEffect, ZONEDATA_GetSecondSpecialKind, ZONEDATA_GetExpObjSetId, ZONEDATA_IsZoneInTableDFB8, ZONEDATA_IsRawZoneF6, ZONEDATA_IsRawZoneF7, ZONEDATA_IsZoneInTableDFD2, ZONEDATA_IsRawZoneGroup4CTo69, ZONEDATA_IsRawZone176Or17A, ZONEDATA_GetMapSubType, ZONEDATA_IsParentZoneD6, ZONEDATA_CreateAreaData, ZONEDATA_DeleteAreaData, ZONEDATA_GetAreaTexSetId, ZONEDATA_GetAreaItaAnimeId, ZONEDATA_GetAreaItpAnimeId, ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor, ZONEDATA_IsSeasonArea, ZONEDATA_InitLocation, ZONEDATA_SetExitLocation, ZONEDATA_SetExitRailLocation, ZONEDATA_SetExitLocationIdOnly, ZONEDATA_SetDirectLocation, ZONEDATA_SetDirectRailLocation, ZONEDATA_GetLocationPosType, ZONEDATA_GetLocationVec, ZONEDATA_SetLocationVec, ZONEDATA_SetZoneStartLocation, ZONEDATA_SetGameStartLocation, ZONEDATA_ExitDirToDir, ZONEDATA_DirToExitDir, ZONEDATA_CheckEventFlag, ZONEDATA_SetEventFlag, ZONEDATA_ResetEventFlag, ZONEDATA_ResetEventFlagRange, ZONEDATA_GetEventFlagAddress, ZONEDATA_GetEventWorkAddress, ZONEDATA_ClearEventWorkRange, ZONEDATA_ClearTimeFlags, ZONEDATA_PopTimeFlagsCleared, ZONEDATA_DirToRailKey, FIELD_STATUS_Create, FIELD_STATUS_Delete, FIELD_STATUS_GetMapMode, FIELD_STATUS_SetMapMode, FIELD_STATUS_SetFieldInitFlag, FIELD_STATUS_GetFieldInitFlag, FIELD_STATUS_SetContinueFlag, FIELD_STATUS_GetContinueFlag, FIELD_STATUS_SetFlashActive, FIELD_STATUS_IsFlashActive, FIELD_STATUS_SetMapEffectMask, FIELD_STATUS_GetMapEffectMask, FIELD_STATUS_SetProcAction, FIELD_STATUS_GetProcAction, FIELD_STATUS_SwapSeasonDispFlag, FIELD_STATUS_GetSeasonDispFlag, FIELD_STATUS_FieldCloseEvent, FIELD_STATUS_CreateFieldCloseEvent, FIELD_STATUS_FieldCloseNoSoundWaitEvent, FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent, FIELD_STATUS_FieldOpenEvent, FIELD_STATUS_CreateFieldOpenEvent, FIELD_STATUS_CreateFieldOpenNoNotifyEvent, FIELD_STATUS_SubProcEvent, FIELD_STATUS_SubProcNoFadeEvent, FIELD_STATUS_CreateSubProcEvent, FIELD_STATUS_CreateSubProcNoFadeEvent, FIELD_STATUS_SubProcCallbackEvent, FIELD_STATUS_SubProcNoFadeCallbackEvent, FIELD_STATUS_CreateSubProcCallbackEvent, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent, func_02014878
+ * function: ZONEDATA_Init, ZONEDATA_Exit, ZONEDATA_SetChangeZoneEnable, ZONEDATA_GetChangedZoneId, ZONEDATA_GetHeader, ZONEDATA_IsChangedZoneInTable, ZONEDATA_GetAreaId, ZONEDATA_GetMatrixId, ZONEDATA_GetMapType, ZONEDATA_GetScriptArcId, ZONEDATA_GetMsgArcId, ZONEDATA_GetStartPos, ZONEDATA_GetStartRailPos, ZONEDATA_GetMapChangeType, ZONEDATA_GetCameraId, ZONEDATA_GetCameraAreaId, ZONEDATA_GetBgmId, ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRingtoneEnabled, ZONEDATA_IsFlyEnabled, ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled, ZONEDATA_IsRailMap, ZONEDATA_HasSpecialKind, ZONEDATA_GetSpecialKind, ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone34, ZONEDATA_IsNoGameEventZone, ZONEDATA_IsZone117, ZONEDATA_IsZoneGroup118To13C, ZONEDATA_IsZoneGroup118To120, ZONEDATA_IsRawZoneGroup121To13C, ZONEDATA_IsZoneInTableDFC0, ZONEDATA_IsZoneInTableDFEC, ZONEDATA_IsZone4E, ZONEDATA_IsNormalFieldZone, ZONEDATA_GetParentZoneId, ZONEDATA_GetPlaceNameId, ZONEDATA_GetPlaceNameWindow, ZONEDATA_IsFieldMatrix, ZONEDATA_IsSameMatrixGroup, ZONEDATA_GetEncountId, ZONEDATA_GetEventDataId, ZONEDATA_GetFieldEffectSetId, ZONEDATA_GetFogId, ZONEDATA_GetLightId, ZONEDATA_GetFieldSkillMapEffect, ZONEDATA_GetSecondSpecialKind, ZONEDATA_GetExpObjSetId, ZONEDATA_IsZoneInTableDFDC, ZONEDATA_IsZoneInTableDFB8, ZONEDATA_IsRawZoneF6, ZONEDATA_IsRawZoneF7, ZONEDATA_IsZoneInTableDFD2, ZONEDATA_IsRawZoneGroup4CTo69, ZONEDATA_IsRawZone176Or17A, ZONEDATA_GetMapSubType, ZONEDATA_IsParentZoneD6, ZONEDATA_CreateAreaData, ZONEDATA_DeleteAreaData, ZONEDATA_GetAreaTexSetId, ZONEDATA_GetAreaItaAnimeId, ZONEDATA_GetAreaItpAnimeId, ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor, ZONEDATA_IsSeasonArea, ZONEDATA_InitLocation, ZONEDATA_SetExitLocation, ZONEDATA_SetExitRailLocation, ZONEDATA_SetExitLocationIdOnly, ZONEDATA_SetDirectLocation, ZONEDATA_SetDirectRailLocation, ZONEDATA_GetLocationPosType, ZONEDATA_GetLocationVec, ZONEDATA_SetLocationVec, ZONEDATA_SetZoneStartLocation, ZONEDATA_SetGameStartLocation, ZONEDATA_ExitDirToDir, ZONEDATA_DirToExitDir, ZONEDATA_GetEventWorkSize, ZONEDATA_InitEventWork, ZONEDATA_CheckEventFlag, ZONEDATA_SetEventFlag, ZONEDATA_ResetEventFlag, ZONEDATA_ResetEventFlagRange, ZONEDATA_GetEventFlagAddress, ZONEDATA_GetEventWorkAddress, ZONEDATA_ClearEventWorkRange, ZONEDATA_ClearTimeFlags, ZONEDATA_PopTimeFlagsCleared, ZONEDATA_DirToRailKey
  * address:  0x020139B0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from zonedata.c, field_status.c by tools/splitfile.py.
  *
  * symbols:
  *   g_ZoneDataMgr  0x02146264  data
@@ -21,7 +21,6 @@
  *   func_020307B0     0x020307B0  arm
  *   ARC_TOOL_DeleteHandle     0x02049238  arm
  *   _ZoneChangeTable  0x020A72A8  data
- *   sub_020A72AA_Val  0x020A72AA  data
  *   ZONEDATA_GetChangedZoneId      0x02013A94  thumb
  *   sub_0204944C      0x0204944C  arm
  *   _RailMapZoneTable  0x0209E010  data
@@ -35,7 +34,6 @@
  *   d_0209DFDC     0x0209DFDC  data
  *   ZONEDATA_IsZoneGroup118To13C  0x02013D74  thumb
  *   ZONEDATA_GetMatrixId  0x02013B44  thumb
- *   g_ZoneDataMgr  0x02146264  data
  *   _ZoneSecondSpecialKindTable  0x0209DFC8  data
  *   FILE_UTIL_LoadRange  0x02020E08  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -43,51 +41,17 @@
  *   _EventTempFlags  0x02146268  data
  *   ZONEDATA_ResetEventFlagRange  0x02014368  thumb
  *   _DirToRailKeyTable  0x0209E050  data
- *   sFieldStatusFile  0x020A72BC  data
- *   ENV_SetResourceSet  0x020307B0  arm
- *   sub_020120F0   0x020120F0  thumb
- *   sub_02012A30   0x02012A30  thumb
- *   sub_020289B8   0x020289B8  thumb
- *   SCRCMD_NETWORK_UnloadOv020  0x0215FA44  thumb  ov010
- *   FIELDMAP_RequestClose  0x02188BD8  thumb  ov021
- *   FIELDMAP_IsReady  0x02188BE8  thumb ov021
- *   SCRCMD_NETWORK_LoadOv020  0x0215FA34  thumb  ov010
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
- *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   GAMESYSTEM_CallProc  0x020120B4  thumb
- *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   func_020122C0  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
- *   ov091_id        0x0000005B  data
- *   ov131_id        0x00000083  data
- *   g_021BED00      0x021BED00  data
- *   g_021DC800      0x021DC800  data
- *   GAMESYSTEM_CallFieldProc  0x020120C0  thumb
- *   GAME_EVENT_Create  0x020122C0  thumb
- *   GAME_EVENT_GetWork  0x020124E8  thumb
- *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   ICA_ANIME_GetField20  0x0201210C  thumb
- *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "zonedata_shared_types.h"
+
 typedef signed short   s16;
+
 typedef signed int     s32;
 
 struct ArcHandle;
-struct GameSystem;
-struct GameEvent;
-struct GameData;
-struct FieldMap;
-struct FieldSoundSystem;
-
-typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
 
 typedef struct {
     s32 x;
@@ -205,237 +169,239 @@ struct EventWork {
     u8  pad3E9;
 };
 
-/* Field status (0x14 bytes). */
-struct FieldStatus {
-    u32 mapMode;            /* 0x00 */
-    u8  fieldInitFlag;      /* 0x04 */
-    u8  continueFlag;       /* 0x05 */
-    u8  flashActive;        /* 0x06 */
-    u8  pad07;
-    u16 mapEffectMask;      /* 0x08 */
-    u8  pad0A[7];
-    u8  seasonDispFlag;     /* 0x11 */
-    u16 procAction;         /* 0x12 */
-};
-
-/* Work of the close-field and open-field events. */
-struct FieldCloseWork {
-    struct GameSystem *gameSystem;  /* 0x00 */
-    struct FieldMap *fieldMap;      /* 0x04 */
-    struct GameData *gameData;      /* 0x08 */
-    int notifyClose;                /* 0x0c */
-};
-
-struct FieldOpenWork {
-    struct GameSystem *gameSystem;  /* 0x00 */
-    u32 unused04;
-    struct GameData *gameData;      /* 0x08 */
-    u32 unused0C;
-};
-
-/* Work of the sub-process events. */
-struct SubProcWork {
-    struct GameSystem *gameSystem;  /* 0x00 */
-    struct FieldMap *fieldMap;      /* 0x04 */
-    u32 overlayId;                  /* 0x08 */
-    void *procData;                 /* 0x0c */
-    void *procWork;                 /* 0x10 */
-};
-
-struct SubProcCallbackWork {
-    struct GameSystem *gameSystem;  /* 0x00 */
-    struct FieldMap *fieldMap;      /* 0x04 */
-    u32 overlayId;                  /* 0x08 */
-    void *procData;                 /* 0x0c */
-    void *procWork;                 /* 0x10 */
-    void (*callback)(void *);       /* 0x14 */
-    void *callbackWork;             /* 0x18, freed after the callback */
-};
-
-/* Work of func_02014878: two process calls on one parameter block. */
-struct ProcPairWork {
-    struct GameSystem *gameSystem;  /* 0x00 */
-    u32 unused04;
-    u8 *firstParam;                 /* 0x08 */
-    u8 *secondParam;                /* 0x0c */
-};
-
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+
 extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
+
 extern void *ARC_UTIL_LoadMemberWithSize(u32 arcId, u32 member, int compressed, u32 heapId, u32 *size);
+
 extern void func_020307B0(void *p);
+
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *handle);
+
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *handle, u32 member, u32 offset, u32 size, void *dst);
+
 extern void *FILE_UTIL_LoadRange(u32 arcId, u32 heapId, u32 offset, u32 size);
+
 extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
-extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(struct GameData *gameData);
-extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
-extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *procWork);
-extern void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
-extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
-extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct FieldSoundSystem *fieldSound);
-extern void SCRCMD_NETWORK_LoadOv020(void);
-extern void SCRCMD_NETWORK_UnloadOv020(void);
-extern void FIELDMAP_RequestClose(struct FieldMap *fieldMap);
-extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait, int a4, u8 a5, u8 a6);
+
 void ZONEDATA_Init(u32 heap);
+
 void ZONEDATA_Exit(void);
+
 void ZONEDATA_SetChangeZoneEnable(u32 index, u8 on);
+
 u16 ZONEDATA_GetChangedZoneId(u32 key);
+
 struct ZoneHeader *ZONEDATA_GetHeader(u32 id);
+
 u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count);
+
 u32 ZONEDATA_GetAreaId(u32 id);
+
 u32 ZONEDATA_GetMatrixId(u32 id);
+
 u32 ZONEDATA_GetMapType(u32 id);
+
 u32 ZONEDATA_GetScriptArcId(u32 id);
+
 u32 ZONEDATA_GetMsgArcId(u32 id);
+
 void ZONEDATA_GetStartPos(u32 id, VecFx32 *out);
+
 void ZONEDATA_GetStartRailPos(u32 id, VecFx32 *out);
+
 u8 ZONEDATA_GetMapChangeType(u32 id);
+
 u8 ZONEDATA_GetCameraId(u32 id);
+
 u32 ZONEDATA_GetCameraAreaId(u32 id);
+
 u32 ZONEDATA_GetBgmId(u32 id, u32 which);
+
 u32 ZONEDATA_GetWeatherId(u32 id);
+
 u32 ZONEDATA_IsBikeEnabled(u32 id);
+
 u32 ZONEDATA_IsRingtoneEnabled(u32 id);
+
 u32 ZONEDATA_IsFlyEnabled(u32 id);
+
 u32 ZONEDATA_IsWeatherEnabled(u32 id);
+
 u32 ZONEDATA_IsPalaceEnabled(u32 id);
+
 int ZONEDATA_IsRailMap(u32 zoneId);
+
 int ZONEDATA_HasSpecialKind(int a0);
+
 int ZONEDATA_GetSpecialKind(u16 key);
+
 u32 ZONEDATA_IsZone1A6(u32 id);
+
 u32 ZONEDATA_IsZone96Pair(u32 id);
+
 u32 ZONEDATA_IsZone4BPair(u32 id);
+
 u32 ZONEDATA_IsZone34(u32 id);
+
 u32 ZONEDATA_IsNoGameEventZone(u32 id);
+
 u32 ZONEDATA_IsZone117(u32 id);
+
 int ZONEDATA_IsZoneGroup118To13C(u32 key);
+
 u32 ZONEDATA_IsZoneGroup118To120(u32 id);
+
 u32 ZONEDATA_IsRawZoneGroup121To13C(u32 id);
+
 int ZONEDATA_IsZoneInTableDFC0(int a0);
+
 int ZONEDATA_IsZoneInTableDFEC(u16 a0);
+
 u32 ZONEDATA_IsZone4E(u32 id);
+
 u32 ZONEDATA_IsNormalFieldZone(u32 id);
+
 u32 ZONEDATA_GetParentZoneId(u32 id);
+
 u32 ZONEDATA_GetPlaceNameId(u32 id);
+
 u32 ZONEDATA_GetPlaceNameWindow(u32 id);
+
 u32 ZONEDATA_IsFieldMatrix(u32 id);
+
 u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
+
 u32 ZONEDATA_GetEncountId(u32 id);
+
 u32 ZONEDATA_GetEventDataId(u32 id);
+
 u8 ZONEDATA_GetFieldEffectSetId(u32 id);
+
 u32 ZONEDATA_GetFogId(u32 id);
+
 u32 ZONEDATA_GetLightId(u32 id);
+
 u32 ZONEDATA_GetFieldSkillMapEffect(u32 id);
+
 int ZONEDATA_GetSecondSpecialKind(u16 key);
+
 u8 ZONEDATA_GetExpObjSetId(u32 id);
+
 u32 ZONEDATA_IsZoneInTableDFDC(u32 id);
+
 u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
+
 u32 ZONEDATA_IsRawZoneF6(u32 id);
+
 u32 ZONEDATA_IsRawZoneF7(u32 id);
+
 u32 ZONEDATA_IsZoneInTableDFD2(u32 id);
+
 u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
+
 u32 ZONEDATA_IsRawZone176Or17A(u32 id);
+
 u8 ZONEDATA_GetMapSubType(u32 id);
+
 u32 ZONEDATA_IsParentZoneD6(u32 id);
+
 void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season);
+
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
+
 u16 ZONEDATA_GetAreaTexSetId(const struct AreaData *areaData);
+
 u32 ZONEDATA_GetAreaItaAnimeId(const struct AreaData *areaData);
+
 u32 ZONEDATA_GetAreaItpAnimeId(const struct AreaData *areaData);
+
 u8 ZONEDATA_GetAreaInnerOuter(const struct AreaData *areaData);
+
 u8 ZONEDATA_GetAreaLightType(const struct AreaData *areaData);
+
 u8 ZONEDATA_GetAreaEdgeMarkType(const struct AreaData *areaData);
+
 u8 ZONEDATA_GetAreaBillboardColor(const struct AreaData *areaData);
+
 u32 ZONEDATA_IsSeasonArea(u32 areaId);
+
 void ZONEDATA_InitLocation(struct Location *loc);
+
 void ZONEDATA_SetExitLocation(struct Location *loc, u16 zoneId, u16 exitId, u16 dir, u16 exitOffset, u32 x, u32 y, u32 z);
+
 void ZONEDATA_SetExitRailLocation(struct Location *loc, u16 zoneId, int exitId, u16 dir, u16 exitOffset, u16 railIndex, u16 lineGrid, s16 widthGrid);
+
 void ZONEDATA_SetExitLocationIdOnly(struct Location *loc, u16 zoneId, u16 exitId, u16 exitOffset);
+
 void ZONEDATA_SetDirectLocation(struct Location *loc, u16 zoneId, s16 dir, u32 x, u32 y, u32 z);
+
 void ZONEDATA_SetDirectRailLocation(struct Location *loc, int zoneId, int dir, u16 railIndex, u16 lineGrid, s16 widthGrid);
+
 int ZONEDATA_GetLocationPosType(const struct Location *loc);
+
 void ZONEDATA_GetLocationVec(const struct Location *loc, VecFx32 *out);
+
 void ZONEDATA_SetLocationVec(struct Location *loc, const VecFx32 *vec);
+
 void ZONEDATA_SetZoneStartLocation(struct Location *loc, int zoneId);
+
 void ZONEDATA_SetGameStartLocation(struct Location *loc);
+
 u32 ZONEDATA_ExitDirToDir(u32 exitDir);
+
 u32 ZONEDATA_DirToExitDir(u32 dir);
+
 u32 ZONEDATA_GetEventWorkSize(void);
+
 u32 ZONEDATA_InitEventWork(struct EventWork *ev);
+
 u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+
 void ZONEDATA_SetEventFlag(struct EventWork *ev, int flagId);
+
 void ZONEDATA_ResetEventFlag(struct EventWork *ev, int flagId);
+
 void ZONEDATA_ResetEventFlagRange(struct EventWork *ev, int firstFlagId, int lastFlagId);
+
 u8 *ZONEDATA_GetEventFlagAddress(struct EventWork *ev, u32 flagId);
+
 u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
+
 void ZONEDATA_ClearEventWorkRange(struct EventWork *ev, u32 firstWorkId, u32 endWorkId);
+
 void ZONEDATA_ClearTimeFlags(struct EventWork *ev);
+
 u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *ev);
+
 u8 ZONEDATA_DirToRailKey(int dir);
-void FIELD_STATUS_Create(u32 heapId);
-void FIELD_STATUS_Delete(struct FieldStatus *fs);
-u32 FIELD_STATUS_GetMapMode(struct FieldStatus *fs);
-void FIELD_STATUS_SetMapMode(struct FieldStatus *fs, u32 mapMode);
-void FIELD_STATUS_SetFieldInitFlag(struct FieldStatus *fs, u8 fieldInitFlag);
-u8 FIELD_STATUS_GetFieldInitFlag(struct FieldStatus *fs);
-void FIELD_STATUS_SetContinueFlag(struct FieldStatus *fs, u8 continueFlag);
-u8 FIELD_STATUS_GetContinueFlag(struct FieldStatus *fs);
-void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive);
-u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fs);
-void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u16 mapEffectMask);
-u16 FIELD_STATUS_GetMapEffectMask(struct FieldStatus *fs);
-void FIELD_STATUS_SetProcAction(struct FieldStatus *fs, u16 procAction);
-u16 FIELD_STATUS_GetProcAction(struct FieldStatus *fs);
-u8 FIELD_STATUS_SwapSeasonDispFlag(struct FieldStatus *fs, u8 seasonDispFlag);
-u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs);
-int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work);
-struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, u32 *seq, void *work);
-struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, u32 *seq, void *work);
-struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *gameSystem);
-int FIELD_STATUS_SubProcEvent(struct GameEvent *event, u32 *seq, void *work);
-int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, u32 *seq, void *work);
-struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
-struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
-int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, u32 *seq, void *work);
-int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, u32 *seq, void *work);
-struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
-struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
-int func_02014878(struct GameEvent *event, u32 *seq, void *work);
+
 extern struct ZoneDataMgr *g_ZoneDataMgr;
+
 extern const char sZonedataFile[];
+
 extern const struct ZoneChangeEntry _ZoneChangeTable[];
+
 extern const u16 _RailMapZoneTable[];
+
 extern const struct ZoneKindEntry _ZoneSpecialKindTable[];
+
 extern const u16 d_0209DFB8[];
+
 extern const u16 d_0209DFC0[];
+
 extern const struct ZoneKindEntry _ZoneSecondSpecialKindTable[];
+
 extern const u16 d_0209DFD2[];
+
 extern const u16 d_0209DFDC[];
+
 extern const u16 d_0209DFEC[];
+
 extern u8 _EventTempFlags[];
+
 extern const u8 _DirToRailKeyTable[];
-extern const char sFieldStatusFile[];
-extern u8 ov091_id[];
-extern u8 ov131_id[];
-
-
-
-
-
-
-
-
 
 /*
  * Blocked on: the `string` class, and permanently.  Every concrete byte of
@@ -511,14 +477,6 @@ void ZONEDATA_Init(u32 heap)
     g_ZoneDataMgr->cachedZoneId = 0x1ab;
 }
 
-
-
-
-
-
-
-
-
 /*
  * A whole translation-unit range, matched as one byte range.
  *
@@ -563,27 +521,11 @@ void ZONEDATA_Exit(void)
     g_ZoneDataMgr = 0;
 }
 
-
-
-
-
-
-
-
-
 void ZONEDATA_SetChangeZoneEnable(u32 index, u8 on)
 {
     if (g_ZoneDataMgr != 0)
         g_ZoneDataMgr->changeEnabled[index] = on;
 }
-
-
-
-
-
-
-
-
 
 u16 ZONEDATA_GetChangedZoneId(u32 key)
 {
@@ -595,15 +537,6 @@ u16 ZONEDATA_GetChangedZoneId(u32 key)
             return _ZoneChangeTable[i].toZoneId;
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -668,15 +601,6 @@ struct ZoneHeader *ZONEDATA_GetHeader(u32 id)
     return &g_ZoneDataMgr->header;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count)
 {
     u32 rid = ZONEDATA_GetChangedZoneId(id);
@@ -689,29 +613,11 @@ u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetAreaId(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->areaId;
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_GetMatrixId(u32 id)
 {
@@ -719,29 +625,11 @@ u32 ZONEDATA_GetMatrixId(u32 id)
     return r->matrixId;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetMapType(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->mapType;
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_GetScriptArcId(u32 id)
 {
@@ -749,29 +637,11 @@ u32 ZONEDATA_GetScriptArcId(u32 id)
     return r->scriptArcId;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetMsgArcId(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->msgArcId;
 }
-
-
-
-
-
-
-
-
-
 
 void ZONEDATA_GetStartPos(u32 id, VecFx32 *out)
 {
@@ -782,15 +652,6 @@ void ZONEDATA_GetStartPos(u32 id, VecFx32 *out)
     out->z = r->posZ << 0x10;
 }
 
-
-
-
-
-
-
-
-
-
 void ZONEDATA_GetStartRailPos(u32 id, VecFx32 *out)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
@@ -799,15 +660,6 @@ void ZONEDATA_GetStartRailPos(u32 id, VecFx32 *out)
     out->y = r->posY;
     out->z = r->posZ;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -829,44 +681,17 @@ u8 ZONEDATA_GetMapChangeType(u32 id)
     return r->mapChangeType;
 }
 
-
-
-
-
-
-
-
-
-
 u8 ZONEDATA_GetCameraId(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->cameraId;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetCameraAreaId(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->cameraAreaId;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * The only indexed accessor on the zone record: four u16 lanes at record
@@ -914,15 +739,6 @@ u32 ZONEDATA_GetBgmId(u32 id, u32 which)
     return v;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -965,29 +781,11 @@ u32 ZONEDATA_GetWeatherId(u32 id)
     return r->weatherId;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsBikeEnabled(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->bikeEnabled;
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_IsRingtoneEnabled(u32 id)
 {
@@ -995,29 +793,11 @@ u32 ZONEDATA_IsRingtoneEnabled(u32 id)
     return r->ringtoneEnabled;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsFlyEnabled(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->flyEnabled;
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_IsWeatherEnabled(u32 id)
 {
@@ -1025,29 +805,11 @@ u32 ZONEDATA_IsWeatherEnabled(u32 id)
     return r->weatherEnabled;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsPalaceEnabled(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->palaceEnabled;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  *           pool word inside this eight-byte range, so the `literal`
@@ -1063,14 +825,6 @@ int ZONEDATA_IsRailMap(u32 zoneId)
     return ZONEDATA_IsChangedZoneInTable(zoneId, _RailMapZoneTable, 0xb);
 }
 
-
-
-
-
-
-
-
-
 int ZONEDATA_HasSpecialKind(int a0)
 {
     if ((unsigned int)ZONEDATA_GetSpecialKind(ZONEDATA_GetChangedZoneId(a0)) != (unsigned int)(~0)) {
@@ -1079,16 +833,6 @@ int ZONEDATA_HasSpecialKind(int a0)
         return 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 int ZONEDATA_GetSpecialKind(u16 key)
 {
@@ -1101,16 +845,6 @@ int ZONEDATA_GetSpecialKind(u16 key)
     }
     return -1;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1149,90 +883,30 @@ u32 ZONEDATA_IsZone1A6(u32 id)
     return ZONEDATA_GetChangedZoneId(id) == 0x1a6;
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsZone96Pair(u32 id)
 {
     return (u16)(ZONEDATA_GetChangedZoneId(id) + 0xff6a) <= 1;
 }
-
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_IsZone4BPair(u32 id)
 {
     return (u16)(ZONEDATA_GetChangedZoneId(id) + 0xffb5) <= 1;
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsZone34(u32 id)
 {
     return ZONEDATA_GetChangedZoneId(id) == 0x34;
 }
-
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_IsNoGameEventZone(u32 id)
 {
     return ZONEDATA_IsZone1A6(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone34(id);
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsZone117(u32 id)
 {
     return ZONEDATA_GetChangedZoneId(id) == 0x117;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * zonedata.c: true when the zone id is in 0x121..0x13C or ZONEDATA_IsZoneGroup118To120
@@ -1248,16 +922,6 @@ int ZONEDATA_IsZoneGroup118To13C(u32 key)
         return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1291,30 +955,10 @@ u32 ZONEDATA_IsZoneGroup118To120(u32 id)
     return v >= 0x118 && v <= 0x120;
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsRawZoneGroup121To13C(u32 id)
 {
     return id >= 0x121 && id <= 0x13c;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled Thumb leaf inside ZONEDATA_IsZoneGroup118To120's listing extent: a tail call
@@ -1326,16 +970,6 @@ int ZONEDATA_IsZoneInTableDFC0(int a0)
     return ZONEDATA_IsChangedZoneInTable(a0, d_0209DFC0, 4);
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Unlabelled Thumb leaf after ZONEDATA_IsZoneInTableDFC0: a tail call
  * to func_02013B10 with a fixed table and count. Filed as the witness for
@@ -1345,15 +979,6 @@ int ZONEDATA_IsZoneInTableDFEC(u16 a0)
 {
     return ZONEDATA_IsChangedZoneInTable(a0, d_0209DFEC, 9);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1404,15 +1029,6 @@ u32 ZONEDATA_IsZone4E(u32 id)
     return ZONEDATA_GetChangedZoneId(id) == 0x4e;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsNormalFieldZone(u32 id)
 {
     if (ZONEDATA_IsZone1A6(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone4BPair(id) ||
@@ -1421,29 +1037,11 @@ u32 ZONEDATA_IsNormalFieldZone(u32 id)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetParentZoneId(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->parentZoneId;
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_GetPlaceNameId(u32 id)
 {
@@ -1455,44 +1053,17 @@ u32 ZONEDATA_GetPlaceNameId(u32 id)
     return v;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetPlaceNameWindow(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->placeNameWindow;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsFieldMatrix(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->matrixId == 0;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * "Do these two zones share a region?": both ids are reduced through
@@ -1528,15 +1099,6 @@ u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -1554,29 +1116,11 @@ u32 ZONEDATA_GetEncountId(u32 id)
     return r->encountId;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetEventDataId(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->eventDataId;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1616,15 +1160,6 @@ u8 ZONEDATA_GetFieldEffectSetId(u32 id)
     return r->fieldEffectSetId;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetFogId(u32 id)
 {
     u32 result = 0x0FFFFFFFu;
@@ -1640,15 +1175,6 @@ u32 ZONEDATA_GetFogId(u32 id)
     }
     return result;
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_GetLightId(u32 id)
 {
@@ -1666,15 +1192,6 @@ u32 ZONEDATA_GetLightId(u32 id)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetFieldSkillMapEffect(u32 id)
 {
     u32 result = 0;
@@ -1691,15 +1208,6 @@ u32 ZONEDATA_GetFieldSkillMapEffect(u32 id)
     return result;
 }
 
-
-
-
-
-
-
-
-
-
 int ZONEDATA_GetSecondSpecialKind(u16 key)
 {
     u32 v = ZONEDATA_GetChangedZoneId(key);
@@ -1711,15 +1219,6 @@ int ZONEDATA_GetSecondSpecialKind(u16 key)
     }
     return 0xffff;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1759,112 +1258,40 @@ u8 ZONEDATA_GetExpObjSetId(u32 id)
     return r->expObjSetId;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsZoneInTableDFDC(u32 id)
 {
     return ZONEDATA_IsChangedZoneInTable(id, d_0209DFDC, 8);
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_IsZoneInTableDFB8(u32 id)
 {
     return ZONEDATA_IsChangedZoneInTable(id, d_0209DFB8, 4);
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsRawZoneF6(u32 id)
 {
     return id == 0xF6;
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_IsRawZoneF7(u32 id)
 {
     return id == 0xF7;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsZoneInTableDFD2(u32 id)
 {
     return ZONEDATA_IsChangedZoneInTable(id, d_0209DFD2, 5);
 }
-
-
-
-
-
-
-
-
-
 
 u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id)
 {
     return id >= 0x4C && id <= 0x69;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsRawZone176Or17A(u32 id)
 {
     return id == 0x17A || id == 0x176;
 }
-
-
-
-
-
-
-
-
-
 
 u8 ZONEDATA_GetMapSubType(u32 id)
 {
@@ -1872,28 +1299,10 @@ u8 ZONEDATA_GetMapSubType(u32 id)
     return r->mapSubType;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_IsParentZoneD6(u32 id)
 {
     return ZONEDATA_GetParentZoneId(id) == 0xD6;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * The reader for the raw file a/0/1/3 (archive id 13, the identity-mapped
@@ -1944,14 +1353,6 @@ void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season)
     return FILE_UTIL_LoadRange(13, heapId, record * 10, 10);
 }
 
-
-
-
-
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -1981,25 +1382,10 @@ u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData)
     func_020307B0(areaData);
 }
 
-
-
-
-
-
-
-
-
 u16 ZONEDATA_GetAreaTexSetId(const struct AreaData *areaData)
 {
     return areaData->texSetId;
 }
-
-
-
-
-
-
-
 
 u32 ZONEDATA_GetAreaItaAnimeId(const struct AreaData *areaData)
 {
@@ -2008,13 +1394,6 @@ u32 ZONEDATA_GetAreaItaAnimeId(const struct AreaData *areaData)
     return areaData->itaAnimeId;
 }
 
-
-
-
-
-
-
-
 u32 ZONEDATA_GetAreaItpAnimeId(const struct AreaData *areaData)
 {
     if (areaData->itpAnimeId == 0xFF)
@@ -2022,61 +1401,25 @@ u32 ZONEDATA_GetAreaItpAnimeId(const struct AreaData *areaData)
     return areaData->itpAnimeId;
 }
 
-
-
-
-
-
-
-
 u8 ZONEDATA_GetAreaInnerOuter(const struct AreaData *areaData)
 {
     return areaData->innerOuter;
 }
-
-
-
-
-
-
-
 
 u8 ZONEDATA_GetAreaLightType(const struct AreaData *areaData)
 {
     return areaData->lightType;
 }
 
-
-
-
-
-
-
-
 u8 ZONEDATA_GetAreaEdgeMarkType(const struct AreaData *areaData)
 {
     return areaData->edgeMarkType;
 }
 
-
-
-
-
-
-
-
 u8 ZONEDATA_GetAreaBillboardColor(const struct AreaData *areaData)
 {
     return areaData->billboardColor;
 }
-
-
-
-
-
-
-
-
 
 /*
  * A plain range test on the raw id, called by ZONEDATA_CreateAreaData
@@ -2092,14 +1435,6 @@ u32 ZONEDATA_IsSeasonArea(u32 areaId)
     return areaId >= 2 && areaId < 0xD2;
 }
 
-
-
-
-
-
-
-
-
 void ZONEDATA_InitLocation(struct Location *loc)
 {
     loc->type = 0;
@@ -2112,13 +1447,6 @@ void ZONEDATA_InitLocation(struct Location *loc)
     loc->pos.vec.y = 0;
     loc->pos.vec.z = 0;
 }
-
-
-
-
-
-
-
 
 /*
  * Initialiser: clears +0x00 and +0x0C, stores four halfwords at +0x04..+0x0A
@@ -2138,14 +1466,6 @@ void ZONEDATA_SetExitLocation(struct Location *loc, u16 zoneId, u16 exitId, u16 
     loc->pos.vec.y = y;
     loc->pos.vec.z = z;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -2167,14 +1487,6 @@ void ZONEDATA_SetExitRailLocation(struct Location *loc, u16 zoneId, int exitId, 
     loc->pos.rail.key = ZONEDATA_DirToRailKey(ZONEDATA_ExitDirToDir(dir));
 }
 
-
-
-
-
-
-
-
-
 void ZONEDATA_SetExitLocationIdOnly(struct Location *loc, u16 zoneId, u16 exitId, u16 exitOffset)
 {
     ZONEDATA_InitLocation(loc);
@@ -2182,12 +1494,6 @@ void ZONEDATA_SetExitLocationIdOnly(struct Location *loc, u16 zoneId, u16 exitId
     loc->exitId = exitId;
     loc->exitOffset = exitOffset;
 }
-
-
-
-
-
-
 
 /*
  * Fills a 0x1C-byte record: live flag 1, id, slot -1, count, two cleared
@@ -2208,13 +1514,6 @@ void ZONEDATA_SetDirectLocation(struct Location *loc, u16 zoneId, s16 dir, u32 x
     loc->pos.vec.y = y;
     loc->pos.vec.z = z;
 }
-
-
-
-
-
-
-
 
 /*
  * The explicit-parameter initialiser of the 0x18-byte record that
@@ -2247,13 +1546,6 @@ void ZONEDATA_SetDirectRailLocation(struct Location *loc, int zoneId, int dir, u
     loc->pos.rail.key = ZONEDATA_DirToRailKey(ZONEDATA_ExitDirToDir(dir));
 }
 
-
-
-
-
-
-
-
 /*
  * note:     wave 17 lane untried_small: a getter of the +0xC word; listing extent runs over the unlabelled neighbours 0x020141E0 and 0x020141F0.
  */
@@ -2261,15 +1553,6 @@ int ZONEDATA_GetLocationPosType(const struct Location *loc)
 {
     return loc->posType;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * note:     wave 18 lane ties_b: unlabelled follower of ZONEDATA_GetLocationPosType; copies the three words at +0x10 out, read into locals last-to-first.
@@ -2285,15 +1568,6 @@ void ZONEDATA_GetLocationVec(const struct Location *loc, VecFx32 *out)
     out->z = z;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * note:     wave 18 lane ties_b: unlabelled follower; clears the +0xC word and struct-assigns the three words at +0x10.
  */
@@ -2302,15 +1576,6 @@ void ZONEDATA_SetLocationVec(struct Location *loc, const VecFx32 *vec)
     loc->posType = 0;
     loc->pos.vec = *vec;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  *           inside this function, and src/pending/ZONEDATA_IsRailMap.c is itself
@@ -2343,15 +1608,6 @@ void ZONEDATA_SetZoneStartLocation(struct Location *loc, int zoneId)
     }
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * A one-line forwarder: ZONEDATA_SetZoneStartLocation with its second argument pinned to
  * 0x187.  This IS compiled C, not a linker veneer: an ARM long-branch
@@ -2371,15 +1627,6 @@ void ZONEDATA_SetGameStartLocation(struct Location *loc)
 {
     ZONEDATA_SetZoneStartLocation(loc, 0x187);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -2412,15 +1659,6 @@ u32 ZONEDATA_ExitDirToDir(u32 exitDir)
     }
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_DirToExitDir(u32 dir)
 {
     switch (dir) {
@@ -2432,42 +1670,15 @@ u32 ZONEDATA_DirToExitDir(u32 dir)
     }
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_GetEventWorkSize(void)
 {
     return 0x3EA;
 }
 
-
-
-
-
-
-
-
-
-
 u32 ZONEDATA_InitEventWork(struct EventWork *ev)
 {
     return MI_CpuFill8(ev, 0, 0x3EA);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Test one flag in a bitmap: the lookup at 0x02014388 resolves the flag id
@@ -2506,15 +1717,6 @@ u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 void ZONEDATA_SetEventFlag(struct EventWork *ev, int flagId)
 {
     u8 *byte = ZONEDATA_GetEventFlagAddress(ev, flagId);
@@ -2522,15 +1724,6 @@ void ZONEDATA_SetEventFlag(struct EventWork *ev, int flagId)
     if (byte != 0)
         *byte |= 1 << (flagId % 8);
 }
-
-
-
-
-
-
-
-
-
 
 void ZONEDATA_ResetEventFlag(struct EventWork *ev, int flagId)
 {
@@ -2540,15 +1733,6 @@ void ZONEDATA_ResetEventFlag(struct EventWork *ev, int flagId)
         *byte &= 0xff ^ (1 << (flagId % 8));
 }
 
-
-
-
-
-
-
-
-
-
 void ZONEDATA_ResetEventFlagRange(struct EventWork *ev, int firstFlagId, int lastFlagId)
 {
     int flagId;
@@ -2556,14 +1740,6 @@ void ZONEDATA_ResetEventFlagRange(struct EventWork *ev, int firstFlagId, int las
     for (flagId = firstFlagId; flagId <= lastFlagId; flagId++)
         ZONEDATA_ResetEventFlag(ev, (u16)flagId);
 }
-
-
-
-
-
-
-
-
 
 u8 *ZONEDATA_GetEventFlagAddress(struct EventWork *ev, u32 flagId)
 {
@@ -2582,14 +1758,6 @@ u8 *ZONEDATA_GetEventFlagAddress(struct EventWork *ev, u32 flagId)
         return 0;
     return &_EventTempFlags[index];
 }
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -2616,14 +1784,6 @@ u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId)
     return &ev->work[workId - 0x4000];
 }
 
-
-
-
-
-
-
-
-
 void ZONEDATA_ClearEventWorkRange(struct EventWork *ev, u32 firstWorkId, u32 endWorkId)
 {
     u16 *first = ZONEDATA_GetEventWorkAddress(ev, firstWorkId);
@@ -2631,27 +1791,11 @@ void ZONEDATA_ClearEventWorkRange(struct EventWork *ev, u32 firstWorkId, u32 end
     MI_CpuFill8(first, 0, (endWorkId - firstWorkId) << 1);
 }
 
-
-
-
-
-
-
-
-
 void ZONEDATA_ClearTimeFlags(struct EventWork *ev)
 {
     ZONEDATA_ResetEventFlagRange(ev, 0xAA0, 0xB5F);
     ev->timeFlagsCleared = 1;
 }
-
-
-
-
-
-
-
-
 
 u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *ev)
 {
@@ -2661,801 +1805,7 @@ u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *ev)
     return cleared;
 }
 
-
-
-
-
-
-
-
 u8 ZONEDATA_DirToRailKey(int dir)
 {
     return _DirToRailKeyTable[dir];
-}
-
-
-
-
-
-
-
-
-/*
- * Heap-allocates a 0x14-byte block tagged with the file string at
- * 0x020A72BC and line 0x33, then clears the u16 at +0x12.  The earlier
- * near miss in docs/notes/pkt_0201441C.c.txt declared the string at
- * 0x020A729C, 0x20 too low: the pool word in the image is the little-endian
- * bc 72 0a 02 at 0x02014440, and the one "differing byte" was bit 5 of that
- * address, not a register choice.
- */
-void FIELD_STATUS_Create(u32 heapId)
-{
-    struct FieldStatus *fs = func_02030734(heapId, 0x14, 1, sFieldStatusFile, 0x33);
-
-    fs->procAction = 0;
-}
-
-
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           FIELD_STATUS_GetFieldInitFlag, FIELD_STATUS_SetContinueFlag, FIELD_STATUS_GetContinueFlag, FIELD_STATUS_SetFlashActive,
- *           FIELD_STATUS_IsFlashActive, FIELD_STATUS_SetMapEffectMask, FIELD_STATUS_GetMapEffectMask, FIELD_STATUS_SetProcAction,
- *           FIELD_STATUS_GetProcAction, FIELD_STATUS_SwapSeasonDispFlag, FIELD_STATUS_GetSeasonDispFlag
- *
- * alias: FIELD_STATUS_Delete is a tail-call trampoline for the SDK's
- * ENV_SetResourceSet, forwarding up to three register arguments
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Everything after it is
- * fourteen accessors on one small object: a u32 field at +0, three u8 fields
- * at +4/+5/+6 (the last pair, FIELD_STATUS_SetFlashActive/FIELD_STATUS_IsFlashActive, are the only two
- * with real prologue-less labels; the rest hide in the listing as .word runs
- * between the two literal pools either side of them, per
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), a u16 at +8, a
- * u16 at +0x12, and a u8 at +0x11 reached two ways: a plain getter
- * (FIELD_STATUS_GetSeasonDispFlag) and a set-and-return-old accessor (FIELD_STATUS_SwapSeasonDispFlag) used by a
- * caller that wants the previous value in the same instruction that installs
- * the new one.
- *
- * The struct is otherwise opaque; nothing in this range or its callers names
- * it, so the seven-byte gap between +8 and +0x11 is left as padding rather
- * than guessed at.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02014444.c \
- *       --addr 0x02014444 --thumb
- */
-void FIELD_STATUS_Delete(struct FieldStatus *fs)
-{
-    func_020307B0(fs);
-}
-
-
-
-
-
-
-
-
-u32 FIELD_STATUS_GetMapMode(struct FieldStatus *fs)
-{
-    return fs->mapMode;
-}
-
-
-
-
-
-
-
-void FIELD_STATUS_SetMapMode(struct FieldStatus *fs, u32 mapMode)
-{
-    fs->mapMode = mapMode;
-}
-
-
-
-
-
-
-
-void FIELD_STATUS_SetFieldInitFlag(struct FieldStatus *fs, u8 fieldInitFlag)
-{
-    fs->fieldInitFlag = fieldInitFlag;
-}
-
-
-
-
-
-
-
-u8 FIELD_STATUS_GetFieldInitFlag(struct FieldStatus *fs)
-{
-    return fs->fieldInitFlag;
-}
-
-
-
-
-
-
-
-void FIELD_STATUS_SetContinueFlag(struct FieldStatus *fs, u8 continueFlag)
-{
-    fs->continueFlag = continueFlag;
-}
-
-
-
-
-
-
-
-u8 FIELD_STATUS_GetContinueFlag(struct FieldStatus *fs)
-{
-    return fs->continueFlag;
-}
-
-
-
-
-
-
-
-void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive)
-{
-    fs->flashActive = flashActive;
-}
-
-
-
-
-
-
-
-u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fs)
-{
-    return fs->flashActive;
-}
-
-
-
-
-
-
-
-void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u16 mapEffectMask)
-{
-    fs->mapEffectMask = mapEffectMask;
-}
-
-
-
-
-
-
-
-u16 FIELD_STATUS_GetMapEffectMask(struct FieldStatus *fs)
-{
-    return fs->mapEffectMask;
-}
-
-
-
-
-
-
-
-void FIELD_STATUS_SetProcAction(struct FieldStatus *fs, u16 procAction)
-{
-    fs->procAction = procAction;
-}
-
-
-
-
-
-
-
-u16 FIELD_STATUS_GetProcAction(struct FieldStatus *fs)
-{
-    return fs->procAction;
-}
-
-
-
-
-
-
-
-u8 FIELD_STATUS_SwapSeasonDispFlag(struct FieldStatus *fs, u8 seasonDispFlag)
-{
-    u8 old = fs->seasonDispFlag;
-
-    fs->seasonDispFlag = seasonDispFlag;
-    return old;
-}
-
-
-
-
-
-
-
-u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs)
-{
-    return fs->seasonDispFlag;
-}
-
-
-
-
-
-
-
-
-/*
- * promoted: seed round 9, EXACT (fresh match.py one) once the ov010 callees
- *           0x0215FA34 and 0x0215FA44 were seeded in layout/function_starts.txt
- * note:     re-verified 2026-09-20: MATCH*; see verify output
- * note:     re-verified 2026-09-22 (family wave 6, field_status.c) in a
- *           fresh process after the evidence rules widened twice: still
- *           MATCH*, 3 of 5 sites resolved, no change to the C.  The two
- *           blockers were re-checked against the overlay listings by hand
- *           and are CLOSED AT THE BOTTOM, not merely unfiled: neither
- *           0x02188BD8 nor 0x0215FA44 is a function start in ANY candidate
- *           overlay, so no `thumb ovNNN` region hint on the symbols: line
- *           can resolve them.  0x02188BD8 falls mid-instruction in ov009
- *           (inside `bl gpiSetErrorString`) and in ov096, and lands on plain
- *           .word data in ov021 and ov230; 0x0215FA44 falls inside a `str`
- *           in ov009 and on .word data in ov010.  A region hint only picks
- *           between labelled candidates; it cannot create a label.  This
- *           row therefore needs a decompiled overlay, not a better hint.
- *
- * blocking: unresolved: 02188BD8 (thumb, from header) has no witness outside 02014488..02014; unresolved: 0215FA44 (thumb, from header) has no witness outside 02014488..02014
- *
- * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
- *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
- *           0x02188BD8 in ov021; need seeds in those overlays' listings.
- */
-int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct FieldCloseWork *wk = work;
-    struct GameData *gameData = wk->gameData;
-    struct GameSystem *gameSystem = wk->gameSystem;
-    struct FieldMap *fieldMap = wk->fieldMap;
-    struct FieldSoundSystem *fieldSound;
-
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
-    switch (*seq) {
-    case 0:
-        FIELDMAP_RequestClose(fieldMap);
-        *seq = *seq + 1;
-        break;
-    case 1:
-        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0) {
-            break;
-        }
-        if (FIELD_SOUND_SYSTEM_IsBusy(fieldSound) == 1) {
-            break;
-        }
-        if (wk->notifyClose != 0) {
-            SCRCMD_NETWORK_UnloadOv020();
-        }
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_FieldCloseEvent, 0x10);
-    struct FieldCloseWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->fieldMap = fieldMap;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
-    wk->notifyClose = 1;
-    return event;
-}
-
-
-
-
-
-
-
-/*
- * promoted: seed round 9, EXACT (fresh match.py one) once the ov010 callees
- *           0x0215FA34 and 0x0215FA44 were seeded in layout/function_starts.txt
- * note:     re-verified 2026-09-20: MATCH*; see verify output
- * note:     re-verified 2026-09-22 (family wave 6, field_status.c): still
- *           MATCH*, 2 of 4 sites resolved, no change to the C.  Same two
- *           overlay targets as src/pending/FIELD_STATUS_FieldCloseEvent.c, and re-checked
- *           the same way: 0x02188BD8 and 0x0215FA44 are a function start
- *           in none of the overlays whose window covers them, so the
- *           `label` refusal is not an ambiguity a region hint can settle.
- *           listing carries a func_ label at either address; 4 overlays
- *           overlap 0x02188BD8 (ov009, ov021, ov096, ov230) and 2 overlap
- *           0x0215FA44 (ov009, ov010), so `label` refuses to guess.
- *
- * Byte-correct at all 70 bytes; 2 of 4 relocation sites stay wildcarded.
- * Seeded from an arm9 dispatcher (arm9_main calls the same pair at 0x020144A8
- * and 0x020144CE, which is inside the same source unit but outside this
- * compared range - it is still not a label, so it does not attest).
- *
- * This row was screened `ready` by the band brief; it is one of the minority
- * the screen cannot see, because the call targets are overlay exports rather
- * than arm9 or runtime code.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/FIELD_STATUS_FieldCloseNoSoundWaitEvent.c \
- *       --func FIELD_STATUS_FieldCloseNoSoundWaitEvent --addr 0x0201450C --cc 1.1p1 --thumb
- * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
- *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
- *           0x02188BD8 in ov021; need seeds in those overlays' listings.
- */
-int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct FieldCloseWork *wk = work;
-    struct GameSystem *gameSystem = wk->gameSystem;
-    struct FieldMap *fieldMap = wk->fieldMap;
-
-    GAME_DATA_GetBgmInfo(wk->gameData);
-    switch (*seq) {
-    case 0:
-        FIELDMAP_RequestClose(fieldMap);
-        *seq = *seq + 1;
-        break;
-    case 1:
-        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
-            if (wk->notifyClose != 0) {
-                SCRCMD_NETWORK_UnloadOv020();
-            }
-            return 1;
-        }
-        break;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_FieldCloseNoSoundWaitEvent, 0x10);
-    struct FieldCloseWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->fieldMap = fieldMap;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
-    wk->notifyClose = 0;
-    return event;
-}
-
-
-
-
-
-/*
- *           02014584..020145CA.  This is the chain class of the band brief:
- *           0x020120C0's only callers are inside this range, so `label` has
- *           nothing to point at.  It is NOT a lane-2 row (it lives in
- *           pkt_020120B4 and is a chain row of the 0-64 band list), so this
- *           file cannot be finished from inside the lane.  Filing
- *           0x020120C0's own EXACT entry converts the site to `matched` and
- *           this file prints EXACT with no change to the C below.
- *
- * Byte-correct at all 70 concrete bytes; 3 of 4 relocation sites resolved.
- *
- * Two spelling points that were needed to get this far:
- *   - FIELDMAP_IsReady lives in ov021 and is THUMB.  Left to the name-based
- *     fallback it is inferred `arm` and match.py stops with an ISA conflict
- *     ("the source declares arm, the image says thumb"), which reads like a
- *     compile failure but is a symbols: block omission.  Naming the region
- *     (`FIELDMAP_IsReady  0x02188BE8  thumb ov021`) resolves the site through
- *     `label` (9 outside branches, e.g. 0x02012078).
- *   - `switch (*a1)` with `break` in the arms, not `return 0`: the original
- *     has exactly one `movs r0,#0 / pop` epilogue, shared by the arms and by
- *     the fall-through.  Writing `return 0` in each arm duplicates it and
- *     costs 36 bytes.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/FIELD_STATUS_FieldOpenEvent.c \
- *       --func FIELD_STATUS_FieldOpenEvent --addr 0x02014584 --cc 1.1p1 --thumb
- */
-int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct FieldOpenWork *wk = work;
-    struct GameSystem *gameSystem = wk->gameSystem;
-
-    switch (*seq) {
-    case 0:
-        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
-            GAMESYSTEM_CallFieldProc(gameSystem);
-            *seq = *seq + 1;
-        }
-        break;
-    case 1:
-        if (FIELDMAP_IsReady(ICA_ANIME_GetField20(gameSystem)) != 0) {
-            *seq = *seq + 1;
-        }
-        break;
-    case 2:
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-/*
- * promoted: seed round 9, EXACT (fresh match.py one) once the ov010 callees
- *           0x0215FA34 and 0x0215FA44 were seeded in layout/function_starts.txt
- * note:     re-verified 2026-09-20: MATCH; see verify output
- * note:     re-verified 2026-09-22 (family wave 6, field_status.c): still
- *           MATCH, 3 of 4 sites resolved, no change to the C.  The single
- *           blocker 0x0215FA34 is the same overlay-export class as the
- *           two in FIELD_STATUS_FieldCloseEvent.c: ov009 and ov010 both cover it and
- *           neither labels a function there, so no region hint helps.
- * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
- *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
- *           0x02188BD8 in ov021; need seeds in those overlays' listings.
- */
-struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_FieldOpenEvent, 0x10);
-    struct FieldOpenWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->unused04 = 0;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
-    SCRCMD_NETWORK_LoadOv020();
-    return event;
-}
-
-
-
-
-struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *gameSystem)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_FieldOpenEvent, 0x10);
-    struct FieldOpenWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->unused04 = 0;
-    wk->gameData = ICA_ANIME_GetField1C(gameSystem);
-    return event;
-}
-
-
-
-
-/*
- * The shared tail of the three working cases sits INSIDE case 0's arm (a
- * label a later arm jumps back to is what makes 0x02014658 fall out of case 0
- * with no branch) and the default arm's `return 0` is reached by a `goto`
- * rather than copied, which is what puts the single `movs r0, #0` epilogue at
- * 0x02014692.  `u32 a0 = p[0];` before the switch is load-bearing: without it
- * each arm reloads p[0] and the whole dispatch shifts.
- */
-int FIELD_STATUS_SubProcEvent(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct SubProcWork *wk = work;
-    struct GameSystem *gameSystem = wk->gameSystem;
-    struct GameEvent *child;
-
-    switch (*seq) {
-    case 0:
-        child = EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, wk->fieldMap, 0, 0);
-    call:
-        GAME_EVENT_CallEvent(event, child);
-        (*seq)++;
-        goto wait;
-    case 1:
-        child = FIELD_STATUS_CreateSubProcNoFadeEvent(gameSystem, wk->fieldMap, wk->overlayId, wk->procData, wk->procWork);
-        goto call;
-    case 2:
-        child = EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, wk->fieldMap, 0, 0, 1, 0, 0);
-        goto call;
-    case 3:
-        return 1;
-    default:
-    wait:
-        return 0;
-    }
-}
-
-
-
-/*
- * The step function FIELD_STATUS_CreateSubProcNoFadeEvent installs (argsize 0x14, args p[0]..p[4]),
- * one stage per call on *mode.  Closed in wave 13: the earlier goto/label
- * spelling (docs/notes/FIELD_STATUS_SubProcNoFadeEvent.c.txt, one byte out) was the wrong
- * shape.  Written plainly -- every arm carries its own `(*mode)++; break;`
- * and case 2 is `if (poll() == 0) (*mode)++;` -- the compiler cross-jumps
- * the repeated increments itself, and that leaves case 2's tail jump on
- * case 1's `b inc` block exactly as the image has it.
- */
-int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct SubProcWork *wk = work;
-    struct GameSystem *gameSystem = wk->gameSystem;
-
-    switch (*seq) {
-    case 0:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldCloseEvent(gameSystem, wk->fieldMap));
-        (*seq)++;
-        break;
-    case 1:
-        GAMESYSTEM_CallProc(gameSystem, wk->overlayId, wk->procData, wk->procWork);
-        (*seq)++;
-        break;
-    case 2:
-        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
-            (*seq)++;
-        }
-        break;
-    case 3:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
-        (*seq)++;
-        break;
-    case 4:
-        return 1;
-    }
-    return 0;
-}
-
-
-
-struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_SubProcEvent, 0x14);
-    struct SubProcWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->fieldMap = fieldMap;
-    wk->overlayId = overlayId;
-    wk->procData = procData;
-    wk->procWork = procWork;
-    return event;
-}
-
-
-
-struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_SubProcNoFadeEvent, 0x14);
-    struct SubProcWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->fieldMap = fieldMap;
-    wk->overlayId = overlayId;
-    wk->procData = procData;
-    wk->procWork = procWork;
-    return event;
-}
-
-
-
-/*
- * A three-state step machine over a descriptor `a2`.  State 0 forwards five
- * of the descriptor's leading words (four in registers, the fifth on the
- * stack) to FIELD_STATUS_CreateSubProcEvent and hands the result to GAME_EVENT_CallEvent, then bumps
- * the counter.  State 1 calls the descriptor's own callback slot (+0x14) with
- * the pointer at +0x18.  State 2 frees the +0x18 pointer and returns 1.  The
- * `*a1 = *a1 + 1` in state 1 is a separate arm in the source; the compiler
- * cross-jumps it onto state 0's increment, which is why the listing shows the
- * state-1 arm branching backwards into state 0's tail.
- *
- * EXACT*: the compared extent runs four bytes past the body into the next
- * function's alignment pad (the follower at 0x020147B0 saves lr, so its label
- * exists and the extent is only the pad - no byte of it differs).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcCallbackEvent.c \
- *       --func FIELD_STATUS_SubProcCallbackEvent --addr 0x02014758 --cc 1.1p1 --thumb
- */
-int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct SubProcCallbackWork *wk = work;
-
-    switch (*seq) {
-    case 0:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(wk->gameSystem, wk->fieldMap, wk->overlayId, wk->procData,
-                                        wk->procWork));
-        *seq = *seq + 1;
-        break;
-    case 1:
-        if (wk->callback != 0) {
-            wk->callback(wk->callbackWork);
-        }
-        *seq = *seq + 1;
-        break;
-    case 2:
-        if (wk->callbackWork != 0) {
-            func_020307B0(wk->callbackWork);
-        }
-        return 1;
-    }
-    return 0;
-}
-
-
-
-/*
- * Byte-for-byte the twin of FIELD_STATUS_SubProcCallbackEvent (same 86-byte shape, same three
- * states) with FIELD_STATUS_CreateSubProcEvent replaced by FIELD_STATUS_CreateSubProcNoFadeEvent.  The only other
- * difference is the literal pool holding 0x020307B0: 0x02014758's pool is
- * reachable with `blx 0x20307b0`'s 26-bit reach, this one needs no change.
- *
- * EXACT*: the compared extent runs into the four-byte alignment pad before
- * the next labelled function; no byte of the body differs.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcNoFadeCallbackEvent.c \
- *       --func FIELD_STATUS_SubProcNoFadeCallbackEvent --addr 0x020147B0 --cc 1.1p1 --thumb
- */
-int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct SubProcCallbackWork *wk = work;
-
-    switch (*seq) {
-    case 0:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcNoFadeEvent(wk->gameSystem, wk->fieldMap, wk->overlayId, wk->procData,
-                                        wk->procWork));
-        *seq = *seq + 1;
-        break;
-    case 1:
-        if (wk->callback != 0) {
-            wk->callback(wk->callbackWork);
-        }
-        *seq = *seq + 1;
-        break;
-    case 2:
-        if (wk->callbackWork != 0) {
-            func_020307B0(wk->callbackWork);
-        }
-        return 1;
-    }
-    return 0;
-}
-
-
-
-/*
- * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
- *           every relocation site resolves and match.py one reports EXACT.
- */
-struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_SubProcCallbackEvent, 0x1c);
-    struct SubProcCallbackWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->fieldMap = fieldMap;
-    wk->overlayId = overlayId;
-    wk->procData = procData;
-    wk->procWork = procWork;
-    wk->callback = callback;
-    wk->callbackWork = callbackWork;
-    return event;
-}
-
-
-
-struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork)
-{
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_STATUS_SubProcNoFadeCallbackEvent, 0x1c);
-    struct SubProcCallbackWork *wk = GAME_EVENT_GetWork(event);
-
-    wk->gameSystem = gameSystem;
-    wk->fieldMap = fieldMap;
-    wk->overlayId = overlayId;
-    wk->procData = procData;
-    wk->procWork = procWork;
-    wk->callback = callback;
-    wk->callbackWork = callbackWork;
-    return event;
-}
-
-
-
-/*
- * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id sites
- *           ov091_id (91) and ov131_id (131) resolve as `overlay_id` (a
- *           layout overlay index, loaded by a pc-relative load of this
- *           function, reaching the id register of a known overlay loader),
- *           which was the last blocker.
- *
- * A six-state machine on obj->f1e.  Every concrete byte matches: 152 of 152
- * against the listing extent, the two relocation sites that are attestable
- * (both calls) resolve as `label`, and both 0x021BED00/0x021DC800 pool words
- * resolve as `literal`; only the two small pooled words stay wildcarded.
- *
- * The small pooled words are the SDK's FS_OVERLAY_ID() shape (see
- * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md): a
- * value that mwccarm materialises with `movs` for any literal in 0..255, and
- * therefore cannot be written as a number - the source passes an address the
- * linker resolved to 91 / 131, and is declared here as a symbol of that
- * absolute value.
- *
- * Two levers mattered, both from the wave-r6 list:
- *   * the switch value is read once into a local before the dispatch
- *     (`ldr r1, [r4]` before `cmp r1, #5`), which is what puts p[0] in r0;
- *   * a case that ends in "return 0" must `break` instead, so every arm
- *     shares the one epilogue at 0x020148FC instead of duplicating it.
- * The state-2 arm is three statements - `if (v == 0) { *mode = 5; break; }`,
- * `if (v == 1) { ...; *mode = 3; break; }` and a trailing `*mode = 5;` - and
- * only that spelling reproduces the arm's out-of-line `movs r0, #5` block at
- * 0x020148D2 with the second test as `bne` rather than `beq`.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02014878.c \
- *       --func func_02014878 --addr 0x02014878 --cc 1.1p1 --thumb
- */
-int func_02014878(struct GameEvent *event, u32 *seq, void *work)
-{
-    struct ProcPairWork *wk = work;
-    struct GameSystem *gameSystem = wk->gameSystem;
-
-    /* stand-in: the two process data blocks (0x021BED00 in ov091, 0x021DC800 in
-     * ov131) are written as raw addresses; named externs for them leave the pool
-     * words unattested (MATCH, not EXACT), since the overlays are not linked here. */
-    switch (*seq) {
-    case 0:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov091_id, (void *)0x021BED00, wk->firstParam);
-        *seq = 1;
-        break;
-    case 1:
-        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
-            break;
-        *seq = 2;
-        break;
-    case 2:
-        if (*(u32 *)(wk->firstParam + 0x40) == 0) {
-            *seq = 5;
-            break;
-        }
-        if (*(u32 *)(wk->firstParam + 0x40) == 1) {
-            wk->secondParam[0xf] = (u8)*(u32 *)(wk->firstParam + 0x3c);
-            *seq = 3;
-            break;
-        }
-        *seq = 5;
-        break;
-    case 3:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov131_id, (void *)0x021DC800, wk->secondParam);
-        *seq = 4;
-        break;
-    case 4:
-        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
-            break;
-        *(u32 *)(wk->firstParam + 0x3c) = wk->secondParam[0xf];
-        *seq = 0;
-        break;
-    case 5:
-        return 1;
-    default:
-        break;
-    }
-    return 0;
 }

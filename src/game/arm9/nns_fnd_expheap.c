@@ -1,7 +1,7 @@
 /*
  * file:     nns_fnd_expheap.c
  * unit:     yes
- * function: NNS_FndInitList, NNSi_FndSetFirstObject, NNS_FndAppendListObject, NNS_FndPrependListObject, NNS_FndInsertListObject, NNS_FndRemoveListObject, NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem, NNSi_FndFindListContainHeap, NNSi_FndInitHeapHead, func_0206074C, NNSi_FndGetMBlockRegion, NNSi_FndRemoveMBlock, NNSi_FndInsertMBlock, NNSi_FndInitMBlock, NNSi_FndCreateExpHeap, NNSi_FndAllocFromExpHeap, NNSi_FndAllocFromExpHeapHead, NNSi_FndAllocFromExpHeapTail, NNSi_FndRecycleRegion, NNS_FndCreateExpHeapEx, NNSi_FndDestroyExpHeap, NNS_FndAllocFromExpHeapEx, NNS_FndResizeForMBlockExpHeap, NNS_FndFreeToExpHeap, NNSi_FndGetListTotalSize, NNSi_FndGetListAllocatableSize, NNSi_FndSetAllocModeBit, NNSi_FndSetGroupId, NNSi_FndWalkHeapBlocks, NNSi_FndGetMBlockSize, NNSi_FndGetMBlockAttribute
+ * function: NNS_FndInitList, NNSi_FndSetFirstObject, NNS_FndAppendListObject, NNS_FndPrependListObject, NNS_FndInsertListObject, NNS_FndRemoveListObject, NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem, NNSi_FndFindListContainHeap, NNSi_FndInitHeapHead, FNDHEAP_Finalize, NNSi_FndGetMBlockRegion, NNSi_FndRemoveMBlock, NNSi_FndInsertMBlock, NNSi_FndInitMBlock, NNSi_FndCreateExpHeap, NNSi_FndAllocFromExpHeap, NNSi_FndAllocFromExpHeapHead, NNSi_FndAllocFromExpHeapTail, NNSi_FndRecycleRegion, NNS_FndCreateExpHeapEx, NNSi_FndDestroyExpHeap, NNS_FndAllocFromExpHeapEx, NNS_FndResizeForMBlockExpHeap, NNS_FndFreeToExpHeap, NNSi_FndGetListTotalSize, NNSi_FndGetListAllocatableSize, NNSi_FndSetAllocModeBit, NNSi_FndSetGroupId, NNSi_FndWalkHeapBlocks, NNSi_FndGetMBlockSize, NNSi_FndGetMBlockAttribute
  * address:  0x02060468
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -130,7 +130,6 @@ struct Heap {
 };
 
 extern void           MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern void func_0206074C(void *heap);
 extern s32 abs(s32 x);
 void NNS_FndInitList(int p0, int p1);
 void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
@@ -1028,7 +1027,7 @@ void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr)
 
 
 
-void NNSi_FndDestroyExpHeap(void *heap){ func_0206074C(heap); }
+void NNSi_FndDestroyExpHeap(void *heap){ FNDHEAP_Finalize(heap); }
 
 
 

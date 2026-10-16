@@ -27,7 +27,7 @@
  *   OS_VSNPrintf  0x02084FA8  arm
  *   scInitialize  0x021DF9D8  arm  ov175
  *   scThink  0x021DFA6C  arm
- *   func_021DFAA0  0x021DFAA0  arm  ov175
+ *   scGetConnectionId  0x021DFAA0  arm  ov175
  *   scSetSessionId  0x021DFAA8  arm  ov175
  *   scSetReportIntention  0x021DFB18  arm  ov175
  *   scSubmitReport  0x021DFBB8  arm  ov175
@@ -319,7 +319,7 @@ unsigned char *DWC_ScGetSessionId(void)
 /* DWC_ScGetConnectionId: the connection GUID of the stats client. */
 unsigned char *DWC_ScGetConnectionId(void)
 {
-    return func_021DFAA0(gDwcScControl.session);
+    return scGetConnectionId(gDwcScControl.session);
 }
 
 /* DWC_ScCreateReport: creates a match report for the session. */

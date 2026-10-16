@@ -82,7 +82,7 @@ void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s)
     d->f10 = ((0 - (s32)s->f20) * t) >> 12;
 }
 
-void func_020724E4(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s)
 {
     d->f00 = s->f18;
     d->f14 = s->f1c;

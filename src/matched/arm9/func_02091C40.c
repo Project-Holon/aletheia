@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02091C40
+ * function: MSL_C_LIB_StrNICmp
  * address:  0x02091C40
  * packet:   pkt_02091C40
  * region:   arm9
@@ -43,15 +43,15 @@
  * declared at block scope.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02091C40.c \
- *       --func func_02091C40 --addr 0x02091C40 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/MSL_C_LIB_StrNICmp.c \
+ *       --func MSL_C_LIB_StrNICmp --addr 0x02091C40 --arm --cc 1.1p1
  */
 
 typedef unsigned char u8;
 
 extern const u8 __tolower_map[];
 
-int func_02091C40(const u8 *s1, const u8 *s2, int n)
+int MSL_C_LIB_StrNICmp(const u8 *s1, const u8 *s2, int n)
 {
     const u8 *tab;
     int i = 0;

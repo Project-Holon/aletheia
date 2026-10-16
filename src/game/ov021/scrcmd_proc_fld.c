@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_proc_fld.c
  * unit:     yes
- * function: SCRCMD_PROC_FLD_StepShopTask, SCRCMD_PROC_FLD_InitShop, SCRCMD_PROC_FLD_LoadShopMessages, SCRCMD_PROC_FLD_GetShopCurrency, SCRCMD_PROC_FLD_PickQuantityOutcome, SCRCMD_PROC_FLD_PollItemList, SCRCMD_PROC_FLD_PollMessageEnd, SCRCMD_PROC_FLD_PayPrice, SCRCMD_PROC_FLD_StepShop, SCRCMD_PROC_FLD_LoadItemRows, SCRCMD_PROC_FLD_SetItemSlot, SCRCMD_PROC_FLD_BuildItemListByBadges, SCRCMD_PROC_FLD_BuildItemListFixed, SCRCMD_PROC_FLD_BuildItemListFromRange, SCRCMD_PROC_FLD_FreeItemSlots, SCRCMD_PROC_FLD_AllocShopResources, SCRCMD_PROC_FLD_FreeShopResources, SCRCMD_PROC_FLD_InitShopGraphics, SCRCMD_PROC_FLD_ExitShopGraphics, SCRCMD_PROC_FLD_LoadCursorResources, SCRCMD_PROC_FLD_LoadIconResources, SCRCMD_PROC_FLD_UpdateItemIcon, SCRCMD_PROC_FLD_CreateShopActors, SCRCMD_PROC_FLD_InitShopCells, SCRCMD_PROC_FLD_FreeShopCells, SCRCMD_PROC_FLD_InitShopWindows, SCRCMD_PROC_FLD_FreeShopWindows, SCRCMD_PROC_FLD_PrintMoneyWindow, SCRCMD_PROC_FLD_PrintOwnedWindow, SCRCMD_PROC_FLD_PrintItemDescription, SCRCMD_PROC_FLD_PrintQuantityWindow, SCRCMD_PROC_FLD_CreateItemListMenu, SCRCMD_PROC_FLD_PrintListText, SCRCMD_PROC_FLD_PrintPriceEntry, SCRCMD_PROC_FLD_PrintUniqueItemEntry, SCRCMD_PROC_FLD_OnListCursorMove, SCRCMD_PROC_FLD_FreeItemListMenu, SCRCMD_PROC_FLD_ReturnZero, SCRCMD_PROC_FLD_ShowItemMessage, SCRCMD_PROC_FLD_ShowConfirmMessage, SCRCMD_PROC_FLD_PrepareMessageWindow, SCRCMD_PROC_FLD_ShowMessage, SCRCMD_PROC_FLD_ShowBuyConfirm, SCRCMD_PROC_FLD_ShowTmBuyConfirm, SCRCMD_PROC_FLD_AdjustQuantity, SCRCMD_PROC_FLD_StepQuantitySelect, SCRCMD_PROC_FLD_SetQuantityMask, SCRCMD_PROC_FLD_StoreGameSystemValue, SCRCMD_PROC_FLD_StoreSubObjectValueA, SCRCMD_PROC_FLD_StoreSubObjectValueB, SCRCMD_PROC_FLD_CallOv006Event, SCRCMD_PROC_FLD_CallOv004Event, SCRCMD_PROC_FLD_CallOv001Event, SCRCMD_PROC_FLD_FinishOv170Event, SCRCMD_PROC_FLD_CallOv170Event, SCRCMD_PROC_FLD_StartNameInMode5, SCRCMD_PROC_FLD_StartNameInMode6, SCRCMD_PROC_FLD_SetNextEventAndEnd, SCRCMD_PROC_FLD_CallSubProcWithFlag, SCRCMD_PROC_FLD_CallOv219Event, SCRCMD_PROC_FLD_CallShortcutEvent, SCRCMD_PROC_FLD_CallEventWithVarPtr, SCRCMD_PROC_FLD_CallEventFromThreeValues, SCRCMD_PROC_FLD_CallFieldMapEvent, SCRCMD_PROC_FLD_StoreByteValue, SCRCMD_PROC_FLD_CallEventMode4, SCRCMD_PROC_FLD_StoreCameraValue, SCRCMD_PROC_FLD_SetFlagIfClear, SCRCMD_PROC_FLD_AddUniqueU16, SCRCMD_PROC_FLD_StoreRandomUniqueEntry, SCRCMD_PROC_FLD_ReleaseFieldRegion, SCRCMD_PROC_FLD_ReleaseFieldRegionTask, SCRCMD_PROC_FLD_BeginFieldRegionRelease, SCRCMD_PROC_FLD_ReleaseFieldRegionCmd, SCRCMD_PROC_FLD_ResetFieldRegionA, SCRCMD_PROC_FLD_ResetFieldRegionB, SCRCMD_PROC_FLD_SetFieldRegionFromStream, SCRCMD_PROC_FLD_SetFieldRegionFromArchive, SCRCMD_PROC_FLD_SetFieldRegionLayerFlags, SCRCMD_PROC_FLD_SetFieldRegionValue, SCRCMD_PROC_FLD_CallFieldRegionWaitEvent, SCRCMD_PROC_FLD_CallCustomEvent, SCRCMD_PROC_FLD_PollFieldRegionStart, SCRCMD_PROC_FLD_PollFieldRegionIdle, SCRCMD_PROC_FLD_CallOv056Event, SCRCMD_PROC_FLD_SetOv056Slot, SCRCMD_PROC_FLD_SetFieldRegionTable
+ * function: SCRCMD_PROC_FLD_StepShopTask, SCRCMD_PROC_FLD_InitShop, SCRCMD_PROC_FLD_LoadShopMessages, SCRCMD_PROC_FLD_GetShopCurrency, SCRCMD_PROC_FLD_PickQuantityOutcome, SCRCMD_PROC_FLD_PollItemList, SCRCMD_PROC_FLD_PollMessageEnd, SCRCMD_PROC_FLD_PayPrice, SCRCMD_PROC_FLD_StepShop, SCRCMD_PROC_FLD_LoadItemRows, SCRCMD_PROC_FLD_SetItemSlot, SCRCMD_PROC_FLD_BuildItemListByBadges, SCRCMD_PROC_FLD_BuildItemListFixed, SCRCMD_PROC_FLD_BuildItemListFromRange, SCRCMD_PROC_FLD_FreeItemSlots, SCRCMD_PROC_FLD_AllocShopResources, SCRCMD_PROC_FLD_FreeShopResources, SCRCMD_PROC_FLD_InitShopGraphics, SCRCMD_PROC_FLD_ExitShopGraphics, SCRCMD_PROC_FLD_LoadCursorResources, SCRCMD_PROC_FLD_LoadIconResources, SCRCMD_PROC_FLD_UpdateItemIcon, SCRCMD_PROC_FLD_CreateShopActors, SCRCMD_PROC_FLD_InitShopCells, SCRCMD_PROC_FLD_FreeShopCells, SCRCMD_PROC_FLD_InitShopWindows, SCRCMD_PROC_FLD_FreeShopWindows, SCRCMD_PROC_FLD_PrintMoneyWindow, SCRCMD_PROC_FLD_PrintOwnedWindow, SCRCMD_PROC_FLD_PrintItemDescription, SCRCMD_PROC_FLD_PrintQuantityWindow, SCRCMD_PROC_FLD_CreateItemListMenu, SCRCMD_PROC_FLD_PrintListText, SCRCMD_PROC_FLD_PrintPriceEntry, SCRCMD_PROC_FLD_PrintUniqueItemEntry, SCRCMD_PROC_FLD_OnListCursorMove, SCRCMD_PROC_FLD_FreeItemListMenu, SCRCMD_PROC_FLD_ReturnZero, SCRCMD_PROC_FLD_ShowItemMessage, SCRCMD_PROC_FLD_ShowConfirmMessage, SCRCMD_PROC_FLD_PrepareMessageWindow, SCRCMD_PROC_FLD_ShowMessage, SCRCMD_PROC_FLD_ShowBuyConfirm, SCRCMD_PROC_FLD_ShowTmBuyConfirm, SCRCMD_PROC_FLD_AdjustQuantity, SCRCMD_PROC_FLD_StepQuantitySelect, SCRCMD_PROC_FLD_SetQuantityMask, SCRCMD_PROC_FLD_StoreGameSystemValue, SCRCMD_PROC_FLD_StoreSubObjectValueA, SCRCMD_PROC_FLD_StoreSubObjectValueB, SCRCMD_PROC_FLD_CallOv006Event, SCRCMD_PROC_FLD_CallOv004Event, SCRCMD_PROC_FLD_CallOv001Event, SCRCMD_PROC_FLD_FinishOv170Event, SCRCMD_PROC_FLD_CallOv170Event, SCRCMD_PROC_FLD_StartNameInMode5, SCRCMD_PROC_FLD_StartNameInMode6, SCRCMD_PROC_FLD_SetNextEventAndEnd, SCRCMD_PROC_FLD_CallSubProcWithFlag, SCRCMD_PROC_FLD_CallOv219Event, SCRCMD_PROC_FLD_CallShortcutEvent, SCRCMD_PROC_FLD_CallEventWithVarPtr, SCRCMD_PROC_FLD_CallEventFromThreeValues, SCRCMD_PROC_FLD_CallFieldMapEvent, SCRCMD_PROC_FLD_StoreByteValue, SCRCMD_PROC_FLD_CallEventMode4, SCRCMD_PROC_FLD_StoreCameraValue, SCRCMD_PROC_FLD_SetFlagIfClear, SCRCMD_PROC_FLD_AddUniqueU16
  * address:  0x021B3158
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from scrcmd_proc_fld.c by tools/splitfile.py.
  *
  * symbols:
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
@@ -39,7 +39,6 @@
  *   GDS_PROFILE_GetScoreRecTotal  0x0200DABC  thumb
  *   func_02007FB8  0x02007FB8  thumb
  *   func_02007E3C  0x02007E3C  thumb
- *   _u32_div_f     0x0209C2B0  arm
  *   func_0200823C  0x0200823C  thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -207,87 +206,68 @@
  *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
  *   MOVE_POKEMON_SpawnEntry  0x0215E440  thumb  ov010
- *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
- *   GAME_DATA_GetSeason  0x02012984  thumb
- *   func_02005728  0x02005728  thumb
- *   d_021DE234     0x021DE234  data  a1
- *   d_021D98D0     0x021D98D0  data  a2
- *   FIELD_CAMERA_HasDelay  0x0218F0F8  thumb  ov021
- *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
- *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
- *   FIELD_NOGRID_MAPPER_SetActive  0x021BB260  thumb  ov021
- *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
- *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
- *   FIELD_CAMERA_PushState  0x0218F818  thumb  ov021
- *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
- *   VM_ReadU16  0x02011330  thumb
- *   VM_GetU32  0x0201134C  thumb
- *   FIELD_CAMERA_StartMove  0x0218F900  thumb  ov021
- *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   FIELD_CAMERA_StartMoveToSetting  0x0218FA40  thumb  ov021
- *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb  ov021
- *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
- *   FIELD_CAMERA_SetSetting  0x0218E17C  thumb  ov021
- *   FIELD_FK_DEMO_GetCameraSettingId  0x021F36C8  thumb  ov056
- *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
- *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
- *   ov56_id        0x00000038  data  a1
- *   g_021F4344     0x021F4344  data  ov056  a4
- *   g_021F4374     0x021F4374  data  ov056  a4
- *   g_021F438C     0x021F438C  data  ov056  a4
- *   g_021F435C     0x021F435C  data  ov056  a4
  */
-
 #include "scrcmd_proc_fld_types.h"
-#include "fieldmap_types.h"
+#include "scrcmd_proc_fld_shared_types.h"
 
-struct Ctx;
 struct MsgBank;
+
 struct Blk1AC;
+
 struct Blk34;
+
 struct Cfg;
+
 struct Descriptor;
-struct Obj;
+
 struct PrintSys;
+
 struct Rec;
+
 struct Rec3;
+
 struct Sub02008C20Obj;
+
 struct Tcbl;
+
 struct WordSet;
+
 struct Slot;
+
 struct U16Vec;
+
 struct S02031140;
+
 struct Sub0204A9D0;
+
 struct Bank;
+
 struct CharBuf;
+
 struct Src;
+
 struct Bmp;
+
 struct StrObj;
+
 struct Vec2;
+
 struct Sub020097BCObj;
-struct BigObj;
+
 struct Pair;
-struct Desc;
+
 struct Big;
+
 struct Blk37;
+
 struct Sub02008700Obj;
-struct ScriptVm;
+
 struct Sub020090B0Obj;
+
 struct Sub02009210Obj;
+
 struct Blk38;
-struct Stream;
-struct Cursor;
-struct ScrcmdWork;
-struct Blk021D2D50;
-
-/* Six enable flags handed to the field region object. */
-typedef struct LayerFlags {
-    u32 flag[6];
-} LayerFlags;
-
-typedef signed char    s8;
 
 /* Argument block of the field events that take the field map (ov006 / ov004 callbacks). */
 typedef struct FieldEventArgs {
@@ -318,377 +298,529 @@ typedef struct Ov170EventHandoff {
     Ov170EventWork *work;           /* 0x08 */
 } Ov170EventHandoff;
 
-/* One wild encounter entry: species and form in 4 bytes. */
-typedef struct EncounterSlot {
-    u16 species : 11;
-    u16 form : 5;
-    u16 reserved;
-} EncounterSlot;
-
-/* 0xE8-byte encounter table record filled by FIELD_ENCOUNT_ST_LoadEncountData. */
-typedef struct EncounterRecord {
-    u8  reserved00[5];
-    u8  hasSetA;
-    u8  hasSetB;
-    u8  reserved07[0xc0 - 7];
-    EncounterSlot setA[5];
-    EncounterSlot setB[5];
-} EncounterRecord;
-
-/* Field region record read from archive 0xA3 (0x2C bytes). */
-typedef struct FieldRegionRecord {
-    u16 areaWidth;
-    u16 areaHeight;
-    u32 areaFlags;
-    VecFx32 origin;
-    LayerFlags layers;
-} FieldRegionRecord;
-
-/* Field region parameter block (0x48 bytes) handed to the field region object. */
-typedef struct FieldRegionParam {
-    u32 reserved00[3];
-    VecFx32 origin;         /* 0x0c */
-    u32 reserved18[3];
-    u16 areaWidth;          /* 0x24 */
-    u16 areaHeight;         /* 0x26 */
-    u32 areaFlags;          /* 0x28 */
-    u32 reserved2C;
-    LayerFlags layers;      /* 0x30: six layer enable flags */
-} FieldRegionParam;
-
-/* Custom event record built from eight script values. */
-typedef struct CustomEventParam {
-    u16 eventId;            /* 0x00 */
-    u16 eventKind;          /* 0x02 */
-    u16 mapX;               /* 0x04 */
-    u16 mapY;               /* 0x06 */
-    u16 mapZ;               /* 0x08 */
-    u16 reserved0A;         /* 0x0a */
-    u16 facing;             /* 0x0c */
-    u8 kind;                /* 0x0e */
-    u8 kindCopy;            /* 0x0f */
-    u32 scriptId;           /* 0x10 */
-    u32 reserved14;         /* 0x14 */
-} CustomEventParam;
-
-typedef enum { B_FALSE, B_TRUE } Bool;
-
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
+
 extern void *SCRIPT_WORK_GetUserWorkPtr(void *p);
+
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+
 extern void *ICA_ANIME_GetField20(const struct Ctx *p);
+
 extern void *FIELDMAP_GetCamera(void *a);
+
 extern void FIELD_CAMERA_EndDelay(u8 *a);
+
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
+
 extern void SCRCMD_SHOP_PrepareFieldCamera(u32 *p, u32 b, void *h);
+
 extern int FIELD_CAMERA_IsMoving(u8 *a);
+
 extern void FIELD_MSGBG_SetBlendThunk(u32 a);
+
 extern void FIELD_CAMERA_StartMoveToSaved(u8 *p, u8 *src, u16 v);
+
 extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
+
 extern void FIELD_CAMERA_SetAreasEnabled(u8 *p, u32 v);
+
 extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
+
 extern void FIELD_CAMERA_PopState(u8 *a);
+
 extern u32 func_020307B0(void *p);
+
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
+
 extern u8 *GAME_DATA_GetMyStatus(void *p);
+
 extern void *GAME_DATA_GetMiscSave(int *p);
+
 extern int BEACON_CountFlags(void);
+
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+
 extern u32 BEACON_GetPoints(struct Blk34 *p);
+
 extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
+
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
+
 extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
+
 extern u32 func_0200823C(u32 a);
+
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
+
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+
 extern void BG_SYS_PushTile(u32 index);
+
 extern s32 BMP_MENULIST_Main(struct Obj *o);
+
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
+
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+
 extern unsigned int KEY_GetCont(void);
+
 extern u32 KEY_GetTrg(void);
+
 extern void PRINTSYS_PrintStreamReleasePause(void *);
+
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+
 extern u32 BEACON_SubPoints(struct Blk34 *p, u32 v);
+
 extern void GDS_PROFILE_SubScoreRecTotal(struct Blk1AC *p, u16 v);
+
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
+
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+
 extern void func_02041B6C(u32 a);
+
 extern void BMP_MENULIST_Redraw(u8 *p);
+
 extern u32 BMP_MENU_CreateYesNo(const void *a, u32 b, u32 c, u32 d, u32 e);
+
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
+
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+
 extern void TCBL_Main(struct Tcbl *p);
+
 extern u32 FILE_UTIL_Check1288(u32 id);
+
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+
 extern int FILE_UTIL_Get_12B0(u32 a);
+
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
+
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
+
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
 extern void *BMP_MENUWORK_Create(int, int);
+
 extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
+
 extern u32 GPOWER_ApplyShopPrice(u32 v);
+
 extern u32 MSGDATA_Delete(struct Rec *rec);
+
 extern void FIELD_WFBC_DATA_LOCAL_FillPeopleListEntries(char *base, char *out, u16 *cnt, int n, u16 id);
+
 extern u32 BMP_MENUWORK_Delete(void *p);
+
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+
 extern void TCBL_Destroy(struct S02031140 *p);
+
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+
 extern void STRBUF_Delete(struct U16Vec *vec);
+
 extern void *func_020490F4(unsigned int id, unsigned int heap);
+
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+
 extern void ARC_TOOL_DeleteHandle(void *);
+
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
+
 extern void BG_SYS_ClearSlot(u32 i);
+
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+
 extern unsigned FILE_UTIL_Get(unsigned a, unsigned b);
+
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern void CLACT_TransferPalette(u32 a, u32 b, u32 c);
+
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
+
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
+
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
+
 extern void CLACT_ReleaseCellAnim(u32 i);
+
 extern void CLACT_ReleaseCharacter(u32 i);
+
 extern void CLACT_ReleasePalette(u32 i);
+
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
+
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+
 extern u32 PRINTSYS_QUE_Create(void *p);
+
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
+
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
+
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+
 extern u32 BMP_MENUWORK_CountItems(struct Slot *s);
+
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
+
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+
 extern u32 func_02020D0C(u8 *p);
+
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
+
 extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
+
 extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
+
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+
 extern void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
+
 extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
+
 extern signed char MSG_SPEED_GetWait(void);
+
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
+
 extern unsigned int KEY_GetRepeat(void);
+
 extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
+
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+
 extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
+
 extern int FIELDMAP_GetCommKind(void *p);
+
 extern u32 func_02009CE4(struct Sub020097BCObj *obj);
+
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+
 extern void *SCRCMD_WORK_GetGameData(void *a0);
+
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
+
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
+
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+
 extern int EVENT_WIFICLUB_Entry(int x, struct Pair *p);
+
 extern int EVENT_WORLDTRADE_Entry(int x, struct Pair *p);
+
 extern void *EVENT_GTSNEGO_Entry(void *p, int a);
+
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
+
 extern void *BATTLE_BOX_GetFromSave(void *p);
+
 extern void BATTLE_BOX_StoreParty(u8 *a0, u8 *a1);
+
 extern u32 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
+
 extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
+
 extern struct Sub02008700Obj *func_0200873C(void *sys);
+
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
+
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
+
 extern void *func_0200BAF4(int a0, int a1);
+
 extern u32 BATTLE_BOX_IsLocked(struct Obj *p, u32 mask);
+
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d);
+
 extern void *SCRCMD_NETWORK_CreateCommBattleEvent(void *p, int a1);
+
 extern void SCRIPT_SYS_SetNextEventFromWork(int a, int b);
+
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
+
 extern struct Sub02009210Obj *func_02009210(void *sys);
+
 extern void func_020090D8(struct Sub020090B0Obj *obj, u8 value);
+
 extern void *FLD_BTL_INST_TOOL_CreateCommResetEvent(void *a, void *b);
+
 extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
+
 extern void *SCRCMD_CreateSubProcEvent(void *a, u32 b, u32 c);
+
 extern void *EVENT_GAME_MANUAL_Create(void *, u16 *);
+
 extern void *SCRIPT_WORK_GetGameSystem(void *p);
+
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
+
 extern u32 FIELDMAP_GetEncount(u8 *p);
+
 extern u32 FIELD_ENCOUNT_StartScriptedWild(u32 a, u32 b, u32 c, u32 d);
+
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+
 extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
+
 extern u8 EVENT_BATTLE_GetKindFlag(int i);
+
 extern void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap);
+
 extern u16 EFFECT_ENCOUNT_GetItemId(char *p);
+
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
+
 extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
+
 extern void MOVE_POKEMON_SpawnEntry(void *sys, u8 which);
-extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, u32 x);
-extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
-extern u32 func_02005728(u32 range);
-extern u32 SCRIPT_WORK_ResetCheckFlag(u32);
-extern u32 FIELDMAP_GetNogridMapper(u8 *p);
-extern u32 FIELDMAP_GetMoveKind(u8 *p);
-extern int FIELD_CAMERA_HasDelay(u8 *a);
-extern u32 FIELD_NOGRID_MAPPER_SetActive(u32, u32);
-extern void SCRIPT_WORK_SetCheckFlag(int n);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void FIELD_CAMERA_PushState(u8 *a);
-extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
-extern u16 VM_ReadU16(struct ScriptVm *vm);
-extern u32 VM_GetU32(struct ScriptVm *vm);
-extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
-extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
-extern void FIELD_CAMERA_StartMoveToSetting(u8 *p, u16 v);
-extern void *FIELD_CAMERA_CreateShakeTask(void *a, struct Blk021D2D50 *src);
-extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
-extern void *GIMMICK_INIT_SetCartLanesFlags(void *a, u8 *b, u32 c);
-extern u32 FIELD_FK_DEMO_GetCameraSettingId(u32 idx);
-extern void FIELD_CAMERA_SetSetting(u32 *p, u32 v);
-extern u32 FIELDMAP_GetMapFunc(u8 *p);
-extern int *FIELD_SUBPROC_Start(int a, int *d, const int *c);
+
 int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 void SCRCMD_PROC_FLD_InitShop(int ctx, ShopWork *a, int b, int c);
+
 void SCRCMD_PROC_FLD_LoadShopMessages(ShopWork *w, int b);
+
 u32 SCRCMD_PROC_FLD_GetShopCurrency(ShopWork *w);
+
 void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *w);
+
 void SCRCMD_PROC_FLD_PollItemList(ShopWork *p);
+
 u8 SCRCMD_PROC_FLD_PollMessageEnd(ShopWork *p);
+
 void SCRCMD_PROC_FLD_PayPrice(ShopWork *w, u32 b);
+
 int SCRCMD_PROC_FLD_StepShop(u32 a, ShopWork *p, u32 c, u8 d);
+
 u32 SCRCMD_PROC_FLD_LoadItemRows(ShopItem *items, int n);
+
 void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *p, int idx, int mode, int val, int arg);
+
 void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *p, int a, int b, int c);
+
 void SCRCMD_PROC_FLD_BuildItemListFixed(ShopWork *p, int idx);
+
 void SCRCMD_PROC_FLD_BuildItemListFromRange(ShopWork *p, int i);
+
 void SCRCMD_PROC_FLD_FreeItemSlots(ShopWork *w);
+
 int SCRCMD_PROC_FLD_AllocShopResources(ShopWork *p, int a);
+
 void SCRCMD_PROC_FLD_FreeShopResources(ShopWork *p);
+
 void SCRCMD_PROC_FLD_InitShopGraphics(ShopWork *p);
+
 void SCRCMD_PROC_FLD_ExitShopGraphics(ShopWork *w);
+
 void SCRCMD_PROC_FLD_LoadCursorResources(ShopWork *p);
+
 void SCRCMD_PROC_FLD_LoadIconResources(ShopWork *w);
+
 void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *w, u32 b);
+
 void SCRCMD_PROC_FLD_CreateShopActors(ShopWork *w);
+
 void SCRCMD_PROC_FLD_InitShopCells(ShopWork *w);
+
 void SCRCMD_PROC_FLD_FreeShopCells(ShopWork *w);
+
 void SCRCMD_PROC_FLD_InitShopWindows(ShopWork *w);
+
 void SCRCMD_PROC_FLD_FreeShopWindows(ShopWork *w);
+
 void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *w);
+
 void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *w, u16 b);
+
 void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *w, u32 b);
+
 void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *w, u32 a, u32 b);
+
 void SCRCMD_PROC_FLD_CreateItemListMenu(ShopWork *w);
+
 void SCRCMD_PROC_FLD_PrintListText(void *a, u32 b, int c, int d, u32 e, u32 f, u16 g);
+
 void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *p, int a, u8 b);
+
 void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 ctx, int a, u8 b);
+
 void SCRCMD_PROC_FLD_OnListCursorMove(u32 a, u32 idx);
+
 void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *w);
+
 int SCRCMD_PROC_FLD_ReturnZero(void);
+
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *p, u32 sel, u32 c, u32 d);
+
 void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *w, u32 a);
+
 void SCRCMD_PROC_FLD_PrepareMessageWindow(u32 a);
+
 void SCRCMD_PROC_FLD_ShowMessage(ShopWork *w, u32 b);
+
 void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *w, u32 a, u16 b, u32 c, u16 d);
+
 void SCRCMD_PROC_FLD_ShowTmBuyConfirm(ShopWork *w, u32 a, u32 b, u32 c);
+
 int SCRCMD_PROC_FLD_AdjustQuantity(s16 *p, int max, int key);
+
 int SCRCMD_PROC_FLD_StepQuantitySelect(ShopWork *w);
+
 void SCRCMD_PROC_FLD_SetQuantityMask(int i);
+
 int SCRCMD_PROC_FLD_StoreGameSystemValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_StoreSubObjectValueA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_StoreSubObjectValueB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallOv006Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallOv004Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallOv001Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 void SCRCMD_PROC_FLD_FinishOv170Event(volatile Ov170EventHandoff *handoff);
+
 int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_StartNameInMode5(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_StartNameInMode6(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_SetNextEventAndEnd(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallSubProcWithFlag(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallOv219Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallShortcutEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallEventWithVarPtr(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallEventFromThreeValues(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallFieldMapEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_StoreByteValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_CallEventMode4(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_StoreCameraValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 int SCRCMD_PROC_FLD_SetFlagIfClear(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 u16 SCRCMD_PROC_FLD_AddUniqueU16(u16 *values, u16 count, u16 value);
-int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_ReleaseFieldRegion(void *fieldMap, void *fieldRegion);
-int SCRCMD_PROC_FLD_ReleaseFieldRegionTask(void **eventWork);
-int SCRCMD_PROC_FLD_BeginFieldRegionRelease(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_ReleaseFieldRegionCmd(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_ResetFieldRegionA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_ResetFieldRegionB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_SetFieldRegionValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_CallFieldRegionWaitEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_CallCustomEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_PollFieldRegionStart(void *event);
-int SCRCMD_PROC_FLD_PollFieldRegionIdle(void *event);
-int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_SetOv056Slot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_PROC_FLD_SetFieldRegionTable(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+
 extern const LayerFlags d_021D9738;
+
 extern const u8 d_021D9440[];
+
 extern u8 d_021D946C[];
+
 extern u8 d_021D95DE[];
+
 extern u16 *d_021DE1A8[];
+
 extern ShopItem *d_021DE164[];
+
 extern u8 d_021D9430[];
+
 extern const ShopActorPlacement d_021D96E0;
+
 extern const ShopActorPlacement d_021D96E8;
+
 extern const ShopActorPlacement d_021D96F0;
+
 extern const ShopActorPlacement d_021D96F8;
+
 extern const ShopActorPlacement d_021D9700;
+
 extern ShopWindowTemplate *d_021DE18C[];
+
 extern ShopWindowTemplate *d_021DE170[];
+
 extern u32 d_021D945C[];
+
 extern const ShopMaskRect d_021D9654[];
+
 extern u8 abs_id_6[];
+
 extern u8 abs_id_4[];
+
 extern u8 abs_id_01[];
+
 extern const char d_021DE220[];
+
 extern char ov170_id[];
+
 extern const u8 d_021EF78C[];
+
 extern u8 abs_id_DB[];
+
 extern u8 d_02185F0C[];
-extern const char d_021DE234[];
-extern const u16 d_021D98D0[];
-extern u8 ov56_id[];
-extern u32 g_021F4344[];
-extern u32 g_021F4374[];
-extern u32 g_021F438C[];
-extern u32 g_021F435C[];
-
-
-
-
-
 
 /*
  * Task callback armed by SCRCMD_SHOP_StartShop; steps the 0x214-byte work block it
@@ -759,11 +891,6 @@ int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork
     return 0;
 }
 
-
-
-
-
-
 void SCRCMD_PROC_FLD_InitShop(int gameSystem, ShopWork *shop, int shopKind, int shopVariant)
 {
     void *gameData = ICA_ANIME_GetField1C((void *)gameSystem);
@@ -806,10 +933,6 @@ void SCRCMD_PROC_FLD_InitShop(int gameSystem, ShopWork *shop, int shopKind, int 
     SCRCMD_PROC_FLD_CreateItemListMenu(shop);
 }
 
-
-
-
-
 void SCRCMD_PROC_FLD_LoadShopMessages(ShopWork *shop, int usesBattlePoints)
 {
     if (usesBattlePoints == 1) {
@@ -820,9 +943,6 @@ void SCRCMD_PROC_FLD_LoadShopMessages(ShopWork *shop, int usesBattlePoints)
     shop->soldOutText = func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0xe);
 }
 
-
-
-
 u32 SCRCMD_PROC_FLD_GetShopCurrency(ShopWork *shop)
 {
     if (shop->usesBattlePoints == 0) {
@@ -831,13 +951,6 @@ u32 SCRCMD_PROC_FLD_GetShopCurrency(ShopWork *shop)
         return GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(shop->battlePointData));
     }
 }
-
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop)
 {
@@ -884,14 +997,6 @@ void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop)
     }
 }
 
-
-
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_PollItemList(ShopWork *shop)
 {
     void *window;
@@ -924,14 +1029,6 @@ void SCRCMD_PROC_FLD_PollItemList(ShopWork *shop)
     SCRCMD_PROC_FLD_PickQuantityOutcome(shop);
 }
 
-
-
-
-
-
-
-
-
 u8 SCRCMD_PROC_FLD_PollMessageEnd(ShopWork *shop)
 {
     int printState = PRINTSYS_PrintStreamGetState(shop->messagePrinter);
@@ -953,14 +1050,6 @@ u8 SCRCMD_PROC_FLD_PollMessageEnd(ShopWork *shop)
     return shop->state;
 }
 
-
-
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost)
 {
     if (shop->usesBattlePoints == 0) {
@@ -972,14 +1061,6 @@ void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost)
     }
     func_02008DF0((struct Sub02008C20Obj *)(shop->recordData), 0x15);
 }
-
-
-
-
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -1088,14 +1169,6 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
     return 0;
 }
 
-
-
-
-
-
-
-
-
 u32 SCRCMD_PROC_FLD_LoadItemRows(ShopItem *items, int count)
 {
     u32 result = FILE_UTIL_Check1288(items[0].itemId);
@@ -1106,13 +1179,6 @@ u32 SCRCMD_PROC_FLD_LoadItemRows(ShopItem *items, int count)
     }
     return result;
 }
-
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, int itemId, int msgBank)
 {
@@ -1125,13 +1191,6 @@ void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, in
         BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), msgBank, itemId, slotIndex, shop->heapId);
     }
 }
-
-
-
-
-
-
-
 
 /*
  * Spill slots: the image puts the tableIndex*4 offset at sp+4, msgBank at sp+8, itemCount at sp+0xc.
@@ -1176,13 +1235,6 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *shop, int shopKind, int sho
     MSGDATA_Delete(msgBank);
 }
 
-
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_BuildItemListFixed(ShopWork *shop, int tableIndex)
 {
     int row;
@@ -1205,13 +1257,6 @@ void SCRCMD_PROC_FLD_BuildItemListFixed(ShopWork *shop, int tableIndex)
     MSGDATA_Delete((struct Rec *)msgBank);
 }
 
-
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_BuildItemListFromRange(ShopWork *shop, int kind)
 {
     int row = 0;
@@ -1226,13 +1271,6 @@ void SCRCMD_PROC_FLD_BuildItemListFromRange(ShopWork *shop, int kind)
     MSGDATA_Delete(msgBank);
 }
 
-
-
-
-
-
-
-
 /*
  * Unlabelled leaf (tail-call stub), called from SCRCMD_PROC_FLD_StepShop.
  *
@@ -1242,13 +1280,6 @@ void SCRCMD_PROC_FLD_FreeItemSlots(ShopWork *shop)
 {
     BMP_MENUWORK_Delete(shop->itemSlots);
 }
-
-
-
-
-
-
-
 
 int SCRCMD_PROC_FLD_AllocShopResources(ShopWork *shop, int shopKind)
 {
@@ -1261,13 +1292,6 @@ int SCRCMD_PROC_FLD_AllocShopResources(ShopWork *shop, int shopKind)
     return shopKind;
 }
 
-
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_FreeShopResources(ShopWork *shop)
 {
     TCBL_Destroy(shop->tcbList);
@@ -1279,13 +1303,6 @@ void SCRCMD_PROC_FLD_FreeShopResources(ShopWork *shop)
     MSGDATA_Delete(shop->shopMsgBank);
     MSGDATA_Delete(shop->itemMsgBank);
 }
-
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_InitShopGraphics(ShopWork *shop)
 {
@@ -1302,13 +1319,6 @@ void SCRCMD_PROC_FLD_InitShopGraphics(ShopWork *shop)
     BG_SYS_SetVisibleLayer(2, 1);
 }
 
-
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_ExitShopGraphics(ShopWork *shop)
 {
     BG_SYS_ClearSlot(1);
@@ -1316,13 +1326,6 @@ void SCRCMD_PROC_FLD_ExitShopGraphics(ShopWork *shop)
     BG_SYS_SetVisibleLayer(2, 0);
     FIELD_MSGBG_SetBlendThunk(1);
 }
-
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_LoadCursorResources(ShopWork *shop)
 {
@@ -1336,25 +1339,12 @@ void SCRCMD_PROC_FLD_LoadCursorResources(ShopWork *shop)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_LoadIconResources(ShopWork *shop)
 {
     shop->iconCharRes = (u32)CLACT_RegisterPaletteEx(shop->iconArchive, FILE_UTIL_Get(1, 2), 0, 0x20, 0, 1, shop->heapId);
     shop->iconPlttRes = (u32)CLACT_RegisterCharacter(shop->iconArchive, FILE_UTIL_Get(1, 1), 0, 0, shop->heapId);
     shop->iconCellRes = (u32)CLACT_RegisterCellAnim(shop->iconArchive, 1, 0, shop->heapId);
 }
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
 {
@@ -1376,12 +1366,6 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
     }
 }
 
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_CreateShopActors(ShopWork *shop)
 {
     shop->cursorActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->cursorPlttRes, shop->arrowCharRes,
@@ -1400,12 +1384,6 @@ void SCRCMD_PROC_FLD_CreateShopActors(ShopWork *shop)
     CLACT_SetActorDrawEnable((struct Obj *)shop->quantityArrowActor, 0);
 }
 
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_InitShopCells(ShopWork *shop)
 {
     shop->cellSystem = CLACT_CreateUnit(5, 1, shop->heapId);
@@ -1415,12 +1393,6 @@ void SCRCMD_PROC_FLD_InitShopCells(ShopWork *shop)
     SCRCMD_PROC_FLD_LoadIconResources(shop);
     SCRCMD_PROC_FLD_CreateShopActors(shop);
 }
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_FreeShopCells(ShopWork *shop)
 {
@@ -1435,12 +1407,6 @@ void SCRCMD_PROC_FLD_FreeShopCells(ShopWork *shop)
     ARC_TOOL_DeleteHandle(shop->iconArchive);
     CLACT_DeleteUnit(shop->cellSystem);
 }
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_InitShopWindows(ShopWork *shop)
 {
@@ -1481,12 +1447,6 @@ void SCRCMD_PROC_FLD_InitShopWindows(ShopWork *shop)
     }
 }
 
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_FreeShopWindows(ShopWork *shop)
 {
     int i;
@@ -1497,12 +1457,6 @@ void SCRCMD_PROC_FLD_FreeShopWindows(ShopWork *shop)
         BMP_WIN_Delete((struct Descriptor *)(shop->windows[i]));
     }
 }
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
 {
@@ -1528,12 +1482,6 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
     STRBUF_Delete((struct U16Vec *)expandedText);
     STRBUF_Delete((struct U16Vec *)formatText);
 }
-
-
-
-
-
-
 
 /*
  * The spilled second parameter is a u16 (SCRCMD_PROC_FLD_PickQuantityOutcome passes a u16 field
@@ -1562,12 +1510,6 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId)
     STRBUF_Delete((struct U16Vec *)formatText);
 }
 
-
-
-
-
-
-
 void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *shop, u32 itemId)
 {
     u32 bitmap;
@@ -1586,12 +1528,6 @@ void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *shop, u32 itemId)
     BMP_WIN_MakeScreen((struct Cfg *)window);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
-
-
-
-
-
-
 
 void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *shop, u32 quantity, u32 price)
 {
@@ -1621,12 +1557,6 @@ void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *shop, u32 quantity, u32 price
     STRBUF_Delete((struct U16Vec *)totalFormat);
     STRBUF_Delete((struct U16Vec *)quantityFormat);
 }
-
-
-
-
-
-
 
 /*
  * Builds a 0x34-byte list template on the stack (layout as read by
@@ -1668,11 +1598,6 @@ void SCRCMD_PROC_FLD_CreateItemListMenu(ShopWork *shop)
     shop->listMenu = BMP_MENULIST_Create((struct Src *)(&listTemplate), 0, 0, shop->heapId);
 }
 
-
-
-
-
-
 void SCRCMD_PROC_FLD_PrintListText(void *printSys, u32 bitmap, int x, int y, u32 text, u32 fontInfo, u16 colorBits)
 {
     if (y <= 8) {
@@ -1681,11 +1606,6 @@ void SCRCMD_PROC_FLD_PrintListText(void *printSys, u32 bitmap, int x, int y, u32
         PRINTSYS_PrintQueColor(printSys, bitmap, (s16)x, (s16)y, text, fontInfo, (u32)colorBits);
     }
 }
-
-
-
-
-
 
 /*
  * Twin of SCRCMD_PROC_FLD_PrintUniqueItemEntry (its else arm alone). The u8 third parameter is
@@ -1711,11 +1631,6 @@ void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *listMenu, int row, u8 y)
                       (u32)shop->textBuffer, shop->fontInfo, 0x31A0);
     }
 }
-
-
-
-
-
 
 /*
  * The u8 third parameter (a list-cursor callback's on-init flag) is what
@@ -1746,11 +1661,6 @@ void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 listMenu, int row, u8 y)
     }
 }
 
-
-
-
-
-
 void SCRCMD_PROC_FLD_OnListCursorMove(u32 listMenu, u32 row)
 {
     u16 cursorPos[4];
@@ -1772,11 +1682,6 @@ void SCRCMD_PROC_FLD_OnListCursorMove(u32 listMenu, u32 row)
     }
 }
 
-
-
-
-
-
 void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *shop)
 {
     u16 scrollPos;
@@ -1784,10 +1689,6 @@ void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *shop)
 
     BMP_MENULIST_Delete((struct Obj *)(shop->listMenu), &scrollPos, &cursorPos);
 }
-
-
-
-
 
 /*
  * Untraced blob: constant zero return.
@@ -1798,10 +1699,6 @@ int SCRCMD_PROC_FLD_ReturnZero(void)
 {
     return 0;
 }
-
-
-
-
 
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, u32 plural)
 {
@@ -1830,10 +1727,6 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
 
-
-
-
-
 void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *shop, u32 isTmShop)
 {
     if (shop->isTmShop == 1) {
@@ -1851,9 +1744,6 @@ void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *shop, u32 isTmShop)
     }
 }
 
-
-
-
 /*
  * Emitted from the ov021 instruction shape.
  *
@@ -1864,9 +1754,6 @@ void SCRCMD_PROC_FLD_PrepareMessageWindow(u32 window)
 BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)window)), 15);
     BMP_MENUWORK_DrawWindow((void *)window, 0, 228, 9);
 }
-
-
-
 
 void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
 {
@@ -1885,9 +1772,6 @@ void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
 
-
-
-
 /*
  * The spilled third parameter is narrow (u16 here; s16/u8 give the same
  * bytes): as u32/int its entry spill `str r2, [sp, #8]` lands after the
@@ -1904,9 +1788,6 @@ void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);
 }
 
-
-
-
 void SCRCMD_PROC_FLD_ShowTmBuyConfirm(ShopWork *shop, u32 messageId, u32 itemId, u32 price)
 {
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
@@ -1915,9 +1796,6 @@ void SCRCMD_PROC_FLD_ShowTmBuyConfirm(ShopWork *shop, u32 messageId, u32 itemId,
     WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 2, price, 5, 0, 1);
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);
 }
-
-
-
 
 int SCRCMD_PROC_FLD_AdjustQuantity(s16 *value, int maxValue, int step)
 {
@@ -1946,9 +1824,6 @@ int SCRCMD_PROC_FLD_AdjustQuantity(s16 *value, int maxValue, int step)
     }
     return 0;
 }
-
-
-
 
 int SCRCMD_PROC_FLD_StepQuantitySelect(ShopWork *shop)
 {
@@ -1986,9 +1861,6 @@ int SCRCMD_PROC_FLD_StepQuantitySelect(ShopWork *shop)
     return SHOP_STATE_QUANTITY_STEP;
 }
 
-
-
-
 /*
  * d_021D9654 is a const table of 16-byte {x, y, w, h} records (two of them
  * in the listing: {0,12,32,12}, {0,12,32,6}). Without const the loads for
@@ -2002,9 +1874,6 @@ void SCRCMD_PROC_FLD_SetQuantityMask(int i)
     BG_SYS_SetTileEntry(1, 0, d_021D9654[i].x, d_021D9654[i].y, d_021D9654[i].w, d_021D9654[i].h, 0);
 }
 
-
-
-
 int SCRCMD_PROC_FLD_StoreGameSystemValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2014,26 +1883,17 @@ int SCRCMD_PROC_FLD_StoreGameSystemValue(struct ScriptVm *vm, struct ScrcmdWork 
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_StoreSubObjectValueA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
 *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009CE4((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
 return 0;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_StoreSubObjectValueB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
 *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0(SCRCMD_WORK_GetGameData(cmdWork)));
 return 0;
 }
-
-
-
 
 int SCRCMD_PROC_FLD_CallOv006Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
@@ -2049,9 +1909,6 @@ int SCRCMD_PROC_FLD_CallOv006Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_CallOv004Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     FieldEventArgs args;
@@ -2065,9 +1922,6 @@ int SCRCMD_PROC_FLD_CallOv004Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_4, (void *)EVENT_WORLDTRADE_Entry, (u32)(&args)));
     return 1;
 }
-
-
-
 
 /*
  * 2026-10-02: closed by seeding ov001 0x02154694 (Thumb tail-call thunk to
@@ -2087,9 +1941,6 @@ int SCRCMD_PROC_FLD_CallOv001Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_01, (u32 (*)(void *, u32))EVENT_GTSNEGO_Entry, (u32)ICA_ANIME_GetField20(gameSystem)));
     return 1;
 }
-
-
-
 
 void SCRCMD_PROC_FLD_FinishOv170Event(volatile Ov170EventHandoff *handoff)
 {
@@ -2112,9 +1963,6 @@ void SCRCMD_PROC_FLD_FinishOv170Event(volatile Ov170EventHandoff *handoff)
     *handoff->resultVar = resultFlag;
     func_020307B0(handoff->work);
 }
-
-
-
 
 /*
  * Script command: builds a 0x2C-byte work (save handles, the hand-off kind
@@ -2189,9 +2037,6 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_StartNameInMode5(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork;
@@ -2204,9 +2049,6 @@ int SCRCMD_PROC_FLD_StartNameInMode5(struct ScriptVm *vm, struct ScrcmdWork *cmd
     SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_NAMEIN_Create((u32)gameSystem, (u32)fieldMap, 0, 5, (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork)));
     return 1;
 }
-
-
-
 
 int SCRCMD_PROC_FLD_StartNameInMode6(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
@@ -2221,9 +2063,6 @@ int SCRCMD_PROC_FLD_StartNameInMode6(struct ScriptVm *vm, struct ScrcmdWork *cmd
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_SetNextEventAndEnd(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
@@ -2234,9 +2073,6 @@ int SCRCMD_PROC_FLD_SetNextEventAndEnd(struct ScriptVm *vm, struct ScrcmdWork *c
     func_02011290(vm);
     return 1;
 }
-
-
-
 
 int SCRCMD_PROC_FLD_CallSubProcWithFlag(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
@@ -2254,9 +2090,6 @@ int SCRCMD_PROC_FLD_CallSubProcWithFlag(struct ScriptVm *vm, struct ScrcmdWork *
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_CallOv219Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem;
@@ -2269,9 +2102,6 @@ int SCRCMD_PROC_FLD_CallOv219Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcEvent(gameSystem, (int)fieldMap, (int)abs_id_DB, (int)d_02185F0C, (int)ICA_ANIME_GetField1C(gameSystem)));
     return 1;
 }
-
-
-
 
 int SCRCMD_PROC_FLD_CallShortcutEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
@@ -2295,9 +2125,6 @@ int SCRCMD_PROC_FLD_CallShortcutEvent(struct ScriptVm *vm, struct ScrcmdWork *cm
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_CallEventWithVarPtr(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2306,9 +2133,6 @@ int SCRCMD_PROC_FLD_CallEventWithVarPtr(struct ScriptVm *vm, struct ScrcmdWork *
     SCRIPT_SYS_CallEvent(scriptWork, EVENT_GAME_MANUAL_Create(gameSystem, SCRIPT_WORK_ReadWorkPointer(vm, cmdWork)));
     return 1;
 }
-
-
-
 
 int SCRCMD_PROC_FLD_CallEventFromThreeValues(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
@@ -2326,9 +2150,6 @@ int SCRCMD_PROC_FLD_CallEventFromThreeValues(struct ScriptVm *vm, struct ScrcmdW
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_CallFieldMapEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
@@ -2337,9 +2158,6 @@ int SCRCMD_PROC_FLD_CallFieldMapEvent(struct ScriptVm *vm, struct ScrcmdWork *cm
     SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (int)ICA_ANIME_GetField20(gameSystem), 0, 0, 1, 0, 0));
     return 1;
 }
-
-
-
 
 /*
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
@@ -2353,9 +2171,6 @@ int SCRCMD_PROC_FLD_StoreByteValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     return 0;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_CallEventMode4(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
@@ -2365,9 +2180,6 @@ int SCRCMD_PROC_FLD_CallEventMode4(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     return 1;
 }
 
-
-
-
 int SCRCMD_PROC_FLD_StoreCameraValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
@@ -2376,9 +2188,6 @@ int SCRCMD_PROC_FLD_StoreCameraValue(struct ScriptVm *vm, struct ScrcmdWork *cmd
     *resultVar = EFFECT_ENCOUNT_GetItemId((char *)FIELDMAP_GetEncount(fieldMap));
     return 0;
 }
-
-
-
 
 int SCRCMD_PROC_FLD_SetFlagIfClear(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
@@ -2392,9 +2201,6 @@ int SCRCMD_PROC_FLD_SetFlagIfClear(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     return 0;
 }
 
-
-
-
 u16 SCRCMD_PROC_FLD_AddUniqueU16(u16 *values, u16 count, u16 value)
 {
     int i;
@@ -2406,334 +2212,4 @@ u16 SCRCMD_PROC_FLD_AddUniqueU16(u16 *values, u16 count, u16 value)
     }
     values[count] = value;
     return count + 1;
-}
-
-
-
-
-/*
- * FIELD_ENCOUNT_ST_LoadEncountData clears and fills a 0xE8-byte record (its own memset size).
- *
- * Addresses are Black-image addresses.
- */
-int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    EncounterRecord record;
-    u32 season;
-    u16 tableIndex;
-    void *archive;
-    u16 *resultVar;
-    void *gameData;
-    u16 *speciesList;
-    u16 slot;
-    u16 count;
-
-    count = 0;
-    gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    season = GAME_DATA_GetSeason(gameData);
-    archive = func_020490F4(0x7e, 0x8015);
-    speciesList = func_02030734(0x8015, 0x78, 1, d_021DE234, 0xf8);
-    for (tableIndex = 0; tableIndex < 6; tableIndex++) {
-        if (FIELD_ENCOUNT_ST_LoadEncountData(&record, archive, d_021D98D0[tableIndex], season)) {
-            if (record.hasSetA) {
-                for (slot = 0; slot < 5; slot++) {
-                    count = SCRCMD_PROC_FLD_AddUniqueU16(speciesList, count, record.setA[slot].species);
-                }
-            }
-            if (record.hasSetB) {
-                for (slot = 0; slot < 5; slot++) {
-                    count = SCRCMD_PROC_FLD_AddUniqueU16(speciesList, count, record.setB[slot].species);
-                }
-            }
-        }
-    }
-    *resultVar = speciesList[func_02005728(count)];
-    func_020307B0(speciesList);
-    ARC_TOOL_DeleteHandle(archive);
-    return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_ReleaseFieldRegion(void *fieldMap, void *fieldRegion)
-{
-FIELD_CAMERA_PopState(fieldRegion);
-if (FIELD_CAMERA_HasDelay(fieldRegion) != 0) {
-    FIELD_CAMERA_RestartDelay(fieldRegion);
-}
-if (FIELDMAP_GetMoveKind(fieldMap) == 1) {
-    FIELD_NOGRID_MAPPER_SetActive(FIELDMAP_GetNogridMapper(fieldMap), 1);
-}
-return SCRIPT_WORK_ResetCheckFlag(0);
-}
-
-
-
-
-int SCRCMD_PROC_FLD_ReleaseFieldRegionTask(void **eventWork)
-{
-    void *fieldMap = ICA_ANIME_GetField20(eventWork[0]);
-
-    SCRCMD_PROC_FLD_ReleaseFieldRegion(fieldMap, FIELDMAP_GetCamera(fieldMap));
-    return 1;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_BeginFieldRegionRelease(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    void *gameSystem;
-    void *fieldMap;
-    void *fieldRegion;
-
-    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    fieldMap = ICA_ANIME_GetField20(gameSystem);
-    fieldRegion = FIELDMAP_GetCamera(fieldMap);
-    SCRIPT_WORK_SetCheckFlag(0);
-    if (FIELD_CAMERA_HasDelay(fieldRegion) != 0) {
-        FIELD_CAMERA_EndDelay(fieldRegion);
-        fieldRegion = SCRCMD_WORK_GetScriptWork(cmdWork);
-        SCRIPT_SYS_CallEvent(fieldRegion, func_020122C0(gameSystem, 0, (void *)SCRCMD_PROC_FLD_PollFieldRegionStart, 0));
-        if (FIELDMAP_GetMoveKind(fieldMap) == 1) {
-            FIELD_NOGRID_MAPPER_SetActive(FIELDMAP_GetNogridMapper(fieldMap), 0);
-        }
-    } else {
-        FIELD_CAMERA_PushState(fieldRegion);
-    }
-    return 1;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_ReleaseFieldRegionCmd(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
-
-    SCRCMD_PROC_FLD_ReleaseFieldRegion(fieldMap, FIELDMAP_GetCamera(fieldMap));
-    return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_ResetFieldRegionA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-FIELD_CAMERA_StopTargetTrace(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))));
-return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_ResetFieldRegionB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-FIELD_CAMERA_ResumeTargetTrace((u32)FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))));
-return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    FieldRegionParam param;
-    void *fieldRegion;
-
-    fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
-    param.areaWidth = VM_ReadU16(vm);
-    param.areaHeight = VM_ReadU16(vm);
-    param.areaFlags = VM_GetU32(vm);
-    param.origin.x = VM_GetU32(vm);
-    param.origin.y = VM_GetU32(vm);
-    param.origin.z = VM_GetU32(vm);
-    param.layers.flag[0] = 0;
-    param.layers.flag[1] = 1;
-    param.layers.flag[2] = 1;
-    param.layers.flag[3] = 1;
-    param.layers.flag[4] = 0;
-    param.layers.flag[5] = 1;
-    FIELD_CAMERA_StartMove(fieldRegion, &param, VM_ReadU16(vm));
-    return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    FieldRegionRecord record;
-    FieldRegionParam param;
-    void *fieldRegion;
-    int memberIndex;
-    int regionIndex;
-
-    fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
-    memberIndex = VM_ReadU16(vm);
-    regionIndex = VM_ReadU16(vm);
-    ARC_TOOL_ReadMember(&record, 0xa3, memberIndex);
-    param.areaWidth = record.areaWidth;
-    param.areaHeight = record.areaHeight;
-    param.areaFlags = record.areaFlags;
-    param.origin = record.origin;
-    param.layers = record.layers;
-    FIELD_CAMERA_StartMove(fieldRegion, &param, regionIndex);
-    return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    LayerFlags layers;
-    void *fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
-    u16 regionIndex = VM_ReadU16(vm);
-
-    layers.flag[0] = 1;
-    layers.flag[1] = 1;
-    layers.flag[2] = 1;
-    layers.flag[3] = 1;
-    layers.flag[4] = 1;
-    layers.flag[5] = 1;
-    FIELD_CAMERA_StartMoveToSaved(fieldRegion, (u8 *)&layers, regionIndex);
-    return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_SetFieldRegionValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))), VM_ReadU16(vm));
-return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_CallFieldRegionWaitEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-
-    SCRIPT_SYS_CallEvent(scriptWork, func_020122C0(gameSystem, 0, SCRCMD_PROC_FLD_PollFieldRegionIdle, 0));
-    return 1;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_CallCustomEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    int arg0 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg1 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg2 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg3 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg4 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg5 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg6 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    int arg7 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    void *scriptWork;
-    void *gameSystem;
-    CustomEventParam param;
-
-    scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    param.eventId = arg0;
-    param.eventKind = arg1;
-    param.scriptId = arg2;
-    param.kindCopy = arg3;
-    param.kind = arg3;
-    param.reserved14 = 0;
-    param.mapX = arg4;
-    param.mapY = arg5;
-    param.mapZ = arg6;
-    param.reserved0A = 0;
-    param.facing = arg7;
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_CAMERA_CreateShakeTask(gameSystem, (struct Blk021D2D50 *)(&param)));
-    return 1;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_PollFieldRegionStart(void *event)
-{
-    u8 *fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event)));
-
-    if (FIELD_CAMERA_IsDelayEnabled(fieldRegion) == 0) {
-        FIELD_CAMERA_PushState(fieldRegion);
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_PollFieldRegionIdle(void *event)
-{
-    int busy = FIELD_CAMERA_IsMoving(FIELDMAP_GetCamera(ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event))));
-
-    return busy != 0 ? B_FALSE : B_TRUE;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 *fieldMap = ICA_ANIME_GetField20(gameSystem);
-    unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-
-    SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_INIT_SetCartLanesFlags(gameSystem, fieldMap, (u16)(slotNumber - 1)));
-    return 1;
-}
-
-
-
-
-/*
- * FIELD_FK_DEMO_GetCameraSettingId is the ov056 slot-table lookup (src/matched/ov/ov056_func_021F36C8.c).
- */
-int SCRCMD_PROC_FLD_SetOv056Slot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    void *fieldMap = ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork));
-    unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    u32 *fieldRegion = FIELDMAP_GetCamera(fieldMap);
-
-    FIELD_CAMERA_SetSetting(fieldRegion, FIELD_FK_DEMO_GetCameraSettingId((u16)(slotNumber - 1)));
-    return 0;
-}
-
-
-
-
-int SCRCMD_PROC_FLD_SetFieldRegionTable(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
-{
-    int regionTable = FIELDMAP_GetMapFunc(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
-
-    switch (SCRIPT_WORK_ReadWorkValue(vm, cmdWork)) {
-    case 0:
-        break;
-    case 1:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F4344);
-        break;
-    case 2:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F4374);
-        break;
-    case 3:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F438C);
-        break;
-    case 4:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F435C);
-        break;
-    }
-    return 0;
 }

@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   GX_GetBankForLCDC 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  */
 #include "../include/Obj02909.h"
 
-extern unsigned int GX_GetBankForLCDC(void);
+extern unsigned int STRBUF_GetEosChar(void);
 
 int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
 {
@@ -22,7 +22,7 @@ int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
     {
         *(unsigned short *)(p + (((struct Obj02909 *)p)->f1E << 1)) = v;
         ((struct Obj02909 *)p)->f1E += 1;
-        *(unsigned short *)(p + (((struct Obj02909 *)p)->f1E << 1)) = GX_GetBankForLCDC();
+        *(unsigned short *)(p + (((struct Obj02909 *)p)->f1E << 1)) = STRBUF_GetEosChar();
         ((struct Obj02909 *)p)->f28 = 1;
         return 1;
     }

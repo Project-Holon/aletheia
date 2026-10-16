@@ -24,10 +24,10 @@
  *   gGhttpInitCount                       0x021d3b64 data
  */
 
-typedef void (*GHTTPProgressCallback)(int request, int state, const char *buffer,
+typedef void (*GHTTPProgressCallbackFn)(int request, int state, const char *buffer,
                                       int bufferLen, int bytesReceived,
                                       int totalSize, void *param);
-typedef int (*GHTTPCompletedCallback)(int request, int result, char *buffer,
+typedef int (*GHTTPCompletedCallbackFn)(int request, int result, char *buffer,
                                       int bufferLen, void *param);
 
 typedef struct GHIConnection {
@@ -42,8 +42,8 @@ typedef struct GHIConnection {
     char pad30[0x38 - 0x30];
     int blocking;               /* +0x038 */
     char pad3c[0x44 - 0x3c];
-    GHTTPProgressCallback progressCallback;   /* +0x044 */
-    GHTTPCompletedCallback completedCallback; /* +0x048 */
+    GHTTPProgressCallbackFn progressCallback;   /* +0x044 */
+    GHTTPCompletedCallbackFn completedCallback; /* +0x048 */
     void *callbackParam;        /* +0x04c */
     char pad50[0xe8 - 0x50];
     char getFileBuffer[0x24];   /* +0x0e8 */
@@ -67,8 +67,8 @@ extern int gGhttpInitCount;
 
 int ghttpGetExA(const char *URL, const char *headers, char *buffer, int bufferSize,
                   void *post, int throttle, int blocking,
-                  GHTTPProgressCallback progressCallback,
-                  GHTTPCompletedCallback completedCallback, void *param)
+                  GHTTPProgressCallbackFn progressCallback,
+                  GHTTPCompletedCallbackFn completedCallback, void *param)
 {
     GHIConnection *connection;
     int bResult;

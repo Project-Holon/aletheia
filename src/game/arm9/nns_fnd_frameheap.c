@@ -56,7 +56,7 @@ static inline NNSiFndFrmHeapHead *GetFrmHeapHeadPtrFromHeapHead(NNSiFndHeapHead 
 extern void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *pHint, u32 heapStart, u32 heapEnd);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern void func_02082A7C(int a, int b, int c);
-extern void func_0206074C(void *heap);
+extern void FNDHEAP_Finalize(void *heap);
 NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapStart, u32 heapEnd);
 u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
 u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
@@ -176,7 +176,7 @@ void *NNS_FndCreateFrmHeap(void *mem, u32 size, u32 opt)
 
 
 
-void NNS_FndDestroyFrmHeap(void *heap){ func_0206074C(heap); }
+void NNS_FndDestroyFrmHeap(void *heap){ FNDHEAP_Finalize(heap); }
 
 
 

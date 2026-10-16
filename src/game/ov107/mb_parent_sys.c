@@ -1,948 +1,2170 @@
 /*
  * file:     mb_parent_sys.c
  * unit:     yes
- * function: func_021F1B3C, MB_CommGetChildUser, MB_CommIsBootable, MB_CommResponseRequest, MBi_CommChangeParentState, func_021F1D58, MBi_CommParentCallback, MBi_CommParentRecvDataPerChild, MBi_CommParentRecvData, MBi_CommParentSendMsg, MBi_CommParentSendDLFileInfo, MBi_ReloadCache, func_021F2A44, MBi_CommParentSendData, MBi_calc_sendblock, func_021F2ED4, func_021F2EE8, func_021F2F04
- * address:  0x021F1B3C
+ * function: MB_COMM_SYS_Init, MB_COMM_SYS_Exit, MB_COMM_SYS_Main, MB_COMM_SYS_VBlank, MB_COMM_SYS_VBlankRefreshBg, MB_COMM_SYS_VBlankRefreshBgStandalone, MB_COMM_SYS_InitDisplay, MB_COMM_SYS_ExitDisplay, MB_COMM_SYS_InitBgLayer, MB_COMM_SYS_LoadGraphics, MB_COMM_SYS_DrawTitle, MB_COMM_SYS_BuildGameStrings, MB_COMM_SYS_FreeGameStrings, MB_COMM_SYS_MainWireless, MB_COMM_SYS_StartParent, MB_COMM_SYS_MainRecruit, MB_COMM_SYS_WmEndCallback, MB_COMM_SYS_UpdateSaveState, MB_COMM_SYS_ResetHook, MB_COMM_SYS_FinishReceive, MB_COMM_SYS_RegisterReceivedMons, MB_COMM_SYS_NoOp, MB_COMM_SYS_MainSave, MB_COMM_SYS_MainChildFlow, MB_COMM_SYS_ShowTextPlane, MB_COMM_SYS_ProcInit, MB_COMM_SYS_ProcExit, MB_COMM_SYS_ProcMain
+ * address:  0x021EE740
  * region:   ov107
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
- * isa:      arm
+ * isa:      thumb
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   mbc   0x021F6FA0  data
- *   g_021F6FA0  0x021F6FA0  data
- *   OS_DisableInterrupts  0x02087988  arm
- *   OS_RestoreInterrupts  0x0208799C  arm
- *   MI_CpuCopy8  0x02082D44  arm
- *   func_021F2EE8  0x021F2EE8  arm  ov107
- *   func_021F1D58  0x021F1D58  arm  ov107
- *   MI_CpuFill8  0x02082BCC  arm
- *   MBi_ClearParentPieceBuffer  0x021F6850  arm  ov107
- *   MB_UpdateGameInfoMember  0x021F3E9C  arm  ov107
- *   func_021F628C  0x021F628C  arm  ov107
- *   func_021F62A0  0x021F62A0  arm  ov107
- *   func_021F62B4  0x021F62B4  arm  ov107
- *   MB_SendGameInfoBeacon  0x021F3FC8  arm  ov107
- *   func_021F2F04  0x021F2F04  arm  ov107
- *   MIi_CpuClearFast  0x02082AC0  arm
- *   g_021F6EEC                     0x021F6EEC  data
- *   MBi_SetRecvBufferFromChild     0x021F6908  arm
- *   MI_CpuCopy8                    0x02082D44  arm
- *   MBi_CommChangeParentState      0x021F1D0C  arm
- *   MBi_BlockHeaderEnd 0x021F3C80 arm ov107
- *   MBi_MakeParentSendBuffer 0x021F6890 arm ov107
- *   WM_ReadMPData  0x0208ED70  arm
- *   func_021F2200  0x021F2200  arm  ov107
- *   MBi_MakeParentSendBuffer   0x021F6890  arm
- *   func_021F3C80   0x021F3C80  arm
- *   g_021F6E48     0x021F6E48  data
- *   FS_FindArchive 0x02077EB8 arm
- *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02075E04 0x02075E04 arm
+ *   MB_UTIL_MSG_Create 0x021F1404 thumb ov107
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
+ *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   BEACON_SetRank 0x0200C1B0 thumb
+ *   func_020056A0 0x020056A0 thumb
+ *   func_02005654 0x02005654 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
+ *   gMbParentUi 0x021F6EA0 data a4
+ *   UI_ClearKeepAwakeFlagsGlobal 0x02034FB8 arm
+ *   func_02030EAC 0x02030EAC arm
+ *   func_0200566C 0x0200566C thumb
+ *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
+ *   ZONEDATA_GetEventWorkAddress 0x020143CC thumb
+ *   func_020307B0 0x020307B0 arm
+ *   MB_UTIL_MSG_Delete 0x021F1520 thumb ov107
+ *   MB_UTIL_MSG_SetWindowLayout 0x021F1628 thumb ov107
+ *   MB_UTIL_MSG_PrintStream 0x021F1704 thumb ov107
+ *   MB_UTIL_MSG_PrintStreamSystemMsg 0x021F1A58 thumb ov107
+ *   MB_UTIL_MSG_SetKeyWaitFlag 0x021F1B24 thumb ov107
+ *   MB_UTIL_MSG_IsStreamIdle 0x021F1B14 thumb ov107
+ *   MB_UTIL_MSG_OpenYesNoMenu 0x021F19E4 thumb ov107
+ *   MB_UTIL_MSG_ProcessYesNoMenu 0x021F1A2C thumb ov107
+ *   MB_UTIL_MSG_ClearWindow 0x021F1898 thumb ov107
+ *   MB_UTIL_MSG_ClearYesNoMenu 0x021F1A24 thumb ov107
+ *   MB_UTIL_MSG_Main 0x021F15B0 thumb ov107
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   func_020461E4 0x020461E4 arm
  *   FS_InitFile 0x020788AC arm
- *   FS_OpenFileDirect 0x02078964 arm
+ *   FS_OpenFile 0x02078C18 arm
+ *   FS_SeekFile 0x02078B44 arm
+ *   FS_GetLength 0x02078C28 arm
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
- *   g_021F6E4C 0x021F6E4C data
- *   MBi_calc_sendblock           0x021F2E58  arm  ov107
- *   MBi_get_blockinfo            0x021F3A58  arm  ov107
- *   MBi_ReadFromCache            0x021F63E8  arm  ov107
- *   MBi_IsTaskBusy               0x021F6640  arm  ov107
- *   OS_Terminate                 0x02088234  arm
- *   MBi_SetTask                  0x021F6658  arm  ov107
- *   MIi_CpuClear16  0x02082A48  arm
- *   func_021F276C  0x021F276C  arm  ov107
- *   func_021F2A44  0x021F2A44  arm  ov107
+ *   func_02034714 0x02034714 arm
+ *   func_02030734 0x02030734 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   GAME_DATA_IsSaving 0x02012E40 thumb
+ *   GAME_DATA_SaveCancel 0x02012E08 thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   MSG_SPEED_GetWait 0x02012FFC thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   BEACON_GetBestScore 0x0200C184 thumb
+ *   func_0200575C 0x0200575C thumb
+ *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
+ *   func_02008DF0 0x02008DF0 thumb
+ *   GAME_DATA_GetBoxManager 0x0201293C thumb
+ *   func_02007774 0x02007774 thumb
+ *   d_021F6E08 0x021F6E08 data a4
+ *   d_021F6E0C 0x021F6E0C data a4
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
+ *   BG_SYS_Create 0x0203F8F4 arm
+ *   BMP_WIN_Init 0x02045088 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
+ *   func_02040588 0x02040588 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
+ *   d_021F6C10 0x021F6C10 data a4
+ *   d_021F6B00 0x021F6B00 data a4
+ *   d_021F6B50 0x021F6B50 data a4
+ *   d_021F6B70 0x021F6B70 data a4
+ *   d_021F6B90 0x021F6B90 data a4
+ *   d_021F6BB0 0x021F6BB0 data a4
+ *   d_021F6BD0 0x021F6BD0 data a4
+ *   d_021F6BF0 0x021F6BF0 data a4
+ *   d_021F6B10 0x021F6B10 data a4
+ *   d_021F6B30 0x021F6B30 data a4
+ *   gClActorInitParam 0x020A1448 data a4
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
+ *   BG_SYS_Delete 0x0203F9B4 arm
+ *   BG_SYS_InitBgLayer 0x0203FCA0 arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
+ *   BG_SYS_PushTile 0x020409B4 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb
+ *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
+ *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
+ *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
+ *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
+ *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
+ *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
+ *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   func_02045B38 0x02045B38 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   MB_UTIL_MSG_GetFont 0x021F1B04 thumb ov107
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
+ *   MB_UTIL_MSG_CreateWordSet 0x021F18D8 thumb ov107
+ *   func_02008534 0x02008534 thumb
+ *   MB_UTIL_MSG_SetNumberZeroPad 0x021F1918 thumb ov107
+ *   MB_UTIL_MSG_GetMsgData 0x021F1AFC thumb ov107
+ *   MB_UTIL_MSG_GetWordSet 0x021F1B00 thumb ov107
+ *   STRBUF_Create 0x020457B0 arm
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
+ *   STRBUF_GetLength 0x020458F8 arm
+ *   STRBUF_GetChars 0x02045A90 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
+ *   func_02034AC4 0x02034AC4 arm
+ *   CARD_SetPulledOutCallback 0x020774A0 arm
+ *   ov014_id 0x0000000E data
+ *   func_02034A5C 0x02034A5C arm
+ *   WIH_GetSysState 0x02178E4C thumb ov014
+ *   WIH_StartMeasureChannel 0x02178E84 thumb ov014
+ *   WIH_Finalize 0x02179498 thumb ov014
+ *   WIH_FreeWork 0x02179158 thumb ov014
+ *   WIH_Initialize 0x021790E4 thumb ov014
+ *   GFL_NET_WM_ICON_EasyStart 0x02037010 arm
+ *   GFL_NET_WM_ICON_EasySetScreen 0x02037118 arm
+ *   func_020351F8 0x020351F8 arm
+ *   MB_UTIL_MSG_DeleteWordSet 0x021F18EC thumb ov107
+ *   MB_UTIL_MSG_PrintQueued 0x021F17E0 thumb ov107
+ *   MB_UTIL_MSG_SetTimeIconPending 0x021F1B38 thumb ov107
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
+ *   WIH_End 0x02179570 thumb ov014
+ *   WM_GetLinkLevel 0x0208EE9C arm
+ *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
+ *   GFL_NET_WM_ICON_EasyMain 0x02037154 arm
+ *   d_021F6D68 0x021F6D68 data ov107 a4
+ *   d_021F6D70 0x021F6D70 data ov107 a4
+ *   d_021F6D60 0x021F6D60 data ov107 a4
+ *   d_021F6C40 0x021F6C40 data ov107 a4
+ *   WIH_GetMeasureChannel 0x02179024 thumb ov014
+ *   MI_CpuCopy8 0x02082D44 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   MB_UTIL_MSG_OpenYesNoTaskMenu 0x021F1930 thumb ov107
+ *   MB_UTIL_MSG_GetTaskMenuResult 0x021F19C8 thumb ov107
+ *   MB_UTIL_MSG_CloseTaskMenu 0x021F19B8 thumb ov107
+ *   d_021F6AF8 0x021F6AF8 data a4
+ *   BEACON_GetRank 0x0200C1A4 thumb
+ *   OS_WaitIrq 0x0208459C arm
+ *   BEACON_SetBestScore 0x0200C18C thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   func_02008DAC  0x02008DAC  thumb
+ *   SAVE_EVENT_StoreTodayDate  0x0202F27C  thumb
+ *   func_020074D8  0x020074D8  thumb
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
+ *   MB_UTIL_MSG_IsPrintQueFinished 0x021F1B08 thumb ov107
+ *   func_020056EC 0x020056EC thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
+ *   MB_UTIL_MSG_SetNumberLeft  0x021F1900  thumb  ov107
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
+ *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
+ *   FIELD_G3D_MAP_StoreBeaconTrainerKey  0x0216BF74  thumb  ov010
+ *   func_02007E50  0x02007E50  thumb
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
+ *   GFL_NET_IsSessionNull 0x0203CDBC arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
+ *   KEY_GetCont 0x0203630C arm
+ *   GAME_DATA_Create 0x020124F4 thumb
+ *   GAME_DATA_Delete 0x02012704 thumb
+ *   func_020315D4 0x020315D4 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
+ *   func_0200FB24 0x0200FB24 thumb
+ *   func_0200FBB0 0x0200FBB0 thumb
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
+ *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
+ *   UI_SoftReset 0x02035544 arm
+ *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
+ *   OS_GetOwnerInfoEx 0x02087D28 arm
+ *   GFL_NET_AllocAligned 0x0203D7C8 arm
+ *   func_021F5904 0x021F5904 arm ov107
+ *   MB_SetParentCommParam 0x021F5B4C arm ov107
+ *   func_021F1B3C 0x021F1B3C arm ov107
+ *   gMbChildStageMasks 0x021F6EB4 data a4
+ *   d_021F6E1C 0x021F6E1C data a4
+ *   gMbParentSys 0x021F6EAC data a4
+ *   d_021F6E24 0x021F6E24 data a4
+ *   func_021F5E7C 0x021F5E7C arm ov107
+ *   MB_GetSegmentLength 0x021F2F1C arm ov107
+ *   func_021F2FA0 0x021F2FA0 arm ov107
+ *   func_021F3544 0x021F3544 arm ov107
+ *   MB_CommResponseRequest 0x021F1C30 arm ov107
+ *   MB_DisconnectChild 0x021F5FB0 arm ov107
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
+ *   MB_CommIsBootable 0x021F1BE0 arm ov107
+ *   func_021F5F74 0x021F5F74 arm ov107
+ *   MB_CommGetChildUser 0x021F1B64 arm ov107
+ *   GFL_NET_FreeAligned 0x0203D7FC arm
+ *   gMbChildEntries 0x021F6EC8 data a4
+ *   d_021F6EDE 0x021F6EDE data a2
+ *   d_021F6EDF 0x021F6EDF data a1
+ *   d_021F6EE0 0x021F6EE0 data a1
+ *   d_021F6EE1 0x021F6EE1 data a1
+ *   d_021F6EE2 0x021F6EE2 data a1
+ *   d_021F6EE3 0x021F6EE3 data a1
+ *   d_021F6EE4 0x021F6EE4 data a2
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
+ *   d_021F6E28 0x021F6E28 data a4
+ *   GFL_NET_LOWER_DATA_Exit 0x0203E6C0 arm
+ *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
+ *   GFL_NET_IsHandleReady 0x0203D394 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
+ *   sMbCommSessionRequest 0x021F6C94 data a4
+ *   GFL_NET_StartSession 0x0203CBAC arm
+ *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_StartByNetType 0x0203D01C arm
+ *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
+ *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
+ *   d_021F6EE8 0x021F6EE8 data a4
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm  arm9
  */
-#include "mb_parent_sys.h"
 
-struct WMMpRecvData;
-struct WMMpRecvHeader;
-struct FSArchive;
+#include "mb_comm_sys.h"
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef short s16;
+typedef signed char s8;
+
 struct FSFile;
-typedef void (*MBParentStateCallback)(u32, void *);
-
-typedef struct WMStartParentCallback {
-    u16 apiid;                                       /* 0x00 */
-    u16 errcode;                                     /* 0x02 */
-    u16 wlCmdID;                                     /* 0x04 */
-    u16 wlResult;                                    /* 0x06 */
-    u16 state;                                       /* 0x08 */
-    u8 macAddress[6];                                /* 0x0A */
-    u16 aid;                                         /* 0x10 */
-    u16 reason;                                      /* 0x12 */
-    u8 ssid[24];                                     /* 0x14 */
-    u16 parentSize;                                  /* 0x2C */
-    u16 childSize;                                   /* 0x2E */
-} WMStartParentCallback;
-
-typedef struct WMCallback {
-    u16 apiid;
-    u16 errcode;
-    u16 wlCmdID;
-    u16 wlResult;
-} WMCallback;
-
-typedef struct {
-    u32 ggid;
-    MBUserInfo userinfo;
-    u16 version;
-    u8 fileid;
-    u8 pad[3];
-} MBCommRequestData;
-
-typedef struct {
-    u8 type;
-    u8 pad1[1];
-    union {
-        struct {
-            u16 req;
-            u8 reserved[14];
-        } data;
-        u8 raw[16];
-    } u;
-} MBCommChildBlockHeader;
-
-typedef struct {
-    char pad[0x1e0];
-    u32 ntr_off;
-    u32 ntr_len;
-    u32 ltd_off;
-    u32 ltd_len;
-} RomHeader;
-
-typedef struct {
-    u32 child_address;
-    u32 size;
-    u32 offset;
-    u8 segment_no;
-    u8 pad[3];
-} MB_BlockInfo;
-
-struct bitmap {
-    u16 connected;
-    u16 req;
-    u16 kick;
-    u16 boot;
-    u16 mem_full;
+struct DispVram;
+struct DispConfig;
+struct BgTemplate;
+struct ClActInitParam {
+    u32 header[4];
+    u16 dimensions[6];
 };
 
+typedef enum { FS_OK = 0, FS_ERROR = 1 } FSResult;
+typedef struct File {
+    struct File *next;
+    void *userdata;
+    void *arc;
+    u32 stat;
+    void *argument;
+    FSResult error;
+    void *queue[2];
+    u8 reserved1[16];
+    u8 arg[24];
+} File;
+typedef enum { SEEK_SET = 0, SEEK_CUR = 1, SEEK_END = 2 } SeekOrigin;
+
+/* Actor placement passed to CLACT_CreateActor. */
+struct Placement {
+    u16 x, y, z;
+    u8 animSeq;
+    u8 bgPriority;
+};
+
+/* Display registers and palette RAM touched directly by this screen. */
+#define REG_DISPCNT_MAIN (*(volatile u32 *)0x04000000)
+#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
+#define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
+#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
+#define REG_POWCNT1 (*(volatile u16 *)0x04000304)
+#define PLTT_BG_MAIN ((volatile u16 *)0x05000000)
+#define PLTT_BG_SUB ((volatile u16 *)0x05000400)
+
+typedef struct MbPathPair {
+    const char *inGame;
+    const char *standalone;
+} MbPathPair;
+
+/* OS owner info as returned by the OS (nickname at 0x04, its length at 0x1A). */
+typedef struct OwnerInfo {
+    u8 language;
+    u8 favoriteColor;
+    u8 birthMonth;
+    u8 birthDay;
+    u16 nickname[10];
+    u16 word18;
+    u16 nicknameLength;
+    u16 comment[26];
+    u16 word50;
+    u16 word52;
+    u8 tail;
+} OwnerInfo;
+
+typedef struct MBUser {
+    u8 favoriteColour : 4;
+    u8 playerNo : 4;
+    u8 nameLength;
+    u16 name[10];
+} MBUser;
+
+/* Net session request copied from ROM data and patched with the heap id (112 bytes). */
+typedef struct Request {
+    u32 settings[21];
+    u16 heapId;
+    u8 moreSettings[26];
+} Request;
+
+/* Message sent on channel 0x400. */
+typedef struct MbCommMsg {
+    u32 value;
+    u8 kind;
+} MbCommMsg;
+
+/* Start of the mon receive buffer. */
+typedef struct MbMonList {
+    u8 count;
+    u8 pad01;
+    u16 maxSeen;
+} MbMonList;
+
+/* Record passed to the MB parent callback. */
+typedef struct MbChildEvent {
+    u16 errorCode;
+    u8 unused02[8];
+    u8 mac[6];
+} MbChildEvent;
+
+extern void *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void *GAME_DATA_GetSaveControl(void *);
+extern void *BEACON_GetBlock(void *);
+extern void BEACON_SetRank(void *,u32);
+extern void *func_020056A0(u32,u32,u32);
+extern int func_02005654(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
+extern void UI_SetKeepAwakeFlagsGlobal(u32);
+extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
+extern void func_02030EAC(void *n);
+extern void func_0200566C(void);
+extern void GFL_NET_WM_ICON_EasyEnd(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern u32 GAME_DATA_GetEventWork(const void *p);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
+extern u32 func_020307B0(void *p);
+extern void MB_UTIL_MSG_Delete(struct MbMsgWork *p);
+extern u8 GAME_DATA_IsSaving(const u8 *);
+extern void GAME_DATA_SaveCancel(char *p);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 WIPE_SYS_EndCheck(void);
+extern int APP_ENV_InitParentalControl(void);
+extern signed char MSG_SPEED_GetWait(void);
+extern void GFL_USE_FadeOutBgm(u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void MB_UTIL_MSG_SetWindowLayout(void *,int);
+extern void MB_UTIL_MSG_PrintStream(void *,int,int);
+extern void MB_UTIL_MSG_PrintStreamSystemMsg(struct MbMsgWork *p, int a);
+extern void MB_UTIL_MSG_SetKeyWaitFlag(void *,int);
+extern int MB_UTIL_MSG_IsStreamIdle(void *);
+extern int MB_UTIL_MSG_ProcessYesNoMenu(void *);
+extern void MB_UTIL_MSG_OpenYesNoMenu(void *,int);
+extern void MB_UTIL_MSG_ClearWindow(void *);
+extern void MB_UTIL_MSG_ClearYesNoMenu(struct MbMsgWork *p);
+extern u32 func_020461E4(int);
+extern u32 BEACON_GetBestScore(void *p);
+extern void *func_0200575C(u32);
+extern void FS_InitFile(File *);
+extern int FS_OpenFile(File *,const char *);
+extern int FS_CloseFile(File *);
+extern int FS_SeekFile(void *file, long offset, int origin);
+extern s32 FS_ReadFile(void *file, void *buffer, s32 length);
+extern u32 FS_GetLength(void *a0);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern u32 GAME_DATA_GetBoxManager(const void *p);
+extern u32 func_02008DF0(void *obj, int i);
+extern int func_02007774(void *);
+extern void *MB_UTIL_MSG_Main(void *);
+extern void CLACT_DrawSystem(void *);
+extern void CLACT_VBlankSystem(void);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
+extern void WIPE_SetBrightnessFadeOut(u32,u32);
+extern u32 WIPE_ResetWndMask(void *);
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
+extern void BG_SYS_Create(u16);
+extern void BMP_WIN_Init(u16);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
+extern void func_02040588(u32 which, unsigned char enable);
+extern void CLACT_InitSystem(const void *,u32,u32);
+extern void *CLACT_CreateUnit(int,u8,u32);
+extern void CLACT_SetUnitDefaultRenderer(void *);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
+extern void CLACT_DeleteActor(void *p);
+extern u32 CLACT_DeleteUnit(void *bank);
+extern void CLACT_ExitSystem(void);
+extern void BG_SYS_FreeLayerBuf(unsigned);
+extern void BMP_WIN_Exit(void);
+extern void BG_SYS_Delete(void);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void BG_SYS_FreeSlot(u32);
+extern void BG_SYS_PushTile(u32);
+extern void *func_020490F4(u32 id, u32 heap);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
+extern void CLACT_SetActorDrawEnable(void *,u32);
+extern u32 APP_ICON_GetArchiveId(void);
+extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
+extern u32 APP_ICON_GetMoveKindAnimFileId(void);
+extern u32 APP_ICON_GetStatusAnimFileId(void);
+extern u32 APP_ICON_GetStatusFrameFileId(void);
+extern u32 APP_ICON_GetStatusDataFileId(void);
+extern u32 APP_ICON_GetStatusCellFileId(u32);
+extern u32 APP_ICON_GetStatusPaletteFileId(u32);
+extern void *BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
+extern void *func_02045B38(u32,u32,u32,u32);
+extern void *func_02045EC0(void *,u32);
+extern void *BMP_WIN_GetBmp(void *);
+extern void BMP_Clear(void *,u8);
+extern void *MB_UTIL_MSG_GetFont(void *p);
+extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void BMP_WIN_TransferChars(void *);
+extern void BMP_WIN_MakeScreen(void *);
+extern u8 BMP_WIN_GetBgLayer(void *);
+extern void STRBUF_Delete(void *);
+extern u32 MSGDATA_Delete(void *rec);
+extern u32 BMP_WIN_Delete(void *d);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void MB_UTIL_MSG_CreateWordSet(void *);
+extern u16 func_02008534(const void *obj);
+extern void MB_UTIL_MSG_SetNumberZeroPad(struct MbMsgWork *a, int b, int c, int d);
+extern void *MB_UTIL_MSG_GetMsgData(void *p);
+extern void *MB_UTIL_MSG_GetWordSet(void *p);
+extern void *STRBUF_Create(u32 capacity, u32 heapId);
+extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
+extern u16 STRBUF_GetLength(void *vec);
+extern u16 *STRBUF_GetChars(void *vec);
+extern void MIi_CpuCopy16(const void *, void *, int);
+extern int func_02034AC4(s32 handle);
+extern void CARD_SetPulledOutCallback(int (*callback)(void));
+extern void func_02034A5C(int);
+extern int WIH_GetSysState(void);
+extern int WIH_StartMeasureChannel(void);
+extern int WIH_Finalize(void);
+extern void WIH_FreeWork(void);
+extern int WIH_Initialize(u32,int,int);
+extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32);
+extern void GFL_NET_WM_ICON_EasySetScreen(u32,u32);
+extern void func_020351F8(u32 a, u32 b);
+extern void MB_UTIL_MSG_DeleteWordSet(void *);
+extern void MB_UTIL_MSG_PrintQueued(void *,int);
+extern void MB_UTIL_MSG_SetTimeIconPending(struct MbMsgWork *p, u32 v);
+extern void CLACT_SetActorAnimSeq(void *p, u16 value);
+extern int WIH_End(void (*cb)(int));
+extern int WM_GetLinkLevel(void);
+extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
+extern void GFL_NET_WM_ICON_EasyMain(void);
+extern u16 WIH_GetMeasureChannel(void);
+extern void MI_CpuCopy8(const void *,void *,unsigned);
+extern int TOUCHPANEL_HitTrg(const void *);
+extern int MB_UTIL_MSG_GetTaskMenuResult(struct MbMsgWork *a);
+extern u32 KEY_GetTrg(void);
+extern void CLACT_SetActorAutoAnim(void *,u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern void MB_UTIL_MSG_OpenYesNoTaskMenu(struct MbMsgWork *p, int kind);
+extern void MB_UTIL_MSG_CloseTaskMenu(struct MbMsgWork *a);
+extern u8 BEACON_GetRank(void *p);
+extern void OS_WaitIrq(int clear, u32 irqFlags);
+extern void BEACON_SetBestScore(void *p, u32 v);
+void *ZUKAN_SAVE_GetFromGameData(void *);
+u32 func_02008DAC(void *obj, int i, u32 delta);
+void SAVE_EVENT_StoreTodayDate(void *);
+int func_020074D8(void **save, const void *src);
+void *POKE_TOOL_CreateFromBoxParam(void *p, u32 heap);
+void ZUKAN_SAVE_RegisterCaught(void *p, void *m);
+extern int MB_UTIL_MSG_IsPrintQueFinished(void *);
+extern u32 func_020056EC(u32);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
+void MB_UTIL_MSG_SetNumberLeft(void *, int, int, int);
+void *GAME_DATA_GetMyItem(const void *p);
+void *GAME_DATA_GetMiscSave(int *p);
+int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *, int, void *);
+void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *, int, void *);
+u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+extern void BG_SYS_SetMainVisiblePlanes(int);
+extern void BG_SYS_SetSubVisiblePlanes(int);
+extern int GFL_NET_IsSessionNull(void);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
+extern unsigned int KEY_GetCont(void);
+extern void *GAME_DATA_Create(u16);
+extern void GAME_DATA_Delete(unsigned char *);
+extern void func_020315D4(void *);
+extern void GFL_HEAP_DeleteChecked(u32);
+extern u32 func_0200FB24(void);
+extern int func_0200FBB0(void);
+extern void GFL_NET_ERR_ShowScreen(int);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
+extern void UI_SoftReset(int);
+extern void GFL_NET_ERR_RequestScreen(void);
+extern void OS_GetOwnerInfoEx(void *info);
+extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
+extern int func_021F5904(void *,MBUser *,int,int,u16);
+extern int MB_SetParentCommParam(u16,u16);
+extern void func_021F1B3C(void (*)(u16,u32,MbChildEvent *));
+extern int func_021F5E7C(int);
+extern u32 MB_GetSegmentLength(void *);
+extern int func_021F2FA0(void *,void *,u32);
+extern int func_021F3544(void *,void *);
+extern int MB_CommResponseRequest(u16,int);
+extern void MB_DisconnectChild(u16);
 extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 enabled);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int func_021F2EE8(unsigned short child_aid);
-extern void func_021F1D58(unsigned short child, int state, void *arg);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void MBi_ClearParentPieceBuffer(u16 child_aid);
-extern void MB_UpdateGameInfoMember(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
-extern u32 func_021F628C(void);
-extern u16 func_021F62A0(void);
-extern u8 func_021F62B4(void);
-extern void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
-extern void func_021F2F04(u16 aid, u16 errcode);
-extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
-extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
-extern struct WMMpRecvData *WM_ReadMPData(const struct WMMpRecvHeader *header, u16 aid);
-extern void func_021F2200(void *arg, unsigned short child);
-extern u8 *MBi_MakeParentSendBuffer(MBCommParentBlockHeader *hdr, u8 *sendbuf);
-extern int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
-extern struct FSArchive *FS_FindArchive(const char *name, int name_len);
-extern int OS_IsRunOnTwl(void);
-extern RomHeader *func_02075E04(void);
-extern void FS_InitFile(void *file);
-extern int FS_OpenFileDirect(void *file, void *arc, u32 top, u32 bottom, u32 id);
-extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern int FS_CloseFile(void *file);
-extern void MBi_calc_sendblock(u8 file_id);
-extern int MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table,
-                             u32 block, MbDownloadFileInfoHeader *mdfi);
-extern int MBi_ReadFromCache(MBiCacheList *pl, u32 src, void *dst, u32 len);
-extern int MBi_IsTaskBusy(MBiTaskInfo *pt);
-extern void OS_Terminate(void);
-extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
-                        void (*callback)(MBiTaskInfo *), u32 priority);
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern int func_021F276C(u8 type, u16 pollbmp);
-extern int func_021F2A44(void);
-void MB_CommSetParentStateCallback(MBParentStateCallback callback);
-void *MB_CommGetChildUser(unsigned short child_aid);
-int MB_CommIsBootable(unsigned short child_aid);
-int MB_CommResponseRequest(unsigned short child_aid, int ack);
-void MBi_CommChangeParentStateCallbackOnly(u16 child, int state, void *arg);
-void MBi_CommParentCallback(u16 type, void *arg);
-void MBi_CommParentRecvData(void *arg);
-void MBi_CommParentSendMsg(u8 type, u16 pollbmp);
-int MBi_CommParentSendDLFileInfo(void);
-void MBi_ReloadCache(MBiTaskInfo *p_task);
-int MBi_CommParentSendBlock(void);
-u16 MBi_calc_nextsendblock(unsigned long next_block, unsigned long next_block_req);
-BOOL IsChildAidValid(u16 child_aid);
-void MBi_CommCallParentError(u16 aid, u16 errcode);
-extern int g_021F6EEC;
-extern u8 g_021F6E48;
-extern char g_021F6E4C[];
+extern u32 OS_RestoreInterrupts(u32);
+extern int MB_CommIsBootable(u16);
+extern void func_021F5F74(void);
+extern void *MB_CommGetChildUser(u16);
+extern void GFL_NET_FreeAligned(void *);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
+extern void GFL_NET_LOWER_DATA_Exit(void);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
+extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_HANDLE_IsNegotiationDone(void *);
+extern int GFL_NET_IsHandleReady(void *);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(void *,unsigned int,unsigned int);
+extern void GFL_NET_SetLoginOption(int);
+extern void GFL_NET_StartSession(void *req, u32 a2, u32 a3);
+extern void GFL_NET_LOWER_DATA_Init(int,int);
+extern int GFL_NET_Exit(int);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_StartByNetType(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(void *, unsigned int, unsigned int);
+extern void GFL_NET_LOWER_DATA_SetSendData(int,int,int,int);
+void POKE_TOOL_ClearBoxParam(void *);
+u32 GFL_NET_IsParentAid(void);
+void *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern int GFL_NET_GetNegotiationNum(void);
 
+extern MbParentUi gMbParentUi;
+extern const char d_021F6E08[], d_021F6E0C[];
+extern const struct ClActInitParam gClActorInitParam;
+extern const struct DispVram d_021F6C10;
+extern struct DispConfig d_021F6B00;
+extern const struct BgTemplate d_021F6B50, d_021F6B70, d_021F6B90, d_021F6BB0, d_021F6BD0, d_021F6BF0, d_021F6B10, d_021F6B30;
+extern u8 ov014_id[];
+extern const MbPathPair d_021F6D68, d_021F6D70, d_021F6D60;
+extern const MbRegistryBlock d_021F6C40;
+extern u8 d_021F6AF8[];
+extern MbChildStageMasks gMbChildStageMasks;
+extern MbParentSys gMbParentSys;
+extern const char d_021F6E1C[], d_021F6E24[];
+extern u8 gMbChildEntries[], d_021F6EDE[], d_021F6EDF[], d_021F6EE0[], d_021F6EE1[], d_021F6EE2[], d_021F6EE3[], d_021F6EE4[];
+extern const char d_021F6E28[];
+extern const Request sMbCommSessionRequest;
+extern int d_021F6EE8[];
 
+void MB_COMM_SYS_Init(MbCommSysWork *p);
+void MB_COMM_SYS_Exit(MbCommSysWork *p);
+int MB_COMM_SYS_Main(MbCommSysWork *p);
+void MB_COMM_SYS_VBlank(void);
+void MB_COMM_SYS_VBlankRefreshBg(void);
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void);
+void MB_COMM_SYS_InitDisplay(MbCommSysWork *p);
+void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p);
+void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode);
+void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p);
+void MB_COMM_SYS_DrawTitle(MbCommSysWork *p);
+void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p);
+void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p);
+int MB_COMM_SYS_MainWireless(MbCommSysWork *p);
+void MB_COMM_SYS_StartParent(MbCommSysWork *p);
+void MB_COMM_SYS_MainRecruit(MbCommSysWork *p);
+int MB_COMM_SYS_WmEndCallback(void);
+void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode);
+void MB_COMM_SYS_ResetHook(MbCommSysWork *p);
+void MB_COMM_SYS_FinishReceive(MbCommSysWork *p);
+void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p);
+void MB_COMM_SYS_NoOp(MbCommSysWork *p);
+void MB_COMM_SYS_MainSave(MbCommSysWork *p);
+void MB_COMM_SYS_MainChildFlow(MbCommSysWork *p);
+int MB_COMM_SYS_ShowTextPlane(void);
+int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument);
+int MB_COMM_SYS_ProcExit(void *task, int unused, int keep, MbCommSysWork *p);
+int MB_COMM_SYS_ProcMain(int a, int b, int c, MbCommSysWork *p);
+void MB_PARENT_SYS_Init(int a, int b);
+void MB_PARENT_SYS_Register(MbRegistryBlock *registry, int channel);
+int MB_PARENT_SYS_LoadFileImage(MbRegistryBlock *registry);
+void MB_PARENT_SYS_CheckRequest(u16 aid);
+void MB_PARENT_SYS_RejectRequest(u16 aid);
+void MB_PARENT_SYS_StartSending(u16 aid);
+int MB_PARENT_SYS_AllBootable(void);
+void MB_PARENT_SYS_StartBoot(void);
+void MB_PARENT_SYS_Cancel(void);
+void MB_PARENT_SYS_EndIfAllBootable(void);
+void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info);
+void MB_PARENT_SYS_SetState(u16 state);
+u16 MB_PARENT_SYS_GetState(void);
+int MB_PARENT_SYS_GetChildStage(u16 aid);
+void MB_PARENT_SYS_FreeBuffers(void);
+u32 MB_PARENT_SYS_IsRegistered(void);
+MbNetState *MB_COMM_SYS_CreateNetState(u16 heapId);
+void MB_COMM_SYS_DeleteNetState(MbNetState *net);
+void MB_COMM_SYS_UpdateNetState(MbNetState *net);
+void MB_COMM_SYS_StartNetSession(MbNetState *net);
+void MB_COMM_SYS_StopNetSession(MbNetState *net);
+int MB_COMM_SYS_GetNetRunState(MbNetState *net);
+int MB_COMM_SYS_IsNetSessionNull(MbNetState *net);
+void MB_COMM_SYS_StartNet(MbNetState *net);
+void MB_COMM_SYS_SetSyncRange(MbNetState *net);
+int MB_COMM_SYS_IsSyncDone(MbNetState *net);
+int MB_COMM_SYS_IsLoginDone(MbNetState *net);
+int MB_COMM_SYS_GetCommStage(MbNetState *net);
+void MB_COMM_SYS_ClearRoundFlags(MbNetState *net);
+int MB_COMM_SYS_HasKind11(MbNetState *net);
+int MB_COMM_SYS_HasKind12(MbNetState *net);
+int MB_COMM_SYS_HasKind12Again(MbNetState *net);
+int MB_COMM_SYS_HasKind14(MbNetState *net);
+int MB_COMM_SYS_HasKind1(MbNetState *net);
+int MB_COMM_SYS_HasKind2(MbNetState *net);
+int MB_COMM_SYS_HasKind4(MbNetState *net);
+int MB_COMM_SYS_GetCount(MbNetState *net);
+int MB_COMM_SYS_HasKind19(MbNetState *net);
+unsigned short MB_COMM_SYS_GetOfferCount(MbNetState *net);
+unsigned short MB_COMM_SYS_GetOfferExtra(MbNetState *net);
+int MB_COMM_SYS_GetOfferFlagA(MbNetState *net);
+int MB_COMM_SYS_GetOfferFlagB(MbNetState *net);
+int MB_COMM_SYS_HasKind20(MbNetState *net);
+int MB_COMM_SYS_HasKind21(MbNetState *net);
+int MB_COMM_SYS_GetKind21Value(MbNetState *net);
+void MB_COMM_SYS_QueuePayload(int a, int payload, int payloadSize);
+void MB_COMM_SYS_ClearMonBuffer(MbNetState *net);
+int MB_COMM_SYS_HasMonsReceived(MbNetState *net);
+u8 MB_COMM_SYS_GetMonCount(MbNetState *net);
+void *MB_COMM_SYS_GetMon(MbNetState *net, int i);
+int MB_COMM_SYS_GetMaxSeen(MbNetState *net);
+int MB_COMM_SYS_HasKind0(MbNetState *net);
+int MB_COMM_SYS_SendMessage(void *net, unsigned char kind, unsigned int value);
+void MB_COMM_SYS_OnMessage(int a, int b, MbCommMsg *msg, MbNetState *net);
+int MB_COMM_SYS_SendHeader(void *net, MbPayloadHeader *header);
+void MB_COMM_SYS_OnHeaderReceived(int a, int b, int c, MbNetState *net);
+void *MB_COMM_SYS_GetHeaderBuffer(void *a, MbNetState *net);
+void MB_COMM_SYS_OnMonsReceived(int a, int b, int c, MbNetState *net);
+void *MB_COMM_SYS_GetMonBuffer(int a, MbNetState *net);
+int *MB_COMM_SYS_GetChildDataPtr(void);
+int MB_COMM_SYS_GetMemberCount(void);
 
-
-
-
-
-void MB_CommSetParentStateCallback(MBParentStateCallback callback)
+/* Proc init: reads the argument, builds the display, message window and link state. */
+void MB_COMM_SYS_Init(MbCommSysWork *p)
 {
-    u32 enabled;
-
-    enabled = OS_DisableInterrupts();
-    *(MBParentStateCallback *)&pPwork->parent_callback = callback;
-    OS_RestoreInterrupts(enabled);
-}
-
-
-
-
-
-
-
-/*
- * sdk:      MB_CommGetChildUser (libmb.TWL.HYB.a(mb_parent.o))
- */
-void *MB_CommGetChildUser(unsigned short child_aid)
-{
-    unsigned long enabled = OS_DisableInterrupts();
-
-    if (mbc && func_021F2EE8(child_aid)) {
-        MI_CpuCopy8(&pPwork->childUser[child_aid - 1], &pPwork->childUserCopy, 0x16);
-        OS_RestoreInterrupts(enabled);
-        return &pPwork->childUserCopy;
+    p->childPhase = 0;
+    p->phase = 0;
+    p->standalone = p->arg->standalone;
+    MB_COMM_SYS_InitDisplay(p);
+    MB_COMM_SYS_LoadGraphics(p);
+    if (!p->standalone)
+        p->msg = MB_UTIL_MSG_Create(p->heapId, 5, 5, 72, 0, 0);
+    else
+        p->msg = MB_UTIL_MSG_Create(p->heapId, 1, 1, 72, 0, 1);
+    p->net = MB_COMM_SYS_CreateNetState(p->heapId);
+    p->payloadQueued = 0;
+    p->payload = 0;
+    MB_COMM_SYS_DrawTitle(p);
+    if (!p->standalone) {
+        p->saveState = BEACON_GetBlock(GAME_DATA_GetSaveControl(p->arg->gameData));
+        BEACON_SetRank(p->saveState, 4);
+    } else {
+        p->saveState = 0;
+        gMbParentUi.vblankCounter = 0;
     }
-    OS_RestoreInterrupts(enabled);
-    return 0;
-}
-
-
-
-
-
-
-
-/*
- * sdk:      MB_CommIsBootable (libmb.TWL.HYB.a(mb_parent.o))
- */
-int MB_CommIsBootable(unsigned short child_aid)
-{
-    if (mbc && func_021F2EE8(child_aid)) {
-        if (pPwork->p_comm_state[child_aid - 1] == 7)
-            return 1;
+    p->vblankTask = func_020056A0((u32)MB_COMM_SYS_VBlank, (u32)p, 8);
+    if (!p->standalone) {
+        func_02005654((int)MB_COMM_SYS_VBlankRefreshBg, 0);
+    } else {
+        func_02005654((int)MB_COMM_SYS_VBlankRefreshBgStandalone, 0);
+        GFL_USE_CancelChangeAndPlayBgm(1154, 0xffff);
     }
-    return 0;
+    p->wmActive = 0;
+    p->receivedBonus = 0;
+    p->gotTrainerKey = 0;
+    p->bestChildCount = 0;
+    p->transferCount = 0;
+    p->receivedTotal = 0;
+    UI_SetKeepAwakeFlagsGlobal(16);
 }
 
-
-
-
-
-
-
-/*
- * sdk:      MB_CommResponseRequest (libmb.TWL.HYB.a(mb_parent.o))
- */
-int MB_CommResponseRequest(unsigned short child_aid, int ack)
+/* Proc exit: releases the VBlank task, writes the event work flags, frees the screen. */
+void MB_COMM_SYS_Exit(MbCommSysWork *p)
 {
-    unsigned short req;
-    int state;
-    unsigned long enabled;
+    void *zoneData;
+    u16 *eventWorkA;
+    u16 *eventWorkB;
 
-    enabled = OS_DisableInterrupts();
+    UI_ClearKeepAwakeFlagsGlobal(16);
+    func_02030EAC(p->vblankTask);
+    func_0200566C();
+    GFL_NET_WM_ICON_EasyEnd();
+    if (p->standalone == 1) {
+        GFL_USE_CancelChangeAndStopBgm();
+    } else {
+        zoneData = (void *)GAME_DATA_GetEventWork(p->arg->gameData);
+        eventWorkA = (u16 *)ZONEDATA_GetEventWorkAddress((u32)zoneData, 16384);
+        eventWorkB = (u16 *)ZONEDATA_GetEventWorkAddress((u32)zoneData, 16385);
+        *eventWorkA = p->bestChildCount;
+        *eventWorkB = p->transferCount;
+    }
+    if (p->payload)
+        func_020307B0(p->payload);
+    MB_COMM_SYS_DeleteNetState(p->net);
+    MB_UTIL_MSG_Delete(p->msg);
+    MB_COMM_SYS_ExitDisplay(p);
+}
 
-    switch (ack) {
+/* Reads the file image named by ROM string 142 into a new buffer. */
+static inline void MbCommSys_LoadPayload(MbCommSysWork *p)
+{
+    File file;
+    void *name;
+
+    name = func_0200575C(142);
+    FS_InitFile(&file);
+    if (!FS_OpenFile(&file, name))
+        func_02034714(d_021F6E08, 0, d_021F6E08);
+    FS_SeekFile(&file, 0, 0);
+    p->payloadSize = FS_GetLength(&file);
+    p->payload = func_02030734(p->heapId, p->payloadSize, 1, d_021F6E0C, 660);
+    FS_ReadFile(&file, p->payload, p->payloadSize);
+    if (!FS_CloseFile(&file))
+        func_02034714(d_021F6E08, 0, d_021F6E08);
+    p->phase = 13;
+}
+
+/* Proc main loop: one frame of the parent screen flow. Returns 1 when finished. */
+int MB_COMM_SYS_Main(MbCommSysWork *p)
+{
+    u32 result;
+
+    MB_COMM_SYS_UpdateNetState(p->net);
+    if (p->errorScreenRequested == 1 && p->phase != 2 && p->phase != 3) {
+        p->wasSaving = GAME_DATA_IsSaving(p->arg->gameData);
+        if (p->wasSaving == 1)
+            GAME_DATA_SaveCancel(p->arg->gameData);
+        p->phase = 2;
+        MB_COMM_SYS_UpdateSaveState(p, 3);
+    }
+    switch (p->phase) {
     case 0:
-        state = 10;
-        req = 4;
+        WIPE_SYS_Start(0, 1, 1, 0, 6, 1, p->heapId);
+        p->phase = 1;
         break;
     case 1:
-        state = 10;
-        req = 3;
+        if (WIPE_SYS_EndCheck() == 1) {
+            if (APP_ENV_InitParentalControl() == 1) {
+                if (p->standalone == 0)
+                    p->phase = 7;
+                else
+                    p->phase = 4;
+            } else {
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+                MB_UTIL_MSG_PrintStreamSystemMsg(p->msg, MSG_SPEED_GetWait());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                p->phase = 33;
+            }
+        }
         break;
     case 2:
-        state = 14;
-        req = 2;
+        if (p->arg->standalone == 0) {
+            WIPE_SYS_Start(0, 0, 0, 0, 6, 1, p->heapId);
+        } else {
+            WIPE_SYS_Start(0, 0, 0, 32767, 6, 1, p->heapId);
+            GFL_USE_FadeOutBgm(6);
+        }
+        p->phase = 3;
         break;
     case 3:
-        state = 7;
-        req = 5;
+        if (WIPE_SYS_EndCheck() == 1)
+            return 1;
         break;
-    default:
-        OS_RestoreInterrupts(enabled);
-        return 0;
+    case 4:
+        MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+        MB_UTIL_MSG_PrintStream(p->msg, 43, MSG_SPEED_GetWait());
+        p->phase = 5;
+        break;
+    case 5:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 0);
+            p->phase = 6;
+        }
+        break;
+    case 6:
+        result = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (result == 1) {
+            p->phase = 7;
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_ClearYesNoMenu(p->msg);
+        } else if (result == 2) {
+            p->phase = 2;
+        }
+        break;
+    case 7:
+        MB_COMM_SYS_BuildGameStrings(p);
+        p->phase = 8;
+        break;
+    case 8:
+        if (MB_COMM_SYS_MainWireless(p) == 1)
+            p->phase = 9;
+        break;
+    case 9:
+        MB_COMM_SYS_FreeGameStrings(p);
+        if (p->lobbyAccepted == 1) {
+            p->phase = 10;
+            p->timeoutFrames = 0;
+            MB_COMM_SYS_StartNetSession(p->net);
+            if (p->standalone == 0)
+                GFL_NET_RestartWithDefaultTimeout(0, p->heapId);
+            else
+                GFL_NET_RestartWithDefaultTimeout(1, p->heapId);
+        } else {
+            p->phase = 2;
+        }
+        break;
+    case 10:
+        if (MB_COMM_SYS_GetNetRunState(p->net) == 1) {
+            p->phase = 11;
+            MB_COMM_SYS_StartNet(p->net);
+        }
+        break;
+    case 11:
+        p->timeoutFrames++;
+        if (p->timeoutFrames >= 1800) {
+            MB_COMM_SYS_UpdateSaveState(p, 3);
+            p->phase = 30;
+        } else if (MB_COMM_SYS_IsLoginDone(p->net) == 1) {
+            p->header.msgSpeed = MSG_SPEED_GetWait();
+            p->header.configCode = func_020461E4(p->header.msgSpeed);
+            if (p->standalone == 0)
+                p->header.savedCount = BEACON_GetBestScore(p->saveState);
+            if (MB_COMM_SYS_SendHeader(p->net, &p->header) == 1) {
+                if (p->standalone == 0)
+                    p->phase = 12;
+                else
+                    p->phase = 32;
+            }
+        }
+        break;
+    case 12:
+        MbCommSys_LoadPayload(p);
+        break;
+    case 13:
+        p->phase = 14;
+        break;
+    case 14:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 10)
+            goto failure;
+        if (MB_COMM_SYS_GetCommStage(p->net) == 2) {
+            if (p->payloadQueued == 0) {
+                p->payloadQueued = 1;
+                MB_COMM_SYS_QueuePayload((int)p->net, (int)p->payload, p->payloadSize);
+            }
+            MB_UTIL_MSG_PrintStream(p->msg, 2, MSG_SPEED_GetWait());
+            p->phase = 15;
+        }
+        break;
+    case 15:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 3) {
+            MB_UTIL_MSG_PrintStream(p->msg, 3, MSG_SPEED_GetWait());
+            p->phase = 16;
+        } else if (MB_COMM_SYS_GetCommStage(p->net) == 13) {
+            MB_COMM_SYS_UpdateSaveState(p, 4);
+            MB_UTIL_MSG_PrintStream(p->msg, 8, MSG_SPEED_GetWait());
+            MB_COMM_SYS_SetSyncRange(p->net);
+            p->phase = 28;
+        }
+        /* falls into case 16 */
+    case 16:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 4) {
+            MB_COMM_SYS_ClearMonBuffer(p->net);
+            MB_UTIL_MSG_PrintStream(p->msg, 4, MSG_SPEED_GetWait());
+            p->phase = 17;
+        }
+        break;
+    case 17:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 5) {
+            func_02008DF0(GAME_DATA_GetTrainerRecord(p->arg->gameData), 120);
+            p->transferCount++;
+            p->phase = 18;
+        } else if (MB_COMM_SYS_GetCommStage(p->net) == 8) {
+            func_02008DF0(GAME_DATA_GetTrainerRecord(p->arg->gameData), 120);
+            p->transferCount++;
+            MB_COMM_SYS_UpdateSaveState(p, 2);
+            p->phase = 23;
+        }
+        break;
+    case 18:
+        if (MB_COMM_SYS_HasMonsReceived(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 0, 0) == 1)
+            p->phase = 19;
+        break;
+    case 19:
+        if (MB_COMM_SYS_HasKind0(p->net) == 1 || p->standalone == 1) {
+            if (MB_COMM_SYS_GetCommStage(p->net) == 6) {
+                p->phase = 20;
+            } else if (MB_COMM_SYS_GetCommStage(p->net) == 10) {
+                if (p->standalone == 0) {
+failure:
+                    MB_COMM_SYS_UpdateSaveState(p, 3);
+                    MB_UTIL_MSG_PrintStream(p->msg, 8, MSG_SPEED_GetWait());
+fail_tail:
+                    MB_COMM_SYS_SetSyncRange(p->net);
+                    p->phase = 28;
+                } else {
+                    MB_UTIL_MSG_PrintStream(p->msg, 38, MSG_SPEED_GetWait());
+                    MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                    p->phase = 26;
+                }
+            }
+        }
+        break;
+    case 20:
+        MB_COMM_SYS_FinishReceive(p);
+        p->phase = 21;
+        p->subPhase = 9;
+        break;
+    case 21:
+        MB_COMM_SYS_MainSave(p);
+        break;
+    case 22:
+        MB_COMM_SYS_NoOp(p);
+        if (p->standalone == 0) {
+            MB_UTIL_MSG_PrintStream(p->msg, 7, MSG_SPEED_GetWait());
+            p->phase = 23;
+        } else {
+            MB_UTIL_MSG_PrintStream(p->msg, 39, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            p->phase = 27;
+        }
+        break;
+    case 23:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            u16 partyCount = func_02007774((void *)GAME_DATA_GetBoxManager(p->arg->gameData));
+            if (MB_COMM_SYS_SendMessage(p->net, 5, partyCount) == 1) {
+                MB_UTIL_MSG_PrintStream(p->msg, 11, MSG_SPEED_GetWait());
+                p->phase = 24;
+            }
+        }
+        break;
+    case 24:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 2) {
+            MB_COMM_SYS_ClearRoundFlags(p->net);
+            p->phase = 14;
+        } else if (MB_COMM_SYS_GetCommStage(p->net) == 9 || MB_COMM_SYS_GetCommStage(p->net) == 10) {
+            if (MB_COMM_SYS_GetCommStage(p->net) == 10)
+                MB_COMM_SYS_UpdateSaveState(p, 3);
+            MB_UTIL_MSG_PrintStream(p->msg, 8, MSG_SPEED_GetWait());
+            p->phase = 27;
+        }
+        break;
+    case 27:
+        if (MB_COMM_SYS_SendMessage(p->net, 18, 0) != 1)
+            break;
+        goto fail_tail;
+    case 28:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1 && MB_COMM_SYS_IsSyncDone(p->net) == 1) {
+            MB_COMM_SYS_StopNetSession(p->net);
+            p->phase = 29;
+        }
+        break;
+    case 29:
+        if (MB_COMM_SYS_IsNetSessionNull(p->net) == 1) {
+            if (p->standalone == 0)
+                p->phase = 2;
+            else
+                p->phase = 25;
+        }
+        break;
+    case 25:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+            MB_UTIL_MSG_PrintStream(p->msg, 35, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            p->phase = 26;
+        }
+        break;
+    case 26:
+        if (MB_COMM_SYS_IsNetSessionNull(p->net) == 1 && MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->phase = 2;
+        break;
+    case 30:
+        MB_UTIL_MSG_PrintStream(p->msg, 10, MSG_SPEED_GetWait());
+        MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+        p->phase = 31;
+        MB_COMM_SYS_StopNetSession(p->net);
+        break;
+    case 31:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->phase = 29;
+        /* falls into case 32 */
+    case 32:
+        MB_COMM_SYS_MainChildFlow(p);
+        break;
+    case 33:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->phase = 2;
+        break;
     }
-    if (mbc && func_021F2EE8(child_aid)) {
-        if (state == pPwork->p_comm_state[child_aid - 1]) {
-            pPwork->req2child[child_aid - 1] = req;
-            OS_RestoreInterrupts(enabled);
+    CLACT_DrawSystem(MB_UTIL_MSG_Main(p->msg));
+    return 0;
+}
+
+void MB_COMM_SYS_VBlank(void)
+{
+    CLACT_VBlankSystem();
+}
+
+/* VBlank hook, in-game mode: refreshes the BG planes of both engines every third frame. */
+void MB_COMM_SYS_VBlankRefreshBg(void)
+{
+    if (gMbParentUi.vblankDivider > 1) {
+        gMbParentUi.vblankDivider = 0;
+        BG_SYS_FillScrollArea(3, 2, 1);
+        BG_SYS_FillScrollArea(3, 5, 1);
+        BG_SYS_FillScrollArea(7, 2, 1);
+        BG_SYS_FillScrollArea(7, 5, 1);
+    } else {
+        gMbParentUi.vblankDivider++;
+    }
+}
+
+/*
+ * volatile: 021EEF02 re-reads counter after 021EEF00 store.
+ */
+/* VBlank hook, standalone mode: refreshes plane 5 of both engines every fifth frame. */
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void)
+{
+    gMbParentUi.vblankCounter++;
+    if (gMbParentUi.vblankCounter >= 5) {
+        gMbParentUi.vblankCounter = 0;
+        BG_SYS_FillScrollArea(3, 5, 1);
+        BG_SYS_FillScrollArea(7, 5, 1);
+    }
+}
+
+/*
+ * volatile: Hardware MMIO read/write at 021EEF3A..021EEF78; display and power registers.
+ */
+/* Resets both display engines and sets up the BG layers and the CLACT system. */
+void MB_COMM_SYS_InitDisplay(MbCommSysWork *p)
+{
+    struct ClActInitParam clactInit;
+
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
+    REG_DISPCNT_MAIN &= 0xffffe0ff;
+    REG_DISPCNT_SUB &= 0xffffe0ff;
+    WIPE_SetBrightnessFadeOut(0, 0);
+    WIPE_SetBrightnessFadeOut(1, 0);
+    WIPE_ResetWndMask((void *)0);
+    WIPE_ResetWndMask((void *)1);
+    REG_BLDCNT_MAIN = 0;
+    REG_BLDCNT_SUB = 0;
+    REG_POWCNT1 |= 0x8000;
+    BG_SYS_SetVramBanks(&d_021F6C10);
+    BG_SYS_Create(p->heapId);
+    BMP_WIN_Init(p->heapId);
+    BG_SYS_SetGraphicsMode(&d_021F6B00);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B50, 0, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B70, 1, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B90, 2, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6BB0, 3, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6BD0, 4, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6BF0, 5, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B10, 6, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B30, 7, 0);
+    if (!p->standalone)
+        func_02040588(6, 1);
+    else
+        func_02040588(6, 0);
+    clactInit = gClActorInitParam;
+    clactInit.dimensions[0] = 64;
+    CLACT_InitSystem(&clactInit, (u32)&d_021F6C10, p->heapId);
+    p->clactUnit = CLACT_CreateUnit(8, 0, p->heapId);
+    CLACT_SetUnitDefaultRenderer(p->clactUnit);
+    BG_SYS_SetMainPlaneVisible(16, 1);
+    BG_SYS_SetSubPlaneVisible(16, 1);
+}
+
+/*
+ * extent: two bytes of alignment padding follow the return.
+ */
+/* Deletes the actor, CLACT unit and BG layers created by the init. */
+void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p)
+{
+    CLACT_DeleteActor(p->actor);
+    CLACT_DeleteUnit(p->clactUnit);
+    CLACT_ExitSystem();
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
+    BMP_WIN_Exit();
+    BG_SYS_Delete();
+}
+
+/* Sets up one BG layer from a template, shows it and refreshes it. */
+void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode)
+{
+    BG_SYS_InitBgLayer(layer, bgTemplate, mode);
+    func_02040588(layer, 1);
+    BG_SYS_FreeSlot(layer);
+    BG_SYS_PushTile(layer);
+}
+
+/* Loads the background graphics, palettes and the actor sprite for the current mode. */
+void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
+{
+    void *archive;
+    u32 firstCell;
+    struct Placement placement;
+
+    if (!p->standalone) {
+        archive = func_020490F4(139, p->heapId);
+        func_02049B68(archive, 1, 4, 0, 0, p->heapId);
+        func_02049658(archive, 5, 7, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 9, 7, 0, 0, 0, p->heapId);
+        func_02049B68(archive, 0, 0, 0, 0, p->heapId);
+        func_02049658(archive, 4, 3, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 8, 3, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 2, 0, 288, 288, 128, p->heapId);
+        func_02049658(archive, 6, 2, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 10, 2, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 3, 0, 416, 416, 32, p->heapId);
+        func_02049658(archive, 7, 0, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 11, 0, 0, 0, 0, p->heapId);
+        BG_SYS_PushTile(2);
+        ARC_TOOL_DeleteHandle(archive);
+    } else {
+        archive = func_020490F4(34, p->heapId);
+        func_02049B68(archive, 6, 4, 0, 0, p->heapId);
+        func_02049658(archive, 15, 7, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 31, 7, 0, 0, 0, p->heapId);
+        func_02049B68(archive, 6, 0, 0, 0, p->heapId);
+        func_02049658(archive, 15, 3, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 31, 3, 0, 0, 0, p->heapId);
+        ARC_TOOL_DeleteHandle(archive);
+        archive = func_020490F4(139, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 2, 4, 288, 288, 128, p->heapId);
+        func_02049658(archive, 6, 5, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 10, 5, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 3, 4, 416, 416, 32, p->heapId);
+        func_02049658(archive, 7, 4, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 11, 4, 0, 0, 0, p->heapId);
+        BG_SYS_PushTile(5);
+        func_02040588(5, 0);
+        func_02040588(4, 0);
+        ARC_TOOL_DeleteHandle(archive);
+    }
+    archive = func_020490F4(APP_ICON_GetArchiveId(), p->heapId);
+    func_02049B68(archive, APP_ICON_GetStatusAnimFileId(), 4, 256, 32, p->heapId);
+    func_02049658(archive, APP_ICON_GetStatusFrameFileId(), 6, 0, 0, 0, p->heapId);
+    func_020498F4(archive, APP_ICON_GetStatusDataFileId(), 6, 0, 0, 0, p->heapId);
+    BG_SYS_FillTileMap(6, 0, 21, 32, 3, 8);
+    BG_SYS_PushTile(6);
+    p->paletteId = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0, 0, 3, p->heapId);
+    p->charId = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 1, p->heapId);
+    firstCell = APP_ICON_GetStatusCellFileId(2);
+    p->cellAnimId = CLACT_RegisterCellAnim(archive, firstCell, APP_ICON_GetStatusPaletteFileId(2), p->heapId);
+    ARC_TOOL_DeleteHandle(archive);
+    placement.x = 232;
+    placement.y = 168;
+    placement.z = 1;
+    placement.bgPriority = 0;
+    placement.animSeq = 0;
+    p->actor = CLACT_CreateActor(p->clactUnit, p->charId, p->paletteId, p->cellAnimId, &placement, 1, p->heapId);
+    if (!p->standalone) {
+        CLACT_SetActorDrawEnable(p->actor, 1);
+        return;
+    } else {
+        CLACT_SetActorDrawEnable(p->actor, 0);
+        return;
+    }
+}
+
+/*
+ * extent: two bytes of alignment padding follow the return.
+ */
+/*
+ * volatile: MMIO palette halfword stores at 021EF56E and 021EF572.
+ */
+/* Draws the title text window on the text BG and sets the backdrop colour. */
+void MB_COMM_SYS_DrawTitle(MbCommSysWork *p)
+{
+    u8 textBg;
+    void *window;
+    void *archive;
+    void *text;
+    void *bank;
+
+    if (!p->standalone) {
+        gMbParentUi.textOnSubScreen = 1;
+        textBg = 4;
+    } else {
+        gMbParentUi.textOnSubScreen = 0;
+        textBg = 2;
+    }
+    func_02040588(textBg, 0);
+    archive = func_020490F4(22, p->heapId);
+    func_02049B68(archive, 0, 4, 224, 32, p->heapId);
+    func_02049B68(archive, 0, 0, 224, 32, p->heapId);
+    func_02049658(archive, 1, textBg, 0, 0, 0, p->heapId);
+    func_020498F4(archive, 2, textBg, 0, 0, 0, p->heapId);
+    BG_SYS_FillTileMap(textBg, 0, 0, 32, 24, 7);
+    BG_SYS_PushTile(textBg);
+    ARC_TOOL_DeleteHandle(archive);
+    window = BMP_WIN_Create(textBg, 1, 4, 30, 8, 7, 1);
+    bank = func_02045B38(0, 2, 0x52, p->heapId);
+    text = func_02045EC0(bank, 1);
+    BMP_Clear(BMP_WIN_GetBmp(window), 7);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(window), 0, 0, text, (void *)MB_UTIL_MSG_GetFont(p->msg), 0x1167);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
+    STRBUF_Delete(text);
+    MSGDATA_Delete(bank);
+    BMP_WIN_Delete(window);
+    PLTT_BG_MAIN[0] = 0x7eea;
+    PLTT_BG_SUB[0] = 0x7eea;
+}
+
+/*
+ * 2026-10-05 (integrator): the fullwidth-to-ASCII constants are plain literals (0xFF29, 0xFF24, 0xFF10..0xFF19, c - 0xFEE0); mwcc derives them from one held value itself, so the earlier `u32 k = 0xFF24` local was not needed. EXACT in c99 and c.
+ */
+/* Builds the game name and description strings (with the player name) for the registry. */
+void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
+{
+    void *ownerData;
+    void *nameStr;
+    void *introStr;
+    void *msgPiece;
+    u16 nameLength;
+    u16 introLength;
+    int i;
+    u16 *dst;
+    u16 *src;
+
+    ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
+    p->subPhase = 0;
+    p->recruitPhase = 0;
+    p->gameNameBuf = func_02030734(p->heapId, 0x60, 1, d_021F6E0C, 0x553);
+    p->gameIntroBuf = func_02030734(p->heapId, 0xC0, 1, d_021F6E0C, 0x554);
+    MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+    MB_UTIL_MSG_CreateWordSet(p->msg);
+    MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, func_02008534(ownerData), 5);
+    if (p->standalone == 0)
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xC);
+    else
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xF);
+    nameStr = STRBUF_Create(0x100, p->heapId);
+    WORDSET_CopyTaggedText(MB_UTIL_MSG_GetWordSet(p->msg), nameStr, msgPiece);
+    STRBUF_Delete(msgPiece);
+    if (p->standalone == 0)
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xD);
+    else
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0x10);
+    introStr = msgPiece;
+    nameLength = (u32)STRBUF_GetLength(nameStr);
+    introLength = (u32)STRBUF_GetLength(introStr);
+    dst = p->gameNameBuf;
+    src = STRBUF_GetChars(nameStr);
+    MIi_CpuCopy16(src, dst, nameLength * 2);
+    dst = p->gameIntroBuf;
+    src = STRBUF_GetChars(introStr);
+    MIi_CpuCopy16(src, dst, introLength * 2);
+    STRBUF_Delete(nameStr);
+    STRBUF_Delete(introStr);
+    p->gameNameBuf[nameLength] = 0;
+    p->gameIntroBuf[introLength] = 0;
+    for (i = 0; i < 0x60; i++) {
+        if (p->gameIntroBuf[i] == 0xFFFE)
+            p->gameIntroBuf[i] = 0xA;
+    }
+    for (i = 0; i < 0x30; i++) {
+        u16 c = p->gameNameBuf[i];
+        if (c == 0xFF29)
+            p->gameNameBuf[i] = 0x49;
+        else if (c == 0xFF24)
+            p->gameNameBuf[i] = 0x44;
+        else if (c >= 0xFF10 && c <= 0xFF19)
+            p->gameNameBuf[i] = c - 0xFEE0;
+    }
+    p->lobbyAccepted = 0;
+    func_02034AC4((int)ov014_id);
+    if (p->standalone == 0) {
+        func_02040588(2, 1);
+        func_02040588(0, 1);
+    } else {
+        func_02040588(5, 1);
+        func_02040588(4, 1);
+    }
+    CARD_SetPulledOutCallback(MB_COMM_SYS_ShowTextPlane);
+}
+
+/* Frees the game name and description strings and hides the BG layers they used. */
+void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p)
+{
+    func_02034A5C((int)ov014_id);
+    CARD_SetPulledOutCallback(0);
+    func_020307B0(p->gameNameBuf);
+    func_020307B0(p->gameIntroBuf);
+    if (!p->standalone) {
+        func_02040588(2, 0);
+        func_02040588(0, 0);
+    } else {
+        func_02040588(5, 0);
+        func_02040588(4, 0);
+    }
+}
+
+/* Wireless start-up and teardown state machine (WIH). Returns 1 when WM is down again. */
+int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
+{
+    void *ownerData;
+
+    if (WIH_GetSysState() == 9 || WIH_GetSysState() == 10) {
+        p->lobbyAccepted = 0;
+        p->wirelessFailed = 1;
+        if (WIH_Finalize() == 1) {
+            MB_PARENT_SYS_FreeBuffers();
+            WIH_FreeWork();
             return 1;
         }
+        return 0;
     }
-    OS_RestoreInterrupts(enabled);
-    return 0;
-}
-
-
-
-
-
-
-
-/*
- * sdk:      MBi_CommChangeParentState (libmb.TWL.HYB.a(mb_parent.o))
- */
-void MBi_CommChangeParentState(unsigned short child, int state, void *arg)
-{
-    if (func_021F2EE8(child))
-        pPwork->p_comm_state[child - 1] = state;
-    func_021F1D58(child, state, arg);
-}
-
-
-
-
-
-
-
-void MBi_CommChangeParentStateCallbackOnly(u16 child, int state, void *arg)
-{
-    MBCommPStateCallback callback = pPwork->parent_callback;
-
-    if (callback)
-        callback(child, state, arg);
-}
-
-
-
-
-
-/* FIELD: u16 members of fileinfo[id] (gameinfo_child_bmp, gameinfo_changed_bmp, pollbmp) */
-#define FIELD(id, off) (*(u16 *)((u8 *)mbc + (id) * 0x5D4 + (off)))
-
-
-
-
-/*
- * sdk:      MBi_CommParentCallback (libmb.TWL.HYB.a mb_parent.o)
- *
- * notes:    the fileinfo fields are addressed as g + fileID * 0x5D4 + constant (the
- *           FIELD macro), which puts the scaled index into the base and folds only the
- *           large constant, as the image does; the API_ERROR switch is on an unsigned
- *           value (cmp; addls pc) and lists every value of its table 0..29 explicitly
- *           so the compiler emits the full table; the child-disconnect block works on a
- *           u16 copy of the aid that the vendor's debug info does not list.
- */
-void MBi_CommParentCallback(u16 type, void *arg)
-{
-    switch (type) {
-    case 0x15:
-        MBi_CommChangeParentState(0, 1, arg);
-        break;
-
-    case 0x11:
-        break;
-
+    switch (p->subPhase) {
     case 0:
-        if (((WMStartParentCallback *)arg)->aid == 0)
-            break;
-        if (((WMStartParentCallback *)arg)->aid >= 16)
-            break;
-        MBi_CommChangeParentState(((WMStartParentCallback *)arg)->aid, 2, arg);
-        break;
-
-    case 1:
-        {
-            WMStartParentCallback *sparg = (WMStartParentCallback *)arg;
-
-            if (sparg->aid == 0)
-                break;
-            if (sparg->aid >= 16)
-                break;
-
-            pPwork->childversion[sparg->aid - 1] = 0;
-            MI_CpuFill8(&pPwork->childggid[sparg->aid - 1], 0, sizeof(u32));
-            MI_CpuFill8(&pPwork->childUser[sparg->aid - 1], 0, sizeof(MBUserInfo));
-            MBi_ClearParentPieceBuffer(sparg->aid);
-            pPwork->req2child[sparg->aid - 1] = 0;
-
-            {
-                u16 child = sparg->aid;
-
-                if (pPwork->fileid_of_child[child - 1] != -1) {
-                    u8 fileID = (u8)pPwork->fileid_of_child[child - 1];
-                    FIELD(fileID, 0x1D4E) &= (u16)~(1 << child);
-                    FIELD(fileID, 0x1D50) |= (u16)(1 << child);
-                    pPwork->fileid_of_child[child - 1] = -1;
-                    FIELD(fileID, 0x1D4C) &= (u16)~(1 << child);
-                }
-            }
-
-            if (pPwork->child_entry_bmp & (1 << sparg->aid)) {
-                pPwork->child_num--;
-                pPwork->child_entry_bmp &= ~(1 << sparg->aid);
-            }
-
-            if (pPwork->p_comm_state[sparg->aid - 1] == 8)
-                MBi_CommChangeParentState(sparg->aid, 9, 0);
-
-            MBi_CommChangeParentState(sparg->aid, 3, arg);
-            pPwork->p_comm_state[sparg->aid - 1] = 0;
-        }
-        break;
-
-    case 3:
-        MBi_CommParentRecvData(arg);
-        break;
-
-    case 0x19:
-        (void)MBi_CommParentSendData();
-        break;
-
-    case 0x1C:
-        {
-            u8 i;
-            for (i = 0; i < 16; i++) {
-                if (pPwork->fileinfo[i].active && pPwork->fileinfo[i].gameinfo_changed_bmp) {
-                    MB_UpdateGameInfoMember((unsigned char *)(&pPwork->fileinfo[i].game_info), &pPwork->childUser[0],
-                                  pPwork->fileinfo[i].gameinfo_child_bmp,
-                                  pPwork->fileinfo[i].gameinfo_changed_bmp);
-                    pPwork->fileinfo[i].gameinfo_changed_bmp = 0;
-                }
-            }
-        }
-        MB_SendGameInfoBeacon(func_021F628C(), func_021F62A0(), func_021F62B4());
-        break;
-
-    case 0xFF:
-        switch (((u16 *)arg)[1]) {
-        case 1:
-        case 4:
-        case 5:
-        case 6:
-        case 8:
-        case 9:
-            func_021F2F04(0, 9);
-            break;
-        case 15:
-        default:
-            func_021F2F04(0, 8);
-            break;
-        }
-        break;
-
-    case 0x100:
-        switch ((unsigned int)((WMCallback *)arg)->apiid) {
-        case 0:
-        case 7:
-        case 8:
-        case 13:
-        case 14:
-        case 15:
-        case 17:
-        case 18:
-        case 21:
-        case 25:
-        case 29:
-            func_021F2F04(0, 9);
-            break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 16:
-        case 19:
-        case 20:
-        case 22:
-        case 23:
-        case 24:
-        case 26:
-        case 27:
-        case 28:
-        default:
-            func_021F2F04(0, 8);
-            break;
-        }
-        break;
-
-    default:
-        break;
-    }
-
-    if (type == 0x11) {
-        MBCommPStateCallback tmpCb = pPwork->parent_callback;
-        MIi_CpuClearFast(0, mbc, 0x7D00);
-        mbc = 0;
-        if (tmpCb)
-            tmpCb(0, 12, 0);
-    }
-}
-
-
-
-
-
-static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
-{
-    MBCommChildBlockHeader hd;
-    int state;
-    u8 *p_data;
-
-    if (child == 0 || child > 15)
-        return;
-
-    p_data = MBi_SetRecvBufferFromChild((u8 *)arg + 0xa, &hd, child);
-
-    state = pPwork->p_comm_state[child - 1];
-
-    switch (hd.type) {
-    case 7:
-        {
-            if (p_data == 0)
-                break;
-            if (state == 2) {
-                MBCommRequestData req_data __attribute__((aligned(4)));
-
-                MI_CpuCopy8(p_data, &req_data, 0x1d);
-                pPwork->childggid[child - 1] = req_data.ggid;
-                pPwork->childversion[child - 1] = req_data.version;
-                MI_CpuCopy8(&req_data.userinfo, &pPwork->childUser[child - 1], sizeof(MBUserInfo));
-                pPwork->childUser[child - 1].playerNo = child;
-                MBi_CommChangeParentState(child, 0xa, &req_data.userinfo);
-            }
-            if (state == 0xa) {
-                u8 i, entry_num = 0;
-                u8 fileid = ((MBCommRequestData *)p_data)->fileid;
-
-                if (fileid >= 16 || pPwork->fileinfo[fileid].active == 0
-                    || pPwork->childggid[child - 1] != pPwork->fileinfo[fileid].game_info_ptr->ggid) {
-                    pPwork->req2child[child - 1] = 4;
-                } else {
-                    for (i = 0; i < 16; i++) {
-                        if (pPwork->fileinfo[fileid].gameinfo_child_bmp & (1 << i))
-                            entry_num++;
-                    }
-                    if (entry_num >= pPwork->fileinfo[fileid].game_info_ptr->maxPlayerNum) {
-                        pPwork->req2child[child - 1] = 0;
-                        MBi_CommChangeParentState(child, 0xb, 0);
-                        break;
-                    }
-                }
-
-                switch (pPwork->req2child[child - 1]) {
-                case 3:
-                    if (pPwork->child_entry_bmp & (1 << child))
-                        break;
-                    pPwork->child_num++;
-                    pPwork->child_entry_bmp |= (u16)(1 << child);
-                    pPwork->fileid_of_child[child - 1] = fileid;
-                    pPwork->fileinfo[fileid].gameinfo_child_bmp |= (u16)(1 << child);
-                    pPwork->fileinfo[fileid].gameinfo_changed_bmp |= (u16)(1 << child);
-                    pPwork->req2child[child - 1] = 0;
-                    MBi_CommChangeParentState(child, 5, 0);
-                    break;
-                case 4:
-                    pPwork->req2child[child - 1] = 0;
-                    MBi_CommChangeParentState(child, 4, 0);
-                    break;
-                }
-            }
-        }
-        break;
-
-    case 8:
-        if (state == 5) {
-            MBi_CommChangeParentState(child, 0xe, 0);
-        } else if (state == 0xe) {
-            if (pPwork->req2child[child - 1] == 2) {
-                u8 fid = pPwork->fileid_of_child[child - 1];
-
-                pPwork->fileinfo[fid].pollbmp |= (u16)(1 << child);
-                pPwork->fileinfo[fid].currentb = 0;
-                pPwork->req2child[child - 1] = 0;
-                MBi_CommChangeParentState(child, 6, 0);
-            }
-        }
-        break;
-
-    case 9:
-        if (state == 6) {
-            u8 fileid = pPwork->fileid_of_child[child - 1];
-
-            if (fileid == 0xff)
-                break;
-            pPwork->fileinfo[fileid].nextb = MBi_calc_nextsendblock(pPwork->fileinfo[fileid].nextb, hd.u.data.req);
-            g_021F6EEC |= 1 << fileid;
-        }
-        break;
-
-    case 10:
-        if (state == 6) {
-            u8 fileid = pPwork->fileid_of_child[child - 1];
-
-            if (fileid == 0xff)
-                break;
-            pPwork->fileinfo[fileid].pollbmp &= ~(1 << child);
-            MBi_CommChangeParentState(child, 7, 0);
-        } else if (state == 7) {
-            if (pPwork->req2child[child - 1] == 5) {
-                pPwork->req2child[child - 1] = 0;
-                MBi_CommChangeParentState(child, 8, 0);
-            }
-        }
-        break;
-
-    case 11:
-        break;
-
-    default:
-        break;
-    }
-}
-
-
-
-
-/*
- * sdk:      MBi_CommParentRecvData (libmb.TWL.HYB.a(mb_parent.o))
- */
-void MBi_CommParentRecvData(void *arg)
-{
-    unsigned short i;
-    unsigned short *datap;
-
-    for (i = 0; i < 16; i++) {
-        if (pPwork->fileinfo[i].active != 0)
-            pPwork->fileinfo[i].nextb = 0;
-    }
-    g_021F6EEC = 0;
-    for (i = 1; i <= 15; i++) {
-        datap = (short unsigned int *)WM_ReadMPData(arg, i);
-        if (datap != 0 && datap[0] != 0xFFFF && datap[0] != 0)
-            func_021F2200(datap, i);
-    }
-}
-
-
-
-
-void MBi_CommParentSendMsg(u8 type, u16 pollbmp)
-{
-    MBCommParentBlockHeader hd;
-
-    hd.type = type;
-    MBi_MakeParentSendBuffer(&hd, (u8 *)pPwork->common.sendbuf);
-    MBi_BlockHeaderEnd(6, pollbmp, pPwork->common.sendbuf);
-}
-
-
-
-
-
-/*
- * sdk:      MBi_CommParentSendDLFileInfo (libmb.TWL.HYB.a(mb_parent.o))
- */
-int MBi_CommParentSendDLFileInfo(void)
-{
-    MBCommParentBlockHeader hd;
-    u8 *databuf;
-    u16 child;
-    u8 i;
-    u8 fid;
-    s8 send_candidate_fid = -1;
-    u8 file_req_num[16];
-    u16 pollbmp = 0;
-
-    MI_CpuFill8(file_req_num, 0, 16);
-    for (child = 1; child <= 15; child++) {
-        if (pPwork->p_comm_state[child - 1] == 5)
-            file_req_num[pPwork->fileid_of_child[child - 1]]++;
-    }
-    fid = g_021F6E48;
-    for (i = 0; i < 16; i++) {
-        fid = (fid + 1) % 16;
-        if (pPwork->fileinfo[fid].active && file_req_num[fid] != 0) {
-            send_candidate_fid = fid;
-            break;
-        }
-    }
-    if (send_candidate_fid == -1)
-        return 0x15;
-    g_021F6E48 = send_candidate_fid;
-    for (child = 1; child <= 15; child++) {
-        if (pPwork->p_comm_state[child - 1] == 5 && pPwork->fileid_of_child[child - 1] == send_candidate_fid)
-            pollbmp |= (u16)(1 << child);
-    }
-    hd.type = 3;
-    hd.fid = send_candidate_fid;
-    databuf = MBi_MakeParentSendBuffer(&hd, (u8 *)pPwork->common.sendbuf);
-    if (databuf)
-        MI_CpuCopy8(pPwork->fileinfo[send_candidate_fid].dl_fileinfo, databuf, 0xe4);
-    return MBi_BlockHeaderEnd(0xea, pollbmp, pPwork->common.sendbuf);
-}
-
-
-
-
-
-
-/*
- * sdk:      MBi_ReloadCache (libmb.TWL.HYB.a(mb_parent.o))
- */
-void MBi_ReloadCache(MBiTaskInfo *p_task)
-{
-    MBiCacheInfo *p_info;
-    MBiCacheList *p_list;
-    u32 file[18];
-    void *arc;
-    u32 length;
-    RomHeader *header;
-    u32 boundary_ntr;
-    u32 boundary_ltd;
-
-    p_list = (MBiCacheList *)p_task->param[1];
-    p_info = (MBiCacheInfo *)p_task->param[0];
-    length = p_info->len;
-    arc = FS_FindArchive(p_list->arc_name, p_list->arc_name_len);
-    if (arc == 0) {
-        arc = p_list->arc_pointer;
-    }
-    if (OS_IsRunOnTwl() && arc == FS_FindArchive(g_021F6E4C, 3)) {
-        header = func_02075E04();
-        boundary_ntr = header->ntr_off + header->ntr_len;
-        boundary_ltd = header->ltd_off + header->ltd_len;
-        if (p_info->src < boundary_ntr && p_info->src + length > boundary_ntr) {
-            length = boundary_ntr - p_info->src;
-        } else if (p_info->src < boundary_ltd && p_info->src + length > boundary_ltd) {
-            length = boundary_ltd - p_info->src;
-        }
-    }
-    FS_InitFile(file);
-    if (FS_OpenFileDirect(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
-        if (length == FS_ReadFile((struct FSFile *)file, p_info->ptr, length)) {
-            p_info->state = 2;
-        }
-        FS_CloseFile(file);
-    }
-    if (p_info->state != 2) {
-        p_info->src = 0;
-        p_info->state = 2;
-    }
-}
-
-
-
-
-
-
-int MBi_CommParentSendBlock(void)
-{
-	MBCommParentBlockHeader hd;
-	u8 *databuf;
-	u8 i;
-	MB_BlockInfo bi;
-
-	if (pPwork->file_num == 0)
-		return 0x15;
-
-	for (i = 0; i < 16; i++) {
-		pPwork->cur_fileid = (u8)((pPwork->cur_fileid + 1) % 16);
-		if (pPwork->fileinfo[pPwork->cur_fileid].active
-		    && pPwork->fileinfo[pPwork->cur_fileid].pollbmp)
-			break;
-	}
-	if (i == 16)
-		return 0x15;
-
-	MBi_calc_sendblock(pPwork->cur_fileid);
-
-	if (!MBi_get_blockinfo(&bi, &pPwork->fileinfo[pPwork->cur_fileid].blockinfo_table,
-	                       pPwork->fileinfo[pPwork->cur_fileid].currentb,
-	                       &pPwork->fileinfo[pPwork->cur_fileid].header))
-		return 0x15;
-
-	hd.type = 4;
-	hd.fid = pPwork->cur_fileid;
-	hd.seqno = pPwork->fileinfo[pPwork->cur_fileid].currentb;
-	databuf = MBi_MakeParentSendBuffer(&hd, (u8 *)pPwork->common.sendbuf);
-
-	{
-		u32 card_addr = (u32)(bi.offset -
-		                      pPwork->fileinfo[pPwork->cur_fileid].blockinfo_table.seg_src_offset[bi.segment_no] +
-		                      pPwork->fileinfo[pPwork->cur_fileid].card_mapping[bi.segment_no]);
-		MBiCacheList *const pl = pPwork->fileinfo[pPwork->cur_fileid].cache_list;
-		if (!MBi_ReadFromCache(pl, card_addr, databuf, bi.size)) {
-			MBiTaskInfo *const p_task = &pPwork->cur_task;
-			if (!MBi_IsTaskBusy(p_task)) {
-				if (pl->lifetime) {
-					--pl->lifetime;
-				} else {
-					MBiCacheInfo *pi = pl->list;
-					MBiCacheInfo *trg = 0;
-					int i;
-					for (i = 0; i < 4; ++i) {
-						if (pi[i].state == 2) {
-							if (!trg || (trg->src > pi[i].src))
-								trg = &pi[i];
-						}
-					}
-					if (!trg)
-						OS_Terminate();
-					pl->lifetime = 2;
-					trg->state = 1;
-					trg->src = (card_addr & ~31);
-					p_task->param[0] = (u32)trg;
-					p_task->param[1] = (u32)pl;
-					MBi_SetTask(p_task, MBi_ReloadCache, 0, 4);
-				}
-			}
-			return 0x15;
-		}
-	}
-	return MBi_BlockHeaderEnd((int)(bi.size + sizeof(MBCommParentBlockHeader)),
-	                          pPwork->fileinfo[pPwork->cur_fileid].pollbmp,
-	                          pPwork->common.sendbuf);
-}
-
-
-
-
-/*
- * sdk:      MBi_CommParentSendData (libmb.TWL.HYB.a(mb_parent.o))
- */
-static int MBi_CommParentSendData(void)
-{
-    int errcode;
-    u16 child;
-    struct bitmap bmp;
-
-    MIi_CpuClear16(0, &bmp, sizeof(bmp));
-
-    for (child = 1; child <= 15; child++) {
-        switch (pPwork->p_comm_state[child - 1]) {
-        case 2:
-            bmp.connected |= 1 << child;
-            break;
-        case 5:
-            bmp.req |= 1 << child;
-            break;
-        case 4:
-            bmp.kick |= 1 << child;
-            break;
-        case 8:
-            bmp.boot |= 1 << child;
-            break;
-        case 11:
-            bmp.mem_full |= 1 << child;
-            break;
-        }
-    }
-
-    if (bmp.boot)
-        errcode = func_021F276C(5, bmp.boot);
-    else if (bmp.connected)
-        errcode = func_021F276C(1, bmp.connected);
-    else if (bmp.mem_full)
-        errcode = func_021F276C(6, bmp.mem_full);
-    else if (bmp.kick)
-        errcode = func_021F276C(2, bmp.kick);
-    else if (bmp.req)
-        errcode = MBi_CommParentSendDLFileInfo();
-    else
-        errcode = func_021F2A44();
-
-    if (errcode != 0x15)
-        return errcode;
-    return func_021F276C(0, 0xffff);
-}
-
-
-
-
-/*
- * sdk:      MBi_calc_sendblock (mb_parent.o), TwlSDK/libmb.TWL.HYB.a
- *
- * Advance one multi-boot parent's send block by one when it is already
- * within two of the peer's `b`, otherwise snap `a` to `b`.  124/124 bytes.
- *
- * The whole `e` local of the parked source was the residue: with the
- * element pointer held in a named local, mwcc keeps the element base in
- * r3 and reuses the derived `e+0x1d00` for the else-arm store.  The image
- * keeps the base in ip, derives +0x1d00 into r0 for the guard/if body, and
- * RE-DERIVES `ip + 0x1d00` in the else arm; its else arm is also reached
- * by fall-through from the inner test, so the a/b update is one if/else:
- *
- *     if (y <= x && x <= y + 2) e->a = x + 1; else e->a = y;
- *
- * Spelling the element pointer inline at every use (no local) gives all
- * three at once: `mla ip, r0, r1, r2`, the +0x1d00 re-derivation, and the
- * predicated `strhle` + `bxle lr` whose fall-through lands in the else arm.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov107_func_021F2E58.c \
- *       --func MBi_calc_sendblock --addr 0x021F2E58 --region ov107 \
- *       --cc dsi/1.1p1 --flags=-O4,p --arm --lang c99 --diff
- */
-void MBi_calc_sendblock(u8 file_id)
-{
-    if (!(g_021F6EEC & (1 << file_id)))
-        return;
-    if (pPwork->fileinfo[file_id].active != 0
-        && pPwork->fileinfo[file_id].pollbmp != 0) {
-        u16 x = pPwork->fileinfo[file_id].currentb;
-        u16 y = pPwork->fileinfo[file_id].nextb;
-        if (y <= x && x <= y + 2)
-            pPwork->fileinfo[file_id].currentb = x + 1;
+        gMbParentUi.wmEndDone = 0;
+        p->wmActive = 1;
+        WIH_Initialize(p->heapId, (int)MB_COMM_SYS_WmEndCallback, 0);
+        GFL_NET_WM_ICON_EasyStart(240, 0, 0, p->heapId);
+        if (p->standalone == 0)
+            GFL_NET_WM_ICON_EasySetScreen(0, p->heapId);
         else
-            pPwork->fileinfo[file_id].currentb = y;
-        return;
+            GFL_NET_WM_ICON_EasySetScreen(1, p->heapId);
+        p->subPhase = 1;
+        func_020351F8((u32)MB_COMM_SYS_ResetHook, (u32)p);
+        break;
+    case 1:
+        if (WIH_GetSysState() == 1 && WIH_StartMeasureChannel() == 1)
+            p->subPhase = 2;
+        break;
+    default:
+        break;
+    case 2:
+        if (WIH_GetSysState() == 7) {
+            ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
+            MB_COMM_SYS_StartParent(p);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 2);
+            else
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 3);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, func_02008534(ownerData), 5);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_PrintStream(p->msg, 0, MSG_SPEED_GetWait());
+            else
+                MB_UTIL_MSG_PrintStream(p->msg, 20, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->subPhase = 3;
+        }
+        break;
+    case 3:
+        MB_COMM_SYS_MainRecruit(p);
+        break;
+    case 4:
+        MB_UTIL_MSG_ClearWindow(p->msg);
+        MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+        if (p->standalone == 0)
+            MB_UTIL_MSG_PrintQueued(p->msg, 1);
+        else
+            MB_UTIL_MSG_PrintQueued(p->msg, 21);
+        MB_UTIL_MSG_SetTimeIconPending(p->msg, 1);
+        CLACT_SetActorAnimSeq(p->actor, 15);
+        p->subPhase = 5;
+        break;
+    case 5:
+        p->lobbyAccepted = 1;
+        p->subPhase = 6;
+        break;
+    case 8:
+        p->subPhase = 6;
+        break;
+    case 6:
+        gMbParentUi.wmEndDone = 0;
+        WIH_End((void (*)(int))((int (*)(int))MB_COMM_SYS_WmEndCallback));
+        p->wmActive = 0;
+        p->subPhase = 7;
+        break;
+    case 7:
+        if (gMbParentUi.wmEndDone == 1) {
+            func_020351F8(0, 0);
+            WIH_FreeWork();
+            return 1;
+        }
+        break;
     }
-}
-
-
-
-
-
-u16 MBi_calc_nextsendblock(unsigned long next_block, unsigned long next_block_req)
-{
-    if (next_block_req <= next_block)
-        next_block_req = next_block;
-    return next_block_req;
-}
-
-
-
-
-
-BOOL IsChildAidValid(u16 child_aid)
-{
-    if (child_aid >= 1 && child_aid <= 15)
-        return 1;
+    GFL_NET_WM_ICON_EasySetLevel(3 - WM_GetLinkLevel());
+    GFL_NET_WM_ICON_EasyMain();
     return 0;
 }
 
-
-
-
-
-void MBi_CommCallParentError(u16 aid, u16 errcode)
+/* Builds the registry block, then starts the parent and registers the game. */
+void MB_COMM_SYS_StartParent(MbCommSysWork *p)
 {
-    u16 e_stat;
+    MbPathPair romPaths = d_021F6D68;
+    MbPathPair iconCharPaths = d_021F6D70;
+    MbPathPair iconPalettePaths = d_021F6D60;
+    MbRegistryBlock registry = d_021F6C40;
+    int channel = WIH_GetMeasureChannel();
 
-    e_stat = errcode;
-    MBi_CommChangeParentStateCallbackOnly(aid, 0xD, &e_stat);
+    MI_CpuCopy8(&registry, &p->registry, 60);
+    p->registry.romPath = p->standalone == 0 ? romPaths.inGame : romPaths.standalone;
+    p->registry.iconCharPath = iconCharPaths.standalone;
+    p->registry.iconPalettePath = iconPalettePaths.standalone;
+    p->registry.gameName = p->gameNameBuf;
+    p->registry.gameIntro = p->gameIntroBuf;
+    MB_PARENT_SYS_Init(4992, 65536);
+    MB_PARENT_SYS_Register(&p->registry, channel);
+}
+
+/*
+ * extent: follower 021EFC10 already has its own matched source/shard.
+ * ABI: 19E4 keeps the caller's visibly supplied r1. 0AE4 reads no incoming arguments.
+ */
+/* Recruiting screen: shows the child count prompts and handles start or cancel. */
+void MB_COMM_SYS_MainRecruit(MbCommSysWork *p)
+{
+    int answer;
+    void *ownerData;
+
+    MB_PARENT_SYS_GetState();
+    switch (MB_PARENT_SYS_GetState()) {
+    case 2:
+        if (p->recruitPhase == 0) {
+            answer = TOUCHPANEL_HitTrg(d_021F6AF8);
+            if (KEY_GetTrg() == 2 || (answer == 0 && p->standalone == 0)) {
+                p->recruitPhase = 1;
+                CLACT_SetActorAnimSeq(p->actor, 9);
+                CLACT_SetActorAutoAnim(p->actor, 1);
+                GFL_USE_PlaySeDefaultVolume(1361);
+            } else if (MB_PARENT_SYS_AllBootable()) {
+                MB_PARENT_SYS_StartBoot();
+            }
+        }
+        break;
+    case 5:
+        p->subPhase = 4;
+        break;
+    case 7:
+        MB_PARENT_SYS_Cancel();
+        break;
+    case 0:
+        p->subPhase = 8;
+        break;
+    case 1:
+    case 3:
+    case 4:
+    case 6:
+    default:
+        break;
+    }
+    switch (p->recruitPhase) {
+    case 1:
+        MB_UTIL_MSG_ClearWindow(p->msg);
+        CLACT_SetActorAnimSeq(p->actor, 15);
+        if (p->standalone == 0) {
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 7);
+            MB_UTIL_MSG_PrintStream(p->msg, 9, MSG_SPEED_GetWait());
+        } else {
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+            MB_UTIL_MSG_PrintStream(p->msg, 42, MSG_SPEED_GetWait());
+        }
+        p->recruitPhase = 2;
+        break;
+    case 2:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            if (p->standalone == 0)
+                MB_UTIL_MSG_OpenYesNoTaskMenu(p->msg, 0);
+            else
+                MB_UTIL_MSG_OpenYesNoMenu(p->msg, 0);
+            p->recruitPhase = 3;
+        }
+        break;
+    case 3:
+        if (p->standalone == 0)
+            answer = MB_UTIL_MSG_GetTaskMenuResult(p->msg);
+        else
+            answer = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (answer == 1) {
+            if (MB_PARENT_SYS_GetState() != 2)
+                func_02034714(d_021F6E08, 0, d_021F6E08);
+            MB_COMM_SYS_UpdateSaveState(p, 4);
+            MB_PARENT_SYS_Cancel();
+            p->recruitPhase = 4;
+        } else if (answer == 2) {
+            ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_CloseTaskMenu(p->msg);
+            else
+                MB_UTIL_MSG_ClearYesNoMenu(p->msg);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 2);
+            else
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 3);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, func_02008534(ownerData), 5);
+            CLACT_SetActorAnimSeq(p->actor, 1);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_PrintStream(p->msg, 0, MSG_SPEED_GetWait());
+            else
+                MB_UTIL_MSG_PrintStream(p->msg, 20, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->recruitPhase = 0;
+        }
+        break;
+    }
+}
+
+/* WM end callback: tells the main loop that WM has finished shutting down. */
+int MB_COMM_SYS_WmEndCallback(void)
+{
+    gMbParentUi.wmEndDone = 1;
+    return 1;
+}
+
+/* Moves the save state value to mode unless the current state already covers it. */
+void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode)
+{
+    unsigned cur;
+    int change;
+
+    if (p->standalone == 0) {
+        cur = BEACON_GetRank(p->saveState);
+        change = 0;
+        switch (mode) {
+        case 0:
+            if (cur != 1 && cur != 3 && cur != 5)
+                change = 1;
+            break;
+        case 1:
+            if (cur != 3 && cur != 5)
+                change = 1;
+            break;
+        case 2:
+            if (cur != 0 && cur != 1 && cur != 3 && cur != 5)
+                change = 1;
+            break;
+        case 3:
+            change = 1;
+            if (p->receivedTotal != 0)
+                mode = 5;
+            break;
+        case 4:
+            if (cur != 2 && cur != 0 && cur != 1 && cur != 3 && cur != 5)
+                change = 1;
+            break;
+        }
+        if (change == 1)
+            BEACON_SetRank(p->saveState, mode);
+    }
+}
+
+/*
+ * extent: follower 021EFC10 already has its own matched source/shard.
+ * ABI: 19E4 keeps the caller's visibly supplied r1. 0AE4 reads no incoming arguments.
+ */
+/* Reset hook: stops recruiting and waits for WM to shut down before the reset goes on. */
+void MB_COMM_SYS_ResetHook(MbCommSysWork *p)
+{
+    unsigned registered = MB_PARENT_SYS_IsRegistered();
+
+    if (registered == 1)
+        MB_PARENT_SYS_Cancel();
+    while (MB_PARENT_SYS_GetState() != 0 && MB_PARENT_SYS_GetState() != 5)
+        OS_WaitIrq(1, 1);
+    if (p->wmActive == 1) {
+        gMbParentUi.wmEndDone = 0;
+        while (WIH_End((void (*)(int))((int)MB_COMM_SYS_WmEndCallback)))
+            OS_WaitIrq(1, 1);
+        while (gMbParentUi.wmEndDone == 0)
+            OS_WaitIrq(1, 1);
+    }
+}
+
+/*
+ * extent: two bytes of alignment padding after the return.
+ */
+/* Counts the mons the children sent, records them and updates the save state. */
+void MB_COMM_SYS_FinishReceive(MbCommSysWork *p)
+{
+    unsigned received = MB_COMM_SYS_GetMonCount(p->net);
+    unsigned oldCount;
+    unsigned newCount;
+
+    MB_UTIL_MSG_PrintQueued(p->msg, 6);
+    MB_UTIL_MSG_SetTimeIconPending(p->msg, 1);
+    MB_COMM_SYS_RegisterReceivedMons(p);
+    if (p->standalone == 0) {
+        oldCount = (u16)BEACON_GetBestScore(p->saveState);
+        newCount = MB_COMM_SYS_GetMaxSeen(p->net);
+        if (oldCount < newCount) {
+            BEACON_SetBestScore(p->saveState, newCount);
+            MB_COMM_SYS_UpdateSaveState(p, 1);
+        } else if (received == 0) {
+            MB_COMM_SYS_UpdateSaveState(p, 2);
+        } else {
+            MB_COMM_SYS_UpdateSaveState(p, 0);
+        }
+        if (p->bestChildCount < newCount)
+            p->bestChildCount = newCount;
+        p->receivedTotal = p->receivedTotal + received;
+    }
+}
+
+/* Registers each received mon in the Pokedex and adds it to the party. */
+void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
+{
+    void *party;
+    void *dex;
+    unsigned int received;
+    void *trainerRecord;
+    void *mon;
+    int added;
+    unsigned char i;
+
+    party = (void *)GAME_DATA_GetBoxManager(p->arg->gameData);
+    dex = ZUKAN_SAVE_GetFromGameData(p->arg->gameData);
+    received = MB_COMM_SYS_GetMonCount(p->net);
+    if (p->standalone == 0) {
+        trainerRecord = GAME_DATA_GetTrainerRecord(p->arg->gameData);
+        func_02008DAC(trainerRecord, 7, received);
+        func_02008DAC(trainerRecord, 0x54, received);
+    }
+    for (i = 0; i < received; i++) {
+        mon = MB_COMM_SYS_GetMon(p->net, i);
+        SAVE_EVENT_StoreTodayDate(mon);
+        added = func_020074D8(party, mon);
+        mon = POKE_TOOL_CreateFromBoxParam(mon, p->heapId);
+        ZUKAN_SAVE_RegisterCaught(dex, mon);
+        func_020307B0(mon);
+        if (added != 1)
+            func_02034714(d_021F6E08, 0, d_021F6E08);
+    }
+}
+
+/* Empty hook called between receiving and the closing prompt. */
+void MB_COMM_SYS_NoOp(MbCommSysWork *p)
+{
+}
+
+/*
+ * evidence: caller-only TU/split was MATCH with nine overlay-only leaves;
+ * parent-cleared 60-byte getter unit10D4 and standalone1B08 each verified
+ * before unchanged caller re-run EXACT. Case18 is empty; case19 stores22.
+ * prototype: own legacy02012DAC has three unused trailing parameters;
+ * original supplies only r0; full body forwards only r0 to02012CE0 and
+ * no inputs to0201042C, then replaces r0/r1 before remaining calls.
+ */
+/* Save sequence after the transfer: message, save start, wait, save main, closing messages. */
+void MB_COMM_SYS_MainSave(MbCommSysWork *p)
+{
+    switch (p->subPhase) {
+    case 9:
+        if (MB_UTIL_MSG_IsPrintQueFinished(p->msg) == 1 && MB_UTIL_MSG_IsStreamIdle(p->msg) == 1 && MB_COMM_SYS_HasKind11(p->net) == 1) {
+            if (MB_COMM_SYS_SendMessage(p->net, 1, func_020056EC(20) + 10) == 1)
+                p->subPhase = 10;
+        }
+        break;
+    case 10:
+        if (MB_COMM_SYS_HasKind1(p->net) == 1)
+            p->subPhase = 11;
+        break;
+    case 11:
+        GAME_DATA_SaveStart((int)p->arg->gameData);
+        p->subPhase = 12;
+        break;
+    case 12:
+        if (GAME_DATA_SaveMain(p->arg->gameData) == 1)
+            p->subPhase = 13;
+        break;
+    case 13:
+        if (MB_COMM_SYS_HasKind12(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 2, func_020056EC(20) + 10) == 1) {
+            p->subPhase = 14;
+            p->waitCounter = 0;
+        }
+        break;
+    case 14:
+        if (MB_COMM_SYS_HasKind2(p->net) == 1) {
+            p->waitCounter++;
+            if (p->waitCounter > (u32)MB_COMM_SYS_GetCount(p->net))
+                p->subPhase = 15;
+        }
+        break;
+    case 15:
+        if (GAME_DATA_SaveMain(p->arg->gameData) == 2)
+            p->subPhase = 16;
+        break;
+    case 16:
+        if (MB_COMM_SYS_HasKind12Again(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 3, 0) == 1) {
+            p->subPhase = 17;
+            p->waitCounter = 0;
+        }
+        break;
+    case 17:
+        if (MB_COMM_SYS_HasKind14(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 4, 0) == 1)
+            p->subPhase = 19;
+        break;
+    case 18:
+        break;
+    case 19:
+        if (MB_COMM_SYS_HasKind4(p->net) == 1)
+            p->phase = 22;
+        break;
+    }
+}
+
+/* Child-side flow after the link is up (phase 32): offer prompts, mon exchange, trainer key. */
+void MB_COMM_SYS_MainChildFlow(MbCommSysWork *p)
+{
+    int a;
+    int b;
+    void *saveTrainerKey;
+    void *ownerData;
+    void *miscSave;
+
+    switch (p->childPhase) {
+    case 0:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 10 || MB_COMM_SYS_GetCommStage(p->net) == 12) {
+            MB_UTIL_MSG_PrintStream(p->msg, 0x29, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_COMM_SYS_SetSyncRange(p->net);
+            p->phase = 0x1B;
+        }
+        if (MB_COMM_SYS_GetCommStage(p->net) == 11) {
+            MB_UTIL_MSG_PrintStream(p->msg, 0x2C, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_COMM_SYS_SetSyncRange(p->net);
+            p->phase = 0x1B;
+        }
+        if (MB_COMM_SYS_HasKind19(p->net) == 1) {
+            a = MB_COMM_SYS_GetOfferCount(p->net);
+            b = MB_COMM_SYS_GetOfferExtra(p->net);
+            if (a != 0) {
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+                MB_UTIL_MSG_CreateWordSet(p->msg);
+                MB_UTIL_MSG_SetNumberLeft(p->msg, 0, a + b, 3);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x16, MSG_SPEED_GetWait());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                MB_UTIL_MSG_DeleteWordSet(p->msg);
+                p->childPhase = 1;
+            } else {
+                p->childPhase = 0x13;
+            }
+        }
+        break;
+    case 1:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 2;
+        }
+        break;
+    case 2:
+        p->answer = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (p->answer == 1) {
+            b = MB_COMM_SYS_GetOfferCount(p->net);
+            a = (unsigned short)func_02007774((void *)GAME_DATA_GetBoxManager(p->arg->gameData));
+            MB_UTIL_MSG_ClearYesNoMenu(p->msg);
+            if ((unsigned int)a < (unsigned int)b) {
+                p->notEnoughRoom = 1;
+                p->childPhase = 0xD;
+            } else {
+                p->notEnoughRoom = 0;
+                p->childPhase = 3;
+            }
+        } else if (p->answer == 2) {
+            p->childPhase = 0xD;
+        }
+        break;
+    case 3:
+        if (MB_COMM_SYS_GetOfferExtra(p->net) != 0) {
+            a = MB_COMM_SYS_GetOfferCount(p->net);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberLeft(p->msg, 0, a, 3);
+            MB_UTIL_MSG_PrintStream(p->msg, 0x24, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->childPhase = 4;
+        } else {
+            p->childPhase = 5;
+        }
+        break;
+    case 4:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 5;
+        break;
+    case 5:
+        if (MB_COMM_SYS_GetOfferFlagA(p->net) == 1) {
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+            MB_UTIL_MSG_PrintStream(p->msg, 0x1A, MSG_SPEED_GetWait());
+            p->childPhase = 6;
+        } else {
+            p->childPhase = 0xD;
+        }
+        break;
+    case 6:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 7;
+        }
+        break;
+    case 7:
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (a == 1) {
+            if (MB_COMM_SYS_GetOfferFlagB(p->net) == 1) {
+                MB_UTIL_MSG_PrintStream(p->msg, 0x1B, MSG_SPEED_GetWait());
+                p->childPhase = 8;
+            } else {
+                p->childPhase = 0xD;
+            }
+        } else if (a == 2) {
+            p->childPhase = 0xA;
+        }
+        break;
+    case 8:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 9;
+        }
+        break;
+    case 9:
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (a == 1)
+            p->childPhase = 0xD;
+        else if (a == 2)
+            p->childPhase = 0xA;
+        break;
+    case 10:
+        MB_UTIL_MSG_PrintStream(p->msg, 0x1C, MSG_SPEED_GetWait());
+        p->childPhase = 0xB;
+        break;
+    case 11:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 0xC;
+        }
+        break;
+    case 12:
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (a == 1) {
+            p->answer = 2;
+            p->childPhase = 0xD;
+        } else if (a == 2) {
+            p->childPhase = 5;
+        }
+        break;
+    case 13:
+        if (p->answer == 1) {
+            if (p->notEnoughRoom == 1)
+                a = 2;
+            else
+                a = 0;
+        } else {
+            a = 1;
+        }
+        if (MB_COMM_SYS_SendMessage(p->net, 0xF, a) == 1) {
+            if (a == 0) {
+                p->childPhase = 0xE;
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintQueued(p->msg, 0x19);
+                MB_UTIL_MSG_SetTimeIconPending(p->msg, 1);
+            } else if (a == 2) {
+                p->childPhase = 0x11;
+            } else {
+                p->childPhase = 0x13;
+            }
+        }
+        break;
+    case 14:
+        if (MB_COMM_SYS_HasMonsReceived(p->net) == 1) {
+            MB_COMM_SYS_RegisterReceivedMons(p);
+            p->childPhase = 0xF;
+        }
+        if (MB_COMM_SYS_HasKind20(p->net) == 1) {
+            a = MB_COMM_SYS_GetOfferCount(p->net);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberLeft(p->msg, 0, a, 3);
+            MB_UTIL_MSG_PrintStream(p->msg, 0x1E, MSG_SPEED_GetWait());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->childPhase = 0x10;
+            p->receivedBonus = 1;
+        }
+        break;
+    case 15:
+        if (MB_COMM_SYS_SendMessage(p->net, 0, 0) == 1) {
+            MB_COMM_SYS_ClearMonBuffer(p->net);
+            p->childPhase = 0xE;
+        }
+        break;
+    case 16:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x13;
+        break;
+    case 17:
+        MB_UTIL_MSG_ClearWindow(p->msg);
+        MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+        MB_UTIL_MSG_PrintStream(p->msg, 0x18, MSG_SPEED_GetWait());
+        p->childPhase = 0x12;
+        break;
+    case 18:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x13;
+        break;
+    case 19:
+        if (MB_COMM_SYS_HasKind21(p->net) == 1) {
+            if (MB_COMM_SYS_GetKind21Value(p->net) == 1) {
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x1F, MSG_SPEED_GetWait());
+                p->childPhase = 0x14;
+            } else {
+                p->childPhase = 0x19;
+            }
+        }
+        break;
+    case 20:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            p->childPhase = 0x15;
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+        }
+        break;
+    case 21:
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (a == 1 || a == 2) {
+            saveTrainerKey = GAME_DATA_GetMyItem(p->arg->gameData);
+            ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
+            miscSave = GAME_DATA_GetMiscSave(p->arg->gameData);
+            if (a == 1 && FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, 0, ownerData) == 1) {
+                p->answer = 2;
+                p->childPhase = 0x16;
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x25, MSG_SPEED_GetWait());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            } else {
+                p->answer = a;
+                p->childPhase = 0x17;
+            }
+        }
+        break;
+    case 22:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x17;
+        break;
+    case 23:
+        a = 1;
+        if (p->answer != 1)
+            a = 0;
+        if (MB_COMM_SYS_SendMessage(p->net, 0x10, a) == 1) {
+            if (a == 1) {
+                saveTrainerKey = GAME_DATA_GetMyItem(p->arg->gameData);
+                ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
+                miscSave = GAME_DATA_GetMiscSave(p->arg->gameData);
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x21, MSG_SPEED_GetWait());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                FIELD_G3D_MAP_StoreBeaconTrainerKey(miscSave, 0, ownerData);
+                func_02007E50(saveTrainerKey, 0x215, 1, p->heapId);
+                p->gotTrainerKey = 1;
+                p->childPhase = 0x18;
+            } else {
+                p->childPhase = 0x19;
+            }
+        }
+        break;
+    case 24:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x19;
+        break;
+    case 25:
+        if (p->receivedBonus == 1 || p->gotTrainerKey == 1) {
+            if (MB_COMM_SYS_SendMessage(p->net, 0x11, 0) == 1)
+                p->phase = 0x13;
+        } else {
+            if (MB_COMM_SYS_GetOfferCount(p->net) == 0 && MB_COMM_SYS_GetKind21Value(p->net) == 0) {
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x28, MSG_SPEED_GetWait());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            }
+            p->phase = 0x1B;
+        }
+        break;
+    }
+}
+
+/* Visibility hook: hides both text planes, then shows the one this mode uses. */
+int MB_COMM_SYS_ShowTextPlane(void)
+{
+    BG_SYS_SetMainVisiblePlanes(0);
+    BG_SYS_SetSubVisiblePlanes(0);
+    func_02040588(gMbParentUi.textOnSubScreen == 1 ? 4 : 2, 1);
+    return 1;
+}
+
+/* Proc entry: creates the heap and work, loads or creates the argument, then runs init. */
+int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument)
+{
+    MbCommSysWork *p;
+
+    if (!GFL_NET_IsSessionNull())
+        return 0;
+    GFL_HEAP_CreateChildHeap(1, 93, 0x130000);
+    p = PROCSYS_AllocProcWork(task, 188, 93);
+    if (!argument) {
+        argument = func_02030734(93, 8, 0, d_021F6E0C, 2788);
+        if (KEY_GetCont() & 256) {
+            argument->standalone = 1;
+        } else {
+            argument->standalone = 0;
+            argument->gameData = GAME_DATA_Create(93);
+        }
+    }
+    if (argument->standalone == 1)
+        argument->gameData = GAME_DATA_Create(93);
+    p->heapId = 93;
+    p->arg = argument;
+    p->errorScreenRequested = 0;
+    p->wirelessFailed = 0;
+    p->wasSaving = 0;
+    MB_COMM_SYS_Init(p);
+    return 1;
+}
+
+/*
+ * extent: two zero padding bytes follow the epilogue.
+ */
+/* Proc end: runs exit, frees the game data when owned, shows the net error screens if needed. */
+int MB_COMM_SYS_ProcExit(void *task, int unused, int keep, MbCommSysWork *p)
+{
+    int standalone;
+    u32 errorRequested;
+    u32 wasSaving;
+    u32 wirelessFailed;
+
+    errorRequested = p->errorScreenRequested;
+    standalone = 0;
+    wasSaving = p->wasSaving;
+    wirelessFailed = p->wirelessFailed;
+    if (p->arg->standalone == 1)
+        standalone = 1;
+    MB_COMM_SYS_Exit(p);
+    if (!keep) {
+        GAME_DATA_Delete(p->arg->gameData);
+        func_020307B0(p->arg);
+    } else if (p->arg->standalone == 1) {
+        GAME_DATA_Delete(p->arg->gameData);
+        func_020307B0(p->arg);
+    }
+    func_020315D4(task);
+    GFL_HEAP_DeleteChecked(93);
+    if (errorRequested == 1) {
+        if (standalone) {
+            if (wasSaving == 1 || func_0200FB24() == 1) {
+                func_0200FBB0();
+                GFL_NET_ERR_ShowScreen(1);
+            } else {
+                GFL_NET_ERR_ShowScreen(0);
+            }
+        } else if (wasSaving == 1) {
+            func_0200FBB0();
+            GFL_NET_ERR_ShowScreen(1);
+        }
+    }
+    if (wirelessFailed == 1)
+        GFL_NET_ERR_ShowSimpleScreen();
+    if (standalone == 1)
+        UI_SoftReset(0);
+    return 1;
+}
+
+/* Proc update: runs the main loop and requests the net error screen when an error shows up. */
+int MB_COMM_SYS_ProcMain(int a, int b, int c, MbCommSysWork *p)
+{
+    if (MB_COMM_SYS_Main(p) == 1)
+        return 1;
+    if (func_0200FB24() != 0 && p->errorScreenRequested == 0) {
+        GFL_NET_ERR_RequestScreen();
+        p->errorScreenRequested = 1;
+    }
+    return 0;
 }

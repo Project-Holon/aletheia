@@ -1,5 +1,5 @@
 /*
- * function: func_021BF67C
+ * function: GHTTPProgressCallback
  * address:  0x021BF67C
  * packet:   pkt_ov114_021BF67C
  * region:   ov114
@@ -21,7 +21,7 @@ typedef struct {
     ProgressCallback callback;
 } Parameter;
 
-void func_021BF67C(int request, int state, char *buffer, int bufferLen, int bytesReceived, int totalSize, Parameter *parameter)
+void GHTTPProgressCallback(int request, int state, char *buffer, int bufferLen, int bytesReceived, int totalSize, Parameter *parameter)
 {
     ProgressCallback callback = parameter->callback;
 

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   GX_GetBankForLCDC  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *
  * A 20-entry table of 20-byte records at p+0x10 (not at p: p+0x10..p+0x1A0
  * is exactly 20 * 0x14, and p+0x1A0 is the byte INTRUDE_SetMonolithLevel of
@@ -28,11 +28,11 @@
  * `Slot *s = p->slot;` the same body compiles to the same 130 bytes with a
  * different allocation (p in r5, q in r4, the cursor demoted to the
  * scratch r2, 47 bytes out).  Declaring `s` first makes the cursor's live
- * range start before the GX_GetBankForLCDC call, so it earns a
+ * range start before the STRBUF_GetEosChar call, so it earns a
  * callee-saved register (p -> r6, q -> r5, cursor -> r4) and the whole
  * prologue lines up.  See docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
  *
- * GX_GetBankForLCDC takes no arguments and returns the u16 bank mask
+ * STRBUF_GetEosChar takes no arguments and returns the u16 bank mask
  * (src/calib/gx_getbankforlcdc.c); the `blx` is a Thumb -> ARM call, so
  * the symbol is declared `arm`.
  *
@@ -58,7 +58,7 @@ typedef struct {
     Slot slot[20];
 } Rec;
 
-extern u16 GX_GetBankForLCDC(void);
+extern u16 STRBUF_GetEosChar(void);
 
 void INTRUDE_AddLogEntry(Rec *p, Slot *q)
 {
@@ -66,7 +66,7 @@ void INTRUDE_AddLogEntry(Rec *p, Slot *q)
     u16 stamp;
     int i;
 
-    stamp = GX_GetBankForLCDC();
+    stamp = STRBUF_GetEosChar();
 
     for (i = 0; i < 8; i++) {
         if (stamp == q->f00[i]) {

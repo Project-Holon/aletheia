@@ -10,7 +10,7 @@
  * symbols:
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02080C54 0x02080C54 arm
+ *   GX_GetBankForLCDC 0x02080C54 arm
  *   func_020056A0 0x020056A0 thumb
  *   DEMO3D_DATA_ApplyCapture 0x021BEAB8 thumb ov203
  *   DEMO3D_DATA_FinishTask 0x021BEAF8 thumb ov203
@@ -24,7 +24,7 @@ struct S02030FB4;
 extern void DEMO3D_DATA_FinishTask(void *node, int *s);
 extern void *TCBL_AddTask(void *, void (*)(void *, void *), unsigned, unsigned);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern unsigned short func_02080C54(void);
+extern unsigned short GX_GetBankForLCDC(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 extern void DEMO3D_DATA_StartCapture(struct CaptureConfig *s);
 void *DEMO3D_DATA_CreateTask(void *manager, const Config *source)
@@ -36,7 +36,7 @@ void *DEMO3D_DATA_CreateTask(void *manager, const Config *source)
     *(Config *)(ctx + 4) = *source;
     ((struct Obj10864 *)ctx)->f34 = task;
     ((struct Obj10864 *)ctx)->f30 = 0;
-    ((struct Obj10864 *)ctx)->f0 = func_02080C54();
+    ((struct Obj10864 *)ctx)->f0 = GX_GetBankForLCDC();
     DEMO3D_DATA_StartCapture((struct CaptureConfig *)(ctx + 4));
     func_020056A0((unsigned)DEMO3D_DATA_FinishTask, (unsigned)ctx, 0);
     return ctx;

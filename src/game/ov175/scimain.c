@@ -1,7 +1,7 @@
 /*
  * file:     scimain.c
  * unit:     yes
- * function: scInitialize, scShutdown, scThink, scGetSessionId, func_021DFAA0, scSetSessionId, scCreateSession, scSetReportIntention, scSubmitReport, scCreateReport, scReportBeginGlobalData, scReportBeginPlayerData, scReportBeginTeamData, scReportBeginNewPlayer, scReportEnd, scReportSetPlayerData, scReportAddIntValue, scReportAddByteValue, scDestroyReport, scCleanupServiceUrl
+ * function: scInitialize, scShutdown, scThink, scGetSessionId, scGetConnectionId, scSetSessionId, scCreateSession, scSetReportIntention, scSubmitReport, scCreateReport, scReportBeginGlobalData, scReportBeginPlayerData, scReportBeginTeamData, scReportBeginNewPlayer, scReportEnd, scReportSetPlayerData, scReportAddIntValue, scReportAddByteValue, scDestroyReport, scCleanupServiceUrl
  * address:  0x021DF9D8
  * region:   ov175
  * compiler: dsi/1.1p1
@@ -114,7 +114,7 @@ unsigned char *scGetSessionId(SCInterface *theInterface)
 }
 
 /* scGetConnectionId (name guessed): the connection GUID of the interface. */
-unsigned char *func_021DFAA0(SCInterface *theInterface)
+unsigned char *scGetConnectionId(SCInterface *theInterface)
 {
     return theInterface->mConnectionId;
 }

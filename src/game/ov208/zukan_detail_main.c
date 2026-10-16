@@ -1,7 +1,7 @@
 /*
  * file:     zukan_detail_main.c
  * unit:     yes
- * function: ZUKAN_DETAIL_MAIN_Init, ZUKAN_DETAIL_MAIN_Exit, ZUKAN_DETAIL_MAIN_Main, ZUKAN_DETAIL_MAIN_NoOp, ZUKAN_DETAIL_MAIN_SwitchScreen
+ * function: ZUKAN_DETAIL_MAIN_Init, ZUKAN_DETAIL_MAIN_Exit, ZUKAN_DETAIL_MAIN_Main, ZUKAN_DETAIL_MAIN_NoOp
  * address:  0x021BCA68
  * region:   ov208
  * compiler: dsi/1.1p1
@@ -10,10 +10,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from zukan_detail_common.c, zukan_detail_graphic.c by tools/splitfile.py.
+ * Wave 13: ZUKAN_DETAIL_MAIN_SwitchScreen moved out to zukan_detail.c by
+ * tools/splitfile.py. SwitchScreen is the only function of this unit whose own
+ * __FILE__ pool anchor names a file (zukan_detail.c, string 0x021C8DB0); the
+ * four functions kept here have no __FILE__ anchor.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0  arm
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -45,24 +47,16 @@
  *   ZUKAN_DETAIL_GRAPHIC_DrawFrame 0x021BCF18 thumb
  *   ZUKAN_DETAIL_GRAPHIC_ApplyCamera 0x021BCF2C thumb
  *   ZUKAN_DETAIL_GRAPHIC_EndDraw3d 0x021BCF3C thumb
- *   func_021BEA00 0x021BEA00 thumb
- *   ZUKAN_DETAIL_AREA_SetHeapId 0x021BF784 thumb ov208
- *   ZUKAN_DETAIL_VOICE_SetHeapId 0x021C255C thumb
- *   ZUKAN_DETAIL_FORM_SetHeapId 0x021C3B68 thumb
- *   d_021C8DB0 0x021C8DB0 data a1
- *   d_021C8508 0x021C8508 data a4
- *   d_021C8590 0x021C8590 data a4
- *   d_021C86F0 0x021C86F0 data a4
- *   d_021C881C 0x021C881C data a4
- *   ZUKAN_DETAIL_PROCSYS_AllocNode 0x021BC240 thumb ov208
  *   ZUKAN_DETAIL_PROCSYS_FreeNode 0x021BC26C thumb ov208
  *   ZUKAN_DETAIL_PROCSYS_RunStateCallbacks 0x021BC274 thumb ov208
  *   ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate 0x021BC2F0 thumb ov208
  *   ZUKAN_DETAIL_PROCSYS_CallOwnerHook 0x021BC310 thumb ov208
  *   ZUKAN_DETAIL_COMMON_CreateContext 0x021BC35C thumb ov208
  *   ZUKAN_DETAIL_COMMON_DeleteContext 0x021BC39C thumb ov208
+ *   ZUKAN_DETAIL_MAIN_SwitchScreen 0x021BCC84 thumb ov208
  */
 #include "zukan_detail_shared_types.h"
+#include "zukan_detail_main_shared_types.h"
 
 struct Proc;
 
@@ -71,43 +65,6 @@ struct Ov208Mgr;
 struct Proc;
 
 struct Ov208Fade;
-
-/*
- * Arguments of one zukan detail session, owned by the caller that opens the
- * screen. src is the save-data blob, mode selects the screen (1 info, 2 area,
- * 3 voice, 4 form). extra/formNo/shiny are handed to the context constructor
- * and speciesStep is written back when the left/right buttons are pressed.
- */
-struct Ov208Args {
-    void *src;
-    int mode;
-    int extra;
-    u16 formNo;
-    u16 shiny;
-    int speciesStep;
-};
-
-/*
- * Work object of the whole zukan detail screen, allocated with size 0x2c by
- * ZUKAN_DETAIL_MAIN_Init. node is the procsys state node of the active screen
- * and context the shared context built by ZUKAN_DETAIL_COMMON_CreateContext.
- */
-struct Ov208Main {
-    u16 heap;
-    u16 pad;
-    void *display;
-    void *font;
-    void *printer;
-    void *task;
-    void *touchbar;
-    void *headbar;
-    void *context;
-    void *node;
-    void *mem;
-    int pendingMode;
-};
-
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 func_020307B0(void *p);
 
@@ -171,16 +128,6 @@ extern void ZUKAN_DETAIL_GRAPHIC_ApplyCamera(char *p);
 
 extern void ZUKAN_DETAIL_GRAPHIC_EndDraw3d(char *p);
 
-extern void func_021BEA00(void *mem, u32 heap);
-
-extern void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v);
-
-extern void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value);
-
-extern void ZUKAN_DETAIL_FORM_SetHeapId(u16 *p, u32 value);
-
-struct Ov208Fsm *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap);
-
 void ZUKAN_DETAIL_PROCSYS_FreeNode(void *p);
 
 int ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(struct Ov208Fsm *p,int arg);
@@ -202,16 +149,6 @@ int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct O
 void ZUKAN_DETAIL_MAIN_NoOp(void);
 
 void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s);
-
-extern const char d_021C8DB0[];
-
-extern void *d_021C8508[];
-
-extern void *d_021C8590[];
-
-extern void *d_021C86F0[];
-
-extern void *d_021C881C[];
 
 /*
  * 2026-10-02: only ZUKAN_DETAIL_MAIN_NoOp (unlabelled bx lr stub, filed as ov208_func_021BCC80.c) lacks a witness; bytes match.
@@ -308,46 +245,4 @@ int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct O
 
 void ZUKAN_DETAIL_MAIN_NoOp(void)
 {
-}
-
-/*
- * 2026-10-04 (D2-16): callee ZUKAN_DETAIL_AREA_SetHeapId filed EXACT as src/matched/ov/ov208_func_021BF784.c (strh leaf). Still MATCH only because no
- * shard witnesses it yet; the integrator manifest run should make this EXACT. Symbols line now carries the ov208 hint.
- * 2026-10-02: only ZUKAN_DETAIL_AREA_SetHeapId (init for mode 2, another lane) has no witness yet; bytes match.
- */
-void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s)
-{
-    void **tbl;
-    void *mem;
-    if (s->node != 0)
-        ZUKAN_DETAIL_PROCSYS_FreeNode(s->node);
-    if (s->mem != 0)
-        func_020307B0(s->mem);
-    switch (m->mode) {
-    case 1:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1c3);
-        func_021BEA00(mem, s->heap);
-        s->mem = mem;
-        tbl = d_021C8508;
-        break;
-    case 2:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1cb);
-        ZUKAN_DETAIL_AREA_SetHeapId(mem, s->heap);
-        s->mem = mem;
-        tbl = d_021C8590;
-        break;
-    case 3:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1d3);
-        ZUKAN_DETAIL_VOICE_SetHeapId(mem, s->heap);
-        s->mem = mem;
-        tbl = d_021C86F0;
-        break;
-    case 4:
-        mem = func_02030734(s->heap, 2, 1, d_021C8DB0, 0x1db);
-        ZUKAN_DETAIL_FORM_SetHeapId(mem, s->heap);
-        s->mem = mem;
-        tbl = d_021C881C;
-        break;
-    }
-    s->node = ZUKAN_DETAIL_PROCSYS_AllocNode(tbl, (int)s->mem, s->heap);
 }

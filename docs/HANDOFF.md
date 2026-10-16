@@ -18,10 +18,11 @@
 ## Cleanup phase (2026-10-16): wave 11 integration
 
 The repo is now a full source tree, not a per-function match pool. Current
-figures, after wave 12 and its integration: `src/game` holds 1,211 `.c`
-files, all byte-exact (`python tools/gameverify.py`: 1,211 files, not exact 0);
-`python tools/gamecheck.py` reports 35,523 functions, 0 missing, 0 doubled;
-`python tools/tucount.py` reports 1,211 of 1,211 translation units whole, split 0.
+figures, after wave 13 and its integration: `src/game` holds 1,267 `.c`
+files, all byte-exact; `python tools/gamecheck.py` reports 35,523 functions,
+0 missing, 0 doubled; `python tools/tucount.py` reports 1,267 of 1,267
+translation units whole, split 0. `progress/report.json` reads 1,267 units,
+100.000 percent matched and complete for game and SDK code.
 
 `python tools/linkstats.py` reports 243 regions, 181 linked byte-identical with
 every file, 0 failures; game code is 100.00 percent fully linked (2,630,598 of
@@ -48,8 +49,25 @@ disassembly it holds 1056 anchors (was 1022), and the corrected anchor scan find
 than the one they sit in. The remaining restructuring is a split campaign, not a
 move list: `S/INT13/split_list.tsv` (113 rows, 88 need a new file).
 
-Remaining work is cleanup, not matching: 0 `Obj` references and 20 unnamed
-functions (mostly blocked on name or static-mangling decisions). `src/matched` is
+Wave 13 ran the split campaign: 17 split lanes (A1..A9 arm9, B..I overlays,
+plus NAMES, INFER and COVERAGE) created 56 new originals and re-cut the
+over-merged files. `src/game` now holds 1,267 `.c` files, all byte-exact,
+unnamed down to 13 of 36,222. The integration (INT14) found the corrected
+rename status: every prior rename check looked only at DEFINITIONS, so it
+reported renaming done while the tree still held `func_NNNN` names used as
+REFERENCES. Re-measured over `src/game`, 1,544 distinct `func_`/`sub_` names
+are used, 1,033 stale (a real name exists at that address; the raw address-only
+count of 1,096 includes 63 cross-region false positives), 412 unknown and 36
+genuine, across 21,441 occurrences; 111 names are blocked (naming gaps,
+accepted duplicates, ambiguous addresses). Renaming is NOT done: 13 unnamed
+definitions PLUS 1,096 stale references (1,033 region-corrected). The wave 14
+worklist is `S/INT14/wave14.tsv` and `LAUNCHQ.md`.
+
+Remaining work is cleanup, not matching: 0 `Obj` references, 0 stand-ins and 13
+unnamed definitions (mostly blocked on name or static-mangling decisions). The
+corrected rename status is that renaming is NOT done: the tree still holds
+1,096 stale `func_NNNN` references (1,033 after region correction) whose
+address holds a real name. `src/matched` is
 the raw evidence store (one function per file, per-function views by
 construction); it is NOT in scope for "cleaned" and its `Obj` views are expected.
 The sections below describe the matching phase (waves 1 to 21 of the previous

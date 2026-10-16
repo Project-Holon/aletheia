@@ -31,7 +31,7 @@
  *   d_021C3B98 0x021C3B98 data a4
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02080C54 0x02080C54 arm
+ *   GX_GetBankForLCDC 0x02080C54 arm
  *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   func_0208068C 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
@@ -284,7 +284,7 @@ extern void *TCBL_AddTask(void *,void (*)(void *,void *),unsigned,unsigned);
 
 extern void *TCBL_GetWork(struct S02030FB4 *);
 
-extern unsigned short func_02080C54(void);
+extern unsigned short GX_GetBankForLCDC(void);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
@@ -377,7 +377,7 @@ void *DEMO3D_DATA_CreateTask(void *manager, const Config *source)
     *(Config *)&ctx->config = *source;
     ctx->task = task;
     ctx->active = 0;
-    ctx->id = func_02080C54();
+    ctx->id = GX_GetBankForLCDC();
     DEMO3D_DATA_StartCapture((struct CaptureConfig *)((char *)ctx + 4));
     func_020056A0((unsigned)DEMO3D_DATA_FinishTask, (unsigned)ctx, 0);
     return (void *)ctx;

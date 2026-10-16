@@ -20,8 +20,8 @@
  *   ghttpGetExA  0x021C20A4  arm  ov114
  *   func_0205A1B0  0x0205A1B0  arm
  *   ghttpSetMaxRecvTime  0x021C22EC  arm  ov114
- *   func_021BF67C  0x021BF67C  arm  ov114
- *   func_021BF5D8  0x021BF5D8  arm  ov114
+ *   GHTTPProgressCallback  0x021BF67C  arm  ov114
+ *   GHTTPCompletedCallback  0x021BF5D8  arm  ov114
  */
 
 typedef void (*ProgressCb)(int state, char *buf, int buflen, int received, int total, void *param);
@@ -52,8 +52,8 @@ extern int ghttpGetExA(char *url, char *headers, char *buffer, int bufferSize, v
                          int throttle, int blocking, void *progressCallback, void *completedCallback, void *param);
 extern void func_0205A1B0(int name, void *ptr, unsigned long size);
 extern void ghttpSetMaxRecvTime(int a, int b);
-extern void func_021BF67C();
-extern int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param);
+extern void GHTTPProgressCallback();
+extern int GHTTPCompletedCallback(int request, int result, char *buffer, int bufferLen, void *param);
 
 int DWCi_GHTTPGetEx(char *url, int bufferlen, int buffer_clear, void **post,
                   ProgressCb progressCallback, CompletedCb completedCallback, void *param)
@@ -86,7 +86,7 @@ int DWCi_GHTTPGetEx(char *url, int bufferlen, int buffer_clear, void **post,
         entry->buf = buffer;
     }
     req = ghttpGetExA(url, 0, buffer, bufferlen, post == 0 ? 0 : *post, 0, 0,
-                        progressCallback == 0 ? 0 : (void *)func_021BF67C, (void *)func_021BF5D8, entry);
+                        progressCallback == 0 ? 0 : (void *)GHTTPProgressCallback, (void *)GHTTPCompletedCallback, entry);
     if (req < 0) {
         DWCi_HandleGHTTPError(req);
         completedCallback(0, 0, req, param);

@@ -1,7 +1,7 @@
 /*
  * file:     field_g3dobj.c
  * unit:     yes
- * function: SWEET_SCENT_CreateEventNoPokemon, SWEET_SCENT_CreateEvent, SWEET_SCENT_EventMain, SWEET_SCENT_CheckWeatherClear, SWEET_SCENT_StartFade, SWEET_SCENT_FadeMain, SWEET_SCENT_FadeSetup, SWEET_SCENT_FadeCleanup, FIELD_G3DOBJ_Create, FIELD_G3DOBJ_Delete, FIELD_G3DOBJ_Update, FIELD_G3DOBJ_DrawAll, FIELD_G3DOBJ_SetPalTable, FIELD_G3DOBJ_AddResource, FIELD_G3DOBJ_AddResourceDefaultPal, FIELD_G3DOBJ_DeleteResource, FIELD_G3DOBJ_AddObject, FIELD_G3DOBJ_DeleteObject, FIELD_G3DOBJ_GetObjectTrans, FIELD_G3DOBJ_SetObjectTrans, FIELD_G3DOBJ_SetObjectHidden, FIELD_G3DOBJ_IncAnimeFrame, FIELD_G3DOBJ_LoopAnimeFrame, FIELD_G3DOBJ_SetAnimeFrame, FIELD_G3DOBJ_GetAnimeFrame, FIELD_G3DOBJ_SetObjectManualDraw, FIELD_G3DOBJ_DrawObject, FIELD_G3DOBJ_SetObjectRedrawFlag, FIELD_G3DOBJ_GetObjectRedrawFlag, FIELD_G3DOBJ_TransferResourceTexture, FIELD_G3DOBJ_LoadResource, FIELD_G3DOBJ_FreeResource, FIELD_G3DOBJ_CreateObject, FIELD_G3DOBJ_DestroyObject, FIELD_G3DOBJ_InitResDesc, FIELD_G3DOBJ_SetResDescModel, FIELD_G3DOBJ_SetResDescAnimeArc, FIELD_G3DOBJ_AddResDescAnimeFile, FIELDMAP_TCB_CAMERA_ZOOM_Create, FIELDMAP_TCB_CAMERA_ZOOM_Main, FIELDMAP_TCB_CAMERA_ZOOM_Step
+ * function: SWEET_SCENT_CreateEventNoPokemon, SWEET_SCENT_CreateEvent, SWEET_SCENT_EventMain, SWEET_SCENT_CheckWeatherClear, SWEET_SCENT_StartFade, SWEET_SCENT_FadeMain, SWEET_SCENT_FadeSetup, SWEET_SCENT_FadeCleanup, FIELD_G3DOBJ_Create, FIELD_G3DOBJ_Delete, FIELD_G3DOBJ_Update, FIELD_G3DOBJ_DrawAll, FIELD_G3DOBJ_SetPalTable, FIELD_G3DOBJ_AddResource, FIELD_G3DOBJ_AddResourceDefaultPal, FIELD_G3DOBJ_DeleteResource, FIELD_G3DOBJ_AddObject, FIELD_G3DOBJ_DeleteObject, FIELD_G3DOBJ_GetObjectTrans, FIELD_G3DOBJ_SetObjectTrans, FIELD_G3DOBJ_SetObjectHidden, FIELD_G3DOBJ_IncAnimeFrame, FIELD_G3DOBJ_LoopAnimeFrame, FIELD_G3DOBJ_SetAnimeFrame, FIELD_G3DOBJ_GetAnimeFrame, FIELD_G3DOBJ_SetObjectManualDraw, FIELD_G3DOBJ_DrawObject, FIELD_G3DOBJ_SetObjectRedrawFlag, FIELD_G3DOBJ_GetObjectRedrawFlag, FIELD_G3DOBJ_TransferResourceTexture, FIELD_G3DOBJ_LoadResource, FIELD_G3DOBJ_FreeResource, FIELD_G3DOBJ_CreateObject, FIELD_G3DOBJ_DestroyObject, FIELD_G3DOBJ_InitResDesc, FIELD_G3DOBJ_SetResDescModel, FIELD_G3DOBJ_SetResDescAnimeArc, FIELD_G3DOBJ_AddResDescAnimeFile
  * address:  0x021C6068
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from field_g3dobj.c by tools/splitfile.py.
  *
  * symbols:
  *   func_020122C0  0x020122C0  thumb
@@ -73,28 +73,16 @@
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
- *   func_02030EAC  0x02030EAC  arm
- *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
- *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
- *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
- *   FIELD_CAMERA_GetDistance  0x0218ED54  thumb  ov021
- *   func_02030DA8  0x02030DA8  arm
- *   gFieldmapTcbCameraZoomFileName     0x021DE4B8  data  ov021  a4
- *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb  ov021
- *   _ffix          0x0209C494  arm
- *   _dsqrt         0x0209C5E0  arm
  */
+#include "field_g3dobj_shared_types.h"
+
 typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed int s32;
-typedef s32 fx32;
 
 typedef struct { fx32 x, y, z; } VecFx32;
+
 typedef struct { fx32 m[3][3]; } MtxFx33;
 
 /* Sweet Scent field move (021C6068..021C6368)                          */
-
 #define SWEET_SCENT_NO_POKEMON 6   /* party slots 0..5 are real; 6 and above mean no Pokemon */
 
 /* Event work of the move (0x14 bytes). */
@@ -122,89 +110,109 @@ typedef struct BgPoint {
 } BgPoint;
 
 extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
+
 extern void *func_020124E8(void *task);
+
 extern void MI_CpuFill8(void *p, int v, int n);
+
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
+
 extern void *ICA_ANIME_GetField1C(void *gameSys);
+
 extern void FIELD_PLAYER_StartFormChange(void *player, u32 a1);
+
 extern int FIELD_PLAYER_StepFormChange(void *player);
+
 extern void *FIELD_PLAYER_GetMmdl(void *player);
+
 extern void FLDMMDL_SetAcmd(void *mmdl, u16 a1);
+
 extern int FLDMMDL_EndAcmd(void *mmdl);
+
 extern void *FIELDMAP_GetFld3dCi(void *fieldMap);
+
 extern void *FLD3D_CI_StartPartyMemberSequence(void *gameSys, void *a, int partyIdx);
+
 extern void GAME_EVENT_CallEvent(void *task, void *sub);
+
 extern void *FIELDMAP_GetEncount(void *fieldMap);
+
 extern void *FIELD_ENCOUNT_CheckWildEncount(void *a, int mode);
+
 extern int SCRIPT_SYS_CallScriptEvent(void *task, u16 b, int c, int d, u16 e);
+
 extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
+
 extern u32 *FLDMMDL_SysResumeMove(void *c);
+
 extern void *FIELDMAP_GetWeather(void *fieldMap);
+
 extern u16 WEATHER_GetWeatherId(void *weatherTask);
+
 extern void *FIELDMAP_GetVReq(void *fieldMap);
+
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+
 extern void FLD_VREQ_SetMainBlendAlphaEv(void *a, int b, int c);
+
 extern void FLD_VREQ_SetMainBlendAlpha(void *p, u32 a, u32 b, u32 c, u32 d);
+
 extern void FLD_VREQ_SetBgVisible(void *p, int i, u8 v);
+
 extern void func_02040588(unsigned char which, unsigned char enable);
+
 extern void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
+
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
+
 extern void BG_SYS_SetTileEntry(int, int, int, int, int, int, int);
+
 extern void BG_SYS_PushTile(u32 index);
+
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+
 extern const BgPoint gSweetScentFadeBgPos;
 
-/* Field camera zoom task (021C6B18..021C6BB4)                          */
-
-/* Task work (0x10 bytes). */
-typedef struct CameraZoomWork {
-    void *fieldMap;
-    u16 frame;
-    u16 frameMax;
-    fx32 startZoom;
-    fx32 endZoom;
-} CameraZoomWork;
-
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
-extern void *FIELDMAP_GetCamera(void *fieldMap);
-extern u32 FIELDMAP_GetTcblSys(void *fieldMap);
-extern fx32 FIELD_CAMERA_GetDistance(void *camera);
-extern void FIELD_CAMERA_SetDistance(void *camera, fx32 v);
-extern void func_02030DA8(u32 priority, void *cb, void *arg, int z);
-extern void func_02030EAC(void *task);
-extern char gFieldmapTcbCameraZoomFileName[];   /* source file name used as allocation site */
-extern double _dsqrt(double x);
-
 void *SWEET_SCENT_CreateEventNoPokemon(void *fieldMap, void *gameSys);
+
 void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx);
+
 int SWEET_SCENT_EventMain(void *task, int *state, SweetScentWork *w);
+
 int SWEET_SCENT_CheckWeatherClear(SweetScentWork *w);
+
 void SWEET_SCENT_StartFade(void *task, void *gameSys, void *fieldMap);
+
 int SWEET_SCENT_FadeMain(void *task, int *state, SweetScentFade *fade);
+
 void SWEET_SCENT_FadeSetup(SweetScentFade *fade);
+
 void SWEET_SCENT_FadeCleanup(SweetScentFade *fade);
-void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta);
-void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w);
-void FIELDMAP_TCB_CAMERA_ZOOM_Step(CameraZoomWork *w);
 
 /* Opaque 3D system objects (layouts in arm9/g3d_system_types.h). */
 typedef struct G3dResource G3dResource;
+
 typedef struct G3dRender G3dRender;
+
 typedef struct G3dAnime G3dAnime;
+
 typedef struct G3dObject G3dObject;
 
 /* Field 3D object control (field_g3dobj.c, 021C63AC..021C6AFC)        */
-
 #define FIELD_G3DOBJ_ANIME_MAX 8
 
 /* FieldG3dObjRes.state */
 #define FIELD_G3DOBJ_RES_FREE    0   /* being rebuilt or released */
+
 #define FIELD_G3DOBJ_RES_READY   1   /* textures are in VRAM */
+
 #define FIELD_G3DOBJ_RES_PENDING 2   /* textures are sent to VRAM on the next update */
 
 /* FieldG3dObj.kind */
 #define FIELD_G3DOBJ_FREE    0
+
 #define FIELD_G3DOBJ_ACTIVE  1   /* g3dObject and anime are created */
+
 #define FIELD_G3DOBJ_PENDING 2   /* waits for the resource textures; created by the next update */
 
 /* Files of one resource: a model, a texture file and up to eight animations (0x24 bytes). */
@@ -256,10 +264,15 @@ typedef struct FieldG3dObjCtrl {
 } FieldG3dObjCtrl;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 func_020307B0(void *p);
+
 extern void MI_CpuFill(void *p, int v, int n);
+
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+
 extern void MTX_Identity33_(MtxFx33 *m);
+
 /* Palette block of a texture resource (NNSG3dResTex, only what is read here). */
 typedef struct ResTexPltt {
     u8 pad00[0x30];
@@ -269,59 +282,109 @@ typedef struct ResTexPltt {
 } ResTexPltt;
 
 extern void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
+
 extern ResTexPltt *NNS_G3dGetTex(void *file);
+
 extern void G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, VecFx32 *status);
+
 extern void G3D_SYSTEM_DrawObject(G3dObject *obj, VecFx32 *status);
+
 extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int idx, int amount);
+
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int idx, int amount);
+
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 idx, s32 *frame);
+
 extern u32 func_02047828(G3dObject *obj, u32 idx, s32 *frame);
+
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
+
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(u32 arc, u32 file);
+
 extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
+
 extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
+
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
+
 extern void func_02046EFC(G3dResource *res);
+
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *model, u32 modelIdx, G3dResource *texture);
+
 extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, G3dResource *anime, int unused);
+
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anime, int count);
+
 extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 idx);
+
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
+
 extern G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
+
 extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
+
 extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
 
 extern char gFieldG3dobjFileName[];   /* source file name used as allocation site */
 
 FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u32 heapId, u32 resCount, u32 objCount);
+
 void FIELD_G3DOBJ_Delete(FieldG3dObjCtrl *ctrl);
+
 void FIELD_G3DOBJ_Update(FieldG3dObjCtrl *ctrl);
+
 void FIELD_G3DOBJ_DrawAll(FieldG3dObjCtrl *ctrl);
+
 void FIELD_G3DOBJ_SetPalTable(FieldG3dObjCtrl *ctrl, const u8 *palTable);
+
 u16 FIELD_G3DOBJ_AddResource(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode, const u8 *palTable);
+
 int FIELD_G3DOBJ_AddResourceDefaultPal(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode);
+
 void FIELD_G3DOBJ_DeleteResource(FieldG3dObjCtrl *ctrl, int resIdx);
+
 u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
+
 void FIELD_G3DOBJ_DeleteObject(FieldG3dObjCtrl *ctrl, int objIdx);
+
 VecFx32 *FIELD_G3DOBJ_GetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx);
+
 void FIELD_G3DOBJ_SetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos);
+
 void FIELD_G3DOBJ_SetObjectHidden(FieldG3dObjCtrl *ctrl, int objIdx, int hidden);
+
 int FIELD_G3DOBJ_IncAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
+
 int FIELD_G3DOBJ_LoopAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
+
 void FIELD_G3DOBJ_SetAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int animeIdx, s32 frame);
+
 int FIELD_G3DOBJ_GetAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int animeIdx);
+
 void FIELD_G3DOBJ_SetObjectManualDraw(FieldG3dObjCtrl *ctrl, int objIdx, int manualDraw);
+
 void FIELD_G3DOBJ_DrawObject(FieldG3dObjCtrl *ctrl, int objIdx);
+
 void FIELD_G3DOBJ_SetObjectRedrawFlag(FieldG3dObjCtrl *ctrl, int objIdx, int redrawFlag);
+
 int FIELD_G3DOBJ_GetObjectRedrawFlag(FieldG3dObjCtrl *ctrl, int objIdx);
+
 void FIELD_G3DOBJ_TransferResourceTexture(FieldG3dObjRes *res);
+
 void FIELD_G3DOBJ_LoadResource(FieldG3dObjRes *res, int heapId, FieldG3dObjResDesc *desc, int mode, const u8 *palTable);
+
 void FIELD_G3DOBJ_FreeResource(FieldG3dObjRes *res);
+
 void FIELD_G3DOBJ_CreateObject(FieldG3dObj *obj, FieldG3dObjRes *res, u16 resIdx, u16 modelIdx, u32 heapId, VecFx32 *pos, int initDefaults);
+
 void FIELD_G3DOBJ_DestroyObject(FieldG3dObj *obj, FieldG3dObjRes *res);
+
 void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc);
+
 void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file);
+
 void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, u32 arc);
+
 void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dObjResDesc *desc, u16 file);
 
 void *SWEET_SCENT_CreateEventNoPokemon(void *fieldMap, void *gameSys) { return SWEET_SCENT_CreateEvent(gameSys, fieldMap, 0xff); }
@@ -932,56 +995,4 @@ void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dObjResDesc *desc, u16 file)
 {
     desc->anmFile[desc->anmCount] = file;
     desc->anmCount++;
-}
-
-void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
-{
-    u32 heapId = FIELDMAP_GetHeapId(fieldMap);
-    void *camera = FIELDMAP_GetCamera(fieldMap);
-    u32 priority = FIELDMAP_GetTcblSys(fieldMap);
-    CameraZoomWork *w;
-
-    w = func_02030734((u16)((heapId & 0x7FFF) | 0x8000), sizeof(CameraZoomWork), 0, gFieldmapTcbCameraZoomFileName, 0x5F);
-    w->frame = 0;
-    w->frameMax = frames;
-    w->startZoom = FIELD_CAMERA_GetDistance(camera);
-    w->endZoom = zoomDelta + FIELD_CAMERA_GetDistance(camera);
-    w->fieldMap = fieldMap;
-    func_02030DA8(priority, FIELDMAP_TCB_CAMERA_ZOOM_Main, w, 0);
-}
-
-void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w)
-{
-    FIELDMAP_TCB_CAMERA_ZOOM_Step(w);
-    w->frame++;
-    if (w->frameMax < w->frame) {
-        func_020307B0(w);
-        func_02030EAC(task);
-    }
-}
-
-/*
- * Lever: `t = 1.0f; t *= a / b;` keeps the fmul by 1.0f; a plain `1.0f * x`
- * or `x * 1.0f` folds away. The FX32 round (x > 0 ? x*4096+0.5 : x*4096-0.5)
- * must go through one float temp so the _ffix and the call are shared.
- */
-void FIELDMAP_TCB_CAMERA_ZOOM_Step(CameraZoomWork *w)
-{
-    void *camera = FIELDMAP_GetCamera(w->fieldMap);
-    u32 frameMax = w->frameMax;
-    float ratio, startZoom, endZoom, zoom;
-
-    if (w->frame <= frameMax) {
-        ratio = 1.0f;
-        ratio *= (float)(u32)w->frame / (float)frameMax;
-        ratio = (float)_dsqrt((double)ratio);
-        startZoom = (float)w->startZoom / 4096.0f;
-        endZoom = (float)w->endZoom / 4096.0f;
-        zoom = (1.0f - ratio) * startZoom + ratio * endZoom;
-        if (zoom > 0.0f)
-            zoom = 4096.0f * zoom + 0.5f;
-        else
-            zoom = 4096.0f * zoom - 0.5f;
-        FIELD_CAMERA_SetDistance(camera, (int)zoom);
-    }
 }

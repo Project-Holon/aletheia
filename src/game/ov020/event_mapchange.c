@@ -1,7 +1,7 @@
 /*
  * file:     event_mapchange.c
  * unit:     yes
- * function: func_02183B60, EVENT_MAPCHANGE_CreateByMode, EVENT_MAPCHANGE_FirstStartEvent, EVENT_MAPCHANGE_CreateFirstStartEvent, EVENT_MAPCHANGE_InitUnionInfo, EVENT_MAPCHANGE_NewGameStartEvent, EVENT_MAPCHANGE_CreateNewGameStartEvent, EVENT_MAPCHANGE_RefreshUnionInfo, EVENT_MAPCHANGE_ContinueEvent, EVENT_MAPCHANGE_CreateContinueEvent, EVENT_MAPCHANGE_CheckSeasonChange, EVENT_MAPCHANGE_SetupExitEntranceParam, EVENT_MAPCHANGE_SetupEnterEntranceParam, EVENT_MAPCHANGE_ChangeFieldEvent, EVENT_MAPCHANGE_CreateChangeFieldEvent, EVENT_MAPCHANGE_EntranceEvent, EVENT_MAPCHANGE_EntranceCommEvent, EVENT_MAPCHANGE_DetachedTailEvent, EVENT_MAPCHANGE_FadeEvent, EVENT_MAPCHANGE_FadeDelayedEvent, EVENT_MAPCHANGE_TargetPositionEvent, EVENT_MAPCHANGE_SeasonEffectAEvent, EVENT_MAPCHANGE_SeasonEffectBEvent, EVENT_MAPCHANGE_ResetPlayerFormEvent, EVENT_MAPCHANGE_FadeWaitEvent, EVENT_MAPCHANGE_FadeDetachEvent, EVENT_MAPCHANGE_EffectCEvent, EVENT_MAPCHANGE_SwapCommOverlayEvent, EVENT_MAPCHANGE_RunFixedZoneEvent, EVENT_MAPCHANGE_InitWork, EVENT_MAPCHANGE_CreateWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventWithTargetPos, EVENT_MAPCHANGE_CreateDigEscapeEvent, EVENT_MAPCHANGE_CreateEscapeRopeEvent, EVENT_MAPCHANGE_CreateSituationWarpEvent, EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent, EVENT_MAPCHANGE_CreateZoneStartWarpEvent, EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent, EVENT_MAPCHANGE_CreateFixedZoneEvent, EVENT_MAPCHANGE_CreateSpecialLocationEvent, EVENT_MAPCHANGE_CreateIntrudeWarpEvent, EVENT_MAPCHANGE_CreateIntrudeReturnEvent, EVENT_MAPCHANGE_GetCurrentLocation, EVENT_MAPCHANGE_CreateExitWarpEvent, EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate, EVENT_MAPCHANGE_CreateWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventDefaultTransition, EVENT_MAPCHANGE_CreateWarpEventToLocation, EVENT_MAPCHANGE_CreateWarpEventPlain, EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset, EVENT_MAPCHANGE_InitFieldFromSituationWarp, EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent, EVENT_MAPCHANGE_DirToAngle, EVENT_MAPCHANGE_ResolveLocation, EVENT_MAPCHANGE_ApplyLocation, EVENT_MAPCHANGE_AddEventDataMmdl, EVENT_MAPCHANGE_AddWfbcMmdl, EVENT_MAPCHANGE_DeleteAllMmdl, EVENT_MAPCHANGE_ReloadMmdl, EVENT_MAPCHANGE_SetMapEffectMask, EVENT_MAPCHANGE_UpdateFieldStateForZone, EVENT_MAPCHANGE_DeleteAllMmdlOfSystem, EVENT_MAPCHANGE_SetPlayerVanish, EVENT_MAPCHANGE_ApplyZoneTableEntry, EVENT_MAPCHANGE_CreateIntrudeSessionEvent, EVENT_MAPCHANGE_CreateIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeSessionEvent, EVENT_MAPCHANGE_UpdateEscapeLocation, EVENT_MAPCHANGE_CopySpecialLocation, EVENT_MAPCHANGE_ResetPlayerObjectCode, EVENT_MAPCHANGE_AddPresetMail, EVENT_MAPCHANGE_StartSeasonEffect, EVENT_MAPCHANGE_AllocWorkBufferA, EVENT_MAPCHANGE_AllocWorkBufferB, EVENT_MAPCHANGE_EndMarker
+ * function: EVENT_MAPCHANGE_StartMarker, EVENT_MAPCHANGE_CreateByMode, EVENT_MAPCHANGE_FirstStartEvent, EVENT_MAPCHANGE_CreateFirstStartEvent, EVENT_MAPCHANGE_InitUnionInfo, EVENT_MAPCHANGE_NewGameStartEvent, EVENT_MAPCHANGE_CreateNewGameStartEvent, EVENT_MAPCHANGE_RefreshUnionInfo, EVENT_MAPCHANGE_ContinueEvent, EVENT_MAPCHANGE_CreateContinueEvent, EVENT_MAPCHANGE_CheckSeasonChange, EVENT_MAPCHANGE_SetupExitEntranceParam, EVENT_MAPCHANGE_SetupEnterEntranceParam, EVENT_MAPCHANGE_ChangeFieldEvent, EVENT_MAPCHANGE_CreateChangeFieldEvent, EVENT_MAPCHANGE_EntranceEvent, EVENT_MAPCHANGE_EntranceCommEvent, EVENT_MAPCHANGE_DetachedTailEvent, EVENT_MAPCHANGE_FadeEvent, EVENT_MAPCHANGE_FadeDelayedEvent, EVENT_MAPCHANGE_TargetPositionEvent, EVENT_MAPCHANGE_SeasonEffectAEvent, EVENT_MAPCHANGE_SeasonEffectBEvent, EVENT_MAPCHANGE_ResetPlayerFormEvent, EVENT_MAPCHANGE_FadeWaitEvent, EVENT_MAPCHANGE_FadeDetachEvent, EVENT_MAPCHANGE_EffectCEvent, EVENT_MAPCHANGE_SwapCommOverlayEvent, EVENT_MAPCHANGE_RunFixedZoneEvent, EVENT_MAPCHANGE_InitWork, EVENT_MAPCHANGE_CreateWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventWithTargetPos, EVENT_MAPCHANGE_CreateDigEscapeEvent, EVENT_MAPCHANGE_CreateEscapeRopeEvent, EVENT_MAPCHANGE_CreateSituationWarpEvent, EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent, EVENT_MAPCHANGE_CreateZoneStartWarpEvent, EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent, EVENT_MAPCHANGE_CreateFixedZoneEvent, EVENT_MAPCHANGE_CreateSpecialLocationEvent, EVENT_MAPCHANGE_CreateIntrudeWarpEvent, EVENT_MAPCHANGE_CreateIntrudeReturnEvent, EVENT_MAPCHANGE_GetCurrentLocation, EVENT_MAPCHANGE_CreateExitWarpEvent, EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate, EVENT_MAPCHANGE_CreateWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventDefaultTransition, EVENT_MAPCHANGE_CreateWarpEventToLocation, EVENT_MAPCHANGE_CreateWarpEventPlain, EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset, EVENT_MAPCHANGE_InitFieldFromSituationWarp, EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent, EVENT_MAPCHANGE_DirToAngle, EVENT_MAPCHANGE_ResolveLocation, EVENT_MAPCHANGE_ApplyLocation, EVENT_MAPCHANGE_AddEventDataMmdl, EVENT_MAPCHANGE_AddWfbcMmdl, EVENT_MAPCHANGE_DeleteAllMmdl, EVENT_MAPCHANGE_ReloadMmdl, EVENT_MAPCHANGE_SetMapEffectMask, EVENT_MAPCHANGE_UpdateFieldStateForZone, EVENT_MAPCHANGE_DeleteAllMmdlOfSystem, EVENT_MAPCHANGE_SetPlayerVanish, EVENT_MAPCHANGE_ApplyZoneTableEntry, EVENT_MAPCHANGE_CreateIntrudeSessionEvent, EVENT_MAPCHANGE_CreateIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeSessionEvent, EVENT_MAPCHANGE_UpdateEscapeLocation, EVENT_MAPCHANGE_CopySpecialLocation, EVENT_MAPCHANGE_ResetPlayerObjectCode, EVENT_MAPCHANGE_AddPresetMail, EVENT_MAPCHANGE_StartSeasonEffect, EVENT_MAPCHANGE_AllocWorkBufferA, EVENT_MAPCHANGE_AllocWorkBufferB, EVENT_MAPCHANGE_EndMarker
  * address:  0x02183B60
  * region:   ov020
  * compiler: dsi/1.1p1
@@ -690,7 +690,7 @@ extern char d_02187DB4[];
 extern char d_02187EA0[];
 
 /* Overlay entry hook: runs the callback when one is set. */
-int func_02183B60(void (*hook)(void))
+int EVENT_MAPCHANGE_StartMarker(void (*hook)(void))
 {
     if (hook)
         hook();
@@ -1017,7 +1017,7 @@ void EVENT_MAPCHANGE_SetupEnterEntranceParam(MapChangeWork *work, struct GameEve
  * only `(u8)(v + 0xff) <= 1` gives the add.  The dead `str r2, [sp, #0xc]`
  * after `adds r2, #0x14` is `a += 0x14;` on the spilled local before the
  * FORMCHANGE_RevertShayminAtNight call.  func_021882A0/02188318/021883CC are ov230's decrypted
- * code (ov230d token); each gets the range func_02183B60 to one of this
+ * code (ov230d token); each gets the range EVENT_MAPCHANGE_StartMarker to one of this
  * overlay's end markers. */
 int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFieldWork *changeField)
 {
@@ -1057,7 +1057,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         }
         break;
     case 3:
-        func_021882A0((void (*)(void))func_02183B60, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
+        func_021882A0((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
         if (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) {
             COMM_PLAYER_SUPPORT_SetSeason(gameData, work->toSeason);
@@ -1068,13 +1068,13 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
             sessionPtr += 0x14;
             FORMCHANGE_RevertShayminAtNight(gameData, party, (u32 *)sessionPtr, season);
         }
-        func_02188318((void (*)(void))func_02183B60, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferB, 0);
+        func_02188318((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferB, 0);
         EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->destination.zoneId);
         EVENT_MAPCHANGE_ApplyLocation(gameSystem, &work->destination);
         if (work->changeKind != 4) {
             GAME_BEACON_SetZone(work->destination.zoneId, gameData);
         }
-        func_021883CC((void (*)(void))func_02183B60, EVENT_MAPCHANGE_EndMarker, 0);
+        func_021883CC((void (*)(void))EVENT_MAPCHANGE_StartMarker, EVENT_MAPCHANGE_EndMarker, 0);
         switch (work->changeKind) {
         case 1:
             FIELD_MAP_CHANGE_ResetGimmickStateCase1(gameData, work->destination.zoneId);

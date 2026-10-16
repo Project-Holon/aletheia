@@ -30,7 +30,7 @@
  *   __fpclassifyd  0x020921F4  arm
  *   __ieee754_pow  0x020979BC  arm
  *   __tolower_map  0x020A60DC  data
- *   func_02091C40  0x02091C40  arm
+ *   MSL_C_LIB_StrNICmp  0x02091C40  arm
  *   __ieee754_rem_pio2  0x02098B44  arm
  *   __kernel_cos  0x02099224  arm
  */
@@ -58,7 +58,7 @@ extern double __kernel_sin(double x, double y, int iy);
 extern int __ieee754_rem_pio2(double x, double *y);
 extern int __fpclassifyd(double x);
 extern double __ieee754_pow(double x, double y);
-extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
+extern int MSL_C_LIB_StrNICmp(const u8 *s1, const u8 *s2, int n);
 int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
 double copysign(double x, double y);
 double cos(double x);
@@ -654,7 +654,7 @@ int stricmp(const u8 *s1, const u8 *s2)
 
 int strnicmp(const u8 *s1, const u8 *s2, int n)
 {
-    return func_02091C40(s1, s2, n);
+    return MSL_C_LIB_StrNICmp(s1, s2, n);
 }
 
 int strcmp_nocase(const u8 *s1, const u8 *s2)
