@@ -52,6 +52,13 @@ import stampcache  # noqa: E402
 
 ADDR_NAME = re.compile(r"(?:^|_)(?:func|sub)_([0-9A-Fa-f]{8})$")
 
+# Reserved key in a compiled layout dict (layouts()/compile_layout()): the
+# laid-out .text size of the source.  It is not a symbol name, so
+# member_addresses() never looks it up and defined_addresses() filters it out;
+# it is what lets a caller tell whether a listing label lies strictly inside
+# this unit (tools/worklist.py's interior labels, docs/notes/pkt_02014D2C_boundary.c.txt).
+UNIT_SIZE_KEY = "__size__"
+
 
 def name_address(name):
     """The address a func_/sub_XXXXXXXX name carries, or None."""
@@ -120,6 +127,7 @@ def compile_layout(path, region=None):
         for n in names:
             if n in tl.locals:
                 out.setdefault(n, addr + tl.locals[n])
+    out[UNIT_SIZE_KEY] = tl.size
     return out
 
 
@@ -159,8 +167,9 @@ def layouts(paths, region_of=None, jobs=None):
             continue
         s = _stamp(p)
         key = _key(p)
-        if s is not None and _CACHE["st"].get(key) == s and key in _CACHE["v"]:
-            out[p] = _LAYOUT[p] = _CACHE["v"][key]
+        cached = _CACHE["v"].get(key) if s is not None and _CACHE["st"].get(key) == s else None
+        if isinstance(cached, dict) and UNIT_SIZE_KEY in cached:
+            out[p] = _LAYOUT[p] = cached
             continue
         if s is None or _compile_disabled():
             out[p] = None
@@ -193,6 +202,17 @@ def unit_layout(e):
     if p is None:
         return None
     return layouts([p], {p: e.get("region")}).get(p)
+
+
+def unit_size(e):
+    """The unit's compiled extent in bytes (its laid-out .text, linker veneers
+    included), or None when its source does not compile.  A listing label that
+    falls strictly inside [address, address + unit_size) is an interior branch
+    target of that unit, not a function start of its own."""
+    lay = unit_layout(e)
+    if not lay:
+        return None
+    return lay.get(UNIT_SIZE_KEY)
 
 
 # ---------------------------------------------------------------- members
@@ -248,6 +268,8 @@ def defined_addresses(e):
     lay = unit_layout(e) or {}
     out = {}
     for n, a in lay.items():
+        if n == UNIT_SIZE_KEY:
+            continue
         out.setdefault(a, n)
     return out
 

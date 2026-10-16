@@ -30,7 +30,7 @@
  *   g_021EFCEC  0x021EFCEC  data  ov170
  *   func_02007A18  0x02007A18  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
@@ -115,7 +115,7 @@ struct Bmp;
 struct Sys;
 struct Bmp;
 struct Struct_02025D1C;
-struct Struct_02025CD0;
+struct CursorMoveObj;
 struct Sound;
 struct Ctx;
 typedef struct { short x, y; int b, c, d, e; short f, g; } Desc;
@@ -167,7 +167,7 @@ extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
@@ -185,7 +185,7 @@ extern void BMP_Delete(struct Bmp *p);
 extern void BMP_OAM_DeleteSys(void *p);
 extern int BMP_OAM_GetEnabled(const int *p);
 extern u8 func_020355C4(void);
-extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
+extern struct CursorMoveObj *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *obj);
 extern void BOX2_SEQ_SetCursorDraw(char **, int);
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
@@ -642,11 +642,11 @@ void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest)
         for (x = 0; x < 6; tx += 2, x++) {
             e = func_02007A18((void *)(*a)[1], box, x + y * 6);
             sv = POKE_TOOL_DecodeBoxParam((struct Sav *)e);
-            sp = func_02017E88((void *)e, 5, 0);
-            if (func_02017E88((void *)e, 0xa9, 0)) {
-                if (func_02017E88((void *)e, 0x4c, 0) == 0) {
+            sp = POKE_TOOL_GetBoxValue((void *)e, 5, 0);
+            if (POKE_TOOL_GetBoxValue((void *)e, 0xa9, 0)) {
+                if (POKE_TOOL_GetBoxValue((void *)e, 0x4c, 0) == 0) {
                     void *pd;
-                    form = func_02017E88((void *)e, 0x6f, 0);
+                    form = POKE_TOOL_GetBoxValue((void *)e, 0x6f, 0);
                     pd = POKE_PERSONAL_Create((u16)sp, form, 0x4c);
                     t = (u16)POKE_PERSONAL_GetParam((const struct Personal *)pd, 0x21);
                     POKE_PERSONAL_Delete((void *)pd);

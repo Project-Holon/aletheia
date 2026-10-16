@@ -17,7 +17,7 @@
  *   BTL_SERVER_FLOW_DecideMoveTargets 0x021CA7F4 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_EVENT_SuspendPokeFactors 0x021D7394 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   HAND_WAZA_AddMoveHandler 0x021E02DC thumb ov093
  *   BTL_SERVER_FLOW_ProcMoveExecute 0x021BEC58 thumb ov093
  *   HAND_WAZA_RemoveMoveHandlerOfPoke 0x021E03D8 thumb ov093
@@ -38,7 +38,7 @@ extern void BTL_SERVER_FLOW_GetMoveParam(u8 *p, u16 q, u8 *a, struct Out64B4 *ou
 extern int BTL_SERVER_FLOW_DecideMoveTargets(u8 *p, u8 *a, u16 b, const u8 *q, void *out);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SuspendPokeFactors(int kind);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int HAND_WAZA_AddMoveHandler(u8 *, u16, u32);
 extern int BTL_SERVER_FLOW_ProcMoveExecute(u8 *p, u8 *a, u16 key, u8 *d);
 extern void HAND_WAZA_RemoveMoveHandlerOfPoke(u8 *a, int b);
@@ -60,7 +60,7 @@ void BTL_SERVER_FLOW_ProcDeferredMoves(u8 *p, u16 key)
             (*(struct Out **)(p + 0x1ab0))->flag = 1;
             BTL_SERVER_FLOW_DecideMoveTargets(p, a, (*(u8 **)(p + 0x4b0))[i + 7], (const u8 *)(*(struct Out **)(p + 0x1ab0)), ((struct Obj00003 *)p)->f864);
             BTL_EVENT_SuspendPokeFactors(BTL_POKEPARAM_GetPokeId(a));
-            HAND_WAZA_AddMoveHandler(a, key, func_021D59B4(a, 12));
+            HAND_WAZA_AddMoveHandler(a, key, BTL_POKEPARAM_GetValue(a, 12));
             BTL_SERVER_FLOW_ProcMoveExecute(p, a, key, ((struct Obj00003 *)p)->f864);
             HAND_WAZA_RemoveMoveHandlerOfPoke(a, key);
             BTL_EVENT_ResumePokeFactors(BTL_POKEPARAM_GetPokeId(a));

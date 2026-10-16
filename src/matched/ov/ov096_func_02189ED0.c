@@ -12,7 +12,7 @@
  *   VM_GetU32 0x0201134C thumb
  *   TR_AI_GetPosition 0x0218A160 thumb ov096
  *   TR_AI_GetPoke 0x0218A2FC thumb ov096
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  */
 #include "../include/Obj13667.h"
 typedef unsigned char u8;
@@ -22,8 +22,8 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern u8 TR_AI_GetPosition(u8 *p, int k);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 int TR_AI_CmdLoadPokeValue17(struct Cursor *a, u8 *b)
 {
-    int t; u8 s; t = VM_GetU32(a); s = TR_AI_GetPosition(b,t); ((struct Obj13667 *)b)->f38 = func_021D59B4(TR_AI_GetPoke(b,s),17); return ((struct Obj13667 *)b)->fC4;
+    int t; u8 s; t = VM_GetU32(a); s = TR_AI_GetPosition(b,t); ((struct Obj13667 *)b)->f38 = BTL_POKEPARAM_GetValue(TR_AI_GetPoke(b,s),17); return ((struct Obj13667 *)b)->fC4;
 }

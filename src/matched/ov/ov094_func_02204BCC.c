@@ -10,7 +10,7 @@
  * status:   EXACT
  * volatile: sub-engine DISPCNT 0x04001000, WININ 0x04001048, WINOUT 0x0400104A read-modify-written by the SDK inlines (0x02204BD4..0x02204C20)
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int BOOL;
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
 #define reg_GXS_DB_DISPCNT (*(volatile u32 *)0x04001000)
@@ -63,7 +63,7 @@ static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
 
 static inline void G2S_SetBlendBrightness(int plane, int brightness)
 {
-    func_0207D658((u32)&reg_G2S_DB_BLDCNT, plane, brightness);
+    G2x_SetBlendBrightness_((u32)&reg_G2S_DB_BLDCNT, plane, brightness);
 }
 
 void BTLV_INPUT_WindowOpenTaskMain(void *a0, int *c)

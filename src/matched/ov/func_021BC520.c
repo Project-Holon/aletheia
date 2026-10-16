@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D67C  0x0207D67C  arm
+ *   G2x_SetBlendBrightnessExt_  0x0207D67C  arm
  */
 
-extern void func_0207D67C(unsigned int, int, int, int, int, int);
+extern void G2x_SetBlendBrightnessExt_(unsigned int, int, int, int, int, int);
 
 void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, int *p)
 {
     if (flag == 0) {
-        func_0207D67C(0x04000050, p[0], p[1], p[2], 0, p[2] - 0x10);
+        G2x_SetBlendBrightnessExt_(0x04000050, p[0], p[1], p[2], 0, p[2] - 0x10);
     } else {
-        func_0207D67C(0x04001050, p[0], p[1], p[2], 0, p[2] - 0x10);
+        G2x_SetBlendBrightnessExt_(0x04001050, p[0], p[1], p[2], 0, p[2] - 0x10);
     }
 }

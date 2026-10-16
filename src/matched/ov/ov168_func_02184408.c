@@ -1,5 +1,5 @@
 /*
- * function: func_02184408
+ * function: MICTEST_ExitMic
  * address:  0x02184408
  * packet:   pkt_02184408
  * region:   ov168
@@ -21,7 +21,7 @@ extern void SND_MIC_Exit(void);
 typedef unsigned int   u32;
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 
-void func_02184408(int *p)
+void MICTEST_ExitMic(int *p)
 {
     func_020307B0((void *)(((struct Obj23822 *)p)->f1C));
     SND_MIC_Exit();

@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_LIGHT_CallElemA
+ * function: STA_ACT_LIGHT_StartRenderAnim
  * address: 0x021F80A0
  * packet: pkt_ov112_021F80A0
  * region: ov112
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MUSICAL_MCSS_GetRenderFieldA(void **p);
-void STA_ACT_LIGHT_CallElemA(int a,u8 *p) { MUSICAL_MCSS_GetRenderFieldA(((struct Obj13844 *)p)->f58); ((struct Obj13844 *)p)->f4C=1; }
+void STA_ACT_LIGHT_StartRenderAnim(int a,u8 *p) { MUSICAL_MCSS_GetRenderFieldA(((struct Obj13844 *)p)->f58); ((struct Obj13844 *)p)->f4C=1; }

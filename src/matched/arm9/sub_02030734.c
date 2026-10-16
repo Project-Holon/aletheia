@@ -24,7 +24,7 @@
  * reference in the image being the call inside this function. All four are
  * now EXACT and attest this file by the `matched` class:
  *
- *   0x02030098  the raw allocator            src/matched/sub_02030098.c
+ *   0x02030098  the raw allocator            src/matched/GFL_HEAP_AllocMemory.c
  *   0x02030880  provenance stamp             src/matched/GFL_HEAP_StampAllocSite.c
  *   0x02030958  out-of-memory reporter       src/matched/GFL_HEAP_ReportOutOfMemory.c
  *   0x02030A00  watched-allocation hook      src/matched/GFL_HEAP_NotifyAlloc.c
@@ -43,7 +43,7 @@
  *
  * Shape notes:
  *
- *  - The raw allocator sub_02030098 reads only r0 and r1, so this call
+ *  - The raw allocator GFL_HEAP_AllocMemory reads only r0 and r1, so this call
  *    forwards only heapId and size; r2 and r3 arriving unchanged from
  *    this function's own prologue are leftovers, the shape of
  *    docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md.
@@ -68,7 +68,7 @@
  * ambiguity and keep their SDK names.
  *
  * symbols:
- *   sub_02030098    0x02030098  arm
+ *   GFL_HEAP_AllocMemory    0x02030098  arm
  *   sub_02030524    0x02030524  arm
  *   GFL_HEAP_StampAllocSite    0x02030880  arm
  *   GFL_HEAP_ReportOutOfMemory    0x02030958  arm
@@ -84,7 +84,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *sub_02030098(u32 heapId, u32 size);
+extern void *GFL_HEAP_AllocMemory(u32 heapId, u32 size);
 extern u16 sub_02030524(void);
 extern void GFL_HEAP_StampAllocSite(void *p, const char *site, u16 tag);
 extern void GFL_HEAP_ReportOutOfMemory(u32 heapId, u32 size, const char *site, int tag);
@@ -96,7 +96,7 @@ void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag)
 {
     void *p;
 
-    p = sub_02030098(heapId, size);
+    p = GFL_HEAP_AllocMemory(heapId, size);
     if (p == 0) {
         sub_02030524();
         GFL_HEAP_ReportOutOfMemory(heapId, size, site, tag);

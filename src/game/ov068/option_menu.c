@@ -145,7 +145,7 @@
  *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing  0x021B6470  thumb  ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone  0x021B6448  thumb  ov067
- *   func_021B65A8  0x021B65A8  thumb  ov067
+ *   TOUCHBAR_IsButtonToggled  0x021B65A8  thumb  ov067
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   gOptionMenuConfirmRect     0x021BB550  data  a4
  *   func_020061E4_2  0x020061E4  thumb
@@ -167,7 +167,7 @@
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   CONFIG_GetTextSpeed  0x02008374  thumb
  *   CONFIG_GetBattleScene  0x020083AC  thumb
  *   CONFIG_GetBattleStyle  0x020083C8  thumb
@@ -354,7 +354,7 @@ extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int v);
 extern void TOUCHBAR_Update(TouchBar *button);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *button);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *button);
-extern int func_021B65A8(TouchBar *button, int id);
+extern int TOUCHBAR_IsButtonToggled(TouchBar *button, int id);
 extern void GAME_DATA_SetSaveFlag(struct GameData *gameData, u32 a, u32 b);
 extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
 extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
@@ -371,7 +371,7 @@ extern void APP_TASKMENU_UpdateMenu(struct TaskMenu *menu);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *menu);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenu *menu);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *menu);
-extern void func_0207D658(u32, int, int);
+extern void G2x_SetBlendBrightness_(u32, int, int);
 extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
 extern u32 CONFIG_GetBattleScene(struct Config *config);
 extern u32 CONFIG_GetBattleStyle(struct Config *config);
@@ -1275,7 +1275,7 @@ void OPTION_MENU_UpdateButtons(OptionMenuButtons *buttons, const OptionMenuInput
         result = TOUCHBAR_GetPressedButtonIdIfDone(buttons->returnButton);
         if (result != 0) {
             if (result == 6) {
-                if (func_021B65A8(buttons->returnButton, 6))
+                if (TOUCHBAR_IsButtonToggled(buttons->returnButton, 6))
                     GAME_DATA_SetSaveFlag(buttons->gameData, 0x18, 1);
                 else
                     GAME_DATA_SetSaveFlag(buttons->gameData, 0x18, 0);
@@ -1753,7 +1753,7 @@ void OPTION_MENU_UpdateMessageBox(OptionMenuMessageBox *box)
 
 void OPTION_MENU_PrintDiscardPrompt(OptionMenuMessageBox *box, u32 wait)
 {
-    func_0207D658(REG_A_BLDCNT_ADDR, 23, 8);
+    G2x_SetBlendBrightness_(REG_A_BLDCNT_ADDR, 23, 8);
     func_02040588(3, 1);
     OPTION_MENU_PrintText(&box->text, 33, wait, 0);
 }
@@ -1770,7 +1770,7 @@ void OPTION_MENU_PrintHelpMessage(OptionMenuMessageBox *box, u32 messageId, u32 
 {
     struct MsgBank *msgBank;
 
-    func_0207D658(REG_A_BLDCNT_ADDR, 0x17, 8);
+    G2x_SetBlendBrightness_(REG_A_BLDCNT_ADDR, 0x17, 8);
     func_02040588(3, 1);
     msgBank = func_02045B38(0, 3, 0x9e, 0x801C);
     OPTION_MENU_PrintTextFromBank(&box->text, msgBank, messageId, wait, 1);
@@ -1783,7 +1783,7 @@ void OPTION_MENU_PrintHelpMessage(OptionMenuMessageBox *box, u32 messageId, u32 
  */
 void OPTION_MENU_PrintMessage(OptionMenuMessageBox *box, u32 messageId, u32 wait)
 {
-    func_0207D658(REG_A_BLDCNT_ADDR, 23, 8);
+    G2x_SetBlendBrightness_(REG_A_BLDCNT_ADDR, 23, 8);
     func_02040588(3, 1);
     OPTION_MENU_PrintText(&box->text, messageId, wait, 1);
 }

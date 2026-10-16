@@ -1,5 +1,5 @@
 /*
- * function: func_0218532C
+ * function: BEACON_DETAIL_FindNearestRecord
  * address:  0x0218532C
  * packet:   pkt_ov219_0218532C
  * region:   ov219
@@ -48,7 +48,7 @@ typedef short s16;
 extern void BEACON_DETAIL_WrapAngle(int *p);
 extern int BEACON_DETAIL_CalcDistance(int *p, int *q);
 
-int func_0218532C(char *p, u32 *out)
+int BEACON_DETAIL_FindNearestRecord(char *p, u32 *out)
 {
     int ret = 0;
     int xlo, xhi, ylo, yhi, lo2, hi2;

@@ -1,5 +1,5 @@
 /*
- * function: func_02185AC8
+ * function: BEACON_DETAIL_UpdateCamera
  * address: 0x02185AC8
  * packet: pkt_ov219_02185AC8
  * region: ov219
@@ -21,7 +21,7 @@ typedef struct {long x,y,z;} Vec;
 extern void G3D_CAMERA_GetEye(void *,Vec *),G3D_CAMERA_GetUp(void *,Vec *),G3D_CAMERA_SetEye(void *,const Vec *);
 extern void VEC_Subtract(const Vec *,const Vec *,Vec *),VEC_Normalize(const Vec *,Vec *),VEC_MultAdd(long,const Vec *,const Vec *,Vec *);
 extern long VEC_Mag(const Vec *);
-int func_02185AC8(char *p)
+int BEACON_DETAIL_UpdateCamera(char *p)
 {
     Vec position,target,direction;
     long distance;

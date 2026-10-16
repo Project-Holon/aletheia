@@ -49,7 +49,7 @@
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
- *   func_021B95A0 0x021B95A0 thumb ov110
+ *   PMS_INPUT_DATA_Create 0x021B95A0 thumb ov110
  *   PMS_INPUT_VIEW_Create 0x021B9A50 thumb ov110
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   PMS_INPUT_OnButton 0x021BD578 thumb ov110
@@ -73,7 +73,7 @@ extern void PMS_INPUT_InitSentenceCursor(u8 *,u16 *);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Ctx *func_02030CBC(u32,struct Ctx *);
-extern void *func_021B95A0(u32,void *);
+extern void *PMS_INPUT_DATA_Create(u32,void *);
 extern void *PMS_INPUT_VIEW_Create(u8 *,void *);
 extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 extern void PMS_INPUT_OnButton(int,u32,u8 *);
@@ -95,7 +95,7 @@ u8 *PMS_INPUT_Create(struct Proc *owner,u8 *input)
     q=func_02030734(41,func_02030CB0(5),0,gPmsInputFileName,579);
     *(struct Ctx **)(p+0x78)=q;
     *(struct Ctx **)(p+0x7c)=func_02030CBC(5,q);
-    *(void **)(p+0x18)=func_021B95A0(41,*(void **)p);
+    *(void **)(p+0x18)=PMS_INPUT_DATA_Create(41,*(void **)p);
     *(void **)(p+0x14)=PMS_INPUT_VIEW_Create(p,*(void **)(p+0x18));
     *(void **)(p+0x44)=BUTTON_MAN_Create((u8 *)gPmsInputButtonRects,(int)PMS_INPUT_OnButton,(int)p,41);
     p[0x69]=0;

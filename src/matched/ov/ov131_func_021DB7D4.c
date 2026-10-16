@@ -15,7 +15,7 @@
  *   Pool B95C/B960 name the same byte-pair object at C2B8 and its +1 byte.
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   BMP_Create 0x02043678 arm
  *   func_02045B38 0x02045B38 arm
@@ -49,7 +49,7 @@ struct Rec;
 struct WordSet;
 extern const Pair P_STA_SKILL_SlotTilePos[];
 extern void *P_STATUS_GetPokePara(u8 *);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern u32 WAZA_TOOL_GetParam(u16,u32);
 struct Bmp;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -75,9 +75,9 @@ void P_STA_SKILL_InitSlotText(u8 *p,u8 *q,u8 *entry)
     struct WordSet *first,*second;
     mon=P_STATUS_GetPokePara(p);
     if(entry[0]<4) {
-        id=func_02017E88(mon,entry[0]+54,0);
-        count=func_02017E88(mon,entry[0]+58,0);
-        value=func_02017E88(mon,entry[0]+66,0);
+        id=POKE_TOOL_GetBoxValue(mon,entry[0]+54,0);
+        count=POKE_TOOL_GetBoxValue(mon,entry[0]+58,0);
+        value=POKE_TOOL_GetBoxValue(mon,entry[0]+66,0);
     } else {
         id=((struct Obj23172 *)(*(u8 * *)&((struct Obj02846 *)p)->f8))->f14;
         count=WAZA_TOOL_GetParam(id,5);

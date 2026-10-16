@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   func_021D58A8  0x021D58A8  thumb  ov093
+ *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
@@ -32,7 +32,7 @@ typedef struct Rec {
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern int func_021D58A8(u8 *p, int k);
+extern int BTL_POKEPARAM_GetStatRaw(u8 *p, int k);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
@@ -48,8 +48,8 @@ void HAND_WAZA_PowerTrickOnUncategorizedMove(int a, void *b, int c)
         q = BTL_SERVER_FLOW_GetPokeParam(b, c);
         r = BTL_SERVER_FLOW_AllocCmdRecord(b, 0x11, c);
         r->id = c;
-        ((struct Obj13523 *)r)->f4 = func_021D58A8(q, 9);
-        ((struct Obj13523 *)r)->f6 = func_021D58A8(q, 8);
+        ((struct Obj13523 *)r)->f4 = BTL_POKEPARAM_GetStatRaw(q, 9);
+        ((struct Obj13523 *)r)->f6 = BTL_POKEPARAM_GetStatRaw(q, 8);
         r->f0 = 1;
         r->f1 = 1;
         BTL_SERVER_FLOW_InitMsgRecord((u8 *)r + 0x10, 2, 0x305);

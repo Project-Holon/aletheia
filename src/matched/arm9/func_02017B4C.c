@@ -25,7 +25,7 @@
  * declarations are wrong, and they are the whole difference.
  *
  * The note declares the two accessor externs as returning narrow types --
- * `u8 POKE_TOOL_DecodeBoxParam(...)` and `u16 func_02017E88(...)` -- and assigns their
+ * `u8 POKE_TOOL_DecodeBoxParam(...)` and `u16 POKE_TOOL_GetBoxValue(...)` -- and assigns their
  * results to same-width locals.  With the callee declared narrow the compiler
  * believes the value is already truncated, emits no shift pair, and then has
  * nothing cheap to keep the value in, so it spills BOTH to the frame
@@ -47,7 +47,7 @@
  * while a truncation emitted at the assignment constrains the local's.  Here
  * it is the assignment, so the accessors stay u32 -- which also agrees with
  * every other matched file in the family (unit_02017E64.c, unit_0201854C.c,
- * unit_02018430.c all declare func_02017E88 returning u32).
+ * unit_02018430.c all declare POKE_TOOL_GetBoxValue returning u32).
  *
  * The third argument of POKE_TOOL_SetBoxValue is a plain u32 and not a pointer: the
  * note spells it `void *` and passes `(void *)0x78`, which compiles the same
@@ -63,7 +63,7 @@
  *
  * symbols:
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   SAVE_EVENT_WriteMode  0x0202F1B4  thumb
@@ -78,7 +78,7 @@ typedef unsigned int   u32;
 
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
+extern u32  POKE_TOOL_GetBoxValue(void *a0, u32 a1, u32 a2);
 extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
@@ -91,9 +91,9 @@ extern u8    gNameBuf[];
 u32 POKE_TOOL_HatchBoxEgg(void *a0, u32 a1, u32 a2, u32 a3)
 {
     u8  v = (u8)POKE_TOOL_DecodeBoxParam(a0);
-    u16 w = (u16)func_02017E88(a0, 5, 0);
+    u16 w = (u16)POKE_TOOL_GetBoxValue(a0, 5, 0);
 
-    func_02017E88(a0, 0x6f, 0);
+    POKE_TOOL_GetBoxValue(a0, 0x6f, 0);
     POKE_TOOL_SetBoxValue(a0, 0x4c, 0);
     POKE_TOOL_SetBoxValue(a0, 9, 0x78);
     MSGDATA_ReadUnits(gSpeciesNameBank, w, (u16 *)gNameBuf, 0x20);

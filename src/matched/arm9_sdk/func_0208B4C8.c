@@ -1,5 +1,5 @@
 /*
- * function: func_0208B4C8
+ * function: MIC_StartLimitedSamplingAsync
  * address:  0x0208B4C8
  * packet:   pkt_0208B4C8
  * region:   arm9
@@ -42,7 +42,7 @@ extern BOOL OSi_IsCodecTwlMode(void);
 extern MICResult MICEXi_StartLimitedSamplingAsync(MICAutoParam *param, MICCallback callback, void *arg);
 extern MICResult MIC_StartAutoSamplingAsync(MICAutoParam *param, MICCallback callback, void *arg);
 
-MICResult func_0208B4C8(MICAutoParam *param, MICCallback callback, void *arg)
+MICResult MIC_StartLimitedSamplingAsync(MICAutoParam *param, MICCallback callback, void *arg)
 {
     if (OSi_IsCodecTwlMode() == TRUE)
     {

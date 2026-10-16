@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_MAIN_CalcPenaltyMoney  0x021B9244  thumb  ov093
- *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EAF50  0x021EAF50  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_AppendMessageArg  0x021EAF50  thumb  ov093
  *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
  *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
@@ -31,9 +31,9 @@ typedef struct {
 
 extern u32 BTL_MAIN_CalcPenaltyMoney(char *p);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 struct H;
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 
@@ -43,8 +43,8 @@ int BTL_CLIENT_StepShowBlackoutMessages(BattleSeq *s, int *state)
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)s->msg, 1, 0x36);
-        func_021EAF50((struct L *)s->msg, s->unk1A6);
+        BTLV_SCU_InitMessage((struct L *)s->msg, 1, 0x36);
+        BTLV_SCU_AppendMessageArg((struct L *)s->msg, s->unk1A6);
         BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
         (*state)++;
         break;
@@ -52,9 +52,9 @@ int BTL_CLIENT_StepShowBlackoutMessages(BattleSeq *s, int *state)
         if (BTLV_CORE_WaitMessage(s->msgWin) != 0) {
             a = BTL_MAIN_CalcPenaltyMoney(s->battle);
             if (a != 0) {
-                func_021EAF18((struct L *)s->msg, 1, 0x37);
-                func_021EAF50((struct L *)s->msg, s->unk1A6);
-                func_021EAF50((struct L *)s->msg, a);
+                BTLV_SCU_InitMessage((struct L *)s->msg, 1, 0x37);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, s->unk1A6);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
                 BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             }
             (*state)++;
@@ -62,8 +62,8 @@ int BTL_CLIENT_StepShowBlackoutMessages(BattleSeq *s, int *state)
         break;
     case 2:
         if (BTLV_CORE_WaitMessage(s->msgWin) != 0) {
-            func_021EAF18((struct L *)s->msg, 1, 0x39);
-            func_021EAF50((struct L *)s->msg, s->unk1A6);
+            BTLV_SCU_InitMessage((struct L *)s->msg, 1, 0x39);
+            BTLV_SCU_AppendMessageArg((struct L *)s->msg, s->unk1A6);
             BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             (*state)++;
         }

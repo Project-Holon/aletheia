@@ -57,7 +57,7 @@ typedef enum BtlvMcssPos {
 
 /* Bits of attrFlags. */
 #define BTLV_MCSS_ATTR_SWAPPED 0x1   /* resource set replaced by the substitute doll set */
-#define BTLV_MCSS_ATTR_SHINY 0x2     /* func_02017EAC reported 1 for the Pokemon */
+#define BTLV_MCSS_ATTR_SHINY 0x2     /* POKE_TOOL_IsShiny reported 1 for the Pokemon */
 #define BTLV_MCSS_ATTR_SUBSTITUTE 0x4 /* substitute doll is shown */
 
 /* Same type as the camera and mover vector. */
@@ -98,7 +98,7 @@ typedef struct BtlvMcssIdentity {
     u32 form;                           /* 0x04 */
     u32 personalRand;                   /* 0x08: seed of the Spinda spots */
     u16 personalParam26;                /* 0x0c: POKE_TOOL_GetPersonalParam(species, form, 0x26) */
-    u16 hpState;                        /* 0x0e: func_0202D034(hp, maxHp) at load time, 1 lowers the cry pitch */
+    u16 hpState;                        /* 0x0e: BGWINFRM_GetScaleRank(hp, maxHp) at load time, 1 lowers the cry pitch */
 } BtlvMcssIdentity;
 
 /* One sprite slot (0x5c bytes). A slot is free while mcss is NULL. */

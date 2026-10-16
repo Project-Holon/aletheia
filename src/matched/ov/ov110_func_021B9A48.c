@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A48
+ * function: PMS_INPUT_DATA_GetInvalidWordId
  * address:  0x021B9A48
  * packet:   pkt_ov110_021B9A48
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-int func_021B9A48(u32 a0) { return 0xffff; }
+int PMS_INPUT_DATA_GetInvalidWordId(u32 a0) { return 0xffff; }

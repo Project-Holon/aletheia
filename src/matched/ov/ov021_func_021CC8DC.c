@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC40  0x0201BC40  thumb
- *   func_0201BCB4  0x0201BCB4  thumb
+ *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -41,10 +41,10 @@ typedef struct {
 
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
@@ -60,8 +60,8 @@ void PARTY_SELECT_LIST_LoadMonIconResources(Obj *p)
     int n;
 
     arc = func_020490F4(7, p->heap);
-    p->f7C = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 0x60, p->heap);
-    p->f7E = CLACT_RegisterCellAnim(arc, func_0201BC40(), func_0201BCB4(), p->heap);
+    p->f7C = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 0, 0x60, p->heap);
+    p->f7E = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), p->heap);
     n = POKEPARTY_GetCount(p->f4);
     for (i = 0; i < n; i++) {
         p->f80[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_Dummy(POKEPARTY_GetMember(p->f4, i))), 0, 0, p->heap);

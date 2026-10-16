@@ -12,7 +12,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   func_0208068C 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
- *   func_02080B98 0x02080B98 arm
+ *   GX_DisableBankForLCDC 0x02080B98 arm
  *   SAVE_SCREEN_SetupNoticeBackground 0x021B9D58 thumb ov205
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
@@ -45,7 +45,7 @@ typedef signed short   s16;
 extern u32 KEY_GetTrg(void);
 extern void func_0208068C(u32);
 extern void MIi_CpuClearFast(u32,u32,u32);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern void SAVE_SCREEN_SetupNoticeBackground(u16);
 typedef signed int     s32;
 struct Cfg;
@@ -84,7 +84,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,char *p)
     keys=KEY_GetTrg();
     switch(*state){
     case 0:
-        func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();
+        func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();
         SAVE_SCREEN_SetupNoticeBackground(((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->f18=GF_FONT_Create(23,0,0,0,((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->fC=func_02045B38(0,2,37,((struct Obj01293 *)p)->f0);

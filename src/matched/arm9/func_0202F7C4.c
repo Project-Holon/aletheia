@@ -33,8 +33,8 @@
  *   GXx_SetMasterBrightness_    0x0207D534  arm
  *   GX_HBlankIntr    0x0207D3AC  arm
  *   GX_VBlankIntr    0x0207D3E4  arm
- *   func_020808F4    0x020808F4  arm
- *   func_020809A0    0x020809A0  arm
+ *   GX_ResetBankForBG    0x020808F4  arm
+ *   GX_ResetBankForSubBG    0x020809A0  arm
  *   func_0207FDCC    0x0207FDCC  arm
  *   GX_SetGraphicsMode    0x0207D4B0  arm
  *   APP_POWER_LoadShutdownScreen    0x0202F870  thumb
@@ -51,8 +51,8 @@ typedef unsigned int u32;
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern long GX_HBlankIntr(int enable);
 extern long GX_VBlankIntr(int enable);
-extern int func_020808F4(void);
-extern int func_020809A0(void);
+extern int GX_ResetBankForBG(void);
+extern int GX_ResetBankForSubBG(void);
 extern void func_0207FDCC(u32 a);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void APP_POWER_LoadShutdownScreen(void);
@@ -64,8 +64,8 @@ void APP_POWER_ResetDisplay(u32 a0)
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 0xFFFFFFF0);
     GX_HBlankIntr(0);
     GX_VBlankIntr(0);
-    func_020808F4();
-    func_020809A0();
+    GX_ResetBankForBG();
+    GX_ResetBankForSubBG();
     func_0207FDCC(4);
     GX_SetGraphicsMode(1, 0, 0);
     REG32(0x04000000) = (REG32(0x04000000) & 0xFFFFE0FF) | 0x200;

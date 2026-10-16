@@ -22,9 +22,9 @@
  *   gExpTableBuf       0x02146398  data
  *   gBlockOrder  0x0209E3A4  data
  *   gPersonalCache   0x02146270  data
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_02018584  0x02018584  thumb
+ *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   sub_0209E280_Map  0x0209E280  data
@@ -52,6 +52,8 @@
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   WORDSET_CheckF448  0x0201F448  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 struct MsgBank;
 struct Pokemon;
@@ -115,13 +117,13 @@ typedef struct Strbuf *(*RegulationLineFn)(const struct Regulation *, struct Wor
 
 extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 WORDSET_CheckF448(const u16 *a, const u16 *b);
-extern struct Pokemon *func_020185F0();
-extern u32   func_02017E88(struct Pokemon *mon, u32 paramId, u32 value);
+extern struct Pokemon *POKE_TOOL_Dummy();
+extern u32   POKE_TOOL_GetBoxValue(struct Pokemon *mon, u32 paramId, u32 value);
 extern void  POKE_TOOL_SetBoxValue(struct Pokemon *mon, u32 paramId, const void *value);
 extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 memberId);
-extern u32  func_02017E1C(struct Pokemon *mon, u32 paramId, u32 value);
+extern u32  POKE_TOOL_GetPartyValue(struct Pokemon *mon, u32 paramId, u32 value);
 extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 paramId, u32 value);
-extern u32  func_02018584(u16 species, u16 form, u16 level);
+extern u32  POKE_TOOL_GetExpForLevel(u16 species, u16 form, u16 level);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *data, u32 field);
 extern u32 REGULATION_GetRuleValue(const struct Regulation *reg, u32 ruleId);
@@ -404,11 +406,11 @@ s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex)
  * however they are written.  Cutting in front of them leaves these five
  * clean.
  *
- * POKE_TOOL_SetDefaultName reaches func_020185F0, which src/matched/unit_020185F0.c
+ * POKE_TOOL_SetDefaultName reaches POKE_TOOL_Dummy, which src/matched/unit_020185F0.c
  * proves is an empty `bx lr`, and then calls POKE_TOOL_SetNameFromSpecies with whatever r0
  * holds, with no register saved across the first call.  That only compiles
- * from a declaration in which func_020185F0 returns a value, so this unit
- * declares it `void *func_020185F0(void)` and passes the result straight on;
+ * from a declaration in which POKE_TOOL_Dummy returns a value, so this unit
+ * declares it `void *POKE_TOOL_Dummy(void)` and passes the result straight on;
  * declaring it `void` the way unit_020185F0.c does forces a callee-saved
  * register and a four byte longer prologue.  The two declarations disagree,
  * and the image cannot say which one the original header carried, because an
@@ -436,7 +438,7 @@ s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex)
  */
 void POKE_TOOL_SetDefaultName(struct Pokemon *mon)
 {
-    POKE_TOOL_SetNameFromSpecies(func_020185F0());
+    POKE_TOOL_SetNameFromSpecies(POKE_TOOL_Dummy());
 }
 
 
@@ -449,7 +451,7 @@ void POKE_TOOL_SetDefaultName(struct Pokemon *mon)
 
 void POKE_TOOL_SetNameFromSpecies(struct Pokemon *mon)
 {
-    u32 species = func_02017E88(mon, 5, 0);
+    u32 species = POKE_TOOL_GetBoxValue(mon, 5, 0);
 
     MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(mon, 0x74, gNameBuf);
@@ -667,10 +669,10 @@ u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field)
 
 void POKE_TOOL_SetLevelAndRecalc(struct Pokemon *mon, u32 level)
 {
-    u32 species = func_02017E1C(mon, 5, 0);
-    u32 form = func_02017E1C(mon, 0x6F, 0);
+    u32 species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    u32 form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
 
-    POKE_TOOL_SetPartyValue(mon, 8, func_02018584((u16)species, (u16)form, (u16)level));
+    POKE_TOOL_SetPartyValue(mon, 8, POKE_TOOL_GetExpForLevel((u16)species, (u16)form, (u16)level));
     POKE_TOOL_RecalcParam(mon);
 }
 
@@ -839,8 +841,8 @@ int POKE_REGULATION_IsInSpeciesTable(unsigned short species)
  */
 int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *mon)
 {
-    u16 species = (u16)func_02017E1C(mon, 5, 0);
-    u16 item = (u16)func_02017E1C(mon, 6, 0);
+    u16 species = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
+    u16 item = (u16)POKE_TOOL_GetPartyValue(mon, 6, 0);
     int levelLimit;
     int levelRule;
     int level;
@@ -851,7 +853,7 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
 
     levelLimit = REGULATION_GetRuleValue(reg, 4);
     levelRule = REGULATION_GetRuleValue(reg, 5);
-    level = func_02017E1C(mon, 0x9E, 0);
+    level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
 
     switch (levelRule) {
     case 1:
@@ -865,7 +867,7 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
     }
 
     reason = 0;
-    if (func_02017E1C(mon, 0x4C, 0) != 0)
+    if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) != 0)
         return 0x20;
     if (REGULATION_GetVetoBit(reg, 9, species) != 0)
         return 4;
@@ -983,8 +985,8 @@ int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party 
     for (i = 0; i < partyCount; i++) {
         struct Pokemon *mon = POKEPARTY_GetMember(party, i);
 
-        species[i] = (u16)func_02017E1C(mon, 5, 0);
-        levels[i] = (u16)func_02017E1C(mon, 0x9E, 0);
+        species[i] = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
+        levels[i] = (u16)POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
         if (POKE_REGULATION_CheckPokemon(reg, mon) != 0) {
             species[i] = 0;
             usable--;
@@ -1047,8 +1049,8 @@ int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party 
  */
 int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokemon *mon, u32 *flags)
 {
-    u16 species = (u16)func_02017E1C(mon, 5, 0);
-    u16 item = (u16)func_02017E1C(mon, 6, 0);
+    u16 species = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
+    u16 item = (u16)POKE_TOOL_GetPartyValue(mon, 6, 0);
     int allowed = 1;
     int levelLimit;
     int levelRule;
@@ -1059,7 +1061,7 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
 
     levelLimit = REGULATION_GetRuleValue(reg, 4);
     levelRule = REGULATION_GetRuleValue(reg, 5);
-    level = func_02017E1C(mon, 0x9E, 0);
+    level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
 
     switch (levelRule) {
     case 1:
@@ -1077,7 +1079,7 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
     }
 
     if (REGULATION_GetVetoBit(reg, 9, species) != 0) {
-        if (func_02017E1C(mon, 0x4C, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
             allowed = 0;
             *flags |= 4;
         }
@@ -1151,11 +1153,11 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
         mon = POKEPARTY_GetMember(party, i);
         if (POKE_REGULATION_CheckPokemonFlags(reg, mon, flags) == 0)
             error = 5;
-        if (func_02017E1C(mon, 0x4c, 0) == 0) {
-            species[i] = func_02017E1C(mon, 5, 0);
-            item[i] = func_02017E1C(mon, 6, 0);
-            levels[i] = func_02017E1C(mon, 0x6f, 0);
-            levelSum += func_02017E1C(mon, 0x9e, 0);
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
+            species[i] = POKE_TOOL_GetPartyValue(mon, 5, 0);
+            item[i] = POKE_TOOL_GetPartyValue(mon, 6, 0);
+            levels[i] = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+            levelSum += POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
         }
     }
     if ((int)REGULATION_GetRuleValue(reg, 7) == 0 && total > 1) {
@@ -1267,8 +1269,8 @@ void POKE_REGULATION_AdjustPartyLevels(const struct Regulation *reg, struct Part
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         struct Pokemon *mon = POKEPARTY_GetMember(party, i);
 
-        if (func_02017E1C(mon, 0xA9, 0) != 0) {
-            u32 level = func_02017E1C(mon, 0x9E, 0);
+        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0) {
+            u32 level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
 
             if (POKE_REGULATION_AdjustLevel(reg, level) != level)
                 POKE_TOOL_SetLevelAndRecalc(mon, levelValue);
@@ -1309,7 +1311,7 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         struct Pokemon *mon = POKEPARTY_GetMember(party, i);
 
-        if (func_02017E1C(mon, 0xA9, 0) != 0)
+        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0)
             POKE_TOOL_SetDefaultName(mon);
     }
 }
@@ -1672,9 +1674,9 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
         if ((int)slot >= (int)POKEPARTY_GetCount(party))
             continue;
         mon = POKEPARTY_GetMember(party, slot);
-        species = func_02017E1C(mon, 5, 0);
-        item = func_02017E1C(mon, 6, 0);
-        levelCost = (u32)POKE_REGULATION_AdjustLevel(reg, func_02017E1C(mon, 0x9e, 0));
+        species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        item = POKE_TOOL_GetPartyValue(mon, 6, 0);
+        levelCost = (u32)POKE_REGULATION_AdjustLevel(reg, POKE_TOOL_GetPartyValue(mon, 0x9e, 0));
         reason = POKE_REGULATION_CheckPokemon(reg, mon);
         if (reason != 0) {
             if (flags != 0)
@@ -1706,7 +1708,7 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
         if (picked != 0)
             picked[count] = (char)(slot + 1);
         speciesList[count] = species;
-        formList[count] = func_02017E1C(mon, 0x6f, 0);
+        formList[count] = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
         itemList[count] = item;
         levelTotal = (u16)(levelTotal + (u16)levelCost);
         count = (u8)(count + 1);

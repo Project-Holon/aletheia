@@ -82,7 +82,7 @@
  *       --func BRIGHTNESS_ChangeStep --addr 0x02023E0C --cc 1.1p1 --thumb
  *
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  */
 
 typedef signed char    s8;
@@ -108,7 +108,7 @@ struct Anim {
     u32 f1c;
 };
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 void BRIGHTNESS_ChangeStep(struct Anim *p)
 {
@@ -143,9 +143,9 @@ void BRIGHTNESS_ChangeStep(struct Anim *p)
         flag = 1;
     }
     if (p->f04 & 1) {
-        func_0207D658((u32)((void *)0x04000050), p->f00, p->f1a);
+        G2x_SetBlendBrightness_((u32)((void *)0x04000050), p->f00, p->f1a);
     } else if (p->f04 & 2) {
-        func_0207D658((u32)((void *)0x04001050), p->f00, p->f1a);
+        G2x_SetBlendBrightness_((u32)((void *)0x04001050), p->f00, p->f1a);
     }
     if (flag == 1)
         p->f1c = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02183ED4
+ * function: MICTEST_ResetDisplay
  * address:  0x02183ED4
  * packet:   pkt_02183ED4
  * region:   ov168
@@ -20,7 +20,7 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern u32 WIPE_ResetWndMask(void *win);
 
-void func_02183ED4(int a0)
+void MICTEST_ResetDisplay(int a0)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

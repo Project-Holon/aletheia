@@ -57,7 +57,7 @@
  *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
  *   MYSTATUS_Create 0x0200846C thumb
  *   func_020307B0 0x020307B0 arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02008510 0x02008510 thumb
  *   STRBUF_GetChars 0x02045A90 arm
@@ -180,7 +180,7 @@ extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern u32 func_0200FB24(void);
@@ -338,7 +338,7 @@ int WIFI_BSUBWAY_Create(void *task,int unused,u8 *parent) {
     *(void **)(work+0x1844)=saveControl;
     *(int *)(work+0x1848)=(int)func_02008B08(parent);
     *(int *)(work+0x184c)=GAME_DATA_GetField1A0(saveControl);
-    *(int *)(work+0x1850)=(int)func_02012944(saveControl);
+    *(int *)(work+0x1850)=(int)GAME_DATA_GetMyStatus(saveControl);
     *(int *)(work+0x1854)=(int)GAME_DATA_GetSaveBlock3B(saveControl);
     *(int *)(work+0x1858)=(int)GAME_DATA_GetSaveBlock3A(saveControl);
     WIFI_BSUBWAY_ClearTrainers(work+0xb74);
@@ -475,7 +475,7 @@ void WIFI_BSUBWAY_StatusSetMessage(u8 *status, void *saveControl, int msgId)
     void *msg;
     u16 *chars;
     u32 i;
-    MYSTATUS_Copy(func_02012944(saveControl), ((struct WifiBsubwayStatus *)status)->mystatus);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus(saveControl), ((struct WifiBsubwayStatus *)status)->mystatus);
     msg = func_02008510(((struct WifiBsubwayStatus *)status)->mystatus, msgId);
     MI_CpuFill8(status + 0x1f0, 0, 40);
     ((struct WifiBsubwayStatus *)status)->msgId = msgId;

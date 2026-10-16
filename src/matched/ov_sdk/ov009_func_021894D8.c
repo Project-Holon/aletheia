@@ -48,7 +48,7 @@
  * after `stm sp, {r2, r6}`.
  *
  * symbols:
- *   func_0217EC90  0x0217EC90  arm  ov009
+ *   send  0x0217EC90  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   gpiSetError  0x02193710  arm  ov009
  *   gpiCallErrorCallback  0x02189D78  arm  ov009
@@ -92,7 +92,7 @@
  * compile).
  */
 
-extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
+extern int send(int sock, char *buffer, int bufferLen, int flags);
 extern int GOAGetLastError(int sock);
 extern void gpiSetError(int *connection, int result, int errorString);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
@@ -108,7 +108,7 @@ int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
                   int *closed, int *sent, char *id)
 {
     static int sendCount;
-    int rcode = func_0217EC90(sock, buffer, bufferLen, 0);
+    int rcode = send(sock, buffer, bufferLen, 0);
 
     if (rcode == -1) {
         rcode = GOAGetLastError(sock);

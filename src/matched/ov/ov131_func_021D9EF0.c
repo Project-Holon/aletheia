@@ -25,7 +25,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_SKILL_ShowSlot 0x021DB964 thumb ov131
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
@@ -58,7 +58,7 @@ extern void BG_SYS_DrawTileEx(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_SKILL_ShowSlot(u8 *,void *,u8 *);
 extern void *P_STATUS_GetPokePara(u8 *);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 struct Rec;
 struct Struct36;
 struct Vec2;
@@ -93,8 +93,8 @@ void P_STA_SKILL_ApplyMovesScreen(u8 *a,u8 *p)
     CLACT_SetActorDrawEnable(((struct Obj00536 *)p)->f94,1);
     for(;i<p[0x2b];i++) P_STA_SKILL_ShowSlot(a,p,(p+0xb0)+i*24);
     object=P_STATUS_GetPokePara(a);
-    first=func_02017E88(object,174,0);
-    second=func_02017E88(object,175,0);
+    first=POKE_TOOL_GetBoxValue(object,174,0);
+    second=POKE_TOOL_GetBoxValue(object,175,0);
     CLACT_GetCharacterProxy(*(u32 *)(((u32)a+first*4u)+0x130u),(struct Rec *)(&r1));
     CLACT_SetActorImageProxy(((struct Obj00136 *)a)->f198,(const struct Struct36 *)(&r1));
     CLACT_SetActorPaletteOffset(((struct Obj00136 *)a)->f198,APP_ICON_GetTypePaletteOffset((u8)first),1);

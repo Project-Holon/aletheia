@@ -14,7 +14,7 @@
  *
  * The read wrapper for the party area of the 0xDC byte record: unlock, call
  * the party-area dispatcher POKE_TOOL_GetPartyValueRaw (src/matched/POKE_TOOL_GetPartyValueRaw.c), lock
- * again and return its result.  It is the exact counterpart of func_02017E88
+ * again and return its result.  It is the exact counterpart of POKE_TOOL_GetBoxValue
  * in src/matched/unit_02017E64.c, which does the same around POKE_TOOL_GetBoxValueRaw,
  * and it is the entry point 240 call sites in the image use.
  *

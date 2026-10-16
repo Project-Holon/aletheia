@@ -20,7 +20,7 @@
  *   DWCi_SetConnectionAttemptParam  0x02175560  arm  ov009
  *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
- *   func_02173D28  0x02173D28  arm  ov009
+ *   DWCi_HandleGPError  0x02173D28  arm  ov009
  *   func_02175F84  0x02175F84  arm  ov009
  *   DWCi_QR2Startup  0x0216CD8C  arm  ov009
  *   func_02175530  0x02175530  arm  ov009
@@ -35,7 +35,7 @@ extern int func_02175F3C(void);
 extern void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern void DWCi_SetMatchStatus(int a0);
 extern int DWCi_GPSetServerStatus(int status);
-extern int  func_02173D28(void);
+extern int  DWCi_HandleGPError(void);
 extern void func_02175F84(int a0);
 extern int  DWCi_QR2Startup(int a0);
 extern int  func_02175530(void);
@@ -55,7 +55,7 @@ void DWCi_SetupGameServer(int p0, int p1, int p2, int p3, int p4, int p5, int p6
     DWCi_SetConnectionAttemptParam((void *)p6, (unsigned char *)p7, (void *)p8);
     DWCi_SetMatchStatus(0x16);
     DWCi_GPSetServerStatus(6);
-    if (func_02173D28() != 0)
+    if (DWCi_HandleGPError() != 0)
         return;
     func_02175F84(2);
     *(int *)(func_02175F3C() + 0x7c4) = 1;

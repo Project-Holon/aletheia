@@ -126,8 +126,7 @@ typedef struct WifibattlematchUtilWork {
 } WifibattlematchUtilWork;
 
 /*
- * Menu descriptor (0x30 bytes).  ov175 holds the same object as its stand-in
- * Desc_021D76D4, so its fields must keep one name across the tree.
+ * Menu descriptor (0x30 bytes).  ov175 views the same object with its own stand-in, so its fields must keep one name across the tree.
  */
 typedef struct WifibattlematchMenuDesc {
     u32 x0;             /* 0x00 first button label id */

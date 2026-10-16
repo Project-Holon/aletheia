@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202C860",
+   "name": "ISS_SWITCH_RefreshSubscreenMode",
    "address": "0x0202C860",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202C934",
+   "name": "ISS_SWITCH_CheckSpecialPower",
    "address": "0x0202C934",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202C970",
+   "name": "ISS_SWITCH_CheckBirthday",
    "address": "0x0202C970",
    "kind": "game",
    "region": "arm9",

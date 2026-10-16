@@ -18,7 +18,7 @@
  *
  * symbols:
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
  *   POKE_TOOL_GetPersonalGender  0x02019C7C  thumb
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 struct Personal;
 extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 extern u32  POKE_TOOL_GetPersonalGender(void *h);
@@ -57,7 +57,7 @@ void POKE_TOOL_SetBoxAbility(void *p, u32 a, u32 b)
         return;
     }
     h = POKE_TOOL_GetPersonalData((u16)a, (u16)b);
-    t = func_02017E88(p, 0, 0);
+    t = POKE_TOOL_GetBoxValue(p, 0, 0);
     k = 0x1A;
     if (POKE_TOOL_GetPersonalGender(h) == 2 && (t & (1 << 16))) {
         k = 0x1B;

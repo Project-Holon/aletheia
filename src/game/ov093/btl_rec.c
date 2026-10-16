@@ -26,7 +26,7 @@
  *   FADE_Start  0x0204E720  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_021EB318  0x021EB318  thumb  ov093
+ *   BTLV_SCU_IsFadeDone  0x021EB318  thumb  ov093
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm

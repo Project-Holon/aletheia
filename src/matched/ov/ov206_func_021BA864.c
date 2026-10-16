@@ -1,5 +1,5 @@
 /*
- * function: func_021BA864
+ * function: ZUKAN_INFO_Task
  * address:  0x021BA864
  * packet:   pkt_021BA864
  * region:   ov206
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
-void func_021BA864(int unused, char *p)
+void ZUKAN_INFO_Task(int unused, char *p)
 {
     if (((struct Obj08387 *)p)->f39 & 1)
     {

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCs_GetTransConnection  0x02177770  arm  ov009
- *   func_02176DFC  0x02176DFC  arm  ov009
+ *   DWCi_IsSendableReliable  0x02176DFC  arm  ov009
  *   DWCs_EncodeHeader  0x021771B0  arm  ov009
  *   DWCs_Send  0x021777C0  arm  ov009
  *   DWCs_GetOutgoingBufferFreeSize  0x02177E64  arm  ov009
@@ -61,7 +61,7 @@ typedef struct {
 } TransInfo;
 
 extern int DWCs_GetTransConnection(int i);
-extern int func_02176DFC(int aid, int type);
+extern int DWCi_IsSendableReliable(int aid, int type);
 extern void DWCs_EncodeHeader(TransHeader *header, unsigned short type, int size);
 extern void DWCs_Send(unsigned char aid, unsigned char *buffer, int size, int reliable);
 extern int DWCs_GetOutgoingBufferFreeSize(unsigned char aid);
@@ -75,7 +75,7 @@ int DWCi_SendReliable(unsigned short type, unsigned char aid, void *buffer, int 
     TransConn *transConnection;
 
     transConnection = (TransConn *)DWCs_GetTransConnection(aid);
-    if (!func_02176DFC((unsigned char)aid, (unsigned short)type))
+    if (!DWCi_IsSendableReliable((unsigned char)aid, (unsigned short)type))
         return 0;
     transConnection->sendState = 1;
     transConnection->sendBuffer = buffer;

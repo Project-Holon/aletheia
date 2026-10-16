@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_POKEPARAM_HasSubstitute  0x021D6D7C  thumb  ov093
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021C40F4  0x021C40F4  thumb  ov093
  *   BTL_SERVER_FLOW_ChangeHp  0x021C5B74  thumb  ov093
@@ -29,7 +29,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 BTL_POKEPARAM_HasSubstitute(u8 *p);
 extern int BTL_CALC_DivideMaxHpMin1(u8 *p, u32 k);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021C40F4(u8 *p, int i);
 extern void BTL_SERVER_FLOW_ChangeHp(u8 *p, u8 *a, int c, int k);
@@ -46,7 +46,7 @@ int BTL_SERVER_FLOW_ProcSubstituteMove(u8 *p, u8 *a)
     int r;
     if (BTL_POKEPARAM_HasSubstitute(a) == 0) {
         n = BTL_CALC_DivideMaxHpMin1(a, 4);
-        if (func_021D59B4(a, 0xd) > n) {
+        if (BTL_POKEPARAM_GetValue(a, 0xd) > n) {
             r = func_021C40F4(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a));
             if (r != 6) {
                 BTL_SERVER_FLOW_ChangeHp(p, a, -n, 1);

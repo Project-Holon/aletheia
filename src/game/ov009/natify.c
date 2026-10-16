@@ -1,7 +1,7 @@
 /*
  * file:     natify.c
  * unit:     yes
- * function: AddressToString, func_021988F4, func_02198958, OutputMapping, Think, NatifyThink, DetermineNatType
+ * function: AddressToString, GetLocalIP, GetLocalPort, OutputMapping, Think, NatifyThink, DetermineNatType
  * address:  0x02198850
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -135,8 +135,8 @@ extern int GOAGetLastError(int sock);
 extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
 extern int abs(int x) __attribute__((const));
 char *AddressToString(unsigned int ip, unsigned short port, char *string);
-unsigned int func_021988F4(void);
-unsigned short func_02198958(int sock);
+static unsigned int GetLocalIP(void);
+static unsigned short GetLocalPort(int sock);
 void OutputMapping(AddressMapping *theMap);
 int Think(int sock, NAT *nat);
 int NatifyThink(int sock, void *nat);
@@ -219,7 +219,7 @@ char *AddressToString(unsigned int ip, unsigned short port, char *string)
 
 
 
-unsigned int func_021988F4(void)
+static unsigned int GetLocalIP(void)
 {
     int num_local_ips;
     SOCHostEnt *phost;
@@ -250,7 +250,7 @@ unsigned int func_021988F4(void)
 /*
  * sdk:      GetLocalPort (libdwcgsnatneg.TWL.HYB.a(natify.o))
  */
-unsigned short func_02198958(int sock)
+static unsigned short GetLocalPort(int sock)
 {
 	int ret;
 	SOCSockAddrIn saddr;
@@ -405,8 +405,8 @@ int Think(int sock, NAT *nat)
                 gotADDRESS3 = 1;
                 break;
             }
-            nat->mappings[p.cookie].privateIp = func_021988F4();
-            nat->mappings[p.cookie].privatePort = NN_NTOHS(func_02198958(sock));
+            nat->mappings[p.cookie].privateIp = GetLocalIP();
+            nat->mappings[p.cookie].privatePort = NN_NTOHS(GetLocalPort(sock));
             nat->mappings[p.cookie].publicIp = p.Packet.Init.localip;
             nat->mappings[p.cookie].publicPort = NN_NTOHS(p.Packet.Init.localport);
             gsDebugFormat(7, 0, 16, g_021A5A50, p.cookie, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));

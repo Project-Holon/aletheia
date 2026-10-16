@@ -12,7 +12,7 @@
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_SERVER_FLOW_GetScratchBuffer 0x021C8120 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord 0x021C88C8 thumb ov093
  *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u8 *BTL_SERVER_FLOW_GetScratchBuffer(u8 *p, int b);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
@@ -46,17 +46,17 @@ void HAND_WAZA_HeartSwapOnUncategorizedMove(int unused, void *s, int k)
         b = BTL_SERVER_FLOW_GetPokeParam(s, k);
         t = (u32 *)BTL_SERVER_FLOW_GetScratchBuffer(s, 28);
         for (i = 1; i <= 7; i++) {
-            t[i - 1] = func_021D59B4(b, i);
+            t[i - 1] = BTL_POKEPARAM_GetValue(b, i);
         }
         p = BTL_SERVER_FLOW_AllocCmdRecord(s, 15, k);
         p[4] = k;
-        p[5] = func_021D59B4(a, 1);
-        p[6] = func_021D59B4(a, 2);
-        p[7] = func_021D59B4(a, 3);
-        p[8] = func_021D59B4(a, 4);
-        p[9] = func_021D59B4(a, 5);
-        p[10] = func_021D59B4(a, 6);
-        p[11] = func_021D59B4(a, 7);
+        p[5] = BTL_POKEPARAM_GetValue(a, 1);
+        p[6] = BTL_POKEPARAM_GetValue(a, 2);
+        p[7] = BTL_POKEPARAM_GetValue(a, 3);
+        p[8] = BTL_POKEPARAM_GetValue(a, 4);
+        p[9] = BTL_POKEPARAM_GetValue(a, 5);
+        p[10] = BTL_POKEPARAM_GetValue(a, 6);
+        p[11] = BTL_POKEPARAM_GetValue(a, 7);
         BTL_SERVER_FLOW_CommitCmdRecord(s, p);
         p = BTL_SERVER_FLOW_AllocCmdRecord(s, 15, k);
         p[4] = v;

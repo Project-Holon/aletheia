@@ -26,7 +26,7 @@
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
  *   GDS_RAP_Init 0x021D6660 thumb ov125
  *   GDS_PROFILE_Create 0x0200D59C thumb
@@ -77,7 +77,7 @@ extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u1
 
 extern u32 func_020307B0(void *block);
 
-extern const void *func_02012944(struct GameData *gameData);
+extern const void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
 extern u32 func_0200853C(const void *myStatus);
 
@@ -245,7 +245,7 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u32 
     net->gameData=gameData;
     MI_CpuFill8(&params,0,sizeof(GdsRapInitParams));
     params.gameData=gameData;
-    params.profileId=func_0200853C(func_02012944(gameData));
+    params.profileId=func_0200853C(GAME_DATA_GetMyStatus(gameData));
     params.profileSource=profileSource;
     params.callbacks.userData=net;
     params.callbacks.onUploadEntry=BR_NET_OnUploadEntry;

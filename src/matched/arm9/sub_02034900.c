@@ -1,5 +1,5 @@
 /*
- * function: sub_02034900
+ * function: GF_OVERLAY_PanicDie
  * address:  0x02034900
  * packet:   pkt_02034734
  * region:   arm9
@@ -17,7 +17,7 @@
  *   OS_Terminate      0x02088234  arm
  *   unk_021469AC      0x021469AC  data
  *
- * The third of the three default assert handlers sub_02034978 registers:
+ * The third of the three default assert handlers GF_OVERLAY_RegisterPanicHandlers registers:
  * the die handler.  It fills the main BG0 screen map with the identity
  * mapping (256 tiles laid out 32 per row over 8 rows, the counter running
  * straight through both loops rather than restarting per row), uploads the
@@ -30,8 +30,8 @@
  * pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034900.c \
- *       --func sub_02034900 --addr 0x02034900 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicDie.c \
+ *       --func GF_OVERLAY_PanicDie --addr 0x02034900 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -46,7 +46,7 @@ extern void DC_FlushRange(void *addr, u32 size);
 extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);
 
-void sub_02034900(void)
+void GF_OVERLAY_PanicDie(void)
 {
     u16 *p;
     int j;

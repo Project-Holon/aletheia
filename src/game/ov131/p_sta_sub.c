@@ -29,7 +29,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   P_STA_SUB_FileName 0x021DC818 data a1
  *   MCSS_ResetVanishFlag 0x02015EB0 thumb
@@ -241,7 +241,7 @@ extern int APP_ICON_GetBallThrowAnimFileId(int ballId);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 func_02017E88(void *mon, int paramId, void *out);
+extern u32 POKE_TOOL_GetBoxValue(void *mon, int paramId, void *out);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
@@ -490,8 +490,8 @@ void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *work) {
     int species, form;
     if (wk->param->ppt == 1) work->showFront = POKEPARTY_GetSlotFlag(wk->param->ppd, wk->pos); else work->showFront = 1;
     if (wk->isEgg == 0) {
-        species = func_02017E88(mon, 5, 0);
-        form = func_02017E88(mon, 111, 0);
+        species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+        form = POKE_TOOL_GetBoxValue(mon, 111, 0);
         personal = POKE_PERSONAL_Create((unsigned short)species, (unsigned short)form, wk->heapId);
         if (POKE_PERSONAL_GetParam(personal, 16) == 1) work->isStaticSprite = 1; else work->isStaticSprite = 0;
         work->personalAttr38 = POKE_PERSONAL_GetParam(personal, 38);
@@ -538,7 +538,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
     func_02041B6C(BMP_WIN_GetBgLayer(win));
-    ballId = func_02017E88(mon, 0x98, 0);
+    ballId = POKE_TOOL_GetBoxValue(mon, 0x98, 0);
     ballArc = APP_ICON_GetArchiveId();
     ballBuf = func_02049F34(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), (u32)&ballPltt, wk->heapId);
     CLACT_TransferPalette(wk->objRes[1], ballPltt, 1);
@@ -548,7 +548,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     CLACT_TransferCharacter((int)wk->objRes[14], ballChr);
     func_020307B0(ballBuf);
     CLACT_SetActorDrawEnable(work->ballObj, 1);
-    marks = func_02017E88(mon, 11, 0);
+    marks = POKE_TOOL_GetBoxValue(mon, 11, 0);
     for (i = 0, markBit = 1; i < STA_SUB_ICON_MARK_COUNT; markBit = (u8)(markBit << 1), i++) {
         if (marks & markBit) CLACT_SetActorAnimSeq(work->iconObj[i], i * 2 + 1);
         else CLACT_SetActorAnimSeq(work->iconObj[i], i * 2);
@@ -625,14 +625,14 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     wordSet = WORDSET_CreateDefault(wk->heapId);
     buf = STRBUF_Create(32, wk->heapId);
     name = STRBUF_Create(32, wk->heapId);
-    func_02017E88(mon, 115, name);
+    POKE_TOOL_GetBoxValue(mon, 115, name);
     WORDSET_SetSlotTag(wordSet, 0, name, 0, 1, 2);
     text = func_02045EC0(wk->msgData, 0);
     WORDSET_CopyTaggedText(wordSet, buf, text);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 25, 1, buf, wk->font, 1088);
     STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
-    if (wk->isEgg == 0 && func_02017E88(mon, 173, 0) == 1) {
-        u32 gender = func_02017E88(mon, 110, 0);
+    if (wk->isEgg == 0 && POKE_TOOL_GetBoxValue(mon, 173, 0) == 1) {
+        u32 gender = POKE_TOOL_GetBoxValue(mon, 110, 0);
         if (gender == 0) {
             buf = func_02045EC0(wk->msgData, 1);
             PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 89, 1, buf, wk->font, 5312);
@@ -658,7 +658,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     {
         struct Strbuf *itemText;
         wordSet = WORDSET_CreateDefault(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
-        WORDSET_Callback_EF40(wordSet, 0, func_02017E88(mon, 6, 0));
+        WORDSET_Callback_EF40(wordSet, 0, POKE_TOOL_GetBoxValue(mon, 6, 0));
         itemText = func_02045EC0(wk->msgData, 5);
         WORDSET_CopyTaggedText(wordSet, buf, itemText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 6, 17, buf, wk->font, 1088);
@@ -1083,7 +1083,7 @@ void P_STA_SUB_ApplyMcssOffset(PStatusWork *wk, PStaSubWork *work, VecFx32 *base
 }
 
 void P_STA_SUB_GetSpeciesAdjust(PStatusWork *wk, PStaSubWork *work, VecFx32 *extraOfs, VecFx32 *frontScale) {
-    int species = func_02017E88(P_STATUS_GetPokePara(wk), 5, 0);
+    int species = POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk), 5, 0);
     if (species == 5) { frontScale->y = 0x299a; extraOfs->y = 0xf4cd; return; }
     if (species == 37) { extraOfs->y = 0xfb33; return; }
     if (species == 86) { extraOfs->x = 0x10666; extraOfs->y = 0x10666; return; }

@@ -39,7 +39,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
@@ -160,7 +160,7 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_PushTile(u32 layer);
 extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
 extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 func_02008550(const struct MyStatus *myStatus);
 extern void func_02049B68(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
 extern u32 func_02049740(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 size, u32 heap);
@@ -309,7 +309,7 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
     BG_SYS_PushTile(4);
     func_02040588((u8)4, 1);
     arc = func_020490F4(0x1E, heapId);
-    i = func_02008550(func_02012944(ICA_ANIME_GetField1C(work->gameSystem)));
+    i = func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem)));
     func_02049B68(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
     charAlloc = func_02049740(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
     work->bgCharAlloc = charAlloc;

@@ -61,7 +61,7 @@
 #include "livebattlematch_shared_types.h"
 #include "livebattlematch_shared_types.h"
 
-struct S;
+struct WifibattlematchUtilWork;
 struct Req;
 struct Entry;
 struct Link;
@@ -90,7 +90,7 @@ extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(int);
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
 extern int func_02040588(int, int);
-extern void WIFIBATTLEMATCH_UTIL_ClearBmp(struct S *);
+extern void WIFIBATTLEMATCH_UTIL_ClearBmp(struct WifibattlematchUtilWork *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
@@ -239,7 +239,7 @@ int LIVEBATTLEMATCH_IRC_ToggleSe(int a0, int b)
  */
 void LIVEBATTLEMATCH_IRC_DeleteMenuRecord(int *p)
 {
-    WIFIBATTLEMATCH_UTIL_ClearBmp((struct S *)((Request *)p)->config.menuObj);
+    WIFIBATTLEMATCH_UTIL_ClearBmp((struct WifibattlematchUtilWork *)((Request *)p)->config.menuObj);
 }
 
 

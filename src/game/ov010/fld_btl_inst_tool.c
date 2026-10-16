@@ -21,11 +21,11 @@
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02008550  0x02008550  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
@@ -64,7 +64,7 @@
  *   BTL_SETUP_SetupCommAiMulti  0x02013810  thumb
  *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
  *   POKEPARTY_InitEx  0x0201A954  thumb
- *   func_020173EC  0x020173EC  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
  *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
@@ -435,11 +435,11 @@ extern PokemonParam *func_02030734(u32 heapKind, u32 size, int unused, const cha
 extern void func_020307B0(void *p);
 extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
-extern MyStatus *func_02012944(GameData *gameData);
+extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u8 func_02008550(const MyStatus *myStatus);
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
-extern u32 func_02017E1C(PokemonParam *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(PokemonParam *mon, u32 id, u32 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, GameEventFunc main, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
@@ -478,7 +478,7 @@ extern void BTL_SETUP_SetupTrainerMulti(BtlSetup *bs, GameData *gameData, BtlFie
 extern void BTL_SETUP_SetupCommAiMulti(BtlSetup *bs, GameData *gameData, NetHandle *handle, u32 a, u8 playerPos, u32 b, u32 c, u16 heapId);
 extern void BTL_SETUP_AllocRecordBuffer(BtlSetup *bs, u32 heapId);
 extern void POKEPARTY_InitEx(Party *party, int capacity);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void POKE_TOOL_ClearPartyParam(PokemonParam *mon);
 extern void POKE_TOOL_CopyPartyPokemon(const PokemonParam *src, PokemonParam *dest);
 extern void POKE_TOOL_SetLevelAndRecalc(PokemonParam *mon, u32 level);
@@ -843,16 +843,16 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
 
     client = BTL_CLIENT_PLAYER;
     i = 0;
-    myStatus = func_02012944(gameData);
+    myStatus = GAME_DATA_GetMyStatus(gameData);
     bs->myStatus[client] = myStatus;
     party = bs->parties[client];
     POKEPARTY_InitEx(party, 6);
-    tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x253);
+    tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x253);
     POKE_TOOL_ClearPartyParam(tempMon);
     for (; i < monCount; i++) {
         srcMon = POKEPARTY_GetMember(playerParty, i);
         POKE_TOOL_CopyPartyPokemon(srcMon, tempMon);
-        if (func_02017E1C(srcMon, 0x9E, 0) != 0x32)
+        if (POKE_TOOL_GetPartyValue(srcMon, 0x9E, 0) != 0x32)
             POKE_TOOL_SetLevelAndRecalc(tempMon, 0x32);
         POKEPARTY_Add(party, tempMon);
     }
@@ -887,7 +887,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     }
     enemy1Party = bs->parties[client];
     POKEPARTY_InitEx(enemy1Party, 6);
-    tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x29E);
+    tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x29E);
     for (i = 0; i < monCount; i++) {
         FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerA->mons[i], tempMon);
         POKEPARTY_Add(enemy1Party, tempMon);
@@ -904,7 +904,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         STRBUF_SetString(trainerData->name, trainerC->name);
         enemy2Party = bs->parties[client];
         POKEPARTY_InitEx(enemy2Party, 6);
-        tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2C4);
+        tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2C4);
         for (i = 0; i < monCount; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerC->mons[i], tempMon);
             POKEPARTY_Add(enemy2Party, tempMon);
@@ -922,7 +922,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[4]);
         partnerParty = bs->parties[client];
         POKEPARTY_InitEx(partnerParty, 6);
-        tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2F3);
+        tempMon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2F3);
         for (i = 0; i < monCount; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerB->mons[i], tempMon);
             POKEPARTY_Add(partnerParty, tempMon);
@@ -1020,7 +1020,7 @@ u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 memberId, u32 otId, u32
 
 /*
  * Builds a level-50 party mon from a 0x3C-byte record. Two levers: the
- * PP-up count read back through func_02017E1C goes through a u8 local, and
+ * PP-up count read back through POKE_TOOL_GetPartyValue goes through a u8 local, and
  * the nickname copy reads through a `const u16 *` local (indexing
  * src->nick directly keeps the strbuf in a register and swaps r5/r6).
  */
@@ -1040,7 +1040,7 @@ void FLD_BTL_INST_TOOL_BattleMonToPokemon(const BattleMon *src, PokemonParam *mo
     for (i = 0; i < 4; i++) {
         POKE_TOOL_SetPartyValue(mon, 0x36 + i, src->moves[i]);
         POKE_TOOL_SetPartyValue(mon, 0x3E + i, (u8)((src->ppUps >> (i * 2)) & 3));
-        pp = func_02017E1C(mon, 0x42 + i, 0);
+        pp = POKE_TOOL_GetPartyValue(mon, 0x42 + i, 0);
         POKE_TOOL_SetPartyValue(mon, 0x3A + i, pp);
     }
     POKE_TOOL_SetPartyValue(mon, 7, src->otId);
@@ -1595,7 +1595,7 @@ void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, BtlInstResult *resu
     count = POKEPARTY_GetCount(party);
     statSum = 0;
     for (i = 0; i < count; i++)
-        statSum += func_02017E1C(POKEPARTY_GetMember(party, i), 0xA1, 0);
+        statSum += POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, i), 0xA1, 0);
     record->scoreShare += (u16)(result->score * 100 / statSum);
 }
 
@@ -1615,7 +1615,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, 
     TrialHouseAwardEventWork *work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = ICA_ANIME_GetField20(gameSystem);
-    work->param.playerSex = func_02008550(func_02012944(gameData));
+    work->param.playerSex = func_02008550(GAME_DATA_GetMyStatus(gameData));
     work->param.trialHouse = func_0200E8F8(GAME_DATA_GetSaveControl(gameData));
     work->param.arg0 = arg0;
     work->param.arg1 = arg1;

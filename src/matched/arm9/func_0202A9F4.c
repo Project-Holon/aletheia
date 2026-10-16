@@ -1,5 +1,5 @@
 /*
- * function: func_0202A9F4
+ * function: TR_TOOL_FinalizePartyMember
  * address:  0x0202A9F4
  * packet:   pkt_0202A9F4
  * region:   arm9
@@ -24,7 +24,7 @@
  * 0x1B); two trainer/species pairs force a fixed nature, the rest take
  * (personality >> 8) % 25.
  *
- * What closed the old 248-byte near miss (docs/notes/func_0202A9F4.c.txt):
+ * What closed the old 248-byte near miss (docs/notes/TR_TOOL_FinalizePartyMember.c.txt):
  * the register the note read as a copy of the loop counter (`adds r6, r4,
  * #0` before the loop) is the constant 0, kept in r6 for the call's third
  * argument and for `found = 0`.  That zero occupies the fourth callee-saved
@@ -42,7 +42,7 @@ extern void POKE_TOOL_SetNature(void *rec, u32 val);
 extern void POKE_TOOL_SetAbility(void *rec, u32 species, u32 arg);
 extern u32  POKE_TOOL_GetPersonalParam(u32 species, u16 arg, u32 sel);
 
-void func_0202A9F4(u32 a0, void *rec, u32 a2, u32 a3)
+void TR_TOOL_FinalizePartyMember(u32 a0, void *rec, u32 a2, u32 a3)
 {
     s32 slot;
     u32 found = 0xff;

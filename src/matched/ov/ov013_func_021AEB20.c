@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208B24C  0x0208B24C  arm
+ *   MIC_Init  0x0208B24C  arm
  *   PM_Init  0x0208B8B0  arm
  *   PM_SetAmp  0x0208BEF0  arm
  *   PM_SetAmpGain  0x0208BF38  arm
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern struct Work *gVctWork;
 
-extern void func_0208B24C(void);
+extern void MIC_Init(void);
 extern void PM_Init(void);
 extern unsigned int PM_SetAmp(unsigned int status);
 extern unsigned int PM_SetAmpGain(unsigned int gain);
@@ -42,7 +42,7 @@ extern void VCT_SESSION_SetFilterEnabled(int x);
 
 void VCT_MAIN_InitAudio(void)
 {
-    func_0208B24C();
+    MIC_Init();
     PM_Init();
     PM_SetAmp(1);
     PM_SetAmpGain(3);

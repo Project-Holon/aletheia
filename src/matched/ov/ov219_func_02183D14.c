@@ -1,5 +1,5 @@
 /*
- * function: func_02183D14
+ * function: BEACON_DETAIL_Update
  * address:  0x02183D14
  * packet:   pkt_ov219_02183D14
  * region:   ov219
@@ -45,7 +45,7 @@
  *           case 17 writes `if (W(0xC350) != 1) break; goto se54c;`. The 0x648/0x649 calls then
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
  *           Remaining: three callees with no witness: arm9 BMP_OAM_Update5BE8 and GAME_BEACON_SetNationArea and ov219
- *           func_021856CC. This lane filed all three EXACT (src/matched/arm9/BMP_OAM_Update5BE8.c,
+ *           BEACON_DETAIL_Init3DParams. This lane filed all three EXACT (src/matched/arm9/BMP_OAM_Update5BE8.c,
  *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/ov219_func_021856CC.c); after the
  *           manifest picks them up this should verify EXACT.
  *
@@ -78,29 +78,29 @@
  *   GAME_BEACON_SetNationArea 0x02027120 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_02183CBC 0x02183CBC thumb ov219
- *   func_02184734 0x02184734 thumb ov219
- *   func_02184798 0x02184798 thumb ov219
- *   func_021849A4 0x021849A4 thumb ov219
- *   func_02184C2C 0x02184C2C thumb ov219
- *   func_02184C8C 0x02184C8C thumb ov219
- *   func_02184CB0 0x02184CB0 thumb ov219
- *   func_02184D70 0x02184D70 thumb ov219
- *   func_02184EC0 0x02184EC0 thumb ov219
- *   func_02185074 0x02185074 thumb ov219
- *   func_021850EC 0x021850EC thumb ov219
- *   func_0218516C 0x0218516C thumb ov219
- *   func_0218519C 0x0218519C thumb ov219
- *   func_02185254 0x02185254 thumb ov219
- *   func_02185310 0x02185310 thumb ov219
- *   func_0218532C 0x0218532C thumb ov219
- *   func_0218544C 0x0218544C thumb ov219
- *   func_02185580 0x02185580 thumb ov219
- *   func_0218562C 0x0218562C thumb ov219
- *   func_021856CC 0x021856CC thumb ov219
- *   func_02185794 0x02185794 thumb ov219
- *   func_02185934 0x02185934 thumb ov219
- *   func_02185AC8 0x02185AC8 thumb ov219
+ *   BEACON_DETAIL_WinActivate 0x02183CBC thumb ov219
+ *   BEACON_DETAIL_MarkCurrentRecord 0x02184734 thumb ov219
+ *   BEACON_DETAIL_ReadTouchInput 0x02184798 thumb ov219
+ *   BEACON_DETAIL_InitMainScreen 0x021849A4 thumb ov219
+ *   BEACON_DETAIL_CreateTaskMenuWin 0x02184C2C thumb ov219
+ *   BEACON_DETAIL_DeleteTaskMenuWin 0x02184C8C thumb ov219
+ *   BEACON_DETAIL_DeleteMainScreen 0x02184CB0 thumb ov219
+ *   BEACON_DETAIL_PrintMessage 0x02184D70 thumb ov219
+ *   BEACON_DETAIL_CreateMenuList 0x02184EC0 thumb ov219
+ *   BEACON_DETAIL_CreateMenuItems 0x02185074 thumb ov219
+ *   BEACON_DETAIL_CreateMenuItemsFromIds 0x021850EC thumb ov219
+ *   BEACON_DETAIL_CloseMenu 0x0218516C thumb ov219
+ *   BEACON_DETAIL_DrawCurrentArea 0x0218519C thumb ov219
+ *   BEACON_DETAIL_DrawEntryDetail 0x02185254 thumb ov219
+ *   BEACON_DETAIL_CloseDetailWin 0x02185310 thumb ov219
+ *   BEACON_DETAIL_FindNearestRecord 0x0218532C thumb ov219
+ *   BEACON_DETAIL_DrawCurrentInfo 0x0218544C thumb ov219
+ *   BEACON_DETAIL_Create3DObjects 0x02185580 thumb ov219
+ *   BEACON_DETAIL_Delete3DObjects 0x0218562C thumb ov219
+ *   BEACON_DETAIL_Init3DParams 0x021856CC thumb ov219
+ *   BEACON_DETAIL_SetupCamera 0x02185794 thumb ov219
+ *   BEACON_DETAIL_MoveCursor 0x02185934 thumb ov219
+ *   BEACON_DETAIL_UpdateCamera 0x02185AC8 thumb ov219
  *   BEACON_DETAIL_HasEntry 0x02185CF4 thumb ov219
  *   d_02185DE6 0x02185DE6 data a1
  *   d_02185DB6 0x02185DB6 data ov219 a1
@@ -152,29 +152,29 @@ extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
 extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_02183CBC(u8 *p, u32 i);
-extern void func_02184734(u8 *p);
-extern void func_02184798(char *p);
-extern void func_021849A4(char *p, void *arc);
-extern void func_02184C2C(char *p, int i);
-extern void func_02184C8C(u8 *p, u32 i);
-extern void func_02184CB0(char *p);
-extern int func_02184D70(char *p, u32 message, int force);
-extern void func_02184EC0(u8 *p, const u8 *d, const struct Src *s, const void *e);
-extern void func_02185074(u8 *p, const u8 *a, u32 b, u32 c);
-extern void func_021850EC(char *p, const unsigned char *descriptor, const struct Src *cfg, unsigned file, const unsigned char *ids, unsigned count);
-extern void func_0218516C(u8 *p);
-extern void func_0218519C(char *p);
-extern void func_02185254(char *p, unsigned key, unsigned member);
-extern void func_02185310(char *p);
-extern int func_0218532C(char *p, u32 *out);
-extern void func_0218544C(char *p);
-extern void func_02185580(char *p, void *arc);
-extern void func_0218562C(char *p);
-extern void func_021856CC(u8 *p);
-extern void func_02185794(char *p);
-extern int func_02185934(u8 *p, u32 key, u32 b);
-extern int func_02185AC8(char *p);
+extern void BEACON_DETAIL_WinActivate(u8 *p, u32 i);
+extern void BEACON_DETAIL_MarkCurrentRecord(u8 *p);
+extern void BEACON_DETAIL_ReadTouchInput(char *p);
+extern void BEACON_DETAIL_InitMainScreen(char *p, void *arc);
+extern void BEACON_DETAIL_CreateTaskMenuWin(char *p, int i);
+extern void BEACON_DETAIL_DeleteTaskMenuWin(u8 *p, u32 i);
+extern void BEACON_DETAIL_DeleteMainScreen(char *p);
+extern int BEACON_DETAIL_PrintMessage(char *p, u32 message, int force);
+extern void BEACON_DETAIL_CreateMenuList(u8 *p, const u8 *d, const struct Src *s, const void *e);
+extern void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, u32 b, u32 c);
+extern void BEACON_DETAIL_CreateMenuItemsFromIds(char *p, const unsigned char *descriptor, const struct Src *cfg, unsigned file, const unsigned char *ids, unsigned count);
+extern void BEACON_DETAIL_CloseMenu(u8 *p);
+extern void BEACON_DETAIL_DrawCurrentArea(char *p);
+extern void BEACON_DETAIL_DrawEntryDetail(char *p, unsigned key, unsigned member);
+extern void BEACON_DETAIL_CloseDetailWin(char *p);
+extern int BEACON_DETAIL_FindNearestRecord(char *p, u32 *out);
+extern void BEACON_DETAIL_DrawCurrentInfo(char *p);
+extern void BEACON_DETAIL_Create3DObjects(char *p, void *arc);
+extern void BEACON_DETAIL_Delete3DObjects(char *p);
+extern void BEACON_DETAIL_Init3DParams(u8 *p);
+extern void BEACON_DETAIL_SetupCamera(char *p);
+extern int BEACON_DETAIL_MoveCursor(u8 *p, u32 key, u32 b);
+extern int BEACON_DETAIL_UpdateCamera(char *p);
 extern int BEACON_DETAIL_HasEntry(int i);
 
 extern const u8 d_02185DE6[];
@@ -198,7 +198,7 @@ static inline void close_win(u8 *p, int d, int f)
     }
 }
 
-int func_02183D14(u8 *p, int *state)
+int BEACON_DETAIL_Update(u8 *p, int *state)
 {
     int ret = 0;
     int n;
@@ -228,8 +228,8 @@ int func_02183D14(u8 *p, int *state)
     case 0:
         *(void **)(p + 0xC070) = func_02045B38(0, 2, (u16)0xCF, (u16)W(0));
         arc = func_020490F4(0xC5, (u16)W(0));
-        func_02185580((char *)p, arc);
-        func_021849A4((char *)p, arc);
+        BEACON_DETAIL_Create3DObjects((char *)p, arc);
+        BEACON_DETAIL_InitMainScreen((char *)p, arc);
         ARC_TOOL_DeleteHandle(arc);
         W(0xC314) = 0;
         WIPE_SYS_Start(0, (int)1, (int)1, (int)0, (int)6, (int)1, W(0));
@@ -245,7 +245,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 2:
-        if (func_02184D70((char *)p, 0, 1) == 1) {
+        if (BEACON_DETAIL_PrintMessage((char *)p, 0, 1) == 1) {
             if (W(0xC33C) == 0) {
                 *state = 3;
             } else {
@@ -254,8 +254,8 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 3:
-        if (func_02184D70((char *)p, 1, 1) == 1) {
-            func_02184EC0(p, d_02185DB6, &d_02185E98, d_02185E28);
+        if (BEACON_DETAIL_PrintMessage((char *)p, 1, 1) == 1) {
+            BEACON_DETAIL_CreateMenuList(p, d_02185DB6, &d_02185E98, d_02185E28);
             *state = 4;
         }
         break;
@@ -267,7 +267,7 @@ int func_02183D14(u8 *p, int *state)
         if (r == -1) {
             break;
         }
-        func_0218516C(p);
+        BEACON_DETAIL_CloseMenu(p);
         switch (r) {
         case 0:
         default:
@@ -283,7 +283,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 5:
-        if (func_02184D70((char *)p, 2, 1) == 1) {
+        if (BEACON_DETAIL_PrintMessage((char *)p, 2, 1) == 1) {
             *(void **)(p + 0xC054) = BMP_MENU_CreateYesNo(d_02185DB0, 0x22, 7, 0, W(0));
             *state = 6;
         }
@@ -305,11 +305,11 @@ int func_02183D14(u8 *p, int *state)
         break;
     case 7:
         W(0xC344) = 0;
-        func_02185074(p, d_02185DC4, (u32)d_02185ECC, 0xE7);
+        BEACON_DETAIL_CreateMenuItems(p, d_02185DC4, (u32)d_02185ECC, 0xE7);
         *state = 8;
         break;
     case 8:
-        if (func_02184D70((char *)p, 3, 1) == 1) {
+        if (BEACON_DETAIL_PrintMessage((char *)p, 3, 1) == 1) {
             *state = 9;
         }
         break;
@@ -321,7 +321,7 @@ int func_02183D14(u8 *p, int *state)
         if (r == -1) {
             break;
         }
-        func_0218516C(p);
+        BEACON_DETAIL_CloseMenu(p);
         if (r != -2) {
             W(0xC344) = r;
             if (BEACON_DETAIL_HasEntry(r) == 1) {
@@ -343,11 +343,11 @@ int func_02183D14(u8 *p, int *state)
     case 10:
         W(0xC348) = 0;
         BMP_OAM_Check5C44((u32)(*(void **)(p + 0xC344)), (u32 *)(&ids), &count);
-        func_021850EC((char *)p, d_02185DC4, (const struct Src *)d_02185ECC, BMP_OAM_Get((u32)(*(void **)(p + 0xC344))), ids, count);
+        BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct Src *)d_02185ECC, BMP_OAM_Get((u32)(*(void **)(p + 0xC344))), ids, count);
         *state = 0xB;
         break;
     case 11:
-        if (func_02184D70((char *)p, 4, 1) == 1) {
+        if (BEACON_DETAIL_PrintMessage((char *)p, 4, 1) == 1) {
             *state = 0xC;
         }
         break;
@@ -359,7 +359,7 @@ int func_02183D14(u8 *p, int *state)
         if (r == -1) {
             break;
         }
-        func_0218516C(p);
+        BEACON_DETAIL_CloseMenu(p);
         if (r != -2) {
             W(0xC348) = r;
             n = 0xD;
@@ -379,11 +379,11 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 13:
-        func_02185254((char *)p, W(0xC344), W(0xC348));
+        BEACON_DETAIL_DrawEntryDetail((char *)p, W(0xC344), W(0xC348));
         *state = 0xE;
         break;
     case 14:
-        if (func_02184D70((char *)p, 5, 1) == 1) {
+        if (BEACON_DETAIL_PrintMessage((char *)p, 5, 1) == 1) {
             *(void **)(p + 0xC054) = BMP_MENU_CreateYesNo(d_02185DB0, 0x22, 7, 0, W(0));
             *state = 0xF;
         }
@@ -391,7 +391,7 @@ int func_02183D14(u8 *p, int *state)
     case 15:
         switch ((u32)(int)BMP_MENU_ProcessYesNo(*(void **)(p + 0xC054))) {
         case 0:
-            func_02185310((char *)p);
+            BEACON_DETAIL_CloseDetailWin((char *)p);
             func_0200947C(W(0x10), W(0xC), W(0xC344), W(0xC348));
             GAME_BEACON_SetNationArea(W(0xC344), W(0xC348));
             W(0xC33C) = W(0xC344);
@@ -399,7 +399,7 @@ int func_02183D14(u8 *p, int *state)
             *state = 0x10;
             break;
         case 0xFFFFFFFE:
-            func_02185310((char *)p);
+            BEACON_DETAIL_CloseDetailWin((char *)p);
             *state = 3;
             break;
         }
@@ -410,16 +410,16 @@ int func_02183D14(u8 *p, int *state)
         } else {
             H(0xC31C) = 1;
         }
-        func_021856CC(p);
-        func_02184734(p);
-        func_02185794((char *)p);
+        BEACON_DETAIL_Init3DParams(p);
+        BEACON_DETAIL_MarkCurrentRecord(p);
+        BEACON_DETAIL_SetupCamera((char *)p);
         BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0xC01C)), 0xF);
         BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0xC01C));
-        func_02184C2C((char *)p, 1);
+        BEACON_DETAIL_CreateTaskMenuWin((char *)p, 1);
         if (W(0xC33C) != 0) {
-            func_0218519C((char *)p);
+            BEACON_DETAIL_DrawCurrentArea((char *)p);
         }
-        func_0218544C((char *)p);
+        BEACON_DETAIL_DrawCurrentInfo((char *)p);
         W(0xC350) = 0;
         W(0xC310) = 1;
         *state = 0x11;
@@ -429,16 +429,16 @@ int func_02183D14(u8 *p, int *state)
         if ((int)PRINTSYS_QUE_IsFinished(*(void **)(p + 0xC080)) == 0) {
             break;
         }
-        func_02184798((char *)p);
-        if (func_0218532C((char *)p, &tmp)) {
-            func_02184C2C((char *)p, 0);
+        BEACON_DETAIL_ReadTouchInput((char *)p);
+        if (BEACON_DETAIL_FindNearestRecord((char *)p, &tmp)) {
+            BEACON_DETAIL_CreateTaskMenuWin((char *)p, 0);
         } else {
-            func_02184C8C(p, 0);
+            BEACON_DETAIL_DeleteTaskMenuWin(p, 0);
         }
         v = W(0xC354);
         if ((v & 2) || ((w = W(0xC320)) & 2)) {
-            func_02184C8C(p, 0);
-            func_02183CBC(p, 1);
+            BEACON_DETAIL_DeleteTaskMenuWin(p, 0);
+            BEACON_DETAIL_WinActivate(p, 1);
             GFL_USE_PlaySeDefaultVolume(0x551);
             BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0xC01C)), 0xF);
             BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0xC01C));
@@ -447,8 +447,8 @@ int func_02183D14(u8 *p, int *state)
         }
         if (((v & 0x400) || (w & 0x400)) && W(0xC350) == 0) {
             W(0xC350) = 1;
-            func_02183CBC(p, 0);
-            func_0218544C((char *)p);
+            BEACON_DETAIL_WinActivate(p, 0);
+            BEACON_DETAIL_DrawCurrentInfo((char *)p);
             if (W(0xC350) != 1) {
                 break;
             }
@@ -456,12 +456,12 @@ int func_02183D14(u8 *p, int *state)
         }
         if (((v & 0x403) || (w & 0x400)) && W(0xC350) == 1) {
             W(0xC350) = 0;
-            func_0218544C((char *)p);
+            BEACON_DETAIL_DrawCurrentInfo((char *)p);
             break;
         }
-        if (func_02185934(p, v, W(0xC358)) == 1 && W(0xC350) == 1) {
+        if (BEACON_DETAIL_MoveCursor(p, v, W(0xC358)) == 1 && W(0xC350) == 1) {
             W(0xC350) = 0;
-            func_0218544C((char *)p);
+            BEACON_DETAIL_DrawCurrentInfo((char *)p);
         }
         if (old != H(0xC30C)) {
             *state = 0x12;
@@ -480,13 +480,13 @@ int func_02183D14(u8 *p, int *state)
             W(0xC310) = 2;
             *state = 3;
         } else {
-            func_02185310((char *)p);
+            BEACON_DETAIL_CloseDetailWin((char *)p);
             *state = 0x14;
         }
-        func_02184C8C(p, 1);
+        BEACON_DETAIL_DeleteTaskMenuWin(p, 1);
         break;
     case 18:
-        if (func_02185AC8((char *)p) == 1) {
+        if (BEACON_DETAIL_UpdateCamera((char *)p) == 1) {
             *state = 0x11;
         }
         break;
@@ -499,8 +499,8 @@ int func_02183D14(u8 *p, int *state)
         if (WIPE_SYS_EndCheck() == 1) {
             ret = 1;
             W(0xC310) = 1;
-            func_02184CB0((char *)p);
-            func_0218562C((char *)p);
+            BEACON_DETAIL_DeleteMainScreen((char *)p);
+            BEACON_DETAIL_Delete3DObjects((char *)p);
             MSGDATA_Delete(*(void **)(p + 0xC070));
             *state = 0;
         }

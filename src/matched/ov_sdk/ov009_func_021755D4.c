@@ -18,7 +18,7 @@
  *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   func_02175F84  0x02175F84  arm  ov009
  *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
- *   func_02173D28  0x02173D28  arm  ov009
+ *   DWCi_HandleGPError  0x02173D28  arm  ov009
  */
 
 typedef struct MatchCnt {
@@ -48,7 +48,7 @@ extern char *DWCi_NodeInfoList_GetMyNodeInfo(void);
 extern void DWCi_SetMatchStatus(int status);
 extern void func_02175F84(int status);
 extern int DWCi_GPSetServerStatus(int matchType);
-extern int func_02173D28(int error);
+extern int DWCi_HandleGPError(int error);
 
 void DWCi_SetupGameServer_InterChange(int init)
 {
@@ -77,6 +77,6 @@ void DWCi_SetupGameServer_InterChange(int init)
     if (((MatchCnt *)func_02175F3C())->f15 == 3)
         ((MatchCnt *)func_02175F3C())->f15 = 2;
     gpResult = DWCi_GPSetServerStatus(matchType);
-    func_02173D28(gpResult);
+    DWCi_HandleGPError(gpResult);
     ((MatchCnt *)func_02175F3C())->f67C = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02185728
+ * function: BEACON_DETAIL_CreateCamera
  * address: 0x02185728
  * packet: pkt_ov219_02185728
  * region: ov219
@@ -28,7 +28,7 @@ extern Config d_020A1EB8;
 extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,Vec3 *,Vec3 *,Vec3 *,u16);
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
-void func_02185728(char *p)
+void BEACON_DETAIL_CreateCamera(char *p)
 {
     Vec3 vec;
     u16 heap;

@@ -21,7 +21,7 @@
  *   BTL_SLOT_CountLiving 0x021B9B98 thumb ov093
  *   BTL_SLOT_GetPoke 0x021B9BF0 thumb ov093
  *   BTL_POKEPARAM_GetUsedMoveTotal 0x021D54B4 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_MAIN_IsClientUsed 0x021B8B9C thumb ov093
  */
 #include "../include/Obj01687.h"
@@ -47,7 +47,7 @@ extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern u8 BTL_SLOT_CountLiving(u8 *p);
 extern u32 BTL_SLOT_GetPoke(struct S2 *p, u32 i);
 extern u8 BTL_POKEPARAM_GetUsedMoveTotal(u8 *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
 
 void BTL_MAIN_StoreResultStats(u8 *p)
@@ -78,7 +78,7 @@ void BTL_MAIN_StoreResultStats(u8 *p)
     for (i = 0; i < n; i++) {
         item = (void *)BTL_SLOT_GetPoke((struct S2 *)list, (u8)i);
         q[0xc0] += BTL_POKEPARAM_GetUsedMoveTotal(item);
-        ((struct Obj01687 *)q)->fB4 += (u16)func_021D59B4(item, 13);
+        ((struct Obj01687 *)q)->fB4 += (u16)BTL_POKEPARAM_GetValue(item, 13);
     }
     q[0xbf] = n - count;
     list = BTL_SIDE_GetSlotOfClient((char *)p + 0x1b0, 1);

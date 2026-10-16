@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021B999C 0x021B999C thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  *   PMSI_SEARCH_GetKeyCount 0x021BB1F4 thumb ov110
  *   PMSI_SEARCH_GetKeyPosition 0x021BB224 thumb ov110
  *   func_02034AC4 0x02034AC4 arm
@@ -38,7 +38,7 @@
  *   PMSI_PARAM_GetResult 0x02024168 thumb
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
- *   func_021B95A0 0x021B95A0 thumb ov110
+ *   PMS_INPUT_DATA_Create 0x021B95A0 thumb ov110
  *   PMS_INPUT_VIEW_Create 0x021B9A50 thumb ov110
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   PMSI_SEARCH_Create 0x021BAEDC thumb ov110
@@ -54,7 +54,7 @@
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   PMS_INPUT_VIEW_Delete 0x021B9B20 thumb ov110
  *   TCB_Noop 0x02030DA4 arm
- *   func_021B95F4 0x021B95F4 thumb ov110
+ *   PMS_INPUT_DATA_Delete 0x021B95F4 thumb ov110
  *   PMSI_SEARCH_Delete 0x021BAF4C thumb ov110
  *   func_020315D4 0x020315D4 arm
  *   PMS_INPUT_HandleWordList 0x021BEDEC thumb ov110
@@ -129,7 +129,7 @@
  *   PMS_INPUT_VIEW_SetWordwinScrollOffset 0x021BAD14 thumb ov110
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   PMS_INPUT_VIEW_GetWordwinItem 0x021BAD20 thumb ov110
- *   func_021B99C4 0x021B99C4 thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordId 0x021B99C4 thumb ov110
  *   PMSI_SEARCH_GetResultWordId 0x021BB1E4 thumb ov110
  *   PMS_INPUT_VIEW_GetEditEntry 0x021BABF4 thumb ov110
  *   PMSI_PARAM_SetWordAt 0x020245A0 thumb
@@ -139,7 +139,7 @@
  *   PMSI_PARAM_IsComplete 0x02024464 thumb
  *   PMSI_PARAM_GetWordRaw 0x020244F0 thumb
  *   PMSI_SEARCH_HasResults 0x021BB1C0 thumb ov110
- *   func_021B99A4 0x021B99A4 thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordString 0x021B99A4 thumb ov110
  *   PMSI_SEARCH_GetResultString 0x021BB1CC thumb ov110
  *   PMSI_SEARCH_BuildInputText  0x021BB00C  thumb  ov110
  *   PMSI_SEARCH_ClearInput 0x021BAFE4 thumb ov110
@@ -243,15 +243,15 @@ extern int PMS_INPUT_VIEW_UpdateCategoryFocus(struct PmsInputView *view, PmsInpu
 
 extern int PMS_INPUT_VIEW_UpdateWordwinFocus(struct PmsInputView *view, PmsInput *input, struct PmsInputData *data);
 
-extern struct PmsInputData *func_021B95A0(u32 heapId, struct PmsiParam *param);
+extern struct PmsInputData *PMS_INPUT_DATA_Create(u32 heapId, struct PmsiParam *param);
 
-extern void func_021B95F4(struct PmsInputData *data);
+extern void PMS_INPUT_DATA_Delete(struct PmsInputData *data);
 
 extern struct PmsInputView *PMS_INPUT_VIEW_Create(PmsInput *input, struct PmsInputData *data);
 
 extern void PMS_INPUT_VIEW_Delete(struct PmsInputView *view);
 
-extern u32 func_021B999C(struct PmsInputData *data, int category);
+extern u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *data, int category);
 
 extern struct PmsInputSearch *PMSI_SEARCH_Create(PmsInput *input, struct PmsInputData *data, u16 heapId);
 
@@ -438,7 +438,7 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     taskBuf = func_02030734(41, func_02030CB0(5), 0, gPmsInputFileName, 579);
     input->taskBuf = taskBuf;
     input->tasks = func_02030CBC(5, taskBuf);
-    input->data = func_021B95A0(41, input->param);
+    input->data = PMS_INPUT_DATA_Create(41, input->param);
     input->view = PMS_INPUT_VIEW_Create(input, input->data);
     input->buttonMan = BUTTON_MAN_Create(gPmsInputButtonRects, PMS_INPUT_OnButton, input, 41);
     input->browseMode = PMS_BROWSE_CATEGORY;
@@ -503,7 +503,7 @@ void PMS_INPUT_Destroy(struct PmsInput *input, struct Proc *proc)
     PMS_INPUT_VIEW_Delete(input->view);
     TCB_Noop(input->tasks);
     func_020307B0(input->taskBuf);
-    func_021B95F4(input->data);
+    PMS_INPUT_DATA_Delete(input->data);
     PMSI_SEARCH_Delete(input->search);
     func_020315D4(proc);
 }
@@ -1185,7 +1185,7 @@ void PMS_INPUT_HandleBrowseTouch(struct PmsInput *input, unsigned int *state)
         if(r>=0) {
             input->cursorPos=r;
             PMS_INPUT_VIEW_StartTask(input->view,33);
-            if(r>=12 || !func_021B999C(input->data,input->cursorPos)) {
+            if(r>=12 || !PMS_INPUT_DATA_GetCategoryWordCount(input->data,input->cursorPos)) {
                 GFL_USE_PlaySeDefaultVolume(PMS_SE_ERROR);
                 return;
             }
@@ -1258,7 +1258,7 @@ void PMS_INPUT_HandleBrowseInput(struct PmsInput *input, unsigned int *state) {
 }
 
 /* Whether the category under the cursor has words. */
-int PMS_INPUT_CategoryHasWords(struct PmsInput *input) { if (func_021B999C(input->data, input->cursorPos) != 0) return 1; return 0; }
+int PMS_INPUT_CategoryHasWords(struct PmsInput *input) { if (PMS_INPUT_DATA_GetCategoryWordCount(input->data, input->cursorPos) != 0) return 1; return 0; }
 
 /* Moves the browse cursor by the pressed direction key. */
 int PMS_INPUT_MoveCursor(struct PmsInput *input) { return gPmsInputCursorMoveFns[input->browseMode](input); }
@@ -1287,13 +1287,13 @@ extern int PMS_INPUT_VIEW_GetMenuResult(struct PmsInputView *view);
 
 extern int PMS_INPUT_VIEW_GetEditEntry(struct PmsInputView *view, int slot);
 
-extern unsigned short func_021B99C4(struct PmsInputData *data, unsigned int category, unsigned int index);
+extern unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *data, unsigned int category, unsigned int index);
 
 extern u16 PMSI_SEARCH_GetResultWordId(struct PmsInputSearch *search, u32 index);
 
 extern u8 PMSI_SEARCH_HasResults(struct PmsInputSearch *search);
 
-extern void func_021B99A4(struct PmsInputData *data, u32 category, u32 index, int buf);
+extern void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *data, u32 category, u32 index, int buf);
 
 extern int PMSI_SEARCH_GetResultString(struct PmsInputSearch *search, u8 index, int buf);
 
@@ -1823,7 +1823,7 @@ int PMS_INPUT_PickWord(PmsInput *input)
     int index = input->wordList.touchedIndex;
     u16 word;
     if (index == 65535) index = PMS_WORDLIST_GetSelectedIndex(&input->wordList);
-    if (input->browseMode == 0) word = func_021B99C4(input->data, input->cursorPos, index);
+    if (input->browseMode == 0) word = PMS_INPUT_DATA_GetCategoryWordId(input->data, input->cursorPos, index);
     else word = PMSI_SEARCH_GetResultWordId(input->search, index);
     switch (input->inputMode) {
     case 0: input->words[0] = word; break;
@@ -1955,13 +1955,13 @@ u16 PMS_INPUT_GetSavedCursorPos(PmsInput *input) { return input->savedCursorPos;
 
 /* Number of cells of the word list, with the two cells before the first word. */
 u32 PMS_INPUT_GetListItemCount(PmsInput *input) {
-    if(input->browseMode==0) return func_021B999C(input->data,input->cursorPos)+2;
+    if(input->browseMode==0) return PMS_INPUT_DATA_GetCategoryWordCount(input->data,input->cursorPos)+2;
     else return PMSI_SEARCH_HasResults(input->search)+2;
 }
 
 /* Writes the text of one list word to a buffer. */
 void PMS_INPUT_GetListWord(PmsInput *input,u32 a,int b) {
-    if(input->browseMode==0) func_021B99A4(input->data,input->cursorPos,a,b);
+    if(input->browseMode==0) PMS_INPUT_DATA_GetCategoryWordString(input->data,input->cursorPos,a,b);
     else PMSI_SEARCH_GetResultString(input->search,a,b);
 }
 

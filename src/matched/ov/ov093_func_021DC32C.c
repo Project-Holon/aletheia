@@ -12,7 +12,7 @@
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_SERVER_FLOW_GetScratchBuffer 0x021C8120 thumb ov093
- *   func_021D5D14 0x021D5D14 thumb ov093
+ *   BTL_POKEPARAM_CanChangeStatStage 0x021D5D14 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
  *   BTL_SERVER_FLOW_PushCmdRecord 0x021C88B4 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u8 *BTL_SERVER_FLOW_GetScratchBuffer(u8 *p, int b);
-extern int func_021D5D14(s8 *p, int i, int sign);
+extern int BTL_POKEPARAM_CanChangeStatStage(s8 *p, int i, int sign);
 extern u32 BTL_CALC_Random(u32 k);
 extern void BTL_SERVER_FLOW_PushCmdRecord(void *a, int k, int b);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
@@ -53,8 +53,8 @@ void HAND_TOKUSEI_Moody_RaiseAndLowerStat(int a, void *b, u8 c)
         n2 = 0;
         n1 = 0;
         for (i = 0; i < 7; i++) {
-            if (func_021D5D14(m, i + 1, 1)) buf[0xa8 + n1++] = i + 1;
-            if (func_021D5D14(m, i + 1, -1)) buf[0xaf + n2++] = i + 1;
+            if (BTL_POKEPARAM_CanChangeStatStage(m, i + 1, 1)) buf[0xa8 + n1++] = i + 1;
+            if (BTL_POKEPARAM_CanChangeStatStage(m, i + 1, -1)) buf[0xaf + n2++] = i + 1;
         }
         second = 0;
         first = 0;

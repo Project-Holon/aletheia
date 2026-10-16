@@ -88,7 +88,7 @@
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   GAME_DATA_SetField168  0x0201289C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   ov007_id       0x00000007  data  a1
  *   ov100_id       0x00000064  data  a1
  *   ov214_id       0x000000D6  data  a1
@@ -100,7 +100,7 @@
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02019ED4  0x02019ED4  thumb
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -251,7 +251,7 @@ struct Pair;
 struct RecSlot;
 struct SaveBlock;
 struct Sub0200852CObj;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *SCRIPT_WORK_GetGameSystem(void *p);
@@ -377,7 +377,7 @@ extern void GDS_PROFILE_ClearScoreRecCountC(struct Blk1AC *p, u32 i);
 extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void GDS_PROFILE_AddFieldRecCounters(struct Blk3C *p, s32 a, s32 b, s32 c);
 extern void GDS_PROFILE_IncFieldRecCount03(struct Blk3C *p);
 extern void BSUBWAY_SCR_IncWinCount(u8 *w);
@@ -1035,8 +1035,8 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
             sb = 0;
             for (i = 0; i < cnt; i++) {
                 void *mon = POKEPARTY_GetMember(party, i);
-                int a1 = func_02017E1C(mon, 0xa0, 0);
-                int b1 = func_02017E1C(mon, 0xa1, 0);
+                int a1 = POKE_TOOL_GetPartyValue(mon, 0xa0, 0);
+                int b1 = POKE_TOOL_GetPartyValue(mon, 0xa1, 0);
                 sa += a1;
                 sb += b1;
             }
@@ -1091,13 +1091,13 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     case 403:
         *(u16 * *)&((struct Obj00335 *)w)->f720 = dst;
-        ((struct Obj00335 *)w)->f71C = COMM_ENTRY_MENU_Create((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 0, 2, 0);
+        ((struct Obj00335 *)w)->f71C = COMM_ENTRY_MENU_Create((u32)GAME_DATA_GetMyStatus((void *)s4c), s30, 2, 2, 4, 0, 2, 0);
         VM_SetWait(a, (int)BSUBWAY_SCR_WaitCommEntryMenu);
         ret = 1;
         break;
     case 404:
         *(u16 * *)&((struct Obj00335 *)w)->f720 = dst;
-        ((struct Obj00335 *)w)->f71C = COMM_ENTRY_MENU_Create((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 1, 2, 0);
+        ((struct Obj00335 *)w)->f71C = COMM_ENTRY_MENU_Create((u32)GAME_DATA_GetMyStatus((void *)s4c), s30, 2, 2, 4, 1, 2, 0);
         ret = 1;
         VM_SetWait(a, (int)BSUBWAY_SCR_WaitCommEntryMenuSimple);
         break;

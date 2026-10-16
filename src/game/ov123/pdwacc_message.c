@@ -53,7 +53,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   KEY_GetTrg  0x020362DC  arm
  *   GF_STANDARD_SetupCalc 0x0203F1FC arm
  *   d_021DABA8 0x021DABA8 data ov123 a1
@@ -174,7 +174,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 extern u32 KEY_GetTrg(void);
 
@@ -362,7 +362,7 @@ void *PDWACC_MESSAGE_OpenYesNoMenu(PdwaccMessageWork *work, int layout)
     result = APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
     STRBUF_Delete(work->menuItems[0].text);
     STRBUF_Delete(work->menuItems[1].text);
-    func_0207D658(0x04001050, 17, -8);
+    G2x_SetBlendBrightness_(0x04001050, 17, -8);
     return result;
 }
 

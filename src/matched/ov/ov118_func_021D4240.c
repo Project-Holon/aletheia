@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   _s32_div_f     0x0209C0A4  arm
  *
  * Addresses are Black-image addresses.
@@ -20,7 +20,7 @@ typedef signed char s8;
 typedef int s32;
 typedef unsigned int u32;
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 void POKETRADE_DEMO_COMMON_StepFade(s8 *fade)
 {
@@ -33,7 +33,7 @@ void POKETRADE_DEMO_COMMON_StepFade(s8 *fade)
         fade[1]++;
         value = ((fade[3] - fade[2]) << 12) / fade[0];
         value = value * fade[1] / 4096;
-        func_0207D658(0x04000050, 0x1E, value);
-        func_0207D658(0x04001050, 0x1F, value);
+        G2x_SetBlendBrightness_(0x04000050, 0x1E, value);
+        G2x_SetBlendBrightness_(0x04001050, 0x1F, value);
     }
 }

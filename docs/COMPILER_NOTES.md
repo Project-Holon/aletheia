@@ -86,3 +86,48 @@ address (`match.piece_entry_status`), and the manifest entry keeps kind
 `functions`. The marker is absent from every existing file, so the path is
 dormant until a file is merged as a piece; the 39 runtime rows are untouched.
 
+## 9. A partial conversion is not a valid test of a typed form
+
+The original source used the typed form throughout, so its instruction
+schedule corresponds to converting every site of that object at once.
+Converting only some sites yields a hybrid with a different register
+schedule and a false DIFF. Convert every site in the function before
+concluding that the typed form DIFFs, and treat a "kept because the typed
+form DIFFs" note as a claim to re-test, not as settled.
+
+INV-A re-tested records that a lane had closed this way; three of eight
+were false. In `ov219/beacon_detail.c`, all six raw casts in
+`func_0218532C` and `func_02185B74` convert to typed record fields and both
+functions stay EXACT (288 and 272 bytes) once every site is converted; the
+lane had measured a partial conversion. In `ov218/un_select.c`,
+`UN_SELECT_CreateFrameList` typed `itemText[i]` is EXACT at 224 bytes, not
+the 232 bytes a partial conversion measured.
+
+The related reusable result is the base-first indexed form: when a direct
+struct-indexed array access DIFFs, `((void**)&field[0])[i]` (or
+`((T**)&field[0])[i]`) can be byte-exact. Two independent re-tests confirm
+it, so try the base-first form before recording that a typed array access
+has no alternative.
+
+## 10. The arm9 coverage-accounting gap was an inventory bug, not missed code
+
+DISC-1 closed the 1994-byte disagreement between `coveragemap.py` (arm9 matched
+434030) and `ovstats.py` (436024). The bytes were two long-branch labels inside
+the single matched function `MCSS_Draw` (`0x02014D2C..0x020155A0`), not function
+starts. `tools/worklist.py` counted a listing label strictly inside a matched
+unit's compiled bytes as an open function; it now credits it to its parent
+(`interior` argument, `matched_interior`). `tools/fnaddr.py` records the laid-out
+`.text` size under the reserved key `__size__` (`unit_size()`), and
+`tools/coveragemap.py` now cross-checks its arm9 tiles against
+`ovstats.arm9_summary()` and exits on any disagreement. After the fix arm9 reads
+100.00 percent (436024 of 436032) and the map, ovstats and linkstats agree.
+
+## 11. Three "missing" byte runs were missing manifest entries, not missing code
+
+TAILSTUB-1 found that the arm9 8-byte run at `0x02072788` and the overlay 8-byte
+runs `ov125 0x021D85DC` and `ov175 0x021DD560` are mwcc far tail calls
+(`ldr ip,[pc]; bx ip` followed by a pool word). They are genuine code, but the
+reason they read as gaps in one tool was that three of the shard/manifest entries
+were absent, not that the code was unmatched. When a small run looks unmatched,
+check the manifest entry before writing code.
+

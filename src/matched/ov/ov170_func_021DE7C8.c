@@ -11,14 +11,14 @@
  * lever: Spell the byte-mask update as plain assignment; compound assignment inserts an extra truncation pair.
  * symbols:
  *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb ov170
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   BOX2_MAIN_GetMinusOne 0x021DE720 thumb ov170
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23851.h"
 typedef struct {void *p;unsigned short index;unsigned char flags;unsigned char pad[5];} State;
 extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
-extern unsigned func_02017E88(void *,unsigned,unsigned);
+extern unsigned POKE_TOOL_GetBoxValue(void *,unsigned,unsigned);
 extern int BOX2_MAIN_GetMinusOne(unsigned short);
 int BOX2_MAIN_StepScroll(unsigned char *p)
 {
@@ -39,9 +39,9 @@ int BOX2_MAIN_StepScroll(unsigned char *p)
             if(slot==p[0x16]-30)m=0;
             else m=(void *)BOX2_MAIN_GetMonAt((void ***)p,255,slot);
         }
-        if(m&&func_02017E88(m,0xa9,0)!=0){
+        if(m&&POKE_TOOL_GetBoxValue(m,0xa9,0)!=0){
             for(i=0;i<4;i++){
-                r=BOX2_MAIN_GetMinusOne((unsigned short)func_02017E88(m,i+0x36,0));
+                r=BOX2_MAIN_GetMinusOne((unsigned short)POKE_TOOL_GetBoxValue(m,i+0x36,0));
                 if(r!=-1)s->flags=s->flags & (255^(1<<r));
             }
         }

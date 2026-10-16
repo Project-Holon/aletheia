@@ -1,5 +1,5 @@
 /*
- * function: func_0208B75C
+ * function: MicStopAutoSampling
  * address:  0x0208B75C
  * packet:   pkt_0208B75C
  * region:   arm9
@@ -41,7 +41,7 @@ typedef struct MICAutoParam MICAutoParam;
 
 extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 
-BOOL func_0208B75C(void)
+BOOL MicStopAutoSampling(void)
 {
     if (PXI_SendWordByFifo(PXI_FIFO_TAG_MIC, MIC_PXI_STOP_AUTO_SAMPLING, FALSE) >= 0)
     {

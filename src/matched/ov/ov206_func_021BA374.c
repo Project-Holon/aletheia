@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BA374
+ * function: ZUKAN_INFO_Update
  * address: 0x021BA374
  * packet: pkt_ov206_021BA374
  * region: ov206
@@ -11,12 +11,12 @@
  * note: cases 0/6/7 are empty labels inside the 8-entry jump table. The window registers are literal
  *   volatile addresses; the derived 0x04000000 base and 0x800 come from constant derivation.
  * symbols:
- *   func_021BBC9C 0x021BBC9C thumb ov206
- *   func_0207D658 0x0207D658 arm
+ *   ZUKAN_INFO_BlendPalette 0x021BBC9C thumb ov206
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   PM_VOICE_Play 0x02006984 thumb
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_SetActorPos 0x0204B528 arm
- *   func_021BAF7C 0x021BAF7C thumb ov206
+ *   ZUKAN_INFO_FlushSlotWindows 0x021BAF7C thumb ov206
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "../include/Obj00316.h"
@@ -27,18 +27,18 @@ typedef unsigned int u32;
 struct Pt { s16 x; s16 y; };
 typedef signed int     s32;
 struct S;
-extern s32 func_021BBC9C(struct S *p);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern s32 ZUKAN_INFO_BlendPalette(struct S *p);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern u32 PM_VOICE_Play(u32, u32, u32, u32, u32, u32, u32, u32);
 struct Actor;
 struct PrintSys;
 extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
-extern void func_021BAF7C(char *p);
+extern void ZUKAN_INFO_FlushSlotWindows(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-void func_021BA374(char *p)
+void ZUKAN_INFO_Update(char *p)
 {
-    if (((struct Obj00316 *)p)->f18 == 0) func_021BBC9C((struct S *)p);
+    if (((struct Obj00316 *)p)->f18 == 0) ZUKAN_INFO_BlendPalette((struct S *)p);
     ((struct Obj00316 *)p)->f64 += 1;
     if (((struct Obj00316 *)p)->f64 == 4) {
         ((struct Obj00316 *)p)->f39 |= 1;
@@ -57,7 +57,7 @@ void func_021BA374(char *p)
         *(volatile u16 *)0x04000044 = (u16)(((8 << 8) & 0xFF00) | (v & 0xFF));
         if (((struct Obj00316 *)p)->f68 == 16) {
             *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
-            func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, 0);
+            G2x_SetBlendBrightness_((u32)((volatile u16 *)0x04000050), 0x10, 0);
             PM_VOICE_Play(((struct Obj00316 *)p)->fC, ((struct Obj00316 *)p)->fE, 0x40, 0, 0, 0, 0, 0);
             ((struct Obj00316 *)p)->f54 = 3;
         }
@@ -87,6 +87,6 @@ void func_021BA374(char *p)
         }
         break;
     }
-    if (((struct Obj00316 *)p)->f18 == 0 || ((struct Obj00316 *)p)->f18 == 2) func_021BAF7C(p);
+    if (((struct Obj00316 *)p)->f18 == 0 || ((struct Obj00316 *)p)->f18 == 2) ZUKAN_INFO_FlushSlotWindows(p);
     PRINTSYS_QUE_Main(((struct Obj00316 *)p)->f2C);
 }

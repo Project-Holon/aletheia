@@ -458,6 +458,21 @@ def render_arm9(a, anchors):
     matched_sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_sdk")
     runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("runtime", "matched_runtime"))
     matched_runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_runtime")
+    # Cross-check the arm9 tiles against ovstats' own arm9 figures, the same way
+    # the overlay path checks its tiles against ovstats.overlay_rows: a future
+    # disagreement between this inventory and the worklist summary must be a
+    # loud failure, not a quietly wrong headline.  ovstats reads the same
+    # numbers from layout/worklist.json's summary, so the two must agree.
+    a9 = ovstats.arm9_summary()
+    if a9:
+        ov_game = int(a9.get("code_bytes_game", -1))
+        ov_matched = int(a9.get("code_bytes_matched", -1))
+        ov_funcs = int(a9.get("functions_matched", -1))
+        n_matched = len([f for f in inv["funcs"] if f["cls"] in ("matched", "regmm")])
+        if (game, matched, n_matched) != (ov_game, ov_matched, ov_funcs):
+            sys.exit("coveragemap: arm9 tiles disagree with ovstats (layout/worklist.json): "
+                     "game %d vs %d, matched %d vs %d, matched functions %d vs %d"
+                     % (game, ov_game, matched, ov_matched, n_matched, ov_funcs))
     ugroups = [(units[i]["file"].split("/")[-1][:-2], per[i]) for i in range(len(units))]
     fgroups = sorted(families_arm9(inv["funcs"], anchors).items())
     rt_str = ("; +%s matched runtime of %s" % (format(matched_runtime, ","), format(runtime, ","))) if runtime else ""
@@ -625,6 +640,26 @@ def render_aux(a):
     sdk = sum(f["code_bytes"] for f in funcs if f["cls"] in ("sdk", "matched_sdk", "placeholder_sdk"))
     held = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder")
     held_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder_sdk")
+    # The arm9 and overlay paths cross-check their tiles against ovstats, which
+    # covers the overlays and arm9 only: no second tool measures twl, the ITCM
+    # autoload or the MAIN_TWL/VRAM_LCDC blocks, so there is no ovstats figure
+    # to mirror.  This path instead asserts its own partition, so a class added
+    # without updating the sums above fails loudly rather than skewing the
+    # headline silently.
+    classes = ("open", "matched", "regmm", "placeholder", "sdk", "matched_sdk", "placeholder_sdk", "runtime",
+               "matched_runtime")
+    by_cls = {}
+    for f in funcs:
+        if f["cls"] not in classes:
+            sys.exit("coveragemap: aux tile %s %08X has unknown class %r" % (f["region"], f["addr"], f["cls"]))
+        by_cls[f["cls"]] = by_cls.get(f["cls"], 0) + f["code_bytes"]
+    if sum(by_cls.values()) != drawn:
+        sys.exit("coveragemap: aux classes do not partition the drawn bytes")
+    if (by_cls.get("matched", 0) + by_cls.get("regmm", 0) != matched
+            or by_cls.get("matched_sdk", 0) != matched_sdk
+            or by_cls.get("open", 0) + by_cls.get("matched", 0) + by_cls.get("regmm", 0)
+            + by_cls.get("placeholder", 0) != game):
+        sys.exit("coveragemap: aux headline sums disagree with the tile classes")
     headline = "TWL / ITCM / autoload: %.2f%% exact game (%s / %s B)%s; +%s matched SDK of %s; %d fns%s" % (
         100.0 * matched / game if game else 0.0, format(matched, ","), format(game, ","), regmm_note(regmm),
         format(matched_sdk, ","), format(sdk, ","), len(funcs), placeholder_note(held, held_sdk))

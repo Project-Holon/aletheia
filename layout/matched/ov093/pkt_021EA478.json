@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EB318",
+   "name": "BTLV_SCU_IsFadeDone",
    "address": "0x021EB318",
    "kind": "game",
    "region": "ov093",

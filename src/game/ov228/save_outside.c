@@ -156,7 +156,7 @@ void *SAVE_OUTSIDE_Load(u32 heap)
 
 /*
  * Unlabelled leaf in ov228 (it saves nothing; the listing prints it as
- * .word data after pool_021DFDB4): a one-argument forwarding tail call to
+ * .word data after the pool at 021DFDB4): a one-argument forwarding tail call to
  * the heap free func_020307B0, `ldr r3, [pc]; bx r3` plus the pool word.
  * Its caller is arm9 MYSTERY_DATA_Unload (mystery_data.c), whose MATCH park
  * names this address as its only unwitnessed call.

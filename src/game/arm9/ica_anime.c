@@ -119,7 +119,7 @@ struct Vec3 { s32 x; s32 y; s32 z; };
  */
 struct IcaAnime {
     u16 heapId;
-    u16 pad02;
+    u16 reserved02;
     struct ArcFile *arcHandle;
     u32 dataId;
     u32 frameNum;
@@ -574,7 +574,7 @@ void ICA_ANIME_Delete(struct IcaAnime *anime)
  *
  *   ICA_ANIME_IncFrameLoop   advance the clock, reset it if the frame count is
  *                   reached, and poke the animation when the new frame falls
- *                   outside [f14, f14 + f18)
+ *                   outside [bufTopFrame, bufTopFrame + bufFrameNum)
  *   ICA_ANIME_IncFrameNoLoop   the same advance but returning "already finished" when
  *                   the frame at entry is past the count
  *   ICA_ANIME_SetFrame   set the clock outright
@@ -584,9 +584,9 @@ void ICA_ANIME_Delete(struct IcaAnime *anime)
  * The range check is one disjunction in every case: the original reaches the
  * single `bl ICA_ANIME_LoadFrames` from both compares.
  *
- * Signedness: the frame is `f10 >> 12` with an arithmetic shift (asrs), but
- * the compare against f0c is unsigned (bhi/bhs), so f0c is a u32 field while
- * the clock and the frame bounds are s32.
+ * Signedness: the frame index is `frame >> 12` with an arithmetic shift
+ * (asrs), but the compare against frameNum is unsigned (bhi/bhs), so frameNum
+ * is a u32 field while frame, bufTopFrame and bufFrameNum are s32.
  *
  * Addresses are Black-image addresses.
  *
@@ -655,7 +655,7 @@ u32 ICA_ANIME_GetFrame(struct IcaAnime *anime)
  *                   (no prologue: the function saves nothing), written here
  *                   as the third copy
  *
- * The index is `(f10 >> 12) - f14`, which is why the original does an asrs
+ * The index is `(frame >> 12) - bufTopFrame`, which is why the original does an asrs
  * by twelve and then a subtract before the multiply by twelve, and the copy
  * itself is one twelve-byte struct assignment (ldm/stm pair plus the third
  * word).  Returning 0 when the table pointer is null is what makes the two
@@ -695,7 +695,7 @@ u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale)
 }
 
 /*
- * Copy frame `idx % count` of the f1c Vec3 table out to dst when the table
+ * Copy frame `idx % count` of the transBuf Vec3 table out to dst when the table
  * length at +0x18 equals the count at +0x0C; returns 1, else 0.  EXACT* because
  * the listing extent (56) includes the 2-byte `movs r0, r0` pad after the
  * second epilogue; the 54 code bytes are exact.
@@ -1272,7 +1272,7 @@ u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSy
  * 0x02146250 (the address of +0x08, used both for the 0x14-byte clear and
  * for the return value), 0x02146248 and 0x02146254 (= +0x0C, the destination
  * of the twelve-byte record copy).  So the struct is
- * `{ pad[8]; u32 f8; Vec3 rec; u16 f18; u16 f1a; }` and the function
+ * `{ u32 mode; Vec3 position; u16 zoneId; u16 direction; }` and the function
  * clears +0x08..+0x1C, stores two scalars, copies the record in and stores
  * one more scalar.
  *
@@ -1321,7 +1321,7 @@ u32 GAMESYSTEM_GetWorkSize(void)
  * The note's 8-byte r0/r1 "tie" (docs/notes/pkt_02011F28.c.txt) was a
  * misread arity: CURSOR_MOVE_CreateVecSet takes TWO arguments (its own matched file
  * reads r1), and the second is the table just stored at +0x1c, passed as
- * `p->f1c` -- which the compiler forwards from the register, hence the
+ * `p->gameData` -- which the compiler forwards from the register, hence the
  * `adds r1, r0, #0` the image has before the id reload.  Written as a
  * struct, not raw pointer casts.  EXACT* only because the 2-byte pad at
  * 0x02011F8E runs the extent to 0x02011F90.
@@ -1693,7 +1693,7 @@ void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on)
  * The note's 4-byte r0/r1 "tie" (docs/notes/pkt_02012164.c.txt) was a
  * misread arity: GAME_DATA_GetPlayerZoneId is `ldrh r0, [r0]; bx lr`, a getter taking
  * the pointer ICA_ANIME_GetField114 returns, and ZONEDATA_IsNoGameEventZone takes that u16 in
- * r0 -- so the image keeps it in r0 across the p->f32 test and reads the
+ * r0 -- so the image keeps it in r0 across the p->commBlocked test and reads the
  * byte through r1.  `id = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(p))` then
  * `ZONEDATA_IsNoGameEventZone(id)` closes it.
  */
@@ -1748,7 +1748,7 @@ u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem)
  * `lsls #0x1f` / `lsrs #0x1f` pair is a one bit field, not a cast: 32 - 31 is
  * not an integer width, which is
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md, and the
- * clearer's `movs r1, #1` / `bics` is what `p->unk33_0 = 0;` compiles to
+ * clearer's `movs r1, #1` / `bics` is what `p->netOffBySleep = 0;` compiles to
  * because Thumb has no immediate bic.  Neither function has a relocation.
  *
  * Addresses are Black-image addresses.

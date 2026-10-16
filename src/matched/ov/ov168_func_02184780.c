@@ -1,5 +1,5 @@
 /*
- * function: func_02184780
+ * function: MICTEST_UpdateSpriteTask
  * address: 0x02184780
  * packet: pkt_ov168_02184780
  * region: ov168
@@ -36,7 +36,7 @@ struct Actor;
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_02184780(void *task, int *p)
+void MICTEST_UpdateSpriteTask(void *task, int *p)
 {
     s16 x;
     s16 y;

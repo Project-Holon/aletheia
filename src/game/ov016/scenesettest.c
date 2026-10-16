@@ -91,7 +91,7 @@ typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 
-typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
+#include "gx_oam_types.h"
 
 typedef struct NCFGApInfo {
     unsigned char  ispId[32];         /* 0x00 */

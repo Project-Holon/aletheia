@@ -32,10 +32,11 @@
  *   BEACON_GetSelect  0x0200C164  thumb
  *   POKE_TOOL_FilterSpecies  0x02019D58  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  */
 struct GameSys;
 struct ProgressBlock;
-struct TrainerRec;
+struct PlayerStatus;
 struct SaveDataObj;
 struct RecordData;
 struct Strbuf;
@@ -174,18 +175,18 @@ extern void OS_GetOwnerInfo(void *info);
 extern u16   STRBUF_GetEosChar(void);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct GameSys *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveDataObj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct RecordData *src, int idx, struct RecordData *dst);
 extern const void *func_020084F4(const void *p);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
-extern u32 func_02008530(const struct TrainerRec *obj);
-extern u8 func_02008550(const struct TrainerRec *obj);
-extern u8 func_02008554(const struct TrainerRec *obj);
-extern u8 func_0200856C(const struct TrainerRec *obj);
-extern u8 func_02008570(const struct TrainerRec *obj);
+extern u32 func_02008530(const struct PlayerStatus *obj);
+extern u8 func_02008550(const struct PlayerStatus *obj);
+extern u8 func_02008554(const struct PlayerStatus *obj);
+extern u8 func_0200856C(const struct PlayerStatus *obj);
+extern u8 func_02008570(const struct PlayerStatus *obj);
 extern void BEACON_GetSelect(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length);
@@ -355,7 +356,7 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     u32 nationalDex;
     void *progress;
     void *saveData = GAME_DATA_GetSaveControl(sys);
-    void *trainerRec = func_02012944(sys);
+    void *trainerRec = GAME_DATA_GetMyStatus(sys);
     void *recordEnv;
     s32 i;
 

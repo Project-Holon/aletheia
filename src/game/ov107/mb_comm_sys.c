@@ -136,7 +136,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MB_UTIL_MSG_GetFont 0x021F1B04 thumb ov107
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MB_UTIL_MSG_CreateWordSet 0x021F18D8 thumb ov107
  *   func_02008534 0x02008534 thumb
  *   MB_UTIL_MSG_SetNumberZeroPad 0x021F1918 thumb ov107
@@ -481,7 +481,7 @@ extern u8 BMP_WIN_GetBgLayer(void *);
 extern void STRBUF_Delete(void *);
 extern u32 MSGDATA_Delete(void *rec);
 extern u32 BMP_WIN_Delete(void *d);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MB_UTIL_MSG_CreateWordSet(void *);
 extern u16 func_02008534(const void *obj);
 extern void MB_UTIL_MSG_SetNumberZeroPad(struct MbMsgWork *a, int b, int c, int d);
@@ -1302,7 +1302,7 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
     u16 *dst;
     u16 *src;
 
-    ownerData = func_02012944(p->arg->gameData);
+    ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
     p->subPhase = 0;
     p->recruitPhase = 0;
     p->gameNameBuf = func_02030734(p->heapId, 0x60, 1, d_021F6E0C, 0x553);
@@ -1411,7 +1411,7 @@ int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
         break;
     case 2:
         if (WIH_GetSysState() == 7) {
-            ownerData = func_02012944(p->arg->gameData);
+            ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
             MB_COMM_SYS_StartParent(p);
             MB_UTIL_MSG_ClearWindow(p->msg);
             if (p->standalone == 0)
@@ -1562,7 +1562,7 @@ void MB_COMM_SYS_MainRecruit(MbCommSysWork *p)
             MB_PARENT_SYS_Cancel();
             p->recruitPhase = 4;
         } else if (answer == 2) {
-            ownerData = func_02012944(p->arg->gameData);
+            ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
             if (p->standalone == 0)
                 MB_UTIL_MSG_CloseTaskMenu(p->msg);
             else
@@ -2010,7 +2010,7 @@ void MB_COMM_SYS_MainChildFlow(MbCommSysWork *p)
         a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
         if (a == 1 || a == 2) {
             saveTrainerKey = GAME_DATA_GetMyItem(p->arg->gameData);
-            ownerData = func_02012944(p->arg->gameData);
+            ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
             miscSave = GAME_DATA_GetMiscSave(p->arg->gameData);
             if (a == 1 && FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, 0, ownerData) == 1) {
                 p->answer = 2;
@@ -2036,7 +2036,7 @@ void MB_COMM_SYS_MainChildFlow(MbCommSysWork *p)
         if (MB_COMM_SYS_SendMessage(p->net, 0x10, a) == 1) {
             if (a == 1) {
                 saveTrainerKey = GAME_DATA_GetMyItem(p->arg->gameData);
-                ownerData = func_02012944(p->arg->gameData);
+                ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
                 miscSave = GAME_DATA_GetMiscSave(p->arg->gameData);
                 MB_UTIL_MSG_ClearWindow(p->msg);
                 MB_UTIL_MSG_SetWindowLayout(p->msg, 1);

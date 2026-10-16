@@ -1,5 +1,5 @@
 /*
- * function: func_0208B2BC
+ * function: MIC_StartAutoSamplingAsync
  * address:  0x0208B2BC
  * packet:   pkt_0208B2BC
  * region:   arm9
@@ -70,7 +70,7 @@ u32 OS_DisableInterrupts(void);
 u32 OS_RestoreInterrupts(u32 state);
 BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags);
 
-MICResult func_0208B2BC(const MICAutoParam *param, MICCallback callback, void *arg)
+MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg)
 {
     u32 enabled;
     u8 flags;

@@ -22,7 +22,15 @@
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   overlay_id 0x00000043 data a1
  */
-#include "../../matched/include/Obj06704.h"
+struct CommBtlDemoMain {
+    unsigned short heap;      /* 0x00 */
+    unsigned char pad_2[0x49B2];
+    void * graphic;           /* 0x49B4 */
+    void * font;              /* 0x49B8 */
+    void * printQue;          /* 0x49BC */
+    void * messages;          /* 0x49C0 */
+    void * uiScene;           /* 0x49C4 */
+};
 typedef unsigned short u16;typedef unsigned int u32;
 struct Rec;struct PrintSys;struct Proc;
 extern void BG_SYS_ResetSlot(u32,u32,u32);extern void COMM_BTL_DEMO_MAIN_UpdateNetKind(char *);
@@ -35,11 +43,11 @@ int COMM_BTL_DEMO_MAIN_Delete(struct Proc *owner,int unused,const void *cfg,char
 u16 heap;
 BG_SYS_ResetSlot(3,0,0);
 if(*(int *)((unsigned)cfg+0x44)==2 || *(int *)((unsigned)cfg+0x44)==4)COMM_BTL_DEMO_MAIN_UpdateNetKind(p);
-UI_SCENE_Delete(((struct Obj06704 *)p)->f49C4);
-MSGDATA_Delete(*(void **)((unsigned)p+0x49c0));
-PRINTSYS_QUE_Delete(((struct Obj06704 *)p)->f49BC);
-GF_FONT_Delete(*(void **)((unsigned)p+0x49b8));
+UI_SCENE_Delete(((struct CommBtlDemoMain *)p)->uiScene);
+MSGDATA_Delete(((struct CommBtlDemoMain *)p)->messages);
+PRINTSYS_QUE_Delete(((struct CommBtlDemoMain *)p)->printQue);
+GF_FONT_Delete(((struct CommBtlDemoMain *)p)->font);
 COMM_BTL_DEMO_MAIN_DeleteCursor(p+0xc);COMM_BTL_DEMO_MAIN_DeleteGraphics(p+0x24);
-COMM_BTL_DEMO_GRAPHIC_Delete(((struct Obj06704 *)p)->f49B4);
-heap=*(u16 *)p;PROCSYS_FreeProcWork(owner);GFL_HEAP_DeleteChecked(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
+COMM_BTL_DEMO_GRAPHIC_Delete(((struct CommBtlDemoMain *)p)->graphic);
+heap=((struct CommBtlDemoMain *)p)->heap;PROCSYS_FreeProcWork(owner);GFL_HEAP_DeleteChecked(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
 }

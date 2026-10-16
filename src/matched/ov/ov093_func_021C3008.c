@@ -10,7 +10,7 @@
  * lever: reassigning value to the transformed result keeps it in its incoming register.
  * symbols:
  *   BTL_SERVER_FLOW_QueryStatStageChangeEvent 0x021C312C thumb ov093
- *   func_021D5D14 0x021D5D14 thumb ov093
+ *   BTL_POKEPARAM_CanChangeStatStage 0x021D5D14 thumb ov093
  *   BTL_SERVER_FLOW_PushSignedChangeMessage 0x021C5A4C thumb ov093
  *   BTL_POKEPARAM_HasSubstitute 0x021D6D7C thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 enum Kind { K0, K1, K10 = 10 };
 extern int BTL_SERVER_FLOW_QueryStatStageChangeEvent(u8 *, u8 *, enum Kind, u8, u16, int);
 typedef signed char    s8;
-extern int func_021D5D14(s8 *p, int i, int sign);
+extern int BTL_POKEPARAM_CanChangeStatStage(s8 *p, int i, int sign);
 extern void BTL_SERVER_FLOW_PushSignedChangeMessage(u8 *p, u8 *a, int b, int c);
 extern u32 BTL_POKEPARAM_HasSubstitute(u8 *p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -45,7 +45,7 @@ int BTL_SERVER_FLOW_TryChangeStatStage(u8 *p, u8 b, u8 *a, enum Kind kind, int v
     int result;
     u32 lock;
     value = BTL_SERVER_FLOW_QueryStatStageChangeEvent(p, a, kind, f, g, value);
-    if (!func_021D5D14((s8 *)a, kind, value)) {
+    if (!BTL_POKEPARAM_CanChangeStatStage((s8 *)a, kind, value)) {
         if (i) {
             BTL_SERVER_FLOW_PushSignedChangeMessage(p, a, kind, value);
             ((struct Obj00003 *)p)->f78A |= 0x10;

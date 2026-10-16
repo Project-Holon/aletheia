@@ -31,7 +31,7 @@
  *       --addr 0x0201854C --thumb
  *
  * symbols:
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_GetExpValue  0x02019BA4  thumb
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  */
@@ -39,7 +39,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_GetExpValue(u32 x, u32 i);
 extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 
@@ -47,9 +47,9 @@ u32 POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
 
 u32 POKE_TOOL_GetBoxLevelMinExp(void *p)
 {
-    u32 a = func_02017E88(p, 5, 0);
-    u32 b = func_02017E88(p, 0x6F, 0);
-    u32 c = func_02017E88(p, 0x9E, 0);
+    u32 a = POKE_TOOL_GetBoxValue(p, 5, 0);
+    u32 b = POKE_TOOL_GetBoxValue(p, 0x6F, 0);
+    u32 c = POKE_TOOL_GetBoxValue(p, 0x9E, 0);
 
     return POKE_TOOL_GetExpForLevel((u16)a, (u16)b, (u16)c);
 }

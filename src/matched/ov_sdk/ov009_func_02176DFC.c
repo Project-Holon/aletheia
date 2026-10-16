@@ -1,5 +1,5 @@
 /*
- * function: func_02176DFC
+ * function: DWCi_IsSendableReliable
  * address:  0x02176DFC
  * packet:   pkt_ov009_02176DFC
  * region:   ov009
@@ -29,7 +29,7 @@ extern int DWCs_GetOutgoingBufferFreeSize(int aid);
 extern int DWCs_GetRequiredHeaderSize(int type);
 extern int DWCi_IsReliableQueueFree(void);
 
-int func_02176DFC(int aid, int type)
+static int DWCi_IsSendableReliable(int aid, int type)
 {
     long freeSpace;
 

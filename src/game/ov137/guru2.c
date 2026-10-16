@@ -40,6 +40,7 @@
  *   GURU2_COMM_Create 0x021DCB04 thumb ov137
  *   GURU2_COMM_Destroy 0x021DCB60 thumb ov137
  *   GURU2_COMM_Exit 0x021DCB90 thumb ov137
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 
 #include "ov137_types.h"
@@ -80,7 +81,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
 extern void GFL_NET_SetAutoExit(u8 a0);
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 
@@ -247,7 +248,7 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
     void *r;
     func_020307B0(v);
     if(mode==1) {
-        func_02012944(p->gameData);
+        GAME_DATA_GetMyStatus(p->gameData);
         q=ZUKAN_SAVE_GetFromGameData(p->gameData);
         p->statusParam=func_02030734(4,40,0,gGuru2AllocFileName,328);
         MI_CpuFill8(p->statusParam,0,40);

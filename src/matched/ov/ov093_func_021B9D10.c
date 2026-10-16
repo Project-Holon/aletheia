@@ -13,7 +13,7 @@
  *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_POKEPARAM_SetFakeMon  0x021D5848  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
@@ -30,7 +30,7 @@ struct Arr { void *e[6]; u8 n; };
 extern int BTL_POKEPARAM_IsAbleToBattle(void *m);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern unsigned int BTL_MAIN_CountClientTrainers(unsigned char *p, int k);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 struct QH;
 struct R4;
@@ -56,7 +56,7 @@ void BTL_SLOT_UpdateIllusion(char *a, struct Arr *arr, int k)
         k = 3;
     for (; k < arr->n; k++) {
         m = arr->e[k];
-        if (func_021D59B4(m, 0x11) == 0x95) {
+        if (BTL_POKEPARAM_GetValue(m, 0x11) == 0x95) {
             if (k < j) {
                 BTL_POKEPARAM_SetFakeMon(m, BTL_POKEPARAM_GetMon(arr->e[j]));
             } else {

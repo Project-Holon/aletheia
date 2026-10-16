@@ -35,7 +35,7 @@
  *   PALANM_StartTimer  0x02021444  thumb
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  */
 #include "../include/Obj02684.h"
 #include "../include/Obj19450.h"
@@ -79,7 +79,7 @@ extern int EVENT_MAPCHANGE_ContinueEvent(int ctx, int *state, u8 *p);
 extern void PALANM_StartTimer(void);
 extern void func_0208068C(int a);
 extern void MIi_CpuClearFast(int v, int dst, int size);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 
 int EVENT_MAPCHANGE_CreateContinueEvent(int a0, u8 *a1)
 {
@@ -115,6 +115,6 @@ int EVENT_MAPCHANGE_CreateContinueEvent(int a0, u8 *a1)
     PALANM_StartTimer();
     func_0208068C(0x1FF);
     MIi_CpuClearFast(0, 0x06800000, 0xA4000);
-    func_02080B98();
+    GX_DisableBankForLCDC();
     return t0;
 }

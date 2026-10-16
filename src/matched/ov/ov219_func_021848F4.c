@@ -1,5 +1,5 @@
 /*
- * function: func_021848F4
+ * function: BEACON_DETAIL_CalcTouchDelta
  * address: 0x021848F4
  * packet: pkt_ov219_021848F4
  * region: ov219
@@ -11,7 +11,7 @@
  * and base in r6. Const on the parameter alone left their five-byte swap.
  */
 #include "../include/Obj00302.h"
-void func_021848F4(const char *p,int x,int y,int *xflag,int *xdistance,int *yflag,int *ydistance)
+void BEACON_DETAIL_CalcTouchDelta(const char *p,int x,int y,int *xflag,int *xdistance,int *yflag,int *ydistance)
 {
     int oldx;
     const char *base=p;

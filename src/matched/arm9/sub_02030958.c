@@ -23,7 +23,7 @@
  * is therefore wider than the real callee and should be narrowed to one
  * when that file is revisited.
  *
- * Body: sub_02030428 maps the public heap id to the heap's arena handle
+ * Body: GFL_HEAP_GetHeapHandle maps the public heap id to the heap's arena handle
  * (it masks the id, range-checks it against the count at +8 of the heap
  * table, records an error code at +0xe on failure and otherwise tail-calls
  * GFL_HEAP_GetHeap), that handle is then walked by sub_02060E6C and dumped by
@@ -32,7 +32,7 @@
  * and the id costs r5.
  *
  * symbols:
- *   sub_02030428    0x02030428  arm
+ *   GFL_HEAP_GetHeapHandle    0x02030428  arm
  *   sub_02030B50    0x02030B50  arm
  *   sub_02060E6C    0x02060E6C  arm
  *   sub_02060E94    0x02060E94  arm
@@ -44,7 +44,7 @@
 
 typedef unsigned int u32;
 
-extern void *sub_02030428(u32 heapId);
+extern void *GFL_HEAP_GetHeapHandle(u32 heapId);
 extern void sub_02030B50(void *p);
 typedef signed int     s32;
 struct Heap;
@@ -55,7 +55,7 @@ void GFL_HEAP_ReportOutOfMemory(u32 heapId, u32 size, const char *site, int tag)
 {
     void *arena;
 
-    arena = sub_02030428(heapId);
+    arena = GFL_HEAP_GetHeapHandle(heapId);
     sub_02060E6C(arena);
     sub_02060E94(arena, 4);
     sub_02030B50((void *)heapId);

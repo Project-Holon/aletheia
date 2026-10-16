@@ -33,9 +33,9 @@
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw  0x02014D2C  thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_02017EAC 0x02017EAC thumb
+ *   POKE_TOOL_IsShiny 0x02017EAC thumb
  *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   MCSS_Add 0x020159C8 thumb
  *   MCSS_SetShadowAlpha 0x02015FD4 thumb
  *   MCSS_SetShadowOffset 0x02015D94 thumb
@@ -299,9 +299,9 @@ extern int POKEGRA_GetArcID(void);
 
 /* Pokemon data, voices, battle */
 extern u32 POKE_TOOL_GetPartyValue(void *pp, u32 id, u32 arg);
-extern u32 func_02017EAC(void *pp);
+extern u32 POKE_TOOL_IsShiny(void *pp);
 extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
-extern int func_0202D034(u32 hp, u32 maxHp);
+extern int BGWINFRM_GetScaleRank(u32 hp, u32 maxHp);
 extern int BTL_MAIN_GetVoiceOfSlot(void *main, int pos, u32 *out);
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 voiceId, u32 chorus, u32 chorusParamA, u32 chorusParamB, u32 chorusParamC, u32 *voiceOut);
 extern void PM_VOICE_AddVolume(u32 voice, int delta);
@@ -643,7 +643,7 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos)
         w->sprites[i].pos = pos;
         w->sprites[i].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
         w->sprites[i].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
-        if (func_02017EAC(pp) == 1)
+        if (POKE_TOOL_IsShiny(pp) == 1)
             w->sprites[i].attrFlags |= BTLV_MCSS_ATTR_SHINY;
         BTLV_MCSS_MakeAddWorkFromPoke(w, pp, &w->sprites[i].addWork, pos);
         BTLV_MCSS_CalcSlotPosition(w, &vectors.position, pos);
@@ -654,7 +654,7 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos)
         w->sprites[i].identity.personalParam26 = POKE_TOOL_GetPersonalParam(w->sprites[i].identity.species, w->sprites[i].identity.form, 0x26);
         hp = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0);
         maxHp = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0);
-        w->sprites[i].identity.hpState = func_0202D034(hp, maxHp);
+        w->sprites[i].identity.hpState = BGWINFRM_GetScaleRank(hp, maxHp);
         if (BTLV_MCSS_LookupShadowEntry(w->sprites[i].identity.species, pos, &vectors.shadowOffset, &angle, &visible) == 0) {
             vectors.shadowOffset.x = -0x400;
             vectors.shadowOffset.y = 0;
@@ -1269,9 +1269,9 @@ void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *w, int pos, void *pp)
     w->sprites[idx].identity.personalParam26 = POKE_TOOL_GetPersonalParam(w->sprites[idx].identity.species, w->sprites[idx].identity.form, 0x26);
     w->sprites[idx].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
     w->sprites[idx].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
-    if (func_02017EAC(pp) == 1)
+    if (POKE_TOOL_IsShiny(pp) == 1)
         w->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SHINY;
-    w->sprites[idx].identity.hpState = func_0202D034(POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0), POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0));
+    w->sprites[idx].identity.hpState = BGWINFRM_GetScaleRank(POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0), POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0));
     w->sprites[idx].flags.refreshed = 1;
 }
 

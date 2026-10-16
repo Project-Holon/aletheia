@@ -15,14 +15,14 @@
  * symbols:
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   MI_CpuFill8 0x02082BCC arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKETRADE_2D_CreateOfferIconActor 0x021E6334 thumb ov119
  *   POKETRADE_NEGO_ShowOfferSlotMon 0x021DF918 thumb ov119
  *   POKETRADE_2D_DeleteOfferIconActor 0x021E62D4 thumb ov119
@@ -61,7 +61,7 @@
  *   POKETRADE_SAVE_OpenTaskMenu 0x021E1410 thumb ov119
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   POKETRADE_NEGO_StepSendOfferRemoval 0x021DF708 thumb ov119
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -115,9 +115,9 @@
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_0201BC3C 0x0201BC3C thumb
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
@@ -241,7 +241,7 @@ extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigne
 
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 
-extern unsigned int func_020173EC(void);
+extern unsigned int POKE_TOOL_GetPartyParamSize(void);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
@@ -255,7 +255,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern unsigned int GFL_NET_GetHandleNetID(struct Link *p);
 
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 
 extern void POKETRADE_2D_CreateOfferIconActor(char *p, int i, int j, void *mon, int selected, u32 visible);
 
@@ -387,11 +387,11 @@ extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16
 
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
-extern int func_0201BC78(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
 
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -615,7 +615,7 @@ void POKETRADE_NEGO_ClearOfferSlots(char *p)
             char *q = p + i * 12 + j * 4;
             ((TradeWork *)q)->offerSlot[0][0] = -1;
             ((TradeWork *)q)->offerBox[0][0] = -1;
-            if (((TradeWork *)q)->offerMon[0][0]) MI_CpuFill8(((TradeWork *)q)->offerMon[0][0], 0, func_020173EC());
+            if (((TradeWork *)q)->offerMon[0][0]) MI_CpuFill8(((TradeWork *)q)->offerMon[0][0], 0, POKE_TOOL_GetPartyParamSize());
         }
     }
 }
@@ -686,7 +686,7 @@ int POKETRADE_NEGO_FindOfferIndex(char *p, int a, int b)
 
 void POKETRADE_NEGO_StoreRemoteOffer(char *p,int i,void *src)
 {
-    *(int *)(p+0xfb0+i*4)=i; *(int *)(p+0xfc8+i*4)=i; if(*(void **)(p+0xfe4+i*4)==0) *(void **)(p+0xfe4+i*4)=func_02030734(((TradeWork *)p)->heapId,func_020173EC(),1,(void *)gOfferSlotInitTable,0x122);MI_CpuCopy8(src,*(void **)(p+0xfe4+i*4),func_020173EC());
+    *(int *)(p+0xfb0+i*4)=i; *(int *)(p+0xfc8+i*4)=i; if(*(void **)(p+0xfe4+i*4)==0) *(void **)(p+0xfe4+i*4)=func_02030734(((TradeWork *)p)->heapId,POKE_TOOL_GetPartyParamSize(),1,(void *)gOfferSlotInitTable,0x122);MI_CpuCopy8(src,*(void **)(p+0xfe4+i*4),POKE_TOOL_GetPartyParamSize());
 }
 
 /*
@@ -725,8 +725,8 @@ int POKETRADE_NEGO_AddOffer(TradeWork *p,int side,int a,int b,void *value)
             p->offerSlot[side][i]=a;
             p->offerBox[side][i]=b;
             if(p->offerMon[side][i]==0)
-                p->offerMon[side][i]=func_02030734(((TradeWork *)p)->heapId,func_020173EC(),1,gOfferSlotInitTable,0x14c);
-            MI_CpuCopy8(value,p->offerMon[side][i],func_020173EC());
+                p->offerMon[side][i]=func_02030734(((TradeWork *)p)->heapId,POKE_TOOL_GetPartyParamSize(),1,gOfferSlotInitTable,0x14c);
+            MI_CpuCopy8(value,p->offerMon[side][i],POKE_TOOL_GetPartyParamSize());
             POKETRADE_NEGO_ShowOfferSlotMon(p,side,value);
             return i;
         }
@@ -745,7 +745,7 @@ void POKETRADE_NEGO_RemoveOffer(TradeWork *p, int i, int j)
 
 void POKETRADE_NEGO_RegisterIconResources(char *p,int n)
 {
-    void *v;int off;int a;v=func_020490F4(7,((TradeWork *)p)->heapId);off=96;if(n!=1)off=0;(*(int *)&((TradeWork *)p)->iconPaletteComp)=CLACT_RegisterPaletteCompressed(v,func_0201BC3C(),n,(u16)off,((TradeWork *)p)->heapId);a=func_0201BC78();(*(int *)&((TradeWork *)p)->cellAnimF)=CLACT_RegisterCellAnim(v,a,func_0201BCB4(),((TradeWork *)p)->heapId);ARC_TOOL_DeleteHandle(v);
+    void *v;int off;int a;v=func_020490F4(7,((TradeWork *)p)->heapId);off=96;if(n!=1)off=0;(*(int *)&((TradeWork *)p)->iconPaletteComp)=CLACT_RegisterPaletteCompressed(v,POKE_TOOL_GetIconPaletteArcId(),n,(u16)off,((TradeWork *)p)->heapId);a=POKE_TOOL_GetIconCellArcIdSub();(*(int *)&((TradeWork *)p)->cellAnimF)=CLACT_RegisterCellAnim(v,a,POKE_TOOL_GetIconCellEntryId(),((TradeWork *)p)->heapId);ARC_TOOL_DeleteHandle(v);
 }
 
 void POKETRADE_NEGO_ReleaseIconResources(char *p)
@@ -775,7 +775,7 @@ int POKETRADE_NEGO_AddSelectedAsOffer(char *p,int a,int b)
                 func_020307B0((void *)value);
                 return 0;
             }
-            for(i=0;i<(unsigned)func_020173EC();i++) {}
+            for(i=0;i<(unsigned)POKE_TOOL_GetPartyParamSize();i++) {}
         }
     } else {
         slot=POKETRADE_NEGO_AddOffer((TradeWork *)p,0,a,b,(void *)value);
@@ -1091,7 +1091,7 @@ void POKETRADE_NEGO_StepBeginConfirm(char *p)
         p[0x11e1]=11;
         obj=((TradeWork *)p)->offerMon[0][0];
         POKETRADE_PROC_SetSideMon(p,1,obj);
-        n=func_020173EC();
+        n=POKE_TOOL_GetPartyParamSize();
         MI_CpuCopy8(obj,POKETRADE_PROC_GetSideMon(p,1),n);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveConfirm);
         return;
@@ -1240,7 +1240,7 @@ void POKETRADE_NEGO_StepOpenSummaryFromBrowse(TradeWork *p)
         other=1-row;
         obj=p->offerMon[other][col];
         b[0x11f3]=1;
-        if(obj && func_02017E1C(obj,169,0)) {
+        if(obj && POKE_TOOL_GetPartyValue(obj,169,0)) {
             POKETRADE_SAVE_OpenSummaryScreen((char *)p,obj); POKETRADE_2D_UpdateOfferIconHighlight((int)p,row,col);
         }
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
@@ -1284,7 +1284,7 @@ void POKETRADE_NEGO_StepSendOfferMon(char *p)
     if(((TradeWork *)p)->stateFlags.bits.sendBusy==1) return;
     if(POKETRADE_PROC_IsNetSession(p)!=0) {
         id=(unsigned)GFL_NET_HANDLE_GetCurrentHandle();
-        if(!GFL_NET_SendToHandle((void *)id,(u16)0xc01,(u16)func_020173EC(), (u32)((void *)(((TradeWork *)p)->sendBuf)))) return;
+        if(!GFL_NET_SendToHandle((void *)id,(u16)0xc01,(u16)POKE_TOOL_GetPartyParamSize(), (u32)((void *)(((TradeWork *)p)->sendBuf)))) return;
     }
     ((TradeWork *)p)->stateFlags.bits.sendBusy=1;
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenOfferActionMenu);
@@ -1295,7 +1295,7 @@ void POKETRADE_NEGO_StepSendOfferIndex(void *p)
     u8 v;
     if (POKETRADE_PROC_IsNetSession(p) != 0) {
         v = POKETRADE_PROC_GetSideValue(p, 0);
-        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)0xC16, (u16)func_020173EC(), (u32)(&v)) == 0) {
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)0xC16, (u16)POKE_TOOL_GetPartyParamSize(), (u32)(&v)) == 0) {
             return;
         }
     }
@@ -1318,7 +1318,7 @@ int POKETRADE_NEGO_TrySelectOffer(char *p,int idx)
     if(entry==-1) goto fail;
     mon=s->offerMon[1-row][col];
     value=s->offerReceivedValue[1-row][col];
-    if(mon==0 || func_02017E1C(mon,169,0)==0) goto fail;
+    if(mon==0 || POKE_TOOL_GetPartyValue(mon,169,0)==0) goto fail;
     ((TradeWork *)p)->cursorIndex=idx;
     GFL_USE_PlaySeDefaultVolume(0x54c);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),1,0);
@@ -1326,7 +1326,7 @@ int POKETRADE_NEGO_TrySelectOffer(char *p,int idx)
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenQuitMenu);
     } else {
         POKETRADE_PROC_SetSideMon(p,row,mon);
-        MI_CpuCopy8(mon,((TradeWork *)p)->sendBuf,func_020173EC());
+        MI_CpuCopy8(mon,((TradeWork *)p)->sendBuf,POKE_TOOL_GetPartyParamSize());
         POKETRADE_PROC_SetSideValue(p,0,value);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepSendOfferIndex);
     }
@@ -1437,7 +1437,7 @@ typedef struct { FnIdEnt e[2]; } FnIdTable2;
 
 typedef struct { FnIdEnt e[6]; } FnIdTable6;
 
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 
 extern int POKETRADE_2D_StepCursorSlide(char *p);
 
@@ -1724,7 +1724,7 @@ static inline void outside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)0x0400
  * volatile: hardware WININ 0x04001048, WINOUT 0x0400104A and DISPCNT 0x04001000 read-modify-written at 0x021DEBE8/0x021DEBF8, 0x021DEC0C/0x021DEC18, 0x021DEC1A/0x021DEC22.
  */
 void POKETRADE_NEGO_SetupWindowRegsOffers(void *p) {
- func_0207D658(0x04001050,27,-8);
+ G2x_SetBlendBrightness_(0x04001050,27,-8);
  inside(31,1);
  *(volatile u16 *)0x04001040=0x80ff;
  *(volatile u16 *)0x04001044=0xa9;
@@ -1842,13 +1842,13 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                     if(POKETRADE_PROC_IsMonValid(*(void **)(p+i*4+off1))) {
                         mon=*(void **)(p+i*4+off2);
                         if(NHTTP_RAP_RecordList_GetValue((u32)data,n)) {
-                            value=func_02017E1C(mon,6,0);
+                            value=POKE_TOOL_GetPartyValue(mon,6,0);
                             bank=func_02045B38(0,2,81,((TradeWork *)p)->heapId);
                             text=func_02045EC0(bank,15);
                             MSGDATA_Delete(bank);
                             if(FILE_UTIL_Check136C(value)) {
                                 name=MAIL_Create(*heap);
-                                func_02017E1C(mon,167,(u32)name);
+                                POKE_TOOL_GetPartyValue(mon,167,(u32)name);
                                 func_02008F88(name,STRBUF_GetChars(text));
                                 POKE_TOOL_SetPartyValue(mon,167,(u32)name);
                                 func_020307B0(name);
@@ -1900,8 +1900,8 @@ void POKETRADE_NEGO_StepStartMonCheck(char *p) {
  *(u8 * *)&((TradeWork *)p)->httpRap=NHTTP_RAP_Create(((TradeWork *)p)->heapId,func_0200853C((*(void * *)&((TradeWork *)p)->trainerRecord)),((TradeWork *)p)->request->httpParam);
  DWC_RAP_SetErrorCallback((int)POKETRADE_NEGO_AbortHttpRequest,(int)p);
  for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid(((TradeWork *)p)->offerMon[1][i])) n++;
- NHTTP_RAP_AllocPostData(*(u8 * *)&((TradeWork *)p)->httpRap,((TradeWork *)p)->heapId,func_020173EC()*n,2);
- for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid(((TradeWork *)p)->offerMon[1][i])) NHTTP_RAP_AppendPostData(*(u8 * *)&((TradeWork *)p)->httpRap,(int)((TradeWork *)p)->offerMon[1][i],func_020173EC());
+ NHTTP_RAP_AllocPostData(*(u8 * *)&((TradeWork *)p)->httpRap,((TradeWork *)p)->heapId,POKE_TOOL_GetPartyParamSize()*n,2);
+ for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid(((TradeWork *)p)->offerMon[1][i])) NHTTP_RAP_AppendPostData(*(u8 * *)&((TradeWork *)p)->httpRap,(int)((TradeWork *)p)->offerMon[1][i],POKE_TOOL_GetPartyParamSize());
  NHTTP_RAP_CreatePostRequest(*(u8 * *)&((TradeWork *)p)->httpRap);NHTTP_RAP_StartConnection(*(u8 * *)&((TradeWork *)p)->httpRap);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepPollMonCheck);
 }
 
@@ -2276,9 +2276,9 @@ int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind)
     int one;
     id=(unsigned)GFL_NET_HANDLE_GetCurrentHandle();
     if(((TradeWork *)p)->stateFlags.bits.sendBusy) return 0;
-    MI_CpuCopy8(src,((TradeWork *)p)->sendBuf,func_020173EC());
+    MI_CpuCopy8(src,((TradeWork *)p)->sendBuf,POKE_TOOL_GetPartyParamSize());
     one=1;
-    if(!(int)GFL_NET_SendData(id,255,(u16)kind,func_020173EC(),(u32)(((TradeWork *)p)->sendBuf),(int)0,(int)0,(int)one)) return 0;
+    if(!(int)GFL_NET_SendData(id,255,(u16)kind,POKE_TOOL_GetPartyParamSize(),(u32)(((TradeWork *)p)->sendBuf),(int)0,(int)0,(int)one)) return 0;
     ((TradeWork *)p)->stateFlags.bits.sendBusy=one;
     return one;
 }

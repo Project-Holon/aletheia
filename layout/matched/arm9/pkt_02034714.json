@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034978",
+   "name": "GF_OVERLAY_RegisterPanicHandlers",
    "address": "0x02034978",
    "kind": "game",
    "region": "arm9",

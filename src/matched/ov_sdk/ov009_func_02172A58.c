@@ -13,14 +13,14 @@
  *
  * symbols:
  *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
- *   func_02173D28  0x02173D28  arm  ov009
+ *   DWCi_HandleGPError  0x02173D28  arm  ov009
  *   DWCi_CloseMatch  0x0216F6C0  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   DWCi_GetFriendListIndex  0x02169038  arm  ov009
  */
 
 extern int DWCi_GPSetServerStatus(int status);
-extern int func_02173D28(int gpResult);
+extern int DWCi_HandleGPError(int gpResult);
 extern void DWCi_CloseMatch(void);
 extern int func_02175F3C(void);
 extern int DWCi_GetFriendListIndex(int profileID);
@@ -32,7 +32,7 @@ void DWCi_FinishCancelMatch(void)
     int b;
 
     gpResult = DWCi_GPSetServerStatus(a);
-    if (func_02173D28(gpResult))
+    if (DWCi_HandleGPError(gpResult))
         return;
     DWCi_CloseMatch();
     if (*(int *)(func_02175F3C() + 0x680) == 0) {

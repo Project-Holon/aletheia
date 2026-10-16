@@ -12,16 +12,17 @@
  *
  * symbols:
  *   POKE_TOOL_GetNatureStatModByNature  0x020189F0  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 typedef signed char    s8;
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern s8 POKE_TOOL_GetNatureStatModByNature(u8 nature, u32 stat);
 
 s8 POKE_TOOL_GetBoxNatureStatMod(void *m, u32 a1)
 {
-    return POKE_TOOL_GetNatureStatModByNature((u8)func_02017E88(m, 0x70, 0), a1);
+    return POKE_TOOL_GetNatureStatModByNature((u8)POKE_TOOL_GetBoxValue(m, 0x70, 0), a1);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformsocket.c
  * unit:     yes
- * function: CheckRcode, func_0217EB18, closesocket, func_0217EB40, func_0217EB9C, func_0217EBB0, func_0217EC08, func_0217EC4C, recvfrom, func_0217EC90, sendto, setsockopt, func_0217ED0C, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, func_0217EF50, func_0217EF84, getlocalhost, func_0217F038
+ * function: CheckRcode, socket, closesocket, func_0217EB40, shutdown, func_0217EBB0, func_0217EC08, recv, recvfrom, send, sendto, setsockopt, func_0217ED0C, inet_addr, GOAGetLastError, GSISocketSelect, SetSockBlocking, func_0217EF00, func_0217EF50, func_0217EF84, getlocalhost, func_0217F038
  * address:  0x0217EB00
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -93,15 +93,15 @@ extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 /*
  * Calls the module setter on the value with the sentinel -1.
  */
-int func_0217EB18(int pf, int type, int protocol);
+int socket(int pf, int type, int protocol);
 int closesocket(int sock);
 int closesocketsure(int sock, int *notInCloseSocket);
-int func_0217EB9C(int sock, int how);
+int shutdown(int sock, int how);
 int bind(int sock, const struct SOCSockAddr * addr, int len);
 int connect(int sock, const struct SOCSockAddr * addr, int len);
-int func_0217EC4C(int sock, char *buffer, int len, int flags);
+int recv(int sock, char *buffer, int len, int flags);
 int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr, int * fromlen);
-int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
+int send(int sock, char *buffer, int bufferLen, int flags);
 int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 /*
  * Tail call with the constant pair (0, -1).
@@ -149,7 +149,7 @@ int CheckRcode(int rcode, int fallback)
 
 
 
-int func_0217EB18(int pf, int type, int protocol)
+int socket(int pf, int type, int protocol)
 {
     return CheckRcode(func_0215F428(), -1);
 }
@@ -184,7 +184,7 @@ int closesocketsure(int sock, int *notInCloseSocket)
 
 
 
-int func_0217EB9C(int sock, int how)
+int shutdown(int sock, int how)
 {
     return CheckRcode(SOC_Shutdown(sock, how), -1);
 }
@@ -221,7 +221,7 @@ int connect(int sock, const struct SOCSockAddr * addr, int len)
 
 
 
-int func_0217EC4C(int sock, char *buffer, int len, int flags)
+int recv(int sock, char *buffer, int len, int flags)
 {
     return CheckRcode(func_0215F4DC(), -1);
 }
@@ -242,7 +242,7 @@ int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr
 
 
 
-int func_0217EC90(int sock, char *buffer, int bufferLen, int flags)
+int send(int sock, char *buffer, int bufferLen, int flags)
 {
     return CheckRcode(func_0215F590(), -1);
 }

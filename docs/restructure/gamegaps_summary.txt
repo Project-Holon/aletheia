@@ -1,4 +1,7 @@
 count/bytes of uncovered pieces per region and class
+FINAL (2026-10-16, wave 11): 0 uncovered code bytes in src/game; game and all
+code 100.00 percent covered, complete and linked. The table below is the
+2026-10-11 snapshot, kept for the record.
 region                        pad       veneer         leaf         func         frag         data   src fns  code range
 arm9                            -       10/104     273/4200      70/4144            -      28/2434      6458  0x02004000-0x0209D86C
 arm9_autoload0_ITCM          1/32            -            -            -            -            -        11  0x01FF8000-0x01FF8804

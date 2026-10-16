@@ -43,7 +43,7 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_FOG_SetOffset  0x021A01BC  thumb  ov021
  *   FIELD_FOG_SetSlope  0x021A01B4  thumb  ov021
- *   sub_02030344   0x02030344  arm
+ *   GFL_HEAP_GetTotalFreeSize   0x02030344  arm
  *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
@@ -112,7 +112,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, int ani
 extern void FIELD_PLAYER_GetPos(unsigned char *player, VecFx32 *out);
 extern int   FIELD_FOG_SetOffset(void *fog, u32 offset);
 extern int   FIELD_FOG_SetSlope(void *fog, u32 slope);
-extern void *sub_02030344(u32 heapId);
+extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 extern void *FIELDMAP_GetCommonWork(void *fieldMap, int id);
 extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *expObj, u16 unit);
@@ -243,7 +243,7 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_Init(void *fieldMap)
         FIELD_FOG_SetOffset(fog, 0x7FDF);
         FIELD_FOG_SetSlope(fog, 9);
     }
-    sub_02030344(0x15);
+    GFL_HEAP_GetTotalFreeSize(0x15);
 }
 
 

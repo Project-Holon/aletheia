@@ -759,9 +759,9 @@ extern int HAND_COMMON_IsLastToAct(struct BtlServerFlow *flow, int pokeId);
 
 extern u8 BTL_MAIN_IsZero(u32 value);
 
-extern int func_021D5D14(struct BtlPokeParam *bpp, int stageId, int direction);
+extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *bpp, int stageId, int direction);
 
-extern int func_021D5D50(struct BtlPokeParam *bpp, int stageId);
+extern int BTL_POKEPARAM_GetStatStageRoom(struct BtlPokeParam *bpp, int stageId);
 
 extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *poke);
 
@@ -947,7 +947,7 @@ extern struct BtlParty *BTL_SERVER_FLOW_GetPartyOfPokeIfClientUsed(struct BtlSer
 
 extern u32 BTL_SERVER_FLOW_NextSerialNumberThunk(struct BtlServerFlow *flow);
 
-extern int func_021D58A8(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetStatRaw(struct BtlPokeParam *bpp, int valueId);
 
 extern union SickCont BTLV_CORE_MakeSlotKind4(u32 pokeId, u32 turns);
 
@@ -1424,7 +1424,7 @@ struct BtlTurnRecord;
 #define BTL_STRTYPE_STD 1
 #define BTL_STRTYPE_SET 2
 
-/* Value ids of the Pokemon value getter (func_021D59B4) and weather values. */
+/* Value ids of the Pokemon value getter (BTL_POKEPARAM_GetValue) and weather values. */
 #define BTL_BPP_VALUE_FORM 19
 #define BTL_WEATHER_SUN 1
 #define BTL_RATIO_DOUBLE 0x2000                    /* fixed point ratio, 0x1000 is 1.0 */
@@ -1515,7 +1515,7 @@ struct PledgeWork {
 
 /* Services used by the handlers of these files. */
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 extern void BTL_EVENT_MultiplyVar(int key, int ratio);
 extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(struct BtlServerFlow *flow, void *record);

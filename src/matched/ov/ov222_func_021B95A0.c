@@ -31,7 +31,7 @@
  *   ZENKOKU_ZUKAN_AWARD_SetupWindows 0x021B9964 thumb ov222
  *   ZENKOKU_ZUKAN_AWARD_SetupTiles 0x021B9C1C thumb ov222
  *   ZENKOKU_ZUKAN_AWARD_CreateActor 0x021B9CE4 thumb ov222
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
@@ -76,7 +76,7 @@ extern void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(char*);
 extern void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct Obj *p);
 extern void ZENKOKU_ZUKAN_AWARD_SetupTiles(char*);
 extern void ZENKOKU_ZUKAN_AWARD_CreateActor(char*);
-extern char *func_02012944(void*);
+extern char *GAME_DATA_GetMyStatus(void*);
 typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -111,7 +111,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(2,0);
  *(void**)(p+20)=func_020056A0((u32)ZENKOKU_ZUKAN_AWARD_Task,p,1);
  ZENKOKU_ZUKAN_AWARD_LoadBgAssets(p);ZENKOKU_ZUKAN_AWARD_SetupWindows((struct Obj *)p);ZENKOKU_ZUKAN_AWARD_SetupTiles(p);ZENKOKU_ZUKAN_AWARD_CreateActor(p);
- settings=func_02012944(*(void**)(*(char**)(p+4)));
+ settings=GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;

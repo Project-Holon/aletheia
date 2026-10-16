@@ -23,7 +23,7 @@
  * lands after recvCount instead). No volatile needed.
  *
  * symbols:
- *   func_0217EC4C  0x0217EC4C  arm  ov009
+ *   recv  0x0217EC4C  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   gsirealloc  0x0217EAC8  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
@@ -47,7 +47,7 @@ typedef struct {
     int pos;
 } GPIBuffer;
 
-extern int func_0217EC4C(int sock, char *buffer, int len, int flags);
+extern int recv(int sock, char *buffer, int len, int flags);
 extern int GOAGetLastError(int sock);
 extern char *gsirealloc(char *p, int size);
 extern char *gsimalloc(int size);
@@ -92,7 +92,7 @@ int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
             inputBuffer->size = size;
         }
 
-        rcode = func_0217EC4C(sock, &buffer[len], size - len, 0);
+        rcode = recv(sock, &buffer[len], size - len, 0);
 
         if (rcode == -1) {
             int error = GOAGetLastError(sock);

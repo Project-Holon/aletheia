@@ -19,7 +19,7 @@
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   GX_GetBankForTex  0x02080C44  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *   func_02080294  0x02080294  arm
  *   ENCEFF_GetScreenTexParam  0x021F54E0  thumb  ov075
  *   func_02040588  0x02040588  arm
@@ -52,7 +52,7 @@ extern void ENCEFF_RequestScreenCapture(char *p);
 extern void BG_SYS_SetVisibleLayer(int idx, u16 val);
 extern u32 FIELDMAP_GetDrawMode(u8 *p);
 extern u16 GX_GetBankForTex(void);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern void func_02080294(u32 bank);
 extern u32 ENCEFF_GetScreenTexParam(void);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -88,7 +88,7 @@ int ENCEFF_ScreenTexEventMain(void *task, int *st, Work *w)
                 w->f4 = bank | 8;
                 w->f8 = 1;
             }
-            func_02080B98();
+            GX_DisableBankForLCDC();
             func_02080294(w->f4);
             w->f14 = ENCEFF_GetScreenTexParam();
             *st = *st + 1;

@@ -17,7 +17,7 @@
  *   FADE_Start  0x0204E720  arm
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   SYMBOL_MAP_StopBg2Scale  0x02166B2C  thumb  ov010
  *   EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes  0x021BF564  thumb  ov021
@@ -40,7 +40,7 @@ extern void func_0207D63C(int a, int b, int c, int d, int e);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_0208068C(u32 a);
 extern void MIi_CpuClearFast(u32 a, u32 b, u32 c);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern void func_0207FDCC(u32 a);
 extern void SYMBOL_MAP_StopBg2Scale(void);
 extern void EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes(u32 a);
@@ -73,7 +73,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(u32 p0, int *st, u8 *q)
         func_02040588(2, 0);
         func_0208068C(8);
         MIi_CpuClearFast(0, 0x06800000, 0x20000);
-        func_02080B98();
+        GX_DisableBankForLCDC();
         func_0207FDCC(8);
         SYMBOL_MAP_StopBg2Scale();
         *st = *st + 1;

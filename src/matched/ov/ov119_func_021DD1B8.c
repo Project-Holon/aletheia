@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj08061.h"
 typedef unsigned int   u32;
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuFill8(void *, int, int);
 void POKETRADE_NEGO_ClearOfferSlots(char *p)
 {
@@ -23,7 +23,7 @@ void POKETRADE_NEGO_ClearOfferSlots(char *p)
             char *q = p + i * 12 + j * 4;
             ((struct Obj08061 *)q)->fFA4 = -1;
             ((struct Obj08061 *)q)->fFBC = -1;
-            if (((struct Obj08061 *)q)->fFD8) MI_CpuFill8(((struct Obj08061 *)q)->fFD8, 0, func_020173EC());
+            if (((struct Obj08061 *)q)->fFD8) MI_CpuFill8(((struct Obj08061 *)q)->fFD8, 0, POKE_TOOL_GetPartyParamSize());
         }
     }
 }

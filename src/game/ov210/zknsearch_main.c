@@ -116,7 +116,7 @@
  *   ZKNSEARCH_LIST_InitFrameList2 0x021C0384 thumb ov210
  *   ZKNSEARCH_COND_InitFrameList 0x021C0434 thumb ov210
  *   ZKNSEARCH_RESULT_InitFrameList 0x021C04CC thumb ov210
- *   func_021B93D4  0x021B93D4  thumb  ov067
+ *   FRAME_LIST_SetCursor  0x021B93D4  thumb  ov067
  *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
  *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   BMP_WIN_Init 0x02045088 arm
@@ -185,7 +185,7 @@
  *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_021B940C 0x021B940C thumb ov067
+ *   FRAME_LIST_ShowCursor 0x021B940C thumb ov067
  *   d_021C0B3C 0x021C0B3C data a4
  *   d_021C0B24 0x021C0B24 data a4
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
@@ -209,8 +209,8 @@ struct WinMgr;
 struct Blk37;
 struct Row;
 struct Search;
-struct Struct_02025CD0;
-struct S;
+struct CursorMove;
+struct FrameList;
 struct Descriptor;
 struct Cfg;
 struct CharBuf;
@@ -220,7 +220,7 @@ struct Actor;
 struct Vec2;
 struct PtS;
 struct Bank;
-struct Struct_02025D1C;
+
 struct Sound;
 
 
@@ -360,16 +360,16 @@ extern int ZUKAN_SEARCH_ENGINE_Create(int, int, int);
 extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
 extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 extern u8 func_020355C4(void);
-extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct CursorMove *obj, u32 state);
 extern void ZKNSEARCH_MENU_InitFrameList(char *ctx);
-extern int FRAME_LIST_UpdateInit(struct S *p);
-extern int FRAME_LIST_Update(struct S *p);
+extern int FRAME_LIST_UpdateInit(struct FrameList *p);
+extern int FRAME_LIST_Update(struct FrameList *p);
 extern void ZKNSEARCH_RESULT_DeleteFrameList(int p);
 extern void ZKNSEARCH_LIST_InitFrameList(char *ctx);
 extern void ZKNSEARCH_LIST_InitFrameList2(char *ctx);
 extern void ZKNSEARCH_COND_InitFrameList(char *ctx);
 extern void ZKNSEARCH_RESULT_InitFrameList(char *ctx);
-extern void func_021B93D4(struct S *s, int v);
+extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
 extern int FRAME_LIST_GetScrollPos(char *p);
 extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
 extern void BMP_WIN_Init(unsigned short);
@@ -419,11 +419,11 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern int FRAME_LIST_ClampToScrollBar(struct S *, unsigned int);
+extern int FRAME_LIST_ClampToScrollBar(struct FrameList *, unsigned int);
 extern int FRAME_LIST_GetCursor(char *p);
 extern int FRAME_LIST_CanScrollDown(char *p);
-extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
-extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *obj);
+extern struct CursorMove *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
+extern void CURSOR_MOVE_EnableInput(struct CursorMove *obj);
 extern void CURSOR_MOVE_Delete(void);
 extern void *CURSOR_MOVE_GetEntry(void **obj, unsigned int idx);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
@@ -434,7 +434,7 @@ extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_021B940C(struct S *s);
+extern void FRAME_LIST_ShowCursor(struct FrameList *s);
 void ZKNSEARCH_MAIN_InitBackgrounds(void);
 void ZKNSEARCH_MAIN_DeleteBackgrounds(u32 a0);
 void ZKNSEARCH_MAIN_ShowLayerSetA(u32 a0);
@@ -1650,7 +1650,7 @@ int ZKNSEARCH_MAIN_EnterListPage1(u8 *p)
 
 u32 ZKNSEARCH_MAIN_UpdateListPage1(u8 *p)
 {
-    int r5 = FRAME_LIST_Update((struct S *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
+    int r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
 
     if (r5 != -1) {
         switch (r5) {
@@ -1746,7 +1746,7 @@ int ZKNSEARCH_MAIN_EnterListPage2(u8 *p)
 u32 ZKNSEARCH_MAIN_UpdateListPage2(u8 *p)
 {
     u32 ret = 13;
-    u32 r5 = FRAME_LIST_Update((struct S *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
+    u32 r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
 
     switch (r5) {
     case 0:
@@ -1879,7 +1879,7 @@ int ZKNSEARCH_MAIN_EnterListPage3(u8 *p)
 u32 ZKNSEARCH_MAIN_UpdateListPage3(u8 *p)
 {
     u32 ret = 16;
-    u32 r5 = FRAME_LIST_Update((struct S *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
+    u32 r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
 
     switch (r5) {
     case 0:
@@ -2016,7 +2016,7 @@ int ZKNSEARCH_MAIN_EnterListPage4(u8 *p)
 u32 ZKNSEARCH_MAIN_UpdateListPage4(u8 *p)
 {
     u32 ret = 19;
-    u32 r5 = FRAME_LIST_Update((struct S *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
+    u32 r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
 
     switch (r5) {
     case 0:
@@ -2154,7 +2154,7 @@ u32 ZKNSEARCH_MAIN_UpdateListPage5(u8 *p)
     u32 r5;
     u32 ret = 22;
 
-    r5 = FRAME_LIST_Update((struct S *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
+    r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)p)->frameList));
 
     switch (r5) {
     case 0:
@@ -2333,7 +2333,7 @@ u32 ZKNSEARCH_MAIN_EnterMessageDialog(u8 *p)
 void ZKNSEARCH_MAIN_SelectEntry1(u8 *p, u32 v)
 {
     (*(u8 **)(*(u8 * *)&((ZknSearchWork *)p)->save + 8))[1] = v;
-    func_021B93D4(((ZknSearchWork *)p)->frameList, v);
+    FRAME_LIST_SetCursor(((ZknSearchWork *)p)->frameList, v);
     ZKNSEARCH_MAIN_PrintEntryCount(p);
     ZKNSEARCH_MAIN_PlaceColumnActor1((char *)p, (u16)v, 1);
 }
@@ -2366,7 +2366,7 @@ void ZKNSEARCH_MAIN_ToggleEntry1(u8 *p, int n)
         data[2] = value;
         ZKNSEARCH_MAIN_PlaceColumnActor1((char *)p, (u16)n, (unsigned int)1);
     }
-    func_021B93D4(((ZknSearchWork *)p)->frameList, n);
+    FRAME_LIST_SetCursor(((ZknSearchWork *)p)->frameList, n);
     ZKNSEARCH_MAIN_PrintEntryCount2(p);
 }
 
@@ -2411,7 +2411,7 @@ void ZKNSEARCH_MAIN_ToggleEntry2(u8 *p, int n)
         data[3] = data[4];
         (*(u8 **)(*(u8 * *)&((ZknSearchWork *)p)->save + 8))[4] = value;
     }
-    func_021B93D4(((ZknSearchWork *)p)->frameList, n);
+    FRAME_LIST_SetCursor(((ZknSearchWork *)p)->frameList, n);
     ZKNSEARCH_MAIN_PrintEntryCount3(p);
     data = *(u8 * *)&((ZknSearchWork *)p)->save->record;
     ZKNSEARCH_MAIN_PlaceColumnActors2((char *)p, data[3], data[4]);
@@ -2449,7 +2449,7 @@ void ZKNSEARCH_MAIN_ToggleEntry3(u8 *p, int index)
         data[5] = sum;
         ZKNSEARCH_MAIN_PlaceColumnActor1((char *)p, (u16)index, 1);
     }
-    func_021B93D4(*(struct S * *)&((ZknSearchWork *)p)->frameList, index);
+    FRAME_LIST_SetCursor(*(struct FrameList * *)&((ZknSearchWork *)p)->frameList, index);
     ZKNSEARCH_MAIN_PrintEntryCount4(p);
 }
 
@@ -2485,7 +2485,7 @@ void ZKNSEARCH_MAIN_ToggleEntry4(u8 *p, int index)
         data[6] = sum;
         ZKNSEARCH_MAIN_PlaceColumnActor4((char *)p, (u16)index, 1);
     }
-    func_021B93D4(*(struct S * *)&((ZknSearchWork *)p)->frameList, index);
+    FRAME_LIST_SetCursor(*(struct FrameList * *)&((ZknSearchWork *)p)->frameList, index);
     ZKNSEARCH_MAIN_ShowEntry6Actor((char *)p);
 }
 
@@ -3482,7 +3482,7 @@ void ZKNSEARCH_MAIN_UpdateScrollBarActor(char *p)
     short pos[2];
     unsigned int y;
     ZKNSEARCH_MAIN_GetActorSurfacePos(p, 0, &pos[1], &pos[0], 0);
-    y = FRAME_LIST_ClampToScrollBar(*(struct S * *)&((ZknSearchWork *)p)->frameList, pos[0]);
+    y = FRAME_LIST_ClampToScrollBar(*(struct FrameList * *)&((ZknSearchWork *)p)->frameList, pos[0]);
     if (y < 12) y = 12;
     else if (y > 156) y = 156;
     ZKNSEARCH_MAIN_SetActorSurfacePos(p, 0, 0xfc, (short)y, 0);
@@ -3846,14 +3846,14 @@ u32 ZKNSEARCH_MAIN_PollMenuInput(int p)
     k = KEY_GetTrg();
     if (k & 0x800) {
         if (func_020355C4() == 1)
-            CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
         func_020355D8(0);
         return 7;
     }
     k = KEY_GetTrg();
     if (k & 8) {
         if (func_020355C4() == 1)
-            CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
         func_020355D8(0);
         ZKNSEARCH_MAIN_MoveCursor(p, 5);
         return 5;
@@ -3861,14 +3861,14 @@ u32 ZKNSEARCH_MAIN_PollMenuInput(int p)
     k = KEY_GetTrg();
     if (k & 4) {
         if (func_020355C4() == 1)
-            CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
         func_020355D8(0);
         ZKNSEARCH_MAIN_MoveCursor(p, 6);
         return 6;
     }
     if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
         func_020355D8(0);
-        CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
+        CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
         return -4;
     }
     return r;
@@ -3970,7 +3970,7 @@ int ZKNSEARCH_MAIN_PollListInput(char *ctx)
     if (KEY_GetTrg() & 4) {
         if (func_020355C4() == 1) {
             func_020355D8(0);
-            func_021B940C(((ZknSearchWork *)ctx)->frameList);
+            FRAME_LIST_ShowCursor(((ZknSearchWork *)ctx)->frameList);
         }
         return 9;
     }
@@ -3988,7 +3988,7 @@ int ZKNSEARCH_MAIN_PollListInput2(char *ctx)
     if (KEY_GetTrg() & 4) {
         if (func_020355C4() == 1) {
             func_020355D8(0);
-            func_021B940C(((ZknSearchWork *)ctx)->frameList);
+            FRAME_LIST_ShowCursor(((ZknSearchWork *)ctx)->frameList);
         }
         return 9;
     }

@@ -12,7 +12,7 @@
  *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
- *   STA_ACT_LIGHT_SetElemVisibleB 0x021F80D4 thumb ov112
+ *   STA_ACT_LIGHT_SetSlotVisible 0x021F80D4 thumb ov112
  */
 #include "../include/Obj10548.h"
 #include "../include/Obj14101.h"
@@ -23,7 +23,7 @@ extern int SCRIPT_COMMAND_GetActorMask(char *, int);
 typedef unsigned int   u32;
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
-extern void STA_ACT_LIGHT_SetElemVisibleB(char *, char *, int);
+extern void STA_ACT_LIGHT_SetSlotVisible(char *, char *, int);
 int SCRIPT_COMMAND_CmdSetActorFrame(int unused, char *p)
 {
     char *obj;
@@ -37,7 +37,7 @@ int SCRIPT_COMMAND_CmdSetActorFrame(int unused, char *p)
     ctx = STA_ACTING_GetActorSystem(((struct Obj14101 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            STA_ACT_LIGHT_SetElemVisibleB(ctx, STA_ACTING_GetActor(((struct Obj14101 *)obj)->f34, i), value);
+            STA_ACT_LIGHT_SetSlotVisible(ctx, STA_ACTING_GetActor(((struct Obj14101 *)obj)->f34, i), value);
         }
     }
     return 0;

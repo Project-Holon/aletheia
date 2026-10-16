@@ -16,10 +16,10 @@
  * Final call is an if/else with a call in each arm.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_CODEIN_SearchBuildHeader 0x021DF838 thumb ov183
@@ -42,9 +42,9 @@ extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 struct Actor;
 struct Obj;
-extern int func_0201BC3C(void);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void MI_CpuFill8(void *,u32,u32);
@@ -69,8 +69,8 @@ void BR_CODEIN_SearchCreateActor(struct State *p,u32 mgr,u16 heap)
     mode=(heap&0x7fff)|0x8000;
     archive=func_020490F4(7,(u16)mode);
     i=0;
-    p->shared0=CLACT_RegisterPaletteCompressed(archive,func_0201BC3C(),0,0x80,heap);
-    p->shared1=CLACT_RegisterCellAnim(archive,func_0201BC40(),func_0201BCB4(),heap);
+    p->shared0=CLACT_RegisterPaletteCompressed(archive,POKE_TOOL_GetIconPaletteArcId(),0,0x80,heap);
+    p->shared1=CLACT_RegisterCellAnim(archive,POKE_TOOL_GetIconCellArcId(),POKE_TOOL_GetIconCellEntryId(),heap);
     MI_CpuFill8(&pos,0,8);
     pos.z=1;
     pos.a=i;

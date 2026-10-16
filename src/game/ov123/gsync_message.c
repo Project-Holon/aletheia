@@ -56,7 +56,7 @@
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
  *   APP_KEYCURSOR_Delete  0x02028604  thumb  arm9
@@ -152,7 +152,7 @@ extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
 extern u32 PRINTSYS_QUE_Create(void *);
 
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 
 extern void TCBL_Main(struct Tcbl *p);
 
@@ -184,7 +184,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 
 extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 void GSYNC_MESSAGE_DeleteButtonManager(GsyncMessageWork *work);
 
@@ -383,7 +383,7 @@ int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
     result = (int)APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
     STRBUF_Delete(work->menuItems[0].text);
     STRBUF_Delete(work->menuItems[1].text);
-    func_0207D658(0x04001050, 9, -8);
+    G2x_SetBlendBrightness_(0x04001050, 9, -8);
     return result;
 }
 

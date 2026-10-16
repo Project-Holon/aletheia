@@ -19,11 +19,14 @@ typedef struct PokeTradeAnimWork {
     unsigned char  pad_24[0x48 - 0x24];
     Vec            position;             /* 0x48 */
     Vec            scale;                /* 0x54 */
-    unsigned char  pad_60[0xB0 - 0x60];
+    Vec            slotScale[4];         /* 0x60 per-mcss-slot scales */
+    unsigned char  pad_90[0xB0 - 0x90];
     void          *actor;                /* 0xB0 */
     unsigned char  pad_B4[0xBA - 0xB4];
     unsigned short heapId;               /* 0xBA */
 } PokeTradeAnimWork;
+
+typedef char PokeTradeAnimWork_SizeCheck[(sizeof(PokeTradeAnimWork) == 0xBC) ? 1 : -1];
 
 /* Work area of the pokemontrade demo scene. */
 typedef struct PokeTradeDemoWork {
@@ -45,7 +48,7 @@ typedef struct PokeTradeDemoWork {
     unsigned char       pad_838[0x844 - 0x838];
     void               *mcssObj[4];      /* 0x844 */
     unsigned int        sceneStarted;    /* 0x854 */
-    unsigned char       pad_858[4];
+    unsigned int        peerSceneStarted;/* 0x858 second side of the compare scene */
     void               *slideOwn;        /* 0x85C */
     void               *slidePeer;       /* 0x860 */
     void               *slideExtra;      /* 0x864 */

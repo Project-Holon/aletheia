@@ -816,7 +816,7 @@ void NET_WHPIPE_SetWatchDisconnect(u8 watch)
  * lever: integer address sum preserves base+0x58 and the final pointer+8;
  * plain pointer additions fold these into base+0x60 (r1 DIFF, r2 EXACT).
  */
-u8 *NET_WHPIPE_GetEntryBeaconData(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && *(u16 *)(base + OFFSETOF(WhPipeWork, entryAge) + index * 2) != 0) return (u8 *)((unsigned int)(base + 0x58) + index * 0xC0) + 8; return 0; }
+u8 *NET_WHPIPE_GetEntryBeaconData(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && g_pWhPipeWork->entryAge[index] != 0) return (u8 *)((unsigned int)(base + 0x58) + index * 0xC0) + 8; return 0; }
 
 u8 *NET_WHPIPE_GetEntryBssid(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && *(u16 *)(base + OFFSETOF(WhPipeWork, entryAge) + index * 2) != 0) return base + 0xC + index * 0xC0; return 0; }
 

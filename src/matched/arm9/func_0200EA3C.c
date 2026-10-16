@@ -14,7 +14,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_ToChars  0x02045A38  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
@@ -22,7 +22,7 @@
  *
  * Snapshot of a party into a 0x16c-byte ring record (MISC_SAVEDATA_AppendPartyRecord's slot):
  * zero the six 0x3c-byte entries, then for every non-egg member (field 0x4c
- * of func_02017E1C is 0) store species (5), level (0x9e), the 6/2-bit pair
+ * of POKE_TOOL_GetPartyValue is 0) store species (5), level (0x9e), the 6/2-bit pair
  * 0x6f/0x6e, fields 0 and 7, fields 0x36..0x39, and the nickname (0x73, 11
  * u16) and OT name (0x8d, 8 u16) through an 11-char string buffer, or the
  * terminator from STRBUF_GetEosChar in both name slots when the buffer could not
@@ -74,7 +74,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void  MI_CpuFill8(void *dst, u8 v, u32 size);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
-extern u32   func_02017E1C(void *mon, u32 id, u32 buf);
+extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 buf);
 extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 extern u16   STRBUF_GetEosChar(void);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
@@ -93,22 +93,22 @@ void MISC_SAVEDATA_SnapshotParty(struct Rec *rec, void *party, struct Date *date
     for (; i < count; i++) {
         void *mon = POKEPARTY_GetMember(party, i);
         u32 saved = POKE_TOOL_DecodePartyParam(mon);
-        if (func_02017E1C(mon, 0x4c, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
             struct Entry *e = &rec->e[n];
-            rec->e[n].species = func_02017E1C(mon, 5, 0);
-            e->level = func_02017E1C(mon, 0x9e, 0);
-            e->f03a = func_02017E1C(mon, 0x6f, 0);
-            e->f03b = func_02017E1C(mon, 0x6e, 0);
-            e->f04 = func_02017E1C(mon, 0, 0);
-            e->f08 = func_02017E1C(mon, 7, 0);
-            e->f32[0] = func_02017E1C(mon, 0x36, 0);
-            e->f32[1] = func_02017E1C(mon, 0x37, 0);
-            e->f32[2] = func_02017E1C(mon, 0x38, 0);
-            e->f32[3] = func_02017E1C(mon, 0x39, 0);
+            rec->e[n].species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+            e->level = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
+            e->f03a = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+            e->f03b = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
+            e->f04 = POKE_TOOL_GetPartyValue(mon, 0, 0);
+            e->f08 = POKE_TOOL_GetPartyValue(mon, 7, 0);
+            e->f32[0] = POKE_TOOL_GetPartyValue(mon, 0x36, 0);
+            e->f32[1] = POKE_TOOL_GetPartyValue(mon, 0x37, 0);
+            e->f32[2] = POKE_TOOL_GetPartyValue(mon, 0x38, 0);
+            e->f32[3] = POKE_TOOL_GetPartyValue(mon, 0x39, 0);
             if (buf != 0) {
-                func_02017E1C(mon, 0x73, (u32)buf);
+                POKE_TOOL_GetPartyValue(mon, 0x73, (u32)buf);
                 STRBUF_ToChars(buf, e->name, 11);
-                func_02017E1C(mon, 0x8d, (u32)buf);
+                POKE_TOOL_GetPartyValue(mon, 0x8d, (u32)buf);
                 STRBUF_ToChars(buf, e->ot, 8);
             } else {
                 e->name[0] = STRBUF_GetEosChar();

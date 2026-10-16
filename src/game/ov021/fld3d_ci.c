@@ -53,8 +53,8 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017EAC  0x02017EAC  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  *   abs_id_4A      0x0000004A  data
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
@@ -129,7 +129,7 @@
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetTex  0x0206E964  arm
  *   func_02049DB4  0x02049DB4  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   d_021DE3E4     0x021DE3E4  data  ov021  a4
@@ -166,6 +166,7 @@
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   NNS_G3dGetResDataByName  0x0206E62C  arm  arm9
  *   BG_SYS_Get  0x020416D4  arm  arm9
+ *   GX_ResetBankForBG  0x020808F4  arm  arm9
  */
 #include "fld3d_ci_types.h"
 
@@ -215,8 +216,8 @@ extern void *func_020124E8(void *event);
 void *ICA_ANIME_GetField1C(const void *p);
 void *GAME_DATA_GetMyParty(const void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-u32 func_02017E1C(void *p, u32 id, u32 v);
-u32 func_02017EAC(void *p);
+u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+u32 POKE_TOOL_IsShiny(void *p);
 int func_02034AC4(signed int id);
 void func_02034A5C(int id);
 int *ENCEFF_GetScreenTexParam(int a);
@@ -292,7 +293,7 @@ int FADE_IsActive(void);
 extern void *G3D_SYSTEM_GetResourceFile(void *p);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02012944(void *gameData);
+extern void *GAME_DATA_GetMyStatus(void *gameData);
 extern u8 func_02008550(const void *playerStatus);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
@@ -311,7 +312,7 @@ extern u32 func_0201D304(void *s, u32 a, u32 b);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int WAZA_OSHIE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 a6, u16 a7, u16 heap, void *texKey);
 extern u32 MSGDATA_Delete(void *rec);
-extern int func_020808F4(void);
+extern int GX_ResetBankForBG(void);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
@@ -641,11 +642,11 @@ void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, Fld3dCi *ci, int party
     int attr4C;
 
     mon = (int)POKEPARTY_GetMember(GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(gameSystem)), partyPos);
-    species = func_02017E1C((void *)mon, 5, 0);
-    form = func_02017E1C((void *)mon, 0x6f, 0);
-    attr6E = func_02017E1C((void *)mon, 0x6e, 0);
-    personality = func_02017EAC((void *)mon);
-    attr4C = func_02017E1C((void *)mon, 0x4c, 0);
+    species = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
+    form = POKE_TOOL_GetPartyValue((void *)mon, 0x6f, 0);
+    attr6E = POKE_TOOL_GetPartyValue((void *)mon, 0x6e, 0);
+    personality = POKE_TOOL_IsShiny((void *)mon);
+    attr4C = POKE_TOOL_GetPartyValue((void *)mon, 0x4c, 0);
     return FLD3D_CI_StartPokemonSequence(gameSystem, ci, species, form, attr6E, personality, attr4C);
 }
 
@@ -1439,7 +1440,7 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
 
     parentWork = func_020124E8(func_020124F0(event));
     gameSystem = GAME_EVENT_GetGameSystem(event);
-    playerStatus = func_02012944(ICA_ANIME_GetField1C(gameSystem));
+    playerStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem));
     ci = parentWork->ci;
     ICA_ANIME_GetField20(gameSystem);
     icon = &ci->arg.icon;
@@ -1621,7 +1622,7 @@ void *FLD3D_CI_StartMessageSequence(void *gameSystem, Fld3dCi *ci, u32 nameMsgId
  */
 void FLD3D_CI_DarkenCapturedScreen(u32 unused)
 {
-    int oldBankState = func_020808F4();
+    int oldBankState = GX_ResetBankForBG();
     u16 *pixel = (u16 *)0x06860000;
     int i;
     for (i = 0; i < 0xC000; i++) {

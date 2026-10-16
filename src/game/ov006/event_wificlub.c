@@ -127,15 +127,11 @@ struct NetTask;
 struct BoxRecord;
 struct GameComm;
 struct Party;
-typedef signed int     s32_021542C0;
-
 /* View of the battle setup block: only the trainer record pointer at +0x6C is written here. */
 typedef struct BattleSetupView {
     u8 reserved[0x6C];
     void *trainerRecord;
 } BattleSetupView;
-
-typedef int s32_021544D4;
 
 /* Entry of the menu transition table: the menu result picks the next sequence step. */
 typedef struct MenuTransition {
@@ -155,7 +151,7 @@ typedef struct Pair {
 } Pair;
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void REGULATION_SetRuleValue(struct Reg *regulation, u32 id, s32_021542C0 value);
+extern void REGULATION_SetRuleValue(struct Reg *regulation, u32 id, int value);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void BTL_SETUP_SetupCommSingle(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
 extern void BTL_SETUP_SetupCommDouble(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
@@ -656,7 +652,7 @@ menu:
  */
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
 {
-    s32_021544D4 battleSetup = (s32_021544D4)work->battleSetup;
+    int battleSetup = (int)work->battleSetup;
     if (battleSetup != 0) {
         BTL_SETUP_Delete(battleSetup);
         work->battleSetup = 0;

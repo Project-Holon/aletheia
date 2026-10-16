@@ -14,7 +14,7 @@
  *   BTL_SERVER_FLOW_PushMsgRecord 0x021C99A0 thumb ov093
  *   BTL_SERVER_FLOW_ClearMsgRecord 0x021C8810 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
  *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
@@ -43,7 +43,7 @@ extern int BTL_SERVER_FLOW_PushMsgRecord(void *, const struct Msg *);
 struct QF;
 extern void BTL_SERVER_FLOW_ClearMsgRecord(u8 *p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void HAND_TOKUSEI_RemoveAbilityHandlers(void *p);
 extern void BTL_POKEPARAM_ChangeForm(void *, u8);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -77,7 +77,7 @@ void BTL_SERVER_FLOW_ProcSickAdded(u8 *p, u8 *a, u8 *b, int kind, S value, int f
         BTL_SERVER_FLOW_PushMsgRecord(p, (struct Msg *)(p + 0x1ae4));
         BTL_SERVER_FLOW_ClearMsgRecord((u8 *)(p + 0x1ae4));
     } else if (m) BTL_SERVER_FLOW_PushMsgRecord(p, m);
-    if (kind == 3 && BTL_POKEPARAM_GetSpecies((struct QF *)a) == 492 && func_021D59B4(a, 19) == 1) {
+    if (kind == 3 && BTL_POKEPARAM_GetSpecies((struct QF *)a) == 492 && BTL_POKEPARAM_GetValue(a, 19) == 1) {
         HAND_TOKUSEI_RemoveAbilityHandlers(a);
         BTL_POKEPARAM_ChangeForm(a, 0);
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 79, BTL_POKEPARAM_GetPokeId(a), 0);
@@ -89,7 +89,7 @@ void BTL_SERVER_FLOW_ProcSickAdded(u8 *p, u8 *a, u8 *b, int kind, S value, int f
         BTL_SERVER_FLOW_RunSickAddedContEvent(p, a, b, kind, value.x);
     } else if (kind == 16) {
         BTL_SERVER_FLOW_RunSickEndEvent(p, (u8 *)((int)a));
-        if (func_021D59B4(a, 17) == 127) BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(p, a);
+        if (BTL_POKEPARAM_GetValue(a, 17) == 127) BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(p, a);
     } else BTL_SERVER_FLOW_RunSickAddedEvent(p, a, b, kind);
     BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 7951);
     if (!g) BTL_SERVER_FLOW_ProcDamagedItemReaction(p, a, 3);

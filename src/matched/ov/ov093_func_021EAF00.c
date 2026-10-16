@@ -1,5 +1,5 @@
 /*
- * function: func_021EAF00
+ * function: BTLV_SCU_PlaySeUnlessMainStep
  * address:  0x021EAF00
  * packet:   pkt_ov093_021EAF00
  * region:   ov093
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021EAF00(u8 *p, int a)
+void BTLV_SCU_PlaySeUnlessMainStep(u8 *p, int a)
 {
     if (BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj21579 *)p)->f4) == 0)
         GFL_USE_PlaySeDefaultVolume(a);

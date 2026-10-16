@@ -11,7 +11,7 @@
  *
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORLDTRADE_ADAPTER_CreateString  0x02202670  thumb
@@ -45,7 +45,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
@@ -75,12 +75,12 @@ void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void *
 
     nick = STRBUF_Create(0x1a, 0x48);
     ot = STRBUF_Create(0x26, 0x48);
-    func_02017E88(mon, 0x73, (u32)nick);
+    POKE_TOOL_GetBoxValue(mon, 0x73, (u32)nick);
     name = rec->name;
     mode = rec->mode;
     key = rec->key;
-    lv = func_02017E88(mon, 6, 0);
-    flag = func_02017E88(mon, 0xAD, 0);
+    lv = POKE_TOOL_GetBoxValue(mon, 6, 0);
+    flag = POKE_TOOL_GetBoxValue(mon, 0xAD, 0);
     s4f = func_02045EC0(bank, 0x4F);
     smode = func_02045EC0(bank, tbl_02202EB0[mode]);
     s70 = func_02045EC0(bank, 0x70);

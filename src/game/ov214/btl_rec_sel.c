@@ -111,10 +111,10 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   BTL_REC_SEL_GRAPHIC_GetCamera 0x021BB2A8 thumb ov214
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -133,7 +133,7 @@
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
@@ -383,10 +383,10 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern void UI_SCENE_LoadActorGfx(void*,In*,int,u16);
 extern int UI_SCENE_CreateActor(void*,int,u16,u16,u8,u16);
 extern void CLACT_SetActorBgPriority(int,u32);
@@ -404,7 +404,7 @@ extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 fl
 extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0207D518(u32);
@@ -1388,10 +1388,10 @@ int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u3
     info.mode=mode;
     info.flag04=1;
     info.flag08=7;
-    info.gfxKind=func_0201BC3C();
+    info.gfxKind=POKE_TOOL_GetIconPaletteArcId();
     info.gfxIndex=POKE_TOOL_CalcGraphicIndex(gfxId0,gfxId1,gfxId2,gfxId3);
-    info.gfxExtra0=func_0201BC40();
-    info.gfxExtra1=func_0201BCB4();
+    info.gfxExtra0=POKE_TOOL_GetIconCellArcId();
+    info.gfxExtra1=POKE_TOOL_GetIconCellEntryId();
     info.paletteSlot=shade;
     info.flag1d=0;
     info.shading=3;
@@ -1485,7 +1485,7 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     u32 layer;
     u16 heap;
     void *arc;
-    gender=(u8)(u32)func_02008550((const struct Sub0200852CObj *)func_02012944(*mgrRef));
+    gender=(u8)(u32)func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*mgrRef));
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |=0x10000;

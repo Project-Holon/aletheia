@@ -1,5 +1,5 @@
 /*
- * function: func_0202D01C
+ * function: BGWINFRM_ScaleRatio
  * address:  0x0202D01C
  * packet:   pkt_0202CC70
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u8 func_0202D01C(u32 a, u32 b, u32 c)
+u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c)
 {
     u8 res = (a * c) / b;
 

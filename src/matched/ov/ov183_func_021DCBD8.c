@@ -52,10 +52,10 @@
  * TU: cbd8-tu.log terminal exit0, MATCH, three B98C wildcards at +009A/+00A6/+00B2, no viable split.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   BR_CODEIN_RecordIsType1 0x021DD228 thumb ov183
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
@@ -79,7 +79,7 @@ typedef signed int     s32;
 struct Actor;
 struct Obj;
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void),POKE_TOOL_GetIconCellArcId(void),POKE_TOOL_GetIconCellEntryId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int BR_CODEIN_RecordIsType1(void *);
@@ -109,9 +109,9 @@ void BR_CODEIN_RecordSetupActors(char *p,void *manager,void *party,u16 heap)
     char *slot;
     int mapping;
     archive=func_020490F4(7,(u16)((heap&0x7fff)|0x8000));
-    *(void **)(p+0x48)=(void *)CLACT_RegisterPaletteCompressed(archive,func_0201BC3C(),0,128,heap);
-    mapping=func_0201BC40();
-    *(void **)(p+0x4c)=(void *)CLACT_RegisterCellAnim(archive,mapping,func_0201BCB4(),heap);
+    *(void **)(p+0x48)=(void *)CLACT_RegisterPaletteCompressed(archive,POKE_TOOL_GetIconPaletteArcId(),0,128,heap);
+    mapping=POKE_TOOL_GetIconCellArcId();
+    *(void **)(p+0x4c)=(void *)CLACT_RegisterCellAnim(archive,mapping,POKE_TOOL_GetIconCellEntryId(),heap);
     n=0;
     step=6;start=0;end=6;mode=0;
     if(BR_CODEIN_RecordIsType1(party)==1) {step=3;end=3;mode=1;}

@@ -28,7 +28,7 @@
  *   EGG_DEMO_VIEW_SetActive 0x021F6A3C thumb ov215
  *   EGG_DEMO_VIEW_GetActive 0x021F6A44 thumb ov215
  *   GAME_DATA_GetField114 0x020127A4 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   POKE_TOOL_HatchEgg 0x02017B24 thumb
@@ -152,7 +152,7 @@ extern int FADE_IsActive(void);
 extern void EGG_DEMO_VIEW_SetActive(char *);
 extern int EGG_DEMO_VIEW_GetActive(char *);
 extern void *GAME_DATA_GetField114(struct SaveBlock *);
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *);
 extern u32 ZONEDATA_GetPlaceNameId(u32);
 extern void POKE_TOOL_HatchEgg(void *,u32,u32,u32);
@@ -312,7 +312,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
     case 5:if(EGG_DEMO_VIEW_GetActive((char *)((struct EggDemoWork *)work)->view)){((struct EggDemoWork *)work)->state=6;EGG_DEMO_MAIN_PushBgm(args,work);}break;
     case 6:
         ((struct EggDemoWork *)work)->state=7;
-        save=GAME_DATA_GetField114((struct SaveBlock *)args[0]);trainer=func_02012944((void *)args[0]);
+        save=GAME_DATA_GetField114((struct SaveBlock *)args[0]);trainer=GAME_DATA_GetMyStatus((void *)args[0]);
         POKE_TOOL_HatchEgg((void *)args[1],(u32)trainer,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(save)),((struct EggDemoWork *)work)->heapId);
         dex=ZUKAN_SAVE_GetFromGameData((void *)args[0]);ZUKAN_SAVE_RegisterSeen(dex,(void *)args[1]);ZUKAN_SAVE_RegisterCaught(dex,(void *)args[1]);
         EGG_DEMO_VIEW_SetSpecies((char *)((struct EggDemoWork *)work)->view,(int)((void *)args[1]));break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9E0
+ * function: ZUKAN_INFO_InitFormGfx
  * address: 0x021BB9E0
  * packet: pkt_ov206_021BB9E0
  * region: ov206
@@ -10,9 +10,9 @@
  * tail: zero halfword at 0x021BBA7A before 0x021BBA7C.
  * lever: flag zero assigned after clearing loop; assigning it before loop costs two bytes.
  * symbols:
- *   func_021BC0B4 0x021BC0B4 thumb ov206
- *   func_021BC0B8 0x021BC0B8 thumb ov206
- *   func_021BC0CC 0x021BC0CC thumb ov206
+ *   ZUKAN_INFO_GetPaletteFileId 0x021BC0B4 thumb ov206
+ *   ZUKAN_INFO_GetCellAnimFileId 0x021BC0B8 thumb ov206
+ *   ZUKAN_INFO_GetCellAnimMode 0x021BC0CC thumb ov206
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  */
@@ -21,14 +21,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum Flag { FLAG_ZERO=0,FLAG_ONE=1 } Flag;
 struct State { u16 heap; char pad2[26]; int flag; char pad20[0x168]; unsigned array[2],index; char pad194[0x44]; unsigned owner; };
-extern int func_021BC0B4(int);
-extern int func_021BC0B8(int);
-extern int func_021BC0CC(int);
+extern int ZUKAN_INFO_GetPaletteFileId(int);
+extern int ZUKAN_INFO_GetCellAnimFileId(int);
+extern int ZUKAN_INFO_GetCellAnimMode(int);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-void func_021BB9E0(struct State *p)
+void ZUKAN_INFO_InitFormGfx(struct State *p)
 {
     u8 i;
     int flag;
@@ -39,7 +39,7 @@ void func_021BB9E0(struct State *p)
     flag=0;
     if(p->flag) flag=1;
     owner=p->owner;
-    ((struct Obj02542 *)p)->f17C=CLACT_RegisterPaletteEx((void *)owner,func_021BC0B4(p->flag),flag,160,0,1,p->heap);
-    ((struct Obj02542 *)p)->f180=CLACT_RegisterCellAnim((void *)owner,func_021BC0B8(0),func_021BC0CC(0),p->heap);
-    ((struct Obj02542 *)p)->f184=CLACT_RegisterCellAnim((void *)owner,func_021BC0B8(494),func_021BC0CC(494),p->heap);
+    ((struct Obj02542 *)p)->f17C=CLACT_RegisterPaletteEx((void *)owner,ZUKAN_INFO_GetPaletteFileId(p->flag),flag,160,0,1,p->heap);
+    ((struct Obj02542 *)p)->f180=CLACT_RegisterCellAnim((void *)owner,ZUKAN_INFO_GetCellAnimFileId(0),ZUKAN_INFO_GetCellAnimMode(0),p->heap);
+    ((struct Obj02542 *)p)->f184=CLACT_RegisterCellAnim((void *)owner,ZUKAN_INFO_GetCellAnimFileId(494),ZUKAN_INFO_GetCellAnimMode(494),p->heap);
 }

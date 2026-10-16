@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF7C
+ * function: ZUKAN_INFO_FlushSlotWindows
  * address: 0x021BAF7C
  * packet: pkt_ov206_021BAF7C
  * region: ov206
@@ -29,7 +29,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-void func_021BAF7C(char *p)
+void ZUKAN_INFO_FlushSlotWindows(char *p)
 {
     int i;
     for (i = 0; i < 4; i++) {

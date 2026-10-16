@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * note (2026-10-02): slot order closed by two source facts. (1) func_02017E88's third parameter is
+ * note (2026-10-02): slot order closed by two source facts. (1) POKE_TOOL_GetBoxValue's third parameter is
  *   a buffer pointer (void *), so the 0x9a and 0x8d calls pass the v2 buffer directly with no
  *   conversion; casting it to u32 lets the compiler share one conversion temp, which moves v2 below
  *   the named locals. (2) The species argument in the first t arm is a named local; nested, t lands lowest.
@@ -15,7 +15,7 @@
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
  *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -44,7 +44,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern u32 func_02017E88(void *,u32,void *);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,void *);
 extern u32 POKE_TOOL_IsBoxShiny(void *);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -77,7 +77,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
     if(((struct Obj00112 *)p)->f38==0) {
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->fC,8,1,1,0x3c40);
         ws=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
-        v=func_02017E88(mon,5,0);
+        v=POKE_TOOL_GetBoxValue(mon,5,0);
         pal=0x440;
         if(((struct Obj23145 *)(*(u8 * *)&((struct Obj00112 *)p)->f8))->f18==0) v=(*(u16 **)(q+8))[v];
         if(POKE_TOOL_IsBoxShiny(mon)==1) pal=0xc80;
@@ -89,7 +89,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         }
         WORDSET_DeleteStrbufED04(ws);
         P_STATUS_PrintMsgToWin(p,*(u32 *)&((struct Obj01256 *)q)->f10,10,1,1,0x3c40);
-        if(((struct Obj00112 *)p)->f38==0) {species=func_02017E88(mon,5,0); t=func_02045EC0(gSpeciesNameBank,species);}
+        if(((struct Obj00112 *)p)->f38==0) {species=POKE_TOOL_GetBoxValue(mon,5,0); t=func_02045EC0(gSpeciesNameBank,species);}
         else t=func_02045EC0(gSpeciesNameBank,0x28a);
         tile=(u32)BMP_WIN_GetBmp(((struct Obj01256 *)q)->f10);
         pal=0x440;
@@ -99,27 +99,27 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f18,13,1,1,0x3c40);
         v2=STRBUF_Create(0x20,((struct Obj00112 *)p)->f0);
         ws2=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
-        r=func_02017E88(mon,0x9a,v2);
+        r=POKE_TOOL_GetBoxValue(mon,0x9a,v2);
         if(r==0) pal=0x14c0;
         else if(r==1) pal=0xc80;
-        func_02017E88(mon,0x8d,v2);
+        POKE_TOOL_GetBoxValue(mon,0x8d,v2);
         WORDSET_SetSlotTag(ws2,0,v2,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f18,ws2,14,0x41,1,pal);
         WORDSET_DeleteStrbufED04(ws2);
         STRBUF_Delete(v2);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f1C,15,1,1,0x3c40);
         ws3=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
-        x=func_02017E88(mon,7,0);
+        x=POKE_TOOL_GetBoxValue(mon,7,0);
         WORDSET_SetSlotNumber(ws3,0,x,5,2,1);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f1C,ws3,16,0x41,1,0x440);
         WORDSET_DeleteStrbufED04(ws3);
-        n=func_02017E88(mon,0x9e,0);
-        s18=func_02017E88(mon,8,0);
-        s30=func_02017E88(mon,5,0);
-        tt=func_02017E88(mon,0x6f,0);
+        n=POKE_TOOL_GetBoxValue(mon,0x9e,0);
+        s18=POKE_TOOL_GetBoxValue(mon,8,0);
+        s30=POKE_TOOL_GetBoxValue(mon,5,0);
+        tt=POKE_TOOL_GetBoxValue(mon,0x6f,0);
         A=POKE_TOOL_GetExpForLevel((u16)s30,(u16)tt,(u16)(n+1));
-        s34=func_02017E88(mon,5,0);
-        tt=func_02017E88(mon,0x6f,0);
+        s34=POKE_TOOL_GetBoxValue(mon,5,0);
+        tt=POKE_TOOL_GetBoxValue(mon,0x6f,0);
         B=POKE_TOOL_GetExpForLevel((u16)s34,(u16)tt,(u16)n);
         C=A-s18;
         if(n==100) C=0;

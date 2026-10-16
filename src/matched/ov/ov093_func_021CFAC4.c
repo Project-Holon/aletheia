@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 int BTL_CLIENT_CanShadowTagTrap(void *p, void *q)
 {
-    if (func_021D59B4(q, 17) != 23) return 1;
+    if (BTL_POKEPARAM_GetValue(q, 17) != 23) return 1;
     return 0;
 }

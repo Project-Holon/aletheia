@@ -1,7 +1,7 @@
 /*
  * file:     dwc_reliable.c
  * unit:     yes
- * function: func_02176B68, DWCi_CleanupReliableQueue, DWCi_IsReliableQueueFree, DWCi_ProcessReliableQueue, DWCi_ProcessReliableQueueEx, DWCi_InsertReliableQueue
+ * function: DWCi_InitReliableQueue, DWCi_CleanupReliableQueue, DWCi_IsReliableQueueFree, DWCi_ProcessReliableQueue, DWCi_ProcessReliableQueueEx, DWCi_InsertReliableQueue
  * address:  0x02176B68
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -39,7 +39,7 @@ extern void DWC_Free(int kind, void *p, int size);
 extern void func_02195CC0(void);
 extern void *DWC_Alloc(int kind, int size);
 extern void MIi_CpuCopy32(void *src, void *dst, int size);
-void func_02176B68(void);
+static void DWCi_InitReliableQueue(void);
 void DWCi_CleanupReliableQueue(char *p);
 int DWCi_IsReliableQueueFree(void);
 int DWCi_ProcessReliableQueue(void);
@@ -55,7 +55,7 @@ extern SendQueue *gDwcReliableQueueHead;
 /*
  * Clears the first two words of the state object.
  */
-void func_02176B68(void)
+static void DWCi_InitReliableQueue(void)
 {
     gDwcReliableQueue.head = 0;
     gDwcReliableQueue.total = 0;

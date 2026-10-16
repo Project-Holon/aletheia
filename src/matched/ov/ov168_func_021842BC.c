@@ -1,5 +1,5 @@
 /*
- * function: func_021842BC
+ * function: MICTEST_CreateWindows
  * address: 0x021842BC
  * packet: pkt_ov168_021842BC
  * region: ov168
@@ -48,7 +48,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(unsigned);
 extern const u8 d_02184888[];
 extern u16 d_02184868[];
-void func_021842BC(void **p, int heap)
+void MICTEST_CreateWindows(void **p, int heap)
 {
     int i;
     const u8 *row;

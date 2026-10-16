@@ -1,5 +1,5 @@
 /*
- * function: func_02183D34
+ * function: MICTEST_SetStep
  * address: 0x02183D34
  * packet: pkt_ov168_02183D34
  * region: ov168
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-void func_02183D34(unsigned int *p,unsigned int v) { p[1]=v; p[2]=0; }
+void MICTEST_SetStep(unsigned int *p,unsigned int v) { p[1]=v; p[2]=0; }

@@ -548,7 +548,7 @@ void CALENDER_Delete(CalenderWork *calender)
 /*
  * Tail call to CALENDER_GetWeather through a pool word and `bx r3`
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Unlabelled in the
- * listing: no prologue, and its only caller is func_0202C794 in arm9.
+ * listing: no prologue, and its only caller is ISS_SWITCH_GetSubscreenMode in arm9.
  */
 u32 CALENDER_GetWeatherThunk(CalenderWork *calender, unsigned int zoneId)
 {

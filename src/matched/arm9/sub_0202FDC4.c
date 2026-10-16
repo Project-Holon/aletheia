@@ -1,5 +1,5 @@
 /*
- * function: sub_0202FDC4
+ * function: GFL_HEAP_CreateChildHeapImpl
  * address:  0x0202FDC4
  * packet:   pkt_0202FC48
  * region:   arm9
@@ -49,8 +49,8 @@
  * translation units and never meet.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202FDC4.c \
- *       --func sub_0202FDC4 --addr 0x0202FDC4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_CreateChildHeapImpl.c \
+ *       --func GFL_HEAP_CreateChildHeapImpl --addr 0x0202FDC4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -74,7 +74,7 @@ struct ExpHeap;
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
 
-int sub_0202FDC4(u32 src, u32 dst, u32 param)
+int GFL_HEAP_CreateChildHeapImpl(u32 src, u32 dst, u32 param)
 {
     void *res;
     void *bound;

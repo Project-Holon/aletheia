@@ -1,7 +1,7 @@
 /*
  * file:     startmenu.c
  * unit:     yes
- * function: STARTMENU_TitleDemoInit, STARTMENU_TitleDemoUpdateTimer, STARTMENU_TitleDemoCheckInput, STARTMENU_TitleDemoMain, STARTMENU_TitleDemoExit, STARTMENU_ResetDisplayState, STARTMENU_SetupDisplayBanks, STARTMENU_TitleDemoUpdateParts, STARTMENU_CaptureVblankTask, STARTMENU_CaptureInit, STARTMENU_CaptureRunTasks, STARTMENU_CaptureDelete, STARTMENU_CaptureSetBlend, STARTMENU_LogoInit, STARTMENU_LogoUpdate, STARTMENU_LogoDelete, STARTMENU_Demo3dInit, STARTMENU_Demo3dUpdate, STARTMENU_Demo3dDelete, STARTMENU_Demo3dSetFrame, STARTMENU_SpritesInit, STARTMENU_SpritesUpdate, STARTMENU_SpritesDelete, STARTMENU_MenuInit, STARTMENU_MenuMain, STARTMENU_MenuExit, STARTMENU_StateSetup, STARTMENU_StateWaitStart, STARTMENU_StateWaitFade, STARTMENU_StateSelectAnim, STARTMENU_StateWaitPrint, STARTMENU_StateSelectRow, STARTMENU_StateScroll, STARTMENU_StateConnectPrompt, STARTMENU_StateConfirmPrompt, STARTMENU_StateInfoMessage, func_021BA880, STARTMENU_VblankTask, STARTMENU_AddVblankTask, STARTMENU_RemoveVblankTask, STARTMENU_ClearGraphics, STARTMENU_SetupBackgrounds, STARTMENU_TeardownBackgrounds, STARTMENU_LoadGraphics, STARTMENU_CreateBlinkPalette, STARTMENU_DeleteBlinkPalette, STARTMENU_CreateTextSystem, STARTMENU_DeleteTextSystem, STARTMENU_CreateRowWindows, STARTMENU_DeleteRowWindows, STARTMENU_CreateActors, STARTMENU_DeleteActors, STARTMENU_CreateFrameManager, STARTMENU_DeleteFrameManager, STARTMENU_StartBrightnessEffect, STARTMENU_BuildRowList, STARTMENU_LoadRowBuffers, STARTMENU_FreeRowBuffers, STARTMENU_SetRowActorY, STARTMENU_LayoutRows, STARTMENU_DrawRowFrame, STARTMENU_PaintRowPalette, STARTMENU_RowTileY, STARTMENU_ScrollRowActors, STARTMENU_MoveCursor, STARTMENU_ShowRowActors, STARTMENU_DrawFrameBox, STARTMENU_ClearFrameBox, STARTMENU_OpenConfirmWindow, STARTMENU_CloseDescWindow, STARTMENU_OpenInfoWindow, STARTMENU_CloseInfoWindow, STARTMENU_OpenNoticeWindow, STARTMENU_StartMessage, STARTMENU_HideMessageWindow, STARTMENU_UpdateMessage, STARTMENU_OpenYesNoMenu, STARTMENU_BeginFadeOut, STARTMENU_BeginFadeIn, STARTMENU_BeginSelectAnim, STARTMENU_RefreshSaveStatus, STARTMENU_ChangeToIntroProc, STARTMENU_ReplaceWithBattleFlagProcWithSave, STARTMENU_ReplaceWithBattleFlagProcNoSave, STARTMENU_NewGameIntroInit, STARTMENU_NewGameIntroMain, STARTMENU_NewGameIntroEnd, STARTMENU_BattleFlagProcInit, STARTMENU_BattleFlagProcMain, STARTMENU_BattleFlagProcEnd, STARTMENU_SetNewPlayerNameAndGender, STARTMENU_ConfigPromptInit, STARTMENU_ConfigPromptEnd, STARTMENU_ConfigPromptMain, STARTMENU_ConfigPromptSetupGraphics, STARTMENU_InitBgLayer, STARTMENU_ConfigPromptDrawQuestion, STARTMENU_ConfigPromptDeleteWindows, STARTMENU_ConfigPromptHighlightChoice, STARTMENU_ConfigPromptReadInput, STARTMENU_ConfigPromptPulseColor, STARTMENU_LogoScreenInit, STARTMENU_LogoScreenMain, STARTMENU_LogoScreenEnd, STARTMENU_SaveEraseInit, STARTMENU_SaveEraseMain, STARTMENU_SaveEraseEnd, STARTMENU_SaveEraseStepSetup, STARTMENU_SaveEraseStepShowPrompt, STARTMENU_SaveEraseStepOpenFirstYesNo, STARTMENU_SaveEraseStepFirstConfirm, STARTMENU_SaveEraseStepOpenSecondYesNo, STARTMENU_SaveEraseStepSecondConfirm, STARTMENU_SaveEraseUpdateTimeIcon, STARTMENU_SaveEraseStepErase, STARTMENU_SaveEraseStepTeardown, STARTMENU_SaveEraseClearVram, STARTMENU_SaveEraseSetupGraphics, STARTMENU_SaveEraseExitGraphics, STARTMENU_SaveEraseAllocResources, STARTMENU_SaveEraseFreeResources, STARTMENU_SaveEraseCreateWindow, STARTMENU_SaveEraseDeleteWindow, STARTMENU_SaveEraseVblankTask, STARTMENU_SaveEraseStartVblankTask, STARTMENU_SaveEraseStopVblankTask, STARTMENU_SaveEraseStartMessage, STARTMENU_SaveEraseUpdateMessage, STARTMENU_SaveEraseOpenYesNo, STARTMENU_SaveEraseStartFadeIn, STARTMENU_SaveEraseStartFadeOut
+ * function: STARTMENU_TitleDemoInit, STARTMENU_TitleDemoUpdateTimer, STARTMENU_TitleDemoCheckInput, STARTMENU_TitleDemoMain, STARTMENU_TitleDemoExit, STARTMENU_ResetDisplayState, STARTMENU_SetupDisplayBanks, STARTMENU_TitleDemoUpdateParts, STARTMENU_CaptureVblankTask, STARTMENU_CaptureInit, STARTMENU_CaptureRunTasks, STARTMENU_CaptureDelete, STARTMENU_CaptureSetBlend, STARTMENU_LogoInit, STARTMENU_LogoUpdate, STARTMENU_LogoDelete, STARTMENU_Demo3dInit, STARTMENU_Demo3dUpdate, STARTMENU_Demo3dDelete, STARTMENU_Demo3dSetFrame, STARTMENU_SpritesInit, STARTMENU_SpritesUpdate, STARTMENU_SpritesDelete, STARTMENU_MenuInit, STARTMENU_MenuMain, STARTMENU_MenuExit, STARTMENU_StateSetup, STARTMENU_StateWaitStart, STARTMENU_StateWaitFade, STARTMENU_StateSelectAnim, STARTMENU_StateWaitPrint, STARTMENU_StateSelectRow, STARTMENU_StateScroll, STARTMENU_StateConnectPrompt, STARTMENU_StateConfirmPrompt, STARTMENU_StateInfoMessage, STARTMENU_StateUnlockNotices, STARTMENU_VblankTask, STARTMENU_AddVblankTask, STARTMENU_RemoveVblankTask, STARTMENU_ClearGraphics, STARTMENU_SetupBackgrounds, STARTMENU_TeardownBackgrounds, STARTMENU_LoadGraphics, STARTMENU_CreateBlinkPalette, STARTMENU_DeleteBlinkPalette, STARTMENU_CreateTextSystem, STARTMENU_DeleteTextSystem, STARTMENU_CreateRowWindows, STARTMENU_DeleteRowWindows, STARTMENU_CreateActors, STARTMENU_DeleteActors, STARTMENU_CreateFrameManager, STARTMENU_DeleteFrameManager, STARTMENU_StartBrightnessEffect, STARTMENU_BuildRowList, STARTMENU_LoadRowBuffers, STARTMENU_FreeRowBuffers, STARTMENU_SetRowActorY, STARTMENU_LayoutRows, STARTMENU_DrawRowFrame, STARTMENU_PaintRowPalette, STARTMENU_RowTileY, STARTMENU_ScrollRowActors, STARTMENU_MoveCursor, STARTMENU_ShowRowActors, STARTMENU_DrawFrameBox, STARTMENU_ClearFrameBox, STARTMENU_OpenConfirmWindow, STARTMENU_CloseDescWindow, STARTMENU_OpenInfoWindow, STARTMENU_CloseInfoWindow, STARTMENU_OpenNoticeWindow, STARTMENU_StartMessage, STARTMENU_HideMessageWindow, STARTMENU_UpdateMessage, STARTMENU_OpenYesNoMenu, STARTMENU_BeginFadeOut, STARTMENU_BeginFadeIn, STARTMENU_BeginSelectAnim, STARTMENU_RefreshSaveStatus, STARTMENU_ChangeToIntroProc, STARTMENU_ReplaceWithBattleFlagProcWithSave, STARTMENU_ReplaceWithBattleFlagProcNoSave, STARTMENU_NewGameIntroInit, STARTMENU_NewGameIntroMain, STARTMENU_NewGameIntroEnd, STARTMENU_BattleFlagProcInit, STARTMENU_BattleFlagProcMain, STARTMENU_BattleFlagProcEnd, STARTMENU_SetNewPlayerNameAndGender, STARTMENU_ConfigPromptInit, STARTMENU_ConfigPromptEnd, STARTMENU_ConfigPromptMain, STARTMENU_ConfigPromptSetupGraphics, STARTMENU_InitBgLayer, STARTMENU_ConfigPromptDrawQuestion, STARTMENU_ConfigPromptDeleteWindows, STARTMENU_ConfigPromptHighlightChoice, STARTMENU_ConfigPromptReadInput, STARTMENU_ConfigPromptPulseColor, STARTMENU_LogoScreenInit, STARTMENU_LogoScreenMain, STARTMENU_LogoScreenEnd, STARTMENU_SaveEraseInit, STARTMENU_SaveEraseMain, STARTMENU_SaveEraseEnd, STARTMENU_SaveEraseStepSetup, STARTMENU_SaveEraseStepShowPrompt, STARTMENU_SaveEraseStepOpenFirstYesNo, STARTMENU_SaveEraseStepFirstConfirm, STARTMENU_SaveEraseStepOpenSecondYesNo, STARTMENU_SaveEraseStepSecondConfirm, STARTMENU_SaveEraseUpdateTimeIcon, STARTMENU_SaveEraseStepErase, STARTMENU_SaveEraseStepTeardown, STARTMENU_SaveEraseClearVram, STARTMENU_SaveEraseSetupGraphics, STARTMENU_SaveEraseExitGraphics, STARTMENU_SaveEraseAllocResources, STARTMENU_SaveEraseFreeResources, STARTMENU_SaveEraseCreateWindow, STARTMENU_SaveEraseDeleteWindow, STARTMENU_SaveEraseVblankTask, STARTMENU_SaveEraseStartVblankTask, STARTMENU_SaveEraseStopVblankTask, STARTMENU_SaveEraseStartMessage, STARTMENU_SaveEraseUpdateMessage, STARTMENU_SaveEraseOpenYesNo, STARTMENU_SaveEraseStartFadeIn, STARTMENU_SaveEraseStartFadeOut
  * address:  0x021B95A0
  * region:   ov088
  * compiler: dsi/1.1p1
@@ -400,7 +400,7 @@ struct Row;
 struct CodeIn;
 struct Sub020090B0Obj;
 struct BgTemplate;
-struct PalAnm;
+struct PalAnmSlot;
 struct WordSet;
 struct PlayTime;
 struct Sub02008828Obj;
@@ -639,7 +639,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
-extern u32 func_0202EA20(struct PalAnm *p);
+extern u32 func_0202EA20(struct PalAnmSlot *p);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 APP_KEYCURSOR_CreateDefault(u32, u32, u32, u32);
 extern int APP_KEYCURSOR_Delete(int a0);
@@ -732,8 +732,8 @@ int STARTMENU_StateScroll(StartMenuWork *work);
 int STARTMENU_StateConnectPrompt(StartMenuWork *work);
 int STARTMENU_StateConfirmPrompt(StartMenuWork *work);
 int STARTMENU_StateInfoMessage(StartMenuWork *work);
-int func_021BA880(StartMenuWork *work);
-int func_021BA984(StartMenuWork *work);
+int STARTMENU_StateUnlockNotices(StartMenuWork *work);
+int STARTMENU_StateBeginFadeIn(StartMenuWork *work);
 void STARTMENU_VblankTask(void);
 void STARTMENU_AddVblankTask(StartMenuWork *work);
 void STARTMENU_RemoveVblankTask(StartMenuWork *work);
@@ -2220,7 +2220,7 @@ int STARTMENU_StateInfoMessage(StartMenuWork *work)
  * 0x021BA984 is an unlabelled tail-call stub (function_starts seed);
  * verified with tu over 0x021BA880..0x021BA990 (272 bytes).
  */
-int func_021BA880(StartMenuWork *work)
+int STARTMENU_StateUnlockNotices(StartMenuWork *work)
 {
     u32 i;
     switch (work->subState) {
@@ -2272,7 +2272,7 @@ int func_021BA880(StartMenuWork *work)
 
 
 
-int func_021BA984(StartMenuWork *work)
+int STARTMENU_StateBeginFadeIn(StartMenuWork *work)
 {
     return STARTMENU_BeginFadeIn(work, 1);
 }
@@ -2454,7 +2454,7 @@ void STARTMENU_CreateBlinkPalette(StartMenuWork *work)
 
 void STARTMENU_DeleteBlinkPalette(StartMenuWork *work)
 {
-    func_0202EA20((struct PalAnm *)(work->blinkPalAnm));
+    func_0202EA20((struct PalAnmSlot *)(work->blinkPalAnm));
 }
 
 

@@ -1,7 +1,7 @@
 /*
  * file:     pokeparty.c
  * unit:     yes
- * function: POKEPARTY_Create, POKEPARTY_Init, POKEPARTY_InitEx, POKEPARTY_Add, POKEPARTY_RemoveMember, POKEPARTY_GetCapacity, POKEPARTY_GetCount, POKEPARTY_GetNonEggCount, POKEPARTY_GetBattleReadyCount, POKEPARTY_GetEggCount, POKEPARTY_GetBadEggCount, POKEPARTY_FindFirstBattleReady, POKEPARTY_FindFirstNonEgg, POKEPARTY_GetMember, POKEPARTY_IsMemberBattleReady, POKEPARTY_SetMember, POKEPARTY_SwapMembers, POKEPARTY_Copy, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag, POKEPARTY_SetSlotFlag, POKEPARTY_GetSaveData, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg, POKEPARTY_FindFirst, POKE_PERSONAL_OpenHandle, POKE_PERSONAL_LoadData, POKE_PERSONAL_LoadDataDirect, POKE_PERSONAL_Create, POKE_PERSONAL_Delete, POKE_PERSONAL_GetParam, POKE_PERSONAL_IsPlaceholderAbility, POKE_PERSONAL_LoadFormTable, POKE_PERSONAL_GetFormDataId, POKERUS_TryInfectParty, POKERUS_DecreaseDays, POKERUS_SpreadParty, POKERUS_GetInfectedMask, POKERUS_IsInfected, POKERUS_IsBoxInfected, POKERUS_IsCured, POKERUS_IsBoxCured, SHINKA_CHECK_CheckEvolution, SHINKA_CHECK_GetRowParam, SHINKA_CHECK_LoadData, SHINKA_CHECK_KnowsMove, NATSUKI_Calc, NATSUKI_CalcUseItem, NATSUKI_CalcWalk, NATSUKI_CalcParty, NATSUKI_Apply, POKE_TOOL_IsPPRestorable, POKE_TOOL_RestorePP, POKE_TOOL_HealFull, POKE_TOOL_HealParty, POKE_TOOL_GetGraphicIndex, POKE_TOOL_CalcGraphicIndex, POKE_TOOL_CalcIconPalette, POKE_TOOL_GetIconPalette, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, WAZA_TOOL_GetParam, WAZA_TOOL_GetDataParam, WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont, WAZA_TOOL_GetRankEffectCount, WAZA_TOOL_GetRankEffect, WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory, WAZA_TOOL_GetType, WAZA_TOOL_GetPower, WAZA_TOOL_GetDamageType, WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical, WAZA_TOOL_IsDamaging, WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, PRINTSYS_Init, PRINTSYS_QUE_Create, PRINTSYS_QUE_CreateEx, PRINTSYS_QUE_Delete, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, PRINTSYS_PrintStreamGetState, PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete, PRINTSYS_PrintStreamShortWait, PRINTSYS_PrintStreamSetSpeed, PRINTSYS_PrintStreamResetSpeed
+ * function: POKEPARTY_Create, POKEPARTY_Init, POKEPARTY_InitEx, POKEPARTY_Add, POKEPARTY_RemoveMember, POKEPARTY_GetCapacity, POKEPARTY_GetCount, POKEPARTY_GetNonEggCount, POKEPARTY_GetBattleReadyCount, POKEPARTY_GetEggCount, POKEPARTY_GetBadEggCount, POKEPARTY_FindFirstBattleReady, POKEPARTY_FindFirstNonEgg, POKEPARTY_GetMember, POKEPARTY_IsMemberBattleReady, POKEPARTY_SetMember, POKEPARTY_SwapMembers, POKEPARTY_Copy, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag, POKEPARTY_SetSlotFlag, POKEPARTY_GetSaveData, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg, POKEPARTY_FindFirst, POKE_PERSONAL_OpenHandle, POKE_PERSONAL_LoadData, POKE_PERSONAL_LoadDataDirect, POKE_PERSONAL_Create, POKE_PERSONAL_Delete, POKE_PERSONAL_GetParam, POKE_PERSONAL_IsPlaceholderAbility, POKE_PERSONAL_LoadFormTable, POKE_PERSONAL_GetFormDataId, POKERUS_TryInfectParty, POKERUS_DecreaseDays, POKERUS_SpreadParty, POKERUS_GetInfectedMask, POKERUS_IsInfected, POKERUS_IsBoxInfected, POKERUS_IsCured, POKERUS_IsBoxCured, SHINKA_CHECK_CheckEvolution, SHINKA_CHECK_GetRowParam, SHINKA_CHECK_LoadData, SHINKA_CHECK_KnowsMove, NATSUKI_Calc, NATSUKI_CalcUseItem, NATSUKI_CalcWalk, NATSUKI_CalcParty, NATSUKI_Apply, POKE_TOOL_IsPPRestorable, POKE_TOOL_RestorePP, POKE_TOOL_HealFull, POKE_TOOL_HealParty, POKE_TOOL_GetGraphicIndex, POKE_TOOL_CalcGraphicIndex, POKE_TOOL_CalcIconPalette, POKE_TOOL_GetIconPalette, POKE_TOOL_GetIconPaletteArcId, POKE_TOOL_GetIconCellArcId, POKE_TOOL_GetIconCellArcIdSub, POKE_TOOL_GetIconCellEntryId, POKE_TOOL_GetIconCellEntryIdSub, WAZA_TOOL_GetParam, WAZA_TOOL_GetDataParam, WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont, WAZA_TOOL_GetRankEffectCount, WAZA_TOOL_GetRankEffect, WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory, WAZA_TOOL_GetType, WAZA_TOOL_GetPower, WAZA_TOOL_GetDamageType, WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical, WAZA_TOOL_IsDamaging, WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, PRINTSYS_Init, PRINTSYS_QUE_Create, PRINTSYS_QUE_CreateEx, PRINTSYS_QUE_Delete, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, PRINTSYS_PrintStreamGetState, PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete, PRINTSYS_PrintStreamShortWait, PRINTSYS_PrintStreamSetSpeed, PRINTSYS_PrintStreamResetSpeed
  * address:  0x0201A920
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  *
  * symbols:
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   func_02030734 0x02030734  arm
  *   func_020307B0   0x020307B0  arm
@@ -76,6 +76,10 @@
  *   GF_FONT_CopyStrbufD6D8  0x0201D6D8  thumb
  *   GF_FONT_GetAllocSize  0x0201D6B8  thumb
  *   GF_FONT_GetQueueLength  0x0201D6C4  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 #define REG_DISPCNT      (*(volatile u32 *)0x04000000)
 #define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
@@ -327,10 +331,10 @@ struct TextPrinter {
     struct PrintCtx ctx;
 };
 struct BoxPokemon;
-extern struct BoxPokemon *func_020185F0(struct PokemonParam *pp);
-extern u32   func_02017E88(struct BoxPokemon *box, u32 id, u32 arg);
+extern struct BoxPokemon *POKE_TOOL_Dummy(struct PokemonParam *pp);
+extern u32   POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 id, u32 arg);
 extern void  ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 dataId);
-extern u32   func_02017E1C(struct PokemonParam *pp, u32 id, u32 arg);
+extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
 extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 extern void *func_02030734(u32 heap, u32 size, int fromTail, const char *file, u16 line);
 extern u32   func_020307B0(void *ptr);
@@ -348,8 +352,8 @@ extern u32   TIMEZONE_IsNight(u32 timezone);
 extern void  ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 dataId, void *dst);
 extern u32   ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern int   GPOWER_ApplyFriendshipBonus(int delta);
-extern u32   func_02017DBC(struct BoxPokemon *box);
-extern u32   func_02017DE4(struct BoxPokemon *box, u32 wasDecoded);
+extern u32   POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
+extern u32   POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 wasDecoded);
 extern u32   ARC_TOOL_GetMemberSize(u32 arcId, u32 dataId);
 extern void  STRBUF_SetEosChar(u16 eosChar);
 extern struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
@@ -438,11 +442,11 @@ u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
 u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg);
 u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
-int func_0201BC3C(void);
-int func_0201BC40(void);
-int func_0201BC78(void);
-int func_0201BCB4(void);
-int func_0201BCEC(void);
+int POKE_TOOL_GetIconPaletteArcId(void);
+int POKE_TOOL_GetIconCellArcId(void);
+int POKE_TOOL_GetIconCellArcIdSub(void);
+int POKE_TOOL_GetIconCellEntryId(void);
+int POKE_TOOL_GetIconCellEntryIdSub(void);
 u32 WAZA_TOOL_GetParam(u16 move, u32 param);
 u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param);
 u32 WAZA_TOOL_GetFlag(u16 move, u32 flag);
@@ -683,7 +687,7 @@ u32 POKEPARTY_GetCount(const struct Party *party)
  * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
  * predicate-passing wrappers in front of the search routine POKEPARTY_FindFirst.
  * Each counter walks 0 to POKEPARTY_GetCount(p) and tests one or two fields of the
- * entry through the getter func_02017E1C.
+ * entry through the getter POKE_TOOL_GetPartyValue.
  *
  * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
  * veneers, which is what their shape suggests at first: they are ordinary
@@ -721,7 +725,7 @@ u32 POKEPARTY_GetNonEggCount(struct Party *party)
     for (i = 0; i < memberCount; i++) {
         void *member = POKEPARTY_GetMember(party, i);
 
-        if (func_02017E1C(member, 0x4C, 0) != 1) {
+        if (POKE_TOOL_GetPartyValue(member, 0x4C, 0) != 1) {
             total++;
         }
     }
@@ -765,8 +769,8 @@ u32 POKEPARTY_GetEggCount(struct Party *party)
     memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
         void *member = POKEPARTY_GetMember(party, i);
-        u32 isEgg = func_02017E1C(member, 0x4C, 0);
-        u32 isBadEgg = func_02017E1C(member, 3, 0);
+        u32 isEgg = POKE_TOOL_GetPartyValue(member, 0x4C, 0);
+        u32 isBadEgg = POKE_TOOL_GetPartyValue(member, 3, 0);
 
         if (isEgg == 1 && isBadEgg == 0) {
             total++;
@@ -791,7 +795,7 @@ u32 POKEPARTY_GetBadEggCount(struct Party *party)
     for (i = 0; i < memberCount; i++) {
         void *member = POKEPARTY_GetMember(party, i);
 
-        if (func_02017E1C(member, 3, 0) == 1) {
+        if (POKE_TOOL_GetPartyValue(member, 3, 0) == 1) {
             total++;
         }
     }
@@ -908,7 +912,7 @@ u32 POKEPARTY_IsMemberBattleReady(struct Party *party, u32 pos)
  * callee-saved register across both calls, which is four bytes short.  What
  * the original keeps alive across the calls is the *product*, and only two
  * differently associated address expressions produce that.  And the second
- * getter's result is not bound to a local: `a - func_02017E1C(...)` puts the
+ * getter's result is not bound to a local: `a - POKE_TOOL_GetPartyValue(...)` puts the
  * `subs` at the call, where the original has it, while a named `b` sinks it
  * past the copy loop (the mirror of
  * docs/idioms/cmp-operand-order-names-the-temporary.md).
@@ -924,8 +928,8 @@ u32 POKEPARTY_IsMemberBattleReady(struct Party *party, u32 pos)
  */
 void POKEPARTY_SetMember(struct Party *party, u32 pos, const struct PokemonParam *member)
 {
-    u32 before = func_02017E1C(&party->members[pos], 0xA9, 0);
-    u32 delta = before - func_02017E1C((void *)member, 0xA9, 0);
+    u32 before = POKE_TOOL_GetPartyValue(&party->members[pos], 0xA9, 0);
+    u32 delta = before - POKE_TOOL_GetPartyValue((void *)member, 0xA9, 0);
 
     *(struct PokemonParam *)((u8 *)party + pos * sizeof(struct PokemonParam) + 8) = *member;
     party->count += delta;
@@ -968,7 +972,7 @@ u32 POKEPARTY_SwapMembers(struct Party *party, u32 pos1, u32 pos2, u32 heap)
  *
  * Nine functions over a 0xDC-byte-record array container (the same array
  * POKEPARTY_GetMember, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
+ * POKE_TOOL_GetPartyValue, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
  * this file leaves as an unresolved extern because its own definition is
  * still open elsewhere in the image.
  *
@@ -1002,7 +1006,7 @@ u32 POKEPARTY_SwapMembers(struct Party *party, u32 pos1, u32 pos2, u32 heap)
  * src/matched/unit_0200E884.c) with a literal id of 0x1A.
  *
  * POKEPARTY_IsBattleReady and POKEPARTY_IsNotEgg are both single-guard wrappers around
- * func_02017E1C.  POKEPARTY_IsBattleReady's `a != 1 && b != 0` failing to `return 0` is
+ * POKE_TOOL_GetPartyValue.  POKEPARTY_IsBattleReady's `a != 1 && b != 0` failing to `return 0` is
  * the guard-chain-shares-one-exit-block shape
  * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
  * applied to a genuine conjunction rather than the more common early-return
@@ -1043,7 +1047,7 @@ u32 POKEPARTY_HasSpecies(struct Party *party, u32 species)
     for (i = 0; i < party->count; i++) {
         struct PokemonParam *member = &party->members[i];
 
-        if (func_02017E1C(member, 5, 0) == species) {
+        if (POKE_TOOL_GetPartyValue(member, 5, 0) == species) {
             break;
         }
     }
@@ -1069,8 +1073,8 @@ u32 POKEPARTY_GetAliveNonEggCount(struct Party *party)
     for (i = 0; i < memberCount; i++) {
         struct PokemonParam *member = POKEPARTY_GetMember(party, i);
 
-        if (func_02017E1C(member, 0xA0, 0)) {
-            if (!func_02017E1C(member, 0x4C, 0)) {
+        if (POKE_TOOL_GetPartyValue(member, 0xA0, 0)) {
+            if (!POKE_TOOL_GetPartyValue(member, 0x4C, 0)) {
                 total++;
             }
         }
@@ -1136,8 +1140,8 @@ struct Party *POKEPARTY_GetSaveData(struct SaveControl *save)
 
 u32 POKEPARTY_IsBattleReady(struct PokemonParam *member)
 {
-    u32 isEgg = func_02017E1C(member, 0x4C, 0);
-    u32 hp = func_02017E1C(member, 0xA0, 0);
+    u32 isEgg = POKE_TOOL_GetPartyValue(member, 0x4C, 0);
+    u32 hp = POKE_TOOL_GetPartyValue(member, 0xA0, 0);
 
     if (isEgg != 1 && hp != 0) {
         return 1;
@@ -1157,7 +1161,7 @@ u32 POKEPARTY_IsNotEgg(struct PokemonParam *member)
 {
     u32 result = 0;
 
-    if (func_02017E1C(member, 0x4C, 0) != 1) {
+    if (POKE_TOOL_GetPartyValue(member, 0x4C, 0) != 1) {
         result = 1;
     }
     return result;
@@ -1666,8 +1670,8 @@ void POKERUS_TryInfectParty(struct Party *party)
                 slot = (u32)(((u64)slot * memberCount) >> 32);
             }
             member = POKEPARTY_GetMember(party, slot);
-        } while (func_02017E1C(member, 5, 0) == 0
-                 || func_02017E1C(member, 0x4C, 0) != 0);
+        } while (POKE_TOOL_GetPartyValue(member, 5, 0) == 0
+                 || POKE_TOOL_GetPartyValue(member, 0x4C, 0) != 0);
         if ((infectedMask & (1 << slot)) != 0) {
             return;
         }
@@ -1763,10 +1767,10 @@ void POKERUS_DecreaseDays(struct Party *party, s32 days)
     memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
         member = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(member, 5, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(member, 5, 0) == 0) {
             continue;
         }
-        pokerus = (u8)func_02017E1C(member, 0x97, 0);
+        pokerus = (u8)POKE_TOOL_GetPartyValue(member, 0x97, 0);
         daysLeft = pokerus & 0xF;
         if (daysLeft == 0) {
             continue;
@@ -1804,22 +1808,22 @@ void POKERUS_SpreadParty(struct Party *party)
     }
     for (i = 0; i < memberCount; i++) {
         member = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(member, 5, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(member, 5, 0) == 0) {
             continue;
         }
-        pokerus = (u8)func_02017E1C(member, 0x97, 0);
+        pokerus = (u8)POKE_TOOL_GetPartyValue(member, 0x97, 0);
         if ((pokerus & 0xF) == 0) {
             continue;
         }
         if (i != 0) {
             neighbor = POKEPARTY_GetMember(party, i - 1);
-            if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
+            if ((POKE_TOOL_GetPartyValue(neighbor, 0x97, 0) & 0xF0) == 0) {
                 POKE_TOOL_SetPartyValue(neighbor, 0x97, pokerus);
             }
         }
         if (i < memberCount - 1) {
             neighbor = POKEPARTY_GetMember(party, i + 1);
-            if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
+            if ((POKE_TOOL_GetPartyValue(neighbor, 0x97, 0) & 0xF0) == 0) {
                 POKE_TOOL_SetPartyValue(neighbor, 0x97, pokerus);
                 i++;
             }
@@ -1847,7 +1851,7 @@ void POKERUS_SpreadParty(struct Party *party)
  * writes a new one.  POKERUS_IsBoxInfected asks whether the low nibble is set and
  * POKERUS_IsBoxCured whether the high nibble is set and the low one is not;
  * POKERUS_IsInfected and POKERUS_IsCured are their two-instruction wrappers over
- * func_020185F0.
+ * POKE_TOOL_Dummy.
  *
  * ---------------------------------------------------------------------------
  * VERSION SENSITIVITY, read this before porting to Pokemon White
@@ -1890,7 +1894,7 @@ u32 POKERUS_GetInfectedMask(struct Party *party)
     infectedMask = 0;
     memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        if (func_02017E1C(POKEPARTY_GetMember(party, i), 0x97, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, i), 0x97, 0) != 0) {
             infectedMask |= (u8)(1 << i);
         }
     }
@@ -1906,7 +1910,7 @@ u32 POKERUS_GetInfectedMask(struct Party *party)
 
 u32 POKERUS_IsInfected(struct PokemonParam *pp)
 {
-    return POKERUS_IsBoxInfected(func_020185F0(pp));
+    return POKERUS_IsBoxInfected(POKE_TOOL_Dummy(pp));
 }
 
 
@@ -1921,7 +1925,7 @@ u32 POKERUS_IsBoxInfected(struct BoxPokemon *box)
     u32 result;
 
     result = 0;
-    if ((func_02017E88(box, 0x97, 0) & 0xF) != 0) {
+    if ((POKE_TOOL_GetBoxValue(box, 0x97, 0) & 0xF) != 0) {
         result = 1;
     }
     return result;
@@ -1936,7 +1940,7 @@ u32 POKERUS_IsBoxInfected(struct BoxPokemon *box)
 
 u32 POKERUS_IsCured(struct PokemonParam *pp)
 {
-    return POKERUS_IsBoxCured(func_020185F0(pp));
+    return POKERUS_IsBoxCured(POKE_TOOL_Dummy(pp));
 }
 
 
@@ -1952,7 +1956,7 @@ u32 POKERUS_IsBoxCured(struct BoxPokemon *box)
     u8 pokerus;
 
     result = 0;
-    pokerus = (u8)func_02017E88(box, 0x97, 0);
+    pokerus = (u8)POKE_TOOL_GetBoxValue(box, 0x97, 0);
     if ((pokerus & 0xF) == 0 && (pokerus & 0xF0) != 0) {
         result = 1;
     }
@@ -2012,13 +2016,13 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
     u32 k;
 
     result = 0;
-    if (func_02017E1C(pp, 0x4C, 0) != 0) {
+    if (POKE_TOOL_GetPartyValue(pp, 0x4C, 0) != 0) {
         return result;
     }
-    species = func_02017E1C(pp, 5, 0);
-    heldItem = func_02017E1C(pp, 6, 0);
-    personality = func_02017E1C(pp, 0, 0);
-    beauty = func_02017E1C(pp, 0x14, 0);
+    species = POKE_TOOL_GetPartyValue(pp, 5, 0);
+    heldItem = POKE_TOOL_GetPartyValue(pp, 6, 0);
+    personality = POKE_TOOL_GetPartyValue(pp, 0, 0);
+    beauty = POKE_TOOL_GetPartyValue(pp, 0x14, 0);
     personalityHigh = (personality & 0xFFFF0000) >> 16;
     holdEffect = FILE_UTIL_Get_0FE4(heldItem, 1, heap);
     if (species != 0x40 && holdEffect == 0x40 && mode != 3) {
@@ -2033,8 +2037,8 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
 
     switch (mode) {
     case 0:
-        level = func_02017E1C(pp, 0x9E, i);
-        friendship = func_02017E1C(pp, 9, i);
+        level = POKE_TOOL_GetPartyValue(pp, 0x9E, i);
+        friendship = POKE_TOOL_GetPartyValue(pp, 9, i);
         for (i = 0; i < 7; i++) {
             row = &rows[i];
             switch (row->method) {
@@ -2060,24 +2064,24 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
                 break;
             case 9:
                 if (row->param <= level) {
-                    attackGreater = func_02017E1C(pp, 0xA2, 0);
-                    if (attackGreater > func_02017E1C(pp, 0xA3, 0)) {
+                    attackGreater = POKE_TOOL_GetPartyValue(pp, 0xA2, 0);
+                    if (attackGreater > POKE_TOOL_GetPartyValue(pp, 0xA3, 0)) {
                         result = row->species;
                     }
                 }
                 break;
             case 10:
                 if (row->param <= level) {
-                    attackEqual = func_02017E1C(pp, 0xA2, 0);
-                    if (attackEqual == func_02017E1C(pp, 0xA3, 0)) {
+                    attackEqual = POKE_TOOL_GetPartyValue(pp, 0xA2, 0);
+                    if (attackEqual == POKE_TOOL_GetPartyValue(pp, 0xA3, 0)) {
                         result = row->species;
                     }
                 }
                 break;
             case 11:
                 if (row->param <= level) {
-                    attackLess = func_02017E1C(pp, 0xA2, 0);
-                    if (attackLess < func_02017E1C(pp, 0xA3, 0)) {
+                    attackLess = POKE_TOOL_GetPartyValue(pp, 0xA2, 0);
+                    if (attackLess < POKE_TOOL_GetPartyValue(pp, 0xA3, 0)) {
                         result = row->species;
                     }
                 }
@@ -2126,12 +2130,12 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
                 }
                 break;
             case 23:
-                if (func_02017E1C(pp, 0x6E, 0) == 0 && row->param <= level) {
+                if (POKE_TOOL_GetPartyValue(pp, 0x6E, 0) == 0 && row->param <= level) {
                     result = row->species;
                 }
                 break;
             case 24:
-                if (func_02017E1C(pp, 0x6E, 0) == 1 && row->param <= level) {
+                if (POKE_TOOL_GetPartyValue(pp, 0x6E, 0) == 1 && row->param <= level) {
                     result = row->species;
                 }
                 break;
@@ -2187,11 +2191,11 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
                 }
                 break;
             case 7:
-                if (FILE_UTIL_Get_0FE4((u16)func_02017E1C((struct PokemonParam *)arg, 6, 0), 1, heap) != 0x40) {
-                    if ((func_02017E1C(pp, 0xAB, 0) == 588
-                         && func_02017E1C((struct PokemonParam *)arg, 0xAB, 0) == 616)
-                     || (func_02017E1C((struct PokemonParam *)arg, 0xAB, 0) == 588
-                         && func_02017E1C(pp, 0xAB, 0) == 616)) {
+                if (FILE_UTIL_Get_0FE4((u16)POKE_TOOL_GetPartyValue((struct PokemonParam *)arg, 6, 0), 1, heap) != 0x40) {
+                    if ((POKE_TOOL_GetPartyValue(pp, 0xAB, 0) == 588
+                         && POKE_TOOL_GetPartyValue((struct PokemonParam *)arg, 0xAB, 0) == 616)
+                     || (POKE_TOOL_GetPartyValue((struct PokemonParam *)arg, 0xAB, 0) == 588
+                         && POKE_TOOL_GetPartyValue(pp, 0xAB, 0) == 616)) {
                         result = row->species;
                     }
                 }
@@ -2210,10 +2214,10 @@ u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u3
             if (row->method == 8 && arg == row->param) {
                 result = row->species;
             }
-            if (row->method == 0x11 && func_02017E1C(pp, 0x6E, 0) == 0 && arg == row->param) {
+            if (row->method == 0x11 && POKE_TOOL_GetPartyValue(pp, 0x6E, 0) == 0 && arg == row->param) {
                 result = row->species;
             }
-            if (row->method == 0x12 && func_02017E1C(pp, 0x6E, 0) == 1 && arg == row->param) {
+            if (row->method == 0x12 && POKE_TOOL_GetPartyValue(pp, 0x6E, 0) == 1 && arg == row->param) {
                 result = row->species;
             }
             if (result != 0) {
@@ -2347,7 +2351,7 @@ u32 SHINKA_CHECK_KnowsMove(struct PokemonParam *pp, u32 move)
 
     found = 0;
     for (i = 0x36; i < 0x3A; i++) {
-        if (move == func_02017E1C(pp, i, 0)) {
+        if (move == POKE_TOOL_GetPartyValue(pp, i, 0)) {
             found = 1;
             break;
         }
@@ -2505,7 +2509,7 @@ void NATSUKI_CalcParty(struct Party *party, int zoneId, u16 heap)
  * body: species 0 and species 650 both return early.
  *
  * The band index `idx` doubles as the literal zero argument of the three
- * func_02017E1C reads, which is why it is a named u8 initialised before the
+ * POKE_TOOL_GetPartyValue reads, which is why it is a named u8 initialised before the
  * species call rather than three separate `0` literals; and the two
  * increments must be spelled `idx++` (post-increment), not `idx = idx + 1`,
  * or the compiler proves idx is still 0 at the first band test and folds it
@@ -2536,12 +2540,12 @@ void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 he
 
     placeId = ZONEDATA_GetPlaceNameId(zoneId);
     band = 0;
-    species = (u16)func_02017E1C(pp, 0xAB, 0);
+    species = (u16)POKE_TOOL_GetPartyValue(pp, 0xAB, 0);
     if (species == 0 || species == 650) {
         return;
     }
-    holdEffect = (u8)FILE_UTIL_Get_0FE4((u16)func_02017E1C(pp, 6, band), 1, heap);
-    friendship = func_02017E1C(pp, 9, band);
+    holdEffect = (u8)FILE_UTIL_Get_0FE4((u16)POKE_TOOL_GetPartyValue(pp, 6, band), 1, heap);
+    friendship = POKE_TOOL_GetPartyValue(pp, 9, band);
 
     if (friendship >= 100) {
         band++;
@@ -2551,12 +2555,12 @@ void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 he
     }
     delta = deltas[band];
     if (delta > 0) {
-        if (func_02017E1C(pp, 0x98, 0) == 11) {
+        if (POKE_TOOL_GetPartyValue(pp, 0x98, 0) == 11) {
             delta = delta + 1;
         }
     }
     if (placeId != 0 && delta > 0) {
-        if (placeId == (int)func_02017E1C(pp, 0x96, 0)) {
+        if (placeId == (int)POKE_TOOL_GetPartyValue(pp, 0x96, 0)) {
             delta = delta + 1;
         }
     }
@@ -2644,12 +2648,12 @@ u8 POKE_TOOL_IsPPRestorable(struct PokemonParam *pp, u32 slot)
     u32 result;
 
     result = 0;
-    move = (u16)func_02017E1C(pp, slot + 0x36, 0);
+    move = (u16)POKE_TOOL_GetPartyValue(pp, slot + 0x36, 0);
     if (move == 0) {
         return result;
     }
-    curPP = (u8)func_02017E1C(pp, slot + 0x3A, 0);
-    ppUp = (u8)func_02017E1C(pp, slot + 0x3E, 0);
+    curPP = (u8)POKE_TOOL_GetPartyValue(pp, slot + 0x3A, 0);
+    ppUp = (u8)POKE_TOOL_GetPartyValue(pp, slot + 0x3E, 0);
     if (curPP < WAZA_TOOL_GetMaxPP(move, ppUp)) {
         result = 1;
     }
@@ -2700,13 +2704,13 @@ u32 POKE_TOOL_RestorePP(struct PokemonParam *pp, u32 slot, u32 amount)
     u32 ppUp;
     u8  maxPP;
 
-    move = (u16)func_02017E1C(pp, slot + 0x36, 0);
+    move = (u16)POKE_TOOL_GetPartyValue(pp, slot + 0x36, 0);
     if (move == 0) {
         return 0;
     }
     ppId = slot + 0x3A;
-    curPP = (u8)func_02017E1C(pp, ppId, 0);
-    ppUp = func_02017E1C(pp, slot + 0x3E, 0);
+    curPP = (u8)POKE_TOOL_GetPartyValue(pp, ppId, 0);
+    ppUp = POKE_TOOL_GetPartyValue(pp, slot + 0x3E, 0);
     maxPP = WAZA_TOOL_GetMaxPP(move, (u8)ppUp);
     if (curPP < maxPP) {
         if (amount == 0x7F) {
@@ -2781,7 +2785,7 @@ void POKE_TOOL_HealFull(struct PokemonParam *pp)
 {
     s32 i;
 
-    POKE_TOOL_SetPartyValue(pp, 0xA0, func_02017E1C(pp, 0xA1, 0));
+    POKE_TOOL_SetPartyValue(pp, 0xA0, POKE_TOOL_GetPartyValue(pp, 0xA1, 0));
     POKE_TOOL_SetPartyValue(pp, 0x9D, 0);
     for (i = 0; i < 4; i++) {
         if (POKE_TOOL_IsPPRestorable(pp, i) == 1) {
@@ -2810,7 +2814,7 @@ void POKE_TOOL_HealParty(struct Party *party)
     memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
         member = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(member, 0xA9, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(member, 0xA9, 0) != 0) {
             POKE_TOOL_HealFull(member);
         }
     }
@@ -2838,9 +2842,9 @@ void POKE_TOOL_HealParty(struct Party *party)
  * between the two pairs is what lets this half land
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
- * POKE_TOOL_GetGraphicIndex brackets its four reads with func_02017DBC and func_02017DE4,
+ * POKE_TOOL_GetGraphicIndex brackets its four reads with POKE_TOOL_DecodeBoxParam and POKE_TOOL_EncodeBoxParam,
  * which is the pair the region uses around a run of raw field reads; that is
- * why the reads here are func_02017E88 and not the func_02017E1C of
+ * why the reads here are POKE_TOOL_GetBoxValue and not the POKE_TOOL_GetPartyValue of
  * src/matched/POKE_TOOL_CalcParam.c.  The fourth read is written inline as the call's
  * fourth argument rather than bound to a local, which is what puts it in r3
  * with the other three already in place.
@@ -2895,12 +2899,12 @@ u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box)
     u32 gender;
     u32 index;
 
-    wasDecoded = func_02017DBC(box);
-    species = func_02017E88(box, 5, 0);
-    form = func_02017E88(box, 0x6F, 0);
-    gender = func_02017E88(box, 0x6E, 0);
-    index = POKE_TOOL_CalcGraphicIndex(species, form, gender, func_02017E88(box, 0x4C, 0));
-    func_02017DE4(box, wasDecoded);
+    wasDecoded = POKE_TOOL_DecodeBoxParam(box);
+    species = POKE_TOOL_GetBoxValue(box, 5, 0);
+    form = POKE_TOOL_GetBoxValue(box, 0x6F, 0);
+    gender = POKE_TOOL_GetBoxValue(box, 0x6E, 0);
+    index = POKE_TOOL_CalcGraphicIndex(species, form, gender, POKE_TOOL_GetBoxValue(box, 0x4C, 0));
+    POKE_TOOL_EncodeBoxParam(box, wasDecoded);
     return index;
 }
 
@@ -2971,8 +2975,8 @@ u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
  * The nibble-table twin of src/matched/unit_0201BA68.c: the same egg and
  * alternate-form index arithmetic, indexing a packed table of two four bit
  * values per entry instead of an archive.  POKE_TOOL_GetIconPalette unpacks the four
- * inputs out of a Pokemon record, bracketed by the func_02017DBC /
- * func_02017DE4 pair, and hands them over.
+ * inputs out of a Pokemon record, bracketed by the POKE_TOOL_DecodeBoxParam /
+ * POKE_TOOL_EncodeBoxParam pair, and hands them over.
  *
  * The index is the same logical number unit_0201BA68.c computes, one step
  * short of it: there the answer is `n * 2 + 7`, a member of archive 7, here it
@@ -3066,12 +3070,12 @@ u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box)
     u32 gender;
     u32 isEgg;
 
-    wasDecoded = func_02017DBC(box);
-    species = func_02017E88(box, 5, 0);
-    form = func_02017E88(box, 0x6F, 0);
-    gender = func_02017E88(box, 0x6E, 0);
-    isEgg = func_02017E88(box, 0x4C, 0);
-    func_02017DE4(box, wasDecoded);
+    wasDecoded = POKE_TOOL_DecodeBoxParam(box);
+    species = POKE_TOOL_GetBoxValue(box, 5, 0);
+    form = POKE_TOOL_GetBoxValue(box, 0x6F, 0);
+    gender = POKE_TOOL_GetBoxValue(box, 0x6E, 0);
+    isEgg = POKE_TOOL_GetBoxValue(box, 0x4C, 0);
+    POKE_TOOL_EncodeBoxParam(box, wasDecoded);
     return POKE_TOOL_CalcIconPalette(species, form, gender, isEgg);
 }
 
@@ -3087,7 +3091,7 @@ u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box)
 
 
 /*
- *           func_0201BCEC
+ *           POKE_TOOL_GetIconCellEntryIdSub
  *
  * Five leaves after POKE_TOOL_GetIconPalette.  The first returns 0.  The other four read
  * the OBJ character mapping bits of DISPCNT (bit 4, 1D mapping, and bits
@@ -3099,7 +3103,7 @@ u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box)
  *
  * Addresses are Black-image addresses.
  */
-int func_0201BC3C(void)
+int POKE_TOOL_GetIconPaletteArcId(void)
 {
     return 0;
 }
@@ -3115,7 +3119,7 @@ int func_0201BC3C(void)
 
 
 
-int func_0201BC40(void)
+int POKE_TOOL_GetIconCellArcId(void)
 {
     switch (REG_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 2;
@@ -3136,7 +3140,7 @@ int func_0201BC40(void)
 
 
 
-int func_0201BC78(void)
+int POKE_TOOL_GetIconCellArcIdSub(void)
 {
     switch (REG_DB_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 2;
@@ -3157,7 +3161,7 @@ int func_0201BC78(void)
 
 
 
-int func_0201BCB4(void)
+int POKE_TOOL_GetIconCellEntryId(void)
 {
     switch (REG_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 1;
@@ -3178,7 +3182,7 @@ int func_0201BCB4(void)
 
 
 
-int func_0201BCEC(void)
+int POKE_TOOL_GetIconCellEntryIdSub(void)
 {
     switch (REG_DB_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 1;

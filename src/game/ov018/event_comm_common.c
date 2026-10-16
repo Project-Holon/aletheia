@@ -59,7 +59,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
@@ -404,7 +404,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *strbuf);
 extern unsigned int WORDSET_DeleteStrbufED04(void *wordSet);
-extern void *func_02012944(struct GameData *gameData);
+extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 func_02008550(void *myStatus);
 extern void *func_02045EC0(void *msgData, u32 msgId);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
@@ -2057,7 +2057,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(struct GameEvent *event, int 
         break;
     case 2:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sMissionAchieveMsgIdsA[work->common.msgIndex]);
         (*seq)++;
@@ -2112,7 +2112,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain(struct GameEvent *event, in
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerGiftAsTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2154,7 +2154,7 @@ int EVENT_COMM_COMMON_TalkedPowerGiftAsTargetEventMain(struct GameEvent *event, 
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkedPowerGiftAsTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2202,7 +2202,7 @@ int EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain(struct GameEvent *event, in
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         work->msgIndex = work->common.msgIndex;
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sTalkedPowerGiftTargetMsgIds[work->msgIndex]);
@@ -2261,7 +2261,7 @@ int EVENT_COMM_COMMON_TalkPowerShareTargetEventMain(struct GameEvent *event, int
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerShareTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -2306,7 +2306,7 @@ int EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain(struct GameEvent *event, i
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkPowerShareAsTargetMsgIds[work->msgIndex]);
         (*seq)++;
@@ -2377,7 +2377,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain(struct GameEvent *event,
         break;
     case 2:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->common.msgBox.wordSet, 2, work->common.member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sTalkedPowerShareAchieveMsgIdsA[work->common.msgIndex]);
         (*seq)++;
@@ -2427,7 +2427,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareTargetEventMain(struct GameEvent *event, i
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, work->myStatus);
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 1, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         WORDSET_SetSlotFromMsgA0(work->msgBox.wordSet, 2, work->member.head.param.x);
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkedPowerShareTargetMsgIds[work->msgIndex]);
         *seq = *seq + 1;
@@ -3317,7 +3317,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateOfferAnswerEvent(struct GameSystem *ga
 
     gameData = ICA_ANIME_GetField1C(gameSystem);
     param = &offer->head.param;
-    myStatus = func_02012944(gameData);
+    myStatus = GAME_DATA_GetMyStatus(gameData);
     event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, sizeof(EventCommOfferWork));
     work = func_020124E8(event);
     func_020084F8(myStatus, work->myName, 8);
@@ -3370,7 +3370,7 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(struct GameEvent *event, int *seq, vo
         }
         break;
     case 2:
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, func_02012944(gameData));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, GAME_DATA_GetMyStatus(gameData));
         WORDSET_Callback_EF40(work->msgBox.wordSet, 1, work->itemId);
         if (work->joinStatus == 1) {
             msgId = sOfferAnswerMsgIds[EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (int)GAME_DATA_GetOwnNetId(gameData))];
@@ -3454,7 +3454,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
         sale = &work->common.member.head.param;
         WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
         WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemSaleMsgIds[0][work->common.msgIndex]);
         (*seq)++;
         break;
@@ -3585,7 +3585,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
         WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
         WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[0][work->common.msgIndex]);
         (*seq)++;
         break;

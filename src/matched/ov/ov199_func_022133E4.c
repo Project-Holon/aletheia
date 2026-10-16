@@ -13,7 +13,7 @@
  *   func_0200853C 0x0200853C thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   func_02034714 0x02034714 arm
  *   WIFIBATTLEMATCH_SYS_CountBoxSpecies 0x022135CC thumb ov199
@@ -36,7 +36,7 @@ struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
-extern unsigned func_02017E1C(void *,unsigned,unsigned);
+extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 struct Reg;
 extern int DWC_GetDateTime(void *date, void *time);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -56,20 +56,20 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
     ((struct Obj06660 *)p)->f4=((struct Obj25296 *)save)->f48;
     for(i=0;i<(int)POKEPARTY_GetCount(party2);i++) {
         mon=POKEPARTY_GetMember(party2,i);
-        if(func_02017E1C(mon,0xa9,0)) {
-            *(u16 *)((unsigned)p+i*2+8)=func_02017E1C(mon,5,0);
-            *(u8 *)((unsigned)p+i+0x14)=func_02017E1C(mon,0x6f,0);
-            *(u8 *)((unsigned)p+i+0x1a)=func_02017E1C(mon,0x9e,0);
-            *(u8 *)((unsigned)p+i+0x20)=func_02017E1C(mon,0x6e,0);
+        if(POKE_TOOL_GetPartyValue(mon,0xa9,0)) {
+            *(u16 *)((unsigned)p+i*2+8)=POKE_TOOL_GetPartyValue(mon,5,0);
+            *(u8 *)((unsigned)p+i+0x14)=POKE_TOOL_GetPartyValue(mon,0x6f,0);
+            *(u8 *)((unsigned)p+i+0x1a)=POKE_TOOL_GetPartyValue(mon,0x9e,0);
+            *(u8 *)((unsigned)p+i+0x20)=POKE_TOOL_GetPartyValue(mon,0x6e,0);
         }
     }
     for(i=0;i<(int)POKEPARTY_GetCount(party1);i++) {
         mon=POKEPARTY_GetMember(party1,i);
-        if(func_02017E1C(mon,0xa9,zero)) {
-            *(u16 *)((unsigned)p+i*2+0x26)=func_02017E1C(mon,5,zero);
-            *(u8 *)((unsigned)p+i+0x32)=func_02017E1C(mon,0x6f,zero);
-            *(u8 *)((unsigned)p+i+0x38)=func_02017E1C(mon,0x9e,zero);
-            *(u8 *)((unsigned)p+i+0x3e)=func_02017E1C(mon,0x6e,zero);
+        if(POKE_TOOL_GetPartyValue(mon,0xa9,zero)) {
+            *(u16 *)((unsigned)p+i*2+0x26)=POKE_TOOL_GetPartyValue(mon,5,zero);
+            *(u8 *)((unsigned)p+i+0x32)=POKE_TOOL_GetPartyValue(mon,0x6f,zero);
+            *(u8 *)((unsigned)p+i+0x38)=POKE_TOOL_GetPartyValue(mon,0x9e,zero);
+            *(u8 *)((unsigned)p+i+0x3e)=POKE_TOOL_GetPartyValue(mon,0x6e,zero);
         }
     }
     if(DWC_GetDateTime(&date,&time)==0) func_02034714(d_02213D00,0,d_02213D00);

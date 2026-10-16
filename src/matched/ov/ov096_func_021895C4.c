@@ -11,7 +11,7 @@
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
  *   TR_AI_Compare  0x0218A0F4  thumb  ov096
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   d_0218A580     0x0218A580  data   ov096  a4
  */
 #include "../include/Obj10184.h"
@@ -29,7 +29,7 @@ extern const Tri d_0218A580;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern int TR_AI_Compare(u8 *a, int op, int x, int y, int z);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
 int TR_AI_CmdCompareStat15(struct Cursor *a, int b) {
     int r6;
@@ -40,8 +40,8 @@ int TR_AI_CmdCompareStat15(struct Cursor *a, int b) {
     r6 = VM_GetU32(a);
     r7 = VM_GetU32(a);
     t = d_0218A580;
-    x = func_021D59B4(*(u8 * *)&((struct Obj10184 *)b)->fBC, 15);
-    y = func_021D59B4(*(u8 * *)&((struct Obj10184 *)b)->fC0, 15);
+    x = BTL_POKEPARAM_GetValue(*(u8 * *)&((struct Obj10184 *)b)->fBC, 15);
+    y = BTL_POKEPARAM_GetValue(*(u8 * *)&((struct Obj10184 *)b)->fC0, 15);
     TR_AI_Compare((u8 *)a, ((int *)&t)[r6], x, y, r7);
     return ((struct Obj10184 *)b)->fC4;
 }

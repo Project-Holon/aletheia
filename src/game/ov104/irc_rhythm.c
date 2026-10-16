@@ -22,7 +22,7 @@
  *   BG_SYS_SetAffine 0x02041FB0 arm
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   func_020056A0 0x020056A0 thumb
  *   IRC_RHYTHM_ClearBlendTask 0x021B8F08 thumb ov104
  *   func_02030EAC 0x02030EAC arm
@@ -236,7 +236,7 @@ extern void BMP_MENUWORK_DrawWindow(void *window, int a1, int a2, int a3);
 extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value);
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 extern void *func_020056A0(IrcTaskProc proc,void *work,u32 priority);
 extern void func_02030EAC(void *task);
 extern void func_020315D4(struct Proc *proc);
@@ -465,7 +465,7 @@ int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context) {
  printQueue=IRC_RHYTHM_GetPrintQueue(&work->text);
  work->appBar=IRC_APPBAR_Create(2,unit,0,14,13,2,font,printQueue,0x38);
  COMPATIBLE_IRC_SYS_SetOwnValue(work->context->ircSys,1);
- func_0207D658(0x04000050,0x22,-8);
+ G2x_SetBlendBrightness_(0x04000050,0x22,-8);
  work->blendTask=func_020056A0(IRC_RHYTHM_ClearBlendTask,work,0);
  IRC_RHYTHM_SetState(work,IRC_RHYTHM_StateIntro);
  return 1;

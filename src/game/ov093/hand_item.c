@@ -29,7 +29,7 @@
  * symbols:
  *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam   0x021C7CF4  thumb ov093
- *   func_021D59B4   0x021D59B4  thumb ov093
+ *   BTL_POKEPARAM_GetValue   0x021D59B4  thumb ov093
  *   HAND_ITEM_GetParam   0x021DCFF8  thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord   0x021C88A4  thumb ov093
  *   BTL_SERVER_FLOW_InitMsgRecord   0x021C8838  thumb ov093
@@ -56,7 +56,7 @@
  *   BTL_POKEPARAM_TestContFlag   0x021D5BDC  thumb ov093
  *   gBtlItemRaiseCriticalRateHandlers     0x021F1D94  data   ov093  a4
  *   BTL_SERVER_FLOW_GetScratchBuffer  0x021C8120  thumb  ov093
- *   func_021D5D14  0x021D5D14  thumb  ov093
+ *   BTL_POKEPARAM_CanChangeStatStage  0x021D5D14  thumb  ov093
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   gBtlItemRaiseStatCandidates     0x021F1364  data  ov093  a1
  *   gBtlItemRaiseRandomStatHandlers     0x021F1DBC  data   ov093  a4
@@ -282,7 +282,7 @@ typedef struct Word { u32 v; } Word;
 extern int BTL_EVENT_GetVar(int key);
 extern struct BtlPokeParam *BTL_SERVER_FLOW_GetPokeParam(struct BtlServerFlow *flow, int pokeId);
 /* Services of the poke parameter. */
-extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 extern int HAND_ITEM_GetParam(struct BtlEventFactor *factor, int index);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(struct BtlServerFlow *flow, int size, int pokeId);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *strParam, int strType, int strId);
@@ -297,7 +297,7 @@ extern void *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pokeParam);
 extern int POKE_TOOL_GetNatureStatMod(void *mon, int statIndex);
 extern void BTL_CALC_MakeSickContFromKind(int sickKind, struct BtlPokeParam *pokeParam, union SickCont *out);
 extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *bpp, u32 flagIndex);
-extern int func_021D5D14(struct BtlPokeParam *pokeParam, int statId, int amount);
+extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *pokeParam, int statId, int amount);
 extern u32 BTL_CALC_Random(u32 range);
 extern u32 BTL_POKEPARAM_HasSubstitute(struct BtlPokeParam *poke);
 extern void BTL_EVENT_MultiplyVar(int key, s32 ratio);
@@ -864,7 +864,7 @@ void HAND_ITEM_RecoverHpPercentOfMaxHp(struct BtlEventFactor *factor, void *serv
 
     if (pokeId != BTL_EVENT_GetVar(BTL_EVAR_POKE_ID))
         return;
-    maxHp = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_VALUE_MAX_HP);
+    maxHp = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_VALUE_MAX_HP);
     percent = (u8)HAND_ITEM_GetParam(factor, 2);
     cmd = BTL_SERVER_FLOW_AllocCmdRecord(server, HANDEX_KIND_RECOVER_HP, pokeId);
     cmd->pokeId = pokeId;
@@ -1097,7 +1097,7 @@ void HAND_ITEM_RaiseRandomStatTwo(struct BtlEventFactor *factor, void *server, u
     candidateCount = 0;
     for (; i < BTL_RANK_KIND_COUNT; i++) {
         statId = gBtlItemRaiseStatCandidates[i];
-        if (func_021D5D14(pokeParam, statId, 1) != 0)
+        if (BTL_POKEPARAM_CanChangeStatStage(pokeParam, statId, 1) != 0)
             candidates[candidateCount++] = statId;
     }
     if (candidateCount != 0)
@@ -1491,12 +1491,12 @@ int HAND_ITEM_IsHpAtOrBelowFraction(struct BtlServerFlow *flow, int pokeId, u32 
     u32 hp;
 
     poke = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-    if (func_021D59B4(poke, BTL_VALUE_ABILITY) == BTL_ABILITY_GLUTTONY && fraction > 2)
+    if (BTL_POKEPARAM_GetValue(poke, BTL_VALUE_ABILITY) == BTL_ABILITY_GLUTTONY && fraction > 2)
         fraction >>= 1;
     if (fraction == 0)
         fraction = 1;
-    if ((u32)func_021D59B4(poke, BTL_VALUE_MAX_HP) > 1) {
-        hp = func_021D59B4(poke, BTL_VALUE_HP);
+    if ((u32)BTL_POKEPARAM_GetValue(poke, BTL_VALUE_MAX_HP) > 1) {
+        hp = BTL_POKEPARAM_GetValue(poke, BTL_VALUE_HP);
         if (hp <= BTL_CALC_DivideMaxHp(poke, fraction))
             return 1;
     }
@@ -3858,7 +3858,7 @@ void HAND_ITEM_AbsorbBulbDamageReaction(struct BtlEventFactor *factor, struct Bt
         return;
     if (BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE) != POKETYPE_WATER)
         return;
-    if (func_021D5D14(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_RANK_SP_ATTACK, 1) == 0)
+    if (BTL_POKEPARAM_CanChangeStatStage(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_RANK_SP_ATTACK, 1) == 0)
         return;
     HAND_ITEM_PushUseItem(factor, flow, pokeId);
 }
@@ -3896,7 +3896,7 @@ void HAND_ITEM_CellBatteryDamageReaction(struct BtlEventFactor *factor, struct B
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE_FLAG) == 0
         && BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE) == POKETYPE_ELECTRIC) {
-        if (func_021D5D14(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_RANK_ATTACK, 1) != 0) {
+        if (BTL_POKEPARAM_CanChangeStatStage(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_RANK_ATTACK, 1) != 0) {
             HAND_ITEM_PushUseItem(factor, flow, pokeId);
         }
     }

@@ -14,7 +14,7 @@
  *   }
  * symbols:
  *   PMS_WORDLIST_GetSelectedIndex 0x021BEDD0 thumb ov110
- *   func_021B99C4 0x021B99C4 thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordId 0x021B99C4 thumb ov110
  *   PMSI_SEARCH_GetResultWordId 0x021BB1E4 thumb ov110
  *   PMS_INPUT_VIEW_GetEditEntry 0x021BABF4 thumb ov110
  *   PMSI_PARAM_SetWordAt 0x020245A0 thumb
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern unsigned PMS_WORDLIST_GetSelectedIndex(u8 *p);
-extern unsigned short func_021B99C4(unsigned int a, unsigned int b, unsigned int c);
+extern unsigned short PMS_INPUT_DATA_GetCategoryWordId(unsigned int a, unsigned int b, unsigned int c);
 extern u16 PMSI_SEARCH_GetResultWordId(u32 p, u32 i);
 extern int PMS_INPUT_VIEW_GetEditEntry(u8 *p, int i);
 extern void PMSI_PARAM_SetWordAt(u8 *p, unsigned i, u16 v);
@@ -33,7 +33,7 @@ int PMS_INPUT_PickWord(u8 *p) {
     int i=*(u16 *)(p+98);
     u16 v;
     if(i==65535) i=PMS_WORDLIST_GetSelectedIndex(p+84);
-    if(p[105]==0) v=func_021B99C4((unsigned int)(*(void **)(p+24)),*(u16 *)(p+76),i);
+    if(p[105]==0) v=PMS_INPUT_DATA_GetCategoryWordId((unsigned int)(*(void **)(p+24)),*(u16 *)(p+76),i);
     else v=PMSI_SEARCH_GetResultWordId((u32)(*(void **)(p+28)),i);
     switch(*(u32 *)(p+4)) {
     case 0: *(u16 *)(p+16)=v; break;

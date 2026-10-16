@@ -24,7 +24,7 @@
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
@@ -39,7 +39,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02008FEC  0x02008FEC  thumb
@@ -324,7 +324,7 @@ extern void GAMESYSTEM_SetCommBlocked(GameSystem *gameSystem, u32 v);
 
 
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
-u8 *func_02012944(const GameData *gameData);
+u8 *GAME_DATA_GetMyStatus(const GameData *gameData);
 
 
 extern void *GAME_DATA_GetSaveControl(const GameData *gameData);
@@ -358,7 +358,7 @@ extern void *FIELDMAP_GetMsgBg(void *);
 
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_HasRibbonData(void *mon);
 
 
@@ -681,7 +681,7 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
     param->gameData = gameData;
     param->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
-    param->myStatus = func_02012944(param->gameData);
+    param->myStatus = GAME_DATA_GetMyStatus(param->gameData);
     bgmInfo = GAME_DATA_GetBgmInfo(param->gameData);
     FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (startSpecies != -1) {
@@ -772,7 +772,7 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
                 party = GAME_DATA_GetMyParty(gameData);
                 for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
                     mon = POKEPARTY_GetMember(party, i);
-                    if (func_02017E1C(mon, 0xA9, 0) && POKE_TOOL_HasRibbonData(mon) && func_02017E1C(mon, 0x4C, 0) == 0) {
+                    if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) && POKE_TOOL_HasRibbonData(mon) && POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
                         param->pos = i;
                         break;
                     }
@@ -781,7 +781,7 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
                 party = GAME_DATA_GetMyParty(gameData);
                 for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
                     mon = POKEPARTY_GetMember(party, i);
-                    if (func_02017E1C(mon, 0xA9, 0) && func_02017E1C(mon, 0x4C, 0) == 0) {
+                    if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) && POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
                         param->pos = i;
                         break;
                     }
@@ -923,7 +923,7 @@ int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult
         return 4;
     case 18:
         party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->context->gameSystem));
-        if (func_02017E1C(POKEPARTY_GetMember(party, work->context->partySlot), 6, 0) != 0)
+        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, work->context->partySlot), 6, 0) != 0)
             work->nextState = 0;
         else
             work->nextState = 9;
@@ -1703,7 +1703,7 @@ void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gam
     param->hour = hour;
     param->minute = minute;
     param->season = season;
-    param->flag = (u8)(int)func_02008550(func_02012944(ICA_ANIME_GetField1C(gameSystem)));
+    param->flag = (u8)(int)func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
 }
 
 

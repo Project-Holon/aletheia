@@ -1,7 +1,7 @@
 /*
  * file:     gx_vramcnt.c
  * unit:     yes
- * function: func_0207FD34, func_0207FDCC, GX_SetBankForOBJ, GX_SetBankForBGExtPltt, GX_SetBankForOBJExtPltt, GX_SetBankForTex, GX_SetBankForTexPltt, GX_SetBankForClearImage, GX_SetBankForARM7, func_0208068C, GX_SetBankForSubBG, GX_SetBankForSubOBJ, GX_SetBankForSubBGExtPltt, GX_SetBankForSubOBJExtPltt, resetBankForX_, func_020808F4, func_02080908, func_0208091C, func_02080940, func_02080964, func_02080978, func_0208098C, func_020809A0, func_020809B4, func_020809C8, func_020809F0, disableBankForX_, GX_DisableBankForBG, GX_DisableBankForOBJ, GX_DisableBankForBGExtPltt, GX_DisableBankForOBJExtPltt, GX_DisableBankForTex, GX_DisableBankForTexPltt, GX_DisableBankForClearImage, GX_DisableBankForARM7, func_02080B98, func_02080BAC, func_02080BC0, GX_DisableBankForSubBGExtPltt, GX_DisableBankForSubOBJExtPltt, GX_GetBankForOBJ, GX_GetBankForOBJExtPltt, GX_GetBankForTex, func_02080C54, GX_GetBankForSubOBJ, GX_GetBankForSubOBJExtPltt
+ * function: func_0207FD34, func_0207FDCC, GX_SetBankForOBJ, GX_SetBankForBGExtPltt, GX_SetBankForOBJExtPltt, GX_SetBankForTex, GX_SetBankForTexPltt, GX_SetBankForClearImage, GX_SetBankForARM7, func_0208068C, GX_SetBankForSubBG, GX_SetBankForSubOBJ, GX_SetBankForSubBGExtPltt, GX_SetBankForSubOBJExtPltt, resetBankForX_, GX_ResetBankForBG, GX_ResetBankForOBJ, func_0208091C, func_02080940, GX_ResetBankForTex, GX_ResetBankForTexPltt, GX_ResetBankForClearImage, GX_ResetBankForSubBG, GX_ResetBankForSubOBJ, func_020809C8, func_020809F0, disableBankForX_, GX_DisableBankForBG, GX_DisableBankForOBJ, GX_DisableBankForBGExtPltt, GX_DisableBankForOBJExtPltt, GX_DisableBankForTex, GX_DisableBankForTexPltt, GX_DisableBankForClearImage, GX_DisableBankForARM7, GX_DisableBankForLCDC, GX_DisableBankForSubBG, GX_DisableBankForSubOBJ, GX_DisableBankForSubBGExtPltt, GX_DisableBankForSubOBJExtPltt, GX_GetBankForOBJ, GX_GetBankForOBJExtPltt, GX_GetBankForTex, func_02080C54, GX_GetBankForSubOBJ, GX_GetBankForSubOBJExtPltt
  * address:  0x0207FD34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -177,15 +177,15 @@ void GX_SetBankForSubOBJ(int sub_obj);
 void GX_SetBankForSubBGExtPltt(int sub_bgExtPltt);
 void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 int resetBankForX_(u16 *g3bit);
-int func_020808F4(void);
-void func_02080908(void);
+int GX_ResetBankForBG(void);
+void GX_ResetBankForOBJ(void);
 void GX_ResetBankForBGExtPltt(void);
 void GX_ResetBankForOBJExtPltt(void);
-int func_02080964(void);
-void func_02080978(void);
-void func_0208098C(int a0, int a1, int a2, int a3);
-int func_020809A0(void);
-void func_020809B4(void);
+int GX_ResetBankForTex(void);
+void GX_ResetBankForTexPltt(void);
+void GX_ResetBankForClearImage(int a0, int a1, int a2, int a3);
+int GX_ResetBankForSubBG(void);
+void GX_ResetBankForSubOBJ(void);
 void GX_ResetBankForSubBGExtPltt(void);
 void GX_ResetBankForSubOBJExtPltt(void);
 GXVRam GX_DisableBankForBG(void);
@@ -196,9 +196,9 @@ GXVRam GX_DisableBankForTex(void);
 GXVRam GX_DisableBankForTexPltt(void);
 GXVRam GX_DisableBankForClearImage(void);
 GXVRam GX_DisableBankForARM7(void);
-void func_02080B98(void);
-void func_02080BAC(int a0, int a1, int a2, int a3);
-void func_02080BC0(int a0, int a1, int a2, int a3);
+void GX_DisableBankForLCDC(void);
+void GX_DisableBankForSubBG(int a0, int a1, int a2, int a3);
+void GX_DisableBankForSubOBJ(int a0, int a1, int a2, int a3);
 GXVRam GX_DisableBankForSubBGExtPltt(void);
 GXVRam GX_DisableBankForSubOBJExtPltt(void);
 u16 GX_GetBankForOBJ(void);
@@ -791,14 +791,14 @@ int resetBankForX_(u16 *g3bit)
 
 
 
-int func_020808F4(void){ return resetBankForX_((u16 *)((int)0x2150E4E)); }
+int GX_ResetBankForBG(void){ return resetBankForX_((u16 *)((int)0x2150E4E)); }
 
 
 
 
 
 
-void func_02080908(void){ resetBankForX_((u16 *)((int)0x2150E50)); }
+void GX_ResetBankForOBJ(void){ resetBankForX_((u16 *)((int)0x2150E50)); }
 
 
 
@@ -829,34 +829,34 @@ void GX_ResetBankForOBJExtPltt(void)
 
 
 
-int func_02080964(void){ return resetBankForX_((void *)0x02150E54); }
+int GX_ResetBankForTex(void){ return resetBankForX_((void *)0x02150E54); }
 
 
 
 
 
 
-void func_02080978(void){ resetBankForX_((u16 *)((int)0x2150E56)); }
+void GX_ResetBankForTexPltt(void){ resetBankForX_((u16 *)((int)0x2150E56)); }
 
 
 
 
 
 
-void func_0208098C(int a0, int a1, int a2, int a3){ resetBankForX_((u16 *)((int)0x2150E58)); }
+void GX_ResetBankForClearImage(int a0, int a1, int a2, int a3){ resetBankForX_((u16 *)((int)0x2150E58)); }
 
 
 
 
 
 
-int func_020809A0(void){ return resetBankForX_((u16 *)((int)0x2150E5E)); }
+int GX_ResetBankForSubBG(void){ return resetBankForX_((u16 *)((int)0x2150E5E)); }
 
 
 
 
 
-void func_020809B4(void){ resetBankForX_((u16 *)((int)0x2150E60)); }
+void GX_ResetBankForSubOBJ(void){ resetBankForX_((u16 *)((int)0x2150E60)); }
 
 
 
@@ -1032,17 +1032,17 @@ GXVRam GX_DisableBankForARM7(void)
 
 
 
-void func_02080B98(void){ disableBankForX_((void *)0x02150E4C); }
+void GX_DisableBankForLCDC(void){ disableBankForX_((void *)0x02150E4C); }
 
 
 
 
-void func_02080BAC(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E5E)); }
+void GX_DisableBankForSubBG(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E5E)); }
 
 
 
 
-void func_02080BC0(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E60)); }
+void GX_DisableBankForSubOBJ(int a0, int a1, int a2, int a3){ disableBankForX_((u16 *)((int)0x2150E60)); }
 
 
 

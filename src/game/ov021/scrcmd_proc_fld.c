@@ -31,7 +31,7 @@
  *   func_020307B0  0x020307B0  arm
  *   d_021D9738     0x021D9738  data   ov021  a4
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   BEACON_CountFlags 0x0200C258 thumb
  *   func_02045EC0  0x02045EC0  arm
@@ -390,7 +390,7 @@ extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 extern void FIELD_CAMERA_PopState(u8 *a);
 extern u32 func_020307B0(void *p);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern int BEACON_CountFlags(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -769,7 +769,7 @@ void SCRCMD_PROC_FLD_InitShop(int gameSystem, ShopWork *shop, int shopKind, int 
     void *gameData = ICA_ANIME_GetField1C((void *)gameSystem);
     int tableKind;
 
-    func_02012944(gameData);
+    GAME_DATA_GetMyStatus(gameData);
     shop->isTmShop = 0;
     shopKind = SCRCMD_PROC_FLD_AllocShopResources(shop, shopKind);
     tableKind = shopKind;
@@ -2071,7 +2071,7 @@ int SCRCMD_PROC_FLD_CallOv004Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
 /*
  * 2026-10-02: closed by seeding ov001 0x02154694 (Thumb tail-call thunk to
- * EVENT_GTSNEGO_Create, filed as ov001_func_02154694.c). Old note: it sat inside ov001 pool_02154690
+ * EVENT_GTSNEGO_Create, filed as ov001_func_02154694.c). Old note: it sat inside the ov001 pool at 02154690
  * (ldr r3,[pc]; bx r3; .word EVENT_GTSNEGO_Create+1) so sole-ref/code finds no func_ label;
  * abs_id_01 is the overlay id 1 that GAME_EVENT_CreateOverlayEvent loads (not an OVERLAY_ID_CONSUMER).
  *
@@ -2171,7 +2171,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     work->boxManager = GAME_DATA_GetBoxManager(gameData);
     work->party = GAME_DATA_GetMyParty(gameData);
     work->myItem = (u32)GAME_DATA_GetMyItem(gameData);
-    work->myStatus = func_02012944(gameData);
+    work->myStatus = GAME_DATA_GetMyStatus(gameData);
     work->saveStateA = (u32)func_0200873C(saveControl);
     work->saveStateB = ZUKAN_SAVE_IsNationalDexEnabled(saveStateSource);
     work->kind = kind;

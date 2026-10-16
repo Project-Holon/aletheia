@@ -1,7 +1,7 @@
 /*
  * file:     townmap.c
  * unit:     yes
- * function: TOWNMAP_Create, TOWNMAP_Destroy, TOWNMAP_Update, TOWNMAP_ProcInit, TOWNMAP_ProcClear, TOWNMAP_ProcRun, TOWNMAP_ProcIsFinished, TOWNMAP_ProcSetStep, TOWNMAP_ProcFinish, TOWNMAP_StepFadeIn, TOWNMAP_StepFadeOut, TOWNMAP_StepBrowse, TOWNMAP_BackButtonInit, TOWNMAP_BackButtonFree, TOWNMAP_BackButtonUpdate, TOWNMAP_BackButtonGetPressed, TOWNMAP_BackButtonIsHeld, TOWNMAP_CursorInit, TOWNMAP_CursorClear, TOWNMAP_CursorUpdate, TOWNMAP_CursorGetPos, TOWNMAP_CursorSetPos, TOWNMAP_CursorIsPressed, TOWNMAP_CursorGetHeldKeys, TOWNMAP_CursorSetHoverTown, TOWNMAP_CursorMoveHoverSprite, TOWNMAP_CursorGetHoverTown, TOWNMAP_CursorSetSnapToTown, TOWNMAP_MapInit, TOWNMAP_MapFree, TOWNMAP_MapUpdate, TOWNMAP_MapSetZoom, TOWNMAP_MapSetScroll, TOWNMAP_MapGetScroll, TOWNMAP_MapAddScroll, TOWNMAP_MapFindTownUnderCursor, TOWNMAP_MapFindNearestTown, TOWNMAP_TownGetField, TOWNMAP_MapHighlightTown, TOWNMAP_MapClearHighlight, TOWNMAP_MapFindTownById, TOWNMAP_TownIsRevealed, TOWNMAP_TownInit, TOWNMAP_TownFree, TOWNMAP_TownSetShown, TOWNMAP_TownHitTest, TOWNMAP_TownTestNear, TOWNMAP_TownSetScale, TOWNMAP_TownSetScroll, TOWNMAP_TownSetFrame, TOWNMAP_TownHighlight, TOWNMAP_TownUnhighlight, TOWNMAP_MarkerInit, TOWNMAP_DeleteMarker, TOWNMAP_UpdateMarkerPosition, TOWNMAP_InitScroll, TOWNMAP_ClearScroll, TOWNMAP_StepScrollZoom, TOWNMAP_StartScrollZoom, func_021BB0DC, func_021BB0E0, TOWNMAP_ApplyScroll, TOWNMAP_GetScrollPosition, TOWNMAP_MoveScroll, TOWNMAP_InitSelection, TOWNMAP_ExitSelection, TOWNMAP_DrawSelection, TOWNMAP_ClearSelection
+ * function: TOWNMAP_Create, TOWNMAP_Destroy, TOWNMAP_Update, TOWNMAP_ProcInit, TOWNMAP_ProcClear, TOWNMAP_ProcRun, TOWNMAP_ProcIsFinished, TOWNMAP_ProcSetStep, TOWNMAP_ProcFinish, TOWNMAP_StepFadeIn, TOWNMAP_StepFadeOut, TOWNMAP_StepBrowse, TOWNMAP_BackButtonInit, TOWNMAP_BackButtonFree, TOWNMAP_BackButtonUpdate, TOWNMAP_BackButtonGetPressed, TOWNMAP_BackButtonIsHeld, TOWNMAP_CursorInit, TOWNMAP_CursorClear, TOWNMAP_CursorUpdate, TOWNMAP_CursorGetPos, TOWNMAP_CursorSetPos, TOWNMAP_CursorIsPressed, TOWNMAP_CursorGetHeldKeys, TOWNMAP_CursorSetHoverTown, TOWNMAP_CursorMoveHoverSprite, TOWNMAP_CursorGetHoverTown, TOWNMAP_CursorSetSnapToTown, TOWNMAP_MapInit, TOWNMAP_MapFree, TOWNMAP_MapUpdate, TOWNMAP_MapSetZoom, TOWNMAP_MapSetScroll, TOWNMAP_MapGetScroll, TOWNMAP_MapAddScroll, TOWNMAP_MapFindTownUnderCursor, TOWNMAP_MapFindNearestTown, TOWNMAP_TownGetField, TOWNMAP_MapHighlightTown, TOWNMAP_MapClearHighlight, TOWNMAP_MapFindTownById, TOWNMAP_TownIsRevealed, TOWNMAP_TownInit, TOWNMAP_TownFree, TOWNMAP_TownSetShown, TOWNMAP_TownHitTest, TOWNMAP_TownTestNear, TOWNMAP_TownSetScale, TOWNMAP_TownSetScroll, TOWNMAP_TownSetFrame, TOWNMAP_TownHighlight, TOWNMAP_TownUnhighlight, TOWNMAP_MarkerInit, TOWNMAP_DeleteMarker, TOWNMAP_UpdateMarkerPosition, TOWNMAP_InitScroll, TOWNMAP_ClearScroll, TOWNMAP_StepScrollZoom, TOWNMAP_StartScrollZoom, TOWNMAP_IsScrollZoomDone, TOWNMAP_IsScrollZooming, TOWNMAP_ApplyScroll, TOWNMAP_GetScrollPosition, TOWNMAP_MoveScroll, TOWNMAP_InitSelection, TOWNMAP_ExitSelection, TOWNMAP_DrawSelection, TOWNMAP_ClearSelection
  * address:  0x021B95A0
  * region:   ov072
  * compiler: dsi/1.1p1
@@ -91,8 +91,8 @@
  *   TOWNMAP_ClearScroll  0x021BAF9C  thumb
  *   TOWNMAP_StepScrollZoom  0x021BAFA8  thumb
  *   TOWNMAP_StartScrollZoom  0x021BB0B4  thumb
- *   func_021BB0DC  0x021BB0DC  thumb
- *   func_021BB0E0  0x021BB0E0  thumb
+ *   TOWNMAP_IsScrollZoomDone  0x021BB0DC  thumb
+ *   TOWNMAP_IsScrollZooming  0x021BB0E0  thumb
  *   TOWNMAP_ApplyScroll  0x021BB0E4  thumb
  *   TOWNMAP_GetScrollPosition  0x021BB190  thumb
  *   TOWNMAP_MoveScroll  0x021BB19C  thumb
@@ -176,7 +176,7 @@ struct Actor;
 struct PtS;
 struct Vec2;
 struct Out;
-struct S12;
+struct Vec3;
 struct Vec;
 struct Pair;
 struct BgTemplate;
@@ -239,8 +239,6 @@ struct Ball {
 
 
 struct Pt { u16 x; u16 y; };
-
-struct V { int x; int y; int z; };
 
 typedef struct { u32 w[8]; } BgTemplate;
 
@@ -309,7 +307,7 @@ extern u32 SYMBOL_MAP_ResolveZoneId(void *a, u32 b);
 extern int SYMBOL_MAP_CheckEventFlag(void *a, u32 msg);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void BUTTON_MAN_InitSphere(struct Ball *dst, struct Vec *src, unsigned radius);
-extern void BUTTON_MAN_InitSegment(char *p, struct S12 *q, struct S12 *r, u32 v);
+extern void BUTTON_MAN_InitSegment(char *p, struct Vec3 *q, struct Vec3 *r, u32 v);
 extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *seg, struct Ball *b, struct Out *out);
 extern void CLACT_SetActorScale(struct Actor *dst, struct Pair *src);
 void BG_SYS_Update(void);
@@ -372,8 +370,8 @@ void TOWNMAP_InitScroll(TownMapScroll *scroll, u32 bgIdA, u32 bgIdB, int heapId)
 void TOWNMAP_ClearScroll(TownMapScroll *scroll);
 void TOWNMAP_StepScrollZoom(TownMapScroll *scroll, TownMapMap *map);
 void TOWNMAP_StartScrollZoom(TownMapScroll *scroll, int scaleTo, const TownMapPoint *from, const TownMapPoint *to);
-int func_021BB0DC(TownMapScroll *scroll);
-int func_021BB0E0(TownMapScroll *scroll);
+int TOWNMAP_IsScrollZoomDone(TownMapScroll *scroll);
+int TOWNMAP_IsScrollZooming(TownMapScroll *scroll);
 void TOWNMAP_ApplyScroll(TownMapScroll *scroll, const TownMapPoint *pos);
 void TOWNMAP_GetScrollPosition(TownMapScroll *scroll, TownMapPoint *out);
 void TOWNMAP_MoveScroll(TownMapScroll *scroll, const TownMapPoint *delta);
@@ -615,7 +613,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
     int pressed;
     moved=0;
     if (TOWNMAP_BackButtonIsHeld(&work->buttonBar) == 0) {
-        if (work->zooming!=0 && func_021BB0E0(&work->scroll)==0) {
+        if (work->zooming!=0 && TOWNMAP_IsScrollZooming(&work->scroll)==0) {
             TownMapVec touchDelta;
             TownMapPoint pos,delta={0,0};
             u32 touchOut;
@@ -626,7 +624,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
             if (pos.y<=168 && pos.y>136 && (keys&0x80)) { delta.y+=4; moved=1; }
             if (pos.x<16 && (keys&0x20)) { delta.x-=4; moved=1; }
             if (pos.x>240 && (keys&0x10)) { delta.x+=4; moved=1; }
-            if (func_021BB0E0(&work->scroll)==0 && TOWNMAP_GRH_GetTouchDrag(&work->touch,&touchDelta,&touchOut)) {
+            if (TOWNMAP_IsScrollZooming(&work->scroll)==0 && TOWNMAP_GRH_GetTouchDrag(&work->touch,&touchDelta,&touchOut)) {
                 delta.x=-(int)(((s64)touchDelta.x*4096+2048)>>12)>>12;
                 delta.y=-(int)(((s64)touchDelta.y*4096+2048)>>12)>>12;
                 TOWNMAP_GRH_RestartTouchDrag(&work->touch); moved=1;
@@ -640,7 +638,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
                 TOWNMAP_CursorMoveHoverSprite(&work->cursor,&scrollAfter);
             }
         }
-        if (moved==0 && func_021BB0E0(&work->scroll)==0) {
+        if (moved==0 && TOWNMAP_IsScrollZooming(&work->scroll)==0) {
             if (work->args->mode==0 || work->args->mode==2) {
                 hovered=TOWNMAP_CursorGetHoverTown(&work->cursor);
                 under=TOWNMAP_MapFindTownUnderCursor(&work->map, &work->cursor);
@@ -672,7 +670,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
         TOWNMAP_CursorSetSnapToTown(&work->cursor,moved ? 0 : 1);
     }
     TOWNMAP_BackButtonUpdate(&work->buttonBar,&work->scroll);
-    if (func_021BB0E0(&work->scroll)==0) TOWNMAP_CursorUpdate(&work->cursor,&work->map);
+    if (TOWNMAP_IsScrollZooming(&work->scroll)==0) TOWNMAP_CursorUpdate(&work->cursor,&work->map);
     TOWNMAP_MapUpdate(&work->map); TOWNMAP_StepScrollZoom(&work->scroll,&work->map);
     TOWNMAP_GRH_UpdateLabel(&work->label); TOWNMAP_GRH_UpdateTouch(&work->touch);
     switch (TOWNMAP_BackButtonGetPressed(&work->buttonBar)) {
@@ -681,7 +679,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
     case 1:
         work->args->result=0; TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut); break;
     case 7:
-        if (work->zooming==0 && func_021BB0E0(&work->scroll)==0) {
+        if (work->zooming==0 && TOWNMAP_IsScrollZooming(&work->scroll)==0) {
             TownMapPoint cursorPos;
             TOWNMAP_CursorGetPos(&work->cursor,&cursorPos);
             TOWNMAP_StartScrollZoom(&work->scroll,8192,&d_021BBB78,&cursorPos);
@@ -691,7 +689,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
                 TOWNMAP_CursorSetHoverTown(&work->cursor,0,0); work->hoverTown=0;
             }
             work->zooming=1;
-        } else if (work->zooming==1 && func_021BB0E0(&work->scroll)==0) {
+        } else if (work->zooming==1 && TOWNMAP_IsScrollZooming(&work->scroll)==0) {
             TownMapPoint zoomCenter;
             TOWNMAP_GetScrollPosition(&work->scroll,&zoomCenter); zoomCenter.x+=128; zoomCenter.y+=96;
             TOWNMAP_StartScrollZoom(&work->scroll,4096,&zoomCenter,&d_021BBB78);
@@ -704,7 +702,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
         }
         break;
     }
-    return func_021BB0DC(&work->scroll);
+    return TOWNMAP_IsScrollZoomDone(&work->scroll);
 }
 
 
@@ -783,7 +781,7 @@ void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll)
             func_020355D8(hit);
             hit = 1;
         }
-        if (hit && CLACT_IsActorAnimActive((void *)bar->sprite) == 0 && func_021BB0E0(scroll) == 0) {
+        if (hit && CLACT_IsActorAnimActive((void *)bar->sprite) == 0 && TOWNMAP_IsScrollZooming(scroll) == 0) {
             if (CLACT_GetActorAnimSeq((void *)bar->sprite) == 7)
                 CLACT_SetActorAnimSeq((void *)bar->sprite, 9);
             else
@@ -1364,7 +1362,7 @@ u32 TOWNMAP_TownHitTest(TownMapTown *town, const TownMapPoint *pos, const TownMa
     v1.x = FX_F32_TO_FX32(scroll->x + TOWNMAP_TownGetField(town, 8));
     v1.y = FX_F32_TO_FX32(scroll->y + TOWNMAP_TownGetField(town, 9));
     v1.z = 0;
-    BUTTON_MAN_InitSegment((char *)(&seg), (struct S12 *)(&v0), (struct S12 *)(&v1), FX_F32_TO_FX32(TOWNMAP_TownGetField(town, 10)));
+    BUTTON_MAN_InitSegment((char *)(&seg), (struct Vec3 *)(&v0), (struct Vec3 *)(&v1), FX_F32_TO_FX32(TOWNMAP_TownGetField(town, 10)));
     if (town->locked != 0)
         return 0;
     return BUTTON_MAN_SegmentSphereTest(&seg, &ball, 0);
@@ -1625,12 +1623,12 @@ void TOWNMAP_StartScrollZoom(TownMapScroll *scroll, int scaleTo, const TownMapPo
     scroll->dst.y = to->y - 0x60;
 }
 
-int func_021BB0DC(TownMapScroll *scroll)
+int TOWNMAP_IsScrollZoomDone(TownMapScroll *scroll)
 {
     return scroll->zoomDone;
 }
 
-int func_021BB0E0(TownMapScroll *scroll)
+int TOWNMAP_IsScrollZooming(TownMapScroll *scroll)
 {
     return scroll->zooming;
 }

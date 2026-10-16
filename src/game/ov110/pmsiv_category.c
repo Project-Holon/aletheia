@@ -66,11 +66,11 @@
  *   sPmsivCategoryAllocSite 0x021C3C44 data a1
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   sPmsivCategoryLabelIds 0x021C38C4 data ov110 a1
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
- *   func_021B999C 0x021B999C thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -162,10 +162,10 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_FillScrollArea(u32, u32, u32);
-extern void func_0207D658(u32, int, int);
+extern void G2x_SetBlendBrightness_(u32, int, int);
 extern void BG_SYS_PushTile(u32);
 extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
-extern u32 func_021B999C(struct PmsInputData *wordData, int category);
+extern u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *wordData, int category);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -294,7 +294,7 @@ void PMSIV_CATEGORY_Setup(struct PmsivCategory *p, u32 data)
     BG_SYS_FillScrollArea(1, 0, -4);
     BG_SYS_FillScrollArea(1, 3, 16);
     PMSIV_CATEGORY_CreateCursor(p);
-    func_0207D658(0x04000050, 2, -10);
+    G2x_SetBlendBrightness_(0x04000050, 2, -10);
     setWindowInside(31, 1);
     setWindowOutside(29, 1);
     REG_WIN0H = 255;
@@ -318,7 +318,7 @@ u8 *PMSIV_CATEGORY_MakeCategoryButtons(struct PmsivCategory *p, u8 *q)
     y = 9;
     for (i = 0; i < PMSIV_CATEGORY_COUNT; i++) {
         if (i != 0 && i % 3 == 0) { x = 1; y += 3; }
-        if (func_021B999C(p->wordData, i)) {
+        if (PMS_INPUT_DATA_GetCategoryWordCount(p->wordData, i)) {
             label = func_02045EC0(bank, sPmsivCategoryLabelIds[i]);
             GF_FONT_SetTextColor(1, 2, 15);
         } else {

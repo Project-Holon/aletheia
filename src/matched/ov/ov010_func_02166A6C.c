@@ -13,7 +13,7 @@
  *   g_Bg2ScaleState  0x02172BA4  data  ov010  a4
  *   g_Bg2ScaleStep  0x021729FC  data  ov010  a4
  *   MTX_Scale22_  0x0207AD58  thumb
- *   func_0207D59C  0x0207D59C  arm
+ *   G2x_SetBGyAffine_  0x0207D59C  arm
  *   _fadd  0x0209C95C  arm
  *   _fdiv  0x0209CE10  arm
  *   _fgr  0x0209BBB0  arm
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 extern float g_Bg2ScaleState;
 extern float g_Bg2ScaleStep;
 extern void MTX_Scale22_(void *dst, int a, int b);
-extern void func_0207D59C(void *reg, void *m, int a, int b, int c, int d);
+extern void G2x_SetBGyAffine_(void *reg, void *m, int a, int b, int c, int d);
 
 void SYMBOL_MAP_UpdateBg2Scale(void)
 {
@@ -45,6 +45,6 @@ void SYMBOL_MAP_UpdateBg2Scale(void)
             t = 4096.0f * (1.0f / x) - 0.5f;
         i = (int)t;
         MTX_Scale22_(m, i, i);
-        func_0207D59C((void *)0x04000020, m, 0x80, 0x5c, 0, 0);
+        G2x_SetBGyAffine_((void *)0x04000020, m, 0x80, 0x5c, 0, 0);
     }
 }

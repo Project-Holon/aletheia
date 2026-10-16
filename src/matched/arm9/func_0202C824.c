@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202C824
+ * function: ISS_SWITCH_IsSeasonMatch
  * address:  0x0202C824
  * packet:   pkt_0202C794
  * region:   arm9
@@ -15,4 +15,4 @@
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  */
 
-int func_0202C824(int a0){ int t0, t1; t0 = GAME_DATA_GetSeason(a0); t1 = COMM_PLAYER_SUPPORT_GetSeasonFromClock((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
+int ISS_SWITCH_IsSeasonMatch(int a0){ int t0, t1; t0 = GAME_DATA_GetSeason(a0); t1 = COMM_PLAYER_SUPPORT_GetSeasonFromClock((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }

@@ -19,7 +19,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -98,7 +98,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -139,7 +139,7 @@ void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
     BG_SYS_Init(2, 0, 1, 0);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 13, 0, heap);
     arc = func_020490F4(7, heap);
-    *(int *)(p + 0xBA8) = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 384, heap);
+    *(int *)(p + 0xBA8) = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 0, 384, heap);
     ARC_TOOL_DeleteHandle(arc);
     for (i = 0; i < 8; i++) {
         if (i >= 4) {

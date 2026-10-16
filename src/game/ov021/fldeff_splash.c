@@ -66,9 +66,8 @@
 struct BbActDesc;
 struct BbActSys;
 struct BbActRec;
-struct X;
+struct FieldEffectSys;
 struct Actor;
-struct Res_021C48A0;
 struct IcaAnime;
 struct Rec12;
 struct Mtx33;
@@ -184,7 +183,7 @@ extern u32 FIELDMAP_GetGroundBbdAct(u8 *p);
 extern u32 func_020307B0(void *p);
 extern u32 FIELD_EFFECT_GetArcHandle(u8 *p);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
-extern void FIELD_EFFECT_ApplyPaletteTable(struct X *x, void *b);
+extern void FIELD_EFFECT_ApplyPaletteTable(struct FieldEffectSys *x, void *b);
 extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *o, const struct BbActRec *recs, u32 n);
 extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);
 extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
@@ -265,7 +264,7 @@ void FLDEFF_SPLASH_LoadBoardImage(SplashBoardRes *res)
     rec.cellHeight = 0x10;
     rec.count = 1;
     rec.resource = G3D_SYSTEM_CreateResourceArcHandle(arcHandle, 0x2d);
-    FIELD_EFFECT_ApplyPaletteTable((struct X *)res->sys, rec.resource);
+    FIELD_EFFECT_ApplyPaletteTable((struct FieldEffectSys *)res->sys, rec.resource);
     res->imageIdx = BILLBOARD_ACT_CreateSlots(res->actSys, &rec, 1);
 }
 

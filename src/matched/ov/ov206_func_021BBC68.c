@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC68
+ * function: ZUKAN_INFO_RefreshPage
  * address: 0x021BBC68
  * packet: pkt_ov206_021BBC68
  * region: ov206
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BB4E0 0x021BB4E0 thumb ov206
- *   func_021BBAB0 0x021BBAB0 thumb ov206
- *   func_021BBDA8 0x021BBDA8 thumb ov206
- *   func_021BACB0 0x021BACB0 thumb ov206
+ *   ZUKAN_INFO_ShowFormPair 0x021BB4E0 thumb ov206
+ *   ZUKAN_INFO_CreateSpeciesActor 0x021BBAB0 thumb ov206
+ *   ZUKAN_INFO_SetDrawEnable 0x021BBDA8 thumb ov206
+ *   ZUKAN_INFO_DrawPage 0x021BACB0 thumb ov206
  */
 #include "../include/Obj00031.h"
 typedef unsigned short u16;
@@ -24,16 +24,16 @@ typedef struct S {
     int fe0;
     char pad[0x190 - 0xe4];
 } S;
-extern void func_021BB4E0(char *p, int mode, int which);
+extern void ZUKAN_INFO_ShowFormPair(char *p, int mode, int which);
 typedef unsigned int   u32;
-extern void func_021BBAB0(struct S *p, u32 a, u32 b, u32 idx);
+extern void ZUKAN_INFO_CreateSpeciesActor(struct S *p, u32 a, u32 b, u32 idx);
 struct State;
-extern void func_021BBDA8(struct State *p, int v);
-extern void func_021BACB0(char *p, int idx);
-void func_021BBC68(S *p, int v)
+extern void ZUKAN_INFO_SetDrawEnable(struct State *p, int v);
+extern void ZUKAN_INFO_DrawPage(char *p, int idx);
+void ZUKAN_INFO_RefreshPage(S *p, int v)
 {
-    func_021BB4E0((char *)p, v, p->fe0);
-    func_021BBAB0(p, p->fc, p->fe, ((struct Obj00031 *)p)->f190);
-    func_021BBDA8((struct State *)p, p->f8);
-    func_021BACB0((char *)p, v);
+    ZUKAN_INFO_ShowFormPair((char *)p, v, p->fe0);
+    ZUKAN_INFO_CreateSpeciesActor(p, p->fc, p->fe, ((struct Obj00031 *)p)->f190);
+    ZUKAN_INFO_SetDrawEnable((struct State *)p, p->f8);
+    ZUKAN_INFO_DrawPage((char *)p, v);
 }

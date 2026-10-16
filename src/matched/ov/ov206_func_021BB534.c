@@ -1,5 +1,5 @@
 /*
- * function: func_021BB534
+ * function: ZUKAN_INFO_LayoutFormPair
  * address: 0x021BB534
  * packet: pkt_ov206_021BB534
  * region: ov206
@@ -85,7 +85,7 @@ typedef struct {
     void *f1d0;
 } Ent;
 
-void func_021BB534(Ent *p, unsigned x, unsigned y, int row)
+void ZUKAN_INFO_LayoutFormPair(Ent *p, unsigned x, unsigned y, int row)
 {
     Rect4 rr[2];
     Pos pos[2];

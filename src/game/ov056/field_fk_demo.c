@@ -30,7 +30,7 @@
  *   FIELD_SUBPROC_GetWork  0x021BBA6C  thumb  ov021
  *   FIELD_SUBPROC_End  0x021BBA1C  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02030EAC  0x02030EAC  arm
  *   gFkDemoDrawTemplate     0x021F42C0  data  a4
  *   FIELD_BUILDMODEL_CreateNodeNearPos  0x0218C7D8  thumb  ov021
@@ -282,7 +282,7 @@ int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work)
     heapId = FIELDMAP_GetHeapId(work->fieldMap);
     switch (*seq) {
     case 0:
-        myStatus = func_02012944(ICA_ANIME_GetField1C(work->gameSystem));
+        myStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem));
         FIELD_FK_DEMO_InitModel(&work->model, FIELDMAP_GetFieldPlayer(work->fieldMap), myStatus, heapId, work->variant);
         (*seq)++;
         break;

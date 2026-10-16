@@ -43,6 +43,7 @@
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -223,7 +224,7 @@ extern void PMSI_PARAM_ClearSentence(struct PmsData *pms);
 extern void sub_02024570(struct PmsData *dest, const struct PmsData *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site,
                            u16 tag);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern const u16 *MYSTATUS_GetName(const struct MyStatus *status);
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 extern u8  MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
@@ -809,7 +810,7 @@ void MAIL_InitForPlayer(struct Mail *mail, u8 design, u32 unused,
 
     MAIL_Init(mail);
     mail->design = design;
-    status = func_02012944(gameData);
+    status = GAME_DATA_GetMyStatus(gameData);
     MI_CpuCopy8(MYSTATUS_GetName(status), mail->writerName, sizeof(mail->writerName));
     mail->gender = MYSTATUS_GetOutfitVariant(status);
     mail->writerId = MYSTATUS_GetId(status);

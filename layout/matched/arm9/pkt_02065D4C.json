@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02066740",
+   "name": "NNSi_G2dGetCurrentInstanceVramHandle",
    "address": "0x02066740",
    "kind": "game",
    "region": "arm9",

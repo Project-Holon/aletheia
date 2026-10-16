@@ -1,5 +1,5 @@
 /*
- * function: func_0218484C
+ * function: MICTEST_CheckTouchOrKey
  * address:  0x0218484C
  * packet:   pkt_ov168_0218484C
  * region:   ov168
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218483C  0x0218483C  thumb  ov168
+ *   MICTEST_TouchHit  0x0218483C  thumb  ov168
  *   KEY_GetTrg  0x020362DC  arm
  *
  * Addresses are Black-image addresses.
@@ -18,11 +18,11 @@
 
 typedef unsigned int u32;
 
-extern int func_0218483C(void);
+extern int MICTEST_TouchHit(void);
 extern u32 KEY_GetTrg(void);
 
-int func_0218484C(void)
+int MICTEST_CheckTouchOrKey(void)
 {
-    return func_0218483C() == 0 || (KEY_GetTrg() & 2) != 0;
+    return MICTEST_TouchHit() == 0 || (KEY_GetTrg() & 2) != 0;
 }
 

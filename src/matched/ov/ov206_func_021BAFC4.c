@@ -1,5 +1,5 @@
 /*
- * function: func_021BAFC4
+ * function: ZUKAN_INFO_CreateBgBmp
  * address:  0x021BAFC4
  * packet:   pkt_ov206_021BAFC4
  * region:   ov206
@@ -44,7 +44,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_021BAFC4(Ent *e)
+void ZUKAN_INFO_CreateBgBmp(Ent *e)
 {
     Zero z = ZERO;
     int s = (int)BMP_CreateFromArchive(0x9f, 0x19, z, e->f0);

@@ -28,8 +28,8 @@
  *   ISS_ZONE_SYS_SwitchZone  0x0202BECC  thumb
  *   sub_0202C0C8  0x0202C0C8  thumb
  *   ISS_SYS_ModeTable  0x0209FF88  data
- *   func_0202BB40  0x0202BB40  thumb
- *   func_0202BB48  0x0202BB48  thumb
+ *   ISS_3DS_SYS_OnZoneChangeImpl  0x0202BB40  thumb
+ *   ISS_3DS_SYS_SilenceActiveTracks  0x0202BB48  thumb
  *   ISS_DUNGEON_SYS_Start  0x0202B424  thumb
  *   ISS_SWITCH_SYS_On  0x0202C0B8  thumb
  *   ISS_ZONE_SYS_Stop  0x0202BEE4  thumb
@@ -54,6 +54,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   ARC_TOOL_GetHandleFileCount  0x0204961C  arm
+ *   ISS_3DS_SYS_UpdateImpl  0x0202BAF4  thumb
  */
 
 typedef unsigned char u8;
@@ -192,13 +193,13 @@ extern u16 GAME_DATA_GetPlayerZoneId(const Location *loc);
 extern u16 GFL_USE_GetBgmNo(void);
 extern const BgmInfoTable *GAME_DATA_GetBagCursor(const GameData *gameData);
 extern u8 func_02006E7C(const BgmInfoTable *table, u16 bgmId);
-extern void func_0202BAF4(Iss3dsSys *sys);
-extern void func_0202BB40(Iss3dsSys *sys);
+extern void ISS_3DS_SYS_UpdateImpl(Iss3dsSys *sys);
+extern void ISS_3DS_SYS_OnZoneChangeImpl(Iss3dsSys *sys);
 extern void *func_020490F4(u32 archiveId, u32 heapId);
 extern u16 ARC_TOOL_GetHandleFileCount(void *arc);
 extern void ARC_TOOL_ReadHandleMember(void *arc, u32 member, void *dst);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern int func_0202BB48(Iss3dsSys *sys);
+extern int ISS_3DS_SYS_SilenceActiveTracks(Iss3dsSys *sys);
 
 IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId);
 void ISS_SYS_Delete(IssSys *iss);
@@ -666,7 +667,7 @@ void ISS_3DS_SYS_Delete(Iss3dsSys *sys)
  * update, enter, leave and zone change. */
 void ISS_3DS_SYS_Update(Iss3dsSys *sys)
 {
-    func_0202BAF4(sys);
+    ISS_3DS_SYS_UpdateImpl(sys);
 }
 
 void ISS_3DS_SYS_Enter(Iss3dsSys *sys)
@@ -681,7 +682,7 @@ void ISS_3DS_SYS_Leave(Iss3dsSys *sys)
 
 void ISS_3DS_SYS_OnZoneChange(Iss3dsSys *sys)
 {
-    func_0202BB40(sys);
+    ISS_3DS_SYS_OnZoneChangeImpl(sys);
 }
 
 /* Stores the volume, clamped to 0x7f. */
@@ -829,7 +830,7 @@ void ISS_3DS_SYS_EnterImpl(Iss3dsSys *sys)
     }
     sys->entered = 1;
     ISS_3DS_SYS_SetTableIndex(sys, ISS_3DS_SYS_FindTableIndex(sys, GFL_USE_GetBgmNo()));
-    func_0202BB48(sys);
+    ISS_3DS_SYS_SilenceActiveTracks(sys);
 }
 
 /* Leave: clears the entered flag (the test is redundant but original). */

@@ -15,8 +15,8 @@
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   MIi_CpuClear16  0x02082A48  arm
  *   G2_GetBG1ScrPtr  0x0207DFB4  arm
- *   func_020809A0  0x020809A0  arm
- *   func_020808F4  0x020808F4  arm
+ *   GX_ResetBankForSubBG  0x020809A0  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
  */
 
 typedef unsigned int u32;
@@ -27,8 +27,8 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear16(int, u32, u32);
 extern void *G2_GetBG1ScrPtr(void);
-extern int func_020809A0(void);
-extern int func_020808F4(void);
+extern int GX_ResetBankForSubBG(void);
+extern int GX_ResetBankForBG(void);
 
 void ERROR_SCREEN_Teardown(void)
 {
@@ -39,8 +39,8 @@ void ERROR_SCREEN_Teardown(void)
     MIi_CpuClear16(0, (u32)G2_GetBG1ScrPtr(), 0x800);
     MIi_CpuClear16(0x7FFF, 0x05000000, 0x20);
     *(volatile u32 *)0x04000000 &= 0xFFFFE0FF;
-    func_020809A0();
-    func_020808F4();
+    GX_ResetBankForSubBG();
+    GX_ResetBankForBG();
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 0);
 }

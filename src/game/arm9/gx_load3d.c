@@ -28,7 +28,7 @@
  *   GX_ResetBankForTexPltt 0x02080978  arm
  *   sTexPlttStartAddrTable 0x020A5C3C  data
  *   GX_SetBankForTexPltt   0x0208040C  arm
- *   func_0208098C 0x0208098C arm
+ *   GX_ResetBankForClearImage 0x0208098C arm
  *   g_02150E2C 0x02150E2C data
  *   GX_SetBankForClearImage 0x020804E8  arm
  */
@@ -70,7 +70,7 @@ extern void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size,
 extern void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
 extern void MI_WaitNDma(u32 ndmaNo);
 extern void MI_WaitDma(u32 dmaNo);
-extern int func_0208098C(void);
+extern int GX_ResetBankForClearImage(void);
 void GX_BeginLoadTex(void);
 void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte);
 void GX_EndLoadTex(void);
@@ -347,7 +347,7 @@ void GX_EndLoadTexPltt(void)
 
 void GX_BeginLoadClearImage(void)
 {
-    int fmt = func_0208098C();
+    int fmt = GX_ResetBankForClearImage();
     sClrImg.clrImg = fmt;
     switch (fmt) {
     case 2:

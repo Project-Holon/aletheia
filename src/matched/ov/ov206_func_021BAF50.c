@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF50
+ * function: ZUKAN_INFO_ClearSlotWindows
  * address: 0x021BAF50
  * packet: pkt_ov206_021BAF50
  * region: ov206
@@ -22,7 +22,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-void func_021BAF50(char *p)
+void ZUKAN_INFO_ClearSlotWindows(char *p)
 {
     int i;
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj25402 *)p)->f2C));

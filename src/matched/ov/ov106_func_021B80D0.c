@@ -20,7 +20,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   IRC_RANKING_LoadRowScreens 0x021B8AD0 thumb ov106
  *   func_020490F4 0x020490F4 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   IRC_RANKING_RowInit 0x021B87B0 thumb ov106
@@ -43,7 +43,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void IRC_RANKING_LoadRowScreens(u8 *,u8 *,u16);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void IRC_RANKING_RowInit(u8 *,const u8 *,void *,u32,u32,void *,u32,void *,void *,s16,s16,u16);
@@ -71,8 +71,8 @@ void IRC_RANKING_ListInit(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s
     *(struct WordSet **)(p+0x588) = WORDSET_CreateDefault(heap);
     IRC_RANKING_LoadRowScreens(p+8,(u8 *)s1,heap);
     arc = func_020490F4(7,heap);
-    *(int *)p = CLACT_RegisterPaletteCompressed(arc,func_0201BC3C(),0,0x20,heap);
-    *(int *)(p+4) = CLACT_RegisterPaletteCompressed(arc,func_0201BC3C(),1,0x20,heap);
+    *(int *)p = CLACT_RegisterPaletteCompressed(arc,POKE_TOOL_GetIconPaletteArcId(),0,0x20,heap);
+    *(int *)(p+4) = CLACT_RegisterPaletteCompressed(arc,POKE_TOOL_GetIconPaletteArcId(),1,0x20,heap);
     ARC_TOOL_DeleteHandle(arc);
     for (i = 0; i < IRC_RANKING_DataGetCount(s4); i++) {
         IRC_RANKING_RowInit(p+0x188+i*32,s4+4+i*16,s2,*(u32 *)p,*(u32 *)(p+4),*(void **)(p+0x574),*(u32 *)(p+0x570),*(void **)(p+0x588),p+8,i*24+0x52,i*24-0x70,heap);

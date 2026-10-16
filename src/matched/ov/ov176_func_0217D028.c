@@ -16,7 +16,7 @@
  *   REGULATION_NoOp 0x0200AE14 thumb
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetParty 0x0200B204 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0200E918 0x0200E918 thumb
@@ -44,7 +44,7 @@ struct RecBig;
 struct Reg;
 struct Sub0200852CObj;
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *, int, u32);
 extern u8 func_0200E918(const u8 *, u32);
@@ -64,7 +64,7 @@ void DIGITALCARDCHECK_CreateRecord(u8 *p)
     BATTLE_BOX_GetFromSave(base);
     box = REGULATION_NoOp(((struct Obj00053 *)p)->f38);
     aux = (int)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base), 1);
-    x = (int)func_02012944(((struct Obj00053 *)p)->f1B8);
+    x = (int)GAME_DATA_GetMyStatus(((struct Obj00053 *)p)->f1B8);
     table = WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int * *)&((struct Obj00053 *)p)->f1B4);
     MI_CpuFill8(&rec, 0, 0xAC);
     rec.fa0 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 1);

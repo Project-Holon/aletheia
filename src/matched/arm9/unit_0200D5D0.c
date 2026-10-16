@@ -56,6 +56,7 @@
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   BEACON_GetSelect  0x0200C164  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  */
 
 typedef unsigned char  u8;
@@ -74,7 +75,7 @@ struct Blk34;
 struct Sub0200852CObj;
 struct Sub02009470Obj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
@@ -131,7 +132,7 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     u32 d;
     void *blk;
     void *save = GAME_DATA_GetSaveControl(sys);
-    void *rec = func_02012944(sys);
+    void *rec = GAME_DATA_GetMyStatus(sys);
     void *env;
     s32 i;
 

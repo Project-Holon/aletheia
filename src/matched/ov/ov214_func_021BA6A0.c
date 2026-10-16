@@ -12,7 +12,15 @@
  *   func_02035630 0x02035630 arm
  *   BTL_REC_SEL_DrawCounter 0x021BA794 thumb ov214
  */
-#include "../../matched/include/Obj00202.h"
+struct BtlRecSel {
+    unsigned char pad_0[0xAC];
+    unsigned int timerA;      /* 0xAC */
+    unsigned int timerB;      /* 0xB0 */
+    int busy;                 /* 0xB4 */
+    int menuOpen;             /* 0xB8 */
+    int lastMode;             /* 0xBC */
+    unsigned short lastValue; /* 0xC0 */
+};
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_02035630(void);
@@ -22,11 +30,11 @@ void BTL_REC_SEL_StartTimer(void *obj, char *p, u32 v)
     u32 threshold;
     if (func_02035630() == 30) threshold = 30;
     else threshold = 60;
-    ((struct Obj00202 *)p)->fAC = threshold * (v + 1) - 1;
-    ((struct Obj00202 *)p)->fB0 = threshold >> 1;
-    ((struct Obj00202 *)p)->fB4 = 0;
-    ((struct Obj00202 *)p)->fB8 = 0;
-    ((struct Obj00202 *)p)->fBC = 0;
-    ((struct Obj00202 *)p)->fC0 = 0;
+    ((struct BtlRecSel *)p)->timerA = threshold * (v + 1) - 1;
+    ((struct BtlRecSel *)p)->timerB = threshold >> 1;
+    ((struct BtlRecSel *)p)->busy = 0;
+    ((struct BtlRecSel *)p)->menuOpen = 0;
+    ((struct BtlRecSel *)p)->lastMode = 0;
+    ((struct BtlRecSel *)p)->lastValue = 0;
     BTL_REC_SEL_DrawCounter(obj, p, v);
 }

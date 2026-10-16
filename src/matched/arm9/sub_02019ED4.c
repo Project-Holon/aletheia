@@ -41,7 +41,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_REGULATION_CheckPokemon  0x02019DA4  thumb
  *   REGULATION_GetRuleValue  0x0200AE54  thumb
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
@@ -54,7 +54,7 @@ typedef unsigned int   u32;
 extern u32 POKEPARTY_GetCount(void *p);
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern int POKE_REGULATION_CheckPokemon(void *ctx, void *mon);
 struct Reg;
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
@@ -78,8 +78,8 @@ int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q)
     for (i = 0; i < n; i++) {
         void *mon = POKEPARTY_GetMember(q, i);
 
-        species[i] = (u16)func_02017E1C(mon, 5, 0);
-        form[i] = (u16)func_02017E1C(mon, 0x9E, 0);
+        species[i] = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
+        form[i] = (u16)POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
         if (POKE_REGULATION_CheckPokemon(ctx, mon) != 0) {
             species[i] = 0;
             cnt--;

@@ -105,7 +105,7 @@ typedef _Bool bool;
 
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 
-typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
+#include "gx_oam_types.h"
 
 typedef struct tagMEMSSE {
     void          *canv;              /* 0x00 */

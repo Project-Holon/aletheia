@@ -1,5 +1,5 @@
 /*
- * function: func_0218483C
+ * function: MICTEST_TouchHit
  * address:  0x0218483C
  * packet:   pkt_0218483C
  * region:   ov168
@@ -15,7 +15,7 @@
 
 extern int TOUCHPANEL_HitTrg(const void *p);
 
-int func_0218483C(void)
+int MICTEST_TouchHit(void)
 {
     return TOUCHPANEL_HitTrg((void *)0x0218486E);
 }

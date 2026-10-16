@@ -1,5 +1,5 @@
 /*
- * function: func_02183CBC
+ * function: BEACON_DETAIL_WinActivate
  * address: 0x02183CBC
  * packet: pkt_ov219_02183CBC
  * region: ov219
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void APP_TASKMENU_WIN_SetActive(struct Obj*,u32);
 extern void APP_TASKMENU_WIN_SetDecide(char*,int);
-void func_02183CBC(u8 *p,u32 i){if(*(void**)(p+i*4+0xc05c)){if(i==0){APP_TASKMENU_WIN_SetActive(*(struct Obj* *)&((struct Obj14775 *)p)->fC05C,1);return;}if(i==1)APP_TASKMENU_WIN_SetDecide(*(char* *)&((struct Obj14775 *)p)->fC060,1);}}
+void BEACON_DETAIL_WinActivate(u8 *p,u32 i){if(*(void**)(p+i*4+0xc05c)){if(i==0){APP_TASKMENU_WIN_SetActive(*(struct Obj* *)&((struct Obj14775 *)p)->fC05C,1);return;}if(i==1)APP_TASKMENU_WIN_SetDecide(*(char* *)&((struct Obj14775 *)p)->fC060,1);}}

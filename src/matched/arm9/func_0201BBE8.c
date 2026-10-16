@@ -14,7 +14,7 @@
  *
  * symbols:
  *   POKE_TOOL_DecodeBoxParam   0x02017DBC  thumb
- *   func_02017E88   0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue   0x02017E88  thumb
  *   POKE_TOOL_EncodeBoxParam   0x02017DE4  thumb
  *   POKE_TOOL_CalcIconPalette   0x0201BB5C  thumb
  *
@@ -33,17 +33,17 @@ typedef unsigned int u32;
 
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 
 int POKE_TOOL_GetIconPalette(void *a0)
 {
     int f = POKE_TOOL_DecodeBoxParam(a0);
-    u32 a = func_02017E88(a0, 5, 0);
-    u32 b = func_02017E88(a0, 0x6F, 0);
-    u32 c = func_02017E88(a0, 0x6E, 0);
-    u32 d = func_02017E88(a0, 0x4C, 0);
+    u32 a = POKE_TOOL_GetBoxValue(a0, 5, 0);
+    u32 b = POKE_TOOL_GetBoxValue(a0, 0x6F, 0);
+    u32 c = POKE_TOOL_GetBoxValue(a0, 0x6E, 0);
+    u32 d = POKE_TOOL_GetBoxValue(a0, 0x4C, 0);
 
     POKE_TOOL_EncodeBoxParam(a0, f);
     return POKE_TOOL_CalcIconPalette(a, b, c, d);

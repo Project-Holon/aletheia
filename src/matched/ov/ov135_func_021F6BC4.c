@@ -14,6 +14,7 @@
  *   tbl_02202C58  0x02202C58  data  a4
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 
 typedef signed char s8;
@@ -25,7 +26,7 @@ typedef signed int s32;
 
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern const u32 tbl_02202C58[];
 
@@ -36,7 +37,7 @@ u32 WORLDTRADE_BOX_GetBoxCount(void *sav)
     u32 r;
 
     for (i = 0; i < 15; i++) {
-        r = func_02017E88(sav, tbl_02202C58[i], 0);
+        r = POKE_TOOL_GetBoxValue(sav, tbl_02202C58[i], 0);
         if (r == 1) {
             break;
         }

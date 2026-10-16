@@ -21,7 +21,7 @@
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
@@ -102,7 +102,7 @@ extern void *POKEPARTY_GetMember(void *party, u32 slot);
 
 extern u32 POKE_TOOL_DecodePartyParam(struct Pokemon *pokemon);
 
-extern u32 func_02017E1C(void *pokemon, u32 param, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(void *pokemon, u32 param, u32 arg);
 
 extern void POKE_TOOL_SetPartyValue(void *pokemon, u32 param, u32 value);
 
@@ -631,8 +631,8 @@ u32 GPOWER_UseHpRestore(void *party)
             slot = POKEPARTY_FindFirstBattleReady(party);
             pokemon = POKEPARTY_GetMember(party, slot);
             fastMode = POKE_TOOL_DecodePartyParam(pokemon);
-            maxHp = func_02017E1C(pokemon, 0xa1, 0);
-            hp = func_02017E1C(pokemon, 0xa0, 0);
+            maxHp = POKE_TOOL_GetPartyValue(pokemon, 0xa1, 0);
+            hp = POKE_TOOL_GetPartyValue(pokemon, 0xa0, 0);
             hp = hp + _GPowerState.value[5];
             if (hp > maxHp) {
                 hp = maxHp;
@@ -673,10 +673,10 @@ u32 GPOWER_UsePpRestore(void *party)
         pokemon = POKEPARTY_GetMember(party, slot);
         fastMode = POKE_TOOL_DecodePartyParam(pokemon);
         for (i = 0; i < 4; i++) {
-            move = func_02017E1C(pokemon, (int)(0x36 + i), (int)0);
+            move = POKE_TOOL_GetPartyValue(pokemon, (int)(0x36 + i), (int)0);
             if (move != 0) {
-                maxPp = (u32)WAZA_TOOL_GetMaxPP(move, (u8)func_02017E1C(pokemon, (int)(0x3e + i), (int)0));
-                pp = func_02017E1C(pokemon, (int)(0x3a + i), (int)0);
+                maxPp = (u32)WAZA_TOOL_GetMaxPP(move, (u8)POKE_TOOL_GetPartyValue(pokemon, (int)(0x3e + i), (int)0));
+                pp = POKE_TOOL_GetPartyValue(pokemon, (int)(0x3a + i), (int)0);
                 pp += _GPowerState.value[6];
                 if (pp > maxPp) {
                     pp = maxPp;

@@ -12,7 +12,7 @@
  * sdk:      gpiDestroyOperation (libdwcgsgp.TWL.HYB.a(gpioperation.o))
  *
  * symbols:
- *   func_0217EB9C  0x0217EB9C  arm  ov009
+ *   shutdown  0x0217EB9C  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  */
@@ -35,7 +35,7 @@ struct GPISearchData {
     void *b;
 };
 
-extern int func_0217EB9C(int sock, int how);
+extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern void gsifree(void *ptr);
 
@@ -47,7 +47,7 @@ void gpiDestroyOperation(void **connection, struct GPIOperation *operation)
         struct GPISearchData *data = (struct GPISearchData *)operation->data;
 
         iconnection->numSearches--;
-        func_0217EB9C(data->sock, 2);
+        shutdown(data->sock, 2);
         closesocket(data->sock);
         gsifree(data->b);
         data->b = 0;

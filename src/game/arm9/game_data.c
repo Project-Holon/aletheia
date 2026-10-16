@@ -1,7 +1,7 @@
 /*
  * file:     game_data.c
  * unit:     yes
- * function: GAME_DATA_Create, GAME_DATA_Delete, GAME_DATA_GetPlayerWork, GAME_DATA_GetField114, GAME_DATA_GetField1D4, GAME_DATA_GetLastBattleRecSlot, GAME_DATA_GetSecondUnionInfo, GAME_DATA_GetUnionInfo, GAME_DATA_GetMysteryRecvFlagA, GAME_DATA_GetMysteryRecvFlagB, GAME_DATA_TakeUnionInfo, GAME_DATA_ClearUnionInfo, GAME_DATA_GetField1A0, GAME_DATA_GetField158, GAME_DATA_GetField160, GAME_DATA_SetField160, GAME_DATA_GetField164, GAME_DATA_SetField164, GAME_DATA_GetField168, GAME_DATA_SetField168, GAME_DATA_GetField16C, GAME_DATA_SetField16C, GAME_DATA_GetField170Ptr, GAME_DATA_SetField170, GAME_DATA_SetWarpId, GAME_DATA_GetSituationWarpId, GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager, func_02012944, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo, GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason, GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType, GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnabled, GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo, GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork, GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail, GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId, GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection, GAME_DATA_SetPlayerDirectionType, GAME_DATA_GetPlayerDirectionType, GAME_DATA_GetPlayerObjectCode, GAME_DATA_SetPlayerObjectCode, GAME_DATA_SetPlayerPalaceZoneId, GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode, GAME_DATA_GetOwnNetId, GAME_DATA_SetOwnNetId, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount, GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag, GAME_DATA_IsConfigFlagSet, GAME_DATA_SetConfigFlag, GAME_DATA_SetSaveFlag, GAME_DATA_CheckSaveFlag, GAME_DATA_GetRtcWork, GAME_DATA_LoadFromSave, GAME_DATA_WriteToSave, GAME_DATA_SaveStart, GAME_DATA_SaveMain, GAME_DATA_SaveCancel, GAME_DATA_IsSaving, GAME_DATA_PartSaveStart, GAME_DATA_PartSaveMain, GAME_DATA_GetSaveControl, GAME_DATA_GetSaveControlWork, GAME_DATA_GetFieldSave, GAME_DATA_GetEventState, GAME_DATA_GetCurrentEvent, GAME_DATA_SetCurrentEvent, GAME_DATA_GetSaveBlock3A, GAME_DATA_GetSaveBlock3B, GAME_DATA_GetMiscSave, GAME_DATA_GetSaveBlock1F, GAME_DATA_GetPmsWork, GAME_DATA_GetTrainerRecord, GAME_DATA_GetSaveSyncBlock, GAME_DATA_GetSaveBlock2A, GAME_DATA_GetListCursor, GAME_DATA_GetSaveBlock21, GAME_DATA_GetSaveBlock42, GAME_DATA_SetExternalWork, GAME_DATA_GetExternalWork, GAME_DATA_GetSaveBlockWork, GAME_DATA_GetBoxSave, GAME_DATA_SetSymbolMapFlag, GAME_DATA_GetSymbolMapFlag, GAME_DATA_CheckPlayTime, GAME_DATA_GetPlayTime, GAME_DATA_GetSaveBlock43, GAME_DATA_GetEventWorkFromSave
+ * function: GAME_DATA_Create, GAME_DATA_Delete, GAME_DATA_GetPlayerWork, GAME_DATA_GetField114, GAME_DATA_GetField1D4, GAME_DATA_GetLastBattleRecSlot, GAME_DATA_GetSecondUnionInfo, GAME_DATA_GetUnionInfo, GAME_DATA_GetMysteryRecvFlagA, GAME_DATA_GetMysteryRecvFlagB, GAME_DATA_TakeUnionInfo, GAME_DATA_ClearUnionInfo, GAME_DATA_GetField1A0, GAME_DATA_GetField158, GAME_DATA_GetField160, GAME_DATA_SetField160, GAME_DATA_GetField164, GAME_DATA_SetField164, GAME_DATA_GetField168, GAME_DATA_SetField168, GAME_DATA_GetField16C, GAME_DATA_SetField16C, GAME_DATA_GetField170Ptr, GAME_DATA_SetField170, GAME_DATA_SetWarpId, GAME_DATA_GetSituationWarpId, GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager, GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo, GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason, GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType, GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnabled, GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo, GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork, GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail, GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId, GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection, GAME_DATA_SetPlayerDirectionType, GAME_DATA_GetPlayerDirectionType, GAME_DATA_GetPlayerObjectCode, GAME_DATA_SetPlayerObjectCode, GAME_DATA_SetPlayerPalaceZoneId, GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode, GAME_DATA_GetOwnNetId, GAME_DATA_SetOwnNetId, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount, GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag, GAME_DATA_IsConfigFlagSet, GAME_DATA_SetConfigFlag, GAME_DATA_SetSaveFlag, GAME_DATA_CheckSaveFlag, GAME_DATA_GetRtcWork, GAME_DATA_LoadFromSave, GAME_DATA_WriteToSave, GAME_DATA_SaveStart, GAME_DATA_SaveMain, GAME_DATA_SaveCancel, GAME_DATA_IsSaving, GAME_DATA_PartSaveStart, GAME_DATA_PartSaveMain, GAME_DATA_GetSaveControl, GAME_DATA_GetSaveControlWork, GAME_DATA_GetFieldSave, GAME_DATA_GetEventState, GAME_DATA_GetCurrentEvent, GAME_DATA_SetCurrentEvent, GAME_DATA_GetSaveBlock3A, GAME_DATA_GetSaveBlock3B, GAME_DATA_GetMiscSave, GAME_DATA_GetSaveBlock1F, GAME_DATA_GetPmsWork, GAME_DATA_GetTrainerRecord, GAME_DATA_GetSaveSyncBlock, GAME_DATA_GetSaveBlock2A, GAME_DATA_GetListCursor, GAME_DATA_GetSaveBlock21, GAME_DATA_GetSaveBlock42, GAME_DATA_SetExternalWork, GAME_DATA_GetExternalWork, GAME_DATA_GetSaveBlockWork, GAME_DATA_GetBoxSave, GAME_DATA_SetSymbolMapFlag, GAME_DATA_GetSymbolMapFlag, GAME_DATA_CheckPlayTime, GAME_DATA_GetPlayTime, GAME_DATA_GetSaveBlock43, GAME_DATA_GetEventWorkFromSave
  * address:  0x020124F4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   func_02006E40  0x02006E40  thumb
  *   GAME_DATA_InitPlayerWork  0x02012A60  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008730  0x02008730  thumb
  *   memcpy         0x02082D44  arm
  *   EVENTDATA_SYSTEM_Create  0x0216237C  thumb  ov010
@@ -51,7 +51,7 @@
  *   func_0200857C  0x0200857C  thumb
  *   func_020071E4  0x020071E4  thumb
  *   FIELD_ENCOUNT_ST_Create  0x0215E31C  thumb  ov010
- *   func_0202E43C  0x0202E43C  thumb
+ *   PMS_DRAW_ClearWork  0x0202E43C  thumb
  *   GAME_DATA_LoadFromSave  0x02012C18  thumb
  *   COMM_PLAYER_SUPPORT_Create  0x0202E770  thumb
  *   BEACON_STATUS_Create  0x0202751C  thumb
@@ -165,7 +165,7 @@ void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
 
 extern int MYSTATUS_GetSize(void);
 
-struct PlayerStatus *func_02012944(struct GameData *gd);
+struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern struct PlayerStatus *func_02008730(struct SaveControl *saveControl);
 
@@ -205,7 +205,7 @@ extern u8 func_020071E4(struct SaveControl *save);
 
 extern void *FIELD_ENCOUNT_ST_Create(u32 heapId);
 
-extern void  func_0202E43C(void *rtcWork);
+extern void  PMS_DRAW_ClearWork(void *rtcWork);
 
 void GAME_DATA_LoadFromSave(struct GameData *gd);
 
@@ -343,7 +343,7 @@ extern const char _GameDataFileName[];
  *    corroborates it, passing `(unsigned short)a0` to the same allocator.
  *
  * 2. THE memcpy ARGUMENTS ARE EVALUATED THROUGH TWO NAMED LOCALS, in the
- *    original's order: `n = MYSTATUS_GetSize(); src = func_02012944(p);` and
+ *    original's order: `n = MYSTATUS_GetSize(); src = GAME_DATA_GetMyStatus(p);` and
  *    only then `memcpy(func_02008730(*(u32 *)p), src, n)`.  Written as one
  *    nested expression mwcc schedules func_02008730 first and the whole
  *    tail of the function reallocates: that alone was 169 of the 176
@@ -380,7 +380,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     }
 
     statusSize = MYSTATUS_GetSize();
-    status = func_02012944(gameData);
+    status = GAME_DATA_GetMyStatus(gameData);
     memcpy(func_02008730(gameData->saveControl), status, statusSize);
 
     gameData->eventData = eventData = (void *)EVENTDATA_SYSTEM_Create(heapId);
@@ -410,7 +410,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     func_020071E4(gameData->saveControl);
 
     gameData->fieldGimmick = (u32)FIELD_ENCOUNT_ST_Create(heapId);
-    func_0202E43C(gameData->rtcWork);
+    PMS_DRAW_ClearWork(gameData->rtcWork);
     GAME_DATA_LoadFromSave(gameData);
     gameData->eventState = 0;
     gameData->currentEvent = 0;
@@ -988,7 +988,7 @@ u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd)
 }
 
 /*
- *           func_02012944, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
+ *           GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
  *           GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason,
  *           GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType,
  *           GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnabled,
@@ -1053,7 +1053,7 @@ u32 GAME_DATA_GetBoxManager(const struct GameData *gd)
     return gd->boxManager;
 }
 
-struct PlayerStatus *func_02012944(struct GameData *gd)
+struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gd)
 {
     return &GAME_DATA_GetField114(gd)->status;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217EB9C
+ * function: shutdown
  * address:  0x0217EB9C
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@
 extern int SOC_Shutdown(int s, int how);
 extern int CheckRcode(int a, int b);
 
-int func_0217EB9C(int sock, int how)
+int shutdown(int sock, int how)
 {
     return CheckRcode(SOC_Shutdown(sock, how), -1);
 }

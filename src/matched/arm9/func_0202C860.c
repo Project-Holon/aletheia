@@ -1,5 +1,5 @@
 /*
- * function: func_0202C860
+ * function: ISS_SWITCH_RefreshSubscreenMode
  * address:  0x0202C860
  * packet:   pkt_0202C860
  * region:   arm9
@@ -52,7 +52,7 @@ struct BigObj;
 extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
 extern u32 ZONEDATA_GetWeatherId(u32 id);
 
-void func_0202C860(u8 *a0, int a1)
+void ISS_SWITCH_RefreshSubscreenMode(u8 *a0, int a1)
 {
     u32 v;
     u16 r;

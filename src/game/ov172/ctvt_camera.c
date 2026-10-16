@@ -29,7 +29,7 @@
  *   CTVT_CAMVIEW_SetWindowTargetRect 0x021B78A0 thumb ov172
  *   d_021C71E0 0x021C71E0 data a4
  *   FX_Inv 0x0207C778 arm
- *   func_0207D59C 0x0207D59C arm
+ *   G2x_SetBGyAffine_ 0x0207D59C arm
  *   CTVT_CAMERA_Delete 0x021B63B8 thumb ov172
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   CTVT_CAMVIEW_StepWindow 0x021B78B8 thumb ov172
@@ -98,7 +98,7 @@ extern void CTVT_CAMERA_AllocFrames(struct Camera *, int, u16);
 extern void CTVT_CAMERA_SetFrameCallback(struct Camera *p, u32 a, u32 b);
 extern void CTVT_CAMERA_StartCapture(struct Camera *a0);
 extern int FX_Inv(int);
-extern void func_0207D59C(void *, int *, int, int, int, int);
+extern void G2x_SetBGyAffine_(void *, int *, int, int, int, int);
 extern void CTVT_CAMERA_Delete(struct Camera *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void CTVT_CAMERA_UpdateShutterSound(struct Camera *p);
@@ -224,7 +224,7 @@ void CTVT_CAMVIEW_Delete(int unused, CtvtCamView *view)
     matrix[3] = FX_Inv(4096);
     matrix[1] = 0;
     matrix[2] = 0;
-    func_0207D59C((void *)0x04000030, matrix, 0, 0, 0, 0);
+    G2x_SetBGyAffine_((void *)0x04000030, matrix, 0, 0, 0, 0);
     func_020307B0(view->screenBuf);
     func_020307B0(view->noSignalHalf);
     func_020307B0(view->noSignalFull);
@@ -342,7 +342,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 }
                 m[1] = 0;
                 m[2] = 0;
-                func_0207D59C((void *)0x04000030, m, 0, 0, 0, 0);
+                G2x_SetBGyAffine_((void *)0x04000030, m, 0, 0, 0, 0);
                 for (i = 0; i < 4; i++) {
                     if (view->halfRes == 1) {
                         *(u16 *)((u8 *)view + 0x48 + i * 0x1C) = (u32)*(u16 *)((u8 *)view + 0x48 + i * 0x1C) >> 1;

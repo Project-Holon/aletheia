@@ -476,7 +476,7 @@ typedef struct {
 /* Services used by the handlers of this part. */
 extern void BTLV_CORE_SetSlotFlag(u32 *packedCont, int slot);
 
-extern int func_021D5D14(struct BtlPokeParam *pokeParam, int statId, int amount);
+extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *pokeParam, int statId, int amount);
 
 extern void HAND_ITEM_PushUseItem(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 

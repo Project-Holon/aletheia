@@ -16,7 +16,7 @@
  *   DWCi_TempNewNodeInfo_Clear                0x0217653C arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
  *   NNCancel                     0x02199FB4 arm   ov009
- *   func_02175FB8                0x02175FB8 arm   ov009
+ *   DWCi_GetHostStatus                0x02175FB8 arm   ov009
  *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
  *   DWCi_CloseCancelHostAsync                0x02172E18 arm   ov009
  *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
@@ -49,7 +49,7 @@ extern int DWCi_TempNewNodeInfo_IsValid(void);
 extern void DWCi_TempNewNodeInfo_Clear(void);
 extern int func_02175F3C(void);
 extern void NNCancel(int cookie);
-extern unsigned char func_02175FB8(void);
+extern unsigned char DWCi_GetHostStatus(void);
 extern void DWCi_SetMatchStatus(int state);
 extern int DWCi_CloseCancelHostAsync(int profileID);
 extern int DWCi_NodeInfoList_GetCount(void);
@@ -71,7 +71,7 @@ int DWCi_CancelPreConnectedServerProcessWithResetLevel(int clientPid, int resetL
         ((struct DWCstMatchControl *)func_02175F3C())->f618 = 0;
     }
     ((struct DWCstMatchControl *)func_02175F3C())->f67c = 0;
-    if (func_02175FB8() == 2) {
+    if (DWCi_GetHostStatus() == 2) {
         ((struct DWCstMatchControl *)func_02175F3C())->f18 = 0;
         ((struct DWCstMatchControl *)func_02175F3C())->f5dc = 0;
         DWCi_SetMatchStatus(0x11);

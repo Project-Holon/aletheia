@@ -191,7 +191,7 @@ extern int errno;
  * The load order (0x18, 0x2c, 0x1c, 0x20) is the scheduler hoisting the
  * second statement's two loads above the first statement's store, and the
  * register numbering ([r2, r1, ip, r3] for the four loads) follows from the
- * object being a struct: reading the fields through a `struct S *` keeps the
+ * object being a struct: reading the fields through a `struct FILE *` keeps the
  * word loads independent, and the whole function is then a straight line with
  * no prologue at all.  No relocation sites, so the 40 bytes are compared
  * byte for byte with nothing wildcarded.

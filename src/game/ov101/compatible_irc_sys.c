@@ -36,11 +36,11 @@
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   OS_GetOwnerInfo 0x02087C88 arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   func_02080D24 0x02080D24 arm
  *   MI_CpuCopy8 0x02082D44 arm
@@ -84,11 +84,11 @@ extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *,void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern u32 func_02080D24(u32);
 extern void MI_CpuCopy8(void *,const void *,unsigned);
@@ -387,16 +387,16 @@ void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out)
     int flag;
     OS_GetOwnerInfo((struct OSOwnerInfo *)(&ownerInfo));
     sub=ICA_ANIME_GetField1C(playerData);
-    playerData=func_02012944(sub);
+    playerData=GAME_DATA_GetMyStatus(sub);
     out->birthMonth=ownerInfo[2];
     out->birthDay=ownerInfo[3];
     MYSTATUS_Copy(playerData,out->myStatus);
     record=POKEPARTY_GetMember(GAME_DATA_GetMyParty(sub),0);
     flag=0;
-    out->leadSpecies=func_02017E1C(record,5,0);
-    out->leadType2=func_02017E1C(record,111,0);
-    out->leadType1=func_02017E1C(record,110,0);
-    out->leadNature=func_02017E1C(record,76,0);
+    out->leadSpecies=POKE_TOOL_GetPartyValue(record,5,0);
+    out->leadType2=POKE_TOOL_GetPartyValue(record,111,0);
+    out->leadType1=POKE_TOOL_GetPartyValue(record,110,0);
+    out->leadNature=POKE_TOOL_GetPartyValue(record,76,0);
     GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
     if(date.day == 14) flag=1;
     out->isDay14=(u8)flag;

@@ -73,7 +73,7 @@
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   gGsyncSlotPositions 0x021DAACC data a4
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   gGsyncMonIconX 0x021DA738 data a4
  *   gGsyncMonIconY 0x021DA748 data a4
@@ -216,7 +216,7 @@ extern void CLACT_SetActorAnimFrame(struct ClActor *p, u32 value);
 
 extern void CLACT_SetActorAffineMode(struct ClActor *actor, u32 value);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
@@ -525,7 +525,7 @@ void GSYNC_DISP_LoadEffectResources(GsyncDispWork *disp)
 {
     void *archiveHandle;
     archiveHandle = func_020490F4(7, disp->heapId);
-    disp->resources.byKind.palettes[2] = (void *)CLACT_RegisterPaletteCompressed(archiveHandle, func_0201BC3C(), 2, 0, disp->heapId);
+    disp->resources.byKind.palettes[2] = (void *)CLACT_RegisterPaletteCompressed(archiveHandle, POKE_TOOL_GetIconPaletteArcId(), 2, 0, disp->heapId);
     ARC_TOOL_DeleteHandle(archiveHandle);
     archiveHandle = func_020490F4(143, disp->heapId);
     disp->resources.byKind.cellAnims[2] = (void *)CLACT_RegisterCellAnim(archiveHandle, 14, 27, disp->heapId);

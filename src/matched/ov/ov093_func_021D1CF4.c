@@ -16,9 +16,9 @@
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_MAIN_IsOpposingPos 0x021B8CE8 thumb ov093
  *   BTL_CLIENT_PickSendOutMessageId 0x021D1DF4 thumb ov093
- *   func_021EAF18 0x021EAF18 thumb ov093
+ *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
  *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
- *   func_021EAF50 0x021EAF50 thumb ov093
+ *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_MAIN_GetClientTrainerIndex 0x021B8BEC thumb ov093
@@ -36,11 +36,11 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_MAIN_IsOpposingPos(int a, int b, int c);
 extern int BTL_CLIENT_PickSendOutMessageId(void *);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 struct H;
 struct L;
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *, u32, u8);
@@ -49,9 +49,9 @@ extern int BTLV_CORE_WaitMonSwap(struct S *s);
 extern void BTL_CLIENT_StoreMonParam(u8 *p);
 static inline void message(u8 *p, int code, u32 value, u32 id)
 {
-    func_021EAF18((struct L *)(p + 0x58), 1, code);
-    func_021EAF50((struct L *)(p + 0x58), value);
-    func_021EAF50((struct L *)(p + 0x58), id);
+    BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, code);
+    BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), value);
+    BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), id);
     BTLV_CORE_BuildAndPrintMessage(((struct Obj21146 *)p)->f54, (struct H *)(p + 0x58));
 }
 int BTL_CLIENT_StepSendOutMon(u8 *p, int *state, const u32 *params)
@@ -66,8 +66,8 @@ int BTL_CLIENT_StepSendOutMon(u8 *p, int *state, const u32 *params)
             id = BTL_POKEPARAM_GetPokeId(BTL_SIDE_GetClientPoke(((struct Obj01691 *)p)->f4, a, b));
             if (BTL_MAIN_IsOpposingPos((int)(((struct Obj01691 *)p)->f0), p[0x1A6], a) == 0) {
                 if (p[0x1A6] == a) {
-                    func_021EAF18((struct L *)(p + 0x58), 1, BTL_CLIENT_PickSendOutMessageId(p));
-                    func_021EAF50((struct L *)(p + 0x58), id);
+                    BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, BTL_CLIENT_PickSendOutMessageId(p));
+                    BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), id);
                     BTLV_CORE_BuildAndPrintMessage(((struct Obj01691 *)p)->f54, (struct H *)(p + 0x58));
                 } else {
                     message(p, 0x11, a, id);

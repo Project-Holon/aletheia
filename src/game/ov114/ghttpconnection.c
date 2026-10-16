@@ -34,7 +34,7 @@
  *   ghiPostCleanupState     0x021C2BB0  arm  ov114
  *   gsDebugFormat  0x0217d254  arm   ov009
  *   gsiCancelResolvingHostname  0x0217f1c0  arm   ov009
- *   func_0217EB9C  0x0217eb9c  arm   ov009
+ *   shutdown  0x0217eb9c  arm   ov009
  *   func_0217EB40  0x0217eb40  arm   ov009
  *   gsifree  0x0217eae0  arm   ov009
  *   ghiResetBuffer  0x021c00fc  arm   ov114
@@ -70,7 +70,7 @@ extern int closesocketsure(int sock, int *notInCloseSocket);
 extern void ghiFreeBuffer(GHIBuffer *buffer);
 extern void ghiPostCleanupState(GHIConnection *connection);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0217EB9C(int, int);
+extern int shutdown(int, int);
 extern int func_0217EB40(int, int *);
 extern void gsifree(void *);
 extern void ghiResetBuffer(GHIBuffer *);
@@ -363,7 +363,7 @@ void ghiRedirectConnection(GHIConnection *connection)
         gsiCancelResolvingHostname(connection->handle);
         connection->handle = 0;
     }
-    func_0217EB9C(connection->socket, 2);
+    shutdown(connection->socket, 2);
     if (func_0217EB40(connection->socket, &connection->handleStatus) == 0)
         return;
     gsifree(connection->URL);

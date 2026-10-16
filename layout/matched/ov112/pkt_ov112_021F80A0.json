@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "STA_ACT_LIGHT_CallElemA",
+   "name": "STA_ACT_LIGHT_StartRenderAnim",
    "address": "0x021F80A0",
    "kind": "game",
    "region": "ov112",

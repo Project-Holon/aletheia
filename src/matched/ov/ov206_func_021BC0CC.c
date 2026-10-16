@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0CC
+ * function: ZUKAN_INFO_GetCellAnimMode
  * address:  0x021BC0CC
  * packet:   pkt_021BC0CC
  * region:   ov206
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021BC0CC(int v)
+int ZUKAN_INFO_GetCellAnimMode(int v)
 {
     if (v <= 0x1ED)
         return 1;

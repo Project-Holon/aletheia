@@ -71,7 +71,7 @@ extern int BTL_CALC_RollPercent(u32 percent);
 extern int WAZA_TOOL_GetDamageType(int moveId);
 
 /* Services of the poke parameter. */
-extern int func_021D58A8(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetStatRaw(struct BtlPokeParam *bpp, int valueId);
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 

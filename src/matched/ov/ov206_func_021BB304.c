@@ -1,5 +1,5 @@
 /*
- * function: func_021BB304
+ * function: ZUKAN_INFO_CreateIconActors
  * address: 0x021BB304
  * packet: pkt_ov206_021BB304
  * region: ov206
@@ -74,7 +74,7 @@ typedef struct {
     void *f1d0;
 } Ent;
 
-void func_021BB304(Ent *p)
+void ZUKAN_INFO_CreateIconActors(Ent *p)
 {
     unsigned char a, b, i;
     int flag;

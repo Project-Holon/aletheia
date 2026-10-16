@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E68
+ * function: ZUKAN_INFO_Create
  * address: 0x021B9E68
  * packet: pkt_ov206_021B9E68
  * region: ov206
@@ -13,7 +13,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_021BBE5C 0x021BBE5C thumb ov206
+ *   ZUKAN_INFO_LoadResources 0x021BBE5C thumb ov206
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
@@ -26,16 +26,16 @@
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
  *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021BAFC4 0x021BAFC4 thumb ov206
- *   func_021BB0FC 0x021BB0FC thumb ov206
+ *   ZUKAN_INFO_CreateBgBmp 0x021BAFC4 thumb ov206
+ *   ZUKAN_INFO_FlushMainWindow 0x021BB0FC thumb ov206
  *   func_020056A0 0x020056A0 thumb
- *   func_021BA864 0x021BA864 thumb ov206
- *   func_021BB304 0x021BB304 thumb ov206
- *   func_021BB9E0 0x021BB9E0 thumb ov206
- *   func_021BA890 0x021BA890 thumb ov206
- *   func_021BBC38 0x021BBC38 thumb ov206
- *   func_021BB13C 0x021BB13C thumb ov206
- *   func_0207D658 0x0207D658 arm
+ *   ZUKAN_INFO_Task 0x021BA864 thumb ov206
+ *   ZUKAN_INFO_CreateIconActors 0x021BB304 thumb ov206
+ *   ZUKAN_INFO_InitFormGfx 0x021BB9E0 thumb ov206
+ *   ZUKAN_INFO_CreateWindows 0x021BA890 thumb ov206
+ *   ZUKAN_INFO_RefreshDisplay 0x021BBC38 thumb ov206
+ *   ZUKAN_INFO_SetActors 0x021BB13C thumb ov206
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BC220 0x021BC220 data
@@ -56,7 +56,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 struct S;
 struct State;
-extern void func_021BBE5C(struct S *p);
+extern void ZUKAN_INFO_LoadResources(struct S *p);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -69,16 +69,16 @@ extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern u32 func_020307B0(void *p);
-extern void func_021BAFC4(char *p);
-extern void func_021BB0FC(void *obj);
+extern void ZUKAN_INFO_CreateBgBmp(char *p);
+extern void ZUKAN_INFO_FlushMainWindow(void *obj);
 extern void *func_020056A0(void (*cb)(int, char *), void *arg, int pri);
-extern void func_021BA864(int unused, char *p);
-extern void func_021BB304(char *p);
-extern void func_021BB9E0(struct State *p);
-extern void func_021BA890(char *p);
-extern void func_021BBC38(struct S *p);
-extern void func_021BB13C(void *a0, void *a1, void *a2, void *a3);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void ZUKAN_INFO_Task(int unused, char *p);
+extern void ZUKAN_INFO_CreateIconActors(char *p);
+extern void ZUKAN_INFO_InitFormGfx(struct State *p);
+extern void ZUKAN_INFO_CreateWindows(char *p);
+extern void ZUKAN_INFO_RefreshDisplay(struct S *p);
+extern void ZUKAN_INFO_SetActors(void *a0, void *a1, void *a2, void *a3);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32 layer);
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2)
@@ -100,7 +100,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, int effect)
     if (effect) tmp |= 32;
     *(volatile u16 *)0x0400004A = (u16)tmp;
 }
-void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9,
+void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9,
                     u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16)
 {
     char *p;
@@ -170,7 +170,7 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
     } else {
         ((struct Obj00022 *)p)->f1B4 = 0;
     }
-    func_021BBE5C((struct S *)p);
+    ZUKAN_INFO_LoadResources((struct S *)p);
     hh = (u16)POKE_PERSONAL_GetParam(((struct Obj00022 *)p)->f26C, 0x20);
     if (((struct Obj00022 *)p)->fE >= hh) ((struct Obj00022 *)p)->fE = 0;
     h = ((struct Obj00022 *)p)->f1C4;
@@ -201,14 +201,14 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
         *(u16 *)(p + i * 2 + 0x1aa) = *(u16 *)(data + i * 2 + 0x42);
     }
     func_020307B0(buf);
-    func_021BAFC4(p);
-    func_021BB0FC(p);
-    ((struct Obj00022 *)p)->f50 = func_020056A0(func_021BA864, p, 1);
-    func_021BB304(p);
-    func_021BB9E0((struct State *)p);
+    ZUKAN_INFO_CreateBgBmp(p);
+    ZUKAN_INFO_FlushMainWindow(p);
+    ((struct Obj00022 *)p)->f50 = func_020056A0(ZUKAN_INFO_Task, p, 1);
+    ZUKAN_INFO_CreateIconActors(p);
+    ZUKAN_INFO_InitFormGfx((struct State *)p);
     if (((struct Obj00022 *)p)->f18 == 0 || ((struct Obj00022 *)p)->f18 == 2) {
-        func_021BA890(p);
-        func_021BBC38((struct S *)p);
+        ZUKAN_INFO_CreateWindows(p);
+        ZUKAN_INFO_RefreshDisplay((struct S *)p);
     }
     for (k = 0; k < 2; k++) {
         *(int *)(p + k * 4 + 0xac) = 0;
@@ -225,14 +225,14 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
         y = 0x48;
         break;
     }
-    func_021BB13C(p, (void *)x, (void *)((u16)(y + ((struct Obj00022 *)p)->f1B4)), (void *)(((struct Obj00022 *)p)->fB4));
+    ZUKAN_INFO_SetActors(p, (void *)x, (void *)((u16)(y + ((struct Obj00022 *)p)->f1B4)), (void *)(((struct Obj00022 *)p)->fB4));
     if (((struct Obj00022 *)p)->f18 == 0) {
         ((struct Obj00022 *)p)->f68 = 0x88;
         *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | 0x2000;
         G2_SetWnd0Position(0, 8, 100, ((struct Obj00022 *)p)->f68);
         G2_SetWnd0InsidePlane(0x1f, 1);
         G2_SetWndOutsidePlane(0x1f, 0);
-        func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, -0x10);
+        G2x_SetBlendBrightness_((u32)((volatile u16 *)0x04000050), 0x10, -0x10);
     }
     BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4D, 3, -((struct Obj00022 *)p)->f1B4);
     BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4E, 3, -((struct Obj00022 *)p)->f1B4);

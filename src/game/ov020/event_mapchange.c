@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   EL_SCOREBOARD_StartStandalone  0x02187808  thumb  ov020
@@ -51,7 +51,7 @@
  *   GAME_BEACON_SetZone  0x0202735C  thumb
  *   FIELD_CLOCK_Update  0x02168EEC  thumb  ov010
  *   FIELD_MAP_CHANGE_MoveActiveEntries  0x02164474  thumb  ov010
- *   func_0202C860  0x0202C860  thumb
+ *   ISS_SWITCH_RefreshSubscreenMode  0x0202C860  thumb
  *   ZONEDATA_GetMapSubType  0x0201405C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FLDMMDL_SysLoadObjCodeParamCache  0x0216E29C  thumb  ov010
@@ -193,7 +193,7 @@
  *   ISS_SYS_ChangeZone  0x0202B544  thumb
  *   GAME_DATA_SetStartLocation  0x02012854  thumb
  *   GAME_DATA_SetWarpId  0x02012900  thumb
- *   func_0202C83C  0x0202C83C  thumb
+ *   ISS_SWITCH_ApplySubscreenMode  0x0202C83C  thumb
  *   MAP_REPLACE_FindFlyTargetIndex  0x02159FE0  thumb  ov010
  *   FIELD_MAP_CHANGE_SetupZone  0x021643E8  thumb  ov010
  *   MAP_REPLACE_SetArriveFlag  0x0215A014  thumb  ov010
@@ -361,7 +361,7 @@ struct Mail;
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void func_0208068C(int a);
 extern void MIi_CpuClearFast(int v, u32 a, u32 b);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern int COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern u8 COMM_PLAYER_SUPPORT_SetSeason(struct GameData *gameData, s32 season);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
@@ -402,7 +402,7 @@ void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData);
 extern void GAME_BEACON_SetZone(u32 zoneId, struct GameData *gameData);
 extern void FIELD_CLOCK_Update(struct GameData *gameData);
 extern void FIELD_MAP_CHANGE_MoveActiveEntries(struct GameData *gameData, int zoneId);
-extern void func_0202C860(struct GameData *gameData, int zoneId);
+extern void ISS_SWITCH_RefreshSubscreenMode(struct GameData *gameData, int zoneId);
 extern u8 ZONEDATA_GetMapSubType(u32 zoneId);
 extern MmdlSys *GAME_DATA_GetOccupyInfo(GameData *gameData);
 extern void FLDMMDL_SysLoadObjCodeParamCache(MmdlSys *mmdlSys, int objCodeSet);
@@ -551,7 +551,7 @@ void GAME_DATA_SetPlayerMoveForm(PlayerWork *playerWork, u8 isRail);
 void ISS_SYS_ChangeZone(void *issSystem, u16 zoneId);
 void GAME_DATA_SetStartLocation(GameData *gameData, const Location *location);
 void GAME_DATA_SetWarpId(const GameData *gameData, u16 warpId);
-int func_0202C83C(int gameSystem, int zoneId);
+int ISS_SWITCH_ApplySubscreenMode(int gameSystem, int zoneId);
 int MAP_REPLACE_FindFlyTargetIndex(int zoneId);
 void FIELD_MAP_CHANGE_SetupZone(GameData *gameData, u16 zoneId);
 void MAP_REPLACE_SetArriveFlag(GameData *gameData, int zoneId);
@@ -725,7 +725,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(struct GameEvent *event, int *seq, FirstStar
     case 0:
         func_0208068C(0x1ff);
         MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
-        func_02080B98();
+        GX_DisableBankForLCDC();
         (*seq)++;
         break;
     case 1:
@@ -822,7 +822,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateNewGameStartEvent(struct GameSystem *gam
     EVENT_MAPCHANGE_AddPresetMail(work->gameData);
     func_0208068C(0x1ff);
     MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
-    func_02080B98();
+    GX_DisableBankForLCDC();
     return event;
 }
 
@@ -863,7 +863,7 @@ int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, ContinueWor
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
             FIELD_CLOCK_Update(gameData);
             FIELD_MAP_CHANGE_MoveActiveEntries(gameData, work->zoneId);
-            func_0202C860(gameData, work->zoneId);
+            ISS_SWITCH_RefreshSubscreenMode(gameData, work->zoneId);
             mapSubType = ZONEDATA_GetMapSubType(work->zoneId);
             mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
             if (mapSubType < 16) {
@@ -937,7 +937,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     PALANM_StartTimer();
     func_0208068C(0x1FF);
     MIi_CpuClearFast(0, 0x06800000, 0xA4000);
-    func_02080B98();
+    GX_DisableBankForLCDC();
     return event;
 }
 
@@ -2245,7 +2245,7 @@ void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocatio
     EVENT_MAPCHANGE_AddEventDataMmdl(gameData, warpLocation);
     EVENT_MAPCHANGE_SetMapEffectMask(gameData, location.zoneId);
     EVENT_MAPCHANGE_ReloadMmdl(gameData, &location);
-    func_0202C83C((int)gameSystem, (s16)location.zoneId);
+    ISS_SWITCH_ApplySubscreenMode((int)gameSystem, (s16)location.zoneId);
     mapSubType = ZONEDATA_GetMapSubType(location.zoneId);
     mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
     if (mapSubType < 16)

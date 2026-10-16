@@ -14,7 +14,7 @@
  * symbols:
  *   gsDebugFormat  0x0217d254  arm   ov009
  *   gsiCancelResolvingHostname  0x0217f1c0  arm   ov009
- *   func_0217EB9C  0x0217eb9c  arm   ov009
+ *   shutdown  0x0217eb9c  arm   ov009
  *   func_0217EB40  0x0217eb40  arm   ov009
  *   gsifree  0x0217eae0  arm   ov009
  *   ghiResetBuffer  0x021c00fc  arm   ov114
@@ -80,7 +80,7 @@ typedef struct GHIConnection {
 
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gsiCancelResolvingHostname(void *);
-extern int func_0217EB9C(int, int);
+extern int shutdown(int, int);
 extern int func_0217EB40(int, int *);
 extern void gsifree(void *);
 extern void ghiResetBuffer(GHIBuffer *);
@@ -99,7 +99,7 @@ void ghiRedirectConnection(GHIConnection *connection)
         gsiCancelResolvingHostname(connection->f1cc);
         connection->f1cc = 0;
     }
-    func_0217EB9C(connection->f50, 2);
+    shutdown(connection->f50, 2);
     if (func_0217EB40(connection->f50, &connection->f1c8) == 0)
         return;
     gsifree(connection->f14);

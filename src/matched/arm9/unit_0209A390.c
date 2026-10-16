@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0209A390
+ * function: cos
  * address:  0x0209A390
  * packet:   pkt_0209A0EC
  * region:   arm9
@@ -16,7 +16,7 @@
  *   __kernel_cos  0x02099224  arm
  *
  * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
- * disasm label func_0209A390: the disassembler never saw the real entry
+ * disasm label cos: the disassembler never saw the real entry
  * because nothing calls cos by name, so it labelled the body and left the
  * prologue stub as an unlabelled word.  That stub is the compiler's
  * `push {r0-r3}` for the register-passed double argument, which is why the
@@ -45,7 +45,7 @@ extern double __kernel_cos(double x, double y);
 extern double __kernel_sin(double x, double y, int iy);
 extern int __ieee754_rem_pio2(double x, double *y);
 
-double func_0209A390(double x)
+double cos(double x)
 {
     double y[2];
     double z = 0.0;

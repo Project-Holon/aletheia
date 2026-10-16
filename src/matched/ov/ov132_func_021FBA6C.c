@@ -38,7 +38,7 @@
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
@@ -57,7 +57,7 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   d_021FDC20 0x021FDC20 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   STA_ACTING_RequestAction 0x021F9730 thumb ov132
  *   STA_ACTING_GetCurrentAction 0x021F9768 thumb ov132
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
@@ -114,20 +114,20 @@
  *   STA_ACTING_ShowAnim  0x021F9D80  thumb
  *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
  *   STA_ACTING_HideAnim  0x021F9D90  thumb
- *   STA_ACT_LIGHT_SetElemVisibleB 0x021F80D4 thumb ov112
- *   STA_ACT_LIGHT_ElemOpE 0x021F812C thumb ov112
- *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_SetSlotVisible 0x021F80D4 thumb ov112
+ *   STA_ACT_LIGHT_SetActorFlagB 0x021F812C thumb ov112
+ *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
  *   VEC_Subtract 0x0207CA00 arm
- *   STA_ACT_LIGHT_CallElemB 0x021F80B0 thumb ov112
- *   STA_ACT_LIGHT_CallElemA 0x021F80A0 thumb ov112
- *   STA_ACT_LIGHT_CallElemC 0x021F80C8 thumb ov112
- *   STA_ACT_LIGHT_CallElemE 0x021F8140 thumb ov112
+ *   STA_ACT_LIGHT_ResetRenderAnim 0x021F80B0 thumb ov112
+ *   STA_ACT_LIGHT_StartRenderAnim 0x021F80A0 thumb ov112
+ *   STA_ACT_LIGHT_SetRenderAnim 0x021F80C8 thumb ov112
+ *   STA_ACT_LIGHT_SetActorVisible 0x021F8140 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  *   STA_ACTING_PositionAnim 0x021F9D18 thumb ov132
  *   STA_ACTING_SetSelection 0x021F95CC thumb ov132
  *   STA_ACTING_LoadRankAnim 0x021F9140 thumb ov132
  *   STA_ACTING_LoadAnimMember 0x021F91A8 thumb ov132
- *   STA_ACT_LIGHT_ElemOpD 0x021F8084 thumb ov112
+ *   STA_ACT_LIGHT_SetActorOffset 0x021F8084 thumb ov112
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
@@ -186,7 +186,7 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
  *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -217,7 +217,7 @@
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
- *   STA_ACT_LIGHT_ElemOpC  0x021F8068  thumb  ov112
+ *   STA_ACT_LIGHT_SetActorAngle  0x021F8068  thumb  ov112
  *   STA_ACT_EFFECT_GetSceneOwner  0x021F9E44  thumb
  *   STA_ACT_EFFECT_Noop  0x021F9E4C  thumb
  *   STA_ACT_EFFECT_Create  0x021F9E50  thumb
@@ -355,6 +355,7 @@
  *   MUS_COMM_FUNC_ClearRecordData  0x021FD3F0  thumb
  *   MUS_COMM_FUNC_SendRecordBlock  0x021FD400  thumb
  *   MUS_COMM_FUNC_ReceiveRecordBlock  0x021FD470  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 
 #include "../../game/ov132/ov132_types.h"
@@ -496,7 +497,7 @@ extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *STA_ACTING_GetCharSystem(void *);
 extern void *STA_ACTING_GetCharSlot(void *,u8);
-extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
 extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
@@ -507,7 +508,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_0207D658(unsigned long,int,int);
+extern void G2x_SetBlendBrightness_(unsigned long,int,int);
 extern void STA_ACTING_RequestAction(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj_021F9E40 *,unsigned int);
@@ -557,22 +558,22 @@ extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
 extern void STA_ACTING_ShowAnim(char *p);
 extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
 extern void STA_ACTING_HideAnim(char *p);
-extern void STA_ACT_LIGHT_SetElemVisibleB(char *, char *, int);
-extern int STA_ACT_LIGHT_ElemOpE(int unused, int *p, int flag);
-extern void STA_ACT_LIGHT_ElemOpB(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetSlotVisible(char *, char *, int);
+extern int STA_ACT_LIGHT_SetActorFlagB(int unused, int *p, int flag);
+extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
 extern void VEC_Subtract(void *,void *,void *);
-extern void STA_ACT_LIGHT_CallElemB(char *, char *);
-extern void STA_ACT_LIGHT_CallElemA(int a, u8 *p);
-extern void STA_ACT_LIGHT_CallElemC(int, void *, u8);
-extern void STA_ACT_LIGHT_CallElemE(int a, u8 *p, int b);
+extern void STA_ACT_LIGHT_ResetRenderAnim(char *, char *);
+extern void STA_ACT_LIGHT_StartRenderAnim(int a, u8 *p);
+extern void STA_ACT_LIGHT_SetRenderAnim(int, void *, u8);
+extern void STA_ACT_LIGHT_SetActorVisible(int a, u8 *p, int b);
 extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
 extern void STA_ACTING_PositionAnim(char *p, unsigned i);
 extern void STA_ACTING_SetSelection(char *,unsigned char,int);
 extern void STA_ACTING_LoadRankAnim(unsigned char *,unsigned char,unsigned char);
 extern void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
-extern void STA_ACT_LIGHT_ElemOpD(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 extern int func_0209C0A4();
-extern void STA_ACT_LIGHT_ElemOpC(int self, char *p, u16 v);
+extern void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v);
 extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
 extern u16 STA_ACTING_GetBonus(char *p, u32 i);
 extern void STA_ACTING_SetField10(char *p, u32 v);
@@ -611,7 +612,7 @@ extern void STA_ACTING_StopBgm(char *p);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern void MYSTATUS_Copy(void *, void *);
 extern void OS_GetMacAddress(void *);
@@ -627,7 +628,7 @@ extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void *GAME_DATA_GetSaveBlock2A(void *);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
 extern void MI_CpuFill8(void *,u8,u32);
@@ -834,7 +835,7 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
             idx = i;
     }
     for (i = 0; i < 4; i++) {
-        STA_ACT_LIGHT_ElemOpA(h, STA_ACTING_GetActor(o->f34, i), &v.x);
+        STA_ACT_LIGHT_CopyActorPos(h, STA_ACTING_GetActor(o->f34, i), &v.x);
         vec[i] = v.x;
         if (i == idx)
             base = v.x;
@@ -865,7 +866,7 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
         a->f00 = (u32)STA_ACTING_GetActor(o->f34, k);
         a->f04 = o->f34;
         a->f2E = 0;
-        STA_ACT_LIGHT_ElemOpA(h, (void *)a->f00, (u32 *)&a->f08);
+        STA_ACT_LIGHT_CopyActorPos(h, (void *)a->f00, (u32 *)&a->f08);
         a->f14.x = base + (dir[k] << 18);
         a->f14.y = a->f08.y;
         a->f14.z = a->f08.z;

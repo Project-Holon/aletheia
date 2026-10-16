@@ -52,8 +52,6 @@ struct PmsivMenu {
  * Opaque tags still used by the other pms_input files' extern declarations;
  * they go away when those files name their own types.
  */
-struct R;
 struct TaskMenuState;
-struct T;
 
 #endif

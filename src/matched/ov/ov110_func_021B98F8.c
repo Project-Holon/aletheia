@@ -1,5 +1,5 @@
 /*
- * function: func_021B98F8
+ * function: PMS_INPUT_DATA_FilterInitialWords
  * address: 0x021B98F8
  * packet: pkt_ov110_021B98F8
  * region: ov110
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021B98F8(u8 *p, u16 *src, u16 *out, u32 n)
+u32 PMS_INPUT_DATA_FilterInitialWords(u8 *p, u16 *src, u16 *out, u32 n)
 {
     u32 count = 0;
     u32 c = *src;

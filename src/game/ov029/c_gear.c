@@ -1,7 +1,7 @@
 /*
  * file:     c_gear.c
  * unit:     yes
- * function: C_GEAR_IsColumnRowValid, C_GEAR_SetStepFunc, C_GEAR_ChangeStep, C_GEAR_GetHexNeighbors, C_GEAR_SpawnRippleActor, C_GEAR_AcquireActorSlot, C_GEAR_IsTileActorIdle, C_GEAR_StepRipple, func_021F0194, C_GEAR_HitTestTile, C_GEAR_InitTabTimersPowerOn, C_GEAR_InitTabTimersPowerOff, C_GEAR_ResetTabPalettes, C_GEAR_UpdateTabInput, C_GEAR_IsCallTabActive, C_GEAR_TickTabTimers, C_GEAR_SetTabMode, C_GEAR_UpdateTabPalettes, C_GEAR_UpdateTabPaletteKind3, C_GEAR_UpdateTabPaletteKind1, C_GEAR_UpdateTabPaletteKind2, C_GEAR_UpdateTabPaletteKind0, C_GEAR_UpdateTabPaletteKind4, C_GEAR_BlendTabPalette, C_GEAR_LoadTargetPalette, C_GEAR_SelectTabPalette, C_GEAR_InitTiles, C_GEAR_StepTiles, C_GEAR_IsAnyTileFlashing, C_GEAR_StopTileFlashes, C_GEAR_InitTile, C_GEAR_ResetTileFlash, C_GEAR_StartTileFlash, C_GEAR_StopTileFlash, C_GEAR_StepTileFlash, C_GEAR_SetTileFlashStep, C_GEAR_IsTileFlashing, C_GEAR_GetTilePalette, C_GEAR_InitTabTimer, C_GEAR_TickTabTimer, C_GEAR_IsTabTimerFull, C_GEAR_ResetTabTimerCount, func_021F0D00, func_021F0D08, func_021F0D10, C_GEAR_TileToScreen, C_GEAR_IsIdleForInput, C_GEAR_CountCellsOfKind, C_GEAR_TintPalettes, C_GEAR_StartFlashFade, C_GEAR_FadeBackground, C_GEAR_FadeAccentColors, C_GEAR_StartFadeOut, C_GEAR_StartFadeIn, C_GEAR_StopFade, C_GEAR_GetFadeRequestBits, C_GEAR_DrawEmptyBoard, C_GEAR_StepIntroTiles, C_GEAR_StepOutroTiles, C_GEAR_ResetAllTiles, C_GEAR_DrawTile, C_GEAR_FindCellOfKind, C_GEAR_DrawAllCells, C_GEAR_LoadSkin, C_GEAR_LoadSpriteResources, C_GEAR_LoadFrameGraphics, C_GEAR_SetupBackgrounds, C_GEAR_SetupSubScreenBlend, C_GEAR_HandleButton, C_GEAR_OnButtonEvent, C_GEAR_SetPaintModeIcon, C_GEAR_CreateHudActors, C_GEAR_SetTileMarkersVisible, C_GEAR_SetAllActorsVisible, C_GEAR_SetSplashActorsVisible, C_GEAR_CreateSplashActors, C_GEAR_DeleteSplashActors, C_GEAR_IsSplashDone, C_GEAR_CreateBarActors, C_GEAR_UpdateBeaconColors, C_GEAR_DeleteBarActors, C_GEAR_LoadGraphics, C_GEAR_DeleteActors, C_GEAR_FreeGraphics, C_GEAR_GetBatteryFrame, C_GEAR_UpdateClock, C_GEAR_UpdateTileMarkers, C_GEAR_RunFrame, C_GEAR_StepIdle, C_GEAR_StepIntroEnd, C_GEAR_StepOpen, C_GEAR_StepClose, C_GEAR_LoadCustomBackground, C_GEAR_OnCommDisconnect, C_GEAR_OnCommEvent, C_GEAR_TransferPalettesTask, C_GEAR_Init, C_GEAR_Cleanup, C_GEAR_Create, C_GEAR_Open, C_GEAR_Update, C_GEAR_Nop, C_GEAR_Destroy, C_GEAR_Restart, C_GEAR_HandleCommand, C_GEAR_IsLastCommandKind5, C_GEAR_StopRingtone, C_GEAR_SetCellKind, C_GEAR_GetCellKind, C_GEAR_IsCellMarked, C_GEAR_IsCellKind, CTRDG_IsAgbCartridge, C_GEAR_StepIconAnim, C_GEAR_StepFadeIcon, C_GEAR_NoOp, C_GEAR_ShowOffIndicator, C_GEAR_ShowCommIndicator, C_GEAR_HideCommIndicator, C_GEAR_HideOffIndicator, C_GEAR_TickIndicators, C_GEAR_ApplyIndicators, C_GEAR_IsAnyIndicatorShown, C_GEAR_TickTabFrame, C_GEAR_CreateFadeFx, C_GEAR_DeleteFadeFx, C_GEAR_StartFadeFx, C_GEAR_StepFadeFx, C_GEAR_StartPanelEvent, C_GEAR_PanelEventMain, func_021F3098, C_GEAR_DeleteActorSlots, C_GEAR_AreActorSlotsIdle, C_GEAR_StepWaitSlots, C_GEAR_SetPowerState, C_GEAR_LoadSkinMember
+ * function: C_GEAR_IsColumnRowValid, C_GEAR_SetStepFunc, C_GEAR_ChangeStep, C_GEAR_GetHexNeighbors, C_GEAR_SpawnRippleActor, C_GEAR_AcquireActorSlot, C_GEAR_IsTileActorIdle, C_GEAR_StepRipple, C_GEAR_StartRippleFlood, C_GEAR_HitTestTile, C_GEAR_InitTabTimersPowerOn, C_GEAR_InitTabTimersPowerOff, C_GEAR_ResetTabPalettes, C_GEAR_UpdateTabInput, C_GEAR_IsCallTabActive, C_GEAR_TickTabTimers, C_GEAR_SetTabMode, C_GEAR_UpdateTabPalettes, C_GEAR_UpdateTabPaletteKind3, C_GEAR_UpdateTabPaletteKind1, C_GEAR_UpdateTabPaletteKind2, C_GEAR_UpdateTabPaletteKind0, C_GEAR_UpdateTabPaletteKind4, C_GEAR_BlendTabPalette, C_GEAR_LoadTargetPalette, C_GEAR_SelectTabPalette, C_GEAR_InitTiles, C_GEAR_StepTiles, C_GEAR_IsAnyTileFlashing, C_GEAR_StopTileFlashes, C_GEAR_InitTile, C_GEAR_ResetTileFlash, C_GEAR_StartTileFlash, C_GEAR_StopTileFlash, C_GEAR_StepTileFlash, C_GEAR_SetTileFlashStep, C_GEAR_IsTileFlashing, C_GEAR_GetTilePalette, C_GEAR_InitTabTimer, C_GEAR_TickTabTimer, C_GEAR_IsTabTimerFull, C_GEAR_ResetTabTimerCount, C_GEAR_ClearTabTimerCount, C_GEAR_GetTabTimerCount, C_GEAR_SetTabTimerRunning, C_GEAR_TileToScreen, C_GEAR_IsIdleForInput, C_GEAR_CountCellsOfKind, C_GEAR_TintPalettes, C_GEAR_StartFlashFade, C_GEAR_FadeBackground, C_GEAR_FadeAccentColors, C_GEAR_StartFadeOut, C_GEAR_StartFadeIn, C_GEAR_StopFade, C_GEAR_GetFadeRequestBits, C_GEAR_DrawEmptyBoard, C_GEAR_StepIntroTiles, C_GEAR_StepOutroTiles, C_GEAR_ResetAllTiles, C_GEAR_DrawTile, C_GEAR_FindCellOfKind, C_GEAR_DrawAllCells, C_GEAR_LoadSkin, C_GEAR_LoadSpriteResources, C_GEAR_LoadFrameGraphics, C_GEAR_SetupBackgrounds, C_GEAR_SetupSubScreenBlend, C_GEAR_HandleButton, C_GEAR_OnButtonEvent, C_GEAR_SetPaintModeIcon, C_GEAR_CreateHudActors, C_GEAR_SetTileMarkersVisible, C_GEAR_SetAllActorsVisible, C_GEAR_SetSplashActorsVisible, C_GEAR_CreateSplashActors, C_GEAR_DeleteSplashActors, C_GEAR_IsSplashDone, C_GEAR_CreateBarActors, C_GEAR_UpdateBeaconColors, C_GEAR_DeleteBarActors, C_GEAR_LoadGraphics, C_GEAR_DeleteActors, C_GEAR_FreeGraphics, C_GEAR_GetBatteryFrame, C_GEAR_UpdateClock, C_GEAR_UpdateTileMarkers, C_GEAR_RunFrame, C_GEAR_StepIdle, C_GEAR_StepIntroEnd, C_GEAR_StepOpen, C_GEAR_StepClose, C_GEAR_LoadCustomBackground, C_GEAR_OnCommDisconnect, C_GEAR_OnCommEvent, C_GEAR_TransferPalettesTask, C_GEAR_Init, C_GEAR_Cleanup, C_GEAR_Create, C_GEAR_Open, C_GEAR_Update, C_GEAR_Nop, C_GEAR_Destroy, C_GEAR_Restart, C_GEAR_HandleCommand, C_GEAR_IsLastCommandKind5, C_GEAR_StopRingtone, C_GEAR_SetCellKind, C_GEAR_GetCellKind, C_GEAR_IsCellMarked, C_GEAR_IsCellKind, CTRDG_IsAgbCartridge, C_GEAR_StepIconAnim, C_GEAR_StepFadeIcon, C_GEAR_NoOp, C_GEAR_ShowOffIndicator, C_GEAR_ShowCommIndicator, C_GEAR_HideCommIndicator, C_GEAR_HideOffIndicator, C_GEAR_TickIndicators, C_GEAR_ApplyIndicators, C_GEAR_IsAnyIndicatorShown, C_GEAR_TickTabFrame, C_GEAR_CreateFadeFx, C_GEAR_DeleteFadeFx, C_GEAR_StartFadeFx, C_GEAR_StepFadeFx, C_GEAR_StartPanelEvent, C_GEAR_PanelEventMain, C_GEAR_StartSelectedRipple, C_GEAR_DeleteActorSlots, C_GEAR_AreActorSlotsIdle, C_GEAR_StepWaitSlots, C_GEAR_SetPowerState, C_GEAR_LoadSkinMember
  * address:  0x021EFEC0
  * region:   ov029
  * compiler: dsi/1.1p1
@@ -112,7 +112,7 @@
  *   GAME_BEACON_GetNextNewLogIndex  0x02026CA0  thumb
  *   GAME_BEACON_GetLogByReceiveNo  0x02026C78  thumb
  *   GAME_BEACON_ACCESSOR_GetFavoriteColorIndex  0x02165CD8  thumb  ov010
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   func_020090F0  0x020090F0  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -259,7 +259,7 @@ extern void *ICA_ANIME_GetField1C(const struct GameSystem *p);
 extern void *GAME_DATA_GetField1A0(const void *gameData);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int INTRUDE_COMM_GetRequestState(void *eventWork);
-extern void PALANM_CopyToSlot(struct PalAnm *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(unsigned int index);
@@ -267,13 +267,13 @@ extern unsigned int WIPE_SYS_EndCheck(void);
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void *ICA_ANIME_GetField20(const struct GameSystem *p);
 extern int FIELDMAP_GetSubscreenBusy(void *gameData);
-extern char *PALANM_GetDefaultWork(struct PalAnm *palAnm, int bank);
-extern char *PALANM_GetTransWork(struct PalAnm *palAnm, int bank);
+extern char *PALANM_GetDefaultWork(struct PalAnmSlot *palAnm, int bank);
+extern char *PALANM_GetTransWork(struct PalAnmSlot *palAnm, int bank);
 extern void PALANM_BlendColors(u16 *src, u16 *dst, int count, int weight, u16 color);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
-extern int PALANM_RequestFade(struct PalAnm *palAnm, u16 mask, u16 color, s16 step, u8 startLevel, u8 endLevel, u16 tint, struct FadeCtx *fadeCtx);
-extern void PALANM_ForceStopFade(struct PalAnm *o);
-extern u32 PALANM_GetFadeRequestBits(const struct PalAnm *palAnm);
+extern int PALANM_RequestFade(struct PalAnmSlot *palAnm, u16 mask, u16 color, s16 step, u8 startLevel, u8 endLevel, u16 tint, struct FadeCtx *fadeCtx);
+extern void PALANM_ForceStopFade(struct PalAnmSlot *o);
+extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *palAnm);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void func_020091AC(struct HexMap *obj, int row, int col, int kind, int marked, int flagged);
 extern void *func_02049F78(void *archive, u32 member, CGearFileInfo **outFile, u32 heapId);
@@ -309,7 +309,7 @@ extern u32 GAME_BEACON_GetReceiveCount(void);
 extern int GAME_BEACON_GetNextNewLogIndex(int *p);
 extern void *GAME_BEACON_GetLogByReceiveNo(int n);
 extern u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(struct BeaconLog *p);
-extern struct PlayerSettings *func_02012944(void *gameData);
+extern struct PlayerSettings *GAME_DATA_GetMyStatus(void *gameData);
 extern unsigned char func_02008550(const struct PlayerSettings *obj);
 extern unsigned char func_020090F0(const struct HexMap *obj);
 extern struct ActorSystem *CLACT_CreateUnit(int count, unsigned char flag, u32 heapId);
@@ -342,16 +342,16 @@ extern void BG_SYS_LoadPltt(u32 a, void *src, u32 size, u32 ofs);
 extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void func_0200734C(struct SaveCtrl *sv, u32 id);
 extern void TCB_Main(struct FadeCtx *ctx);
-extern void PALANM_TransferPalettes(struct PalAnm *p);
+extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 extern u32 ICA_ANIME_IsConfigFlagSet(const struct GameSystem *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02030CB0(u32 n);
 extern struct FadeCtx *func_02030CBC(u32 capacity, void *mem);
 extern u8 func_02009100(const struct HexMap *obj);
-extern struct PalAnm *PALANM_Create(u32 heapId);
-extern void PALANM_SetAutoTransfer(struct PalAnm *o, int v);
-extern void PALANM_AllocSlotBuffers(struct PalAnm *slots, u32 idx, u32 size, u32 heap);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnm *slots, u32 bank, u32 off, u32 size);
+extern struct PalAnmSlot *PALANM_Create(u32 heapId);
+extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern struct VBlankTask *func_020056A0(void (*callback)(void *, CGearWork *), CGearWork *work, int priority);
 extern void UI_SetSleepHookGlobal(void (*callback)(CGearWork *), CGearWork *work);
 extern void UI_SetWakeHookGlobal(void (*callback)(CGearWork *), CGearWork *work);
@@ -363,8 +363,8 @@ extern int INTRUDE_COMM_GetVisitProgress(void *eventWork);
 extern void INTRUDE_COMM_SetCompleted(void *p);
 extern void C_GEAR_DeleteFadeFx(CGearFadeFx *fx);
 extern void GFL_NET_RestartNoTimeout(void);
-extern void PALANM_FreeSlotBuffers(struct PalAnm *slots, u32 idx);
-extern u32 PALANM_Delete(struct PalAnm *palAnm);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
 extern void TCB_Noop(struct FadeCtx *ctx);
 extern void func_02030EAC(struct VBlankTask *task);
 extern struct SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
@@ -374,7 +374,7 @@ extern u32 func_020056EC(u32 range);
 extern void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern void WIPE_ResetBrightness(u32 which);
-extern void func_021F3098(CGearWork *work);
+extern void C_GEAR_StartSelectedRipple(CGearWork *work);
 extern void C_GEAR_StepWaitSlots(CGearWork *work);
 extern struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind);
 void C_GEAR_NoOp(CGearWork *work);
@@ -389,7 +389,7 @@ void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row);
 CGearActorSlot *C_GEAR_AcquireActorSlot(CGearWork *work);
 int C_GEAR_IsTileActorIdle(CGearWork *work, int col, int row);
 int C_GEAR_StepRipple(CGearWork *work);
-void func_021F0194(CGearWork *work);
+void C_GEAR_StartRippleFlood(CGearWork *work);
 int C_GEAR_HitTestTile(const CGearWork *work, int touchX, int touchY, int *outCol, int *outRow);
 void C_GEAR_InitTabTimersPowerOn(CGearWork *work);
 void C_GEAR_InitTabTimersPowerOff(CGearWork *work);
@@ -423,9 +423,9 @@ void C_GEAR_InitTabTimer(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOn
 void C_GEAR_TickTabTimer(CGearTabTimer *timer);
 int C_GEAR_IsTabTimerFull(CGearTabTimer *timer, int slot);
 void C_GEAR_ResetTabTimerCount(CGearTabTimer *timer, int slot);
-void func_021F0D00(CGearTabTimer *timer, int slot);
-u16 func_021F0D08(CGearTabTimer *timer, int slot);
-void func_021F0D10(CGearTabTimer *timer, char running);
+void C_GEAR_ClearTabTimerCount(CGearTabTimer *timer, int slot);
+u16 C_GEAR_GetTabTimerCount(CGearTabTimer *timer, int slot);
+void C_GEAR_SetTabTimerRunning(CGearTabTimer *timer, char running);
 void C_GEAR_TileToScreen(int col, int row, int *outX, int *outY);
 int C_GEAR_IsIdleForInput(CGearWork *work);
 int C_GEAR_CountCellsOfKind(CGearWork *work, int kind);
@@ -794,7 +794,7 @@ int C_GEAR_StepRipple(CGearWork *work)
 
 
 
-void func_021F0194(CGearWork *work)
+void C_GEAR_StartRippleFlood(CGearWork *work)
 {
     int kind;
     int j;
@@ -869,7 +869,7 @@ void C_GEAR_InitTabTimersPowerOn(CGearWork *work)
     for (i = 0; i < 5; i++) {
         C_GEAR_InitTabTimer(&timers[i], d_021F31BC[i], d_021F31AB[i], d_021F31B0[i]);
         if (i == 0) {
-            func_021F0D10(&timers[i], 0);
+            C_GEAR_SetTabTimerRunning(&timers[i], 0);
         }
     }
     for (i = 0; i < 5; i++) {
@@ -894,7 +894,7 @@ void C_GEAR_InitTabTimersPowerOff(CGearWork *work)
     for (i = 0; i < 5; i++) {
         C_GEAR_InitTabTimer(&timers[i], d_021F31BC[i], d_021F31AB[i], d_021F31B0[i]);
         if (i != 0) {
-            func_021F0D10(&timers[i], 0);
+            C_GEAR_SetTabTimerRunning(&timers[i], 0);
         }
     }
     for (i = 0; i < 5; i++) {
@@ -1062,12 +1062,12 @@ void C_GEAR_TickTabTimers(CGearWork *work)
         timers2 = work->tabTimers;
         for (i = 0; i < 5; i++) {
             if (i != 0) {
-                func_021F0D10(&timers2[i], 1);
+                C_GEAR_SetTabTimerRunning(&timers2[i], 1);
                 for (j = 0; j < 3; j++) {
                     C_GEAR_UpdateTabInput(work, i, j, 0, work->tabMode);
                 }
             } else {
-                func_021F0D10(&timers2[i], 0);
+                C_GEAR_SetTabTimerRunning(&timers2[i], 0);
             }
         }
     }
@@ -1093,7 +1093,7 @@ void C_GEAR_SetTabMode(CGearWork *work, int mode, int variant)
     timers = work->tabTimers;
     for (j = 0; j < 5; j++) {
         for (k = 0; k < 3; k++) {
-            func_021F0D00(&timers[j], k);
+            C_GEAR_ClearTabTimerCount(&timers[j], k);
         }
     }
     work->tabMode = mode;
@@ -1145,7 +1145,7 @@ void C_GEAR_UpdateTabPalettes(CGearWork *work)
 
 void C_GEAR_UpdateTabPaletteKind3(CGearWork *work, int slot, CGearTabTimer *timer)
 {
-    unsigned int value = func_021F0D08(timer, slot);
+    unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
     if (value > 0x24 || value < 4) return;
     value = (u16)(value - 4);
     value = (unsigned)(((int)value % 8) * 28) >> 3;
@@ -1160,7 +1160,7 @@ void C_GEAR_UpdateTabPaletteKind3(CGearWork *work, int slot, CGearTabTimer *time
 
 void C_GEAR_UpdateTabPaletteKind1(CGearWork *work, int slot, CGearTabTimer *timer)
 {
-    unsigned int value = func_021F0D08(timer, slot);
+    unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
     if (value > 112 || value < 12) return;
     value = (unsigned)((unsigned short)(value - 12)) * 28 / 100;
     value = d_021F3255[value];
@@ -1174,7 +1174,7 @@ void C_GEAR_UpdateTabPaletteKind1(CGearWork *work, int slot, CGearTabTimer *time
 
 void C_GEAR_UpdateTabPaletteKind2(CGearWork *work, int slot, CGearTabTimer *timer)
 {
-    unsigned int value = func_021F0D08(timer, slot);
+    unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
     if (value > 78 || value < 8) return;
     value = (unsigned)((unsigned short)(value - 8)) * 32 / 70;
     value = d_021F3292[value];
@@ -1188,7 +1188,7 @@ void C_GEAR_UpdateTabPaletteKind2(CGearWork *work, int slot, CGearTabTimer *time
 
 void C_GEAR_UpdateTabPaletteKind0(CGearWork *work, int slot, CGearTabTimer *timer)
 {
-    unsigned int value = func_021F0D08(timer, slot);
+    unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
     if (value > 20) return;
     value = (unsigned)(((int)value % 10) * 28) / 10;
     value = d_021F3255[value];
@@ -1202,7 +1202,7 @@ void C_GEAR_UpdateTabPaletteKind0(CGearWork *work, int slot, CGearTabTimer *time
 
 void C_GEAR_UpdateTabPaletteKind4(CGearWork *work, int slot, CGearTabTimer *timer)
 {
-    unsigned int value = func_021F0D08(timer, slot);
+    unsigned int value = C_GEAR_GetTabTimerCount(timer, slot);
     if (value > 15) return;
     value = (unsigned)(value * 12) / 15;
     value = d_021F3204[value];
@@ -1545,7 +1545,7 @@ void C_GEAR_ResetTabTimerCount(CGearTabTimer *timer, int slot)
 
 
 
-void func_021F0D00(CGearTabTimer *timer, int slot)
+void C_GEAR_ClearTabTimerCount(CGearTabTimer *timer, int slot)
 {
     timer->count[slot] = 0;
 }
@@ -1559,7 +1559,7 @@ void func_021F0D00(CGearTabTimer *timer, int slot)
 
 
 
-u16 func_021F0D08(CGearTabTimer *timer, int slot)
+u16 C_GEAR_GetTabTimerCount(CGearTabTimer *timer, int slot)
 {
     return timer->count[slot];
 }
@@ -1573,7 +1573,7 @@ u16 func_021F0D08(CGearTabTimer *timer, int slot)
 
 
 
-void func_021F0D10(CGearTabTimer *timer, char running)
+void C_GEAR_SetTabTimerRunning(CGearTabTimer *timer, char running)
 {
     timer->running = running;
 }
@@ -2614,7 +2614,7 @@ void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
 {
     int z;
 
-    work->colorTheme = func_02008550(func_02012944(ICA_ANIME_GetField1C(work->gameSystem)));
+    work->colorTheme = func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem)));
     work->skinIndex = func_020090F0(work->hexMap);
     z = 0;
     work->spriteSystem = CLACT_CreateUnit(0x44, 0, work->heapId);
@@ -3364,7 +3364,7 @@ struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
             event = C_GEAR_StartPanelEvent(work, work->command);
         } else {
             GFL_USE_PlaySeDefaultVolume(0x7E3);
-            func_021F3098(work);
+            C_GEAR_StartSelectedRipple(work);
             C_GEAR_ChangeStep(work, C_GEAR_StepWaitSlots, 0x1238);
         }
         break;
@@ -3685,7 +3685,7 @@ struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
     case 1:
     case 5:
     case 6:
-        func_021F0194(req->work);
+        C_GEAR_StartRippleFlood(req->work);
         break;
     case 11:
         work->activeIcon = 4;
@@ -3751,7 +3751,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         break;
     case 12:
         args = func_02030734(4, 8, 1, d_021F3554, 0x14B7);
-        args->playerData = (u8 *)func_02012944(ICA_ANIME_GetField1C(work->gameSystem));
+        args->playerData = (u8 *)GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem));
         args->gameSystem = work->gameSystem;
         next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (u32)abs_id_124, d_021D4D40, args, 0, args);
         break;
@@ -3763,7 +3763,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
     return 0;
 }
 
-void func_021F3098(CGearWork *work)
+void C_GEAR_StartSelectedRipple(CGearWork *work)
 {
     work->rippleKind = C_GEAR_GetCellKind(work, work->selectedCol, work->selectedRow);
     work->rippleStep = 0;

@@ -11,7 +11,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   POKETRADE_NEGO_CheckCancelTouch 0x021DD24C thumb ov119
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   POKETRADE_NEGO_CloseCancelMenu 0x021DD294 thumb ov119
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   MI_CpuFill8 0x02082BCC arm
@@ -25,7 +25,7 @@ struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern int POKETRADE_NEGO_CheckCancelTouch(char *p);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void MI_CpuFill8(void *,int,int);
@@ -39,7 +39,7 @@ void POKETRADE_PROC_StepClearOffersNewRound(char *p) {
  for(i=0;i<6;i++) {
   char *q=p+(i/3)*12+(i%3)*4;
   ((struct Obj10354 *)q)->fFA4=-1;
-  if(((struct Obj10354 *)q)->fFD8)MI_CpuFill8(((struct Obj10354 *)q)->fFD8,0,func_020173EC());
+  if(((struct Obj10354 *)q)->fFD8)MI_CpuFill8(((struct Obj10354 *)q)->fFD8,0,POKE_TOOL_GetPartyParamSize());
  }
  POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetGrid);
 }

@@ -22,7 +22,7 @@
  *
  * symbols:
  *   MIi_CpuClear16 0x02082A48 arm
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
@@ -46,7 +46,7 @@ typedef struct W { char pad[0x40]; Row rows[8]; } W;
 typedef struct S S;
 typedef struct { short x, y; } Pt;
 extern void MIi_CpuClear16(u32, void *, u32);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 struct QF;
 struct Unk021D62A8;
 struct Work;
@@ -72,18 +72,18 @@ void BTLV_GAUGE_InitSlotFromBattlePoke(W *p, void *a, void *q, int mode, int i)
     int item;
 
     MIi_CpuClear16(0, &p->rows[i].mode, 0x40);
-    p->rows[i].a = func_021D59B4(q, 0xd);
-    p->rows[i].b = func_021D59B4(q, 0xe);
+    p->rows[i].a = BTL_POKEPARAM_GetValue(q, 0xd);
+    p->rows[i].b = BTL_POKEPARAM_GetValue(q, 0xe);
     p->rows[i].f90 = 0x80000000;
     p->rows[i].fa8 = 0;
-    p->rows[i].level = func_021D59B4(q, 0xf);
+    p->rows[i].level = BTL_POKEPARAM_GetValue(q, 0xf);
     p->rows[i].mode = mode;
     p->rows[i].side = i & 1;
     p->rows[i].flags |= 0x08000000;
     if (p->rows[i].level < 100) {
-        exp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 0x13), func_021D59B4(q, 0xf));
-        p->rows[i].f94 = func_021D59B4(q, 0x14) - exp;
-        p->rows[i].f98 = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 0x13), func_021D59B4(q, 0xf) + 1) - exp;
+        exp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), BTL_POKEPARAM_GetValue(q, 0x13), BTL_POKEPARAM_GetValue(q, 0xf));
+        p->rows[i].f94 = BTL_POKEPARAM_GetValue(q, 0x14) - exp;
+        p->rows[i].f98 = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), BTL_POKEPARAM_GetValue(q, 0x13), BTL_POKEPARAM_GetValue(q, 0xf) + 1) - exp;
     } else {
         p->rows[i].f94 = 0;
         p->rows[i].f98 = 0;

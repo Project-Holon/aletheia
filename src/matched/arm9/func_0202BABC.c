@@ -16,7 +16,7 @@
  * symbols:
  *   ISS_3DS_SYS_SetTableIndex  0x0202B9E0  thumb
  *   ISS_3DS_SYS_FindTableIndex  0x0202B9F0  thumb
- *   func_0202BB48  0x0202BB48  thumb
+ *   ISS_3DS_SYS_SilenceActiveTracks  0x0202BB48  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *
  */
@@ -30,7 +30,7 @@ extern u16 GFL_USE_GetBgmNo(void);
 struct Obj;
 extern u8 ISS_3DS_SYS_FindTableIndex(const struct Obj *p, u32 key);
 extern int ISS_3DS_SYS_SetTableIndex(int a0, int a1);
-extern int func_0202BB48(int a0);
+extern int ISS_3DS_SYS_SilenceActiveTracks(int a0);
 
 void ISS_3DS_SYS_EnterImpl(u8 *o)
 {
@@ -39,5 +39,5 @@ void ISS_3DS_SYS_EnterImpl(u8 *o)
     }
     ((struct Obj02601 *)o)->f4 = 1;
     ISS_3DS_SYS_SetTableIndex((int)o, ISS_3DS_SYS_FindTableIndex((const struct Obj *)o, GFL_USE_GetBgmNo()));
-    func_0202BB48((int)o);
+    ISS_3DS_SYS_SilenceActiveTracks((int)o);
 }

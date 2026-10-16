@@ -1,7 +1,7 @@
 /*
  * file:     tp.c
  * unit:     yes
- * function: TPi_TpCallback, TP_Init, TP_GetUserInfo, TP_SetCalibrateParam, func_0208AB1C, func_0208ABB8, TP_RequestAutoSamplingStartAsync, TP_RequestAutoSamplingStopAsync, func_0208ADB4, TP_GetLatestIndexInAuto, func_0208AF18, TP_GetCalibratedPoint, TP_WaitBusy, TP_CheckError
+ * function: TPi_TpCallback, TP_Init, TP_GetUserInfo, TP_SetCalibrateParam, TP_RequestSamplingAsync, TP_WaitRawResult, TP_RequestAutoSamplingStartAsync, TP_RequestAutoSamplingStopAsync, TP_GetLatestRawPointInAuto, TP_GetLatestIndexInAuto, TP_CalcCalibrateParam, TP_GetCalibratedPoint, TP_WaitBusy, TP_CheckError
  * address:  0x0208A6B0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -122,21 +122,19 @@ void PXI_Init(void);
 BOOL PXI_IsCallbackReady(int fifotag, int proc);
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 void TPi_TpCallback(int tag, u32 data, BOOL err);
-int TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 x1, u16 y1, u16 dx1, u16 dy1,
-                          u16 x2, u16 y2, u16 dx2, u16 dy2);
 u32 OS_DisableInterrupts(void);
 u32 OS_RestoreInterrupts(u32 state);
 int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 void TP_Init(void);
 BOOL TP_GetUserInfo(TPCalibrateParam *calibrate);
 void TP_SetCalibrateParam(const TPCalibrateParam *param);
-void func_0208AB1C(void);
-u32 func_0208ABB8(TPData *result);
+void TP_RequestSamplingAsync(void);
+u32 TP_WaitRawResult(TPData *result);
 void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize);
 void TP_RequestAutoSamplingStopAsync(void);
-void func_0208ADB4(TPData *result);
+void TP_GetLatestRawPointInAuto(TPData *result);
 u16 TP_GetLatestIndexInAuto(void);
-u32 func_0208AF18(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1, u16 raw_x2, u16 raw_y2, u16 dx2, u16 dy2);
+u32 TP_CalcCalibrateParam(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1, u16 raw_x2, u16 raw_y2, u16 dx2, u16 dy2);
 void TP_GetCalibratedPoint(TPData *disp, const TPData *raw);
 void TP_WaitBusy(unsigned int command_flgs);
 unsigned int TP_CheckError(unsigned int command_flgs);
@@ -288,7 +286,7 @@ BOOL TP_GetUserInfo(TPCalibrateParam *calibrate)
     dy2 = w->dy2;
 
     if ((x1 == 0 && x2 == 0 && y1 == 0 && y2 == 0)
-        || TP_CalcCalibrateParam(calibrate, x1, y1, dx1, dy1, x2, y2, dx2, dy2) != 0) {
+        || TP_CalcCalibrateParam((NvTpData *)calibrate, x1, y1, dx1, dy1, x2, y2, dx2, dy2) != 0) {
         calibrate->x0 = 0;
         calibrate->y0 = 0;
         calibrate->xDotSize = 0;
@@ -387,7 +385,7 @@ static inline BOOL TPi_SendData(u32 data)
 /*
  * sdk:      TP_RequestSamplingAsync (libspi.TWL.HYB.a tp.o)
  */
-void func_0208AB1C(void)
+void TP_RequestSamplingAsync(void)
 {
     u32 enabled;
 
@@ -411,7 +409,7 @@ void func_0208AB1C(void)
 /*
  * sdk:      TP_WaitRawResult (libspi.TWL.HYB.a tp.o)
  */
-u32 func_0208ABB8(TPData *result)
+u32 TP_WaitRawResult(TPData *result)
 {
     TP_WaitBusy(1);
     if (tpState.err_flg & 1) {
@@ -502,7 +500,7 @@ void TP_RequestAutoSamplingStopAsync(void)
  * The image listing runs 16 bytes past this function into
  * TP_GetLatestIndexInAuto (0x0208AF08), hence EXACT*.
  */
-void func_0208ADB4(TPData *result)
+void TP_GetLatestRawPointInAuto(TPData *result)
 {
     long i;
     long curr_index;
@@ -567,7 +565,7 @@ u16 TP_GetLatestIndexInAuto(void)
  * which lets the second one become an stm; ry_width is computed before
  * dy_width even though the DWARF declares ry_width first.
  */
-u32 func_0208AF18(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1,
+u32 TP_CalcCalibrateParam(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1,
                   u16 raw_x2, u16 raw_y2, u16 dx2, u16 dy2)
 {
     long ry_width;

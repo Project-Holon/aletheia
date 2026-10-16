@@ -12,6 +12,7 @@
   *
  * symbols:
  *   WORLDTRADE_BOX_GetPartyMon  0x021F6B40  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 
 typedef signed char s8;
@@ -22,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 
 int WORLDTRADE_BOX_GetMonTradeState(void *party, void *save, int box, int slot)
 {
@@ -31,10 +32,10 @@ int WORLDTRADE_BOX_GetMonTradeState(void *party, void *save, int box, int slot)
     if (mon == 0) {
         return 0;
     }
-    if (func_02017E88(mon, 0xA9, 0) == 0) {
+    if (POKE_TOOL_GetBoxValue(mon, 0xA9, 0) == 0) {
         return 0;
     }
-    if (func_02017E88(mon, 0xAA, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue(mon, 0xAA, 0) != 0) {
         return 2;
     }
     return 1;

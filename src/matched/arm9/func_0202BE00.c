@@ -1,5 +1,5 @@
 /*
- * function: func_0202BE00
+ * function: ISS_3DS_SYS_ApplySourcePan
  * address:  0x0202BE00
  * packet:   pkt_0202BE00
  * region:   arm9
@@ -13,8 +13,8 @@
  * context pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BE00.c \
- *       --func func_0202BE00 --addr 0x0202BE00 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_3DS_SYS_ApplySourcePan.c \
+ *       --func ISS_3DS_SYS_ApplySourcePan --addr 0x0202BE00 --thumb --cc 1.1p1
  *
  * symbols:
  *   GFL_USE_SetBgmTrackParams  0x02005EE0  thumb
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 
 extern void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d);
 
-void func_0202BE00(u8 *p, u32 i)
+void ISS_3DS_SYS_ApplySourcePan(u8 *p, u32 i)
 {
     GFL_USE_SetBgmTrackParams(*(u16 *)(p + i * 0x1c + 0x3c), 0x100, 0,
                   *(u32 *)(p + i * 4 + 0x224));

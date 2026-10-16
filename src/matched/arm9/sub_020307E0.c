@@ -11,14 +11,14 @@
  * function: GFL_HEAP_CheckAllocator
  *
  * BLOCKED on one relocation site: all 80 concrete bytes are correct, but
- * the call to sub_020302A4 at +0004 has no witness, that call being
+ * the call to GFL_HEAP_ResizeMemory at +0004 has no witness, that call being
  * 0x020302A4's only branch reference in the image. 0x020302A4 is written
- * and byte-correct in src/pending/sub_020302A4.c but is itself capped at
+ * and byte-correct in src/pending/GFL_HEAP_ResizeMemory.c but is itself capped at
  * MATCH on sub_02060CD0, so the chain is
  * 0x02060CD0 -> 0x020302A4 -> this function: one EXACT entry for
  * 0x02060CD0 promotes all three.
  *
- * A heap-state assertion, guarded on the result of sub_020302A4 and then
+ * A heap-state assertion, guarded on the result of GFL_HEAP_ResizeMemory and then
  * dispatched on the heap-layer state word returned by sub_02030524.
  *
  *   void GFL_HEAP_CheckAllocator(void *p, u32 size)
@@ -39,7 +39,7 @@
  * stripped down to the same call.
  *
  * symbols:
- *   sub_020302A4    0x020302A4  arm
+ *   GFL_HEAP_ResizeMemory    0x020302A4  arm
  *   sub_02030524    0x02030524  arm
  *   OS_Terminate    0x02088234  arm
  *
@@ -50,14 +50,14 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_020302A4(void *p, u32 size);
+extern u32 GFL_HEAP_ResizeMemory(void *p, u32 size);
 typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
 
 void GFL_HEAP_CheckAllocator(void *p, u32 size)
 {
-    if (sub_020302A4(p, size) != 0) {
+    if (GFL_HEAP_ResizeMemory(p, size) != 0) {
         return;
     }
     switch (sub_02030524()) {

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_CLIENT_PickRecallMessageId  0x021D1C40  thumb  ov093
- *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EAF50  0x021EAF50  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_AppendMessageArg  0x021EAF50  thumb  ov093
  *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
  *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
@@ -31,10 +31,10 @@ typedef struct {
 
 extern int BTL_CLIENT_PickRecallMessageId(BattleSeq *s, u8 x, int *out);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 struct H;
 struct L;
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 
@@ -44,10 +44,10 @@ int BTL_CLIENT_StepShowRecallMessage(BattleSeq *s, int *state, int *pp)
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)s->msg, 1, BTL_CLIENT_PickRecallMessageId(s, pp[0], &t));
+        BTLV_SCU_InitMessage((struct L *)s->msg, 1, BTL_CLIENT_PickRecallMessageId(s, pp[0], &t));
         if (t != 0)
-            func_021EAF50((struct L *)s->msg, pp[0]);
-        func_021EAF50((struct L *)s->msg, pp[1]);
+            BTLV_SCU_AppendMessageArg((struct L *)s->msg, pp[0]);
+        BTLV_SCU_AppendMessageArg((struct L *)s->msg, pp[1]);
         BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
         (*state)++;
         break;

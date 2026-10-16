@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9654",
+   "name": "PMS_INPUT_DATA_CollectSeenWords",
    "address": "0x021B9654",
    "kind": "game",
    "region": "ov110",

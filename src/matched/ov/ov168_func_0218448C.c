@@ -1,5 +1,5 @@
 /*
- * function: func_0218448C
+ * function: MICTEST_DisarmMic
  * address:  0x0218448C
  * packet:   pkt_0218448C
  * region:   ov168
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0208B528  0x0208B528  arm
+ *   MIC_StopLimitedSampling  0x0208B528  arm
  */
 #include "../include/Obj23823.h"
 
-extern int func_0208B528(void);
+extern int MIC_StopLimitedSampling(void);
 
-void func_0218448C(int *p)
+void MICTEST_DisarmMic(int *p)
 {
-    func_0208B528();
+    MIC_StopLimitedSampling();
     ((struct Obj23823 *)p)->f28 = 0;
 }

@@ -111,7 +111,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
@@ -514,7 +514,7 @@ extern GameEvent *FLD3D_CI_StartMessageSequence(GameSystem *gameSystem, Fld3dCi 
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void *ICA_ANIME_GetField1C(GameSystem *gameSystem);
-extern MyStatus *func_02012944(void *gameData);
+extern MyStatus *GAME_DATA_GetMyStatus(void *gameData);
 extern u8 func_02008550(const MyStatus *myStatus);
 extern void ZONEDATA_SetZoneStartLocation(ZoneStartLocation *location, int zoneId);
 extern u32 FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
@@ -1730,7 +1730,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
     MI_CpuFill8(work, 0, 0x30);
     work->gameSystem = gameSystem;
     work->zoneId = zoneId;
-    if (func_02008550(func_02012944(ICA_ANIME_GetField1C(gameSystem))) == 0) {
+    if (func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem))) == 0) {
         work->cutInIdBefore = 11;
         cutInIdAfter = 12;
     } else {

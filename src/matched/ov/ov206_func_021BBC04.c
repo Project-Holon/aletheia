@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC04
+ * function: ZUKAN_INFO_DisableUnselected
  * address: 0x021BBC04
  * packet: pkt_ov206_021BBC04
  * region: ov206
@@ -21,7 +21,7 @@ typedef struct S {
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021BBC04(S *p)
+void ZUKAN_INFO_DisableUnselected(S *p)
 {
     u8 i;
     for (i = 0; i < 2; i++) {

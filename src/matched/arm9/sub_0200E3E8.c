@@ -1,5 +1,5 @@
 /*
- * function: sub_0200E3E8
+ * function: SYMBOL_SAVE_WriteBitField
  * address:  0x0200E3E8
  * packet:   pkt_0200E3E8
  * region:   arm9
@@ -33,7 +33,7 @@ typedef unsigned int  u32;
 extern u8 COMM_PLAYER_GetRecordField3(u32 id);
 extern u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 id);
 
-void sub_0200E3E8(u8 *bits, int id, u32 value)
+void SYMBOL_SAVE_WriteBitField(u8 *bits, int id, u32 value)
 {
     u32 bit = COMM_PLAYER_GetRecordField3(id);
     u32 n   = QUESTIONNAIRE_GetAnswerBitWidth(id);

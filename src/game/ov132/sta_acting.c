@@ -137,11 +137,11 @@
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
  *   STA_ACT_LIGHT_AddBillboardImage 0x021F709C thumb ov112
  *   STA_ACT_LIGHT_AddPokemonElem 0x021F760C thumb ov112
- *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
  *   d_021FDBE0 0x021FDBE0 data a4
  *   STA_ACT_OBJ_Create 0x021F69E4 thumb ov112
  *   STA_ACT_EFFECT_Create 0x021F9E50 thumb ov132
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   STA_ACT_LIGHT_SetModelFrame 0x021F7098 thumb ov112
  *   STA_ACT_LIGHT_SetElemFrame 0x021F75DC thumb ov112
@@ -183,7 +183,7 @@
  *   GFL_USE_ReplaceWaveData  0x020064B8  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   STA_ACT_LIGHT_NoOp2 0x021F7A80 thumb ov112
+ *   STA_ACT_LIGHT_IsElemActive 0x021F7A80 thumb ov112
  *   STA_NET_SendKindA 0x021FD8C4 thumb ov132
  *   STA_ACT_LIGHT_HandleElemAnim 0x021F79A8 thumb ov112
  *   func_02005728 0x02005728 thumb
@@ -537,7 +537,7 @@ extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e)
 
 extern void *STA_ACT_LIGHT_AddPokemonElem(void *,void *);
 
-extern void STA_ACT_LIGHT_ElemOpB(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
 
 extern Object *STA_ACT_OBJ_Create(u16,void *);
 
@@ -545,7 +545,7 @@ extern char *STA_ACT_EFFECT_Create(unsigned);
 
 extern u32 KEY_GetCont(void);
 
-extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 
 extern void STA_ACT_LIGHT_GetElemPos(void *, void *, Vec *);
 
@@ -621,7 +621,7 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern int STA_ACT_LIGHT_NoOp2(char *,char *);
+extern int STA_ACT_LIGHT_IsElemActive(char *,char *);
 
 extern int STA_NET_SendKindA(void *, int);
 
@@ -1146,7 +1146,7 @@ void STA_ACTING_CreateActors(u8 *p)
     for (i=0;i<4;i++) *(u32 *)(p+0x44+i*4)=0;
     for (i=0;i<4;i++) {
         ((struct Slots *)p)->slots[i]=STA_ACT_LIGHT_AddPokemonElem(((struct ActingScene *)p)->f40,*(void **)(*(u8 * *)&((struct ActingScene *)p)->f30+4+i*4));
-        STA_ACT_LIGHT_ElemOpB(((struct ActingScene *)p)->f40,((struct Slots *)p)->slots[i],(const u32 *)(&pos));
+        STA_ACT_LIGHT_SetActorPos(((struct ActingScene *)p)->f40,((struct Slots *)p)->slots[i],(const u32 *)(&pos));
         pos.z-=0x1e000;
     }
 }
@@ -1178,7 +1178,7 @@ void STA_ACTING_UpdateCamera(u8 *p)
             index = *(u8 *)(p + 0xF1);
             if (index == 4) index = *(u8 *)(p + 0xA);
             if (*(void **)(p + 0x44 + index * 4)) {
-                STA_ACT_LIGHT_ElemOpA(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
+                STA_ACT_LIGHT_CopyActorPos(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
                 target = (float)v.x / 4096.0f - 128.0f;
             }
         } else {
@@ -1488,7 +1488,7 @@ void STA_ACTING_ApplyAction(char *p, u32 i, int v)
 
 int STA_ACTING_GetCurrentAction(char *p){return STA_ACTING_GetActionByIndex(p,((struct ActingScene *)p)->fA);}
 
-int STA_ACTING_GetActionByIndex(char *p,u32 i){if(STA_ACT_LIGHT_NoOp2(*(char * *)&((struct ActingScene *)p)->f40,*(char **)((u32)p+i*4+0x44))==1)return 1;return *(int *)((u32)p+0xfc+i*4);}
+int STA_ACTING_GetActionByIndex(char *p,u32 i){if(STA_ACT_LIGHT_IsElemActive(*(char * *)&((struct ActingScene *)p)->f40,*(char **)((u32)p+i*4+0x44))==1)return 1;return *(int *)((u32)p+0xfc+i*4);}
 
 /*
  * lever: slots[count] = i; count++; keeps the byte store before the increment; if/else field stores preserve the shared flag-store block.
@@ -1668,7 +1668,7 @@ void STA_ACTING_PositionAnim(char *p, unsigned i)
 {
     Vec v;
     u8 j;
-    STA_ACT_LIGHT_ElemOpA(((struct ActingScene *)p)->f40, *(void **)(p + i * 4 + 0x44), (unsigned int *)(&v));
+    STA_ACT_LIGHT_CopyActorPos(((struct ActingScene *)p)->f40, *(void **)(p + i * 4 + 0x44), (unsigned int *)(&v));
     v.x /= 16;
     v.y = (0xc0000 - (v.y - 0x20000)) / 16;
     v.z = 0xb4000;

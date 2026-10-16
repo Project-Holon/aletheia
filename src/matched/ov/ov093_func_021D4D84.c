@@ -18,7 +18,7 @@
  * symbols:
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   BTL_POKEPARAM_ReloadFromMon  0x021D4EFC  thumb  ov093
@@ -27,7 +27,7 @@
  *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
  *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
- *   func_021D6DC4  0x021D6DC4  thumb  ov093
+ *   BTL_POKEPARAM_ClearFoughtList  0x021D6DC4  thumb  ov093
  *   gBtlPokeparamFileName     0x021F3AA4  data  a1
  */
 typedef unsigned char u8;
@@ -81,7 +81,7 @@ typedef struct S {
 } S;
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u32 func_02017E1C(void *, u32, u32);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u32 POKE_TOOL_GetPersonalParam(u16, u16, u32);
 extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern void BTL_POKEPARAM_ReloadFromMon(S *, void *, u32, u32);
@@ -90,7 +90,7 @@ extern void BTL_POKEPARAM_InitStatStages(u8 *);
 extern void BTL_POKEPARAM_ClearSickConts(u8 *p, int all);
 extern union Slot BTL_CALC_MakeDefaultSickCont(int);
 extern void BTL_POKEPARAM_ClearHitHistory(u8 *p);
-extern void func_021D6DC4(u8 *p);
+extern void BTL_POKEPARAM_ClearFoughtList(u8 *p);
 extern const char gBtlPokeparamFileName[];
 S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c)
 {
@@ -99,20 +99,20 @@ S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c)
 
     p = GFL_HEAP_Alloc(c, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
     p->f19 = b;
-    p->f0c = func_02017E1C(a, 5, 0);
+    p->f0c = POKE_TOOL_GetPartyValue(a, 5, 0);
     p->f00 = a;
-    p->f10 = func_02017E1C(a, 0xa0, 0);
-    p->f0e = func_02017E1C(a, 0xa1, 0);
-    p->f12 = func_02017E1C(a, 6, 0);
+    p->f10 = POKE_TOOL_GetPartyValue(a, 0xa0, 0);
+    p->f0e = POKE_TOOL_GetPartyValue(a, 0xa1, 0);
+    p->f12 = POKE_TOOL_GetPartyValue(a, 6, 0);
     if (p->f12 > 0x272) p->f12 = 0;
     p->f14 = 0;
     p->b5 = 0;
     p->f04 = 0;
     p->b6 = 0;
     p->b7 = 0;
-    p->lo = func_02017E1C(a, 0x6f, 0);
-    p->f16 = func_02017E1C(a, 0xa, 0);
-    p->f18 = func_02017E1C(a, 0x9e, 0);
+    p->lo = POKE_TOOL_GetPartyValue(a, 0x6f, 0);
+    p->f16 = POKE_TOOL_GetPartyValue(a, 0xa, 0);
+    p->f18 = POKE_TOOL_GetPartyValue(a, 0x9e, 0);
     p->f1a = POKE_TOOL_GetPersonalParam(p->f0c, p->lo, 1);
     BTL_POKEPARAM_ReloadFromMon(p, a, 1, 1);
     p->f140 = BTL_POKEPARAM_LoadMoves((u8 *)p, a, 1);
@@ -137,6 +137,6 @@ S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c)
     MI_CpuFill8(p->f153, 0, sizeof(p->f153));
     MI_CpuFill8(p->f155, 0, sizeof(p->f155));
     BTL_POKEPARAM_ClearHitHistory((u8 *)p);
-    func_021D6DC4((u8 *)p);
+    BTL_POKEPARAM_ClearFoughtList((u8 *)p);
     return p;
 }

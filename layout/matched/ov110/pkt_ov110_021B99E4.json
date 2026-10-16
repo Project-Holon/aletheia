@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B99E4",
+   "name": "PMS_INPUT_DATA_SkipRangeEntry",
    "address": "0x021B99E4",
    "kind": "game",
    "region": "ov110",

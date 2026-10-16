@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *  func_021C3FAC 0x021C3FAC thumb ov093
- *  func_021D59B4 0x021D59B4 thumb ov093
+ *  BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *  func_021C3FBC 0x021C3FBC thumb ov093
  *  func_021C3FCC 0x021C3FCC thumb ov093
  *  BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 pad[5]; u8 a:1,b:1,c:6; } Flag;
 extern u8 *func_021C3FAC(u8 *, int);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int func_021C3FBC(u16);
 extern int func_021C3FCC(u16);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -56,8 +56,8 @@ void BTL_SERVER_FLOW_ProcSkillSwap(u8 *p, u8 *a, u8 *c)
     int line;
     Flag *f;
     b = func_021C3FAC(c, 0);
-    x = func_021D59B4(a, 16);
-    y = func_021D59B4(b, 16);
+    x = BTL_POKEPARAM_GetValue(a, 16);
+    y = BTL_POKEPARAM_GetValue(b, 16);
     if (x != y && !func_021C3FBC(x) && !func_021C3FCC(y)) {
         ai = BTL_POKEPARAM_GetPokeId(a);
         bi = BTL_POKEPARAM_GetPokeId(b);

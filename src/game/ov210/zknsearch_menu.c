@@ -22,9 +22,9 @@
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0C20;
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-struct S;
+struct FrameList;
 struct Tmpl;
-extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
+extern struct FrameList *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
 extern void FRAME_LIST_CopyMapToBuffer(unsigned char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int index);
 struct MsgBank;
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);

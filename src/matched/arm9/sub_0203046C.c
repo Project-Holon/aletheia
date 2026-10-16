@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_0203046C
+ * function: GFL_HEAP_GetAllocCountById
  *
  * Checked heap-id lookup returning the heap's u16 record field (the one
  * GFL_HEAP_GetAllocCount reads, the +0xc halfword of the per-heap record), or 0xffff
- * if the id is out of range; see src/matched/sub_02030428.c for the shared
+ * if the id is out of range; see src/matched/GFL_HEAP_GetHeapHandle.c for the shared
  * preamble.
  *
- *   u16 sub_0203046C(u32 heapId)
+ *   u16 GFL_HEAP_GetAllocCountById(u32 heapId)
  *
  * Two details pin the C here:
  *
@@ -35,8 +35,8 @@
  *   GFL_HEAP_GetAllocCount    0x0202FC20  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203046C.c \
- *       --func sub_0203046C --addr 0x0203046C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetAllocCountById.c \
+ *       --func GFL_HEAP_GetAllocCountById --addr 0x0203046C --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -56,7 +56,7 @@ struct EnvEntry {
 extern struct EnvModule g_EnvModule;
 extern u16 GFL_HEAP_GetAllocCount(u32 idx);
 
-u16 sub_0203046C(u32 heapId)
+u16 GFL_HEAP_GetAllocCountById(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= g_EnvModule.count) {

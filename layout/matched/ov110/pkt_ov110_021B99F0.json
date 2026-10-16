@@ -18,14 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B99F0",
-    "func_021B9A3C"
+    "PMS_INPUT_DATA_GetInitialWordId",
+    "PMS_INPUT_DATA_GetWordString"
    ],
    "evidence": {
     "sole-ref": [
      "data:0x021C1C88"
     ]
-   }
+   },
+   "addresses": [
+    "0x021B99F0",
+    "0x021B9A3C"
+   ]
   }
  ]
 }

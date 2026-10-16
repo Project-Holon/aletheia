@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D58A8 0x021D58A8 thumb ov093
+ *   BTL_POKEPARAM_GetStatRaw 0x021D58A8 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021D58A8(u8 *,int);
-u16 HAND_TOKUSEI_GetPokeSpeed(u8 *p) { return func_021D58A8(p,12); }
+extern int BTL_POKEPARAM_GetStatRaw(u8 *,int);
+u16 HAND_TOKUSEI_GetPokeSpeed(u8 *p) { return BTL_POKEPARAM_GetStatRaw(p,12); }

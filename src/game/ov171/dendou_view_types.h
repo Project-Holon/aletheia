@@ -23,7 +23,7 @@ struct GfFont;
 struct MsgData;
 struct WordSet;
 struct PrintQue;
-struct PalAnm;
+struct PalAnmSlot;
 struct ClactUnit;
 struct ClactActor;
 struct BmpOamSys;
@@ -154,7 +154,7 @@ typedef struct DendouViewWork {
     s16 targetAngle[DENDOU_VIEW_MEMBER_MAX];        /* +0xB1C */
     s32 vblankTaskId;                               /* +0xB28 */
     u8 pad_B2C[4];                                  /* +0xB2C */
-    struct PalAnm *palAnm;                          /* +0xB30 */
+    struct PalAnmSlot *palAnm;                          /* +0xB30 */
     u8 fadeSettled[DENDOU_VIEW_MEMBER_MAX];         /* +0xB34 */
     u8 fadeLevel[DENDOU_VIEW_MEMBER_MAX];           /* +0xB3A */
     u8 fadeTarget[DENDOU_VIEW_MEMBER_MAX];          /* +0xB40 */

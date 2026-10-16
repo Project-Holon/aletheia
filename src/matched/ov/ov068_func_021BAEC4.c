@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   func_02040588  0x02040588  arm
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 
 typedef unsigned char  u8;
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 struct MsgBank;
 struct Rec;
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -33,7 +33,7 @@ void OPTION_MENU_PrintHelpMessage(void *a, u32 b, u32 c)
 {
     void *h;
 
-    func_0207D658((u32)((void *)0x04000050), 0x17, 8);
+    G2x_SetBlendBrightness_((u32)((void *)0x04000050), 0x17, 8);
     func_02040588(3, 1);
     h = func_02045B38(0, 3, 0x9e, 0x801C);
     OPTION_MENU_PrintTextFromBank(a, (u32)h, b, c, 1);

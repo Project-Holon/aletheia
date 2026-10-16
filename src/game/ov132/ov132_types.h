@@ -205,112 +205,27 @@ struct HostEntry {
     unsigned int f2C;
 };
 
-struct Obj00995 {
-    unsigned char f0;
-    unsigned char f1;
-    unsigned char f2;
-    unsigned char unk_3[1];
-    unsigned short f4;
-    unsigned char f6;
-    unsigned char f7;
+/* One 8-byte audience member record in STA_ACT_AUDIENCE's +0x204 array. */
+struct AudienceRecord {
+    unsigned char actorIndex;   /* 0x00, 0xff when the slot is empty */
+    unsigned char timer;        /* 0x01, countdown to the next update */
+    unsigned char tileIndex;    /* 0x02, index into d_021FDC16 */
+    unsigned char pad_3;
+    unsigned short value;       /* 0x04, set to 0xffff when hidden */
+    unsigned char state;        /* 0x06, 0..5 selects the tile row */
+    unsigned char rowOffset;    /* 0x07 */
 };
 
-struct Obj01741 {
-    void * f0;
-    unsigned int f4;
-    unsigned int f8;
-    unsigned int fC;
-    void * f10;
-    unsigned int f14;
-    unsigned int f18;
-    unsigned int f1C;
-    unsigned int f20;
-    unsigned int f24;
-    unsigned int f28;
-    unsigned short f2C;
-    unsigned char unk_2E[2];
-    void * f30;
-    void * f34;
+/* The first two words of a received host chunk buffer (HostEntry.f10). */
+struct StaNetChunkHeader {
+    unsigned int size;          /* 0x00 */
+    unsigned int offset;        /* 0x04 */
 };
 
-struct Obj02192 {
-    void * f0;
-    void * f4;
-    void * f8;
-    void * fC;
-    unsigned char unk_10[4];
-    unsigned int f14;
-    unsigned int f18;
-    unsigned int f1C;
-    int f20;
-    int f24;
-    int f28;
-    unsigned short f2C;
-    unsigned short f2E;
-    void * f30;
-    void * f34;
-};
-
-struct Obj02487 {
-    unsigned char f0;
-    unsigned char unk_1[3];
-    void * f4;
-    void * f8;
-    void * fC;
-    unsigned int f10;
-    unsigned int f14;
-    unsigned int f18;
-    unsigned short f1C;
-    unsigned short f1E;
-    unsigned char unk_20[8];
-    void * f28;
-    void * f2C;
-};
-
-struct Obj05398 {
-    unsigned short f0;
-    unsigned char unk_2[2];
-    void * f4;
-    void * f8;
-    unsigned char unk_C[40];
-    void * f34;
-};
-
-struct Obj06489 {
-    void * f0;
-    int f4;
-    unsigned char unk_8[12];
-    unsigned short f14;
-    unsigned short f16;
-};
-
-struct Obj06492 {
-    void * f0;
-    void * f4;
-    void * f8;
-    unsigned char unk_C[4];
-    unsigned int f10;
-    unsigned short f14;
-    unsigned char unk_16[18];
-    void * f28;
-    void * f2C;
-    void * f30;
-    void * f34;
-};
-
-struct Obj10567 {
-    unsigned int f0;
-    unsigned int f4;
-};
-
-struct Obj23284 {
-    unsigned char unk_0[4];
-    void * f4;
-};
-
-struct Obj23285 {
-    unsigned char unk_0[4];
-    void * f4;
+/* A status/record block whose payload pointer sits at +0x04. */
+struct MusCommBlockHeader {
+    unsigned char pad_0[4];
+    void * payload;             /* 0x04 */
 };
 
 struct ScriptCtx {
@@ -324,7 +239,7 @@ struct ScriptCtx {
     } f4;
     unsigned char unk_8[4];
     int fC;
-    unsigned char unk_10[4];
+    unsigned int f10;
     unsigned short f14;
     unsigned short f16;
     unsigned char f18;
@@ -345,6 +260,33 @@ struct ScriptEntry {
     unsigned short f16;
     unsigned char f18;
     unsigned char f19;
+};
+
+/* Script system object created by STA_ACT_SCRIPT_Create (0x44 bytes). */
+struct ScriptSystem {
+    unsigned short f0;         /* +0x00 heap id */
+    unsigned char unk_2[2];
+    void * f4;                 /* +0x04 scene context */
+    void * f8;                 /* +0x08 node */
+    void * fC;                 /* +0x0C script slot 0 */
+    void * f10;                /* +0x10 script slot 1 */
+    void * f14;                /* +0x14 script slot 2 */
+    void * f18;                /* +0x18 script slot 3 */
+    void * f1C;                /* +0x1C script slot 4 */
+    void * f20;                /* +0x20 script slot 5 */
+    void * f24;                /* +0x24 script slot 6 */
+    void * f28;                /* +0x28 script slot 7 */
+    void * f2C;                /* +0x2C script slot 8 */
+    void * f30;                /* +0x30 script slot 9 */
+    void * f34;                /* +0x34 scene owner */
+    unsigned char unk_38[12];  /* +0x38 NNS list head */
+};
+
+/* 16-byte task list node created by STA_ACT_SCRIPT_AddTask. */
+struct ScriptTaskNode {
+    unsigned char unk_0[8];
+    void * arg;                /* +0x08 task argument */
+    void * task;               /* +0x0C task handle */
 };
 
 struct ScriptOwner {
@@ -375,15 +317,20 @@ struct ScriptOwner {
     unsigned char f205;
 };
 
+/* Generic 56-byte script task slot. TaskShake uses the 32-byte TaskData view,
+   TaskMoveEffect the 56-byte effect task; the actor, entry and char move tasks
+   and the effect move task all share this record. */
 struct ScriptSlot {
     void * f0;
     union {
         int s;
         unsigned int u;
+        void * p;
     } f4;
     union {
         int s;
         unsigned int u;
+        void * p;
     } f8;
     unsigned int fC;
     void * f10;
@@ -399,13 +346,48 @@ struct ScriptSlot {
         unsigned int u;
         void * p;
     } f1C;
-    void * f20;
-    void * f24;
-    void * f28;
+    union {
+        int s;
+        unsigned int u;
+        void * p;
+    } f20;
+    union {
+        int s;
+        unsigned int u;
+        void * p;
+    } f24;
+    union {
+        int s;
+        unsigned int u;
+        void * p;
+    } f28;
     unsigned short f2C;
-    unsigned char unk_2E[2];
+    unsigned short f2E;
     void * f30;
     void * f34;
+};
+
+/* 24-byte actor step view used by STA_ACT_SCRIPT_StepTaskActor. It sits at
+   offset 0x08 of the 48-byte char follow task. */
+struct ScriptFollowStep {
+    void * scene;             /* +0x00 owner scene, char follow +0x08 */
+    void * actor;             /* +0x04 actor object, char follow +0x0C */
+    unsigned int dx;          /* +0x08 */
+    unsigned int dy;          /* +0x0C */
+    unsigned int dz;          /* +0x10 */
+    unsigned short duration;  /* +0x14 */
+    unsigned short counter;   /* +0x16 */
+};
+
+/* 48-byte char-follow task created by SCRIPT_COMMAND_CmdCharFollowActor. */
+struct ScriptCharFollowTask {
+    unsigned char index;          /* +0x00 actor index */
+    unsigned char unk_1[3];
+    void * target;                /* +0x04 char slot */
+    struct ScriptFollowStep step; /* +0x08 actor step view */
+    unsigned char unk_20[8];
+    void * owner;                 /* +0x28 script system */
+    void * task;                  /* +0x2C task node */
 };
 
 struct ScriptTask {

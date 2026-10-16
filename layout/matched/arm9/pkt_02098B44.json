@@ -49,7 +49,7 @@
    }
   },
   {
-   "name": "func_0209A524",
+   "name": "floor",
    "address": "0x0209A524",
    "kind": "game",
    "region": "arm9",

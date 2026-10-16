@@ -17,7 +17,7 @@
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
  *   BTL_EVENT_SetVarOnce 0x021D7630 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_EVENT_SetVar 0x021D75A8 thumb ov093
  *   BTL_EVENT_SetVarRanged 0x021D7674 thumb ov093
  *   BTL_EVENT_DispatchEventChecked 0x021D70F0 thumb ov093
@@ -46,7 +46,7 @@ extern void BTL_EVENT_PushVarFrame(int);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int, u32);
 extern void BTL_EVENT_SetVarOnce(int, u32);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void BTL_EVENT_SetVar(int, u32);
 extern void BTL_EVENT_SetVarRanged(int, u32, u32, u32);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
@@ -74,8 +74,8 @@ int BTL_SERVER_FLOW_RollMoveAccuracy(u8 *p, u8 *a, u8 *b, struct Q *q)
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(b));
     BTL_EVENT_SetVarOnce(75, 0);
-    BTL_EVENT_SetVar(39, func_021D59B4(a, 6));
-    BTL_EVENT_SetVar(40, func_021D59B4(b, 7));
+    BTL_EVENT_SetVar(39, BTL_POKEPARAM_GetValue(a, 6));
+    BTL_EVENT_SetVar(40, BTL_POKEPARAM_GetValue(b, 7));
     BTL_EVENT_SetVarRanged(53, 4 << 10, 41, 4 << 15);
     BTL_EVENT_DispatchEventChecked(p, 51);
     x = BTL_EVENT_GetVar(39);

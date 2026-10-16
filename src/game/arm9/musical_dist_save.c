@@ -48,6 +48,8 @@
  *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
  *   MUSICAL_SAVE_GetStageData  0x0200A7F8  thumb
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  */
 struct SaveWork;
 struct SaveBlockCtrl;
@@ -160,9 +162,9 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern u32   func_02017E1C(void *m, u32 field, u32 arg);
+extern u32   POKE_TOOL_GetPartyValue(void *m, u32 field, u32 arg);
 extern u8    POKE_TOOL_GetGender(void *m);
-extern u32   func_02017EAC(void *m);
+extern u32   POKE_TOOL_IsShiny(void *m);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern int ZUKAN_SAVE_CountCaughtRegionalCounted(struct ZukanSave *pZukan, int heap);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
@@ -1231,16 +1233,16 @@ void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon)
     s32 bitIndex;
 
     savedPartyParam = POKE_TOOL_DecodePartyParam(pMon);
-    if (func_02017E1C(pMon, 0x4C, 0) == 1) {
+    if (POKE_TOOL_GetPartyValue(pMon, 0x4C, 0) == 1) {
         POKE_TOOL_EncodePartyParam(pMon, savedPartyParam);
         return;
     }
-    species = (u16)func_02017E1C(pMon, 5, 0);
-    personality = func_02017E1C(pMon, 0, 0);
-    form = func_02017E1C(pMon, 0x6F, 0);
-    language = func_02017E1C(pMon, 0xC, 0);
+    species = (u16)POKE_TOOL_GetPartyValue(pMon, 5, 0);
+    personality = POKE_TOOL_GetPartyValue(pMon, 0, 0);
+    form = POKE_TOOL_GetPartyValue(pMon, 0x6F, 0);
+    language = POKE_TOOL_GetPartyValue(pMon, 0xC, 0);
     gender = POKE_TOOL_GetGender(pMon);
-    shiny = func_02017EAC(pMon);
+    shiny = POKE_TOOL_IsShiny(pMon);
     POKE_TOOL_EncodePartyParam(pMon, savedPartyParam);
     if (ZUKAN_SAVE_IsInvalidSpecies(species) != 0) {
         return;
@@ -1339,15 +1341,15 @@ void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon)
     u16 species;
 
     savedPartyParam = POKE_TOOL_DecodePartyParam(pMon);
-    if (func_02017E1C(pMon, 0x4C, 0) == 1) {
+    if (POKE_TOOL_GetPartyValue(pMon, 0x4C, 0) == 1) {
         POKE_TOOL_EncodePartyParam(pMon, savedPartyParam);
         return;
     }
-    species = (u16)func_02017E1C(pMon, 5, 0);
-    personality = func_02017E1C(pMon, 0, 0);
-    form = func_02017E1C(pMon, 0x6F, 0);
+    species = (u16)POKE_TOOL_GetPartyValue(pMon, 5, 0);
+    personality = POKE_TOOL_GetPartyValue(pMon, 0, 0);
+    form = POKE_TOOL_GetPartyValue(pMon, 0x6F, 0);
     gender = POKE_TOOL_GetGender(pMon);
-    shiny = func_02017EAC(pMon);
+    shiny = POKE_TOOL_IsShiny(pMon);
     POKE_TOOL_EncodePartyParam(pMon, savedPartyParam);
     if (ZUKAN_SAVE_IsInvalidSpecies(species) != 0) {
         return;

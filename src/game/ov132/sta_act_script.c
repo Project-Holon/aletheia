@@ -20,7 +20,7 @@
  *   func_020307B0 0x020307B0 arm
  *   STA_ACT_SCRIPT_Update 0x021FABD8 thumb ov132
  *   STA_ACT_SCRIPT_CountScripts 0x021FAD7C thumb ov132
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_SCRIPT_AddScript 0x021FAC74 thumb ov132
  *   STA_ACT_SCRIPT_AddScriptFromTable 0x021FAD0C thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
@@ -52,7 +52,7 @@
 
 extern void func_02030EAC(struct Node *n);
 
-extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 
 struct ScriptVm;
 
@@ -150,10 +150,10 @@ void *STA_ACT_SCRIPT_Create(u32 heap, void *owner)
     char *p;
     i = 0;
     p = func_02030734(heap, 0x44, 0, d_021FDCEC, 0x3f);
-    ((struct Obj05398 *)p)->f0 = heap;
-    ((struct Obj05398 *)p)->f34 = owner;
-    ((struct Obj05398 *)p)->f8 = func_02030734(((struct Obj05398 *)p)->f0, func_02030CB0(16), 0, d_021FDCEC, 0x43);
-    ((struct Obj05398 *)p)->f4 = func_02030CBC(16, ((struct Obj05398 *)p)->f8);
+    ((struct ScriptSystem *)p)->f0 = heap;
+    ((struct ScriptSystem *)p)->f34 = owner;
+    ((struct ScriptSystem *)p)->f8 = func_02030734(((struct ScriptSystem *)p)->f0, func_02030CB0(16), 0, d_021FDCEC, 0x43);
+    ((struct ScriptSystem *)p)->f4 = func_02030CBC(16, ((struct ScriptSystem *)p)->f8);
     NNS_FndInitList((int)(p + 0x38), 0);
     for (; i < 10; i++) *(void **)(p + 0xc + i * 4) = 0;
     return p;
@@ -181,8 +181,8 @@ void STA_ACT_SCRIPT_Delete(char *p)
         STA_ACT_SCRIPT_RemoveTask(p, cur);
         cur = next;
     }
-    TCB_Noop(((struct Obj06492 *)p)->f4);
-    func_020307B0(((struct Obj06492 *)p)->f8);
+    TCB_Noop(((struct ScriptSystem *)p)->f4);
+    func_020307B0(((struct ScriptSystem *)p)->f8);
     func_020307B0(p);
 }
 
@@ -196,7 +196,7 @@ void STA_ACT_SCRIPT_Update(char *p)
     int ready;
     int count;
     ready = 1;
-    count = STA_ACT_EFFECT_GetSceneOwner(((struct ScriptOwner *)p)->f34);
+    count = STA_ACT_EFFECT_GetSceneOwner(((struct ScriptSystem *)p)->f34);
     while (count != 0) {
         for (i = 0; i < 10; i++) {
             slot = (char **)(p + i * 4);
@@ -216,7 +216,7 @@ void STA_ACT_SCRIPT_Update(char *p)
                 if (q != 0 && (((struct TargetBank *)q)->f16 & 2) && (((struct TargetBank *)q)->f16 & 4)) ((struct TargetBank *)q)->f16 ^= 4;
             }
         }
-        TCB_Main(((struct ScriptOwner *)p)->f4);
+        TCB_Main(((struct ScriptSystem *)p)->f4);
         count--;
     }
 }
@@ -225,7 +225,7 @@ void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag)
 {
     u8 i;
     for (i = 0; i < 10; i++) if (*(void **)(p + 0xc + i * 4) == 0) break;
-    ((char **)(p + 0xc))[i] = func_02030734(((struct ScriptOwner *)p)->f0, 0x1c, 0, d_021FDCEC, 0xc4);
+    ((char **)(p + 0xc))[i] = func_02030734(((struct ScriptSystem *)p)->f0, 0x1c, 0, d_021FDCEC, 0xc4);
     ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f8 = arg;
     ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->fC = 0;
     ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f14 = 0;
@@ -235,7 +235,7 @@ void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag)
     ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f19 = i;
     if (flag == 1) ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f16 |= 2;
     *(char **)((char **)(p + 0xc))[i] = p;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4 = VM_Create(((struct ScriptOwner *)p)->f0, (const struct ScriptVmParams *)d_021FDC2C);
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4 = VM_Create(((struct ScriptSystem *)p)->f0, (const struct ScriptVmParams *)d_021FDC2C);
     VM_Init(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((char **)(p + 0xc))[i]);
     VM_Start(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f8);
     return ((char **)(p + 0xc))[i];
@@ -281,10 +281,10 @@ u8 STA_ACT_SCRIPT_CountScripts(char *p)
 void *STA_ACT_SCRIPT_AddTask(char *p, u32 fn, u32 arg, u32 key)
 {
     char *q;
-    q = func_02030734(((struct ScriptOwner *)p)->f0, 16, 0, d_021FDCEC, 0x115);
-    ((struct ScriptOwner *)q)->fC = func_02030DA8(((struct ScriptOwner *)p)->f4, fn, arg, key);
-    if (((struct ScriptOwner *)q)->fC != 0) {
-        ((struct ScriptOwner *)q)->f8 = arg;
+    q = func_02030734(((struct ScriptSystem *)p)->f0, 16, 0, d_021FDCEC, 0x115);
+    ((struct ScriptTaskNode *)q)->task = func_02030DA8(((struct ScriptSystem *)p)->f4, fn, arg, key);
+    if (((struct ScriptTaskNode *)q)->task != 0) {
+        ((struct ScriptTaskNode *)q)->arg = (void *)arg;
         NNS_FndAppendListObject(p + 0x38, q);
         return q;
     }
@@ -294,8 +294,8 @@ void *STA_ACT_SCRIPT_AddTask(char *p, u32 fn, u32 arg, u32 key)
 
 void STA_ACT_SCRIPT_RemoveTask(char *p, char *q)
 {
-    func_020307B0(((struct Obj02192 *)q)->f8);
-    func_02030EAC(((struct Obj02192 *)q)->fC);
+    func_020307B0(((struct ScriptTaskNode *)q)->arg);
+    func_02030EAC(((struct ScriptTaskNode *)q)->task);
     NNS_FndRemoveListObject((volatile struct DList *)(p + 0x38), q);
     func_020307B0(q);
 }
@@ -337,10 +337,10 @@ int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out)
 int STA_ACT_SCRIPT_StepTaskActor(char *p, void *out)
 {
     int v[3];
-    STA_ACT_LIGHT_ElemOpA(STA_ACTING_GetActorSystem(((struct Obj06489 *)p)->f0), (u32 *)(((struct Obj06489 *)p)->f4), (u32 *)v);
+    STA_ACT_LIGHT_CopyActorPos(STA_ACTING_GetActorSystem(((struct ScriptFollowStep *)p)->scene), (u32 *)(((struct ScriptFollowStep *)p)->actor), (u32 *)v);
     VEC_Add((const Vec *)v, (const Vec *)(p + 8), (Vec *)out);
-    (((struct Obj06489 *)p)->f16)++;
-    if (((struct Obj06489 *)p)->f16 >= ((struct Obj06489 *)p)->f14) return 1;
+    (((struct ScriptFollowStep *)p)->counter)++;
+    if (((struct ScriptFollowStep *)p)->counter >= ((struct ScriptFollowStep *)p)->duration) return 1;
     return 0;
 }
 
@@ -393,10 +393,10 @@ int STA_ACT_SCRIPT_SetWaitFromArg(void *a, u8 *p)
  */
 int STA_ACT_SCRIPT_SetRemainingWait(void *a, u8 *p)
 {
-    int v = VM_GetU32(((struct Obj06492 *)p)->f4);
-    if (((struct Obj06492 *)p)->f10 >= (u32)v)
+    int v = VM_GetU32(((struct ScriptCtx *)p)->f4.p);
+    if (((struct ScriptCtx *)p)->f10 >= (u32)v)
         return 0;
-    ((struct Obj06492 *)p)->f14 = (u16)(v - ((struct Obj06492 *)p)->f10);
+    ((struct ScriptCtx *)p)->f14 = (u16)(v - ((struct ScriptCtx *)p)->f10);
     return 1;
 }
 

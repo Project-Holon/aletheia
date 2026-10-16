@@ -13,7 +13,7 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
- *   func_0202D034  0x0202D034  thumb
+ *   BGWINFRM_GetScaleRank  0x0202D034  thumb
  *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef unsigned short u16;
@@ -44,7 +44,7 @@ extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_IsShiny(void *p);
 extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
-extern int func_0202D034(u32 a, u32 b);
+extern int BGWINFRM_GetScaleRank(u32 a, u32 b);
 
 void BTLV_MCSS_RefreshSpriteFromParty(Work *w, int key, void *p)
 {
@@ -61,6 +61,6 @@ void BTLV_MCSS_RefreshSpriteFromParty(Work *w, int key, void *p)
     w->e[idx].f = POKE_TOOL_GetPartyValue(p, 0x98, 0);
     if (POKE_TOOL_IsShiny(p) == 1)
         w->e[idx].flags0 |= 2;
-    w->e[idx].e = func_0202D034(POKE_TOOL_GetPartyValue(p, 0xa0, 0), POKE_TOOL_GetPartyValue(p, 0xa1, 0));
+    w->e[idx].e = BGWINFRM_GetScaleRank(POKE_TOOL_GetPartyValue(p, 0xa0, 0), POKE_TOOL_GetPartyValue(p, 0xa1, 0));
     w->e[idx].flags |= 0x200;
 }

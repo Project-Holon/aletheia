@@ -1,7 +1,7 @@
 /*
  * file:     dwc_match.c
  * unit:     yes
- * function: DWC_CancelMatch, DWC_IsValidCancelMatch, DWC_AddMatchKeyInt, DWC_AddMatchKeyString, DWC_GetMatchIntValue, DWC_GetSuspendMatch, DWCi_MatchInit, DWCi_QR2Startup, DWCi_ConnectToAnybodyAsync, DWCi_SetupGameServer, DWCi_ConnectToGameServerAsync, DWCi_SendStateChanged, func_0216D57C, DWCi_GT2UnrecognizedMessageCallback, DWCi_GT2ConnectAttemptCallback, DWCi_MakeGT2ConnectString, DWCi_GT2ConnectedCallback, DWCi_MatchGPRecvBuddyMsgCallback, DWCi_StopResendingMatchCommand, DWCi_StopMatch, DWCi_ClearQR2Key, DWCi_ProcessMatchSynPacket, DWCi_ProcessMatchSynPacketSub_Hybrid, DWCi_ProcessMatchSynPacketSub, DWCi_CheckDeadAIDBitmap, DWCi_ProcessMatchPollingPacket, DWCi_ProcessMatchClosing, func_0216F1E8, DWCi_GPSetServerStatus, func_0216F334, DWCi_IsShutdownMatch, func_0216F388, DWCi_SetMatchCommonParam, DWCi_CloseMatch, DWCi_SBUpdateAsync, DWCi_GetDefaultMatchFilter, IsPrivateAddr, func_0216FC34, DWCi_DoNatNegotiationAsync, DWCi_CanSendMatchCommandDirect, DWCi_SendMatchCommand, DWCi_EncodeBinaryMsgCommand, DWCi_SendSBMsgCommand, DWCi_SendGPBuddyMsgCommand, DWCi_ProcessRecvMatchCommand, DWCi_CheckResvCommand, func_02171524, DWCi_ProcessResvOK, DWCi_HandleMatchCommandError, DWCi_SendResvCommand, DWCi_SendResvCommandToFriend, DWCi_RetryReserving, DWCi_CancelReservation, DWCi_CancelPreConnectedServerProcessWithResetLevel, func_021720D8, DWCi_CancelPreConnectedClientProcess, DWCi_PostProcessConnection, DWCi_PostProcessConnectionSYNFinish, func_0217253C, DWCi_PostProcessConnectionSYNFinishFullmesh, DWCi_PostProcessSVConnectionHybrid, DWCi_PostProcessSVConnectionFullmesh, DWCi_DoCancelMatch, DWCi_FinishCancelMatch, DWCi_InvalidateReservation, func_02172BB8, DWCi_RestartFromTimeout, DWCi_ResumeMatch, DWCi_CloseCancelHostAsync, DWCi_CloseAllConnectionsByTimeout, DWCi_CloseShutdownClientSC, DWCi_SendMatchSynPacket, func_021732F8, DWCi_ServerSynTimeoutExec, DWCi_SendTypeMatchAck, DWCi_SendCancelMatchSynCommand, func_021736AC, func_021738EC, DWCi_GetNewMatchKey, DWCi_ClearGameMatchKeys, DWCi_IsFriendByIdxList, DWCi_CheckDWCServer, DWCi_GetAIDFromProfileID, DWCi_GetAIDBitmask, DWCi_InitClWaitTimeout, func_02173D28, DWCi_HandleSBError, DWCi_HandleQR2Error, DWCi_HandleNNError, DWCi_HandleNNResult, func_02173FB4, DWCi_SBCallback, DWCi_DebugPrintServerList, DWCi_EvaluateServers, DWCi_RandomizeServers, DWCi_QR2ServerKeyCallback, DWCi_QR2PlayerKeyCallback, DWCi_QR2TeamKeyCallback, DWCi_QR2KeyListCallback, DWCi_QR2CountCallback, DWCi_QR2AddErrorCallback, func_02174D04, DWCi_QR2NatnegCallback, func_02174E10, DWCi_QR2ClientMsgCallback, DWCi_NNProgressCallback, func_02174FE8, DWCi_ProcessNNFailure, DWCi_SendServerDownQuery, DWCi_IsBackupMine, DWCi_CreateGroupID, DWCi_SetConnectionAttemptParam, DWCi_SetupGameServer_InterChange, DWCi_ConnectToGameServerAsync_InterChange, DWCi_GetNumConnectionHost, DWCi_SendServerPolling, DWCi_ProcessRequestMatch, DWCi_StartMatch, DWCi_RequestSuspendMatchInit, DWCi_RequestSuspendMatchProcess, DWCi_RequestSuspendMatch, DWCi_IsServerSuspendEnabled, DWCi_IsServerChanging, DWCi_SetMatchCnt, func_02175F3C, DWCi_SetMatchStatus, DWCi_SetHostStatus, func_02175FB8, DWCi_IsServerChangeEnabled, DWCi_ResetLastSomeDataRecvTimeByAidAll, DWCi_NodeInfoList_Clear, DWCi_NodeInfoList_GetCount, DWCi_NodeInfoList_InsertToTop, DWCi_NodeInfoList_Append, DWCi_NodeInfoList_RemoveAID, DWCi_NodeInfoList_RemoveProfileID, DWCi_NodeInfoList_GetMyNodeInfo, DWCi_NodeInfoList_GetServerNodeInfo, DWCi_NodeInfoList_GetNodeInfoForIndex, DWCi_NodeInfoList_GetNodeInfoForProfileID, DWCi_NodeInfoList_GetNodeInfoForAID, DWCi_NodeInfoList_GetFreeAID, func_02176500, DWCi_TempNewNodeInfo_Clear, DWCi_TempNewNodeInfo_IsValid, DWCi_NodeInfo_Clear, DWCi_NodeInfo_IsValid, DWCi_GetNextMeshMakeTryTick, DWCi_StopMeshMaking, DWCi_IsFirstServer, DWCi_IsServerLocked, DWCi_GetTopologyType, func_02176870, DWCi_AutoSuspendComplete, DWCi_SuspendComplete, DWCi_IsFullMesh, DWCi_GetNodeInfoCount, DWCi_IsLockedBuddyStatus, DWCi_GetResvDenyReasonString, disp_match_state, DWCi_SetMatchmakeProfileId, DWCi_RegisterMatchmakeKeys, func_02176B34
+ * function: DWC_CancelMatch, DWC_IsValidCancelMatch, DWC_AddMatchKeyInt, DWC_AddMatchKeyString, DWC_GetMatchIntValue, DWC_GetSuspendMatch, DWCi_MatchInit, DWCi_QR2Startup, DWCi_ConnectToAnybodyAsync, DWCi_SetupGameServer, DWCi_ConnectToGameServerAsync, DWCi_SendStateChanged, func_0216D57C, DWCi_GT2UnrecognizedMessageCallback, DWCi_GT2ConnectAttemptCallback, DWCi_MakeGT2ConnectString, DWCi_GT2ConnectedCallback, DWCi_MatchGPRecvBuddyMsgCallback, DWCi_StopResendingMatchCommand, DWCi_StopMatch, DWCi_ClearQR2Key, DWCi_ProcessMatchSynPacket, DWCi_ProcessMatchSynPacketSub_Hybrid, DWCi_ProcessMatchSynPacketSub, DWCi_CheckDeadAIDBitmap, DWCi_ProcessMatchPollingPacket, DWCi_ProcessMatchClosing, func_0216F1E8, DWCi_GPSetServerStatus, func_0216F334, DWCi_IsShutdownMatch, func_0216F388, DWCi_SetMatchCommonParam, DWCi_CloseMatch, DWCi_SBUpdateAsync, DWCi_GetDefaultMatchFilter, IsPrivateAddr, func_0216FC34, DWCi_DoNatNegotiationAsync, DWCi_CanSendMatchCommandDirect, DWCi_SendMatchCommand, DWCi_EncodeBinaryMsgCommand, DWCi_SendSBMsgCommand, DWCi_SendGPBuddyMsgCommand, DWCi_ProcessRecvMatchCommand, DWCi_CheckResvCommand, func_02171524, DWCi_ProcessResvOK, DWCi_HandleMatchCommandError, DWCi_SendResvCommand, DWCi_SendResvCommandToFriend, DWCi_RetryReserving, DWCi_CancelReservation, DWCi_CancelPreConnectedServerProcessWithResetLevel, func_021720D8, DWCi_CancelPreConnectedClientProcess, DWCi_PostProcessConnection, DWCi_PostProcessConnectionSYNFinish, func_0217253C, DWCi_PostProcessConnectionSYNFinishFullmesh, DWCi_PostProcessSVConnectionHybrid, DWCi_PostProcessSVConnectionFullmesh, DWCi_DoCancelMatch, DWCi_FinishCancelMatch, DWCi_InvalidateReservation, func_02172BB8, DWCi_RestartFromTimeout, DWCi_ResumeMatch, DWCi_CloseCancelHostAsync, DWCi_CloseAllConnectionsByTimeout, DWCi_CloseShutdownClientSC, DWCi_SendMatchSynPacket, func_021732F8, DWCi_ServerSynTimeoutExec, DWCi_SendTypeMatchAck, DWCi_SendCancelMatchSynCommand, func_021736AC, func_021738EC, DWCi_GetNewMatchKey, DWCi_ClearGameMatchKeys, DWCi_IsFriendByIdxList, DWCi_CheckDWCServer, DWCi_GetAIDFromProfileID, DWCi_GetAIDBitmask, DWCi_InitClWaitTimeout, DWCi_HandleGPError, DWCi_HandleSBError, DWCi_HandleQR2Error, DWCi_HandleNNError, DWCi_HandleNNResult, DWCi_HandleGT2Error, DWCi_SBCallback, DWCi_DebugPrintServerList, DWCi_EvaluateServers, DWCi_RandomizeServers, DWCi_QR2ServerKeyCallback, DWCi_QR2PlayerKeyCallback, DWCi_QR2TeamKeyCallback, DWCi_QR2KeyListCallback, DWCi_QR2CountCallback, DWCi_QR2AddErrorCallback, func_02174D04, DWCi_QR2NatnegCallback, func_02174E10, DWCi_QR2ClientMsgCallback, DWCi_NNProgressCallback, func_02174FE8, DWCi_ProcessNNFailure, DWCi_SendServerDownQuery, DWCi_IsBackupMine, DWCi_CreateGroupID, DWCi_SetConnectionAttemptParam, DWCi_SetupGameServer_InterChange, DWCi_ConnectToGameServerAsync_InterChange, DWCi_GetNumConnectionHost, DWCi_SendServerPolling, DWCi_ProcessRequestMatch, DWCi_StartMatch, DWCi_RequestSuspendMatchInit, DWCi_RequestSuspendMatchProcess, DWCi_RequestSuspendMatch, DWCi_IsServerSuspendEnabled, DWCi_IsServerChanging, DWCi_SetMatchCnt, func_02175F3C, DWCi_SetMatchStatus, DWCi_SetHostStatus, DWCi_GetHostStatus, DWCi_IsServerChangeEnabled, DWCi_ResetLastSomeDataRecvTimeByAidAll, DWCi_NodeInfoList_Clear, DWCi_NodeInfoList_GetCount, DWCi_NodeInfoList_InsertToTop, DWCi_NodeInfoList_Append, DWCi_NodeInfoList_RemoveAID, DWCi_NodeInfoList_RemoveProfileID, DWCi_NodeInfoList_GetMyNodeInfo, DWCi_NodeInfoList_GetServerNodeInfo, DWCi_NodeInfoList_GetNodeInfoForIndex, DWCi_NodeInfoList_GetNodeInfoForProfileID, DWCi_NodeInfoList_GetNodeInfoForAID, DWCi_NodeInfoList_GetFreeAID, func_02176500, DWCi_TempNewNodeInfo_Clear, DWCi_TempNewNodeInfo_IsValid, DWCi_NodeInfo_Clear, DWCi_NodeInfo_IsValid, DWCi_GetNextMeshMakeTryTick, DWCi_StopMeshMaking, DWCi_IsFirstServer, DWCi_IsServerLocked, DWCi_GetTopologyType, func_02176870, DWCi_AutoSuspendComplete, DWCi_SuspendComplete, DWCi_IsFullMesh, DWCi_GetNodeInfoCount, DWCi_IsLockedBuddyStatus, DWCi_GetResvDenyReasonString, disp_match_state, DWCi_SetMatchmakeProfileId, DWCi_RegisterMatchmakeKeys, func_02176B34
  * address:  0x0216C858
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -436,7 +436,7 @@ extern void gt2SetConnectionData(void * connection, void * data);
 extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern int gt2Connect(void *socket, void **connection, char *remoteAddress, unsigned char *message, int len, int timeout, void *callbacks, int blocking);
-extern int DWCi_HandleGT2Error(int result);
+static int DWCi_HandleGT2Error(int result);
 extern int DWC_Base64Decode(const char *src, int srclen, void *dst, int dstlen);
 extern void DWCi_SetError(int error, int errorCode);
 extern int DWCi_GetFriendListIndex(int pid);
@@ -467,7 +467,6 @@ extern int DWC_AddCommonKeyValueString(const char *key, const char *value, char 
 extern int DWCi_SetGPStatus(int status, const char *statusString, const char *locString);
 void DWCi_SetMatchCnt(DWCstMatchControl *a);
 extern void DWCi_ClearGameMatchKeys(void);
-extern int DWCi_GetHostStatus(void);
 extern void DWCi_NodeInfoList_Clear(void);
 extern void func_02176B34(void);
 extern u32 func_021685CC(u32 max);
@@ -477,7 +476,6 @@ extern u32 ServerBrowserGetMyPublicIPAddr(void * sb);
 extern long SOC_GetHostID(void);
 extern int IsPrivateAddr(u32 addr);
 int DWCi_DoNatNegotiationAsync(DWCstNNInfo *nnInfo);
-extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern int ServerBrowserSendNatNegotiateCookieToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
 extern int NNBeginNegotiationWithSocket(int sock, int cookie, int clientindex, void *progress, void *completed, void *userdata);
 extern void func_02174FE8(void);
@@ -520,7 +518,7 @@ int DWCi_PostProcessSVConnectionHybrid(void);
 int DWCi_NodeInfo_IsValid(const DWCstNodeInfo *p);
 extern void DWCi_NodeInfo_Clear(DWCstNodeInfo *node);
 extern int DWCi_GPSetServerStatus(int matchType);
-extern int DWCi_HandleGPError(int result);
+static int DWCi_HandleGPError(int result);
 extern void DWCi_PostProcessConnectionSYNFinishFullmesh(void);
 extern int DWCi_NodeInfoList_Append(DWCstNodeInfo *newNode);
 extern DWCstNodeInfo * DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
@@ -616,9 +614,7 @@ int DWCi_ProcessCancelMatchSynTimeout(void);
 u8 DWCi_GetNewMatchKey(void);
 int DWCi_CheckDWCServer(void *server);
 unsigned int DWCi_GetAIDBitmask(int valid);
-int func_02173D28(int error);
 int DWCi_HandleQR2Error(int error);
-int func_02173FB4(int result);
 void DWCi_SBCallback(void *sb, int reason, void *server);
 void DWCi_DebugPrintServerList(void);
 void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf);
@@ -641,7 +637,7 @@ int DWCi_IsServerSuspendEnabled(void);
 int DWCi_IsServerChanging(void);
 DWCstMatchControl *DWCi_GetMatchCnt(void);
 void DWCi_SetHostStatus(int host);
-unsigned char func_02175FB8(void);
+static unsigned char DWCi_GetHostStatus(void);
 int DWCi_NodeInfoList_RemoveAID(unsigned char aid);
 int DWCi_NodeInfoList_RemoveProfileID(int profileID);
 int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
@@ -1038,7 +1034,7 @@ int DWC_GetSuspendMatch(void)
 
     if (!DWCi_GetMatchCnt())
         return 0;
-    if (!func_02175FB8())
+    if (!DWCi_GetHostStatus())
         return 0;
     bitmap = DWCi_GetMatchCnt()->suspendBitmap;
     bitmap &= DWC_GetAIDBitmap();
@@ -1202,7 +1198,7 @@ void DWCi_SetupGameServer(int topology, u8 numEntry, void *matchedCallback, void
     DWCi_GetMatchCnt()->topologyType = topology;
     DWCi_SetConnectionAttemptParam(attemptCallback, connectionUserData, attemptParam);
     DWCi_SetMatchStatus(0x16);
-    if (func_02173D28(DWCi_GPSetServerStatus(6)) != 0)
+    if (DWCi_HandleGPError(DWCi_GPSetServerStatus(6)) != 0)
         return;
     func_02175F84(2);
     DWCi_GetMatchCnt()->isFirstServer = 1;
@@ -1270,7 +1266,7 @@ void DWCi_ConnectToGameServerAsync(int topology, int serverPid, void *matchedCal
         if (DWCi_HandleSBError(5) != 0)
             return;
     }
-    if (func_02173D28(DWCi_GPSetServerStatus(5)) != 0)
+    if (DWCi_HandleGPError(DWCi_GPSetServerStatus(5)) != 0)
         return;
     if (DWCi_GetMatchCnt()->qr2Obj == 0) {
         if (DWCi_QR2Startup(DWCi_GetMatchCnt()->profileID) != 0)
@@ -3453,7 +3449,7 @@ int DWCi_HandleMatchCommandError(int error)
     if (*(unsigned char *)((char *)DWCi_GetMatchCnt() + 0x15) == 0) {
         return DWCi_HandleSBError(error);
     }
-    return func_02173D28(error);
+    return DWCi_HandleGPError(error);
 }
 
 
@@ -4041,7 +4037,7 @@ void DWCi_FinishCancelMatch(void)
     int b;
 
     gpResult = DWCi_GPSetServerStatus(a);
-    if (func_02173D28(gpResult))
+    if (DWCi_HandleGPError(gpResult))
         return;
     DWCi_CloseMatch();
     if (*(int *)((char *)DWCi_GetMatchCnt() + 0x680) == 0) {
@@ -4723,7 +4719,7 @@ void DWCi_InitClWaitTimeout(void)
 /*
  * Maps a match-command error to a DWC error and stops the match.
  */
-int func_02173D28(int error)
+static int DWCi_HandleGPError(int error)
 {
     int dwcError;
     int errorCode;
@@ -4899,7 +4895,7 @@ int DWCi_HandleNNResult(int result)
 /*
  * sdk:      DWCi_HandleGT2Error (dwc_match.o)
  */
-int func_02173FB4(int result)
+static int DWCi_HandleGT2Error(int result)
 {
     int dwcError;
     int errorCode;
@@ -5264,7 +5260,7 @@ void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf)
         func_0219B628(outbuf, 1);
         return;
     case 54:
-        if (func_02175FB8() == 2)
+        if (DWCi_GetHostStatus() == 2)
             suspendMatch = DWCi_GetMatchCnt()->groupID;
         else
             suspendMatch = 0;
@@ -5670,7 +5666,7 @@ void DWCi_SetupGameServer_InterChange(int init)
     if (MC->qr2MatchTypeExt == 3)
         MC->qr2MatchTypeExt = 2;
     gpResult = DWCi_GPSetServerStatus(matchType);
-    func_02173D28(gpResult);
+    DWCi_HandleGPError(gpResult);
     MC->reqProfileID = 0;
 }
 
@@ -5911,7 +5907,7 @@ static int DWCi_RequestSuspendMatch(int suspend)
     u32 senddata[4];
     int result;
 
-    if (func_02175FB8() == 2)
+    if (DWCi_GetHostStatus() == 2)
         return DWCi_ProcessRequestMatch(DWCi_NodeInfoList_GetMyNodeInfo()->aid, suspend, 0);
     if (DWCi_GetMatchCnt()->state != 1)
         return 1;
@@ -6006,7 +6002,7 @@ void DWCi_SetHostStatus(int host)
 }
 
 
-unsigned char func_02175FB8(void)
+static unsigned char DWCi_GetHostStatus(void)
 {
     return DWCi_GetMatchCnt()->qr2HostState;
 }

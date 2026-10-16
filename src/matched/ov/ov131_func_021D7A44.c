@@ -9,12 +9,13 @@
  * status: EXACT
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 typedef unsigned int   u32;
 extern void *P_STATUS_GetPokePara(unsigned char *p);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 void P_STA_SUB_GetSpeciesAdjust(void *p,int unused,int *a,int *b) {
- int n=func_02017E88(P_STATUS_GetPokePara(p),5,0);
+ int n=POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(p),5,0);
  if(n==5) {b[1]=0x299a;a[1]=0xf4cd;return;}
  if(n==37) {a[1]=0xfb33;return;}
  if(n==86) {a[0]=0x10666;a[1]=0x10666;return;}

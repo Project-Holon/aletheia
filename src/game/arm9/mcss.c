@@ -96,6 +96,8 @@
  *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
  *   NNS_G2dTickMCAnimation  0x020649D4  arm
  *   NNSi_G2dInitVramHandle  0x02063790  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 #include "field_status_shared_types.h"
 #include "zone_light_shared_types.h"
@@ -772,9 +774,9 @@ int MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
 
 void MCSS_TOOL_AnimeStopCallback(McssWork *work);
 
-u32 func_02017E1C(void *p, u32 id, u32 v);
+u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-u32 func_02017E88(void *p, u32 id, u32 v);
+u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 
 u32 POKE_TOOL_IsBoxShiny(void *p);
 
@@ -3281,11 +3283,11 @@ void MCSS_TOOL_MakeAddWorkFromPP(void *pp, McssAddWork *out, u32 direction)
 
 void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction)
 {
-    u32 species = func_02017E88(pokemon, 5, 0);
-    u32 form = func_02017E88(pokemon, 0x6F, 0);
-    u32 gender = func_02017E88(pokemon, 0x6E, 0);
+    u32 species = POKE_TOOL_GetBoxValue(pokemon, 5, 0);
+    u32 form = POKE_TOOL_GetBoxValue(pokemon, 0x6F, 0);
+    u32 gender = POKE_TOOL_GetBoxValue(pokemon, 0x6E, 0);
     u32 isShiny = POKE_TOOL_IsBoxShiny(pokemon);
-    u32 isEgg = func_02017E88(pokemon, 0x4C, 0);
+    u32 isEgg = POKE_TOOL_GetBoxValue(pokemon, 0x4C, 0);
 
     MCSS_TOOL_MakeAddWorkFromParam(species, form, gender, isShiny, isEgg, out, direction);
 }
@@ -3343,7 +3345,7 @@ McssWork *MCSS_TOOL_AddPokeMcss(McssSys *sys, void *pp, u32 direction, fx32 x, f
 {
     McssAddWork addWork;
 
-    MCSS_TOOL_SetSpindaSpotHook(sys, func_02017E1C(pp, 0, 0));
+    MCSS_TOOL_SetSpindaSpotHook(sys, POKE_TOOL_GetPartyValue(pp, 0, 0));
     MCSS_TOOL_MakeAddWorkFromPP(pp, &addWork, direction);
     return MCSS_Add(sys, x, y, z, &addWork);
 }

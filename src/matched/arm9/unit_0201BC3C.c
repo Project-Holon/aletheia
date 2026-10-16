@@ -1,7 +1,7 @@
 /*
  * unit:     yes
- * function: func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4,
- *           func_0201BCEC
+ * function: POKE_TOOL_GetIconPaletteArcId, POKE_TOOL_GetIconCellArcId, POKE_TOOL_GetIconCellArcIdSub, POKE_TOOL_GetIconCellEntryId,
+ *           POKE_TOOL_GetIconCellEntryIdSub
  * address:  0x0201BC3C
  * packet:   pkt_0201BC3C
  * region:   arm9
@@ -28,12 +28,12 @@ typedef unsigned int u32;
 #define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
 #define OBJ_MAPPING_MASK 0x300010
 
-int func_0201BC3C(void)
+int POKE_TOOL_GetIconPaletteArcId(void)
 {
     return 0;
 }
 
-int func_0201BC40(void)
+int POKE_TOOL_GetIconCellArcId(void)
 {
     switch (REG_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 2;
@@ -43,7 +43,7 @@ int func_0201BC40(void)
     }
 }
 
-int func_0201BC78(void)
+int POKE_TOOL_GetIconCellArcIdSub(void)
 {
     switch (REG_DB_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 2;
@@ -53,7 +53,7 @@ int func_0201BC78(void)
     }
 }
 
-int func_0201BCB4(void)
+int POKE_TOOL_GetIconCellEntryId(void)
 {
     switch (REG_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 1;
@@ -63,7 +63,7 @@ int func_0201BCB4(void)
     }
 }
 
-int func_0201BCEC(void)
+int POKE_TOOL_GetIconCellEntryIdSub(void)
 {
     switch (REG_DB_DISPCNT & OBJ_MAPPING_MASK) {
     case 0x10:     return 1;

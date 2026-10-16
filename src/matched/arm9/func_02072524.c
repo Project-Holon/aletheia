@@ -1,5 +1,5 @@
 /*
- * function: func_02072524
+ * function: NNSi_G3dTexMtxIdentity_Max
  * address:  0x02072524
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -19,7 +19,7 @@
  * (`01 2a a0 e3`) at 0x02072524 followed by `str r2, [r0]`, and only then
  * `mov r1, #0` (`00 10 a0 e3`) at 0x0207252C. dsi/1.1p1 -O4,p schedules the
  * zero first for the same 36 bytes, 9 concrete bytes out, under all ten
- * spellings measured in docs/notes/func_02072524.c.txt (store order,
+ * spellings measured in docs/notes/NNSi_G3dTexMtxIdentity_Max.c.txt (store order,
  * constants bound to locals, zero derived from the live 0x1000, re-read of
  * a stored field). Under the pin the same C is 36 bytes, 0 mismatches.
  */
@@ -37,7 +37,7 @@ struct DST {
     s32 f34;
 };
 
-void func_02072524(struct DST *d)
+void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
 {
     d->f00 = 0x1000;
     d->f04 = 0;

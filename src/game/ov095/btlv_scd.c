@@ -51,7 +51,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb
- *   func_021D59B4  0x021D59B4  thumb
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb
  *   func_021D62A8  0x021D62A8  thumb
@@ -169,7 +169,7 @@ extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *bpp);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
 extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *bpp, int slot);
 extern u16 func_021D5528(struct BtlPokeParam *bpp, u8 slot, u8 *outPp, u8 *outPpMax);
-extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 extern int func_021D62A8(struct BtlPokeParam *bpp);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, int paramId, int arg);
 extern u32 POKE_TOOL_GetGender(void *mon);
@@ -593,7 +593,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[0] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
-                    info.monValue[0] = func_021D59B4(mon, 18);
+                    info.monValue[0] = BTL_POKEPARAM_GetValue(mon, 18);
                 }
                 break;
             case 2:
@@ -602,7 +602,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[2] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[2] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
-                    info.monValue[2] = func_021D59B4(mon, 18);
+                    info.monValue[2] = BTL_POKEPARAM_GetValue(mon, 18);
                 }
             case 1: case 3:
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 2);
@@ -610,14 +610,14 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[0] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
-                    info.monValue[0] = func_021D59B4(mon, 18);
+                    info.monValue[0] = BTL_POKEPARAM_GetValue(mon, 18);
                 }
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 4);
                 mon = func_021B98AC(view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[1] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[1] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
-                    info.monValue[1] = func_021D59B4(mon, 18);
+                    info.monValue[1] = BTL_POKEPARAM_GetValue(mon, 18);
                 }
                 break;
             default: break;
@@ -892,12 +892,12 @@ void BTLV_SCD_ShowTargetMenu(u8 *slots, u8 count, int altMode, BtlvAuxView *view
         monWord = (u32)BTL_POKEPARAM_GetDisplayMon(bpp);
         rowIndex = BTL_MAIN_GetViewPosOfSlot(view->mainModule, *slots) - 2;
         row = &info.rows[rowIndex];
-        row->hp = func_021D59B4(bpp, 0xd);
+        row->hp = BTL_POKEPARAM_GetValue(bpp, 0xd);
         row->flags |= 4;
         if (row->hp != 0) {
             species = BTL_POKEPARAM_GetSpecies(bpp);
             row->monWord = monWord;
-            row->hpMax = func_021D59B4(bpp, 0xe);
+            row->hpMax = BTL_POKEPARAM_GetValue(bpp, 0xe);
             if (species == 32 || species == 29) row->flags = (row->flags & ~3) | 2;
             else row->flags = (row->flags & ~3) | (POKE_TOOL_GetGender(BTL_POKEPARAM_GetDisplayMon(bpp)) & 3);
             if (func_021D62A8(bpp)) row->state = 3;

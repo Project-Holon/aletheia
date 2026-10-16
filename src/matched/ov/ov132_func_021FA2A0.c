@@ -14,7 +14,7 @@
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   STA_ACT_AUDIENCE_DrawRecord 0x021FA3A8 thumb ov132
  *   func_02005728 0x02005728 thumb
@@ -36,7 +36,7 @@ extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *STA_ACTING_GetCharSystem(void *);
 extern void *STA_ACTING_GetCharSlot(void *,u8);
-extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 extern void STA_ACT_LIGHT_GetElemPos(void *,void *,Vec *);
 extern void STA_ACT_AUDIENCE_DrawRecord(char *,u8 *,unsigned);
 extern unsigned func_02005728(unsigned);
@@ -59,7 +59,7 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
                 a=STA_ACTING_GetActorSystem(((struct Obj04514 *)p)->f1E8);
-                STA_ACT_LIGHT_ElemOpA(a,STA_ACTING_GetActor(((struct Obj04514 *)p)->f1E8,rec[0]),(u32 *)(&v));
+                STA_ACT_LIGHT_CopyActorPos(a,STA_ACTING_GetActor(((struct Obj04514 *)p)->f1E8,rec[0]),(u32 *)(&v));
             } else {
                 b=STA_ACTING_GetCharSystem(((struct Obj04514 *)p)->f1E8);
                 STA_ACT_LIGHT_GetElemPos(b,STA_ACTING_GetCharSlot(((struct Obj04514 *)p)->f1E8,((struct Obj04514 *)p)->f1FC),&v);

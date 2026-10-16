@@ -99,8 +99,6 @@ typedef signed short s16;
 #include "../ov009/cps_ssl_types.h"
 #include "../ov009/qr2_types.h"
 
-typedef unsigned long u32_021D8438;
-
 typedef struct GdsRequestIdTable { int ids[8]; } GdsRequestIdTable;
 
 extern void OS_UnlockMutex(void *mutex);
@@ -124,7 +122,7 @@ extern void GDS_SOCKET_Lock(void);
 extern int SOC_Send(int socket, void *buf, int len, int flags);
 extern int SOC_Recv(int socket, void *buf, int len, int flags);
 extern void OS_DestroyThread(void *thread);
-extern void OS_Sleep(u32_021D8438 msec);
+extern void OS_Sleep(unsigned long msec);
 extern int DWC_SVLGetTokenAsync(const char *svl, DWCSvlResult *result);
 extern int DWC_SVLProcess(void);
 extern int DWC_GetLastErrorEx(int *errorCode, int *errorType);

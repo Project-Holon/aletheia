@@ -10,17 +10,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202BC48, sub_0202BC60
+ * function: ISS_3DS_SYS_RampVolumeUp, ISS_3DS_SYS_RampVolumeDown
  *
  * A clamp-increment and a clamp-decrement on the same signed 32-bit array,
  * offset 0x1E4 of the object, indexed by the second argument and clamped
- * against a caller-supplied bound passed as the third: sub_0202BC48 adds
- * 0x10 and caps at the bound from above, sub_0202BC60 subtracts 0x10 and
+ * against a caller-supplied bound passed as the third: ISS_3DS_SYS_RampVolumeUp adds
+ * 0x10 and caps at the bound from above, ISS_3DS_SYS_RampVolumeDown subtracts 0x10 and
  * floors at the bound from below. The two are otherwise identical, back to
  * back with no gap, and neither has a relocation.
  *
  * The comparison order in each is a deliberate `cmp`-operand tell
- * (docs/idioms/cmp-operand-order-names-the-temporary.md): sub_0202BC48
+ * (docs/idioms/cmp-operand-order-names-the-temporary.md): ISS_3DS_SYS_RampVolumeUp
  * compares the bound against the computed value (`cmp r2, r1`), which is
  * what `if (cap < v)` compiles to, not `if (v > cap)`.
  *
@@ -32,7 +32,7 @@
 typedef unsigned int u32;
 typedef int s32;
 
-void sub_0202BC48(void *obj, u32 index, s32 cap)
+void ISS_3DS_SYS_RampVolumeUp(void *obj, u32 index, s32 cap)
 {
     s32 *arr = (s32 *)((char *)obj + 0x1E4);
     s32 v = arr[index] + 0x10;
@@ -43,7 +43,7 @@ void sub_0202BC48(void *obj, u32 index, s32 cap)
     arr[index] = v;
 }
 
-void sub_0202BC60(void *obj, u32 index, s32 cap)
+void ISS_3DS_SYS_RampVolumeDown(void *obj, u32 index, s32 cap)
 {
     s32 *arr = (s32 *)((char *)obj + 0x1E4);
     s32 v = arr[index] - 0x10;

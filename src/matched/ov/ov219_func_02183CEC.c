@@ -1,5 +1,5 @@
 /*
- * function: func_02183CEC
+ * function: BEACON_DETAIL_WinUpdate
  * address: 0x02183CEC
  * packet: pkt_ov219_02183CEC
  * region: ov219
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void APP_TASKMENU_WIN_Update(u8*);
-void func_02183CEC(u8 *p){if(*(u8* *)&((struct Obj08450 *)p)->fC05C)APP_TASKMENU_WIN_Update(*(u8* *)&((struct Obj08450 *)p)->fC05C);if(*(u8* *)&((struct Obj08450 *)p)->fC060)APP_TASKMENU_WIN_Update(*(u8* *)&((struct Obj08450 *)p)->fC060);}
+void BEACON_DETAIL_WinUpdate(u8 *p){if(*(u8* *)&((struct Obj08450 *)p)->fC05C)APP_TASKMENU_WIN_Update(*(u8* *)&((struct Obj08450 *)p)->fC05C);if(*(u8* *)&((struct Obj08450 *)p)->fC060)APP_TASKMENU_WIN_Update(*(u8* *)&((struct Obj08450 *)p)->fC060);}

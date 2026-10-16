@@ -16,7 +16,7 @@
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
@@ -34,7 +34,7 @@ typedef unsigned char u8;
 struct Sav; struct WordSet; struct CharBuf; struct MsgBank; struct StrObj;
 extern struct Sav *POKE_TOOL_Dummy(struct Sav *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *),POKE_TOOL_EncodeBoxParam(struct Sav *,u32);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *,u32,void *);
@@ -61,7 +61,7 @@ void HALL_OF_FAME_PrintMonInfo(char *p) {
     HALL_OF_FAME_PrintToPlate((u8 *)p,1,((struct Obj01273 *)p)->f9030,str,112,0);
     STRBUF_Delete((struct U16Vec *)str);
     str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,3);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,func_02017E88(mon,158,0),3,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,POKE_TOOL_GetBoxValue(mon,158,0),3,0,1);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,((struct Obj01273 *)p)->f9040,str);
     HALL_OF_FAME_PrintToPlate((u8 *)p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,width+112,0);
     STRBUF_Delete((struct U16Vec *)str);

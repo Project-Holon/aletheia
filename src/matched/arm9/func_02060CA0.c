@@ -15,7 +15,7 @@
  *   NNSi_FndAllocFromExpHeapTail  0x02060ABC  arm
  *
  * The expanded-heap allocator's front door, and the function
- * src/matched/sub_02030098.c calls once it has picked the arena: round the
+ * src/matched/GFL_HEAP_AllocMemory.c calls once it has picked the arena: round the
  * request up to a word (a zero-byte request still costs one word, which is
  * what makes an empty allocation a distinct pointer), then walk the free list
  * from the head for a non-negative alignment or from the tail for a negative

@@ -22,7 +22,7 @@
  *   POKEPARTY_GetCapacity   0x0201AA14  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02030734 0x02030734 arm
  *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
@@ -69,7 +69,7 @@ extern u32 POKEPARTY_GetCount(struct Party *);
 
 extern struct PokemonParam *POKEPARTY_GetMember(struct Party *p, u32 idx);
 
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 
@@ -301,7 +301,7 @@ void BATTLE_REC_TOOL_UnpackParty(struct BattleRecParty *rec, struct Party *party
 {
     int i;
     struct PokemonParam *mon;
-    mon=func_02030734((u16)((heapId & 0x7FFF)|0x8000),func_020173EC(),1,d_021EF360,173);
+    mon=func_02030734((u16)((heapId & 0x7FFF)|0x8000),POKE_TOOL_GetPartyParamSize(),1,d_021EF360,173);
     POKEPARTY_InitEx(party,rec->capacity);
     for(i=0;i<rec->count;i++) {
         BATTLE_REC_TOOL_UnpackMon(&rec->members[i],mon);
@@ -334,61 +334,51 @@ void BATTLE_REC_TOOL_UnpackParties(struct BattleSetupParam *setup, struct Battle
     }
 }
 
-/* Player i is also reached as a row at rec + i * 0x44: the original code adds the 0x16C8 base per field. */
-#define BATTLE_REC_PLAYER_ROW(rec, i) ((struct BattleRecData *)((u8 *)(rec) + (i) * sizeof(struct BattleRecPlayer)))
-
 void BATTLE_REC_TOOL_PackPlayers(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
     unsigned i;
-    struct BattleRecData *row;
     for(i=0;i<4;i++) {
         if (setup->trainerData[i]) {
             BATTLE_REC_TOOL_PackPlayerProfile(setup->trainerData[i], &rec->players[i].data.trainer);
-            row = BATTLE_REC_PLAYER_ROW(rec, i);
-            row->players[0].kind = BATTLE_REC_PLAYER_TRAINER;
+            rec->players[i].kind = BATTLE_REC_PLAYER_TRAINER;
         } else if (setup->playerStatus[i]) {
             MYSTATUS_Copy(setup->playerStatus[i], rec->players[i].data.status);
-            row = BATTLE_REC_PLAYER_ROW(rec, i);
-            row->players[0].kind = BATTLE_REC_PLAYER_STATUS;
+            rec->players[i].kind = BATTLE_REC_PLAYER_STATUS;
         } else {
-            row = BATTLE_REC_PLAYER_ROW(rec, i);
-            row->players[0].kind = BATTLE_REC_PLAYER_NONE;
+            rec->players[i].kind = BATTLE_REC_PLAYER_NONE;
         }
-        row->players[0].voiceFlags = setup->voiceFlags[i];
+        rec->players[i].voiceFlags = setup->voiceFlags[i];
     }
 }
 
 void BATTLE_REC_TOOL_UnpackPlayers(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
     unsigned i;
-    struct BattleRecData *row;
     for(i=0;i<4;i++) {
-        row = BATTLE_REC_PLAYER_ROW(rec, i);
-        switch(row->players[0].kind) {
+        switch(rec->players[i].kind) {
         case BATTLE_REC_PLAYER_STATUS: MYSTATUS_Copy(rec->players[i].data.status, setup->playerStatus[i]); break;
         case BATTLE_REC_PLAYER_TRAINER: BATTLE_REC_TOOL_UnpackPlayerProfile(setup->trainerData[i], &rec->players[i].data.trainer); break;
         }
-        setup->voiceFlags[i] = row->players[0].voiceFlags;
+        setup->voiceFlags[i] = rec->players[i].voiceFlags;
     }
 }
 
-/* winWord and loseWord are read and written as eight halfwords. */
-#define TRAINER_WORD(trainer, n) (((u16 *)(trainer)->winWord)[n])
-
+/* winWord and loseWord are read and written as eight halfwords (winWords[0..3]
+ * and loseWords[0..3] through the union in BattleTrainerData). */
 void BATTLE_REC_TOOL_PackPlayerProfile(struct BattleTrainerData *trainer, struct BattleRecTrainer *rec)
 {
     unsigned i;
     rec->trainerId = trainer->trainerId;
     rec->trainerType = trainer->trainerType;
     rec->aiFlags = trainer->aiFlags;
-    rec->winWords[0] = TRAINER_WORD(trainer, 0);
-    rec->winWords[1] = TRAINER_WORD(trainer, 1);
-    rec->winWords[2] = TRAINER_WORD(trainer, 2);
-    rec->winWords[3] = TRAINER_WORD(trainer, 3);
-    rec->loseWords[0] = TRAINER_WORD(trainer, 4);
-    rec->loseWords[1] = TRAINER_WORD(trainer, 5);
-    rec->loseWords[2] = TRAINER_WORD(trainer, 6);
-    rec->loseWords[3] = TRAINER_WORD(trainer, 7);
+    rec->winWords[0] = trainer->winWords[0];
+    rec->winWords[1] = trainer->winWords[1];
+    rec->winWords[2] = trainer->winWords[2];
+    rec->winWords[3] = trainer->winWords[3];
+    rec->loseWords[0] = trainer->loseWords[0];
+    rec->loseWords[1] = trainer->loseWords[1];
+    rec->loseWords[2] = trainer->loseWords[2];
+    rec->loseWords[3] = trainer->loseWords[3];
     for(i=0;i<4;i++) rec->itemIds[i] = trainer->itemIds[i];
     STRBUF_ToChars(trainer->name, rec->name, 16);
 }
@@ -400,14 +390,14 @@ void BATTLE_REC_TOOL_UnpackPlayerProfile(struct BattleTrainerData *trainer, stru
     trainer->trainerId = rec->trainerId;
     trainer->trainerType = rec->trainerType;
     trainer->aiFlags = rec->aiFlags;
-    TRAINER_WORD(trainer, 0) = rec->winWords[0];
-    TRAINER_WORD(trainer, 1) = rec->winWords[1];
-    TRAINER_WORD(trainer, 2) = rec->winWords[2];
-    TRAINER_WORD(trainer, 3) = rec->winWords[3];
-    TRAINER_WORD(trainer, 4) = rec->loseWords[0];
-    TRAINER_WORD(trainer, 5) = rec->loseWords[1];
-    TRAINER_WORD(trainer, 6) = rec->loseWords[2];
-    TRAINER_WORD(trainer, 7) = rec->loseWords[3];
+    trainer->winWords[0] = rec->winWords[0];
+    trainer->winWords[1] = rec->winWords[1];
+    trainer->winWords[2] = rec->winWords[2];
+    trainer->winWords[3] = rec->winWords[3];
+    trainer->loseWords[0] = rec->loseWords[0];
+    trainer->loseWords[1] = rec->loseWords[1];
+    trainer->loseWords[2] = rec->loseWords[2];
+    trainer->loseWords[3] = rec->loseWords[3];
     for(i=0;i<4;i++) trainer->itemIds[i] = rec->itemIds[i];
     STRBUF_SetString(trainer->name, rec->name);
     p = STRBUF_GetChars(trainer->name);

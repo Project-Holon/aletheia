@@ -29,7 +29,7 @@
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   GX_GetBankForTex  0x02080C44  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *   func_02080294  0x02080294  arm
  *   func_02040588  0x02040588  arm
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
@@ -66,7 +66,7 @@ extern void BG_SYS_SetVisibleLayer(int idx, u16 val);
 extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
 extern u16 GX_GetBankForTex(void);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern void func_02080294(u32 bank);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
@@ -206,7 +206,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
                 work->texBanks = texBanks | 8;
                 work->addedTexBank = 1;
             }
-            func_02080B98();
+            GX_DisableBankForLCDC();
             func_02080294(work->texBanks);
             work->texParam = ENCEFF_GetScreenTexParam();
             *state = *state + 1;
@@ -292,7 +292,7 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
                 work->texBanks = texBanks | 8;
                 work->addedTexBank = 1;
             }
-            func_02080B98();
+            GX_DisableBankForLCDC();
             func_02080294(work->texBanks);
             work->texParam = ENCEFF_GetScreenTexParam();
             *state = *state + 1;

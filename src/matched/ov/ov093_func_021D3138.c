@@ -13,7 +13,7 @@
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   BTLV_EFFECT_StartEffectWithValue  0x021F7D44  thumb  ov094
  *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
- *   func_021EAF18  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
  *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
  *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
@@ -27,7 +27,7 @@ extern void BTLV_EFFECT_StartEffectWithValue(int a, u16 b);
 extern int BTLV_EFFECT_IsBusy(void);
 struct H;
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 
@@ -40,7 +40,7 @@ int BTL_CLIENT_StepShowBallBlocked(u32 *a, int *b, u32 *c)
         break;
     case 1:
         if (BTLV_EFFECT_IsBusy() == 0) {
-            func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x43);
+            BTLV_SCU_InitMessage((struct L *)((u8 *)a + 0x58), 1, 0x43);
             BTLV_CORE_BuildAndPrintMessage((char *)a[0x15], (struct H *)((u8 *)a + 0x58));
             (*b)++;
         }

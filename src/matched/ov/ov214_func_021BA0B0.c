@@ -17,7 +17,10 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
-#include "../../matched/include/Obj14700.h"
+struct BtlRecSel {
+    unsigned char pad_0[0x6C];
+    void * win1;              /* 0x6C */
+};
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor; struct Cfg; struct CharBuf;
@@ -30,8 +33,8 @@ extern void func_02041B6C(u32);
 void BTL_REC_SEL_ClearWindowWhite(int unused, char *p)
 {
     struct Descriptor *d;
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj14700 *)p)->f6C), 15);
-    d = ((struct Obj14700 *)p)->f6C;
+    BMP_Clear(BMP_WIN_GetBmp(((struct BtlRecSel *)p)->win1), 15);
+    d = ((struct BtlRecSel *)p)->win1;
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen((struct Cfg *)d);
     func_02041B6C(BMP_WIN_GetBgLayer(d));

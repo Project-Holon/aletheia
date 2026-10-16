@@ -1,5 +1,5 @@
 /*
- * function: func_02167CB4
+ * function: WcmEditScanExParam
  * address:  0x02167CB4
  * packet:   pkt_ov009_02167CB4
  * region:   ov009
@@ -47,7 +47,7 @@ extern unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 extern unsigned short WM_GetDispersionScanPeriod(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 
-void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option)
+static void WcmEditScanExParam(unsigned char *bssid, unsigned char *essid, unsigned long option)
 {
     WCMWork *wcmw;
     long len;

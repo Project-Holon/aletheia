@@ -182,7 +182,7 @@
  *   APP_ICON_GetItemPaletteFileId 0x02027698 thumb
  *   APP_ICON_GetItemAnimFileId 0x0202769C thumb
  *   APP_ICON_GetItemFrameFileId 0x020276A0 thumb
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
  *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
  *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
@@ -415,7 +415,7 @@ extern void TCBL_Main(struct Tcbl *p);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *ps);
 
-struct PalAnm;
+struct PalAnmSlot;
 
 
 struct DispConfig { u32 w[4]; };
@@ -514,11 +514,11 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void *PALANM_Create(u32 heap);
 
-extern void PALANM_AllocSlotBuffers(struct PalAnm *slots, u32 idx, u32 size, u32 heap);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-extern void PALANM_LoadHandlePaletteToSlot(struct PalAnm *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnm *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
 extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 
@@ -530,7 +530,7 @@ extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsi
 
 extern void func_02041B6C(u32);
 
-extern void PALANM_FreeSlotBuffers(struct PalAnm *slots, u32 idx);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
 extern u32 PALANM_Delete(void *a0);
 
@@ -1198,7 +1198,7 @@ extern u32 APP_ICON_GetItemPaletteFileId(void);
 
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 
@@ -1801,7 +1801,7 @@ void MB_SEQ_RegisterSystemActorResources(struct MailBoxView *view)
     arc = func_020490F4(APP_ICON_GetArchiveId(), 102);
     for (i = 0; i <= 2; i++)
         view->charRes[i] = CLACT_RegisterCharacter(arc, APP_ICON_GetItemPaletteFileId(), 0, 1, 102);
-    view->paletteRes[0] = CLACT_RegisterPalette(arc, func_0201BC3C(), 1, 0, 102);
+    view->paletteRes[0] = CLACT_RegisterPalette(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, 102);
     first = APP_ICON_GetItemAnimFileId(0);
     view->cellRes[0] = CLACT_RegisterCellAnim(arc, first, APP_ICON_GetItemFrameFileId(0), 102);
     ARC_TOOL_DeleteHandle(arc);

@@ -13,7 +13,7 @@
  *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
- *   STA_ACT_LIGHT_CallElemE 0x021F8140 thumb ov112
+ *   STA_ACT_LIGHT_SetActorVisible 0x021F8140 thumb ov112
  */
 #include "../include/Obj10550.h"
 #include "../include/Obj14107.h"
@@ -24,7 +24,7 @@ extern int SCRIPT_COMMAND_GetActorMask(char *, int);
 typedef unsigned int   u32;
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
-extern void STA_ACT_LIGHT_CallElemE(int a, u8 *p, int b);
+extern void STA_ACT_LIGHT_SetActorVisible(int a, u8 *p, int b);
 int SCRIPT_COMMAND_CmdSetActorScale(int unused, char *p)
 {
     char *obj;
@@ -38,7 +38,7 @@ int SCRIPT_COMMAND_CmdSetActorScale(int unused, char *p)
     ctx = STA_ACTING_GetActorSystem(((struct Obj14107 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            STA_ACT_LIGHT_CallElemE((int)ctx, STA_ACTING_GetActor(((struct Obj14107 *)obj)->f34, i), value != 0);
+            STA_ACT_LIGHT_SetActorVisible((int)ctx, STA_ACTING_GetActor(((struct Obj14107 *)obj)->f34, i), value != 0);
         }
     }
     return 0;

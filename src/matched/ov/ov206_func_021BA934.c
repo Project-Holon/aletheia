@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BA934
+ * function: ZUKAN_INFO_DeleteWindows
  * address: 0x021BA934
  * packet: pkt_ov206_021BA934
  * region: ov206
@@ -20,7 +20,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BA934(char *p)
+void ZUKAN_INFO_DeleteWindows(char *p)
 {
     int i;
     PRINTSYS_QUE_Clear(((struct Obj00173 *)p)->f2C);

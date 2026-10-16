@@ -22,7 +22,7 @@
  *   EVENT_MAPCHANGE_AddPresetMail  0x02185F6C  thumb  ov020
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *   EVENT_MAPCHANGE_NewGameStartEvent  0x02183C9C  thumb  ov020
  */
 
@@ -46,7 +46,7 @@ extern void PALANM_StartTimer(void);
 extern void EVENT_MAPCHANGE_AddPresetMail(int a);
 extern void func_0208068C(int a);
 extern void MIi_CpuClearFast(int v, u32 a, u32 b);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern int EVENT_MAPCHANGE_NewGameStartEvent(void *obj, int *state, struct Arg *arg);
 
 int EVENT_MAPCHANGE_CreateNewGameStartEvent(int a)
@@ -63,6 +63,6 @@ int EVENT_MAPCHANGE_CreateNewGameStartEvent(int a)
     EVENT_MAPCHANGE_AddPresetMail(r4[1]);
     func_0208068C(0x1ff);
     MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
-    func_02080B98();
+    GX_DisableBankForLCDC();
     return r6;
 }

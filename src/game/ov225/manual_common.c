@@ -153,7 +153,7 @@ struct ManualMenuTable;
 struct ManualTouchbar;
 struct ManualListBuffer;
 struct ManualRes;
-typedef struct S S;
+struct TouchBar;
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -320,7 +320,7 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 extern void func_02030EAC(struct Node *n);
 extern void TOUCHBAR_Delete(unsigned char *);
 extern void func_02034A5C(int);
-extern void TOUCHBAR_Update(struct S *p);
+extern void TOUCHBAR_Update(struct TouchBar *p);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
@@ -710,7 +710,7 @@ void MANUAL_COMMON_UpdateTouchbar(char *touchbar)
     ((struct ManualTouchbar *)touchbar)->pressedId=-1;((struct ManualTouchbar *)touchbar)->releasedId=-1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
     if(((struct ManualTouchbar *)touchbar)->pressState==1) {((struct ManualTouchbar *)touchbar)->pressState=0;return;}
     if(((struct ManualTouchbar *)touchbar)->pressState==0 || ((struct ManualTouchbar *)touchbar)->pressState==2) {
-        TOUCHBAR_Update(*(S * *)&((struct ManualTouchbar *)touchbar)->touchbar);
+        TOUCHBAR_Update(*(struct TouchBar * *)&((struct ManualTouchbar *)touchbar)->touchbar);
         if(((struct ManualTouchbar *)touchbar)->pressState==0) {
             int result=TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar);
             if(result!=-1) {((struct ManualTouchbar *)touchbar)->pressState=2;((struct ManualTouchbar *)touchbar)->pressedId=result;}

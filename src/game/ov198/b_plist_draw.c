@@ -38,8 +38,8 @@
  *   d_02211B68 0x02211B68 data ov198 a4
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
- *   func_0202D01C 0x0202D01C thumb
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_ScaleRatio 0x0202D01C thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
@@ -77,10 +77,10 @@
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC78  0x0201BC78  thumb
- *   func_0201BCEC  0x0201BCEC  thumb
+ *   POKE_TOOL_GetIconCellArcIdSub  0x0201BC78  thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub  0x0201BCEC  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -148,7 +148,7 @@ typedef struct Item { u8 a,b,c,d,e,f; } Item;
 
 
 
-struct R {
+struct B_PlistSlotView {
     u8 pad[0x16];
     u8 a0 : 7;
     u8 a1 : 1;
@@ -241,8 +241,8 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
-extern u8 func_0202D01C(u32,u32,u32);
-extern int func_0202D034(u32,u32);
+extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
+extern int BGWINFRM_GetScaleRank(u32,u32);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
@@ -271,10 +271,10 @@ extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC78(void);
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern int CLACT_RegisterPalette(void *, unsigned, unsigned, unsigned, u16);
@@ -624,7 +624,7 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     u32 w;
     u32 off;
     void *handle;
-    struct R *rec;
+    struct B_PlistSlotView *rec;
     void *vec;
     void *msg;
     u32 x;
@@ -648,7 +648,7 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     n = B_PLIST_MAIN_GetOrderIndex(p, a2);
     base = p + 4;
     off = n * 0x4C;
-    rec = (struct R *)(base + off);
+    rec = (struct B_PlistSlotView *)(base + off);
     vec = STRBUF_Create(12, P->hdr->field10);
     msg = func_02045EC0(P->f1EA0, d_02211B68[a2]);
     WORDSET_SetSlotMonSpecies(P->f1EA4, 0, *(void **)rec);
@@ -972,8 +972,8 @@ void B_PLIST_DRAW_FillTypeBar(u8 *p,int slot,int index,u16 value,u8 extra)
 {
     char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     u8 color=1;
-    u8 width=func_0202D01C(((struct B_PlistSlot *)elem)->field10,((struct B_PlistSlot *)elem)->field12,48);
-    switch(func_0202D034(((struct B_PlistSlot *)elem)->field10,((struct B_PlistSlot *)elem)->field12)) {
+    u8 width=BGWINFRM_ScaleRatio(((struct B_PlistSlot *)elem)->field10,((struct B_PlistSlot *)elem)->field12,48);
+    switch(BGWINFRM_GetScaleRank(((struct B_PlistSlot *)elem)->field10,((struct B_PlistSlot *)elem)->field12)) {
     case 3: return;
     case 0: color=1; break;
     case 1: color=3; break;
@@ -2037,7 +2037,7 @@ void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx)
     void *msg;
     u32 off;
     void *o;
-    struct R *rec;
+    struct B_PlistSlotView *rec;
     void *vec;
     u8 t;
     short half;
@@ -2051,7 +2051,7 @@ void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx)
     n = B_PLIST_MAIN_GetOrderIndex(p, idx);
     base = p + 4;
     off = n * 0x4c;
-    rec = (struct R *)(base + off);
+    rec = (struct B_PlistSlotView *)(base + off);
     vec = STRBUF_Create(12, *(u16 *)(*(u8 **)p + 0x10));
     msg = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), d_02211B68[idx]);
     WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
@@ -2489,8 +2489,8 @@ void B_PLIST_DRAW_RegisterRowCharacters(u8 *p)
             *(int *)((u32)p + 0x24A4 + i * 4) = CLACT_RegisterCharacter(arc, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         }
     }
-    *(int *)(p + 0x250C) = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0, *(u16 *)(*(u8 **)p + 0x10));
-    *(s32 *)(p + 0x2524) = CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCEC(), *(u16 *)(*(u8 **)p + 0x10));
+    *(int *)(p + 0x250C) = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, *(u16 *)(*(u8 **)p + 0x10));
+    *(s32 *)(p + 0x2524) = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryIdSub(), *(u16 *)(*(u8 **)p + 0x10));
     ARC_TOOL_DeleteHandle(arc);
 }
 

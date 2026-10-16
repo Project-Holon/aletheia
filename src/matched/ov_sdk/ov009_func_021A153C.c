@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217EF50  0x0217EF50  arm  ov009
- *   func_0217EC4C  0x0217EC4C  arm  ov009
+ *   recv  0x0217EC4C  arm  ov009
  *   ErrorDisconnect  0x0219FAAC  arm  ov009
  *   GOADecrypt  0x0219D478  arm  ov009
  *   ProcessMainListData  0x021A0A24  arm  ov009
@@ -46,7 +46,7 @@ struct SBL {
 	int crypt;
 };
 extern int func_0217EF50(int sock);
-extern int func_0217EC4C(int sock, char *buf, int len, int flags);
+extern int recv(int sock, char *buf, int len, int flags);
 extern void ErrorDisconnect(struct SBL *slist);
 struct GOACryptState;
 struct _SBServerList;
@@ -62,7 +62,7 @@ int ProcessIncomingData(struct SBL *slist)
 		return 0;
 	oldlen = slist->inlen;
 	err = 0;
-	len = func_0217EC4C(slist->sock, slist->inbuf + oldlen, 0x1000 - oldlen, 0);
+	len = recv(slist->sock, slist->inbuf + oldlen, 0x1000 - oldlen, 0);
 	if (len == -1 || len == 0) {
 		ErrorDisconnect(slist);
 		return 3;

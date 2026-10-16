@@ -31,7 +31,7 @@
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -120,7 +120,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 extern struct Sav *POKE_TOOL_Dummy(struct Sav *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *,u32);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *,u32,void *);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
@@ -242,7 +242,7 @@ void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, str, 112, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = func_02045EC0(work->msgData, 3);
-    WORDSET_SetSlotNumber(work->wordSet, 0, func_02017E88(mon, 158, 0), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetBoxValue(mon, 158, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, width + 112, 0);
     STRBUF_Delete((struct U16Vec *)str);

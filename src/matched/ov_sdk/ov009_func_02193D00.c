@@ -12,7 +12,7 @@
  * sdk:      CloseStatsConnection (gstats.o)
  *
  * symbols:
- *   func_0217EB9C 0x0217EB9C  arm
+ *   shutdown 0x0217EB9C  arm
  *   closesocket 0x0217EB2C  arm
  *   ClosePendingCallbacks 0x02194614  arm
  *   gsifree 0x0217EAE0  arm
@@ -23,7 +23,7 @@
 #include "../include/G_StatsSocket.h"
 #include "../include/G_StatsConn.h"
 
-extern int func_0217EB9C(int sock, int how);
+extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern void ClosePendingCallbacks(void);
 extern void gsifree(void *ptr);
@@ -33,7 +33,7 @@ extern struct StatsConn gGstatsConn;
 void CloseStatsConnection(void)
 {
     if (((int *)&gGstatsSocket)[1] != -1) {
-        func_0217EB9C(((int *)&gGstatsSocket)[1], 2);
+        shutdown(((int *)&gGstatsSocket)[1], 2);
         closesocket(((int *)&gGstatsSocket)[1]);
     }
     ((int *)&gGstatsSocket)[1] = -1;

@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_renderer.c
  * unit:     yes
- * function: NNSi_G2dRendererPreDrawOam, NNSi_G2dRendererCallSurfaceOamFunc, NNSi_G2dRendererDrawCellToSurfaces, NNSi_G2dRendererDrawCellTransformed, NNSi_G2dRendererDrawCellEntryTransformed, NNS_G2dInitRenderer, NNS_G2dSetRendererTargetSurface, NNS_G2dInitRenderSurface, NNS_G2dBeginRendering, NNS_G2dEndRendering, NNSi_G2dRendererDrawCellZOffset, NNSi_G2dRendererDrawCellTransformedZOffset, NNS_G2dDrawMultiCell, NNSi_G2dRendererDrawMultiCellTransformed, NNS_G2dPushMtx, NNS_G2dPopMtx, NNS_G2dTranslate, NNS_G2dScale, NNS_G2dRotZ, func_02066740, func_02066748, NNSi_G2dMtxConcat32
+ * function: NNSi_G2dRendererPreDrawOam, NNSi_G2dRendererCallSurfaceOamFunc, NNSi_G2dRendererDrawCellToSurfaces, NNSi_G2dRendererDrawCellTransformed, NNSi_G2dRendererDrawCellEntryTransformed, NNS_G2dInitRenderer, NNS_G2dSetRendererTargetSurface, NNS_G2dInitRenderSurface, NNS_G2dBeginRendering, NNS_G2dEndRendering, NNSi_G2dRendererDrawCellZOffset, NNSi_G2dRendererDrawCellTransformedZOffset, NNS_G2dDrawMultiCell, NNSi_G2dRendererDrawMultiCellTransformed, NNS_G2dPushMtx, NNS_G2dPopMtx, NNS_G2dTranslate, NNS_G2dScale, NNS_G2dRotZ, NNSi_G2dGetCurrentInstanceVramHandle, NNSi_G2dSetRndCoreImageProxyVeneer, NNSi_G2dMtxConcat32
  * address:  0x020651B8
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -61,7 +61,7 @@
 struct Ctx;
 struct G2dOamState;
 struct Src02067AC0;
-struct Obj02065878;
+struct CellDrawCmd;
 struct Cell;
 struct Host;
 struct Cmd020659D4;
@@ -184,18 +184,22 @@ struct Cell {
     OamAttr oam;
 };
 
-struct Obj02065878 {
+/* The inline transform record at +0x30 of a cell-animation instance: the same
+ * DrawCmd layout the +0x34 (multi-cell) and +0x00 (entry) records use, shifted.
+ * handle +0x30, alternate-surface id +0x38, scale +0x40/+0x44, translate
+ * +0x48/+0x4a, angle +0x4c, flags +0x4e. */
+struct CellDrawCmd {
     u8   pad_00[0x30];
-    void *unk_30;
+    void *handle;     /* 0x30  the cell handle re-passed to the draw */
     u8   pad_34[4];
-    int  unk_38;
+    int  drawFlag;    /* 0x38  alternate-surface id, -1 = none */
     u8   pad_3c[4];
-    fx32 unk_40;
-    fx32 unk_44;
-    s16  unk_48;
-    s16  unk_4a;
-    u16  unk_4c;
-    u16  unk_4e;
+    fx32 scaleX;      /* 0x40  flag 2 */
+    fx32 scaleY;      /* 0x44  flag 2 */
+    s16  transX;      /* 0x48  flag 8, shifted <<12 */
+    s16  transY;      /* 0x4a  flag 8, shifted <<12 */
+    u16  angle;       /* 0x4c  flag 4, >>4 indexes FX_SinCosTable_ */
+    u16  flags;       /* 0x4e  bit 8 translate, 4 rotate, 2 scale */
 };
 
 struct Cmd020659D4 {
@@ -247,15 +251,19 @@ typedef struct NNSG2dMultiCellInstance {
     void *pCellAnimInstasnces;
 } NNSG2dMultiCellInstance;
 
-struct Obj02066080 {
+/* The inline transform record at +0x34 of a multi-cell instance: an embedded
+ * NNSG2dMultiCellInstance at +0x34, then the same transform fields as
+ * CellDrawCmd at +0x4c..+0x5a. */
+struct MultiCellDrawCmd {
     u8   pad_00[0x34];
-    u8   unk_34[0x18];
-    fx32 unk_4c;
-    fx32 unk_50;
-    s16  unk_54;
-    s16  unk_56;
-    u16  unk_58;
-    u16  unk_5a;
+    NNSG2dMultiCellInstance multiCell;  /* 0x34  embedded multi-cell instance */
+    u8   pad_44[8];                     /* 0x44..0x4c */
+    fx32 scaleX;      /* 0x4c  flag 2 */
+    fx32 scaleY;      /* 0x50  flag 2 */
+    s16  transX;      /* 0x54  flag 8, shifted <<12 */
+    s16  transY;      /* 0x56  flag 8, shifted <<12 */
+    u16  angle;       /* 0x58  flag 4, >>4 indexes FX_SinCosTable_ */
+    u16  flags;       /* 0x5a  bit 8 translate, 4 rotate, 2 scale */
 };
 
 struct RendererBssHead {
@@ -296,7 +304,7 @@ extern void NNS_G2dSetRndCoreImageProxy(int *p, int a, int b);
 void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2);
 void NNSi_G2dRendererCallSurfaceOamFunc(void *a0, void *a1, void *a2);
 void NNSi_G2dRendererDrawCellToSurfaces(void *a);
-void NNSi_G2dRendererDrawCellTransformed(struct Obj02065878 *c);
+void NNSi_G2dRendererDrawCellTransformed(struct CellDrawCmd *c);
 void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c);
 void NNS_G2dInitRenderer(NNSG2dRendererInstance *pRend);
 void NNS_G2dSetRendererTargetSurface(NNSG2dRendererInstance *pRend, NNSG2dRenderSurface *pNew);
@@ -306,14 +314,14 @@ void NNS_G2dEndRendering(u32 a);
 void NNSi_G2dRendererDrawCellZOffset(void *a0);
 void NNSi_G2dRendererDrawCellTransformedZOffset(void *a0);
 void NNS_G2dDrawMultiCell(const NNSG2dMultiCellInstance *pMC);
-void NNSi_G2dRendererDrawMultiCellTransformed(struct Obj02066080 *c);
+void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c);
 void NNS_G2dPushMtx(void);
 void NNS_G2dPopMtx(int n);
 void NNS_G2dTranslate(fx32 x, fx32 y, fx32 z);
 void NNS_G2dScale(fx32 x, fx32 y, fx32 z);
 void NNS_G2dRotZ(fx32 sin, fx32 cos);
-int func_02066740(int *p);
-void func_02066748(int *a0, int a1, int a2);
+int NNSi_G2dGetCurrentInstanceVramHandle(int *p);
+void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2);
 void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 extern struct RendererBss g_02147B88;
 /* stand-in: second name for g_02147B88, used by NNS_G2dTranslate only; with the full struct the 2.0 scheduler hoists the stackPos_ load (44 bytes off) */
@@ -376,7 +384,7 @@ void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2)
     MtxFx32 *m;
     u32 i;
 
-    map = (void *)func_02066740((int *)g_02147B88.pCurrentInstance_);
+    map = (void *)NNSi_G2dGetCurrentInstanceVramHandle((int *)g_02147B88.pCurrentInstance_);
     if (map != 0)
         c->oam.cParam = NNSi_G2dGetVramHandle(map, (u16)((c->oam.attr2 & 0xF000) >> 12));
 
@@ -602,12 +610,12 @@ void NNSi_G2dRendererDrawCellToSurfaces(void *a)
 
 
 
-static inline void Draw(struct Obj02065878 *c, void *a)
+static inline void Draw(struct CellDrawCmd *c, void *a)
 {
     int r;
-    r = !(c->unk_38 == -1);
+    r = !(c->drawFlag == -1);
     if (r != 0) {
-        g_020A81F8.currenVramTransferHandle_ = c->unk_38;
+        g_020A81F8.currenVramTransferHandle_ = c->drawFlag;
         NNSi_G2dRendererDrawCellToSurfaces(a);
         g_020A81F8.currenVramTransferHandle_ = -1;
     } else {
@@ -645,22 +653,22 @@ static inline void Draw(struct Obj02065878 *c, void *a)
  * exact but 36 out; only the negated equality is EXACT.  Under dsi/1.1p1
  * every spelling is 308..340 bytes.
  */
-void NNSi_G2dRendererDrawCellTransformed(struct Obj02065878 *c)
+void NNSi_G2dRendererDrawCellTransformed(struct CellDrawCmd *c)
 {
-    void *a = c->unk_30;
+    void *a = c->handle;
 
-    if (c->unk_4e == 0) {
+    if (c->flags == 0) {
         Draw(c, a);
         return;
     }
 
     NNS_G2dPushMtx();
 
-    if ((c->unk_4e & 8) != 0) {
+    if ((c->flags & 8) != 0) {
         int x, y;
 
-        y = c->unk_4a;
-        x = c->unk_48;
+        y = c->transY;
+        x = c->transX;
 
         if (NNSi_G2dIsRndCoreFlipH((const struct G2dOamState *)g_02147B88.pCurrentInstance_) != 0)
             x = -x;
@@ -670,14 +678,14 @@ void NNSi_G2dRendererDrawCellTransformed(struct Obj02065878 *c)
         NNS_G2dTranslate(x << 12, y << 12, 0);
     }
 
-    if ((c->unk_4e & 4) != 0) {
-        int i = c->unk_4c >> 4;
+    if ((c->flags & 4) != 0) {
+        int i = c->angle >> 4;
 
         NNS_G2dRotZ(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
-    if ((c->unk_4e & 2) != 0)
-        NNS_G2dScale(c->unk_40, c->unk_44, 0x1000);
+    if ((c->flags & 2) != 0)
+        NNS_G2dScale(c->scaleX, c->scaleY, 0x1000);
 
     Draw(c, a);
     NNS_G2dPopMtx(1);
@@ -725,7 +733,7 @@ void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c)
     if ((c->unk_1e & 2) != 0)
         NNS_G2dScale(c->unk_10, c->unk_14, 0x1000);
 
-    NNSi_G2dRendererDrawCellTransformed((struct Obj02065878 *)a);
+    NNSi_G2dRendererDrawCellTransformed((struct CellDrawCmd *)a);
     NNS_G2dPopMtx(1);
 }
 
@@ -1046,7 +1054,7 @@ static inline void DrawNode2_(const NNSG2dMultiCellInstance *pMC, const NNSG2dMu
     NNS_G2dPushMtx();
     FlipTranslate_(pNodeData->posX, pNodeData->posY);
     {
-        NNSi_G2dRendererDrawCellTransformed((struct Obj02065878 *)(&cellAnimArray[cellAnimIdx].cellAnim));
+        NNSi_G2dRendererDrawCellTransformed((struct CellDrawCmd *)(&cellAnimArray[cellAnimIdx].cellAnim));
     }
     NNS_G2dPopMtx(1);
 }
@@ -1120,20 +1128,20 @@ void NNS_G2dDrawMultiCell(const NNSG2dMultiCellInstance *pMC)
 
 
 
-void NNSi_G2dRendererDrawMultiCellTransformed(struct Obj02066080 *c)
+void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c)
 {
-    if (c->unk_5a == 0) {
-        NNS_G2dDrawMultiCell((const struct NNSG2dMultiCellInstance *)c->unk_34);
+    if (c->flags == 0) {
+        NNS_G2dDrawMultiCell(&c->multiCell);
         return;
     }
 
     NNS_G2dPushMtx();
 
-    if ((c->unk_5a & 8) != 0) {
+    if ((c->flags & 8) != 0) {
         int x, y;
 
-        y = c->unk_56;
-        x = c->unk_54;
+        y = c->transY;
+        x = c->transX;
 
         if (NNSi_G2dIsRndCoreFlipH((const struct G2dOamState *)g_02147B88.pCurrentInstance_) != 0)
             x = -x;
@@ -1143,16 +1151,16 @@ void NNSi_G2dRendererDrawMultiCellTransformed(struct Obj02066080 *c)
         NNS_G2dTranslate(x << 12, y << 12, 0);
     }
 
-    if ((c->unk_5a & 4) != 0) {
-        int i = c->unk_58 >> 4;
+    if ((c->flags & 4) != 0) {
+        int i = c->angle >> 4;
 
         NNS_G2dRotZ(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
-    if ((c->unk_5a & 2) != 0)
-        NNS_G2dScale(c->unk_4c, c->unk_50, 0x1000);
+    if ((c->flags & 2) != 0)
+        NNS_G2dScale(c->scaleX, c->scaleY, 0x1000);
 
-    NNS_G2dDrawMultiCell((const struct NNSG2dMultiCellInstance *)c->unk_34);
+    NNS_G2dDrawMultiCell(&c->multiCell);
     NNS_G2dPopMtx(1);
 }
 
@@ -1539,12 +1547,12 @@ void NNS_G2dRotZ(fx32 sin, fx32 cos)
 
 
 
-int func_02066740(int *p){ return p[0x1e]; }
+int NNSi_G2dGetCurrentInstanceVramHandle(int *p){ return p[0x1e]; }
 
 
 
 
-void func_02066748(int *a0, int a1, int a2){ NNS_G2dSetRndCoreImageProxy(a0, a1, a2); }
+void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2){ NNS_G2dSetRndCoreImageProxy(a0, a1, a2); }
 
 
 

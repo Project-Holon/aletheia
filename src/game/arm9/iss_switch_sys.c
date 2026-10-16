@@ -1,7 +1,7 @@
 /*
  * file:     iss_switch_sys.c
  * unit:     yes
- * function: ISS_SWITCH_SYS_Create, ISS_SWITCH_SYS_Delete, ISS_SWITCH_SYS_Main, ISS_SWITCH_SYS_On, ISS_SWITCH_SYS_Off, ISS_SWITCH_SYS_ZoneChange, ISS_SWITCH_SYS_SwitchOn, ISS_SWITCH_SYS_SwitchOff, ISS_SWITCH_SYS_IsSwitchOn, ISS_SWITCH_SYS_ResetSwitch, ISS_SWITCH_SYS_Init, ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Free, ISS_SWITCH_SYS_CreateSets, ISS_SWITCH_SYS_DeleteSets, ISS_SWITCH_SYS_UpdateActiveSet, ISS_SWITCH_SYS_TurnOn, ISS_SWITCH_SYS_TurnOff, ISS_SWITCH_SYS_CheckZoneChange, ISS_SWITCH_SYS_GetSetCount, ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet, ISS_SWITCH_SYS_IsActiveSetZone, ISS_SWITCH_SYS_FindSetByBgm, ISS_SWITCH_SYS_ChangeActiveSet, ISS_SWITCH_SYS_UpdateVolume, ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn, ISS_SWITCH_SYS_ResetActiveSet, ISS_SWITCH_SET_Create, ISS_SWITCH_SET_Delete, ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff, ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn, ISS_SWITCH_SET_UpdateVolume, ISS_SWITCH_SET_Init, ISS_SWITCH_SET_Alloc, ISS_SWITCH_SET_Free, ISS_SWITCH_SET_CreateSwitches, ISS_SWITCH_SET_DeleteSwitches, ISS_SWITCH_SET_LoadData, ISS_SWITCH_SET_UpdateSwitches, ISS_SWITCH_SET_StartSwitchOn, ISS_SWITCH_SET_StartSwitchOff, ISS_SWITCH_SET_ResetSwitches, ISS_SWITCH_SET_ReadBgmNo, ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone, ISS_SWITCH_SET_CheckZone, ISS_SWITCH_SET_CheckSwitchOn, ISS_SWITCH_SET_GetSwitch, ISS_SWITCH_SET_ApplySwitchVolumes, ISS_SWITCH_Create, ISS_SWITCH_Delete, ISS_SWITCH_Setup, ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn, ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume, ISS_SWITCH_Alloc, ISS_SWITCH_Free, ISS_SWITCH_Init, ISS_SWITCH_SetParam, ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd, ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff, ISS_SWITCH_UpdateFadeIn, ISS_SWITCH_UpdateFadeOut, ISS_SWITCH_StartFadeIn, ISS_SWITCH_StartFadeOut, ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState, ISS_SWITCH_GetState, ISS_SWITCH_SetState, ISS_SWITCH_GetVolume, ISS_SWITCH_ApplyVolume, ISS_SWITCH_IsOnState, ISS_SWITCH_IsOffState, func_0202C794, func_0202C824, func_0202C83C, func_0202C860, func_0202C8B8, func_0202C934, func_0202C970, BGWINFRM_Create, BGWINFRM_Delete, BGWINFRM_AddFrame, BGWINFRM_SetFrameData, BGWINFRM_SetFrameDataArc, BGWINFRM_SetFrameDataArcHandle, BGWINFRM_PutFrame, BGWINFRM_ShowFrame, BGWINFRM_HideFrame, BGWINFRM_StartMove, BGWINFRM_UpdateMoves, BGWINFRM_UpdateMove, BGWINFRM_IsMoving, BGWINFRM_ChangePalette, BGWINFRM_PutBmpWin, BGWINFRM_GetFrameBuffer, BGWINFRM_GetBgFrame, BGWINFRM_GetPos, BGWINFRM_GetSize, BGWINFRM_SetClipArea, func_0202D018, func_0202D01C, func_0202D034, POKEGRA_GetArcID, POKEGRA_GetCgrArcIndex, POKEGRA_GetCbrArcIndex, POKEGRA_GetPalArcIndex, POKEGRA_GetCelArcIndex, POKEGRA_GetAnmArcIndex, POKEGRA_GetMCelArcIndex, POKEGRA_GetMAnmArcIndex, POKEGRA_GetNcecArcIndex, POKEGRA_ConvertCharTo2D, POKEGRA_ConvertCharTo1D, POKEGRA_DrawSpindaSpots, POKEGRA_CalcArcIndex, POKEGRA_GetTrainerArcID, POKEGRA_GetTrainerCgrArcIndex, POKEGRA_GetTrainerCbrArcIndex, POKEGRA_GetTrainerPalArcIndex, POKEGRA_GetTrainerCelArcIndex, POKEGRA_GetTrainerAnmArcIndex, POKEGRA_GetTrainerMCelArcIndex, POKEGRA_GetTrainerMAnmArcIndex, POKEGRA_GetTrainerNcecArcIndex, POKEGRA_LoadCharDataPP, POKEGRA_LoadCharData, POKEGRA_OpenHandle, POKEGRA_RegisterPalette, POKEGRA_RegisterCgr, POKEGRA_RegisterCellAnim, POKEGRA_RegisterPalettePP, POKEGRA_RegisterCgrPP, POKEGRA_RegisterCellAnimPP, POKEGRA_OpenTrainerHandle, POKEGRA_RegisterTrainerPalette, POKEGRA_RegisterTrainerCgr, POKEGRA_RegisterTrainerCellAnim, POKEGRA_LoadTrainerGraphics, PMS_DRAW_Create, PMS_DRAW_Main, PMS_DRAW_Delete, PMS_DRAW_Print, PMS_DRAW_PrintOffset, PMS_DRAW_IsPrintEnd, PMS_DRAW_Clear, PMS_DRAW_SetVisible, PMS_DRAW_IsActive, PMS_DRAW_SetDecoVisible, PMS_DRAW_SetDecoPriority, PMS_DRAW_Copy, PMS_DRAW_SetNullColorPalette, PMS_DRAW_SetPrintColor, PMS_DRAW_SetFollowBgScroll, PMS_DRAW_CalcDecoPos, PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex, PMS_DRAW_LoadResources, PMS_DRAW_ReleaseResources, PMS_DRAW_CreateDecoActor, PMS_DRAW_PlaceDecoActor, PMS_DRAW_InitElem, PMS_DRAW_DeleteElem, PMS_DRAW_UpdateElem, PMS_DRAW_PrintElem, PMS_DRAW_ClearElem, PMS_DRAW_SetElemVisible, PMS_DRAW_GetFrameSurface, func_0202E43C, func_0202E448, BAG_PARAM_Create
+ * function: ISS_SWITCH_SYS_Create, ISS_SWITCH_SYS_Delete, ISS_SWITCH_SYS_Main, ISS_SWITCH_SYS_On, ISS_SWITCH_SYS_Off, ISS_SWITCH_SYS_ZoneChange, ISS_SWITCH_SYS_SwitchOn, ISS_SWITCH_SYS_SwitchOff, ISS_SWITCH_SYS_IsSwitchOn, ISS_SWITCH_SYS_ResetSwitch, ISS_SWITCH_SYS_Init, ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Free, ISS_SWITCH_SYS_CreateSets, ISS_SWITCH_SYS_DeleteSets, ISS_SWITCH_SYS_UpdateActiveSet, ISS_SWITCH_SYS_TurnOn, ISS_SWITCH_SYS_TurnOff, ISS_SWITCH_SYS_CheckZoneChange, ISS_SWITCH_SYS_GetSetCount, ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet, ISS_SWITCH_SYS_IsActiveSetZone, ISS_SWITCH_SYS_FindSetByBgm, ISS_SWITCH_SYS_ChangeActiveSet, ISS_SWITCH_SYS_UpdateVolume, ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn, ISS_SWITCH_SYS_ResetActiveSet, ISS_SWITCH_SET_Create, ISS_SWITCH_SET_Delete, ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff, ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn, ISS_SWITCH_SET_UpdateVolume, ISS_SWITCH_SET_Init, ISS_SWITCH_SET_Alloc, ISS_SWITCH_SET_Free, ISS_SWITCH_SET_CreateSwitches, ISS_SWITCH_SET_DeleteSwitches, ISS_SWITCH_SET_LoadData, ISS_SWITCH_SET_UpdateSwitches, ISS_SWITCH_SET_StartSwitchOn, ISS_SWITCH_SET_StartSwitchOff, ISS_SWITCH_SET_ResetSwitches, ISS_SWITCH_SET_ReadBgmNo, ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone, ISS_SWITCH_SET_CheckZone, ISS_SWITCH_SET_CheckSwitchOn, ISS_SWITCH_SET_GetSwitch, ISS_SWITCH_SET_ApplySwitchVolumes, ISS_SWITCH_Create, ISS_SWITCH_Delete, ISS_SWITCH_Setup, ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn, ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume, ISS_SWITCH_Alloc, ISS_SWITCH_Free, ISS_SWITCH_Init, ISS_SWITCH_SetParam, ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd, ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff, ISS_SWITCH_UpdateFadeIn, ISS_SWITCH_UpdateFadeOut, ISS_SWITCH_StartFadeIn, ISS_SWITCH_StartFadeOut, ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState, ISS_SWITCH_GetState, ISS_SWITCH_SetState, ISS_SWITCH_GetVolume, ISS_SWITCH_ApplyVolume, ISS_SWITCH_IsOnState, ISS_SWITCH_IsOffState, ISS_SWITCH_GetSubscreenMode, ISS_SWITCH_IsSeasonMatch, ISS_SWITCH_ApplySubscreenMode, ISS_SWITCH_RefreshSubscreenMode, ISS_SWITCH_CheckAreaOwner, ISS_SWITCH_CheckSpecialPower, ISS_SWITCH_CheckBirthday, BGWINFRM_Create, BGWINFRM_Delete, BGWINFRM_AddFrame, BGWINFRM_SetFrameData, BGWINFRM_SetFrameDataArc, BGWINFRM_SetFrameDataArcHandle, BGWINFRM_PutFrame, BGWINFRM_ShowFrame, BGWINFRM_HideFrame, BGWINFRM_StartMove, BGWINFRM_UpdateMoves, BGWINFRM_UpdateMove, BGWINFRM_IsMoving, BGWINFRM_ChangePalette, BGWINFRM_PutBmpWin, BGWINFRM_GetFrameBuffer, BGWINFRM_GetBgFrame, BGWINFRM_GetPos, BGWINFRM_GetSize, BGWINFRM_SetClipArea, BGWINFRM_EmptyStub, BGWINFRM_ScaleRatio, BGWINFRM_GetScaleRank, POKEGRA_GetArcID, POKEGRA_GetCgrArcIndex, POKEGRA_GetCbrArcIndex, POKEGRA_GetPalArcIndex, POKEGRA_GetCelArcIndex, POKEGRA_GetAnmArcIndex, POKEGRA_GetMCelArcIndex, POKEGRA_GetMAnmArcIndex, POKEGRA_GetNcecArcIndex, POKEGRA_ConvertCharTo2D, POKEGRA_ConvertCharTo1D, POKEGRA_DrawSpindaSpots, POKEGRA_CalcArcIndex, POKEGRA_GetTrainerArcID, POKEGRA_GetTrainerCgrArcIndex, POKEGRA_GetTrainerCbrArcIndex, POKEGRA_GetTrainerPalArcIndex, POKEGRA_GetTrainerCelArcIndex, POKEGRA_GetTrainerAnmArcIndex, POKEGRA_GetTrainerMCelArcIndex, POKEGRA_GetTrainerMAnmArcIndex, POKEGRA_GetTrainerNcecArcIndex, POKEGRA_LoadCharDataPP, POKEGRA_LoadCharData, POKEGRA_OpenHandle, POKEGRA_RegisterPalette, POKEGRA_RegisterCgr, POKEGRA_RegisterCellAnim, POKEGRA_RegisterPalettePP, POKEGRA_RegisterCgrPP, POKEGRA_RegisterCellAnimPP, POKEGRA_OpenTrainerHandle, POKEGRA_RegisterTrainerPalette, POKEGRA_RegisterTrainerCgr, POKEGRA_RegisterTrainerCellAnim, POKEGRA_LoadTrainerGraphics, PMS_DRAW_Create, PMS_DRAW_Main, PMS_DRAW_Delete, PMS_DRAW_Print, PMS_DRAW_PrintOffset, PMS_DRAW_IsPrintEnd, PMS_DRAW_Clear, PMS_DRAW_SetVisible, PMS_DRAW_IsActive, PMS_DRAW_SetDecoVisible, PMS_DRAW_SetDecoPriority, PMS_DRAW_Copy, PMS_DRAW_SetNullColorPalette, PMS_DRAW_SetPrintColor, PMS_DRAW_SetFollowBgScroll, PMS_DRAW_CalcDecoPos, PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex, PMS_DRAW_LoadResources, PMS_DRAW_ReleaseResources, PMS_DRAW_CreateDecoActor, PMS_DRAW_PlaceDecoActor, PMS_DRAW_InitElem, PMS_DRAW_DeleteElem, PMS_DRAW_UpdateElem, PMS_DRAW_PrintElem, PMS_DRAW_ClearElem, PMS_DRAW_SetElemVisible, PMS_DRAW_GetFrameSurface, PMS_DRAW_ClearWork, BAG_PARAM_GetItemValue, BAG_PARAM_Create
  * address:  0x0202C070
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -60,7 +60,7 @@
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   TrainerGraIndexTable  0x020A023C  data
- *   func_02017E88   0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue   0x02017E88  thumb
  *   POKE_TOOL_IsBoxShiny   0x02017EB4  thumb
  *   func_02049E34   0x02049E34  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -132,6 +132,7 @@
  *   APP_ICON_GetBallAnimFileId  0x02027718  thumb
  *   APP_ICON_GetBallFrameFileId  0x0202771C  thumb
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  */
 
 struct IssSwitchSys;
@@ -163,7 +164,7 @@ struct Container;
 struct PmsPos;
 struct Rec8;
 struct Struct_0202441C;
-struct T;
+struct PmsData;
 struct CharBuf;
 struct U16Vec;
 struct Big;
@@ -387,7 +388,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
-extern u32 func_02017E88(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 engine, u32 a3, u32 s0, u32 s1, u32 s2);
@@ -435,7 +436,7 @@ extern u32 BG_SYS_GetChannelScrollY(u8 channel);
 extern void CLACT_GetActorPos(const struct Actor *actor, struct PmsPoint *out);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct PmsPoint *src);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
-extern u32 PMSI_PARAM_Validate(struct T *p, u32 a1, u32 a2);
+extern u32 PMSI_PARAM_Validate(struct PmsData *p, u32 a1, u32 a2);
 extern void *PMSI_PARAM_GetSourceString(const struct Struct_0202441C *obj, u32 heapId);
 extern u32   GF_FONT_CountControlTag(void *str);
 extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
@@ -451,7 +452,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void BG_SYS_PushTile(u32 index);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern unsigned int GAME_DATA_GetMapMatrix(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void  MI_CpuCopy8(void *src, void *dst, int n);
@@ -545,13 +546,13 @@ s32 ISS_SWITCH_GetVolume(struct IssSwitch *sw);
 void ISS_SWITCH_ApplyVolume(struct IssSwitch *sw, s32 maxVolume);
 u32 ISS_SWITCH_IsOnState(void *sw);
 u32 ISS_SWITCH_IsOffState(void *sw);
-u32 func_0202C794(void *a0, u32 a1);
-int func_0202C824(int a0);
-void func_0202C83C(struct Ctx *p, u32 a1);
-void func_0202C860(u8 *a0, int a1);
-s32 func_0202C8B8(void *a0, u32 a1, u32 a2);
-s32 func_0202C934(void *a0, u32 a1, u32 a2);
-u32 func_0202C970(void *a, void *b, u32 c);
+u32 ISS_SWITCH_GetSubscreenMode(void *a0, u32 a1);
+int ISS_SWITCH_IsSeasonMatch(int a0);
+void ISS_SWITCH_ApplySubscreenMode(struct Ctx *p, u32 a1);
+void ISS_SWITCH_RefreshSubscreenMode(u8 *a0, int a1);
+s32 ISS_SWITCH_CheckAreaOwner(void *a0, u32 a1, u32 a2);
+s32 ISS_SWITCH_CheckSpecialPower(void *a0, u32 a1, u32 a2);
+u32 ISS_SWITCH_CheckBirthday(void *a, void *b, u32 c);
 struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId);
 void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
@@ -572,9 +573,9 @@ u8 BGWINFRM_GetBgFrame(struct BgWinFrmWork *wk, u32 idx);
 void BGWINFRM_GetPos(struct BgWinFrmWork *wk, u32 idx, s8 *x, s8 *y);
 void BGWINFRM_GetSize(struct BgWinFrmWork *wk, u32 idx, u16 *sizeX, u16 *sizeY);
 void BGWINFRM_SetClipArea(struct BgWinFrmWork *wk, u32 idx, s8 xmin, s8 xmax, s8 ymin, s8 ymax);
-void func_0202D018(void);
-u8 func_0202D01C(u32 a, u32 b, u32 c);
-int func_0202D034(u32 a, u32 b);
+void BGWINFRM_EmptyStub(void);
+u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c);
+int BGWINFRM_GetScaleRank(u32 a, u32 b);
 int POKEGRA_GetArcID(void);
 s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
@@ -641,8 +642,8 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
 void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans);
 void PMS_DRAW_SetElemVisible(struct PmsElem *elem, u32 visible);
 u32 PMS_DRAW_GetFrameSurface(u32 frame);
-void func_0202E43C(void *p);
-u32 func_0202E448(u32 id);
+void PMS_DRAW_ClearWork(void *p);
+u32 BAG_PARAM_GetItemValue(u32 id);
 void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, int heapId);
 extern const char IssSwitchSysFileName[];
 extern const char IssSwitchSetFileName[];
@@ -1576,7 +1577,7 @@ u32 ISS_SWITCH_IsOffState(void *sw)
  * back 0xffff ("nothing to say"); the sentinel is kept in a callee-saved
  * register, which is why it is one pool word and four `cmp r0, r7`.
  */
-u32 func_0202C794(void *a0, u32 a1)
+u32 ISS_SWITCH_GetSubscreenMode(void *a0, u32 a1)
 {
     u32 ctx = (u32)ICA_ANIME_GetField1C(a0);
     u32 saved = GAME_DATA_GetMusicalWork((const struct BigObj *)ctx);
@@ -1586,30 +1587,30 @@ u32 func_0202C794(void *a0, u32 a1)
     if (r != 0xffff) {
         return (u8)r;
     }
-    r = func_0202C8B8(a0, ctx, a1);
+    r = ISS_SWITCH_CheckAreaOwner(a0, ctx, a1);
     if (r != 0xffff) {
         return (u8)r;
     }
-    r = func_0202C934(a0, ctx, a1);
+    r = ISS_SWITCH_CheckSpecialPower(a0, ctx, a1);
     if (r != 0xffff) {
         return (u8)r;
     }
-    r = func_0202C970(a0, (void *)ctx, a1);
+    r = ISS_SWITCH_CheckBirthday(a0, (void *)ctx, a1);
     if (r != 0xffff) {
         return (u8)r;
     }
-    if (func_0202C824(ctx) != 0) {
+    if (ISS_SWITCH_IsSeasonMatch(ctx) != 0) {
         return (u8)CALENDER_GetWeatherThunk((void *)saved, (u16)a1);
     }
     return (u8)ZONEDATA_GetWeatherId((u16)a1);
 }
 
-int func_0202C824(int a0){ int t0, t1; t0 = GAME_DATA_GetSeason(a0); t1 = COMM_PLAYER_SUPPORT_GetSeasonFromClock((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
+int ISS_SWITCH_IsSeasonMatch(int a0){ int t0, t1; t0 = GAME_DATA_GetSeason(a0); t1 = COMM_PLAYER_SUPPORT_GetSeasonFromClock((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
 
-void func_0202C83C(struct Ctx *p, u32 a1)
+void ISS_SWITCH_ApplySubscreenMode(struct Ctx *p, u32 a1)
 {
     struct BigObj *obj = ICA_ANIME_GetField1C(p);
-    u32 r = func_0202C794(p, a1);
+    u32 r = ISS_SWITCH_GetSubscreenMode(p, a1);
 
     GAME_DATA_SetSubscreenMode(obj, (u8)r);
 }
@@ -1638,7 +1639,7 @@ void func_0202C83C(struct Ctx *p, u32 a1)
  * built in r1.  Declaring it as a one-argument call puts the id in r0 and
  * shifts the whole prologue.
  */
-void func_0202C860(u8 *a0, int a1)
+void ISS_SWITCH_RefreshSubscreenMode(u8 *a0, int a1)
 {
     u32 v;
     u16 r;
@@ -1665,7 +1666,7 @@ void func_0202C860(u8 *a0, int a1)
  * both relocation sites stay wildcarded. Unstuck by any other function that
  * also points at gTbl_0209FFF4, or by a data-symbol table entry.
  */
-s32 func_0202C8B8(void *a0, u32 a1, u32 a2)
+s32 ISS_SWITCH_CheckAreaOwner(void *a0, u32 a1, u32 a2)
 {
     u32 r6;
     u32 r4;
@@ -1690,7 +1691,7 @@ done:
     return 0xffff;
 }
 
-s32 func_0202C934(void *a0, u32 a1, u32 a2)
+s32 ISS_SWITCH_CheckSpecialPower(void *a0, u32 a1, u32 a2)
 {
     u32 r = GAME_DATA_GetEventWork((const struct BigObj *)a1);
 
@@ -1703,7 +1704,7 @@ s32 func_0202C934(void *a0, u32 a1, u32 a2)
     return 0xffff;
 }
 
-u32 func_0202C970(void *a, void *b, u32 c)
+u32 ISS_SWITCH_CheckBirthday(void *a, void *b, u32 c)
 {
     u8 buf[2];
     struct RtcDate date;
@@ -2109,11 +2110,11 @@ void BGWINFRM_SetClipArea(struct BgWinFrmWork *wk, u32 idx, s8 xmin, s8 xmax,
     wk->frames[idx].ymax = ymax;
 }
 
-void func_0202D018(void)
+void BGWINFRM_EmptyStub(void)
 {
 }
 
-u8 func_0202D01C(u32 a, u32 b, u32 c)
+u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c)
 {
     u8 res = (a * c) / b;
 
@@ -2123,7 +2124,7 @@ u8 func_0202D01C(u32 a, u32 b, u32 c)
     return 1;
 }
 
-int func_0202D034(u32 a, u32 b)
+int BGWINFRM_GetScaleRank(u32 a, u32 b)
 {
     a <<= 8;
     b <<= 8;
@@ -2625,13 +2626,13 @@ void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId)
     u32 rare;
     u32 egg;
 
-    monsNo = func_02017E88(pp, 5, 0);
-    formNo = func_02017E88(pp, 0x6F, 0);
-    sex = func_02017E88(pp, 0x6E, 0);
+    monsNo = POKE_TOOL_GetBoxValue(pp, 5, 0);
+    formNo = POKE_TOOL_GetBoxValue(pp, 0x6F, 0);
+    sex = POKE_TOOL_GetBoxValue(pp, 0x6E, 0);
     rare = POKE_TOOL_IsBoxShiny(pp);
-    egg = func_02017E88(pp, 0x4C, 0);
+    egg = POKE_TOOL_GetBoxValue(pp, 0x4C, 0);
     return POKEGRA_LoadCharData(outCharData, monsNo, formNo, sex, rare, dir, egg,
-                         func_02017E88(pp, 0, 0), heapId);
+                         POKE_TOOL_GetBoxValue(pp, 0, 0), heapId);
 }
 
 /*
@@ -2778,29 +2779,29 @@ u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile
 
 int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId)
 {
-    int monsNo = func_02017E88(pp, 5, 0);
-    int formNo = func_02017E88(pp, 0x6f, 0);
-    int sex = func_02017E88(pp, 0x6e, 0);
+    int monsNo = POKE_TOOL_GetBoxValue(pp, 5, 0);
+    int formNo = POKE_TOOL_GetBoxValue(pp, 0x6f, 0);
+    int sex = POKE_TOOL_GetBoxValue(pp, 0x6e, 0);
     int rare = POKE_TOOL_IsBoxShiny(pp);
-    int egg = func_02017E88(pp, 0x4c, 0);
+    int egg = POKE_TOOL_GetBoxValue(pp, 0x4c, 0);
 
     return POKEGRA_RegisterPalette(handle, monsNo, formNo, sex, rare, dir, egg, drawType, palOffset, heapId);
 }
 
 int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned short heapId)
 {
-    int monsNo = func_02017E88(pp, 5, 0);
-    int formNo = func_02017E88(pp, 0x6f, 0);
-    int sex = func_02017E88(pp, 0x6e, 0);
+    int monsNo = POKE_TOOL_GetBoxValue(pp, 5, 0);
+    int formNo = POKE_TOOL_GetBoxValue(pp, 0x6f, 0);
+    int sex = POKE_TOOL_GetBoxValue(pp, 0x6e, 0);
     int rare = POKE_TOOL_IsBoxShiny(pp);
-    int egg = func_02017E88(pp, 0x4c, 0);
-    int personality = func_02017E88(pp, 0, 0);
+    int egg = POKE_TOOL_GetBoxValue(pp, 0x4c, 0);
+    int personality = POKE_TOOL_GetBoxValue(pp, 0, 0);
 
     return POKEGRA_RegisterCgr(handle, monsNo, formNo, sex, rare, dir, egg, personality, drawType, heapId);
 }
 
 /*
- * Collects five properties off the handle (func_02017E88 with selectors 5,
+ * Collects five properties off the handle (POKE_TOOL_GetBoxValue with selectors 5,
  * 0x6f, 0x6e and 0x4c, plus POKE_TOOL_IsBoxShiny) and forwards them into
  * POKEGRA_RegisterCellAnim together with this function's own three trailing words and
  * its u16 key, tail-position, returning what POKEGRA_RegisterCellAnim returns.
@@ -2828,13 +2829,13 @@ u32 POKEGRA_RegisterCellAnimPP(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 
     u32 sex;
     u32 rare;
 
-    monsNo = func_02017E88((void *)pp, 5, 0);
-    formNo = func_02017E88((void *)pp, 0x6f, 0);
-    sex = func_02017E88((void *)pp, 0x6e, 0);
+    monsNo = POKE_TOOL_GetBoxValue((void *)pp, 5, 0);
+    formNo = POKE_TOOL_GetBoxValue((void *)pp, 0x6f, 0);
+    sex = POKE_TOOL_GetBoxValue((void *)pp, 0x6e, 0);
     rare = POKE_TOOL_IsBoxShiny((void *)pp);
 
     return POKEGRA_RegisterCellAnim(monsNo, formNo, sex, rare,
-                         dir, func_02017E88((void *)pp, 0x4c, 0), mapping, unusedArg, heapId);
+                         dir, POKE_TOOL_GetBoxValue((void *)pp, 0x4c, 0), mapping, unusedArg, heapId);
 }
 
 void *POKEGRA_OpenTrainerHandle(u32 heapId)
@@ -3416,7 +3417,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
 
     PMSI_PARAM_Copy((struct Rec8 *)(&pmsCopy), (const struct Rec8 *)param);
     param = &pmsCopy;
-    PMSI_PARAM_Validate((struct T *)(&pmsCopy), 1, heapId);
+    PMSI_PARAM_Validate((struct PmsData *)(&pmsCopy), 1, heapId);
     elem->bmpWin = bmpWin;
     elem->printing = 0;
     heapID = *(u16 *)&heapId;
@@ -3508,12 +3509,12 @@ u32 PMS_DRAW_GetFrameSurface(u32 frame)
     return 0;
 }
 
-void func_0202E43C(void *p)
+void PMS_DRAW_ClearWork(void *p)
 {
     MI_CpuFill8(p, 0, 4);
 }
 
-u32 func_0202E448(u32 id)
+u32 BAG_PARAM_GetItemValue(u32 id)
 {
     u32 i;
 
@@ -3550,7 +3551,7 @@ void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, i
 
     param->gameData = (void *)gameData;
     param->myStatus = func_0200873C((void *)saveControl);
-    param->myItem = func_02012944((void *)gameData);
+    param->myItem = GAME_DATA_GetMyStatus((void *)gameData);
     param->saveWork = GAME_DATA_GetMapMatrix(gameData);
     param->config = GAME_DATA_GetMyItem((const struct BigObj *)gameData);
     if (itemCheck != 0) {

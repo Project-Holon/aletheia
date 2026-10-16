@@ -15,7 +15,7 @@
  * symbols:
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
- *   func_0207D59C 0x0207D59C arm
+ *   G2x_SetBGyAffine_ 0x0207D59C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BG_SYS_SetAffine 0x02041FB0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -44,7 +44,7 @@
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   PM_VOICE_GetPerapVoiceSave 0x02006CAC thumb
  *   PM_VOICE_Prepare 0x020069D4 thumb
@@ -167,12 +167,12 @@
  *   gHallOfFameMonTopTemplate 0x021B8174 data ov180 a4
  *   gHallOfFameMonBottomTemplate 0x021B818C data a4
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   func_020185F0 0x020185F0 thumb
- *   func_02017DBC 0x02017DBC thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
- *   func_02017DE4 0x02017DE4 thumb
+ *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  */
 #include "hall_of_fame.h"
 
@@ -236,7 +236,7 @@ typedef struct HofClactConfig {
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-extern void func_0207D59C(void *,HofMtx *,u32,u32,u32,u32);
+extern void G2x_SetBGyAffine_(void *,HofMtx *,u32,u32,u32,u32);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
@@ -263,7 +263,7 @@ extern void func_02005B04(const u32 *arg);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
@@ -347,9 +347,9 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern int POKEGRA_OpenHandle(int);
-extern void *func_020185F0(void *);
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern void *POKE_TOOL_Dummy(void *);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
@@ -373,8 +373,8 @@ void HALL_OF_FAME_InitBackgrounds(void)
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)&bg, 2);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)&bg, 2);
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)&mtx, 0, (void *)4096, (void *)4096, 0);
-    func_0207D59C((void *)0x04000030, &mtx, 0, 0, 0, 0);
-    func_0207D59C((void *)0x04001030, &mtx, 0, 0, 0, 0);
+    G2x_SetBGyAffine_((void *)0x04000030, &mtx, 0, 0, 0, 0);
+    G2x_SetBGyAffine_((void *)0x04001030, &mtx, 0, 0, 0, 0);
     BG_SYS_ResetSlot(3, 0, 160);
     BG_SYS_ResetSlot(3, 3, 112);
     BG_SYS_ResetSlot(7, 0, 160);
@@ -453,7 +453,7 @@ void HALL_OF_FAME_CollectPartyMons(HallOfFameWork *work)
     for (i = 0; i < POKEPARTY_GetCount(work->args->party); i++) {
         mon = POKEPARTY_GetMember(work->args->party, i);
         saved = POKE_TOOL_DecodePartyParam(mon);
-        if (func_02017E1C(mon, 76, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 76, 0) == 0) {
             work->partyMons[work->monCount] = mon;
             work->monCount++;
         }
@@ -467,9 +467,9 @@ void HALL_OF_FAME_LoadMonInfo(HallOfFameWork *work)
     unsigned saved;
     mon = work->partyMons[work->monIndex];
     saved = POKE_TOOL_DecodePartyParam(mon);
-    work->species = func_02017E1C(mon, 5, 0);
-    work->effectStyle = func_02017E1C(mon, 174, 0);
-    work->form = func_02017E1C(mon, 111, 0);
+    work->species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    work->effectStyle = POKE_TOOL_GetPartyValue(mon, 174, 0);
+    work->form = POKE_TOOL_GetPartyValue(mon, 111, 0);
     POKE_TOOL_EncodePartyParam(mon, saved);
 }
 
@@ -1306,15 +1306,15 @@ void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work)
         HALL_OF_FAME_ReleaseCellAnim(work, 1);
     }
     bank = POKEGRA_OpenHandle(HOF_HEAP_ID);
-    mon = func_020185F0(work->partyMons[work->monIndex]);
-    lock = func_02017DBC(mon);
+    mon = POKE_TOOL_Dummy(work->partyMons[work->monIndex]);
+    lock = POKE_TOOL_DecodeBoxParam(mon);
     work->charIds[0] = POKEGRA_RegisterCgrPP(bank, mon, 0, 0, HOF_HEAP_ID);
     work->paletteIds[0] = POKEGRA_RegisterPalettePP(bank, mon, 0, 0, 96, HOF_HEAP_ID);
     work->cellAnimIds[0] = POKEGRA_RegisterCellAnimPP((u32)mon, 0, 2, 0, HOF_HEAP_ID);
     work->charIds[1] = POKEGRA_RegisterCgrPP(bank, mon, 1, 0, HOF_HEAP_ID);
     work->paletteIds[1] = POKEGRA_RegisterPalettePP(bank, mon, 1, 0, 128, HOF_HEAP_ID);
     work->cellAnimIds[1] = POKEGRA_RegisterCellAnimPP((u32)mon, 1, 2, 0, HOF_HEAP_ID);
-    func_02017DE4(mon, lock);
+    POKE_TOOL_EncodeBoxParam(mon, lock);
     ARC_TOOL_DeleteHandle((u8 *)bank);
     work->actors[HOF_ACTOR_MON_TOP] = HALL_OF_FAME_CreateActorFromTemplate(work, &gHallOfFameMonTopTemplate);
     work->actors[HOF_ACTOR_MON_BOTTOM] = HALL_OF_FAME_CreateActorFromTemplate(work, &gHallOfFameMonBottomTemplate);

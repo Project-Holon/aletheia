@@ -34,6 +34,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 #include "../include/Obj01408.h"
 #include "../include/Obj04513.h"
@@ -54,7 +55,7 @@ struct U16Vec;
 struct WordSet;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void P_STATUS_PrintMsgToWin(unsigned char *p, unsigned int a, int b, int c, unsigned short d, unsigned short e);
 extern void P_STATUS_PrintWordSetMsgToWin(unsigned char *p, unsigned int a, void *b, int c, unsigned short d, unsigned short e, unsigned short f);
 struct Struct36;
@@ -84,10 +85,10 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     data=P_STATUS_GetPokePara(a);
     zero=0;
     for(i=8;i<=11;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x5c+i*4)),zero);
-    if(p[41]<4) id=func_02017E88(data,p[41]+54,zero);
+    if(p[41]<4) id=POKE_TOOL_GetBoxValue(data,p[41]+54,zero);
     else if(p[41]==255) {
         if((*(u8 **)(a+8))[13]==2 && p[43]==5) id=((struct Obj23163 *)(*(u8 * *)&((struct Obj04513 *)a)->f8))->f14;
-        else id=func_02017E88(data,54,0);
+        else id=POKE_TOOL_GetBoxValue(data,54,0);
     } else id=((struct Obj23164 *)(*(u8 * *)&((struct Obj04513 *)a)->f8))->f14;
     one=1;
     P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f7C),149,1,one,15424);

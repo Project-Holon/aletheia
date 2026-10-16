@@ -82,7 +82,7 @@
  *   func_02009CA8 0x02009CA8 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   func_02041B6C 0x02041B6C arm
@@ -420,7 +420,7 @@ extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void func_02009CA8(void *account, void *out);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern int MYSTATUS_GetSize(void);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenu *menu);
 extern void func_02041B6C(u32 bit);
@@ -950,7 +950,7 @@ void IRCBATTLEMATCH_StepSendTrainerInfo(IrcBattleMatchWork *work)
 void IRCBATTLEMATCH_StepSendMyStatus(IrcBattleMatchWork *work) {
  int handle=(int)GFL_NET_HANDLE_GetCurrentHandle();
  int myStatusSize=MYSTATUS_GetSize();
- int myStatus=(int)func_02012944((void *)work->param->gameData);
+ int myStatus=(int)GAME_DATA_GetMyStatus((void *)work->param->gameData);
  if(GFL_NET_SendToHandle((void *)handle,(u16)0xc01,(u16)myStatusSize,myStatus)!=0) {
   GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7b,12);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendTrainerInfo);

@@ -43,7 +43,7 @@
    "status": "EXACT",
    "functions": [
     "POKE_TOOL_SetBoxValue",
-    "func_02017E88",
+    "POKE_TOOL_GetBoxValue",
     "POKE_TOOL_IsShiny",
     "POKE_TOOL_IsBoxShiny",
     "POKE_TOOL_CheckShiny",

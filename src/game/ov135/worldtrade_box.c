@@ -87,9 +87,9 @@
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   GX_LoadOBJ     0x0207E780  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_02017DBC  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   func_02007A18  0x02007A18  thumb
  *   func_0200785C  0x0200785C  thumb
@@ -98,7 +98,7 @@
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   tbl_02202C58  0x02202C58  data  a4
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
@@ -143,11 +143,6 @@ struct NitroFileHeader;
 struct Sav;
 
 typedef struct {
-    u16 x;
-    u16 y;
-} Pos_021F4580;
-
-typedef struct {
     u8 pad0[0x14];
     void *pixels;
 } CharData_p02;
@@ -156,12 +151,6 @@ typedef struct {
     s16 a;
     s16 b;
 } Rec_p03;
-
-typedef struct {
-    u32 f0;
-    int f4;
-    u8 pad8[0x20C - 8];
-} Entry_021F6DB4;
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -191,7 +180,7 @@ extern void BG_SYS_PushTile(u32 v);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig_021F4580 *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void WORLDTRADE_TITLE_ScrollBg(Work *, u32, u32);
 
@@ -211,7 +200,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate_021F4580 *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void BG_SYS_ClearSlot(u32 i);
 
@@ -289,7 +278,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 
@@ -333,9 +322,9 @@ extern void GX_LoadOBJ(const void *src, u32 offset, u32 size);
 
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
 extern u32 FILE_UTIL_Check136C(u16 v);
 
@@ -349,7 +338,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
 extern int func_020078C4(void *save, u32 box);
 
-extern u32 func_02017E1C(void *a, u32 b, u32 c);
+extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 
 extern u8 func_020076A4(void *save);
 
@@ -489,7 +478,7 @@ int WORLDTRADE_BOX_MonMatchesRequest(void *mon, WantTag *want);
 
 void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p);
 
-void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key, Entry_021F6DB4 *ent);
+void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key, IconRec *ent);
 
 int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle);
 
@@ -499,19 +488,19 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p);
 
 extern void (*g_02203B0C[])(u8 *);
 
-extern struct DispConfig_021F4580 g_02202C94;
+extern struct DispConfig g_02202C94;
 
-extern struct BgTemplate_021F4580 g_02202CE4;
+extern struct BgTemplate g_02202CE4;
 
-extern struct BgTemplate_021F4580 g_02202D04;
+extern struct BgTemplate g_02202D04;
 
-extern struct BgTemplate_021F4580 g_02202CA4;
+extern struct BgTemplate g_02202CA4;
 
-extern struct BgTemplate_021F4580 g_02202CC4;
+extern struct BgTemplate g_02202CC4;
 
-extern const Pos_021F4580 tbl_02202D24[];
+extern const Pos tbl_02202D24[];
 
-extern const Pos_021F4580 tbl_02202C50[];
+extern const Pos tbl_02202C50[];
 
 extern const char str_02203B54[];
 
@@ -577,30 +566,30 @@ int WORLDTRADE_BOX_Exit(Work *p)
  */
 void WORLDTRADE_BOX_SetupBgPlanes(void)
 {
-    struct DispConfig_021F4580 c = g_02202C94;
+    struct DispConfig c = g_02202C94;
     u32 v = BG_SYS_GetSubVisiblePlanes();
 
     BG_SYS_SetGraphicsMode(&c);
     BG_SYS_SetSubVisiblePlanes(v);
     {
-        struct BgTemplate_021F4580 t = g_02202CE4;
+        struct BgTemplate t = g_02202CE4;
         BG_SYS_InitBgLayer(0, &t, 0);
     }
     BG_SYS_ClearSlot(0);
     func_02040588(0, 1);
     {
-        struct BgTemplate_021F4580 t = g_02202D04;
+        struct BgTemplate t = g_02202D04;
         BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
     {
-        struct BgTemplate_021F4580 t = g_02202CA4;
+        struct BgTemplate t = g_02202CA4;
         BG_SYS_InitBgLayer(2, &t, 0);
     }
     BG_SYS_ClearSlot(2);
     func_02040588(2, 1);
     {
-        struct BgTemplate_021F4580 t = g_02202CC4;
+        struct BgTemplate t = g_02202CC4;
         BG_SYS_InitBgLayer(3, &t, 0);
     }
     BG_SYS_ClearSlot(3);
@@ -1155,7 +1144,7 @@ int WORLDTRADE_BOX_StateRequestMenuInput(Work *p)
             if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
                 POKEPARTY_GetMember(p->ctx->party, p->slot);
             }
-            if (func_02017E88(mon, 5, 0) == 0x1EC) {
+            if (POKE_TOOL_GetBoxValue(mon, 5, 0) == 0x1EC) {
                 POKE_TOOL_ChangeBoxForm((int)mon, 0);
             }
             WORLDTRADE_BOX_TryConfirmDeposit((Work *)((Work *)p));
@@ -1427,18 +1416,18 @@ void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *speci
     u32 egg;
     u32 form;
 
-    func_02017DBC(mon);
-    present = func_02017E88(mon, 0xa9, 0);
-    *species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6f, 0);
-    egg = func_02017E88(mon, 0x4c, 0);
-    item = func_02017E88(mon, 6, 0);
+    POKE_TOOL_DecodeBoxParam(mon);
+    present = POKE_TOOL_GetBoxValue(mon, 0xa9, 0);
+    *species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    form = POKE_TOOL_GetBoxValue(mon, 0x6f, 0);
+    egg = POKE_TOOL_GetBoxValue(mon, 0x4c, 0);
+    item = POKE_TOOL_GetBoxValue(mon, 6, 0);
     info->species = *species;
-    info->f2 = func_02017E88(mon, 0x6e, 0) + 1;
+    info->f2 = POKE_TOOL_GetBoxValue(mon, 0x6e, 0) + 1;
     if (egg != 0) {
         info->f3 = 0;
     }
-    func_02017DE4(mon, 1);
+    POKE_TOOL_EncodeBoxParam(mon, 1);
     if (present != 0) {
         WORLDTRADE_BOX_LoadPokeIcon(*species, form, info->f2 - 1, egg, slot, icon, (u32)arc, (IconRec *)rec);
         CLACT_SetActorDrawEnable((struct Obj *)icon, 1);
@@ -1517,7 +1506,7 @@ void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
     BMP_Clear(BMP_WIN_GetBmp(p->fD4C), 0);
     WORLDTRADE_INPUT_PrintStringAlignedLine(p->fD4C, p->fB80, 0, 5, 1, 0x440, p->fFA0);
     if (p->kind == 6) {
-        WORLDTRADE_BOX_ScoreMatchingRecords((Rec_p03 *)p->info_p, (u32)p->icon, (WantTag *)(p->arr[p->cur].key), (Entry_021F6DB4 *)icons);
+        WORLDTRADE_BOX_ScoreMatchingRecords((Rec_p03 *)p->info_p, (u32)p->icon, (WantTag *)(p->arr[p->cur].key), (IconRec *)icons);
     }
     p->vblank_fn = WORLDTRADE_BOX_TransferIconPalette;
 }
@@ -1562,17 +1551,17 @@ int WORLDTRADE_BOX_CanRemoveMon(void *party, void *save, int box, int slot)
 
 u32 WORLDTRADE_BOX_GetBoxCount(void *sav)
 {
-    u32 f = func_02017DBC(sav);
+    u32 f = POKE_TOOL_DecodeBoxParam(sav);
     u32 i;
     u32 r;
 
     for (i = 0; i < 15; i++) {
-        r = func_02017E88(sav, tbl_02202C58[i], 0);
+        r = POKE_TOOL_GetBoxValue(sav, tbl_02202C58[i], 0);
         if (r == 1) {
             break;
         }
     }
-    func_02017DE4(sav, f);
+    POKE_TOOL_EncodeBoxParam(sav, f);
     return r;
 }
 
@@ -1581,11 +1570,11 @@ u32 WORLDTRADE_BOX_GetBoxCount(void *sav)
  */
 int WORLDTRADE_BOX_CheckMonRestrictionA(u32 handle)
 {
-    u32 stamp = func_02017DBC((struct Sav *)handle);
+    u32 stamp = POKE_TOOL_DecodeBoxParam((struct Sav *)handle);
 
-    func_02017E88((void *)handle, 5, 0);
-    func_02017E88((void *)handle, 0x6f, 0);
-    func_02017DE4((struct Sav *)handle, stamp);
+    POKE_TOOL_GetBoxValue((void *)handle, 5, 0);
+    POKE_TOOL_GetBoxValue((void *)handle, 0x6f, 0);
+    POKE_TOOL_EncodeBoxParam((struct Sav *)handle, stamp);
     return 0;
 }
 
@@ -1594,10 +1583,10 @@ int WORLDTRADE_BOX_CheckMonRestrictionA(u32 handle)
  */
 int WORLDTRADE_BOX_CheckMonRestrictionB(u32 handle)
 {
-    u32 stamp = func_02017DBC((struct Sav *)handle);
+    u32 stamp = POKE_TOOL_DecodeBoxParam((struct Sav *)handle);
 
-    func_02017E88((void *)handle, 6, 0);
-    func_02017DE4((struct Sav *)handle, stamp);
+    POKE_TOOL_GetBoxValue((void *)handle, 6, 0);
+    POKE_TOOL_EncodeBoxParam((struct Sav *)handle, stamp);
     return 0;
 }
 
@@ -1608,10 +1597,10 @@ int WORLDTRADE_BOX_GetMonTradeState(void *party, void *save, int box, int slot)
     if (mon == 0) {
         return 0;
     }
-    if (func_02017E88(mon, 0xA9, 0) == 0) {
+    if (POKE_TOOL_GetBoxValue(mon, 0xA9, 0) == 0) {
         return 0;
     }
-    if (func_02017E88(mon, 0xAA, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue(mon, 0xAA, 0) != 0) {
         return 2;
     }
     return 1;
@@ -1645,8 +1634,8 @@ int WORLDTRADE_BOX_MonMatchesRequest(void *mon, WantTag *want)
 {
     MonTag t;
 
-    t.species = func_02017E88(mon, 5, 0);
-    t.form = func_02017E88(mon, 0x6E, 0) + 1;
+    t.species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    t.form = POKE_TOOL_GetBoxValue(mon, 0x6E, 0) + 1;
     t.gender = POKE_TOOL_CalcBoxLevel(mon);
     return WORLDTRADE_BOX_TagMatchesRequest(&t, want);
 }
@@ -1657,26 +1646,26 @@ void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p)
     WantTag w;
     void *e;
 
-    m.species = func_02017E88(p->mon, 5, 0);
-    m.form = func_02017E88(p->mon, 0x6E, 0) + 1;
+    m.species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
+    m.form = POKE_TOOL_GetBoxValue(p->mon, 0x6E, 0) + 1;
     m.gender = POKE_TOOL_CalcBoxLevel(p->mon);
     dst->have = m;
     WORLDTRADE_DEPOSIT_BuildOffer((Entry *)dst, p);
     e = POKE_TOOL_GetBoxParam(p->list[p->cur]);
-    w.species = func_02017E88(e, 5, 0);
-    w.form = func_02017E88(e, 0x6E, 0) + 1;
+    w.species = POKE_TOOL_GetBoxValue(e, 5, 0);
+    w.form = POKE_TOOL_GetBoxValue(e, 0x6E, 0) + 1;
     w.b3 = 0;
     w.b4 = 0;
     dst->want = w;
 }
 
-void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key, Entry_021F6DB4 *ent)
+void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key, IconRec *ent)
 {
     int i;
 
     for (i = 0; i < 30; i++) {
         if (recs[i].a != 0 && WORLDTRADE_BOX_TagMatchesRequest((MonTag *)(&recs[i]), key) == 0) {
-            ent[i].f4 += 3;
+            ent[i].pal += 3;
         }
     }
 }
@@ -1687,7 +1676,7 @@ void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key
 int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle)
 {
     int ok = 0;
-    u16 v = (u16)func_02017E1C((void *)handle, 6, 0);
+    u16 v = (u16)POKE_TOOL_GetPartyValue((void *)handle, 6, 0);
 
     if (FILE_UTIL_Check136C(v) != 0) {
         ok = 1;

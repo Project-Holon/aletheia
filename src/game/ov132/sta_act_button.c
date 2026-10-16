@@ -29,7 +29,7 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   d_021FDC20 0x021FDC20 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   STA_ACTING_RequestAction 0x021F9730 thumb ov132
  *   STA_ACTING_GetCurrentAction 0x021F9768 thumb ov132
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
@@ -96,7 +96,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern void func_0207D658(unsigned long,int,int);
+extern void G2x_SetBlendBrightness_(unsigned long,int,int);
 
 extern void STA_ACTING_RequestAction(char *p, int value);
 
@@ -234,11 +234,11 @@ void STA_ACT_BUTTON_Update(char *p)
     if(((struct TaskObj *)p)->fC.s==1) {
         key=d_021FDC20;
         hit=TOUCHPANEL_HitTrg(&key);
-        func_0207D658(0x04001050,16,0);
+        G2x_SetBlendBrightness_(0x04001050,16,0);
         if(hit!=-1 && *(u16 *)(p+0x48+hit*2)!=255 && *(int *)(p+0x40+hit*4)==0) {
             if(hit==0) STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,7);
             else STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,8);
-            func_0207D658(0x04001050,16,-8);
+            G2x_SetBlendBrightness_(0x04001050,16,-8);
             one=FLAG_ONE;
             zero=FLAG_ZERO;
             *(u32 *)(p+0x40+hit*4)=one;

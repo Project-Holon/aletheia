@@ -111,6 +111,7 @@
  *   PDWACC_MESSAGE_ClearWindow 0x021D97B0 thumb ov123
  *   PDWACC_MESSAGE_PrintNumberWindows 0x021D9844 thumb ov123
  *   PDWACC_MESSAGE_DeleteNumberWindows 0x021D9918 thumb ov123
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "pdwacc_disp_types.h"
 
@@ -251,7 +252,7 @@ extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long lengt
 
 extern void func_020092E0(void *obj, u8 value);
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern u32 func_0200853C(const void *obj);
 
@@ -704,7 +705,7 @@ int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
     proc->heap=param->heap;
     proc->saveControl=GAME_DATA_GetSaveControl(param->gameData);
     proc->gameData=param->gameData;
-    proc->profileId=func_0200853C((const void *)func_02012944(param->gameData));
+    proc->profileId=func_0200853C((const void *)GAME_DATA_GetMyStatus(param->gameData));
     if(GFL_NET_GetRunState()) {
         proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,param->connectionArg);
         DWC_RAP_SetErrorCallback((int)PDWACC_STATE_DestroyHttpConnection,(int)proc);

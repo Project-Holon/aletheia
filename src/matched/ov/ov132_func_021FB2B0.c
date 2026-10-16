@@ -13,8 +13,8 @@
  *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
- *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
  *   func_02030734 0x02030734 arm
  *   VEC_Subtract 0x0207CA00 arm
  *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
@@ -33,8 +33,8 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern int SCRIPT_COMMAND_GetActorMask(char *,int);
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
-extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
-extern void STA_ACT_LIGHT_ElemOpB(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void VEC_Subtract(void *,void *,void *);
 extern void *STA_ACT_SCRIPT_AddTask(char *,u32,u32,u32);
@@ -62,14 +62,14 @@ int SCRIPT_COMMAND_CmdSetActorPos(int unused,char *p)
             target=STA_ACTING_GetActor(((struct Obj08162 *)owner)->f34,i);
             if (rate==0) {
                 pos.x=x;pos.y=y;pos.z=z;
-                STA_ACT_LIGHT_ElemOpB(ctx,(u32 *)target,(const u32 *)(&pos));
+                STA_ACT_LIGHT_SetActorPos(ctx,(u32 *)target,(const u32 *)(&pos));
             } else {
                 q=func_02030734(((struct Obj08162 *)owner)->f0,56,0,d_021FDD00,0x2DA);
                 *(char * *)&((struct Obj02192 *)q)->f30=owner;
                 *(char * *)&((struct Obj02192 *)q)->f0=target;
                 ((struct Obj02192 *)q)->f4=((struct Obj08162 *)owner)->f34;
                 ((struct Obj02192 *)q)->f2E=0;
-                STA_ACT_LIGHT_ElemOpA(ctx,(u32 *)target,(u32 *)(q+8));
+                STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)target,(u32 *)(q+8));
                 ((struct Obj02192 *)q)->f14=x;((struct Obj02192 *)q)->f18=y;((struct Obj02192 *)q)->f1C=z;
                 ((struct Obj02192 *)q)->f2C=rate;
                 VEC_Subtract(q+20,q+8,delta);

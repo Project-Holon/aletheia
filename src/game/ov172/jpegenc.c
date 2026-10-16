@@ -58,27 +58,17 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 
-typedef unsigned long u32_021C0C3C;
-
 typedef struct Yos_JpegEncoderHuffmanEncoderBuildTableWork {
-    u32_021C0C3C mHuffSize[256];
-    u32_021C0C3C mHuffCode[256];
+    unsigned long mHuffSize[256];
+    unsigned long mHuffCode[256];
 } Yos_JpegEncoderHuffmanEncoderBuildTableWork;
-
-typedef unsigned int u32_021C1248;
-
-typedef unsigned long u32_021C131C;
 
 typedef struct component_structure {
     short *mCofficients;
-    u32_021C131C mCols;
-    u32_021C131C mRows;
+    unsigned long mCols;
+    unsigned long mRows;
     long mLastDcValue;
 } component_structure;
-
-typedef unsigned int u32_021C1868;
-
-typedef unsigned long u32_021C20B0;
 
 typedef struct huffman_structure {
     unsigned long mFrequencies[257];
@@ -88,24 +78,22 @@ typedef struct huffman_structure {
     u8  mEhufsi[260];
 } huffman_structure;
 
-typedef unsigned int u32_021C2AD0;
-
-extern void MIi_CpuClearFast(u32_021C0C3C data, void *destp, u32_021C0C3C size);
-extern void MIi_CpuCopyFast(void *srcp, void *destp, u32_021C0C3C size);
-extern void MI_CpuCopy(void *srcp, void *destp, u32_021C0C3C size);
-extern int Yos_BitWrite(u8 *dst, u32_021C131C *ptr, u32_021C131C num, u32_021C131C size);
+extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
+extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
+extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
+extern int Yos_BitWrite(u8 *dst, unsigned long *ptr, unsigned long num, unsigned long size);
 extern void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *output);
-extern void MI_CpuFill8(void *dstp, u8 data, u32_021C1868 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern int OS_IsRunOnTwl(void);
 extern void AESi_Init(void);
-extern int AESi_SignForJpeg(u8 *sign, u8 *dst, u32_021C1868 ptr);
-extern void MI_CpuCopy8(void *srcp, void *dstp, u32_021C1868 size);
+extern int AESi_SignForJpeg(u8 *sign, u8 *dst, u32 ptr);
+extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 extern unsigned long _u32_div_f(unsigned long a, unsigned long b);
 extern unsigned long SSP_ExifEncode(u8 *l_dst, unsigned long width, unsigned long height,
                                     u8 *thumb_src, unsigned long thumb_size);
 extern unsigned long Yos_JPEGEncode(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, int thumb, unsigned char *thumb_src, unsigned long thumb_size, void (*func)(void *, unsigned long, unsigned long, void *));
 void Yos_BitInit(void);
-int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32_021C1248 *a2);
+int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2);
 int Yos_JpegEncoderHuffmanEncoderOutputSize(unsigned char *p);
 void Yos_JpegEncodeSample2to2Component(unsigned char *buffer, long *qTable, component_structure *component, unsigned long dx);
 void Yos_JpegEncodeSample2to1Component(unsigned char *buffer, long *qTable, component_structure *component, unsigned long dx);
@@ -115,7 +103,7 @@ unsigned long SSP_GetJpegEncoderBufferSize(unsigned long width, unsigned long he
 void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned long srcHeight, void *dst, unsigned long dstWidth, unsigned long dstHeight, unsigned long option);
 void SSP_RGB555ToYUV888(void *src, unsigned long width, unsigned long height, void *dst);
 void SSP_YUV422ToYUV888(void *src, unsigned long width, unsigned long height, void *dst);
-int SSPi_JpegEncoderCheckWidthHeight(u32_021C2AD0 a0, u32_021C2AD0 a1, u32_021C2AD0 a2);
+int SSPi_JpegEncoderCheckWidthHeight(u32 a0, u32 a1, u32 a2);
 unsigned long SSP_StartJpegEncoder(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern unsigned long gJpegBitMask[];
 extern u8 JpegZigZagInputOrderCodes[64];
@@ -309,12 +297,12 @@ extern u8 ac1_tbl[178] __attribute__((aligned(32)));
 
 
 static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncoderBuildTableWork *pWork,
-                          huffman_structure *hf, u32_021C0C3C idx)
+                          huffman_structure *hf, unsigned long idx)
 {
-    u32_021C0C3C ii;
-    u32_021C0C3C jj;
-    u32_021C0C3C kk;
-    u32_021C0C3C si;
+    unsigned long ii;
+    unsigned long jj;
+    unsigned long kk;
+    unsigned long si;
     u16 code = 0;
 
 
@@ -380,11 +368,11 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
  *
  * Addresses are Black-image addresses.
  */
-int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32_021C1248 *a2)
+int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2)
 {
-    u32_021C1248 v;
-    u32_021C1248 i;
-    u32_021C1248 sum = 0;
+    u32 v;
+    u32 i;
+    u32 sum = 0;
 
     if (*a2 + 0x10 >= ((unsigned long *)&gBitLen)[2])
         return 0;
@@ -436,7 +424,7 @@ int Yos_JpegEncoderHuffmanEncoderOutputSize(unsigned char *p)
 
 static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_structure *ac,
                                               component_structure *component, u8 *dst,
-                                              u32_021C131C *ptr, u32_021C131C col, u32_021C131C row)
+                                              unsigned long *ptr, unsigned long col, unsigned long row)
 {
     unsigned long index;
     unsigned long ssss;
@@ -761,8 +749,8 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
         p = dst + offset;
         tag = (u16)((p[1] + (dst[offset] << 8)));
         if (tag == 0x8769) {
-            offset = (((u32_021C1868)p[8] << 24) + ((u32_021C1868)p[9] << 16) +
-                      ((u32_021C1868)p[10] << 8) + p[11]) + 0xc;
+            offset = (((u32)p[8] << 24) + ((u32)p[9] << 16) +
+                      ((u32)p[10] << 8) + p[11]) + 0xc;
             break;
         }
         offset += 0xc;
@@ -783,8 +771,8 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
         p = dst + offset;
         tag = (u16)((p[1] + (dst[offset] << 8)));
         if (tag == 0x927c) {
-            offset = (((u32_021C1868)p[8] << 24) + ((u32_021C1868)p[9] << 16) +
-                      ((u32_021C1868)p[10] << 8) + p[11]) + 0xc;
+            offset = (((u32)p[8] << 24) + ((u32)p[9] << 16) +
+                      ((u32)p[10] << 8) + p[11]) + 0xc;
             break;
         }
         offset += 0xc;
@@ -800,8 +788,8 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
     if (offset + 0xe > ((unsigned long *)&gBitLen)[2])
         return 0;
 
-    offset = (((u32_021C1868)p[0xa] << 24) + ((u32_021C1868)p[0xb] << 16) +
-              ((u32_021C1868)p[0xc] << 8) + p[0xd]) + 0xc;
+    offset = (((u32)p[0xa] << 24) + ((u32)p[0xb] << 16) +
+              ((u32)p[0xc] << 8) + p[0xd]) + 0xc;
     if (offset + 0x1c > ((unsigned long *)&gBitLen)[2])
         return 0;
 
@@ -889,7 +877,7 @@ void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned l
  *           parameter (`pRgb = src` each pass, `src = pRgb + 1`): that settles the
  *           {width, src, x} = {r5, r6, r7} tie. Then gg/rr in that statement order with
  *           the Y sum written rr*0x4c9 first, and the Cr base as
- *           `(u8 *)(y + (u32_021C1868)(ybuf + y))` (inner add pointer-first, outer integer add
+ *           `(u8 *)(y + (u32)(ybuf + y))` (inner add pointer-first, outer integer add
  *           y-first, per a-pointer-plus-integer-add-is-normalised...).
  * sdk:      SSP_RGB555ToYUV888 (libssp.TWL.HYB.a jpegenc.o)
  *
@@ -899,7 +887,7 @@ void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned l
  * `i % stride` draft.  DWARF locals, in source declaration order (the reverse
  * of sdkobj.py's print): j, x, y, pRgb, ybuf, crbuf, image_width, rr, gg, bb.
  * Measured against the image (332 bytes):
- *   222 concrete bytes  flat draft (`u32_021C1868 i`, `i % stride`, d0/d1/d2[], r/g/b)
+ *   222 concrete bytes  flat draft (`u32 i`, `i % stride`, d0/d1/d2[], r/g/b)
  *   260 concrete bytes  + the DWARF locals but with an explicit
  *                       `if (y == 0) return;`   (344 bytes: the guard and the
  *                       `for` entry test both survive -> cmp+addls+popls)
@@ -932,10 +920,10 @@ void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned l
  * It moves the low scratch (r0) to the temp written first and the next (r2)
  * to the temp written second, and the instruction schedule follows source
  * order; see docs/idioms/statement-order-of-scratch-temporaries-decides-their-registers.md.
- * `unsigned long x` instead of `u32_021C1868 x` (idiom a-long-index...) is 48 (worse).
- * Inert at 34 too — `const u32_021C1868 width`, `const void *src` + `const u16 *pRgb`,
+ * `unsigned long x` instead of `u32 x` (idiom a-long-index...) is 48 (worse).
+ * Inert at 34 too — `const u32 width`, `const void *src` + `const u16 *pRgb`,
  * `ybuf` assigned before `pRgb`, `pRgb` declared before `x`, `x` declared
- * last with `u32_021C1868 x = 0;` as a declaration initialiser, and reusing the dead
+ * last with `u32 x = 0;` as a declaration initialiser, and reusing the dead
  * `height` parameter as the loop index (285, much worse).  The 3-cycle is
  * unforced by any source lever tried across two lanes; see
  * docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md
@@ -962,7 +950,7 @@ void SSP_RGB555ToYUV888(void *src, unsigned long width, unsigned long height, vo
     image_width = (width + 7) & ~7;
     y = image_width * ((height + 7) & ~7);
     ybuf = (u8 *)dst;
-    crbuf = (u8 *)(y + (u32_021C1868)(ybuf + y));
+    crbuf = (u8 *)(y + (u32)(ybuf + y));
     for (x = 0; x < y; x++) {
         pRgb = (u16 *)src;
         bb = (x % image_width < width) ? *pRgb : 0;
@@ -1189,16 +1177,16 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
     dst[ptr + 3] = (u8)x;
     ptr += 4;
     dst[ptr++] = 0;
-    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[0], dst, (u32_021C1248 *)&ptr))
+    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[0], dst, (u32 *)&ptr))
         return 0;
     dst[ptr++] = 1;
-    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[1], dst, (u32_021C1248 *)&ptr))
+    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[1], dst, (u32 *)&ptr))
         return 0;
     dst[ptr++] = 0x10;
-    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[2], dst, (u32_021C1248 *)&ptr))
+    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[2], dst, (u32 *)&ptr))
         return 0;
     dst[ptr++] = 0x11;
-    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[3], dst, (u32_021C1248 *)&ptr))
+    if (!Yos_JpegEncoderHuffmanEncoderPrintTable((u8 *)hf[3], dst, (u32 *)&ptr))
         return 0;
 
     for (j = 0; j < 3; j++)
@@ -1279,7 +1267,7 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
  *
  * Addresses are Black-image addresses.
  */
-int SSPi_JpegEncoderCheckWidthHeight(u32_021C2AD0 a0, u32_021C2AD0 a1, u32_021C2AD0 a2)
+int SSPi_JpegEncoderCheckWidthHeight(u32 a0, u32 a1, u32 a2)
 {
     if (a0 == 0 || a0 > 0xffff || a1 == 0 || a1 > 0xffff)
         return 0;

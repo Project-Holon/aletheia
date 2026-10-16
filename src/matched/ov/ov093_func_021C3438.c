@@ -28,7 +28,7 @@
  * half is initialized unconditionally by352A before C1678, which may
  * return0 without writing. Both event flags are initialized3536/3538.
  * symbols:
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   func_021C3660 0x021C3660 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
@@ -61,7 +61,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Flags { u8 pad[5]; u8 a:1; u8 rest:7; };
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u32 func_021C3660(void *, u32);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -103,7 +103,7 @@ void BTL_SERVER_FLOW_ProcMoveOhko(u8 *p, u16 *q, u8 *a, u8 *out)
     u16 half;
     struct Flags *flags;
     i = 0;
-    speed = (u8)func_021D59B4(a, 15);
+    speed = (u8)BTL_POKEPARAM_GetValue(a, 15);
     for (;;) {
         int kind;
         b = (u8 *)func_021C3660(out, i++);
@@ -120,7 +120,7 @@ void BTL_SERVER_FLOW_ProcMoveOhko(u8 *p, u16 *q, u8 *a, u8 *out)
             BTL_SERVER_FLOW_PushMoveBlockedMessage(p, b, *q);
             continue;
         }
-        if (speed < (u8)func_021D59B4(b, 15)) {
+        if (speed < (u8)BTL_POKEPARAM_GetValue(b, 15)) {
             BTL_SERVER_FLOW_PushActionFailedMessage(p, b);
             continue;
         }
@@ -132,7 +132,7 @@ void BTL_SERVER_FLOW_ProcMoveOhko(u8 *p, u16 *q, u8 *a, u8 *out)
         lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0x216b);
         if (BTL_SERVER_FLOW_CheckOneHitKoHit(p, a, b, *q)) {
             tag = SODATEYA_MonKnowsMove(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a));
-            half = func_021D59B4(b, 13);
+            half = BTL_POKEPARAM_GetValue(b, 13);
             category = BTL_CALC_SummarizeTypeAffinity(item);
             event1 = 0;
             event2 = 0;

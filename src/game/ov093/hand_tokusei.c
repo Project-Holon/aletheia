@@ -13,7 +13,7 @@
  * Cut from btl_calc.c, btl_action_word.c, hand_tokusei.c by tools/splitfile.py.
  *
  * symbols:
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
@@ -27,7 +27,7 @@
  *   BTL_EVENT_RemoveFactor 0x021D7040 thumb ov093
  *   BTL_EVENT_DisablePokeFactors 0x021D7404 thumb ov093
  *   BTL_EVENT_EnablePokeFactors 0x021D7438 thumb ov093
- *   func_021D58A8 0x021D58A8 thumb ov093
+ *   BTL_POKEPARAM_GetStatRaw 0x021D58A8 thumb ov093
  *   gIntimidateHandlers 0x021F08C0 data ov093 a4
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
  *   BTL_SERVER_FLOW_QueryMainFlag 0x021C82B8 thumb ov093
@@ -117,7 +117,7 @@
  *   gShedSkinHandlers     0x021F0878  data   ov093  a4
  *   gPoisonHealHandlers     0x021F0870  data   ov093  a4
  *   gSuperLuckHandlers 0x021F0860 data a4
- *   func_021D5D50   0x021D5D50  thumb ov093
+ *   BTL_POKEPARAM_GetStatStageRoom   0x021D5D50  thumb ov093
  *   gShellArmorHandlers     0x021F0868  data   ov093  a4
  *   gPoisonPointHandlers 0x021F0850 data a4
  *   BTL_CALC_MakeDefaultSickCont 0x021D7D18 thumb ov093
@@ -161,7 +161,7 @@
  *   BTL_POKEPARAM_IsHpFull 0x021D5B48 thumb ov093
  *   BTL_CALC_Max   0x021D7B08  thumb ov093
  *   gUnawareHandlers     0x021F0B18  data   ov093  a4
- *   func_021D5D14  0x021D5D14  thumb  ov093
+ *   BTL_POKEPARAM_CanChangeStatStage  0x021D5D14  thumb  ov093
  *   gDrySkinHandlers 0x021F0B30 data a4
  *   gWaterAbsorbHandlers 0x021F0730 data a4
  *   gMotorDriveHandlers 0x021F0798 data a4
@@ -335,7 +335,7 @@ extern int gInnerFocusHandlers[];
 /* Adds the handler table of the ability that the poke holds to the event factor list. */
 struct BtlEventFactor *HAND_TOKUSEI_AddAbilityHandlers(struct BtlPokeParam *bpp)
 {
-    u16 abilityId = func_021D59B4(bpp, 0x10);
+    u16 abilityId = BTL_POKEPARAM_GetValue(bpp, 0x10);
     u32 i;
     u32 speed;
     u8 pokeId;
@@ -386,7 +386,7 @@ void HAND_TOKUSEI_SwapAbilityHandlers(struct BtlPokeParam *bppA, struct BtlPokeP
     HAND_TOKUSEI_AddAbilityHandlers(bppB);
 }
 
-u16 HAND_TOKUSEI_GetPokeSpeed(struct BtlPokeParam *bpp) { return func_021D58A8(bpp,12); }
+u16 HAND_TOKUSEI_GetPokeSpeed(struct BtlPokeParam *bpp) { return BTL_POKEPARAM_GetStatRaw(bpp,12); }
 
 /* True after a percent roll succeeds, or when the flow flag 1 is set. */
 int HAND_TOKUSEI_RollChanceOrFlag(struct BtlServerFlow *flow, u32 percent) { int result; if (BTL_CALC_RollPercent(percent)) return 1; result=BTL_SERVER_FLOW_QueryMainFlag(flow,1)!=0; return result; }
@@ -486,7 +486,7 @@ extern int BTL_CALC_HasDefaultSickCont(int condition);
 
 extern int HAND_COMMON_IsMoveTarget(int pokeId);
 
-int func_021D5D50(struct BtlPokeParam *pokeParam, int rankKind);
+int BTL_POKEPARAM_GetStatStageRoom(struct BtlPokeParam *pokeParam, int rankKind);
 
 extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
 
@@ -531,7 +531,7 @@ extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *bpp);
 
 extern int BTLV_CORE_CheckEitherSlotPair(struct BtlServerFlow *flow, int pokeIdA, int pokeIdB);
 
-extern int func_021D5D14(struct BtlPokeParam *bpp, int statId, int direction);
+extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *bpp, int statId, int direction);
 
 extern u8 WAZA_TOOL_GetRankEffectCount(u16 moveId);
 
@@ -2251,7 +2251,7 @@ void HAND_TOKUSEI_PinchBoostType(struct BtlServerFlow *flow, int pokeId, int mov
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         hpThreshold = BTL_CALC_DivideMaxHp(bpp, 3);
-        if (func_021D59B4(bpp, 13) <= hpThreshold) {
+        if (BTL_POKEPARAM_GetValue(bpp, 13) <= hpThreshold) {
             if (moveType == BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE))
                 BTL_EVENT_MultiplyVar(BTL_EVAR_RATIO, BTL_RATIO_1_5);
         }
@@ -2305,7 +2305,7 @@ int HAND_TOKUSEI_CheckAllyHasAbility(void *server, int pokeId, u8 *idBuf, int ab
         count = BTL_SERVER_FLOW_CollectAlivePokeIds(server, (u16)((7 << 8) | side), idBuf);
         for (i = 0; i < count; i++) {
             if (pokeId != idBuf[i]) {
-                if (abilityId == func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(server, idBuf[i]), 0x11))
+                if (abilityId == BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(server, idBuf[i]), 0x11))
                     return 1;
             }
         }
@@ -2339,7 +2339,7 @@ void HAND_TOKUSEI_ChangeCherrimForm(struct BtlEventFactor *factor, void *server,
 {
     u8 *cmd;
 
-    if (form != func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), 0x13)) {
+    if (form != BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), 0x13)) {
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(server, 0x39, pokeId);
         cmd[4] = pokeId;
         cmd[5] = form;
@@ -2425,8 +2425,8 @@ void HAND_TOKUSEI_RivalryScalePower(struct BtlEventFactor *factor, void *server,
     if (pokeId == BTL_EVENT_GetVar(3)) {
         attacker = BTL_SERVER_FLOW_GetPokeParam(server, pokeId);
         defender = BTL_SERVER_FLOW_GetPokeParam(server, (u8)BTL_EVENT_GetVar(4));
-        attackerGender = func_021D59B4(attacker, 0x12);
-        defenderGender = func_021D59B4(defender, 0x12);
+        attackerGender = BTL_POKEPARAM_GetValue(attacker, 0x12);
+        defenderGender = BTL_POKEPARAM_GetValue(defender, 0x12);
         if (attackerGender != 2 && defenderGender != 2) {
             if (attackerGender == defenderGender) {
                 BTL_EVENT_MultiplyVar(0x31, 5 << 10);
@@ -3168,11 +3168,11 @@ void HAND_TOKUSEI_AngerPointOnDamageReaction(int myHandle, struct BtlServerFlow 
     if (BTL_EVENT_GetVar(BTL_EVAR_CRITICAL_FLAG) == 0)
         return;
     defender = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-    if (func_021D5D50(defender, BTL_RANK_ATTACK) <= 0)
+    if (BTL_POKEPARAM_GetStatStageRoom(defender, BTL_RANK_ATTACK) <= 0)
         return;
     record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_RANK_EFFECT, pokeId);
     record->rankKind = BTL_RANK_ATTACK;
-    record->volume = func_021D5D50(defender, BTL_RANK_ATTACK);
+    record->volume = BTL_POKEPARAM_GetStatStageRoom(defender, BTL_RANK_ATTACK);
     record->showMessage = 1;
     record->targetCount = 1;
     record->pokeId = pokeId;
@@ -3244,8 +3244,8 @@ void HAND_TOKUSEI_CuteCharmOnDamageReaction(int myHandle, struct BtlServerFlow *
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE_FLAG) == 0 && BTL_SERVER_FLOW_CheckShowdownThunk(flow) == 0) {
         defender = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         attacker = BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID));
-        defenderGender = func_021D59B4(defender, BPP_VALUE_GENDER);
-        attackerGender = func_021D59B4(attacker, BPP_VALUE_GENDER);
+        defenderGender = BTL_POKEPARAM_GetValue(defender, BPP_VALUE_GENDER);
+        attackerGender = BTL_POKEPARAM_GetValue(attacker, BPP_VALUE_GENDER);
         if (defenderGender != BTL_GENDER_NONE && attackerGender != BTL_GENDER_NONE && defenderGender != attackerGender) {
             BTL_CALC_MakeSickContFromKind(BTL_SICK_INFATUATION, defender, &sickCont);
             HAND_TOKUSEI_TryAddContactSick(flow, pokeId, BTL_SICK_INFATUATION, sickCont, 0x1e);
@@ -3508,12 +3508,12 @@ void HAND_TOKUSEI_TraceOnMemberIn(int myHandle, struct BtlServerFlow *flow, int 
         foeMask = BTL_SERVER_FLOW_GetFrontPosOfPoke(flow, pokeId);
         foeCount = BTL_SERVER_FLOW_CollectAlivePokeIds(flow, (u16)(foeMask | 0x100), foeIds);
         for (candidateCount = 0, i = 0; i < foeCount; i++) {
-            if (!BTL_ID_IsAbilityTraceBlocked((u16)func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, foeIds[i]), BPP_VALUE_ABILITY))) candidateIds[candidateCount++] = foeIds[i];
+            if (!BTL_ID_IsAbilityTraceBlocked((u16)BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, foeIds[i]), BPP_VALUE_ABILITY))) candidateIds[candidateCount++] = foeIds[i];
         }
         if (candidateCount != 0) {
             choice = candidateCount == 1 ? 0 : BTL_CALC_Random(candidateCount);
             foe = BTL_SERVER_FLOW_GetPokeParam(flow, candidateIds[choice]);
-            abilityId = func_021D59B4(foe, BPP_VALUE_ABILITY);
+            abilityId = BTL_POKEPARAM_GetValue(foe, BPP_VALUE_ABILITY);
             tracedId = BTL_POKEPARAM_GetPokeId(foe);
         } else {
             *work = 1;
@@ -3522,7 +3522,7 @@ void HAND_TOKUSEI_TraceOnMemberIn(int myHandle, struct BtlServerFlow *flow, int 
         slot = BTL_SERVER_FLOW_GetPokeViewPos(flow, enteringId);
         foeMask = BTL_SERVER_FLOW_GetFrontPosOfPoke(flow, pokeId);
         if (slot != BTL_SLOT_NONE && (BTL_SERVER_FLOW_GetRule(flow) != 2 || BTL_MAIN_IsPosInTable(foeMask, slot))) {
-            foeAbility = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, enteringId), BPP_VALUE_ABILITY);
+            foeAbility = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, enteringId), BPP_VALUE_ABILITY);
             if (!BTL_ID_IsAbilityTraceBlocked((u16)foeAbility)) { abilityId = foeAbility; tracedId = enteringId; }
         }
     }
@@ -3584,8 +3584,8 @@ void HAND_TOKUSEI_DownloadOnMemberIn(int myHandle, int flowWork, u8 pokeId)
     spDefenseSum = 0;
     for (i = 0; i < foeCount; i++) {
         foe = BTL_SERVER_FLOW_GetPokeParam((struct BtlServerFlow *)flowWork, foeIds[i]);
-        defenseSum = defenseSum + (u16)func_021D59B4(foe, BPP_VALUE_DEFENSE);
-        spDefenseSum = spDefenseSum + (u16)func_021D59B4(foe, BPP_VALUE_SP_DEFENSE);
+        defenseSum = defenseSum + (u16)BTL_POKEPARAM_GetValue(foe, BPP_VALUE_DEFENSE);
+        spDefenseSum = spDefenseSum + (u16)BTL_POKEPARAM_GetValue(foe, BPP_VALUE_SP_DEFENSE);
     }
     if (defenseSum >= spDefenseSum)
         rankKind = BTL_RANK_SP_ATTACK;
@@ -3907,7 +3907,7 @@ void HAND_TOKUSEI_AbsorbRaiseStat(struct BtlServerFlow *flow, int pokeId, u32 st
     BtlRankCmd *rankCmd;
     BtlMessageCmd *messageCmd;
 
-    if (func_021D5D14(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), statId, amount) != 0) {
+    if (BTL_POKEPARAM_CanChangeStatStage(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), statId, amount) != 0) {
         rankCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_RANK, pokeId);
         rankCmd->targetCount = 1;
         rankCmd->targets[0] = pokeId;
@@ -4458,7 +4458,7 @@ void HAND_TOKUSEI_Forecast_ResetForm(struct BtlEventFactor *factor, struct BtlSe
     struct BtlPokeParam *bpp;
 
     bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-    if (BTL_POKEPARAM_GetSpecies(bpp) == SPECIES_CASTFORM && func_021D59B4(bpp, BPP_VALUE_FORM) != 0) {
+    if (BTL_POKEPARAM_GetSpecies(bpp) == SPECIES_CASTFORM && BTL_POKEPARAM_GetValue(bpp, BPP_VALUE_FORM) != 0) {
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_CHANGE_FORM, pokeId);
         cmd->pokeId = pokeId;
         cmd->form = 0;
@@ -4478,7 +4478,7 @@ void HAND_TOKUSEI_Forecast_SetFormForWeather(struct BtlServerFlow *flow, int pok
 
     bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
     if (BTL_POKEPARAM_GetSpecies(bpp) == SPECIES_CASTFORM) {
-        currentForm = (u8)func_021D59B4(bpp, BPP_VALUE_FORM);
+        currentForm = (u8)BTL_POKEPARAM_GetValue(bpp, BPP_VALUE_FORM);
         switch (weather) {
         case 0:
             newForm = 0;
@@ -4868,7 +4868,7 @@ void HAND_TOKUSEI_ShadowTag_PreventEscape(struct BtlEventFactor *factor, struct 
     if (BTL_MAIN_IsPokeSamePair((u8)BTL_EVENT_GetVar(BTL_EVAR_POKE_ID), pokeId) == 0) {
         opponentCount = BTL_SERVER_FLOW_CollectAlivePokeIds(flow, (u16)(BTL_SERVER_FLOW_GetFrontPosOfPoke(flow, pokeId) | 0x100), opponentIds);
         for (i = 0; i < opponentCount; i++) {
-            if (func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, opponentIds[i]), BPP_VALUE_CURRENT_ABILITY) == ABILITY_SHADOW_TAG)
+            if (BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, opponentIds[i]), BPP_VALUE_CURRENT_ABILITY) == ABILITY_SHADOW_TAG)
                 return;
         }
         BTL_EVENT_OverwriteVar(BTL_EVAR_FORCE_GROUNDED_FLAG, 1);
@@ -5082,7 +5082,7 @@ void HAND_TOKUSEI_WeakArmor_LowerDefenseRaiseSpeed(struct BtlEventFactor *factor
     }
     owner = BTL_SERVER_FLOW_GetPokeParam(flow, ownerId);
     canChange = 0;
-    if (func_021D5D14(owner, BTL_STAT_DEFENSE, -1) != 0 || func_021D5D14(owner, BTL_STAT_SPEED, 1) != 0) {
+    if (BTL_POKEPARAM_CanChangeStatStage(owner, BTL_STAT_DEFENSE, -1) != 0 || BTL_POKEPARAM_CanChangeStatStage(owner, BTL_STAT_SPEED, 1) != 0) {
         canChange = 1;
     }
     if (canChange == 0) {
@@ -5212,7 +5212,7 @@ void HAND_TOKUSEI_Defeatist_HalvePowerAtLowHp(struct BtlEventFactor *factor, str
     u32 hp;
     if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         owner = BTL_SERVER_FLOW_GetPokeParam(flow, ownerId);
-        hp = func_021D59B4(owner, BTL_POKEPARAM_VALUE_HP);
+        hp = BTL_POKEPARAM_GetValue(owner, BTL_POKEPARAM_VALUE_HP);
         if (hp <= BTL_CALC_DivideMaxHp(owner, 2)) {
             BTL_EVENT_MultiplyVar(BTL_EVAR_RATIO, BTL_RATIO_0_5);
         }
@@ -5359,8 +5359,8 @@ void HAND_TOKUSEI_Moody_RaiseAndLowerStat(struct BtlEventFactor *factor, struct 
         lowerableCount = 0;
         raisableCount = 0;
         for (i = 0; i < BTL_STAT_COUNT_RANKED; i++) {
-            if (func_021D5D14(owner, i + 1, 1)) scratch->raisableStats[raisableCount++] = i + 1;
-            if (func_021D5D14(owner, i + 1, -1)) scratch->lowerableStats[lowerableCount++] = i + 1;
+            if (BTL_POKEPARAM_CanChangeStatStage(owner, i + 1, 1)) scratch->raisableStats[raisableCount++] = i + 1;
+            if (BTL_POKEPARAM_CanChangeStatStage(owner, i + 1, -1)) scratch->lowerableStats[lowerableCount++] = i + 1;
         }
         lowerStat = 0;
         raiseStat = 0;
@@ -5459,7 +5459,7 @@ void HAND_TOKUSEI_Regenerator_RecoverOnSwitchOut(struct BtlEventFactor *factor, 
     if (BTL_POKEPARAM_IsHpFull(owner) != 0)
         return;
     recoverAmount = BTL_CALC_DivideMaxHpMin1(owner, 3);
-    missingHp = func_021D59B4(owner, BTL_POKEPARAM_VALUE_MAX_HP) - func_021D59B4(owner, BTL_POKEPARAM_VALUE_HP);
+    missingHp = BTL_POKEPARAM_GetValue(owner, BTL_POKEPARAM_VALUE_MAX_HP) - BTL_POKEPARAM_GetValue(owner, BTL_POKEPARAM_VALUE_HP);
     if (recoverAmount > missingHp)
         recoverAmount = missingHp;
     cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_REGENERATE_HP, ownerId);
@@ -5552,8 +5552,8 @@ void HAND_TOKUSEI_ZenModeUpdateForm(struct BtlEventFactor *factor, struct BtlSer
 
     bpp = BTL_SERVER_FLOW_GetPokeParam(flow, ownerId);
     if (BTL_POKEPARAM_GetSpecies(bpp) == SPECIES_DARMANITAN) {
-        wantZenForm = (func_021D59B4(bpp, BTL_BPP_VALUE_HP) <= BTL_CALC_DivideMaxHp(bpp, 2));
-        if (wantZenForm != func_021D59B4(bpp, BTL_BPP_VALUE_FORM)) {
+        wantZenForm = (BTL_POKEPARAM_GetValue(bpp, BTL_BPP_VALUE_HP) <= BTL_CALC_DivideMaxHp(bpp, 2));
+        if (wantZenForm != BTL_POKEPARAM_GetValue(bpp, BTL_BPP_VALUE_FORM)) {
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_FORM_CHANGE, ownerId);
             cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
             cmd->pokeId = ownerId;
@@ -5718,7 +5718,7 @@ void HAND_TOKUSEI_MummySpreadAbility(struct BtlEventFactor *factor, struct BtlSe
     if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE_FLAG) == 0 && BTL_SERVER_FLOW_CheckShowdownThunk(flow) == 0
         && WAZA_TOOL_GetFlag(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID), WAZA_FLAG_CONTACT) != 0) {
         attackerId = BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID);
-        if (func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, attackerId), BTL_BPP_VALUE_ABILITY) != ABILITY_MUMMY) {
+        if (BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, attackerId), BTL_BPP_VALUE_ABILITY) != ABILITY_MUMMY) {
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ABILITY_CHANGE, ownerId);
             cmd->abilityId = ABILITY_MUMMY;
             cmd->pokeId = attackerId;
@@ -5960,7 +5960,7 @@ struct BtlEventFactor *HAND_ITEM_AddFactor(struct BtlPokeParam *poke, u32 itemId
 
     for (i = 0; i < ITEM_HANDLER_COUNT; i++) {
         if (itemId == gItemHandlerRegistry[i].itemId) {
-            speed = func_021D58A8(poke, 0xc);
+            speed = BTL_POKEPARAM_GetStatRaw(poke, 0xc);
             ownerId = BTL_POKEPARAM_GetPokeId(poke);
             handlerTable = gItemHandlerRegistry[i].getHandlers(&handlerCount);
             return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_ITEM, itemId, 6, speed, ownerId, (BtlEventHandler *)handlerTable, handlerCount);

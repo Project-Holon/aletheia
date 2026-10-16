@@ -1,5 +1,5 @@
 /*
- * function: func_021EAF78
+ * function: BTLV_SCU_SetMessageParam
  * address:  0x021EAF78
  * packet:   pkt_021E8CFC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EAF78   0x021EAF78  thumb
+ *   BTLV_SCU_SetMessageParam   0x021EAF78  thumb
  *
  * Stores the second argument (a u8) into the field at #2.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021EAF78  strb r1,[r0,#2] */
-void func_021EAF78(u8 *p, u8 v) { p[2] = v; }
+void BTLV_SCU_SetMessageParam(u8 *p, u8 v) { p[2] = v; }
 

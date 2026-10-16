@@ -36,7 +36,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -246,7 +246,7 @@ extern u32 PRINTSYS_QUE_IsFinished(const void *printQue);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern u32 func_02017E88(void *pp, int paramId, void *buf);
+extern u32 POKE_TOOL_GetBoxValue(void *pp, int paramId, void *buf);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, void *str, void *font, u16 colors);
@@ -743,7 +743,7 @@ void P_STA_RIBBON_CollectOwned(PStatusWork *wk, PStaRibbonWork *work)
     for(i=0;i<STA_RIBBON_MAX;i++) work->owned[i].isOwned=0;
     n=0;
     for(i=0;i<STA_RIBBON_MAX;i++) {
-        if(func_02017E88(pp,P_STA_RIBBON_GetRibbonInfo(i,0),0)==1) {
+        if(POKE_TOOL_GetBoxValue(pp,P_STA_RIBBON_GetRibbonInfo(i,0),0)==1) {
             category=P_STA_RIBBON_GetRibbonInfo(i,5);
             work->owned[n].isOwned=1;
             work->owned[n].ribbonNo=i;

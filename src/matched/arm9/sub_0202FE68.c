@@ -13,16 +13,16 @@
  *   g_EnvModule   0x02146954  data
  *   sub_0202FED8  0x0202FED8  arm
  *
- * The sibling of sub_0202FDC4: bind an already-built object rather than one
+ * The sibling of GFL_HEAP_CreateChildHeapImpl: bind an already-built object rather than one
  * resolved out of the module.  0x0202FED8 is called with a null resource and
- * the caller's object in the third slot, the same slot sub_0202FDC4 fills
+ * the caller's object in the third slot, the same slot GFL_HEAP_CreateChildHeapImpl fills
  * with the result of 0x02060CA0.
  *
  * On success the entry's +0xE byte is set to 1, which is what pins
  * EnvEntry's size at sixteen bytes: the index scale in
  * `add r1, r2, r1, lsl #4` is the struct stride and 0xE is its last used
  * byte.  On a taken destination slot the module error halfword takes 1, as in
- * sub_0202FDC4; a refusal from 0x0202FED8 leaves it alone.
+ * GFL_HEAP_CreateChildHeapImpl; a refusal from 0x0202FED8 leaves it alone.
  *
  * Both zero returns share one tail with a call between them, so the exit is
  * an explicit `goto`

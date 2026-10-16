@@ -17,7 +17,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02034714 0x02034714 arm
- *   MI_CpuFill8 0x02082BCC arm
+ *   memset 0x02082BCC arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -51,7 +51,7 @@
  *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
@@ -85,7 +85,7 @@
  *   str_02203F58  0x02203F58  data  a1
  *   func_02025C1C 0x02025C1C thumb
  *   func_02025C30 0x02025C30 thumb
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   NHTTP_RAP_AllocPostData 0x021B98A0 thumb ov114
  *   NHTTP_RAP_AppendPostData 0x021B98D8 thumb ov114
@@ -144,18 +144,6 @@
  *   WORLDTRADE_ADAPTER_CreateMail 0x0220254C thumb ov135
  */
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj18609.h"
-#include "../../matched/include/Obj23442.h"
-#include "../../matched/include/Obj06520.h"
-#include "../../matched/include/Obj05420.h"
-#include "../../matched/include/Obj12231.h"
-#include "../../matched/include/Obj23444.h"
-#include "../../matched/include/Obj23452.h"
-#include "../../matched/include/Obj23453.h"
-#include "../../matched/include/Obj23454.h"
-#include "../../matched/include/Obj23455.h"
-#include "../../matched/include/Obj23457.h"
-#include "../../matched/include/Obj23459.h"
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -213,7 +201,7 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern void WORLDTRADE_ClearBusyFlag(Work *p);
 
@@ -269,7 +257,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
 
 
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
 extern int GXx_GetMasterBrightness_(vu16 *reg);
 
@@ -724,8 +712,8 @@ int WORLDTRADE_SERVER_SendUploadRequest(Work *p)
     ((u8 *)p)[0x204]=func_02025C1C(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
     ((u8 *)p)[0x205]=func_02025C30(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
     *(u8 * *)&p->wm=NHTTP_RAP_Create(0x48,func_0200853C(p->ctx->f1C),(int)((u8 *)p+0x116C));
-    NHTTP_RAP_AllocPostData(*(u8 * *)&p->wm,0x48,func_020173EC(),1);
-    NHTTP_RAP_AppendPostData(*(u8 * *)&p->wm,(int)mon,func_020173EC());
+    NHTTP_RAP_AllocPostData(*(u8 * *)&p->wm,0x48,POKE_TOOL_GetPartyParamSize(),1);
+    NHTTP_RAP_AppendPostData(*(u8 * *)&p->wm,(int)mon,POKE_TOOL_GetPartyParamSize());
     if(NHTTP_RAP_CreatePostRequest(*(u8 * *)&p->wm)==0) func_02034714(str_02203F58,0,str_02203F58);
     ready=NHTTP_RAP_StartConnection(*(u8 **)((u8 *)p+0x10E0))==0;
     if(ready==0) func_02034714(str_02203F58,0,str_02203F58);
@@ -830,19 +818,19 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     s=STRBUF_Create(8,0x48);
     STRBUF_SetStringN((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
     MI_CpuFill8(p+0x1300,0,0x28);
-    ((struct Obj06520 *)p)->f1324=0x48;
+    ((Work *)p)->f1324=0x48;
     text=STRBUF_GetChars(s);
     for(i=0;i<STRBUF_GetLength(s)+1;i++) {
         c=*(u16 *)((u32)text+i*2);
         if(c==STRBUF_GetEosChar()) *(u16 *)((u32)p+i*2+0x1300)=0;
         else *(u16 *)((u32)p+i*2+0x1300)=c;
     }
-    ((struct Obj06520 *)p)->f1318=(u32)(p+0x1300);
-    ((struct Obj06520 *)p)->f1320=0;
+    ((Work *)p)->f1318=(u32)(p+0x1300);
+    ((Work *)p)->f1320=0;
     DWC_CheckProfanityExAsync((short unsigned int **)(p+0x1318),1,0,0,(char *)(p+0x131C),(int *)(p+0x1320),0x80);
     STRBUF_Delete(s);
-    ((struct Obj06520 *)p)->f28=5;
-    ((struct Obj06520 *)p)->fF8C=0;
+    ((Work *)p)->state=5;
+    ((Work *)p)->timer=0;
     return 2;
 }
 
@@ -856,7 +844,7 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
     u16 *text;
     int i;
     done = DWC_CheckProfanityProcess() == 2;
-    if (done) positive = ((struct Obj05420 *)p)->f1320 > 0;
+    if (done) positive = ((Work *)p)->nameCheckResult > 0;
     if (done) {
         if (positive) {
             dst = (u16 *)(p + 0x1f4);
@@ -868,11 +856,11 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
             dst[i] = STRBUF_GetEosChar();
             STRBUF_Delete(str);
         }
-        ((struct Obj05420 *)p)->f28 = ((struct Obj05420 *)p)->fE10;
+        ((Work *)p)->state = ((Work *)p)->next;
     } else {
-        if ((((struct Obj05420 *)p)->fF8C)++ == 0xe10) {
-            ((struct Obj05420 *)p)->f38 = -5;
-            ((struct Obj05420 *)p)->f28 = 0x2b;
+        if ((((Work *)p)->timer)++ == 0xe10) {
+            ((Work *)p)->err = -5;
+            ((Work *)p)->state = 0x2b;
             func_0200FBB0();
             GFL_NET_STATE_SetWifiError();
             func_0200FBA0();
@@ -925,7 +913,7 @@ int WORLDTRADE_SERVER_WaitUploadResult(Work *p)
         switch (n + 15) {
         case 15:
             WORLDTRADE_ADAPTER_RemovePartyMon(p, 1);
-            func_02008DF0((struct Sub02008C20Obj *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x24)), 0x1c);
+            func_02008DF0((struct Sub02008C20Obj *)p->ctx->trainerRecord, 0x1c);
             p->state = 0x22;
             break;
         case 14:
@@ -1486,18 +1474,18 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *r, void *old
     void *copy;
     Record rec;
     u16 species;
-    func_02008DF0(((struct Obj23452 *)(*(u8 * *)(void **)&p->ctx))->f24, 0x10);
-    MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(((struct Obj23453 *)(*(u8 * *)(void **)&p->ctx))->f3C), r->trainerId);
+    func_02008DF0(p->ctx->trainerRecord, 0x10);
+    MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(p->ctx->saveData), r->trainerId);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
-    func_02009DE8(TRADE_HISTORY_GetFromSave(((struct Obj23454 *)(*(u8 * *)(void **)&p->ctx))->f3C), copy);
+    func_02009DE8(TRADE_HISTORY_GetFromSave(p->ctx->saveData), copy);
     func_020307B0(copy);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     memset(&rec, 0, sizeof(rec));
     MYSTATUS_Copy(copy, &rec);
-    if (old != 0) species = func_02017E1C(old, 5, 0);
+    if (old != 0) species = POKE_TOOL_GetPartyValue(old, 5, 0);
     else species = *(u16 *)&((Deposit *)r)->have.species;
     rec.old_species = species;
-    rec.new_species = func_02017E1C(mon, 5, 0);
+    rec.new_species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     rec.x = r->profileFlagB;
     rec.flags = (rec.flags & ~7) | (r->profileFlagA & 7);
     rec.y = r->profileFlagC;

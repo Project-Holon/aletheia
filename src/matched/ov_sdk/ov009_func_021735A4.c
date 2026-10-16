@@ -12,7 +12,7 @@
  * sdk:      DWCi_SendTypeMatchAck (dwc_match.o)
  *
  * symbols:
- *   func_02175FB8  0x02175FB8  arm  ov009
+ *   DWCi_GetHostStatus  0x02175FB8  arm  ov009
  *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
  *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
  *   func_02173064  0x02173064  arm  ov009
@@ -21,7 +21,7 @@
  *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  */
 
-extern unsigned char func_02175FB8(void);
+extern unsigned char DWCi_GetHostStatus(void);
 extern int DWCi_NodeInfoList_GetCount(void);
 extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern void func_02173064(int aid, int type);
@@ -33,7 +33,7 @@ void DWCi_SendTypeMatchAck(void)
 {
     int i;
 
-    if (func_02175FB8() != 2)
+    if (DWCi_GetHostStatus() != 2)
         return;
     for (i = 1; i < DWCi_NodeInfoList_GetCount(); i++)
         func_02173064(*(unsigned char *)(DWCi_NodeInfoList_GetNodeInfoForIndex(i) + 0x16), 4);

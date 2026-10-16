@@ -76,7 +76,7 @@ struct OamPos {
 struct BmpOamSys {
     void *clact;
     u16   heapId;
-    u16   pad;
+    u16   reserved;
     void *arcTool;
     s32   slot[3];
 };

@@ -39,7 +39,7 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
  *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -62,6 +62,7 @@
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
@@ -95,7 +96,7 @@ struct Pl {
     u8 rest[0x18];
 };
 
-struct G {
+struct MusCommPlayerTable {
     u8 pad[0x64];
     struct Pl pl[4];
 };
@@ -131,7 +132,7 @@ extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
 
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 
@@ -161,7 +162,7 @@ extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 
 extern void *GAME_DATA_GetSaveBlock2A(void *);
 
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 
@@ -294,7 +295,7 @@ void MUS_COMM_FUNC_Delete(char *p) { MUS_COMM_FUNC_DeleteBuffers(p); GAME_COMM_R
 
 void *MUS_COMM_FUNC_StartSession(int a,char *p)
 {
-    ((struct ScriptCtx *)p)->f5C=func_02012944(((struct ScriptCtx *)p)->f58);
+    ((struct ScriptCtx *)p)->f5C=GAME_DATA_GetMyStatus(((struct ScriptCtx *)p)->f58);
     if(((struct ScriptCtx *)p)->fC==1) d_021FDE4C[5]=4;
     else {
         d_021FDE4C[5]=0;
@@ -372,10 +373,10 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   W(row,0x78)=0;
   W(row,0x64)=0;W(row,0x68)=0;W(row,0x6C)=0;
   row[0x70]=10;row[0x71]=10;
-  P(row,0x7C)=func_02030734(((struct ActingHost *)p)->f0,func_020173EC()+0x7C,0,d_021FDE5C,0x20E);
+  P(row,0x7C)=func_02030734(((struct ActingHost *)p)->f0,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
   size1=MYSTATUS_GetSize();
   P(row,0x8C)=func_02030734(((struct ActingHost *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
-  clear8(P(row,0x7C),func_020173EC()+0x7C);
+  clear8(P(row,0x7C),POKE_TOOL_GetPartyParamSize()+0x7C);
   size2=MYSTATUS_GetSize();
   clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
   P(row,0x80)=P(row,0x8C);
@@ -386,7 +387,7 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  ((struct ActingHost *)p)->f12C=MUSICAL_SAVE_GetFanPoints(data);
  ((struct ActingHost *)p)->f130=a;((struct ActingHost *)p)->f134=b;
  W(p,0x138)=0;W(p,0x124)=0;
- P(p,0x128)=func_02030734(((struct ActingHost *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
+ P(p,0x128)=func_02030734(((struct ActingHost *)p)->f0,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=MYSTATUS_GetSize();
  P(p,0x13C)=func_02030734(((struct ActingHost *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
@@ -475,7 +476,7 @@ void MUS_COMM_FUNC_Update(char *p)
     case 4:
         cnt = 0;
         for (i = 0; i < 4; i++)
-            if (((struct G *)p)->pl[i].b == 1) cnt++;
+            if (((struct MusCommPlayerTable *)p)->pl[i].b == 1) cnt++;
         if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendBoxData(p) == 1) *(int *)(p + 0x4c) = 5;
         break;
     case 6:
@@ -527,7 +528,7 @@ void MUS_COMM_FUNC_Update(char *p)
     case 19:
         cnt = 0;
         for (i = 0; i < 4; i++)
-            if (((struct G *)p)->pl[i].a == 1) cnt++;
+            if (((struct MusCommPlayerTable *)p)->pl[i].a == 1) cnt++;
         if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendRecordBlock(p) == 1) *(int *)(p + 0x4c) = 0x15;
         break;
     case 20:
@@ -538,29 +539,29 @@ void MUS_COMM_FUNC_Update(char *p)
     }
     if (*(int *)(p + 0x184) == 1) {
         v = 0;
-        v += ((struct G *)p)->pl[0].e;
-        v += ((struct G *)p)->pl[1].e << 4;
-        v += ((struct G *)p)->pl[2].e << 8;
-        v += ((struct G *)p)->pl[3].e << 12;
+        v += ((struct MusCommPlayerTable *)p)->pl[0].e;
+        v += ((struct MusCommPlayerTable *)p)->pl[1].e << 4;
+        v += ((struct MusCommPlayerTable *)p)->pl[2].e << 8;
+        v += ((struct MusCommPlayerTable *)p)->pl[3].e << 12;
         if (MUS_COMM_FUNC_SendCommandWait((int)p, 3, v, 0xff) == 1) *(int *)(p + 0x184) = 0;
     }
     {
         u32 sum = 0;
         n = 0;
         for (i = 0; i < 4; i++) {
-            if (((struct G *)p)->pl[i].c == 1) {
+            if (((struct MusCommPlayerTable *)p)->pl[i].c == 1) {
                 list[n] = i;
                 n++;
             }
-            sum += ((struct G *)p)->pl[i].d << (i * 4);
+            sum += ((struct MusCommPlayerTable *)p)->pl[i].d << (i * 4);
         }
         if (n != 0) {
             u32 k = random_below(n);
             sum += list[k] << 16;
             if (MUS_COMM_FUNC_SendCommandWait((int)p, 0xb, sum, 0xff) == 1) {
                 for (j = 0; j < n; j++) {
-                    ((struct G *)p)->pl[list[j]].c = 0;
-                    ((struct G *)p)->pl[list[j]].d = 10;
+                    ((struct MusCommPlayerTable *)p)->pl[list[j]].c = 0;
+                    ((struct MusCommPlayerTable *)p)->pl[list[j]].d = 10;
                 }
             }
         }
@@ -846,16 +847,16 @@ int MUS_COMM_FUNC_SendStatusBlock(char *p, char *src)
     u32 n;
     int zero;
     if(((struct ActingHost *)p)->f124) func_020307B0(((struct ActingHost *)p)->f124);
-    n=func_020173EC();
+    n=POKE_TOOL_GetPartyParamSize();
     q=func_02030734(((struct ActingHost *)p)->f0,n+0x7c,0,d_021FDE5C,0x5be);
     zero=0;
     ((struct ActingHost *)p)->f124=q;
     MI_CpuCopy8(src,q,0x7c);
-    n=func_020173EC();
+    n=POKE_TOOL_GetPartyParamSize();
     q+=0x7c;
-    MI_CpuCopy8(((struct Obj23284 *)src)->f4,q,n);
+    MI_CpuCopy8(((struct MusCommBlockHeader *)src)->payload,q,n);
     h=GFL_NET_HANDLE_GetCurrentHandle();
-    n=func_020173EC();
+    n=POKE_TOOL_GetPartyParamSize();
     return GFL_NET_SendData((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct ActingHost *)p)->f124),1,zero,1);
 }
 
@@ -868,7 +869,7 @@ void MUS_COMM_FUNC_SetRecordData(long i,int b,int c,struct Context *p)
     char *s;
     p->rec[i].flag=1;
     s=p->rec[i].data;
-    ((struct Obj23285 *)s)->f4=s+0x7c;
+    ((struct MusCommBlockHeader *)s)->payload=s+0x7c;
 }
 
 /*
@@ -892,14 +893,14 @@ int MUS_COMM_FUNC_SendRecordBlock(const char *p)
     u32 q;
     void *h;
     for(i=0;i<4;i++) {
-        n=func_020173EC()+0x7c;
+        n=POKE_TOOL_GetPartyParamSize()+0x7c;
         q=*(u32 *)(p+0x128);
         k=i*n;
-        n=func_020173EC()+0x7c;
+        n=POKE_TOOL_GetPartyParamSize()+0x7c;
         MI_CpuCopy8(*(void **)(p+i*0x30+0x7c),(void *)(q+k),n);
     }
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
-    n=func_020173EC();
+    n=POKE_TOOL_GetPartyParamSize();
     return GFL_NET_SendData((u32)h,0xff,0x1104,(n+0x7c)*4,*(u32 *)(p+0x128),1,0,1);
 }
 
@@ -916,10 +917,10 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const Owner_021FD22C *p)
     for(i=0;i<4;i++) {
         s=(char *)p+i*0x30;
         if(func_020084BC(*(u16 **)(s+0x84))==0) {
-            n=func_020173EC()+0x7c;
+            n=POKE_TOOL_GetPartyParamSize()+0x7c;
             q=p->buffer;
             k=i*n;
-            n=func_020173EC()+0x7c;
+            n=POKE_TOOL_GetPartyParamSize()+0x7c;
             MI_CpuCopy8(q+k,*(void **)(s+0x7c),n);
             q=*(char **)(s+0x7c);
             *(char **)(q+4)=q+0x7c;

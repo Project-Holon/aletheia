@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B999C",
+   "name": "PMS_INPUT_DATA_GetCategoryWordCount",
    "address": "0x021B999C",
    "kind": "game",
    "region": "ov110",

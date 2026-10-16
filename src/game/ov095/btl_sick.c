@@ -36,7 +36,7 @@
  *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
- *   func_021D59B4  0x021D59B4  thumb
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
  *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb
  *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
@@ -204,7 +204,7 @@ void BTL_SICK_ApplyLeechSeed(struct BtlServerFlow *flow, struct BtlPokeParam *bp
     sourceEntry = BTL_SERVER_FLOW_GetPosTableEntryForPoke(flow, sourceId);
     if (sourceEntry == BTL_CMD_ACTIVE_NONE) return;
     amount = BTL_CALC_DivideMaxHpMin1(bpp, 8);
-    curHp = func_021D59B4(bpp, BTL_VALUE_HP);
+    curHp = BTL_POKEPARAM_GetValue(bpp, BTL_VALUE_HP);
     if (amount > curHp) amount = curHp;
     damage = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_DAMAGE, pokeId);
     damage->pokeId = pokeId;

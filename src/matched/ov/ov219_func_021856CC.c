@@ -1,5 +1,5 @@
 /*
- * function: func_021856CC
+ * function: BEACON_DETAIL_Init3DParams
  * address:  0x021856CC
  * packet:   pkt_ov219_021856CC
  * region:   ov219
@@ -11,12 +11,12 @@
  * note:     2026-10-05 wave D6 lane 03: 92 bytes. Resets twelve words at p+0xC2DC (a camera
  *           record: zero vector, three 0x1000 scales, 0x1A40/0x7C00/0 angles, three 0x1000).
  *           The offset is held in a local so every store reuses one `adds rX,r1,#K` base.
- *           Filed as the unlabelled same-overlay callee of func_02183D14.
+ *           Filed as the unlabelled same-overlay callee of BEACON_DETAIL_Update.
  */
 
 typedef unsigned char u8;
 
-void func_021856CC(u8 *p)
+void BEACON_DETAIL_Init3DParams(u8 *p)
 {
     int k = 0xC2DC;
 

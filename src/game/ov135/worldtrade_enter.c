@@ -122,7 +122,7 @@ struct DWCstAccUserData;
 typedef struct {
     u8 start;
     u8 id;
-} Range_021F88B0;
+} IdRange;
 
 typedef unsigned long long u64;
 
@@ -284,7 +284,7 @@ void ov135_func_021F9260(Menu *p, u32 mode);
 
 extern const u16 d_022030E8[];
 
-extern const Range_021F88B0 tbl_02202F0C[];
+extern const IdRange tbl_02202F0C[];
 
 extern u16 tbl_022030E8[];
 

@@ -12,7 +12,7 @@
  *
  * poke_tool.c: "teach this move if there is room".  sub_02018094 unlocks the
  * record, walks the four move slots (ids 0x36 to 0x39 of the getter
- * func_02017E88), and writes the move into the first empty one through
+ * POKE_TOOL_GetBoxValue), and writes the move into the first empty one through
  * POKE_TOOL_SetBoxMoveSlot (src/matched/unit_020181A0.c), locking again on the way out.
  * It answers with the move it wrote, 0xFFFE if the record already knows it,
  * and 0xFFFF if all four slots are full; sub_0201808C is a bare tail call to
@@ -37,6 +37,7 @@
  *   POKE_TOOL_SetBoxMoveSlot  0x020181FC  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned char  u8;
@@ -47,7 +48,7 @@ typedef int            s32;
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxMoveSlot(void *p, u32 move, u8 slot);
 
 u32 sub_02018094(void *p, u32 move);
@@ -64,7 +65,7 @@ u32 sub_02018094(void *p, u32 move)
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        u16 cur = (u16)func_02017E88(p, (u32)(0x36 + i), 0);
+        u16 cur = (u16)POKE_TOOL_GetBoxValue(p, (u32)(0x36 + i), 0);
 
         if (cur == 0) {
             POKE_TOOL_SetBoxMoveSlot(p, move, (u8)i);

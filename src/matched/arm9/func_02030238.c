@@ -25,7 +25,7 @@
  * entry for 0x02061358 promotes this file unchanged.
  *
  * Initialise a block in the heap: the heap id is bit-15-flagged like
- * sub_02030098's, and the low fifteen bits select the arena to store.
+ * GFL_HEAP_AllocMemory's, and the low fifteen bits select the arena to store.
  *
  *   u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size)
  *

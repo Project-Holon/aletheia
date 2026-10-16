@@ -1,5 +1,5 @@
 /*
- * function: func_02183FA0
+ * function: MICTEST_UpdateActors
  * address:  0x02183FA0
  * packet:   pkt_02183FA0
  * region:   ov168
@@ -20,7 +20,7 @@ struct Obj;
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
 
-void func_02183FA0(void **p)
+void MICTEST_UpdateActors(void **p)
 {
     u16 i;
 

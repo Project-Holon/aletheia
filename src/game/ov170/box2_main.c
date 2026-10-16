@@ -104,7 +104,7 @@
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02007A18 0x02007A18 thumb
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   BOX2_UI_DrawSlot 0x021EDAB0 thumb ov170
@@ -537,7 +537,7 @@ void *BOX2_MAIN_GetDispVram(void)
 
 struct GfFont;
 
-struct R;
+struct TaskMenuRes;
 
 struct TaskMenuState;
 
@@ -773,7 +773,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
@@ -817,7 +817,7 @@ extern void BOX2_SEQ_DrawOffsetName(unsigned char *p, int i);
 
 extern void BOX2_UI_PutInfoBar(struct WinMgr *mgr);
 
-extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct CursorMoveObj *obj, u32 state);
 
 extern unsigned POKEPARTY_GetCount(void *p);
 
@@ -825,7 +825,7 @@ extern void *POKEPARTY_GetMember(void *party, unsigned i);
 
 extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
 
-extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
+extern unsigned POKE_TOOL_GetBoxValue(void *p, unsigned id, unsigned v);
 
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
@@ -1668,7 +1668,7 @@ unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, unsigned short b
     } else if (a != 0xFF) {
         void *m = func_02007A18((*p)[1], box, a);
         if (m != 0)
-            return func_02017E88((void *)m, id, v);
+            return POKE_TOOL_GetBoxValue((void *)m, id, v);
     }
     return 0;
 }
@@ -1899,26 +1899,26 @@ void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b)
  */
 int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
 {
-    u16 species = func_02017E88((void *)mon, 5, 0);
+    u16 species = POKE_TOOL_GetBoxValue((void *)mon, 5, 0);
     if (species == 0x1ED) {
-        u16 item = func_02017E88((void *)mon, 6, 0);
-        u16 form = func_02017E88((void *)mon, 0x6F, 0);
+        u16 item = POKE_TOOL_GetBoxValue((void *)mon, 6, 0);
+        u16 form = POKE_TOOL_GetBoxValue((void *)mon, 0x6F, 0);
         u16 want = POKE_TOOL_GetPlateTypeForwarder(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
             return 1;
     } else if (species == 0x289) {
-        u16 item = func_02017E88((void *)mon, 6, 0);
-        u16 form = func_02017E88((void *)mon, 0x6F, 0);
+        u16 item = POKE_TOOL_GetBoxValue((void *)mon, 6, 0);
+        u16 form = POKE_TOOL_GetBoxValue((void *)mon, 0x6F, 0);
         u16 want = POKE_TOOL_GetBoxParamIndex(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
             return 1;
     } else if (species == 0x1E7) {
-        u16 item = func_02017E88((void *)mon, 6, 0);
-        u16 old = func_02017E88((void *)mon, 0x6F, 0);
+        u16 item = POKE_TOOL_GetBoxValue((void *)mon, 6, 0);
+        u16 old = POKE_TOOL_GetBoxValue((void *)mon, 0x6F, 0);
         u16 form = old;
         if (old == 0) {
             if (item == 0x70) {
@@ -2594,7 +2594,7 @@ void BOX2_MAIN_ResetMovers(BoxTask *p)
     s->flags=0;
     m=(void *)BOX2_MAIN_GetMonAt((void ***)p,p->curBox,p->cursorSlot);
     for(i=0;i<4;i++){
-        r=BOX2_MAIN_GetMinusOne((unsigned short)func_02017E88((void *)m,i+0x36,0));
+        r=BOX2_MAIN_GetMinusOne((unsigned short)POKE_TOOL_GetBoxValue((void *)m,i+0x36,0));
         if(r!=-1){s->flags|=(unsigned char)(1<<r);return;}
     }
 }
@@ -2629,9 +2629,9 @@ int BOX2_MAIN_StepScroll(BoxTask *p)
             if(slot==p->cursorSlot-30)m=0;
             else m=(void *)BOX2_MAIN_GetMonAt((void ***)p,255,slot);
         }
-        if(m&&func_02017E88((void *)m,0xa9,0)!=0){
+        if(m&&POKE_TOOL_GetBoxValue((void *)m,0xa9,0)!=0){
             for(i=0;i<4;i++){
-                r=BOX2_MAIN_GetMinusOne((unsigned short)func_02017E88((void *)m,i+0x36,0));
+                r=BOX2_MAIN_GetMinusOne((unsigned short)POKE_TOOL_GetBoxValue((void *)m,i+0x36,0));
                 if(r!=-1)s->flags=s->flags & (255^(1<<r));
             }
         }
@@ -2956,19 +2956,19 @@ Summary *BOX2_MAIN_CreateSummary(void *mon)
     Summary *s;
     unsigned i;
 
-    if (func_02017E88((void *)mon, 0xA9, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue((void *)mon, 0xA9, 0) != 0) {
         s = func_02030734(0x4C, 0x1C, 0, d_021F1400, 0xCD2);
         s->mon = mon;
-        s->species = func_02017E88((void *)mon, 5, 0);
-        s->form = func_02017E88((void *)mon, 6, 0);
-        s->pid = func_02017E88((void *)mon, 0, 0);
-        s->cC = func_02017E88((void *)mon, 0xAE, 0);
-        s->cD = func_02017E88((void *)mon, 0xAF, 0);
-        s->cE = func_02017E88((void *)mon, 0xA, 0);
+        s->species = POKE_TOOL_GetBoxValue((void *)mon, 5, 0);
+        s->form = POKE_TOOL_GetBoxValue((void *)mon, 6, 0);
+        s->pid = POKE_TOOL_GetBoxValue((void *)mon, 0, 0);
+        s->cC = POKE_TOOL_GetBoxValue((void *)mon, 0xAE, 0);
+        s->cD = POKE_TOOL_GetBoxValue((void *)mon, 0xAF, 0);
+        s->cE = POKE_TOOL_GetBoxValue((void *)mon, 0xA, 0);
         s->cF = POKE_TOOL_GetBoxNature(mon);
-        s->item = func_02017E88((void *)mon, 0xB, 0);
-        s->level = func_02017E88((void *)mon, 0x9E, 0);
-        s->egg = (unsigned char)func_02017E88((void *)mon, 0x4C, 0);
+        s->item = POKE_TOOL_GetBoxValue((void *)mon, 0xB, 0);
+        s->level = POKE_TOOL_GetBoxValue((void *)mon, 0x9E, 0);
+        s->egg = (unsigned char)POKE_TOOL_GetBoxValue((void *)mon, 0x4C, 0);
         if (s->egg == 0)
             s->gender = POKE_TOOL_GetBoxGender(mon);
         else
@@ -2988,7 +2988,7 @@ Summary *BOX2_MAIN_CreateSummary(void *mon)
         else
             s->showgender = 0;
         for (i = 0; i < 4; i++)
-            s->moves[i] = func_02017E88((void *)mon, 0x36 + i, 0);
+            s->moves[i] = POKE_TOOL_GetBoxValue((void *)mon, 0x36 + i, 0);
     } else {
         s = 0;
     }

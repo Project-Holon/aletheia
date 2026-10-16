@@ -28,11 +28,11 @@
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
  *   BMP_WIN_Create 0x020450F0 arm
@@ -66,8 +66,8 @@
  *   P_STA_SKILL_WindowTemplates 0x021DC2C2 data a1
  *   BMP_WIN_SetPalette 0x02045798 arm
  *   BG_SYS_PushTileSource 0x020409E0 arm
- *   func_0202D034 0x0202D034 thumb
- *   func_0202D01C 0x0202D01C thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
+ *   BGWINFRM_ScaleRatio 0x0202D01C thumb
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   APP_ICON_GetMoveKindPaletteOffset 0x02027604 thumb
  *   BMP_Clear 0x02043B5C arm
@@ -205,8 +205,8 @@ extern int TOUCHPANEL_HitTrg(const void *rectTable);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *queue);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern u32 func_02017E88(void *pp, int id, void *buf);
-extern u32 func_02017E1C(void *pp, u32 id, u32 buf);
+extern u32 POKE_TOOL_GetBoxValue(void *pp, int id, void *buf);
+extern u32 POKE_TOOL_GetPartyValue(void *pp, u32 id, u32 buf);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 msgId);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
@@ -241,8 +241,8 @@ extern void BMP_Delete(struct Bmp *bmp);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *queue, struct Bmp *bmp);
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 value);
 extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 size, u32 offset);
-extern int func_0202D034(u32 curHp, u32 maxHp);
-extern u8 func_0202D01C(u32 curHp, u32 maxHp, u32 pixels);
+extern int BGWINFRM_GetScaleRank(u32 curHp, u32 maxHp);
+extern u8 BGWINFRM_ScaleRatio(u32 curHp, u32 maxHp, u32 pixels);
 extern void BMP_Clear(struct Bmp *bmp, u8 fill);
 extern int WAZA_TOOL_GetDamageType(int moveId);
 extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 typeId);
@@ -625,8 +625,8 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     CLACT_SetActorDrawEnable(work->moveTypeObj,1);
     for(;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
     pp=P_STATUS_GetPokePara(wk);
-    type1=func_02017E88(pp,174,0);
-    type2=func_02017E88(pp,175,0);
+    type1=POKE_TOOL_GetBoxValue(pp,174,0);
+    type2=POKE_TOOL_GetBoxValue(pp,175,0);
     CLACT_GetCharacterProxy(wk->typeChrRes[type1],&type1Res);
     CLACT_SetActorImageProxy(wk->typeIconActor[0],&type1Res);
     CLACT_SetActorPaletteOffset(wk->typeIconActor[0],APP_ICON_GetTypePaletteOffset((u8)type1),1);
@@ -662,45 +662,45 @@ void P_STA_SKILL_PrintStats(PStatusWork *wk, PStaSkillWork *work)
     u32 abilityId;
     void *abilityNameBank,*abilityDescBank,*str;
     pp=(void *)P_STATUS_GetPokeParaSource(wk);
-    nature=func_02017E1C(pp,112,0);
+    nature=POKE_TOOL_GetPartyValue(pp,112,0);
     one=1;
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],110,25,one,15424);
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,160,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,160,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],words,119,89,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],117,93,one,1088);
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,161,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,161,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],words,118,121,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_ATTACK],111,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,one));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,162,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,162,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_ATTACK],words,120,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_DEFENSE],112,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,2));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,163,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,163,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_DEFENSE],words,121,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SP_ATTACK],113,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,3));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,165,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,165,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SP_ATTACK],words,122,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SP_DEFENSE],114,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,4));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,166,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,166,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SP_DEFENSE],words,123,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SPEED],115,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,5));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,164,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,164,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SPEED],words,124,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_ABILITY],116,5,one,15424);
-    abilityId=func_02017E1C(pp,10,0);
+    abilityId=POKE_TOOL_GetPartyValue(pp,10,0);
     abilityNameBank=func_02045B38(0,2,183,wk->heapId);
     str=func_02045EC0(abilityNameBank,abilityId);
     PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_ABILITY]),5,17,str,wk->font,1088);
@@ -719,10 +719,10 @@ void P_STA_SKILL_DrawHpBar(PStatusWork *wk, PStaSkillWork *work) {
     u16 maxHp,curHp;
     int barColor,barPixels,firstRow,lastRow;
     pp=(void *)P_STATUS_GetPokeParaSource(wk);
-    maxHp=func_02017E1C(pp,161,0);
-    curHp=func_02017E1C(pp,160,0);
-    barColor=func_0202D034(curHp,maxHp);
-    barPixels=func_0202D01C(curHp,maxHp,48);
+    maxHp=POKE_TOOL_GetPartyValue(pp,161,0);
+    curHp=POKE_TOOL_GetPartyValue(pp,160,0);
+    barColor=BGWINFRM_GetScaleRank(curHp,maxHp);
+    barPixels=BGWINFRM_ScaleRatio(curHp,maxHp,48);
     bmp=BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_HP_BAR]);
     if((u8)(barColor+254)<=1) {firstRow=7;lastRow=8;}
     else if(barColor==1) {firstRow=9;lastRow=10;}
@@ -748,10 +748,10 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     pp=P_STATUS_GetPokePara(wk);
     zero=0;
     for(i=8;i<=11;i++) BMP_Clear(BMP_WIN_GetBmp(work->win[i]),zero);
-    if(work->cursorSlot<4) moveId=func_02017E88(pp,work->cursorSlot+54,(void *)zero);
+    if(work->cursorSlot<4) moveId=POKE_TOOL_GetBoxValue(pp,work->cursorSlot+54,(void *)zero);
     else if(work->cursorSlot==STA_SKILL_NO_CURSOR) {
         if(wk->param->mode==2 && work->slotCount==STA_SKILL_SLOT_MAX) moveId=wk->param->newMove;
-        else moveId=func_02017E88(pp,54,0);
+        else moveId=POKE_TOOL_GetBoxValue(pp,54,0);
     } else moveId=wk->param->newMove;
     one=1;
     P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_CATEGORY], 149, 1, one, 15424);
@@ -1005,7 +1005,7 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
     if (TOUCHPANEL_GetTrg()==1) {
         touchedSlot=TOUCHPANEL_HitTrg(touch);
         if (touchedSlot==-1) goto out;
-        if (func_02017E88(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) goto out;
+        if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) goto out;
         if (wk->isInputEnabled==1) P_STATUS_SetInputEnable(wk,0);
         if (wk->param->mode!=6) {
             work->isTouching=1;
@@ -1050,7 +1050,7 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
         }
         if (work->isMoveHeld==1) {
             if (touchedSlot!=-1) {
-                if (func_02017E88(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) goto out;
+                if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) goto out;
                 P_STA_SKILL_SetCursor(wk,work,touchedSlot,0);
                 return;
             }
@@ -1131,7 +1131,7 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
     } else if(KEY_GetTrg()==1) {
         wk->inputType=0;
         if(work->cursorSlot<4) {
-            forgetBlock=EVENT_ID_Check(wk->param->config,func_02017E88(P_STATUS_GetPokePara(wk),*(volatile u8 *)&work->cursorSlot+54,0),wk->heapId);
+            forgetBlock=EVENT_ID_Check(wk->param->config,POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),*(volatile u8 *)&work->cursorSlot+54,0),wk->heapId);
             if(forgetBlock==0 || wk->restoreModeAll==1) {
                 if(wk->param->newMove==0) {
                     wk->retCode=1;
@@ -1225,8 +1225,8 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
     if (touchedSlot==-1) return;
     if (work->isPickingForget==0) {
         if (touchedSlot<4) {
-            if (func_02017E88(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) return;
-            forgetBlock=EVENT_ID_Check(wk->param->config,func_02017E88(P_STATUS_GetPokePara(wk),touchedSlot+54,0),wk->heapId);
+            if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) return;
+            forgetBlock=EVENT_ID_Check(wk->param->config,POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0),wk->heapId);
             if (forgetBlock==0 || wk->restoreModeAll==1) {
                 if (wk->param->newMove==0) {
                     wk->retCode=1;
@@ -1293,7 +1293,7 @@ void P_STA_SKILL_StepCursor(PStatusWork *wk, PStaSkillWork *work) {
         slotIndex+=step;
         if(slotIndex<0) slotIndex=work->slotCount-1;
         else if(slotIndex>work->slotCount-1) slotIndex=0;
-        if(slotIndex<4) moveId=(u16)func_02017E88(pp,slotIndex+54,0);
+        if(slotIndex<4) moveId=(u16)POKE_TOOL_GetBoxValue(pp,slotIndex+54,0);
         else moveId=wk->param->newMove;
     } while(moveId==0);
     P_STA_SKILL_SetCursor(wk,work,slotIndex,0);
@@ -1339,16 +1339,16 @@ void P_STA_SKILL_SwapMoves(PStatusWork *wk, PStaSkillWork *work, u32 slotA, u32 
     u32 ppIdA,ppUpsIdA,ppIdB,ppUpsIdB;
     pp=P_STATUS_GetPokePara(wk);
     P_STATUS_SetFastMode(wk,1);
-    moveA=func_02017E88(pp,slotA+54U,0);
+    moveA=POKE_TOOL_GetBoxValue(pp,slotA+54U,0);
     ppIdA=slotA+58U;
-    ppA=func_02017E88(pp,ppIdA,0);
+    ppA=POKE_TOOL_GetBoxValue(pp,ppIdA,0);
     ppUpsIdA=slotA+62U;
-    ppUpsA=func_02017E88(pp,ppUpsIdA,0);
-    moveB=func_02017E88(pp,slotB+54U,0);
+    ppUpsA=POKE_TOOL_GetBoxValue(pp,ppUpsIdA,0);
+    moveB=POKE_TOOL_GetBoxValue(pp,slotB+54U,0);
     ppIdB=slotB+58U;
-    ppB=func_02017E88(pp,ppIdB,0);
+    ppB=POKE_TOOL_GetBoxValue(pp,ppIdB,0);
     ppUpsIdB=slotB+62U;
-    ppUpsB=func_02017E88(pp,ppUpsIdB,0);
+    ppUpsB=POKE_TOOL_GetBoxValue(pp,ppUpsIdB,0);
     POKE_TOOL_SetBoxMoveSlot(pp,moveB,slotA);
     POKE_TOOL_SetBoxMoveSlot(pp,moveA,slotB);
     POKE_TOOL_SetBoxValue(pp,ppIdA,ppB);
@@ -1446,9 +1446,9 @@ void P_STA_SKILL_InitSlotText(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlo
     struct WordSet *ppWords,*maxPPWords;
     pp=P_STATUS_GetPokePara(wk);
     if(slot->index<4) {
-        moveId=func_02017E88(pp,slot->index+54,0);
-        curPP=func_02017E88(pp,slot->index+58,0);
-        maxPP=func_02017E88(pp,slot->index+66,0);
+        moveId=POKE_TOOL_GetBoxValue(pp,slot->index+54,0);
+        curPP=POKE_TOOL_GetBoxValue(pp,slot->index+58,0);
+        maxPP=POKE_TOOL_GetBoxValue(pp,slot->index+66,0);
     } else {
         moveId=wk->param->newMove;
         curPP=WAZA_TOOL_GetParam(moveId,5);
@@ -1496,7 +1496,7 @@ void P_STA_SKILL_ShowSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *s
     StaSpriteRes typeRes;
     void *pp;
     pp=P_STATUS_GetPokePara(wk);
-    if(slot->index<4) moveId=func_02017E88(pp,slot->index+54,0);
+    if(slot->index<4) moveId=POKE_TOOL_GetBoxValue(pp,slot->index+54,0);
     else moveId=wk->param->newMove;
     if(slot->redrawPending==1) {
         if(moveId!=0) {

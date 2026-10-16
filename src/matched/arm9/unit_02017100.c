@@ -26,7 +26,7 @@
  * saved across it and the function grows a register.
  *
  * symbols:
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   POKEGRA_GetArcID  0x0202D060  thumb
@@ -41,7 +41,7 @@
 
 typedef unsigned int u32;
 
-extern u32   func_02017E88(void *p, u32 id, u32 v);
+extern u32   POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32   POKE_TOOL_IsBoxShiny(void *p);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 
@@ -79,11 +79,11 @@ void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl)
 
 void MCSS_TOOL_MakeAddWorkFromPPP(void *p, struct Stats *out, u32 lvl)
 {
-    u32 a0 = func_02017E88(p, 5, 0);
-    u32 a1 = func_02017E88(p, 0x6F, 0);
-    u32 a2 = func_02017E88(p, 0x6E, 0);
+    u32 a0 = POKE_TOOL_GetBoxValue(p, 5, 0);
+    u32 a1 = POKE_TOOL_GetBoxValue(p, 0x6F, 0);
+    u32 a2 = POKE_TOOL_GetBoxValue(p, 0x6E, 0);
     u32 a3 = POKE_TOOL_IsBoxShiny(p);
-    u32 a4 = func_02017E88(p, 0x4C, 0);
+    u32 a4 = POKE_TOOL_GetBoxValue(p, 0x4C, 0);
 
     MCSS_TOOL_MakeAddWorkFromParam(a0, a1, a2, a3, a4, out, lvl);
 }

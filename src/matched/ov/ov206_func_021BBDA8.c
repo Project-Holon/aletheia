@@ -1,5 +1,5 @@
 /*
- * function: func_021BBDA8
+ * function: ZUKAN_INFO_SetDrawEnable
  * address: 0x021BBDA8
  * packet: pkt_ov206_021BBDA8
  * region: ov206
@@ -18,7 +18,7 @@ struct State {
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021BBDA8(struct State *p, int v)
+void ZUKAN_INFO_SetDrawEnable(struct State *p, int v)
 {
     u8 i;
     CLACT_SetActorDrawEnable(p->last[p->index],v);

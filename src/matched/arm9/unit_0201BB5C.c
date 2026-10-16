@@ -64,6 +64,7 @@
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *
  * Verified with
  *   python tools/match.py tu --src src/pending/unit_0201BB5C.c \
@@ -78,7 +79,7 @@ typedef int            s32;
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32  func_02017E88(void *mon, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 
 extern const u8 _IconPaletteTable[];
@@ -119,10 +120,10 @@ u32 POKE_TOOL_GetIconPalette(void *mon)
     u32 isEgg;
 
     save = POKE_TOOL_DecodeBoxParam(mon);
-    species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6F, 0);
-    gender = func_02017E88(mon, 0x6E, 0);
-    isEgg = func_02017E88(mon, 0x4C, 0);
+    species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    form = POKE_TOOL_GetBoxValue(mon, 0x6F, 0);
+    gender = POKE_TOOL_GetBoxValue(mon, 0x6E, 0);
+    isEgg = POKE_TOOL_GetBoxValue(mon, 0x4C, 0);
     POKE_TOOL_EncodeBoxParam(mon, save);
     return POKE_TOOL_CalcIconPalette(species, form, gender, isEgg);
 }

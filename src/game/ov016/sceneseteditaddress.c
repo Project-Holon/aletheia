@@ -82,11 +82,7 @@ typedef unsigned long u32;
 
 typedef _Bool bool;
 
-typedef struct GXOamAttr {
-    u32 attr01;
-    u16 attr2;
-    u16 attr3;
-} GXOamAttr;
+#include "gx_oam_types.h"
 
 /* gMemSsea: the edit-address scene work area (HEAP block of 0x18 bytes). */
 typedef struct MemSsea {

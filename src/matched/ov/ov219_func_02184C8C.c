@@ -1,5 +1,5 @@
 /*
- * function: func_02184C8C
+ * function: BEACON_DETAIL_DeleteTaskMenuWin
  * address: 0x02184C8C
  * packet: pkt_ov219_02184C8C
  * region: ov219
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void APP_TASKMENU_WIN_Delete(u8*);
 extern void BG_SYS_SetFlagField06(u32);
-void func_02184C8C(u8 *p,u32 i){u32 off=i*4;u8 *slots=p+0xc05c;if(*(u8**)(slots+off)){APP_TASKMENU_WIN_Delete(*(u8**)(slots+off));BG_SYS_SetFlagField06(2);*(u8**)(slots+off)=0;}}
+void BEACON_DETAIL_DeleteTaskMenuWin(u8 *p,u32 i){u32 off=i*4;u8 *slots=p+0xc05c;if(*(u8**)(slots+off)){APP_TASKMENU_WIN_Delete(*(u8**)(slots+off));BG_SYS_SetFlagField06(2);*(u8**)(slots+off)=0;}}

@@ -25,7 +25,7 @@
  *   NNSi_GfdPushVramTransferTask  0x02061B74  arm
  *   NNSi_GfdAllocLnkVram 0x02061EB8 arm
  */
-struct Obj02061BD0;
+struct GfdTransferTaskQueue;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
@@ -67,7 +67,7 @@ struct GfdLnkBlockList {
 };
 
 extern u32 NNSi_GfdGetHeadVramTransferTask(u8 *p);
-extern u32 NNSi_GfdPopVramTransferTask(struct Obj02061BD0 *p);
+extern u32 NNSi_GfdPopVramTransferTask(struct GfdTransferTaskQueue *p);
 extern void NNSi_GfdRunVramTransferTask(u32 *s);
 extern int NNSi_GfdRingIsFull(u8 *p);
 extern u32 NNSi_GfdGetTailVramTransferTask(u8 *p);
@@ -101,7 +101,7 @@ void NNS_GfdDoVramTransfer(void)
 {
     struct GfdTransferTask *task = (struct GfdTransferTask *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
 
-    while (NNSi_GfdPopVramTransferTask((struct Obj02061BD0 *)(&sVramTransferTaskQueue)) != 0) {
+    while (NNSi_GfdPopVramTransferTask((struct GfdTransferTaskQueue *)(&sVramTransferTaskQueue)) != 0) {
         NNSi_GfdRunVramTransferTask((u32 *)task);
         sVramTransferTaskQueue.totalSzByte -= task->szByte;
         task = (struct GfdTransferTask *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));

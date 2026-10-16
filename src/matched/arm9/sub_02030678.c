@@ -1,5 +1,5 @@
 /*
- * function: sub_02030678
+ * function: GFL_HEAP_RegisterBlockHeap
  * address:  0x02030678
  * packet:   pkt_02030608
  * region:   arm9
@@ -14,7 +14,7 @@
  *   sub_02030524  0x02030524  arm
  *   sub_020306A0  0x020306A0  arm
  *
- * The same guard-then-forward shape as sub_0203064C beside it, over the other
+ * The same guard-then-forward shape as GFL_HEAP_CreateChildHeap beside it, over the other
  * binder: if 0x0202FE68 already accounted for the pair the function returns,
  * otherwise the work goes to 0x020306A0 with a fresh object in front of it.
  * Here the middle argument is a constant zero rather than a forwarded
@@ -27,8 +27,8 @@
  * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030678.c \
- *       --func sub_02030678 --addr 0x02030678 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_RegisterBlockHeap.c \
+ *       --func GFL_HEAP_RegisterBlockHeap --addr 0x02030678 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
 
-void sub_02030678(void *a, u32 b, u32 c)
+void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c)
 {
     if (GFL_HEAP_RegisterBlockHeapImpl(a, b, c) != 0) {
         return;

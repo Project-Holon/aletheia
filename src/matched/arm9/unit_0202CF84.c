@@ -83,6 +83,6 @@ void BGWINFRM_SetClipArea(struct WinMgr *mgr, u32 idx, s8 xmin, s8 xmax,
     mgr->wins[idx].ymax = ymax;
 }
 
-void func_0202D018(void)
+void BGWINFRM_EmptyStub(void)
 {
 }

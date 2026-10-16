@@ -31,7 +31,7 @@
  *   COMM_TVT_SYS_IsLaunchModeCall 0x021BE0D8 thumb ov172
  *   SSP_GetJpegEncoderBufferSize 0x021C1A80 arm ov172
  *   COMM_TVT_SYS_GetLaunchParams 0x021BE004 thumb ov172
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
  *   gCtvtCommAllocSite 0x021C71F4 data a4
@@ -150,7 +150,7 @@ extern void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line
 extern unsigned long SSP_GetJpegEncoderBufferSize(unsigned long width, unsigned long height, unsigned long sampling, unsigned long option);
 
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern void MYSTATUS_Copy(void *src, void *dst);
 
@@ -423,14 +423,14 @@ char *CTVT_COMM_Create(void *work, u16 heapId)
     ((CtvtComm *)comm)->voiceStatePending = 1;
     ((CtvtComm *)comm)->cmd5Pending = 0;
     ((CtvtComm *)comm)->currentSlot = 0xff;
-    MYSTATUS_Copy(func_02012944((void *)(*((u32 *)COMM_TVT_SYS_GetLaunchParams(work)))), ((CtvtComm *)comm)->myStatus);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*((u32 *)COMM_TVT_SYS_GetLaunchParams(work)))), ((CtvtComm *)comm)->myStatus);
     ((CtvtComm *)comm)->prevMemberCount = 1;
     for (slot = 0; slot < 3; slot++)
         for (digit = 0; digit < 6; digit++)
             ((CtvtComm *)comm)->peerName[slot * 6 + digit] = 0xff;
     ((CtvtComm *)comm)->flags.netIdle = COMM_TVT_SYS_IsNetIdle();
     ((CtvtComm *)comm)->flags.nameMatchActive = 0;
-    MYSTATUS_Copy(func_02012944((void *)(*((u32 *)COMM_TVT_SYS_GetLaunchParams(work)))), ((CtvtComm *)comm)->peerStatus);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*((u32 *)COMM_TVT_SYS_GetLaunchParams(work)))), ((CtvtComm *)comm)->peerStatus);
     ((CtvtComm *)comm)->netIdle = COMM_TVT_SYS_IsNetIdle();
     ((CtvtComm *)comm)->state = 1;
     GFL_NET_LOWER_DATA_Init(heapId, 0);

@@ -176,7 +176,7 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   func_0207D63C  0x0207D63C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_0209BE04  0x0209BE04  arm
@@ -241,7 +241,7 @@ s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
-void func_0207D658(u32 addr, int plane, int brightness);
+void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 u32 func_0209BE04(u32 x);
@@ -519,7 +519,7 @@ void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state)
     int alpha;
 
     if (state == 2) {
-        func_0207D658(0x04000050, 8,
+        G2x_SetBlendBrightness_(0x04000050, 8,
             (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration) + -16.0f));
     } else if (state == 4) {
         if (work->shownSeason == work->targetSeason) {
@@ -528,7 +528,7 @@ void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state)
             GXx_SetMasterBrightness_((volatile u16 *)0x0400106C,
                 (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration) + -16.0f));
         } else {
-            func_0207D658(0x04000050, 8,
+            G2x_SetBlendBrightness_(0x04000050, 8,
                 (int)(0.0f - 16.0f * ((float)work->stateTimer / (float)work->stateDuration)));
         }
     }
@@ -544,14 +544,14 @@ void EL_SCOREBOARD_UpdateFadeStandalone(ElScoreboardWork *work, int state)
         ratio = func_0209CE10(elapsed, ratio);
         ratio = func_0209C77C(0x41800000, ratio);
         ratio = func_0209C95C(0xC1800000, ratio);
-        func_0207D658(0x04000050, 8, func_0209C494(ratio));
+        G2x_SetBlendBrightness_(0x04000050, 8, func_0209C494(ratio));
     } else if (state == 4) {
         elapsed = func_0209BE04(work->stateTimer);
         ratio = func_0209BE04(work->stateDuration);
         ratio = func_0209CE10(elapsed, ratio);
         ratio = func_0209C77C(0x41800000, ratio);
         ratio = func_0209CB8C(0, ratio);
-        func_0207D658(0x04000050, 8, func_0209C494(ratio));
+        G2x_SetBlendBrightness_(0x04000050, 8, func_0209C494(ratio));
     }
 }
 
@@ -599,7 +599,7 @@ void EL_SCOREBOARD_EnterState(ElScoreboardWork *work, int *statePtr, int state)
         func_02040588(3, 1);
         func_02040588(0, 0);
         GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0);
-        func_0207D658(0x04000050, 8, -16);
+        G2x_SetBlendBrightness_(0x04000050, 8, -16);
         work->stateDuration = EL_SCOREBOARD_GetFadeInDuration(work);
         break;
     case 3:

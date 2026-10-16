@@ -1,5 +1,5 @@
 /*
- * function: func_02183F08
+ * function: MICTEST_ClearDisplay
  * address:  0x02183F08
  * packet:   pkt_02183F08
  * region:   ov168
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 
-void func_02183F08(void)
+void MICTEST_ClearDisplay(void)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

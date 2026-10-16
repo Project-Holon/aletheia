@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030344
+ * function: GFL_HEAP_GetTotalFreeSize
  *
  * Checked heap-id lookup that hands the arena straight on to sub_02060E6C
- * and returns what that returns; see src/matched/sub_02030428.c for the
+ * and returns what that returns; see src/matched/GFL_HEAP_GetHeapHandle.c for the
  * shared preamble this family has in common.
  *
- *   void *sub_02030344(u32 heapId)
+ *   void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
  *
  * The two calls are back to back with no register shuffle between them,
  * which is the nested-call form `sub_02060E6C(GFL_HEAP_GetHeap(heapId))`
@@ -29,8 +29,8 @@
  *   sub_02060E6C    0x02060E6C  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030344.c \
- *       --func sub_02030344 --addr 0x02030344 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetTotalFreeSize.c \
+ *       --func GFL_HEAP_GetTotalFreeSize --addr 0x02030344 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -51,7 +51,7 @@ extern struct EnvModule g_EnvModule;
 extern void *GFL_HEAP_GetHeap(u32 idx);
 extern int sub_02060E6C(int *p);
 
-void *sub_02030344(u32 heapId)
+void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= g_EnvModule.count) {

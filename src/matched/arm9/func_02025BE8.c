@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * 4 bytes. Returns the constant 0x69. Filed in wave D6 as the unlabelled leaf
- * that ov219 func_02183D14 calls.
+ * that ov219 BEACON_DETAIL_Update calls.
  */
 
 int BMP_OAM_Update5BE8(void)

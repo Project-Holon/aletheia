@@ -1,5 +1,5 @@
 /*
- * function: func_0202D034
+ * function: BGWINFRM_GetScaleRank
  * address:  0x0202D034
  * packet:   pkt_0202CC70
  * region:   arm9
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-int func_0202D034(u32 a, u32 b)
+int BGWINFRM_GetScaleRank(u32 a, u32 b)
 {
     a <<= 8;
     b <<= 8;

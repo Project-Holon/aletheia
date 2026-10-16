@@ -10,7 +10,7 @@
  * lever: const entry source schedules byte arguments early; k precedes entry in declarations.
  * symbols:
  *   BTL_SLOT_GetPoke 0x021B9BF0 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
@@ -26,7 +26,7 @@ struct Obj;
 struct Result;
 struct S2;
 extern u32 BTL_SLOT_GetPoke(struct S2 *p, u32 i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
@@ -46,7 +46,7 @@ int BTL_SERVER_FLOW_ApplyPartyExp(u8 *p, u8 *g, const struct Entry *q)
         entry = &q[i];
         if (!entry->value) continue;
         a = (u8 *)BTL_SLOT_GetPoke((struct S2 *)g, (u8)i);
-        if (func_021D59B4(a, 15) >= 100) continue;
+        if (BTL_POKEPARAM_GetValue(a, 15) >= 100) continue;
         value = entry->value;
         cmd = entry->flag ? 0x2b : 0x2a;
         k = BTL_POKEPARAM_GetPokeId(a);

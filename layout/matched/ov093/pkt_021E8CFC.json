@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EAF78",
+   "name": "BTLV_SCU_SetMessageParam",
    "address": "0x021EAF78",
    "kind": "game",
    "region": "ov093",

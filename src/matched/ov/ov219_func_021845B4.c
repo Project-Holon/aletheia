@@ -1,5 +1,5 @@
 /*
- * function: func_021845B4
+ * function: BEACON_DETAIL_LoadRecords
  * address: 0x021845B4
  * packet: pkt_ov219_021845B4
  * region: ov219
@@ -16,7 +16,7 @@
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021846B8 0x021846B8 thumb ov219
+ *   BEACON_DETAIL_SetRecord 0x021846B8 thumb ov219
  *   func_020307B0 0x020307B0 arm
  *   BMP_OAM_GetNumRecords 0x02025B38 thumb
  *   BMP_OAM_GetRecordParam 0x02025BD0 thumb
@@ -27,12 +27,12 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,u32,u32 *);
-extern void func_021846B8(char *,int,int,int,u16,u16);
+extern void BEACON_DETAIL_SetRecord(char *,int,int,int,u16,u16);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int BMP_OAM_GetNumRecords(void);
 extern u32 BMP_OAM_GetRecordParam(u32),BMP_OAM_GetRecordKey(u32);
-void func_021845B4(char *p)
+void BEACON_DETAIL_LoadRecords(char *p)
 {
     void *arc,*data,*data2;
     u32 size,size2;
@@ -47,7 +47,7 @@ void func_021845B4(char *p)
     cursor=(short *)((char *)data+6);
     for(i=1;i<firstcount;i++,cursor+=3){
         if(*(u16 *)cursor!=2){
-            func_021846B8(p,*(u32 *)(p+0x14),cursor[1],cursor[2],i,0);
+            BEACON_DETAIL_SetRecord(p,*(u32 *)(p+0x14),cursor[1],cursor[2],i,0);
             (*(u32 *)(p+0x14))++;
         }
     }
@@ -60,7 +60,7 @@ void func_021845B4(char *p)
         count2=count2/4u;
         cursor=(short *)((char *)data2+4);
         for(i=1;i<count2;i++,cursor+=2){
-            func_021846B8(p,*(u32 *)(p+0x14),cursor[0],cursor[1],BMP_OAM_GetRecordKey(j),i);
+            BEACON_DETAIL_SetRecord(p,*(u32 *)(p+0x14),cursor[0],cursor[1],BMP_OAM_GetRecordKey(j),i);
             (*(u32 *)(p+0x14))++;
         }
         func_020307B0(data2);

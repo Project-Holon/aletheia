@@ -13,7 +13,7 @@
  *   void G3D_CAMERA_SetEye(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
  *   void G3D_CAMERA_SetUp(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
  * symbols:
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   STA_ACT_LIGHT_SetModelFrame 0x021F7098 thumb ov112
  *   STA_ACT_LIGHT_SetElemFrame 0x021F75DC thumb ov112
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 extern const Vec d_021FDBEC;
 extern u32 KEY_GetCont(void);
-extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 extern void STA_ACT_LIGHT_GetElemPos(void *, void *, Vec *);
 struct Light;
 extern void STA_ACT_LIGHT_SetModelFrame(u8 *p, u16 v);
@@ -71,7 +71,7 @@ void STA_ACTING_UpdateCamera(u8 *p)
             index = *(u8 *)(p + 0xF1);
             if (index == 4) index = *(u8 *)(p + 0xA);
             if (*(void **)(p + 0x44 + index * 4)) {
-                STA_ACT_LIGHT_ElemOpA(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
+                STA_ACT_LIGHT_CopyActorPos(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
                 target = (float)v.x / 4096.0f - 128.0f;
             }
         } else {

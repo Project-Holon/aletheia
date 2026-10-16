@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
@@ -84,10 +84,10 @@ typedef short s16;
 
 typedef int s32;
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern int POKETRADE_PROC_IsHostSide(void *p);
 extern void *POKETRADE_PROC_GetSideMon(void *p, int which);
-extern u32 func_02017E1C(void *mon, u32 id, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
 extern void *POKE_PERSONAL_Create(unsigned int a, int b, unsigned int heap);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
@@ -150,8 +150,8 @@ void POKETRADE_DEMO_COMMON_StepFade(s8 *fade)
         fade[1]++;
         brightness = ((fade[3] - fade[2]) << 12) / fade[0];
         brightness = brightness * fade[1] / 4096;
-        func_0207D658(0x04000050, 0x1E, brightness);
-        func_0207D658(0x04001050, 0x1F, brightness);
+        G2x_SetBlendBrightness_(0x04000050, 0x1E, brightness);
+        G2x_SetBlendBrightness_(0x04001050, 0x1F, brightness);
     }
 }
 
@@ -183,10 +183,10 @@ void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 k
         }
     }
     mon = POKETRADE_PROC_GetSideMon(p, side);
-    monId = func_02017E1C(mon, 7, 0);
-    species = func_02017E1C(mon, 0xAB, 0);
-    form = func_02017E1C(mon, 0x6F, 0);
-    isEgg = func_02017E1C(mon, 0x4C, 0);
+    monId = POKE_TOOL_GetPartyValue(mon, 7, 0);
+    species = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
+    form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+    isEgg = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (isEgg == 0) {
         personal = (u32)POKE_PERSONAL_Create((u16)species, (int)(u16)form, ((PokeTradeDemoWork *)p)->heapId);
         isSpecial = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x10);

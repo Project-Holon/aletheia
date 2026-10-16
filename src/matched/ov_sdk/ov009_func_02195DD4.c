@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   DWC_IsSendableReliable       0x02195DC4  arm
+ *   gt2CloseConnectionHard       0x02195DC4  arm
 */
 
-extern void DWC_IsSendableReliable(void *p);
+extern void gt2CloseConnectionHard(void *p);
 
 static void gti2CloseAllConnectionsHardMap(void **elem)
 {
-    DWC_IsSendableReliable(*elem);
+    gt2CloseConnectionHard(*elem);
 }

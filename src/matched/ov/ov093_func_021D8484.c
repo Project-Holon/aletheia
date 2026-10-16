@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   HAND_TOKUSEI_GetPokeSpeed  0x021D85B0  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   HAND_TOKUSEI_UnpackAbilityPriority  0x021D84F8  thumb  ov093
@@ -25,7 +25,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 struct Node;
 u16 HAND_TOKUSEI_GetPokeSpeed(u8 *p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -37,7 +37,7 @@ extern struct Ent gAbilityHandlerRegistry[0x9e];
 
 void *HAND_TOKUSEI_AddAbilityHandlers(void *a)
 {
-    u16 k = func_021D59B4(a, 0x10);
+    u16 k = BTL_POKEPARAM_GetValue(a, 0x10);
     u32 i;
     u32 t;
     u32 f8;

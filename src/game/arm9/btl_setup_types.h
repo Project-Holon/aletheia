@@ -154,8 +154,8 @@ struct BattleTrainerData {
     unsigned int  aiFlags;
     unsigned short itemIds[4];
     void         *name;
-    unsigned char winWord[8];
-    unsigned char loseWord[8];
+    union { unsigned char winWord[8]; unsigned short winWords[4]; };
+    union { unsigned char loseWord[8]; unsigned short loseWords[4]; };
 };
 
 /*

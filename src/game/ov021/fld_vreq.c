@@ -22,8 +22,8 @@
  *   sFldVReqBlendFuncs     0x021DE6AC  data  ov021  a4
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_0207D658  0x0207D658  arm
- *   func_0207D67C  0x0207D67C  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
+ *   G2x_SetBlendBrightnessExt_  0x0207D67C  arm
  *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
  */
 typedef unsigned char u8;
@@ -65,8 +65,8 @@ extern u32 func_02040588(u32 which, u32 enable);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_0207D67C(u32 reg, int a, int b, int c, int d, int e);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightnessExt_(u32 reg, int a, int b, int c, int d, int e);
 extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 FldVReq *FLD_VREQ_Create(u32 heapId);
 void FLD_VREQ_Delete(FldVReq *vreq);
@@ -211,9 +211,9 @@ void FLD_VREQ_ApplyBlendAlpha(int *params, int isMain)
 void FLD_VREQ_ApplyBlendBrightness(u32 *params, int isMain)
 {
     if (isMain) {
-        func_0207D658(_REG_MAIN_BLDCNT, params[0], params[1]);
+        G2x_SetBlendBrightness_(_REG_MAIN_BLDCNT, params[0], params[1]);
     } else {
-        func_0207D658(_REG_SUB_BLDCNT, params[0], params[1]);
+        G2x_SetBlendBrightness_(_REG_SUB_BLDCNT, params[0], params[1]);
     }
 }
 
@@ -223,9 +223,9 @@ void FLD_VREQ_ApplyBlendBrightness(u32 *params, int isMain)
 void FLD_VREQ_ApplyBlendControl(const int *params, int isMain)
 {
     if (isMain) {
-        func_0207D67C(_REG_MAIN_BLDCNT, params[0], params[1], params[2], params[3], params[4]);
+        G2x_SetBlendBrightnessExt_(_REG_MAIN_BLDCNT, params[0], params[1], params[2], params[3], params[4]);
     } else {
-        func_0207D67C(_REG_SUB_BLDCNT, params[0], params[1], params[2], params[3], params[4]);
+        G2x_SetBlendBrightnessExt_(_REG_SUB_BLDCNT, params[0], params[1], params[2], params[3], params[4]);
     }
 }
 

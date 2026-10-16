@@ -20,10 +20,10 @@
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC78  0x0201BC78  thumb
- *   func_0201BCEC  0x0201BCEC  thumb
+ *   POKE_TOOL_GetIconCellArcIdSub  0x0201BC78  thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub  0x0201BCEC  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
@@ -36,10 +36,10 @@ extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC78(void);
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
@@ -57,7 +57,7 @@ void B_PLIST_DRAW_RegisterRowCharacters(u8 *p)
             *(int *)((u32)p + 0x24A4 + i * 4) = CLACT_RegisterCharacter(arc, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         }
     }
-    *(int *)(p + 0x250C) = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0, *(u16 *)(*(u8 **)p + 0x10));
-    *(s32 *)(p + 0x2524) = CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCEC(), *(u16 *)(*(u8 **)p + 0x10));
+    *(int *)(p + 0x250C) = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, *(u16 *)(*(u8 **)p + 0x10));
+    *(s32 *)(p + 0x2524) = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryIdSub(), *(u16 *)(*(u8 **)p + 0x10));
     ARC_TOOL_DeleteHandle(arc);
 }

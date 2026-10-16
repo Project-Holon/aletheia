@@ -30,12 +30,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202BC48",
-    "sub_0202BC60"
+    "ISS_3DS_SYS_RampVolumeUp",
+    "ISS_3DS_SYS_RampVolumeDown"
+   ],
+   "addresses": [
+    "0x0202BC48",
+    "0x0202BC60"
    ]
   },
   {
-   "name": "sub_0202BDD0",
+   "name": "ISS_3DS_SYS_RampPanDown",
    "address": "0x0202BDD0",
    "kind": "game_unit",
    "region": "arm9",
@@ -46,7 +50,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202BDD0"
+    "ISS_3DS_SYS_RampPanDown"
+   ],
+   "addresses": [
+    "0x0202BDD0"
    ]
   }
  ]

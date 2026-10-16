@@ -17,7 +17,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *   WIFILOGIN_MSG_CreateYesNo 0x021D5FE8 thumb ov115
  */
@@ -41,7 +41,7 @@ struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0207D658(u32, int, int);
+extern void G2x_SetBlendBrightness_(u32, int, int);
 extern void APP_TASKMENU_SetCursorPos(u8 *, int);
 extern void *WIFILOGIN_MSG_CreateYesNo(u8 *, int, int);
 void *WIFILOGIN_MSG_OpenTask(u8 *p, int mode, int flag, int selected)
@@ -69,7 +69,7 @@ void *WIFILOGIN_MSG_OpenTask(u8 *p, int mode, int flag, int selected)
         ((struct Obj01535 *)q)->f20 = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct Obj01535 *)q)->f1C);
         STRBUF_Delete(((struct Obj01535 *)q)->f4);
         STRBUF_Delete(((struct Obj01535 *)q)->f10);
-        if (flag != 0) func_0207D658(0x04001050, 17, -8);
+        if (flag != 0) G2x_SetBlendBrightness_(0x04001050, 17, -8);
         APP_TASKMENU_SetCursorPos(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
         break;
     case 1:

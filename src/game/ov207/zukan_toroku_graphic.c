@@ -21,30 +21,30 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_021B9DE0 0x021B9DE0 thumb ov206
+ *   ZUKAN_INFO_CreateFromMon 0x021B9DE0 thumb ov206
  *   ZUKAN_NICKNAME_Create 0x0220B55C thumb ov207
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020056A0 0x020056A0 thumb
  *   FADE_Start 0x0204E720 arm
  *   func_02030EAC 0x02030EAC arm
  *   ZUKAN_NICKNAME_Delete 0x0220B6E4 thumb ov207
- *   func_021BA2CC 0x021BA2CC thumb ov206
+ *   ZUKAN_INFO_Delete 0x021BA2CC thumb ov206
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_021BA374 0x021BA374 thumb ov206
+ *   ZUKAN_INFO_Update 0x021BA374 thumb ov206
  *   ZUKAN_NICKNAME_Main 0x0220B72C thumb ov207
  *   FADE_IsActive 0x0204E804 arm
- *   func_021BA544 0x021BA544 thumb ov206
+ *   ZUKAN_INFO_Start 0x021BA544 thumb ov206
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
- *   func_021BA514 0x021BA514 thumb ov206
- *   func_021BA524 0x021BA524 thumb ov206
- *   func_021BA534 0x021BA534 thumb ov206
- *   func_0207D67C 0x0207D67C arm
- *   func_021BA4CC 0x021BA4CC thumb ov206
- *   func_021BA51C 0x021BA51C thumb ov206
+ *   ZUKAN_INFO_NotifyMoveDone 0x021BA514 thumb ov206
+ *   ZUKAN_INFO_IsMoving 0x021BA524 thumb ov206
+ *   ZUKAN_INFO_IsDone 0x021BA534 thumb ov206
+ *   G2x_SetBlendBrightnessExt_ 0x0207D67C arm
+ *   ZUKAN_INFO_ClearDisplay 0x021BA4CC thumb ov206
+ *   ZUKAN_INFO_NotifyFadeDone 0x021BA51C thumb ov206
  *   ZUKAN_NICKNAME_SetupScreen 0x0220B908 thumb ov207
  *   ZUKAN_NICKNAME_GetResult 0x0220B940 thumb ov207
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -157,33 +157,33 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern void *func_021B9DE0(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
+extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void *func_020056A0(u32,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void func_02030EAC(struct Node *n);
 extern void ZUKAN_NICKNAME_Delete(unsigned *p);
-extern void func_021BA2CC(char *p);
+extern void ZUKAN_INFO_Delete(char *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02034A5C(int);
-extern void func_021BA374(char *);
+extern void ZUKAN_INFO_Update(char *);
 extern int ZUKAN_NICKNAME_Main(char *);
 extern int FADE_IsActive(void);
-extern void func_021BA544(char *);
+extern void ZUKAN_INFO_Start(char *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8);
-extern void func_021BA514(char *);
-extern int func_021BA524(char *);
-extern int func_021BA534(char *);
-extern void func_0207D67C(u32,int,int,int,int,int);
-extern void func_021BA4CC(char *);
-extern void func_021BA51C(char *);
+extern void ZUKAN_INFO_NotifyMoveDone(char *);
+extern int ZUKAN_INFO_IsMoving(char *);
+extern int ZUKAN_INFO_IsDone(char *);
+extern void G2x_SetBlendBrightnessExt_(u32,int,int,int,int,int);
+extern void ZUKAN_INFO_ClearDisplay(char *);
+extern void ZUKAN_INFO_NotifyFadeDone(char *);
 extern void ZUKAN_NICKNAME_SetupScreen(char *);
 extern int ZUKAN_NICKNAME_GetResult(char *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
@@ -273,7 +273,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     if(args[0]==0) { work->state=0; work->step=0; } else { work->state=1; work->step=0; }
     mode=0;
     if(args[0]!=0) mode=1;
-    work->menu=func_021B9DE0(work->heapId,(void *)args[1],args[2],1,mode,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,0,0,0);
+    work->menu=ZUKAN_INFO_CreateFromMon(work->heapId,(void *)args[1],args[2],1,mode,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,0,0,0);
     work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,args[6]);
     GFL_NET_RestartWithDefaultTimeout(0,work->heapId);
     if(work->state==1) ZUKAN_TOROKU_GRAPHIC_CreateBg(work);
@@ -294,7 +294,7 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work)
     func_02030EAC((void *)work->task);
     ZUKAN_TOROKU_GRAPHIC_DeleteBg(work);
     ZUKAN_NICKNAME_Delete((void *)work->nickname);
-    func_021BA2CC((void *)work->menu);
+    ZUKAN_INFO_Delete((void *)work->menu);
     PRINTSYS_QUE_Clear((void *)work->printQueue);
     PRINTSYS_QUE_Delete((void *)work->printQueue);
     GF_FONT_Delete((void *)work->font);
@@ -317,45 +317,45 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
 {
     int done=0;
     int result,flag,input;
-    func_021BA374((char *)work->menu);
+    ZUKAN_INFO_Update((char *)work->menu);
     result=ZUKAN_NICKNAME_Main((char *)work->nickname);
     switch(work->state) {
     case 0:
         switch(work->step) {
         case 0:
-            if(FADE_IsActive()==0) { func_021BA544((char *)work->menu); work->step=1; }
+            if(FADE_IsActive()==0) { ZUKAN_INFO_Start((char *)work->menu); work->step=1; }
             break;
         case 1:
             flag=0;
             input=TOUCHPANEL_GetTrg();
             if(KEY_GetTrg()&3) { func_020355D8(0); flag=1; }
             if(input!=0) { func_020355D8(1); flag=1; }
-            if(flag!=0) { func_021BA514((char *)work->menu); work->step=2; }
+            if(flag!=0) { ZUKAN_INFO_NotifyMoveDone((char *)work->menu); work->step=2; }
             break;
         case 2:
-            if(func_021BA524((char *)work->menu)!=0 || func_021BA534((char *)work->menu)!=0) { work->counter=0; work->fadeLevel=16; work->step=3; }
+            if(ZUKAN_INFO_IsMoving((char *)work->menu)!=0 || ZUKAN_INFO_IsDone((char *)work->menu)!=0) { work->counter=0; work->fadeLevel=16; work->step=3; }
             break;
         case 3:
             work->counter++;
             if(work->counter==4) { work->counter=0; work->fadeLevel--; }
-            func_0207D67C(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
-            if(work->fadeLevel==0) { func_021BA4CC((char *)work->menu); ZUKAN_TOROKU_GRAPHIC_CreateBg(work); work->step=4; }
+            G2x_SetBlendBrightnessExt_(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
+            if(work->fadeLevel==0) { ZUKAN_INFO_ClearDisplay((char *)work->menu); ZUKAN_TOROKU_GRAPHIC_CreateBg(work); work->step=4; }
             break;
         case 4:
             work->counter++;
             if(work->counter==4) { work->counter=0; work->fadeLevel++; }
-            func_0207D67C(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
+            G2x_SetBlendBrightnessExt_(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
             if(work->fadeLevel==16) work->step=5;
             break;
         case 5:
-            if(func_021BA534((char *)work->menu)!=0) { work->state=1; work->step=1; }
+            if(ZUKAN_INFO_IsDone((char *)work->menu)!=0) { work->state=1; work->step=1; }
             break;
         }
         break;
     case 1:
         switch(work->step) {
         case 0:
-            if(FADE_IsActive()==0) { func_021BA51C((char *)work->menu); work->step=1; }
+            if(FADE_IsActive()==0) { ZUKAN_INFO_NotifyFadeDone((char *)work->menu); work->step=1; }
             break;
         case 1:
             ZUKAN_NICKNAME_SetupScreen((char *)work->nickname); work->step=2;

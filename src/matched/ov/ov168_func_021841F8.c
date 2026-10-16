@@ -1,5 +1,5 @@
 /*
- * function: func_021841F8
+ * function: MICTEST_InitBgTiles
  * address: 0x021841F8
  * packet: pkt_ov168_021841F8
  * region: ov168
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-void func_021841F8(void *p, int heap)
+void MICTEST_InitBgTiles(void *p, int heap)
 {
     func_02049B40(106, 0, 0, 0, 32, heap);
     func_02049B40(106, 1, 4, 0, 32, heap);

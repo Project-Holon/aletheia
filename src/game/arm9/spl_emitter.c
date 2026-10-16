@@ -16,9 +16,9 @@
  * NITRO ../1.2/sp2 and ../1.2/base builds; DIFF with 1.1p1 and dsi/1.2 (the
  * builds of button_man.c), ../2.0/sp2, ../1.2/sp3 and -proc arm7tdmi.
  * Stand-ins left: fn = (Fn)SPL_EMITTER_UpdateParticleMotion and (Fn)SPL_EMITTER_UpdateParticleMotionEx (handlers stored
- * in an Obj/S row table); SPL_EMITTER_FreeResourceList, SPL_EMITTER_FreeResource, SPL_EMITTER_AllocResourceEx,
+ * in a rig row table); SPL_EMITTER_FreeResourceList, SPL_EMITTER_FreeResource, SPL_EMITTER_AllocResourceEx,
  * SPL_EMITTER_AllocResource, SPL_EMITTER_FreeNodeHeap and SPL_EMITTER_FreeTexNode still use char * offsets and
- * the Head_020524C8/Head_02052770 views of the rig object; alias symbol rows
+ * the VramHeapHead/VramFreeList views of the rig object; alias symbol rows
  * SPL* for functions of this file.
  *
  * symbols:
@@ -142,18 +142,16 @@
 #define ANIM_FUNC_LOOP    1
 struct SPLParticle;
 struct SPLEmitter;
-struct List;
-struct Node_02055FD4;
-struct S_020524C8;
+struct ColorNode;
+struct RenderNode;
 struct SPLManager;
 struct SPLTexture;
-struct A;
-struct B;
-struct C;
-struct Src;
-struct Node_020524C8;
+struct ScaledVecSource;
+struct InterpState;
+struct RandomVecSource;
+struct VramHeapNode;
 struct Cfg;
-struct Obj;
+struct RigObject;
 struct Vec3;
 typedef struct SPLNode { struct SPLNode *next; struct SPLNode *prev; } SPLNode;
 
@@ -165,64 +163,64 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-struct Range {
+struct RandomVecRange {
     s16 v0;
     s16 v1;
     s16 v2;
-    u16 f06;
+    u16 interval;
 };
 
-struct Src {
-    char _00[0x26];
-    u16 f26;
+struct RandomVecSource {
+    char reserved0[0x26];
+    u16 frame;
 };
 
-struct A {
+struct ScaledVecSource {
     int x;
     int y;
     int z;
     s16 scale;
 };
 
-struct B_02058180 {
-    int pad_00[2];
-    int f08;
-    int f0c;
-    int f10;
-    int f14;
-    int f18;
-    int f1c;
+struct RigOffsetPair {
+    int reserved0[2];
+    int originX;
+    int originY;
+    int originZ;
+    int offsetX;
+    int offsetY;
+    int offsetZ;
 };
 
 typedef unsigned char u8;
 
-struct Obj_02057EF8 {
-    u16 f00;
-    u16 f02;
+struct AxisAngleKey {
+    u16 angle;
+    u16 axis;
 };
 
-struct A_02057F8C {
+struct InterpTargetParam {
     int target;
-    s16 f04;
+    s16 speed;
     u16 mode : 2;
     u16 rest : 14;
 };
 
-struct C {
+struct InterpState {
     char _00[0x74];
-    int f74;
+    int target;
 };
 
-struct S_02057EF8 {
-    char _00[0xc];
-    int c;
-    char _10[8];
-    int f18;
-    char _1c[8];
-    u16 f24;
-    u16 f26;
-    char _28[0x14];
-    int f3c;
+struct InterpTrack {
+    char reserved0[0xc];
+    int step;
+    char reserved1[8];
+    int value;
+    char reserved2[8];
+    u16 hold;
+    u16 state;
+    char reserved3[0x14];
+    int position;
 };
 
 typedef signed int s32;
@@ -233,135 +231,135 @@ typedef signed long long s64;
 
 typedef s64 fx64;
 
-struct A_02057EF8 {
+struct LerpSource {
     fx32 x;
     fx32 y;
     fx32 z;
     short w;
 };
 
-struct B_02057EF8 {
-    fx32 _00;
-    fx32 _04;
-    fx32 _08;
-    fx32 _0C;
-    fx32 _10;
+struct LerpDest {
+    fx32 reserved0;
+    fx32 reserved1;
+    fx32 x;
+    fx32 y;
+    fx32 z;
 };
 
-struct Curve {
-    short _00;
-    short _02;
-    short _04;
-    unsigned char _06;
-    unsigned char _07;
+struct CurveKey {
+    short start;
+    short mid;
+    short end;
+    unsigned char riseTime;
+    unsigned char fallTime;
 };
 
-struct Src_02057E68 {
-    int _00;
-    struct Curve *_04;
+struct CurveKeySource {
+    int reserved0;
+    struct CurveKey *curve;
 };
 
-struct Obj_02056420 {
+struct CurveOutput {
     char _00[0x34];
-    short _34;
+    short value;
 };
 
 typedef u16 GXRgb;
 
-struct KeyF { u16 b0 : 2; u16 on : 1; u16 rest : 13; };
+struct ColorKeyFlags { u16 b0 : 2; u16 on : 1; u16 rest : 13; };
 
-struct Key {
+struct ColorKey {
     GXRgb c0;
     GXRgb c1;
     u8 t0;
     u8 t1;
     u8 t2;
     u8 pad7;
-    struct KeyF f;
+    struct ColorKeyFlags f;
 };
 
-struct Node_02055FD4 { u8 pad_00[0x22]; GXRgb col; };
+struct ColorNode { u8 reserved0[0x22]; GXRgb col; };
 
-struct Ctx { struct Node_02055FD4 *node; u8 pad_04[4]; struct Key *key; };
+struct KeyContext { struct ColorNode *node; u8 reserved0[4]; struct ColorKey *key; };
 
-struct Out { u8 pad_00[0x36]; GXRgb col; };
+struct KeyColorOutput { u8 reserved0[0x36]; GXRgb col; };
 
-struct Rec_0205312C {
+struct ColorRampKey {
     u16 lo : 5;
     u16 mid : 5;
     u16 hi : 5;
     u16 _unused : 1;
-    u8 f02;
-    u8 _03;
+    u8 range;
+    u8 reserved0;
     u8 a;
     u8 b;
 };
 
-struct S_02057BC0 {
+struct ColorRampSource {
     char _00[0xc];
-    struct Rec_0205312C *f0c;
+    struct ColorRampKey *key;
 };
 
-struct O_02057BC0 {
+struct ColorRampOutput {
     char _00[0x2e];
-    u16 f2e;
+    u16 color;
 };
 
-struct P {
+struct AnimFrameTable {
     u8 vals[8];
     u8 n;
     u8 step;
 };
 
-struct O_020576D0 {
+struct AnimFrameOutput {
     char _00[0x2c];
-    u8 f2c;
+    u8 frame;
 };
 
-struct S_020576D0 {
+struct AnimFrameSource {
     char _00[0x10];
-    struct P *f10;
+    struct AnimFrameTable *table;
 };
 
-struct Angle {
-    int _00;
-    short _04;
+struct AngleKey {
+    int reserved0;
+    short angle;
 };
 
-struct Src_020576D0 {
-    char _00[0x14];
-    struct Angle *_14;
+struct AngleKeySource {
+    char reserved0[0x14];
+    struct AngleKey *angle;
 };
 
-struct Obj_020576D0 {
-    u8 _00[0x2e];
-    u16 _2e;
+struct ColorClampOutput {
+    u8 reserved0[0x2e];
+    u16 color;
 };
 
 struct Vec16 { s16 x, y, z; };
 
-struct Mode {
+struct ModeFlags {
     u32 _unused : 6;
     u32 mode    : 2;
     u32 _rest   : 24;
 };
 
-struct Mid { struct Mode *f00; };
+struct ModeRef { struct ModeFlags *mode; };
 
-struct Rig {
-    u8           pad_00[0x20];
-    struct Mid  *f20;
-    u8           pad_24[0x2c];
-    struct Vec16 f50;
-    u8           pad_56[0x2e];
+struct RigBasis {
+    u8           reserved0[0x20];
+    struct ModeRef  *modeRef;
+    u8           reserved1[0x2c];
+    struct Vec16 axis;
+    u8           reserved2[0x2e];
     s16          r0[3];
     s16          r1[3];
 };
 
 typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
 
-struct Mtx3 {
-    u8  pad[0x84];
+struct RigMatrix {
+    u8  reserved0[0x84];
     s16 r0[3];
     s16 r1[3];
 };
@@ -544,7 +542,7 @@ typedef struct SPLResourceHeader {
         u32 textureIndex : 8;
         u32 loopFrames : 8;
         u32 dbbScale : 16;
-        u32 textureTileCountS : 2; // Number of times to tile the texture in the S_020524C8 direction
+        u32 textureTileCountS : 2; // Number of times to tile the texture in the RenderNode direction
         u32 textureTileCountT : 2; // Number of times to tile the texture in the T direction
         u32 scaleAnimDir : 3; // Maps to SPLScaleAnimDir
         u32 dpolFaceEmitter : 1; // If set, the polygon will face the emitter
@@ -763,64 +761,64 @@ typedef struct SPLEmitterList {
     SPLEmitter *last;
 } SPLEmitterList;
 
-struct PBf { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; };
+struct ParticleVisibility { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; };
 
-struct Ptcl {
-    u8 pad00[0x08];
+struct ParticleView {
+    u8 reserved0[0x08];
     struct VecFx32 pos;     /* +0x08 */
     struct VecFx32 vel;     /* +0x14 */
-    u16 f20;
-    s16 f22;
-    u16 f24;
-    u16 f26;
-    u16 f28;
-    u16 f2a;
-    u8 f2c;
-    u8 f2d;
-    struct PBf w;           /* +0x2e */
-    fx32 f30;
-    u16 f34;
-    u16 f36;
-    struct VecFx32 f38;
+    u16 rotation;
+    s16 angularVelocity;
+    u16 lifeTime;
+    u16 age;
+    u16 loopTimeFactor;
+    u16 lifeTimeFactor;
+    u8 texture;
+    u8 lifeRateOffset;
+    struct ParticleVisibility w;           /* +0x2e */
+    fx32 baseScale;
+    u16 animScale;
+    u16 color;
+    struct VecFx32 emitterPos;
 };
 
-struct DescBf { u16 b0 : 3; u16 sel : 2; u16 b5 : 1; u16 col : 1; u16 rest : 9; };
+struct ParticleDescFlags { u16 b0 : 3; u16 sel : 2; u16 b5 : 1; u16 col : 1; u16 rest : 9; };
 
-struct Desc_02055FD4 {
-    struct DescBf f;        /* +0x00 */
-    s16 f02;
-    u8 pad04[2];
-    u16 f06;
-    u8 f08;
-    u8 f09;
-    u16 f0a;
-    u8 f0c;
-    u8 pad0d[2];
-    u8 f0f;
+struct ParticleDesc {
+    struct ParticleDescFlags f;        /* +0x00 */
+    s16 velocity;
+    u8 reserved0[2];
+    u16 lifeTime;
+    u8 scale;
+    u8 scaleAdd;
+    u16 color;
+    u8 count;
+    u8 reserved1[2];
+    u8 texture;
 };
 
-struct Emt {
-    u8 pad00[0x08];
+struct EmitterParticle {
+    u8 reserved0[0x08];
     struct VecFx32 pos;     /* +0x08 */
     struct VecFx32 vel;     /* +0x14 */
-    u16 f20;
-    s16 f22;
-    u16 f24;
-    u8 pad26[0x08];
-    struct PBf w;           /* +0x2e */
-    fx32 f30;
-    s16 f34;
-    u16 f36;
-    struct VecFx32 f38;
+    u16 rotation;
+    s16 angularVelocity;
+    u16 lifeTime;
+    u8 reserved1[0x08];
+    struct ParticleVisibility w;           /* +0x2e */
+    fx32 baseScale;
+    s16 animScale;
+    u16 color;
+    struct VecFx32 emitterPos;
 };
 
-struct SubX_02056420 { u8 pad00[0x14]; struct Desc_02055FD4 *desc; };
+struct ParticleDescOwner { u8 reserved0[0x14]; struct ParticleDesc *desc; };
 
-struct Owner { u8 pad00[0x14]; SPLList list; struct SubX_02056420 *x; };
+struct EmitOwner { u8 reserved0[0x14]; SPLList list; struct ParticleDescOwner *x; };
 
 struct MtxFx43 { s32 m[12]; };
 
-struct BfHw {
+struct SubHwFlags {
     u16 a : 7;
     u16 kind : 2;
     u16 sel2 : 2;
@@ -828,25 +826,25 @@ struct BfHw {
     u16 b : 4;
 };
 
-struct BfSel {
+struct SubSelFlags {
     u32 lo : 6;
     u32 sel : 1;
     u32 hi : 25;
 };
 
-struct BfZero {
-    u32 f0 : 16;
+struct SubZeroFlags {
+    u32 lo : 16;
     u32 b16 : 1;
     u32 sel2 : 2;
     u32 sel1 : 1;
-    u32 f20 : 1;
+    u32 reserved0 : 1;
     u32 b21 : 1;
     u32 b22 : 1;
     u32 flag : 1;
-    u32 f24 : 8;
+    u32 reserved1 : 8;
 };
 
-struct Bf28 {
+struct Sub28Flags {
     u32 lo : 8;
     u32 k : 16;
     u32 mid : 4;
@@ -854,7 +852,7 @@ struct Bf28 {
     u32 hi : 1;
 };
 
-struct DescBits {
+struct SubDescBits {
     u32 lo : 4;
     u32 kind : 2;
     u32 mid : 5;
@@ -862,85 +860,85 @@ struct DescBits {
     u32 hi : 20;
 };
 
-union Flags00 {
-    struct BfZero z;
-    struct DescBits d;
+union SubFlags {
+    struct SubZeroFlags z;
+    struct SubDescBits d;
 };
 
-struct SubD {
-    struct BfHw hw;
-    u8 pad02[0x0d];
-    u8 f0f;
-    struct BfSel f10;
+struct RigDescriptorHw {
+    struct SubHwFlags hw;
+    u8 reserved0[0x0d];
+    u8 texture;
+    struct SubSelFlags selFlags;
 };
 
-struct SubC {
-    union Flags00 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u8 pad10[0x20];
-    s16 f30;
-    u8 pad32[0x15];
-    u8 f47;
-    struct Bf28 f48;
-    u8 pad4c[0x04];
-    s16 f50;
-    s16 f52;
+struct RigDescriptor {
+    union SubFlags flags;
+    u32 transX;
+    u32 transY;
+    u32 transZ;
+    u8 reserved0[0x20];
+    s16 scale;
+    u8 reserved1[0x15];
+    u8 texture;
+    struct Sub28Flags flags28;
+    u8 reserved2[0x04];
+    s16 texS;
+    s16 texT;
 };
 
-struct SubX {
-    struct SubC *f00;
-    u8 pad04[0x10];
-    struct SubD *f14;
+struct RigSubList {
+    struct RigDescriptor *desc;
+    u8 reserved0[0x10];
+    struct RigDescriptorHw *hw;
 };
 
-struct SubB {
-    u8 pad00[0x08];
-    struct S_020524C8 *f08;
-    u8 pad0c[0x08];
-    struct S_020524C8 *f14;
-    u8 pad18[0x08];
-    struct SubX *f20;
-    u8 pad24[0x4e];
-    u16 f72;
-    u8 pad74[0x04];
-    s16 f78;
-    s16 f7a;
-    s16 f7c;
-    s16 f7e;
+struct RigRenderList {
+    u8 reserved0[0x08];
+    struct RenderNode *nodeList;
+    u8 reserved1[0x08];
+    struct RenderNode *nodeList2;
+    u8 reserved2[0x08];
+    struct RigSubList *subList;
+    u8 reserved3[0x4e];
+    u16 color;
+    u8 reserved4[0x04];
+    s16 texS;
+    s16 texT;
+    s16 texS2;
+    s16 texT2;
 };
 
-struct Obj {
-    u8 pad00[0x2c];
-    struct SPLTexture *f2c;
-    u8 pad30[0x02];
-    u16 f32;
-    u8 pad34[0x08];
-    u32 f3c;
-    struct SubB *f40;
-    struct MtxFx43 *f44;
+struct RigObject {
+    u8 reserved0[0x2c];
+    struct SPLTexture *textures;
+    u8 reserved1[0x02];
+    u16 texCount;
+    u8 reserved2[0x08];
+    u32 polygonAttr;
+    struct RigRenderList *renderList;
+    struct MtxFx43 *mtx;
 };
 
-struct S_020524C8 {
-    struct S_020524C8 *next;
-    u8 pad04[0x04];
+struct RenderNode {
+    struct RenderNode *next;
+    u8 reserved0[0x04];
     struct VecFx32 p1;
     struct VecFx32 p2;
-    u16 f20;
-    u8 pad22[0x0a];
-    u8 f2c;
-    u8 pad2d;
-    struct PBf w;
-    s32 f30;
-    s16 f34;
-    u16 f36;
-    u32 f38;
-    u32 f3c;
-    u32 f40;
+    u16 rotation;
+    u8 reserved1[0x0a];
+    u8 texture;
+    u8 reserved2;
+    struct ParticleVisibility w;
+    s32 baseScale;
+    s16 animScale;
+    u16 color;
+    u32 emitterPosX;
+    u32 emitterPosY;
+    u32 emitterPosZ;
 };
 
-struct Frame_02055FD4 {
+struct RigTransformFrame {
     struct VecFx32 t;
     struct MtxFx43 m;
 };
@@ -1025,7 +1023,7 @@ typedef struct SPLManager {
     u16 reserved;
 } SPLManager;
 
-struct Frame_02054A68 {
+struct RigTransformFrameA68 {
     struct MtxFx43 m1;
     struct MtxFx43 m2;
     struct MtxFx43 m3;
@@ -1033,7 +1031,7 @@ struct Frame_02054A68 {
 
 struct MtxFx33 { s32 m[9]; };
 
-struct Frame {
+struct RigTransformFrameMain {
     struct MtxFx43 m1;
     struct MtxFx43 m2;
     struct MtxFx43 m3;
@@ -1060,54 +1058,54 @@ typedef enum { GX_TEXPLTTCOLOR0_USE = 0 } GXTexPlttColor0;
 
 typedef enum { GX_MTXMODE_PROJECTION = 0, GX_MTXMODE_POSITION = 1, GX_MTXMODE_POSITION_VECTOR = 2, GX_MTXMODE_TEXTURE = 3 } GXMtxMode;
 
-struct Res0
+struct VramResourceHeader
 {
-  u32 f00;
-  s32 f04;
-  s32 f08;
-  s32 f0c;
-  s32 f10;
-  s32 f14;
-  s32 f18;
-  u16 f1c;
-  u16 f1e;
-  u16 f20;
-  u16 f22;
-  s32 f24;
-  s32 f28;
-  s32 f2c;
-  s32 f30;
-  s32 f34;
-  u16 f38;
-  u16 f3a;
-  u16 f3c;
-  u16 f3e;
-  s32 f40;
-  u8 f44;
-  u8 f45;
-  u8 f46;
-  u8 f47;
-  u32 f48;
-  u32 f4c;
+  u32 flags;
+  s32 emitterBasePosX;
+  s32 emitterBasePosY;
+  s32 emitterBasePosZ;
+  s32 emissionCount;
+  s32 radius;
+  s32 length;
+  u16 axisX;
+  u16 axisY;
+  u16 axisZ;
+  u16 color;
+  s32 initVelPosAmplifier;
+  s32 initVelAxisAmplifier;
+  s32 baseScale;
+  s32 aspectAndDelay;
+  s32 rotationRange;
+  u16 initAngle;
+  u16 reserved0;
+  u16 emitterLifeTime;
+  u16 particleLifeTime;
+  s32 randomAttenuation;
+  u8 miscByte0;
+  u8 miscByte1;
+  u8 miscByte2;
+  u8 miscByte3;
+  u32 polygonFlags;
+  u32 userData;
 };
 
-struct Sub14
+struct VramSub14
 {
-  s32 f00;
-  s32 f04;
-  s32 f08;
-  s32 f0c;
-  u32 f10;
+  s32 reserved0;
+  s32 reserved1;
+  s32 reserved2;
+  s32 reserved3;
+  u32 mode;
 };
 
 struct Cfg
 {
-  struct Res0 *f00;
-  s32 f04;
-  s32 f08;
-  s32 f0c;
-  s32 f10;
-  struct Sub14 *f14;
+  struct VramResourceHeader *resource;
+  s32 reserved0;
+  s32 reserved1;
+  s32 reserved2;
+  s32 reserved3;
+  struct VramSub14 *sub14;
 };
 
 struct Vec3
@@ -1117,53 +1115,53 @@ struct Vec3
   s32 z;
 };
 
-struct Obj_02053A60
+struct ResourceSetup
 {
-  s32 f00;
-  s32 f04;
-  s32 f08;
-  s32 f0c;
-  s32 f10;
-  s32 f14;
-  s32 f18;
-  s32 f1c;
-  struct Cfg *f20;
-  s32 f24;
-  s32 f28;
-  s32 f2c;
-  s32 f30;
-  s32 f34;
-  s32 f38;
-  s32 f3c;
-  s32 f40;
-  s32 f44;
-  s32 f48;
-  u16 f4c;
-  u16 f4e;
-  u16 f50;
-  u16 f52;
-  u16 f54;
-  u16 f56;
-  s32 f58;
-  s32 f5c;
-  s32 f60;
-  s32 f64;
-  s32 f68;
-  s32 f6c;
-  u16 f70;
-  u16 f72;
-  u32 f74;
-  s16 f78;
-  s16 f7a;
-  s16 f7c;
-  s16 f7e;
-  u32 f80;
-  s32 f84;
-  s32 f88;
-  s32 f8c;
-  s32 f90;
-  s32 f94;
-  s32 f98;
+  s32 next;
+  s32 prev;
+  s32 particlesFirst;
+  s32 particlesCount;
+  s32 particlesLast;
+  s32 childParticlesFirst;
+  s32 childParticlesCount;
+  s32 childParticlesLast;
+  struct Cfg *resource;
+  s32 state;
+  s32 posX;
+  s32 posY;
+  s32 posZ;
+  s32 velX;
+  s32 velY;
+  s32 velZ;
+  s32 initVelX;
+  s32 initVelY;
+  s32 initVelZ;
+  u16 age;
+  u16 emissionCountFractional;
+  u16 axisX;
+  u16 axisY;
+  u16 axisZ;
+  u16 initAngle;
+  s32 emissionCount;
+  s32 radius;
+  s32 length;
+  s32 initVelPosAmplifier;
+  s32 initVelAxisAmplifier;
+  s32 baseScale;
+  u16 particleLifeTime;
+  u16 color;
+  u32 collisionPlaneHeight;
+  s16 textureS;
+  s16 textureT;
+  s16 childTextureS;
+  s16 childTextureT;
+  u32 misc;
+  s32 reserved0;
+  s32 reserved1;
+  s32 reserved2;
+  s32 updateCallback;
+  s32 userDataPtr;
+  s32 userData;
 };
 
 typedef struct FieldFunc {
@@ -1171,192 +1169,192 @@ typedef struct FieldFunc {
     BOOL loop;
 } AnimFunc;
 
-typedef void (*Fn)(struct Obj *, struct S_020524C8 *);
+typedef void (*Fn)(struct RigObject *, struct RenderNode *);
 
 typedef void (*Fn1)(SPLTexture *);
 
 typedef void *(*AllocFn)(u32 size);
 
-struct Head_02052DC8 {
+struct VramNodeHeap {
     AllocFn alloc;       /* 0x00 */
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u16 f30;
-    u16 f32;
-    u16 f34;
-    u16 f36;
+    u32 reserved0;
+    u32 reserved1;
+    u32 reserved2;
+    u32 nodeListFirst;
+    u32 nodeListCount;
+    u32 nodeListLast;
+    u32 rowListFirst;
+    u32 rowListCount;
+    u32 rowListLast;
+    u32 reserved3;
+    u32 reserved4;
+    u16 reserved5;
+    u16 reserved6;
+    u16 nodeCount;
+    u16 rowCount;
     u32 b0  : 6;
     u32 b6  : 6;
     u32 b12 : 6;
     u32 b18 : 6;
     u32 b24 : 1;
     u32 b25 : 7;
-    u32 f3c;
-    u32 f40;
-    u32 f44;
-    u16 f48;
-    u16 f4a;
+    u32 reserved7;
+    u32 reserved8;
+    u32 reserved9;
+    u16 reserved10;
+    u16 reserved11;
 };
 
-struct Node9C { u8 b[0x9c]; };
+struct VramNodeBlob9C { u8 b[0x9c]; };
 
-struct Node44 { u8 b[0x44]; };
+struct VramRowBlob44 { u8 b[0x44]; };
 
-struct Flags {
+struct VramNodeFlags {
     u32 lo   : 8;
-    u32 b8   : 1;
-    u32 b9   : 1;
-    u32 b10  : 1;
-    u32 b11  : 1;
+    u32 sub0   : 1;
+    u32 sub1   : 1;
+    u32 sub2  : 1;
+    u32 sub3  : 1;
     u32 b12  : 4;
-    u32 b16  : 1;
+    u32 sub4  : 1;
     u32 b17  : 7;
-    u32 b24  : 1;
-    u32 b25  : 1;
-    u32 b26  : 1;
-    u32 b27  : 1;
-    u32 b28  : 1;
-    u32 b29  : 1;
+    u32 anim0  : 1;
+    u32 anim1  : 1;
+    u32 anim2  : 1;
+    u32 anim3  : 1;
+    u32 anim4  : 1;
+    u32 anim5  : 1;
     u32 b30  : 2;
 };
 
-struct Anim {
+struct VramAnim {
     void (*fn)(void);
     void *data;
 };
 
-struct Rec_020524C8 {
-    struct Flags *data;  /* 0x00 */
-    void *f04;
-    void *f08;
-    void *f0c;
-    void *f10;
-    void *f14;
-    struct Anim *anims;  /* 0x18 */
+struct VramHeapRecord {
+    struct VramNodeFlags *data;  /* 0x00 */
+    void *sub0;
+    void *sub1;
+    void *sub2;
+    void *sub3;
+    void *sub4;
+    struct VramAnim *anims;  /* 0x18 */
     u16 nanims;          /* 0x1c */
-    u16 pad1e;
+    u16 reserved0;
 };
 
-struct Res_02052A50 {
-    u32 f00;
+struct VramResource {
+    u32 id;
     u32 kind : 4;
     u32 w    : 4;
     u32 h    : 4;
     u32 hi   : 20;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
+    u32 textureSize;
+    u32 paletteOffset;
+    u32 paletteSize;
+    u32 unused0;
+    u32 unused1;
     u32 size;            /* 0x1c */
 };
 
-struct Row_02052A50 {
-    struct Res_02052A50 *res;
+struct VramResourceRow {
+    struct VramResource *res;
     u32 tex_vram;
     u32 pltt_vram;
-    u32 f0c;
+    u32 param;
     u16 w;
     u16 h;
 };
 
-struct Hdr {
-    u32 f00;
-    u32 f04;
+struct VramHeapHeader {
+    u32 flags;
+    u32 size;
     u16 nrec;
     u16 nrow;
 };
 
-struct Head_02052984 {
+struct VramTexHeap {
     AllocFn alloc;       /* 0x00 */
-    u32 pad04[9];
-    struct Rec_020524C8 *f28;     /* 0x28 */
-    struct Row_02052A50 *f2c;     /* 0x2c */
-    u16 f30;
-    u16 f32;
+    u32 reserved0[9];
+    struct VramHeapRecord *records;     /* 0x28 */
+    struct VramResourceRow *rows;     /* 0x2c */
+    u16 recordCount;
+    u16 rowCount;
 };
 
 typedef u32 (*AllocTex)(u32, u32);
 
-struct Cls {
+struct VramAllocClass {
     u32 c00_lo : 14;
-    u32 c00_b14 : 1;
+    u32 retire : 1;
     u32 c00_hi : 17;
-    u32 pad04[11];
-    u16 pad30;
-    u16 f32;             /* 0x32 */
-    u32 pad34[2];
-    u16 f3c;             /* 0x3c */
-    u16 pad3e;
+    u32 reserved0[11];
+    u16 reserved1;
+    u16 lifeTime;             /* 0x32 */
+    u32 reserved2[2];
+    u16 lifeCap;             /* 0x3c */
+    u16 reserved3;
 };
 
-struct Node_02052770 {
-    struct Node_02052770 * next;
-    struct Node_02052770 * prev;
-    u32 f08;
-    u32 f0c;
-    u32 pad10[2];
-    u32 f18;
-    u32 f1c;
-    struct Cls ** f20;
-    u32 f24_b0 : 1;
-    u32 f24_b1 : 1;
-    u32 f24_b2 : 1;
-    u32 f24_b3 : 1;
-    u32 f24_b4 : 1;
-    u32 f24_hi : 27;
-    u16 pad28[18];
-    u16 f4c;
-    u16 pad4e;
-    u32 pad50[12];
-    unsigned int f80;
+struct VramFreeNode {
+    struct VramFreeNode * next;
+    struct VramFreeNode * prev;
+    u32 reserved0;
+    u32 pending0;
+    u32 reserved4[2];
+    u32 pending1;
+    u32 reserved1;
+    struct VramAllocClass ** allocClass;
+    u32 kill : 1;
+    u32 reserved2 : 1;
+    u32 suppressed : 1;
+    u32 hidden : 1;
+    u32 expired : 1;
+    u32 reserved3 : 27;
+    u16 reserved5[18];
+    u16 age;
+    u16 reserved6;
+    u32 reserved7[12];
+    unsigned int phaseFlags;
 };
 
-struct Head_02052770 {
-    u32 f00;
-    struct Node_02052770 *list;   /* 0x04 */
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 pad14[13];
-    u16 f48;             /* 0x48 */
+struct VramFreeList {
+    u32 flags;
+    struct VramFreeNode *list;   /* 0x04 */
+    u32 reserved0;
+    u32 reserved1;
+    u32 freeList;
+    u32 reserved2[13];
+    u16 parity;             /* 0x48 */
 };
 
-struct Node_020524C8 {
-    struct Node_020524C8 *next;   /* 0x00 */
-    struct Node_020524C8 *prev;   /* 0x04 */
-    u32 pad08[7];
-    u32 f24_b0 : 1;
-    u32 f24_b1 : 1;
-    u32 f24_b2 : 1;
-    u32 f24_b3 : 1;
-    u32 f24_hi : 28;
+struct VramHeapNode {
+    struct VramHeapNode *next;   /* 0x00 */
+    struct VramHeapNode *prev;   /* 0x04 */
+    u32 reserved2[7];
+    u32 kill : 1;
+    u32 reserved0 : 1;
+    u32 suppressed : 1;
+    u32 hidden : 1;
+    u32 reserved1 : 28;
 };
 
-struct Head_020524C8 {
-    u32 f00;
-    struct Node_020524C8 *list;   /* 0x04 */
-    u32 f08;
-    struct Node_020524C8 *rlist;  /* 0x0c */
-    u32 pad10[10];
-    u32 f38_lo : 24;
-    u32 f38_b24 : 1;
-    u32 f38_hi : 7;
-    u32 f3c;
-    struct Node_020524C8 *cur;    /* 0x40 */
-    u32 f44;
+struct VramHeapHead {
+    u32 flags;
+    struct VramHeapNode *list;   /* 0x04 */
+    u32 reserved0;
+    struct VramHeapNode *rlist;  /* 0x0c */
+    u32 reserved4[10];
+    u32 reserved2 : 24;
+    u32 reverse : 1;
+    u32 reserved3 : 7;
+    u32 reserved1;
+    struct VramHeapNode *cur;    /* 0x40 */
+    u32 userData;
 };
 
-struct Scratch {
+struct AllocScratch {
     u32 a;
     u32 b;
     u32 c;
@@ -1408,51 +1406,51 @@ extern void GX_EndLoadTexPltt(void);
 void SPL_EMITTER_ClearNodeList(SPLList *list, SPLNode *node);
 SPLNode *SPL_EMITTER_AllocNode(SPLList *list);
 SPLNode *SPL_EMITTER_FreeNode(SPLList *list, SPLNode *node);
-void SPL_EMITTER_AddVec(struct Range *o, void *s, int *dst);
-void SPL_EMITTER_UpdateNode(struct Range *o, struct Src *s, int *dst);
-void SPL_EMITTER_AddScaledVec(struct A *a, struct B_02058180 *b, volatile int *c);
-void SPL_EMITTER_BuildFrame(struct Obj_02057EF8 *o, u8 *dst);
-void SPL_EMITTER_InterpTarget(struct A_02057F8C *a, struct S_02057EF8 *s, int unused, struct C *c);
-void SPL_EMITTER_LerpVec(struct A_02057EF8 *a, struct B_02057EF8 *b);
-void SPL_EMITTER_EvalCurve(struct Obj_02056420 *o, struct Src_02057E68 *s, int t);
-void SPL_EMITTER_EvalKey(struct Out *out, struct Ctx *ctx, s32 t);
-void SPL_EMITTER_UpdateRecord(struct O_02057BC0 *o, struct S_02057BC0 *s, int t);
-void SPL_EMITTER_UpdateList(struct O_020576D0 *o, struct S_020576D0 *s, int t);
-void SPL_EMITTER_ClampShort(struct Obj_02056420 *o, struct Src_020576D0 *s, int t);
-void SPL_EMITTER_ClampU16(struct Obj_020576D0 *o, int unused, int t);
-void SPL_EMITTER_TransformVec(struct Rig *m);
-void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct Mtx3 *m);
+void SPL_EMITTER_AddVec(struct RandomVecRange *o, void *s, int *dst);
+void SPL_EMITTER_UpdateNode(struct RandomVecRange *o, struct RandomVecSource *s, int *dst);
+void SPL_EMITTER_AddScaledVec(struct ScaledVecSource *a, struct RigOffsetPair *b, volatile int *c);
+void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst);
+void SPL_EMITTER_InterpTarget(struct InterpTargetParam *a, struct InterpTrack *s, int unused, struct InterpState *c);
+void SPL_EMITTER_LerpVec(struct LerpSource *a, struct LerpDest *b);
+void SPL_EMITTER_EvalCurve(struct CurveOutput *o, struct CurveKeySource *s, int t);
+void SPL_EMITTER_EvalKey(struct KeyColorOutput *out, struct KeyContext *ctx, s32 t);
+void SPL_EMITTER_UpdateRecord(struct ColorRampOutput *o, struct ColorRampSource *s, int t);
+void SPL_EMITTER_UpdateList(struct AnimFrameOutput *o, struct AnimFrameSource *s, int t);
+void SPL_EMITTER_ClampShort(struct CurveOutput *o, struct AngleKeySource *s, int t);
+void SPL_EMITTER_ClampU16(struct ColorClampOutput *o, int unused, int t);
+void SPL_EMITTER_TransformVec(struct RigBasis *m);
+void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct RigMatrix *m);
 void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list);
-void SPL_EMITTER_EmitParticle(struct Emt *e, struct Owner *o, SPLList *pool);
+void SPL_EMITTER_EmitParticle(struct EmitterParticle *e, struct EmitOwner *o, SPLList *pool);
 void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y);
 void SPL_EMITTER_DrawQuadEx(s32 s, s32 t, s32 x, s32 z);
 void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
 void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
-void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s);
-void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s);
+void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl);
 void SPL_EMITTER_UpdateParticleMotionEx(SPLManager *mgr, SPLParticle *ptcl);
-void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S_020524C8 *s);
-void SPL_EMITTER_UpdateFrameA68Ex(struct Obj *obj, struct S_020524C8 *s);
-void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S_020524C8 *s);
-void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s);
+void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s);
+void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s);
+void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_SetTextureParam(SPLTexture *tex);
 void SPL_EMITTER_Noop(SPLTexture *tex);
-void SPL_EMITTER_SetupResource(volatile struct Obj_02053A60 *o, struct Cfg *cfg, const struct Vec3 *pos);
+void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct Cfg *cfg, const struct Vec3 *pos);
 void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr);
-void SPL_EMITTER_UpdateSubB(struct Obj *o);
-void SPL_EMITTER_UpdateSubX(struct Obj *o);
-void SPL_EMITTER_UpdateSubC(struct Obj *o);
+void SPL_EMITTER_UpdateSubB(struct RigObject *o);
+void SPL_EMITTER_UpdateSubX(struct RigObject *o);
+void SPL_EMITTER_UpdateSubC(struct RigObject *o);
 int SPL_EMITTER_AllocTexVram(u32 a0, u32 a1);
 int SPL_EMITTER_AllocPlttVram(u32 a0, u32 a1);
-struct Head_02052DC8 *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5);
-void SPL_EMITTER_FreeNodeToHeap(struct Head_02052984 *h, struct Hdr *d);
-int SPL_EMITTER_AllocTexVramList(struct Obj *o, AllocTex alloc);
-int SPL_EMITTER_AllocPlttVramList(struct Obj *o, AllocTex alloc);
+struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5);
+void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d);
+int SPL_EMITTER_AllocTexVramList(struct RigObject *o, AllocTex alloc);
+int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc);
 void SPL_EMITTER_AllocTexVramDefault(u32 a0);
 void SPL_EMITTER_AllocPlttVramDefault(u32 a0);
-void SPL_EMITTER_FreeTexNode(struct Head_02052770 *h);
-void SPL_EMITTER_FreeNodeHeap(struct Head_020524C8 *h, u32 a);
+void SPL_EMITTER_FreeTexNode(struct VramFreeList *h);
+void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a);
 int SPL_EMITTER_AllocResource(char *p, int b, int c);
 int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
 void SPL_EMITTER_FreeResource(char *p, char *q);
@@ -1553,7 +1551,7 @@ SPLNode *SPL_EMITTER_FreeNode(SPLList *list, SPLNode *node)
  * SPL_EMITTER_UpdateNode (1.1p1 merges the first two loads into an ldm).  The middle
  * argument is unused but kept for the handler signature SPL_EMITTER_UpdateNode has.
  */
-void SPL_EMITTER_AddVec(struct Range *o, void *s, int *dst)
+void SPL_EMITTER_AddVec(struct RandomVecRange *o, void *s, int *dst)
 {
     dst[0] = dst[0] + o->v0;
     dst[1] = dst[1] + o->v1;
@@ -1579,11 +1577,11 @@ u32 g_02146A8C;
  *           (its own literal pool); every byte of the 188-byte function plus the
  *           pool at 0x020582C0 compares identical.
  */
-void SPL_EMITTER_UpdateNode(struct Range *o, struct Src *s, int *dst)
+void SPL_EMITTER_UpdateNode(struct RandomVecRange *o, struct RandomVecSource *s, int *dst)
 {
     int r;
 
-    if (s->f26 % o->f06 != 0) {
+    if (s->frame % o->interval != 0) {
         return;
     }
 
@@ -1607,11 +1605,11 @@ void SPL_EMITTER_UpdateNode(struct Range *o, struct Src *s, int *dst)
 
 
 
-void SPL_EMITTER_AddScaledVec(struct A *a, struct B_02058180 *b, volatile int *c)
+void SPL_EMITTER_AddScaledVec(struct ScaledVecSource *a, struct RigOffsetPair *b, volatile int *c)
 {
-    c[0] = c[0] + (a->scale * (a->x - b->f08 - b->f14) >> 12);
-    c[1] = c[1] + (a->scale * (a->y - b->f0c - b->f18) >> 12);
-    c[2] = c[2] + (a->scale * (a->z - b->f10 - b->f1c) >> 12);
+    c[0] = c[0] + (a->scale * (a->x - b->originX - b->offsetX) >> 12);
+    c[1] = c[1] + (a->scale * (a->y - b->originY - b->offsetY) >> 12);
+    c[2] = c[2] + (a->scale * (a->z - b->originZ - b->offsetZ) >> 12);
 }
 
 
@@ -1630,29 +1628,29 @@ void SPL_EMITTER_AddScaledVec(struct A *a, struct B_02058180 *b, volatile int *c
  *
  * The two spellings that matter:
  *  - the three cases are identical apart from the callee, so each arm
- *    re-reads `idx = o->f00 >> 4;` (hoisting it above the switch costs the
+ *    re-reads `idx = o->angle >> 4;` (hoisting it above the switch costs the
  *    asr slot).
  *  - the subscripts are `idx * 2` and `idx * 2 + 1`, not `idx`/`idx + 1`:
  *    both address the same halfwords, but the image forms the byte offsets
  *    from `lsl r2, r1, #1` + `add r1, r2, #1` + two `lsl #1`s, which is the
  *    `idx * 2` spelling (the `idx`/`idx + 1` spelling is 12 bytes short).
  */
-void SPL_EMITTER_BuildFrame(struct Obj_02057EF8 *o, u8 *dst)
+void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst)
 {
     u8 buf[0x28];
     int idx;
 
-    switch (o->f02) {
+    switch (o->axis) {
     case 0:
-        idx = o->f00 >> 4;
+        idx = o->angle >> 4;
         func_0207AF00(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 1:
-        idx = o->f00 >> 4;
+        idx = o->angle >> 4;
         func_0207AF1C(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 2:
-        idx = o->f00 >> 4;
+        idx = o->angle >> 4;
         func_0207AF38(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     }
@@ -1689,43 +1687,43 @@ void SPL_EMITTER_BuildFrame(struct Obj_02057EF8 *o, u8 *dst)
  * `if (v < target) return;` after it is what makes the shared tail block
  * exist at all.
  */
-void SPL_EMITTER_InterpTarget(struct A_02057F8C *a, struct S_02057EF8 *s, int unused, struct C *c)
+void SPL_EMITTER_InterpTarget(struct InterpTargetParam *a, struct InterpTrack *s, int unused, struct InterpState *c)
 {
     int target;
     int v;
 
     target = a->target;
-    if (c->f74 != 0x80000000) target = c->f74;
+    if (c->target != 0x80000000) target = c->target;
 
     switch (a->mode) {
     case 0:
-        v = s->f3c;
+        v = s->position;
         if (v < target) {
-            if (v + s->c > target) {
-                s->c = target - v;
-                s->f26 = s->f24;
+            if (v + s->step > target) {
+                s->step = target - v;
+                s->state = s->hold;
                 return;
             }
         }
         if (v < target) return;
-        if (v + s->c < target) {
-            s->c = target - v;
-            s->f26 = s->f24;
+        if (v + s->step < target) {
+            s->step = target - v;
+            s->state = s->hold;
         }
         return;
     case 1:
-        v = s->f3c;
+        v = s->position;
         if (v < target) {
-            if (v + s->c > target) {
-                s->c = target - v;
-                s->f18 = -(int)(((long long)s->f18 * a->f04 + 0x800) >> 12);
+            if (v + s->step > target) {
+                s->step = target - v;
+                s->value = -(int)(((long long)s->value * a->speed + 0x800) >> 12);
                 return;
             }
         }
         if (v < target) return;
-        if (v + s->c < target) {
-            s->c = target - v;
-            s->f18 = -(int)(((long long)s->f18 * a->f04 + 0x800) >> 12);
+        if (v + s->step < target) {
+            s->step = target - v;
+            s->value = -(int)(((long long)s->value * a->speed + 0x800) >> 12);
         }
         return;
     }
@@ -1754,11 +1752,11 @@ static inline s32 FX_Mul(s32 a, s32 b)
 
 
 
-void SPL_EMITTER_LerpVec(struct A_02057EF8 *a, struct B_02057EF8 *b)
+void SPL_EMITTER_LerpVec(struct LerpSource *a, struct LerpDest *b)
 {
-    b->_08 = b->_08 + FX_Mul(a->w, a->x - b->_08);
-    b->_0C = b->_0C + FX_Mul(a->w, a->y - b->_0C);
-    b->_10 = b->_10 + FX_Mul(a->w, a->z - b->_10);
+    b->x = b->x + FX_Mul(a->w, a->x - b->x);
+    b->y = b->y + FX_Mul(a->w, a->y - b->y);
+    b->z = b->z + FX_Mul(a->w, a->z - b->z);
 }
 
 
@@ -1771,24 +1769,24 @@ void SPL_EMITTER_LerpVec(struct A_02057EF8 *a, struct B_02057EF8 *b)
 
 
 
-void SPL_EMITTER_EvalCurve(struct Obj_02056420 *o, struct Src_02057E68 *s, int t)
+void SPL_EMITTER_EvalCurve(struct CurveOutput *o, struct CurveKeySource *s, int t)
 {
-    struct Curve *cv;
+    struct CurveKey *cv;
     int b0;
     int b1;
 
-    cv = s->_04;
-    b0 = cv->_06;
-    b1 = cv->_07;
+    cv = s->curve;
+    b0 = cv->riseTime;
+    b1 = cv->fallTime;
     if (t < b0) {
-        o->_34 = cv->_00 + t * (cv->_02 - cv->_00) / b0;
+        o->value = cv->start + t * (cv->mid - cv->start) / b0;
         return;
     }
     if (t < b1) {
-        o->_34 = cv->_02;
+        o->value = cv->mid;
         return;
     }
-    o->_34 = cv->_04 + (t - 0xFF) * (cv->_04 - cv->_02) / (0xFF - b1);
+    o->value = cv->end + (t - 0xFF) * (cv->end - cv->mid) / (0xFF - b1);
 }
 
 
@@ -1798,7 +1796,7 @@ void SPL_EMITTER_EvalCurve(struct Obj_02056420 *o, struct Src_02057E68 *s, int t
 
 
 
-static inline void ColLerp(struct Out *out, s32 from, s32 to, u32 on, s32 num, s32 den)
+static inline void ColLerp(struct KeyColorOutput *out, s32 from, s32 to, u32 on, s32 num, s32 den)
 {
     s32 tr = to & 0x1f;
     s32 fr = from & 0x1f;
@@ -1821,7 +1819,7 @@ static inline void ColLerp(struct Out *out, s32 from, s32 to, u32 on, s32 num, s
 
 /* Segment 2 copy: the key colour is the FIRST parameter (`to`) and the
  * node colour the second (`from`); channels declared from/to per channel. */
-static inline void ColLerp2(struct Out *out, s32 to, s32 from, u32 on, s32 num, s32 den)
+static inline void ColLerp2(struct KeyColorOutput *out, s32 to, s32 from, u32 on, s32 num, s32 den)
 {
     s32 fr = from & 0x1f;
     s32 tr = to & 0x1f;
@@ -1861,11 +1859,11 @@ static inline void ColLerp2(struct Out *out, s32 to, s32 from, u32 on, s32 num, 
  * Found by a joint search of the (to, from) signature over the 720 channel
  * orders; (to, from) with the note's order was 22 out.
  */
-void SPL_EMITTER_EvalKey(struct Out *out, struct Ctx *ctx, s32 t)
+void SPL_EMITTER_EvalKey(struct KeyColorOutput *out, struct KeyContext *ctx, s32 t)
 {
-    struct Key *k = ctx->key;
+    struct ColorKey *k = ctx->key;
     s32 t0 = k->t0;
-    struct Node_02055FD4 *n = ctx->node;
+    struct ColorNode *n = ctx->node;
     s32 t1 = k->t1;
     s32 t2 = k->t2;
     if (t < t0) {
@@ -1926,18 +1924,18 @@ u32 g_02146A8C;
  * order, nested-if, `b > t`, in-place member reads, three return types) are all
  * superseded by the base fix above; none of them is needed.
  */
-void SPL_EMITTER_UpdateRecord(struct O_02057BC0 *o, struct S_02057BC0 *s, int t)
+void SPL_EMITTER_UpdateRecord(struct ColorRampOutput *o, struct ColorRampSource *s, int t)
 {
-    struct Rec_0205312C *p;
+    struct ColorRampKey *p;
     int a;
     int b;
     int v;
     int r;
     int q;
-    u16 f02;
+    u16 rangeValue;
     u16 w;
 
-    p = s->f0c;
+    p = s->key;
     a = p->a;
     b = p->b;
 
@@ -1951,11 +1949,11 @@ void SPL_EMITTER_UpdateRecord(struct O_02057BC0 *o, struct S_02057BC0 *s, int t)
 
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     r = g_02146A8C >> 24;
-    f02 = p->f02;
-    q = f02 * r;
+    rangeValue = p->range;
+    q = rangeValue * r;
     q = q >> 8;
     w = (u16)((v * (0xff - q)) >> 8);
-    o->f2e = (o->f2e & ~0x3e0) | ((w & 0x1f) << 5);
+    o->color = (o->color & ~0x3e0) | ((w & 0x1f) << 5);
 }
 
 
@@ -1993,15 +1991,15 @@ void SPL_EMITTER_UpdateRecord(struct O_02057BC0 *o, struct S_02057BC0 *s, int t)
  * proc_hints entry) the same source is 41 bytes out at the same 100-byte
  * size; wave r6's measurement of the family's small rows holds for this row.
  */
-void SPL_EMITTER_UpdateList(struct O_020576D0 *o, struct S_020576D0 *s, int t)
+void SPL_EMITTER_UpdateList(struct AnimFrameOutput *o, struct AnimFrameSource *s, int t)
 {
-    struct P *p;
+    struct AnimFrameTable *p;
     int i;
     int end;
     int n;
     int step;
 
-    p = s->f10;
+    p = s->table;
     i = 0;
     n = p->n;
     if (n <= 0) {
@@ -2011,7 +2009,7 @@ void SPL_EMITTER_UpdateList(struct O_020576D0 *o, struct S_020576D0 *s, int t)
     end = 0;
     do {
         if (t < end + step) {
-            o->f2c = p->vals[i];
+            o->frame = p->vals[i];
             return;
         }
         i++;
@@ -2029,12 +2027,12 @@ void SPL_EMITTER_UpdateList(struct O_020576D0 *o, struct S_020576D0 *s, int t)
 
 
 
-void SPL_EMITTER_ClampShort(struct Obj_02056420 *o, struct Src_020576D0 *s, int t)
+void SPL_EMITTER_ClampShort(struct CurveOutput *o, struct AngleKeySource *s, int t)
 {
     short cur;
 
-    cur = s->_14->_04;
-    o->_34 = cur + (cur - 0x1000) * (t - 0xFF) / 255;
+    cur = s->angle->angle;
+    o->value = cur + (cur - 0x1000) * (t - 0xFF) / 255;
 }
 
 
@@ -2048,12 +2046,12 @@ void SPL_EMITTER_ClampShort(struct Obj_02056420 *o, struct Src_020576D0 *s, int 
 
 
 
-void SPL_EMITTER_ClampU16(struct Obj_020576D0 *o, int unused, int t)
+void SPL_EMITTER_ClampU16(struct ColorClampOutput *o, int unused, int t)
 {
     u16 v;
 
     v = (0xff - t) * 0x1f / 255;
-    o->_2e = (o->_2e & ~0x3e0) | ((v & 0x1f) << 5);
+    o->color = (o->color & ~0x3e0) | ((v & 0x1f) << 5);
 }
 
 
@@ -2086,7 +2084,7 @@ void SPL_EMITTER_ClampU16(struct Obj_020576D0 *o, int unused, int t)
  *
  * Shape: a rig basis build.  `a` is the pooled axis (0, 0x1000, 0) at
  * 0x020A7FEC, `v` comes from a two-bit mode field of the object graph
- * `m->f20->f00->mode` (one of the three unit axes, or VEC_Fx16Normalize of
+ * `m->modeRef->mode->mode` (one of the three unit axes, or VEC_Fx16Normalize of
  * m+0x50 in the default arm), then the two basis rows are the cross product
  * of v with a and of v with the first row, computed inline with the FX_Mul
  * rounding quartet (the same shape as the sibling SPL_EMITTER_ScaleVec), and the
@@ -2099,7 +2097,7 @@ void SPL_EMITTER_ClampU16(struct Obj_020576D0 *o, int unused, int t)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_TransformVec.c \
  *       --func SPL_EMITTER_TransformVec --addr 0x02057830 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_TransformVec(struct Rig *m)
+void SPL_EMITTER_TransformVec(struct RigBasis *m)
 {
     struct Vec16 a;
     struct Vec16 v;
@@ -2107,7 +2105,7 @@ void SPL_EMITTER_TransformVec(struct Rig *m)
 
     a = g_020A7FEC;
 
-    switch (m->f20->f00->mode) {
+    switch (m->modeRef->mode->mode) {
     case 2:
         v.x = 0x1000;
         v.y = 0;
@@ -2124,7 +2122,7 @@ void SPL_EMITTER_TransformVec(struct Rig *m)
         v.z = 0x1000;
         break;
     default:
-        VEC_Fx16Normalize(&m->f50, &v);
+        VEC_Fx16Normalize(&m->axis, &v);
         break;
     }
 
@@ -2142,8 +2140,8 @@ void SPL_EMITTER_TransformVec(struct Rig *m)
     m->r1[1] = FX_Mul(v.z, m->r0[0]) - FX_Mul(v.x, m->r0[2]);
     m->r1[2] = FX_Mul(v.x, m->r0[1]) - FX_Mul(v.y, m->r0[0]);
 
-    VEC_Fx16Normalize((struct Vec16 *)(m->pad_00 + 0x84), (struct Vec16 *)(m->pad_00 + 0x84));
-    VEC_Fx16Normalize((struct Vec16 *)(m->pad_00 + 0x8a), (struct Vec16 *)(m->pad_00 + 0x8a));
+    VEC_Fx16Normalize((struct Vec16 *)m->r0, (struct Vec16 *)m->r0);
+    VEC_Fx16Normalize((struct Vec16 *)m->r1, (struct Vec16 *)m->r1);
 }
 
 
@@ -2189,12 +2187,12 @@ void SPL_EMITTER_TransformVec(struct Rig *m)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_ScaleVec.c \
  *       --func SPL_EMITTER_ScaleVec --addr 0x020576D0 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct Mtx3 *m)
+void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct RigMatrix *m)
 {
     struct Vec16 v;
 
-    VEC_Fx16CrossProduct((const VecFx16 *)(m->pad + 0x84),
-                  (const VecFx16 *)(m->pad + 0x8a), (VecFx16 *)&v);
+    VEC_Fx16CrossProduct((const VecFx16 *)(m->reserved0 + 0x84),
+                  (const VecFx16 *)(m->reserved0 + 0x8a), (VecFx16 *)&v);
     VEC_Fx16Normalize(&v, &v);
 
     out[0] = FX_Mul(src->x, m->r0[0]) + FX_Mul(src->y, m->r1[0]) + FX_Mul(src->z, v.x);
@@ -2601,10 +2599,10 @@ void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
 /*
  * Particle spawn for the rig emitter (the SPL-style particle system this
  * cluster renders; docs/families/cluster_02052F58.h).  For each of
- * desc->f0c particles: pop one from the free list (SPL_EMITTER_AllocNode), push it
+ * desc->count particles: pop one from the free list (SPL_EMITTER_AllocNode), push it
  * on the owner's live list at +0x14 (SPL_EMITTER_ClearNodeList), copy the emitter
- * position, set velocity = FX_Mul(emitter velocity, FX_Mul(f08 << 12, 0x10))
- * plus a random term in [-f02, f02) per axis from the LCG at 0x02146A8C
+ * position, set velocity = FX_Mul(emitter velocity, FX_Mul(scale << 12, 0x10))
+ * plus a random term in [-velocity, velocity) per axis from the LCG at 0x02146A8C
  * (0x5EEDF715 / 0x1B0CB173, the same generator SPL_EMITTER_UpdateNode uses), and
  * fill scale, colour, the 5-bit tile fields, the rotation pair (3-way
  * switch on desc bits 3..4), life and the two 0xFFFF reciprocal rates.
@@ -2615,11 +2613,11 @@ void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
  *      as a static inline function (or a separate Rand() inline) is 792
  *      bytes against 800 and 534 out: the inline's statement boundary moves
  *      the whole velocity block.  The macro puts it at 52 out.
- *   2. `(s32)((u32)e->f24 >> 1)`: lsr, not asr, but _s32_div_f, not
+ *   2. `(s32)((u32)e->lifeTime >> 1)`: lsr, not asr, but _s32_div_f, not
  *      _u32_div_f.  An unsigned dividend picks the unsigned helper.
- *   3. `s = (e->f30 * e->f34) >> 12` bound to a local, operands in that
+ *   3. `s = (e->baseScale * e->animScale) >> 12` bound to a local, operands in that
  *      order (40 out without it).
- *   4. `struct Ptcl *p;` declared FIRST, before `d`.  With p declared in the
+ *   4. `struct ParticleView *p;` declared FIRST, before `d`.  With p declared in the
  *      loop body (or after d) the two pointers swap r6/r7 and the last 40
  *      bytes stay out; tools/permuter.py --mode hill (222 singles) could not
  *      move it -- a declaration residue, as docs/notes/permuter.md predicts.
@@ -2630,53 +2628,53 @@ void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_EmitParticle.c \
  *       --func SPL_EMITTER_EmitParticle --addr 0x02056684 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_EmitParticle(struct Emt *e, struct Owner *o, SPLList *pool)
+void SPL_EMITTER_EmitParticle(struct EmitterParticle *e, struct EmitOwner *o, SPLList *pool)
 {
-    struct Ptcl *p;
-    struct Desc_02055FD4 *d = o->x->desc;
-    fx32 scale = FX_Mul(d->f08 << 12, 0x10);
+    struct ParticleView *p;
+    struct ParticleDesc *d = o->x->desc;
+    fx32 scale = FX_Mul(d->scale << 12, 0x10);
     s32 i;
-    for (i = 0; i < d->f0c; i++) {
-        p = (struct Ptcl *)SPLList_PopFront(pool);
+    for (i = 0; i < d->count; i++) {
+        p = (struct ParticleView *)SPLList_PopFront(pool);
         if (p == 0)
             return;
         SPLList_PushFront(&o->list, (SPLNode *)p);
         p->pos = e->pos;
-        p->vel.x = FX_Mul(e->vel.x, scale) + RandRange(d->f02);
-        p->vel.y = FX_Mul(e->vel.y, scale) + RandRange(d->f02);
-        p->vel.z = FX_Mul(e->vel.z, scale) + RandRange(d->f02);
-        p->f38 = e->f38;
+        p->vel.x = FX_Mul(e->vel.x, scale) + RandRange(d->velocity);
+        p->vel.y = FX_Mul(e->vel.y, scale) + RandRange(d->velocity);
+        p->vel.z = FX_Mul(e->vel.z, scale) + RandRange(d->velocity);
+        p->emitterPos = e->emitterPos;
         {
-            s32 s = (e->f30 * e->f34) >> 12;
-            p->f30 = s * (d->f09 + 1) >> 6;
+            s32 s = (e->baseScale * e->animScale) >> 12;
+            p->baseScale = s * (d->scaleAdd + 1) >> 6;
         }
-        p->f34 = 0x1000;
+        p->animScale = 0x1000;
         if (d->f.col)
-            p->f36 = d->f0a;
+            p->color = d->color;
         else
-            p->f36 = e->f36;
+            p->color = e->color;
         p->w.b0 = (u16)((e->w.b0 * (e->w.b5 + 1)) >> 5);
         p->w.b5 = 0x1f;
         switch (d->f.sel) {
         case 0:
-            p->f20 = 0;
-            p->f22 = 0;
+            p->rotation = 0;
+            p->angularVelocity = 0;
             break;
         case 1:
-            p->f20 = e->f20;
-            p->f22 = 0;
+            p->rotation = e->rotation;
+            p->angularVelocity = 0;
             break;
         case 2:
-            p->f20 = e->f20;
-            p->f22 = e->f22;
+            p->rotation = e->rotation;
+            p->angularVelocity = e->angularVelocity;
             break;
         }
-        p->f24 = d->f06;
-        p->f26 = 0;
-        p->f2c = d->f0f;
-        p->f28 = 0xffff / (s32)((u32)e->f24 >> 1);
-        p->f2a = 0xffff / e->f24;
-        p->f2d = 0;
+        p->lifeTime = d->lifeTime;
+        p->age = 0;
+        p->texture = d->texture;
+        p->loopTimeFactor = 0xffff / (s32)((u32)e->lifeTime >> 1);
+        p->lifeTimeFactor = 0xffff / e->lifeTime;
+        p->lifeRateOffset = 0;
     }
 }
 
@@ -2911,10 +2909,10 @@ void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
 
 
 
-void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
 {
-    struct Frame_02055FD4 f;
-    struct SubC *p;
+    struct RigTransformFrame f;
+    struct RigDescriptor *p;
     struct MtxFx43 *mtx;
     s32 n;
     s32 a;
@@ -2933,20 +2931,20 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
     s32 c2;
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    p = obj->f40->f20->f00;
-    sc = p->f30;
-    sel = p->f48.sel;
-    c2 = obj->f40->f72;
-    k34 = s->f34;
-    c1 = s->f36;
-    mtx = obj->f44;
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
+    p = obj->renderList->subList->desc;
+    sc = p->scale;
+    sel = p->flags28.sel;
+    c2 = obj->renderList->color;
+    k34 = s->animScale;
+    c1 = s->color;
+    mtx = obj->mtx;
+    v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
     v = *(volatile u32 *)0x040004A4;
     if ((n >> 5) == 0)
         return;
 
-    a = s->f30;
+    a = s->baseScale;
     a64 = (s64)(s32)a;
     n = (s32)((a64 * sc + 0x800) >> 12);
     x = n;
@@ -2960,13 +2958,13 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
         y = (s32)(((a64 * k34) + 0x800) >> 12);
     }
 
-    p = obj->f40->f20->f00;
-    if (p->f00.z.flag == 0) {
-        f.t.x = s->p1.x + s->f38;
-        f.t.y = s->p1.y + s->f3c;
-        f.t.z = s->p1.z + s->f40;
+    p = obj->renderList->subList->desc;
+    if (p->flags.z.flag == 0) {
+        f.t.x = s->p1.x + s->emitterPosX;
+        f.t.y = s->p1.y + s->emitterPosY;
+        f.t.z = s->p1.z + s->emitterPosZ;
         MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
-        i = (s32)s->f20 >> 4;
+        i = (s32)s->rotation >> 4;
         sn = func_02055FD4_Verts[2 * i];
         cs = func_02055FD4_Verts[2 * i + 1];
         f.m.m[0] = FX_Mul(cs, x);
@@ -2984,11 +2982,11 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
         *(volatile u32 *)0x04000454 = 0;
         func_0207D918(&f.m);
     } else {
-        f.t.x = s->p1.x + s->f38 - p->f04;
-        f.t.y = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.t.z = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        f.t.x = s->p1.x + s->emitterPosX - p->transX;
+        f.t.y = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.t.z = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
-        i = (s32)s->f20 >> 4;
+        i = (s32)s->rotation >> 4;
         sn = func_02055FD4_Verts[2 * i];
         cs = func_02055FD4_Verts[2 * i + 1];
         f.m.m[0] = FX_Mul(cs, x);
@@ -3004,8 +3002,8 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
         f.m.m[10] = f.t.y;
         f.m.m[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
+        p = obj->renderList->subList->desc;
+        qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
@@ -3017,8 +3015,8 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    p = obj->f40->f20->f00;
-    SPL_EMITTER_DrawQuad(obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+    p = obj->renderList->subList->desc;
+    SPL_EMITTER_DrawQuad(obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
 }
 
 
@@ -3042,13 +3040,13 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
  * SPL_EMITTER_UpdateFrameMain (POLYGON_ATTR, the three-way scale switch), then instead of
  * the basis hooks it transforms the particle position by the current matrix
  * (MTX_MultVec43), reads sin/cos from the Verts table at
- * s->f20 >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
+ * s->rotation >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
  * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + func_0207D918), mixes
  * the colour and calls the quad emitter SPL_EMITTER_DrawQuad DIRECTLY.
  *
  * LOAD-BEARING SHAPES (wave 8):
- *   1. SubC->f30 is read into a local BEFORE the 0x040004A4 store, and
- *      obj->f44 likewise (the image loads both there).
+ *   1. RigDescriptor->scale is read into a local BEFORE the 0x040004A4 store, and
+ *      obj->mtx likewise (the image loads both there).
  *   2. `a64 = (s64)(s32)a;` comes BEFORE the scale product, and the product
  *      is written `(s32)((a64 * sc + 0x800) >> 12)` on it.  The FX_Mul(a, sc)
  *      inline is 9 bytes out (the lo/hi halves swap registers), and the
@@ -3062,10 +3060,10 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_UpdateFrameEx.c \
  *       --func SPL_EMITTER_UpdateFrameEx --addr 0x02055B80 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
 {
-    struct Frame_02055FD4 f;
-    struct SubC *p;
+    struct RigTransformFrame f;
+    struct RigDescriptor *p;
     struct MtxFx43 *mtx;
     s32 n;
     s32 a;
@@ -3082,41 +3080,41 @@ void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S_020524C8 *s)
     s32 c2;
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    sc = obj->f40->f20->f00->f30;
-    mtx = obj->f44;
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
+    sc = obj->renderList->subList->desc->scale;
+    mtx = obj->mtx;
+    v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
     v = *(volatile u32 *)0x040004A4;
     if ((n >> 5) == 0)
         return;
 
-    a = s->f30;
+    a = s->baseScale;
     a64 = (s64)(s32)a;
     n = (s32)((a64 * sc + 0x800) >> 12);
     x = n;
     y = a;
-    p = obj->f40->f20->f00;
-    switch (p->f48.sel) {
+    p = obj->renderList->subList->desc;
+    switch (p->flags28.sel) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
     }
 
-    if (p->f00.z.flag == 0) {
-        f.t.x = s->p1.x + s->f38;
-        f.t.y = s->p1.y + s->f3c;
-        f.t.z = s->p1.z + s->f40;
+    if (p->flags.z.flag == 0) {
+        f.t.x = s->p1.x + s->emitterPosX;
+        f.t.y = s->p1.y + s->emitterPosY;
+        f.t.z = s->p1.z + s->emitterPosZ;
         MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
-        i = (s32)s->f20 >> 4;
+        i = (s32)s->rotation >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];
         f.m.m[0] = FX_Mul(cs, x);
@@ -3134,11 +3132,11 @@ void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S_020524C8 *s)
         *(volatile u32 *)0x04000454 = 0;
         func_0207D918(&f.m);
     } else {
-        f.t.x = s->p1.x + s->f38 - p->f04;
-        f.t.y = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.t.z = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        f.t.x = s->p1.x + s->emitterPosX - p->transX;
+        f.t.y = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.t.z = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
-        i = (s32)s->f20 >> 4;
+        i = (s32)s->rotation >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];
         f.m.m[0] = FX_Mul(cs, x);
@@ -3154,22 +3152,22 @@ void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S_020524C8 *s)
         f.m.m[10] = f.t.y;
         f.m.m[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
+        p = obj->renderList->subList->desc;
+        qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
         func_0207D918(&f.m);
     }
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
+    c1 = s->color;
+    c2 = obj->renderList->color;
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    SPL_EMITTER_DrawQuad(obj->f40->f7c, obj->f40->f7e, 0, 0);
+    SPL_EMITTER_DrawQuad(obj->renderList->texS2, obj->renderList->texT2, 0, 0);
 }
 
 
@@ -3642,20 +3640,20 @@ extern u32 (*const func_02054A68_Hooks2[])(s32, s32, s32, s32);
  *
  * Twin of SPL_EMITTER_UpdateFrameA68Ex: the prologue, the frames and the arm bodies are
  * byte-identical; it differs in the hook selector (bits 17..18 of
- * SubC.f00 rather than the u16 at SubX+0x14), in the MTX_Concat43 argument
+ * RigDescriptor.flags rather than the u16 at RigSubList+0x14), in the MTX_Concat43 argument
  * order, and in a four-argument final hook.
  *
  * The same four source shapes that close SPL_EMITTER_UpdateFrameA68Ex close this row; see
  * its header for the measurements (the 0x040004A4 `|` chain order, the
- * `(s64)a * res->f30` operand order, `x` before `y` in case 0, and the three
+ * `(s64)a * res->aspectAndDelay` operand order, `x` before `y` in case 0, and the three
  * 0x04000470 stores through locals loaded in reverse field order).
  *
  * Addresses are Black-image addresses.
  */
-void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
 {
-    struct Frame_02054A68 f;
-    struct SubC *p;
+    struct RigTransformFrameA68 f;
+    struct RigDescriptor *p;
     s32 n;
     s32 i;
     s32 a;
@@ -3668,31 +3666,31 @@ void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S_020524C8 *s)
     s32 c2;
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
+    v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
     v = *(volatile u32 *)0x040004A4;
     if ((n >> 5) == 0)
         return;
 
-    i = (s32)s->f20 >> 4;
-    func_02054A68_Hooks[obj->f40->f20->f00->f00.z.sel2]
+    i = (s32)s->rotation >> 4;
+    func_02054A68_Hooks[obj->renderList->subList->desc->flags.z.sel2]
         (func_02054A68_Verts[2 * i], func_02054A68_Verts[2 * i + 1], &f.m2);
 
-    a = s->f30;
-    n = (s32)(((s64)a * obj->f40->f20->f00->f30 + 0x800) >> 12);
+    a = s->baseScale;
+    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
     y = a;
     a64 = (s64)(s32)a;
-    switch (obj->f40->f20->f00->f48.sel) {
+    switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -3701,36 +3699,36 @@ void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S_020524C8 *s)
     func_0207B5F4(&f.m3, x, y, y);
     func_0207B9F0(&f.m3, &f.m2, &f.m1);
 
-    if (obj->f40->f20->f00->f00.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->f38;
-        f.m1.m[10] = s->p1.y + s->f3c;
-        f.m1.m[11] = s->p1.z + s->f40;
-        func_0207D8E0(obj->f44);
+    if (obj->renderList->subList->desc->flags.z.flag == 0) {
+        f.m1.m[9] = s->p1.x + s->emitterPosX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        func_0207D8E0(obj->mtx);
         func_0207D918(&f.m1);
     } else {
-        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
-        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
+        p = obj->renderList->subList->desc;
+        qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->f44);
+        func_0207D918(obj->mtx);
         func_0207D918(&f.m1);
     }
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
+    c1 = s->color;
+    c2 = obj->renderList->color;
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    p = obj->f40->f20->f00;
-    func_02054A68_Hooks2[p->f00.z.sel1]
-        (obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+    p = obj->renderList->subList->desc;
+    func_02054A68_Hooks2[p->flags.z.sel1]
+        (obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
 }
 
 
@@ -3750,10 +3748,10 @@ extern u32 (*const func_02054718_Hooks2[])(s32, s32, s32, s32);
 
 
 
-void SPL_EMITTER_UpdateFrameA68Ex(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
 {
-    struct Frame_02054A68 f;
-    struct SubC *p;
+    struct RigTransformFrameA68 f;
+    struct RigDescriptor *p;
     s32 n;
     s32 e;
     s32 i;
@@ -3767,31 +3765,31 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct Obj *obj, struct S_020524C8 *s)
     s32 c2;
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
+    v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
     v = *(volatile u32 *)0x040004A4;
     if ((n >> 5) == 0)
         return;
 
-    i = (s32)s->f20 >> 4;
-    func_02054718_Hooks[obj->f40->f20->f14->hw.sel2]
+    i = (s32)s->rotation >> 4;
+    func_02054718_Hooks[obj->renderList->subList->hw->hw.sel2]
         (func_02054718_Verts[2 * i], func_02054718_Verts[2 * i + 1], &f.m2);
 
-    a = s->f30;
-    n = (s32)(((s64)a * obj->f40->f20->f00->f30 + 0x800) >> 12);
+    a = s->baseScale;
+    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
     y = a;
     a64 = (s64)(s32)a;
-    switch (obj->f40->f20->f00->f48.sel) {
+    switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -3800,36 +3798,36 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct Obj *obj, struct S_020524C8 *s)
     func_0207B5F4(&f.m3, x, y, y);
     func_0207B9F0(&f.m2, &f.m3, &f.m1);
 
-    if (obj->f40->f20->f00->f00.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->f38;
-        f.m1.m[10] = s->p1.y + s->f3c;
-        f.m1.m[11] = s->p1.z + s->f40;
-        func_0207D8E0(obj->f44);
+    if (obj->renderList->subList->desc->flags.z.flag == 0) {
+        f.m1.m[9] = s->p1.x + s->emitterPosX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        func_0207D8E0(obj->mtx);
         func_0207D918(&f.m1);
     } else {
-        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
-        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
+        p = obj->renderList->subList->desc;
+        qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->f44);
+        func_0207D918(obj->mtx);
         func_0207D918(&f.m1);
     }
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
+    c1 = s->color;
+    c2 = obj->renderList->color;
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
     e = 0;
-    func_02054718_Hooks2[obj->f40->f20->f14->hw.sel1]
-        (obj->f40->f7c, obj->f40->f7e, e, e);
+    func_02054718_Hooks2[obj->renderList->subList->hw->hw.sel1]
+        (obj->renderList->texS2, obj->renderList->texT2, e, e);
 }
 
 
@@ -3852,10 +3850,10 @@ extern u32 (*const func_0205429C_Hooks2[])(s32, s32, s32, s32);
 
 
 
-void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
 {
-    struct Frame f;
-    struct SubC *p;
+    struct RigTransformFrameMain f;
+    struct RigDescriptor *p;
     s32 n;
     s32 i;
     s32 a;
@@ -3868,18 +3866,18 @@ void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S_020524C8 *s)
     s32 c2;
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
+    v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
     v = *(volatile u32 *)0x040004A4;
     if ((n >> 5) == 0)
         return;
 
-    i = (s32)s->f20 >> 4;
-    func_0205429C_Hooks[obj->f40->f20->f00->f00.z.sel2]
+    i = (s32)s->rotation >> 4;
+    func_0205429C_Hooks[obj->renderList->subList->desc->flags.z.sel2]
         (func_0205429C_Verts[2 * i], func_0205429C_Verts[2 * i + 1], &f.m2);
 
     MTX_Identity43_(&f.m4);
-    if (obj->f40->f20->f00->f48.hi == 0) {
+    if (obj->renderList->subList->desc->flags28.hi == 0) {
         VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
     } else {
         VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.v0);
@@ -3913,21 +3911,21 @@ void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S_020524C8 *s)
 
     func_0207B9F0(&f.m2, &f.m4, &f.m2);
 
-    a = s->f30;
-    n = (s32)(((s64)a * obj->f40->f20->f00->f30 + 0x800) >> 12);
+    a = s->baseScale;
+    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
     y = a;
     a64 = (s64)(s32)a;
-    switch (obj->f40->f20->f00->f48.sel) {
+    switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -3936,36 +3934,36 @@ void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S_020524C8 *s)
     func_0207B5F4(&f.m3, x, y, y);
     func_0207B9F0(&f.m3, &f.m2, &f.m1);
 
-    if (obj->f40->f20->f00->f00.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->f38;
-        f.m1.m[10] = s->p1.y + s->f3c;
-        f.m1.m[11] = s->p1.z + s->f40;
-        func_0207D8E0(obj->f44);
+    if (obj->renderList->subList->desc->flags.z.flag == 0) {
+        f.m1.m[9] = s->p1.x + s->emitterPosX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        func_0207D8E0(obj->mtx);
         func_0207D918(&f.m1);
     } else {
-        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
-        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
+        p = obj->renderList->subList->desc;
+        qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->f44);
+        func_0207D918(obj->mtx);
         func_0207D918(&f.m1);
     }
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
+    c1 = s->color;
+    c2 = obj->renderList->color;
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    p = obj->f40->f20->f00;
-    func_0205429C_Hooks2[p->f00.z.sel1]
-        (obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+    p = obj->renderList->subList->desc;
+    func_0205429C_Hooks2[p->flags.z.sel1]
+        (obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
 }
 
 
@@ -3999,15 +3997,15 @@ extern u32 (*const func_02053E1C_Hooks2[])(s32, s32, s32, s32);
  * SPL_EMITTER_UpdateSubB pool rows; docs/families/cluster_02052F58.h).  Same skeleton
  * as SPL_EMITTER_UpdateFrameMain, transcribed from it with five differences read off the
  * listing:
- *   - the basis hook is selected by SubD->hw bits 9..10 (BfHw.sel2, as in
- *     SPL_EMITTER_UpdateFrameA68Ex), not SubC->f00 bits 17..18;
- *   - the direction/negated-position choice is SubD->f10 bit 6 (BfSel.sel),
- *     not SubC->f48 bit 31;
+ *   - the basis hook is selected by RigDescriptorHw->hw bits 9..10 (SubHwFlags.sel2, as in
+ *     SPL_EMITTER_UpdateFrameA68Ex), not RigDescriptor->flags bits 17..18;
+ *   - the direction/negated-position choice is RigDescriptorHw->selFlags bit 6 (SubSelFlags.sel),
+ *     not RigDescriptor->flags28 bit 31;
  *   - the scale concat is MTX_Concat43(m2, m3, m1) -- operands the other way
  *     round from SPL_EMITTER_UpdateFrameMain's (m3, m2, m1); the only 2 bytes the straight
  *     transcription had wrong;
- *   - the quad-emitter hook is SubD->hw bit 11 (BfHw.sel1);
- *   - its arguments are SubB +0x7c/+0x7e and two literal zeros.
+ *   - the quad-emitter hook is RigDescriptorHw->hw bit 11 (SubHwFlags.sel1);
+ *   - its arguments are RigRenderList +0x7c/+0x7e and two literal zeros.
  *
  * Addresses are Black-image addresses.
  *
@@ -4015,10 +4013,10 @@ extern u32 (*const func_02053E1C_Hooks2[])(s32, s32, s32, s32);
  *   python tools/match.py one --src src/matched/SPL_EMITTER_UpdateFrameMainEx.c \
  *       --func SPL_EMITTER_UpdateFrameMainEx --addr 0x02053E1C --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
 {
-    struct Frame f;
-    struct SubC *p;
+    struct RigTransformFrameMain f;
+    struct RigDescriptor *p;
     s32 n;
     s32 i;
     s32 a;
@@ -4031,18 +4029,18 @@ void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S_020524C8 *s)
     s32 c2;
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
+    v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
     v = *(volatile u32 *)0x040004A4;
     if ((n >> 5) == 0)
         return;
 
-    i = (s32)s->f20 >> 4;
-    func_02053E1C_Hooks[obj->f40->f20->f14->hw.sel2]
+    i = (s32)s->rotation >> 4;
+    func_02053E1C_Hooks[obj->renderList->subList->hw->hw.sel2]
         (func_02053E1C_Verts[2 * i], func_02053E1C_Verts[2 * i + 1], &f.m2);
 
     MTX_Identity43_(&f.m4);
-    if (obj->f40->f20->f14->f10.sel == 0) {
+    if (obj->renderList->subList->hw->selFlags.sel == 0) {
         VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
     } else {
         VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.v0);
@@ -4076,21 +4074,21 @@ void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S_020524C8 *s)
 
     func_0207B9F0(&f.m2, &f.m4, &f.m2);
 
-    a = s->f30;
-    n = (s32)(((s64)a * obj->f40->f20->f00->f30 + 0x800) >> 12);
+    a = s->baseScale;
+    n = (s32)(((s64)a * obj->renderList->subList->desc->scale + 0x800) >> 12);
     x = n;
     y = a;
     a64 = (s64)(s32)a;
-    switch (obj->f40->f20->f00->f48.sel) {
+    switch (obj->renderList->subList->desc->flags28.sel) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+        x = (s32)(((s64)n * s->animScale + 0x800) >> 12);
         break;
     case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        y = (s32)(((a64 * s->animScale) + 0x800) >> 12);
         break;
     default:
         break;
@@ -4099,35 +4097,35 @@ void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S_020524C8 *s)
     func_0207B5F4(&f.m3, x, y, y);
     func_0207B9F0(&f.m2, &f.m3, &f.m1);
 
-    if (obj->f40->f20->f00->f00.z.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->f38;
-        f.m1.m[10] = s->p1.y + s->f3c;
-        f.m1.m[11] = s->p1.z + s->f40;
-        func_0207D8E0(obj->f44);
+    if (obj->renderList->subList->desc->flags.z.flag == 0) {
+        f.m1.m[9] = s->p1.x + s->emitterPosX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ;
+        func_0207D8E0(obj->mtx);
         func_0207D918(&f.m1);
     } else {
-        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
-        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
+        f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
+        f.m1.m[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
         *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
+        p = obj->renderList->subList->desc;
+        qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->f44);
+        func_0207D918(obj->mtx);
         func_0207D918(&f.m1);
     }
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
+    c1 = s->color;
+    c2 = obj->renderList->color;
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    func_02053E1C_Hooks2[obj->f40->f20->f14->hw.sel1]
-        (obj->f40->f7c, obj->f40->f7e, 0, 0);
+    func_02053E1C_Hooks2[obj->renderList->subList->hw->hw.sel1]
+        (obj->renderList->texS2, obj->renderList->texT2, 0, 0);
 }
 
 
@@ -4249,7 +4247,7 @@ void SPL_EMITTER_Noop(SPLTexture *tex)
  * THIS CLOSES docs/notes/pkt_02053A60.c.txt, which concluded the row was an
  * unresolvable "arm7tdmi epilogue versus v5TE smulbb" conflict.  It is not a
  * conflict: the note only ever measured 1.1p1, where the row is 708 bytes /
- * 66 out at arm946e and 712 / 73 at arm7tdmi.  Under THIS RANGE'S_020524C8 FAMILY PIN,
+ * 66 out at arm946e and 712 / 73 at arm7tdmi.  Under THIS RANGE'RenderNode FAMILY PIN,
  * `../1.2/sp2 -proc arm946e`, the note's own source is 716/716 with 17
  * concrete bytes out, and both horns of the supposed conflict vanish at once:
  * 1.2 emits the ARMv4T `pop {r4, r5, r6, lr}; bx lr` return AND the four
@@ -4257,19 +4255,19 @@ void SPL_EMITTER_Noop(SPLTexture *tex)
  * 0x0205429C..0x020584E0 3D-rig unit (docs/FRONTEND-PINS.md).
  *
  * THREE SPELLINGS ARE LOAD-BEARING on top of the note's source, the last two
- * found by tools/permuter.py (--mode anneal --focus pos,f28,f2c,f30,cfg,
+ * found by tools/permuter.py (--mode anneal --focus pos,posX,posY,posZ,cfg,
  * EXACT at compile 321 from a 13-byte residue):
- *   1. `volatile struct Res0 *r` for the cached descriptor pointer around the
+ *   1. `volatile struct VramResourceHeader *r` for the cached descriptor pointer around the
  *      +0x50/+0x52/+0x54 halfword copies.  Without volatile the two `ldrh`
- *      for f1c/f1e swap registers (the note's residue, 4 instructions).
+ *      for axisX/axisY swap registers (the note's residue, 4 instructions).
  *   2. `const struct Vec3 *pos`, NOT `const volatile`.  With volatile the
  *      three position adds and the descriptor chain that feeds them are 10
  *      instructions of register naming out.
- *   3. `pos->x + o->f20->f00->f04`, position FIRST.  Field-first is the
+ *   3. `pos->x + o->resource->resource->emitterBasePosX`, position FIRST.  Field-first is the
  *      note's order and costs the same 10 instructions in the other
  *      direction (cmp/commutative operand order names the temporary).
- * The rest of the source, the every-time re-read of `o->f20->f00` for each
- * copied field, the `volatile struct Obj *o`, and `(s16)(x * -1)` for the
+ * The rest of the source, the every-time re-read of `o->resource->resource` for each
+ * copied field, the `volatile struct RigObject *o`, and `(s16)(x * -1)` for the
  * sign flips, is the note's and is unchanged.
  *
  * Addresses are Black-image addresses.
@@ -4278,74 +4276,74 @@ void SPL_EMITTER_Noop(SPLTexture *tex)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_SetupResource.c \
  *       --func SPL_EMITTER_SetupResource --addr 0x02053A60 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_SetupResource(volatile struct Obj_02053A60 *o, struct Cfg *cfg, const struct Vec3 *pos)
+void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct Cfg *cfg, const struct Vec3 *pos)
 {
-  volatile struct Res0 *r;
+  volatile struct VramResourceHeader *r;
   struct Cfg *c;
-  o->f20 = cfg;
-  o->f24 = 0;
-  o->f28 = pos->x + o->f20->f00->f04;
-  o->f2c = pos->y + o->f20->f00->f08;
-  o->f30 = pos->z + o->f20->f00->f0c;
-  o->f40 = 0;
-  o->f44 = 0;
-  o->f48 = 0;
-  o->f3c = 0;
-  o->f38 = o->f3c;
-  o->f34 = o->f38;
-  o->f4c = 0;
-  o->f4e = 0;
-  r = o->f20->f00;
+  o->resource = cfg;
+  o->state = 0;
+  o->posX = pos->x + o->resource->resource->emitterBasePosX;
+  o->posY = pos->y + o->resource->resource->emitterBasePosY;
+  o->posZ = pos->z + o->resource->resource->emitterBasePosZ;
+  o->initVelX = 0;
+  o->initVelY = 0;
+  o->initVelZ = 0;
+  o->velZ = 0;
+  o->velY = o->velZ;
+  o->velX = o->velY;
+  o->age = 0;
+  o->emissionCountFractional = 0;
+  r = o->resource->resource;
   {
-    u16 h0 = r->f1c;
-    u16 h1 = r->f1e;
-    o->f50 = h0;
-    o->f52 = h1;
+    u16 h0 = r->axisX;
+    u16 h1 = r->axisY;
+    o->axisX = h0;
+    o->axisY = h1;
   }
-  o->f54 = r->f20;
-  o->f56 = o->f20->f00->f38;
-  o->f58 = o->f20->f00->f10;
-  o->f5c = o->f20->f00->f14;
-  o->f60 = o->f20->f00->f18;
-  o->f64 = o->f20->f00->f24;
-  o->f68 = o->f20->f00->f28;
-  o->f6c = o->f20->f00->f2c;
-  o->f70 = o->f20->f00->f3e;
-  o->f72 = 0x7fff;
-  *((u8 *) (&o->f80)) = o->f20->f00->f44;
-  *(((u8 *) (&o->f80)) + 1) = o->f20->f00->f45;
-  o->f80 = o->f80 & (~0x70000u);
-  o->f80 = o->f80 & 0x0007ffffu;
-  o->f74 = 0x80000000u;
-  o->f78 = (s16) (0x1000 << ((o->f20->f00->f48 << 6) >> 30));
-  o->f7a = (s16) (0x1000 << ((o->f20->f00->f48 << 4) >> 30));
-  if ((o->f20->f00->f4c << 31) >> 31)
-    o->f78 = (s16) (o->f78 * (-1));
-  if ((o->f20->f00->f4c << 30) >> 31)
-    o->f7a = (s16) (o->f7a * (-1));
-  c = o->f20;
-  if ((c->f00->f00 << 15) >> 31)
+  o->axisZ = r->axisZ;
+  o->initAngle = o->resource->resource->initAngle;
+  o->emissionCount = o->resource->resource->emissionCount;
+  o->radius = o->resource->resource->radius;
+  o->length = o->resource->resource->length;
+  o->initVelPosAmplifier = o->resource->resource->initVelPosAmplifier;
+  o->initVelAxisAmplifier = o->resource->resource->initVelAxisAmplifier;
+  o->baseScale = o->resource->resource->baseScale;
+  o->particleLifeTime = o->resource->resource->particleLifeTime;
+  o->color = 0x7fff;
+  *((u8 *) (&o->misc)) = o->resource->resource->miscByte0;
+  *(((u8 *) (&o->misc)) + 1) = o->resource->resource->miscByte1;
+  o->misc = o->misc & (~0x70000u);
+  o->misc = o->misc & 0x0007ffffu;
+  o->collisionPlaneHeight = 0x80000000u;
+  o->textureS = (s16) (0x1000 << ((o->resource->resource->polygonFlags << 6) >> 30));
+  o->textureT = (s16) (0x1000 << ((o->resource->resource->polygonFlags << 4) >> 30));
+  if ((o->resource->resource->userData << 31) >> 31)
+    o->textureS = (s16) (o->textureS * (-1));
+  if ((o->resource->resource->userData << 30) >> 31)
+    o->textureT = (s16) (o->textureT * (-1));
+  c = o->resource;
+  if ((c->resource->flags << 15) >> 31)
   {
     {
-      s32 t = c->f14->f10;
+      s32 t = c->sub14->mode;
       s32 u = t << 30;
-      o->f7c = (s16) (0x1000 << (((u32) u) >> 30));
+      o->childTextureS = (s16) (0x1000 << (((u32) u) >> 30));
     }
-    o->f7e = (s16) (0x1000 << ((o->f20->f14->f10 << 28) >> 30));
-    if ((o->f20->f14->f10 << 27) >> 31)
-      o->f7c = (s16) (o->f7c * (-1));
-    if ((o->f20->f14->f10 << 26) >> 31)
-      o->f7e = (s16) (o->f7e * (-1));
+    o->childTextureT = (s16) (0x1000 << ((o->resource->sub14->mode << 28) >> 30));
+    if ((o->resource->sub14->mode << 27) >> 31)
+      o->childTextureS = (s16) (o->childTextureS * (-1));
+    if ((o->resource->sub14->mode << 26) >> 31)
+      o->childTextureT = (s16) (o->childTextureT * (-1));
   }
-  o->f04 = 0;
-  o->f00 = o->f04;
-  o->f14 = 0;
-  o->f08 = o->f14;
-  o->f18 = 0;
-  o->f0c = o->f18;
-  o->f90 = 0;
-  o->f94 = 0;
-  o->f98 = 0;
+  o->prev = 0;
+  o->next = o->prev;
+  o->childParticlesFirst = 0;
+  o->particlesFirst = o->childParticlesFirst;
+  o->childParticlesCount = 0;
+  o->particlesCount = o->childParticlesCount;
+  o->updateCallback = 0;
+  o->userDataPtr = 0;
+  o->userData = 0;
 }
 
 
@@ -4679,7 +4677,7 @@ void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr)
  * once for the bit-11 test (`ldr r0, [r5]` at 0x02053158 and again at
  * 0x020531A8).  A plain second read of the same field is CSE'd away and
  * costs the whole bit-11 block its shape; the load has to be spelled
- * `*(volatile u32 *)&d->f00` at both sites to survive, the same tell as
+ * `*(volatile u32 *)&d->flags` at both sites to survive, the same tell as
  * docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md.
  *
  * COMPILER PIN: ../1.2/sp2, the interworking-conflict tell, same as the
@@ -4702,17 +4700,17 @@ void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr)
  *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubB.c \
  *       --func SPL_EMITTER_UpdateSubB --addr 0x0205312C --cc ../1.2/sp2 --arm
  */
-void SPL_EMITTER_UpdateSubB(struct Obj *o)
+void SPL_EMITTER_UpdateSubB(struct RigObject *o)
 {
-    struct SubB *b = o->f40;
-    struct SubC *d = b->f20->f00;
+    struct RigRenderList *b = o->renderList;
+    struct RigDescriptor *d = b->subList->desc;
     Fn fn = 0;
     Fn1 g;
-    struct S_020524C8 *n;
+    struct RenderNode *n;
 
-    SPL_EMITTER_SetTextureParam(o->f2c + d->f47);
+    SPL_EMITTER_SetTextureParam(o->textures + d->texture);
 
-    switch (d->f00.d.kind) {
+    switch (d->flags.d.kind) {
     case 0:
         fn = SPL_EMITTER_UpdateFrame;
         break;
@@ -4730,17 +4728,17 @@ void SPL_EMITTER_UpdateSubB(struct Obj *o)
         break;
     }
 
-    if (d->f00.d.sel)
+    if (d->flags.d.sel)
         g = SPL_EMITTER_SetTextureParam;
     else
         g = SPL_EMITTER_Noop;
 
-    n = b->f08;
+    n = b->nodeList;
     if (n == 0)
         return;
 
     do {
-        g(o->f2c + n->f2c);
+        g(o->textures + n->texture);
         fn(o, n);
         n = n->next;
     } while (n != 0);
@@ -4753,7 +4751,7 @@ void SPL_EMITTER_UpdateSubB(struct Obj *o)
 
 /*
  * Per-frame dispatch for one render list.  Reads the object's block at +0x40,
- * bails when bit 16 of the first word of the sub-block's *f00 chain is clear,
+ * bails when bit 16 of the first word of the sub-block's *desc chain is clear,
  * calls SPL_EMITTER_SetTextureParam on the 0x14-byte row the descriptor's byte at +0x0f
  * selects, then picks a per-node handler from a 2-bit field of the
  * descriptor's halfword (bits 8..9, spelled as the shift pair `lsl #23` /
@@ -4793,19 +4791,19 @@ void SPL_EMITTER_UpdateSubB(struct Obj *o)
  *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubX.c \
  *       --func SPL_EMITTER_UpdateSubX --addr 0x02053044 --cc ../1.2/sp2 --arm
  */
-void SPL_EMITTER_UpdateSubX(struct Obj *o)
+void SPL_EMITTER_UpdateSubX(struct RigObject *o)
 {
-    struct SubB *b = o->f40;
-    struct SubX *s = b->f20;
+    struct RigRenderList *b = o->renderList;
+    struct RigSubList *s = b->subList;
     Fn fn = 0;
-    struct S_020524C8 *n;
+    struct RenderNode *n;
 
-    if (!s->f00->f00.z.b16)
+    if (!s->desc->flags.z.b16)
         return;
 
-    SPL_EMITTER_SetTextureParam(o->f2c + s->f14->f0f);
+    SPL_EMITTER_SetTextureParam(o->textures + s->hw->texture);
 
-    switch (s->f14->hw.kind) {
+    switch (s->hw->hw.kind) {
     case 0:
         fn = SPL_EMITTER_UpdateFrameEx;
         break;
@@ -4823,7 +4821,7 @@ void SPL_EMITTER_UpdateSubX(struct Obj *o)
         break;
     }
 
-    n = b->f14;
+    n = b->nodeList2;
     if (n == 0)
         return;
 
@@ -4860,18 +4858,18 @@ void SPL_EMITTER_UpdateSubX(struct Obj *o)
  *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubC.c \
  *       --func SPL_EMITTER_UpdateSubC --addr 0x02052FC8 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_UpdateSubC(struct Obj *o)
+void SPL_EMITTER_UpdateSubC(struct RigObject *o)
 {
-    struct SubC *v = o->f40->f20->f00;
+    struct RigDescriptor *v = o->renderList->subList->desc;
 
-    if (v->f00.z.b21) {
+    if (v->flags.z.b21) {
         SPL_EMITTER_UpdateSubX(o);
-        if (v->f00.z.b22)
+        if (v->flags.z.b22)
             return;
         SPL_EMITTER_UpdateSubB(o);
         return;
     }
-    if (v->f00.z.b22 == 0)
+    if (v->flags.z.b22 == 0)
         SPL_EMITTER_UpdateSubB(o);
     SPL_EMITTER_UpdateSubX(o);
 }
@@ -4958,13 +4956,13 @@ int SPL_EMITTER_AllocPlttVram(u32 a0, u32 a1)
 
 
 /*
- * The rig constructor: allocate and zero the 0x4c-byte Head_02052DC8 through the
+ * The rig constructor: allocate and zero the 0x4c-byte VramNodeHeap through the
  * caller's allocator, record the two pool sizes (+0x34, +0x36), pack the
  * 6-bit fields of the +0x38 word (b0 = a4, b6 = a5, b12 = b0, b18 = a3,
  * b24 and b25..31 cleared, one read-modify-write per field under 1.2), clear
  * the three list headers and the counters, then allocate n1 nodes of 0x9c
  * bytes pushed onto the recycle list at +0x10 and n2 records of 0x44 bytes
- * pushed onto the list at +0x1c.  Returns the Head_02052DC8.  Caller 0x02050D88 passes
+ * pushed onto the list at +0x1c.  Returns the VramNodeHeap.  Caller 0x02050D88 passes
  * every scalar argument truncated to u16.
  *
  * Closed by indexing: `&p[i]` over a 0x9c-byte element type rather than a
@@ -4983,17 +4981,17 @@ int SPL_EMITTER_AllocPlttVram(u32 a0, u32 a1)
  * Closed by indexing: `&p[i]` over a 0x9c-byte element type rather than a
  * hand-advanced `char *` (8 bytes out, a p/i register swap, otherwise).
  */
-struct Head_02052DC8 *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
+struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
 {
-    struct Head_02052DC8 *h;
-    struct Node9C *p;
-    struct Node44 *q;
+    struct VramNodeHeap *h;
+    struct VramNodeBlob9C *p;
+    struct VramRowBlob44 *q;
     int i;
 
-    h = alloc(sizeof(struct Head_02052DC8));
-    MI_CpuFill8(h, 0, sizeof(struct Head_02052DC8));
-    h->f34 = n1;
-    h->f36 = n2;
+    h = alloc(sizeof(struct VramNodeHeap));
+    MI_CpuFill8(h, 0, sizeof(struct VramNodeHeap));
+    h->nodeCount = n1;
+    h->rowCount = n2;
     h->b0 = a4;
     h->b6 = a5;
     h->b12 = h->b0;
@@ -5001,28 +4999,28 @@ struct Head_02052DC8 *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n
     h->b24 = 0;
     h->b25 = 0;
     h->alloc = alloc;
-    h->f08 = 0;
-    h->f14 = 0;
-    h->f20 = 0;
-    h->f04 = 0;
-    h->f10 = 0;
-    h->f1c = 0;
-    h->f3c = 0;
-    h->f48 = 0;
+    h->reserved1 = 0;
+    h->nodeListCount = 0;
+    h->rowListCount = 0;
+    h->reserved0 = 0;
+    h->nodeListFirst = 0;
+    h->rowListFirst = 0;
+    h->reserved7 = 0;
+    h->reserved10 = 0;
 
-    p = alloc(n1 * sizeof(struct Node9C));
-    MI_CpuFill8(p, 0, n1 * sizeof(struct Node9C));
+    p = alloc(n1 * sizeof(struct VramNodeBlob9C));
+    MI_CpuFill8(p, 0, n1 * sizeof(struct VramNodeBlob9C));
     for (i = 0; i < n1; i++)
-        SPLList_PushFront((SPLList *)(&h->f10), (SPLNode *)(&p[i]));
+        SPLList_PushFront((SPLList *)(&h->nodeListFirst), (SPLNode *)(&p[i]));
 
-    q = alloc(n2 * sizeof(struct Node44));
-    MI_CpuFill8(q, 0, n2 * sizeof(struct Node44));
+    q = alloc(n2 * sizeof(struct VramRowBlob44));
+    MI_CpuFill8(q, 0, n2 * sizeof(struct VramRowBlob44));
     for (i = 0; i < n2; i++)
-        SPLList_PushFront((SPLList *)(&h->f1c), (SPLNode *)(&q[i]));
+        SPLList_PushFront((SPLList *)(&h->rowListFirst), (SPLNode *)(&q[i]));
 
-    h->f28 = 0;
-    h->f2c = 0;
-    h->f30 = h->f32 = 0;
+    h->reserved3 = 0;
+    h->reserved4 = 0;
+    h->reserved5 = h->reserved6 = 0;
     return h;
 }
 
@@ -5034,76 +5032,76 @@ struct Head_02052DC8 *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n
 
 /*
  * The rig's resource binder: walk a packed blob `d` from byte 0x20 on.
- * First h->f30 = d->nrec records of 0x20 bytes (h->f28): each takes a
+ * First h->recordCount = d->nrec records of 0x20 bytes (h->records): each takes a
  * 0x58-byte block whose first word is a flag set; flags 8..11 and 16 each
- * bind an optional sub-block (0xc/0xc/8/0xc/0x14 bytes) to rec->f04..f14,
+ * bind an optional sub-block (0xc/0xc/8/0xc/0x14 bytes) to rec->sub0..sub4,
  * and flags 24..29 each add one {callback, data} entry to a table allocated
- * at rec->f18 (count at rec->f1c) with data sizes 8/8/0x10/4/8/0x10 and the
- * six callbacks 0x020582CC..0x02057EF8.  Then h->f32 = d->nrow material
- * rows of 0x14 bytes (h->f2c): row->res points at the next resource, the two
+ * at rec->anims (count at rec->nanims) with data sizes 8/8/0x10/4/8/0x10 and the
+ * six callbacks 0x020582CC..0x02057EF8.  Then h->rowCount = d->nrow material
+ * rows of 0x14 bytes (h->rows): row->res points at the next resource, the two
  * 4-bit size codes at res+4 bits 4..7 and 8..11 give 1 << (code + 3), and
  * the resource's own size word at +0x1c advances the cursor.
  *
  * Levers: the optional fills are if/else statements (a `?:` gives separate
  * zero stack slots per arm and reorders), the callback entry stores data,
  * then fn, then advances `off` (any other order if-converts the blocks and
- * loses 40 bytes), `rec = &h->f28[i]` is bound before the data store, and
+ * loses 40 bytes), `rec = &h->records[i]` is bound before the data store, and
  * the entry count is summed straight from the six bitfields, the later
  * tests reading the same fields (separate u32 locals give a r4/r5/r6
  * register cycle, 22 bytes out).
  */
-void SPL_EMITTER_FreeNodeToHeap(struct Head_02052984 *h, struct Hdr *d)
+void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d)
 {
     u32 off;
     int i;
 
     off = 0x20;
-    h->f30 = d->nrec;
-    h->f32 = d->nrow;
-    h->f28 = h->alloc(h->f30 * sizeof(struct Rec_020524C8));
-    MI_CpuFill8(h->f28, 0, h->f30 * sizeof(struct Rec_020524C8));
+    h->recordCount = d->nrec;
+    h->rowCount = d->nrow;
+    h->records = h->alloc(h->recordCount * sizeof(struct VramHeapRecord));
+    MI_CpuFill8(h->records, 0, h->recordCount * sizeof(struct VramHeapRecord));
 
-    for (i = 0; i < h->f30; i++) {
-        struct Rec_020524C8 *rec;
-        struct Flags fl;
+    for (i = 0; i < h->recordCount; i++) {
+        struct VramHeapRecord *rec;
+        struct VramNodeFlags fl;
 
-        rec = &h->f28[i];
-        rec->data = (struct Flags *)((char *)d + off);
+        rec = &h->records[i];
+        rec->data = (struct VramNodeFlags *)((char *)d + off);
         fl = *rec->data;
         off += 0x58;
 
-        if (fl.b8) { rec->f04 = (char *)d + off; off += 0xc; } else { rec->f04 = 0; }
-        if (fl.b9) { rec->f08 = (char *)d + off; off += 0xc; } else { rec->f08 = 0; }
-        if (fl.b10) { rec->f0c = (char *)d + off; off += 8; } else { rec->f0c = 0; }
-        if (fl.b11) { rec->f10 = (char *)d + off; off += 0xc; } else { rec->f10 = 0; }
-        if (fl.b16) { rec->f14 = (char *)d + off; off += 0x14; } else { rec->f14 = 0; }
+        if (fl.sub0) { rec->sub0 = (char *)d + off; off += 0xc; } else { rec->sub0 = 0; }
+        if (fl.sub1) { rec->sub1 = (char *)d + off; off += 0xc; } else { rec->sub1 = 0; }
+        if (fl.sub2) { rec->sub2 = (char *)d + off; off += 8; } else { rec->sub2 = 0; }
+        if (fl.sub3) { rec->sub3 = (char *)d + off; off += 0xc; } else { rec->sub3 = 0; }
+        if (fl.sub4) { rec->sub4 = (char *)d + off; off += 0x14; } else { rec->sub4 = 0; }
 
-        rec->nanims = fl.b24 + fl.b25 + fl.b26 + fl.b27 + fl.b28 + fl.b29;
+        rec->nanims = fl.anim0 + fl.anim1 + fl.anim2 + fl.anim3 + fl.anim4 + fl.anim5;
         if (rec->nanims != 0) {
-            struct Anim *p;
-            rec->anims = h->alloc(rec->nanims * sizeof(struct Anim));
+            struct VramAnim *p;
+            rec->anims = h->alloc(rec->nanims * sizeof(struct VramAnim));
             p = rec->anims;
-            if (fl.b24) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddVec; off += 8; p++; }
-            if (fl.b25) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_UpdateNode; off += 8; p++; }
-            if (fl.b26) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddScaledVec; off += 0x10; p++; }
-            if (fl.b27) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_BuildFrame; off += 4; p++; }
-            if (fl.b28) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_InterpTarget; off += 8; p++; }
-            if (fl.b29) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_LerpVec; off += 0x10; }
+            if (fl.anim0) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddVec; off += 8; p++; }
+            if (fl.anim1) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_UpdateNode; off += 8; p++; }
+            if (fl.anim2) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddScaledVec; off += 0x10; p++; }
+            if (fl.anim3) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_BuildFrame; off += 4; p++; }
+            if (fl.anim4) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_InterpTarget; off += 8; p++; }
+            if (fl.anim5) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_LerpVec; off += 0x10; }
         } else {
             rec->anims = 0;
         }
     }
 
-    h->f2c = h->alloc(h->f32 * sizeof(struct Row_02052A50));
-    MI_CpuFill8(h->f2c, 0, h->f32 * sizeof(struct Row_02052A50));
+    h->rows = h->alloc(h->rowCount * sizeof(struct VramResourceRow));
+    MI_CpuFill8(h->rows, 0, h->rowCount * sizeof(struct VramResourceRow));
 
-    for (i = 0; i < h->f32; i++) {
-        struct Row_02052A50 *row = &h->f2c[i];
-        struct Res_02052A50 *res = (struct Res_02052A50 *)((char *)d + off);
+    for (i = 0; i < h->rowCount; i++) {
+        struct VramResourceRow *row = &h->rows[i];
+        struct VramResource *res = (struct VramResource *)((char *)d + off);
         row->res = res;
         row->w = 1 << (res->w + 3);
         row->h = 1 << (res->h + 3);
-        row->f0c = ((u32 *)res)[1];
+        row->param = ((u32 *)res)[1];
         off += res->size;
     }
 }
@@ -5116,7 +5114,7 @@ void SPL_EMITTER_FreeNodeToHeap(struct Head_02052984 *h, struct Hdr *d)
 
 /*
  * The texture-upload pass of the rig's material rows: GX_BeginLoadTex, then
- * for every row of o->f2c (o->f32 rows of 0x14 bytes) either share another
+ * for every row of o->textures (o->texCount rows of 0x14 bytes) either share another
  * row's texture handle (resource flag bit 17 set; the row index is the 8-bit
  * field at bits 18..25) or allocate through the caller's callback and upload
  * with GX_LoadTex, then GX_EndLoadTex.  Always returns 1.  Twin of
@@ -5124,23 +5122,23 @@ void SPL_EMITTER_FreeNodeToHeap(struct Head_02052984 *h, struct Hdr *d)
  *
  * What closed it (wave 9): the natural spelling.  The byte-offset induction
  * variable and the two stack slots holding 1 and 0 are the compiler's own
- * strength reduction of o->f2c[i] and of "kind == 5 ? 1 : 0"; writing them
+ * strength reduction of o->textures[i] and of "kind == 5 ? 1 : 0"; writing them
  * as locals (the wave-7 note) left a register swap no permutation moved.
  * The flags word is three declared bitfields (kind:4, shared at bit 17,
  * idx:8 at bits 18..25), and the row pointer is taken before the resource.
  */
-int SPL_EMITTER_AllocTexVramList(struct Obj *o, AllocTex alloc)
+int SPL_EMITTER_AllocTexVramList(struct RigObject *o, AllocTex alloc)
 {
     int i;
 
     GX_BeginLoadTex();
 
-    for (i = 0; i < o->f32; i++) {
-        struct SPLTexture *tex = &o->f2c[i];
+    for (i = 0; i < o->texCount; i++) {
+        struct SPLTexture *tex = &o->textures[i];
         const struct SPLTextureResource *res = tex->resource;
 
         if (res->param.useSharedTexture) {
-            tex->texAddr = o->f2c[res->param.sharedTexID].texAddr;
+            tex->texAddr = o->textures[res->param.sharedTexID].texAddr;
         } else {
             u32 v = alloc(res->textureSize, res->param.format == 5 ? 1 : 0);
             GX_LoadTex((char *)tex->resource + 0x20, v, res->textureSize);
@@ -5159,24 +5157,24 @@ int SPL_EMITTER_AllocTexVramList(struct Obj *o, AllocTex alloc)
 
 /*
  * The texture-palette upload pass: GX_BeginLoadTexPltt, then for every row
- * of o->f2c with a non-zero resource size, allocate through the caller's
+ * of o->textures with a non-zero resource size, allocate through the caller's
  * callback (first argument is the SIZE word, second is kind == 2) and upload
  * with GX_LoadTexPltt; the handle (0 when skipped) goes to row+0x08.  Then
  * GX_EndLoadTexPltt; always returns 1.  Twin of SPL_EMITTER_AllocTexVramList (textures).
  *
- * What closed it (wave 9): array indexing o->f2c[i] and "kind == 2 ? 1 : 0"
+ * What closed it (wave 9): array indexing o->textures[i] and "kind == 2 ? 1 : 0"
  * instead of hand-written offset/one/zero locals (the wave-7 note's 8-byte
  * register swap was the compiler's strength reduction disagreeing with the
  * hand-reduced loop).
  */
-int SPL_EMITTER_AllocPlttVramList(struct Obj *o, AllocTex alloc)
+int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc)
 {
     int i;
 
     GX_BeginLoadTexPltt();
 
-    for (i = 0; i < o->f32; i++) {
-        struct SPLTexture *tex = &o->f2c[i];
+    for (i = 0; i < o->texCount; i++) {
+        struct SPLTexture *tex = &o->textures[i];
         const struct SPLTextureResource *res = tex->resource;
         u32 v = 0;
 
@@ -5212,7 +5210,7 @@ int SPL_EMITTER_AllocPlttVramList(struct Obj *o, AllocTex alloc)
  */
 void SPL_EMITTER_AllocTexVramDefault(u32 a0)
 {
-    SPL_EMITTER_AllocTexVramList((struct Obj *)a0, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
+    SPL_EMITTER_AllocTexVramList((struct RigObject *)a0, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
 }
 
 
@@ -5241,7 +5239,7 @@ void SPL_EMITTER_AllocTexVramDefault(u32 a0)
  */
 void SPL_EMITTER_AllocPlttVramDefault(u32 a0)
 {
-    SPL_EMITTER_AllocPlttVramList((struct Obj *)a0, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
+    SPL_EMITTER_AllocPlttVramList((struct RigObject *)a0, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
 }
 
 
@@ -5255,24 +5253,24 @@ void SPL_EMITTER_AllocPlttVramDefault(u32 a0)
  * dispatch it, and maybe retire it onto the recycle list.  This is the callee
  * src/pending/PARTICLE_UpdateSystem.c was capped on.
  *
- * Per node, with c = *n->f20 (the node's class record, doubly indirected):
- *   - if n's "expired" bit (+0x24 bit 4) is clear and the node's age n->f4c
- *     has reached the class lifetime c->f32, set the bit and zero the age;
+ * Per node, with c = *n->allocClass (the node's class record, doubly indirected):
+ *   - if n's "expired" bit (+0x24 bit 4) is clear and the node's age n->age
+ *     has reached the class lifetime c->lifeTime, set the bit and zero the age;
  *   - if n's "suppressed" bit (+0x24 bit 2) is clear, read the 3-bit phase
  *     index at +0x80 bits 16..18 and call SPL_EMITTER_UpdateParticles(h, n) when the phase
- *     is zero or matches the rig's own frame parity h->f48;
+ *     is zero or matches the rig's own frame parity h->parity;
  *   - retire the node when either the class asks for it (c bit 14 set, a
- *     non-zero c->f3c cap, the expired bit set and the age past the cap) or
+ *     non-zero c->lifeCap cap, the expired bit set and the age past the cap) or
  *     the node's own "kill" bit (+0x24 bit 0) is set -- and then only if the
- *     node has no pending work (n->f0c == 0 && n->f18 == 0).  Retiring is
- *     SPLList_PushFront(&h->f10, (SPLNode *)(SPLList_Erase(&h->list, n))).
- * After the walk h->f48 is incremented and wrapped back to zero above 1, so
+ *     node has no pending work (n->pending0 == 0 && n->pending1 == 0).  Retiring is
+ *     SPLList_PushFront(&h->freeList, (SPLNode *)(SPLList_Erase(&h->list, n))).
+ * After the walk h->parity is incremented and wrapped back to zero above 1, so
  * it is a two-frame parity counter.
  *
  * Two declarations carry the whole match, and both were the residue:
  *
  *  1. The retire call's two addresses must be written INLINE at the call site
- *     (&h->list, &h->f10), not bound to two pointer locals hoisted before the
+ *     (&h->list, &h->freeList), not bound to two pointer locals hoisted before the
  *     loop.  The original DOES hoist them into sl and sb -- but hoisting them
  *     in the C gives those two values the low colours and pushes the head and
  *     node pointers up to sl/sb instead, a clean two-cycle register swap in
@@ -5280,7 +5278,7 @@ void SPL_EMITTER_AllocPlttVramDefault(u32 a0)
  *     none improved).  Written inline, the compiler performs the hoist itself
  *     and colours in the original's order.
  *  2. The class record's lifetime field is at 0x32 and its cap at 0x3c; one
- *     halfword of padding wrong in the Cls layout was the last byte out.
+ *     halfword of padding wrong in the VramAllocClass layout was the last byte out.
  *
  * Every bit test is the lsl/lsr shift pair, so all six selectors are real
  * bitfields rather than masks
@@ -5300,44 +5298,44 @@ void SPL_EMITTER_AllocPlttVramDefault(u32 a0)
  *       --func SPL_EMITTER_FreeTexNode --addr 0x02052770 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-void SPL_EMITTER_FreeTexNode(struct Head_02052770 *h)
+void SPL_EMITTER_FreeTexNode(struct VramFreeList *h)
 {
-    struct Node_02052770 *n = h->list;
+    struct VramFreeNode *n = h->list;
 
     if (n != 0) {
         u16 z = 0;
-        struct Node_02052770 *next;
+        struct VramFreeNode *next;
 
         do {
-            struct Cls *c = *n->f20;
+            struct VramAllocClass *c = *n->allocClass;
             u32 idx;
 
             next = n->next;
 
-            if (n->f24_b4 == 0) {
-                if (n->f4c >= c->f32) {
-                    n->f24_b4 = 1;
-                    n->f4c = z;
+            if (n->expired == 0) {
+                if (n->age >= c->lifeTime) {
+                    n->expired = 1;
+                    n->age = z;
                 }
             }
-            if (n->f24_b2 == 0) {
-                idx = (((struct Node_02052770 *)n)->f80 << 13) >> 29;
-                if (idx == 0 || h->f48 == idx - 1)
+            if (n->suppressed == 0) {
+                idx = (((struct VramFreeNode *)n)->phaseFlags << 13) >> 29;
+                if (idx == 0 || h->parity == idx - 1)
                     SPL_EMITTER_UpdateParticles((struct SPLManager *)h, (struct SPLEmitter *)n);
             }
-            if ((c->c00_b14 != 0 && c->f3c != 0 && n->f24_b4 != 0
-                 && n->f4c > c->f3c) || n->f24_b0 != 0) {
-                if (n->f0c == 0 && n->f18 == 0) {
+            if ((c->retire != 0 && c->lifeCap != 0 && n->expired != 0
+                 && n->age > c->lifeCap) || n->kill != 0) {
+                if (n->pending0 == 0 && n->pending1 == 0) {
                     SPLNode *r = SPLList_Erase((SPLList *)(&h->list), (SPLNode *)n);
-                    SPLList_PushFront((SPLList *)(&h->f10), r);
+                    SPLList_PushFront((SPLList *)(&h->freeList), r);
                 }
             }
             n = next;
         } while (next != 0);
     }
-    h->f48 = h->f48 + 1;
-    if (h->f48 > 1)
-        h->f48 = 0;
+    h->parity = h->parity + 1;
+    if (h->parity > 1)
+        h->parity = 0;
 }
 
 
@@ -5354,7 +5352,7 @@ void SPL_EMITTER_FreeTexNode(struct Head_02052770 *h)
  * (docs/idioms/volatile-reread-needs-two-locals.md gives the shape; the two
  * accesses here are one read-modify-write and stay one expression).
  *
- * The argument is stored to h->f44, then bit 24 of the word at h+0x38 chooses
+ * The argument is stored to h->userData, then bit 24 of the word at h+0x38 chooses
  * which of the rig's two lists to walk: clear walks h->list forward through
  * node->next, set walks h->rlist backward through node->prev.  Both arms are
  * written out in full rather than factored behind a shared body, which is what
@@ -5375,28 +5373,28 @@ void SPL_EMITTER_FreeTexNode(struct Head_02052770 *h)
  *       --func SPL_EMITTER_FreeNodeHeap --addr 0x020526A8 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-void SPL_EMITTER_FreeNodeHeap(struct Head_020524C8 *h, u32 a)
+void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a)
 {
-    struct Node_020524C8 *n;
+    struct VramHeapNode *n;
 
     *(volatile u16 *)0x04000060 =
         (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 8);
 
-    h->f44 = a;
-    if (h->f38_b24 == 0) {
+    h->userData = a;
+    if (h->reverse == 0) {
         n = h->list;
         while (n != 0) {
             h->cur = n;
-            if (n->f24_b3 == 0)
-                SPL_EMITTER_UpdateSubC((struct Obj *)h);
+            if (n->hidden == 0)
+                SPL_EMITTER_UpdateSubC((struct RigObject *)h);
             n = n->next;
         }
     } else {
         n = h->rlist;
         while (n != 0) {
             h->cur = n;
-            if (n->f24_b3 == 0)
-                SPL_EMITTER_UpdateSubC((struct Obj *)h);
+            if (n->hidden == 0)
+                SPL_EMITTER_UpdateSubC((struct RigObject *)h);
             n = n->prev;
         }
     }
@@ -5413,8 +5411,8 @@ void SPL_EMITTER_FreeNodeHeap(struct Head_020524C8 *h, u32 a)
 /*
  * Promote-first callee of src/pending/PARTICLE_StartEffect.c (parks lane 2).
  * Pops one node off the list at p+0x10, runs the loader for the node and
- * (p->f28 + (arg1 << 5), arg2), then hands the node to SPL_EMITTER_ClearNodeList; the
- * node is discarded when bit 14 of the word at *(node->f20) is set.
+ * (p->records + (arg1 << 5), arg2), then hands the node to SPL_EMITTER_ClearNodeList; the
+ * node is discarded when bit 14 of the word at *(node->allocClass) is set.
  *
  * Built by the 1.2 front end, not dsi/1.1p1: the epilogue is the ARMv4T
  * style `pop {r4-r7, lr}; bx lr` *and* the frame pads with `sub sp, sp, #4`
@@ -5476,7 +5474,7 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
     void *r = 0;
 
     if (((SPLManager *)p)->inactiveEmitters.first != 0) {
-        struct Scratch scratch = { 0, 0, 0 };
+        struct AllocScratch scratch = { 0, 0, 0 };
 
         r = SPLList_PopFront((SPLList *)(p + 0x10));
         SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const struct Vec3 *)(&scratch));

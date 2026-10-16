@@ -1,5 +1,5 @@
 /*
- * function: func_0219B73C
+ * function: get_sockaddrin
  * address:  0x0219B73C
  * packet:   pkt_ov009_0219B73C
  * region:   ov009
@@ -30,7 +30,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0219B73C.c \
- *       --func func_0219B73C --addr 0x0219B73C --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *       --func get_sockaddrin --addr 0x0219B73C --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 
 typedef struct SOCHostEnt {
@@ -51,7 +51,7 @@ extern int strcmp(const char *a, const char *b);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern void *memset(void *s, int c, unsigned long n);
 
-int func_0219B73C(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent)
+static int get_sockaddrin(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent)
 {
     SOCHostEnt *hent = 0;
     unsigned char *p = (unsigned char *)saddr;

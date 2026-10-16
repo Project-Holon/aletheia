@@ -22,7 +22,7 @@
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
  *   P_STA_RIBBON_GetRowOwnedIndex 0x021D9428 thumb ov131
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +31,7 @@ struct Counts { u8 value[5]; };
 extern const struct Counts P_STA_RIBBON_KindCountInit;
 extern void *P_STATUS_GetPokePara(u8 *);
 extern u32 P_STA_RIBBON_GetRibbonInfo(u32,u32);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 P_STA_RIBBON_GetRowOwnedIndex(u8 *,u32);
 void P_STA_RIBBON_CollectOwned(u8 *a,u8 *p)
 {
@@ -42,7 +42,7 @@ void P_STA_RIBBON_CollectOwned(u8 *a,u8 *p)
     for(i=0;i<80;i++) *(u32 *)(p+0x138+i*8)=0;
     n=0;
     for(i=0;i<80;i++) {
-        if(func_02017E88(object,P_STA_RIBBON_GetRibbonInfo(i,0),0)==1) {
+        if(POKE_TOOL_GetBoxValue(object,P_STA_RIBBON_GetRibbonInfo(i,0),0)==1) {
             selector=P_STA_RIBBON_GetRibbonInfo(i,5);
             *(u32 *)(p+0x138+n*8)=1;
             p[0x13c+n*8]=i;

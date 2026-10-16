@@ -14,7 +14,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
  *   GDS_RAP_Init 0x021D6660 thumb ov125
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -42,7 +42,7 @@ extern void MI_CpuFill8(void *,u32,u32);
 typedef unsigned char  u8;
 struct Big;
 struct GdsProfile;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int GDS_RAP_Init(char *p, char *a);
@@ -66,7 +66,7 @@ char *BR_NET_Create(void *owner,void *arg,u32 heap)
     ((struct Obj06637 *)p)->f5E0=owner;
     MI_CpuFill8(&cfg,0,0x2C);
     cfg.owner=owner;
-    cfg.value=func_0200853C((const struct Sub0200852CObj *)func_02012944(owner));
+    cfg.value=func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(owner));
     cfg.arg=arg;
     cfg.context=p;
     cfg.a=BR_NET_OnUploadEntry;cfg.b=BR_NET_OnDownloadEntries;cfg.c=BR_NET_OnUploadVideo;

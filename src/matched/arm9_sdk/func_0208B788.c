@@ -1,5 +1,5 @@
 /*
- * function: func_0208B788
+ * function: MicGetResultCallback
  * address:  0x0208B788
  * packet:   pkt_0208B788
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct DWCHttp {
 
 extern DWCHttp DWChttp;
 
-void func_0208B788(int allow302)
+void MicGetResultCallback(int allow302)
 {
     DWChttp.allow302 = allow302;
 }

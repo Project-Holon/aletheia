@@ -16,7 +16,7 @@
  *           (layout/function_starts.txt is not this lane's file).
  *
  * symbols:
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
+extern u32  POKE_TOOL_GetBoxValue(void *a0, u32 a1, u32 a2);
 extern u32  POKE_TOOL_GetPersonalData(void *a0, u16 a1);
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
@@ -38,12 +38,12 @@ extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 
 void POKE_TOOL_UpdateGenderForSpecies(void *a0, void *a1, void *a2)
 {
-    u32 v = func_02017E88(a0, 0x6f, 0);
+    u32 v = POKE_TOOL_GetBoxValue(a0, 0x6f, 0);
     u32 t = POKE_PERSONAL_GetParam((const struct Personal *)POKE_TOOL_GetPersonalData(a1, v), 0x14);
     u32 w = POKE_PERSONAL_GetParam((const struct Personal *)POKE_TOOL_GetPersonalData(a2, v), 0x14);
 
     if (POKE_PERSONAL_IsPlaceholderAbility(t) == 1 && w != 0xff) {
         return;
     }
-    POKE_TOOL_SetBoxValue(a0, 0x6e, POKE_TOOL_CalcGender((u32)a1, v, func_02017E88(a0, 0, 0)));
+    POKE_TOOL_SetBoxValue(a0, 0x6e, POKE_TOOL_CalcGender((u32)a1, v, POKE_TOOL_GetBoxValue(a0, 0, 0)));
 }

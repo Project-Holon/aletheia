@@ -34,7 +34,6 @@
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_GetDateTimeAsync  0x02088944  arm
  */
-#include "../../matched/include/Obj16002.h"
 #include "gf_standard_shared_types.h"
 
 struct MATHCRC16Table;
@@ -409,7 +408,7 @@ void GF_STANDARD_CalcHash(struct Lcg64 *out)
     sub_0208142C(d, c, 0x20);
     sub_020814C0(d, b);
     sub_02082D44(b, a, 8);
-    out->x = ((struct Obj16002 *)a)->f0;
+    out->x = *(unsigned long long *)a;
     out->mul = 0x5D588B656C078965ULL;
     out->add = 0x269EC3;
 }

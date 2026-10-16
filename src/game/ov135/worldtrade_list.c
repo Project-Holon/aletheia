@@ -100,9 +100,6 @@
  *   WORLDTRADE_SUBLCD_MoveArrowToSlot 0x021FFD1C thumb ov135
  */
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj03069.h"
-#include "../../matched/include/Obj01063.h"
-#include "../../matched/include/Obj12211.h"
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -190,9 +187,9 @@ typedef struct {
     u32 w;
     u32 h;
     u32 bg;
-} WinDef_021FCFD8;
+} WinDefBg;
 
-typedef struct {u8 left,right;} Pair_021FB800;
+typedef struct {u8 left,right;} LRPair;
 
 typedef struct {
     void *win;
@@ -352,9 +349,9 @@ extern struct BgTemplate g_02203628;
 
 extern struct BgTemplate g_02203648;
 
-extern const WinDef_021FCFD8 tbl_02203668[];
+extern const WinDefBg tbl_02203668[];
 
-extern const Pair_021FB800 tbl_02203608[];
+extern const LRPair tbl_02203608[];
 
 extern const u8 tbl_022035FC[];
 
@@ -515,7 +512,7 @@ void WORLDTRADE_LIST_DeleteActors(Work *p)
 void WORLDTRADE_LIST_CreateWindows(Work *p)
 {
     int i;
-    const WinDef_021FCFD8 *d;
+    const WinDefBg *d;
     u32 v;
 
     p->frame = BMP_WIN_Create((u8)4, (u8)2, (u8)0x13, (u8)0x1b, 4, 1, (u16)1);
@@ -548,16 +545,16 @@ void WORLDTRADE_LIST_DeleteWindows(u8 *p)
     s32 i;
 
     WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)(p + 0xfa0));
-    BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD40));
-    if (((struct Obj03069 *)p)->f12FC == 0) {
-        h = ((struct Obj03069 *)p)->fD54;
+    BMP_WIN_Delete((struct Descriptor *)(((Work *)p)->frame));
+    if (((Work *)p)->flag == 0) {
+        h = ((Work *)p)->win[1];
         BMP_WIN_ClearScreen((struct Descriptor *)h);
         BG_SYS_PushTile(unit_02045730(h));
-        h = ((struct Obj03069 *)p)->fD50;
+        h = ((Work *)p)->win[0];
         BMP_WIN_ClearScreen((struct Descriptor *)h);
         BG_SYS_PushTile(unit_02045730(h));
-        BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD54));
-        BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD50));
+        BMP_WIN_Delete((struct Descriptor *)(((Work *)p)->win[1]));
+        BMP_WIN_Delete((struct Descriptor *)(((Work *)p)->win[0]));
     }
     for (i = 0; i < 0x10; i++) {
         h = *(u32 *)(p + i * 4 + 0xd90);
@@ -739,7 +736,7 @@ int WORLDTRADE_LIST_StateScrollIn(Work *p)
 int WORLDTRADE_LIST_StateWaitMessage(u8 *p)
 {
     if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
-        ((struct Obj12211 *)p)->f28 = ((struct Obj12211 *)p)->f2C;
+        ((Work *)p)->state = ((Work *)p)->returnState;
     }
     return 2;
 }
@@ -751,11 +748,11 @@ void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
 {
     u32 v;
 
-    func_02045CAC((struct MsgBank *)(((struct Obj01063 *)p)->fB6C), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01063 *)p)->fD40)), 0xf);
-    BMP_MENUWORK_DrawWindow((void *)(((struct Obj01063 *)p)->fD40), 0, 1, 0x2);
-    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((struct Obj01063 *)p)->fD40), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
-    v = ((struct Obj01063 *)p)->fD40;
+    func_02045CAC((struct MsgBank *)(((Work *)p)->bank_u), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->frame)), 0xf);
+    BMP_MENUWORK_DrawWindow((void *)(((Work *)p)->frame), 0, 1, 0x2);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((Work *)p)->frame), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
+    v = ((Work *)p)->frame;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));

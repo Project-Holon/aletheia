@@ -1,5 +1,5 @@
 /*
- * function: func_02163558
+ * function: R
  * address:  0x02163558
  * packet:   pkt_ov009_02163558
  * region:   ov009
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-unsigned long func_02163558(int t, unsigned long *w)
+static unsigned long R(int t, unsigned long *w)
 {
 	unsigned long temp;
 

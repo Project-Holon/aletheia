@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021842BC",
+   "name": "MICTEST_CreateWindows",
    "address": "0x021842BC",
    "kind": "game",
    "region": "ov168",

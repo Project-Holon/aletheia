@@ -1,5 +1,5 @@
 /*
- * function: func_02184600
+ * function: MICTEST_SpawnSprite
  * address: 0x02184600
  * packet: pkt_ov168_02184600
  * region: ov168
@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   func_020056EC 0x020056EC thumb
- *   func_02184680 0x02184680 thumb ov168
+ *   MICTEST_InitSpriteTask 0x02184680 thumb ov168
  */
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
 typedef unsigned short u16;
-extern void func_02184680(void *, void *, void *, u16, int, int, int, int, int);
-int func_02184600(char *p, int unused, u16 x, int y, void *owner)
+extern void MICTEST_InitSpriteTask(void *, void *, void *, u16, int, int, int, int, int);
+int MICTEST_SpawnSprite(char *p, int unused, u16 x, int y, void *owner)
 {
     void *sprite = 0;
     char *entry = 0;
@@ -34,7 +34,7 @@ int func_02184600(char *p, int unused, u16 x, int y, void *owner)
         a = func_020056EC(0x1001) + 0x1333;
         b = func_020056EC(61) + 60;
         c = func_020056EC(15) + 6;
-        func_02184680(owner, sprite, entry, x, y, a, b, c, 1);
+        MICTEST_InitSpriteTask(owner, sprite, entry, x, y, a, b, c, 1);
         return 1;
     }
     return 0;

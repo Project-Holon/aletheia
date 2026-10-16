@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3098",
+   "name": "C_GEAR_StartSelectedRipple",
    "address": "0x021F3098",
    "kind": "game",
    "region": "ov029",

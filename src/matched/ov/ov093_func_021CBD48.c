@@ -15,7 +15,7 @@
  *   BTL_POKEPARAM_HasType 0x021D5814 thumb ov093
  *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
  *   BTL_MAIN_GetFieldSituation 0x021B8714 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   func_021CBE98 0x021CBE98 thumb ov093
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 extern int BTL_POKEPARAM_HasType(void *,int);
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern char *BTL_MAIN_GetFieldSituation(char **);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_MAIN_CheckZukanSeen(char *p, void *m);
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern int func_021CBE98(u16);
@@ -51,7 +51,7 @@ int BTL_SERVER_FLOW_GetBallCatchRate(u8 *p, void *unused, void *q, int k)
         if (*(int *)(BTL_MAIN_GetFieldSituation(*(char ***)(p+4))+4) == 6) return 0x3800;
         break;
     case 8:
-        n = func_021D59B4(q,15);
+        n = BTL_POKEPARAM_GetValue(q,15);
         if (n < 30) {
             n = 41 - n;
             if (n > 40) n = 40;

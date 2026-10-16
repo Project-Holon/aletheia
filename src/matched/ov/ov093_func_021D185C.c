@@ -21,8 +21,8 @@
  *   BTLV_CORE_CopyMessageBuffer  0x021EA5E4  thumb  ov093
  *   STRBUF_Delete   0x02045808  arm
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
- *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EAF50  0x021EAF50  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_AppendMessageArg  0x021EAF50  thumb  ov093
  *   BTLV_CORE_BuildMessageToBuffer  0x021EA5F0  thumb  ov093
  */
 
@@ -48,8 +48,8 @@ extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
 extern void BTLV_CORE_CopyMessageBuffer(unsigned char *p, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u16 BTL_MAIN_GetTrainerId(char *p, int i);
-extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildMessageToBuffer(char *p, struct H *h);
 
 void BTL_CLIENT_ShowEndSpeech(BattleSeq *s, int a, int b)
@@ -69,9 +69,9 @@ void BTL_CLIENT_ShowEndSpeech(BattleSeq *s, int a, int b)
     }
     v = BTL_MAIN_GetTrainerId(s->battle, idx);
     if (v != 0) {
-        func_021EAF18((struct L *)s->msg, 7, (int)0);
-        func_021EAF50((struct L *)s->msg, (int)v);
-        func_021EAF50((struct L *)s->msg, (int)a);
+        BTLV_SCU_InitMessage((struct L *)s->msg, 7, (int)0);
+        BTLV_SCU_AppendMessageArg((struct L *)s->msg, (int)v);
+        BTLV_SCU_AppendMessageArg((struct L *)s->msg, (int)a);
         BTLV_CORE_BuildMessageToBuffer(s->msgWin, (struct H *)s->msg);
     }
 }

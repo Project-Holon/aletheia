@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -23,7 +23,7 @@
  *
  * It takes the block lock (POKE_TOOL_DecodeBoxParam), reads species (id 0x05), level
  * (id 0x9E) and OT id (id 0x07) -- all three through the block-lock getter
- * func_02017E88, and species and level truncated to u16 at the assignment,
+ * POKE_TOOL_GetBoxValue, and species and level truncated to u16 at the assignment,
  * which is what the two `lsls #0x10 / lsrs #0x10` pairs at +0x18 and +0x26
  * are -- builds a fresh record with POKE_TOOL_Create(species, level, otId, 0,
  * heap), releases the lock, copies the WHOLE 0x88-word record over the fresh
@@ -84,7 +84,7 @@ struct Mon { u32 w[0x22]; };
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32   func_02017E88(void *p, u32 id, u32 v);
+extern u32   POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void  POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 extern void *MAIL_Create(int a0);
@@ -94,9 +94,9 @@ extern void  POKE_TOOL_RecalcParam(void *p);
 void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap)
 {
     u32 t = POKE_TOOL_DecodeBoxParam((struct Sav *)p);
-    u16 species = (u16)func_02017E88(p, 5, 0);
-    u16 level = (u16)func_02017E88(p, 0x9e, 0);
-    u32 otId = func_02017E88(p, 7, 0);
+    u16 species = (u16)POKE_TOOL_GetBoxValue(p, 5, 0);
+    u16 level = (u16)POKE_TOOL_GetBoxValue(p, 0x9e, 0);
+    u32 otId = POKE_TOOL_GetBoxValue(p, 7, 0);
     void *q = POKE_TOOL_Create(species, level, otId, 0, heap);
     void *m;
 

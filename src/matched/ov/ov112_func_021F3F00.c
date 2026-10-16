@@ -17,12 +17,12 @@
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
  *   STA_ACT_LIGHT_AddBillboardImage 0x021F709C thumb ov112
  *   STA_ACT_LIGHT_AddPokemonElem 0x021F760C thumb ov112
- *   STA_ACT_LIGHT_CallElemB 0x021F80B0 thumb ov112
+ *   STA_ACT_LIGHT_ResetRenderAnim 0x021F80B0 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  *   STA_ACT_LIGHT_CreateUnit 0x021F6BD8 thumb ov112
  *   MUSICAL_MCSS_SetObjectValue 0x021F40D0 thumb ov112
- *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
- *   STA_ACT_LIGHT_ElemOpD 0x021F8084 thumb ov112
+ *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_SetActorOffset 0x021F8084 thumb ov112
  *   STA_ACT_LIGHT_CreateActor 0x021F6E78 thumb ov112
  *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
  *   d_021F8240 0x021F8240 data a4
@@ -69,13 +69,13 @@ extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 hea
 extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
 extern void *STA_ACT_LIGHT_AddPokemonElem(u8 *, u8 *);
 extern void MUSICAL_MCSS_SetRenderFieldA(void **p, int b);
-extern void STA_ACT_LIGHT_CallElemB(int, int);
+extern void STA_ACT_LIGHT_ResetRenderAnim(int, int);
 extern int STA_ACT_LIGHT_SetElemValue(int, int *, int);
 extern void *STA_ACT_LIGHT_CreateUnit(u16, void *);
 extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
 extern u32 MUSICAL_MCSS_SetObjectValue(void *p, u32 i, u16 c);
-extern void STA_ACT_LIGHT_ElemOpB(void *unused, u32 *p, const u32 *q);
-extern void STA_ACT_LIGHT_ElemOpD(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 void MUSICAL_SHOT_SYS_InitActors(Context *p)
 {
@@ -109,7 +109,7 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
     if (1)
     {
       *((void **) (row + 0x30)) = q;
-      STA_ACT_LIGHT_CallElemB((int)p->render, (int)q);
+      STA_ACT_LIGHT_ResetRenderAnim((int)p->render, (int)q);
       STA_ACT_LIGHT_SetElemValue((int) p->render, *((int **) (row + 0x30)), 1);
     }
   }
@@ -151,8 +151,8 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
       pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      STA_ACT_LIGHT_ElemOpB(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
-      STA_ACT_LIGHT_ElemOpD(p->render, *((void **) (actor + 0x30)), (const u32 *)(&temp));
+      STA_ACT_LIGHT_SetActorPos(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_SetActorOffset(p->render, *((void **) (actor + 0x30)), (const u32 *)(&temp));
       scale.y = 22 << 14;
     }
     else
@@ -162,7 +162,7 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
       pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      STA_ACT_LIGHT_ElemOpB(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_SetActorPos(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
       tmp1 = 2 << 18;
       scale.y = tmp1;
     }

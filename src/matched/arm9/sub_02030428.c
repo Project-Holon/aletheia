@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030428
+ * function: GFL_HEAP_GetHeapHandle
  *
  * Checked heap-id lookup: masks the direction flag out of a public heap
  * id, range-checks the index against the manager's heap count, records a
  * result code, and returns the heap's arena pointer.
  *
- *   void *sub_02030428(u32 heapId)
+ *   void *GFL_HEAP_GetHeapHandle(u32 heapId)
  *
  * This is one of a family of four functions in this unit that open with
  * exactly the same eight-instruction preamble (pool-load the manager, pool
@@ -37,8 +37,8 @@
  *   GFL_HEAP_GetHeap    0x0202FBAC  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030428.c \
- *       --func sub_02030428 --addr 0x02030428 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapHandle.c \
+ *       --func GFL_HEAP_GetHeapHandle --addr 0x02030428 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -58,7 +58,7 @@ struct EnvEntry {
 extern struct EnvModule g_EnvModule;
 extern void *GFL_HEAP_GetHeap(u32 idx);
 
-void *sub_02030428(u32 heapId)
+void *GFL_HEAP_GetHeapHandle(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= g_EnvModule.count) {

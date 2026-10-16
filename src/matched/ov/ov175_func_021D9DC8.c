@@ -20,7 +20,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_02034714 0x02034714 arm
@@ -48,7 +48,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *, int, u32);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern u32 func_02009860(void);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int GFL_NET_GetRunState(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -66,7 +66,7 @@ char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 a, void *save, u32 b, u16 heap) {
     MI_CpuFill8(p, 0, 0x149c);
     *(u32 *)(p + 4) = GAME_DATA_GetField1A0(save);
     *(u32 *)p = func_02009860();
-    *(void **)(p + 0xc) = (void *)func_0200853C((const struct Sub0200852CObj *)func_02012944(save));
+    *(void **)(p + 0xc) = (void *)func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
     *(void **)(p + 8) = save;
     *(u32 *)(p + 0x10) = b;
     *(u32 *)(p + 0x1464) = a;

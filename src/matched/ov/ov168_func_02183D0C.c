@@ -1,5 +1,5 @@
 /*
- * function: func_02183D0C
+ * function: MICTEST_InitStepMachine
  * address:  0x02183D0C
  * packet:   pkt_02183D0C
  * region:   ov168
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02183D34  0x02183D34  thumb  ov168
+ *   MICTEST_SetStep  0x02183D34  thumb  ov168
  */
 #include "../include/Obj14257.h"
 
-extern void func_02183D34(unsigned int *p, unsigned int v);
+extern void MICTEST_SetStep(unsigned int *p, unsigned int v);
 
-void func_02183D0C(int *p, int a, int b)
+void MICTEST_InitStepMachine(int *p, int a, int b)
 {
     *p = a;
     ((struct Obj14257 *)p)->fC = 0;
-    func_02183D34((unsigned int *)p, b);
+    MICTEST_SetStep((unsigned int *)p, b);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021841F4
+ * function: MICTEST_BgNoop
  * address: 0x021841F4
  * packet: pkt_ov168_021841F4
  * region: ov168
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 
-void func_021841F4(char *a0) {  }
+void MICTEST_BgNoop(char *a0) {  }

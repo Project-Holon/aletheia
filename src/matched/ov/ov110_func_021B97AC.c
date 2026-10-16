@@ -1,5 +1,5 @@
 /*
- * function: func_021B97AC
+ * function: PMS_INPUT_DATA_CollectOptionWords
  * address: 0x021B97AC
  * packet: pkt_ov110_021B97AC
  * region: ov110
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int PMSI_PARAM_GetOptionFlag(void *);
-u32 func_021B97AC(u8 *p,const u16 *ids,u32 count,u16 *out)
+u32 PMS_INPUT_DATA_CollectOptionWords(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     u32 i;
     u32 n;

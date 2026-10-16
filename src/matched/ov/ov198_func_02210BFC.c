@@ -12,7 +12,7 @@
  * comparison while retaining the original entry-pointer scheduling.
  * symbols:
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
- *   func_0202D01C 0x0202D01C thumb
+ *   BGWINFRM_ScaleRatio 0x0202D01C thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Level { u8 pad[22]; u8 level:7; u8 flag:1; } Level;
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
-extern u8 func_0202D01C(u32,u32,u32);
+extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
 extern void BG_SYS_SetTileEntry(u32,u16,u8,int,u8,u8,u8);
 extern void func_02041B6C(u32);
 void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode)
@@ -37,7 +37,7 @@ void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode)
         denominator=((struct Obj08363 *)q)->f24-((struct Obj08363 *)q)->f20;
         numerator=((struct Obj08363 *)q)->f1C-((struct Obj08363 *)q)->f20;
     } else { denominator=0; numerator=0; }
-    amount=func_0202D01C(numerator,denominator,64);
+    amount=BGWINFRM_ScaleRatio(numerator,denominator,64);
     for(i=0;i<8;i++) {
         if(amount>=8) tile=30; else tile=amount+22;
         BG_SYS_SetTileEntry(7,tile,i+10,8,1,1,16);

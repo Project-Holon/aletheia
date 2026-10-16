@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034768",
+   "name": "GF_OVERLAY_PanicInit",
    "address": "0x02034768",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034900",
+   "name": "GF_OVERLAY_PanicDie",
    "address": "0x02034900",
    "kind": "game",
    "region": "arm9",

@@ -26,7 +26,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -54,7 +54,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
- *   func_02018584 0x02018584 thumb
+ *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   gSpeciesNameBank 0x020A7370 data
  *   d_021DC24C 0x021DC24C data
@@ -69,6 +69,7 @@
  *   WORDSET_Create  0x0201EC74  thumb  arm9
  *   GF_FONT_CountLine  0x0201D2C8  thumb  arm9
  *   SAVE_EVENT_CheckStage  0x0202F498  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -133,7 +134,7 @@ extern void BG_SYS_PushTile(u32);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern u32 func_02017E88(void *mon, int paramId, void *out);
+extern u32 POKE_TOOL_GetBoxValue(void *mon, int paramId, void *out);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
@@ -164,10 +165,10 @@ extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *del
 extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 enable);
 extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern u32 func_02018584(u16,u16,u16);
+extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern int SAVE_EVENT_CheckStage(void *mon, int index);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *mon, void *trainer);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern u32 GF_FONT_CountLine(struct Strbuf *s);
@@ -282,8 +283,8 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
     BMP_WIN_MakeScreen(win);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     if(wk->isEgg==0) {
-        type1=func_02017E88(mon,174,0);
-        type2=func_02017E88(mon,175,0);
+        type1=POKE_TOOL_GetBoxValue(mon,174,0);
+        type2=POKE_TOOL_GetBoxValue(mon,175,0);
         CLACT_GetCharacterProxy(wk->typeChrRes[type1],&header1);
         CLACT_SetActorImageProxy(wk->typeIconActor[0],&header1);
         CLACT_SetActorPaletteOffset(wk->typeIconActor[0],APP_ICON_GetTypePaletteOffset((u8)type1),1);
@@ -330,7 +331,7 @@ void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *work)
 }
 
 /*
- * note (2026-10-02): slot order closed by two source facts. (1) func_02017E88's third parameter is
+ * note (2026-10-02): slot order closed by two source facts. (1) POKE_TOOL_GetBoxValue's third parameter is
  *   a buffer pointer (void *), so the 0x9a and 0x8d calls pass the otName buffer directly with no
  *   conversion; casting it to u32 lets the compiler share one conversion temp, which moves otName below
  *   the named locals. (2) The species argument in the first speciesName arm is a named local; nested, speciesName lands lowest.
@@ -355,7 +356,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
     if(wk->isEgg==0) {
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],8,1,1,0x3c40);
         dexWordSet=WORDSET_CreateDefault(wk->heapId);
-        dexNo=func_02017E88(mon,5,0);
+        dexNo=POKE_TOOL_GetBoxValue(mon,5,0);
         color=0x440;
         if(wk->param->isNationalDex==0) dexNo=work->dexTable[dexNo];
         if(POKE_TOOL_IsBoxShiny(mon)==1) color=0xc80;
@@ -367,7 +368,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         }
         WORDSET_DeleteStrbufED04(dexWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_SPECIES],10,1,1,0x3c40);
-        if(wk->isEgg==0) {species=func_02017E88(mon,5,0); speciesName=func_02045EC0(gSpeciesNameBank,species);}
+        if(wk->isEgg==0) {species=POKE_TOOL_GetBoxValue(mon,5,0); speciesName=func_02045EC0(gSpeciesNameBank,species);}
         else speciesName=func_02045EC0(gSpeciesNameBank,0x28a);
         bmp=BMP_WIN_GetBmp(work->win[STA_INFO_WIN_SPECIES]);
         color=0x440;
@@ -377,28 +378,28 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,1,1,0x3c40);
         otName=STRBUF_Create(0x20,wk->heapId);
         otWordSet=WORDSET_CreateDefault(wk->heapId);
-        tmpValue=func_02017E88(mon,0x9a,otName);
+        tmpValue=POKE_TOOL_GetBoxValue(mon,0x9a,otName);
         if(tmpValue==0) color=0x14c0;
         else if(tmpValue==1) color=0xc80;
-        func_02017E88(mon,0x8d,otName);
+        POKE_TOOL_GetBoxValue(mon,0x8d,otName);
         WORDSET_SetSlotTag(otWordSet,0,otName,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],otWordSet,14,0x41,1,color);
         WORDSET_DeleteStrbufED04(otWordSet);
         STRBUF_Delete(otName);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,1,1,0x3c40);
         idWordSet=WORDSET_CreateDefault(wk->heapId);
-        idNo=func_02017E88(mon,7,0);
+        idNo=POKE_TOOL_GetBoxValue(mon,7,0);
         WORDSET_SetSlotNumber(idWordSet,0,idNo,5,2,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],idWordSet,16,0x41,1,0x440);
         WORDSET_DeleteStrbufED04(idWordSet);
-        level=func_02017E88(mon,0x9e,0);
-        exp=func_02017E88(mon,8,0);
-        species1=func_02017E88(mon,5,0);
-        growthRate=func_02017E88(mon,0x6f,0);
-        expNextLv=func_02018584((u16)species1,(u16)growthRate,(u16)(level+1));
-        species2=func_02017E88(mon,5,0);
-        growthRate=func_02017E88(mon,0x6f,0);
-        expThisLv=func_02018584((u16)species2,(u16)growthRate,(u16)level);
+        level=POKE_TOOL_GetBoxValue(mon,0x9e,0);
+        exp=POKE_TOOL_GetBoxValue(mon,8,0);
+        species1=POKE_TOOL_GetBoxValue(mon,5,0);
+        growthRate=POKE_TOOL_GetBoxValue(mon,0x6f,0);
+        expNextLv=POKE_TOOL_GetExpForLevel((u16)species1,(u16)growthRate,(u16)(level+1));
+        species2=POKE_TOOL_GetBoxValue(mon,5,0);
+        growthRate=POKE_TOOL_GetBoxValue(mon,0x6f,0);
+        expThisLv=POKE_TOOL_GetExpForLevel((u16)species2,(u16)growthRate,(u16)level);
         expToNext=expNextLv-exp;
         if(level==100) expToNext=0;
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_EXP_LABEL],17,1,1,0x3c40);
@@ -464,27 +465,27 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     u8 bestStat;
 
     textY = 0;
-    isEgg = func_02017E88(mon, 0x4c, 0);
-    natureMsg = func_02017E88(mon, 0x70, 0);
-    eggSteps = func_02017E88(mon, 9, 0);
-    eggYear = func_02017E88(mon, 0x8f, 0);
-    eggMonth = func_02017E88(mon, 0x90, 0);
-    eggDay = func_02017E88(mon, 0x91, 0);
-    metYear = func_02017E88(mon, 0x92, 0);
-    metMonth = func_02017E88(mon, 0x93, 0);
-    metDay = func_02017E88(mon, 0x94, 0);
-    metLevel = func_02017E88(mon, 0x99, 0);
-    isFatefulEncounter = func_02017E88(mon, 0x6d, 0);
-    encounterType = func_02017E88(mon, 0x77, 0);
-    personalRandom = func_02017E88(mon, 0, 0);
-    eggPlace = func_02017E88(mon, 0x95, 0);
-    metPlace = func_02017E88(mon, 0x96, 0);
+    isEgg = POKE_TOOL_GetBoxValue(mon, 0x4c, 0);
+    natureMsg = POKE_TOOL_GetBoxValue(mon, 0x70, 0);
+    eggSteps = POKE_TOOL_GetBoxValue(mon, 9, 0);
+    eggYear = POKE_TOOL_GetBoxValue(mon, 0x8f, 0);
+    eggMonth = POKE_TOOL_GetBoxValue(mon, 0x90, 0);
+    eggDay = POKE_TOOL_GetBoxValue(mon, 0x91, 0);
+    metYear = POKE_TOOL_GetBoxValue(mon, 0x92, 0);
+    metMonth = POKE_TOOL_GetBoxValue(mon, 0x93, 0);
+    metDay = POKE_TOOL_GetBoxValue(mon, 0x94, 0);
+    metLevel = POKE_TOOL_GetBoxValue(mon, 0x99, 0);
+    isFatefulEncounter = POKE_TOOL_GetBoxValue(mon, 0x6d, 0);
+    encounterType = POKE_TOOL_GetBoxValue(mon, 0x77, 0);
+    personalRandom = POKE_TOOL_GetBoxValue(mon, 0, 0);
+    eggPlace = POKE_TOOL_GetBoxValue(mon, 0x95, 0);
+    metPlace = POKE_TOOL_GetBoxValue(mon, 0x96, 0);
     flag0 = SAVE_EVENT_CheckStage(mon, 0);
     flag1 = SAVE_EVENT_CheckStage(mon, 1);
     flag2 = SAVE_EVENT_CheckStage(mon, 2);
     flag3 = SAVE_EVENT_CheckStage(mon, 3);
     eventFlags = flag0 | flag1 | flag2 | flag3;
-    isOriginalTrainer = POKE_TOOL_IsBoxOwnedByPlayer(mon, func_02012944(wk->param->config));
+    isOriginalTrainer = POKE_TOOL_IsBoxOwnedByPlayer(mon, GAME_DATA_GetMyStatus(wk->param->config));
 
     if (isEgg == 0) {
         msgStr = func_02045EC0(work->msgInfo, natureMsg);
@@ -601,7 +602,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
         i = 0;
         row = statRows.row[(u8)(personalRandom % 6)];
         for (; i < 6; i++) {
-            statValue = func_02017E88(mon, statIds.id[row[i]], 0);
+            statValue = POKE_TOOL_GetBoxValue(mon, statIds.id[row[i]], 0);
             if (bestValue < statValue) {
                 bestValue = statValue;
                 bestStat = row[i];

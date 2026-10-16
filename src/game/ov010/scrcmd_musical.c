@@ -80,7 +80,7 @@
  *   MUSICAL_EVENT_IsAborted  0x02156BCC  thumb  ov010
  *   ICA_ANIME_SetField30  0x02012124  thumb
  *   ICA_ANIME_GetField24  0x02012138  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
@@ -136,10 +136,10 @@
  *   d_021711C6 0x021711C6 data a2
  *   MOVE_POKEMON_SAVE_SetCommonArea  0x0200D45C  thumb
  *   MOVE_POKEMON_SAVE_SetEntryField  0x0200D50C  thumb
- *   func_020173EC  0x020173EC  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02008530  0x02008530  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  *   MOVE_POKEMON_SAVE_SetEntryState  0x0200D470  thumb
@@ -432,7 +432,7 @@ extern void *GAME_DATA_GetExternalWork(struct GameData *gameData);
 extern void GAME_DATA_SetExternalWork(struct GameData *gameData, void *externalWork);
 extern struct MusicalSave *GAME_DATA_GetSaveBlock2A(struct GameData *gameData);
 extern struct PokeParty *GAME_DATA_GetMyParty(struct GameData *gameData);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct BgmInfo *GAME_DATA_GetBgmInfo(struct GameData *gameData);
 extern struct FieldGimmickWork *GAME_DATA_GetFieldGimmick(struct GameData *gameData);
@@ -536,9 +536,9 @@ extern struct MovePokemonEntry *MOVE_POKEMON_SAVE_GetEntry(struct MovePokemonSav
 extern u8 MOVE_POKEMON_SAVE_GetEntryLocation(struct MovePokemonSave *block, u32 index);
 extern int MOVE_POKEMON_SAVE_SetCommonArea();
 extern void MOVE_POKEMON_SAVE_SetEntryField(struct MovePokemonEntry *entry, u32 field, u32 value);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void POKE_TOOL_SetupPartyParamEx(struct Pokemon *mon, u16 species, u16 level, unsigned long long personalId, u32 power, unsigned long long rand);
-extern u32 func_02017E1C(struct Pokemon *mon, u32 paramId, u32 buf);
+extern u32 POKE_TOOL_GetPartyValue(struct Pokemon *mon, u32 paramId, u32 buf);
 extern void *ZUKAN_SAVE_GetBlock(struct SaveControl *save);
 extern void ZUKAN_SAVE_RegisterSeen(void *boxData, struct Pokemon *mon);
 extern void MOVE_POKEMON_SAVE_SetEntryState(struct MovePokemonSave *block, u32 index, u32 state);
@@ -1244,12 +1244,12 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         return 1;
     case 12:
         link->resultOut = resultVar;
-        link->entryMenu = COMM_ENTRY_MENU_Create(func_02012944(gameData), fieldMap, 2, 4, 4, 0, 1, 0);
+        link->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 0, 1, 0);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitEntryMenuParent);
         return 1;
     case 13:
         link->resultOut = resultVar;
-        link->entryMenu = COMM_ENTRY_MENU_Create(func_02012944(gameData), fieldMap, 2, 4, 4, 1, 1, 0);
+        link->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 1, 1, 0);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitEntryMenuChild);
         return 1;
     case 14:
@@ -1880,15 +1880,15 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
     MOVE_POKEMON_SAVE_SetEntryField(entry, 4, species);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 6, level);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 9, flag);
-    myStatus = func_02012944(gameData);
-    mon = func_02030734(0x8003, func_020173EC(), 1, d_0217293C, 0x12E);
+    myStatus = GAME_DATA_GetMyStatus(gameData);
+    mon = func_02030734(0x8003, POKE_TOOL_GetPartyParamSize(), 1, d_0217293C, 0x12E);
     POKE_TOOL_SetupPartyParamEx(mon, species, level, func_02008530(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 7, 0);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 8, 1);
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 2, func_02017E1C(mon, 0xAC, 0));
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 3, func_02017E1C(mon, 0, 0));
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 10, func_02017E1C(mon, 0x70, 0));
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 5, func_02017E1C(mon, 0xA1, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 2, POKE_TOOL_GetPartyValue(mon, 0xAC, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 3, POKE_TOOL_GetPartyValue(mon, 0, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 10, POKE_TOOL_GetPartyValue(mon, 0x70, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 5, POKE_TOOL_GetPartyValue(mon, 0xA1, 0));
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetBlock(save), mon);
     func_020307B0(mon);
     MOVE_POKEMON_MoveToNeighbor(block, (u32)((void *)GAME_DATA_GetSeason(gameData)), slot, 5);
@@ -1933,9 +1933,9 @@ void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, BattleResultWork
     }
     GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114(gameData));
     mon = POKEPARTY_GetMember(BTL_SETUP_GetParty(work, 1), 0);
-    species = func_02017E1C(mon, 5, 0);
-    hp = func_02017E1C(mon, 0xA0, 0);
-    status = func_02017E1C(mon, 0x9D, 0);
+    species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    hp = POKE_TOOL_GetPartyValue(mon, 0xA0, 0);
+    status = POKE_TOOL_GetPartyValue(mon, 0x9D, 0);
     block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     entry = MOVE_POKEMON_FindEntryBySpecies(block, species);
     if (entry == 0) {

@@ -18,7 +18,7 @@
  *   func_020355D8  0x020355D8  arm
  *   func_020355C4  0x020355C4  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_020307B0 0x020307B0 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -93,7 +93,7 @@
  *   APP_ICON_GetStatusAnimFileId 0x02027624 thumb
  *   APP_ICON_GetStatusFrameFileId 0x02027628 thumb
  *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   POKELIST_ShowMessage  0x021B9788  thumb
@@ -154,7 +154,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_02041B6C(u32 bit);
 extern void func_020355D8(int mode);
 extern u8 func_020355C4(void);
-extern u32 func_02017E1C(void *mon, u32 param, u32 extra);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 param, u32 extra);
 extern u32 func_020307B0(void *p);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern unsigned KEY_GetTrg(void);
@@ -226,7 +226,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void MIi_CpuCopy16(void *, void *, unsigned long);
 
@@ -401,7 +401,7 @@ void PLIST_MENU_BuildCommandList(PokelistWork *work, PlistMenu *menu, int *items
             break;
         case 2:
             for (j = 0; j < 4; j++) {
-                if (func_02017E1C((void *)work->selectedMon, j + 0x36, 0))
+                if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, j + 0x36, 0))
                     MENU_APPEND(j + 16);
             }
             break;
@@ -444,7 +444,7 @@ struct Strbuf *PLIST_MENU_CreateCommandLabel(PokelistWork *work, PlistMenu *menu
     int r;
     int h;
     if (id >= 0x10 && id <= 0x13) {
-        r = func_02017E1C((void *)work->selectedMon, id + 0x26, 0);
+        r = POKE_TOOL_GetPartyValue((void *)work->selectedMon, id + 0x26, 0);
         h = (int)func_02045B38(0, 2, 0xcb, work->heapId);
         r = (int)func_02045EC0((struct MsgBank *)h, r);
         MSGDATA_Delete((struct MsgBank *)h);
@@ -617,8 +617,8 @@ void PLIST_MENU_ApplyArceusPlateForm(void *unused, void *mon, int itemId)
 {
     u32 form = 0;
     int plateForm;
-    if (func_02017E1C(mon, 5, 0) == 0x1ED) {
-        form = func_02017E1C(mon, 0x6F, form);
+    if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x1ED) {
+        form = POKE_TOOL_GetPartyValue(mon, 0x6F, form);
         plateForm = POKE_TOOL_GetPlateTypeForwarder(itemId);
         if (form != plateForm)
             POKE_TOOL_ChangeForm(mon, plateForm);
@@ -629,8 +629,8 @@ void PLIST_MENU_ApplyGenesectDriveForm(int unused, void *mon, int itemId)
 {
     int form = 0;
     int driveForm;
-    if (func_02017E1C(mon, 5, 0) == 0x289) {
-        form = func_02017E1C(mon, 0x6f, form);
+    if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x289) {
+        form = POKE_TOOL_GetPartyValue(mon, 0x6f, form);
         driveForm = POKE_TOOL_GetBoxParamIndex(itemId);
         if (form != driveForm) {
             POKE_TOOL_ChangeForm(mon, (u16)driveForm);
@@ -680,11 +680,11 @@ int PLIST_MENU_StartItemUse(PokelistWork *work, int v)
         POKELIST_ShowMessage(work, 0x9d, 1, PLIST_MENU_BeginLevelUpMoveWait);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         msg = STRBUF_Create(12, work->heapId);
-        func_02017E1C((void *)work->selectedMon, 0x73, (u32)msg);
+        POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0x73, (u32)msg);
         GAME_BEACON_SetPokeLevelUp((int)msg);
         STRBUF_Delete(msg);
         for (i = 0; i < 6; i++) {
-            work->levelUpMoveStat[i] = func_02017E1C((void *)work->selectedMon, gPlistStatParamIds[i], 0);
+            work->levelUpMoveStat[i] = POKE_TOOL_GetPartyValue((void *)work->selectedMon, gPlistStatParamIds[i], 0);
         }
         break;
     case 3: PLIST_MENU_ShowMonMessage(work, 0x47); break;
@@ -705,7 +705,7 @@ int PLIST_MENU_StartItemUse(PokelistWork *work, int v)
     case 19: case 20: case 21: case 22: case 23: case 24:
         z = n - 19;
         if (PLIST_MENU_HasMonParam((void *)work->selectedMon, z + 13, work->arg->itemId) == 0) PLIST_MENU_ShowMonValueMessage(work, 0x55, z);
-        else if (func_02017E1C((void *)work->selectedMon, 9, 0) == 255) PLIST_MENU_ShowMonValueMessage(work, 0x54, z);
+        else if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, 9, 0) == 255) PLIST_MENU_ShowMonValueMessage(work, 0x54, z);
         else PLIST_MENU_ShowMonValueMessage(work, 0x53, z);
         break;
     case 26: case 27:
@@ -798,7 +798,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         BMP_Clear(BMP_WIN_GetBmp(DESC), 15);
         desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
         for (i = 0; i < 6; i++) {
-            delta = func_02017E1C((void *)work->selectedMon, gPlistStatParamIds[i], 0) - work->levelUpMoveStat[i];
+            delta = POKE_TOOL_GetPartyValue((void *)work->selectedMon, gPlistStatParamIds[i], 0) - work->levelUpMoveStat[i];
             if (delta >= 10) flag = 1;
             msg = func_02045EC0(work->msgBank, i + 0x95); y = i << 4;
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), 0, (s16)(i << 4), msg, work->fontMain, 0x440);
@@ -831,7 +831,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         struct WordSet *wordSet;
         BMP_FillRect(BMP_WIN_GetBmp(DESC), 0x50, 0, 0x20, 0x60, 15);
         for (i = 0; i < 6; i++) {
-            delta = func_02017E1C((void *)work->selectedMon, gPlistStatParamIds[i], 0);
+            delta = POKE_TOOL_GetPartyValue((void *)work->selectedMon, gPlistStatParamIds[i], 0);
             msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = func_0201D304(numStr, work->fontMain, 0);
@@ -863,7 +863,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             POKELIST_ShowMessage(work, 0x29, 1, PLIST_MENU_BeginExitWait); PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         } break;
     case 7:
-        func_02017E1C((void *)work->selectedMon, 5, 0);
+        POKE_TOOL_GetPartyValue((void *)work->selectedMon, 5, 0);
         if (SHINKA_CHECK_CheckEvolution(work->arg->party, (void *)work->selectedMon, 0, work->arg->itemUseParam, work->arg->season, 0, work->heapId) != 0) {
             work->phase = 19; work->arg->selectedIndex = work->selectedSlot; work->arg->exitCode = 9;
         } else {
@@ -875,7 +875,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
 int PLIST_MENU_HasMonParam(void *mon, int param, int unused)
 {
     int r = 0;
-    if (func_02017E1C(mon, param, 0))
+    if (POKE_TOOL_GetPartyValue(mon, param, 0))
         r = 1;
     return r;
 }
@@ -1007,7 +1007,7 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
     }
     ARC_TOOL_DeleteHandle(h2);
     h = func_020490F4(7, work->heapId);
-    work->charRes[7] = CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 1, 0xc0, work->heapId);
+    work->charRes[7] = CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), 1, 0xc0, work->heapId);
     ARC_TOOL_DeleteHandle(h);
     /* stand-in: with the timer palette inside a padding view, &tail->timerPalette is
        work + 0x1EC + 0x22 and the compiler does not fold it; it is &work->timerPalette

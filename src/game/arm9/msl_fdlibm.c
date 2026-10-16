@@ -1,7 +1,7 @@
 /*
  * file:     msl_fdlibm.c
  * unit:     yes
- * function: __kernel_rem_pio2, __kernel_sin, copysign, func_0209A390, fabs, func_0209A524, frexp, ldexp, sin, pow, stricmp, strnicmp, strcmp_nocase
+ * function: __kernel_rem_pio2, __kernel_sin, copysign, cos, fabs, floor, frexp, ldexp, sin, pow, stricmp, strnicmp, strcmp_nocase
  * address:  0x0209953C
  * region:   arm9
  * compiler: dsi/1.2
@@ -38,7 +38,7 @@
 #define LO(x) (((i32 *)&(x))[0])
 /* Matched units compiled in this file, entered 4 bytes before their function:
  * unit_0209A0EC (0x0209A0EC) holds __kernel_sin
- * unit_0209A390 (0x0209A390) holds func_0209A390
+ * unit_0209A390 (0x0209A390) holds cos
  * unit_0209AA08 (0x0209AA08) holds sin
  */
 
@@ -61,9 +61,9 @@ extern double __ieee754_pow(double x, double y);
 extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
 int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
 double copysign(double x, double y);
-double func_0209A390(double x);
+double cos(double x);
 double fabs(double x);
-double func_0209A524(double x);
+double floor(double x);
 double frexp(double x, int *eptr);
 double ldexp(double x, int n);
 double sin(double x);
@@ -116,7 +116,7 @@ recompute:
 	}
 
 	z  = scalbn(z,q0);
-	z -= 8.0*func_0209A524(z*0.125);
+	z -= 8.0*floor(z*0.125);
 	n  = (int) z;
 	z -= (double)n;
 	ih = 0;
@@ -290,7 +290,7 @@ double copysign(double x, double y)
 
 /*
  * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
- * disasm label func_0209A390: the disassembler never saw the real entry
+ * disasm label cos: the disassembler never saw the real entry
  * because nothing calls cos by name, so it labelled the body and left the
  * prologue stub as an unlabelled word.  That stub is the compiler's
  * `push {r0-r3}` for the register-passed double argument, which is why the
@@ -310,7 +310,7 @@ double copysign(double x, double y)
  *   __kernel_sin  __kernel_sin(double, double, int)
  *   __ieee754_rem_pio2  __ieee754_rem_pio2(double, double *)
  */
-double func_0209A390(double x)
+double cos(double x)
 {
     double y[2];
     double z = 0.0;
@@ -368,7 +368,7 @@ static const double huge = 1.0e300;
  * #0x24] through &x, and every return pops 16 bytes.  See the cluster header
  * docs/families/cluster_02098B44.h.
  */
-double func_0209A524(double x)
+double floor(double x)
 {
     i32 i0, i1, j0;
     u32 i, j;

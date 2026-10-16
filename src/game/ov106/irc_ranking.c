@@ -66,7 +66,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -97,7 +97,7 @@
  *   gIrcRankingVramConfig 0x021B94F4 data a4
  *   func_02030EAC 0x02030EAC arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -116,8 +116,8 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -470,7 +470,7 @@ extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern struct Strbuf *func_02045EC0(struct MsgBank *, u32);
 extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
-extern void *func_02012944(struct GameData *gameData);
+extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -500,7 +500,7 @@ extern void GF_FONT_InitTextColor(void);
 extern void *func_020056A0(void (*taskFunc)(void *task, void *taskWork), void *taskWork, int priority);
 extern void func_02030EAC(void *task);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -513,8 +513,8 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struc
 extern u32 func_0201D304(struct Strbuf *s, struct GfFont *font, u32 b);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 charRes, u32 palRes, u32 cellRes, const ActorInitParam *param, u16 space, u16 heapId);
@@ -862,7 +862,7 @@ void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heap
     gfx->titleWin = BMP_WIN_Create(0, 3, 1, 0x1a, 2, 0xe, 1);
     BMP_Clear(BMP_WIN_GetBmp(gfx->titleWin), 0xf);
     str = func_02045EC0(msg, 0);
-    IRC_RANKING_PrintCentered(gfx->titleWin, str, func_02012944(gameData), font);
+    IRC_RANKING_PrintCentered(gfx->titleWin, str, GAME_DATA_GetMyStatus(gameData), font);
     STRBUF_Delete(str);
     GF_FONT_Delete(font);
     MSGDATA_Delete(msg);
@@ -1002,8 +1002,8 @@ void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8
     list->wordSet = WORDSET_CreateDefault(heapId);
     IRC_RANKING_LoadRowScreens(list->rowScreenMain, &display->gfx, heapId);
     arc = func_020490F4(7, heapId);
-    list->iconPaletteMain = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 0x20, heapId);
-    list->iconPaletteSub = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0x20, heapId);
+    list->iconPaletteMain = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 0, 0x20, heapId);
+    list->iconPaletteSub = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0x20, heapId);
     ARC_TOOL_DeleteHandle(arc);
     for (i = 0; i < IRC_RANKING_DataGetCount(data); i++) {
         IRC_RANKING_RowInit(&list->rows[i], &data->items[i], unit, list->iconPaletteMain, list->iconPaletteSub, list->msgBank, list->font, list->wordSet, list->rowScreenMain, i * ROW_HEIGHT + 0x52, i * ROW_HEIGHT - 0x70, heapId);
@@ -1225,7 +1225,7 @@ void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct 
     PRINTSYS_Print(row->textBmp, 194 - width, 5, text, font);
     STRBUF_Delete(text); STRBUF_Delete(meetFormat); STRBUF_Delete(scoreFormat); STRBUF_Delete(rankFormat);
     graphicIndex = POKE_TOOL_CalcGraphicIndex(item->species, item->form, item->gender, item->isEgg);
-    cellAnim = func_0201BC40(); cellBank = func_0201BCB4();
+    cellAnim = POKE_TOOL_GetIconCellArcId(); cellBank = POKE_TOOL_GetIconCellEntryId();
     arc = func_020490F4(7, heapId);
     row->iconCharRes = CLACT_RegisterCharacter(arc, graphicIndex, 0, 2, heapId);
     row->iconCellRes = CLACT_RegisterCellAnim(arc, cellAnim, cellBank, heapId);

@@ -22,7 +22,7 @@
  *
  * POKE_TOOL_GetGraphicIndex brackets its four reads with POKE_TOOL_DecodeBoxParam and POKE_TOOL_EncodeBoxParam,
  * which is the pair the region uses around a run of raw field reads; that is
- * why the reads here are func_02017E88 and not the POKE_TOOL_GetPartyValue of
+ * why the reads here are POKE_TOOL_GetBoxValue and not the POKE_TOOL_GetPartyValue of
  * src/matched/POKE_TOOL_CalcParam.c.  The fourth read is written inline as the call's
  * fourth argument rather than bound to a local, which is what puts it in r3
  * with the other three already in place.
@@ -74,6 +74,7 @@
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned char  u8;
@@ -84,7 +85,7 @@ typedef int            s32;
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32  func_02017E88(void *mon, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern u32  ARC_TOOL_GetMemberSize(u32 kind, u32 member);
 
@@ -99,10 +100,10 @@ u32 POKE_TOOL_GetGraphicIndex(void *mon)
     u32 r;
 
     save = POKE_TOOL_DecodeBoxParam(mon);
-    species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6F, 0);
-    gender = func_02017E88(mon, 0x6E, 0);
-    r = POKE_TOOL_CalcGraphicIndex(species, form, gender, func_02017E88(mon, 0x4C, 0));
+    species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    form = POKE_TOOL_GetBoxValue(mon, 0x6F, 0);
+    gender = POKE_TOOL_GetBoxValue(mon, 0x6E, 0);
+    r = POKE_TOOL_CalcGraphicIndex(species, form, gender, POKE_TOOL_GetBoxValue(mon, 0x4C, 0));
     POKE_TOOL_EncodeBoxParam(mon, save);
     return r;
 }

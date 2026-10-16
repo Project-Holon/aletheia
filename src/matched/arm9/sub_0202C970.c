@@ -1,5 +1,5 @@
 /*
- * function: func_0202C970
+ * function: ISS_SWITCH_CheckBirthday
  * address:  0x0202C970
  * packet:   pkt_0202C860
  * region:   arm9
@@ -29,7 +29,7 @@ extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern void APP_ENV_GetOwnerColorAndBirthMonth(u8 *out1, u8 *out2);
 
-u32 func_0202C970(void *a, void *b, u32 c)
+u32 ISS_SWITCH_CheckBirthday(void *a, void *b, u32 c)
 {
     u8 buf[2];
     struct RtcDate date;

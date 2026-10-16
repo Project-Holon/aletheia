@@ -1,5 +1,5 @@
 /*
- * function: func_02162FD8
+ * function: long_from_char
  * address:  0x02162FD8
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 
 extern void MI_CpuCopy8(void *a, void *b, int n);
 
-void func_02162FD8(void *a, void *b, int n)
+static void long_from_char(void *a, void *b, int n)
 {
     MI_CpuCopy8(b, a, n);
 }

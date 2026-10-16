@@ -1,5 +1,5 @@
 /*
- * function: func_0218544C
+ * function: BEACON_DETAIL_DrawCurrentInfo
  * address: 0x0218544C
  * packet: pkt_ov219_0218544C
  * region: ov219
@@ -79,10 +79,10 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_02184D30 0x02184D30 thumb ov219
+ *   BEACON_DETAIL_DrawTextRecord 0x02184D30 thumb ov219
  *   STRBUF_Delete 0x02045808 arm
- *   func_0218532C 0x0218532C thumb ov219
- *   func_02185C84 0x02185C84 thumb ov219
+ *   BEACON_DETAIL_FindNearestRecord 0x0218532C thumb ov219
+ *   BEACON_DETAIL_GetEntryText 0x02185C84 thumb ov219
  *   BMP_WIN_TransferChars 0x02045334 arm
  * prototype: caller narrows allocation heap to u16 immediately before each call.
  */
@@ -95,12 +95,12 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
-extern void func_02184D30(char *,struct Record *,struct Descriptor *,void *,u8,u8);
+extern void BEACON_DETAIL_DrawTextRecord(char *,struct Record *,struct Descriptor *,void *,u8,u8);
 extern void STRBUF_Delete(struct U16Vec *);
-extern int func_0218532C(char *,u32 *);
-extern int func_02185C84(u32,u32,void *,void *,u32);
+extern int BEACON_DETAIL_FindNearestRecord(char *,u32 *);
+extern int BEACON_DETAIL_GetEntryText(u32,u32,void *,void *,u32);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_0218544C(char *p)
+void BEACON_DETAIL_DrawCurrentInfo(char *p)
 {
     struct U16Vec *buffer;
     u32 selected;
@@ -108,18 +108,18 @@ void func_0218544C(char *p)
         buffer=STRBUF_Create(1024,(u16)(*(u32 *)p));
         BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+0xC01C)),15);
         MSGDATA_ReadString(*(struct MsgBank **)(p+0xC070),15,buffer);
-        func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),buffer,0,0);
+        BEACON_DETAIL_DrawTextRecord(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),buffer,0,0);
         STRBUF_Delete(buffer);
     } else {
         struct U16Vec *first,*second;
-        if(func_0218532C(p,&selected)) {
+        if(BEACON_DETAIL_FindNearestRecord(p,&selected)) {
             first=STRBUF_Create(64,(u16)(*(u32 *)p));
             second=STRBUF_Create(64,(u16)(*(u32 *)p));
             BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+0xC01C)),15);
-            func_02185C84(*(u16 *)(p+selected*48+66),*(u16 *)(p+selected*48+68),first,second,*(u32 *)p);
+            BEACON_DETAIL_GetEntryText(*(u16 *)(p+selected*48+66),*(u16 *)(p+selected*48+68),first,second,*(u32 *)p);
             if(*(u16 *)(p+selected*48+68)!=0)
-                func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),second,0,16);
-            func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),first,0,0);
+                BEACON_DETAIL_DrawTextRecord(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),second,0,16);
+            BEACON_DETAIL_DrawTextRecord(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),first,0,0);
             STRBUF_Delete(second);
             STRBUF_Delete(first);
             *(int *)(p+0xC2F4)=*(s16 *)(p+selected*48+24);

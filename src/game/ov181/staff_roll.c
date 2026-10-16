@@ -94,7 +94,7 @@
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_02048AD0 0x02048AD0 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   d_021BAB50 0x021BAB50 data a4
  *   d_021BAB38 0x021BAB38 data a4
  *   d_021BAC68 0x021BAC68 data a4
@@ -145,7 +145,7 @@ struct MsgBank;
 struct U16Vec;
 struct Rec;
 struct Bmp;
-struct Obj020437AC;
+struct Bmp;
 struct Descriptor;
 struct Cfg;
 struct Util;
@@ -301,7 +301,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern void BMP_Delete(struct Obj020437AC *);
+extern void BMP_Delete(struct Bmp *);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *,struct Bmp *,unsigned,unsigned,int,int,unsigned,unsigned,unsigned);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
@@ -325,7 +325,7 @@ extern void func_02048C58(struct LightSlot *);
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u16);
 extern void func_02048AD0(struct Light *);
 extern void BG_SYS_SetLowBit(u32);
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void func_02048C4C(void *);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,unsigned);
@@ -863,7 +863,7 @@ void STAFF_ROLL_Init3d(char *p) {
     BG_SYS_SetLowBit(2);
     STAFF_ROLL_InitLights((u8 *)(p+0x28));
     BG_SYS_SetMainPlaneVisible(1,0);
-    func_0207D658(0x04000050,1,-16);
+    G2x_SetBlendBrightness_(0x04000050,1,-16);
 }
 
 
@@ -1021,7 +1021,7 @@ void STAFF_ROLL_UpdateBrightness(char *p)
     int v = ((StaffRoll *)p)->brightness;
     if (v <= 0x10000) {
         ((StaffRoll *)p)->brightness = v + (((StaffRoll *)p)->fastFlag == 1 ? 0x400 : 0x100);
-        func_0207D658(0x04000050, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
+        G2x_SetBlendBrightness_(0x04000050, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
     }
 }
 

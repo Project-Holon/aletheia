@@ -18,7 +18,7 @@
  * symbols:
  *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   HAND_WAZA_AddMoveHandler  0x021E02DC  thumb  ov093
  *   BTL_SERVER_FLOW_NotifyMoveEvent  0x021C6394  thumb  ov093
  *   HAND_WAZA_RemoveMoveHandlerUnlessKept  0x021E0394  thumb  ov093
@@ -32,7 +32,7 @@ typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[6]; } S;
 
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int HAND_WAZA_AddMoveHandler(u8 *a, u16 key, u32 sub_pri);
 extern void BTL_SERVER_FLOW_NotifyMoveEvent(u8 *p, u8 *a, unsigned int n);
 extern void HAND_WAZA_RemoveMoveHandlerUnlessKept(u8 *a, int b);
@@ -52,7 +52,7 @@ void BTL_SERVER_FLOW_ProcPreTurnMoveCheck(S *p)
             id = 0;
         if (id != 0) {
             a = p->e[i].a;
-            if (HAND_WAZA_AddMoveHandler(a, id, func_021D59B4(a, 12))) {
+            if (HAND_WAZA_AddMoveHandler(a, id, BTL_POKEPARAM_GetValue(a, 12))) {
                 BTL_SERVER_FLOW_NotifyMoveEvent((u8 *)p, a, id);
                 HAND_WAZA_RemoveMoveHandlerUnlessKept(a, id);
             }

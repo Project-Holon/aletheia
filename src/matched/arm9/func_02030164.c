@@ -9,8 +9,8 @@
  * isa:      arm
  * status:   EXACT
  *
- * Block release: the free that pairs with sub_02030098. The header is the
- * same 0x1c-byte block header sub_02030098 reserves, so the block pointer
+ * Block release: the free that pairs with GFL_HEAP_AllocMemory. The header is the
+ * same 0x1c-byte block header GFL_HEAP_AllocMemory reserves, so the block pointer
  * is p - 0x1c and the heap id is the header's first halfword, loaded before
  * the header is validated (see the notes below); the second halfword is the
  * 0x194E signature and is rewritten to 0x194D here, so a freed block keeps
@@ -46,7 +46,7 @@
  *    src/matched/GFL_HEAP_Delete.c declares).
  *
  * The count decrement is `g_EnvModule.entries[g_EnvModule.ids[heapId]].field0c--;`
- * -- the same double-index expression sub_02030098 increments -- and its
+ * -- the same double-index expression GFL_HEAP_AllocMemory increments -- and its
  * decremented result is not reused; the second call takes two arguments.
  *
  * symbols:

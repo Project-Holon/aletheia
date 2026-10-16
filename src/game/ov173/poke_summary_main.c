@@ -132,7 +132,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   POKE_SUMMARY_ACTOR_SetMoveIcon 0x021B78CC thumb ov173
  *   WORDSET_SetSlotMonName 0x0201EE84 thumb
@@ -145,7 +145,7 @@
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   d_021B8350 0x021B8350 data a4
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStreamCallBack 0x0201CD10 thumb
@@ -175,7 +175,7 @@ struct PrintSys;
 struct TcblWork;
 struct ProcOwner;
 struct MsgBank;
-struct R;
+struct TaskMenuRes;
 struct TaskMenuState;
 struct U16Vec;
 struct Node;
@@ -247,7 +247,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct ProcOwner *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -340,7 +340,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern void *POKE_TOOL_GetBoxParam(void *);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
 extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
@@ -352,7 +352,7 @@ extern u32 WAZA_TOOL_IsAlwaysHit(u16);
 extern void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *p, u16 id);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);
+extern unsigned int POKE_TOOL_GetPartyValue(void *, unsigned int, unsigned int);
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
@@ -1021,7 +1021,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
     bank=func_02045B38(0,2,0xcb,79);
     mon=POKE_TOOL_GetBoxParam(((struct PokeSummaryWork *)p)->mon->party);
     for(i=0;i<4;i++) {
-        move=func_02017E88(mon,0x36+i,0);
+        move=POKE_TOOL_GetBoxValue(mon,0x36+i,0);
         if(move==0) CLACT_SetActorDrawEnable(((struct PokeSummaryWork *)p)->actors[8+i],0);
         else {
             CLACT_SetActorDrawEnable(((struct PokeSummaryWork *)p)->actors[8+i],1);
@@ -1032,8 +1032,8 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
             coord=y+16;
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct PokeSummaryWork *)p)->bmpWindows[14]),8,coord,((struct PokeSummaryWork *)p)->strBufB,((struct PokeSummaryWork *)p)->font,0x440);
             flush(((struct PokeSummaryWork *)p)->bmpWindows[14]);
-            WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,0,func_02017E88(mon,0x3a+i,0),2,1,1);
-            WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,1,func_02017E88(mon,0x42+i,0),2,0,1);
+            WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,0,POKE_TOOL_GetBoxValue(mon,0x3a+i,0),2,1,1);
+            WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,1,POKE_TOOL_GetBoxValue(mon,0x42+i,0),2,0,1);
             WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,((struct PokeSummaryWork *)p)->strBufC);
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct PokeSummaryWork *)p)->bmpWindows[14]),32,coord,((struct PokeSummaryWork *)p)->strBufA,((struct PokeSummaryWork *)p)->font,0x440);
             flush(((struct PokeSummaryWork *)p)->bmpWindows[14]);
@@ -1046,7 +1046,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct PokeSummaryWork *)p)->bmpWindows[15]),0,0,((struct PokeSummaryWork *)p)->strBufA,((struct PokeSummaryWork *)p)->font,0x440);
     flush(((struct PokeSummaryWork *)p)->bmpWindows[15]);
     func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x26,temp);
-    WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,0,func_02017E88(mon,0x9e,0),3,1,1);
+    WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,0,POKE_TOOL_GetBoxValue(mon,0x9e,0),3,1,1);
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,temp);
     POKE_SUMMARY_MAIN_PrintAligned(p,15,(u32)((struct PokeSummaryWork *)p)->font,0x440,1,16);
     flush(((struct PokeSummaryWork *)p)->bmpWindows[15]);
@@ -1336,7 +1336,7 @@ unsigned short POKE_SUMMARY_MAIN_GetMoveWord(int *p)
 {
     struct PokeSummaryMon *q = ((struct PokeSummaryWork *)p)->mon;
 
-    return func_02017E1C((void *)q->party, q->variant + 0x36, 0);
+    return POKE_TOOL_GetPartyValue((void *)q->party, q->variant + 0x36, 0);
 }
 
 
@@ -1411,7 +1411,7 @@ int POKE_SUMMARY_MAIN_SoundStateCallback(unsigned int state)
 
 
 
-u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p) {u8 i;for(i=0;i<4;i++)if(!func_02017E1C(**p,i+54,0))break;return i;}
+u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p) {u8 i;for(i=0;i<4;i++)if(!POKE_TOOL_GetPartyValue(**p,i+54,0))break;return i;}
 
 
 

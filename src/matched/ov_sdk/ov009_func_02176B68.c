@@ -1,5 +1,5 @@
 /*
- * function: func_02176B68
+ * function: DWCi_InitReliableQueue
  * address:  0x02176B68
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char gDwcReliableQueue[];
 
-void func_02176B68(void)
+static void DWCi_InitReliableQueue(void)
 {
     *(int *)(gDwcReliableQueue) = 0;
     *(int *)(gDwcReliableQueue + 4) = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02185794
+ * function: BEACON_DETAIL_SetupCamera
  * address: 0x02185794
  * packet: pkt_ov219_02185794
  * region: ov219
@@ -16,7 +16,7 @@
  *   G3D_CAMERA_SetFarClip 0x02048B94 arm
  *   G3D_CAMERA_SetScale 0x02048B60 arm
  *   G3D_CAMERA_SetRoll 0x02048B6C arm
- *   func_02185AC8 0x02185AC8 thumb ov219
+ *   BEACON_DETAIL_UpdateCamera 0x02185AC8 thumb ov219
  *   d_02185E0C 0x02185E0C data a4
  *   d_02185DF4 0x02185DF4 data a4
  *   d_020A1C78 0x020A1C78 data
@@ -39,9 +39,9 @@ extern void G3D_CAMERA_SetNearClip(struct Light *l, u32 v);
 extern void G3D_CAMERA_SetFarClip(struct Light *l, u32 v);
 extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
-extern int func_02185AC8(char *);
+extern int BEACON_DETAIL_UpdateCamera(char *);
 
-void func_02185794(char *p)
+void BEACON_DETAIL_SetupCamera(char *p)
 {
     u32 a = 0;
     u32 b = 0x19 << 14;
@@ -59,6 +59,6 @@ void func_02185794(char *p)
         *(u16 *)(p + 0xC30C) = 0;
     else
         *(u16 *)(p + 0xC30C) = 1;
-    while (func_02185AC8(p) != 1)
+    while (BEACON_DETAIL_UpdateCamera(p) != 1)
         ;
 }

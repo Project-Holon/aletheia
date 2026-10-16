@@ -20,14 +20,14 @@
  *
  * Three things happen, and two of them discard their results, which is
  * what a stripped diagnostic looks like: the calls survive for their side
- * effects (sub_0203046C records an error code in the heap table at +0xe)
+ * effects (GFL_HEAP_GetAllocCountById records an error code in the heap table at +0xe)
  * and for the bounds checking they perform, while the value each computes
  * is dropped.
  *
- *  - sub_020304C0(p) is the provenance record stamped by GFL_HEAP_StampAllocSite,
+ *  - GFL_HEAP_GetBlockName(p) is the provenance record stamped by GFL_HEAP_StampAllocSite,
  *    i.e. header+4. It is live across two calls and so costs r4.
- *  - sub_020304B8(p) is a plain `ldrh [p, #-0x1c]`: the heap id stored in
- *    the first halfword of the block header. It feeds sub_0203046C, the
+ *  - GFL_HEAP_GetBlockHeapId(p) is a plain `ldrh [p, #-0x1c]`: the heap id stored in
+ *    the first halfword of the block header. It feeds GFL_HEAP_GetAllocCountById, the
  *    id-to-arena mapper, whose result is dropped.
  *  - GFL_HEAP_ReadAllocSiteName copies the provenance name into a 0x13-byte stack
  *    buffer and validates it (all bytes printable 0x20..0x7e, and a '.'
@@ -36,9 +36,9 @@
  *    what puts it at sp+0.
  *
  * symbols:
- *   sub_0203046C    0x0203046C  arm
- *   sub_020304B8    0x020304B8  arm
- *   sub_020304C0    0x020304C0  arm
+ *   GFL_HEAP_GetAllocCountById    0x0203046C  arm
+ *   GFL_HEAP_GetBlockHeapId    0x020304B8  arm
+ *   GFL_HEAP_GetBlockName    0x020304C0  arm
  *   GFL_HEAP_ReadAllocSiteName    0x020308B8  arm
  *
  * Verified with:
@@ -50,9 +50,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 sub_020304B8(void *p);
-extern void *sub_020304C0(void *p);
-extern u16 sub_0203046C(u32 heapId);
+extern u16 GFL_HEAP_GetBlockHeapId(void *p);
+extern void *GFL_HEAP_GetBlockName(void *p);
+extern u16 GFL_HEAP_GetAllocCountById(u32 heapId);
 extern int GFL_HEAP_ReadAllocSiteName(u8 *buf, const char *name);
 
 void GFL_HEAP_AuditAlloc(void *p, u32 size)
@@ -60,7 +60,7 @@ void GFL_HEAP_AuditAlloc(void *p, u32 size)
     u8 buf[0x13];
     void *rec;
 
-    rec = sub_020304C0(p);
-    sub_0203046C(sub_020304B8(p));
+    rec = GFL_HEAP_GetBlockName(p);
+    GFL_HEAP_GetAllocCountById(GFL_HEAP_GetBlockHeapId(p));
     GFL_HEAP_ReadAllocSiteName(buf, (const char *)rec);
 }

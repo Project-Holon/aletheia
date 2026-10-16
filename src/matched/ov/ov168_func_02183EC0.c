@@ -1,5 +1,5 @@
 /*
- * function: func_02183EC0
+ * function: MICTEST_StepFinish
  * address:  0x02183EC0
  * packet:   pkt_02183EC0
  * region:   ov168
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02183D3C  0x02183D3C  thumb  ov168
- *   func_02184818  0x02184818  thumb  ov168
- *   func_02183D44  0x02183D44  thumb  ov168
+ *   MICTEST_GetOwner  0x02183D3C  thumb  ov168
+ *   MICTEST_DeleteSpriteTasks  0x02184818  thumb  ov168
+ *   MICTEST_MarkStepDone  0x02183D44  thumb  ov168
  */
 
-extern unsigned int func_02183D3C(unsigned int *p);
-extern void func_02184818(char *p);
-extern void func_02183D44(unsigned int *p);
+extern unsigned int MICTEST_GetOwner(unsigned int *p);
+extern void MICTEST_DeleteSpriteTasks(char *p);
+extern void MICTEST_MarkStepDone(unsigned int *p);
 
-void func_02183EC0(int *p)
+void MICTEST_StepFinish(int *p)
 {
-    func_02184818((char *)func_02183D3C((unsigned int *)((int)p)));
-    func_02183D44((unsigned int *)p);
+    MICTEST_DeleteSpriteTasks((char *)MICTEST_GetOwner((unsigned int *)((int)p)));
+    MICTEST_MarkStepDone((unsigned int *)p);
 }

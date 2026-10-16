@@ -15,7 +15,7 @@
  *
  * The tail-end half of the expanded-heap allocator, the mirror of
  * NNSi_FndAllocFromExpHeapHead: NNS_FndAllocFromExpHeapEx dispatches here when the caller asked for a
- * negative alignment, which is how src/matched/sub_02030098.c spells "take
+ * negative alignment, which is how src/matched/GFL_HEAP_AllocMemory.c spells "take
  * this block from the high end of the heap".
  *
  * The walk runs from the free list's tail through the `prev` link at +0x08

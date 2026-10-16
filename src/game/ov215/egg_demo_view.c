@@ -18,7 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   d_021F73F4 0x021F73F4 data a1
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   d_021F7340 0x021F7340 data a4
  *   d_021F7314 0x021F7314 data a4
  *   TCB_DeleteTask 0x02030EAC arm
@@ -179,7 +179,7 @@ extern u32 func_020307B0(void *p);
 
 extern void MTX_Identity33_(void *);
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 extern void TCB_DeleteTask(struct Node *);
 
@@ -408,7 +408,7 @@ char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
     work=func_02030734(heap,96,1,d_021F73F4,433);
     ((struct EggDemoView *)work)->heapId=heap;
     ((struct EggDemoView *)work)->mon=mon;
-    ((struct EggDemoView *)work)->species=func_02017E1C(mon,5,0);
+    ((struct EggDemoView *)work)->species=POKE_TOOL_GetPartyValue(mon,5,0);
     ((struct EggDemoView *)work)->animState=0;
     ((struct EggDemoView *)work)->startFlag=0;
     ((struct EggDemoView *)work)->visible=0;
@@ -492,8 +492,8 @@ void EGG_DEMO_VIEW_Update(char *work)
     case 7:
         if(++((struct EggDemoView *)work)->frameCounter>=65) {
             ((struct EggDemoView *)work)->animState=8;
-            a=func_02017E1C(((struct EggDemoView *)work)->mon,5,0);
-            b=func_02017E1C(((struct EggDemoView *)work)->mon,111,0);
+            a=POKE_TOOL_GetPartyValue(((struct EggDemoView *)work)->mon,5,0);
+            b=POKE_TOOL_GetPartyValue(((struct EggDemoView *)work)->mon,111,0);
             PM_VOICE_Play(a,b,64,0,0,0,0,0);
         }
         break;
@@ -566,7 +566,7 @@ void EGG_DEMO_VIEW_AddPokeMcss(char *work)
     float angle,y,x;
     ((struct EggDemoView *)work)->pokeMcss=MCSS_TOOL_AddPokeMcss(((struct EggDemoView *)work)->mcss,((struct EggDemoView *)work)->mon,0,0,0xfff42000,0xffce0000);
     MCSS_SetShadowVanishFlag(*(char * *)&((struct EggDemoView *)work)->pokeMcss,1);
-    species=func_02017E1C(((struct EggDemoView *)work)->mon,171,0);
+    species=POKE_TOOL_GetPartyValue(((struct EggDemoView *)work)->mon,171,0);
     if(species!=650){
         for(;i<4;i++){
             if(species==table_021F7384[i].species){

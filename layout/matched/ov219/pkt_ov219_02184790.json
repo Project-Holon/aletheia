@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02184790",
+   "name": "BEACON_DETAIL_GetRecordIndex",
    "address": "0x02184790",
    "kind": "game",
    "region": "ov219",

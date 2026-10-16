@@ -11,7 +11,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
  */
 #include "../include/Obj01734.h"
@@ -27,7 +27,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 int GSYNC_MESSAGE_OpenYesNoMenu(char *p,int mode)
 {
     Config c;
@@ -50,6 +50,6 @@ int GSYNC_MESSAGE_OpenYesNoMenu(char *p,int mode)
     result=(int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&c),((struct Obj01734 *)p)->fA4);
     STRBUF_Delete(((struct Obj01734 *)p)->f8C);
     STRBUF_Delete(((struct Obj01734 *)p)->f98);
-    func_0207D658(0x04001050,9,-8);
+    G2x_SetBlendBrightness_(0x04001050,9,-8);
     return result;
 }

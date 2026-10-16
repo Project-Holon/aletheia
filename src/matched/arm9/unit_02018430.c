@@ -22,7 +22,7 @@
  * The three values are held in word locals and truncated at the call, not at
  * the assignment: the two `lsls #0x10` / `lsrs #0x10` pairs sit immediately in
  * front of the `bl`, after the lock call, which is what fixes POKE_TOOL_CalcLevelFromExp's
- * first two parameters as u16 and func_02017E88's return as a word.  The same
+ * first two parameters as u16 and POKE_TOOL_GetBoxValue's return as a word.  The same
  * shape appears in src/matched/unit_02017E64.c and src/matched/unit_0201854C.c.
  *
  * The range stops at 0x02018480, where another eight byte thunk forwards to
@@ -40,6 +40,7 @@
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   POKE_TOOL_CalcLevelFromExp  0x0201850C  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ typedef unsigned int   u32;
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
 
 u32 POKE_TOOL_CalcBoxLevel(void *p);
@@ -61,9 +62,9 @@ u32 POKE_TOOL_CalcLevel(void *p)
 u32 POKE_TOOL_CalcBoxLevel(void *p)
 {
     u32 t = POKE_TOOL_DecodeBoxParam(p);
-    u32 species = func_02017E88(p, 5, 0);
-    u32 form = func_02017E88(p, 0x6F, 0);
-    u32 exp = func_02017E88(p, 8, 0);
+    u32 species = POKE_TOOL_GetBoxValue(p, 5, 0);
+    u32 form = POKE_TOOL_GetBoxValue(p, 0x6F, 0);
+    u32 exp = POKE_TOOL_GetBoxValue(p, 8, 0);
 
     POKE_TOOL_EncodeBoxParam(p, t);
     return POKE_TOOL_CalcLevelFromExp((u16)species, (u16)form, exp);

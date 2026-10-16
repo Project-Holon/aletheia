@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02175F3C                0x02175F3C arm   ov009
- *   func_02175FB8                0x02175FB8 arm   ov009
+ *   DWCi_GetHostStatus                0x02175FB8 arm   ov009
  *   DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID 0x02176500 arm   ov009
  *   DWCi_ClearMeshMakingTempInfo 0x02176870 arm   ov009
  *   DWCi_NodeInfoList_GetMyNodeInfo                0x02176344 arm   ov009
@@ -46,7 +46,7 @@ struct DWCstNodeInfo {
 };
 
 extern int func_02175F3C(void);
-extern unsigned char func_02175FB8(void);
+extern unsigned char DWCi_GetHostStatus(void);
 extern int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
 extern void DWCi_ClearMeshMakingTempInfo(void);
 extern char *DWCi_NodeInfoList_GetMyNodeInfo(void);
@@ -60,7 +60,7 @@ u8 DWCi_CheckResvCommand(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, i
     u64 tick;
 
     ((struct DWCstMatchControl *)func_02175F3C())->f7b4 = 1;
-    switch (func_02175FB8()) {
+    switch (DWCi_GetHostStatus()) {
     case 1:
         if (DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(profileID)) {
             if (((struct DWCstMatchControl *)func_02175F3C())->f5a4 == 0) {

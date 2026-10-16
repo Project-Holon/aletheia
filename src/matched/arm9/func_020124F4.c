@@ -56,7 +56,7 @@
  *   func_0200857C  0x0200857C  thumb
  *   func_020071E4  0x020071E4  thumb
  *   FIELD_ENCOUNT_ST_Create  0x0215E31C  thumb  ov010
- *   func_0202E43C  0x0202E43C  thumb
+ *   PMS_DRAW_ClearWork  0x0202E43C  thumb
  *   GAME_DATA_LoadFromSave  0x02012C18  thumb
  *   COMM_PLAYER_SUPPORT_Create  0x0202E770  thumb
  *   BEACON_STATUS_Create  0x0202751C  thumb
@@ -145,7 +145,7 @@ extern void  EVENT_FIELD_PROCLINK_InitEventdataSystem(char *p);
 extern void *func_0200857C(u32 heap);
 extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
 extern void *FIELD_ENCOUNT_ST_Create(u32 heap);
-extern void  func_0202E43C(void *p);
+extern void  PMS_DRAW_ClearWork(void *p);
 extern void GAME_DATA_LoadFromSave(u8 *p);
 extern void *COMM_PLAYER_SUPPORT_Create(void *heap);
 extern u32   BEACON_STATUS_Create(int heap, u32 n);
@@ -207,7 +207,7 @@ void *GAME_DATA_Create(u16 heap)
     func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)&((struct Obj00054 *)p)->f0));
 
     ((struct Obj00054 *)p)->f5E4 = (u32)FIELD_ENCOUNT_ST_Create(heap);
-    func_0202E43C(p + 0x5E8);
+    PMS_DRAW_ClearWork(p + 0x5E8);
     GAME_DATA_LoadFromSave(p);
     ((struct Obj00054 *)p)->f680 = 0;
     *(u32 *)&((struct Obj00054 *)p)->f688 = 0;

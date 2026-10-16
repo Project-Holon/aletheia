@@ -1,7 +1,7 @@
 /*
  * file:     symbol_save.c
  * unit:     yes
- * function: SYMBOL_SAVE_UpdateChecksum, SYMBOL_SAVE_FinalizeChecksum, SYMBOL_SAVE_GetBlockSize, SYMBOL_SAVE_InitBlock, SYMBOL_SAVE_GetBlock, SYMBOL_SAVE_FindBand, SYMBOL_SAVE_FindFreeSlot, SYMBOL_SAVE_RemoveSlot, SYMBOL_SAVE_RemoveSlotAndFind, SYMBOL_SAVE_FindBandThunk, SYMBOL_SAVE_RemoveSlotAndCommit, SYMBOL_SAVE_WriteRecord, SYMBOL_SAVE_SetRank, SYMBOL_SAVE_FindRecord, SYMBOL_SAVE_GetBitBlockSize, SYMBOL_SAVE_InitBitBlock, SYMBOL_SAVE_GetBitBlock, SYMBOL_SAVE_GetQuestionnaireBits, sub_0200E3A4, sub_0200E3E8, SYMBOL_SAVE_SetBitDescriptor
+ * function: SYMBOL_SAVE_UpdateChecksum, SYMBOL_SAVE_FinalizeChecksum, SYMBOL_SAVE_GetBlockSize, SYMBOL_SAVE_InitBlock, SYMBOL_SAVE_GetBlock, SYMBOL_SAVE_FindBand, SYMBOL_SAVE_FindFreeSlot, SYMBOL_SAVE_RemoveSlot, SYMBOL_SAVE_RemoveSlotAndFind, SYMBOL_SAVE_FindBandThunk, SYMBOL_SAVE_RemoveSlotAndCommit, SYMBOL_SAVE_WriteRecord, SYMBOL_SAVE_SetRank, SYMBOL_SAVE_FindRecord, SYMBOL_SAVE_GetBitBlockSize, SYMBOL_SAVE_InitBitBlock, SYMBOL_SAVE_GetBitBlock, SYMBOL_SAVE_GetQuestionnaireBits, SYMBOL_SAVE_ReadBitField, SYMBOL_SAVE_WriteBitField, SYMBOL_SAVE_SetBitDescriptor
  * address:  0x0200E024
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -124,9 +124,9 @@ void *SYMBOL_SAVE_GetBitBlock(void *saveData);
 
 u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
 
-u32 sub_0200E3A4(const u8 *bits, int fieldId);
+u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int fieldId);
 
-void sub_0200E3E8(u8 *bits, int fieldId, u32 value);
+void SYMBOL_SAVE_WriteBitField(u8 *bits, int fieldId, u32 value);
 
 void SYMBOL_SAVE_SetBitDescriptor(struct SymbolBitSave *save, int value, int index);
 
@@ -494,7 +494,7 @@ u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save)
  *           leaves matched in src/matched/COMM_PLAYER_GetRecordField3.c and QUESTIONNAIRE_GetAnswerBitWidth.c
  *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  */
-u32 sub_0200E3A4(const u8 *bits, int fieldId)
+u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int fieldId)
 {
     u32 bitPos  = COMM_PLAYER_GetRecordField3(fieldId);
     u32 width    = QUESTIONNAIRE_GetAnswerBitWidth(fieldId);
@@ -530,7 +530,7 @@ u32 sub_0200E3A4(const u8 *bits, int fieldId)
  *   - inside the wrap test, `byte++` must precede `b = 0`; the reverse
  *     order emits `movs #0` before the `adds` and shifts the allocation.
  */
-void sub_0200E3E8(u8 *bits, int fieldId, u32 value)
+void SYMBOL_SAVE_WriteBitField(u8 *bits, int fieldId, u32 value)
 {
     u32 bitPos = COMM_PLAYER_GetRecordField3(fieldId);
     u32 width   = QUESTIONNAIRE_GetAnswerBitWidth(fieldId);

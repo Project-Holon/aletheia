@@ -1,5 +1,5 @@
 /*
- * function: func_021B98A0
+ * function: PMS_INPUT_DATA_BuildInitialWords
  * address: 0x021B98A0
  * packet: pkt_ov110_021B98A0
  * region: ov110
@@ -10,14 +10,14 @@
  * lever: the initial slot stores the running offset; preload the table entry before the store.
  * symbols:
  *   d_021C1C88 0x021C1C88 data ov110 a4
- *   func_021B98F8 0x021B98F8 thumb ov110
+ *   PMS_INPUT_DATA_FilterInitialWords 0x021B98F8 thumb ov110
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *const d_021C1C88[];
-extern u32 func_021B98F8(u8 *p, u16 *src, u16 *out, u32 n);
-void func_021B98A0(u8 *p) {
+extern u32 PMS_INPUT_DATA_FilterInitialWords(u8 *p, u16 *src, u16 *out, u32 n);
+void PMS_INPUT_DATA_BuildInitialWords(u8 *p) {
     u32 a = 0xF58;
     u32 b;
     u32 c;
@@ -31,7 +31,7 @@ void func_021B98A0(u8 *p) {
     for (i=0; i<27; ++i) {
         u8 *src = d_021C1C88[i];
         *(u32 *)(p+i*4+a) = offset;
-        *(u32 *)(p+i*4+b) = func_021B98F8(p, (u16 *)src, (u16 *)(p+0xF58), offset);
+        *(u32 *)(p+i*4+b) = PMS_INPUT_DATA_FilterInitialWords(p, (u16 *)src, (u16 *)(p+0xF58), offset);
         offset += *(u32 *)(p+i*4+c);
     }
 }

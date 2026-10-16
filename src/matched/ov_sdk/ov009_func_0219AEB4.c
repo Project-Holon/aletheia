@@ -21,7 +21,7 @@
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0219B6CC  0x0219B6CC  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_0219B73C  0x0219B73C  arm  ov009
+ *   get_sockaddrin  0x0219B73C  arm  ov009
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   g_021A73A0  0x021A73A0  data
  *   g_021A6604  0x021A6604  data
@@ -105,7 +105,7 @@ extern int func_02094694(void);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern void func_0219B6CC(void);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern int func_0219B73C(char *host, int port, struct SOCSockAddrIn *saddr, struct SOCHostEnt **savehent);
+extern int get_sockaddrin(char *host, int port, struct SOCSockAddrIn *saddr, struct SOCHostEnt **savehent);
 extern char *func_0215FA9C(SOCInAddr in);
 
 int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *gamename, char *secret_key,
@@ -174,7 +174,7 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
         int override = g_021AE9B8[0];
         if (!override)
             OS_SPrintf(hostname, g_021A73B4, gamename);
-        ret = func_0219B73C(override ? g_021AE9B8 : hostname, 27900, &cr->hbaddr, 0);
+        ret = get_sockaddrin(override ? g_021AE9B8 : hostname, 27900, &cr->hbaddr, 0);
         if (ret == 1)
             gsDebugFormat(3, 0, 0x10, g_021A73D4, override ? g_021AE9B8 : hostname, func_0215FA9C(cr->hbaddr.addr));
         else

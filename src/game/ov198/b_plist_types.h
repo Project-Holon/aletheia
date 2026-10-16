@@ -129,10 +129,10 @@ struct B_PlistWork {
     union { u32 word; void *ptr; } u2170; /* 0x2170 */
     u8    winCount;             /* 0x2174 */
     union {                     /* 0x2175 */
-        struct { u8 low : 5; u8 high : 3; } bc;      /* Bits_0220BC70 view */
+        struct { u8 low : 5; u8 high : 3; } bc;      /* low 5 bits, top 3 bits */
         struct { u8 low : 6; u8 bit : 1; u8 high : 1; } f060; /* main Flag view */
-        struct { u8 low : 7; u8 flip : 1; } e8b4;    /* Flags_0220E8B4 view */
-        struct { u8 low : 5; u8 flip : 1; u8 high : 2; } e9a0; /* Flags_0220E9A0 view */
+        struct { u8 low : 7; u8 flip : 1; } e8b4;    /* low 7 bits, flip bit */
+        struct { u8 low : 5; u8 flip : 1; u8 high : 2; } e9a0; /* low 5, flip bit, top 2 */
     } winFlags;
     u8    pad2176;              /* 0x2176 */
     struct { u8 step : 4; u8 flags : 4; } stateFlags; /* 0x2177 */

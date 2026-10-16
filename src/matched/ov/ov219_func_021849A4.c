@@ -1,5 +1,5 @@
 /*
- * function: func_021849A4
+ * function: BEACON_DETAIL_InitMainScreen
  * address: 0x021849A4
  * packet: pkt_ov219_021849A4
  * region: ov219
@@ -21,11 +21,11 @@
  *   func_02049B40 0x02049B40 arm
  *   BG_SYS_InitRun 0x02040B94 arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
- *   func_02184968 0x02184968 thumb ov219
+ *   BEACON_DETAIL_CreateBmpWin 0x02184968 thumb ov219
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
- *   func_02184BAC 0x02184BAC thumb ov219
+ *   BEACON_DETAIL_CreateTaskMenu 0x02184BAC thumb ov219
  *   d_02185E58 0x02185E58 data a4
  *   d_02185E78 0x02185E78 data a4
  *   d_02185DBD 0x02185DBD data a1
@@ -48,10 +48,10 @@ extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
-extern u32 func_02184968(const u8 *p, int flag);
+extern u32 BEACON_DETAIL_CreateBmpWin(const u8 *p, int flag);
 struct Descriptor;
-extern void BMP_MENUWORK_DrawWindow(void *,int,int,int),BMP_WIN_TransferChars(struct Descriptor *),BG_SYS_SetLowBit(u32),func_02184BAC(char *);
-void func_021849A4(char *p,void *arc)
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int),BMP_WIN_TransferChars(struct Descriptor *),BG_SYS_SetLowBit(u32),BEACON_DETAIL_CreateTaskMenu(char *);
+void BEACON_DETAIL_InitMainScreen(char *p,void *arc)
 {
     ((struct Obj01012 *)p)->fC06C=GF_FONT_Create(0x17,0,0,0,(u16)(((struct Obj01012 *)p)->f0));
     GF_FONT_GetTextColor((u8 *)p+0xc084,(u8 *)p+0xc085,(u8 *)p+0xc086);
@@ -67,7 +67,7 @@ void func_021849A4(char *p,void *arc)
     func_02049B40(0x17,5,4,0x80,0x20,((struct Obj01012 *)p)->f0);
     BG_SYS_InitRun(6,0x20,0,(u16)(((struct Obj01012 *)p)->f0));
     BG_SYS_LoadPlttEntry(6,0x4753);
-    ((struct Obj01012 *)p)->fC01C=(void *)func_02184968(d_02185DBD,1);
+    ((struct Obj01012 *)p)->fC01C=(void *)BEACON_DETAIL_CreateBmpWin(d_02185DBD,1);
     BMP_MENUWORK_DrawWindow(((struct Obj01012 *)p)->fC01C,0,4,6);
     BMP_WIN_TransferChars(((struct Obj01012 *)p)->fC01C);
     ((struct Obj01012 *)p)->fC0B0=0;
@@ -83,5 +83,5 @@ void func_021849A4(char *p,void *arc)
     func_02049B40(0x17,5,0,0x100,0x20,((struct Obj01012 *)p)->f0);
     BG_SYS_InitRun(2,0x20,0,(u16)(((struct Obj01012 *)p)->f0));
     BG_SYS_LoadPlttEntry(2,0);
-    func_02184BAC(p);
+    BEACON_DETAIL_CreateTaskMenu(p);
 }

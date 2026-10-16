@@ -14,7 +14,7 @@
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_CLIENT_IsHeldItemEffective  0x021CF89C  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_CLIENT_FindTrapper  0x021CF9B4  thumb  ov093
  */
 #include "../include/Obj07774.h"
@@ -27,7 +27,7 @@ extern int BTL_POKEPARAM_IsFainted(void *m);
 extern int BTL_CLIENT_IsHeldItemEffective(u8 *p, void *q);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u32 BTL_CLIENT_FindTrapper(u8 *g, void *m, u8 *a, u16 *b);
 
 u32 BTL_CLIENT_GetEscapeBlockerForSide(u8 *g, u8 *a, u16 *b)
@@ -41,7 +41,7 @@ u32 BTL_CLIENT_GetEscapeBlockerForSide(u8 *g, u8 *a, u16 *b)
         if (BTL_POKEPARAM_IsFainted(m) == 0) {
             if (BTL_CLIENT_IsHeldItemEffective(g, m) != 0 && BTL_POKEPARAM_GetItem((struct QI *)m) == 0xe4)
                 return 4;
-            if (func_021D59B4(m, 0x11) == 0x32)
+            if (BTL_POKEPARAM_GetValue(m, 0x11) == 0x32)
                 return 4;
         }
     }

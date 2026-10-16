@@ -277,7 +277,7 @@ int DAILY_LAYOUT_RemovePoolCell(CellDeck *deck, int poolIdx)
     return 1;
 }
 
-typedef enum { K_021F3980 } KType_021F3980;
+typedef enum { DAILY_LAYOUT_POOL_SIZE_NONE } DailyLayoutPoolSize;
 
 extern u8 gDailyLayoutAnchorCells[];
 extern u8 gDailyLayoutCompanionCellsA[];
@@ -295,7 +295,7 @@ int DAILY_LAYOUT_DealCells(CellDeck *deck)
     int anchorIdx;
     int cell;
     int remaining;
-    KType_021F3980 poolSize;
+    DailyLayoutPoolSize poolSize;
     int i;
     int rolled;
     int picked;

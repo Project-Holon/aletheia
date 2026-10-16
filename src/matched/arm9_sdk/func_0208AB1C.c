@@ -1,5 +1,5 @@
 /*
- * function: func_0208AB1C
+ * function: TP_RequestSamplingAsync
  * address:  0x0208AB1C
  * packet:   pkt_0208AB1C
  * region:   arm9
@@ -81,7 +81,7 @@ static inline BOOL TPi_SendData(u32 data)
     return 1;
 }
 
-void func_0208AB1C(void)
+void TP_RequestSamplingAsync(void)
 {
     u32 enabled;
 

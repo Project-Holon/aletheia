@@ -14,7 +14,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *   FLD_WIPE_3DOBJ_MapChangeEventMain  0x021C82C4  thumb  ov021
@@ -29,7 +29,7 @@ struct Sub0200852CObj;
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 struct t;
 extern void ZONEDATA_SetZoneStartLocation(struct t *p, int id);
@@ -49,7 +49,7 @@ int FLD_WIPE_3DOBJ_CreateMapChangeEvent(void *a, int b, int c)
     MI_CpuFill8(r4, 0, 0x30);
     r4[0] = (int)a;
     r4[2] = c;
-    if (func_02008550((const struct Sub0200852CObj *)func_02012944(ICA_ANIME_GetField1C((const struct Ctx *)a))) == 0) {
+    if (func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C((const struct Ctx *)a))) == 0) {
         r4[10] = 11;
         v = 12;
     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_0208B548
+ * function: MicCommonCallback
  * address:  0x0208B548
  * packet:   pkt_0208B548
  * region:   arm9
@@ -53,7 +53,7 @@ typedef struct MicBss {
 extern struct DWCHttp g_02152FE0;
 #define micWork (*(MicBss *)&g_02152FE0)
 
-void func_0208B548(int tag, u32 data, BOOL err)
+void MicCommonCallback(int tag, u32 data, BOOL err)
 {
     MICResult result;
     u16 command;

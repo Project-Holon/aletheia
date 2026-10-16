@@ -1,5 +1,5 @@
 /*
- * function: func_021BB2C4
+ * function: ZUKAN_INFO_DeleteActor
  * address: 0x021BB2C4
  * packet: pkt_ov206_021BB2C4
  * region: ov206
@@ -13,7 +13,7 @@
  */
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021BB2C4(char *p, int i)
+void ZUKAN_INFO_DeleteActor(char *p, int i)
 {
     CLACT_DeleteActor(*(void **)(p + i * 4 + 0xac));
 }

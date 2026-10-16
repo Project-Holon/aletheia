@@ -1,5 +1,5 @@
 /*
- * function: func_02183FC4
+ * function: MICTEST_CreateActors
  * address: 0x02183FC4
  * packet: pkt_ov168_02183FC4
  * region: ov168
@@ -50,7 +50,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
-void func_02183FC4(char *p,u16 heap)
+void MICTEST_CreateActors(char *p,u16 heap)
 {
     void *first,*second;
     u16 i;

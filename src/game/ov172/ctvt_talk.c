@@ -136,103 +136,20 @@
  *   CTVT_MIC_GetReadyBytes 0x021BA15C thumb ov172
  *   CTVT_MIC_GetBuffer 0x021BA170 thumb ov172
  */
-#include "../../matched/include/Obj04552.h"
-#include "../../matched/include/Obj14301.h"
-#include "../../matched/include/Obj02505.h"
-#include "../../matched/include/Obj24090.h"
-#include "../../matched/include/Obj06561.h"
-#include "../../matched/include/Obj00998.h"
-#include "../../matched/include/Obj05446.h"
-#include "../../matched/include/Obj08259.h"
-#include "../../matched/include/Obj10664.h"
-#include "../../matched/include/Obj04553.h"
-#include "draw_system_shared_types.h"
+#include "ctvt_types.h"
 #include "ctvt_talk_shared_types.h"
 
 extern u32 func_020307B0(void *p);
-
-extern u32 COMM_TVT_SYS_GetComm(void *p);
-
-extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
-
-extern u32 COMM_TVT_SYS_GetSelfSlot(void *p);
-
-extern u32 COMM_TVT_SYS_GetViewSwapped(void *p);
-
-struct St;
 
 struct Bmp;
 
 struct Rect { u16 x; u16 y; u16 z; u8 a; u8 b; };
 
-typedef struct S {
-    int state;
-    int f4;
-    int f8;
-    u8 padC[4];
-    void *f10;
-    u8 pad14[0x14];
-    int f28;
-    void *f2C;
-    u8 pad30[4];
-    int f34;
-    u8 f38;
-    u8 pad39;
-    u8 f3A[0x20];
-    u8 f5A[0x20];
-    u8 pad7A[2];
-    void *f7C;
-    u8 pad80[4];
-    int f84;
-    u16 f88;
-    u8 pad8A[2];
-    int f8C;
-    u8 pad90[8];
-    void *f98;
-    void *f9C;
-} S;
-
-struct Rec {
-    u16 h0;
-    u16 h2;
-    u8 b4;
-    u8 b5;
-    u8 b6;
-};
-
-struct St {
-    u32 state;
-    u32 sub;
-    u8 pad08[5];
-    u8 b0d;
-    u8 pad0e[2];
-    u32 *f10;
-    u32 f14;
-    u8 b18;
-    u8 pad19[7];
-    struct Rec *f20;
-    void *f24;
-    u8 pad28[4];
-    void *f2c;
-    u8 pad30[0x74];
-    u32 fa4;
-};
-
 typedef short s16_021B9580;
-
-typedef short          s16;
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-
-extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
-
-extern u32 COMM_TVT_SYS_GetCamView(void *);
-
-extern void COMM_TVT_SYS_PlaceSlotMarker(void *a, u32 b);
-
-extern int COMM_TVT_SYS_GetTalkStatus(void *p);
 
 extern void MIi_CpuCopy16(const void *, void *, u32);
 
@@ -244,11 +161,11 @@ extern void func_0207D63C(void *, u32, u32, u32, u32);
 
 extern void BG_SYS_PushTile(u32 layer);
 
-extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
+extern struct ClActor *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct ClActor *p, u32 v);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct ClActor *p, u32 v);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -260,12 +177,6 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-extern u32 COMM_TVT_SYS_GetArc(void *p);
-
-extern u32 COMM_TVT_SYS_GetResId(void *p, int i);
-
-extern u32 COMM_TVT_SYS_GetClactUnit(void *p);
-
 extern int CTVT_MIC_IsCaptureDone(void *p);
 
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
@@ -276,21 +187,9 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct ClActor *p);
 
 extern void BG_SYS_ClearSlot(u32 i);
-
-extern u32 COMM_TVT_SYS_GetReturnedFromChild(void *p);
-
-extern void COMM_TVT_SYS_SetReturnedFromChild(void *p, u32 v);
-
-extern void COMM_TVT_SYS_SetMessageActive(void *p, u32 v);
-
-extern u32 COMM_TVT_SYS_GetPrintQue(void *p);
-
-extern void COMM_TVT_SYS_CreateTimeIcon(char *a0, void *a1);
-
-extern void COMM_TVT_SYS_DeleteTimeIcon(void *p);
 
 extern int CTVT_CAMVIEW_IsShutterIdle(int x, char *p);
 
@@ -312,7 +211,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct ClActor *p, u16 value);
 
 extern u32 KEY_GetCont(void);
 
@@ -322,11 +221,7 @@ extern u32 KEY_GetTrg(void);
 
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-extern void COMM_TVT_SYS_ToggleViewSwapped(void *);
-
 extern u32 CTVT_CAMVIEW_IsLayoutChanging(int unused, void *p);
-
-extern void COMM_TVT_SYS_ToggleHalfRes(void *);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
@@ -350,10 +245,6 @@ extern int func_0209CB8C(int a, int b);
 
 extern int func_0209C494(int a);
 
-extern u32 COMM_TVT_SYS_GetFont(void *);
-
-extern u32 COMM_TVT_SYS_GetMsgData(void *);
-
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -364,8 +255,6 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
-extern u32 COMM_TVT_SYS_OpenConfirmMenu(u8 *p);
-
 extern void APP_TASKMENU_UpdateMenu(void *p);
 
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
@@ -373,8 +262,6 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
-
-extern u32 COMM_TVT_SYS_GetEndRequested(void *p);
 
 extern int func_0209C0A4(int a, u16 b);
 
@@ -418,13 +305,13 @@ void CTVT_TALK_Init(void *a, char *p);
 
 void CTVT_TALK_Exit(void *a0, char *a1);
 
-u32 CTVT_TALK_Main(void *p, S *s);
+u32 CTVT_TALK_Main(void *p, CtvtTalk *s);
 
 void CTVT_TALK_SetMicMode(int unused, char *p);
 
 void CTVT_TALK_HandleInput(u8 *c, u8 *q);
 
-void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st);
+void CTVT_TALK_UpdateVoiceSend(void *ctx, CtvtTalk *st);
 
 void CTVT_TALK_UpdateVoiceIcon(void *a0, char *a1);
 
@@ -485,11 +372,11 @@ char *CTVT_TALK_Create(char *unused, u16 heap)
     char *q;
     u8 i;
     q = func_02030734(heap, 0xac, 1, d_021C7200, 0xd7);
-    ((struct Obj04552 *)q)->f10 = CTVT_MIC_Create(heap);
-    ((struct Obj04552 *)q)->f1C = func_02030734(heap, 0x808, 1, d_021C7200, 0xda);
-    ((struct Obj04552 *)q)->f20 = ((struct Obj04552 *)q)->f1C;
-    *(char * *)&((struct Obj04552 *)q)->f24 = *(char * *)&((struct Obj04552 *)q)->f1C + 8;
-    ((struct Obj04552 *)q)->fD = 4;
+    ((CtvtTalk *)q)->mic = CTVT_MIC_Create(heap);
+    ((CtvtTalk *)q)->packetPool = func_02030734(heap, 0x808, 1, d_021C7200, 0xda);
+    ((CtvtTalk *)q)->packet = ((CtvtTalk *)q)->packetPool;
+    ((CtvtTalk *)q)->packetPayload = (char *)((CtvtTalk *)q)->packetPool + 8;
+    ((CtvtTalk *)q)->levelIndex = 4;
     MIi_CpuCopy16((void *)0x05000420, q + 0x5a, 32);
     for (i = 0; i < 16; i++) *(u16 *)(q + i * 2 + 0x3a) = 32767;
     return q;
@@ -497,8 +384,8 @@ char *CTVT_TALK_Create(char *unused, u16 heap)
 
 void CTVT_TALK_Delete(void *a0, char *a1)
 {
-    func_020307B0(((struct Obj14301 *)a1)->f20);
-    CTVT_MIC_Delete(((struct Obj14301 *)a1)->f10);
+    func_020307B0(((CtvtTalk *)a1)->packet);
+    CTVT_MIC_Delete((char *)((CtvtTalk *)a1)->mic);
     func_020307B0(a1);
 }
 
@@ -526,87 +413,90 @@ void CTVT_TALK_Init(void *a, char *p)
     BG_SYS_PushTile(5);
     rc.x = 0x80;
     rc.y = 0x60;
-    rc.z = *(u8 *)(p + 0xD) + 0x19;
+    rc.z = ((CtvtTalk *)p)->levelIndex + 0x19;
     rc.a = 0;
     rc.b = 2;
-    *(struct Obj **)(p + 0x90) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
-    CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x90), 1);
+    ((CtvtTalk *)p)->levelActor = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
+    CLACT_SetActorDrawEnable(((CtvtTalk *)p)->levelActor, 1);
     if (COMM_TVT_SYS_GetViewSwapped(a) == 1)
         rc.z = 0x15;
     else
         rc.z = 0x16;
-    *(struct Obj **)(p + 0x94) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
-    CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x94), 1);
+    ((CtvtTalk *)p)->swapActor = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
+    CLACT_SetActorDrawEnable(((CtvtTalk *)p)->swapActor, 1);
     rc.z = 0x14;
-    *(struct Obj **)(p + 0x9C) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
-    CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x9C), 1);
+    ((CtvtTalk *)p)->backActor = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
+    CLACT_SetActorDrawEnable(((CtvtTalk *)p)->backActor, 1);
     rc.z = 0x18;
-    *(struct Obj **)(p + 0xA0) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
-    CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0xA0), 1);
+    ((CtvtTalk *)p)->voiceActor = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
+    CLACT_SetActorDrawEnable(((CtvtTalk *)p)->voiceActor, 1);
     rc.x = 0xE8;
     rc.y = 0xA8;
     rc.z = 1;
     rc.a = 0;
     rc.b = 0;
-    *(struct Obj **)(p + 0x98) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 6), COMM_TVT_SYS_GetResId(a, 2), COMM_TVT_SYS_GetResId(a, 10), &rc, 1, h);
-    CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x98), 1);
-    CLACT_SetActorAutoAnim(*(struct Obj **)(p + 0x98), 1);
-    *(u32 *)(p + 0) = 0;
-    *(u32 *)(p + 8) = 0;
-    *(u32 *)(p + 0xA4) = 0;
-    *(u32 *)(p + 0xA8) = 3;
-    *(u32 *)(p + 0x2C) = BMP_WIN_Create(4, 8, 3, 0x10, 8, 0xA, 1);
-    *(u32 *)(p + 0x7C) = BMP_WIN_Create(4, 1, 1, 0x1E, 4, 0xA, 1);
-    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x2C)), 0);
-    BMP_WIN_MakeScreen(*(void **)(p + 0x2C));
-    BMP_WIN_TransferChars(*(void **)(p + 0x2C));
-    *(u32 *)(p + 0x80) = 0;
-    *(u32 *)(p + 0x84) = 0;
-    *(u32 *)(p + 0x28) = 0;
+    ((CtvtTalk *)p)->cancelActor = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 6), COMM_TVT_SYS_GetResId(a, 2), COMM_TVT_SYS_GetResId(a, 10), &rc, 1, h);
+    CLACT_SetActorDrawEnable(((CtvtTalk *)p)->cancelActor, 1);
+    CLACT_SetActorAutoAnim(((CtvtTalk *)p)->cancelActor, 1);
+    ((CtvtTalk *)p)->state = 0;
+    ((CtvtTalk *)p)->shutterPending = 0;
+    ((CtvtTalk *)p)->voiceIconState = 0;
+    ((CtvtTalk *)p)->voiceIconPrev = 3;
+    ((CtvtTalk *)p)->waveformWin = (struct BmpWin *)BMP_WIN_Create(4, 8, 3, 0x10, 8, 0xA, 1);
+    ((CtvtTalk *)p)->messageWin = (struct BmpWin *)BMP_WIN_Create(4, 1, 1, 0x1E, 4, 0xA, 1);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)p)->waveformWin), 0);
+    BMP_WIN_MakeScreen((struct Cfg *)((CtvtTalk *)p)->waveformWin);
+    BMP_WIN_TransferChars((struct Descriptor *)((CtvtTalk *)p)->waveformWin);
+    ((CtvtTalk *)p)->confirmMenu = 0;
+    ((CtvtTalk *)p)->timeIconPending = 0;
+    ((CtvtTalk *)p)->messagePending = 0;
     BG_SYS_PushTile(4);
-    *(u8 *)(p + 0x38) = 0;
-    *(u32 *)(p + 0x34) = 0;
-    *(u32 *)(p + 0x8C) = 0;
-    *(u8 *)(p + 0xC) = 0;
+    ((CtvtTalk *)p)->flashCounter = 0;
+    ((CtvtTalk *)p)->flashActive = 0;
+    ((CtvtTalk *)p)->voiceActive = 0;
+    ((CtvtTalk *)p)->sendCooldown = 0;
     {
         u32 r = CTVT_COMM_GetMarkerSlot((int)a, (char *)COMM_TVT_SYS_GetComm(a));
         if (r != 0xFF) {
-            COMM_TVT_SYS_PlaceSlotMarker(a, r);
-            *(u32 *)(p + 0xA4) = 2;
+            /* The shared prototype narrows the slot to u8, but the original
+             * CTVT_TALK_Init passes the full 32 bit value; the cast keeps the
+             * u32 calling convention this function was matched with. */
+            ((void (*)(void *, u32))COMM_TVT_SYS_PlaceSlotMarker)(a, r);
+            ((CtvtTalk *)p)->voiceIconState = 2;
         }
     }
-    if (CTVT_MIC_IsCaptureDone(*(void **)(p + 0x10)) == 0)
-        *(u32 *)(p + 0xA4) = 2;
+    if (CTVT_MIC_IsCaptureDone(((CtvtTalk *)p)->mic) == 0)
+        ((CtvtTalk *)p)->voiceIconState = 2;
 }
 
 void CTVT_TALK_Exit(void *a0, char *a1)
 {
     void *p;
 
-    if (((struct Obj02505 *)a1)->f80 != 0)
-        APP_TASKMENU_CloseMenu(((struct Obj02505 *)a1)->f80);
+    if (((CtvtTalk *)a1)->confirmMenu != 0)
+        APP_TASKMENU_CloseMenu(((CtvtTalk *)a1)->confirmMenu);
 
-    p = ((struct Obj02505 *)a1)->f2C;
+    p = ((CtvtTalk *)a1)->waveformWin;
     BMP_WIN_ClearScreen(p);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
-    p = ((struct Obj02505 *)a1)->f7C;
+    p = ((CtvtTalk *)a1)->messageWin;
     BMP_WIN_ClearScreen(p);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
-    BMP_WIN_Delete(((struct Obj02505 *)a1)->f2C);
-    BMP_WIN_Delete(((struct Obj02505 *)a1)->f7C);
-    CLACT_DeleteActor(((struct Obj02505 *)a1)->f98);
-    CLACT_DeleteActor(((struct Obj02505 *)a1)->fA0);
-    CLACT_DeleteActor(((struct Obj02505 *)a1)->f9C);
-    CLACT_DeleteActor(((struct Obj02505 *)a1)->f94);
-    CLACT_DeleteActor(((struct Obj02505 *)a1)->f90);
+    BMP_WIN_Delete((struct Descriptor *)((CtvtTalk *)a1)->waveformWin);
+    BMP_WIN_Delete((struct Descriptor *)((CtvtTalk *)a1)->messageWin);
+    CLACT_DeleteActor(((CtvtTalk *)a1)->cancelActor);
+    CLACT_DeleteActor(((CtvtTalk *)a1)->voiceActor);
+    CLACT_DeleteActor(((CtvtTalk *)a1)->backActor);
+    CLACT_DeleteActor(((CtvtTalk *)a1)->swapActor);
+    CLACT_DeleteActor(((CtvtTalk *)a1)->levelActor);
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
     *(u16 *)0x04001050 = 0;
 }
 
-u32 CTVT_TALK_Main(void *p, S *s)
+u32 CTVT_TALK_Main(void *p, CtvtTalk *s)
 {
     u32 heap;
     u32 a;
@@ -631,10 +521,10 @@ u32 CTVT_TALK_Main(void *p, S *s)
         s->state = 4;
         break;
     case 3:
-        if (s->f4 == 6 && CLACT_IsActorAnimActive(s->f9C) == 1)
+        if (s->substate == 6 && CLACT_IsActorAnimActive((struct Actor *)s->backActor) == 1)
             break;
-        a = COMM_TVT_SYS_GetCamView(p);
-        if (s->f8 != 0 && CTVT_CAMVIEW_IsShutterIdle((int)p, (char *)a) != 1)
+        a = (u32)COMM_TVT_SYS_GetCamView(p);
+        if (s->shutterPending != 0 && CTVT_CAMVIEW_IsShutterIdle((int)p, (char *)a) != 1)
             break;
         WIPE_SYS_Start(0, 0, 0, 0, 6, 1, heap);
         COMM_TVT_SYS_SetReturnedFromChild(p, 1);
@@ -643,7 +533,7 @@ u32 CTVT_TALK_Main(void *p, S *s)
     case 4:
         if (WIPE_SYS_EndCheck() != 1)
             break;
-        if (s->f4 == 6)
+        if (s->substate == 6)
             return 3;
         return 4;
     case 5:
@@ -653,7 +543,7 @@ u32 CTVT_TALK_Main(void *p, S *s)
         if (CTVT_TALK_CheckEnd(p, (int *)s) != 0)
             break;
         if (CTVT_TALK_HitCenter((int)p, (int)s, 1) == 1 || (KEY_GetCont() & 0x101)) {
-            if (CTVT_COMM_SendCommand((int)p, COMM_TVT_SYS_GetComm(p), 6, 0) == 1)
+            if (CTVT_COMM_SendCommand((int)p, (int)COMM_TVT_SYS_GetComm(p), 6, 0) == 1)
                 s->state = 7;
             break;
         }
@@ -662,14 +552,14 @@ u32 CTVT_TALK_Main(void *p, S *s)
     case 7:
         if (CTVT_TALK_CheckEnd(p, (int *)s) != 0)
             break;
-        b = COMM_TVT_SYS_GetComm(p);
+        b = (u32)COMM_TVT_SYS_GetComm(p);
         a = CTVT_COMM_GetMarkerSlot((int)p, (char *)b);
         b = CTVT_COMM_GetHandleNetId(p, b);
         if (CTVT_TALK_HitCenter((int)p, (int)s, 1) == 1 || (KEY_GetCont() & 0x101)) {
             if (a != 0xFF) {
                 if (a == b) {
                     s->state = 8;
-                    s->f4 = 0;
+                    s->substate = 0;
                 } else {
                     s->state = 5;
                 }
@@ -679,7 +569,7 @@ u32 CTVT_TALK_Main(void *p, S *s)
         }
         break;
     case 8:
-        CTVT_TALK_UpdateVoiceSend(p, (struct St *)s);
+        CTVT_TALK_UpdateVoiceSend(p, s);
         break;
     case 9:
         CTVT_TALK_OpenConfirmMenu(p, (char *)s);
@@ -688,18 +578,18 @@ u32 CTVT_TALK_Main(void *p, S *s)
         CTVT_TALK_UpdateConfirmMenu((int)p, (int *)s);
         break;
     case 11:
-        if (CTVT_COMM_SendCommand((int)p, COMM_TVT_SYS_GetComm(p), 10, 0) == 1)
+        if (CTVT_COMM_SendCommand((int)p, (int)COMM_TVT_SYS_GetComm(p), 10, 0) == 1)
             s->state = 12;
     case 12:
         if (COMM_TVT_SYS_GetMemberCount(p) > 1)
             break;
-        a = COMM_TVT_SYS_GetCamView(p);
-        s->f4 = 7;
+        a = (u32)COMM_TVT_SYS_GetCamView(p);
+        s->substate = 7;
         s->state = 3;
         COMM_TVT_SYS_SetMessageActive(p, 1);
         CTVT_CAMVIEW_StopCapture((int)p, (char *)a);
         CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)a);
-        s->f8 = 1;
+        s->shutterPending = 1;
         break;
     case 13:
         CTVT_COMM_StopSession(p, (char *)COMM_TVT_SYS_GetComm(p));
@@ -707,20 +597,20 @@ u32 CTVT_TALK_Main(void *p, S *s)
         CTVT_TALK_ShowMessage(p, (char *)s, 0x24);
         s->state = 14;
         CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
-        s->f8 = 1;
+        s->shutterPending = 1;
         break;
     case 14:
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3)) {
-            s->f4 = 7;
+            s->substate = 7;
             s->state = 3;
             CTVT_CAMVIEW_StopCapture((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
-            s->f8 = 1;
+            s->shutterPending = 1;
         }
         break;
     case 15:
-        if (CTVT_COMM_SendCommand((int)p, COMM_TVT_SYS_GetComm(p), 10, 0) != 1)
+        if (CTVT_COMM_SendCommand((int)p, (int)COMM_TVT_SYS_GetComm(p), 10, 0) != 1)
             break;
-        a = COMM_TVT_SYS_GetCamView(p);
+        a = (u32)COMM_TVT_SYS_GetCamView(p);
         COMM_TVT_SYS_SetMessageActive(p, 1);
         CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)a);
         s->state = 18;
@@ -729,29 +619,29 @@ u32 CTVT_TALK_Main(void *p, S *s)
         CTVT_COMM_StopSession(p, (char *)COMM_TVT_SYS_GetComm(p));
         CTVT_TALK_ShowMessage(p, (char *)s, 0x25);
         s->state = 17;
-        s->f88 = 0;
+        s->promptTimer = 0;
         COMM_TVT_SYS_SetMessageActive(p, 1);
         CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
-        s->f8 = 1;
+        s->shutterPending = 1;
         break;
     case 17:
-        s->f88++;
-        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) || s->f88 >= 300)
+        s->promptTimer++;
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) || s->promptTimer >= 300)
             s->state = 18;
         break;
     case 18:
-        CTVT_COMM_SetTimingSync(p, COMM_TVT_SYS_GetComm(p), 0x2F);
+        CTVT_COMM_SetTimingSync(p, (int)COMM_TVT_SYS_GetComm(p), 0x2F);
         s->state = 19;
         break;
     case 19:
-        if (CTVT_COMM_IsTimingSync(p, COMM_TVT_SYS_GetComm(p), 0x2F) != 1)
+        if (CTVT_COMM_IsTimingSync(p, (int)COMM_TVT_SYS_GetComm(p), 0x2F) != 1)
             break;
-        s->f4 = 7;
+        s->substate = 7;
         s->state = 3;
         COMM_TVT_SYS_DeleteTimeIcon(p);
         COMM_TVT_SYS_SetMessageActive(p, 1);
         CTVT_CAMVIEW_StopCapture((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
-        s->f8 = 1;
+        s->shutterPending = 1;
         break;
     case 20:
         CTVT_COMM_StopSession(p, (char *)COMM_TVT_SYS_GetComm(p));
@@ -759,68 +649,68 @@ u32 CTVT_TALK_Main(void *p, S *s)
         s->state = 21;
         COMM_TVT_SYS_SetMessageActive(p, 1);
         CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
-        s->f8 = 1;
+        s->shutterPending = 1;
         break;
     case 21:
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3)) {
-            s->f4 = 7;
+            s->substate = 7;
             s->state = 3;
             COMM_TVT_SYS_SetMessageActive(p, 1);
             CTVT_CAMVIEW_StopCapture((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
-            s->f8 = 1;
+            s->shutterPending = 1;
         }
         break;
     }
     CTVT_TALK_UpdateVoiceIcon(p, (char *)s);
-    CTVT_MIC_Update(s->f10);
-    if (s->f28 == 1) {
+    CTVT_MIC_Update((u32 *)s->mic);
+    if (s->messagePending == 1) {
         void *h = (void *)COMM_TVT_SYS_GetPrintQue(p);
-        if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(s->f7C)) == 0) {
-            BMP_WIN_TransferChars(s->f7C);
-            BMP_WIN_MakeScreen(s->f7C);
+        if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp((struct Descriptor *)s->messageWin)) == 0) {
+            BMP_WIN_TransferChars((struct Descriptor *)s->messageWin);
+            BMP_WIN_MakeScreen((struct Cfg *)s->messageWin);
             BG_SYS_PushTile(4);
-            s->f28 = 0;
-            if (s->f84 == 1) {
-                s->f84 = 0;
-                COMM_TVT_SYS_CreateTimeIcon(p, s->f7C);
+            s->messagePending = 0;
+            if (s->timeIconPending == 1) {
+                s->timeIconPending = 0;
+                COMM_TVT_SYS_CreateTimeIcon(p, s->messageWin);
             }
         }
     }
-    if (s->f34 == 1) {
-        s->f38++;
-        if (s->f38 > 6) {
-            s->f34 = 0;
-            func_02061CA4((void *)0x1F, 0x20, (u32)s->f5A, 0x20);
-        } else if (s->f38 % 12 < 6) {
-            func_02061CA4((void *)0x1F, 0x20, (u32)s->f3A, 0x20);
+    if (s->flashActive == 1) {
+        s->flashCounter++;
+        if (s->flashCounter > 6) {
+            s->flashActive = 0;
+            func_02061CA4((void *)0x1F, 0x20, (u32)s->savedPalette, 0x20);
+        } else if (s->flashCounter % 12 < 6) {
+            func_02061CA4((void *)0x1F, 0x20, (u32)s->flashPalette, 0x20);
         } else {
-            func_02061CA4((void *)0x1F, 0x20, (u32)s->f5A, 0x20);
+            func_02061CA4((void *)0x1F, 0x20, (u32)s->savedPalette, 0x20);
         }
     }
-    if (s->f8C == 0 && s->state != 8 && s->state < 11 && CTVT_MIC_GetPlayState(s->f10) == 1) {
+    if (s->voiceActive == 0 && s->state != 8 && s->state < 11 && CTVT_MIC_GetPlayState(s->mic) == 1) {
         CTVT_TALK_BeginWaveform(p, (char *)s);
-        s->f8C = 1;
+        s->voiceActive = 1;
     }
-    if (s->f8C == 1) {
-        if (CTVT_MIC_GetPlayState(s->f10) == 0) {
-            s->f8C = 0;
-            BMP_Clear(BMP_WIN_GetBmp(s->f2C), 0);
-            BMP_WIN_TransferChars(s->f2C);
+    if (s->voiceActive == 1) {
+        if (CTVT_MIC_GetPlayState(s->mic) == 0) {
+            s->voiceActive = 0;
+            BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)s->waveformWin), 0);
+            BMP_WIN_TransferChars((struct Descriptor *)s->waveformWin);
         } else {
             short *base = (short *)(CTVT_COMM_GetVoiceRecord((int)p, (char *)COMM_TVT_SYS_GetComm(p)) + 0x800);
-            int n = CTVT_MIC_GetPlayPos(s->f10);
-            int max = CTVT_MIC_GetPlayRatio(s->f10);
-            int w = CTVT_MIC_GetLength(s->f10);
+            int n = CTVT_MIC_GetPlayPos(s->mic);
+            int max = CTVT_MIC_GetPlayRatio(s->mic);
+            int w = CTVT_MIC_GetLength(s->mic);
             if (n > max)
                 n = max;
             CTVT_TALK_DrawWaveform((int)p, (char *)s, base, 3, (u32)(w * n) / max, w);
         }
     }
-    if (CLACT_IsActorAnimActive(s->f98) == 0) {
+    if (CLACT_IsActorAnimActive((struct Actor *)s->cancelActor) == 0) {
         if (s->state == 10)
-            CLACT_SetActorAnimSeq(s->f98, 0xF);
+            CLACT_SetActorAnimSeq(s->cancelActor, 0xF);
         else
-            CLACT_SetActorAnimSeq(s->f98, 1);
+            CLACT_SetActorAnimSeq(s->cancelActor, 1);
     }
     return 1;
 }
@@ -839,7 +729,7 @@ u32 CTVT_TALK_Main(void *p, S *s)
  */
 void CTVT_TALK_SetMicMode(int unused, char *p)
 {
-    CTVT_MIC_SetMode(((struct Obj24090 *)p)->f10);
+    CTVT_MIC_SetMode((int)((CtvtTalk *)p)->mic);
 }
 
 /*
@@ -849,74 +739,74 @@ void CTVT_TALK_SetMicMode(int unused, char *p)
  */
 void CTVT_TALK_HandleInput(u8 *c, u8 *q)
 {
-    u32 a = COMM_TVT_SYS_GetComm(c);
-    u32 b = COMM_TVT_SYS_GetMemberCount(c);
+    u32 a = (u32)COMM_TVT_SYS_GetComm((CtvtWork *)c);
+    u32 b = COMM_TVT_SYS_GetMemberCount((CtvtWork *)c);
     int r6;
 
     if (CTVT_TALK_CheckEnd(c, (int *)q) == 1)
         return;
-    if (*(int *)q <= 8 && COMM_TVT_SYS_GetViewSwapped(c) == 0) {
-        u32 s = COMM_TVT_SYS_GetCamView(c);
+    if (((CtvtTalk *)q)->state <= 8 && COMM_TVT_SYS_GetViewSwapped((CtvtWork *)c) == 0) {
+        u32 s = (u32)COMM_TVT_SYS_GetCamView((CtvtWork *)c);
         if (KEY_GetTrg() & 0x40) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 0);
         if (KEY_GetTrg() & 0x10) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 5);
         if (KEY_GetTrg() & 0x80) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 1);
         if (KEY_GetTrg() & 0x20) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 3);
     }
-    if (b == 1 || CTVT_MIC_IsCaptureDone((void *)(*(u32 *)(q + 0x10))) == 0) {
-        *(int *)(q + 0xa4) = 2;
+    if (b == 1 || CTVT_MIC_IsCaptureDone((void *)((CtvtTalk *)q)->mic) == 0) {
+        ((CtvtTalk *)q)->voiceIconState = 2;
     } else {
         u32 t = CTVT_COMM_GetHandleNetId(c, a);
         u32 u = CTVT_COMM_GetMarkerSlot((int)c, (char *)a);
         if (u != 0xff) {
             if (u == t) {
-                u32 k = q[0xc];
+                u32 k = ((CtvtTalk *)q)->sendCooldown;
                 if (k) {
                     k--;
-                    q[0xc] = k;
+                    ((CtvtTalk *)q)->sendCooldown = k;
                 } else if (CTVT_COMM_SendCommand((int)c, a, 9, 0) == 1) {
-                    q[0xc] = 8;
+                    ((CtvtTalk *)q)->sendCooldown = 8;
                 }
             }
-            *(int *)(q + 0xa4) = 2;
+            ((CtvtTalk *)q)->voiceIconState = 2;
         } else {
             u32 r = CTVT_TALK_HitCenter((int)c, (int)q, 0);
             if ((KEY_GetTrg() & 0x101) || r == 1) {
-                *(int *)q = 6;
+                ((CtvtTalk *)q)->state = 6;
                 GFL_USE_PlaySeDefaultVolume(0x66C);
-                *(int *)(q + 0x34) = 1;
-                q[0x38] = 0;
+                ((CtvtTalk *)q)->flashActive = 1;
+                ((CtvtTalk *)q)->flashCounter = 0;
             }
-            *(int *)(q + 0xa4) = 0;
+            ((CtvtTalk *)q)->voiceIconState = 0;
         }
     }
-    if (*(int *)q == 5) {
+    if (((CtvtTalk *)q)->state == 5) {
         if ((KEY_GetTrg() & 0x400) || (KEY_GetTrg() & 0x400) || TOUCHPANEL_HitTrg(d_021C6F83) != -1) {
-            *(int *)q = 3;
-            *(int *)(q + 4) = 6;
-            CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x9c), 0x14);
-            CLACT_SetActorAutoAnim(*(struct Obj **)(q + 0x9c), 1);
+            ((CtvtTalk *)q)->state = 3;
+            ((CtvtTalk *)q)->substate = 6;
+            CLACT_SetActorAnimSeq(((CtvtTalk *)q)->backActor, 0x14);
+            CLACT_SetActorAutoAnim(((CtvtTalk *)q)->backActor, 1);
             GFL_USE_PlaySeDefaultVolume(0x66C);
         }
     }
-    if (*(int *)q == 5) {
+    if (((CtvtTalk *)q)->state == 5) {
         r6 = TOUCHPANEL_HitTrg(d_021C6F77);
         if (r6 == 0 || (KEY_GetTrg() & 2)) {
             if (r6 == 0) func_020355D8(1); else func_020355D8(0);
-            *(int *)q = 9;
+            ((CtvtTalk *)q)->state = 9;
             GFL_USE_PlaySeDefaultVolume(0x551);
-            CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x98), 9);
+            CLACT_SetActorAnimSeq(((CtvtTalk *)q)->cancelActor, 9);
         } else if (r6 == 1 || (KEY_GetTrg() & 0xc)) {
-            COMM_TVT_SYS_ToggleViewSwapped(c);
+            COMM_TVT_SYS_ToggleViewSwapped((CtvtWork *)c);
             GFL_USE_PlaySeDefaultVolume(0x66F);
-            if (COMM_TVT_SYS_GetViewSwapped(c) == 1)
-                CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x94), 0x15);
+            if (COMM_TVT_SYS_GetViewSwapped((CtvtWork *)c) == 1)
+                CLACT_SetActorAnimSeq(((CtvtTalk *)q)->swapActor, 0x15);
             else
-                CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x94), 0x16);
+                CLACT_SetActorAnimSeq(((CtvtTalk *)q)->swapActor, 0x16);
         }
     }
-    if (COMM_TVT_SYS_GetSelfSlot(c) == 0 && (KEY_GetTrg() & 0x200)) {
-        if (CTVT_CAMVIEW_IsLayoutChanging((int)c, (void *)COMM_TVT_SYS_GetCamView(c)) == 0) {
-            COMM_TVT_SYS_ToggleHalfRes(c);
+    if (COMM_TVT_SYS_GetSelfSlot((CtvtWork *)c) == 0 && (KEY_GetTrg() & 0x200)) {
+        if (CTVT_CAMVIEW_IsLayoutChanging((int)c, (void *)COMM_TVT_SYS_GetCamView((CtvtWork *)c)) == 0) {
+            COMM_TVT_SYS_ToggleHalfRes((CtvtWork *)c);
             GFL_USE_PlaySeDefaultVolume(0x66C);
         }
     }
@@ -925,7 +815,7 @@ void CTVT_TALK_HandleInput(u8 *c, u8 *q)
 
 #pragma opt_propagation off
 
-void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
+void CTVT_TALK_UpdateVoiceSend(void *ctx, CtvtTalk *st)
 {
     int mode = CTVT_TALK_HitCenter((int)ctx, (int)st, 1);
     u32 id;
@@ -936,13 +826,13 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
 
     if (CTVT_TALK_CheckEnd(ctx, (int *)st) == 1)
         return;
-    switch (st->sub) {
+    switch (st->substate) {
     case 0:
-        if (CTVT_MIC_StartCapture(st->f10) == 1) {
-            st->fa4 = 1;
-            st->sub = 1;
-            st->b18 = 0;
-            st->f14 = 0;
+        if (CTVT_MIC_StartCapture((u32 *)st->mic) == 1) {
+            st->voiceIconState = 1;
+            st->substate = 1;
+            st->packetCount = 0;
+            st->packetReady = 0;
             CTVT_ADPCM_ResetEncoder();
             CTVT_TALK_BeginWaveform(ctx, (char *)st);
             return;
@@ -950,58 +840,58 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
         break;
     case 1:
         if (mode != 1 && (KEY_GetCont() & 0x101) == 0)
-            CTVT_MIC_StopCapture(st->f10);
-        if (CTVT_MIC_IsCapturing(st->f10) == 0) {
-            st->sub = 2;
-            st->fa4 = 2;
+            CTVT_MIC_StopCapture((u32 *)st->mic);
+        if (CTVT_MIC_IsCapturing((u32 *)st->mic) == 0) {
+            st->substate = 2;
+            st->voiceIconState = 2;
         }
-        v = CTVT_MIC_GetBuffer(st->f10);
-        pos = CTVT_MIC_GetReadyBytes(st->f10);
+        v = CTVT_MIC_GetBuffer((u32 *)st->mic);
+        pos = CTVT_MIC_GetReadyBytes((u32 *)st->mic);
         off = 0x800;
         CTVT_TALK_DrawWaveform((int)ctx, (char *)st, (s16_021B9580 *)(v + off), 9, pos, 0xC000);
     case 2:
-        id = COMM_TVT_SYS_GetComm(ctx);
+        id = (u32)COMM_TVT_SYS_GetComm(ctx);
         if (CTVT_COMM_GetVoiceStatePending(ctx, (u8 *)id) != 1)
             break;
         busy = CTVT_COMM_IsPostBusy(ctx, (u8 *)id);
-        pos = CTVT_MIC_GetReadyBytes(st->f10);
-        if (st->f14 == 0 && busy == 0) {
-            if (pos >= (u32)(st->b18 + 1) << 11 || st->sub == 2) {
-                int n = CTVT_MIC_EncodeAdpcm((int)st->f10, (u8 *)CTVT_MIC_GetBuffer(st->f10) + (st->b18 << 11), st->f24, 0x800);
-                st->f20->b5 = st->b18;
-                st->f20->h0 = n;
-                st->f20->h2 = pos;
-                st->f20->b6 = st->b0d;
-                st->f20->b4 = (st->sub == 2 && pos <= (u32)(st->b18 + 1) << 11) ? 1 : 0;
-                st->f14 = 1;
+        pos = CTVT_MIC_GetReadyBytes((u32 *)st->mic);
+        if (st->packetReady == 0 && busy == 0) {
+            if (pos >= (u32)(st->packetCount + 1) << 11 || st->substate == 2) {
+                int n = CTVT_MIC_EncodeAdpcm((int)st->mic, (u8 *)CTVT_MIC_GetBuffer((u32 *)st->mic) + (st->packetCount << 11), st->packetPayload, 0x800);
+                st->packet->index = st->packetCount;
+                st->packet->length = n;
+                st->packet->position = pos;
+                st->packet->level = st->levelIndex;
+                st->packet->last = (st->substate == 2 && pos <= (u32)(st->packetCount + 1) << 11) ? 1 : 0;
+                st->packetReady = 1;
             }
         }
-        if (st->f14 == 1) {
-            if (CTVT_COMM_SendVoiceData(ctx, (char *)id, (u16 *)st->f20) == 1) {
-                st->b18++;
-                st->f14 = 0;
-                if (st->f20->b4 == 1) {
-                    st->sub = 3;
+        if (st->packetReady == 1) {
+            if (CTVT_COMM_SendVoiceData(ctx, (char *)id, (u16 *)st->packet) == 1) {
+                st->packetCount++;
+                st->packetReady = 0;
+                if (st->packet->last == 1) {
+                    st->substate = 3;
                     return;
                 }
             }
         }
         break;
     case 3:
-        id = COMM_TVT_SYS_GetComm(ctx);
+        id = (u32)COMM_TVT_SYS_GetComm(ctx);
         if (CTVT_COMM_IsPostBusy(ctx, (u8 *)id) != 0)
             break;
         if (CTVT_COMM_SendCommand((int)ctx, id, 7, 0) == 1) {
-            st->sub = 4;
-            BMP_Clear(BMP_WIN_GetBmp(st->f2c), 0);
-            BMP_WIN_TransferChars(st->f2c);
+            st->substate = 4;
+            BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)st->waveformWin), 0);
+            BMP_WIN_TransferChars((struct Descriptor *)st->waveformWin);
             return;
         }
         break;
     case 4:
-        if (st->f20->h2 > 0x20) {
+        if (st->packet->position > 0x20) {
             if (CTVT_MIC_GetPlayState((void *)COMM_TVT_SYS_GetTalkStatus(ctx)) == 1) {
-                st->sub = 5;
+                st->substate = 5;
                 return;
             }
         } else {
@@ -1010,7 +900,7 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
         }
         break;
     case 5:
-        id = COMM_TVT_SYS_GetComm(ctx);
+        id = (u32)COMM_TVT_SYS_GetComm(ctx);
         if (CTVT_MIC_GetPlayState((void *)COMM_TVT_SYS_GetTalkStatus(ctx)) == 0) {
             if (CTVT_COMM_SendCommand((int)ctx, id, 8, 0) == 1)
                 st->state = 5;
@@ -1029,20 +919,20 @@ void CTVT_TALK_UpdateVoiceSend(void *ctx, struct St *st)
  */
 void CTVT_TALK_UpdateVoiceIcon(void *a0, char *a1)
 {
-    u32 v = ((struct Obj06561 *)a1)->fA4;
-    u32 w = ((struct Obj06561 *)a1)->fA8;
+    u32 v = ((CtvtTalk *)a1)->voiceIconState;
+    u32 w = ((CtvtTalk *)a1)->voiceIconPrev;
 
     if (v == w)
         return;
     if (v == 1) {
-        CLACT_SetActorAnimSeq(((struct Obj06561 *)a1)->fA0, 0x17);
+        CLACT_SetActorAnimSeq(((CtvtTalk *)a1)->voiceActor, 0x17);
         return;
     }
     if (v == 2) {
-        CLACT_SetActorAnimSeq(((struct Obj06561 *)a1)->fA0, 0x23);
+        CLACT_SetActorAnimSeq(((CtvtTalk *)a1)->voiceActor, 0x23);
         return;
     }
-    CLACT_SetActorAnimSeq(((struct Obj06561 *)a1)->fA0, 0x18);
+    CLACT_SetActorAnimSeq(((CtvtTalk *)a1)->voiceActor, 0x18);
 }
 
 void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q)
@@ -1061,7 +951,7 @@ void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q)
         else { if (q[14] == 1) agree = 1; }
         if (agree == 1) {
             q[15]++;
-            if (*(volatile u8 *)&((struct Obj00998 *)q)->fF >= 25) {
+            if (*(volatile u8 *)&((CtvtTalk *)q)->sliderHold >= 25) {
                 flag = q[14];
                 q[15] = 10;
             }
@@ -1070,12 +960,12 @@ void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q)
     if (flag == 0) {
         if (q[13] < 8) {
             changed = 1; q[13]++;
-            CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00998 *)q)->f90, (u16)(*(volatile u8 *)&((struct Obj00998 *)q)->fD + 25));
+            CLACT_SetActorAnimSeq(((CtvtTalk *)q)->levelActor, (u16)(*(volatile u8 *)&((CtvtTalk *)q)->levelIndex + 25));
         }
     } else if (flag == 1) {
         if (q[13] > 0) {
             changed = 1; q[13]--;
-            CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00998 *)q)->f90, (u16)(*(volatile u8 *)&((struct Obj00998 *)q)->fD + 25));
+            CLACT_SetActorAnimSeq(((CtvtTalk *)q)->levelActor, (u16)(*(volatile u8 *)&((CtvtTalk *)q)->levelIndex + 25));
         }
     }
     if (changed == 1) {
@@ -1161,18 +1051,18 @@ void CTVT_TALK_PlotPixel(u8 *p, u8 x, u8 y, u8 value)
 void CTVT_TALK_ShowMessage(void *p, char *q, int id)
 {
     u32 font = COMM_TVT_SYS_GetFont(p);
-    u32 msgs = COMM_TVT_SYS_GetMsgData(p);
-    u32 sys = COMM_TVT_SYS_GetPrintQue(p);
+    u32 msgs = (u32)COMM_TVT_SYS_GetMsgData(p);
+    u32 sys = (u32)COMM_TVT_SYS_GetPrintQue(p);
     u32 text;
     PRINTSYS_QUE_Clear((struct PrintSys *)sys);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj05446 *)q)->f7C)), 15);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)q)->messageWin)), 15);
     text = (u32)func_02045EC0((struct MsgBank *)msgs, id);
-    PRINTSYS_PrintQueColor((void *)sys, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj05446 *)q)->f7C), 0, 0, text, font, 1088);
+    PRINTSYS_PrintQueColor((void *)sys, (u32)BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)q)->messageWin), 0, 0, text, font, 1088);
     STRBUF_Delete((struct U16Vec *)text);
-    BMP_WIN_TransferChars((struct Descriptor *)((struct Obj05446 *)q)->f7C);
-    BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj05446 *)q)->f7C));
-    BMP_MENUWORK_DrawWindow((void *)(((struct Obj05446 *)q)->f7C), 1, 320, 9);
-    ((struct Obj05446 *)q)->f28 = 1;
+    BMP_WIN_TransferChars((struct Descriptor *)((CtvtTalk *)q)->messageWin);
+    BMP_WIN_MakeScreen((struct Cfg *)((CtvtTalk *)q)->messageWin);
+    BMP_MENUWORK_DrawWindow((void *)((CtvtTalk *)q)->messageWin, 1, 320, 9);
+    ((CtvtTalk *)q)->messagePending = 1;
 }
 
 void CTVT_TALK_OpenConfirmMenu(void *p, char *q)
@@ -1184,10 +1074,10 @@ void CTVT_TALK_OpenConfirmMenu(void *p, char *q)
     } else {
         CTVT_TALK_ShowMessage(p, q, 32);
     }
-    ((struct Obj08259 *)q)->f80 = (void *)COMM_TVT_SYS_OpenConfirmMenu(p);
-    ((struct Obj08259 *)q)->f0 = 10;
-    if (CLACT_IsActorAnimActive(((struct Obj08259 *)q)->f98) == 0)
-        CLACT_SetActorAnimSeq(((struct Obj08259 *)q)->f98, 15);
+    ((CtvtTalk *)q)->confirmMenu = COMM_TVT_SYS_OpenConfirmMenu(p);
+    ((CtvtTalk *)q)->state = 10;
+    if (CLACT_IsActorAnimActive((struct Actor *)((CtvtTalk *)q)->cancelActor) == 0)
+        CLACT_SetActorAnimSeq(((CtvtTalk *)q)->cancelActor, 15);
 }
 
 void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
@@ -1215,7 +1105,7 @@ void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
             q[0] = 3;
             r6 = 1;
             COMM_TVT_SYS_SetMessageActive((void *)self, 1);
-            r7 = COMM_TVT_SYS_GetCamView((void *)self);
+            r7 = (u32)COMM_TVT_SYS_GetCamView((void *)self);
             CTVT_CAMVIEW_StopCapture(self, (char *)r7);
             CTVT_CAMVIEW_RequestShutterSound1(self, (char *)r7);
             q[2] = r6;
@@ -1226,7 +1116,7 @@ void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
         BMP_WIN_ClearScreen((struct Descriptor *)q[0x1F]);
         BMP_WIN_MakeScreen((struct Cfg *)q[0xB]);
         BG_SYS_PushTile(4);
-        CLACT_SetActorAnimSeq((struct Obj *)q[0x26], 1);
+        CLACT_SetActorAnimSeq((struct ClActor *)q[0x26], 1);
     }
     APP_TASKMENU_CloseMenu((void *)q[0x20]);
     q[0x20] = 0;
@@ -1256,7 +1146,7 @@ void CTVT_TALK_BeginWaveform(void *p, char *q)
 {
     q[0x30] = 3;
     q[0x31] = 0x20;
-    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj10664 *)q)->f2C)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)q)->waveformWin)), 0);
 }
 
 void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
@@ -1272,9 +1162,9 @@ void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
     if (idx < 0)
         return;
     n = func_0209C0A4(idx * 0x7B, v);
-    dev = BMP_GetPixels(BMP_WIN_GetBmp(((struct Obj04553 *)obj)->f2C));
+    dev = BMP_GetPixels(BMP_WIN_GetBmp((struct Descriptor *)((CtvtTalk *)obj)->waveformWin));
     flag = 0;
-    c = ((struct Obj04553 *)obj)->f30;
+    c = ((CtvtTalk *)obj)->waveX;
     if (c < n) {
         flag = 1;
         while (c < n) {
@@ -1291,14 +1181,14 @@ void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
                 if (h < t)
                     h = t;
             }
-            CTVT_TALK_DrawLine(a0, obj, dev, c, ((struct Obj04553 *)obj)->f31, (u8)c1, (u8)h, a3);
-            ((struct Obj04553 *)obj)->f30 += 1;
-            ((struct Obj04553 *)obj)->f31 = (u8)h;
-            c = ((struct Obj04553 *)obj)->f30;
+            CTVT_TALK_DrawLine(a0, obj, dev, c, ((CtvtTalk *)obj)->waveY, (u8)c1, (u8)h, a3);
+            ((CtvtTalk *)obj)->waveX += 1;
+            ((CtvtTalk *)obj)->waveY = (u8)h;
+            c = ((CtvtTalk *)obj)->waveX;
         }
     }
     if (flag == 1)
-        BMP_WIN_TransferChars((struct Descriptor *)*(int *)&((struct Obj04553 *)obj)->f2C);
+        BMP_WIN_TransferChars((struct Descriptor *)((CtvtTalk *)obj)->waveformWin);
 }
 
 /*

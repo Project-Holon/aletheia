@@ -16,7 +16,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020071CC  0x020071CC  thumb
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  */
 #include "wifilist_tail_shared_types.h"
 
@@ -36,7 +36,7 @@ extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
 
 extern void *func_020071CC(struct SaveControl *save, u32 blockId);
 
-extern u32  func_020173EC(void);
+extern u32  POKE_TOOL_GetPartyParamSize(void);
 
 struct WorldTradeData *WORLDTRADE_GetFromSave(struct SaveControl *save);
 
@@ -104,7 +104,7 @@ void WORLDTRADE_SetIsDeposited(struct WorldTradeData *trade, u16 isDeposited)
 
 void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon)
 {
-    u32 size = func_020173EC();
+    u32 size = POKE_TOOL_GetPartyParamSize();
     MI_CpuCopy8(trade, outPokemon, size);
 }
 
@@ -175,7 +175,7 @@ void WORLDTRADE_NoOp(void)
  */
 void WORLDTRADE_SetPokemon(struct WorldTradeData *trade, const void *pokemon, u32 boxPos)
 {
-    MI_CpuCopy8(pokemon, trade, func_020173EC());
+    MI_CpuCopy8(pokemon, trade, POKE_TOOL_GetPartyParamSize());
 }
 
 void WORLDTRADE_SetLastTradeId(struct WorldTradeData *trade, u32 tradeId)

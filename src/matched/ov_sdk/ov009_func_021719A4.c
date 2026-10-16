@@ -14,17 +14,17 @@
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   DWCi_HandleSBError  0x02173D9C  arm  ov009
- *   func_02173D28  0x02173D28  arm  ov009
+ *   DWCi_HandleGPError  0x02173D28  arm  ov009
  */
 
 extern int func_02175F3C(void);
 extern int DWCi_HandleSBError(int error);
-extern int func_02173D28(int error);
+extern int DWCi_HandleGPError(int error);
 
 int DWCi_HandleMatchCommandError(int error)
 {
     if (*(unsigned char *)(func_02175F3C() + 0x15) == 0) {
         return DWCi_HandleSBError(error);
     }
-    return func_02173D28(error);
+    return DWCi_HandleGPError(error);
 }

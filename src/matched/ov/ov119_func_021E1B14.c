@@ -14,7 +14,7 @@
  *   gOfferCardWindowPosA 0x021E7934 data a4
  *   gOfferCardWindowPosB 0x021E7914 data a4
  *   gOfferCardWindowPosC 0x021E794C data a4
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int a,b;} Pair;
 extern const Pair gOfferCardWindowPosA,gOfferCardWindowPosB,gOfferCardWindowPosC;
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 struct Cfg;
 struct Descriptor;
@@ -67,7 +67,7 @@ void POKETRADE_SAVE_DrawOfferCardWindow(char *p,int i,void *mon)
     const char *old;
     u32 index;
     char *tmp;
-    flag=func_02017E1C(mon,76,0);
+    flag=POKE_TOOL_GetPartyValue(mon,76,0);
     func_02049B40(23,5,0,448,32,((struct Obj00001 *)p)->f5F4);
     old=p;
     old=old+0x5bc;

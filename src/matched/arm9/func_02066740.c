@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02066740
+ * function: NNSi_G2dGetCurrentInstanceVramHandle
  * address:  0x02066740
  * packet:   pkt_02065D4C
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02066740(int *p){ return p[0x1e]; }
+int NNSi_G2dGetCurrentInstanceVramHandle(int *p){ return p[0x1e]; }

@@ -10,7 +10,7 @@
  * status:   EXACT
  * volatile: WININ 0x04000048 and WINOUT 0x0400004A read-modify-written by the SDK inlines G2_SetWnd0InsidePlane/G2_SetWndOutsidePlane; WIN0H/WIN0V/BLDCNT hardware registers
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020355D8  0x020355D8  arm
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int BOOL;
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_02041B6C(u32 bit);
@@ -35,7 +35,7 @@ extern void func_020355D8(int a);
 
 static inline void G2_SetBlendBrightness(int plane, int brightness)
 {
-    func_0207D658((u32)&reg_G2_BLDCNT, plane, brightness);
+    G2x_SetBlendBrightness_((u32)&reg_G2_BLDCNT, plane, brightness);
 }
 
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2)

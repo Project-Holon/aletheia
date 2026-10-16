@@ -71,118 +71,16 @@
  *   d_021A4234                       0x021A4234  data
  */
 #include "../../matched/arm9_sdk/libc/strncmp/string.h"
+#include "gpi_types.h"
 
 typedef struct GPIOperation_s {
     char pad[0x1c];
     int field1c;
     struct GPIOperation_s *field20;
 } GPIOperation_s;
-typedef unsigned int   u32_02186664;
-
-typedef struct GPIConnection_02186664 {
-    unsigned char pad[0x5C8];
-    void *f5C8;
-} GPIConnection_02186664;
-
-typedef struct GPIProfile_02186664 {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    int f10;
-    int f14;
-    int f18;
-    int f1C;
-    int f20;
-    int f24;
-    int f28;
-} GPIProfile_02186664;
-
-typedef struct GPIConnection_021867E8 {
-    char pad000[0x110];
-    char errorString;              /* 0x110 */
-    char pad111[0x1E];
-    char f12F;                     /* 0x12F */
-    char pad130[0x14];
-    char f144;                     /* 0x144 */
-    char pad145[0x53];
-    int f198;                      /* 0x198 */
-    int f19C;                      /* 0x19C */
-    int f1A0;                      /* 0x1A0 */
-    char pad1A4[0x4C];
-    int cmSocket;                  /* 0x1F0 */
-    int connectState;              /* 0x1F4 */
-    char *buf1F8;                  /* 0x1F8 */
-    int size1FC;                   /* 0x1FC */
-    int len200;                    /* 0x200 */
-    int pos204;                    /* 0x204 */
-    char *buf208;                  /* 0x208 */
-    int len20C;                    /* 0x20C */
-    char *buf210;                  /* 0x210 */
-    int size214;                   /* 0x214 */
-    int len218;                    /* 0x218 */
-    int pos21C;                    /* 0x21C */
-    char pad220[0x14];
-    int f234;                      /* 0x234 */
-    int f238;                      /* 0x238 */
-    int f23C;                      /* 0x23C */
-    char pad240[0x178];
-    char f3B8;                     /* 0x3B8 */
-    char pad3B9[0xFF];
-    char f4B8;                     /* 0x4B8 */
-    char pad4B9[0x103];
-    int f5BC;                      /* 0x5BC */
-    char pad5C0[0x4];
-    void *operationList;           /* 0x5C4 */
-    char pad5C8[0x8];
-    int f5D0;                      /* 0x5D0 */
-    int f5D4;                      /* 0x5D4 */
-    int f5D8;                      /* 0x5D8 */
-    char pad5DC[0x8];
-    char *buf5E4;                  /* 0x5E4 */
-    int size5E8;                   /* 0x5E8 */
-    int len5EC;                    /* 0x5EC */
-    int pos5F0;                    /* 0x5F0 */
-    char *buf5F4;                  /* 0x5F4 */
-    int size5F8;                   /* 0x5F8 */
-    int len5FC;                    /* 0x5FC */
-    int pos600;                    /* 0x600 */
-    char pad604[0x30];
-    int f634;                      /* 0x634 */
-} GPIConnection_021867E8;
-
-typedef void *GPConnection;
-
-typedef struct GPIProfile_021867E8 GPIProfile_021867E8;
-
-typedef unsigned char u8;
-
-typedef unsigned long u32_02186A0C;
-
-typedef struct GPIBuffer {
-    char *buffer;
-    unsigned long length;
-} GPIBuffer;
-
-typedef struct GPIConnection {
-    u8 pad0[0x1F0];
-    int sock;
-    int lastResult;
-    char *recvBuf;
-    int recvLen;
-    int f200;
-    int f204;
-    char *sendBuf;
-    int sendCap;
-    char *localBuf;
-    int f214;
-    int f218;
-    u8 pad21C[0x634 - 0x21C];
-    int lastSend;
-} GPIConnection;
 
 extern void *gsimalloc(int size);
-extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32_02186664 n);
+extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern int   func_0218FB14(void **pp);
 extern void  gsifree(void *p);
 extern void  SocketStartUp(void);
@@ -193,7 +91,7 @@ extern void gpiStatusInfoKeysDestroy(void **connection);
 extern void func_021846B4(void *table);
 extern int gpiStatusInfoKeysInit(GPConnection *connection);
 extern void gpiRemoveOperation(void **connection, GPIOperation_s *operation);
-extern int func_0218FFFC(GPConnection *connection, int (*func)(GPConnection *, GPIProfile_021867E8 *, void *), void *data);
+extern int func_0218FFFC(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
 extern int gpiAddLocalInfo(void **connection, GPIBuffer *buffer);
 extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer,
                              int *connClosed, int clipSentData, char *id);
@@ -230,7 +128,7 @@ void gpiDestroy(void **connection);
 /*
  * sdk: gpiResetProfile (gpi.o) * * The object keeps profile in r1 (a leading unused parameter takes r0).
  */
-int gpiResetProfile(int unused, GPIProfile_02186664 *profile);
+int gpiResetProfile(int unused, GPIProfile *profile);
 int gpiReset(GPConnection *connection);
 int gpiProcessConnectionManager(void **connection);
 extern char d_021A412C[], d_021A4130[], d_021A415C[], d_021A4164[];
@@ -308,11 +206,11 @@ int gpiInitialize(void **out, int a1, int a2, int a3)
  */
 void gpiDestroy(void **connection)
 {
-    GPIConnection_02186664 *iconnection = (GPIConnection_02186664 *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
 
     gpiDisconnect(connection, 1);
     gpiStatusInfoKeysDestroy(connection);
-    func_021846B4(iconnection->f5C8);
+    func_021846B4(iconnection->profileList.profileTable);
     gsifree(iconnection);
     *connection = 0;
 }
@@ -325,15 +223,15 @@ void gpiDestroy(void **connection)
  *
  * The object keeps profile in r1 (a leading unused parameter takes r0).
  */
-int gpiResetProfile(int unused, GPIProfile_02186664 *profile)
+int gpiResetProfile(int unused, GPIProfile *profile)
 {
-    profile->f8 = 0;
-    profile->fC = 0;
-    profile->f14 = 0;
-    profile->f18 = 0;
-    profile->f1C = 0;
-    profile->f20 = 0;
-    profile->f28 = 0;
+    profile->buddyStatus = 0;
+    profile->buddyStatusInfo = 0;
+    profile->authSig = 0;
+    profile->requestCount = 0;
+    profile->peerSig = 0;
+    profile->blocked = 0;
+    profile->buddyOrBlockCache = 0;
     return 1;
 }
 
@@ -344,42 +242,42 @@ int gpiResetProfile(int unused, GPIProfile_02186664 *profile)
  */
 int gpiReset(GPConnection *connection)
 {
-    GPIConnection_021867E8 *iconnection = (GPIConnection_021867E8 *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     int result;
 
-    iconnection->errorString = '\0';
-    iconnection->f12F = '\0';
-    iconnection->f144 = '\0';
+    iconnection->nick[0] = '\0';
+    iconnection->uniquenick[0] = '\0';
+    iconnection->email[0] = '\0';
     iconnection->cmSocket = -1;
     iconnection->connectState = 0;
-    iconnection->len200 = 0;
-    iconnection->pos204 = 0;
-    iconnection->size1FC = 0;
-    gsifree(iconnection->buf1F8);
-    iconnection->buf1F8 = 0;
-    iconnection->buf1F8 = 0;
-    iconnection->len20C = 0;
-    gsifree(iconnection->buf208);
-    iconnection->buf208 = 0;
-    iconnection->buf208 = 0;
-    iconnection->len218 = 0;
-    iconnection->pos21C = 0;
-    iconnection->size214 = 0;
-    gsifree(iconnection->buf210);
-    iconnection->buf210 = 0;
-    iconnection->buf210 = 0;
-    iconnection->len5EC = 0;
-    iconnection->pos5F0 = 0;
-    iconnection->size5E8 = 0;
-    gsifree(iconnection->buf5E4);
-    iconnection->buf5E4 = 0;
-    iconnection->buf5E4 = 0;
-    iconnection->len5FC = 0;
-    iconnection->pos600 = 0;
-    iconnection->size5F8 = 0;
-    gsifree(iconnection->buf5F4);
-    iconnection->buf5F4 = 0;
-    iconnection->buf5F4 = 0;
+    iconnection->socketBuffer.len = 0;
+    iconnection->socketBuffer.pos = 0;
+    iconnection->socketBuffer.size = 0;
+    gsifree(iconnection->socketBuffer.buffer);
+    iconnection->socketBuffer.buffer = 0;
+    iconnection->socketBuffer.buffer = 0;
+    iconnection->inputBufferSize = 0;
+    gsifree(iconnection->inputBuffer);
+    iconnection->inputBuffer = 0;
+    iconnection->inputBuffer = 0;
+    iconnection->outputBuffer.len = 0;
+    iconnection->outputBuffer.pos = 0;
+    iconnection->outputBuffer.size = 0;
+    gsifree(iconnection->outputBuffer.buffer);
+    iconnection->outputBuffer.buffer = 0;
+    iconnection->outputBuffer.buffer = 0;
+    iconnection->updateproBuffer.len = 0;
+    iconnection->updateproBuffer.pos = 0;
+    iconnection->updateproBuffer.size = 0;
+    gsifree(iconnection->updateproBuffer.buffer);
+    iconnection->updateproBuffer.buffer = 0;
+    iconnection->updateproBuffer.buffer = 0;
+    iconnection->updateuiBuffer.len = 0;
+    iconnection->updateuiBuffer.pos = 0;
+    iconnection->updateuiBuffer.size = 0;
+    gsifree(iconnection->updateuiBuffer.buffer);
+    iconnection->updateuiBuffer.buffer = 0;
+    iconnection->updateuiBuffer.buffer = 0;
 
     gpiStatusInfoKeysDestroy(connection);
     result = gpiStatusInfoKeysInit((GPConnection *)&iconnection);
@@ -389,23 +287,23 @@ int gpiReset(GPConnection *connection)
         return result;
     }
 
-    iconnection->f234 = 2;
+    iconnection->nextOperationID = 2;
     while (iconnection->operationList != 0)
         gpiRemoveOperation(connection, (GPIOperation_s *)iconnection->operationList);
     iconnection->operationList = 0;
-    iconnection->f5D0 = 0;
-    iconnection->f5D4 = 0;
-    func_0218FFFC(connection, (int (*)(GPConnection *, GPIProfile_021867E8 *, void *))gpiResetProfile, 0);
-    iconnection->f19C = 0;
-    iconnection->f1A0 = 0;
-    iconnection->f198 = 0;
-    iconnection->f238 = 0;
-    iconnection->f5BC = 0;
-    iconnection->f5D8 = 0;
-    iconnection->f23C = -1;
-    iconnection->f3B8 = '\0';
-    iconnection->f4B8 = '\0';
-    iconnection->f634 = 0;
+    iconnection->profileList.numBuddies = 0;
+    iconnection->profileList.numBlocked = 0;
+    func_0218FFFC(connection, (int (*)(GPConnection *, GPIProfile *, void *))gpiResetProfile, 0);
+    iconnection->userid = 0;
+    iconnection->profileid = 0;
+    iconnection->sessKey = 0;
+    iconnection->numSearches = 0;
+    iconnection->fatalError = 0;
+    iconnection->peerList = 0;
+    iconnection->lastStatusState = -1;
+    iconnection->lastStatusString[0] = '\0';
+    iconnection->lastLocationString[0] = '\0';
+    iconnection->kaTransmit = 0;
     return 0;
 }
 
@@ -413,7 +311,7 @@ int gpiReset(GPConnection *connection)
 int gpiProcessConnectionManager(void **connection)
 {
     GPIConnection *ic;
-    u32_02186A0C now;
+    unsigned long now;
     GPIOperation_s *operation;
     int len;
     int connClosed;
@@ -429,14 +327,14 @@ int gpiProcessConnectionManager(void **connection)
     now = current_time();
 
     do {
-        gpiAddLocalInfo(connection, (GPIBuffer *)&ic->localBuf);
-        if (ic->f218 > 0)
-            ic->lastSend = now;
-        result = gpiSendFromBuffer(connection, ic->sock, (GPIBuffer *)&ic->localBuf,
+        gpiAddLocalInfo(connection, (GPIBuffer *)&ic->outputBuffer);
+        if (ic->outputBuffer.len > 0)
+            ic->kaTransmit = now;
+        result = gpiSendFromBuffer(connection, ic->cmSocket, (GPIBuffer *)&ic->outputBuffer,
                                    &connClosed, 1, d_021A412C);
         if (result)
             return result;
-        result = gpiRecvToBuffer(connection, ic->sock, (GPIBuffer *)&ic->recvBuf,
+        result = gpiRecvToBuffer(connection, ic->cmSocket, (GPIBuffer *)&ic->socketBuffer,
                                  &len, &connClosed, d_021A412C);
         if (result) {
             if (result != 3)
@@ -447,45 +345,45 @@ int gpiProcessConnectionManager(void **connection)
             return result;
         }
 
-        while ((str = strstr(ic->recvBuf, d_021A415C)) != 0) {
-            ic->lastSend = now;
+        while ((str = strstr(ic->socketBuffer.buffer, d_021A415C)) != 0) {
+            ic->kaTransmit = now;
             *str = 0;
-            gsDebugFormat(1, 0, 0x20, d_021A4164, ic->recvBuf);
-            len = (int)(str - ic->recvBuf);
-            if (len > ic->sendCap) {
-                ic->sendCap = ic->sendCap + (len < 0x4000 ? 0x4000 : len);
-                tempPtr = (char *)gsirealloc(ic->sendBuf, ic->sendCap + 1);
+            gsDebugFormat(1, 0, 0x20, d_021A4164, ic->socketBuffer.buffer);
+            len = (int)(str - ic->socketBuffer.buffer);
+            if (len > ic->inputBufferSize) {
+                ic->inputBufferSize = ic->inputBufferSize + (len < 0x4000 ? 0x4000 : len);
+                tempPtr = (char *)gsirealloc(ic->inputBuffer, ic->inputBufferSize + 1);
                 if (tempPtr == 0) {
                     gpiSetErrorString(connection, d_021A4170);
                     return 1;
                 }
-                ic->sendBuf = tempPtr;
+                ic->inputBuffer = tempPtr;
             }
-            memcpy(ic->sendBuf, ic->recvBuf, len + 1);
-            ic->f200 = ic->f200 - ((str + 7) - ic->recvBuf);
-            memmove(ic->recvBuf, str + 7, ic->f200 + 1);
-            str = ic->sendBuf;
+            memcpy(ic->inputBuffer, ic->socketBuffer.buffer, len + 1);
+            ic->socketBuffer.len = ic->socketBuffer.len - ((str + 7) - ic->socketBuffer.buffer);
+            memmove(ic->socketBuffer.buffer, str + 7, ic->socketBuffer.len + 1);
+            str = ic->inputBuffer;
             next = strstr(str, d_021A4180);
             if (next) {
                 id = atoi(next + 4);
                 if (!gpiFindOperationByID(connection, &operation, id)) {
                     gsDebugFormat(1, 0, 1, d_021A4188, id);
                 } else {
-                    result = gpiProcessOperation(connection, operation, ic->sendBuf);
+                    result = gpiProcessOperation(connection, operation, ic->inputBuffer);
                     if (result)
                         return result;
                 }
             } else {
                 if (gpiCheckForError(connection, str, 1))
                     return 4;
-                str = ic->sendBuf;
+                str = ic->inputBuffer;
                 if (strncmp(str, d_021A41B0, 4) == 0) {
                     result = gpiProcessRecvBuddyMessage(connection, str);
                     if (result)
                         return result;
                 } else if (strncmp(str, d_021A41B8, 4) == 0) {
                 } else if (strncmp(str, d_021A41C0, 4) == 0) {
-                    gpiValueForKey(str, d_021A41C0, (char *)&ic->f214 + 0x400, 0x19);
+                    gpiValueForKey(str, d_021A41C0, ic->loginTicket, 0x19);
                 } else if (strncmp(str, d_021A41C8, 5) == 0) {
                     result = gpiProcessRecvBuddyStatusInfo(connection, str);
                     if (result)
@@ -508,7 +406,7 @@ int gpiProcessConnectionManager(void **connection)
             }
         }
 
-        if (connClosed != 0 && ic->lastResult != 5) {
+        if (connClosed != 0 && ic->connectState != 5) {
             gpiSetError(connection, 7, d_021A420C);
             gpiCallErrorCallback(connection, 3, 1);
             return 0;
@@ -518,9 +416,9 @@ int gpiProcessConnectionManager(void **connection)
             msleep(10);
     } while (loop);
 
-    if ((now - ic->lastSend) > 120000) {
-        gpiAppendStringToBuffer(connection, (GPIBuffer *)&ic->localBuf, d_021A4234);
-        ic->lastSend = now;
+    if ((now - ic->kaTransmit) > 120000) {
+        gpiAppendStringToBuffer(connection, (GPIBuffer *)&ic->outputBuffer, d_021A4234);
+        ic->kaTransmit = now;
     }
     return 0;
 }
@@ -536,11 +434,11 @@ int gpiProcess(void **connection, int blockingOperationID)
     iconnection = (GPIConnection *)*connection;
     result = 0;
 
-    if (iconnection->lastResult == 1) {
+    if (iconnection->connectState == 1) {
         do {
             result = gpiCheckConnect(connection);
             if (result == 0 && blockingOperationID != 0
-                && iconnection->lastResult == 1)
+                && iconnection->connectState == 1)
                 loop = 1;
             else
                 loop = 0;
@@ -554,9 +452,9 @@ int gpiProcess(void **connection, int blockingOperationID)
         }
     }
 
-    if (iconnection->lastResult == 3
-        || iconnection->lastResult == 2
-        || iconnection->lastResult == 5) {
+    if (iconnection->connectState == 3
+        || iconnection->connectState == 2
+        || iconnection->connectState == 5) {
         if (result == 0)
             result = gpiProcessConnectionManager(connection);
         if (result == 0)

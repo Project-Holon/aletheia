@@ -16,13 +16,13 @@
  *   BTL_POKEPARAM_IsFainted   0x021D5B68  thumb ov093
  *   BTL_POKEPARAM_IsHpFull   0x021D5B48  thumb ov093
  *   BTL_CALC_DivideMaxHpMin1   0x021D7B74  thumb ov093
- *   func_021D59B4   0x021D59B4  thumb ov093
+ *   BTL_POKEPARAM_GetValue   0x021D59B4  thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord   0x021C88A4  thumb ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord   0x021C88C8  thumb ov093
  *
  * Shape F1 gate on BTL_EVENT_GetVar(2); reject the record if either predicate
  * holds; clamp BTL_CALC_DivideMaxHpMin1(r,3) down to the 0xe-minus-0xd gap reported by
- * func_021D59B4; then build and publish the record.  Two live calls with no
+ * BTL_POKEPARAM_GetValue; then build and publish the record.  Two live calls with no
  * free saved register is what puts the first result on the stack.
  */
 #include "../include/Obj07235.h"
@@ -39,7 +39,7 @@ void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 int BTL_POKEPARAM_IsFainted(void *p);
 extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern int BTL_CALC_DivideMaxHpMin1(u8 *p, u32 k);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
@@ -57,7 +57,7 @@ void HAND_TOKUSEI_Regenerator_RecoverOnSwitchOut(void *a, int b, int c)
     if (BTL_POKEPARAM_IsHpFull(r) != 0)
         return;
     n = BTL_CALC_DivideMaxHpMin1(r, 3);
-    m = func_021D59B4(r, 0xe) - func_021D59B4(r, 0xd);
+    m = BTL_POKEPARAM_GetValue(r, 0xe) - BTL_POKEPARAM_GetValue(r, 0xd);
     if (n > m)
         n = m;
     p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 8, c);

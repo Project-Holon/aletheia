@@ -23,8 +23,8 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
- *   func_02017E1C 0x02017E1C thumb
- *   func_020181F4 0x020181F4 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   POKE_TOOL_SetMoveSlot 0x020181F4 thumb
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -143,8 +143,8 @@ extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void POKE_TOOL_ChangeSpecies(void *,u32);
-extern u32 func_02017E1C(void *,u32,u32);
-extern void func_020181F4(void *,u16,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern void POKE_TOOL_SetMoveSlot(void *,u16,u32);
 extern u16 POKE_TOOL_GetLevelUpMove(void *,u32 *,u32);
 extern u32 POKEPARTY_GetCount(void *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -273,7 +273,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         SHINKA_DEMO_StartResultBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=10;}break;
     case 10:W(0x88)=1;W(0x28)=11;break;
     case 11:SHINKA_DEMO_PrintText(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
-    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)func_02017E1C(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
+    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)POKE_TOOL_GetPartyValue(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
     case 13:if(W(0x24))SHINKA_DEMO_StopBgm((int)a,s);else SHINKA_DEMO_PopBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=15;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=14;}break;
     case 14:W(0x88)=1;W(0x28)=15;break;
     case 15:SHINKA_DEMO_PrintText(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
@@ -301,7 +301,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
     case 25:func_02034A5C((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((struct App *)a,(struct Scene *)s);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
     case 26:
-        if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=func_02017E1C(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
+        if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
     case 27:
         if(FADE_IsActive())break;
         W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;SHINKA_DEMO_GRAPHIC_ReleaseSubBg((int)P(4));B(0xac)=func_020355C4()==0;
@@ -317,12 +317,12 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
-        B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=func_02017E1C(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
+        B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
         func_020355D8(B(0xac)?0:1);break;
     case 31:if(W(0x8c))W(0x28)=33;else{W(0x28)=32;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 32:W(0x88)=1;W(0x28)=33;break;
     case 33:SHINKA_DEMO_PrintText(s,W(0x7c),5,(u32)SHINKA_DEMO_PrintStreamCallback,2,W(0x10),3,(u32)(s+0x18));W(0x28)=34;break;
-    case 34:if(SHINKA_DEMO_AdvanceText(s)){func_020181F4(P(0x10),H(0x1c),B(0x1a));W(0x28)=35;SHINKA_DEMO_PrintText(s,W(0x7c),6,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}break;
+    case 34:if(SHINKA_DEMO_AdvanceText(s)){POKE_TOOL_SetMoveSlot(P(0x10),H(0x1c),B(0x1a));W(0x28)=35;SHINKA_DEMO_PrintText(s,W(0x7c),6,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}break;
     case 35:if(SHINKA_DEMO_AdvanceText(s))W(0x28)=18;break;
     case 36:if(W(0x8c))W(0x28)=38;else{W(0x28)=37;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 37:W(0x88)=1;W(0x28)=38;break;

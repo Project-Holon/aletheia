@@ -14,7 +14,7 @@
  * Split from trcard_sys.c (it held four originals); __FILE__ anchors: event_battle.c 0x0216E95C, trcard_sys.c 0x0216F0AC, waza_oshie.c 0x0216F918.
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -115,7 +115,7 @@ struct Pos {
     u16 y;
 };
 
-extern unsigned int func_02017E1C(void *a, unsigned int b, unsigned int c);
+extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *p, int v, int n);
@@ -254,11 +254,11 @@ u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap)
     u8 m;
     u16 *out;
 
-    species = func_02017E1C(mon, 5, 0);
-    form = func_02017E1C(mon, 0x6F, 0);
-    level = func_02017E1C(mon, 0x9E, 0);
+    species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+    level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
     for (i = 0; i < 4; i++)
-        cur[i] = func_02017E1C(mon, 0x36 + i, 0);
+        cur[i] = POKE_TOOL_GetPartyValue(mon, 0x36 + i, 0);
     tbl = (LearnsetEntry *)func_02030734(heap, 0x68, 0, d_02172B74, 0x55);
     out = (u16 *)func_02030734(heap, 0x34, 0, d_02172B74, 0x56);
     POKE_PERSONAL_LoadDataDirect(species, form, tbl);

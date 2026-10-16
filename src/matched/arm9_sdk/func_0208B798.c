@@ -1,5 +1,5 @@
 /*
- * function: func_0208B798
+ * function: MicWaitBusy
  * address:  0x0208B798
  * packet:   pkt_0208B798
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void g_02152FE4(void);
 
-asm void func_0208B798(void)
+asm void MicWaitBusy(void)
 {
     ldr ip, =g_02152FE4
 loc_0208B79C:

@@ -57,7 +57,7 @@
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   OS_GetParentalControlInfoPtr  0x02087E60  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
@@ -253,7 +253,7 @@ extern int GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
 extern int OS_IsRunOnTwl(void);
 extern OwnerFlags *OS_GetParentalControlInfoPtr(void);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *myStatus);
 extern u32 GAMESYSTEM_CanStartAutoComm(const struct GameSystem *gameSystem);
 extern int GFL_NET_GetRunState(void);
@@ -674,7 +674,7 @@ void GAME_BEACON_SEARCH_BuildBeaconHeader(GameBeaconSearchBeacon *beacon, struct
     beacon->header.memberMax = 3;
     beacon->header.busy = GFL_NET_SYSTEM_CheckError();
     beacon->header.kind = 0;
-    beacon->header.trainerId = func_02008530(func_02012944(gameData));
+    beacon->header.trainerId = func_02008530(GAME_DATA_GetMyStatus(gameData));
     beacon->header.isTwl = OS_IsRunOnTwl();
     beacon->header.twlWirelessOn = 0;
     lidClosed = PAD_DetectFold();

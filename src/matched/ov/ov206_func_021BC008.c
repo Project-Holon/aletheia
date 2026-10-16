@@ -1,5 +1,5 @@
 /*
- * function: func_021BC008
+ * function: ZUKAN_INFO_FreeResources
  * address: 0x021BC008
  * packet: pkt_ov206_021BC008
  * region: ov206
@@ -29,7 +29,7 @@ extern void POKE_PERSONAL_Delete(void *);
 typedef unsigned int   u32;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BC008(S *p)
+void ZUKAN_INFO_FreeResources(S *p)
 {
     u8 i;
     for (i = 0; i < 16; i++)

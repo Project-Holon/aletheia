@@ -15,7 +15,7 @@
  *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
  *   OEKAKI_CloseMenuIfOpen  0x02186480  thumb  ov023
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
  */
 #include "../include/Obj00336.h"
@@ -28,7 +28,7 @@ extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
 extern void OEKAKI_SetNextScene(char *p, u32 v);
 extern void OEKAKI_CloseMenuIfOpen(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void OEKAKI_ApplyRemoteStrokes(char *p);
 
 int OEKAKI_StepStart(char *p, int x)
@@ -40,7 +40,7 @@ int OEKAKI_StepStart(char *p, int x)
     OEKAKI_SetNextScene(p, 2);
     OEKAKI_CloseMenuIfOpen(p);
     GFL_USE_PlaySeDefaultVolume(0x54c);
-    func_0207D658(0x04000050, 14, -6);
+    G2x_SetBlendBrightness_(0x04000050, 14, -6);
     OEKAKI_ApplyRemoteStrokes(p);
     return x;
 }

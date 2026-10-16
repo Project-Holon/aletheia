@@ -15,7 +15,7 @@
  *
  * symbols:
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -130,13 +130,13 @@
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   CLACT_CreateUnit  0x0204B100  arm
- *   func_020185F0  0x020185F0  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   POKEGRA_OpenHandle  0x0202D7C8  thumb
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKEGRA_RegisterCgrPP  0x0202D934  thumb
  *   POKEGRA_RegisterPalettePP  0x0202D8D0  thumb
  *   POKEGRA_RegisterCellAnimPP  0x0202D9A4  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   gPerapIconActorParam     0x021DD60C  data  a2
  *   CLACT_DeleteActor  0x0204B3B4  arm
@@ -221,7 +221,7 @@
  *   func_02008DFC  0x02008DFC  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   WORDSET_Callback  0x0201EE60  thumb
  *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -407,7 +407,7 @@ typedef struct CameraShakeWork {
 #define NRM(i) ((NormComp *)gTileNormalTable)[i]
 
 extern GameData *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
-extern PlayerStatus *func_02012944(GameData *gameData);
+extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern u8 func_02008550(const PlayerStatus *status);
 extern void ARC_TOOL_DeleteHandle(void *handle);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -517,13 +517,13 @@ extern FieldMap *ICA_ANIME_GetField20(const GameSystem *gameSystem);
 extern void FLDMMDL_SysPauseMove(MmdlSys *sys);
 extern void FLDMMDL_SysResumeMove(MmdlSys *sys);
 extern Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
-extern BoxPokemon *func_020185F0(PokemonParam *pp);
+extern BoxPokemon *POKE_TOOL_Dummy(PokemonParam *pp);
 extern void *POKEGRA_OpenHandle(u32 heapId);
-extern u32 func_02017DBC(BoxPokemon *box);
+extern u32 POKE_TOOL_DecodeBoxParam(BoxPokemon *box);
 extern int POKEGRA_RegisterCgrPP(void *handle, BoxPokemon *box, int dir, int drawType, unsigned short heapId);
 extern int POKEGRA_RegisterPalettePP(void *handle, BoxPokemon *box, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
 extern u32 POKEGRA_RegisterCellAnimPP(BoxPokemon *box, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
-extern u32 func_02017DE4(BoxPokemon *box, u32 didDecode);
+extern u32 POKE_TOOL_EncodeBoxParam(BoxPokemon *box, u32 didDecode);
 extern Actor *CLACT_CreateActor(Unit *unit, u32 charRes, u32 palRes, u32 cellRes, const ClactInitParam *param, u16 priority, u16 heapId);
 extern void CLACT_ReleaseCharacter(u32 idx);
 extern void CLACT_ReleasePalette(u32 idx);
@@ -603,7 +603,7 @@ extern u32 func_02008DAC(TrainerRecord *record, int index, u32 delta);
 extern u32 func_02008DFC(TrainerRecord *record, int index);
 extern void WORDSET_SetSlotMyStatus(WordSet *words, u32 slot, PlayerStatus *status);
 extern u32 POKEPARTY_GetCount(Party *party);
-extern u32 func_02017E1C(PokemonParam *pp, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(PokemonParam *pp, u32 paramId, u32 arg);
 extern void WORDSET_Callback(WordSet *words, u32 slot, u16 speciesId);
 extern void GF_STANDARD_SetField00(RtcTime *time);
 extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
@@ -1329,13 +1329,13 @@ void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work)
     ClactInitParam actorParam;
 
     work->clactUnit = CLACT_CreateUnit(1, 0, 0x15);
-    box = func_020185F0(work->partyMon);
+    box = POKE_TOOL_Dummy(work->partyMon);
     resHandle = POKEGRA_OpenHandle(0x15);
-    savedState = func_02017DBC(box);
+    savedState = POKE_TOOL_DecodeBoxParam(box);
     work->charRes = POKEGRA_RegisterCgrPP(resHandle, box, 0, 0, 0x15);
     work->palRes = POKEGRA_RegisterPalettePP(resHandle, box, 0, 0, 0x60, 0x15);
     work->cellRes = POKEGRA_RegisterCellAnimPP(box, 0, 1, 0, 0x15);
-    func_02017DE4(box, savedState);
+    POKE_TOOL_EncodeBoxParam(box, savedState);
     ARC_TOOL_DeleteHandle(resHandle);
     actorParam = gPerapIconActorParam;
     work->clactActor = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &actorParam, 0, 0x15);
@@ -1713,7 +1713,7 @@ u32 SCRCMD_CheckBeaconTrainerKey(ScriptVm *vm, ScrcmdWork *cmdWork)
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
     miscSave = GAME_DATA_GetMiscSave(gameData);
-    *resultVar = FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, slot, func_02012944(gameData));
+    *resultVar = FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, slot, GAME_DATA_GetMyStatus(gameData));
     return 0;
 }
 
@@ -1934,7 +1934,7 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(cmdWork));
-    status = func_02012944(gameData);
+    status = GAME_DATA_GetMyStatus(gameData);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     fixedMessage = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -1943,8 +1943,8 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
     partyCount = POKEPARTY_GetCount(party);
     for (i = 0; i < partyCount; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(mon, 0x4C, 0) == 0) {
-            WORDSET_Callback(wordSet, 3, func_02017E1C(mon, 5, 0));
+        if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
+            WORDSET_Callback(wordSet, 3, POKE_TOOL_GetPartyValue(mon, 5, 0));
             break;
         }
     }

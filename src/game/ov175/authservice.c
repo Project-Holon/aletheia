@@ -1,7 +1,7 @@
 /*
  * file:     authservice.c
  * unit:     yes
- * function: wsiServiceAvailable, wsGetServiceUrl, wsLoginRemoteAuthCallback, wsLoginRemoteAuth, wsiToNetworkOrder, wsLoginCertIsValid, wsLoginCertWriteXML
+ * function: wsiServiceAvailable, wsGetServiceUrl, wsLoginRemoteAuthCallback, wsLoginRemoteAuth, wsiToNetworkOrder, wsLoginCertIsValid, wsLoginCertWriteXML, wsLoginCertReadXML
  * address:  0x021E2290
  * region:   ov175
  * compiler: dsi/1.1p1
@@ -12,7 +12,9 @@
  *
  * GameSpy web services login (libdwcgswebservices, object authservice.o): the
  * LoginRemoteAuth SOAP call that exchanges an auth token for a signed login
- * certificate, the check of that certificate and its XML form.
+ * certificate, the check of that certificate and its XML read/write form.
+ * wsLoginCertReadXML was its own file (authservice_readxml.c, 0x021E2A5C) and
+ * is merged here: it is the same original object authservice.o.
  *
  * symbols:
  *   GSMD5Final  0x02184A34  arm ov009
@@ -63,6 +65,8 @@
  *   gsXmlMoveToParent  0x02183560  arm ov009
  *   gsXmlMoveToStart  0x021834D0  arm ov009
  *   gsXmlReadChildAsInt  0x02183A24  arm ov009
+ *   gsXmlReadChildAsStringNT  0x0218372C  arm ov009
+ *   gsXmlReadChildAsHexBinary  0x021837A4  arm ov009
  *   gsXmlReadChildAsLargeInt  0x02183E50  arm ov009
  *   gsXmlWriteAsciiStringElement  0x02182B68  arm ov009
  *   gsXmlWriteCloseTag  0x02182A2C  arm ov009
@@ -88,6 +92,9 @@ extern int gsXmlMoveToNext(void *stream, char *matchtag);
 extern int gsXmlMoveToChild(void *stream, char *matchtag);
 extern int gsXmlMoveToParent(void *stream);
 extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
+extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
+extern int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *valueOut, int maxLen,
+                                     int *lenOut);
 extern int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, gsLargeInt_t *valueOut);
 extern void GSMD5Init(GSMD5_CTX *context);
 extern void gsLargeIntAddToMD5(gsLargeInt_t *lint, GSMD5_CTX *md5);
@@ -330,6 +337,35 @@ int wsLoginCertWriteXML(GSLoginCertificate *cert, char *aNamespace, void *writer
         || !gsXmlWriteLargeIntElement(writer, aNamespace, sWsTagPeerKeyExponent, &cert->mPeerPublicKey.exponent)
         || !gsXmlWriteHexBinaryElement(writer, aNamespace, sWsTagServerData, cert->mServerData, 128)
         || !gsXmlWriteHexBinaryElement(writer, aNamespace, sWsTagSignature, cert->mSignature, 128))
+        return 0;
+    return 1;
+}
+
+/*
+ * wsLoginCertReadXML: reads every certificate field out of the reader's current
+ * certificate element.  Returns 0 on the first read that fails, 1 when all of
+ * them succeed.
+ */
+int wsLoginCertReadXML(GSLoginCertificate *cert, void *reader)
+{
+    char buf[257];
+    int len;
+    if (!gsXmlReadChildAsInt(reader, sWsTagLength, (int *)&cert->mLength)
+        || !gsXmlReadChildAsInt(reader, sWsTagVersion, (int *)&cert->mVersion)
+        || !gsXmlReadChildAsInt(reader, sWsTagPartnerCode, (int *)&cert->mPartnerCode)
+        || !gsXmlReadChildAsInt(reader, sWsTagNamespaceId, (int *)&cert->mNamespaceId)
+        || !gsXmlReadChildAsInt(reader, sWsTagUserId, (int *)&cert->mUserId)
+        || !gsXmlReadChildAsInt(reader, sWsTagProfileId, (int *)&cert->mProfileId)
+        || !gsXmlReadChildAsInt(reader, sWsTagExpireTime, (int *)&cert->mExpireTime)
+        || !gsXmlReadChildAsStringNT(reader, sWsTagProfileNick, cert->mProfileNick, 31)
+        || !gsXmlReadChildAsStringNT(reader, sWsTagUniqueNick, cert->mUniqueNick, 21)
+        || !gsXmlReadChildAsStringNT(reader, sWsTagCdKeyHash, cert->mCdKeyHash, 33)
+        || !gsXmlReadChildAsStringNT(reader, sWsTagPeerKeyModulus, buf, 257)
+        || !gsLargeIntSetFromHexString(&cert->mPeerPublicKey.modulus, buf)
+        || !gsXmlReadChildAsStringNT(reader, sWsTagPeerKeyExponent, buf, 257)
+        || !gsLargeIntSetFromHexString(&cert->mPeerPublicKey.exponent, buf)
+        || !gsXmlReadChildAsHexBinary(reader, sWsTagServerData, cert->mServerData, 128, &len)
+        || !gsXmlReadChildAsHexBinary(reader, sWsTagSignature, cert->mSignature, 128, &len))
         return 0;
     return 1;
 }

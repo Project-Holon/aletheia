@@ -30,7 +30,7 @@
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
  *   BTL_SLOT_GetPoke 0x021B9BF0 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   gClientFirstPokeIds 0x021EFCF0 data ov093 a1
@@ -68,7 +68,7 @@ extern char *BTL_SIDE_GetSlotOfClient(char *, int);
 extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern u32 BTL_SLOT_GetPoke(struct S2 *p, u32 i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern const u8 gClientFirstPokeIds[];
@@ -120,8 +120,8 @@ void BTL_MAIN_WriteBackResults(char *p)
             for (j = 0; j < count; j++) {
                 m = (u8 *)BTL_SLOT_GetPoke((struct S2 *)group, (u8)j);
                 i = (u8)(BTL_POKEPARAM_GetPokeId(m) - base);
-                total += func_021D59B4(m, 13);
-                maximum += func_021D59B4(m, 14);
+                total += BTL_POKEPARAM_GetValue(m, 13);
+                maximum += BTL_POKEPARAM_GetValue(m, 14);
                 if (BTL_POKEPARAM_IsFainted(m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp = slot * 6; *(u8 *)(i + (tmp + *(u32 *)&((struct Obj00324 *)p)->f0) + 0xc8) = 2; }
                 else if (BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp2 = slot * 6; *(u8 *)(i + (tmp2 + obj) + 0xc8) = 1; }
             }

@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202D034  0x0202D034  thumb
+ *   BGWINFRM_GetScaleRank  0x0202D034  thumb
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  */
 typedef unsigned int u32;
@@ -53,7 +53,7 @@ typedef struct {
     } flags;                /* 0x440 */
 } W;
 
-extern int func_0202D034(u32 a, u32 b);
+extern int BGWINFRM_GetScaleRank(u32 a, u32 b);
 typedef unsigned short u16;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
@@ -65,7 +65,7 @@ int BTLV_GAUGE_GetSlotHealthInfo(W *w, int i, int *o1, int *o2)
         *o2 = 8;
         return 0;
     }
-    *o1 = func_0202D034(w->r[i].f48, w->r[i].f4c);
+    *o1 = BGWINFRM_GetScaleRank(w->r[i].f48, w->r[i].f4c);
     *o2 = CLACT_GetActorAnimSeq((struct Obj *)w->r[i].h14);
     if (*o2 == 0)
         *o2 = 8;

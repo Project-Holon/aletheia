@@ -25,7 +25,7 @@
  *   DWC_RAP_IsUserDataChanged 0x02156C84 thumb ov009
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   DWC_RAP_ClearUserDataChanged 0x02156C98 thumb ov009
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
@@ -222,7 +222,7 @@ extern int GAME_DATA_SaveMain(u8 *);
 
 extern void DWC_RAP_ClearUserDataChanged(int);
 
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 
 extern void *WIFILIST_GetGsProfileId(void *);
 
@@ -602,7 +602,7 @@ void WIFILOGIN_DISP_StepWaitLogin(u8 *p) {
 
 void WIFILOGIN_DISP_StepSaveResult(u8 *p) { int r; if(DWC_RAP_IsUserDataChanged()) { r=GAME_DATA_SaveMain(*(u8 * *)&((struct WifiloginWork *)p)->userdata); switch(r) { case 0: case 1: return; default: DWC_RAP_ClearUserDataChanged(r); break; } } WIFILOGIN_DISP_StepWaitLogin(p); }
 
-void WIFILOGIN_DISP_StepStartSave(u8 *p) { void *a; if(WIFILOGIN_MSG_IsPrintDone((u8 *)(((struct WifiloginWork *)p)->message))) { a=func_02012944(((struct WifiloginWork *)p)->userdata); func_02008540(a,WIFILIST_GetGsProfileId(((struct WifiloginWork *)p)->profile)); GAME_DATA_SaveStart(*(u8 * *)&((struct WifiloginWork *)p)->userdata); ((struct WifiloginWork *)p)->saveStarted=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepSaveResult); } }
+void WIFILOGIN_DISP_StepStartSave(u8 *p) { void *a; if(WIFILOGIN_MSG_IsPrintDone((u8 *)(((struct WifiloginWork *)p)->message))) { a=GAME_DATA_GetMyStatus(((struct WifiloginWork *)p)->userdata); func_02008540(a,WIFILIST_GetGsProfileId(((struct WifiloginWork *)p)->profile)); GAME_DATA_SaveStart(*(u8 * *)&((struct WifiloginWork *)p)->userdata); ((struct WifiloginWork *)p)->saveStarted=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepSaveResult); } }
 
 void WIFILOGIN_DISP_StepCheckSave(u8 *p) {
  if(WIFILOGIN_MSG_IsPrintDone((u8 *)((int)((u8 *)((struct WifiloginWork *)p)->message)))) { if(DWC_RAP_IsUserDataChanged() && !((struct WifiloginWork *)p)->saveStarted && ((struct WifiloginWork *)p)->state->netMode!=2) { WIFILOGIN_MSG_SetMessage((void *)((struct WifiloginWork *)p)->message,30); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepStartSave); } else { WIFILOGIN_DISP_StepWaitLogin(p); } }

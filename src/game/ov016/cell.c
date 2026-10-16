@@ -39,12 +39,21 @@
  *   DWCi_QUElPushBack  0x021D546C  arm
  */
 struct ListCB;
-typedef struct { unsigned long attr01; unsigned long attr23; } GXOamAttr_021D4CF4;
 
+typedef unsigned int u32;
+
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+#include "gx_oam_types.h"
+
+/* A DWC GUI cell list node (cell.o): doubly linked between its neighbours and
+ * carrying the base OAM entry plus the number of OAM entries it owns. */
 typedef struct CellInfo {
     struct CellInfo *prev;
     struct CellInfo *next;
-    GXOamAttr_021D4CF4 *obj;
+    GXOamAttr *obj;
     unsigned char num;
 } CellInfo;
 
@@ -60,69 +69,10 @@ typedef struct tagMEMCELL {
     CELLPRM c[2];
 } MEMCELL;
 
-/* Cell object of the DWC GUI cell list (cell.o); only the state byte is read here. */
-typedef struct CellObj {
-    unsigned char pad00[0x0C];
-    unsigned char state;
-} CellObj;
-
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef struct {
-    u32 attr01;
-    u32 attr23;
-} OamAttr_021D4FF4;
-
-typedef struct {
-    int pad0;
-    int pad4;
-    OamAttr_021D4FF4 *oam;
-    u8 num;
-} CellInfo_021D4FF4;
-
-typedef unsigned short u16;
-
-typedef struct {
-    u32 word;
-    u16 half;
-    u16 pad;
-} Slot;
-
-typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr_021D4FF4;
-
-typedef struct { int pad0; int pad4; GXOamAttr_021D4FF4 *oam; u8 num; } CellInfo_021D5118;
-
-typedef struct {
-    u16 attr0;
-    u16 attr1;
-    u16 attr2;
-    u16 pad;
-} OamAttr_021D51F0;
-
-typedef struct {
-    int pad0;
-    int pad4;
-    OamAttr_021D51F0 *oam;
-    u8 num;
-} CellInfo_021D51F0;
-
-typedef struct {
-    u32 attr01;
-    u32 attr23;
-} OamAttr_021D5250;
-
-typedef struct {
-    int pad0;
-    int pad4;
-    OamAttr_021D5250 *oam;
-} CellInfo_021D5250;
-
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
 extern struct ListCB *DWCi_LSTlForm(void);
-extern GXOamAttr_021D4CF4 *DWCi_OBJlGetOam(int lcd, int idx);
+extern GXOamAttr *DWCi_OBJlGetOam(int lcd, int idx);
 extern void DWCi_LSTlPushFront(char *p, void *ob);
 extern void DWCi_LSTlPushBack(char *p, void *ob);
 extern void DWCi_LSTlDelete(void *list);
@@ -139,8 +89,8 @@ void DWCi_CELLlInit(void);
 void DWCi_CELLlEnd(void);
 void *DWCi_CELLlForm(int lcd, int num, int head);
 void DWCi_CELLlDelete(CellInfo *p);
-GXOamAttr_021D4CF4 *DWCi_CELLlGetObj(CellInfo *p, unsigned int i);
-unsigned char DWCi_CELLlGetState(CellObj *cell);
+GXOamAttr *DWCi_CELLlGetObj(CellInfo *p, unsigned int i);
+unsigned char DWCi_CELLlGetState(CellInfo *cell);
 void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
 void DWCi_CELLlSetPalette(u8 *obj, int idx, u32 v, u32 w);
 void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
@@ -193,7 +143,7 @@ void *DWCi_CELLlForm(int lcd, int num, int head)
     CellInfo *cell;
     CellInfo *c;
     CellInfo *n;
-    GXOamAttr_021D4CF4 *obj;
+    GXOamAttr *obj;
     unsigned long irq;
 
     cell = DWCi_QUElPopBack(gCellWork->c[lcd].queue);
@@ -231,7 +181,7 @@ void *DWCi_CELLlForm(int lcd, int num, int head)
 
 void DWCi_CELLlDelete(CellInfo *p)
 {
-    GXOamAttr_021D4CF4 *obj;
+    GXOamAttr *obj;
     int i;
     int sel = 0;
 
@@ -254,22 +204,22 @@ void DWCi_CELLlDelete(CellInfo *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/DWCi_CELLlGetObj.c  *       --func DWCi_CELLlGetObj --addr 0x021D4FE0 --region ov016 --cc dsi/1.1p1 --arm
  */
-GXOamAttr_021D4CF4 *DWCi_CELLlGetObj(CellInfo *p, unsigned int i)
+GXOamAttr *DWCi_CELLlGetObj(CellInfo *p, unsigned int i)
 {
     return p->obj + i;
 }
 
 
-unsigned char DWCi_CELLlGetState(CellObj *cell)
+unsigned char DWCi_CELLlGetState(CellInfo *cell)
 {
-    return cell->state;
+    return cell->num;
 }
 
 
 void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine)
 {
-    CellInfo_021D4FF4 *c = (CellInfo_021D4FF4 *)cell;
-    OamAttr_021D4FF4 *oam = c->oam;
+    CellInfo *c = (CellInfo *)cell;
+    GXOamAttr *oam = c->obj;
     int i;
 
     if (idx >= 0) {
@@ -290,30 +240,30 @@ void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine)
 
 void DWCi_CELLlSetPalette(u8 *obj, int idx, u32 v, u32 w)
 {
-    Slot *arr = *(Slot **)(obj + 8);
+    GXOamAttr *arr = *(GXOamAttr **)(obj + 8);
 
     if (idx >= 0) {
-        arr[idx].word = (arr[idx].word & ~0xC00u) | (v << 10);
-        arr[idx].half = (arr[idx].half & ~0xF000u) | (w << 12);
+        arr[idx].attr01 = (arr[idx].attr01 & ~0xC00u) | (v << 10);
+        arr[idx].attr2 = (arr[idx].attr2 & ~0xF000u) | (w << 12);
     } else {
         int i = 0;
         while (i < *(u8 *)(obj + 0xC)) {
-            arr[i].word = (arr[i].word & ~0xC00u) | (v << 10);
-            arr[i].half = (arr[i].half & ~0xF000u) | (w << 12);
+            arr[i].attr01 = (arr[i].attr01 & ~0xC00u) | (v << 10);
+            arr[i].attr2 = (arr[i].attr2 & ~0xF000u) | (w << 12);
             i++;
         }
     }
 }
 
 
-static inline void G2_GetOBJPosition(const GXOamAttr_021D4FF4 *oam, unsigned long *x, unsigned long *y)
+static inline void G2_GetOBJPosition(const GXOamAttr *oam, unsigned long *x, unsigned long *y)
 {
     *x = (oam->attr01 & 0x01FF0000) >> 16;
     *y = (oam->attr01 & 0x000000FF) >> 0;
 }
 
 
-static inline void G2_SetOBJPosition(GXOamAttr_021D4FF4 *oam, int x, int y)
+static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
     oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
@@ -324,12 +274,12 @@ static inline void G2_SetOBJPosition(GXOamAttr_021D4FF4 *oam, int x, int y)
  */
 void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y)
 {
-    CellInfo_021D5118 *c = (CellInfo_021D5118 *)cell;
-    GXOamAttr_021D4FF4 *oam;
+    CellInfo *c = (CellInfo *)cell;
+    GXOamAttr *oam;
     int i;
     int x0, y0, x1, y1, dx, dy;
 
-    oam = c->oam;
+    oam = c->obj;
     if (idx >= 0) {
         G2_SetOBJPosition(&oam[idx], x, y);
     } else {
@@ -350,8 +300,8 @@ void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y)
  */
 void DWCi_CELLlSetPriority(void *cell, int idx, int priority)
 {
-    CellInfo_021D51F0 *c = (CellInfo_021D51F0 *)cell;
-    OamAttr_021D51F0 *oam = c->oam;
+    CellInfo *c = (CellInfo *)cell;
+    GXOamAttr *oam = c->obj;
     int i;
 
     if (idx >= 0) {
@@ -368,7 +318,7 @@ void DWCi_CELLlSetPriority(void *cell, int idx, int priority)
  */
 void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y)
 {
-    OamAttr_021D5250 *oam = ((CellInfo_021D5250 *)cell)->oam;
+    GXOamAttr *oam = ((CellInfo *)cell)->obj;
     *x = (oam[idx].attr01 & 0x01ff0000) >> 16;
     *y = oam[idx].attr01 & 0xff;
 }

@@ -18,7 +18,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   C_GEAR_IsCallTabActive  0x021F05B4  thumb  ov029
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021F3098  0x021F3098  thumb  ov029
+ *   C_GEAR_StartSelectedRipple  0x021F3098  thumb  ov029
  *   C_GEAR_StepWaitSlots  0x021F3118  thumb  ov029
  *   C_GEAR_ChangeStep  0x021EFEF8  thumb  ov029
  *   C_GEAR_StartPanelEvent  0x021F2EEC  thumb  ov029
@@ -32,7 +32,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 typedef unsigned char  u8;
 extern int C_GEAR_IsCallTabActive(unsigned char *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
-extern void func_021F3098(u8 *p);
+extern void C_GEAR_StartSelectedRipple(u8 *p);
 extern void C_GEAR_StepWaitSlots(void *p);
 extern void C_GEAR_ChangeStep(char *p, void (*f)(void), int a);
 extern int C_GEAR_StartPanelEvent(char *p, int k);
@@ -56,7 +56,7 @@ int C_GEAR_HandleCommand(char *p, int a)
             r = C_GEAR_StartPanelEvent(p, ((struct Obj00042 *)p)->f214);
         } else {
             GFL_USE_PlaySeDefaultVolume(0x7E3);
-            func_021F3098((u8 *)p);
+            C_GEAR_StartSelectedRipple((u8 *)p);
             C_GEAR_ChangeStep(p, (void (*)(void))C_GEAR_StepWaitSlots, 0x1238);
         }
         break;

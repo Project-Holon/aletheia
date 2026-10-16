@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   WORLDTRADE_BOX_LoadPokeIcon  0x021F66F0  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -45,7 +45,7 @@ typedef struct {
 
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void WORLDTRADE_BOX_LoadPokeIcon(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec);
 struct Obj;
@@ -61,13 +61,13 @@ void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *speci
     u32 form;
 
     POKE_TOOL_DecodeBoxParam(mon);
-    present = func_02017E88(mon, 0xa9, 0);
-    *species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6f, 0);
-    egg = func_02017E88(mon, 0x4c, 0);
-    item = func_02017E88(mon, 6, 0);
+    present = POKE_TOOL_GetBoxValue(mon, 0xa9, 0);
+    *species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    form = POKE_TOOL_GetBoxValue(mon, 0x6f, 0);
+    egg = POKE_TOOL_GetBoxValue(mon, 0x4c, 0);
+    item = POKE_TOOL_GetBoxValue(mon, 6, 0);
     info->species = *species;
-    info->f2 = func_02017E88(mon, 0x6e, 0) + 1;
+    info->f2 = POKE_TOOL_GetBoxValue(mon, 0x6e, 0) + 1;
     if (egg != 0) {
         info->f3 = 0;
     }

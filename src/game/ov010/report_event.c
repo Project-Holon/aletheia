@@ -19,7 +19,7 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
@@ -232,7 +232,7 @@ extern void func_020307B0(void *p);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern FieldAvatar *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern FieldMmdl *FIELD_PLAYER_GetMmdl(FieldAvatar *avatar);
-extern MyStatus *func_02012944(GameData *gameData);
+extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MsgData *func_02045B38(u32 type, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dest);
@@ -447,7 +447,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             REPORT_EVENT_EndAvatarAnim(w);
             wordSet = WORDSET_CreateDefault(w->heapId);
             message = func_02045EC0(w->res->msgData, REPORT_EVENT_MSG_SAVED);
-            WORDSET_SetSlotMyStatus(wordSet, 0, func_02012944(ICA_ANIME_GetField1C(w->gameSystem)));
+            WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(w->gameSystem)));
             WORDSET_CopyTaggedText(wordSet, w->res->message, message);
             STRBUF_Delete(message);
             WORDSET_DeleteStrbufED04(wordSet);

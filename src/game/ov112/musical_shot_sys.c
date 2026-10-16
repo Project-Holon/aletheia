@@ -114,12 +114,12 @@
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
  *   STA_ACT_LIGHT_AddBillboardImage 0x021F709C thumb ov112
  *   STA_ACT_LIGHT_AddPokemonElem 0x021F760C thumb ov112
- *   STA_ACT_LIGHT_CallElemB 0x021F80B0 thumb ov112
+ *   STA_ACT_LIGHT_ResetRenderAnim 0x021F80B0 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  *   STA_ACT_LIGHT_CreateUnit 0x021F6BD8 thumb ov112
  *   MUSICAL_MCSS_SetObjectValue 0x021F40D0 thumb ov112
- *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
- *   STA_ACT_LIGHT_ElemOpD 0x021F8084 thumb ov112
+ *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_SetActorOffset 0x021F8084 thumb ov112
  *   STA_ACT_LIGHT_CreateActor 0x021F6E78 thumb ov112
  *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
  *   d_021F8240 0x021F8240 data a4
@@ -161,6 +161,8 @@ typedef enum {ConfigSize=432} AllocSize;
 
 typedef short s16;
 
+#include "musical_shot_types.h"
+
 typedef struct { u32 w[7]; } T28;
 
 typedef struct { u32 w[3]; } T12;
@@ -171,75 +173,6 @@ typedef struct
   int y;
   int z;
 } Vec;
-
-/* The gender/shiny/form bitfield at the top of a performer (offset 0x02). */
-typedef struct { u16 gender : 2; u16 shiny : 1; u16 form : 5; } MusicalPerformerBits;
-
-/* One prop slot of a show performer (MusicalShowEquip in ov010). */
-typedef struct
-{
-  u16 propId;
-  s16 offset;
-  u8 bodySlot;
-  u8 pad[3];
-} MusicalShowProp;
-
-/* One performer of a show (MusicalShowPerformer in ov010, 0x58 bytes). */
-typedef struct
-{
-  u16 monsNo;
-  u16 gender : 2;
-  u16 shiny : 1;
-  u16 form : 5;
-  u32 personality;
-  u16 name[8];
-  MusicalShowProp props[8];
-} MusicalShowPerformer;
-
-/* A performer seen from the record base plus 0x58 per slot. The original code
-   indexes the record by 0x58, so the view starts on the record header word. */
-typedef struct
-{
-  u32 recordHeader;
-  MusicalShowPerformer performer;
-} MusicalShowPerformerView;
-
-/* The show record stored in the musical save (MusicalShowRecord in ov010, 0x1B0 bytes). */
-typedef struct
-{
-  u32 programId : 5;
-  u32 winnerMask : 4;
-  u32 year : 7;
-  u32 month : 5;
-  u32 day : 6;
-  u32 localSlot : 2;
-  u32 reserved : 3;
-  MusicalShowPerformer performers[4];
-  u16 title[0x25];
-  u8 showType;
-  u8 valid;
-} MusicalShowRecord;
-
-typedef struct 
-{
-  u16 heap;
-  u16 pad;
-  MusicalShowRecord *record;
-  u8 *objects[4];
-  void *camera;
-  void *board;
-  void *renderObj;
-  void *actorPool;
-  void *model;
-  void *sprite;
-  void *models[4];
-  void *unit;
-  void *effects[4];
-  void *winA;
-  void *winB;
-  void *fontA;
-  void *fontB;
-} ShotScene;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -330,13 +263,13 @@ extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 hea
 extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
 extern void *STA_ACT_LIGHT_AddPokemonElem(u8 *, u8 *);
 extern void MUSICAL_MCSS_SetRenderFieldA(void **p, int b);
-extern void STA_ACT_LIGHT_CallElemB(int, int);
+extern void STA_ACT_LIGHT_ResetRenderAnim(int, int);
 extern int STA_ACT_LIGHT_SetElemValue(int, int *, int);
 extern void *STA_ACT_LIGHT_CreateUnit(u16, void *);
 extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
 extern u32 MUSICAL_MCSS_SetObjectValue(void *p, u32 i, u16 c);
-extern void STA_ACT_LIGHT_ElemOpB(void *unused, u32 *p, const u32 *q);
-extern void STA_ACT_LIGHT_ElemOpD(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save);
 int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p);
@@ -689,7 +622,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
     if (1)
     {
       *((void **) (row + 0x30)) = q;
-      STA_ACT_LIGHT_CallElemB((int)p->sprite, (int)q);
+      STA_ACT_LIGHT_ResetRenderAnim((int)p->sprite, (int)q);
       STA_ACT_LIGHT_SetElemValue((int) p->sprite, *((int **) (row + 0x30)), 1);
     }
   }
@@ -731,8 +664,8 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
       pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      STA_ACT_LIGHT_ElemOpB(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
-      STA_ACT_LIGHT_ElemOpD(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&temp));
+      STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_SetActorOffset(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&temp));
       scale.y = 22 << 14;
     }
     else
@@ -742,7 +675,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
       pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      STA_ACT_LIGHT_ElemOpB(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
       tmp1 = 2 << 18;
       scale.y = tmp1;
     }

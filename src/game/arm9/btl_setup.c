@@ -16,7 +16,7 @@
  *   func_020307B0  0x020307B0  arm
  *   MI_CpuFill8        0x02082BCC  arm
  *   func_02030734   0x02030734  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0200873C  0x0200873C  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   BEACON_CountFlags  0x0200C258  thumb
@@ -138,7 +138,7 @@ void *GAME_DATA_GetMyParty(const struct GameData *gd);
 
 u32 GAME_DATA_GetBoxManager(const struct GameData *gd);
 
-struct PlayerStatus *func_02012944(struct GameData *gd);
+struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 void *GAME_DATA_GetEventWork(const struct GameData *gd);
 
@@ -582,7 +582,7 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
     for (i = 0; i < 7; i++) {
         param->regulationRules[i] = 0;
     }
-    param->playerStatus[0] = func_02012944(gd);
+    param->playerStatus[0] = GAME_DATA_GetMyStatus(gd);
     param->myItem = GAME_DATA_GetMyItem(gd);
     param->mapMatrix = GAME_DATA_GetMapMatrix(gd);
     param->zukanWork = ZUKAN_SAVE_GetFromGameData(gd);

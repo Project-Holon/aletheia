@@ -45,7 +45,7 @@
  *   func_0200873C 0x0200873C thumb
  *   PLIST_COMM_Start 0x021B6100 thumb ov090
  *   ov90_id 0x0000005A data a1
- *   func_02012944   0x02012944  thumb
+ *   GAME_DATA_GetMyStatus   0x02012944  thumb
  *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled   0x0200CA38  thumb
@@ -217,7 +217,7 @@ extern void PLIST_COMM_Update(u8 *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void PLIST_COMM_Start(u8 *);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern unsigned int POKEPARTY_GetCount(void *p);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
@@ -437,7 +437,7 @@ void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4)
     int a;
     int b;
     a = (int)GAME_DATA_GetSaveControl((struct Big *)r5[5]);
-    func_02012944((void *)r5[5]);
+    GAME_DATA_GetMyStatus((void *)r5[5]);
     b = (int)ZUKAN_SAVE_GetFromGameData((void *)r5[5]);
     r4->f0 = r6[1];
     r4->f8 = r5[5];

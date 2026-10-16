@@ -11,7 +11,7 @@
  *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_IsIllusionActive 0x021D6C24 thumb ov093
  *   BTL_POKEPARAM_IsSemiInvulnerable 0x021D5C30 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_Transform 0x021D6C50 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupIn 0x021C5A1C thumb ov093
@@ -36,7 +36,7 @@ struct R4;
 struct UtilWork;
 extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
 extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 struct Unk021D6C50;
 extern int BTL_POKEPARAM_Transform(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -58,7 +58,7 @@ int BTL_SERVER_FLOW_ProcHandExTransform(u8 *p, struct Cmd *q)
     int x, y;
     u32 lock;
     if (!BTL_POKEPARAM_IsIllusionActive((struct R4 *)a) && !BTL_POKEPARAM_IsIllusionActive((struct R4 *)b) && !BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)a)) {
-        k = func_021D59B4(a, 16);
+        k = BTL_POKEPARAM_GetValue(a, 16);
         if (BTL_POKEPARAM_Transform((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b)) {
             x = BTL_POKEPARAM_GetPokeId(a);
             y = BTL_POKEPARAM_GetPokeId(b);
@@ -69,7 +69,7 @@ int BTL_SERVER_FLOW_ProcHandExTransform(u8 *p, struct Cmd *q)
             BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x53, x, y);
             BTL_SERVER_FLOW_PushMsgRecord(p, (const struct Msg *)((u8 *)q + 8));
             if (q->flag) BTL_SERVER_FLOW_PushAbilityPopupOut(p, a);
-            if (k != func_021D59B4(a, 17)) {
+            if (k != BTL_POKEPARAM_GetValue(a, 17)) {
                 lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0x3f0a);
                 BTL_SERVER_FLOW_NotifyAbilityChangedEvent(p, x);
                 BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 0x3f0c);

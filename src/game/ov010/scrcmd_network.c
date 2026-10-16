@@ -61,7 +61,7 @@
  *   d_021B9EC0     0x021B9EC0  data  a4
  *   ov_id_00CD     0x000000CD  data  a1
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetEventState  0x02012ED0  thumb
  *   SYMBOL_MAP_DeleteLinkRecord  0x021666A4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -362,7 +362,7 @@ extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const void *procData, void *procArg);
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct PokeParty *GAME_DATA_GetMyParty(struct GameData *gameData);
 extern int GAME_DATA_GetPlayTime(struct GameData *gameData);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
@@ -860,7 +860,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSyst
 
     work->gameSystem = gameSystem;
     work->warpChanged = SCRCMD_NETWORK_HasSituationWarpChanged(gameData);
-    work->myStatus = func_02012944(gameData);
+    work->myStatus = GAME_DATA_GetMyStatus(gameData);
     SYMBOL_MAP_DeleteLinkRecord(GAME_DATA_GetEventState(gameData));
     GAMESYSTEM_SetCommBlocked(gameSystem, 0);
     return event;
@@ -970,7 +970,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSy
     work->gameSystem = gameSystem;
     work->gameData = gameData;
     work->mode = mode;
-    work->myStatus = func_02012944(gameData);
+    work->myStatus = GAME_DATA_GetMyStatus(gameData);
     work->frameCount = 0;
     work->ov205Param.gameSystem = gameSystem;
     work->ov205Param.mode = mode;
@@ -986,7 +986,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSy
 void SCRCMD_NETWORK_InitCommBattleOv180Param(CommBattleWork *work)
 {
     work->ov180Param.myParty = GAME_DATA_GetMyParty(work->gameData);
-    work->ov180Param.myStatus = func_02012944(work->gameData);
+    work->ov180Param.myStatus = GAME_DATA_GetMyStatus(work->gameData);
     work->ov180Param.playTime = GAME_DATA_GetPlayTime(work->gameData);
 }
 

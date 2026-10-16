@@ -48,7 +48,7 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_FOG_SetOffset  0x021A01BC  thumb  ov021
  *   FIELD_FOG_SetSlope  0x021A01B4  thumb  ov021
- *   sub_02030344   0x02030344  arm
+ *   GFL_HEAP_GetTotalFreeSize   0x02030344  arm
  */
 
 typedef unsigned int u32;
@@ -116,7 +116,7 @@ struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern int   FIELD_FOG_SetOffset(u32 a, u32 b);
 extern int   FIELD_FOG_SetSlope(u32 a, u32 b);
-extern void *sub_02030344(u32 heapId);
+extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 
 void FIELD_GIMMICK_LIFT_ELEVATOR_Init(void *a0)
 {
@@ -189,5 +189,5 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_Init(void *a0)
         FIELD_FOG_SetOffset(g, 0x7FDF);
         FIELD_FOG_SetSlope(g, 9);
     }
-    sub_02030344(0x15);
+    GFL_HEAP_GetTotalFreeSize(0x15);
 }

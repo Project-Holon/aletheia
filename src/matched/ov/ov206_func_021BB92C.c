@@ -1,5 +1,5 @@
 /*
- * function: func_021BB92C
+ * function: ZUKAN_INFO_DeleteRow
  * address: 0x021BB92C
  * packet: pkt_ov206_021BB92C
  * region: ov206
@@ -17,7 +17,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
-void func_021BB92C(char *p, int index)
+void ZUKAN_INFO_DeleteRow(char *p, int index)
 {
     int i;
     if (((struct Obj25407 *)p)->fE4 == 0) {

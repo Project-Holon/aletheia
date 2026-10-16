@@ -12,8 +12,8 @@
  * symbols:
  *   gVctWork     0x021B3C80  data  ov013
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
- *   func_0208B480  0x0208B480  arm
- *   func_0208B528  0x0208B528  arm
+ *   MIC_StopAutoSampling  0x0208B480  arm
+ *   MIC_StopLimitedSampling  0x0208B528  arm
  *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
  *   NNS_SndStrmFreeChannel  0x02073898  arm
  *   VCT_Exit  0x021B3844  arm  ov013
@@ -30,8 +30,8 @@ typedef struct Work Work;
 extern struct Work *gVctWork;
 typedef unsigned int   u32;
 extern u32 APP_ENV_IsRunOnTwl(void);
-extern int func_0208B480(void);
-extern int func_0208B528(void);
+extern int MIC_StopAutoSampling(void);
+extern int MIC_StopLimitedSampling(void);
 extern void NNSi_SndStrmStopIfSetup(void *p);
 struct X;
 extern void NNS_SndStrmFreeChannel(struct X *x);
@@ -48,9 +48,9 @@ void VCT_MAIN_Exit(void)
     }
     cb = gVctWork->f1984;
     if (APP_ENV_IsRunOnTwl() == 0) {
-        func_0208B480();
+        MIC_StopAutoSampling();
     } else {
-        func_0208B528();
+        MIC_StopLimitedSampling();
     }
     NNSi_SndStrmStopIfSetup(gVctWork->f19B8);
     NNS_SndStrmFreeChannel((struct X *)gVctWork->f19B8);

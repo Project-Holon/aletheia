@@ -28,7 +28,7 @@
  *   P_STA_SKILL_GetSlotTouchRect 0x021DBA14 thumb ov131
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   EVENT_ID_Check 0x0202F72C thumb
  *   P_STA_SKILL_GetSlotPos 0x021DBA54 thumb ov131
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -54,7 +54,7 @@ extern void P_STA_SKILL_SetNewMoveHeld(void *,u8 *,int);
 extern void P_STA_SKILL_GetSlotTouchRect(u8 *,u8 *);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern void *P_STATUS_GetPokePara(u8 *);
-extern int func_02017E88(void *,int,int);
+extern int POKE_TOOL_GetBoxValue(void *,int,int);
 extern u32 EVENT_ID_Check(void *a, u16 b, u16 c);
 struct Vec2;
 extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
@@ -101,8 +101,8 @@ void P_STA_SKILL_HandleTouchForget(u8 *a,u8 *b)
     if (index==-1) return;
     if (((struct Obj00026 *)b)->f18==0) {
         if (index<4) {
-            if (func_02017E88(P_STATUS_GetPokePara(a),index+54,0)==0) return;
-            result=EVENT_ID_Check(((struct Obj23167 *)(*(u8 * *)&((struct Obj00132 *)a)->f8))->f8,func_02017E88(P_STATUS_GetPokePara(a),index+54,0),((struct Obj00132 *)a)->f0);
+            if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),index+54,0)==0) return;
+            result=EVENT_ID_Check(((struct Obj23167 *)(*(u8 * *)&((struct Obj00132 *)a)->f8))->f8,POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),index+54,0),((struct Obj00132 *)a)->f0);
             if (result==0 || ((struct Obj00132 *)a)->f14==1) {
                 if (((struct Obj23168 *)(*(u8 * *)&((struct Obj00132 *)a)->f8))->f14==0) {
                     ((struct Obj00132 *)a)->f54=1;

@@ -25,7 +25,7 @@
  * symbols:
  *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_020173EC  0x020173EC  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  */
@@ -94,7 +94,7 @@ struct CgearSaveBlock {
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 id);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 void BLOCK20_SAVEDATA_SetEntry(struct CgearSaveBlock *block, int index, u16 id, u8 value);
@@ -312,7 +312,7 @@ u8 *BLOCK20_SAVEDATA_GetPokemon(struct CgearSaveBlock *block)
 
 void BLOCK20_SAVEDATA_SetPokemon(struct CgearSaveBlock *block, const void *src)
 {
-    MI_CpuCopy8(src, block->pokemon, func_020173EC());
+    MI_CpuCopy8(src, block->pokemon, POKE_TOOL_GetPartyParamSize());
 }
 
 u32 BLOCK20_SAVEDATA_TestBit(const u8 *bits, int n)

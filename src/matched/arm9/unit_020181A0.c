@@ -42,6 +42,7 @@
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned char  u8;
@@ -51,7 +52,7 @@ typedef unsigned int   u32;
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 
@@ -63,10 +64,10 @@ void POKE_TOOL_RecoverBoxAllPP(void *p)
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        u32 m = func_02017E88(p, 0x36 + i, 0);
+        u32 m = POKE_TOOL_GetBoxValue(p, 0x36 + i, 0);
 
         if (m != 0) {
-            u32 u = func_02017E88(p, 0x3E + i, 0);
+            u32 u = POKE_TOOL_GetBoxValue(p, 0x3E + i, 0);
 
             POKE_TOOL_SetBoxValue(p, 0x3A + i, WAZA_TOOL_GetMaxPP((u16)m, (u8)u));
         }

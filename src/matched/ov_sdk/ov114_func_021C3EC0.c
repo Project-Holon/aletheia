@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gsDebugFormat  0x0217D254  arm  ov009
- *   func_0217EB18  0x0217EB18  arm  ov009
+ *   socket  0x0217EB18  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
  *   func_0217EF00  0x0217EF00  arm  ov009
@@ -71,7 +71,7 @@ struct GHIConnection {
 };
 
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern int GOAGetLastError(int socket);
 extern int SetSockBlocking(int sock, int isblocking);
 extern int func_0217EF00(int sock, int size);
@@ -95,7 +95,7 @@ void ghiDoConnecting(GHIConnection *connection)
 
     if (connection->socket == -1)
     {
-        connection->socket = func_0217EB18(2, 1, 0);
+        connection->socket = socket(2, 1, 0);
         if (connection->socket == -1)
         {
             connection->completed = 1;

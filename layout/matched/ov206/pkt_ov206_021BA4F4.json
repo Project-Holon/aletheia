@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BA4F4",
-    "func_021BA514",
-    "func_021BA51C",
-    "func_021BA524",
-    "func_021BA534",
-    "func_021BA544"
+    "ZUKAN_INFO_ClearActors",
+    "ZUKAN_INFO_NotifyMoveDone",
+    "ZUKAN_INFO_NotifyFadeDone",
+    "ZUKAN_INFO_IsMoving",
+    "ZUKAN_INFO_IsDone",
+    "ZUKAN_INFO_Start"
+   ],
+   "addresses": [
+    "0x021BA4F4",
+    "0x021BA514",
+    "0x021BA51C",
+    "0x021BA524",
+    "0x021BA534",
+    "0x021BA544"
    ]
   }
  ]

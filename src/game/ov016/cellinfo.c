@@ -32,7 +32,7 @@ typedef unsigned long u32;
 
 typedef _Bool bool;
 
-typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
+#include "gx_oam_types.h"
 
 typedef struct tagOAMATTR { u16 attr0; u16 attr1; u16 attr2; } OAMATTR;
 

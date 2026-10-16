@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb
  *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
@@ -42,7 +42,7 @@ struct Learn { u16 move; u16 level; };
 
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32  POKE_TOOL_CalcBoxLevel(void *p);
 extern void POKE_PERSONAL_LoadDataDirect(u32 species, int form, void *dest);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
@@ -72,8 +72,8 @@ u32 POKE_TOOL_SetBoxDefaultMoves(void *p)
     struct Learn cur;
 
     flag = POKE_TOOL_DecodeBoxParam(p);
-    species = func_02017E88(p, 5, 0);
-    form = func_02017E88(p, 0x6f, 0);
+    species = POKE_TOOL_GetBoxValue(p, 5, 0);
+    form = POKE_TOOL_GetBoxValue(p, 0x6f, 0);
     level = POKE_TOOL_CalcBoxLevel(p);
     POKE_PERSONAL_LoadDataDirect(species, (u16)form, gLevelUpMoveBuf);
 

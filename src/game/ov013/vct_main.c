@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208B24C  0x0208B24C  arm
+ *   MIC_Init  0x0208B24C  arm
  *   PM_Init  0x0208B8B0  arm
  *   PM_SetAmp  0x0208BEF0  arm
  *   PM_SetAmpGain  0x0208BF38  arm
@@ -23,9 +23,9 @@
  *   gVctWork     0x021B3C80  data ov013
  *   MI_CpuFill8  0x02082BCC  arm
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
- *   func_0208B2BC  0x0208B2BC  arm
- *   func_0208B4C8  0x0208B4C8  arm
- *   func_0208B4B8  0x0208B4B8  arm
+ *   MIC_StartAutoSamplingAsync  0x0208B2BC  arm
+ *   MIC_StartLimitedSamplingAsync  0x0208B4C8  arm
+ *   MIC_GetLastSamplingAddress  0x0208B4B8  arm
  *   VCT_SESSION_MixVoices  0x021B0B48  arm ov013
  *   VCT_SESSION_QueueFrame  0x021B07F8  arm ov013
  *   VCT_SESSION_AllocPeerRecord  0x021B1F2C  arm ov013
@@ -56,8 +56,8 @@
  *   VCT_SESSION_SetCodecMode  0x021B0C64  arm ov013
  *   VCT_MAIN_StartStream  0x021AF124  thumb ov013
  *   NNS_SndStrmStart  0x02073A60  arm
- *   func_0208B480  0x0208B480  arm
- *   func_0208B528  0x0208B528  arm
+ *   MIC_StopAutoSampling  0x0208B480  arm
+ *   MIC_StopLimitedSampling  0x0208B528  arm
  *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
  *   NNS_SndStrmFreeChannel  0x02073898  arm
  *   VCT_Exit  0x021B3844  arm ov013
@@ -103,16 +103,16 @@
 extern VctWork *gVctWork;
 
 /* Power management and microphone driver. */
-extern void func_0208B24C(void);
+extern void MIC_Init(void);
 extern void PM_Init(void);
 extern unsigned int PM_SetAmp(unsigned int status);
 extern unsigned int PM_SetAmpGain(unsigned int gain);
 extern u32 APP_ENV_IsRunOnTwl(void);
-extern int func_0208B2BC(void *param, void (*callback)(void), void *arg);
-extern int func_0208B4C8(void *param, void (*callback)(void), void *arg);
-extern u32 func_0208B4B8(void);
-extern int func_0208B480(void);
-extern int func_0208B528(void);
+extern int MIC_StartAutoSamplingAsync(void *param, void (*callback)(void), void *arg);
+extern int MIC_StartLimitedSamplingAsync(void *param, void (*callback)(void), void *arg);
+extern u32 MIC_GetLastSamplingAddress(void);
+extern int MIC_StopAutoSampling(void);
+extern int MIC_StopLimitedSampling(void);
 
 /* Sound system and sound stream object (arm9 unit_020737C0). */
 extern void NNS_SndInit(void);
@@ -224,7 +224,7 @@ extern s16 gVctMixScratch[];
 /* One-time setup of the audio hardware and the stream object. */
 void VCT_MAIN_InitAudio(void)
 {
-    func_0208B24C();
+    MIC_Init();
     PM_Init();
     PM_SetAmp(1);
     PM_SetAmpGain(3);
@@ -271,16 +271,16 @@ void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 l
     }
     if (APP_ENV_IsRunOnTwl() == 0) {
         if (gVctWork->micRestartPending != 0) {
-            func_0208B2BC(&gVctWork->micParam, VCT_MAIN_MicRestartDone, 0);
+            MIC_StartAutoSamplingAsync(&gVctWork->micParam, VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     } else {
         if (gVctWork->micRestartPending != 0) {
-            func_0208B4C8(&gVctWork->micParam, VCT_MAIN_MicRestartDone, 0);
+            MIC_StartLimitedSamplingAsync(&gVctWork->micParam, VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     }
-    if ((u32)(func_0208B4B8() - (u32)micAddress) < length) {
+    if ((u32)(MIC_GetLastSamplingAddress() - (u32)micAddress) < length) {
         micAddress = micAddress + length;
     }
     if (((*(volatile u16 *)HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> PAD_DETECT_FOLD_SHIFT) != 0
@@ -589,9 +589,9 @@ void VCT_MAIN_Exit(void)
     }
     callback = gVctWork->exitCallback;
     if (APP_ENV_IsRunOnTwl() == 0) {
-        func_0208B480();
+        MIC_StopAutoSampling();
     } else {
-        func_0208B528();
+        MIC_StopLimitedSampling();
     }
     NNSi_SndStrmStopIfSetup(gVctWork->audioStream);
     NNS_SndStrmFreeChannel(gVctWork->audioStream);

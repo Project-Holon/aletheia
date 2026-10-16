@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020303D8
+ * function: GFL_HEAP_GetHeapSize
  *
  * Total size of a heap's arena, in bytes: the shared checked-heap-id
- * preamble (see src/matched/sub_02030428.c), then the arena's end pointer
+ * preamble (see src/matched/GFL_HEAP_GetHeapHandle.c), then the arena's end pointer
  * at +0x1c minus the arena base.
  *
- *   u32 sub_020303D8(u32 heapId)
+ *   u32 GFL_HEAP_GetHeapSize(u32 heapId)
  *
  * The two failure paths reach the same `mov r0, #0` / `pop` differently,
  * and that asymmetry is the shape to reproduce: the out-of-range path
@@ -29,8 +29,8 @@
  *   GFL_HEAP_GetHeap    0x0202FBAC  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020303D8.c \
- *       --func sub_020303D8 --addr 0x020303D8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapSize.c \
+ *       --func GFL_HEAP_GetHeapSize --addr 0x020303D8 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -55,7 +55,7 @@ struct Arena {
 extern struct EnvModule g_EnvModule;
 extern void *GFL_HEAP_GetHeap(u32 idx);
 
-u32 sub_020303D8(u32 heapId)
+u32 GFL_HEAP_GetHeapSize(u32 heapId)
 {
     struct Arena *arena;
 

@@ -275,7 +275,7 @@ struct Sys;
 struct Strbuf;
 struct Actor;
 struct Chan02021FD8;
-struct R;
+struct TaskMenuRes;
 struct TaskMenuState;
 struct TaskMenu;
 struct TaskMenuTmpl;
@@ -491,7 +491,7 @@ extern int GAME_DATA_GetBattleRecSlotByNetId(void *a0, int a1);
 extern void CLACT_SetActorAutoAnim(struct Actor *, unsigned int);
 extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
 extern void CLACT_SetActorPaletteOffset(struct Actor *o, u32 v, u32 flag);
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
@@ -645,7 +645,7 @@ int MONOLITH_TOOL_IsBlinkActive(MonolithToolBlink *blink);
 struct Actor *MONOLITH_TOOL_CreateActorAt(MonolithToolWork *work, int x, int y, int animSeq);
 void MONOLITH_TOOL_DeleteActorAt(void *p);
 void MONOLITH_TOOL_Noop(void *a);
-struct R *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap);
+struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap);
 void MONOLITH_TOOL_DeleteTaskMenuRes(void *p);
 void *MONOLITH_TOOL_OpenTaskMenu(int *p, void *arg1, u32 heap);
 void MONOLITH_TOOL_CloseTaskMenu(void *p);
@@ -1852,7 +1852,7 @@ void MONOLITH_TOOL_Noop(void *a)
 
 
 
-struct R *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap)
+struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap)
 {
     return APP_TASKMENU_RES_Create((u8)a, 14, p[3], p[2], heap);
 }

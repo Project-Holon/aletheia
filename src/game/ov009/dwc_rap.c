@@ -77,7 +77,7 @@
  *   DWC_NdCleanupAsync  0x021C5B80  arm  ov114
  *   DWC_GdbShutdown  0x021E1340  arm
  *   DWC_IsValidAID  0x0216B94C  arm  ov009
- *   func_02176DEC  0x02176DEC  arm  ov009
+ *   DWC_IsSendableReliable  0x02176DEC  arm  ov009
  *   VCT_MAIN_Update  0x021AEE14  thumb  ov013
  *   VCT_MAIN_ConnectPeers  0x021AF238  thumb  ov013
  *   VCT_MAIN_Start  0x021AEF6C  thumb  ov013
@@ -105,7 +105,7 @@
  *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
  *   NNSi_FndSetAllocModeBit  0x02060F18  arm
  *   NNSi_FndSetGroupId  0x02060F40  arm
- *   func_02060C94  0x02060C94  arm
+ *   NNSi_FndDestroyExpHeap  0x02060C94  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -196,7 +196,7 @@ extern void DWC_ShutdownFriendsMatch(void);
 extern int DWC_NdCleanupAsync(void);
 extern void DWC_GdbShutdown(void);
 extern int DWC_IsValidAID(u8);
-extern int func_02176DEC(int a);
+extern int DWC_IsSendableReliable(int a);
 void VCT_MAIN_Update(int);
 int VCT_MAIN_ConnectPeers(u32 aidBitmap, int myAid);
 extern void VCT_MAIN_Start(void *, int, int);
@@ -220,7 +220,7 @@ extern void ERROR_SCREEN_ShowAndWait(void);
 extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
 extern u32 NNSi_FndSetAllocModeBit(char *p, u32 v);
 extern u16 NNSi_FndSetGroupId(char *p, u16 v);
-extern void func_02060C94(void *heap);
+extern void NNSi_FndDestroyExpHeap(void *heap);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 h);
@@ -2544,7 +2544,7 @@ int DWC_RAP_CanSendToAllPeers(void)
     for (aid = 0; aid < _pRapWork->maxPlayers; aid++) {
         if (aid != DWC_GetMyAID() && DWC_IsValidAID(aid)) {
             hasPeer = 1;
-            if (func_02176DEC((u8)aid) == 0) {
+            if (DWC_IsSendableReliable((u8)aid) == 0) {
                 return 0;
             }
         }
@@ -3627,7 +3627,7 @@ void DWC_RAPCOMMON_DestroySubHeap(void)
 void DWC_RAPCOMMON_ReleaseSubHeap(void)
 {
     if (_pRapHeap->subMem != 0) {
-        func_02060C94((void *)_pRapHeap->subHeap);
+        NNSi_FndDestroyExpHeap((void *)_pRapHeap->subHeap);
         func_020307B0((void *)_pRapHeap->subMem);
         _pRapHeap->subHeap = 0;
         _pRapHeap->subMem = 0;
@@ -3736,7 +3736,7 @@ void DWC_RAPCOMMON_DestroyHeap(void)
     if (_pRapHeap->allocFailed == 1 || _pRapHeap->subMem != 0) {
         DWC_RAPCOMMON_ReleaseSubHeap();
     }
-    func_02060C94((void *)_pRapHeap->mainHeap);
+    NNSi_FndDestroyExpHeap((void *)_pRapHeap->mainHeap);
     func_020307B0((void *)_pRapHeap->mainMem);
     func_020307B0(_pRapHeap);
     _pRapHeap = 0;

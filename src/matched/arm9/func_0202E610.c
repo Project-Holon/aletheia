@@ -23,8 +23,8 @@
  *   GX_SetBankForTex   0x02080294  arm
  *   MIi_CpuCopyFast    0x02082B0C  arm
  *   OS_WaitVBlankIntr   0x02087AE4  arm
- *   func_02080B98   0x02080B98  arm
- *   func_02080964   0x02080964  arm
+ *   GX_DisableBankForLCDC   0x02080B98  arm
+ *   GX_ResetBankForTex   0x02080964  arm
  *
  * Bank 0x80300010 is selected for the 12-byte record a0 in 0x020A02D0, its
  * texture slot is remapped to a1's, and a0's frame buffer (0xC000 words per
@@ -53,8 +53,8 @@ extern void GX_SetBankForLCDC(u32 a);
 extern void GX_SetBankForTex(u32 a);
 extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
 extern void OS_WaitVBlankIntr(void);
-extern void func_02080B98(void);
-extern int func_02080964(void);
+extern void GX_DisableBankForLCDC(void);
+extern int GX_ResetBankForTex(void);
 
 void SCREENTEX_CaptureDisplay(u32 a0, u32 a1)
 {
@@ -66,13 +66,13 @@ void SCREENTEX_CaptureDisplay(u32 a0, u32 a1)
 
     OS_WaitVBlankIntr();
     OS_WaitVBlankIntr();
-    func_02080B98();
+    GX_DisableBankForLCDC();
     GX_SetBankForTex(prev);
 
     if (a0 != a1) {
-        st = func_02080964();
+        st = GX_ResetBankForTex();
         MIi_CpuCopyFast(SCREENTEX_CaptureBanks[a0].f8, SCREENTEX_CaptureBanks[a1].f8, 0xC << 13);
-        func_02080B98();
+        GX_DisableBankForLCDC();
         GX_SetBankForTex(st);
     }
 }

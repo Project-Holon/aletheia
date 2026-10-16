@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_LIGHT_ElemOpC
+ * function: STA_ACT_LIGHT_SetActorAngle
  * address:  0x021F8068
  * packet:   pkt_ov112_021F8068
  * region:   ov112
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   STA_ACT_LIGHT_ElemOpC   0x021F8068  thumb  ov112
+ *   STA_ACT_LIGHT_SetActorAngle   0x021F8068  thumb  ov112
  *
  * note: unlabelled leaf in ov112 (the listing emits it as a .word run), filed
  * to witness the bl from src/pending/ov132_func_021FBA14.c.  The first
@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void STA_ACT_LIGHT_ElemOpC(int self, char *p, u16 v)
+void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v)
 {
     ((struct Obj08033 *)p)->f48 = v;
     if (((struct Obj08033 *)p)->f10 == 1)

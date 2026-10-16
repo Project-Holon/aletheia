@@ -13,14 +13,14 @@
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02007A18 0x02007A18 thumb
  */
 
 extern unsigned POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *party, unsigned i);
 extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
-extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
+extern unsigned POKE_TOOL_GetBoxValue(void *p, unsigned id, unsigned v);
 typedef unsigned int   u32;
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
@@ -35,7 +35,7 @@ unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigne
     } else if (a != 0xFF) {
         void *m = func_02007A18((*p)[1], box, a);
         if (m != 0)
-            return func_02017E88(m, id, v);
+            return POKE_TOOL_GetBoxValue(m, id, v);
     }
     return 0;
 }

@@ -35,14 +35,14 @@
  *   ITEMMENU_InitWindows  0x021B9BDC  thumb  ov070
  *   ITEMMENU_LoadPocketGraphics  0x021B9EF4  thumb  ov070
  *   ITEMMENU_CreateTabActors  0x021BA8C0  thumb  ov070
- *   func_021B6120  0x021B6120  thumb  ov070
+ *   ITEMMENU_ForceRedrawList  0x021B6120  thumb  ov070
  *   ITEMMENU_CreateCursorActors  0x021BA028  thumb  ov070
  *   ITEMMENU_CreateBlinkPalAnm  0x021B8B24  thumb  ov070
  *   ITEMMENU_AllocPalAnmSlots  0x021B8E48  thumb  ov070
  *   ITEMMENU_PrintPocketName  0x021BAE98  thumb  ov070
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
  *   ITEMMENU_ResetDisplayLayers  0x021B913C  thumb  ov070
- *   func_021B6100  0x021B6100  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   ITEMMENU_HandleTouchTarget  0x021B83B8  thumb  ov070
  *   ITEMMENU_VBlankCallback  0x021B8600  thumb  ov070
  *   ITEMMENU_TaskStartFadeIn  0x021B8640  thumb  ov070
@@ -89,7 +89,7 @@ extern void func_0200816C(); extern int func_02008284(struct MyItemSave *p); ext
 extern int func_02045B38(); extern int STRBUF_Create(); extern int WORDSET_CreateDefault(); extern int PRINTSYS_QUE_CreateEx();
 extern int APP_KEYCURSOR_CreateDefault(); extern int GF_FONT_Create(); extern int BUTTON_MAN_Create(); extern int func_020056A0(); extern int TCBL_Create();
 extern int APP_TASKMENU_RES_Create(); extern void GFL_NET_RestartWithDefaultTimeout(); extern int func_020355C4();
-extern void ITEMMENU_SetupGraphics(), ITEMMENU_InitWindows(), ITEMMENU_LoadPocketGraphics(), ITEMMENU_CreateTabActors(), func_021B6120(), ITEMMENU_CreateCursorActors(), ITEMMENU_CreateBlinkPalAnm(), ITEMMENU_AllocPalAnmSlots(), ITEMMENU_PrintPocketName(), ITEMMENU_SetCursorActive(), ITEMMENU_ResetDisplayLayers(), func_021B6100();
+extern void ITEMMENU_SetupGraphics(), ITEMMENU_InitWindows(), ITEMMENU_LoadPocketGraphics(), ITEMMENU_CreateTabActors(), ITEMMENU_ForceRedrawList(), ITEMMENU_CreateCursorActors(), ITEMMENU_CreateBlinkPalAnm(), ITEMMENU_AllocPalAnmSlots(), ITEMMENU_PrintPocketName(), ITEMMENU_SetCursorActive(), ITEMMENU_ResetDisplayLayers(), ITEMMENU_SetTask();
 extern void ITEMMENU_HandleTouchTarget(), ITEMMENU_VBlankCallback(), ITEMMENU_TaskStartFadeIn(); extern char d_021BBA04[];
 int ITEMMENU_Init(void *proc, int st, Args *a)
 {
@@ -127,7 +127,7 @@ int ITEMMENU_Init(void *proc, int st, Args *a)
     o->f50C = PRINTSYS_QUE_CreateEx(0x40 << 6, o->f544);
     o->f518 = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, o->f544);
     o->f530 = GF_FONT_Create(0x17, 0, 0, 0, o->f544);
-    ITEMMENU_SetupGraphics(o); ITEMMENU_InitWindows(o); ITEMMENU_LoadPocketGraphics(o); ITEMMENU_CreateTabActors(o); func_021B6120(o); ITEMMENU_CreateCursorActors(o);
+    ITEMMENU_SetupGraphics(o); ITEMMENU_InitWindows(o); ITEMMENU_LoadPocketGraphics(o); ITEMMENU_CreateTabActors(o); ITEMMENU_ForceRedrawList(o); ITEMMENU_CreateCursorActors(o);
     o->f694 = BUTTON_MAN_Create(d_021BBA04, ITEMMENU_HandleTouchTarget, o, o->f544);
     ITEMMENU_CreateBlinkPalAnm(o); ITEMMENU_AllocPalAnmSlots(o);
     o->f698 = func_020056A0(ITEMMENU_VBlankCallback, o, 0);
@@ -137,6 +137,6 @@ int ITEMMENU_Init(void *proc, int st, Args *a)
     GFL_NET_RestartWithDefaultTimeout(1, o->f544);
     ITEMMENU_SetCursorActive(o, func_020355C4() ? 0 : 1);
     ITEMMENU_ResetDisplayLayers();
-    func_021B6100(o, ITEMMENU_TaskStartFadeIn);
+    ITEMMENU_SetTask(o, ITEMMENU_TaskStartFadeIn);
     return 1;
 }

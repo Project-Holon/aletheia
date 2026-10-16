@@ -24,6 +24,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *
  * alias: the original source file is named in the image.  The constructor at
  * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
@@ -81,7 +82,7 @@ typedef signed int     s32;
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 struct MsgBank;
 struct Rec;
 struct U16Vec;
@@ -131,7 +132,7 @@ void REGULATION_GetCupName(struct Reg *p, void *dest);
 
 void WORLDTRADE_SetPokemon(void *dest, const void *src, u32 a2)
 {
-    MI_CpuCopy8(src, dest, func_020173EC());
+    MI_CpuCopy8(src, dest, POKE_TOOL_GetPartyParamSize());
 }
 
 void WORLDTRADE_SetLastTradeId(struct RegB *p, u32 value)

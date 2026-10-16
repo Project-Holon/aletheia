@@ -77,7 +77,7 @@
  *   gNatNegServer1Name               0x021A5CB0  data
  *   gNatNegServer2Name               0x021A5CCC  data
  *   gNatNegServer3Name               0x021A5CE8  data
- *   func_0217EB18            0x0217EB18  arm ov009
+ *   socket            0x0217EB18  arm ov009
  *   gGsAvailabilityState               0x021ACEF8  data
  *   gNatNegBackendUnavailFmt               0x021A5D04  data
  *   gNatNegResolveFailFmt               0x021A5D44  data
@@ -297,7 +297,7 @@ extern int closesocket(int sock);
 extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
@@ -914,7 +914,7 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
         return 1;
     }
 
-    neg->negotiateSock = func_0217EB18(2, 2, 0);
+    neg->negotiateSock = socket(2, 2, 0);
     if (neg->negotiateSock == -1) {
         gsDebugFormat(7, 0, 1, gNatNegSocketFailFmt);
         RemoveNegotiator(neg);

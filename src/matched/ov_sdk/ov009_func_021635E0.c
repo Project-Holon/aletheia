@@ -1,5 +1,5 @@
 /*
- * function: func_021635E0
+ * function: long_from_char
  * address:  0x021635E0
  * packet:   pkt_021635E0
  * region:   ov009
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021635E0(u32 *dst, const u8 *src, u32 count)
+static void long_from_char(u32 *dst, const u8 *src, u32 count)
 {
     u32 i = 0;
     while (i < count) {

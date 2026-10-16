@@ -1,5 +1,5 @@
 /*
- * function: func_0217C704
+ * function: SendPacket
  * address:  0x0217C704
  * packet:   pkt_ov009_0217C704
  * region:   ov009
@@ -34,7 +34,7 @@ struct SOCSockAddr;
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern unsigned int current_time(void);
 
-void func_0217C704(void)
+static void SendPacket(void)
 {
     sendto(gGsAvailableCheck.sock, g_021ACF88, gGsAvailableCheck.len, 0, (struct SOCSockAddr *)((char *)&g_021ACF80), 8);
     gGsAvailableCheck.time = current_time();

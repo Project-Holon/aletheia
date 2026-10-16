@@ -1,5 +1,5 @@
 /*
- * function: func_021BB480
+ * function: ZUKAN_INFO_DeleteIconActors
  * address: 0x021BB480
  * packet: pkt_ov206_021BB480
  * region: ov206
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BB92C 0x021BB92C thumb ov206
+ *   ZUKAN_INFO_DeleteRow 0x021BB92C thumb ov206
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -16,17 +16,17 @@
  */
 #include "../include/Obj00173.h"
 #include "../include/Obj14639.h"
-extern void func_021BB92C(char *,int);
+extern void ZUKAN_INFO_DeleteRow(char *,int);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-void func_021BB480(char *p)
+void ZUKAN_INFO_DeleteIconActors(char *p)
 {
     unsigned char i;
-    for(i=0;i<2;i++) func_021BB92C(p,i);
+    for(i=0;i<2;i++) ZUKAN_INFO_DeleteRow(p,i);
     if(((struct Obj00173 *)p)->fE4) {
         for(i=0;i<17;i++) {
             char *slot=p+i*4;

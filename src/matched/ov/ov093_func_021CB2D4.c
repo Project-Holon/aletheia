@@ -28,10 +28,10 @@
  *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_MAIN_GetPlayerStatus 0x021B871C thumb ov093
  *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_SERVER_FLOW_CalcLevelScaledExp 0x021CB55C thumb ov093
  *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb arm9
- *   func_02017E1C 0x02017E1C thumb arm9
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb arm9
  *   func_02008564 0x02008564 thumb arm9
  *   BTL_CALC_MulRatio 0x021D7B10 thumb ov093
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
@@ -65,10 +65,10 @@ extern u8 BTL_EVENT_GetClientPartySlotId(u8 *p, u32 i);
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_MAIN_GetPlayerStatus(char *p);
 extern void *BTL_POKEPARAM_GetMon(void *);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u32 BTL_SERVER_FLOW_CalcLevelScaledExp(void *, u32, u16, u16);
 extern int POKE_TOOL_IsOwnedByPlayer(void *p, int q);
-extern u32 func_02017E1C(void *, u32, u32);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 BTL_CALC_MulRatio(u32, u32);
 extern u32 GPOWER_ApplyExpRate(u32);
@@ -158,12 +158,12 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(u8 *p, u8 *a, u32 b, Rec *rec)
       v24 = (u32)BTL_MAIN_GetPlayerStatus(*(void **) (p + 4));
       t = BTL_SLOT_GetPokeParam((struct S2 *)a, (u8) j);
       v28 = BTL_POKEPARAM_GetMon(t);
-      lvl = func_021D59B4(t, 15);
-      lvl2 = func_021D59B4((void *) b, 15);
+      lvl = BTL_POKEPARAM_GetValue(t, 15);
+      lvl2 = BTL_POKEPARAM_GetValue((void *) b, 15);
       rec[j].value = BTL_SERVER_FLOW_CalcLevelScaledExp(t, rec[j].value, lvl, lvl2);
       if (POKE_TOOL_IsOwnedByPlayer(v28, (u32)v24) == 0)
       {
-        save = (void *) func_02017E1C(v28, 12, 0);
+        save = (void *) POKE_TOOL_GetPartyValue(v28, 12, 0);
         if ((u32) save != func_02008564((const struct Sub0200852CObj *)v24))
           k = 0x1b33;
         else

@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
@@ -22,11 +22,11 @@ typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void HAND_WAZA_FinalGambitSetFixedDamage(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(3))
-        BTL_EVENT_OverwriteVar(0x37, func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(b, c), 0xd));
+        BTL_EVENT_OverwriteVar(0x37, BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(b, c), 0xd));
 }

@@ -1,7 +1,7 @@
 /*
  * file:     iss_zone_sys.c
  * unit:     yes
- * function: func_0202BAF4, func_0202BB40, func_0202BB48, func_0202BB68, func_0202BBB0, func_0202BBFC, func_0202BC48, func_0202BC60, func_0202BC78, func_0202BCA0, func_0202BDD0, func_0202BDE8, func_0202BE00, func_0202BE24, func_0202BE54, ISS_ZONE_SYS_Create, ISS_ZONE_SYS_Delete, ISS_ZONE_SYS_Update, ISS_ZONE_SYS_SwitchZone, ISS_ZONE_SYS_Start, ISS_ZONE_SYS_Stop, ISS_ZONE_SYS_LoadRecords, ISS_ZONE_SYS_SelectRecord, ISS_ZONE_SYS_ClearActive, ISS_ZONE_SYS_BeginFade, ISS_ZONE_SYS_FindRecord, ISS_ZONE_SYS_StepFade
+ * function: ISS_3DS_SYS_UpdateImpl, ISS_3DS_SYS_OnZoneChangeImpl, ISS_3DS_SYS_SilenceActiveTracks, ISS_3DS_SYS_StepSourceVolume, ISS_3DS_SYS_StepSourcePan, ISS_3DS_SYS_CalcSourceVolume, func_0202BC48, func_0202BC60, ISS_3DS_SYS_ApplySourceVolume, ISS_3DS_SYS_CalcSourcePan, func_0202BDD0, func_0202BDE8, ISS_3DS_SYS_ApplySourcePan, ISS_3DS_SYS_StepMasterVolume, ISS_3DS_SYS_ScaleVolume, ISS_ZONE_SYS_Create, ISS_ZONE_SYS_Delete, ISS_ZONE_SYS_Update, ISS_ZONE_SYS_SwitchZone, ISS_ZONE_SYS_Start, ISS_ZONE_SYS_Stop, ISS_ZONE_SYS_LoadRecords, ISS_ZONE_SYS_SelectRecord, ISS_ZONE_SYS_ClearActive, ISS_ZONE_SYS_BeginFade, ISS_ZONE_SYS_FindRecord, ISS_ZONE_SYS_StepFade
  * address:  0x0202BAF4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -129,21 +129,21 @@ extern float _fdiv(float a, float b);
 extern float _fmul(float a, float b);
 extern float _fsub(float a, float b);
 extern int   _f2s(float a);
-void func_0202BAF4(struct Iss3dsSys *sys);
-void func_0202BB40(struct Iss3dsSys *sys);
-void func_0202BB48(struct Iss3dsSys *sys);
-void func_0202BB68(struct Iss3dsSys *sys, int sourceIndex);
-void func_0202BBB0(struct Iss3dsSys *sys, int sourceIndex);
-s32 func_0202BBFC(struct Iss3dsSource *source, const struct Vec *listenerPos);
-void sub_0202BC48(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
-void sub_0202BC60(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
-void func_0202BC78(struct Iss3dsSys *sys, u32 sourceIndex);
-s32 func_0202BCA0(const struct Iss3dsSource *source, const struct Vec *listenerPos, const struct Vec *listenerTarget);
-void sub_0202BDD0(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
-void sub_0202BDE8(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
-void func_0202BE00(struct Iss3dsSys *sys, u32 sourceIndex);
-void func_0202BE24(struct Iss3dsSys *sys);
-u32 func_0202BE54(struct Iss3dsSys *sys, u32 level, void *unused);
+void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSys *sys);
+void ISS_3DS_SYS_OnZoneChangeImpl(struct Iss3dsSys *sys);
+void ISS_3DS_SYS_SilenceActiveTracks(struct Iss3dsSys *sys);
+void ISS_3DS_SYS_StepSourceVolume(struct Iss3dsSys *sys, int sourceIndex);
+void ISS_3DS_SYS_StepSourcePan(struct Iss3dsSys *sys, int sourceIndex);
+s32 ISS_3DS_SYS_CalcSourceVolume(struct Iss3dsSource *source, const struct Vec *listenerPos);
+void ISS_3DS_SYS_RampVolumeUp(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void ISS_3DS_SYS_RampVolumeDown(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void ISS_3DS_SYS_ApplySourceVolume(struct Iss3dsSys *sys, u32 sourceIndex);
+s32 ISS_3DS_SYS_CalcSourcePan(const struct Iss3dsSource *source, const struct Vec *listenerPos, const struct Vec *listenerTarget);
+void ISS_3DS_SYS_RampPanDown(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void ISS_3DS_SYS_RampPanUp(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void ISS_3DS_SYS_ApplySourcePan(struct Iss3dsSys *sys, u32 sourceIndex);
+void ISS_3DS_SYS_StepMasterVolume(struct Iss3dsSys *sys);
+u32 ISS_3DS_SYS_ScaleVolume(struct Iss3dsSys *sys, u32 level, void *unused);
 struct IssZone *ISS_ZONE_SYS_Create(u32 heapId);
 void ISS_ZONE_SYS_Delete(struct IssZone *zone);
 void ISS_ZONE_SYS_Update(struct IssZone *zone);
@@ -167,20 +167,20 @@ void ISS_ZONE_SYS_StepFade(struct IssZone *zone);
  * counter (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md),
  * the same lever as its sibling ISS_3DS_SYS_ResetSources.
  */
-void func_0202BAF4(struct Iss3dsSys *sys)
+void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSys *sys)
 {
     Iss3dsSourceIndex i;
 
     if (sys->enabled == 0) {
         return;
     }
-    func_0202BE24(sys);
+    ISS_3DS_SYS_StepMasterVolume(sys);
     for (i = 0; i < 0x10; i++) {
         if (sys->sources[i].active != 0) {
-            func_0202BB68(sys, i);
-            func_0202BBB0(sys, i);
-            func_0202BC78(sys, i);
-            func_0202BE00(sys, i);
+            ISS_3DS_SYS_StepSourceVolume(sys, i);
+            ISS_3DS_SYS_StepSourcePan(sys, i);
+            ISS_3DS_SYS_ApplySourceVolume(sys, i);
+            ISS_3DS_SYS_ApplySourcePan(sys, i);
         }
     }
 }
@@ -189,13 +189,13 @@ void func_0202BAF4(struct Iss3dsSys *sys)
  * iss_3ds_sys.c: a bare tail-call thunk to ISS_3DS_SYS_ResetSources (ldr r3, [pc, #0];
  * bx r3; .word 0x0202BA25), the target of the thunk at 0x0202B90C.
  */
-void func_0202BB40(struct Iss3dsSys *sys)
+void ISS_3DS_SYS_OnZoneChangeImpl(struct Iss3dsSys *sys)
 {
     ISS_3DS_SYS_ResetSources(sys);
 }
 
 /* Silences the tracks of the active record, when there is one. */
-void func_0202BB48(struct Iss3dsSys *sys)
+void ISS_3DS_SYS_SilenceActiveTracks(struct Iss3dsSys *sys)
 {
     u8 record = sys->activeRecord;
 
@@ -205,16 +205,16 @@ void func_0202BB48(struct Iss3dsSys *sys)
 }
 
 /*
- * iss_3ds_sys.c, the per-slot twins that func_0202BAF4 steps: for a live
+ * iss_3ds_sys.c, the per-slot twins that ISS_3DS_SYS_UpdateImpl steps: for a live
  * source (0x1c-byte stride at +0x24), compute the target level and move the
  * source's s32 level (volumeLevel or panLevel, indexed by sourceIndex) toward
- * it through the clamp helpers sub_0202BC48 / sub_0202BDD0 / sub_0202BDE8,
+ * it through the clamp helpers ISS_3DS_SYS_RampVolumeUp / ISS_3DS_SYS_RampPanDown / ISS_3DS_SYS_RampPanUp,
  * which take the computed level as their third argument.
  *
  * Callee arity is read from the callee bodies: both clamp helpers compare
  * against r2, so they are declared (sys, index, cap).
  */
-void func_0202BB68(struct Iss3dsSys *sys, int sourceIndex)
+void ISS_3DS_SYS_StepSourceVolume(struct Iss3dsSys *sys, int sourceIndex)
 {
     struct Iss3dsSource *sources = sys->sources;
     s32 target;
@@ -223,18 +223,18 @@ void func_0202BB68(struct Iss3dsSys *sys, int sourceIndex)
     if (sources[sourceIndex].active == 0) {
         return;
     }
-    target = func_0202BBFC(&sources[sourceIndex], &sys->listenerPos);
+    target = ISS_3DS_SYS_CalcSourceVolume(&sources[sourceIndex], &sys->listenerPos);
     level  = sys->volumeLevel[sourceIndex];
     if (level < target) {
-        sub_0202BC48(sys, sourceIndex, target);
+        ISS_3DS_SYS_RampVolumeUp(sys, sourceIndex, target);
         return;
     }
     if (target < level) {
-        sub_0202BC60(sys, sourceIndex, target);
+        ISS_3DS_SYS_RampVolumeDown(sys, sourceIndex, target);
     }
 }
 
-void func_0202BBB0(struct Iss3dsSys *sys, int sourceIndex)
+void ISS_3DS_SYS_StepSourcePan(struct Iss3dsSys *sys, int sourceIndex)
 {
     struct Iss3dsSource *sources = sys->sources;
     s32 target;
@@ -243,14 +243,14 @@ void func_0202BBB0(struct Iss3dsSys *sys, int sourceIndex)
     if (sources[sourceIndex].active == 0) {
         return;
     }
-    target = func_0202BCA0(&sources[sourceIndex], &sys->listenerPos, &sys->listenerTarget);
+    target = ISS_3DS_SYS_CalcSourcePan(&sources[sourceIndex], &sys->listenerPos, &sys->listenerTarget);
     level  = sys->panLevel[sourceIndex];
     if (target < level) {
-        sub_0202BDD0(sys, sourceIndex, target);
+        ISS_3DS_SYS_RampPanDown(sys, sourceIndex, target);
         return;
     }
     if (level < target) {
-        sub_0202BDE8(sys, sourceIndex, target);
+        ISS_3DS_SYS_RampPanUp(sys, sourceIndex, target);
     }
 }
 
@@ -265,7 +265,7 @@ void func_0202BBB0(struct Iss3dsSys *sys, int sourceIndex)
  * The compare is signed (bge), so the radius field is s32 and the
  * `mag >= radius` arm is the one written first.
  */
-s32 func_0202BBFC(struct Iss3dsSource *source, const struct Vec *listenerPos)
+s32 ISS_3DS_SYS_CalcSourceVolume(struct Iss3dsSource *source, const struct Vec *listenerPos)
 {
     struct Vec delta;
     s32 distance;
@@ -283,16 +283,16 @@ s32 func_0202BBFC(struct Iss3dsSource *source, const struct Vec *listenerPos)
 /*
  * A clamp-increment and a clamp-decrement on the same signed 32-bit array
  * (volumeLevel), indexed by the second argument and clamped against a
- * caller-supplied bound passed as the third: sub_0202BC48 adds 0x10 and caps
- * at the bound from above, sub_0202BC60 subtracts 0x10 and floors at the
+ * caller-supplied bound passed as the third: ISS_3DS_SYS_RampVolumeUp adds 0x10 and caps
+ * at the bound from above, ISS_3DS_SYS_RampVolumeDown subtracts 0x10 and floors at the
  * bound from below.
  *
  * The comparison order in each is a deliberate `cmp`-operand tell
- * (docs/idioms/cmp-operand-order-names-the-temporary.md): sub_0202BC48
+ * (docs/idioms/cmp-operand-order-names-the-temporary.md): ISS_3DS_SYS_RampVolumeUp
  * compares the bound against the computed value (`cmp r2, r1`), which is
  * what `if (cap < v)` compiles to, not `if (v > cap)`.
  */
-void sub_0202BC48(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampVolumeUp(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->volumeLevel;
     s32 level = levels[sourceIndex] + 0x10;
@@ -303,7 +303,7 @@ void sub_0202BC48(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
     levels[sourceIndex] = level;
 }
 
-void sub_0202BC60(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampVolumeDown(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->volumeLevel;
     s32 level = levels[sourceIndex] - 0x10;
@@ -315,10 +315,10 @@ void sub_0202BC60(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 }
 
 /* Applies the master volume to the source's level and sets its tracks' volume. */
-void func_0202BC78(struct Iss3dsSys *sys, u32 sourceIndex)
+void ISS_3DS_SYS_ApplySourceVolume(struct Iss3dsSys *sys, u32 sourceIndex)
 {
     u8 *slot = (u8 *)sys + sourceIndex * 4;
-    int volume = func_0202BE54(sys, (u8)*(int *)(slot + 0x1E4), slot);
+    int volume = ISS_3DS_SYS_ScaleVolume(sys, (u8)*(int *)(slot + 0x1E4), slot);
 
     GFL_USE_SetBgmTrackVolume(sys->sources[sourceIndex].trackMask, volume);
 }
@@ -338,7 +338,7 @@ void func_0202BC78(struct Iss3dsSys *sys, u32 sourceIndex)
  * The 4096.0f divisor is the pool word 0x45800000 at 0x0202BDCC; 0x43000000
  * is 128.0f, materialised as movs #0x43 / lsls #0x18 rather than pooled.
  */
-s32 func_0202BCA0(const struct Iss3dsSource *source, const struct Vec *listenerPos,
+s32 ISS_3DS_SYS_CalcSourcePan(const struct Iss3dsSource *source, const struct Vec *listenerPos,
                   const struct Vec *listenerTarget)
 {
     struct Vec facing;
@@ -389,12 +389,12 @@ s32 func_0202BCA0(const struct Iss3dsSource *source, const struct Vec *listenerP
 }
 
 /*
- * A clamp-decrement on the same shape as sub_0202BC60, on panLevel (offset
+ * A clamp-decrement on the same shape as ISS_3DS_SYS_RampVolumeDown, on panLevel (offset
  * 0x224 of the object) with a different step (0x20). Matched as a
  * one-function unit rather than with `one`: this function is followed by two
  * bytes of inter-section padding before the next label.
  */
-void sub_0202BDD0(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampPanDown(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->panLevel;
     s32 level = levels[sourceIndex] - 0x20;
@@ -406,11 +406,11 @@ void sub_0202BDD0(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 }
 
 /*
- * A clamp-increment on the same shape as sub_0202BC48, on panLevel (offset
+ * A clamp-increment on the same shape as ISS_3DS_SYS_RampVolumeUp, on panLevel (offset
  * 0x224) with step 0x20. Matched as a one-function unit rather than with
- * `one`, for the same trailing-padding reason as sub_0202BDD0.
+ * `one`, for the same trailing-padding reason as ISS_3DS_SYS_RampPanDown.
  */
-void sub_0202BDE8(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampPanUp(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->panLevel;
     s32 level = levels[sourceIndex] + 0x20;
@@ -425,7 +425,7 @@ void sub_0202BDE8(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
  * Sets the pan of one source's tracks (trackMask halfword at +0x3c of the
  * object) to its panLevel (+0x224 array).
  */
-void func_0202BE00(struct Iss3dsSys *sys, u32 sourceIndex)
+void ISS_3DS_SYS_ApplySourcePan(struct Iss3dsSys *sys, u32 sourceIndex)
 {
     GFL_USE_SetBgmTrackParams(sys->sources[sourceIndex].trackMask, 0x100, 0,
                   sys->panLevel[sourceIndex]);
@@ -435,7 +435,7 @@ void func_0202BE00(struct Iss3dsSys *sys, u32 sourceIndex)
  * Moves the master volume one step toward targetVolume: a full step when
  * the distance is at least volumeStep, the exact distance otherwise.
  */
-void func_0202BE24(struct Iss3dsSys *sys)
+void ISS_3DS_SYS_StepMasterVolume(struct Iss3dsSys *sys)
 {
     int target = sys->targetVolume;
     int current = sys->volume;
@@ -469,7 +469,7 @@ void func_0202BE24(struct Iss3dsSys *sys)
  * Returns (volume * level) / 0x7f truncated to a byte: the source level
  * scaled by the master volume. The third argument is unused.
  */
-u32 func_0202BE54(struct Iss3dsSys *sys, u32 level, void *unused)
+u32 ISS_3DS_SYS_ScaleVolume(struct Iss3dsSys *sys, u32 level, void *unused)
 {
     return (u8)((sys->volume * level) / 0x7f);
 }

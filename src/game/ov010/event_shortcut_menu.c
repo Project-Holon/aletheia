@@ -61,7 +61,7 @@
  *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   d_021712CC     0x021712CC  data
@@ -240,7 +240,7 @@ extern void *SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, i
 extern void *SCRIPT_SYS_GetEventScriptWork(void *msgWindow);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern u32 func_02017E1C(void *mon, u32 param, u32 value);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 param, u32 value);
 extern u32 POKE_TOOL_HasRibbonData(void *mon);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void FIELDMAP_SetBgMode(void);
@@ -873,7 +873,7 @@ int EVENT_SHORTCUT_MENU_CheckPartyRibbon(ShortcutMenuWork *work)
     party = GAME_DATA_GetMyParty(ICA_ANIME_GetField1C(work->gameSystem));
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(mon, 0xA9, 0) != 0 && POKE_TOOL_HasRibbonData(mon) != 0)
+        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0 && POKE_TOOL_HasRibbonData(mon) != 0)
             return 1;
     }
     return 0;

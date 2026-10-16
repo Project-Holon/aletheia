@@ -1,5 +1,5 @@
 /*
- * function: func_021BB184
+ * function: ZUKAN_INFO_RegisterGfx
  * address: 0x021BB184
  * packet: pkt_ov206_021BB184
  * region: ov206
@@ -16,7 +16,7 @@
 extern int POKEGRA_RegisterCgr(int,int,int,int,int,int,int,int,int,unsigned short);
 extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,unsigned short,unsigned short);
 extern int POKEGRA_RegisterCellAnim(int,int,int,int,int,int,int,int,unsigned short);
-void func_021BB184(char *p,int index)
+void ZUKAN_INFO_RegisterGfx(char *p,int index)
 {
     int flag=0;
     int handle;

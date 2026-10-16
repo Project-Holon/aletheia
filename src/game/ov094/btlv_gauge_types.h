@@ -3,7 +3,7 @@
 
 #include "btlv_b_gauge_types.h"
 
-/* Values of BTL_POKEPARAM read through func_021D59B4. */
+/* Values of BTL_POKEPARAM read through BTL_POKEPARAM_GetValue. */
 #define BTLV_GAUGE_BPP_HP 13
 #define BTLV_GAUGE_BPP_MAX_HP 14
 #define BTLV_GAUGE_BPP_LEVEL 15

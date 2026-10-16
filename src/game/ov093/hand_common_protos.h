@@ -56,7 +56,7 @@ extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
 extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *bpp, u32 flag);
 extern int BTL_POKEPARAM_TestTurnFlag(struct BtlPokeParam *bpp, u32 flag);
-extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 
 /* Services declared by several handler files (kept identical so the files can be merged). */
 extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority, u32 subPriority, u8 ownerId, BtlEventHandler *handlers, u16 handlerCount);

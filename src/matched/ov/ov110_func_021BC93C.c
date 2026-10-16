@@ -11,7 +11,7 @@
  * follower: callback PMSIV_FADE_BrightnessTask included in unit; function_starts seed.
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  */
 #include "../include/Obj04448.h"
 #include "../include/Obj08003.h"
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 int PMSIV_FADE_IsBrightnessDone(u8 *p)
 {
     if (((struct Obj08003 *)p)->f18==0) {
@@ -39,5 +39,5 @@ void PMSIV_FADE_BrightnessTask(void *unused,u8 *p)
         value=((struct Obj04448 *)p)->f8>>12;
         --((struct Obj04448 *)p)->f14;
     } else value=((struct Obj04448 *)p)->fC>>12;
-    func_0207D658(0x4000050,((struct Obj04448 *)p)->f0,value);
+    G2x_SetBlendBrightness_(0x4000050,((struct Obj04448 *)p)->f0,value);
 }

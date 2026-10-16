@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D67C  0x0207D67C  arm
+ *   G2x_SetBlendBrightnessExt_  0x0207D67C  arm
  * Addresses are Black-image addresses.
  * FLD_VREQ_ApplyBlendAlphaEv is an unlabelled leaf after the first function's pool.
  */
@@ -19,14 +19,14 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void func_0207D67C(u32 reg, int a, int b, int c, int d, int e);
+extern void G2x_SetBlendBrightnessExt_(u32 reg, int a, int b, int c, int d, int e);
 
 void FLD_VREQ_ApplyBlendBrightnessExt(const int *p, int sub)
 {
     if (sub) {
-        func_0207D67C(0x04000050, p[0], p[1], p[2], p[3], p[4]);
+        G2x_SetBlendBrightnessExt_(0x04000050, p[0], p[1], p[2], p[3], p[4]);
     } else {
-        func_0207D67C(0x04001050, p[0], p[1], p[2], p[3], p[4]);
+        G2x_SetBlendBrightnessExt_(0x04001050, p[0], p[1], p[2], p[3], p[4]);
     }
 }
 

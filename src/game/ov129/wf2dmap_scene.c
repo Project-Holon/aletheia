@@ -134,7 +134,7 @@
  */
 
 struct GfFont;
-struct Obj02021EE4;
+struct PalAnmSlot;
 struct PalAnmSlot;
 struct Param;
 struct Proc;
@@ -156,7 +156,7 @@ struct Descriptor;
 struct Grid;
 struct Bmp;
 struct MsgBank;
-struct Obj020437AC;
+struct Bmp;
 struct Rec;
 struct StrObj;
 struct Sys;
@@ -384,7 +384,7 @@ extern void *func_020490F4(unsigned id, unsigned heap);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void * PALANM_Create(unsigned);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned heapId);
-extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, unsigned idx, unsigned size, unsigned heap);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
@@ -465,7 +465,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_UploadChars(struct Obj *o);
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);

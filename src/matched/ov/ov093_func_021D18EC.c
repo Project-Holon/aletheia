@@ -13,8 +13,8 @@
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   BTL_MAIN_GetBonusMoney  0x021B9210  thumb  ov093
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
- *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EAF50  0x021EAF50  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_AppendMessageArg  0x021EAF50  thumb  ov093
  *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
  *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
@@ -35,9 +35,9 @@ extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern u32 BTL_MAIN_GetBonusMoney(u8 *p);
 extern u8 BTL_MAIN_GetOwnClientId(u8 *p);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 struct H;
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 
@@ -52,9 +52,9 @@ int BTL_CLIENT_StepShowPrizeMoneyMessage(BattleSeq *s, int *state)
             a = BTL_MAIN_GetBonusMoney(s->battle);
             if (a != 0) {
                 b = BTL_MAIN_GetOwnClientId(s->battle);
-                func_021EAF18((struct L *)s->msg, 1, 0x3b);
-                func_021EAF50((struct L *)s->msg, b);
-                func_021EAF50((struct L *)s->msg, a);
+                BTLV_SCU_InitMessage((struct L *)s->msg, 1, 0x3b);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, b);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
                 BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             }
         }

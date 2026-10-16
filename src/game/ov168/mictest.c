@@ -1,7 +1,7 @@
 /*
  * file:     mictest.c
  * unit:     yes
- * function: func_02183B60, func_02183C50, func_02183CCC, func_02183D0C, func_02183D1C, func_02183D34, func_02183D3C, func_02183D40, func_02183D44, func_02183D4C, func_02183DAC, func_02183E18, func_02183E60, func_02183EC0, func_02183ED4, func_02183F08, func_02183F30, func_02183F40, func_02183F6C, func_02183F98, func_02183FA0, func_02183FC4, func_02184138, func_02184144, func_0218414C, func_021841C8, func_021841F4, func_021841F8, func_021842B4, func_021842BC, func_02184360, func_02184398, func_02184408, func_0218441C, func_02184470, func_0218448C, func_0218449C, func_021844C8, func_021845AC, func_021845E0, func_02184600, func_02184680, func_02184780, func_02184818, func_0218483C, func_0218484C
+ * function: MICTEST_Create, MICTEST_Exit, MICTEST_Main, MICTEST_InitStepMachine, MICTEST_RunStepMachine, MICTEST_SetStep, MICTEST_GetOwner, MICTEST_IsStepDone, MICTEST_MarkStepDone, MICTEST_StepWipeIn, MICTEST_StepRecord, MICTEST_StepWaitAnim, MICTEST_StepWipeOut, MICTEST_StepFinish, MICTEST_ResetDisplay, MICTEST_ClearDisplay, MICTEST_SetupVramBanks, MICTEST_VBlank, MICTEST_InitActorSystem, MICTEST_ExitActorSystem, MICTEST_UpdateActors, MICTEST_CreateActors, MICTEST_DeleteUnit, MICTEST_ActorVBlank, MICTEST_InitBg, MICTEST_ExitBg, MICTEST_BgNoop, MICTEST_InitBgTiles, MICTEST_UpdateBg, MICTEST_CreateWindows, MICTEST_DeleteWindows, MICTEST_InitMic, MICTEST_ExitMic, MICTEST_UpdateMic, MICTEST_ArmMic, MICTEST_DisarmMic, MICTEST_GetMicLevel, MICTEST_OnMicEvent, MICTEST_LevelToAnim, MICTEST_HasFreeSlot, MICTEST_SpawnSprite, MICTEST_InitSpriteTask, MICTEST_UpdateSpriteTask, MICTEST_DeleteSpriteTasks, MICTEST_TouchHit, MICTEST_CheckTouchOrKey
  * address:  0x02183B60
  * region:   ov168
  * compiler: dsi/1.1p1
@@ -34,7 +34,7 @@
  *   TCB_Main   0x02030D28  arm
  *   WIPE_SYS_Start   0x0202208C  thumb
  *   WIPE_SYS_EndCheck   0x020221A4  thumb
- *   func_0218484C   0x0218484C  thumb
+ *   MICTEST_CheckTouchOrKey   0x0218484C  thumb
  *   SND_MIC_IsLimitReached   0x02006D94  thumb
  *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
  *   CLACT_SetActorAnimSeq   0x0204B878  arm
@@ -108,8 +108,8 @@
  *   SND_MIC_Exit  0x02006D44  thumb
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   SND_MIC_AddElapsed   0x02006D64  thumb
- *   func_0208B500  0x0208B500  arm
- *   func_0208B528  0x0208B528  arm
+ *   MIC_StartLimitedSampling  0x0208B500  arm
+ *   MIC_StopLimitedSampling  0x0208B528  arm
  *   d_02184A40 0x02184A40 data a4
  *   func_020056EC 0x020056EC thumb
  *   func_02030DA8  0x02030DA8  arm
@@ -125,32 +125,12 @@
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   KEY_GetTrg  0x020362DC  arm  arm9
  */
-#include "../../matched/include/Obj02210.h"
-#include "../../matched/include/Obj23813.h"
-#include "../../matched/include/Obj14257.h"
-#include "../../matched/include/Obj23817.h"
-#include "../../matched/include/Obj14259.h"
-#include "../../matched/include/Obj23818.h"
-#include "../../matched/include/Obj01262.h"
-#include "../../matched/include/Obj10642.h"
-#include "../../matched/include/Obj23820.h"
-#include "../../matched/include/Obj23821.h"
-#include "../../matched/include/Obj03845.h"
-#include "../../matched/include/Obj14260.h"
-#include "../../matched/include/Obj23822.h"
-#include "../../matched/include/Obj10643.h"
-#include "../../matched/include/Obj23823.h"
-#include "../../matched/include/Obj01947.h"
-#include "../../matched/include/Obj04544.h"
-#include "../../matched/include/Obj10644.h"
-
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 struct Proc;
 struct Ctx;
 struct Node;
-struct Proc;
 struct Actor;
 struct Obj;
 struct DispVram;
@@ -158,54 +138,132 @@ struct Cfg;
 struct Bank;
 struct CharBuf;
 struct Descriptor;
-struct Rec;
-struct Blk37;
 struct DispConfig;
 struct GfFont;
 struct BgTemplate;
 struct MsgBank;
 struct U16Vec;
 struct S02030EE8;
+
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
-
-typedef enum {OBJECT_SIZE=0x150} Size;
-
-enum Result {DONE=1};
-
-typedef void (*fn_02183D1C)(int *, int *);
-
-typedef struct {u32 group,id,config;} Row;
-
-typedef struct {short x,y,id;u8 a,b;} Config;
-
-typedef signed int     s32;
-
+typedef signed int s32;
 typedef signed short s16;
-
-typedef struct { u32 pad0; const u8 *data; int count; } Buf;
-
 typedef int fx32;
-
 typedef long long fx64;
 
+typedef enum {OBJECT_SIZE=0x150} Size;
+enum Result {DONE=1};
+
+struct MictestWork;
+struct MictestState;
+typedef void (*MictestStepFn)(struct MictestState *, int *);
+
+/* one row of the actor spawn table d_02184910 */
+typedef struct {u32 group,id,config;} MictestActorRow;
+/* one per-actor placement blob indexed by MictestActorRow.config */
+typedef struct {short x,y; u16 id; u8 a,b;} MictestActorParam;
+/* one BMP window description row of d_02184888 */
 typedef struct {
-    u32 handle;
-    u32 timer;
+    u8 layer;
+    u8 x;
+    u8 y;
+    u8 width;
+    u8 height;
+    u8 palette;
+    u16 charOffset;
+    u8 printX;
+    u8 pad_09[3];
+} MictestBmpDesc;
+
+/* sprite task object driven by MICTEST_UpdateSpriteTask */
+typedef struct {
+    void *actor;
+    int wait;
     fx32 x;
     fx32 y;
-    fx32 z0;
+    fx32 z;
     fx32 vx;
     fx32 vy;
-    fx32 w0;
-    fx32 w1;
-    fx32 w2;
-    u32 h;
-    u32 task;
-} Obj;
+    fx32 vz;
+    fx32 angle;
+    fx32 step;
+    fx32 radius;
+    void *task;
+} MictestMotion;
+
+/* one CLACT registration triple inside MictestWork */
+typedef struct {
+    u32 character;
+    u32 palette;
+    u32 cell;
+} MictestAnimReg;
+
+/* the spawn table reads one registration triple at 0x20 plus group*4 into
+   MictestWork, so the row table stores a u32 index into that block */
+typedef struct {
+    u8 pad_00[0x20];
+    MictestAnimReg animReg;
+} MictestActorRegView;
+
+/* one spawn slot inside MictestWork */
+typedef struct {
+    u8 pad_00[0x2C];
+    void *task;
+} MictestSprite;
+
+/* BMP windows, message bank and font inside MictestWork */
+typedef struct {
+    void *bmpWin[3];
+    struct MsgBank *msgBank;
+    struct GfFont *font;
+} MictestRender;
+
+/* microphone sample buffer and recording state inside MictestWork.
+ * The leading 0x1C bytes are the MICAutoParam view read by arm9/mic.c
+ * (MIC_StartAutoSamplingAsync): type/buffer/size/rate/loop_enable/full_callback/full_arg.
+ * allocBuffer at 0x1C is Mictest's own 0x120-byte allocation, past the view. */
+typedef struct {
+    u32 type;
+    u8 *buffer;
+    int size;
+    u32 rate;
+    u32 loop_enable;
+    void (*full_callback)(int, struct MictestWork *);
+    struct MictestWork *full_arg;
+    u8 *allocBuffer;
+    int level;
+    int levelChanged;
+    int recording;
+    int stopPending;
+    int busy;
+    int limitLatch;
+} MictestMic;
+
+/* step machine embedded in MictestWork */
+typedef struct MictestState {
+    struct MictestWork *owner;
+    MictestStepFn step;
+    int state;
+    int done;
+} MictestState;
+
+/* the 0x150 byte work object allocated by MICTEST_Create */
+typedef struct MictestWork {
+    void *actor[7];
+    struct Bank *unit;
+    MictestAnimReg animReg[4];
+    MictestSprite sprite[3];
+    int messageTimer;
+    MictestRender render;
+    MictestMic mic;
+    MictestState state;
+    void *heapHandle;
+    struct Ctx *taskCtx;
+    struct Node *node;
+    int heapId;
+} MictestWork;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -225,7 +283,7 @@ extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern void TCB_Main(struct Ctx *c);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
-extern int func_0218484C(void);
+extern int MICTEST_CheckTouchOrKey(void);
 extern u32 SND_MIC_IsLimitReached(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -283,15 +341,15 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void SND_MIC_Init(u16 heap);
 extern void UI_SetKeepAwakeFlagsGlobal(u32 v);
 extern void SND_MIC_Exit(void);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 extern void SND_MIC_AddElapsed(u32 n);
-extern void func_0208B500(int *);
-extern int func_0208B528(void);
+extern void MIC_StartLimitedSampling(int *);
+extern int MIC_StopLimitedSampling(void);
 extern u32 func_020056EC(u32 range);
 extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
@@ -299,231 +357,160 @@ extern int GF_STANDARD_Get_F5FC(u32 x);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void VEC_Add(void *, void *, void *);
 extern int TOUCHPANEL_HitTrg(const void *p);
-enum Result func_02183B60(void *obj);
-int func_02183C50(int a, int b, int c, void *p);
-int func_02183CCC(int a, int b, int c, char *p);
-void func_02183D0C(int *p, int a, int b);
-void func_02183D1C(int *p);
-void func_02183D34(unsigned int *p,unsigned int v);
-unsigned int func_02183D3C(unsigned int *p);
-int func_02183D40(unsigned int *p);
-void func_02183D44(unsigned int *p);
-void func_02183D4C(int a, int *state);
-void func_02183DAC(int a, int *state);
-void func_02183E18(int a, int *state);
-void func_02183E60(int a, int *state);
-void func_02183EC0(int *p);
-void func_02183ED4(int a0);
-void func_02183F08(void);
-void func_02183F30(void);
-void func_02183F40(void *unused, char *p);
-void func_02183F6C(int unused, u32 b);
-void func_02183F98(void *a0);
-void func_02183FA0(void **p);
-void func_02183FC4(char *p,u16 heap);
-void func_02184138(char *p);
-void func_02184144(void *p);
-void func_0218414C(char *p, int heap);
-void func_021841C8(void *a0);
-void func_021841F4(char *a0);
-void func_021841F8(void *p, int heap);
-void func_021842B4(void *p);
-void func_021842BC(void **p, int heap);
-void func_02184360(char *p);
-void func_02184398(u8 *p, int heap, u32 b, u32 c);
-void func_02184408(int *p);
-void func_0218441C(int *p);
-void func_02184470(int *p);
-void func_0218448C(int *p);
-int func_0218449C(Buf *p);
-void func_021844C8(int event, char *p);
-int func_021845AC(u8 n);
-int func_021845E0(char *p);
-int func_02184600(char *p, int unused, s16 x, s16 y, void *owner);
-void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 h, u32 i);
-void func_02184780(void *task, int *p);
-void func_02184818(char *p);
-int func_0218483C(void);
+extern u32 KEY_GetTrg(void);
+
+enum Result MICTEST_Create(struct Proc *proc);
+int MICTEST_Exit(int a, int b, int c, MictestWork *p);
+int MICTEST_Main(int a, int b, int c, MictestWork *p);
+void MICTEST_InitStepMachine(MictestState *p, MictestWork *owner, MictestStepFn step);
+void MICTEST_RunStepMachine(MictestState *p);
+void MICTEST_SetStep(MictestState *p, MictestStepFn step);
+MictestWork *MICTEST_GetOwner(MictestState *p);
+int MICTEST_IsStepDone(MictestState *p);
+void MICTEST_MarkStepDone(MictestState *p);
+void MICTEST_StepWipeIn(MictestState *self, int *state);
+void MICTEST_StepRecord(MictestState *self, int *state);
+void MICTEST_StepWaitAnim(MictestState *self, int *state);
+void MICTEST_StepWipeOut(MictestState *self, int *state);
+void MICTEST_StepFinish(MictestState *self, int *state);
+void MICTEST_ResetDisplay(int unused);
+void MICTEST_ClearDisplay(void);
+void MICTEST_SetupVramBanks(void);
+void MICTEST_VBlank(void *unused, MictestWork *p);
+void MICTEST_InitActorSystem(int unused, u32 heap);
+void MICTEST_ExitActorSystem(MictestWork *unused);
+void MICTEST_UpdateActors(MictestWork *p);
+void MICTEST_CreateActors(MictestWork *p, u16 heap);
+void MICTEST_DeleteUnit(MictestWork *p);
+void MICTEST_ActorVBlank(void *unused);
+void MICTEST_InitBg(MictestRender *p, int heap);
+void MICTEST_ExitBg(MictestRender *unused);
+void MICTEST_BgNoop(MictestRender *unused);
+void MICTEST_InitBgTiles(MictestRender *unused, int heap);
+void MICTEST_UpdateBg(MictestRender *unused);
+void MICTEST_CreateWindows(MictestRender *p, int heap);
+void MICTEST_DeleteWindows(MictestRender *p);
+void MICTEST_InitMic(MictestMic *p, int heap, void (*callback)(int, MictestWork *), MictestWork *context);
+void MICTEST_ExitMic(MictestMic *p);
+void MICTEST_UpdateMic(MictestMic *p);
+void MICTEST_ArmMic(MictestMic *p);
+void MICTEST_DisarmMic(MictestMic *p);
+int MICTEST_GetMicLevel(MictestMic *p);
+void MICTEST_OnMicEvent(int event, MictestWork *p);
+int MICTEST_LevelToAnim(u8 level);
+int MICTEST_HasFreeSlot(MictestWork *p);
+int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner);
+void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait);
+void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p);
+void MICTEST_DeleteSpriteTasks(MictestWork *p);
+int MICTEST_TouchHit(void);
+int MICTEST_CheckTouchOrKey(void);
+
 extern const char d_02184A20[];
 extern char ov088_id[];
 extern char d_021BD574[];
 extern u32 SDK_AUTOLOAD_MAIN_TWL_START[];
-extern const Row d_02184910[];
-extern const Config d_021848AC[];
+extern const MictestActorRow d_02184910[];
+extern const MictestActorParam d_021848AC[];
 extern int d_02184878[];
 extern u8 d_02184964[];
-extern const u8 d_02184888[];
+extern const MictestBmpDesc d_02184888[];
 extern u16 d_02184868[];
 extern unsigned d_02184A40;
 
-
-
-
-
-
-
-
-enum Result func_02183B60(void *obj)
+enum Result MICTEST_Create(struct Proc *proc)
 {
-    u8 *p;
+    MictestWork *p;
     Size size;
     int result=1;
     GFL_HEAP_CreateChildHeap(1,73,0x70000);
     size=OBJECT_SIZE;
-    p=PROCSYS_AllocProcWork(obj,size,73);
+    p=PROCSYS_AllocProcWork(proc,size,73);
     MI_CpuFill8(p,0,size);
-    ((struct Obj02210 *)((unsigned)p))->f14C=73;
-    func_02183ED4(73);
-    func_02183F30();
-    ((struct Obj02210 *)p)->f140=func_02030734((u16)((struct Obj02210 *)((unsigned)p))->f14C,func_02030CB0(5),0,d_02184A20,0x21d);
-    ((struct Obj02210 *)((unsigned)p))->f144=func_02030CBC(5,((struct Obj02210 *)p)->f140);
-    ((struct Obj02210 *)((unsigned)p))->f148=func_020056A0((u32)func_02183F40,(u32)p,1);
-    func_0218414C((char *)p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
-    func_021841F8(p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
-    func_021842BC((void **)(p+0xe4),((struct Obj02210 *)((unsigned)p))->f14C);
-    func_02183F6C((int)p,*(u32 *)&((struct Obj02210 *)((unsigned)p))->f14C);
-    func_02183FC4((char *)p,((struct Obj02210 *)((unsigned)p))->f14C);
-    func_02184398((u8 *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)func_021844C8,(int)p);
-    func_02183D0C((int *)((unsigned)p+0x130),(int)p,(int)func_02183D4C);
+    p->heapId=73;
+    MICTEST_ResetDisplay(73);
+    MICTEST_SetupVramBanks();
+    p->heapHandle=func_02030734((u16)p->heapId,func_02030CB0(5),0,d_02184A20,0x21d);
+    p->taskCtx=func_02030CBC(5,p->heapHandle);
+    p->node=func_020056A0((u32)MICTEST_VBlank,(u32)p,1);
+    MICTEST_InitBg(&p->render,p->heapId);
+    MICTEST_InitBgTiles(&p->render,p->heapId);
+    MICTEST_CreateWindows(&p->render,p->heapId);
+    MICTEST_InitActorSystem((int)p,p->heapId);
+    MICTEST_CreateActors(p,p->heapId);
+    MICTEST_InitMic(&p->mic,p->heapId,MICTEST_OnMicEvent,p);
+    MICTEST_InitStepMachine(&p->state,p,MICTEST_StepWipeIn);
     GFL_USE_FadeOutBgm(10);
     return result;
 }
 
-
-
-
-
-
-
-
-
-int func_02183C50(int a, int b, int c, void *p)
+int MICTEST_Exit(int a, int b, int c, MictestWork *p)
 {
     unsigned short v;
 
-    func_02184408((int *)((char *)p + 0xf8));
-    func_02030EAC((struct Node *)(*(int *)((char *)p + 0x148)));
-    TCB_Noop(*(int *)((char *)p + 0x144));
-    func_020307B0((void *)(*(int *)((char *)p + 0x140)));
-    func_02184138(p);
-    func_02183F98(p);
-    func_02184360((char *)p + 0xe4);
-    func_021841C8((char *)p + 0xe4);
-    func_02183F08();
-    v = (unsigned short)*(int *)((char *)p + 0x14c);
+    MICTEST_ExitMic(&p->mic);
+    func_02030EAC(p->node);
+    TCB_Noop((int)p->taskCtx);
+    func_020307B0(p->heapHandle);
+    MICTEST_DeleteUnit(p);
+    MICTEST_ExitActorSystem(p);
+    MICTEST_DeleteWindows(&p->render);
+    MICTEST_ExitBg(&p->render);
+    MICTEST_ClearDisplay();
+    v=(unsigned short)p->heapId;
     func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(v);
     GFL_USE_FadeInBgmFull(0xa);
-    PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);
+    PROCSYS_ReplaceGlobal((u32)ov088_id,(u32)d_021BD574,0);
     return 1;
 }
 
-
-
-
-
-
-
-
-
 /*
- * Gate on p+0x130, then run the four init/teardown helpers and the
- *   word at p+0x144 through TCB_Main.
+ * Gate on p->state, then run the four init/teardown helpers and the
+ *   task context through TCB_Main.
  */
-int func_02183CCC(int a, int b, int c, char *p)
+int MICTEST_Main(int a, int b, int c, MictestWork *p)
 {
-    if (func_02183D40((unsigned int *)(p + 0x130)))
+    if (MICTEST_IsStepDone(&p->state))
         return 1;
-    func_02183D1C((int *)(p + 0x130));
-    func_02183FA0((void **)p);
-    func_021841F4(p + 0xE4);
-    func_0218441C((int *)(p + 0xF8));
-    TCB_Main((struct Ctx *)(((struct Obj23813 *)p)->f144));
+    MICTEST_RunStepMachine(&p->state);
+    MICTEST_UpdateActors(p);
+    MICTEST_BgNoop(&p->render);
+    MICTEST_UpdateMic(&p->mic);
+    TCB_Main(p->taskCtx);
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void func_02183D0C(int *p, int a, int b)
+void MICTEST_InitStepMachine(MictestState *p, MictestWork *owner, MictestStepFn step)
 {
-    *p = a;
-    ((struct Obj14257 *)p)->fC = 0;
-    func_02183D34((unsigned int *)p, b);
+    p->owner=owner;
+    p->done=0;
+    MICTEST_SetStep(p,step);
 }
 
-
-
-
-
-
-
-
-
-void func_02183D1C(int *p)
+void MICTEST_RunStepMachine(MictestState *p)
 {
-    if (func_02183D40((unsigned int *)p) == 0)
-        ((fn_02183D1C)(*(void **)((char *)p + 4)))(p, (int *)((char *)p + 8));
+    if (MICTEST_IsStepDone(p) == 0)
+        p->step(p, &p->state);
 }
 
+void MICTEST_SetStep(MictestState *p, MictestStepFn step) { p->step=step; p->state=0; }
 
+MictestWork *MICTEST_GetOwner(MictestState *p) { return p->owner; }
 
-
-
-
-
-
-void func_02183D34(unsigned int *p,unsigned int v) { p[1]=v; p[2]=0; }
-
-
-
-
-
-
-
-
-unsigned int func_02183D3C(unsigned int *p) { return p[0]; }
-
-
-
-
-
-
-
-
-int func_02183D40(unsigned int *p) { return p[3]; }
-
-
-
-
-
-
-
+int MICTEST_IsStepDone(MictestState *p) { return p->done; }
 
 /*
  * extent: 6-byte body followed by two bytes of zero alignment padding.
  */
-void func_02183D44(unsigned int *p) { p[3]=1; }
+void MICTEST_MarkStepDone(MictestState *p) { p->done=1; }
 
-
-
-
-
-
-
-
-
-void func_02183D4C(int a, int *state)
+void MICTEST_StepWipeIn(MictestState *self, int *state)
 {
-    int x = func_02183D3C((unsigned int *)a);
+    MictestWork *work = MICTEST_GetOwner(self);
     switch (*state) {
     case 0:
-        WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct Obj23817 *)x)->f14C);
+        WIPE_SYS_Start(0, 1, 1, 0, 6, 1, work->heapId);
         *state = 1;
         break;
     case 1:
@@ -531,91 +518,67 @@ void func_02183D4C(int a, int *state)
             *state = 2;
         break;
     case 2:
-        func_02183D34((unsigned int *)a, (unsigned int)func_02183DAC);
+        MICTEST_SetStep(self, MICTEST_StepRecord);
         break;
     }
 }
 
-
-
-
-
-
-
-
-
-void func_02183DAC(int a, int *state)
+void MICTEST_StepRecord(MictestState *self, int *state)
 {
-    int x = func_02183D3C((unsigned int *)a);
+    MictestWork *work = MICTEST_GetOwner(self);
     switch (*state) {
     case 0:
-        func_02184470((int *)(x + 0xF8));
+        MICTEST_ArmMic(&work->mic);
         *state = 1;
         break;
     case 1:
-        if (func_0218484C() && SND_MIC_IsLimitReached()) {
+        if (MICTEST_CheckTouchOrKey() && SND_MIC_IsLimitReached()) {
             GFL_USE_PlaySeDefaultVolume(0x551);
             *state = 2;
         }
         break;
     case 2:
-        func_0218448C((int *)(x + 0xF8));
+        MICTEST_DisarmMic(&work->mic);
         *state = 3;
         break;
     case 3:
-        func_02183D34((unsigned int *)a, (unsigned int)func_02183E18);
+        MICTEST_SetStep(self, MICTEST_StepWaitAnim);
         break;
     }
 }
 
-
-
-
-
-
-
-
-
 /*
- * Three-state step over the object at *(x+0xC): start on 0, poll on 1,
- *   install 0x2183E60 on 2.
+ * Three-state step over the actor at work->actor[3]: start on 0, poll on 1,
+ *   install MICTEST_StepWipeOut on 2.
  */
-void func_02183E18(int a, int *state)
+void MICTEST_StepWaitAnim(MictestState *self, int *state)
 {
-    int x = func_02183D3C((unsigned int *)a);
+    MictestWork *work = MICTEST_GetOwner(self);
     switch (*state) {
     case 0:
-        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj14259 *)x)->fC), 1);
+        CLACT_SetActorAnimSeq(work->actor[3], 1);
         *state = 1;
         break;
     case 1:
-        if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj14259 *)x)->fC)) == 0)
+        if (CLACT_IsActorAnimActive((struct Actor *)work->actor[3]) == 0)
             *state = 2;
         break;
     case 2:
-        func_02183D34((unsigned int *)a, (unsigned int)func_02183E60);
+        MICTEST_SetStep(self, MICTEST_StepWipeOut);
         break;
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * Step a two-slot state machine: publish through WIPE_SYS_Start on state 0,
- *   poll WIPE_SYS_EndCheck on 1, install func_02183EC0 on 2.
+ *   poll WIPE_SYS_EndCheck on 1, install MICTEST_StepFinish on 2.
  */
-void func_02183E60(int a, int *state)
+void MICTEST_StepWipeOut(MictestState *self, int *state)
 {
-    int x = func_02183D3C((unsigned int *)a);
+    MictestWork *work = MICTEST_GetOwner(self);
     switch (*state) {
     case 0:
-        WIPE_SYS_Start(0, 0, 0, 0, 6, 1, ((struct Obj23818 *)x)->f14C);
+        WIPE_SYS_Start(0, 0, 0, 0, 6, 1, work->heapId);
         *state = 1;
         break;
     case 1:
@@ -623,34 +586,18 @@ void func_02183E60(int a, int *state)
             *state = 2;
         break;
     case 2:
-        func_02183D34((unsigned int *)a, (unsigned int)func_02183EC0);
+        MICTEST_SetStep(self, MICTEST_StepFinish);
         break;
     }
 }
 
-
-
-
-
-
-
-
-
-void func_02183EC0(int *p)
+void MICTEST_StepFinish(MictestState *self, int *state)
 {
-    func_02184818((char *)func_02183D3C((unsigned int *)((int)p)));
-    func_02183D44((unsigned int *)p);
+    MICTEST_DeleteSpriteTasks(MICTEST_GetOwner(self));
+    MICTEST_MarkStepDone(self);
 }
 
-
-
-
-
-
-
-
-
-void func_02183ED4(int a0)
+void MICTEST_ResetDisplay(int unused)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
@@ -660,15 +607,7 @@ void func_02183ED4(int a0)
     WIPE_ResetWndMask((void *)1);
 }
 
-
-
-
-
-
-
-
-
-void func_02183F08(void)
+void MICTEST_ClearDisplay(void)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
@@ -676,156 +615,88 @@ void func_02183F08(void)
     *(volatile u32 *)0x04001000 &= 0xFFFFE0FFu;
 }
 
-
-
-
-
-
-
-
-
-void func_02183F30(void)
+void MICTEST_SetupVramBanks(void)
 {
     BG_SYS_SetVramBanks((void *)0x021848D4);
 }
 
-
-
-
-
-
-
-
-
-void func_02183F40(void *unused, char *p)
+void MICTEST_VBlank(void *unused, MictestWork *p)
 {
     NNS_GfdDoVramTransfer();
-    func_02184144(p);
-    func_021842B4(p + 0xe4);
+    MICTEST_ActorVBlank(p);
+    MICTEST_UpdateBg(&p->render);
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
 }
 
-
-
-
-
-
-
-
-
-void func_02183F6C(int unused, u32 b)
+void MICTEST_InitActorSystem(int unused, u32 heap)
 {
-    CLACT_InitSystem((void *)0x020A1448, (u32)((void *)0x021848D4), (u16)b);
+    CLACT_InitSystem((void *)0x020A1448, (u32)((void *)0x021848D4), (u16)heap);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
+void MICTEST_ExitActorSystem(MictestWork *unused) { CLACT_ExitSystem(); }
 
-
-
-
-
-
-
-void func_02183F98(void *a0) { CLACT_ExitSystem(); }
-
-
-
-
-
-
-
-
-
-void func_02183FA0(void **p)
+void MICTEST_UpdateActors(MictestWork *p)
 {
     u16 i;
 
     for (i = 0; i < 7; i++)
-        CLACT_AddActorAnimFrame(p[i], 0x1000);
+        CLACT_AddActorAnimFrame(p->actor[i], 0x1000);
     CLACT_DrawSystem();
 }
-
-
-
-
-
-
-
 
 /*
  * abi: ABF0 and B294 results remain live and are stored by this caller; their extern return types reflect that use.
  */
-void func_02183FC4(char *p,u16 heap)
+void MICTEST_CreateActors(MictestWork *p, u16 heap)
 {
     void *first,*second;
     u16 i;
-    const Row *r;
-    char *q;
+    const MictestActorRow *r;
+    const MictestActorRegView *view;
     i=0;
-    ((struct Obj01262 *)p)->f1C=CLACT_CreateUnit(32,0,heap);
+    p->unit=CLACT_CreateUnit(32,0,heap);
     first=func_020490F4(106,heap);
     second=func_020490F4(APP_ICON_GetArchiveId(),heap);
-    ((struct Obj01262 *)p)->f24=CLACT_RegisterPalette(first,6,0,0,heap);
-    ((struct Obj01262 *)p)->f20=CLACT_RegisterCharacter(first,7,0,0,heap);
-    ((struct Obj01262 *)p)->f28=CLACT_RegisterCellAnim(first,8,9,heap);
-    ((struct Obj01262 *)p)->f30=CLACT_RegisterPalette(first,10,0,32,heap);
-    ((struct Obj01262 *)p)->f2C=CLACT_RegisterCharacter(first,11,0,0,heap);
-    ((struct Obj01262 *)p)->f34=CLACT_RegisterCellAnim(first,12,13,heap);
-    ((struct Obj01262 *)p)->f3C=CLACT_RegisterPalette(first,14,0,64,heap);
-    ((struct Obj01262 *)p)->f38=CLACT_RegisterCharacter(first,15,0,0,heap);
-    ((struct Obj01262 *)p)->f40=CLACT_RegisterCellAnim(first,16,17,heap);
-    ((struct Obj01262 *)p)->f48=CLACT_RegisterPalette(second,31,1,0,heap);
-    ((struct Obj01262 *)p)->f44=CLACT_RegisterCharacter(second,32,0,1,heap);
-    ((struct Obj01262 *)p)->f4C=CLACT_RegisterCellAnim(first,18,19,heap);
+    p->animReg[0].palette=CLACT_RegisterPalette(first,6,0,0,heap);
+    p->animReg[0].character=CLACT_RegisterCharacter(first,7,0,0,heap);
+    p->animReg[0].cell=CLACT_RegisterCellAnim(first,8,9,heap);
+    p->animReg[1].palette=CLACT_RegisterPalette(first,10,0,32,heap);
+    p->animReg[1].character=CLACT_RegisterCharacter(first,11,0,0,heap);
+    p->animReg[1].cell=CLACT_RegisterCellAnim(first,12,13,heap);
+    p->animReg[2].palette=CLACT_RegisterPalette(first,14,0,64,heap);
+    p->animReg[2].character=CLACT_RegisterCharacter(first,15,0,0,heap);
+    p->animReg[2].cell=CLACT_RegisterCellAnim(first,16,17,heap);
+    p->animReg[3].palette=CLACT_RegisterPalette(second,31,1,0,heap);
+    p->animReg[3].character=CLACT_RegisterCharacter(second,32,0,1,heap);
+    p->animReg[3].cell=CLACT_RegisterCellAnim(first,18,19,heap);
     ARC_TOOL_DeleteHandle(second);
     ARC_TOOL_DeleteHandle(first);
     do{
         r=&d_02184910[i];
-        q=p+r->group*4;
-        *(void **)(p+i*4)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj01262 *)p)->f1C,((struct Obj10642 *)q)->f20,((struct Obj10642 *)q)->f24,((struct Obj10642 *)q)->f28,&d_021848AC[r->config],r->id,heap);
-        CLACT_SetActorAutoAnim(*(void **)(p+i*4),1);
+        p->actor[i]=CLACT_CreateActor(p->unit,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->character,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->palette,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->cell,&d_021848AC[r->config],r->id,heap);
+        CLACT_SetActorAutoAnim(p->actor[i],1);
         ++i;
     }while(i<7);
-    for(i=0;i<3;i++)CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x10),0);
-    CLACT_SetActorAffineMode(((struct Obj01262 *)p)->f0,0);
-    CLACT_SetActorFlip(((struct Obj01262 *)p)->f0,1,1);
-    ((struct Obj01262 *)p)->fE0=10;
+    for(i=0;i<3;i++)CLACT_SetActorDrawEnable(p->actor[i+4],0);
+    CLACT_SetActorAffineMode(p->actor[0],0);
+    CLACT_SetActorFlip(p->actor[0],1,1);
+    p->messageTimer=10;
 }
 
+void MICTEST_DeleteUnit(MictestWork *p) { CLACT_DeleteUnit(p->unit); }
 
+void MICTEST_ActorVBlank(void *unused) { CLACT_VBlankSystem(); }
 
-
-
-
-
-
-void func_02184138(char *p) { CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj23820 *)p)->f1C); }
-
-
-
-
-
-
-
-
-void func_02184144(void *p) { CLACT_VBlankSystem(); }
-
-
-
-
-
-
-
-
-void func_0218414C(char *p, int heap)
+void MICTEST_InitBg(MictestRender *p, int heap)
 {
     unsigned i;
     unsigned bg;
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_02184878);
-    ((struct Obj23821 *)p)->f10 = GF_FONT_Create(23, 0, 0, 0, (u16)heap);
+    p->font = GF_FONT_Create(23, 0, 0, 0, (u16)heap);
     for (i = 0; i < 5; i++) {
         bg = d_02184964[i * 0x24 + 0x20];
         BG_SYS_InitBgLayer(bg, (const struct BgTemplate *)(d_02184964 + i * 0x24), d_02184964[i * 0x24 + 0x21]);
@@ -835,15 +706,7 @@ void func_0218414C(char *p, int heap)
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021841C8(void *a0)
+void MICTEST_ExitBg(MictestRender *unused)
 {
     u32 i;
 
@@ -853,24 +716,9 @@ void func_021841C8(void *a0)
     BG_SYS_Delete();
 }
 
+void MICTEST_BgNoop(MictestRender *unused) {  }
 
-
-
-
-
-
-
-
-void func_021841F4(char *a0) {  }
-
-
-
-
-
-
-
-
-void func_021841F8(void *p, int heap)
+void MICTEST_InitBgTiles(MictestRender *unused, int heap)
 {
     func_02049B40(106, 0, 0, 0, 32, heap);
     func_02049B40(106, 1, 4, 0, 32, heap);
@@ -882,61 +730,33 @@ void func_021841F8(void *p, int heap)
     func_0204989C(106, 3, 1, 0, 0, 0, heap);
 }
 
+void MICTEST_UpdateBg(MictestRender *unused) { BG_SYS_Update(); }
 
-
-
-
-
-
-
-void func_021842B4(void *p) { BG_SYS_Update(); }
-
-
-
-
-
-
-
-
-void func_021842BC(void **p, int heap)
+void MICTEST_CreateWindows(MictestRender *p, int heap)
 {
     int i;
-    const u8 *row;
+    const MictestBmpDesc *desc;
     void *a;
     void *b;
     void *s;
-    p[3] = func_02045B38((int)0,(int)2,(int)65,(u16)heap);
+    p->msgBank = func_02045B38((int)0,(int)2,(int)65,(u16)heap);
     for (i=0;i<3;i++) {
-        row = d_02184888+i*12;
-        p[i] = (void *)BMP_WIN_CreateAt((int)row[0],(int)row[1],(int)row[2],(int)row[3],row[4],row[5],(int)(((struct Obj03845 *)row)->f6));
-        a = BMP_WIN_GetBmp(p[i]);
+        desc = &d_02184888[i];
+        p->bmpWin[i] = (void *)BMP_WIN_CreateAt((int)desc->layer,(int)desc->x,(int)desc->y,(int)desc->width,desc->height,desc->palette,(int)desc->charOffset);
+        a = BMP_WIN_GetBmp(p->bmpWin[i]);
         BMP_Clear(a,0);
-        BMP_WIN_ClearScreen(p[i]);
-        b = func_02045EC0(p[3],i);
-        PRINTSYS_PrintColor(a,row[8],0,b,p[4],d_02184868[i]);
+        BMP_WIN_ClearScreen(p->bmpWin[i]);
+        b = func_02045EC0(p->msgBank,i);
+        PRINTSYS_PrintColor(a,desc->printX,0,b,p->font,d_02184868[i]);
         STRBUF_Delete(b);
-        s = p[i];
+        s = p->bmpWin[i];
         BMP_WIN_TransferChars(s);
         BMP_WIN_MakeScreen(s);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(s));
     }
 }
 
-
-
-
-
-
-
-
-void func_02184360(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*4)),0);BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4));BMP_WIN_Delete(*(struct Descriptor **)(p+i*4));} MSGDATA_Delete(*(struct Rec * *)&((struct Obj14260 *)p)->fC);GF_FONT_Delete(((struct Obj14260 *)p)->f10); }
-
-
-
-
-
-
-
+void MICTEST_DeleteWindows(MictestRender *p) { int i; for(i=0;i<3;i++) {BMP_Clear(BMP_WIN_GetBmp(p->bmpWin[i]),0);BMP_WIN_ClearScreen(p->bmpWin[i]);BMP_WIN_Delete(p->bmpWin[i]);} MSGDATA_Delete(p->msgBank);GF_FONT_Delete(p->font); }
 
 /*
  * 2026-10-05 (wD8 lane06): closed with plain literals (no size local). mwcc keeps one constant of the
@@ -944,119 +764,86 @@ void func_02184360(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(BMP_WIN_GetBmp(
  *   after the aligned-pointer store, 0x120 wins r6 and 0x100 becomes `subs r6,#0x20`. With the 0x100 store
  *   last, 1 wins and 0x100 becomes `adds r0,#0xff` (108 bytes). Earlier lanes needed an enum local here.
  */
-void func_02184398(u8 *p, int heap, u32 b, u32 c)
+void MICTEST_InitMic(MictestMic *p, int heap, void (*callback)(int, MictestWork *), MictestWork *context)
 {
     u8 *buf;
     SND_MIC_Init(heap);
     UI_SetKeepAwakeFlagsGlobal(8);
     buf = func_02030734((u16)heap, 0x120, 0, d_02184A20, 0x603);
     MI_CpuFill8(buf, 0, 0x120);
-    *(u8 **)(p + 0x1c) = buf;
-    *(u32 *)p = 0;
-    *(u32 *)(p + 4) = ((u32)buf + 0x1f) & ~0x1f;
-    *(u32 *)(p + 8) = 0x100;
-    *(u32 *)(p + 0xc) = 0x1001;
-    *(u32 *)(p + 0x10) = 1;
-    *(u32 *)(p + 0x14) = b;
-    *(u32 *)(p + 0x18) = c;
-    *(u32 *)(p + 0x34) = SND_MIC_IsLimitReached();
+    p->allocBuffer = buf;
+    p->type = 0;
+    p->buffer = (u8 *)(((u32)buf + 0x1f) & ~0x1f);
+    p->size = 0x100;
+    p->rate = 0x1001;
+    p->loop_enable = 1;
+    p->full_callback = callback;
+    p->full_arg = context;
+    p->limitLatch = SND_MIC_IsLimitReached();
 }
 
-
-
-
-
-
-
-
-
-void func_02184408(int *p)
+void MICTEST_ExitMic(MictestMic *p)
 {
-    func_020307B0((void *)(((struct Obj23822 *)p)->f1C));
+    func_020307B0(p->allocBuffer);
     SND_MIC_Exit();
     UI_ClearKeepAwakeFlagsGlobal(8);
 }
 
-
-
-
-
-
-
-
 /*
- * Latch the polled flag into p[0x34], arming and disarming the p[0x2c]
- *   work item while p[0x30] tracks the busy state.
+ * Latch the polled flag into p->limitLatch, arming and disarming the
+ *   recording state while p->busy tracks the transition.
  */
-void func_0218441C(int *p)
+void MICTEST_UpdateMic(MictestMic *p)
 {
     int x;
     int y;
     SND_MIC_AddElapsed(1);
     x = SND_MIC_IsLimitReached();
-    if (x != 0 && p[13] != 0)
+    if (x != 0 && p->limitLatch != 0)
         goto end;
-    if (p[12] == 0) {
-        if (p[10] != 0) {
-            func_0218448C(p);
-            p[11] = 1;
+    if (p->busy == 0) {
+        if (p->recording != 0) {
+            MICTEST_DisarmMic(p);
+            p->stopPending = 1;
         }
-        p[12] = 1;
+        p->busy = 1;
     }
     if (x == 0)
         goto end;
-    if (p[13] != 0)
+    if (p->limitLatch != 0)
         goto end;
-    y = p[11];
-    p[12] = 0;
+    y = p->stopPending;
+    p->busy = 0;
     if (y != 0) {
-        func_02184470(p);
-        p[11] = 0;
+        MICTEST_ArmMic(p);
+        p->stopPending = 0;
     }
 end:
-    p[13] = x;
+    p->limitLatch = x;
 }
 
-
-
-
-
-
-
-
-void func_02184470(int *p)
+void MICTEST_ArmMic(MictestMic *p)
 {
-    if (((struct Obj10643 *)p)->f30 == 0) {
-        func_0208B500(p);
-        ((struct Obj10643 *)p)->f28 = 1;
+    if (p->busy == 0) {
+        MIC_StartLimitedSampling((int *)p);
+        p->recording = 1;
     } else {
-        ((struct Obj10643 *)p)->f2C = 1;
+        p->stopPending = 1;
     }
 }
 
-
-
-
-
-
-
-
-void func_0218448C(int *p)
+void MICTEST_DisarmMic(MictestMic *p)
 {
-    func_0208B528();
-    ((struct Obj23823 *)p)->f28 = 0;
+    MIC_StopLimitedSampling();
+    p->recording = 0;
 }
 
-
-
-
-
-int func_0218449C(Buf *p)
+int MICTEST_GetMicLevel(MictestMic *p)
 {
     int max = 0;
     int i;
-    int n = p->count - 1;
-    const u8 *d = p->data;
+    int n = p->size - 1;
+    const u8 *d = p->buffer;
     i = 0;
     for (; i < n; i++) {
         u32 v = d[i];
@@ -1066,75 +853,62 @@ int func_0218449C(Buf *p)
     return max;
 }
 
-
-
-
-
-void func_021844C8(int event, char *p)
+void MICTEST_OnMicEvent(int event, MictestWork *p)
 {
-    char *q;
+    MictestMic *q;
     int n,anim;
     if(event==0){
-        q=p+0xf8;
-        n=func_0218449C((Buf *)q);
-        if(((struct Obj04544 *)q)->f20<n){
-            anim=func_021845AC(n);
-            ((struct Obj04544 *)q)->f20=n;
-            ((struct Obj04544 *)q)->f24=1;
+        q=&p->mic;
+        n=MICTEST_GetMicLevel(q);
+        if(q->level<n){
+            anim=MICTEST_LevelToAnim(n);
+            q->level=n;
+            q->levelChanged=1;
         }else{
-            anim=func_021845AC(((struct Obj04544 *)q)->f20);
-            ((struct Obj04544 *)q)->f20-=2;
+            anim=MICTEST_LevelToAnim(q->level);
+            q->level-=2;
         }
         if(anim!=0){
-            if(((struct Obj04544 *)q)->f24!=0){
-                CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f8,1);
-                ((struct Obj04544 *)q)->f24=0;
+            if(q->levelChanged!=0){
+                CLACT_SetActorAnimSeq(p->actor[2],1);
+                q->levelChanged=0;
             }
-            if(func_021845E0(p)){
-                func_02184600(p,((struct Obj01947 *)p)->f14C,128,64,((struct Obj01947 *)p)->f144);
+            if(MICTEST_HasFreeSlot(p)){
+                MICTEST_SpawnSprite(p,p->heapId,128,64,p->taskCtx);
             }else{
-                --((struct Obj01947 *)p)->fE0;
-                if(((struct Obj01947 *)p)->fE0==0){
-                    func_02184600(p,((struct Obj01947 *)p)->f14C,128,64,((struct Obj01947 *)p)->f144);
-                    ((struct Obj01947 *)p)->fE0=10;
+                --p->messageTimer;
+                if(p->messageTimer==0){
+                    MICTEST_SpawnSprite(p,p->heapId,128,64,p->taskCtx);
+                    p->messageTimer=10;
                 }
             }
-            CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f0,anim);
-            CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f4,anim);
+            CLACT_SetActorAnimSeq(p->actor[0],anim);
+            CLACT_SetActorAnimSeq(p->actor[1],anim);
         }else if(anim==0){
-            CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f8,0);
-            CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f0,0);
-            CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f4,0);
+            CLACT_SetActorAnimSeq(p->actor[2],0);
+            CLACT_SetActorAnimSeq(p->actor[0],0);
+            CLACT_SetActorAnimSeq(p->actor[1],0);
         }
         ++d_02184A40;
     }
 }
 
+int MICTEST_LevelToAnim(u8 level) { if(level<=150)return 0;if(level>=151 && level<=162)return 1;if(level>=163 && level<=176)return 2;if(level>=177 && level<=197)return 3;if(level>=198)level=4;return level; }
 
+int MICTEST_HasFreeSlot(MictestWork *p) { int i;for(i=0;i<3;i++)if(p->sprite[i].task)return 0;return 1; }
 
-
-
-
-int func_021845AC(u8 n) { if(n<=150)return 0;if(n>=151 && n<=162)return 1;if(n>=163 && n<=176)return 2;if(n>=177 && n<=197)return 3;if(n>=198)n=4;return n; }
-
-
-
-
-int func_021845E0(char *p) { int i;for(i=0;i<3;i++)if(*(void **)(p+i*0x30+0x7c))return 0;return 1; }
-
-
-int func_02184600(char *p, int unused, s16 x, s16 y, void *owner)
+int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
 {
     void *sprite = 0;
-    char *entry = 0;
+    MictestSprite *entry = 0;
     int i;
     int a;
     int b;
     int c;
     for (i = 0; i < 3; i++) {
-        if (*(int *)(p + i * 0x30 + 0x7c) == 0) {
-            entry = p + 0x50 + i * 0x30;
-            sprite = *(void **)(p + (i + 4) * 4);
+        if (p->sprite[i].task == 0) {
+            entry = &p->sprite[i];
+            sprite = p->actor[i + 4];
             break;
         }
     }
@@ -1142,13 +916,11 @@ int func_02184600(char *p, int unused, s16 x, s16 y, void *owner)
         a = func_020056EC(0x1001) + 0x1333;
         b = func_020056EC(61) + 60;
         c = func_020056EC(15) + 6;
-        func_02184680((int)owner, (u32)sprite, (int)entry, x, y, a, b, c, 1);
+        MICTEST_InitSpriteTask((int)owner, sprite, entry, x, y, a, b, c, 1);
         return 1;
     }
     return 0;
 }
-
-
 
 /*
  * note (2026-10-05, wD9r lane41): closed by the parameter width. x and y (a3, e) are s16, and
@@ -1156,83 +928,73 @@ int func_02184600(char *p, int unused, s16 x, s16 y, void *owner)
  *   stack parameter the y load stays with the entry parameter copies (ldr r5,[sp,#0x18] before the
  *   pool load); an int parameter sinks it to the end of the entry block.
  */
-void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 h, u32 i)
+void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait)
 {
-    Obj *o;
+    MictestMotion *o;
     u32 t;
     int c;
 
-    t = func_02030DA8(a0, func_02184780, a2, 0);
-    ((u32 *)a2)[0x2c / 4] = t;
-    o = (Obj *)TCBL_GetTaskUserData((struct S02030EE8 *)t);
-    o->handle = handle;
-    o->timer = i;
-    o->x = FX_F32_TO_FX32(a3);
-    o->y = FX_F32_TO_FX32(e);
-    o->z0 = 0;
-    c = GF_STANDARD_Get_F5FC((u16)(g + 0x5a));
-    o->vx = FX_MUL(f, c);
-    c = GF_STANDARD_Get_F5FC((u16)g);
-    o->vy = -FX_MUL(f, c);
-    o->w0 = 0;
-    o->w1 = 0;
-    o->w2 = 0x6000;
-    o->h = h;
-    CLACT_SetActorPosAxis((struct Actor *)o->handle, a3, 0);
-    CLACT_SetActorPosAxis((struct Actor *)o->handle, e, 1);
+    t = func_02030DA8(owner, MICTEST_UpdateSpriteTask, (int)entry, 0);
+    entry->task = (void *)t;
+    o = (MictestMotion *)TCBL_GetTaskUserData((struct S02030EE8 *)t);
+    o->actor = handle;
+    o->wait = wait;
+    o->x = FX_F32_TO_FX32(x);
+    o->y = FX_F32_TO_FX32(y);
+    o->z = 0;
+    c = GF_STANDARD_Get_F5FC((u16)(angle + 0x5a));
+    o->vx = FX_MUL(speed, c);
+    c = GF_STANDARD_Get_F5FC((u16)angle);
+    o->vy = -FX_MUL(speed, c);
+    o->vz = 0;
+    o->angle = 0;
+    o->step = 0x6000;
+    o->radius = radius;
+    CLACT_SetActorPosAxis((struct Actor *)o->actor, x, 0);
+    CLACT_SetActorPosAxis((struct Actor *)o->actor, y, 1);
 }
-
-
 
 /*
  * extent: two-byte alignment padding at 0x02184816.
  * Verified blocker C copied from ov137_func_021E09C0.c;
- * S13/blocker_0203F5FC-r1.log reports EXACT, 64 bytes:
+ * the 0203F5FC blocker log reports EXACT, 64 bytes:
  */
-void func_02184780(void *task, int *p)
+void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p)
 {
     s16 x;
     s16 y;
     int angle;
-    if (p[1] != 0) {
-        p[1]--;
-        if (p[1] == 0)
-            CLACT_SetActorDrawEnable((void *)p[0], 1);
+    if (p->wait != 0) {
+        p->wait--;
+        if (p->wait == 0)
+            CLACT_SetActorDrawEnable(p->actor, 1);
         return;
     }
-    VEC_Add(p + 2, p + 5, p + 2);
-    x = p[2] >> 12;
-    y = p[3] >> 12;
-    p[8] += p[9];
-    while (p[8] > 0x168000)
-        p[8] -= 0x168000;
-    angle = GF_STANDARD_Get_F5FC((u16)(p[8] >> 12));
-    x += (s16)((p[10] * angle) >> 12);
-    CLACT_SetActorPosAxis((void *)p[0], x, 0);
-    CLACT_SetActorPosAxis((void *)p[0], y, 1);
+    VEC_Add(&p->x, &p->vx, &p->x);
+    x = p->x >> 12;
+    y = p->y >> 12;
+    p->angle += p->step;
+    while (p->angle > 0x168000)
+        p->angle -= 0x168000;
+    angle = GF_STANDARD_Get_F5FC((u16)(p->angle >> 12));
+    x += (s16)((p->radius * angle) >> 12);
+    CLACT_SetActorPosAxis(p->actor, x, 0);
+    CLACT_SetActorPosAxis(p->actor, y, 1);
     if (y < -16) {
-        CLACT_SetActorDrawEnable((void *)p[0], 0);
+        CLACT_SetActorDrawEnable(p->actor, 0);
         func_02030EAC(task);
-        p[11] = 0;
+        p->task = 0;
     }
 }
 
+void MICTEST_DeleteSpriteTasks(MictestWork *p) { int i; for(i=0;i<3;i++){if(p->sprite[i].task){func_02030EAC(p->sprite[i].task);p->sprite[i].task=0;}} }
 
-
-void func_02184818(char *p) { int i; char *q;for(i=0;i<3;i++){q=p+i*0x30;if(*(struct Node * *)&((struct Obj10644 *)q)->f7C){func_02030EAC(*(struct Node * *)&((struct Obj10644 *)q)->f7C);*(struct Node * *)&((struct Obj10644 *)q)->f7C=0;}} }
-
-
-
-
-int func_0218483C(void)
+int MICTEST_TouchHit(void)
 {
     return TOUCHPANEL_HitTrg((void *)0x0218486E);
 }
 
-extern u32 KEY_GetTrg(void);
-
-int func_0218484C(void)
+int MICTEST_CheckTouchOrKey(void)
 {
-    return func_0218483C() == 0 || (KEY_GetTrg() & 2) != 0;
+    return MICTEST_TouchHit() == 0 || (KEY_GetTrg() & 2) != 0;
 }
-

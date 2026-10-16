@@ -21,7 +21,7 @@
  *   func_0200E8F8  0x0200E8F8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
@@ -62,7 +62,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E8F8(void *sys);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern u8 *func_020073D8(u32 sv, u32 id, u32 v);
@@ -146,9 +146,9 @@ void TRIAL_HOUSE_ComputeScoreAndRank(u32 a, u8 *w, u16 *outRank, u16 *outScore)
     for (i = 0; i < (int)U32(0x124); i++) {
         m = &e->mons[i];
         mon = POKEPARTY_GetMember((void *)U32(0x128), i);
-        m->species = func_02017E1C(mon, 5, 0);
-        m->b2 = func_02017E1C(mon, 0x6f, 0);
-        m->b3 = func_02017E1C(mon, 0x6e, 0);
+        m->species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        m->b2 = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+        m->b3 = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
     }
 
     if (U32(0x150) != 0) {

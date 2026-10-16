@@ -13,9 +13,9 @@
  * follower: 021D121C and 021D122C are bx-pc interworking veneers, not C.
  * symbols:
  *   BTL_ADAPTER_GetRecvData 0x021EEC20 thumb ov093
- *   func_021EAF18 0x021EAF18 thumb ov093
- *   func_021EAF50 0x021EAF50 thumb ov093
- *   func_021EAF78 0x021EAF78 thumb ov093
+ *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
+ *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
+ *   BTLV_SCU_SetMessageParam 0x021EAF78 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
@@ -35,9 +35,9 @@ extern int BTL_ADAPTER_GetRecvData(int, u8 **);
 typedef unsigned short u16;
 struct H;
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EAF78(u8 *p, u8 v);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
+extern void BTLV_SCU_SetMessageParam(u8 *p, u8 v);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
@@ -59,10 +59,10 @@ int BTL_CLIENT_StepAskSwitchBeforeSendOut(u8 *p, int *state)
     case 0:
         BTL_ADAPTER_GetRecvData(*(int *)(p + 0x50), &args);
         if (args[0] != 0x1F) {
-            func_021EAF18((struct L *)(p + 0x58), 1, 0x14);
-            func_021EAF50((struct L *)(p + 0x58), 1);
-            func_021EAF50((struct L *)(p + 0x58), args[0]);
-            func_021EAF78(p + 0x58, 0xFF);
+            BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, 0x14);
+            BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), 1);
+            BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), args[0]);
+            BTLV_SCU_SetMessageParam(p + 0x58, 0xFF);
             BTLV_CORE_BuildAndPrintMessage(*(void **)(p + 0x54), (struct H *)(p + 0x58));
             *state = 1;
         } else *state = 4;
@@ -70,8 +70,8 @@ int BTL_CLIENT_StepAskSwitchBeforeSendOut(u8 *p, int *state)
     case 1:
         BTLV_CORE_WaitMessage(*(void **)(p + 0x54));
         if (BTLV_CORE_ConsumeMessageFlag(*(void **)(p + 0x54)) != 0) {
-            func_021EAF18((struct L *)(p + 0x58), 3, 6);
-            func_021EAF18((struct L *)(p + 0x7C), 3, 7);
+            BTLV_SCU_InitMessage((struct L *)(p + 0x58), 3, 6);
+            BTLV_SCU_InitMessage((struct L *)(p + 0x7C), 3, 7);
             BTLV_CORE_StartYesNoMenu(*(void **)(p + 0x54), (u32)(p + 0x58), (u32)(p + 0x7C), 1);
             *state = 2;
         }

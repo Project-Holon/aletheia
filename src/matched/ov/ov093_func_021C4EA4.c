@@ -18,7 +18,7 @@
  *   BTL_SERVER_FLOW_PushMsgRecord  0x021C99A0  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb  ov093
  *   BTL_SERVER_FLOW_PushEffectAnim  0x021C70E4  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_SERVER_FLOW_ProcAbsorbRecovery  0x021C20D0  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct Msg;
 extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
 extern int BTL_SERVER_FLOW_GetPokeViewPos(u8 *p, u32 x);
 extern void BTL_SERVER_FLOW_PushEffectAnim(u8 *p, int a, int b, int c, int e, u32 f);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_SERVER_FLOW_ProcAbsorbRecovery(u8 *p, u8 *a, int c, u8 *l);
 
 void BTL_SERVER_FLOW_ApplyWeatherDamage(u8 *p, u8 *a, int k, int n)
@@ -57,7 +57,7 @@ void BTL_SERVER_FLOW_ApplyWeatherDamage(u8 *p, u8 *a, int k, int n)
         BTL_SERVER_FLOW_PushMsgRecord(p, (const struct Msg *)(p + 0x1AE4));
         BTL_SERVER_FLOW_ClearMsgRecord(p + 0x1AE4);
         BTL_SERVER_FLOW_PushEffectAnim(p, 0x290, BTL_SERVER_FLOW_GetPokeViewPos(p, x), 6, 0, 0);
-        if ((int)func_021D59B4(a, 0xd) <= n) {
+        if ((int)BTL_POKEPARAM_GetValue(a, 0xd) <= n) {
             BTL_SERVER_FLOW_PushEffectAnim(p, 0x255, 6, 6, 0, 0);
         }
         BTL_SERVER_FLOW_ProcAbsorbRecovery(p, a, n, 0);

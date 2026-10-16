@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202BB40",
+   "name": "ISS_3DS_SYS_OnZoneChangeImpl",
    "address": "0x0202BB40",
    "kind": "game",
    "region": "arm9",

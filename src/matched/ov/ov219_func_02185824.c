@@ -1,5 +1,5 @@
 /*
- * function: func_02185824
+ * function: BEACON_DETAIL_CreateLight
  * address:  0x02185824
  * packet:   pkt_02185824
  * region:   ov219
@@ -24,7 +24,7 @@ struct LightSlot;
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern char d_02185DD4[];
 
-void func_02185824(char *p)
+void BEACON_DETAIL_CreateLight(char *p)
 {
     ((struct Obj10976 *)p)->fC370 = G3D_LIGHT_CreateSlots((const struct LightSet *)d_02185DD4, (unsigned short)((struct Obj10976 *)p)->f0);
     G3D_LIGHT_ApplySlots(((struct Obj10976 *)p)->fC370);

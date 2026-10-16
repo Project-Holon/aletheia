@@ -37,7 +37,7 @@
  *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
  *   BTL_POKEPARAM_GetMovePPLost  0x021D554C  thumb
- *   func_021D59B4  0x021D59B4  thumb
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb
  *   gHandPosLunarDanceHandlers 0x0689D6B8 data ov095 a4
  *   gHandPosHealingWishHandlers 0x0689D6A8 data a4
@@ -55,7 +55,7 @@ extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlServerFlow *flow, u32 pokeId
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 extern u32 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
 extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *bpp, u8 moveIndex);
-extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *bpp);
 struct BtlEventFactor *HAND_POS_AddFactor(int effectId, int position, u32 userPokeId, u32 *values, u8 valueCount);
 int BTL_EVENT_IsFactorKeyRegistered(int a, int b);
@@ -174,7 +174,7 @@ void HAND_POS_WishHealOnTurn(struct BtlEventFactor *factor, struct BtlServerFlow
 }
 
 
-/* Values of func_021D59B4 used here. */
+/* Values of BTL_POKEPARAM_GetValue used here. */
 enum {
     BPP_VALUE_HP = 13,
     BPP_VALUE_MAX_HP = 14
@@ -240,8 +240,8 @@ void HAND_POS_LunarDanceOnSwitchIn(struct BtlEventFactor *factor, struct BtlServ
             if (BTL_POKEPARAM_IsHpFull(enteringPoke) == 0) {
                 heal = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_RECOVER_HP, enteringId);
                 heal->pokeId = enteringId;
-                maxHp = func_021D59B4(enteringPoke, BPP_VALUE_MAX_HP);
-                heal->amount = maxHp - func_021D59B4(enteringPoke, BPP_VALUE_HP);
+                maxHp = BTL_POKEPARAM_GetValue(enteringPoke, BPP_VALUE_MAX_HP);
+                heal->amount = maxHp - BTL_POKEPARAM_GetValue(enteringPoke, BPP_VALUE_HP);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, heal);
             }
             if (BTL_POKEPARAM_GetMajorStatusIndex(enteringPoke) != 0) {
@@ -316,8 +316,8 @@ void HAND_POS_HealingWishOnSwitchIn(struct BtlEventFactor *factor, struct BtlSer
             if (BTL_POKEPARAM_IsHpFull(enteringPoke) == 0) {
                 heal = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_RECOVER_HP, enteringId);
                 heal->pokeId = enteringId;
-                maxHp = func_021D59B4(enteringPoke, BPP_VALUE_MAX_HP);
-                heal->amount = maxHp - func_021D59B4(enteringPoke, BPP_VALUE_HP);
+                maxHp = BTL_POKEPARAM_GetValue(enteringPoke, BPP_VALUE_MAX_HP);
+                heal->amount = maxHp - BTL_POKEPARAM_GetValue(enteringPoke, BPP_VALUE_HP);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, heal);
             }
             if (BTL_POKEPARAM_GetMajorStatusIndex(enteringPoke) != 0) {

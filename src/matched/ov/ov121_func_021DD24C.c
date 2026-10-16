@@ -36,27 +36,27 @@
  *   MYSTERY_UTIL_DrawBmpList 0x021DA3EC thumb ov121
  *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
  *   func_020056EC 0x020056EC thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
  *   POKE_TOOL_SetupPartyParamEx 0x02017588 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
  *   POKE_TOOL_AddMove 0x0201808C thumb
  *   POKE_TOOL_PushMove 0x020180F4 thumb
- *   func_02018A00 0x02018A00 thumb
+ *   POKE_TOOL_SetAbility 0x02018A00 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_020185F0 0x020185F0 thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   POKEGRA_GetArcID 0x0202D060 thumb
- *   func_02017EAC 0x02017EAC thumb
+ *   POKE_TOOL_IsShiny 0x02017EAC thumb
  *   POKEGRA_GetPalArcIndex 0x0202D0D4 thumb
  *   func_02049F78 0x02049F78 arm
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
@@ -190,27 +190,27 @@ extern void *MYSTERY_UTIL_CreateBmpList(char *p, u16 heap);
 extern void MYSTERY_UTIL_DrawBmpList(char *p, char *desc, void *dst);
 extern int MYSTERY_ALBUM_GetEntryKind(void *p);
 extern u32 func_020056EC(u32 range);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_SetDefaultMoves(void *p);
 extern u32 POKE_TOOL_AddMove(void *p, u32 move);
 extern void POKE_TOOL_PushMove(void *p, int move);
-extern void func_02018A00(void *p, u32 species, u32 arg);
+extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
 extern u16 STRBUF_GetEosChar(void);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_020307B0(void *p);
-extern void *func_020185F0(void *p);
+extern void *POKE_TOOL_Dummy(void *p);
 extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern int POKEGRA_OpenHandle(int a0);
 extern int POKEGRA_GetArcID(void);
-extern u32 func_02017EAC(void *p);
+extern u32 POKE_TOOL_IsShiny(void *p);
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *POKE_TOOL_GetBoxParam(void *p);
@@ -310,7 +310,7 @@ struct Out *MYSTERY_ALBUM_CreateAlbumView(Record *a, struct CtxB *b, void *c, u1
             if (level == 0)
                 level = (u16)(func_020056EC(0x64) + 1);
             if (r->f0 == 0)
-                id = func_02008530((const struct Sub0200852CObj *)func_02012944(gs));
+                id = func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
             if (gender == 0xff)
                 gender = 2;
             for (i = 0; i < 6; i++) {
@@ -360,7 +360,7 @@ struct Out *MYSTERY_ALBUM_CreateAlbumView(Record *a, struct CtxB *b, void *c, u1
                 }
             }
             if (r->f8 == 0 && mode == 2)
-                func_02018A00(mon, species, r->form);
+                POKE_TOOL_SetAbility(mon, species, r->form);
             POKE_TOOL_SetPartyValue(mon, 0x6f, r->form);
             if (r->fE != 0 && r->fE <= 0x19)
                 POKE_TOOL_SetPartyValue(mon, 0x98, r->fE);
@@ -407,7 +407,7 @@ struct Out *MYSTERY_ALBUM_CreateAlbumView(Record *a, struct CtxB *b, void *c, u1
                 goto end;
             }
             if (r->f4A == STRBUF_GetEosChar())
-                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)func_020084F4(func_02012944(gs)));
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)func_020084F4(GAME_DATA_GetMyStatus(gs)));
             else
                 POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->f4A);
             {
@@ -415,7 +415,7 @@ struct Out *MYSTERY_ALBUM_CreateAlbumView(Record *a, struct CtxB *b, void *c, u1
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
-                    v = func_02008550((const struct Sub0200852CObj *)func_02012944(gs));
+                    v = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }
@@ -434,11 +434,11 @@ struct Out *MYSTERY_ALBUM_CreateAlbumView(Record *a, struct CtxB *b, void *c, u1
                 month = (u8)(w >> 8);
                 day = w;
                 loc = r->f5C ? r->f38 : r->f3A;
-                SAVE_EVENT_WriteWithDate(func_020185F0(mon), loc, year - 2000, month, day);
+                SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
             }
             POKE_TOOL_RecalcParam(mon);
             res = 0;
-            if (func_02017E1C(mon, 3, 0) != 0)
+            if (POKE_TOOL_GetPartyValue(mon, 3, 0) != 0)
                 func_020307B0(mon);
             else
                 res = mon;
@@ -452,10 +452,10 @@ struct Out *MYSTERY_ALBUM_CreateAlbumView(Record *a, struct CtxB *b, void *c, u1
             out->fE6 = r->form;
             out->fE0 = r->f5C;
             a0 = POKEGRA_GetArcID();
-            a1 = func_02017E1C(res, 5, 0);
-            a2 = func_02017E1C(res, 0x6f, 0);
-            a3 = func_02017E1C(res, 0x6e, 0);
-            idx = POKEGRA_GetPalArcIndex(a0, a1, a2, a3, func_02017EAC(res), 0, func_02017E1C(res, 0x4c, 0));
+            a1 = POKE_TOOL_GetPartyValue(res, 5, 0);
+            a2 = POKE_TOOL_GetPartyValue(res, 0x6f, 0);
+            a3 = POKE_TOOL_GetPartyValue(res, 0x6e, 0);
+            idx = POKEGRA_GetPalArcIndex(a0, a1, a2, a3, POKE_TOOL_IsShiny(res), 0, POKE_TOOL_GetPartyValue(res, 0x4c, 0));
             out->f13C = func_02049F78(arc, idx, (u32)(&out->f140), out->heap);
             out->f134 = (u32)POKEGRA_LoadCharDataPP(&out->f138, POKE_TOOL_GetBoxParam(res), 0, out->heap);
             func_020307B0(res);

@@ -1,5 +1,5 @@
 /*
- * function: func_02183D3C
+ * function: MICTEST_GetOwner
  * address: 0x02183D3C
  * packet: pkt_ov168_02183D3C
  * region: ov168
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned int func_02183D3C(unsigned int *p) { return p[0]; }
+unsigned int MICTEST_GetOwner(unsigned int *p) { return p[0]; }

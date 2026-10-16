@@ -1,5 +1,5 @@
 /*
- * function: func_0219E9F4
+ * function: ListCallback
  * address:  0x0219E9F4
  * packet:   pkt_ov009_0219E9F4
  * region:   ov009
@@ -79,7 +79,7 @@ extern void SBServerListDisconnect(struct SBL *slist);
 extern int ArrayLength(const int *p);
 extern void SBQueryEngineSetPublicIP(int *engine, int publicip);
 
-void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance)
+static void ListCallback(SBServerList *serverlist, int reason, SBServer *server, void *instance)
 {
     ServerBrowser *sb = (ServerBrowser *)instance;
     int qtype;

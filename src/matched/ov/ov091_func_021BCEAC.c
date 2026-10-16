@@ -27,7 +27,7 @@
  *   APP_ICON_GetStatusDataFileId 0x0202762C thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   MIi_CpuCopy16 0x02082A60 arm
  */
@@ -54,7 +54,7 @@ extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void MIi_CpuCopy16(void *, void *, unsigned long);
 #define H (*(u16 *)p)
@@ -87,7 +87,7 @@ void PLIST_MENU_LoadResources(u8 *p)
     }
     ARC_TOOL_DeleteHandle(h2);
     h = func_020490F4(7, H);
-    W(0x194) = CLACT_RegisterPaletteCompressed((void *)((u32)h), func_0201BC3C(), 1, 0xc0, H);
+    W(0x194) = CLACT_RegisterPaletteCompressed((void *)((u32)h), POKE_TOOL_GetIconPaletteArcId(), 1, 0xc0, H);
     ARC_TOOL_DeleteHandle(h);
     MIi_CpuCopy16((void *)0x05000440, p + 0x20e, 0x20);
 }

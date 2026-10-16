@@ -1,5 +1,5 @@
 /*
- * function: func_021BB160
+ * function: ZUKAN_INFO_ReleaseActor
  * address: 0x021BB160
  * packet: pkt_ov206_021BB160
  * region: ov206
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BB2C4 0x021BB2C4 thumb
- *   func_021BB214 0x021BB214 thumb
+ *   ZUKAN_INFO_DeleteActor 0x021BB2C4 thumb
+ *   ZUKAN_INFO_ReleaseGfx 0x021BB214 thumb
  */
-extern void func_021BB2C4(char *, int);
-extern void func_021BB214(char *, int);
-void func_021BB160(char *p, int i)
+extern void ZUKAN_INFO_DeleteActor(char *, int);
+extern void ZUKAN_INFO_ReleaseGfx(char *, int);
+void ZUKAN_INFO_ReleaseActor(char *p, int i)
 {
     void **slot = (void **)(p + 0xac) + i;
     if (*slot != 0) {
-        func_021BB2C4(p, i);
-        func_021BB214(p, i);
+        ZUKAN_INFO_DeleteActor(p, i);
+        ZUKAN_INFO_ReleaseGfx(p, i);
         *slot = 0;
     }
 }

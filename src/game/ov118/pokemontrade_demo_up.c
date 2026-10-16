@@ -24,7 +24,7 @@
  *   POKETRADE_DEMO_COMMON_SetFrame  0x021D4484  thumb  ov118
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   func_020307B0  0x020307B0  arm
@@ -117,7 +117,7 @@ extern int POKETRADE_PROC_IsHostSide(void *);
 
 extern void *POKETRADE_PROC_GetSideMon(void *, int);
 
-extern u32 func_02017E1C(void *, u32, u32);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 
 extern void PM_VOICE_GetPerapVoiceSave(void **out);
 
@@ -293,10 +293,10 @@ void POKETRADE_DEMO_UP_StepStartPlayback(u8 *p)
         POKETRADE_SAVE_DeleteOfferListWindows((char *)p);
         POKETRADE_DEMO_COMMON_SetFrame(p, 0);
         mon = POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p));
-        func_02017E1C(mon, 7, 0);
-        if (func_02017E1C(mon, 0x4C, 0) == 0) {
-            a = func_02017E1C(mon, 0xAB, 0);
-            b = func_02017E1C(mon, 0x6F, 0);
+        POKE_TOOL_GetPartyValue(mon, 7, 0);
+        if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
+            a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
+            b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
             PM_VOICE_GetPerapVoiceSave((void **)(&buf));
             PM_VOICE_Play(a, b, 0x40, 0, 0, 0, 0, (u32)(&buf));
         }

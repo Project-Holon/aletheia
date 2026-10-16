@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   POKE_TOOL_GetBoxNature 0x020185A0 thumb
  *   POKE_TOOL_GetBoxGender 0x02017F08 thumb
@@ -42,7 +42,7 @@ typedef struct {
     unsigned short moves[4];
 } Summary;
 
-extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
+extern unsigned POKE_TOOL_GetBoxValue(void *p, unsigned id, unsigned v);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -58,19 +58,19 @@ Summary *BOX2_MAIN_CreateSummary(void *mon)
     Summary *s;
     unsigned i;
 
-    if (func_02017E88(mon, 0xA9, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue(mon, 0xA9, 0) != 0) {
         s = func_02030734(0x4C, 0x1C, 0, d_021F1400, 0xCD2);
         s->mon = mon;
-        s->species = func_02017E88(mon, 5, 0);
-        s->form = func_02017E88(mon, 6, 0);
-        s->pid = func_02017E88(mon, 0, 0);
-        s->cC = func_02017E88(mon, 0xAE, 0);
-        s->cD = func_02017E88(mon, 0xAF, 0);
-        s->cE = func_02017E88(mon, 0xA, 0);
+        s->species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+        s->form = POKE_TOOL_GetBoxValue(mon, 6, 0);
+        s->pid = POKE_TOOL_GetBoxValue(mon, 0, 0);
+        s->cC = POKE_TOOL_GetBoxValue(mon, 0xAE, 0);
+        s->cD = POKE_TOOL_GetBoxValue(mon, 0xAF, 0);
+        s->cE = POKE_TOOL_GetBoxValue(mon, 0xA, 0);
         s->cF = POKE_TOOL_GetBoxNature(mon);
-        s->item = func_02017E88(mon, 0xB, 0);
-        s->level = func_02017E88(mon, 0x9E, 0);
-        s->egg = (unsigned char)func_02017E88(mon, 0x4C, 0);
+        s->item = POKE_TOOL_GetBoxValue(mon, 0xB, 0);
+        s->level = POKE_TOOL_GetBoxValue(mon, 0x9E, 0);
+        s->egg = (unsigned char)POKE_TOOL_GetBoxValue(mon, 0x4C, 0);
         if (s->egg == 0)
             s->gender = POKE_TOOL_GetBoxGender(mon);
         else
@@ -90,7 +90,7 @@ Summary *BOX2_MAIN_CreateSummary(void *mon)
         else
             s->showgender = 0;
         for (i = 0; i < 4; i++)
-            s->moves[i] = func_02017E88(mon, 0x36 + i, 0);
+            s->moves[i] = POKE_TOOL_GetBoxValue(mon, 0x36 + i, 0);
     } else {
         s = 0;
     }

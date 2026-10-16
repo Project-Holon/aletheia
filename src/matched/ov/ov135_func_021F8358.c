@@ -25,6 +25,7 @@
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 
 typedef signed char s8;
@@ -48,7 +49,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -73,10 +74,10 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
 
     name = STRBUF_Create(0xB, 0x48);
     tmp = STRBUF_Create(0xB, 0x48);
-    func_02017E88(mon, 0x73, (u32)name);
-    form = func_02017E88(mon, 0x6E, 0) + 1;
+    POKE_TOOL_GetBoxValue(mon, 0x73, (u32)name);
+    form = POKE_TOOL_GetBoxValue(mon, 0x6E, 0) + 1;
     gender = POKE_TOOL_CalcBoxLevel(mon);
-    has = func_02017E88(mon, 0xAD, 0);
+    has = POKE_TOOL_GetBoxValue(mon, 0xAD, 0);
     title = func_02045EC0(bank, 0x6E);
     WORDSET_SetSlotNumber(ws, 3, gender, 3, 0, 1);
     place = (void *)WORLDTRADE_ADAPTER_CreateString((u32)ws, (u32)bank, 0x72, 0x48);
@@ -92,7 +93,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     if (form != 3 && has != 0) {
         WORLDTRADE_INPUT_PrintStringAlignedLine(win[1], tmp, 0x46, 0, 0, WORLDTRADE_DEPOSIT_GetModeColor(form - 1), g);
     }
-    out->species = func_02017E88(mon, 5, 0);
+    out->species = POKE_TOOL_GetBoxValue(mon, 5, 0);
     out->form = form;
     out->gender = gender;
     STRBUF_Delete(place);

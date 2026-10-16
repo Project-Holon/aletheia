@@ -1,5 +1,5 @@
 /*
- * function: func_02184BAC
+ * function: BEACON_DETAIL_CreateTaskMenu
  * address: 0x02184BAC
  * packet: pkt_ov219_02184BAC
  * region: ov219
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 struct MsgBank;struct R;
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern struct R *APP_TASKMENU_RES_Create(u16,u16,unsigned,unsigned,u16);
-void func_02184BAC(char *p)
+void BEACON_DETAIL_CreateTaskMenu(char *p)
 {
     ((struct Obj01439 *)p)->fC064=func_02045EC0(*(struct MsgBank * *)&((struct Obj01439 *)p)->fC070,13);
     ((struct Obj01439 *)p)->fC068=func_02045EC0(*(struct MsgBank * *)&((struct Obj01439 *)p)->fC070,16);

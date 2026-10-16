@@ -1,5 +1,5 @@
 /*
- * function: func_02183F98
+ * function: MICTEST_ExitActorSystem
  * address: 0x02183F98
  * packet: pkt_ov168_02183F98
  * region: ov168
@@ -12,4 +12,4 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  */
 extern void CLACT_ExitSystem(void);
-void func_02183F98(void *a0) { CLACT_ExitSystem(); }
+void MICTEST_ExitActorSystem(void *a0) { CLACT_ExitSystem(); }

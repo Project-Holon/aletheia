@@ -1,5 +1,5 @@
 /*
- * function: func_02184680
+ * function: MICTEST_InitSpriteTask
  * address:  0x02184680
  * packet:   pkt_ov168_02184680
  * region:   ov168
@@ -17,7 +17,7 @@
  *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
- *   func_02184780  0x02184780  thumb  ov168
+ *   MICTEST_UpdateSpriteTask  0x02184780  thumb  ov168
  *   _ll_mul        0x0209C054  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
@@ -51,19 +51,19 @@ extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern int GF_STANDARD_Get_F5FC(u32 x);
 struct Actor;
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
-extern void func_02184780(void *task, int *p);
+extern void MICTEST_UpdateSpriteTask(void *task, int *p);
 
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 
-void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 h, u32 i)
+void MICTEST_InitSpriteTask(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 h, u32 i)
 {
     Obj *o;
     u32 t;
     int c;
 
-    t = func_02030DA8(a0, func_02184780, a2, 0);
+    t = func_02030DA8(a0, MICTEST_UpdateSpriteTask, a2, 0);
     ((u32 *)a2)[0x2c / 4] = t;
     o = (Obj *)TCBL_GetTaskUserData((struct S02030EE8 *)t);
     o->handle = handle;

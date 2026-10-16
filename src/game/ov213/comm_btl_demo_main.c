@@ -153,6 +153,8 @@
  *   d_021BB1A8 0x021BB1A8 data a2
  */
 
+#include "comm_btl_demo_shared_types.h"
+
 #define REG3D (*(volatile unsigned short *)0x04000060)
 struct MsgData;
 struct PrintSys;
@@ -179,23 +181,8 @@ typedef unsigned int u32;
 
 typedef short s16;
 
-/* One side of the battle demo: the party list and the per-member flag bytes. */
-struct CommBtlDemoSide {
-    void *party;        /* 0x00 */
-    void *textSys;      /* 0x04 */
-    u8 pad08[2];        /* 0x08 */
-    u8 flags[6];        /* 0x0A */
-};
-
-/* Setup record passed to COMM_BTL_DEMO_MAIN_Create. */
-struct CommBtlDemoArgs {
-    struct CommBtlDemoSide side[4]; /* 0x00 */
-    u32 battleKind;     /* 0x40 */
-    u32 partyMode;      /* 0x44 */
-    u8 pad48[8];        /* 0x48: two words, never read */
-    u32 soundKind;      /* 0x50 */
-    void *animTarget;   /* 0x54 */
-};
+/* struct CommBtlDemoSide and struct CommBtlDemoArgs (the 0x58-byte setup
+ * record ov199 builds) live in comm_btl_demo_shared_types.h. */
 
 /* One row's actor set, the struct the CLACT helpers receive as the row body. */
 struct CommBtlDemoActorRow {

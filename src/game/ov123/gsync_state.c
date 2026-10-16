@@ -89,7 +89,7 @@
  *   GFL_NET_STATE_SetErrorMode 0x0203C938 arm
  *   func_020093D8 0x020093D8 thumb
  *   func_02009428 0x02009428 thumb
- *   func_020185F0 0x020185F0 thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   func_02009294 0x02009294 thumb
  *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   ov114_id 0x00000072 data
@@ -163,6 +163,9 @@
  *   GSYNC_DISP_LoadIconResources 0x021D6AB8 thumb ov123
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb  arm9
  *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb  arm9
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_download_types.h"
@@ -269,11 +272,11 @@ extern struct Sub02009448Obj *func_02009448(void *sys);
 
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 
@@ -285,7 +288,7 @@ extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
 
 extern void func_020093D4(struct Sub02009210Obj *obj, s32 value);
 
-extern int func_020185F0(void *);
+extern int POKE_TOOL_Dummy(void *);
 
 extern int NHTTP_RAP_GetResultCode(u8 *p);
 
@@ -359,7 +362,7 @@ extern u32 func_02009370(const struct Sub02009210Obj *obj);
 
 extern void func_020092E0(struct Sub02009210Obj *obj, u8 value);
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 
@@ -883,11 +886,11 @@ void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state)
         state->receivedMon=0;
     }
     if (func_020076D0(state->boxSave,(int *)((char *)state+0x48),(int *)((char *)state+0x4c))) {
-        monData=func_02030734(state->heapId,func_020173EC(),1,gGsyncStateAllocSource,0x245);
-        monSize=func_020173EC();
+        monData=func_02030734(state->heapId,POKE_TOOL_GetPartyParamSize(),1,gGsyncStateAllocSource,0x245);
+        monSize=POKE_TOOL_GetPartyParamSize();
         MI_CpuCopy8(func_02009290(saveSystem),monData,monSize);
         if (state->messageArg) {
-            monValue=func_02017E1C(monData,158,0);
+            monValue=POKE_TOOL_GetPartyValue(monData,158,0);
             if (monValue==100) state->messageArg=0;
             if (monValue+state->messageArg>100) {
                 state->messageArg=100-monValue;
@@ -921,7 +924,7 @@ void GSYNC_STATE_StateSaveFinishMessage(char *state)
         animCallback.value=0; animCallback.object=state; animCallback.callback=GSYNC_STATE_ResetSlotActors;
         GSYNC_DISP_SetSlotAnimCommand((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,(int)&animCallback);
         GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),0);
-        GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),(void *)func_020185F0(((GsyncStateWork *)state)->receivedMon),0);
+        GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),(void *)POKE_TOOL_Dummy(((GsyncStateWork *)state)->receivedMon),0);
         GSYNC_DISP_RestartActorAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork));
         GFL_USE_PlaySeDefaultVolume(0x658);
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateShowResultMessage,0x295);
@@ -1518,7 +1521,7 @@ void GSYNC_STATE_StateWaitInputPrintNext(char *state)
 
 void GSYNC_STATE_StatePrintErrorMessage(char *state)
 {
-    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->saveData)));
+    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->saveData)));
     GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 1);
     GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)), 47);
     GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 7, 14);
@@ -1922,7 +1925,7 @@ void GSYNC_STATE_StateTransferAnimationOpen(char *state)
 
 void GSYNC_STATE_StateTransferAnimationEffect(char *state) { if(--((GsyncStateWork *)state)->timer==0) { GSYNC_DISP_CreateEffectActorDefault((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork)); GSYNC_DISP_EnableActorAutoAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork)); ((GsyncStateWork *)state)->timer=70; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationOpen,0x9e4); } }
 
-void GSYNC_STATE_StateCreateReceivedMonIcon(char *state) { GSYNC_DISP_CreateMonIconActor(((GsyncStateWork *)state)->displayWork,(void *)func_020185F0(((GsyncStateWork *)state)->receivedMon),1); ((GsyncStateWork *)state)->timer=10; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationEffect,0x9f6); }
+void GSYNC_STATE_StateCreateReceivedMonIcon(char *state) { GSYNC_DISP_CreateMonIconActor(((GsyncStateWork *)state)->displayWork,(void *)POKE_TOOL_Dummy(((GsyncStateWork *)state)->receivedMon),1); ((GsyncStateWork *)state)->timer=10; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationEffect,0x9f6); }
 
 void GSYNC_STATE_StateStoreReceivedMon(char *state)
 {
@@ -1997,7 +2000,7 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
         state->connection=(char *)connection;
         (*(void * *)&state->saveData)=connection->saveData;
         state->saveControl=GAME_DATA_GetSaveControl(connection->saveData);
-        profileValue=func_0200853C((const struct Sub0200852CObj *)func_02012944(connection->saveData));
+        profileValue=func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(connection->saveData));
         (*(unsigned int *)&state->boxSave)=GAME_DATA_GetBoxManager(connection->saveData);
         state->boxIndex=connection->boxIndex;
         state->slotIndex=connection->slotIndex;

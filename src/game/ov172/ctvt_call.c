@@ -29,7 +29,7 @@
  *   CTVT_COMM_IsSlotActive 0x021B8BA4 thumb ov172
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   COMM_TVT_SYS_GetLaunchParams 0x021BE004 thumb ov172
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
  *   COMM_TVT_SYS_PlaceSlotMarker 0x021BE210 thumb ov172
  *   func_02049658 0x02049658 arm
@@ -238,7 +238,7 @@ extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
 
 extern int APP_ENV_HasParentalControlBits(void);
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
@@ -284,7 +284,7 @@ struct BigObj;
 
 struct Sub020097BCObj;
 
-struct R;
+struct TaskMenuRes;
 
 struct SoundSys;
 
@@ -293,8 +293,6 @@ struct Node;
 struct TaskMenuState;
 
 struct Tcbl;
-
-struct S;
 
 struct Bank;
 
@@ -530,7 +528,7 @@ extern unsigned long GAME_DATA_GetField1A0(const struct BigObj *p);
 
 extern int func_02009D50(struct Sub020097BCObj *obj, const void *unused, unsigned long id, unsigned long kind, unsigned long *out);
 
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, unsigned int a2, unsigned int a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, unsigned int a2, unsigned int a3, u16 heap);
 
 extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
 
@@ -562,7 +560,7 @@ extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern void CTVT_COMM_Main(void *p, char *q);
 
-extern unsigned int CTVT_TALK_Main(void *p, struct S *s);
+extern unsigned int CTVT_TALK_Main(void *p, CtvtTalk *s);
 
 extern unsigned int CTVT_COMM_IsSessionEnded(int unused, char *p);
 
@@ -582,7 +580,7 @@ extern void BG_SYS_FillScrollArea(unsigned int layer, unsigned int a, unsigned i
 
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, unsigned int a, unsigned int b, s32 size);
 
-extern void CTVT_CAMVIEW_UploadWindows(void *p, struct Q *q);
+extern void CTVT_CAMVIEW_UploadWindows(void *p, struct CtvtCamView *q);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -1998,7 +1996,7 @@ int CTVT_CALL_WorkMain(char *ctx)
     CTVT_COMM_Main(ctx, (char *)F(0x1e4));
     switch (F(8)) {
     case 1:
-        F(0xc) = CTVT_TALK_Main(ctx, (struct S *)F(0x1e8));
+        F(0xc) = CTVT_TALK_Main(ctx, (CtvtTalk *)F(0x1e8));
         break;
     case 2:
         F(0xc) = CTVT_CALL_Update(ctx, (char *)F(0x1f0));
@@ -2048,7 +2046,7 @@ int CTVT_CALL_WorkMain(char *ctx)
 
 void CTVT_CALL_VBlank(int unused, char *ctx)
 {
-    CTVT_CAMVIEW_UploadWindows(ctx, (struct Q *)(((CtvtWork *)ctx)->camView));
+    CTVT_CAMVIEW_UploadWindows(ctx, (struct CtvtCamView *)(((CtvtWork *)ctx)->camView));
     CLACT_VBlankSystem();
     DRAW_SYSTEM_FlushStrokes((char *)(((CtvtWork *)ctx)->sprites));
     CTVT_TALK_SetMicMode((int)ctx, (char *)(((CtvtWork *)ctx)->talk));
@@ -2177,7 +2175,7 @@ void CTVT_CALL_InitGraphics(u8 *p)
     int z;
     struct CellCfg cfg;
     struct PltData *pal;
-    t = (struct Sub0200852CObj *)func_02012944(*(void **)W(0x1f8));
+    t = (struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)W(0x1f8));
     BG = func_020490F4(0xac, HEAP);
     if (func_02008550(t) == 0) {
         func_02049B68(BG, 7, 4, 0, 0xc0, HEAP);

@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_0203038C
+ * function: GFL_HEAP_GetAllocatableSize
  *
  * Checked heap-id lookup handing the arena to sub_02060E94 with a mode of
- * 4; see src/matched/sub_02030428.c for the shared preamble this family
+ * 4; see src/matched/GFL_HEAP_GetHeapHandle.c for the shared preamble this family
  * has in common. The same (arena, 4) pair appears in GFL_HEAP_ReportOutOfMemory, the
  * out-of-memory reporter, so mode 4 is the heap-layer's own dump mode.
  *
- *   void *sub_0203038C(u32 heapId)
+ *   void *GFL_HEAP_GetAllocatableSize(u32 heapId)
  *
  * symbols:
  *   g_EnvModule     0x02146954  data
@@ -23,8 +23,8 @@
  *   sub_02060E94    0x02060E94  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203038C.c \
- *       --func sub_0203038C --addr 0x0203038C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetAllocatableSize.c \
+ *       --func GFL_HEAP_GetAllocatableSize --addr 0x0203038C --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -47,7 +47,7 @@ typedef signed int     s32;
 struct Heap;
 extern s32 sub_02060E94(struct Heap *heap, s32 x);
 
-void *sub_0203038C(u32 heapId)
+void *GFL_HEAP_GetAllocatableSize(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= g_EnvModule.count) {

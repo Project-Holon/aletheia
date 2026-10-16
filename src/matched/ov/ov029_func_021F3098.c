@@ -1,5 +1,5 @@
 /*
- * function: func_021F3098
+ * function: C_GEAR_StartSelectedRipple
  * address: 0x021F3098
  * packet: pkt_ov029_021F3098
  * region: ov029
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 C_GEAR_GetCellKind(u8 *p, int row, int col);
 extern void C_GEAR_SpawnRippleActor(u8 *, int, int);
-void func_021F3098(u8 *p)
+void C_GEAR_StartSelectedRipple(u8 *p)
 {
     p[0x414] = C_GEAR_GetCellKind(p, p[0x452], p[0x453]);
     p[0x415] = 0;

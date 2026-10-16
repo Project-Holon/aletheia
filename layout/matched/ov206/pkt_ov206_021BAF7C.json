@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAF7C",
+   "name": "ZUKAN_INFO_FlushSlotWindows",
    "address": "0x021BAF7C",
    "kind": "game",
    "region": "ov206",

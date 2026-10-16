@@ -71,8 +71,8 @@
  *   GFL_NET_ERR_DrawWindow  0x020101D4  thumb
  *   GXx_GetMasterBrightness_  0x0207D55C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_020808F4             0x020808F4  arm
- *   func_020809A0             0x020809A0  arm
+ *   GX_ResetBankForBG             0x020808F4  arm
+ *   GX_ResetBankForSubBG             0x020809A0  arm
  *   GX_SetBankForBG           0x0207FDCC  arm
  *   GX_SetGraphicsMode        0x0207D4B0  arm
  *   G2_GetBG1CharPtr          0x0207E24C  arm
@@ -341,8 +341,8 @@ extern u32  GX_HBlankIntr(BOOL on);
 extern void GFL_NET_ERR_DrawWindow(u32 screenIndex, u32 isWifiLink);
 extern int  GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern int func_020808F4(void);
-extern int func_020809A0(void);
+extern int GX_ResetBankForBG(void);
+extern int GX_ResetBankForSubBG(void);
 extern void GX_SetBankForBG(u32 bank);
 extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
 extern void *G2_GetBG1CharPtr(void);
@@ -1236,8 +1236,8 @@ void GFL_NET_ERR_SaveDisplayAndDraw(u32 screenIndex, u32 isWifiLink)
         work->savedHBlankIntr = GX_HBlankIntr(0);
         work->savedVBlankIntr = GX_VBlankIntr(0);
     }
-    work->savedBankBG = func_020808F4();
-    work->savedBankSubBG = func_020809A0();
+    work->savedBankBG = GX_ResetBankForBG();
+    work->savedBankSubBG = GX_ResetBankForSubBG();
     GX_SetBankForBG(4);
     work->savedDispCnt.raw = reg_GX_DISPCNT;
     GX_SetGraphicsMode(1, 0, 0);
@@ -1319,8 +1319,8 @@ void GFL_NET_ERR_RestoreDisplay(BOOL keepDark)
     GX_SetVisiblePlane(work->savedDispCnt.visiblePlane);
     GX_SetVisibleWnd(work->savedDispCnt.visibleWnd);
     GXS_SetVisibleWnd(work->savedSubVisibleWnd);
-    func_020809A0();
-    func_020808F4();
+    GX_ResetBankForSubBG();
+    GX_ResetBankForBG();
     GX_SetBankForBG(work->savedBankBG);
     GX_SetBankForSubBG(work->savedBankSubBG);
     GX_HBlankIntr(work->savedHBlankIntr);

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0203064C
+ * function: GFL_HEAP_CreateChildHeap
  * address:  0x0203064C
  * packet:   pkt_02030608
  * region:   arm9
@@ -12,12 +12,12 @@
  *
  * Previously capped at MATCH: nothing outside this range branches to
  * 0x0202FDC4, so the PC24 at +0x0C had no witness of any class and no cut
- * reached it.  src/matched/sub_0202FDC4.c now reproduces that function's own
+ * reached it.  src/matched/GFL_HEAP_CreateChildHeapImpl.c now reproduces that function's own
  * byte range, so the site resolves `matched` and this file is EXACT with the
  * C unchanged.
  *
  * symbols:
- *   sub_0202FDC4  0x0202FDC4  arm
+ *   GFL_HEAP_CreateChildHeapImpl  0x0202FDC4  arm
  *   sub_02030524  0x02030524  arm
  *   sub_020306A0  0x020306A0  arm
  *
@@ -33,20 +33,20 @@
  * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203064C.c \
- *       --func sub_0203064C --addr 0x0203064C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_CreateChildHeap.c \
+ *       --func GFL_HEAP_CreateChildHeap --addr 0x0203064C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern int   sub_0202FDC4(u32 a, u32 b, u32 c);
+extern int   GFL_HEAP_CreateChildHeapImpl(u32 a, u32 b, u32 c);
 extern u16   sub_02030524(void);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
 
-void sub_0203064C(u32 a, u32 b, u32 c)
+void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c)
 {
-    if (sub_0202FDC4(a, b, c) != 0) {
+    if (GFL_HEAP_CreateChildHeapImpl(a, b, c) != 0) {
         return;
     }
     sub_020306A0((void *)sub_02030524(), (void *)a, b);

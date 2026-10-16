@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -24,10 +24,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int f0;u32 f4;int f8,fC,f10,f14,f18;u8 b1c,b1d,b1e;} In;
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern void UI_SCENE_LoadActorGfx(void*,In*,int,u16);
 extern int UI_SCENE_CreateActor(void*,int,u16,u16,u8,u16);
 extern void CLACT_SetActorBgPriority(int,u32);
@@ -45,10 +45,10 @@ int BTL_REC_SEL_CreateActor(int a,u16 b,int c,u8 d,u32 e,u32 f,u32 g,u32 h,void*
     in.f0=c;
     in.f4=1;
     in.f8=7;
-    in.fC=func_0201BC3C();
+    in.fC=POKE_TOOL_GetIconPaletteArcId();
     in.f10=POKE_TOOL_CalcGraphicIndex(e,f,g,h);
-    in.f14=func_0201BC40();
-    in.f18=func_0201BCB4();
+    in.f14=POKE_TOOL_GetIconCellArcId();
+    in.f18=POKE_TOOL_GetIconCellEntryId();
     in.b1c=d;
     in.b1d=0;
     in.b1e=3;

@@ -28,17 +28,7 @@
  */
 #include "../../matched/include/G_MemIcon.h"
 
-typedef struct GXOamAttr {
-    union {
-        struct {
-            unsigned short attr0;
-            unsigned short attr1;
-        } h;
-        unsigned int attr01;
-    } u;
-    unsigned short attr2;
-    unsigned short attr3;
-} GXOamAttr;
+#include "gx_oam_types.h"
 
 typedef struct MemIcon MemIcon;
 
@@ -71,7 +61,7 @@ void DWCi_ICONlInit(int type)
     idx = *((unsigned char *)sIconCellIds + (type << 2));
     gIconWork->type = type;
     gIconWork->obj = DWCi_CEINlSetExObj(0, idx);
-    ((GXOamAttr *)gIconWork->obj)->u.attr01 = (((GXOamAttr *)gIconWork->obj)->u.attr01 & 0xFE00FF00) | 0x26 | (0xE5 << 16);
+    ((GXOamAttr *)gIconWork->obj)->attr01 = (((GXOamAttr *)gIconWork->obj)->attr01 & 0xFE00FF00) | 0x26 | (0xE5 << 16);
     ((GXOamAttr *)gIconWork->obj)->attr2 = (((GXOamAttr *)gIconWork->obj)->attr2 & ~0xC00) | 0x800;
     gIconWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskRenew, 0, 0x78);
 }
@@ -104,6 +94,6 @@ static void taskRenew(void)
     (void)*ime;
     *ime = old;
     DWCi_CEINlSet(0, sIconCellIds[gIconWork->type][lv], gIconWork->obj);
-    ((GXOamAttr *)gIconWork->obj)->u.attr01 = (((GXOamAttr *)gIconWork->obj)->u.attr01 & 0xFE00FF00) | 0x26 | (0xE5 << 16);
+    ((GXOamAttr *)gIconWork->obj)->attr01 = (((GXOamAttr *)gIconWork->obj)->attr01 & 0xFE00FF00) | 0x26 | (0xE5 << 16);
     ((GXOamAttr *)gIconWork->obj)->attr2 = (((GXOamAttr *)gIconWork->obj)->attr2 & ~0xC00) | 0x800;
 }

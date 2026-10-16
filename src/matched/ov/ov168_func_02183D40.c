@@ -1,5 +1,5 @@
 /*
- * function: func_02183D40
+ * function: MICTEST_IsStepDone
  * address: 0x02183D40
  * packet: pkt_ov168_02183D40
  * region: ov168
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_02183D40(unsigned int *p) { return p[3]; }
+int MICTEST_IsStepDone(unsigned int *p) { return p[3]; }

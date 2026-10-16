@@ -64,11 +64,11 @@ typedef unsigned char u8;
 typedef unsigned long long u64;
 
 typedef struct {
-    u16 unk0;
-    u16 count;
-    int a;
-    int b;
-} Entry_021B64E0;
+    u16 unused0;
+    u16 blockCount;
+    int size;
+    int destOffset;
+} CdemoScriptStep;
 
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
@@ -130,7 +130,7 @@ int CDEMO_SCENE_CmdNoop3(void);
 int CDEMO_SCENE_CmdReset(char *p);
 int CDEMO_SCENE_CmdNoop4(void);
 extern const CdemoEntry d_021B6A1C[];
-extern const Entry_021B64E0 data_021B6A1C[];
+extern const CdemoScriptStep data_021B6A1C[];
 extern const unsigned d_021B6A90[];
 
 
@@ -188,11 +188,11 @@ u32 CDEMO_SCENE_RunCommands(char *p)
 /*
  * Frame-paced step: accumulates OS_GetTick deltas in microseconds and
  * advances one 66,667 us (15 Hz) step at a time. The entry table must be
- * const: that is what lets the e->b load schedule ahead of the count store.
+ * const: that is what lets the e->destOffset load schedule ahead of the count store.
  */
 int CDEMO_SCENE_Step(char *p)
 {
-    const Entry_021B64E0 *e = &data_021B6A1C[((struct CdemoState *)p)->script->index];
+    const CdemoScriptStep *e = &data_021B6A1C[((struct CdemoState *)p)->script->index];
 
     if (((struct CdemoState *)p)->tick == 0) {
         ((struct CdemoState *)p)->tick = func_020870D0();
@@ -207,9 +207,9 @@ int CDEMO_SCENE_Step(char *p)
 
     switch (((struct CdemoState *)p)->state) {
     case 0:
-        CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->b, e->a, 0);
+        CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->destOffset, e->size, 0);
         (((struct CdemoState *)p)->step)++;
-        CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->b, e->a, 1);
+        CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->destOffset, e->size, 1);
         (((struct CdemoState *)p)->step)++;
         BG_SYS_SetVisibleLayer((u8)2, (u8)0);
         BG_SYS_SetVisibleLayer((u8)3, (u8)1);
@@ -218,9 +218,9 @@ int CDEMO_SCENE_Step(char *p)
     case 1:
         BG_SYS_SetVisibleLayer((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)0);
         BG_SYS_SetVisibleLayer((u8)(((struct CdemoState *)p)->flip + 2), (u8)1);
-        CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->b, e->a, ((struct CdemoState *)p)->flip);
+        CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->destOffset, e->size, ((struct CdemoState *)p)->flip);
         (((struct CdemoState *)p)->step)++;
-        if (((struct CdemoState *)p)->step >= e->count) {
+        if (((struct CdemoState *)p)->step >= e->blockCount) {
             ((struct CdemoState *)p)->state = 2;
         } else {
             ((struct CdemoState *)p)->flip ^= 1;

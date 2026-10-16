@@ -13,7 +13,7 @@
  *   BTL_SERVER_FLOW_GetEffectiveWeather 0x021C2AB0 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
  *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *);
 extern int BTL_SERVER_FLOW_GetEffectiveWeather(u8 *);
 extern u16 BTL_POKEPARAM_GetTypePair(void *);
 extern int BTLV_CORE_HasByte(int x, int k);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 int BTL_SERVER_FLOW_CheckSickImmunity(u8 *a, struct Unk021D62A8 *b, int c, int d, u8 e)
 {
     u16 t;
@@ -40,6 +40,6 @@ int BTL_SERVER_FLOW_CheckSickImmunity(u8 *a, struct Unk021D62A8 *b, int c, int d
     if (c == 3 && BTLV_CORE_HasByte(BTL_POKEPARAM_GetTypePair(b), 14)) return 2;
     if (c == 18 && BTLV_CORE_HasByte(BTL_POKEPARAM_GetTypePair(b), 11)) return 2;
     if (c == 14 && BTL_POKEPARAM_GetMajorStatusIndex(b)) return 3;
-    if (c == 16 && func_021D59B4((u8 *)b, 16) == 121) return 3;
+    if (c == 16 && BTL_POKEPARAM_GetValue((u8 *)b, 16) == 121) return 3;
     return 0;
 }

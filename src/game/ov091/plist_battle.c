@@ -18,7 +18,7 @@
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_02041B6C  0x02041B6C  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   FILE_UTIL_Check136C 0x0202136C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02045EC0  0x02045EC0  arm
@@ -112,7 +112,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_02041B6C(u32 bit);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
 extern u32 func_020307B0(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
@@ -279,7 +279,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     u32 cellY;
     u32 wordSet;
     cell = func_02030734(work->heapId, 24, 0, d_021BED48, 0x199);
-    isEgg = func_02017E1C(mon, PLIST_MON_EGG_FLAG, 0);
+    isEgg = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EGG_FLAG, 0);
     iconFile = func_020490F4(7, work->heapId);
     boxMon = (int)POKE_TOOL_GetBoxParam(mon);
     cell->iconRes = CLACT_RegisterCharacter(iconFile, POKE_TOOL_GetGraphicIndex((void *)boxMon), 0, 1, work->heapId);
@@ -292,7 +292,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
         CLACT_SetActorPaletteOffset((struct Obj *)actor, paletteIndex, 1);
     }
     CLACT_SetActorAutoAnim((struct Obj *)cell->iconActor, 1);
-    heldItem = func_02017E1C(mon, PLIST_MON_HELD_ITEM, 0);
+    heldItem = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HELD_ITEM, 0);
     markParam.x = x + 32; markParam.y = y + 16; markParam.animNo = 0; markParam.softPriority = 8; markParam.bgPriority = 2;
     cell->itemMarkActor = (u32)CLACT_CreateActor(work->actorSystem, work->palRes[4], work->charRes[3], work->cellRes[4], &markParam, 1, work->heapId);
     if (heldItem != 0) {
@@ -300,7 +300,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
         if (FILE_UTIL_Check136C(heldItem) == 1) CLACT_SetActorAnimSeq((struct Obj *)cell->itemMarkActor, 1);
         else CLACT_SetActorAnimSeq((struct Obj *)cell->itemMarkActor, 0);
     } else CLACT_SetActorDrawEnable((struct Obj *)cell->itemMarkActor, 0);
-    sex = func_02017E1C(mon, PLIST_MON_SEX, 0);
+    sex = POKE_TOOL_GetPartyValue(mon, PLIST_MON_SEX, 0);
     xOffset = x % 8;
     xShift = xOffset;
     cellY = (u32)y >> 3;
@@ -540,8 +540,8 @@ void PLIST_BATTLE_UpdateEffect(PokelistWork *work)
     }
     if (PARTICLE_GetEffectCount((int **)work->particleSystem) <= 0 && GFL_USE_IsAnySeBusy() == 0) {
         if (work->cryStarted == 0) {
-            species = func_02017E1C((void *)work->selectedMon, PLIST_MON_SPECIES, 0);
-            form = func_02017E1C((void *)work->selectedMon, PLIST_MON_FORM, 0);
+            species = POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, 0);
+            form = POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, 0);
             work->cryHandle = PM_VOICE_Play(species, form, 0x40, 0, 0, 0, 0, 0);
             work->cryStarted = 1;
         } else {

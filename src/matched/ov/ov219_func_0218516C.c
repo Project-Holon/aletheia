@@ -1,5 +1,5 @@
 /*
- * function: func_0218516C
+ * function: BEACON_DETAIL_CloseMenu
  * address: 0x0218516C
  * packet: pkt_ov219_0218516C
  * region: ov219
@@ -23,4 +23,4 @@ extern void BMP_MENUWORK_DrawWindowBorder(void*,u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENULIST_Delete(struct Obj*,u16*,u16*);
 extern u32 BMP_MENUWORK_Delete(void *p);
-void func_0218516C(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((struct Obj08451 *)p)->fC018,0);BMP_WIN_Delete(*(struct Descriptor* *)&((struct Obj08451 *)p)->fC018);BMP_MENULIST_Delete(*(struct Obj* *)&((struct Obj08451 *)p)->fC04C,0,0);BMP_MENUWORK_Delete(*(void* *)&((struct Obj08451 *)p)->fC050);}
+void BEACON_DETAIL_CloseMenu(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((struct Obj08451 *)p)->fC018,0);BMP_WIN_Delete(*(struct Descriptor* *)&((struct Obj08451 *)p)->fC018);BMP_MENULIST_Delete(*(struct Obj* *)&((struct Obj08451 *)p)->fC04C,0,0);BMP_MENUWORK_Delete(*(void* *)&((struct Obj08451 *)p)->fC050);}

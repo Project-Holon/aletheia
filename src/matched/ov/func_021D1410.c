@@ -24,8 +24,8 @@
  *   BTLV_CORE_BuildAndPrintMessage   0x021EA614  thumb ov093
  *   BTLV_CORE_PrintTrainerMessage   0x021EA6B0  thumb ov093
  *   BTLV_CORE_WaitMessage   0x021EA710  thumb ov093
- *   func_021EAF18   0x021EAF18  thumb ov093
- *   func_021EAF50   0x021EAF50  thumb ov093
+ *   BTLV_SCU_InitMessage   0x021EAF18  thumb ov093
+ *   BTLV_SCU_AppendMessageArg   0x021EAF50  thumb ov093
  *   BTLV_EFFECT_StartEffect   0x021F7998  thumb ov094
  *   BTLV_EFFECT_IsBusy   0x021F7EB4  thumb ov094
  *   BTLV_EFFECT_AddPokeSprite   0x021F7F58  thumb ov094
@@ -56,9 +56,9 @@ extern u32 BTL_MAIN_GetPrizeMoney(u8 *p);
 extern u32 BTL_MAIN_GetBonusMoney(u8 *p);
 extern u32 BTL_MAIN_CalcPenaltyMoney(char *p);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 struct H;
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern int BTLV_CORE_PrintTrainerMessage(char *p, u16 a, u16 b);
@@ -78,20 +78,20 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
             a = BTL_MAIN_GetOwnOpponentClient(s->battle, 0);
             b = BTL_MAIN_GetOwnOpponentClient(s->battle, 1);
             if (a == b) {
-                func_021EAF18((struct L *)s->msg, 1, 44);
-                func_021EAF50((struct L *)s->msg, a);
+                BTLV_SCU_InitMessage((struct L *)s->msg, 1, 44);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
             } else {
-                func_021EAF18((struct L *)s->msg, 1, 45);
-                func_021EAF50((struct L *)s->msg, a);
-                func_021EAF50((struct L *)s->msg, b);
+                BTLV_SCU_InitMessage((struct L *)s->msg, 1, 45);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, b);
             }
             BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             *state = 1;
         } else if (BTL_MAIN_CheckSetupStatusFlag(s->battle, 0x100) == 0) {
             a = BTL_MAIN_GetOwnClientId(s->battle);
-            func_021EAF18((struct L *)s->msg, 1, 54);
-            func_021EAF50((struct L *)s->msg, a);
-            func_021EAF50((struct L *)s->msg, a);
+            BTLV_SCU_InitMessage((struct L *)s->msg, 1, 54);
+            BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
+            BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
             BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             *state = 9;
         } else {
@@ -147,9 +147,9 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
         a = BTL_MAIN_GetPrizeMoney(s->battle);
         if (a) {
             b = BTL_MAIN_GetOwnClientId(s->battle);
-            func_021EAF18((struct L *)s->msg, 1, 58);
-            func_021EAF50((struct L *)s->msg, b);
-            func_021EAF50((struct L *)s->msg, a);
+            BTLV_SCU_InitMessage((struct L *)s->msg, 1, 58);
+            BTLV_SCU_AppendMessageArg((struct L *)s->msg, b);
+            BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
             BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
         }
         if (BTL_MAIN_GetBonusMoney(s->battle) == 0)
@@ -162,9 +162,9 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
             a = BTL_MAIN_GetBonusMoney(s->battle);
             if (a) {
                 b = BTL_MAIN_GetOwnClientId(s->battle);
-                func_021EAF18((struct L *)s->msg, 1, 59);
-                func_021EAF50((struct L *)s->msg, b);
-                func_021EAF50((struct L *)s->msg, a);
+                BTLV_SCU_InitMessage((struct L *)s->msg, 1, 59);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, b);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
                 BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             }
             *state = 11;
@@ -174,9 +174,9 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
         if (BTLV_CORE_WaitMessage(s->msgWin)) {
             a = BTL_MAIN_CalcPenaltyMoney(s->battle);
             if (a) {
-                func_021EAF18((struct L *)s->msg, 1, 56);
-                func_021EAF50((struct L *)s->msg, s->unk1A6);
-                func_021EAF50((struct L *)s->msg, a);
+                BTLV_SCU_InitMessage((struct L *)s->msg, 1, 56);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, s->unk1A6);
+                BTLV_SCU_AppendMessageArg((struct L *)s->msg, a);
                 BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             }
             *state = 10;
@@ -184,8 +184,8 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
         break;
     case 10:
         if (BTLV_CORE_WaitMessage(s->msgWin)) {
-            func_021EAF18((struct L *)s->msg, 1, 57);
-            func_021EAF50((struct L *)s->msg, s->unk1A6);
+            BTLV_SCU_InitMessage((struct L *)s->msg, 1, 57);
+            BTLV_SCU_AppendMessageArg((struct L *)s->msg, s->unk1A6);
             BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             *state = 11;
         }

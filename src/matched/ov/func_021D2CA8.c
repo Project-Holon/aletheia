@@ -34,9 +34,9 @@
  *   BTLV_CORE_PollYesNoMenu   0x021EAC54  thumb ov093
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
  *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
- *   func_021EAF18   0x021EAF18  thumb ov093
- *   func_021EAF50   0x021EAF50  thumb ov093
- *   func_021EAF78   0x021EAF78  thumb ov093
+ *   BTLV_SCU_InitMessage   0x021EAF18  thumb ov093
+ *   BTLV_SCU_AppendMessageArg   0x021EAF50  thumb ov093
+ *   BTLV_SCU_SetMessageParam   0x021EAF78  thumb ov093
  *   sLevelUpMoveScan      0x021F3B64  data
  */
 
@@ -71,9 +71,9 @@ extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 struct H;
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EAF78(u8 *p, u8 v);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
+extern void BTLV_SCU_SetMessageParam(u8 *p, u8 v);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern void BTLV_CORE_BuildAndPrintMessageFlag(char *p, struct H *h, int c);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
@@ -119,9 +119,9 @@ int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *s, int *state, void *mon)
         void *p = BTL_SIDE_GetPokeByIdThunk(s->party, idx);
         BTL_POKEPARAM_GetMon(p);
         BTL_POKEPARAM_ReloadFromParam(p);
-        func_021EAF18((struct L *)(&s->msg), 5, 3);
-        func_021EAF50((struct L *)(&s->msg), idx);
-        func_021EAF50((struct L *)(&s->msg), sLevelUpMoveScan.move);
+        BTLV_SCU_InitMessage((struct L *)(&s->msg), 5, 3);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), idx);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), sLevelUpMoveScan.move);
         BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)(&s->msg));
         *state = 3;
     }
@@ -142,17 +142,17 @@ int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *s, int *state, void *mon)
         }
         break;
     case 5:
-        func_021EAF18((struct L *)(&s->msg), 5, 4);
-        func_021EAF50((struct L *)(&s->msg), idx);
-        func_021EAF50((struct L *)(&s->msg), sLevelUpMoveScan.move);
-        func_021EAF78((u8 *)(&s->msg), 255);
+        BTLV_SCU_InitMessage((struct L *)(&s->msg), 5, 4);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), idx);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), sLevelUpMoveScan.move);
+        BTLV_SCU_SetMessageParam((u8 *)(&s->msg), 255);
         BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)(&s->msg));
         *state = 6;
     case 6:
         if (BTLV_CORE_ConsumeMessageFlag(s->msgWin)) {
             MsgParam yes, no;
-            func_021EAF18((struct L *)(&yes), 6, 2);
-            func_021EAF18((struct L *)(&no), 6, 3);
+            BTLV_SCU_InitMessage((struct L *)(&yes), 6, 2);
+            BTLV_SCU_InitMessage((struct L *)(&no), 6, 3);
             BTLV_CORE_StartYesNoMenu(s->msgWin, (u32)(&yes), (u32)(&no), 1);
         }
         if (BTLV_CORE_WaitMessage(s->msgWin))
@@ -183,9 +183,9 @@ int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *s, int *state, void *mon)
         pp = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeByIdThunk(s->party, idx));
         old = POKE_TOOL_GetPartyValue(pp, slot + 54, 0);
         POKE_TOOL_SetMoveSlot(pp, sLevelUpMoveScan.move, slot);
-        func_021EAF18((struct L *)(&s->msg), 5, 5);
-        func_021EAF50((struct L *)(&s->msg), idx);
-        func_021EAF50((struct L *)(&s->msg), old);
+        BTLV_SCU_InitMessage((struct L *)(&s->msg), 5, 5);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), idx);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), old);
         BTLV_CORE_BuildAndPrintMessageFlag(s->msgWin, (struct H *)(&s->msg), (int)((void (*)(void))BTL_CLIENT_ForgetMoveSoundCallback));
         *state = 9;
         break;
@@ -195,20 +195,20 @@ int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *s, int *state, void *mon)
             *state = 2;
         break;
     case 10:
-        func_021EAF18((struct L *)(&s->msg), 5, 7);
-        func_021EAF50((struct L *)(&s->msg), idx);
-        func_021EAF50((struct L *)(&s->msg), sLevelUpMoveScan.move);
-        func_021EAF78((u8 *)(&s->msg), 255);
+        BTLV_SCU_InitMessage((struct L *)(&s->msg), 5, 7);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), idx);
+        BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), sLevelUpMoveScan.move);
+        BTLV_SCU_SetMessageParam((u8 *)(&s->msg), 255);
         BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)(&s->msg));
         *state = 11;
         break;
     case 11:
         if (BTLV_CORE_ConsumeMessageFlag(s->msgWin)) {
             MsgParam yes, no;
-            func_021EAF18((struct L *)(&yes), 6, 4);
-            func_021EAF50((struct L *)(&yes), sLevelUpMoveScan.move);
-            func_021EAF18((struct L *)(&no), 6, 5);
-            func_021EAF50((struct L *)(&no), sLevelUpMoveScan.move);
+            BTLV_SCU_InitMessage((struct L *)(&yes), 6, 4);
+            BTLV_SCU_AppendMessageArg((struct L *)(&yes), sLevelUpMoveScan.move);
+            BTLV_SCU_InitMessage((struct L *)(&no), 6, 5);
+            BTLV_SCU_AppendMessageArg((struct L *)(&no), sLevelUpMoveScan.move);
             BTLV_CORE_StartYesNoMenu(s->msgWin, (u32)(&yes), (u32)(&no), 1);
         }
         if (BTLV_CORE_WaitMessage(s->msgWin))
@@ -218,9 +218,9 @@ int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *s, int *state, void *mon)
         int sel;
         if (BTLV_CORE_PollYesNoMenu(s->msgWin, &sel)) {
             if (sel == 0) {
-                func_021EAF18((struct L *)(&s->msg), 5, 8);
-                func_021EAF50((struct L *)(&s->msg), idx);
-                func_021EAF50((struct L *)(&s->msg), sLevelUpMoveScan.move);
+                BTLV_SCU_InitMessage((struct L *)(&s->msg), 5, 8);
+                BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), idx);
+                BTLV_SCU_AppendMessageArg((struct L *)(&s->msg), sLevelUpMoveScan.move);
                 BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)(&s->msg));
                 *state = 13;
             } else {

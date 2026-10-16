@@ -17,7 +17,7 @@
  *   HandlePacket  0x0217C848  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   current_time  0x0217F264  arm  ov009
- *   func_0217C704  0x0217C704  arm  ov009
+ *   SendPacket  0x0217C704  arm  ov009
  *   gGsAvailableCheck  0x021ACF7C  data
  *   gGsAvailabilityState  0x021ACEF8  data
  */
@@ -48,7 +48,7 @@ struct SOCSockAddrIn;
 extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
 extern int closesocket(int sock);
 extern unsigned int current_time(void);
-extern void func_0217C704(void);
+extern void SendPacket(void);
 extern AvailableCheck gGsAvailableCheck;
 extern int gGsAvailabilityState;
 
@@ -86,7 +86,7 @@ int GSIAvailableCheckThink(void)
             gGsAvailabilityState = 1;
             return 1;
         }
-        func_0217C704();
+        SendPacket();
         gGsAvailableCheck.retryCount++;
     }
     return 0;

@@ -20,10 +20,10 @@
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -62,10 +62,10 @@ extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -95,9 +95,9 @@ void REPORT_InitActors(int *p)
     for (i = 0; i < n; i++)
         p[0x25 + i] = CLACT_RegisterCharacter(h, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(list, i))), 0, 1,
                                     ((struct Obj00166 *)p)->f12C);
-    p[0x34] = CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 1, 0, ((struct Obj00166 *)p)->f12C);
-    t = func_0201BC40();
-    p[0x41] = CLACT_RegisterCellAnim(h, t, func_0201BCB4(), ((struct Obj00166 *)p)->f12C);
+    p[0x34] = CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), 1, 0, ((struct Obj00166 *)p)->f12C);
+    t = POKE_TOOL_GetIconCellArcId();
+    p[0x41] = CLACT_RegisterCellAnim(h, t, POKE_TOOL_GetIconCellEntryId(), ((struct Obj00166 *)p)->f12C);
     ARC_TOOL_DeleteHandle(h);
     h = func_020490F4(0xC4, ((struct Obj00166 *)p)->f12C);
     p[0x2B] = CLACT_RegisterCharacter(h, 3, 1, 1, ((struct Obj00166 *)p)->f12C);

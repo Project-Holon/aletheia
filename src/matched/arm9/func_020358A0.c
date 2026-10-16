@@ -12,9 +12,9 @@
  * symbols:
  *   TOUCHPANEL_GetWork  0x02035750  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0208AB1C  0x0208AB1C  arm
- *   func_0208ABB8  0x0208ABB8  arm
- *   func_0208ADB4  0x0208ADB4  arm
+ *   TP_RequestSamplingAsync  0x0208AB1C  arm
+ *   TP_WaitRawResult  0x0208ABB8  arm
+ *   TP_GetLatestRawPointInAuto  0x0208ADB4  arm
  *   TP_GetCalibratedPoint  0x0208B104  arm
  *
  * The touch-panel sampling pass of the touchpanel.c family: it resolves the
@@ -90,10 +90,10 @@ struct Samp {
 
 extern int TOUCHPANEL_GetWork(void);
 extern void MI_CpuFill8(void *dst, u32 val, u32 size);
-extern void func_0208AB1C(void);
+extern void TP_RequestSamplingAsync(void);
 struct TPData;
-extern u32 func_0208ABB8(struct TPData *result);
-extern void func_0208ADB4(struct TPData *result);
+extern u32 TP_WaitRawResult(struct TPData *result);
+extern void TP_GetLatestRawPointInAuto(struct TPData *result);
 extern void TP_GetCalibratedPoint(struct TPData *disp, const struct TPData *raw);
 
 void TOUCHPANEL_MainSys(struct Tp *ctx)
@@ -115,8 +115,8 @@ void TOUCHPANEL_MainSys(struct Tp *ctx)
     }
     if (w->f74 == 0) {
         n = 0;
-        func_0208AB1C();
-        if (func_0208ABB8((struct TPData *)(&raw)) != 0) {
+        TP_RequestSamplingAsync();
+        if (TP_WaitRawResult((struct TPData *)(&raw)) != 0) {
             do {
                 n = (n + 1) & 0xff;
                 if (n >= 0x20) {
@@ -124,11 +124,11 @@ void TOUCHPANEL_MainSys(struct Tp *ctx)
                     done = 1;
                     break;
                 }
-                func_0208AB1C();
-            } while (func_0208ABB8((struct TPData *)(&raw)) != 0);
+                TP_RequestSamplingAsync();
+            } while (TP_WaitRawResult((struct TPData *)(&raw)) != 0);
         }
     } else {
-        func_0208ADB4((struct TPData *)(&raw));
+        TP_GetLatestRawPointInAuto((struct TPData *)(&raw));
     }
     if (done == 0) {
         TP_GetCalibratedPoint((struct TPData *)(&cal), (const struct TPData *)(&raw));

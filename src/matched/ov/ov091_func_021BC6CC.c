@@ -28,7 +28,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -74,7 +74,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern u32 func_02017E1C(void *p,u32 id,u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p,u32 id,u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(u32,u32,s16,s16,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -125,7 +125,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
         q=W(0x130); BMP_WIN_TransferChars((struct Descriptor *)q); BMP_WIN_MakeScreen((struct Cfg *)q); func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)q));
         for(i=0;i<6;i++) {
             off=i; off=off*2;
-            delta=func_02017E1C((void *)W(0x38),*(u16 *)((u8 *)gPlistStatParamIds+off),0)-*(u16 *)(p+off+0x124);
+            delta=POKE_TOOL_GetPartyValue((void *)W(0x38),*(u16 *)((u8 *)gPlistStatParamIds+off),0)-*(u16 *)(p+off+0x124);
             if(delta>=10) flag=1;
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),i+0x95); y=i<<4;
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
@@ -156,7 +156,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
         u32 delta,buf,tmp,text;
         BMP_FillRect((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130))),0x50,0,0x20,0x60,15);
         for(i=0;i<6;i++) {
-            delta=func_02017E1C((void *)W(0x38),gPlistStatParamIds[i],0);
+            delta=POKE_TOOL_GetPartyValue((void *)W(0x38),gPlistStatParamIds[i],0);
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)WORDSET_CreateDefault(H(0));
             WORDSET_SetSlotNumber((struct WordSet *)text,0,delta,3,0,1); WORDSET_CopyTaggedText((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
@@ -188,7 +188,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
             POKELIST_ShowMessage(p,0x29,1,(int)PLIST_MENU_BeginExitWait); PLIST_MESSAGE_DestroyWordSet(p,W(0x150));
         } break;
     case 7:
-        func_02017E1C((void *)W(0x38),5,0);
+        POKE_TOOL_GetPartyValue((void *)W(0x38),5,0);
         if(SHINKA_CHECK_CheckEvolution((void *)T(0),(void *)W(0x38),0,*(u16 *)(S+0x30),S[0x5f],0,H(0))!=0) {
             p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=9;
         } else {

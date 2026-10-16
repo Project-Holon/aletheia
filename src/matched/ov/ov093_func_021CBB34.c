@@ -11,7 +11,7 @@
  * argument copy. Ternary count selection shares the flag read across
  * the preceding threshold branch and settles the register allocation.
  * symbols:
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
  *   BTL_SERVER_FLOW_GetCaptureDexFactor 0x021CBCF4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
@@ -35,7 +35,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed long long s64;
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 struct QF;
 struct Unk021D62A8;
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
@@ -57,15 +57,15 @@ int BTL_SERVER_FLOW_CalcCaptureShakes(u8 *p, void *q, void *m, u16 mode, u8 *out
     u16 species, form;
     *flag = 0;
     if (mode == 1) { *out = 3; return 1; }
-    a = func_021D59B4((void *)m, 14) * 3;
-    t = a - func_021D59B4((void *)m, 13) * 2;
+    a = BTL_POKEPARAM_GetValue((void *)m, 14) * 3;
+    t = a - BTL_POKEPARAM_GetValue((void *)m, 13) * 2;
     v = (int)(t != 0 ? 0.5f + (float)(t << 12) : (float)(t << 12) - 0.5f);
     if (BTL_MAIN_CheckSetupStatusFlag(((struct Obj09980 *)p)->f4, 32)) {
         factor = BTL_SERVER_FLOW_GetCaptureDexFactor(p);
         v = ((s64)v * factor + 0x800) >> 12;
     }
     species = BTL_POKEPARAM_GetSpecies((void *)m);
-    form = func_021D59B4((void *)m, 19);
+    form = BTL_POKEPARAM_GetValue((void *)m, 19);
     v *= (u16)POKE_TOOL_GetPersonalParam(species, form, 8);
     factor = BTL_SERVER_FLOW_GetBallCatchRate(p, q, (void *)m, mode);
     v = ((s64)v * factor + 0x800) >> 12;

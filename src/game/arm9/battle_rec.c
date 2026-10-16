@@ -16,7 +16,7 @@
  *   REGULATION_InitParty   0x0200B1F8  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
- *   func_02017E1C   0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   REGULATION_Party_SetValue   0x0200B254  thumb
  *   _BattleRecFileName  0x020A71C4  data
  *   func_020307B0   0x020307B0  arm
@@ -55,6 +55,7 @@
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -204,8 +205,8 @@ extern void REGULATION_InitParty(struct RegulationParty *party);
 extern void REGULATION_Party_SetValue(struct RegulationParty *party, int field, u8 slot, s32 value);
 extern u32 POKEPARTY_GetCount(struct Party *party);
 extern struct PokeParam *POKEPARTY_GetMember(struct Party *party, u32 index);
-extern u32 func_02017E1C(struct PokeParam *mon, u32 param, u32 arg);
-extern u32 func_02017E88(struct BoxMon *mon, u32 param, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(struct PokeParam *mon, u32 param, u32 arg);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxMon *mon, u32 param, u32 arg);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MIi_CpuCopy32(const void *src, void *dest, u32 size);
@@ -412,11 +413,11 @@ void REGULATION_BuildParty(struct RegulationParty *dest, struct Party *party)
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         struct PokeParam *mon = POKEPARTY_GetMember(party, i);
 
-        if (func_02017E1C(mon, 0xa9, 0) != 0) {
-            REGULATION_Party_SetValue(dest, 0, i, func_02017E1C(mon, 5, 0));
-            REGULATION_Party_SetValue(dest, 1, i, func_02017E1C(mon, 0x6f, 0));
-            REGULATION_Party_SetValue(dest, 2, i, func_02017E1C(mon, 6, 0) != 0);
-            REGULATION_Party_SetValue(dest, 3, i, func_02017E1C(mon, 0x6e, 0));
+        if (POKE_TOOL_GetPartyValue(mon, 0xa9, 0) != 0) {
+            REGULATION_Party_SetValue(dest, 0, i, POKE_TOOL_GetPartyValue(mon, 5, 0));
+            REGULATION_Party_SetValue(dest, 1, i, POKE_TOOL_GetPartyValue(mon, 0x6f, 0));
+            REGULATION_Party_SetValue(dest, 2, i, POKE_TOOL_GetPartyValue(mon, 6, 0) != 0);
+            REGULATION_Party_SetValue(dest, 3, i, POKE_TOOL_GetPartyValue(mon, 0x6e, 0));
         }
     }
 }
@@ -1666,7 +1667,7 @@ struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap)
     POKEPARTY_InitEx(party, 6);
     for (i = 0; i < 6; i++) {
         void *mon = BATTLE_BOX_GetMon(box, 0, i);
-        int exists = func_02017E88(mon, 0xa9, 0);
+        int exists = POKE_TOOL_GetBoxValue(mon, 0xa9, 0);
         int tempHeap = (heap & 0x7fff) | 0x8000;
 
         if (exists == 0) {
@@ -1734,7 +1735,7 @@ u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box)
 {
     u32 result = 0;
 
-    if (func_02017E88(BATTLE_BOX_GetMon(box, 0, 0), 0xA9, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue(BATTLE_BOX_GetMon(box, 0, 0), 0xA9, 0) != 0) {
         result = 1;
     }
     return result;

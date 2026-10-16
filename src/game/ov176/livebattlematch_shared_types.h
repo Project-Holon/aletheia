@@ -7,9 +7,7 @@
 
 struct GfFont;
 
-/* The live battle match work (0x1DC bytes) created by LIVEBATTLEMATCH_FLOW_Create.
- * One object, viewed through Obj00053 / Obj00241 / Obj01271 / Obj14362 / Obj14364 /
- * Obj14365 / Obj02889 / Obj10701 / Obj10702 / Obj10703 before this fold. */
+/* The live battle match work (0x1DC bytes) created by LIVEBATTLEMATCH_FLOW_Create. */
 struct LiveBattleMatchWork {
     void *proc;               /* 00 sub proc created by WIFIBATTLEMATCH_UTIL_CreateCallback */
     void *window;             /* 04 window returned by WIFIBATTLEMATCH_UTIL_CreateMenu */

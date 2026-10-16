@@ -1,5 +1,5 @@
 /*
- * function: func_021F6AA4
+ * function: IsGetAllRequestData
  * address:  0x021F6AA4
  * packet:   pkt_021F6AA4
  * region:   ov107
@@ -15,7 +15,7 @@
 
 extern unsigned char D_021F7008[];
 
-int func_021F6AA4(int a)
+int IsGetAllRequestData(int a)
 {
     unsigned short i = 0;
     unsigned int v;

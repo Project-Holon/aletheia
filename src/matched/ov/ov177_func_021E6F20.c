@@ -24,6 +24,9 @@
  *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb  arm9
  *   APP_ICON_GetItemAnimFileId  0x0202769C  thumb  arm9
  *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb  arm9
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb  arm9
+ *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb  arm9
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,9 +50,9 @@ typedef struct {
 } Work;
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
-extern int func_0201BC3C(void);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 typedef signed int     s32;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -78,8 +81,8 @@ void WIFIBATTLEMATCH_VIEW_CreatePokeActors(Work *w, void *owner, void *rec, u16 
     int i;
     Request req, sub;
     h = func_020490F4(7, heap);
-    w->pal = (void *)CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), w->layer, (u16)(w->palSlot << 5), (heap & 0x7fff) | 0x8000);
-    w->cell = (void *)CLACT_RegisterCellAnim(h, func_0201BC40(), func_0201BCB4(), heap);
+    w->pal = (void *)CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), w->layer, (u16)(w->palSlot << 5), (heap & 0x7fff) | 0x8000);
+    w->cell = (void *)CLACT_RegisterCellAnim(h, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), heap);
     for (i = 0; i < 6; i++) {
         species = REGULATION_Party_GetValue(rec, 0, i);
         form = REGULATION_Party_GetValue(rec, 1, i);

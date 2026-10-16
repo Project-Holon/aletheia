@@ -1,5 +1,5 @@
 /*
- * function: func_0218562C
+ * function: BEACON_DETAIL_Delete3DObjects
  * address: 0x0218562C
  * packet: pkt_ov219_0218562C
  * region: ov219
@@ -31,7 +31,7 @@ extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
 extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
 extern int G3D_SYSTEM_FreeVramTexture(u32 *);
 extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
-void func_0218562C(char *p)
+void BEACON_DETAIL_Delete3DObjects(char *p)
 {
     u32 i;
     char *row;

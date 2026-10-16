@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   POKE_REGULATION_IsInSpeciesTable 0x02019D84 thumb
@@ -17,7 +17,7 @@
 #include "../include/Obj22737.h"
 typedef unsigned int   u32;
 struct Sav;
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern int POKE_REGULATION_IsInSpeciesTable(unsigned short);
@@ -26,12 +26,12 @@ int POKETRADE_PROC_CanTradeMon(char *p, int a)
 {
     int v, lock, r;
     unsigned i;
-    v = func_02017E88((void *)a,5,0);
+    v = POKE_TOOL_GetBoxValue((void *)a,5,0);
     i = 0;
     if (((struct Obj22737 *)p)->f118C == 3) {
         lock = POKE_TOOL_DecodeBoxParam((struct Sav *)a);
         for (; i < 15; i++) {
-            r = func_02017E88((void *)a,gTradeableSpecies[i],0);
+            r = POKE_TOOL_GetBoxValue((void *)a,gTradeableSpecies[i],0);
             if (r == 1) break;
         }
         POKE_TOOL_EncodeBoxParam((struct Sav *)a,lock);

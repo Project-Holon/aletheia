@@ -1,5 +1,5 @@
 /*
- * function: func_021B999C
+ * function: PMS_INPUT_DATA_GetCategoryWordCount
  * address:  0x021B999C
  * packet:   pkt_ov110_021B999C
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021B999C(u8 *p, int i) { return *(u32 *)(p + i * 4 + 8); }
+u32 PMS_INPUT_DATA_GetCategoryWordCount(u8 *p, int i) { return *(u32 *)(p + i * 4 + 8); }

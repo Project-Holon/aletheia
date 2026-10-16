@@ -1,5 +1,5 @@
 /*
- * function: func_02184360
+ * function: MICTEST_DeleteWindows
  * address: 0x02184360
  * packet: pkt_ov168_02184360
  * region: ov168
@@ -27,4 +27,4 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
-void func_02184360(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*4)),0);BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4));BMP_WIN_Delete(*(struct Descriptor **)(p+i*4));} MSGDATA_Delete(*(struct Rec * *)&((struct Obj14260 *)p)->fC);GF_FONT_Delete(((struct Obj14260 *)p)->f10); }
+void MICTEST_DeleteWindows(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*4)),0);BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4));BMP_WIN_Delete(*(struct Descriptor **)(p+i*4));} MSGDATA_Delete(*(struct Rec * *)&((struct Obj14260 *)p)->fC);GF_FONT_Delete(((struct Obj14260 *)p)->f10); }

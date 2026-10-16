@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02080908
+ * function: GX_ResetBankForOBJ
  * address:  0x02080908
  * packet:   pkt_020808F4
  * region:   arm9
@@ -16,4 +16,4 @@
 
 typedef unsigned short u16;
 extern int resetBankForX_(u16 *g3bit);
-void func_02080908(void){ resetBankForX_((u16 *)((int)0x2150E50)); }
+void GX_ResetBankForOBJ(void){ resetBankForX_((u16 *)((int)0x2150E50)); }

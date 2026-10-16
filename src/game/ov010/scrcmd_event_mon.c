@@ -30,7 +30,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   SAVE_EVENT_IsStageDone  0x0202F488  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   SAVE_EVENT_CommitStage  0x0202F630  thumb
  */
 #include "field_intrude_event_shared_types.h"
@@ -70,7 +70,7 @@ extern void *POKEPARTY_GetMember(void *party, u32 index);
 
 extern int SAVE_EVENT_IsStageDone(void *mon, int kind);
 
-extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
 
 extern void SAVE_EVENT_CommitStage(void *mon, u32 kind);
 
@@ -239,14 +239,14 @@ int SCRCMD_EVENT_MON_FindEventMonInParty(void *party, int species, int move, int
         if (SAVE_EVENT_IsStageDone(mon, kind) == 0) {
             continue;
         }
-        if (species != func_02017E1C(mon, 5, 0)) {
+        if (species != POKE_TOOL_GetPartyValue(mon, 5, 0)) {
             continue;
         }
         if (move != 0) {
-            if (move == func_02017E1C(mon, 0x36, 0)
-                || move == func_02017E1C(mon, 0x37, 0)
-                || move == func_02017E1C(mon, 0x38, 0)
-                || move == func_02017E1C(mon, 0x39, 0)) {
+            if (move == POKE_TOOL_GetPartyValue(mon, 0x36, 0)
+                || move == POKE_TOOL_GetPartyValue(mon, 0x37, 0)
+                || move == POKE_TOOL_GetPartyValue(mon, 0x38, 0)
+                || move == POKE_TOOL_GetPartyValue(mon, 0x39, 0)) {
                 continue;
             }
         }

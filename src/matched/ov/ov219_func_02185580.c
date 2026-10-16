@@ -1,5 +1,5 @@
 /*
- * function: func_02185580
+ * function: BEACON_DETAIL_Create3DObjects
  * address: 0x02185580
  * packet: pkt_ov219_02185580
  * region: ov219
@@ -12,8 +12,8 @@
  *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
  *   G3D_SYSTEM_CreateRender 0x02047400 arm
  *   G3D_SYSTEM_CreateObject 0x0204767C arm
- *   func_02185728 0x02185728 thumb ov219
- *   func_02185824 0x02185824 thumb ov219
+ *   BEACON_DETAIL_CreateCamera 0x02185728 thumb ov219
+ *   BEACON_DETAIL_CreateLight 0x02185824 thumb ov219
  *   d_02185E18 0x02185E18 data a2
  */
 #include "../include/Obj04645.h"
@@ -23,9 +23,9 @@ typedef struct {u16 index,member;} Entry;
 extern const Entry d_02185E18[];
 extern void *G3D_SYSTEM_CreateResourceArc(unsigned,unsigned),*G3D_SYSTEM_CreateRender(void *,unsigned,void *),*G3D_SYSTEM_CreateObject(unsigned,unsigned *,int);
 extern int G3D_SYSTEM_TransVramTexture(int *);
-extern void func_02185728(char *p);
-extern void func_02185824(char *p);
-void func_02185580(char *p, void *arc)
+extern void BEACON_DETAIL_CreateCamera(char *p);
+extern void BEACON_DETAIL_CreateLight(char *p);
+void BEACON_DETAIL_Create3DObjects(char *p, void *arc)
 {
     unsigned i;
     char *row;
@@ -40,6 +40,6 @@ void func_02185580(char *p, void *arc)
         ((struct Obj04646 *)row)->fC390=G3D_SYSTEM_CreateRender(((struct Obj04646 *)row)->fC378,0,((struct Obj04646 *)row)->fC378);
         ((struct Obj04646 *)row)->fC3A8=G3D_SYSTEM_CreateObject(*(unsigned *)&((struct Obj04646 *)row)->fC390,0,0);
     }
-    func_02185728(p);
-    func_02185824(p);
+    BEACON_DETAIL_CreateCamera(p);
+    BEACON_DETAIL_CreateLight(p);
 }

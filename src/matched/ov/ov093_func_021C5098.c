@@ -16,7 +16,7 @@
  *   BTL_MAIN_IsSameTeamClient  0x021B902C  thumb  ov093
  *   func_021C50F8  0x021C50F8  thumb  ov093
  *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  */
 #include "../include/Obj07755.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -28,7 +28,7 @@ extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
 extern int BTL_MAIN_IsSameTeamClient(int a, int b);
 extern u8 func_021C50F8(u8 *q, u8 i);
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
 u32 BTL_SERVER_FLOW_GetHighestOpponentLevel(u8 *p)
 {
@@ -40,7 +40,7 @@ u32 BTL_SERVER_FLOW_GetHighestOpponentLevel(u8 *p)
         if (BTL_MAIN_IsSameTeamClient(x, BTL_MAIN_GetSlotClientIdThunk((char *)(*(u8 * *)&((struct Obj07755 *)p)->f4), (u8)i)) == 0) {
             int r = func_021C50F8(p + 0x1AB8, i);
             if (r != 0x1f) {
-                u32 t = func_021D59B4((u8 *)BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj07755 *)p)->f8, r), 0xf);
+                u32 t = BTL_POKEPARAM_GetValue((u8 *)BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj07755 *)p)->f8, r), 0xf);
                 if (t > best) {
                     best = t;
                 }

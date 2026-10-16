@@ -1,5 +1,5 @@
 /*
- * function: func_02183F30
+ * function: MICTEST_SetupVramBanks
  * address:  0x02183F30
  * packet:   pkt_02183F30
  * region:   ov168
@@ -16,7 +16,7 @@
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-void func_02183F30(void)
+void MICTEST_SetupVramBanks(void)
 {
     BG_SYS_SetVramBanks((void *)0x021848D4);
 }

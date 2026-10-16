@@ -21,7 +21,7 @@
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F2404     0x021F2404  data  ov093  a1
  *   d_021F2654     0x021F2654  data  ov093  a4
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern const u8 d_021F2404[7];
 extern int d_021F2654[];
@@ -50,7 +50,7 @@ void HAND_WAZA_StoredPowerAddPowerPerStage(int x, int a, int c)
         m = BTL_SERVER_FLOW_GetPokeParam((int *)a, c);
         sum = 0;
         for (i = 0; i < 7; i++) {
-            v = func_021D59B4(m, d_021F2404[i]) - 6;
+            v = BTL_POKEPARAM_GetValue(m, d_021F2404[i]) - 6;
             if (v > 0) {
                 sum += v;
             }

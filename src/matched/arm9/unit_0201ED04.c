@@ -28,6 +28,8 @@
  *   STRBUF_Copy  0x02045838  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   WORDSET_FormatNumber  0x0201F35C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *
  * 760 bytes, 0x0201ED04..0x0201EFFC, 22 functions, the body of wordset.c.
  * The file name is attested at the constructor 0x0201EC74, which is just
@@ -65,7 +67,7 @@
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md
  * records for a chain the compiler does not tail-merge.
  *
- * Addresses are Black-image addresses.  func_02017E1C and func_02017E88 are
+ * Addresses are Black-image addresses.  POKE_TOOL_GetPartyValue and POKE_TOOL_GetBoxValue are
  * the pair of species-keyed getters this file reads names through; they are
  * not resolved here and nothing in this range reads a version flag or an
  * exclusive-species table directly, but any renaming of those two should be
@@ -83,8 +85,8 @@ extern void *gSpeciesNameBank;
 
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern u32 func_020307B0(void *p);
-extern u32   func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32   POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 typedef signed int     s32;
 struct MsgBank;
 struct Rec;
@@ -206,12 +208,12 @@ void WORDSET_Callback(struct WordSet *p, u32 i, u16 v)
 
 void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon)
 {
-    WORDSET_Callback(p, i, func_02017E1C(mon, 5, 0));
+    WORDSET_Callback(p, i, POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
 void WORDSET_SetSlotMonNameAlt(struct WordSet *p, u32 i, void *mon)
 {
-    WORDSET_Callback(p, i, func_02017E88(mon, 5, 0));
+    WORDSET_Callback(p, i, POKE_TOOL_GetBoxValue(mon, 5, 0));
 }
 
 void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v)
@@ -221,18 +223,18 @@ void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v)
 
 void WORDSET_SetSlotMonNameEx(struct WordSet *p, u32 i, void *mon)
 {
-    WORDSET_Callback_EEC4(p, i, (u16)func_02017E1C(mon, 5, 0));
+    WORDSET_Callback_EEC4(p, i, (u16)POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
 void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon)
 {
-    func_02017E1C(mon, 0x73, (u32)p->buf);
+    POKE_TOOL_GetPartyValue(mon, 0x73, (u32)p->buf);
     WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
 void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *p, u32 i, void *mon)
 {
-    func_02017E88(mon, 0x73, (u32)p->buf);
+    POKE_TOOL_GetBoxValue(mon, 0x73, (u32)p->buf);
     WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 

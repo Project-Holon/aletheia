@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   func_021C9BA8 0x021C9BA8 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; u16 value; u8 id,a; u8 pad8[4]; u8 msg[36]; } Ent;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int func_021C9BA8(u16);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
@@ -57,7 +57,7 @@ int BTL_SERVER_FLOW_ExecCmdChangeAbility(u8 *p, const Ent *e)
     u32 s;
     u32 t;
     a = BTL_SIDE_GetPokeByIdThunk(((struct Obj00003 *)p)->f8, e->id);
-    x = func_021D59B4(a, 16);
+    x = BTL_POKEPARAM_GetValue(a, 16);
     if (func_021C9BA8(x)) return 0;
     if (BTL_POKEPARAM_IsFainted(a)) return 0;
     if (e->a || e->value != x) {

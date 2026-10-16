@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D59C  0x0207D59C  arm
+ *   G2x_SetBGyAffine_  0x0207D59C  arm
  *   g_BgConfig     0x02146A44  data
  *
  * The affine half of the BG scroll module: push a layer's transform, plus
@@ -63,7 +63,7 @@ struct BgLayer {
 
 extern struct BgLayer *g_BgConfig;
 
-extern void func_0207D59C(void *reg, u32 a, u32 b, u32 c, u32 x, u32 y);
+extern void G2x_SetBGyAffine_(void *reg, u32 a, u32 b, u32 c, u32 x, u32 y);
 
 void BG_SYS_SetScrollRegs(u32 layer, u32 a, u32 b, u32 c)
 {
@@ -73,11 +73,11 @@ void BG_SYS_SetScrollRegs(u32 layer, u32 a, u32 b, u32 c)
     case 1:
         break;
     case 2:
-        func_0207D59C((void *)0x04000020, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04000020, a, b, c,
                       g_BgConfig[layer].scrollX, g_BgConfig[layer].scrollY);
         break;
     case 3:
-        func_0207D59C((void *)0x04000030, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04000030, a, b, c,
                       g_BgConfig[layer].scrollX, g_BgConfig[layer].scrollY);
         break;
     case 4:
@@ -85,11 +85,11 @@ void BG_SYS_SetScrollRegs(u32 layer, u32 a, u32 b, u32 c)
     case 5:
         break;
     case 6:
-        func_0207D59C((void *)0x04001020, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04001020, a, b, c,
                       g_BgConfig[layer].scrollX, g_BgConfig[layer].scrollY);
         break;
     case 7:
-        func_0207D59C((void *)0x04001030, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04001030, a, b, c,
                       g_BgConfig[layer].scrollX, g_BgConfig[layer].scrollY);
         break;
     }

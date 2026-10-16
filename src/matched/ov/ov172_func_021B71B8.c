@@ -21,7 +21,7 @@
  *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   func_02082A7C 0x02082A7C arm
  *   FX_Inv 0x0207C778 arm
- *   func_0207D59C 0x0207D59C arm
+ *   G2x_SetBGyAffine_ 0x0207D59C arm
  *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
  *
  * note 2026-10-05 (wD9 lane06): EXACT. The last 4-byte residue (m[3] store and
@@ -81,7 +81,7 @@ extern void func_0207ECF0(const void *src, u32 off, u32 size);
 extern void *G2_GetBG3ScrPtr(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern int FX_Inv(int);
-extern void func_0207D59C(void *, int *, int, int, int, int);
+extern void G2x_SetBGyAffine_(void *, int *, int, int, int, int);
 extern int APP_ENV_HasParentalControlBits(void);
 
 void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
@@ -152,7 +152,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
                 }
                 m[1] = 0;
                 m[2] = 0;
-                func_0207D59C((void *)0x04000030, m, 0, 0, 0, 0);
+                G2x_SetBGyAffine_((void *)0x04000030, m, 0, 0, 0, 0);
                 for (i = 0; i < 4; i++) {
                     if (q->f20 == 1) {
                         *(u16 *)((u8 *)q + 0x48 + i * 0x1C) = (u32)*(u16 *)((u8 *)q + 0x48 + i * 0x1C) >> 1;

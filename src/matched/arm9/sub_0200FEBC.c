@@ -18,8 +18,8 @@
  *   MIi_CpuCopy16             0x02082A60  arm
  *   GFL_NET_GetIrcParams             0x0203D828  arm
  *   GX_SetGraphicsMode        0x0207D4B0  arm
- *   func_020809A0             0x020809A0  arm
- *   func_020808F4             0x020808F4  arm
+ *   GX_ResetBankForSubBG             0x020809A0  arm
+ *   GX_ResetBankForBG             0x020808F4  arm
  *   GX_SetBankForBG           0x0207FDCC  arm
  *   GX_SetBankForSubBG        0x020806B0  arm
  *   GX_HBlankIntr             0x0207D3AC  arm
@@ -109,8 +109,8 @@ extern void *G2_GetBG1ScrPtr(void);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void GFL_NET_GetIrcParams(u32 *a, u32 *b);
 extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
-extern int func_020809A0(void);
-extern int func_020808F4(void);
+extern int GX_ResetBankForSubBG(void);
+extern int GX_ResetBankForBG(void);
 extern void GX_SetBankForBG(u32 bank);
 extern void GX_SetBankForSubBG(u32 bank);
 extern BOOL GX_HBlankIntr(BOOL on);
@@ -196,8 +196,8 @@ void GFL_NET_ERR_RestoreDisplay(BOOL keepDark)
     GX_SetVisiblePlane(w->dispCnt.visiblePlane);
     GX_SetVisibleWnd(w->dispCnt.visibleWnd);
     GXS_SetVisibleWnd(w->subWnd);
-    func_020809A0();
-    func_020808F4();
+    GX_ResetBankForSubBG();
+    GX_ResetBankForBG();
     GX_SetBankForBG(w->bankBG);
     GX_SetBankForSubBG(w->bankSubBG);
     GX_HBlankIntr(w->hBlank);

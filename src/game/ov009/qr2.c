@@ -1,7 +1,7 @@
 /*
  * file:     qr2.c
  * unit:     yes
- * function: qr2_init_socketA, qr2_register_natneg_callback, qr2_register_clientmessage_callback, qr2_register_publicaddress_callback, qr2_think, qr2_check_queries, qr2_check_send_heartbeat, qr2_send_statechanged, qr2_shutdown, qr2_keybuffer_add, qr2_buffer_add_int, qr2_buffer_addA, enum_local_ips, func_0219B73C, swap_byte, encode_ct, gs_encode, gs_encrypt, NatNegProgressCallback, NatNegCompletedCallback, qr_add_packet_header, compute_challenge_response, handle_public_address, qr_build_partial_query_reply, qr_build_query_reply, qr_build_split_query_reply, qr_process_query, qr_process_client_message, qr_got_recent_message, qr2_process_ip_verify, qr2_check_ip_verify, qr2_expire_ip_verify, qr2_parse_queryA, send_keepalive, send_heartbeat
+ * function: qr2_init_socketA, qr2_register_natneg_callback, qr2_register_clientmessage_callback, qr2_register_publicaddress_callback, qr2_think, qr2_check_queries, qr2_check_send_heartbeat, qr2_send_statechanged, qr2_shutdown, qr2_keybuffer_add, qr2_buffer_add_int, qr2_buffer_addA, enum_local_ips, get_sockaddrin, swap_byte, encode_ct, gs_encode, gs_encrypt, NatNegProgressCallback, NatNegCompletedCallback, qr_add_packet_header, compute_challenge_response, handle_public_address, qr_build_partial_query_reply, qr_build_query_reply, qr_build_split_query_reply, qr_process_query, qr_process_client_message, qr_got_recent_message, qr2_process_ip_verify, qr2_check_ip_verify, qr2_expire_ip_verify, qr2_parse_queryA, send_keepalive, send_heartbeat
  * address:  0x0219AEB4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -189,7 +189,7 @@ void qr2_shutdown(qr2_implementation_s *qrec);
 int qr2_keybuffer_add(qr2_keybuffer_s *keybuffer, int keyid);
 int qr2_buffer_add_int(qr2_buffer_s *outbuf, int value);
 int qr2_buffer_addA(qr2_buffer_s *outbuf, char *value);
-int func_0219B73C(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent);
+static int get_sockaddrin(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent);
 void swap_byte(unsigned char *p, unsigned char *q);
 void NatNegProgressCallback(int state, void *userdata);
 void NatNegCompletedCallback(int result, int gamesocket, SOCSockAddrIn *remoteaddr, void *userdata);
@@ -349,7 +349,7 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
         int override = g_021AE9B8[0];
         if (!override)
             OS_SPrintf(hostname, g_021A73B4, gamename);
-        ret = func_0219B73C(override ? g_021AE9B8 : hostname, 27900, &cr->hbaddr, 0);
+        ret = get_sockaddrin(override ? g_021AE9B8 : hostname, 27900, &cr->hbaddr, 0);
         if (ret == 1)
             gsDebugFormat(3, 0, 0x10, g_021A73D4, override ? g_021AE9B8 : hostname, SOC_InetNtoA(cr->hbaddr.addr));
         else
@@ -586,7 +586,7 @@ static void enum_local_ips(void)
  * (which CW leaves rolled) and memset (a call) miss.  byte 0 and the family
  * byte are written afterwards, in that order.
  */
-int func_0219B73C(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent)
+static int get_sockaddrin(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent)
 {
     SOCHostEnt *hent = 0;
     unsigned char *p = (unsigned char *)saddr;

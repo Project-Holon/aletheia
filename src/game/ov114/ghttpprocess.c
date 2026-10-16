@@ -39,7 +39,7 @@
  *   gsiGetResolvedIP  0x0217F1CC  arm   ov009
  *   sGhttpErrorResolvingHostname     0x021CF0F8  data  ov114
  *   sGhttpDnsLookupComplete     0x021CF114  data  ov114
- *   func_0217EB18  0x0217EB18  arm  ov009
+ *   socket  0x0217EB18  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
  *   func_0217EF00  0x0217EF00  arm  ov009
@@ -147,7 +147,7 @@ extern int ghttpSetRequestEncryptionEngine(int, int);
 extern int inet_addr(int a);
 extern int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
 extern int gsiGetResolvedIP(int *p);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern int GOAGetLastError(int socket);
 extern int SetSockBlocking(int sock, int isblocking);
 extern int func_0217EF00(int sock, int size);
@@ -445,7 +445,7 @@ void ghiDoConnecting(GHIConnection *connection)
 
     if (connection->socket == -1)
     {
-        connection->socket = func_0217EB18(2, 1, 0);
+        connection->socket = socket(2, 1, 0);
         if (connection->socket == -1)
         {
             connection->completed = 1;

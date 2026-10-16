@@ -1,5 +1,5 @@
 /*
- * function: func_021BA960
+ * function: ZUKAN_INFO_DrawText
  * address: 0x021BA960
  * packet: pkt_ov206_021BA960
  * region: ov206
@@ -31,7 +31,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021BA960(int heap,int window,void *printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
+void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
 {
     int buffer=(int)BMP_WIN_GetBmp((struct Descriptor *)window);
     unsigned short x;

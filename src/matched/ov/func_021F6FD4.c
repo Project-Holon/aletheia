@@ -14,7 +14,7 @@
  *   WORLDTRADE_DEMO_InitSlotRecord  0x021F7374  thumb
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
@@ -91,7 +91,7 @@ extern void *WORLDTRADE_DEMO_GetSlotRecord(Obj *p, int kind);
 extern void WORLDTRADE_DEMO_InitSlotRecord(Obj *p);
 extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 typedef signed int     s32;
 struct BigObj;
 struct Ctx;
@@ -127,7 +127,7 @@ int WORLDTRADE_DEMO_EvolveStep(Obj *p)
             u32 out;
             u32 r;
 
-            func_02017E1C(e, 6, 0);
+            POKE_TOOL_GetPartyValue(e, 6, 0);
             r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->fEA4, GAME_DATA_GetSeason(ICA_ANIME_GetField1C(p->ctx->f40)), &out, 0x48);
             if (r != 0) {
                 Req *w;
@@ -161,9 +161,9 @@ int WORLDTRADE_DEMO_EvolveStep(Obj *p)
             u32 r;
 
             WORLDTRADE_CopyPokemon(p->ctx->save, mon);
-            if (func_02017E1C(e, 5, 0) != func_02017E1C(mon, 5, 0)
-                || func_02017E1C(e, 0, 0) != func_02017E1C(mon, 0, 0)) {
-                func_02017E1C(e, 6, 0);
+            if (POKE_TOOL_GetPartyValue(e, 5, 0) != POKE_TOOL_GetPartyValue(mon, 5, 0)
+                || POKE_TOOL_GetPartyValue(e, 0, 0) != POKE_TOOL_GetPartyValue(mon, 0, 0)) {
+                POKE_TOOL_GetPartyValue(e, 6, 0);
                 r = 0;
                 if (p->f12F8 != 0) {
                     p->f12F8 = 0;

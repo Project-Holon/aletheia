@@ -475,7 +475,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02173D28",
+   "name": "DWCi_HandleGPError",
    "address": "0x02173D28",
    "kind": "sdk",
    "region": "ov009",

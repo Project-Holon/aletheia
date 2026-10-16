@@ -9,10 +9,10 @@
  * status:   EXACT
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -26,9 +26,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x, y, prio; u8 pal, mode; } ObjTmpl;
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0201BC3C(void);
-extern int func_0201BC78(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 typedef signed int     s32;
 extern int CLACT_RegisterPaletteCompressed(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
@@ -46,8 +46,8 @@ void POKETRADE_2D_CreateBoxIconActors(char *p)
     char *q;
     ObjTmpl t;
     arc = func_020490F4(7, ((struct Obj00252 *)p)->f5F4);
-    ((struct Obj00252 *)p)->f87C = (void *)CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0x60, ((struct Obj00252 *)p)->f5F4);
-    ((struct Obj00252 *)p)->f8AC = (void *)CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCB4(), ((struct Obj00252 *)p)->f5F4);
+    ((struct Obj00252 *)p)->f87C = (void *)CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0x60, ((struct Obj00252 *)p)->f5F4);
+    ((struct Obj00252 *)p)->f8AC = (void *)CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryId(), ((struct Obj00252 *)p)->f5F4);
     for (i = 0; i < 12; i++) {
         for (j = 0; j < 5; j++) {
             z = 0;

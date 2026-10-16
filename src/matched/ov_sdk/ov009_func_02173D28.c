@@ -1,5 +1,5 @@
 /*
- * function: func_02173D28
+ * function: DWCi_HandleGPError
  * address:  0x02173D28
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern void DWCi_StopMatch(int error, int errorCode);
 
-int func_02173D28(int error)
+static int DWCi_HandleGPError(int error)
 {
     int dwcError;
     int errorCode;

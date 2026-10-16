@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_02030734 0x02030734 arm
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *GAME_DATA_GetSaveBlock2A(void *);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -57,10 +57,10 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   W(row,0x78)=0;
   W(row,0x64)=0;W(row,0x68)=0;W(row,0x6C)=0;
   row[0x70]=10;row[0x71]=10;
-  P(row,0x7C)=func_02030734(((struct Obj02195 *)p)->f0,func_020173EC()+0x7C,0,d_021FDE5C,0x20E);
+  P(row,0x7C)=func_02030734(((struct Obj02195 *)p)->f0,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
   size1=MYSTATUS_GetSize();
   P(row,0x8C)=func_02030734(((struct Obj02195 *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
-  clear8(P(row,0x7C),func_020173EC()+0x7C);
+  clear8(P(row,0x7C),POKE_TOOL_GetPartyParamSize()+0x7C);
   size2=MYSTATUS_GetSize();
   clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
   P(row,0x80)=P(row,0x8C);
@@ -71,7 +71,7 @@ void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  ((struct Obj02195 *)p)->f12C=MUSICAL_SAVE_GetFanPoints(data);
  ((struct Obj02195 *)p)->f130=a;((struct Obj02195 *)p)->f134=b;
  W(p,0x138)=0;W(p,0x124)=0;
- P(p,0x128)=func_02030734(((struct Obj02195 *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
+ P(p,0x128)=func_02030734(((struct Obj02195 *)p)->f0,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=MYSTATUS_GetSize();
  P(p,0x13C)=func_02030734(((struct Obj02195 *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;

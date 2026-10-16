@@ -1,5 +1,5 @@
 /*
- * function: func_0202BE54
+ * function: ISS_3DS_SYS_ScaleVolume
  * address:  0x0202BE54
  * packet:   pkt_0202BE00
  * region:   arm9
@@ -15,14 +15,14 @@
  * Returns (p[9] * a) / 0x7f truncated to a byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BE54.c \
- *       --func func_0202BE54 --addr 0x0202BE54 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_3DS_SYS_ScaleVolume.c \
+ *       --func ISS_3DS_SYS_ScaleVolume --addr 0x0202BE54 --thumb --cc 1.1p1
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_0202BE54(u8 *p, u32 a)
+u32 ISS_3DS_SYS_ScaleVolume(u8 *p, u32 a)
 {
     return (u8)((p[9] * a) / 0x7f);
 }

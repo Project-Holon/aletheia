@@ -43,16 +43,16 @@ union Slot {
 
 
 /* Types shared by several parts. */
-typedef struct { u16 v; } W_021C312C;
+typedef struct { u16 v; } BtlSickContWord;
 
 typedef struct {
     u32 wpos;
     u32 rpos;
     u8 buf[3000];
-} Buf_021CC768;
+} BtlServerCmdBuffer;
 typedef struct { unsigned low:10, size:9, high:13; } QueueA;
 typedef struct { unsigned low:13, size:10, high:9; } QueueB;
-typedef struct { unsigned low:28, a:1, b:1, c:1, d:1; } Word_021CC768;
+typedef struct { unsigned low:28, a:1, b:1, c:1, d:1; } BtlHandExScopeWord;
 
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
 
@@ -68,7 +68,9 @@ struct Unk021BD1E0 {
     u8 rest : 6;
 };
 
-struct Q { u16 h0; u8 pad[6]; u32 w8; };
+/* The current move parameter, viewed as a small record: a halfword at 0x0 and a
+   word at 0x8 read by the accuracy checks. */
+struct BtlMoveParam { u16 h0; u8 pad[6]; u32 w8; };
 
 struct Lock { u32 a:10; u32 b:9; u32 c:9; u32 d:1; u32 e:1; u32 f:1; u32 g:1; };
 
@@ -80,14 +82,14 @@ typedef struct { u8 pad0[2]; u8 n; u8 pad3[1]; Rec_td r[1]; } List_td;
 
 struct Unk021D62A8 { u8 pad[0x1c]; union Slot e[6]; };
 
-struct Msg { u16 a; u16 kind:8; u16 n:7; u16 flag:1; u8 data[0x1c]; u32 w20; };
+struct Msg { u16 a; union { struct { u16 kind:8; u16 n:7; u16 flag:1; }; u16 kindWord; }; u8 data[0x1c]; u32 w20; };
 
 enum Kind { K0, K1, K10 = 10 };
 
 typedef struct {
     u32 pad : 8; u32 idx : 5; u32 mid : 10; u32 fl : 1; u32 top : 8;
     u16 h4; u8 b6; u8 b7; u16 h8; u16 ha;
-} Ent_021C8D2C;
+} BtlServerCmdRecoverHp;
 
 typedef struct {
     u32 a : 10;
@@ -192,5 +194,15 @@ typedef struct {
     Action action[4][3];            /* 0x0 */
     u8 value[4];                    /* 0x30 */
 } BtlServerActionTable;
+
+/* One row of gEffortValueStatTable (ov093 0x021EFDC0): the personal parameter
+   and the party parameter of one effort value, and the item that boosts it.
+   Shared by btl_client.c and btl_server_flow.c. */
+typedef struct {
+    u8 personalParam;               /* 0x0 personal parameter read by POKE_TOOL_GetPersonalParam */
+    u8 pad;                         /* 0x1 */
+    u16 partyParam;                 /* 0x2 party parameter read or written by POKE_TOOL_GetPartyValue */
+    u16 boosterItem;                /* 0x4 item id that doubles this effort value */
+} BtlEffortValueStat;
 
 #endif

@@ -18,7 +18,7 @@
  *   POKETRADE_2D_ScheduleSubPlaneVisible  0x021E7208  thumb  ov119
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   func_020307B0  0x020307B0  arm
  *   MCSS_GetPosition  0x02015C30  thumb
@@ -73,7 +73,7 @@
  *   d_021D7CA8     0x021D7CA8  data
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   d_021D82A4  0x021D82A4  data
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   POKETRADE_3D_FadeTexturePalette  0x021E3BB0  thumb  ov119
  *   POKETRADE_PROC_IsNetSession  0x021D8A24  thumb  ov119
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -137,7 +137,7 @@ extern int POKETRADE_PROC_IsHostSide(void *);
 
 extern void *POKETRADE_PROC_GetSideMon(void *, int);
 
-extern u32 func_02017E1C(void *, u32, u32);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
@@ -259,7 +259,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 extern void POKETRADE_3D_FadeTexturePalette(char *p);
 
@@ -386,10 +386,10 @@ void POKETRADE_DEMO_UP_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 key, 
         }
     }
     mon = POKETRADE_PROC_GetSideMon(p, which);
-    id = func_02017E1C(mon, 7, 0);
-    a = func_02017E1C(mon, 0xAB, 0);
-    b = func_02017E1C(mon, 0x6F, 0);
-    egg = func_02017E1C(mon, 0x4C, 0);
+    id = POKE_TOOL_GetPartyValue(mon, 7, 0);
+    a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
+    b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+    egg = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (egg == 0) {
         h = (u32)POKE_PERSONAL_Create((u16)a, (u16)b, ((PokeTradeDemoWork *)p)->heapId);
         flag = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x10);
@@ -502,9 +502,9 @@ void POKETRADE_DEMO_UP_SetMonSlide(u8 *p, int idx)
     Vec buf;
 
     x = POKETRADE_PROC_GetSideMon(p, 1 - POKETRADE_PROC_IsHostSide(p));
-    func_02017E1C(x, 7, 0);
-    if (func_02017E1C(x, 0x4c, 0) == 0) {
-        PM_VOICE_Play(func_02017E1C(x, 0xab, 0), func_02017E1C(x, 0x6f, 0), 0x40, 0, 0, 0, 0, 0);
+    POKE_TOOL_GetPartyValue(x, 7, 0);
+    if (POKE_TOOL_GetPartyValue(x, 0x4c, 0) == 0) {
+        PM_VOICE_Play(POKE_TOOL_GetPartyValue(x, 0xab, 0), POKE_TOOL_GetPartyValue(x, 0x6f, 0), 0x40, 0, 0, 0, 0, 0);
     }
     if (((PokeTradeDemoWork *)p)->ownSameMon == 0) {
         MCSS_GetPosition(((void **)(p + 0x844))[idx], &buf);
@@ -907,8 +907,8 @@ void POKETRADE_DEMO_DOWN_StepFade(s8 *fade)
         fade[1]++;
         value = ((fade[3] - fade[2]) << 12) / fade[0];
         value = value * fade[1] / 4096;
-        func_0207D658(0x04000050, 0x1E, value);
-        func_0207D658(0x04001050, 0x1F, value);
+        G2x_SetBlendBrightness_(0x04000050, 0x1E, value);
+        G2x_SetBlendBrightness_(0x04001050, 0x1F, value);
     }
 }
 
@@ -937,10 +937,10 @@ void POKETRADE_DEMO_DOWN_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 key
         }
     }
     mon = POKETRADE_PROC_GetSideMon(p, which);
-    id = func_02017E1C(mon, 7, 0);
-    a = func_02017E1C(mon, 0xAB, 0);
-    b = func_02017E1C(mon, 0x6F, 0);
-    egg = func_02017E1C(mon, 0x4C, 0);
+    id = POKE_TOOL_GetPartyValue(mon, 7, 0);
+    a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
+    b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+    egg = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (egg == 0) {
         h = (u32)POKE_PERSONAL_Create((u16)a, (u16)b, ((PokeTradeDemoWork *)p)->heapId);
         flag = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x10);

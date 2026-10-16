@@ -1,5 +1,5 @@
 /*
- * function: func_021BB23C
+ * function: ZUKAN_INFO_CreateActor
  * address: 0x021BB23C
  * packet: pkt_ov206_021BB23C
  * region: ov206
@@ -28,7 +28,7 @@ extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
-void func_021BB23C(char *p,int x,int y,int index)
+void ZUKAN_INFO_CreateActor(char *p,int x,int y,int index)
 {
     int flag=0;
     Pos pos;

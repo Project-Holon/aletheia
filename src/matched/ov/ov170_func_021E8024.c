@@ -26,7 +26,7 @@
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb ov170
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb ov170
  *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb ov170
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   BOX2_SEQ_OpenYesNo 0x021E8FE8 thumb ov170
  */
 #include "../include/Obj00000.h"
@@ -51,7 +51,7 @@ extern unsigned FILE_UTIL_Check136C(u16);
 extern void BOX2_SEQ_PrintPrompt(u8 *, int, int, int);
 extern void BOX2_UI_ToggleSlotPair(char *, int);
 extern int BOX2_MAIN_GetMonAt(void ***, int, unsigned);
-extern unsigned func_02017E88(void *, unsigned, unsigned);
+extern unsigned POKE_TOOL_GetBoxValue(void *, unsigned, unsigned);
 extern int BOX2_SEQ_OpenYesNo(u8 *, int);
 #define W (*(char **)(p + 0x2c))
 #define S (*(int *)(W + 0xA194))
@@ -89,7 +89,7 @@ int BOX2_SEQ_StateMoveItemE(char *p)
             BOX2_SEQ_SetSlotActors(p, 1, 1);
             BOX2_SEQ_SetSlotActorMode(W, ((struct Obj00000 *)p)->f16, 0);
         }
-        if (func_02017E88((void *)BOX2_MAIN_GetMonAt((void ***)p, ((struct Obj00000 *)p)->f14, ((struct Obj00000 *)p)->f16), 0x4c, 0) != 0) {
+        if (POKE_TOOL_GetBoxValue((void *)BOX2_MAIN_GetMonAt((void ***)p, ((struct Obj00000 *)p)->f14, ((struct Obj00000 *)p)->f16), 0x4c, 0) != 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintMonName((u8 *)p, 3, 24);
             *(u8 *)(W + 0xA170) = 1;

@@ -50,7 +50,7 @@
  *   STRBUF_SetStringN 0x02045994 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -195,7 +195,6 @@ struct PmsivEdit {
 typedef volatile unsigned short vu16;
 
 struct WinMgr;
-struct D;
 
 extern u32 func_020307B0(void *p);
 extern int *PMS_INPUT_GetUiInputModePtr(struct PmsInputState *input);
@@ -268,7 +267,7 @@ extern unsigned int BG_SYS_GetChannelScrollX(u8 channel);
 extern u32 BG_SYS_GetChannelScrollY(u8 channel);
 extern void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *arg, int priority);
 extern int _s32_div_f(int, int);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param);
 void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle);
@@ -353,8 +352,6 @@ vu16 GX_GetVCount(void)
 }
 
 struct Cursor;
-
-typedef struct { short x, y; } Vec2_021BC58C;
 
 void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p);
 void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing);
@@ -668,7 +665,7 @@ void PMSIV_EDIT_BoxOriginToSlotPos(const short *boxOrigin, short *pos)
 
 void PMSIV_EDIT_ClearSlotBox(struct Descriptor *window, const ScreenPos *pos)
 {
-    Vec2_021BC58C origin;
+    ScreenPos origin;
     PMSIV_EDIT_SlotPosToBoxOrigin((const short *)pos, (short *)&origin);
     BMP_FillRect(BMP_WIN_GetBmp(window), origin.x, origin.y, 0x60, 16, 14);
 }
@@ -867,7 +864,7 @@ void PMSIV_FADE_BlendTask(void *task, void *arg)
  */
 void PMSIV_FADE_StartBrightness(struct PmsivFade *fade, int plane, int start, int end, int frames)
 {
-    func_0207D658(0x4000050, plane, start);
+    G2x_SetBlendBrightness_(0x4000050, plane, start);
     fade->planeMask = plane;
     fade->framesLeft = frames;
     fade->current = start << 12;
@@ -901,5 +898,5 @@ void PMSIV_FADE_BrightnessTask(void *task, void *arg)
         value = fade->current >> 12;
         --fade->framesLeft;
     } else value = fade->target >> 12;
-    func_0207D658(0x4000050, fade->planeMask, value);
+    G2x_SetBlendBrightness_(0x4000050, fade->planeMask, value);
 }

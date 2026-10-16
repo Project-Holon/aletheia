@@ -19,7 +19,7 @@
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   WIFICLUBACTOR_IsReady 0x021B96CC thumb ov099
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02009A54 0x02009A54 thumb
  *   WIFICLUBACTOR_Init 0x021B95A0 thumb ov099
@@ -54,7 +54,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern int WIFICLUBACTOR_IsReady(int *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02009A54(struct Sub020097BCObj *obj);
 extern void WIFICLUBACTOR_Init(char *p, int heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u32 a7);
@@ -87,7 +87,7 @@ void WIFICLUB_ResetClubScreen(char *p)
         ((struct Obj00008 *)p)->fB0=0;
     }
     if(!WIFICLUBACTOR_IsReady((int *)(p+0x274))){
-        enabled=func_02008550((const struct Sub0200852CObj *)func_02012944(((struct Obj00008 *)p)->fC4));
+        enabled=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct Obj00008 *)p)->fC4));
         kind=16;
         if(enabled)kind=17;
         ((struct Obj00008 *)p)->f132A=func_02009A54(((struct Obj00008 *)p)->f4);

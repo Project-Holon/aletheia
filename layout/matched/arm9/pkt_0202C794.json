@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202C794",
+   "name": "ISS_SWITCH_GetSubscreenMode",
    "address": "0x0202C794",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202C824",
+   "name": "ISS_SWITCH_IsSeasonMatch",
    "address": "0x0202C824",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202C83C",
+   "name": "ISS_SWITCH_ApplySubscreenMode",
    "address": "0x0202C83C",
    "kind": "game",
    "region": "arm9",

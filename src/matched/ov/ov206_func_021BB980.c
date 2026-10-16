@@ -1,5 +1,5 @@
 /*
- * function: func_021BB980
+ * function: ZUKAN_INFO_DisableOtherRows
  * address: 0x021BB980
  * packet: pkt_ov206_021BB980
  * region: ov206
@@ -17,7 +17,7 @@ struct State { char pad[0xb8]; int ids[3][2]; void *objects[2][2]; int selected,
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021BB980(struct State *p)
+void ZUKAN_INFO_DisableOtherRows(struct State *p)
 {
     u8 i,j;
     if (p->mode==0) {

@@ -157,7 +157,7 @@
  *   POKEGRA_RegisterCgr 0x0202D81C thumb
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
- *   func_02017ED8 0x02017ED8 thumb
+ *   POKE_TOOL_IsShinyOtIdPersonality 0x02017ED8 thumb
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   sMemberActorTemplates 0x021DEC04 data a4
  *   sMemberSlotsByCount 0x021DEC94 data a4
@@ -214,7 +214,7 @@ extern void GFL_HEAP_DeleteChecked(u32 heapId);
 extern int func_020056A0(void (*task)(void *, const DendouViewWork *), DendouViewWork *work, int priority);
 extern int func_02030EAC(int taskId);
 extern void BG_SYS_Update(void), CLACT_VBlankSystem(void);
-extern void PALANM_TransferPalettes(struct PalAnm *palAnm);
+extern void PALANM_TransferPalettes(struct PalAnmSlot *palAnm);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
 extern void BG_SYS_Create(u16);
@@ -230,13 +230,13 @@ extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 BG_SYS_GetBuf(int a);
 extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern struct PalAnm *PALANM_Create(u32 heap);
-extern void PALANM_AllocSlotBuffers(struct PalAnm *palAnm, u32 idx, u32 size, u32 heap);
-extern void PALANM_FreeSlotBuffers(struct PalAnm *palAnm, u32 idx);
-extern u32 PALANM_Delete(struct PalAnm *palAnm);
-extern void PALANM_BlendChannelMask(struct PalAnm *palAnm, unsigned, u16, unsigned, unsigned);
-extern void PALANM_SetAutoTransfer(struct PalAnm *palAnm, int v);
-extern u32 PALANM_GetFadeRequestBits(struct PalAnm *palAnm);
+extern struct PalAnmSlot *PALANM_Create(u32 heap);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *palAnm, u32 idx, u32 size, u32 heap);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *palAnm, u32 idx);
+extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
+extern void PALANM_BlendChannelMask(struct PalAnmSlot *palAnm, unsigned, u16, unsigned, unsigned);
+extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palAnm, int v);
+extern u32 PALANM_GetFadeRequestBits(struct PalAnmSlot *palAnm);
 extern void func_0207D63C(int, int, int, int, int);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -327,8 +327,8 @@ extern void *POKEGRA_OpenHandle(int heapId);
 extern u32 POKEGRA_RegisterCgr(void *handle, u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32 personality, u32, u16 heap);
 extern u32 POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32, u16 palOffset, u16 heap);
 extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32, u32, u16 heap);
-extern u32 func_02017ED8(u32 trainerId, u32 personality);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnm *palAnm, u32 bank, u32 off, u32 size);
+extern u32 POKE_TOOL_IsShinyOtIdPersonality(u32 trainerId, u32 personality);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palAnm, u32 bank, u32 off, u32 size);
 extern s16 GF_STANDARD_Sin(s32 x);
 extern short GF_STANDARD_Get_F684(unsigned short x);
 extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 val);
@@ -557,7 +557,7 @@ void DENDOU_VIEW_LoadGraphics(void)
 
 void DENDOU_VIEW_InitPalAnm(DendouViewWork *work)
 {
-    struct PalAnm *palAnm = PALANM_Create(DENDOU_VIEW_HEAP);
+    struct PalAnmSlot *palAnm = PALANM_Create(DENDOU_VIEW_HEAP);
 
     work->palAnm = palAnm;
     PALANM_AllocSlotBuffers(palAnm, 2, 0x200, DENDOU_VIEW_HEAP);
@@ -1124,27 +1124,20 @@ void DENDOU_VIEW_ExitWindows(DendouViewWork *work)
 
 /*
  * Runs the print queue and copies a window to VRAM once its text is drawn.
- * lever: the four offset locals each carry their own constant; they are the
- * offsets of DendouViewWork.windows[0].win and .transferPending (see open_items.tsv).
+ * The typed DendouViewWork.windows[i] fields replace the four offset locals
+ * that held the offsets of .win (0xB48) and .transferPending (0xB4C).
  */
 void DENDOU_VIEW_FlushWindows(DendouViewWork *work)
 {
-    int transferWinOffset, clearPendingOffset, bmpWinOffset, pendingOffset;
     unsigned i;
     struct PrintQue *queue;
-    char *window;
     PRINTSYS_QUE_Main(work->printQueue);
-    transferWinOffset = 0xb48;
-    clearPendingOffset = 0xb4c;
-    bmpWinOffset = 0xb48;
-    pendingOffset = 0xb4c;
     for (i = 0; i < 2; ++i) {
         queue = work->printQueue;
-        window = (char *)work + i * 8;
-        if (*(unsigned char *)(window + pendingOffset)) {
-            if (!PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(*(struct BmpWin **)(window + bmpWinOffset)))) {
-                BMP_WIN_TransferChars(*(struct BmpWin **)(window + transferWinOffset));
-                *(unsigned char *)(window + clearPendingOffset) = 0;
+        if (work->windows[i].transferPending) {
+            if (!PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(work->windows[i].win))) {
+                BMP_WIN_TransferChars(work->windows[i].win);
+                work->windows[i].transferPending = 0;
             }
         }
     }
@@ -1486,7 +1479,7 @@ void DENDOU_VIEW_SwitchRowActors(DendouViewWork *work)
         for (i = 0; i < row->memberCount; i++) {
             tmpl = sMemberActorTemplates[i];
             member = &row->members[i];
-            shiny = func_02017ED8(member->trainerId, member->personality);
+            shiny = POKE_TOOL_IsShinyOtIdPersonality(member->trainerId, member->personality);
             if (work->activeHalf == 1) {
                 tmpl.cgrSlot += 6;
                 tmpl.palSlot += 6;

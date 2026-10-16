@@ -1,5 +1,5 @@
 /*
- * function: func_02184818
+ * function: MICTEST_DeleteSpriteTasks
  * address: 0x02184818
  * packet: pkt_ov168_02184818
  * region: ov168
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 extern void func_02030EAC(struct Node *);
-void func_02184818(char *p) { int i; char *q;for(i=0;i<3;i++){q=p+i*0x30;if(*(struct Node * *)&((struct Obj10644 *)q)->f7C){func_02030EAC(*(struct Node * *)&((struct Obj10644 *)q)->f7C);*(struct Node * *)&((struct Obj10644 *)q)->f7C=0;}} }
+void MICTEST_DeleteSpriteTasks(char *p) { int i; char *q;for(i=0;i<3;i++){q=p+i*0x30;if(*(struct Node * *)&((struct Obj10644 *)q)->f7C){func_02030EAC(*(struct Node * *)&((struct Obj10644 *)q)->f7C);*(struct Node * *)&((struct Obj10644 *)q)->f7C=0;}} }

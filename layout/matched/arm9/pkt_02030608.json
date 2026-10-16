@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02030608",
+   "name": "GFL_HEAP_Init",
    "address": "0x02030608",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0203064C",
+   "name": "GFL_HEAP_CreateChildHeap",
    "address": "0x0203064C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030678",
+   "name": "GFL_HEAP_RegisterBlockHeap",
    "address": "0x02030678",
    "kind": "game",
    "region": "arm9",

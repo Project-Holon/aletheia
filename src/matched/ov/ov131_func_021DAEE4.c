@@ -18,7 +18,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_SKILL_SetNewMoveHeld 0x021DB614 thumb ov131
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   EVENT_ID_Check 0x0202F72C thumb
  *   P_STA_SKILL_ShowCantForgetMsg 0x021DB688 thumb ov131
  *   P_STA_SKILL_GetSlotPos 0x021DBA54 thumb ov131
@@ -45,7 +45,7 @@ extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_SKILL_SetNewMoveHeld(void *a, u8 *b, int c);
 extern void *P_STATUS_GetPokePara(u8 *);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 EVENT_ID_Check(void *,u16,u16);
 extern void P_STA_SKILL_ShowCantForgetMsg(u8 *,u8 *,int);
 extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
@@ -102,7 +102,7 @@ int P_STA_SKILL_HandleKeysForget(u8 *a,u8 *p)
     } else if(KEY_GetTrg()==1) {
         a[0x1c]=0;
         if(p[0x29]<4) {
-            r=EVENT_ID_Check(((struct Obj23165 *)((*(u8 * *)&((struct Obj00132 *)a)->f8)))->f8,func_02017E88(P_STATUS_GetPokePara(a),*(volatile u8 *)&((struct Obj00026 *)p)->f29+0x36,0),((struct Obj00132 *)a)->f0);
+            r=EVENT_ID_Check(((struct Obj23165 *)((*(u8 * *)&((struct Obj00132 *)a)->f8)))->f8,POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),*(volatile u8 *)&((struct Obj00026 *)p)->f29+0x36,0),((struct Obj00132 *)a)->f0);
             if(r==0 || ((struct Obj00132 *)a)->f14==1) {
                 if(((struct Obj23166 *)((*(u8 * *)&((struct Obj00132 *)a)->f8)))->f14==0) {
                     ((struct Obj00132 *)a)->f54=1;

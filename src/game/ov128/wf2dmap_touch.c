@@ -98,7 +98,7 @@
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
@@ -108,6 +108,7 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   BEACON_GetBlock  0x0200C0F0  thumb  arm9
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "wf2dmap_ui_types.h"
 
@@ -125,7 +126,7 @@ struct PrintSys;
 struct CharBuf;
 struct Obj;
 struct CodeIn;
-struct Obj0202EA20;
+struct BlinkPalAnm;
 struct Cfg;
 typedef unsigned char u8;
 
@@ -173,7 +174,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u16 heap);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void Wf2dmapFriend_DrawText(u8 *p, u8 *q, unsigned v);
 extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
@@ -211,14 +212,14 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern int TOUCHPANEL_GetTrg(void);
 extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
-extern u32 func_0202EA20(struct Obj0202EA20 *p);
+extern u32 func_0202EA20(struct BlinkPalAnm *p);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern u8 func_020355C4(void);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -521,7 +522,7 @@ void WF2DMAP_TOUCH_DeleteScreens(char *p,int unused,char *q) { WF2DMAP_TOUCH_Cle
 
 void WF2DMAP_TOUCH_InitGfx(char *p,char *q,char *r) {
  char *s;
- WORDSET_SetSlotMyStatus(((Wf2dmapTouchGfx *)r)->wordSet,0,func_02012944(((Wf2dmapTouchFriendData *)q)->saveData));
+ WORDSET_SetSlotMyStatus(((Wf2dmapTouchGfx *)r)->wordSet,0,GAME_DATA_GetMyStatus(((Wf2dmapTouchFriendData *)q)->saveData));
  Wf2dmapFriend_DrawText((u8 *)r,(u8 *)(r+12),50);
  s=*(char * *)&((Wf2dmapTouchWindowSet *)p)->bitmap;
  BG_SYS_DrawTile(2,(u32)(s+12),0,0,(((Wf2dmapBitmapHeader *)s)->width>>3)&255,(((Wf2dmapBitmapHeader *)s)->height>>3)&255);
@@ -1358,7 +1359,7 @@ void WF2DMAP_TOUCH_PlayActorAnimB(char *p) {CLACT_SetActorAnimFrame(((Wf2dmapTou
 
 
 
-void WF2DMAP_TOUCH_SetBgOffset(int a) {if(a==1)func_0207D658(0x04000050,28,0);else func_0207D658(0x04000050,28,-8);}
+void WF2DMAP_TOUCH_SetBgOffset(int a) {if(a==1)G2x_SetBlendBrightness_(0x04000050,28,0);else G2x_SetBlendBrightness_(0x04000050,28,-8);}
 
 
 

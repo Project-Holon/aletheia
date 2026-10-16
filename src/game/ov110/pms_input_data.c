@@ -1,7 +1,7 @@
 /*
  * file:     pms_input_data.c
  * unit:     yes
- * function: func_021B95A0, func_021B95F4, func_021B9608, func_021B9654, func_021B96C0, func_021B9720, func_021B97AC, func_021B9814, func_021B98A0, func_021B98F8, func_021B999C, func_021B99A4, func_021B99C4, func_021B99D8, func_021B99E4, func_021B99F0, func_021B9A3C, func_021B9A48
+ * function: PMS_INPUT_DATA_Create, PMS_INPUT_DATA_Delete, PMS_INPUT_DATA_BuildCategoryWords, PMS_INPUT_DATA_CollectSeenWords, PMS_INPUT_DATA_CollectEventWords, PMS_INPUT_DATA_CollectUnlockedWords, PMS_INPUT_DATA_CollectOptionWords, PMS_INPUT_DATA_CollectRangeWords, PMS_INPUT_DATA_BuildInitialWords, PMS_INPUT_DATA_FilterInitialWords, PMS_INPUT_DATA_GetCategoryWordCount, PMS_INPUT_DATA_GetCategoryWordString, PMS_INPUT_DATA_GetCategoryWordId, PMS_INPUT_DATA_FilterWordList, PMS_INPUT_DATA_SkipRangeEntry, PMS_INPUT_DATA_GetInitialWordId, PMS_INPUT_DATA_GetWordString, PMS_INPUT_DATA_GetInvalidWordId
  * address:  0x021B95A0
  * region:   ov110
  * compiler: dsi/1.1p1
@@ -30,11 +30,11 @@
  *   PMSI_PARAM_GetOptionFlag 0x02024160 thumb
  *   d_021C1C88 0x021C1C88 data ov110 a4
  *   PMS_WORD_GetString 0x02024810 thumb
- *   func_021B999C 0x021B999C thumb ov110
- *   func_021B95A0 0x021B95A0 thumb ov110
- *   func_021B95F4 0x021B95F4 thumb ov110
- *   func_021B99C4 0x021B99C4 thumb ov110
- *   func_021B99A4 0x021B99A4 thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
+ *   PMS_INPUT_DATA_Create 0x021B95A0 thumb ov110
+ *   PMS_INPUT_DATA_Delete 0x021B95F4 thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordId 0x021B99C4 thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordString 0x021B99A4 thumb ov110
  */
 #include "pms_input_data_shared_types.h"
 
@@ -66,26 +66,26 @@ extern u16 *const d_021C1C88[];
 #define SEEN_MARK(d, id) ((d)->seenBits[(id) >> 3] |= (u8)(1 << ((id) & 7)))
 #define SEEN_TEST(d, id) ((d)->seenBits[(id) >> 3] & (1 << ((id) & 7)))
 
-struct PmsInputData *func_021B95A0(u32 heap, void *save);
-void func_021B95F4(struct PmsInputData *d);
-void func_021B9608(struct PmsInputData *d);
-u32 func_021B9654(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
-u32 func_021B96C0(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
-u32 func_021B9720(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
-u32 func_021B97AC(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
-u32 func_021B9814(struct PmsInputData *d, const u16 *src, u32 count, u16 *out);
-void func_021B98A0(struct PmsInputData *d);
-u32 func_021B98F8(struct PmsInputData *d, const u16 *src, u16 *out, u32 outIndex);
-u32 func_021B999C(struct PmsInputData *d, int category);
-void func_021B99A4(struct PmsInputData *d, unsigned int category, unsigned int index, int mode);
-unsigned short func_021B99C4(struct PmsInputData *d, unsigned int category, unsigned int index);
-u32 func_021B99D8(u32 a, u32 b, u32 c);
-const u16 *func_021B99E4(const u16 *rangeEntry);
-u16 func_021B99F0(int unused, int initial, int index);
-void func_021B9A3C(struct PmsInputData *d, u16 wordId, int mode);
-int func_021B9A48(u32 unused);
+struct PmsInputData *PMS_INPUT_DATA_Create(u32 heap, void *save);
+void PMS_INPUT_DATA_Delete(struct PmsInputData *d);
+void PMS_INPUT_DATA_BuildCategoryWords(struct PmsInputData *d);
+u32 PMS_INPUT_DATA_CollectSeenWords(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
+u32 PMS_INPUT_DATA_CollectEventWords(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
+u32 PMS_INPUT_DATA_CollectUnlockedWords(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
+u32 PMS_INPUT_DATA_CollectOptionWords(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out);
+u32 PMS_INPUT_DATA_CollectRangeWords(struct PmsInputData *d, const u16 *src, u32 count, u16 *out);
+void PMS_INPUT_DATA_BuildInitialWords(struct PmsInputData *d);
+u32 PMS_INPUT_DATA_FilterInitialWords(struct PmsInputData *d, const u16 *src, u16 *out, u32 outIndex);
+u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *d, int category);
+void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, int mode);
+unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned int category, unsigned int index);
+u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c);
+const u16 *PMS_INPUT_DATA_SkipRangeEntry(const u16 *rangeEntry);
+u16 PMS_INPUT_DATA_GetInitialWordId(int unused, int initial, int index);
+void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, int mode);
+int PMS_INPUT_DATA_GetInvalidWordId(u32 unused);
 
-struct PmsInputData *func_021B95A0(u32 heap, void *save)
+struct PmsInputData *PMS_INPUT_DATA_Create(u32 heap, void *save)
 {
     struct PmsInputData *d;
     int i;
@@ -93,12 +93,12 @@ struct PmsInputData *func_021B95A0(u32 heap, void *save)
     d->saveData = save;
     d->wordSys = PMS_WORD_Create(heap);
     for (i = 0; i < PMS_INPUT_DATA_SEEN_BYTES; i++) d->seenBits[i] = 0;
-    func_021B9608(d);
-    func_021B98A0(d);
+    PMS_INPUT_DATA_BuildCategoryWords(d);
+    PMS_INPUT_DATA_BuildInitialWords(d);
     return d;
 }
 
-void func_021B95F4(struct PmsInputData *d)
+void PMS_INPUT_DATA_Delete(struct PmsInputData *d)
 {
     if (d) {
         PMS_WORD_Delete(d->wordSys);
@@ -106,7 +106,7 @@ void func_021B95F4(struct PmsInputData *d)
     }
 }
 
-void func_021B9608(struct PmsInputData *d)
+void PMS_INPUT_DATA_BuildCategoryWords(struct PmsInputData *d)
 {
     int i;
     int n;
@@ -119,7 +119,7 @@ void func_021B9608(struct PmsInputData *d)
     }
 }
 
-u32 func_021B9654(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
+u32 PMS_INPUT_DATA_CollectSeenWords(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
 {
     void *save;
     u32 n;
@@ -137,7 +137,7 @@ u32 func_021B9654(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
     return n;
 }
 
-u32 func_021B96C0(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
+u32 PMS_INPUT_DATA_CollectEventWords(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
 {
     u32 i;
     if (PMSI_PARAM_GetEventFlag(d->saveData)) {
@@ -156,7 +156,7 @@ u32 func_021B96C0(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
  * Locals declared o, limit, count, base, i; `base = ...; count = 0; limit = ...`
  * in that order fixes the zero register and the stack slots.
  */
-u32 func_021B9720(struct PmsInputData *d, const u16 *ids, u32 n, u16 *out)
+u32 PMS_INPUT_DATA_CollectUnlockedWords(struct PmsInputData *d, const u16 *ids, u32 n, u16 *out)
 {
     void *wordSave;
     u32 limit;
@@ -182,7 +182,7 @@ u32 func_021B9720(struct PmsInputData *d, const u16 *ids, u32 n, u16 *out)
     return count;
 }
 
-u32 func_021B97AC(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
+u32 PMS_INPUT_DATA_CollectOptionWords(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
 {
     u32 i;
     u32 n;
@@ -198,7 +198,7 @@ u32 func_021B97AC(struct PmsInputData *d, const u16 *ids, u32 count, u16 *out)
     return n;
 }
 
-u32 func_021B9814(struct PmsInputData *d, const u16 *src, u32 count, u16 *out)
+u32 PMS_INPUT_DATA_CollectRangeWords(struct PmsInputData *d, const u16 *src, u32 count, u16 *out)
 {
     u32 i;
     for (i = 0; i < count; i++) {
@@ -223,7 +223,7 @@ u32 func_021B9814(struct PmsInputData *d, const u16 *src, u32 count, u16 *out)
     return count;
 }
 
-void func_021B98A0(struct PmsInputData *d)
+void PMS_INPUT_DATA_BuildInitialWords(struct PmsInputData *d)
 {
     u32 a = 0xF58;
     u32 b;
@@ -239,12 +239,12 @@ void func_021B98A0(struct PmsInputData *d)
     for (i = 0; i < PMS_INPUT_DATA_INITIAL_COUNT; ++i) {
         u16 *src = d_021C1C88[i];
         *(u32 *)(p + i * 4 + a) = offset;
-        *(u32 *)(p + i * 4 + b) = func_021B98F8(d, src, (u16 *)(p + 0xF58), offset);
+        *(u32 *)(p + i * 4 + b) = PMS_INPUT_DATA_FilterInitialWords(d, src, (u16 *)(p + 0xF58), offset);
         offset += *(u32 *)(p + i * 4 + c);
     }
 }
 
-u32 func_021B98F8(struct PmsInputData *d, const u16 *src, u16 *out, u32 outIndex)
+u32 PMS_INPUT_DATA_FilterInitialWords(struct PmsInputData *d, const u16 *src, u16 *out, u32 outIndex)
 {
     u32 count = 0;
     u32 c = *src;
@@ -275,48 +275,48 @@ u32 func_021B98F8(struct PmsInputData *d, const u16 *src, u16 *out, u32 outIndex
     return count;
 }
 
-u32 func_021B999C(struct PmsInputData *d, int category)
+u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *d, int category)
 {
     return d->categoryCount[category];
 }
 
 /* Two-byte zero alignment padding follows the compiled function. */
-void func_021B99A4(struct PmsInputData *d, unsigned int category, unsigned int index, int mode)
+void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, int mode)
 {
     unsigned int start;
     start = d->categoryStart[category];
     PMS_WORD_GetString(d->wordSys, d->categoryWords[start + index], mode);
 }
 
-unsigned short func_021B99C4(struct PmsInputData *d, unsigned int category, unsigned int index)
+unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned int category, unsigned int index)
 {
     unsigned int start;
     start = d->categoryStart[category];
     return d->categoryWords[start + index];
 }
 
-u32 func_021B99D8(u32 a, u32 b, u32 c)
+u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c)
 {
-    return func_021B98F8((struct PmsInputData *)a, (u16 *)b, (u16 *)c, 0);
+    return PMS_INPUT_DATA_FilterInitialWords((struct PmsInputData *)a, (u16 *)b, (u16 *)c, 0);
 }
 
 /* A 0xFFFE entry is {marker, length, id * length}: returns the last id. */
-const u16 *func_021B99E4(const u16 *rangeEntry)
+const u16 *PMS_INPUT_DATA_SkipRangeEntry(const u16 *rangeEntry)
 {
     return rangeEntry + 2 + (rangeEntry[1] - 1);
 }
 
-u16 func_021B99F0(int unused, int initial, int index)
+u16 PMS_INPUT_DATA_GetInitialWordId(int unused, int initial, int index)
 {
     const u16 *p = d_021C1C88[initial];
     int n = 0;
     while (*p != 65535) {
         if (n == index) {
-            if (*p == 65534) p = func_021B99E4(p);
+            if (*p == 65534) p = PMS_INPUT_DATA_SkipRangeEntry(p);
             return *p;
         }
         if (*p == 65534) {
-            p = func_021B99E4(p);
+            p = PMS_INPUT_DATA_SkipRangeEntry(p);
             p += 1;
         } else {
             p += 1;
@@ -326,12 +326,12 @@ u16 func_021B99F0(int unused, int initial, int index)
     return 0;
 }
 
-void func_021B9A3C(struct PmsInputData *d, u16 wordId, int mode)
+void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, int mode)
 {
     PMS_WORD_GetString(d->wordSys, wordId, mode);
 }
 
-int func_021B9A48(u32 unused)
+int PMS_INPUT_DATA_GetInvalidWordId(u32 unused)
 {
     return 0xffff;
 }

@@ -43,6 +43,8 @@
  *   GF_FONT_AppendTag 0x0201D60C thumb arm9
  *   GF_FONT_GetTagParam 0x0201D670 thumb arm9
  *   GF_FONT_SkipTag 0x0201D688 thumb arm9
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 #include "gf_font_shared_types.h"
 
@@ -70,9 +72,9 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 
-extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
 
-extern u32 func_02017E88(void *mon, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetBoxValue(void *mon, u32 paramId, u32 arg);
 
 extern void STRBUF_Delete(struct Strbuf *text);
 
@@ -365,7 +367,7 @@ fail:
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md
  * records for a chain the compiler does not tail-merge.
  *
- * Addresses are Black-image addresses.  func_02017E1C and func_02017E88 are
+ * Addresses are Black-image addresses.  POKE_TOOL_GetPartyValue and POKE_TOOL_GetBoxValue are
  * the pair of species-keyed getters this file reads names through; they are
  * not resolved here and nothing in this range reads a version flag or an
  * exclusive-species table directly, but any renaming of those two should be
@@ -448,12 +450,12 @@ void WORDSET_Callback(struct WordSet *words, u32 slot, u16 speciesId)
 
 void WORDSET_SetSlotMonName(struct WordSet *words, u32 slot, void *mon)
 {
-    WORDSET_Callback(words, slot, func_02017E1C(mon, 5, 0));
+    WORDSET_Callback(words, slot, POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
 void WORDSET_SetSlotMonNameAlt(struct WordSet *words, u32 slot, void *mon)
 {
-    WORDSET_Callback(words, slot, func_02017E88(mon, 5, 0));
+    WORDSET_Callback(words, slot, POKE_TOOL_GetBoxValue(mon, 5, 0));
 }
 
 void WORDSET_Callback_EEC4(struct WordSet *words, u32 slot, u32 entryIndex)
@@ -463,18 +465,18 @@ void WORDSET_Callback_EEC4(struct WordSet *words, u32 slot, u32 entryIndex)
 
 void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon)
 {
-    WORDSET_Callback_EEC4(words, slot, (u16)func_02017E1C(mon, 5, 0));
+    WORDSET_Callback_EEC4(words, slot, (u16)POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
 void WORDSET_SetSlotMonSpecies(struct WordSet *words, u32 slot, void *mon)
 {
-    func_02017E1C(mon, 0x73, (u32)words->scratch);
+    POKE_TOOL_GetPartyValue(mon, 0x73, (u32)words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 
 void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *words, u32 slot, void *mon)
 {
-    func_02017E88(mon, 0x73, (u32)words->scratch);
+    POKE_TOOL_GetBoxValue(mon, 0x73, (u32)words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 

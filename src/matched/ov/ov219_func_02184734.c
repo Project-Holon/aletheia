@@ -1,5 +1,5 @@
 /*
- * function: func_02184734
+ * function: BEACON_DETAIL_MarkCurrentRecord
  * address: 0x02184734
  * packet: pkt_ov219_02184734
  * region: ov219
@@ -15,7 +15,7 @@ typedef struct {int words[9];} Matrix;
 typedef struct {short x,y;Matrix matrix;u16 state,a,b,pad;} Record;
 typedef struct {unsigned heap;void *ctx,*save,*field,*data;unsigned count;Record records[];} Records;
 typedef struct {unsigned heap;void *ctx,*save,*field,*data;unsigned count;char pad[0xc2dc];int x,y;char pad2[0x40];unsigned a,b;} State;
-void func_02184734(State *p)
+void BEACON_DETAIL_MarkCurrentRecord(State *p)
 {
     unsigned i;
     for(i=0;i<p->count;i++){

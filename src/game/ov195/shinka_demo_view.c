@@ -58,7 +58,7 @@
  *   d_02208E80 0x02208E80 data
  *   FX_SinCosTable_ 0x020A1B38 data
  *   POKE_TOOL_GetGender 0x02017F00 thumb
- *   func_02017EAC 0x02017EAC thumb
+ *   POKE_TOOL_IsShiny 0x02017EAC thumb
  *   d_02208E8C 0x02208E8C data
  *   d_02148BCC 0x02148BCC data
  *   G3D_SYSTEM_GetProjection 0x020467EC arm
@@ -354,7 +354,7 @@ extern void MCSS_SetPosition(void *p, u32 *src);
 
 extern u8 POKE_TOOL_GetGender(void *p);
 
-extern u32 func_02017EAC(void *p);
+extern u32 POKE_TOOL_IsShiny(void *p);
 
 extern void G3D_SYSTEM_GetProjection(int p0);
 
@@ -951,7 +951,7 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
     a = POKE_TOOL_GetPartyValue(o->res0, 5, 0);
     b = POKE_TOOL_GetPartyValue(o->res0, 0x6f, 0);
     c = POKE_TOOL_GetGender(o->res0);
-    g = w->grid[0] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, func_02017EAC(o->res0), 0, 0, 0x26000, 0x960, o->heap);
+    g = w->grid[0] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, POKE_TOOL_IsShiny(o->res0), 0, 0, 0x26000, 0x960, o->heap);
     if (o->f08 == 0) {
         SHINKA_DEMO_VIEW_InitGrid(g, o->heap);
         g->state = 3;
@@ -964,7 +964,7 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
         a = POKE_TOOL_GetPartyValue(o->res1, 5, 0);
         b = POKE_TOOL_GetPartyValue(o->res1, 0x6f, 0);
         c = POKE_TOOL_GetGender(o->res1);
-        g = w->grid[1] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, func_02017EAC(o->res1), 0, 0, 0x28000, 0x980, o->heap);
+        g = w->grid[1] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, POKE_TOOL_IsShiny(o->res1), 0, 0, 0x28000, 0x980, o->heap);
         SHINKA_DEMO_VIEW_InitGrid(g, o->heap);
         g->state = 3;
         SHINKA_DEMO_VIEW_StartGridFade((Grid *)((struct Fade *)g), o->heap, 0x7fff, 31, 31, 0, 31);

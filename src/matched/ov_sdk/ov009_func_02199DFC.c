@@ -15,7 +15,7 @@
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   ResolveServers  0x02199D60  arm  ov009
  *   AddNegotiator  0x02199138  arm  ov009
- *   func_0217EB18  0x0217EB18  arm  ov009
+ *   socket  0x0217EB18  arm  ov009
  *   RemoveNegotiator  0x021991C8  arm  ov009
  *   SendPreinitPacket  0x021995E4  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
@@ -57,7 +57,7 @@ typedef struct _NATNegotiator {
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int ResolveServers(void);
 extern NATNegotiator *AddNegotiator(void);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern void RemoveNegotiator(NATNegotiator *neg);
 struct NATNegotiator;
 extern void SendPreinitPacket(struct NATNegotiator *neg);
@@ -94,7 +94,7 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
         return 1;
     }
 
-    neg->negotiateSock = func_0217EB18(2, 2, 0);
+    neg->negotiateSock = socket(2, 2, 0);
     if (neg->negotiateSock == -1) {
         gsDebugFormat(7, 0, 1, gNatNegSocketFailFmt);
         RemoveNegotiator(neg);

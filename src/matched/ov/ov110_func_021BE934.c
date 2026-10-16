@@ -16,7 +16,7 @@
  *   PMS_INPUT_HandleMenu 0x021BD894 thumb ov110
  *   PMS_INPUT_ResetCursor 0x021BF82C thumb ov110
  *   PMS_INPUT_HitCategoryCell 0x021BE800 thumb ov110
- *   func_021B999C 0x021B999C thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  *   PMS_INPUT_OpenWordList 0x021BD868 thumb ov110
  *   PMS_INPUT_HitInitialCell 0x021BE8B4 thumb ov110
  *   PMSI_SEARCH_PushKey 0x021BAF7C thumb ov110
@@ -35,7 +35,7 @@ extern void PMS_INPUT_VIEW_StartTask(u8 *,int);
 extern int PMS_INPUT_HandleMenu(u8 *,void *);
 extern void PMS_INPUT_ResetCursor(u8 *);
 extern int PMS_INPUT_HitCategoryCell(u8 *);
-extern u32 func_021B999C(u8 *,int);
+extern u32 PMS_INPUT_DATA_GetCategoryWordCount(u8 *,int);
 extern void PMS_INPUT_OpenWordList(u8 *);
 extern int PMS_INPUT_HitInitialCell(u8 *);
 extern void PMSI_SEARCH_PushKey(unsigned p, int v);
@@ -65,7 +65,7 @@ void PMS_INPUT_HandleBrowseTouch(u8 *p,u32 *q)
         if(r>=0) {
             ((struct Obj00586 *)p)->f4C=r;
             PMS_INPUT_VIEW_StartTask(*(u8 * *)&((struct Obj00586 *)p)->f14,33);
-            if(r>=12 || !func_021B999C(*(u8 * *)&((struct Obj00586 *)p)->f18,((struct Obj00586 *)p)->f4C)) {
+            if(r>=12 || !PMS_INPUT_DATA_GetCategoryWordCount(*(u8 * *)&((struct Obj00586 *)p)->f18,((struct Obj00586 *)p)->f4C)) {
                 GFL_USE_PlaySeDefaultVolume(1367);
                 return;
             }

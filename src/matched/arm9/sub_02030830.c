@@ -10,7 +10,7 @@
  * status:   EXACT
  * function: GFL_HEAP_GetHeapHead
  *
- * Asserting wrapper around sub_02030344: forwards its single argument,
+ * Asserting wrapper around GFL_HEAP_GetTotalFreeSize: forwards its single argument,
  * terminates if the result is NULL, and hands the result back either way.
  *
  *   void *GFL_HEAP_GetHeapHead(u32 heapId)
@@ -21,7 +21,7 @@
  * is what spends r4.
  *
  * symbols:
- *   sub_02030344    0x02030344  arm
+ *   GFL_HEAP_GetTotalFreeSize    0x02030344  arm
  *   OS_Terminate    0x02088234  arm
  *
  * Verified with:
@@ -31,14 +31,14 @@
 
 typedef unsigned int u32;
 
-extern void *sub_02030344(u32 heapId);
+extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 extern void OS_Terminate(void);
 
 void *GFL_HEAP_GetHeapHead(u32 heapId)
 {
     void *p;
 
-    p = sub_02030344(heapId);
+    p = GFL_HEAP_GetTotalFreeSize(heapId);
     if (p == 0) {
         OS_Terminate();
     }

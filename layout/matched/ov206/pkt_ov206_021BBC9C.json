@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBC9C",
+   "name": "ZUKAN_INFO_BlendPalette",
    "address": "0x021BBC9C",
    "kind": "game",
    "region": "ov206",

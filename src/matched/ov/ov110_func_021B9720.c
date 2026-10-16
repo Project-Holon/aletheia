@@ -1,5 +1,5 @@
 /*
- * function: func_021B9720
+ * function: PMS_INPUT_DATA_CollectUnlockedWords
  * address: 0x021B9720
  * packet: pkt_ov110_021B9720
  * region: ov110
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern void *PMSI_PARAM_GetWordSave(char *p);
 extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
 extern int PMS_WORD_CheckFlag(const u32 *p, u32 idx);
-u32 func_021B9720(u8 *p, u16 *src, u32 n, u16 *out)
+u32 PMS_INPUT_DATA_CollectUnlockedWords(u8 *p, u16 *src, u32 n, u16 *out)
 {
     void *o;
     u32 limit;

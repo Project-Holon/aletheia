@@ -1,5 +1,5 @@
 /*
- * function: func_021844C8
+ * function: MICTEST_OnMicEvent
  * address: 0x021844C8
  * packet: pkt_ov168_021844C8
  * region: ov168
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0218449C 0x0218449C thumb ov168
- *   func_021845AC 0x021845AC thumb ov168
- *   func_021845E0 0x021845E0 thumb ov168
- *   func_02184600 0x02184600 thumb ov168
+ *   MICTEST_GetMicLevel 0x0218449C thumb ov168
+ *   MICTEST_LevelToAnim 0x021845AC thumb ov168
+ *   MICTEST_HasFreeSlot 0x021845E0 thumb ov168
+ *   MICTEST_SpawnSprite 0x02184600 thumb ov168
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   d_02184A40 0x02184A40 data a4
  */
@@ -20,26 +20,26 @@
 #include "../include/Obj04544.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_0218449C(void *);
-extern int func_021845AC(u8);
+extern int MICTEST_GetMicLevel(void *);
+extern int MICTEST_LevelToAnim(u8);
 struct Obj;
-extern int func_021845E0(char *p);
-extern int func_02184600(char *,int,u16,int,void *);
+extern int MICTEST_HasFreeSlot(char *p);
+extern int MICTEST_SpawnSprite(char *,int,u16,int,void *);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern unsigned d_02184A40;
-void func_021844C8(int event, char *p)
+void MICTEST_OnMicEvent(int event, char *p)
 {
     char *q;
     int n,anim;
     if(event==0){
         q=p+0xf8;
-        n=func_0218449C(q);
+        n=MICTEST_GetMicLevel(q);
         if(((struct Obj04544 *)q)->f20<n){
-            anim=func_021845AC(n);
+            anim=MICTEST_LevelToAnim(n);
             ((struct Obj04544 *)q)->f20=n;
             ((struct Obj04544 *)q)->f24=1;
         }else{
-            anim=func_021845AC(((struct Obj04544 *)q)->f20);
+            anim=MICTEST_LevelToAnim(((struct Obj04544 *)q)->f20);
             ((struct Obj04544 *)q)->f20-=2;
         }
         if(anim!=0){
@@ -47,12 +47,12 @@ void func_021844C8(int event, char *p)
                 CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f8,1);
                 ((struct Obj04544 *)q)->f24=0;
             }
-            if(func_021845E0(p)){
-                func_02184600(p,((struct Obj01947 *)p)->f14C,128,64,((struct Obj01947 *)p)->f144);
+            if(MICTEST_HasFreeSlot(p)){
+                MICTEST_SpawnSprite(p,((struct Obj01947 *)p)->f14C,128,64,((struct Obj01947 *)p)->f144);
             }else{
                 --((struct Obj01947 *)p)->fE0;
                 if(((struct Obj01947 *)p)->fE0==0){
-                    func_02184600(p,((struct Obj01947 *)p)->f14C,128,64,((struct Obj01947 *)p)->f144);
+                    MICTEST_SpawnSprite(p,((struct Obj01947 *)p)->f14C,128,64,((struct Obj01947 *)p)->f144);
                     ((struct Obj01947 *)p)->fE0=10;
                 }
             }

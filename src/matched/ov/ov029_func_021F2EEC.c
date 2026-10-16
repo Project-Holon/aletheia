@@ -12,7 +12,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021F0194  0x021F0194  thumb  ov029
+ *   C_GEAR_StartRippleFlood  0x021F0194  thumb  ov029
  *   C_GEAR_PanelEventMain  0x021F2F60  thumb  ov029
  */
 #include "../include/Obj00042.h"
@@ -23,7 +23,7 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_021F0194(u8 *p);
+extern void C_GEAR_StartRippleFlood(u8 *p);
 extern void C_GEAR_PanelEventMain(void);
 
 int C_GEAR_StartPanelEvent(char *p, int k)
@@ -37,7 +37,7 @@ int C_GEAR_StartPanelEvent(char *p, int k)
     case 1:
     case 5:
     case 6:
-        func_021F0194((u8 *)w[0]);
+        C_GEAR_StartRippleFlood((u8 *)w[0]);
         break;
     case 11:
         ((struct Obj00042 *)p)->f416 = 4;

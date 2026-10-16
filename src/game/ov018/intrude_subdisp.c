@@ -192,7 +192,7 @@
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   d_021836E4  0x021836E4  data  a4
  *   d_021836DC  0x021836DC  data  a4
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   d_021836D4  0x021836D4  data  a4
  *   d_021836EC  0x021836EC  data  a4
@@ -473,7 +473,7 @@ extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *, struct ClactRes 
 extern void CLACT_SetActorDrawEnable(void *, unsigned int);
 extern void CLACT_SetActorAutoAnim(void *p, unsigned int v);
 extern void CLACT_SetActorPaletteOffset(void *o, unsigned int v, unsigned int flag);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const void *obj);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const void *param);
@@ -1627,7 +1627,7 @@ void INTRUDE_SUBDISP_CreateMyPlayerActor(IntrudeSubdispWork *work, void *bg)
 
     param = d_021836D4;
     gameData = ICA_ANIME_GetField1C(work->gameSystem);
-    if (func_02008550(func_02012944(gameData)) == 1) {
+    if (func_02008550(GAME_DATA_GetMyStatus(gameData)) == 1) {
         param.anim = 3;
     }
     work->actors[15] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);

@@ -12,7 +12,7 @@
  *   func_021D66A0 0x021D66A0 thumb ov093
  *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
  *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
- *   func_021D58A8 0x021D58A8 thumb ov093
+ *   BTL_POKEPARAM_GetStatRaw 0x021D58A8 thumb ov093
  *   BTL_POKEPARAM_SetStat 0x021D5970 thumb ov093
  *   BTL_POKEPARAM_ClearSubstitute 0x021D6D70 thumb ov093
  *   BTL_POKEPARAM_ClearSickConts 0x021D63B8 thumb ov093
@@ -27,7 +27,7 @@ extern int func_021D66A0(u32);
 struct UtilWork;
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern void BTL_POKEPARAM_SetContFlag(u8 *p, unsigned int n);
-extern int func_021D58A8(u8 *, int);
+extern int BTL_POKEPARAM_GetStatRaw(u8 *, int);
 extern void BTL_POKEPARAM_SetStat(u8 *, int, u16);
 extern void BTL_POKEPARAM_ClearSubstitute(u8 *);
 extern void BTL_POKEPARAM_ClearSickConts(u8 *p, int all);
@@ -48,8 +48,8 @@ void BTL_POKEPARAM_PassEffects(struct Work *p, struct Work *q)
     }
     if (BTL_POKEPARAM_TestContFlag((void *)q, 10)) {
         BTL_POKEPARAM_SetContFlag((u8 *)p, 10);
-        t = func_021D58A8((u8 *)p, 8);
-        t2 = func_021D58A8((u8 *)p, 9);
+        t = BTL_POKEPARAM_GetStatRaw((u8 *)p, 8);
+        t2 = BTL_POKEPARAM_GetStatRaw((u8 *)p, 9);
         BTL_POKEPARAM_SetStat((u8 *)p, 8, t2);
         BTL_POKEPARAM_SetStat((u8 *)p, 9, t);
     }

@@ -1,7 +1,7 @@
 /*
  * file:     btlv_scu.c
  * unit:     yes
- * function: func_021EAF00, func_021EAF18, func_021EAF50, func_021EAF78, BTLV_SCU_Create, BTLV_SCU_SetupDisplay, BTLV_SCU_LoadArcTiles, BTLV_SCU_Delete, BTLV_SCU_ReloadGraphics, func_021EB318, BTLV_SCU_StartEntryScene, BTLV_SCU_RunProc, BTLV_SCU_StartBrightnessFade, BTLV_SCU_ProcQuickEntry, BTLV_SCU_ProcQuickEntrySingle, BTLV_SCU_ProcQuickEntryDouble, BTLV_SCU_ProcQuickEntryTriple, BTLV_SCU_ProcEntrySingleWild, BTLV_SCU_GetEntryMessageId, BTLV_SCU_ProcEntrySingleTrainer, BTLV_SCU_ProcEntrySingleLink, BTLV_SCU_ProcEntryDoubleWild, BTLV_SCU_ProcEntryDoubleTrainerLocal, BTLV_SCU_ProcEntryDoubleTrainerComm, BTLV_SCU_ProcEntryDoubleLinkLocal, BTLV_SCU_ProcEntryDoubleLinkComm, BTLV_SCU_ProcEntryTriple, BTLV_SCU_ProcEntryTripleLink, BTLV_SCU_PhaseTrainerIntro, BTLV_SCU_PhaseTrainerIntroComm, BTLV_SCU_RunTrainerIntroOne, BTLV_SCU_RunTrainerIntroTwo, BTLV_SCU_PhaseOpponentSendOutSingle, BTLV_SCU_PhaseOpponentSendOutDouble, BTLV_SCU_RunOpponentSendOutDoubleOneTrainer, BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers, BTLV_SCU_PhaseOpponentSendOutTriple, BTLV_SCU_PhaseOwnSendOutSingle, BTLV_SCU_PhaseOwnSendOutDouble, BTLV_SCU_RunOwnSendOutDoubleSolo, BTLV_SCU_RunOwnSendOutDoublePartner, BTLV_SCU_PhaseOwnSendOutTriple, BTLV_SCU_GetSendOutMessageId, BTLV_SCU_PrintMessageInstant, BTLV_SCU_StartMessage, BTLV_SCU_ConsumeMessageEnded, BTLV_SCU_UpdateMessage, BTLV_SCU_StartWazaEffect, BTLV_SCU_ProcWazaEffect, BTLV_SCU_RunWazaProc, BTLV_SCU_StartMonDamageAnim, BTLV_SCU_IsMonDamageAnimDone, BTLV_SCU_StartMonMotion, BTLV_SCU_IsMonMotionDone, BTLV_SCU_StartMonExit, BTLV_SCU_IsMonExitDone, BTLV_SCU_LoadAndShowMon, BTLV_SCU_IsMonLoadDone, BTLV_SCU_StartMonWithdraw, BTLV_SCU_IsMonWithdrawDone, BTLV_SCU_TaskMonWithdraw, BTLV_SCU_StartMonSendOut, BTLV_SCU_IsMonSendOutDone, BTLV_SCU_TaskMonSendOut, BTLV_SCU_StartHpGaugeUpdate, BTLV_SCU_IsHpGaugeIdle, BTLV_SCU_HideMonPair, BTLV_SCU_ShowMonPair, BTLV_SCU_HideMon, BTLV_SCU_ShowMon, BTLV_SCU_StartPosCueEffect, BTLV_SCU_IsPosCueEffectDone, BTLV_SCU_StartMonFormChange, BTLV_SCU_IsMonFormChangeDone, BTLV_SCU_TaskMonFormChange, BTLV_SCU_StartMonGraphicSwapFrom, BTLV_SCU_StartMonGraphicSwap, BTLV_SCU_IsMonGraphicSwapDone, BTLV_SCU_TaskMonGraphicSwap, BTLV_SCU_InitMsgWinFade, BTLV_SCU_StartMsgWinFadeOut, BTLV_SCU_StartMsgWinFadeIn, BTLV_SCU_UpdateMsgWinFade, BTLV_SCU_StartMsgWinFadeOutTask, BTLV_SCU_IsMsgWinFadeOutTaskDone, BTLV_SCU_TaskMsgWinFadeOut, BTLV_SCU_InitMonSlots, BTLV_SCU_ResetMonSlots, BTLV_SCU_InitMonSlot, BTLV_SCU_ResetMonSlot, BTLV_SCU_HideMonSlot, BTLV_SCU_ShowMonSlot, BTLV_SCU_GetNamePlateSide, BTLV_SCU_StartNamePlate, BTLV_SCU_ProcNamePlateAt, BTLV_SCU_HideNamePlateAt, BTLV_SCU_IsNamePlateHiddenAt, BTLV_SCU_RefreshNamePlateAt, BTLV_SCU_ProcNamePlateMosaicAt, BTLV_SCU_InitNamePlates, BTLV_SCU_FreeNamePlates, BTLV_SCU_PrepareNamePlate, BTLV_SCU_ProcNamePlate, BTLV_SCU_DrawNamePlate, BTLV_SCU_HideNamePlate, BTLV_SCU_IsNamePlateHidden, BTLV_SCU_RefreshNamePlate, BTLV_SCU_ProcNamePlateMosaic, BTLV_SCU_GetBallStates, BTLV_SCU_PrintWaitMessage, BTLV_SCU_UpdateWaitMessage, BTLV_SCU_NoOp, BTLV_SCU_StartFadeIn, BTLV_SCU_ClearWaitWindow, BTLV_SCU_GetWaitState, BTLV_SCU_StartBallWindowOpen, BTLV_SCU_UpdateBallWindowOpen, BTLV_SCU_StartBallWindowRefresh, BTLV_SCU_UpdateBallWindowRefresh, BTLV_SCU_StartBallWindowClose, BTLV_SCU_UpdateBallWindowClose, BTLV_SCU_StepBallWindowOpen, BTLV_SCU_StepBallWindowRefresh, BTLV_SCU_StepBallWindowClose
+ * function: BTLV_SCU_PlaySeUnlessMainStep, BTLV_SCU_InitMessage, BTLV_SCU_AppendMessageArg, BTLV_SCU_SetMessageParam, BTLV_SCU_Create, BTLV_SCU_SetupDisplay, BTLV_SCU_LoadArcTiles, BTLV_SCU_Delete, BTLV_SCU_ReloadGraphics, BTLV_SCU_IsFadeDone, BTLV_SCU_StartEntryScene, BTLV_SCU_RunProc, BTLV_SCU_StartBrightnessFade, BTLV_SCU_ProcQuickEntry, BTLV_SCU_ProcQuickEntrySingle, BTLV_SCU_ProcQuickEntryDouble, BTLV_SCU_ProcQuickEntryTriple, BTLV_SCU_ProcEntrySingleWild, BTLV_SCU_GetEntryMessageId, BTLV_SCU_ProcEntrySingleTrainer, BTLV_SCU_ProcEntrySingleLink, BTLV_SCU_ProcEntryDoubleWild, BTLV_SCU_ProcEntryDoubleTrainerLocal, BTLV_SCU_ProcEntryDoubleTrainerComm, BTLV_SCU_ProcEntryDoubleLinkLocal, BTLV_SCU_ProcEntryDoubleLinkComm, BTLV_SCU_ProcEntryTriple, BTLV_SCU_ProcEntryTripleLink, BTLV_SCU_PhaseTrainerIntro, BTLV_SCU_PhaseTrainerIntroComm, BTLV_SCU_RunTrainerIntroOne, BTLV_SCU_RunTrainerIntroTwo, BTLV_SCU_PhaseOpponentSendOutSingle, BTLV_SCU_PhaseOpponentSendOutDouble, BTLV_SCU_RunOpponentSendOutDoubleOneTrainer, BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers, BTLV_SCU_PhaseOpponentSendOutTriple, BTLV_SCU_PhaseOwnSendOutSingle, BTLV_SCU_PhaseOwnSendOutDouble, BTLV_SCU_RunOwnSendOutDoubleSolo, BTLV_SCU_RunOwnSendOutDoublePartner, BTLV_SCU_PhaseOwnSendOutTriple, BTLV_SCU_GetSendOutMessageId, BTLV_SCU_PrintMessageInstant, BTLV_SCU_StartMessage, BTLV_SCU_ConsumeMessageEnded, BTLV_SCU_UpdateMessage, BTLV_SCU_StartWazaEffect, BTLV_SCU_ProcWazaEffect, BTLV_SCU_RunWazaProc, BTLV_SCU_StartMonDamageAnim, BTLV_SCU_IsMonDamageAnimDone, BTLV_SCU_StartMonMotion, BTLV_SCU_IsMonMotionDone, BTLV_SCU_StartMonExit, BTLV_SCU_IsMonExitDone, BTLV_SCU_LoadAndShowMon, BTLV_SCU_IsMonLoadDone, BTLV_SCU_StartMonWithdraw, BTLV_SCU_IsMonWithdrawDone, BTLV_SCU_TaskMonWithdraw, BTLV_SCU_StartMonSendOut, BTLV_SCU_IsMonSendOutDone, BTLV_SCU_TaskMonSendOut, BTLV_SCU_StartHpGaugeUpdate, BTLV_SCU_IsHpGaugeIdle, BTLV_SCU_HideMonPair, BTLV_SCU_ShowMonPair, BTLV_SCU_HideMon, BTLV_SCU_ShowMon, BTLV_SCU_StartPosCueEffect, BTLV_SCU_IsPosCueEffectDone, BTLV_SCU_StartMonFormChange, BTLV_SCU_IsMonFormChangeDone, BTLV_SCU_TaskMonFormChange, BTLV_SCU_StartMonGraphicSwapFrom, BTLV_SCU_StartMonGraphicSwap, BTLV_SCU_IsMonGraphicSwapDone, BTLV_SCU_TaskMonGraphicSwap, BTLV_SCU_InitMsgWinFade, BTLV_SCU_StartMsgWinFadeOut, BTLV_SCU_StartMsgWinFadeIn, BTLV_SCU_UpdateMsgWinFade, BTLV_SCU_StartMsgWinFadeOutTask, BTLV_SCU_IsMsgWinFadeOutTaskDone, BTLV_SCU_TaskMsgWinFadeOut, BTLV_SCU_InitMonSlots, BTLV_SCU_ResetMonSlots, BTLV_SCU_InitMonSlot, BTLV_SCU_ResetMonSlot, BTLV_SCU_HideMonSlot, BTLV_SCU_ShowMonSlot, BTLV_SCU_GetNamePlateSide, BTLV_SCU_StartNamePlate, BTLV_SCU_ProcNamePlateAt, BTLV_SCU_HideNamePlateAt, BTLV_SCU_IsNamePlateHiddenAt, BTLV_SCU_RefreshNamePlateAt, BTLV_SCU_ProcNamePlateMosaicAt, BTLV_SCU_InitNamePlates, BTLV_SCU_FreeNamePlates, BTLV_SCU_PrepareNamePlate, BTLV_SCU_ProcNamePlate, BTLV_SCU_DrawNamePlate, BTLV_SCU_HideNamePlate, BTLV_SCU_IsNamePlateHidden, BTLV_SCU_RefreshNamePlate, BTLV_SCU_ProcNamePlateMosaic, BTLV_SCU_GetBallStates, BTLV_SCU_PrintWaitMessage, BTLV_SCU_UpdateWaitMessage, BTLV_SCU_NoOp, BTLV_SCU_StartFadeIn, BTLV_SCU_ClearWaitWindow, BTLV_SCU_GetWaitState, BTLV_SCU_StartBallWindowOpen, BTLV_SCU_UpdateBallWindowOpen, BTLV_SCU_StartBallWindowRefresh, BTLV_SCU_UpdateBallWindowRefresh, BTLV_SCU_StartBallWindowClose, BTLV_SCU_UpdateBallWindowClose, BTLV_SCU_StepBallWindowOpen, BTLV_SCU_StepBallWindowRefresh, BTLV_SCU_StepBallWindowClose
  * address:  0x021EAF00
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -112,7 +112,7 @@
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
  *   BTLV_EFFECT_StartEffectWithRequest  0x021F7B2C  thumb  ov094
  *   GFL_USE_StopAllSe  0x02006210  thumb
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTLV_EFFECT_GaugeStartHpChangeAnimated  0x021F80FC  thumb  ov094
  *   BTLV_EFFECT_StartDamageTintTask  0x021F7C2C  thumb  ov094
  *   BTLV_EFFECT_GaugeStartHpChangeInstant  0x021F8118  thumb  ov094
@@ -379,7 +379,7 @@ extern void PRINTSYS_PrintStreamReleasePause(struct PrintStream *stream);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern void BTLV_EFFECT_StartEffectWithRequest(const BtlvScuWazaRequest *req);
 extern void GFL_USE_StopAllSe(void);
-extern int func_021D59B4(struct BtlPokeParam *mon, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *mon, int valueId);
 extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 viewPos, u32 value);
 extern void BTLV_EFFECT_StartDamageTintTask(int viewPos, int motionId);
 extern void BTLV_EFFECT_GaugeStartHpChangeInstant(u32 viewPos, u32 value);
@@ -432,16 +432,16 @@ extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 void BTL_MSG_GetUiString(struct MsgBuf *textBuf, u32 msgId);
 void BTL_MSG_BuildBallStatusOpen(struct MsgBuf *textBuf, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
 void BTL_MSG_BuildBallStatusRefresh(struct MsgBuf *textBuf, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
-void func_021EAF00(struct BtlvCore *core, int a);
-void func_021EAF18(struct BtlvMessage *msg, int kind, int id);
-void func_021EAF50(struct BtlvMessage *msg, u32 val);
-void func_021EAF78(struct BtlvMessage *msg, u8 param);
+void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int a);
+void BTLV_SCU_InitMessage(struct BtlvMessage *msg, int kind, int id);
+void BTLV_SCU_AppendMessageArg(struct BtlvMessage *msg, u32 val);
+void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param);
 BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId);
 void BTLV_SCU_SetupDisplay(BtlvScu *scu);
 u16 BTLV_SCU_LoadArcTiles(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer);
 void BTLV_SCU_Delete(BtlvScu *scu);
 void BTLV_SCU_ReloadGraphics(const BtlvScu *scu);
-u32 func_021EB318(void);
+u32 BTLV_SCU_IsFadeDone(void);
 void BTLV_SCU_StartEntryScene(BtlvScu *scu, u32 quickMode);
 int BTLV_SCU_RunProc(BtlvScu *scu);
 void BTLV_SCU_StartBrightnessFade(int speed);
@@ -585,7 +585,7 @@ extern int (*const gBtlvScuDoubleLinkCommPhases[])(BtlvScu *, int *);
 
 
 
-void func_021EAF00(struct BtlvCore *core, int a)
+void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int a)
 {
     if (BTL_CLIENT_IsMainStepActive(core->client) == 0)
         GFL_USE_PlaySeDefaultVolume(a);
@@ -593,7 +593,7 @@ void func_021EAF00(struct BtlvCore *core, int a)
 
 
 
-void func_021EAF18(struct BtlvMessage *msg, int kind, int id)
+void BTLV_SCU_InitMessage(struct BtlvMessage *msg, int kind, int id)
 {
     u32 i;
     for (i = 0; i < 8; i++)
@@ -606,7 +606,7 @@ void func_021EAF18(struct BtlvMessage *msg, int kind, int id)
 
 
 
-void func_021EAF50(struct BtlvMessage *msg, u32 val)
+void BTLV_SCU_AppendMessageArg(struct BtlvMessage *msg, u32 val)
 {
     u32 n = msg->argCount;
     if (n < 8) {
@@ -622,7 +622,7 @@ void func_021EAF50(struct BtlvMessage *msg, u32 val)
 /*
  * Stores the second argument (a u8) into the param field at #2.
  */
-void func_021EAF78(struct BtlvMessage *msg, u8 param) { msg->param = param; }
+void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param) { msg->param = param; }
 
 
 
@@ -764,7 +764,7 @@ void BTLV_SCU_ReloadGraphics(const BtlvScu *scu)
 /*
  * Calls the ARM9 predicate FADE_IsActive and returns its negation.  Filed here because it is the only witness available for BTLV_SCU_GetWaitState's pool word: no branch anywhere in the image targets 0x021EB318, so `label` and `sole-ref/code` both refuse it.  18 bytes against a 20-byte listing extent (the last two are alignment), so the entry is EXACT*.
  */
-u32 func_021EB318(void) { if (FADE_IsActive() == 0) return 1; return 0; }
+u32 BTLV_SCU_IsFadeDone(void) { if (FADE_IsActive() == 0) return 1; return 0; }
 
 
 
@@ -2217,7 +2217,7 @@ void BTLV_SCU_StartMonDamageAnim(BtlvScu *scu, u8 slotIdx, u16 motionId, int ins
 {
     int value;
     u32 viewPos;
-    value = func_021D59B4(BTL_SIDE_GetPokeAtPos(scu->monTable, slotIdx), 0xd);
+    value = BTL_POKEPARAM_GetValue(BTL_SIDE_GetPokeAtPos(scu->monTable, slotIdx), 0xd);
     viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
     if (instant == 0) {
         BTLV_EFFECT_GaugeStartHpChangeAnimated(viewPos, value);
@@ -2407,7 +2407,7 @@ void BTLV_SCU_TaskMonSendOut(void *task, void *workPtr)
 /* Starts the HP gauge update of a slot (animated unless instant). */
 void BTLV_SCU_StartHpGaugeUpdate(BtlvScu *scu, u8 slotIdx, int instant)
 {
-    int value = func_021D59B4(BTL_SIDE_GetPokeAtPos(scu->monTable, slotIdx), 0xd);
+    int value = BTL_POKEPARAM_GetValue(BTL_SIDE_GetPokeAtPos(scu->monTable, slotIdx), 0xd);
     u8 viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
     if (instant != 0)
         BTLV_EFFECT_GaugeStartHpChangeInstant(viewPos, value);
@@ -2939,7 +2939,7 @@ void BTLV_SCU_PrepareNamePlate(BtlvScuNamePlate *plate, u8 viewPos, int closeLat
     u16 speciesId;
     u8 pokeId;
     mon = BTL_SIDE_GetPokeAtPos(plate->scu->monTable, viewPos);
-    speciesId = func_021D59B4(mon, 0x10);
+    speciesId = BTL_POKEPARAM_GetValue(mon, 0x10);
     pokeId = BTL_POKEPARAM_GetPokeId(mon);
     if (plate->isShown) {
         if (pokeId == plate->pokeId) {
@@ -3111,7 +3111,7 @@ void BTLV_SCU_RefreshNamePlate(BtlvScuNamePlate *plate, u8 viewPos)
     u16 speciesId;
     u8 pokeId;
     mon = BTL_SIDE_GetPokeAtPos(plate->scu->monTable, viewPos);
-    speciesId = func_021D59B4(mon, 0x10);
+    speciesId = BTL_POKEPARAM_GetValue(mon, 0x10);
     pokeId = BTL_POKEPARAM_GetPokeId(mon);
     if (speciesId != plate->speciesId || pokeId != plate->pokeId) {
         plate->pokeId = pokeId;
@@ -3265,7 +3265,7 @@ void BTLV_SCU_ClearWaitWindow(BtlvScu *scu)
 
 int BTLV_SCU_GetWaitState(void)
 {
-    return func_021EB318();
+    return BTLV_SCU_IsFadeDone();
 }
 
 

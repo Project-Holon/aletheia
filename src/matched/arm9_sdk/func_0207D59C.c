@@ -1,5 +1,5 @@
 /*
- * function: func_0207D59C
+ * function: G2x_SetBGyAffine_
  * address:  0x0207D59C
  * packet:   pkt_0207D59C
  * region:   arm9
@@ -62,7 +62,7 @@ typedef struct {
 
 #define GX_FX32_FX16(x) ((fx16)((x) >> 4))
 
-void func_0207D59C(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1)
+void G2x_SetBGyAffine_(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1)
 {
     fx32 dx, dy, y2;
 

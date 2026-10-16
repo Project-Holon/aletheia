@@ -39,7 +39,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   func_02045CAC 0x02045CAC arm
  *   func_020355C4 0x020355C4 arm
  *   func_02040588 0x02040588 arm
@@ -52,14 +52,14 @@
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   func_02030734 0x02030734 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02017DBC 0x02017DBC thumb
- *   func_02017DE4 0x02017DE4 thumb
+ *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
+ *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_0201BC3C 0x0201BC3C thumb
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
@@ -169,8 +169,8 @@
  *   APP_ICON_GetEffectCellFileId 0x0202774C thumb
  *   APP_ICON_GetEffectPaletteFileId 0x02027750 thumb
  *   APP_ICON_GetEffectAnimFileId 0x02027754 thumb
- *   func_02017E1C 0x02017E1C thumb
- *   func_02017EAC 0x02017EAC thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   POKE_TOOL_IsShiny 0x02017EAC thumb
  *   POKERUS_IsCured 0x0201B280 thumb
  *   gSummaryIconCoords 0x021E7EC4 data a4
  *   gSummaryIconStates 0x021E7F84 data a4
@@ -220,6 +220,7 @@
  *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb  arm9
  *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb  arm9
  *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb  arm9
+ *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
  */
 #include "pokemontrade_types.h"
 
@@ -240,7 +241,7 @@ struct Actor;
 struct PtS;
 struct BezierCurve;
 struct Bmp;
-struct Obj020437AC;
+struct Bmp;
 struct Cmd;
 struct Chan02021FD8;
 struct PalAnmSlot;
@@ -326,14 +327,14 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u8 func_020355C4(void);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0201BC3C(void);
-extern int func_0201BC78(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -366,9 +367,9 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *h);
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
-extern void *func_020185F0(void *);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
+extern void *POKE_TOOL_Dummy(void *);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -428,7 +429,7 @@ extern void *POKETRADE_PROC_GetSideMon(void *p, int a);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 APP_ICON_GetItemCellFileId(void);
@@ -448,13 +449,13 @@ extern int APP_ICON_GetBallOpenAnimFileId(void);
 extern int APP_ICON_GetEffectCellFileId(int);
 extern int APP_ICON_GetEffectPaletteFileId(int);
 extern int APP_ICON_GetEffectAnimFileId(int);
-extern u32 func_02017EAC(void *);
+extern u32 POKE_TOOL_IsShiny(void *);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 extern int FX_Sqrt(int);
 extern void func_0207D63C(int, int, int, int, int);
 extern void CLACT_SetActorBgPriority(void *,unsigned int);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 extern int CLACT_GetCharacterVramAddress(unsigned int idx, unsigned int flag);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
@@ -617,11 +618,11 @@ unsigned char POKETRADE_2D_GetMonMarkingIcon(void *mon, unsigned int heap)
     int species;
     void *data;
     result = 0;
-    old = func_02017DBC(mon);
-    species = func_02017E88(mon, 5, 0);
-    if (func_02017E88(mon, 0xA9, 0)) {
-        if (!func_02017E88(mon, 0x4C, 0)) {
-            unsigned short form = func_02017E88(mon, 0x6F, 0);
+    old = POKE_TOOL_DecodeBoxParam(mon);
+    species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    if (POKE_TOOL_GetBoxValue(mon, 0xA9, 0)) {
+        if (!POKE_TOOL_GetBoxValue(mon, 0x4C, 0)) {
+            unsigned short form = POKE_TOOL_GetBoxValue(mon, 0x6F, 0);
             data = POKE_PERSONAL_Create((unsigned short)species, form, heap);
             result = POKE_PERSONAL_GetParam(data, 0x21);
             POKE_PERSONAL_Delete(data);
@@ -632,7 +633,7 @@ unsigned char POKETRADE_2D_GetMonMarkingIcon(void *mon, unsigned int heap)
         }
         result++;
     }
-    func_02017DE4(mon, old);
+    POKE_TOOL_EncodeBoxParam(mon, old);
     return result;
 }
 
@@ -653,7 +654,7 @@ void POKETRADE_2D_BuildPartyMarkingTable(char *p, void *party, unsigned char *ou
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < 6; i++) {
         if (count > i)
-            out[i] = POKETRADE_2D_GetMonMarkingIcon(func_020185F0(POKEPARTY_GetMember(party, i)), ((TradeWork *)p)->heapId);
+            out[i] = POKETRADE_2D_GetMonMarkingIcon(POKE_TOOL_Dummy(POKEPARTY_GetMember(party, i)), ((TradeWork *)p)->heapId);
         else
             out[i] = 0;
     }
@@ -1041,8 +1042,8 @@ void POKETRADE_2D_CreateBoxIconActors(char *p)
     char *q;
     ObjTmpl t;
     arc = func_020490F4(7, ((TradeWork *)p)->heapId);
-    ((TradeWork *)p)->iconPalette = (void *)CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0x60, ((TradeWork *)p)->heapId);
-    ((TradeWork *)p)->cellAnimC = (void *)CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCB4(), ((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->iconPalette = (void *)CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0x60, ((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->cellAnimC = (void *)CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryId(), ((TradeWork *)p)->heapId);
     for (i = 0; i < 12; i++) {
         for (j = 0; j < 5; j++) {
             z = 0;
@@ -1293,7 +1294,7 @@ void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
             CLACT_SetActorAutoAnim(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
             CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }
-        if (func_02017E88((void *)rec, 0x4c, 0) == 0 && POKETRADE_2D_IsBoxIconFiltered(p, id)) {
+        if (POKE_TOOL_GetBoxValue((void *)rec, 0x4c, 0) == 0 && POKETRADE_2D_IsBoxIconFiltered(p, id)) {
             ((u8 *)(p + row * 5) + j)[0xebc] = 1;
         }
     }
@@ -1941,7 +1942,7 @@ void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
     ActorGfxDesc in;
     int x,y;
     int flag = 0;
-    u32 species = func_02017E1C(mon,6,0);
+    u32 species = POKE_TOOL_GetPartyValue(mon,6,0);
     if (FILE_UTIL_Check136C(species)) flag = 1;
     if (((struct UiScene *)q)->actor) {
         if (!species) CLACT_SetActorDrawEnable((struct Obj *)((struct UiScene *)q)->actor,0);
@@ -2086,7 +2087,7 @@ void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
     long i;
     int state,sprite;
     int *row;
-    bits=func_02017E1C(mon,11,0);
+    bits=POKE_TOOL_GetPartyValue(mon,11,0);
     coords=gSummaryIconCoords;
     states=gSummaryIconStates;
     in.f0=0; in.f4=0;
@@ -2096,7 +2097,7 @@ void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
     in.f14=APP_ICON_GetEffectPaletteFileId(2);
     in.f18=APP_ICON_GetEffectAnimFileId(2);
     in.b1c=13; in.b1d=0; in.b1e=1;
-    if (!flag && func_02017EAC(mon)) bits|=64;
+    if (!flag && POKE_TOOL_IsShiny(mon)) bits|=64;
     if (POKERUS_IsCured(mon)) bits|=128;
     if (!((TradeWork *)p)->subScreenActive) {
         UI_SCENE_LoadActorGfx((void *)(p+0x98c), (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
@@ -2193,7 +2194,7 @@ void POKETRADE_2D_SetOfferIconsVisible(TradeWork *p, int a, int v)
 void POKETRADE_2D_CreateOfferIconActor(char *p,int i,int j,void *mon,int selected,u32 visible)
 {
     Create c;
-    void *q = func_020185F0(mon);
+    void *q = POKE_TOOL_Dummy(mon);
     void *h = func_020490F4(7,((TradeWork *)p)->heapId);
     int n;
     POKETRADE_2D_DeleteOfferIconActor((TradeWork *)p, i, j);

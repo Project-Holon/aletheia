@@ -20,7 +20,7 @@
  *   BufferAddNTS  0x0219FCF0  arm  ov009
  *   BufferAddData  0x0219FE10  arm  ov009
  *   BufferAddInt  0x0219FD64  arm  ov009
- *   func_0217EC90  0x0217EC90  arm  ov009
+ *   send  0x0217EC90  arm  ov009
  *   SBServerListDisconnect  0x021A02E0  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   gSBEmptyString  0x021A8230  data
@@ -71,7 +71,7 @@ extern void BufferAddIntLE(char **buffer, int ival, int *len);
 extern void BufferAddNTS(char **buffer, char *str, int *len);
 extern void BufferAddData(char **buffer, char *data, int dlen, int *len);
 extern void BufferAddInt(char **buffer, int ival, int *len);
-extern int func_0217EC90(int sock, char *buf, int len, int flags);
+extern int send(int sock, char *buf, int len, int flags);
 extern void SBServerListDisconnect(SBServerList *slist);
 extern void *gsimalloc(unsigned long size);
 extern char gSBEmptyString[];
@@ -116,7 +116,7 @@ SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *
         BufferAddIntLE(&requestBuf, maxServers, &requestLen);
     netLen = SWAP16((unsigned short)requestLen);
     memcpy(outgoingRequest, &netLen, 2);
-    ret = func_0217EC90(slist->slsocket, outgoingRequest, requestLen, 0);
+    ret = send(slist->slsocket, outgoingRequest, requestLen, 0);
     if (ret <= 0) {
         SBServerListDisconnect(slist);
         return sbe_connecterror;

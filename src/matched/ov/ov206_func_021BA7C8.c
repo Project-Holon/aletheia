@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7C8
+ * function: ZUKAN_INFO_Show
  * address: 0x021BA7C8
  * packet: pkt_ov206_021BA7C8
  * region: ov206
@@ -11,21 +11,21 @@
  * symbols:
  *   func_02040588 0x02040588 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_021BBE34 0x021BBE34 thumb ov206
+ *   ZUKAN_INFO_SetSlotDrawEnable 0x021BBE34 thumb ov206
  */
 typedef struct { char pad[0x44]; int state; char pad48[4]; unsigned char a,b,c; } State;
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 struct S;
-extern void func_021BBE34(struct S *p, int v);
-void func_021BA7C8(State *p)
+extern void ZUKAN_INFO_SetSlotDrawEnable(struct S *p, int v);
+void ZUKAN_INFO_Show(State *p)
 {
     if (!p->state) {
         p->state = 1;
         func_02040588(p->a, 0);
         func_02040588(p->b, 0);
         BG_SYS_ResetSlot(p->c, 3, -256);
-        func_021BBE34((struct S *)p, p->state == 0);
+        ZUKAN_INFO_SetSlotDrawEnable((struct S *)p, p->state == 0);
     }
 }

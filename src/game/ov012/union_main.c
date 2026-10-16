@@ -29,7 +29,7 @@
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   func_02034714  0x02034714  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_COMM_Start  0x020263D8  thumb
  *   GAME_BEACON_SEARCH_SetFieldEvent  0x021653C4  thumb  ov010
  *   sUnionMainAssertText     0x02175610  data   ov012  a1
@@ -213,7 +213,7 @@ extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, void *parentWork);
 
@@ -428,7 +428,7 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
         func_02034714(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
     parent = func_02030734(5, sizeof(UnionParentWork), 1, sUnionMainFile, 0x37);
-    parent->myStatus = func_02012944(gameData);
+    parent->myStatus = GAME_DATA_GetMyStatus(gameData);
     parent->gameComm = gameComm;
     parent->gameData = gameData;
     parent->gameSystem = gameSystem;
@@ -625,7 +625,7 @@ int UNION_COMMAND_SendMyStatus(UnionRoomWork *work)
     int size;
     handle = GFL_NET_HANDLE_GetCurrentHandle();
     size = MYSTATUS_GetSize();
-    return GFL_NET_SendToHandle(handle, (u16)0x1405, (u16)size, func_02012944(work->parent->gameData));
+    return GFL_NET_SendToHandle(handle, (u16)0x1405, (u16)size, GAME_DATA_GetMyStatus(work->parent->gameData));
 }
 
 /* stand-in: the plain path work->mySituation.connect.trainerCardReceived
@@ -661,7 +661,7 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
         return;
     }
     OS_GetMacAddress(macBuffer);
-    COMM_ENTRY_MENU_AddMember(colosseum->entryMenu, netId, func_02012944(gameData), player->modeFlag, macBuffer);
+    COMM_ENTRY_MENU_AddMember(colosseum->entryMenu, netId, GAME_DATA_GetMyStatus(gameData), player->modeFlag, macBuffer);
 }
 
 void UNION_COMMAND_RecvColosseumSetting(int netId, int size, const u32 *value, UnionRoomWork *work)
@@ -709,7 +709,7 @@ u32 UNION_COMMAND_SendAppEntry(UnionRoomWork *work)
 {
     work->entryResult = 0;
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, 0x140A, MYSTATUS_GetSize(),
-                  func_02012944(work->parent->gameData), 1, 0, 0);
+                  GAME_DATA_GetMyStatus(work->parent->gameData), 1, 0, 0);
 }
 
 void UNION_COMMAND_RecvAppEntryRefused(int netId, int size, const void *data, UnionRoomWork *work) { work->entryResult = 2; }

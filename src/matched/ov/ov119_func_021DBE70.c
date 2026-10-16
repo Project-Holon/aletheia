@@ -34,7 +34,7 @@
  *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb
  *   POKETRADE_PROC_GetSlotIndexInBox 0x021D8B0C thumb
  *   POKETRADE_PROC_LoadSlotMonAlt 0x021D8DD0 thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKETRADE_PROC_CanTradeMon 0x021DD0CC thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_SAVE_OpenMessageWindowAtPos 0x021E0FF4 thumb
@@ -86,7 +86,7 @@ extern void POKETRADE_NEGO_PollMarkerTouch(void *p);
 extern int POKETRADE_PROC_GetBoxIndexForSlot(int v, char *p);
 extern int POKETRADE_PROC_GetSlotIndexInBox(int a, int b);
 extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern int POKETRADE_PROC_CanTradeMon(char *p, int e);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void POKETRADE_SAVE_OpenMessageWindowAtPos(void *p, int a, int flag);
@@ -201,7 +201,7 @@ void POKETRADE_PROC_StepBrowseGrid(char *p)
                 I(p, 0xF78) = 0;
         }
         e = (int)POKETRADE_PROC_LoadSlotMonAlt((void *)I(p, 0x828), POKETRADE_PROC_GetBoxIndexForSlot(I(p, 0xF74), p), POKETRADE_PROC_GetSlotIndexInBox(I(p, 0xF74), I(p, 0xF78)), p);
-        if (e && func_02017E88((void *)e, 0xA9, 0)) {
+        if (e && POKE_TOOL_GetBoxValue((void *)e, 0xA9, 0)) {
             if (POKETRADE_PROC_CanTradeMon(p, e)) {
                 MSGDATA_ReadString((struct MsgBank *)I(p, 0x720), 0x8E, (void *)I(p, 0x738));
                 POKETRADE_SAVE_OpenMessageWindowAtPos(p, 1, 0);

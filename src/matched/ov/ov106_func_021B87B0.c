@@ -31,8 +31,8 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,8 +56,8 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
@@ -90,7 +90,7 @@ void IRC_RANKING_RowInit(u8 *p,const Item *item,void *sys,u32 first,u32 second,v
  PRINTSYS_Print(*(void **)(p+4),194-width,5,text,(void *)font);
  STRBUF_Delete(text);STRBUF_Delete(c);STRBUF_Delete(b);STRBUF_Delete(a);
  member=POKE_TOOL_CalcGraphicIndex(item->number,item->a,item->b,item->c);
- mode1=func_0201BC40(); mode2=func_0201BCB4();
+ mode1=POKE_TOOL_GetIconCellArcId(); mode2=POKE_TOOL_GetIconCellEntryId();
  arc=func_020490F4(7,heap);
  *(u32 *)(p+20)=CLACT_RegisterCharacter(arc,member,0,2,heap);
  *(u32 *)(p+24)=CLACT_RegisterCellAnim(arc,mode1,mode2,heap);

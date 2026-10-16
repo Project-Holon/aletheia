@@ -1,5 +1,5 @@
 /*
- * function: func_021B96C0
+ * function: PMS_INPUT_DATA_CollectEventWords
  * address: 0x021B96C0
  * packet: pkt_ov110_021B96C0
  * region: ov110
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int PMSI_PARAM_GetEventFlag(void *);
-u32 func_021B96C0(u8 *p,const u16 *ids,u32 count,u16 *out)
+u32 PMS_INPUT_DATA_CollectEventWords(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     u32 i;
     if(PMSI_PARAM_GetEventFlag(*(void **)p)){

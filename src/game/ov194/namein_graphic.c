@@ -81,10 +81,10 @@
  *   APP_ICON_GetItemExtraFileId  0x020276A8  thumb
  *   APP_ICON_GetItemAnim2FileId  0x020276AC  thumb
  *   APP_ICON_GetItemFrame2FileId  0x020276B0  thumb
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
- *   func_0201BC40  0x0201BC40  thumb
- *   func_0201BCB4  0x0201BCB4  thumb
+ *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   func_020490F4  0x020490F4  arm
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
@@ -537,13 +537,13 @@ extern u32  APP_ICON_GetItemAnim2FileId(u32 a);
 
 extern u32  APP_ICON_GetItemFrame2FileId(u32 a);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern u32  POKE_TOOL_CalcGraphicIndex(u32 a, u32 b, u32 c, u32 d);
 
-extern int func_0201BC40(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
 
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 
 extern u32  POKE_TOOL_CalcIconPalette(u32 a, u32 b, u32 c, u32 d);
 
@@ -1408,10 +1408,10 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s
             flagA = 0;
         }
         v40 = 7;
-        v3c = func_0201BC3C();
+        v3c = POKE_TOOL_GetIconPaletteArcId();
         v38 = POKE_TOOL_CalcGraphicIndex(a2, (u8)a3, v1c, 0);
-        v34 = func_0201BC40();
-        v30 = func_0201BCB4();
+        v34 = POKE_TOOL_GetIconCellArcId();
+        v30 = POKE_TOOL_GetIconCellEntryId();
         w24 = 0x1e;
         h20 = 0x14;
         flagB = 1;

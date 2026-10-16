@@ -7,8 +7,8 @@ frozen per-function record. Function renaming ran in the cleanup phase after thi
 ## Where it stands
 
 TUs that are one file (`python tools/tucount.py`; counted from the files, a
-TU split at a real boundary counts once as split). Current figures at the wave 10
-commit (2026-10-15):
+TU split at a real boundary counts once as split). Current figures at the wave 11
+commit (2026-10-16):
 
 | Area | Whole | Percent |
 |---|---|---|
@@ -40,17 +40,17 @@ Later (lanes CR1, CR2): the crt0 pieces `unit_02004800.c`, `unit_02004DF4.c`,
 file again, `src/game/arm9/crt0.c` (code and data of crt0.HYB.TWL.o, SDK names,
 EXACT; see BUILD_FROM_GAME.md).
 
-Checks at this commit:
-- `python tools/gameverify.py`: 1850 files, all EXACT or MATCH except
-  `arm9/unit_020911D4_p03.c` and `_p05.c` (compiler runtime pieces that are not
-  contiguous in the image).
-- `python tools/gamecheck.py`: 35483 functions present, 0 missing, 0 doubled.
-- 5 files are MATCH (`match_files.txt`); ov214 btl_rec_sel_graphic became EXACT
-  (two objects had one name `config`).
-- `python tools/match.py selftest`: 340 cases, 0 failures.
-- `python tools/gamelink.py`: all 166 whole overlays and ITCM link
-  byte-identical with mwldarm; arm9_main links 408 of 409 files identical (the
-  skipped one is unit_020911D4, being rewritten).
+Checks at this commit (final figures, wave 11, 2026-10-16):
+- `python tools/gameverify.py`: 1212 files, not exact 0.
+- `python tools/gamecheck.py`: 35523 functions present, 0 missing, 0 doubled.
+- `python tools/linkstats.py`: 243 regions, 181 linked byte-identical with every
+  file, 0 failures; game 2630598 of 2630598 and all 3390676 of 3390676 bytes
+  100.00 percent covered, complete and linked (the SDK gap is closed).
+- `python tools/ovstats.py`: arm9 436032 of 436032 and overlays 2183302 of
+  2183302, both 100.0000 percent; `coveragemap.py` prints 100.00 percent.
+- `python tools/match.py selftest --quick`: 373 cases, 0 failures.
+- 0 files are MATCH (`match_files.txt` is empty); 24 unnamed functions remain.
+- `python tools/gamelink.py`: 181 whole regions link byte-identical with mwldarm.
 
 Tooling changes in round 17:
 - `tools/build.py --game`, `tools/gamebuild.py`: build regions from src/game.

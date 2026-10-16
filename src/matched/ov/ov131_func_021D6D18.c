@@ -25,6 +25,7 @@
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 #include "../include/Obj00436.h"
 #include "../include/Obj01546.h"
@@ -37,7 +38,7 @@ struct U16Vec;
 struct WordSet;
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -54,14 +55,14 @@ void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
     ws=WORDSET_CreateDefault(((struct Obj00436 *)p)->f0);
     buf=STRBUF_Create(32,((struct Obj00436 *)p)->f0);
     name=STRBUF_Create(32,((struct Obj00436 *)p)->f0);
-    func_02017E88(mon,115,(u32)name);
+    POKE_TOOL_GetBoxValue(mon,115,(u32)name);
     WORDSET_SetSlotTag(ws,0,name,0,1,2);
     text=func_02045EC0(((struct Obj00436 *)p)->f7C,0);
     WORDSET_CopyTaggedText(ws,buf,text);
     PRINTSYS_PrintQueColor(((struct Obj00436 *)p)->f84,(u32)BMP_WIN_GetBmp(((struct Obj01546 *)q)->f18),25,1,(u32)buf,((struct Obj00436 *)p)->f80,1088);
     STRBUF_Delete(name);STRBUF_Delete(text);STRBUF_Delete(buf);WORDSET_DeleteStrbufED04(ws);
-    if(((struct Obj00436 *)p)->f38==0 && func_02017E88(mon,173,0)==1){
-        u32 form=func_02017E88(mon,110,0);
+    if(((struct Obj00436 *)p)->f38==0 && POKE_TOOL_GetBoxValue(mon,173,0)==1){
+        u32 form=POKE_TOOL_GetBoxValue(mon,110,0);
         if(form==0){
             buf=func_02045EC0(((struct Obj00436 *)p)->f7C,1);
             PRINTSYS_PrintQueColor(((struct Obj00436 *)p)->f84,(u32)BMP_WIN_GetBmp(((struct Obj01546 *)q)->f18),89,1,(u32)buf,((struct Obj00436 *)p)->f80,5312);
@@ -87,7 +88,7 @@ void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
     {
         void *text3;
         ws=WORDSET_CreateDefault(((struct Obj00436 *)p)->f0);buf=STRBUF_Create(16,((struct Obj00436 *)p)->f0);
-        WORDSET_Callback_EF40(ws,0,func_02017E88(mon,6,0));
+        WORDSET_Callback_EF40(ws,0,POKE_TOOL_GetBoxValue(mon,6,0));
         text3=func_02045EC0(((struct Obj00436 *)p)->f7C,5);
         WORDSET_CopyTaggedText(ws,buf,text3);
         PRINTSYS_PrintQueColor(((struct Obj00436 *)p)->f84,(u32)BMP_WIN_GetBmp(((struct Obj01546 *)q)->f1C),6,17,(u32)buf,((struct Obj00436 *)p)->f80,1088);

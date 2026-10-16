@@ -33,7 +33,7 @@ struct Arena02146B74 {
     u32 end;    /* 0x04  high cursor, grows downward */
 };
 
-/* NNS GFD VRAM transfer ring header (Obj16393/Obj04778/Obj16394 views). */
+/* NNS GFD VRAM transfer ring header. */
 struct NNSGfdVramRing {
     u8  pad_00[4];
     u32 numEntries;   /* 0x04 */

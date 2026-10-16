@@ -25,7 +25,7 @@
  *   REGULATION_GetParty 0x0200B204 thumb
  *   REGULATION_NoOp 0x0200AE14 thumb
  *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   REGULATION_Card_GetCupName 0x0200B074 thumb
@@ -59,7 +59,7 @@ extern struct Rec160 *REGULATION_GetCard(struct Rec160 *, u32);
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *, u32);
 extern struct Reg *REGULATION_NoOp(struct Reg2 *);
 extern void *MISC_SAVEDATA_GetBlock3C(void *);
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *, int, u32);
 extern u8 *REGULATION_Card_GetCupName(struct Reg2 *);
@@ -91,7 +91,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
         sub = REGULATION_GetParty((struct RecBig *)base, p[5]);
         reg = REGULATION_NoOp(obj);
         stats = MISC_SAVEDATA_GetBlock3C(save);
-        win = func_02012944((void *)p[12]);
+        win = GAME_DATA_GetMyStatus((void *)p[12]);
         flag = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[11]);
         if (p[5] == 0) {
             Rec rec;

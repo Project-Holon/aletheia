@@ -140,7 +140,6 @@ struct Sub0200852CObj;
 struct CharBuf;
 struct GfFont;
 struct MsgBank;
-struct R;
 struct U16Vec;
 struct Rec;
 struct TaskMenuState;

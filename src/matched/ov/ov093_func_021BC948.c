@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
@@ -26,7 +26,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
@@ -42,7 +42,7 @@ extern void BTL_EVENT_PopVarFrame(int line);
 u16 BTL_SERVER_FLOW_CalcPokeSpeed(u8 *p, u8 *x, int flag)
 {
     u32 r;
-    int k = func_021D59B4(x, 0xc);
+    int k = BTL_POKEPARAM_GetValue(x, 0xc);
     int one;
     BTL_EVENT_PushVarFrame(1760);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(x));

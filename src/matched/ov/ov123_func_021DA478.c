@@ -25,6 +25,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "../include/Obj02478.h"
 #include "../include/Obj03275.h"
@@ -38,7 +39,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u8,u32);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int GFL_NET_GetRunState(void);
@@ -61,7 +62,7 @@ int PDWACC_STATE_ProcInit(void *a,int unused,char *q)
     ((struct Obj02478 *)p)->f0=((struct Obj03275 *)q)->f8;
     ((struct Obj02478 *)p)->f1C=GAME_DATA_GetSaveControl(((struct Obj03275 *)q)->f0);
     ((struct Obj02478 *)p)->f20=((struct Obj03275 *)q)->f0;
-    ((struct Obj02478 *)p)->f28=func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj03275 *)q)->f0));
+    ((struct Obj02478 *)p)->f28=func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct Obj03275 *)q)->f0));
     if(GFL_NET_GetRunState()) {
         ((struct Obj02478 *)p)->f8=NHTTP_RAP_Create(((struct Obj03275 *)q)->f8,((struct Obj02478 *)p)->f28,((struct Obj03275 *)q)->f4);
         DWC_RAP_SetErrorCallback((int)PDWACC_STATE_DestroyHttpConnection,(int)p);

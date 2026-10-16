@@ -217,7 +217,7 @@
  *   SAVE_EVENT_Write 0x0202F190 thumb
  *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   gGuru2PlayerAngleRangeLists 0x021E1F04 data a4
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -697,7 +697,7 @@ extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *de
 
 extern u32 POKEPARTY_GetCount(void *p);
 
-extern unsigned func_02017E1C(void *, unsigned, unsigned);
+extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 
 extern void GFL_USE_SetBgmPlayerParam(void *);
 
@@ -2294,8 +2294,8 @@ void GURU2_MAIN_RotatePlayerRecords(struct Guru2Game *p,int amount)
 
 /*
  * extent: two-byte alignment padding at 0x021E0A42.
- * Verified ARM scratch C: S12/blocker_0203F63C-r1.log EXACT (72 bytes),
- * S13/blocker_0203F5FC-r1.log EXACT (64 bytes). Both use this symbol:
+ * Verified ARM scratch C: the 0203F63C blocker log EXACT (72 bytes),
+ * the 0203F5FC blocker log EXACT (64 bytes). Both use this symbol:
  *   FX_SinCosTable_ 0x020A1B38 data a2
  * typedef unsigned short u16;
  * extern const short FX_SinCosTable_[];
@@ -3095,7 +3095,7 @@ int GURU2_MAIN_PartyHasEligiblePokemon(void *p)
     n = POKEPARTY_GetCount(p);
     for (i = 0; i < n; i++) {
         m = POKEPARTY_GetMember(p, i);
-        if (func_02017E1C(m, 0x4c, 0) != 0 && func_02017E1C(m, 3, 0) != 0)
+        if (POKE_TOOL_GetPartyValue(m, 0x4c, 0) != 0 && POKE_TOOL_GetPartyValue(m, 3, 0) != 0)
             return 1;
     }
     return 0;

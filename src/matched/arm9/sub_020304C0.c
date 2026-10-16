@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020304C0
+ * function: GFL_HEAP_GetBlockName
  *
  * Address of a field 4 bytes into the object that starts 0x1c bytes before
  * the argument: the compiler keeps the two constants as two instructions
@@ -17,8 +17,8 @@
  * folded offset. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020304C0.c \
- *       --func sub_020304C0 --addr 0x020304C0 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetBlockName.c \
+ *       --func GFL_HEAP_GetBlockName --addr 0x020304C0 --cc 1.1p1
  */
 
 struct S020304C0 {
@@ -26,7 +26,7 @@ struct S020304C0 {
     int  field4;
 };
 
-void *sub_020304C0(void *p)
+void *GFL_HEAP_GetBlockName(void *p)
 {
     struct S020304C0 *s = (struct S020304C0 *)((char *)p - 0x1c);
     return &s->field4;

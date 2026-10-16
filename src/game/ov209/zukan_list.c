@@ -107,7 +107,7 @@
  *   FRAME_LIST_Update 0x021B7AB0 thumb ov067
  *   ZUKAN_LIST_HandleTouchInput 0x021BE658 thumb ov209
  *   FRAME_LIST_GetSelectedIndex 0x021B93A4 thumb ov067
- *   func_021B93D4 0x021B93D4 thumb ov067
+ *   FRAME_LIST_SetCursor 0x021B93D4 thumb ov067
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -166,11 +166,11 @@
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
- *   func_0201BC3C 0x0201BC3C thumb
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
- *   func_0201BCEC 0x0201BCEC thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub 0x0201BCEC thumb
  *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
  *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
  *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
@@ -518,7 +518,7 @@ extern int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p);
 
 extern int FRAME_LIST_GetSelectedIndex(char *p);
 
-extern void func_021B93D4(struct FrameList *s, int v);
+extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
 
 extern u8 func_020355C4(void);
 
@@ -632,15 +632,15 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
-extern int func_0201BC40(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
 
-extern int func_0201BC78(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
 
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 
@@ -1350,7 +1350,7 @@ int ZUKAN_LIST_StateMain(struct ZukanList *p)
         case 1:case 2:case 3:case 4:case 5:case 6:case 7:
             selected=action+FRAME_LIST_GetScrollPos(p->frameList)-1;
             if(ZUKAN_LIST_IsSpeciesEntryValid(p,selected)==1){
-                GFL_USE_PlaySeDefaultVolume(1356);func_021B93D4(p->frameList,action-1);return ZUKAN_LIST_StateSelectSpecies(p,selected);
+                GFL_USE_PlaySeDefaultVolume(1356);FRAME_LIST_SetCursor(p->frameList,action-1);return ZUKAN_LIST_StateSelectSpecies(p,selected);
             }break;
         case 8:
             GFL_USE_PlaySeDefaultVolume(1356);p->args->state=4;
@@ -1702,18 +1702,18 @@ void ZUKAN_LIST_LoadActorResources(struct ZukanList *p)
     animSlot = (int *)&p->cellAnimHandles[0];
     for (gfxIndex = 0; gfxIndex < 0x10; gfxIndex++)
         charSlot[gfxIndex] = CLACT_RegisterCharacter((void *)arcSpecies, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 0, 0x6b);
-    *palSlot = CLACT_RegisterPaletteCompressed((void *)arcSpecies, func_0201BC3C(), 0, 0x80, 0x6b);
-    cellAnimIndex = func_0201BC40();
-    *animSlot = CLACT_RegisterCellAnim((void *)arcSpecies, cellAnimIndex, func_0201BCB4(), 0x6b);
+    *palSlot = CLACT_RegisterPaletteCompressed((void *)arcSpecies, POKE_TOOL_GetIconPaletteArcId(), 0, 0x80, 0x6b);
+    cellAnimIndex = POKE_TOOL_GetIconCellArcId();
+    *animSlot = CLACT_RegisterCellAnim((void *)arcSpecies, cellAnimIndex, POKE_TOOL_GetIconCellEntryId(), 0x6b);
 
     charSlot = (int *)&p->charHandles[0x10];
     palSlot = (int *)&p->paletteHandles[1];
     animSlot = (int *)&p->cellAnimHandles[1];
     for (gfxIndex = 0; gfxIndex < 0x10; gfxIndex++)
         charSlot[gfxIndex] = CLACT_RegisterCharacter((void *)arcSpecies, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, 0x6b);
-    *palSlot = CLACT_RegisterPaletteCompressed((void *)arcSpecies, func_0201BC3C(), 1, 0, 0x6b);
-    cellAnimIndex = func_0201BC78();
-    *animSlot = CLACT_RegisterCellAnim((void *)arcSpecies, cellAnimIndex, func_0201BCEC(), 0x6b);
+    *palSlot = CLACT_RegisterPaletteCompressed((void *)arcSpecies, POKE_TOOL_GetIconPaletteArcId(), 1, 0, 0x6b);
+    cellAnimIndex = POKE_TOOL_GetIconCellArcIdSub();
+    *animSlot = CLACT_RegisterCellAnim((void *)arcSpecies, cellAnimIndex, POKE_TOOL_GetIconCellEntryIdSub(), 0x6b);
     ARC_TOOL_DeleteHandle((void *)arcSpecies);
 
     arcUi = (int)func_020490F4(APP_ICON_GetArchiveId(), 0x806B);

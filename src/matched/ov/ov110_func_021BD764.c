@@ -22,7 +22,7 @@
  *   PMS_INPUT_VIEW_Delete 0x021B9B20 thumb ov110
  *   TCB_Noop 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021B95F4 0x021B95F4 thumb ov110
+ *   PMS_INPUT_DATA_Delete 0x021B95F4 thumb ov110
  *   PMSI_SEARCH_Delete 0x021BAF4C thumb ov110
  *   func_020315D4 0x020315D4 arm
  */
@@ -36,7 +36,7 @@ extern void BUTTON_MAN_Delete(void *);
 extern void PMS_INPUT_VIEW_Delete(u8 *);
 extern void TCB_Noop(void *);
 extern u32 func_020307B0(void *p);
-extern void func_021B95F4(char *);
+extern void PMS_INPUT_DATA_Delete(char *);
 extern void PMSI_SEARCH_Delete(unsigned);
 struct Proc;
 extern void func_020315D4(struct Proc *p);
@@ -47,7 +47,7 @@ void PMS_INPUT_Destroy(u8 *p,void *a)
     PMS_INPUT_VIEW_Delete(*(u8 **)(p+0x14));
     TCB_Noop(*(void **)(p+0x7c));
     func_020307B0(*(void **)(p+0x78));
-    func_021B95F4(*(char **)(p+0x18));
+    PMS_INPUT_DATA_Delete(*(char **)(p+0x18));
     PMSI_SEARCH_Delete(*(u32 *)(p+0x1c));
     func_020315D4(a);
 }

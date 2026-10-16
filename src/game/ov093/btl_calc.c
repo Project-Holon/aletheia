@@ -27,7 +27,7 @@
  *   BTLV_CORE_SplitBytes  0x021E8D0C  thumb  ov093
  *   BTLV_CORE_BytesEqual  0x021E8DA8  thumb  ov093
  *   gBtlCalcAffinityScales  0x021F0427  data  ov093  a1
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   gBtlCalcHitCountThresholds 0x021F0421 data a1
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
@@ -43,7 +43,7 @@
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   TPOKE_DATA_GetRecordField 0x0202A230 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
@@ -88,7 +88,7 @@ extern void BTLV_CORE_SplitBytes(int packedTypes, u8 *firstType, u8 *secondType)
 
 extern int BTLV_CORE_BytesEqual(int packedTypes);
 
-extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 
 extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 
@@ -120,7 +120,7 @@ extern void *POKEPARTY_GetMember(struct Party *party, u32 index);
 
 extern u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 paramIndex);
 
-extern u32 func_02017E1C(void *mon, u32 valueId, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 valueId, u32 arg);
 
 u8 BTL_SLOT_GetCount(struct BtlParty *party);
 
@@ -429,13 +429,13 @@ u32 BTL_CALC_MulRatioMin1(u32 value, u32 ratio) { u32 result=BTL_CALC_MulRatio(v
 u32 BTL_CALC_MulPercent(u32 value, u32 percent) { u32 remainder; value*=percent; remainder=value%100; value/=100; if(remainder>=50) ++value; return value; }
 
 /* Maximum HP divided by the divisor. */
-u32 BTL_CALC_DivideMaxHp(struct BtlPokeParam *bpp, u32 divisor) { return (u32)func_021D59B4(bpp,BTL_BPP_VALUE_MAX_HP)/divisor; }
+u32 BTL_CALC_DivideMaxHp(struct BtlPokeParam *bpp, u32 divisor) { return (u32)BTL_POKEPARAM_GetValue(bpp,BTL_BPP_VALUE_MAX_HP)/divisor; }
 
 /*
  * Maximum HP divided by the divisor, at least 1.
  * Recursive MATCH unblocker: named callee of the parked ov093 HAND_ITEM_RockyHelmetDamageReaction
  * (the `BTL_CALC_DivideMaxHpMin1(BTL_SERVER_FLOW_GetPokeParam(b, k), (u8)HAND_ITEM_GetParam(a,2))` halfword).
- * Runs func_021D59B4(a, 0xe) through the unsigned divide entry 0x0209C2B0
+ * Runs BTL_POKEPARAM_GetValue(a, 0xe) through the unsigned divide entry 0x0209C2B0
  * (`_u32_div_f`, see docs/notes/unsigned-divide-entry-is-0209c2b0.c.txt) and
  * floors a zero quotient at 1.
  *
@@ -443,7 +443,7 @@ u32 BTL_CALC_DivideMaxHp(struct BtlPokeParam *bpp, u32 divisor) { return (u32)fu
  */
 int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor)
 {
-    u32 result = func_021D59B4(bpp, BTL_BPP_VALUE_MAX_HP);
+    u32 result = BTL_POKEPARAM_GetValue(bpp, BTL_BPP_VALUE_MAX_HP);
 
     result = result / divisor;
     if (result == 0)
@@ -483,7 +483,7 @@ int BTL_CALC_GetWeatherDamage(struct BtlPokeParam *bpp, int weather)
     default:
         return 0;
     }
-    damage = func_021D59B4(bpp, BTL_BPP_VALUE_MAX_HP) / 16;
+    damage = BTL_POKEPARAM_GetValue(bpp, BTL_BPP_VALUE_MAX_HP) / 16;
     if (damage == 0) damage = 1;
     return damage;
 }
@@ -621,8 +621,8 @@ int BTL_CALC_ContainsU16(const u16 *list,u32 count,u32 value) { u32 index; for(i
 u32 BTL_CALC_CalcDefeatExp(struct BtlPokeParam *bpp)
 {
     int species = BTL_POKEPARAM_GetSpecies(bpp);
-    u16 form = func_021D59B4(bpp, BTL_BPP_VALUE_FORM);
-    u16 level = func_021D59B4(bpp, BTL_BPP_VALUE_LEVEL);
+    u16 form = BTL_POKEPARAM_GetValue(bpp, BTL_BPP_VALUE_FORM);
+    u16 level = BTL_POKEPARAM_GetValue(bpp, BTL_BPP_VALUE_LEVEL);
     u32 baseExp = POKE_TOOL_GetPersonalParam(species, form, 9);
     return (baseExp * level) / 5;
 }
@@ -664,7 +664,7 @@ int BTL_CALC_IsBossTrainer(u32 trainerId) { if(BTL_CALC_IsGymLeaderTrainer(train
 u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup) { u32 money=0; if(setup->competitor==BTL_COMPETITOR_TRAINER) { if(setup->trainerData[1] && setup->party[1]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[1],setup->party[1]); if(setup->trainerData[3] && setup->party[3]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[3],setup->party[3]); } return money; }
 
 /* Prize money of one trainer: money rate * level of the last party member * 4. */
-u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)POKEPARTY_GetCount(party); if(count) { lastMon=POKEPARTY_GetMember(party,count-1); moneyRate=TPOKE_DATA_GetRecordField(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*func_02017E1C(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
+u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)POKEPARTY_GetCount(party); if(count) { lastMon=POKEPARTY_GetMember(party,count-1); moneyRate=TPOKE_DATA_GetRecordField(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*POKE_TOOL_GetPartyValue(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
 
 /* Money lost on defeat: badge table value * highest party level * 4. */
 u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party)
@@ -675,7 +675,7 @@ u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party)
     u32 level;
 
     for (index = 0; index < count; index++) {
-        level = func_021D59B4(BTL_SLOT_GetPokeParam(party, (u8)index), BTL_BPP_VALUE_LEVEL);
+        level = BTL_POKEPARAM_GetValue(BTL_SLOT_GetPokeParam(party, (u8)index), BTL_BPP_VALUE_LEVEL);
         if (level > maxLevel)
             maxLevel = level;
     }

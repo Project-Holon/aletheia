@@ -1,7 +1,7 @@
 /*
  * file:     wcm_wmif.c
  * unit:     yes
- * function: WCMi_WmifStartupAsync, func_021669B8, WCMi_WmifBeginSearchAsync, WCMi_WmifConnectAsync, func_02166BD8, WCMi_WmifTerminateAsync, WCMi_WmifSetDCFData, func_02166DE4, func_02166E5C, func_02166EB0, WcmWmcbCommon, WcmWmcbScanEx, WcmWmcbEndScan, WcmWmcbConnect, WcmWmcbDisconnect, WcmWmcbStartDCF, WcmWmcbEndDCF, func_021679C0, func_02167CB4, func_02167DE0, WcmWmcbSetDCFDataAsync
+ * function: WCMi_WmifStartupAsync, func_021669B8, WCMi_WmifBeginSearchAsync, WCMi_WmifConnectAsync, func_02166BD8, WCMi_WmifTerminateAsync, WCMi_WmifSetDCFData, func_02166DE4, func_02166E5C, func_02166EB0, WcmWmcbCommon, WcmWmcbScanEx, WcmWmcbEndScan, WcmWmcbConnect, WcmWmcbDisconnect, WcmWmcbStartDCF, WcmWmcbEndDCF, func_021679C0, WcmEditScanExParam, func_02167DE0, WcmWmcbSetDCFDataAsync
  * address:  0x02166880
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -27,7 +27,7 @@
  *   WM_PowerOff                      0x0208f328 arm
  *   WCMi_SetPhase                    0x02165a4c arm
  *   WcmWmcbCommon                    0x02166f24 arm
- *   func_02167CB4    0x02167CB4  arm  ov009
+ *   WcmEditScanExParam    0x02167CB4  arm  ov009
  *   DC_InvalidateRange 0x020862B8  arm
  *   WM_StartScanEx   0x0208F698  arm
  *   WcmWmcbScanEx    0x021671C0  arm  ov009
@@ -233,7 +233,7 @@ unsigned short WCMi_WmifGetAllowedChannel(void);
 void WcmWmcbDisconnect(void *arg);
 void WcmWmcbStartDCF(void *arg);
 void WcmWmcbEndDCF(void *arg);
-void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option);
+static void WcmEditScanExParam(unsigned char *bssid, unsigned char *essid, unsigned long option);
 
 /*
  * sdk:      WCMi_WmifStartupAsync (libwcm.TWL.HYB.a wmif.o)
@@ -318,15 +318,15 @@ long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option)
     wcmw = WCMi_GetSystemWork();
     switch (wcmw->phase) {
     case 5:
-        func_02167CB4(bssid, essid, option);
+        WcmEditScanExParam(bssid, essid, option);
         return 2;
     case 6:
-        func_02167CB4(bssid, essid, option);
+        WcmEditScanExParam(bssid, essid, option);
         return 0;
     default:
         return 1;
     case 3:
-        func_02167CB4(bssid, essid, option);
+        WcmEditScanExParam(bssid, essid, option);
         break;
     }
     DC_InvalidateRange(wcmw->scanParam.scanBuf, wcmw->scanParam.scanBufSize);
@@ -1020,7 +1020,7 @@ static void WcmWmcbReset(void *arg)
     }
 }
 
-void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option)
+static void WcmEditScanExParam(unsigned char *bssid, unsigned char *essid, unsigned long option)
 {
     WCMWork *wcmw;
     long len;

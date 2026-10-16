@@ -15,7 +15,7 @@
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
  *   BR_RES_GetWordSet 0x021FC21C thumb ov186
@@ -54,7 +54,7 @@ extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap)
 extern Slot *BMP_MENUWORK_Create(u32,u32);
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern int BR_RES_GetWordSet(char *);
@@ -80,7 +80,7 @@ int BR_CODEIN_CodeSetupPokeList(char *p,char *q)
     second=BR_RES_GetMsgData(*(char * *)&((struct Obj03330 *)q)->f8);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj03330 *)q)->f8),28,((struct Obj02231 *)p)->f54);
     text=STRBUF_Create(128,((struct Obj02231 *)p)->f54);
-    v=func_02012944(((struct Obj03330 *)q)->f10);
+    v=GAME_DATA_GetMyStatus(((struct Obj03330 *)q)->f10);
     a=func_0200856C(v);b=func_02008570(v);
     ws=BR_RES_GetWordSet(*(char * *)&((struct Obj03330 *)q)->f8);
     data=func_02045EC0((void *)second,125);

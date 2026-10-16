@@ -10,11 +10,12 @@
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STATUS_HasRibbon 0x021D62F4 thumb ov131
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 #include "../include/Obj03284.h"
 typedef unsigned int   u32;
 extern void *P_STATUS_GetPokePara(unsigned char *p);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern int P_STATUS_HasRibbon(char *p, void *q);
 int P_STATUS_SearchPokemon(unsigned char *p,int direction,unsigned short *out) {
  int result=0;
@@ -28,8 +29,8 @@ int P_STATUS_SearchPokemon(unsigned char *p,int direction,unsigned short *out) {
  if(direction==0 && ((struct Obj03284 *)p)->f18==0) {done=1;continue;}
  if(direction==1) ++((struct Obj03284 *)p)->f18; else --((struct Obj03284 *)p)->f18;
  m=P_STATUS_GetPokePara(p);
- if(func_02017E88(m,169,0)!=0) {
- if(func_02017E88(m,76,0)!=1 || ((struct Obj03284 *)p)->f58==0) {
+ if(POKE_TOOL_GetBoxValue(m,169,0)!=0) {
+ if(POKE_TOOL_GetBoxValue(m,76,0)!=1 || ((struct Obj03284 *)p)->f58==0) {
  if(((struct Obj03284 *)p)->f58!=2 || P_STATUS_HasRibbon((char *)p,m)!=0) {done=1;result=1;}
  }
  }

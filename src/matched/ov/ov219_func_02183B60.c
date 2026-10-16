@@ -19,14 +19,14 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02009470 0x02009470 thumb
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
  *   func_02009524 0x02009524 thumb
- *   func_021844E4 0x021844E4 thumb ov219
- *   func_02184558 0x02184558 thumb ov219
+ *   BEACON_DETAIL_InitVram 0x021844E4 thumb ov219
+ *   BEACON_DETAIL_InitGraphics 0x02184558 thumb ov219
  *   WORDSET_Create 0x0201EC74 thumb
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
@@ -34,7 +34,7 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_021845B4 0x021845B4 thumb ov219
+ *   BEACON_DETAIL_LoadRecords 0x021845B4 thumb ov219
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -48,14 +48,14 @@ struct Proc;
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern const u8 GAME_LANGUAGE_Code;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02009524(const struct Sub02009470Obj *obj);
-extern void func_021844E4(void);
-extern void func_02184558(unsigned heap);
+extern void BEACON_DETAIL_InitVram(void);
+extern void BEACON_DETAIL_InitGraphics(unsigned heap);
 struct WordSet;
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void BMP_SetDisplaySwap(u32);
@@ -64,7 +64,7 @@ extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void func_021845B4(char *);
+extern void BEACON_DETAIL_LoadRecords(char *);
 int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
 {
     char *p;
@@ -74,7 +74,7 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     *(u32 *)p=0x7c;
     *(void **)(p+4)=ctx;
     *(void **)(p+8)=GAME_DATA_GetSaveControl(ctx);
-    *(void **)(p+0xc)=func_02012944(*(void **)(p+4));
+    *(void **)(p+0xc)=GAME_DATA_GetMyStatus(*(void **)(p+4));
     *(void **)(p+0x10)=func_02009470(*(void **)(p+8));
     if(GAME_LANGUAGE_Code==1)*(u32 *)(p+0xc318)=1;
     else *(u32 *)(p+0xc318)=0;
@@ -83,8 +83,8 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     *(u32 *)(p+0xc34c)=func_02009524(*(void **)(p+0x10));
     *(u32 *)(p+0xc05c)=0;
     *(u32 *)(p+0xc060)=0;
-    func_021844E4();
-    func_02184558((u16)(*(u32 *)p));
+    BEACON_DETAIL_InitVram();
+    BEACON_DETAIL_InitGraphics((u16)(*(u32 *)p));
     *(void **)(p+0xc0a8)=WORDSET_Create(8,0x40,*(u32 *)p);
     *(u32 *)(p+0xc310)=0;
     BMP_SetDisplaySwap(0);
@@ -93,6 +93,6 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     *(u32 *)(p+0xc080)=PRINTSYS_QUE_Create((void *)(u16)*(u32 *)p);
     GFL_NET_RestartWithDefaultTimeout(1,(u16)(*(u32 *)p));
     BG_SYS_SetSubPlaneVisible(0x10,1);
-    func_021845B4(p);
+    BEACON_DETAIL_LoadRecords(p);
     return 1;
 }

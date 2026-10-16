@@ -514,6 +514,50 @@ def cover_from_entries(entries, matched_status):
     return cover
 
 
+def load_game_extents():
+    """[(start, end, name)] for every matched arm9 game entry whose compiled
+    bytes can contain interior listing labels.
+
+    A listing label can be a false function start: a branch target inside one
+    real function whose `bl` reached it as a long branch, not a call (see
+    docs/notes/pkt_02014D2C_boundary.c.txt, MCSS_Draw).  The label has no
+    manifest entry of its own, but its bytes belong to the function that
+    contains it, so it must not count as open.  The containing entry's extent
+    is its compiled length: a unit (kind game_unit) is compared whole, so its
+    extent is the unit's laid-out .text size (tools/fnaddr.py unit_size); a
+    plain game entry records `compared_bytes` only when its compare ran past
+    the next listing label (match.py entry_from_source), which is exactly the
+    interior case.
+    """
+    import fnaddr  # noqa: E402
+    import match  # noqa: E402
+    out = []
+    for ent in match.load_manifest_entries():
+        if ent.get("region") != REGION:
+            continue
+        if ent.get("status") not in match.MATCHED_STATUS:
+            continue
+        if ent.get("kind") not in ("game", "game_unit"):
+            continue
+        if not ent.get("address"):
+            continue
+        try:
+            start = int(ent["address"], 16)
+        except ValueError:
+            continue
+        name = ent.get("name", "")
+        if str(ent.get("kind", "")).endswith("_unit"):
+            if ent.get("pieces"):
+                continue
+            size = fnaddr.unit_size(ent)
+            if size:
+                out.append((start, start + size, name))
+        elif ent.get("compared_bytes"):
+            out.append((start, start + int(ent["compared_bytes"]), name))
+    out.sort()
+    return out
+
+
 def load_file_anchors():
     """[(pool_site, filename)] __FILE__ anchors in arm9_main, sorted by site.
 
@@ -835,7 +879,7 @@ def parse_all(units):
 # ---------------------------------------------------------------- inventory
 
 
-def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
+def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime, interior=None):
     """Set fn["cls"] (sdk > runtime > matched > open) and its name fields.
 
     An entry whose source is a placeholder (tools/placeholders.py) gives class
@@ -844,6 +888,11 @@ def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
     Only a `game`/`game_unit` manifest entry proves game code over an SDK or
     runtime address; a `runtime` entry reproduces a runtime row and leaves it
     runtime (with matched_name set), so it never reaches the game figure.
+
+    `interior` (load_game_extents()) maps a listing label that is not a real
+    function start to (parent name, parent start): a label strictly inside a
+    matched game function's compiled bytes.  Such a label is credited to its
+    parent as matched, never open.
     """
     addr = fn["addr"]
     ment = matched.get(addr)
@@ -917,6 +966,15 @@ def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
             # libmatch.py put a weak SDK symbol here but match.py has since
             # proved the bytes are game code; the proof wins.
             fn["sdk_conflict"] = sdk[addr]
+    elif interior and addr in interior:
+        # a false function start: a branch target strictly inside a matched
+        # game function's compiled bytes, reached by a `bl` used as a long
+        # branch (docs/notes/pkt_02014D2C_boundary.c.txt, MCSS_Draw).  Its
+        # bytes belong to that function, so they count as matched, not open.
+        pname, pstart = interior[addr]
+        fn["cls"] = "matched"
+        fn["matched_name"] = "%s+0x%X" % (pname, addr - pstart)
+        fn["matched_interior"] = True
     else:
         fn["cls"] = "open"
 
@@ -971,9 +1029,20 @@ def build_inventory():
     # data runs around each function, for the data-adjacent flag
     annotate_data_runs(funcs, items)
 
+    # listing labels that are not real function starts: a branch target
+    # strictly inside a matched game function's compiled bytes (load_game_extents)
+    game_ext = load_game_extents()
+    ext_starts = [s for s, _e, _n in game_ext]
+    interior = {}
+    for fn in funcs:
+        a = fn["addr"]
+        i = bisect.bisect_right(ext_starts, a) - 1
+        if i >= 0 and game_ext[i][0] < a < game_ext[i][1]:
+            interior[a] = (game_ext[i][2], game_ext[i][0])
+
     # classification
     for fn in funcs:
-        classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime)
+        classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime, interior)
 
     # cross reference graph
     callers = {}     # target addr -> set of source func addrs

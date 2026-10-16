@@ -18,15 +18,15 @@
  *   gDouble3Ddisp     0x02146A80  data
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GXS_LoadOAM  0x0207E708  arm
- *   func_02080B98  0x02080B98  arm
- *   func_02080BAC  0x02080BAC  arm
- *   func_02080BC0  0x02080BC0  arm
- *   func_020809B4   0x020809B4  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
+ *   GX_DisableBankForSubBG  0x02080BAC  arm
+ *   GX_DisableBankForSubOBJ  0x02080BC0  arm
+ *   GX_ResetBankForSubOBJ   0x020809B4  arm
  *   GX_SetBankForSubBG   0x020806B0  arm
  *   func_0208068C   0x0208068C  arm
  *   GX_SetGraphicsMode   0x0207D4B0  arm
  *   func_0207D518   0x0207D518  arm
- *   func_020809A0   0x020809A0  arm
+ *   GX_ResetBankForSubBG   0x020809A0  arm
  *   GX_SetBankForSubOBJ   0x0208074C  arm
  *   func_020307B0  0x020307B0  arm
  */
@@ -45,7 +45,7 @@ struct Double3Ddisp {
     union OamEntry oam[12];
 };
 
-extern void func_020809B4(void);
+extern void GX_ResetBankForSubOBJ(void);
 
 extern void GX_SetBankForSubBG(int sub_bg);
 
@@ -55,7 +55,7 @@ extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
 extern void func_0207D518(u32 v);
 
-extern int func_020809A0(void);
+extern int GX_ResetBankForSubBG(void);
 
 extern void GX_SetBankForSubOBJ(int sub_obj);
 
@@ -69,11 +69,11 @@ extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 
 extern void GXS_LoadOAM(void *p, u32 off, u32 n);
 
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 
-extern void func_02080BAC(void);
+extern void GX_DisableBankForSubBG(void);
 
-extern void func_02080BC0(void);
+extern void GX_DisableBankForSubOBJ(void);
 
 void DOUBLE3DDISP_Init(u32 heap);
 
@@ -179,9 +179,9 @@ void DOUBLE3DDISP_InitOam(void)
 
 int DOUBLE3DDISP_Exit(void)
 {
-    func_02080B98();
-    func_02080BAC();
-    func_02080BC0();
+    GX_DisableBankForLCDC();
+    GX_DisableBankForSubBG();
+    GX_DisableBankForSubOBJ();
     func_020307B0(gDouble3Ddisp);
     gDouble3Ddisp = 0;
     return 0;
@@ -260,7 +260,7 @@ void DOUBLE3DDISP_SetupGraphics(void)
     u16 v = *(volatile u16 *)0x04000304;
 
     *(volatile u16 *)0x04000304 = v | 0x8000;
-    func_020809B4();
+    GX_ResetBankForSubOBJ();
     GX_SetBankForSubBG(4);
     func_0208068C(8);
     *(volatile u32 *)0x04000064 = 0x80330010;
@@ -293,7 +293,7 @@ void DOUBLE3DDISP_SetupGraphicsSubObj(void)
     u16 v = *(volatile u16 *)0x04000304;
 
     *(volatile u16 *)0x04000304 = (u16)(v & ~0x8000);
-    func_020809A0();
+    GX_ResetBankForSubBG();
     GX_SetBankForSubOBJ(8);
     func_0208068C(4);
     *(volatile u32 *)0x04000064 = 0x80320010;

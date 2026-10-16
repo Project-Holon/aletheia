@@ -16,7 +16,7 @@
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTL_SERVER_FLOW_CheckEscapeGuaranteed  0x021BD6B8  thumb  ov093
  *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
- *   func_021D58A8  0x021D58A8  thumb  ov093
+ *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   BTL_SERVER_FLOW_CommitEscape  0x021BD708  thumb  ov093
  */
@@ -30,7 +30,7 @@ extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x);
 extern u8 BTL_MAIN_GetOwnClientId(u8 *p);
 extern int BTL_SERVER_FLOW_CheckEscapeGuaranteed(u8 *p, u8 *a);
 extern u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
-extern int func_021D58A8(u8 *p, int k);
+extern int BTL_POKEPARAM_GetStatRaw(u8 *p, int k);
 extern u32 BTL_CALC_Random(u32 range);
 extern int BTL_SERVER_FLOW_CommitEscape(u8 *p, u8 *a, int r, int z);
 
@@ -58,8 +58,8 @@ int BTL_SERVER_FLOW_TryEscape(u8 *p, u8 *a, u8 flag)
     if (flag == 0) {
         q = BTL_SIDE_GetClientPoke(*(u8 * *)&((struct Obj00003 *)p)->f8, 1, 0);
         if (q) {
-            lo = func_021D58A8(a, 0xc);
-            hi = func_021D58A8(q, 0xc);
+            lo = BTL_POKEPARAM_GetStatRaw(a, 0xc);
+            hi = BTL_POKEPARAM_GetStatRaw(q, 0xc);
             if (lo <= hi) {
                 d = (((int)lo << 12) / (int)hi << 7) >> 12;
                 t = d + p[0x786] * 30;

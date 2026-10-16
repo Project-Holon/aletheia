@@ -1,5 +1,5 @@
 /*
- * function: func_0208ABB8
+ * function: TP_WaitRawResult
  * address:  0x0208ABB8
  * packet:   pkt_0208ABB8
  * region:   arm9
@@ -69,7 +69,7 @@ extern TpBss g_02152FA4;
 
 void TP_WaitBusy(u32 command_flgs);
 
-u32 func_0208ABB8(TPData *result)
+u32 TP_WaitRawResult(TPData *result)
 {
     TP_WaitBusy(1);
     if (tpState.err_flg & 1) {

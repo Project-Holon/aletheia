@@ -1,5 +1,5 @@
 /*
- * function: func_0208B528
+ * function: MIC_StopLimitedSampling
  * address:  0x0208B528
  * packet:   pkt_0208B528
  * region:   arm9
@@ -42,7 +42,7 @@ extern BOOL OSi_IsCodecTwlMode(void);
 extern MICResult MICEXi_StopLimitedSampling(void);
 extern MICResult MIC_StopAutoSampling(void);
 
-MICResult func_0208B528(void)
+MICResult MIC_StopLimitedSampling(void)
 {
     if (OSi_IsCodecTwlMode() == TRUE)
     {

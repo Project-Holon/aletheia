@@ -155,7 +155,7 @@ struct Rec3;
 struct Big;
 struct Proc;
 struct Bank;
-struct R;
+struct TaskMenuRes;
 struct Tcbl;
 struct DispConfig;
 struct DispVram;

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   HAND_WAZA_AddMoveHandler 0x021E02DC thumb ov093
  *   HAND_WAZA_RemoveMoveHandlerOfPoke 0x021E03D8 thumb ov093
  *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 *p; u32 type:4; u32 pad:3; u32 key:16; u32 rest:9; u8 bytes[5]; u8 skip; u8 flag; u8 unused; } Entry;
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int HAND_WAZA_AddMoveHandler(u8 *, u16, u32);
 extern void HAND_WAZA_RemoveMoveHandlerOfPoke(u8 *a, int b);
 extern void BTL_EVENT_PushVarFrame(int);
@@ -46,7 +46,7 @@ int BTL_SERVER_FLOW_ProcPursuitBeforeSwitch(u8 *p, u8 *a)
         if (SKIP(i)) continue;
         key = entry_key((Entry *)(p + 0x7e0) + i);
         if (key == 228) {
-            if (HAND_WAZA_AddMoveHandler(OBJECT(i), key, func_021D59B4(OBJECT(i), 12)))
+            if (HAND_WAZA_AddMoveHandler(OBJECT(i), key, BTL_POKEPARAM_GetValue(OBJECT(i), 12)))
                 FLAG(i) = 1;
         }
     }

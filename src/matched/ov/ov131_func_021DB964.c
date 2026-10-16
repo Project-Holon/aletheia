@@ -10,7 +10,7 @@
  * extent: two-byte zero alignment padding at 0x021DB9E6.
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *P_STATUS_GetPokePara(u8 *);
-extern unsigned func_02017E88(void *,unsigned,unsigned);
+extern unsigned POKE_TOOL_GetBoxValue(void *,unsigned,unsigned);
 extern int WAZA_TOOL_GetType(u16);
 struct Rec;
 extern void CLACT_GetCharacterProxy(unsigned int idx, struct Rec *dst);
@@ -43,7 +43,7 @@ void P_STA_SKILL_ShowSlot(u8 *a,void *b,u8 *p) {
     unsigned words[9];
     void *q;
     q=P_STATUS_GetPokePara(a);
-    if(p[0]<4) v=func_02017E88(q,p[0]+54,0);
+    if(p[0]<4) v=POKE_TOOL_GetBoxValue(q,p[0]+54,0);
     else v=((struct Obj23173 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f14;
     if(((struct Obj02847 *)p)->f4==1) {
         if(v!=0) {

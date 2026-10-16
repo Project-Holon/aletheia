@@ -1,5 +1,5 @@
 /*
- * function: func_02088F2C
+ * function: RtcSendPxiCommand
  * address:  0x02088F2C
  * packet:   pkt_02088F2C
  * region:   arm9
@@ -20,7 +20,7 @@ typedef int BOOL;
 
 int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 
-BOOL func_02088F2C(u32 command)
+BOOL RtcSendPxiCommand(u32 command)
 {
     command = (command << 8) & 0x7F00;
     if (PXI_SendWordByFifo(5, command, 0) < 0) {

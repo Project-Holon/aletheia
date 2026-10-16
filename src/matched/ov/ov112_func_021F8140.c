@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_LIGHT_CallElemE
+ * function: STA_ACT_LIGHT_SetActorVisible
  * address: 0x021F8140
  * packet: pkt_ov112_021F8140
  * region: ov112
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MUSICAL_MCSS_ResetRender2(int a, int b);
-void STA_ACT_LIGHT_CallElemE(int a,u8 *p,int b) { ((struct Obj10327 *)p)->f8=b; MUSICAL_MCSS_ResetRender2((int)(((struct Obj10327 *)p)->f58),b); ((struct Obj10327 *)p)->f4=1; }
+void STA_ACT_LIGHT_SetActorVisible(int a,u8 *p,int b) { ((struct Obj10327 *)p)->f8=b; MUSICAL_MCSS_ResetRender2((int)(((struct Obj10327 *)p)->f58),b); ((struct Obj10327 *)p)->f4=1; }

@@ -234,7 +234,7 @@ extern struct FieldmapFunc *FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
 extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 extern u8 func_02008550(const struct MyStatus *myStatus);
 extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *eventWork, u32 workId);

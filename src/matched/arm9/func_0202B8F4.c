@@ -14,17 +14,20 @@
  * No C spelling produces this shape; reported in
  * docs/notes/pkt_0202B7BC.ISS_3DS_SYS_Update.c.txt and left parked.
  *
- * A bare tail-call thunk to func_0202BAF4.
+ * A bare tail-call thunk to ISS_3DS_SYS_UpdateImpl.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ISS_3DS_SYS_Update.c \
  *       --func ISS_3DS_SYS_Update --addr 0x0202B8F4 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_3DS_SYS_UpdateImpl  0x0202BAF4  thumb
  */
 
 typedef unsigned char  u8;
-extern void func_0202BAF4(u8 *o);
+extern void ISS_3DS_SYS_UpdateImpl(u8 *o);
 
 void ISS_3DS_SYS_Update(u8 *a0)
 {
-    func_0202BAF4(a0);
+    ISS_3DS_SYS_UpdateImpl(a0);
 }

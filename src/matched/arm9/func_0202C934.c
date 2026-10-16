@@ -1,5 +1,5 @@
 /*
- * function: func_0202C934
+ * function: ISS_SWITCH_CheckSpecialPower
  * address:  0x0202C934
  * packet:   pkt_0202C860
  * region:   arm9
@@ -21,7 +21,7 @@ extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u32 GPOWER_GetSpecialPowerId(void);
 
-s32 func_0202C934(void *a0, u32 a1, u32 a2)
+s32 ISS_SWITCH_CheckSpecialPower(void *a0, u32 a1, u32 a2)
 {
     u32 r = GAME_DATA_GetEventWork((const struct BigObj *)a1);
 

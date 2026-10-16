@@ -1,7 +1,7 @@
 /*
  * file:     gf_overlay.c
  * unit:     yes
- * function: sub_02034768, func_020348A4, sub_02034900, func_02034978, func_0203499C, func_02034A3C, func_02034A5C, func_02034AC4, func_02034BB0, GF_OVERLAY_GetSlots, GF_OVERLAY_GetSlotCount, GF_OVERLAY_GetArea, GF_OVERLAY_GetRamRange
+ * function: GF_OVERLAY_PanicInit, GF_OVERLAY_PanicPrint, GF_OVERLAY_PanicDie, func_02034978, func_0203499C, func_02034A3C, func_02034A5C, func_02034AC4, func_02034BB0, GF_OVERLAY_GetSlots, GF_OVERLAY_GetSlotCount, GF_OVERLAY_GetArea, GF_OVERLAY_GetRamRange
  * address:  0x02034768
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020808F4  0x020808F4  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
@@ -28,8 +28,8 @@
  *   DC_FlushRange     0x020862F0  arm
  *   GXS_LoadBG0Char   0x0207EE68  arm
  *   OS_Terminate      0x02088234  arm
- *   sub_02034768  0x02034768  arm
- *   sub_02034900  0x02034900  arm
+ *   GF_OVERLAY_PanicInit  0x02034768  arm
+ *   GF_OVERLAY_PanicDie  0x02034900  arm
  *   func_02030734   0x02030734  arm
  *   MIi_CpuClear32  0x02082A7C  arm
  *   _pOverlayTables    0x021469B8  data
@@ -115,7 +115,7 @@ struct OverlayInfo {
     u32 procTarget;
 };
 
-extern int func_020808F4(void);
+extern int GX_ResetBankForBG(void);
 extern void  func_0207FDCC(u32 enable);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
@@ -136,10 +136,10 @@ extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);
 extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
-void sub_02034768(void);
-void func_020348A4(char *text);
-void sub_02034900(void);
-void sub_02034978(void);
+void GF_OVERLAY_PanicInit(void);
+void GF_OVERLAY_PanicPrint(char *text);
+void GF_OVERLAY_PanicDie(void);
+void GF_OVERLAY_RegisterPanicHandlers(void);
 void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount);
 void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot);
 void GF_OVERLAY_Unload(s32 handle);
@@ -198,10 +198,10 @@ extern const unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
  * merged `(x & ~0xFF) | 0x21`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034768.c \
- *       --func sub_02034768 --addr 0x02034768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicInit.c \
+ *       --func GF_OVERLAY_PanicInit --addr 0x02034768 --cc 1.1p1 --arm
  */
-void sub_02034768(void)
+void GF_OVERLAY_PanicInit(void)
 {
     u16 savedIme;
     void *charBuf;
@@ -210,7 +210,7 @@ void sub_02034768(void)
     REG_IME = 0;
 
     REG_DISPCNT = REG_DISPCNT & ~0x1f00;
-    func_020808F4();
+    GX_ResetBankForBG();
     func_0207FDCC(1);
 
     REG_POWCNT = REG_POWCNT & ~0x8000;
@@ -260,7 +260,7 @@ void sub_02034768(void)
  *           TEXTPRINT_PrintText are inside this function. Every concrete byte of the
  *           body reproduces.
  */
-void func_020348A4(char *text)
+void GF_OVERLAY_PanicPrint(char *text)
 {
     int hasNewline;
 
@@ -285,7 +285,7 @@ void func_020348A4(char *text)
 
 
 /*
- * The third of the three default assert handlers sub_02034978 registers:
+ * The third of the three default assert handlers GF_OVERLAY_RegisterPanicHandlers registers:
  * the die handler.  It fills the main BG0 screen map with the identity
  * mapping (256 tiles laid out 32 per row over 8 rows, the counter running
  * straight through both loops rather than restarting per row), uploads the
@@ -298,10 +298,10 @@ void func_020348A4(char *text)
  * pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034900.c \
- *       --func sub_02034900 --addr 0x02034900 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicDie.c \
+ *       --func GF_OVERLAY_PanicDie --addr 0x02034900 --cc 1.1p1 --arm
  */
-void sub_02034900(void)
+void GF_OVERLAY_PanicDie(void)
 {
     u16 *screenMap;
     int col;
@@ -345,12 +345,12 @@ void sub_02034900(void)
  * they stay unresolved under the honesty rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034978.c \
- *       --func sub_02034978 --addr 0x02034978 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GF_OVERLAY_RegisterPanicHandlers.c \
+ *       --func GF_OVERLAY_RegisterPanicHandlers --addr 0x02034978 --cc 1.1p1 --arm
  */
-void sub_02034978(void)
+void GF_OVERLAY_RegisterPanicHandlers(void)
 {
-    SAVEDATA_SetPanicHandlers((u32)sub_02034768, (u32)func_020348A4, (u32)sub_02034900);
+    SAVEDATA_SetPanicHandlers((u32)GF_OVERLAY_PanicInit, (u32)GF_OVERLAY_PanicPrint, (u32)GF_OVERLAY_PanicDie);
 }
 
 

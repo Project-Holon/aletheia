@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BTL_CLIENT_HasMoveWithAffinityVsTarget 0x021D0644 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetHitRecord 0x021D6940 thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 struct G { void *p0; u8 pad[0xf0]; u64 seed; u64 mul; u64 add; u8 pad2[0xc]; void *list; u8 start; };
 extern int BTL_CLIENT_HasMoveWithAffinityVsTarget(void *, void *, void *, int);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 struct Q1;
 struct S2;
 extern int BTL_POKEPARAM_GetHitRecord(const u8 *p, int i, u32 j, u16 *out);
@@ -51,7 +51,7 @@ int BTL_CLIENT_FindSwitchByTypeMatchup(struct G *g, void *mon, void *target, u8 
         if ((u32)(((g->seed >> 32) * 10) >> 32) != 0) return 0;
     }
     sum = 0;
-    for (i = 1; i <= 7; i++) sum += func_021D59B4(mon, i);
+    for (i = 1; i <= 7; i++) sum += BTL_POKEPARAM_GetValue(mon, i);
     if (sum >= 4) return 0;
     if (BTL_POKEPARAM_GetHitRecord(mon, 1, 0, hist)) {
         n = BTL_SLOT_GetCount(g->list);

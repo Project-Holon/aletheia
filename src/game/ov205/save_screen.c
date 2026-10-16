@@ -17,7 +17,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082A7C 0x02082A7C arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_020071F0 0x020071F0 thumb
  *   init 0x021B9E50 data a2
@@ -45,7 +45,7 @@
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   func_0208068C 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
- *   func_02080B98 0x02080B98 arm
+ *   GX_DisableBankForLCDC 0x02080B98 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02049B40 0x02049B40 arm
  *   func_02045B38 0x02045B38 arm
@@ -195,7 +195,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, u32 size, u32 heap);
 extern void func_02082A7C(unsigned,void *,unsigned);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern u32 KEY_GetTrg(void);
@@ -222,7 +222,7 @@ extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BMP_SetDisplaySwap(u32);
 extern void func_0208068C(u32);
 extern void MIi_CpuClearFast(u32,u32,u32);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
@@ -315,7 +315,7 @@ int SAVE_SCREEN_Init(void *owner,int unused,void **args)
     p->heapId=84;
     p->arcId=36;
     p->ctx=ICA_ANIME_GetField1C(context);
-    p->anim=func_02012944(p->ctx);
+    p->anim=GAME_DATA_GetMyStatus(p->ctx);
     if(func_020071F0(GAME_DATA_GetSaveControl(p->ctx))!=0)
         p->hasSave=1;
     return 1;
@@ -415,7 +415,7 @@ int SAVE_SCREEN_Exit(void *p)
 }
 
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=func_02045B38(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=func_02045B38(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
 
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)
@@ -518,7 +518,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
     keys=KEY_GetTrg();
     switch(*state){
     case 0:
-        func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();
+        func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();
         SAVE_SCREEN_SetupNoticeBackground(p->heapId);
         p->font=GF_FONT_Create(23,0,0,0,p->heapId);
         p->msgBank=func_02045B38(0,2,37,p->heapId);

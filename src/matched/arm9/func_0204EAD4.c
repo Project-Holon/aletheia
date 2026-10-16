@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020809B4   0x020809B4  arm
+ *   GX_ResetBankForSubOBJ   0x020809B4  arm
  *   GX_SetBankForSubBG   0x020806B0  arm
  *   func_0208068C   0x0208068C  arm
  *   GX_SetGraphicsMode   0x0207D4B0  arm
@@ -34,7 +34,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020809B4(void);
+extern void GX_ResetBankForSubOBJ(void);
 extern void GX_SetBankForSubBG(int sub_bg);
 extern void func_0208068C(u32 v);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
@@ -45,7 +45,7 @@ void DOUBLE3DDISP_SetupGraphics(void)
     u16 v = *(volatile u16 *)0x04000304;
 
     *(volatile u16 *)0x04000304 = v | 0x8000;
-    func_020809B4();
+    GX_ResetBankForSubOBJ();
     GX_SetBankForSubBG(4);
     func_0208068C(8);
     *(volatile u32 *)0x04000064 = 0x80330010;

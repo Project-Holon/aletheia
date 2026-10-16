@@ -15,14 +15,14 @@
  * six can be witnessed and no cut frees any of them.  Four of the six are
  * now closed and the file is at 4 of 6 relocation sites resolved:
  *
- *   func_02066748  0x02066748   12 bytes  -- veneer, resolves `veneer`
+ *   NNSi_G2dSetRndCoreImageProxyVeneer  0x02066748   12 bytes  -- veneer, resolves `veneer`
  *   NNS_G2dBeginRendering  0x02065BD0  168 bytes  -- OPEN, docs/notes/NNS_G2dBeginRendering.c.txt
  *   CLACT_SetupActorDraw  0x0204CBB0  188 bytes  -- closed, resolves `matched`
  *   CLACT_SetOamOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
  *   CLACT_ApplyActorTransform  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
  *   NNS_G2dEndRendering  0x02065C78  108 bytes  -- closed, resolves `matched`
  *
- * func_02066748 is not decompilable and never will be.  It is a twelve-byte
+ * NNSi_G2dSetRndCoreImageProxyVeneer is not decompilable and never will be.  It is a twelve-byte
  * ARM linker veneer, `ldr ip, [pc]; bx ip; .word 0x02067AA0`, and the
  * `veneer` attestation class used to refuse it because 0x02067AA0 was an
  * unlabelled three-instruction leaf (`str r1, [r0, #8]; str r2, [r0, #0xc];
@@ -48,7 +48,7 @@
  * records) and bit 31 of the same word, read through one load.
  *
  * symbols:
- *   func_02066748  0x02066748  arm
+ *   NNSi_G2dSetRndCoreImageProxyVeneer  0x02066748  arm
  *   NNS_G2dBeginRendering  0x02065BD0  arm
  *   CLACT_SetupActorDraw  0x0204CBB0  arm
  *   CLACT_SetOamOffsets  0x0204BA7C  arm
@@ -77,7 +77,7 @@ struct Elem {
 
 typedef unsigned short u16;
 struct Rec;
-extern void func_02066748(int *a0, int a1, int a2);
+extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2);
 extern void NNS_G2dBeginRendering(void *obj);
 extern void CLACT_SetupActorDraw(struct Elem *e, struct Rec *r);
 extern void CLACT_SetOamOffsets(u32 set, u16 bias, u32 v);
@@ -89,7 +89,7 @@ void CLACT_DrawActor(struct Elem *e, u32 arg)
     if (e->enabled == 0)
         return;
 
-    func_02066748((int *)arg, (int)e->unk1c, (int)e->unk40);
+    NNSi_G2dSetRndCoreImageProxyVeneer((int *)arg, (int)e->unk1c, (int)e->unk40);
     NNS_G2dBeginRendering((void *)arg);
     CLACT_SetupActorDraw(e, (struct Rec *)arg);
     CLACT_SetOamOffsets((u32)e->unk40, (u8)e->unk60_c, e->unk60_1f);

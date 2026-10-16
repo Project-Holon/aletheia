@@ -1,5 +1,5 @@
 /*
- * function: func_0208B4B8
+ * function: MIC_GetLastSamplingAddress
  * address:  0x0208B4B8
  * packet:   pkt_0208B4B8
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      MIC_GetLastSamplingAddress (libspi.TWL.HYB.a mic.o)
  */
 
-void *func_0208B4B8(void)
+void *MIC_GetLastSamplingAddress(void)
 {
     return *(void **)0x02FFFF90;
 }

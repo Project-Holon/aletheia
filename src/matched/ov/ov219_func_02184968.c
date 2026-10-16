@@ -1,5 +1,5 @@
 /*
- * function: func_02184968
+ * function: BEACON_DETAIL_CreateBmpWin
  * address: 0x02184968
  * packet: pkt_ov219_02184968
  * region: ov219
@@ -22,4 +22,4 @@ extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor*);
 extern void BMP_Clear(struct CharBuf*,u8);
 extern void BMP_WIN_MakeScreen(struct Cfg*);
-u32 func_02184968(const u8 *p,int flag){u32 q;q=BMP_WIN_Create(p[0],p[1],p[2],p[3],p[4],p[5],1);BMP_Clear((struct CharBuf*)BMP_WIN_GetBmp((struct Descriptor*)q),15);if(flag==1)BMP_WIN_MakeScreen((struct Cfg*)q);return q;}
+u32 BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag){u32 q;q=BMP_WIN_Create(p[0],p[1],p[2],p[3],p[4],p[5],1);BMP_Clear((struct CharBuf*)BMP_WIN_GetBmp((struct Descriptor*)q),15);if(flag==1)BMP_WIN_MakeScreen((struct Cfg*)q);return q;}

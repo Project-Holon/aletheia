@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *
  * Verified with:
@@ -24,22 +24,22 @@ struct Sav;
 extern unsigned int POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern unsigned int POKE_TOOL_EncodeBoxParam(struct Sav *p, unsigned int f);
 typedef unsigned int   u32;
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_IsBoxShiny(void *p);
 
 int SAVE_EVENT_CheckStage(void *a0, int a1)
 {
     void *p = (void *)POKE_TOOL_DecodeBoxParam(a0);
-    int x = func_02017E88(a0, 5, 0);
-    int y = func_02017E88(a0, 0x96, 0);
-    int z = func_02017E88(a0, 0x6d, 0);
+    int x = POKE_TOOL_GetBoxValue(a0, 5, 0);
+    int y = POKE_TOOL_GetBoxValue(a0, 0x96, 0);
+    int z = POKE_TOOL_GetBoxValue(a0, 0x6d, 0);
     int w = POKE_TOOL_IsBoxShiny(a0);
     int flag = 0;
 
-    if (func_02017E88(a0, 0x8f, flag) != 0
-        || func_02017E88(a0, 0x90, flag) != 0
-        || func_02017E88(a0, 0x91, flag) != 0
-        || func_02017E88(a0, 0x95, flag) != 0) {
+    if (POKE_TOOL_GetBoxValue(a0, 0x8f, flag) != 0
+        || POKE_TOOL_GetBoxValue(a0, 0x90, flag) != 0
+        || POKE_TOOL_GetBoxValue(a0, 0x91, flag) != 0
+        || POKE_TOOL_GetBoxValue(a0, 0x95, flag) != 0) {
         flag = 1;
     }
     POKE_TOOL_EncodeBoxParam(a0, (unsigned int)p);

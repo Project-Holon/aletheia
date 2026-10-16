@@ -19,7 +19,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
@@ -49,7 +49,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 struct Struct36;
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
@@ -87,8 +87,8 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
     BMP_WIN_MakeScreen(cell);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(cell));
     if(((struct Obj01407 *)a)->f38==0) {
-        first=func_02017E88(object,174,0);
-        second=func_02017E88(object,175,0);
+        first=POKE_TOOL_GetBoxValue(object,174,0);
+        second=POKE_TOOL_GetBoxValue(object,175,0);
         CLACT_GetCharacterProxy(*(u32 *)((u32)a+first*4u+0x130u),&r1);
         CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f198,(const struct Struct36 *)(&r1));
         CLACT_SetActorPaletteOffset(((struct Obj01407 *)a)->f198,APP_ICON_GetTypePaletteOffset((u8)first),1);

@@ -12,9 +12,9 @@
  *   d_0220A392 0x0220A392 data a2
  *   d_0220AEB0 0x0220AEB0 data a1
  *   func_020490F4 0x020490F4 arm
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCEC 0x0201BCEC thumb
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub 0x0201BCEC thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
@@ -66,9 +66,9 @@ extern const char d_0220AEB0[];
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 struct PalAnmSlot;
-extern int func_0201BC78(void);
-extern int func_0201BCEC(void);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
@@ -103,8 +103,8 @@ void BTLV_INPUT_CreateActionButtons(Main *m, Info *q)
     if (m->mode == 0 || m->mode == 3)
         return;
     arc = func_020490F4(7, (u16)((m->heap & 0x7fff) | 0x8000));
-    m->h1c0 = CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCEC(), m->heap);
-    m->h1bc = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0x160, m->heap);
+    m->h1c0 = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryIdSub(), m->heap);
+    m->h1bc = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0x160, m->heap);
     PALANM_CopyHwPaletteToSlot(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h1bc, 1) >> 1), 0x60);
     *(volatile u16 *)0x04001040 = 0x100;
     *(volatile u16 *)0x04001044 = 0;

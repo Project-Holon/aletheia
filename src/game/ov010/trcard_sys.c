@@ -25,7 +25,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_02172B64     0x02172B64  data  ov010
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008554  0x02008554  thumb
  *   GAME_BEACON_SetTrainerView  0x02027174  thumb
  *   func_020315D4  0x020315D4  arm
@@ -217,7 +217,7 @@ extern int func_0203133C();
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008554(const struct MyStatus *obj);
 extern int GAME_BEACON_SetTrainerView();
 extern void func_020315D4(struct ProcSys *p);
@@ -401,7 +401,7 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
     int outfit;
 
     if (param->linkFlag != 0) {
-        myStatus = func_02012944(param->saveData);
+        myStatus = GAME_DATA_GetMyStatus(param->saveData);
         outfit = func_02008554((const struct MyStatus *)myStatus);
         if (work->outfit != outfit)
             outfit = GAME_BEACON_SetTrainerView(outfit);
@@ -640,7 +640,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
 
     playerSave = GAME_DATA_GetSaveControl(save);
     signature = func_020089C0(playerSave);
-    myStatus = func_02012944(save);
+    myStatus = GAME_DATA_GetMyStatus(save);
     badges = GAME_DATA_GetMiscSave(save);
     saveClock = (SaveClock *)func_02008B14(playerSave);
     records = func_02008C58(playerSave);

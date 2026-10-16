@@ -35,7 +35,7 @@
  *   BG_SYS_SetScrollField  0x02042360  arm
  *   GFL_NET_SetIrcParams  0x0203D814  arm
  *   BG_SYS_SetScrollRegs  0x02040860  arm
- *   func_0207D59C  0x0207D59C  arm
+ *   G2x_SetBGyAffine_  0x0207D59C  arm
  *   MI_UncompressLZ8  0x020834C0  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   MIi_CpuCopy16  0x02082A60  arm
@@ -252,7 +252,7 @@ extern void GFL_NET_SetIrcParams(u32 x, u32 y);
 
 extern void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c);
 
-extern void func_0207D59C(void *reg, struct Mtx22 *a, u32 b, u32 c, u32 x, u32 y);
+extern void G2x_SetBGyAffine_(void *reg, struct Mtx22 *a, u32 b, u32 c, u32 x, u32 y);
 
 extern void MI_UncompressLZ8(void *dest, const void *src, u32 size);
 
@@ -1302,11 +1302,11 @@ void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c)
     case 1:
         break;
     case 2:
-        func_0207D59C((void *)0x04000020, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04000020, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 3:
-        func_0207D59C((void *)0x04000030, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04000030, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 4:
@@ -1314,11 +1314,11 @@ void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c)
     case 5:
         break;
     case 6:
-        func_0207D59C((void *)0x04001020, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04001020, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 7:
-        func_0207D59C((void *)0x04001030, a, b, c,
+        G2x_SetBGyAffine_((void *)0x04001030, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     }
@@ -2270,7 +2270,7 @@ void BG_SYS_SetFlagField06(u32 bit)
  *
  * Layers 2, 3, 6 and 7 are affine-capable and first read the record's +0x1c
  * flag: zero takes the same plain path, non-zero builds a 16-byte matrix on
- * the stack with BUTTON_MAN_RotScaleMtx22 and hands it to func_0207D59C along with the
+ * the stack with BUTTON_MAN_RotScaleMtx22 and hands it to G2x_SetBGyAffine_ along with the
  * layer's affine register block.
  *
  * THREE DECLARATIONS CARRY THE FUNCTION, all three established by this pass
@@ -2289,7 +2289,7 @@ void BG_SYS_SetFlagField06(u32 bit)
  *     sp+0x38, +0x28, +0x18 and +0x08: a stride of 0x10.  With a 32-byte
  *     matrix the frame comes out `sub sp, #0x88` instead of `#0x48`.
  *
- *  3. func_0207D59C TAKES THE AFFINE PAIR IN r2/r3 AND THE SCROLL PAIR ON
+ *  3. G2x_SetBGyAffine_ TAKES THE AFFINE PAIR IN r2/r3 AND THE SCROLL PAIR ON
  *     THE STACK.  That is arguments 3 and 4 being +0x2c/+0x30 and arguments
  *     5 and 6 being scroll_x/scroll_y, not the other way round.  The
  *     reversed order compiles and is the same size; it differs only in which
@@ -2329,7 +2329,7 @@ void BG_SYS_CommitScroll(void)
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).rotation,
                           (const void *)SLOT(2).scaleX,
                           (const void *)SLOT(2).scaleY, 2);
-            func_0207D59C((void *)0x04000020, &t,
+            G2x_SetBGyAffine_((void *)0x04000020, &t,
                           SLOT(2).centerX, SLOT(2).centerY,
                           SLOT(2).scrollX, SLOT(2).scrollY);
         }
@@ -2343,7 +2343,7 @@ void BG_SYS_CommitScroll(void)
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).rotation,
                           (const void *)SLOT(3).scaleX,
                           (const void *)SLOT(3).scaleY, 2);
-            func_0207D59C((void *)0x04000030, &t,
+            G2x_SetBGyAffine_((void *)0x04000030, &t,
                           SLOT(3).centerX, SLOT(3).centerY,
                           SLOT(3).scrollX, SLOT(3).scrollY);
         }
@@ -2365,7 +2365,7 @@ void BG_SYS_CommitScroll(void)
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).rotation,
                           (const void *)SLOT(6).scaleX,
                           (const void *)SLOT(6).scaleY, 2);
-            func_0207D59C((void *)0x04001020, &t,
+            G2x_SetBGyAffine_((void *)0x04001020, &t,
                           SLOT(6).centerX, SLOT(6).centerY,
                           SLOT(6).scrollX, SLOT(6).scrollY);
         }
@@ -2379,7 +2379,7 @@ void BG_SYS_CommitScroll(void)
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).rotation,
                           (const void *)SLOT(7).scaleX,
                           (const void *)SLOT(7).scaleY, 2);
-            func_0207D59C((void *)0x04001030, &t,
+            G2x_SetBGyAffine_((void *)0x04001030, &t,
                           SLOT(7).centerX, SLOT(7).centerY,
                           SLOT(7).scrollX, SLOT(7).scrollY);
         }

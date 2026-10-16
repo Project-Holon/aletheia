@@ -96,11 +96,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02072440"
+    "NNSi_G3dTexMtxRot_Max"
+   ],
+   "addresses": [
+    "0x02072440"
    ]
   },
   {
-   "name": "func_02072524",
+   "name": "NNSi_G3dTexMtxIdentity_Max",
    "address": "0x02072524",
    "kind": "game",
    "region": "arm9",

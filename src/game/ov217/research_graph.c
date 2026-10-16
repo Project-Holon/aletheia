@@ -264,7 +264,6 @@
  *   BG_SYS_Update  0x020419E4  arm  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
-#include "../../matched/include/G_E.h"
 #include "../../matched/include/G_Bg.h"
 #include "research_shared_types.h"
 
@@ -1063,7 +1062,7 @@ void RESEARCH_GRAPH_DestroyPercentages(int *p);
 
 void RESEARCH_GRAPH_InitScreen(void);
 
-extern struct E d_021C3AC8[];
+extern struct CursorLayoutRow d_021C3AC8[];
 
 extern unsigned char d_021C3628[];
 
@@ -2081,10 +2080,10 @@ int RESEARCH_GRAPH_DrawIndexCursor(char *p)
     case 0:
     case 2:
     case 3:
-        BG_SYS_FillTileMap(2, d_021C3AC8[*(int *)(p + 0x34)].a,
-                      d_021C3AC8[*(int *)(p + 0x34)].b,
-                      d_021C3AC8[*(int *)(p + 0x34)].c,
-                      d_021C3AC8[*(int *)(p + 0x34)].d, 0xa);
+        BG_SYS_FillTileMap(2, d_021C3AC8[*(int *)(p + 0x34)].x,
+                      d_021C3AC8[*(int *)(p + 0x34)].y,
+                      d_021C3AC8[*(int *)(p + 0x34)].w,
+                      d_021C3AC8[*(int *)(p + 0x34)].h, 0xa);
         break;
     case 1:
         BG_SYS_FillTileMap(2, 0xd, 4, 0x13, 4, 0xa);
@@ -2103,10 +2102,10 @@ void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
     case 0:
     case 2:
     case 3:
-        BG_SYS_FillTileMap(2, d_021C3AC8[*(u32 *)(p + 52)].a,
-            d_021C3AC8[*(u32 *)(p + 52)].b,
-            d_021C3AC8[*(u32 *)(p + 52)].c,
-            d_021C3AC8[*(u32 *)(p + 52)].d, 6);
+        BG_SYS_FillTileMap(2, d_021C3AC8[*(u32 *)(p + 52)].x,
+            d_021C3AC8[*(u32 *)(p + 52)].y,
+            d_021C3AC8[*(u32 *)(p + 52)].w,
+            d_021C3AC8[*(u32 *)(p + 52)].h, 6);
         break;
     case 1:
         BG_SYS_FillTileMap(2,13,4,19,4,6);

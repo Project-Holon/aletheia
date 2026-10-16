@@ -1,5 +1,5 @@
 /*
- * function: func_0208B24C
+ * function: MIC_Init
  * address:  0x0208B24C
  * packet:   pkt_0208B24C
  * region:   arm9
@@ -69,7 +69,7 @@ extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 extern void MicCommonCallback(int tag, u32 data, BOOL err);
 
-void func_0208B24C(void)
+void MIC_Init(void)
 {
     if (mic_bss.micInitialized)
     {

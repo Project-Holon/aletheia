@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02183F40",
+   "name": "MICTEST_VBlank",
    "address": "0x02183F40",
    "kind": "game",
    "region": "ov168",

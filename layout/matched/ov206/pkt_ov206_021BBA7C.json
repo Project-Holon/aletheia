@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBA7C",
+   "name": "ZUKAN_INFO_DeleteFormGfx",
    "address": "0x021BBA7C",
    "kind": "game",
    "region": "ov206",

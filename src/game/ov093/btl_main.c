@@ -180,15 +180,15 @@
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
- *   func_021D54F4 0x021D54F4 thumb ov093
+ *   BTL_POKEPARAM_CopyMoves 0x021D54F4 thumb ov093
  *   BTL_POKEPARAM_IsIllusionActive  0x021D6C24  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   BTL_POKEPARAM_Delete 0x021D53B8 thumb ov093
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   BTL_POKEPARAM_Create 0x021D4D84 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_SetFakeMon 0x021D5848 thumb ov093
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   BTL_POKEPARAM_WriteBackToParam 0x021D6B84 thumb ov093
@@ -446,15 +446,15 @@ extern u32 BEACON_GetPoints(struct Blk34 *p);
 extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
 extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
 extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
-extern void func_021D54F4(struct BtlPokeParam *src, struct BtlPokeParam *dst);
+extern void BTL_POKEPARAM_CopyMoves(struct BtlPokeParam *src, struct BtlPokeParam *dst);
 extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *poke);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *poke);
 extern void BTL_POKEPARAM_Delete(struct BtlPokeParam *poke);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern struct BtlPokeParam *BTL_POKEPARAM_Create(void *mon, u8 pokeId, u32 heapId);
-extern int func_021D59B4(struct BtlPokeParam *poke, int paramId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *poke, int paramId);
 extern void BTL_POKEPARAM_SetFakeMon(struct BtlPokeParam *poke, void *mon);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
 extern void POKEPARTY_Init(struct Party *p);
 extern void BTL_POKEPARAM_WriteBackToParam(struct BtlPokeParam *poke, int flag);
@@ -3515,7 +3515,7 @@ void BTL_MAIN_CopyLiveToSnapshotPoke(struct BtlMain *main, int pokeId)
 {
     struct BtlPokeParam *snapshot = BTL_SIDE_GetPokeByIdThunk(&main->sides[1], pokeId);
     struct BtlPokeParam *live = BTL_SIDE_GetPokeByIdThunk(&main->sides[0], pokeId);
-    func_021D54F4(live, snapshot);
+    BTL_POKEPARAM_CopyMoves(live, snapshot);
 }
 
 
@@ -3665,28 +3665,28 @@ void BTL_SIDE_SetupClientParty(struct BtlSide *side, struct BtlMain *main, u8 cl
     lastValid = BTL_MAIN_FindLastLivingPartyIndex(party);
     if (lastValid > 0) {
         for (i = 0, pokeId = firstPokeId; i < lastValid; i++, pokeId++) {
-                if (func_021D59B4(side->pokeParams[pokeId], 0x11) == 0x95)
+                if (BTL_POKEPARAM_GetValue(side->pokeParams[pokeId], 0x11) == 0x95)
                     BTL_POKEPARAM_SetFakeMon(side->pokeParams[pokeId], POKEPARTY_GetMember(party, lastValid));
             }
     }
     if (BTL_MAIN_GetCompetitor(main) == 0 && clientId == 1) {
         for (j = 0; j < count; j++, firstPokeId++) {
             poke = side->pokeParams[firstPokeId];
-            if (BTL_POKEPARAM_GetSpecies(poke) == 0x23B && func_021D59B4(poke, 0x11) == 0x95) {
+            if (BTL_POKEPARAM_GetSpecies(poke) == 0x23B && BTL_POKEPARAM_GetValue(poke, 0x11) == 0x95) {
                 struct Party *playerParty;
                 u8 playerCount, q;
                 playerParty = BTL_MAIN_GetClientParty(main, 0, side->sideIndex);
                 newSpecies = 0;
                 playerCount = POKEPARTY_GetCount(playerParty);
                 for (q = 0; q < playerCount; q++) {
-                    u16 species = func_02017E1C(POKEPARTY_GetMember(playerParty, q), 5, 0);
+                    u16 species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(playerParty, q), 5, 0);
                     if (species == 0xf3) { newSpecies = 0xf4; break; }
                     if (species == 0xf4) { newSpecies = 0xf5; break; }
                     if (species == 0xf5) { newSpecies = 0xf3; break; }
                 }
                 if (newSpecies != 0) {
                     if (main->tempBuffer == 0)
-                        main->tempBuffer = POKE_TOOL_Create(newSpecies, func_021D59B4(poke, 0xf), 0, main->heapId);
+                        main->tempBuffer = POKE_TOOL_Create(newSpecies, BTL_POKEPARAM_GetValue(poke, 0xf), 0, main->heapId);
                     BTL_POKEPARAM_SetFakeMon(poke, main->tempBuffer);
                 }
             }
@@ -3727,7 +3727,7 @@ int BTL_MAIN_FindLastLivingPartyIndex(struct Party *party)
 
     for (i = POKEPARTY_GetCount(party) - 1; i >= 0; i--) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(mon, 0x4c, 0) == 0 && func_02017E1C(mon, 0xa0, 0) != 0)
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0 && POKE_TOOL_GetPartyValue(mon, 0xa0, 0) != 0)
             return i;
     }
     return -1;
@@ -4753,7 +4753,7 @@ void BTL_SLOT_UpdateIllusion(struct BtlMain *main, struct BtlSideSlot *slot, int
         firstIndex = 3;
     for (; firstIndex < slot->count; firstIndex++) {
         poke = slot->items[firstIndex];
-        if (func_021D59B4(poke, 0x11) == 0x95) {
+        if (BTL_POKEPARAM_GetValue(poke, 0x11) == 0x95) {
             if (firstIndex < lastAlive) {
                 BTL_POKEPARAM_SetFakeMon(poke, BTL_POKEPARAM_GetMon(slot->items[lastAlive]));
             } else {
@@ -5609,10 +5609,10 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
             for (i0 = 0; i0 < n; i0++) {
                 old = POKEPARTY_GetMember(main->setup->party[0], i0);
                 mon = POKEPARTY_GetMember(party, i0);
-                move = (u16)func_02017E1C(old, 6, 0);
+                move = (u16)POKE_TOOL_GetPartyValue(old, 6, 0);
                 if (!BTL_CALC_GetItemParam((void *)move, 0x10))
                     POKE_TOOL_SetPartyValue(mon, 6, move);
-                else if (move != func_02017E1C(mon, 6, 0))
+                else if (move != POKE_TOOL_GetPartyValue(mon, 6, 0))
                     POKE_TOOL_SetPartyValue(mon, 6, 0);
             }
         }
@@ -5636,8 +5636,8 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
             for (j = 0; j < count; j++) {
                 poke = BTL_SLOT_GetPoke(group, (u8)j);
                 i = (u8)(BTL_POKEPARAM_GetPokeId(poke) - base);
-                total += func_021D59B4(poke, 13);
-                maximum += func_021D59B4(poke, 14);
+                total += BTL_POKEPARAM_GetValue(poke, 13);
+                maximum += BTL_POKEPARAM_GetValue(poke, 14);
                 if (BTL_POKEPARAM_IsFainted(poke)) { rowObj = (u32)main->setup; rowFainted = slot * 6; *(u8 *)(i + (rowFainted + (u32)main->setup) + 0xc8) = 2; }
                 else if (BTL_POKEPARAM_GetMajorStatusIndex(poke)) { rowObj = (u32)main->setup; rowStatus = slot * 6; *(u8 *)(i + (rowStatus + rowObj) + 0xc8) = 1; }
             }
@@ -6128,7 +6128,7 @@ void BTL_MAIN_StoreResultStats(struct BtlMain *main)
     for (i = 0; i < count; i++) {
         poke = BTL_SLOT_GetPoke(slot, (u8)i);
         setup->moveUseTotal += BTL_POKEPARAM_GetUsedMoveTotal(poke);
-        setup->hpSum += (u16)func_021D59B4(poke, 13);
+        setup->hpSum += (u16)BTL_POKEPARAM_GetValue(poke, 13);
     }
     setup->ownFainted = count - aliveCount;
     slot = BTL_SIDE_GetSlotOfClient(&main->sides[1], 1);

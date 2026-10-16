@@ -29,7 +29,7 @@
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
  *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  */
@@ -45,7 +45,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_SetVar(int key, u32 val);
 extern void BTL_EVENT_SetVarOnce(int key, u32 val);
-extern void func_021D70F0(void *a, int id);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
@@ -70,7 +70,7 @@ void BTL_SERVER_FLOW_GetMoveParam(u8 *p, u16 q, u8 *a, struct Out64B4 *out)
     BTL_EVENT_SetVar(0x1A, WAZA_TOOL_GetDamageType(q));
     BTL_EVENT_SetVar(0x1B, WAZA_TOOL_GetParam(q, 0x1B));
     BTL_EVENT_SetVarOnce(0x4B, 0);
-    func_021D70F0(p, 0x28);
+    BTL_EVENT_DispatchEventChecked(p, 0x28);
     out->h0 = q;
     out->h2 = q;
     out->b6 = BTL_EVENT_GetVar(0x16);

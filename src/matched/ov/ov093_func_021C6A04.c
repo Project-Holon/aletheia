@@ -16,7 +16,7 @@
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
  *   BTL_EVENT_SetVarRanged  0x021D7674  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  *   BTL_CALC_MulRatio  0x021D7B10  thumb  ov093
@@ -32,7 +32,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_SetVarOnce(int key, u32 val);
 extern void BTL_EVENT_SetVarRanged(int key, u32 a, u32 b, u32 c);
-extern void func_021D70F0(void *a, int id);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 extern u32 BTL_CALC_MulRatio(u32 a, u32 b);
@@ -48,7 +48,7 @@ int BTL_SERVER_FLOW_CalcAccuracyRatio(u8 *p, u8 *a, u8 *b, struct Q *q)
     BTL_EVENT_SetVarReadOnly(0x1a, q->w8);
     BTL_EVENT_SetVarOnce(0x2b, t);
     BTL_EVENT_SetVarRanged(0x35, 4 << 10, 0x19A, 4 << 15);
-    func_021D70F0(p, 0x34);
+    BTL_EVENT_DispatchEventChecked(p, 0x34);
     x = BTL_EVENT_GetVar(0x2b);
     y = BTL_EVENT_GetVar(0x35);
     BTL_EVENT_PopVarFrame(0x2E39);

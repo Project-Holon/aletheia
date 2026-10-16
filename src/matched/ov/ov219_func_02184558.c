@@ -1,5 +1,5 @@
 /*
- * function: func_02184558
+ * function: BEACON_DETAIL_InitGraphics
  * address: 0x02184558
  * packet: pkt_ov219_02184558
  * region: ov219
@@ -24,7 +24,7 @@ extern const struct DispConfig d_02185F18;
 extern void BG_SYS_Create(unsigned),BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
 extern void BG_SYS_SetLowBit(unsigned),BMP_WIN_Init(unsigned),BG_SYS_ResetSubDisplay(void);
-void func_02184558(unsigned heap)
+void BEACON_DETAIL_InitGraphics(unsigned heap)
 {
     struct DispConfig cfg=d_02185F18;
     BG_SYS_Create(heap);BG_SYS_SetGraphicsMode(&cfg);

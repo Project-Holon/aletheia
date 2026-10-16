@@ -11,7 +11,7 @@
  * symbols:
  *   sPmsivCategoryLabelIds 0x021C38C4 data ov110 a1
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
- *   func_021B999C 0x021B999C thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern const u8 sPmsivCategoryLabelIds[];
 extern u32 PMS_INPUT_VIEW_GetFont(u8 *);
-extern u32 func_021B999C(u8 *, int);
+extern u32 PMS_INPUT_DATA_GetCategoryWordCount(u8 *, int);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -65,7 +65,7 @@ u8 *PMSIV_CATEGORY_MakeCategoryButtons(u8 *p, u8 *q)
     y = 9;
     for (i = 0; i < 12; i++) {
         if (i != 0 && i % 3 == 0) { x = 1; y += 3; }
-        if (func_021B999C(*(u8 * *)&((struct Obj03240 *)p)->f8, i)) {
+        if (PMS_INPUT_DATA_GetCategoryWordCount(*(u8 * *)&((struct Obj03240 *)p)->f8, i)) {
             str = func_02045EC0(bank, sPmsivCategoryLabelIds[i]);
             GF_FONT_SetTextColor(1, 2, 15);
         } else {

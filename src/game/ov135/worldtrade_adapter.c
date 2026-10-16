@@ -41,7 +41,7 @@
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
  *   func_02007664  0x02007664  thumb
@@ -64,7 +64,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   BMP_WIN_ClearScreen   0x020456F8  arm
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045B38 0x02045B38 arm
@@ -161,11 +161,9 @@ extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *sr
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern void BG_SYS_PushTile(u32 layer);
-
-struct Ctx_02202094;
 
 struct PerapVoice;
 
@@ -200,68 +198,13 @@ typedef struct {
     int second;
 } RTCTime;
 
-typedef struct {
-    u32 a;
-    u32 b;
-    u32 c;
-} Slot_02202094;
-
-typedef struct {
-    void *font;
-    void *buf;
-    u32 arg;
-    void *msg;
-    u8 pad10[8];
-    Slot_02202094 slot[0x18];
-    void *res;
-} Ctx_02202094;
-
-typedef struct {
-    void *win;
-    u8 busy;
-    void *active;
-} Ent_02202094;
-
-typedef struct {
-    u8 pad0[4];
-    void *heap;
-    u8 pad8[0xC - 8];
-    void *queue;
-    void *yesno;
-    void *yesnoArg;
-    Ent_02202094 ent[24];
-    void *bg;
-} Printer_02202094;
-
-typedef struct {
-    void *font;
-    void *msg;
-    void *words;
-    void *bank;
-    u8 pad10[0x60];
-    u16 heap;
-} Ctx_02202974;
-
-typedef struct {
-    void *win;
-    u8 busy;
-} Ent_02202940;
-
-typedef struct {
-    u8 pad0[4];
-    void *queue;
-    u8 pad8[0x10 - 8];
-    Ent_02202940 ent[8];
-    void *active[8];
-} Printer_02202940;
-
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
 extern int WORLDTRADE_BOX_IsSpeciesFlagged(unsigned int handle);
 
 
 
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 
@@ -341,7 +284,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
-extern void APP_KEYCURSOR_Update(struct Ctx_02202094 *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(Printer *ctx, void *p, void *cell);
 
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 
@@ -399,11 +342,11 @@ u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
 
 int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, u32 a, u32 c);
 
-void WORLDTRADE_ADAPTER_InitPrinter(Ctx_02202094 *ctx, u32 arg);
+void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg);
 
-void WORLDTRADE_ADAPTER_ExitPrinter(Ctx_02202094 *p);
+void WORLDTRADE_ADAPTER_ExitPrinter(Printer *p);
 
-void WORLDTRADE_ADAPTER_UpdatePrinter(Printer_02202094 *p);
+void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p);
 
 u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
 
@@ -411,17 +354,17 @@ u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,v
 
 void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d, int e, PrintStreamCtx *p);
 
-u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Ctx_02202878 *g);
+u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Printer *g);
 
 void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p);
 
-Ctx_02202974 *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap);
+MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap);
 
-void WORLDTRADE_ADAPTER_ExitMessageSystem(Ctx_02202A50 *p);
+void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p);
 
-void WORLDTRADE_ADAPTER_UpdateMessageSystem(Printer_02202940 *q);
+void WORLDTRADE_ADAPTER_UpdateMessageSystem(MsgSys *q);
 
-void WORLDTRADE_ADAPTER_PrintNumber(Ctx_02202A50 *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
+void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
 
 extern const char g_02203F5C[];
 
@@ -457,7 +400,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
     u32 form;
     u32 slot;
 
-    func_02017E1C(mon, 6, 0);
+    POKE_TOOL_GetPartyValue(mon, 6, 0);
     ZUKAN_SAVE_RegisterCaught(p->ctx->dex, mon);
     box = 0xFF;
     if (POKEPARTY_GetCount(p->ctx->party) == 6) {
@@ -465,9 +408,9 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
     }
     if (hatch != 0) {
         POKE_TOOL_SetPartyValue(mon, 9, 0x46);
-        species = func_02017E1C(mon, 5, 0);
-        form = func_02017E1C(mon, 0x6F, 0);
-        POKE_TOOL_SetPartyValue(mon, 0x6E, POKE_TOOL_CalcGender((u16)species, form, func_02017E1C(mon, 0, 0)));
+        species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+        POKE_TOOL_SetPartyValue(mon, 0x6E, POKE_TOOL_CalcGender((u16)species, form, POKE_TOOL_GetPartyValue(mon, 0, 0)));
         WORLDTRADE_ADAPTER_GetDateTime(p->ctx->sys, 0);
     }
     if (box == 0xFF) {
@@ -496,9 +439,9 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,voi
     index=0xFF;
     if(POKEPARTY_GetCount(p->ctx->party)==6) index=0;
     POKE_TOOL_SetPartyValue(mon,9,0x46);
-    species=func_02017E1C(mon,5,0);
-    form=func_02017E1C(mon,0x6F,0);
-    POKE_TOOL_SetPartyValue(mon,0x6E,POKE_TOOL_CalcGender((u16)species,form,func_02017E1C(mon,0,0)));
+    species=POKE_TOOL_GetPartyValue(mon,5,0);
+    form=POKE_TOOL_GetPartyValue(mon,0x6F,0);
+    POKE_TOOL_SetPartyValue(mon,0x6E,POKE_TOOL_CalcGender((u16)species,form,POKE_TOOL_GetPartyValue(mon,0,0)));
     if(index==0xFF) {
         POKEPARTY_Add(p->ctx->party,(const struct PartyMon *)mon);
         pos=POKEPARTY_GetCount(p->ctx->party);
@@ -578,9 +521,9 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
     MSGDATA_Delete(bank);
     POKE_TOOL_SetDefaultName(mon);
     POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)STRBUF_GetChars(str));
-    if (FILE_UTIL_Check136C((u16)func_02017E1C(mon, 6, 0)) != 0) {
+    if (FILE_UTIL_Check136C((u16)POKE_TOOL_GetPartyValue(mon, 6, 0)) != 0) {
         buf = MAIL_Create((u16)id);
-        func_02017E1C(mon, 0xA7, (u32)buf);
+        POKE_TOOL_GetPartyValue(mon, 0xA7, (u32)buf);
         func_02008F88(buf, STRBUF_GetChars(str));
         POKE_TOOL_SetPartyValue(mon, 0xA7, (u32)buf);
         func_020307B0(buf);
@@ -604,7 +547,7 @@ void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c)
  */
 void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap)
 {
-    return func_02030734(heap, func_020173EC(), 0, g_02203F5C, 0x47);
+    return func_02030734(heap, POKE_TOOL_GetPartyParamSize(), 0, g_02203F5C, 0x47);
 }
 
 /*
@@ -612,7 +555,7 @@ void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap)
  */
 void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b)
 {
-    MI_CpuCopy8((const void *)a, (void *)b, func_020173EC());
+    MI_CpuCopy8((const void *)a, (void *)b, POKE_TOOL_GetPartyParamSize());
 }
 
 /*
@@ -671,57 +614,57 @@ int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, u32 a, u32 c)
     return func_0201D304((struct StrObj *)a, *p, (u16)c);
 }
 
-void WORLDTRADE_ADAPTER_InitPrinter(Ctx_02202094 *ctx, u32 arg)
+void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
 {
     int i;
-    Slot_02202094 *s;
+    PrinterSlot *s;
 
     MI_CpuFill8(ctx, 0, 0x13C);
-    ctx->buf = TCBL_Create(0x48, 0x48, 0x20, 0x20);
+    ctx->tcb = TCBL_Create(0x48, 0x48, 0x20, 0x20);
     ctx->arg = arg;
     ctx->font = GF_FONT_Create(0x17, 0, 0, 0, 0x48);
-    ctx->msg = (void *)PRINTSYS_QUE_Create((void *)0x48);
-    ctx->res = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, 0x48);
+    ctx->queue = (void *)PRINTSYS_QUE_Create((void *)0x48);
+    ctx->cursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, 0x48);
     for (i = 0; i < 0x18; i++) {
-        s = &ctx->slot[i];
+        s = &ctx->slots[i];
         MI_CpuFill8(s, 0, 8);
-        s->c = 0;
+        s->used = 0;
     }
 }
 
 /*
  * Free every buffer the object owns and blank the 0x13c-byte tail.
  */
-void WORLDTRADE_ADAPTER_ExitPrinter(Ctx_02202094 *p)
+void WORLDTRADE_ADAPTER_ExitPrinter(Printer *p)
 {
-    APP_KEYCURSOR_Delete(p->res);
-    PRINTSYS_QUE_Delete((struct PrintSys *)p->msg);
+    APP_KEYCURSOR_Delete(p->cursor);
+    PRINTSYS_QUE_Delete((struct PrintSys *)p->queue);
     GF_FONT_Delete(p->font);
-    TCBL_Destroy((struct S02031140 *)p->buf);
+    TCBL_Destroy((struct S02031140 *)p->tcb);
     MI_CpuFill8(p, 0, 0x13c);
 }
 
-void WORLDTRADE_ADAPTER_UpdatePrinter(Printer_02202094 *p)
+void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
 {
     int i;
-    Ent_02202094 *e;
+    PrinterSlot *e;
     void *queue;
 
     for (i = 0; i < 24; i++) {
-        e = &p->ent[i];
-        if (e->active != 0) {
+        e = &p->slots[i];
+        if (e->used != 0) {
             queue = p->queue;
             if (e->busy != 0 && PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(e->win)) == 0) {
                 BMP_WIN_TransferChars(e->win);
                 e->busy = 0;
             }
             if (e->busy == 0) {
-                e->active = 0;
+                e->used = 0;
             }
         }
     }
     if (p->yesno != 0) {
-        APP_KEYCURSOR_Update((struct Ctx_02202094 *)p->bg, p->yesno, p->yesnoArg);
+        APP_KEYCURSOR_Update((Printer *)p->cursor, p->yesno, p->yesnoArg);
         switch (PRINTSYS_PrintStreamGetState(p->yesno)) {
         case 0:
             if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() != 0) {
@@ -742,7 +685,7 @@ void WORLDTRADE_ADAPTER_UpdatePrinter(Printer_02202094 *p)
         }
     }
     PRINTSYS_QUE_Main(p->queue);
-    TCBL_Main(p->heap);
+    TCBL_Main(p->tcb);
 }
 
 /*
@@ -761,7 +704,7 @@ u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p)
     return r;
 }
 
-u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out) { return WORLDTRADE_ADAPTER_PrintQueColor(p, b, (u32)s, x, y, 0, 0x44f, (Ctx_02202878 *)out); }
+u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out) { return WORLDTRADE_ADAPTER_PrintQueColor(p, b, (u32)s, x, y, 0, 0x44f, (Printer *)out); }
 
 /*
  * tail: 022028C6..022028C8 zero alignment padding.
@@ -778,9 +721,9 @@ void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d,
     p->streamWin = a;
 }
 
-u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Ctx_02202878 *g)
+u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Printer *g)
 {
-    Slot_02202878 *found = 0;
+    PrinterSlot *found = 0;
     int i;
     u32 print;
 
@@ -794,8 +737,8 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, u32 str, u32 x, u32 y, u32
     }
     found->win = win;
     found->busy = 0;
-    print = g->print;
-    PRINTSYS_PrintQueColor((void *)print, (u32)BMP_WIN_GetBmp((struct Descriptor *)win), (s16)x, (s16)y, str, g->font, color);
+    print = (u32)g->queue;
+    PRINTSYS_PrintQueColor((void *)print, (u32)BMP_WIN_GetBmp((struct Descriptor *)win), (s16)x, (s16)y, str, (u32)g->font, color);
     found->busy = 1;
     found->used = 1;
     return 1;
@@ -807,8 +750,8 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, u32 str, u32 x, u32 y, u32
 void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p) {
     int i;
     for (i = 0; i < 24; i++) {
-        struct Ent_02202940 *e = p->e + i;
-        if (e->c != 0) e->c = 0;
+        PrinterSlot *e = p->e + i;
+        if (e->used != 0) e->used = 0;
     }
     if (p->h != 0) {
         PRINTSYS_PrintStreamDelete(p->h);
@@ -817,15 +760,15 @@ void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p) {
     }
 }
 
-Ctx_02202974 *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap)
+MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap)
 {
-    Ctx_02202974 *ctx;
+    MsgSys *ctx;
 
     ctx = func_02030734(heap, 0x74, 0, (const char *)g_02203F5C, 0x1DD);
     MI_CpuFill8(ctx, 0, 0x74);
     ctx->heap = heap;
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
-    ctx->msg = (void *)PRINTSYS_QUE_Create((void *)heap);
+    ctx->queue = (void *)PRINTSYS_QUE_Create((void *)heap);
     ctx->bank = func_02045B38(0, 2, 0xD0, heap);
     ctx->words = WORDSET_CreateDefault(heap);
     return ctx;
@@ -834,36 +777,36 @@ Ctx_02202974 *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap
 /*
  * Release every buffer the object owns, then the object itself.
  */
-void WORLDTRADE_ADAPTER_ExitMessageSystem(Ctx_02202A50 *p)
+void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p)
 {
     WORDSET_DeleteStrbufED04((struct WordSet *)p->words);
     MSGDATA_Delete((struct Rec *)p->bank);
-    PRINTSYS_QUE_Delete((struct PrintSys *)p->print);
+    PRINTSYS_QUE_Delete((struct PrintSys *)p->queue);
     GF_FONT_Delete(p->font);
     func_020307B0(p);
 }
 
-void WORLDTRADE_ADAPTER_UpdateMessageSystem(Printer_02202940 *q)
+void WORLDTRADE_ADAPTER_UpdateMessageSystem(MsgSys *q)
 {
     int i;
     void *queue;
 
     for (i = 0; i < 8; i++) {
-        if (q->active[i] != 0) {
+        if (q->used[i] != 0) {
             queue = q->queue;
-            if (q->ent[i].busy != 0 && PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(q->ent[i].win)) == 0) {
-                BMP_WIN_TransferChars(q->ent[i].win);
-                q->ent[i].busy = 0;
+            if (q->slots[i].busy != 0 && PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(q->slots[i].win)) == 0) {
+                BMP_WIN_TransferChars(q->slots[i].win);
+                q->slots[i].busy = 0;
             }
-            if (q->ent[i].busy == 0) {
-                q->active[i] = 0;
+            if (q->slots[i].busy == 0) {
+                q->used[i] = 0;
             }
         }
     }
     PRINTSYS_QUE_Main(q->queue);
 }
 
-void WORLDTRADE_ADAPTER_PrintNumber(Ctx_02202A50 *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y)
+void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y)
 {
     void *str;
     void *fmt;
@@ -877,11 +820,11 @@ void WORLDTRADE_ADAPTER_PrintNumber(Ctx_02202A50 *ctx, u32 num, u32 digits, u32 
     WORDSET_CopyTaggedText(ctx->words, str, fmt);
     for (i = 0; i < 8; i++) {
         if (ctx->used[i] == 0) {
-            ctx->slot[i].win = win;
-            ctx->slot[i].shown = 0;
-            print = ctx->print;
-            PRINTSYS_PrintQueColor(print, (u32)BMP_WIN_GetBmp(ctx->slot[i].win), (s16)x, (s16)y, (u32)str, (u32)ctx->font, 0x3DC8);
-            ctx->slot[i].shown = 1;
+            ctx->slots[i].win = win;
+            ctx->slots[i].busy = 0;
+            print = ctx->queue;
+            PRINTSYS_PrintQueColor(print, (u32)BMP_WIN_GetBmp(ctx->slots[i].win), (s16)x, (s16)y, (u32)str, (u32)ctx->font, 0x3DC8);
+            ctx->slots[i].busy = 1;
             ctx->used[i] = 1;
             STRBUF_Delete(fmt);
             STRBUF_Delete(str);
@@ -891,32 +834,11 @@ void WORLDTRADE_ADAPTER_PrintNumber(Ctx_02202A50 *ctx, u32 num, u32 digits, u32 
     func_02034714((void *)0x02203F74, 0, (void *)0x02203F74);
 }
 
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef signed short s16;
-
-struct PrintJobSlot {
-    void *win;
-    u8    pending;
-    u8    pad[3];
-};
-
-struct PrintJobPool {
-    u32         font;
-    void       *printQueue;
-    u32         reserved08;
-    void       *msgBank;
-    struct PrintJobSlot slots[8];
-    u32         used[8];
-};
-
 #pragma thumb on
 
-void WORLDTRADE_ADAPTER_QueueMessagePrint(struct PrintJobPool *p, int unusedArg, void *win, int x, int y)
+void WORLDTRADE_ADAPTER_QueueMessagePrint(MsgSys *p, int unusedArg, void *win, int x, int y)
 {
-    void *buf = func_02045EC0(p->msgBank, 0xfe);
+    void *buf = func_02045EC0(p->bank, 0xfe);
     int i;
 
     for (i = 0; i < 8; i++) {
@@ -925,11 +847,11 @@ void WORLDTRADE_ADAPTER_QueueMessagePrint(struct PrintJobPool *p, int unusedArg,
             void *h;
 
             p->slots[i].win = win;
-            p->slots[i].pending = 0;
-            owner = p->printQueue;
+            p->slots[i].busy = 0;
+            owner = p->queue;
             h = BMP_WIN_GetBmp(p->slots[i].win);
-            PRINTSYS_PrintQueColor(owner, (u32)h, (s16)x, (s16)y, (u32)buf, p->font, (int)0x3DC8);
-            p->slots[i].pending = 1;
+            PRINTSYS_PrintQueColor(owner, (u32)h, (s16)x, (s16)y, (u32)buf, (u32)p->font, (int)0x3DC8);
+            p->slots[i].busy = 1;
             p->used[i] = 1;
             STRBUF_Delete(buf);
             return;

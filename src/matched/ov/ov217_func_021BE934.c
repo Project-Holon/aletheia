@@ -21,13 +21,14 @@
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj25908.h"
-#include "../include/G_E.h"
 
 typedef unsigned char u8;
 
-typedef struct E E;
+/* d_021C3AC8 (arm9), same object as research_graph.c's CursorLayoutRow: x,y,w,h
+ * tile rect then eight words. */
+struct CursorLayoutRow { u8 x, y, w, h; int offsets[8]; };
 
-extern struct E d_021C3AC8[];
+extern struct CursorLayoutRow d_021C3AC8[];
 typedef unsigned int   u32;
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int BG_SYS_PushTile(int);
@@ -39,10 +40,10 @@ int RESEARCH_GRAPH_DrawIndexCursor(char *p)
     case 0:
     case 2:
     case 3:
-        BG_SYS_FillTileMap(2, d_021C3AC8[*(int *)(p + 0x34)].a,
-                      d_021C3AC8[*(int *)(p + 0x34)].b,
-                      d_021C3AC8[*(int *)(p + 0x34)].c,
-                      d_021C3AC8[*(int *)(p + 0x34)].d, 0xa);
+        BG_SYS_FillTileMap(2, d_021C3AC8[*(int *)(p + 0x34)].x,
+                      d_021C3AC8[*(int *)(p + 0x34)].y,
+                      d_021C3AC8[*(int *)(p + 0x34)].w,
+                      d_021C3AC8[*(int *)(p + 0x34)].h, 0xa);
         break;
     case 1:
         BG_SYS_FillTileMap(2, 0xd, 4, 0x13, 4, 0xa);

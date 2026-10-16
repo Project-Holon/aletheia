@@ -26,7 +26,7 @@
  *   MYSTERY_ALBUM_SelectHandler 0x021DC08C thumb ov121
  *   MI_CpuFill8 0x02082BCC arm
  *   MYSTERY_DATA_HasAnyCard 0x0200A170 thumb
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021DF86E 0x021DF86E data a1
  *   d_021DF86F 0x021DF86F data a1
@@ -51,7 +51,7 @@ extern void MYSTERY_UTIL_UpdateMenuWindow(u8 *);
 extern void MYSTERY_ALBUM_SelectHandler(void *task, u32 *state, char *p);
 extern void MI_CpuFill8(void *,int,int);
 extern int MYSTERY_DATA_HasAnyCard(char *p);
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 extern u8 d_021DF86E[],d_021DF86F[];
 #define W(k) (*(u32 *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
@@ -111,7 +111,7 @@ void MYSTERY_ALBUM_InfoHandler(void *task,u32 *state,char *p)
         window0(x*8,y*8,(x+12)*8,(y+7)*8);
         outside(30,0);*state=4;break;
     case 4:
-        func_0207D658(0x04000050,30,W(0xae8)*16/30);
+        G2x_SetBlendBrightness_(0x04000050,30,W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}
         break;
     case 5:
@@ -120,7 +120,7 @@ void MYSTERY_ALBUM_InfoHandler(void *task,u32 *state,char *p)
         MYSTERY_ALBUM_SetCursor(p,1,0,W(0xac8),H(36));
         W(0xa78)=1;*state=6;break;
     case 6:
-        func_0207D658(0x04000050,30,16-W(0xae8)*16/30);
+        G2x_SetBlendBrightness_(0x04000050,30,16-W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=7;}
         break;
     case 7:

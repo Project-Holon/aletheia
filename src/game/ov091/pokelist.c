@@ -160,9 +160,9 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC3C  0x0201BC3C  thumb
- *   func_0201BC40  0x0201BC40  thumb
- *   func_0201BCB4  0x0201BCB4  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
@@ -199,7 +199,7 @@
  *   POKELIST_OpenForgetMoveMenu 0x021B9F34 thumb ov091
  *   POKELIST_ShowMoveLearned 0x021BA004 thumb ov091
  *   POKELIST_CloseMessageToList 0x021B9E20 thumb ov091
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   FILE_UTIL_Check136C 0x0202136C thumb
  *   func_02009050 0x02009050 thumb
  *   func_0200902C 0x0200902C thumb
@@ -263,7 +263,7 @@
  *   d_021BEC2C     0x021BEC2C  data  ov091  a1
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   BG_SYS_ClearLayerEx  0x02041570  arm
  *   POKELIST_RefreshCursor 0x021B8418 thumb ov091
  *   MOVE_POKEMON_IsSkillBlocked 0x0215EA14 thumb ov010
@@ -289,7 +289,7 @@
  *   func_0200903C  0x0200903C  thumb
  *   POKE_TOOL_AddMove 0x0201808C thumb
  *   POKE_TOOL_FindMoveSlot 0x02018238 thumb
- *   func_020181F4 0x020181F4 thumb
+ *   POKE_TOOL_SetMoveSlot 0x020181F4 thumb
  *   POKE_TOOL_ReplaceMoveSlot 0x020182A0 thumb
  *   NATSUKI_Calc 0x0201B7A0 thumb
  *   func_02007FB8 0x02007FB8 thumb
@@ -321,14 +321,14 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
- *   func_0202D01C  0x0202D01C  thumb
+ *   BGWINFRM_ScaleRatio  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
  *   gSpeciesNameBank     0x020A7370  data
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   BMP_Clear  0x02043B5C  arm
  *   POKE_REGULATION_CheckPokemon 0x02019DA4 thumb
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   CLACT_GetSurfacePos 0x0204B0C8 arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
@@ -418,7 +418,7 @@
  *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
- *   func_02018584 0x02018584 thumb
+ *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKE_TOOL_RestorePP 0x0201B970 thumb
  *   PLIST_DEMO_ApplyFriendshipItem 0x021BEA48 thumb ov091
@@ -642,9 +642,9 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC3C(void);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
@@ -669,7 +669,7 @@ extern u32 APP_ICON_GetSealFrameFileId(u32 a);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
@@ -704,7 +704,7 @@ extern void PLIST_MESSAGE_SetWordSetNumber(PokelistWork *work, int b, int c, int
 extern u32  KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern int TOUCHPANEL_GetTrg(void);
@@ -715,7 +715,7 @@ extern void *MAIL_Create(int a0);
 extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern u32 POKE_TOOL_AddMove(void *,u32);
 extern u32 POKE_TOOL_FindMoveSlot(void *,u16);
-extern void func_020181F4(void *,u16,u32);
+extern void POKE_TOOL_SetMoveSlot(void *,u16,u32);
 extern void POKE_TOOL_ReplaceMoveSlot(void *,u16,u32);
 extern void NATSUKI_Calc(void *, int, int, int);
 extern int TOUCHPANEL_HitTrg(const void *rects);
@@ -1684,8 +1684,8 @@ void POKELIST_LoadGraphics(PokelistWork *work)
     ARC_TOOL_DeleteHandle(h);
 
     h2 = func_020490F4(7, work->heapId);
-    work->charRes[6] = CLACT_RegisterPaletteCompressed(h2, func_0201BC3C(), 0, 0xc0, work->heapId);
-    work->cellRes[7] = CLACT_RegisterCellAnim(h2, func_0201BC40(), func_0201BCB4(), work->heapId);
+    work->charRes[6] = CLACT_RegisterPaletteCompressed(h2, POKE_TOOL_GetIconPaletteArcId(), 0, 0xc0, work->heapId);
+    work->cellRes[7] = CLACT_RegisterCellAnim(h2, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), work->heapId);
     ARC_TOOL_DeleteHandle(h2);
 
     h2 = func_020490F4(APP_ICON_GetArchiveId(), work->heapId);
@@ -1777,7 +1777,7 @@ void POKELIST_StartMode(PokelistWork *work)
     case 7: case 8:
         work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)POKEPARTY_GetMember(work->arg->party,work->arg->selectedIndex);
         if (work->arg->moveSlot < 4) {
-            old=func_02017E1C((void *)work->selectedMon,work->arg->moveSlot+0x36,0);
+            old=POKE_TOOL_GetPartyValue((void *)work->selectedMon,work->arg->moveSlot+0x36,0);
             off=0x150;
             PLIST_MESSAGE_CreateWordSet(work,(*(int *)((u8 *)work + off))); PLIST_MESSAGE_SetWordSetPokemon(work,(*(int *)((u8 *)work + off)),0,work->selectedMon);
             PLIST_MESSAGE_SetWordSetMove(work,(u32)(*(int *)((u8 *)work + off)),(u32)1,(u16)old);
@@ -1795,7 +1795,7 @@ void POKELIST_StartMode(PokelistWork *work)
         if (work->arg->itemId == 0) {
             work->arg->mode=0; POKELIST_SetupModeScreen(work); work->nextPhase=2;
         } else {
-            old=func_02017E1C((void *)work->selectedMon,6,0);
+            old=POKE_TOOL_GetPartyValue((void *)work->selectedMon,6,0);
             if (old == 0) {
                 POKELIST_SetHeldItem(work,(void *)work->selectedMon,work->arg->itemId);
                 PLIST_PLATE_Redraw(work,work->plates[work->selectedSlot]);
@@ -1817,7 +1817,7 @@ void POKELIST_StartMode(PokelistWork *work)
         PLIST_PLATE_SetSelected(work,work->plates[work->selectedSlot],1); return;
     case 11: case 12:
         work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)POKEPARTY_GetMember(work->arg->party,work->arg->selectedIndex);
-        old=func_02017E1C((void *)work->selectedMon,6,0);
+        old=POKE_TOOL_GetPartyValue((void *)work->selectedMon,6,0);
         PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
         if (old == 0) {
             id=0x56;
@@ -1950,7 +1950,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
         } else POKELIST_ShowMessage(work,0x51,1,POKELIST_EndMessageToExit);
         return;
     case 9:
-        old=func_02017E1C((void *)work->selectedMon,6,0);
+        old=POKE_TOOL_GetPartyValue((void *)work->selectedMon,6,0);
         if (old == 0) {
             if (FILE_UTIL_Check136C(work->arg->itemId) == 1) {
                 work->phase=19; work->arg->selectedIndex=work->selectedSlot; work->arg->exitCode=6; return;
@@ -1978,7 +1978,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
         POKELIST_ShowMessage(work,0x3a,0,POKELIST_OpenTakeItemMenu);
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
     case 14:
-        if (func_02017E1C((void *)work->selectedMon,6,0) == 0) {
+        if (POKE_TOOL_GetPartyValue((void *)work->selectedMon,6,0) == 0) {
             buf=(u32)func_02009050(work->arg->mailBox,0,work->arg->mailSlot,work->heapId);
             POKE_TOOL_SetPartyValue((void *)work->selectedMon,0xa7,buf); func_020307B0((void *)buf);
             POKE_TOOL_SetPartyValue((void *)work->selectedMon,6,work->arg->itemId);
@@ -2050,7 +2050,7 @@ void POKELIST_OpenContextMenu(PokelistWork *work)
             buf[0] = 0;
             buf[4] = 6;
             buf[5] = 0x10;
-            if (FILE_UTIL_Check136C(func_02017E1C((void *)work->selectedMon, 6, 0)) == 1) {
+            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue((void *)work->selectedMon, 6, 0)) == 1) {
                 buf[3] = 5;
             }
         }
@@ -2352,8 +2352,8 @@ void POKELIST_UpdateHealShareCommand(PokelistWork *work)
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     if (work->command == 3) {
         work->selectedMon = (u32)POKEPARTY_GetMember(work->arg->party, work->selectedSlot);
-        a = func_02017E1C((void *)work->selectedMon, 0xa0, 0);
-        b = func_02017E1C((void *)work->selectedMon, 0xa1, 0);
+        a = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa0, 0);
+        b = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa1, 0);
         if (work->selectedSlot == work->healSourceSlot || a == 0 || b == a) {
             POKELIST_ShowMessage(work, 0x64, 1, POKELIST_CloseMessageToList);
             POKELIST_MoveCursorToPlate(work, work->selectedSlot);
@@ -2372,8 +2372,8 @@ void POKELIST_UpdateHealShareCommand(PokelistWork *work)
         PLIST_PLATE_SetSelected(work, work->plates[work->healSourceSlot], 0);
         CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
         o = POKEPARTY_GetMember(work->arg->party, work->healSourceSlot);
-        c = func_02017E1C(o, 0xa1, 0);
-        d = func_02017E1C(o, 0xa0, 0);
+        c = POKE_TOOL_GetPartyValue(o, 0xa1, 0);
+        d = POKE_TOOL_GetPartyValue(o, 0xa0, 0);
         e = c / 5;
         if (a + e > b) {
             POKE_TOOL_SetPartyValue(o, 0xa0, d - (b - a));
@@ -2766,7 +2766,7 @@ void POKELIST_RunContextMenu(PokelistWork *work)
 
 static inline void G2_SetBlendBrightness(int plane, int brightness)
 {
-    func_0207D658((u32)&reg_G2_BLDCNT, plane, brightness);
+    G2x_SetBlendBrightness_((u32)&reg_G2_BLDCNT, plane, brightness);
 }
 
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2)
@@ -2939,7 +2939,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         POKELIST_SetupModeScreen(work);
         return;
     case 10:
-        monValue = func_02017E1C((void *)work->selectedMon, 6, 0);
+        monValue = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 6, 0);
         PLIST_MENU_ApplyArceusPlateForm(work, (void *)work->selectedMon, 0);
         PLIST_MENU_ApplyGenesectDriveForm(work, (void *)work->selectedMon, 0);
         if (monValue == 0) {
@@ -2996,7 +2996,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
     case 19:
         if (work->arg->mode == 5) {
             if (PLIST_DEMO_CheckItemUsable((void *)work->selectedMon, work->arg->itemId, (u16)(work->menuChoice - 16), work->heapId) == 1) {
-                monValue = func_02017E1C((void *)work->selectedMon, work->menuChoice + 0x26, 0);
+                monValue = POKE_TOOL_GetPartyValue((void *)work->selectedMon, work->menuChoice + 0x26, 0);
                 BG_SYS_PushTile(0);
                 PLIST_MENU_StartItemUse(work, monValue);
                 PLIST_DEMO_UseItemOnMon((void *)work->selectedMon, work->arg->itemId, (u16)(work->menuChoice - 16), work->arg->itemUseParam, work->heapId);
@@ -3014,8 +3014,8 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
                 POKELIST_ShowMessage(work, 0x50, 1, POKELIST_CloseMessageToList);
                 return;
             }
-            local.maxHp = func_02017E1C((void *)work->selectedMon, 0xa1, 0);
-            monValue = func_02017E1C((void *)work->selectedMon, 0xa0, 0);
+            local.maxHp = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa1, 0);
+            monValue = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa0, 0);
             if (monValue > local.maxHp / 5) {
                 POKELIST_MoveCursorToPlate(work, work->selectedSlot);
                 POKELIST_MoveSwapMarkerToPlate(work, work->selectedSlot);
@@ -3159,7 +3159,7 @@ void POKELIST_FinishSwap(PokelistWork *work)
 
 int POKELIST_GetFieldMoveMenuIndex(void *mon, int moveSlot)
 {
-    switch (func_02017E1C(mon, moveSlot + 0x36, 0)) {
+    switch (POKE_TOOL_GetPartyValue(mon, moveSlot + 0x36, 0)) {
     case 0xf:
         return 0xb;
     case 0x13:
@@ -3233,7 +3233,7 @@ int POKELIST_GetMoveLearnStatus(PokelistWork *work, void *mon, u8 partySlot)
             moveC = moveA;
         }
         for (i = 0; i < 4; i++) {
-            moveId = func_02017E1C(mon, i + 0x36, 0);
+            moveId = POKE_TOOL_GetPartyValue(mon, i + 0x36, 0);
             if (moveId == moveA || moveId == moveB || moveId == moveC)
                 return 3;
             if (moveId == 0)
@@ -3247,7 +3247,7 @@ int POKELIST_GetMoveLearnStatus(PokelistWork *work, void *mon, u8 partySlot)
             return 2;
     } else {
         for (i = 0; i < 4; i++) {
-            moveId = func_02017E1C(mon, i + 0x36, 0);
+            moveId = POKE_TOOL_GetPartyValue(mon, i + 0x36, 0);
             if (moveId == work->arg->moveId)
                 return 3;
             if (moveId == 0)
@@ -3435,7 +3435,7 @@ void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
     u32 heldItem;
     int evolveKindOne, evolveKindTwo;
     if (choice == 0xe) {
-        heldItem = func_02017E1C((void *)work->selectedMon, 6, 0);
+        heldItem = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 6, 0);
         if (POKELIST_CheckBagItem(work, heldItem) == 0x3e7) {
             if (work->arg->mode == 0xa) {
                 work->arg->mode = 0;
@@ -3507,11 +3507,11 @@ void POKELIST_StartHpTransfer(PokelistWork *work)
     void *targetMon;
     u32 sourceMaxHp, targetHp, targetMaxHp, newHp;
     sourceMon = POKEPARTY_GetMember(work->arg->party, work->healSourceSlot);
-    func_02017E1C(sourceMon, 0xa0, 0);
-    sourceMaxHp = func_02017E1C(sourceMon, 0xa1, 0);
+    POKE_TOOL_GetPartyValue(sourceMon, 0xa0, 0);
+    sourceMaxHp = POKE_TOOL_GetPartyValue(sourceMon, 0xa1, 0);
     targetMon = POKEPARTY_GetMember(work->arg->party, work->arg->selectedIndex);
-    targetHp = func_02017E1C((void *)work->selectedMon, 0xa0, 0);
-    targetMaxHp = func_02017E1C((void *)work->selectedMon, 0xa1, 0);
+    targetHp = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa0, 0);
+    targetMaxHp = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa1, 0);
     work->selectedSlot = work->arg->selectedIndex;
     newHp = targetHp + sourceMaxHp / 5;
     if (newHp > targetMaxHp) {
@@ -3554,7 +3554,7 @@ void POKELIST_OnTakeMailChoice(PokelistWork *work, int choice)
         mailSlot = MAIL_FindEmptySlot(work->arg->mailBox, 0);
         if (mailSlot >= 0) {
             mail = MAIL_Create(work->heapId);
-            func_02017E1C((void *)work->selectedMon, 0xa7, (u32)mail);
+            POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa7, (u32)mail);
             func_0200903C(work->arg->mailBox, 0, mailSlot, mail);
             func_020307B0(mail);
             POKE_TOOL_SetPartyValue((void *)work->selectedMon, 6, 0);
@@ -3577,7 +3577,7 @@ void POKELIST_OnMailItemChoice(PokelistWork *work, int choice)
 {
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     if (choice == 0xe) {
-        int heldItem = func_02017E1C((void *)work->selectedMon, 6, 0);
+        int heldItem = POKE_TOOL_GetPartyValue((void *)work->selectedMon, 6, 0);
         if (POKELIST_CheckBagItem(work, heldItem) == 0x3e7) {
             POKELIST_ShowMessage(work, 0x3f, 1, POKELIST_CloseMessageToList);
             return;
@@ -3661,7 +3661,7 @@ void POKELIST_ReplaceMoveSlot(PokelistWork *work, void *mon, u32 slot)
 {
     PokelistArg *arg = work->arg;
     if (arg->mode == 5 || arg->mode == 8)
-        func_020181F4(mon, arg->moveId, slot);
+        POKE_TOOL_SetMoveSlot(mon, arg->moveId, slot);
     else
         POKE_TOOL_ReplaceMoveSlot(mon, arg->moveId, slot);
 }
@@ -3673,7 +3673,7 @@ void POKELIST_ApplyItemEffect(PokelistWork *work, void *mon)
 
 void POKELIST_SetHeldItem(PokelistWork *work, void *mon, u16 itemId)
 {
-    u32 oldItem = func_02017E1C(mon, 6, 0);
+    u32 oldItem = POKE_TOOL_GetPartyValue(mon, 6, 0);
     if (oldItem)
         POKELIST_ReturnBagItem(work, oldItem);
     POKE_TOOL_SetPartyValue(mon, 6, itemId);

@@ -67,7 +67,7 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -112,10 +112,10 @@
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -236,7 +236,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02012944(struct GameData *gameData);
+extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 i, void *playerName);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *printQue, void *bitmap, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, u16 color);
@@ -275,10 +275,10 @@ extern struct PartyMon *POKEPARTY_GetMember(struct PartyHolder *party, u32 i);
 extern void *POKE_TOOL_GetBoxParam(struct PartyMon *mon);
 extern u32 POKE_TOOL_GetGraphicIndex(void *boxParam);
 extern struct CharRes *CLACT_RegisterCharacter(struct ArcHandle *arc, u32 fileId, u32 compressed, u32 vramType, u16 heapId);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern struct PalRes *CLACT_RegisterPaletteCompressed(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 palOffset, u16 heapId);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern struct CellRes *CLACT_RegisterCellAnim(struct ArcHandle *arc, u32 cellFileId, u32 animFileId, u32 heapId);
 extern struct PalRes *CLACT_RegisterPaletteEx(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 count, u16 palOffset, u16 pad, u16 heapId);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, struct CharRes *charRes, struct PalRes *palRes, struct CellRes *cellRes, const Rect *position, unsigned short space, unsigned short heapId);
@@ -577,7 +577,7 @@ void REPORT_InitWindows(ReportWork *work)
     gameData = ICA_ANIME_GetField1C(work->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     msgPlayer = func_02045EC0(msgBank, 0);
-    WORDSET_SetSlotMyStatus(wordSet, 0, func_02012944(gameData));
+    WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(gameData));
     WORDSET_CopyTaggedText(wordSet, buf, msgPlayer);
     printRecordLine(work, 0, buf, msgPlayer, 4, 0x3580, one);
     msgDate = func_02045EC0(msgBank, 1);
@@ -658,9 +658,9 @@ void REPORT_InitActors(ReportWork *work)
     for (i = 0; i < partyCount; i++)
         work->partyCharRes[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i))), 0, 1,
                                     work->heapId);
-    work->partyPalRes = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0, work->heapId);
-    cellFileId = func_0201BC40();
-    work->partyCellRes = CLACT_RegisterCellAnim(arc, cellFileId, func_0201BCB4(), work->heapId);
+    work->partyPalRes = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, work->heapId);
+    cellFileId = POKE_TOOL_GetIconCellArcId();
+    work->partyCellRes = CLACT_RegisterCellAnim(arc, cellFileId, POKE_TOOL_GetIconCellEntryId(), work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     arc = func_020490F4(0xC4, work->heapId);
     work->barCharRes = CLACT_RegisterCharacter(arc, 3, 1, 1, work->heapId);

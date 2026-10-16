@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_SetBoxValue, func_02017E88, POKE_TOOL_IsShiny, POKE_TOOL_IsBoxShiny,
+ * function: POKE_TOOL_SetBoxValue, POKE_TOOL_GetBoxValue, POKE_TOOL_IsShiny, POKE_TOOL_IsBoxShiny,
  *           POKE_TOOL_CheckShiny, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender,
  *           POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetDefaultMoves
  *
@@ -79,7 +79,7 @@ void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v)
     POKE_TOOL_EncodeBoxBlock(p);
 }
 
-u32 func_02017E88(void *p, u32 id, u32 v)
+u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v)
 {
     u32 r;
 
@@ -96,9 +96,9 @@ u32 POKE_TOOL_IsShiny(void *p)
 
 u32 POKE_TOOL_IsBoxShiny(void *p)
 {
-    u32 a = func_02017E88(p, 7, 0);
+    u32 a = POKE_TOOL_GetBoxValue(p, 7, 0);
 
-    return POKE_TOOL_CheckShiny(a, func_02017E88(p, 0, 0));
+    return POKE_TOOL_CheckShiny(a, POKE_TOOL_GetBoxValue(p, 0, 0));
 }
 
 u32 POKE_TOOL_CheckShiny(u32 a, u32 b)
@@ -119,9 +119,9 @@ u8 POKE_TOOL_GetGender(void *p)
 u8 POKE_TOOL_GetBoxGender(void *p)
 {
     u32 t = POKE_TOOL_DecodeBoxParam(p);
-    u16 a = (u16)func_02017E88(p, 5, 0);
-    u32 b = func_02017E88(p, 0x6F, 0);
-    u32 c = func_02017E88(p, 0, 0);
+    u16 a = (u16)POKE_TOOL_GetBoxValue(p, 5, 0);
+    u32 b = POKE_TOOL_GetBoxValue(p, 0x6F, 0);
+    u32 c = POKE_TOOL_GetBoxValue(p, 0, 0);
 
     POKE_TOOL_EncodeBoxParam(p, t);
     return POKE_TOOL_CalcGender(a, (u16)b, c);

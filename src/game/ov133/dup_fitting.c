@@ -299,11 +299,9 @@ struct Cfg;
 
 struct Lights;
 
-struct O;
-
 struct PrintSys;
 
-struct Obj0204F1A0;
+struct BbBoard;
 
 struct DispConfig;
 
@@ -354,15 +352,6 @@ typedef struct {short y,x;u16 limit;} DupFittingScaleLimit;
 typedef struct { short y,x; } DupFittingScaleXY;
 
 typedef enum { I_ZERO = 0, I_LIMIT = 9 } Index;
-
-struct O {
-    u8 pad0[0x1820];
-    void *f1820;
-    void *f1824;
-    void *f1828;
-    u8 pad1[0x1884 - 0x182c];
-    void *f1884;
-};
 
 typedef int fx32;
 
@@ -500,7 +489,7 @@ extern void BILLBOARD_GetImageSizeFromFlags(int, u16 *, u16 *);
 
 extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 
-extern void BILLBOARD_ReleaseImageVramIfUsed(struct Obj0204F1A0 *a0, u32 a1);
+extern void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *a0, u32 a1);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -802,7 +791,7 @@ int DUP_FITTING_IsFrameOwned(unsigned char *p,unsigned int id);
 
 int DUP_FITTING_FindNearestFrame(u8 *p, void *manager, const int *pos, u16 *limit);
 
-void DUP_FITTING_DrawElems(struct O *p);
+void DUP_FITTING_DrawElems(struct DupFittingWork *p);
 
 void DUP_FITTING_UpdateHeldVisible(u8 *p);
 
@@ -1106,7 +1095,7 @@ int DUP_FITTING_Main(struct DupFittingWork *p)
         }
         break;
     }
-    DUP_FITTING_UpdateActorTimers((u8 *)p); DUP_FITTING_DrawElems((struct O *)p); MUSICAL_MCSS_TickAnim(P(0x187c));
+    DUP_FITTING_UpdateActorTimers((u8 *)p); DUP_FITTING_DrawElems((struct DupFittingWork *)p); MUSICAL_MCSS_TickAnim(P(0x187c));
     MUSICAL_MCSS_UpdateObject(P(0x1884)); CLACT_DrawSystem(); func_02047964(); G3D_SYSTEM_ApplyLookAt();
     MUSICAL_MCSS_DrawRenderObj((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); G3D_SYSTEM_DrawEnd();
     p->counter++;
@@ -2422,7 +2411,7 @@ int DUP_FITTING_FindNearestFrame(u8 *p, void *manager, const int *pos, u16 *limi
     return best;
 }
 
-void DUP_FITTING_DrawElems(struct O *p)
+void DUP_FITTING_DrawElems(struct DupFittingWork *p)
 {
     Vec v1;
     Vec v2;
@@ -2450,7 +2439,7 @@ void DUP_FITTING_DrawElems(struct O *p)
     short sx;
     int *B2;
     u32 data2;
-    e = DUP_FITTING_ITEM_ListGetHead((char *)p->f1828);
+    e = DUP_FITTING_ITEM_ListGetHead((char *)p->listC);
     if (e) {
         do {
             cur = e;
@@ -2464,8 +2453,8 @@ void DUP_FITTING_DrawElems(struct O *p)
             if (n != 0) {
                 x = s + ((0x1000 - s) * n) / 10;
                 sx = x;
-                MUSICAL_MCSS_SetElemRotZ((u32)p->f1884, data, sx, sx);
-                MUSICAL_MCSS_SetElemScale((int)p->f1884, data, (u32)(&v1));
+                MUSICAL_MCSS_SetElemRotZ((u32)p->elemSet, data, sx, sx);
+                MUSICAL_MCSS_SetElemScale((int)p->elemSet, data, (u32)(&v1));
                 w = 10 - (u16)n;
                 a0 = A[0];
                 x = B[0] - a0;
@@ -2480,19 +2469,19 @@ void DUP_FITTING_DrawElems(struct O *p)
                 if (x > 0) v1.y = (int)(0.5f + (float)(x << 12));
                 else v1.y = (int)((float)(x << 12) - 0.5f);
                 v1.z = 0x46000;
-                MUSICAL_MCSS_SetElemPos((int)p->f1884, data, (Vec *)&v1);
+                MUSICAL_MCSS_SetElemPos((int)p->elemSet, data, (Vec *)&v1);
                 DUP_FITTING_ITEM_ElemSetF1C((char *)cur, n);
             } else {
-                DUP_FITTING_ITEM_RemoveElem(p->f1828, cur);
-                DUP_FITTING_ITEM_DeleteElem(cur, p->f1884);
+                DUP_FITTING_ITEM_RemoveElem(p->listC, cur);
+                DUP_FITTING_ITEM_DeleteElem(cur, p->elemSet);
             }
         } while (e);
     }
     flag = 0;
-    e = DUP_FITTING_ITEM_ListGetHead((char *)p->f1820);
+    e = DUP_FITTING_ITEM_ListGetHead((char *)p->listA);
     if (e == 0) {
         flag = 1;
-        e = DUP_FITTING_ITEM_ListGetHead((char *)p->f1824);
+        e = DUP_FITTING_ITEM_ListGetHead((char *)p->listB);
     }
     if (e) {
         do {
@@ -2503,7 +2492,7 @@ void DUP_FITTING_DrawElems(struct O *p)
                 B2 = (int *)DUP_FITTING_ITEM_ElemGetPos(e);
                 n2 = (u16)(cnt0 - 1);
                 if (n2 != 0) {
-                    MUSICAL_MCSS_SetElemScale((int)p->f1884, data2, (u32)(&v2));
+                    MUSICAL_MCSS_SetElemScale((int)p->elemSet, data2, (u32)(&v2));
                     wb = 10 - n2;
                     a0b = A2[0];
                     x = B2[0] - a0b;
@@ -2517,14 +2506,14 @@ void DUP_FITTING_DrawElems(struct O *p)
                     x = a1b + x / 10;
                     if (x > 0) v2.y = (int)(0.5f + (float)(x << 12));
                     else v2.y = (int)((float)(x << 12) - 0.5f);
-                    MUSICAL_MCSS_SetElemPos((int)p->f1884, data2, (Vec *)&v2);
+                    MUSICAL_MCSS_SetElemPos((int)p->elemSet, data2, (Vec *)&v2);
                 } else {
-                    MUSICAL_MCSS_SetElemScale((int)p->f1884, data2, (u32)(&v3));
+                    MUSICAL_MCSS_SetElemScale((int)p->elemSet, data2, (u32)(&v3));
                     if (B2[0] > 0) v3.x = (int)(0.5f + (float)(B2[0] << 12));
                     else v3.x = (int)((float)(B2[0] << 12) - 0.5f);
                     if (B2[1] > 0) v3.y = (int)(0.5f + (float)(B2[1] << 12));
                     else v3.y = (int)((float)(B2[1] << 12) - 0.5f);
-                    MUSICAL_MCSS_SetElemPos((int)p->f1884, data2, (Vec *)&v3);
+                    MUSICAL_MCSS_SetElemPos((int)p->elemSet, data2, (Vec *)&v3);
                     DUP_FITTING_ITEM_ElemSetBasePos(e, (const u8 *)B2);
                 }
                 DUP_FITTING_ITEM_ElemSetF1C((char *)e, n2);
@@ -2532,7 +2521,7 @@ void DUP_FITTING_DrawElems(struct O *p)
             e = (u8 *)(unsigned char *)DUP_FITTING_ITEM_ElemGetNext(e);
             if (e == 0 && flag == 0) {
                 flag = 1;
-                e = DUP_FITTING_ITEM_ListGetHead((char *)p->f1824);
+                e = DUP_FITTING_ITEM_ListGetHead((char *)p->listB);
             }
         } while (e);
     }

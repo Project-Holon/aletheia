@@ -21,9 +21,9 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -34,7 +34,7 @@
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb  ov021
- *   func_020173EC  0x020173EC  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
@@ -234,7 +234,7 @@ extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern TrialHouseWork **GAME_DATA_GetListCursor(struct GameData *gameData);
 extern int GAME_DATA_GetSymbolMapFlag(struct GameData *gameData);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct MyItem *GAME_DATA_GetMyItem(struct GameData *gameData);
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
 extern struct PokedexSave *ZUKAN_SAVE_GetBlock(struct SaveControl *saveControl);
@@ -256,9 +256,9 @@ extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *ga
 /* Party and Pokemon. */
 extern u32 POKEPARTY_GetCount(struct Party *party);
 extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
-extern u32 func_02017E1C(struct PokemonParam *mon, u32 paramId, void *buffer);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, void *buffer);
 extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern u8 VM_GetTimeZoneLight(int season, int timeZone);
 extern u16 GF_STANDARD_SetupCalc(const void *src, u32 len);
 extern void WORDSET_SetSlotMonName(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
@@ -410,8 +410,8 @@ void FORMCHANGE_RevertShaymin(struct GameData *gameData, struct Party *party)
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        species = func_02017E1C(mon, PARAM_SPECIES, 0);
-        form = func_02017E1C(mon, PARAM_FORM, 0);
+        species = POKE_TOOL_GetPartyValue(mon, PARAM_SPECIES, 0);
+        form = POKE_TOOL_GetPartyValue(mon, PARAM_FORM, 0);
         if (species == SPECIES_SHAYMIN && form == SHAYMIN_FORM_SKY)
             POKE_TOOL_ChangeForm(mon, SHAYMIN_FORM_LAND);
     }
@@ -485,8 +485,8 @@ void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, struct Party
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        species = func_02017E1C(mon, PARAM_SPECIES, 0);
-        form = func_02017E1C(mon, PARAM_FORM, 0);
+        species = POKE_TOOL_GetPartyValue(mon, PARAM_SPECIES, 0);
+        form = POKE_TOOL_GetPartyValue(mon, PARAM_FORM, 0);
         if (species == SPECIES_SHAYMIN && form == SHAYMIN_FORM_SKY) {
             POKE_TOOL_ChangeForm(mon, SHAYMIN_FORM_LAND);
             if (registered == 0) {
@@ -898,8 +898,8 @@ void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
         struct PokemonParam *mon = POKEPARTY_GetMember(party, i);
-        int species = func_02017E1C(mon, PARAM_SPECIES, 0);
-        int form = func_02017E1C(mon, PARAM_FORM, 0);
+        int species = POKE_TOOL_GetPartyValue(mon, PARAM_SPECIES, 0);
+        int form = POKE_TOOL_GetPartyValue(mon, PARAM_FORM, 0);
 
         if (species == SPECIES_DEERLING && form != deerlingForm) {
             POKE_TOOL_ChangeForm(mon, deerlingForm);
@@ -1163,7 +1163,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
     work->heapId = heapId;
     work->mon = mon;
     work->key = key;
-    work->crc = GF_STANDARD_SetupCalc(mon, func_020173EC());
+    work->crc = GF_STANDARD_SetupCalc(mon, POKE_TOOL_GetPartyParamSize());
     if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &key, heapId, 0) == 0)
         work->key.species = SYMBOL_UNSEEN_SPECIES;
     FIELD_ENCOUNT_SetFieldSituation(&work->scene, gameData, fieldMap);
@@ -1200,8 +1200,8 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         mon = work->mon;
         heapId = work->heapId;
 
-        key.species = func_02017E1C(mon, PARAM_SPECIES, 0);
-        key.form = func_02017E1C(mon, PARAM_FORM, 0);
+        key.species = POKE_TOOL_GetPartyValue(mon, PARAM_SPECIES, 0);
+        key.form = POKE_TOOL_GetPartyValue(mon, PARAM_FORM, 0);
         if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &key, heapId, 1) == 0)
             work->key.form = SYMBOL_UNSEEN_FORM;
         ENCEFF_Start(FIELDMAP_GetEncEff(work->fieldMap), event, 0);
@@ -1220,7 +1220,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
 
         func_02007E50(GAME_DATA_GetMyItem(gameData), SYMBOL_VIEW_ITEM_ID, 1, work->heapId);
         func_02034AC4(FS_OVERLAY_ID(ov098));
-        work->selectScreen = PDC_CreateArgs(gameData, work->mon, &work->scene, func_02012944(gameData), GAME_DATA_GetMyItem(gameData),
+        work->selectScreen = PDC_CreateArgs(gameData, work->mon, &work->scene, GAME_DATA_GetMyStatus(gameData), GAME_DATA_GetMyItem(gameData),
                                            func_0200873C(saveControl), ZUKAN_SAVE_GetBlock(saveControl), work->heapId);
         GAME_EVENT_CallProc(event, -1, gPdcProcData, work->selectScreen);
         (*state)++;
@@ -1235,8 +1235,8 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         mon = work->mon;
         heapId = work->heapId;
 
-        key.species = func_02017E1C(mon, PARAM_SPECIES, 0);
-        key.form = func_02017E1C(mon, PARAM_FORM, 0);
+        key.species = POKE_TOOL_GetPartyValue(mon, PARAM_SPECIES, 0);
+        key.form = POKE_TOOL_GetPartyValue(mon, PARAM_FORM, 0);
         if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &key, heapId, 1) == 0
             || SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &work->key, work->heapId, 0) == 0)
             ok = 0;

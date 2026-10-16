@@ -32,6 +32,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  *   SAVE_EVENT_CheckStage  0x0202F498  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01547.h"
@@ -41,7 +42,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern u32 func_02017E88(void *, u32, u32);
+extern u32 POKE_TOOL_GetBoxValue(void *, u32, u32);
 struct Descriptor;
 struct MsgBank;
 struct StrObj;
@@ -102,21 +103,21 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     u8 best;
 
     y = 0;
-    isEgg = func_02017E88(mon, 0x4c, 0);
-    v5c = func_02017E88(mon, 0x70, 0);
-    v4c = func_02017E88(mon, 9, 0);
-    v48 = func_02017E88(mon, 0x8f, 0);
-    v44 = func_02017E88(mon, 0x90, 0);
-    v40 = func_02017E88(mon, 0x91, 0);
-    v3c = func_02017E88(mon, 0x92, 0);
-    v38 = func_02017E88(mon, 0x93, 0);
-    v34 = func_02017E88(mon, 0x94, 0);
-    v30 = func_02017E88(mon, 0x99, 0);
-    v2c = func_02017E88(mon, 0x6d, 0);
-    v28 = func_02017E88(mon, 0x77, 0);
-    v24 = func_02017E88(mon, 0, 0);
-    v20 = func_02017E88(mon, 0x95, 0);
-    f96 = func_02017E88(mon, 0x96, 0);
+    isEgg = POKE_TOOL_GetBoxValue(mon, 0x4c, 0);
+    v5c = POKE_TOOL_GetBoxValue(mon, 0x70, 0);
+    v4c = POKE_TOOL_GetBoxValue(mon, 9, 0);
+    v48 = POKE_TOOL_GetBoxValue(mon, 0x8f, 0);
+    v44 = POKE_TOOL_GetBoxValue(mon, 0x90, 0);
+    v40 = POKE_TOOL_GetBoxValue(mon, 0x91, 0);
+    v3c = POKE_TOOL_GetBoxValue(mon, 0x92, 0);
+    v38 = POKE_TOOL_GetBoxValue(mon, 0x93, 0);
+    v34 = POKE_TOOL_GetBoxValue(mon, 0x94, 0);
+    v30 = POKE_TOOL_GetBoxValue(mon, 0x99, 0);
+    v2c = POKE_TOOL_GetBoxValue(mon, 0x6d, 0);
+    v28 = POKE_TOOL_GetBoxValue(mon, 0x77, 0);
+    v24 = POKE_TOOL_GetBoxValue(mon, 0, 0);
+    v20 = POKE_TOOL_GetBoxValue(mon, 0x95, 0);
+    f96 = POKE_TOOL_GetBoxValue(mon, 0x96, 0);
     fl0 = SAVE_EVENT_CheckStage(mon, 0);
     fl1 = SAVE_EVENT_CheckStage(mon, 1);
     fl2 = SAVE_EVENT_CheckStage(mon, 2);
@@ -239,7 +240,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
         i = 0;
         row = rows.v[(u8)(v24 % 6)];
         for (; i < 6; i++) {
-            v = func_02017E88(mon, ids.v[row[i]], 0);
+            v = POKE_TOOL_GetBoxValue(mon, ids.v[row[i]], 0);
             if (max < v) {
                 max = v;
                 best = row[i];

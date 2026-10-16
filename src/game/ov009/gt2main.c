@@ -31,7 +31,7 @@
  *   gti2SendFilterCallback  0x02195278 arm
  *   gti2Send                0x02197CE0 arm
  *   func_02195980  0x02195980  arm  ov009
- *   DWC_IsSendableReliable       0x02195DC4  arm
+ *   gt2CloseConnectionHard       0x02195DC4  arm  ov009
  *   func_0218489C  0x0218489C  arm  ov009
  */
 #include "gt2main_types.h"
@@ -62,7 +62,6 @@ extern int gti2SendFilterCallback(void *connection, int filterID,
     unsigned char *message, int len, int reliable);
 extern int gti2Send(void *connection, unsigned char *message, int len, int reliable);
 extern void func_02195980(int a, int b);
-extern void DWC_IsSendableReliable(void *p);
 extern void func_0218489C(int a, char *p, int c);
 int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
 void gt2CloseSocket(void *p);
@@ -244,7 +243,7 @@ void gt2CloseConnectionHard(int a)
 
 static void gti2CloseAllConnectionsHardMap(void **elem)
 {
-    DWC_IsSendableReliable(*elem);
+    gt2CloseConnectionHard((int)*elem);
 }
 
 

@@ -67,14 +67,14 @@
  *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
  *   BTL_SERVER_FLOW_CalcMoveTypeEffectiveness  0x021C7DAC  thumb  ov093
  *   BTL_FIELD_GetCountdownValue 0x021EF884 thumb ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
- *   func_021D69AC  0x021D69AC  thumb  ov093
+ *   BTL_POKEPARAM_GetCounter  0x021D69AC  thumb  ov093
  *   BTL_POKEPARAM_GetConsumedItem  0x021D6740  thumb  ov093
  *   BTL_POKEPARAM_GetMoveStreak 0x021D679C thumb ov093
  *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPLost 0x021D554C thumb ov093
- *   func_021D5478  0x021D5478  thumb  ov093
+ *   BTL_POKEPARAM_CountUsedMoves  0x021D5478  thumb  ov093
  *   BTL_SERVER_FLOW_CountFasterPokes  0x021C81D0  thumb  ov093
  *   BTL_POKEPARAM_GetTurnCount  0x021D5BA4  thumb  ov093
  *   BTL_SLOT_FindPoke 0x021B9C98 thumb ov093
@@ -151,14 +151,14 @@ extern u8 BTL_SLOT_GetCount(void *p);
 extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *);
 extern int BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(u8 *p, int a, int b, int c);
 extern int BTL_FIELD_GetCountdownValue(void);
-extern int func_021D59B4(struct BtlPokeParam *p, int k);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *p, int k);
 extern u16 BTL_POKEPARAM_GetItem(struct BtlPokeParam *p);
-extern unsigned char func_021D69AC(struct BtlPokeParam *base, int idx);
+extern unsigned char BTL_POKEPARAM_GetCounter(struct BtlPokeParam *base, int idx);
 extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *p);
 extern u16 BTL_POKEPARAM_GetMoveStreak(struct BtlPokeParam *p);
 extern int BTL_FIELD_GetStaticSlotObject(int);
 extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *p, u8 i);
-extern u8 func_021D5478(struct BtlPokeParam *p);
+extern u8 BTL_POKEPARAM_CountUsedMoves(struct BtlPokeParam *p);
 extern u16 BTL_SERVER_FLOW_CountFasterPokes(void *p, struct BtlPokeParam *a, u32 y);
 extern unsigned short BTL_POKEPARAM_GetTurnCount(struct BtlPokeParam *p);
 extern int BTL_SLOT_FindPoke(u8 *p, u32 v);
@@ -984,7 +984,7 @@ int TR_AI_CmdIfValueNotInList(ScriptVm *vm, TrAiWork *ai) {
 }
 
 /*
- * Lever: b is a pointer to a Conn_02188284 struct (fields fbc, fc4) so the b+0xbc
+ * Lever: b is a pointer to a Conn struct (fields fbc, fc4) so the b+0xbc
  *   address is not CSE'd across the calls (the original re-adds it each time);
  *   TR_AI_GetMoveParam's second parameter is int (no truncation before the bl).
  */
@@ -1008,7 +1008,7 @@ int TR_AI_CmdIfHasMoveWithParam3(ScriptVm *vm, TrAiWork *ai) {
 }
 
 /*
- * Lever: as TR_AI_CmdIfHasMoveWithParam3 (Conn_02188284 struct pointer, (Conn_02188284 *)(int second parameter)).
+ * Lever: as TR_AI_CmdIfHasMoveWithParam3 (Conn struct pointer, (Conn *)(int second parameter)).
  */
 /*
  * Lever: as TR_AI_CmdIfHasMoveWithParam3 (Conn struct pointer, int second parameter).
@@ -1263,7 +1263,7 @@ int TR_AI_ComparePokeValue(ScriptVm *vm, TrAiWork *ai, int op) {
     valueKind = VM_GetU32(vm);
     compareValue = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
-    pokeValue = func_021D59B4(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, side)), valueKind);
+    pokeValue = BTL_POKEPARAM_GetValue(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, side)), valueKind);
     return TR_AI_Compare(vm, op, pokeValue, compareValue, jumpOffset);
 }
 
@@ -1286,7 +1286,7 @@ int TR_AI_CompareDamage(ScriptVm *vm, TrAiWork *ai, int op) {
 
     VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
-    targetHp = func_021D59B4(ai->targetPoke, 0xd);
+    targetHp = BTL_POKEPARAM_GetValue(ai->targetPoke, 0xd);
     attackerId = BTL_POKEPARAM_GetPokeId(ai->selfPoke);
     defenderId = BTL_POKEPARAM_GetPokeId(ai->targetPoke);
     damage = BTL_SERVER_FLOW_CalcPredictedMoveDamage(ai->serverFlow, attackerId, defenderId, ai->moveId, 1, 0);
@@ -1437,7 +1437,7 @@ int TR_AI_CmdLoadPokeValue12(ScriptVm *vm, TrAiWork *ai) {
     u8 pos;
     selector = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, selector);
-    selector = func_021D59B4(TR_AI_GetPoke(ai, pos), 0x12);
+    selector = BTL_POKEPARAM_GetValue(TR_AI_GetPoke(ai, pos), 0x12);
     ai->workValue = selector;
     return ai->cmdReturn;
 }
@@ -1463,7 +1463,7 @@ int TR_AI_CmdLoadNoSubstitute(ScriptVm *vm, TrAiWork *ai) {
  * after the lead function (function_starts seeds).
  */
 int TR_AI_CmdLoadPokeValueByte(ScriptVm *vm, TrAiWork *ai) {
-    ai->workValue = func_021D69AC(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, VM_GetU32(vm))), 0);
+    ai->workValue = BTL_POKEPARAM_GetCounter(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, VM_GetU32(vm))), 0);
     return ai->cmdReturn;
 }
 
@@ -1547,8 +1547,8 @@ int TR_AI_CmdCompareStat15(ScriptVm *vm, TrAiWork *ai) {
     jumpOffset = VM_GetU32(vm);
     {
         int cmpOps[3] = { 1, 0, 2 };
-        selfValue = func_021D59B4(ai->selfPoke, 15);
-        targetValue = func_021D59B4(ai->targetPoke, 15);
+        selfValue = BTL_POKEPARAM_GetValue(ai->selfPoke, 15);
+        targetValue = BTL_POKEPARAM_GetValue(ai->targetPoke, 15);
         TR_AI_Compare(vm, cmpOps[compareKind], selfValue, targetValue, jumpOffset);
     }
     return ai->cmdReturn;
@@ -1747,7 +1747,7 @@ int TR_AI_CmdJumpIfNoMoveValue(ScriptVm *vm, TrAiWork *ai) {
     jumpOffset = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, side);
     poke = TR_AI_GetPoke(ai, pos);
-    if (func_021D5478(poke) >= BTL_POKEPARAM_GetMoveCount(poke) && BTL_POKEPARAM_GetMoveCount(poke) > 1) {
+    if (BTL_POKEPARAM_CountUsedMoves(poke) >= BTL_POKEPARAM_GetMoveCount(poke) && BTL_POKEPARAM_GetMoveCount(poke) > 1) {
         VM_Jump(vm, (int)vm->pc + jumpOffset);
     }
     return ai->cmdReturn;
@@ -1886,7 +1886,7 @@ int TR_AI_CmdLoadPokeValueSimple(ScriptVm *vm, TrAiWork *ai) {
         statSlot = 0;
         ai->workValue = 0;
         for (; statSlot < 7; statSlot++) {
-            stat = func_021D59B4(TR_AI_GetPoke(ai, pos), statIds[statSlot]);
+            stat = BTL_POKEPARAM_GetValue(TR_AI_GetPoke(ai, pos), statIds[statSlot]);
             if (stat > 6) {
                 ai->workValue += stat - 6;
             }
@@ -1910,8 +1910,8 @@ int TR_AI_CmdLoadPokeValueTwoArgs(ScriptVm *vm, TrAiWork *ai) {
     valueKind = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, side);
     poke = TR_AI_GetPoke(ai, pos);
-    value = func_021D59B4(poke, valueKind);
-    ai->workValue = value - func_021D59B4(ai->selfPoke, valueKind);
+    value = BTL_POKEPARAM_GetValue(poke, valueKind);
+    ai->workValue = value - BTL_POKEPARAM_GetValue(ai->selfPoke, valueKind);
     return ai->cmdReturn;
 }
 
@@ -1990,7 +1990,7 @@ int TR_AI_CompareFainted(ScriptVm *vm, TrAiWork *ai, int op) {
 }
 
 int TR_AI_CmdLoadPokeValue17(ScriptVm *vm, TrAiWork *ai) {
-    int selector; u8 pos; selector = VM_GetU32(vm); pos = TR_AI_GetPosition(ai,selector); ai->workValue = func_021D59B4(TR_AI_GetPoke(ai,pos),17); return ai->cmdReturn;
+    int selector; u8 pos; selector = VM_GetU32(vm); pos = TR_AI_GetPosition(ai,selector); ai->workValue = BTL_POKEPARAM_GetValue(TR_AI_GetPoke(ai,pos),17); return ai->cmdReturn;
 }
 
 int TR_AI_CmdJumpIfSubstitute(ScriptVm *vm, TrAiWork *ai) {
@@ -2064,8 +2064,8 @@ int TR_AI_CompareStat(ScriptVm *vm, TrAiWork *ai, int op) {
     side = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, side);
-    func_021D59B4(TR_AI_GetPoke(ai, pos), 8);
-    return TR_AI_Compare(vm, op, pos, func_021D59B4(TR_AI_GetPoke(ai, pos), 10), jumpOffset);
+    BTL_POKEPARAM_GetValue(TR_AI_GetPoke(ai, pos), 8);
+    return TR_AI_Compare(vm, op, pos, BTL_POKEPARAM_GetValue(TR_AI_GetPoke(ai, pos), 10), jumpOffset);
 }
 
 int TR_AI_Compare(ScriptVm *vm, int op, int left, int right, int jumpOffset) {
@@ -2171,11 +2171,11 @@ int TR_AI_GetAbility(TrAiWork *ai, int kind, u8 pos) {
         ai->abilityCache[pos] = BTLV_EFFECT_GetPokeEffectValue(pos);
         if (ai->abilityCache[pos] != 0)
             return ai->abilityCache[pos];
-        value = func_021D59B4(poke, 0x10);
+        value = BTL_POKEPARAM_GetValue(poke, 0x10);
         if (value == 0x17 || value == 0x2a || value == 0x47)
             return value;
         value = BTL_POKEPARAM_GetSpecies(poke);
-        form = func_021D59B4(poke, 0x13);
+        form = BTL_POKEPARAM_GetValue(poke, 0x13);
         abilityCount = 0;
         ability0 = POKE_TOOL_GetPersonalParam(value, form, 0x1a);
         ability1 = POKE_TOOL_GetPersonalParam(value, form, 0x1b);
@@ -2185,7 +2185,7 @@ int TR_AI_GetAbility(TrAiWork *ai, int kind, u8 pos) {
         if (ability2 != 0) abilities[abilityCount++] = ability2;
         return abilities[draw_below(abilityCount)];
     }
-    return func_021D59B4(poke, 0x10);
+    return BTL_POKEPARAM_GetValue(poke, 0x10);
 }
 
 /*

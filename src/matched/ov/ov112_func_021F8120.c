@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_LIGHT_CallElemD
+ * function: STA_ACT_LIGHT_GetRenderHandle
  * address: 0x021F8120
  * packet: pkt_ov112_021F8120
  * region: ov112
@@ -16,4 +16,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int MUSICAL_MCSS_GetRenderHandle(u8 **p);
-int STA_ACT_LIGHT_CallElemD(int a,u8 *p) { return MUSICAL_MCSS_GetRenderHandle(((struct Obj22568 *)p)->f58); }
+int STA_ACT_LIGHT_GetRenderHandle(int a,u8 *p) { return MUSICAL_MCSS_GetRenderHandle(((struct Obj22568 *)p)->f58); }

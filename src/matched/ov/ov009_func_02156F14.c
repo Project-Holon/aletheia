@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _pRapHeap  0x021A8268  data  ov009  a4
- *   func_02060C94  0x02060C94  arm
+ *   NNSi_FndDestroyExpHeap  0x02060C94  arm
  *   func_020307B0  0x020307B0  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
@@ -24,13 +24,13 @@ typedef struct {
     u32 f0; u32 f4; u32 f8; u32 fC; u32 f10; u32 f14; u32 f18; u32 f1C; u16 f20;
 } Obj;
 extern struct Obj *_pRapHeap;
-extern void func_02060C94(void *heap);
+extern void NNSi_FndDestroyExpHeap(void *heap);
 extern u32 func_020307B0(void *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 void DWC_RAPCOMMON_ReleaseSubHeap(void)
 {
     if (_pRapHeap->fC != 0) {
-        func_02060C94((void *)_pRapHeap->f8);
+        NNSi_FndDestroyExpHeap((void *)_pRapHeap->f8);
         func_020307B0((void *)_pRapHeap->fC);
         _pRapHeap->f8 = 0;
         _pRapHeap->fC = 0;

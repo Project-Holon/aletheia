@@ -44,10 +44,10 @@
  *   BTLV_CORE_StartPrintMessage  0x021EA730  thumb  ov093
  *   BTLV_CORE_StartViewEffect262  0x021EA7C8  thumb  ov093
  *   BTLV_CORE_WaitViewEffectDone  0x021EA7E8  thumb  ov093
- *   func_021EAF00  0x021EAF00  thumb  ov093
- *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EAF50  0x021EAF50  thumb  ov093
- *   func_021EAF78  0x021EAF78  thumb  ov093
+ *   BTLV_SCU_PlaySeUnlessMainStep  0x021EAF00  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_AppendMessageArg  0x021EAF50  thumb  ov093
+ *   BTLV_SCU_SetMessageParam  0x021EAF78  thumb  ov093
  *   BTLV_SCU_SetupDisplay  0x021EB028  thumb  ov093
  *   BTLV_SCU_StartEntryScene  0x021EB32C  thumb  ov093
  *   BTLV_SCU_RunProc  0x021EB52C  thumb  ov093
@@ -55,7 +55,7 @@
  *   BTLV_SCU_RunWazaProc  0x021ED1B0  thumb  ov093
  *   BTLV_SCU_IsMonDamageAnimDone  0x021ED250  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *
  * note (2026-10-03, wave B3 lane 01): every instruction, branch and pool word
  * matches (972 bytes, jump table included). The verdict is capped by the 8
@@ -108,10 +108,10 @@ extern int BTLV_SCU_RunProc(u32 a);
 struct H;
 struct Pair;
 extern u8 *BTLV_CORE_GetPokeParamAtViewPos(struct Pair *s, u32 k);
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EAF78(u8 *p, u8 v);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
+extern void BTLV_SCU_SetMessageParam(u8 *p, u8 v);
 extern void BTLV_CORE_BuildAndPrintMessageNow(char *p, struct H *h);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern void func_021E9604(u32 a, u32 b, u8 c, u32 d);
@@ -125,11 +125,11 @@ extern int func_021E95F4(u32 a);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void BTLV_SCU_StartWazaEffect(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 extern int BTLV_SCU_RunWazaProc(char *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int func_0209C0A4(int a, int b);
 extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b);
 extern void BTLV_EFFECT_StartDamageTintTask(int a, int b);
-extern void func_021EAF00(u8 *p, int a);
+extern void BTLV_SCU_PlaySeUnlessMainStep(u8 *p, int a);
 extern int BTLV_SCU_IsMonDamageAnimDone(u32 a);
 extern void BTLV_CORE_StartViewEffect262(void *ctx, int a);
 extern int BTLV_CORE_WaitViewEffectDone(void *w, int v);
@@ -168,9 +168,9 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         if (BTLV_SCU_RunProc(p->x17C)) {
             u8 msg[0x24];
             u8 *v = BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 0);
-            func_021EAF18((struct L *)msg, 1, 0x45);
-            func_021EAF50((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
-            func_021EAF78(msg, 0);
+            BTLV_SCU_InitMessage((struct L *)msg, 1, 0x45);
+            BTLV_SCU_AppendMessageArg((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
+            BTLV_SCU_SetMessageParam(msg, 0);
             BTLV_CORE_BuildAndPrintMessageNow((char *)p, (struct H *)msg);
             (*state)++;
         }
@@ -205,9 +205,9 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         break;
     case 7:
         if (BTLV_SCU_RunWazaProc((char *)p->x17C)) {
-            BTLV_EFFECT_GaugeStartHpChangeAnimated(1, func_0209C0A4(func_021D59B4(BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 1), 0xE), 6));
+            BTLV_EFFECT_GaugeStartHpChangeAnimated(1, func_0209C0A4(BTL_POKEPARAM_GetValue(BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 1), 0xE), 6));
             BTLV_EFFECT_StartDamageTintTask(1, 1);
-            func_021EAF00((u8 *)p, 0x564);
+            BTLV_SCU_PlaySeUnlessMainStep((u8 *)p, 0x564);
             (*state)++;
         }
         break;
@@ -233,9 +233,9 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         if (BTLV_CORE_WaitViewEffectDone(p, 0)) {
             u8 msg[0x24];
             u8 *v = BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 0);
-            func_021EAF18((struct L *)msg, 2, 0x5D);
-            func_021EAF50((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
-            func_021EAF78(msg, 0);
+            BTLV_SCU_InitMessage((struct L *)msg, 2, 0x5D);
+            BTLV_SCU_AppendMessageArg((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
+            BTLV_SCU_SetMessageParam(msg, 0);
             BTLV_CORE_BuildAndPrintMessage((char *)p, (struct H *)msg);
             (*state)++;
         }
@@ -278,8 +278,8 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         if (!BTLV_EFFECT_IsBusy()) {
             u8 msg[0x24];
             u8 *v = BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 1);
-            func_021EAF18((struct L *)msg, 1, 0x41);
-            func_021EAF50((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
+            BTLV_SCU_InitMessage((struct L *)msg, 1, 0x41);
+            BTLV_SCU_AppendMessageArg((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
             BTLV_CORE_BuildAndPrintMessage((char *)p, (struct H *)msg);
             (*state)++;
         }

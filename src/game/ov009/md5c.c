@@ -1,7 +1,7 @@
 /*
  * file:     md5c.c
  * unit:     yes
- * function: GSMD5Init, func_0218497C, GSMD5Final, GSMD5Transform, func_02185798, func_021857F0, GSMD5_memcpy, GSMD5_memset, GSMD5Print, GSMD5Digest
+ * function: GSMD5Init, func_0218497C, GSMD5Final, GSMD5Transform, Encode, Decode, GSMD5_memcpy, GSMD5_memset, GSMD5Print, GSMD5Digest
  * address:  0x02184938
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -75,7 +75,7 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern void Encode(unsigned char * output, unsigned int * input, unsigned int len);
+static void Encode(unsigned char * output, unsigned int * input, unsigned int len);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern void GSMD5Init(struct GSMD5_CTX * context);
@@ -85,8 +85,8 @@ void GSMD5Init(struct GSMD5_CTX * context);
 void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
 void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
 void GSMD5Transform(u32 state[4], const u8 block[64]);
-void func_02185798(unsigned char * output, unsigned int * input, unsigned int len);
-void func_021857F0(u32 *dst, const u8 *src, u32 count);
+static void Encode(unsigned char * output, unsigned int * input, unsigned int len);
+static void Decode(u32 *dst, const u8 *src, u32 count);
 void *GSMD5_memcpy(void *dest, const void *src, unsigned int n);
 void *GSMD5_memset(void *p, int c, u32 n);
 void GSMD5Print(unsigned char * digest, char * output);
@@ -163,7 +163,7 @@ void GSMD5Transform(u32 state[4], const u8 block[64])
     u32 d = state[3];
     u32 x[16];
 
-    func_021857F0(x, block, 64);
+    Decode(x, block, 64);
 
     /* Round 1 */
     FF(a, b, c, d, x[ 0], S11, 0xd76aa478);
@@ -249,7 +249,7 @@ void GSMD5Transform(u32 state[4], const u8 block[64])
 /*
  * sdk:      Encode (md5c)
  */
-void func_02185798(unsigned char * output, unsigned int * input, unsigned int len)
+static void Encode(unsigned char * output, unsigned int * input, unsigned int len)
 {
     unsigned int i, j;
 
@@ -264,7 +264,7 @@ void func_02185798(unsigned char * output, unsigned int * input, unsigned int le
 
 
 
-void func_021857F0(u32 *dst, const u8 *src, u32 count)
+static void Decode(u32 *dst, const u8 *src, u32 count)
 {
     u32 j = 0;
     u32 i = 0;

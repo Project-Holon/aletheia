@@ -14,8 +14,8 @@
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_SetOutcomeIfUnset 0x021B916C thumb ov093
  *   BTL_MAIN_GetWinBgm 0x021B86DC thumb ov093
- *   func_021EAF18 0x021EAF18 thumb ov093
- *   func_021EAF50 0x021EAF50 thumb ov093
+ *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
+ *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -35,8 +35,8 @@ struct L;
 extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 extern void BTL_MAIN_SetOutcomeIfUnset(u8 *p, u32 x);
 extern u16 BTL_MAIN_GetWinBgm(void **p);
-extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern void GFL_USE_CancelChangeAndPlayBgm(u16, u16);
@@ -63,10 +63,10 @@ int BTL_CLIENT_StepShowResultMessage(u8 *p, int *state, void *a2)
         case 2: msg = flag != 0 ? 0x35 : 0x34; break;
         default: return 1;
         }
-        func_021EAF18((struct L *)(p + 0x58), 1, msg);
-        func_021EAF50((struct L *)(p + 0x58), idx);
+        BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, msg);
+        BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), idx);
         if (flag != 0)
-            func_021EAF50((struct L *)(p + 0x58), BTL_MAIN_GetOwnOpponentClient(((struct Obj00066 *)p)->f0, 1));
+            BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), BTL_MAIN_GetOwnOpponentClient(((struct Obj00066 *)p)->f0, 1));
         BTLV_CORE_BuildAndPrintMessage(((struct Obj00066 *)p)->f54, (struct H *)(p + 0x58));
         if (mode == 1) {
             GFL_USE_CancelChangeAndPlayBgm(BTL_MAIN_GetWinBgm(((struct Obj00066 *)p)->f0), 0xFFFF);

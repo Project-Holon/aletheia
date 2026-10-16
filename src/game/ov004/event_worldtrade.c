@@ -90,7 +90,7 @@ typedef struct WorldTradeParam {
 } WorldTradeParam;
 
 /* Work of the world trade event (0x54 bytes). */
-typedef struct WorldTradeEventWork_021542C0 {
+typedef struct WorldTradeEventWork {
     u32 savedBgmNo;
     struct GameSystem *gameSystem;
     int fieldMap;
@@ -98,22 +98,13 @@ typedef struct WorldTradeEventWork_021542C0 {
     struct SaveControl *saveControl;
     struct GameSystem *paramGameSystem;
     u32 hideFieldObjects;
-} WorldTradeEventWork_021542C0;
+} WorldTradeEventWork;
 
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-/* Work of the world trade event, see event_worldtrade.c (0x54 bytes): the field view used here. */
-typedef struct WorldTradeEventWork_02154390 {
-    u32 savedBgmNo;
-    struct GameSystem *gameSystem;
-    int fieldMap;
-    u8 param[0x3C];
-    void *saveControl;
-    struct GameSystem *paramGameSystem;
-    u32 hideFieldObjects;
-} WorldTradeEventWork_02154390;
+typedef char WorldTradeEventWork_SizeCheck[sizeof(WorldTradeEventWork) == 0x54 ? 1 : -1];
 
 void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
@@ -150,7 +141,7 @@ extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, i
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request);
 int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused);
-u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork_02154390 *work);
+u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work);
 extern char ov135_id[];
 extern char d_02202BAC[];
 
@@ -168,7 +159,7 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
 {
     int gameData;
     int event;
-    WorldTradeEventWork_021542C0 *work;
+    WorldTradeEventWork *work;
 
     gameData = (int)ICA_ANIME_GetField1C((const struct GameSystem *)gameSystem);
     event = (int)func_020122C0((void *)gameSystem, 0, EVENT_WORLDTRADE_Main, 0x54);
@@ -199,7 +190,7 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
 }
 
 
-u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork_02154390 *work)
+u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work)
 {
     switch (*seq) {
     case 0:
@@ -218,7 +209,7 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
         *seq = 3;
         break;
     case 3:
-        GAMESYSTEM_CallProc(work->gameSystem, (u32)ov135_id, d_02202BAC, work->param);
+        GAMESYSTEM_CallProc(work->gameSystem, (u32)ov135_id, d_02202BAC, &work->param);
         *seq = 4;
         break;
     case 4:

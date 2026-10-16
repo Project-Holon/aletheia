@@ -16,7 +16,7 @@
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   MI_CpuFill8 0x02082BCC arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
  *   POKETRADE_3D_AddPokemonMcssFlipped  0x021E36A8  thumb  ov119
  *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
@@ -209,7 +209,7 @@ typedef struct { Element e[4]; } ElementTemplate;
 
 typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } TouchbarConfig;
 
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 
 extern u32 func_020307B0(void *p);
 
@@ -690,8 +690,8 @@ void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon)
     u8 i;
     float f;
 
-    a = func_02017E1C(mon, 5, 0);
-    b = func_02017E1C(mon, 0x6f, 0);
+    a = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    b = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
     c = POKE_TOOL_GetGender(mon);
     if (p2 == 0)
         flag = 1;
@@ -728,8 +728,8 @@ void POKETRADE_3D_AddPokemonMcss(TradeWork *p, int idx, int side, void *mon, int
     IntVec3 v = gMcssMonOffset;
     U32Table4 t = gMcssMonConfig;
     if (flag) {
-        u16 species = func_02017E1C(mon, 5, 0);
-        u16 form = func_02017E1C(mon, 0x6f, 0);
+        u16 species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        u16 form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
         void *h = POKE_PERSONAL_Create(species, form, p->heapId);
         u32 r = POKE_PERSONAL_GetParam(h, 0x22);
         POKE_PERSONAL_Delete(h);

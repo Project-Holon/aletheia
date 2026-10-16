@@ -1,5 +1,5 @@
 /*
- * function: func_02185B74
+ * function: BEACON_DETAIL_Draw3D
  * address:  0x02185B74
  * packet:   pkt_ov219_02185B74
  * region:   ov219
@@ -39,7 +39,7 @@ extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void func_0207B388(const void *, const M33 *, M33 *);
 extern void BEACON_DETAIL_SetupCalc(M33 *, char *);
 
-void func_02185B74(char *p)
+void BEACON_DETAIL_Draw3D(char *p)
 {
     int state = *(int *)(p + 0xC310);
 

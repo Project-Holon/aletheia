@@ -15,8 +15,8 @@
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GX_HBlankIntr             0x0207D3AC  arm
  *   GX_VBlankIntr             0x0207D3E4  arm
- *   func_020808F4             0x020808F4  arm
- *   func_020809A0             0x020809A0  arm
+ *   GX_ResetBankForBG             0x020808F4  arm
+ *   GX_ResetBankForSubBG             0x020809A0  arm
  *   GX_SetBankForBG           0x0207FDCC  arm
  *   GX_SetGraphicsMode        0x0207D4B0  arm
  *   G2_GetBG1CharPtr          0x0207E24C  arm
@@ -66,8 +66,8 @@ extern int  GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int v);
 extern u32  GX_HBlankIntr(BOOL on);
 extern u32  GX_VBlankIntr(BOOL on);
-extern int func_020808F4(void);
-extern int func_020809A0(void);
+extern int GX_ResetBankForBG(void);
+extern int GX_ResetBankForSubBG(void);
 extern void GX_SetBankForBG(u32 bank);
 extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
 extern void *G2_GetBG1CharPtr(void);
@@ -145,8 +145,8 @@ void GFL_NET_ERR_SaveDisplayAndDraw(u32 a0, u32 a1)
         ((struct Obj01327 *)g)->f1C = GX_HBlankIntr(0);
         ((struct Obj01327 *)g)->f20 = GX_VBlankIntr(0);
     }
-    ((struct Obj01327 *)g)->f24 = func_020808F4();
-    ((struct Obj01327 *)g)->f28 = func_020809A0();
+    ((struct Obj01327 *)g)->f24 = GX_ResetBankForBG();
+    ((struct Obj01327 *)g)->f28 = GX_ResetBankForSubBG();
     GX_SetBankForBG(4);
     ((struct Obj01327 *)g)->fC = reg_GX_DISPCNT;
     GX_SetGraphicsMode(1, 0, 0);

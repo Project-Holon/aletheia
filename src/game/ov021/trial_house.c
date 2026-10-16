@@ -25,7 +25,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   abs_id_39      0x00000039  data
@@ -207,7 +207,7 @@ extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
 extern void *POKEPARTY_GetMember(Party *party, u32 index);
-extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
 extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
 extern Party *POKEPARTY_Create(u32 heapId);
 extern void POKEPARTY_InitEx(Party *party, s32 capacity);
@@ -639,9 +639,9 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
     for (i = 0; i < work->monCount; i++) {
         saveMon = &slot->mons[i];
         mon = POKEPARTY_GetMember(work->playerParty, i);
-        saveMon->species = func_02017E1C(mon, 5, 0);
-        saveMon->form = func_02017E1C(mon, 0x6f, 0);
-        saveMon->gender = func_02017E1C(mon, 0x6e, 0);
+        saveMon->species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        saveMon->form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+        saveMon->gender = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
     }
 
     if (work->deliveryState != 0) {

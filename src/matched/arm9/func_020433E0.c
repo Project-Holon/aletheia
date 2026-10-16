@@ -9,16 +9,16 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_020808F4  0x020808F4  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
  *   func_0208091C  0x0208091C  arm
- *   func_020809A0  0x020809A0  arm
+ *   GX_ResetBankForSubBG  0x020809A0  arm
  *   func_020809C8  0x020809C8  arm
- *   func_02080908  0x02080908  arm
+ *   GX_ResetBankForOBJ  0x02080908  arm
  *   func_02080940  0x02080940  arm
- *   func_020809B4  0x020809B4  arm
+ *   GX_ResetBankForSubOBJ  0x020809B4  arm
  *   func_020809F0  0x020809F0  arm
- *   func_02080964  0x02080964  arm
- *   func_02080978  0x02080978  arm
+ *   GX_ResetBankForTex  0x02080964  arm
+ *   GX_ResetBankForTexPltt  0x02080978  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   GX_SetBankForBGExtPltt  0x02080100  arm
  *   GX_SetBankForSubBG  0x020806B0  arm
@@ -69,16 +69,16 @@ struct DispVram {
     GXOBJVRamModeChar sub_mapping;      /* +0x2C */
 };
 
-extern int func_020808F4(void);
+extern int GX_ResetBankForBG(void);
 extern void func_0208091C(void);   /* GX_ResetBankForBGExtPltt */
-extern int func_020809A0(void);
+extern int GX_ResetBankForSubBG(void);
 extern void func_020809C8(void);   /* GX_ResetBankForSubBGExtPltt */
-extern void func_02080908(void);
+extern void GX_ResetBankForOBJ(void);
 extern void func_02080940(void);   /* GX_ResetBankForOBJExtPltt */
-extern void func_020809B4(void);
+extern void GX_ResetBankForSubOBJ(void);
 extern void func_020809F0(void);   /* GX_ResetBankForSubOBJExtPltt */
-extern int func_02080964(void);
-extern void func_02080978(void);
+extern int GX_ResetBankForTex(void);
+extern void GX_ResetBankForTexPltt(void);
 extern void func_0207FDCC(GXVRam v);   /* GX_SetBankForBG */
 extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
 extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
@@ -105,16 +105,16 @@ static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
 
 void BG_SYS_SetVramBanks(const struct DispVram *c)
 {
-    func_020808F4();
+    GX_ResetBankForBG();
     func_0208091C();
-    func_020809A0();
+    GX_ResetBankForSubBG();
     func_020809C8();
-    func_02080908();
+    GX_ResetBankForOBJ();
     func_02080940();
-    func_020809B4();
+    GX_ResetBankForSubOBJ();
     func_020809F0();
-    func_02080964();
-    func_02080978();
+    GX_ResetBankForTex();
+    GX_ResetBankForTexPltt();
     func_0207FDCC(c->main_bg);
     GX_SetBankForBGExtPltt(c->main_bg_expltt);
     GX_SetBankForSubBG(c->sub_bg);

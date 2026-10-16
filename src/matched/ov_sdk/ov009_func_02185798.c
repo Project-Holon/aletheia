@@ -1,5 +1,5 @@
 /*
- * function: func_02185798
+ * function: Encode
  * address:  0x02185798
  * packet:   pkt_ov009_02185798
  * region:   ov009
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-void func_02185798(unsigned char * output, unsigned int * input, unsigned int len)
+static void Encode(unsigned char * output, unsigned int * input, unsigned int len)
 {
     unsigned int i, j;
 

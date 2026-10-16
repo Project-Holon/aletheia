@@ -22,7 +22,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
@@ -36,7 +36,7 @@ extern int BTL_POKEPARAM_IsFainted(void *p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_CALC_DivideMaxHpMin1(u8 *p, u32 k);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
@@ -56,7 +56,7 @@ int BTL_SERVER_FLOW_ItemEffectRevive(u8 *p, u8 *q, u16 s)
         r = BTL_CALC_GetMonParamWithHeap((void *)s, 0x3a);
         switch (r) {
         case 0xff:
-            ((struct Obj06229 *)w)->f6 = func_021D59B4(q, 0xe);
+            ((struct Obj06229 *)w)->f6 = BTL_POKEPARAM_GetValue(q, 0xe);
             break;
         case 0xfe:
             ((struct Obj06229 *)w)->f6 = BTL_CALC_DivideMaxHpMin1(q, 2);

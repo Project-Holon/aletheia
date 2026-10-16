@@ -16,7 +16,7 @@
  *   BTL_CLIENT_HasSlotInOrder  0x021CFBBC  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  */
 #include "../include/Obj01690.h"
 
@@ -31,7 +31,7 @@ typedef signed char    s8;
 extern int BTL_CLIENT_HasSlotInOrder(s8 *p, int v);
 extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern int BTL_POKEPARAM_IsFainted(void *m);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
 int BTL_CLIENT_FindMemberWithAbility(u8 *g, u8 a, u8 *out)
 {
@@ -44,7 +44,7 @@ int BTL_CLIENT_FindMemberWithAbility(u8 *g, u8 a, u8 *out)
     for (; i < n; i++) {
         if (BTL_CLIENT_HasSlotInOrder((s8 *)g, (u8)i) == 0) {
             m = BTL_SLOT_GetPokeParam(((struct Obj01690 *)g)->f118, (u8)i);
-            if (BTL_POKEPARAM_IsFainted(m) == 0 && a == func_021D59B4(m, 0x11)) {
+            if (BTL_POKEPARAM_IsFainted(m) == 0 && a == BTL_POKEPARAM_GetValue(m, 0x11)) {
                 *out = i;
                 return 1;
             }

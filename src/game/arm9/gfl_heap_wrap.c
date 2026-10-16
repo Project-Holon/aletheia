@@ -16,24 +16,24 @@
  *   GFL_HEAP_Delete           0x0202FF98 arm
  *   GFL_HEAP_GetLastError          0x02030524 arm
  *   OS_Terminate           0x02088234 arm
- *   sub_02030098           0x02030098 arm
+ *   GFL_HEAP_AllocMemory           0x02030098 arm
  *   MIi_CpuClear32         0x02082A7C arm
  *   GFL_HEAP_FreeMemory          0x02030164 arm
  *   GFL_HEAP_InitAllocator          0x02030238 arm
- *   sub_020302A4           0x020302A4 arm
- *   sub_02030344           0x02030344 arm
- *   sub_020304CC           0x020304CC arm
- *   sub_020304C0           0x020304C0 arm
- *   sub_02030428           0x02030428 arm
+ *   GFL_HEAP_ResizeMemory           0x020302A4 arm
+ *   GFL_HEAP_GetTotalFreeSize           0x02030344 arm
+ *   GFL_HEAP_IsHeapValid           0x020304CC arm
+ *   GFL_HEAP_GetBlockName           0x020304C0 arm
+ *   GFL_HEAP_GetHeapHandle           0x02030428 arm
  *   NNSi_FndGetListTotalSize          0x02060E6C arm
  *   NNSi_FndGetListAllocatableSize          0x02060E94 arm
- *   sub_020304B8           0x020304B8 arm
- *   sub_0203046C           0x0203046C arm
+ *   GFL_HEAP_GetBlockHeapId           0x020304B8 arm
+ *   GFL_HEAP_GetAllocCountById           0x0203046C arm
  *   NNSi_FndGetMBlockSize          0x02060F90 arm
  *   GF_STANDARD_GetStringLength          0x0203F004 arm
  *   MI_CpuCopy8            0x02082D44 arm
- *   sub_020303D8           0x020303D8 arm
- *   sub_0203038C           0x0203038C arm
+ *   GFL_HEAP_GetHeapSize           0x020303D8 arm
+ *   GFL_HEAP_GetAllocatableSize           0x0203038C arm
  *   MSL_C_LIB_SetTwlFlag          0x0209128C arm
  *   NNSi_FndWalkHeapBlocks          0x02060F50 arm
  *   func_02030534          0x02030534 arm
@@ -76,7 +76,7 @@ extern u16  GFL_HEAP_GetLastError(void);
 
 extern void OS_Terminate(void);
 
-extern void *sub_02030098(u32 heapId, u32 size);
+extern void *GFL_HEAP_AllocMemory(u32 heapId, u32 size);
 
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
@@ -84,23 +84,23 @@ extern u32 GFL_HEAP_FreeMemory(void *p);
 
 extern u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size);
 
-extern u32 sub_020302A4(void *p, u32 size);
+extern u32 GFL_HEAP_ResizeMemory(void *p, u32 size);
 
-extern void *sub_02030344(u32 heapId);
+extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 
-extern u32 sub_020304CC(u32 heapId);
+extern u32 GFL_HEAP_IsHeapValid(u32 heapId);
 
-extern void *sub_020304C0(void *p);
+extern void *GFL_HEAP_GetBlockName(void *p);
 
-extern void *sub_02030428(u32 heapId);
+extern void *GFL_HEAP_GetHeapHandle(u32 heapId);
 
 extern int NNSi_FndGetListTotalSize(int *p);
 
 extern s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x);
 
-extern u16 sub_020304B8(void *p);
+extern u16 GFL_HEAP_GetBlockHeapId(void *p);
 
-extern u16 sub_0203046C(u32 heapId);
+extern u16 GFL_HEAP_GetAllocCountById(u32 heapId);
 
 extern int NNSi_FndGetMBlockSize(char *p);
 
@@ -108,9 +108,9 @@ extern u32 GF_STANDARD_GetStringLength(const u8 *s);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
-extern u32 sub_020303D8(u32 heapId);
+extern u32 GFL_HEAP_GetHeapSize(u32 heapId);
 
-extern void *sub_0203038C(u32 heapId);
+extern void *GFL_HEAP_GetAllocatableSize(u32 heapId);
 
 extern void MSL_C_LIB_SetTwlFlag(int x);
 
@@ -230,7 +230,7 @@ void GFL_HEAP_DeleteChecked(u32 heapId)
  * reference in the image being the call inside this function. All four are
  * now EXACT and attest this file by the `matched` class:
  *
- *   0x02030098  the raw allocator            src/matched/sub_02030098.c
+ *   0x02030098  the raw allocator            src/matched/GFL_HEAP_AllocMemory.c
  *   0x02030880  provenance stamp             src/matched/GFL_HEAP_StampAllocSite.c
  *   0x02030958  out-of-memory reporter       src/matched/GFL_HEAP_ReportOutOfMemory.c
  *   0x02030A00  watched-allocation hook      src/matched/GFL_HEAP_NotifyAlloc.c
@@ -249,7 +249,7 @@ void GFL_HEAP_DeleteChecked(u32 heapId)
  *
  * Shape notes:
  *
- *  - The raw allocator sub_02030098 reads only r0 and r1, so this call
+ *  - The raw allocator GFL_HEAP_AllocMemory reads only r0 and r1, so this call
  *    forwards only heapId and size; r2 and r3 arriving unchanged from
  *    this function's own prologue are leftovers, the shape of
  *    docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md.
@@ -281,7 +281,7 @@ void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag)
 {
     void *block;
 
-    block = sub_02030098(heapId, size);
+    block = GFL_HEAP_AllocMemory(heapId, size);
     if (block == 0) {
         GFL_HEAP_GetLastError();
         GFL_HEAP_ReportOutOfMemory(heapId, size, site, tag);
@@ -332,14 +332,14 @@ void GFL_HEAP_InitAllocatorChecked(void *block, u32 heapId, s32 newSize)
 
 /*
  * BLOCKED on one relocation site: all 80 concrete bytes are correct, but
- * the call to sub_020302A4 at +0004 has no witness, that call being
+ * the call to GFL_HEAP_ResizeMemory at +0004 has no witness, that call being
  * 0x020302A4's only branch reference in the image. 0x020302A4 is written
- * and byte-correct in src/pending/sub_020302A4.c but is itself capped at
+ * and byte-correct in src/pending/GFL_HEAP_ResizeMemory.c but is itself capped at
  * MATCH on sub_02060CD0, so the chain is
  * 0x02060CD0 -> 0x020302A4 -> this function: one EXACT entry for
  * 0x02060CD0 promotes all three.
  *
- * A heap-state assertion, guarded on the result of sub_020302A4 and then
+ * A heap-state assertion, guarded on the result of GFL_HEAP_ResizeMemory and then
  * dispatched on the heap-layer state word returned by sub_02030524.
  *
  *   void GFL_HEAP_CheckAllocator(void *p, u32 size)
@@ -365,7 +365,7 @@ void GFL_HEAP_InitAllocatorChecked(void *block, u32 heapId, s32 newSize)
  */
 void GFL_HEAP_CheckAllocator(void *block, u32 size)
 {
-    if (sub_020302A4(block, size) != 0) {
+    if (GFL_HEAP_ResizeMemory(block, size) != 0) {
         return;
     }
     switch (GFL_HEAP_GetLastError()) {
@@ -388,7 +388,7 @@ void GFL_HEAP_CheckAllocator(void *block, u32 size)
 }
 
 /*
- * Asserting wrapper around sub_02030344: forwards its single argument,
+ * Asserting wrapper around GFL_HEAP_GetTotalFreeSize: forwards its single argument,
  * terminates if the result is NULL, and hands the result back either way.
  *
  *   void *GFL_HEAP_GetHeapHead(u32 heapId)
@@ -406,7 +406,7 @@ void *GFL_HEAP_GetHeapHead(u32 heapId)
 {
     void *heapHead;
 
-    heapHead = sub_02030344(heapId);
+    heapHead = GFL_HEAP_GetTotalFreeSize(heapId);
     if (heapHead == 0) {
         OS_Terminate();
     }
@@ -414,12 +414,12 @@ void *GFL_HEAP_GetHeapHead(u32 heapId)
 }
 
 /*
- * Promoted from MATCH with no change to the C. The call to sub_020304CC at
+ * Promoted from MATCH with no change to the C. The call to GFL_HEAP_IsHeapValid at
  * +0004 was the one unresolved site: 0x020304CC's only branch reference in
  * the image is this call, so no `label` witness exists. It closed when
- * src/matched/sub_020304CC.c landed EXACT, which makes the site `matched`.
+ * src/matched/GFL_HEAP_IsHeapValid.c landed EXACT, which makes the site `matched`.
  *
- * Asserting wrapper around sub_020304CC, the same shape as GFL_HEAP_GetHeapHead
+ * Asserting wrapper around GFL_HEAP_IsHeapValid, the same shape as GFL_HEAP_GetHeapHead
  * but with the assertion itself gated on the heap-layer state word.
  *
  *   void *GFL_HEAP_GetHeapHeadChecked(u32 heapId)
@@ -442,7 +442,7 @@ void *GFL_HEAP_GetHeapHeadChecked(u32 heapId)
     void *heapHead;
     u32 errorPolicy;
 
-    heapHead = (void *)sub_020304CC(heapId);
+    heapHead = (void *)GFL_HEAP_IsHeapValid(heapId);
     if (heapHead == 0) {
         errorPolicy = GFL_HEAP_GetLastError();
         if (errorPolicy != 1 && errorPolicy != 2 && errorPolicy == 3) {
@@ -459,7 +459,7 @@ void *GFL_HEAP_GetHeapHeadChecked(u32 heapId)
  *
  *   void GFL_HEAP_StampAllocSite(void *p, const char *site, u16 tag)
  *
- * sub_020304C0 (already EXACT) converts the payload pointer into
+ * GFL_HEAP_GetBlockName (already EXACT) converts the payload pointer into
  * `&((char *)p - 0x1c)[4]`, so the provenance record lives at header+4 and
  * is 0x14 bytes wide: an 0x12-byte name field followed by the u16 tag at
  * +0x12. The copy is a bounded strncpy-shaped loop that stops on the NUL
@@ -480,7 +480,7 @@ void GFL_HEAP_StampAllocSite(void *payload, const char *site, u16 tag)
     struct HeapBlockSite *record;
     int i;
 
-    record = (struct HeapBlockSite *)sub_020304C0(payload);
+    record = (struct HeapBlockSite *)GFL_HEAP_GetBlockName(payload);
     for (i = 0; i < 0x12; i++) {
         char c = site[i];
         record->name[i] = c;
@@ -571,7 +571,7 @@ int GFL_HEAP_ReadAllocSiteName(u8 *nameBuf, const char *blockName)
  * is therefore wider than the real callee and should be narrowed to one
  * when that file is revisited.
  *
- * Body: sub_02030428 maps the public heap id to the heap's arena handle
+ * Body: GFL_HEAP_GetHeapHandle maps the public heap id to the heap's arena handle
  * (it masks the id, range-checks it against the count at +8 of the heap
  * table, records an error code at +0xe on failure and otherwise tail-calls
  * GFL_HEAP_GetHeap), that handle is then walked by sub_02060E6C and dumped by
@@ -587,7 +587,7 @@ void GFL_HEAP_ReportOutOfMemory(u32 heapId, u32 size, const char *site, int tag)
 {
     void *arena;
 
-    arena = sub_02030428(heapId);
+    arena = GFL_HEAP_GetHeapHandle(heapId);
     NNSi_FndGetListTotalSize(arena);
     NNSi_FndGetListAllocatableSize(arena, 4);
     GFL_HEAP_DumpReport(heapId);
@@ -604,14 +604,14 @@ void GFL_HEAP_ReportOutOfMemory(u32 heapId, u32 size, const char *site, int tag)
  *
  * Three things happen, and two of them discard their results, which is
  * what a stripped diagnostic looks like: the calls survive for their side
- * effects (sub_0203046C records an error code in the heap table at +0xe)
+ * effects (GFL_HEAP_GetAllocCountById records an error code in the heap table at +0xe)
  * and for the bounds checking they perform, while the value each computes
  * is dropped.
  *
- *  - sub_020304C0(p) is the provenance record stamped by GFL_HEAP_StampAllocSite,
+ *  - GFL_HEAP_GetBlockName(p) is the provenance record stamped by GFL_HEAP_StampAllocSite,
  *    i.e. header+4. It is live across two calls and so costs r4.
- *  - sub_020304B8(p) is a plain `ldrh [p, #-0x1c]`: the heap id stored in
- *    the first halfword of the block header. It feeds sub_0203046C, the
+ *  - GFL_HEAP_GetBlockHeapId(p) is a plain `ldrh [p, #-0x1c]`: the heap id stored in
+ *    the first halfword of the block header. It feeds GFL_HEAP_GetAllocCountById, the
  *    id-to-arena mapper, whose result is dropped.
  *  - GFL_HEAP_ReadAllocSiteName copies the provenance name into a 0x13-byte stack
  *    buffer and validates it (all bytes printable 0x20..0x7e, and a '.'
@@ -628,8 +628,8 @@ void GFL_HEAP_AuditAlloc(void *payload, u32 size)
     u8 nameBuf[0x13];
     void *siteRecord;
 
-    siteRecord = sub_020304C0(payload);
-    sub_0203046C(sub_020304B8(payload));
+    siteRecord = GFL_HEAP_GetBlockName(payload);
+    GFL_HEAP_GetAllocCountById(GFL_HEAP_GetBlockHeapId(payload));
     GFL_HEAP_ReadAllocSiteName(nameBuf, (const char *)siteRecord);
 }
 
@@ -642,10 +642,10 @@ void GFL_HEAP_AuditAlloc(void *payload, u32 size)
  *
  * The difference from GFL_HEAP_AuditAlloc is that the block's heap id is needed
  * twice here, so it is bound to a local and costs r4, while in
- * GFL_HEAP_AuditAlloc it flows straight from sub_020304B8 into sub_0203046C and
+ * GFL_HEAP_AuditAlloc it flows straight from GFL_HEAP_GetBlockHeapId into GFL_HEAP_GetAllocCountById and
  * costs nothing. sub_02060F90 is handed the header address (p - 0x1c), the
- * same address sub_02030098 got back from the expanded-heap allocator, and
- * sub_02030344 then dumps the heap the id names.
+ * same address GFL_HEAP_AllocMemory got back from the expanded-heap allocator, and
+ * GFL_HEAP_GetTotalFreeSize then dumps the heap the id names.
  *
  * The 0x13-byte scratch buffer is declared first, which is what puts it at
  * sp + 0; the stack frame is rounded to 0x14.
@@ -660,12 +660,12 @@ void GFL_HEAP_AuditFree(void *payload)
     void *siteRecord;
     u32 heapId;
 
-    siteRecord = sub_020304C0(payload);
-    heapId = sub_020304B8(payload);
-    sub_0203046C(heapId);
+    siteRecord = GFL_HEAP_GetBlockName(payload);
+    heapId = GFL_HEAP_GetBlockHeapId(payload);
+    GFL_HEAP_GetAllocCountById(heapId);
     GFL_HEAP_ReadAllocSiteName(nameBuf, (const char *)siteRecord);
     NNSi_FndGetMBlockSize((char *)payload - 0x1c);
-    sub_02030344(heapId);
+    GFL_HEAP_GetTotalFreeSize(heapId);
 }
 
 /*
@@ -703,7 +703,7 @@ void GFL_HEAP_NotifyAlloc(u32 heapId, void *payload, u32 size)
  *   void GFL_HEAP_NotifyFree(void *p)
  *
  * The heap id is not a parameter here, it is read back out of the block's
- * own header by sub_020304B8, which is why the call is scheduled before
+ * own header by GFL_HEAP_GetBlockHeapId, which is why the call is scheduled before
  * the global is even loaded: its result has to be in r0, and only then can
  * the conditional-compare pair `cmp r1, #0` / `cmpge r0, r1` fold the two
  * conjuncts. The source order of the conjuncts is still watch-id-first,
@@ -717,7 +717,7 @@ void GFL_HEAP_NotifyFree(void *payload)
 {
     u32 heapId;
 
-    heapId = sub_020304B8(payload);
+    heapId = GFL_HEAP_GetBlockHeapId(payload);
     if (gWatchedHeapId >= 0 && heapId == (u32)gWatchedHeapId) {
         GFL_HEAP_AuditFree(payload);
     }
@@ -728,10 +728,10 @@ void GFL_HEAP_NotifyFree(void *payload)
  *
  *   void GFL_HEAP_DumpIfLive(u32 heapId)
  *
- * sub_0203046C returns the heap's +0xc record halfword, which
- * sub_02030098 increments on every successful allocation, so a zero answer
+ * GFL_HEAP_GetAllocCountById returns the heap's +0xc record halfword, which
+ * GFL_HEAP_AllocMemory increments on every successful allocation, so a zero answer
  * means an empty heap and there is nothing to report. Note that the
- * out-of-range answer from sub_0203046C is 0xffff, not zero, so a bad id
+ * out-of-range answer from GFL_HEAP_GetAllocCountById is 0xffff, not zero, so a bad id
  * still reaches sub_02030B50; the range check is left to that call.
  *
  * The id has to survive the first call, which is what spends r4.
@@ -742,7 +742,7 @@ void GFL_HEAP_NotifyFree(void *payload)
  */
 void GFL_HEAP_DumpIfLive(u32 heapId)
 {
-    if (sub_0203046C(heapId) != 0) {
+    if (GFL_HEAP_GetAllocCountById(heapId) != 0) {
         GFL_HEAP_DumpReport(heapId);
     }
 }
@@ -797,7 +797,7 @@ void GFL_HEAP_WalkBlocksCallback(void *block, int *heap, u32 userParam)
 {
     u8 nameBuf[0x14];
     u8 *payload = (u8 *)block + 0x1c;
-    void *siteRecord = sub_020304C0(payload);
+    void *siteRecord = GFL_HEAP_GetBlockName(payload);
     u16 siteTag;
     s32 nameLen;
     s32 padCount;
@@ -866,12 +866,12 @@ void GFL_HEAP_WalkBlocksCallback(void *block, int *heap, u32 userParam)
  */
 void GFL_HEAP_DumpReport(u32 heapId)
 {
-    sub_020303D8(heapId);
-    sub_02030344(heapId);
-    sub_0203038C(heapId);
-    sub_0203046C(heapId);
+    GFL_HEAP_GetHeapSize(heapId);
+    GFL_HEAP_GetTotalFreeSize(heapId);
+    GFL_HEAP_GetAllocatableSize(heapId);
+    GFL_HEAP_GetAllocCountById(heapId);
     MSL_C_LIB_SetTwlFlag(1);
-    NNSi_FndWalkHeapBlocks(sub_02030428(heapId), GFL_HEAP_WalkBlocksCallback, 0);
+    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle(heapId), GFL_HEAP_WalkBlocksCallback, 0);
     MSL_C_LIB_SetTwlFlag(0);
 }
 

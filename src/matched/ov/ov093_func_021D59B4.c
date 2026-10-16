@@ -1,5 +1,5 @@
 /*
- * function: func_021D59B4
+ * function: BTL_POKEPARAM_GetValue
  * address:  0x021D59B4
  * packet:   pkt_ov093_021D59B4
  * region:   ov093
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * lever: the switch value stays in r1 and is the hidden second argument of
- * func_021D58A8; case 17 falls through into case 16.
+ * BTL_POKEPARAM_GetStatRaw; case 17 falls through into case 16.
  *
  * symbols:
  *   BTL_POKEPARAM_RemapStatId  0x021D587C  thumb  ov093
- *   func_021D58A8  0x021D58A8  thumb  ov093
+ *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
  *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *
@@ -28,26 +28,26 @@ typedef unsigned int u32;
 typedef signed char s8;
 
 extern int BTL_POKEPARAM_RemapStatId(void *p, int k);
-extern int func_021D58A8(u8 *, int);
+extern int BTL_POKEPARAM_GetStatRaw(u8 *, int);
 extern unsigned short BTL_CALC_ApplyStatStage(unsigned short a, int i);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 
-int func_021D59B4(u8 *p, int k)
+int BTL_POKEPARAM_GetValue(u8 *p, int k)
 {
     int v = BTL_POKEPARAM_RemapStatId(p, k);
 
     switch (v) {
     case 8:
-        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFC);
+        return BTL_CALC_ApplyStatStage(BTL_POKEPARAM_GetStatRaw(p, v), *(u8 *)&((struct Obj00041 *)p)->fFC);
     case 9:
-        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFD);
+        return BTL_CALC_ApplyStatStage(BTL_POKEPARAM_GetStatRaw(p, v), *(u8 *)&((struct Obj00041 *)p)->fFD);
     case 10:
-        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFE);
+        return BTL_CALC_ApplyStatStage(BTL_POKEPARAM_GetStatRaw(p, v), *(u8 *)&((struct Obj00041 *)p)->fFE);
     case 11:
-        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFF);
+        return BTL_CALC_ApplyStatStage(BTL_POKEPARAM_GetStatRaw(p, v), *(u8 *)&((struct Obj00041 *)p)->fFF);
     case 12:
-        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), ((struct Obj00041 *)p)->f100);
+        return BTL_CALC_ApplyStatStage(BTL_POKEPARAM_GetStatRaw(p, v), ((struct Obj00041 *)p)->f100);
     case 1:
         return ((struct Obj00041 *)p)->fFC;
     case 2:

@@ -114,6 +114,7 @@
  *   NNSi_G2dRendererDrawMultiCellTransformed  0x02066080  arm
  *   NNSi_G2dReserveOamManagerSpan  0x02063138  arm
  *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
+ *   NNSi_G2dSetRndCoreImageProxyVeneer  0x02066748  arm
  */
 
 #define CONV(d, v) do { s32 _t = (s16)(v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
@@ -588,7 +589,7 @@ extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, 
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern void NNSi_G2dInitVramHandle(u32 *p);
 extern void NNSi_G2dInitVramHandleEx(u32 *p);
-extern void func_02066748(int *a0, int a1, int a2);
+extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2);
 extern void NNS_G2dBeginRendering(struct Renderer *obj);
 extern void NNS_G2dEndRendering();
 extern void NNS_G2dSetRndCoreAffineOverwriteMode(struct Renderer *p, u32 mode);
@@ -4640,14 +4641,14 @@ void CLACT_ClearActor(struct Actor *actor)
  * six can be witnessed and no cut frees any of them.  Four of the six are
  * now closed and the file is at 4 of 6 relocation sites resolved:
  *
- *   func_02066748  0x02066748   12 bytes  -- veneer, resolves `veneer`
+ *   NNSi_G2dSetRndCoreImageProxyVeneer  0x02066748   12 bytes  -- veneer, resolves `veneer`
  *   NNS_G2dBeginRendering  0x02065BD0  168 bytes  -- OPEN, docs/notes/NNS_G2dBeginRendering.c.txt
  *   CLACT_SetupActorDraw  0x0204CBB0  188 bytes  -- closed, resolves `matched`
  *   CLACT_SetOamOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
  *   CLACT_ApplyActorTransform  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
  *   NNS_G2dEndRendering  0x02065C78  108 bytes  -- closed, resolves `matched`
  *
- * func_02066748 is not decompilable and never will be.  It is a twelve-byte
+ * NNSi_G2dSetRndCoreImageProxyVeneer is not decompilable and never will be.  It is a twelve-byte
  * ARM linker veneer, `ldr ip, [pc]; bx ip; .word 0x02067AA0`, and the
  * `veneer` attestation class used to refuse it because 0x02067AA0 was an
  * unlabelled three-instruction leaf (`str r1, [r0, #8]; str r2, [r0, #0xc];
@@ -4681,7 +4682,7 @@ void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
     if (actor->enabled == 0)
         return;
 
-    func_02066748((int *)renderer, (int)&actor->image, (int)&actor->palette);
+    NNSi_G2dSetRndCoreImageProxyVeneer((int *)renderer, (int)&actor->image, (int)&actor->palette);
     NNS_G2dBeginRendering(renderer);
     CLACT_SetupActorDraw(actor, renderer);
     CLACT_SetOamOffsets((u32)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);

@@ -12,7 +12,7 @@
  *   BTL_SERVER_FLOW_GetFrontPosOfPoke 0x021C7D00 thumb ov093
  *   BTL_SERVER_FLOW_CollectAlivePokeIds 0x021C7F68 thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   func_021DA2D0 0x021DA2D0 thumb ov093
  *   func_021DA2E0 0x021DA2E0 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
@@ -34,7 +34,7 @@ extern int BTL_EVENT_GetVar(int);
 extern u16 BTL_SERVER_FLOW_GetFrontPosOfPoke(void *, int);
 extern u8 BTL_SERVER_FLOW_CollectAlivePokeIds(int *p, int b, u8 *out);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int func_021DA2D0(u16);
 extern int func_021DA2E0(u16);
 extern u32 BTL_CALC_Random(u32);
@@ -69,12 +69,12 @@ void HAND_TOKUSEI_TraceOnMemberIn(int a, void *b, int c, int *d)
         mask = BTL_SERVER_FLOW_GetFrontPosOfPoke(b, c);
         n = BTL_SERVER_FLOW_CollectAlivePokeIds(b, (u16)(mask | 0x100), buf);
         for (count = 0, i = 0; i < n; i++) {
-            if (!func_021DA2D0((u16)func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(b, buf[i]), 16))) selected[count++] = buf[i];
+            if (!func_021DA2D0((u16)BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(b, buf[i]), 16))) selected[count++] = buf[i];
         }
         if (count != 0) {
             choice = count == 1 ? 0 : BTL_CALC_Random(count);
             q = BTL_SERVER_FLOW_GetPokeParam(b, selected[choice]);
-            move = func_021D59B4(q, 16);
+            move = BTL_POKEPARAM_GetValue(q, 16);
             chosen = BTL_POKEPARAM_GetPokeId(q);
         } else {
             *d = 1;
@@ -83,7 +83,7 @@ void HAND_TOKUSEI_TraceOnMemberIn(int a, void *b, int c, int *d)
         slot = BTL_SERVER_FLOW_GetPokeViewPos(b, active);
         mask = BTL_SERVER_FLOW_GetFrontPosOfPoke(b, c);
         if (slot != 6 && (BTL_SERVER_FLOW_GetRule(b) != 2 || BTL_MAIN_IsPosInTable(mask, slot))) {
-            candidate = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(b, active), 16);
+            candidate = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(b, active), 16);
             if (!func_021DA2E0((u16)candidate)) { move = candidate; chosen = active; }
         }
     }

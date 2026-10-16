@@ -1,5 +1,5 @@
 /*
- * function: func_02183B60
+ * function: MICTEST_Create
  * address: 0x02183B60
  * packet: pkt_ov168_02183B60
  * region: ov168
@@ -13,22 +13,22 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02183ED4 0x02183ED4 thumb ov168
- *   func_02183F30 0x02183F30 thumb ov168
+ *   MICTEST_ResetDisplay 0x02183ED4 thumb ov168
+ *   MICTEST_SetupVramBanks 0x02183F30 thumb ov168
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_020056A0 0x020056A0 thumb
- *   func_0218414C 0x0218414C thumb ov168
- *   func_021841F8 0x021841F8 thumb ov168
- *   func_021842BC 0x021842BC thumb ov168
- *   func_02183F6C 0x02183F6C thumb ov168
- *   func_02183FC4 0x02183FC4 thumb ov168
- *   func_02184398 0x02184398 thumb ov168
- *   func_02183D0C 0x02183D0C thumb ov168
- *   func_02183F40 0x02183F40 thumb ov168
- *   func_021844C8 0x021844C8 thumb ov168
- *   func_02183D4C 0x02183D4C thumb ov168
+ *   MICTEST_InitBg 0x0218414C thumb ov168
+ *   MICTEST_InitBgTiles 0x021841F8 thumb ov168
+ *   MICTEST_CreateWindows 0x021842BC thumb ov168
+ *   MICTEST_InitActorSystem 0x02183F6C thumb ov168
+ *   MICTEST_CreateActors 0x02183FC4 thumb ov168
+ *   MICTEST_InitMic 0x02184398 thumb ov168
+ *   MICTEST_InitStepMachine 0x02183D0C thumb ov168
+ *   MICTEST_VBlank 0x02183F40 thumb ov168
+ *   MICTEST_OnMicEvent 0x021844C8 thumb ov168
+ *   MICTEST_StepWipeIn 0x02183D4C thumb ov168
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_02184A20 0x02184A20 data a4
  */
@@ -42,26 +42,26 @@ extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Proc;
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_02183ED4(int);
-extern void func_02183F30(void);
+extern void MICTEST_ResetDisplay(int);
+extern void MICTEST_SetupVramBanks(void);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 struct Ctx;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_020056A0(u32,u32,u32);
-extern void func_0218414C(char *,int);
-extern void func_021841F8(void *,int);
-extern void func_021842BC(void **,int);
-extern void func_02183F6C(int,u32);
-extern void func_02183FC4(char *,u16);
-extern void func_02184398(u8 *p, int heap, u32 b, u32 c);
-extern void func_02183D0C(int *,int,int);
-extern void func_02183F40(void *unused, char *p);
-extern void func_021844C8(int event, char *p);
-extern void func_02183D4C(int a, int *state);
+extern void MICTEST_InitBg(char *,int);
+extern void MICTEST_InitBgTiles(void *,int);
+extern void MICTEST_CreateWindows(void **,int);
+extern void MICTEST_InitActorSystem(int,u32);
+extern void MICTEST_CreateActors(char *,u16);
+extern void MICTEST_InitMic(u8 *p, int heap, u32 b, u32 c);
+extern void MICTEST_InitStepMachine(int *,int,int);
+extern void MICTEST_VBlank(void *unused, char *p);
+extern void MICTEST_OnMicEvent(int event, char *p);
+extern void MICTEST_StepWipeIn(int a, int *state);
 extern void GFL_USE_FadeOutBgm(u32 a);
 enum Result {DONE=1};
-enum Result func_02183B60(void *obj)
+enum Result MICTEST_Create(void *obj)
 {
     u8 *p;
     Size size;
@@ -71,18 +71,18 @@ enum Result func_02183B60(void *obj)
     p=PROCSYS_AllocProcWork(obj,size,73);
     MI_CpuFill8(p,0,size);
     ((struct Obj02210 *)((unsigned)p))->f14C=73;
-    func_02183ED4(73);
-    func_02183F30();
+    MICTEST_ResetDisplay(73);
+    MICTEST_SetupVramBanks();
     ((struct Obj02210 *)p)->f140=func_02030734((u16)((struct Obj02210 *)((unsigned)p))->f14C,func_02030CB0(5),0,d_02184A20,0x21d);
     ((struct Obj02210 *)((unsigned)p))->f144=func_02030CBC(5,((struct Obj02210 *)p)->f140);
-    ((struct Obj02210 *)((unsigned)p))->f148=func_020056A0((u32)func_02183F40,(u32)p,1);
-    func_0218414C((char *)p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
-    func_021841F8(p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
-    func_021842BC((void **)(p+0xe4),((struct Obj02210 *)((unsigned)p))->f14C);
-    func_02183F6C((int)p,*(u32 *)&((struct Obj02210 *)((unsigned)p))->f14C);
-    func_02183FC4((char *)p,((struct Obj02210 *)((unsigned)p))->f14C);
-    func_02184398((u8 *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)func_021844C8,(int)p);
-    func_02183D0C((int *)((unsigned)p+0x130),(int)p,(int)func_02183D4C);
+    ((struct Obj02210 *)((unsigned)p))->f148=func_020056A0((u32)MICTEST_VBlank,(u32)p,1);
+    MICTEST_InitBg((char *)p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
+    MICTEST_InitBgTiles(p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
+    MICTEST_CreateWindows((void **)(p+0xe4),((struct Obj02210 *)((unsigned)p))->f14C);
+    MICTEST_InitActorSystem((int)p,*(u32 *)&((struct Obj02210 *)((unsigned)p))->f14C);
+    MICTEST_CreateActors((char *)p,((struct Obj02210 *)((unsigned)p))->f14C);
+    MICTEST_InitMic((u8 *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)MICTEST_OnMicEvent,(int)p);
+    MICTEST_InitStepMachine((int *)((unsigned)p+0x130),(int)p,(int)MICTEST_StepWipeIn);
     GFL_USE_FadeOutBgm(10);
     return result;
 }

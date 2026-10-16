@@ -37,7 +37,7 @@
  *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
  *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
  *   BTL_CLIENT_IsMoveSelectionBlocked 0x021CF5B0 thumb ov093
- *   func_021EAF78 0x021EAF78 thumb ov093
+ *   BTLV_SCU_SetMessageParam 0x021EAF78 thumb ov093
  *   BTL_CLIENT_ShowMessage 0x021CE3B4 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_ACTION_GetFightMove 0x021D8340 thumb ov093
@@ -76,7 +76,7 @@ struct Unk021D82FC;
 extern u32 BTL_ACTION_GetFightSlotFlag(struct Unk021D82FC *p);
 extern u8 BTL_POKEPARAM_FindMoveSlot(struct UtilWork *p, u16 id);
 extern int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out);
-extern void func_021EAF78(u8 *, u8);
+extern void BTLV_SCU_SetMessageParam(u8 *, u8);
 extern void BTL_CLIENT_ShowMessage(u8 *p, void *q);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern u32 BTL_ACTION_GetFightMove(u32 *);
@@ -142,7 +142,7 @@ int BTL_CLIENT_StepSelectMove(u8 *p, u32 *state)
                     }
                 }
                 if (BTL_CLIENT_IsMoveSelectionBlocked(p, m, (u16)((Record *)record)->id, p + 0x58)) {
-                    func_021EAF78(p + 0x58, 0xff);
+                    BTLV_SCU_SetMessageParam(p + 0x58, 0xff);
                     BTL_CLIENT_ShowMessage(p, p + 0x58);
                     *state = 7;
                 } else {

@@ -180,9 +180,9 @@
  *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201BC3C 0x0201BC3C thumb
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -255,7 +255,7 @@ extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void),POKE_TOOL_GetIconCellArcId(void),POKE_TOOL_GetIconCellEntryId(void);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -381,8 +381,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         Req r;
         hf=(heap&0x7fff)|0x8000;
         h=func_020490F4(7,hf);
-        *(int *)(p+0x2c)=CLACT_RegisterPaletteCompressed(h,func_0201BC3C(),0,0x80,hf);
-        *(int *)(p+0x34)=CLACT_RegisterCellAnim(h,func_0201BC40(),func_0201BCB4(),(u16)hf);
+        *(int *)(p+0x2c)=CLACT_RegisterPaletteCompressed(h,POKE_TOOL_GetIconPaletteArcId(),0,0x80,hf);
+        *(int *)(p+0x34)=CLACT_RegisterCellAnim(h,POKE_TOOL_GetIconCellArcId(),POKE_TOOL_GetIconCellEntryId(),(u16)hf);
         *(int *)(p+0x30)=CLACT_RegisterCharacter(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
         ARC_TOOL_DeleteHandle(h);
         MI_CpuFill8(&r,0,8);

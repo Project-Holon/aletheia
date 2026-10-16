@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BA890
+ * function: ZUKAN_INFO_CreateWindows
  * address: 0x021BA890
  * packet: pkt_ov206_021BA890
  * region: ov206
@@ -29,7 +29,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-void func_021BA890(char *p)
+void ZUKAN_INFO_CreateWindows(char *p)
 {
     struct Tab16 tab;
     int out;

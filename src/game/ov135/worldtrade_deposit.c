@@ -59,7 +59,7 @@
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   MIi_CpuCopyFast  0x02082B0C  arm
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WORLDTRADE_INPUT_MenuCreate 0x021F9890 thumb ov135
@@ -133,7 +133,7 @@
  *   WORLDTRADE_DEPOSIT_GetLevelBracket 0x021F882C thumb ov135
  *   WORLDTRADE_OpenTaskMenuYesNoDefault  0x021F4BE0  thumb  ov135
  *   WORLDTRADE_BOX_ClampSlot 0x021F6B34 thumb ov135
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  *   WORDSET_CopyString  0x0201F41C  thumb  arm9
  */
@@ -143,8 +143,6 @@ struct Src;
 
 typedef struct { void *a,*b,*obj,*d,*e,*f,*g,*h,*i; u32 j,k,l; } Init;
 
-typedef struct { u16 x,y,z; u8 a,b; } Pos_021F7374;
-
 typedef struct {
     u32 id;
     union {
@@ -153,7 +151,8 @@ typedef struct {
     };
 } TableRow;
 
-typedef struct { u32 w[4]; u16 count, rows; u32 rest[8]; } BoxMenu_021F7374;
+/* Menu-list source descriptor handed to BMP_MENULIST_Create as `struct Src`. */
+typedef struct { u32 ptrs[4]; u16 count, rows; u32 extra[8]; } MenuSrc;
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -191,7 +190,7 @@ extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate_021F4580 *tmpl, u32 type);
+extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 extern void BG_SYS_ClearSlot(u32 i);
 
@@ -251,7 +250,7 @@ extern u32 BMP_MENUWORK_Delete(void *p);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 
@@ -319,7 +318,7 @@ extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out)
 
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k);
 
@@ -467,13 +466,13 @@ int WORLDTRADE_DEPOSIT_GetConditionIndex(int key, int val, int which);
 
 extern void (*g_02203BBC[])(u8 *);
 
-extern struct BgTemplate_021F4580 g_02202F64;
+extern struct BgTemplate g_02202F64;
 
-extern struct BgTemplate_021F4580 g_02202F84;
+extern struct BgTemplate g_02202F84;
 
-extern struct BgTemplate_021F4580 g_02202F44;
+extern struct BgTemplate g_02202F44;
 
-extern struct BgTemplate_021F4580 g_02202FA4;
+extern struct BgTemplate g_02202FA4;
 
 extern const u16 tbl_02202EC0[][2];
 
@@ -485,7 +484,7 @@ extern const int tbl_0220307C[];
 
 extern const u16 tbl_02203B84[];
 
-extern const BoxMenu_021F7374 d_02202ED8;
+extern const MenuSrc d_02202ED8;
 
 extern const TableRow tbl_0220301C[12];
 
@@ -573,25 +572,25 @@ void WORLDTRADE_DEPOSIT_PrintMessage(Work *p, u32 b, u32 c, u32 d, u32 e)
 void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
 {
     {
-        struct BgTemplate_021F4580 t = g_02202F64;
+        struct BgTemplate t = g_02202F64;
         BG_SYS_InitBgLayer(0, &t, 0);
     }
     BG_SYS_ClearSlot(0);
     func_02040588(0, 1);
     {
-        struct BgTemplate_021F4580 t = g_02202F84;
+        struct BgTemplate t = g_02202F84;
         BG_SYS_InitBgLayer(1, &t, 0);
     }
     func_02040588(1, 1);
     {
-        struct BgTemplate_021F4580 t = g_02202F44;
+        struct BgTemplate t = g_02202F44;
         BG_SYS_InitBgLayer(2, &t, 0);
     }
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x18, 0);
     BG_SYS_PushTile(2);
     func_02040588(2, 1);
     {
-        struct BgTemplate_021F4580 t = g_02202FA4;
+        struct BgTemplate t = g_02202FA4;
         BG_SYS_InitBgLayer(3, &t, 0);
     }
     BG_SYS_ClearSlot(3);
@@ -654,7 +653,7 @@ void WORLDTRADE_DEPOSIT_DeleteWindows(Work *p) { int i; WORLDTRADE_ADAPTER_Delet
  */
 void WORLDTRADE_DEPOSIT_CreateActors(Work *p)
 {
-    Pos_021F7374 pos;
+    ObjPos pos;
     MI_CpuFill8(&pos,0,8);
     pos.x=0xA0;
     pos.y=0x20;
@@ -1121,10 +1120,10 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
 
     name = STRBUF_Create(0xB, 0x48);
     tmp = STRBUF_Create(0xB, 0x48);
-    func_02017E88(mon, 0x73, (u32)name);
-    form = func_02017E88(mon, 0x6E, 0) + 1;
+    POKE_TOOL_GetBoxValue(mon, 0x73, (u32)name);
+    form = POKE_TOOL_GetBoxValue(mon, 0x6E, 0) + 1;
     gender = POKE_TOOL_CalcBoxLevel(mon);
-    has = func_02017E88(mon, 0xAD, 0);
+    has = POKE_TOOL_GetBoxValue(mon, 0xAD, 0);
     title = func_02045EC0(bank, 0x6E);
     WORDSET_SetSlotNumber(ws, 3, gender, 3, 0, 1);
     place = (void *)WORLDTRADE_ADAPTER_CreateString((u32)ws, (u32)bank, 0x72, 0x48);
@@ -1140,7 +1139,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     if (form != 3 && has != 0) {
         WORLDTRADE_INPUT_PrintStringAlignedLine(win[1], tmp, 0x46, 0, 0, WORLDTRADE_DEPOSIT_GetModeColor(form - 1), g);
     }
-    out->species = func_02017E88(mon, 5, 0);
+    out->species = POKE_TOOL_GetBoxValue(mon, 5, 0);
     out->form = form;
     out->gender = gender;
     STRBUF_Delete(place);
@@ -1194,13 +1193,13 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p)
     u32 species;
 
     if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
-        species = func_02017E88(p->mon, 5, 0);
+        species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeForm(p->mon, 0);
         }
-        MIi_CpuCopyFast(p->mon, dst, func_020173EC());
+        MIi_CpuCopyFast(p->mon, dst, POKE_TOOL_GetPartyParamSize());
     } else {
-        species = func_02017E88(p->mon, 5, 0);
+        species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeBoxForm((int)p->mon, 0);
         }
@@ -1258,14 +1257,14 @@ void *WORLDTRADE_DEPOSIT_CreateSpeciesMenuList(Work *p, void **menu, void *win, 
 {
     int kind;
     int count;
-    BoxMenu_021F7374 src;
+    MenuSrc src;
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     kind = cfg->menuScroll + cfg->menuRow;
     count = WORLDTRADE_DEPOSIT_CreateSpeciesMenu(menu, msg, endmsg, cfg->speciesList, (u32)cfg->speciesFlags, cfg->speciesCount, kind, bag);
     src = d_02202ED8;
     src.count = count;
-    src.w[0] = (u32)*menu;
-    src.w[3] = (u32)win;
+    src.ptrs[0] = (u32)*menu;
+    src.ptrs[3] = (u32)win;
     BMP_MENUWORK_DrawWindow(win, 0, 31, 11);
     return BMP_MENULIST_Create((struct Src *)(&src), p->a[kind], p->b[kind], 0x48);
 }

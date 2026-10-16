@@ -11,7 +11,7 @@
  * evidence: 0217BC44's full ov009 ARM wrapper forwards r0-r3 and
  * three full-word stack arguments to 0217B828; this caller supplies all7.
  * symbols:
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02008510 0x02008510 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 extern void MYSTATUS_Copy(void *, void *);
 extern void *func_02008510(void *, int);
 extern void MI_CpuFill8(void *, u8, u32);
@@ -40,7 +40,7 @@ void WIFI_BSUBWAY_StatusSetMessage(u8 *p, void *save, int id)
     void *str;
     u16 *chars;
     u32 i;
-    MYSTATUS_Copy(func_02012944(save), ((struct Obj04469 *)p)->f218);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus(save), ((struct Obj04469 *)p)->f218);
     str = func_02008510(((struct Obj04469 *)p)->f218, id);
     MI_CpuFill8(p + 0x1f0, 0, 40);
     ((struct Obj04469 *)p)->f214 = id;

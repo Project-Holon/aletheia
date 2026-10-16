@@ -12,7 +12,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   ZUKAN_TOROKU_GRAPHIC_DeleteBg 0x0220B2E0 thumb ov207
  *   ZUKAN_NICKNAME_Delete 0x0220B6E4 thumb ov207
- *   func_021BA2CC 0x021BA2CC thumb ov206
+ *   ZUKAN_INFO_Delete 0x021BA2CC thumb ov206
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -30,7 +30,7 @@ struct Proc;
 extern void func_02030EAC(struct Node *n);
 extern void ZUKAN_TOROKU_GRAPHIC_DeleteBg(u32 *p);
 extern void ZUKAN_NICKNAME_Delete(unsigned *p);
-extern void func_021BA2CC(char *p);
+extern void ZUKAN_INFO_Delete(char *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -45,7 +45,7 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,unsigned *p)
     func_02030EAC((void *)p[10]);
     ZUKAN_TOROKU_GRAPHIC_DeleteBg(p);
     ZUKAN_NICKNAME_Delete((void *)p[9]);
-    func_021BA2CC((void *)p[8]);
+    ZUKAN_INFO_Delete((void *)p[8]);
     PRINTSYS_QUE_Clear((void *)p[3]);
     PRINTSYS_QUE_Delete((void *)p[3]);
     GF_FONT_Delete((void *)p[2]);

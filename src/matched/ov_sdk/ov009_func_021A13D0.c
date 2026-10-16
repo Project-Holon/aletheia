@@ -14,7 +14,7 @@
  * symbols:
  *   ProcessPushKeyList  0x021A0E30  arm  ov009
  *   ProcessPushServer  0x021A12DC  arm  ov009
- *   func_0217EC90  0x0217EC90  arm  ov009
+ *   send  0x0217EC90  arm  ov009
  *   ProcessDeleteServer  0x021A1254  arm  ov009
  *   ProcessMaploop  0x021A10D4  arm  ov009
  *   ProcessPlayerSearch  0x021A0F0C  arm  ov009
@@ -37,7 +37,7 @@ struct SBL;
 struct _SBServerList;
 extern int ProcessPushKeyList(struct SBL *slist, char *buf, int len);
 extern int ProcessPushServer(struct SBL *slist, char *buf, int len);
-extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
+extern int send(int sock, char *buffer, int bufferLen, int flags);
 extern int ProcessDeleteServer(struct _SBServerList *slist, char *buf, int len);
 extern int ProcessMaploop(SBServerList *slist, u8 *buf, int len);
 extern int ProcessPlayerSearch(SBServerList *slist, u8 *buf, int len);
@@ -71,7 +71,7 @@ int ProcessAdHocData(SBServerList *slist)
             ret = ProcessPushServer((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 3:
-            if (func_0217EC90(slist->sock, (char *)slist->inbuffer, msglen, 0) <= 0)
+            if (send(slist->sock, (char *)slist->inbuffer, msglen, 0) <= 0)
                 return 3;
             break;
         case 4:

@@ -203,9 +203,9 @@ struct Sound;
 struct Rec;
 struct Rec3;
 struct S02031140;
-struct Struct_02025CD0;
-struct Struct_02025D1C;
-struct Struct_02025D24;
+struct CursorMove;
+
+
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -443,9 +443,9 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void BG_SYS_ResetSlot(unsigned int, unsigned int, unsigned int);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32, u32, u32, u32, u8, u16);
-extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *);
-extern void CURSOR_MOVE_SetMode(struct Struct_02025D24 *);
+extern struct CursorMove *CURSOR_MOVE_Create(u32, u32, u32, u32, u8, u16);
+extern void CURSOR_MOVE_EnableInput(struct CursorMove *);
+extern void CURSOR_MOVE_SetMode(struct CursorMove *);
 extern u32 CURSOR_MOVE_Delete(void *a0);
 extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
 extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
@@ -2402,9 +2402,9 @@ void B_BAG_MAIN_PlaySe2(char **a, int b)
 
 void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value)
 {
-    *(struct Struct_02025CD0 * *)&((struct BagWork *)p)->cursor = CURSOR_MOVE_Create(d_0220DF9C[index], d_0220DF90[index], (u32)p, (u32)*(void * *)(p + 0x598), (u8)value, ((struct BagMenu *)(*(u8 * *)&((struct BagWork *)p)->itemData))->heapId);
-    CURSOR_MOVE_EnableInput(*(struct Struct_02025D1C * *)&((struct BagWork *)p)->cursor);
-    CURSOR_MOVE_SetMode(*(struct Struct_02025D24 * *)&((struct BagWork *)p)->cursor);
+    *(struct CursorMove * *)&((struct BagWork *)p)->cursor = CURSOR_MOVE_Create(d_0220DF9C[index], d_0220DF90[index], (u32)p, (u32)*(void * *)(p + 0x598), (u8)value, ((struct BagMenu *)(*(u8 * *)&((struct BagWork *)p)->itemData))->heapId);
+    CURSOR_MOVE_EnableInput(*(struct CursorMove * *)&((struct BagWork *)p)->cursor);
+    CURSOR_MOVE_SetMode(*(struct CursorMove * *)&((struct BagWork *)p)->cursor);
     B_BAG_MAIN_LayoutCursor(p, value);
 }
 

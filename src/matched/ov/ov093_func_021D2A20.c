@@ -25,8 +25,8 @@
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   BTLV_CORE_StartViewEffect 0x021EA3B8 thumb ov093
  *   BTLV_CORE_WaitViewEffect 0x021EA3D4 thumb ov093
- *   func_021EAF18 0x021EAF18 thumb ov093
- *   func_021EAF50 0x021EAF50 thumb ov093
+ *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
+ *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
@@ -81,8 +81,8 @@ extern int GFL_USE_IsAnySeBusy(void);
 extern void BTLV_CORE_StartViewEffect(char *ctx, int a, int b);
 extern int BTLV_CORE_WaitViewEffect(void *);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
 extern void GFL_USE_SetBgmPlayerParam(void *);
@@ -158,9 +158,9 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
         if (BTLV_CORE_WaitViewEffect(((struct Obj00268 *)p)->f54)) *state = 6;
         break;
     case 6:
-        func_021EAF18((struct L *)(p + 0x58), 1, 0x3c);
-        func_021EAF50((struct L *)(p + 0x58), (int)id);
-        func_021EAF50((struct L *)(p + 0x58), (int)gExpGainWork.result[0]);
+        BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, 0x3c);
+        BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), (int)id);
+        BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), (int)gExpGainWork.result[0]);
         BTLV_CORE_BuildAndPrintMessage(((struct Obj00268 *)p)->f54, (struct H *)(p + 0x58));
         *state = 7;
         break;

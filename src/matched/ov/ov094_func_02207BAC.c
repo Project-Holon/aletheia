@@ -10,7 +10,7 @@
  * extent: matched ov094_func_02207C94.c and its existing shard cover the
  *   48-byte follower at 02207C94; retain this lead as a single function.
  * symbols:
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   BTLV_GAUGE_StartExpChange 0x02207EA8 thumb ov094
@@ -36,7 +36,7 @@ typedef struct {
     char p74[12];
 } E;
 typedef struct { char pad[0x40]; E e[8]; } O;
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 struct QF;
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
@@ -47,13 +47,13 @@ void BTLV_GAUGE_RefreshForLevelUp(O *o, void *q, int idx)
     int delta;
     u32 next;
     delta = o->e[idx].f58 - o->e[idx].f54;
-    o->e[idx].f48 = func_021D59B4(q, 13);
-    o->e[idx].f4c = func_021D59B4(q, 14);
+    o->e[idx].f48 = BTL_POKEPARAM_GetValue(q, 13);
+    o->e[idx].f4c = BTL_POKEPARAM_GetValue(q, 14);
     o->e[idx].f50 = (int)0x80000000;
     o->e[idx].f68 = 0;
-    o->e[idx].f6c = func_021D59B4(q, 15);
-    next = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 19), func_021D59B4(q, 15) + 1);
-    o->e[idx].f5c = next - POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 19), func_021D59B4(q, 15));
+    o->e[idx].f6c = BTL_POKEPARAM_GetValue(q, 15);
+    next = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), BTL_POKEPARAM_GetValue(q, 19), BTL_POKEPARAM_GetValue(q, 15) + 1);
+    o->e[idx].f5c = next - POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), BTL_POKEPARAM_GetValue(q, 19), BTL_POKEPARAM_GetValue(q, 15));
     o->e[idx].f4 = 0;
     o->e[idx].b2 = 1;
     o->e[idx].f8 = 0;

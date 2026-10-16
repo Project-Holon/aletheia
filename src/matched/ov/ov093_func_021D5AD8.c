@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_POKEPARAM_RemapStatId  0x021D587C  thumb  ov093
- *   func_021D58A8  0x021D58A8  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  */
 #include "../include/Obj00041.h"
 
@@ -20,8 +20,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_POKEPARAM_RemapStatId(void *p, int k);
-extern int func_021D58A8(u8 *p, int k);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetStatRaw(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
 int BTL_POKEPARAM_GetStatForCrit(u8 *p, int k)
 {
@@ -40,6 +40,6 @@ int BTL_POKEPARAM_GetStatForCrit(u8 *p, int k)
         if (((struct Obj00041 *)p)->fFF > 6) r = 1;
         break;
     }
-    if (r) return func_021D58A8(p, k);
-    return func_021D59B4(p, k);
+    if (r) return BTL_POKEPARAM_GetStatRaw(p, k);
+    return BTL_POKEPARAM_GetValue(p, k);
 }

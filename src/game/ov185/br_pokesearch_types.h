@@ -1,6 +1,12 @@
 #ifndef BR_POKESEARCH_TYPES_H
 #define BR_POKESEARCH_TYPES_H
 
+/* The owner screen object handed to BR_POKESEARCH_CreateWork is the same record
+ * as the ov184 BrDownloadOwner (sidebar, graphic, res, proc, net, zukanSource,
+ * plus the downloadMode field ov185 does not read). It lives in
+ * ../ov184/br_download_types.h so both regions use one definition. */
+#include "../ov184/br_download_types.h"
+
 /* Owner header for the Pokemon search (br_pokesearch) work structures of ov185.
  * The work object is allocated by BR_POKESEARCH_CreateWork (0x58 bytes); the
  * owner is the screen object handed in as the create-work argument. Fields that
@@ -64,21 +70,7 @@ struct BrPokeSearchWork {
     int count;                         /* 0x54 entry count */
 };
 
-/* Owner screen object handed to BR_POKESEARCH_CreateWork. */
-struct BrPokeSearchOwner {
-    void *fade;                        /* 0x00 fade work */
-    int sidebar;                       /* 0x04 sidebar handle */
-    void *graphic;                     /* 0x08 BR graphic system */
-    union {
-        void *res;                     /* 0x0C shared BR resources */
-        int resHandle;
-    } res;
-    union {
-        void *proc;                    /* 0x10 process-system context */
-        int procHandle;
-    } proc;
-    void *net;                         /* 0x14 BR network work */
-    int zukanSource;                   /* 0x18 zukan save source */
-};
+/* Owner screen object handed to BR_POKESEARCH_CreateWork: struct BrDownloadOwner
+ * from ../ov184/br_download_types.h (the shared ov184/ov185 record). */
 
 #endif

@@ -25,7 +25,7 @@ struct PmsiParam;
 struct PmsDraw;
 struct MsgData;
 struct GfFont;
-struct PalAnm;
+struct PalAnmSlot;
 struct PrintQue;
 struct ClactUnit;
 struct AppTaskMenuRes;
@@ -136,7 +136,7 @@ struct MailEditProc {
     /* 0x024 */ struct GfFont *font;
     /* 0x028 */ u8 pad_28[0x0C];
     /* 0x034 */ struct Strbuf *msgBuf;
-    /* 0x038 */ struct PalAnm *palAnm;
+    /* 0x038 */ struct PalAnmSlot *palAnm;
     /* 0x03C */ void (*onKeyInput)(void *);
     /* 0x040 */ void (*onTouchInput)(void *);
     /* 0x044 */ struct BmpWin *win[7];

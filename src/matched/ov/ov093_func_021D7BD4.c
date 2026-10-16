@@ -11,13 +11,13 @@
  *
  * symbols:
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_POKEPARAM_HasType(void *p, int k);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
 int BTL_CALC_GetWeatherDamage(void *p, int k)
 {
@@ -35,7 +35,7 @@ int BTL_CALC_GetWeatherDamage(void *p, int k)
     default:
         return 0;
     }
-    r = func_021D59B4(p, 0xe) / 16;
+    r = BTL_POKEPARAM_GetValue(p, 0xe) / 16;
     if (r == 0) r = 1;
     return r;
 }

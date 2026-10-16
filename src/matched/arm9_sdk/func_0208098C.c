@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0208098C
+ * function: GX_ResetBankForClearImage
  * address:  0x0208098C
  * packet:   pkt_02080978
  * region:   arm9
@@ -16,4 +16,4 @@
 
 typedef unsigned short u16;
 extern int resetBankForX_(u16 *g3bit);
-void func_0208098C(int a0, int a1, int a2, int a3){ resetBankForX_((u16 *)((int)0x2150E58)); }
+void GX_ResetBankForClearImage(int a0, int a1, int a2, int a3){ resetBankForX_((u16 *)((int)0x2150E58)); }

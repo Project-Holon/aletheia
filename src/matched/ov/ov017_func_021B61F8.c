@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_020808F4  0x020808F4  arm
- *   func_020809A0  0x020809A0  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
+ *   GX_ResetBankForSubBG  0x020809A0  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ERROR_SCREEN_LoadBackground  0x021B6298  thumb  ov017
@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern int func_020808F4(void);
-extern int func_020809A0(void);
+extern int GX_ResetBankForBG(void);
+extern int GX_ResetBankForSubBG(void);
 extern void func_0207FDCC(int);
 extern void GX_SetGraphicsMode(int, int, int);
 extern void ERROR_SCREEN_LoadBackground(void);
@@ -37,8 +37,8 @@ void ERROR_SCREEN_Setup(int a)
 {
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
-    func_020808F4();
-    func_020809A0();
+    GX_ResetBankForBG();
+    GX_ResetBankForSubBG();
     func_0207FDCC(4);
     GX_SetGraphicsMode(1, 0, 0);
     R32(0x04000000) = (R32(0x04000000) & 0xFFFFE0FF) | (1 << 9);

@@ -1,5 +1,5 @@
 /*
- * function: func_0218449C
+ * function: MICTEST_GetMicLevel
  * address: 0x0218449C
  * packet: pkt_ov168_0218449C
  * region: ov168
@@ -13,7 +13,7 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef struct { u32 pad0; const u8 *data; int count; } Buf;
-int func_0218449C(Buf *p)
+int MICTEST_GetMicLevel(Buf *p)
 {
     int max = 0;
     int i;

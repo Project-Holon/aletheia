@@ -1,7 +1,7 @@
 /*
  * file:     mic.c
  * unit:     yes
- * function: func_0208B24C, func_0208B2BC, func_0208B3EC, func_0208B424, func_0208B480, func_0208B4B8, func_0208B4C8, func_0208B500, func_0208B528, func_0208B548, func_0208B650, func_0208B75C, func_0208B788, func_0208B798, MICEXi_GetLimitedSamplingCallback
+ * function: MIC_Init, MIC_StartAutoSamplingAsync, MIC_StartAutoSampling, MIC_StopAutoSamplingAsync, MIC_StopAutoSampling, MIC_GetLastSamplingAddress, MIC_StartLimitedSamplingAsync, MIC_StartLimitedSampling, MIC_StopLimitedSampling, MicCommonCallback, MicStartAutoSampling, MicStopAutoSampling, MicGetResultCallback, MicWaitBusy, MICEXi_GetLimitedSamplingCallback
  * address:  0x0208B24C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -120,26 +120,17 @@ extern void MicWaitBusy(void);
 extern void MicGetResultCallback(MICResult result, void *arg);
 extern MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 extern MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg);
-extern MICResult MIC_StartAutoSampling(const MICAutoParam *param);
 extern MICResult MIC_StopAutoSampling(void);
 extern MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 extern MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
 extern MICResult MICEXi_StopLimitedSampling(void);
 extern void func_02152FE4(void);
-void func_0208B24C(void);
-MICResult func_0208B2BC(const MICAutoParam *param, MICCallback callback, void *arg);
-MICResult func_0208B3EC(MICAutoParam *param);
-MICResult func_0208B424(MICCallback callback, void *arg);
-MICResult func_0208B480(void);
-void *func_0208B4B8(void);
-MICResult func_0208B4C8(MICAutoParam *param, MICCallback callback, void *arg);
-MICResult func_0208B500(MICAutoParam *param);
-MICResult func_0208B528(void);
-void func_0208B548(int tag, u32_0208B24C data, BOOL err);
-BOOL func_0208B650(void *buf, u32_0208B24C size, u32_0208B24C span, u8 flags);
-BOOL func_0208B75C(void);
-void func_0208B788(MICResult result, void *arg);
-asm void func_0208B798(void);
+void MIC_Init(void);
+MICResult MIC_StartAutoSampling(MICAutoParam *param);
+void *MIC_GetLastSamplingAddress(void);
+MICResult MIC_StartLimitedSamplingAsync(MICAutoParam *param, MICCallback callback, void *arg);
+MICResult MIC_StartLimitedSampling(MICAutoParam *param);
+MICResult MIC_StopLimitedSampling(void);
 void *MICEXi_GetLimitedSamplingCallback(void);
 extern MicBss mic_bss;
 extern u32_0208B24C g_02152FE4;
@@ -151,7 +142,7 @@ extern u32_0208B24C g_02152FE4;
  *
  * sdk:      MIC_Init (libspi.TWL.HYB.a mic.o)
  */
-void func_0208B24C(void)
+void MIC_Init(void)
 {
     if (mic_bss.micInitialized)
     {
@@ -177,7 +168,7 @@ void func_0208B24C(void)
  * result narrowed again (andne/andeq, then and into r4); an if statement or
  * an unmasked ternary allocates the join differently.
  */
-MICResult func_0208B2BC(const MICAutoParam *param, MICCallback callback, void *arg)
+MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg)
 {
     u32_0208B24C enabled;
     u8 flags;
@@ -245,7 +236,7 @@ MICResult func_0208B2BC(const MICAutoParam *param, MICCallback callback, void *a
  *
  * sdk:      MIC_StartAutoSampling (libspi.TWL.HYB.a mic.o)
  */
-MICResult func_0208B3EC(MICAutoParam *param)
+MICResult MIC_StartAutoSampling(MICAutoParam *param)
 {
     mic_bss.micWork.result = MIC_StartAutoSamplingAsync(param, MicGetResultCallback, NULL);
     if (mic_bss.micWork.result == MIC_RESULT_SUCCESS)
@@ -262,7 +253,7 @@ MICResult func_0208B3EC(MICAutoParam *param)
  *
  * sdk:      MIC_StopAutoSamplingAsync (libspi.TWL.HYB.a mic.o)
  */
-MICResult func_0208B424(MICCallback callback, void *arg)
+MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg)
 {
     u32_0208B24C enabled = OS_DisableInterrupts();
 
@@ -291,7 +282,7 @@ MICResult func_0208B424(MICCallback callback, void *arg)
  *
  * sdk:      MIC_StopAutoSampling (libspi.TWL.HYB.a mic.o)
  */
-MICResult func_0208B480(void)
+MICResult MIC_StopAutoSampling(void)
 {
     mic_bss.micWork.result = MIC_StopAutoSamplingAsync(MicGetResultCallback, NULL);
     if (mic_bss.micWork.result == MIC_RESULT_SUCCESS)
@@ -305,7 +296,7 @@ MICResult func_0208B480(void)
 /*
  * sdk:      MIC_GetLastSamplingAddress (libspi.TWL.HYB.a mic.o)
  */
-void *func_0208B4B8(void)
+void *MIC_GetLastSamplingAddress(void)
 {
     return *(void **)0x02FFFF90;
 }
@@ -314,7 +305,7 @@ void *func_0208B4B8(void)
 /*
  * sdk:      MIC_StartLimitedSamplingAsync (libspi.TWL.HYB.a mic.o)
  */
-MICResult func_0208B4C8(MICAutoParam *param, MICCallback callback, void *arg)
+MICResult MIC_StartLimitedSamplingAsync(MICAutoParam *param, MICCallback callback, void *arg)
 {
     if (OSi_IsCodecTwlMode() == TRUE)
     {
@@ -327,7 +318,7 @@ MICResult func_0208B4C8(MICAutoParam *param, MICCallback callback, void *arg)
 /*
  * sdk:      MIC_StartLimitedSampling (libspi.TWL.HYB.a mic.o)
  */
-MICResult func_0208B500(MICAutoParam *param)
+MICResult MIC_StartLimitedSampling(MICAutoParam *param)
 {
     if (OSi_IsCodecTwlMode() == TRUE)
     {
@@ -340,7 +331,7 @@ MICResult func_0208B500(MICAutoParam *param)
 /*
  * sdk:      MIC_StopLimitedSampling (libspi.TWL.HYB.a mic.o)
  */
-MICResult func_0208B528(void)
+MICResult MIC_StopLimitedSampling(void)
 {
     if (OSi_IsCodecTwlMode() == TRUE)
     {
@@ -357,7 +348,7 @@ MICResult func_0208B528(void)
  * 3-argument PXI FIFO callback. The error path does not return. The
  * switch operand needs the (u16) cast; the plain mask swaps r5 and r6.
  */
-void func_0208B548(int tag, u32_0208B24C data, BOOL err)
+void MicCommonCallback(int tag, u32_0208B24C data, BOOL err)
 {
     MICResult result;
     u16 command;
@@ -420,7 +411,7 @@ void func_0208B548(int tag, u32_0208B24C data, BOOL err)
 /*
  * sdk:      MicStartAutoSampling (libspi.TWL.HYB.a mic.o)
  */
-BOOL func_0208B650(void *buf, u32_0208B24C size, u32_0208B24C span, u8 flags)
+BOOL MicStartAutoSampling(void *buf, u32_0208B24C size, u32_0208B24C span, u8 flags)
 {
     if (PXI_SendWordByFifo(9, 0x02000000 | 0x4100 | flags, 0) < 0) {
         return 0;
@@ -452,7 +443,7 @@ BOOL func_0208B650(void *buf, u32_0208B24C size, u32_0208B24C span, u8 flags)
 /*
  * sdk:      MicStopAutoSampling (libspi.TWL.HYB.a mic.o)
  */
-BOOL func_0208B75C(void)
+BOOL MicStopAutoSampling(void)
 {
     if (PXI_SendWordByFifo(PXI_FIFO_TAG_MIC, MIC_PXI_STOP_AUTO_SAMPLING, FALSE) >= 0)
     {
@@ -465,14 +456,14 @@ BOOL func_0208B75C(void)
 /*
  * sdk:      DWC_Netcheck_SetAllow302 (libdwcauth.TWL.HYB.a dwc_netcheck.o)
  */
-void func_0208B788(MICResult result, void *arg)
+void MicGetResultCallback(MICResult result, void *arg)
 {
     mic_bss.micWork.result = result;
 }
 
 
 /* hand-written in the original: spin-wait on the lock word with the address in ip; mwccarm never picks ip for a leaf load (9 C variants tried) */
-asm void func_0208B798(void)
+asm void MicWaitBusy(void)
 {
     ldr ip, =g_02152FE4
 loc_0208B79C:

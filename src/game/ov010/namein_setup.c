@@ -20,7 +20,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Copy  0x02045838  arm
  *   d_02172A60     0x02172A60  data  ov010  a1
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
@@ -328,7 +328,7 @@ extern void *GAME_DATA_GetSaveControl(GameData *gameData);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Copy(Strbuf *dst, Strbuf *src);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void STRBUF_Delete(Strbuf *s);
 extern void func_020307B0(void *);
 extern void FIELD_CAMERA_ANIME_Setup(void *playerObj);
@@ -523,9 +523,9 @@ NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int max
     args->pokedex = pokedex;
     if (mon) {
         int low;
-        args->species = func_02017E1C(mon, 5, 0);
-        low = func_02017E1C(mon, 0x6f, 0);
-        args->traits = (func_02017E1C(mon, 0x6e, 0) << 8) | low;
+        args->species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        low = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+        args->traits = (POKE_TOOL_GetPartyValue(mon, 0x6e, 0) << 8) | low;
     }
     args->name = STRBUF_Create(0xb, heapId);
     if (initialName)

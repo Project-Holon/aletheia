@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0208B24C 0x0208B24C arm
+ *   MIC_Init 0x0208B24C arm
  *   PM_Init 0x0208B8B0 arm
  *   PM_SetAmp 0x0208BEF0 arm
  *   PM_SetAmpGainLevel 0x0208BF54 arm
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_0208B24C(void);
+extern void MIC_Init(void);
 extern void PM_Init(void);
 extern u32 PM_SetAmp(u32);
 extern u32 PM_SetAmpGainLevel(u8);
@@ -42,7 +42,7 @@ extern void CTVT_MIC_OnVBlank(void);
 void *CTVT_MIC_Create(u32 heap)
 {
     u32 *p = func_02030734(heap, 36, 1, gCtvtMicAllocSite, 87);
-    func_0208B24C();
+    MIC_Init();
     PM_Init();
     PM_SetAmp(1);
     PM_SetAmpGainLevel(80);

@@ -18,7 +18,7 @@
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_02041B6C  0x02041B6C  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   FILE_UTIL_Check136C 0x0202136C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02045EC0  0x02045EC0  arm
@@ -61,7 +61,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
- *   func_0202D01C  0x0202D01C  thumb
+ *   BGWINFRM_ScaleRatio  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
  *   gSpeciesNameBank     0x020A7370  data
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
@@ -70,7 +70,7 @@
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_Clear  0x02043B5C  arm
  *   POKE_REGULATION_CheckPokemon 0x02019DA4 thumb
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   CLACT_GetSurfacePos 0x0204B0C8 arm
  *   POKELIST_IsItemMode  0x021B9A84  thumb
  *   POKELIST_GetMoveLearnStatus  0x021B9AC8  thumb
@@ -106,7 +106,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *actor, unsigned int visible);
 extern void CLACT_AddActorSurfacePos(struct Obj *actor, const PlistPlatePos *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *actor, u16 animation);
 extern void func_02041B6C(u32 bit);
-extern u32 func_02017E1C(void *mon, u32 id, u32 value);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 value);
 extern u32 FILE_UTIL_Check136C(u16 item);
 extern u32 func_020307B0(void *mem);
 extern void *POKEPARTY_GetMember(void *party, u32 idx);
@@ -145,7 +145,7 @@ extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, void *
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padMode, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcLevel(void *mon);
-extern u8 func_0202D01C(u32 a, u32 b, u32 c);
+extern u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c);
 extern void BMP_FillRect(struct Bmp *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -153,7 +153,7 @@ extern void BMP_WIN_SetPosX(struct Descriptor *window, u8 x);
 extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int POKE_REGULATION_CheckPokemon(void *regulation, void *mon);
-extern u8 func_0202D034(u32 a, u32 b);
+extern u8 BGWINFRM_GetScaleRank(u32 a, u32 b);
 extern void CLACT_GetSurfacePos(struct Obj *unit, u32 index, PlistPlatePos *out);
 extern int POKELIST_IsItemMode(PokelistWork *work);
 extern int POKELIST_GetMoveLearnStatus(PokelistWork *work, void *mon, u8 bit);
@@ -220,14 +220,14 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
     plate->isEmpty = 0;
     plate->selected = 0;
     plate->textPending = 0;
-    plate->hp = func_02017E1C(mon, POKE_TOOL_PARAM_HP, 0);
+    plate->hp = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_HP, 0);
     plate->targetHp = plate->hp;
     if (slot != 0) isOther = 1;
     kind = slot != 0;
     tileX = x + 0x10;
     BG_SYS_DrawTileEx(2, (u8)tileX, y, 0x10, 6, (u32)((u8 *)work->paletteData + 0xc),
                  gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 0x20, 0x20);
-    plate->isEgg = func_02017E1C(plate->mon, POKE_TOOL_PARAM_IS_EGG, 0);
+    plate->isEgg = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_IS_EGG, 0);
     surface.areaLeft = 0;
     surface.areaTop = 0;
     surface.areaWidth = 0x100;
@@ -404,8 +404,8 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
         WORDSET_DeleteStrbufED04(wordSet);
     }
     if (isRefresh == 0) {
-        if (func_02017E1C(plate->mon, POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0) == 1) {
-            value = func_02017E1C(plate->mon, POKE_TOOL_PARAM_GENDER, 0);
+        if (POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0) == 1) {
+            value = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_GENDER, 0);
             if (value == 0) {
                 POKELIST_PrintTextMain(work, plate->window, PLIST_PLATE_MSG_GENDER_MALE, 0x69, 9, 0x14c0);
             } else if (value == 1) {
@@ -471,7 +471,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             CLACT_SetActorDrawEnable(plate->hpBarActor, 0);
         } else {
             wordSetB = WORDSET_CreateDefault(work->heapId);
-            WORDSET_SetSlotNumber(wordSetB, 0, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
+            WORDSET_SetSlotNumber(wordSetB, 0, POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             } else {
@@ -493,7 +493,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             }
         }
     }
-    heldItem = func_02017E1C(plate->mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
+    heldItem = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
     if (heldItem != 0) {
         CLACT_SetActorDrawEnable(plate->itemIconActor, 1);
         if (FILE_UTIL_Check136C(heldItem) == 1) {
@@ -533,7 +533,7 @@ void PLIST_PLATE_DrawHpBar(PokelistWork *work, PlistPlate *plate)
     if (work->arg->mode == PLIST_PLATE_MODE_BATTLE_ORDER)
         return;
     hpBarColor = PLIST_PLATE_GetHpBarColor(plate);
-    filledDots = func_0202D01C(plate->hp, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 0x30);
+    filledDots = BGWINFRM_ScaleRatio(plate->hp, POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 0x30);
     bitmap = BMP_WIN_GetBmp(plate->window);
     if (hpBarColor == PLIST_PLATE_HPBAR_GREEN || hpBarColor == PLIST_PLATE_HPBAR_FULL) {
         paletteA = 0xe;
@@ -659,8 +659,8 @@ void PLIST_PLATE_SetMon(PokelistWork *work, PlistPlate *plate, void *mon, int sl
         slideX = -slideX;
     plate->mon = mon;
     plate->textPending = 0;
-    plate->isEgg = func_02017E1C(mon, POKE_TOOL_PARAM_IS_EGG, 0);
-    plate->hp = func_02017E1C(plate->mon, POKE_TOOL_PARAM_HP, 0);
+    plate->isEgg = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_IS_EGG, 0);
+    plate->hp = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_HP, 0);
     plate->targetHp = plate->hp;
     CLACT_DeleteActor(plate->monIconActor);
     CLACT_ReleaseCharacter(plate->iconResource);
@@ -691,7 +691,7 @@ void PLIST_PLATE_RedrawHp(PokelistWork *work, PlistPlate *plate)
 
 void PLIST_PLATE_StartHpAnim(PokelistWork *work, PlistPlate *plate)
 {
-    plate->targetHp = func_02017E1C(plate->mon, POKE_TOOL_PARAM_HP, 0);
+    plate->targetHp = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_HP, 0);
     work->hpStep = (plate->targetHp - plate->hp) / 100;
     if (plate->targetHp > plate->hp)
         work->hpStep = work->hpStep + 1;
@@ -801,16 +801,16 @@ int PLIST_PLATE_CheckSelection(PokelistWork *work, PlistPlate *plate)
         return 1;
     }
     i = 0;
-    species = func_02017E1C(plate->mon, POKE_TOOL_PARAM_SPECIES, 0);
-    heldItem = func_02017E1C(plate->mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
+    species = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_SPECIES, 0);
+    heldItem = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
     rules = work->arg->regulation;
     do {
         u8 order;
         order = work->arg->slotOrder[i];
         if (order >= 1) {
             void *other = (work->plates[order - 1])->mon;
-            int otherSpecies = func_02017E1C(other, POKE_TOOL_PARAM_SPECIES, 0);
-            int otherItem = func_02017E1C(other, POKE_TOOL_PARAM_HELD_ITEM, 0);
+            int otherSpecies = POKE_TOOL_GetPartyValue(other, POKE_TOOL_PARAM_SPECIES, 0);
+            int otherItem = POKE_TOOL_GetPartyValue(other, POKE_TOOL_PARAM_HELD_ITEM, 0);
             if (species == otherSpecies && rules->allowSameSpecies == 0) {
                 return 2;
             }
@@ -828,7 +828,7 @@ int PLIST_PLATE_CheckSelection(PokelistWork *work, PlistPlate *plate)
 
 u8 PLIST_PLATE_GetHpBarColor(PlistPlate *plate)
 {
-    return func_0202D034(plate->hp, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0));
+    return BGWINFRM_GetScaleRank(plate->hp, POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0));
 }
 
 void PLIST_PLATE_GetActorOffset(PlistPlate *plate, int x, int y, PlistPlatePos *out)

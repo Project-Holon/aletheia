@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EAF00  0x021EAF00  thumb  ov093
+ *   BTLV_SCU_PlaySeUnlessMainStep  0x021EAF00  thumb  ov093
  */
 typedef unsigned char u8;
 
-extern void func_021EAF00(u8 *p, int a);
+extern void BTLV_SCU_PlaySeUnlessMainStep(u8 *p, int a);
 
 void BTLV_CORE_PlayEffectivenessSe(u8 *p, int k)
 {
@@ -31,5 +31,5 @@ void BTLV_CORE_PlayEffectivenessSe(u8 *p, int k)
         v = 0x564;
         break;
     }
-    func_021EAF00(p, v);
+    BTLV_SCU_PlaySeUnlessMainStep(p, v);
 }

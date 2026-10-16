@@ -1,5 +1,5 @@
 /*
- * function: func_0208AF18
+ * function: TP_CalcCalibrateParam
  * address:  0x0208AF18
  * packet:   pkt_0208AF18
  * region:   arm9
@@ -67,7 +67,7 @@ static inline long CP_GetDivResult32(void)
     return *(volatile long *)0x040002A0;
 }
 
-u32 func_0208AF18(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1,
+u32 TP_CalcCalibrateParam(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1,
                   u16 raw_x2, u16 raw_y2, u16 dx2, u16 dy2)
 {
     long ry_width;

@@ -16,7 +16,7 @@
  *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
  *   BTL_EVENT_SetVar 0x021D75A8 thumb ov093
  *   BTL_EVENT_SetVarOnce 0x021D7630 thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
+ *   BTL_EVENT_DispatchEventChecked 0x021D70F0 thumb ov093
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_EVENT_PopVarFrame 0x021D7540 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
@@ -36,7 +36,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int, u32);
 extern void BTL_EVENT_SetVar(int, u32);
 extern void BTL_EVENT_SetVarOnce(int, u32);
-extern void func_021D70F0(void *a, int id);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern u32 BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_PopVarFrame(int);
 extern u32 BTL_CALC_Random(u32);
@@ -66,7 +66,7 @@ u32 BTL_SERVER_FLOW_RollMoveAddedSick(u8 *p, u16 id, u8 *a, u8 *b, Word *dest)
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_SetVarOnce(0x1e, out.v);
     BTL_EVENT_SetVar(0x26, rate);
-    func_021D70F0(p, 0x64);
+    BTL_EVENT_DispatchEventChecked(p, 0x64);
     result = BTL_EVENT_GetVar(0x1d);
     rate = BTL_EVENT_GetVar(0x26);
     veto = BTL_EVENT_GetVar(0x41);

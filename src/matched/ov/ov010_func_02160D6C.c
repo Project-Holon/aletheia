@@ -15,7 +15,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
@@ -34,7 +34,7 @@ extern u8 d_02172978[];
 extern void MI_CpuFill8();
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct BigObj;
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
@@ -51,7 +51,7 @@ T *EVENT_FIELD_PROCLINK_CreateZukanParam(int *a0, int a1)
     sys = ICA_ANIME_GetField1C((const struct Ctx *)*(int *)a0[6]);
     p->a = sys;
     p->b = ZUKAN_SAVE_GetFromGameData(sys);
-    p->c = func_02012944(p->a);
+    p->c = GAME_DATA_GetMyStatus(p->a);
     s = GAME_DATA_GetBgmInfo(p->a);
     FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, GAMESYSTEM_GetIssSystem((u32 *)(*(int *)a0[6])));
     if (a1 != -1) {

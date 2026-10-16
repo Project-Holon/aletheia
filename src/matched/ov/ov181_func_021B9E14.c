@@ -26,7 +26,7 @@
  *   BG_SYS_SetLowBit 0x0204044C arm
  *   STAFF_ROLL_InitLights 0x021B9F9C thumb ov181
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   d_021BAB50 0x021BAB50 data a4
  *   d_021BAB38 0x021BAB38 data a4
  *   d_021BAC68 0x021BAC68 data a4
@@ -53,7 +53,7 @@ extern void G3D_CAMERA_Reset(struct Light *);
 extern void BG_SYS_SetLowBit(u32);
 extern void STAFF_ROLL_InitLights(u8 *p);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 extern const struct Setup d_021BAB50;
 extern const struct LightSet d_021BAB38;
 extern const Vec3 d_021BAC68;
@@ -84,5 +84,5 @@ void STAFF_ROLL_Init3d(char *p) {
     BG_SYS_SetLowBit(2);
     STAFF_ROLL_InitLights((u8 *)(p+0x28));
     BG_SYS_SetMainPlaneVisible(1,0);
-    func_0207D658(0x04000050,1,-16);
+    G2x_SetBlendBrightness_(0x04000050,1,-16);
 }

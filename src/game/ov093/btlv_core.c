@@ -117,15 +117,15 @@
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
- *   func_021EAF00  0x021EAF00  thumb  ov093
- *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EAF50  0x021EAF50  thumb  ov093
- *   func_021EAF78  0x021EAF78  thumb  ov093
+ *   BTLV_SCU_PlaySeUnlessMainStep  0x021EAF00  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_AppendMessageArg  0x021EAF50  thumb  ov093
+ *   BTLV_SCU_SetMessageParam  0x021EAF78  thumb  ov093
  *   BTLV_SCU_StartWazaEffect  0x021ED118  thumb  ov093
  *   BTLV_SCU_RunWazaProc  0x021ED1B0  thumb  ov093
  *   BTLV_SCU_IsMonDamageAnimDone  0x021ED250  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTLV_SCD_StartActionMenu  0x06899ED0  thumb
  *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
@@ -375,10 +375,10 @@ extern u32 BTL_CLIENT_IsRemote(struct BtlClient *client);
 extern u16 BTL_CLIENT_GetQueuedCommandWord(struct BtlClient *client);
 extern void BTLV_SCD_ShowCounterScreen(struct BtlvAuxView *auxView, BtlvCounterCmd *cmd);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_021EAF18(struct BtlvMessage *msg, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct BtlvMessage *msg, int kind, int id);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *pokeParam);
-extern void func_021EAF50(struct BtlvMessage *msg, u32 val);
-extern void func_021EAF78(struct BtlvMessage *msg, u8 param);
+extern void BTLV_SCU_AppendMessageArg(struct BtlvMessage *msg, u32 val);
+extern void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param);
 extern void BTLV_SCD_StartActionMenuBackOnly(struct BtlvAuxView *auxView, struct BtlPokeParam *pokeParam, u8 canBack, u32 actionCursor);
 extern int BTLV_SCD_WaitActionMenu(struct BtlvAuxView *auxView);
 extern void BTLV_SCD_StartMoveInfoMenu(struct BtlvAuxView *auxView, struct BtlPokeParam *pokeParam, u32 actionCursor);
@@ -387,11 +387,11 @@ extern int BTLV_SCD_IsInputIdle(struct BtlvAuxView *auxView);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void BTLV_SCU_StartWazaEffect(struct BtlvScu *scu, int viewPosA, int viewPosB, u32 sceneId, u32 argA, int argB, u8 flags);
 extern int BTLV_SCU_RunWazaProc(struct BtlvScu *scu);
-extern int func_021D59B4(struct BtlPokeParam *pokeParam, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *pokeParam, int valueId);
 extern int func_0209C0A4(int a, int b);
 extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b);
 extern void BTLV_EFFECT_StartDamageTintTask(int a, int b);
-extern void func_021EAF00(struct BtlvCore *core, int seId);
+extern void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int seId);
 extern int BTLV_SCU_IsMonDamageAnimDone(struct BtlvScu *scu);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int BTLV_EFFECT_IsBusy(void);
@@ -1411,9 +1411,9 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         if (BTLV_SCU_RunProc(core->sceneUnit)) {
             struct BtlvMessage msg;
             struct BtlPokeParam *pokeParam = BTLV_CORE_GetPokeParamAtViewPos(core, 0);
-            func_021EAF18(&msg, 1, 0x45);
-            func_021EAF50(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
-            func_021EAF78(&msg, 0);
+            BTLV_SCU_InitMessage(&msg, 1, 0x45);
+            BTLV_SCU_AppendMessageArg(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
+            BTLV_SCU_SetMessageParam(&msg, 0);
             BTLV_CORE_BuildAndPrintMessageNow(core, &msg);
             (*state)++;
         }
@@ -1448,9 +1448,9 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         break;
     case 7:
         if (BTLV_SCU_RunWazaProc(core->sceneUnit)) {
-            BTLV_EFFECT_GaugeStartHpChangeAnimated(1, func_0209C0A4(func_021D59B4(BTLV_CORE_GetPokeParamAtViewPos(core, 1), 0xE), 6));
+            BTLV_EFFECT_GaugeStartHpChangeAnimated(1, func_0209C0A4(BTL_POKEPARAM_GetValue(BTLV_CORE_GetPokeParamAtViewPos(core, 1), 0xE), 6));
             BTLV_EFFECT_StartDamageTintTask(1, 1);
-            func_021EAF00(core, 0x564);
+            BTLV_SCU_PlaySeUnlessMainStep(core, 0x564);
             (*state)++;
         }
         break;
@@ -1476,9 +1476,9 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         if (BTLV_CORE_WaitViewEffectDone(core, 0)) {
             struct BtlvMessage msg;
             struct BtlPokeParam *pokeParam = BTLV_CORE_GetPokeParamAtViewPos(core, 0);
-            func_021EAF18(&msg, 2, 0x5D);
-            func_021EAF50(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
-            func_021EAF78(&msg, 0);
+            BTLV_SCU_InitMessage(&msg, 2, 0x5D);
+            BTLV_SCU_AppendMessageArg(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
+            BTLV_SCU_SetMessageParam(&msg, 0);
             BTLV_CORE_BuildAndPrintMessage(core, &msg);
             (*state)++;
         }
@@ -1521,8 +1521,8 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         if (!BTLV_EFFECT_IsBusy()) {
             struct BtlvMessage msg;
             struct BtlPokeParam *pokeParam = BTLV_CORE_GetPokeParamAtViewPos(core, 1);
-            func_021EAF18(&msg, 1, 0x41);
-            func_021EAF50(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
+            BTLV_SCU_InitMessage(&msg, 1, 0x41);
+            BTLV_SCU_AppendMessageArg(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
             BTLV_CORE_BuildAndPrintMessage(core, &msg);
             (*state)++;
         }
@@ -2265,7 +2265,7 @@ void BTLV_CORE_PlayEffectivenessSe(struct BtlvCore *core, int effectiveness)
         seId = 0x564;
         break;
     }
-    func_021EAF00(core, seId);
+    BTLV_SCU_PlaySeUnlessMainStep(core, seId);
 }
 
 
@@ -2725,7 +2725,7 @@ int BTLV_CORE_ProcRotation(int *state, struct BtlvCore *core)
     switch (*state) {
     case 0:
         BTLV_EFFECT_SetPokeSpriteVisible(work->rotateA, work->rotateB);
-        func_021EAF00(core, 0x57b);
+        BTLV_SCU_PlaySeUnlessMainStep(core, 0x57b);
         *state = *state + 1;
         break;
     case 1:

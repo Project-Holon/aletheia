@@ -18,7 +18,7 @@
  *   STA_ACT_AUDIENCE_Delete 0x021FA04C thumb ov132
  *   func_020307B0 0x020307B0 arm
  *   STA_ACT_AUDIENCE_Update 0x021FA064 thumb ov132
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   STA_ACT_AUDIENCE_SetBgScroll 0x021FA57C thumb ov132
  *   BG_SYS_FillScrollArea 0x02040618 arm
@@ -40,7 +40,7 @@
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
 
-extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 
 typedef short s16_021F9E40;
 
@@ -251,7 +251,7 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
     if(rec[1]!=0) rec[1]--;
     if(rec[1]==0) {
         if(rec[0]==255 && ((struct ScriptOwner *)p)->f1FC==255) {
-            ((struct Obj00995 *)rec)->f4=65535;
+            ((struct AudienceRecord *)rec)->value=65535;
             if(rec[6]<2) STA_ACT_AUDIENCE_DrawRecord(p,rec,3);
             else if(rec[6]<4) STA_ACT_AUDIENCE_DrawRecord(p,rec,2);
             else if(rec[6]<6) STA_ACT_AUDIENCE_DrawRecord(p,rec,1);
@@ -261,7 +261,7 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
                 a=STA_ACTING_GetActorSystem(((struct ScriptOwner *)p)->f1E8);
-                STA_ACT_LIGHT_ElemOpA(a,STA_ACTING_GetActor(((struct ScriptOwner *)p)->f1E8,rec[0]),(u32 *)(&v));
+                STA_ACT_LIGHT_CopyActorPos(a,STA_ACTING_GetActor(((struct ScriptOwner *)p)->f1E8,rec[0]),(u32 *)(&v));
             } else {
                 b=STA_ACTING_GetCharSystem(((struct ScriptOwner *)p)->f1E8);
                 STA_ACT_LIGHT_GetElemPos(b,(char *)STA_ACTING_GetCharSlot(((struct ScriptOwner *)p)->f1E8,((struct ScriptOwner *)p)->f1FC),&v);

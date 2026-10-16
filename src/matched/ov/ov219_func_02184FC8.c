@@ -1,5 +1,5 @@
 /*
- * function: func_02184FC8
+ * function: BEACON_DETAIL_SetupMenuList
  * address: 0x02184FC8
  * packet: pkt_ov219_02184FC8
  * region: ov219
@@ -15,7 +15,7 @@
  *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02184EAC 0x02184EAC thumb ov219
+ *   BEACON_DETAIL_OnMessageDone 0x02184EAC thumb ov219
  */
 #include "../include/Obj01013.h"
 typedef unsigned short u16;
@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
-extern void BMP_WIN_TransferChars(struct Descriptor *),func_02184EAC(int,int,int);
-void func_02184FC8(char *p,const struct Src *source,unsigned count)
+extern void BMP_WIN_TransferChars(struct Descriptor *),BEACON_DETAIL_OnMessageDone(int,int,int);
+void BEACON_DETAIL_SetupMenuList(char *p,const struct Src *source,unsigned count)
 {
     struct Src cfg;
     ((struct Obj01013 *)p)->fC078=((struct Obj01013 *)p)->fC018;p[0xc07c]=0;
@@ -35,7 +35,7 @@ void func_02184FC8(char *p,const struct Src *source,unsigned count)
     cfg.w[0]=*(unsigned *)&((struct Obj01013 *)p)->fC050;
     *(u16 *)((char *)&cfg+16)=count;
     cfg.w[3]=*(unsigned *)&((struct Obj01013 *)p)->fC018;
-    cfg.w[1]=(unsigned)func_02184EAC;
+    cfg.w[1]=(unsigned)BEACON_DETAIL_OnMessageDone;
     *(u16 *)((char *)&cfg+32)=12;
     *(u16 *)((char *)&cfg+34)=GF_FONT_GetLineHeight(*(struct Font * *)&((struct Obj01013 *)p)->fC06C);
     cfg.w[10]=(unsigned)(p+0xc078);

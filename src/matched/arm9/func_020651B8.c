@@ -16,7 +16,7 @@
  * actor vtable's +0x40 slot with the selected affine matrix as the stacked
  * fifth argument, the PART 2 matrix selection of
  * docs/families/cluster_02064B68.h.  The overrides: a palette remap through
- * func_02066740 / NNSi_G2dGetVramHandle (the actor's +0x78 u16 table indexed by the
+ * NNSi_G2dGetCurrentInstanceVramHandle / NNSi_G2dGetVramHandle (the actor's +0x78 u16 table indexed by the
  * current colour parameter), then, keyed by the actor's +0x84 mask, bit 1
  * priority = +0x88, bit 2 colour parameter = +0x8a, bit 0x10 colour
  * parameter += +0x94, bit 4 mosaic = (+0x90 != 0), bit 8 OBJ mode = +0x8c
@@ -42,7 +42,7 @@
  *   g_02147B88     0x02147B88  data  a4
  *   g_02147D18     0x02147D18  data  a4
  *   g_020A81F8     0x020A81F8  data  a4
- *   func_02066740  0x02066740  arm
+ *   NNSi_G2dGetCurrentInstanceVramHandle  0x02066740  arm
  *   NNSi_G2dGetVramHandle  0x02063784  arm
  */
 
@@ -120,7 +120,7 @@ extern struct Manager g_02147B88;
 extern struct Mtx g_02147D18[];
 extern struct Scr     g_020A81F8;
 
-extern int func_02066740(int *p);
+extern int NNSi_G2dGetCurrentInstanceVramHandle(int *p);
 extern int NNSi_G2dGetVramHandle(unsigned short *p, int i);
 
 static inline int GetColorParam(const OamAttr *oam)
@@ -142,7 +142,7 @@ void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2)
     Mtx *m;
     u32 i;
 
-    map = (void *)func_02066740((int *)g_02147B88.obj);
+    map = (void *)NNSi_G2dGetCurrentInstanceVramHandle((int *)g_02147B88.obj);
     if (map != 0)
         c->oam.cParam = NNSi_G2dGetVramHandle(map, (u16)((c->oam.attr2 & 0xF000) >> 12));
 

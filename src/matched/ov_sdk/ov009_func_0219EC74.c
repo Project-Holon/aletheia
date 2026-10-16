@@ -15,7 +15,7 @@
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   SBServerListInit  0x0219F9A8  arm  ov009
  *   SBQueryEngineInit  0x0219D864  arm  ov009
- *   func_0219E9F4  0x0219E9F4  arm  ov009
+ *   ListCallback  0x0219E9F4  arm  ov009
  *   EngineCallback  0x0219EBC4  arm  ov009
  *   gGsAvailabilityState  0x021ACEF8  data
  */
@@ -41,7 +41,7 @@ extern void SBServerListInit(void *slist, char *queryForGamename, char *queryFro
 extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
                           void *callback, void *instance);
 struct SBServerList;
-extern void func_0219E9F4(struct SBServerList *serverlist, int reason, struct SBServer *server, void *instance);
+extern void ListCallback(struct SBServerList *serverlist, int reason, struct SBServer *server, void *instance);
 extern void EngineCallback(int unused, unsigned int reason, struct SBServer *server, void *inst);
 extern int gGsAvailabilityState;
 
@@ -61,7 +61,7 @@ struct ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromG
     sb->instance = instance;
     sb->dontUpdate = 0;
     SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
-                  lanBrowse, func_0219E9F4, sb);
+                  lanBrowse, ListCallback, sb);
     SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, EngineCallback, sb);
     return sb;
 }

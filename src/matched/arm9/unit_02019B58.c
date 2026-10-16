@@ -58,13 +58,14 @@
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *POKE_TOOL_Dummy(void);
-extern u32   func_02017E88(void *p, u32 id, u32 v);
+extern u32   POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void  POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
@@ -84,7 +85,7 @@ void POKE_TOOL_SetDefaultName(void *p)
 
 void POKE_TOOL_SetNameFromSpecies(void *p)
 {
-    u32 s = func_02017E88(p, 5, 0);
+    u32 s = POKE_TOOL_GetBoxValue(p, 5, 0);
 
     MSGDATA_ReadUnits(gSpeciesNameBank, s, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(p, 0x74, (u32)gNameBuf);

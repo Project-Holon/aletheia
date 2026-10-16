@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A0
+ * function: PMS_INPUT_DATA_Create
  * address: 0x021B95A0
  * packet: pkt_ov110_021B95A0
  * region: ov110
@@ -10,8 +10,8 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   PMS_WORD_Create 0x020247A8 thumb
- *   func_021B9608 0x021B9608 thumb ov110
- *   func_021B98A0 0x021B98A0 thumb ov110
+ *   PMS_INPUT_DATA_BuildCategoryWords 0x021B9608 thumb ov110
+ *   PMS_INPUT_DATA_BuildInitialWords 0x021B98A0 thumb ov110
  *   d_021C3B80 0x021C3B80 data a1
  */
 #include "../include/Obj05283.h"
@@ -21,10 +21,10 @@ typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct PmsWordSys;
 extern struct PmsWordSys *PMS_WORD_Create(u32 heapId);
-extern void func_021B9608(void *);
-extern void func_021B98A0(u8 *p);
+extern void PMS_INPUT_DATA_BuildCategoryWords(void *);
+extern void PMS_INPUT_DATA_BuildInitialWords(u8 *p);
 extern const char d_021C3B80[];
-void *func_021B95A0(u32 heap,void *save)
+void *PMS_INPUT_DATA_Create(u32 heap,void *save)
 {
     char *p;
     int i;
@@ -32,7 +32,7 @@ void *func_021B95A0(u32 heap,void *save)
     ((struct Obj05283 *)p)->f0=save;
     ((struct Obj05283 *)p)->f4=PMS_WORD_Create(heap);
     for(i=0;i<226;i++) *(u8 *)(p+0x1D6E + i)=0;
-    func_021B9608(p);
-    func_021B98A0((u8 *)p);
+    PMS_INPUT_DATA_BuildCategoryWords(p);
+    PMS_INPUT_DATA_BuildInitialWords((u8 *)p);
     return p;
 }

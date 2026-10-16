@@ -20,7 +20,7 @@
  *   gsifree  0x0217EAE0  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_021846B4  0x021846B4  arm  ov009
- *   func_0217EB18  0x0217EB18  arm  ov009
+ *   socket  0x0217EB18  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
  *   func_0217EBB0  0x0217EBB0  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
@@ -74,7 +74,7 @@ extern void gsifree(void *ptr);
 extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAllocate,
                                                  void (*elemFreeFn)(void *));
 extern void func_021846B4(struct HashImplementation *table);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern void func_021841B0(struct DArrayImplementation *array);
 extern int func_0217EBB0(int sock, void *addr, int len);
 extern int closesocket(int sock);
@@ -126,7 +126,7 @@ int gti2CreateSocket(struct GTI2Socket **sock, char *localAddress, int outgoingB
         return 1;
     }
 
-    socketTemp->socket = func_0217EB18(2, 2, 0);
+    socketTemp->socket = socket(2, 2, 0);
     socketTemp->protocolType = type;
     if (type == 3)
         socketTemp->protocolOffset = 0;

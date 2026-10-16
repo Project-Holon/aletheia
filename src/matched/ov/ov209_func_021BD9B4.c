@@ -17,11 +17,11 @@
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
- *   func_0201BC3C 0x0201BC3C thumb
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
- *   func_0201BCEC 0x0201BCEC thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub 0x0201BCEC thumb
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
  *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
@@ -39,11 +39,11 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
-extern int func_0201BC3C(void);
-extern int func_0201BC40(void);
-extern int func_0201BC78(void);
-extern int func_0201BCB4(void);
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
@@ -77,18 +77,18 @@ void ZUKAN_LIST_LoadActorResources(struct R *p)
     pc = &p->c[0];
     for (i = 0; i < 0x10; i++)
         arr[i] = CLACT_RegisterCharacter((void *)h2, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 0, 0x6b);
-    *pb = CLACT_RegisterPaletteCompressed((void *)h2, func_0201BC3C(), 0, 0x80, 0x6b);
-    a = func_0201BC40();
-    *pc = CLACT_RegisterCellAnim((void *)h2, a, func_0201BCB4(), 0x6b);
+    *pb = CLACT_RegisterPaletteCompressed((void *)h2, POKE_TOOL_GetIconPaletteArcId(), 0, 0x80, 0x6b);
+    a = POKE_TOOL_GetIconCellArcId();
+    *pc = CLACT_RegisterCellAnim((void *)h2, a, POKE_TOOL_GetIconCellEntryId(), 0x6b);
 
     arr = &p->a[0x10];
     pb = &p->b[1];
     pc = &p->c[1];
     for (i = 0; i < 0x10; i++)
         arr[i] = CLACT_RegisterCharacter((void *)h2, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, 0x6b);
-    *pb = CLACT_RegisterPaletteCompressed((void *)h2, func_0201BC3C(), 1, 0, 0x6b);
-    a = func_0201BC78();
-    *pc = CLACT_RegisterCellAnim((void *)h2, a, func_0201BCEC(), 0x6b);
+    *pb = CLACT_RegisterPaletteCompressed((void *)h2, POKE_TOOL_GetIconPaletteArcId(), 1, 0, 0x6b);
+    a = POKE_TOOL_GetIconCellArcIdSub();
+    *pc = CLACT_RegisterCellAnim((void *)h2, a, POKE_TOOL_GetIconCellEntryIdSub(), 0x6b);
     ARC_TOOL_DeleteHandle(h2);
 
     h3 = (int)func_020490F4(APP_ICON_GetArchiveId(), 0x806B);

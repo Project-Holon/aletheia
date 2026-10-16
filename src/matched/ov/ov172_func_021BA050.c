@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0208B4B8 0x0208B4B8 arm
+ *   MIC_GetLastSamplingAddress 0x0208B4B8 arm
  *   NNS_SndWaveOutIsPlaying 0x02072CC4 arm
  *   CTVT_MIC_PostUpdate 0x021BA1E4 thumb ov172
  */
 typedef unsigned int u32;
 struct O;
-extern void *func_0208B4B8(void);
+extern void *MIC_GetLastSamplingAddress(void);
 extern int NNS_SndWaveOutIsPlaying(struct O *);
 extern void CTVT_MIC_PostUpdate(void *);
 void CTVT_MIC_Update(u32 *p)
 {
     u32 n;
     if (p[2] == 1) {
-        n = (u32)func_0208B4B8();
+        n = (u32)MIC_GetLastSamplingAddress();
         if (n == 0) p[0] = 0;
         else {
             p[0] = n - p[1] + 4;

@@ -767,7 +767,7 @@
    }
   },
   {
-   "name": "func_02162FC0",
+   "name": "char_from_long",
    "address": "0x02162FC0",
    "kind": "sdk",
    "region": "ov009",
@@ -779,7 +779,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02162FD8",
+   "name": "long_from_char",
    "address": "0x02162FD8",
    "kind": "sdk",
    "region": "ov009",
@@ -1495,7 +1495,7 @@
    }
   },
   {
-   "name": "func_02175FB8",
+   "name": "DWCi_GetHostStatus",
    "address": "0x02175FB8",
    "kind": "sdk",
    "region": "ov009",
@@ -1692,7 +1692,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176B68",
+   "name": "DWCi_InitReliableQueue",
    "address": "0x02176B68",
    "kind": "sdk",
    "region": "ov009",
@@ -1743,7 +1743,7 @@
    }
   },
   {
-   "name": "func_02176DEC",
+   "name": "DWC_IsSendableReliable",
    "address": "0x02176DEC",
    "kind": "sdk",
    "region": "ov009",
@@ -2160,7 +2160,7 @@
    }
   },
   {
-   "name": "func_0217EB18",
+   "name": "socket",
    "address": "0x0217EB18",
    "kind": "sdk",
    "region": "ov009",
@@ -2184,7 +2184,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217EB9C",
+   "name": "shutdown",
    "address": "0x0217EB9C",
    "kind": "sdk",
    "region": "ov009",
@@ -2196,7 +2196,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217EC4C",
+   "name": "recv",
    "address": "0x0217EC4C",
    "kind": "sdk",
    "region": "ov009",
@@ -2208,7 +2208,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217EC90",
+   "name": "send",
    "address": "0x0217EC90",
    "kind": "sdk",
    "region": "ov009",

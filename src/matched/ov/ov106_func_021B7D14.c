@@ -47,7 +47,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   IRC_RANKING_PrintCentered 0x021B91A8 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -95,7 +95,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *, u32);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void IRC_RANKING_PrintCentered(struct Descriptor *, struct StrObj *, void *, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -137,7 +137,7 @@ void IRC_RANKING_GfxInit(u32 *p, void *arg, u32 heap) {
  p[3] = BMP_WIN_Create(0, 3, 1, 0x1a, (u32)2, (u32)0xe, (u32)1);
  BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)p[3]), 0xf);
  str = (struct StrObj *)func_02045EC0(msg, 0);
- IRC_RANKING_PrintCentered((struct Descriptor *)p[3], str, func_02012944(arg), (u32)font);
+ IRC_RANKING_PrintCentered((struct Descriptor *)p[3], str, GAME_DATA_GetMyStatus(arg), (u32)font);
  STRBUF_Delete((struct U16Vec *)str);
  GF_FONT_Delete(font);
  MSGDATA_Delete((struct Rec *)msg);

@@ -13,7 +13,7 @@
  * symbols:
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   BTLV_GAUGE_CalcTileFill 0x02208034 thumb ov094
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   MIi_CpuCopy16 0x02082A60 arm
  *   BTLV_GAUGE_DrawHpLoss 0x0220868C thumb ov094
  */
@@ -41,7 +41,7 @@ typedef struct O {
 struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern u8 BTLV_GAUGE_CalcTileFill(u32, int, int, u32 *, u8 *, u8);
-extern int func_0202D034(u32, u32);
+extern int BGWINFRM_GetScaleRank(u32, u32);
 extern void MIi_CpuCopy16(const void *, void *, int);
 extern void BTLV_GAUGE_DrawHpLoss(O *, E *, int);
 void BTLV_GAUGE_DrawBar(O *o, int idx, int k)
@@ -60,7 +60,7 @@ void BTLV_GAUGE_DrawBar(O *o, int idx, int k)
         n = BTLV_GAUGE_CalcTileFill(e->f4c, e->f48, e->f68, &e->f50, a, 6);
         val = e->f50;
         if (e->f4c < 48) val >>= 8;
-        switch (func_0202D034(val, e->f4c)) {
+        switch (BGWINFRM_GetScaleRank(val, e->f4c)) {
         case 0: color = 0; break;
         case 1: color = 0x120; break;
         case 2:

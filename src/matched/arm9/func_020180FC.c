@@ -15,11 +15,11 @@
  * No byte differs; the compiler's 154 bytes are byte-identical.
  *
  * symbols:
- *   func_02017DBC  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  */
 
 typedef unsigned char  u8;
@@ -27,11 +27,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017E88(void *p, u32 k, u32 x);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 k, u32 x);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 k, u32 v);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
 /* Three parallel 4-entry channel tables.  They are three separate locals, NOT
  * one 16-byte struct: as a struct mwcc folds the member offset into the store
@@ -50,12 +50,12 @@ void POKE_TOOL_PushBoxMove(void *p, u16 v)
     int i;
     int j;
 
-    h = func_02017DBC(p);
+    h = POKE_TOOL_DecodeBoxParam(p);
 
     for (i = 0; i < 3; i++) {
-        a[i] = func_02017E88(p, i + 0x37, 0);
-        b[i] = func_02017E88(p, i + 0x3b, 0);
-        c[i] = func_02017E88(p, i + 0x3f, 0);
+        a[i] = POKE_TOOL_GetBoxValue(p, i + 0x37, 0);
+        b[i] = POKE_TOOL_GetBoxValue(p, i + 0x3b, 0);
+        c[i] = POKE_TOOL_GetBoxValue(p, i + 0x3f, 0);
     }
 
     a[3] = v;
@@ -68,5 +68,5 @@ void POKE_TOOL_PushBoxMove(void *p, u16 v)
         POKE_TOOL_SetBoxValue(p, j + 0x3e, c[j]);
     }
 
-    func_02017DE4(p, h);
+    POKE_TOOL_EncodeBoxParam(p, h);
 }

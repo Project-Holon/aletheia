@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02184600",
+   "name": "MICTEST_SpawnSprite",
    "address": "0x02184600",
    "kind": "game",
    "region": "ov168",

@@ -162,7 +162,7 @@
  *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   gWf2dmapFriendKeyErrorMsgIds 0x021CA4F9 data a1
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0201D304 0x0201D304 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
@@ -264,13 +264,13 @@ struct Actor;
 struct TaskMenu;
 struct TaskMenuTmpl;
 struct Row;
-struct R;
+struct TaskMenuRes;
 struct StrObj;
 struct TaskMenuState;
 struct CodeIn;
 struct Vec2;
 struct obj;
-struct Obj0202E54C;
+struct CodeinParam;
 struct Param;
 struct S020314B8;
 typedef unsigned char u8;
@@ -452,10 +452,10 @@ extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void);
 extern s32 BLINK_PALANM_Update(struct Row *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void WF2DMAP_TOUCH_ClearSlotArray(char *);
 extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BG_SYS_DrawTile(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
@@ -504,7 +504,7 @@ extern void func_0203133C(struct S020314B8 *p);
 extern void PROCSYS_Push(void *, u32, void *, void *);
 extern char *WF2DMAP_TOUCH_CreateNameEntry(void *unused, char *q, int mode, int heap);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
-extern void func_0202E54C(struct Obj0202E54C *p);
+extern void func_0202E54C(struct CodeinParam *p);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 int Wf2dmapFriend_Create(void *p,int unused,void *q);
 int Wf2dmapFriend_Main(int result,int *stage,int unused,char *p);
@@ -1489,7 +1489,7 @@ void Wf2dmapFriend_InitListScreen(Wf2dmapFriendListScreen *p, u8 *a, u8 *ctx, u1
     p->buf=STRBUF_Create(128,heap);
     buf=STRBUF_Create(128,heap);
     text=STRBUF_Create(128,heap);
-    WORDSET_SetSlotMyStatus(((Wf2dmapTouchGfx *)ctx)->wordSet,0,func_02012944(((Wf2dmapTouchFriendData *)a)->saveData));
+    WORDSET_SetSlotMyStatus(((Wf2dmapTouchGfx *)ctx)->wordSet,0,GAME_DATA_GetMyStatus(((Wf2dmapTouchFriendData *)a)->saveData));
     for(i=0;i<3;i++) {
         func_02045CAC(((Wf2dmapTouchGfx *)ctx)->msgBank,i+1,text);
         WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)ctx)->wordSet,buf,text);
@@ -1957,7 +1957,7 @@ void Wf2dmapFriend_InitItemWidgets(u8 *p, void *unused, u8 *ctx, u16 heap)
     *(void **)(p + 0x184) = func_02045EC0(*(struct MsgBank **)(ctx + 4), 0x43);
     *(u16 *)(p + 0x188) = 0x39e3;
     *(u32 *)(p + 0x18c) = 0;
-    *(struct R **)(p + 0x190) = APP_TASKMENU_RES_Create(1, 14, *(u32 *)(ctx + 0x17c), *(u32 *)(ctx + 0x34), heap);
+    *(struct TaskMenuRes **)(p + 0x190) = APP_TASKMENU_RES_Create(1, 14, *(u32 *)(ctx + 0x17c), *(u32 *)(ctx + 0x34), heap);
     Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 0x108), 1, 2, 1, 0x1b, 4, 0xa, 0, 0xf);
     *(struct U16Vec **)(p + 0x110) = STRBUF_Create(0x80, heap);
     r1 = gWf2dmapEntryActorRectA;

@@ -1,5 +1,5 @@
 /*
- * function: func_02183DAC
+ * function: MICTEST_StepRecord
  * address:  0x02183DAC
  * packet:   pkt_02183DAC
  * region:   ov168
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02183D3C   0x02183D3C  thumb
- *   func_02183D34   0x02183D34  thumb
- *   func_02183E18   0x02183E18  thumb
- *   func_02184470   0x02184470  thumb
- *   func_0218448C   0x0218448C  thumb
- *   func_0218484C   0x0218484C  thumb
+ *   MICTEST_GetOwner   0x02183D3C  thumb
+ *   MICTEST_SetStep   0x02183D34  thumb
+ *   MICTEST_StepWaitAnim   0x02183E18  thumb
+ *   MICTEST_ArmMic   0x02184470  thumb
+ *   MICTEST_DisarmMic   0x0218448C  thumb
+ *   MICTEST_CheckTouchOrKey   0x0218484C  thumb
  *   SND_MIC_IsLimitReached   0x02006D94  thumb
  *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
  *
@@ -24,36 +24,36 @@
  */
 
 
-extern unsigned int func_02183D3C(unsigned int *p);
-extern void func_02183D34(unsigned int *p, unsigned int v);
+extern unsigned int MICTEST_GetOwner(unsigned int *p);
+extern void MICTEST_SetStep(unsigned int *p, unsigned int v);
 typedef unsigned int   u32;
-extern void func_02183E18(int a, int *state);
-extern void func_02184470(int *p);
-extern void func_0218448C(int *p);
-extern int func_0218484C(void);
+extern void MICTEST_StepWaitAnim(int a, int *state);
+extern void MICTEST_ArmMic(int *p);
+extern void MICTEST_DisarmMic(int *p);
+extern int MICTEST_CheckTouchOrKey(void);
 extern u32 SND_MIC_IsLimitReached(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_02183DAC(int a, int *state)
+void MICTEST_StepRecord(int a, int *state)
 {
-    int x = func_02183D3C((unsigned int *)a);
+    int x = MICTEST_GetOwner((unsigned int *)a);
     switch (*state) {
     case 0:
-        func_02184470((int *)(x + 0xF8));
+        MICTEST_ArmMic((int *)(x + 0xF8));
         *state = 1;
         break;
     case 1:
-        if (func_0218484C() && SND_MIC_IsLimitReached()) {
+        if (MICTEST_CheckTouchOrKey() && SND_MIC_IsLimitReached()) {
             GFL_USE_PlaySeDefaultVolume(0x551);
             *state = 2;
         }
         break;
     case 2:
-        func_0218448C((int *)(x + 0xF8));
+        MICTEST_DisarmMic((int *)(x + 0xF8));
         *state = 3;
         break;
     case 3:
-        func_02183D34((unsigned int *)a, (unsigned int)func_02183E18);
+        MICTEST_SetStep((unsigned int *)a, (unsigned int)MICTEST_StepWaitAnim);
         break;
     }
 }

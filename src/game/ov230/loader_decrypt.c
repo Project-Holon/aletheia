@@ -35,13 +35,13 @@ asm void LOADER_DECRYPT_SyncCacheRange(void *addr, unsigned int size)
     add     r1, r1, r0
     mov     ip, #0
     bic     r0, r0, #0x1f
-loc_021889F0:
+cacheLineLoop:
     mcr     p15, 0, r0, c7, c5, 1
     mcr     p15, 0, ip, c7, c10, 4
     mcr     p15, 0, r0, c7, c14, 1
     add     r0, r0, #0x20
     cmp     r0, r1
-    blt     loc_021889F0
+    blt     cacheLineLoop
     bx      lr
 }
 

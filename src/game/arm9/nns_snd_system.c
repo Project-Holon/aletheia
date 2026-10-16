@@ -1,7 +1,7 @@
 /*
  * file:     nns_snd_system.c
  * unit:     yes
- * function: func_02072374, func_02072440, func_020724E4, func_02072524, func_02072548, NNS_SndInit, NNS_SndBoot, NNS_SndSetMasterVolume, NNS_SndSetMasterPan, NNS_SndReadDriverInfo, NNS_SndReadTrackInfo, NNS_SndPrependPostSleepCallback, NNS_SndAppendPostSleepCallback
+ * function: NNSi_G3dTexMtxScaleRot_Max, NNSi_G3dTexMtxRot_Max, func_020724E4, NNSi_G3dTexMtxIdentity_Max, NNSi_G3dSendTexMtx_Max, NNS_SndInit, NNS_SndBoot, NNS_SndSetMasterVolume, NNS_SndSetMasterPan, NNS_SndReadDriverInfo, NNS_SndReadTrackInfo, NNS_SndPrependPostSleepCallback, NNS_SndAppendPostSleepCallback
  * address:  0x02072374
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -63,7 +63,7 @@ typedef unsigned int   u32;
 /*
  * Operand of the (DST, SRC) matrix-constructor family at 0x02071EAC, kept with
  * the five constructors that live at the top of this file; see
- * docs/families/cluster_02071EAC.h.  f2e is volatile because func_02072374
+ * docs/families/cluster_02071EAC.h.  f2e is volatile because NNSi_G3dTexMtxScaleRot_Max
  * reads it twice and the image keeps both loads.
  */
 struct SRC {
@@ -168,11 +168,11 @@ extern void NNS_SndStartTimer(void);
 extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
 extern void SND_WaitForCommandProc(u32 a);
 extern void NNSi_SndCaptureReset(void);
-void func_02072374(struct DST *d, struct SRC *s);
-void func_02072440(struct DST *d, struct SRC *s);
+void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s);
+void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s);
 void func_020724E4(struct DST *d, struct SRC *s);
-void func_02072524(struct DST *d);
-void func_02072548(Obj *o);
+void NNSi_G3dTexMtxIdentity_Max(struct DST *d);
+void NNSi_G3dSendTexMtx_Max(Obj *o);
 void NNS_SndInit(void);
 void NNS_SndBoot(void);
 void NNS_SndSetMasterVolume(int volume);
@@ -292,7 +292,7 @@ extern u8 g_0214BB00[];
  * better, and the 8-vs-14 gap the note measured was an artefact of the
  * mis-ordered store, not a front-end tell.
  */
-void func_02072374(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s)
 {
     s32 e, a, c, b;
     s32 q, r;
@@ -351,7 +351,7 @@ void func_02072374(struct DST *d, struct SRC *s)
  * spellings all give the same 3-instruction swap; see
  * docs/notes/NNSi_G3dTexMtxIdentity2.c.txt.
  */
-void func_02072440(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s)
 {
     s32 e12, f12, t;
 
@@ -402,11 +402,11 @@ void func_020724E4(struct DST *d, struct SRC *s)
  * (`01 2a a0 e3`) at 0x02072524 followed by `str r2, [r0]`, and only then
  * `mov r1, #0` (`00 10 a0 e3`) at 0x0207252C. dsi/1.1p1 -O4,p schedules the
  * zero first for the same 36 bytes, 9 concrete bytes out, under all ten
- * spellings measured in docs/notes/func_02072524.c.txt (store order,
+ * spellings measured in docs/notes/NNSi_G3dTexMtxIdentity_Max.c.txt (store order,
  * constants bound to locals, zero derived from the live 0x1000, re-read of
  * a stored field). Under the pin the same C is 36 bytes, 0 mismatches.
  */
-void func_02072524(struct DST *d)
+void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
 {
     d->f00 = 0x1000;
     d->f04 = 0;
@@ -486,7 +486,7 @@ void func_02072524(struct DST *d)
  * not evidence either way.  Under the pin the same C is 392 bytes,
  * 0 mismatches.
  */
-void func_02072548(Obj *o)
+void NNSi_G3dSendTexMtx_Max(Obj *o)
 {
     Rec r;
     s32 zero;

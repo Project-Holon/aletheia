@@ -15,17 +15,17 @@
  * symbols:
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
- *   func_020808F4  0x020808F4  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
  *   func_0208091C  0x0208091C  arm
- *   func_020809A0  0x020809A0  arm
+ *   GX_ResetBankForSubBG  0x020809A0  arm
  *   func_020809C8  0x020809C8  arm
- *   func_02080908  0x02080908  arm
+ *   GX_ResetBankForOBJ  0x02080908  arm
  *   func_02080940  0x02080940  arm
- *   func_020809B4  0x020809B4  arm
+ *   GX_ResetBankForSubOBJ  0x020809B4  arm
  *   func_020809F0  0x020809F0  arm
- *   func_02080964  0x02080964  arm
- *   func_02080978  0x02080978  arm
+ *   GX_ResetBankForTex  0x02080964  arm
+ *   GX_ResetBankForTexPltt  0x02080978  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   GX_SetBankForBGExtPltt  0x02080100  arm
  *   GX_SetBankForSubBG  0x020806B0  arm
@@ -103,9 +103,9 @@ extern void func_0208068C(u32 banks);
 
 extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
 
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 
-extern int func_020808F4(void);
+extern int GX_ResetBankForBG(void);
 
 extern void GX_DispOn(void);
 
@@ -230,7 +230,7 @@ void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
     func_0208068C((keepBanks ^ 0xffff) & 0x1ff);
 
     MIi_CpuClearFast(0, (void *)0x06800000, 0xa4000);
-    func_02080B98();
+    GX_DisableBankForLCDC();
 
     MIi_CpuClearFast(0xc0, (void *)0x07000000, 0x400);
     MIi_CpuClearFast(0, (void *)0x05000000, 0x400);
@@ -240,21 +240,21 @@ void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
 
 extern void func_0208091C(void);   /* GX_ResetBankForBGExtPltt */
 
-extern int func_020809A0(void);
+extern int GX_ResetBankForSubBG(void);
 
 extern void func_020809C8(void);   /* GX_ResetBankForSubBGExtPltt */
 
-extern void func_02080908(void);
+extern void GX_ResetBankForOBJ(void);
 
 extern void func_02080940(void);   /* GX_ResetBankForOBJExtPltt */
 
-extern void func_020809B4(void);
+extern void GX_ResetBankForSubOBJ(void);
 
 extern void func_020809F0(void);   /* GX_ResetBankForSubOBJExtPltt */
 
-extern int func_02080964(void);
+extern int GX_ResetBankForTex(void);
 
-extern void func_02080978(void);
+extern void GX_ResetBankForTexPltt(void);
 
 extern void func_0207FDCC(GXVRam v);   /* GX_SetBankForBG */
 
@@ -305,16 +305,16 @@ static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
  */
 void BG_SYS_SetVramBanks(const struct DispVram *banks)
 {
-    func_020808F4();
+    GX_ResetBankForBG();
     func_0208091C();
-    func_020809A0();
+    GX_ResetBankForSubBG();
     func_020809C8();
-    func_02080908();
+    GX_ResetBankForOBJ();
     func_02080940();
-    func_020809B4();
+    GX_ResetBankForSubOBJ();
     func_020809F0();
-    func_02080964();
-    func_02080978();
+    GX_ResetBankForTex();
+    GX_ResetBankForTexPltt();
     func_0207FDCC(banks->main_bg);
     GX_SetBankForBGExtPltt(banks->main_bg_expltt);
     GX_SetBankForSubBG(banks->sub_bg);
@@ -1578,7 +1578,7 @@ void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
  * and returns NULL.
  *
  * WHAT CLOSED IT (wave 12, 2026-09-23), after three passes stuck at 6
- * bytes on the f04/f06 load-register pair: the four extents are u16
+ * bytes on the width/height load-register pair: the four extents are u16
  * LOCALS, `w = width / 8` etc.  The `lsl #13 / lsr #16` pair the older
  * sources spelled as `(u32)(f * 8192) >> 16` is simply the u16 truncation
  * of an unsigned divide by 8.  With all four u16 the residue drops to 13,

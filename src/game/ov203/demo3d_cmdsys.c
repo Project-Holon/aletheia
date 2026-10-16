@@ -45,21 +45,6 @@ struct GfFont;
 
 struct S02031140;
 
-typedef struct Demo3dCmdContext {
-    unsigned short heap, alternate;
-    int config;
-    int ended;
-    int done;
-    int previous;
-    int index;
-    unsigned char flags[4];
-    char *owner;
-    struct Tcbl *task;
-    struct GfFont *text;
-    void *assets;
-    int extra;
-} Demo3dCmdContext;
-
 /* the owner passed to Create; struct Ctx in demo3d_engine.c owns this record */
 struct Demo3dOwner {
     u8 pad78[0x78];

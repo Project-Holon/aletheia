@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC90
+ * function: send
  * address:  0x0217EC90
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int func_0215F590(void);
 extern int CheckRcode(int a, int b);
 
-int func_0217EC90(int sock, char *buffer, int bufferLen, int flags)
+int send(int sock, char *buffer, int bufferLen, int flags)
 {
     return CheckRcode(func_0215F590(), -1);
 }

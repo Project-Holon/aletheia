@@ -301,3 +301,27 @@ numbered `<name>_<n>.c` in address order.
 - Whether file name case exceptions (`double3Ddisp`, `ghttpEncryption`) show
   third-party or older code.
 - Directory structure of the original tree: `__FILE__` holds only the base name.
+
+## Measured-unread fields (not naming debt)
+
+Recorded by INT12 on 2026-10-16. These fields are written but read by no
+function anywhere in `src/game`, `src/matched` or `layout`. They are
+`reserved`/`pad` by measurement, not unnamed debt: the write site is known and
+the absence of a reader was searched for tree-wide. They must not be reopened as
+naming debt. Sources: `S/APL-1/measured_unread.tsv` and
+`S/APL-2/measured_unread.tsv`.
+
+| struct | field | offset | size | writer |
+| --- | --- | --- | --- | --- |
+| MysteryAlbumSlotWork | pokeBank | 0x9C | 4 | mystery_util.c (written 0/4) |
+| BeaconDetailWork | wipeState | 0xC314 | 4 | BEACON_DETAIL_Update cases 0 and 20 |
+| BeaconDetailWork | padC0B4 | 0xC0B4 | 0x228 | untouched gap; only MI_CpuFill8(p,0,0xc3bc) at init |
+| BrDownloadOwner | downloadMode | 0x1C | 4 | BR_DOWNLOAD_HandleTouch (0/1); ov185 sibling ends at 0x18 |
+| LightActor | paramA / paramB | 0x14 / 0x18 | 4 each | STA_ACT_LIGHT_SetElemB; no reader |
+| WifiBattleMatchNetTask | field2C | 0x2C | 4 | none read in ov175/ov177/ov199 |
+| WifiBattleMatchNetTask | postTimer | 0xE0 | 4 | only a zero store in TaskStepQ |
+| CommBtlDemoArgs | pad48 | 0x48 | 4 | BuildSetupRecord; write-only |
+| CommBtlDemoSide | pad08[0] | 0x08 | 1 | always 0 (MI_CpuFill8 of the 0x58 record) |
+| CommBtlDemoSide | pad08[1] | 0x09 | 1 | written from recordVersion; no reader |
+| WifiBattleMatchSysSetupOut | whole record | 0x00 | 0x50 | FillSetupRecord at p+0x1d0; no reader |
+| WifiBattleMatchSysWork | setupRuleValue / setupRecordVersion | 0x1B4 | 8 | ApplySetup; passed as FillSetupRecord `other`, never read |

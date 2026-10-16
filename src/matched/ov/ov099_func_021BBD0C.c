@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC78  0x0201BC78  thumb
- *   func_0201BCB4  0x0201BCB4  thumb
+ *   POKE_TOOL_GetIconCellArcIdSub  0x0201BC78  thumb
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   WIFICLUB_CreatePartyIcons  0x021BBC34  thumb  ov099
  *   WIFICLUB_FreezePartyIcons  0x021BBE50  thumb  ov099
@@ -25,12 +25,12 @@
 typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC78(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void WIFICLUB_CreatePartyIcons(char *p, void *a, int k, u32 o);
 extern void WIFICLUB_FreezePartyIcons(void *p);
@@ -42,9 +42,9 @@ void WIFICLUB_LoadPartyIcons(char *p, int a, int b)
     int t;
 
     o = func_020490F4(7, 0x21);
-    ((struct Obj03731 *)p)->f148 = (void *)CLACT_RegisterPaletteCompressed(o, func_0201BC3C(), 0, 0x160, 0x21);
-    t = func_0201BC78();
-    ((struct Obj03731 *)p)->f14C = (void *)CLACT_RegisterCellAnim(o, t, func_0201BCB4(), 0x21);
+    ((struct Obj03731 *)p)->f148 = (void *)CLACT_RegisterPaletteCompressed(o, POKE_TOOL_GetIconPaletteArcId(), 0, 0x160, 0x21);
+    t = POKE_TOOL_GetIconCellArcIdSub();
+    ((struct Obj03731 *)p)->f14C = (void *)CLACT_RegisterCellAnim(o, t, POKE_TOOL_GetIconCellEntryId(), 0x21);
     WIFICLUB_CreatePartyIcons(p, (void *)a, 0, (u32)o);
     WIFICLUB_CreatePartyIcons(p, (void *)b, 6, (u32)o);
     WIFICLUB_FreezePartyIcons(p);

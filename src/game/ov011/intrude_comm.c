@@ -130,7 +130,7 @@
  *   COMM_PLAYER_GetListPage  0x0216749C  thumb ov010
  *   COMM_PLAYER_GetState849  0x021673C4  thumb ov010
  *   COMM_PLAYER_GetState848  0x021673A8  thumb ov010
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   func_02008530  0x02008530  thumb
  *   GAME_DATA_GetField1D4  0x020127AC  thumb
@@ -327,7 +327,6 @@ typedef struct {
 typedef struct { u8 value; u8 enabled; } LinkValueMessage;
 
 extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
-extern u8 *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern int   INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct CommPlayerWork *COMM_PLAYER_Create(int playerNum, void *gameSystem, u16 heapId, int mode);
@@ -438,7 +437,7 @@ void *SYMBOL_SAVE_GetBlock(void *p);
 unsigned short COMM_PLAYER_GetListPage(void *symbolMap, u32 *out, u32 cap, int page, u8 *count);
 u8 COMM_PLAYER_GetState849(void *symbolMap);
 u8 COMM_PLAYER_GetState848(void *symbolMap);
-u8 *func_02012944(void *p);
+u8 *GAME_DATA_GetMyStatus(void *p);
 int MYSTATUS_GetSize(void);
 extern u32 func_02008530(const struct MemberRecord *record);
 void *GAME_DATA_GetField1D4(struct GameData *p, unsigned int idx);
@@ -2767,7 +2766,7 @@ void INTRUDE_COMM_RefreshSelfRecord(IntrudeCommSys *work)
 {
     struct GameData *gameData;
     gameData = GAME_COMM_GetGameData(work->gameComm);
-    MI_CpuCopy8(func_02012944((void *)gameData), work->ownStatus.myStatus, MYSTATUS_GetSize());
+    MI_CpuCopy8(GAME_DATA_GetMyStatus((void *)gameData), work->ownStatus.myStatus, MYSTATUS_GetSize());
     MI_CpuCopy8(GAME_DATA_GetLastBattleRecSlot((void *)gameData), work->ownStatus.battleRecSlot, 0x10);
     INTRUDE_COMM_UpdateSelfRecord(work);
     if (work->localPeer.intrudeId == 0x80) {
@@ -4134,7 +4133,7 @@ void INTRUDE_COMM_SendProposalReplies(IntrudeCommSys *w, IntrudeSession *session
         do {
             offset = i;
             offset = offset * sizeof(IntrudeProposalSlot);
-            if (((u8 *)session)[0xe8 + offset] != 0) {
+            if (session->slots[i].state != 0) {
                 if (INTRUDE_CMD_SendJoinReply(w, (u8 *)session + 0xe8 + offset, i) == 1) {
                     slots = (u8 *)session + 0xe8;
                     slots = slots + offset;

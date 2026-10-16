@@ -101,24 +101,6 @@ typedef struct DWCHttpBuffer {
     unsigned long length;
 } DWCHttpBuffer;
 
-typedef struct DWCHttp_0217956C {
-    unsigned char stack[0x1000];
-    unsigned char initflag;
-    DWCHttpParam param;
-    int error;
-    char pad1024[0x9e4];
-    unsigned char *lowrecvbuf;
-    unsigned char *lowsendbuf;
-    unsigned long lowentropydata[8];
-    int num_postitem;
-    DWCHttpBuffer req;
-    DWCHttpBuffer rep;
-    char content_len_mutex[0x18];
-    int content_len;
-    int receivedbody_len;
-    char pad1a74[0x1dc];
-} DWCHttp_0217956C;
-
 typedef unsigned char  u8;
 
 typedef unsigned int   u32;
@@ -146,91 +128,50 @@ typedef struct CPSSoc {
 
 typedef struct OSMutex { char pad[0x18]; } OSMutex;
 
-typedef struct DWCHttp_021798E4 {
-    unsigned char stack[0x1000];
-    unsigned char initflag;
-    DWCHttpParam param;
-    int error;
-    char url[256];
-    char *hostname;
-    char *filepath;
-    unsigned long hostip;
-    int ssl_enabled;
-    unsigned short port;
-    CPSSoc soc;
-    CPSSslConnection con;
-    unsigned char *lowrecvbuf;
-    unsigned char *lowsendbuf;
-    unsigned long lowentropydata[8];
-    int num_postitem;
-    DWCHttpBuffer req;
-    DWCHttpBuffer rep;
-    OSMutex content_len_mutex;
-    int content_len;
-    int receivedbody_len;
-} DWCHttp_021798E4;
-
 typedef struct SOCLCaInfo SOCLCaInfo;
-
-typedef struct DWCHttp_0217A044 {
-    unsigned char stack[0x1000];
-    unsigned char initflag;
-    char param[0x1c];
-    int error;
-    char url[256];
-    char *hostname;
-    char *filepath;
-    unsigned long hostip;
-    int ssl_enabled;
-    unsigned short port;
-} DWCHttp_0217A044;
-
-typedef struct DWCHttp_0217A344 {
-    unsigned char stack[0x1000];
-    unsigned char initflag;
-    DWCHttpParam param;
-} DWCHttp_0217A344;
 
 typedef struct DWCHttpLabelValue {
     char *label;
     char *value;
 } DWCHttpLabelValue;
 
-typedef struct DWCHttpParseResult_0217956C {
+typedef struct DWCHttpParseResult {
     DWCHttpLabelValue *entry;
     int len;
     int index;
-} DWCHttpParseResult_0217956C;
+} DWCHttpParseResult;
 
-typedef struct DWCHttpLabelValue_0217A484 {
-    char *label;
-    char *value;
-} DWCHttpLabelValue_0217A484;
+/* One DWC HTTP connection object; the old views differed only in how
+   many fields they named. */
+typedef struct DWCHttp {
+    unsigned char stack[0x1000];        /* 0x0000 */
+    unsigned char initflag;             /* 0x1000 */
+    DWCHttpParam param;                 /* 0x1004 */
+    int error;                          /* 0x1020 */
+    char url[256];                      /* 0x1024 */
+    char *hostname;                     /* 0x1124 */
+    char *filepath;                     /* 0x1128 */
+    unsigned long hostip;               /* 0x112c */
+    int ssl_enabled;                    /* 0x1130 */
+    unsigned short port;                /* 0x1134 */
+    CPSSoc soc;                         /* 0x1138 */
+    CPSSslConnection con;               /* 0x11d8 */
+    unsigned char *lowrecvbuf;          /* 0x1a08 */
+    unsigned char *lowsendbuf;          /* 0x1a0c */
+    unsigned long lowentropydata[8];    /* 0x1a10 */
+    int num_postitem;                   /* 0x1a30 */
+    DWCHttpBuffer req;                  /* 0x1a34 */
+    DWCHttpBuffer rep;                  /* 0x1a44 */
+    OSMutex content_len_mutex;          /* 0x1a54 */
+    int content_len;                    /* 0x1a6c */
+    int receivedbody_len;               /* 0x1a70 */
+    DWCHttpLabelValue labelvalue[32];   /* 0x1a74 */
+    unsigned char pad1b74[0xdc];        /* 0x1b74 */
+} DWCHttp;
 
-typedef struct DWCHttpParseResult_0217A484 {
-    DWCHttpLabelValue_0217A484 *entry;
-    int len;
-    int index;
-} DWCHttpParseResult_0217A484;
-
-typedef struct DWCHttp_0217A484 {
-    char pad0[0x1a30];
-    int num_postitem;
-    DWCHttpBuffer req;
-    DWCHttpBuffer rep;
-    char content_len_mutex[0x18];
-    int content_len;
-    int receivedbody_len;
-    DWCHttpLabelValue_0217A484 labelvalue[32];
-} DWCHttp_0217A484;
-
-typedef struct {
-    char *label;
-    char *value;
-} DWCHttpLabelValue_0217956C;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_0217A0D4(DWCHttp_0217956C *http, DWCHttpBuffer *buf, unsigned long size);
+extern int func_0217A0D4(DWCHttp *http, DWCHttpBuffer *buf, unsigned long size);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void OS_InitMutex(void *mutex);
 extern int OS_IsThreadTerminated(void *thread);
@@ -243,7 +184,7 @@ extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
 extern void OS_Sleep(unsigned long msec);
 extern void CPS_SocRegister(void *soc);
 extern unsigned long CPS_Resolve(char *name);
-extern void func_0217988C(DWCHttp_021798E4 *http);
+extern void func_0217988C(DWCHttp *http);
 extern void CPS_SocUse(void);
 extern void CPS_SetRootCa(int a, int b);
 extern void CPS_SetSsl(int mode);
@@ -253,7 +194,7 @@ extern void CPS_SocRelease(void);
 extern void CPS_SocUnRegister(void);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_SocFlush(void);
-extern int func_02179814(DWCHttp_021798E4 *http);
+extern int func_02179814(DWCHttp *http);
 extern unsigned long long func_020870D0(void);
 extern long CPS_SocGetLength(void);
 extern unsigned char *CPS_SocRead(unsigned long *len);
@@ -268,7 +209,7 @@ extern void func_0217A120(char *http, void *buf);
 extern int DWC_Base64Encode(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
 extern char *strcpy(char *dst, const char *src);
 extern int DWC_Base64Decode(char *src, unsigned long srclen, char *dst, unsigned long dstlen);
-int DWC_Http_Create(DWCHttp_0217956C *http, DWCHttpParam *param);
+int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 int DWC_Http_FinishHeader(char *http);
 void DWC_Http_StartThread(char *http, unsigned long prio);
 void DWC_Http_Abort(char *http);
@@ -278,13 +219,13 @@ void DWCi_Http_Thread(void *arg);
 void DWC_Http_Destroy(char *http);
 int DWCi_Http_WriteBasicHeader(char *http);
 int DWC_Http_Add_HeaderItem(char *http, char *label, char *data);
-int DWC_Http_Add_PostBase64Item(DWCHttp_0217956C *http, char *label, char *data, unsigned long data_len);
+int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 int DWC_Http_Add_Body(char *http, char *data);
 int DWCi_Http_CPSCallback(int result);
 int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size);
-int DWCi_Http_SetHostinfo(DWCHttp_0217A044 *http, char *url);
-int DWCi_Http_AddResult(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, char *label, char *value);
-int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody);
+int DWCi_Http_SetHostinfo(DWCHttp *http, char *url);
+int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value);
+int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 char *DWC_Http_GetResult(char *http, char *label);
 int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned long buffer_len);
 int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len);
@@ -331,11 +272,11 @@ extern void *memmove(void *dst, const void *src, unsigned long n);
 /*
  * sdk:      DWC_Http_Create (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int DWC_Http_Create(DWCHttp_0217956C *http, DWCHttpParam *param)
+int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param)
 {
     void *(*alloc)(unsigned long, long) = param->alloc;
 
-    MI_CpuFill8(http, 0, sizeof(DWCHttp_0217956C));
+    MI_CpuFill8(http, 0, sizeof(DWCHttp));
     http->content_len = -1;
     http->receivedbody_len = -1;
     http->param = *param;
@@ -350,11 +291,11 @@ int DWC_Http_Create(DWCHttp_0217956C *http, DWCHttpParam *param)
         http->error = 1;
         return 1;
     }
-    if (!func_0217A0D4((DWCHttp_0217956C *)http, &http->rep, http->param.len_recvbuf)) {
+    if (!func_0217A0D4((DWCHttp *)http, &http->rep, http->param.len_recvbuf)) {
         http->error = 1;
         return 1;
     }
-    if (!DWCi_Http_SetHostinfo((DWCHttp_0217A044 *)((DWCHttp_0217956C *)http), param->url)) {
+    if (!DWCi_Http_SetHostinfo((DWCHttp *)((DWCHttp *)http), param->url)) {
         http->error = 1;
         return 1;
     }
@@ -537,7 +478,7 @@ int DWCi_Http_CheckHeaderReceived(char *http)
  */
 void DWCi_Http_Thread(void *arg)
 {
-    DWCHttp_021798E4 *http = (DWCHttp_021798E4 *)arg;
+    DWCHttp *http = (DWCHttp *)arg;
     CPSSoc *soc = &http->soc;
     CPSSslConnection *con = &http->con;
     DWCHttpBuffer *rep = &http->rep;
@@ -555,7 +496,7 @@ void DWCi_Http_Thread(void *arg)
     if (timeout <= 0)
         timeout = 60000;
 
-    func_0217988C((DWCHttp_021798E4 *)http);
+    func_0217988C((DWCHttp *)http);
     ip = DWCi_Http_Resolve((const char *)http);
     if (ip == 0) {
         http->error = 2;
@@ -589,7 +530,7 @@ void DWCi_Http_Thread(void *arg)
         goto fail;
     }
     CPS_SocFlush();
-    if (!func_02179814((DWCHttp_021798E4 *)http)) {
+    if (!func_02179814((DWCHttp *)http)) {
         http->error = 7;
         goto fail;
     }
@@ -636,7 +577,7 @@ void DWCi_Http_Thread(void *arg)
             http->error = 6;
             goto fail;
         }
-        if (!func_02179814((DWCHttp_021798E4 *)http)) {
+        if (!func_02179814((DWCHttp *)http)) {
             http->error = 7;
             goto fail;
         }
@@ -708,7 +649,7 @@ int DWCi_Http_WriteBasicHeader(char *http)
     }
     result_len = strlen((const char *)(*(char **)(http + 0x1124))) +
                  (strlen((const char *)format) - 4 + strlen((const char *)(*(char **)(http + 0x1128))));
-    if (func_0217A0D4((DWCHttp_0217956C *)http, (DWCHttpBuffer *)((Buf *)(http + 0x1a34)), result_len + 0x400) != 1) {
+    if (func_0217A0D4((DWCHttp *)http, (DWCHttpBuffer *)((Buf *)(http + 0x1a34)), result_len + 0x400) != 1) {
         return 1;
     }
     result_len = OS_SNPrintf(req->cur, req->cap, format, *(char **)(http + 0x1128), *(char **)(http + 0x1124));
@@ -755,7 +696,7 @@ int DWC_Http_Add_HeaderItem(char *http, char *label, char *data)
 /*
  * sdk:      DWC_Http_Add_PostBase64Item (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int DWC_Http_Add_PostBase64Item(DWCHttp_0217956C *http, char *label, char *data, unsigned long data_len)
+int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len)
 {
     int result_len;
     int result_base64;
@@ -917,7 +858,7 @@ int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size)
 
 
 
-int DWCi_Http_SetHostinfo(DWCHttp_0217A044 *http, char *url)
+int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
 {
     char *temp;
     char *portnum = 0;
@@ -964,7 +905,7 @@ int DWCi_Http_SetHostinfo(DWCHttp_0217A044 *http, char *url)
 /*
  * sdk:      DWCi_Http_AddResult (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int DWCi_Http_AddResult(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *result, char *label, char *value)
+int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value)
 {
     void *(*alloc)(unsigned long, long) = http->param.alloc;
     void (*free)(unsigned long, void *, long) = http->param.free;
@@ -999,7 +940,7 @@ int DWCi_Http_AddResult(DWCHttp_0217A344 *http, DWCHttpParseResult_0217956C *res
 /*
  * sdk:      DWC_Http_ParseResult (libdwcauth.TWL.HYB.a dwc_http.o)
  */
-int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody)
+int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
 {
     char *buffer;
     char *p_char1;
@@ -1011,7 +952,7 @@ int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody)
     char *index;
     char *value;
     char temp;
-    DWCHttpParseResult_0217A484 parse_result;
+    DWCHttpParseResult parse_result;
 
     parse_result.entry = http->labelvalue;
     parse_result.len = 32;
@@ -1029,7 +970,7 @@ int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody)
         return 0;
     temp = p_char1[4];
     p_char1[4] = 0;
-    if (DWCi_Http_AddResult((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, gDwcHttpLabelHttpResult, p_char1 + 1) != 1) {
+    if (DWCi_Http_AddResult((DWCHttp *)http, (DWCHttpParseResult *)&parse_result, gDwcHttpLabelHttpResult, p_char1 + 1) != 1) {
         p_char1[4] = temp;
         return 0;
     }
@@ -1057,7 +998,7 @@ int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody)
         }
         p_char2_temp = *p_char2;
         *p_char2 = 0;
-        if (DWCi_Http_AddResult((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, index, value) != 1) {
+        if (DWCi_Http_AddResult((DWCHttp *)http, (DWCHttpParseResult *)&parse_result, index, value) != 1) {
             *p_char1 = p_char1_temp;
             *p_char2 = p_char2_temp;
             return 0;
@@ -1082,7 +1023,7 @@ int DWC_Http_ParseResult(DWCHttp_0217A484 *http, int noparsebody)
             p_char2_temp = *p_char2;
             *p_char2 = 0;
         }
-        if (DWCi_Http_AddResult((DWCHttp_0217A344 *)http, (DWCHttpParseResult_0217956C *)&parse_result, index, p_char1) != 1) {
+        if (DWCi_Http_AddResult((DWCHttp *)http, (DWCHttpParseResult *)&parse_result, index, p_char1) != 1) {
             *buffer = p_char1_temp;
             if (p_char2 != 0)
                 *p_char2 = p_char2_temp;
@@ -1152,7 +1093,7 @@ int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len)
 
 
 
-static void DWCi_Http_DestroyResult(char *http, DWCHttpLabelValue_0217956C *array_entry, int array_len)
+static void DWCi_Http_DestroyResult(char *http, DWCHttpLabelValue *array_entry, int array_len)
 {
     void (*free)(unsigned long, void *, long) = *(void (**)(unsigned long, void *, long))(http + 0x1014);
     int i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC9C
+ * function: ZUKAN_INFO_BlendPalette
  * address: 0x021BBC9C
  * packet: pkt_ov206_021BBC9C
  * region: ov206
@@ -27,7 +27,7 @@ typedef struct S {
 extern s16 FX_SinCosTable_[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-s32 func_021BBC9C(S *p)
+s32 ZUKAN_INFO_BlendPalette(S *p)
 {
     s16 f;
     u8 i;

@@ -334,13 +334,13 @@ extern int BTL_CALC_Max(int value, int floor);
 
 extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *bpp);
 
-extern int func_021D5D14(struct BtlPokeParam *bpp, int statId, int amount);
+extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *bpp, int statId, int amount);
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 
 struct BtlEventFactor;
 
-/* Poke parameter values read through func_021D59B4. */
+/* Poke parameter values read through BTL_POKEPARAM_GetValue. */
 enum {
     BPP_VALUE_CURRENT_ABILITY = 0x11,
     BPP_VALUE_FORM = 0x13
@@ -753,7 +753,7 @@ extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *poke);
 
 extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *poke);
 
-extern int func_021D58A8(struct BtlPokeParam *poke, int paramId);
+extern int BTL_POKEPARAM_GetStatRaw(struct BtlPokeParam *poke, int paramId);
 
 extern int BTL_CALC_FindMajorSick(struct BtlPokeParam *poke);
 

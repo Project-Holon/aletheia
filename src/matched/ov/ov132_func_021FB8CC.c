@@ -10,7 +10,7 @@
  * symbols:
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACT_SCRIPT_TickSlot 0x021FAEE8 thumb ov132
- *   STA_ACT_LIGHT_ElemOpD 0x021F8084 thumb ov112
+ *   STA_ACT_LIGHT_SetActorOffset 0x021F8084 thumb ov112
  *   STA_ACT_SCRIPT_RemoveTask 0x021FADF8 thumb ov132
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_mul 0x0209C054 arm
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern int STA_ACT_SCRIPT_TickSlot(char *p);
-extern void STA_ACT_LIGHT_ElemOpD(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 extern void STA_ACT_SCRIPT_RemoveTask(char *p, char *q);
 extern const s16 FX_SinCosTable_[];
 void SCRIPT_COMMAND_TaskShake(int unused, char *p)
@@ -31,7 +31,7 @@ void SCRIPT_COMMAND_TaskShake(int unused, char *p)
     ctx = STA_ACTING_GetActorSystem(((struct Obj03823 *)p)->f0);
     if (STA_ACT_SCRIPT_TickSlot(p) == 2) {
         Vec zero = { 0, 0, 0 };
-        STA_ACT_LIGHT_ElemOpD(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&zero));
+        STA_ACT_LIGHT_SetActorOffset(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&zero));
         STA_ACT_SCRIPT_RemoveTask(((struct Obj03823 *)p)->f18, ((struct Obj03823 *)p)->f1C);
         return;
     }
@@ -42,6 +42,6 @@ void SCRIPT_COMMAND_TaskShake(int unused, char *p)
         sine = FX_SinCosTable_[((int)(((u32)((struct Obj03823 *)p)->f4 << 15) / (u32)((struct Obj03823 *)p)->f8) >> 4) * 2];
         v.y = -(int)(((long long)sine * ((struct Obj03823 *)p)->f14 + 0x800) >> 12);
         v.z = 0;
-        STA_ACT_LIGHT_ElemOpD(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&v));
+        STA_ACT_LIGHT_SetActorOffset(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&v));
     }
 }

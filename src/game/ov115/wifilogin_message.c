@@ -77,7 +77,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
@@ -111,7 +111,7 @@ struct MsgBank;
 
 struct WordSet;
 
-struct R;
+struct TaskMenuRes;
 
 struct PrintSys;
 
@@ -199,7 +199,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern struct WordSet *WORDSET_CreateDefault(u32);
 
-extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
 
 extern void *BMP_MENUWORK_LoadFrameGfx(void *,u32,u32,u32);
 
@@ -275,7 +275,7 @@ extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
-extern void func_0207D658(u32, int, int);
+extern void G2x_SetBlendBrightness_(u32, int, int);
 
 extern void APP_TASKMENU_SetCursorPos(u8 *, int);
 
@@ -412,7 +412,7 @@ u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode)
     *(struct GfFont * *)&((struct WifiloginMsg *)p)->gfFont = GF_FONT_Create(23, 0, 0, 0, ((struct WifiloginMsg *)p)->heapId);
     *(struct MsgBank * *)&((struct WifiloginMsg *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, (u16)bank, ((struct WifiloginMsg *)p)->heapId);
     *(struct WordSet * *)&((struct WifiloginMsg *)p)->wordSet = WORDSET_CreateDefault(((struct WifiloginMsg *)p)->heapId);
-    *(struct R * *)&((struct WifiloginMsg *)p)->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, *(u32 *)&((struct WifiloginMsg *)p)->gfFont, (u32)((struct WifiloginMsg *)p)->printsysQue, ((struct WifiloginMsg *)p)->heapId);
+    *(struct TaskMenuRes * *)&((struct WifiloginMsg *)p)->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, *(u32 *)&((struct WifiloginMsg *)p)->gfFont, (u32)((struct WifiloginMsg *)p)->printsysQue, ((struct WifiloginMsg *)p)->heapId);
     ((struct WifiloginMsg *)p)->frameGfx0 = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdA(((struct WifiloginMsg *)p)->mode), 12, 0, ((struct WifiloginMsg *)p)->heapId);
     ((struct WifiloginMsg *)p)->frameGfx1 = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode), 12, 0, ((struct WifiloginMsg *)p)->heapId);
     sel = 0;
@@ -538,7 +538,7 @@ void *WIFILOGIN_MSG_OpenTask(u8 *p, int mode, int flag, int selected)
         ((struct WifiloginMsgTask *)q)->taskMenu = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct WifiloginMsgTask *)q)->taskMenuRes);
         STRBUF_Delete(((struct WifiloginMsgTask *)q)->strbufA);
         STRBUF_Delete(((struct WifiloginMsgTask *)q)->strbufB);
-        if (flag != 0) func_0207D658(0x04001050, 17, -8);
+        if (flag != 0) G2x_SetBlendBrightness_(0x04001050, 17, -8);
         APP_TASKMENU_SetCursorPos(*(u8 * *)&((struct WifiloginMsgTask *)q)->taskMenu, selected);
         break;
     case 1:

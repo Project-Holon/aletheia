@@ -1,7 +1,7 @@
 /*
  * file:     frame_list.c
  * unit:     yes
- * function: FRAME_LIST_Create, FRAME_LIST_Delete, FRAME_LIST_AddItem, FRAME_LIST_CopyMapToBuffer, FRAME_LIST_LoadPalettes, FRAME_LIST_UpdateInit, FRAME_LIST_Update, FRAME_LIST_ClampScroll, FRAME_LIST_Redraw, FRAME_LIST_ReadTouch, FRAME_LIST_ReadKeys, FRAME_LIST_HandleInput, FRAME_LIST_UpdateHoldStage, FRAME_LIST_GetStepFrames, FRAME_LIST_GetScrollRoom, FRAME_LIST_StartScroll, FRAME_LIST_StepScroll, FRAME_LIST_BeginScrollBarDrag, FRAME_LIST_GetScrollBarRow, FRAME_LIST_FindScrollBarEntry, FRAME_LIST_GetScrollBarTop, FRAME_LIST_ClampToScrollBar, FRAME_LIST_StepScrollBarDrag, FRAME_LIST_BeginRowDrag, FRAME_LIST_StepRowDrag, FRAME_LIST_StartJump, FRAME_LIST_StartFlick, FRAME_LIST_ClampBgFrameId, FRAME_LIST_UploadRowTiles, FRAME_LIST_ScrollBgRows, FRAME_LIST_ClearBgRows, FRAME_LIST_GetRowPosition, FRAME_LIST_WrapIndex, FRAME_LIST_DrawRowA, FRAME_LIST_DrawRowB, FRAME_LIST_SetRowPalette, FRAME_LIST_SetCursorHighlight, FRAME_LIST_UpdateWindows, FRAME_LIST_GetPrinter, FRAME_LIST_GetItemValue, FRAME_LIST_GetSelectedIndex, FRAME_LIST_GetCursor, FRAME_LIST_GetScrollPos, FRAME_LIST_CanScrollDown, func_021B93D4, func_021B940C, func_021B941C
+ * function: FRAME_LIST_Create, FRAME_LIST_Delete, FRAME_LIST_AddItem, FRAME_LIST_CopyMapToBuffer, FRAME_LIST_LoadPalettes, FRAME_LIST_UpdateInit, FRAME_LIST_Update, FRAME_LIST_ClampScroll, FRAME_LIST_Redraw, FRAME_LIST_ReadTouch, FRAME_LIST_ReadKeys, FRAME_LIST_HandleInput, FRAME_LIST_UpdateHoldStage, FRAME_LIST_GetStepFrames, FRAME_LIST_GetScrollRoom, FRAME_LIST_StartScroll, FRAME_LIST_StepScroll, FRAME_LIST_BeginScrollBarDrag, FRAME_LIST_GetScrollBarRow, FRAME_LIST_FindScrollBarEntry, FRAME_LIST_GetScrollBarTop, FRAME_LIST_ClampToScrollBar, FRAME_LIST_StepScrollBarDrag, FRAME_LIST_BeginRowDrag, FRAME_LIST_StepRowDrag, FRAME_LIST_StartJump, FRAME_LIST_StartFlick, FRAME_LIST_ClampBgFrameId, FRAME_LIST_UploadRowTiles, FRAME_LIST_ScrollBgRows, FRAME_LIST_ClearBgRows, FRAME_LIST_GetRowPosition, FRAME_LIST_WrapIndex, FRAME_LIST_DrawRowA, FRAME_LIST_DrawRowB, FRAME_LIST_SetRowPalette, FRAME_LIST_SetCursorHighlight, FRAME_LIST_UpdateWindows, FRAME_LIST_GetPrinter, FRAME_LIST_GetItemValue, FRAME_LIST_GetSelectedIndex, FRAME_LIST_GetCursor, FRAME_LIST_GetScrollPos, FRAME_LIST_CanScrollDown, FRAME_LIST_SetCursor, FRAME_LIST_ShowCursor, FRAME_LIST_HideCursor
  * address:  0x021B7754
  * region:   ov067
  * compiler: dsi/1.1p1
@@ -163,9 +163,9 @@ int FRAME_LIST_GetSelectedIndex(FrameList *list);
 int FRAME_LIST_GetCursor(FrameList *list);
 int FRAME_LIST_GetScrollPos(FrameList *list);
 int FRAME_LIST_CanScrollDown(FrameList *list);
-void func_021B93D4(FrameList *list, int row);
-void func_021B940C(FrameList *list);
-void func_021B941C(FrameList *list);
+void FRAME_LIST_SetCursor(FrameList *list, int row);
+void FRAME_LIST_ShowCursor(FrameList *list);
+void FRAME_LIST_HideCursor(FrameList *list);
 extern const char gFrameListSourceFile[];
 extern const u8 gFrameListFlickSteps[];
 extern const u8 gFrameListFlickThresholds[][6];
@@ -1426,7 +1426,7 @@ int FRAME_LIST_CanScrollDown(FrameList *list)
 }
 
 
-void func_021B93D4(FrameList *list, int row)
+void FRAME_LIST_SetCursor(FrameList *list, int row)
 {
     list->prevCursor = list->cursor;
     list->cursor = row;
@@ -1435,7 +1435,7 @@ void func_021B93D4(FrameList *list, int row)
 }
 
 
-void func_021B940C(FrameList *list)
+void FRAME_LIST_ShowCursor(FrameList *list)
 {
     FRAME_LIST_SetCursorHighlight(list, (u16)list->cursor, (u16)0xff);
 }
@@ -1446,7 +1446,7 @@ void func_021B940C(FrameList *list)
  * HideCursor tail-call the highlight update with the cursor row as the new or
  * the old row.
  */
-void func_021B941C(FrameList *list)
+void FRAME_LIST_HideCursor(FrameList *list)
 {
     FRAME_LIST_SetCursorHighlight(list, (u16)0xff, (u16)list->cursor);
 }

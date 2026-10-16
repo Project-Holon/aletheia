@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0B8
+ * function: ZUKAN_INFO_GetCellAnimFileId
  * address:  0x021BC0B8
  * packet:   pkt_021BC0B8
  * region:   ov206
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021BC0B8(int v)
+int ZUKAN_INFO_GetCellAnimFileId(int v)
 {
     if (v <= 0x1ED)
         return 2;

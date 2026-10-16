@@ -54,6 +54,7 @@
  *   APP_ICON_GetStatusIconAnim  0x020276C4  thumb  arm9
  *   APP_ICON_GetBallThrowCellFileId  0x02027720  thumb  arm9
  *   APP_ICON_GetBallThrowAnimFileId  0x0202772C  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj00472.h"
@@ -75,7 +76,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern u32 APP_ICON_GetArchiveId(void);
 extern int APP_ICON_GetBallThrowCellFileId(int);
 extern int APP_ICON_GetBallThrowAnimFileId(int);
@@ -112,7 +113,7 @@ void P_STA_SUB_Refresh(u8 *p,u8 *q)
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
     func_02041B6C(BMP_WIN_GetBgLayer(window));
-    form=func_02017E88(mon,0x98,0);
+    form=POKE_TOOL_GetBoxValue(mon,0x98,0);
     archive=APP_ICON_GetArchiveId();
     loaded=ARC_UTIL_LoadPaletteBlockFromArchive(archive,APP_ICON_GetBallThrowCellFileId(form),(u32)&pal,((struct Obj00112 *)p)->f0);
     CLACT_TransferPalette(((struct Obj00112 *)p)->f9C,pal,1);
@@ -122,7 +123,7 @@ void P_STA_SUB_Refresh(u8 *p,u8 *q)
     CLACT_TransferCharacter(((struct Obj00112 *)p)->fD0,chr);
     func_020307B0(loaded);
     CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f20,1);
-    status=func_02017E88(mon,11,0);
+    status=POKE_TOOL_GetBoxValue(mon,11,0);
     for(i=0,mask=1;i<6;mask=(u8)(mask<<1),i++) {
         if(status & mask) CLACT_SetActorAnimSeq(*(void **)(q+0x24+i*4),i*2+1);
         else CLACT_SetActorAnimSeq(*(void **)(q+0x24+i*4),i*2);

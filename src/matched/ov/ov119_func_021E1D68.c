@@ -11,7 +11,7 @@
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   POKETRADE_3D_RemoveCurrentUnit 0x021E3230 thumb ov119
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   POKETRADE_SAVE_DeleteOfferCardWindow 0x021E2438 thumb ov119
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void POKETRADE_3D_RemoveCurrentUnit(void *);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_SAVE_DeleteOfferCardWindow(char *,int);
@@ -54,7 +54,7 @@ void POKETRADE_SAVE_OpenSummaryScreen(char *p,void *a)
         POKETRADE_2D_LoadSubBackgroundGfx(p);
         BG_SYS_SetMainVisiblePlanes(29);
         BG_SYS_SetSubVisiblePlanes(31);
-        func_0207D658(0x04001050,26,-8);
+        G2x_SetBlendBrightness_(0x04001050,26,-8);
         p[0x11f9]=1;
         func_020056A0((void (*)(void *, void *))POKETRADE_SAVE_VBlankSetupWindowRegs,p,0);
     }

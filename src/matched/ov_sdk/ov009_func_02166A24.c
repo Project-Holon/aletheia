@@ -13,7 +13,7 @@
  *
  * symbols:
  *   WCMi_GetSystemWork    0x021657C8  arm  ov009
- *   func_02167CB4    0x02167CB4  arm  ov009
+ *   WcmEditScanExParam    0x02167CB4  arm  ov009
  *   DC_InvalidateRange 0x020862B8  arm
  *   WM_StartScanEx   0x0208F698  arm
  *   WCMi_SetPhase    0x02165A4C  arm  ov009
@@ -44,7 +44,7 @@ typedef struct WCMWork {
 } WCMWork;
 
 extern int WCMi_GetSystemWork(void);
-extern void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option);
+extern void WcmEditScanExParam(unsigned char *bssid, unsigned char *essid, unsigned long option);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
 extern void WCMi_SetPhase(unsigned char phase);
@@ -58,15 +58,15 @@ long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option)
     wcmw = (WCMWork *)WCMi_GetSystemWork();
     switch (wcmw->phase) {
     case 5:
-        func_02167CB4(bssid, essid, option);
+        WcmEditScanExParam(bssid, essid, option);
         return 2;
     case 6:
-        func_02167CB4(bssid, essid, option);
+        WcmEditScanExParam(bssid, essid, option);
         return 0;
     default:
         return 1;
     case 3:
-        func_02167CB4(bssid, essid, option);
+        WcmEditScanExParam(bssid, essid, option);
         break;
     }
     DC_InvalidateRange(wcmw->scanParam.scanBuf, wcmw->scanParam.scanBufSize);

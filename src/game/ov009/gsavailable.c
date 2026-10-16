@@ -1,7 +1,7 @@
 /*
  * file:     gsavailable.c
  * unit:     yes
- * function: func_0217C690, func_0217C704, GSIStartAvailableCheckA, HandlePacket, GSIAvailableCheckThink
+ * function: get_sockaddrin, SendPacket, GSIStartAvailableCheckA, HandlePacket, GSIAvailableCheckThink
  * address:  0x0217C690
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -22,11 +22,11 @@
  *   gsiSafeStrcpyA  0x021803BC  arm ov009
  *   SocketStartUp  0x0217F25C  arm ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_0217C690  0x0217C690  arm ov009
- *   func_0217EB18  0x0217EB18  arm ov009
+ *   get_sockaddrin  0x0217C690  arm ov009
+ *   socket  0x0217EB18  arm ov009
  *   strlen  0x0209477C  arm
  *   func_02092344  0x02092344  arm
- *   func_0217C704  0x0217C704  arm ov009
+ *   SendPacket  0x0217C704  arm ov009
  *   gGsAvailabilityGameName     0x021ACEFC  data
  *   gGsAvailableOverrideHost     0x021ACF3C  data
  *   gGsAvailableHostFmt     0x021A36E8  data
@@ -75,11 +75,11 @@ extern unsigned int current_time(void);
 extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern void SocketStartUp(void);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);
-extern int func_0217EB18(int pf, int type, int protocol);
+static int get_sockaddrin(char *hostname, int port, struct SOCSockAddrIn *saddr);
+extern int socket(int pf, int type, int protocol);
 extern int strlen(const u8 *s);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
-extern void func_0217C704(void);
+static void SendPacket(void);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
@@ -95,7 +95,7 @@ extern AvailableCheck gGsAvailableCheck;
 /*
  * sdk:      get_sockaddrin (gsavailable.o)
  */
-int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
+static int get_sockaddrin(char *hostname, int port, struct SOCSockAddrIn *saddr)
 {
     struct SOCHostEnt *host;
     saddr->family = 2;
@@ -112,7 +112,7 @@ int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
 /*
  * sdk:      SendPacket (gsavailable.o)
  */
-void func_0217C704(void)
+static void SendPacket(void)
 {
     sendto(gGsAvailableCheck.sock, gGsAvailableCheck.packet, gGsAvailableCheck.packetLen, 0, (struct SOCSockAddr *)&gGsAvailableCheck.address, 8);
     gGsAvailableCheck.sendTime = current_time();
@@ -136,16 +136,16 @@ void GSIStartAvailableCheckA(char *gamename)
     host = gGsAvailableOverrideHost;
     if (override == 0)
         host = hostname;
-    if (!func_0217C690(host, 27900, &gGsAvailableCheck.address))
+    if (!get_sockaddrin(host, 27900, &gGsAvailableCheck.address))
         return;
-    gGsAvailableCheck.sock = func_0217EB18(2, 2, 0);
+    gGsAvailableCheck.sock = socket(2, 2, 0);
     if (gGsAvailableCheck.sock == -1)
         return;
     gGsAvailableCheck.packet[0] = 9;
     len = strlen((const u8 *)gamename);
     func_02092344(gGsAvailableCheck.packet + 5, gamename, len + 1);
     gGsAvailableCheck.packetLen = len + 6;
-    func_0217C704();
+    SendPacket();
     gGsAvailableCheck.retryCount = 0;
 }
 
@@ -207,7 +207,7 @@ int GSIAvailableCheckThink(void)
             gGsAvailabilityState = 1;
             return 1;
         }
-        func_0217C704();
+        SendPacket();
         gGsAvailableCheck.retryCount++;
     }
     return 0;

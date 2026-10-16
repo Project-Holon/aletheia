@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AE4
+ * function: UN_SELECT_DrawFrameListRow
  * address:  0x021B9AE4
  * packet:   pkt_ov218_021B9AE4
  * region:   ov218
@@ -35,7 +35,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u32 func_0201D2C8(struct StrObj *s);
-void func_021B9AE4(u8 *p, u8 *a, void *b, unsigned long long cd)
+void UN_SELECT_DrawFrameListRow(u8 *p, u8 *a, void *b, unsigned long long cd)
 {
     u32 c = (u32)cd; u32 d = (u32)(cd >> 32);
     u32 r = 12;

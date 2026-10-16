@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   FILE_UTIL_Check12E4  0x020212E4  thumb
  */
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 FILE_UTIL_Check12E4(u16 v);
 
 int EVENT_ID_AreSlotsClear(void *p, int a1)
@@ -24,7 +24,7 @@ int EVENT_ID_AreSlotsClear(void *p, int a1)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (FILE_UTIL_Check12E4((u16)func_02017E88(p, i + 0x36, 0)) != 0) {
+        if (FILE_UTIL_Check12E4((u16)POKE_TOOL_GetBoxValue(p, i + 0x36, 0)) != 0) {
             return 0;
         }
     }

@@ -153,7 +153,7 @@ struct Link;
 
 struct L0200ED54;
 
-struct Sub0200852CObj;
+struct PlayerStatus;
 
 typedef unsigned int   u32_0217BA9C;
 
@@ -387,7 +387,7 @@ extern int DIGITALCARDCHECK_IsRecord2Done(u8 *);
 
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 
-extern u32_0217CAE0 func_02008530(const struct Sub0200852CObj *obj);
+extern u32_0217CAE0 func_02008530(const struct PlayerStatus *obj);
 
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32_0217CAE0 val);
 

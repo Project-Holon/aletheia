@@ -14,7 +14,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   FADE_Start  0x0204E720  arm
- *   func_021EB318  0x021EB318  thumb  ov093
+ *   BTLV_SCU_IsFadeDone  0x021EB318  thumb  ov093
  *   BTLV_SCU_StepBallWindowOpen  0x021EE3E8  thumb  ov093
  */
 #include "../include/Obj06295.h"
@@ -46,7 +46,7 @@ struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 typedef signed int     s32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern u32 func_021EB318(void);
+extern u32 BTLV_SCU_IsFadeDone(void);
 struct C;
 extern int BTLV_SCU_StepBallWindowOpen(int *st, struct C *c);
 
@@ -59,7 +59,7 @@ void BTLV_SCU_ClearWaitWindow(struct Q *q)
 
 int BTLV_SCU_GetWaitState(void)
 {
-    return func_021EB318();
+    return BTLV_SCU_IsFadeDone();
 }
 
 void BTLV_SCU_StartBallWindowOpen(char *o, int a, struct T *src)

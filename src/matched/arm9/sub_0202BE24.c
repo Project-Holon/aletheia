@@ -1,5 +1,5 @@
 /*
- * function: func_0202BE24
+ * function: ISS_3DS_SYS_StepMasterVolume
  * address:  0x0202BE24
  * packet:   pkt_0202BE24
  * region:   arm9
@@ -19,7 +19,7 @@ struct Obj0202BE24 {
     u8 step;
 };
 
-void func_0202BE24(struct Obj0202BE24 *p)
+void ISS_3DS_SYS_StepMasterVolume(struct Obj0202BE24 *p)
 {
     int target = p->target;
     int curr = p->curr;

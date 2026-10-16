@@ -11,12 +11,12 @@
  * ABI: 0203159C and 02031324 own files return void; caller consumes r0.
  * ABI: 02031324 also receives the heap in r0, preserved in this extern.
  * symbols:
- *   sub_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   FADE_Start 0x0204E720 arm
  *   SHINKA_DEMO_StartBgm 0x02204DC4 thumb ov195
@@ -36,12 +36,12 @@ struct Proc;
 struct U16Vec;
 struct App;
 struct Scene;
-extern void sub_0203064C(u32 src, u32 dst, u32 size);
+extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *POKEPARTY_GetMember(void *,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void FADE_Start(u32,int,int,int);
 extern void SHINKA_DEMO_StartBgm(u8 *,u8 *);
@@ -54,7 +54,7 @@ extern const char d_02208F40[];
 int SHINKA_DEMO_Create(struct Proc *owner,int unused,u8 *app)
 {
     char *p;
-    sub_0203064C(1,0x94,0x10000);
+    GFL_HEAP_CreateChildHeap(1,0x94,0x10000);
     p=PROCSYS_AllocProcWork(owner,0x120,0x94);
     MI_CpuFill8(p,0,0x120);
     ((struct Obj00734 *)p)->f0=0x94;
@@ -63,7 +63,7 @@ int SHINKA_DEMO_Create(struct Proc *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->f30=0;
     ((struct Obj00734 *)p)->f10=POKEPARTY_GetMember(((struct Obj05515 *)app)->f4,app[0xa]);
     *(struct U16Vec * *)&((struct Obj00734 *)p)->f14=STRBUF_Create(0x100,((struct Obj00734 *)p)->f0);
-    func_02017E1C(((struct Obj00734 *)p)->f10,0x73,*(u32 *)&((struct Obj00734 *)p)->f14);
+    POKE_TOOL_GetPartyValue(((struct Obj00734 *)p)->f10,0x73,*(u32 *)&((struct Obj00734 *)p)->f14);
     ((struct Obj00734 *)p)->f24=0;
     ((struct Obj00734 *)p)->fA0=0;
     ((struct Obj00734 *)p)->fA4=0;

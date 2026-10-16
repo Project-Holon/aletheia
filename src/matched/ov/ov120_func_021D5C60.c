@@ -28,6 +28,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb  arm9
  *   GAME_DATA_GetField1A0  0x0201283C  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "../include/Obj01401.h"
 #include "../include/Obj06435.h"
@@ -46,7 +47,7 @@ extern char *GTSNEGO_MSG_Create(u32 heap, u32 n);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int GFL_NET_GetRunState(void);
@@ -80,7 +81,7 @@ int GTSNEGO_DISP_Create(void *a, int unused, u8 *q)
     ((struct Obj01401 *)p)->f15C = zero;
     ((struct Obj01401 *)p)->f160 = 2;
     ((struct Obj01401 *)p)->f164 = 6;
-    ((struct Obj01401 *)p)->f14C = func_02008530((const struct Sub0200852CObj *)func_02012944(((struct Obj06435 *)q)->f0));
+    ((struct Obj01401 *)p)->f14C = func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct Obj06435 *)q)->f0));
     if (GFL_NET_GetRunState())
         GFL_NET_COMMAND_AddCommandTable(0x2200, (u32)d_021D88EC, 3, (u32)p);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct Obj01401 *)p)->fC);

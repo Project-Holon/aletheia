@@ -32,20 +32,20 @@
  * file pairs it with.
  *
  * The note declares the accessors narrow (`u8 POKE_TOOL_DecodeBoxParam`, `u16
- * func_02017E88`).  With the callee declared narrow the compiler emits no
+ * POKE_TOOL_GetBoxValue`).  With the callee declared narrow the compiler emits no
  * truncation at all and then spills the live values to the frame.  The
  * original truncates at the ASSIGNMENT with a `lsls`/`lsrs` pair and keeps
  * both narrowed values in callee-saved registers.  That shape needs the
  * callee declared returning a full word and the LOCAL declared narrow, so the
  * cast belongs to the source rather than to the callee.  Declaring
- * POKE_TOOL_DecodeBoxParam and func_02017E88 u32 and keeping `u8 v` / `u16 w` is the
+ * POKE_TOOL_DecodeBoxParam and POKE_TOOL_GetBoxValue u32 and keeping `u8 v` / `u16 w` is the
  * entire fix; the body is the note's, unchanged.
  *
  * This is docs/families/poke_tool.h's adjudication rule: a truncation at the
  * call constrains the callee's width, a truncation at the assignment
  * constrains the local's.  Every other matched file in the family
  * (unit_02017E64.c, unit_0201854C.c, unit_02018430.c) already declares
- * func_02017E88 returning u32, so the note's spelling was the outlier.
+ * POKE_TOOL_GetBoxValue returning u32, so the note's spelling was the outlier.
  *
  * The third argument of POKE_TOOL_SetBoxValue is a plain u32, not a `void *`: ids 5
  * and 0x74 take an integer and a buffer address respectively, and spelling
@@ -62,7 +62,7 @@
  *
  * symbols:
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_UpdateAbilityForSpecies  0x02017C50  thumb
  *   POKE_TOOL_UpdateGenderForSpecies  0x02017CC8  thumb
@@ -78,7 +78,7 @@ typedef unsigned int   u32;
 
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
+extern u32  POKE_TOOL_GetBoxValue(void *a0, u32 a1, u32 a2);
 extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 extern void POKE_TOOL_UpdateAbilityForSpecies(int a0, int a1, int a2);
 extern void POKE_TOOL_UpdateGenderForSpecies(void *a0, void *a1, void *a2);
@@ -92,13 +92,13 @@ extern u8    gNameBuf[];
 u32 POKE_TOOL_ChangeBoxSpecies(void *a0, u32 a1)
 {
     u8  v = (u8)POKE_TOOL_DecodeBoxParam(a0);
-    u16 w = (u16)func_02017E88(a0, 5, 0);
+    u16 w = (u16)POKE_TOOL_GetBoxValue(a0, 5, 0);
 
     if (w != a1) {
         u32 x;
 
-        func_02017E88(a0, 0x6f, 0);
-        x = func_02017E88(a0, 0x75, 0);
+        POKE_TOOL_GetBoxValue(a0, 0x6f, 0);
+        x = POKE_TOOL_GetBoxValue(a0, 0x75, 0);
         POKE_TOOL_SetBoxValue(a0, 5, a1);
         POKE_TOOL_UpdateAbilityForSpecies((int)a0, a1, w);
         POKE_TOOL_UpdateGenderForSpecies(a0, (void *)a1, (void *)w);

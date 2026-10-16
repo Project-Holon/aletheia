@@ -14,7 +14,7 @@
  * symbols:
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   gpiSetErrorString  0x02193734  arm  ov009
- *   func_0217EB18  0x0217EB18  arm  ov009
+ *   socket  0x0217EB18  arm  ov009
  *   gpiSetError  0x02193710  arm  ov009
  *   gpiCallErrorCallback  0x02189D78  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
@@ -81,7 +81,7 @@ extern char g_021A531C[];
 
 extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(int *p, int b);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern void gpiSetError(int *connection, int result, int errorString);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern int SetSockBlocking(int sock, int isblocking);
@@ -106,7 +106,7 @@ int gpiStartProfileSearch(void **connection, GPIOperation *operation)
         return 1;
     }
 
-    data->sock = func_0217EB18(2, 1, 0);
+    data->sock = socket(2, 1, 0);
     if (data->sock == -1) {
         gpiSetError((int *)connection, 5, (int)g_021A5290);
         gpiCallErrorCallback((int *)connection, 3, 1);

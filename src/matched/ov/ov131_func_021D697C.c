@@ -15,6 +15,7 @@
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 #include "../include/Obj00436.h"
 typedef unsigned int   u32;
@@ -22,7 +23,7 @@ typedef unsigned char  u8;
 struct Personal;
 extern void *P_STATUS_GetPokePara(unsigned char *p);
 extern int POKEPARTY_GetSlotFlag(void *p, u32 pos);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void *POKE_PERSONAL_Create(u32,int,u32);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *);
@@ -34,8 +35,8 @@ void P_STA_SUB_InitWindows(unsigned char *p,int *q) {
  int a,b;
  if((*(unsigned char **)(p+8))[12]==1) q[3]=POKEPARTY_GetSlotFlag(**(void ** *)&((struct Obj00436 *)p)->f8,((struct Obj00436 *)p)->f18); else q[3]=1;
  if(*(int *)&((struct Obj00436 *)p)->f38==0) {
- a=func_02017E88(m,5,0);
- b=func_02017E88(m,111,0);
+ a=POKE_TOOL_GetBoxValue(m,5,0);
+ b=POKE_TOOL_GetBoxValue(m,111,0);
  t=POKE_PERSONAL_Create((unsigned short)a,(unsigned short)b,((struct Obj00436 *)p)->f0);
  if(POKE_PERSONAL_GetParam(t,16)==1) q[4]=1; else q[4]=0;
  q[5]=POKE_PERSONAL_GetParam(t,38);

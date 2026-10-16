@@ -21,10 +21,10 @@
  *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCEC 0x0201BCEC thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub 0x0201BCEC thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
@@ -43,10 +43,10 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 POKE_TOOL_GetGraphicIndex(void *);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
-extern int func_0201BC78(void);
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 APP_ICON_GetArchiveId(void);
@@ -75,9 +75,9 @@ void VS_MULTI_LIST_LoadIconResources(int p)
             icon = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
         *(int *)(icons + i * 4) = CLACT_RegisterCharacter(h, icon, 0, 0, 0x71);
     }
-    *(int *)&((struct Obj00410 *)p)->fD8 = CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 0, 0, 0x71);
-    a = func_0201BC78();
-    b = func_0201BCEC();
+    *(int *)&((struct Obj00410 *)p)->fD8 = CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), 0, 0, 0x71);
+    a = POKE_TOOL_GetIconCellArcIdSub();
+    b = POKE_TOOL_GetIconCellEntryIdSub();
     *(int *)&((struct Obj00410 *)p)->fE8 = CLACT_RegisterCellAnim(h, a, b, 0x71);
     ARC_TOOL_DeleteHandle(h);
     h2 = func_020490F4(APP_ICON_GetArchiveId(), 0x8071);

@@ -1,5 +1,5 @@
 /*
- * function: func_02066748
+ * function: NNSi_G2dSetRndCoreImageProxyVeneer
  * address:  0x02066748
  * packet:   pkt_02066748
  * region:   arm9
@@ -14,4 +14,4 @@
  */
 
 extern void NNS_G2dSetRndCoreImageProxy(int *p, int a, int b);
-void func_02066748(int *a0, int a1, int a2){ NNS_G2dSetRndCoreImageProxy(a0, a1, a2); }
+void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2){ NNS_G2dSetRndCoreImageProxy(a0, a1, a2); }

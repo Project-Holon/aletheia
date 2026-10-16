@@ -1,7 +1,7 @@
 /*
  * file:     nns_fnd_expheap.c
  * unit:     yes
- * function: NNS_FndInitList, NNSi_FndSetFirstObject, NNS_FndAppendListObject, NNS_FndPrependListObject, NNS_FndInsertListObject, NNS_FndRemoveListObject, NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem, NNSi_FndFindListContainHeap, NNSi_FndInitHeapHead, func_0206074C, NNSi_FndGetMBlockRegion, NNSi_FndRemoveMBlock, NNSi_FndInsertMBlock, NNSi_FndInitMBlock, NNSi_FndCreateExpHeap, NNSi_FndAllocFromExpHeap, NNSi_FndAllocFromExpHeapHead, NNSi_FndAllocFromExpHeapTail, NNSi_FndRecycleRegion, NNS_FndCreateExpHeapEx, func_02060C94, NNS_FndAllocFromExpHeapEx, NNS_FndResizeForMBlockExpHeap, NNS_FndFreeToExpHeap, NNSi_FndGetListTotalSize, NNSi_FndGetListAllocatableSize, NNSi_FndSetAllocModeBit, NNSi_FndSetGroupId, NNSi_FndWalkHeapBlocks, NNSi_FndGetMBlockSize, NNSi_FndGetMBlockAttribute
+ * function: NNS_FndInitList, NNSi_FndSetFirstObject, NNS_FndAppendListObject, NNS_FndPrependListObject, NNS_FndInsertListObject, NNS_FndRemoveListObject, NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem, NNSi_FndFindListContainHeap, NNSi_FndInitHeapHead, func_0206074C, NNSi_FndGetMBlockRegion, NNSi_FndRemoveMBlock, NNSi_FndInsertMBlock, NNSi_FndInitMBlock, NNSi_FndCreateExpHeap, NNSi_FndAllocFromExpHeap, NNSi_FndAllocFromExpHeapHead, NNSi_FndAllocFromExpHeapTail, NNSi_FndRecycleRegion, NNS_FndCreateExpHeapEx, NNSi_FndDestroyExpHeap, NNS_FndAllocFromExpHeapEx, NNS_FndResizeForMBlockExpHeap, NNS_FndFreeToExpHeap, NNSi_FndGetListTotalSize, NNSi_FndGetListAllocatableSize, NNSi_FndSetAllocModeBit, NNSi_FndSetGroupId, NNSi_FndWalkHeapBlocks, NNSi_FndGetMBlockSize, NNSi_FndGetMBlockAttribute
  * address:  0x02060468
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -25,8 +25,6 @@
  *   abs  0x02091588  arm
  */
 #include "nns_fnd_types.h"
-#include "../../matched/include/Obj06998.h"
-#include "../../matched/include/Obj00512.h"
 
 #define GetLink(list, obj) ((NNSFndLink_02060468 *)(((u32)(obj)) + (list)->offset))
 #define NNSi_FndSetBitValue(data, st, bits, val) \
@@ -217,7 +215,7 @@ void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap_02060888 *heap, u32 size, s32 
 void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap_02060888 *heap, u32 size, s32 align);
 BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion);
 void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
-void func_02060C94(void *heap);
+void NNSi_FndDestroyExpHeap(void *heap);
 void *NNS_FndAllocFromExpHeapEx(struct ExpHeap_02060888 *heap, u32 size, s32 align);
 u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 size);
 void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
@@ -238,7 +236,7 @@ extern NNSFndList sRootList;
 
 
 
-void NNS_FndInitList(int p0, int p1){ ((struct Obj06998 *)p0)->f0 = (int)0; ((struct Obj06998 *)p0)->f4 = (int)0; ((struct Obj06998 *)p0)->f8 = (unsigned short)0; ((struct Obj06998 *)p0)->fA = (unsigned short)p1; }
+void NNS_FndInitList(int p0, int p1){ ((NNSFndList_02060468 *)p0)->headObject = 0; ((NNSFndList_02060468 *)p0)->tailObject = 0; ((NNSFndList_02060468 *)p0)->numObjects = (unsigned short)0; ((NNSFndList_02060468 *)p0)->offset = (unsigned short)p1; }
 
 
 
@@ -602,7 +600,7 @@ void FNDHEAP_Finalize(void *p)
  */
 void NNSi_FndGetMBlockRegion(int *out, int *blk)
 {
-    int f = ((struct Obj00512 *)blk)->f2;
+    int f = ((struct MBlock *)blk)->attr;
 
     out[0] = (int)blk - (u16)((f >> 8) & 0x7f);
     out[1] = blk[1] + (int)(blk + 4);
@@ -635,7 +633,7 @@ void *NNSi_FndRemoveMBlock(int *p, int *node)
 void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
 {
     int *b;
-    ((struct Obj00512 *)node)->f8 = (int)a;
+    ((struct MBlock *)node)->prev = (struct MBlock *)a;
     if (a != 0) {
         b = (int *)a[3];
         a[3] = (int)node;
@@ -643,7 +641,7 @@ void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
         b = (int *)p[0];
         p[0] = (int)node;
     }
-    *(int *)&((struct Obj00512 *)node)->fC = (int)b;
+    ((struct MBlock *)node)->next = (struct MBlock *)b;
     if (b != 0)
         b[2] = (int)node;
     else
@@ -657,11 +655,11 @@ void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
 void *NNSi_FndInitMBlock(int *p, int v)
 {
     int *q = (int *)p[0];
-    ((struct Obj00512 *)q)->f0 = (unsigned short)v;
-    ((struct Obj00512 *)q)->f2 = 0;
-    ((struct Obj00512 *)q)->f4 = (int)((char *)p[1] - ((char *)q + 0x10));
-    ((struct Obj00512 *)q)->f8 = 0;
-    *(int *)&((struct Obj00512 *)q)->fC = 0;
+    ((struct MBlock *)q)->signature = (unsigned short)v;
+    ((struct MBlock *)q)->attr = 0;
+    ((struct MBlock *)q)->size = (int)((char *)p[1] - ((char *)q + 0x10));
+    ((struct MBlock *)q)->prev = 0;
+    ((struct MBlock *)q)->next = 0;
     return q;
 }
 
@@ -833,7 +831,7 @@ void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, 
 
 /*
  * The head-end half of the expanded-heap allocator that sits under the game's
- * own heap layer: src/matched/sub_02030098.c calls NNS_FndAllocFromExpHeapEx, which
+ * own heap layer: src/matched/GFL_HEAP_AllocMemory.c calls NNS_FndAllocFromExpHeapEx, which
  * dispatches here for a non-negative alignment and to NNSi_FndAllocFromExpHeapTail for a
  * negative one.
  *
@@ -901,7 +899,7 @@ void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap_02060888 *heap, u32 size, s32 
 /*
  * The tail-end half of the expanded-heap allocator, the mirror of
  * NNSi_FndAllocFromExpHeapHead: NNS_FndAllocFromExpHeapEx dispatches here when the caller asked for a
- * negative alignment, which is how src/matched/sub_02030098.c spells "take
+ * negative alignment, which is how src/matched/GFL_HEAP_AllocMemory.c spells "take
  * this block from the high end of the heap".
  *
  * The walk runs from the free list's tail through the `prev` link at +0x08
@@ -1092,7 +1090,7 @@ void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr)
 
 
 
-void func_02060C94(void *heap){ func_0206074C(heap); }
+void NNSi_FndDestroyExpHeap(void *heap){ func_0206074C(heap); }
 
 
 
@@ -1101,7 +1099,7 @@ void func_02060C94(void *heap){ func_0206074C(heap); }
 
 /*
  * The expanded-heap allocator's front door, and the function
- * src/matched/sub_02030098.c calls once it has picked the arena: round the
+ * src/matched/GFL_HEAP_AllocMemory.c calls once it has picked the arena: round the
  * request up to a word (a zero-byte request still costs one word, which is
  * what makes an empty allocation a distinct pointer), then walk the free list
  * from the head for a non-negative alignment or from the tail for a negative

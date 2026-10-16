@@ -58,7 +58,7 @@
  */
 #include "br_types.h"
 
-struct Rec_021FAA74 {void *a,*b;unsigned char pad[12];void *handle;};
+struct MsgDataRec {void *a,*b;unsigned char pad[12];void *handle;};
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -76,7 +76,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern void *WORDSET_Create(unsigned,unsigned,unsigned);
 
-extern unsigned int MSGDATA_Delete(struct Rec_021FAA74 *rec);
+extern unsigned int MSGDATA_Delete(struct MsgDataRec *rec);
 
 extern unsigned int GF_FONT_Delete(void *ptr);
 
@@ -179,7 +179,7 @@ void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId)
     return res;
 }
 
-void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_DeleteStrbufED04(res->wordSet);MSGDATA_Delete((struct Rec_021FAA74 *)res->msgData);GF_FONT_Delete(res->font);func_020307B0(res);}
+void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_DeleteStrbufED04(res->wordSet);MSGDATA_Delete((struct MsgDataRec *)res->msgData);GF_FONT_Delete(res->font);func_020307B0(res);}
 
 void BR_RES_LoadBgGraphics(void *unusedCtx,unsigned kind,unsigned short heapId)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_02183F6C
+ * function: MICTEST_InitActorSystem
  * address:  0x02183F6C
  * packet:   pkt_02183F6C
  * region:   ov168
@@ -24,7 +24,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_02183F6C(int unused, u32 b)
+void MICTEST_InitActorSystem(int unused, u32 b)
 {
     CLACT_InitSystem((void *)0x020A1448, (u32)((void *)0x021848D4), (u16)b);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

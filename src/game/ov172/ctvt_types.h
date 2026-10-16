@@ -35,14 +35,12 @@ struct PrintSys;
 struct MsgBank;
 struct U16Vec;
 struct Vec2;
-struct Q;
+struct CtvtCamView;
 struct StrObj;
 struct Sub0200852CObj;
 
 /* Screen and window parameter records shared by the overlay files. */
 typedef struct { u16 heap; u8 kind, pad; u16 count, a, b, c, d; } Params;
-
-struct Q { u8 b[4]; };
 
 /* One 0xE byte cell actor sprite placement. */
 struct Desc {

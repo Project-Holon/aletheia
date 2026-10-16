@@ -126,7 +126,7 @@ struct Sel6 { u8 v[6]; };
 
 struct Ofs6 { u16 v[6]; };
 
-struct W {
+struct InfoWinDrawBuffer {
     u16 scr[4];     /* +0x00 */
     struct Sel6 sel; /* +0x08 */
     u16 col[2];     /* +0x0E */
@@ -353,7 +353,7 @@ int INFOWIN_Exit(void)
  */
 void INFOWIN_DrawTask(void)
 {
-    struct W buf;
+    struct InfoWinDrawBuffer buf;
     int done;
     int k;
 

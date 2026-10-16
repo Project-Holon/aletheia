@@ -86,7 +86,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_02045B38 0x02045B38 arm
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   POKE_SUMMARY_ACTOR_SetMoveIcon 0x021B78CC thumb ov173
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -118,7 +118,7 @@ extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *POKE_TOOL_GetBoxParam(void *);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -159,7 +159,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
     bank=func_02045B38(0,2,0xcb,79);
     mon=POKE_TOOL_GetBoxParam(**(void ***)p);
     for(i=0;i<4;i++) {
-        move=func_02017E88(mon,0x36+i,0);
+        move=POKE_TOOL_GetBoxValue(mon,0x36+i,0);
         if(move==0) CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x124),0);
         else {
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x124),1);
@@ -170,8 +170,8 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
             coord=y+16;
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p+0x3c)),8,coord,*(void **)(p+0x50),*(void **)(p+0x60),0x440);
             flush(*(void **)(p+0x3c));
-            WORDSET_SetSlotNumber(*(void **)(p+0x48),0,func_02017E88(mon,0x3a+i,0),2,1,1);
-            WORDSET_SetSlotNumber(*(void **)(p+0x48),1,func_02017E88(mon,0x42+i,0),2,0,1);
+            WORDSET_SetSlotNumber(*(void **)(p+0x48),0,POKE_TOOL_GetBoxValue(mon,0x3a+i,0),2,1,1);
+            WORDSET_SetSlotNumber(*(void **)(p+0x48),1,POKE_TOOL_GetBoxValue(mon,0x42+i,0),2,0,1);
             WORDSET_CopyTaggedText(*(void **)(p+0x48),*(void **)(p+0x4c),*(void **)(p+0x54));
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p+0x3c)),32,coord,*(void **)(p+0x4c),*(void **)(p+0x60),0x440);
             flush(*(void **)(p+0x3c));
@@ -184,7 +184,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p+0x40)),0,0,*(void **)(p+0x4c),*(void **)(p+0x60),0x440);
     flush(*(void **)(p+0x40));
     MSGDATA_ReadString(*(void **)(p+0x44),0x26,temp);
-    WORDSET_SetSlotNumber(*(void **)(p+0x48),0,func_02017E88(mon,0x9e,0),3,1,1);
+    WORDSET_SetSlotNumber(*(void **)(p+0x48),0,POKE_TOOL_GetBoxValue(mon,0x9e,0),3,1,1);
     WORDSET_CopyTaggedText(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
     POKE_SUMMARY_MAIN_PrintAligned(p,15,*(u32 *)(p+0x60),0x440,1,16);
     flush(*(void **)(p+0x40));

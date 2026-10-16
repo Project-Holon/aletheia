@@ -1,7 +1,7 @@
 /*
  * file:     md5.c
  * unit:     yes
- * function: func_02162FC0, func_02162FD8, CPSi_md5_block, func_021633F0, func_02163438, func_021634F0
+ * function: char_from_long, long_from_char, CPSi_md5_block, func_021633F0, func_02163438, func_021634F0
  * address:  0x02162FC0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -34,9 +34,8 @@
 
 extern void MI_CpuCopy8(void *a, void *b, int n);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
-extern void char_from_long(unsigned char *d, unsigned long *s, unsigned int len);
-void func_02162FC0(void *a, void *b, int n);
-void func_02162FD8(void *a, void *b, int n);
+static void char_from_long(void *a, void *b, int n);
+static void long_from_char(void *a, void *b, int n);
 void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m);
 void CPSi_md5_init(CPSMd5Ctx *ctx);
 void CPSi_md5_calc(CPSMd5Ctx *ctx, void *data0, int datalen);
@@ -50,14 +49,14 @@ extern unsigned char padding[64];
 /*
  * Tail call to MI_CpuCopy8 with its first two arguments swapped.
  */
-void func_02162FC0(void *a, void *b, int n)
+static void char_from_long(void *a, void *b, int n)
 {
     MI_CpuCopy8(b, a, n);
 }
 
 
 
-void func_02162FD8(void *a, void *b, int n)
+static void long_from_char(void *a, void *b, int n)
 {
     MI_CpuCopy8(b, a, n);
 }
@@ -80,7 +79,7 @@ void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m)
     b = ctx->state[1];
     c = ctx->state[2];
     d = ctx->state[3];
-    func_02162FD8(x, m, 64);
+    long_from_char(x, m, 64);
 
     i = 0;
     for (j = 0; j < 4; j++) {

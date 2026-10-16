@@ -45,7 +45,7 @@ struct ClactUnit;
 struct ClactActor;
 struct TaskSys;
 struct Task;
-struct PalAnm;
+struct PalAnmSlot;
 
 /* Hidden item row (10 bytes) of the table that overlay 10 returns. */
 typedef struct DowsingHiddenItem {
@@ -126,7 +126,7 @@ typedef struct DowsingWork {
     s32 isOn;
     struct TaskSys *fadeTaskSys;
     void *fadeTaskMem;
-    struct PalAnm *palAnm;
+    struct PalAnmSlot *palAnm;
     s32 fadeRequest;       /* DOWSING_FADE_* */
     s32 fadeState;         /* 0 shown, 1 faded out */
     s32 needReset;         /* search cursor must be rewound */

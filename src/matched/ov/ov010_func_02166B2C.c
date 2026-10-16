@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   MTX_Identity22_ 0x0207AD40 arm
- *   func_0207D59C 0x0207D59C arm
+ *   G2x_SetBGyAffine_ 0x0207D59C arm
  */
 extern void MTX_Identity22_(void *);
-extern void func_0207D59C(void *, void *, int, int, int, int);
+extern void G2x_SetBGyAffine_(void *, void *, int, int, int, int);
 extern void func_0200566C(void);
 void SYMBOL_MAP_StopBg2Scale(void) {
     int m[4];
     MTX_Identity22_(m);
-    func_0207D59C((void *)0x04000020, m, 128, 92, 0, 0);
+    G2x_SetBGyAffine_((void *)0x04000020, m, 128, 92, 0, 0);
     func_0200566C();
 }

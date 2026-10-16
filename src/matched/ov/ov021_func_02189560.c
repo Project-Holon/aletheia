@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
- *   func_0202C83C  0x0202C83C  thumb
+ *   ISS_SWITCH_ApplySubscreenMode  0x0202C83C  thumb
  *   GAME_DATA_GetSubscreenMode  0x02012994  thumb
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
  */
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
 u32 FIELDMAP_GetWeather(u8 *p);
-int func_0202C83C(int a0, int a1);
+int ISS_SWITCH_ApplySubscreenMode(int a0, int a1);
 u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p);
 void WEATHER_RequestChange(int x, int k);
 
@@ -28,7 +28,7 @@ void FIELDMAP_ChangeZoneWeather(int *p, int b)
 {
     int r = (int)FIELDMAP_GetWeather((u8 *)p);
     unsigned short k;
-    func_0202C83C(p[1], b);
+    ISS_SWITCH_ApplySubscreenMode(p[1], b);
     k = (int)GAME_DATA_GetSubscreenMode((const struct BigObj *)p[2]);
     if (k != 0xF)
         WEATHER_RequestChange(r, k);

@@ -21,8 +21,8 @@
  *   TPOKE_DATA_ReadRecord  0x0202A3AC  thumb
  *   TPOKE_DATA_ReadParty  0x0202A3BC  thumb
  *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
- *   func_0202A994  0x0202A994  thumb
- *   func_0202A9F4  0x0202A9F4  thumb
+ *   TR_TOOL_AdjustPersonality  0x0202A994  thumb
+ *   TR_TOOL_FinalizePartyMember  0x0202A9F4  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_SetMoveSlot  0x020181F4  thumb
@@ -35,7 +35,7 @@
  *
  * tr_tool.c: build a trainer's party.  Loads the trainer record (0x14
  * bytes) and its party table (up to 6 entries) from the archive, then per
- * entry: form/gender adjust (func_0202A994), a personality seeded from
+ * entry: form/gender adjust (TR_TOOL_AdjustPersonality), a personality seeded from
  * dv + level + species + trainer id and stepped cls times through the
  * 64-bit LCG (mul 0x5D588B656C078965, add 0x269EC3, top 16 bits taken as
  * ((u64)(seed >> 32) * 0x10000) >> 32), IVs dv * 31 / 255 in all six
@@ -94,8 +94,8 @@ extern u32   POKE_TOOL_GetPartyParamSize(void);
 extern void TPOKE_DATA_ReadRecord(void *a0, void *a1);
 extern void TPOKE_DATA_ReadParty(void *a0, void *a1);
 extern u8    TPOKE_DATA_GetGenderValue(u32 cls);
-extern void  func_0202A994(u32 species, u32 form, int ability, u32 *gender, u16 heap);
-extern void  func_0202A9F4(u32 id, void *mon, u32 form, u32 ability);
+extern void  TR_TOOL_AdjustPersonality(u32 species, u32 form, int ability, u32 *gender, u16 heap);
+extern void  TR_TOOL_FinalizePartyMember(u32 id, void *mon, u32 form, u32 ability);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 val);
 extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
@@ -150,7 +150,7 @@ void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap)
 /*
  * tr_tool.c: build a trainer's party.  Loads the trainer record (0x14
  * bytes) and its party table (up to 6 entries) from the archive, then per
- * entry: form/gender adjust (func_0202A994), a personality seeded from
+ * entry: form/gender adjust (TR_TOOL_AdjustPersonality), a personality seeded from
  * dv + level + species + trainer id and stepped cls times through the
  * 64-bit LCG (mul 0x5D588B656C078965, add 0x269EC3, top 16 bits taken as
  * ((u64)(seed >> 32) * 0x10000) >> 32), IVs dv * 31 / 255 in all six
@@ -202,7 +202,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
         u16 species;
 
         for (i = 0; i < td->partyCount; i++) {
-            func_0202A994(((TrPartyMon *)tp)[i].species, ((TrPartyMon *)tp)[i].form, ((TrPartyMon *)tp)[i].ability, &gender, heap);
+            TR_TOOL_AdjustPersonality(((TrPartyMon *)tp)[i].species, ((TrPartyMon *)tp)[i].form, ((TrPartyMon *)tp)[i].ability, &gender, heap);
             level = ((TrPartyMon *)tp)[i].level;
             dv = ((TrPartyMon *)tp)[i].dv;
             species = ((TrPartyMon *)tp)[i].species;
@@ -217,7 +217,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
             POKE_TOOL_SetupPartyParamEx(mon, species, level, 0xFFFFFFFF00000000ULL,
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
-            func_0202A9F4(trid, mon, ((TrPartyMon *)tp)[i].form, ((TrPartyMon *)tp)[i].ability);
+            TR_TOOL_FinalizePartyMember(trid, mon, ((TrPartyMon *)tp)[i].form, ((TrPartyMon *)tp)[i].ability);
             POKEPARTY_Add(party, mon);
         }
         break;
@@ -228,7 +228,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
         u16 species;
 
         for (i = 0; i < td->partyCount; i++) {
-            func_0202A994(((TrPartyMonMoves *)tp)[i].species, ((TrPartyMonMoves *)tp)[i].form, ((TrPartyMonMoves *)tp)[i].ability, &gender, heap);
+            TR_TOOL_AdjustPersonality(((TrPartyMonMoves *)tp)[i].species, ((TrPartyMonMoves *)tp)[i].form, ((TrPartyMonMoves *)tp)[i].ability, &gender, heap);
             level = ((TrPartyMonMoves *)tp)[i].level;
             dv = ((TrPartyMonMoves *)tp)[i].dv;
             species = ((TrPartyMonMoves *)tp)[i].species;
@@ -246,7 +246,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
             for (j = 0; j < 4; j++) {
                 POKE_TOOL_SetMoveSlot(mon, ((TrPartyMonMoves *)tp)[i].moves[j], (u8)j);
             }
-            func_0202A9F4(trid, mon, ((TrPartyMonMoves *)tp)[i].form, ((TrPartyMonMoves *)tp)[i].ability);
+            TR_TOOL_FinalizePartyMember(trid, mon, ((TrPartyMonMoves *)tp)[i].form, ((TrPartyMonMoves *)tp)[i].ability);
             POKEPARTY_Add(party, mon);
         }
         break;
@@ -257,7 +257,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
         u16 species;
 
         for (i = 0; i < td->partyCount; i++) {
-            func_0202A994(((TrPartyMonItem *)tp)[i].species, ((TrPartyMonItem *)tp)[i].form, ((TrPartyMonItem *)tp)[i].ability, &gender, heap);
+            TR_TOOL_AdjustPersonality(((TrPartyMonItem *)tp)[i].species, ((TrPartyMonItem *)tp)[i].form, ((TrPartyMonItem *)tp)[i].ability, &gender, heap);
             level = ((TrPartyMonItem *)tp)[i].level;
             dv = ((TrPartyMonItem *)tp)[i].dv;
             species = ((TrPartyMonItem *)tp)[i].species;
@@ -273,7 +273,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
             POKE_TOOL_SetPartyValue(mon, 6, ((TrPartyMonItem *)tp)[i].item);
-            func_0202A9F4(trid, mon, ((TrPartyMonItem *)tp)[i].form, ((TrPartyMonItem *)tp)[i].ability);
+            TR_TOOL_FinalizePartyMember(trid, mon, ((TrPartyMonItem *)tp)[i].form, ((TrPartyMonItem *)tp)[i].ability);
             POKEPARTY_Add(party, mon);
         }
         break;
@@ -284,7 +284,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
         u16 species;
 
         for (i = 0; i < td->partyCount; i++) {
-            func_0202A994(((TrPartyMonItemMoves *)tp)[i].species, ((TrPartyMonItemMoves *)tp)[i].form, ((TrPartyMonItemMoves *)tp)[i].ability, &gender, heap);
+            TR_TOOL_AdjustPersonality(((TrPartyMonItemMoves *)tp)[i].species, ((TrPartyMonItemMoves *)tp)[i].form, ((TrPartyMonItemMoves *)tp)[i].ability, &gender, heap);
             level = ((TrPartyMonItemMoves *)tp)[i].level;
             dv = ((TrPartyMonItemMoves *)tp)[i].dv;
             species = ((TrPartyMonItemMoves *)tp)[i].species;
@@ -303,7 +303,7 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
             for (j = 0; j < 4; j++) {
                 POKE_TOOL_SetMoveSlot(mon, ((TrPartyMonItemMoves *)tp)[i].moves[j], (u8)j);
             }
-            func_0202A9F4(trid, mon, ((TrPartyMonItemMoves *)tp)[i].form, ((TrPartyMonItemMoves *)tp)[i].ability);
+            TR_TOOL_FinalizePartyMember(trid, mon, ((TrPartyMonItemMoves *)tp)[i].form, ((TrPartyMonItemMoves *)tp)[i].ability);
             POKEPARTY_Add(party, mon);
         }
         break;

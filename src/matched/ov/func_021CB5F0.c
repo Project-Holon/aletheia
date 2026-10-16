@@ -24,7 +24,7 @@
  * symbols:
  *   gEffortValueStatTable      0x021EFDC0  data  ov093
  *   BTL_POKEPARAM_GetSpecies   0x021D5444  thumb ov093
- *   func_021D59B4   0x021D59B4  thumb ov093
+ *   BTL_POKEPARAM_GetValue   0x021D59B4  thumb ov093
  *   BTL_POKEPARAM_GetItem   0x021D5B40  thumb ov093
  *   BTL_POKEPARAM_GetMon   0x021D5844  thumb ov093
  *   BTL_CALC_GetMonParamWithHeap   0x021D805C  thumb ov093
@@ -45,7 +45,7 @@ extern struct T6 gEffortValueStatTable[];
 struct QF;
 struct QI;
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
@@ -68,7 +68,7 @@ void BTL_SERVER_FLOW_AddDefeatEffortValues(u32 *a0, u8 *a1, u8 *a2)
     u32 sv;
 
     m = BTL_POKEPARAM_GetSpecies((struct QF *)a1);
-    v6 = (u16)func_021D59B4(a1, 0x13);
+    v6 = (u16)BTL_POKEPARAM_GetValue(a1, 0x13);
     for (i = 0; i < 6; i++) {
         buf[i] = (u8)POKE_TOOL_GetPersonalParam((void *)m, v6, gEffortValueStatTable[i].f0);
     }

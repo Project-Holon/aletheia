@@ -1,5 +1,5 @@
 /*
- * function: func_02185934
+ * function: BEACON_DETAIL_MoveCursor
  * address:  0x02185934
  * packet:   pkt_ov219_02185934
  * region:   ov219
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 #define W(o) (*(int *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
 
-int func_02185934(u8 *p, u32 a, u32 b)
+int BEACON_DETAIL_MoveCursor(u8 *p, u32 a, u32 b)
 {
     int d0, d1;
     int res = 0;

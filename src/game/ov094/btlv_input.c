@@ -109,7 +109,7 @@
  *   d_0220A3B4     0x0220A3B4  data   ov094  a4
  *   d_0220A38C     0x0220A38C  data   ov094  a1
  *   d_0220A3E4     0x0220A3E4  data   ov094  a4
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   d_0220A5B0  0x0220A5B0  data
  *   d_0220A5D0  0x0220A5D0  data
  *   d_0220A5F0  0x0220A5F0  data
@@ -127,15 +127,15 @@
  *   d_0220A7FC     0x0220A7FC  data
  *   d_0220A94C     0x0220A94C  data
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
- *   func_021D5528 0x021D5528 thumb ov093
+ *   BTL_POKEPARAM_GetMovePP 0x021D5528 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   d_0220A386 0x0220A386 data a1
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   d_0220A50C 0x0220A50C data a4
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCEC 0x0201BCEC thumb
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub 0x0201BCEC thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -199,9 +199,9 @@
 
 #define S_PTR(o) (*(void **)(s + (o)))
 
-#define F68_(s) (*(F68 *)((s) + 0x68))
+#define F68_(s) (*(BtlvInputFlags *)((s) + 0x68))
 
-#define F6C_(s) (*(F6C *)((s) + 0x6c))
+#define F6C_(s) (*(BtlvInputFlags2 *)((s) + 0x6c))
 
 #define HEAP(s) ((u16)((*(u16 *)((s) + 0x240) & 0x7fff) | 0x8000))
 
@@ -241,7 +241,7 @@ struct Slots;
 
 struct U16Vec;
 
-struct R5;
+struct BtlPokeParam;
 
 struct StrObj;
 
@@ -253,7 +253,7 @@ struct QG;
 
 struct Bmp;
 
-struct Obj020437AC;
+struct Bmp;
 
 
 
@@ -264,37 +264,11 @@ typedef struct BtlvInputBgLayer { char tmplBytes[0x20]; int type; } BtlvInputBgL
 
 
 
-typedef struct F68 {
-    u32 b0 : 1;
-    u32 b1 : 3;
-    u32 b4 : 1;
-    u32 b5 : 4;
-    u32 b9 : 4;
-    u32 b13 : 1;
-    u32 b14 : 1;
-    u32 mode : 2;
-    u32 b17 : 2;
-    u32 b19 : 2;
-    u32 b21 : 2;
-    u32 b23 : 4;
-    u32 b27 : 5;
-} F68;
-
-typedef struct F6C {
-    u32 b0 : 1;
-    u32 b1 : 1;
-    u32 x : 8;
-    u32 rest : 22;
-} F6C;
-
-typedef struct T12 {
-    int v[3];
-} T12;
 
 
 typedef struct Arg1 {
-    T12 a[6];
-    T12 b[6];
+    BtlvInputSlotInfo a[6];
+    BtlvInputSlotInfo b[6];
     int f90;
     int f94;
     u8 pad98[0xbc - 0x98];
@@ -679,7 +653,7 @@ extern int BTLV_FINGER_CURSOR_Start(void *h, int x, int y, int k, int m, int n);
 
 extern int BTLV_FINGER_CURSOR_IsActive(void *h);
 
-extern int BTL_POKEPARAM_IsTransformed(struct R5 *p);
+extern int BTL_POKEPARAM_IsTransformed(struct BtlPokeParam *p);
 
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -711,7 +685,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 extern int FADE_IsActive(void);
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
@@ -749,17 +723,17 @@ extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 
-extern u16 func_021D5528(u8 *, u8, u8 *, u8 *);
+extern u16 BTL_POKEPARAM_GetMovePP(u8 *, u8, u8 *, u8 *);
 
 extern int BTL_POKEPARAM_IsFainted(void *);
 
 extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
 
-extern int func_0201BC78(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
 
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 
@@ -771,7 +745,7 @@ extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 
 extern unsigned int KEY_GetRepeat(void);
 
@@ -1412,8 +1386,8 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
         if (input->screen == 0)
             BTLV_INPUT_ClearSlotEvents((void *)input);
         for (i = 0; i < 6; i++) {
-            *(T12 *)&input->slotInfo[0][i] = a->a[i];
-            *(T12 *)&input->slotInfo[1][i] = a->b[i];
+            *(BtlvInputSlotInfo *)&input->slotInfo[0][i] = a->a[i];
+            *(BtlvInputSlotInfo *)&input->slotInfo[1][i] = a->b[i];
         }
         for (j = 0; j < 4; j++)
             input->enabled[j] = 1;
@@ -2674,7 +2648,7 @@ static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
 
 static inline void G2S_SetBlendBrightness(int plane, int brightness)
 {
-    func_0207D658((u32)&reg_G2S_DB_BLDCNT, plane, brightness);
+    G2x_SetBlendBrightness_((u32)&reg_G2S_DB_BLDCNT, plane, brightness);
 }
 
 /*
@@ -2694,7 +2668,7 @@ void BTLV_INPUT_WindowOpenTaskMain(void *a0, void *arg)
 
 static inline void G2S_BlendNone(void)
 {
-    func_0207D658((u32)&reg_G2S_DB_BLDCNT, 0, 0);
+    G2x_SetBlendBrightness_((u32)&reg_G2S_DB_BLDCNT, 0, 0);
 }
 
 /*
@@ -3070,7 +3044,7 @@ void BTLV_INPUT_InitButtonState(BtlvInput *input)
         buf.b[i] = 0;
     }
     for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)BTLV_INPUT_SLOT_PARAM(input)); i++)
-        buf.value[i] = func_021D5528(BTLV_INPUT_SLOT_PARAM(input), i, &buf.a[i], &buf.b[i]);
+        buf.value[i] = BTL_POKEPARAM_GetMovePP(BTLV_INPUT_SLOT_PARAM(input), i, &buf.a[i], &buf.b[i]);
     BTLV_INPUT_DrawWazaButtons(input, (const Slots *)((const struct Slots *)(&buf)));
     input->enabled[5] = d_0220A386[BTLV_INPUT_SLOT_INDEX(input)].first;
     input->enabled[6] = d_0220A386[BTLV_INPUT_SLOT_INDEX(input)].second;
@@ -3204,8 +3178,8 @@ void BTLV_INPUT_CreateActionButtons(BtlvInput *input, BtlvInputPartyInfo *info)
     if (input->battleType == 0 || input->battleType == 3)
         return;
     arc = func_020490F4(7, (u16)((input->heap & 0x7fff) | 0x8000));
-    input->pokeCell = CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCEC(), input->heap);
-    input->pokePal = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0x160, input->heap);
+    input->pokeCell = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryIdSub(), input->heap);
+    input->pokePal = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0x160, input->heap);
     PALANM_CopyHwPaletteToSlot(input->palAnm, 3, (u16)(CLACT_GetPaletteVramAddress(input->pokePal, 1) >> 1), 0x60);
     *(volatile u16 *)0x04001040 = 0x100;
     *(volatile u16 *)0x04001044 = 0;

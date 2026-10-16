@@ -76,12 +76,12 @@
  *   TCBL_DeleteTask   0x02031194  arm
  *   BMP_Blit   0x020439A0  arm
  *   sItemGfxExtraTable      0x020A03C8  data
- *   func_020185F0   0x020185F0  thumb
- *   func_02017DBC  0x02017DBC  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_Dummy   0x020185F0  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb
  *   POKE_TOOL_SetBoxValue   0x02017E64  thumb
- *   func_02017E88   0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue   0x02017E88  thumb
  *   ZONEDATA_IsRawZoneGroup4CTo69   0x02014034  thumb
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *   FILE_UTIL_Check12E4  0x020212E4  thumb
@@ -97,8 +97,8 @@
  *   GXx_SetMasterBrightness_    0x0207D534  arm
  *   GX_HBlankIntr    0x0207D3AC  arm
  *   GX_VBlankIntr    0x0207D3E4  arm
- *   func_020808F4    0x020808F4  arm
- *   func_020809A0    0x020809A0  arm
+ *   GX_ResetBankForBG    0x020808F4  arm
+ *   GX_ResetBankForSubBG    0x020809A0  arm
  *   func_0207FDCC    0x0207FDCC  arm
  *   GX_SetGraphicsMode    0x0207D4B0  arm
  *   G2_GetBG1CharPtr    0x0207E24C  arm
@@ -330,12 +330,12 @@ extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void func_02030EAC(struct Tcb *tcb);
 extern void TCBL_DeleteTask(struct TcblNode *node);
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
-extern struct SaveData *func_020185F0(void *gameData);
-extern u32 func_02017DBC(struct SaveData *save);
-extern u32 func_02017DE4(struct SaveData *save, u32 savedFlag);
+extern struct SaveData *POKE_TOOL_Dummy(void *gameData);
+extern u32 POKE_TOOL_DecodeBoxParam(struct SaveData *save);
+extern u32 POKE_TOOL_EncodeBoxParam(struct SaveData *save, u32 savedFlag);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(struct SaveData *save, const struct PlayerRecord *record);
 extern void POKE_TOOL_SetBoxValue(struct SaveData *save, u32 varId, u32 value);
-extern u32 func_02017E88(struct SaveData *save, u32 varId, u32 defaultValue);
+extern u32 POKE_TOOL_GetBoxValue(struct SaveData *save, u32 varId, u32 defaultValue);
 extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 extern struct Strbuf *func_02008510(const struct PlayerRecord *record, u32 index);
 extern u32 func_02008550(const struct PlayerRecord *record);
@@ -353,8 +353,8 @@ extern void GFL_USE_PollPowerExit(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern long GX_HBlankIntr(int enable);
 extern long GX_VBlankIntr(int enable);
-extern int func_020808F4(void);
-extern int func_020809A0(void);
+extern int GX_ResetBankForBG(void);
+extern int GX_ResetBankForSubBG(void);
 extern void func_0207FDCC(u32 layerMask);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0Is3d);
 extern void *G2_GetBG1CharPtr(void);
@@ -1482,12 +1482,12 @@ u32 ITEM_GFX_GetRowIndex(u16 itemId)
 
 void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index)
 {
-    SAVE_EVENT_WriteMode(func_020185F0(gameData), mode, record, eventId, index);
+    SAVE_EVENT_WriteMode(POKE_TOOL_Dummy(gameData), mode, record, eventId, index);
 }
 
 
 /*
- * Seven-way mode switch around a func_02017DBC / func_02017DE4 bracket.
+ * Seven-way mode switch around a POKE_TOOL_DecodeBoxParam / POKE_TOOL_EncodeBoxParam bracket.
  * Closed in wave 16: the 129-byte residue was NOT an allocator tie but the
  * source's gotos.  Every case is written out in full (no shared labels) and
  * case 2's guard carries the call run in BOTH arms; 1.1p1's own
@@ -1499,7 +1499,7 @@ void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *recor
  */
 void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index)
 {
-    u32 savedFlag = func_02017DBC(save);
+    u32 savedFlag = POKE_TOOL_DecodeBoxParam(save);
 
     switch (mode) {
     case 0:
@@ -1537,7 +1537,7 @@ void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRe
         SAVE_EVENT_WriteEventIdWithDate(save, eventId, 1);
         break;
     }
-    func_02017DE4(save, savedFlag);
+    POKE_TOOL_EncodeBoxParam(save, savedFlag);
 }
 
 
@@ -1556,7 +1556,7 @@ void SAVE_EVENT_StoreTodayDate(struct SaveData *save)
 
 void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day)
 {
-    if (func_02017E88(save, 0xAA, 0) == 1)
+    if (POKE_TOOL_GetBoxValue(save, 0xAA, 0) == 1)
         SAVE_EVENT_StoreVariant(save, eventId, year, month, day, 0);
     else
         SAVE_EVENT_StoreVariant(save, eventId, year, month, day, 1);
@@ -1611,11 +1611,11 @@ void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant)
     u8 base = (variant == 1);
     u32 eventId, year, month, otherVariant, day;
 
-    eventId = func_02017E88(save, base + 0x95, 0);
+    eventId = POKE_TOOL_GetBoxValue(save, base + 0x95, 0);
     base = (u8)(base * 3);
-    year = func_02017E88(save, base + 0x8F, 0);
-    month = func_02017E88(save, base + 0x90, 0);
-    day = func_02017E88(save, base + 0x91, 0);
+    year = POKE_TOOL_GetBoxValue(save, base + 0x8F, 0);
+    month = POKE_TOOL_GetBoxValue(save, base + 0x90, 0);
+    day = POKE_TOOL_GetBoxValue(save, base + 0x91, 0);
 
     otherVariant = (variant == 0);
     SAVE_EVENT_StoreVariant(save, eventId, year, month, day, otherVariant);
@@ -1642,7 +1642,7 @@ void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *re
 /* Copies save variable 0x9e into 0x99. */
 void SAVE_EVENT_CopyDoneFlag(struct SaveData *save)
 {
-    u32 value = func_02017E88(save, 0x9e, 0);
+    u32 value = POKE_TOOL_GetBoxValue(save, 0x9e, 0);
 
     POKE_TOOL_SetBoxValue(save, 0x99, value);
 }
@@ -1662,7 +1662,7 @@ void SAVE_EVENT_SetDoneFlag(struct SaveData *save)
 
 int SAVE_EVENT_IsStageDone(void *gameData, int stage)
 {
-    return SAVE_EVENT_CheckStage(func_020185F0(gameData), stage);
+    return SAVE_EVENT_CheckStage(POKE_TOOL_Dummy(gameData), stage);
 }
 
 
@@ -1673,20 +1673,20 @@ int SAVE_EVENT_IsStageDone(void *gameData, int stage)
  */
 int SAVE_EVENT_CheckStage(struct SaveData *save, int stage)
 {
-    u32 savedFlag = func_02017DBC(save);
-    int variable5 = func_02017E88(save, 5, 0);
-    int eventId = func_02017E88(save, 0x96, 0);
-    int done = func_02017E88(save, 0x6d, 0);
+    u32 savedFlag = POKE_TOOL_DecodeBoxParam(save);
+    int variable5 = POKE_TOOL_GetBoxValue(save, 5, 0);
+    int eventId = POKE_TOOL_GetBoxValue(save, 0x96, 0);
+    int done = POKE_TOOL_GetBoxValue(save, 0x6d, 0);
     int count = POKE_TOOL_IsBoxShiny(save);
     int anyDate = 0;
 
-    if (func_02017E88(save, 0x8f, anyDate) != 0
-        || func_02017E88(save, 0x90, anyDate) != 0
-        || func_02017E88(save, 0x91, anyDate) != 0
-        || func_02017E88(save, 0x95, anyDate) != 0) {
+    if (POKE_TOOL_GetBoxValue(save, 0x8f, anyDate) != 0
+        || POKE_TOOL_GetBoxValue(save, 0x90, anyDate) != 0
+        || POKE_TOOL_GetBoxValue(save, 0x91, anyDate) != 0
+        || POKE_TOOL_GetBoxValue(save, 0x95, anyDate) != 0) {
         anyDate = 1;
     }
-    func_02017DE4(save, savedFlag);
+    POKE_TOOL_EncodeBoxParam(save, savedFlag);
 
     switch (stage) {
     case 0:
@@ -1742,7 +1742,7 @@ int SAVE_EVENT_CheckStage(struct SaveData *save, int stage)
  */
 void SAVE_EVENT_CommitStage(void *gameData, u32 stage)
 {
-    SAVE_EVENT_AdvanceStage(func_020185F0(gameData), stage);
+    SAVE_EVENT_AdvanceStage(POKE_TOOL_Dummy(gameData), stage);
 }
 
 
@@ -1754,7 +1754,7 @@ void SAVE_EVENT_CommitStage(void *gameData, u32 stage)
  */
 void SAVE_EVENT_AdvanceStage(struct SaveData *save, u32 stage)
 {
-    u32 savedFlag = func_02017DBC(save);
+    u32 savedFlag = POKE_TOOL_DecodeBoxParam(save);
 
     if (SAVE_EVENT_CheckStage(save, stage) == 1) {
         switch (stage) {
@@ -1766,7 +1766,7 @@ void SAVE_EVENT_AdvanceStage(struct SaveData *save, u32 stage)
             break;
         }
     }
-    func_02017DE4(save, savedFlag);
+    POKE_TOOL_EncodeBoxParam(save, savedFlag);
 }
 
 
@@ -1813,7 +1813,7 @@ int EVENT_ID_AreSlotsClear(struct SaveData *save, int unused)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (FILE_UTIL_Check12E4((u16)func_02017E88(save, i + 0x36, 0)) != 0) {
+        if (FILE_UTIL_Check12E4((u16)POKE_TOOL_GetBoxValue(save, i + 0x36, 0)) != 0) {
             return 0;
         }
     }
@@ -1902,8 +1902,8 @@ void APP_POWER_ResetDisplay(u32 messageId)
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, 0xFFFFFFF0);
     GX_HBlankIntr(0);
     GX_VBlankIntr(0);
-    func_020808F4();
-    func_020809A0();
+    GX_ResetBankForBG();
+    GX_ResetBankForSubBG();
     func_0207FDCC(4);
     GX_SetGraphicsMode(1, 0, 0);
     REG32(REG_DISPCNT_A) = (REG32(REG_DISPCNT_A) & 0xFFFFE0FF) | 0x200;

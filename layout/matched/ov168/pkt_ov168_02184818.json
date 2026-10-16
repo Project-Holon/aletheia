@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02184818",
+   "name": "MICTEST_DeleteSpriteTasks",
    "address": "0x02184818",
    "kind": "game",
    "region": "ov168",

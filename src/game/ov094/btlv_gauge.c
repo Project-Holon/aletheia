@@ -46,7 +46,7 @@
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   BTLV_GAUGE_HideSlot  0x022089BC  thumb  ov094
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -95,7 +95,7 @@
  *   BTLV_GAUGE_UpdateLevelUp 0x022086F8 thumb ov094
  *   BTLV_GAUGE_BobSlot 0x022087C4 thumb ov094
  *   BTLV_GAUGE_UpdateLowHpBgm 0x022089D4 thumb ov094
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
@@ -248,7 +248,7 @@ void BTLV_GAUGE_BobSlot(BtlvGaugeWork *work, int slotIdx);
 
 void BTLV_GAUGE_UpdateLowHpBgm(BtlvGaugeWork *work);
 
-extern int func_021D59B4(struct BtlPokeParam *pp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *pp, int valueId);
 
 extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *pp);
 
@@ -506,18 +506,18 @@ void BTLV_GAUGE_InitSlotFromBattlePoke(BtlvGaugeWork *work, struct BtlMain *batt
     int statusIcon;
 
     MIi_CpuClear16(0, &work->slots[slotIdx].layout, 0x40);
-    work->slots[slotIdx].hp = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_HP);
-    work->slots[slotIdx].maxHp = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_MAX_HP);
+    work->slots[slotIdx].hp = BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_HP);
+    work->slots[slotIdx].maxHp = BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_MAX_HP);
     work->slots[slotIdx].hpAnimValue = 0x80000000;
     work->slots[slotIdx].hpDelta = 0;
-    work->slots[slotIdx].level = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_LEVEL);
+    work->slots[slotIdx].level = BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_LEVEL);
     work->slots[slotIdx].layout = layout;
     work->slots[slotIdx].side = slotIdx & 1;
     work->slots[slotIdx].flags.eventPending = 1;
     if (work->slots[slotIdx].level < 100) {
-        levelBaseExp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(battlePoke), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_FORM), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_LEVEL));
-        work->slots[slotIdx].exp = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_EXP) - levelBaseExp;
-        work->slots[slotIdx].expMax = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(battlePoke), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_FORM), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_LEVEL) + 1) - levelBaseExp;
+        levelBaseExp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(battlePoke), BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_FORM), BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_LEVEL));
+        work->slots[slotIdx].exp = BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_EXP) - levelBaseExp;
+        work->slots[slotIdx].expMax = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(battlePoke), BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_FORM), BTL_POKEPARAM_GetValue(battlePoke, BTLV_GAUGE_BPP_LEVEL) + 1) - levelBaseExp;
     } else {
         work->slots[slotIdx].exp = 0;
         work->slots[slotIdx].expMax = 0;
@@ -776,7 +776,7 @@ extern void STRBUF_Delete(struct Strbuf *str);
 
 extern void BMP_Delete(struct BmpData *bmp);
 
-extern int func_0202D034(u32 value, u32 maxValue);
+extern int BGWINFRM_GetScaleRank(u32 value, u32 maxValue);
 
 extern void WORDSET_FormatNumber(struct Strbuf *str, int value, u32 digits, u32 mode, u32 padding);
 
@@ -953,13 +953,13 @@ void BTLV_GAUGE_RefreshForLevelUp(BtlvGaugeWork *work, struct BtlPokeParam *pp, 
     u32 nextLevelExp;
 
     remaining = work->slots[slotIdx].expMax - work->slots[slotIdx].exp;
-    work->slots[slotIdx].hp = func_021D59B4(pp, BTLV_GAUGE_BPP_HP);
-    work->slots[slotIdx].maxHp = func_021D59B4(pp, BTLV_GAUGE_BPP_MAX_HP);
+    work->slots[slotIdx].hp = BTL_POKEPARAM_GetValue(pp, BTLV_GAUGE_BPP_HP);
+    work->slots[slotIdx].maxHp = BTL_POKEPARAM_GetValue(pp, BTLV_GAUGE_BPP_MAX_HP);
     work->slots[slotIdx].hpAnimValue = (int)0x80000000;
     work->slots[slotIdx].hpDelta = 0;
-    work->slots[slotIdx].level = func_021D59B4(pp, BTLV_GAUGE_BPP_LEVEL);
-    nextLevelExp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(pp), func_021D59B4(pp, BTLV_GAUGE_BPP_FORM), func_021D59B4(pp, BTLV_GAUGE_BPP_LEVEL) + 1);
-    work->slots[slotIdx].expPerLevel = nextLevelExp - POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(pp), func_021D59B4(pp, BTLV_GAUGE_BPP_FORM), func_021D59B4(pp, BTLV_GAUGE_BPP_LEVEL));
+    work->slots[slotIdx].level = BTL_POKEPARAM_GetValue(pp, BTLV_GAUGE_BPP_LEVEL);
+    nextLevelExp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(pp), BTL_POKEPARAM_GetValue(pp, BTLV_GAUGE_BPP_FORM), BTL_POKEPARAM_GetValue(pp, BTLV_GAUGE_BPP_LEVEL) + 1);
+    work->slots[slotIdx].expPerLevel = nextLevelExp - POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(pp), BTL_POKEPARAM_GetValue(pp, BTLV_GAUGE_BPP_FORM), BTL_POKEPARAM_GetValue(pp, BTLV_GAUGE_BPP_LEVEL));
     work->slots[slotIdx].flags.levelUpPhase = 0;
     work->slots[slotIdx].flags.levelUpPending = 1;
     work->slots[slotIdx].flags.expStep = 0;
@@ -1378,7 +1378,7 @@ void BTLV_GAUGE_DrawBar(BtlvGaugeWork *work, int slotIdx, int kind)
         barPixels = BTLV_GAUGE_CalcTileFill(slot->maxHp, slot->hp, slot->hpDelta, &slot->hpAnimValue, tileFill, 6);
         shownValue = slot->hpAnimValue;
         if (slot->maxHp < 48) shownValue >>= 8;
-        switch (func_0202D034(shownValue, slot->maxHp)) {
+        switch (BGWINFRM_GetScaleRank(shownValue, slot->maxHp)) {
         case 0: colorOffset = 0; break;
         case 1: colorOffset = 0x120; break;
         case 2:
@@ -1645,7 +1645,7 @@ int BTLV_GAUGE_GetSlotHealthInfo(BtlvGaugeWork *work, int slotIdx, int *hpState,
         *statusAnim = 8;
         return 0;
     }
-    *hpState = func_0202D034(work->slots[slotIdx].hp, work->slots[slotIdx].maxHp);
+    *hpState = BGWINFRM_GetScaleRank(work->slots[slotIdx].hp, work->slots[slotIdx].maxHp);
     *statusAnim = CLACT_GetActorAnimSeq(work->slots[slotIdx].statusActor);
     if (*statusAnim == 0)
         *statusAnim = 8;
@@ -1693,7 +1693,7 @@ void BTLV_GAUGE_UpdateLowHpBgm(BtlvGaugeWork *work)
         if (work->slots[i].flags.hpAnimating || work->slots[i].flags.expAnimating || work->slots[i].flags.levelUpPending) {
             busy = 1;
         } else if (work->slots[i].side == 0 && work->slots[i].flags.occupied && work->slots[i].layout != 4) {
-            if (func_0202D034(work->slots[i].hp, work->slots[i].maxHp) == 2) found = 1;
+            if (BGWINFRM_GetScaleRank(work->slots[i].hp, work->slots[i].maxHp) == 2) found = 1;
         }
     }
     if (!work->flags.lowHpBgmPlaying && work->savedBgmNo != GFL_USE_GetBgmNo()) return;

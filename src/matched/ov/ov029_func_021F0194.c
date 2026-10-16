@@ -1,5 +1,5 @@
 /*
- * function: func_021F0194
+ * function: C_GEAR_StartRippleFlood
  * address:  0x021F0194
  * packet:   pkt_ov029_021F0194
  * region:   ov029
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0194  0x021F0194  thumb  ov029
+ *   C_GEAR_StartRippleFlood  0x021F0194  thumb  ov029
  *   C_GEAR_GetCellKind  0x021F2B9C  thumb  ov029
  *   C_GEAR_StepRipple  0x021F009C  thumb  ov029
  */
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern u32 C_GEAR_GetCellKind(u8 *p, int row, int col);
 extern int C_GEAR_StepRipple(u8 *p);
 
-void func_021F0194(u8 *p)
+void C_GEAR_StartRippleFlood(u8 *p)
 {
     int v;
     int j;

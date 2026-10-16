@@ -278,9 +278,11 @@ typedef struct {
         void *f1C;
     };
     void *statusConfig; /* +0x20 */
-    u8 pad24[0x2C - 0x24];
+    void *trainerRecord; /* +0x24 */
+    u8 pad28[0x2C - 0x28];
     void *statusRules; /* +0x2C */
-    u8 pad30[0x40 - 0x30];
+    u8 pad30[0x3C - 0x30];
+    void *saveData; /* +0x3C */
     void *f40; /* +0x40 */
 } Ctx;
 
@@ -513,7 +515,10 @@ struct Work {
             void *winB; /* +0xD9C */
         };
     };
-    void *dd0; /* +0xDD0 */
+    union { /* +0xDD0 */
+        void *dd0;
+        u32 dd0_u;
+    };
     u8 fDD4[4]; /* +0xDD4 */
     union { /* +0xDD8 */
         u32 tab[2];
@@ -627,7 +632,10 @@ struct Work {
     u8 pad1300_[24];
     unsigned int f1318;
     u8 pad131C[4];
-    unsigned int f1320;
+    union { /* +0x1320 */
+        unsigned int f1320;
+        int nameCheckResult;
+    };
     unsigned short f1324;
     u8 pad1326[2];
     u32 done; /* +0x1328 */
@@ -661,30 +669,6 @@ struct U16Vec;
 struct Vec2;
 struct WinMgr;
 struct WordSet;
-
-struct DispConfig_021F4580 {
-    u32 unk_00;
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
-};
-
-struct BgTemplate_021F4580 {
-    u32 unk_00;
-    u32 unk_04;
-    u32 bufSize;
-    u32 unk_0c;
-    u8  unk_10;
-    u8  unk_11;
-    u8  unk_12;
-    u8  unk_13;
-    u32 unk_14;
-    u8  unk_18;
-    u8  unk_19;
-    u8  unk_1a;
-    u8  unk_1b;
-    u32 unk_1c;
-};
 
 typedef struct {
     u16 a;
@@ -761,42 +745,55 @@ typedef struct {
     void *win1;
 } Pane2;
 
+/* One print job slot of a Printer: the window it prints into, whether the
+ * print is still in flight, and whether the slot is in use. */
 typedef struct {
     void *win;
     u8 busy;
     u8 pad5[3];
     u32 used;
-} Slot_02202878;
+} PrinterSlot;
 
-typedef struct {
-    u32 font;
-    u8 pad4[0xC - 0x4];
-    u32 print;
-    u8 pad10[0x18 - 0x10];
-    Slot_02202878 slots[24];
-} Ctx_02202878;
-
-struct Ent_02202940 { u32 a; u32 b; u32 c; };
-
-struct Obj { u32 w0; u32 w1; u32 w2; u32 w3; void *h; u32 n; struct Ent_02202940 e[24]; };
-
-typedef struct {
-    void *win;
-    u8 shown;
-    u8 pad5[3];
-} Slot;
-
+/* The adapter's printer object (0x13C bytes).  It is the block embedded at
+ * Work+0xFA0: a font, the TCB task and its argument, the print queue, the
+ * yes/no print stream, 24 print slots and the key cursor. */
 typedef struct {
     void *font;
-    void *print;
+    void *tcb;
+    u32 arg;
+    void *queue;
+    void *yesno;
+    void *yesnoArg;
+    PrinterSlot slots[24];
+    void *cursor;
+} Printer;
+
+struct Obj { u32 w0; u32 w1; u32 w2; u32 w3; void *h; u32 n; PrinterSlot e[24]; };
+
+/* One print slot of the message system: the window it prints into and whether
+ * the print is still in flight. */
+typedef struct {
+    void *win;
+    u8 busy;
+    u8 pad5[3];
+} MsgSlot;
+
+/* The adapter's message-system object (0x74 bytes, allocated by
+ * WORLDTRADE_ADAPTER_InitMessageSystem): a font, the print queue, a WordSet,
+ * a MsgBank, 8 print slots, their in-use flags and the heap id. */
+typedef struct {
+    void *font;
+    void *queue;
     void *words;
     void *bank;
-    Slot slot[8];
+    MsgSlot slots[8];
     u32 used[8];
     u16 heap;
-} Ctx_02202A50;
+} MsgSys;
 
 typedef volatile unsigned short vu16;
+
+typedef volatile unsigned int vu32;
 
 typedef struct {
     u16 x;
@@ -814,9 +811,10 @@ typedef struct {
     u8 y;
 } CurPos;
 
+/* An index range into a table: first index and count. */
 typedef struct {
     int first;
     int count;
-} Range_021FA7C4;
+} Range;
 
 #endif

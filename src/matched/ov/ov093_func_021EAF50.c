@@ -1,5 +1,5 @@
 /*
- * function: func_021EAF50
+ * function: BTLV_SCU_AppendMessageArg
  * address:  0x021EAF50
  * packet:   pkt_ov093_021EAF50
  * region:   ov093
@@ -19,7 +19,7 @@ struct L {
     u8 n : 4;
     u32 v[8];
 };
-void func_021EAF50(struct L *p, u32 val)
+void BTLV_SCU_AppendMessageArg(struct L *p, u32 val)
 {
     u32 n = p->n;
     if (n < 8) {

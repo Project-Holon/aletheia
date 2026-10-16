@@ -100,10 +100,10 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC78  0x0201BC78  thumb
- *   func_0201BCEC  0x0201BCEC  thumb
+ *   POKE_TOOL_GetIconCellArcIdSub  0x0201BC78  thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub  0x0201BCEC  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   func_021BDBAC  0x021BDBAC  thumb  ov208
@@ -350,13 +350,13 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern int func_0201BC78(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
 
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 
 extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 
@@ -1820,8 +1820,8 @@ void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,int k
 void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, int key)
 {
     p->arc = func_020490F4(7, *heap);
-    p->j = CLACT_RegisterPaletteCompressed(p->arc, func_0201BC3C(), 1, 0, *heap);
-    p->k = CLACT_RegisterCellAnim(p->arc, func_0201BC78(), func_0201BCEC(), *heap);
+    p->j = CLACT_RegisterPaletteCompressed(p->arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, *heap);
+    p->k = CLACT_RegisterCellAnim(p->arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryIdSub(), *heap);
 }
 
 /*

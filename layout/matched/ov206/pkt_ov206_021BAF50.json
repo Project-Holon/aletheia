@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAF50",
+   "name": "ZUKAN_INFO_ClearSlotWindows",
    "address": "0x021BAF50",
    "kind": "game",
    "region": "ov206",

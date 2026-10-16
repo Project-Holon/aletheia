@@ -13,7 +13,7 @@
  *   func_021C9374 0x021C9374 thumb ov093
  *   func_021C9384 0x021C9384 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *   func_021D5D14 0x021D5D14 thumb ov093
+ *   BTL_POKEPARAM_CanChangeStatStage 0x021D5D14 thumb ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupIn 0x021C5A1C thumb ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupOut 0x021C5A34 thumb ov093
  *   BTL_SERVER_FLOW_TryChangeStatStage 0x021C3008 thumb ov093
@@ -31,7 +31,7 @@ extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int func_021C9374(void *, u8);
 extern int func_021C9384(void *, u8);
 extern int BTL_POKEPARAM_IsFainted(void *);
-extern int func_021D5D14(s8 *p, int i, int sign);
+extern int BTL_POKEPARAM_CanChangeStatStage(s8 *p, int i, int sign);
 extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *p, u8 *a);
 extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *p, u8 *a);
 extern int BTL_SERVER_FLOW_TryChangeStatStage(u8 *, u8, u8 *, enum Kind, int, u8, u16, u32, int, u32);
@@ -51,7 +51,7 @@ int BTL_SERVER_FLOW_ExecCmdChangeStatStage(u8 *p, const Ent *e, u16 arg)
         if (func_021C9374(p + 0x1ab8, e->ids[i])) {
             b = BTL_SIDE_GetPokeByIdThunk(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
             if (!BTL_POKEPARAM_IsFainted(b)) {
-                if (func_021D5D14((s8 *)b, (u32)e->kind, e->a)) {
+                if (BTL_POKEPARAM_CanChangeStatStage((s8 *)b, (u32)e->kind, e->a)) {
                     f = 1;
                     break;
                 }

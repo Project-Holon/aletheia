@@ -26,7 +26,7 @@
  */
 #include "zknsearch_types.h"
 
-struct S;
+struct FrameList;
 struct Tmpl;
 struct MsgBank;
 
@@ -35,7 +35,7 @@ typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; u
 
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
+extern struct FrameList *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
 extern void FRAME_LIST_CopyMapToBuffer(unsigned char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);

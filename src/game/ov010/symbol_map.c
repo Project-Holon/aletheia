@@ -58,7 +58,7 @@
  *   g_Bg2ScaleState  0x02172BA4  data  ov010  a4
  *   g_Bg2ScaleStep  0x021729FC  data  ov010  a4
  *   MTX_Scale22_  0x0207AD58  thumb
- *   func_0207D59C  0x0207D59C  arm
+ *   G2x_SetBGyAffine_  0x0207D59C  arm
  *   _fadd  0x0209C95C  arm
  *   _fdiv  0x0209CE10  arm
  *   _fgr  0x0209BBB0  arm
@@ -67,7 +67,7 @@
  *   _ffix  0x0209C494  arm
  *   func_02005654  0x02005654  thumb
  *   MTX_Identity22_ 0x0207AD40 arm
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -82,7 +82,7 @@
  *   g_ZoneRemapTable  0x02171F2C  data  ov010  a4
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WIFI_HISTORY_GetDisplayCount  0x02009590  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
@@ -104,7 +104,7 @@
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_0202C794  0x0202C794  thumb
+ *   ISS_SWITCH_GetSubscreenMode  0x0202C794  thumb
  *   WEATHER_RequestChangeNoFade  0x021A1BE4  thumb  ov021
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
  *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
@@ -341,11 +341,11 @@ extern struct SymbolMapSaveEntry *func_0200973C(struct SymbolMapSave *save, int 
 extern u8 func_0200856C(const struct SymbolMapSaveEntry *entry);
 extern SaveSyncBlock *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 extern void MTX_Scale22_(void *dst, int scaleX, int scaleY);
-extern void func_0207D59C(void *reg, void *matrix, int centerX, int centerY, int unusedA, int unusedB);
+extern void G2x_SetBGyAffine_(void *reg, void *matrix, int centerX, int centerY, int unusedA, int unusedB);
 extern int func_02005654(int callback, int param);
 extern void MTX_Identity22_(void *matrix);
 extern void func_0200566C(void);
-extern u32   func_02017E1C(void *poke, u32 key, u32 extra);
+extern u32   POKE_TOOL_GetPartyValue(void *poke, u32 key, u32 extra);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int transitionArg);
 extern void GAME_EVENT_CallEvent(struct GameTask *task, struct GameEvent **event);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTable, void *param);
@@ -357,7 +357,7 @@ extern u32 ZONEDATA_GetParentZoneId(u32 zoneId);
 extern SpecialLocation *GAME_DATA_GetField168(void *gameData);
 extern u32 GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern void *GAME_DATA_GetMiscSave(void *gameData);
-extern u8 *func_02012944(void *gameData);
+extern u8 *GAME_DATA_GetMyStatus(void *gameData);
 extern u8 WIFI_HISTORY_GetDisplayCount(void *save, u32 b, u32 c);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int keyId, void *myStatus);
@@ -377,7 +377,7 @@ extern void  PMSI_PARAM_Delete(void *pmsParam);
 extern void *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern u32 FIELDMAP_GetWeather(u8 *fieldMap);
 extern u16 FIELDMAP_GetZoneId(u8 *fieldMap);
-extern u8 func_0202C794(void *gameSystem, u32 a1);
+extern u8 ISS_SWITCH_GetSubscreenMode(void *gameSystem, u32 a1);
 extern void WEATHER_RequestChangeNoFade(int a, int b);
 extern void WEATHER_RequestChange(int a, int b);
 extern void GAME_DATA_SetSubscreenMode(struct GameData *gameData, u8 mode);
@@ -1061,7 +1061,7 @@ void SYMBOL_MAP_UpdateBg2Scale(void)
             rounded = 4096.0f * (1.0f / scale) - 0.5f;
         fixedScale = (int)rounded;
         MTX_Scale22_(matrix, fixedScale, fixedScale);
-        func_0207D59C((void *)0x04000020, matrix, 0x80, 0x5c, 0, 0);
+        G2x_SetBGyAffine_((void *)0x04000020, matrix, 0x80, 0x5c, 0, 0);
     }
 }
 
@@ -1080,7 +1080,7 @@ void SYMBOL_MAP_StartBg2Scale(void)
 void SYMBOL_MAP_StopBg2Scale(void) {
     int matrix[4];
     MTX_Identity22_(matrix);
-    func_0207D59C((void *)0x04000020, matrix, 128, 92, 0, 0);
+    G2x_SetBGyAffine_((void *)0x04000020, matrix, 128, 92, 0, 0);
     func_0200566C();
 }
 
@@ -1098,7 +1098,7 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
 
     switch (*state) {
     case 0:
-        if (func_02017E1C(work->poke, 0x4C, 0) == 0 || func_02017E1C(work->poke, 3, 0) == 1) {
+        if (POKE_TOOL_GetPartyValue(work->poke, 0x4C, 0) == 0 || POKE_TOOL_GetPartyValue(work->poke, 3, 0) == 1) {
             *state = 7;
         } else {
             *state = 1;
@@ -1127,7 +1127,7 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
         break;
     case 6:
         GAME_EVENT_CallEvent(task, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, transitionArg, 0, 0, 1, 0, 0));
-        GAME_BEACON_SEARCH_SetSymbolMapPoke(func_02017E1C(work->poke, 5, 0));
+        GAME_BEACON_SEARCH_SetSymbolMapPoke(POKE_TOOL_GetPartyValue(work->poke, 5, 0));
         *state = 7;
         break;
     case 7:
@@ -1187,7 +1187,7 @@ int SYMBOL_MAP_CheckEventFlag(void *gameData, u32 flagId)
 {
     void *eventWork = (void *)GAME_DATA_GetEventWork(gameData);
     void *miscSave = GAME_DATA_GetMiscSave(gameData);
-    void *myStatus = func_02012944(gameData);
+    void *myStatus = GAME_DATA_GetMyStatus(gameData);
     void *save;
     int result;
     save = func_02009470(GAME_DATA_GetSaveControl(gameData));
@@ -1371,7 +1371,7 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work)
     modeId = SCRIPT_WORK_ReadWorkValue(vm, work);
     enable = SCRIPT_WORK_ReadWorkValue(vm, work);
     if (modeId == 0xFFFF)
-        modeId = func_0202C794(gameSystem, FIELDMAP_GetZoneId(fieldMap));
+        modeId = ISS_SWITCH_GetSubscreenMode(gameSystem, FIELDMAP_GetZoneId(fieldMap));
     if (enable != 0)
         WEATHER_RequestChangeNoFade(fieldState, modeId);
     else
@@ -1563,7 +1563,7 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     numberA = EVENT_RESEARCH_RADAR_GetReportNumberA(work);
     numberB = EVENT_RESEARCH_RADAR_GetReportNumberB(work);
     messageId = EVENT_RESEARCH_RADAR_GetReportMessageId(messageId);
-    WORDSET_SetSlotMyStatus(work->wordSet, 0, func_02012944(work->gameData));
+    WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetMyStatus(work->gameData));
     WORDSET_SetSlotNumber(work->wordSet, 1, numberA, 5, 1, 1);
     WORDSET_SetSlotNumber(work->wordSet, 2, numberB, 5, 1, 1);
     func_02045CAC(work->msgBank, messageId, rawText);

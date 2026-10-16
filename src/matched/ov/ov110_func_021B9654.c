@@ -1,5 +1,5 @@
 /*
- * function: func_021B9654
+ * function: PMS_INPUT_DATA_CollectSeenWords
  * address: 0x021B9654
  * packet: pkt_ov110_021B9654
  * region: ov110
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Blk37;
 extern void *PMSI_PARAM_GetSaveWork(char *p);
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
-u32 func_021B9654(u8 *p,const u16 *ids,u32 count,u16 *out)
+u32 PMS_INPUT_DATA_CollectSeenWords(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     void *save;
     u32 n;

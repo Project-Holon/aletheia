@@ -39,7 +39,7 @@
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_020079A0  0x020079A0  thumb
  *   func_0200873C  0x0200873C  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
@@ -177,7 +177,7 @@ extern u8 func_02009304(const struct WifiList *wifiList);
 extern struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
-extern u8 *func_02012944(void *gameData);
+extern u8 *GAME_DATA_GetMyStatus(void *gameData);
 extern int func_020079A0(void *boxManager);
 extern struct Config *func_0200873C(void *saveControl);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
@@ -343,7 +343,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         work->box.boxManager = GAME_DATA_GetBoxManager(work->box.gameData);
         work->box.party = GAME_DATA_GetMyParty(work->box.gameData);
         work->box.myItem = GAME_DATA_GetMyItem(work->box.gameData);
-        work->box.myStatus = func_02012944(work->box.gameData);
+        work->box.myStatus = GAME_DATA_GetMyStatus(work->box.gameData);
         work->box.config = func_0200873C(GAME_DATA_GetSaveControl(work->box.gameData));
         work->box.pickerBuffer = work->pickerBuffer;
         work->box.result = 0;

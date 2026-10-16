@@ -1,5 +1,5 @@
 /*
- * function: func_021857F0
+ * function: Decode
  * address:  0x021857F0
  * packet:   pkt_021857F0
  * region:   ov009
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021857F0(u32 *dst, const u8 *src, u32 count)
+static void Decode(u32 *dst, const u8 *src, u32 count)
 {
     u32 j = 0;
     u32 i = 0;

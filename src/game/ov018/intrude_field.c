@@ -58,7 +58,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -156,7 +156,7 @@
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
- *   func_02018A00  0x02018A00  thumb
+ *   POKE_TOOL_SetAbility  0x02018A00  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   POKE_TOOL_AddMove  0x0201808C  thumb
  *   POKE_TOOL_PushMove  0x020180F4  thumb
@@ -382,7 +382,7 @@ extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
 extern struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 index);
-extern struct PlayerStatus *func_02012944(struct GameData *gameData);
+extern struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index);
 extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *playerWork, const VecFx32 *pos);
 extern u32 ICA_ANIME_GetUnk330(const struct GameSystem *gameSystem);
@@ -427,7 +427,7 @@ extern void func_020307B0(void *ptr);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 trainerId, int species, int form, int sex, int a4, int a5);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heapId);
 extern void POKE_TOOL_SetupPartyParamEx(void *mon, u16 species, u16 level, unsigned long long id, u32 power, unsigned long long rnd);
-extern void func_02018A00(void *mon, u32 species, u32 form);
+extern void POKE_TOOL_SetAbility(void *mon, u32 species, u32 form);
 extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
 extern u16 POKE_TOOL_AddMove(void *mon, u16 move);
 extern void POKE_TOOL_PushMove(void *mon, int move);
@@ -821,7 +821,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         } else if (INTRUDE_COMM_IsStepToOwnArea(gameComm, gameData, work->edgeDir) == 1) {
             INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
         } else {
-            INTRUDE_COMM_PickDefaultObjCode(func_02012944(gameData), &look.objCode, &look.kind, &look.flag);
+            INTRUDE_COMM_PickDefaultObjCode(GAME_DATA_GetMyStatus(gameData), &look.objCode, &look.kind, &look.flag);
             INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
         }
         *seq += 1;
@@ -964,7 +964,7 @@ struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSy
 /*
  * Byte-correct (528 of 528 bytes).  Sole blocker: the THM_CALL at +0x13C to
  * 0x02012798, an unlabelled arm9 leaf that disasm.py prints as .word data in
- * pool_02012794 (asm/arm9/main.s), after the pop at 0x02012790 and before
+ * the pool at 02012794 (asm/arm9/main.s), after the pop at 0x02012790 and before
  * GAME_DATA_GetField114; no listing labels it and this call is its only witness, so
  * every class refuses it.  Verified EXACT at 0x02012798 (arm9, thumb, 10 B):
  *
@@ -1370,7 +1370,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
 
     if (ICA_ANIME_Check2114(gameSystem) == 0)
         return;
-    myStatus = func_02012944(ICA_ANIME_GetField1C(gameSystem));
+    myStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem));
     gender = func_02008550(myStatus);
     if (work != 0) {
         if (objCode == 0xFFFF) {
@@ -1571,17 +1571,17 @@ u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm)
 
     gameData = GAME_COMM_GetGameData(gameComm);
     if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
-        status = func_02012944(gameData);
+        status = GAME_DATA_GetMyStatus(gameData);
     } else if (GAME_DATA_GetIntrudeId(gameData) == GAME_DATA_GetOwnNetId(gameData)) {
-        status = func_02012944(gameData);
+        status = GAME_DATA_GetMyStatus(gameData);
     } else {
         hostWork = 0;
         if (GAME_COMM_GetKind(gameComm) == 2 && GAME_COMM_GetWork(gameComm) != 0)
             hostWork = GAME_COMM_GetWork(gameComm);
         if (hostWork == 0) {
-            status = func_02012944(gameData);
+            status = GAME_DATA_GetMyStatus(gameData);
         } else if (ZONEDATA_IsZone117(hostWork->localPeer.zoneId) == 1) {
-            status = func_02012944(gameData);
+            status = GAME_DATA_GetMyStatus(gameData);
         } else {
             status = GAME_DATA_GetPlayerStatusById(gameData, GAME_DATA_GetIntrudeId(gameData));
         }
@@ -1700,11 +1700,11 @@ void *INTRUDE_FIELD_CreateSymbolMon(int heapId, struct GameData *gameData, const
     levelTable = ARC_UTIL_LoadMember(0xE3, 0, 0, heapId);
     level = levelTable[entry->species];
     func_020307B0(levelTable);
-    trainerId = func_02008530(func_02012944(gameData));
+    trainerId = func_02008530(GAME_DATA_GetMyStatus(gameData));
     personality = POKE_TOOL_CreatePersonalRnd(trainerId, (u16)entry->species, (u16)entry->form, entry->sex, 0, 0);
     mon = POKE_TOOL_Create(entry->species, level, -1, heapId);
     POKE_TOOL_SetupPartyParamEx(mon, entry->species, level, trainerId, -1, personality);
-    func_02018A00(mon, entry->species, entry->form);
+    POKE_TOOL_SetAbility(mon, entry->species, entry->form);
     POKE_TOOL_ChangeForm(mon, (u16)entry->form);
     if (entry->move != 0) {
         if (POKE_TOOL_AddMove(mon, entry->move) == 0xFFFF)

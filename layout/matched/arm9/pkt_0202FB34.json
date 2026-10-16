@@ -43,7 +43,7 @@
    ]
   },
   {
-   "name": "sub_020304B8",
+   "name": "GFL_HEAP_GetBlockHeapId",
    "address": "0x020304B8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020304C0",
+   "name": "GFL_HEAP_GetBlockName",
    "address": "0x020304C0",
    "kind": "game",
    "region": "arm9",

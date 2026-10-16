@@ -14,6 +14,18 @@
 #include "btl_records_types.h"
 
 
+/*
+ * Work area that the flow hands to the event system. The flow itself only clears
+ * the pending counter word at its end (BTL_SERVER_FLOW_ClearPendingCounter); the
+ * 0x220-byte body is never read by btl_server_flow.c.
+ */
+typedef struct EventParamBuf {
+    u8 work[0x220];                     /* 0x000: event work area, not read by the flow */
+    u32 pendingCounter;                 /* 0x220: cleared before the side table is initialized */
+} EventParamBuf;
+typedef char EventParamBufSizeCheck[(sizeof(EventParamBuf) == 0x224) ? 1 : -1];
+
+
 /* One frame of the action stack: the sets, parameter blocks and queues that one action works on. */
 typedef struct BtlServerFlowFrame {
     u8 targetSet[0x48];             /* 0x000: poke set the action aims at */
@@ -112,13 +124,13 @@ typedef struct BtlServerFlow {
     u8 padPosPokeEnd[0x14];             /* 0x1AD0 */
     u8 msgRecord[0x24];                  /* 0x1AE4: struct Msg view */
     u8 expShareTable[0x48];           /* 0x1B08 */
-    u8 eventParamBuf[0x224];            /* 0x1B50 */
+    EventParamBuf eventParamBuf;        /* 0x1B50 */
     u32 cmdLock;                           /* 0x1D74 */
     u8 pad1D78[0x1FC];                  /* 0x1D78 */
     u16 lastMoveId;                   /* 0x1F74 */
     u8 pad1F76[2];                      /* 0x1F76 */
     int disobeyResult;                  /* 0x1F78 */
-    u8 effectivenessRecord[0xC];             /* 0x1F7C */
+    u16 effectivenessRecord[6];              /* 0x1F7C: per-side type affinity counts, read as u16 words */
     u8 hitTable[0x60];               /* 0x1F88 */
     u8 turnOnceFlags[4];                    /* 0x1FE8: [0] guards ProcPreTurnMoveCheck once per turn, [1] cleared at ProcMoveHitTargets */
     u8 scratchBuffer[0x140];                /* 0x1FEC: handler work area, see GetScratchBuffer */

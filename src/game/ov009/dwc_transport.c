@@ -1,7 +1,7 @@
 /*
  * file:     dwc_transport.c
  * unit:     yes
- * function: func_02176DEC, func_02176DFC, DWC_SendReliable, DWCi_SendReliable, DWC_SendReliableBitmap, DWC_SendUnreliable, DWC_SetRecvBuffer, DWC_SetUserSendCallback, DWC_SetUserRecvCallback, DWC_SetUserRecvTimeoutCallback, DWCs_EncodeHeader, DWCs_DecodeHeader, DWCs_GetRequiredHeaderSize, DWC_SetRecvTimeoutTime, DWC_SetConnectionKeepAliveTime, DWC_GetConnectionKeepAliveTime, DWCi_InitTransport, DWCi_RecvCallback, DWCi_PingCallback, DWCi_TransportProcess, DWCi_ClearTransConnection, DWCi_ShutdownTransport, DWCi_ResetLastSomeDataRecvTimeByAid, DWCs_GetTransConnection, DWCs_GetSendState, DWCs_GetRecvState, DWCs_Send, DWCi_SendUnreliable, DWCs_HandleReliableMessage, DWCs_HandleUnreliableMessage, DWCs_RecvDataHeader, DWCs_RecvDataBody, DWCs_RecvSystemDataBody, DWCs_GetOutgoingBufferFreeSize, DWCs_UpdateConnectionKeepAliveTime
+ * function: DWC_IsSendableReliable, DWCi_IsSendableReliable, DWC_SendReliable, DWCi_SendReliable, DWC_SendReliableBitmap, DWC_SendUnreliable, DWC_SetRecvBuffer, DWC_SetUserSendCallback, DWC_SetUserRecvCallback, DWC_SetUserRecvTimeoutCallback, DWCs_EncodeHeader, DWCs_DecodeHeader, DWCs_GetRequiredHeaderSize, DWC_SetRecvTimeoutTime, DWC_SetConnectionKeepAliveTime, DWC_GetConnectionKeepAliveTime, DWCi_InitTransport, DWCi_RecvCallback, DWCi_PingCallback, DWCi_TransportProcess, DWCi_ClearTransConnection, DWCi_ShutdownTransport, DWCi_ResetLastSomeDataRecvTimeByAid, DWCs_GetTransConnection, DWCs_GetSendState, DWCs_GetRecvState, DWCs_Send, DWCi_SendUnreliable, DWCs_HandleReliableMessage, DWCs_HandleUnreliableMessage, DWCs_RecvDataHeader, DWCs_RecvDataBody, DWCs_RecvSystemDataBody, DWCs_GetOutgoingBufferFreeSize, DWCs_UpdateConnectionKeepAliveTime
  * address:  0x02176DEC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -152,8 +152,8 @@ extern char gDwcTransHeaderMagic[];
 extern char gDwcTransForwardMagic[];
 extern char gDwcTransMatchMagic[];
 
-int func_02176DEC(unsigned char a);
-int func_02176DFC(unsigned char aid, unsigned short type);
+int DWC_IsSendableReliable(unsigned char a);
+static int DWCi_IsSendableReliable(unsigned char aid, unsigned short type);
 int DWC_SendReliable(unsigned char aid, void *buffer, int size);
 int DWCi_SendReliable(unsigned short type, unsigned char aid, void *buffer, int size);
 unsigned long DWC_SendReliableBitmap(unsigned long bitmap, void *buffer, int size);
@@ -191,15 +191,15 @@ void DWCs_UpdateConnectionKeepAliveTime(void *connection);
 /*
  * Tail call that supplies the second argument 1.
  */
-int func_02176DEC(unsigned char a)
+int DWC_IsSendableReliable(unsigned char a)
 {
-    return func_02176DFC(a, 1);
+    return DWCi_IsSendableReliable(a, 1);
 }
 
 /*
  * sdk:      DWCi_IsSendableReliable (libdwcmatch.TWL.HYB.a dwc_transport.o)
  */
-int func_02176DFC(unsigned char aid, unsigned short type)
+static int DWCi_IsSendableReliable(unsigned char aid, unsigned short type)
 {
     long freeSpace;
 
@@ -231,7 +231,7 @@ int DWCi_SendReliable(unsigned short type, unsigned char aid, void *buffer, int 
     TransConn *transConnection;
 
     transConnection = DWCs_GetTransConnection(aid);
-    if (!func_02176DFC(aid, type))
+    if (!DWCi_IsSendableReliable(aid, type))
         return 0;
     transConnection->sendState = 1;
     transConnection->sendBuffer = buffer;

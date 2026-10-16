@@ -18,8 +18,8 @@
  *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
- *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
- *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
  *   func_02030734 0x02030734 arm
  *   VEC_Subtract 0x0207CA00 arm
  *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
@@ -36,8 +36,8 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern int SCRIPT_COMMAND_GetActorMask(char *,int);
 extern void *STA_ACTING_GetActorSystem(char *);
 extern void *STA_ACTING_GetActor(char *,u32);
-extern void STA_ACT_LIGHT_ElemOpA(void *,u32 *,u32 *);
-extern void STA_ACT_LIGHT_ElemOpB(void *,u32 *,const u32 *);
+extern void STA_ACT_LIGHT_CopyActorPos(void *,u32 *,u32 *);
+extern void STA_ACT_LIGHT_SetActorPos(void *,u32 *,const u32 *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void VEC_Subtract(const void *,const void *,void *);
 extern void *STA_ACT_SCRIPT_AddTask(char *,u32,u32,u32);
@@ -72,16 +72,16 @@ int SCRIPT_COMMAND_CmdAddActorPos(int unused,char *p)
         if(mask&(1<<i)) {
             target=STA_ACTING_GetActor(*(void **)(owner+52),i);
             if (rate==0) {
-                STA_ACT_LIGHT_ElemOpA(ctx,(u32 *)target,pos);
+                STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)target,pos);
                 pos[0]+=x;pos[1]+=y;pos[2]+=z;
-                STA_ACT_LIGHT_ElemOpB(ctx,(u32 *)target,pos);
+                STA_ACT_LIGHT_SetActorPos(ctx,(u32 *)target,pos);
             } else {
                 q=func_02030734(*(u16 *)owner,56,0,d_021FDD00,0x31B);
                 *(char **)(q+48)=owner;
                 *(char **)q=target;
                 *(void **)(q+4)=*(void **)(owner+52);
                 *(u16 *)(q+46)=0;
-                STA_ACT_LIGHT_ElemOpA(ctx,(u32 *)target,(u32 *)(q+8));
+                STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)target,(u32 *)(q+8));
                 vset((Vec *)(q+20),*(int *)(q+8)+x,*(int *)(q+12)+y,*(int *)(q+16)+z);
                 *(u16 *)(q+44)=rate;
                 *(int *)(q+32)=(int)x/(int)rate;

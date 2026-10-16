@@ -1,7 +1,7 @@
 /*
  * file:     sha1.c
  * unit:     yes
- * function: func_02163558, func_0216359C, func_021635E0, CPSi_sha1_block, func_02163C9C, func_02163CF0, func_02163DA8, CPSi_sha1_result_prng
+ * function: R, func_0216359C, long_from_char, CPSi_sha1_block, func_02163C9C, func_02163CF0, func_02163DA8, CPSi_sha1_result_prng
  * address:  0x02163558
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -33,14 +33,13 @@
     e += ROL(a, 5) + f(b, c, d) + (x) + (k); \
     b = ROL(b, 30);
 
-extern void long_from_char(unsigned long *d, u8 *s, unsigned long len);
-extern unsigned long R(int t, unsigned long *w);
+static unsigned long R(int t, unsigned long *w);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_0216359C(unsigned char *d, unsigned long *s, unsigned int len);
-unsigned long func_02163558(int t, unsigned long *w);
-void func_021635E0(unsigned int *dst, const u8 *src, unsigned int count);
+static unsigned long R(int t, unsigned long *w);
+static void long_from_char(unsigned int *dst, const u8 *src, unsigned int count);
 void CPSi_sha1_block(CPSSha1Ctx *ctx, u8 *m);
 void CPSi_sha1_init(CPSSha1Ctx *ctx);
 void CPSi_sha1_calc(CPSSha1Ctx *ctx, void *data0, int datalen);
@@ -53,7 +52,7 @@ extern unsigned char gSha1Pad[64];
 /*
  * sdk:      R (libssl.TWL.HYB.a(sha1.o))
  */
-unsigned long func_02163558(int t, unsigned long *w)
+static unsigned long R(int t, unsigned long *w)
 {
 	unsigned long temp;
 
@@ -82,7 +81,7 @@ static void char_from_long(unsigned char *d, unsigned long *s, unsigned int len)
 
 
 
-void func_021635E0(unsigned int *dst, const u8 *src, unsigned int count)
+static void long_from_char(unsigned int *dst, const u8 *src, unsigned int count)
 {
     unsigned int i = 0;
     while (i < count) {
@@ -117,7 +116,7 @@ void CPSi_sha1_block(CPSSha1Ctx *ctx, u8 *m)
     c = ctx->state[2];
     d = ctx->state[3];
     e = ctx->state[4];
-    long_from_char(w, m, 64);
+    long_from_char((unsigned int *)w, m, 64);
 
     i = 0;
     for (j = 0; j < 3; j++) {

@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_LIGHT_ElemOpB
+ * function: STA_ACT_LIGHT_SetActorPos
  * address: 0x021F8054
  * packet: pkt_ov112_021F8054
  * region: ov112
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void STA_ACT_LIGHT_ElemOpB(void *unused,u32 *p,const u32 *q) { p[6]=q[0]; p[7]=q[1]; p[8]=q[2]; p[1]=1; }
+void STA_ACT_LIGHT_SetActorPos(void *unused,u32 *p,const u32 *q) { p[6]=q[0]; p[7]=q[1]; p[8]=q[2]; p[1]=1; }

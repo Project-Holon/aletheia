@@ -17,14 +17,14 @@
  * a2/a3 pass-throughs.
  *
  * symbols:
- *   func_02017E88   0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue   0x02017E88  thumb
  *   POKE_TOOL_IsBoxShiny   0x02017EB4  thumb
  *   POKEGRA_LoadCharData   0x0202D760  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02017E88(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern u32 POKEGRA_LoadCharData(void *a0, u32 species, u32 form, u32 gender,
                          u32 shiny, u32 a2, u32 isEgg, u32 pid, u32 a3);
@@ -37,11 +37,11 @@ u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3)
     u32 shiny;
     u32 isEgg;
 
-    species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6F, 0);
-    gender = func_02017E88(mon, 0x6E, 0);
+    species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    form = POKE_TOOL_GetBoxValue(mon, 0x6F, 0);
+    gender = POKE_TOOL_GetBoxValue(mon, 0x6E, 0);
     shiny = POKE_TOOL_IsBoxShiny(mon);
-    isEgg = func_02017E88(mon, 0x4C, 0);
+    isEgg = POKE_TOOL_GetBoxValue(mon, 0x4C, 0);
     return POKEGRA_LoadCharData(a0, species, form, gender, shiny, a2, isEgg,
-                         func_02017E88(mon, 0, 0), a3);
+                         POKE_TOOL_GetBoxValue(mon, 0, 0), a3);
 }

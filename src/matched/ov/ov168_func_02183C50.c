@@ -1,5 +1,5 @@
 /*
- * function: func_02183C50
+ * function: MICTEST_Exit
  * address:  0x02183C50
  * packet:   pkt_ov168_02183C50
  * region:   ov168
@@ -11,12 +11,12 @@
  *
  *
  * symbols:
- *   func_02184408  0x02184408  thumb  ov168
- *   func_02184138  0x02184138  thumb  ov168
- *   func_02183F98  0x02183F98  thumb  ov168
- *   func_02184360  0x02184360  thumb  ov168
- *   func_021841C8  0x021841C8  thumb  ov168
- *   func_02183F08  0x02183F08  thumb  ov168
+ *   MICTEST_ExitMic  0x02184408  thumb  ov168
+ *   MICTEST_DeleteUnit  0x02184138  thumb  ov168
+ *   MICTEST_ExitActorSystem  0x02183F98  thumb  ov168
+ *   MICTEST_DeleteWindows  0x02184360  thumb  ov168
+ *   MICTEST_ExitBg  0x021841C8  thumb  ov168
+ *   MICTEST_ClearDisplay  0x02183F08  thumb  ov168
  *   func_02030EAC  0x02030EAC  arm
  *   TCB_Noop  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
@@ -31,12 +31,12 @@
 typedef unsigned int   u32;
 struct Node;
 struct Proc;
-extern void func_02184408(int *p);
-extern void func_02184138(char *p);
-extern void func_02183F98(void *);
-extern void func_02184360(char *p);
-extern void func_021841C8(void *);
-extern void func_02183F08(void);
+extern void MICTEST_ExitMic(int *p);
+extern void MICTEST_DeleteUnit(char *p);
+extern void MICTEST_ExitActorSystem(void *);
+extern void MICTEST_DeleteWindows(char *p);
+extern void MICTEST_ExitBg(void *);
+extern void MICTEST_ClearDisplay(void);
 extern void func_02030EAC(struct Node *n);
 extern void TCB_Noop(int);
 extern u32 func_020307B0(void *p);
@@ -47,19 +47,19 @@ extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char ov088_id[];
 extern char d_021BD574[];
 
-int func_02183C50(int a, int b, int c, void *p)
+int MICTEST_Exit(int a, int b, int c, void *p)
 {
     unsigned short v;
 
-    func_02184408((int *)((char *)p + 0xf8));
+    MICTEST_ExitMic((int *)((char *)p + 0xf8));
     func_02030EAC((struct Node *)(*(int *)((char *)p + 0x148)));
     TCB_Noop(*(int *)((char *)p + 0x144));
     func_020307B0((void *)(*(int *)((char *)p + 0x140)));
-    func_02184138(p);
-    func_02183F98(p);
-    func_02184360((char *)p + 0xe4);
-    func_021841C8((char *)p + 0xe4);
-    func_02183F08();
+    MICTEST_DeleteUnit(p);
+    MICTEST_ExitActorSystem(p);
+    MICTEST_DeleteWindows((char *)p + 0xe4);
+    MICTEST_ExitBg((char *)p + 0xe4);
+    MICTEST_ClearDisplay();
     v = (unsigned short)*(int *)((char *)p + 0x14c);
     func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(v);

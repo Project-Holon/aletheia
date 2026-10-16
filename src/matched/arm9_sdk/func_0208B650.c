@@ -1,5 +1,5 @@
 /*
- * function: func_0208B650
+ * function: MicStartAutoSampling
  * address:  0x0208B650
  * packet:   pkt_0208B650
  * region:   arm9
@@ -22,7 +22,7 @@ typedef int BOOL;
 
 int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 
-BOOL func_0208B650(void *buf, u32 size, u32 span, u8 flags)
+BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags)
 {
     if (PXI_SendWordByFifo(9, 0x02000000 | 0x4100 | flags, 0) < 0) {
         return 0;

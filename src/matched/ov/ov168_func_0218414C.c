@@ -1,5 +1,5 @@
 /*
- * function: func_0218414C
+ * function: MICTEST_InitBg
  * address: 0x0218414C
  * packet: pkt_ov168_0218414C
  * region: ov168
@@ -36,7 +36,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u16 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern int d_02184878[];
 extern u8 d_02184964[];
-void func_0218414C(char *p, int heap)
+void MICTEST_InitBg(char *p, int heap)
 {
     unsigned i;
     unsigned bg;

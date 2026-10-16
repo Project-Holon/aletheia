@@ -186,7 +186,7 @@ struct Actor;
 struct Node;
 struct PtS;
 struct Bmp;
-struct Obj020437AC;
+struct Bmp;
 struct MsgBank;
 struct Tcbl;
 struct Descriptor;
@@ -197,7 +197,7 @@ struct S02031140;
 struct Cfg;
 struct StrObj;
 struct WordSet;
-struct R;
+struct TaskMenuRes;
 struct TaskMenuState;
 typedef struct {int x,y,z;} Vec;
 
@@ -318,7 +318,7 @@ extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 extern void BG_SYS_DrawTile(unsigned,unsigned,unsigned,unsigned,u8,u8);
 extern void func_02041B6C(unsigned);
 extern int BG_SYS_ClearLayerEx(int, int);
@@ -363,7 +363,7 @@ extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
-extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern unsigned APP_TASKMENU_WIN_Create(unsigned, unsigned, unsigned, unsigned, u8, u16);
 extern void APP_TASKMENU_WIN_Delete(u8 *);
@@ -1668,7 +1668,7 @@ void PSEL_ClearWin3(char *p) {struct Descriptor *d;u32 off;off=0x238;BMP_Clear(B
 
 
 
-void PSEL_CreateTaskRes(char *p) {*(struct R * *)&((struct PselWork *)p)->taskRes=APP_TASKMENU_RES_Create(3,11,*(u32 *)&((struct PselWork *)p)->font,((struct PselWork *)p)->printQue,((struct PselWork *)p)->heapId);}
+void PSEL_CreateTaskRes(char *p) {*(struct TaskMenuRes * *)&((struct PselWork *)p)->taskRes=APP_TASKMENU_RES_Create(3,11,*(u32 *)&((struct PselWork *)p)->font,((struct PselWork *)p)->printQue,((struct PselWork *)p)->heapId);}
 
 
 

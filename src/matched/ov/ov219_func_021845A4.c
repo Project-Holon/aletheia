@@ -1,5 +1,5 @@
 /*
- * function: func_021845A4
+ * function: BEACON_DETAIL_ExitGraphics
  * address:  0x021845A4
  * packet:   pkt_021845A4
  * region:   ov219
@@ -21,7 +21,7 @@ extern int BMP_WIN_Exit(int);
 extern int G3D_SYSTEM_Exit(int);
 extern int BG_SYS_Delete(int);
 
-void func_021845A4(int a)
+void BEACON_DETAIL_ExitGraphics(int a)
 {
     BG_SYS_Delete(G3D_SYSTEM_Exit(BMP_WIN_Exit(a)));
 }

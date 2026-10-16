@@ -21,7 +21,7 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
@@ -169,7 +169,7 @@ typedef struct {s16 x,y;} Pt;
 
 /* Caller input, the third Init argument. */
 struct ZenkokuZukanAwardArgs {
-    void *owner;    /* +0x00 passed to func_02012944 */
+    void *owner;    /* +0x00 passed to GAME_DATA_GetMyStatus */
     int bgmActive;  /* +0x04 nonzero suppresses the BGM restart */
 };
 
@@ -201,7 +201,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void *func_020056A0(u32,void*,u32);
-extern char *func_02012944(void*);
+extern char *GAME_DATA_GetMyStatus(void*);
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
@@ -336,7 +336,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(2,0);
  *(void**)(p+20)=func_020056A0((u32)ZENKOKU_ZUKAN_AWARD_Task,p,1);
  ZENKOKU_ZUKAN_AWARD_LoadBgAssets((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupWindows((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupTiles((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_CreateActor((struct ZenkokuZukanAwardWork *)p);
- settings=func_02012944(*(void**)(*(char**)(p+4)));
+ settings=GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;
@@ -443,7 +443,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
     u32 h;
     s16 off;
     u32 ws, x, t;
-    msg = func_02012944(p->args->owner);
+    msg = GAME_DATA_GetMyStatus(p->args->owner);
     flag = CONFIG_GetAppliedFlag((short unsigned int *)func_0200873C(GAME_DATA_GetSaveControl(p->args->owner)));
     p->msgBank = 0;
     for (i = 0; i < 5; i++) {

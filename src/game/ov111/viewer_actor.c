@@ -113,6 +113,8 @@
  *   func_02061CA4  0x02061CA4  arm
  *   d_021C8874  0x021C8874  data
  */
+#include "viewer_types.h"
+
 struct Obj;
 struct Bank;
 struct LightSlot;
@@ -136,9 +138,6 @@ struct Blk34;
 struct RtcDate;
 struct RtcTime;
 struct Sub020089A8Obj;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
 
 typedef struct {
     int x;
@@ -147,301 +146,19 @@ typedef struct {
     int cell;
     int chr;
     int anm;
-} ObjTemplate;
+} ViewerRowTemplate;
 
 typedef struct {
     u16 x;
     u16 y;
     u16 z;
     u8 pri;
-    u8 f7;
-} ObjPos;
+    u8 flags;
+} ViewerRowPos;
 
-typedef struct {
-    u8 pad0[0x48];
-    void *res;
-    void *obj[36];
-    void *set[6];
-} Work_021C75E4;
-
-typedef unsigned int   u32;
-
-typedef long long s64;
-
-typedef unsigned long long u64;
-
-typedef struct {
-    u8 pad0[0xC];
-    void *fC;
-} Res;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    u8 pad8[4];
-    int fC;
-    int f10;
-} Parent;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C7658;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C76A4;
-
-typedef short s16;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    int f10;
-    int f14;
-    int f18;
-    int f1C;
-} Camera;
-
-typedef struct {
-    unsigned char pad0[0x100];
-    void *f100;
-} Work_021C7730;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x13C - 0x120];
-    int f13C;
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C7744;
-
-typedef int fx32;
+typedef struct { int word[8]; } ViewerCamera;
 
 typedef struct { fx32 x, y, z; } VecFx32;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x7C - 0x18];
-    void *f7C[4][3];
-    u8 padAC[0xF8 - 0xAC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    u8 pad108[4];
-    int state;
-} Work_021C7808;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x13C - 0x120];
-    int f13C;
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C7830;
 
 typedef struct { fx32 m[3][3]; } MtxFx33;
 
@@ -449,1015 +166,23 @@ typedef struct {
     VecFx32 trans;
     VecFx32 scale;
     MtxFx33 rot;
-} Transform;
+} ViewerTransform;
 
 typedef struct {
-    int f0;
-    int f4;
-} Counter;
-
-typedef signed int     s32;
+    int value;
+    int step;
+} ViewerCounter;
 
 typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x58 - 0x18];
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    u8 padDC[0xF8 - 0xDC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    void *f108;
-    int state;
-    u8 pad110[4];
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    u8 pad144[0x14C - 0x144];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-} Work_021C78C4;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x7C - 0x18];
-    void *f7C[4][3];
-    u8 padAC[0xF8 - 0xAC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    u8 pad108[4];
-    int state;
-} Work_021C78F8;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x7C - 0x18];
-    void *f7C[4][3];
-    u8 padAC[0xF8 - 0xAC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    u8 pad108[4];
-    int state;
-} Work_021C7908;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x7C - 0x18];
-    void *f7C[4][3];
-    u8 padAC[0xF8 - 0xAC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    u8 pad108[4];
-    int state;
-} Work_021C7934;
-
-typedef struct {
-    unsigned char pad0[4];
-    void *f4;
-    unsigned char pad8[0xC];
-    void *f14;
-} Work_021C795C;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x7C - 0x18];
-    void *f7C[4][3];
-    u8 padAC[0xF8 - 0xAC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    u8 pad108[4];
-    int state;
-} Work_021C7970;
-
-typedef struct ViewerActorWork ViewerActorWork;
-
-struct ViewerActorWork {
-    unsigned char pad0[0x10C];
-    int state;
-};
-
-typedef struct {
-    unsigned char pad0[0x10C];
-    int state;
-} Work_021C79B8;
-
-typedef struct {
-    unsigned char pad0[0x14];
-    void *f14;
-} Work_021C79D0;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C79F4;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x7C - 0x18];
-    void *f7C[4][3];
-    u8 padAC[0xF8 - 0xAC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    u8 pad108[4];
-    int state;
-} Work_021C7A44;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C7A70;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C7AD4;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x13C - 0x120];
-    int f13C;
-    int f140;
-    int f144;
-    int f148;
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work;
-
-typedef struct {
-    u8 a;
-    u8 b;
-    u8 c;
-    u8 d;
-} Rec;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x13C - 0x120];
-    int f13C;
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-    u8 cursor[2];
-    signed char dragDirX;
-    signed char dragDirY;
-    u8 pad1BC[4];
-    u32 prevX;
-    u32 prevY;
-} Work_021C7E48;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C8364;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x58 - 0x18];
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    u8 padDC[0xF8 - 0xDC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    void *f108;
-    int state;
-    u8 pad110[4];
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    u8 pad144[0x14C - 0x144];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-} Work_021C7C94;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[2];
-    u16 f122;
-    u8 pad124[4];
-    int f128;
-    int f12C;
-    int f130;
-    u8 pad134[4];
-    int f138;
-    int f13C;
-    int f140;
-    int f144;
-    int f148;
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C7CD0;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    u8 pad8[4];
-    int fC;
-    int f10;
-} Parent_021C7EF8;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent_021C7EF8 *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x13C - 0x120];
-    int f13C;
-    int f140;
-    int f144;
-    int f148;
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C7EF8;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-} Parent_021C8078;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    u8 pad48[0x58 - 0x48];
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    u8 padDC[0xF4 - 0xDC];
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent_021C8078 *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C8078;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x58 - 0x18];
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    u8 padDC[0xF8 - 0xDC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    void *f108;
-    int state;
-    u8 pad110[4];
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    u8 pad144[0x14C - 0x144];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-} Work_021C80B4;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x7C - 0x18];
-    void *f7C[12];
-    u8 padAC[0xF8 - 0xAC];
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    u8 pad108[4];
-    int state;
-} Work_021C80E8;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent_021C7EF8 *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[2];
-    u16 f122;
-    u8 pad124[4];
-    int f128;
-    int f12C;
-    int f130;
-    u8 pad134[4];
-    int f138;
-    int f13C;
-    int f140;
-    int f144;
-    int f148;
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C810C;
-
-typedef struct {
-    u8 pad0[0xC];
-    void *fC;
-} Res_021C81C0;
-
-typedef struct {
-    u8 pad0[4];
-    void *f4;
-} Parent_021C81C0;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    u8 pad48[0x58 - 0x48];
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    u8 padDC[0xF4 - 0xDC];
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent_021C81C0 *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res_021C81C0 *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C81C0;
+    u8 year;
+    u8 month;
+    u8 day;
+    u8 week;
+} ViewerBadgeDate;
 
 typedef struct { u32 year, month, day, week; } RTCDate;
 
 typedef struct { u32 hour, minute, second; } RTCTime;
-
-typedef struct {
-    u8 pad0[0xC];
-    void *fC;
-} Res_021C8208;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    u8 pad48[0x58 - 0x48];
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    u8 padDC[0xF4 - 0xDC];
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent_021C81C0 *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res_021C8208 *f158[3];
-    void *f164[3];
-    u8 pad170[0x17C - 0x170];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C8208;
-
-typedef struct {
-    unsigned char pad0[0xC];
-    unsigned char *fC;
-} Res_021C829C;
-
-typedef struct {
-    unsigned char pad0[0x158];
-    Res_021C829C *res[3];
-} Work_021C829C;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    void *fC;
-    u8 f10;
-    u8 pad11[3];
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C[7];
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C[8];
-    void *f7C[24];
-    void *fDC;
-    void *fE0;
-    void *fE4;
-    void *fE8;
-    void *fEC;
-    void *fF0;
-    void *fF4;
-    void *fF8;
-    u16 fFC;
-    u8 padFE[2];
-    void *f100;
-    void *f104;
-    Parent *f108;
-    int state;
-    int f110;
-    u16 f114;
-    u16 f116;
-    int f118;
-    int f11C;
-    u8 pad120[0x140 - 0x120];
-    int f140;
-    int f144;
-    u8 pad148[0x14C - 0x148];
-    void *f14C[3];
-    Res *f158[3];
-    void *f164[3];
-    Res *f170[3];
-    u8 f17C[8];
-    void *f184;
-    int f188[8];
-    u8 f1A8[8];
-    u8 f1B0[8];
-} Work_021C82C0;
 
 typedef struct {
     u8 rev;
@@ -1465,22 +190,20 @@ typedef struct {
     u16 sizeDictBlk;
     u16 dummy;
     u16 ofsEntry;
-} Dict;
+} ViewerTexDict;
 
 typedef struct {
     u16 sizeUnit;
     u16 ofsName;
     u8 data[4];
-} DictEntryHdr;
+} ViewerTexDictEntry;
 
 typedef struct {
     u8 pad0[0x2C];
     u8 *plttData;
     u8 pad30[4];
     u16 ofsDict;
-} Tex;
-
-typedef signed char s8;
+} ViewerTexInfo;
 
 extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -1537,7 +260,7 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern Rec TRCARD_SIGN_GetBadgeDate(void *obj, int i);
+extern ViewerBadgeDate TRCARD_SIGN_GetBadgeDate(void *obj, int i);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -1546,7 +269,7 @@ extern int TOUCHPANEL_HitCont(const void *rects);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void VIEWER_ACTOR_HandleTouchDrag(Work_021C7E48 *p, int idx);
+extern void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020355D8(u8 v);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
@@ -1563,58 +286,58 @@ extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(const struct Sub020089A8O
 extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
 extern u32 func_02048A0C(u8 *a0, int i);
-extern Tex *func_02047250(void *p);
+extern ViewerTexInfo *func_02047250(void *p);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-void VIEWER_ACTOR_CreateObjects(Work_021C75E4 *p);
-void VIEWER_ACTOR_DeleteObjects(Work_021C7658 *p);
-void VIEWER_ACTOR_Init3D(Work_021C76A4 *p);
-void VIEWER_ACTOR_Exit3D(Work_021C7730 *p);
-void VIEWER_ACTOR_CreateModel(Work_021C7744 *p);
-void VIEWER_ACTOR_DeleteModel(Work_021C7808 *p);
-void VIEWER_ACTOR_DrawModel(Work_021C7830 *p);
-void VIEWER_ACTOR_InitBgWindow(Work_021C78C4 *p);
-void VIEWER_ACTOR_DeleteBgWindow(Work_021C78F8 *p);
-void VIEWER_ACTOR_FlushBgWindow(Work_021C7908 *p);
-void VIEWER_ACTOR_CreateFont(Work_021C7934 *p);
-void VIEWER_ACTOR_DeleteFont(Work_021C795C *p);
-void VIEWER_ACTOR_PrintQueMain(Work_021C7970 *p);
-int VIEWER_ACTOR_DispatchState(ViewerActorWork *p);
-int VIEWER_ACTOR_IsWipeEnded(Work_021C79B8 *p);
-int VIEWER_ACTOR_UpdateMain(Work_021C79D0 *p);
-int VIEWER_ACTOR_IsActorAnimActive(Work_021C79F4 *p);
-int VIEWER_ACTOR_StartWipe(Work_021C7A44 *p);
-int VIEWER_ACTOR_CheckWipeEnd(Work_021C7A70 *p);
-void VIEWER_ACTOR_PrintTextAt(Work_021C7AD4 *p, int x, int k, int col);
-void VIEWER_ACTOR_DrawLabel(Work *p, int mode, int idx);
+void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p);
+void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p);
+void VIEWER_ACTOR_Init3D(ViewerTextWork *p);
+void VIEWER_ACTOR_Exit3D(ViewerTextWork *p);
+void VIEWER_ACTOR_CreateModel(ViewerTextWork *p);
+void VIEWER_ACTOR_DeleteModel(ViewerTextWork *p);
+void VIEWER_ACTOR_DrawModel(ViewerTextWork *p);
+void VIEWER_ACTOR_InitBgWindow(ViewerTextWork *p);
+void VIEWER_ACTOR_DeleteBgWindow(ViewerTextWork *p);
+void VIEWER_ACTOR_FlushBgWindow(ViewerTextWork *p);
+void VIEWER_ACTOR_CreateFont(ViewerTextWork *p);
+void VIEWER_ACTOR_DeleteFont(ViewerTextWork *p);
+void VIEWER_ACTOR_PrintQueMain(ViewerTextWork *p);
+int VIEWER_ACTOR_DispatchState(ViewerTextWork *p);
+int VIEWER_ACTOR_IsWipeEnded(ViewerTextWork *p);
+int VIEWER_ACTOR_UpdateMain(ViewerTextWork *p);
+int VIEWER_ACTOR_IsActorAnimActive(ViewerTextWork *p);
+int VIEWER_ACTOR_StartWipe(ViewerTextWork *p);
+int VIEWER_ACTOR_CheckWipeEnd(ViewerTextWork *p);
+void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col);
+void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx);
 int VIEWER_ACTOR_WrapAngle(int a, int b);
-void VIEWER_ACTOR_StepBounce(Work_021C7C94 *p);
-void VIEWER_ACTOR_HandleDrag(Work_021C7CD0 *p, int unused, int touch, int x);
-int VIEWER_ACTOR_HandleInput(Work_021C7E48 *p);
+void VIEWER_ACTOR_StepBounce(ViewerTextWork *p);
+void VIEWER_ACTOR_HandleDrag(ViewerTextWork *p, int unused, int touch, int x);
+int VIEWER_ACTOR_HandleInput(ViewerTextWork *p);
 int VIEWER_ACTOR_FindNearestPreset(int v);
-void VIEWER_ACTOR_SelectActor(Work_021C7EF8 *p, int sel, int flag);
-void VIEWER_ACTOR_ToggleFavorite(Work_021C8078 *p);
-void VIEWER_ACTOR_SetPageCount(Work_021C80B4 *p);
-void VIEWER_ACTOR_SetRowDrawEnable(Work_021C80E8 *p, int row, int v);
-void VIEWER_ACTOR_UpdateRowVisibility(Work_021C810C *p, int a, int b);
-void VIEWER_ACTOR_SetSelection(Work_021C7EF8 *p, u16 v);
-void VIEWER_ACTOR_SetRtcDate(Work_021C81C0 *p);
-void VIEWER_ACTOR_GetRtcDate(Work_021C8208 *p);
-void VIEWER_ACTOR_LoadPalette(Work_021C829C *p, int idx, int k);
-void VIEWER_ACTOR_LoadTexture(Work_021C82C0 *p, int idx, int k);
-void VIEWER_ACTOR_SetRowActorDrawEnable(Work_021C7EF8 *p, int row, int n);
-void VIEWER_ACTOR_RefreshRows(Work_021C8364 *p);
+void VIEWER_ACTOR_SelectActor(ViewerTextWork *p, int sel, int flag);
+void VIEWER_ACTOR_ToggleFavorite(ViewerTextWork *p);
+void VIEWER_ACTOR_SetPageCount(ViewerTextWork *p);
+void VIEWER_ACTOR_SetRowDrawEnable(ViewerTextWork *p, int row, int v);
+void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b);
+void VIEWER_ACTOR_SetSelection(ViewerTextWork *p, u16 v);
+void VIEWER_ACTOR_SetRtcDate(ViewerTextWork *p);
+void VIEWER_ACTOR_GetRtcDate(ViewerTextWork *p);
+void VIEWER_ACTOR_LoadPalette(ViewerTextWork *p, int idx, int k);
+void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k);
+void VIEWER_ACTOR_SetRowActorDrawEnable(ViewerTextWork *p, int row, int n);
+void VIEWER_ACTOR_RefreshRows(ViewerTextWork *p);
 void VIEWER_ACTOR_HandleScrollRepeat(u8 *p, int value);
 void VIEWER_ACTOR_ResetDragFlags(u8 *p);
 void VIEWER_ACTOR_StepScrollCount(u8 *p, int idx);
-extern const ObjTemplate d_021C8AA0[36];
+extern const ViewerRowTemplate d_021C8AA0[36];
 extern const void *const d_021C8810;
-extern const Camera d_021C896C;
+extern const ViewerCamera d_021C896C;
 extern const s16 FX_SinCosTable_[];
 extern const unsigned char d_021C8834[];
 extern const VecFx32 d_021C8950;
 extern const VecFx32 d_021C8938;
 extern const VecFx32 d_021C8944;
-extern Counter d_021C8E80;
+extern ViewerCounter d_021C8E80;
 extern const int d_021C8894[];
 extern const int d_021C88B4[8];
 extern const unsigned char d_021C898C[];
@@ -1627,52 +350,52 @@ extern const int d_021C8874[];
 /*
  * Addresses are Black-image addresses.
  */
-void VIEWER_ACTOR_CreateObjects(Work_021C75E4 *p)
+void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p)
 {
-    ObjPos pos;
+    ViewerRowPos pos;
     int i;
 
     for (i = 0; i < 36; i++) {
         pos.x = d_021C8AA0[i].x;
         pos.y = d_021C8AA0[i].y;
         pos.z = d_021C8AA0[i].z;
-        pos.f7 = 0;
+        pos.flags = 0;
         pos.pri = 0x24 - i;
-        p->obj[i] = CLACT_CreateActor(p->res, (unsigned int)p->set[d_021C8AA0[i].cell], (unsigned int)p->set[d_021C8AA0[i].chr], (unsigned int)p->set[d_021C8AA0[i].anm], &pos, 0, 0x27);
-        CLACT_SetActorAutoAnim(p->obj[i], 1);
+        p->actors.obj[i] = CLACT_CreateActor(p->unit, (unsigned int)p->resSet.set[d_021C8AA0[i].cell], (unsigned int)p->resSet.set[d_021C8AA0[i].chr], (unsigned int)p->resSet.set[d_021C8AA0[i].anm], &pos, 0, 0x27);
+        CLACT_SetActorAutoAnim(p->actors.obj[i], 1);
     }
 }
 
 
 
 
-void VIEWER_ACTOR_DeleteObjects(Work_021C7658 *p)
+void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p)
 {
-    CLACT_ReleaseCharacter((u32)p->fEC);
-    CLACT_ReleasePalette((u32)p->fE8);
-    CLACT_ReleaseCellAnim((u32)p->fF0);
-    CLACT_ReleaseCharacter((u32)p->fE0);
-    CLACT_ReleasePalette((u32)p->fDC);
-    CLACT_ReleaseCellAnim((u32)p->fE4);
-    CLACT_DeleteUnit(p->f48);
+    CLACT_ReleaseCharacter((u32)p->resSet.named.chr2);
+    CLACT_ReleasePalette((u32)p->resSet.named.palette2);
+    CLACT_ReleaseCellAnim((u32)p->resSet.named.cellAnim2);
+    CLACT_ReleaseCharacter((u32)p->resSet.named.chr);
+    CLACT_ReleasePalette((u32)p->resSet.named.palette);
+    CLACT_ReleaseCellAnim((u32)p->resSet.named.cellAnim);
+    CLACT_DeleteUnit(p->unit);
     CLACT_ExitSystem();
 }
 
 
 
 
-void VIEWER_ACTOR_Init3D(Work_021C76A4 *p)
+void VIEWER_ACTOR_Init3D(ViewerTextWork *p)
 {
-    Camera cam;
+    ViewerCamera cam;
     void *light;
 
     G3D_SYSTEM_Init(0, 1, 0, 1, 0x1000, 0x27, 0);
     light = func_02048BC4((const struct LightSet *)(&d_021C8810), 0x27);
-    p->f100 = light;
+    p->lightSlot = light;
     func_02048C58(light);
     cam = d_021C896C;
-    cam.f4 = FX_SinCosTable_[0x16C];
-    cam.f8 = FX_SinCosTable_[0x16D];
+    cam.word[1] = FX_SinCosTable_[0x16C];
+    cam.word[2] = FX_SinCosTable_[0x16D];
     G3D_SYSTEM_SetProjection((const u32 *)(&cam));
     func_02040588(0, 1);
     *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~(0x2000 | 0x1000)) | 0x8);
@@ -1681,16 +404,16 @@ void VIEWER_ACTOR_Init3D(Work_021C76A4 *p)
 
 
 
-void VIEWER_ACTOR_Exit3D(Work_021C7730 *p)
+void VIEWER_ACTOR_Exit3D(ViewerTextWork *p)
 {
-    func_02048C4C(p->f100);
+    func_02048C4C(p->lightSlot);
     G3D_SYSTEM_Exit();
 }
 
 
 
 
-void VIEWER_ACTOR_CreateModel(Work_021C7744 *p)
+void VIEWER_ACTOR_CreateModel(ViewerTextWork *p)
 {
     void *mdl;
     int i;
@@ -1699,9 +422,9 @@ void VIEWER_ACTOR_CreateModel(Work_021C7744 *p)
     VecFx32 b;
     VecFx32 c;
 
-    p->fF8 = G3D_UTIL_Create(10, 10, 0x27);
-    p->fFC = G3D_UTIL_AddUnit(p->fF8, d_021C8834);
-    mdl = (void *)func_02048A18(p->fF8, p->fFC);
+    p->g3dUtil = G3D_UTIL_Create(10, 10, 0x27);
+    p->g3dUnit = G3D_UTIL_AddUnit(p->g3dUtil, d_021C8834);
+    mdl = (void *)func_02048A18(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
     for (i = 0; i < n; i++) {
         G3D_SYSTEM_EnableObjectAnime(mdl, (u16)i);
@@ -1709,17 +432,17 @@ void VIEWER_ACTOR_CreateModel(Work_021C7744 *p)
     a = d_021C8950;
     b = d_021C8938;
     c = d_021C8944;
-    p->f104 = G3D_CAMERA_Create(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &a, &c, &b, 0x27);
+    p->camera = G3D_CAMERA_Create(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &a, &c, &b, 0x27);
 }
 
 
 
 
-void VIEWER_ACTOR_DeleteModel(Work_021C7808 *p)
+void VIEWER_ACTOR_DeleteModel(ViewerTextWork *p)
 {
-    G3D_CAMERA_Delete(p->f104);
-    G3D_UTIL_RemoveUnit(p->fF8, p->fFC);
-    G3D_UTIL_Delete(p->fF8);
+    G3D_CAMERA_Delete(p->camera);
+    G3D_UTIL_RemoveUnit(p->g3dUtil, p->g3dUnit);
+    G3D_UTIL_Delete(p->g3dUtil);
 }
 
 
@@ -1730,11 +453,11 @@ void VIEWER_ACTOR_DeleteModel(Work_021C7808 *p)
  *
  * Addresses are Black-image addresses.
  */
-void VIEWER_ACTOR_DrawModel(Work_021C7830 *p)
+void VIEWER_ACTOR_DrawModel(ViewerTextWork *p)
 {
     void *mdl;
     int out;
-    Transform t;
+    ViewerTransform t;
     int n;
     int i;
 
@@ -1746,48 +469,48 @@ void VIEWER_ACTOR_DrawModel(Work_021C7830 *p)
     t.trans.y = 0;
     t.trans.z = 0;
     MTX_Identity33_(&t.rot);
-    func_02048AD0(p->f104);
-    mdl = (void *)func_02048A18(p->fF8, p->fFC);
+    func_02048AD0(p->camera);
+    mdl = (void *)func_02048A18(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
     func_02047828(mdl, 0, &out);
     for (; i < n; i++) {
-        G3D_SYSTEM_SetObjectAnimeFrame(mdl, (u16)i, &p->f13C);
+        G3D_SYSTEM_SetObjectAnimeFrame(mdl, (u16)i, &p->angle);
     }
     func_02047964();
     G3D_SYSTEM_ApplyLookAt();
-    G3D_SYSTEM_DrawObject((void *)func_02048A18(p->fF8, p->fFC), (struct Arg *)(&t));
+    G3D_SYSTEM_DrawObject((void *)func_02048A18(p->g3dUtil, p->g3dUnit), (struct Arg *)(&t));
     G3D_SYSTEM_DrawEnd();
-    d_021C8E80.f0 += d_021C8E80.f4;
+    d_021C8E80.value += d_021C8E80.step;
 }
 
 
 
 
-void VIEWER_ACTOR_InitBgWindow(Work_021C78C4 *p)
+void VIEWER_ACTOR_InitBgWindow(ViewerTextWork *p)
 {
     BMP_WIN_Init(0x27);
-    p->f8 = (void *)BMP_WIN_Create(4, 2, 10, 0x1C, 0xC, 0xF, 1);
-    BMP_Clear(BMP_WIN_GetBmp(p->f8), 0xF);
+    p->bgWindow = (void *)BMP_WIN_Create(4, 2, 10, 0x1C, 0xC, 0xF, 1);
+    BMP_Clear(BMP_WIN_GetBmp(p->bgWindow), 0xF);
 }
 
 
 
 
-void VIEWER_ACTOR_DeleteBgWindow(Work_021C78F8 *p)
+void VIEWER_ACTOR_DeleteBgWindow(ViewerTextWork *p)
 {
-    BMP_WIN_Delete(p->f8);
+    BMP_WIN_Delete(p->bgWindow);
     BMP_WIN_Exit();
 }
 
 
 
 
-void VIEWER_ACTOR_FlushBgWindow(Work_021C7908 *p)
+void VIEWER_ACTOR_FlushBgWindow(ViewerTextWork *p)
 {
     void *v;
 
-    BMP_MENUWORK_DrawWindow(p->f8, 0, 1, 0xE);
-    v = p->f8;
+    BMP_MENUWORK_DrawWindow(p->bgWindow, 0, 1, 0xE);
+    v = p->bgWindow;
     BMP_WIN_TransferChars(v);
     BMP_WIN_MakeScreen(v);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(v));
@@ -1796,36 +519,36 @@ void VIEWER_ACTOR_FlushBgWindow(Work_021C7908 *p)
 
 
 
-void VIEWER_ACTOR_CreateFont(Work_021C7934 *p)
+void VIEWER_ACTOR_CreateFont(ViewerTextWork *p)
 {
-    p->f4 = GF_FONT_Create(0x17, 0, 0, 0, 0x27);
-    p->f14 = (void *)PRINTSYS_QUE_Create((void *)0x27);
-    p->fC = p->f8;
-    p->f10 = 0;
+    p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x27);
+    p->printQue = (void *)PRINTSYS_QUE_Create((void *)0x27);
+    p->printWindow = p->bgWindow;
+    p->queDirty = 0;
 }
 
 
 
 
-void VIEWER_ACTOR_DeleteFont(Work_021C795C *p)
+void VIEWER_ACTOR_DeleteFont(ViewerTextWork *p)
 {
-    PRINTSYS_QUE_Delete(p->f14);
-    GF_FONT_Delete(p->f4);
+    PRINTSYS_QUE_Delete(p->printQue);
+    GF_FONT_Delete(p->font);
 }
 
 
 
 
-void VIEWER_ACTOR_PrintQueMain(Work_021C7970 *p)
+void VIEWER_ACTOR_PrintQueMain(ViewerTextWork *p)
 {
     void *w;
 
-    PRINTSYS_QUE_Main(p->f14);
-    w = p->f14;
-    if (p->f10) {
-        if (PRINTSYS_QUE_IsExistTarget(w, BMP_WIN_GetBmp(p->fC)) == 0) {
-            BMP_WIN_TransferChars(p->fC);
-            p->f10 = 0;
+    PRINTSYS_QUE_Main(p->printQue);
+    w = p->printQue;
+    if (p->queDirty) {
+        if (PRINTSYS_QUE_IsExistTarget(w, BMP_WIN_GetBmp(p->printWindow)) == 0) {
+            BMP_WIN_TransferChars(p->printWindow);
+            p->queDirty = 0;
         }
     }
 }
@@ -1833,12 +556,12 @@ void VIEWER_ACTOR_PrintQueMain(Work_021C7970 *p)
 
 
 
-extern int (*const d_021C8E58[])(ViewerActorWork *p);
+extern int (*const d_021C8E58[])(ViewerTextWork *p);
 
 
 
 
-int VIEWER_ACTOR_DispatchState(ViewerActorWork *p)
+int VIEWER_ACTOR_DispatchState(ViewerTextWork *p)
 {
     return d_021C8E58[p->state](p);
 }
@@ -1846,7 +569,7 @@ int VIEWER_ACTOR_DispatchState(ViewerActorWork *p)
 
 
 
-int VIEWER_ACTOR_IsWipeEnded(Work_021C79B8 *p)
+int VIEWER_ACTOR_IsWipeEnded(ViewerTextWork *p)
 {
     if (WIPE_SYS_EndCheck()) {
         p->state = 1;
@@ -1857,32 +580,32 @@ int VIEWER_ACTOR_IsWipeEnded(Work_021C79B8 *p)
 
 
 
-int VIEWER_ACTOR_UpdateMain(Work_021C79D0 *p)
+int VIEWER_ACTOR_UpdateMain(ViewerTextWork *p)
 {
-    if (PRINTSYS_QUE_IsFinished(p->f14) == 0) {
+    if (PRINTSYS_QUE_IsFinished(p->printQue) == 0) {
         return 1;
     }
-    VIEWER_ACTOR_HandleInput((Work_021C7E48 *)p);
-    VIEWER_ACTOR_RefreshRows((Work_021C8364 *)p);
+    VIEWER_ACTOR_HandleInput((ViewerTextWork *)p);
+    VIEWER_ACTOR_RefreshRows((ViewerTextWork *)p);
     return 1;
 }
 
 
 
 
-int VIEWER_ACTOR_IsActorAnimActive(Work_021C79F4 *p)
+int VIEWER_ACTOR_IsActorAnimActive(ViewerTextWork *p)
 {
-    switch (p->f110) {
+    switch (p->action) {
     case 0x12:
-        if (CLACT_IsActorAnimActive(p->f54) == 0) {
+        if (CLACT_IsActorAnimActive(p->actors.named.actorC) == 0) {
             p->state = 3;
         }
     case 0x13:
-        if (CLACT_IsActorAnimActive(p->f50) == 0) {
+        if (CLACT_IsActorAnimActive(p->actors.named.actorB) == 0) {
             p->state = 3;
         }
     case 0x10:
-        if (CLACT_IsActorAnimActive(p->f4C) == 0) {
+        if (CLACT_IsActorAnimActive(p->actors.named.actorA) == 0) {
             p->state = 3;
         }
     }
@@ -1892,7 +615,7 @@ int VIEWER_ACTOR_IsActorAnimActive(Work_021C79F4 *p)
 
 
 
-int VIEWER_ACTOR_StartWipe(Work_021C7A44 *p)
+int VIEWER_ACTOR_StartWipe(ViewerTextWork *p)
 {
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x27);
     p->state = 4;
@@ -1902,19 +625,19 @@ int VIEWER_ACTOR_StartWipe(Work_021C7A44 *p)
 
 
 
-int VIEWER_ACTOR_CheckWipeEnd(Work_021C7A70 *p)
+int VIEWER_ACTOR_CheckWipeEnd(ViewerTextWork *p)
 {
     if (WIPE_SYS_EndCheck()) {
-        if (p->f110 == 0x12) {
-            p->f108->fC = 0;
-            p->f108->f10 = 1;
+        if (p->action == 0x12) {
+            p->parent->fC = 0;
+            p->parent->f10 = 1;
             p->state = 0;
-        } else if (p->f110 == 0x13) {
-            p->f108->fC = 0;
-            p->f108->f10 = 0;
+        } else if (p->action == 0x13) {
+            p->parent->fC = 0;
+            p->parent->f10 = 0;
             p->state = 0;
-        } else if (p->f110 == 0x10) {
-            p->f108->fC = 3;
+        } else if (p->action == 0x10) {
+            p->parent->fC = 3;
             p->state = 0;
         }
         return 0;
@@ -1925,14 +648,14 @@ int VIEWER_ACTOR_CheckWipeEnd(Work_021C7A70 *p)
 
 
 
-void VIEWER_ACTOR_PrintTextAt(Work_021C7AD4 *p, int x, int k, int col)
+void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col)
 {
     void *v;
 
-    func_02045CAC(p->f20, x + d_021C8894[k], (void *)col);
-    v = p->f14;
-    PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->fC), (int)0, (s16)(x << 5), (int)col, (u32)p->f4, (int)0x44F);
-    p->f10 = 1;
+    func_02045CAC(p->msgBank, x + d_021C8894[k], (void *)col);
+    v = p->printQue;
+    PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(x << 5), (int)col, (u32)p->font, (int)0x44F);
+    p->queDirty = 1;
 }
 
 
@@ -1944,39 +667,39 @@ void VIEWER_ACTOR_PrintTextAt(Work_021C7AD4 *p, int x, int k, int col)
  *
  * Addresses are Black-image addresses.
  */
-void VIEWER_ACTOR_DrawLabel(Work *p, int mode, int idx)
+void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
 {
     void *str;
-    Rec r;
+    ViewerBadgeDate r;
     void *v;
     int i;
 
     str = STRBUF_Create(0x68, 0x27);
-    BMP_Clear(BMP_WIN_GetBmp(p->f8), 0xF);
+    BMP_Clear(BMP_WIN_GetBmp(p->bgWindow), 0xF);
     switch (mode) {
     case 0:
-        r = TRCARD_SIGN_GetBadgeDate(p->f184, idx);
-        WORDSET_SetSlotNumber(p->f24, 0, r.a + 0x7D0, 4, 0, 1);
-        WORDSET_SetSlotNumber(p->f24, 1, r.b, 2, 0, 1);
-        WORDSET_SetSlotNumber(p->f24, 2, r.c, 2, 0, 1);
-        func_02045CAC(p->f20, idx * 3 + 0x58, str);
-        WORDSET_CopyTaggedText(p->f24, p->f28, str);
-        v = p->f14;
-        PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->fC), (int)0, (s16)0, (u32)p->f28, (u32)p->f4, (int)0x44F);
-        p->f10 = 1;
+        r = TRCARD_SIGN_GetBadgeDate(p->saveBlock, idx);
+        WORDSET_SetSlotNumber(p->wordSet, 0, r.year + 0x7D0, 4, 0, 1);
+        WORDSET_SetSlotNumber(p->wordSet, 1, r.month, 2, 0, 1);
+        WORDSET_SetSlotNumber(p->wordSet, 2, r.day, 2, 0, 1);
+        func_02045CAC(p->msgBank, idx * 3 + 0x58, str);
+        WORDSET_CopyTaggedText(p->wordSet, p->strbuf, str);
+        v = p->printQue;
+        PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)0, (u32)p->strbuf, (u32)p->font, (int)0x44F);
+        p->queDirty = 1;
         for (i = 1; i < 3; i++) {
-            func_02045CAC(p->f20, i + (idx * 3 + 0x58), str);
-            v = p->f14;
-            PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->fC), (int)0, (s16)(i << 5), (u32)str, (u32)p->f4, (int)0x44F);
-            p->f10 = 1;
+            func_02045CAC(p->msgBank, i + (idx * 3 + 0x58), str);
+            v = p->printQue;
+            PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(i << 5), (u32)str, (u32)p->font, (int)0x44F);
+            p->queDirty = 1;
         }
         break;
     case 1:
         for (i = 0; i < 2; i++) {
-            VIEWER_ACTOR_PrintTextAt((Work_021C7AD4 *)p, i, idx, (int)str);
+            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, i, idx, (int)str);
         }
-        if (p->f17C[idx]) {
-            VIEWER_ACTOR_PrintTextAt((Work_021C7AD4 *)p, 2, idx, (int)str);
+        if (p->rowEnabled[idx]) {
+            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, 2, idx, (int)str);
         }
         break;
     }
@@ -1998,16 +721,16 @@ int VIEWER_ACTOR_WrapAngle(int a, int b)
 
 
 
-void VIEWER_ACTOR_StepBounce(Work_021C7C94 *p)
+void VIEWER_ACTOR_StepBounce(ViewerTextWork *p)
 {
-    int v = p->f140;
+    int v = p->spin;
 
     if (v > 0x1000) {
-        p->f140 = v - 0x190;
+        p->spin = v - 0x190;
     } else if (v < -0x1000) {
-        p->f140 = v + 0x190;
+        p->spin = v + 0x190;
     } else if (v == 0) {
-        p->f140 = 0x1000;
+        p->spin = 0x1000;
     }
 }
 
@@ -2015,64 +738,64 @@ void VIEWER_ACTOR_StepBounce(Work_021C7C94 *p)
 
 
 
-void VIEWER_ACTOR_HandleDrag(Work_021C7CD0 *p, int unused, int touch, int x)
+void VIEWER_ACTOR_HandleDrag(ViewerTextWork *p, int unused, int touch, int x)
 {
     int i;
     int v;
     int d;
 
-    if (p->f122 == 0 && touch != 0) {
-        p->f138 = p->f13C;
-        p->f130 = x;
-    } else if (p->f122 == 1 && touch == 1) {
-        p->f13C = p->f138 + ((x - p->f130) << 10);
-        p->f13C = VIEWER_ACTOR_WrapAngle(p->f13C, 0x100000);
-    } else if (p->f122 == 1 && touch == 0) {
-        if (p->f12C != 0) {
-            p->f140 = (p->f128 - p->f12C) << 11;
+    if (p->touchState == 0 && touch != 0) {
+        p->dragStartAngle = p->angle;
+        p->dragStartX = x;
+    } else if (p->touchState == 1 && touch == 1) {
+        p->angle = p->dragStartAngle + ((x - p->dragStartX) << 10);
+        p->angle = VIEWER_ACTOR_WrapAngle(p->angle, 0x100000);
+    } else if (p->touchState == 1 && touch == 0) {
+        if (p->dragPrevX != 0) {
+            p->spin = (p->dragX - p->dragPrevX) << 11;
         }
-        if (p->f140 > 40000) {
-            p->f140 = 40000;
-        } else if (p->f140 < -40000) {
-            p->f140 = -40000;
+        if (p->spin > 40000) {
+            p->spin = 40000;
+        } else if (p->spin < -40000) {
+            p->spin = -40000;
         }
     }
-    if (p->f122 == 0 && touch == 0) {
-        p->f13C = p->f13C + p->f140;
-        p->f13C = VIEWER_ACTOR_WrapAngle(p->f13C, 0x100000);
-        if (p->f144 >= 0) {
-            if (p->f148 > p->f13C - 50000 && p->f148 < p->f13C + 50000) {
-                p->f140 = 0;
-                p->f13C = p->f148;
-                p->f144 = -1;
+    if (p->touchState == 0 && touch == 0) {
+        p->angle = p->angle + p->spin;
+        p->angle = VIEWER_ACTOR_WrapAngle(p->angle, 0x100000);
+        if (p->snap >= 0) {
+            if (p->snapAngle > p->angle - 50000 && p->snapAngle < p->angle + 50000) {
+                p->spin = 0;
+                p->angle = p->snapAngle;
+                p->snap = -1;
             }
         } else {
-            VIEWER_ACTOR_StepBounce((Work_021C7C94 *)p);
+            VIEWER_ACTOR_StepBounce((ViewerTextWork *)p);
             for (i = 0; i < 8; i++) {
                 v = d_021C88B4[i];
-                if (v > p->f13C - 10000 && v < p->f13C + 10000) {
-                    d = p->f140;
+                if (v > p->angle - 10000 && v < p->angle + 10000) {
+                    d = p->spin;
                     if (d < 0) {
                         d = -d;
                     }
                     if (d < 10000) {
-                        p->f13C = v;
-                        p->f140 = 0;
+                        p->angle = v;
+                        p->spin = 0;
                     }
                 }
             }
         }
     }
-    p->f12C = p->f128;
-    p->f128 = x;
-    p->f122 = touch;
+    p->dragPrevX = p->dragX;
+    p->dragX = x;
+    p->touchState = touch;
 }
 
 
 
 
 
-int VIEWER_ACTOR_HandleInput(Work_021C7E48 *p)
+int VIEWER_ACTOR_HandleInput(ViewerTextWork *p)
 {
     int x = 0;
     int y = 0;
@@ -2099,9 +822,9 @@ int VIEWER_ACTOR_HandleInput(Work_021C7E48 *p)
     } else if (KEY_GetTrg() & 1) {
         ret = 0x10;
     }
-    VIEWER_ACTOR_SelectActor((Work_021C7EF8 *)p, ret, flag);
-    VIEWER_ACTOR_HandleDrag((Work_021C7CD0 *)p, b, c + 1, x);
-    VIEWER_ACTOR_HandleTouchDrag((Work_021C7E48 *)p, a);
+    VIEWER_ACTOR_SelectActor((ViewerTextWork *)p, ret, flag);
+    VIEWER_ACTOR_HandleDrag((ViewerTextWork *)p, b, c + 1, x);
+    VIEWER_ACTOR_HandleTouchDrag((ViewerTextWork *)p, a);
     return ret;
 }
 
@@ -2144,7 +867,7 @@ int VIEWER_ACTOR_FindNearestPreset(int v)
 
 
 
-void VIEWER_ACTOR_SelectActor(Work_021C7EF8 *p, int sel, int flag)
+void VIEWER_ACTOR_SelectActor(ViewerTextWork *p, int sel, int flag)
 {
     int idx;
 
@@ -2160,15 +883,15 @@ void VIEWER_ACTOR_SelectActor(Work_021C7EF8 *p, int sel, int flag)
     case 5:
     case 6:
     case 7:
-        if (p->f17C[sel] == 0) {
+        if (p->rowEnabled[sel] == 0) {
             return;
         }
         GFL_USE_PlaySeDefaultVolume(0x65F);
-        VIEWER_ACTOR_DrawLabel((Work *)p, 0, sel);
-        VIEWER_ACTOR_FlushBgWindow((Work_021C7908 *)p);
-        p->f144 = 0;
-        p->f148 = d_021C88B4[sel];
-        p->f140 = 40000;
+        VIEWER_ACTOR_DrawLabel((ViewerTextWork *)p, 0, sel);
+        VIEWER_ACTOR_FlushBgWindow((ViewerTextWork *)p);
+        p->snap = 0;
+        p->snapAngle = d_021C88B4[sel];
+        p->spin = 40000;
         return;
     case 8:
     case 9:
@@ -2178,34 +901,34 @@ void VIEWER_ACTOR_SelectActor(Work_021C7EF8 *p, int sel, int flag)
     case 13:
     case 14:
     case 15:
-        if (p->f140 != 0) {
+        if (p->spin != 0) {
             return;
         }
-        idx = VIEWER_ACTOR_FindNearestPreset(p->f13C);
+        idx = VIEWER_ACTOR_FindNearestPreset(p->angle);
         GFL_USE_PlaySeDefaultVolume(0x65E);
-        VIEWER_ACTOR_DrawLabel((Work *)p, 1, (sel - 8 + idx) % 8);
-        VIEWER_ACTOR_FlushBgWindow((Work_021C7908 *)p);
+        VIEWER_ACTOR_DrawLabel((ViewerTextWork *)p, 1, (sel - 8 + idx) % 8);
+        VIEWER_ACTOR_FlushBgWindow((ViewerTextWork *)p);
         return;
     case 16:
         p->state = 2;
-        p->f110 = sel;
+        p->action = sel;
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        CLACT_SetActorAnimSeq(p->f4C, 0xC);
+        CLACT_SetActorAnimSeq(p->actors.named.actorA, 0xC);
         return;
     case 17:
-        VIEWER_ACTOR_ToggleFavorite((Work_021C8078 *)p);
+        VIEWER_ACTOR_ToggleFavorite((ViewerTextWork *)p);
         return;
     case 18:
         GFL_USE_PlaySeDefaultVolume(0x556);
         p->state = 2;
-        p->f110 = sel;
-        CLACT_SetActorAnimSeq(p->f54, 8);
+        p->action = sel;
+        CLACT_SetActorAnimSeq(p->actors.named.actorC, 8);
         return;
     case 19:
         GFL_USE_PlaySeDefaultVolume(0x551);
         p->state = 2;
-        p->f110 = sel;
-        CLACT_SetActorAnimSeq(p->f50, 9);
+        p->action = sel;
+        CLACT_SetActorAnimSeq(p->actors.named.actorB, 9);
         if (flag) {
             func_020355D8(0);
         } else {
@@ -2227,12 +950,12 @@ void VIEWER_ACTOR_SelectActor(Work_021C7EF8 *p, int sel, int flag)
 
 
 
-void VIEWER_ACTOR_ToggleFavorite(Work_021C8078 *p)
+void VIEWER_ACTOR_ToggleFavorite(ViewerTextWork *p)
 {
-    int v = GAME_DATA_CheckSaveFlag((int)p->f108->f4, 0x17) ^ 1;
+    int v = GAME_DATA_CheckSaveFlag((int)p->parent->f4, 0x17) ^ 1;
 
-    CLACT_SetActorAnimSeq(p->f58, v + 6);
-    GAME_DATA_SetSaveFlag(p->f108->f4, 0x17, v);
+    CLACT_SetActorAnimSeq(p->actors.named.actorD, v + 6);
+    GAME_DATA_SetSaveFlag(p->parent->f4, 0x17, v);
     GFL_USE_PlaySeDefaultVolume(0x646);
 }
 
@@ -2248,12 +971,12 @@ void VIEWER_ACTOR_ToggleFavorite(Work_021C8078 *p)
 
 
 
-void VIEWER_ACTOR_SetPageCount(Work_021C80B4 *p)
+void VIEWER_ACTOR_SetPageCount(ViewerTextWork *p)
 {
-    p->f114 = 0;
-    p->f116 = p->f118 / 10;
-    if (p->f118 % 10) {
-        p->f116++;
+    p->page = 0;
+    p->pageCount = p->rowCount / 10;
+    if (p->rowCount % 10) {
+        p->pageCount++;
     }
 }
 
@@ -2269,12 +992,12 @@ void VIEWER_ACTOR_SetPageCount(Work_021C80B4 *p)
 
 
 
-void VIEWER_ACTOR_SetRowDrawEnable(Work_021C80E8 *p, int row, int v)
+void VIEWER_ACTOR_SetRowDrawEnable(ViewerTextWork *p, int row, int v)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        CLACT_SetActorDrawEnable(p->f7C[row * 3 + i], v);
+        CLACT_SetActorDrawEnable(p->actors.named.rowSubActor[row * 3 + i], v);
     }
 }
 
@@ -2288,24 +1011,24 @@ void VIEWER_ACTOR_SetRowDrawEnable(Work_021C80E8 *p, int row, int v)
 
 
 
-void VIEWER_ACTOR_UpdateRowVisibility(Work_021C810C *p, int a, int b)
+void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b)
 {
     void *obj;
     int i;
 
-    obj = GAME_DATA_GetMiscSave(p->f108->f4);
+    obj = GAME_DATA_GetMiscSave(p->parent->f4);
     for (i = 0; i < 8; i++) {
         if (BEACON_GetFlag(obj, i)) {
-            CLACT_SetActorDrawEnable(p->f5C[i], 1);
-            VIEWER_ACTOR_SetRowDrawEnable((Work_021C80E8 *)p, i, 1);
-            p->f17C[i] = 1;
+            CLACT_SetActorDrawEnable(p->actors.named.rowActor[i], 1);
+            VIEWER_ACTOR_SetRowDrawEnable((ViewerTextWork *)p, i, 1);
+            p->rowEnabled[i] = 1;
         } else {
-            CLACT_SetActorDrawEnable(p->f5C[i], 0);
-            VIEWER_ACTOR_SetRowDrawEnable((Work_021C80E8 *)p, i, 0);
-            p->f17C[i] = 0;
+            CLACT_SetActorDrawEnable(p->actors.named.rowActor[i], 0);
+            VIEWER_ACTOR_SetRowDrawEnable((ViewerTextWork *)p, i, 0);
+            p->rowEnabled[i] = 0;
         }
     }
-    CLACT_SetActorAnimSeq(p->f58, GAME_DATA_CheckSaveFlag((int)p->f108->f4, 0x17) + 6);
+    CLACT_SetActorAnimSeq(p->actors.named.actorD, GAME_DATA_CheckSaveFlag((int)p->parent->f4, 0x17) + 6);
 }
 
 
@@ -2317,11 +1040,11 @@ void VIEWER_ACTOR_UpdateRowVisibility(Work_021C810C *p, int a, int b)
 
 
 
-void VIEWER_ACTOR_SetSelection(Work_021C7EF8 *p, u16 v)
+void VIEWER_ACTOR_SetSelection(ViewerTextWork *p, u16 v)
 {
-    p->f114 = v;
-    VIEWER_ACTOR_UpdateRowVisibility((Work_021C810C *)p, v, p->f116);
-    VIEWER_ACTOR_RefreshRows((Work_021C8364 *)p);
+    p->page = v;
+    VIEWER_ACTOR_UpdateRowVisibility((ViewerTextWork *)p, v, p->pageCount);
+    VIEWER_ACTOR_RefreshRows((ViewerTextWork *)p);
 }
 
 
@@ -2333,7 +1056,7 @@ void VIEWER_ACTOR_SetSelection(Work_021C7EF8 *p, u16 v)
 
 
 
-void VIEWER_ACTOR_SetRtcDate(Work_021C81C0 *p)
+void VIEWER_ACTOR_SetRtcDate(ViewerTextWork *p)
 {
     RTCDate date;
     RTCTime time;
@@ -2342,9 +1065,9 @@ void VIEWER_ACTOR_SetRtcDate(Work_021C81C0 *p)
 
     GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     sec = RTC_ConvertDateTimeToSecond(&date, &time);
-    TRCARD_SIGN_SetLastBadgeTime(p->f184, (u32)sec, (u32)(sec >> 32));
+    TRCARD_SIGN_SetLastBadgeTime(p->saveBlock, (u32)sec, (u32)(sec >> 32));
     for (i = 0; i < 8; i++) {
-        TRCARD_SIGN_SetBadgeTimer(p->f184, i, p->f188[i]);
+        TRCARD_SIGN_SetBadgeTimer(p->saveBlock, i, p->badgeTimer[i]);
     }
 }
 
@@ -2357,7 +1080,7 @@ void VIEWER_ACTOR_SetRtcDate(Work_021C81C0 *p)
 
 
 
-void VIEWER_ACTOR_GetRtcDate(Work_021C8208 *p)
+void VIEWER_ACTOR_GetRtcDate(ViewerTextWork *p)
 {
     RTCDate date;
     RTCDate date2;
@@ -2367,7 +1090,7 @@ void VIEWER_ACTOR_GetRtcDate(Work_021C8208 *p)
     s64 hours;
     int i;
 
-    saved = TRCARD_SIGN_GetLastBadgeTime(p->f184);
+    saved = TRCARD_SIGN_GetLastBadgeTime(p->saveBlock);
     RTC_ConvertSecondToDateTime(&date2, &time2, saved);
     GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     hours = (RTC_ConvertDateTimeToSecond(&date, &time) - saved) / 3600;
@@ -2375,14 +1098,14 @@ void VIEWER_ACTOR_GetRtcDate(Work_021C8208 *p)
         hours = 0;
     }
     for (i = 0; i < 8; i++) {
-        p->f188[i] = TRCARD_SIGN_GetBadgeTimer(p->f184, i);
-        p->f188[i] -= hours * 2;
-        if (p->f188[i] < 0) {
-            p->f188[i] = 0;
+        p->badgeTimer[i] = TRCARD_SIGN_GetBadgeTimer(p->saveBlock, i);
+        p->badgeTimer[i] -= hours * 2;
+        if (p->badgeTimer[i] < 0) {
+            p->badgeTimer[i] = 0;
         }
     }
     for (i = 0; i < 8; i++) {
-        p->f1B0[i] = 0xFF;
+        p->lastPaletteIndex[i] = 0xFF;
     }
 }
 
@@ -2395,12 +1118,12 @@ void VIEWER_ACTOR_GetRtcDate(Work_021C8208 *p)
 
 
 
-void VIEWER_ACTOR_LoadPalette(Work_021C829C *p, int idx, int k)
+void VIEWER_ACTOR_LoadPalette(ViewerTextWork *p, int idx, int k)
 {
     if (k > 2) {
         k = 2;
     }
-    GX_LoadOBJPltt((unsigned short *)p->res[k]->fC + idx * 16, idx * 32, 32);
+    GX_LoadOBJPltt((unsigned short *)p->res158[k]->data + idx * 16, idx * 32, 32);
 }
 
 
@@ -2410,10 +1133,10 @@ void VIEWER_ACTOR_LoadPalette(Work_021C829C *p, int idx, int k)
 
 
 
-static inline void *DictGetByIdx(const Dict *d, u32 idx)
+static inline void *DictGetByIdx(const ViewerTexDict *d, u32 idx)
 {
     if (d && idx < d->numEntry) {
-        const DictEntryHdr *h = (const DictEntryHdr *)((const u8 *)d + d->ofsEntry);
+        const ViewerTexDictEntry *h = (const ViewerTexDictEntry *)((const u8 *)d + d->ofsEntry);
         return (void *)((const u8 *)h->data + h->sizeUnit * idx);
     }
     return 0;
@@ -2426,10 +1149,10 @@ static inline void *DictGetByIdx(const Dict *d, u32 idx)
 
 
 
-static inline const u16 *TexGetPltt(const Tex *t, u32 idx)
+static inline const u16 *TexGetPltt(const ViewerTexInfo *t, u32 idx)
 {
     if (t && t->ofsDict) {
-        return DictGetByIdx((const Dict *)((const u8 *)t + t->ofsDict), idx);
+        return DictGetByIdx((const ViewerTexDict *)((const u8 *)t + t->ofsDict), idx);
     }
     return 0;
 }
@@ -2441,17 +1164,17 @@ static inline const u16 *TexGetPltt(const Tex *t, u32 idx)
 
 
 
-void VIEWER_ACTOR_LoadTexture(Work_021C82C0 *p, int idx, int k)
+void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k)
 {
     u8 *dst;
-    Tex *tex;
+    ViewerTexInfo *tex;
     const u16 *e;
 
     if (k > 2) {
         k = 2;
     }
-    dst = p->f170[k]->fC;
-    tex = func_02047250((void *)func_02048A0C(p->fF8, 0));
+    dst = p->res170[k]->data;
+    tex = func_02047250((void *)func_02048A0C(p->g3dUtil, 0));
     e = TexGetPltt(tex, idx);
     func_02061CA4((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
 }
@@ -2462,18 +1185,18 @@ void VIEWER_ACTOR_LoadTexture(Work_021C82C0 *p, int idx, int k)
 
 
 
-void VIEWER_ACTOR_SetRowActorDrawEnable(Work_021C7EF8 *p, int row, int n)
+void VIEWER_ACTOR_SetRowActorDrawEnable(ViewerTextWork *p, int row, int n)
 {
     int i;
     int lim = n - 3;
 
     for (i = 0; i < 3; i++) {
         if (n < 3) {
-            CLACT_SetActorDrawEnable(p->f7C[row * 3 + i], 0);
+            CLACT_SetActorDrawEnable(p->actors.named.rowSubActor[row * 3 + i], 0);
         } else if (i <= lim) {
-            CLACT_SetActorDrawEnable(p->f7C[row * 3 + i], 1);
+            CLACT_SetActorDrawEnable(p->actors.named.rowSubActor[row * 3 + i], 1);
         } else {
-            CLACT_SetActorDrawEnable(p->f7C[row * 3 + i], 0);
+            CLACT_SetActorDrawEnable(p->actors.named.rowSubActor[row * 3 + i], 0);
         }
     }
 }
@@ -2483,21 +1206,21 @@ void VIEWER_ACTOR_SetRowActorDrawEnable(Work_021C7EF8 *p, int row, int n)
 
 
 
-void VIEWER_ACTOR_RefreshRows(Work_021C8364 *p)
+void VIEWER_ACTOR_RefreshRows(ViewerTextWork *p)
 {
     int i;
 
     for (i = 0; i < 8; i++) {
-        p->f1A8[i] = p->f188[i] / 0x60;
-        if (p->f1A8[i] > 5) {
-            p->f1A8[i] = 5;
+        p->paletteIndex[i] = p->badgeTimer[i] / 0x60;
+        if (p->paletteIndex[i] > 5) {
+            p->paletteIndex[i] = 5;
         }
-        if (p->f1A8[i] != p->f1B0[i]) {
-            VIEWER_ACTOR_LoadPalette((Work_021C829C *)p, i, p->f1A8[i]);
-            VIEWER_ACTOR_LoadTexture((Work_021C82C0 *)p, i, p->f1A8[i]);
-            VIEWER_ACTOR_SetRowActorDrawEnable((Work_021C7EF8 *)p, i, p->f1A8[i]);
+        if (p->paletteIndex[i] != p->lastPaletteIndex[i]) {
+            VIEWER_ACTOR_LoadPalette((ViewerTextWork *)p, i, p->paletteIndex[i]);
+            VIEWER_ACTOR_LoadTexture((ViewerTextWork *)p, i, p->paletteIndex[i]);
+            VIEWER_ACTOR_SetRowActorDrawEnable((ViewerTextWork *)p, i, p->paletteIndex[i]);
         }
-        p->f1B0[i] = p->f1A8[i];
+        p->lastPaletteIndex[i] = p->paletteIndex[i];
     }
 }
 
@@ -2555,7 +1278,7 @@ static inline int CalcDragDelta(s8 *dir, u32 prev, u32 cur)
 
 
 /* Touch drag over an actor: adjusts the pressed actor's value by the drag delta. */
-void VIEWER_ACTOR_HandleTouchDrag(Work_021C7E48 *p, int idx)
+void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx)
 {
     int hit = 0;
     u32 x = 0xFFFF;
@@ -2565,23 +1288,23 @@ void VIEWER_ACTOR_HandleTouchDrag(Work_021C7E48 *p, int idx)
 
     TOUCHPANEL_GetPointCont(&x, &y);
     if (x != 0xFFFF && y != 0xFFFF && p->prevX != 0xFFFF && p->prevY != 0xFFFF && idx != -1
-        && (u32)idx < 8 && p->f17C[idx] != 0) {
+        && (u32)idx < 8 && p->rowEnabled[idx] != 0) {
         dx = CalcDragDelta(&p->dragDirX, p->prevX, x);
         if (dx >= 3 && dx <= 40) {
             dy = CalcDragDelta(&p->dragDirY, p->prevY, y);
             if (dy <= 40) {
                 hit = 1;
-                VIEWER_ACTOR_HandleScrollRepeat(p->cursor, p->f188[idx]);
+                VIEWER_ACTOR_HandleScrollRepeat(p->scrollRepeat, p->badgeTimer[idx]);
             } else {
-                VIEWER_ACTOR_ResetDragFlags(p->cursor);
+                VIEWER_ACTOR_ResetDragFlags(p->scrollRepeat);
             }
         } else if (dx <= 40) {
             dy = CalcDragDelta(&p->dragDirY, p->prevY, y);
             if (dy >= 3 && dy <= 40) {
                 hit = 1;
-                VIEWER_ACTOR_HandleScrollRepeat(p->cursor, p->f188[idx]);
+                VIEWER_ACTOR_HandleScrollRepeat(p->scrollRepeat, p->badgeTimer[idx]);
             } else {
-                VIEWER_ACTOR_ResetDragFlags(p->cursor);
+                VIEWER_ACTOR_ResetDragFlags(p->scrollRepeat);
             }
         }
         if (hit) {

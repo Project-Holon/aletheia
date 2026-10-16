@@ -28,7 +28,7 @@
  *   ITEMMENU_ToggleRegisteredItem  0x021B8134  thumb  ov070
  *   ITEMMENU_TogglePocketSortFlag  0x021B81B8  thumb  ov070
  *   ITEMMENU_ShowInputGuardError  0x021B8080  thumb  ov070
- *   func_021B6100  0x021B6100  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   ITEMMENU_TaskInputGuardMessage  0x021B8EA8  thumb  ov070
  *   ITEMMENU_TaskSelectItemFlash  0x021B8B7C  thumb  ov070
  *   MI_CpuFill8  0x02082BCC  arm
@@ -100,7 +100,7 @@ extern int ITEMMENU_IsBrowseMode(u8 *p);
 extern int ITEMMENU_ToggleRegisteredItem(struct Obj *o, int k);
 extern void ITEMMENU_TogglePocketSortFlag(u8 *p);
 extern void ITEMMENU_ShowInputGuardError(u8 *p);
-extern void func_021B6100(char *p, int k);
+extern void ITEMMENU_SetTask(char *p, int k);
 extern void ITEMMENU_TaskInputGuardMessage(int p);
 extern void ITEMMENU_TaskSelectItemFlash(int p);
 extern void MI_CpuFill8(void *p, int v, int n);
@@ -187,12 +187,12 @@ void ITEMMENU_TaskBagMain(Obj *o)
         ITEMMENU_SetCursorActive(o, 1);
         o->f818 = 0xFFFF;
         ITEMMENU_RedrawList((char *)o);
-        func_021B6100((char *)o, (int)((void *)ITEMMENU_TaskInputGuardMessage));
+        ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskInputGuardMessage));
         return;
     }
     if (KEY_GetTrg() & 1) {
         if (ITEMMENU_GetItemCount((u8 *)o) > 0) {
-            func_021B6100((char *)o, (int)((void *)ITEMMENU_TaskSelectItemFlash));
+            ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskSelectItemFlash));
             return;
         }
     } else if (KEY_GetTrg() & 4) {

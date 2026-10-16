@@ -22,8 +22,8 @@
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm
  *   AddressToString  0x02198850  arm  ov009
- *   func_021988F4  0x021988F4  arm  ov009
- *   func_02198958  0x02198958  arm  ov009
+ *   GetLocalIP  0x021988F4  arm  ov009
+ *   GetLocalPort  0x02198958  arm  ov009
  *   OutputMapping  0x0219898C  arm  ov009
  *   gotADDRESS1b   0x021AE44C  data
  *   gotERT3        0x021AE450  data
@@ -147,8 +147,8 @@ extern int GOAGetLastError(int sock);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
 extern char *AddressToString(unsigned int ip, unsigned short port, char *string);
-extern unsigned int func_021988F4(void);
-extern unsigned short func_02198958(int sock);
+extern unsigned int GetLocalIP(void);
+extern unsigned short GetLocalPort(int sock);
 extern void OutputMapping(AddressMapping *theMap);
 
 /* natify.o .bss (from 0x021AE44C), at the vendor layout */
@@ -234,8 +234,8 @@ int Think(int sock, NAT *nat)
                 gotADDRESS3 = 1;
                 break;
             }
-            nat->mappings[p.cookie].privateIp = func_021988F4();
-            nat->mappings[p.cookie].privatePort = NN_NTOHS(func_02198958(sock));
+            nat->mappings[p.cookie].privateIp = GetLocalIP();
+            nat->mappings[p.cookie].privatePort = NN_NTOHS(GetLocalPort(sock));
             nat->mappings[p.cookie].publicIp = p.Packet.Init.localip;
             nat->mappings[p.cookie].publicPort = NN_NTOHS(p.Packet.Init.localport);
             gsDebugFormat(7, 0, 16, g_021A5A50, p.cookie, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));

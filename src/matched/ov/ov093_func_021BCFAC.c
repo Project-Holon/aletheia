@@ -48,7 +48,7 @@
  *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
  *   BTL_MAIN_GetPlayerStatus 0x021B871C thumb ov093
  *   BTL_MAIN_GetBadgeCount 0x021B85A0 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_SERVER_FLOW_CheckObedienceOverride 0x021BD080 thumb ov093
@@ -65,7 +65,7 @@ extern int BTL_MAIN_GetPlayerStatus(char *);
 extern int POKE_TOOL_IsOwnedByPlayer(void *, int);
 struct Unk021D62A8;
 extern u8 BTL_MAIN_GetBadgeCount(u8 **p);
-extern int func_021D59B4(u8 *, int);
+extern int BTL_POKEPARAM_GetValue(u8 *, int);
 extern u32 BTL_CALC_Random(u32);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTL_SERVER_FLOW_CheckObedienceOverride(u8 *, u8 *);
@@ -83,7 +83,7 @@ int BTL_SERVER_FLOW_CheckDisobedience(u8 *p, u8 *a)
                 n = BTL_MAIN_GetBadgeCount((u8 **)(*(u8 **)(p + 4)));
                 if (n < 8) {
                     u16 r;
-                    x = (u16)func_021D59B4(a, 15);
+                    x = (u16)BTL_POKEPARAM_GetValue(a, 15);
                     y = (u16)(10 * (n + 1));
                     if (x <= y) return 0;
                     if ((u16)BTL_CALC_Random(x + y + 1) < y) return 0;

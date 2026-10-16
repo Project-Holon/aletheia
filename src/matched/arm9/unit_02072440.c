@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02072440
+ * function: NNSi_G3dTexMtxRot_Max
  * address:  0x02072440
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -58,7 +58,7 @@ struct DST {
 extern void func_0207C930(u32 numer, u32 denom);
 extern u32 func_0207C86C(void);
 
-void func_02072440(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s)
 {
     s32 e12, f12, t;
 

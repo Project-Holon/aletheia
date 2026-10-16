@@ -1,5 +1,5 @@
 /*
- * function: func_02184D30
+ * function: BEACON_DETAIL_DrawTextRecord
  * address: 0x02184D30
  * packet: pkt_ov219_02184D30
  * region: ov219
@@ -17,7 +17,7 @@ struct Descriptor;struct PrintSys;
 struct Record {struct Descriptor *descriptor;u8 active;};
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void PRINTSYS_PrintQue(struct PrintSys *,unsigned,unsigned,unsigned,void *,unsigned);
-void func_02184D30(char *p,struct Record *out,struct Descriptor *d,void *text,u8 x,u8 y)
+void BEACON_DETAIL_DrawTextRecord(char *p,struct Record *out,struct Descriptor *d,void *text,u8 x,u8 y)
 {
     struct PrintSys *print;
     out->descriptor=d;out->active=0;

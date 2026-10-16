@@ -51,7 +51,7 @@
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_020079A0  0x020079A0  thumb
  *   func_0200873C  0x0200873C  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
@@ -109,7 +109,7 @@ extern u8 func_02009304(const struct Sub02009210Obj *obj);
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int func_020079A0(void *save);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
@@ -272,7 +272,7 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
         F(0x2a0) = GAME_DATA_GetBoxManager((const struct BigObj *)F(0x29c));
         F(0x2a4) = (u32)GAME_DATA_GetMyParty((const struct BigObj *)F(0x29c));
         F(0x2a8) = (u32)GAME_DATA_GetMyItem((const struct BigObj *)F(0x29c));
-        F(0x2ac) = (u32)func_02012944((void *)F(0x29c));
+        F(0x2ac) = (u32)GAME_DATA_GetMyStatus((void *)F(0x29c));
         F(0x2b4) = (u32)func_0200873C(GAME_DATA_GetSaveControl((struct Big *)F(0x29c)));
         F(0x2bc) = (u32)(args + 0x1d8);
         F(0x2b8) = 0;

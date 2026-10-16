@@ -47,14 +47,14 @@ struct Ctx {
     struct Rec rec[4];
 };
 
-typedef struct S {
+typedef struct StaNetWork {
     u8 pad00[0x14C];
     u8 f14c;
     int f150;
     int f154;
     u8 pad158[0x24];
     int f17c;
-} S;
+} StaNetWork;
 
 typedef unsigned short u16;
 
@@ -72,7 +72,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
 extern void MUS_COMM_FUNC_SetTimingSync(int,int);
 u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key);
-void STA_NET_BeginTransfer(S *s);
+void STA_NET_BeginTransfer(StaNetWork *s);
 void STA_NET_UpdateTransferState(char *p);
 int STA_NET_SendChunk(char *p,u32 i);
 void STA_NET_AdvanceChunk(int a,int b,int c,char *p);
@@ -128,7 +128,7 @@ u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key)
  * Unlabelled leaf hidden in a .word run; helper whose address is the
  * witness for the call in ov010 MUSICAL_DRESSUP_SYS_Main.
  */
-void STA_NET_BeginTransfer(S *s)
+void STA_NET_BeginTransfer(StaNetWork *s)
 {
     if (s->f150 == 0) {
         s->f150 = 1;
@@ -190,10 +190,10 @@ void STA_NET_AdvanceChunk(int a,int b,int c,char *p)
         s=*(char * *)&((struct HostEntry *)q)->f10;
         ((struct HostEntry *)q)->f14=s+0xc;
         q=*(char * *)&((struct ActingHost *)p)->f140;
-        ((struct HostEntry *)q)->f18=*(char * *)&((struct HostEntry *)q)->f10+0xc+((struct Obj10567 *)s)->f0;
+        ((struct HostEntry *)q)->f18=*(char * *)&((struct HostEntry *)q)->f10+0xc+((struct StaNetChunkHeader *)s)->size;
         q=*(char * *)&((struct ActingHost *)p)->f140;
-        v=((struct Obj10567 *)s)->f4;
-        ((struct HostEntry *)q)->f1C=v+(*(u32 *)&((struct HostEntry *)q)->f10+0xc+((struct Obj10567 *)s)->f0);
+        v=((struct StaNetChunkHeader *)s)->offset;
+        ((struct HostEntry *)q)->f1C=v+(*(u32 *)&((struct HostEntry *)q)->f10+0xc+((struct StaNetChunkHeader *)s)->size);
     }
 }
 

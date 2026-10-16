@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021850EC",
+   "name": "BEACON_DETAIL_CreateMenuItemsFromIds",
    "address": "0x021850EC",
    "kind": "game",
    "region": "ov219",

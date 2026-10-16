@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030098
+ * function: GFL_HEAP_AllocMemory
  *
  * The raw allocator: the only function in the image that actually takes
  * memory from a heap. GFL_HEAP_Alloc, the 1163-caller allocation entry
  * point, is a wrapper around this.
  *
- *   void *sub_02030098(u32 heapId, u32 size)
+ *   void *GFL_HEAP_AllocMemory(u32 heapId, u32 size)
  *
  * The heap id is not a plain index. Bit 15 is a direction flag: set means
  * allocate from the high end of the expanded heap (alignment argument -4),
@@ -29,7 +29,7 @@
  * one instruction. The header's second halfword is a constant 0x194E
  * signature. The rest of the header is the provenance record stamped
  * later by GFL_HEAP_StampAllocSite (name[0x12] at +4, u16 tag at +0x16), which is
- * what sub_020304C0's `p - 0x1c + 4` is addressing.
+ * what GFL_HEAP_GetBlockName's `p - 0x1c + 4` is addressing.
  *
  * The module global at 0x02146954, already named g_EnvModule by
  * src/matched/unit_0202FBAC.c, is the heap manager, not an environment
@@ -70,8 +70,8 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030098.c \
- *       --func sub_02030098 --addr 0x02030098 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_AllocMemory.c \
+ *       --func GFL_HEAP_AllocMemory --addr 0x02030098 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -105,7 +105,7 @@ extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 
-void *sub_02030098(u32 heapId, u32 size)
+void *GFL_HEAP_AllocMemory(u32 heapId, u32 size)
 {
     void *arena;
     u32 intr;

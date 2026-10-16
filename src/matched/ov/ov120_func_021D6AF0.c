@@ -13,7 +13,18 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
-#include "../../matched/include/Obj00987.h"
+struct GtsnegoMsgCtx {
+    unsigned char pad_0[16];
+    void * f10;
+    unsigned char pad_14[4];
+    unsigned int f18;
+    unsigned char pad_1C[12];
+    unsigned int f28;
+    unsigned char pad_2C[72];
+    unsigned int f74;
+    unsigned char pad_78[124];
+    unsigned short fF4;
+};
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct Record {u16 x,y,z;u8 a,b;} Record;
 struct Obj;
@@ -24,7 +35,7 @@ Record r;int i;
 for(i=0;i<12;i++) {
 if(!*(void **)(p+i*4+0xc4)) {
 r.x=x;r.y=y;r.z=flag?2:0;r.a=0;r.b=1;
-*(void **)(p+0xc4+i*4)=CLACT_CreateActor((void *)((struct Obj00987 *)p)->f10,((struct Obj00987 *)p)->f28,((struct Obj00987 *)p)->f18,((struct Obj00987 *)p)->f74,&r,1,((struct Obj00987 *)p)->fF4);
+*(void **)(p+0xc4+i*4)=CLACT_CreateActor((void *)((struct GtsnegoMsgCtx *)p)->f10,((struct GtsnegoMsgCtx *)p)->f28,((struct GtsnegoMsgCtx *)p)->f18,((struct GtsnegoMsgCtx *)p)->f74,&r,1,((struct GtsnegoMsgCtx *)p)->fF4);
 CLACT_SetActorAutoAnim(*(void **)(p+0xc4+i*4),1);
 CLACT_SetActorDrawEnable(*(void **)(p+0xc4+i*4),1);
 return;

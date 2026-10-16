@@ -133,6 +133,7 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
+ *   G2x_SetBlendBrightness_  0x0207D658  arm  arm9
  */
 #include "worldtrade_types.h"
 
@@ -148,7 +149,7 @@ struct DispVram;
 
 struct Bank;
 
-struct R;
+struct TaskMenuRes;
 
 struct TaskMenu;
 
@@ -156,16 +157,7 @@ struct TaskMenuTmpl;
 
 struct TaskMenuState;
 
-typedef struct {
-    u8 pad0[0x20];
-    u32 x20;
-} Args_021F4580;
-
 typedef struct { int (*init)(u8 *, int); int (*update)(u8 *, int); int (*finish)(u8 *, int); } Handler;
-
-typedef volatile u32 vu32_021F4580;
-
-typedef volatile u16 vu16;
 
 typedef struct {
     u8 pad0[0xC];
@@ -176,15 +168,19 @@ typedef struct { union { void *text; u32 a; }; u32 b, c; } BoxItem;
 
 typedef struct { BoxItem item[2]; } BoxItems2;
 
-typedef struct { u32 heap; u8 count,pad[3]; BoxItem *items; u32 mode; u8 a,b,c,d; } BoxMenu_021F4580;
+/* Task menu template handed to APP_TASKMENU_OpenMenu (same layout as the
+ * struct TaskMenuTmpl used by ov223/ov218). */
+struct TaskMenuTmpl {
+    u32 heapId;
+    u8 count;
+    u8 pad05[3];
+    BoxItem *entries;
+    u32 mode;
+    u8 a, b, c, d;
+};
+
 
 typedef struct { BoxItem item[3]; } BoxItems3;
-
-typedef volatile u16 vu16_021F5074;
-
-typedef volatile unsigned short vu16_021F50EC;
-
-typedef volatile unsigned int vu32_021F4D50;
 
 extern int func_02034AC4(s32 handle);
 
@@ -292,7 +288,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 a, u32 b);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 a, u32 b);
 
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
@@ -340,7 +336,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
 extern void BG_SYS_PushTile(u32 v);
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 extern void BG_SYS_ClearMainPlanes(void);
 
@@ -354,7 +350,7 @@ extern void BG_SYS_Create(u16 heapId);
 
 extern void BMP_WIN_Init(u16 heapId);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig_021F4580 *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 
@@ -372,7 +368,7 @@ extern void func_0200F7C0(u32 c);
 
 
 
-int WORLDTRADE_ProcInit(void *proc, int *seq, Args_021F4580 *args);
+int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args);
 
 int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, Work *p);
 
@@ -464,9 +460,9 @@ extern const BoxItems3 data_02202C2C;
 
 extern u8 g_02202BFC[];
 
-extern const struct DispConfig_021F4580 tbl_02202BB8;
+extern const struct DispConfig tbl_02202BB8;
 
-int WORLDTRADE_ProcInit(void *proc, int *seq, Args_021F4580 *args)
+int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args)
 {
     Work *p;
 
@@ -480,7 +476,7 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args_021F4580 *args)
     p->f12F0 = PROCSYS_Create(0x48);
     p->recMem = func_02030734(0x48, func_02030CB0(8), 0, str_02203AF8, 0xA1);
     p->rec_p = func_02030CBC(8, p->recMem);
-    WORLDTRADE_ADAPTER_InitPrinter(p->tail, args->x20);
+    WORLDTRADE_ADAPTER_InitPrinter(p->tail, (u32)args->a20);
     p->words = WORDSET_Create(0xB, 0x40, 0x48);
     p->msg[0] = func_02045B38(0, 2, 0xD0, 0x48);
     p->msg[2] = func_02045B38(0, 2, 0xD1, 0x48);
@@ -638,8 +634,8 @@ static inline void SetWndOutsidePlane(int wnd, int effect)
 
 void WORLDTRADE_SetupWindowPlanes(void)
 {
-    *(vu32_021F4580 *)0x04001000 &= ~0xE000;
-    *(vu32_021F4580 *)0x04000000 = (*(vu32_021F4580 *)0x04000000 & ~0xE000) | 0x2000;
+    *(vu32 *)0x04001000 &= ~0xE000;
+    *(vu32 *)0x04000000 = (*(vu32 *)0x04000000 & ~0xE000) | 0x2000;
     SetWnd0InsidePlane(0x1F, 0);
     SetWndOutsidePlane(0x1F, 1);
     *(vu16 *)0x04000040 = 0xF0FF;
@@ -728,7 +724,7 @@ void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e)
 void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int b,int unused,int a,int c,u8 flag)
 {
     BoxItems2 items;
-    BoxMenu_021F4580 menu;
+    struct TaskMenuTmpl menu;
     int on;
     if (p->fE04) func_02034714(str_02203B08,0,str_02203B08);
     if (p->fE08) func_02034714(str_02203B08,0,str_02203B08);
@@ -738,9 +734,9 @@ void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int b,int unused,int a,int c,u8 flag)
     MI_CpuFill8(&menu,0,20);
     items.item[0].text=func_02045EC0(p->bank,63);
     items.item[1].text=func_02045EC0(p->bank,64);
-    menu.heap=0x48;
+    menu.heapId=0x48;
     menu.count=2;
-    menu.items=items.item;
+    menu.entries=items.item;
     menu.mode=1;
     menu.a=0x20;
     menu.b=b;
@@ -762,7 +758,7 @@ int WORLDTRADE_UpdateTaskMenuYesNo(Work *p) { int result; result=0; if(p->fE08) 
 void WORLDTRADE_OpenTaskMenuList(Work *p, u16 a, int count, int b)
 {
     BoxItems3 items;
-    BoxMenu_021F4580 menu;
+    struct TaskMenuTmpl menu;
     int i;
     if (p->fE04) func_02034714(str_02203B08,0,str_02203B08);
     if (p->fE08) func_02034714(str_02203B08,0,str_02203B08);
@@ -771,9 +767,9 @@ void WORLDTRADE_OpenTaskMenuList(Work *p, u16 a, int count, int b)
     MI_CpuFill8(&menu,0,20);
     if ((u32)count>3) func_02034714(str_02203B08,0,str_02203B08);
     for(i=0;i<count;i++) items.item[i].a=*(u32 *)((u32)p->de8+i*8);
-    menu.heap=0x48;
+    menu.heapId=0x48;
     menu.count=count;
-    menu.items=items.item;
+    menu.entries=items.item;
     menu.mode=1;
     menu.a=0x20;
     menu.b=b;
@@ -949,9 +945,9 @@ void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c)
 void WORLDTRADE_SetBrightnessIn(u32 x)
 {
     if (x != 0) {
-        func_0207D658(0x04000050, 0x1e, -7);
+        G2x_SetBlendBrightness_(0x04000050, 0x1e, -7);
     } else {
-        func_0207D658(0x04001050, 0x1e, -7);
+        G2x_SetBlendBrightness_(0x04001050, 0x1e, -7);
     }
 }
 
@@ -961,9 +957,9 @@ void WORLDTRADE_SetBrightnessIn(u32 x)
 void WORLDTRADE_SetBrightnessOut(u32 x)
 {
     if (x != 0) {
-        func_0207D658(0x04000050, 0x1b, -7);
+        G2x_SetBlendBrightness_(0x04000050, 0x1b, -7);
     } else {
-        func_0207D658(0x04001050, 0x1b, -7);
+        G2x_SetBlendBrightness_(0x04001050, 0x1b, -7);
     }
 }
 
@@ -986,13 +982,13 @@ void WORLDTRADE_ClearAndShowPlanes(Work *p)
     BG_SYS_Create(0x48);
     BMP_WIN_Init(0x48);
     {
-        struct DispConfig_021F4580 c = tbl_02202BB8;
+        struct DispConfig c = tbl_02202BB8;
 
         BG_SYS_SetGraphicsMode(&c);
     }
     WORLDTRADE_SetupWindowPlanes();
-    *(vu16_021F5074 *)0x04000050 = 0;
-    *(vu16_021F5074 *)0x04001050 = 0;
+    *(vu16 *)0x04000050 = 0;
+    *(vu16 *)0x04001050 = 0;
     if (p->vblank_p == 0) {
         p->vblank_p = func_020056A0(WORLDTRADE_VBlankTask, p, 0);
     }
@@ -1004,13 +1000,13 @@ void WORLDTRADE_ExitPlanes(Work *p)
         func_02030EAC(p->vblank_p);
         p->vblank_p = 0;
     }
-    *(vu16_021F50EC *)0x04000050 = 0;
-    *(vu16_021F50EC *)0x04001050 = 0;
+    *(vu16 *)0x04000050 = 0;
+    *(vu16 *)0x04001050 = 0;
     WORLDTRADE_ReleaseGraphics(p);
     BMP_WIN_Exit();
     BG_SYS_Delete();
-    *(vu32_021F4D50 *)0x04000000 &= 0xFFFF1FFF;
-    *(vu32_021F4D50 *)0x04001000 &= 0xFFFF1FFF;
+    *(vu32 *)0x04000000 &= 0xFFFF1FFF;
+    *(vu32 *)0x04001000 &= 0xFFFF1FFF;
 }
 
 void WORLDTRADE_CancelSave(Work *p)

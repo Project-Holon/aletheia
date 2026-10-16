@@ -17,7 +17,7 @@
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
  *   BTL_SERVER_FLOW_PushMoveFailMessage 0x021C0520 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   HAND_WAZA_AddMoveHandler 0x021E02DC thumb ov093
  *   BTL_SERVER_FLOW_ProcMoveExecute 0x021BEC58 thumb ov093
  *   HAND_WAZA_RemoveMoveHandlerOfPoke 0x021E03D8 thumb ov093
@@ -37,7 +37,7 @@ extern int BTL_SERVER_FLOW_DecideMoveTargets(u8 *p, u8 *a, u16 b, const u8 *q, v
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern void BTL_SERVER_FLOW_PushMoveFailMessage(u8 *, u8 *, u16, u32);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int HAND_WAZA_AddMoveHandler(u8 *, u16, u32);
 extern int BTL_SERVER_FLOW_ProcMoveExecute(u8 *p, u8 *a, u16 key, u8 *d);
 extern void HAND_WAZA_RemoveMoveHandlerOfPoke(u8 *a, int b);
@@ -56,7 +56,7 @@ void BTL_SERVER_FLOW_ProcInterruptMove(u8 *p, u8 *b, u16 c, void *unused)
             BTL_SERVER_FLOW_PushMoveFailMessage(p, a, c, 13);
             return;
         }
-        HAND_WAZA_AddMoveHandler(a, c, func_021D59B4(a, 12));
+        HAND_WAZA_AddMoveHandler(a, c, BTL_POKEPARAM_GetValue(a, 12));
         BTL_SERVER_FLOW_ProcMoveExecute(p, a, c, ((struct Obj00003 *)p)->f864);
         HAND_WAZA_RemoveMoveHandlerOfPoke(a, c);
     }

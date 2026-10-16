@@ -16,7 +16,7 @@
  *
  *   void GFL_HEAP_StampAllocSite(void *p, const char *site, u16 tag)
  *
- * sub_020304C0 (already EXACT) converts the payload pointer into
+ * GFL_HEAP_GetBlockName (already EXACT) converts the payload pointer into
  * `&((char *)p - 0x1c)[4]`, so the provenance record lives at header+4 and
  * is 0x14 bytes wide: an 0x12-byte name field followed by the u16 tag at
  * +0x12. The copy is a bounded strncpy-shaped loop that stops on the NUL
@@ -29,7 +29,7 @@
  * `const char *` source may alias the `char *` destination.
  *
  * symbols:
- *   sub_020304C0    0x020304C0  arm
+ *   GFL_HEAP_GetBlockName    0x020304C0  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_HEAP_StampAllocSite.c \
@@ -43,14 +43,14 @@ struct HeapBlockSite {
     u16  tag;
 };
 
-extern void *sub_020304C0(void *p);
+extern void *GFL_HEAP_GetBlockName(void *p);
 
 void GFL_HEAP_StampAllocSite(void *p, const char *site, u16 tag)
 {
     struct HeapBlockSite *rec;
     int i;
 
-    rec = (struct HeapBlockSite *)sub_020304C0(p);
+    rec = (struct HeapBlockSite *)GFL_HEAP_GetBlockName(p);
     for (i = 0; i < 0x12; i++) {
         char c = site[i];
         rec->name[i] = c;

@@ -29,7 +29,7 @@
  *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
  *   BTL_SERVER_FLOW_ProcAfterMemberIn 0x021BDA00 thumb ov093
  *   BTL_MAIN_PokeIdToClientIdThunk 0x021B8DDC thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_CLIENT_SET_Add 0x021D8244 thumb ov093
  */
 #include "../include/Obj00003.h"
@@ -61,7 +61,7 @@ extern void BTL_SERVER_FLOW_ProcMemberIn(u8 *p, u8 i, u8 a, u8 b, int c);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
 extern int BTL_SERVER_FLOW_ProcAfterMemberIn(u8 *);
 extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void BTL_CLIENT_SET_Add(struct B *p, int n);
 static inline u8 rule(u8 n)
 {
@@ -109,8 +109,8 @@ int BTL_SERVER_FLOW_TryForceSwitchTarget(u8 *p, u8 *a, u8 *b, int force, int *ou
         slot = BTL_MAIN_PokeIdToClientIdThunk(BTL_POKEPARAM_GetPokeId(a));
         if (!ignore) {
             u8 speed;
-            speed = (u8)func_021D59B4(a, 15);
-            if ((u8)func_021D59B4(b, 15) > speed) return 0;
+            speed = (u8)BTL_POKEPARAM_GetValue(a, 15);
+            if ((u8)BTL_POKEPARAM_GetValue(b, 15) > speed) return 0;
         }
         BTL_CLIENT_SET_Add((struct B *)(p + 0x4b8), slot);
         BTL_SERVER_FLOW_ProcMemberOutCore(p, b, move);

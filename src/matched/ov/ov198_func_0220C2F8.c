@@ -10,8 +10,8 @@
  * lever: u16 value and u8 width/return preserve stack-store scheduling.
  * symbols:
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
- *   func_0202D01C 0x0202D01C thumb
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_ScaleRatio 0x0202D01C thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_FillRect 0x02043AF4 arm
  */
@@ -21,8 +21,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
-extern u8 func_0202D01C(u32,u32,u32);
-extern int func_0202D034(u32,u32);
+extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
+extern int BGWINFRM_GetScaleRank(u32,u32);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Bmp;
@@ -31,8 +31,8 @@ void B_PLIST_DRAW_FillTypeBar(u8 *p,int slot,int index,u16 value,u8 extra)
 {
     char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     u8 color=1;
-    u8 width=func_0202D01C(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12,48);
-    switch(func_0202D034(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12)) {
+    u8 width=BGWINFRM_ScaleRatio(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12,48);
+    switch(BGWINFRM_GetScaleRank(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12)) {
     case 3: return;
     case 0: color=1; break;
     case 1: color=3; break;

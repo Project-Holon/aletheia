@@ -12,7 +12,7 @@
  * sdk:      DWCi_RequestSuspendMatch (libdwcmatch.TWL.HYB.a(dwc_match.o))
  *
  * symbols:
- *   func_02175FB8  0x02175FB8  arm  ov009
+ *   DWCi_GetHostStatus  0x02175FB8  arm  ov009
  *   DWCi_NodeInfoList_GetMyNodeInfo  0x02176344  arm  ov009
  *   func_021758C4  0x021758C4  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
@@ -53,7 +53,7 @@ struct DWCstNodeInfo {
     u8 aid;
 };
 
-extern unsigned char func_02175FB8(void);
+extern unsigned char DWCi_GetHostStatus(void);
 extern struct DWCstNodeInfo *DWCi_NodeInfoList_GetMyNodeInfo(void);
 extern int func_021758C4(u8 AID, int suspend, int immediate);
 extern int func_02175F3C(void);
@@ -69,7 +69,7 @@ static int func_02175D10(int suspend)
     u32 senddata[4];
     int result;
 
-    if (func_02175FB8() == 2)
+    if (DWCi_GetHostStatus() == 2)
         return func_021758C4(DWCi_NodeInfoList_GetMyNodeInfo()->aid, suspend, 0);
     if (((struct DWCstMatchControl *)func_02175F3C())->f61c != 1)
         return 1;

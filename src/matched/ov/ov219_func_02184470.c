@@ -19,7 +19,7 @@
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
- *   func_021845A4 0x021845A4 thumb ov219
+ *   BEACON_DETAIL_ExitGraphics 0x021845A4 thumb ov219
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
@@ -33,7 +33,7 @@ extern void BG_SYS_SetLcdSwap(unsigned);
 extern int APP_KEYCURSOR_Delete(int);
 extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned WORDSET_DeleteStrbufED04(struct WordSet *);
-extern void func_021845A4(int),func_020315D4(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
+extern void BEACON_DETAIL_ExitGraphics(int),func_020315D4(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char *p)
 {
     unsigned heap=((struct Obj05564 *)p)->f0;
@@ -43,7 +43,7 @@ int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char 
     BG_SYS_SetLcdSwap(1);
     APP_KEYCURSOR_Delete(((struct Obj05564 *)p)->fC088);
     TCBL_Destroy(*(struct S02031140 * *)&((struct Obj05564 *)p)->fC0A4);
-    func_021845A4(WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj05564 *)p)->fC0A8));
+    BEACON_DETAIL_ExitGraphics(WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj05564 *)p)->fC0A8));
     func_020315D4(controller);GFL_HEAP_DeleteChecked((u16)heap);
     return 1;
 }

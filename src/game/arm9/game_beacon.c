@@ -17,7 +17,7 @@
  *   GAME_COMM_KindTable  0x0209FB5C  data
  *   MI_CpuFill8 0x02082BCC  arm
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   func_020084BC  0x020084BC  thumb
  *   func_02008500  0x02008500  thumb
@@ -216,7 +216,7 @@ extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
 extern void OS_GetOwnerInfo(OSOwnerInfo *info);
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
 extern int func_020084BC(const struct MyStatus *status);
 extern void func_02008500(const struct MyStatus *status, struct Strbuf *dst);
@@ -815,7 +815,7 @@ void GAME_COMM_ClearPlayerStatus(GameComm *comm)
  * object (CURSOR_MOVE_CreateVecSet creates it; 0xc bytes per entry, write index at
  * +0x85, read index at +0x84, which is pushed along when the writer
  * overruns it).  Each net id is resolved to a player status: the console's
- * own (func_02012944) when it equals the console's net id, otherwise the
+ * own (GAME_DATA_GetMyStatus) when it equals the console's net id, otherwise the
  * by-id lookup (GAME_DATA_GetPlayerStatusById).  If either status is unusable
  * (func_020084BC == 1) nothing is written.
  */
@@ -828,12 +828,12 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
 
     queue = &comm->infoQueue;
     if (netId0 == GAME_DATA_GetOwnNetId(comm->gameData)) {
-        status0 = func_02012944(comm->gameData);
+        status0 = GAME_DATA_GetMyStatus(comm->gameData);
     } else {
         status0 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId0);
     }
     if (netId1 == GAME_DATA_GetOwnNetId(comm->gameData)) {
-        status1 = func_02012944(comm->gameData);
+        status1 = GAME_DATA_GetMyStatus(comm->gameData);
     } else {
         status1 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId1);
     }
@@ -1689,7 +1689,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     u16 eomCode;
     int i;
 
-    myStatus = func_02012944(gameData);
+    myStatus = GAME_DATA_GetMyStatus(gameData);
     save = GAME_DATA_GetSaveControl(gameData);
     misc = BEACON_GetBlock(save);
     pmsSave = func_0200E6E8(save);
@@ -1945,7 +1945,7 @@ void GAME_BEACON_SetQuestionnaire(const u8 *answers)
  * to and sets the flag byte at +0x62 (reached as +4 then +0x5E: a nested
  * record at +4, written through a pointer local `q = &s->sub`; direct
  * `s->sub.flag` folds to +0x62). Filed in wave D6 as the unlabelled leaf that ov219
- * func_02183D14 calls.
+ * BEACON_DETAIL_Update calls.
  */
 void GAME_BEACON_SetNationArea(u8 nation, u8 area)
 {

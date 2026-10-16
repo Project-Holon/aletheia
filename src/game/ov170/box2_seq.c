@@ -44,7 +44,7 @@
  *   BOX2_SEQ_DrawOffsetName  0x021EB85C  thumb  ov170
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   BOX2_UI_DrawSlot 0x021EDAB0 thumb ov170
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   BOX2_UI_DrawSlotByName 0x021EDB34 thumb ov170
@@ -238,7 +238,7 @@
  *   BOX2_MAIN_SetBodySlots 0x021DF11C thumb ov170
  *   BOX2_UI_RepenTopBar 0x021EF6CC thumb ov170
  *   BOX2_MAIN_HasOtherTradable 0x021DD694 thumb ov170
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   BOX2_MAIN_StepScroll 0x021DE7C8 thumb ov170
  *   BOX2_MAIN_DeleteScroll 0x021DE7B4 thumb ov170
  *   BOX2_MAIN_ClearSlot 0x021DD314 thumb
@@ -343,10 +343,10 @@
  *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
  *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
  *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC40 0x0201BC40 thumb
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   d_021EFD04 0x021EFD04 data a4
  *   func_020079BC 0x020079BC thumb
  *   MIi_CpuCopy32 0x02082A90 arm
@@ -358,11 +358,11 @@
  *   CLACT_SetActorAffineOrigin 0x0204B588 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   func_02017DBC 0x02017DBC thumb
+ *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
- *   func_02017DE4 0x02017DE4 thumb
+ *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   d_021EFD80 0x021EFD80 data a4
  *   APP_ICON_GetTypeCellFileId 0x020275F8 thumb
  *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
@@ -458,7 +458,7 @@ extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 
 extern void BOX2_UI_DeleteSlotIcon(BoxTask *p);
 
-extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
+extern void CURSOR_MOVE_SetState(struct CursorMoveObj *obj, u32 state);
 
 extern void BOX2_UI_DrawSlot(BoxTask *p, int i);
 
@@ -616,7 +616,7 @@ struct Obj;
 
 struct Actor;
 
-struct Slots_021EBF34;
+struct BoxActorSlotTable;
 
 struct Vec2;
 
@@ -646,27 +646,25 @@ typedef struct { int (*a)(char *); int (*b)(char *); } Pair;
 
 typedef struct { void (*callback)(u8 *); u32 value; u32 next; } Dispatch;
 
-typedef short s16_021E09E0;
-
 typedef struct {
     short left;
     short dir;
 } Scroll;
 
-typedef struct { u8 lo:4; u8 hi:4; } Nib_021E09E0;
-
-typedef struct {
-    unsigned char lo : 4;
-    unsigned char hi : 4;
-} Nib_021E65E4;
-
-typedef struct { unsigned char pad[0x1C]; unsigned char lo:4; unsigned char hi:4; } Flags_021E65E4;
-
 typedef struct { unsigned short a; unsigned short b; } Ent;
 
-typedef struct { u8 pad[0x1c]; u8 lo : 4; u8 hi : 4; } Flags_021E8340;
-
-typedef signed short s16_021E65E4;
+/* One text-window entry. Views differed only in how many trailing
+   fields they named; the status byte is 0x12 (low/flag) and 0x13
+   (kind/enabled/rest). */
+typedef struct BoxSeqEntry {
+    unsigned value;              /* 0x00 */
+    unsigned char pad_4[0x0E];   /* 0x04 */
+    unsigned char low : 7;       /* 0x12 */
+    unsigned char flag : 1;      /* 0x12 */
+    unsigned char kind : 4;      /* 0x13 */
+    unsigned char enabled : 1;   /* 0x13 */
+    unsigned char rest : 3;      /* 0x13 */
+} BoxSeqEntry;
 
 typedef struct BoxWorkView {
     unsigned char pad[0x1A6];
@@ -682,19 +680,12 @@ typedef struct BoxWorkView {
     unsigned char h;
 } BoxWorkView;
 
-typedef struct { unsigned value; unsigned char pad[14]; unsigned char low:7; unsigned char flag:1; } Entry_021EADB4;
 
-typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry_021EAE74;
 
-typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry_021EAF20;
 
-typedef struct { unsigned char pad[18]; unsigned char low:7,high:1; } Entry_021EAFBC;
 
-typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; } Entry_021EB098;
 
-typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; } Entry_021EB114;
 
-typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry_021EB208;
 
 typedef struct {
     void *obj;
@@ -733,9 +724,9 @@ typedef struct {
     Desc d[3];
 } DescTable;
 
-struct Slots_021EBF34 { char pad[0x9E74]; int arr[1]; };
+struct BoxActorSlotTable { char pad[0x9E74]; int arr[1]; };
 
-typedef struct { short x; short y; } Pos_021EC548;
+typedef struct { short x; short y; } BoxPos;
 
 typedef struct { unsigned char a; unsigned char b; } Off;
 
@@ -974,9 +965,9 @@ extern int BOX2_MAIN_HasOtherTradable(void ***, unsigned);
 
 extern void *POKEPARTY_GetMember(void *, unsigned);
 
-extern unsigned func_02017E1C(void *, unsigned, unsigned);
+extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 
-extern unsigned func_02017E88(void *, unsigned, unsigned);
+extern unsigned POKE_TOOL_GetBoxValue(void *, unsigned, unsigned);
 
 extern int BOX2_MAIN_StepScroll(BoxTask *p);
 
@@ -992,7 +983,7 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 o
 
 extern u32 func_020056BC(void);
 
-extern int PALANM_RequestFade(void *, u16, u16, s16_021E65E4, u8, u8, u16, void *);
+extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
 
 extern void BOX2_MAIN_LoadBoxPalette(char *, int);
 
@@ -1192,13 +1183,13 @@ extern u32 APP_ICON_GetStatusCellFileId(u32 a);
 
 extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern int func_0201BC40(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
 
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 
@@ -1224,7 +1215,7 @@ extern void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt *src
 
 extern int POKEGRA_OpenHandle(int);
 
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 
@@ -1232,7 +1223,7 @@ extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u32,u16);
 
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
 extern unsigned int APP_ICON_GetTypeCellFileId(unsigned int a);
 
@@ -1688,15 +1679,15 @@ void BOX2_SEQ_PrintMsgWin(BoxTask *p);
 
 void BOX2_SEQ_InitBmpWin(BoxTask *p);
 
-void BOX2_SEQ_FillTextWinEntry(unsigned char *w,Entry_021EADB4 *e,unsigned i);
+void BOX2_SEQ_FillTextWinEntry(unsigned char *w,BoxSeqEntry *e,unsigned i);
 
 void BOX2_SEQ_FillTextWin(char *p, void **q, int i);
 
-void BOX2_SEQ_DrawCellEntry(char *p, Entry_021EAE74 *e, unsigned i);
+void BOX2_SEQ_DrawCellEntry(char *p, BoxSeqEntry *e, unsigned i);
 
-void BOX2_SEQ_DrawSpriteEntry(char *p, Entry_021EAF20 *e, unsigned i);
+void BOX2_SEQ_DrawSpriteEntry(char *p, BoxSeqEntry *e, unsigned i);
 
-void BOX2_SEQ_DrawTileEntry(char *p,const Entry_021EAFBC *e,u32 i);
+void BOX2_SEQ_DrawTileEntry(char *p,const BoxSeqEntry *e,u32 i);
 
 void BOX2_SEQ_DrawMoveEntry(char *p, unsigned char *e, int i);
 
@@ -1704,7 +1695,7 @@ void BOX2_SEQ_DrawSwapEntry(char *p, unsigned char *e, int i);
 
 void BOX2_SEQ_DrawItemEntry(char *p, unsigned char *e, int i);
 
-void BOX2_SEQ_DrawMsgEntry(char *p, Entry_021EB208 *e, int i);
+void BOX2_SEQ_DrawMsgEntry(char *p, BoxSeqEntry *e, int i);
 
 void BOX2_SEQ_DeleteTextEntries(BoxTask *p, int a);
 
@@ -1788,7 +1779,7 @@ void BOX2_SEQ_CreateBox2Actors(unsigned char *p);
 
 void *BOX2_SEQ_CreateActorFromDesc(char *w, const Desc *s);
 
-void BOX2_SEQ_DeleteActorSlot(struct Slots_021EBF34 *p, int i);
+void BOX2_SEQ_DeleteActorSlot(struct BoxActorSlotTable *p, int i);
 
 void BOX2_SEQ_DeleteAllActors(BoxWork *p);
 
@@ -1980,7 +1971,7 @@ extern const Template d_021EFD64;
 
 extern const Desc d_021EFD04;
 
-extern const Pos_021EC548 d_021EFD4C[];
+extern const BoxPos d_021EFD4C[];
 
 extern const Off d_021EFCE0[];
 
@@ -3532,8 +3523,8 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *p)
         BOX2_MAIN_ResetBoxView((BoxTask *)p);
         arg = 2;
     }
-    if (((Nib_021E09E0 *)(p + 0x1C))->lo == 0) {
-        ((Nib_021E09E0 *)(p + 0x1C))->hi = 1;
+    if (((BoxTask *)p)->listState == 0) {
+        ((BoxTask *)p)->exitFlag = 1;
         arg = p[0x21];
     }
     BOX2_UI_DeleteSlotObjects((BoxTask *)p, 0, 1, arg);
@@ -5990,8 +5981,8 @@ int BOX2_SEQ_StateMoveItemB(BoxTask *p)
     unsigned char old;
     unsigned short slot, item;
     unsigned char r;
-    if (((Flags_021E65E4 *)p)->lo == 0)
-        ((Flags_021E65E4 *)p)->hi = 1;
+    if (((BoxTask *)p)->listState == 0)
+        ((BoxTask *)p)->exitFlag = 1;
     o = *(unsigned short **)(((char *)((BoxTask *)(p))->work) + 0x60);
     BOX2_SEQ_SetSlotActorMode(((char *)((BoxTask *)(p))->work), o[0], 0);
     old = p->cursorSlot;
@@ -6596,7 +6587,7 @@ int BOX2_SEQ_SetBox2MainE(BoxTask *p)
     else
         BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)p, p->cursorSlot);
     BOX2_SEQ_SetCursorFrame((BoxTask *)p, 6);
-    if (((Flags_021E65E4 *)p)->lo == 0)
+    if (((BoxTask *)p)->listState == 0)
         BOX2_SEQ_SetWindow9((BoxTask *)p, 0xE, 1);
     else
         BOX2_SEQ_SetWindow9((BoxTask *)p, 0xD, 1);
@@ -6826,7 +6817,7 @@ int BOX2_SEQ_StateMoveItemE(BoxTask *p)
                 p->state = 14;
                 return BOX2_SEQ_ReturnAfterClear((BoxTask *)p, 6);
             }
-            if (FILE_UTIL_Check136C(func_02017E1C(POKEPARTY_GetMember(p->params->party, slot), 6, 0)) == 1) {
+            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(p->params->party, slot), 6, 0)) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 BOX2_SEQ_PrintPrompt((BoxTask *)p, 0, 5, 24);
                 *(u8 *)(((char *)((BoxTask *)(p))->work) + 0xA170) = 1;
@@ -6838,7 +6829,7 @@ int BOX2_SEQ_StateMoveItemE(BoxTask *p)
             BOX2_SEQ_SetSlotActors((char *)p, 1, 1);
             BOX2_SEQ_SetSlotActorMode((char *)((char *)((BoxTask *)(p))->work), p->cursorSlot, 0);
         }
-        if (func_02017E88((void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot), 0x4c, 0) != 0) {
+        if (POKE_TOOL_GetBoxValue((void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot), 0x4c, 0) != 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintMonName((BoxTask *)p, 3, 24);
             *(u8 *)(((char *)((BoxTask *)(p))->work) + 0xA170) = 1;
@@ -7001,7 +6992,7 @@ int BOX2_SEQ_StateZoomMenu(BoxTask *p)
         BOX2_SEQ_SetSlotActors((char *)p, 1, 1);
         BOX2_SEQ_PrintIndexedMessage((unsigned char *)p, 0, 24);
         BOX2_UI_MoveCursor((char **)p, 10, 0);
-        ((Flags_021E8340 *)p)->lo = 0;
+        ((BoxTask *)p)->listState = 0;
         BOX2_SEQ_SetCursorFrame((BoxTask *)p, 6);
         return 0x5e;
     }
@@ -8156,7 +8147,7 @@ int BOX2_SEQ_GotoSlotHandlerA(BoxTask *p, int i, int v)
 int BOX2_SEQ_SelectPartySlotA(unsigned char *p, int i)
 {
     p[0x16] = i;
-    ((Nib_021E65E4 *)(p + 0x1C))->lo = 0;
+    ((BoxTask *)p)->listState = 0;
     p[0x17] = p[0x14];
     p[0x1B] = 1;
     BOX2_SEQ_SetSlotDrawPriority(((char *)((BoxTask *)(p))->work), p[0x16], 0);
@@ -8652,7 +8643,7 @@ int BOX2_SEQ_CheckTradableMon(unsigned char *p)
     int i = p[0x16] - 0x1e;
     if (BOX2_MAIN_HasOtherTradable((void ***)p, i) == 0)
         return 1;
-    if (FILE_UTIL_Check136C((unsigned short)func_02017E1C(
+    if (FILE_UTIL_Check136C((unsigned short)POKE_TOOL_GetPartyValue(
             POKEPARTY_GetMember(((BoxTask *)p)->params->party, i), 6, 0)) == 1)
         return 2;
     return 0;
@@ -8838,7 +8829,7 @@ void BOX2_SEQ_InitBmpWin(BoxTask *p)
     BOX2_SEQ_PrintTextWin(q, 0xd, (void *)(((BoxWork *)(q))->msgBank), 0x66, 0, 0, ((BoxWork *)q)->font, 0x440);
 }
 
-void BOX2_SEQ_FillTextWinEntry(unsigned char *w,Entry_021EADB4 *e,unsigned i) {
+void BOX2_SEQ_FillTextWinEntry(unsigned char *w,BoxSeqEntry *e,unsigned i) {
  void **windows;
  windows=(void **)(w+0x94);
  BMP_Clear(BMP_WIN_GetBmp(windows[i*2]),0);
@@ -8857,7 +8848,7 @@ void BOX2_SEQ_FillTextWin(char *p, void **q, int i)
     BOX2_SEQ_MakeScreen((void **)(p + 0x94 + i * 8));
 }
 
-void BOX2_SEQ_DrawCellEntry(char *p, Entry_021EAE74 *e, unsigned i)
+void BOX2_SEQ_DrawCellEntry(char *p, BoxSeqEntry *e, unsigned i)
 {
     unsigned n;
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
@@ -8875,7 +8866,7 @@ void BOX2_SEQ_DrawCellEntry(char *p, Entry_021EAE74 *e, unsigned i)
 /*
  * trailing: two-byte zero alignment padding at 0x021EAFBA.
  */
-void BOX2_SEQ_DrawSpriteEntry(char *p, Entry_021EAF20 *e, unsigned i)
+void BOX2_SEQ_DrawSpriteEntry(char *p, BoxSeqEntry *e, unsigned i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag && e->enabled == 1) {
@@ -8892,12 +8883,12 @@ void BOX2_SEQ_DrawSpriteEntry(char *p, Entry_021EAF20 *e, unsigned i)
     BOX2_SEQ_MakeScreen((void **)(p + 0x94 + i * 8));
 }
 
-void BOX2_SEQ_DrawTileEntry(char *p,const Entry_021EAFBC *e,u32 i)
+void BOX2_SEQ_DrawTileEntry(char *p,const BoxSeqEntry *e,u32 i)
 {
     u16 n;
     u32 text;
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(((char *)((BoxTask *)(p))->work)+i*8+148)),0);
-    if (e->high == 0) {
+    if (e->flag == 0) {
         if (*(u32 *)(((char *)((BoxTask *)(p))->work)+380) == 1)
             n = ((BoxTextEntry *)(e))->idx;
         else
@@ -8915,7 +8906,7 @@ void BOX2_SEQ_DrawTileEntry(char *p,const Entry_021EAFBC *e,u32 i)
 void BOX2_SEQ_DrawMoveEntry(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
-    if (!((Entry_021EB098 *)e)->flag) {
+    if (!((BoxSeqEntry *)e)->flag) {
         WORDSET_SetSlotFromMsg18(((BoxWork *)p)->wordSet, 0, e[15]);
         BOX2_SEQ_PrintTextWinEx(p, i, ((BoxWork *)p)->msgBank, 98, 0, 0, ((BoxWork *)p)->font, 0x440);
     } else {
@@ -8927,7 +8918,7 @@ void BOX2_SEQ_DrawMoveEntry(char *p, unsigned char *e, int i)
 void BOX2_SEQ_DrawSwapEntry(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
-    if (!((Entry_021EB114 *)e)->flag) {
+    if (!((BoxSeqEntry *)e)->flag) {
         WORDSET_SetSlotFromMsgB6(((BoxWork *)p)->wordSet, 0, e[14]);
         BOX2_SEQ_PrintTextWinEx(p, i, ((BoxWork *)p)->msgBank, 97, 0, 0, ((BoxWork *)p)->font, 0x440);
     } else {
@@ -8956,7 +8947,7 @@ void BOX2_SEQ_DrawItemEntry(char *p, unsigned char *e, int i)
  * change. Older text in this header that asks for the double assignment is
  * superseded.
  */
-void BOX2_SEQ_DrawMsgEntry(char *p, Entry_021EB208 *e, int i)
+void BOX2_SEQ_DrawMsgEntry(char *p, BoxSeqEntry *e, int i)
 {
     void **windows;
     unsigned j;
@@ -8990,15 +8981,15 @@ void BOX2_SEQ_DrawMsgEntry(char *p, Entry_021EB208 *e, int i)
 
 void BOX2_SEQ_DeleteTextEntries(BoxTask *p, int a)
 {
-    BOX2_SEQ_FillTextWinEntry((unsigned char *)((char *)p->work), (Entry_021EADB4 *)a, 1);
+    BOX2_SEQ_FillTextWinEntry((unsigned char *)((char *)p->work), (BoxSeqEntry *)a, 1);
     BOX2_SEQ_FillTextWin((char *)p->work, (void **)a, 2);
-    BOX2_SEQ_DrawCellEntry((char *)p->work, (Entry_021EAE74 *)a, 3);
-    BOX2_SEQ_DrawSpriteEntry((char *)p->work, (Entry_021EAF20 *)a, 4);
-    BOX2_SEQ_DrawTileEntry((char *)p, (const Entry_021EAFBC *)a, 5);
+    BOX2_SEQ_DrawCellEntry((char *)p->work, (BoxSeqEntry *)a, 3);
+    BOX2_SEQ_DrawSpriteEntry((char *)p->work, (BoxSeqEntry *)a, 4);
+    BOX2_SEQ_DrawTileEntry((char *)p, (const BoxSeqEntry *)a, 5);
     BOX2_SEQ_DrawMoveEntry((char *)p->work, (unsigned char *)a, 6);
     BOX2_SEQ_DrawSwapEntry((char *)p->work, (unsigned char *)a, 7);
     BOX2_SEQ_DrawItemEntry((char *)p->work, (unsigned char *)a, 8);
-    BOX2_SEQ_DrawMsgEntry((char *)p->work, (Entry_021EB208 *)a, 9);
+    BOX2_SEQ_DrawMsgEntry((char *)p->work, (BoxSeqEntry *)a, 9);
     BOX2_SEQ_MakeScreen((void **)((u8 *)(char *)p->work + 0xe4));
     BOX2_SEQ_MakeScreen((void **)((u8 *)(char *)p->work + 0xec));
     BOX2_SEQ_MakeScreen((void **)((u8 *)(char *)p->work + 0xf4));
@@ -9546,12 +9537,12 @@ void *BOX2_SEQ_CreateActorFromDesc(char *w, const Desc *s)
 
 /*
  * Release slot i of the 0x9E74 array when non-null.
- *   CLOSES the register-order residue: `struct Slots_021EBF34 { char pad[0x9E74]; int arr[1]; }`
+ *   CLOSES the register-order residue: `struct BoxActorSlotTable { char pad[0x9E74]; int arr[1]; }`
  *   with `p->arr[i]` gives the image's r4 = p+0x9E74 / r5 = i*4; a plain
  *   `char *p` plus `p + i * 4 + 0x9E74` puts the index in r1 and the constant
  *   in r5 instead.
  */
-void BOX2_SEQ_DeleteActorSlot(struct Slots_021EBF34 *p, int i)
+void BOX2_SEQ_DeleteActorSlot(struct BoxActorSlotTable *p, int i)
 {
     if (p->arr[i] != 0) {
         CLACT_DeleteActor((struct Obj *)p->arr[i]);
@@ -9567,7 +9558,7 @@ void BOX2_SEQ_DeleteAllActors(BoxWork *p)
 {
     unsigned i;
     for (i = 0; i < 0x60; i++)
-        BOX2_SEQ_DeleteActorSlot((struct Slots_021EBF34 *)p, i);
+        BOX2_SEQ_DeleteActorSlot((struct BoxActorSlotTable *)p, i);
     CLACT_DeleteUnit((struct Bank *)(p->clactUnit));
 }
 
@@ -9708,8 +9699,8 @@ void BOX2_SEQ_RegisterBoxCharsB(BoxWork *p)
 void BOX2_SEQ_RegisterIconRes(BoxWork *p)
 {
     void *h = func_020490F4(7, 0x4C);
-    p->iconAnimRes = (void *)CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 0, 0x60, 0x4C);
-    p->iconPlttImage = (void *)CLACT_RegisterCellAnim(h, func_0201BC40(), func_0201BCB4(), 0x4C);
+    p->iconAnimRes = (void *)CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), 0, 0x60, 0x4C);
+    p->iconPlttImage = (void *)CLACT_RegisterCellAnim(h, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), 0x4C);
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -10197,11 +10188,11 @@ void BOX2_SEQ_LoadMonIconActor(char *p,void **mon,int index)
         CLACT_ReleaseCharacter(*bmp);CLACT_ReleasePalette(*cell);CLACT_ReleaseCellAnim(*anim);
     }
     archive=POKEGRA_OpenHandle(76);
-    state=func_02017DBC(*mon);
+    state=POKE_TOOL_DecodeBoxParam(*mon);
     *bmp=POKEGRA_RegisterCgrPP(archive,*mon,0,1,76);
     *cell=POKEGRA_RegisterPalettePP(archive,*mon,0,1,mode,76);
     *anim=POKEGRA_RegisterCellAnimPP((u32)*mon,0,2,1,76);
-    func_02017DE4(*mon,state);ARC_TOOL_DeleteHandle((void *)archive);
+    POKE_TOOL_EncodeBoxParam(*mon,state);ARC_TOOL_DeleteHandle((void *)archive);
     *(void **)((((char *)((BoxTask *)(p))->work)+index*4)+0x9E74)=BOX2_SEQ_CreateActorFromDesc(((char *)((BoxTask *)(p))->work), &((const Desc *)&d_021EFD80)[(u32)index]);
     BOX2_SEQ_SetActorDrawEnable(((char *)((BoxTask *)(p))->work),index,1);
     if (*(void **)((((char *)((BoxTask *)(p))->work)+other*4)+0x9E74)) BOX2_SEQ_SetActorDrawEnable(((char *)((BoxTask *)(p))->work),other,0);

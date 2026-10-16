@@ -1,5 +1,5 @@
 /*
- * function: func_021841C8
+ * function: MICTEST_ExitBg
  * address:  0x021841C8
  * packet:   pkt_021841C8
  * region:   ov168
@@ -23,7 +23,7 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern u8 d_02184964[];
 
-void func_021841C8(void *a0)
+void MICTEST_ExitBg(void *a0)
 {
     u32 i;
 

@@ -12,7 +12,7 @@
  *   BTL_MAIN_GetTrainerSlotOfPoke 0x021B8D8C thumb ov093
  *   BTL_MAIN_CollectLivingPokeIds 0x021B8D38 thumb ov093
  *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_CLIENT_CanShadowTagTrap 0x021CFAC4 thumb ov093
  *   BTL_CLIENT_CanArenaTrapTrap 0x021CFADC thumb ov093
  *   BTL_CLIENT_CanMagnetPullTrap 0x021CFB8C thumb ov093
@@ -27,7 +27,7 @@ extern int BTL_MAIN_GetTrainerSlotOfPoke(void *, void *, u32);
 extern u8 BTL_MAIN_CollectLivingPokeIds(void *p, int a, int k, u8 *out);
 struct Unk021D62A8;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_CLIENT_CanShadowTagTrap(void *p, void *q);
 extern int BTL_CLIENT_CanArenaTrapTrap(u8 *, void *);
 extern int BTL_CLIENT_CanMagnetPullTrap(void *p, void *q);
@@ -42,7 +42,7 @@ u32 BTL_CLIENT_FindTrapper(u8 *g, void *m, u8 *a, u16 *b)
     n = BTL_MAIN_CollectLivingPokeIds(((struct Obj01894 *)g)->f0, *(int *)&((struct Obj01894 *)g)->f4, (u16)(BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj01894 *)g)->f0, ((struct Obj01894 *)g)->f4, BTL_POKEPARAM_GetPokeId(m)) | 0x100), buf);
     for (i = 0; i < n; i++) {
         q = BTL_SIDE_GetPokeByIdThunk(((struct Obj01894 *)g)->f4, buf[i]);
-        k = func_021D59B4(q, 0x11);
+        k = BTL_POKEPARAM_GetValue(q, 0x11);
         BTL_POKEPARAM_GetPokeId(q);
         if (k == 0x17 && BTL_CLIENT_CanShadowTagTrap(g, m)) {
             *a = BTL_POKEPARAM_GetPokeId(q);

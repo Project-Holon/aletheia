@@ -52,7 +52,7 @@ typedef _Bool bool;
 
 typedef struct tagCOORD { unsigned short x, y; } COORD;
 
-typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
+#include "gx_oam_types.h"
 
 /* step.o's work area; no DWARF type reaches it, the layout is from the accesses:
    0x1C bytes allocated, five cells, the running task, the ending flag. */

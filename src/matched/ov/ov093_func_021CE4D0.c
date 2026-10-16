@@ -44,9 +44,9 @@
  *   BTL_CLIENT_FlushSlotLinkWord 0x021CF3B8 thumb ov093
  *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
  *   BTLV_CORE_CloseMenu 0x021E9954 thumb ov093
- *   func_021EAF18 0x021EAF18 thumb ov093
+ *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021EAF50 0x021EAF50 thumb ov093
+ *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
  *   BTL_CLIENT_ShowMessage 0x021CE3B4 thumb ov093
  *   BTL_CLIENT_StepAdvanceSlot 0x021CF220 thumb ov093
  *   BTL_CLIENT_StepShowSupportItemMessage 0x021CE7D4 thumb ov093
@@ -86,9 +86,9 @@ extern void func_021CE7C4(u8 *);
 extern void BTL_CLIENT_FlushSlotLinkWord(u8 *, u32);
 extern int BTLV_CORE_IsMenuClosed(u32);
 extern void BTLV_CORE_CloseMenu(void *);
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTL_CLIENT_ShowMessage(u8 *p, void *q);
 extern u32 BTL_CLIENT_StepAdvanceSlot(u8 *p, int *st);
 extern u32 BTL_CLIENT_StepShowSupportItemMessage(u8 *p, int *st);
@@ -196,8 +196,8 @@ int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st)
         ++*st; break;
     case 7:
         if (!BTLV_CORE_IsMenuClosed(W(0x54))) break;
-        func_021EAF18((struct L *)(p + 0x58), 1, 0xC5);
-        func_021EAF50((struct L *)(p + 0x58), BTL_POKEPARAM_GetPokeId(P(8)));
+        BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, 0xC5);
+        BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), BTL_POKEPARAM_GetPokeId(P(8)));
         BTL_CLIENT_ShowMessage(p, p + 0x58);
         ++*st; break;
     case 8:

@@ -17,7 +17,7 @@
  *   OS_SPrintf  0x02084F40  arm
  *   inet_addr  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
- *   func_0217EB18  0x0217EB18  arm  ov009
+ *   socket  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   gSBSortContext     0x021AEB04  data
@@ -60,7 +60,7 @@ extern u32 gsiSafeStrcpyA(char *dst, char *src, u32 size);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern u32 inet_addr(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int closesocket(int sock);
 
@@ -86,7 +86,7 @@ int ServerListConnect(SBServerList *slist)
         memcpy(&saddr.addr, hent->addrList[0], 4);
     }
     if (slist->sock == -1) {
-        slist->sock = func_0217EB18(2, 1, 0);
+        slist->sock = socket(2, 1, 0);
         if (slist->sock == -1)
             return 1;
     }

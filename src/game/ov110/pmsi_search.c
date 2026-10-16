@@ -59,10 +59,10 @@
  *   PMSI_SEARCH_BuildInputText  0x021BB00C  thumb  ov110
  *   PMSI_SEARCH_ClearInput 0x021BAFE4 thumb ov110
  *   PMSI_SEARCH_GetInputCount  0x021BAFDC  thumb  ov110
- *   func_021B99D8 0x021B99D8 thumb ov110
- *   func_021B99F0 0x021B99F0 thumb ov110
- *   func_021B9A3C 0x021B9A3C thumb ov110
- *   func_021B9A48 0x021B9A48 thumb ov110
+ *   PMS_INPUT_DATA_FilterWordList 0x021B99D8 thumb ov110
+ *   PMS_INPUT_DATA_GetInitialWordId 0x021B99F0 thumb ov110
+ *   PMS_INPUT_DATA_GetWordString 0x021B9A3C thumb ov110
+ *   PMS_INPUT_DATA_GetInvalidWordId 0x021B9A48 thumb ov110
  */
 #include "pms_input_data_shared_types.h"
 #include "pms_input_view_shared_types.h"
@@ -121,10 +121,10 @@ extern u16 func_02045F50(struct MsgBank *bank);
 extern u32 MSGSEARCH_Search(u32 *, u32, u32, struct U16Vec *, void *, u32);
 extern void STRBUF_SetStringN(struct U16Vec *o, const u16 *src, u32 len);
 
-u32 func_021B99D8(u32 a, u32 b, u32 c);
-u16 func_021B99F0(int unused, int id, int index);
-void func_021B9A3C(struct PmsInputData *data, u16 wordId, int mode);
-int func_021B9A48(u32 unused);
+u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c);
+u16 PMS_INPUT_DATA_GetInitialWordId(int unused, int id, int index);
+void PMS_INPUT_DATA_GetWordString(struct PmsInputData *data, u16 wordId, int mode);
+int PMS_INPUT_DATA_GetInvalidWordId(u32 unused);
 
 extern const char sPmsiSearchAllocSite[];
 extern const u16 sPmsiSearchBankFileIds[];
@@ -248,7 +248,7 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
         specialCount = 0;
         __builtin__clear(specialWords, sizeof(specialWords));
         for (i = 0; i < matchCount; i++) {
-            wordValue = func_021B99F0((int)s->wordData, initialId, i);
+            wordValue = PMS_INPUT_DATA_GetInitialWordId((int)s->wordData, initialId, i);
             isExcluded = 0;
             for (j = 0; j < 10; j++) {
                 if (wordValue == sPmsiSearchExcludedChars[j]) { isExcluded = 1; break; }
@@ -260,18 +260,18 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
                 specialCount++;
             }
         }
-        specialWords[specialCount] = func_021B9A48((u32)s->wordData);
-        s->hasResults = func_021B99D8((u32)s->wordData, (u32)specialWords, (u32)s->wordIds);
+        specialWords[specialCount] = PMS_INPUT_DATA_GetInvalidWordId((u32)s->wordData);
+        s->hasResults = PMS_INPUT_DATA_FilterWordList((u32)s->wordData, (u32)specialWords, (u32)s->wordIds);
         if (s->hasResults) return 1;
         return 0;
     } else {
         __builtin__clear(normalWords, sizeof(normalWords));
         matchCount = MSGSEARCH_Search(s->messageSearch, initialId, 0, s->inputText, s->results, PMSI_SEARCH_RESULT_MAX);
         for (i = 0; i < matchCount; i++) {
-            normalWords[i] = func_021B99F0((int)s->wordData, initialId, s->results[i].wordIndex);
+            normalWords[i] = PMS_INPUT_DATA_GetInitialWordId((int)s->wordData, initialId, s->results[i].wordIndex);
         }
-        normalWords[matchCount] = func_021B9A48((u32)s->wordData);
-        s->hasResults = func_021B99D8((u32)s->wordData, (u32)normalWords, (u32)s->wordIds);
+        normalWords[matchCount] = PMS_INPUT_DATA_GetInvalidWordId((u32)s->wordData);
+        s->hasResults = PMS_INPUT_DATA_FilterWordList((u32)s->wordData, (u32)normalWords, (u32)s->wordIds);
         if (s->hasResults) return 1;
         return 0;
     }
@@ -284,7 +284,7 @@ u8 PMSI_SEARCH_HasResults(struct PmsiSearch *s)
 
 void PMSI_SEARCH_GetResultString(struct PmsiSearch *s, u8 resultIndex, int dest)
 {
-    func_021B9A3C(s->wordData, s->wordIds[resultIndex], dest);
+    PMS_INPUT_DATA_GetWordString(s->wordData, s->wordIds[resultIndex], dest);
 }
 
 u16 PMSI_SEARCH_GetResultWordId(struct PmsiSearch *s, u32 resultIndex)

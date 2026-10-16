@@ -36,18 +36,8 @@ struct PmsivBgScroll {
     void *task;
 };
 
-struct V3;
-
-struct Obj_021BC160;
-
-struct Obj_021BC1B8;
-
 struct Bmp;
 
-typedef struct { void *root; u8 pad[0x18]; void *items[2][2]; } Obj_021BC160;
-
 typedef struct { short x,y; } Pair;
-
-typedef struct { void *root; u8 *state; int pad; void *desc[2]; u8 gap0[8]; void *items[2][2]; u8 gap[12]; Pair pos[2]; int pad40; int count; } Obj_021BC1B8;
 
 #endif

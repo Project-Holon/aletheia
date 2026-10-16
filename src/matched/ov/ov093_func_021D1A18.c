@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EAF18  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
  *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
  *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
@@ -28,7 +28,7 @@ typedef struct {
 } BattleSeq;
 
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 struct H;
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
@@ -37,7 +37,7 @@ int BTL_CLIENT_StepShowFixedMessage(BattleSeq *s, int *state)
 {
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)s->msg, 1, 0xb7);
+        BTLV_SCU_InitMessage((struct L *)s->msg, 1, 0xb7);
         BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
         (*state)++;
         break;

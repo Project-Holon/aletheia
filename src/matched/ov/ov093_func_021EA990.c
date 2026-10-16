@@ -12,7 +12,7 @@
  * symbols:
  *   BTLV_CORE_GetTaskWork  0x021E9100  thumb  ov093
  *   BTLV_EFFECT_SetPokeSpriteVisible  0x021F84B4  thumb  ov094
- *   func_021EAF00  0x021EAF00  thumb  ov093
+ *   BTLV_SCU_PlaySeUnlessMainStep  0x021EAF00  thumb  ov093
  *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_SCU_HideMonPair  0x021ED4E4  thumb  ov093
  *   BTLV_SCU_ShowMonPair  0x021ED510  thumb  ov093
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern u8 *BTLV_CORE_GetTaskWork(u8 *p, int n);
 extern void BTLV_EFFECT_SetPokeSpriteVisible(u32 a, u32 b);
-extern void func_021EAF00(u8 *p, int a);
+extern void BTLV_SCU_PlaySeUnlessMainStep(u8 *p, int a);
 extern int BTLV_EFFECT_IsBusy(void);
 extern void BTLV_SCU_HideMonPair(u8 *p, int a, int b);
 extern int BTLV_SCU_ShowMonPair(u8 *p, int a, int b);
@@ -36,7 +36,7 @@ int BTLV_CORE_ProcRotation(int *st, u8 *b)
     switch (*st) {
     case 0:
         BTLV_EFFECT_SetPokeSpriteVisible(t[1], t[2]);
-        func_021EAF00(b, 0x57b);
+        BTLV_SCU_PlaySeUnlessMainStep(b, 0x57b);
         *st = *st + 1;
         break;
     case 1:

@@ -1,5 +1,5 @@
 /*
- * function: func_0202A994
+ * function: TR_TOOL_AdjustPersonality
  * address:  0x0202A994
  * packet:   pkt_0202A440
  * region:   arm9
@@ -23,7 +23,7 @@ struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 
-void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
+void TR_TOOL_AdjustPersonality(u32 a, u32 b, int c, u32 *out, u16 d)
 {
     u32 t = c & 0xf;
     u32 u = (c & 0xf0) >> 4;

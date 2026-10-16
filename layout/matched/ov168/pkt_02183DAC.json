@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02183DAC",
+   "name": "MICTEST_StepRecord",
    "address": "0x02183DAC",
    "kind": "game",
    "region": "ov168",

@@ -50,6 +50,7 @@
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   WORDSET_CheckF448  0x0201F448  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *
  * Verified with
  *   python tools/match.py tu --src src/pending/POKE_TOOL_IsBoxOwnedByPlayer.c \
@@ -63,7 +64,7 @@ struct Sav;
 struct Sub0200852CObj;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_020084F8(void *dst, u32 value, u32 size);
@@ -83,11 +84,11 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail)
     u32 r = 0;
 
     a = func_02008530(mail);
-    b = func_02017E88(p, 7, 0);
+    b = POKE_TOOL_GetBoxValue(p, 7, 0);
     c = func_02008550(mail);
-    d = func_02017E88(p, 0x9A, 0);
+    d = POKE_TOOL_GetBoxValue(p, 0x9A, 0);
     func_020084F8(mail, (u32)gNameBuf, 0x20);
-    func_02017E88(p, 0x8E, (u32)gNameCompareBuf);
+    POKE_TOOL_GetBoxValue(p, 0x8E, (u32)gNameCompareBuf);
     if (a == b && c == d && WORDSET_CheckF448((const u16 *)gNameBuf, (const u16 *)gNameCompareBuf) != 0) {
         r = 1;
     }

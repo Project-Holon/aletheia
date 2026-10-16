@@ -1,9 +1,10 @@
 # Roadmap
 
-Current state (2026-10-15): milestones 1, 2, 2.5 and 2.75 are done. In milestone
+Current state (2026-10-16): milestones 1, 2, 2.5 and 2.75 are done. In milestone
 3 the ARM9 static image, ITCM, the DSi `twl` region and 181 of 243 regions link
 byte-identical from C; game code is 100.00 percent fully linked and all code is
-99.98 percent linked. The live figures are in `README.md`.
+100.00 percent fully linked (3,390,676 of 3,390,676 bytes, the SDK side
+included). The live figures are in `README.md`.
 
 ## Milestone 1: ROM extraction and rebuild (done)
 

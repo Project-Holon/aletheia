@@ -67,7 +67,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
  *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
@@ -276,7 +276,7 @@ extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 dataId, u32 arg
 extern int func_020079BC(struct BoxData *boxData, u32 box, u32 slot, int dataId, int arg);
 extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *saveControl);
 extern struct PokemonParam *BATTLE_BOX_GetMon(struct BattleBoxSave *battleBox, u32 team, u32 slot);
-extern u32 func_02017E88(struct PokemonParam *mon, u32 dataId, u32 arg);
+extern u32 POKE_TOOL_GetBoxValue(struct PokemonParam *mon, u32 dataId, u32 arg);
 extern int *FIELD_SUBPROC_Start(int overlayId, int *mapFunc, const int *procData);
 extern u32 FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
 extern struct PlayerLocation *func_02008854(struct SaveControl *saveControl);
@@ -731,8 +731,8 @@ int SCRCMD_CountBattleBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32
     added = 0;
     for (i = 0; i < BATTLE_BOX_SLOT_COUNT; i++) {
         struct PokemonParam *mon = BATTLE_BOX_GetMon(battleBox, team, i);
-        if (func_02017E88(mon, MON_DATA_HAS_SPECIES, 0) != 0) {
-            u32 otId = func_02017E88(mon, MON_DATA_OT_ID, 0);
+        if (POKE_TOOL_GetBoxValue(mon, MON_DATA_HAS_SPECIES, 0) != 0) {
+            u32 otId = POKE_TOOL_GetBoxValue(mon, MON_DATA_OT_ID, 0);
             if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
                 added++;
             }

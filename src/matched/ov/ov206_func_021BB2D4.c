@@ -1,5 +1,5 @@
 /*
- * function: func_021BB2D4
+ * function: ZUKAN_INFO_DisableActors
  * address: 0x021BB2D4
  * packet: pkt_ov206_021BB2D4
  * region: ov206
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021BB2D4(char *p)
+void ZUKAN_INFO_DisableActors(char *p)
 {
     unsigned char i;
     for (i = 0; i < 2; i++) {

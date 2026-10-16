@@ -17,8 +17,8 @@
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_02034F5C  0x02034F5C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_020808F4  0x020808F4  arm
- *   func_020809A0  0x020809A0  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
+ *   GX_ResetBankForSubBG  0x020809A0  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
@@ -92,8 +92,8 @@ extern u32 APP_ENV_IsRunOnTwl(void);
 extern void GFL_USE_PollPowerExit(void);
 extern void func_02034F5C(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern int func_020808F4(void);
-extern int func_020809A0(void);
+extern int GX_ResetBankForBG(void);
+extern int GX_ResetBankForSubBG(void);
 extern void func_0207FDCC(int mode);
 extern void GX_SetGraphicsMode(int layer, int x, int y);
 extern void *G2_GetBG1CharPtr(void);
@@ -163,8 +163,8 @@ void ERROR_SCREEN_Setup(int messageIndex)
 {
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_MAIN, -16);
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_SUB, -16);
-    func_020808F4();
-    func_020809A0();
+    GX_ResetBankForBG();
+    GX_ResetBankForSubBG();
     func_0207FDCC(4);
     GX_SetGraphicsMode(1, 0, 0);
     REG_DISPCNT_MAIN = (REG_DISPCNT_MAIN & 0xFFFFE0FF) | (1 << 9);
@@ -272,8 +272,8 @@ void ERROR_SCREEN_Teardown(void)
     MIi_CpuClear16(0, (u32)G2_GetBG1ScrPtr(), 0x800);
     MIi_CpuClear16(0x7FFF, PLTT_MAIN_BG, 0x20);
     REG_DISPCNT_MAIN &= 0xFFFFE0FF;
-    func_020809A0();
-    func_020808F4();
+    GX_ResetBankForSubBG();
+    GX_ResetBankForBG();
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_MAIN, 0);
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_SUB, 0);
 }

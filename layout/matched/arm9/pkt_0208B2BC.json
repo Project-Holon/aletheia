@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208B2BC",
+   "name": "MIC_StartAutoSamplingAsync",
    "address": "0x0208B2BC",
    "kind": "sdk",
    "region": "arm9",

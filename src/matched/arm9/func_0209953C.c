@@ -17,7 +17,7 @@
  *   _deq         0x0209BA3C  arm
  *   _dgeq        0x0209B7CC  arm
  *   scalbn  0x02097990  arm
- *   func_0209A524  0x0209A524  arm
+ *   floor  0x0209A524  arm
  *   init_jk      0x020A64A8  data
  *   PIo2         0x020A64B8  data
  *
@@ -35,7 +35,7 @@
 extern const int init_jk[];
 extern const double PIo2[];
 extern double scalbn(double x, int n);
-extern double func_0209A524(double x);
+extern double floor(double x);
 
 static const double
 zero   = 0.0,
@@ -71,7 +71,7 @@ recompute:
 	}
 
 	z  = scalbn(z,q0);
-	z -= 8.0*func_0209A524(z*0.125);
+	z -= 8.0*floor(z*0.125);
 	n  = (int) z;
 	z -= (double)n;
 	ih = 0;

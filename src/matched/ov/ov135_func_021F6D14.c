@@ -16,6 +16,7 @@
  *   WORLDTRADE_DEPOSIT_BuildOffer  0x021F8554  thumb
  *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 
 typedef signed char s8;
@@ -53,7 +54,7 @@ typedef struct {
     WantTag want;
 } Deposit;
 
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern void WORLDTRADE_DEPOSIT_BuildOffer(Deposit *dst, Work *p);
 extern void *POKE_TOOL_GetBoxParam(void *a);
@@ -64,14 +65,14 @@ void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p)
     WantTag w;
     void *e;
 
-    m.species = func_02017E88(p->mon, 5, 0);
-    m.form = func_02017E88(p->mon, 0x6E, 0) + 1;
+    m.species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
+    m.form = POKE_TOOL_GetBoxValue(p->mon, 0x6E, 0) + 1;
     m.gender = POKE_TOOL_CalcBoxLevel(p->mon);
     dst->have = m;
     WORLDTRADE_DEPOSIT_BuildOffer(dst, p);
     e = POKE_TOOL_GetBoxParam(p->list[p->sel]);
-    w.species = func_02017E88(e, 5, 0);
-    w.form = func_02017E88(e, 0x6E, 0) + 1;
+    w.species = POKE_TOOL_GetBoxValue(e, 5, 0);
+    w.form = POKE_TOOL_GetBoxValue(e, 0x6E, 0) + 1;
     w.b3 = 0;
     w.b4 = 0;
     dst->want = w;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0202BDE8",
+   "name": "ISS_3DS_SYS_RampPanUp",
    "address": "0x0202BDE8",
    "kind": "game_unit",
    "region": "arm9",
@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202BDE8"
+    "ISS_3DS_SYS_RampPanUp"
+   ],
+   "addresses": [
+    "0x0202BDE8"
    ]
   },
   {

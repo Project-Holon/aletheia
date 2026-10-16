@@ -1,5 +1,5 @@
 /*
- * function: func_02184398
+ * function: MICTEST_InitMic
  * address:  0x02184398
  * packet:   pkt_ov168_02184398
  * region:   ov168
@@ -30,7 +30,7 @@ extern void SND_MIC_Init(u16 heap);
 extern void UI_SetKeepAwakeFlagsGlobal(u32 v);
 extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u32 SND_MIC_IsLimitReached(void);
-void func_02184398(u8 *p, int heap, u32 b, u32 c)
+void MICTEST_InitMic(u8 *p, int heap, u32 b, u32 c)
 {
     u8 *buf;
     SND_MIC_Init(heap);

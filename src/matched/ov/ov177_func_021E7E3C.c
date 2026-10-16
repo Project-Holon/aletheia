@@ -44,6 +44,10 @@
  *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb  arm9
  *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
  *   BG_SYS_PushTile  0x020409B4  arm  arm9
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb  arm9
+ *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb  arm9
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb  arm9
  *
  * The temporary heap id is formed twice: once through an inline that
  * rewrites its own parameter (the image copies heap before the and), held
@@ -85,12 +89,12 @@ struct WordSet;
 extern void *func_0200BAF4(int a0, int a1);
 extern void func_0204989C(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, u16 flags);
 extern void *func_020490F4(unsigned int id, unsigned heap);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 struct MsgBank;
 struct Obj;
 struct StrObj;
@@ -98,7 +102,7 @@ struct Vec2;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern unsigned POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
+extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern unsigned POKE_TOOL_GetGraphicIndex(void *);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -160,11 +164,11 @@ Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused,
     party = func_0200BAF4((int)src, (u16)h);
     func_0204989C((int)0x85, (int)7, (int)2, (int)0, (int)0, (int)0, h);
     handle = func_020490F4(7, (unsigned)heap);
-    work->pal = (void *)CLACT_RegisterPaletteCompressed(handle, func_0201BC3C(), 0, 0xA0, h);
-    work->cell = (void *)CLACT_RegisterCellAnim(handle, func_0201BC40(), func_0201BCB4(), (u16)h);
+    work->pal = (void *)CLACT_RegisterPaletteCompressed(handle, POKE_TOOL_GetIconPaletteArcId(), 0, 0xA0, h);
+    work->cell = (void *)CLACT_RegisterCellAnim(handle, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), (u16)h);
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         mon = POKEPARTY_GetMember(party, (int)i);
-        if (func_02017E1C(mon, 0xA9, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0) {
             work->chr[i] = (void *)CLACT_RegisterCharacter(handle, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(mon)), 0, 0, h);
         }
     }
@@ -181,11 +185,11 @@ Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused,
     req.a = 1;
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         mon = POKEPARTY_GetMember(party, (int)i);
-        if (func_02017E1C(mon, 0xA9, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0) {
             req.x = i * 0x28 + 0x18;
             work->spr[i] = CLACT_CreateActor(owner, work->chr[i], work->pal, work->cell, &req, 0, heap);
             CLACT_SetActorPaletteOffset(work->spr[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 0);
-            if (func_02017E1C(mon, 6, 0) != 0) {
+            if (POKE_TOOL_GetPartyValue(mon, 6, 0) != 0) {
                 req2 = req;
                 req2.x += 12;
                 req2.y += 8;
@@ -202,7 +206,7 @@ Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused,
     sFemale = func_02045EC0(msg, 0x65);
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
         mon = POKEPARTY_GetMember(party, (int)i);
-        if (func_02017E1C(mon, 0xA9, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0) {
             work->win[i] = (void *)BMP_WIN_Create((unsigned char)1, (unsigned char)(i * 5 + 1), (unsigned char)4, (unsigned char)5, 6, 15, 1);
             win = work->win[i];
             BMP_WIN_TransferChars(win);
@@ -210,14 +214,14 @@ Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused,
             BG_SYS_PushTile((int)BMP_WIN_GetBgLayer(win));
             work->ent[i].win = work->win[i];
             work->ent[i].shown = 0;
-            if (func_02017E1C(mon, 0x6E, 0) == 0) {
+            if (POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 0) {
                 PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), 0x20, 0, sMale, font, 0x14C0);
                 work->ent[i].shown = 1;
-            } else if (func_02017E1C(mon, 0x6E, 0) == 1) {
+            } else if (POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 1) {
                 PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), 0x20, 0, sFemale, font, 0xC80);
                 work->ent[i].shown = 1;
             }
-            level = func_02017E1C(mon, 0x9E, 0);
+            level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
             WORDSET_SetSlotNumber(fmt, 0, level, 3, 1, 1);
             WORDSET_CopyTaggedText(fmt, buf, sLevel);
             x = 20 - func_0201D304(buf, font, 0) / 2;

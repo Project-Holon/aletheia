@@ -102,8 +102,6 @@
  *   WORLDTRADE_ADAPTER_PrintNumber 0x02202A50 thumb ov135
  */
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj23404.h"
-#include "../../matched/include/Obj23405.h"
 
 typedef struct {
     u32 w00;
@@ -152,7 +150,7 @@ typedef struct {
     u8 b7a;
     u8 pad7b;
     u8 sub[0x13c];
-} Menu_021F9024;
+} InputMenu;
 
 typedef struct {
     u8 up;
@@ -199,7 +197,7 @@ extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h)
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap);
-extern void WORLDTRADE_ADAPTER_ExitMessageSystem(Ctx_02202A50 *p);
+extern void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *g);
@@ -224,9 +222,9 @@ void ov135_func_021F9260(Menu *p, u32 mode);
 extern int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
 extern void WORLDTRADE_ADAPTER_QueueMessagePrint(struct Obj *p, int arg1, void *arg2, int arg3, int arg4);
 extern int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
-void WORLDTRADE_ADAPTER_PrintNumber(Ctx_02202A50 *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
+void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
 void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode);
-Menu_021F9024 *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b);
+InputMenu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b);
 void WORLDTRADE_INPUT_MenuSetMode(Menu *p, int mode);
 void WORLDTRADE_INPUT_MenuDelete(Menu *p);
 int WORLDTRADE_INPUT_MenuUpdate(Menu *p);
@@ -317,7 +315,7 @@ extern const CurPos tbl_02203216[];
 extern const Link tbl_0220339C[];
 extern const Cell tbl_02203298[];
 extern const CurPos tbl_02203236[];
-extern const Range_021FA7C4 tbl_022033F8[];
+extern const Range tbl_022033F8[];
 extern const u32 tbl_02203440[];
 extern u8 g_022033FC[];
 extern u8 g_0220320E[];
@@ -418,9 +416,9 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
 }
 
 
-Menu_021F9024 *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b)
+InputMenu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b)
 {
-    Menu_021F9024 *m;
+    InputMenu *m;
 
     m = func_02030734(0x48, 0x1b8, 0, (const char *)g_02203CD8, 0x336);
     m->w00 = init->w00;
@@ -2036,8 +2034,8 @@ int WORLDTRADE_INPUT_DrawConditionListScreen(Menu *p)
     WORLDTRADE_INPUT_PrintPageNumberB(p,0,p->total);
     p->page=0;
     pages=WORLDTRADE_INPUT_PlayCursorSe((u8 *)(p->total),5);
-    WORLDTRADE_INPUT_PrintPageLabel(p->mgr,p->num,((struct Obj23404 *)(*(u8 * *)&p->wins))->f14,p->page,pages);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr,p->bank,((struct Obj23405 *)(*(u8 * *)&p->wins))->f38,0x4A,(u8 *)p+0x7C);
+    WORLDTRADE_INPUT_PrintPageLabel(p->mgr,p->num,p->wins[5],p->page,pages);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr,p->bank,p->wins[14],0x4A,(u8 *)p+0x7C);
     BGWINFRM_PutFrame(p->mgr,0,1,0);
     p->pos=0;
     WORLDTRADE_SetActorPos(p->cursor,tbl_02203236[p->pos].x,tbl_02203236[p->pos].y);

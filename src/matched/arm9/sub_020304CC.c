@@ -8,19 +8,19 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020304CC
+ * function: GFL_HEAP_IsHeapValid
  *
  * Heap validity probe: the same two guards that open the raw allocator
- * sub_02030098, with the allocation itself removed.
+ * GFL_HEAP_AllocMemory, with the allocation itself removed.
  *
- *   BOOL sub_020304CC(u32 heapId)
+ *   BOOL GFL_HEAP_IsHeapValid(u32 heapId)
  *
  * It masks the heap id with 0x7fff (bit 15 is the allocator's high/low
  * direction flag, meaningless here but still masked off), bounds-checks it
  * against g_EnvModule.count, then resolves the arena through GFL_HEAP_GetHeap.
  * Each failure stamps its own code into g_EnvModule.error, 1 for an id out
  * of range and 2 for an id that maps to no live heap, exactly the codes
- * sub_02030098 uses, and returns 0; success writes 0 and returns 1. The
+ * GFL_HEAP_AllocMemory uses, and returns 0; success writes 0 and returns 1. The
  * callers treat the return as a pointer-ish truth value (see
  * src/pending/GFL_HEAP_GetHeapHeadChecked.c), but the code here materialises a plain 1.
  *
@@ -45,8 +45,8 @@
  *   GFL_HEAP_GetHeap  0x0202FBAC  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020304CC.c \
- *       --func sub_020304CC --addr 0x020304CC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_IsHeapValid.c \
+ *       --func GFL_HEAP_IsHeapValid --addr 0x020304CC --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -67,7 +67,7 @@ extern struct EnvModule g_EnvModule;
 
 extern void *GFL_HEAP_GetHeap(u32 idx);
 
-u32 sub_020304CC(u32 heapId)
+u32 GFL_HEAP_IsHeapValid(u32 heapId)
 {
     void *arena;
 

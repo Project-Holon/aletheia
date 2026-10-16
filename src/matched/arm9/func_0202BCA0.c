@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202BCA0
+ * function: ISS_3DS_SYS_CalcSourcePan
  * address:  0x0202BCA0
  * packet:   pkt_0202BCA0
  * region:   arm9
@@ -54,7 +54,7 @@ extern void VEC_CrossProduct(const struct Vec *a, const struct Vec *b,
                              struct Vec *out);
 extern s32  VEC_DotProduct(const struct Vec *a, const struct Vec *b);
 
-s32 func_0202BCA0(const struct Listener *l, const struct Vec *ps,
+s32 ISS_3DS_SYS_CalcSourcePan(const struct Listener *l, const struct Vec *ps,
                   const struct Vec *pp)
 {
     struct Vec d;

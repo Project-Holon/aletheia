@@ -23,7 +23,7 @@
  *   ICA_ANIME_GetField114  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_020355C4  0x020355C4  arm
  *   func_020056A0  0x020056A0  thumb
@@ -352,7 +352,7 @@ extern void *ICA_ANIME_GetField1C(void *gameSystem);
 extern void *ICA_ANIME_GetField114(void *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
 extern void *GAME_DATA_GetEventWork(void *gameData);
-extern void *func_02012944(void *gameData);
+extern void *GAME_DATA_GetMyStatus(void *gameData);
 extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
 extern u8 func_020355C4(void);
 extern void *func_020056A0(void *callback, void *work, int priority);
@@ -510,7 +510,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     menu->state = FIELD_MENU_STATE_WAIT_PRINT;
     menu->zoneId = GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(gameSystem));
     menu->eventWork = GAME_DATA_GetEventWork(gameData);
-    menu->myStatus = func_02012944(gameData);
+    menu->myStatus = GAME_DATA_GetMyStatus(gameData);
     menu->mapInfo = FIELDMAP_GetMsgBg(fieldMap);
     menu->cursorCol = 0;
     menu->cursorRow = 0;

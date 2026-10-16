@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020348A4",
+   "name": "GF_OVERLAY_PanicPrint",
    "address": "0x020348A4",
    "kind": "game",
    "region": "arm9",

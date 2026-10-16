@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0FC
+ * function: ZUKAN_INFO_FlushMainWindow
  * address:  0x021BB0FC
  * packet:   pkt_ov206_021BB0FC
  * region:   ov206
@@ -26,7 +26,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 
-void func_021BB0FC(void *obj)
+void ZUKAN_INFO_FlushMainWindow(void *obj)
 {
     int p;
 

@@ -1,5 +1,5 @@
 /*
- * function: sub_02034978
+ * function: GF_OVERLAY_RegisterPanicHandlers
  * address:  0x02034978
  * packet:   pkt_02034714
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02034768  0x02034768  arm
- *   func_020348A4  0x020348A4  arm
+ *   GF_OVERLAY_PanicPrint  0x020348A4  arm
  *   func_02034900  0x02034900  arm
  *   SAVEDATA_SetPanicHandlers  0x020346EC  arm
  *
@@ -26,18 +26,18 @@
  * they stay unresolved under the honesty rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034978.c \
- *       --func sub_02034978 --addr 0x02034978 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GF_OVERLAY_RegisterPanicHandlers.c \
+ *       --func GF_OVERLAY_RegisterPanicHandlers --addr 0x02034978 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern void func_02034768(void);
-extern void func_020348A4(char *s);
+extern void GF_OVERLAY_PanicPrint(char *s);
 extern void func_02034900(void);
 extern void SAVEDATA_SetPanicHandlers(u32 a, u32 b, u32 c);
 
-void sub_02034978(void)
+void GF_OVERLAY_RegisterPanicHandlers(void)
 {
-    SAVEDATA_SetPanicHandlers((u32)func_02034768, (u32)func_020348A4, (u32)func_02034900);
+    SAVEDATA_SetPanicHandlers((u32)func_02034768, (u32)GF_OVERLAY_PanicPrint, (u32)func_02034900);
 }

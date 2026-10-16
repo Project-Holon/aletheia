@@ -26,7 +26,7 @@
  *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
  *   BTL_MAIN_DecodeMessageCode 0x021B8778 thumb ov093
  *   BTL_SIDE_GetPokeAtPosThunk 0x021B98A4 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
  */
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ extern int BTL_MAIN_GetTrainerSlotOfPoke(void *, void *, u32);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern u8 BTL_MAIN_DecodeMessageCode(struct Unk021B8CB0 **p, int k, u8 *out);
 extern u8 *BTL_SIDE_GetPokeAtPosThunk(char * const *q, u8 b);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u32 BTL_CALC_Random(u32);
 int BTL_SERVER_FLOW_RetargetFaintedMoveTarget(u8 *p, u32 mode, void *m, const u16 *item, u8 self, void *out)
 {
@@ -87,8 +87,8 @@ int BTL_SERVER_FLOW_RetargetFaintedMoveTarget(u8 *p, u32 mode, void *m, const u1
         d1 = indices[1] - self;
         if (d1 < 0) d1 *= -1;
         if (d0 == d1) {
-            d0 = func_021D59B4((void *)members[0], 13);
-            d1 = func_021D59B4((void *)members[1], 13);
+            d0 = BTL_POKEPARAM_GetValue((void *)members[0], 13);
+            d1 = BTL_POKEPARAM_GetValue((void *)members[1], 13);
         }
         if (d0 < d1) choice = 0;
         else if (d1 < d0) choice = 1;

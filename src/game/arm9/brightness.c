@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   G2x_SetBlendBrightness_   0x0207D658  arm
  *   g_brightnessMain    0x0214691C  data
  *   g_brightnessRecords   0x021468FC  data
@@ -44,7 +44,7 @@ struct BrightnessChange {
 };
 
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void BRIGHTNESS_ChangeStep(struct BrightnessChange *p);
 void BRIGHTNESS_ChangeInit(struct BrightnessChange *p, u16 steps, s16 from, s16 to, u32 plane, u32 screenMask);
@@ -165,9 +165,9 @@ void BRIGHTNESS_ChangeStep(struct BrightnessChange *p)
         flag = 1;
     }
     if (p->screenMask & 1) {
-        func_0207D658((u32)((void *)0x04000050), p->plane, p->current);
+        G2x_SetBlendBrightness_((u32)((void *)0x04000050), p->plane, p->current);
     } else if (p->screenMask & 2) {
-        func_0207D658((u32)((void *)0x04001050), p->plane, p->current);
+        G2x_SetBlendBrightness_((u32)((void *)0x04001050), p->plane, p->current);
     }
     if (flag == 1)
         p->active = 0;
@@ -285,10 +285,10 @@ void BRIGHTNESS_ChangeRequest(u16 steps, s16 from, s16 to, u32 plane, u32 mask)
 void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask)
 {
     if (mask & 1) {
-        func_0207D658(0x04000050, a1, a0);
+        G2x_SetBlendBrightness_(0x04000050, a1, a0);
     }
     if (mask & 2) {
-        func_0207D658(0x04001050, a1, a0);
+        G2x_SetBlendBrightness_(0x04001050, a1, a0);
     }
     BRIGHTNESS_ChangeReset(mask);
 }

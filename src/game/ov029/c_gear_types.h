@@ -15,7 +15,7 @@ struct ButtonTask;
 struct FadeCtx;
 struct GameSystem;
 struct HexMap;
-struct PalAnm;
+struct PalAnmSlot;
 struct VBlankTask;
 
 struct CGearWork;
@@ -95,7 +95,7 @@ typedef struct CGearFadeFx {
     int active;
     int palette;            /* palette offset handed to PALANM_RequestFade */
     struct Actor *actor;
-    struct PalAnm *palAnm;
+    struct PalAnmSlot *palAnm;
     struct FadeCtx *fadeCtx;
 } CGearFadeFx;
 
@@ -126,7 +126,7 @@ typedef struct CGearWork {
     struct FadeCtx *fadeCtx;        /* 0x204 */
     struct VBlankTask *palTransferTask;     /* 0x208 */
     void *fadeMem;                  /* 0x20C */
-    struct PalAnm *palAnm;          /* 0x210 */
+    struct PalAnmSlot *palAnm;          /* 0x210 */
     int command;                    /* 0x214 */
     int lastCommand;                /* 0x218 */
     CGearFadeFx fadeFx;             /* 0x21C */

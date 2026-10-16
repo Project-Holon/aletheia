@@ -13,7 +13,7 @@
  *   GFL_HEAP_GetHeap   0x0202FBAC  arm
  *   GFL_HEAP_GetParentHeap   0x0202FBD0  arm
  *   GFL_HEAP_GetBlock   0x0202FBF8  arm
- *   func_02060C94  0x02060C94  arm
+ *   NNSi_FndDestroyExpHeap  0x02060C94  arm
  *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   g_02146954     0x02146954  data
  *
@@ -77,7 +77,7 @@ extern struct G02146954 g_02146954;
 extern void *GFL_HEAP_GetHeap(u32 id);
 extern u32 GFL_HEAP_GetParentHeap(u32 idx);
 extern u32 GFL_HEAP_GetBlock(u32 idx);
-extern void  func_02060C94(void *block);
+extern void  NNSi_FndDestroyExpHeap(void *block);
 struct ExpHeap;
 extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 
@@ -97,7 +97,7 @@ u32 GFL_HEAP_Delete(u32 handle)
         a = (void *)GFL_HEAP_GetParentHeap(handle);
         b = (void *)GFL_HEAP_GetBlock(handle);
         slot = g_02146954.slot[handle];
-        func_02060C94(block);
+        NNSi_FndDestroyExpHeap(block);
 
         if (a == 0 || b == 0) {
             if (g_02146954.table[slot].unk0E == 0) {

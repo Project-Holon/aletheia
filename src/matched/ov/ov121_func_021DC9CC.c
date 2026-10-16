@@ -16,7 +16,7 @@
  *   MYSTERY_UTIL_SetTaskHandler 0x021DA8B0 thumb ov121
  *   MYSTERY_ALBUM_SelectHandler 0x021DC08C thumb ov121
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   MYSTERY_ALBUM_SwapCards 0x021DBCC8 thumb ov121
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -34,7 +34,7 @@ extern void MYSTERY_UTIL_SetTaskHandler(u32 *,u32);
 extern void MYSTERY_ALBUM_SelectHandler(void *,u32 *,char *);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 extern void MYSTERY_ALBUM_SwapCards(struct Obj *o, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void MYSTERY_ALBUM_DeleteSlotActor(char *,int,u16);
@@ -107,7 +107,7 @@ void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p)
         }
         outside(30,0);*state=2;break;
     case 2:
-        func_0207D658(0x04000050,30,W(0xae8)*16/30);
+        G2x_SetBlendBrightness_(0x04000050,30,W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=3;}break;
     case 3:
         MYSTERY_ALBUM_SwapCards((struct Obj *)p,index,H(0xade));GFL_USE_PlaySeDefaultVolume(0x670);
@@ -124,7 +124,7 @@ void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p)
         }
         BG_SYS_PushTile(3);W(0xa78)=1;*state=4;break;
     case 4:
-        func_0207D658(0x04000050,30,16-W(0xae8)*16/30);
+        G2x_SetBlendBrightness_(0x04000050,30,16-W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}break;
     case 5:*(volatile u32 *)0x04000000 &=~0xe000;*state=6;break;
     case 6:

@@ -34,17 +34,17 @@
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
- *   func_021D54F4 0x021D54F4 thumb ov093
+ *   BTL_POKEPARAM_CopyMoves 0x021D54F4 thumb ov093
  *   BTL_POKEPARAM_IsIllusionActive  0x021D6C24  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   BTL_POKEPARAM_Delete 0x021D53B8 thumb ov093
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   BTL_POKEPARAM_Create 0x021D4D84 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_SetFakeMon 0x021D5848 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   BTL_POKEPARAM_WriteBackToParam 0x021D6B84 thumb ov093
@@ -154,7 +154,7 @@
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
  *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  *   BTL_EVENT_SetVarRanged  0x021D7674  thumb  ov093
@@ -162,7 +162,7 @@
  *   BTL_ACTION_GetFightMove  0x021D8340  thumb  ov093
  *   BTL_POSPOKE_IsPokeInside 0x0689D588 thumb ov095
  *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
- *   func_021D69AC 0x021D69AC thumb ov093
+ *   BTL_POKEPARAM_GetCounter 0x021D69AC thumb ov093
  *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
  *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb
  *   BTL_MAIN_GetPlayerStatus 0x021B871C thumb ov093
@@ -175,7 +175,7 @@
  *   BTL_POKESET_GetCount 0x0689CD38 thumb ov095
  *   BTL_POKESET_Get 0x0689CC70 thumb ov095
  *   BTL_POSPOKE_SwapPos 0x0689D4F0 thumb ov095
- *   func_021D58A8  0x021D58A8  thumb  ov093
+ *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
  *   BTL_CLIENT_SET_Add 0x021D8244 thumb ov093
  *   BTL_SICK_ForceGroundedByTrap 0x0689C68C thumb ov095
  *   HAND_TOKUSEI_AddAbilityHandlers 0x021D8484 thumb ov093
@@ -266,10 +266,10 @@
  *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
  *   BTL_CALC_HasDefaultSickCont 0x021D7D6C thumb ov093
  *   BTL_FIELD_GetCountdownValue  0x021EF884  thumb  ov093
- *   func_021D70E4 0x021D70E4 thumb ov093
+ *   BTL_EVENT_DispatchEvent 0x021D70E4 thumb ov093
  *   WAZA_TOOL_GetRankEffectCount 0x0201C020 thumb
  *   WAZA_TOOL_GetRankEffect  0x0201C0BC  thumb
- *   func_021D5D14 0x021D5D14 thumb ov093
+ *   BTL_POKEPARAM_CanChangeStatStage 0x021D5D14 thumb ov093
  *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
  *   BTL_CALC_SummarizeTypeAffinity 0x021D7AD4 thumb ov093
  *   BTL_POKEPARAM_ZeroHp  0x021D5FB8  thumb  ov093
@@ -414,7 +414,7 @@
  *   _s32_div_f 0x0209C0A4 arm
  *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
  *   BTL_POKEPARAM_AddCritStage  0x021D5F38  thumb  ov093
- *   func_021D5450  0x021D5450  thumb  ov093
+ *   BTL_POKEPARAM_CountRealMoves  0x021D5450  thumb  ov093
  *   BTL_POKEPARAM_GetRealMovePPLost  0x021D5568  thumb  ov093
  *   BTL_POKEPARAM_GetRealMoveId  0x021D54D0  thumb  ov093
  *   BTL_ID_GetItemCuredSick 0x0689C9E4 thumb ov095
@@ -459,9 +459,9 @@
  *   BTLV_CORE_InitInputWork  0x021EAA00  thumb  ov093
  *   BTLV_CORE_CancelWindowModeSelect  0x021EAA5C  thumb  ov093
  *   BTLV_CORE_PollWindowModeSelect  0x021EAA34  thumb  ov093
- *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EAF50  0x021EAF50  thumb  ov093
- *   func_021EAF78  0x021EAF78  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_AppendMessageArg  0x021EAF50  thumb  ov093
+ *   BTLV_SCU_SetMessageParam  0x021EAF78  thumb  ov093
  *   BTL_REC_ReadRecord 0x021EE6B8 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
@@ -618,7 +618,7 @@
  *   BTLV_CORE_UpdateBallWindowClose 0x021EADF4 thumb ov093
  *   gExpGainWork 0x021F3B64 data a4
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
- *   func_020181F4   0x020181F4  thumb
+ *   POKE_TOOL_SetMoveSlot   0x020181F4  thumb
  *   POKE_TOOL_GetLevelUpMove   0x02018328  thumb
  *   BTLV_CORE_BuildAndPrintMessageFlag   0x021EA638  thumb ov093
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
@@ -744,7 +744,7 @@
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
  *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
- *   func_021D6DC4  0x021D6DC4  thumb  ov093
+ *   BTL_POKEPARAM_ClearFoughtList  0x021D6DC4  thumb  ov093
  *   gBtlPokeparamFileName     0x021F3AA4  data  a1
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_GetGender  0x02017F00  thumb
@@ -773,25 +773,17 @@ typedef unsigned long long u64;
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 #define va_arg(ap, t) (*(t *)((ap += 4) - 4))
 struct Unk021B8CB0;
-struct S2;
-struct Q1;
-struct S_021B8CB0;
+
 struct Party;
 struct U16Vec;
 struct Rec8;
 struct Buf;
 struct Sub02008C20Obj;
 struct Flags;
-struct T;
 struct QA;
-struct Q5;
-struct Q7;
-struct Q6;
-struct Q4;
 struct UtilWork;
 struct Unk021D82FC;
 struct Msg;
-struct O;
 struct Out64B4;
 struct Unk021BE518;
 struct Unk021D82D0;
@@ -799,32 +791,25 @@ struct UtilSlots;
 struct QL;
 struct QI;
 struct S_p12;
-struct Q_021C0CB4;
-struct Q_021C0CE8;
+
+
 struct Entry_p11;
+struct BtlvMessage;
 struct Obj;
 struct Result;
 struct Pack;
-struct Rec_021CD6F0;
-struct Q9;
+struct BtlClientRecord;
 struct Cmd;
-struct Q10;
 struct S_p14;
 struct Unk021D6C50;
 struct Unk021D6C2C;
 struct Unk021EFD70;
 struct Sav;
-struct Q2;
 struct QE;
-struct Q3;
-struct L;
-struct H;
 struct QG;
 struct QV;
-struct G;
 struct Rat;
-struct G_021CFD50;
-struct S;
+
 struct BtlvCore;
 struct BtlPokeContainer;
 struct BtlPokeParam;
@@ -832,113 +817,55 @@ struct Link;
 struct Entry;
 struct Unk021B8CB0 { u32 f0; u32 mode; };
 
-typedef struct { u8 pad[0xC1]; unsigned char flag:1; unsigned char rest:7; } Flags_021B9184;
+typedef struct { u8 pad[0xC1]; unsigned char flag:1; unsigned char rest:7; } BtlMainRecordFlags;
 
 struct Unk021EFD70 { u16 n0; volatile u16 n1; u8 b[6]; };
 
 /* 021B9B54  ldrb r3,[r0,#0x18]; adds r2,r3,#1; strb r2,[r0,#0x18];
  *           lsls r2,r3,#2; str r1,[r0,r2] */
-struct Q1 { u32 items[6]; u8 count; };
 
 /* 021B9BF0  ldrb r2,[r0,#0x18]; cmp r1,r2; bhs; lsls r1,#2; ldr r0,[r0,r1] */
-struct S2 { u8 *items[6]; u8 count; };
 
-struct H {
-    u16 a, b, c, d;
-};
 
-struct A {
-    int vt;
-    int q;
-    u16 h8;
-    u16 ha;
-    int c;
-    u16 h[4];
-    struct H s18;
-    struct H s20;
-};
 
-struct B_021B9A00 {
-    int f0;
-    int f4;
-    int f8;
-    char b[8];
-    int f14;
-    struct H s18;
-    struct H s20;
-};
 
-struct B_021B9EF0 {
-    int f0;
-    int f4;
-    int f8;
-    char b[8];
-    int f14;
-    struct H s18;
-    struct H s20;
-    char pad[0x68 - 0x28];
-    int f68;
-};
+
+
 
 /* 021BA08C  movs r1,#0xaf; lsls r1,#2; ldr r0,[r0,r1] */
-struct Q2 { u8 pad[0x2bc]; u32 v; };
 
-struct S_021B8CB0 { char pad[0x298]; void *a[4]; void *b[4]; void *c; };
+
 
 /* 021BA5D0  movs r1,#0x11; lsls r1,#6; ldrh r0,[r0,r1] */
-struct Q3 { u8 pad[0x440]; u16 v; };
 
-struct T {
-    int w[6];
-};
 
 /* 021BB840  strb r1,[r0,#0xb]; str r2,[r0]; strb r3,[r0,#0xa] */
-struct Q4 { u32 w; u8 pad[6]; u8 c; u8 b; };
 
 /* 021BB964  ldr r0,[r0,#0x44] */
-struct Q5 { u8 pad[0x44]; u32 v; };
 
 struct Unk021BE518 { u8 f0; u8 f1[6]; };
 
 struct Buf { u32 wpos, rpos; };
 
-struct S { u32 id[6]; u16 a[6], b[6]; u8 c[6]; u16 d[6]; u8 n, max, f44, f45; };
 
-struct Rec_021CD6F0 { u32 value; u16 kind; u8 data, flag; };
+struct BtlClientRecord { u32 value; u16 kind; u8 data, flag; };
 
-struct O { u32 pos; struct Rec_021CD6F0 r[120]; };
 
 struct Entry { u16 value; u16 id:5; u16 mode:4; u16 type:4; u16 marked:1; u16 special:1; u16 error:1; };
 
-struct List_021BDB88 { u8 good, bad, count, pad; struct Entry entries[1]; };
 
-struct Ent_021C0CB4 {
-    u16 v;
-    u16 lo:5;
-    u16 b:4;
-    u16 c:4;
-    u16 d:1;
-    u16 e:1;
-    u16 f:1;
-};
 
-struct Q_021C0CB4 { u8 pad0[2]; u8 n; u8 pad3; struct Ent_021C0CB4 e[]; };
 
-struct Ent_021C0CE8 {
-    u16 v;
-    u16 lo : 5;
-    u16 b : 4;
-    u16 c : 4;
-    u16 d : 1;
-    u16 e : 1;
-    u16 f : 1;
-};
 
-struct Q_021C0CE8 { u8 pad0[2]; u8 n; u8 pad3; struct Ent_021C0CE8 e[1]; };
+
+
+
+
+
 
 struct Entry_p08 { u16 value; u16 id:5, mode:4, type:4, marked:1, special:1, error:1; };
 
-struct List_021C0F24 { u8 good, bad, count, pad; struct Entry_p08 entries[1]; };
+
 
 struct Entry_p11 { u32 value; u8 flag; u8 a, b, c, d, e, f, pad; };
 
@@ -956,10 +883,8 @@ struct Out64B4 {
 typedef enum { KIND_NONE, KIND_FIRST, KIND_SECOND } Kind;
 
 /* 021C7CD4  movs r1,#0x7e; lsls r1,#6; ldrh r0,[r0,r1] */
-struct Q6 { u8 pad[0x1f80]; u16 v; };
 
 /* 021C8138  ldr r0,[r0,#0x10]; lsls r0,#0x10; lsrs r0,#0x10 */
-struct Q7 { u8 pad[0x10]; u32 v; };
 
 struct S_p12 {
     u16 x;
@@ -969,35 +894,24 @@ struct S_p12 {
     u32 arr[8];
 };
 
-typedef struct {
-    u32 pad : 8; u32 idx : 5; u32 mid : 10; u32 fl : 1; u32 top : 8;
-    int value;
-    u8 targets[12];
-    u8 count;
-    u8 flag;
-    u8 gap[2];
-    struct Msg msg;
-} Ent_021C9068;
 
-typedef struct { u32 low:8, index:5, pad:10, flag:1, high:8; u32 kind; union Slot value; u8 a,b,c,id,d; u8 pad11[3]; u8 msg[36]; } Ent_021C9178;
 
-typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; enum Kind kind; u32 value; s8 a; u8 b,c,count; u8 ids[8]; u8 msg[36]; } Ent_021C9250;
+
+
+
 
 struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
 
 struct Flags { u32 a:1; u32 b:31; };
 
-struct T6 { u8 f0; u8 f1; u16 f2; u16 f4; };
 
 struct S_p14 {
     unsigned int x : 10;
 };
 
 /* 021CC96C  ldr r0,[r0]; lsls #1; lsrs #0x1f */
-struct Q9 { u32 a : 30; u32 b : 1; u32 c : 1; };
 
 /* 021CC99C  ldr r0,[r0]; lsls #3; lsrs #0x1f */
-struct Q10 { u32 a : 28; u32 b : 1; u32 c : 3; };
 
 struct SizeEntry {
     u8 id;
@@ -1018,41 +932,25 @@ struct QA { u8 pad[0x54]; u32 v; };
  *           strb r2,[r0,r1] */
 struct QE { u8 pad[0x28]; u32 v; u8 rest[0x1a8 - 0x2c]; u8 z; };
 
-typedef struct { u8 id; u8 flag; u16 pad; BtlClientStepFn callbacks[3]; } Entry_021CC768;
+typedef struct { u8 id; u8 flag; u16 pad; BtlClientStepFn callbacks[3]; } BtlCommandEntry;
 
 typedef struct { u32 kind : 4; u32 rest : 28; } Command;
 
-struct L { u8 pad[0x11D]; u8 idx; u8 pad2[0x1A6-0x11E]; u8 sel; };
 
 typedef enum { OFFSET = 0x19a } Off;
 
 typedef struct { u32 kind:4; u32 sub:3; u32 id:16; u32 rest:9; } Record_td;
 
-typedef struct { u8 *q; u8 f[4]; } Ent_021CECB4;
+typedef struct { u8 *q; u8 f[4]; } BtlClientMoveUsableEntry;
 
 typedef enum { VALUE_ZERO, VALUE_ONE } Value;
 
 struct Unk021D82D0 { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 rest : 9; };
 
-struct G_021CFD50 {
-    void *p0;
-    void *p1;
-    u8 pad0[0xec];
-    u64 seed;
-    u64 mul;
-    u64 add;
-};
+
 
 struct Row { u8 kind; u8 pad; u16 ids[4]; };
 
-struct G {
-    u8 pad0[0xf4];
-    u64 seed;
-    u64 mul;
-    u64 add;
-    u8 pad1[0xc];
-    void *list;
-};
 
 typedef struct { u8 pad[0x1B3]; volatile u8 count; } CountField;
 
@@ -1082,10 +980,7 @@ typedef struct {
     u32 f68;
 } Out;
 
-typedef struct {
-    u32 type : 8;
-    u32 size : 24;
-} Hdr_021D4CB8;
+
 
 extern int BTL_POKEPARAM_IsFainted(void *m);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *p);
@@ -1094,8 +989,8 @@ extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *p);
-extern int func_021D59B4(void *p, int k);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern int BTL_POKEPARAM_GetValue(void *p, int k);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKEPARTY_Init(struct Party *p);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
@@ -1183,9 +1078,9 @@ extern int BTL_REC_ReadSkipFlag(int, int);
 extern void BTLV_CORE_InitInputWork(u8 *p, u8 v);
 extern void BTLV_CORE_CancelWindowModeSelect(u8 *o);
 extern int BTLV_CORE_PollWindowModeSelect(u8 *o, u8 *out);
-extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EAF78(u8 *o, u8 v);
+extern void BTLV_SCU_InitMessage(struct BtlvMessage *p, int kind, int id);
+extern void BTLV_SCU_AppendMessageArg(struct BtlvMessage *p, u32 val);
+extern void BTLV_SCU_SetMessageParam(u8 *o, u8 v);
 extern u32 *BTL_REC_ReadRecord(void *,u8,u8 *,u8 *);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, void *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
@@ -1341,7 +1236,7 @@ extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
 extern void BTLV_CORE_BuildAndPrintMessageFlag(char *p, void *h, int c);
 extern void BTLV_CORE_StartMoveForgetScreen(u8 *p, u8 a, int c);
 extern int BTLV_CORE_ProcMoveForgetScreen(u8 *p, u8 *out);
-extern void func_020181F4(void *p, u16 move, u32 slot);
+extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
 extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
 extern void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32);
 extern void BTLV_EFFECT_ResumeVm(void);
@@ -1371,7 +1266,7 @@ void BTL_MAIN_AddItemToBag(u8 *p, u32 k, u32 x);
 void BTL_MAIN_SubItemFromBag(u8 *p,u8 k,u32 x);
 int BTL_MAIN_IsRecordingActive(u8 *p);
 void BTL_MAIN_SetOutcomeIfUnset(u8 *p,u32 x);
-void BTL_MAIN_SetRecordInvalid(Flags_021B9184 **p);
+void BTL_MAIN_SetRecordInvalid(BtlMainRecordFlags **p);
 u32 BTL_MAIN_GetPrizeMoney(u8 *p);
 u32 BTL_MAIN_GetBonusMoney(u8 *p);
 u32 BTL_MAIN_CalcPenaltyMoney(char *p);
@@ -1411,7 +1306,7 @@ void BTL_MAIN_StartClientMainSteps(char *p);
 u32 BTL_MAIN_GetServerFlow(int *p);
 void BTL_SERVER_LoadRecorderReplies(Obj_td *p, void *src, int n);
 int BTL_SERVER_CompareFlowOutput(u8 *p, int sel, void *data, u32 n);
-int BTL_SERVER_CMD_ReadNext(Buf_021CC768 *r, s32 *a);
+int BTL_SERVER_CMD_ReadNext(BtlServerCmdBuffer *r, s32 *a);
 u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p);
 extern void BTLV_CORE_StartViewEffectEx(struct BtlvCore *view, int viewPosA, int viewPosB, u32 param);
 extern int BTLV_CORE_WaitViewEffectEx(struct BtlvCore *view);
@@ -1489,7 +1384,7 @@ extern u8 POKE_TOOL_GetGender(void *h);
 void BTL_POKEPARAM_ReplaceMove(struct BtlPokeParam *p, u8 i, u16 a, u8 b, u32 c);
 void BTL_POKEPARAM_SetStat(struct BtlPokeParam *p, int valueId, u16 v);
 void BTL_POKEPARAM_SetItem(struct BtlPokeParam *p, u16 v);
-int func_021D5D14(struct BtlPokeParam *p, int i, int sign);
+int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *p, int i, int sign);
 BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId);
 void BTL_CLIENT_Delete(BtlClient *client);
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client);
@@ -1539,7 +1434,7 @@ int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state);
 u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state);
 u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey);
 int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state);
-void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, Ent_021CECB4 *out);
+void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, BtlClientMoveUsableEntry *out);
 u32 BTL_CLIENT_StepMoveHighlight(BtlClient *client, s32 *st);
 u32 BTL_CLIENT_StepSelectSwitchTarget(BtlClient *client, int *st);
 u32 BTL_CLIENT_StepSelectItem(BtlClient *client, int *st);
@@ -1734,10 +1629,10 @@ void BTL_CLIENT_UnlockCounter(BtlClientCounter *counter);
 void BTL_CLIENT_DisableCounter(BtlClientCounter *counter);
 void BTL_CLIENT_TickCounter(BtlClient *client, BtlClientCounter *counter);
 extern struct Unk021EFD70 gBtlPosTables[];
-extern struct T6 gEffortValueStatTable[];
+extern BtlEffortValueStat gEffortValueStatTable[];
 extern struct SizeEntry gHandExRecordSizeTable[0x3B];
 extern u8 gBtlClientFileName[];
-extern const Entry_021CC768 gBtlClientCommandTable[15];
+extern const BtlCommandEntry gBtlClientCommandTable[15];
 extern const u16 gBtlClientSupportItemKeys[4];
 extern const struct Row gBtlClientAiHitKindRows[4];
 extern const CodeEntry gServerCommandHandlers[];
@@ -2115,9 +2010,9 @@ int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
     return 1;
 }
 
-void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) client->lastMonValue=func_021D59B4(a,13); }
+void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) client->lastMonValue=BTL_POKEPARAM_GetValue(a,13); }
 
-u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) { now=func_021D59B4(a,13); old=client->lastMonValue; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
+u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) { now=BTL_POKEPARAM_GetValue(a,13); old=client->lastMonValue; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
 
 /*
  * Prototype: original narrows getter result to u8 before 021B9920;
@@ -2221,13 +2116,13 @@ void BTL_CLIENT_StopTimeLimit(BtlClient *client) { if(client->timeLimit!=0) BTLV
 void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, struct BtlPokeParam *mon, u8 *outMessage)
 {
     if (BTL_MAIN_GetRule(client->main) != 3) {
-        func_021EAF18((struct L *)outMessage, 1, 0x45);
-        func_021EAF50((struct L *)outMessage, BTL_POKEPARAM_GetPokeId(mon));
-        func_021EAF78(outMessage, 0);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)outMessage, 1, 0x45);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)outMessage, BTL_POKEPARAM_GetPokeId(mon));
+        BTLV_SCU_SetMessageParam(outMessage, 0);
     } else {
-        func_021EAF18((struct L *)outMessage, 1, 0x46);
-        func_021EAF50((struct L *)outMessage, client->clientId);
-        func_021EAF78(outMessage, 0);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)outMessage, 1, 0x46);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)outMessage, client->clientId);
+        BTLV_SCU_SetMessageParam(outMessage, 0);
     }
 }
 
@@ -2279,7 +2174,7 @@ int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
         if (((Command *)record)->kind == 8) {
             BTL_CLIENT_DisableCounter(&client->counter);
             if (client->view) {
-                func_021EAF18((struct L *)&client->messageA,1,0xb7);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA,1,0xb7);
                 BTLV_CORE_BuildAndPrintMessage(client->view,&client->messageA);
                 (*state)++;
             } else {
@@ -2291,7 +2186,7 @@ int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
             *(u8 *)&client->flags |= 0x20;
             BTL_CLIENT_DisableCounter(&client->counter);
             if (client->view) {
-                func_021EAF18((struct L *)&client->messageA,1,0xb8);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA,1,0xb8);
                 BTLV_CORE_BuildAndPrintMessage(client->view,&client->messageA);
                 *state += 2;
             } else {
@@ -2391,7 +2286,7 @@ int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state)
  * Two changes closed the 253 B residue of the older draft: (1) no shared increment label and
  * no goto: each arm writes ++*st; break; so the compiler builds the single shared state store
  * and one epilogue (756 to 748 B, branch layout); (2) the countdown loop reads the index byte
- * through a struct field (struct L at 0x11D and 0x1A6) instead of a count pointer local, so
+ * through a struct field (BtlClient.slotIndex at 0x11D and BtlClient.clientId at 0x1A6) instead of a count pointer local, so
  * mwcc hoists three separate address computations (count pointer in r5, a copy in r6, a
  * stack copy for the loop test) as in the original.
  * Not tried again from the older note: unsigned-long state pointer, full-word countdown.
@@ -2470,8 +2365,8 @@ int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state)
             }
             if (client->slotIndex == 0) break;
             do {
-                --((struct L *)client)->idx;
-                if (!BTL_CLIENT_IsActionForced((u8 *)client, BTL_SIDE_GetClientPokeParam((client->side), ((struct L *)client)->sel, ((struct L *)client)->idx), 0)) {
+                --client->slotIndex;
+                if (!BTL_CLIENT_IsActionForced((u8 *)client, BTL_SIDE_GetClientPokeParam((client->side), client->clientId, client->slotIndex), 0)) {
                     client->pointCounter += BTL_CLIENT_GetSlotFlag(client, client->slotIndex);
                     if (BTL_CALC_ActionGetKind((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 3)
                         BTL_PICK_Pop(client->choiceFlags);
@@ -2480,7 +2375,7 @@ int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state)
                     BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
                     return 0;
                 }
-            } while (((struct L *)client)->idx != 0);
+            } while (client->slotIndex != 0);
             break;
         }
         break;
@@ -2492,8 +2387,8 @@ int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state)
         ++*state; break;
     case 7:
         if (!BTLV_CORE_IsMenuClosed(((u32)client->view))) break;
-        func_021EAF18((struct L *)&client->messageA, 1, 0xC5);
-        func_021EAF50((struct L *)&client->messageA, BTL_POKEPARAM_GetPokeId((client->activeMon)));
+        BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, 0xC5);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, BTL_POKEPARAM_GetPokeId((client->activeMon)));
         BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
         ++*state; break;
     case 8:
@@ -2603,7 +2498,7 @@ u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey)
             if (TPOKE_DATA_FindRecord(trainerId,itemKey,client->heapId)) {
                 switch (itemKey - 0x11) {
                 case 1:
-                    hpNow = func_021D59B4(leadMon,13);
+                    hpNow = BTL_POKEPARAM_GetValue(leadMon,13);
                     if ((u32)hpNow <= BTL_CALC_DivideMaxHp(leadMon,2)) { result = i; flagRow[appliedFlagOffsetHalfHp] = 1; }
                     break;
                 case 0:
@@ -2614,7 +2509,7 @@ u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey)
                     break;
                 case 3:
                     if (BTL_SLOT_GetCount((void *)partyEntry) > 1 && BTL_SLOT_CountLiving((u8 *)partyEntry) == 1) {
-                        hpNowPair = func_021D59B4(leadMon,13);
+                        hpNowPair = BTL_POKEPARAM_GetValue(leadMon,13);
                         if ((u32)hpNowPair <= BTL_CALC_DivideMaxHp(leadMon,2)) { result = i; flagRow[appliedFlagOffsetPairHalfHp] = 1; }
                     }
                     break;
@@ -2653,7 +2548,7 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
                 BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             else *state = 1;
         } else {
-            BTL_CLIENT_BuildMoveUsableTable(client, (Ent_021CECB4 *)client->recvEntry);
+            BTL_CLIENT_BuildMoveUsableTable(client, (BtlClientMoveUsableEntry *)client->recvEntry);
             *state = 2;
         }
         break;
@@ -2693,7 +2588,7 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
                     }
                 }
                 if (BTL_CLIENT_IsMoveSelectionBlocked(client, mon, (u16)((Record_td *)action)->id, (u8 *)&client->messageA)) {
-                    func_021EAF78((u8 *)&client->messageA, 0xff);
+                    BTLV_SCU_SetMessageParam((u8 *)&client->messageA, 0xff);
                     BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
                     *state = 7;
                 } else {
@@ -2737,14 +2632,14 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
     return 0;
 }
 
-void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, Ent_021CECB4 *out)
+void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, BtlClientMoveUsableEntry *out)
 {
     u32 memberIndex;
     u32 moveSlot;
     u8 *mon;
     u32 moveCount;
     u32 moveIndex;
-    Ent_021CECB4 *entry;
+    BtlClientMoveUsableEntry *entry;
     for (memberIndex = 0; memberIndex < 3; memberIndex++) {
         mon = BTL_SLOT_GetPokeParam(client->sideData, (u8)memberIndex);
         entry = out + memberIndex;
@@ -2939,23 +2834,23 @@ u32 BTL_CLIENT_StepSelectRun(BtlClient *client, u32 *st)
                 break;
             }
             if (blockerAbility) {
-                func_021EAF18((struct L *)&client->messageA, 2, 0x365);
-                func_021EAF50((struct L *)&client->messageA, blockerPokeId);
-                func_021EAF50((struct L *)&client->messageA, blockerAbility);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 2, 0x365);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, blockerPokeId);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, blockerAbility);
             } else {
-                func_021EAF18((struct L *)&client->messageA, 1, 0x4a);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, 0x4a);
             }
             BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
             *st = 1;
             break;
         case 1:
-            func_021EAF18((struct L *)&client->messageA, 1, 0x4c);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, 0x4c);
             BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
             *st = 1;
             break;
         case 2:
-            func_021EAF18((struct L *)&client->messageA, 1, 0x4d);
-            func_021EAF78((u8 *)&client->messageA, 0xff);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, 0x4d);
+            BTLV_SCU_SetMessageParam((u8 *)&client->messageA, 0xff);
             BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
             *st = 3;
             break;
@@ -2975,8 +2870,8 @@ u32 BTL_CLIENT_StepSelectRun(BtlClient *client, u32 *st)
     case 3:
         BTLV_CORE_WaitMessage(client->view);
         if (BTLV_CORE_ConsumeMessageFlag(client->view)) {
-            func_021EAF18((struct L *)&client->messageA, 3, 8);
-            func_021EAF18((struct L *)&client->messageB, 3, 9);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 3, 8);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageB, 3, 9);
             BTLV_CORE_StartYesNoMenu(client->view, (u32)&client->messageA, (u32)&client->messageB, 1);
             *st = 4;
         }
@@ -3198,9 +3093,9 @@ int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *mon, u32 move, vo
         lockedMoveId = BTLV_CORE_GetSlotValue(sickCont);
         if (BTL_POKEPARAM_HasMove(mon, lockedMoveId) && lockedMoveId != move) {
             if (outMessage) {
-                func_021EAF18(outMessage, 1, 0x63);
-                func_021EAF50(outMessage, BTL_POKEPARAM_GetItem(mon));
-                func_021EAF50(outMessage, lockedMoveId);
+                BTLV_SCU_InitMessage(outMessage, 1, 0x63);
+                BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetItem(mon));
+                BTLV_SCU_AppendMessageArg(outMessage, lockedMoveId);
             }
             return 1;
         }
@@ -3209,58 +3104,58 @@ int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *mon, u32 move, vo
         forcedMoveId = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(mon, 0x17));
         if (move != forcedMoveId) {
             if (outMessage) {
-                func_021EAF18(outMessage, 1, 0x64);
-                func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
-                func_021EAF50(outMessage, forcedMoveId);
+                BTLV_SCU_InitMessage(outMessage, 1, 0x64);
+                BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+                BTLV_SCU_AppendMessageArg(outMessage, forcedMoveId);
             }
             return 1;
         }
     }
     if (BTL_POKEPARAM_HasSick(mon, 0xb) && WAZA_TOOL_IsDamaging((void *)move) == 0) {
         if (outMessage) {
-            func_021EAF18(outMessage, 2, 0x23b);
-            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
-            func_021EAF50(outMessage, move);
+            BTLV_SCU_InitMessage(outMessage, 2, 0x23b);
+            BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            BTLV_SCU_AppendMessageArg(outMessage, move);
         }
         return 1;
     }
     if (BTL_POKEPARAM_HasSick(mon, 0xc) && move == BTL_POKEPARAM_GetLastSelectedMoveId(mon)) {
         if (outMessage) {
-            func_021EAF18(outMessage, 2, 0x244);
-            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
-            func_021EAF50(outMessage, move);
+            BTLV_SCU_InitMessage(outMessage, 2, 0x244);
+            BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            BTLV_SCU_AppendMessageArg(outMessage, move);
         }
         return 1;
     }
     if (BTL_POKEPARAM_HasSick(mon, 0xd) && move == BTL_POKEPARAM_GetSickParam(mon, 0xd) && move != 0xa5) {
         if (outMessage) {
-            func_021EAF18(outMessage, 2, 0x253);
-            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
-            func_021EAF50(outMessage, move);
+            BTLV_SCU_InitMessage(outMessage, 2, 0x253);
+            BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            BTLV_SCU_AppendMessageArg(outMessage, move);
         }
         return 1;
     }
     if (BTL_POKEPARAM_HasSick(mon, 0xf) && WAZA_TOOL_GetFlag((void *)move, 0xc)) {
         if (outMessage) {
-            func_021EAF18(outMessage, 2, 0x37a);
-            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
-            func_021EAF50(outMessage, move);
+            BTLV_SCU_InitMessage(outMessage, 2, 0x37a);
+            BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            BTLV_SCU_AppendMessageArg(outMessage, move);
         }
         return 1;
     }
     if (BTL_FIELD_IsSlotInUse((char *)(client->battleField), 3) && BTL_FIELD_IsMoveSealedBySlot((int)client->battleField, (int)client->side, mon, move)) {
         if (outMessage) {
-            func_021EAF18(outMessage, 2, 0x24d);
-            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
-            func_021EAF50(outMessage, move);
+            BTLV_SCU_InitMessage(outMessage, 2, 0x24d);
+            BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            BTLV_SCU_AppendMessageArg(outMessage, move);
         }
         return 1;
     }
     if (BTL_FIELD_IsSlotInUse((char *)(client->battleField), 2) && WAZA_TOOL_GetFlag((void *)move, 9)) {
         if (outMessage) {
-            func_021EAF18(outMessage, 2, 0x43e);
-            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
-            func_021EAF50(outMessage, move);
+            BTLV_SCU_InitMessage(outMessage, 2, 0x43e);
+            BTLV_SCU_AppendMessageArg(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            BTLV_SCU_AppendMessageArg(outMessage, move);
         }
         return 1;
     }
@@ -3292,7 +3187,7 @@ int BTL_CLIENT_IsHeldItemEffective(BtlClient *client, void *mon)
 {
     if (BTL_FIELD_IsSlotInUse(client->battleField, 7)) return 0;
     if (BTL_POKEPARAM_HasSick(mon, 19)) return 0;
-    if (func_021D59B4(mon, 17) != 103) return 1;
+    if (BTL_POKEPARAM_GetValue(mon, 17) != 103) return 1;
     return 0;
 }
 
@@ -3324,7 +3219,7 @@ u32 BTL_CLIENT_GetEscapeBlockerForSide(BtlClient *client, u8 *outBlockerPokeId, 
         if (BTL_POKEPARAM_IsFainted(mon) == 0) {
             if (BTL_CLIENT_IsHeldItemEffective(client, mon) != 0 && BTL_POKEPARAM_GetItem((struct QI *)mon) == 0xe4)
                 return 4;
-            if (func_021D59B4(mon, 0x11) == 0x32)
+            if (BTL_POKEPARAM_GetValue(mon, 0x11) == 0x32)
                 return 4;
         }
     }
@@ -3346,7 +3241,7 @@ u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *mon, u8 *outBlockerPokeId, u
     foeCount = BTL_MAIN_CollectLivingPokeIds(client->main, (int)client->side, (u16)(BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, BTL_POKEPARAM_GetPokeId(mon)) | 0x100), foeSlots);
     for (i = 0; i < foeCount; i++) {
         foe = BTL_SIDE_GetPokeByIdThunk(client->side, foeSlots[i]);
-        foeAbility = func_021D59B4(foe, 0x11);
+        foeAbility = BTL_POKEPARAM_GetValue(foe, 0x11);
         BTL_POKEPARAM_GetPokeId(foe);
         if (foeAbility == 0x17 && BTL_CLIENT_CanShadowTagTrap(client, mon)) {
             *outBlockerPokeId = BTL_POKEPARAM_GetPokeId(foe);
@@ -3374,7 +3269,7 @@ u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *mon, u8 *outBlockerPokeId, u
 
 int BTL_CLIENT_CanShadowTagTrap(void *client, void *mon)
 {
-    if (func_021D59B4(mon, 17) != 23) return 1;
+    if (BTL_POKEPARAM_GetValue(mon, 17) != 23) return 1;
     return 0;
 }
 
@@ -3391,7 +3286,7 @@ int BTL_CLIENT_CanArenaTrapTrap(BtlClient *client, void *mon)
         return 1;
     if (itemEffective != 0 && BTL_POKEPARAM_GetItem(mon) == 0x116)
         return 1;
-    if (func_021D59B4(mon, 0x11) == 0x1a)
+    if (BTL_POKEPARAM_GetValue(mon, 0x11) == 0x1a)
         return 0;
     if (BTL_POKEPARAM_HasType(mon, 2) != 0)
         return 0;
@@ -3522,7 +3417,7 @@ int BTL_CLIENT_ShouldSwitchVsWonderGuard(BtlClient *client, void *mon, void *foe
 {
     if (BTL_MAIN_GetRule(client->main) != 0)
         return 0;
-    if (func_021D59B4(foe, 0x11) == 0x19) {
+    if (BTL_POKEPARAM_GetValue(foe, 0x11) == 0x19) {
         if (BTL_CLIENT_HasMoveWithAffinityVsTarget(client, mon, foe, 4) == 0 && BTL_CLIENT_AnyMemberHasMoveVsTarget(client, foe, 4) != 0) {
             client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
             if ((u32)(((client->rng.seed >> 32) * 3) >> 32) < 2)
@@ -3634,7 +3529,7 @@ int BTL_CLIENT_FindNaturalCureSwitch(BtlClient *client, void *mon, u8 *out)
     u16 hitRecord[4];
     u8 member;
 
-    if (func_021D59B4(mon, 0x11) == 0x1e) {
+    if (BTL_POKEPARAM_GetValue(mon, 0x11) == 0x1e) {
         if (BTL_POKEPARAM_HasSick(mon, 2) || BTL_POKEPARAM_HasSick(mon, 3)) {
             if (BTL_POKEPARAM_GetHpRatioFixed(mon) >= 0x32000) {
                 if (BTL_POKEPARAM_GetHitRecord(mon, 1, 0, hitRecord)) {
@@ -3665,7 +3560,7 @@ int BTL_CLIENT_FindSwitchByTypeMatchup(BtlClient *client, void *mon, void *targe
         if ((u32)(((client->rng.seed >> 32) * 10) >> 32) != 0) return 0;
     }
     totalBoosts = 0;
-    for (member = 1; member <= 7; member++) totalBoosts += func_021D59B4(mon, member);
+    for (member = 1; member <= 7; member++) totalBoosts += BTL_POKEPARAM_GetValue(mon, member);
     if (totalBoosts >= 4) return 0;
     if (BTL_POKEPARAM_GetHitRecord(mon, 1, 0, hitRecord)) {
         partyCount = BTL_SLOT_GetCount(client->sideData);
@@ -3706,7 +3601,7 @@ int BTL_CLIENT_FindMemberWithAbility(BtlClient *client, u16 ability, u8 *outMemb
     for (; i < n; i++) {
         if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
             member = BTL_SLOT_GetPokeParam(client->sideData, (u8)i);
-            if (BTL_POKEPARAM_IsFainted(member) == 0 && ability == func_021D59B4(member, 0x11)) {
+            if (BTL_POKEPARAM_IsFainted(member) == 0 && ability == BTL_POKEPARAM_GetValue(member, 0x11)) {
                 *outMember = i;
                 return 1;
             }
@@ -4051,8 +3946,8 @@ int BTL_CLIENT_StepAskYesNo(BtlClient *client, int *state)
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)client->messageA.data, 3, 5);
-        func_021EAF18((struct L *)((u8 *)&client->messageB), 3, 1);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 3, 5);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)((u8 *)&client->messageB), 3, 1);
         BTLV_CORE_StartYesNoMenu(client->view, (u32)client->messageA.data, (u32)((u8 *)&client->messageB), 0);
         (*state)++;
         break;
@@ -4278,10 +4173,10 @@ int BTL_CLIENT_StepAskSwitchBeforeSendOut(BtlClient *client, int *state)
     case 0:
         BTL_ADAPTER_GetRecvData((int)client->netChannel, &received);
         if (received[0] != 0x1F) {
-            func_021EAF18((struct L *)&client->messageA, 1, 0x14);
-            func_021EAF50((struct L *)&client->messageA, 1);
-            func_021EAF50((struct L *)&client->messageA, received[0]);
-            func_021EAF78((u8 *)&client->messageA, 0xFF);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, 0x14);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, 1);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, received[0]);
+            BTLV_SCU_SetMessageParam((u8 *)&client->messageA, 0xFF);
             BTLV_CORE_BuildAndPrintMessage(client->view, &client->messageA);
             *state = 1;
         } else *state = 4;
@@ -4289,8 +4184,8 @@ int BTL_CLIENT_StepAskSwitchBeforeSendOut(BtlClient *client, int *state)
     case 1:
         BTLV_CORE_WaitMessage(client->view);
         if (BTLV_CORE_ConsumeMessageFlag(client->view) != 0) {
-            func_021EAF18((struct L *)&client->messageA, 3, 6);
-            func_021EAF18((struct L *)&client->messageB, 3, 7);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 3, 6);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageB, 3, 7);
             BTLV_CORE_StartYesNoMenu(client->view, (u32)&client->messageA, (u32)&client->messageB, 1);
             *state = 2;
         }
@@ -4379,10 +4274,10 @@ int BTL_CLIENT_StepShowResultMessage(BtlClient *client, int *state, void *view)
         case 2: messageId = isMultiMode != 0 ? 0x35 : 0x34; break;
         default: return 1;
         }
-        func_021EAF18((struct L *)&client->messageA, 1, messageId);
-        func_021EAF50((struct L *)&client->messageA, trainerIndex);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, messageId);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, trainerIndex);
         if (isMultiMode != 0)
-            func_021EAF50((struct L *)&client->messageA, BTL_MAIN_GetOwnOpponentClient(client->main, 1));
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, BTL_MAIN_GetOwnOpponentClient(client->main, 1));
         BTLV_CORE_BuildAndPrintMessage(client->view, &client->messageA);
         if (outcome == 1) {
             GFL_USE_CancelChangeAndPlayBgm(BTL_MAIN_GetWinBgm(client->main), 0xFFFF);
@@ -4448,20 +4343,20 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             secondTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
             if (firstTrainerIndex == secondTrainerIndex) {
-                func_021EAF18((struct L *)client->messageA.data, 1, 44);
-                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 44);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, firstTrainerIndex);
             } else {
-                func_021EAF18((struct L *)client->messageA.data, 1, 45);
-                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
-                func_021EAF50((struct L *)client->messageA.data, secondTrainerIndex);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 45);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, firstTrainerIndex);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, secondTrainerIndex);
             }
             BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             *state = 1;
         } else if (BTL_MAIN_CheckSetupStatusFlag(client->main, 0x100) == 0) {
             firstTrainerIndex = BTL_MAIN_GetOwnClientId(client->main);
-            func_021EAF18((struct L *)client->messageA.data, 1, 54);
-            func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
-            func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 54);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, firstTrainerIndex);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, firstTrainerIndex);
             BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             *state = 9;
         } else {
@@ -4517,9 +4412,9 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         firstTrainerIndex = BTL_MAIN_GetPrizeMoney(client->main);
         if (firstTrainerIndex) {
             secondTrainerIndex = BTL_MAIN_GetOwnClientId(client->main);
-            func_021EAF18((struct L *)client->messageA.data, 1, 58);
-            func_021EAF50((struct L *)client->messageA.data, secondTrainerIndex);
-            func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 58);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, secondTrainerIndex);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, firstTrainerIndex);
             BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
         }
         if (BTL_MAIN_GetBonusMoney(client->main) == 0)
@@ -4532,9 +4427,9 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
             firstTrainerIndex = BTL_MAIN_GetBonusMoney(client->main);
             if (firstTrainerIndex) {
                 secondTrainerIndex = BTL_MAIN_GetOwnClientId(client->main);
-                func_021EAF18((struct L *)client->messageA.data, 1, 59);
-                func_021EAF50((struct L *)client->messageA.data, secondTrainerIndex);
-                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 59);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, secondTrainerIndex);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, firstTrainerIndex);
                 BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             }
             *state = 11;
@@ -4544,9 +4439,9 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         if (BTLV_CORE_WaitMessage(client->view)) {
             firstTrainerIndex = BTL_MAIN_CalcPenaltyMoney(client->main);
             if (firstTrainerIndex) {
-                func_021EAF18((struct L *)client->messageA.data, 1, 56);
-                func_021EAF50((struct L *)client->messageA.data, client->clientId);
-                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 56);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, client->clientId);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, firstTrainerIndex);
                 BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             }
             *state = 10;
@@ -4554,8 +4449,8 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         break;
     case 10:
         if (BTLV_CORE_WaitMessage(client->view)) {
-            func_021EAF18((struct L *)client->messageA.data, 1, 57);
-            func_021EAF50((struct L *)client->messageA.data, client->clientId);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 57);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, client->clientId);
             BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             *state = 11;
         }
@@ -4661,9 +4556,9 @@ void BTL_CLIENT_ShowEndSpeech(BtlClient *client, int outcome, int trainerSide)
     }
     trainerId = BTL_MAIN_GetTrainerId(client->main, trainerIndex);
     if (trainerId != 0) {
-        func_021EAF18((struct L *)client->messageA.data, 7, (int)0);
-        func_021EAF50((struct L *)client->messageA.data, (int)trainerId);
-        func_021EAF50((struct L *)client->messageA.data, (int)outcome);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 7, (int)0);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, (int)trainerId);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, (int)outcome);
         BTLV_CORE_BuildMessageToBuffer(client->view, client->messageA.data);
     }
 }
@@ -4679,9 +4574,9 @@ int BTL_CLIENT_StepShowPrizeMoneyMessage(BtlClient *client, int *state)
             a = BTL_MAIN_GetBonusMoney(client->main);
             if (a != 0) {
                 b = BTL_MAIN_GetOwnClientId(client->main);
-                func_021EAF18((struct L *)client->messageA.data, 1, 0x3b);
-                func_021EAF50((struct L *)client->messageA.data, b);
-                func_021EAF50((struct L *)client->messageA.data, a);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 0x3b);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, b);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, a);
                 BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             }
         }
@@ -4700,8 +4595,8 @@ int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state)
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)client->messageA.data, 1, 0x36);
-        func_021EAF50((struct L *)client->messageA.data, client->clientId);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 0x36);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, client->clientId);
         BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
         (*state)++;
         break;
@@ -4709,9 +4604,9 @@ int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state)
         if (BTLV_CORE_WaitMessage(client->view) != 0) {
             a = BTL_MAIN_CalcPenaltyMoney(client->main);
             if (a != 0) {
-                func_021EAF18((struct L *)client->messageA.data, 1, 0x37);
-                func_021EAF50((struct L *)client->messageA.data, client->clientId);
-                func_021EAF50((struct L *)client->messageA.data, a);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 0x37);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, client->clientId);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, a);
                 BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             }
             (*state)++;
@@ -4719,8 +4614,8 @@ int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state)
         break;
     case 2:
         if (BTLV_CORE_WaitMessage(client->view) != 0) {
-            func_021EAF18((struct L *)client->messageA.data, 1, 0x39);
-            func_021EAF50((struct L *)client->messageA.data, client->clientId);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 0x39);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, client->clientId);
             BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
             (*state)++;
         }
@@ -4739,7 +4634,7 @@ int BTL_CLIENT_StepShowFixedMessage(BtlClient *client, int *state)
 {
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)client->messageA.data, 1, 0xb7);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, 0xb7);
         BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
         (*state)++;
         break;
@@ -4766,7 +4661,7 @@ int BTL_CLIENT_StepRunServerCommands(BtlClient *client, int *state, void *view)
     u8 *packet;
     int packetSize;
     u16 packetLen;
-    Buf_021CC768 *commandBuffer;
+    BtlServerCmdBuffer *commandBuffer;
     u32 tableIndex;
     int commandCode;
 again:
@@ -4830,10 +4725,10 @@ int BTL_CLIENT_StepShowRecallMessage(BtlClient *client, int *state, int *args)
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)client->messageA.data, 1, BTL_CLIENT_PickRecallMessageId(client, args[0], &addTrainerName));
+        BTLV_SCU_InitMessage((struct BtlvMessage *)client->messageA.data, 1, BTL_CLIENT_PickRecallMessageId(client, args[0], &addTrainerName));
         if (addTrainerName != 0)
-            func_021EAF50((struct L *)client->messageA.data, args[0]);
-        func_021EAF50((struct L *)client->messageA.data, args[1]);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, args[0]);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)client->messageA.data, args[1]);
         BTLV_CORE_BuildAndPrintMessage(client->view, client->messageA.data);
         (*state)++;
         break;
@@ -4888,9 +4783,9 @@ int BTL_CLIENT_StepPlayRecallAnim(BtlClient *client, int *state, int *args)
 
 static inline void showMessageWithIds(BtlClient *client, int code, u32 value, u32 id)
 {
-    func_021EAF18((struct L *)&client->messageA, 1, code);
-    func_021EAF50((struct L *)&client->messageA, value);
-    func_021EAF50((struct L *)&client->messageA, id);
+    BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, code);
+    BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, value);
+    BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, id);
     BTLV_CORE_BuildAndPrintMessage(client->view, &client->messageA);
 }
 
@@ -4911,8 +4806,8 @@ int BTL_CLIENT_StepSendOutMon(BtlClient *client, int *state, const u32 *params)
             pokeId = BTL_POKEPARAM_GetPokeId(BTL_SIDE_GetClientPoke(client->side, side, position));
             if (BTL_MAIN_IsOpposingPos((int)(client->main), client->clientId, side) == 0) {
                 if (client->clientId == side) {
-                    func_021EAF18((struct L *)&client->messageA, 1, BTL_CLIENT_PickSendOutMessageId(client));
-                    func_021EAF50((struct L *)&client->messageA, pokeId);
+                    BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, BTL_CLIENT_PickSendOutMessageId(client));
+                    BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, pokeId);
                     BTLV_CORE_BuildAndPrintMessage(client->view, &client->messageA);
                 } else {
                     showMessageWithIds(client, 0x11, side, pokeId);
@@ -5625,7 +5520,7 @@ int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int unusedState, u32 *args
     for (statIndex = 0; statIndex < 6; statIndex++) {
         if (gEffortValueParams[statIndex + 1] != 0) {
             paramId = gEffortValueParams[statIndex];
-            newValue = args[statIndex + 1] + func_02017E1C(mon, paramId, 0);
+            newValue = args[statIndex + 1] + POKE_TOOL_GetPartyValue(mon, paramId, 0);
             if (newValue > 0xff) {
                 newValue = 0xff;
             }
@@ -5695,9 +5590,9 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
         if (BTLV_CORE_WaitViewEffect(client->view)) *state = 6;
         break;
     case 6:
-        func_021EAF18((struct L *)&client->messageA, 1, 0x3c);
-        func_021EAF50((struct L *)&client->messageA, (int)pokeId);
-        func_021EAF50((struct L *)&client->messageA, (int)gExpGainWork.s.result[0]);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)&client->messageA, 1, 0x3c);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, (int)pokeId);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)&client->messageA, (int)gExpGainWork.s.result[0]);
         BTLV_CORE_BuildAndPrintMessage(client->view, &client->messageA);
         *state = 7;
         break;
@@ -5790,9 +5685,9 @@ int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
         void *p = BTL_SIDE_GetPokeByIdThunk(client->side, pokeId);
         BTL_POKEPARAM_GetMon(p);
         BTL_POKEPARAM_ReloadFromParam(p);
-        func_021EAF18((struct L *)(&client->messageA), 5, 3);
-        func_021EAF50((struct L *)(&client->messageA), pokeId);
-        func_021EAF50((struct L *)(&client->messageA), sLevelUpMoveScan.move);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)(&client->messageA), 5, 3);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), pokeId);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), sLevelUpMoveScan.move);
         BTLV_CORE_BuildAndPrintMessage(client->view, (&client->messageA));
         *state = 3;
     }
@@ -5813,17 +5708,17 @@ int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
         }
         break;
     case 5:
-        func_021EAF18((struct L *)(&client->messageA), 5, 4);
-        func_021EAF50((struct L *)(&client->messageA), pokeId);
-        func_021EAF50((struct L *)(&client->messageA), sLevelUpMoveScan.move);
-        func_021EAF78((u8 *)(&client->messageA), 255);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)(&client->messageA), 5, 4);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), pokeId);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), sLevelUpMoveScan.move);
+        BTLV_SCU_SetMessageParam((u8 *)(&client->messageA), 255);
         BTLV_CORE_BuildAndPrintMessage(client->view, (&client->messageA));
         *state = 6;
     case 6:
         if (BTLV_CORE_ConsumeMessageFlag(client->view)) {
             BtlClientMessage yes, no;
-            func_021EAF18((struct L *)(&yes), 6, 2);
-            func_021EAF18((struct L *)(&no), 6, 3);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)(&yes), 6, 2);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)(&no), 6, 3);
             BTLV_CORE_StartYesNoMenu(client->view, (u32)(&yes), (u32)(&no), 1);
         }
         if (BTLV_CORE_WaitMessage(client->view))
@@ -5852,11 +5747,11 @@ int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
             break;
         }
         pp = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeByIdThunk(client->side, pokeId));
-        old = func_02017E1C(pp, slot + 54, 0);
-        func_020181F4(pp, sLevelUpMoveScan.move, slot);
-        func_021EAF18((struct L *)(&client->messageA), 5, 5);
-        func_021EAF50((struct L *)(&client->messageA), pokeId);
-        func_021EAF50((struct L *)(&client->messageA), old);
+        old = POKE_TOOL_GetPartyValue(pp, slot + 54, 0);
+        POKE_TOOL_SetMoveSlot(pp, sLevelUpMoveScan.move, slot);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)(&client->messageA), 5, 5);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), pokeId);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), old);
         BTLV_CORE_BuildAndPrintMessageFlag(client->view, (&client->messageA), (int)((void (*)(void))BTL_CLIENT_ForgetMoveSoundCallback));
         *state = 9;
         break;
@@ -5866,20 +5761,20 @@ int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
             *state = 2;
         break;
     case 10:
-        func_021EAF18((struct L *)(&client->messageA), 5, 7);
-        func_021EAF50((struct L *)(&client->messageA), pokeId);
-        func_021EAF50((struct L *)(&client->messageA), sLevelUpMoveScan.move);
-        func_021EAF78((u8 *)(&client->messageA), 255);
+        BTLV_SCU_InitMessage((struct BtlvMessage *)(&client->messageA), 5, 7);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), pokeId);
+        BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), sLevelUpMoveScan.move);
+        BTLV_SCU_SetMessageParam((u8 *)(&client->messageA), 255);
         BTLV_CORE_BuildAndPrintMessage(client->view, (&client->messageA));
         *state = 11;
         break;
     case 11:
         if (BTLV_CORE_ConsumeMessageFlag(client->view)) {
             BtlClientMessage yes, no;
-            func_021EAF18((struct L *)(&yes), 6, 4);
-            func_021EAF50((struct L *)(&yes), sLevelUpMoveScan.move);
-            func_021EAF18((struct L *)(&no), 6, 5);
-            func_021EAF50((struct L *)(&no), sLevelUpMoveScan.move);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)(&yes), 6, 4);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&yes), sLevelUpMoveScan.move);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)(&no), 6, 5);
+            BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&no), sLevelUpMoveScan.move);
             BTLV_CORE_StartYesNoMenu(client->view, (u32)(&yes), (u32)(&no), 1);
         }
         if (BTLV_CORE_WaitMessage(client->view))
@@ -5889,9 +5784,9 @@ int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
         int sel;
         if (BTLV_CORE_PollYesNoMenu(client->view, &sel)) {
             if (sel == 0) {
-                func_021EAF18((struct L *)(&client->messageA), 5, 8);
-                func_021EAF50((struct L *)(&client->messageA), pokeId);
-                func_021EAF50((struct L *)(&client->messageA), sLevelUpMoveScan.move);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)(&client->messageA), 5, 8);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), pokeId);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)(&client->messageA), sLevelUpMoveScan.move);
                 BTLV_CORE_BuildAndPrintMessage(client->view, (&client->messageA));
                 *state = 13;
             } else {
@@ -5923,14 +5818,14 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
         if (!BTLV_EFFECT_IsBusy()) {
             if (args[2]) {
                 struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
-                func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x41);
-                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
+                BTLV_SCU_InitMessage((struct BtlvMessage *)((u8 *)&client->messageA), 1, 0x41);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
                 BTLV_EFFECT_StopLowHpBgmAndSuppress(0x518);
             } else {
                 int messageId;
                 if (args[1] < 4) messageId = gCatchShakeMessages[args[1]];
                 else messageId = 0x3d;
-                func_021EAF18((struct L *)((u8 *)&client->messageA), 1, messageId);
+                BTLV_SCU_InitMessage((struct BtlvMessage *)((u8 *)&client->messageA), 1, messageId);
             }
             BTLV_CORE_BuildAndPrintMessage(client->view, ((u8 *)&client->messageA));
             (*state)++;
@@ -5951,8 +5846,8 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
             BTL_MAIN_SetKeepBgm(client->main);
             if (args[3]) {
                 struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
-                func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x42);
-                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
+                BTLV_SCU_InitMessage((struct BtlvMessage *)((u8 *)&client->messageA), 1, 0x42);
+                BTLV_SCU_AppendMessageArg((struct BtlvMessage *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
                 BTLV_CORE_BuildAndPrintMessage(client->view, ((u8 *)&client->messageA));
                 (*state)++;
             } else return 1;
@@ -5976,7 +5871,7 @@ int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *state, u32 *args)
         break;
     case 1:
         if (BTLV_EFFECT_IsBusy() == 0) {
-            func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x43);
+            BTLV_SCU_InitMessage((struct BtlvMessage *)((u8 *)&client->messageA), 1, 0x43);
             BTLV_CORE_BuildAndPrintMessage(client->view, ((u8 *)&client->messageA));
             (*state)++;
         }
@@ -6835,7 +6730,7 @@ u32 BTL_CLIENT_TakeTrainerItemToUse(BtlClient *client, struct BtlPokeParam *mon,
         if (*(u16 *)((u8 *)client + off + 0xe8) != 0) {
             usable = 0;
             if (BTL_CALC_GetItemParam((void *)(u32)*(u16 *)((u8 *)client + off + 0xe8), 0x29) != 0) {
-                usable = func_021D59B4(mon, 0xd);
+                usable = BTL_POKEPARAM_GetValue(mon, 0xd);
                 if (usable > BTL_CALC_DivideMaxHp(mon, 4))
                     continue;
                 usable = 1;
@@ -6862,7 +6757,7 @@ int BTL_CLIENT_IsStatItemUsable(u32 itemId, struct BtlPokeParam *mon)
     u32 i;
 
     for (i = 0; i < 6; i++) {
-        if (BTL_CALC_GetItemParam((void *)itemId, gBtlClientItemStatChecks[i].itemParam) != 0 && func_021D5D14(mon, gBtlClientItemStatChecks[i].statIndex, 1) != 0)
+        if (BTL_CALC_GetItemParam((void *)itemId, gBtlClientItemStatChecks[i].itemParam) != 0 && BTL_POKEPARAM_CanChangeStatStage(mon, gBtlClientItemStatChecks[i].statIndex, 1) != 0)
             return 1;
     }
     if (BTL_CALC_GetItemParam((void *)itemId, 0x24) != 0 && BTL_POKEPARAM_GetCritStage(mon) == 0)

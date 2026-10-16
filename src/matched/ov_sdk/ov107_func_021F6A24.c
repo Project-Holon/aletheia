@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021F6AA4  0x021F6AA4  arm  ov107
+ *   IsGetAllRequestData  0x021F6AA4  arm  ov107
  *   g_021F7008     0x021F7008  data
  */
 
@@ -32,7 +32,7 @@ typedef struct {
 } ChildBlockHeader;
 
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
-extern int func_021F6AA4(int a);
+extern int IsGetAllRequestData(int a);
 
 u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child)
 {
@@ -47,7 +47,7 @@ u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child)
                   ((u8 *)g_021F7008.buf) + (child - 1) * 32 + piece * g_021F7008.size,
                   g_021F7008.size);
     *(u32 *)(((u8 *)g_021F7008.buf) + 0x1E0 + (child - 1) * 4) |= 1 << piece;
-    if (func_021F6AA4(child))
+    if (IsGetAllRequestData(child))
         return ((u8 *)g_021F7008.buf) + (child - 1) * 32;
     return 0;
 }

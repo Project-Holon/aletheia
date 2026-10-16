@@ -1,5 +1,12 @@
 # Source census: code the developers would not have written
 
+> Final figures (2026-10-16, wave 11 integration): 0 `Obj` references, 0
+> placeholder struct tags, 24 unnamed functions. The coverage is arm9 436032 of
+> 436032 and overlays 2183302 of 2183302, both 100.0000 percent; game and all
+> code 100.00 percent covered, complete and linked. The census below is the
+> 2026-10-11 snapshot and is kept for the record; the live figures are in
+> `README.md` and `docs/restructure/REPORT.md`.
+
 Snapshot taken 2026-10-11 23:13 local time over 2090 files in src/game (.c and .h, files starting with an underscore skipped). Other lanes were editing src/game at the same time, so the numbers are a snapshot and will drift.
 
 Goal: the final src/game files should read like the original source. This census counts constructs that look like workarounds for the compiler or for missing type information, not like code a person would write. Each kind is a candidate for cleanup, not a defect by itself: some entries are legitimate (SDK CPU helpers in asm, volatile on hardware registers, K&R style in old SDK code). Counts come from a script (scratchpad r18/L21/census.py) that strips comments and string literals first, so text inside comments is not counted, except stand-in comments, which are counted in the raw text.

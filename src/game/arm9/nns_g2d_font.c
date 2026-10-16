@@ -57,23 +57,22 @@ struct FontCMapEntry {
 
 struct FontCMap {
     u16 firstCode;          /* 0x0 */
-    u16 pad_02;
+    u16 reserved02;
     u16 type;               /* 0x4 */
-    u16 pad_06;
-    u8 pad_08[4];
+    u16 reserved06;
+    u8 reserved08[4];
     union {
         u16 offset;         /* 0xc */
         u16 glyphIndices[1]; /* 0xc */
         u16 count;          /* 0xc */
     };
-    u16 pad_0e;
     struct FontCMapEntry entries[]; /* 0xe */
 };
 
 struct FontCMapRange {
     u16  firstCode;    /* 0x00 */
     u16  lastCode;    /* 0x02 */
-    u8   pad_04[4];
+    u8   reserved04[4];
     struct FontCMapRange *next;   /* 0x08 */
 };
 
@@ -141,7 +140,7 @@ typedef struct NNSiG2dBitReader {
     const u8 *src;
     s8 availableBits;
     u8 bits;
-    u8 padding_[2];
+    u8 reserved[2];
 } NNSiG2dBitReader;
 
 typedef union OBJ1DParam {
@@ -198,12 +197,12 @@ struct Pen {
     int  areaWidth;     /* +0x04 */
     int  areaHeight;    /* +0x08 */
     u8   dstBpp;        /* +0x0C */
-    u8   pad0d[3];
+    u8   reserved0d[3];
     int  param;         /* +0x10 */
     const void *vtable; /* +0x14 */
 };
 
-struct Ctx { u8 pad[0x14]; void **vt; };
+struct Ctx { u8 reserved[0x14]; void **vt; };
 
 typedef union {
     u32 raw;
@@ -236,10 +235,10 @@ typedef struct {
 } Hdr;
 
 typedef struct {
-    struct Ctx *f00;
-    NNSG2dFont *f04;
-    s32 f08;
-    s32 f0C;
+    struct Ctx *pCanvas;
+    NNSG2dFont *pFont;
+    s32 hSpace;
+    s32 vSpace;
 } Ctx;
 
 typedef NNSG2dTextRect Ext;
@@ -247,39 +246,39 @@ typedef NNSG2dTextRect Ext;
 typedef int BOOL;
 
 typedef struct {
-    u32 sig;
-    u16 unk04;
-    u16 ver;
-    u32 unk08;
-    u16 off0C;
-    u16 cnt0E;
+    u32 signature;   /* +0x00 'NFTR' */
+    u16 byteOrder;   /* +0x04 0xFEFF */
+    u16 version;     /* +0x06 */
+    u32 fileSize;    /* +0x08 */
+    u16 headerSize;  /* +0x0C byte offset of the first block header */
+    u16 numBlocks;   /* +0x0E block count */
 } Res;
 
 typedef struct {
-    u32 sig;
-    u32 size;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
+    u32 signature;   /* +0x00 block FourCC */
+    u32 size;        /* +0x04 block byte size, the stride to the next block */
+    u32 reserved08;  /* +0x08 block content start, never relocated here */
+    u32 pNextWidth;  /* +0x0C CWDH: next width block */
+    u32 pGlyph;      /* +0x10 FINF: glyph block; the CMAP next pointer shares the slot */
+    u32 pWidth;      /* +0x14 FINF: width block */
+    u32 pMap;        /* +0x18 FINF: map block */
 } Section;
 
 struct BitReader {
     const u8 *src;
     s8        avail;
     u8        bits;
-    u8        pad_06[2];
+    u8        reserved06[2];
 };
 
 typedef struct CharCursor {
     u8 *pCur;
-    signed char pad_04;
-    unsigned char pad_05;
+    signed char reserved04;
+    unsigned char reserved05;
 } CharCursor;
 
 typedef struct TaggedNode {
-    u8 pad_00[0x17];
+    u8 reserved00[0x17];
     u8 entryCount;
     u8 entryCountM;
 } TaggedNode;
@@ -385,7 +384,7 @@ void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource)
 
 /*
  * Range lookup over a singly linked list of key records: walk the chain hung
- * off (*a0)->f10 and hand the first record whose [lo, hi] halfword pair
+ * off (*a0)->pRes->pMap and hand the first record whose [lo, hi] halfword pair
  * contains `key` to NNSi_G2dFontGetGlyphIndexFromCMap, which returns the mapped word.  No record
  * holds the key: return the pooled 0xFFFF sentinel.  The record's link is at
  * +0x04 (used by the twin at 0x02067FE4) while the chain head here is the
@@ -1406,7 +1405,7 @@ void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int 
  */
 void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, int y, int w, int h)
 {
-    struct SurfaceSwzBase f10;
+    struct SurfaceSwzBase swzBase;
     int cy;
     int x1;
     int y1;
@@ -1436,14 +1435,14 @@ void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, 
     ye = (y1 + 7) & ~7;
     tilesz = (s->bpp << 6) / 8;
     tx0 = x0 / 8;
-    f10 = s->swz;
+    swzBase = s->swz;
     ty = cy / 8;
     xe = (x1 + 7) & ~7;
     sw = s->w;
     sh = s->h;
     base = s->base;
-    sx = f10.x;
-    sy = f10.y;
+    sx = swzBase.x;
+    sy = swzBase.y;
     if (cy >= ye)
         return;
     do {
@@ -1965,10 +1964,10 @@ int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x
  * src/matched/NNSi_G2dDrawTextRotated.c calls once per line as
  * `NNSi_G2dDrawTextLine(ctx, px, py, w2, cur, &cur, st)`.  It walks one LINE of the
  * string: a character iterator is fetched out of the font object
- * (`ctx->f04`, callback at +4, taking a `const void **` cursor and returning
+ * (`ctx->pFont`, callback at +4, taking a `const void **` cursor and returning
  * the character code), each character is drawn with NNSi_G2dCharCanvasDrawChar, and the
  * pen is stepped along the step vector by the glyph's advance plus the
- * inter-character gap `ctx->f08`.  The walk stops at NUL or at '\n' (0xa),
+ * inter-character gap `ctx->hSpace`.  The walk stops at NUL or at '\n' (0xa),
  * and the `last` out-parameter receives the cursor position when the stop was
  * a newline and 0 when it was the end of the string -- the identical tail
  * NNS_G2dFontGetStringWidth (the measure-one-line sibling at 0x02068030) carries at
@@ -2019,8 +2018,8 @@ void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2,
     s32 dx;
     s32 dy;
 
-    gap = ctx->f08;
-    fnt = ctx->f04;
+    gap = ctx->hSpace;
+    fnt = ctx->pFont;
     cur = s;
     next = ((NextFn *)fnt)[1];
     dy = st.dy;
@@ -2030,7 +2029,7 @@ void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2,
     dx = st.dx;
 loop:
     if (c == 0xa) goto done;
-    adv = gap + NNSi_G2dCharCanvasDrawChar(ctx->f00, fnt, x, y, w2, c);
+    adv = gap + NNSi_G2dCharCanvasDrawChar(ctx->pCanvas, fnt, x, y, w2, c);
     x = x + adv * dx;
     y = y + adv * dy;
     c = next(&cur);
@@ -2088,7 +2087,7 @@ void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
     s32 sy;
     s32 n;
 
-    lead = ctx->f0C + ctx->f04->pRes->linefeed;
+    lead = ctx->vSpace + ctx->pFont->pRes->linefeed;
     dx = lead * -st.dy;
     dy = lead * st.dx;
 
@@ -2105,11 +2104,11 @@ void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
         px = x + sx;
         py = y + sy;
         if (bit11 != 0) {
-            n = w - NNS_G2dFontGetStringWidth(ctx->f04, ctx->f08, cur, 0);
+            n = w - NNS_G2dFontGetStringWidth(ctx->pFont, ctx->hSpace, cur, 0);
             px = px + n * st.dx;
             py = py + n * st.dy;
         } else if (bit10 != 0) {
-            n = half - (NNS_G2dFontGetStringWidth(ctx->f04, ctx->f08, cur, 0) + 1) / 2;
+            n = half - (NNS_G2dFontGetStringWidth(ctx->pFont, ctx->hSpace, cur, 0) + 1) / 2;
             px = px + n * st.dx;
             py = py + n * st.dy;
         }
@@ -2159,7 +2158,7 @@ void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w,
     volatile Ext box;
     s32 d;
 
-    e = NNS_G2dFontGetTextRect(ctx->f04, ctx->f08, ctx->f0C, (const void *)s);
+    e = NNS_G2dFontGetTextRect(ctx->pFont, ctx->hSpace, ctx->vSpace, (const void *)s);
     box.width = e.width;
     box.height = e.height;
     box2.width = e.width;
@@ -2241,12 +2240,12 @@ void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
     s32 d;
 
     if (flags & 0x100) {
-        n = NNS_G2dFontGetTextHeight(ctx->f04, ctx->f0C, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, (const void *)s);
         d = (s32)a4 - n;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     } else if (flags & 0x80) {
-        n = NNS_G2dFontGetTextHeight(ctx->f04, ctx->f0C, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, (const void *)s);
         d = ((s32)a4 + 1) / 2 - (n + 1) / 2;
         x = x + d * -st.dy;
         y = y + d * st.dx;
@@ -2258,7 +2257,7 @@ void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
 
 static inline BOOL IsNftr(const Res *r)
 {
-    if (r != 0 && r->sig == 0x4e465452u)
+    if (r != 0 && r->signature == 0x4e465452u)
         return 1;
     return 0;
 }
@@ -2267,7 +2266,7 @@ static inline BOOL IsNftr(const Res *r)
 
 static inline BOOL VerAtLeast(const Res *r, u16 v)
 {
-    if (r != 0 && r->ver >= v)
+    if (r != 0 && r->version >= v)
         return 1;
     return 0;
 }
@@ -2355,33 +2354,33 @@ void NNSi_G2dFontFixupSections(Res *base)
     s32 n;
     u32 v;
 
-    s = (Section *)((u8 *)base + base->off0C);
+    s = (Section *)((u8 *)base + base->headerSize);
     i = 0;
-    n = base->cnt0E;
+    n = base->numBlocks;
     if (n <= 0) return;
     do {
-        switch (s->sig) {
+        switch (s->signature) {
         case 0x46494e46:
-            s->unk10 = s->unk10 + (u32)base;
-            v = s->unk14;
-            if (v != 0) s->unk14 = v + (u32)base;
-            v = s->unk18;
-            if (v != 0) s->unk18 = v + (u32)base;
+            s->pGlyph = s->pGlyph + (u32)base;
+            v = s->pWidth;
+            if (v != 0) s->pWidth = v + (u32)base;
+            v = s->pMap;
+            if (v != 0) s->pMap = v + (u32)base;
             break;
         case 0x43574448:
-            v = s->unk0C;
-            if (v != 0) s->unk0C = v + (u32)base;
+            v = s->pNextWidth;
+            if (v != 0) s->pNextWidth = v + (u32)base;
             break;
         case 0x434d4150:
-            v = s->unk10;
-            if (v != 0) s->unk10 = v + (u32)base;
+            v = s->pGlyph;
+            if (v != 0) s->pGlyph = v + (u32)base;
             break;
         case 0x43474c50:
             break;
         }
         i++;
         s = (Section *)((u8 *)s + s->size);
-    } while (i < (s32)base->cnt0E);
+    } while (i < (s32)base->numBlocks);
 }
 
 

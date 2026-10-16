@@ -13,7 +13,7 @@
  * symbols:
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *
  * Blank the graphics state: disable every VRAM bank the caller's mask does
  * not name, then zero main VRAM (0x06800000, 0xa4000 bytes), both OAM
@@ -32,14 +32,14 @@ typedef unsigned int u32;
 
 extern void func_0208068C(u32 banks);
 extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 
 void BG_SYS_ClearGraphicsMemory(u32 keep)
 {
     func_0208068C((keep ^ 0xffff) & 0x1ff);
 
     MIi_CpuClearFast(0, (void *)0x06800000, 0xa4000);
-    func_02080B98();
+    GX_DisableBankForLCDC();
 
     MIi_CpuClearFast(0xc0, (void *)0x07000000, 0x400);
     MIi_CpuClearFast(0, (void *)0x05000000, 0x400);

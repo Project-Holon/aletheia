@@ -20,6 +20,7 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb  arm9
  *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
 struct BigObj;
 struct Blk37;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_GetCount(void *p);
@@ -44,7 +45,7 @@ int GURU2_EntryStateAfterPartyList(u32 *p)
     void *r;
     func_020307B0(v);
     if(mode==1) {
-        func_02012944((void *)p[4]);
+        GAME_DATA_GetMyStatus((void *)p[4]);
         q=ZUKAN_SAVE_GetFromGameData((void *)p[4]);
         p[7]=(u32)func_02030734(4,40,0,(const char *)gGuru2AllocFileName,328);
         MI_CpuFill8((void *)p[7],0,40);

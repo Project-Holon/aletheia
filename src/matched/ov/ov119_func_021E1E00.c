@@ -40,6 +40,7 @@
  *   POKETRADE_2D_LoadSummaryBackground 0x021E40EC thumb ov119
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 #include "../include/Obj00001.h"
 typedef unsigned char u8;
@@ -59,7 +60,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void func_02041B6C(u32);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void POKETRADE_2D_UploadWindowPalette(char *,int,u32);
 extern void POKETRADE_SAVE_PrintNickname(void *,void *,int,int,int,int,char *);
@@ -92,7 +93,7 @@ void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon)
     if(P(0x6b4)) BMP_WIN_Delete(P(0x6b4));
     I(0x6b4)=BMP_WIN_Create(6,(u8)a.v[side],0,16,18,11,0);
     GF_FONT_SetTextColor(14,15,0);
-    flag=func_02017E1C(mon,76,0);
+    flag=POKE_TOOL_GetPartyValue(mon,76,0);
     if(mode==0) {
         POKETRADE_SAVE_PrintNickname(mon,BMP_WIN_GetBmp(P(0x6b4)),32,0,flag,0,p);
         if(flag==0) {

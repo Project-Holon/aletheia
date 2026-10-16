@@ -84,6 +84,7 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   KEY_GetCont  0x0203630C  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned char  u8;
@@ -234,7 +235,7 @@ extern void *BG_SYS_GetBuf(int bgFrame);
 extern void *func_02049EF4(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern u32 func_02017E1C(const struct PokemonParam *pp, int paramId, void *buf);
+extern u32 POKE_TOOL_GetPartyValue(const struct PokemonParam *pp, int paramId, void *buf);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *printQue);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *printQue, struct Bmp *bmp);
 extern void func_02041B6C(u32 bgFrame);
@@ -632,10 +633,10 @@ int APP_ICON_GetStatusIconAnim(const struct PokemonParam *pp)
 {
     u32 sick;
 
-    if (func_02017E1C(pp, 0xa0, 0) == 0) {
+    if (POKE_TOOL_GetPartyValue(pp, 0xa0, 0) == 0) {
         return 6;
     }
-    sick = func_02017E1C(pp, 0x9d, 0);
+    sick = POKE_TOOL_GetPartyValue(pp, 0x9d, 0);
     if (sick == 1) {
         return 1;
     } else if (sick == 2) {

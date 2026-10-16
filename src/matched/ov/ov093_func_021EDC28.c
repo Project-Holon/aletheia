@@ -14,7 +14,7 @@
  *
  * symbols:
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTLV_SCU_HideNamePlate  0x021EDF4C  thumb  ov093
  *   BTLV_SCU_DrawNamePlate  0x021EDE54  thumb  ov093
@@ -38,7 +38,7 @@ struct W {
 };
 
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTLV_SCU_HideNamePlate(struct W *w);
 extern void BTLV_SCU_DrawNamePlate(u8 *p);
@@ -51,7 +51,7 @@ void BTLV_SCU_PrepareNamePlate(struct W *w, u8 a1, int flag)
     u8 k;
 
     t = BTL_SIDE_GetPokeAtPos(*(char *const **)(w->f00 + 0x138), a1);
-    h = func_021D59B4(t, 0x10);
+    h = BTL_POKEPARAM_GetValue(t, 0x10);
     k = BTL_POKEPARAM_GetPokeId(t);
     if (w->f22_0) {
         if (k == w->f0c) {

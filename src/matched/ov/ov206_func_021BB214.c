@@ -1,5 +1,5 @@
 /*
- * function: func_021BB214
+ * function: ZUKAN_INFO_ReleaseGfx
  * address: 0x021BB214
  * packet: pkt_ov206_021BB214
  * region: ov206
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021BB214(char *p, int i)
+void ZUKAN_INFO_ReleaseGfx(char *p, int i)
 {
     char *s = p + i * 4;
     CLACT_ReleasePalette((u32)(((struct Obj10887 *)s)->f9C));

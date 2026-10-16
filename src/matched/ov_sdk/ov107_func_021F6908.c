@@ -12,7 +12,7 @@
  * sdk:      MBi_SetRecvBufferFromChild (libmb.TWL.HYB.a mb_block.o)
  *
  * symbols:
- *   func_021F6AA4  0x021F6AA4  arm    ov107
+ *   IsGetAllRequestData  0x021F6AA4  arm    ov107
  *   MI_CpuCopy8  0x02082D44  arm
  *   MBi_ReceiveRequestDataPiece  0x021F6A24  arm    ov107
  *   g_021F7008     0x021F7008  data
@@ -32,7 +32,7 @@ struct hdr {
 
 extern struct piece g_021F7008;
 
-extern int func_021F6AA4(int a);
+extern int IsGetAllRequestData(int a);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 extern u8 *MBi_ReceiveRequestDataPiece(struct hdr *hdr, u16 child);
 
@@ -46,7 +46,7 @@ u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id)
     hdr->type = type;
     switch (type) {
     case 7:
-        if (func_021F6AA4(child_id))
+        if (IsGetAllRequestData(child_id))
             return ((u8 *)g_021F7008.buf) + (child_id - 1) * 32;
         idx = recvbuf[1];
         *((u8 *)hdr + 2) = idx;

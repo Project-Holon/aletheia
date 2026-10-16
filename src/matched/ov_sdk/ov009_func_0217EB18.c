@@ -1,5 +1,5 @@
 /*
- * function: func_0217EB18
+ * function: socket
  * address:  0x0217EB18
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int func_0215F428(void);
 extern int CheckRcode(int a, int b);
 
-int func_0217EB18(int pf, int type, int protocol)
+int socket(int pf, int type, int protocol)
 {
     return CheckRcode(func_0215F428(), -1);
 }

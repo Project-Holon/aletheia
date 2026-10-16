@@ -77,7 +77,7 @@
  *   func_02082A7C      0x02082A7C  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   PERAPVOICE_IsRecorded   0x02007B50  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MI_CpuFill8    0x02082BCC  arm
@@ -300,7 +300,7 @@ extern void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 hasDistD
 extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *mon, u32 field, u32 arg);
 extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *mon);
 extern void POKE_TOOL_RecoverBoxAllPP(struct BoxPokemon *mon);
-extern u32 func_02017E1C(struct Pokemon *mon, u32 field, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(struct Pokemon *mon, u32 field, u32 arg);
 extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern struct MsgData *func_02045B38(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
@@ -1687,7 +1687,7 @@ void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *voice, struct PokeParty *part
     int count = POKEPARTY_GetCount(party);
 
     for (index = 0; index < count; index++) {
-        if (func_02017E1C(POKEPARTY_GetMember(party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
+        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
             return;
         }
     }

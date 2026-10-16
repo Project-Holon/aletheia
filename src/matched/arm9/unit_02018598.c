@@ -21,7 +21,7 @@
  *
  * symbols:
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  */
 
@@ -29,7 +29,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_RecalcParam(void *p);
 
 u8 POKE_TOOL_GetBoxNature(void *p);
@@ -41,7 +41,7 @@ u8 POKE_TOOL_GetNature(void *p)
 
 u8 POKE_TOOL_GetBoxNature(void *p)
 {
-    return (u8)func_02017E88(p, 0x70, 0);
+    return (u8)POKE_TOOL_GetBoxValue(p, 0x70, 0);
 }
 
 void POKE_TOOL_SetNature(void *p, u32 v)

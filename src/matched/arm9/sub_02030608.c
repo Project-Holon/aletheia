@@ -1,5 +1,5 @@
 /*
- * function: sub_02030608
+ * function: GFL_HEAP_Init
  * address:  0x02030608
  * packet:   pkt_02030608
  * region:   arm9
@@ -14,11 +14,11 @@
  * entry, so the PC24 at +0x14 stays wildcarded, and it is not adjacent, so no
  * cut reaches it.  0x0202FC48 is a 380-byte initialiser that currently stops
  * four bytes short on register allocation alone; the analysis and everything
- * already ruled out are in docs/notes/sub_0202FC48.c.txt.  Closing that
+ * already ruled out are in docs/notes/GFL_HEAP_InitManager.c.txt.  Closing that
  * function graduates this file unchanged.
  *
  * symbols:
- *   sub_0202FC48  0x0202FC48  arm
+ *   GFL_HEAP_InitManager  0x0202FC48  arm
  *   sub_02030524  0x02030524  arm
  *   sub_02086580  0x02086580  arm
  *   sub_0208656C  0x0208656C  arm
@@ -37,25 +37,25 @@
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030608.c \
- *       --func sub_02030608 --addr 0x02030608 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_Init.c \
+ *       --func GFL_HEAP_Init --addr 0x02030608 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct EnvRes;
-extern int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra);
+extern int GFL_HEAP_InitManager(const struct EnvRes *res, u16 count, u16 idCount, u32 extra);
 extern u16 sub_02030524(void);
 extern void  sub_02086580(u32 a);
 extern void  sub_0208656C(u32 a);
 extern void  sub_02088234(void *obj);
 
-void sub_02030608(u32 a, u32 b, u32 c, u32 d)
+void GFL_HEAP_Init(u32 a, u32 b, u32 c, u32 d)
 {
     int ok;
 
-    ok = sub_0202FC48((const struct EnvRes *)a, b, c, d);
+    ok = GFL_HEAP_InitManager((const struct EnvRes *)a, b, c, d);
     sub_02086580(0);
     sub_0208656C(0);
     if (ok != 0) {

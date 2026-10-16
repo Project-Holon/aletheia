@@ -13,7 +13,7 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue        0x02017E1C  thumb
- *   func_02017E88        0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue        0x02017E88  thumb
  *   POKE_TOOL_DecodeCalcBlock        0x02018D10  thumb
  *   POKE_TOOL_EncodeCalcBlock        0x02018D6C  thumb
  *   POKE_TOOL_GetBoxSubstruct        0x02019C38  thumb
@@ -35,7 +35,7 @@ typedef signed int     s32;
 typedef unsigned long long u64;
 
 extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 struct Mon;
 struct Sav;
 extern u32 POKE_TOOL_DecodeCalcBlock(struct Sav *p);
@@ -67,8 +67,8 @@ u32 POKE_TOOL_CheckSpeciesTutorCompat(u16 a, u16 b, s32 v);
 
 u32 POKE_TOOL_CheckBoxTmCompat(void *p, s32 v)
 {
-    u16 a = (u16)func_02017E88(p, 5, 0);
-    u16 b = (u16)func_02017E88(p, 0x6F, 0);
+    u16 a = (u16)POKE_TOOL_GetBoxValue(p, 5, 0);
+    u16 b = (u16)POKE_TOOL_GetBoxValue(p, 0x6F, 0);
 
     return POKE_TOOL_CheckSpeciesTmCompat(a, b, v);
 }

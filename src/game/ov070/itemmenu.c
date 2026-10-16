@@ -1,7 +1,7 @@
 /*
  * file:     itemmenu.c
  * unit:     yes
- * function: func_021B6100, func_021B6120, ITEMMENU_RedrawList, ITEMMENU_GetSlot, ITEMMENU_GetSellTotal, ITEMMENU_GetCursorIndex, ITEMMENU_GetItemCount, ITEMMENU_RegisterItemName, ITEMMENU_RegisterItemNameCounted, ITEMMENU_SwapSlots, ITEMMENU_MoveSlot, ITEMMENU_SwitchPocketCursor, ITEMMENU_MoveCursorDown, ITEMMENU_MoveCursorUp, ITEMMENU_HandleScrollbarTouch, ITEMMENU_HandleMoveModeKeys, ITEMMENU_HandleListKeys, ITEMMENU_HandleListTouch, ITEMMENU_IsBackButtonTouched, ITEMMENU_TaskFinishClose, ITEMMENU_TaskListInput, ITEMMENU_IsRepelItem, ITEMMENU_GetFieldUseKind, ITEMMENU_UseRepel, ITEMMENU_TaskWaitMessage, ITEMMENU_ShowKeyItemRefusal, ITEMMENU_ShowMessageThenWait, ITEMMENU_TryStartUse, ITEMMENU_TryStartGive, ITEMMENU_TryStartRegister, ITEMMENU_TryStartCheck, ITEMMENU_TryStartToss, ITEMMENU_TryStartSort, ITEMMENU_TryStartPlant, ITEMMENU_TryStartSell, ITEMMENU_FindUseRange, ITEMMENU_HandleActionMenuChoice, ITEMMENU_TaskSelectItem, ITEMMENU_TaskBagMain, ITEMMENU_TaskActionMenuInput, ITEMMENU_TaskOpenActionMenu, ITEMMENU_TaskRegisterResultMessage, ITEMMENU_TaskStartRegisterResult, ITEMMENU_TaskUseNoticeMessage, ITEMMENU_TaskReturnToListAfterMessage, ITEMMENU_TaskBeginReturnToList, ITEMMENU_TaskTossConfirmInput, ITEMMENU_TaskOpenTossConfirm, ITEMMENU_TaskTossAskQuantity, ITEMMENU_TaskTossQuantityInput, ITEMMENU_TaskGiveItem, ITEMMENU_TaskSellQuantityInput, ITEMMENU_TaskSellAskConfirm, ITEMMENU_TaskSellConfirmInput, ITEMMENU_TaskWaitMessageDismiss, ITEMMENU_TaskReturnToListFromQuantity, ITEMMENU_RemoveSelectedItems, ITEMMENU_ShowQuantityWindows, ITEMMENU_HideQuantityWindows, ITEMMENU_HandleQuantityInput, ITEMMENU_CompareSortEntries, ITEMMENU_SortPocket, ITEMMENU_ShowInputGuardError, ITEMMENU_SortAndRedraw, ITEMMENU_RefreshInputGuard, ITEMMENU_SetCursorActive, ITEMMENU_IsBrowseMode, ITEMMENU_ToggleRegisteredItem, ITEMMENU_GetPocketSortFlag, ITEMMENU_TogglePocketSortFlag, ITEMMENU_UpdatePocketSortIcon, ITEMMENU_CheckItemFilter, ITEMMENU_BuildActionList, ITEMMENU_OpenActionMenu, ITEMMENU_IsItemRegistered, ITEMMENU_HandleTouchTarget, ITEMMENU_VBlankCallback, ITEMMENU_TaskStartFadeIn, ITEMMENU_TaskWaitFadeIn, ITEMMENU_Init, ITEMMENU_Main, ITEMMENU_Exit, ITEMMENU_ReturnToBagMain, ITEMMENU_ReturnToListInput, ITEMMENU_CreateBlinkPalAnm, ITEMMENU_DeleteBlinkPalAnm, ITEMMENU_TaskSelectItemFlash, ITEMMENU_StartSideButtonPress, ITEMMENU_TaskWaitSideButtonPress, ITEMMENU_StartPocketTabPress, ITEMMENU_TaskWaitPocketTabPress, ITEMMENU_CheckTouchRelease, ITEMMENU_TaskReopenListFromQuantity, ITEMMENU_TaskReturnFromQuantity, ITEMMENU_AllocPalAnmSlots, ITEMMENU_FreePalAnmSlots, ITEMMENU_TaskInputGuardMessage, ITEMMENU_TaskWaitMessageThenList, ITEMMENU_IsCheckModeAllowed, ITEMMENU_ReturnToBagMainAlias, ITEMMENU_InitDisplayBanks, ITEMMENU_ResetDisplayLayers, ITEMMENU_LoadBagGraphics, ITEMMENU_LoadTabGraphics, ITEMMENU_SetupGraphics, ITEMMENU_ApplyBgPalettes, ITEMMENU_SetLayersVisible, ITEMMENU_SetMoveTypeIconsVisible, ITEMMENU_DrawMoveInfo, ITEMMENU_HideMoveInfo, ITEMMENU_FreeGraphics, ITEMMENU_PrintMenuTitle, ITEMMENU_InitWindows, ITEMMENU_DestroyMovingCursor, ITEMMENU_CreateMovingCursor, ITEMMENU_FreeActionMenuResources, ITEMMENU_LoadPocketGraphics, ITEMMENU_CreateCursorActors, ITEMMENU_GetRowColorKind, ITEMMENU_PrintItemList, ITEMMENU_SnapSelectorToCursor, ITEMMENU_UploadSlotGraphics, ITEMMENU_UpdateCursorFromTouch, ITEMMENU_MoveCursorToRow, ITEMMENU_CreateSideButtonActors, ITEMMENU_CreateTabActors, ITEMMENU_SelectTab, ITEMMENU_ClearMessageWindow, ITEMMENU_OpenPopupList, ITEMMENU_LoadBgPaletteMode, ITEMMENU_PrintMoveInfoText, ITEMMENU_ShowMessage, ITEMMENU_ShowMessageDefault, ITEMMENU_ShowItemUseMessage, ITEMMENU_IsMessageFinished, ITEMMENU_PrintPocketName, ITEMMENU_HideSideWindows, ITEMMENU_PrintPocketCount, ITEMMENU_PrintMoney, ITEMMENU_EnterQuantityMode, ITEMMENU_LeaveQuantityMode, ITEMMENU_OpenYesNoList, ITEMMENU_CloseYesNoList, ITEMMENU_LoadSellPalette, ITEMMENU_PrintQuantityPrice, ITEMMENU_PocketToSortFlag, ITEMMENU_UpdateSlotActorPosition, ITEMMENU_UpdateSideButtons, ITEMMENU_SetBackButtonAnim, ITEMMENU_UpdateInputGuardAnim, ITEMMENU_UpdateSideButtonsForMode, ITEMMENU_MoveActorToPoint, ITEMMENU_PrintToWindow, ITEMMENU_FlushWindowAt, ITEMMENU_FlushDirtyWindows
+ * function: ITEMMENU_SetTask, ITEMMENU_ForceRedrawList, ITEMMENU_RedrawList, ITEMMENU_GetSlot, ITEMMENU_GetSellTotal, ITEMMENU_GetCursorIndex, ITEMMENU_GetItemCount, ITEMMENU_RegisterItemName, ITEMMENU_RegisterItemNameCounted, ITEMMENU_SwapSlots, ITEMMENU_MoveSlot, ITEMMENU_SwitchPocketCursor, ITEMMENU_MoveCursorDown, ITEMMENU_MoveCursorUp, ITEMMENU_HandleScrollbarTouch, ITEMMENU_HandleMoveModeKeys, ITEMMENU_HandleListKeys, ITEMMENU_HandleListTouch, ITEMMENU_IsBackButtonTouched, ITEMMENU_TaskFinishClose, ITEMMENU_TaskListInput, ITEMMENU_IsRepelItem, ITEMMENU_GetFieldUseKind, ITEMMENU_UseRepel, ITEMMENU_TaskWaitMessage, ITEMMENU_ShowKeyItemRefusal, ITEMMENU_ShowMessageThenWait, ITEMMENU_TryStartUse, ITEMMENU_TryStartGive, ITEMMENU_TryStartRegister, ITEMMENU_TryStartCheck, ITEMMENU_TryStartToss, ITEMMENU_TryStartSort, ITEMMENU_TryStartPlant, ITEMMENU_TryStartSell, ITEMMENU_FindUseRange, ITEMMENU_HandleActionMenuChoice, ITEMMENU_TaskSelectItem, ITEMMENU_TaskBagMain, ITEMMENU_TaskActionMenuInput, ITEMMENU_TaskOpenActionMenu, ITEMMENU_TaskRegisterResultMessage, ITEMMENU_TaskStartRegisterResult, ITEMMENU_TaskUseNoticeMessage, ITEMMENU_TaskReturnToListAfterMessage, ITEMMENU_TaskBeginReturnToList, ITEMMENU_TaskTossConfirmInput, ITEMMENU_TaskOpenTossConfirm, ITEMMENU_TaskTossAskQuantity, ITEMMENU_TaskTossQuantityInput, ITEMMENU_TaskGiveItem, ITEMMENU_TaskSellQuantityInput, ITEMMENU_TaskSellAskConfirm, ITEMMENU_TaskSellConfirmInput, ITEMMENU_TaskWaitMessageDismiss, ITEMMENU_TaskReturnToListFromQuantity, ITEMMENU_RemoveSelectedItems, ITEMMENU_ShowQuantityWindows, ITEMMENU_HideQuantityWindows, ITEMMENU_HandleQuantityInput, ITEMMENU_CompareSortEntries, ITEMMENU_SortPocket, ITEMMENU_ShowInputGuardError, ITEMMENU_SortAndRedraw, ITEMMENU_RefreshInputGuard, ITEMMENU_SetCursorActive, ITEMMENU_IsBrowseMode, ITEMMENU_ToggleRegisteredItem, ITEMMENU_GetPocketSortFlag, ITEMMENU_TogglePocketSortFlag, ITEMMENU_UpdatePocketSortIcon, ITEMMENU_CheckItemFilter, ITEMMENU_BuildActionList, ITEMMENU_OpenActionMenu, ITEMMENU_IsItemRegistered, ITEMMENU_HandleTouchTarget, ITEMMENU_VBlankCallback, ITEMMENU_TaskStartFadeIn, ITEMMENU_TaskWaitFadeIn, ITEMMENU_Init, ITEMMENU_Main, ITEMMENU_Exit, ITEMMENU_ReturnToBagMain, ITEMMENU_ReturnToListInput, ITEMMENU_CreateBlinkPalAnm, ITEMMENU_DeleteBlinkPalAnm, ITEMMENU_TaskSelectItemFlash, ITEMMENU_StartSideButtonPress, ITEMMENU_TaskWaitSideButtonPress, ITEMMENU_StartPocketTabPress, ITEMMENU_TaskWaitPocketTabPress, ITEMMENU_CheckTouchRelease, ITEMMENU_TaskReopenListFromQuantity, ITEMMENU_TaskReturnFromQuantity, ITEMMENU_AllocPalAnmSlots, ITEMMENU_FreePalAnmSlots, ITEMMENU_TaskInputGuardMessage, ITEMMENU_TaskWaitMessageThenList, ITEMMENU_IsCheckModeAllowed, ITEMMENU_ReturnToBagMainAlias, ITEMMENU_InitDisplayBanks, ITEMMENU_ResetDisplayLayers, ITEMMENU_LoadBagGraphics, ITEMMENU_LoadTabGraphics, ITEMMENU_SetupGraphics, ITEMMENU_ApplyBgPalettes, ITEMMENU_SetLayersVisible, ITEMMENU_SetMoveTypeIconsVisible, ITEMMENU_DrawMoveInfo, ITEMMENU_HideMoveInfo, ITEMMENU_FreeGraphics, ITEMMENU_PrintMenuTitle, ITEMMENU_InitWindows, ITEMMENU_DestroyMovingCursor, ITEMMENU_CreateMovingCursor, ITEMMENU_FreeActionMenuResources, ITEMMENU_LoadPocketGraphics, ITEMMENU_CreateCursorActors, ITEMMENU_GetRowColorKind, ITEMMENU_PrintItemList, ITEMMENU_SnapSelectorToCursor, ITEMMENU_UploadSlotGraphics, ITEMMENU_UpdateCursorFromTouch, ITEMMENU_MoveCursorToRow, ITEMMENU_CreateSideButtonActors, ITEMMENU_CreateTabActors, ITEMMENU_SelectTab, ITEMMENU_ClearMessageWindow, ITEMMENU_OpenPopupList, ITEMMENU_LoadBgPaletteMode, ITEMMENU_PrintMoveInfoText, ITEMMENU_ShowMessage, ITEMMENU_ShowMessageDefault, ITEMMENU_ShowItemUseMessage, ITEMMENU_IsMessageFinished, ITEMMENU_PrintPocketName, ITEMMENU_HideSideWindows, ITEMMENU_PrintPocketCount, ITEMMENU_PrintMoney, ITEMMENU_EnterQuantityMode, ITEMMENU_LeaveQuantityMode, ITEMMENU_OpenYesNoList, ITEMMENU_CloseYesNoList, ITEMMENU_LoadSellPalette, ITEMMENU_PrintQuantityPrice, ITEMMENU_PocketToSortFlag, ITEMMENU_UpdateSlotActorPosition, ITEMMENU_UpdateSideButtons, ITEMMENU_SetBackButtonAnim, ITEMMENU_UpdateInputGuardAnim, ITEMMENU_UpdateSideButtonsForMode, ITEMMENU_MoveActorToPoint, ITEMMENU_PrintToWindow, ITEMMENU_FlushWindowAt, ITEMMENU_FlushDirtyWindows
  * address:  0x021B6100
  * region:   ov070
  * compiler: dsi/1.1p1
@@ -97,7 +97,7 @@
  *   MATH_QSort     0x02081BE4  arm
  *   sHeapSiteName     0x021BBBC0  data  ov070  a1
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
- *   func_0202E448  0x0202E448  thumb
+ *   BAG_PARAM_GetItemValue  0x0202E448  thumb
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   FILE_UTIL_CreateArcTool0F34  0x02020F34  thumb
@@ -232,7 +232,7 @@
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_020056BC  0x020056BC  thumb
  *   PALANM_RequestFade  0x0202173C  thumb
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   KEY_GetRepeatSpeed  0x02036370  arm  arm9
@@ -494,7 +494,7 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(SortEntry *, SortEntry *), void *buf);
 extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *p);
-extern u32 func_0202E448(u32 id);
+extern u32 BAG_PARAM_GetItemValue(u32 id);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern int GAME_DATA_CheckSaveFlag(void *p, int a);
 extern void *FILE_UTIL_CreateArcTool0F34(unsigned int item, unsigned int which, unsigned int heap);
@@ -634,7 +634,7 @@ extern void BG_SYS_DrawTile(unsigned int index, unsigned int a1, unsigned int a2
 extern void func_02041B6C(u32 bit);
 extern u32 func_020056BC(void);
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, FadeStep step, u8 b, u8 c, u16 d, u32 ctx);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern u32 CLACT_GetActorDrawEnable(struct Actor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, struct Bmp *bmp, u32 b, u32 c, void *d, u32 e, u16 f);
 extern void GFL_HEAP_CreateChildHeap();
@@ -821,8 +821,8 @@ extern void *GAME_DATA_GetSaveControl(void *saveData);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *fieldSave);
 extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(void *repelState);
 extern void MOVE_POKEMON_SAVE_SetCooldown(void *repelState, u8 steps);
-void func_021B6100(ItemMenuWork *work, ItemMenuTaskFn taskFn);
-void func_021B6120(ItemMenuWork *work);
+void ITEMMENU_SetTask(ItemMenuWork *work, ItemMenuTaskFn taskFn);
+void ITEMMENU_ForceRedrawList(ItemMenuWork *work);
 void ITEMMENU_RedrawList(ItemMenuWork *work);
 BagSlot *ITEMMENU_GetSlot(ItemMenuWork *work, int index);
 int ITEMMENU_GetSellTotal(int itemId, int count, unsigned int heapId);
@@ -863,14 +863,14 @@ extern u32 PRINTSYS_QUE_IsExistTarget(void *printSys, void *textBuffer);
 
 
 /* Sets the task function of the screen and the key repeat speed. */
-void func_021B6100(ItemMenuWork *work, ItemMenuTaskFn taskFn)
+void ITEMMENU_SetTask(ItemMenuWork *work, ItemMenuTaskFn taskFn)
 {
     work->taskFn = taskFn;
     KEY_SetRepeatSpeed(work->keyRepeatDelay, work->keyRepeatInterval);
 }
 
 /* Forces the list to be drawn again. */
-void func_021B6120(ItemMenuWork *work)
+void ITEMMENU_ForceRedrawList(ItemMenuWork *work)
 {
     work->shownItemId = 0xFFFF;
     ITEMMENU_RedrawList(work);
@@ -1290,7 +1290,7 @@ void ITEMMENU_UseRepel(ItemMenuWork *work)
             WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
             ITEMMENU_ShowMessage(work, 1);
         }
-        func_021B6100(work, ITEMMENU_TaskWaitMessage);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessage);
     }
 }
 
@@ -1319,12 +1319,12 @@ void ITEMMENU_ShowKeyItemRefusal(ItemMenuWork *work)
         WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessage(work, 1);
-        func_021B6100(work, ITEMMENU_TaskWaitMessage);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessage);
     }
 }
 
 /* Starts the message already prepared and waits for the player. */
-void ITEMMENU_ShowMessageThenWait(ItemMenuWork *work) { ITEMMENU_ShowMessage(work, 1); func_021B6100(work, ITEMMENU_TaskWaitMessage); }
+void ITEMMENU_ShowMessageThenWait(ItemMenuWork *work) { ITEMMENU_ShowMessage(work, 1); ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessage); }
 
 /* Action 0 (use). Enters the state when allowed, else shows the refusal. */
 u32 ITEMMENU_TryStartUse(ItemMenuWork *work)
@@ -1332,24 +1332,24 @@ u32 ITEMMENU_TryStartUse(ItemMenuWork *work)
     if (work->usageContext == 0) {
         if (func_02028754(work->actionPermissions, 0)) {
             work->nextState = 0xA;
-            func_021B6100(work, 0);
+            ITEMMENU_SetTask(work, 0);
             return 1;
         }
         func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
         WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-        func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+        ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
         return 0;
     } else if (work->usageContext == 1) {
         if (func_02028754(work->actionPermissions, 0)) {
             work->nextState = 0xB;
-            func_021B6100(work, 0);
+            ITEMMENU_SetTask(work, 0);
             return 1;
         }
         func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_IN_CONTEXT, work->tempString);
         WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-        func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+        ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
         return 0;
     }
     return 0;
@@ -1362,13 +1362,13 @@ u32 ITEMMENU_TryStartGive(ItemMenuWork *work)
 
     if (func_02028754(work->actionPermissions, 1)) {
         work->nextState = 7;
-        func_021B6100(work, 0);
+        ITEMMENU_SetTask(work, 0);
         return started;
     }
     func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+    ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
     return 0;
 }
 
@@ -1377,13 +1377,13 @@ u32 ITEMMENU_TryStartRegister(ItemMenuWork *work)
 {
     if (func_02028754(work->actionPermissions, 2)) {
         work->nextState = 8;
-        func_021B6100(work, 0);
+        ITEMMENU_SetTask(work, 0);
         return 1;
     }
     func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+    ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
     return 0;
 }
 
@@ -1392,13 +1392,13 @@ u32 ITEMMENU_TryStartCheck(ItemMenuWork *work)
 {
     if (func_02028754(work->actionPermissions, 6)) {
         work->nextState = 0x11;
-        func_021B6100(work, 0);
+        ITEMMENU_SetTask(work, 0);
         return 1;
     }
     func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+    ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
     return 0;
 }
 
@@ -1407,14 +1407,14 @@ u32 ITEMMENU_TryStartToss(ItemMenuWork *work)
 {
     if (func_02028754(work->actionPermissions, 4)) {
         work->nextState = 0xF;
-        func_021B6100(work, 0);
+        ITEMMENU_SetTask(work, 0);
         ITEMMENU_RemoveSelectedItems(work, 1);
         return 1;
     }
     func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+    ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
     return 0;
 }
 
@@ -1423,13 +1423,13 @@ u32 ITEMMENU_TryStartSort(ItemMenuWork *work)
 {
     if (func_02028754(work->actionPermissions, 5)) {
         work->nextState = 0x10;
-        func_021B6100(work, 0);
+        ITEMMENU_SetTask(work, 0);
         return 1;
     }
     func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+    ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
     return 0;
 }
 
@@ -1439,13 +1439,13 @@ u32 ITEMMENU_TryStartPlant(ItemMenuWork *work)
     if (work->usageContext == 0) {
         if (func_02028754(work->actionPermissions, 9)) {
             work->nextState = 0x14;
-            func_021B6100(work, 0);
+            ITEMMENU_SetTask(work, 0);
             return 1;
         }
         func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
         WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-        func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+        ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
         return 0;
     }
     return 0;
@@ -1457,14 +1457,14 @@ u32 ITEMMENU_TryStartSell(ItemMenuWork *work)
     if (work->usageContext == 0) {
         if (func_02028754(work->actionPermissions, 3)) {
             work->nextState = 0xE;
-            func_021B6100(work, 0);
+            ITEMMENU_SetTask(work, 0);
             ITEMMENU_RemoveSelectedItems(work, 1);
             return 1;
         }
         func_02045CAC(work->msgBank, ITEMMENU_MSG_CANT_USE_NOW, work->tempString);
         WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-        func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+        ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
         return 0;
     }
     return 0;
@@ -1519,21 +1519,21 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
             if (work->currentPocket != 4)
                 GAME_BEACON_SetItemUse(work->selectedItemId);
             if (work->currentPocket == 2) {
-                func_021B6100(work, ITEMMENU_TaskUseNoticeMessage);
+                ITEMMENU_SetTask(work, ITEMMENU_TaskUseNoticeMessage);
             } else if (FILE_UTIL_Get_0FE4(work->selectedItemId, 0x1D, work->heapId) == 1) {
                 work->nextState = 0xC;
-                func_021B6100(work, 0);
+                ITEMMENU_SetTask(work, 0);
             } else if (ITEMMENU_FindUseRange(work->selectedItemId) >= 0) {
                 gItemMenuUseRanges[ITEMMENU_FindUseRange(work->selectedItemId)].useHandler(work);
             } else {
                 fieldUseKind = ITEMMENU_GetFieldUseKind(work->selectedItemId);
                 if (fieldUseKind == 1) {
-                    func_021B6100(work, ITEMMENU_UseRepel);
+                    ITEMMENU_SetTask(work, ITEMMENU_UseRepel);
                 } else if (fieldUseKind == 2) {
-                    func_021B6100(work, ITEMMENU_ShowKeyItemRefusal);
+                    ITEMMENU_SetTask(work, ITEMMENU_ShowKeyItemRefusal);
                 } else {
                     work->nextState = 5;
-                    func_021B6100(work, 0);
+                    ITEMMENU_SetTask(work, 0);
                 }
             }
             break;
@@ -1541,16 +1541,16 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
             ITEMMENU_SetBackButtonAnim(work, 0);
             if (func_02028754(work->actionPermissions, 0)) {
                 work->nextState = 0xB;
-                func_021B6100(work, 0);
+                ITEMMENU_SetTask(work, 0);
             } else {
                 func_02045CAC(work->msgBank, 0x39, work->tempString);
                 WORDSET_SetSlotMyStatus(work->wordSet, 0, work->myStatus);
                 WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-                func_021B6100(work, ITEMMENU_ShowMessageThenWait);
+                ITEMMENU_SetTask(work, ITEMMENU_ShowMessageThenWait);
             }
             break;
         case 3:
-            func_021B6100(work, ITEMMENU_TaskTossAskQuantity);
+            ITEMMENU_SetTask(work, ITEMMENU_TaskTossAskQuantity);
             break;
         case 4:
         case 5:
@@ -1566,7 +1566,7 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
             ITEMMENU_SetBackButtonAnim(work, 0);
             if (work->selectedItemId >= 0x89 && work->selectedItemId <= 0x94) {
                 work->nextState = 0x13;
-                func_021B6100(work, 0);
+                ITEMMENU_SetTask(work, 0);
             }
             break;
         case 8:
@@ -1579,12 +1579,12 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
             break;
         case 9:
             work->nextState = 1;
-            func_021B6100(work, 0);
+            ITEMMENU_SetTask(work, 0);
             break;
         case 6:
             work->nextState = 2;
             ITEMMENU_SetBackButtonAnim(work, 0);
-            func_021B6100(work, 0);
+            ITEMMENU_SetTask(work, 0);
             break;
         case 7:
             break;
@@ -1622,7 +1622,7 @@ void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
                 work->nextState = 0x12;
             else
                 work->nextState = 3;
-            func_021B6100(work, 0);
+            ITEMMENU_SetTask(work, 0);
             return;
         }
         func_02045CAC(work->msgBank, 0x2F, work->tempString);
@@ -1631,18 +1631,18 @@ void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
         ITEMMENU_ShowMessageDefault(work);
         ITEMMENU_UpdateSideButtons(work, 0);
         ITEMMENU_SetBackButtonAnim(work, 0);
-        func_021B6100(work, ITEMMENU_TaskReturnToListAfterMessage);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskReturnToListAfterMessage);
     } else if (mode == 5) {
         work->nextState = 1;
-        func_021B6100(work, 0);
+        ITEMMENU_SetTask(work, 0);
     } else if (mode == 4) {
-        func_021B6100(work, ITEMMENU_TaskGiveItem);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskGiveItem);
     } else {
         ITEMMENU_OpenActionMenu(work);
         ITEMMENU_ShowItemUseMessage(work, work->selectedItemId);
         ITEMMENU_ShowMessageDefault(work);
         CLACT_SetActorAutoAnim(work->cursorActor, 0);
-        func_021B6100(work, ITEMMENU_HandleActionMenuChoice);
+        ITEMMENU_SetTask(work, ITEMMENU_HandleActionMenuChoice);
     }
 }
 
@@ -1727,12 +1727,12 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
         ITEMMENU_SetCursorActive(work, 1);
         work->shownItemId = 0xFFFF;
         ITEMMENU_RedrawList(work);
-        func_021B6100(work, ITEMMENU_TaskInputGuardMessage);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskInputGuardMessage);
         return;
     }
     if (KEY_GetTrg() & 1) {
         if (ITEMMENU_GetItemCount(work) > 0) {
-            func_021B6100(work, ITEMMENU_TaskSelectItemFlash);
+            ITEMMENU_SetTask(work, ITEMMENU_TaskSelectItemFlash);
             return;
         }
     } else if (KEY_GetTrg() & 4) {
@@ -1784,7 +1784,7 @@ void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work)
     if (APP_TASKMENU_GetCursorPos(work->menuList) == 0) {
         ITEMMENU_ClearMessageWindow(work);
         work->nextState = 6;
-        func_021B6100(work, 0);
+        ITEMMENU_SetTask(work, 0);
     } else {
         ITEMMENU_ClearMessageWindow(work);
         BG_SYS_ClearSlot(3);
@@ -1807,7 +1807,7 @@ void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work)
 
 
 
-void ITEMMENU_TaskOpenActionMenu(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { ITEMMENU_OpenYesNoList(work); func_021B6100(work,ITEMMENU_TaskActionMenuInput); } }
+void ITEMMENU_TaskOpenActionMenu(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { ITEMMENU_OpenYesNoList(work); ITEMMENU_SetTask(work,ITEMMENU_TaskActionMenuInput); } }
 
 
 
@@ -1826,7 +1826,7 @@ void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work)
     WORDSET_SetSlotFromMsgCB(work->wordSet, 0, FILE_UTIL_Get_12B0(work->selectedItemId));
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessage(work, 1);
-    func_021B6100(work, ITEMMENU_TaskOpenActionMenu);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskOpenActionMenu);
 }
 
 
@@ -1835,7 +1835,7 @@ void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work)
 
 
 
-void ITEMMENU_TaskStartRegisterResult(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { GFL_USE_PlaySeDefaultVolume(0x55C); func_021B6100(work,ITEMMENU_TaskRegisterResultMessage); } }
+void ITEMMENU_TaskStartRegisterResult(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { GFL_USE_PlaySeDefaultVolume(0x55C); ITEMMENU_SetTask(work,ITEMMENU_TaskRegisterResultMessage); } }
 
 
 
@@ -1850,7 +1850,7 @@ void ITEMMENU_TaskUseNoticeMessage(ItemMenuWork *work)
     else
         func_02045CAC(work->msgBank, 0x3D, work->messageString);
     ITEMMENU_ShowMessage(work, 1);
-    func_021B6100(work, ITEMMENU_TaskStartRegisterResult);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskStartRegisterResult);
 }
 
 
@@ -1878,7 +1878,7 @@ void ITEMMENU_TaskReturnToListAfterMessage(ItemMenuWork *work)
 
 
 
-void ITEMMENU_TaskBeginReturnToList(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) func_021B6100(work,ITEMMENU_TaskReturnToListAfterMessage); }
+void ITEMMENU_TaskBeginReturnToList(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) ITEMMENU_SetTask(work,ITEMMENU_TaskReturnToListAfterMessage); }
 
 
 
@@ -1904,7 +1904,7 @@ void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
         WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, 1);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);
-        func_021B6100(work, ITEMMENU_TaskBeginReturnToList);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskBeginReturnToList);
     } else {
         CLACT_SetActorAutoAnim(work->cursorActor, 1);
         cursorActive = 1;
@@ -1921,7 +1921,7 @@ void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
 
 
 
-void ITEMMENU_TaskOpenTossConfirm(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { ITEMMENU_OpenYesNoList(work); func_021B6100(work,ITEMMENU_TaskTossConfirmInput); } }
+void ITEMMENU_TaskOpenTossConfirm(ItemMenuWork *work) { if (ITEMMENU_IsMessageFinished(work)) { ITEMMENU_OpenYesNoList(work); ITEMMENU_SetTask(work,ITEMMENU_TaskTossConfirmInput); } }
 
 
 
@@ -1937,7 +1937,7 @@ void ITEMMENU_TaskTossAskQuantity(ItemMenuWork *work)
     ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, 1, 0);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessageDefault(work);
-    func_021B6100(work, ITEMMENU_TaskTossQuantityInput);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskTossQuantityInput);
 }
 
 
@@ -1972,7 +1972,7 @@ void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
         WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, 1);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);
-        func_021B6100(work, ITEMMENU_TaskOpenTossConfirm);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskOpenTossConfirm);
         return;
     }
     if (choice == 1) {
@@ -2002,14 +2002,14 @@ void ITEMMENU_TaskGiveItem(ItemMenuWork *work)
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);
         ITEMMENU_SetBackButtonAnim(work, 0);
-        func_021B6100(work, ITEMMENU_TaskWaitMessageDismiss);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessageDismiss);
         return;
     }
     work->listCount = 1;
     ITEMMENU_EnterQuantityMode(work);
     ITEMMENU_UpdateSideButtons(work, 0);
     if (ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work))->count == 1) {
-        func_021B6100(work, ITEMMENU_TaskSellAskConfirm);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskSellAskConfirm);
         return;
     }
     ITEMMENU_ShowQuantityWindows(work, 2);
@@ -2017,7 +2017,7 @@ void ITEMMENU_TaskGiveItem(ItemMenuWork *work)
     ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessageDefault(work);
-    func_021B6100(work, ITEMMENU_TaskSellQuantityInput);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskSellQuantityInput);
 }
 
 
@@ -2047,7 +2047,7 @@ void ITEMMENU_TaskSellQuantityInput(ItemMenuWork *work)
     if (choice == 0) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         ITEMMENU_HideQuantityWindows(work);
-        func_021B6100(work, ITEMMENU_TaskSellAskConfirm);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskSellAskConfirm);
         return;
     }
     if (choice == 1) {
@@ -2072,7 +2072,7 @@ void ITEMMENU_TaskSellAskConfirm(ItemMenuWork *work)
     WORDSET_SetSlotNumber(work->wordSet, 0, sellTotal, 7, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessageDefault(work);
-    func_021B6100(work, ITEMMENU_TaskSellConfirmInput);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskSellConfirmInput);
 }
 
 
@@ -2103,11 +2103,11 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
         WORDSET_SetSlotNumber(work->wordSet, 1, sellTotal, 7, 0, 1);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);
-        func_021B6100(work, ITEMMENU_TaskWaitMessageDismiss);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessageDismiss);
         break;
     case 1:
         ITEMMENU_SetCursorActive(work, func_020355C4() == 0);
-        func_021B6100(work, ITEMMENU_TaskReturnToListFromQuantity);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskReturnToListFromQuantity);
         break;
     }
 }
@@ -2123,12 +2123,12 @@ void ITEMMENU_TaskWaitMessageDismiss(ItemMenuWork *work)
         return;
     if (KEY_GetTrg() & 3) {
         ITEMMENU_SetCursorActive(work, 1);
-        func_021B6100(work, ITEMMENU_TaskReturnToListFromQuantity);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskReturnToListFromQuantity);
         return;
     }
     if (TOUCHPANEL_GetTrg() != 0) {
         ITEMMENU_SetCursorActive(work, 0);
-        func_021B6100(work, ITEMMENU_TaskReturnToListFromQuantity);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskReturnToListFromQuantity);
     }
 }
 
@@ -2392,7 +2392,7 @@ int ITEMMENU_ToggleRegisteredItem(ItemMenuWork *work, int row)
         if (ITEMMENU_GetItemCount(work) <= row)
             return 0;
         itemIdPtr = (void *)ITEMMENU_GetSlot(work, row);
-        registerSlot = func_0202E448(*itemIdPtr);
+        registerSlot = BAG_PARAM_GetItemValue(*itemIdPtr);
         if (registerSlot == 0x19)
             return 0;
         if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 1)
@@ -2513,7 +2513,7 @@ void ITEMMENU_OpenActionMenu(ItemMenuWork *work)
 
 int ITEMMENU_IsItemRegistered(ItemMenuWork *work, int value)
 {
-    return GAME_DATA_CheckSaveFlag(work->saveData, (int)func_0202E448((u16)value));
+    return GAME_DATA_CheckSaveFlag(work->saveData, (int)BAG_PARAM_GetItemValue((u16)value));
 }
 
 
@@ -2567,7 +2567,7 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work)
             ITEMMENU_SetCursorActive(work, 0);
             work->shownItemId = 0xFFFF;
             ITEMMENU_RedrawList(work);
-            func_021B6100(work, ITEMMENU_TaskInputGuardMessage);
+            ITEMMENU_SetTask(work, ITEMMENU_TaskInputGuardMessage);
         }
     } else if (idx == 8) {
         if (ITEMMENU_IsBrowseMode(work) == 1) {
@@ -2607,7 +2607,7 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work)
         work->shownItemId = 0xFFFF;
         ITEMMENU_RedrawList(work);
         ITEMMENU_DrawMoveInfo(work);
-        func_021B6100(work, ITEMMENU_TaskSelectItemFlash);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskSelectItemFlash);
         return;
     } else if (idx >= 17) {
         if (ITEMMENU_IsBrowseMode(work) == 1 && ITEMMENU_ToggleRegisteredItem(work, idx - 17) == 1) {
@@ -2654,7 +2654,7 @@ void ITEMMENU_TaskStartFadeIn(ItemMenuWork *work)
     if (PRINTSYS_QUE_IsFinished(work->printSys)) {
         WIPE_SYS_Start(0, 1, 1, 0, 6, 1, work->heapId);
         GFL_USE_PlaySeDefaultVolume(0x79F);
-        func_021B6100(work, ITEMMENU_TaskWaitFadeIn);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskWaitFadeIn);
     }
 }
 
@@ -2716,7 +2716,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     ITEMMENU_InitWindows(work);
     ITEMMENU_LoadPocketGraphics(work);
     ITEMMENU_CreateTabActors(work);
-    func_021B6120(work);
+    ITEMMENU_ForceRedrawList(work);
     ITEMMENU_CreateCursorActors(work);
     work->taskSys = BUTTON_MAN_Create(sButtonHitTable, ITEMMENU_HandleTouchTarget, work, work->heapId);
     ITEMMENU_CreateBlinkPalAnm(work);
@@ -2728,7 +2728,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     GFL_NET_RestartWithDefaultTimeout(1, work->heapId);
     ITEMMENU_SetCursorActive(work, func_020355C4() ? 0 : 1);
     ITEMMENU_ResetDisplayLayers();
-    func_021B6100(work, ITEMMENU_TaskStartFadeIn);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskStartFadeIn);
     return 1;
 }
 
@@ -2812,7 +2812,7 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
 
 void ITEMMENU_ReturnToBagMain(ItemMenuWork *work)
 {
-    func_021B6100(work, ITEMMENU_TaskBagMain);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskBagMain);
     KEY_SetRepeatSpeed(3, 6);
 }
 
@@ -2824,7 +2824,7 @@ void ITEMMENU_ReturnToBagMain(ItemMenuWork *work)
 
 int ITEMMENU_ReturnToListInput(ItemMenuWork *work)
 {
-    func_021B6100(work, ITEMMENU_TaskListInput);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskListInput);
     return KEY_SetRepeatSpeed(3, 6);
 }
 
@@ -2891,7 +2891,7 @@ void ITEMMENU_TaskSelectItemFlash(ItemMenuWork *work)
         ITEMMENU_UpdateSlotActorPosition(work, 1);
         BLINK_PALANM_ResetPhase(work->blinkPalAnm);
         BLINK_PALANM_Update(work->blinkPalAnm);
-        func_021B6100(work, ITEMMENU_TaskSelectItem);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskSelectItem);
         return;
     }
 }
@@ -2924,7 +2924,7 @@ void ITEMMENU_StartSideButtonPress(ItemMenuWork *work, int button, ItemMenuTaskF
     CLACT_SetActorAnimSeq(work->sideActor[work->fadeStep], (unsigned short)animSeq);
     CLACT_SetActorAutoAnim(work->sideActor[work->fadeStep], 1);
     work->fadeCallback = callback;
-    func_021B6100(work, ITEMMENU_TaskWaitSideButtonPress);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskWaitSideButtonPress);
 }
 
 
@@ -2937,7 +2937,7 @@ void ITEMMENU_TaskWaitSideButtonPress(ItemMenuWork *work)
 {
     if (CLACT_IsActorAnimActive(work->sideActor[work->fadeStep]) == 0) {
         work->fadeStep = 0;
-        func_021B6100(work, work->fadeCallback);
+        ITEMMENU_SetTask(work, work->fadeCallback);
     }
 }
 
@@ -2969,7 +2969,7 @@ void ITEMMENU_StartPocketTabPress(ItemMenuWork *work, int previousPocket, int is
     CLACT_SetActorAnimSeq(work->sideActor[work->fadeStep], (unsigned short)animSeq);
     CLACT_SetActorAutoAnim(work->sideActor[work->fadeStep], 1);
     work->fadeCallback = callback;
-    func_021B6100(work, ITEMMENU_TaskWaitPocketTabPress);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskWaitPocketTabPress);
 }
 
 
@@ -2982,7 +2982,7 @@ void ITEMMENU_TaskWaitPocketTabPress(ItemMenuWork *work)
 {
     if (work->fadeTimer == 0) {
         work->fadeStep = 0;
-        func_021B6100(work, work->fadeCallback);
+        ITEMMENU_SetTask(work, work->fadeCallback);
     } else {
         work->fadeTimer -= 1;
     }
@@ -3044,7 +3044,7 @@ void ITEMMENU_TaskReturnFromQuantity(ItemMenuWork *work)
         cursorActive = 0;
     }
     ITEMMENU_SetCursorActive(work, cursorActive);
-    func_021B6100(work, ITEMMENU_TaskReturnToListFromQuantity);
+    ITEMMENU_SetTask(work, ITEMMENU_TaskReturnToListFromQuantity);
 }
 
 
@@ -3095,7 +3095,7 @@ void ITEMMENU_TaskInputGuardMessage(ItemMenuWork *work)
         ITEMMENU_ShowMessage(work, 0);
         ITEMMENU_SetBackButtonAnim(work, 0);
         ITEMMENU_UpdateSideButtons(work, 0);
-        func_021B6100(work, ITEMMENU_TaskWaitMessageThenList);
+        ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessageThenList);
     }
 }
 
@@ -4566,7 +4566,7 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
     if (page == 1) {
         PALANM_RequestFade(work->palAnmSlot, 4, 0x23CF, 0, 0, 0, 0, func_020056BC());
         PALANM_RequestFade(work->palAnmSlot, 1, 1, 0, 0, 0, 0, func_020056BC());
-        func_0207D658(0x04000050, 6, 0);
+        G2x_SetBlendBrightness_(0x04000050, 6, 0);
         ITEMMENU_UpdateInputGuardAnim(work);
         CLACT_SetActorAnimSeq(work->sideActor[0], 4);
         CLACT_SetActorAnimSeq(work->sideActor[1], 5);
@@ -4582,9 +4582,9 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
         PALANM_RequestFade(work->palAnmSlot, 4, 0x23CF, 0, 8, 8, 0, func_020056BC());
         PALANM_RequestFade(work->palAnmSlot, 1, 1, 0, 8, 8, 0, func_020056BC());
         if (work->bagMode == 4 && CLACT_GetActorDrawEnable(work->sideActor[0]) == 0) {
-            func_0207D658(0x04000050, 2, -8);
+            G2x_SetBlendBrightness_(0x04000050, 2, -8);
         } else {
-            func_0207D658(0x04000050, 6, -8);
+            G2x_SetBlendBrightness_(0x04000050, 6, -8);
         }
         CLACT_SetActorAnimSeq(work->inputGuard, 4);
         CLACT_SetActorAnimSeq(work->sideActor[0], 0x12);

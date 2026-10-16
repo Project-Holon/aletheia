@@ -14,9 +14,9 @@
  *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   BTL_SIDE_GetPokeAtPos 0x021B98AC thumb ov093
- *   func_021EAF18 0x021EAF18 thumb ov093
+ *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021EAF50 0x021EAF50 thumb ov093
+ *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
  *   BTLV_EFFECT_StopLowHpBgmAndSuppress 0x021F883C thumb ov094
  *   gCatchShakeMessages 0x021EFF80 data a2
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
@@ -35,10 +35,10 @@ extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
 extern int BTLV_EFFECT_IsBusy(void);
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct L;
-extern void func_021EAF50(struct L *p, u32 val);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32);
 extern const u16 gCatchShakeMessages[];
 struct H;
@@ -60,14 +60,14 @@ int BTL_CLIENT_StepThrowBall(u32 *a, int *b, const u32 *c)
         if (!BTLV_EFFECT_IsBusy()) {
             if (c[2]) {
                 u8 *p = BTL_SIDE_GetPokeAtPos((char *const *)a[1], (u8)c[0]);
-                func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x41);
-                func_021EAF50((struct L *)((u8 *)a + 0x58), BTL_POKEPARAM_GetPokeId(p));
+                BTLV_SCU_InitMessage((struct L *)((u8 *)a + 0x58), 1, 0x41);
+                BTLV_SCU_AppendMessageArg((struct L *)((u8 *)a + 0x58), BTL_POKEPARAM_GetPokeId(p));
                 BTLV_EFFECT_StopLowHpBgmAndSuppress(0x518);
             } else {
                 int msg;
                 if (c[1] < 4) msg = gCatchShakeMessages[c[1]];
                 else msg = 0x3d;
-                func_021EAF18((struct L *)((u8 *)a + 0x58), 1, msg);
+                BTLV_SCU_InitMessage((struct L *)((u8 *)a + 0x58), 1, msg);
             }
             BTLV_CORE_BuildAndPrintMessage((char *)a[21], (struct H *)((u8 *)a + 0x58));
             (*b)++;
@@ -88,8 +88,8 @@ int BTL_CLIENT_StepThrowBall(u32 *a, int *b, const u32 *c)
             BTL_MAIN_SetKeepBgm((u8 *)a[0]);
             if (c[3]) {
                 u8 *p = BTL_SIDE_GetPokeAtPos((char *const *)a[1], (u8)c[0]);
-                func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x42);
-                func_021EAF50((struct L *)((u8 *)a + 0x58), BTL_POKEPARAM_GetPokeId(p));
+                BTLV_SCU_InitMessage((struct L *)((u8 *)a + 0x58), 1, 0x42);
+                BTLV_SCU_AppendMessageArg((struct L *)((u8 *)a + 0x58), BTL_POKEPARAM_GetPokeId(p));
                 BTLV_CORE_BuildAndPrintMessage((char *)a[21], (struct H *)((u8 *)a + 0x58));
                 (*b)++;
             } else return 1;

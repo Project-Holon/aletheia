@@ -1,5 +1,5 @@
 /*
- * function: func_02184798
+ * function: BEACON_DETAIL_ReadTouchInput
  * address: 0x02184798
  * packet: pkt_ov219_02184798
  * region: ov219
@@ -10,13 +10,13 @@
  * symbols:
  *   d_02185E00 0x02185E00 data a4
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_021848F4 0x021848F4 thumb ov219
+ *   BEACON_DETAIL_CalcTouchDelta 0x021848F4 thumb ov219
  */
 #include "../include/Obj00302.h"
 extern const char d_02185E00[];
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void func_021848F4(const char *,int,int,int *,int *,int *,int *);
-void func_02184798(char *p)
+extern void BEACON_DETAIL_CalcTouchDelta(const char *,int,int,int *,int *,int *,int *);
+void BEACON_DETAIL_ReadTouchInput(char *p)
 {
     int flag=0;
     int result;
@@ -43,7 +43,7 @@ void func_02184798(char *p)
             else (((struct Obj00302 *)p)->fC338)--;
         case 1:
             if(flag!=0)return;
-            func_021848F4(p,((struct Obj00302 *)p)->fC328,((struct Obj00302 *)p)->fC32C,&xf,&dx,&yf,&dy);
+            BEACON_DETAIL_CalcTouchDelta(p,((struct Obj00302 *)p)->fC328,((struct Obj00302 *)p)->fC32C,&xf,&dx,&yf,&dy);
             ((struct Obj00302 *)p)->fC320=xf|yf;
             ((struct Obj00302 *)p)->fC330=dx;
             ((struct Obj00302 *)p)->fC334=dy;

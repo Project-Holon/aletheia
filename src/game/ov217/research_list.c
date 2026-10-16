@@ -165,7 +165,7 @@
  */
 #include "research_shared_types.h"
 
-#define GB ((const struct G *)gb)
+#define GB ((const struct ResearchListEntryDef *)gb)
 
 struct ResearchTop {
     u32 owner;
@@ -237,9 +237,9 @@ typedef enum { FALSE=0,TRUE=1 } Bool;
 
 typedef enum { ZERO = 0 } Origin;
 
-struct Ent_021BBF04 { unsigned int a; unsigned short b; unsigned short pad; unsigned int c[3]; };
+struct PalAnmDef { u32 mode; u16 color; u16 pad; u32 extra[3]; };
 
-struct Ent_021BCAE8 {
+struct LabelEntry {
     u8 b0;
     u8 b1;
     u8 b2;
@@ -273,15 +273,13 @@ struct Loc {
     u32 w;
 };
 
-struct Entry_021BBF04 { s16 x,y,z; u8 a,b; u32 c,d,e,f; u16 g,pad; };
+struct ActorDef { s16 x,y,z; u8 a,b; u32 c,d,e,f; u16 g,pad; };
 
-struct Entry_021C3470 { int x, y, z; int bank; int index; int px; int py; u8 r, g, b, pad2; u32 arc, member, enabled; };
-
-typedef short s16_021BD178;
+struct BmpDef { int x, y, z; int bank; int index; int px; int py; u8 r, g, b, pad2; u32 arc, member, enabled; };
 
 struct Tab { int v[3][10]; };
 
-struct G {
+struct ResearchListEntryDef {
     char pad0[0xc];
     u32 f0c;
     u32 f10;
@@ -295,11 +293,9 @@ struct G {
     u32 f24;
 };
 
-typedef signed short s16_021BD370;
+struct Param { void *bmp; s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
 
-struct Param { void *bmp; s16_021BD370 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
-
-struct Entry_021BD0C4 { s16_021BD370 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
+struct OamDef { s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
 
 struct Entry021C3260 {
     int a;
@@ -930,7 +926,7 @@ extern const u8 d_021C3094[];
 
 extern const u8 d_021C30D0[];
 
-extern const struct Ent_021BBF04 d_021C326C[];
+extern const struct PalAnmDef d_021C326C[];
 
 extern int d_021C3068[];
 
@@ -946,27 +942,27 @@ extern struct DispConfig d_021C30C0;
 
 extern const struct BgTemplate d_021C3110, d_021C3130, d_021C30F0, d_021C3150, d_021C3170;
 
-extern const struct Ent_021BCAE8 d_021C33C8[];
+extern const struct LabelEntry d_021C33C8[];
 
-extern const struct Ent_021BCAE8 d_021C3520[];
+extern const struct LabelEntry d_021C3520[];
 
 extern const u8 d_021C305C[];
 
 extern const u16 d_021C3060[];
 
-extern const struct Entry_021BBF04 d_021C320C[];
+extern const struct ActorDef d_021C320C[];
 
-extern const struct Entry_021C3470 d_021C3470[];
+extern const struct BmpDef d_021C3470[];
 
 extern const struct Tab d_021C3350;
 
-extern const struct G d_021C349C;
+extern const struct ResearchListEntryDef d_021C349C;
 
 extern const struct Tab d_021C32D8;
 
-extern const struct G d_021C34C8;
+extern const struct ResearchListEntryDef d_021C34C8;
 
-extern const struct Entry_021BD0C4 d_021C31BC[];
+extern const struct OamDef d_021C31BC[];
 
 extern const struct Entry021C3260 d_021C3260[];
 
@@ -2444,7 +2440,7 @@ void RESEARCH_LIST_StartPaletteAnime(u8 **p, u32 i)
 
 void RESEARCH_LIST_StartListPaletteAnime(char *p, int i)
 {
-    PALETTE_ANIME_Start((u8 *)(*(int *)(p + 0x9c + i * 4)), d_021C326C[i].a, d_021C326C[i].b);
+    PALETTE_ANIME_Start((u8 *)(*(int *)(p + 0x9c + i * 4)), d_021C326C[i].mode, d_021C326C[i].color);
 }
 
 /*
@@ -2959,7 +2955,7 @@ void RESEARCH_LIST_CreateLabels(struct ResearchTop *p)
 {
     int i;
     for (i = 0; i < 7; i++) {
-        const struct Ent_021BCAE8 *e = &d_021C33C8[i];
+        const struct LabelEntry *e = &d_021C33C8[i];
         struct Loc l1;
         l1.b0 = e->b0;
         l1.b1 = e->b1;
@@ -2977,7 +2973,7 @@ void RESEARCH_LIST_CreateLabels(struct ResearchTop *p)
         BgTextLabel_PrintMessage(p->arr[0xdc / 4 - 4 + i], e->arg);
     }
     for (i = 0; i < (int)RESEARCH_LIST_GetEntryCount(p); i++) {
-        const struct Ent_021BCAE8 *e = &d_021C3520[i];
+        const struct LabelEntry *e = &d_021C3520[i];
         struct Loc l2;
         l2.b0 = e->b0;
         l2.b1 = e->b1;
@@ -3120,7 +3116,7 @@ void RESEARCH_LIST_ClearActors(void *p)
 void RESEARCH_LIST_CreateActors(u8 *p)
 {
     struct Arg arg;
-    const struct Entry_021BBF04 *q;
+    const struct ActorDef *q;
     u8 *dest;
     int i;
     u32 a,b,c,d;
@@ -3161,7 +3157,7 @@ void RESEARCH_LIST_CreateBmps(struct ResearchTop *p)
 
 void RESEARCH_LIST_DrawBmps(u8 *p)
 {
-    const struct Entry_021C3470 *q;
+    const struct BmpDef *q;
     struct Bmp *bmp;
     void *text;
     u16 color;
@@ -3204,7 +3200,7 @@ void RESEARCH_LIST_DrawBadgeA(struct ResearchTop *p)
     BMP_Delete(heap);
     color = (GB->f1e & 0x1f) | (((GB->f1c & 0x1f) << 10) | ((GB->f1d & 0x1f) << 5));
     res = func_02045EC0((void *)p->arr[GB->f0c], GB->f10);
-    PRINTSYS_PrintColor(p->bmps[1], (s16_021BD178)GB->f14, (s16_021BD178)GB->f18, res, (void *)p->font, color);
+    PRINTSYS_PrintColor(p->bmps[1], (s16)GB->f14, (s16)GB->f18, res, (void *)p->font, color);
     func_020307B0(res);
 }
 
@@ -3258,7 +3254,7 @@ void RESEARCH_LIST_CreateOamObjects(u8 *p)
     int sysOff,outOff,callOff,uploadOff;
     struct Param param;
     int i;
-    const struct Entry_021BD0C4 *q;
+    const struct OamDef *q;
     u8 *dest;
     sysOff=0x12C;
     outOff=0x130;

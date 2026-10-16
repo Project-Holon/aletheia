@@ -23,7 +23,7 @@
  *   POKETRADE_PROC_StepClearPeerSelection 0x021DB9B4 thumb ov119
  *   POKETRADE_NEGO_StepSendOfferRemoval 0x021DF708 thumb ov119
  *   POKETRADE_PROC_ShowDragIcon 0x021D8C84 thumb ov119
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKETRADE_PROC_CanTradeMon 0x021DD0CC thumb ov119
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_SAVE_OpenMessageWindowAtPos 0x021E0FF4 thumb ov119
@@ -39,7 +39,7 @@ extern int POKETRADE_2D_HitTestBoxIcons(char *p, int x, int y, int *outA, int *o
 extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 extern int POKETRADE_PROC_IsTradeTargetValid(char *,int,int);
 extern int POKETRADE_PROC_IsHostSide(void *);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern int POKETRADE_PROC_CanTradeMon(char *,int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void POKETRADE_PROC_SetStep(void *,int);
@@ -66,7 +66,7 @@ int POKETRADE_PROC_PollGridTouchDrag(char *p,int save)
     I(0xf98)=I(0xf80);I(0xf94)=I(0xf7c);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepSendOfferRemoval);return 3;
    }
    POKETRADE_PROC_ShowDragIcon(p);
-   if(e && func_02017E88((void *)e,0xa9,0)) {
+   if(e && POKE_TOOL_GetBoxValue((void *)e,0xa9,0)) {
     if(POKETRADE_PROC_CanTradeMon(p,e)) {
      MSGDATA_ReadString((struct MsgBank *)I(0x720),0x8e,(void *)I(0x738));POKETRADE_SAVE_OpenMessageWindowAtPos(p,1,0);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepWaitKeyAfterMessage);return 2;
     }

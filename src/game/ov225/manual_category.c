@@ -120,7 +120,7 @@ struct ManualDetailOwner {
 /* One 8-byte selection table row. */
 struct ManualListEntry { u16 item; u16 count; u32 flag; };
 
-/* The selection list built by MANUAL_CATEGORY_CreateList and MANUAL_CATEGORY_CreateDetailList (was Q / Obj00637). */
+/* The selection list built by MANUAL_CATEGORY_CreateList and MANUAL_CATEGORY_CreateDetailList. */
 struct ManualMenuList {
     void *owner;            /* 0x00 list or detail owner region */
     void *data;             /* 0x04 */
@@ -135,7 +135,7 @@ struct ManualMenuList {
     void *task;             /* 0x20 */
 };
 
-/* The option/detail work built by MANUAL_CATEGORY_CreateOption (was Obj02563 / Obj00602). */
+/* The option/detail work built by MANUAL_CATEGORY_CreateOption. */
 struct ManualOptionWork {
     void *owner;            /* 0x00 ManualWork + 0x48 */
     void *data;             /* 0x04 */

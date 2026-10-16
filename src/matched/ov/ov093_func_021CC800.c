@@ -15,7 +15,7 @@
  *   BTL_SIDE_GetSlotOfClient  0x021B9AEC  thumb  ov093
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   _u32_div_f     0x0209C2B0  arm
  */
 #include "../include/Obj09984.h"
@@ -29,7 +29,7 @@ extern char *BTL_SIDE_GetSlotOfClient(char *p, int i);
 struct Q1;
 extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u32 _u32_div_f(u32, u32);
 
 void BTL_SERVER_FLOW_SumSideHp(u8 *a, u32 *out1, u32 *out2, u8 want)
@@ -51,8 +51,8 @@ void BTL_SERVER_FLOW_SumSideHp(u8 *a, u32 *out1, u32 *out2, u8 want)
             n = BTL_SLOT_GetCount((struct Q1 *)p);
             for (i = 0; i < n; i++) {
                 t = BTL_SLOT_GetPokeParam((struct S2 *)p, (u8)i);
-                sum += func_021D59B4(t, 14);
-                *out1 += func_021D59B4(t, 13);
+                sum += BTL_POKEPARAM_GetValue(t, 14);
+                *out1 += BTL_POKEPARAM_GetValue(t, 13);
             }
         }
     }

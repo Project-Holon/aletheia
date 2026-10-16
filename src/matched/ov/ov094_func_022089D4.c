@@ -15,7 +15,7 @@
  *   BTLV_GAUGE_SetBgmPlayerParam 0x02208D24 thumb ov094
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  */
@@ -30,7 +30,7 @@ extern void BTLV_GAUGE_SetBgmPlayerParam(int);
 extern void GFL_USE_FadeInBgmFull(u32);
 extern int GFL_USE_PushBgm(void);
 typedef unsigned short u16;
-extern int func_0202D034(u32 a, u32 b);
+extern int BGWINFRM_GetScaleRank(u32 a, u32 b);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32);
 void BTLV_GAUGE_UpdateLowHpBgm(O *o)
@@ -62,7 +62,7 @@ void BTLV_GAUGE_UpdateLowHpBgm(O *o)
         if (o->e[i].b0 || o->e[i].b1 || o->e[i].b2) {
             busy = 1;
         } else if (o->e[i].f44 == 0 && o->e[i].b3 && o->e[i].f40 != 4) {
-            if (func_0202D034(o->e[i].f48, o->e[i].f4c) == 2) found = 1;
+            if (BGWINFRM_GetScaleRank(o->e[i].f48, o->e[i].f4c) == 2) found = 1;
         }
     }
     if (!o->b2 && o->f444 != GFL_USE_GetBgmNo()) return;

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EAF18  0x021EAF18  thumb  ov093
+ *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
  *   BTLV_CORE_StartYesNoMenu  0x021EABC4  thumb  ov093
  *   BTLV_CORE_PollYesNoMenu  0x021EAC54  thumb  ov093
  */
@@ -29,7 +29,7 @@ typedef struct {
 } BattleSeq;
 
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern void BTLV_CORE_StartYesNoMenu(u8 *a, u32 x, u32 y, u32 z);
 extern int BTLV_CORE_PollYesNoMenu(void *win, int *out);
 
@@ -41,8 +41,8 @@ int BTL_CLIENT_StepAskYesNo(BattleSeq *s, int *state)
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)s->msg, 3, 5);
-        func_021EAF18((struct L *)((u8 *)s + 0x7c), 3, 1);
+        BTLV_SCU_InitMessage((struct L *)s->msg, 3, 5);
+        BTLV_SCU_InitMessage((struct L *)((u8 *)s + 0x7c), 3, 1);
         BTLV_CORE_StartYesNoMenu(s->msgWin, (u32)s->msg, (u32)((u8 *)s + 0x7c), 0);
         (*state)++;
         break;

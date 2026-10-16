@@ -14,7 +14,7 @@
  *   NNSi_FndAllocFromExpHeap  0x02060888  arm
  *
  * The head-end half of the expanded-heap allocator that sits under the game's
- * own heap layer: src/matched/sub_02030098.c calls NNS_FndAllocFromExpHeapEx, which
+ * own heap layer: src/matched/GFL_HEAP_AllocMemory.c calls NNS_FndAllocFromExpHeapEx, which
  * dispatches here for a non-negative alignment and to NNSi_FndAllocFromExpHeapTail for a
  * negative one.
  *

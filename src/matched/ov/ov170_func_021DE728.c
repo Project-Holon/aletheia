@@ -11,7 +11,7 @@
  *   func_02030734 0x02030734 arm
  *   d_021F1400 0x021F1400 data a1
  *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb ov170
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   BOX2_MAIN_GetMinusOne 0x021DE720 thumb ov170
  */
 #include "../include/Obj00000.h"
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F1400[];
 extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
-extern unsigned func_02017E88(void *,unsigned,unsigned);
+extern unsigned POKE_TOOL_GetBoxValue(void *,unsigned,unsigned);
 extern int BOX2_MAIN_GetMinusOne(unsigned short);
 void BOX2_MAIN_ResetMovers(unsigned char *p)
 {
@@ -38,7 +38,7 @@ void BOX2_MAIN_ResetMovers(unsigned char *p)
     s->flags=0;
     m=(void *)BOX2_MAIN_GetMonAt((void ***)p,p[0x14],p[0x16]);
     for(i=0;i<4;i++){
-        r=BOX2_MAIN_GetMinusOne((unsigned short)func_02017E88(m,i+0x36,0));
+        r=BOX2_MAIN_GetMinusOne((unsigned short)POKE_TOOL_GetBoxValue(m,i+0x36,0));
         if(r!=-1){s->flags|=(unsigned char)(1<<r);return;}
     }
 }

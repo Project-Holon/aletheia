@@ -21,7 +21,7 @@
  *   BTL_POKEPARAM_Create 0x021D4D84 thumb ov093
  *   BTL_SLOT_Add 0x021B9B54 thumb ov093
  *   BTL_MAIN_FindLastLivingPartyIndex 0x021B9634 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_SetFakeMon 0x021D5848 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
@@ -45,7 +45,7 @@ struct S;
 extern struct S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c);
 extern void BTL_SLOT_Add(struct Q1 *p, u32 v);
 extern int BTL_MAIN_FindLastLivingPartyIndex(void *a);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void BTL_POKEPARAM_SetFakeMon(struct QH *p, void *v);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
@@ -81,14 +81,14 @@ void BTL_SIDE_SetupClientParty(char *a, char *b, u8 c)
     cnt = BTL_MAIN_FindLastLivingPartyIndex(list);
     if (cnt > 0) {
         for (i = 0, y = x; i < cnt; i++, y++) {
-                if (func_021D59B4(*(u8 **)(a + y * 4 + 0x84), 0x11) == 0x95)
+                if (BTL_POKEPARAM_GetValue(*(u8 **)(a + y * 4 + 0x84), 0x11) == 0x95)
                     BTL_POKEPARAM_SetFakeMon(*(void **)(a + y * 4 + 0x84), POKEPARTY_GetMember(list, cnt));
             }
     }
     if (BTL_MAIN_GetCompetitor((void ***)b) == 0 && c == 1) {
         for (j = 0; j < n; j++, x++) {
             v = *(u8 **)(a + x * 4 + 0x84);
-            if (BTL_POKEPARAM_GetSpecies((struct QF *)v) == 0x23B && func_021D59B4(v, 0x11) == 0x95) {
+            if (BTL_POKEPARAM_GetSpecies((struct QF *)v) == 0x23B && BTL_POKEPARAM_GetValue(v, 0x11) == 0x95) {
                 void *l2;
                 u8 m, q;
                 l2 = BTL_MAIN_GetClientParty(b, 0, *(u32 *)(a + 0xe4));
@@ -102,7 +102,7 @@ void BTL_SIDE_SetupClientParty(char *a, char *b, u8 c)
                 }
                 if (nw != 0) {
                     if (*(void **)(b + 0x2c0) == 0)
-                        *(void **)(b + 0x2c0) = POKE_TOOL_Create(nw, func_021D59B4(v, 0xf), 0, *(u16 *)(b + 0x468));
+                        *(void **)(b + 0x2c0) = POKE_TOOL_Create(nw, BTL_POKEPARAM_GetValue(v, 0xf), 0, *(u16 *)(b + 0x468));
                     BTL_POKEPARAM_SetFakeMon((struct QH *)v, *(void **)(b + 0x2c0));
                 }
             }

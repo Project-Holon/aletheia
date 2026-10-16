@@ -1,7 +1,7 @@
 /*
  * file:     bsubway_record_list.c
  * unit:     yes
- * function: BSUBWAY_RECORD_LIST_Init, BSUBWAY_RECORD_LIST_Main, BSUBWAY_RECORD_LIST_Exit, BSUBWAY_RECORD_LIST_VBlankTask, BSUBWAY_RECORD_LIST_InitWork, BSUBWAY_RECORD_LIST_FreeWork, BSUBWAY_RECORD_LIST_SetupVramBanks, BSUBWAY_RECORD_LIST_SetupBgLayers, BSUBWAY_RECORD_LIST_ReleaseBgLayers, BSUBWAY_RECORD_LIST_LoadGraphics, BSUBWAY_RECORD_LIST_DeleteFrames, BSUBWAY_RECORD_LIST_SetupActors, BSUBWAY_RECORD_LIST_CreateActors, BSUBWAY_RECORD_LIST_DeleteActors, BSUBWAY_RECORD_LIST_CreateWindows, BSUBWAY_RECORD_LIST_DeleteWindows, BSUBWAY_RECORD_LIST_InitText, BSUBWAY_RECORD_LIST_ExitText, BSUBWAY_RECORD_LIST_UpdateText, BSUBWAY_RECORD_LIST_RunInputState, BSUBWAY_RECORD_LIST_StateFadeIn, BSUBWAY_RECORD_LIST_StateInput, BSUBWAY_RECORD_LIST_StateBackAnim, BSUBWAY_RECORD_LIST_StateFadeOutStart, BSUBWAY_RECORD_LIST_StateFadeOutWait, BSUBWAY_RECORD_LIST_InitCursor, func_021B9F58, BSUBWAY_RECORD_LIST_CursorCallbackMoved, BSUBWAY_RECORD_LIST_CursorCallbackMovedAlt, BSUBWAY_RECORD_LIST_PlaceCursorActor, BSUBWAY_RECORD_LIST_ShowRecordDetails, BSUBWAY_RECORD_LIST_PollTouchAndCancel, BSUBWAY_RECORD_LIST_HandleAction, BSUBWAY_RECORD_LIST_InitPageCount, BSUBWAY_RECORD_LIST_UpdateArrowVisibility, BSUBWAY_RECORD_LIST_ChangePage, BSUBWAY_RECORD_LIST_ShowPage, BSUBWAY_RECORD_LIST_GetRowCountOnPage, BSUBWAY_RECORD_LIST_DrawPageRows, BSUBWAY_RECORD_LIST_DrawRowName
+ * function: BSUBWAY_RECORD_LIST_Init, BSUBWAY_RECORD_LIST_Main, BSUBWAY_RECORD_LIST_Exit, BSUBWAY_RECORD_LIST_VBlankTask, BSUBWAY_RECORD_LIST_InitWork, BSUBWAY_RECORD_LIST_FreeWork, BSUBWAY_RECORD_LIST_SetupVramBanks, BSUBWAY_RECORD_LIST_SetupBgLayers, BSUBWAY_RECORD_LIST_ReleaseBgLayers, BSUBWAY_RECORD_LIST_LoadGraphics, BSUBWAY_RECORD_LIST_DeleteFrames, BSUBWAY_RECORD_LIST_SetupActors, BSUBWAY_RECORD_LIST_CreateActors, BSUBWAY_RECORD_LIST_DeleteActors, BSUBWAY_RECORD_LIST_CreateWindows, BSUBWAY_RECORD_LIST_DeleteWindows, BSUBWAY_RECORD_LIST_InitText, BSUBWAY_RECORD_LIST_ExitText, BSUBWAY_RECORD_LIST_UpdateText, BSUBWAY_RECORD_LIST_RunInputState, BSUBWAY_RECORD_LIST_StateFadeIn, BSUBWAY_RECORD_LIST_StateInput, BSUBWAY_RECORD_LIST_StateBackAnim, BSUBWAY_RECORD_LIST_StateFadeOutStart, BSUBWAY_RECORD_LIST_StateFadeOutWait, BSUBWAY_RECORD_LIST_InitCursor, BSUBWAY_RECORD_LIST_DeleteCursor, BSUBWAY_RECORD_LIST_CursorCallbackMoved, BSUBWAY_RECORD_LIST_CursorCallbackMovedAlt, BSUBWAY_RECORD_LIST_PlaceCursorActor, BSUBWAY_RECORD_LIST_ShowRecordDetails, BSUBWAY_RECORD_LIST_PollTouchAndCancel, BSUBWAY_RECORD_LIST_HandleAction, BSUBWAY_RECORD_LIST_InitPageCount, BSUBWAY_RECORD_LIST_UpdateArrowVisibility, BSUBWAY_RECORD_LIST_ChangePage, BSUBWAY_RECORD_LIST_ShowPage, BSUBWAY_RECORD_LIST_GetRowCountOnPage, BSUBWAY_RECORD_LIST_DrawPageRows, BSUBWAY_RECORD_LIST_DrawRowName
  * address:  0x021B95A0
  * region:   ov069
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   BSUBWAY_RECORD_LIST_UpdateText 0x021B9DFC thumb ov069
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_021B9F58  0x021B9F58  thumb  ov069
+ *   BSUBWAY_RECORD_LIST_DeleteCursor  0x021B9F58  thumb  ov069
  *   BSUBWAY_RECORD_LIST_ExitText  0x021B9DE8  thumb  ov069
  *   BSUBWAY_RECORD_LIST_DeleteWindows  0x021B9CD8  thumb  ov069
  *   BSUBWAY_RECORD_LIST_DeleteActors  0x021B9BF0  thumb  ov069
@@ -197,7 +197,7 @@ extern int BSUBWAY_RECORD_LIST_RunInputState(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void CLACT_DrawSystem(void);
-extern int func_021B9F58(BsubwayRecordListWork *work);
+extern int BSUBWAY_RECORD_LIST_DeleteCursor(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work);
@@ -380,8 +380,8 @@ int BSUBWAY_RECORD_LIST_StateInput(BsubwayRecordListWork *work);
 int BSUBWAY_RECORD_LIST_StateBackAnim(BsubwayRecordListWork *work);
 int BSUBWAY_RECORD_LIST_StateFadeOutStart(BsubwayRecordListWork *work);
 int BSUBWAY_RECORD_LIST_StateFadeOutWait(BsubwayRecordListWork *work);
-void func_021B9F68(void);
-void func_021B9F6C(void);
+void BSUBWAY_RECORD_LIST_CursorCallbackNop0(void);
+void BSUBWAY_RECORD_LIST_CursorCallbackNop1(void);
 void BSUBWAY_RECORD_LIST_CursorCallbackMoved(BsubwayRecordListWork *work, int row);
 void BSUBWAY_RECORD_LIST_CursorCallbackMovedAlt(BsubwayRecordListWork *work, int row);
 void BSUBWAY_RECORD_LIST_PlaceCursorActor(BsubwayRecordListWork *work, int row);
@@ -446,7 +446,7 @@ int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
 
 int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work)
 {
-    func_021B9F58(work);
+    BSUBWAY_RECORD_LIST_DeleteCursor(work);
     BSUBWAY_RECORD_LIST_ExitText(work);
     BSUBWAY_RECORD_LIST_DeleteWindows(work);
     BSUBWAY_RECORD_LIST_DeleteActors(work);
@@ -783,17 +783,17 @@ void BSUBWAY_RECORD_LIST_InitCursor(BsubwayRecordListWork *work)
  * evidence: 02025D14 forwards r0 to 02030164, whose body reads the pointer
  * and returns a predicate; its legacy void(void) declaration is incomplete.
  */
-int func_021B9F58(BsubwayRecordListWork *work)
+int BSUBWAY_RECORD_LIST_DeleteCursor(BsubwayRecordListWork *work)
 {
     return CURSOR_MOVE_Delete(work->cursorMove);
 }
 
 
 /* Cursor callback table slots 0 and 1: no action. */
-void func_021B9F68(void) {}
+void BSUBWAY_RECORD_LIST_CursorCallbackNop0(void) {}
 
 
-void func_021B9F6C(void) {}
+void BSUBWAY_RECORD_LIST_CursorCallbackNop1(void) {}
 
 
 /* Cursor callback table slot 2: the cursor moved to row "row". */

@@ -32,6 +32,7 @@
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 
 typedef signed char s8;
@@ -75,7 +76,7 @@ extern int WORLDTRADE_BOX_CheckMonRestrictionA(u32 handle);
 extern int WORLDTRADE_BOX_CheckMonRestrictionB(u32 handle);
 extern int WORLDTRADE_BOX_ClampSlot(int v);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern int WORLDTRADE_BOX_TryConfirmDeposit(Work *p);
 
@@ -112,7 +113,7 @@ int WORLDTRADE_BOX_StateRequestMenuInput(Work *p)
             if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
                 POKEPARTY_GetMember(p->ctx->party, p->slot);
             }
-            if (func_02017E88(mon, 5, 0) == 0x1EC) {
+            if (POKE_TOOL_GetBoxValue(mon, 5, 0) == 0x1EC) {
                 POKE_TOOL_ChangeBoxForm((int)mon, 0);
             }
             WORLDTRADE_BOX_TryConfirmDeposit(p);

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209A524
+ * function: floor
  * address:  0x0209A524
  * packet:   pkt_02098B44
  * region:   arm9
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 
 static const double huge = 1.0e300;
 
-double func_0209A524(double x)
+double floor(double x)
 {
     i32 i0, i1, j0;
     u32 i, j;

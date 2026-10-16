@@ -11,7 +11,7 @@
  * symbols:
  *   ZUKAN_DETAIL_INFO_ClearButtonHighlight 0x021BF63C thumb ov208
  *   ZUKAN_DETAIL_INFO_NoOpHighlight 0x021BF61C thumb ov208
- *   func_021BA2CC 0x021BA2CC thumb ov206
+ *   ZUKAN_INFO_Delete 0x021BA2CC thumb ov206
  *   ZUKAN_DETAIL_INFO_DeleteLanguageButtons 0x021BF41C thumb ov208
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -28,7 +28,7 @@ struct Rec;struct Node;
 extern char ov206_id[],ov067_id[];
 extern void ZUKAN_DETAIL_INFO_ClearButtonHighlight(int,char *,unsigned);
 extern void ZUKAN_DETAIL_INFO_NoOpHighlight(int,char *,unsigned);
-extern void func_021BA2CC(char *);
+extern void ZUKAN_INFO_Delete(char *);
 extern void ZUKAN_DETAIL_INFO_DeleteLanguageButtons(int,char *,unsigned);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
@@ -40,7 +40,7 @@ extern void func_02034A5C(int);
 int ZUKAN_DETAIL_INFO_Exit(char *first,unsigned unused,int owner,char *q,unsigned heap)
 {
     ZUKAN_DETAIL_INFO_ClearButtonHighlight(owner,q,heap);ZUKAN_DETAIL_INFO_NoOpHighlight(owner,q,heap);
-    func_021BA2CC(*(char * *)&((struct Obj03362 *)q)->f8);func_021BA2CC(*(char * *)&((struct Obj03362 *)q)->f4);
+    ZUKAN_INFO_Delete(*(char * *)&((struct Obj03362 *)q)->f8);ZUKAN_INFO_Delete(*(char * *)&((struct Obj03362 *)q)->f4);
     ZUKAN_DETAIL_INFO_DeleteLanguageButtons(owner,q,heap);
     GF_FONT_Delete(((struct Obj03362 *)q)->f110);
     MSGDATA_Delete(*(struct Rec * *)&((struct Obj03362 *)q)->f11C);

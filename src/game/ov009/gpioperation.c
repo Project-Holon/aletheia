@@ -20,7 +20,7 @@
  *   gGpiOperationErrorOutOfMemory     0x021A4DF8  data
  *   gsimalloc          0x0217EAB0  arm
  *   gpiSetErrorString  0x02193734  arm
- *   func_0217EB9C  0x0217EB9C  arm  ov009
+ *   shutdown  0x0217EB9C  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   gpiProcessConnect  0x0218AE9C  arm  ov009
@@ -112,7 +112,7 @@ extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned long n);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, const GPIOperation *operation, int type);
 extern void *gsimalloc(u32 size);
 extern void gpiSetErrorString(void **connection, char *errorString);
-extern int func_0217EB9C(int sock, int how);
+extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern void gsifree(void *ptr);
 extern int gpiProcessConnect(void **connection, GPIOperation *operation, char *input);
@@ -349,7 +349,7 @@ void gpiDestroyOperation(void **connection, GPIOperation *operation)
         struct GPISearchData *data = (struct GPISearchData *)operation->data;
 
         iconnection->numSearches--;
-        func_0217EB9C(data->sock, 2);
+        shutdown(data->sock, 2);
         closesocket(data->sock);
         gsifree(data->b);
         data->b = 0;

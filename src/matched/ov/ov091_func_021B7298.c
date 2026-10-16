@@ -28,9 +28,9 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC3C  0x0201BC3C  thumb
- *   func_0201BC40  0x0201BC40  thumb
- *   func_0201BCB4  0x0201BCB4  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
@@ -71,9 +71,9 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC3C(void);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
@@ -122,8 +122,8 @@ void POKELIST_LoadGraphics(u8 *p)
     ARC_TOOL_DeleteHandle(h);
 
     h2 = func_020490F4(7, ((struct Obj00047 *)p)->f0);
-    ((struct Obj00047 *)p)->f190 = CLACT_RegisterPaletteCompressed(h2, func_0201BC3C(), 0, 0xc0, ((struct Obj00047 *)p)->f0);
-    ((struct Obj00047 *)p)->f1D0 = CLACT_RegisterCellAnim(h2, func_0201BC40(), func_0201BCB4(), ((struct Obj00047 *)p)->f0);
+    ((struct Obj00047 *)p)->f190 = CLACT_RegisterPaletteCompressed(h2, POKE_TOOL_GetIconPaletteArcId(), 0, 0xc0, ((struct Obj00047 *)p)->f0);
+    ((struct Obj00047 *)p)->f1D0 = CLACT_RegisterCellAnim(h2, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), ((struct Obj00047 *)p)->f0);
     ARC_TOOL_DeleteHandle(h2);
 
     h2 = func_020490F4(APP_ICON_GetArchiveId(), ((struct Obj00047 *)p)->f0);

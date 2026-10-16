@@ -1,5 +1,5 @@
 /*
- * function: func_021988F4
+ * function: GetLocalIP
  * address:  0x021988F4
  * packet:   pkt_ov009_021988F4
  * region:   ov009
@@ -28,7 +28,7 @@ typedef struct SOCHostEnt {
 extern SOCHostEnt *getlocalhost(void);
 extern int func_0217F038(SOCInAddr *addr);
 
-unsigned int func_021988F4(void)
+static unsigned int GetLocalIP(void)
 {
     int num_local_ips;
     SOCHostEnt *phost;

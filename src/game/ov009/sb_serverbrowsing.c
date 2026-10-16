@@ -1,7 +1,7 @@
 /*
  * file:     sb_serverbrowsing.c
  * unit:     yes
- * function: func_0219E9F4, EngineCallback, ServerBrowserNewA, ServerBrowserFree, ServerBrowserBeginUpdate2, ServerBrowserLimitUpdateA, ServerBrowserSendMessageToServerA, ServerBrowserSendNatNegotiateCookieToServerA, ServerBrowserRemoveServer, ServerBrowserThink, ServerBrowserHalt, ServerBrowserClear, ServerBrowserState, ServerBrowserGetServer, ServerBrowserCount, ServerBrowserSortA, ServerBrowserGetMyPublicIPAddr
+ * function: ListCallback, EngineCallback, ServerBrowserNewA, ServerBrowserFree, ServerBrowserBeginUpdate2, ServerBrowserLimitUpdateA, ServerBrowserSendMessageToServerA, ServerBrowserSendNatNegotiateCookieToServerA, ServerBrowserRemoveServer, ServerBrowserThink, ServerBrowserHalt, ServerBrowserClear, ServerBrowserState, ServerBrowserGetServer, ServerBrowserCount, ServerBrowserSortA, ServerBrowserGetMyPublicIPAddr
  * address:  0x0219E9F4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -95,7 +95,7 @@ extern SBServer *SBServerListNth(SBServerList *slist, int index);
 extern void SBServerListCount(char *p);
 extern char *strcpy(char *dst, const char *src);
 extern void SBServerListSort(void *slist, int ascending, struct SortInfo sortinfo);
-void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance);
+static void ListCallback(SBServerList *serverlist, int reason, SBServer *server, void *instance);
 void EngineCallback(int unused, unsigned int reason, SBServer *server, void *inst);
 ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, BrowserCB callback, void *instance);
 void ServerBrowserFree(ServerBrowser *sb);
@@ -126,7 +126,7 @@ extern char g_021A8218[];
  * CLEARED: every byte reproduces; the PC24 to SBQueryEngineSetPublicIP (0x0219D8D8)
  * has no witness: no catalog row, no label, and ov021 overlaps the address.
  */
-void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance)
+static void ListCallback(SBServerList *serverlist, int reason, SBServer *server, void *instance)
 {
     ServerBrowser *sb = (ServerBrowser *)instance;
     int qtype;
@@ -233,7 +233,7 @@ ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename
     sb->instance = instance;
     sb->dontUpdateList = 0;
     SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
-                  lanBrowse, func_0219E9F4, sb);
+                  lanBrowse, ListCallback, sb);
     SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, EngineCallback, sb);
     return sb;
 }

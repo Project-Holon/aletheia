@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
 int BTL_POKEPARAM_IsFainted(void *p)
 {
-    if (func_021D59B4(p, 13) == 0) return 1;
+    if (BTL_POKEPARAM_GetValue(p, 13) == 0) return 1;
     return 0;
 }

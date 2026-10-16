@@ -18,7 +18,7 @@
  *   sub_02086788  0x02086788  arm
  *   sub_02060CA0  0x02060CA0  arm
  *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
- *   func_02060C94  0x02060C94  arm
+ *   NNSi_FndDestroyExpHeap  0x02060C94  arm
  *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -36,12 +36,12 @@
  *   OS_CreateHeap                0x02086AF8  arm
  *   OS_AllocFromHeap   0x020868E0  arm
  *   OS_FreeToHeap    0x020869E8  arm
- *   sub_0202FC48  0x0202FC48  arm
+ *   GFL_HEAP_InitManager  0x0202FC48  arm
  *   sub_02030524  0x02030524  arm
  *   sub_02086580  0x02086580  arm
  *   sub_0208656C  0x0208656C  arm
  *   sub_02088234  0x02088234  arm
- *   sub_0202FDC4  0x0202FDC4  arm
+ *   GFL_HEAP_CreateChildHeapImpl  0x0202FDC4  arm
  *   sub_020306A0  0x020306A0  arm
  *   GFL_HEAP_RegisterBlockHeapImpl  0x0202FE68  arm
  *   OS_Terminate  0x02088234  arm
@@ -119,11 +119,11 @@ struct SystemHeapState {
 extern void *sub_02086788(u32 heap, u32 size, u32 align);
 extern void *sub_02060C5C(void *mem, u32 size, u32 mode);
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
-int sub_0202FDC4(u32 parentHeapId, u32 newHeapId, u32 size);
+int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size);
 int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId);
 extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
 int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size);
-extern void  func_02060C94(void *block);
+extern void  NNSi_FndDestroyExpHeap(void *block);
 extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
@@ -140,23 +140,23 @@ extern void *OS_InitAlloc(u32 id, void *lo, void *hi, s32 heapCount);
 extern s32 OS_CreateHeap(u32 id, void *start, void *end);
 extern void *OS_AllocFromHeap(u32 id, s32 heap, u32 size);
 u32 GFL_HEAP_Delete(u32 heapHandle);
-void *sub_02030098(u32 heapId, u32 size);
+void *GFL_HEAP_AllocMemory(u32 heapId, u32 size);
 u32 GFL_HEAP_FreeMemory(void *mem);
 u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignment);
-u32 sub_020302A4(void *mem, u32 newSize);
-void *sub_02030344(u32 heapId);
-void *sub_0203038C(u32 heapId);
-u32 sub_020303D8(u32 heapId);
-void *sub_02030428(u32 heapId);
-u16 sub_0203046C(u32 heapId);
-u16 sub_020304B8(void *mem);
-void *sub_020304C0(void *mem);
-u32 sub_020304CC(u32 heapId);
+u32 GFL_HEAP_ResizeMemory(void *mem, u32 newSize);
+void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
+void *GFL_HEAP_GetAllocatableSize(u32 heapId);
+u32 GFL_HEAP_GetHeapSize(u32 heapId);
+void *GFL_HEAP_GetHeapHandle(u32 heapId);
+u16 GFL_HEAP_GetAllocCountById(u32 heapId);
+u16 GFL_HEAP_GetBlockHeapId(void *mem);
+void *GFL_HEAP_GetBlockName(void *mem);
+u32 GFL_HEAP_IsHeapValid(u32 heapId);
 u16 GFL_HEAP_GetLastError(void);
 BOOL GFL_HEAP_InitSystemHeap(u32 size);
 void *GFL_HEAP_AllocSystem(u32 size);
 extern int OS_FreeToHeap(u32 heapId, s32 heap, void *ptr);
-extern int sub_0202FC48(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
+extern int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
 extern u16 sub_02030524(void);
 extern void  sub_02086580(u32 a);
 extern void  sub_0208656C(u32 a);
@@ -168,9 +168,9 @@ u32 GFL_HEAP_GetParentHeap(u32 heapId);
 u32 GFL_HEAP_GetBlock(u32 heapId);
 u16 GFL_HEAP_GetAllocCount(u32 heapId);
 int GFL_HEAP_FreeSystem(u32 mem);
-void sub_02030608(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize);
-void sub_0203064C(u32 parentHeapId, u32 newHeapId, u32 size);
-void sub_02030678(void *block, u32 size, u32 newHeapId);
+void GFL_HEAP_Init(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize);
+void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size);
+void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId);
 void GFL_HEAP_FatalError(int errorCode);
 extern struct HeapManager gHeapManager;
 extern struct SystemHeapState gSystemHeap;
@@ -235,22 +235,22 @@ u16 GFL_HEAP_GetAllocCount(u32 heapId)
  *
  * count and heapIdCount are u16, and that is not decoration: it is the whole
  * difference between this and the 376-byte near miss recorded in
- * docs/notes/sub_0202FC48.c.txt.  With u32 parameters the allocator keeps the
+ * docs/notes/GFL_HEAP_InitManager.c.txt.  With u32 parameters the allocator keeps the
  * constant zero live from the clearing loop to the last call and needs seven
  * callee-saved registers, which loses the `mov sb, r4` in the final loop's
  * preheader.  With count u16 the zero's live range ends at the clearing loop,
  * total takes sb and the preheader re-materialises the zero off the r4 that
  * `lastError = 0` has just left at zero: 380 bytes, byte for byte.  The caller
- * sub_02030608 truncates both arguments with an lsl/lsr #16 pair before the
+ * GFL_HEAP_Init truncates both arguments with an lsl/lsr #16 pair before the
  * call, which is where the u16 comes from.  heapIdCount's own type is not what
  * decides it ((u16)total below makes the truncation explicit either way);
  * count's is: u32 count with u16 heapIdCount still lands at 376.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202FC48.c \
- *       --func sub_0202FC48 --addr 0x0202FC48 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_InitManager.c \
+ *       --func GFL_HEAP_InitManager --addr 0x0202FC48 --cc 1.1p1 --arm
  */
-int sub_0202FC48(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize)
+int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize)
 {
     u32   recordTotal;
     u32   specIndex;
@@ -337,10 +337,10 @@ int sub_0202FC48(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount,
  * translation units and never meet.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202FDC4.c \
- *       --func sub_0202FDC4 --addr 0x0202FDC4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_CreateChildHeapImpl.c \
+ *       --func GFL_HEAP_CreateChildHeapImpl --addr 0x0202FDC4 --cc 1.1p1 --arm
  */
-int sub_0202FDC4(u32 parentHeapId, u32 newHeapId, u32 size)
+int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size)
 {
     void *parentHeap;
     void *childBlock;
@@ -381,16 +381,16 @@ fail:
 
 
 /*
- * The sibling of sub_0202FDC4: bind an already-built object rather than one
+ * The sibling of GFL_HEAP_CreateChildHeapImpl: bind an already-built object rather than one
  * resolved out of the module.  0x0202FED8 is called with a null resource and
- * the caller's object in the third slot, the same slot sub_0202FDC4 fills
+ * the caller's object in the third slot, the same slot GFL_HEAP_CreateChildHeapImpl fills
  * with the result of 0x02060CA0.
  *
  * On success the entry's +0xE byte is set to 1, which is what pins
  * HeapRecord's size at sixteen bytes: the index scale in
  * `add r1, r2, r1, lsl #4` is the struct stride and 0xE is its last used
  * byte.  On a taken destination slot the module lastError halfword takes 1, as in
- * sub_0202FDC4; a refusal from 0x0202FED8 leaves it alone.
+ * GFL_HEAP_CreateChildHeapImpl; a refusal from 0x0202FED8 leaves it alone.
  *
  * Both zero returns share one tail with a call between them, so the exit is
  * an explicit `goto`
@@ -513,7 +513,7 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
         parentHeap = (void *)GFL_HEAP_GetParentHeap(heapHandle);
         memBlock = (void *)GFL_HEAP_GetBlock(heapHandle);
         recordIndex = gHeapManager.slotOfHeapId[heapHandle];
-        func_02060C94(heap);
+        NNSi_FndDestroyExpHeap(heap);
 
         if (parentHeap == 0 || memBlock == 0) {
             if (gHeapManager.records[recordIndex].isExternal == 0) {
@@ -547,7 +547,7 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
  * memory from a heap. GFL_HEAP_Alloc, the 1163-caller allocation entry
  * point, is a wrapper around this.
  *
- *   void *sub_02030098(u32 heapId, u32 size)
+ *   void *GFL_HEAP_AllocMemory(u32 heapId, u32 size)
  *
  * The heap id is not a plain index. Bit 15 is a direction flag: set means
  * allocate from the high end of the expanded heap (alignment argument -4),
@@ -562,7 +562,7 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
  * one instruction. The header's second halfword is a constant 0x194E
  * signature. The rest of the header is the provenance record stamped
  * later by GFL_HEAP_StampAllocSite (name[0x12] at +4, u16 tag at +0x16), which is
- * what sub_020304C0's `p - 0x1c + 4` is addressing.
+ * what GFL_HEAP_GetBlockName's `p - 0x1c + 4` is addressing.
  *
  * The module global at 0x02146954, already named gHeapManager by
  * src/matched/gfl_heap.c, is the heap manager, not an environment
@@ -596,10 +596,10 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
  *    referring to the same global on both sides of them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030098.c \
- *       --func sub_02030098 --addr 0x02030098 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_AllocMemory.c \
+ *       --func GFL_HEAP_AllocMemory --addr 0x02030098 --cc 1.1p1 --arm
  */
-void *sub_02030098(u32 heapId, u32 size)
+void *GFL_HEAP_AllocMemory(u32 heapId, u32 size)
 {
     void *heap;
     u32 irqState;
@@ -646,8 +646,8 @@ fail:
 
 
 /*
- * Block release: the free that pairs with sub_02030098. The header is the
- * same 0x1c-byte block header sub_02030098 reserves, so the block pointer
+ * Block release: the free that pairs with GFL_HEAP_AllocMemory. The header is the
+ * same 0x1c-byte block header GFL_HEAP_AllocMemory reserves, so the block pointer
  * is p - 0x1c and the heap id is the header's first halfword, loaded before
  * the header is validated (see the notes below); the second halfword is the
  * 0x194E signature and is rewritten to 0x194D here, so a freed block keeps
@@ -683,7 +683,7 @@ fail:
  *    src/matched/GFL_HEAP_Delete.c declares).
  *
  * The count decrement is `gHeapManager.records[gHeapManager.slotOfHeapId[heapId]].allocCount--;`
- * -- the same double-index expression sub_02030098 increments -- and its
+ * -- the same double-index expression GFL_HEAP_AllocMemory increments -- and its
  * decremented result is not reused; the second call takes two arguments.
  *
  * Verified with:
@@ -751,7 +751,7 @@ fail:
  * entry for 0x02061358 promotes this file unchanged.
  *
  * Initialise a block in the heap: the heap id is bit-15-flagged like
- * sub_02030098's, and the low fifteen bits select the arena to store.
+ * GFL_HEAP_AllocMemory's, and the low fifteen bits select the arena to store.
  *
  *   u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size)
  *
@@ -805,7 +805,7 @@ fail:
  * the call to sub_02060CD0 at +0054 has no witness. 0x02060CD0 (the
  * expanded-heap resize primitive in the NNS-shaped library block around
  * 0x02060000) has exactly one branch reference in the image and it is this
- * call; the neighbouring 0x02060CA0 used by sub_02030098 has four and
+ * call; the neighbouring 0x02060CA0 used by GFL_HEAP_AllocMemory has four and
  * resolves fine. No cut exists inside a single function section, so
  * --suggest-split offers nothing. An EXACT entry for 0x02060CD0 promotes
  * this file unchanged, and promoting it in turn unblocks
@@ -813,9 +813,9 @@ fail:
  *
  * Resize in place: the realloc of this heap layer.
  *
- *   u32 sub_020302A4(void *p, u32 size)
+ *   u32 GFL_HEAP_ResizeMemory(void *p, u32 size)
  *
- * The block header is the same 0x1c bytes sub_02030098 reserves, so the
+ * The block header is the same 0x1c bytes GFL_HEAP_AllocMemory reserves, so the
  * heap id is `((u16 *)p)[-14]` and the address handed to the expanded-heap
  * routines is p - 0x1c. The new request is size + 0x1c, and it is written
  * twice rather than bound to a local: the compiler recomputes `add r1, r8,
@@ -841,10 +841,10 @@ fail:
  * the compiler predicates them inline as `movhs r0, #0` / `pophs` instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020302A4.c \
- *       --func sub_020302A4 --addr 0x020302A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_HEAP_ResizeMemory.c \
+ *       --func GFL_HEAP_ResizeMemory --addr 0x020302A4 --cc 1.1p1 --arm
  */
-u32 sub_020302A4(void *mem, u32 newSize)
+u32 GFL_HEAP_ResizeMemory(void *mem, u32 newSize)
 {
     struct BlockHeader *header;
     void *heap;
@@ -891,10 +891,10 @@ fail:
 
 /*
  * Checked heap-id lookup that hands the arena straight on to sub_02060E6C
- * and returns what that returns; see src/matched/sub_02030428.c for the
+ * and returns what that returns; see src/matched/GFL_HEAP_GetHeapHandle.c for the
  * shared preamble this family has in common.
  *
- *   void *sub_02030344(u32 heapId)
+ *   void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
  *
  * The two calls are back to back with no register shuffle between them,
  * which is the nested-call form `sub_02060E6C(GFL_HEAP_GetHeap(heapId))`
@@ -904,10 +904,10 @@ fail:
  * a missed tail call).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030344.c \
- *       --func sub_02030344 --addr 0x02030344 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetTotalFreeSize.c \
+ *       --func GFL_HEAP_GetTotalFreeSize --addr 0x02030344 --cc 1.1p1 --arm
  */
-void *sub_02030344(u32 heapId)
+void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= gHeapManager.heapIdCount) {
@@ -929,17 +929,17 @@ fail:
 
 /*
  * Checked heap-id lookup handing the arena to sub_02060E94 with a mode of
- * 4; see src/matched/sub_02030428.c for the shared preamble this family
+ * 4; see src/matched/GFL_HEAP_GetHeapHandle.c for the shared preamble this family
  * has in common. The same (arena, 4) pair appears in GFL_HEAP_ReportOutOfMemory, the
  * out-of-memory reporter, so mode 4 is the heap-layer's own dump mode.
  *
- *   void *sub_0203038C(u32 heapId)
+ *   void *GFL_HEAP_GetAllocatableSize(u32 heapId)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203038C.c \
- *       --func sub_0203038C --addr 0x0203038C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetAllocatableSize.c \
+ *       --func GFL_HEAP_GetAllocatableSize --addr 0x0203038C --cc 1.1p1 --arm
  */
-void *sub_0203038C(u32 heapId)
+void *GFL_HEAP_GetAllocatableSize(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= gHeapManager.heapIdCount) {
@@ -961,10 +961,10 @@ fail:
 
 /*
  * Total size of a heap's arena, in bytes: the shared checked-heap-id
- * preamble (see src/matched/sub_02030428.c), then the arena's end pointer
+ * preamble (see src/matched/GFL_HEAP_GetHeapHandle.c), then the arena's end pointer
  * at +0x1c minus the arena base.
  *
- *   u32 sub_020303D8(u32 heapId)
+ *   u32 GFL_HEAP_GetHeapSize(u32 heapId)
  *
  * The two failure paths reach the same `mov r0, #0` / `pop` differently,
  * and that asymmetry is the shape to reproduce: the out-of-range path
@@ -975,10 +975,10 @@ fail:
  * a second branch and loses the predication.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020303D8.c \
- *       --func sub_020303D8 --addr 0x020303D8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapSize.c \
+ *       --func GFL_HEAP_GetHeapSize --addr 0x020303D8 --cc 1.1p1 --arm
  */
-u32 sub_020303D8(u32 heapId)
+u32 GFL_HEAP_GetHeapSize(u32 heapId)
 {
     struct ExpHeapHead *heap;
 
@@ -1008,7 +1008,7 @@ fail:
  * id, range-checks the index against the manager's heap count, records a
  * result code, and returns the heap's arena pointer.
  *
- *   void *sub_02030428(u32 heapId)
+ *   void *GFL_HEAP_GetHeapHandle(u32 heapId)
  *
  * This is one of a family of four functions in this unit that open with
  * exactly the same eight-instruction preamble (pool-load the manager, pool
@@ -1027,10 +1027,10 @@ fail:
  * already committed to the masked id being passed on.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030428.c \
- *       --func sub_02030428 --addr 0x02030428 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapHandle.c \
+ *       --func GFL_HEAP_GetHeapHandle --addr 0x02030428 --cc 1.1p1 --arm
  */
-void *sub_02030428(u32 heapId)
+void *GFL_HEAP_GetHeapHandle(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= gHeapManager.heapIdCount) {
@@ -1052,10 +1052,10 @@ fail:
 /*
  * Checked heap-id lookup returning the heap's u16 record field (the one
  * GFL_HEAP_GetAllocCount reads, the +0xc halfword of the per-heap record), or 0xffff
- * if the id is out of range; see src/matched/sub_02030428.c for the shared
+ * if the id is out of range; see src/matched/GFL_HEAP_GetHeapHandle.c for the shared
  * preamble.
  *
- *   u16 sub_0203046C(u32 heapId)
+ *   u16 GFL_HEAP_GetAllocCountById(u32 heapId)
  *
  * Two details pin the C here:
  *
@@ -1071,10 +1071,10 @@ fail:
  *    load); the truncation only appears at this call site.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203046C.c \
- *       --func sub_0203046C --addr 0x0203046C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetAllocCountById.c \
+ *       --func GFL_HEAP_GetAllocCountById --addr 0x0203046C --cc 1.1p1 --arm
  */
-u16 sub_0203046C(u32 heapId)
+u16 GFL_HEAP_GetAllocCountById(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= gHeapManager.heapIdCount) {
@@ -1099,10 +1099,10 @@ fail:
  * field 0x1c bytes before it. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020304B8.c \
- *       --func sub_020304B8 --addr 0x020304B8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetBlockHeapId.c \
+ *       --func GFL_HEAP_GetBlockHeapId --addr 0x020304B8 --cc 1.1p1
  */
-u16 sub_020304B8(void *mem)
+u16 GFL_HEAP_GetBlockHeapId(void *mem)
 {
     return *(u16 *)((char *)mem - 0x1c);
 }
@@ -1120,10 +1120,10 @@ u16 sub_020304B8(void *mem)
  * folded offset. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020304C0.c \
- *       --func sub_020304C0 --addr 0x020304C0 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetBlockName.c \
+ *       --func GFL_HEAP_GetBlockName --addr 0x020304C0 --cc 1.1p1
  */
-void *sub_020304C0(void *mem)
+void *GFL_HEAP_GetBlockName(void *mem)
 {
     struct BlockHeaderNameView *header = (struct BlockHeaderNameView *)((char *)mem - 0x1c);
     return &header->name;
@@ -1136,16 +1136,16 @@ void *sub_020304C0(void *mem)
 
 /*
  * Heap validity probe: the same two guards that open the raw allocator
- * sub_02030098, with the allocation itself removed.
+ * GFL_HEAP_AllocMemory, with the allocation itself removed.
  *
- *   BOOL sub_020304CC(u32 heapId)
+ *   BOOL GFL_HEAP_IsHeapValid(u32 heapId)
  *
  * It masks the heap id with 0x7fff (bit 15 is the allocator's high/low
  * direction flag, meaningless here but still masked off), bounds-checks it
  * against gHeapManager.count, then resolves the arena through GFL_HEAP_GetHeap.
  * Each failure stamps its own code into gHeapManager.lastError, 1 for an id out
  * of range and 2 for an id that maps to no live heap, exactly the codes
- * sub_02030098 uses, and returns 0; success writes 0 and returns 1. The
+ * GFL_HEAP_AllocMemory uses, and returns 0; success writes 0 and returns 1. The
  * callers treat the return as a pointer-ish truth value (see
  * src/pending/GFL_HEAP_GetHeapHeadChecked.c), but the code here materialises a plain 1.
  *
@@ -1166,10 +1166,10 @@ void *sub_020304C0(void *mem)
  *    the arm.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020304CC.c \
- *       --func sub_020304CC --addr 0x020304CC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_IsHeapValid.c \
+ *       --func GFL_HEAP_IsHeapValid --addr 0x020304CC --cc 1.1p1 --arm
  */
-u32 sub_020304CC(u32 heapId)
+u32 GFL_HEAP_IsHeapValid(u32 heapId)
 {
     void *heap;
 
@@ -1345,7 +1345,7 @@ int GFL_HEAP_FreeSystem(u32 mem)
  * entry, so the PC24 at +0x14 stays wildcarded, and it is not adjacent, so no
  * cut reaches it.  0x0202FC48 is a 380-byte initialiser that currently stops
  * four bytes short on register allocation alone; the analysis and everything
- * already ruled out are in docs/notes/sub_0202FC48.c.txt.  Closing that
+ * already ruled out are in docs/notes/GFL_HEAP_InitManager.c.txt.  Closing that
  * function graduates this file unchanged.
  *
  * Bring the module up and, if that failed, hand the failure to the reporter.
@@ -1361,14 +1361,14 @@ int GFL_HEAP_FreeSystem(u32 mem)
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030608.c \
- *       --func sub_02030608 --addr 0x02030608 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_Init.c \
+ *       --func GFL_HEAP_Init --addr 0x02030608 --cc 1.1p1 --arm
  */
-void sub_02030608(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
+void GFL_HEAP_Init(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
 {
     int success;
 
-    success = sub_0202FC48((const struct HeapSpec *)specs, staticCount, heapIdCount, extraSize);
+    success = GFL_HEAP_InitManager((const struct HeapSpec *)specs, staticCount, heapIdCount, extraSize);
     sub_02086580(0);
     sub_0208656C(0);
     if (success != 0) {
@@ -1383,7 +1383,7 @@ void sub_02030608(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
 /*
  * Previously capped at MATCH: nothing outside this range branches to
  * 0x0202FDC4, so the PC24 at +0x0C had no witness of any class and no cut
- * reached it.  src/matched/sub_0202FDC4.c now reproduces that function's own
+ * reached it.  src/matched/GFL_HEAP_CreateChildHeapImpl.c now reproduces that function's own
  * byte range, so the site resolves `matched` and this file is EXACT with the
  * C unchanged.
  *
@@ -1399,12 +1399,12 @@ void sub_02030608(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
  * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203064C.c \
- *       --func sub_0203064C --addr 0x0203064C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_CreateChildHeap.c \
+ *       --func GFL_HEAP_CreateChildHeap --addr 0x0203064C --cc 1.1p1 --arm
  */
-void sub_0203064C(u32 parentHeapId, u32 newHeapId, u32 size)
+void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size)
 {
-    if (sub_0202FDC4(parentHeapId, newHeapId, size) != 0) {
+    if (GFL_HEAP_CreateChildHeapImpl(parentHeapId, newHeapId, size) != 0) {
         return;
     }
     sub_020306A0((void *)sub_02030524(), (void *)parentHeapId, newHeapId);
@@ -1414,7 +1414,7 @@ void sub_0203064C(u32 parentHeapId, u32 newHeapId, u32 size)
 
 
 /*
- * The same guard-then-forward shape as sub_0203064C beside it, over the other
+ * The same guard-then-forward shape as GFL_HEAP_CreateChildHeap beside it, over the other
  * binder: if 0x0202FE68 already accounted for the pair the function returns,
  * otherwise the work goes to 0x020306A0 with a fresh object in front of it.
  * Here the middle argument is a constant zero rather than a forwarded
@@ -1427,10 +1427,10 @@ void sub_0203064C(u32 parentHeapId, u32 newHeapId, u32 size)
  * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030678.c \
- *       --func sub_02030678 --addr 0x02030678 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_RegisterBlockHeap.c \
+ *       --func GFL_HEAP_RegisterBlockHeap --addr 0x02030678 --cc 1.1p1 --arm
  */
-void sub_02030678(void *block, u32 size, u32 newHeapId)
+void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId)
 {
     if (GFL_HEAP_RegisterBlockHeapImpl(block, size, newHeapId) != 0) {
         return;

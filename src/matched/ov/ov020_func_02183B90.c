@@ -13,7 +13,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0208068C  0x0208068C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  *   COMM_PLAYER_SUPPORT_SetSeason   0x0202E8CC  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
@@ -35,7 +35,7 @@ struct S0201235C;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void func_0208068C(int a);
 extern void MIi_CpuClearFast(int v, u32 a, u32 b);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern int COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 typedef signed int     s32;
 extern u8 COMM_PLAYER_SUPPORT_SetSeason(s32 a, s32 b);
@@ -57,7 +57,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(int a, int *state, int *p)
     case 0:
         func_0208068C(0x1ff);
         MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
-        func_02080B98();
+        GX_DisableBankForLCDC();
         (*state)++;
         break;
     case 1:

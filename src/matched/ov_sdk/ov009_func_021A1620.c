@@ -14,7 +14,7 @@
  * symbols:
  *   SBServerListConnectAndQuery  0x0219FFD4  arm  ov009
  *   SendWithRetry  0x0219FF30  arm  ov009
- *   func_0217EC90  0x0217EC90  arm  ov009
+ *   send  0x0217EC90  arm  ov009
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -27,7 +27,7 @@ typedef struct {
 #define HTONS(x) ((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00))
 extern int SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern int SendWithRetry(SBServerList *slist, char *data, int len);
-extern int func_0217EC90(int sock, char *buf, int len, int flags);
+extern int send(int sock, char *buf, int len, int flags);
 
 int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len)
 {
@@ -49,7 +49,7 @@ int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short p
     if (i != 0)
         return i;
     ret = 0;
-    i = func_0217EC90(slist->slsocket, data, len, 0);
+    i = send(slist->slsocket, data, len, 0);
     if (i < 0)
         ret = 3;
     return ret;

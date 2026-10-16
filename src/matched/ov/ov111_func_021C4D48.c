@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 #define REG_DB_DISPCNT  (*(volatile u32 *)0x04001000)
 #define REG_DB_WIN0H    (*(volatile u16 *)0x04001040)
@@ -52,14 +52,14 @@ void VIEWER_MAIN_SetWindowPlane(int side)
         REG_DB_BLDCNT = 0;
         REG_DB_DISPCNT &= ~0xE000;
     } else if (side == 0) {
-        func_0207D658(0x04001050, 0xC, -8);
+        G2x_SetBlendBrightness_(0x04001050, 0xC, -8);
         REG_DB_WIN0H = 0xE000;
         REG_DB_WIN0V = 0xA8;
         SetWnd0InsidePlane(0x1C, 1);
         SetWndOutsidePlane(0x1F, 0);
         REG_DB_DISPCNT = (REG_DB_DISPCNT & ~0xE000) | 0x2000;
     } else if (side == 1) {
-        func_0207D658(0x04001050, 0xC, -8);
+        G2x_SetBlendBrightness_(0x04001050, 0xC, -8);
         REG_DB_WIN0H = 0x20;
         REG_DB_WIN0V = 0xA8;
         SetWnd0InsidePlane(0x1C, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC4C
+ * function: recv
  * address:  0x0217EC4C
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int func_0215F4DC(void);
 extern int CheckRcode(int a, int b);
 
-int func_0217EC4C(int sock, char *buffer, int len, int flags)
+int recv(int sock, char *buffer, int len, int flags)
 {
     return CheckRcode(func_0215F4DC(), -1);
 }

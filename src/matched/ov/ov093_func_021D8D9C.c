@@ -14,7 +14,7 @@
  *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb  ov093
  *   BTL_SERVER_FLOW_CollectAlivePokeIds  0x021C7F68  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -22,7 +22,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_SERVER_FLOW_GetPokeViewPos(u8 *p, unsigned int v);
 extern u8 BTL_SERVER_FLOW_CollectAlivePokeIds(int *p, int b, u8 *out);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
 int HAND_TOKUSEI_CheckAllyHasAbility(void *a, int k, u8 *buf, int v)
 {
@@ -35,7 +35,7 @@ int HAND_TOKUSEI_CheckAllyHasAbility(void *a, int k, u8 *buf, int v)
         n = BTL_SERVER_FLOW_CollectAlivePokeIds(a, (u16)((7 << 8) | t), buf);
         for (i = 0; i < n; i++) {
             if (k != buf[i]) {
-                if (v == func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(a, buf[i]), 0x11))
+                if (v == BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(a, buf[i]), 0x11))
                     return 1;
             }
         }

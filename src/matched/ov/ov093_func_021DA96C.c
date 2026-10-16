@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
- *   func_021D5D14  0x021D5D14  thumb  ov093
+ *   BTL_POKEPARAM_CanChangeStatStage  0x021D5D14  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 typedef signed char    s8;
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
-extern int func_021D5D14(s8 *p, int i, int sign);
+extern int BTL_POKEPARAM_CanChangeStatStage(s8 *p, int i, int sign);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
@@ -36,7 +36,7 @@ void HAND_TOKUSEI_AbsorbRaiseStat(void *a, int id, u32 e, int d)
 {
     u8 *r;
 
-    if (func_021D5D14(BTL_SERVER_FLOW_GetPokeParam(a, id), e, d) != 0) {
+    if (BTL_POKEPARAM_CanChangeStatStage(BTL_SERVER_FLOW_GetPokeParam(a, id), e, d) != 0) {
         r = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(a, 14, id);
         r[0xf] = 1;
         r[0x10] = id;

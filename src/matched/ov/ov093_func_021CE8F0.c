@@ -27,7 +27,7 @@
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_MAIN_GetPositionsPerClientThunk 0x021B99B8 thumb ov093
  *   TPOKE_DATA_FindRecord 0x0202A298 thumb
- *   func_021D59B4 0x021D59B4 thumb ov093
+ *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   BTL_POKEPARAM_IsHpFull 0x021D5B48 thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
@@ -54,7 +54,7 @@ extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
 extern u32 TPOKE_DATA_FindRecord(u32,u32,u32);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern u8 BTL_SLOT_GetCount(struct Q1 *p);
@@ -99,7 +99,7 @@ u32 BTL_CLIENT_FindSupportItem(const u8 *p, u16 *out)
             if (TPOKE_DATA_FindRecord(k,key,((struct Obj03689 *)p)->f19A)) {
                 switch (key - 0x11) {
                 case 1:
-                    a = func_021D59B4(mon,13);
+                    a = BTL_POKEPARAM_GetValue(mon,13);
                     if ((u32)a <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok0] = 1; }
                     break;
                 case 0:
@@ -110,7 +110,7 @@ u32 BTL_CLIENT_FindSupportItem(const u8 *p, u16 *out)
                     break;
                 case 3:
                     if (BTL_SLOT_GetCount((void *)entry) > 1 && BTL_SLOT_CountLiving((u8 *)entry) == 1) {
-                        b = func_021D59B4(mon,13);
+                        b = BTL_POKEPARAM_GetValue(mon,13);
                         if ((u32)b <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok3] = 1; }
                     }
                     break;

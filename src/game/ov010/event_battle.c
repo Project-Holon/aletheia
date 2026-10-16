@@ -109,7 +109,7 @@
  *   MOVE_POKEMON_HandleBattleResult 0x0215E5B0 thumb ov010
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   func_0202C83C 0x0202C83C thumb
+ *   ISS_SWITCH_ApplySubscreenMode 0x0202C83C thumb
  *   func_02082A7C 0x02082A7C arm
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
@@ -277,7 +277,7 @@ extern void GAME_DATA_SetFieldMode(struct BtlSetup *p, u32 v);
 extern void MOVE_POKEMON_HandleBattleResult(void *a0, struct BtlSetup *w);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveData *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
-extern int func_0202C83C(int,int);
+extern int ISS_SWITCH_ApplySubscreenMode(int,int);
 extern void func_02082A7C(int,void *,int);
 extern int BTL_SETUP_Delete(int a0);
 extern u32 GF_STANDARD_Rand(void);
@@ -912,8 +912,8 @@ int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task)
 
 
 /*
- * func_0202C83C's body consumes only r0/r1, forwarding those to
- * func_0202C794; original supplies no new r2/r3. Legacy trailing
+ * ISS_SWITCH_ApplySubscreenMode's body consumes only r0/r1, forwarding those to
+ * ISS_SWITCH_GetSubscreenMode; original supplies no new r2/r3. Legacy trailing
  * arguments are omitted. GAME_DATA_GetPlayerZoneId consumes the preceding result.
  */
 void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem)
@@ -922,7 +922,7 @@ void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem)
     MOVE_POKEMON_HandleBattleResult(gameSystem, task->btlSetup);
     EVENT_BATTLE_NotifyBattleEnd((struct BattleEndCtx *)task);
     EVENT_BATTLE_SetResultSound(task);
-    func_0202C83C((int)task->gameSystem, GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameSystem)));
+    ISS_SWITCH_ApplySubscreenMode((int)task->gameSystem, GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameSystem)));
 }
 
 

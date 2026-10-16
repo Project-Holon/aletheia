@@ -89,7 +89,7 @@
  *   BTL_SERVER_FLOW_GetFrontPosOfPoke  0x021C7D00  thumb  ov093
  *   BTL_SERVER_FLOW_CollectAlivePokeIds  0x021C7F68  thumb  ov093
  *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_SERVER_FLOW_SetCurTurnStateFlag  0x021C83DC  thumb  ov093
  *   gCurseHandlers     0x021F28D8  data   ov093  a4
@@ -241,12 +241,12 @@
  *   gBellyDrumHandlers 0x021F27B4 data a4
  *   gRecycleHandlers     0x021F27CC  data   ov093  a4
  *   gAcupressureHandlers     0x021F27A4  data   ov093  a4
- *   func_021D5D50 0x021D5D50 thumb ov093
+ *   BTL_POKEPARAM_GetStatStageRoom 0x021D5D50 thumb ov093
  *   gFeintHandlers 0x021F2B10 data a4
  *   BTL_MAIN_IsZero  0x021B9A5C  thumb  ov093
  *   BTL_SERVER_FLOW_CheckSideEffectActive  0x021C82C4  thumb  ov093
  *   BTL_ID_IsEncoreFailMove  0x0689C8AC  thumb
- *   func_021D5D14 0x021D5D14 thumb ov093
+ *   BTL_POKEPARAM_CanChangeStatStage 0x021D5D14 thumb ov093
  *   gAcupressureStats 0x021F2D20 data a4
  *   gRestHandlers 0x021F2888 data a4
  *   BTL_CALC_MakeSickContTurns 0x021D7D78 thumb ov093
@@ -276,7 +276,7 @@
  *   gHeartSwapHandlers     0x021F275C  data   ov093  a4
  *   gPowerTrickHandlers 0x021F26BC data a4
  *   gPowerSplitHandlers     0x021F26E4  data   ov093  a4
- *   func_021D58A8  0x021D58A8  thumb  ov093
+ *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
  *   gGuardSplitHandlers 0x021F2704 data a4
  *   gLockOnHandlers 0x021F26DC data a4
  *   BTLV_CORE_MakeSlotKind4  0x021E8A28  thumb  ov093
@@ -552,7 +552,7 @@ extern u16 BTL_SERVER_FLOW_GetLastActionId(u8 *flow);
 extern int BTL_ID_IsCopycatExcludedMove(int moveId);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 extern u16 BTL_POKEPARAM_GetItem(struct BtlPokeParam *bpp);
-extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
+extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
 extern int BTL_WAZAREC_IsUsedWaza(int turnRecord, int factorKey, int turnIndex);
 extern u8 *BTL_SERVER_FLOW_GetHistoryList(struct BtlServerFlow *flow);
@@ -2248,7 +2248,7 @@ void HAND_WAZA_CurseApply(struct BtlEventFactor *factor, struct BtlServerFlow *f
     user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
     ghostCursed = 0;
     if (BTL_POKEPARAM_HasType(user, POKETYPE_GHOST)) {
-        if (func_021D59B4(user, BPP_VALUE_HP) > 0) {
+        if (BTL_POKEPARAM_GetValue(user, BPP_VALUE_HP) > 0) {
             targetId = BTL_EVENT_GetVar(BTL_EVAR_TARGET_ID);
             if (targetId != BTL_POKEID_NONE) {
                 sickCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_SICK, pokeId);
@@ -2329,7 +2329,7 @@ void HAND_WAZA_WorrySeedFailOnTruantOrInsomnia(struct BtlEventFactor *factor, st
         targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         abilityValueId = BPP_VALUE_ABILITY_ID;
-        if (func_021D59B4(target, BPP_VALUE_ABILITY_ID) == BTL_ABILITY_TRUANT || func_021D59B4(target, abilityValueId) == BTL_ABILITY_INSOMNIA)
+        if (BTL_POKEPARAM_GetValue(target, BPP_VALUE_ABILITY_ID) == BTL_ABILITY_TRUANT || BTL_POKEPARAM_GetValue(target, abilityValueId) == BTL_ABILITY_INSOMNIA)
             BTL_EVENT_OverwriteVar(BTL_EVAR_MOVE_FAIL_FLAG, 1);
     }
 }
@@ -2408,8 +2408,8 @@ void HAND_WAZA_CaptivateFailOnSameOrNoGender(struct BtlEventFactor *factor, stru
         targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        userGender = func_021D59B4(user, BPP_VALUE_GENDER);
-        targetGender = func_021D59B4(target, BPP_VALUE_GENDER);
+        userGender = BTL_POKEPARAM_GetValue(user, BPP_VALUE_GENDER);
+        targetGender = BTL_POKEPARAM_GetValue(target, BPP_VALUE_GENDER);
         if (userGender == BTL_GENDER_NONE || targetGender == BTL_GENDER_NONE || userGender == targetGender)
             BTL_EVENT_OverwriteVar(BTL_EVAR_MOVE_FAIL_FLAG, 1);
     }
@@ -2748,7 +2748,7 @@ void HAND_WAZA_SuperFangOnCalcFixedDamage(struct BtlEventFactor *factor, struct 
 
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
         defenderId = BTL_EVENT_GetVar(HANDVAR_DEFENDER_ID);
-        hp = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, defenderId), BPP_VALUE_HP);
+        hp = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, defenderId), BPP_VALUE_HP);
         damage = hp / 2;
         if (damage == 0) damage = 1;
         BTL_EVENT_OverwriteVar(HANDVAR_FIXED_DAMAGE, damage);
@@ -2813,7 +2813,7 @@ void HAND_WAZA_EndeavorOnNoEffectCheck(struct BtlEventFactor *factor, struct Btl
         defenderId = BTL_EVENT_GetVar(HANDVAR_DEFENDER_ID);
         defender = BTL_SERVER_FLOW_GetPokeParam(flow, defenderId);
         attacker = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        if (func_021D59B4(defender, BPP_VALUE_HP) - func_021D59B4(attacker, BPP_VALUE_HP) <= 0) {
+        if (BTL_POKEPARAM_GetValue(defender, BPP_VALUE_HP) - BTL_POKEPARAM_GetValue(attacker, BPP_VALUE_HP) <= 0) {
             BTL_EVENT_OverwriteVar(HANDVAR_NO_EFFECT_FLAG, 1);
         }
     }
@@ -2829,7 +2829,7 @@ void HAND_WAZA_EndeavorOnCalcFixedDamage(struct BtlEventFactor *factor, struct B
 
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
         attacker = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        damage = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(HANDVAR_DEFENDER_ID)), BPP_VALUE_HP) - func_021D59B4(attacker, BPP_VALUE_HP);
+        damage = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(HANDVAR_DEFENDER_ID)), BPP_VALUE_HP) - BTL_POKEPARAM_GetValue(attacker, BPP_VALUE_HP);
         if (damage < 0) damage = 1;
         BTL_EVENT_OverwriteVar(HANDVAR_FIXED_DAMAGE, damage);
     }
@@ -2853,7 +2853,7 @@ void HAND_WAZA_LevelDamageOnCalcFixedDamage(struct BtlEventFactor *factor, struc
 
     if (pokeId != BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID))
         return;
-    level = (unsigned char)func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BPP_VALUE_LEVEL);
+    level = (unsigned char)BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BPP_VALUE_LEVEL);
     BTL_EVENT_OverwriteVar(HANDVAR_FIXED_DAMAGE, level);
 }
 
@@ -2876,7 +2876,7 @@ void HAND_WAZA_PsywaveOnCalcFixedDamage(struct BtlEventFactor *factor, struct Bt
     u16 damage;
 
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
-        level = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BPP_VALUE_LEVEL);
+        level = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BPP_VALUE_LEVEL);
         percent = BTL_CALC_Random(101) + 50;
         damage = (level * percent) / 100;
         if (damage == 0) damage = 1;
@@ -3757,7 +3757,7 @@ void HAND_WAZA_PayDayScatterCoins(struct BtlEventFactor *factor, struct BtlServe
     HandExMessage *message;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        level = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_VALUE_LEVEL);
+        level = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_VALUE_LEVEL);
         if (BTL_SERVER_FLOW_TryAddMainCounter(flow, level * 5, pokeId) != 0) {
             message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
             BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_STD, 0x7a);
@@ -4401,8 +4401,8 @@ void HAND_WAZA_FlailCalcPower(struct BtlEventFactor *factor, struct BtlServerFlo
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         poke = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        hp = func_021D59B4(poke, BTL_VALUE_HP);
-        maxHp = func_021D59B4(poke, BTL_VALUE_MAX_HP);
+        hp = BTL_POKEPARAM_GetValue(poke, BTL_VALUE_HP);
+        maxHp = BTL_POKEPARAM_GetValue(poke, BTL_VALUE_MAX_HP);
         hpRatio = hp * 0x30 / maxHp;
         if (hpRatio == 0)
             hpRatio = 1;
@@ -4482,8 +4482,8 @@ void HAND_WAZA_EruptionOnWazaPower(struct BtlEventFactor *factor, struct BtlServ
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        hp = func_021D59B4(user, BTL_VALUE_HP);
-        maxHp = func_021D59B4(user, BTL_VALUE_MAX_HP);
+        hp = BTL_POKEPARAM_GetValue(user, BTL_VALUE_HP);
+        maxHp = BTL_POKEPARAM_GetValue(user, BTL_VALUE_MAX_HP);
         basePower = WAZA_TOOL_GetPower(BTL_EVENT_GetFactorKey(factor));
         power = basePower * hp / maxHp;
         if (power == 0)
@@ -4794,7 +4794,7 @@ void HAND_WAZA_PunishmentOnWazaPower(struct BtlEventFactor *factor, struct BtlSe
         target = BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID));
         raisedStages = 0;
         for (i = 0; i < 7; i++) {
-            rank = func_021D59B4(target, gPunishmentStatIds[i]);
+            rank = BTL_POKEPARAM_GetValue(target, gPunishmentStatIds[i]);
             if (rank > 6)
                 raisedStages += rank - 6;
         }
@@ -6134,8 +6134,8 @@ void HAND_WAZA_PainSplitAverageHp(struct BtlEventFactor *factor, struct BtlServe
     targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST);
     userBpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
     targetBpp = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
-    userHp = func_021D59B4(userBpp, BPP_VALUE_HP);
-    targetHp = func_021D59B4(targetBpp, BPP_VALUE_HP);
+    userHp = BTL_POKEPARAM_GetValue(userBpp, BPP_VALUE_HP);
+    targetHp = BTL_POKEPARAM_GetValue(targetBpp, BPP_VALUE_HP);
     averageHp = (userHp + targetHp) / 2;
     changeHp = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CHANGE_HP, pokeId);
     changeHp->pokeCount = 2;
@@ -6184,8 +6184,8 @@ void HAND_WAZA_BellyDrumMaximizeAttack(int unused, struct BtlServerFlow *flow, i
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         halfMaxHp = BTL_CALC_DivideMaxHpMin1(bpp, 2);
-        attackRoom = func_021D5D50(bpp, BTL_RANK_ATTACK);
-        if (func_021D59B4(bpp, BPP_VALUE_HP) > (u32)halfMaxHp && attackRoom != 0) {
+        attackRoom = BTL_POKEPARAM_GetStatStageRoom(bpp, BTL_RANK_ATTACK);
+        if (BTL_POKEPARAM_GetValue(bpp, BPP_VALUE_HP) > (u32)halfMaxHp && attackRoom != 0) {
             changeHp = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CHANGE_HP, pokeId);
             changeHp->pokeCount = 1;
             changeHp->updateGauge = 1;
@@ -6316,13 +6316,13 @@ void HAND_WAZA_AcupressureRaiseRandomStat(int unused, struct BtlServerFlow *flow
         bpp = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         candidateCount = i = 0;
         for (; i < BTL_RANK_STAT_COUNT; i++) {
-            if (func_021D5D14(bpp, gAcupressureStats[i], BTL_RANK_DIRECTION_RAISE) != 0)
+            if (BTL_POKEPARAM_CanChangeStatStage(bpp, gAcupressureStats[i], BTL_RANK_DIRECTION_RAISE) != 0)
                 candidateCount++;
         }
         if (candidateCount != 0) {
             pick = BTL_CALC_Random(candidateCount);
             for (i = 0; i < BTL_RANK_STAT_COUNT; i++) {
-                if (func_021D5D14(bpp, gAcupressureStats[i], BTL_RANK_DIRECTION_RAISE) != 0) {
+                if (BTL_POKEPARAM_CanChangeStatStage(bpp, gAcupressureStats[i], BTL_RANK_DIRECTION_RAISE) != 0) {
                     if (pick == 0) {
                         record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_RANK_EFFECT, pokeId);
                         record->pokeId = targetId;
@@ -6378,7 +6378,7 @@ void HAND_WAZA_RestCheckFail(struct BtlEventFactor *factor, struct BtlServerFlow
         BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_HP_FULL);
         return;
     }
-    abilityId = func_021D59B4(bpp, BPP_VALUE_CURRENT_ABILITY);
+    abilityId = BTL_POKEPARAM_GetValue(bpp, BPP_VALUE_CURRENT_ABILITY);
     if (abilityId == ABILITY_INSOMNIA || abilityId == ABILITY_VITAL_SPIRIT)
         BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_ABILITY_BLOCKS_SLEEP);
 }
@@ -6409,8 +6409,8 @@ void HAND_WAZA_RestSleepAndHeal(int unused, struct BtlServerFlow *flow, int poke
             BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
             recover = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_RECOVER_HP, pokeId);
             recover->pokeId = pokeId;
-            maxHp = func_021D59B4(bpp, BPP_VALUE_MAX_HP);
-            recover->amount = maxHp - func_021D59B4(bpp, BPP_VALUE_HP);
+            maxHp = BTL_POKEPARAM_GetValue(bpp, BPP_VALUE_MAX_HP);
+            recover->amount = maxHp - BTL_POKEPARAM_GetValue(bpp, BPP_VALUE_HP);
             recover->header |= HANDEX_FLAG_SILENT;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, recover);
             gauge = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_REFRESH_HP_GAUGE, pokeId);
@@ -6445,8 +6445,8 @@ void HAND_WAZA_AttractCheckGender(int unused, struct BtlServerFlow *flow, int po
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         userBpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         targetBpp = BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID));
-        userGender = func_021D59B4(userBpp, BPP_VALUE_GENDER);
-        targetGender = func_021D59B4(targetBpp, BPP_VALUE_GENDER);
+        userGender = BTL_POKEPARAM_GetValue(userBpp, BPP_VALUE_GENDER);
+        targetGender = BTL_POKEPARAM_GetValue(targetBpp, BPP_VALUE_GENDER);
         if (userGender == BTL_GENDER_NONE || targetGender == BTL_GENDER_NONE || userGender == targetGender)
             BTL_EVENT_OverwriteVar(BTL_EVAR_NO_EFFECT_FLAG, 1);
     }
@@ -6885,13 +6885,13 @@ void HAND_WAZA_PsychUpOnUncategorizedMove(struct BtlEventFactor *factor, struct 
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         ranksRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_RANKS, pokeId);
         ranksRecord->pokeId = pokeId;
-        ranksRecord->ranks[0] = func_021D59B4(target, BPP_VALUE_ATTACK_RANK);
-        ranksRecord->ranks[1] = func_021D59B4(target, BPP_VALUE_DEFENSE_RANK);
-        ranksRecord->ranks[2] = func_021D59B4(target, BPP_VALUE_SP_ATTACK_RANK);
-        ranksRecord->ranks[3] = func_021D59B4(target, BPP_VALUE_SP_DEFENSE_RANK);
-        ranksRecord->ranks[4] = func_021D59B4(target, BPP_VALUE_SPEED_RANK);
-        ranksRecord->ranks[5] = func_021D59B4(target, BPP_VALUE_ACCURACY_RANK);
-        ranksRecord->ranks[6] = func_021D59B4(target, BPP_VALUE_EVASION_RANK);
+        ranksRecord->ranks[0] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ATTACK_RANK);
+        ranksRecord->ranks[1] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_DEFENSE_RANK);
+        ranksRecord->ranks[2] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_ATTACK_RANK);
+        ranksRecord->ranks[3] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_DEFENSE_RANK);
+        ranksRecord->ranks[4] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SPEED_RANK);
+        ranksRecord->ranks[5] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ACCURACY_RANK);
+        ranksRecord->ranks[6] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_EVASION_RANK);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, ranksRecord);
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
         BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, BTL_STR_PSYCH_UP);
@@ -6928,17 +6928,17 @@ void HAND_WAZA_HeartSwapOnUncategorizedMove(struct BtlEventFactor *factor, struc
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         userRanks = (u32 *)BTL_SERVER_FLOW_GetScratchBuffer(flow, BTL_RANK_BACKUP_SIZE);
         for (i = BPP_VALUE_ATTACK_RANK; i <= BPP_VALUE_EVASION_RANK; i++) {
-            userRanks[i - 1] = func_021D59B4(user, i);
+            userRanks[i - 1] = BTL_POKEPARAM_GetValue(user, i);
         }
         ranksRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_RANKS, pokeId);
         ranksRecord->pokeId = pokeId;
-        ranksRecord->ranks[0] = func_021D59B4(target, BPP_VALUE_ATTACK_RANK);
-        ranksRecord->ranks[1] = func_021D59B4(target, BPP_VALUE_DEFENSE_RANK);
-        ranksRecord->ranks[2] = func_021D59B4(target, BPP_VALUE_SP_ATTACK_RANK);
-        ranksRecord->ranks[3] = func_021D59B4(target, BPP_VALUE_SP_DEFENSE_RANK);
-        ranksRecord->ranks[4] = func_021D59B4(target, BPP_VALUE_SPEED_RANK);
-        ranksRecord->ranks[5] = func_021D59B4(target, BPP_VALUE_ACCURACY_RANK);
-        ranksRecord->ranks[6] = func_021D59B4(target, BPP_VALUE_EVASION_RANK);
+        ranksRecord->ranks[0] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ATTACK_RANK);
+        ranksRecord->ranks[1] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_DEFENSE_RANK);
+        ranksRecord->ranks[2] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_ATTACK_RANK);
+        ranksRecord->ranks[3] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_DEFENSE_RANK);
+        ranksRecord->ranks[4] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SPEED_RANK);
+        ranksRecord->ranks[5] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ACCURACY_RANK);
+        ranksRecord->ranks[6] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_EVASION_RANK);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, ranksRecord);
         ranksRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_RANKS, pokeId);
         ranksRecord->pokeId = targetId;
@@ -6982,27 +6982,27 @@ void HAND_WAZA_PowerSwapOnUncategorizedMove(struct BtlEventFactor *factor, struc
         targetId = BTL_EVENT_GetVar(BTL_EVAR_TARGET_ID);
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        userAttackRank = func_021D59B4(user, BPP_VALUE_ATTACK_RANK);
-        userSpAttackRank = func_021D59B4(user, BPP_VALUE_SP_ATTACK_RANK);
+        userAttackRank = BTL_POKEPARAM_GetValue(user, BPP_VALUE_ATTACK_RANK);
+        userSpAttackRank = BTL_POKEPARAM_GetValue(user, BPP_VALUE_SP_ATTACK_RANK);
         ranksRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_RANKS, pokeId);
         ranksRecord->pokeId = pokeId;
-        ranksRecord->ranks[0] = func_021D59B4(target, BPP_VALUE_ATTACK_RANK);
-        ranksRecord->ranks[2] = func_021D59B4(target, BPP_VALUE_SP_ATTACK_RANK);
-        ranksRecord->ranks[1] = func_021D59B4(user, BPP_VALUE_DEFENSE_RANK);
-        ranksRecord->ranks[3] = func_021D59B4(user, BPP_VALUE_SP_DEFENSE_RANK);
-        ranksRecord->ranks[4] = func_021D59B4(user, BPP_VALUE_SPEED_RANK);
-        ranksRecord->ranks[5] = func_021D59B4(user, BPP_VALUE_ACCURACY_RANK);
-        ranksRecord->ranks[6] = func_021D59B4(user, BPP_VALUE_EVASION_RANK);
+        ranksRecord->ranks[0] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ATTACK_RANK);
+        ranksRecord->ranks[2] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_ATTACK_RANK);
+        ranksRecord->ranks[1] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_DEFENSE_RANK);
+        ranksRecord->ranks[3] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_SP_DEFENSE_RANK);
+        ranksRecord->ranks[4] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_SPEED_RANK);
+        ranksRecord->ranks[5] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_ACCURACY_RANK);
+        ranksRecord->ranks[6] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_EVASION_RANK);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, ranksRecord);
         ranksRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_RANKS, pokeId);
         ranksRecord->pokeId = targetId;
         ranksRecord->ranks[0] = userAttackRank;
         ranksRecord->ranks[2] = userSpAttackRank;
-        ranksRecord->ranks[1] = func_021D59B4(target, BPP_VALUE_DEFENSE_RANK);
-        ranksRecord->ranks[3] = func_021D59B4(target, BPP_VALUE_SP_DEFENSE_RANK);
-        ranksRecord->ranks[4] = func_021D59B4(target, BPP_VALUE_SPEED_RANK);
-        ranksRecord->ranks[5] = func_021D59B4(target, BPP_VALUE_ACCURACY_RANK);
-        ranksRecord->ranks[6] = func_021D59B4(target, BPP_VALUE_EVASION_RANK);
+        ranksRecord->ranks[1] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_DEFENSE_RANK);
+        ranksRecord->ranks[3] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_DEFENSE_RANK);
+        ranksRecord->ranks[4] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SPEED_RANK);
+        ranksRecord->ranks[5] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ACCURACY_RANK);
+        ranksRecord->ranks[6] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_EVASION_RANK);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, ranksRecord);
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
         BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, BTL_STR_POWER_SWAP);
@@ -7036,27 +7036,27 @@ void HAND_WAZA_GuardSwapOnUncategorizedMove(struct BtlEventFactor *factor, struc
         targetId = BTL_EVENT_GetVar(BTL_EVAR_TARGET_ID);
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        userDefenseRank = func_021D59B4(user, BPP_VALUE_DEFENSE_RANK);
-        userSpDefenseRank = func_021D59B4(user, BPP_VALUE_SP_DEFENSE_RANK);
+        userDefenseRank = BTL_POKEPARAM_GetValue(user, BPP_VALUE_DEFENSE_RANK);
+        userSpDefenseRank = BTL_POKEPARAM_GetValue(user, BPP_VALUE_SP_DEFENSE_RANK);
         ranksRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_RANKS, pokeId);
         ranksRecord->pokeId = pokeId;
-        ranksRecord->ranks[0] = func_021D59B4(user, BPP_VALUE_ATTACK_RANK);
-        ranksRecord->ranks[2] = func_021D59B4(user, BPP_VALUE_SP_ATTACK_RANK);
-        ranksRecord->ranks[1] = func_021D59B4(target, BPP_VALUE_DEFENSE_RANK);
-        ranksRecord->ranks[3] = func_021D59B4(target, BPP_VALUE_SP_DEFENSE_RANK);
-        ranksRecord->ranks[4] = func_021D59B4(user, BPP_VALUE_SPEED_RANK);
-        ranksRecord->ranks[5] = func_021D59B4(user, BPP_VALUE_ACCURACY_RANK);
-        ranksRecord->ranks[6] = func_021D59B4(user, BPP_VALUE_EVASION_RANK);
+        ranksRecord->ranks[0] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_ATTACK_RANK);
+        ranksRecord->ranks[2] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_SP_ATTACK_RANK);
+        ranksRecord->ranks[1] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_DEFENSE_RANK);
+        ranksRecord->ranks[3] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_DEFENSE_RANK);
+        ranksRecord->ranks[4] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_SPEED_RANK);
+        ranksRecord->ranks[5] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_ACCURACY_RANK);
+        ranksRecord->ranks[6] = BTL_POKEPARAM_GetValue(user, BPP_VALUE_EVASION_RANK);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, ranksRecord);
         ranksRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_RANKS, pokeId);
         ranksRecord->pokeId = targetId;
-        ranksRecord->ranks[0] = func_021D59B4(target, BPP_VALUE_ATTACK_RANK);
-        ranksRecord->ranks[2] = func_021D59B4(target, BPP_VALUE_SP_ATTACK_RANK);
+        ranksRecord->ranks[0] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ATTACK_RANK);
+        ranksRecord->ranks[2] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SP_ATTACK_RANK);
         ranksRecord->ranks[1] = userDefenseRank;
         ranksRecord->ranks[3] = userSpDefenseRank;
-        ranksRecord->ranks[4] = func_021D59B4(target, BPP_VALUE_SPEED_RANK);
-        ranksRecord->ranks[5] = func_021D59B4(target, BPP_VALUE_ACCURACY_RANK);
-        ranksRecord->ranks[6] = func_021D59B4(target, BPP_VALUE_EVASION_RANK);
+        ranksRecord->ranks[4] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_SPEED_RANK);
+        ranksRecord->ranks[5] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_ACCURACY_RANK);
+        ranksRecord->ranks[6] = BTL_POKEPARAM_GetValue(target, BPP_VALUE_EVASION_RANK);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, ranksRecord);
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
         BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, BTL_STR_GUARD_SWAP);
@@ -7086,8 +7086,8 @@ void HAND_WAZA_PowerTrickOnUncategorizedMove(struct BtlEventFactor *factor, stru
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         statsRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_STATS, pokeId);
         statsRecord->pokeId = pokeId;
-        statsRecord->attack = func_021D58A8(user, BPP_VALUE_DEFENSE);
-        statsRecord->defense = func_021D58A8(user, BPP_VALUE_ATTACK);
+        statsRecord->attack = BTL_POKEPARAM_GetStatRaw(user, BPP_VALUE_DEFENSE);
+        statsRecord->defense = BTL_POKEPARAM_GetStatRaw(user, BPP_VALUE_ATTACK);
         statsRecord->setAttack = 1;
         statsRecord->setDefense = 1;
         BTL_SERVER_FLOW_InitMsgRecord(&statsRecord->message, BTL_STRTYPE_SET, BTL_STR_POWER_TRICK);
@@ -7124,8 +7124,8 @@ void HAND_WAZA_PowerSplitOnUncategorizedMove(struct BtlEventFactor *factor, stru
         targetId = BTL_EVENT_GetVar(BTL_EVAR_TARGET_ID);
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
-        averageAttack = (func_021D58A8(user, BPP_VALUE_ATTACK) + func_021D58A8(target, BPP_VALUE_ATTACK)) / 2;
-        averageSpAttack = (func_021D58A8(user, BPP_VALUE_SP_ATTACK) + func_021D58A8(target, BPP_VALUE_SP_ATTACK)) / 2;
+        averageAttack = (BTL_POKEPARAM_GetStatRaw(user, BPP_VALUE_ATTACK) + BTL_POKEPARAM_GetStatRaw(target, BPP_VALUE_ATTACK)) / 2;
+        averageSpAttack = (BTL_POKEPARAM_GetStatRaw(user, BPP_VALUE_SP_ATTACK) + BTL_POKEPARAM_GetStatRaw(target, BPP_VALUE_SP_ATTACK)) / 2;
         statsRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_STATS, pokeId);
         statsRecord->pokeId = targetId;
         statsRecord->attack = averageAttack;
@@ -7169,8 +7169,8 @@ void HAND_WAZA_GuardSplitOnUncategorizedMove(struct BtlEventFactor *factor, stru
         targetId = BTL_EVENT_GetVar(BTL_EVAR_TARGET_ID);
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
-        averageDefense = (func_021D58A8(user, BPP_VALUE_DEFENSE) + func_021D58A8(target, BPP_VALUE_DEFENSE)) / 2;
-        averageSpDefense = (func_021D58A8(user, BPP_VALUE_SP_DEFENSE) + func_021D58A8(target, BPP_VALUE_SP_DEFENSE)) / 2;
+        averageDefense = (BTL_POKEPARAM_GetStatRaw(user, BPP_VALUE_DEFENSE) + BTL_POKEPARAM_GetStatRaw(target, BPP_VALUE_DEFENSE)) / 2;
+        averageSpDefense = (BTL_POKEPARAM_GetStatRaw(user, BPP_VALUE_SP_DEFENSE) + BTL_POKEPARAM_GetStatRaw(target, BPP_VALUE_SP_DEFENSE)) / 2;
         statsRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_STATS, pokeId);
         statsRecord->pokeId = targetId;
         statsRecord->defense = averageDefense;
@@ -7706,7 +7706,7 @@ void HAND_WAZA_RolePlayCopyAbility(struct BtlEventFactor *factor, struct BtlServ
 
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
         targetId = BTL_EVENT_GetVar(BTL_EVAR_TARGET_ID);
-        targetAbility = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, targetId), BPP_VALUE_ABILITY);
+        targetAbility = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, targetId), BPP_VALUE_ABILITY);
         if (BTL_ID_IsAbilityRolePlayBlocked(targetAbility) == 0) {
             changeAbility = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CHANGE_ABILITY, pokeId);
             changeAbility->pokeId = pokeId;
@@ -8217,7 +8217,7 @@ void HAND_WAZA_BeatUpSetBasePower(struct BtlEventFactor *factor, struct BtlServe
     *work = *work + 1;
     if (*work >= BEAT_UP_PARTY_SLOTS)
         *work = 0;
-    BTL_EVENT_OverwriteVar(BTL_EVAR_BASE_POWER, _u32_div_f(func_021D59B4(attackerParam, BPP_VALUE_BASE_ATTACK), 10) + 5);
+    BTL_EVENT_OverwriteVar(BTL_EVAR_BASE_POWER, _u32_div_f(BTL_POKEPARAM_GetValue(attackerParam, BPP_VALUE_BASE_ATTACK), 10) + 5);
 }
 
 
@@ -9450,7 +9450,7 @@ void HAND_WAZA_StoredPowerAddPowerPerStage(struct BtlEventFactor *factor, struct
         user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         raisedStages = 0;
         for (i = 0; i < 7; i++) {
-            stage = func_021D59B4(user, gStoredPowerStatIds[i]) - 6;
+            stage = BTL_POKEPARAM_GetValue(user, gStoredPowerStatIds[i]) - 6;
             if (stage > 0) {
                 raisedStages += stage;
             }
@@ -9520,7 +9520,7 @@ int *HAND_WAZA_AddElectroBall(int *handlerCount)
 #define HAND_WAZA_ABILITY_TRUANT 0x36
 
 
-/* Value id of func_021D59B4 (the Pokemon value getter) that returns the ability. */
+/* Value id of BTL_POKEPARAM_GetValue (the Pokemon value getter) that returns the ability. */
 #define HAND_WAZA_BPP_VALUE_ABILITY 0x10
 
 
@@ -9688,7 +9688,7 @@ void HAND_WAZA_SimpleBeamSetAbility(struct BtlEventFactor *factor, struct BtlSer
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         targetCount = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_COUNT);
         for (i = 0; i < targetCount; i++) {
-            if (func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i)), HAND_WAZA_BPP_VALUE_ABILITY) != HAND_WAZA_ABILITY_TRUANT) {
+            if (BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i)), HAND_WAZA_BPP_VALUE_ABILITY) != HAND_WAZA_ABILITY_TRUANT) {
                 cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_SET_ABILITY, pokeId);
                 cmd->pokeId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i);
                 cmd->abilityId = HAND_WAZA_ABILITY_SIMPLE;
@@ -9725,12 +9725,12 @@ void HAND_WAZA_EntrainmentCopyAbility(struct BtlEventFactor *factor, struct BtlS
     u8 targetId;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        userAbility = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), HAND_WAZA_BPP_VALUE_ABILITY);
+        userAbility = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), HAND_WAZA_BPP_VALUE_ABILITY);
         if (BTL_ID_IsAbilityEntrainmentBlocked(userAbility) == 0) {
             targetCount = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_COUNT);
             for (i = 0; i < targetCount; i++) {
                 targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i);
-                if (func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, targetId), HAND_WAZA_BPP_VALUE_ABILITY) != HAND_WAZA_ABILITY_TRUANT) {
+                if (BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, targetId), HAND_WAZA_BPP_VALUE_ABILITY) != HAND_WAZA_ABILITY_TRUANT) {
                     cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_SET_ABILITY, pokeId);
                     cmd->pokeId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i);
                     cmd->abilityId = userAbility;
@@ -10240,7 +10240,7 @@ int *HAND_WAZA_AddBestow(int *handlerCount)
 }
 
 
-/* Value id of func_021D59B4 (the Pokemon value getter) that returns the current HP. */
+/* Value id of BTL_POKEPARAM_GetValue (the Pokemon value getter) that returns the current HP. */
 #define HAND_WAZA_BPP_VALUE_HP 0xd
 
 
@@ -10292,7 +10292,7 @@ int *HAND_WAZA_AddFinalGambit(int *handlerCount)
 void HAND_WAZA_FinalGambitSetFixedDamage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))
-        BTL_EVENT_OverwriteVar(HAND_WAZA_EVAR_FIXED_DAMAGE, func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), HAND_WAZA_BPP_VALUE_HP));
+        BTL_EVENT_OverwriteVar(HAND_WAZA_EVAR_FIXED_DAMAGE, BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), HAND_WAZA_BPP_VALUE_HP));
 }
 
 
@@ -10618,7 +10618,7 @@ void HAND_WAZA_RelicSongChangeForm(BTL_EVENT_SIGNATURE)
 
     bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
     if (BTL_POKEPARAM_GetSpecies(bpp) == BTL_SPECIES_MELOETTA && pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        newForm = func_021D59B4(bpp, BTL_BPP_VALUE_FORM) == 0;
+        newForm = BTL_POKEPARAM_GetValue(bpp, BTL_BPP_VALUE_FORM) == 0;
         record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CHANGE_MON_FORM, pokeId);
         record->pokeId = pokeId;
         record->form = newForm;

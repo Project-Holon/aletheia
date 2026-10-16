@@ -1,5 +1,5 @@
 /*
- * function: sub_0202FC48
+ * function: GFL_HEAP_InitManager
  * address:  0x0202FC48
  * packet:   pkt_0202FC48
  * region:   arm9
@@ -27,20 +27,20 @@
  *
  * count and idCount are u16, and that is not decoration: it is the whole
  * difference between this and the 376-byte near miss recorded in
- * docs/notes/sub_0202FC48.c.txt.  With u32 parameters the allocator keeps the
+ * docs/notes/GFL_HEAP_InitManager.c.txt.  With u32 parameters the allocator keeps the
  * constant zero live from the clearing loop to the last call and needs seven
  * callee-saved registers, which loses the `mov sb, r4` in the final loop's
  * preheader.  With count u16 the zero's live range ends at the clearing loop,
  * total takes sb and the preheader re-materialises the zero off the r4 that
  * `error = 0` has just left at zero: 380 bytes, byte for byte.  The caller
- * sub_02030608 truncates both arguments with an lsl/lsr #16 pair before the
+ * GFL_HEAP_Init truncates both arguments with an lsl/lsr #16 pair before the
  * call, which is where the u16 comes from.  idCount's own type is not what
  * decides it ((u16)total below makes the truncation explicit either way);
  * count's is: u32 count with u16 idCount still lands at 376.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202FC48.c \
- *       --func sub_0202FC48 --addr 0x0202FC48 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_InitManager.c \
+ *       --func GFL_HEAP_InitManager --addr 0x0202FC48 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -68,7 +68,7 @@ extern struct EnvModule g_EnvModule;
 extern void *sub_02086788(u32 heap, u32 size, u32 align);
 extern void *sub_02060C5C(void *mem, u32 size, u32 mode);
 
-int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
+int GFL_HEAP_InitManager(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
 {
     u32   total;
     u32   i;

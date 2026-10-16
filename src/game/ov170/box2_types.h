@@ -21,7 +21,7 @@ struct Rec;
 struct Sound;
 struct TaskMenu;
 struct WinMgr;
-struct Struct_02025CD0;
+struct CursorMoveObj; /* the CURSOR_MOVE cursor object */
 struct Sav;
 
 typedef unsigned char u8;

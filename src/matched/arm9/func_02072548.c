@@ -1,5 +1,5 @@
 /*
- * function: func_02072548
+ * function: NNSi_G3dSendTexMtx_Max
  * address:  0x02072548
  * packet:   pkt_02072548
  * region:   arm9
@@ -126,7 +126,7 @@ typedef void (*Fill)(s32 *out, Obj *o);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern Fill data_020A8478[];
 
-void func_02072548(Obj *o)
+void NNSi_G3dSendTexMtx_Max(Obj *o)
 {
     Rec r;
     s32 z;

@@ -34,8 +34,8 @@
  *   GX_SetBankForTex   0x02080294  arm
  *   MIi_CpuCopyFast    0x02082B0C  arm
  *   OS_WaitVBlankIntr   0x02087AE4  arm
- *   func_02080B98   0x02080B98  arm
- *   func_02080964   0x02080964  arm
+ *   GX_DisableBankForLCDC   0x02080B98  arm
+ *   GX_ResetBankForTex   0x02080964  arm
  *   SCREENTEX_CameraTarget        0x020A02B8  data
  *   SCREENTEX_CameraPosition        0x020A02C4  data
  *   SCREENTEX_CameraBlockTemplate        0x020A0300  data
@@ -110,8 +110,8 @@ extern void GX_SetBankForLCDC(u32 a);
 extern void GX_SetBankForTex(u32 a);
 extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
 extern void OS_WaitVBlankIntr(void);
-extern void func_02080B98(void);
-extern int func_02080964(void);
+extern void GX_DisableBankForLCDC(void);
+extern int GX_ResetBankForTex(void);
 extern void G3D_SYSTEM_DrawObject(void *dst, const u32 *params);
 extern void MTX_PerspectiveW(fx32 a, fx32 b, fx32 c, fx32 d, fx32 e, fx32 f, void *g);
 extern void MTX_LookAt(const VecFx32 *cam, const VecFx32 *tgt,
@@ -316,13 +316,13 @@ void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex)
 
     OS_WaitVBlankIntr();
     OS_WaitVBlankIntr();
-    func_02080B98();
+    GX_DisableBankForLCDC();
     GX_SetBankForTex(savedTexBank);
 
     if (captureIndex != copyIndex) {
-        currentTexBank = func_02080964();
+        currentTexBank = GX_ResetBankForTex();
         MIi_CpuCopyFast(SCREENTEX_CaptureBanks[captureIndex].vramAddress, SCREENTEX_CaptureBanks[copyIndex].vramAddress, 0xC << 13);
-        func_02080B98();
+        GX_DisableBankForLCDC();
         GX_SetBankForTex(currentTexBank);
     }
 }

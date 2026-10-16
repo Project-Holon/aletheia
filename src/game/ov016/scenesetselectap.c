@@ -162,7 +162,7 @@ typedef struct tagSETTINGINFO {
 
 typedef unsigned long u32;
 
-typedef struct GXOamAttr GXOamAttr;
+#include "gx_oam_types.h"
 
 /* the compiler's g_021DA7B4and g_021DA7B8initialisers, each in its own .rodata section */
 typedef struct { unsigned char v[4]; } PLT4;

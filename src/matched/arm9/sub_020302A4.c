@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020302A4
+ * function: GFL_HEAP_ResizeMemory
  *
  * BLOCKED on one relocation site: all 160 concrete bytes are correct, but
  * the call to sub_02060CD0 at +0054 has no witness. 0x02060CD0 (the
  * expanded-heap resize primitive in the NNS-shaped library block around
  * 0x02060000) has exactly one branch reference in the image and it is this
- * call; the neighbouring 0x02060CA0 used by sub_02030098 has four and
+ * call; the neighbouring 0x02060CA0 used by GFL_HEAP_AllocMemory has four and
  * resolves fine. No cut exists inside a single function section, so
  * --suggest-split offers nothing. An EXACT entry for 0x02060CD0 promotes
  * this file unchanged, and promoting it in turn unblocks
@@ -22,9 +22,9 @@
  *
  * Resize in place: the realloc of this heap layer.
  *
- *   u32 sub_020302A4(void *p, u32 size)
+ *   u32 GFL_HEAP_ResizeMemory(void *p, u32 size)
  *
- * The block header is the same 0x1c bytes sub_02030098 reserves, so the
+ * The block header is the same 0x1c bytes GFL_HEAP_AllocMemory reserves, so the
  * heap id is `((u16 *)p)[-14]` and the address handed to the expanded-heap
  * routines is p - 0x1c. The new request is size + 0x1c, and it is written
  * twice rather than bound to a local: the compiler recomputes `add r1, r8,
@@ -56,8 +56,8 @@
  *   sub_02060F90    0x02060F90  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020302A4.c \
- *       --func sub_020302A4 --addr 0x020302A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_HEAP_ResizeMemory.c \
+ *       --func GFL_HEAP_ResizeMemory --addr 0x020302A4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -88,7 +88,7 @@ struct HeapHead;
 extern u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size);
 extern int sub_02060F90(char *p);
 
-u32 sub_020302A4(void *p, u32 size)
+u32 GFL_HEAP_ResizeMemory(void *p, u32 size)
 {
     struct HeapBlock *hdr;
     void *arena;

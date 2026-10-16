@@ -158,10 +158,10 @@
  *   data_021C85A4  0x021C85A4  data
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC78  0x0201BC78  thumb
- *   func_0201BCEC  0x0201BCEC  thumb
+ *   POKE_TOOL_GetIconCellArcIdSub  0x0201BC78  thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub  0x0201BCEC  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   GAME_DATA_GetField114  0x020127A4  thumb
@@ -387,7 +387,7 @@ struct SaveBlock;
 
 struct Rec44;
 
-struct S12;
+struct Vec3;
 
 typedef short          s16;
 
@@ -397,7 +397,7 @@ typedef struct {
     u16 z;
     u8 pri;
     u8 f7;
-} ObjPos_021BD574;
+} ObjPos;
 
 typedef struct {
     u32 w[4];
@@ -407,10 +407,7 @@ typedef struct {
     u8 v[7];
 } Row7;
 
-typedef struct {
-    s16 x;
-    s16 y;
-} Pt_021BFE08;
+
 
 struct WinCfg {
     u8 bg;
@@ -430,20 +427,17 @@ struct WinCfg4 {
     struct WinCfg e[4];
 };
 
-typedef struct {
-    u16 x;
-    u16 y;
-} Pt_021C0C14;
 
-struct Vec_021C0D5C { int x,y,z; };
 
-struct Ball { struct Vec_021C0D5C p; int radius; };
 
-struct Seg { struct Vec_021C0D5C a,b; int radius; };
 
-struct Out { u32 hit; struct Vec_021C0D5C n; int distance; };
+struct Ball { struct Vec3 p; int radius; };
 
-struct Vec_021C1450 { int x, y, z; };
+struct Seg { struct Vec3 a,b; int radius; };
+
+struct Out { u32 hit; struct Vec3 n; int distance; };
+
+
 
 typedef struct {
     u8 f0;
@@ -451,21 +445,13 @@ typedef struct {
     u8 rest[0x3c];
 } Entry;
 
-typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 rest[0x3c];
-} Entry_021C1E10;
+
 
 typedef short          s16;
 
 typedef signed short   s16;
 
-typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 b[0x3c];
-} Entry_021C2234;
+
 
 typedef int BOOL;
 
@@ -667,13 +653,13 @@ extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u3
 
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern int func_0201BC78(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
 
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 
 extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 
@@ -689,9 +675,9 @@ extern int TOWNMAP_GRH_FindRecordIndex(int a0, int a1);
 
 extern u8   func_021C0C14(u16 *heap, u8 *p, int key);
 
-extern void BUTTON_MAN_InitSphere(struct Ball *,struct Vec_021C0D5C *,u32);
+extern void BUTTON_MAN_InitSphere(struct Ball *,struct Vec3 *,u32);
 
-extern void BUTTON_MAN_InitSegment(char *p, struct S12 *q, struct S12 *r, u32 v);
+extern void BUTTON_MAN_InitSegment(char *p, struct Vec3 *q, struct Vec3 *r, u32 v);
 
 extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *,struct Ball *,struct Out *);
 
@@ -699,11 +685,11 @@ extern u8 func_020355C4(void);
 
 extern unsigned int KEY_GetCont(void);
 
-extern void VEC_Subtract(struct Vec_021C1450 *a, struct Vec_021C1450 *b, struct Vec_021C1450 *out);
+extern void VEC_Subtract(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
 
-extern int VEC_Mag(struct Vec_021C1450 *v);
+extern int VEC_Mag(struct Vec3 *v);
 
-extern void VEC_Normalize(struct Vec_021C1450 *src, struct Vec_021C1450 *dst);
+extern void VEC_Normalize(struct Vec3 *src, struct Vec3 *dst);
 
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 
@@ -930,7 +916,7 @@ extern const struct WinCfg2 data_021C8570;
 
 extern const struct WinCfg4 data_021C85A4;
 
-extern const Pt_021C0C14 data_021C8554;
+extern const struct Pt data_021C8554;
 
 extern const u8 data_021C8E14[3][2];
 
@@ -1327,8 +1313,8 @@ void ZUKAN_DETAIL_AREA_CreateMapActors(u16 *heap, u8 *p, int key)
 {
     BankDesc desc;
     Row7 anim, pri, pal;
-    ObjPos_021BD574 pos;
-    Pt_021BFE08 pt;
+    ObjPos pos;
+    struct PtS pt;
     void *h;
     u8 i;
 
@@ -1404,7 +1390,7 @@ void ZUKAN_DETAIL_AREA_DeleteMapActors(void *unused, char *p, void *a2)
 
 void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, int key)
 {
-    ObjPos_021BD574 pos;
+    ObjPos pos;
     u8 i;
 
     MI_CpuFill8(&pos, 0, sizeof(pos));
@@ -1438,7 +1424,7 @@ void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key)
     u8 i;
     u16 kind;
     u16 msg;
-    ObjPos_021BD574 pos;
+    ObjPos pos;
 
     k = ov208_func_021BC3A4(key);
     for (i = 0; i < 0x3d; i++) {
@@ -1704,8 +1690,8 @@ void ZUKAN_DETAIL_AREA_LoadMarkerResources(u16 *heap, u8 *p, int key)
     void *h;
 
     h = func_020490F4(7, *heap);
-    ((struct Ov208AreaWork *)p)->f54 = CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 1, 0, *heap);
-    ((struct Ov208AreaWork *)p)->f58 = CLACT_RegisterCellAnim(h, func_0201BC78(), func_0201BCEC(), *heap);
+    ((struct Ov208AreaWork *)p)->f54 = CLACT_RegisterPaletteCompressed(h, POKE_TOOL_GetIconPaletteArcId(), 1, 0, *heap);
+    ((struct Ov208AreaWork *)p)->f58 = CLACT_RegisterCellAnim(h, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryIdSub(), *heap);
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -1721,7 +1707,7 @@ void ZUKAN_DETAIL_AREA_ReleaseMarkerResources(void *a, char *q, void *a2)
 u32 ZUKAN_DETAIL_AREA_CreatePokemonIcon(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form,
                   u32 gender, u32 isEgg, u8 x, u8 y)
 {
-    ObjPos_021BD574 pos;
+    ObjPos pos;
     void *h;
     u32 obj;
 
@@ -1803,7 +1789,7 @@ u32 ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(void *a0, u8 *p, void *a2)
 
 void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key)
 {
-    Pt_021C0C14 pt = data_021C8554;
+    struct Pt pt = data_021C8554;
 
     if (p[0x79] == 0xff)
         p[0x79] = func_021C0C14(heap, p, key);
@@ -1827,9 +1813,9 @@ void ZUKAN_DETAIL_AREA_SelectPlayerTown(int a, char *b, int c)
 u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,int unused2,u8 x,u8 y)
 {
     struct Ball ball;
-    struct Vec_021C0D5C point;
+    struct Vec3 point;
     struct Seg seg;
-    struct Vec_021C0D5C a,b;
+    struct Vec3 a,b;
     struct Out out;
     int best;
     u8 i;
@@ -1846,7 +1832,7 @@ u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,int unused2,u8 x,u8 y)
         b.x=FX(FIELD(8));
         b.y=FX(FIELD(9));
         b.z=0;
-        BUTTON_MAN_InitSegment((char *)(&seg),(struct S12 *)(&a),(struct S12 *)(&b),FX(FIELD(10)));
+        BUTTON_MAN_InitSegment((char *)(&seg),(struct Vec3 *)(&a),(struct Vec3 *)(&b),FX(FIELD(10)));
         if (BUTTON_MAN_SegmentSphereTest(&seg,&ball,&out)) {
             if(result==255) { best=out.distance; result=i; }
             else if(best>out.distance) { best=out.distance; result=i; }
@@ -2032,7 +2018,7 @@ void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
     }
 }
 
-static inline void set3(struct Vec_021C1450 *v, int x, int y, int z)
+static inline void set3(struct Vec3 *v, int x, int y, int z)
 {
     v->x = x;
     v->y = y;
@@ -2070,10 +2056,10 @@ void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
         found = 0;
         near = 0;
         {
-        struct Vec_021C1450 v = {0, 0, 0};
-        struct Vec_021C1450 d = {0, 0, 0};
-        struct Vec_021C1450 a;
-        struct Vec_021C1450 b;
+        struct Vec3 v = {0, 0, 0};
+        struct Vec3 d = {0, 0, 0};
+        struct Vec3 a;
+        struct Vec3 b;
         CLACT_GetActorSurfacePos((struct Actor *)W(0xcc), &pt.c, 0);
         keys = KEY_GetCont();
         if ((keys & 0x10) || (keys & 0x20) || (keys & 0x40) || (keys & 0x80)) {
@@ -2380,7 +2366,7 @@ void ZUKAN_DETAIL_AREA_RequestModeEvent4(void *a, int b, int c)
 void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key)
 {
     void *str;
-    Pt_021C0C14 pt;
+    struct Pt pt;
 
     W(0x28) = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)W(0x38));
@@ -2422,9 +2408,9 @@ void ZUKAN_DETAIL_AREA_SwitchAreaSet(u16 *heap, u8 *p, int key, int dir, int tou
 
     s = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
     if (W(0x8c) == 0)
-        W(0x90) = ((Entry_021C1E10 *)W(0x94))[0].f1 == 0;
+        W(0x90) = ((Entry *)W(0x94))[0].f1 == 0;
     else
-        W(0x90) = ((Entry_021C1E10 *)W(0x94))[p[0x78]].f1 == 0;
+        W(0x90) = ((Entry *)W(0x94))[p[0x78]].f1 == 0;
     W(0x2c) = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)W(0x3c));
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)), 0);
@@ -2611,11 +2597,11 @@ void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key)
     if (W(0x90) == 1 && p[0x79] != 0xff) {
         idx = W(0x8c) != 0 ? p[0x78] : 0;
         k = (p + p[0x79])[0x3cc];
-        if ((*(Entry_021C2234 **)(p + 0x94))[idx].b[k] & 7)
+        if ((*(Entry **)(p + 0x94))[idx].rest[k] & 7)
             on[0] = 1;
-        if ((*(Entry_021C2234 **)(p + 0x94))[idx].b[k] & 0x18)
+        if ((*(Entry **)(p + 0x94))[idx].rest[k] & 0x18)
             on[1] = 1;
-        if ((*(Entry_021C2234 **)(p + 0x94))[idx].b[k] & 0x60)
+        if ((*(Entry **)(p + 0x94))[idx].rest[k] & 0x60)
             on[2] = 1;
     }
     for (i = 0; i < 3; i++)

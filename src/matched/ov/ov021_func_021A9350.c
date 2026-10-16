@@ -15,11 +15,11 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02018598  0x02018598  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_GetNature  0x02018598  thumb
  *   FIELD_ENCOUNT_ApplyLeadAbility  0x021A9828  thumb  ov021
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
@@ -70,11 +70,11 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern u8 func_02018598(void *p);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern u8 POKE_TOOL_GetNature(void *p);
 extern void FIELD_ENCOUNT_ApplyLeadAbility(struct Sel *s, u16 d);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
@@ -98,16 +98,16 @@ void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
     s->f04 = MOVE_POKEMON_SAVE_GetBlock(t);
     if (b == 5 || b == 6)
         s->b1 = 1;
-    s->f24 = func_02012944(a);
+    s->f24 = GAME_DATA_GetMyStatus(a);
     s->f20 = func_02008530(s->f24);
     mon = POKEPARTY_GetMember(party, 0);
-    s->f1A = func_02017E1C(mon, 0x4C, 0);
+    s->f1A = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (s->f1A == 0) {
-        s->f16 = func_02017E1C(mon, 5, 0);
-        s->f18 = func_02017E1C(mon, 6, 0);
-        s->f1B = func_02017E1C(mon, 10, 0);
-        s->f1C = func_02017E1C(mon, 0x6E, 0);
-        s->f1D = func_02018598(mon);
+        s->f16 = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        s->f18 = POKE_TOOL_GetPartyValue(mon, 6, 0);
+        s->f1B = POKE_TOOL_GetPartyValue(mon, 10, 0);
+        s->f1C = POKE_TOOL_GetPartyValue(mon, 0x6E, 0);
+        s->f1D = POKE_TOOL_GetNature(mon);
         FIELD_ENCOUNT_ApplyLeadAbility(s, d);
     }
     s->b0 = ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(a), 0x960);
@@ -124,6 +124,6 @@ void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
     if (s->f08 == 1 && (int)POKEPARTY_GetBattleReadyCount(party) >= 2 && FIELD_ENCOUNT_RandPercent() < 0x28)
         s->b5 = 1;
     if (s->b15 || s->b2)
-        s->f1E = func_02017E1C(POKEPARTY_GetMember(party, POKEPARTY_FindFirstBattleReady(party)), 0x9E, 0);
+        s->f1E = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, POKEPARTY_FindFirstBattleReady(party)), 0x9E, 0);
     s->f15 = s->b5 + 1;
 }

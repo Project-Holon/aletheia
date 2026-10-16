@@ -20,7 +20,7 @@
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0202D034 0x0202D034 thumb
+ *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   B_APP_TOOL_CreateActors 0x0220AF6C thumb ov196
  *   B_APP_TOOL_SetActorsVisible 0x0220AFDC thumb ov196
@@ -105,17 +105,17 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   APP_ICON_GetStatusIconAnim 0x020276C4 thumb
  *   POKE_TOOL_GetLevelMinExp 0x02018544 thumb
- *   func_02018584 0x02018584 thumb
+ *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   d_02212130 0x02212130 data a1
- *   func_0202D01C 0x0202D01C thumb
+ *   BGWINFRM_ScaleRatio 0x0202D01C thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   B_PLIST_DRAW_DeleteStateWindows 0x0220BDD4 thumb ov198
@@ -179,9 +179,7 @@ struct GfFont;
 struct U16Vec;
 struct WordSet;
 struct Summary;
-struct Struct_02025CD0;
-struct Struct_02025D1C;
-struct Struct_02025D24;
+struct CursorMove;
 
 
 
@@ -258,7 +256,7 @@ extern u32 WAZA_TOOL_GetParam(u16, u32);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(void *, int);
-extern int func_0202D034(unsigned,unsigned);
+extern int BGWINFRM_GetScaleRank(unsigned,unsigned);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void B_APP_TOOL_CreateActors(char *,int,int,int,int);
 extern unsigned B_APP_TOOL_SetActorsVisible();
@@ -336,16 +334,16 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void STRBUF_Delete(struct U16Vec *);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u8 POKE_TOOL_GetGender(void *);
 extern int APP_ICON_GetStatusIconAnim(int a0);
 extern u32 POKE_TOOL_GetLevelMinExp(void *);
-extern u32 func_02018584(u16,u16,u16);
+extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
 extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
-extern u8 func_0202D01C(u32,u32,u32);
+extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
 extern void BG_SYS_SetTileEntry(u32,u16,u8,int,u8,u8,u8);
 extern void func_02041B6C(u8);
 extern void B_PLIST_DRAW_DeleteStateWindows(char *);
@@ -372,9 +370,9 @@ extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern void B_PLIST_ANM_UpdateSelectedTile(u8 *);
 extern void B_PLIST_DRAW_PrintHeader9(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
-extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *);
-extern void CURSOR_MOVE_SetMode(struct Struct_02025D24 *);
+extern struct CursorMove *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
+extern void CURSOR_MOVE_EnableInput(struct CursorMove *);
+extern void CURSOR_MOVE_SetMode(struct CursorMove *);
 extern u32 CURSOR_MOVE_Delete(void *a0);
 extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
 extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
@@ -552,7 +550,7 @@ int B_PLIST_MAIN_GetMonAnimState(char *p)
     if (a==0) return 0;
     if (((struct B_PlistWork *)p)->monFlags.kind!=8 && ((struct B_PlistWork *)p)->monFlags.kind!=6) return 5;
     if (a==((struct B_PlistWork *)p)->monSpeciesAlt) return 1;
-    switch (func_0202D034(a,((struct B_PlistWork *)p)->monSpeciesAlt)) {
+    switch (BGWINFRM_GetScaleRank(a,((struct B_PlistWork *)p)->monSpeciesAlt)) {
     case 0: return 2;
     case 1: return 3;
     case 2: return 4;
@@ -1515,39 +1513,39 @@ void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
         p->species=0;
         return;
     }
-    p->species=func_02017E1C(mon,5,0);
+    p->species=POKE_TOOL_GetPartyValue(mon,5,0);
     if(p->species==0) return;
-    p->hp=func_02017E1C(p->mon,0xa2,0);
-    p->attack=func_02017E1C(p->mon,0xa3,0);
-    p->defense=func_02017E1C(p->mon,0xa4,0);
-    p->speed=func_02017E1C(p->mon,0xa5,0);
-    p->stat6=func_02017E1C(p->mon,0xa6,0);
-    p->spatk=func_02017E1C(p->mon,0xa0,0);
-    p->spdef=func_02017E1C(p->mon,0xa1,0);
-    p->ability=func_02017E1C(p->mon,0xae,0);
-    p->form=func_02017E1C(p->mon,0xaf,0);
-    p->level=(u8)func_02017E1C(p->mon,0x9e,0);
-    if(func_02017E1C(p->mon,0xad,0)==1) p->egg=0;
+    p->hp=POKE_TOOL_GetPartyValue(p->mon,0xa2,0);
+    p->attack=POKE_TOOL_GetPartyValue(p->mon,0xa3,0);
+    p->defense=POKE_TOOL_GetPartyValue(p->mon,0xa4,0);
+    p->speed=POKE_TOOL_GetPartyValue(p->mon,0xa5,0);
+    p->stat6=POKE_TOOL_GetPartyValue(p->mon,0xa6,0);
+    p->spatk=POKE_TOOL_GetPartyValue(p->mon,0xa0,0);
+    p->spdef=POKE_TOOL_GetPartyValue(p->mon,0xa1,0);
+    p->ability=POKE_TOOL_GetPartyValue(p->mon,0xae,0);
+    p->form=POKE_TOOL_GetPartyValue(p->mon,0xaf,0);
+    p->level=(u8)POKE_TOOL_GetPartyValue(p->mon,0x9e,0);
+    if(POKE_TOOL_GetPartyValue(p->mon,0xad,0)==1) p->egg=0;
     else p->egg=1;
     p->gender=POKE_TOOL_GetGender(p->mon);
     p->nature=(u8)APP_ICON_GetStatusIconAnim((int)p->mon);
-    p->flag=(u8)func_02017E1C(p->mon,0x4c,0);
-    p->item=func_02017E1C(p->mon,10,0);
-    p->unknown=func_02017E1C(p->mon,6,0);
-    p->personality=func_02017E1C(p->mon,0x6f,0);
-    p->exp=func_02017E1C(p->mon,8,0);
+    p->flag=(u8)POKE_TOOL_GetPartyValue(p->mon,0x4c,0);
+    p->item=POKE_TOOL_GetPartyValue(p->mon,10,0);
+    p->unknown=POKE_TOOL_GetPartyValue(p->mon,6,0);
+    p->personality=POKE_TOOL_GetPartyValue(p->mon,0x6f,0);
+    p->exp=POKE_TOOL_GetPartyValue(p->mon,8,0);
     exp=POKE_TOOL_GetLevelMinExp(p->mon);
     p->lower=exp;
     if(p->level==100) p->upper=p->lower;
-    else p->upper=func_02018584(p->species,(u16)p->personality,(u16)(p->level+1));
+    else p->upper=POKE_TOOL_GetExpForLevel(p->species,(u16)p->personality,(u16)(p->level+1));
     i=0;
     moves=p->moves;
     for(;i<4;i++) {
         move=&moves[i];
-        moves[i].id=func_02017E1C(p->mon,i+0x36,0);
+        moves[i].id=POKE_TOOL_GetPartyValue(p->mon,i+0x36,0);
         if(moves[i].id==0) continue;
-        move->pp=func_02017E1C(p->mon,i+0x3a,0);
-        move->up=func_02017E1C(p->mon,i+0x3e,0);
+        move->pp=POKE_TOOL_GetPartyValue(p->mon,i+0x3a,0);
+        move->up=POKE_TOOL_GetPartyValue(p->mon,i+0x3e,0);
         move->up=WAZA_TOOL_GetMaxPP(move->id,move->up);
         move->kind=WAZA_TOOL_GetParam(move->id,0);
         move->power=WAZA_TOOL_GetParam(move->id,2);
@@ -1668,7 +1666,7 @@ void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode)
         denominator=((struct B_PlistSlot *)q)->expMax-((struct B_PlistSlot *)q)->expMin;
         numerator=((struct B_PlistSlot *)q)->expCurrent-((struct B_PlistSlot *)q)->expMin;
     } else { denominator=0; numerator=0; }
-    amount=func_0202D01C(numerator,denominator,64);
+    amount=BGWINFRM_ScaleRatio(numerator,denominator,64);
     for(i=0;i<8;i++) {
         if(amount>=8) tile=30; else tile=amount+22;
         BG_SYS_SetTileEntry(7,tile,i+10,8,1,1,16);
@@ -2370,12 +2368,12 @@ void B_PLIST_MAIN_PlaySe2(u8 **p, u32 b)
 void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b)
 {
     u32 offset=0x218C;
-    struct Struct_02025CD0 *result;
+    struct CursorMove *result;
     result=CURSOR_MOVE_Create(d_022122D4[index],(u32)d_022122A0,(u32)p,*(u32 *)(p+offset),b,((struct B_PlistWork *)p)->owner->heapId);
-    *(struct Struct_02025CD0 **)(p+(offset-8))=result;
-    CURSOR_MOVE_EnableInput((struct Struct_02025D1C *)result);
+    *(struct CursorMove **)(p+(offset-8))=result;
+    CURSOR_MOVE_EnableInput((struct CursorMove *)result);
     offset-=8;
-    CURSOR_MOVE_SetMode(*(struct Struct_02025D24 **)(p+offset));
+    CURSOR_MOVE_SetMode(*(struct CursorMove **)(p+offset));
     B_PLIST_MAIN_LayoutCursorActors(p,b);
 }
 

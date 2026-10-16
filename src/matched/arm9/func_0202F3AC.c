@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02017E88   0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue   0x02017E88  thumb
  *   SAVE_EVENT_StoreVariant   0x0202F358  thumb
  *
  * Reads the four resource slots of one variant and hands them, with the
@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void SAVE_EVENT_StoreVariant(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
 
 void SAVE_EVENT_CopyVariant(void *a0, u32 a1)
@@ -34,11 +34,11 @@ void SAVE_EVENT_CopyVariant(void *a0, u32 a1)
     u8 base = (a1 == 1);
     u32 x, y, z, flag, w;
 
-    x = func_02017E88(a0, base + 0x95, 0);
+    x = POKE_TOOL_GetBoxValue(a0, base + 0x95, 0);
     base = (u8)(base * 3);
-    y = func_02017E88(a0, base + 0x8F, 0);
-    z = func_02017E88(a0, base + 0x90, 0);
-    w = func_02017E88(a0, base + 0x91, 0);
+    y = POKE_TOOL_GetBoxValue(a0, base + 0x8F, 0);
+    z = POKE_TOOL_GetBoxValue(a0, base + 0x90, 0);
+    w = POKE_TOOL_GetBoxValue(a0, base + 0x91, 0);
 
     flag = (a1 == 0);
     SAVE_EVENT_StoreVariant(a0, x, y, z, w, flag);

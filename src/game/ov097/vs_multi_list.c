@@ -82,7 +82,7 @@
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_0201D304 0x0201D304 thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
@@ -93,10 +93,10 @@
  *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_0201BC3C 0x0201BC3C thumb
+ *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_0201BC78 0x0201BC78 thumb
- *   func_0201BCEC 0x0201BCEC thumb
+ *   POKE_TOOL_GetIconCellArcIdSub 0x0201BC78 thumb
+ *   POKE_TOOL_GetIconCellEntryIdSub 0x0201BCEC thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -316,7 +316,7 @@ extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, struct PokemonParam *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *que, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern u32 func_02017E1C(struct PokemonParam *mon, u32 param, u32 unused);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 param, u32 unused);
 extern u8 POKE_TOOL_GetGender(struct PokemonParam *mon);
 extern u32 func_0201D304(struct Strbuf *str, struct GfFont *font, u32 margin);
 extern void WORDSET_SetSlotNumber(struct WordSet *, u32, u32, u32, u32, u32);
@@ -327,10 +327,10 @@ extern void *POKE_TOOL_GetBoxParam(struct PokemonParam *mon);
 extern u32 POKE_TOOL_GetGraphicIndex(void *boxParam);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern int CLACT_RegisterCharacter(struct ArcHandle *, u32, u32, u32, u16);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(struct ArcHandle *, u32, u32, u32, u16);
-extern int func_0201BC78(void);
-extern int func_0201BCEC(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 extern int CLACT_RegisterCellAnim(struct ArcHandle *, u32, u32, u32);
 extern u32 APP_ICON_GetArchiveId(void);
 extern int CLACT_RegisterPalette(struct ArcHandle *, u32, u32, u32, u16);
@@ -764,8 +764,8 @@ void VS_MULTI_LIST_PrintName(struct VsMultiList *work, int slot)
     PrintLeft(work, slot, name, 0x20, 7, 0x3dc0);
     STRBUF_Delete(format);
     STRBUF_Delete(name);
-    if (func_02017E1C(mons[monOffset], POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0) == 1 &&
-        func_02017E1C(mons[monOffset], POKE_TOOL_PARAM_IS_EGG, 0) == 0) {
+    if (POKE_TOOL_GetPartyValue(mons[monOffset], POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0) == 1 &&
+        POKE_TOOL_GetPartyValue(mons[monOffset], POKE_TOOL_PARAM_IS_EGG, 0) == 0) {
         gender = POKE_TOOL_GetGender(mons[monOffset]);
         if (gender == 0) PrintRight(work, slot, window, 0x16, 0x2960);
         else if (gender == 1) PrintRight(work, slot, window, 0x17, 0x31a0);
@@ -796,7 +796,7 @@ void VS_MULTI_LIST_PrintLevel(struct VsMultiList *work, u32 slot)
     text = STRBUF_Create(0x20, 0x8071);
     format = func_02045EC0(work->msgBank, 0xb);
     WORDSET_SetSlotNumber(work->wordSet, 0,
-                  func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_LEVEL, 0), 3, dispType, 1);
+                  POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_LEVEL, 0), 3, dispType, 1);
     WORDSET_CopyTaggedText(work->wordSet, text, format);
     PrintLevel(work, slot, text);
     STRBUF_Delete(format);
@@ -845,7 +845,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     STRBUF_Delete(hpLabel);
 
     hpFormat = func_02045EC0(work->msgBank, 0xd);
-    WORDSET_SetSlotNumber(work->wordSet, 0, func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, buf, hpFormat);
     {
         u32 bmp;
@@ -859,7 +859,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     STRBUF_Delete(hpFormat);
 
     maxHpFormat = func_02045EC0(work->msgBank, 0xd);
-    WORDSET_SetSlotNumber(work->wordSet, 0, func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, buf, maxHpFormat);
     {
         u32 bmp;
@@ -940,9 +940,9 @@ void VS_MULTI_LIST_LoadIconResources(struct VsMultiList *work)
             icon = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
         *(int *)(charIds + i * 4) = CLACT_RegisterCharacter(iconArc, icon, 0, 0, 0x71);
     }
-    work->paletteIds[0] = CLACT_RegisterPaletteCompressed(iconArc, func_0201BC3C(), 0, 0, 0x71);
-    cellArc = func_0201BC78();
-    cellAnim = func_0201BCEC();
+    work->paletteIds[0] = CLACT_RegisterPaletteCompressed(iconArc, POKE_TOOL_GetIconPaletteArcId(), 0, 0, 0x71);
+    cellArc = POKE_TOOL_GetIconCellArcIdSub();
+    cellAnim = POKE_TOOL_GetIconCellEntryIdSub();
     work->cellAnimIds[0] = CLACT_RegisterCellAnim(iconArc, cellArc, cellAnim, 0x71);
     ARC_TOOL_DeleteHandle(iconArc);
     uiArc = func_020490F4(APP_ICON_GetArchiveId(), 0x8071);
@@ -995,7 +995,7 @@ void VS_MULTI_LIST_CreateActors(struct VsMultiList *work)
         } else {
             CLACT_SetActorAutoAnim(work->actors.set.icon[i], 1);
             CLACT_SetActorPaletteOffset(work->actors.set.icon[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(work->mons[i])), 1);
-            heldItem = func_02017E1C(work->mons[i], POKE_TOOL_PARAM_HELD_ITEM, 0);
+            heldItem = POKE_TOOL_GetPartyValue(work->mons[i], POKE_TOOL_PARAM_HELD_ITEM, 0);
             if (heldItem == 0) CLACT_SetActorDrawEnable(work->actors.set.heldItem[i], 0);
             else if (FILE_UTIL_Check136C(heldItem) == 1) {
                 CLACT_SetActorAnimFrame(work->actors.set.heldItem[i], 0);

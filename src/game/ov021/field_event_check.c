@@ -209,7 +209,7 @@
  *   data_021D3CE8  0x021D3CE8  data
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
@@ -507,7 +507,7 @@ extern u16 FLDMMDL_GetAcmdCode(u8 *p);
 extern void *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern void *func_02008854(void *sys);
 extern void func_02008970(const void *obj, u32 *out);
@@ -1361,8 +1361,8 @@ int FIELD_EVENT_CHECK_GetEggCycleDecrement(void *party)
 
     for (index = 0; index < memberCount; index++) {
         void *member = POKEPARTY_GetMember(party, index);
-        u32 heldItem = func_02017E1C(member, 0xA, 0);
-        if (func_02017E1C(member, 0x4C, 0) == 0 && (heldItem == 0x31 || heldItem == 0x28))
+        u32 heldItem = POKE_TOOL_GetPartyValue(member, 0xA, 0);
+        if (POKE_TOOL_GetPartyValue(member, 0x4C, 0) == 0 && (heldItem == 0x31 || heldItem == 0x28))
             return 2;
     }
     return 1;
@@ -1381,8 +1381,8 @@ void FIELD_EVENT_CHECK_DecrementEggCycles(void *party)
 
     for (index = 0; index < memberCount; index++) {
         void *member = POKEPARTY_GetMember(party, index);
-        u32 isEgg = func_02017E1C(member, 0x4C, 0);
-        u32 eggCycles = func_02017E1C(member, 9, 0);
+        u32 isEgg = POKE_TOOL_GetPartyValue(member, 0x4C, 0);
+        u32 eggCycles = POKE_TOOL_GetPartyValue(member, 9, 0);
         if (isEgg == 1) {
             u32 newCycles = 0;
             if (eggCycles >= decrement)
@@ -1424,8 +1424,8 @@ int FIELD_EVENT_CHECK_IsEggReadyToHatch(void *party)
 
     for (index = 0; index < memberCount; index++) {
         void *member = POKEPARTY_GetMember(party, index);
-        u32 isEgg = func_02017E1C(member, 0x4C, 0);
-        u32 eggCycles = func_02017E1C(member, 9, 0);
+        u32 isEgg = POKE_TOOL_GetPartyValue(member, 0x4C, 0);
+        u32 eggCycles = POKE_TOOL_GetPartyValue(member, 9, 0);
         if (isEgg == 1 && eggCycles == 0)
             return 1;
     }
@@ -1997,9 +1997,9 @@ int FIELD_EVENT_CHECK_FindPartyMemberWithMove(void *gameData, u32 move)
     for (index = 0; index < memberCount; index++) {
         void *member = POKEPARTY_GetMember(party, index);
 
-        if (func_02017E1C(member, 0x4C, 0) == 0) {
-            if (move == func_02017E1C(member, 0x36, 0) || move == func_02017E1C(member, 0x37, 0)
-                || move == func_02017E1C(member, 0x38, 0) || move == func_02017E1C(member, 0x39, 0))
+        if (POKE_TOOL_GetPartyValue(member, 0x4C, 0) == 0) {
+            if (move == POKE_TOOL_GetPartyValue(member, 0x36, 0) || move == POKE_TOOL_GetPartyValue(member, 0x37, 0)
+                || move == POKE_TOOL_GetPartyValue(member, 0x38, 0) || move == POKE_TOOL_GetPartyValue(member, 0x39, 0))
                 return index;
         }
     }
@@ -2021,7 +2021,7 @@ int FIELD_EVENT_CHECK_CountAlivePartyMembers(void *gameSystem)
     aliveCount = 0;
     for (; index < memberCount; index++) {
         member = POKEPARTY_GetMember(party, index);
-        if (func_02017E1C(member, 0x4C, 0) == 0 && func_02017E1C(member, 0xA0, 0) != 0)
+        if (POKE_TOOL_GetPartyValue(member, 0x4C, 0) == 0 && POKE_TOOL_GetPartyValue(member, 0xA0, 0) != 0)
             aliveCount++;
     }
     return aliveCount;

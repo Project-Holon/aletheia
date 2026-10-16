@@ -1,5 +1,5 @@
 /*
- * function: func_021D5CB4
+ * function: BTL_POKEPARAM_GetStatStagePtr
  * address:  0x021D5CB4
  * packet:   pkt_ov093_021D5CB4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 typedef signed char s8; typedef unsigned char u8;
-s8 *func_021D5CB4(s8 *p, int i, u8 *a, u8 *b)
+s8 *BTL_POKEPARAM_GetStatStagePtr(s8 *p, int i, u8 *a, u8 *b)
 {
     *a = 0;
     *b = 12;

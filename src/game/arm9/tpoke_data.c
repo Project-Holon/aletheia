@@ -63,8 +63,8 @@ struct Item {
 };
 
 /* The container p: an entry table (8-byte Item records, count entries) and a
- * base address of 0x1c-byte records.  This merges the three Obj views the
- * matched files used: Obj15808.f0 is entries, Obj15812.f8 is records. */
+ * base address of 0x1c-byte records.  The matched files viewed the entry table
+ * at +0x00 and the record base at +0x08. */
 struct Container {
     const struct Item *entries;
     u32 pad04;

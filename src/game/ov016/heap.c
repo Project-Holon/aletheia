@@ -17,7 +17,7 @@
  *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
  *   OS_Terminate   0x02088234  arm
  *   gHeapWork     0x021DE684  data
- *   func_02060C94  0x02060C94  arm
+ *   NNSi_FndDestroyExpHeap  0x02060C94  arm
  *   OS_DisableIrqMask 0x02084998  arm
  *   NNS_FndAllocFromExpHeapEx  0x02060CA0  arm
  *   OS_EnableIrqMask 0x02084968  arm
@@ -31,7 +31,7 @@ typedef signed int     s32;
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, unsigned short attr);
 extern void OS_Terminate(void);
-extern void func_02060C94(void *heap);
+extern void NNSi_FndDestroyExpHeap(void *heap);
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
 extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
@@ -63,7 +63,7 @@ void DWCi_HEAPlInit(void *address)
  */
 void DWCi_HEAPlEnd(void)
 {
-    func_02060C94(gHeapWork);
+    NNSi_FndDestroyExpHeap(gHeapWork);
     gHeapWork = 0;
 }
 

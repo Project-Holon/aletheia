@@ -14,7 +14,7 @@
  *   gPartnerOfferCardPosB 0x021E791C data a4
  *   gPartnerOfferColors 0x021E7974 data a4
  *   gPartnerOfferCardPosC 0x021E790C data a4
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -39,7 +39,7 @@ typedef struct {int a,b;} Pair;
 typedef struct {u32 a,b,c,d;} Quad;
 extern const Pair gPartnerOfferCardPosA,gPartnerOfferCardPosB,gPartnerOfferCardPosC;
 extern const Quad gPartnerOfferColors;
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 struct Cfg;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -70,7 +70,7 @@ void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon)
     u32 col,col2;
     int index;
     char *items,*items2;
-    flag=func_02017E1C(mon,76,0);
+    flag=POKE_TOOL_GetPartyValue(mon,76,0);
     index=i*4;
     if(*(int *)(p+i*4+0x5c4)) {
         BMP_WIN_Delete((struct Descriptor *)(*(int *)(p+i*4+0x5c4)));

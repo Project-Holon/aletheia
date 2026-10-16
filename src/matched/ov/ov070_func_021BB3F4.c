@@ -17,7 +17,7 @@
  *   func_020056BC  0x020056BC  thumb
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  */
@@ -37,7 +37,7 @@ extern int GAME_DATA_CheckSaveFlag(int, int);
 extern u32 func_020056BC(void);
 extern int PALANM_RequestFade(int p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, u32 ctx);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
@@ -53,7 +53,7 @@ void ITEMMENU_UpdateSideButtons(int p, int mode)
     if (mode == 1) {
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 4, 0x23CF, 0, 0, 0, 0, func_020056BC());
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 1, 1, 0, 0, 0, 0, func_020056BC());
-        func_0207D658(0x04000050, 6, 0);
+        G2x_SetBlendBrightness_(0x04000050, 6, 0);
         ITEMMENU_UpdateInputGuardAnim((char *)p);
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00002 *)p)->f710), 4);
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00002 *)p)->f714), 5);
@@ -69,9 +69,9 @@ void ITEMMENU_UpdateSideButtons(int p, int mode)
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 4, 0x23CF, 0, 8, 8, 0, func_020056BC());
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 1, 1, 0, 8, 8, 0, func_020056BC());
         if (((struct Obj00002 *)p)->f10 == 4 && CLACT_GetActorDrawEnable((struct Obj *)(((struct Obj00002 *)p)->f710)) == 0) {
-            func_0207D658(0x04000050, 2, -8);
+            G2x_SetBlendBrightness_(0x04000050, 2, -8);
         } else {
-            func_0207D658(0x04000050, 6, -8);
+            G2x_SetBlendBrightness_(0x04000050, 6, -8);
         }
         CLACT_SetActorAnimSeq((struct Obj *)(*(int *)&((struct Obj00002 *)p)->f72C), 4);
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00002 *)p)->f710), 0x12);

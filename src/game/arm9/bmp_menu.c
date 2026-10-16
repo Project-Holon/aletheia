@@ -84,7 +84,7 @@ typedef struct {
     BmpMenuHeader header;   /* +0x00 */
     struct BmpCursor *cursor; /* +0x24 */
     u32 cancelMask;         /* +0x28 */
-    u8  pad2C;
+    u8  reserved2C;
     u8  selected;           /* +0x2D */
     u8  colWidth;           /* +0x2E */
     u8  originX;            /* +0x2F */
@@ -93,7 +93,7 @@ typedef struct {
     u8  lineHeight;         /* +0x32 */
     u8  movedDir;           /* +0x33  direction accepted this frame, 1..4 */
     u16 heapId;             /* +0x34 */
-    u16 pad36;
+    u16 reserved36;
 } BmpMenu;
 
 typedef int            s32;
@@ -366,8 +366,8 @@ int BMP_MENU_MoveCursor(BmpMenu *menu, u32 dir, u32 sfxId)
 }
 
 /*
- * Grid cursor step.  The menu is cols x rows (unk0A wide, unk09 tall) with a
- * one-byte cursor at +0x2d; unk0B bits 2..3 are the wrap flag.  Each of the
+ * Grid cursor step.  The menu grid is numColumns by itemsPerColumn with a
+ * one-byte cursor at +0x2d; the header's wrap bit gates wrapping.  Each of the
  * four directions computes the candidate cell, wraps only when the flag is
  * set, and commits the move only when the entry's second word is not -3.
  * The row/column split needs the real quotient AND remainder, so it reads as

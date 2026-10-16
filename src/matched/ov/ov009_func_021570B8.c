@@ -15,7 +15,7 @@
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
  *   func_02034714  0x02034714  arm
  *   DWC_RAPCOMMON_ReleaseSubHeap  0x02156F14  thumb  ov009
- *   func_02060C94  0x02060C94  arm
+ *   NNSi_FndDestroyExpHeap  0x02060C94  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -42,7 +42,7 @@ extern char d_021A1C7C[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void DWC_RAPCOMMON_ReleaseSubHeap(void);
-extern void func_02060C94(void *heap);
+extern void NNSi_FndDestroyExpHeap(void *heap);
 extern u32 func_020307B0(void *p);
 
 void DWC_RAPCOMMON_DestroyHeap(void)
@@ -53,7 +53,7 @@ void DWC_RAPCOMMON_DestroyHeap(void)
     if (_pRapHeap->f1C == 1 || _pRapHeap->fC != 0) {
         DWC_RAPCOMMON_ReleaseSubHeap();
     }
-    func_02060C94((void *)_pRapHeap->f0);
+    NNSi_FndDestroyExpHeap((void *)_pRapHeap->f0);
     func_020307B0((void *)_pRapHeap->f4);
     func_020307B0(_pRapHeap);
     _pRapHeap = 0;

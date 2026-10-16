@@ -77,7 +77,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  */
 typedef unsigned char u8;
@@ -92,7 +92,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 int PDWACC_MESSAGE_OpenYesNoMenu(char *p,int mode) {
     Config c;
     int result;
@@ -114,6 +114,6 @@ int PDWACC_MESSAGE_OpenYesNoMenu(char *p,int mode) {
     result=(int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&c),*(void **)(p+0xac));
     STRBUF_Delete(*(void **)(p+0x94));
     STRBUF_Delete(*(void **)(p+0xa0));
-    func_0207D658(0x04001050,17,-8);
+    G2x_SetBlendBrightness_(0x04001050,17,-8);
     return result;
 }

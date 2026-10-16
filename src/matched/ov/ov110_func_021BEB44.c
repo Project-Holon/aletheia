@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B999C 0x021B999C thumb ov110
+ *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  */
 #include "../include/Obj13792.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned func_021B999C(u8 *,int);
-int PMS_INPUT_CategoryHasWords(u8 *p) { if(func_021B999C(*(u8 * *)&((struct Obj13792 *)p)->f18,((struct Obj13792 *)p)->f4C)!=0) return 1; return 0; }
+extern unsigned PMS_INPUT_DATA_GetCategoryWordCount(u8 *,int);
+int PMS_INPUT_CategoryHasWords(u8 *p) { if(PMS_INPUT_DATA_GetCategoryWordCount(*(u8 * *)&((struct Obj13792 *)p)->f18,((struct Obj13792 *)p)->f4C)!=0) return 1; return 0; }

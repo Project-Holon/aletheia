@@ -1,5 +1,5 @@
 /*
- * function: sub_02034768
+ * function: GF_OVERLAY_PanicInit
  * address:  0x02034768
  * packet:   pkt_02034734
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020808F4  0x020808F4  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
@@ -59,8 +59,8 @@
  * merged `(x & ~0xFF) | 0x21`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034768.c \
- *       --func sub_02034768 --addr 0x02034768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicInit.c \
+ *       --func GF_OVERLAY_PanicInit --addr 0x02034768 --cc 1.1p1 --arm
  */
 
 typedef unsigned char      u8;
@@ -93,7 +93,7 @@ struct Console {
 
 extern struct Console unk_021469AC;
 
-extern int func_020808F4(void);
+extern int GX_ResetBankForBG(void);
 extern void  func_0207FDCC(u32 a);
 struct Bmp;
 struct CharBuf;
@@ -103,7 +103,7 @@ extern void  TEXTPRINT_Init(u32 a);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-void sub_02034768(void)
+void GF_OVERLAY_PanicInit(void)
 {
     u16 ime;
     void *chars;
@@ -112,7 +112,7 @@ void sub_02034768(void)
     REG_IME = 0;
 
     REG_DISPCNT = REG_DISPCNT & ~0x1f00;
-    func_020808F4();
+    GX_ResetBankForBG();
     func_0207FDCC(1);
 
     REG_POWCNT = REG_POWCNT & ~0x8000;

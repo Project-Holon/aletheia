@@ -1,5 +1,5 @@
 /*
- * function: func_021B95F4
+ * function: PMS_INPUT_DATA_Delete
  * address: 0x021B95F4
  * packet: pkt_ov110_021B95F4
  * region: ov110
@@ -16,4 +16,4 @@
 extern void PMS_WORD_Delete(char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B95F4(char *a) { if(a) { PMS_WORD_Delete(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }
+void PMS_INPUT_DATA_Delete(char *a) { if(a) { PMS_WORD_Delete(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }

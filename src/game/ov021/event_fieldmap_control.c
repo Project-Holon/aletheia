@@ -28,7 +28,7 @@
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
  *   func_0207D63C  0x0207D63C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_02080B98  0x02080B98  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
  *   SYMBOL_MAP_StopBg2Scale  0x02166B2C  thumb  ov010
  *   FIELDMAP_ResetBgAffineHideMsg  0x02188DF0  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
@@ -182,7 +182,7 @@ extern void SYMBOL_MAP_StartBg2Scale(void);
 extern void FIELDMAP_SetUpdateStopped(FieldMap *fieldMap, int stopped);
 extern void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
 extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
-extern void func_02080B98(void);
+extern void GX_DisableBankForLCDC(void);
 extern void SYMBOL_MAP_StopBg2Scale(void);
 extern void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
@@ -732,7 +732,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFad
         func_02040588(2, 0);
         func_0208068C(8);
         MIi_CpuClearFast(0, (void *)0x06800000, 0x20000);
-        func_02080B98();
+        GX_DisableBankForLCDC();
         func_0207FDCC(8);
         SYMBOL_MAP_StopBg2Scale();
         *seq = *seq + 1;

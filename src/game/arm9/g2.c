@@ -1,7 +1,7 @@
 /*
  * file:     g2.c
  * unit:     yes
- * function: func_0207D59C, func_0207D63C, func_0207D658, func_0207D67C, DWCi_WindowG2x_ChangeBlendBrightness_
+ * function: G2x_SetBGyAffine_, func_0207D63C, G2x_SetBlendBrightness_, G2x_SetBlendBrightnessExt_, DWCi_WindowG2x_ChangeBlendBrightness_
  * address:  0x0207D59C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -61,10 +61,10 @@ typedef long s32;
 
 typedef int BOOL;
 
-void func_0207D59C(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1);
+void G2x_SetBGyAffine_(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1);
 void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-void func_0207D658(u32 addr, int plane, int brightness);
-void func_0207D67C(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness);
+void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness);
 void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 
 
@@ -86,7 +86,7 @@ void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
  * sdk:      G2x_SetBGyAffine_ (libgx.TWL.HYB.a g2.o)
  * notes:    y2 is computed before the x row, and the x row is folded into its store (DWARF lists dx, dy, y2 and no x2); matrix stores before dx/dy.
  */
-void func_0207D59C(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1)
+void G2x_SetBGyAffine_(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1)
 {
     fx32 dx, dy, y2;
 
@@ -112,7 +112,7 @@ void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b,
 /*
  * sdk:      G2x_SetBlendBrightness_ (libgx.TWL.HYB.a g2.o)
  */
-void func_0207D658(u32 addr, int plane, int brightness)
+void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness)
 {
     if (brightness < 0) {
         *(vu16 *)addr = (u16)(plane | 0xc0);
@@ -130,7 +130,7 @@ void func_0207D658(u32 addr, int plane, int brightness)
 /*
  * sdk:      G2x_SetBlendBrightnessExt_ (libgx.TWL.HYB.a g2.o)
  */
-void func_0207D67C(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness)
+void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness)
 {
     *(vu16 *)(addr + 2) = (u16)(ev1 | (ev2 << 8));
     if (brightness < 0) {

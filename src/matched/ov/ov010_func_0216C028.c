@@ -16,7 +16,7 @@
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_Copy  0x02045838  arm
  *   d_02172A60     0x02172A60  data  ov010  a1
  */
@@ -29,7 +29,7 @@ extern void MI_CpuFill8(void *, int, int);
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern char d_02172A60[];
 
 int *NAMEIN_SETUP_CreateMonArgs(unsigned short a0, int a1, int a2, int a3, int s0)
@@ -42,9 +42,9 @@ int *NAMEIN_SETUP_CreateMonArgs(unsigned short a0, int a1, int a2, int a3, int s
     p[10] = s0;
     if (a1) {
         int t;
-        ((struct Obj02352 *)p)->f4 = func_02017E1C((void *)a1, 5, 0);
-        t = func_02017E1C((void *)a1, 0x6f, 0);
-        ((struct Obj02352 *)p)->f6 = (func_02017E1C((void *)a1, 0x6e, 0) << 8) | t;
+        ((struct Obj02352 *)p)->f4 = POKE_TOOL_GetPartyValue((void *)a1, 5, 0);
+        t = POKE_TOOL_GetPartyValue((void *)a1, 0x6f, 0);
+        ((struct Obj02352 *)p)->f6 = (POKE_TOOL_GetPartyValue((void *)a1, 0x6e, 0) << 8) | t;
     }
     p[8] = (int)STRBUF_Create(0xb, a0);
     if (a3)

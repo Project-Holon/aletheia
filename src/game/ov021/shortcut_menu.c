@@ -98,9 +98,7 @@
 struct BbActDesc;
 struct BbActSys;
 struct BbActRec;
-struct X;
 struct Actor;
-struct Res_021C48A0;
 struct IcaAnime;
 struct Rec12;
 struct Mtx33;

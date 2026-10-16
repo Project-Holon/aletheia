@@ -1,5 +1,5 @@
 /*
- * function: func_021BBE5C
+ * function: ZUKAN_INFO_LoadResources
  * address: 0x021BBE5C
  * packet: pkt_ov206_021BBE5C
  * region: ov206
@@ -10,8 +10,8 @@
  * symbols:
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   func_021BC0AC 0x021BC0AC thumb ov206
- *   func_021BC0E0 0x021BC0E0 thumb ov206
+ *   ZUKAN_INFO_GetTypeArchiveId 0x021BC0AC thumb ov206
+ *   ZUKAN_INFO_GetIconArchiveId 0x021BC0E0 thumb ov206
  *   func_020490F4 0x020490F4 arm
  *   func_02045B38 0x02045B38 arm
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
@@ -40,14 +40,14 @@ extern u16 tbl_021BC1C4[];
 extern u32 tbl_021BC184[];
 extern u32 APP_ICON_GetArchiveId(void);
 extern int POKEGRA_OpenHandle(int a0);
-extern u32 func_021BC0AC(void);
-extern u32 func_021BC0E0(void);
+extern u32 ZUKAN_INFO_GetTypeArchiveId(void);
+extern u32 ZUKAN_INFO_GetIconArchiveId(void);
 struct MsgBank;
 extern void *func_020490F4(u32 id, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-void func_021BBE5C(S *p)
+void ZUKAN_INFO_LoadResources(S *p)
 {
     u8 i;
 
@@ -60,10 +60,10 @@ void func_021BBE5C(S *p)
             p->w[i] = (void *)POKEGRA_OpenHandle(p->id);
             break;
         case 5:
-            p->w[i] = func_020490F4(func_021BC0AC(), p->id);
+            p->w[i] = func_020490F4(ZUKAN_INFO_GetTypeArchiveId(), p->id);
             break;
         case 6:
-            p->w[i] = func_020490F4(func_021BC0E0(), p->id);
+            p->w[i] = func_020490F4(ZUKAN_INFO_GetIconArchiveId(), p->id);
             break;
         default:
             p->w[i] = func_020490F4(tbl_021BC134[i], p->id);

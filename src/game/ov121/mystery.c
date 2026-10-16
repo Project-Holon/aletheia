@@ -143,7 +143,7 @@
  *   MYSTERY_UTIL_DeleteWindowList 0x021DA280 thumb ov121
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_020056EC 0x020056EC thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
@@ -152,15 +152,15 @@
  *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
  *   POKE_TOOL_AddMove 0x0201808C thumb
  *   POKE_TOOL_PushMove 0x020180F4 thumb
- *   func_02018A00 0x02018A00 thumb
+ *   POKE_TOOL_SetAbility 0x02018A00 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_020185F0 0x020185F0 thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
@@ -554,7 +554,7 @@ extern void MYSTERY_UTIL_ClearWindowList(u8 *p);
 extern void MYSTERY_UTIL_DeleteWindowList(u8 *p);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 func_020056EC(u32);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
@@ -563,15 +563,15 @@ extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 POKE_TOOL_SetDefaultMoves(void *);
 extern u32 POKE_TOOL_AddMove(void *,u32);
 extern void POKE_TOOL_PushMove(void *p, int move);
-extern void func_02018A00(void *,u32,u32);
+extern void POKE_TOOL_SetAbility(void *,u32,u32);
 extern u16 STRBUF_GetEosChar(void);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_020185F0(void *);
+extern void *POKE_TOOL_Dummy(void *);
 extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
 extern void POKE_TOOL_RecalcParam(void *);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern int POKEGRA_OpenHandle(int);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
@@ -1938,7 +1938,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         work.move[0]=H(18);work.move[1]=H(20);work.move[2]=H(22);work.move[3]=H(24);
         if(desc[179]!=1 || species>649 || species==0 || level>100 || H(16)>626) goto image;
         if(level==0) level=(u16)(func_020056EC(100)+1);
-        if(D(0)==0) otId=func_02008530((const struct Sub0200852CObj *)func_02012944(save));
+        if(D(0)==0) otId=func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
         if(gender==255) gender=2;
         for(i=0;i<6;i++) if(work.iv[i]==255) work.iv[i]=func_020056EC(32);
         id=otId;
@@ -1965,7 +1965,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
             value=*(u16 *)((u8 *)&work.move[0]+i*2);
             if(value!=0 && value<560 && POKE_TOOL_AddMove(allocated,value)==65535) POKE_TOOL_PushMove(allocated,value);
         }
-        if(D(8)==0 && ability==2) func_02018A00(allocated,species,desc[28]);
+        if(D(8)==0 && ability==2) POKE_TOOL_SetAbility(allocated,species,desc[28]);
         POKE_TOOL_SetPartyValue(allocated,111,desc[28]);
         if(H(14)!=0 && H(14)<=25) POKE_TOOL_SetPartyValue(allocated,152,H(14));
         else POKE_TOOL_SetPartyValue(allocated,152,4);
@@ -1988,11 +1988,11 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         POKE_TOOL_SetPartyValue(allocated,112,value);
         POKE_TOOL_SetPartyValue(allocated,149,H(56));POKE_TOOL_SetPartyValue(allocated,150,H(58));
         if(H(74)==0) {func_020307B0(allocated);mon=0;goto image;}
-        if(H(74)==STRBUF_GetEosChar()) POKE_TOOL_SetPartyValue(allocated,142,(u32)func_020084F4(func_02012944(save)));
+        if(H(74)==STRBUF_GetEosChar()) POKE_TOOL_SetPartyValue(allocated,142,(u32)func_020084F4(GAME_DATA_GetMyStatus(save)));
         else POKE_TOOL_SetPartyValue(allocated,142,(u32)(desc+74));
         value=desc[90];
         if(value<=2) POKE_TOOL_SetPartyValue(allocated,154,value);
-        else {value=func_02008550((const struct Sub0200852CObj *)func_02012944(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
+        else {value=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
         if(desc[92]) {
             POKE_TOOL_SetPartyValue(allocated,76,1);
             str=func_02045EC0(gSpeciesNameBank,650);
@@ -2001,9 +2001,9 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         }
         year=(u16)((int)D(172)>>16);month=(u8)((int)D(172)>>8);day=(u8)D(172);
         if(desc[92]) place=H(56);else place=H(58);
-        SAVE_EVENT_WriteWithDate(func_020185F0(allocated),place,year-2000,month,day);
+        SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(allocated),place,year-2000,month,day);
         POKE_TOOL_RecalcParam(allocated);
-        if(func_02017E1C(allocated,3,0)!=0) {func_020307B0(allocated);mon=0;}
+        if(POKE_TOOL_GetPartyValue(allocated,3,0)!=0) {func_020307B0(allocated);mon=0;}
         else mon=allocated;
         goto image;
     image:

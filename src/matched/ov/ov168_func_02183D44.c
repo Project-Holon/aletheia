@@ -1,5 +1,5 @@
 /*
- * function: func_02183D44
+ * function: MICTEST_MarkStepDone
  * address: 0x02183D44
  * packet: pkt_ov168_02183D44
  * region: ov168
@@ -10,4 +10,4 @@
  * status: EXACT*
  * extent: 6-byte body followed by two bytes of zero alignment padding.
  */
-void func_02183D44(unsigned int *p) { p[3]=1; }
+void MICTEST_MarkStepDone(unsigned int *p) { p[3]=1; }

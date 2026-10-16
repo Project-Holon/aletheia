@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218449C",
+   "name": "MICTEST_GetMicLevel",
    "address": "0x0218449C",
    "kind": "game",
    "region": "ov168",

@@ -12,7 +12,7 @@
  * sdk:      CPSi_md5_block (libssl.TWL.HYB.a md5.o)
  *
  * symbols:
- *   func_02162FD8  0x02162FD8  arm  ov009
+ *   long_from_char  0x02162FD8  arm  ov009
  *   gMd5TTable     0x021A1E28  data ov009
  *   gMd5Permutation     0x021A1DA8  data ov009
  *
@@ -26,7 +26,7 @@ typedef struct CPSMd5Ctx {
     unsigned char buffer[64];
 } CPSMd5Ctx;
 
-extern void func_02162FD8(void *a, void *b, int n);
+extern void long_from_char(void *a, void *b, int n);
 extern unsigned long gMd5TTable[64];
 extern unsigned char gMd5Permutation[64];
 
@@ -51,7 +51,7 @@ void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m)
     b = ctx->state[1];
     c = ctx->state[2];
     d = ctx->state[3];
-    func_02162FD8(x, m, 64);
+    long_from_char(x, m, 64);
 
     i = 0;
     for (j = 0; j < 4; j++) {

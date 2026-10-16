@@ -1,5 +1,5 @@
 /*
- * function: func_02080B98
+ * function: GX_DisableBankForLCDC
  * address:  0x02080B98
  * packet:   pkt_02080B98
  * region:   arm9
@@ -15,4 +15,4 @@
 
 typedef unsigned short u16;
 extern int disableBankForX_(u16 *g3bit);
-void func_02080B98(void){ disableBankForX_((void *)0x02150E4C); }
+void GX_DisableBankForLCDC(void){ disableBankForX_((void *)0x02150E4C); }

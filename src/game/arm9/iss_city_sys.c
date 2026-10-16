@@ -1,7 +1,7 @@
 /*
  * file:     iss_city_sys.c
  * unit:     yes
- * function: func_0202A994, func_0202A9F4, ISS_CITY_SYS_Create, ISS_CITY_SYS_Delete, ISS_CITY_SYS_Update, ISS_CITY_SYS_Start, ISS_CITY_SYS_Stop, ISS_CITY_SYS_NotifyZoneChange, ISS_CITY_SYS_InitState, ISS_CITY_SYS_InitUnits, ISS_CITY_SYS_ReleaseUnits, ISS_CITY_SYS_LoadUnits, ISS_CITY_SYS_FreeUnits, ISS_CITY_SYS_GetMode, ISS_CITY_SYS_SetMode, ISS_CITY_SYS_Enable, ISS_CITY_SYS_Disable, ISS_CITY_SYS_HandleZoneChange, ISS_CITY_SYS_GetPlayerZoneId, ISS_CITY_SYS_IsEnabled, ISS_CITY_SYS_UpdateByMode, ISS_CITY_SYS_UpdateSteady, ISS_CITY_SYS_UpdateFadeIn, ISS_CITY_SYS_UpdateFadeOut, ISS_CITY_SYS_GetCurrentUnit, ISS_CITY_SYS_GetCurrentUnitIndex, ISS_CITY_SYS_HasCurrentUnit, ISS_CITY_SYS_HasUnitForZone, ISS_CITY_SYS_SelectUnitForZone, ISS_CITY_SYS_FindUnitIndex, ISS_CITY_SYS_GetFadeLevel, ISS_CITY_SYS_StepFadeIn, ISS_CITY_SYS_StepFadeOut, ISS_CITY_SYS_SetFadeLevel, ISS_CITY_SYS_GetVolume, ISS_CITY_SYS_RefreshVolume, ISS_CITY_SYS_CalcUnitVolume, ISS_CITY_SYS_SetVolume, ISS_CITY_SYS_ApplyVolume, ISS_CITY_SYS_CalcOutputVolume, ISS_CITY_UNIT_Create, ISS_CITY_UNIT_Delete, ISS_CITY_UNIT_GetZoneId, ISS_CITY_UNIT_CalcVolume, ISS_CITY_UNIT_Copy, ISS_CITY_UNIT_CalcVolumeFromAxes, ISS_CITY_UNIT_CalcVolumeX, ISS_CITY_UNIT_CalcVolumeY, ISS_CITY_UNIT_CalcVolumeZ, ISS_CITY_UNIT_FindStepX, ISS_CITY_UNIT_FindStepY, ISS_CITY_UNIT_FindStepZ, ISS_CITY_UNIT_GetCenterX, ISS_CITY_UNIT_GetCenterY, ISS_CITY_UNIT_GetCenterZ, ISS_CITY_UNIT_Interpolate
+ * function: TR_TOOL_AdjustPersonality, TR_TOOL_FinalizePartyMember, ISS_CITY_SYS_Create, ISS_CITY_SYS_Delete, ISS_CITY_SYS_Update, ISS_CITY_SYS_Start, ISS_CITY_SYS_Stop, ISS_CITY_SYS_NotifyZoneChange, ISS_CITY_SYS_InitState, ISS_CITY_SYS_InitUnits, ISS_CITY_SYS_ReleaseUnits, ISS_CITY_SYS_LoadUnits, ISS_CITY_SYS_FreeUnits, ISS_CITY_SYS_GetMode, ISS_CITY_SYS_SetMode, ISS_CITY_SYS_Enable, ISS_CITY_SYS_Disable, ISS_CITY_SYS_HandleZoneChange, ISS_CITY_SYS_GetPlayerZoneId, ISS_CITY_SYS_IsEnabled, ISS_CITY_SYS_UpdateByMode, ISS_CITY_SYS_UpdateSteady, ISS_CITY_SYS_UpdateFadeIn, ISS_CITY_SYS_UpdateFadeOut, ISS_CITY_SYS_GetCurrentUnit, ISS_CITY_SYS_GetCurrentUnitIndex, ISS_CITY_SYS_HasCurrentUnit, ISS_CITY_SYS_HasUnitForZone, ISS_CITY_SYS_SelectUnitForZone, ISS_CITY_SYS_FindUnitIndex, ISS_CITY_SYS_GetFadeLevel, ISS_CITY_SYS_StepFadeIn, ISS_CITY_SYS_StepFadeOut, ISS_CITY_SYS_SetFadeLevel, ISS_CITY_SYS_GetVolume, ISS_CITY_SYS_RefreshVolume, ISS_CITY_SYS_CalcUnitVolume, ISS_CITY_SYS_SetVolume, ISS_CITY_SYS_ApplyVolume, ISS_CITY_SYS_CalcOutputVolume, ISS_CITY_UNIT_Create, ISS_CITY_UNIT_Delete, ISS_CITY_UNIT_GetZoneId, ISS_CITY_UNIT_CalcVolume, ISS_CITY_UNIT_Copy, ISS_CITY_UNIT_CalcVolumeFromAxes, ISS_CITY_UNIT_CalcVolumeX, ISS_CITY_UNIT_CalcVolumeY, ISS_CITY_UNIT_CalcVolumeZ, ISS_CITY_UNIT_FindStepX, ISS_CITY_UNIT_FindStepY, ISS_CITY_UNIT_FindStepZ, ISS_CITY_UNIT_GetCenterX, ISS_CITY_UNIT_GetCenterY, ISS_CITY_UNIT_GetCenterZ, ISS_CITY_UNIT_Interpolate
  * address:  0x0202A994
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -101,8 +101,8 @@ extern void GFL_USE_SetBgmTrackVolume(u32 soundTarget, u32 volume);
 extern double _s32_to_double(s32 v);
 extern double func_0209AC04(double lhs, double rhs);
 extern s32 _d2s(double d);
-void func_0202A994(u32 species, u32 form, int adjustFlags, u32 *personalityLow, u16 heapId);
-void func_0202A9F4(u32 trainerId, void *mon, u32 form, u32 abilityFlags);
+void TR_TOOL_AdjustPersonality(u32 species, u32 form, int adjustFlags, u32 *personalityLow, u16 heapId);
+void TR_TOOL_FinalizePartyMember(u32 trainerId, void *mon, u32 form, u32 abilityFlags);
 struct IssCitySys *ISS_CITY_SYS_Create(struct PlayerWork *player, u32 heapId);
 void ISS_CITY_SYS_Delete(struct IssCitySys *sys);
 void ISS_CITY_SYS_Update(struct IssCitySys *sys);
@@ -164,7 +164,7 @@ extern const char ISS_CITY_UNIT_sSourceFileName[];
 
 
 
-void func_0202A994(u32 species, u32 form, int adjustFlags, u32 *personalityLow, u16 heapId)
+void TR_TOOL_AdjustPersonality(u32 species, u32 form, int adjustFlags, u32 *personalityLow, u16 heapId)
 {
     u32 genderAdjust = adjustFlags & 0xf;
     u32 abilityAdjust = (adjustFlags & 0xf0) >> 4;
@@ -203,14 +203,14 @@ void func_0202A994(u32 species, u32 form, int adjustFlags, u32 *personalityLow, 
  * 0x1B); two trainer/species pairs force a fixed nature, the rest take
  * (personality >> 8) % 25.
  *
- * What closed the old 248-byte near miss (docs/notes/func_0202A9F4.c.txt):
+ * What closed the old 248-byte near miss (docs/notes/TR_TOOL_FinalizePartyMember.c.txt):
  * the register the note read as a copy of the loop counter (`adds r6, r4,
  * #0` before the loop) is the constant 0, kept in r6 for the call's third
  * argument and for `found = 0`.  That zero occupies the fourth callee-saved
  * register across the loop, which is what spills species to sp+0xC.  The
  * tail is the remainder of _s32_div_f (r1), so `% 25`, not `/ 25`.
  */
-void func_0202A9F4(u32 trainerId, void *mon, u32 form, u32 abilityFlags)
+void TR_TOOL_FinalizePartyMember(u32 trainerId, void *mon, u32 form, u32 abilityFlags)
 {
     s32 moveSlot;
     u32 friendship = 0xff;

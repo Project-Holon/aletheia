@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBE34",
+   "name": "ZUKAN_INFO_SetSlotDrawEnable",
    "address": "0x021BBE34",
    "kind": "game",
    "region": "ov206",

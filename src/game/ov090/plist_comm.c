@@ -35,25 +35,19 @@ typedef unsigned short u16;
  * the caller in ov012) that this overlay reads and writes. Offsets 0x62,
  * 0x63 and 0x94 lie in the unnamed gap of that struct.
  */
-typedef struct PartyListCommWork_021B6100 {
+typedef struct PartyListCommWork {
     u8 unusedHead[0x62];
     u8 syncStep;          /* 0: request sync 1, 1: wait for it and register the command table, 2: running */
     u8 commFinished;      /* set on a network error, read by PLIST_COMM_IsSyncDoneOrFinished as "stop waiting" */
     u8 unusedMid[0x30];
     u8 receivedCount;     /* incremented by every status message with status 0 */
-} PartyListCommWork_021B6100;
+} PartyListCommWork;
 
 /* Payload of the status command (4 bytes on the wire). */
 typedef struct PartyListStatusMsg {
     u16 selection;
     u8 status;
 } PartyListStatusMsg;
-
-typedef struct PartyListCommWork_021B61FC {
-    unsigned char unusedHead[0x62];
-    unsigned char syncStep;
-    unsigned char commFinished;
-} PartyListCommWork_021B61FC;
 
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 commandBase);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -63,17 +57,17 @@ extern void GFL_NET_COMMAND_AddCommandTable(u32 commandBase, const void *command
 extern u32 func_0200FB24(void);
 extern u32 GFL_NET_SendData(struct NetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 c, u32 d, u32 e);
 extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
-void PLIST_COMM_Start(PartyListCommWork_021B6100 *work);
+void PLIST_COMM_Start(PartyListCommWork *work);
 void PLIST_COMM_End(void *unused);
-void PLIST_COMM_Update(PartyListCommWork_021B6100 *work);
-u32 PLIST_COMM_SendStatus(PartyListCommWork_021B6100 *work, u8 status, u16 selection);
-void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork_021B6100 *work);
+void PLIST_COMM_Update(PartyListCommWork *work);
+u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection);
+void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork *work);
 void PLIST_COMM_StartSync(void *work, int syncNo);
-int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork_021B61FC *work, int syncNo);
+int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork *work, int syncNo);
 extern u8 gPartyListCommandTable[];
 
 
-void PLIST_COMM_Start(PartyListCommWork_021B6100 *work)
+void PLIST_COMM_Start(PartyListCommWork *work)
 {
     work->syncStep = 0;
 }
@@ -89,7 +83,7 @@ void PLIST_COMM_End(void *unused)
 
 
 
-void PLIST_COMM_Update(PartyListCommWork_021B6100 *work)
+void PLIST_COMM_Update(PartyListCommWork *work)
 {
     switch (work->syncStep) {
     case 0:
@@ -111,7 +105,7 @@ void PLIST_COMM_Update(PartyListCommWork_021B6100 *work)
 
 
 
-u32 PLIST_COMM_SendStatus(PartyListCommWork_021B6100 *work, u8 status, u16 selection)
+u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection)
 {
     PartyListStatusMsg msg;
     struct NetHandle *handle;
@@ -126,7 +120,7 @@ u32 PLIST_COMM_SendStatus(PartyListCommWork_021B6100 *work, u8 status, u16 selec
 
 
 /* Command callback for 0x2d00: counts the status messages whose status is 0. */
-void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork_021B6100 *work)
+void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork *work)
 {
     GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     if (data[2] == 0)
@@ -141,7 +135,7 @@ void PLIST_COMM_StartSync(void *work, int syncNo)
 }
 
 
-int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork_021B61FC *work, int syncNo)
+int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork *work, int syncNo)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), syncNo, 0x2d) == 1)
         return 1;

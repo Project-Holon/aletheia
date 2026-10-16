@@ -29,6 +29,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
  *   GAME_DATA_GetField1A0  0x0201283C  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 typedef unsigned char u8;
 extern u8 ov_id[];
@@ -47,7 +48,7 @@ extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void WIFI_BSUBWAY_ClearTrainers(void *);
@@ -67,7 +68,7 @@ int WIFI_BSUBWAY_Create(void *ctx,int unused,u8 *q) {
     *(void **)(p+0x1844)=save;
     *(int *)(p+0x1848)=(int)func_02008B08(q);
     *(int *)(p+0x184c)=GAME_DATA_GetField1A0(save);
-    *(int *)(p+0x1850)=(int)func_02012944(save);
+    *(int *)(p+0x1850)=(int)GAME_DATA_GetMyStatus(save);
     *(int *)(p+0x1854)=(int)GAME_DATA_GetSaveBlock3B(save);
     *(int *)(p+0x1858)=(int)GAME_DATA_GetSaveBlock3A(save);
     WIFI_BSUBWAY_ClearTrainers(p+0xb74);

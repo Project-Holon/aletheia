@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *
@@ -60,7 +60,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 
@@ -73,13 +73,13 @@ void POKE_TOOL_ReplaceBoxMoveSlot(void *p, u16 move, u8 slot)
     u32 pp;
 
     d = slot + 0x36;
-    if (func_02017E88(p, d, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue(p, d, 0) != 0) {
         b = 1;
     } else {
         b = 0;
     }
     c = slot + 0x3A;
-    pp = (u8)func_02017E88(p, c, 0);
+    pp = (u8)POKE_TOOL_GetBoxValue(p, c, 0);
     POKE_TOOL_SetBoxValue(p, d, move);
     POKE_TOOL_SetBoxValue(p, slot + 0x3E, 0);
     if (move != 0) {

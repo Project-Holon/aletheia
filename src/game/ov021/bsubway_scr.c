@@ -30,7 +30,7 @@
  *   func_020307B0  0x020307B0  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   GAME_DATA_SetCurrentEvent  0x02012EE4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   d_021DE58C     0x021DE58C  data  ov021
  *   func_02008550  0x02008550  thumb
@@ -48,7 +48,7 @@
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GDS_PROFILE_ClearScoreRecCountC  0x0200DB1C  thumb
  *   GDS_PROFILE_SetScoreRecCountA  0x0200DB08  thumb
  *   GDS_PROFILE_MaxScoreRecCountB  0x0200DAEC  thumb
@@ -331,7 +331,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void FLDMMDL_GetPos(const struct MapObj *a, struct VecFx32 *v);
 extern void *GAME_DATA_SetCurrentEvent(GameData *gameData, BsubwayScrWork *work);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct GameData *p);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern void *func_020071CC(struct SaveControl *ctrl, u32 id);
@@ -348,7 +348,7 @@ extern u16 GDS_PROFILE_GetScoreRecCountCDec(struct BsubwayScoreData *p, u32 i);
 extern int BTL_SETUP_Delete(int a0);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_02017E1C(void *m, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *m, u32 id, u32 v);
 extern void GDS_PROFILE_ClearScoreRecCountC(struct BsubwayScoreData *p, u32 i);
 extern void GDS_PROFILE_SetScoreRecCountA(struct BsubwayScoreData *p, u32 i, u16 v);
 extern void GDS_PROFILE_MaxScoreRecCountB(struct BsubwayScoreData *p, u32 i, u16 v);
@@ -591,7 +591,7 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
     u8 saveByte;
 
     gameData = ICA_ANIME_GetField1C(gameSystem);
-    myStatus = func_02012944(gameData);
+    myStatus = GAME_DATA_GetMyStatus(gameData);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     work = func_02030734(4, 0x7EC, 1, d_021DE58C, 0x5f);
     work->heapId = 4;
@@ -736,8 +736,8 @@ void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, u32 unused)
     party = BSUBWAY_SCR_GetParty(work);
     for (i = 0; i < work->memberNum; i++) {
         mon = (u32)POKEPARTY_GetMember(party, work->memberIndex[i]);
-        work->memberMonsNo[i] = func_02017E1C((void *)mon, 5, 0);
-        work->memberItemNo[i] = func_02017E1C((void *)mon, 6, 0);
+        work->memberMonsNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
+        work->memberItemNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 6, 0);
     }
 }
 
@@ -963,8 +963,8 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused)
             work->selectPos[i] = 1;
         work->memberIndex[i] = work->selectPos[i] - 1;
         mon = (u32)POKEPARTY_GetMember(party, work->memberIndex[i]);
-        work->memberMonsNo[i] = func_02017E1C((void *)mon, 5, 0);
-        work->memberItemNo[i] = func_02017E1C((void *)mon, 6, 0);
+        work->memberMonsNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
+        work->memberItemNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 6, 0);
     }
     return 1;
 }
@@ -1337,22 +1337,22 @@ void BSUBWAY_SCR_PackBattleMon(BattleMon *mon, u32 pokeParam)
 {
     int i;
 
-    mon->species = func_02017E1C((void *)pokeParam, 5, 0);
-    mon->form = func_02017E1C((void *)pokeParam, 0x6f, 0);
-    mon->item = func_02017E1C((void *)pokeParam, 6, 0);
+    mon->species = POKE_TOOL_GetPartyValue((void *)pokeParam, 5, 0);
+    mon->form = POKE_TOOL_GetPartyValue((void *)pokeParam, 0x6f, 0);
+    mon->item = POKE_TOOL_GetPartyValue((void *)pokeParam, 6, 0);
     for (i = 0; i < 4; i++) {
-        mon->moves[i] = func_02017E1C((void *)pokeParam, 0x36 + i, 0);
-        mon->ppUps |= func_02017E1C((void *)pokeParam, 0x3e + i, 0) << (i * 2);
+        mon->moves[i] = POKE_TOOL_GetPartyValue((void *)pokeParam, 0x36 + i, 0);
+        mon->ppUps |= POKE_TOOL_GetPartyValue((void *)pokeParam, 0x3e + i, 0) << (i * 2);
     }
-    mon->lang = func_02017E1C((void *)pokeParam, 0xc, 0);
-    mon->otId = func_02017E1C((void *)pokeParam, 7, 0);
-    mon->pid = func_02017E1C((void *)pokeParam, 0, 0);
-    mon->ivs = func_02017E1C((void *)pokeParam, 0xac, 0);
+    mon->lang = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xc, 0);
+    mon->otId = POKE_TOOL_GetPartyValue((void *)pokeParam, 7, 0);
+    mon->pid = POKE_TOOL_GetPartyValue((void *)pokeParam, 0, 0);
+    mon->ivs = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xac, 0);
     for (i = 0; i < 6; i++)
-        mon->ev[i] = func_02017E1C((void *)pokeParam, 0xd + i, 0);
-    mon->ability = func_02017E1C((void *)pokeParam, 0xa, 0);
-    mon->friendship = func_02017E1C((void *)pokeParam, 9, 0);
-    func_02017E1C((void *)pokeParam, 0x74, (u32)mon->nick);
+        mon->ev[i] = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xd + i, 0);
+    mon->ability = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xa, 0);
+    mon->friendship = POKE_TOOL_GetPartyValue((void *)pokeParam, 9, 0);
+    POKE_TOOL_GetPartyValue((void *)pokeParam, 0x74, (u32)mon->nick);
 }
 
 
@@ -2072,8 +2072,8 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
             sumAfter = 0;
             for (monIndex = 0; monIndex < monCount; monIndex++) {
                 void *partyMon = POKEPARTY_GetMember(btlParty, monIndex);
-                int valueBefore = func_02017E1C(partyMon, 0xa0, 0);
-                int valueAfter = func_02017E1C(partyMon, 0xa1, 0);
+                int valueBefore = POKE_TOOL_GetPartyValue(partyMon, 0xa0, 0);
+                int valueAfter = POKE_TOOL_GetPartyValue(partyMon, 0xa1, 0);
                 sumBefore += valueBefore;
                 sumAfter += valueAfter;
             }
@@ -2128,13 +2128,13 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_A:
         work->commResultDst = resultDst;
-        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)func_02012944((void *)gameData), fieldMap, 2, 2, 4, 0, 2, 0);
+        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 0, 2, 0);
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommEntryMenu);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_B:
         work->commResultDst = resultDst;
-        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)func_02012944((void *)gameData), fieldMap, 2, 2, 4, 1, 2, 0);
+        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 1, 2, 0);
         startedTask = 1;
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommEntryMenuSimple);
         break;

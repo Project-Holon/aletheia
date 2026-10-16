@@ -26,7 +26,7 @@
  *   PMSIV_CATEGORY_MakeListWindow 0x021BB5E0 thumb ov110
  *   PMSIV_CATEGORY_CreateCursor 0x021BB61C thumb ov110
  *   BG_SYS_FillScrollArea 0x02040618 arm
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ extern u8 *PMSIV_CATEGORY_MakeTitleWindow(u8 *, u8 *);
 extern void PMSIV_CATEGORY_MakeListWindow(u8 *);
 extern void PMSIV_CATEGORY_CreateCursor(u8 *);
 extern void BG_SYS_FillScrollArea(u32, u32, u32);
-extern void func_0207D658(u32, int, int);
+extern void G2x_SetBlendBrightness_(u32, int, int);
 extern void BG_SYS_PushTile(u32);
 #define WININ (*(volatile u16 *)0x04000048)
 #define WINOUT (*(volatile u16 *)0x0400004a)
@@ -70,7 +70,7 @@ void PMSIV_CATEGORY_Setup(u8 *p, u32 data)
     BG_SYS_FillScrollArea(1, 0, -4);
     BG_SYS_FillScrollArea(1, 3, 16);
     PMSIV_CATEGORY_CreateCursor(p);
-    func_0207D658(0x04000050, 2, -10);
+    G2x_SetBlendBrightness_(0x04000050, 2, -10);
     inside(31, 1);
     outside(29, 1);
     *(volatile u16 *)0x04000040 = 255;

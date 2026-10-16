@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
@@ -21,7 +21,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
@@ -34,7 +34,7 @@ void HAND_TOKUSEI_ChangeCherrimForm(int u, void *a, u32 b, u32 c, u8 d)
 {
     u8 *r;
 
-    if (c != func_021D59B4(BTL_SERVER_FLOW_GetPokeParam((int *)((int)a), b), 0x13)) {
+    if (c != BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam((int *)((int)a), b), 0x13)) {
         r = BTL_SERVER_FLOW_AllocCmdRecord(a, 0x39, b);
         r[4] = b;
         r[5] = c;

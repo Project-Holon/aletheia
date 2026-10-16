@@ -1,7 +1,7 @@
 /*
  * file:     mb_block.c
  * unit:     yes
- * function: func_021F6804, func_021F6830, MBi_ClearParentPieceBuffer, MBi_MakeParentSendBuffer, MBi_SetRecvBufferFromChild, MBi_ReceiveRequestDataPiece
+ * function: func_021F6804, func_021F6830, MBi_ClearParentPieceBuffer, MBi_MakeParentSendBuffer, MBi_SetRecvBufferFromChild, MBi_ReceiveRequestDataPiece, IsGetAllRequestData
  * address:  0x021F6804
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -17,7 +17,6 @@
  *   _s32_div_f   0x0209C0A4  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   g_021F7008     0x021F7008  data
- *   func_021F6AA4  0x021F6AA4  arm    ov107
  *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../../matched/include/G_piece.h"
@@ -52,7 +51,7 @@ typedef struct {
 } ChildBlockHeader;
 
 extern void MI_CpuFill8(void *dst, int val, u32 len);
-extern int func_021F6AA4(int a);
+int IsGetAllRequestData(int a);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 void MBi_SetChildMPMaxSize(u16 childMaxSize);
 void MBi_SetParentPieceBuffer(void *buf);
@@ -153,7 +152,7 @@ u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id)
     hdr->type = type;
     switch (type) {
     case 7:
-        if (func_021F6AA4(child_id))
+        if (IsGetAllRequestData(child_id))
             return ((u8 *)g_021F7008.buf) + (child_id - 1) * 32;
         idx = recvbuf[1];
         *((u8 *)hdr + 2) = idx;
@@ -194,7 +193,32 @@ u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child)
                   ((u8 *)g_021F7008.buf) + (child - 1) * 32 + piece * g_021F7008.size,
                   g_021F7008.size);
     *(u32 *)(((u8 *)g_021F7008.buf) + 0x1E0 + (child - 1) * 4) |= 1 << piece;
-    if (func_021F6AA4(child))
+    if (IsGetAllRequestData(child))
         return ((u8 *)g_021F7008.buf) + (child - 1) * 32;
     return 0;
+}
+
+
+/*
+ * sdk:      IsGetAllRequestData (libmb.TWL.HYB.a mb_block.o)
+ * address:  0x021F6AA4
+ *
+ * notes:    SDK library routine. It reads the piece count n from the shared
+ *           piece state and returns 1 when the child's piece bitmap has every
+ *           one of those n pieces set, else 0.
+ */
+int IsGetAllRequestData(int a)
+{
+    unsigned short i = 0;
+    unsigned int v;
+    int n = *(int *)(((char *)&d_021F7008) + 0xc);
+
+    if (n > 0) {
+        v = *(unsigned int *)(*(unsigned char **)(((char *)&d_021F7008) + 4) + (a - 1) * 4 + 0x1e0);
+        do {
+            if (!(v & (1u << i)))
+                return 0;
+        } while (++i < n);
+    }
+    return 1;
 }

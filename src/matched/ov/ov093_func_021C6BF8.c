@@ -22,7 +22,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
@@ -38,7 +38,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_SetVarOnce(int key, u32 val);
 struct UtilWork;
-extern void func_021D70F0(void *a, int id);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 extern void BTL_EVENT_SetVar(int key, u32 val);
@@ -61,7 +61,7 @@ int BTL_SERVER_FLOW_CheckCriticalHit(u8 *p, u8 *a, u8 *b, u16 q)
     BTL_EVENT_SetVar(0x2c, h);
     r = 0;
     BTL_EVENT_SetVarOnce(0x41, 0);
-    func_021D70F0(p, 0x36);
+    BTL_EVENT_DispatchEventChecked(p, 0x36);
     if (BTL_EVENT_GetVar(0x41) == 0) {
         if (WAZA_TOOL_IsAlwaysCritical(q)) {
             r = 1;

@@ -108,16 +108,16 @@
  *   gWifiClubOptionMenuItems  0x021C3A18  data
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC78  0x0201BC78  thumb
- *   func_0201BCB4  0x0201BCB4  thumb
+ *   POKE_TOOL_GetIconCellArcIdSub  0x0201BC78  thumb
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -239,7 +239,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   sub_0204047C  0x0204047C  arm
  *   DWC_RAP_SetOwnStatus  0x0215683C  thumb  ov009
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008554 0x02008554 thumb
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
@@ -474,16 +474,16 @@ extern void PRINTSYS_PrintColor(void *bmp, int x, s16 y, StrBuf *str, void *font
 extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern u32 func_02017E1C(void *mon, u32 param, u32 unused);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 param, u32 unused);
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 extern u32 POKE_TOOL_GetGraphicIndex(void *boxMon);
 extern s32 CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 a3, u16 flags);
 extern int POKE_TOOL_GetIconPalette(void *boxMon);
 extern void CLACT_SetActorPaletteOffset(void *actor, u32 v, u32 flag);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *archive, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC78(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcIdSub(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 mode);
 extern void CLACT_SetActorAutoAnim(void *actor, unsigned int v);
 extern void CLACT_SetActorDrawEnable(void *actor, unsigned int v);
@@ -580,7 +580,7 @@ extern u32 GFL_USE_GetTargetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void sub_0204047C(int idx, unsigned short val);
 extern int DWC_RAP_SetOwnStatus(WifiClubPlayerStatus *status, int size);
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 extern u8 func_02008554(const struct PlayerProfile *obj);
 extern u8 func_0200856C(const struct PlayerProfile *obj);
 extern u8 func_02008570(const struct PlayerProfile *obj);
@@ -1697,11 +1697,11 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(mon, 0x4c, 0) == 0) {
-            species = func_02017E1C(mon, 0, 0);
-            form = func_02017E1C(mon, 0xad, 0);
-            nickname = func_02017E1C(mon, 0x9e, 0);
-            gender = func_02017E1C(mon, 0x6e, 0);
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
+            species = POKE_TOOL_GetPartyValue(mon, 0, 0);
+            form = POKE_TOOL_GetPartyValue(mon, 0xad, 0);
+            nickname = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
+            gender = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
             func_02045CAC(work->msgBank, 0x74, templateText);
             WORDSET_SetSlotNumber(work->wordSet, 0, nickname, 3, 0, 1);
             WORDSET_CopyTaggedText(work->wordSet, nameText, templateText);
@@ -1767,9 +1767,9 @@ void WIFICLUB_LoadPartyIcons(WifiClubWork *work, void *partyA, void *partyB)
     void *archive;
     int cellAnimFile;
     archive = func_020490F4(7, 0x21);
-    work->partyIconPalette = CLACT_RegisterPaletteCompressed(archive, func_0201BC3C(), 0, 0x160, 0x21);
-    cellAnimFile = func_0201BC78();
-    work->partyIconCellAnim = CLACT_RegisterCellAnim(archive, cellAnimFile, func_0201BCB4(), 0x21);
+    work->partyIconPalette = CLACT_RegisterPaletteCompressed(archive, POKE_TOOL_GetIconPaletteArcId(), 0, 0x160, 0x21);
+    cellAnimFile = POKE_TOOL_GetIconCellArcIdSub();
+    work->partyIconCellAnim = CLACT_RegisterCellAnim(archive, cellAnimFile, POKE_TOOL_GetIconCellEntryId(), 0x21);
     WIFICLUB_CreatePartyIcons(work, partyA, 0, archive);
     WIFICLUB_CreatePartyIcons(work, partyB, 6, archive);
     WIFICLUB_FreezePartyIcons(work);
@@ -4117,7 +4117,7 @@ void WIFICLUB_BuildOwnStatus(WifiClubWork *work, int kind, int value)
 {
     void *profile;
     u8 genderValue;
-    profile = func_02012944(work->gameData);
+    profile = GAME_DATA_GetMyStatus(work->gameData);
     work->localStatus->iconKind = 0x15;
     work->localStatus->visitorKind = 2;
     genderValue = (int)func_02008550(profile);
@@ -4495,7 +4495,7 @@ void WIFICLUB_ResetClubScreen(WifiClubWork *work)
         work->subMenuWork = 0;
     }
     if (!WIFICLUBACTOR_IsReady((&work->actorSys))) {
-        gender = func_02008550((const struct PlayerProfile *)func_02012944(work->gameData));
+        gender = func_02008550((const struct PlayerProfile *)GAME_DATA_GetMyStatus(work->gameData));
         kind = 16;
         if (gender) kind = 17;
         work->mapIndexPlusOne = func_02009A54(work->friendList);
@@ -6468,7 +6468,7 @@ int WIFICLUB_StateSendTrainerCard(WifiClubWork *work, int procState)
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 14, 10) != 0) {
             handle = (int)GFL_NET_HANDLE_GetCurrentHandle();
             statusSize = MYSTATUS_GetSize();
-            statusData = func_02012944(work->gameData);
+            statusData = GAME_DATA_GetMyStatus(work->gameData);
             if (GFL_NET_SendToHandle((void *)handle, (u16)0xa04, (u16)statusSize, (u32)statusData) != 0) {
                 WIFICLUB_ClearTalkWindow(work);
                 work->state = WIFICLUB_STATE_SEND_CHOICE_MESSAGE;

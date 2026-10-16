@@ -10,9 +10,9 @@
  * symbols:
  *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
  *   BTL_CLIENT_GetEscapeBlockerForSide 0x021CF918 thumb ov093
- *   func_021EAF18 0x021EAF18 thumb ov093
- *   func_021EAF50 0x021EAF50 thumb ov093
- *   func_021EAF78 0x021EAF78 thumb ov093
+ *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
+ *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
+ *   BTLV_SCU_SetMessageParam 0x021EAF78 thumb ov093
  *   BTL_CLIENT_ShowMessage 0x021CE3B4 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_CLIENT_BuildActionPromptMessage 0x021CE0F8 thumb ov093
@@ -34,10 +34,10 @@ typedef unsigned int u32;
 extern int BTL_MAIN_GetCompetitorKind(unsigned int **p);
 extern u32 BTL_CLIENT_GetEscapeBlockerForSide(u8 *, u8 *, u16 *);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, int id);
+extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 struct H;
-extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EAF78(u8 *, u8);
+extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
+extern void BTLV_SCU_SetMessageParam(u8 *, u8);
 extern void BTL_CLIENT_ShowMessage(u8 *p, void *q);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern void BTL_CLIENT_BuildActionPromptMessage(u8 *, u8 *, u8 *);
@@ -66,23 +66,23 @@ u32 BTL_CLIENT_StepSelectRun(u8 *p, u32 *st)
                 break;
             }
             if (k) {
-                func_021EAF18((struct L *)(p + 0x58), 2, 0x365);
-                func_021EAF50((struct L *)(p + 0x58), id);
-                func_021EAF50((struct L *)(p + 0x58), k);
+                BTLV_SCU_InitMessage((struct L *)(p + 0x58), 2, 0x365);
+                BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), id);
+                BTLV_SCU_AppendMessageArg((struct L *)(p + 0x58), k);
             } else {
-                func_021EAF18((struct L *)(p + 0x58), 1, 0x4a);
+                BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, 0x4a);
             }
             BTL_CLIENT_ShowMessage(p, p + 0x58);
             *st = 1;
             break;
         case 1:
-            func_021EAF18((struct L *)(p + 0x58), 1, 0x4c);
+            BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, 0x4c);
             BTL_CLIENT_ShowMessage(p, p + 0x58);
             *st = 1;
             break;
         case 2:
-            func_021EAF18((struct L *)(p + 0x58), 1, 0x4d);
-            func_021EAF78(p + 0x58, 0xff);
+            BTLV_SCU_InitMessage((struct L *)(p + 0x58), 1, 0x4d);
+            BTLV_SCU_SetMessageParam(p + 0x58, 0xff);
             BTL_CLIENT_ShowMessage(p, p + 0x58);
             *st = 3;
             break;
@@ -102,8 +102,8 @@ u32 BTL_CLIENT_StepSelectRun(u8 *p, u32 *st)
     case 3:
         BTLV_CORE_WaitMessage(((struct Obj02136 *)p)->f54);
         if (BTLV_CORE_ConsumeMessageFlag(((struct Obj02136 *)p)->f54)) {
-            func_021EAF18((struct L *)(p + 0x58), 3, 8);
-            func_021EAF18((struct L *)(p + 0x7c), 3, 9);
+            BTLV_SCU_InitMessage((struct L *)(p + 0x58), 3, 8);
+            BTLV_SCU_InitMessage((struct L *)(p + 0x7c), 3, 9);
             BTLV_CORE_StartYesNoMenu(((struct Obj02136 *)p)->f54, (u32)(p + 0x58), (u32)(p + 0x7c), 1);
             *st = 4;
         }

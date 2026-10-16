@@ -151,7 +151,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   OEKAKI_OpenGroup  0x02184560  thumb  ov023
@@ -416,7 +416,7 @@ extern int  TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int  TOUCHPANEL_GetCont(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void APP_TASKMENU_TransWinAfterPrint(TaskMenu *menu);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *window, u32 kind);
 extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -1473,7 +1473,7 @@ int OEKAKI_StepStart(OekakiWork *p, int procState)
     OEKAKI_SetNextScene(p, 2);
     OEKAKI_CloseMenuIfOpen(p);
     GFL_USE_PlaySeDefaultVolume(0x54c);
-    func_0207D658(0x04000050, 14, -6);
+    G2x_SetBlendBrightness_(0x04000050, 14, -6);
     OEKAKI_ApplyRemoteStrokes(p);
     return procState;
 }

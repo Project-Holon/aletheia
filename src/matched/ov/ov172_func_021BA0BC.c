@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02082A7C 0x02082A7C arm
- *   func_0208B500 0x0208B500 arm
+ *   MIC_StartLimitedSampling 0x0208B500 arm
  * extent: Callback at 021BA114 stores zero at r1+8 and 51200 at r1.
  */
 typedef unsigned int u32;
@@ -25,7 +25,7 @@ typedef struct MICAutoParam {
     void *arg;
 } MICAutoParam;
 extern void func_02082A7C(u32, void *, u32);
-extern MICResult func_0208B500(MICAutoParam *);
+extern MICResult MIC_StartLimitedSampling(MICAutoParam *);
 void CTVT_MIC_OnCaptureComplete(MICResult, void *);
 int CTVT_MIC_StartCapture(u32 *p)
 {
@@ -39,7 +39,7 @@ int CTVT_MIC_StartCapture(u32 *p)
     param.loop = 0;
     param.rate = 4097;
     param.arg = p;
-    if (func_0208B500(&param) == 0) {
+    if (MIC_StartLimitedSampling(&param) == 0) {
         p[2] = 1;
         p[0] = 0;
         return 1;

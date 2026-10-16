@@ -40,7 +40,7 @@
  *   CTVT_MIC_GetPlayPos 0x021BA24C thumb ov172
  *   CTVT_MIC_GetPlayRatio 0x021BA254 thumb ov172
  *   CTVT_MIC_EncodeAdpcm 0x021BA174 thumb ov172
- *   func_0208B24C 0x0208B24C arm
+ *   MIC_Init 0x0208B24C arm
  *   PM_Init 0x0208B8B0 arm
  *   PM_SetAmp 0x0208BEF0 arm
  *   PM_SetAmpGainLevel 0x0208BF54 arm
@@ -51,11 +51,11 @@
  *   gCtvtMic 0x021C88EC data a4
  *   func_0200566C  0x0200566C  thumb
  *   CTVT_MIC_FreeChannel  0x021BA1D8  thumb  ov172
- *   func_0208B4B8 0x0208B4B8 arm
+ *   MIC_GetLastSamplingAddress 0x0208B4B8 arm
  *   NNS_SndWaveOutIsPlaying 0x02072CC4 arm
  *   CTVT_MIC_PostUpdate 0x021BA1E4 thumb ov172
- *   func_0208B500 0x0208B500 arm
- *   func_0208B528 0x0208B528 arm
+ *   MIC_StartLimitedSampling 0x0208B500 arm
+ *   MIC_StopLimitedSampling 0x0208B528 arm
  *   SNDEXi_SetIirFilter  0x027047C0  arm  twl
  *   MI_CpuFill8  0x02082BCC  arm
  *   CTVT_ADPCM_Encode  0x021B6A00  thumb  ov172
@@ -92,7 +92,7 @@ extern void GFL_NET_FreeAligned(void *);
 
 extern void func_02082A7C();
 
-extern void func_0208B24C(void);
+extern void MIC_Init(void);
 
 extern void PM_Init(void);
 
@@ -108,15 +108,15 @@ extern void func_0200566C(void);
 
 extern void CTVT_MIC_FreeChannel(CtvtMic *mic);
 
-extern void *func_0208B4B8(void);
+extern void *MIC_GetLastSamplingAddress(void);
 
 extern int NNS_SndWaveOutIsPlaying(struct NnsWaveOutSlot *);
 
 extern void CTVT_MIC_PostUpdate(CtvtMic *mic);
 
-extern MICResult func_0208B500(MICAutoParam *);
+extern MICResult MIC_StartLimitedSampling(MICAutoParam *);
 
-extern int func_0208B528(void);
+extern int MIC_StopLimitedSampling(void);
 
 CtvtMic *CTVT_MIC_Create(u32 heap);
 
@@ -149,7 +149,7 @@ extern CtvtMic *gCtvtMic;
 CtvtMic *CTVT_MIC_Create(u32 heap)
 {
     CtvtMic *mic = func_02030734(heap, 36, 1, gCtvtMicAllocSite, 87);
-    func_0208B24C();
+    MIC_Init();
     PM_Init();
     PM_SetAmp(1);
     PM_SetAmpGainLevel(80);
@@ -179,7 +179,7 @@ void CTVT_MIC_Update(CtvtMic *mic)
 {
     u32 n;
     if (mic->capturing == 1) {
-        n = (u32)func_0208B4B8();
+        n = (u32)MIC_GetLastSamplingAddress();
         if (n == 0) mic->capturedBytes = 0;
         else {
             mic->capturedBytes = n - (u32)mic->buffer + 4;
@@ -219,7 +219,7 @@ int CTVT_MIC_StartCapture(CtvtMic *mic)
     param.loop = 0;
     param.rate = 4097;
     param.arg = mic;
-    if (func_0208B500(&param) == 0) {
+    if (MIC_StartLimitedSampling(&param) == 0) {
         mic->capturing = 1;
         mic->capturedBytes = 0;
         return 1;
@@ -237,8 +237,8 @@ void CTVT_MIC_OnCaptureComplete(MICResult result, void *arg)
 int CTVT_MIC_StopCapture(CtvtMic *mic)
 {
     if (mic->capturing == 0) return 1;
-    if (func_0208B528() == 0) {
-        mic->capturedBytes = (u32)func_0208B4B8() - (u32)mic->buffer + 4;
+    if (MIC_StopLimitedSampling() == 0) {
+        mic->capturedBytes = (u32)MIC_GetLastSamplingAddress() - (u32)mic->buffer + 4;
         if (mic->capturedBytes > 51200) mic->capturedBytes = 51200;
         mic->capturing = 0;
         return 1;

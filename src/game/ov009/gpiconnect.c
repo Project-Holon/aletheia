@@ -23,7 +23,7 @@
  *   gpiCallErrorCallback  0x02189D78  arm   ov009
  *   func_0218158C  0x0218158C  arm   ov009
  *   gsUdpEngineAddMsgHandler  0x021815C8  arm   ov009
- *   func_0217EB18  0x0217EB18  arm   ov009
+ *   socket  0x0217EB18  arm   ov009
  *   SetSockBlocking  0x0217EE50  arm   ov009
  *   inet_addr  0x0217ED38  arm   ov009
  *   SOC_GetHostByName  0x0215F650  arm   ov009
@@ -121,7 +121,7 @@
  *   func_021841B0  0x021841b0  arm   ov009
  *   gpiRemoveProfile  0x0218ff24  arm   ov009
  *   gpiSendFromBuffer  0x0218998C  arm   ov009
- *   func_0217EB9C  0x0217EB9C  arm   ov009
+ *   shutdown  0x0217EB9C  arm   ov009
  *   closesocket  0x0217EB2C  arm   ov009
  *   gsUdpEngineRemoveMsgHandler  0x02181748  arm   ov009
  *   func_02181828  0x02181828  arm   ov009
@@ -132,22 +132,7 @@
  *   g_021A4A80     0x021A4A80  data
  *   g_021A4A94     0x021A4A94  data
  */
-struct GPIOperation;
-typedef struct GPICallback {
-    void (*callback)(void **, void *, void *);
-    void *param;
-} GPICallback;
-
-typedef struct GPIOperation_s {
-    int type;
-    void *data;
-    int blocking;
-    GPICallback callback;
-    int state;
-    int id;
-    int result;
-    struct GPIOperation_s *pnext;
-} GPIOperation;
+#include "gpi_types.h"
 
 typedef struct SOCSockAddrIn {
     unsigned char len;
@@ -164,21 +149,6 @@ typedef struct SOCHostEnt {
     unsigned char **addrList;
 } SOCHostEnt;
 
-typedef struct GPIConnection {
-    char pad0[0x10c];
-    int firewall;
-    char pad110[0x1f0 - 0x110];
-    int cmSocket;
-    int connectState;
-    char pad1f8[0x220 - 0x1f8];
-    char mHeader[16];
-    unsigned short peerPort;
-} GPIConnection;
-
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
 typedef struct GPIConnectData {
     char serverChallenge[128];
     char userChallenge[33];
@@ -189,226 +159,11 @@ typedef struct GPIConnectData {
     int newuser;
 } GPIConnectData;
 
-typedef struct GPIConnection_0218A624 {
-    char pad0[0x10c];
-    int firewall;
-    char nick[31];
-    char uniquenick[21];
-    char email[51];
-    char password[31];
-    char pad198[0x1f4 - 0x198];
-    int connectState;
-} GPIConnection_0218A624;
-
-typedef struct GPIBuffer {
-    char *buffer;
-    int size;
-    int len;
-    int pos;
-} GPIBuffer;
-
-typedef struct GPIProfile {
-    int profileId;
-    int userId;
-} GPIProfile;
-
-typedef struct GPIConnection_0218A830 {
-    char pad0[0x100];
-    int infoCaching;
-    char pad104[0x10c - 0x104];
-    int firewall;
-    char nick[31];
-    char uniquenick[21];
-    char email[51];
-    char password[31];
-    int sessKey;
-    int userid;
-    int profileid;
-    int partnerID;
-    char pad1a8[0x210 - 0x1a8];
-    GPIBuffer outputBuffer;
-    char pad220[0x230 - 0x220];
-    unsigned short peerPort;
-    char pad232[0x60c - 0x232];
-    int productID;
-    int namespaceID;
-    char pad614[0x630 - 0x614];
-    int quietModeFlags;
-} GPIConnection_0218A830;
-
-typedef struct GPIConnection_0218AC4C {
-    char pad0[0x110];
-    char nick[31];
-    char uniquenick[21];
-    char email[51];
-    char password[31];
-    int sessKey;
-    int userid;
-    int profileid;
-    int partnerID;
-    char pad1a8[0x210 - 0x1a8];
-    GPIBuffer outputBuffer;
-    char pad220[0x60c - 0x220];
-    int productID;
-    int namespaceID;
-} GPIConnection_0218AC4C;
-
-typedef struct GPIProfile_0218AE9C {
-    int profileId;
-    int userId;
-    void *buddyStatus;
-    void *buddyStatusInfo;
-    void *cache;
-    char *authSig;
-    int requestCount;
-    char *peerSig;
-    int blocked;
-    int blockIndex;
-    int buddyOrBlockCache;
-    int deletedLocally;
-} GPIProfile_0218AE9C;
-
 typedef struct GPConnectResponseArg {
     int result;
     int profile;
     char uniquenick[21];
 } GPConnectResponseArg;
-
-typedef struct GPIConnection_0218AE9C {
-    char errorString[256];
-    int infoCaching;
-    int infoCachingBuddyAndBlockOnly;
-    int simulation;
-    int firewall;
-    char nick[31];
-    char uniquenick[21];
-    char email[51];
-    char password[31];
-    int sessKey;
-    int userid;
-    int profileid;
-    int partnerID;
-    GPICallback callbacks[9];
-    int cmSocket;
-    int connectState;
-    GPIBuffer socketBuffer;
-    char *inputBuffer;
-    int inputBufferSize;
-    GPIBuffer outputBuffer;
-    char mHeader[16];
-    unsigned short peerPort;
-    int nextOperationID;
-    int numSearches;
-    int lastStatusState;
-    unsigned int hostIp;
-    unsigned int hostPrivateIp;
-    unsigned short queryPort;
-    unsigned short hostPort;
-    unsigned int sessionFlags;
-    char richStatus[256];
-    char gameType[33];
-    char gameVariant[33];
-    char gameMapName[33];
-    void *extendedInfoKeys;
-    char lastStatusString[256];
-    char lastLocationString[256];
-    int errorCode;
-    int fatalError;
-    void *diskCache;
-    GPIOperation *operationList;
-    char profileList[16];
-    void *peerList;
-    void *callbackList;
-    void *lastCallback;
-    GPIBuffer updateproBuffer;
-    GPIBuffer updateuiBuffer;
-    void *transfers;
-    unsigned int nextTransferID;
-    int productID;
-    int namespaceID;
-    char loginTicket[25];
-    int quietModeFlags;
-    unsigned int kaTransmit;
-} GPIConnection_0218AE9C;
-
-typedef struct GPIConnection_0218B5A0 {
-    unsigned char pad[0x1F0];
-    int socket;
-    int state;
-} GPIConnection_0218B5A0;
-
-typedef struct {
-    int f0;
-    int f4;
-    char *f8;
-    char *fC;
-} GPIBuddyStatus;
-
-typedef struct {
-    int f0;
-    int f4;
-    char *f8;
-    char *fC;
-    char *f10;
-    char *f14;
-    char pad[0x20];
-    void *f38;
-} GPIBuddyStatusInfo;
-
-typedef struct {
-    int f0;
-    int f4;
-    GPIBuddyStatus *buddyStatus;
-    GPIBuddyStatusInfo *statusInfo;
-    int f10;
-    char *f14;
-    int f18;
-    char *f1C;
-    int f20;
-    int f24;
-    int f28;
-} GPIProfile_0218B618;
-
-typedef struct {
-    char pad[0x104];
-    int state;
-} GPIConnection_0218B618;
-
-typedef struct GPIPeer_s {
-    char pad0[0x4c];
-    struct GPIPeer_s *pnext;
-} GPIPeer;
-
-typedef struct GPIConnection_0218B760 {
-    char pad0[0x198];
-    int sessKey;
-    int userid;
-    int profileid;
-    char pad1a4[0x1f0 - 0x1a4];
-    int cmSocket;
-    int connectState;
-    GPIBuffer socketBuffer;
-    char *inputBuffer;
-    int inputBufferSize;
-    GPIBuffer outputBuffer;
-    char mHeader[16];
-    char pad230[0x5c4 - 0x230];
-    void *operationList;
-    char pad5c8[0x5d8 - 0x5c8];
-    GPIPeer *peerList;
-    char pad5dc[0x5e4 - 0x5dc];
-    GPIBuffer updateproBuffer;
-    GPIBuffer updateuiBuffer;
-} GPIConnection_0218B760;
-
-typedef struct GPIConnection_0218B914 {
-    unsigned char pad0[0x1A4];
-    int f1A4;
-    unsigned char pad1[0x208 - 0x1A8];
-    char *f208;
-    unsigned char pad2[0x610 - 0x20C];
-    int f610;
-} GPIConnection_0218B914;
 
 extern unsigned int func_02094694();
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
@@ -419,7 +174,7 @@ extern void gpiSetError(int *connection, int result, int errorString);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern unsigned short func_0218158C(void);
 extern int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern int SetSockBlocking(int sock, int isblocking);
 extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
@@ -436,7 +191,7 @@ extern char *_strlwr(char *string);
 extern void *gsimalloc(unsigned long size);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern int gpiFailedOpCallback(void **connection, const struct GPIOperation_s *operation);
+extern int gpiFailedOpCallback(void **connection, const struct GPIOperation *operation);
 extern int func_02186E9C(void **connection, int blockingOperationID);
 extern int strlen(const u8 *s);
 extern void GSMD5Digest(unsigned char *input, unsigned int len, char *output);
@@ -454,7 +209,7 @@ extern int gpiValueForKey(const char *command, const char *key, char *value, int
 extern int atoi(u32 a0);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
-extern GPIProfile_0218AE9C *gpiProfileListAdd(void **connection, int id);
+extern GPIProfile *gpiProfileListAdd(void **connection, int id);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern int gpiCheckSocketConnect(int *connection, int sock, int *state);
@@ -462,7 +217,7 @@ extern void gsifree(void *ptr);
 extern void func_021841B0(void *array);
 extern void gpiRemoveProfile(const int *p, void *profile);
 extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
-extern int func_0217EB9C(int sock, int how);
+extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
 extern int func_02181828(void);
@@ -477,7 +232,7 @@ int gpiSendLogin(void **connection, GPIConnectData *data);
 int gpiSendNewuser(void **connection, GPIConnectData *data);
 int gpiProcessConnect(void **connection, GPIOperation *operation, char *input);
 int gpiCheckConnect(void **connection);
-int gpiDisconnectCleanupProfile(GPIConnection_0218B618 **connection, GPIProfile_0218B618 *profile);
+int gpiDisconnectCleanupProfile(GPIConnection **connection, GPIProfile *profile);
 void gpiDisconnect(void **connection, int tellServer);
 int gpiProcessRemoteAuthResponse(void **connection, char *input);
 extern char g_021A4618[];
@@ -615,7 +370,7 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
     if (iconnection->firewall)
         iconnection->peerPort = 0;
 
-    iconnection->cmSocket = func_0217EB18(2, 1, 0);
+    iconnection->cmSocket = socket(2, 1, 0);
     if (iconnection->cmSocket == -1) {
         gpiSetError((int *)connection, 5, (int)g_021A4760);
         gpiCallErrorCallback((int *)connection, 3, 1);
@@ -680,7 +435,7 @@ int gpiConnect(void **connection, char *nick, char *uniquenick, char *email,
 {
     GPIConnectData *data;
     GPIOperation *operation;
-    GPIConnection_0218A624 *iconnection = (GPIConnection_0218A624 *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     int result;
 
     if (iconnection->connectState == 4) {
@@ -741,7 +496,7 @@ int gpiConnect(void **connection, char *nick, char *uniquenick, char *email,
  */
 int gpiSendLogin(void **connection, GPIConnectData *data)
 {
-    GPIConnection_0218A830 *iconnection = (GPIConnection_0218A830 *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     char buffer[512];
     char response[33];
     GPIProfile *profile;
@@ -836,7 +591,7 @@ int gpiSendLogin(void **connection, GPIConnectData *data)
 
 int gpiSendNewuser(void **connection, GPIConnectData *data)
 {
-    GPIConnection_0218AC4C *iconnection = (GPIConnection_0218AC4C *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     unsigned long i;
     char passwordenc[45];
     char cdkeyxor[65];
@@ -898,9 +653,9 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
     char check[33];
     char uniquenick[21];
     GPIConnectData *data;
-    GPIConnection_0218AE9C *iconnection = (GPIConnection_0218AE9C *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     GPICallback callback;
-    GPIProfile_0218AE9C *profile;
+    GPIProfile *profile;
     char userBuffer[82];
     char partnerBuffer[11];
     char *user;
@@ -1081,11 +836,11 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
  */
 int gpiCheckConnect(void **connection)
 {
-    GPIConnection_0218B5A0 *iconnection = (GPIConnection_0218B5A0 *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     int state;
     int result;
 
-    if ((result = gpiCheckSocketConnect((int *)connection, iconnection->socket, &state)) != 0)
+    if ((result = gpiCheckSocketConnect((int *)connection, iconnection->cmSocket, &state)) != 0)
         return result;
     if (state == 4) {
         gpiSetError((int *)connection, 0x107, (int)g_021A4A58);
@@ -1094,7 +849,7 @@ int gpiCheckConnect(void **connection)
     }
     if (state == 0)
         return 0;
-    iconnection->state = 2;
+    iconnection->connectState = 2;
     return 0;
 }
 
@@ -1103,45 +858,45 @@ int gpiCheckConnect(void **connection)
 /*
  * sdk:      gpiDisconnectCleanupProfile (libdwcgsgp.TWL.HYB.a gpiconnect.o)
  */
-int gpiDisconnectCleanupProfile(GPIConnection_0218B618 **connection, GPIProfile_0218B618 *profile)
+int gpiDisconnectCleanupProfile(GPIConnection **connection, GPIProfile *profile)
 {
-    GPIConnection_0218B618 *iconnection;
+    GPIConnection *iconnection;
 
     iconnection = *connection;
     if (profile->buddyStatus) {
-        profile->f28 = 1;
-        gsifree(profile->buddyStatus->f8);
-        profile->buddyStatus->f8 = 0;
-        gsifree(profile->buddyStatus->fC);
-        profile->buddyStatus->fC = 0;
+        profile->buddyOrBlockCache = 1;
+        gsifree(profile->buddyStatus->statusString);
+        profile->buddyStatus->statusString = 0;
+        gsifree(profile->buddyStatus->locationString);
+        profile->buddyStatus->locationString = 0;
         gsifree(profile->buddyStatus);
         profile->buddyStatus = 0;
     }
-    if (profile->statusInfo) {
-        profile->f28 = 1;
-        gsifree(profile->statusInfo->f8);
-        profile->statusInfo->f8 = 0;
-        gsifree(profile->statusInfo->fC);
-        profile->statusInfo->fC = 0;
-        gsifree(profile->statusInfo->f10);
-        profile->statusInfo->f10 = 0;
-        gsifree(profile->statusInfo->f14);
-        profile->statusInfo->f14 = 0;
-        if (profile->statusInfo->f38) {
-            func_021841B0(profile->statusInfo->f38);
-            profile->statusInfo->f38 = 0;
+    if (profile->buddyStatusInfo) {
+        profile->buddyOrBlockCache = 1;
+        gsifree(profile->buddyStatusInfo->richStatus);
+        profile->buddyStatusInfo->richStatus = 0;
+        gsifree(profile->buddyStatusInfo->gameType);
+        profile->buddyStatusInfo->gameType = 0;
+        gsifree(profile->buddyStatusInfo->gameVariant);
+        profile->buddyStatusInfo->gameVariant = 0;
+        gsifree(profile->buddyStatusInfo->gameMapName);
+        profile->buddyStatusInfo->gameMapName = 0;
+        if (profile->buddyStatusInfo->extendedInfoKeys) {
+            func_021841B0(profile->buddyStatusInfo->extendedInfoKeys);
+            profile->buddyStatusInfo->extendedInfoKeys = 0;
         }
-        gsifree(profile->statusInfo);
-        profile->statusInfo = 0;
+        gsifree(profile->buddyStatusInfo);
+        profile->buddyStatusInfo = 0;
     }
-    if (profile->f20)
-        profile->f28 = 1;
-    gsifree(profile->f14);
-    profile->f14 = 0;
-    gsifree(profile->f1C);
-    profile->f1C = 0;
-    profile->f18 = 0;
-    if (profile->f10 == 0 || (iconnection->state == 1 && profile->f28 == 0)) {
+    if (profile->blocked)
+        profile->buddyOrBlockCache = 1;
+    gsifree(profile->authSig);
+    profile->authSig = 0;
+    gsifree(profile->peerSig);
+    profile->peerSig = 0;
+    profile->requestCount = 0;
+    if (profile->cache == 0 || (iconnection->infoCachingBuddyAndBlockOnly == 1 && profile->buddyOrBlockCache == 0)) {
         gpiRemoveProfile((const int *)connection, profile);
         return 0;
     }
@@ -1155,7 +910,7 @@ int gpiDisconnectCleanupProfile(GPIConnection_0218B618 **connection, GPIProfile_
  */
 void gpiDisconnect(void **connection, int tellServer)
 {
-    GPIConnection_0218B760 *iconnection = (GPIConnection_0218B760 *)*connection;
+    GPIConnection *iconnection = (GPIConnection *)*connection;
     GPIPeer *peer;
     GPIPeer *delPeer;
     int connClosed;
@@ -1171,7 +926,7 @@ void gpiDisconnect(void **connection, int tellServer)
         }
         gpiSendFromBuffer(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
         if (iconnection->cmSocket != -1) {
-            func_0217EB9C(iconnection->cmSocket, 2);
+            shutdown(iconnection->cmSocket, 2);
             closesocket(iconnection->cmSocket);
             iconnection->cmSocket = -1;
         }
@@ -1219,23 +974,23 @@ void gpiDisconnect(void **connection, int tellServer)
  */
 int gpiProcessRemoteAuthResponse(void **connection, char *input)
 {
-    GPIConnection_0218B914 *iconnection;
+    GPIConnection *iconnection;
     char buffer[512];
 
-    iconnection = (GPIConnection_0218B914 *)*connection;
+    iconnection = (GPIConnection *)*connection;
     if (gpiCheckForError((int *)connection, input, 1))
         return 4;
-    if (!gpiValueForKey(iconnection->f208, g_021A492C, buffer, 512)) {
+    if (!gpiValueForKey(iconnection->inputBuffer, g_021A492C, buffer, 512)) {
         gpiSetError((int *)connection, 1, (int)g_021A49AC);
         gpiCallErrorCallback((int *)connection, 3, 1);
         return 3;
     }
-    iconnection->f610 = atoi((u32)buffer);
-    if (!gpiValueForKey(iconnection->f208, g_021A48E8, buffer, 512)) {
+    iconnection->namespaceID = atoi((u32)buffer);
+    if (!gpiValueForKey(iconnection->inputBuffer, g_021A48E8, buffer, 512)) {
         gpiSetError((int *)connection, 1, (int)g_021A49AC);
         gpiCallErrorCallback((int *)connection, 3, 1);
         return 3;
     }
-    iconnection->f1A4 = atoi((u32)buffer);
+    iconnection->partnerID = atoi((u32)buffer);
     return 0;
 }

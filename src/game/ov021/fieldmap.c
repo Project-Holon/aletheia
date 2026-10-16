@@ -213,7 +213,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
- *   func_0202C794  0x0202C794  thumb
+ *   ISS_SWITCH_GetSubscreenMode  0x0202C794  thumb
  *   sCtrlMoveKindTable  0x021D35A8  data
  *   FIELDMAP_CTRL_HYBRID_GetMode  0x021A6DC0  thumb
  *   BG_SYS_Create  0x0203F8F4  arm
@@ -223,7 +223,7 @@
  *   sClearPalette     0x021D3620  data
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BUTTON_MAN_RotScaleMtx22  0x02051E74  arm
- *   func_0207D59C  0x0207D59C  arm
+ *   G2x_SetBGyAffine_  0x0207D59C  arm
  *   BG_SYS_SetLowBit  0x0204044C  arm
  *   FIELD_MSGBG_SetupBg  0x02190270  thumb
  *   FIELD_MSGBG_SetupBgDelayed  0x0219027C  thumb
@@ -327,7 +327,7 @@
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   ISS_SYS_ChangeZone  0x0202B544  thumb
  *   func_02029CF0  0x02029CF0  thumb
- *   func_0202C83C  0x0202C83C  thumb
+ *   ISS_SWITCH_ApplySubscreenMode  0x0202C83C  thumb
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
  *   FIELD_ZONEFOG_Clear  0x021A0358  thumb  ov021
  *   GAME_DATA_SetPlayerZoneId  0x02012AC4  thumb
@@ -626,7 +626,7 @@ extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *player);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u32 func_02008DF0(void *record, int i);
-extern u8 func_0202C794(void *a0, u32 a1);
+extern u8 ISS_SWITCH_GetSubscreenMode(void *a0, u32 a1);
 extern u32 FIELDMAP_CTRL_HYBRID_GetMode(u8 *p);
 extern void BG_SYS_Create(u16 heap);
 extern void BG_SYS_LoadPltt(u32 a, void *b, u32 c, u32 d);
@@ -635,7 +635,7 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_SetGraphicsMode(const struct DispConfig *cfg);
 extern const struct DispConfig sBgModeSetup;
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-extern void func_0207D59C(u32 a, void *buf, u32 b, u32 c, u32 d, u32 e);
+extern void G2x_SetBGyAffine_(u32 a, void *buf, u32 b, u32 c, u32 d, u32 e);
 extern void BG_SYS_SetLowBit(u32 a);
 extern void FIELD_MSGBG_SetupBg(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_SetupBgDelayed(struct FieldMsgBg *msgBg);
@@ -727,7 +727,7 @@ void FLDMMDL_AddMmdlHeaderList(struct MmdlSys *mmdlSys, void *headers, u32 b, u3
 extern u32 GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern void ISS_SYS_ChangeZone(u32 a, u16 b);
 extern void func_02029CF0(void *a, void *b, u16 c);
-int func_0202C83C(struct GameSystem *gameSystem, int a1);
+int ISS_SWITCH_ApplySubscreenMode(struct GameSystem *gameSystem, int a1);
 void WEATHER_RequestChange(struct WeatherSys *weather, int k);
 void FIELD_ZONEFOG_Clear(struct FieldZoneFog *zoneFog);
 extern struct PlayerWork *GAME_DATA_SetPlayerZoneId(struct PlayerWork *p, u16 v);
@@ -1446,7 +1446,7 @@ struct WeatherSys *FIELDMAP_GetWeather(FieldMap *fieldMap)
 
 int FIELDMAP_QueryIssSwitch(FieldMap *fieldMap, int switchId)
 {
-    return func_0202C794(fieldMap->gameSystem, switchId);
+    return ISS_SWITCH_GetSubscreenMode(fieldMap->gameSystem, switchId);
 }
 
 struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap)
@@ -1617,7 +1617,7 @@ void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap)
     u32 affineMtx[4];
 
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)affineMtx, 0, (const void *)0x1000, (const void *)0x1000, 0);
-    func_0207D59C(0x04000020, affineMtx, 0, 0, 0, 0);
+    G2x_SetBGyAffine_(0x04000020, affineMtx, 0, 0, 0, 0);
     BG_SYS_SetLowBit(3);
     FIELD_MSGBG_SetupBg(fieldMap->msgBg);
 }
@@ -1627,7 +1627,7 @@ void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap)
     u32 affineMtx[4];
 
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)affineMtx, 0, (const void *)0x1000, (const void *)0x1000, 0);
-    func_0207D59C(0x04000020, affineMtx, 0, 0, 0, 0);
+    G2x_SetBGyAffine_(0x04000020, affineMtx, 0, 0, 0, 0);
     BG_SYS_SetLowBit(3);
     FIELD_MSGBG_SetupBgDelayed(fieldMap->msgBg);
 }
@@ -1939,7 +1939,7 @@ void FIELDMAP_ChangeZoneWeather(FieldMap *fieldMap, int zoneId)
 {
     struct WeatherSys *weather = FIELDMAP_GetWeather(fieldMap);
     unsigned short weatherId;
-    func_0202C83C(fieldMap->gameSystem, zoneId);
+    ISS_SWITCH_ApplySubscreenMode(fieldMap->gameSystem, zoneId);
     weatherId = (int)GAME_DATA_GetSubscreenMode(fieldMap->gameData);
     if (weatherId != 0xF)
         WEATHER_RequestChange(weather, weatherId);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk  0x021C84D0  thumb  ov093
  *   BTL_SERVER_FLOW_GetLockStateThunk  0x021C8910  thumb  ov093
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern void BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk(u8 *p, u8 *a);
 extern int BTL_SERVER_FLOW_GetLockStateThunk(u8 *p);
@@ -32,7 +32,7 @@ int BTL_SERVER_FLOW_ItemEffectTriggerEntryEvent(char *p, void *m)
     u32 s;
     int r;
 
-    if (func_021D59B4(m, 16) != 150) {
+    if (BTL_POKEPARAM_GetValue(m, 16) != 150) {
         s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 1921);
         BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk((u8 *)p, m);
         r = BTL_SERVER_FLOW_GetLockStateThunk((u8 *)p);

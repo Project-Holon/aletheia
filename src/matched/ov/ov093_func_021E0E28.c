@@ -17,7 +17,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
@@ -54,7 +54,7 @@ typedef struct RecB {
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_HasType(void *m, int k);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern Word BTLV_CORE_MakeSlotKind1Empty(void);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
@@ -77,7 +77,7 @@ void HAND_WAZA_CurseApply(int a, void *q, int id)
     m = BTL_SERVER_FLOW_GetPokeParam(q, id);
     flag = 0;
     if (BTL_POKEPARAM_HasType(m, 7)) {
-        if (func_021D59B4(m, 13) > 0) {
+        if (BTL_POKEPARAM_GetValue(m, 13) > 0) {
             k = BTL_EVENT_GetVar(6);
             if (k != 31) {
                 r = (RecA *)BTL_SERVER_FLOW_AllocCmdRecord(q, 12, id);

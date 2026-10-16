@@ -1,5 +1,5 @@
 /*
- * function: func_0208B424
+ * function: MIC_StopAutoSamplingAsync
  * address:  0x0208B424
  * packet:   pkt_0208B424
  * region:   arm9
@@ -63,7 +63,7 @@ extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern BOOL MicStopAutoSampling(void);
 
-MICResult func_0208B424(MICCallback callback, void *arg)
+MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg)
 {
     u32 enabled = OS_DisableInterrupts();
 

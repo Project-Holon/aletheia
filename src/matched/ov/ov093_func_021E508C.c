@@ -11,7 +11,7 @@
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
- *   func_021D58A8 0x021D58A8 thumb ov093
+ *   BTL_POKEPARAM_GetStatRaw 0x021D58A8 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord 0x021C88C8 thumb ov093
  *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
@@ -33,7 +33,7 @@ typedef struct Rec {
 } Rec;
 extern int BTL_EVENT_GetVar(int);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
-extern int func_021D58A8(u8 *p, int k);
+extern int BTL_POKEPARAM_GetStatRaw(u8 *p, int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
@@ -50,8 +50,8 @@ void HAND_WAZA_PowerSplitOnUncategorizedMove(void *x, void *a, int c)
         k = BTL_EVENT_GetVar(6);
         m = BTL_SERVER_FLOW_GetPokeParam(a, c);
         n = BTL_SERVER_FLOW_GetPokeParam(a, k);
-        first = (func_021D58A8(m, 8) + func_021D58A8(n, 8)) / 2;
-        second = (func_021D58A8(m, 10) + func_021D58A8(n, 10)) / 2;
+        first = (BTL_POKEPARAM_GetStatRaw(m, 8) + BTL_POKEPARAM_GetStatRaw(n, 8)) / 2;
+        second = (BTL_POKEPARAM_GetStatRaw(m, 10) + BTL_POKEPARAM_GetStatRaw(n, 10)) / 2;
         p = BTL_SERVER_FLOW_AllocCmdRecord(a, 17, c);
         p->id = k;
         ((struct Obj07831 *)p)->f4 = first;

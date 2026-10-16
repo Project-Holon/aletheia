@@ -197,8 +197,6 @@ struct Chunk {
 	unsigned long aux;
 };
 
-struct S { int a, b, c; };
-
 struct _CPSRwin {
 	unsigned long start;
 	unsigned long len;
@@ -3143,7 +3141,7 @@ void pull_rwin_chunks(char *p)
         char *e = p + i * 0xc;
 
         if (*(int *)(e + 0x70) == 0) {
-            *(struct S *)(e + 0x70) = *(struct S *)(e + 0x7c);
+            *(CPSSocRcvBuf *)(e + 0x70) = *(CPSSocRcvBuf *)(e + 0x7c);
             *(int *)(e + 0x7c) = 0;
         }
     }

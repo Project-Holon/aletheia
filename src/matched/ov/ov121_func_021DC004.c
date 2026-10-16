@@ -10,10 +10,10 @@
  * status: EXACT*
  * symbols:
  *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
- *   func_0201BCB4 0x0201BCB4 thumb
+ *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int MYSTERY_ALBUM_GetEntryKind(void *); extern int func_0201BCB4(void);
-int MYSTERY_ALBUM_GetEntryFormId(void *p) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1: return func_0201BCB4(); case 2: return 0; default:return 36; } }
+extern int MYSTERY_ALBUM_GetEntryKind(void *); extern int POKE_TOOL_GetIconCellEntryId(void);
+int MYSTERY_ALBUM_GetEntryFormId(void *p) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1: return POKE_TOOL_GetIconCellEntryId(); case 2: return 0; default:return 36; } }

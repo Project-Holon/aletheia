@@ -116,7 +116,7 @@
  *   _CursorColorsTo 0x021DBFB8 data a2
  *   FX_SinCosTable_ 0x020A1B38 data
  *   PM_VOICE_StopSlot 0x02006BB4 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   PM_VOICE_GetPerapVoiceSave 0x02006CAC thumb
  *   PM_VOICE_Play 0x02006984 thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
@@ -125,7 +125,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -228,6 +228,9 @@
  *   APP_ICON_GetGearExtraFileId  0x0202776C  thumb  arm9
  *   APP_ICON_GetGearFrameFileId  0x02027770  thumb  arm9
  *   APP_ICON_GetGearAnim2FileId  0x02027774  thumb  arm9
+ *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -419,18 +422,18 @@ extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void POKE_TOOL_ClearPartyParam(struct PokePara *p);
-extern u32 func_02017E88(void *p, int id, void *v);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, int id, void *v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void PM_VOICE_StopSlot(u32);
 extern void PM_VOICE_GetPerapVoiceSave(void **);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern void *func_020185F0(void *);
+extern void *POKE_TOOL_Dummy(void *);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern u32 POKE_TOOL_DecodePartyParam(struct PokePara *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct PokePara *p, u32 f);
-extern u32 func_02017DBC(struct PokePara *p);
-extern u32 func_02017DE4(struct PokePara *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct PokePara *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct PokePara *p, u32 f);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct StrBuf *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -1639,8 +1642,8 @@ int P_STATUS_SearchPokemon(PStatusWork *wk,int direction,unsigned short *out)
  if(direction==0 && wk->pos==0) {done=1;continue;}
  if(direction==1) ++wk->pos; else --wk->pos;
  pp=P_STATUS_GetPokePara(wk);
- if(func_02017E88(pp,169,0)!=0) {
- if(func_02017E88(pp,76,0)!=1 || wk->page==0) {
+ if(POKE_TOOL_GetBoxValue(pp,169,0)!=0) {
+ if(POKE_TOOL_GetBoxValue(pp,76,0)!=1 || wk->page==0) {
  if(wk->page!=2 || P_STATUS_HasRibbon(wk,pp)!=0) {done=1;found=1;}
  }
  }
@@ -1670,8 +1673,8 @@ void P_STATUS_LoadPokemonState(PStatusWork *wk)
  void *pp=P_STATUS_GetPokePara(wk);
  int one=1;
  P_STATUS_SetFastMode(wk,1);
- wk->isEgg=func_02017E1C(ppSrc,76,0);
- wk->friendship=func_02017E1C(ppSrc,9,0);
+ wk->isEgg=POKE_TOOL_GetPartyValue(ppSrc,76,0);
+ wk->friendship=POKE_TOOL_GetPartyValue(ppSrc,9,0);
  wk->hasRibbon=P_STATUS_HasRibbon(wk,pp);
  P_STATUS_SetFastMode(wk,0);
  wk->playCryReq=one;
@@ -1825,8 +1828,8 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
             PM_VOICE_StopSlot(0);
             if (wk->isEgg==0) {
                 ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
-                species=func_02017E1C(ppSrc,5,0);
-                form=func_02017E1C(ppSrc,111,0);
+                species=POKE_TOOL_GetPartyValue(ppSrc,5,0);
+                form=POKE_TOOL_GetPartyValue(ppSrc,111,0);
                 PM_VOICE_GetPerapVoiceSave(&voicePlayer);
                 PM_VOICE_Play(species,form,64,0,0,0,0,(u32)&voicePlayer);
             }
@@ -1858,8 +1861,8 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
 void *P_STATUS_GetPokePara(PStatusWork *wk)
 {
  switch(wk->param->ppt) {
- case 0: return func_020185F0(wk->param->ppd);
- case 1: return func_020185F0(POKEPARTY_GetMember(wk->param->ppd,wk->pos));
+ case 0: return POKE_TOOL_Dummy(wk->param->ppd);
+ case 1: return POKE_TOOL_Dummy(POKEPARTY_GetMember(wk->param->ppd,wk->pos));
  case 2: return (unsigned char *)wk->param->ppd+POKE_TOOL_GetBoxParamSize()* wk->pos;
  default: return 0;
  }
@@ -1920,8 +1923,8 @@ void P_STATUS_SetFastMode(PStatusWork *wk,int fastMode)
  break;
  case 2:
  pp=P_STATUS_GetPokePara(wk);
- if(fastMode==1) {POKE_TOOL_DecodePartyParam(wk->tempPP);func_02017DBC(pp);}
- else {POKE_TOOL_EncodePartyParam(wk->tempPP,1);func_02017DE4(pp,1);}
+ if(fastMode==1) {POKE_TOOL_DecodePartyParam(wk->tempPP);POKE_TOOL_DecodeBoxParam(pp);}
+ else {POKE_TOOL_EncodePartyParam(wk->tempPP,1);POKE_TOOL_EncodeBoxParam(pp,1);}
  break;
  }
 }
@@ -2068,7 +2071,7 @@ int P_STATUS_HasRibbon(PStatusWork *wk, void *pp)
 {
     unsigned char i;
     for (i = 0; i < 0x50; i++) {
-        if (func_02017E88(pp, P_STA_RIBBON_GetRibbonInfo(i, 0), 0) == 1) {
+        if (POKE_TOOL_GetBoxValue(pp, P_STA_RIBBON_GetRibbonInfo(i, 0), 0) == 1) {
             return 1;
         }
     }

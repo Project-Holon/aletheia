@@ -9,19 +9,19 @@
  * status: EXACT
  * lever: difference of stored fixed-point fields prevents shift factoring.
  * symbols:
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   PMSIV_FADE_BrightnessTask 0x021BC964 thumb ov110
  *   PMS_INPUT_VIEW_AddVBlankTask 0x021B9BA4 thumb ov110
  */
 #include "../include/Obj03241.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void PMSIV_FADE_BrightnessTask(void *, u8 *);
 extern void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, u8 *), u8 *p, int n);
 void PMSIV_FADE_StartBrightness(u8 *p,int a,int start,int end,int n)
 {
-    func_0207D658(0x4000050,a,start);
+    G2x_SetBlendBrightness_(0x4000050,a,start);
     ((struct Obj03241 *)p)->f0=a;
     ((struct Obj03241 *)p)->f14=n;
     ((struct Obj03241 *)p)->f8=start<<12;

@@ -14,7 +14,7 @@
  * symbols:
  *   PersistCanReceiveOnSocket  0x02193fe8  arm   ov009
  *   gsirealloc  0x0217eac8  arm   ov009
- *   func_0217EC4C  0x0217ec4c  arm   ov009
+ *   recv  0x0217ec4c  arm   ov009
  *   CloseStatsConnection  0x02193d00  arm   ov009
  *   ProcessInBuffer  0x02194494  arm   ov009
  *   memmove  0x02092364  arm
@@ -41,7 +41,7 @@ typedef struct {
 
 extern int PersistCanReceiveOnSocket(int s);
 extern void *gsirealloc(void *ptr, unsigned long size);
-extern int func_0217EC4C(int sock, char *buf, int len, int flags);
+extern int recv(int sock, char *buf, int len, int flags);
 extern void CloseStatsConnection(void);
 extern int ProcessInBuffer(char *buff, int len);
 extern void *memmove(void *dest, const void *src, unsigned int n);
@@ -71,7 +71,7 @@ int PersistThink(void)
             if (gGstatsConn.inBuff == 0)
                 return 0;
         }
-        len = func_0217EC4C(gGstatsSocket.sock, gGstatsConn.inBuff + gGstatsConn.inLen,
+        len = recv(gGstatsSocket.sock, gGstatsConn.inBuff + gGstatsConn.inLen,
                             gGstatsConn.inSize - gGstatsConn.inLen, 0);
         if (len <= 0) {
             CloseStatsConnection();

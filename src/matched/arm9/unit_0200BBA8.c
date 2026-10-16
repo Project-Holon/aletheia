@@ -48,6 +48,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   (none)
  */
 
@@ -83,7 +84,7 @@ extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32   POKEPARTY_GetCount(void *list);
 extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
-extern u32   func_02017E88(void *e, u32 a, u32 b);
+extern u32   POKE_TOOL_GetBoxValue(void *e, u32 a, u32 b);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *BATTLE_BOX_GetMon(void *a, u32 b, u32 c);
 
@@ -133,7 +134,7 @@ u32 BATTLE_BOX_HasMon(void *a)
 {
     u32 r = 0;
 
-    if (func_02017E88(BATTLE_BOX_GetMon(a, 0, 0), 0xA9, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue(BATTLE_BOX_GetMon(a, 0, 0), 0xA9, 0) != 0) {
         r = 1;
     }
     return r;

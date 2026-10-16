@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   G2x_SetBlendBrightness_  0x0207D658  arm  arm9
  *
 
  * Pick the 0x04000050 or 0x04001050 hardware register from the flag and write the 0x1b/-7 pair.
@@ -19,13 +20,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 void WORLDTRADE_SetBrightnessOut(u32 x)
 {
     if (x != 0) {
-        func_0207D658(0x04000050, 0x1b, -7);
+        G2x_SetBlendBrightness_(0x04000050, 0x1b, -7);
     } else {
-        func_0207D658(0x04001050, 0x1b, -7);
+        G2x_SetBlendBrightness_(0x04001050, 0x1b, -7);
     }
 }

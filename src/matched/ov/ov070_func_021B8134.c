@@ -12,7 +12,7 @@
  * symbols:
  *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
- *   func_0202E448  0x0202E448  thumb
+ *   BAG_PARAM_GetItemValue  0x0202E448  thumb
  *   ITEMMENU_IsItemRegistered  0x021B83A0  thumb  ov070
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 extern int ITEMMENU_GetItemCount(u8 *p);
 extern void *ITEMMENU_GetSlot(u8 *p, int i);
 typedef unsigned int   u32;
-extern u32 func_0202E448(u32 id);
+extern u32 BAG_PARAM_GetItemValue(u32 id);
 extern int ITEMMENU_IsItemRegistered(char *p, int value);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
@@ -48,7 +48,7 @@ int ITEMMENU_ToggleRegisteredItem(Obj *o, int k)
         if (ITEMMENU_GetItemCount((u8 *)o) <= k)
             return 0;
         p = ITEMMENU_GetSlot((u8 *)o, k);
-        v = func_0202E448(*p);
+        v = BAG_PARAM_GetItemValue(*p);
         if (v == 0x19)
             return 0;
         if (ITEMMENU_IsItemRegistered((char *)o, *p) == 1)

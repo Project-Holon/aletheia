@@ -1,5 +1,5 @@
 /*
- * function: func_02184D70
+ * function: BEACON_DETAIL_PrintMessage
  * address: 0x02184D70
  * packet: pkt_ov219_02184D70
  * region: ov219
@@ -108,7 +108,7 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void STRBUF_Delete(struct U16Vec *);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
-int func_02184D70(char *p,u32 message,int force)
+int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
 {
     int result;
     u32 mode;

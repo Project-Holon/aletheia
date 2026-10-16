@@ -23,6 +23,7 @@
  *   MIi_CpuCopyFast  0x02082B0C  arm  arm9
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  *   WORDSET_CopyString  0x0201F41C  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 
 typedef signed char s8;
@@ -48,7 +49,7 @@ typedef struct {
 } Work;
 
 extern int WORLDTRADE_BOX_ClampSlot(int v);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
@@ -72,13 +73,13 @@ void WORLDTRADE_DEPOSIT_BuildOffer(u8 *dst, Work *p)
     u32 species;
 
     if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
-        species = func_02017E88(p->mon, 5, 0);
+        species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeForm(p->mon, 0);
         }
         MIi_CpuCopyFast(p->mon, dst, POKE_TOOL_GetPartyParamSize());
     } else {
-        species = func_02017E88(p->mon, 5, 0);
+        species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeBoxForm((int)p->mon, 0);
         }

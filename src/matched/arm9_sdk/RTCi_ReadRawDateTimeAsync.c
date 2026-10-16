@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02088F2C 0x02088F2C arm
+ *   RtcSendPxiCommand 0x02088F2C arm
  */
 
 typedef unsigned int   u32;
-extern int func_02088F2C(u32 command);
+extern int RtcSendPxiCommand(u32 command);
 asm void RTCi_ReadRawDateTimeAsync(void)
 {
-    ldr ip, =func_02088F2C
+    ldr ip, =RtcSendPxiCommand
     mov r0, #0x10
     bx ip
 }

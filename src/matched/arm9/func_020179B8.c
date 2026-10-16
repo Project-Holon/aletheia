@@ -16,7 +16,7 @@
  * clearing write passes r4 and not a literal 0) and the new value is written
  * with selector 0x6f before the two geometry calls run with it.
  *
- * The `cmp` operand order is the tell: `(u16)func_02017E88(...)` only reaches
+ * The `cmp` operand order is the tell: `(u16)POKE_TOOL_GetBoxValue(...)` only reaches
  * cmp's left slot because it was first bound to a named local (`t`), see
  * docs/idioms/cmp-operand-order-names-the-temporary.md.  Comparing the call
  * result directly emits `cmp a1, r0` and differs by one byte.
@@ -34,12 +34,13 @@
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned int   u32;
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_UpdateAbilityForSpecies(int a0, int a1, int a2);
 extern void POKE_TOOL_UpdateGenderForSpecies(void *a0, void *a1, void *a2);
@@ -49,11 +50,11 @@ int POKE_TOOL_ChangeBoxForm(int a0, int a1)
 {
     int r4 = 0;
     int r7 = (unsigned char)POKE_TOOL_DecodeBoxParam((struct Sav *)a0);
-    int t = (unsigned short)func_02017E88((void *)a0, 0x6f, 0);
+    int t = (unsigned short)POKE_TOOL_GetBoxValue((void *)a0, 0x6f, 0);
 
     if (t != a1) {
-        func_02017E88((void *)a0, 0x6f, r4);
-        r4 = (unsigned short)func_02017E88((void *)a0, 5, r4);
+        POKE_TOOL_GetBoxValue((void *)a0, 0x6f, r4);
+        r4 = (unsigned short)POKE_TOOL_GetBoxValue((void *)a0, 5, r4);
         POKE_TOOL_SetBoxValue((void *)a0, 0x6f, a1);
         POKE_TOOL_UpdateAbilityForSpecies(a0, r4, r4);
         POKE_TOOL_UpdateGenderForSpecies((void *)a0, (void *)r4, (void *)r4);

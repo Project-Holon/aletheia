@@ -12,7 +12,7 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   BATTLE_COMPETITION_GetFromSave  0x0200B358  thumb
  *   REGULATION_GetParty  0x0200B204  thumb
@@ -78,7 +78,7 @@ struct Rec1E;
 struct RecBig;
 struct Reg2;
 struct Sub0200852CObj;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BATTLE_COMPETITION_GetFromSave(void *sys);
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
@@ -102,7 +102,7 @@ void WIFIBATTLEMATCH_NET_SetupCompRecord(struct Obj *obj)
 
     if (obj->f1c == 0) {
         data = obj->f108;
-        sys = (u32)func_02012944((void *)(*obj->f104->f08));
+        sys = (u32)GAME_DATA_GetMyStatus((void *)(*obj->f104->f08));
         id = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)obj->f00);
         kind = (u32)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
         MI_CpuFill8(&prof, 0, sizeof(prof));

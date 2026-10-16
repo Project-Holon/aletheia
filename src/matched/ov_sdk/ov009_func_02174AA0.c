@@ -15,7 +15,7 @@
  *   DWCi_NodeInfoList_GetCount  0x0217603C arm   ov009
  *   func_0219B628  0x0219B628 arm   ov009
  *   func_02175F3C  0x02175F3C arm   ov009
- *   func_02175FB8  0x02175FB8 arm   ov009
+ *   DWCi_GetHostStatus  0x02175FB8 arm   ov009
  *   func_0219B660  0x0219B660 arm   ov009
  *   g_021AAA40     0x021AAA40 data
  *   g_021AAA41     0x021AAA41 data
@@ -46,7 +46,7 @@ struct gamekey_s {
 extern int DWCi_NodeInfoList_GetCount(void);
 extern int func_0219B628(void *outbuf, int value);
 extern int func_02175F3C(void);
-extern unsigned char func_02175FB8(void);
+extern unsigned char DWCi_GetHostStatus(void);
 extern int func_0219B660(void *outbuf, char *value);
 extern struct gamekey_s g_021AAA40[154];
 
@@ -79,7 +79,7 @@ void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf)
         func_0219B628(outbuf, 1);
         return;
     case 54:
-        if (func_02175FB8() == 2)
+        if (DWCi_GetHostStatus() == 2)
             suspendMatch = ((struct DWCstMatchControl *)func_02175F3C())->f790;
         else
             suspendMatch = 0;

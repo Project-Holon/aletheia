@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0AC
+ * function: ZUKAN_INFO_GetTypeArchiveId
  * address: 0x021BC0AC
  * packet: pkt_ov206_021BC0AC
  * region: ov206
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef unsigned int u32;
-u32 func_021BC0AC(void)
+u32 ZUKAN_INFO_GetTypeArchiveId(void)
 {
     return 0xa7;
 }

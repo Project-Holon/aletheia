@@ -1,5 +1,5 @@
 /*
- * function: func_021B9814
+ * function: PMS_INPUT_DATA_CollectRangeWords
  * address: 0x021B9814
  * packet: pkt_ov110_021B9814
  * region: ov110
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021B9814(u8 *p, u16 *src, u32 n, u16 *out)
+u32 PMS_INPUT_DATA_CollectRangeWords(u8 *p, u16 *src, u32 n, u16 *out)
 {
     u32 i;
     for (i = 0; i < n; i++) {

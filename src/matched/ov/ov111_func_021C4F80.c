@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FX_Inv  0x0207C778  arm
- *   func_0207D59C  0x0207D59C  arm
+ *   G2x_SetBGyAffine_  0x0207D59C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -43,7 +43,7 @@ typedef struct {
 } Work;
 
 extern fx32 FX_Inv(fx32 v);
-extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
+extern void G2x_SetBGyAffine_(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
 void VIEWER_MAIN_InitBrightness(Work *p)
 {
@@ -53,7 +53,7 @@ void VIEWER_MAIN_InitBrightness(Work *p)
     m._01 = 0;
     m._10 = 0;
     m._11 = FX_Inv(p->scaleY);
-    func_0207D59C((void *)0x04001020, &m, p->cx, p->cy, p->x, p->y);
-    func_0207D59C((void *)0x04001030, &m, p->cx, p->cy, p->x, p->y);
+    G2x_SetBGyAffine_((void *)0x04001020, &m, p->cx, p->cy, p->x, p->y);
+    G2x_SetBGyAffine_((void *)0x04001030, &m, p->cx, p->cy, p->x, p->y);
     p->dirty = 0;
 }

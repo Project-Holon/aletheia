@@ -22,7 +22,7 @@
  * 0x021A1A64).
  *
  * symbols:
- *   func_0217EB9C 0x0217EB9C  arm
+ *   shutdown 0x0217EB9C  arm
  *   closesocket 0x0217EB2C  arm
  *   ClosePendingCallbacks 0x02194614  arm
  *   gsifree 0x0217EAE0  arm
@@ -30,7 +30,7 @@
  *   gGstatsConn   0x021ADFE0  data
  *   PersistCanReceiveOnSocket  0x02193fe8  arm   ov009
  *   gsirealloc  0x0217eac8  arm   ov009
- *   func_0217EC4C  0x0217ec4c  arm   ov009
+ *   recv  0x0217ec4c  arm   ov009
  *   ProcessInBuffer  0x02194494  arm   ov009
  *   memmove  0x02092364  arm
  *   strcat 0x020948B0  arm
@@ -111,11 +111,11 @@ typedef struct {
     void *callback;
 } serverreq_t;
 
-extern int func_0217EB9C(int sock, int how);
+extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern void gsifree(void *ptr);
 extern void *gsirealloc(void *ptr, unsigned long size);
-extern int func_0217EC4C(int sock, char *buf, int len, int flags);
+extern int recv(int sock, char *buf, int len, int flags);
 extern int func_0217EF50(int sock);
 extern void *memmove(void *dest, const void *src, unsigned int n);
 extern u8 *strcat(u8 *dest, const u8 *src);
@@ -628,7 +628,7 @@ int PersistThink(void)
             if (gGstatsConn.inBuff == 0)
                 return 0;
         }
-        len = func_0217EC4C(gGstatsSocket.sock, gGstatsConn.inBuff + gGstatsConn.inLen,
+        len = recv(gGstatsSocket.sock, gGstatsConn.inBuff + gGstatsConn.inLen,
                             gGstatsConn.inSize - gGstatsConn.inLen, 0);
         if (len <= 0) {
             CloseStatsConnection();
@@ -663,7 +663,7 @@ int IsStatsConnected(void)
 void CloseStatsConnection(void)
 {
     if (gGstatsSocket.sock != -1) {
-        func_0217EB9C(gGstatsSocket.sock, 2);
+        shutdown(gGstatsSocket.sock, 2);
         closesocket(gGstatsSocket.sock);
     }
     gGstatsSocket.sock = -1;

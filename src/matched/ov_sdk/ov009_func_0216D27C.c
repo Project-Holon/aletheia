@@ -23,7 +23,7 @@
  *   ServerBrowserNewA  0x0219EC74  arm  ov009
  *   DWCi_HandleSBError  0x02173D9C  arm  ov009
  *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
- *   func_02173D28  0x02173D28  arm  ov009
+ *   DWCi_HandleGPError  0x02173D28  arm  ov009
  *   DWCi_QR2Startup  0x0216CD8C  arm  ov009
  *   func_0219B490  0x0219B490  arm  ov009
  *   func_0216F770  0x0216F770  arm  ov009
@@ -65,7 +65,7 @@ extern void DWCi_SetMatchStatus(int a0);
 extern int ServerBrowserNewA(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 extern int DWCi_HandleSBError(int a0);
 extern int DWCi_GPSetServerStatus(int status);
-extern int func_02173D28(void);
+extern int DWCi_HandleGPError(void);
 extern int DWCi_QR2Startup(int a0);
 extern void func_0219B490(int a0);
 extern int func_0216F770(int a0);
@@ -120,7 +120,7 @@ void DWCi_ConnectToGameServerAsync(int topology, int serverPid, void *matchedCal
             return;
     }
     DWCi_GPSetServerStatus(5);
-    if (func_02173D28() != 0)
+    if (DWCi_HandleGPError() != 0)
         return;
     if (*(int *)(func_02175F3C() + 0x10) == 0) {
         if (DWCi_QR2Startup(*(int *)(func_02175F3C() + 0x678)) != 0)

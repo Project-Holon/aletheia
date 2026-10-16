@@ -11,7 +11,7 @@
  *
  * sdk:      SBQueryEngineSetPublicIP (libdwcgsserverbrowsing.TWL.HYB.a(sb_queryengine.o))
  *
- * The witness func_0219E9F4 (ListCallback) was parked on: it reaches
+ * The witness ListCallback (ListCallback) was parked on: it reaches
  * SBQueryEngineSetPublicIP, whose address had no manifest entry, so the call
  * site could not resolve and stayed wildcarded.  Filed here so the `matched`
  * class finds an entry at the target address itself.

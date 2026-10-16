@@ -69,14 +69,14 @@
  *   OS_SPrintf  0x02084F40  arm
  *   inet_addr  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
- *   func_0217EB18  0x0217EB18  arm  ov009
+ *   socket  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   gSBMasterHostFormat     0x021A8234  data
  *   func_02092344  0x02092344  arm
  *   unit_02092344  0x02092344  arm
  *   rand  0x02094694  arm  ov009
- *   func_0217EC90  0x0217EC90  arm  ov009
+ *   send  0x0217EC90  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
@@ -97,7 +97,7 @@
  *   memmove  0x02092364  arm
  *   memmove        0x02092364  arm
  *   func_0217EF50  0x0217EF50  arm  ov009
- *   func_0217EC4C  0x0217EC4C  arm  ov009
+ *   recv  0x0217EC4C  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  */
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -212,13 +212,13 @@ extern int func_0219FB64(char *s, int numbuckets);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern u32 inet_addr(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int closesocket(int sock);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void *unit_02092344(void *dst, const void *src, unsigned long n);
 extern int func_02094694(void);
-extern int func_0217EC90(int sock, char *buf, int len, int flags);
+extern int send(int sock, char *buf, int len, int flags);
 extern void *gsimalloc(unsigned long size);
 extern void func_021841B0(void *a);
 extern void gsifree(void *p);
@@ -235,7 +235,7 @@ extern SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short
 extern int SBIsNullServer(int v);
 extern void GOADecrypt(void *state, unsigned char *bp, int len);
 extern int func_0217EF50(int sock);
-extern int func_0217EC4C(int sock, char *buf, int len, int flags);
+extern int recv(int sock, char *buf, int len, int flags);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 int prevKeyCompare(SBServer *server1, SBServer *server2);
 int IntKeyCompare(void *entry1, void *entry2);
@@ -847,7 +847,7 @@ int ServerListConnect(SBServerList *slist)
         memcpy(&saddr.addr, hent->addrList[0], 4);
     }
     if (slist->slsocket == -1) {
-        slist->slsocket = func_0217EB18(2, 1, 0);
+        slist->slsocket = socket(2, 1, 0);
         if (slist->slsocket == -1)
             return 1;
     }
@@ -989,7 +989,7 @@ int SendWithRetry(SBServerList *slist, char *data, int len)
 	retryCount = 1;
 	do {
 		retryCount--;
-		ret = func_0217EC90(slist->slsocket, data, len, 0);
+		ret = send(slist->slsocket, data, len, 0);
 		if (ret > 0 || retryCount < 0 || slist->inbufferlen > 0)
 			break;
 		SBServerListDisconnect(slist);
@@ -1054,7 +1054,7 @@ SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *
         BufferAddIntLE(&requestBuf, maxServers, &requestLen);
     netLen = SWAP16((unsigned short)requestLen);
     memcpy(outgoingRequest, &netLen, 2);
-    ret = func_0217EC90(slist->slsocket, outgoingRequest, requestLen, 0);
+    ret = send(slist->slsocket, outgoingRequest, requestLen, 0);
     if (ret <= 0) {
         SBServerListDisconnect(slist);
         return sbe_connecterror;
@@ -1825,7 +1825,7 @@ int ProcessAdHocData(SBServerList *slist)
             ret = ProcessPushServer((SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 3:
-            if (func_0217EC90(slist->slsocket, (char *)slist->inbuffer, msglen, 0) <= 0)
+            if (send(slist->slsocket, (char *)slist->inbuffer, msglen, 0) <= 0)
                 return 3;
             break;
         case 4:
@@ -1866,7 +1866,7 @@ int ProcessIncomingData(SBServerList *slist)
 		return 0;
 	oldlen = slist->inbufferlen;
 	err = 0;
-	len = func_0217EC4C(slist->slsocket, (char *)(slist->inbuffer + oldlen), 0x1000 - oldlen, 0);
+	len = recv(slist->slsocket, (char *)(slist->inbuffer + oldlen), 0x1000 - oldlen, 0);
 	if (len == -1 || len == 0) {
 		ErrorDisconnect(slist);
 		return 3;
@@ -1912,7 +1912,7 @@ int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short p
     if (i != 0)
         return i;
     ret = 0;
-    i = func_0217EC90(slist->slsocket, data, len, 0);
+    i = send(slist->slsocket, data, len, 0);
     if (i < 0)
         ret = 3;
     return ret;

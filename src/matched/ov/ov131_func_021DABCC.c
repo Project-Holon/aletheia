@@ -33,7 +33,7 @@
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -61,7 +61,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern int TOUCHPANEL_HitCont(const void *p);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
@@ -96,7 +96,7 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
     if (TOUCHPANEL_GetTrg()==1) {
         index=TOUCHPANEL_HitTrg(touch[0]);
         if (index==-1) goto out;
-        if (func_02017E88(P_STATUS_GetPokePara(a),index+54,0)==0) goto out;
+        if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),index+54,0)==0) goto out;
         if (((struct Obj00132 *)a)->f44==1) P_STATUS_SetInputEnable((char *)a,0);
         if ((*(u8 **)(a+8))[13]!=6) {
             ((struct Obj00026 *)b)->f1C=1;
@@ -141,7 +141,7 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
         }
         if (((struct Obj00026 *)b)->f14==1) {
             if (index!=-1) {
-                if (func_02017E88(P_STATUS_GetPokePara(a),index+54,0)==0) goto out;
+                if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),index+54,0)==0) goto out;
                 P_STA_SKILL_SetCursor(a,b,index,0);
                 return;
             }

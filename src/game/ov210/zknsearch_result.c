@@ -34,7 +34,7 @@
  */
 #include "zknsearch_types.h"
 
-struct S;
+struct FrameList;
 struct Tmpl;
 struct U16Vec;
 
@@ -43,12 +43,12 @@ typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; u
 
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
+extern struct FrameList *FRAME_LIST_Create(struct Tmpl *tmpl, unsigned int heap);
 extern void FRAME_LIST_CopyMapToBuffer(unsigned char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
-extern void FRAME_LIST_Delete(struct S *s);
+extern void FRAME_LIST_Delete(struct FrameList *s);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void ZKNSEARCH_MAIN_PrintListRow(int p, int *a, u32 b);
 extern void ZKNSEARCH_MAIN_PlaceColumnActor(char *p, int idx, int y, int flag);
@@ -113,7 +113,7 @@ void ZKNSEARCH_RESULT_DeleteFrameList(int p)
 {
     unsigned i;
 
-    FRAME_LIST_Delete((struct S *)(((ZknSearchWork *)p)->frameList));
+    FRAME_LIST_Delete((struct FrameList *)(((ZknSearchWork *)p)->frameList));
     ((ZknSearchWork *)p)->frameList = 0;
     for (i = 0; i < 0x32; i++) {
         int *q = (int *)(p + i * 4);

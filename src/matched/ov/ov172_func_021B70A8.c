@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   FX_Inv 0x0207C778 arm
- *   func_0207D59C 0x0207D59C arm
+ *   G2x_SetBGyAffine_ 0x0207D59C arm
  *   func_020307B0 0x020307B0 arm
  *   COMM_TVT_SYS_IsNetIdle 0x021BE100 thumb ov172
  *   CTVT_CAMERA_Delete 0x021B63B8 thumb ov172
@@ -17,7 +17,7 @@
  */
 #include "../include/Obj04550.h"
 extern int FX_Inv(int);
-extern void func_0207D59C(void *, int *, int, int, int, int);
+extern void G2x_SetBGyAffine_(void *, int *, int, int, int, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern int COMM_TVT_SYS_IsNetIdle(void);
@@ -30,7 +30,7 @@ void CTVT_CAMVIEW_Delete(int unused, char *q)
     matrix[3] = FX_Inv(4096);
     matrix[1] = 0;
     matrix[2] = 0;
-    func_0207D59C((void *)0x04000030, matrix, 0, 0, 0, 0);
+    G2x_SetBGyAffine_((void *)0x04000030, matrix, 0, 0, 0, 0);
     func_020307B0(((struct Obj04550 *)q)->f4);
     func_020307B0(((struct Obj04550 *)q)->fC);
     func_020307B0(((struct Obj04550 *)q)->f8);

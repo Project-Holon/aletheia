@@ -39,12 +39,12 @@
  *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
  *   APP_ICON_GetTypeAnimFileId 0x02027600 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   func_020185F0 0x020185F0 thumb
- *   func_02017DBC 0x02017DBC thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
- *   func_02017DE4 0x02017DE4 thumb
+ *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   func_020307B0 0x020307B0 arm
@@ -85,7 +85,7 @@
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   POKE_SUMMARY_MAIN_StartTextStream  0x021B7460  thumb  ov173
  *   POKE_SUMMARY_MAIN_CountFreeMoves 0x021B7568 thumb ov173
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  */
 
 #include "poke_summary_types.h"
@@ -136,12 +136,12 @@ extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern u32 APP_ICON_GetTypePaletteFileId(u32);
 extern u32 APP_ICON_GetTypeAnimFileId(u32);
 extern int POKEGRA_OpenHandle(int);
-extern void *func_020185F0(void *);
-extern u32 func_02017DBC(struct Sav *p);
+extern void *POKE_TOOL_Dummy(void *);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
 extern u32 func_020307B0(void *p);
@@ -178,7 +178,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 v);
 extern u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p);
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *a1);
 void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p);
 void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other);
@@ -257,12 +257,12 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other)
     ((struct PokeSummaryWork *)p)->reg.named.cellAnimHandles[4]=CLACT_RegisterCellAnim(other,27,28,79);
     ARC_TOOL_DeleteHandle(bank);
     second=POKEGRA_OpenHandle(79);
-    mon=func_020185F0(((struct PokeSummaryWork *)p)->mon->party);
-    save=func_02017DBC(mon);
+    mon=POKE_TOOL_Dummy(((struct PokeSummaryWork *)p)->mon->party);
+    save=POKE_TOOL_DecodeBoxParam(mon);
     ((struct PokeSummaryWork *)p)->reg.named.cgrHandle=POKEGRA_RegisterCgrPP(second,mon,0,0,79);
     ((struct PokeSummaryWork *)p)->reg.named.paletteHandles[4]=POKEGRA_RegisterPalettePP(second,mon,0,0,128,79);
     ((struct PokeSummaryWork *)p)->reg.named.cellAnimHandle2=POKEGRA_RegisterCellAnimPP((u32)mon,0,1,0,79);
-    func_02017DE4(mon,save);
+    POKE_TOOL_EncodeBoxParam(mon,save);
     ARC_TOOL_DeleteHandle((void *)second);
 }
 
@@ -720,7 +720,7 @@ void POKE_SUMMARY_ACTOR_SetSubBrightness(int a)
     volatile unsigned short *p = (volatile unsigned short *)0x04001050;
 
     if (a == 1) {
-        func_0207D658((u32)p, 0x1e, -8);
+        G2x_SetBlendBrightness_((u32)p, 0x1e, -8);
     } else {
         *p = 0;
     }

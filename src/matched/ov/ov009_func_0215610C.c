@@ -13,7 +13,7 @@
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   DWC_GetMyAID  0x0216B838  arm  ov009
  *   DWC_IsValidAID  0x0216B94C  arm  ov009
- *   func_02176DEC  0x02176DEC  arm  ov009
+ *   DWC_IsSendableReliable  0x02176DEC  arm  ov009
  */
 
 typedef unsigned char  u8;
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern char *g_021A8264;
 extern unsigned char DWC_GetMyAID(void);
 extern int DWC_IsValidAID(u8);
-extern int func_02176DEC(int a);
+extern int DWC_IsSendableReliable(int a);
 
 int DWC_RAP_CanSendToAllPeers(void)
 {
@@ -31,7 +31,7 @@ int DWC_RAP_CanSendToAllPeers(void)
     for (i = 0; i < *(int *)(g_021A8264 + 0x764); i++) {
         if (i != DWC_GetMyAID() && DWC_IsValidAID(i)) {
             found = 1;
-            if (func_02176DEC((u8)i) == 0) {
+            if (DWC_IsSendableReliable((u8)i) == 0) {
                 return 0;
             }
         }

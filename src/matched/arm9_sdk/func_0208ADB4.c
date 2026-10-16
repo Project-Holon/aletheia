@@ -1,5 +1,5 @@
 /*
- * function: func_0208ADB4
+ * function: TP_GetLatestRawPointInAuto
  * address:  0x0208ADB4
  * packet:   pkt_0208ADB4
  * region:   arm9
@@ -69,7 +69,7 @@ typedef struct TpBss {
 extern TpBss g_02152FA4;
 #define tpState g_02152FA4
 
-void func_0208ADB4(TPData *result)
+void TP_GetLatestRawPointInAuto(TPData *result)
 {
     long i;
     long curr_index;

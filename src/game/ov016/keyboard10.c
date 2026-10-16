@@ -85,7 +85,7 @@ typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 
-typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
+#include "gx_oam_types.h"
 
 typedef struct tagMEMKB10 {
     void          *canv[4];           /* 0x00 */
@@ -137,7 +137,7 @@ typedef unsigned short u16;
 
 typedef signed char s8;
 
-struct G {
+struct Keyboard10Work {
     u8  pad00[0x58];
     int f58;
     u8  pad5c[7];
@@ -200,7 +200,7 @@ extern const unsigned short KEY_CHR[13];
 extern const COORD C_KEY[10];
 extern const COORD C_SKEY[2];
 extern const COORD C_BTN[2];
-extern struct G *gKeyboard10Work;
+extern struct Keyboard10Work *gKeyboard10Work;
 extern u16   sKeyboard10CellPosX[][2];
 extern u16   sKeyboard10CellPosY[][2];
 extern KEYBOARD10_BSS keyboard10_bss;
@@ -701,7 +701,7 @@ static void changeColor(int idx, bool push)
 
 static void dispFocus(void)
 {
-    struct G *g;
+    struct Keyboard10Work *g;
     int sel = 0x44;
     int v;
 

@@ -1,7 +1,7 @@
 /*
  * file:     btl_event.c
  * unit:     yes
- * function: BTL_EVENT_InitFactorList, BTL_EVENT_ClearSuspendedFlags, BTL_EVENT_DebugPrintFactorList, BTL_EVENT_AddFactor, BTL_EVENT_RemoveDeadFactors, BTL_EVENT_RemoveFactor, BTL_EVENT_MarkFactorDead, BTL_EVENT_IsFactorDead, BTL_EVENT_GetFactorKey, BTL_EVENT_GetFactorPokeId, BTL_EVENT_GetFactorWork, BTL_EVENT_EnableFactorSpecialEvent, BTL_EVENT_KeepFactorRunning, BTL_EVENT_SetFactorWork, func_021D70E4, func_021D70F0, BTL_EVENT_DispatchEventToType, BTL_EVENT_DispatchEventNested, BTL_EVENT_DispatchToFactors, BTL_EVENT_IsEventBlocked, BTL_EVENT_SetFactorSkipCheck, BTL_EVENT_ClearFactorSkipCheck, BTL_EVENT_FindFactor, BTL_EVENT_FindNextFactor, BTL_EVENT_SuspendPokeFactors, BTL_EVENT_ResumePokeFactors, BTL_EVENT_DisablePokeFactors, BTL_EVENT_EnablePokeFactors, BTL_EVENT_AllocFactor, BTL_EVENT_FreeFactor, BTL_EVENT_ClearFactor, BTL_EVENT_ResetVarStack, BTL_EVENT_ResetVarStackIfUsed, BTL_EVENT_PushVarFrame, BTL_EVENT_PopVarFrame, BTL_EVENT_SetVar, BTL_EVENT_SetVarReadOnly, BTL_EVENT_SetVarOnce, BTL_EVENT_SetVarRanged, BTL_EVENT_OverwriteVar, BTL_EVENT_MultiplyVar, BTL_EVENT_GetVar, BTL_EVENT_TryGetVar, BTL_EVENT_FindVarSlot, BTL_EVENT_FindVar, BTL_EVENT_ClampVar
+ * function: BTL_EVENT_InitFactorList, BTL_EVENT_ClearSuspendedFlags, BTL_EVENT_DebugPrintFactorList, BTL_EVENT_AddFactor, BTL_EVENT_RemoveDeadFactors, BTL_EVENT_RemoveFactor, BTL_EVENT_MarkFactorDead, BTL_EVENT_IsFactorDead, BTL_EVENT_GetFactorKey, BTL_EVENT_GetFactorPokeId, BTL_EVENT_GetFactorWork, BTL_EVENT_EnableFactorSpecialEvent, BTL_EVENT_KeepFactorRunning, BTL_EVENT_SetFactorWork, BTL_EVENT_DispatchEvent, BTL_EVENT_DispatchEventChecked, BTL_EVENT_DispatchEventToType, BTL_EVENT_DispatchEventNested, BTL_EVENT_DispatchToFactors, BTL_EVENT_IsEventBlocked, BTL_EVENT_SetFactorSkipCheck, BTL_EVENT_ClearFactorSkipCheck, BTL_EVENT_FindFactor, BTL_EVENT_FindNextFactor, BTL_EVENT_SuspendPokeFactors, BTL_EVENT_ResumePokeFactors, BTL_EVENT_DisablePokeFactors, BTL_EVENT_EnablePokeFactors, BTL_EVENT_AllocFactor, BTL_EVENT_FreeFactor, BTL_EVENT_ClearFactor, BTL_EVENT_ResetVarStack, BTL_EVENT_ResetVarStackIfUsed, BTL_EVENT_PushVarFrame, BTL_EVENT_PopVarFrame, BTL_EVENT_SetVar, BTL_EVENT_SetVarReadOnly, BTL_EVENT_SetVarOnce, BTL_EVENT_SetVarRanged, BTL_EVENT_OverwriteVar, BTL_EVENT_MultiplyVar, BTL_EVENT_GetVar, BTL_EVENT_TryGetVar, BTL_EVENT_FindVarSlot, BTL_EVENT_FindVar, BTL_EVENT_ClampVar
  * address:  0x021D6EAC
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -52,8 +52,8 @@ u32 BTL_EVENT_GetFactorWork(struct BtlEventFactor *factor, int index);
 void BTL_EVENT_EnableFactorSpecialEvent(struct BtlEventFactor *factor);
 void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor);
 void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
-void func_021D70E4(void *context, int eventId);
-void func_021D70F0(void *context, int eventId);
+void BTL_EVENT_DispatchEvent(void *context, int eventId);
+void BTL_EVENT_DispatchEventChecked(void *context, int eventId);
 void BTL_EVENT_DispatchEventToType(int context, int eventId, int factorType);
 void BTL_EVENT_DispatchEventNested(void *context, int eventId, int factorType, int checkSkip);
 void BTL_EVENT_DispatchToFactors(void *context, int eventId, int factorType, int checkSkip);
@@ -246,13 +246,13 @@ void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor)
 void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value) { factor->work[index] = value; }
 
 
-void func_021D70E4(void *context, int eventId)
+void BTL_EVENT_DispatchEvent(void *context, int eventId)
 {
     BTL_EVENT_DispatchEventNested(context, eventId, BTL_EVENT_TYPE_ANY, 0);
 }
 
 
-void func_021D70F0(void *context, int eventId)
+void BTL_EVENT_DispatchEventChecked(void *context, int eventId)
 {
     BTL_EVENT_DispatchEventNested(context, eventId, BTL_EVENT_TYPE_ANY, 1);
 }

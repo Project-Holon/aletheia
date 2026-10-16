@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060C94
+ * function: NNSi_FndDestroyExpHeap
  * address:  0x02060C94
  * packet:   pkt_02060B6C
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 
 extern void func_0206074C(void *heap);
-void func_02060C94(void *heap){ func_0206074C(heap); }
+void NNSi_FndDestroyExpHeap(void *heap){ func_0206074C(heap); }

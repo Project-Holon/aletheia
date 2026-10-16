@@ -16,7 +16,7 @@
  *   func_0209C95C  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  */
 #include "../include/Obj01651.h"
 
@@ -28,7 +28,7 @@ u32 func_0209C77C(u32 a, u32 b);
 u32 func_0209C95C(u32 a, u32 b);
 u32 func_0209CB8C(u32 a, u32 b);
 u32 func_0209C494(u32 x);
-void func_0207D658(u32 addr, int plane, int brightness);
+void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 void EL_SCOREBOARD_UpdateFadeStandalone(char *o, int st)
 {
@@ -40,13 +40,13 @@ void EL_SCOREBOARD_UpdateFadeStandalone(char *o, int st)
         b = func_0209CE10(a, b);
         b = func_0209C77C(0x41800000, b);
         b = func_0209C95C(0xC1800000, b);
-        func_0207D658(0x04000050, 8, func_0209C494(b));
+        G2x_SetBlendBrightness_(0x04000050, 8, func_0209C494(b));
     } else if (st == 4) {
         a = func_0209BE04(((struct Obj01651 *)o)->f18);
         b = func_0209BE04(((struct Obj01651 *)o)->f1C);
         b = func_0209CE10(a, b);
         b = func_0209C77C(0x41800000, b);
         b = func_0209CB8C(0, b);
-        func_0207D658(0x04000050, 8, func_0209C494(b));
+        G2x_SetBlendBrightness_(0x04000050, 8, func_0209C494(b));
     }
 }

@@ -62,7 +62,7 @@
  *   BATTLE_REC_GetModeLayout  0x0200B784  thumb
  *   BATTLE_REC_GetBody  0x0200B91C  thumb
  *   BATTLE_REC_SetBodyCrc  0x0200BA44  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   gSpeciesNameBank  0x020A7370  data
  *   GDS_SOCKET_GetError 0x021D85DC arm ov125
@@ -137,7 +137,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u32 func_0200853C(const struct MyStatus *status);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
@@ -436,7 +436,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
             video = GDS_RAP_GetVideoWork();
             if (work->session != 0)
                 func_02034714(sGdsEmptyString, ret, sGdsEmptyString);
-            work->session = NHTTP_RAP_Create((u16)work->heapId, func_0200853C(func_02012944(work->gameData)), work->profileSource);
+            work->session = NHTTP_RAP_Create((u16)work->heapId, func_0200853C(GAME_DATA_GetMyStatus(work->gameData)), work->profileSource);
             NHTTP_RAP_AllocPostData(work->session, (u16)work->heapId, 0x540, 3);
             BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
             work->memberCount = 0;

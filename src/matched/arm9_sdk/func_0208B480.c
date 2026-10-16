@@ -1,5 +1,5 @@
 /*
- * function: func_0208B480
+ * function: MIC_StopAutoSampling
  * address:  0x0208B480
  * packet:   pkt_0208B480
  * region:   arm9
@@ -63,7 +63,7 @@ extern MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg);
 extern void MicWaitBusy(void);
 extern void MicGetResultCallback(MICResult result, void *arg);
 
-MICResult func_0208B480(void)
+MICResult MIC_StopAutoSampling(void)
 {
     mic_bss.micWork.result = MIC_StopAutoSamplingAsync(MicGetResultCallback, NULL);
     if (mic_bss.micWork.result == MIC_RESULT_SUCCESS)

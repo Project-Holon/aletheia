@@ -24,7 +24,7 @@
  * symbols:
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
- *   func_02017E88  0x02017E88  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_ReplaceBoxMoveSlot  0x020182A8  thumb
  *
  * "Put this move in the first empty slot": walks ids 0x36..0x39 and returns
@@ -44,7 +44,7 @@ typedef unsigned int   u32;
 struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32  func_02017E88(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_ReplaceBoxMoveSlot(void *p, u16 move, u8 slot);
 
 u32 POKE_TOOL_FindBoxMoveSlot(void *p, u16 move)
@@ -54,7 +54,7 @@ u32 POKE_TOOL_FindBoxMoveSlot(void *p, u16 move)
     int i;
 
     for (i = 0; i < 4; i++) {
-        u32 m = (u16)func_02017E88(p, 0x36 + i, 0);
+        u32 m = (u16)POKE_TOOL_GetBoxValue(p, 0x36 + i, 0);
 
         if (m == 0) {
             POKE_TOOL_ReplaceBoxMoveSlot(p, move, (u8)i);

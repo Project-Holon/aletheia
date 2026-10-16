@@ -13,6 +13,7 @@
  * symbols:
  *   WORLDTRADE_BOX_TagMatchesRequest  0x021F6C80  thumb
  *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
 
 typedef signed char s8;
@@ -28,7 +29,7 @@ typedef struct {
     u8 gender;
 } MonTag;
 
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern int WORLDTRADE_BOX_TagMatchesRequest(void *pa, void *pb);
 
@@ -36,8 +37,8 @@ int WORLDTRADE_BOX_MonMatchesRequest(void *mon, void *want)
 {
     MonTag t;
 
-    t.species = func_02017E88(mon, 5, 0);
-    t.form = func_02017E88(mon, 0x6E, 0) + 1;
+    t.species = POKE_TOOL_GetBoxValue(mon, 5, 0);
+    t.form = POKE_TOOL_GetBoxValue(mon, 0x6E, 0) + 1;
     t.gender = POKE_TOOL_CalcBoxLevel(mon);
     return WORLDTRADE_BOX_TagMatchesRequest(&t, want);
 }

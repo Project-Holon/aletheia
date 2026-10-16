@@ -20,7 +20,7 @@
  *   gpiCallErrorCallback  0x02189D78  arm   ov009
  *   func_0218158C  0x0218158C  arm   ov009
  *   gsUdpEngineAddMsgHandler  0x021815C8  arm   ov009
- *   func_0217EB18  0x0217EB18  arm   ov009
+ *   socket  0x0217EB18  arm   ov009
  *   SetSockBlocking  0x0217EE50  arm   ov009
  *   inet_addr  0x0217ED38  arm   ov009
  *   SOC_GetHostByName  0x0215F650  arm   ov009
@@ -99,7 +99,7 @@ extern void gpiSetError(int *connection, int result, int errorString);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern unsigned short func_0218158C(void);
 extern int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
-extern int func_0217EB18(int pf, int type, int protocol);
+extern int socket(int pf, int type, int protocol);
 extern int SetSockBlocking(int sock, int isblocking);
 extern int inet_addr(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
@@ -170,7 +170,7 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
     if (iconnection->firewall)
         iconnection->peerPort = 0;
 
-    iconnection->cmSocket = func_0217EB18(2, 1, 0);
+    iconnection->cmSocket = socket(2, 1, 0);
     if (iconnection->cmSocket == -1) {
         gpiSetError((int *)connection, 5, (int)g_021A4760);
         gpiCallErrorCallback((int *)connection, 3, 1);

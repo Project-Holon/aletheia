@@ -167,6 +167,7 @@
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *   GURU2_COMM_RegisterCommands 0x021DCB78 thumb ov137
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "ov137_types.h"
 #include "guru2_shared_types.h"
@@ -606,7 +607,7 @@ extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
@@ -935,7 +936,7 @@ void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
  *   while v is live) and `for (; i < 5; ...)` gives EXACT in c99 and c. v is a
  *   plain u8 (the enum local is not needed). Callees: 02008550 returns u8-range
  *   index, 0204B100 returns a pointer, others as in matched callers.
- * func_02012944 0x02012944 thumb
+ * GAME_DATA_GetMyStatus 0x02012944 thumb
  * func_02008550 0x02008550 thumb
  * func_020490F4 0x020490F4 arm
  * CLACT_InitSystem 0x0204A48C arm
@@ -957,7 +958,7 @@ void GURU2_RECEIPT_InitActors(const u8 *p)
     u32 a,b;
     const u32 *table;
     void *arc;
-    v=func_02008550((const struct Sub0200852CObj *)func_02012944(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
+    v=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
     arc=func_020490F4(31,114);
     CLACT_InitSystem(&gClActorInitParam,(u32)gGuru2LobbyVramBanks,114);
     *(void **)(p+104)=CLACT_CreateUnit(30,1,114);

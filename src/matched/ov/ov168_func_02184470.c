@@ -1,5 +1,5 @@
 /*
- * function: func_02184470
+ * function: MICTEST_ArmMic
  * address:  0x02184470
  * packet:   pkt_02184470
  * region:   ov168
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0208B500  0x0208B500  arm
+ *   MIC_StartLimitedSampling  0x0208B500  arm
  */
 #include "../include/Obj10643.h"
 
-extern void func_0208B500(int *);
+extern void MIC_StartLimitedSampling(int *);
 
-void func_02184470(int *p)
+void MICTEST_ArmMic(int *p)
 {
     if (((struct Obj10643 *)p)->f30 == 0) {
-        func_0208B500(p);
+        MIC_StartLimitedSampling(p);
         ((struct Obj10643 *)p)->f28 = 1;
     } else {
         ((struct Obj10643 *)p)->f2C = 1;

@@ -18,7 +18,7 @@
  *   d_021C8D98     0x021C8D98  data  ov208  a4
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
- *   func_0207D67C  0x0207D67C  arm
+ *   G2x_SetBlendBrightnessExt_  0x0207D67C  arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
  *   PALANM_Create 0x02021518 thumb
@@ -125,7 +125,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 
-extern void func_0207D67C(unsigned int, int, int, int, int, int);
+extern void G2x_SetBlendBrightnessExt_(unsigned int, int, int, int, int, int);
 
 extern u32 func_02030CB0(u32);
 
@@ -452,9 +452,9 @@ void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(struct Ov208Blend *p)
 void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, struct Ov208Blend *p)
 {
     if (flag == 0) {
-        func_0207D67C(0x04000050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
+        G2x_SetBlendBrightnessExt_(0x04000050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
     } else {
-        func_0207D67C(0x04001050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
+        G2x_SetBlendBrightnessExt_(0x04001050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
     }
 }
 

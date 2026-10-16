@@ -1,5 +1,5 @@
 /*
- * function: func_02184EAC
+ * function: BEACON_DETAIL_OnMessageDone
  * address:  0x02184EAC
  * packet:   pkt_02184EAC
  * region:   ov219
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_02184EAC(int a, int b, int c)
+void BEACON_DETAIL_OnMessageDone(int a, int b, int c)
 {
     if (c == 0)
         GFL_USE_PlaySeDefaultVolume(0x547);

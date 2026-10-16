@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_LIGHT_SetElemVisibleB
+ * function: STA_ACT_LIGHT_SetSlotVisible
  * address: 0x021F80D4
  * packet: pkt_ov112_021F80D4
  * region: ov112
@@ -21,7 +21,7 @@ extern void MUSICAL_MCSS_SetRenderMode(int *p, int b);
 extern void MUSICAL_MCSS_SetElemVisible(u8 *p, u8 *e, u32 value);
 extern void BILLBOARD_SetElemVisible(void *p, u32 idx, u32 *flag);
 typedef struct { int pad[33]; int a; int pad2[17]; int b; } Slot;
-void STA_ACT_LIGHT_SetElemVisibleB(char *p, char *q, int v) {
+void STA_ACT_LIGHT_SetSlotVisible(char *p, char *q, int v) {
     int i;
     int value = v;
     MUSICAL_MCSS_SetRenderMode((int *)(((struct Obj13846 *)q)->f58), value);

@@ -1,5 +1,5 @@
 /*
- * function: func_02184138
+ * function: MICTEST_DeleteUnit
  * address: 0x02184138
  * packet: pkt_ov168_02184138
  * region: ov168
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-void func_02184138(char *p) { CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj23820 *)p)->f1C); }
+void MICTEST_DeleteUnit(char *p) { CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj23820 *)p)->f1C); }

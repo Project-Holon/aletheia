@@ -19,11 +19,11 @@
  *   u32 POKE_TOOL_GetLevelMinExp(void *p) {return POKE_TOOL_GetBoxLevelMinExp(p);}
  *   symbols: POKE_TOOL_GetBoxLevelMinExp 0x0201854C thumb
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   APP_ICON_GetStatusIconAnim 0x020276C4 thumb
  *   POKE_TOOL_GetLevelMinExp 0x02018544 thumb
- *   func_02018584 0x02018584 thumb
+ *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
@@ -44,11 +44,11 @@ struct Summary {
     u32 exp,lower,upper,personality;
     struct Move moves[4];
 };
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u8 POKE_TOOL_GetGender(void *);
 extern int APP_ICON_GetStatusIconAnim(int a0);
 extern u32 POKE_TOOL_GetLevelMinExp(void *);
-extern u32 func_02018584(u16,u16,u16);
+extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
 extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
 extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16);
@@ -63,39 +63,39 @@ void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
         p->species=0;
         return;
     }
-    p->species=func_02017E1C(mon,5,0);
+    p->species=POKE_TOOL_GetPartyValue(mon,5,0);
     if(p->species==0) return;
-    p->hp=func_02017E1C(p->mon,0xa2,0);
-    p->attack=func_02017E1C(p->mon,0xa3,0);
-    p->defense=func_02017E1C(p->mon,0xa4,0);
-    p->speed=func_02017E1C(p->mon,0xa5,0);
-    p->stat6=func_02017E1C(p->mon,0xa6,0);
-    p->spatk=func_02017E1C(p->mon,0xa0,0);
-    p->spdef=func_02017E1C(p->mon,0xa1,0);
-    p->ability=func_02017E1C(p->mon,0xae,0);
-    p->form=func_02017E1C(p->mon,0xaf,0);
-    p->level=(u8)func_02017E1C(p->mon,0x9e,0);
-    if(func_02017E1C(p->mon,0xad,0)==1) p->egg=0;
+    p->hp=POKE_TOOL_GetPartyValue(p->mon,0xa2,0);
+    p->attack=POKE_TOOL_GetPartyValue(p->mon,0xa3,0);
+    p->defense=POKE_TOOL_GetPartyValue(p->mon,0xa4,0);
+    p->speed=POKE_TOOL_GetPartyValue(p->mon,0xa5,0);
+    p->stat6=POKE_TOOL_GetPartyValue(p->mon,0xa6,0);
+    p->spatk=POKE_TOOL_GetPartyValue(p->mon,0xa0,0);
+    p->spdef=POKE_TOOL_GetPartyValue(p->mon,0xa1,0);
+    p->ability=POKE_TOOL_GetPartyValue(p->mon,0xae,0);
+    p->form=POKE_TOOL_GetPartyValue(p->mon,0xaf,0);
+    p->level=(u8)POKE_TOOL_GetPartyValue(p->mon,0x9e,0);
+    if(POKE_TOOL_GetPartyValue(p->mon,0xad,0)==1) p->egg=0;
     else p->egg=1;
     p->gender=POKE_TOOL_GetGender(p->mon);
     p->nature=(u8)APP_ICON_GetStatusIconAnim((int)p->mon);
-    p->flag=(u8)func_02017E1C(p->mon,0x4c,0);
-    p->item=func_02017E1C(p->mon,10,0);
-    p->unknown=func_02017E1C(p->mon,6,0);
-    p->personality=func_02017E1C(p->mon,0x6f,0);
-    p->exp=func_02017E1C(p->mon,8,0);
+    p->flag=(u8)POKE_TOOL_GetPartyValue(p->mon,0x4c,0);
+    p->item=POKE_TOOL_GetPartyValue(p->mon,10,0);
+    p->unknown=POKE_TOOL_GetPartyValue(p->mon,6,0);
+    p->personality=POKE_TOOL_GetPartyValue(p->mon,0x6f,0);
+    p->exp=POKE_TOOL_GetPartyValue(p->mon,8,0);
     exp=POKE_TOOL_GetLevelMinExp(p->mon);
     p->lower=exp;
     if(p->level==100) p->upper=p->lower;
-    else p->upper=func_02018584(p->species,(u16)p->personality,(u16)(p->level+1));
+    else p->upper=POKE_TOOL_GetExpForLevel(p->species,(u16)p->personality,(u16)(p->level+1));
     i=0;
     moves=p->moves;
     for(;i<4;i++) {
         move=&moves[i];
-        moves[i].id=func_02017E1C(p->mon,i+0x36,0);
+        moves[i].id=POKE_TOOL_GetPartyValue(p->mon,i+0x36,0);
         if(moves[i].id==0) continue;
-        move->pp=func_02017E1C(p->mon,i+0x3a,0);
-        move->up=func_02017E1C(p->mon,i+0x3e,0);
+        move->pp=POKE_TOOL_GetPartyValue(p->mon,i+0x3a,0);
+        move->up=POKE_TOOL_GetPartyValue(p->mon,i+0x3e,0);
         move->up=WAZA_TOOL_GetMaxPP(move->id,move->up);
         move->kind=WAZA_TOOL_GetParam(move->id,0);
         move->power=WAZA_TOOL_GetParam(move->id,2);

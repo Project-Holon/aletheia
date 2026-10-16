@@ -1,5 +1,5 @@
 /*
- * function: func_021EAF18
+ * function: BTLV_SCU_InitMessage
  * address:  0x021EAF18
  * packet:   pkt_ov093_021EAF18
  * region:   ov093
@@ -19,7 +19,7 @@ struct L {
     u8 n : 4;
     u32 v[8];
 };
-void func_021EAF18(struct L *p, int kind, int id)
+void BTLV_SCU_InitMessage(struct L *p, int kind, int id)
 {
     u32 i;
     for (i = 0; i < 8; i++)

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208098C 0x0208098C arm
+ *   GX_ResetBankForClearImage 0x0208098C arm
  *   g_02150E2C 0x02150E2C data
  */
 
@@ -26,11 +26,11 @@ typedef struct {
     u32 szTexBlk1;
 } GXLoad3DState;
 #define sClrImg (*(GXLoad3DState *)0x02150E2C)
-extern int func_0208098C(void);
+extern int GX_ResetBankForClearImage(void);
 
 void GX_BeginLoadClearImage(void)
 {
-    int fmt = func_0208098C();
+    int fmt = GX_ResetBankForClearImage();
     sClrImg.clrImg = fmt;
     switch (fmt) {
     case 2:

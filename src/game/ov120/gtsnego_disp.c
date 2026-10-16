@@ -67,7 +67,7 @@
  *   DWC_GetMatchIntValue 0x0216CB30 arm ov009
  *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
  *   func_02009E74 0x02009E74 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
  *   GTSNEGO_MSG_CreateConfirmUi 0x021D8590 thumb ov120
  *   GFL_NET_SetWaitMode 0x0203D644 arm
@@ -340,7 +340,7 @@ struct Rec44;
 struct Sub24;
 struct Rec0200E6FC;
 struct Sub02009D9CObj;
-struct S;
+struct TouchBar;
 struct TaskMenu;
 struct Ctx;
 struct BigObj;
@@ -352,7 +352,7 @@ struct Bank;
 struct Cfg;
 struct Row;
 struct Node;
-struct Obj0202EA20;
+struct BlinkPalAnm;
 struct Chan02021FD8;
 struct PalAnmSlot;
 struct CodeIn;
@@ -442,7 +442,7 @@ extern void GTSNEGO_MSG_PrintDraw(struct GtsnegoMsgCtx *p, void *n);
 extern void GTSNEGO_MSG_PrintWindowB(u8 *p, int n);
 extern void GTSNEGO_MSG_PrintTooltip(char *p, u16 n);
 extern void GTSNEGO_MSG_DeleteEntryWindow(char *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void GTSNEGO_MSG_PrintSummary(char *p, void *q, u32 n);
@@ -506,7 +506,7 @@ extern u8 func_020355C4(void);
 extern int GTSNEGO_MSG_SetCursorAnimSeq(u8 *p, u32 n);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern void TOUCHBAR_Update(struct S *p);
+extern void TOUCHBAR_Update(struct TouchBar *p);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void GTSNEGO_MSG_DeleteButtonsKeep(u8 *p);
@@ -606,7 +606,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern u32 func_0202EA20(struct Obj0202EA20 *p);
+extern u32 func_0202EA20(struct BlinkPalAnm *p);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(u32,u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
@@ -916,7 +916,7 @@ void GTSNEGO_DISP_ShowTradeConfirm(struct GtsnegoDispCtx *p)
     int value;
     int mode = 2;
     if (GFL_NET_GetRunState() == 0) {
-        value = (int)func_02012944((void *)(*(int *)&((struct GtsnegoMsgCtx *)q)->f0));
+        value = (int)GAME_DATA_GetMyStatus((void *)(*(int *)&((struct GtsnegoMsgCtx *)q)->f0));
     } else {
         value = *(int *)&((struct GtsnegoMsgCtx *)q)->f18;
         mode = p->f17C;
@@ -1181,7 +1181,7 @@ int GTSNEGO_DISP_ScoreMatch(int a, u8 *p)
                 if (I(0x18) == id) score = 100;
             }
         } else {
-            if (group == func_02008530((const struct Sub0200852CObj *)func_02012944((void *)(((struct GtsnegoDispCtx2 *)q)->f0)))) {
+            if (group == func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)(((struct GtsnegoDispCtx2 *)q)->f0)))) {
                 if (I(0x148) == -1) {
                     if (func_02009E74(TRADE_HISTORY_GetFromSave(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
                         score = 100;
@@ -1343,7 +1343,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(u8 *p)
                 return;
             }
         }
-        TOUCHBAR_Update((struct S *)GTSNEGO_DISP_GetTouchbar(((struct GtsnegoDispCtx *)p)->f3C));
+        TOUCHBAR_Update((struct TouchBar *)GTSNEGO_DISP_GetTouchbar(((struct GtsnegoDispCtx *)p)->f3C));
         if (TOUCHBAR_GetPressedButtonIdIfDone((u8 *)GTSNEGO_DISP_GetTouchbar(((struct GtsnegoDispCtx *)p)->f3C)) == 1) done = 1;
         if (done) {
             int zero = 0;
@@ -1799,7 +1799,7 @@ void GTSNEGO_DISP_HandleListInput(Ctx *p)
     }
     return;
 end:
-    TOUCHBAR_Update((struct S *)GTSNEGO_DISP_GetTouchbar(p->f3C));
+    TOUCHBAR_Update((struct TouchBar *)GTSNEGO_DISP_GetTouchbar(p->f3C));
     if (TOUCHBAR_GetPressedButtonIdIfDone((u8 *)GTSNEGO_DISP_GetTouchbar(p->f3C)) == 1) {
         func_02040588(4, 0);
         func_02040588(6, 0);
@@ -2047,7 +2047,7 @@ void GTSNEGO_DISP_HandlePartyInput(u8 *p)
                 GTSNEGO_DISP_SetCursorState(((struct GtsnegoDispCtx *)p)->f3C, 0, ((struct GtsnegoDispCtx *)p)->f15C);
             GTSNEGO_MSG_UpdateButtons((char *)(*(int *)&((struct GtsnegoDispCtx *)p)->f40));
         }
-        TOUCHBAR_Update((struct S *)GTSNEGO_DISP_GetTouchbar(((struct GtsnegoDispCtx *)p)->f3C));
+        TOUCHBAR_Update((struct TouchBar *)GTSNEGO_DISP_GetTouchbar(((struct GtsnegoDispCtx *)p)->f3C));
         if (TOUCHBAR_GetPressedButtonIdIfDone((u8 *)GTSNEGO_DISP_GetTouchbar(((struct GtsnegoDispCtx *)p)->f3C)) == 1) {
             ((struct GtsnegoDispCtx *)p)->f14 = 1;
             GTSNEGO_MSG_PrintWindow(((struct GtsnegoDispCtx *)p)->f40, 0x2a);
@@ -2120,7 +2120,7 @@ int GTSNEGO_DISP_Create(void *a, int unused, u8 *q)
     ((struct GtsnegoDispCtx *)p)->f15C = zero;
     ((struct GtsnegoDispCtx *)p)->f160 = 2;
     ((struct GtsnegoDispCtx *)p)->f164 = 6;
-    ((struct GtsnegoDispCtx *)p)->f14C = func_02008530((const struct Sub0200852CObj *)func_02012944(((struct GtsnegoDispCtx *)q)->f0));
+    ((struct GtsnegoDispCtx *)p)->f14C = func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct GtsnegoDispCtx *)q)->f0));
     if (GFL_NET_GetRunState())
         GFL_NET_COMMAND_AddCommandTable(0x2200, (u32)d_021D88EC, 3, (u32)p);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct GtsnegoDispCtx *)p)->fC);

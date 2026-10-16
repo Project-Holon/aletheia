@@ -28,7 +28,7 @@
  *  GF_STANDARD_Rand 0x0203F0A8 arm
  *  _ull_mul 0x0209C054 arm
  *  BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
- *  func_021D59B4 0x021D59B4 thumb ov093
+ *  BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *  BTL_SERVER_FLOW_TryRecoverHp 0x021C334C thumb ov093
  *  BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
  *  COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
@@ -49,7 +49,7 @@ extern int BTL_POKEPARAM_IsHpFull(u8 *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern u32 GF_STANDARD_Rand(void);
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *, int);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern int BTL_SERVER_FLOW_TryRecoverHp(u8 *p, u8 *q, int a, int b);
 extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 extern void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(void *);
@@ -88,7 +88,7 @@ void BTL_SERVER_FLOW_ProcPlayerSupportHeal(u8 *p)
     if (n != 0) slot = (u32)((draw * (u32)n) >> 32);
     id = list[slot];
     m = BTL_SIDE_GetPokeByIdThunk(*(char **)(p + 8), id);
-    value = (u32)func_021D59B4(m, 14);
+    value = (u32)BTL_POKEPARAM_GetValue(m, 14);
     if (mode == 1) value >>= 1;
     if (value == 0) return;
     if (BTL_SERVER_FLOW_TryRecoverHp(p, m, (u16)value, (u32)0)) {

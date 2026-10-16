@@ -27,7 +27,7 @@
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKETRADE_2D_IsBoxIconFiltered 0x021E4A84 thumb ov119
  */
 #include "../include/Obj00001.h"
@@ -58,7 +58,7 @@ extern void MI_CpuCopy8(int src, int dst, int n);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern int POKETRADE_2D_IsBoxIconFiltered(char *p, int i);
 void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
 {
@@ -117,7 +117,7 @@ void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
             CLACT_SetActorAutoAnim(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
             CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }
-        if (func_02017E88((void *)rec, 0x4c, 0) == 0 && POKETRADE_2D_IsBoxIconFiltered(p, id)) {
+        if (POKE_TOOL_GetBoxValue((void *)rec, 0x4c, 0) == 0 && POKETRADE_2D_IsBoxIconFiltered(p, id)) {
             ((u8 *)(p + row * 5) + j)[0xebc] = 1;
         }
     }

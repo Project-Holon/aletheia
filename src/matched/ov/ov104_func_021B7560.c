@@ -33,7 +33,7 @@
  *   IRC_RHYTHM_GetPrintQueue 0x021B7DE4 thumb ov104
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
- *   func_0207D658 0x0207D658 arm
+ *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   func_020056A0 0x020056A0 thumb
  *   IRC_RHYTHM_ClearBlendTask 0x021B8F08 thumb ov104
  *   IRC_RHYTHM_SetState 0x021B817C thumb ov104
@@ -70,7 +70,7 @@ extern int IRC_RHYTHM_GetFont(void *);
 extern int IRC_RHYTHM_GetPrintQueue(void *);
 extern void *IRC_APPBAR_Create(u32,u32,u16,u16,u8,u32,u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(int *,int);
-extern void func_0207D658(u32,int,int);
+extern void G2x_SetBlendBrightness_(u32,int,int);
 extern void *func_020056A0(u32,u32,u32);
 extern void IRC_RHYTHM_ClearBlendTask(void *,u8 *);
 extern void IRC_RHYTHM_SetState(char *p, u32 v);
@@ -106,7 +106,7 @@ int IRC_RHYTHM_Init(struct Proc *obj,void *state,u8 *context) {
  font=IRC_RHYTHM_GetPrintQueue(p+0xbc);
  ((struct Obj07986 *)p)->f7AC=IRC_APPBAR_Create(2,bank,0,14,13,2,tag,font,0x38);
  COMPATIBLE_IRC_SYS_SetOwnValue(*(int **)(CTX(p)+4),1);
- func_0207D658(0x04000050,0x22,-8);
+ G2x_SetBlendBrightness_(0x04000050,0x22,-8);
  ((struct Obj07986 *)p)->f8A4=func_020056A0((u32)IRC_RHYTHM_ClearBlendTask,(u32)p,0);
  IRC_RHYTHM_SetState((char *)p,(u32)IRC_RHYTHM_StateIntro);
  return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0208B3EC
+ * function: MIC_StartAutoSampling
  * address:  0x0208B3EC
  * packet:   pkt_0208B3EC
  * region:   arm9
@@ -63,7 +63,7 @@ extern MICResult MIC_StartAutoSamplingAsync(MICAutoParam *param, MICCallback cal
 extern void MicWaitBusy(void);
 extern void MicGetResultCallback(MICResult result, void *arg);
 
-MICResult func_0208B3EC(MICAutoParam *param)
+MICResult MIC_StartAutoSampling(MICAutoParam *param)
 {
     mic_bss.micWork.result = MIC_StartAutoSamplingAsync(param, MicGetResultCallback, NULL);
     if (mic_bss.micWork.result == MIC_RESULT_SUCCESS)

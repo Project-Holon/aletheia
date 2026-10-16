@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
  */
 
@@ -27,7 +27,7 @@ struct Q1;
 struct S2;
 u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern u8 gBtlCalcDefeatMoneyScales[];
 
 u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b)
@@ -38,7 +38,7 @@ u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b)
     u32 v;
 
     for (i = 0; i < n; i++) {
-        v = func_021D59B4(BTL_SLOT_GetPokeParam(b, (u8)i), 0xf);
+        v = BTL_POKEPARAM_GetValue(BTL_SLOT_GetPokeParam(b, (u8)i), 0xf);
         if (v > m)
             m = v;
     }

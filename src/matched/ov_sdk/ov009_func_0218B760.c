@@ -15,7 +15,7 @@
  *   gpiAppendStringToBuffer  0x0218946C  arm   ov009
  *   gpiAppendIntToBuffer  0x0218949C  arm   ov009
  *   gpiSendFromBuffer  0x0218998C  arm   ov009
- *   func_0217EB9C  0x0217EB9C  arm   ov009
+ *   shutdown  0x0217EB9C  arm   ov009
  *   closesocket  0x0217EB2C  arm   ov009
  *   gsUdpEngineIsInitialized  0x02180E48  arm   ov009
  *   gsUdpEngineRemoveMsgHandler  0x02181748  arm   ov009
@@ -69,7 +69,7 @@ typedef struct GPIConnection {
 extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
 extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
-extern int func_0217EB9C(int sock, int how);
+extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern int gsUdpEngineIsInitialized(void);
 extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
@@ -104,7 +104,7 @@ void gpiDisconnect(void **connection, int tellServer)
         }
         gpiSendFromBuffer(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
         if (iconnection->cmSocket != -1) {
-            func_0217EB9C(iconnection->cmSocket, 2);
+            shutdown(iconnection->cmSocket, 2);
             closesocket(iconnection->cmSocket);
             iconnection->cmSocket = -1;
         }

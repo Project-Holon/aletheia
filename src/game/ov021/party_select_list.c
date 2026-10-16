@@ -29,10 +29,10 @@
  *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
  *   PARTY_SELECT_LIST_HideParty  0x021CD1AC  thumb  ov021
  *   func_020490F4  0x020490F4  arm
- *   func_0201BC3C  0x0201BC3C  thumb
+ *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
- *   func_0201BC40  0x0201BC40  thumb
- *   func_0201BCB4  0x0201BCB4  thumb
+ *   POKE_TOOL_GetIconCellArcId  0x0201BC40  thumb
+ *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
@@ -158,10 +158,10 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0201BC3C(void);
+extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0201BC40(void);
-extern int func_0201BCB4(void);
+extern int POKE_TOOL_GetIconCellArcId(void);
+extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 POKEPARTY_GetCount(void *p);
 extern u32 POKE_TOOL_Dummy(void *p);
@@ -365,8 +365,8 @@ void PARTY_SELECT_LIST_LoadMonIconResources(PartySelectList *list)
     int count;
 
     arc = func_020490F4(7, list->heapId);
-    list->monIconPalette = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 0x60, list->heapId);
-    list->monIconCell = CLACT_RegisterCellAnim(arc, func_0201BC40(), func_0201BCB4(), list->heapId);
+    list->monIconPalette = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 0, 0x60, list->heapId);
+    list->monIconCell = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), list->heapId);
     count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++) {
         list->monIconRes[0][i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_Dummy(POKEPARTY_GetMember(list->party[0], i))), 0, 0, list->heapId);

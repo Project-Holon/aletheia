@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207D658  0x0207D658  arm
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0207D658(u32 addr, int plane, int brightness);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0)
 {
     u32 v;
 
-    func_0207D658(0x04001050, 0x1A, -8);
+    G2x_SetBlendBrightness_(0x04001050, 0x1A, -8);
 
     v = (*(volatile u16 *)0x04001048 & ~0x3F) | 0x1F;
     *(volatile u16 *)0x04001048 = v | 0x20;

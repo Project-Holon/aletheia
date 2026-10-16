@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
@@ -42,7 +42,7 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
- *   func_020181F4 0x020181F4 thumb
+ *   POKE_TOOL_SetMoveSlot 0x020181F4 thumb
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -189,7 +189,7 @@
  *   POKEPARTY_GetCapacity 0x0201AA14 thumb
  *   func_02007F68 0x02007F68 thumb
  *   func_02007F1C 0x02007F1C thumb
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   MAIL_Create 0x02008F08 thumb
@@ -226,7 +226,7 @@ struct Ctx;
 struct Owner;
 struct PalAnmSlot;
 struct PrintSys;
-struct S;
+struct YesNoMenu;
 struct GfFont;
 struct Obj;
 struct Actor;
@@ -319,12 +319,12 @@ typedef struct {
     u32 val;
 } Param;
 
-extern void sub_0203064C(u32 src, u32 dst, u32 size);
+extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *POKEPARTY_GetMember(void *,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void FADE_Start(u32,int,int,int);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
@@ -348,7 +348,7 @@ extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void POKE_TOOL_ChangeSpecies(void *,u32);
-extern void func_020181F4(void *,u16,u32);
+extern void POKE_TOOL_SetMoveSlot(void *,u16,u32);
 extern u16 POKE_TOOL_GetLevelUpMove(void *,u32 *,u32);
 extern u32 POKEPARTY_GetCount(void *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -373,10 +373,10 @@ extern u32 KEY_GetTrg(void);
 extern int FADE_IsActive(void);
 extern void *YESNO_MENU_Create(u16,u32,u32,u32,u8,u32,u32,u32,u32);
 extern void YESNO_MENU_Delete(u8 *p);
-extern void YESNO_MENU_Start(struct S *s, u32 a1, u32 a2);
-extern void YESNO_MENU_Close(struct S *s);
-extern void YESNO_MENU_Update(struct S *p);
-extern int YESNO_MENU_GetAnswer(struct S *p);
+extern void YESNO_MENU_Start(struct YesNoMenu *s, u32 a1, u32 a2);
+extern void YESNO_MENU_Close(struct YesNoMenu *s);
+extern void YESNO_MENU_Update(struct YesNoMenu *p);
+extern int YESNO_MENU_GetAnswer(struct YesNoMenu *p);
 extern void B_PLIST_MAIN_Create(u8 *);
 extern void SHINKA_DEMO_GRAPHIC_Draw(char *a);
 extern void SHINKA_DEMO_GRAPHIC_Update(char *a);
@@ -490,7 +490,7 @@ extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern void *MAIL_Create(int a0);
@@ -565,7 +565,7 @@ extern u8 d_02208CCC[];
 int SHINKA_DEMO_Create(void *owner,int unused,u8 *app)
 {
     char *p;
-    sub_0203064C(1,0x94,0x10000);
+    GFL_HEAP_CreateChildHeap(1,0x94,0x10000);
     p=PROCSYS_AllocProcWork(owner,0x120,0x94);
     MI_CpuFill8(p,0,0x120);
     ((struct Scene *)p)->mainHeap=0x94;
@@ -574,7 +574,7 @@ int SHINKA_DEMO_Create(void *owner,int unused,u8 *app)
     ((struct Scene *)p)->bgmState=0;
     ((struct Scene *)p)->partyMon=POKEPARTY_GetMember(((struct App *)app)->party,app[0xa]);
     *(struct U16Vec * *)&((struct Scene *)p)->strbuf=STRBUF_Create(0x100,((struct Scene *)p)->mainHeap);
-    func_02017E1C(((struct Scene *)p)->partyMon,0x73,*(u32 *)&((struct Scene *)p)->strbuf);
+    POKE_TOOL_GetPartyValue(((struct Scene *)p)->partyMon,0x73,*(u32 *)&((struct Scene *)p)->strbuf);
     ((struct Scene *)p)->secondForm=0;
     ((struct Scene *)p)->ctx=0;
     ((struct Scene *)p)->heapBlock=0;
@@ -656,7 +656,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         SHINKA_DEMO_StartResultBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=10;}break;
     case 10:W(0x88)=1;W(0x28)=11;break;
     case 11:SHINKA_DEMO_PrintText(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
-    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)func_02017E1C(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
+    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)POKE_TOOL_GetPartyValue(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
     case 13:if(W(0x24))SHINKA_DEMO_StopBgm((int)a,s);else SHINKA_DEMO_PopBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=15;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=14;}break;
     case 14:W(0x88)=1;W(0x28)=15;break;
     case 15:SHINKA_DEMO_PrintText(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
@@ -684,7 +684,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
     case 25:func_02034A5C((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
     case 26:
-        if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=func_02017E1C(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
+        if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
     case 27:
         if(FADE_IsActive())break;
         W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;SHINKA_DEMO_GRAPHIC_ReleaseSubBg((int)P(4));B(0xac)=func_020355C4()==0;
@@ -700,12 +700,12 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
-        B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=func_02017E1C(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
+        B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
         func_020355D8(B(0xac)?0:1);break;
     case 31:if(W(0x8c))W(0x28)=33;else{W(0x28)=32;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 32:W(0x88)=1;W(0x28)=33;break;
     case 33:SHINKA_DEMO_PrintText(s,W(0x7c),5,(u32)SHINKA_DEMO_PrintStreamCallback,2,W(0x10),3,(u32)(s+0x18));W(0x28)=34;break;
-    case 34:if(SHINKA_DEMO_AdvanceText(s)){func_020181F4(P(0x10),H(0x1c),B(0x1a));W(0x28)=35;SHINKA_DEMO_PrintText(s,W(0x7c),6,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}break;
+    case 34:if(SHINKA_DEMO_AdvanceText(s)){POKE_TOOL_SetMoveSlot(P(0x10),H(0x1c),B(0x1a));W(0x28)=35;SHINKA_DEMO_PrintText(s,W(0x7c),6,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}break;
     case 35:if(SHINKA_DEMO_AdvanceText(s))W(0x28)=18;break;
     case 36:if(W(0x8c))W(0x28)=38;else{W(0x28)=37;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 37:W(0x88)=1;W(0x28)=38;break;
@@ -1538,7 +1538,7 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
         return;
     if (func_02007F68(save, 4, 1, ((struct Scene *)b)->mainHeap) == 0)
         return;
-    p = (u32)func_02030734(((struct Scene *)b)->mainHeap, func_020173EC(), 1, (const char *)d_02208F40, 0xaf5);
+    p = (u32)func_02030734(((struct Scene *)b)->mainHeap, POKE_TOOL_GetPartyParamSize(), 1, (const char *)d_02208F40, 0xaf5);
     POKE_TOOL_CopyPartyPokemon((const struct RecDC *)(((struct Scene *)b)->partyMon), (struct RecDC *)p);
     POKE_TOOL_ChangeSpecies((void *)p, 0x124);
     POKE_TOOL_SetPartyValue((void *)p, 0x98, 4);
@@ -1550,7 +1550,7 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
         POKE_TOOL_SetPartyValue((void *)p, i, 0);
     for (i = 0x78; i < 0x8d; i++)
         POKE_TOOL_SetPartyValue((void *)p, i, 0);
-    v = (u32)func_02045EC0((struct MsgBank *)gSpeciesNameBank, func_02017E1C((void *)p, 5, 0));
+    v = (u32)func_02045EC0((struct MsgBank *)gSpeciesNameBank, POKE_TOOL_GetPartyValue((void *)p, 5, 0));
     POKE_TOOL_SetPartyValue((void *)p, 0x73, v);
     STRBUF_Delete((struct U16Vec *)v);
     POKE_TOOL_SetPartyValue((void *)p, 0x9d, 0);

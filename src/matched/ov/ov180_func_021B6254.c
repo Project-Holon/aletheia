@@ -11,7 +11,7 @@
  * symbols:
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
- *   func_0207D59C 0x0207D59C arm
+ *   G2x_SetBGyAffine_ 0x0207D59C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BG_SYS_SetAffine 0x02041FB0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -29,7 +29,7 @@ struct BgTemplate;
 struct Mtx22;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
+extern void G2x_SetBGyAffine_(void *,Mtx *,u32,u32,u32,u32);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_LoadPlttEntry(u32,u32);
@@ -39,8 +39,8 @@ void HALL_OF_FAME_InitBackgrounds(void)
     Mtx m;
     BG_SYS_InitBgLayer(3,(const struct BgTemplate *)(&t),2);BG_SYS_InitBgLayer(7,(const struct BgTemplate *)(&t),2);
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&m),0,(void *)4096,(void *)4096,0);
-    func_0207D59C((void *)0x04000030,&m,0,0,0,0);
-    func_0207D59C((void *)0x04001030,&m,0,0,0,0);
+    G2x_SetBGyAffine_((void *)0x04000030,&m,0,0,0,0);
+    G2x_SetBGyAffine_((void *)0x04001030,&m,0,0,0,0);
     BG_SYS_ResetSlot(3,0,160);BG_SYS_ResetSlot(3,3,112);
     BG_SYS_ResetSlot(7,0,160);BG_SYS_ResetSlot(7,3,-152);
     BG_SYS_SetAffine(3,9,160);BG_SYS_SetAffine(3,12,160);

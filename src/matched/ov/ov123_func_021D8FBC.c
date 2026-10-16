@@ -32,6 +32,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "../include/Obj01059.h"
 #include "../include/Obj03799.h"
@@ -50,7 +51,7 @@ struct BigObj;
 struct Sub02009448Obj;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 struct Sub02009210Obj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
@@ -82,7 +83,7 @@ int GSYNC_STATE_ProcInit(void *a,int b,char *q)
         *(char * *)&((struct Obj01059 *)p)->f20=q;
         ((struct Obj01059 *)p)->f2C=((struct Obj03799 *)q)->f4;
         ((struct Obj01059 *)p)->f28=GAME_DATA_GetSaveControl(((struct Obj03799 *)q)->f4);
-        value=func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj03799 *)q)->f4));
+        value=func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct Obj03799 *)q)->f4));
         ((struct Obj01059 *)p)->f24=GAME_DATA_GetBoxManager(((struct Obj03799 *)q)->f4);
         ((struct Obj01059 *)p)->f48=((struct Obj03799 *)q)->f1D0;
         ((struct Obj01059 *)p)->f4C=((struct Obj03799 *)q)->f1D2;

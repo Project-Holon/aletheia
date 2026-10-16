@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02184790  0x02184790  thumb  ov219
+ *   BEACON_DETAIL_GetRecordIndex  0x02184790  thumb  ov219
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
-extern u32 func_02184790(u32 key);
+extern u32 BEACON_DETAIL_GetRecordIndex(u32 key);
 
 int BEACON_DETAIL_HasEntry(int a)
 {
-    return func_02184790(a) != 0;
+    return BEACON_DETAIL_GetRecordIndex(a) != 0;
 }

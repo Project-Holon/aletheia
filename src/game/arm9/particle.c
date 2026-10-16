@@ -722,7 +722,7 @@ u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs,
  * other way round (`ldr r1,[r6,#12]; lsl r2,r0,#3; strh r5,[r1,r2]` against
  * the original's r2/r1), a whole-function DIFF at +001C.  Written as an
  * array subscript on an 8-byte struct element,
- * `((struct S8 *)*(u32 *)((char *)p + 12))[idx].h`, it comes out EXACT.
+ * `((struct BbActSlot *)*(u32 *)((char *)p + 12))[idx].h`, it comes out EXACT.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BILLBOARD_ACT_AddSlot.c \

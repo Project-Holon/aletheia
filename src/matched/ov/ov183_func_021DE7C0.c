@@ -105,7 +105,7 @@
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   func_02045CAC 0x02045CAC arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
@@ -131,7 +131,7 @@ extern void MI_CpuFill8(void *,int,int);
 extern int BR_RES_GetSprite(void *,int,Triple *);
 extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
 extern struct U16Vec *STRBUF_Create(u32,u32);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *BR_UTIL_Create(u16,u32,u16,u16,u8,u8,void *,u16);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
@@ -158,7 +158,7 @@ void BR_CODEIN_ResultSetupButtons(char *p,char *q)
     *(void **)(p+0xc)=BR_BTN_CreateFromMessage(&config,4,96,1,*(int *)q,*(int *)p,font,bank,&triple,*(u16 *)(p+0x6c));
     base=STRBUF_Create(128,*(u16 *)(p+0x6c));
     text=STRBUF_Create(128,*(u16 *)(p+0x6c));
-    value=func_02012944(*(void **)(q+0x10));
+    value=GAME_DATA_GetMyStatus(*(void **)(q+0x10));
     for(i=0;i<3;i++) {
         rec=&d_021E351C[i];
         slot=p+i*4;

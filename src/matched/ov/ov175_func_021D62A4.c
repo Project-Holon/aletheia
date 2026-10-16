@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef struct { u32 kind; u16 count,pad; u32 name,total; u16 a,b; } Desc;
 typedef unsigned char  u8;
 struct Sub0200852CObj;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *,int,u32);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
@@ -35,7 +35,7 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *p, u32 mode)
     int base,flag;
     Desc desc;
     if(p[6]==0) {
-        sys=(u32)func_02012944((void *)REC[0]);
+        sys=(u32)GAME_DATA_GetMyStatus((void *)REC[0]);
         base=WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]);
         MI_CpuFill8(&desc,0,20);
         if(mode==0) {

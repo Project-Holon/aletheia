@@ -1,5 +1,5 @@
 /*
- * function: func_02185074
+ * function: BEACON_DETAIL_CreateMenuItems
  * address: 0x02185074
  * packet: pkt_ov219_02185074
  * region: ov219
@@ -100,12 +100,12 @@
  *   restricted that optimizer for this function. No real source form found.
  * symbols:
  *   d_02185F7C 0x02185F7C data a4
- *   func_02184968 0x02184968 thumb ov219
+ *   BEACON_DETAIL_CreateBmpWin 0x02184968 thumb ov219
  *   func_02045B38 0x02045B38 arm
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02184FC8 0x02184FC8 thumb ov219
+ *   BEACON_DETAIL_SetupMenuList 0x02184FC8 thumb ov219
  */
 
 typedef unsigned char u8;
@@ -113,7 +113,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 d_02185F7C[];
 static inline u32 tb(int i) { return *(const u32 *)((const u8 *)d_02185F7C + i * 4); }
-extern u32 func_02184968(const u8 *, int);
+extern u32 BEACON_DETAIL_CreateBmpWin(const u8 *, int);
 struct MsgBank;
 struct Rec;
 struct Slot;
@@ -122,19 +122,19 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *BMP_MENUWORK_Create(u32, u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_02184FC8(char *p, const struct Src *source, unsigned count);
+extern void BEACON_DETAIL_SetupMenuList(char *p, const struct Src *source, unsigned count);
 
 static inline u32 GetMsg(u32 idx) { return d_02185F7C[idx]; }
-void func_02185074(u8 *p, const u8 *a, u32 b, u32 c)
+void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, u32 b, u32 c)
 {
     void *t;
     int i;
-    *(u32 *)(p + 0xC018) = func_02184968(a, 1);
+    *(u32 *)(p + 0xC018) = BEACON_DETAIL_CreateBmpWin(a, 1);
     t = func_02045B38(0, 2, (u16)c, (u16)*(u32 *)p);
     *(void **)(p + 0xC050) = BMP_MENUWORK_Create(0x82, *(u32 *)p);
     for (i = 0; (i < 0x82) ? 1 : 0; i++) {
         BMP_MENUWORK_AddMsgItem(*(void **)(p + 0xC050), (u32)t, GetMsg(i), d_02185F7C[i], (u16)*(u32 *)p);
     }
     MSGDATA_Delete(t);
-    func_02184FC8((char *)p, (const struct Src *)b, 0x82);
+    BEACON_DETAIL_SetupMenuList((char *)p, (const struct Src *)b, 0x82);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02183F40
+ * function: MICTEST_VBlank
  * address:  0x02183F40
  * packet:   pkt_02183F40
  * region:   ov168
@@ -11,22 +11,22 @@
  *
  * symbols:
  *   NNS_GfdDoVramTransfer  0x02061C44  arm
- *   func_02184144  0x02184144  thumb  ov168
- *   func_021842B4  0x021842B4  thumb  ov168
+ *   MICTEST_ActorVBlank  0x02184144  thumb  ov168
+ *   MICTEST_UpdateBg  0x021842B4  thumb  ov168
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void NNS_GfdDoVramTransfer(void);
-extern void func_02184144(void *p);
-extern void func_021842B4(void *p);
+extern void MICTEST_ActorVBlank(void *p);
+extern void MICTEST_UpdateBg(void *p);
 extern u32 SDK_AUTOLOAD_MAIN_TWL_START[];
 
-void func_02183F40(void *unused, char *p)
+void MICTEST_VBlank(void *unused, char *p)
 {
     NNS_GfdDoVramTransfer();
-    func_02184144(p);
-    func_021842B4(p + 0xe4);
+    MICTEST_ActorVBlank(p);
+    MICTEST_UpdateBg(p + 0xe4);
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
 }

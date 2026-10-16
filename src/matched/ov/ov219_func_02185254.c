@@ -1,5 +1,5 @@
 /*
- * function: func_02185254
+ * function: BEACON_DETAIL_DrawEntryDetail
  * address: 0x02185254
  * packet: pkt_ov219_02185254
  * region: ov219
@@ -16,9 +16,9 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_02184968 0x02184968 thumb ov219
- *   func_02184D30 0x02184D30 thumb ov219
- *   func_02185C84 0x02185C84 thumb ov219
+ *   BEACON_DETAIL_CreateBmpWin 0x02184968 thumb ov219
+ *   BEACON_DETAIL_DrawTextRecord 0x02184D30 thumb ov219
+ *   BEACON_DETAIL_GetEntryText 0x02185C84 thumb ov219
  *   d_02185DCB 0x02185DCB data a1
  */
 #include "../include/Obj02934.h"
@@ -39,18 +39,18 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(unsigned);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 typedef unsigned int   u32;
-extern u32 func_02184968(const u8 *p, int flag);
-extern void func_02184D30(char *p, struct Record *out, struct Descriptor *d, void *text, u8 x, u8 y);
-extern int func_02185C84(unsigned,unsigned,void *,void *,unsigned);
-void func_02185254(char *p,unsigned key,unsigned member)
+extern u32 BEACON_DETAIL_CreateBmpWin(const u8 *p, int flag);
+extern void BEACON_DETAIL_DrawTextRecord(char *p, struct Record *out, struct Descriptor *d, void *text, u8 x, u8 y);
+extern int BEACON_DETAIL_GetEntryText(unsigned,unsigned,void *,void *,unsigned);
+void BEACON_DETAIL_DrawEntryDetail(char *p,unsigned key,unsigned member)
 {
     void *first,*second,*object;
     first=STRBUF_Create(64,(u16)(((struct Obj02934 *)p)->f0));
     second=STRBUF_Create(64,(u16)(((struct Obj02934 *)p)->f0));
-    ((struct Obj02934 *)p)->fC040=(void *)func_02184968(d_02185DCB,1);
-    func_02185C84(key,member,first,second,((struct Obj02934 *)p)->f0);
-    if(member!=0) func_02184D30(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,second,0,16);
-    func_02184D30(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,first,0,0);
+    ((struct Obj02934 *)p)->fC040=(void *)BEACON_DETAIL_CreateBmpWin(d_02185DCB,1);
+    BEACON_DETAIL_GetEntryText(key,member,first,second,((struct Obj02934 *)p)->f0);
+    if(member!=0) BEACON_DETAIL_DrawTextRecord(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,second,0,16);
+    BEACON_DETAIL_DrawTextRecord(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,first,0,0);
     STRBUF_Delete(second);
     STRBUF_Delete(first);
     BMP_MENUWORK_DrawWindow(((struct Obj02934 *)p)->fC040,0,34,7);

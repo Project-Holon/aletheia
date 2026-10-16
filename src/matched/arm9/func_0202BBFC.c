@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202BBFC
+ * function: ISS_3DS_SYS_CalcSourceVolume
  * address:  0x0202BBFC
  * packet:   pkt_0202BB68
  * region:   arm9
@@ -48,7 +48,7 @@ extern s32  VEC_Mag(const struct Vec *v);
 typedef unsigned int   u32;
 extern u32 FX_Div(u32 a, u32 b);
 
-s32 func_0202BBFC(struct Rec *r, const struct Vec *p)
+s32 ISS_3DS_SYS_CalcSourceVolume(struct Rec *r, const struct Vec *p)
 {
     struct Vec d;
     s32 mag;

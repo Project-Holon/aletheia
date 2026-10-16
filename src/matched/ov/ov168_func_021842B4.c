@@ -1,5 +1,5 @@
 /*
- * function: func_021842B4
+ * function: MICTEST_UpdateBg
  * address: 0x021842B4
  * packet: pkt_ov168_021842B4
  * region: ov168
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 extern void BG_SYS_Update(void);
-void func_021842B4(void *p) { BG_SYS_Update(); }
+void MICTEST_UpdateBg(void *p) { BG_SYS_Update(); }

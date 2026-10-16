@@ -11,9 +11,9 @@
  * lever: id/k clear order and value-before-j declaration; pooled table has alignment-only hint.
  * symbols:
  *   PMSI_SEARCH_BuildInputText 0x021BB00C thumb ov110
- *   func_021B99F0 0x021B99F0 thumb ov110
- *   func_021B9A48 0x021B9A48 thumb ov110
- *   func_021B99D8 0x021B99D8 thumb ov110
+ *   PMS_INPUT_DATA_GetInitialWordId 0x021B99F0 thumb ov110
+ *   PMS_INPUT_DATA_GetInvalidWordId 0x021B9A48 thumb ov110
+ *   PMS_INPUT_DATA_FilterWordList 0x021B99D8 thumb ov110
  *   MSGSEARCH_Search 0x021B6CE0 thumb ov067
  *   STRBUF_Clear 0x0204581C arm
  *   func_02045F50 0x02045F50 arm
@@ -28,9 +28,9 @@ struct U16Vec;
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void PMSI_SEARCH_BuildInputText(void *,void *);
 extern u16 func_02045F50(const struct Obj *o);
-extern u16 func_021B99F0(int,int,int);
-extern int func_021B9A48(u32);
-extern u32 func_021B99D8(u32,u32,u32);
+extern u16 PMS_INPUT_DATA_GetInitialWordId(int,int,int);
+extern int PMS_INPUT_DATA_GetInvalidWordId(u32);
+extern u32 PMS_INPUT_DATA_FilterWordList(u32,u32,u32);
 extern u32 MSGSEARCH_Search(void *,u32,u32,u32,void *,u32);
 extern const u16 sPmsiSearchExcludedChars[10];
 int PMSI_SEARCH_Run(u8 *p)
@@ -53,7 +53,7 @@ int PMSI_SEARCH_Run(u8 *p)
         k=0;
         __builtin__clear(special,sizeof(special));
         for(i=0;i<n;i++) {
-            value=func_021B99F0(*(int *)&((struct Obj01391 *)p)->f4,id,i);
+            value=PMS_INPUT_DATA_GetInitialWordId(*(int *)&((struct Obj01391 *)p)->f4,id,i);
             found=0;
             for(j=0;j<10;j++) {
                 if(value==sPmsiSearchExcludedChars[j]) { found=1; break; }
@@ -65,18 +65,18 @@ int PMSI_SEARCH_Run(u8 *p)
                 k++;
             }
         }
-        special[k]=func_021B9A48(((struct Obj01391 *)p)->f4);
-        p[0xaf1]=func_021B99D8(((struct Obj01391 *)p)->f4,(u32)special,(u32)(p+0x8bc));
+        special[k]=PMS_INPUT_DATA_GetInvalidWordId(((struct Obj01391 *)p)->f4);
+        p[0xaf1]=PMS_INPUT_DATA_FilterWordList(((struct Obj01391 *)p)->f4,(u32)special,(u32)(p+0x8bc));
         if(p[0xaf1]) return 1;
         return 0;
     } else {
         __builtin__clear(normal,sizeof(normal));
         n=MSGSEARCH_Search(((struct Obj01391 *)p)->f78,id,0,*(u32 *)&((struct Obj01391 *)p)->fAD0,p+0x7c,264);
         for(i=0;i<n;i++) {
-            normal[i]=func_021B99F0(*(int *)&((struct Obj01391 *)p)->f4,id,*(int *)(p+0x80+i*8));
+            normal[i]=PMS_INPUT_DATA_GetInitialWordId(*(int *)&((struct Obj01391 *)p)->f4,id,*(int *)(p+0x80+i*8));
         }
-        normal[n]=func_021B9A48(((struct Obj01391 *)p)->f4);
-        p[0xaf1]=func_021B99D8(((struct Obj01391 *)p)->f4,(u32)normal,(u32)(p+0x8bc));
+        normal[n]=PMS_INPUT_DATA_GetInvalidWordId(((struct Obj01391 *)p)->f4);
+        p[0xaf1]=PMS_INPUT_DATA_FilterWordList(((struct Obj01391 *)p)->f4,(u32)normal,(u32)(p+0x8bc));
         if(p[0xaf1]) return 1;
         return 0;
     }

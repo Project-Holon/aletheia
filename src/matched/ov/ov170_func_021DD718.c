@@ -13,7 +13,7 @@
  * Expected EXACT after the integrator's manifest refresh.
  *
  * symbols:
- *   func_02017E88 0x02017E88 thumb
+ *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
  *   POKE_TOOL_GetBoxParamIndex 0x02019D00 thumb
  *   BOX2_MAIN_ChangeFormAndRegister 0x021DD6E8 thumb
@@ -31,33 +31,33 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u16 POKE_TOOL_GetPlateTypeForwarder(u32 item);
 extern u32 POKE_TOOL_GetBoxParamIndex(u32 item);
 extern void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b);
 
 int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
 {
-    u16 species = func_02017E88(mon, 5, 0);
+    u16 species = POKE_TOOL_GetBoxValue(mon, 5, 0);
     if (species == 0x1ED) {
-        u16 item = func_02017E88(mon, 6, 0);
-        u16 form = func_02017E88(mon, 0x6F, 0);
+        u16 item = POKE_TOOL_GetBoxValue(mon, 6, 0);
+        u16 form = POKE_TOOL_GetBoxValue(mon, 0x6F, 0);
         u16 want = POKE_TOOL_GetPlateTypeForwarder(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
             return 1;
     } else if (species == 0x289) {
-        u16 item = func_02017E88(mon, 6, 0);
-        u16 form = func_02017E88(mon, 0x6F, 0);
+        u16 item = POKE_TOOL_GetBoxValue(mon, 6, 0);
+        u16 form = POKE_TOOL_GetBoxValue(mon, 0x6F, 0);
         u16 want = POKE_TOOL_GetBoxParamIndex(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
             return 1;
     } else if (species == 0x1E7) {
-        u16 item = func_02017E88(mon, 6, 0);
-        u16 old = func_02017E88(mon, 0x6F, 0);
+        u16 item = POKE_TOOL_GetBoxValue(mon, 6, 0);
+        u16 old = POKE_TOOL_GetBoxValue(mon, 0x6F, 0);
         u16 form = old;
         if (old == 0) {
             if (item == 0x70) {

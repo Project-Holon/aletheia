@@ -1,5 +1,5 @@
 /*
- * function: func_02185310
+ * function: BEACON_DETAIL_CloseDetailWin
  * address:  0x02185310
  * packet:   pkt_02185310
  * region:   ov219
@@ -22,7 +22,7 @@ struct Descriptor;
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_02185310(char *p)
+void BEACON_DETAIL_CloseDetailWin(char *p)
 {
     char *q = p + 0xc040;
     BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj14780 *)q)->f0), 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_02198958
+ * function: GetLocalPort
  * address:  0x02198958
  * packet:   pkt_ov009_02198958
  * region:   ov009
@@ -24,7 +24,7 @@ typedef struct SOCSockAddrIn {
 
 extern int func_0217ED0C(int sock, void *addr, int *len);
 
-unsigned short func_02198958(int sock)
+static unsigned short GetLocalPort(int sock)
 {
 	int ret;
 	SOCSockAddrIn saddr;
