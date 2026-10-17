@@ -38,7 +38,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -48,9 +48,9 @@
  *   d_02172808 0x02172808 data a1
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008530  0x02008530  thumb
- *   func_020084F4  0x020084F4  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetName  0x020084F4  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
@@ -84,7 +84,7 @@
  *   GAME_DATA_GetBattleRecSlot   0x020127AC  thumb
  *   GAME_DATA_GetPlayerStatus   0x02012950  thumb
  *   GAME_DATA_GetIntrudeId   0x02012B80  thumb
- *   func_0200855C 0x0200855C thumb
+ *   MYSTATUS_GetAvatarId 0x0200855C thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GAME_DATA_GetSlotFlag  0x02012B98  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
@@ -230,15 +230,15 @@ extern void IRCNET_SetTimeoutLimit(int);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_StartChangeoverChild(int a0);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern int GFL_HEAP_Free();
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u32 func_02008530(const struct MyStatus *status);
-extern const void *func_020084F4(const struct MyStatus *status);
+extern u32 MYSTATUS_GetId(const struct MyStatus *status);
+extern const void *MYSTATUS_GetName(const struct MyStatus *status);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heap);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *mon, u16 species, u16 level, unsigned long long id, u32 packedIvs, unsigned long long personalRnd);
@@ -268,8 +268,8 @@ extern struct BattleRecSlot *GAME_DATA_GetLastBattleRecSlot(struct GameData *gam
 extern struct BattleRecSlot *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 netId);
 extern struct MyStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData, u32 netId);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
-extern u8 func_0200855C(const struct MyStatus *status);
-extern u8 func_02008550(const struct MyStatus *status);
+extern u8 MYSTATUS_GetAvatarId(const struct MyStatus *status);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern u8 GAME_DATA_GetSlotFlag(const struct GameData *gameData, u32 slot);
 extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
@@ -533,7 +533,7 @@ void DELIVERY_IRC_StepSearchEntry(DeliveryIrcWork *work)
         }
         DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendCrc, 0x188);
         if (work->found == 1) {
-            u32 key = func_020056EC(0);
+            u32 key = GFL_USE_GetRandom(0);
             work->cryptKey = key;
             GF_STANDARD_Shuffle(entry->data, entry->size, key);
             work->sendEntry = entry;
@@ -709,14 +709,14 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     }
 
     if (level == 0)
-        level = func_020056EC(100) + 1;
+        level = GFL_USE_GetRandom(100) + 1;
     if (gift->otId == 0)
-        otId = func_02008530(GAME_DATA_GetMyStatus(gameData));
+        otId = MYSTATUS_GetId(GAME_DATA_GetMyStatus(gameData));
     if (gender == 0xFF)
         gender = 2;
     for (i = 0; i < 6; i++) {
         if (ivValues[i] == 0xFF)
-            ivValues[i] = func_020056EC(32);
+            ivValues[i] = GFL_USE_GetRandom(32);
     }
 
     otId64 = otId;
@@ -725,7 +725,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         | ((ivValues[3] & 0x1F) << 15) | ((ivValues[4] & 0x1F) << 20) | ((ivValues[5] & 0x1F) << 25);
 
     if (abilityKind == 4)
-        abilityKind = (u8)func_020056EC(3);
+        abilityKind = (u8)GFL_USE_GetRandom(3);
     switch (abilityKind) {
     case 0:
         abilitySlot = 0;
@@ -800,7 +800,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         POKE_TOOL_SetPartyValue(mon, 0x74, (u32)gift->nickname);
     nature = gift->nature;
     if (nature == 0xFF)
-        nature = (u8)func_020056EC(25);
+        nature = (u8)GFL_USE_GetRandom(25);
     POKE_TOOL_SetPartyValue(mon, 0x70, nature);
     POKE_TOOL_SetPartyValue(mon, 0x95, gift->eggLocation);
     POKE_TOOL_SetPartyValue(mon, 0x96, gift->metLocation);
@@ -810,13 +810,13 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         goto out;
     }
     if (gift->otName[0] == STRBUF_GetEosChar())
-        POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)func_020084F4(GAME_DATA_GetMyStatus(gameData)));
+        POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gameData)));
     else
         POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)gift->otName);
     if (gift->otGender <= 2)
         POKE_TOOL_SetPartyValue(mon, 0x9A, gift->otGender);
     else
-        POKE_TOOL_SetPartyValue(mon, 0x9A, func_02008550(GAME_DATA_GetMyStatus(gameData)));
+        POKE_TOOL_SetPartyValue(mon, 0x9A, MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData)));
     if (gift->isEgg) {
         POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
         eggName = MSGDATA_AllocString(gSpeciesNameBank, 0x28A);
@@ -976,7 +976,7 @@ int INTRUDE_COMM_GetAreaOwnerVersion(GameComm *comm)
     if (GAME_DATA_GetIntrudeCount(gameData) == 0)
         return 21;
     areaOwnerId = (int)GAME_DATA_GetIntrudeId(gameData);
-    return func_0200855C(GAME_DATA_GetMyStatusByNetId(gameData, areaOwnerId));
+    return MYSTATUS_GetAvatarId(GAME_DATA_GetMyStatusByNetId(gameData, areaOwnerId));
 }
 
 
@@ -1063,7 +1063,7 @@ int INTRUDE_COMM_GetAreaOwnerVersionClass(GameComm *comm, struct GameData *gameD
     if (areaOwnerId == GAME_DATA_GetExitMode(gameData))
         return 0;
     status = GAME_DATA_GetPlayerStatus(gameData, areaOwnerId);
-    version = INTRUDE_COMM_NormalizeVersion(func_0200855C(status), func_02008530(status));
+    version = INTRUDE_COMM_NormalizeVersion(MYSTATUS_GetAvatarId(status), MYSTATUS_GetId(status));
     switch (version) {
     case 20:
         return 1;

@@ -156,7 +156,7 @@ extern u8 sUsbApZeroBssid[6];
  * cast forces the re-read and closes the function. ../2.0/base and ../2.0/sp1p2 give 392 bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021D0B44.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_USBAPlBegin.c \
  *       --func DWCi_USBAPlBegin --addr 0x021D0B44 --region ov016 --cc 1.1p1 --arm --lang c99
  */
 

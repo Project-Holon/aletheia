@@ -33,7 +33,7 @@
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
- *   func_02028A58 0x02028A58 thumb
+ *   FIELD_SOUND_SYSTEM_FadeVolume 0x02028A58 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   BR_SIDEBAR_ResetPositions 0x021FEE9C thumb ov186
  *   BR_SIDEBAR_StartWobble 0x021FEE4C thumb ov186
@@ -287,7 +287,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
-extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
+extern void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 frames);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 
@@ -506,7 +506,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     } else GF_OVERLAY_Load((int)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
     if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
-        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) func_02028A58((void *)GAME_DATA_GetBgmInfo((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
+        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) FIELD_SOUND_SYSTEM_FadeVolume((void *)GAME_DATA_GetBgmInfo((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag==1) {
         BR_SIDEBAR_ResetPositions((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));BR_SIDEBAR_StartWobble((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));
@@ -518,7 +518,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
 int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
 {
     int *nested=(int *)((int *)p[6])[3];
-    if(nested[0]==0) func_02028A58((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)nested[1]),0x7f,0);
+    if(nested[0]==0) FIELD_SOUND_SYSTEM_FadeVolume((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)nested[1]),0x7f,0);
     if(p[5]) {
         if(BR_NET_IsFatal((char *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
         BR_NET_Destroy((char *)p[5]); p[5]=0;

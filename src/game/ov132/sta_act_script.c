@@ -28,7 +28,7 @@
  *   TCB_Init 0x02030CBC arm
  *   NNS_FndInitList 0x02060468 arm
  *   d_021FDCEC 0x021FDCEC data ov132 a4
- *   func_02011290 0x02011290 thumb
+ *   VM_End 0x02011290 thumb
  *   VM_Delete 0x02011264 thumb
  *   NNS_FndGetNextListObject 0x02060614 arm
  *   TCB_Noop 0x02030DA4 arm
@@ -72,7 +72,7 @@ extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 
 extern void NNS_FndInitList(int p0, int p1);
 
-extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
+extern struct ScriptVm *VM_End(struct ScriptVm *vm);
 
 extern void VM_Delete(void *);
 
@@ -168,7 +168,7 @@ void STA_ACT_SCRIPT_Delete(char *p)
     for (i = 0; i < 10; i++) {
         slot = (char **)(p + i * 4);
         if (slot[3] != 0) {
-            func_02011290(((struct ScriptEntry *)(slot[3]))->f4);
+            VM_End(((struct ScriptEntry *)(slot[3]))->f4);
             VM_Delete(((struct ScriptEntry *)(slot[3]))->f4);
             if (((struct ScriptEntry *)(slot[3]))->f16 & 8) GFL_HEAP_Free(((struct ScriptEntry *)(slot[3]))->fC);
             GFL_HEAP_Free(slot[3]);
@@ -256,7 +256,7 @@ int STA_ACT_SCRIPT_RunScript(void *unused, char *p)
     if (((struct ScriptEntry *)p)->f14 == 0 && !(((struct ScriptEntry *)p)->f16 & 4)) {
         VM_Control(((struct ScriptEntry *)p)->f4);
         if (((struct ScriptEntry *)p)->f16 & 1) {
-            func_02011290(((struct ScriptEntry *)p)->f4);
+            VM_End(((struct ScriptEntry *)p)->f4);
             VM_Delete(((struct ScriptEntry *)p)->f4);
             if (((struct ScriptEntry *)p)->f16 & 8) GFL_HEAP_Free(((struct ScriptEntry *)p)->fC);
             return 1;

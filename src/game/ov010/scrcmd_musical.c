@@ -21,12 +21,12 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MUSICAL_EVENT_Create  0x02155A98  thumb  ov010
  *   SCRIPT_SYS_SetNextEventFromWork  0x0215898C  thumb  ov010
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
- *   func_02011290  0x02011290  thumb
+ *   VM_End  0x02011290  thumb
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MUSICAL_SAVE_NoOp  0x0200A640  thumb
@@ -114,7 +114,7 @@
  *   STA_NET_GetIndexedWord57  0x021FD910  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_SYNC_GetBlock  0x02009448  thumb
- *   func_02009370  0x02009370  thumb
+ *   BLOCK20_SAVEDATA_CountEntries  0x02009370  thumb
  *   PDW_POSTMAN_CountUnreceivable  0x021B76F8  thumb  ov021
  *   PDW_POSTMAN_CreateListEvent  0x021B7794  thumb  ov021
  *   PDW_POSTMAN_ReceiveItems  0x021B76B4  thumb  ov021
@@ -137,7 +137,7 @@
  *   MOVE_POKEMON_SAVE_SetCommonArea  0x0200D45C  thumb
  *   MOVE_POKEMON_SAVE_SetEntryField  0x0200D50C  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
@@ -148,7 +148,7 @@
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   BTL_SETUP_GetParty  0x0201313C  thumb
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   MOVE_POKEMON_SAVE_InitEntry  0x0200D494  thumb
  *   MOVE_POKEMON_SAVE_SetEntryLocation  0x0200D480  thumb
  *   TIMEZONE_GetNowTimeZone 0x020113D8 thumb
@@ -421,10 +421,10 @@ extern void GAMESYSTEM_CallProc(struct GameSystem *gameSys, u32 procId, void *pr
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSys);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSys);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSys, void *parent, EventTaskFn taskFn, u32 workSize);
-extern void *func_020124E8(struct GameEvent *task);
+extern void *GAME_EVENT_GetWork(struct GameEvent *task);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *task);
 extern void GAME_EVENT_CallEvent(struct GameEvent *task, struct GameEvent *callee);
-extern ScriptVm *func_02011290(ScriptVm *vm);
+extern ScriptVm *VM_End(ScriptVm *vm);
 /* the wait callback receives the user work of the script command */
 typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScriptWork *scriptWork);
 extern void VM_SetWait(ScriptVm *vm, ScriptWorkWaitFn waitFn);
@@ -452,7 +452,7 @@ extern u32 GFL_HEAP_Free(void *ptr);
 extern int GF_OVERLAY_Load(s32 overlayId);
 extern void GF_OVERLAY_Unload(s32 overlayId);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
@@ -501,7 +501,7 @@ extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern int MUSICAL_MCSS_GetMonValue(struct Pokemon *mon);
 extern u32 MUSICAL_MCSS_CreateMon(struct Pokemon *mon, int mode);
-extern u32 func_02008530(struct MyStatus *myStatus);
+extern u32 MYSTATUS_GetId(struct MyStatus *myStatus);
 
 /* ov132 comm session, ov021 comm entry menu */
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
@@ -523,7 +523,7 @@ extern int STA_NET_GetIndexedWord57();
 
 /* wifilist and ov021 postman service */
 extern struct WifiList *GAME_SYNC_GetBlock(void *saveBlock);
-extern u32 func_02009370(const struct WifiList *wifiList);
+extern u32 BLOCK20_SAVEDATA_CountEntries(const struct WifiList *wifiList);
 extern int PDW_POSTMAN_CountUnreceivable(struct GameData *gameData, int key, struct WifiList *wifiList);
 extern void *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSys);
 extern void PDW_POSTMAN_ReceiveItems(struct GameData *gameData, int key, int wifiList);
@@ -703,14 +703,14 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
 
         startMode = (mode == 0) ? 0 : 1;
         task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskStartMusical, sizeof(MusicalStartTask));
-        startTask = func_020124E8(task);
+        startTask = GAME_EVENT_GetWork(task);
         MI_CpuFill8(startTask, 0, sizeof(MusicalStartTask));
         startTask->musicalSeq = MUSICAL_EVENT_Create(gameSys, gameData, arg, startMode, link);
         startTask->link = link;
         startTask->mode = startMode;
         SCRIPT_SYS_SetNextEventFromWork(scriptCtl, task);
         GAME_DATA_GetBgmInfo(gameData);
-        func_02011290(vm);
+        VM_End(vm);
         return 1;
     } else {
         struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(gameData);
@@ -747,7 +747,7 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
     musicalSave = (u32)GAME_DATA_GetSaveBlock2A(gameData);
     musicalSystem = MUSICAL_MCSS_CreateMon(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex), 4);
     task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
-    systemTask = func_020124E8(task);
+    systemTask = GAME_EVENT_GetWork(task);
     MI_CpuFill8(systemTask, 0, 4);
     systemTask->args = GFL_HEAP_Alloc(4, 0xc, 1, d_02172914, 0xd7);
     systemTask->args->musicalSystem = musicalSystem;
@@ -1672,13 +1672,13 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork)
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
     wifiList = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    limit = (int)func_02009370(wifiList);
+    limit = (int)BLOCK20_SAVEDATA_CountEntries(wifiList);
     if (ICA_ANIME_GetField20(gameSys) == 0 && cmd != 0) {
         return 0;
     }
     switch (cmd) {
     case 0:
-        *resultVar = (int)func_02009370(wifiList) > 0 ? 1 : 0;
+        *resultVar = (int)BLOCK20_SAVEDATA_CountEntries(wifiList) > 0 ? 1 : 0;
         break;
     case 1:
         if (PDW_POSTMAN_CountUnreceivable(gameData, key, wifiList) < limit) {
@@ -1882,7 +1882,7 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
     MOVE_POKEMON_SAVE_SetEntryField(entry, 9, flag);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     mon = GFL_HEAP_Alloc(0x8003, POKE_TOOL_GetPartyParamSize(), 1, d_0217293C, 0x12E);
-    POKE_TOOL_SetupPartyParamEx(mon, species, level, func_02008530(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
+    POKE_TOOL_SetupPartyParamEx(mon, species, level, MYSTATUS_GetId(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 7, 0);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 8, 1);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 2, POKE_TOOL_GetPartyValue(mon, 0xAC, 0));
@@ -1939,7 +1939,7 @@ void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, BattleResultWork
     block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     entry = MOVE_POKEMON_FindEntryBySpecies(block, species);
     if (entry == 0) {
-        if (func_02005728(100) < 30) {
+        if (GFL_USE_GetRandomBelow(100) < 30) {
             MOVE_POKEMON_MoveActiveEntries(gameData);
         }
         return;
@@ -2024,7 +2024,7 @@ void MOVE_POKEMON_MoveToNeighbor(struct MovePokemonSave *block, u32 season, u16 
 
     currentLocation = MOVE_POKEMON_SAVE_GetEntryLocation(block, slot);
     links = &d_021711A8[(u16)TIMEZONE_GetNowTimeZone(season)];
-    if (currentLocation != 0x10 && func_02005728(100) < 20) {
+    if (currentLocation != 0x10 && GFL_USE_GetRandomBelow(100) < 20) {
         MOVE_POKEMON_SetEntryLocation(block, slot, 0x10, 0xffff);
         return;
     }
@@ -2035,7 +2035,7 @@ void MOVE_POKEMON_MoveToNeighbor(struct MovePokemonSave *block, u32 season, u16 
             candidates[candidateCount++] = candidate;
         }
     }
-    chosen = candidates[func_02005728(candidateCount)];
+    chosen = candidates[GFL_USE_GetRandomBelow(candidateCount)];
     MOVE_POKEMON_SetEntryLocation(block, slot, chosen, chosen > 0x10 ? 0x13f : d_021711C6[chosen]);
 }
 
@@ -2190,7 +2190,7 @@ int MOVE_POKEMON_CheckCut(FieldSkillInfo *info)
 struct GameEvent *MOVE_POKEMON_CreateCutEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     struct GameEvent *event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_CutEventMain, 20);
-    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
+    MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, info);
     return event;
 }
 
@@ -2233,7 +2233,7 @@ struct GameEvent *MOVE_POKEMON_CreateFlyEvent(SkillTarget *target, FieldSkillInf
 {
     struct GameEvent *event;
     event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_FlyEventMain, 20);
-    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
+    MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, info);
     return event;
 }
 
@@ -2267,7 +2267,7 @@ struct GameEvent *MOVE_POKEMON_CreateSurfEvent(SkillTarget *target, FieldSkillIn
 {
     struct GameEvent *event;
     event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_SurfEventMain, 20);
-    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
+    MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, info);
     return event;
 }
 
@@ -2297,7 +2297,7 @@ struct GameEvent *MOVE_POKEMON_CreateStrengthEvent(SkillTarget *target, FieldSki
 {
     struct GameEvent *event;
     event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_StrengthEventMain, 20);
-    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, info);
+    MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, info);
     return event;
 }
 

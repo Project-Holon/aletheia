@@ -300,7 +300,7 @@ int SOCLi_AllocWriteBuffer(struct SOCLSocket *socket, int n, int m, int *out, in
  * sdk:      SOCLi_GetWriteBufferFreeSize (libsoc.TWL.HYB.a(socl_write.o))
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0215E2C0.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/SOCLi_GetWriteBufferFreeSize.c \
  *       --func SOCLi_GetWriteBufferFreeSize --addr 0x0215E2C0 --region ov009 --arm --cc 1.1p1 \
  *       --lang c99 --diff
  */
@@ -460,7 +460,7 @@ done:
  * sdk:      SOCLi_GetOptimumSendBufLen (libsoc.TWL.HYB.a(socl_write.o))
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0215E588.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/SOCLi_GetOptimumSendBufLen.c \
  *       --func SOCLi_GetOptimumSendBufLen --addr 0x0215E588 --region ov009 --arm --cc 1.1p1 \
  *       --lang c99 --diff
  */

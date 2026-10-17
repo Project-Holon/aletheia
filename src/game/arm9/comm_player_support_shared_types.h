@@ -9,7 +9,7 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 
-/* A 0x20-byte player record, read through the accessors func_02008510 etc. */
+/* A 0x20-byte player record, read through the accessors MYSTATUS_CreateNameStrbuf etc. */
 struct PlayerRecord {
     u32 words[8];
 };

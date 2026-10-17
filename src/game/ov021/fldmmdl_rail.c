@@ -67,7 +67,7 @@
  *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
  *   FLDMMDL_GetMoveLimitX  0x0216D660  thumb  ov010
  *   FLDMMDL_GetMoveLimitZ  0x0216D66C  thumb  ov010
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   d_021D84E8  0x021D84E8  data
  *   FIELD_NOGRID_MAPPER_CreateRailWork  0x021BB394  thumb  ov021
  *   FIELD_NOGRID_MAPPER_DeleteRailWork  0x021BB3A0  thumb  ov021
@@ -211,7 +211,7 @@ extern int FLDMMDL_MOVE_GetRailMoveRequest(Mmdl *mmdl, RailLocation *outLoc);
 extern void *FLDMMDL_InitMoveProcWork(Mmdl *mmdl, u32 size);
 extern int FLDMMDL_GetMoveLimitX(Mmdl *mmdl);
 extern int FLDMMDL_GetMoveLimitZ(Mmdl *mmdl);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern RailWork *FIELD_NOGRID_MAPPER_CreateRailWork(FieldSys *fieldSys);
 extern Mmdl *FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bits);
 extern void FIELD_NOGRID_MAPPER_DeleteRailWork(FieldSys *fieldSys, RailWork *railWork);
@@ -709,14 +709,14 @@ int FLDMMDL_RAIL_GetTableLength(u32 *table, u32 terminator)
 /* Pick a random entry of a table ended by terminator. */
 int FLDMMDL_RAIL_GetRandomTableEntry(u32 *table, int terminator)
 {
-    return *(u32 *)((u8 *)(table) + ((func_020056EC(FLDMMDL_RAIL_GetTableLength((u32 *)table, terminator)) << 2)));
+    return *(u32 *)((u8 *)(table) + ((GFL_USE_GetRandom(FLDMMDL_RAIL_GetTableLength((u32 *)table, terminator)) << 2)));
 }
 
 /* Pick a random direction out of the direction list of a kind. */
 u32 FLDMMDL_RAIL_GetRandomDirOfKind(u32 kind, u32 terminator)
 {
     u32 *dirList = FLDMMDL_RAIL_GetDirListOfKind(kind);
-    return dirList[func_020056EC(FLDMMDL_RAIL_GetTableLength(dirList, terminator))];
+    return dirList[GFL_USE_GetRandom(FLDMMDL_RAIL_GetTableLength(dirList, terminator))];
 }
 
 /* The direction list of a look around or wander kind. */

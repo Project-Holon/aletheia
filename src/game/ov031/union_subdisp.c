@@ -62,9 +62,9 @@
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   func_02049EF4  0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   sUnionSubdispBgTemplate5     0x021F1050  data  ov031  a4
@@ -110,7 +110,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   func_0209C2B0 0x0209C2B0 arm
+ *   _u32_div_f 0x0209C2B0 arm
  *   KEY_GetRepeat  0x0203633C  arm
  */
 typedef unsigned char  u8;
@@ -172,9 +172,9 @@ extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern u32 BG_SYS_GetBuf(int channel);
-extern void *func_02049EF4(void *archive, u32 a, u32 b, void **out, u16 heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 a, u32 b, void **out, u16 heapId);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
-extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FreeLayerBuf(unsigned int);
@@ -296,7 +296,7 @@ extern void BMP_CopyPixels(const void *src, void *dst);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern int TOUCHPANEL_GetTrg(void);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const UnionSubdispPos *pos, u32 which);
-extern u32 func_0209C2B0(u32 a, u32 b);
+extern u32 _u32_div_f(u32 a, u32 b);
 
 void UNION_SUBDISP_UpdateChatLines(UnionSubdispWork *work, UnionChatLog *log);
 void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *entry, u8 lineNo);
@@ -547,10 +547,10 @@ void UNION_SUBDISP_InitBgs(UnionSubdispWork *work, void *archive)
     ARC_UTIL_UploadBgCharFromHandle(archive, 0xF, 7, 0, 0, 0, UNION_SUBDISP_HEAP_ID);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 0x11, 7, 0, 0x800, 0, UNION_SUBDISP_HEAP_ID);
     palette = (u16 *)BG_SYS_GetBuf(6);
-    palFile = func_02049EF4(archive, 0x12, 0, (void **)&palData, UNION_SUBDISP_HEAP_ID);
+    palFile = ARC_UTIL_LoadPaletteDataFromHandle(archive, 0x12, 0, (void **)&palData, UNION_SUBDISP_HEAP_ID);
     MI_CpuCopy8(palData + 0xC, palette, 0x1C0);
     GFL_HEAP_Free(palFile);
-    func_02049B68(archive, 0x10, 4, 0, 0xA0, UNION_SUBDISP_HEAP_ID);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 0x10, 4, 0, 0xA0, UNION_SUBDISP_HEAP_ID);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1E0, 0x20, UNION_SUBDISP_HEAP_ID);
     BG_SYS_SetPlaneVisible(4, 0);
     BG_SYS_SetPlaneVisible(7, 1);
@@ -591,12 +591,12 @@ void UNION_SUBDISP_LoadFrameBg(UnionSubdispWork *work)
     work->bgCharOffset = charOffset;
     ARC_UTIL_UploadBgCharFromHandle(archive, 0x1C, 5, charOffset, 0x80, 0, UNION_SUBDISP_HEAP_ID);
     screen = (u16 *)BG_SYS_GetBuf(5);
-    screenFile = func_02049EF4(archive, 0x1D, 0, (void **)&screenData, UNION_SUBDISP_HEAP_ID);
+    screenFile = ARC_UTIL_LoadPaletteDataFromHandle(archive, 0x1D, 0, (void **)&screenData, UNION_SUBDISP_HEAP_ID);
     MI_CpuCopy8((u16 *)(screenData + 0xC) + 0x2A0, screen + 0x2A0, 0xC0);
     GFL_HEAP_Free(screenFile);
     for (i = 0; i < 0x60; i++)
         screen[0x2A0 + i] = (screen[0x2A0 + i] & 0xFFF) + charOffset + 0xD000;
-    func_02049B68(archive, 0x1B, 4, 0x1A0, 0x20, UNION_SUBDISP_HEAP_ID);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 0x1B, 4, 0x1A0, 0x20, UNION_SUBDISP_HEAP_ID);
     ARC_TOOL_DeleteHandle(archive);
 }
 
@@ -1067,7 +1067,7 @@ int UNION_SUBDISP_GetScrollRange(UnionChatLog *log)
 /* Height of one scroll step in 8.8 fixed point pixels: the knob travel of 0x80 pixels divided by the number of steps. */
 u32 UNION_SUBDISP_GetKnobStep(void *unused, u32 range)
 {
-    return func_0209C2B0(0x8000, range);
+    return _u32_div_f(0x8000, range);
 }
 
 /* A new touch on the scroll bar moves the knob there. Returns 1 when it did. */

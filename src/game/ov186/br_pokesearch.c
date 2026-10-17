@@ -28,7 +28,7 @@
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -80,7 +80,7 @@ extern void BG_SYS_PushTile(u32 index);
 
 extern void * MI_CpuFill8(void *,u32,u32);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, struct StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct StrBuf *dest);
 
 extern int BR_RES_GetSprite(struct BrRes *res, int spriteIndex, struct BrResSprite *outSprite);
 
@@ -400,9 +400,9 @@ void BR_POKESEARCH_DestroyGroupWindows(struct BrPokeSearch *ps)
  *   021FFFF8..022000D0. Singleton tu --suggest-split confirms no viable cut.
  *   Existing integrator-owned unit_02045C44.c function verified EXACT344 with
  *   read-only fixed-flag one (ARM9-45CAC.log). No ARM9 file/shard writes.
- *   Its function: header lists only MSGDATA_CreateFromMemory, omitting func_02045CAC.
+ *   Its function: header lists only MSGDATA_CreateFromMemory, omitting MSGDATA_ReadString.
  *   Verified C follows, using that unit's declarations:
- *   void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
+ *   void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest) {
  *     u32 size; struct MsgEntry *e;
  *     if (index >= bank->file->count) { STRBUF_Clear(dest); return; }
  *     MSGDATA_RefreshLanguage(bank);
@@ -437,7 +437,7 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     ps->menuItems=BMP_MENUWORK_Create(ps->seenCount,ps->heapId);
     str=STRBUF_Create(11,ps->heapId);
     for(i=0;i<ps->seenCount;i++) {
-        func_02045CAC(gSpeciesNameBank,ps->seenList[i],str);
+        MSGDATA_ReadString(gSpeciesNameBank,ps->seenList[i],str);
         BMP_MENUWORK_AddStrItem(ps->menuItems+i,str,ps->seenList[i],ps->heapId);
     }
     STRBUF_Delete(str);

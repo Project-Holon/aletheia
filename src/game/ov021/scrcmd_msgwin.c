@@ -69,7 +69,7 @@
  *   FIELD_MSGBG_InfoSysWinPrintStrNow  0x02191184  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELD_MSGBG_GetInfoSysWinBmpWin  0x021911B4  thumb  ov021
- *   func_020056BC  0x020056BC  thumb
+ *   GFL_USE_GetMainTaskList  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   FIELDMAP_GetInfoWindow  0x02188D48  thumb  ov021
@@ -293,7 +293,7 @@ extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
 extern void FIELD_MSGBG_InfoSysWinPrintStrNow(FieldSysWin *sysWin, u32 x, int y, Strbuf *str);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern BmpWin *FIELD_MSGBG_GetInfoSysWinBmpWin(FieldSysWin *sysWin);
-extern MainTaskList *func_020056BC(void);
+extern MainTaskList *GFL_USE_GetMainTaskList(void);
 extern TimeIcon *TIME_ICON_Create(MainTaskList *taskList, BmpWin *bmpWin, u32 x, u32 y, u32 heapId);
 extern PlayerWork *GAME_DATA_GetMyPlayerWork(GameData *gameData);
 extern FieldMsgWin *FIELDMAP_GetInfoWindow(FieldMap *fieldMap);
@@ -789,7 +789,7 @@ int SCRCMD_MSGWIN_CmdSetTimeIcon(ScriptVm *vm, ScrcmdWork *cmdWork)
     }
     if (noTimeIcon == 0) {
         BmpWin *bmpWin = FIELD_MSGBG_GetInfoSysWinBmpWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
-        SCRCMD_WORK_SetTimeIcon(cmdWork, TIME_ICON_Create(func_020056BC(), bmpWin, 0xf, 0x10, heapId));
+        SCRCMD_WORK_SetTimeIcon(cmdWork, TIME_ICON_Create(GFL_USE_GetMainTaskList(), bmpWin, 0xf, 0x10, heapId));
     }
     return 0;
 }

@@ -21,7 +21,7 @@
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -210,7 +210,7 @@ extern void APP_TASKMENU_UpdateMenu(Obj *);
 extern unsigned APP_TASKMENU_IsFinish(struct TaskMenu *);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -505,10 +505,10 @@ void PSEL_GRAPHIC_LoadFadeSources(u8 *work)
     u8 i;
     for (i = 0; i < 3; i++) {
         u8 *out;
-        void *buffer = func_02049F78(object, d_021BC73C[i].b, (u32)&out, ((struct PselWork *)work)->heapId);
+        void *buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC73C[i].b, (u32)&out, ((struct PselWork *)work)->heapId);
         MI_CpuCopy8(*(u8 **)(out + 0xC), (u8 *)((struct PselWork *)work)->fade.slots[i].src, 0x20);
         GFL_HEAP_Free(buffer);
-        buffer = func_02049F78(object, d_021BC73C[i].e, (u32)&out, ((struct PselWork *)work)->heapId);
+        buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC73C[i].e, (u32)&out, ((struct PselWork *)work)->heapId);
         MI_CpuCopy8(*(u8 **)(out + 0xC), (u8 *)((struct PselWork *)work)->fade.slots[i].dst, 0x20);
         GFL_HEAP_Free(buffer);
     }
@@ -598,7 +598,7 @@ void PSEL_GRAPHIC_LoadPaletteBuffers(char *work)
     u8 i;
     for (i = 0; i < 4; i++) {
         char *out;
-        void *buffer = func_02049F78(object, d_021BC708[i], (u32)(&out), ((struct PselWork *)work)->heapId);
+        void *buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC708[i], (u32)(&out), ((struct PselWork *)work)->heapId);
         MI_CpuCopy8(((struct PselResMember *)out)->data + 256, (char *)((struct PselWork *)work)->palBuf[i], 256);
         GFL_HEAP_Free(buffer);
     }

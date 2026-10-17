@@ -32,7 +32,7 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_02040804 0x02040804 arm
+ *   BG_SYS_GetScrollY 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   ZUKAN_DETAIL_HEADBAR_DrawIcon 0x021BE920 thumb ov208
  *   ZUKAN_DETAIL_HEADBAR_NoOp 0x021BE864 thumb ov208
@@ -97,7 +97,7 @@ extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
-extern u32 func_02040804(u32 layer);
+extern u32 BG_SYS_GetScrollY(u32 layer);
 
 extern void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *);
 
@@ -215,14 +215,14 @@ void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p)
     case 0: case 2: break;
     case 1:
         if(p->count==0) {
-            if((int)func_02040804(5)<=0) {
+            if((int)BG_SYS_GetScrollY(5)<=0) {
                 BG_SYS_ResetSlot(5,3,0);p->state=2;
             } else {BG_SYS_ResetSlot(5,5,3);p->count=0;}
         } else --p->count;
         break;
     case 3:
         if(p->count==0) {
-            if((int)func_02040804(5)>=24) {
+            if((int)BG_SYS_GetScrollY(5)>=24) {
                 BG_SYS_ResetSlot(5,3,24);p->state=0;
             } else {BG_SYS_ResetSlot(5,4,3);p->count=0;}
         } else --p->count;

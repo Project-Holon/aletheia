@@ -76,7 +76,7 @@
  *   d_0216FEE0     0x0216FEE0  data
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_Change  0x0201232C  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
@@ -258,7 +258,7 @@ extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u
 
 extern void GAME_EVENT_Change(void *event, void *proc, u32 size);
 
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 
@@ -612,7 +612,7 @@ struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, int unused, struct Game
         event = GAME_EVENT_Create(gameSys, 0, IRC_BATTLE_ENTRY_Main, 0xE8);
     else
         GAME_EVENT_Change(event, IRC_BATTLE_ENTRY_Main, 0xE8);
-    task = func_020124E8(event);
+    task = GAME_EVENT_GetWork(event);
     task->saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSys));
     task->gameData = GAMESYSTEM_GetGameData(gameSys);
     task->gameSys = gameSys;

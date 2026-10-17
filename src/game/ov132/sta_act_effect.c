@@ -29,7 +29,7 @@
  *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PARTICLE_SetupSystem 0x02051230 arm
  *   PARTICLE_KillAllEffects 0x02051620 arm
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
@@ -57,7 +57,7 @@ extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 
 extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 
-extern unsigned func_020056BC(void);
+extern unsigned GFL_USE_GetMainTaskList(void);
 
 extern void PARTICLE_SetupSystem(void *, void *, unsigned, unsigned);
 
@@ -121,7 +121,7 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 a)
     j = 0;
     ((ActEffectSystem *)q)->system.p = (void *)PARTICLE_CreateSystemDefault((int)(q + 4), 0x4800, 0, ((struct ScriptCtx *)p)->f0.h);
     v = (void *)PARTICLE_LoadArchiveMember(47, a, ((struct ScriptCtx *)p)->f0.h);
-    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, func_020056BC());
+    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, GFL_USE_GetMainTaskList());
     for (; j < 4; j++) *(int *)(q + j * 16 + 0x4808) = 0;
     ((ActEffectSystem *)q)->active.s = 1;
     return q;

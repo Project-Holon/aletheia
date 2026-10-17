@@ -76,7 +76,7 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   d_021BD470     0x021BD470  data  ov088  a4
@@ -93,7 +93,7 @@
  *   G3D_UTIL_Create  0x02047CFC  arm
  *   G3D_UTIL_AddUnit  0x02047E88  arm
  *   G3D_UTIL_GetUnitObjIdx  0x020489F4  arm
- *   func_02048A18  0x02048A18  arm
+ *   G3D_UTIL_GetObject  0x02048A18  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   _ll_mul        0x0209C054  arm
  *   FX_Div         0x0207C768  arm
@@ -141,8 +141,8 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
- *   func_020070A4  0x020070A4  thumb
- *   func_02008730  0x02008730  thumb
+ *   SAVE_CONTROL_Get  0x020070A4  thumb
+ *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
@@ -161,7 +161,7 @@
  *   ov016_id       0x00000010  data
  *   ov107_id       0x0000006B  data
  *   GAME_SYNC_GetBlock  0x02009448  thumb
- *   func_020092EC  0x020092EC  thumb
+ *   BLOCK20_SAVEDATA_GetPending  0x020092EC  thumb
  *   BEACON_SetSlotState  0x0200C2F0  thumb
  *   GFL_NET_IsIdle  0x0203D210  arm
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
@@ -172,7 +172,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetRepeat  0x0203633C  arm
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
- *   func_020090E0  0x020090E0  thumb
+ *   CGEAR_SAVE_GetObtained  0x020090E0  thumb
  *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
  *   APP_ENV_InitParentalControl  0x0202EB44  thumb
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
@@ -191,7 +191,7 @@
  *   d_021BD6A4     0x021BD6A4  data  a4
  *   d_021BD704     0x021BD704  data  a4
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
@@ -207,17 +207,17 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   ZONEDATA_Init  0x020139B0  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
- *   func_02008854  0x02008854  thumb
- *   func_02008848  0x02008848  thumb
- *   func_0200890C  0x0200890C  thumb
+ *   PLAYER_LOCATION_GetData  0x02008854  thumb
+ *   PLAYER_LOCATION_GetLocationA  0x02008848  thumb
+ *   PLAYER_LOCATION_CopyRecord  0x0200890C  thumb
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   ZONEDATA_Exit  0x02013A48  thumb
- *   func_02008748  0x02008748  thumb
- *   func_0200864C  0x0200864C  thumb
- *   func_02008650  0x02008650  thumb
+ *   SYSTEM_DATA_GetPlayTime  0x02008748  thumb
+ *   PLAYTIME_GetHours  0x0200864C  thumb
+ *   PLAYTIME_GetMinutes  0x02008650  thumb
  *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
  *   BEACON_CountFlags  0x0200C258  thumb
@@ -234,9 +234,9 @@
  *   gStartMenuRowInfo     0x021BD5EC  data  a4
  *   BGWINFRM_Delete  0x0202CA0C  thumb
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
- *   func_020071EC  0x020071EC  thumb
+ *   SAVE_CONTROL_HasFlashSave  0x020071EC  thumb
  *   BEACON_GetSlotState  0x0200C308  thumb
- *   func_02049EF4  0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
@@ -259,11 +259,11 @@
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   BMP_MENU_CreateYesNo  0x0201FDA0  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_020071E8  0x020071E8  thumb
+ *   SAVE_CONTROL_GetLoadFlags  0x020071E8  thumb
  *   d_021BD818     0x021BD818  data  a4
  *   gStartMenuBattleFlagProcData     0x021BD824  data  a4
  *   SAVE_CONTROL_INTR_Create  0x021BD25C  thumb  ov088
- *   func_02007220  0x02007220  thumb
+ *   SAVE_CONTROL_ResetToNewGame  0x02007220  thumb
  *   MYSTATUS_Create  0x0200846C  thumb
  *   CONFIG_Create  0x020082EC  thumb
  *   NAMEIN_SETUP_CreateArgs  0x0216BFD4  thumb  ov010
@@ -285,10 +285,10 @@
  *   gNameInProcData     0x021F5580  data  ov194  a4
  *   GFL_USE_ReleaseWaveArcSet  0x02005B04  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_Copy  0x02008314  thumb
  *   PROCSYS_Delete  0x0203133C  arm
- *   func_02007210  0x02007210  thumb
+ *   SAVE_CONTROL_GetOutsideSaveLoaded  0x02007210  thumb
  *   SAVE_OUTSIDE_Load  0x021DFC20  thumb  ov228
  *   SAVE_OUTSIDE_IsLoaded  0x021DFE90  thumb  ov228
  *   SAVE_OUTSIDE_CopyPayload  0x021DFEB0  thumb  ov228
@@ -305,12 +305,12 @@
  *   SAVE_CONTROL_Reload  0x020070C8  thumb
  *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
  *   BEACON_SetSlotStates  0x0200C324  thumb
- *   func_020084E4  0x020084E4  thumb
- *   func_0200854C  0x0200854C  thumb
- *   func_02005728  0x02005728  thumb
+ *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb
+ *   MYSTATUS_SetOutfitVariant  0x0200854C  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   MYSTATUS_SetId  0x0200852C  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
- *   func_02008558  0x02008558  thumb
+ *   MYSTATUS_SetOutfit  0x02008558  thumb
  *   CONFIG_SetAppliedFlag  0x020083EC  thumb
  *   d_021BD8B8     0x021BD8B8  data  ov088  a4
  *   d_021BD848     0x021BD848  data  a4
@@ -330,13 +330,13 @@
  *   TIME_ICON_Update  0x0202F0B0  thumb
  *   d_021BDA20     0x021BDA20  data  a4
  *   TIME_ICON_Create  0x0202EE30  thumb
- *   func_02005654  0x02005654  thumb
+ *   GFL_USE_SetVBlankHook  0x02005654  thumb
  *   SAVE_OUTSIDE_ClearFlash  0x021DFF18  thumb  ov228
- *   func_02007230  0x02007230  thumb
+ *   SAVE_CONTROL_EraseMainSave  0x02007230  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   SAVE_CONTROL_EraseExtraSave  0x02007400  thumb
  *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
- *   func_0200566C  0x0200566C  thumb
+ *   GFL_USE_ClearVBlankHook  0x0200566C  thumb
  *   OS_ResetSystem  0x02087BCC  arm
  *   d_021BD9B0     0x021BD9B0  data  a4
  *   d_021BD980     0x021BD980  data  a4
@@ -348,10 +348,10 @@
  *   d_021BDA0C     0x021BDA0C  data  ov088  a4
  *   d_021BD3B9     0x021BD3B9  data  ov088  a1
  *   SAVE_CONTROL_StartSave  0x02007150  thumb
- *   func_02008764  0x02008764  thumb
- *   func_02007218  0x02007218  thumb
- *   func_02007214  0x02007214  thumb
- *   func_0200721C  0x0200721C  thumb
+ *   SYSTEM_DATA_SetActive  0x02008764  thumb
+ *   SAVE_CONTROL_GetOutsideSaveBroken  0x02007218  thumb
+ *   SAVE_CONTROL_SetOutsideSaveLoaded  0x02007214  thumb
+ *   SAVE_CONTROL_SetOutsideSaveBroken  0x0200721C  thumb
  *   BACKUP_SYSTEM_IsFlashBusy  0x02031E70  arm
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   SAVE_CONTROL_INTR_Delete  0x021BD29C  thumb  ov088
@@ -551,7 +551,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
@@ -564,7 +564,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32   G3D_UTIL_Create(u32 a, u32 b, u32 heap);
 extern u16   G3D_UTIL_AddUnit(u32 a, const void *b);
 extern u32 G3D_UTIL_GetUnitObjIdx(u8 *a0, int i);
-extern u32   func_02048A18(u32 a, u16 b);
+extern u32   G3D_UTIL_GetObject(u32 a, u16 b);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern fx32  FX_Div(fx32 numer, fx32 denom);
 extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h,
@@ -604,8 +604,8 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern struct SaveControl *func_020070A4(void);
-extern struct MyStatus *func_02008730(void *sys);
+extern struct SaveControl *SAVE_CONTROL_Get(void);
+extern struct MyStatus *SYSTEM_DATA_GetMyStatus(void *sys);
 extern void *BEACON_GetBlock(void *sys);
 extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
 extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
@@ -614,7 +614,7 @@ extern void STARTMENU_ReplaceWithBattleFlagProcNoSave(void);
 extern void STARTMENU_ReplaceWithBattleFlagProcWithSave(void);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Sub02009448Obj *GAME_SYNC_GetBlock(void *sys);
-extern u8 func_020092EC(const struct Sub02009210Obj *obj);
+extern u8 BLOCK20_SAVEDATA_GetPending(const struct Sub02009210Obj *obj);
 extern void BEACON_SetSlotState(struct Blk34 *p, u32 i, u8 v);
 extern u32 GFL_NET_IsIdle(void);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -625,7 +625,7 @@ extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern unsigned int KEY_GetRepeat(void);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
-extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
+extern u8 CGEAR_SAVE_GetObtained(const struct Sub020090B0Obj *obj);
 extern u32 BMP_MENU_ProcessYesNo(u8 *);
 extern int APP_ENV_InitParentalControl(void);
 extern u32 APP_ENV_IsRunOnTwl(void);
@@ -633,7 +633,7 @@ extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void BG_SYS_Update(void);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -649,17 +649,17 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u8 func_02008550(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
 extern void ZONEDATA_Init(u32 heap);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
-extern struct Sub02008828Obj *func_02008854(void *sys);
-extern u16 *func_02008848(void *);
-extern void func_0200890C(void *sys, struct Sub02008828Rec *dest);
+extern struct Sub02008828Obj *PLAYER_LOCATION_GetData(void *sys);
+extern u16 *PLAYER_LOCATION_GetLocationA(void *);
+extern void PLAYER_LOCATION_CopyRecord(void *sys, struct Sub02008828Rec *dest);
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void ZONEDATA_Exit(void);
-extern struct PlayTime *func_02008748(void *sys);
-extern u16 func_0200864C(const struct PlayTime *p);
-extern u8 func_02008650(const struct PlayTime *p);
+extern struct PlayTime *SYSTEM_DATA_GetPlayTime(void *sys);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern void *ZUKAN_SAVE_GetBlock(void *);
 extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
 extern u32 BEACON_CountFlags(struct Blk34 *p);
@@ -670,9 +670,9 @@ extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h)
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void G2x_SetBlendAlpha_(void *reg, int a, int b, int c, int d);
-extern u8 func_020071EC(const struct Sub020071E4Ctrl *ctrl);
+extern u8 SAVE_CONTROL_HasFlashSave(const struct Sub020071E4Ctrl *ctrl);
 extern u8 BEACON_GetSlotState(struct Blk34 *p, u32 i);
-extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u16 e);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *o, u32 a, u32 b, void **out, u16 e);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern u32 GFL_HEAP_Free(void *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
@@ -695,7 +695,7 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void *BMP_MENU_CreateYesNo(YesNoWindowTemplate *win, int base, int pal, int pos, int heap);
 extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern u32 func_020071E8(const struct Sub020071E4Ctrl *ctrl);
+extern u32 SAVE_CONTROL_GetLoadFlags(const struct Sub020071E4Ctrl *ctrl);
 int STARTMENU_TitleDemoInit(struct Proc *a0);
 void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work);
 void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work);
@@ -857,10 +857,10 @@ typedef enum { Z0 } Zero;
 
 extern void GFL_USE_ReleaseWaveArcSet(const u32 *arg);
 extern void MYSTATUS_Copy(void *, void *);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 extern void CONFIG_Copy(void *, void *);
 extern void PROCSYS_Delete(struct S020314B8 *p);
-extern u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
+extern u8 SAVE_CONTROL_GetOutsideSaveLoaded(const struct Sub020071E4Ctrl *ctrl);
 extern int GF_OVERLAY_Load(signed int overlayId);
 extern void GF_OVERLAY_Unload(int overlayId);
 extern void *SAVE_OUTSIDE_Load(u32 heap);
@@ -876,12 +876,12 @@ extern u8 BEACON_GetSlotStates(struct Blk34 *p);
 extern int SAVE_CONTROL_Reload(char *self);
 extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
 extern void BEACON_SetSlotStates(struct Blk34 *p, u8 v);
-extern void func_020084E4(u16 *out, struct U16Vec *vec);
-extern void func_0200854C(int, int);
-extern u32 func_02005728(u32 range);
+extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
+extern void MYSTATUS_SetOutfitVariant(int, int);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void MYSTATUS_SetId(struct MyStatus *obj, u32 value);
 extern u32 GF_STANDARD_Rand(void);
-extern void func_02008558(struct MyStatus *obj, u8 value);
+extern void MYSTATUS_SetOutfit(struct MyStatus *obj, u8 value);
 extern void CONFIG_SetAppliedFlag(struct Config *config, unsigned int on);
 extern void BG_SYS_FreeSlot(int a);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
@@ -889,23 +889,23 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern void TIME_ICON_Update(u8 *p);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-extern int func_02005654(int a, int b);
+extern int GFL_USE_SetVBlankHook(int a, int b);
 extern void SAVE_OUTSIDE_ClearFlash(u32 heap);
-extern void *func_02007230(struct Sub020071E4Ctrl *ctrl);
+extern void *SAVE_CONTROL_EraseMainSave(struct Sub020071E4Ctrl *ctrl);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void SAVE_CONTROL_EraseExtraSave(char *a0, u32 a1, u32 a2);
 extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *ctrl, u32 id);
-extern void func_0200566C(void);
+extern void GFL_USE_ClearVBlankHook(void);
 extern void OS_ResetSystem(u32 parameter);
 extern u8 func_020461E4(void);
 extern void MSGDATA_SetLanguage(u8);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 int SAVE_CONTROL_StartSave(int a0);
-void func_02008764(void *);
-u8 func_02007218(const struct Sub020071E4Ctrl *ctrl);
-void func_02007214(void *, u32);
-void func_0200721C(void *, u32);
+void SYSTEM_DATA_SetActive(void *);
+u8 SAVE_CONTROL_GetOutsideSaveBroken(const struct Sub020071E4Ctrl *ctrl);
+void SAVE_CONTROL_SetOutsideSaveLoaded(void *, u32);
+void SAVE_CONTROL_SetOutsideSaveBroken(void *, u32);
 extern int BACKUP_SYSTEM_IsFlashBusy(void);
 extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
 int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGameIntroWork *work);
@@ -978,7 +978,7 @@ struct MyStatus;
 struct WaveArcSet;
 struct Strbuf;
 extern struct SaveControlIntr *SAVE_CONTROL_INTR_Create(int heapId, struct SaveControl *saveControl);
-extern void *func_02007220(struct SaveControl *saveControl);
+extern void *SAVE_CONTROL_ResetToNewGame(struct SaveControl *saveControl);
 extern struct MyStatus *MYSTATUS_Create(int heapId);
 extern struct Config *CONFIG_Create(int heapId);
 extern NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short species, short traits, int maxLen, struct Strbuf *initialName, void *pokedex);
@@ -1332,7 +1332,7 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     logo->printer = PRINTSYS_QUE_Create((void *)heap);
     logo->msgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xB5, heap);
     logo->titleText = (u32)STRBUF_Create(0x40, heap);
-    func_02045CAC((struct MsgBank *)logo->msgBank, 1, (void *)logo->titleText);
+    MSGDATA_ReadString((struct MsgBank *)logo->msgBank, 1, (void *)logo->titleText);
     textWidth = GF_FONT_MeasureWidestLine((struct StrObj *)logo->titleText, logo->font, 0);
     PRINTSYS_PrintQueColor((void *)logo->printer, logo->textBitmap, (s16)(0x80 - textWidth / 2), (s16)0, logo->titleText, logo->font, 0x440);
     logo->ready = 1;
@@ -1492,10 +1492,10 @@ void STARTMENU_Demo3dInit(TitleDemo3d *demo3d, u32 heap)
     demo3d->renderer = G3D_UTIL_Create(7, 3, heap);
     demo3d->modelId = G3D_UTIL_AddUnit(demo3d->renderer, d_021BD410);
     base = G3D_UTIL_GetUnitObjIdx((u8 *)demo3d->renderer, demo3d->modelId);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(demo3d->renderer, base), 0);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(demo3d->renderer, base), 1);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(demo3d->renderer, base + 1), 0);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(demo3d->renderer, base + 2), 0);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)G3D_UTIL_GetObject(demo3d->renderer, base), 0);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)G3D_UTIL_GetObject(demo3d->renderer, base), 1);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)G3D_UTIL_GetObject(demo3d->renderer, base + 1), 0);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)G3D_UTIL_GetObject(demo3d->renderer, base + 2), 0);
 
     cosValue = FX_SinCosTable_[0x2AB];
     sinValue = FX_SinCosTable_[0x2AA];
@@ -1537,12 +1537,12 @@ void STARTMENU_Demo3dUpdate(TitleDemo3d *demo3d, int unused)
     func_02047964();
     G3D_SYSTEM_ApplyLookAt();
     for (modelIndex = 0; modelIndex < 3; modelIndex++) {
-        modelHandle = (void *)func_02048A18((u32)((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
+        modelHandle = (void *)G3D_UTIL_GetObject((u32)((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
         G3D_SYSTEM_DrawObject(modelHandle, (struct Arg *)d_021BD538);
     }
     G3D_SYSTEM_DrawEnd();
     for (modelIndex = 0; modelIndex < 3; modelIndex++) {
-        modelHandle = (void *)func_02048A18((u32)((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
+        modelHandle = (void *)G3D_UTIL_GetObject((u32)((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
         G3D_SYSTEM_LoopObjectAnimeFrame(modelHandle, 0, 0x1000);
         if (modelIndex == 0)
             G3D_SYSTEM_LoopObjectAnimeFrame(modelHandle, 1, 0x1000);
@@ -1590,7 +1590,7 @@ void STARTMENU_Demo3dSetFrame(TitleDemo3d *demo3d, int frame)
     ICA_ANIME_SetFrame((void *)demo3d->anime, frameValue);
     base = G3D_UTIL_GetUnitObjIdx((void *)demo3d->renderer, demo3d->modelId);
     for (modelIndex = 0; modelIndex < 3; modelIndex++) {
-        modelHandle = (void *)func_02048A18((u32)((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
+        modelHandle = (void *)G3D_UTIL_GetObject((u32)((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
         G3D_SYSTEM_SetObjectAnimeFrame(modelHandle, 0, &frameValue);
         if (modelIndex == 0)
             G3D_SYSTEM_SetObjectAnimeFrame(modelHandle, 1, &frameValue);
@@ -1671,8 +1671,8 @@ int STARTMENU_MenuInit(struct Proc *allocator)
     GFL_HEAP_CreateChildHeap(1, 0xb, 0x80000);
     work = PROCSYS_AllocProcWork(allocator, 0x150, 0xb);
     MI_CpuFill8(work, 0, 0x150);
-    work->saveData = (void *)func_020070A4();
-    work->playerData = (void *)func_02008730(work->saveData);
+    work->saveData = (void *)SAVE_CONTROL_Get();
+    work->playerData = (void *)SYSTEM_DATA_GetMyStatus(work->saveData);
     work->unlockData = (void *)BEACON_GetBlock(work->saveData);
     work->connectData = (void *)BLOCK20_SAVEDATA_GetBlock(work->saveData);
     work->eventWork = (void *)GAME_DATA_GetEventWorkFromSave((struct Sub020071CCCtrl *)work->saveData);
@@ -1769,7 +1769,7 @@ int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWor
 int STARTMENU_StateSetup(StartMenuWork *work)
 {
     unsigned short z;
-    if (func_020092EC((const struct Sub02009210Obj *)GAME_SYNC_GetBlock((void *)work->saveData)) == 1)
+    if (BLOCK20_SAVEDATA_GetPending((const struct Sub02009210Obj *)GAME_SYNC_GetBlock((void *)work->saveData)) == 1)
         BEACON_SetSlotState((struct Blk34 *)work->unlockData, 2, 2);
     z = 0;
     BG_SYS_SetMainVisiblePlanes(0);
@@ -2027,7 +2027,7 @@ int STARTMENU_StateConnectPrompt(StartMenuWork *work)
     case 0:
         BG_SYS_SetMainPlaneVisible(6, 0);
         STARTMENU_ShowRowActors(work, 0);
-        if (func_020090E0(work->connectData) == 0) {
+        if (CGEAR_SAVE_GetObtained(work->connectData) == 0) {
             work->connectResult = 1;
             work->subState = 0;
             return STARTMENU_BeginFadeIn(work, 1);
@@ -2417,10 +2417,10 @@ void STARTMENU_LoadGraphics(void)
 {
     void *archive;
     archive = ARC_TOOL_CreateHandle(0x23, 0x800B);
-    func_02049B68(archive, 4, 0, 0, 0xc0, 0xb);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 4, 0, 0, 0xc0, 0xb);
     ARC_UTIL_UploadBgCharFromHandle(archive, 3, 2, 0, 0, 1, 0xb);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 2, 3, 0, 0, 1, 0xb);
-    func_02049B68(archive, 5, 4, 0, 0xc0, 0xb);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 5, 4, 0, 0xc0, 0xb);
     ARC_UTIL_UploadBgCharFromHandle(archive, 1, 5, 0, 0, 1, 0xb);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 0, 6, 0, 0, 1, 0xb);
     ARC_TOOL_DeleteHandle(archive);
@@ -2524,7 +2524,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = MSGDATA_AllocString(work->msgBank, 12);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->playerData);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
-    if (func_02008550(work->playerData) == 0) {
+    if (MYSTATUS_GetOutfitVariant(work->playerData) == 0) {
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[1].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0xC80);
         work->windows[1].textPending = 1;
@@ -2538,9 +2538,9 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = MSGDATA_AllocString(work->msgBank, 16);
     ZONEDATA_Init(0x800B);
     if (ZONEDATA_CheckEventFlag(work->eventWork, 0x966) == 1) {
-        zoneName = (void *)ZONEDATA_GetPlaceNameId(func_02008848(func_02008854(work->saveData))[2]);
+        zoneName = (void *)ZONEDATA_GetPlaceNameId(PLAYER_LOCATION_GetLocationA(PLAYER_LOCATION_GetData(work->saveData))[2]);
     } else {
-        func_0200890C(work->saveData, (struct Sub02008828Rec *)locationBuf);
+        PLAYER_LOCATION_CopyRecord(work->saveData, (struct Sub02008828Rec *)locationBuf);
         zoneName = (void *)ZONEDATA_GetPlaceNameId(locationBuf[0]);
     }
     ZONEDATA_Exit();
@@ -2552,9 +2552,9 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     STRBUF_Delete(msgStr);
 
     msgStr = MSGDATA_AllocString(work->msgBank, 9);
-    playerInfo = func_02008748(work->saveData);
-    WORDSET_SetSlotNumber(work->wordSet, 0, func_0200864C(playerInfo), 3, 0, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 1, func_02008650(playerInfo), 2, 2, 1);
+    playerInfo = SYSTEM_DATA_GetPlayTime(work->saveData);
+    WORDSET_SetSlotNumber(work->wordSet, 0, PLAYTIME_GetHours(playerInfo), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, PLAYTIME_GetMinutes(playerInfo), 2, 2, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
     PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[3].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
@@ -2670,7 +2670,7 @@ void STARTMENU_CreateActors(StartMenuWork *work)
     resConfig = d_021BD688;
     CLACT_InitSystem((const struct Cfg *)(&resConfig), (u32)d_021BD60C, 0xb);
     archive = ARC_TOOL_CreateHandle(0x1f, 0x800b);
-    if (func_02008550((const struct MyStatus *)work->playerData) == 0) {
+    if (MYSTATUS_GetOutfitVariant((const struct MyStatus *)work->playerData) == 0) {
         work->actorCharRes[0] = CLACT_RegisterCharacter(archive, 5, 0, 0, 0xb);
         work->actorPaletteRes[0] = CLACT_RegisterPalette(archive, 4, 0, 0, 0xb);
         work->actorCellRes[0] = CLACT_RegisterCellAnim(archive, 0, 1, 0xb);
@@ -2788,7 +2788,7 @@ void STARTMENU_StartBrightnessEffect(void)
 void STARTMENU_BuildRowList(StartMenuWork *work)
 {
     unsigned i = 0;
-    if (func_020071EC(work->saveData) == 1) {
+    if (SAVE_CONTROL_HasFlashSave(work->saveData) == 1) {
         work->rowIds[0] = 0;
         i++;
     }
@@ -2829,7 +2829,7 @@ void STARTMENU_LoadRowBuffers(StartMenuWork *work)
         void *fileData;
         void *fileHandle;
         work->rowBuffers[i] = (void *)GFL_HEAP_Alloc(0xb, rowBytes, 0, d_021BDA00, 0x7e9);
-        fileHandle = func_02049EF4(archive, gStartMenuRowInfo[i].frameId, 1, &fileData, 0xb);
+        fileHandle = ARC_UTIL_LoadPaletteDataFromHandle(archive, gStartMenuRowInfo[i].frameId, 1, &fileData, 0xb);
         MIi_CpuCopy16((char *)fileData + 0xc, work->rowBuffers[i], rowBytes);
         GFL_HEAP_Free(fileHandle);
     }
@@ -3217,7 +3217,7 @@ void STARTMENU_OpenNoticeWindow(StartMenuWork *work)
 void STARTMENU_StartMessage(StartMenuWork *work, u32 msgId)
 {
     void *window;
-    func_02045CAC((struct MsgBank *)(work->msgBank), msgId, (void *)(work->stringBuf));
+    MSGDATA_ReadString((struct MsgBank *)(work->msgBank), msgId, (void *)(work->stringBuf));
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)work->windows[13].window), 0xf);
     BMP_MENUWORK_DrawWindow(work->windows[13].window, 2, 1, 0xe);
     work->printJob = (void *)PRINTSYS_PrintStream((u32)work->windows[13].window, 0, 0, (u32)work->stringBuf,
@@ -3329,7 +3329,7 @@ int STARTMENU_BeginSelectAnim(StartMenuWork *work, int v)
 
 int STARTMENU_RefreshSaveStatus(StartMenuWork *work)
 {
-    int status = func_020071E8(work->saveData);
+    int status = SAVE_CONTROL_GetLoadFlags(work->saveData);
     work->saveStatus = status;
     return status != 0;
 }
@@ -3371,10 +3371,10 @@ int STARTMENU_NewGameIntroInit(struct Proc *proc)
     u32 voiceHandle;
     void *nameInOverlayId;
 
-    saveControl = func_020070A4();
+    saveControl = SAVE_CONTROL_Get();
     work = PROCSYS_AllocProcWork(proc, 0x5c, 1);
     work->saveIntr = SAVE_CONTROL_INTR_Create(1, saveControl);
-    func_02007220(saveControl);
+    SAVE_CONTROL_ResetToNewGame(saveControl);
     work->myStatus = MYSTATUS_Create(1);
     work->config = CONFIG_Create(1);
     work->startArg.startMode = 0;
@@ -3430,7 +3430,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
             *seq = 2;
         break;
     case 2:
-        work->nameInArgs->species = func_02008550(work->startArg.myStatus);
+        work->nameInArgs->species = MYSTATUS_GetOutfitVariant(work->startArg.myStatus);
         work->nameInArgs->saveIntr = work->saveIntr;
         PROCSYS_Push(work->procSys, (u32)ov194_id, &gNameInProcData, work->nameInArgs);
         *seq = 3;
@@ -3440,7 +3440,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
             *seq = 4;
         break;
     case 4:
-        STARTMENU_SetNewPlayerNameAndGender(work->myStatus, work->nameInArgs->name, func_02008550(work->myStatus));
+        STARTMENU_SetNewPlayerNameAndGender(work->myStatus, work->nameInArgs->name, MYSTATUS_GetOutfitVariant(work->myStatus));
         work->introParam.phase = 7;
         PROCSYS_Push(work->procSys, (u32)ov204_id, &gIntroProcData, &work->introParam);
         *seq = 6;
@@ -3472,18 +3472,18 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
 
 int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGameIntroWork *work)
 {
-    void *saveControl = func_020070A4();
+    void *saveControl = SAVE_CONTROL_Get();
     void *ov228Work;
     void *gameSystemWork;
     LocationPos pos = {0, 0, 0};
     GFL_USE_ReleaseWaveArcSet((const u32 *)work->waveArcSet);
     SAVE_CONTROL_INTR_Delete(work->saveIntr);
-    MYSTATUS_Copy(work->myStatus, func_02008730(saveControl));
-    CONFIG_Copy(work->config, func_0200873C(saveControl));
+    MYSTATUS_Copy(work->myStatus, SYSTEM_DATA_GetMyStatus(saveControl));
+    CONFIG_Copy(work->config, SYSTEM_DATA_GetConfig(saveControl));
     GFL_HEAP_Free(work->myStatus);
     GFL_HEAP_Free(work->config);
     PROCSYS_Delete((struct S020314B8 *)work->procSys);
-    if (func_02007210(saveControl) == 1) {
+    if (SAVE_CONTROL_GetOutsideSaveLoaded(saveControl) == 1) {
         GF_OVERLAY_Load((int)ov228_id);
         ov228Work = SAVE_OUTSIDE_Load(1);
         if (SAVE_OUTSIDE_IsLoaded(ov228Work) == 1)
@@ -3510,8 +3510,8 @@ int STARTMENU_BattleFlagProcInit(struct Proc *proc)
     NewGameIntroWork *work = PROCSYS_AllocProcWork(proc, 0x5c, 1);
 
     work->startArg.startMode = 1;
-    work->startArg.config = (struct Config *)func_0200873C(func_020070A4());
-    work->saveOptions = BEACON_GetBlock(func_020070A4());
+    work->startArg.config = (struct Config *)SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get());
+    work->saveOptions = BEACON_GetBlock(SAVE_CONTROL_Get());
     work->startArg.myStatus = 0;
     return 1;
 }
@@ -3556,12 +3556,12 @@ int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameInt
     u32 battleFlag;
     u8 savedOption;
 
-    saveControl = func_020070A4();
+    saveControl = SAVE_CONTROL_Get();
     battleFlag = CONFIG_GetBattleFlag(work->startArg.config);
     savedOption = BEACON_GetSlotStates(work->saveOptions);
     SAVE_CONTROL_Reload(saveControl);
-    CONFIG_ApplyAppliedFlag((const struct Config *)func_0200873C(saveControl));
-    func_0200890C(saveControl, (struct Sub02008828Rec *)(&location));
+    CONFIG_ApplyAppliedFlag((const struct Config *)SYSTEM_DATA_GetConfig(saveControl));
+    PLAYER_LOCATION_CopyRecord(saveControl, (struct Sub02008828Rec *)(&location));
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)GAMESYSTEM_SetupInitWork(1, location.mapId, &location.position, location.facing));
     CONFIG_SetBattleFlag(work->startArg.config, battleFlag);
     BEACON_SetSlotStates(work->saveOptions, savedOption);
@@ -3580,12 +3580,12 @@ void STARTMENU_SetNewPlayerNameAndGender(struct MyStatus *myStatus, struct Strbu
 {
     u64 tick;
     u32 currentValue;
-    func_020084E4((u16 *)myStatus, (struct U16Vec *)name);
-    func_0200854C((int)myStatus, gender);
-    MYSTATUS_SetId(myStatus, func_02005728(-1));
+    MYSTATUS_NameFromStrbuf((u16 *)myStatus, (struct U16Vec *)name);
+    MYSTATUS_SetOutfitVariant((int)myStatus, gender);
+    MYSTATUS_SetId(myStatus, GFL_USE_GetRandomBelow(-1));
     tick = GF_STANDARD_Rand();
-    currentValue = func_02008550(myStatus);
-    func_02008558(myStatus, (u8)((u32)((tick * 8) >> 32) + currentValue * 8));
+    currentValue = MYSTATUS_GetOutfitVariant(myStatus);
+    MYSTATUS_SetOutfit(myStatus, (u8)((u32)((tick * 8) >> 32) + currentValue * 8));
 }
 
 
@@ -3655,9 +3655,9 @@ int STARTMENU_ConfigPromptMain(int proc, int seq, NewGameStartArg *startArg, Con
         choice = STARTMENU_ConfigPromptReadInput(work);
         if (choice != 0) {
             if (choice == 1)
-                func_0200854C((int)startArg->myStatus, 0);
+                MYSTATUS_SetOutfitVariant((int)startArg->myStatus, 0);
             else
-                func_0200854C((int)startArg->myStatus, 1);
+                MYSTATUS_SetOutfitVariant((int)startArg->myStatus, 1);
             STARTMENU_ConfigPromptDeleteWindows(work);
             work->question = 2;
             STARTMENU_ConfigPromptDrawQuestion(work);
@@ -4127,18 +4127,18 @@ void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq)
     if (STARTMENU_SaveEraseUpdateMessage(work) == 0) {
         d_021BDA20 = TIME_ICON_Create(0, work->window, 0xf, 0x10, 0x81);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(work->window));
-        func_02005654((int)STARTMENU_SaveEraseUpdateTimeIcon, 0);
-        saveControl = func_020070A4();
+        GFL_USE_SetVBlankHook((int)STARTMENU_SaveEraseUpdateTimeIcon, 0);
+        saveControl = SAVE_CONTROL_Get();
         GF_OVERLAY_Load((u32)ov228_id);
         SAVE_OUTSIDE_ClearFlash(0x81);
         GF_OVERLAY_Unload((u32)ov228_id);
-        func_02007230(saveControl);
+        SAVE_CONTROL_EraseMainSave(saveControl);
         for (slot = 0; slot < 9; slot++) {
             if (SAVE_CONTROL_LoadExtraSave(saveControl, slot, 0x81) == 1)
                 SAVE_CONTROL_EraseExtraSave(saveControl, slot, 0x81);
             SAVE_CONTROL_DeleteExtraSave(saveControl, slot);
         }
-        func_0200566C();
+        GFL_USE_ClearVBlankHook();
         OS_ResetSystem(0);
     }
 }
@@ -4241,7 +4241,7 @@ void STARTMENU_SaveEraseStartMessage(SaveEraseWork *work, u32 messageId)
 {
     void *window;
 
-    func_02045CAC((struct MsgBank *)work->msgBank, messageId, work->stringBuf);
+    MSGDATA_ReadString((struct MsgBank *)work->msgBank, messageId, work->stringBuf);
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)work->window)), 15);
     BMP_MENUWORK_DrawWindow(work->window, 2, 1, 14);
     work->printJob = (void *)PRINTSYS_PrintStream((u32)work->window, 0, 0, (u32)work->stringBuf, (u32)work->font, MSG_SPEED_GetWaitForSpeed(0), (u32)work->taskList, 10, 0x81, 15);

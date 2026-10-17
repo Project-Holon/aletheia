@@ -21,7 +21,7 @@
  *   BG_SYS_CreateRun  0x0203FA08  arm
  *   BG_SYS_ReserveTileRun  0x0203FAF0  arm
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
- *   sub_020416B8  0x020416B8  arm
+ *   BG_SYS_GetField17  0x020416B8  arm
  *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   BG_SYS_GetType  0x02041680  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
@@ -67,7 +67,7 @@ extern u32 BG_SYS_ReserveTileRun(u32 layer, u32 offset, u32 units);
 
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
-extern u8 sub_020416B8(int channel);
+extern u8 BG_SYS_GetField17(int channel);
 
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
@@ -379,7 +379,7 @@ u32 BMP_WIN_Delete(struct BmpWin *win)
  * BMP_WIN_Delete immediately before it). It sizes the descriptor's payload
  * as
  *
- *   sub_020416B8(win->bgLayer) * (win->width * win->height)
+ *   BG_SYS_GetField17(win->bgLayer) * (win->width * win->height)
  *
  * and passes that, the heap handle obtained from d->heap via
  * BMP_GetPixels, and win->charOffset on to BG_SYS_LoadTileData.
@@ -406,7 +406,7 @@ void BMP_WIN_TransferChars(struct BmpWin *win)
 {
     u32 byteCount;
 
-    byteCount = (win->width * win->height) * sub_020416B8(win->bgLayer);
+    byteCount = (win->width * win->height) * BG_SYS_GetField17(win->bgLayer);
     BG_SYS_LoadTileData(win->bgLayer, BMP_GetPixels(win->bmp), byteCount, win->charOffset);
 }
 

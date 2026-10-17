@@ -45,7 +45,7 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200723C 0x0200723C thumb
+ *   SAVE_CONTROL_GetDiffSize 0x0200723C thumb
  *   _s32_div_f    0x0209C2B0 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -59,7 +59,7 @@
  *   sReportBgTemplate4 0x021F0AE0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
@@ -83,16 +83,16 @@
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_CountSeen 0x0200D0AC thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
- *   func_0200864C 0x0200864C thumb
- *   func_02008650 0x02008650 thumb
- *   func_020071F0 0x020071F0 thumb
- *   func_020071EC 0x020071EC thumb
- *   func_02008748 0x02008748 thumb
- *   func_020086C8 0x020086C8 thumb
- *   func_020086D0 0x020086D0 thumb
- *   func_020086D8 0x020086D8 thumb
- *   func_020086E0 0x020086E0 thumb
- *   func_020086E8 0x020086E8 thumb
+ *   PLAYTIME_GetHours 0x0200864C thumb
+ *   PLAYTIME_GetMinutes 0x02008650 thumb
+ *   SAVE_CONTROL_WouldOverwriteSave 0x020071F0 thumb
+ *   SAVE_CONTROL_HasFlashSave 0x020071EC thumb
+ *   SYSTEM_DATA_GetPlayTime 0x02008748 thumb
+ *   PLAYTIME_GetStampYear 0x020086C8 thumb
+ *   PLAYTIME_GetStampMonth 0x020086D0 thumb
+ *   PLAYTIME_GetStampDay 0x020086D8 thumb
+ *   PLAYTIME_GetStampHour 0x020086E0 thumb
+ *   PLAYTIME_GetStampMinute 0x020086E8 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_Clear 0x02043B5C arm
@@ -214,7 +214,7 @@ extern void *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *printQue, void *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void func_0200723C(struct SaveControl *saveControl, u32 *current, u32 *max);
+extern void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *current, u32 *max);
 extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -223,7 +223,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void func_02049B68(struct ArcHandle *, int, int, int, int, int);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *, int, int, int, int, int);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void ARC_UTIL_UploadBgCharFromHandle(struct ArcHandle *, int, int, int, int, int, int);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *, int, int, int, int, int, int);
@@ -255,16 +255,16 @@ extern u32 ZONEDATA_CheckEventFlag(void *eventWork, int flagId);
 extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
 extern u32 ZUKAN_SAVE_CountSeen(void *pokedex, u32 heap);
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
-extern u16 func_0200864C(const struct PlayTime *playTime);
-extern u8 func_02008650(const struct PlayTime *playTime);
-extern int func_020071F0(struct SaveControl *saveControl);
-extern u8 func_020071EC(const struct SaveControl *saveControl);
-extern struct PlayTime *func_02008748(struct SaveControl *saveControl);
-extern u32 func_020086C8(const struct PlayTime *playTime);
-extern u32 func_020086D0(const struct PlayTime *playTime);
-extern u32 func_020086D8(const struct PlayTime *playTime);
-extern u32 func_020086E0(const struct PlayTime *playTime);
-extern u32 func_020086E8(const struct PlayTime *playTime);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *playTime);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *playTime);
+extern int SAVE_CONTROL_WouldOverwriteSave(struct SaveControl *saveControl);
+extern u8 SAVE_CONTROL_HasFlashSave(const struct SaveControl *saveControl);
+extern struct PlayTime *SYSTEM_DATA_GetPlayTime(struct SaveControl *saveControl);
+extern u32 PLAYTIME_GetStampYear(const struct PlayTime *playTime);
+extern u32 PLAYTIME_GetStampMonth(const struct PlayTime *playTime);
+extern u32 PLAYTIME_GetStampDay(const struct PlayTime *playTime);
+extern u32 PLAYTIME_GetStampHour(const struct PlayTime *playTime);
+extern u32 PLAYTIME_GetStampMinute(const struct PlayTime *playTime);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
@@ -426,7 +426,7 @@ void REPORT_PrepareSave(ReportWork *work)
 
     saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->gameSystem));
     work->saveControl = saveControl;
-    func_0200723C(saveControl, &work->saveCountCurrent, &work->saveCountMax);
+    SAVE_CONTROL_GetDiffSize(saveControl, &work->saveCountCurrent, &work->saveCountMax);
     step = (work->saveCountCurrent << 9) / 10;
     work->progressStep = step;
     work->progressTarget = step;
@@ -530,7 +530,7 @@ void REPORT_LoadBgGraphics(int heapId)
 {
     struct ArcHandle *arc = ARC_TOOL_CreateHandle(0xC4, heapId);
 
-    func_02049B68(arc, 2, 4, 0, 0x60, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 2, 4, 0, 0x60, heapId);
     BG_SYS_LoadPlttEntry(4, 0);
     ARC_UTIL_UploadBgCharFromHandle(arc, 1, 4, 0, 0, 1, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0, 4, 0, 0, 1, heapId);
@@ -609,18 +609,18 @@ void REPORT_InitWindows(ReportWork *work)
     }
     msgPlayTime = MSGDATA_AllocString(msgBank, 6);
     currentPlayTime = GAME_DATA_GetPlayTime(gameData);
-    WORDSET_SetSlotNumber(wordSet, 0, func_0200864C(currentPlayTime), 3, 0, 1);
-    WORDSET_SetSlotNumber(wordSet, 1, func_02008650(currentPlayTime), 2, 2, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, PLAYTIME_GetHours(currentPlayTime), 3, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 1, PLAYTIME_GetMinutes(currentPlayTime), 2, 2, 1);
     WORDSET_CopyTaggedText(wordSet, buf, msgPlayTime);
     printRecordLine(work, 6, buf, msgPlayTime, 0, 0x3DC0, one);
-    if (func_020071F0(saveControl) == 0 && func_020071EC(saveControl) == 1) {
-        playTime = func_02008748(saveControl);
+    if (SAVE_CONTROL_WouldOverwriteSave(saveControl) == 0 && SAVE_CONTROL_HasFlashSave(saveControl) == 1) {
+        playTime = SYSTEM_DATA_GetPlayTime(saveControl);
         msgLastSave = MSGDATA_AllocString(msgBank, 7);
-        WORDSET_SetSlotNumber(wordSet, 0, func_020086C8(playTime), 2, 2, 1);
-        WORDSET_SetSlotNumber(wordSet, 1, func_020086D0(playTime), 2, 0, 1);
-        WORDSET_SetSlotNumber(wordSet, 2, func_020086D8(playTime), 2, 0, 1);
-        WORDSET_SetSlotNumber(wordSet, 3, func_020086E0(playTime), 2, 0, 1);
-        WORDSET_SetSlotNumber(wordSet, 4, func_020086E8(playTime), 2, 2, 1);
+        WORDSET_SetSlotNumber(wordSet, 0, PLAYTIME_GetStampYear(playTime), 2, 2, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, PLAYTIME_GetStampMonth(playTime), 2, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 2, PLAYTIME_GetStampDay(playTime), 2, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 3, PLAYTIME_GetStampHour(playTime), 2, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 4, PLAYTIME_GetStampMinute(playTime), 2, 2, 1);
         WORDSET_CopyTaggedText(wordSet, buf, msgLastSave);
         printRecordLine(work, 7, buf, msgLastSave, 4, 0x3580, one);
     } else BMP_WIN_TransferChars(work->windows[7].bmpWin);

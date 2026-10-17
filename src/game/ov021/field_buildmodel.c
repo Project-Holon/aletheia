@@ -51,7 +51,7 @@
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm
  *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
- *   func_02047828  0x02047828  arm
+ *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   FIELD_G3D_MAP_SetPlacement  0x021693D4  thumb  ov010
  *   FIELD_G3D_MAP_GetPlacement  0x02169444  thumb  ov010
  *   FIELD_G3D_MAP_ClearPlacement  0x0216940C  thumb
@@ -289,7 +289,7 @@ extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 extern int G3D_SYSTEM_GetAnimeObj(int p);
 int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
-u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
+u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
 extern void FIELD_G3D_MAP_SetPlacement(u8 *base, u8 *src, u32 idx);
 extern u32 *FIELD_G3D_MAP_GetPlacement(u8 *base, u32 idx);
 extern void FIELD_G3D_MAP_ClearPlacement(void *o, u32 i);
@@ -1180,7 +1180,7 @@ int FIELD_BUILDMODEL_IsSlotIdle(BuildModelAnimSet *set, int slot)
 int FIELD_BUILDMODEL_GetSlotFrame(BuildModelAnimSet *set, int id)
 {
     int frame;
-    func_02047828(set->anim, (unsigned short)id, &frame);
+    G3D_SYSTEM_GetObjectAnimeFrame(set->anim, (unsigned short)id, &frame);
     return frame;
 }
 

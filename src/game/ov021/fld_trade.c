@@ -20,8 +20,8 @@
  *   MYSTATUS_Init  0x020084A0  thumb
  *   STRBUF_ToChars  0x02045A38  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_020084D4  0x020084D4  thumb
- *   func_0200854C  0x0200854C  thumb
+ *   MYSTATUS_CopyName  0x020084D4  thumb
+ *   MYSTATUS_SetOutfitVariant  0x0200854C  thumb
  *   d_021DE59C  0x021DE59C  data  ov021
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -54,7 +54,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  */
 struct U16Vec;
 struct Sub0200852CObj;
@@ -143,8 +143,8 @@ extern void *MYSTATUS_Create(int a0);
 extern void MYSTATUS_Init(struct Sub0200852CObj *);
 extern void STRBUF_ToChars(struct U16Vec *, u16 *, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_020084D4(u32 value, void *dst);
-extern void func_0200854C(int, u32);
+extern u32 MYSTATUS_CopyName(u32 value, void *dst);
+extern void MYSTATUS_SetOutfitVariant(int, u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
@@ -172,7 +172,7 @@ extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Desc *event);
+extern void *GAME_EVENT_GetWork(struct Desc *event);
 
 FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId);
 void FLD_TRADE_Delete(FldTradeHolder *holder);
@@ -211,8 +211,8 @@ FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
     otName = (int)FLD_TRADE_GetMessageString(heapId, holder->data->otNameMsgId);
     STRBUF_ToChars((struct U16Vec *)otName, (u16 *)nameBuf, 0x80);
     STRBUF_Delete((struct U16Vec *)otName);
-    func_020084D4((int)holder->traderStatus, nameBuf);
-    func_0200854C((int)holder->traderStatus, holder->data->otGender);
+    MYSTATUS_CopyName((int)holder->traderStatus, nameBuf);
+    MYSTATUS_SetOutfitVariant((int)holder->traderStatus, holder->data->otGender);
     return holder;
 }
 
@@ -423,7 +423,7 @@ void *FLD_TRADE_CreateEvent(void *gsys, u32 tradeId, u32 partyIndex)
     gameData = GAMESYSTEM_GetGameData(gsys);
     party = GAME_DATA_GetMyParty(gameData);
     event = GAME_EVENT_Create(gsys, 0, (void *)FLD_TRADE_EventMain, 0x5c);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gsys = gsys;
     work->gameData = gameData;
     work->party = party;

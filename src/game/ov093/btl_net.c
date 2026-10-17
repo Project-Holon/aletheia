@@ -23,8 +23,8 @@
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_02007B50  0x02007B50  thumb
- *   func_02007B00  0x02007B00  thumb
+ *   PERAPVOICE_IsRecorded  0x02007B50  thumb
+ *   PERAPVOICE_GetSize  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -166,8 +166,8 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_NET_SendToHandle(struct NetHandle *handle, u32 cmd, u32 size, u32 data);
 extern u32 GFL_NET_SendData(u32 handle, u32 sendId, u32 cmd, u32 size, u32 data, u32 flag0, u32 flag1, u32 flag2);
 extern int POKE_REGULATION_GetDataSize(void);
-extern void *func_02007B50(void **p);
-extern u32 func_02007B00(void);
+extern void *PERAPVOICE_IsRecorded(void **p);
+extern u32 PERAPVOICE_GetSize(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
@@ -472,8 +472,8 @@ u32 BTL_NET_SendPerapVoice(u32 *voice)
 {
     u32 size;
 
-    if (func_02007B50((void **)voice) != 0) {
-        size = func_02007B00();
+    if (PERAPVOICE_IsRecorded((void **)voice) != 0) {
+        size = PERAPVOICE_GetSize();
     } else {
         size = 4;
         voice = &gBtlNet->sendScratch.word;

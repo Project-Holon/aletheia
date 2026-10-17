@@ -35,7 +35,7 @@
  *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb
  *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill  0x02082C60  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb
@@ -59,7 +59,7 @@
  *   FLDMMDL_GetPosY  0x0216D8AC  thumb
  *   MAP_ATTR_GetAt  0x021AB0D4  thumb
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
- *   func_021AB3F8  0x021AB3F8  thumb
+ *   MAP_ATTR_IsElectricPanel  0x021AB3F8  thumb
  *   FLDEFF_D06DENKI_StartPulse 0x021C9258 thumb ov021
  *   FLDEFF_D06DENKI_PulseTrigger 0x021C928C thumb ov021
  *   FLDMMDL_AddMmdlParam 0x0216CE6C thumb ov010
@@ -305,7 +305,7 @@ struct GameEvent *FIELD_GIMMICK_D06_CreateSlideEvent(struct FieldMap *fieldMap, 
         event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventStoneBlocked, 0x10);
     else
         event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventSlideStone, 0x10);
-    slide = func_020124E8(event);
+    slide = GAME_EVENT_GetWork(event);
     MI_CpuFill(slide, 0, 0x10);
     slide->direction = direction;
     slide->work = work;
@@ -460,7 +460,7 @@ int FIELD_GIMMICK_D06_ScanSlide(GimmickD06Work *work, GimmickD06StoneSlot *slot,
                 vec.y = FLDMMDL_GetPosY(mmdl);
                 result = MAP_ATTR_GetAt(mapper, &vec);
                 if (result != -1) {
-                    if (func_021AB3F8(MAP_ATTR_GetTerrainId(result)) == 1)
+                    if (MAP_ATTR_IsElectricPanel(MAP_ATTR_GetTerrainId(result)) == 1)
                         found = 1;
                 }
             }

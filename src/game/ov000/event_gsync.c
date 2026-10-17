@@ -35,13 +35,13 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_SYNC_GetBlock  0x02009448  thumb
- *   func_02009304  0x02009304  thumb
+ *   BLOCK20_SAVEDATA_GetActive  0x02009304  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_020079A0  0x020079A0  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   BOX_SAVEDATA_CountNonEggPokemon  0x020079A0  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
@@ -58,7 +58,7 @@
  *   gNetSaveRetryProc     0x021D654C  data   ov115  a4
  *   d_021EF78C     0x021EF78C  data   ov170  a4
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  */
 struct GameSystem;
@@ -173,20 +173,20 @@ extern int GFL_USE_PushBgm(void);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct WifiList *GAME_SYNC_GetBlock(void *saveControl);
-extern u8 func_02009304(const struct WifiList *wifiList);
+extern u8 BLOCK20_SAVEDATA_GetActive(const struct WifiList *wifiList);
 extern struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
 extern u8 *GAME_DATA_GetMyStatus(void *gameData);
-extern int func_020079A0(void *boxManager);
-extern struct Config *func_0200873C(void *saveControl);
+extern int BOX_SAVEDATA_CountNonEggPokemon(void *boxManager);
+extern struct Config *SYSTEM_DATA_GetConfig(void *saveControl);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void  GFL_NET_ERR_RequestScreen(void);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
 void *EVENT_GSYNC_Entry(void *gameSystem);
@@ -285,8 +285,8 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 13:
         return 1;
     case 16:
-        wifiFlag = func_02009304(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
-        if (func_020079A0(GAME_DATA_GetBoxManager(ICA_ANIME_GetField1C(gameSystem))) == 0 && wifiFlag == 0) {
+        wifiFlag = BLOCK20_SAVEDATA_GetActive(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))));
+        if (BOX_SAVEDATA_CountNonEggPokemon(GAME_DATA_GetBoxManager(ICA_ANIME_GetField1C(gameSystem))) == 0 && wifiFlag == 0) {
             work->menuResult = 4;
             *seq = 19;
         } else {
@@ -307,7 +307,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
             if (work->login.result == 1) {
                 *seq = 10;
             } else {
-                if (func_02009304(GAME_SYNC_GetBlock(work->saveControl)) == 0) {
+                if (BLOCK20_SAVEDATA_GetActive(GAME_SYNC_GetBlock(work->saveControl)) == 0) {
                     work->menuResult = 3;
                     *seq = 19;
                 } else {
@@ -344,7 +344,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         work->box.party = GAME_DATA_GetMyParty(work->box.gameData);
         work->box.myItem = GAME_DATA_GetMyItem(work->box.gameData);
         work->box.myStatus = GAME_DATA_GetMyStatus(work->box.gameData);
-        work->box.config = func_0200873C(GAME_DATA_GetSaveControl(work->box.gameData));
+        work->box.config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(work->box.gameData));
         work->box.pickerBuffer = work->pickerBuffer;
         work->box.result = 0;
         work->box.mode = 5;
@@ -418,7 +418,7 @@ void *EVENT_GSYNC_Create(void *gameSystem)
     struct GameData *gameData;
 
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_GSYNC_Main, 0x2CC);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->gameData = gameData;
     work->saveControl = GAME_DATA_GetSaveControl(gameData);

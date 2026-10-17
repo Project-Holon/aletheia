@@ -62,9 +62,9 @@
  *   BTLV_CORE_UnloadOverlays 0x021E8DF8 thumb ov093
  *   BTLV_CORE_UnloadDsiOverlay 0x021E88F8 thumb ov093
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_02007B44 0x02007B44 thumb
- *   func_02007B20 0x02007B20 thumb
- *   func_02007C20 0x02007C20 thumb
+ *   PERAPVOICE_GetFromSave 0x02007B44 thumb
+ *   PERAPVOICE_Create 0x02007B20 thumb
+ *   PERAPVOICE_Copy 0x02007C20 thumb
  *   BTL_MAIN_GetClientVoiceFlag 0x021B997C thumb ov093
  *   BTL_MAIN_GetRelativeClientIndex 0x021BA710 thumb ov093
  *   BTL_MAIN_SetClientParty 0x021BA128 thumb ov093
@@ -130,7 +130,7 @@
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020084D4 0x020084D4 thumb
+ *   MYSTATUS_CopyName 0x020084D4 thumb
  *   BTL_NET_ResetAfterParty 0x021D4500 thumb ov093
  *   BTL_NET_SendPerapVoice 0x021D450C thumb ov093
  *   BTL_NET_IsPerapVoiceReceived 0x021D45FC thumb ov093
@@ -138,7 +138,7 @@
  *   BTL_NET_ResetAfterPerapVoice 0x021D4674 thumb ov093
  *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
  *   BTL_MAIN_StoreClientVoiceFlag 0x021BA698 thumb ov093
- *   func_02007B00 0x02007B00 thumb
+ *   PERAPVOICE_GetSize 0x02007B00 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   BTL_SERVER_CreateClientAdapter 0x021BAACC thumb ov093
  *   BTL_SERVER_SetClientWithoutAdapter 0x021BAB10 thumb ov093
@@ -172,8 +172,8 @@
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
- *   func_02007F1C 0x02007F1C thumb
- *   func_02007E50 0x02007E50 thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   BEACON_GetPoints  0x0200C274  thumb
@@ -196,8 +196,8 @@
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
  *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
- *   func_02007B50 0x02007B50 thumb
- *   func_02007C70 0x02007C70 thumb
+ *   PERAPVOICE_IsRecorded 0x02007B50 thumb
+ *   PERAPVOICE_GetVoiceKind 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   gBtlPosTables  0x021EFD70  data  ov093
@@ -207,8 +207,8 @@
  *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008510  0x02008510  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
@@ -333,9 +333,9 @@ extern void PROCSYS_FreeProcWork(struct ProcHandle *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BTLV_CORE_UnloadDsiOverlay(void);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern const struct PerapVoice *func_02007B44(void *sys);
-extern struct PerapVoice *func_02007B20(u32 heapId);
-extern void func_02007C20(struct PerapVoice *dest, const struct PerapVoice *src);
+extern const struct PerapVoice *PERAPVOICE_GetFromSave(void *sys);
+extern struct PerapVoice *PERAPVOICE_Create(u32 heapId);
+extern void PERAPVOICE_Copy(struct PerapVoice *dest, const struct PerapVoice *src);
 extern int BTL_MAIN_GetClientVoiceFlag(struct BtlMain *main, unsigned int client);
 extern u8 BTL_MAIN_GetRelativeClientIndex(int ownClient, int client);
 extern void BTL_MAIN_SetClientParty(struct BtlMain *main, int client, struct Party *party);
@@ -393,7 +393,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_020084D4(u32 value, void *dst);
+extern u32 MYSTATUS_CopyName(u32 value, void *dst);
 extern void BTL_NET_ResetAfterParty(void);
 extern u32 BTL_NET_SendPerapVoice(u32 *);
 extern int BTL_NET_IsPerapVoiceReceived(void);
@@ -401,7 +401,7 @@ extern u32 BTL_NET_GetPerapVoice(u32 a);
 extern void BTL_NET_ResetAfterPerapVoice(void);
 extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, int slot);
 extern void BTL_MAIN_StoreClientVoiceFlag(struct BtlMain *main, int client);
-extern u32 func_02007B00(void);
+extern u32 PERAPVOICE_GetSize(void);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void BTL_SERVER_CreateClientAdapter(struct BtlServer *server, int unused, int netId, int clientId, u8 slotCount);
 extern void BTL_SERVER_SetClientWithoutAdapter(struct BtlServer *server, u8 clientId, int slotCount);
@@ -438,8 +438,8 @@ extern u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 
 extern int BTL_MAIN_IsMultiMode(struct BtlMain *main);
 extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
 extern int BTL_MAIN_IsClientUsed(struct BtlMain *main, unsigned char clientId);
-extern int func_02007F1C(void *,u32,int,u16);
-extern int func_02007E50(void *,u32,int,u16);
+extern int MYITEM_SAVEDATA_RemoveItem(void *,u32,int,u16);
+extern int MYITEM_SAVEDATA_AddItem(void *,u32,int,u16);
 extern u32 GPOWER_ApplyPrizeMoney(u32 v);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 BEACON_GetPoints(struct Blk34 *p);
@@ -462,8 +462,8 @@ extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern void BTL_POKEPARAM_SetPokeParam(struct BtlPokeParam *poke, void *mon);
 extern int BTL_POKEPARAM_IsLevelUpPending(struct BtlPokeParam *poke);
-extern void *func_02007B50(struct PerapVoice *voice);
-extern u32 func_02007C70(struct PerapVoice *p);
+extern void *PERAPVOICE_IsRecorded(struct PerapVoice *voice);
+extern u32 PERAPVOICE_GetVoiceKind(struct PerapVoice *p);
 extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
 extern u8 BTL_MAIN_GetEnemyLanePos(int rule, u32 basePos, u32 lane);
 extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *poke);
@@ -471,8 +471,8 @@ extern unsigned int BTL_MAIN_CountClientTrainers(struct BtlMain *main, int clien
 extern void BTL_POKEPARAM_ClearFakeMon(struct BtlPokeParam *poke);
 extern void *MYSTATUS_Create(int a);
 extern void MYSTATUS_Copy(void *src, void *dst);
-extern u8 func_02008550(const void *myStatus);
-extern void *func_02008510(void *a, int tag);
+extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
+extern void *MYSTATUS_CreateNameStrbuf(void *a, int tag);
 extern void PMSI_PARAM_ClearSentence(void *a);
 extern void *STRBUF_Clone(void *src, u32 heapId);
 extern void PMSI_PARAM_Copy(void *dst, const void *src);
@@ -1009,9 +1009,9 @@ void BTL_MAIN_SetupOwnClient(struct BtlMain *main, struct BattleSetupParam *setu
     main->ownFirstSlot = BTL_MAIN_GetClientTrainerIndex(main, ownClientId, 0);
     BTL_MAIN_InitClientParties(main, setup);
     if (BTL_MAIN_GetOwnsSlots(main) == 0) {
-        srcVoice = func_02007B44(GAME_DATA_GetSaveControl(setup->gameData));
-        main->voices[0] = func_02007B20(main->heapId);
-        func_02007C20(main->voices[0], srcVoice);
+        srcVoice = PERAPVOICE_GetFromSave(GAME_DATA_GetSaveControl(setup->gameData));
+        main->voices[0] = PERAPVOICE_Create(main->heapId);
+        PERAPVOICE_Copy(main->voices[0], srcVoice);
         main->setup->voiceFlags[0] = BTL_MAIN_GetClientVoiceFlag(main, client);
     } else {
         for (client = 0; client < 4; client++) {
@@ -1684,7 +1684,7 @@ int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
                         dst = buf;
                         dst[j] = STRBUF_GetEosChar();
                         STRBUF_Delete(nameStr);
-                        func_020084D4((u32)(main->trainers[i].handle), dst);
+                        MYSTATUS_CopyName((u32)(main->trainers[i].handle), dst);
                         STRBUF_Delete(main->trainers[i].name);
                         bank = MSGDATA_CreateFromArchive(0, 2, 0x51, main->heapId);
                         defaultName = MSGDATA_AllocString(bank, 15);
@@ -1756,7 +1756,7 @@ int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state)
         if (BTL_NET_PollSync(3)) ++*state;
         break;
     case 2:
-        if (BTL_NET_SendPerapVoice((u32 *)func_02007B44(GAME_DATA_GetSaveControl(setup->gameData)))) ++*state;
+        if (BTL_NET_SendPerapVoice((u32 *)PERAPVOICE_GetFromSave(GAME_DATA_GetSaveControl(setup->gameData)))) ++*state;
         break;
     case 3:
         if (BTL_NET_IsPerapVoiceReceived()) {
@@ -1764,8 +1764,8 @@ int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state)
                 if (BTL_MAIN_IsClientUsed(main, i) && !BTL_MAIN_IsTrainerSlotNpc(main, (u8)i)) {
                     src = (void *)BTL_NET_GetPerapVoice((u8)i);
                     if (src) {
-                        main->voices[i] = func_02007B20(main->heapId);
-                        MI_CpuCopy8(src, main->voices[i], func_02007B00());
+                        main->voices[i] = PERAPVOICE_Create(main->heapId);
+                        MI_CpuCopy8(src, main->voices[i], PERAPVOICE_GetSize());
                     }
                 }
                 BTL_MAIN_StoreClientVoiceFlag(main, (u8)i);
@@ -3114,7 +3114,7 @@ void BTL_MAIN_AddItemToBag(struct BtlMain *main, u32 clientId, u32 itemId)
 {
     struct BattleSetupParam *setup;
     setup = main->setup;
-    if (setup->ownsSlots == 0 && clientId == main->ownClientId) func_02007F1C(setup->myItem, itemId, 1, main->heapId);
+    if (setup->ownsSlots == 0 && clientId == main->ownClientId) MYITEM_SAVEDATA_RemoveItem(setup->myItem, itemId, 1, main->heapId);
 }
 
 
@@ -3132,7 +3132,7 @@ void BTL_MAIN_SubItemFromBag(struct BtlMain *main, u8 clientId, u32 itemId)
 {
     struct BattleSetupParam *setup;
     setup = main->setup;
-    if (setup->ownsSlots == 0 && clientId == main->ownClientId) func_02007E50(setup->myItem, itemId, 1, main->heapId);
+    if (setup->ownsSlots == 0 && clientId == main->ownClientId) MYITEM_SAVEDATA_AddItem(setup->myItem, itemId, 1, main->heapId);
 }
 
 
@@ -4046,8 +4046,8 @@ int BTL_MAIN_GetClientVoiceFlag(struct BtlMain *main, unsigned int clientId)
 {
     if (BTL_MAIN_GetOwnsSlots(main) == 0) {
         struct PerapVoice **voices = main->voices;
-        if (voices[clientId] != 0 && func_02007B50(voices[clientId]) != 0)
-            return func_02007C70(voices[clientId]);
+        if (voices[clientId] != 0 && PERAPVOICE_IsRecorded(voices[clientId]) != 0)
+            return PERAPVOICE_GetVoiceKind(voices[clientId]);
         return 0;
     }
     return main->setup->voiceFlags[clientId];
@@ -4850,10 +4850,10 @@ void BTL_TRAINER_SLOT_InitPlayer(struct BtlTrainerSlot *slot, int heapId, void *
     MYSTATUS_Copy(playerStatus, handle);
     flag = 0;
     slot->trainerId = 0;
-    if (func_02008550(slot->handle))
+    if (MYSTATUS_GetOutfitVariant(slot->handle))
         flag = 1;
     slot->trainerType = flag;
-    slot->name = func_02008510(slot->handle, 0x12);
+    slot->name = MYSTATUS_CreateNameStrbuf(slot->handle, 0x12);
     PMSI_PARAM_ClearSentence(slot->winWord);
     PMSI_PARAM_ClearSentence(slot->loseWord);
 }

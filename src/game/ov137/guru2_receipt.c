@@ -90,8 +90,8 @@
  *   gGuru2LobbyBg3Template 0x021E1BC0 data a4
  *   gGuru2LobbyBg4Template 0x021E1C00 data a4
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02049F78 0x02049F78 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -126,12 +126,12 @@
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   PRINTSYS_PrintStreamStop 0x0201CE0C thumb
- *   func_02008534 0x02008534 thumb
+ *   MYSTATUS_GetIdLow16 0x02008534 thumb
  *   MYSTATUS_NameToStrbuf 0x02008500 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
@@ -141,13 +141,13 @@
  *   KEY_GetTrg 0x020362DC arm
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
- *   func_02008550 0x02008550 thumb
- *   func_02008554 0x02008554 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetOutfit 0x02008554 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   gGuru2MemberPaletteIndex 0x021E1AF8 data a1
- *   func_02049E34 0x02049E34 arm
+ *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -172,6 +172,7 @@
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm  arm9
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm  arm9
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm  arm9
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm  arm9
  */
 #include "ov137_types.h"
 #include "guru2_shared_types.h"
@@ -585,9 +586,9 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -595,7 +596,7 @@ extern void BG_SYS_FreeLayerBuf(u32);
 
 extern void BG_SYS_Delete(void);
 
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -613,7 +614,7 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u8 *GAME_DATA_GetMyStatus(void *);
 
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
@@ -696,7 +697,7 @@ extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int
 
 extern void PRINTSYS_PrintStreamStop(void *);
 
-extern u16 func_02008534(const struct Sub0200852CObj *obj);
+extern u16 MYSTATUS_GetIdLow16(const struct Sub0200852CObj *obj);
 
 extern void MYSTATUS_NameToStrbuf(void *,void *);
 
@@ -706,7 +707,7 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 
@@ -726,11 +727,11 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
@@ -872,8 +873,8 @@ void GURU2_RECEIPT_InitBg(void)
 
 /*
  * STRBUF_Create 0x020457B0 arm
- * func_02045CAC 0x02045CAC arm
- * func_02049F78 0x02049F78 arm
+ * MSGDATA_ReadString 0x02045CAC arm
+ * ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  * GURU2_RECEIPT_LoadCharBuffer 0x021DE6C0 thumb ov137
  */
 void GURU2_RECEIPT_InitStrings(u8 *p,void *q)
@@ -888,10 +889,10 @@ void GURU2_RECEIPT_InitStrings(u8 *p,void *q)
     *(unsigned int *)&((struct Guru2MainCtx *)p)->f5C=(u32)STRBUF_Create(180,114);
     v=(u32)STRBUF_Create(40,114); *(unsigned int *)&((struct Guru2MainCtx *)p)->f60=v;
     *(unsigned int *)&((struct Guru2MainCtx *)p)->f118=0;
-    func_02045CAC((struct MsgBank *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40),17,(void *)v);
+    MSGDATA_ReadString((struct MsgBank *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40),17,(void *)v);
     GURU2_RECEIPT_LoadCharBuffer((char *)p,q);
     *(unsigned int *)&((struct Guru2MainCtx *)p)->f18=0; *(unsigned int *)&((struct Guru2MainCtx *)p)->f20=0; *(unsigned int *)&((struct Guru2MainCtx *)p)->f1C=0;
-    *(unsigned int *)&((struct Guru2MainCtx *)p)->f24=(u32)func_02049F78(q,2,(u32)(p+40),114);
+    *(unsigned int *)&((struct Guru2MainCtx *)p)->f24=(u32)ARC_UTIL_LoadPaletteBlockFromHandle(q,2,(u32)(p+40),114);
     ((struct Guru2MainCtx *)p)->f4804=0; *(unsigned int *)&((struct Guru2MainCtx *)p)->fE8=0;
     ((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f2C=2;
 }
@@ -909,7 +910,7 @@ void GURU2_RECEIPT_ExitBg(u32 a0) {BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5)
  *     u32 r=ARC_UTIL_LoadMember(a,b,f,g); return ARC_UTIL_UploadBgChar(r,c,d,e,f);
  * }
  * Blocker symbols: ARC_UTIL_LoadMember 0x0204A1BC arm; ARC_UTIL_UploadBgChar 0x0204968C arm.
- * func_02049B68 0x02049B68 arm
+ * ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  * ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  * ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  * ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
@@ -920,7 +921,7 @@ void GURU2_RECEIPT_ExitBg(u32 a0) {BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5)
  */
 void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
 {
-    func_02049B68(arc,1,0,0,512,114);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,0,0,512,114);
     ARC_UTIL_UploadBgCharFromHandle(arc,7,1,0,8192,0,114);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,13,1,0,1536,0,114);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,114);
@@ -941,7 +942,7 @@ void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
  *   plain u8 (the enum local is not needed). Callees: 02008550 returns u8-range
  *   index, 0204B100 returns a pointer, others as in matched callers.
  * GAME_DATA_GetMyStatus 0x02012944 thumb
- * func_02008550 0x02008550 thumb
+ * MYSTATUS_GetOutfitVariant 0x02008550 thumb
  * ARC_TOOL_CreateHandle 0x020490F4 arm
  * CLACT_InitSystem 0x0204A48C arm
  * CLACT_CreateUnit 0x0204B100 arm
@@ -962,7 +963,7 @@ void GURU2_RECEIPT_InitActors(const u8 *p)
     u32 a,b;
     const u32 *table;
     void *arc;
-    v=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
+    v=MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
     arc=ARC_TOOL_CreateHandle(31,114);
     CLACT_InitSystem(&gClActorInitParam,(u32)gGuru2LobbyVramBanks,114);
     *(void **)(p+104)=CLACT_CreateUnit(30,1,114);
@@ -1421,7 +1422,7 @@ int GURU2_RECEIPT_PrintMemberList(void *window,int unused,u16 color,Context *p) 
       do {
         if (p->entries[i].current) {
             int y;
-            value=func_02008534(p->entries[i].current);
+            value=MYSTATUS_GetIdLow16(p->entries[i].current);
             text=STRBUF_Create(16,0x72);
             MYSTATUS_NameToStrbuf(p->entries[i].current,p->names[i]);
             WORDSET_SetSlotNumber(p->formatter,0,value,5,2,1);
@@ -1461,7 +1462,7 @@ int GURU2_RECEIPT_UpdateMemberSlots(char *p) {
         record=(FrameRecord *)(p+i*16);
         record->previous=record->current;
         if (slot[0x138/4]) {
-            record->current.words.a=func_02008530((void *)slot[0x138/4]);
+            record->current.words.a=MYSTATUS_GetId((void *)slot[0x138/4]);
             record->current.words.b=1;
         } else {
             record->current.wide=0;
@@ -1489,7 +1490,7 @@ void GURU2_RECEIPT_PrintMessage(char *p, int message, int unused) {
     void *text;
     void *window;
     text = STRBUF_Create(0xb4, 0x72);
-    func_02045CAC(*(void * *)&((struct Guru2MainCtx *)p)->f40, message, text);
+    MSGDATA_ReadString(*(void * *)&((struct Guru2MainCtx *)p)->f40, message, text);
     WORDSET_CopyTaggedText(((struct Guru2MainCtx *)p)->f3C, ((struct Guru2MainCtx *)p)->f5C, text);
     STRBUF_Delete(text);
     BMP_Clear(BMP_WIN_GetBmp(((struct Guru2MainCtx *)p)->fD4), 0xf);
@@ -1538,8 +1539,8 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
         switch(*(u32 *)(p+i*4+0x160)) {
         case 0: break;
         case 1:
-            a=func_02008550(*(void **)(p+i*8+0x138));
-            b=func_02008554(*(void **)(p+i*8+0x138));
+            a=MYSTATUS_GetOutfitVariant(*(void **)(p+i*8+0x138));
+            b=MYSTATUS_GetOutfit(*(void **)(p+i*8+0x138));
             if (i==GFL_NET_SYSTEM_GetCurrentAid()) {
                 CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 4);
             } else {
@@ -1553,7 +1554,7 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
         case 2: break;
         case 3:
             if(i==GFL_NET_SYSTEM_GetCurrentAid()) {
-                func_02008550(*(void **)(p+i*8+0x138));
+                MYSTATUS_GetOutfitVariant(*(void **)(p+i*8+0x138));
                 CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 5);
             } else {
                 CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 5);
@@ -1565,7 +1566,7 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
     if(flag) GFL_USE_PlaySeDefaultVolume(0x676);
 }
 
-void GURU2_RECEIPT_LoadCharBuffer(char *p, void *a1) { ((struct Guru2MainCtx *)p)->f110=func_02049F34(32,0,(u32)(p+276),114); }
+void GURU2_RECEIPT_LoadCharBuffer(char *p, void *a1) { ((struct Guru2MainCtx *)p)->f110=ARC_UTIL_LoadPaletteBlockFromArchive(32,0,(u32)(p+276),114); }
 
 void GURU2_RECEIPT_FreeCharBuffer(u8 *p)
 {
@@ -1577,7 +1578,7 @@ void GURU2_RECEIPT_SetPlayerIcon(u8 *p, u8 *q, int i, int j, int unused)
     void *r;
     int n;
     GX_LoadOBJPltt(*(u8 * *)&((struct Guru2MainCtx *)q)->fC + gGuru2MemberPaletteIndex[j] * 32, i * 32, 32);
-    r = func_02049E34(32, j + 1, 0, (u32)(&n), 114);
+    r = ARC_UTIL_LoadScreenDataFromArchive(32, j + 1, 0, (u32)(&n), 114);
     CLACT_TransferCharacter((int)(*(void **)(p + (i + 5) * 4 + 0x6c)), (struct Sub0204A9D0 *)n);
     GFL_HEAP_Free(r);
 }

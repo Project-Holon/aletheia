@@ -36,7 +36,7 @@
  *   PARTICLE_Main 0x02050BE8 arm
  *   G3D_UTIL_Create 0x02047CFC arm
  *   G3D_UTIL_Delete 0x02047E54 arm
- *   func_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   d_02208EC0 0x02208EC0 data
  *   G3D_UTIL_AddUnit 0x02047E88 arm
@@ -174,7 +174,7 @@ extern int G3D_UTIL_Create(int, int, int);
 
 extern void G3D_UTIL_Delete(struct Rec *);
 
-extern u32 func_02048A18(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
 
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
@@ -485,7 +485,7 @@ void SHINKA_DEMO_EFFECT_InitUnit(char *a)
 
 void SHINKA_DEMO_EFFECT_DeleteUnit(char *p) { G3D_UTIL_Delete(*(struct Rec * *)&((EffectModel *)p)->res); }
 
-void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *p) { u16 i; EffectNode *n; for(i=0;i<p->count;i++) { n=p->nodes+i; if(n->f40) G3D_SYSTEM_DrawObject((void *)func_02048A18(p->res,n->id),(struct Arg *)((struct Transform *)&n->tx)); } }
+void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *p) { u16 i; EffectNode *n; for(i=0;i<p->count;i++) { n=p->nodes+i; if(n->f40) G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(p->res,n->id),(struct Arg *)((struct Transform *)&n->tx)); } }
 
 /*
  * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
@@ -513,9 +513,9 @@ void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *p)
     n->tz = 0;
     n->f40 = 1;
     for (i = 0; i < p->count; i++)
-        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(p->res, p->nodes[i].id), 0);
+        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)G3D_UTIL_GetObject(p->res, p->nodes[i].id), 0);
     p->f24 = 0;
-    q = (void *)func_02048A18(p->res, p->nodes[p->f1a].id);
+    q = (void *)G3D_UTIL_GetObject(p->res, p->nodes[p->f1a].id);
     x = 0;
     p->animeState = 0;
     G3D_SYSTEM_EnableObjectAnime(q, 1);
@@ -546,12 +546,12 @@ void SHINKA_DEMO_EFFECT_UpdateAnime(char *p)
 
     for (i = 0; i < ((EffectModel *)p)->count; i++) {
         unsigned short v = *(unsigned short *)((u8 *)((EffectModel *)p)->nodes + i * 0x44);
-        int x = func_02048A18((u8 *)(((EffectModel *)p)->res), v);
+        int x = G3D_UTIL_GetObject((u8 *)(((EffectModel *)p)->res), v);
 
         G3D_SYSTEM_LoopObjectAnimeFrame((void *)x, j, 0x1000);
     }
     ((EffectModel *)p)->f24 = ((EffectModel *)p)->f24 + 1;
-    v2 = func_02048A18((u8 *)(((EffectModel *)p)->res),
+    v2 = G3D_UTIL_GetObject((u8 *)(((EffectModel *)p)->res),
                        *(unsigned short *)((u8 *)((EffectModel *)p)->nodes +
                                            ((EffectModel *)p)->f1a * 0x44));
     if (((EffectModel *)p)->animeState == 1) {

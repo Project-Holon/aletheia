@@ -22,18 +22,18 @@
  *   OS_IsAvailableWireless  0x02087DC4  arm
  *   OS_IsAgreeEULA  0x02087DE0  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   func_0200974C  0x0200974C  thumb
- *   func_0200856C  0x0200856C  thumb
+ *   WIFI_HISTORY_Dummy  0x0200974C  thumb
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb
  *   COMM_HISTORY_CountLeadingOccupied  0x0202EC24  thumb
- *   func_02008530   0x02008530  thumb
- *   func_02009750   0x02009750  thumb
- *   func_020095E8   0x020095E8  thumb
+ *   MYSTATUS_GetId   0x02008530  thumb
+ *   WIFI_HISTORY_MarkCountryVisited   0x02009750  thumb
+ *   WIFI_HISTORY_IncrementVisitedCountryCount   0x020095E8  thumb
  *   _u32_div_f      0x0209C2B0  arm
  *   time_icon_File     0x020A7814  data
  *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
- *   func_020056EC   0x020056EC  thumb
+ *   GFL_USE_GetRandom   0x020056EC  thumb
  *   BMP_CreateFromArchive   0x0204384C  arm
  *   BMP_WIN_GetBgLayer   0x02045730  arm
  *   BMP_WIN_GetPosX   0x02045758  arm
@@ -104,6 +104,8 @@
  *   sOverlayLaunchWork     0x02146948  data
  *   sOverlayLaunchWorkArg 0x02146948  data
  *   PROCSYS_PushGlobal  0x020312CC  arm
+ *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  */
 #include "comm_player_support_shared_types.h"
 #include "blink_palanm_shared_types.h"
@@ -224,15 +226,15 @@ extern int OS_IsAgreeEULA(void);
 
 extern void OS_GetOwnerInfo(struct OwnerInfo *info);
 
-extern u8 func_0200856C(const struct PlayerRecord *record);
+extern u8 MYSTATUS_GetLanguage(const struct PlayerRecord *record);
 
-extern struct HistoryEntry *func_0200974C(struct HistoryOwner *owner);
+extern struct HistoryEntry *WIFI_HISTORY_Dummy(struct HistoryOwner *owner);
 
-extern u32 func_02008530(const struct PlayerRecord *record);
+extern u32 MYSTATUS_GetId(const struct PlayerRecord *record);
 
-extern u32 func_02009750(struct HistoryOwner *owner, u32 key);
+extern u32 WIFI_HISTORY_MarkCountryVisited(struct HistoryOwner *owner, u32 key);
 
-extern void func_020095E8(struct HistoryOwner *owner);
+extern void WIFI_HISTORY_IncrementVisitedCountryCount(struct HistoryOwner *owner);
 
 extern u32 _u32_div_f(u32 dividend, u32 divisor);
 
@@ -242,7 +244,7 @@ extern struct TcblNode *TCBL_AddTask(struct TcblList *list, void (*callback)(str
 
 extern void *TCBL_GetWork(struct TcblNode *node);
 
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 
 extern struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
 
@@ -294,9 +296,9 @@ extern u32 POKE_TOOL_GetBoxValue(struct SaveData *save, u32 varId, u32 defaultVa
 
 extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 
-extern struct Strbuf *func_02008510(const struct PlayerRecord *record, u32 index);
+extern struct Strbuf *MYSTATUS_CreateNameStrbuf(const struct PlayerRecord *record, u32 index);
 
-extern u32 func_02008550(const struct PlayerRecord *record);
+extern u32 MYSTATUS_GetOutfitVariant(const struct PlayerRecord *record);
 
 extern u32 POKE_TOOL_IsBoxShiny(struct SaveData *save);
 
@@ -587,7 +589,7 @@ void APP_ENV_GetOwnerColorAndBirthMonth(u8 *outFavoriteColor, u8 *outBirthMonth)
  */
 u32 COMM_HISTORY_InsertIfNamed(struct HistoryOwner *owner, struct HistoryEntry *entry)
 {
-    if (func_0200856C(&entry->record) == 0) {
+    if (MYSTATUS_GetLanguage(&entry->record) == 0) {
         return 0;
     }
     return COMM_HISTORY_InsertOrReplace(owner, entry);
@@ -611,7 +613,7 @@ u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry
     u32 index;
     u32 value;
 
-    table = func_0200974C(owner);
+    table = WIFI_HISTORY_Dummy(owner);
     index = COMM_HISTORY_FindByKeys(table, entry);
 
     if (index != 0x14) {
@@ -624,7 +626,7 @@ u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry
         return 1;
     }
 
-    value = func_0200856C(&entry->record);
+    value = MYSTATUS_GetLanguage(&entry->record);
     if (COMM_HISTORY_CountByKey(table, value) < 5) {
         if (COMM_HISTORY_CountLeadingOccupied(table) >= 0x14)
             COMM_HISTORY_RemoveAt(table, 0);
@@ -683,7 +685,7 @@ u32 COMM_HISTORY_CountByKey(struct HistoryEntry *table, u32 key)
         u32 entryKey;
         if (!table[i].isOccupied)
             break;
-        entryKey = func_0200856C(&table[i].record);
+        entryKey = MYSTATUS_GetLanguage(&table[i].record);
         if (entryKey == key)
             count++;
     }
@@ -701,7 +703,7 @@ s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key)
     for (i = 0; i < 0x14; i++) {
         u32 entryKey;
         if (!table[i].isOccupied) break;
-        entryKey = func_0200856C(&table[i].record);
+        entryKey = MYSTATUS_GetLanguage(&table[i].record);
         if (entryKey == key) return i;
     }
     return 0x14;
@@ -713,17 +715,17 @@ s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key)
  */
 s32 COMM_HISTORY_FindByKeys(struct HistoryEntry *table, struct HistoryEntry *entry)
 {
-    u32 keyA = func_02008530(&entry->record);
-    u32 keyB = func_0200856C(&entry->record);
+    u32 keyA = MYSTATUS_GetId(&entry->record);
+    u32 keyB = MYSTATUS_GetLanguage(&entry->record);
     u32 i;
 
     for (i = 0; i < 0x14; i++) {
         u32 candidateA, candidateB;
         if (!table[i].isOccupied)
             break;
-        candidateA = func_02008530(&table[i].record);
+        candidateA = MYSTATUS_GetId(&table[i].record);
         if (candidateA == keyA) {
-            candidateB = func_0200856C(&table[i].record);
+            candidateB = MYSTATUS_GetLanguage(&table[i].record);
             if (candidateB == keyB)
                 return i;
         }
@@ -775,20 +777,20 @@ void COMM_HISTORY_RemoveAt(struct HistoryEntry *table, u32 index)
 
 /*
  * Stores the entry in the owner's table, then asks the owner whether the
- * entry's key now needs its follow-up (func_020095E8).  The key is read out
- * of the entry once into a named local and handed to func_02009750; that
- * call's answer decides whether func_020095E8 runs.
+ * entry's key now needs its follow-up (WIFI_HISTORY_IncrementVisitedCountryCount).  The key is read out
+ * of the entry once into a named local and handed to WIFI_HISTORY_MarkCountryVisited; that
+ * call's answer decides whether WIFI_HISTORY_IncrementVisitedCountryCount runs.
  */
 void COMM_HISTORY_StoreAndNotify(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 mark)
 {
-    struct HistoryEntry *table = func_0200974C(owner);
+    struct HistoryEntry *table = WIFI_HISTORY_Dummy(owner);
     u32 key;
 
     COMM_HISTORY_StoreAt(table, entry, mark);
 
-    key = func_0200856C(&entry->record);
-    if (func_02009750(owner, key) != 0)
-        func_020095E8(owner);
+    key = MYSTATUS_GetLanguage(&entry->record);
+    if (WIFI_HISTORY_MarkCountryVisited(owner, key) != 0)
+        WIFI_HISTORY_IncrementVisitedCountryCount(owner);
 }
 
 /*
@@ -920,7 +922,7 @@ void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, 
     icon->waitCounter = 0;
     icon->fillColor = fillColor;
     icon->waitInterval = waitInterval;
-    icon->frame = func_020056EC(8);
+    icon->frame = GFL_USE_GetRandom(8);
     icon->sheet = BMP_CreateFromArchive(0xC6, 0, 1, icon->heapId);
 
     bgLayer = BMP_WIN_GetBgLayer(refWin);
@@ -961,7 +963,7 @@ void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct Bmp
     icon->waitCounter = 0;
     icon->fillColor = fillColor;
     icon->waitInterval = waitInterval;
-    icon->frame = func_020056EC(8);
+    icon->frame = GFL_USE_GetRandom(8);
 
     bgLayer = BMP_WIN_GetBgLayer(refWin);
     posX = BMP_WIN_GetPosX(refWin);
@@ -1245,9 +1247,9 @@ void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant)
  */
 void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *record, u32 index)
 {
-    struct Strbuf *name = (struct Strbuf *)func_02008510(record, index);
-    u32 kind = func_02008530(record);
-    u32 key = func_02008550(record);
+    struct Strbuf *name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf(record, index);
+    u32 kind = MYSTATUS_GetId(record);
+    u32 key = MYSTATUS_GetOutfitVariant(record);
 
     POKE_TOOL_SetBoxValue(save, 0x8d, (u32)name);
     POKE_TOOL_SetBoxValue(save, 0x9a, key);

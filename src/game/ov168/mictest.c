@@ -111,7 +111,7 @@
  *   MIC_StartLimitedSampling  0x0208B500  arm
  *   MIC_StopLimitedSampling  0x0208B528  arm
  *   d_02184A40 0x02184A40 data a4
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   TCB_AddTask  0x02030DA8  arm
  *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
@@ -350,7 +350,7 @@ extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 extern void SND_MIC_AddElapsed(u32 n);
 extern void MIC_StartLimitedSampling(int *);
 extern int MIC_StopLimitedSampling(void);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern u32 TCB_AddTask(int owner, void (*fn)(), int arg, int n);
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern int GF_STANDARD_Get_F5FC(u32 x);
@@ -913,9 +913,9 @@ int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
         }
     }
     if (entry) {
-        a = func_020056EC(0x1001) + 0x1333;
-        b = func_020056EC(61) + 60;
-        c = func_020056EC(15) + 6;
+        a = GFL_USE_GetRandom(0x1001) + 0x1333;
+        b = GFL_USE_GetRandom(61) + 60;
+        c = GFL_USE_GetRandom(15) + 6;
         MICTEST_InitSpriteTask((int)owner, sprite, entry, x, y, a, b, c, 1);
         return 1;
     }

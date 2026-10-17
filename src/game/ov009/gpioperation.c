@@ -162,7 +162,7 @@ extern char gGpiOperationDebugInvalidTypeFmt[];
  * otherwise-aliasing stores. Same idiom as
  * docs/idioms/a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer.md.
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0218DD88.c  *     --func gpiFailedOpCallback --addr 0x0218DD88 --region ov009 --arm --lang c99 --diff
+ *   python tools/match.py one --src src/matched/ov_sdk/gpiFailedOpCallback.c  *     --func gpiFailedOpCallback --addr 0x0218DD88 --region ov009 --arm --lang c99 --diff
  */
 int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
 {

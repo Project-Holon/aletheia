@@ -41,7 +41,7 @@
  *   _PokeTypePltOffset  0x0209FCF8  data
  *   _WazaKindPltOffset  0x0209FCEC  data
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   func_02049EF4  0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MIi_CpuCopy16     0x02082A60  arm
@@ -232,7 +232,7 @@ extern void STRBUF_Delete(struct StrBuf *str);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 GFL_HEAP_Free(void *memory);
 extern void *BG_SYS_GetBuf(int bgFrame);
-extern void *func_02049EF4(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32 POKE_TOOL_GetPartyValue(const struct PokemonParam *pp, int paramId, void *buf);
@@ -558,7 +558,7 @@ void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int c
     int i;
 
     scrn = (BarScreen *)BG_SYS_GetBuf(bgFrame);
-    fileBuf = func_02049EF4(arc, 0x1d, 0, &file, heapId);
+    fileBuf = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x1d, 0, &file, heapId);
     MI_CpuCopy8(((BarScreen *)((u8 *)file + 0xc))->barCells, scrn->barCells, 0xc0);
     GFL_HEAP_Free(fileBuf);
     for (i = 0; i < 0x60; i++)

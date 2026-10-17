@@ -755,7 +755,7 @@ int CRYPTOi__BN_rshift(BIGNUM *r, const BIGNUM *a, int n)
  * operand order.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov114_func_021CB3B4.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/CRYPTOi__BN_add_word.c \
  *       --func CRYPTOi__BN_add_word --addr 0x021CB3B4 --region ov114 --arm --cc 1.1p1 \
  *       --lang c99
  */

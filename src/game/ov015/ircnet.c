@@ -23,7 +23,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   WM_GetNextTgid  0x0208F1B4  arm
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   GFL_NET_HANDLE_RemoveHandle  0x0203A338  arm
  *   _u32_div_f  0x0209C2B0  arm
  *   IRC_Init  0x02179F74  arm  ov015
@@ -53,7 +53,7 @@ extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern u16 WM_GetNextTgid(void);
-extern u32 func_020056EC(u32 x);
+extern u32 GFL_USE_GetRandom(u32 x);
 extern void GFL_NET_HANDLE_RemoveHandle(u32 netId);
 extern void IRC_Init(u8 unitId);
 extern void IRC_Connect(void);
@@ -249,7 +249,7 @@ void IRCNET_InitWork(u32 a, u8 b)
     gIrcNetWork.randomByte = WM_GetNextTgid();
     IRC_Init(3);
     IRC_SetRecvCallback((void (*)(void))IRCNET_OnRecv);
-    gIrcNetWork.packet.senderId = func_020056EC(0);
+    gIrcNetWork.packet.senderId = GFL_USE_GetRandom(0);
     if (gIrcNetWork.packet.senderId == 0)
         gIrcNetWork.packet.senderId = 1;
     gIrcNetWork.packet.groupId = b;

@@ -105,7 +105,7 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   APP_ICON_GetTypePaletteOffset 0x020275EC thumb
@@ -300,7 +300,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern unsigned POKE_TOOL_CalcIconPalette(unsigned,unsigned,unsigned,unsigned);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
 extern u32 GFL_HEAP_Free(void *p);
 extern u8 APP_ICON_GetTypePaletteOffset(int i);
@@ -2736,7 +2736,7 @@ void B_PLIST_DRAW_TransferCharacter(char *p,void *obj,int index,int which)
     void *owner,*data;
     struct Sub0204A9D0 *out;
     owner=ARC_TOOL_CreateHandle(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
-    data=func_02049E74((void *)((unsigned)owner),APP_ICON_GetTypeCellFileId((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
+    data=ARC_UTIL_LoadScreenDataFromHandle((void *)((unsigned)owner),APP_ICON_GetTypeCellFileId((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     CLACT_TransferCharacter(*(unsigned *)(p+index*4+0x24a4),out);
     GFL_HEAP_Free(data);
     ARC_TOOL_DeleteHandle(owner);
@@ -2767,7 +2767,7 @@ void B_PLIST_DRAW_TransferCharacterToggle(char *p,int first,int index,int which)
     first+=toggle;
     index+=toggle;
     owner=ARC_TOOL_CreateHandle(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
-    data=func_02049E74((void *)((unsigned)owner),APP_ICON_GetMoveKindCellFileId((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
+    data=ARC_UTIL_LoadScreenDataFromHandle((void *)((unsigned)owner),APP_ICON_GetMoveKindCellFileId((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     CLACT_TransferCharacter(*(int *)(p+index*4+0x24a4),out);
     GFL_HEAP_Free(data);
     ARC_TOOL_DeleteHandle(owner);

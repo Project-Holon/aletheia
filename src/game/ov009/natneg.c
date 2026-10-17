@@ -32,7 +32,7 @@
  *   matchup1ip        0x021AE6C4  data
  *   ArrayLength  0x02184200  arm  ov009
  *   ArrayNth  0x02184208  arm  ov009
- *   func_02184144  0x02184144  arm  ov009
+ *   ArrayNew  0x02184144  arm  ov009
  *   ArrayAppend  0x02184234  arm  ov009
  *   ArrayRemoveAt  0x02184324  arm  ov009
  *   gsDebugFormat  0x0217D254 arm
@@ -276,7 +276,7 @@ extern void Util_RandSeed(unsigned long seed);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern int ArrayLength(void *array);
 extern void *ArrayNth(void *array, int n);
-extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ArrayAppend(void *array, void *newElem);
 extern void ArrayRemoveAt(void *array, int n);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
@@ -483,7 +483,7 @@ NATNegotiator *AddNegotiator(void)
     NATNegotiator _neg = {0};
 
     if (!negotiateList)
-        negotiateList = func_02184144(sizeof(NATNegotiator), 4, 0);
+        negotiateList = ArrayNew(sizeof(NATNegotiator), 4, 0);
     ArrayAppend(negotiateList, &_neg);
     return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength(negotiateList) - 1);
 }
@@ -1120,7 +1120,7 @@ void NNThink(void *p)
  * packettype 6, byte-swapped cookie and porttype) and sends it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0219A52C.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/SendConnectAck.c \
  *       --func SendConnectAck --addr 0x0219A52C --region ov009 --arm --cc 1.1p1 --lang c99
  */
 void SendConnectAck(NATNegotiator *neg, SOCSockAddrIn *toaddr)

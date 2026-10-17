@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   CALENDER_OverlaySequenceEvent 0x02164A2C thumb ov010
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -58,7 +58,7 @@
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   OS_GetParentalControlInfoPtr  0x02087E60  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GAME_COMM_GetKind  0x02026454  thumb
@@ -192,7 +192,7 @@ typedef struct OwnerFlags {
 
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*func)(struct GameEvent *, u32 *, void *), u32 workSize);
 
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern int CALENDER_OverlaySequenceEvent(struct GameEvent *event, u32 *seq, void *work);
 
@@ -276,7 +276,7 @@ extern OwnerFlags *OS_GetParentalControlInfoPtr(void);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern u32 func_02008530(const struct MyStatus *myStatus);
+extern u32 MYSTATUS_GetId(const struct MyStatus *myStatus);
 
 extern u32 GAMESYSTEM_CanStartAutoComm(const struct GameSystem *gameSystem);
 
@@ -537,7 +537,7 @@ extern const u8 GAME_BEACON_SEARCH_PresetEventTable[5];
 struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unused, u8 mode)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, CALENDER_OverlaySequenceEvent, sizeof(CalenderEventWork));
-    CalenderEventWork *work = func_020124E8(event);
+    CalenderEventWork *work = GAME_EVENT_GetWork(event);
     struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
 
     work->gameData = gameData;
@@ -767,7 +767,7 @@ void GAME_BEACON_SEARCH_BuildBeaconHeader(GameBeaconSearchBeacon *beacon, struct
     beacon->header.memberMax = 3;
     beacon->header.busy = GFL_NET_SYSTEM_CheckError();
     beacon->header.kind = 0;
-    beacon->header.trainerId = func_02008530(GAME_DATA_GetMyStatus(gameData));
+    beacon->header.trainerId = MYSTATUS_GetId(GAME_DATA_GetMyStatus(gameData));
     beacon->header.isTwl = OS_IsRunOnTwl();
     beacon->header.twlWirelessOn = 0;
     lidClosed = PAD_DetectFold();

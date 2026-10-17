@@ -1,7 +1,7 @@
 /*
  * file:     gx_vramcnt.c
  * unit:     yes
- * function: func_0207FD34, GX_SetBankForBG, GX_SetBankForOBJ, GX_SetBankForBGExtPltt, GX_SetBankForOBJExtPltt, GX_SetBankForTex, GX_SetBankForTexPltt, GX_SetBankForClearImage, GX_SetBankForARM7, GX_SetBankForLCDC, GX_SetBankForSubBG, GX_SetBankForSubOBJ, GX_SetBankForSubBGExtPltt, GX_SetBankForSubOBJExtPltt, resetBankForX_, GX_ResetBankForBG, GX_ResetBankForOBJ, func_0208091C, func_02080940, GX_ResetBankForTex, GX_ResetBankForTexPltt, GX_ResetBankForClearImage, GX_ResetBankForSubBG, GX_ResetBankForSubOBJ, GX_ResetBankForSubBGExtPltt, GX_ResetBankForSubOBJExtPltt, disableBankForX_, GX_DisableBankForBG, GX_DisableBankForOBJ, GX_DisableBankForBGExtPltt, GX_DisableBankForOBJExtPltt, GX_DisableBankForTex, GX_DisableBankForTexPltt, GX_DisableBankForClearImage, GX_DisableBankForARM7, GX_DisableBankForLCDC, GX_DisableBankForSubBG, GX_DisableBankForSubOBJ, GX_DisableBankForSubBGExtPltt, GX_DisableBankForSubOBJExtPltt, GX_GetBankForOBJ, GX_GetBankForOBJExtPltt, GX_GetBankForTex, GX_GetBankForLCDC, GX_GetBankForSubOBJ, GX_GetBankForSubOBJExtPltt
+ * function: GX_VRAMCNT_SetLCDC_, GX_SetBankForBG, GX_SetBankForOBJ, GX_SetBankForBGExtPltt, GX_SetBankForOBJExtPltt, GX_SetBankForTex, GX_SetBankForTexPltt, GX_SetBankForClearImage, GX_SetBankForARM7, GX_SetBankForLCDC, GX_SetBankForSubBG, GX_SetBankForSubOBJ, GX_SetBankForSubBGExtPltt, GX_SetBankForSubOBJExtPltt, resetBankForX_, GX_ResetBankForBG, GX_ResetBankForOBJ, GX_ResetBankForBGExtPltt, GX_ResetBankForOBJExtPltt, GX_ResetBankForTex, GX_ResetBankForTexPltt, GX_ResetBankForClearImage, GX_ResetBankForSubBG, GX_ResetBankForSubOBJ, GX_ResetBankForSubBGExtPltt, GX_ResetBankForSubOBJExtPltt, disableBankForX_, GX_DisableBankForBG, GX_DisableBankForOBJ, GX_DisableBankForBGExtPltt, GX_DisableBankForOBJExtPltt, GX_DisableBankForTex, GX_DisableBankForTexPltt, GX_DisableBankForClearImage, GX_DisableBankForARM7, GX_DisableBankForLCDC, GX_DisableBankForSubBG, GX_DisableBankForSubOBJ, GX_DisableBankForSubBGExtPltt, GX_DisableBankForSubOBJExtPltt, GX_GetBankForOBJ, GX_GetBankForOBJExtPltt, GX_GetBankForTex, GX_GetBankForLCDC, GX_GetBankForSubOBJ, GX_GetBankForSubOBJExtPltt
  * address:  0x0207FD34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   gGXState             0x02150E4C  data
  *   g_02150E4C 0x02150E4C data
- *   func_0207FD34 0x0207FD34 arm
+ *   GX_VRAMCNT_SetLCDC_ 0x0207FD34 arm
  *   g_02150E5A 0x02150E5A data
  *   g_02150E5C 0x02150E5C data
  *   g_02150E62 0x02150E62 data
@@ -160,7 +160,6 @@ typedef enum {
 } GXVRamTex;
 
 extern void g_02150E4C(void);
-extern void func_0207FD34(void);
 extern void OSi_UnlockVram(u16 bank, u16 lockId);
 extern int disableBankForX_(u16 *g3bit);
 void GX_SetBankForBG(GXVRamBG bg);
@@ -643,7 +642,7 @@ asm void GX_SetBankForLCDC(void)
     ldr r2, =g_02150E4C
     mov r1, r0, lsl #16
     ldrh r3, [r2]
-    ldr ip, =func_0207FD34
+    ldr ip, =GX_VRAMCNT_SetLCDC_
     orr r1, r3, r1, lsr #16
     strh r1, [r2]
     bx ip

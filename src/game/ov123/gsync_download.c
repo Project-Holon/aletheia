@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   func_0200F7DC 0x0200F7DC thumb
+ *   GFL_NET_ERR_Halt 0x0200F7DC thumb
  *   SAVEDATA_PanicFail 0x02034714 arm
  *   sGsyncDownloadFileName 0x021DAA40 data ov123 a1
  *   sGsyncDownloadAssertText 0x021DAA54 data ov123 a1
@@ -40,7 +40,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void func_0200F7DC(void);
+extern void GFL_NET_ERR_Halt(void);
 
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
@@ -124,7 +124,7 @@ static inline u32 filterCallbackError(u32 err)
         gGsyncDownloadWork->errorFlag = 1;
         break;
     case GSYNC_DOWNLOAD_ERR_NEEDS_RESET:
-        func_0200F7DC();
+        GFL_NET_ERR_Halt();
         break;
     }
     return err;

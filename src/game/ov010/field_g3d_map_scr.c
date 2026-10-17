@@ -20,7 +20,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   MOVE_POKEMON_SAVE_GetEntryState  0x0200D468  thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   BEACON_SetHashedId 0x0200C38C thumb
  *   g_BeaconTrainerKeys 0x02172508 data a4
  *   BEACON_GetHashedId 0x0200C39C thumb
@@ -43,7 +43,7 @@ extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveSys);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct ScriptSaveBlock *p, u32 i);
-extern u32 func_02008530(const struct TrainerRec *obj);
+extern u32 MYSTATUS_GetId(const struct TrainerRec *obj);
 extern void BEACON_SetHashedId(struct BeaconSave *p, s32 i, u32 v);
 extern u32 BEACON_GetHashedId(struct BeaconSave *p, s32 i);
 int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx);
@@ -85,7 +85,7 @@ int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
 
 /* Store the trainer ID of trainerRec, xored with the slot key, in the beacon save. */
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec) {
-    if(slot<8) BEACON_SetHashedId(beaconSave,slot,func_02008530(trainerRec)^*(const u32 *)((u32)g_BeaconTrainerKeys+(u32)slot*4));
+    if(slot<8) BEACON_SetHashedId(beaconSave,slot,MYSTATUS_GetId(trainerRec)^*(const u32 *)((u32)g_BeaconTrainerKeys+(u32)slot*4));
 }
 
 /*
@@ -94,7 +94,7 @@ void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *beaconSave, int slot, void *train
 int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec) {
     u32 trainerId; u32 storedId;
     if(slot>=8) return 0;
-    trainerId=func_02008530(trainerRec);
+    trainerId=MYSTATUS_GetId(trainerRec);
     storedId=BEACON_GetHashedId(beaconSave,slot);
     if((storedId^trainerId)==*(const u32 *)((u32)g_BeaconTrainerKeys+(u32)slot*4)) return 1;
     return 0;

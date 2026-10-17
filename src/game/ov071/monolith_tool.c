@@ -190,9 +190,9 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   UI_GetInputMode  0x020355C4  arm
- *   func_020084F4  0x020084F4  thumb
+ *   MYSTATUS_GetName  0x020084F4  thumb
  *   STRBUF_SetStringN  0x02045994  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   d_021BA928 0x021BA928 data a4
  *   d_021BA948     0x021BA948  data  a4
@@ -212,7 +212,7 @@
  *   d_021BAAA4     0x021BAAA4  data  a4
  *   d_021BAAB8     0x021BAAB8  data  ov071  a4
  *   d_021BAAD8     0x021BAAD8  data  ov071  a4
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   _ll_sdiv       0x0209BE5C  arm
  *   TOWN_MAP_SPOT_CountVisited  0x0216FEAC  thumb  ov010
@@ -549,16 +549,16 @@ extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, u32 which);
 extern u8 UI_GetInputMode(void);
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
 extern void INTRUDE_COMM_SetWordSetRequest(MonolithToolSlotInfo *, void *, void *, int);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int TOWN_MAP_SPOT_CountVisited(MonolithEntry *table, MonolithCounts *counts, u8 *rankData);
 extern int TOUCHPANEL_GetCont(void);
@@ -2431,8 +2431,8 @@ int MONOLITH_TOOL_TITLE_Init(void *ctx, int *state, MonolithToolProcArgs *args)
         MONOLITH_TOOL_TITLE_LoadGraphics(args, args->work);
         species = (int)MONOLITH_TOOL_GetTitleSpecies(args);
         name = STRBUF_Create(8, 0x61);
-        STRBUF_SetStringN(name, func_020084F4((const void *)species), 8);
-        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, func_02008550((const struct Sub0200852CObj *)species), 1, 2);
+        STRBUF_SetStringN(name, MYSTATUS_GetName((const void *)species), 8);
+        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)species), 1, 2);
         STRBUF_Delete(name);
         MONOLITH_TOOL_CreateLabel(args->work, &screen->nameLabel, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)args->work->wordSet);
         MONOLITH_TOOL_TITLE_CreateSlotIcons(screen, args);
@@ -3356,20 +3356,20 @@ void MONOLITH_TOOL_STATS_Draw(MonolithToolProcArgs *args, MonolithToolWork *work
     counts = MONOLITH_TOOL_GetSlotIconStates(args);
     labelText = STRBUF_Create(0x100, 0x61);
     lineText = STRBUF_Create(0x100, 0x61);
-    func_02045CAC(work->msgBank[3], 0xd, labelText);
+    MSGDATA_ReadString(work->msgBank[3], 0xd, labelText);
     drawText(work, screen->text[0].window, 0, 4, labelText);
     screen->text[0].on = 1;
-    func_02045CAC(work->msgBank[3], 5, labelText);
+    MSGDATA_ReadString(work->msgBank[3], 5, labelText);
     WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit + counts->current, 5, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[1].window, 0, 0, lineText);
     screen->text[1].on = 1;
-    func_02045CAC(work->msgBank[3], 9, labelText);
+    MSGDATA_ReadString(work->msgBank[3], 9, labelText);
     WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit, 4, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[2].window, 0, 0, lineText);
     screen->text[2].on = 1;
-    func_02045CAC(work->msgBank[3], 8, labelText);
+    MSGDATA_ReadString(work->msgBank[3], 8, labelText);
     WORDSET_SetSlotNumber(work->wordSet, 0, counts->current, 4, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[2].window, 0x78, 0, lineText);
@@ -3383,18 +3383,18 @@ void MONOLITH_TOOL_STATS_Draw(MonolithToolProcArgs *args, MonolithToolWork *work
         seconds -= hours * 3600;
         minutes = seconds / 60;
     }
-    func_02045CAC(work->msgBank[3], 0xb, labelText);
+    MSGDATA_ReadString(work->msgBank[3], 0xb, labelText);
     WORDSET_SetSlotNumber(work->wordSet, 0, hours, 3, 1, 1);
     WORDSET_SetSlotNumber(work->wordSet, 1, minutes, 2, 2, 1);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[3].window, 0, 0, lineText);
     screen->text[3].on = 1;
-    func_02045CAC(work->msgBank[3], 0xc, labelText);
+    MSGDATA_ReadString(work->msgBank[3], 0xc, labelText);
     WORDSET_SetSlotNumber(work->wordSet, 0, args->setup->recordCount, 5, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[4].window, 0, 0, lineText);
     screen->text[4].on = 1;
-    func_02045CAC(work->msgBank[3], 0xa, labelText);
+    MSGDATA_ReadString(work->msgBank[3], 0xa, labelText);
     WORDSET_SetSlotNumber(work->wordSet, 0, TOWN_MAP_SPOT_CountVisited(work->entryTable, MONOLITH_TOOL_GetSlotIconStates(args), args->setup->rankData), 4, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[5].window, 0, 0, lineText);
@@ -3960,7 +3960,7 @@ int MONOLITH_TOOL_LIST_DrawEntryNames(MonolithListWork *work, MonolithToolWork *
     if (i < work->entryCount) {
         do {
             if (i >= 1 && i < work->entryCount - 1) {
-                func_02045CAC(work->entryNameBank, work->entryIds[i], text);
+                MSGDATA_ReadString(work->entryNameBank, work->entryIds[i], text);
                 PRINTSYS_PrintColor(work->entryBitmaps[i], 0, 0, text, (void *)toolWork->font,
                               d_021BAAF8[work->entryDisabled[i]]);
             }

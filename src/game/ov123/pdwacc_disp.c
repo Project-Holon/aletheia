@@ -20,8 +20,8 @@
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -75,7 +75,7 @@
  *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
  *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_020092E0 0x020092E0 thumb
+ *   BLOCK20_SAVEDATA_SetPending 0x020092E0 thumb
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   ov114_id 0x00000072 data
@@ -112,6 +112,7 @@
  *   PDWACC_MESSAGE_PrintNumberWindows 0x021D9844 thumb ov123
  *   PDWACC_MESSAGE_DeleteNumberWindows 0x021D9918 thumb ov123
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
+ *   MYSTATUS_GetProfileId  0x0200853C  thumb  arm9
  */
 #include "pdwacc_disp_types.h"
 
@@ -138,9 +139,9 @@ extern void APP_TASKMENU_CloseMenu(void *m);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -250,11 +251,11 @@ extern int NHTTP_RAP_StartConnection(u8 *p);
 
 extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
 
-extern void func_020092E0(void *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetPending(void *obj, u8 value);
 
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 
-extern u32 func_0200853C(const void *obj);
+extern u32 MYSTATUS_GetProfileId(const void *obj);
 
 extern void *SAVE_CONTROL_GetWorkArea(void *ctrl, int *out);
 
@@ -492,17 +493,17 @@ void PDWACC_DISP_LoadResources(PdwaccDispWork *disp)
     u16 heap;
     archiveHandle = ARC_TOOL_CreateHandle(0x91, disp->heap);
     blendRow = 0;
-    func_02049B68(archiveHandle, 3, 4, 0, blendRow, disp->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archiveHandle, 3, 4, 0, blendRow, disp->heap);
     ARC_UTIL_UploadBgCharFromHandle(archiveHandle, 4, 4, 0, blendRow, blendRow, disp->heap);
     ARC_UTIL_UploadBgPaletteFromHandle(archiveHandle, 6, 4, 0, blendRow, blendRow, disp->heap);
-    func_02049B68(archiveHandle, 3, 0, 0, blendRow, disp->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archiveHandle, 3, 0, 0, blendRow, disp->heap);
     ARC_UTIL_UploadBgCharFromHandle(archiveHandle, 4, 0, 0, blendRow, blendRow, disp->heap);
     ARC_UTIL_UploadBgPaletteFromHandle(archiveHandle, 5, 0, 0, blendRow, blendRow, disp->heap);
     ARC_UTIL_UploadBgCharFromHandle(archiveHandle, 4, 3, 0, blendRow, blendRow, disp->heap);
     ARC_UTIL_UploadBgPaletteFromHandle(archiveHandle, 7, 3, 0, blendRow, blendRow, disp->heap);
     heap = disp->heap;
     MI_CpuFill8(&disp->palette, 0, sizeof(disp->palette));
-    allocated = func_02049F78(archiveHandle, 2, (u32)&record, heap);
+    allocated = ARC_UTIL_LoadPaletteBlockFromHandle(archiveHandle, 2, (u32)&record, heap);
     MI_CpuCopy8(record->data, disp->palette.basePalettes, 0x1e0);
     MI_CpuCopy8(record->data, disp->palette.blendedPalettes, 0x1e0);
     GFL_HEAP_Free(allocated);
@@ -608,7 +609,7 @@ void PDWACC_STATE_StateSaveStart(PdwaccProc *proc) { if(PDWACC_MESSAGE_UpdateStr
 
 void PDWACC_STATE_StateRestartTimeIcon(PdwaccProc *proc) { PDWACC_MESSAGE_PrintStream(proc->message,6); PDWACC_MESSAGE_RestartTimeIcon(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateSaveStart,0x112); }
 
-void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(proc->message); func_020092E0(GAME_SYNC_GetBlock(proc->saveControl),1); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
+void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(proc->message); BLOCK20_SAVEDATA_SetPending(GAME_SYNC_GetBlock(proc->saveControl),1); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
 
 void PDWACC_STATE_StateWaitInputPrintNumbers(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,9); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitInputClearWindow,0x12a); } }
 
@@ -705,7 +706,7 @@ int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
     proc->heap=param->heap;
     proc->saveControl=GAME_DATA_GetSaveControl(param->gameData);
     proc->gameData=param->gameData;
-    proc->profileId=func_0200853C((const void *)GAME_DATA_GetMyStatus(param->gameData));
+    proc->profileId=MYSTATUS_GetProfileId((const void *)GAME_DATA_GetMyStatus(param->gameData));
     if(GFL_NET_GetRunState()) {
         proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,param->connectionArg);
         DWC_RAP_SetErrorCallback((int)PDWACC_STATE_DestroyHttpConnection,(int)proc);

@@ -24,7 +24,7 @@
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   STA_ACT_AUDIENCE_SetSlotValue 0x021FA558 thumb ov132
  *   STA_ACT_AUDIENCE_SetHighlight 0x021FA56C thumb ov132
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   d_021FDCC4 0x021FDCC4 data a4
  *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
  *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
@@ -49,7 +49,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 STA_ACTING_GetCameraPos(void *p);
 
-extern unsigned func_02005728(unsigned);
+extern unsigned GFL_USE_GetRandomBelow(unsigned);
 
 extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
 
@@ -133,10 +133,10 @@ void STA_ACT_AUDIENCE_Update(char *p)
 {
     u8 i;
     if (STA_ACTING_GetCameraPos(((struct ScriptOwner *)p)->f1E8) == 0) {
-        if (func_02005728(10) == 0) {
+        if (GFL_USE_GetRandomBelow(10) == 0) {
             for (i = 0; i < 3; i++) {
-                u8 a = func_02005728(4);
-                u8 b = func_02005728(60);
+                u8 a = GFL_USE_GetRandomBelow(4);
+                u8 b = GFL_USE_GetRandomBelow(60);
                 STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + b * 8), a);
             }
         }
@@ -182,7 +182,7 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q)
         n = n + a[i];
     }
     for (; n < 60; n++)
-        a[func_02005728(4)]++;
+        a[GFL_USE_GetRandomBelow(4)]++;
     k = 0;
     for (i = 0; i < 4; i++)
         for (j = 0; j < a[i]; j++) {
@@ -192,7 +192,7 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q)
     for (r = 0; r < 3; r++) {
         for (i = 0; i < 60; i++) {
             u8 t;
-            x = func_02005728(60);
+            x = GFL_USE_GetRandomBelow(60);
             t = c[i];
             c[i] = c[x];
             c[x] = t;
@@ -208,7 +208,7 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q)
             rec[0x20A] = i + 2;
             rec[0x20B] = g;
             rec[0x206] = c[idx];
-            rec[0x205] = func_02005728(60) + 1;
+            rec[0x205] = GFL_USE_GetRandomBelow(60) + 1;
             rec[0x204] = 0xff;
             if (i < 2)
                 STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 3);
@@ -271,7 +271,7 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
             else if(delta<0) STA_ACT_AUDIENCE_DrawRecord(p,rec,1);
             else STA_ACT_AUDIENCE_DrawRecord(p,rec,2);
         }
-        rec[1]=func_02005728(60)+1;
+        rec[1]=GFL_USE_GetRandomBelow(60)+1;
     }
 }
 
@@ -314,8 +314,8 @@ void STA_ACT_AUDIENCE_ApplyChoices(char *p)
     if (n == 0) STA_ACT_AUDIENCE_RandomizeRecords(p);
     else {
         for (i = 0; i < 60; i++) {
-            *(u8 *)(p + i * 8 + 0x205) = func_02005728(60) + 1;
-            *(u8 *)(p + i * 8 + 0x204) = choices[func_02005728(n)];
+            *(u8 *)(p + i * 8 + 0x205) = GFL_USE_GetRandomBelow(60) + 1;
+            *(u8 *)(p + i * 8 + 0x204) = choices[GFL_USE_GetRandomBelow(n)];
         }
     }
 }
@@ -325,7 +325,7 @@ void STA_ACT_AUDIENCE_RandomizeRecords(char *p)
     u8 i;
     for (i = 0; i < 60; i++) {
         char *q = p + i * 8;
-        ((struct ScriptOwner *)q)->f205 = func_02005728(60) + 1;
+        ((struct ScriptOwner *)q)->f205 = GFL_USE_GetRandomBelow(60) + 1;
         ((struct ScriptOwner *)q)->f204 = 255;
     }
 }

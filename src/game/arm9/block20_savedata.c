@@ -132,7 +132,7 @@ u32 BLOCK20_SAVEDATA_GetBlockSize(void);
  * `subs r5, r3, #1; cmp r5, #2; bhi` is the folded range check, and it has to
  * be written as `(u32)(kind - 1) <= 2`: `kind >= 1 && kind <= 3` on the signed
  * parameter is two compares and two branches, two bytes longer, exactly as
- * docs/MATCHING.md records for sub_0200A6BC.  The row and column checks next
+ * docs/MATCHING.md records for MUSICAL_SAVE_AddProp.  The row and column checks next
  * to it do not fold, because they are written as two comparisons against a
  * signed index in the style of unit_02009110.c.
  *
@@ -254,7 +254,7 @@ u8 BLOCK20_SAVEDATA_GetPanelState(const struct CGearSave *save)
  * BLOCK20_SAVEDATA_TestBit is the signed-index bit test: `n >> 3` is a plain `lsrs` and
  * `n % 8` is the four instruction `lsrs #31` / `lsls #29` / `subs` / `rors #29`
  * sequence, which is the same split docs/MATCHING.md records for
- * sub_0200A6BC.  `& 7` would be two instructions and `/ 8` would add a rounding
+ * MUSICAL_SAVE_AddProp.  `& 7` would be two instructions and `/ 8` would add a rounding
  * correction, so the source really does spell the two halves differently.
  * The byte index is the one place a cast is needed: `n >> 3` on the signed
  * parameter is an `asrs`, and only `(u32)n >> 3` gives the original's `lsrs`.

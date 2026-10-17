@@ -146,7 +146,7 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
  * compiler CSEs them into r6 and the function is 8 bytes short.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02176CF8.c  *       --func DWCi_InsertReliableQueue --addr 0x02176CF8 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_InsertReliableQueue.c  *       --func DWCi_InsertReliableQueue --addr 0x02176CF8 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
 {

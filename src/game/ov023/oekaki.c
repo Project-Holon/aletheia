@@ -97,7 +97,7 @@
  *   gOekakiBgTemplate5     0x02186B4C  data  ov023  a4
  *   STRBUF_Create  0x020457B0  arm
  *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   gOekakiFileName     0x02186F58  data  ov023  a4
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -105,7 +105,7 @@
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
@@ -198,6 +198,7 @@
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  *   BG_SYS_SetPlaneVisible  0x02040588  arm  arm9
  *   MSGDATA_AllocString  0x02045EC0  arm  arm9
+ *   MYSTATUS_GetId  0x02008530  thumb  arm9
  */
 typedef unsigned int u32;
 
@@ -295,14 +296,14 @@ extern void BG_SYS_InitBgLayer(unsigned int bgId, const BgTemplate *tmpl, unsign
 extern void BG_SYS_ClearSlot(u32 bgId);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, StrBuf *dest);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(StrBuf *vec);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 void BG_SYS_FreeLayerBuf(u32 layer);
 void BG_SYS_Delete(void);
-extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
@@ -457,7 +458,7 @@ extern void APP_TASKMENU_CloseMenu(TaskMenu *);
 extern u32 APP_TASKMENU_RES_Delete(TaskMenuRes *s);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern MetList *MISC_SAVEDATA_GetBlock44(void *p);
-extern u32 func_02008530(const UnionAppEntry *obj);
+extern u32 MYSTATUS_GetId(const UnionAppEntry *obj);
 extern void MISC_SAVEDATA_InsertRecentValue(MetList *l, u32 val);
 extern u32 PRINTSYS_QUE_Main(TextPrinter *ps);
 extern u32 PRINTSYS_QUE_IsExistTarget(TextPrinter *p, void *v);
@@ -1128,7 +1129,7 @@ void OEKAKI_InitWork(OekakiWork *work)
     work->menu = (TaskMenu *)zero;
     GFL_NET_SYSTEM_GetCurrentAid();
     OEKAKI_SetNextScene(work, 4);
-    func_02045CAC(work->msgBank, 7, work->labelText);
+    MSGDATA_ReadString(work->msgBank, 7, work->labelText);
     work->tempBuf = GFL_HEAP_Alloc(OEKAKI_HEAP_ID, 0x3C00, zero, gOekakiFileName, 0x31D);
     work->lastMemberCount = zero;
 }
@@ -1162,8 +1163,8 @@ void OEKAKI_ResetDisplay(void)
 
 void OEKAKI_LoadBgGraphics(OekakiWork *work, void *archive)
 {
-    func_02049B68(archive, 0, 0, 0, 0x180, OEKAKI_HEAP_ID);
-    func_02049B68(archive, 1, 4, 0, 0x180, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 0, 0, 0, 0x180, OEKAKI_HEAP_ID);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 1, 4, 0, 0x180, OEKAKI_HEAP_ID);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1A0, 0x20, OEKAKI_HEAP_ID);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1A0, 0x20, OEKAKI_HEAP_ID);
     ARC_UTIL_UploadBgCharFromHandle(archive, 2, 2, 0, 0x2000, 0, OEKAKI_HEAP_ID);
@@ -2160,7 +2161,7 @@ void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
     struct BmpWin *window;
 
     text = STRBUF_Create(0x50, 0x28);
-    func_02045CAC(p->msgBank, msgId, text);
+    MSGDATA_ReadString(p->msgBank, msgId, text);
     WORDSET_CopyTaggedText(p->wordSet, p->messageText, text);
     STRBUF_Delete(text);
     BMP_Clear(BMP_WIN_GetBmp(p->messageWindow), 15);
@@ -2438,7 +2439,7 @@ void OEKAKI_RegisterMetPlayers(OekakiWork *p)
         entry = UNION_APP_GetMemberEntry(p->param->app, (u8)i);
         if (entry != 0) {
             if (i != GFL_NET_SYSTEM_GetCurrentAid()) {
-                MISC_SAVEDATA_InsertRecentValue(list, func_02008530(entry));
+                MISC_SAVEDATA_InsertRecentValue(list, MYSTATUS_GetId(entry));
             }
         }
     }

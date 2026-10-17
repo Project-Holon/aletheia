@@ -22,7 +22,7 @@
  *   MSL_C_LIB_LockRegisterDestructor  0x020912A8  arm
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
- *   func_02184144  0x02184144  arm  ov009
+ *   ArrayNew  0x02184144  arm  ov009
  *   ghttpStartup  0x021C1FF8  arm  ov114
  *   current_time  0x0217F264  arm  ov009
  *   ArrayLength  0x02184200  arm  ov009
@@ -74,7 +74,7 @@ extern void gsiInitializeCriticalSection(void *mutex);
 extern u32 MSL_C_LIB_LockRegisterDestructor(u32 a0);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
-extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ghttpStartup(void);
 extern unsigned int current_time(void);
 extern int ArrayLength(const int *p);
@@ -143,7 +143,7 @@ void gsCoreInitialize(void)
         gsiLeaveCriticalSection(aCore->mQueueCrit);
         while (aCore->mIsShuttingDown)
             msleep(100);
-        aCore->mTaskArray = func_02184144(4, 10, 0);
+        aCore->mTaskArray = ArrayNew(4, 10, 0);
         ghttpStartup();
         aCore->mIsInitialized = 1;
     } else {

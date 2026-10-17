@@ -129,7 +129,7 @@ extern void WEATHER_TASK_SetBillboardParam10(WeatherTaskSys *task, unsigned int 
 
 /* Arm9 services. */
 extern u16 ZONEDATA_GetLightTableMember(u32 i);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern void CLACT_SetActorAnimIndex(Actor *actor, int index);
 extern u16 CLACT_GetActorAnimSeqCount(Actor *actor);
 extern void CLACT_GetActorSurfacePos(Actor *actor, WeatherScreenPos *out, u32 space);

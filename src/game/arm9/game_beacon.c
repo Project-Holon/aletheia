@@ -21,7 +21,7 @@
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_BEACON_Work     0x02146940  data
@@ -29,7 +29,7 @@
  *   GAME_BEACON_FileName     0x020A74C0  data
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
- *   func_0200864C  0x0200864C  thumb
+ *   PLAYTIME_GetHours  0x0200864C  thumb
  *   MI_CpuCopy8    0x02082D44  arm
  *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -51,18 +51,18 @@
  *   ZONEDATA_IsZone96Pair    0x02013CE0  thumb
  *   GAME_DATA_GetField168    0x02012894  thumb
  *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb
- *   func_02008534    0x02008534  thumb
- *   func_02008554    0x02008554  thumb
- *   func_0200856C    0x0200856C  thumb
- *   func_02008570    0x02008570  thumb
+ *   MYSTATUS_GetIdLow16    0x02008534  thumb
+ *   MYSTATUS_GetOutfit    0x02008554  thumb
+ *   MYSTATUS_GetLanguage    0x0200856C  thumb
+ *   MYSTATUS_GetVersion    0x02008570  thumb
  *   BEACON_GetMode    0x0200C224  thumb
  *   BEACON_GetGreetCount    0x0200C1C4  thumb
  *   BEACON_GetThanksCount    0x0200C1DC  thumb
- *   func_02008650    0x02008650  thumb
+ *   PLAYTIME_GetMinutes    0x02008650  thumb
  *   SYMBOL_SAVE_GetQuestionnaireBits    0x0200E3A0  thumb
  *   MISC_SAVEDATA_CopyQuadRecord    0x0200E6FC  thumb
  *   STRBUF_GetEosChar    0x02045A98  arm
- *   func_020084F4    0x020084F4  thumb
+ *   MYSTATUS_GetName    0x020084F4  thumb
  *   BEACON_GetGreetMessage    0x0200C1F4  thumb
  *   GAME_BEACON_ActionTable    0x0209FC20  data
  *   GAME_BEACON_SpecialPokemonTable  0x0209FC04  data
@@ -70,7 +70,7 @@
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   CARD_SPI_CheckCardId  0x021809D8  thumb ov231
  *   GF_OVERLAY_Unload  0x02034A5C  arm
- *   func_02005624  0x02005624  thumb
+ *   GFL_USE_AddHBlankTask  0x02005624  thumb
  *   ov231_id       0x000000E7  data
  */
 
@@ -220,13 +220,13 @@ extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
 extern int MYSTATUS_IsNameEmpty(const struct MyStatus *status);
 extern void MYSTATUS_NameToStrbuf(const struct MyStatus *status, struct Strbuf *dst);
-extern u32 func_02008550(const struct MyStatus *status);
+extern u32 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern int  GFL_NET_GetRunState(void);
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
-extern u16 func_0200864C(const struct PlayTime *playTime);
-extern u8 func_02008650(const struct PlayTime *playTime);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *playTime);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *playTime);
 extern void NET_WHPIPE_PublishBeacon(void);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct QuestionnaireSave *SYMBOL_SAVE_GetBitBlock(struct SaveControl *save);
@@ -252,17 +252,17 @@ extern u32 ZONEDATA_IsZone1A6(u16 zoneId);
 extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
 extern struct WarpLocation *GAME_DATA_GetField168(const struct GameData *gameData);
 extern u32 SYMBOL_MAP_ResolveZoneId();
-extern u16 func_02008534(const struct MyStatus *status);
-extern u8 func_02008554(const struct MyStatus *status);
-extern u8 func_0200856C(const struct MyStatus *status);
-extern u8 func_02008570(const struct MyStatus *status);
-extern u16 *func_020084F4(const struct MyStatus *status);
+extern u16 MYSTATUS_GetIdLow16(const struct MyStatus *status);
+extern u8 MYSTATUS_GetOutfit(const struct MyStatus *status);
+extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
+extern u8 MYSTATUS_GetVersion(const struct MyStatus *status);
+extern u16 *MYSTATUS_GetName(const struct MyStatus *status);
 extern u16   STRBUF_GetEosChar(void);
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *codes, u32 count);
 extern int   GF_OVERLAY_Load(signed int overlayId);
 extern int   CARD_SPI_CheckCardId(void);
 extern void  GF_OVERLAY_Unload(int overlayId);
-extern void *func_02005624(void (*func)(void), u32 arg, u32 priority);
+extern void *GFL_USE_AddHBlankTask(void (*func)(void), u32 arg, u32 priority);
 void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg);
 void GAME_COMM_Start(GameComm *comm, u32 kind, u32 param);
 void GAME_COMM_RequestExitNoCallback(GameComm *comm);
@@ -851,9 +851,9 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
     entry->messageId = (u16)messageId;
     entry->used = 1;
     MYSTATUS_NameToStrbuf(status0, entry->name[0]);
-    entry->firstSex = (u8)func_02008550(status0);
+    entry->firstSex = (u8)MYSTATUS_GetOutfitVariant(status0);
     MYSTATUS_NameToStrbuf(status1, entry->name[1]);
-    entry->secondSex = (u8)func_02008550(status1);
+    entry->secondSex = (u8)MYSTATUS_GetOutfitVariant(status1);
     queue->writeIndex = (u8)(queue->writeIndex + 1);
     if (queue->writeIndex >= 6) {
         queue->writeIndex = 0;
@@ -1106,7 +1106,7 @@ void GAME_BEACON_Update(void)
         return;
     }
     if (work->gameData != 0) {
-        playHours = func_0200864C(GAME_DATA_GetPlayTime(work->gameData));
+        playHours = PLAYTIME_GetHours(GAME_DATA_GetPlayTime(work->gameData));
         if (work->lastPlayHours != playHours) {
             switch (playHours) {
             case 10:
@@ -1146,7 +1146,7 @@ void GAME_BEACON_Setup(struct GameData *gameData)
 
     work->gameData = gameData;
     GAME_BEACON_BuildMyInfo(&work->own.info, gameData);
-    GAME_BEACON_Work->lastPlayHours = func_0200864C(GAME_DATA_GetPlayTime(gameData));
+    GAME_BEACON_Work->lastPlayHours = PLAYTIME_GetHours(GAME_DATA_GetPlayTime(gameData));
 }
 
 
@@ -1673,7 +1673,7 @@ u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 trainerId)
  * trainer and top fields); +0x12 is seven halfwords filled like +0x20;
  * +0x50 takes ten bytes via MI_CpuCopy8; the scratch at sp+0x14 is the
  * 0x54-byte OSOwnerInfo.  Levers that mattered: stack order (save, tbl,
- * bag declared in that order) and func_02008550 answering a word that is
+ * bag declared in that order) and MYSTATUS_GetOutfitVariant answering a word that is
  * narrowed with an explicit (u8) before the 1-bit store.
  */
 void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
@@ -1701,29 +1701,29 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     }
     info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(gameData, (u16)info->zoneId);
     info->infoVersion = 0x30;
-    info->trainerId = func_02008534(myStatus);
+    info->trainerId = MYSTATUS_GetIdLow16(myStatus);
     info->favoriteColor = ownerInfo.favoriteColor;
-    info->sex = (u8)func_02008550(myStatus);
+    info->sex = (u8)MYSTATUS_GetOutfitVariant(myStatus);
     if (info->sex == 0) {
-        info->trainerView = func_02008554(myStatus);
+        info->trainerView = MYSTATUS_GetOutfit(myStatus);
     } else {
-        info->trainerView = func_02008554(myStatus) - 8;
+        info->trainerView = MYSTATUS_GetOutfit(myStatus) - 8;
     }
     info->pmVersion = 0x15;
     info->language = 2;
-    info->nation = func_0200856C(myStatus);
-    info->area = func_02008570(myStatus);
+    info->nation = MYSTATUS_GetLanguage(myStatus);
+    info->area = MYSTATUS_GetVersion(myStatus);
     info->researchTeamRank = BEACON_GetMode(misc);
     info->passCount = BEACON_GetGreetCount(misc);
     info->thanksCount = BEACON_GetThanksCount(misc);
     playTime = GAME_DATA_GetPlayTime(gameData);
-    info->playHours = func_0200864C(playTime);
-    info->playMinutes = func_02008650(playTime);
+    info->playHours = PLAYTIME_GetHours(playTime);
+    info->playMinutes = PLAYTIME_GetMinutes(playTime);
     MI_CpuCopy8(SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(save)), info->questionnaire, sizeof(info->questionnaire));
     MISC_SAVEDATA_CopyQuadRecord(pmsSave, 0, &pms);
     GAME_BEACON_SetMyPms(&pms);
     eomCode = STRBUF_GetEosChar();
-    codes = func_020084F4(myStatus);
+    codes = MYSTATUS_GetName(myStatus);
     for (i = 0; i < 7; i++) {
         info->name[i] = codes[i];
         if (eomCode == codes[i])
@@ -1765,8 +1765,8 @@ void GAME_BEACON_RequestSend(GameBeaconRecord *record)
     save = GAME_DATA_GetSaveControl(GAME_BEACON_Work->gameData);
     playTime = GAME_DATA_GetPlayTime(GAME_BEACON_Work->gameData);
     misc = BEACON_GetBlock(save);
-    record->info.playHours = func_0200864C(playTime);
-    record->info.playMinutes = func_02008650(playTime);
+    record->info.playHours = PLAYTIME_GetHours(playTime);
+    record->info.playMinutes = PLAYTIME_GetMinutes(playTime);
     record->info.passCount = BEACON_GetGreetCount(misc);
     record->info.thanksCount = BEACON_GetThanksCount(misc);
     record->info.serialNo = record->info.serialNo + 1;
@@ -2735,7 +2735,7 @@ void GAME_BEACON_RegisterClearCallback(void)
     result = CARD_SPI_CheckCardId();
     GF_OVERLAY_Unload((int)ov231_id);
     if (result == 0) {
-        func_02005624(GAME_BEACON_ClearFlags, 0, 3);
+        GFL_USE_AddHBlankTask(GAME_BEACON_ClearFlags, 0, 3);
     }
 }
 

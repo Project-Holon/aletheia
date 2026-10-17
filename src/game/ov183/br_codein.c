@@ -164,7 +164,7 @@
  *   d_021E3574 0x021E3574 data a4
  *   d_021E3664 0x021E3664 data a4
  *   d_021E35D4 0x021E35D4 data a4
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   d_021E351C 0x021E351C data a4
  *   d_021E3534 0x021E3534 data a4
  *   d_021E3964 0x021E3964 data a1
@@ -194,15 +194,15 @@
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   CLACT_GetActorPaletteOffset 0x0204B714 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021E37A8 0x021E37A8 data a4
  *   d_021E3734 0x021E3734 data a2
  *   d_021E3740 0x021E3740 data a4
- *   func_0200856C 0x0200856C thumb
- *   func_02008570 0x02008570 thumb
+ *   MYSTATUS_GetLanguage 0x0200856C thumb
+ *   MYSTATUS_GetVersion 0x02008570 thumb
  *   BR_BTN_TestHitBox 0x021FB4CC thumb ov186
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   d_021E3758 0x021E3758 data a4
@@ -584,7 +584,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u16 BSUBWAY_SAVEDATA_GetStat(Row *,int,int);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
-extern void func_02045CAC(struct MsgBank *,u32,void *);
+extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern int BR_NET_GetSearchResultsForRanking(char *p, void *buffer, int count, int *out);
 extern int BR_NET_GetSearchResultsForNewest(char *p, void *buffer, int count, int *out);
 extern int BR_NET_GetSearchResults(char *p, void *buffer, int count, int *out);
@@ -612,12 +612,12 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_GetActorPaletteOffset(struct Obj *o);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
-extern void *func_02049E74(void *,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *,u32,u32,u32,u16);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 extern u32 GFL_HEAP_Free(void *p);
-extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern u8 func_02008570(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
 extern int BR_BTN_TestHitBox(u32 *p, int a1, int a2);
 extern void BMP_MENUWORK_AddMsgItem(BmpMenuWorkSlot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
@@ -3460,7 +3460,7 @@ void BR_CODEIN_ResultTeardown(struct CodeinWorkA *p, char *q)
 
 /*
  * lever: bank/words declaration order selects their original stack slots.
- * omits func_02045CAC from its function header. Existing C verified EXACT
+ * omits MSGDATA_ReadString from its function header. Existing C verified EXACT
  * (344 bytes, 12/12 relocations; ARM9-45CAC-one.log, terminal exit 0).
  * typedef unsigned char  u8;
  * typedef unsigned short u16;
@@ -3504,7 +3504,7 @@ void BR_CODEIN_ResultTeardown(struct CodeinWorkA *p, char *q)
  * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *bank);
  *
- * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -3573,10 +3573,10 @@ void BR_CODEIN_ResultSetupButtons(char *p,char *q)
         slot=p+i*4;
         *(void **)(slot+0x10)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x6c));
         if(i==0) {
-            func_02045CAC((struct MsgBank *)bank,rec->value,base);
+            MSGDATA_ReadString((struct MsgBank *)bank,rec->value,base);
             WORDSET_SetSlotMyStatus((struct WordSet *)words,0,value);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
-        } else func_02045CAC((struct MsgBank *)bank,rec->value,text);
+        } else MSGDATA_ReadString((struct MsgBank *)bank,rec->value,text);
         BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x10),text,(void *)font,0x3da0);
     }
     STRBUF_Delete(base);
@@ -4247,7 +4247,7 @@ void BR_CODEIN_SearchUpdateActor(struct CodeinSearchState *p,int first,short ste
         if(step==1) i=4; else if(step==-1) i=0;
         BR_CODEIN_SearchBuildHeader((int)((u32)p->source+(i+first)*0xc4),(char *)&entries);
         if(entries.species[j]) {
-            handle=func_02049E74(archive,POKE_TOOL_CalcGraphicIndex(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
+            handle=ARC_UTIL_LoadScreenDataFromHandle(archive,POKE_TOOL_CalcGraphicIndex(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
             CLACT_TransferCharacter(p->indices[p->cursor][j],(struct Sub0204A9D0 *)data);
             CLACT_GetCharacterProxy(p->indices[p->cursor][j],&loaded);
             CLACT_SetActorImageProxy(p->sprites[i][j],(const struct Struct36 *)(&loaded));
@@ -4547,7 +4547,7 @@ int BR_CODEIN_CodeStepInput(struct CodeinWorkB *p,struct CodeinArgB *q)
         u32 x,y;
         Point args;
         v=GAME_DATA_GetMyStatus(q->f10);
-        a=func_0200856C(v);b=func_02008570(v);
+        a=MYSTATUS_GetLanguage(v);b=MYSTATUS_GetVersion(v);
         if(!a && !b) {
             BR_UTIL_SetWindowText(p->f38,(char *)(q->f8),(void *)120);
             GFL_USE_PlaySeDefaultVolume(0x704);
@@ -4751,7 +4751,7 @@ int BR_CODEIN_CodeSetupPokeList(struct CodeinWorkB *p,struct CodeinArgA *q)
     BR_RES_LoadBgGraphics((void *)(q->f8),28,p->f54);
     text=STRBUF_Create(128,p->f54);
     v=GAME_DATA_GetMyStatus((*(void * *)&q->f10));
-    a=func_0200856C(v);b=func_02008570(v);
+    a=MYSTATUS_GetLanguage(v);b=MYSTATUS_GetVersion(v);
     ws=BR_RES_GetWordSet(*(char * *)&q->f8);
     data=MSGDATA_AllocString((void *)second,125);
     if(!BMP_OAM_GetRecordValue(a))WORDSET_SetSlotFromMsgE7((void *)ws,0,a);
@@ -4818,8 +4818,8 @@ int BR_CODEIN_CodeStepPokeList(struct CodeinWorkB *p, struct CodeinArgB *q)
         args.y = y1;
         BR_UTIL_StartEffect((void *)p->f40, 1, &args);
         v = GAME_DATA_GetMyStatus(q->f10);
-        a = func_0200856C(v);
-        q->f17 = func_02008570(v);
+        a = MYSTATUS_GetLanguage(v);
+        q->f17 = MYSTATUS_GetVersion(v);
         q->f16 = a;
         BR_CODEIN_CodeSetMenuText(p, q, 2);
         p->f50 = 0;

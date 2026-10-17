@@ -74,7 +74,7 @@
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
@@ -236,7 +236,7 @@ extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -546,10 +546,10 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
 
     ARC_UTIL_UploadBgCharFromHandle(uiArc, 5, 5, 0, 0, 1, 0x80);
     ARC_UTIL_UploadBgPaletteFromHandle(uiArc, 4, 5, 0, 0, 1, 0x80);
-    func_02049B68(uiArc, 6, 4, 0, 0, 0x80);
+    ARC_UTIL_UploadPaletteFromHandleWhole(uiArc, 6, 4, 0, 0, 0x80);
     ARC_UTIL_UploadBgCharFromHandle(uiArc, 1, 2, 0, 0, 1, 0x80);
     ARC_UTIL_UploadBgPaletteFromHandle(uiArc, 0, 2, 0, 0, 1, 0x80);
-    func_02049B68(uiArc, 2, 0, 0, 0, 0x80);
+    ARC_UTIL_UploadPaletteFromHandleWhole(uiArc, 2, 0, 0, 0, 0x80);
     ARC_UTIL_UploadBgCharFromHandle(uiArc, 1, 1, 0, 0, 1, 0x80);
     ARC_UTIL_UploadBgPaletteFromHandle(uiArc, 0, 1, 0, 0, 1, 0x80);
     spriteArc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x80);

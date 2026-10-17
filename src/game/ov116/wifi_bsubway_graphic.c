@@ -45,8 +45,8 @@
  *   WIFI_BSUBWAY_ClearTrainers 0x021D6998 thumb ov116
  *   WIFILIST_GetWork 0x02009860 thumb
  *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
- *   func_02008540 0x02008540 thumb
- *   func_0200853C 0x0200853C thumb
+ *   MYSTATUS_SetProfileIdOnce 0x02008540 thumb
+ *   MYSTATUS_GetProfileId 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   DPW_BT_Init 0x021C8F2C arm ov114
  *   DPW_BT_GetServerStateAsync 0x021C96CC arm ov114
@@ -88,10 +88,10 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   TCBL_Main 0x020310C4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   MI_CpuCopy8 0x02082D44 arm
@@ -107,7 +107,7 @@
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   TCB_DeleteTask 0x02030EAC arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
@@ -121,7 +121,7 @@
  *   gWifiBsubwayCodeInParam 0x021D8560 data a4
  *   d_021D8560_menu 0x021D8560 data a4
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
@@ -228,8 +228,8 @@ extern int GDS_PROFILE_QuerySubwaySaveBit(struct BlkB90 *p, u8 a, u8 b, const st
 extern void WIFI_BSUBWAY_ClearTrainers(void *a);
 extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 extern int WIFILIST_GetGsProfileId(void *a0);
-extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
-extern u32 func_0200853C(const struct Sub0200852CObj *obj);
+extern void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value);
+extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void DPW_BT_Init(unsigned a, unsigned b, unsigned c, unsigned mode);
 extern void DPW_BT_GetServerStateAsync(void);
@@ -271,10 +271,10 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
 extern void TCBL_Main(struct Tcbl *p);
 extern void *ARC_TOOL_CreateHandle(unsigned int, unsigned int);
-extern void func_02049B68(void *, int, int, int, int, unsigned int);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, int, int, int, int, unsigned int);
 extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, int, int, int, int, unsigned int);
-extern void func_02049990(void *, int, int, int, u16, int, int, unsigned int);
-extern void *func_02049F78(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, int, int, int, u16, int, int, unsigned int);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, unsigned int);
 extern void MI_CpuCopy8(const void *, void *, unsigned int);
@@ -290,7 +290,7 @@ extern void GXS_LoadBGPltt(void *,int,int);
 extern void BG_SYS_FillScrollArea(unsigned int layer, unsigned int a, unsigned int b);
 extern void BG_SYS_DeleteHalf(unsigned int layer, unsigned int offset, unsigned int size);
 extern void TCB_DeleteTask(struct Node *n);
-extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(unsigned int r, unsigned int g, unsigned int b);
 extern signed char MSG_SPEED_GetWait(void);
@@ -302,7 +302,7 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, unsigned int i, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
 extern unsigned int BMP_MENU_ProcessYesNo(u8 *);
-extern unsigned int func_020056BC(void);
+extern unsigned int GFL_USE_GetMainTaskList(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void TIME_ICON_Delete(u8 *);
 extern int GAME_DATA_SaveStart(int);
@@ -583,8 +583,8 @@ void WIFI_BSUBWAY_GRAPHIC_InitBt(struct WifiBsubwayWork *p) {
     void *a=WIFILIST_GetWork(p->field184C);
     void *b;
     u64 value;
-    func_02008540(p->field1850,(u32)WIFILIST_GetGsProfileId(p->field184C));
-    b=(void *)func_0200853C(p->field1850);
+    MYSTATUS_SetProfileIdOnce(p->field1850,(u32)WIFILIST_GetGsProfileId(p->field184C));
+    b=(void *)MYSTATUS_GetProfileId(p->field1850);
     value=DWC_CreateFriendKey(a);
     DPW_BT_Init((unsigned int)b,(u32)value,(u32)(value>>32),0);
     DPW_BT_GetServerStateAsync();
@@ -711,7 +711,7 @@ void WIFI_BSUBWAY_GRAPHIC_UpdateText(struct WifiBsubwayGraphic *p)
 /*
  * lever: 2026-10-05 (wD9r lane92): the heap parameter is a signed 16-bit value (`short heap`). With u32
  *   heap the last call hoisted the heap reload above `str r6,[sp]` (10 bytes, waves D3 to D9r). The
- *   image truncates heap only for func_02049F78 (u16 cast); the other callees take it unchanged.
+ *   image truncates heap only for ARC_UTIL_LoadPaletteBlockFromHandle (u16 cast); the other callees take it unchanged.
  */
 void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) {
     struct Arc *res;
@@ -731,13 +731,13 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     u8 *b;
     arc = ARC_TOOL_CreateHandle(0x91, heap);
     j = 0;
-    func_02049B68(arc, 3, 4, 0, j, heap);
-    func_02049990(arc, 6, 4, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 4, 0, j, heap), j, j, heap);
-    func_02049B68(arc, 3, 0, 0, j, heap);
-    func_02049990(arc, 5, 0, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 0, 0, j, heap), j, j, heap);
-    func_02049990(arc, 7, 3, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 3, 0, j, heap), j, j, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 3, 4, 0, j, heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 6, 4, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 4, 0, j, heap), j, j, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 3, 0, 0, j, heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 5, 0, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 0, 0, j, heap), j, j, heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 7, 3, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 3, 0, j, heap), j, j, heap);
     MI_CpuFill8(&p->animCallback, 0, 0x970);
-    blk = func_02049F78(arc, 2, (unsigned int)(&res), (u16)heap);
+    blk = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 2, (unsigned int)(&res), (u16)heap);
     MI_CpuCopy8(res->fC, p->pad014, 0x1e0);
     MI_CpuCopy8(res->fC, p->palette, 0x1e0);
     GFL_HEAP_Free(blk);
@@ -808,7 +808,7 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(struct WifiBsubwayGraphic *p) {
 
 void WIFI_BSUBWAY_GRAPHIC_PrintMessage(struct WifiBsubwayGraphic *p,unsigned int a) {
  if(p->printStream!=0) {PRINTSYS_PrintStreamDelete(p->printStream); p->printStream=0;}
- func_02045CAC((struct MsgBank *)p->msgBank,a,(void *)p->strbufA);
+ MSGDATA_ReadString((struct MsgBank *)p->msgBank,a,(void *)p->strbufA);
  WORDSET_CopyTaggedText((struct WordSet *)p->wordSet,(void *)p->strbufB,(void *)p->strbufA);
  BMP_Clear((struct CharBuf *)((unsigned int)BMP_WIN_GetBmp((struct Descriptor *)p->window)),15);
  GF_FONT_SetTextColor(1,2,15);
@@ -844,7 +844,7 @@ void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(struct WifiBsubwayGraphic *p) { *(u16 *)(g
 unsigned int WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(struct WifiBsubwayGraphic *p) { unsigned int result=-2; if(p->yesNoMenu!=0) { result=BMP_MENU_ProcessYesNo(p->yesNoMenu); if(result!=-1) p->yesNoMenu=0; } return result; }
 
 
-void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(struct WifiBsubwayGraphic *p) { p->timeIcon=TIME_ICON_Create((void *)func_020056BC(),p->window,15,16,p->heapId); }
+void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(struct WifiBsubwayGraphic *p) { p->timeIcon=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),p->window,15,16,p->heapId); }
 
 
 void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(struct WifiBsubwayGraphic *p) { if(p->timeIcon!=0) { TIME_ICON_Delete(p->timeIcon); p->timeIcon=0; } }

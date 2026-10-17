@@ -75,7 +75,7 @@
  *   d_021F8290 0x021F8290 data a1
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -292,7 +292,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -514,13 +514,13 @@ void MUSICAL_MCSS_CreateUnits(u8 *p)
     CLACT_SetUnitDefaultRenderer(((MusicalMcssWork *)p)->unit);
     BG_SYS_SetSubPlaneVisible(16,1);
     t=ARC_TOOL_CreateHandle((unsigned int)46,((MusicalMcssWork *)p)->heap);
-    func_02049B68((void *)((u32)t),4,4,0,0,((MusicalMcssWork *)p)->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((u32)t),4,4,0,0,((MusicalMcssWork *)p)->heap);
     ARC_UTIL_UploadBgCharFromHandle((void *)((u32)t),7,7,0,0,0,((MusicalMcssWork *)p)->heap);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)((u32)t),12,7,0,0,0,((MusicalMcssWork *)p)->heap);
     ARC_TOOL_DeleteHandle(t);
     if (((MusicalMcssWork *)p)->mode==0) {
         t=ARC_TOOL_CreateHandle((unsigned int)APP_ICON_GetArchiveId(),((MusicalMcssWork *)p)->heap);
-        func_02049B68((void *)((u32)t),APP_ICON_GetStatusAnimFileId(),4,288,32,((MusicalMcssWork *)p)->heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole((void *)((u32)t),APP_ICON_GetStatusAnimFileId(),4,288,32,((MusicalMcssWork *)p)->heap);
         ARC_UTIL_UploadBgCharFromHandle((void *)((u32)t),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((MusicalMcssWork *)p)->heap);
         ARC_UTIL_UploadBgPaletteFromHandle((void *)((u32)t),APP_ICON_GetStatusDataFileId(),6,0,0,0,((MusicalMcssWork *)p)->heap);
         BG_SYS_FillTileMap(6,0,21,32,3,9);

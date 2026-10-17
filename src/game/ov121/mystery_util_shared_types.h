@@ -9,7 +9,7 @@ typedef struct MysteryUtilMenuEntry {
         unsigned int flags;     /* 0x00 read as a u32 by MYSTERY_UTIL_DrawBmpList */
         unsigned char bytes[4]; /* 0x00 four u8 BMP parameters by MYSTERY_UTIL_CreateWindowList */
     } u0;
-    int messageId;              /* 0x04 func_02045CAC index */
+    int messageId;              /* 0x04 MSGDATA_ReadString index */
     union {
         int stringId;           /* 0x08 STRBUF source id */
         void *stringPtr;        /* 0x08 STRBUF handle (album view descriptor) */

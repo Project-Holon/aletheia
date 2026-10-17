@@ -26,7 +26,7 @@
  *   FIELDMAP_IsEventActive  0x02189A2C  thumb  ov021
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   gCrowdMmdlHeader     0x021F4620  data  ov055  a4
  *   d_021F4620_b   0x021F4620  data  ov055  a4
@@ -212,7 +212,7 @@ extern int FIELDMAP_GetTimeZone(FieldMap *fieldMap);
 extern int FIELDMAP_IsEventActive(FieldMap *fieldMap);
 extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
-extern u32 func_020056EC(u32);
+extern u32 GFL_USE_GetRandom(u32);
 extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
 extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
 extern int FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
@@ -437,9 +437,9 @@ void CROWD_CreatePerson(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const
     u16 objCode;
 
     i = 0;
-    objCode = config->modelCodes[func_020056EC(0) % config->modelCount];
+    objCode = config->modelCodes[GFL_USE_GetRandom(0) % config->modelCount];
     gCrowdMmdlHeader.objCode = objCode;
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     person->mmdlId = index + 0x30;
     for (i = 0; i < config->modelTableCount; i++) {
         if (objCode == config->modelTable[i].objCode) {
@@ -457,7 +457,7 @@ void CROWD_CreatePerson(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const
     FLDMMDL_SetMoveBitAttrEffectOff(person->mmdl, 1);
     {
         int drawOffset[3] = {0, 0, 0};
-        drawOffset[0] = func_020056EC(0x8000) - 0x4000;
+        drawOffset[0] = GFL_USE_GetRandom(0x8000) - 0x4000;
         FLDMMDL_SetDrawOffset(person->mmdl, drawOffset);
     }
 }
@@ -530,7 +530,7 @@ void CROWD_SidestepPerson(CrowdPerson *person, Mmdl *blocker)
         newDir = person->sidestepDir;
     } else {
         if (blockerDir == person->dir || person->dir == FLDMMDL_MOVE_GetDirTableValue(blockerDir)) {
-            if (func_020056EC(2) == 0) {
+            if (GFL_USE_GetRandom(2) == 0) {
                 newDir = (u16)(blockerDir + 2);
             } else {
                 newDir = FLDMMDL_MOVE_GetDirTableValue((u16)(blockerDir + 2));
@@ -628,7 +628,7 @@ void CROWD_SpawnPerson(const CrowdWork *work, const CrowdConfig *config, const C
     u16 dir;
 
     kind = 0;
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     dir = area->dir;
     if (dir <= 1) {
         gridX = area->xMin + rand % (area->xMax - area->xMin + 1);
@@ -838,7 +838,7 @@ void CROWD_InitChatter(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const Cr
     s16 interval;
 
     i = 0;
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     interval = config->intervalByTimeZone[timeZone];
     chatter->timer = i;
     chatter->interval = 0x10 + rand % interval;
@@ -864,7 +864,7 @@ void CROWD_UpdateChatter(CrowdChatter *chatter, const CrowdConfig *config, Field
     int timeZone;
 
     i = 0;
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     timeZone = FIELDMAP_GetTimeZone(fieldMap);
     if (FIELDMAP_IsEventActive(fieldMap) == 0) {
         chatter->timer = chatter->timer + 1;
@@ -899,7 +899,7 @@ void CROWD_InitChatterSlot(CrowdChatterSlot *slot, int index)
 /* Open the speech window of a slot with a random message. */
 void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgFirst, u32 msgCount)
 {
-    u32 rand = func_020056EC(0);
+    u32 rand = GFL_USE_GetRandom(0);
     slot->isOpen = 1;
     slot->frames = 0;
     FIELD_MSGBG_AddSubMsgWinMsg(msgBg, msgData, msgFirst + rand % msgCount, slot->windowId, slot->x, slot->y, 8, 2);

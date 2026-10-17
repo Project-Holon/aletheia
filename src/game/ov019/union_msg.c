@@ -19,9 +19,9 @@
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_020084F4  0x020084F4  thumb
+ *   MYSTATUS_GetName  0x020084F4  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   d_0218031C 0x0218031C data a2
  *   d_0218034C  0x0218034C  data a2
@@ -37,7 +37,7 @@
  *   d_02180318  0x02180318  data a2
  *   d_02180328 0x02180328 data a2
  *   d_02180324 0x02180324 data a2
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   d_02180380 0x02180380 data a2
  *   d_0218033C  0x0218033C  data a2
  *   d_02180368 0x02180368 data a2
@@ -61,8 +61,8 @@
  *   d_02180334  0x02180334  data a2
  *   d_0218030C  0x0218030C  data a2
  *   d_021802FC  0x021802FC  data a2
- *   func_0200856C  0x0200856C  thumb
- *   func_02008570  0x02008570  thumb
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb
+ *   MYSTATUS_GetVersion  0x02008570  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetString  0x02045924  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
@@ -116,7 +116,7 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   GAME_DATA_GetPlayerDirection  0x02012AD0  thumb
  *   d_02180718     0x02180718  data   ov019 a4
- *   func_02009D50 0x02009D50 thumb
+ *   WIFILIST_FindFriendByStatusAndOutfit 0x02009D50 thumb
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   SAVEDATA_PanicFail   0x02034714  arm
  *   MTX_Identity33_  0x0207ADC4  arm
@@ -166,13 +166,13 @@ extern u32 GFL_HEAP_Free(void *p);
 void SAVEDATA_PanicFail(const void *expr, u32 line, const void *file);
 extern void MI_CpuCopy8(const void *a, void *b, int c);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 func_02008550(const void *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
-const void *func_020084F4(const void *p);
+const void *MYSTATUS_GetName(const void *p);
 void WORDSET_SetSlotMyStatus(void *p, u32 i, void *a);
-extern u32 func_020056EC(u32 v);
-extern u8 func_0200856C(const void *obj);
-extern u8 func_02008570(const void *obj);
+extern u32 GFL_USE_GetRandom(u32 v);
+extern u8 MYSTATUS_GetLanguage(const void *obj);
+extern u8 MYSTATUS_GetVersion(const void *obj);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetString(void *o, const void *src);
 extern void WORDSET_SetSlotTag(void *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -214,7 +214,7 @@ extern void *FIELDMAP_GetGameSystem(void *p);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const void *p);
 extern void FIELD_PLAYER_GetPos(void *a, void *v);
 extern u16 GAME_DATA_GetPlayerDirection(const void *p);
-extern int func_02009D50(void *obj, const void *unused, u32 id, u32 kind, void *out);
+extern int WIFILIST_FindFriendByStatusAndOutfit(void *obj, const void *unused, u32 id, u32 kind, void *out);
 u16 UNION_MSG_GetNoReplyMsg(void ***ctx);
 u16 UNION_MSG_GetTalkParentGreetingMsg(int i);
 u16 UNION_MSG_GetTalkParentCancelMsg(int i);
@@ -337,7 +337,7 @@ extern const UnionTilePos d_02180718[];
 
 u16 UNION_MSG_GetNoReplyMsg(void ***ctx)
 {
-    return d_0218031C[func_02008550(**ctx)];
+    return d_0218031C[MYSTATUS_GetOutfitVariant(**ctx)];
 }
 
 
@@ -425,13 +425,13 @@ u16 UNION_MSG_GetNoEggInPartyMsg(int i)
 
 u16 UNION_MSG_GetBadEggInPartyMsg(void ***ctx)
 {
-    return d_02180328[func_02008550(**ctx)];
+    return d_02180328[MYSTATUS_GetOutfitVariant(**ctx)];
 }
 
 
 u16 UNION_MSG_GetBadEggNoticeMsg(void ***ctx)
 {
-    return d_02180324[func_02008550(**ctx)];
+    return d_02180324[MYSTATUS_GetOutfitVariant(**ctx)];
 }
 
 
@@ -440,7 +440,7 @@ u16 UNION_MSG_GetBadEggNoticeMsg(void ***ctx)
  */
 u16 UNION_MSG_GetBattleChatMsg(int i)
 {
-    return d_02180380[func_020056EC(4)][i];
+    return d_02180380[GFL_USE_GetRandom(4)][i];
 }
 
 
@@ -456,25 +456,25 @@ u16 UNION_MSG_GetPartnerBusyMsg(int i)
 
 u16 UNION_MSG_GetTrainerCardChatMsg(int i)
 {
-    return d_02180368[func_020056EC(2)][i];
+    return d_02180368[GFL_USE_GetRandom(2)][i];
 }
 
 
 u16 UNION_MSG_GetDrawChatMsg(int i)
 {
-    return d_02180370[func_020056EC(4)][i];
+    return d_02180370[GFL_USE_GetRandom(4)][i];
 }
 
 
 u16 UNION_MSG_GetTradeChatMsg(int i)
 {
-    return d_02180360[func_020056EC(2)][i];
+    return d_02180360[GFL_USE_GetRandom(2)][i];
 }
 
 
 u16 UNION_MSG_GetSpinTradeChatMsg(int i)
 {
-    return d_02180390[func_020056EC(4)][i];
+    return d_02180390[GFL_USE_GetRandom(4)][i];
 }
 
 
@@ -595,8 +595,8 @@ u16 UNION_MSG_GetMultiBattleBusyMsg(int i)
 int UNION_MSG_CheckLanguageVersion(UnionRoomWork *unisys, int language, int version)
 {
     int myStatus = (int)GAME_DATA_GetMyStatus((void *)unisys->parent->gameData);
-    int myLanguage = func_0200856C((const void *)myStatus);
-    int myVersion = func_02008570((const void *)myStatus);
+    int myLanguage = MYSTATUS_GetLanguage((const void *)myStatus);
+    int myVersion = MYSTATUS_GetVersion((const void *)myStatus);
 
     if (language == 0)
         return 15;
@@ -635,9 +635,9 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
         language = partner->language;
         sex = partner->sex;
     } else {
-        nameChars = (u16 *)func_020084F4((const void *)myStatus);
+        nameChars = (u16 *)MYSTATUS_GetName((const void *)myStatus);
         language = 2;
-        sex = (int)func_02008550((const void *)myStatus);
+        sex = (int)MYSTATUS_GetOutfitVariant((const void *)myStatus);
     }
     nameStr = STRBUF_Create(0x20, UNION_HEAP_ID);
     STRBUF_SetString(nameStr, nameChars);
@@ -1166,7 +1166,7 @@ int UNION_CHARA_IsWifiFriendBeacon(void *wifiFriends, UnionBeaconPc *beaconPc)
 {
     u32 out;
 
-    if (func_02009D50(wifiFriends, beaconPc->beacon.name, beaconPc->beacon.trainerId, beaconPc->beacon.sex, &out) == 1) {
+    if (WIFILIST_FindFriendByStatusAndOutfit(wifiFriends, beaconPc->beacon.name, beaconPc->beacon.trainerId, beaconPc->beacon.sex, &out) == 1) {
         return 1;
     } else {
         return 0;

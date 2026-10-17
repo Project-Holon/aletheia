@@ -92,7 +92,7 @@
  *   d_021EFDAC     0x021EFDAC  data   ov093  a4
  *   d_021BB474     0x021BB474  data   ov214  a4
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
@@ -199,7 +199,7 @@ extern void BATTLE_REC_UnloadToolOverlay(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern void BATTLE_REC_TOOL_PackSetup(void *p);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
+extern void *GAME_EVENT_GetWork(struct Obj *p);
 void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void GAMESYSTEM_CallProc(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
 u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
@@ -459,7 +459,7 @@ void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args)
 void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag)
 {
     void *event = GAME_EVENT_Create(gameSystem, 0, (void *)((int)EVENT_BATTLE_REC_SAVE_EventMain), 0x40);
-    u32 *work = func_020124E8(event);
+    u32 *work = GAME_EVENT_GetWork(event);
 
     work[0] = (u32)gameSystem;
     work[1] = info;

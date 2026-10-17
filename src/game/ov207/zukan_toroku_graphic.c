@@ -51,7 +51,7 @@
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -190,7 +190,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -394,7 +394,7 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
     BG_SYS_SetVisibleLayer(1,3);
     BG_SYS_SetVisibleLayer(3,0);
     r=ARC_TOOL_CreateHandle(159,work->heapId);
-    func_02049B68(r,7,0,0,32,work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(r,7,0,0,32,work->heapId);
     work->bgHandle=ARC_UTIL_RegisterObjCharFromHandle(r,17,1,2048,0,work->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(r,(int)39,(int)1,(u16)work->bgHandle,(int)1536,(int)0,(unsigned)work->heapId);
     ARC_TOOL_DeleteHandle(r);

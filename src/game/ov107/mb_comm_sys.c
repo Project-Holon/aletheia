@@ -18,13 +18,13 @@
  *   BEACON_GetBlock 0x0200C0F0 thumb
  *   BEACON_SetRank 0x0200C1B0 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   func_02005654 0x02005654 thumb
+ *   GFL_USE_SetVBlankHook 0x02005654 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   UI_SetKeepAwakeFlagsGlobal 0x02034F84 arm
  *   gMbParentUi 0x021F6EA0 data a4
  *   UI_ClearKeepAwakeFlagsGlobal 0x02034FB8 arm
  *   TCB_DeleteTask 0x02030EAC arm
- *   func_0200566C 0x0200566C thumb
+ *   GFL_USE_ClearVBlankHook 0x0200566C thumb
  *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
@@ -63,7 +63,7 @@
  *   BEACON_GetBestScore 0x0200C184 thumb
  *   GFL_USE_GetArcPath 0x0200575C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
- *   func_02008DF0 0x02008DF0 thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
  *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   BOX_SAVEDATA_CountFreeSlots 0x02007774 thumb
  *   d_021F6E08 0x021F6E08 data a4
@@ -104,7 +104,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
@@ -138,7 +138,7 @@
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MB_UTIL_MSG_CreateWordSet 0x021F18D8 thumb ov107
- *   func_02008534 0x02008534 thumb
+ *   MYSTATUS_GetIdLow16 0x02008534 thumb
  *   MB_UTIL_MSG_SetNumberZeroPad 0x021F1918 thumb ov107
  *   MB_UTIL_MSG_GetMsgData 0x021F1AFC thumb ov107
  *   MB_UTIL_MSG_GetWordSet 0x021F1B00 thumb ov107
@@ -187,11 +187,11 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   RECORD_AddCounter  0x02008DAC  thumb
  *   SAVE_EVENT_StoreTodayDate  0x0202F27C  thumb
- *   func_020074D8  0x020074D8  thumb
+ *   BOX_SAVEDATA_AddPokemon  0x020074D8  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   MB_UTIL_MSG_IsPrintQueFinished 0x021F1B08 thumb ov107
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   MB_UTIL_MSG_SetNumberLeft  0x021F1900  thumb  ov107
@@ -199,7 +199,7 @@
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
  *   FIELD_G3D_MAP_StoreBeaconTrainerKey  0x0216BF74  thumb  ov010
- *   func_02007E50  0x02007E50  thumb
+ *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
@@ -377,12 +377,12 @@ extern void *GAME_DATA_GetSaveControl(void *);
 extern void *BEACON_GetBlock(void *);
 extern void BEACON_SetRank(void *,u32);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
-extern int func_02005654(int,int);
+extern int GFL_USE_SetVBlankHook(int,int);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void UI_SetKeepAwakeFlagsGlobal(u32);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
 extern void TCB_DeleteTask(void *n);
-extern void func_0200566C(void);
+extern void GFL_USE_ClearVBlankHook(void);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u32 GAME_DATA_GetEventWork(const void *p);
@@ -419,7 +419,7 @@ extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 GAME_DATA_GetBoxManager(const void *p);
-extern u32 func_02008DF0(void *obj, int i);
+extern u32 RECORD_AddOne(void *obj, int i);
 extern int BOX_SAVEDATA_CountFreeSlots(void *);
 extern void *MB_UTIL_MSG_Main(void *);
 extern void CLACT_DrawSystem(void *);
@@ -449,7 +449,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
@@ -483,7 +483,7 @@ extern u32 MSGDATA_Delete(void *rec);
 extern u32 BMP_WIN_Delete(void *d);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MB_UTIL_MSG_CreateWordSet(void *);
-extern u16 func_02008534(const void *obj);
+extern u16 MYSTATUS_GetIdLow16(const void *obj);
 extern void MB_UTIL_MSG_SetNumberZeroPad(struct MbMsgWork *a, int b, int c, int d);
 extern void *MB_UTIL_MSG_GetMsgData(void *p);
 extern void *MB_UTIL_MSG_GetWordSet(void *p);
@@ -526,11 +526,11 @@ extern void BEACON_SetBestScore(void *p, u32 v);
 void *ZUKAN_SAVE_GetFromGameData(void *);
 u32 RECORD_AddCounter(void *obj, int i, u32 delta);
 void SAVE_EVENT_StoreTodayDate(void *);
-int func_020074D8(void **save, const void *src);
+int BOX_SAVEDATA_AddPokemon(void **save, const void *src);
 void *POKE_TOOL_CreateFromBoxParam(void *p, u32 heap);
 void ZUKAN_SAVE_RegisterCaught(void *p, void *m);
 extern int MB_UTIL_MSG_IsPrintQueFinished(void *);
-extern u32 func_020056EC(u32);
+extern u32 GFL_USE_GetRandom(u32);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
 void MB_UTIL_MSG_SetNumberLeft(void *, int, int, int);
@@ -538,7 +538,7 @@ void *GAME_DATA_GetMyItem(const void *p);
 void *GAME_DATA_GetMiscSave(int *p);
 int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *, int, void *);
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *, int, void *);
-u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+u32 MYITEM_SAVEDATA_AddItem(u8 *base, u16 id, u16 qty, u16 d);
 extern void BG_SYS_SetMainVisiblePlanes(int);
 extern void BG_SYS_SetSubVisiblePlanes(int);
 extern int GFL_NET_IsSessionNull(void);

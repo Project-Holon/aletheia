@@ -21,7 +21,7 @@
  *   VM_ReadU16  0x02011330  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
@@ -33,7 +33,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   d_021DE58C     0x021DE58C  data  ov021
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GDS_PROFILE_SetFieldRecFlag1  0x0200D868  thumb
  *   GDS_PROFILE_ClearFieldRec  0x0200D85C  thumb
@@ -192,7 +192,7 @@
  *   FLD_BTL_INST_TOOL_CreateTrainer  0x02168878  thumb  ov010
  *   FLD_BTL_INST_TOOL_InitTrainerHeader  0x021688BC  thumb  ov010
  *   FLD_BTL_INST_TOOL_BuildBattleMon  0x021684E8  thumb  ov010
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  */
 
 #define NULL ((void *)0)
@@ -322,7 +322,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern u16 VM_ReadU16(struct ScriptStream *s);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern struct Task *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Task *p);
+extern void *GAME_EVENT_GetWork(struct Task *p);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
@@ -333,7 +333,7 @@ extern void FLDMMDL_GetPos(const struct MapObj *a, struct VecFx32 *v);
 extern void *GAME_DATA_SetCurrentEvent(GameData *gameData, BsubwayScrWork *work);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct GameData *p);
-extern u8 func_02008550(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *ctrl, u32 id);
 extern void GDS_PROFILE_SetFieldRecFlag1(struct BsubwayPlayData *p, u32 v);
 extern void GDS_PROFILE_ClearFieldRec(struct BsubwayPlayData *p);
@@ -469,7 +469,7 @@ extern struct BattleSystem *FLD_BTL_INST_TOOL_CreateBtlSetup(void *gameSystem, v
 extern u8 FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
 extern void *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerNo, u16 heapId);
 extern u32 FLD_BTL_INST_TOOL_BuildBattleMon(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
-extern u32 func_020056EC(u32 max);
+extern u32 GFL_USE_GetRandom(u32 max);
 int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
 BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode);
 void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work);
@@ -597,7 +597,7 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
     work->heapId = 4;
     work->magic = 0x12345678;
     work->gameData = gameData;
-    work->romCode = func_02008550(myStatus);
+    work->romCode = MYSTATUS_GetOutfitVariant(myStatus);
     work->playData = SAVE_CONTROL_GetBlock(saveControl, 0x39);
     work->scoreData = SAVE_CONTROL_GetBlock(saveControl, 0x3a);
     work->wifiData = SAVE_CONTROL_GetBlock(saveControl, 0x3b);
@@ -627,7 +627,7 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
             work->stateBits.partnerNo = (u8)GDS_PROFILE_GetFieldRecField(work->playData, 9, 0);
             GDS_PROFILE_GetFieldRecField(work->playData, 6, &work->partnerDraws[work->stateBits.partnerNo]);
             trainerBase = 0x12f;
-            if (func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114(gameData) + 0x20)) != 0)
+            if (MYSTATUS_GetOutfitVariant((const struct MyStatus *)((u8 *)GAME_DATA_GetField114(gameData) + 0x20)) != 0)
                 trainerBase -= 3;
             i = work->stateBits.partnerNo;
             BSUBWAY_SCR_CreatePartnerMons(work, &work->partners[i], trainerBase + i, GDS_PROFILE_GetFieldRecField(work->playData, 7, 0), &work->partnerDraws[i], work->heapId);
@@ -1666,7 +1666,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = GDS_PROFILE_GetScoreRecCountCDec((struct BsubwayScoreData *)scoreData, arg1);
         break;
     case BSUBWAY_SCR_CMD_GET_PARTNER_LOOK:
-        *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
+        *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(MYSTATUS_GetOutfitVariant((const struct MyStatus *)((u8 *)GAME_DATA_GetField114((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
         break;
     case BSUBWAY_SCR_CMD_IS_BATTLE_REC_SAVED: {
         u32 recordSys = (u32)BATTLE_BOX_GetFromSave((void *)saveControl);
@@ -1937,7 +1937,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_CREATE_PARTNERS:
-        BSUBWAY_SCR_CreatePartners(work, func_02008550((const struct MyStatus *)((u8 *)GAME_DATA_GetField114((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0);
+        BSUBWAY_SCR_CreatePartners(work, MYSTATUS_GetOutfitVariant((const struct MyStatus *)((u8 *)GAME_DATA_GetField114((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0);
         break;
     case BSUBWAY_SCR_CMD_GET_MEMBER_MONS_NO:
         *resultDst = work->memberMonsNo[arg1];
@@ -2404,7 +2404,7 @@ int BSUBWAY_SCR_CommShutdownMain(void *task, int *state, BsubwayScrWork **work)
 void *BSUBWAY_SCR_CreateCommShutdownTask(void *gameSystem, u32 script)
 {
     void *task = GAME_EVENT_Create(gameSystem, 0, (TaskFn)BSUBWAY_SCR_CommShutdownMain, 4);
-    *(u32 *)func_020124E8(task) = script;
+    *(u32 *)GAME_EVENT_GetWork(task) = script;
     return task;
 }
 
@@ -2458,7 +2458,7 @@ int BSUBWAY_SCR_YesNoMenuMain(void *task, int *state, ScreenTaskWork *taskWork)
 void *BSUBWAY_SCR_CreateYesNoMenuTask(void *gameSystem, u32 script, u32 resultDst, u32 arg)
 {
     void *task = GAME_EVENT_Create(gameSystem, 0, (TaskFn)BSUBWAY_SCR_YesNoMenuMain, 0x10);
-    u32 *taskWork = func_020124E8(task);
+    u32 *taskWork = GAME_EVENT_GetWork(task);
 
     taskWork[0] = script;
     taskWork[1] = resultDst;
@@ -2961,5 +2961,5 @@ void BSUBWAY_SCR_CreatePartnerMons(BsubwayScrWork *work, BtlInstTrainer *trainer
  */
 u16 BSUBWAY_SCR_Random(void *unused)
 {
-    return func_020056EC(0xffffffff) / 0xffff;
+    return GFL_USE_GetRandom(0xffffffff) / 0xffff;
 }

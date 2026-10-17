@@ -44,7 +44,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_Init 0x02040C14 arm
@@ -112,7 +112,7 @@
  *   G3D_SYSTEM_DeleteRender 0x02047504 arm
  *   G3D_SYSTEM_DeleteResource 0x02046EFC arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
- *   func_02047828 0x02047828 arm
+ *   G3D_SYSTEM_GetObjectAnimeFrame 0x02047828 arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   G3D_SYSTEM_ResetObjectAnimeFrame 0x02047804 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
@@ -132,7 +132,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -158,8 +158,8 @@
  *   IRC_APPBAR_SetActive 0x021B72A0 thumb ov101
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_02008530 0x02008530 thumb
- *   func_0200A9D4 0x0200A9D4 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
+ *   IRC_RANKING_HasEntry 0x0200A9D4 thumb
  *   COMPATIBLE_IRC_SYS_AddCommandTable 0x021B64F0 thumb ov101
  *   IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable 0x021B9220 data a4
  *   COMPATIBLE_IRC_SYS_DeleteCommandTable 0x021B6508 thumb ov101
@@ -366,7 +366,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const void *template, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8, u8);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 extern void BG_SYS_Init(u32, u32, u32, u32);
@@ -427,7 +427,7 @@ extern void G3D_SYSTEM_DeleteAnime(void *);
 extern void G3D_SYSTEM_DeleteRender(void *);
 extern void G3D_SYSTEM_DeleteResource(void *);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
-extern void func_02047828(void *object, int index, int *frame);
+extern void G3D_SYSTEM_GetObjectAnimeFrame(void *object, int index, int *frame);
 extern void G3D_SYSTEM_DrawObject(void *object, void *transform);
 extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(void *object, u16 idx);
 extern void GF_FONT_InitTextColor(void);
@@ -448,7 +448,7 @@ extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
 extern void BG_SYS_PushTile(u8 index);
 extern void *BMP_WIN_GetBmp(void *bmpWin);
 extern void BMP_Clear(void *bmp, u8 value);
-extern void func_02045CAC(void *msgData, u32 msgId, void *dest);
+extern void MSGDATA_ReadString(void *msgData, u32 msgId, void *dest);
 extern void PRINTSYS_QUE_Clear(void *printQueue);
 extern void PRINTSYS_PrintQue(void *printQueue, void *bmp, s16 x, s16 y, void *strBuf, void *font);
 extern void STRBUF_Delete(void *strBuf);
@@ -470,8 +470,8 @@ extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 extern void *ICA_ANIME_GetField1C(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *IRC_RANKING_GetFromSave(void *saveControl);
-extern u32 func_02008530(const u8 *myStatus);
-extern int func_0200A9D4(void *records, u32 value);
+extern u32 MYSTATUS_GetId(const u8 *myStatus);
+extern int IRC_RANKING_HasEntry(void *records, u32 value);
 extern void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys, int commandBase, const void *commandTable, int count, void *userData);
 extern void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys, int commandBase);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -755,9 +755,9 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(u32 *charRange, u16 heapId)
         BG_SYS_SetPlaneVisible(layer, 1);
     }
     arc = ARC_TOOL_CreateHandle(94, heapId);
-    func_02049B68(arc, 1, 0, 0, 0, heapId);
-    func_02049B68(arc, 1, 4, 0, 0, heapId);
-    func_02049B68(arc, 6, 0, 0x120, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 0, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 4, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 6, 0, 0x120, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 2, 3, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0, 6, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 48, 4, 0, 0, 0, heapId);
@@ -947,7 +947,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_DrawModel(IrcModel *model)
     int i, frame, atStart;
     if (model->active) {
         for (i = 0; i < 2; i++) G3D_SYSTEM_LoopObjectAnimeFrame(model->object, (u16)i, 4096);
-        func_02047828(model->object, 0, &frame);
+        G3D_SYSTEM_GetObjectAnimeFrame(model->object, 0, &frame);
         atStart = 0;
         if (frame == 0) atStart = 1;
         model->looped = atStart;
@@ -1080,7 +1080,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_PrintMessage(IrcWindow *win, IrcTextSystem *text,
     printQueue = IRC_COMPATIBLE_TOUCH_TEST_TextGetPrintQueue(text);
     font = IRC_COMPATIBLE_TOUCH_TEST_TextGetFont(text);
     BMP_Clear(BMP_WIN_GetBmp(win->bmpWin), win->fillColor);
-    func_02045CAC(msgData, msgId, win->strBuf);
+    MSGDATA_ReadString(msgData, msgId, win->strBuf);
     PRINTSYS_QUE_Clear(printQueue);
     PRINTSYS_PrintQue(printQueue, BMP_WIN_GetBmp(win->printWin), x, y, win->strBuf, font);
     win->printPending = 1;
@@ -1097,7 +1097,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(IrcWindow *win, IrcTextSyste
     printQueue = IRC_COMPATIBLE_TOUCH_TEST_TextGetPrintQueue(text);
     font = IRC_COMPATIBLE_TOUCH_TEST_TextGetFont(text);
     BMP_Clear(BMP_WIN_GetBmp(win->bmpWin), win->fillColor);
-    func_02045CAC(msgData, msgId, win->strBuf);
+    MSGDATA_ReadString(msgData, msgId, win->strBuf);
     x = BMP_WIN_GetWidth(win->bmpWin) * 4;
     y = BMP_WIN_GetHeight(win->bmpWin) * 4;
     x -= (u16)(GF_FONT_MeasureWidestLine(win->strBuf, font, 0) >> 1);
@@ -1340,7 +1340,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleScoring(IrcTouchWork *work, u16 *state)
         if (work->args->gameSystem) {
             void *records;
             records = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
-            own.bonus = func_0200A9D4(records, func_02008530(work->args->profile->myStatus)) == 0;
+            own.bonus = IRC_RANKING_HasEntry(records, MYSTATUS_GetId(work->args->profile->myStatus)) == 0;
         }
         if (IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(&work->exchange, &own)) *state = 3;
         break;

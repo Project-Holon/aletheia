@@ -48,7 +48,7 @@
  *   d_021E759C     0x021E759C  data   ov119  a4
  *   d_02208C40     0x02208C40  data   ov195  a4
  *   d_021546A0     0x021546A0  data   ov001  a4
- *   func_020124E8   0x020124E8  thumb
+ *   GAME_EVENT_GetWork   0x020124E8  thumb
  *   GAME_COMM_RequestExitNoCallback   0x02026400  thumb
  *   POKEPARTY_Create   0x0201A920  thumb
  *   MI_CpuFill8   0x02082BCC  arm
@@ -167,7 +167,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 struct Party *POKEPARTY_Create(u32 heapId);
 void MI_CpuFill8(void *dst, int value, int size);
@@ -343,7 +343,7 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
 
     if (GAME_COMM_GetKind(ICA_ANIME_GetField24(gameSystem)))
         GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(gameSystem));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->startMode = startMode;
     work->tradedParty = POKEPARTY_Create(4);

@@ -19,7 +19,7 @@
  *   gDailyLayoutMainDefs     0x021F3B4C  data  a4
  *   gDailyLayoutBonusDefs     0x021F3A98  data  a4
  *   gDailyLayoutFillerDefs     0x021F3BEC  data  a4
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   gDailyLayoutAnchorCells     0x021F3A7C  data  a1
  *   gDailyLayoutCompanionCellsA     0x021F3A82  data  a1
  *   gDailyLayoutCompanionCellsB     0x021F3A90  data  a1
@@ -95,7 +95,7 @@ typedef struct ExtraEntryDef {
 
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
 extern int DAILY_LAYOUT_DealCells(CellDeck *deck);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 void DAILY_LAYOUT_Generate(DailyLayoutWork *work);
 void DAILY_LAYOUT_PickDistinct(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks);
 void DAILY_LAYOUT_ResetDeck(CellDeck *deck);
@@ -220,7 +220,7 @@ void DAILY_LAYOUT_PickDistinct(int poolSize, int pickCount, unsigned char *scrat
     for (i = 0; i < poolSize; i++)
         scratch[i] = i;
     for (pickIdx = 0; pickIdx < pickCount; pickIdx++) {
-        rolled = func_020056EC(poolSize);
+        rolled = GFL_USE_GetRandom(poolSize);
         picks[pickIdx] = scratch[rolled];
         scratch[rolled] = scratch[poolSize - 1];
         poolSize--;
@@ -302,7 +302,7 @@ int DAILY_LAYOUT_DealCells(CellDeck *deck)
 
     hasFlagA = 0;
     hasFlagB = 0;
-    anchorIdx = func_020056EC(6);
+    anchorIdx = GFL_USE_GetRandom(6);
     cell = gDailyLayoutAnchorCells[anchorIdx];
     if (DAILY_LAYOUT_RemovePoolCell(deck, DAILY_LAYOUT_FindPoolCell(deck, cell)) == 0)
         return hasFlagA;
@@ -316,9 +316,9 @@ int DAILY_LAYOUT_DealCells(CellDeck *deck)
         hasFlagB = 1;
     if (hasFlagB == 0 || hasFlagA == 0) {
         if (hasFlagB == 0)
-            cell = gDailyLayoutCompanionCellsA[func_020056EC(7)];
+            cell = gDailyLayoutCompanionCellsA[GFL_USE_GetRandom(7)];
         else
-            cell = gDailyLayoutCompanionCellsB[func_020056EC(8)];
+            cell = gDailyLayoutCompanionCellsB[GFL_USE_GetRandom(8)];
         if (DAILY_LAYOUT_RemovePoolCell(deck, DAILY_LAYOUT_FindPoolCell(deck, cell)) == 0)
             return 0;
         remaining--;
@@ -326,7 +326,7 @@ int DAILY_LAYOUT_DealCells(CellDeck *deck)
         deck->dealtCount++;
     }
     for (i = 0; i < remaining; i++) {
-        rolled = func_020056EC(remaining - i);
+        rolled = GFL_USE_GetRandom(remaining - i);
         picked = DAILY_LAYOUT_GetPoolCell(deck, rolled);
         if (picked < 0)
             return 0;

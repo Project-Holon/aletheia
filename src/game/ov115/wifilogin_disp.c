@@ -15,7 +15,7 @@
  * symbols:
  *   GAME_DATA_GetField1A0 0x0201283C thumb
  *   WIFILIST_GetWork 0x02009860 thumb
- *   func_020099C8 0x020099C8 thumb
+ *   WIFILIST_GetDwcFriendData 0x020099C8 thumb
  *   WIFILIST_MergeFriendRecord 0x02009C24 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   WIFILOGIN_COMMON_SetStateHandler 0x021D426C thumb ov115
@@ -27,7 +27,7 @@
  *   DWC_RAP_ClearUserDataChanged 0x02156C98 thumb ov009
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
- *   func_02008540 0x02008540 thumb
+ *   MYSTATUS_SetProfileIdOnce 0x02008540 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   GFL_NET_StartSession 0x0203CBAC arm
@@ -108,10 +108,10 @@
  *   d_021D64E4 0x021D64E4 data a4
  *   d_021D6504 0x021D6504 data a4
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   PALANM_BlendColors 0x02021F64 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
@@ -124,7 +124,7 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -202,7 +202,7 @@ extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 
 extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 
-extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
+extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
 
 extern void WIFILIST_MergeFriendRecord(struct Sub020097BCObj *obj, int src, int dest);
 
@@ -226,7 +226,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *);
 
 extern void *WIFILIST_GetGsProfileId(void *);
 
-extern void func_02008540(void *,void *);
+extern void MYSTATUS_SetProfileIdOnce(void *,void *);
 
 extern void GAME_DATA_SaveStart(u8 *);
 
@@ -342,13 +342,12 @@ extern void BG_SYS_SetTileEntry(u8,int,int,int,u8,u8,u8);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -374,7 +373,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, 
 
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
 extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
@@ -572,7 +571,7 @@ extern u8 gClActorInitParam[];
 
 void WIFILOGIN_DISP_OpenProfileCard(u8 *p) { WIFILIST_GetWork((struct Sub020097BCObj *)GAME_DATA_GetField1A0(((struct WifiloginWork *)p)->userdata)); }
 
-void WIFILOGIN_DISP_GetProfileSlot0(u8 *p) { func_020099C8((void *)GAME_DATA_GetField1A0(((struct WifiloginWork *)p)->userdata),0); }
+void WIFILOGIN_DISP_GetProfileSlot0(u8 *p) { WIFILIST_GetDwcFriendData((void *)GAME_DATA_GetField1A0(((struct WifiloginWork *)p)->userdata),0); }
 
 /*
  * extent: Two zero bytes of alignment padding follow the return.
@@ -602,7 +601,7 @@ void WIFILOGIN_DISP_StepWaitLogin(u8 *p) {
 
 void WIFILOGIN_DISP_StepSaveResult(u8 *p) { int r; if(DWC_RAP_IsUserDataChanged()) { r=GAME_DATA_SaveMain(*(u8 * *)&((struct WifiloginWork *)p)->userdata); switch(r) { case 0: case 1: return; default: DWC_RAP_ClearUserDataChanged(r); break; } } WIFILOGIN_DISP_StepWaitLogin(p); }
 
-void WIFILOGIN_DISP_StepStartSave(u8 *p) { void *a; if(WIFILOGIN_MSG_IsPrintDone((u8 *)(((struct WifiloginWork *)p)->message))) { a=GAME_DATA_GetMyStatus(((struct WifiloginWork *)p)->userdata); func_02008540(a,WIFILIST_GetGsProfileId(((struct WifiloginWork *)p)->profile)); GAME_DATA_SaveStart(*(u8 * *)&((struct WifiloginWork *)p)->userdata); ((struct WifiloginWork *)p)->saveStarted=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepSaveResult); } }
+void WIFILOGIN_DISP_StepStartSave(u8 *p) { void *a; if(WIFILOGIN_MSG_IsPrintDone((u8 *)(((struct WifiloginWork *)p)->message))) { a=GAME_DATA_GetMyStatus(((struct WifiloginWork *)p)->userdata); MYSTATUS_SetProfileIdOnce(a,WIFILIST_GetGsProfileId(((struct WifiloginWork *)p)->profile)); GAME_DATA_SaveStart(*(u8 * *)&((struct WifiloginWork *)p)->userdata); ((struct WifiloginWork *)p)->saveStarted=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepSaveResult); } }
 
 void WIFILOGIN_DISP_StepCheckSave(u8 *p) {
  if(WIFILOGIN_MSG_IsPrintDone((u8 *)((int)((u8 *)((struct WifiloginWork *)p)->message)))) { if(DWC_RAP_IsUserDataChanged() && !((struct WifiloginWork *)p)->saveStarted && ((struct WifiloginWork *)p)->state->netMode!=2) { WIFILOGIN_MSG_SetMessage((void *)((struct WifiloginWork *)p)->message,30); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepStartSave); } else { WIFILOGIN_DISP_StepWaitLogin(p); } }
@@ -995,17 +994,17 @@ void WIFILOGIN_DISP_LoadPalette(char *p)
     u16 heap;
     h = ARC_TOOL_CreateHandle(0x91, ((struct WifiloginDisp *)p)->heapId);
     j = 0;
-    func_02049B68(h, 3, 4, 0, j, ((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 3, 4, 0, j, ((struct WifiloginDisp *)p)->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 4, 4, 0, j, j, ((struct WifiloginDisp *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 6, 4, 0, j, j, ((struct WifiloginDisp *)p)->heapId);
-    func_02049B68(h, 3, 0, 0, j, ((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 3, 0, 0, j, ((struct WifiloginDisp *)p)->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 4, 0, 0, j, j, ((struct WifiloginDisp *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 5, 0, 0, j, j, ((struct WifiloginDisp *)p)->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 4, 3, 0, j, j, ((struct WifiloginDisp *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 7, 3, 0, j, j, ((struct WifiloginDisp *)p)->heapId);
     heap = ((struct WifiloginDisp *)p)->heapId;
     MI_CpuFill8(p + 0x10, 0, 0x970);
-    allocated = func_02049F78(h, 2, (u32)&record, heap);
+    allocated = ARC_UTIL_LoadPaletteBlockFromHandle(h, 2, (u32)&record, heap);
     MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x18, 0x1e0);
     MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x1f8, 0x1e0);
     GFL_HEAP_Free(allocated);
@@ -1065,14 +1064,14 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
     zero=Zero;
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)((u32)res),0,4,zero,0,((struct WifiloginDisp *)p)->heapId);
     ((struct WifiloginDisp *)p)->charBank0 = ARC_UTIL_RegisterObjCharFromHandle((void *)((u32)res),7,4,zero,0,((struct WifiloginDisp *)p)->heapId);
-    func_02049990((void *)((u32)res),18,4,0,(u16)(((struct WifiloginDisp *)p)->charBank0),zero,0,((struct WifiloginDisp *)p)->heapId);
-    func_02049990((void *)((u32)res),19,6,0,(u16)(((struct WifiloginDisp *)p)->charBank0),zero,0,((struct WifiloginDisp *)p)->heapId);
-    func_02049990((void *)((u32)res),20,7,0,(u16)(((struct WifiloginDisp *)p)->charBank0),zero,0,((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)((u32)res),18,4,0,(u16)(((struct WifiloginDisp *)p)->charBank0),zero,0,((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)((u32)res),19,6,0,(u16)(((struct WifiloginDisp *)p)->charBank0),zero,0,((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)((u32)res),20,7,0,(u16)(((struct WifiloginDisp *)p)->charBank0),zero,0,((struct WifiloginDisp *)p)->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)((u32)res),0,0,zero,0,((struct WifiloginDisp *)p)->heapId);
     ((struct WifiloginDisp *)p)->charBank1 = ARC_UTIL_RegisterObjCharFromHandle((void *)((u32)res),6,0,zero,0,((struct WifiloginDisp *)p)->heapId);
-    func_02049990((void *)((u32)res),15,0,0,(u16)(((struct WifiloginDisp *)p)->charBank1),zero,0,((struct WifiloginDisp *)p)->heapId);
-    func_02049990((void *)((u32)res),16,1,0,(u16)(((struct WifiloginDisp *)p)->charBank1),zero,0,((struct WifiloginDisp *)p)->heapId);
-    func_02049990((void *)((u32)res),17,2,0,(u16)(((struct WifiloginDisp *)p)->charBank1),zero,0,((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)((u32)res),15,0,0,(u16)(((struct WifiloginDisp *)p)->charBank1),zero,0,((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)((u32)res),16,1,0,(u16)(((struct WifiloginDisp *)p)->charBank1),zero,0,((struct WifiloginDisp *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)((u32)res),17,2,0,(u16)(((struct WifiloginDisp *)p)->charBank1),zero,0,((struct WifiloginDisp *)p)->heapId);
     *(int *)&((struct WifiloginDisp *)p)->charHandle = CLACT_RegisterCharacter((void *)((u32)res),9,0,1,((struct WifiloginDisp *)p)->heapId);
     *(int *)&((struct WifiloginDisp *)p)->paletteHandle = CLACT_RegisterPaletteEx((void *)((u32)res),3,1,0,0,3,((struct WifiloginDisp *)p)->heapId);
     *(int *)&((struct WifiloginDisp *)p)->cellAnimHandle = CLACT_RegisterCellAnim((void *)((u32)res),12,25,((struct WifiloginDisp *)p)->heapId);

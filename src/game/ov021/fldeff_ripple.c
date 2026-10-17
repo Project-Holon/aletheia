@@ -42,7 +42,7 @@
  *   FLDEFF_RIPPLE_CreateSpecialLocationWarpTask  0x021D2440  thumb  ov021
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   FIELD_PLAYER_SetDirDisp  0x021A305C  thumb  ov021
  *   RAIL_SLIPDOWN_Create  0x021F36C0  thumb  ov063
@@ -174,7 +174,7 @@ extern void *FLDEFF_RIPPLE_CreateZoneStartWarpTask(void *a, u32 b);
 extern void *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(void *a, u32 b, u32 c);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(void *p);
+extern void *GAME_EVENT_GetWork(void *p);
 extern int GF_OVERLAY_Load(int a);
 extern void FIELD_PLAYER_SetDirDisp(void *p, u32 b);
 extern void *RAIL_SLIPDOWN_Create(void *a, u32 b, u32 c, u32 d);
@@ -349,7 +349,7 @@ int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork)
 u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
 {
     u32 task = (u32)GAME_EVENT_Create((void *)a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
-    u32 *effectSlot = func_020124E8((void *)task);
+    u32 *effectSlot = GAME_EVENT_GetWork((void *)task);
     void *fieldMap;
     void *player;
 
@@ -367,7 +367,7 @@ u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
 void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c)
 {
     void *task = GAME_EVENT_Create(a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
-    void **effectSlot = func_020124E8(task);
+    void **effectSlot = GAME_EVENT_GetWork(task);
 
     GF_OVERLAY_Load((u32)ov063_id);
     *effectSlot = RAIL_SLIPDOWN_Create(a, b, c, 0);
@@ -380,7 +380,7 @@ void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c)
  */
 int RAIL_SLIPDOWN_UpdateTask(void *task)
 {
-    void **effectSlot = func_020124E8(task);
+    void **effectSlot = GAME_EVENT_GetWork(task);
 
     if (RAIL_SLIPDOWN_IsDone(*effectSlot) != 0) {
         RAIL_SLIPDOWN_Delete(*effectSlot);

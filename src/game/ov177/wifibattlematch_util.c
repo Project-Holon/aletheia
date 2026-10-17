@@ -43,9 +43,9 @@
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   TCBL_Main 0x020310C4 arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
- *   func_020056BC  0x020056BC  thumb
+ *   GFL_USE_GetMainTaskList  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
@@ -57,14 +57,14 @@
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
- *   func_02020D10 0x02020D10 thumb
+ *   BMP_MENULIST_SetCancelDisabled 0x02020D10 thumb
  *   d_021E8D68 0x021E8D68 data a4
  *   BMP_MENULIST_Delete  0x0202020C  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
  *   BMP_MENULIST_Main  0x020200CC  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   RECORD_GetFromSave  0x02008C58  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  */
 #include "wifibattlematch_graphic_shared_types.h"
 #include "wifibattlematch_view_shared_types.h"
@@ -196,7 +196,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
@@ -232,7 +232,7 @@ extern void TCBL_Main(struct Tcbl *p);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 
@@ -254,7 +254,7 @@ extern void *BMP_MENULIST_Create(WifibattlematchMenuConfig *,u16,u16,u16);
 
 extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 
-extern void func_02020D10(u8 *p, u32 v);
+extern void BMP_MENULIST_SetCancelDisabled(u8 *p, u32 v);
 
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 
@@ -266,7 +266,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 extern struct Sub02008C20Obj *RECORD_GetFromSave(void *sys);
 
-extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
 WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, unsigned short winWidth, unsigned short winHeight, int unused, int printArg, unsigned short heap);
 
@@ -435,7 +435,7 @@ void WIFIBATTLEMATCH_UTIL_Main(WifibattlematchUtilWork *p)
 
 void WIFIBATTLEMATCH_UTIL_PrintMessage(WifibattlematchUtilWork *p, int msgBank, int msgIndex, int mode)
 {
-    func_02045CAC((struct MsgBank *)msgBank, msgIndex, (void *)p->strbuf);
+    MSGDATA_ReadString((struct MsgBank *)msgBank, msgIndex, (void *)p->strbuf);
     WIFIBATTLEMATCH_UTIL_SetMode(p, mode);
 }
 
@@ -470,7 +470,7 @@ void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
     WIFIBATTLEMATCH_UTIL_StopTimeIcon(p);
     switch (mode) {
     case 2:
-        p->timeIcon = TIME_ICON_Create((void *)func_020056BC(), (void *)p->win, (unsigned char)p->bgSlot, 0x10, p->heapId);
+        p->timeIcon = TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), (void *)p->win, (unsigned char)p->bgSlot, 0x10, p->heapId);
         printQue = (int)p->printQue;
         PRINTSYS_PrintQue((struct PrintSys *)printQue, (u32)BMP_WIN_GetBmp((struct Descriptor *)p->winBmp), 0, 0, (void *)p->strbuf, p->printArg);
         p->shown = 1;
@@ -563,9 +563,9 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     out->menu=BMP_MENULIST_Create(&config,0,p->row,heap);
     BMP_MENULIST_ResetCursorTile(out->menu,(u16)heap);
     if(p->enabled)
-        func_02020D10(out->menu,0);
+        BMP_MENULIST_SetCancelDisabled(out->menu,0);
     else
-        func_02020D10(out->menu,1);
+        BMP_MENULIST_SetCancelDisabled(out->menu,1);
     return out;
 }
 
@@ -675,15 +675,15 @@ void WIFIBATTLEMATCH_UTIL_SetSaveState(int owner, int state)
     switch (state) {
     case 1:
     case 4:
-        func_02008DF0((struct Sub02008C20Obj *)save, 0x12);
+        RECORD_AddOne((struct Sub02008C20Obj *)save, 0x12);
         break;
     case 0:
     case 3:
-        func_02008DF0((struct Sub02008C20Obj *)save, 0x13);
+        RECORD_AddOne((struct Sub02008C20Obj *)save, 0x13);
         break;
     case 2:
-        func_02008DF0((struct Sub02008C20Obj *)save, 0x14);
+        RECORD_AddOne((struct Sub02008C20Obj *)save, 0x14);
         break;
     }
-    func_02008DF0((struct Sub02008C20Obj *)save, 0x11);
+    RECORD_AddOne((struct Sub02008C20Obj *)save, 0x11);
 }

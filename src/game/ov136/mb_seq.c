@@ -13,7 +13,7 @@
  * Cut from mailtool.c, mailview.c, unit_021C5518.c, unit_021C5B40.c, mb_seq.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02008FEC 0x02008FEC thumb
+ *   MAIL_GetBox 0x02008FEC thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -28,11 +28,11 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_02008F84 0x02008F84 thumb
+ *   MAIL_GetWriterName 0x02008F84 thumb
  *   STRBUF_SetString 0x02045924 arm
- *   func_02008FA4 0x02008FA4 thumb
- *   func_02008FC0 0x02008FC0 thumb
- *   func_02008FC8 0x02008FC8 thumb
+ *   MAIL_GetDesign 0x02008FA4 thumb
+ *   MAIL_GetMessageId 0x02008FC0 thumb
+ *   MAIL_GetMessage 0x02008FC8 thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -55,7 +55,7 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -95,7 +95,7 @@
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
@@ -159,7 +159,7 @@
  *   g_7A20 0x021C7A20 data
  *   BMP_CreateFromBuffer 0x020436FC arm
  *   BMP_Blit 0x020439A0 arm
- *   func_02008F9C 0x02008F9C thumb
+ *   MAIL_GetGender 0x02008F9C thumb
  *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   BMP_Delete 0x020437AC arm
  *   WORDSET_CopyTaggedText     0x0201F250  thumb
@@ -274,6 +274,8 @@
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb  arm9
+ *   MYITEM_SAVEDATA_RemoveItem  0x02007F1C  thumb  arm9
  */
 #include "mail_types.h"
 #include "../ov091/pokelist_types.h"
@@ -368,7 +370,7 @@ struct MailBoxChildFinish {
     int unused;
 };
 
-extern struct MailData *func_02008FEC(void *sys);
+extern struct MailData *MAIL_GetBox(void *sys);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -380,15 +382,15 @@ extern void GFL_HEAP_DeleteChecked(u32);
 
 extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
 
-extern u16 *func_02008F84(struct Mail *mail);
+extern u16 *MAIL_GetWriterName(struct Mail *mail);
 
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 
-extern u8 func_02008FA4(const struct Mail *mail);
+extern u8 MAIL_GetDesign(const struct Mail *mail);
 
-extern u16 func_02008FC0(const struct Mail *mail);
+extern u16 MAIL_GetMessageId(const struct Mail *mail);
 
-extern struct PmsData *func_02008FC8(struct Mail *mail, u32 index);
+extern struct PmsData *MAIL_GetMessage(struct Mail *mail, u32 index);
 
 extern void STRBUF_Delete(struct Strbuf *vec);
 
@@ -433,7 +435,7 @@ extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void func_02045CAC(struct MsgData *bank, u32 index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
 
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, int speed, struct Tcbl *tcbl, u32 unused, u16 heapId, u16 clearColor);
 
@@ -509,7 +511,7 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -671,7 +673,7 @@ void MAILVIEW_LoadGraphics(struct MailEditProc *proc)
     sz = 0x800;
     ARC_UTIL_UploadBgPaletteFromHandle(arc, chr, 3, 0, sz, 1, (u16)proc->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, chr, 4, 0, sz, 1, (u16)proc->heapId);
-    func_02049B68(arc, design, 4, 0, 0, (u16)proc->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, design, 4, 0, 0, (u16)proc->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0xA0, 0x20, (u16)proc->heapId);
     proc->palAnm = PALANM_Create(proc->heapId);
     PALANM_AllocSlotBuffers(proc->palAnm, 0, 0xE0, (u16)proc->heapId);
@@ -830,7 +832,7 @@ int MB_SEQ_ProcInit(void *procSys, int unused, struct MailBoxArgs *args)
     p = PROCSYS_AllocProcWork(procSys,52,101);
     MIi_CpuClearFast(0,p,52);
     p->args = args;
-    p->mailData = func_02008FEC(args->gameData);
+    p->mailData = MAIL_GetBox(args->gameData);
     p->nextState = 8;
     p->vblankTask = 0;
     p->procSys = PROCSYS_Create(101);
@@ -1021,11 +1023,11 @@ void MB_SEQ_LoadFrameCharData(struct MailBoxProc *p)
     handle = ARC_TOOL_CreateHandle(0x9B, 0x66);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x2A, 7, 0, 0, 1, 0x66);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x29, 7, 0, 0, 1, 0x66);
-    func_02049B68(handle, 0x2B, 4, 0, 0, 0x66);
+    ARC_UTIL_UploadPaletteFromHandleWhole(handle, 0x2B, 4, 0, 0, 0x66);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x26, 3, 0, 0, 1, 0x66);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x26, 1, 0, 0, 1, 0x66);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x25, 3, 0, 0, 1, 0x66);
-    func_02049B68(handle, 0x27, 0, 0, 0, 0x66);
+    ARC_UTIL_UploadPaletteFromHandleWhole(handle, 0x27, 0, 0, 0, 0x66);
     buf = ARC_UTIL_LoadBgCharDataFromHandle(handle, 0x26, 1, &charData, 0x66);
     tiles = charData->tiles;
     MIi_CpuCopyFast(tiles + 0x100, p->view->blankTile[0], 0x20);
@@ -1159,7 +1161,7 @@ extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32
 
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
-extern u8 func_02008F9C(const struct Mail *mail);
+extern u8 MAIL_GetGender(const struct Mail *mail);
 
 extern void BGWINFRM_PutBmpWin(struct BgWinFrm *mgr, u32 idx, struct BmpWin *win);
 
@@ -1402,9 +1404,9 @@ void MB_SEQ_LoadSelectedMailGraphics(struct MailBoxProc *p)
     void *handle;
     u32 designId;
     handle = ARC_TOOL_CreateHandle(155,102);
-    designId = func_02008FA4(p->view->mails[p->selectedMail]);
+    designId = MAIL_GetDesign(p->view->mails[p->selectedMail]);
     ARC_UTIL_UploadBgCharFromHandle(handle,designId+12,5,0,0,1,102);
-    func_02049B68(handle,designId,4,0,64,102);
+    ARC_UTIL_UploadPaletteFromHandleWhole(handle,designId,4,0,64,102);
     ARC_UTIL_UploadBgPaletteFromHandle(handle,designId+24,5,0,0,1,102);
     ARC_TOOL_DeleteHandle(handle);
 }
@@ -1507,13 +1509,13 @@ void MB_SEQ_DrawMailEntry(struct MailBoxProc *p, u32 frameIndex, int winIndex, i
 
     BMP_Clear(tile0, 4);
     BMP_Clear(tile1, 4);
-    STRBUF_SetString(p->view->msgBuf, func_02008F84(mail));
+    STRBUF_SetString(p->view->msgBuf, MAIL_GetWriterName(mail));
     for (i = 0; i < 8; i++) {
         BMP_Blit(BMP_WIN_GetBmp(win), tile0, 0, 0, i * 8, 0, 8, 8, 0xFFFF);
         BMP_Blit(BMP_WIN_GetBmp(win), tile1, 0, 0, i * 8, 8, 8, 8, 0xFFFF);
     }
     BMP_Clear(BMP_WIN_GetBmp(win), 4);
-    if (func_02008F9C(mail) == 0) {
+    if (MAIL_GetGender(mail) == 0) {
         MB_SEQ_PrintTextToSlot(win, p->view->msgBuf, slot,
                       p->view->printQue, 0, 0, p->font, 0x14C4, 0);
     } else {
@@ -1551,9 +1553,9 @@ void MB_SEQ_SetWriterWord(struct MailBoxProc *p, u32 a1)
     u32 n;
     mail = p->view->mails[p->selectedMail];
     text = STRBUF_Create(16, 102);
-    func_02008F84(mail);
-    STRBUF_SetString(text, func_02008F84(mail));
-    n = func_02008F9C(mail);
+    MAIL_GetWriterName(mail);
+    STRBUF_SetString(text, MAIL_GetWriterName(mail));
+    n = MAIL_GetGender(mail);
     WORDSET_SetSlotTag(p->view->wordSet, 0, text, n, 1, 2);
     STRBUF_Delete(text);
 }
@@ -1596,11 +1598,11 @@ void MB_SEQ_HideMessageWindow(struct MailBoxProc *p)
 void MB_SEQ_PrintMenuMessage(struct MailBoxProc *p, unsigned int i)
 {
     switch (i) {
-    case 0: func_02045CAC(p->view->msgData, 10, p->view->msgBuf); break;
-    case 1: func_02045CAC(p->view->msgData, 11, p->view->msgBuf); break;
-    case 2: func_02045CAC(p->view->msgData, 12, p->view->msgBuf); break;
-    case 3: func_02045CAC(p->view->msgData, 13, p->view->msgBuf); break;
-    case 4: func_02045CAC(p->view->msgData, 14, p->view->msgBuf); break;
+    case 0: MSGDATA_ReadString(p->view->msgData, 10, p->view->msgBuf); break;
+    case 1: MSGDATA_ReadString(p->view->msgData, 11, p->view->msgBuf); break;
+    case 2: MSGDATA_ReadString(p->view->msgData, 12, p->view->msgBuf); break;
+    case 3: MSGDATA_ReadString(p->view->msgData, 13, p->view->msgBuf); break;
+    case 4: MSGDATA_ReadString(p->view->msgData, 14, p->view->msgBuf); break;
     }
     MB_SEQ_StartMessagePrint(p);
 }
@@ -1616,7 +1618,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
     struct BmpWin *win;
 
     for (i = 0; i < 3; i++) {
-        sentence = func_02008FC8(p->view->mails[p->selectedMail], (u8)i);
+        sentence = MAIL_GetMessage(p->view->mails[p->selectedMail], (u8)i);
         if (PMSI_PARAM_IsEnabled(sentence)) {
             PMS_DRAW_Print(p->view->pmsDraw, p->view->win[i + 27], sentence, (u8)i);
             win = p->view->win[i + 27];
@@ -1627,12 +1629,12 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
     }
     p->view->closingWord.sentenceType = 6;
     p->view->closingWord.sentenceId = 0;
-    p->view->closingWord.word[0] = func_02008FC0(p->view->mails[p->selectedMail]);
+    p->view->closingWord.word[0] = MAIL_GetMessageId(p->view->mails[p->selectedMail]);
     if (p->view->closingWord.word[0] != 0) {
         PMS_DRAW_Print(p->view->pmsDraw, p->view->win[30], &p->view->closingWord, 3);
     }
     BMP_Clear(BMP_WIN_GetBmp(p->view->win[31]), 0);
-    STRBUF_SetString(p->view->msgBuf, func_02008F84(p->view->mails[p->selectedMail]));
+    STRBUF_SetString(p->view->msgBuf, MAIL_GetWriterName(p->view->mails[p->selectedMail]));
     MB_SEQ_PrintTextToSlot(p->view->win[31], p->view->msgBuf, &p->view->slot[31],
                   p->view->printQue, 0, 2, p->font, 0x440, 0);
     win = p->view->win[31];
@@ -1921,7 +1923,7 @@ extern void PMS_DRAW_Clear(struct PmsDraw *draw, int index, u32 a1);
 
 extern void *GAME_DATA_GetMyItem(struct GameData *gameData);
 
-extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_AddItem(u8 *base, u16 id, u16 qty, u16 d);
 
 extern void MAIL_ClearSlot(struct MailData *mailData, u32 unused, int index);
 
@@ -1943,7 +1945,7 @@ extern void MAILTOOL_DeleteArgs(struct MailArgs *args);
 
 extern void *POKEPARTY_GetMember(void *, u32);
 
-extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
@@ -2366,7 +2368,7 @@ int MB_SEQ_StateActionMenu(struct MailBoxProc *p)
         u8 mailIndex;
         MB_SEQ_CloseMenu(p);
         mailIndex = p->selectedMail;
-        MB_SEQ_CreatePartyListArgs(p, 0xE, FILE_UTIL_GetItemId(func_02008FA4(p->view->mails[mailIndex])), mailIndex);
+        MB_SEQ_CreatePartyListArgs(p, 0xE, FILE_UTIL_GetItemId(MAIL_GetDesign(p->view->mails[mailIndex])), mailIndex);
         p->childIndex = 0;
         p->nextState = 6;
         return MB_SEQ_StartFadeOut(p, 1);
@@ -2603,7 +2605,7 @@ void MB_SEQ_ClearMailDetailText(struct MailBoxProc *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (PMSI_PARAM_IsEnabled(func_02008FC8(p->view->mails[p->selectedMail], (u8)i)) != 0) {
+        if (PMSI_PARAM_IsEnabled(MAIL_GetMessage(p->view->mails[p->selectedMail], (u8)i)) != 0) {
             PMS_DRAW_Clear(p->view->pmsDraw, (u8)i, (int)0);
         }
     }
@@ -2620,8 +2622,8 @@ void MB_SEQ_ClearMailDetailText(struct MailBoxProc *p)
 void MB_SEQ_CheckBagForItem(struct MailBoxProc *p)
 {
     void *bag = GAME_DATA_GetMyItem(p->args->gameData);
-    p->itemId = FILE_UTIL_GetItemId(func_02008FA4(p->view->mails[p->selectedMail]));
-    if (func_02007E50(bag, p->itemId, 1, 0x66) == 1) {
+    p->itemId = FILE_UTIL_GetItemId(MAIL_GetDesign(p->view->mails[p->selectedMail]));
+    if (MYITEM_SAVEDATA_AddItem(bag, p->itemId, 1, 0x66) == 1) {
         p->bagFull = 0;
         return;
     } else {
@@ -2694,7 +2696,7 @@ int MB_SEQ_FinishMailTool(struct MailBoxProc *p)
     p->hasMail = MAILTOOL_HasMail(p->childArgs);
     if (p->hasMail == 1) {
         MAILTOOL_StoreMailToPartyMon(p->childArgs, POKEPARTY_GetMember(GAME_DATA_GetMyParty(p->args->gameData), p->partyIndex));
-        func_02007F1C(GAME_DATA_GetMyItem(p->args->gameData), p->itemId, 1, 0x65);
+        MYITEM_SAVEDATA_RemoveItem(GAME_DATA_GetMyItem(p->args->gameData), p->itemId, 1, 0x65);
     }
     MAILTOOL_DeleteArgs(p->childArgs);
     return 0;

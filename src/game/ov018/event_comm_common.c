@@ -27,7 +27,7 @@
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
@@ -39,9 +39,9 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
- *   func_02029830  0x02029830  thumb
+ *   FIELD_SOUND_SYSTEM_StartPushAndPlayTask  0x02029830  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
- *   func_02029620  0x02029620  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *   MSGDATA_Delete  0x02045C04  arm
@@ -60,12 +60,12 @@
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb  ov010
@@ -135,9 +135,9 @@
  *   INTRUDE_AddMissionBonusScore  0x0200BE24  thumb
  *   INTRUDE_AddMissionScore  0x0200BE00  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   func_02007FB8  0x02007FB8  thumb
- *   func_0200823C  0x0200823C  thumb
- *   func_02007E50  0x02007E50  thumb
+ *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb
+ *   MYITEM_SAVEDATA_GetMaxStack  0x0200823C  thumb
+ *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb
  *   INTRUDE_IncrementMissionClearCount  0x0200BF78  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   sEmptyTextResult   0x02183B48  data   ov018  a1
@@ -161,7 +161,7 @@
  *   sTalkedPowerShareAchieveMsgIdsA     0x021838A4  data  a2
  *   sTalkedPowerShareAchieveMsgIdsB     0x021838AE  data  a2
  *   sTalkedPowerShareTargetMsgIds     0x0218389A  data ov018 a2
- *   func_0215839C  0x0215839C  thumb  ov010
+ *   INTRUDE_COMM_TogglePeerFlags  0x0215839C  thumb  ov010
  *   INTRUDE_COMM_SetLock  0x021756F0  thumb
  *   INTRUDE_COMM_SendPeerFlags  0x021744D0  thumb
  *   INTRUDE_LINK_CreateEvent  0x021766CC  thumb
@@ -194,7 +194,7 @@
  *   sTalkGreetingAsTargetMsgIds     0x02183984  data  a2
  *   sTalkedGreetingAsTargetMsgIds     0x0218397A  data   a2
  *   sTalkedGreetingTargetMsgIds     0x0218398E  data   a2
- *   func_020084F8  0x020084F8  thumb
+ *   MYSTATUS_CopyNameChars  0x020084F8  thumb
  *   INTRUDE_COMM_SendProfile  0x021745F8  thumb  ov011
  *   WORDSET_Callback_EF40  0x0201EF40  thumb
  *   sOfferAnswerMsgIds     0x02183998  data  a2
@@ -203,7 +203,7 @@
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   BEACON_GetPoints  0x0200C274  thumb
  *   BEACON_SubPoints  0x0200C29C  thumb
- *   func_02007E3C  0x02007E3C  thumb
+ *   MYITEM_SAVEDATA_CanAddItem  0x02007E3C  thumb
  *   sItemPurchaseMsgIds     0x021839A4  data  a2
  *   INTRUDE_SUBDISP_MainRequestAnswerSeq  0x0217C914  thumb  ov018
  *   INTRUDE_SUBDISP_CreatePalaceWarpEvent  0x0217CA1C  thumb  ov018
@@ -372,7 +372,7 @@ extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
 extern u8 GAME_DATA_GetOwnNetId(struct GameData *gameData);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, unsigned int workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 IntrudeCommSys *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
@@ -384,9 +384,9 @@ int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern void *FIELD_MSGBG_CreateMsgData(void *fieldMsgbg, u32 arcDatId);
 extern void *FIELD_MSGBG_CreateBottomSysWin(void *fieldMsgbg, void *msgData);
-void *func_02029830(struct GameSystem *gameSystem, u32 soundId);
+void *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 soundId);
 int GFL_USE_IsBgmPlaying(void);
-void *func_02029620(struct GameSystem *gameSystem, u32 popMode, u32 fadeFrames);
+void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 popMode, u32 fadeFrames);
 extern int FIELD_MSGBG_SysWinMain(void *printer);
 extern void FIELD_MSGBG_DeleteSysWin(void *printer);
 extern u32 MSGDATA_Delete(void *msgData);
@@ -405,12 +405,12 @@ extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *strbuf);
 extern unsigned int WORDSET_DeleteStrbufED04(void *wordSet);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 func_02008550(void *myStatus);
+extern u8 MYSTATUS_GetOutfitVariant(void *myStatus);
 extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 extern void *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *myStatus);
-extern void func_02045CAC(void *msgData, u32 msgId, void *dest);
+extern void MSGDATA_ReadString(void *msgData, u32 msgId, void *dest);
 extern void WORDSET_CopyTaggedText(void *wordSet, void *dest, void *src);
 int GFL_NET_GetNegotiationNum(void);
 extern void *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, int netId);
@@ -475,9 +475,9 @@ int INTRUDE_COMM_GetResultCount(IntrudeCommSys *sys, IntrudeSession *session);
 void INTRUDE_AddMissionBonusScore(void *battleRec, s32 count);
 void INTRUDE_AddMissionScore(void *battleRec, s32 count);
 void *GAME_DATA_GetMyItem(struct GameData *gameData);
-u32 func_02007FB8(void *myItem, u16 itemId, u16 heapId);
-u32 func_0200823C(u32 itemId);
-u32 func_02007E50(void *myItem, u16 itemId, u16 count, u16 heapId);
+u32 MYITEM_SAVEDATA_GetItemQuantity(void *myItem, u16 itemId, u16 heapId);
+u32 MYITEM_SAVEDATA_GetMaxStack(u32 itemId);
+u32 MYITEM_SAVEDATA_AddItem(void *myItem, u16 itemId, u16 count, u16 heapId);
 u32 INTRUDE_IncrementMissionClearCount(void *record);
 void WORDSET_SetSlotNumber(void *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, int workSize);
@@ -486,7 +486,7 @@ int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *sys, IntrudeSession *session);
 void WORDSET_SetSlotFromMsgA0(void *wordSet, u32 index, s32 value);
 struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, struct GameEvent *(*createFunc)(struct GameSystem *gameSystem, void *param), void *param);
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, void *param);
-int func_0215839C(IntrudeCommSys *sys, int flags, int netId);
+int INTRUDE_COMM_TogglePeerFlags(IntrudeCommSys *sys, int flags, int netId);
 void INTRUDE_COMM_SetLock(IntrudeCommSys *sys, int locked);
 int INTRUDE_COMM_SendPeerFlags(IntrudeCommSys *sys, int netId, int flags);
 struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, EventCommBattleParam *param);
@@ -498,14 +498,14 @@ void *COMM_PLAYER_SUPPORT_GetActiveRecord(void *pmsWork);
 struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, int scriptId, int param, int heapId);
 void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 int SCRIPT_WORK_SetParams(void *scriptWork, int param0, int param1, int param2, u16 param3);
-extern u32 func_020084F8(void *myStatus, void *dest, u32 size);
+extern u32 MYSTATUS_CopyNameChars(void *myStatus, void *dest, u32 size);
 int INTRUDE_COMM_SendProfile(u32 netId, void *name);
 void WORDSET_Callback_EF40(void *wordSet, u32 index, u32 itemId);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 itemId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 BEACON_GetPoints(void *miscSave);
 extern u32 BEACON_SubPoints(void *miscSave, u32 amount);
-extern u32 func_02007E3C(void *myItem, u16 itemId, u16 count, u16 heapId);
+extern u32 MYITEM_SAVEDATA_CanAddItem(void *myItem, u16 itemId, u16 count, u16 heapId);
 extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *answerSeq);
 struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(struct GameSystem *gameSystem);
 struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(struct GameSystem *gameSystem, int mode);
@@ -753,7 +753,7 @@ void EVENT_COMM_COMMON_PrintText(EventCommMsgBox *msgBox, void *text)
 
 void EVENT_COMM_COMMON_PrintMsg(EventCommMsgBox *msgBox, u16 msgId)
 {
-    func_02045CAC(msgBox->msgData, msgId, msgBox->templateText);
+    MSGDATA_ReadString(msgBox->msgData, msgId, msgBox->templateText);
     WORDSET_CopyTaggedText(msgBox->wordSet, msgBox->text, msgBox->templateText);
     EVENT_COMM_COMMON_PrintText(msgBox, msgBox->text);
 }
@@ -811,7 +811,7 @@ void EVENT_COMM_COMMON_DeleteListWindow(EventCommMsgBox *msgBox)
 
 void EVENT_COMM_COMMON_PrintToWindow(EventCommMsgBox *msgBox, void *msgData, void *window, unsigned int msgId, int x, int y)
 {
-    func_02045CAC(msgData, msgId, msgBox->templateText);
+    MSGDATA_ReadString(msgData, msgId, msgBox->templateText);
     WORDSET_CopyTaggedText(msgBox->wordSet, msgBox->text, msgBox->templateText);
     FIELD_MSGBG_MsgWinPrintStr(window, (u16)x, (u16)y, msgBox->text);
 }
@@ -926,7 +926,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(IntrudeCommSys *sys, u8 netId)
     objCode = peer->objCode;
     switch (objCode) {
     case 0:
-        if (func_02008550(GAME_DATA_GetPlayerStatusById(GAME_COMM_GetGameData(sys->gameComm), netId)) == 0) {
+        if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetPlayerStatusById(GAME_COMM_GetGameData(sys->gameComm), netId)) == 0) {
             return 3;
         }
         return 4;
@@ -960,7 +960,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateExitSyncEvent(struct GameSystem *gameS
     int zero;
     zero = 0;
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_ExitSyncEventMain, 0x10);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->result = result;
     *result = zero;
     return event;
@@ -1125,7 +1125,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateMissionInfoEvent(struct GameSystem *ga
 {
     struct GameEvent *event;
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_MissionInfoEventMain, 0x30);
-    MI_CpuFill8(func_020124E8(event), 0, 0x30);
+    MI_CpuFill8(GAME_EVENT_GetWork(event), 0, 0x30);
     return event;
 }
 
@@ -1287,7 +1287,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkStartEvent(struct GameSystem *game
     EventCommTalkParam *param;
     struct GameEvent *event;
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkStartEventMain, 0x10);
-    param = func_020124E8(event);
+    param = GAME_EVENT_GetWork(event);
     MI_CpuFill8(param, 0, 0x10);
     param->fieldMap = fieldMap;
     param->playerMmdl = playerMmdl;
@@ -1327,7 +1327,7 @@ int EVENT_COMM_COMMON_TalkStartEventMain(struct GameEvent *event, int *seq, void
 struct GameEvent *EVENT_COMM_COMMON_CreateTalkEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *sys, struct FldMmdl *playerMmdl, int netId, u16 heapId)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkEventMain, 0x9c);
-    EventCommCommonWork *work = func_020124E8(event);
+    EventCommCommonWork *work = GAME_EVENT_GetWork(event);
 
     MI_CpuFill8(work, 0, 0x9c);
     EVENT_COMM_COMMON_InitCommonWork(gameSystem, sys, work, fieldMap, playerMmdl, netId, heapId);
@@ -1342,7 +1342,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkEvent(struct GameSystem *gameSyste
 struct GameEvent *EVENT_COMM_COMMON_CreateTalkedStartEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *sys, struct FldMmdl *playerMmdl, int netId, u16 heapId)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkedStartEventMain, 0x10);
-    EventCommTalkParam *param = func_020124E8(event);
+    EventCommTalkParam *param = GAME_EVENT_GetWork(event);
 
     MI_CpuFill8(param, 0, 0x10);
     param->fieldMap = fieldMap;
@@ -1386,7 +1386,7 @@ int EVENT_COMM_COMMON_TalkedStartEventMain(struct GameEvent *event, int *seq, vo
 struct GameEvent *EVENT_COMM_COMMON_CreateTalkedEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *sys, struct FldMmdl *playerMmdl, int netId, u16 heapId)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_TalkedEventMain, 0x9c);
-    EventCommCommonWork *work = func_020124E8(event);
+    EventCommCommonWork *work = GAME_EVENT_GetWork(event);
 
     MI_CpuFill8(work, 0, 0x9c);
     EVENT_COMM_COMMON_InitCommonWork(gameSystem, sys, work, fieldMap, playerMmdl, netId, heapId);
@@ -1805,7 +1805,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateMissionResultEvent(struct GameSystem *
 {
     struct FieldMap *fieldMap = ICA_ANIME_GetField20(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_MissionResultEventMain, sizeof(EventCommMissionResultWork));
-    EventCommMissionResultWork *work = func_020124E8(event);
+    EventCommMissionResultWork *work = GAME_EVENT_GetWork(event);
 
     MI_CpuFill8(work, 0, sizeof(EventCommMissionResultWork));
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
@@ -1890,24 +1890,24 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
     case 3:
         if (work->hasReward == 1) {
             EVENT_COMM_COMMON_PrintListWindow(&work->msgBox, 0x19, 0, 0);
-            GAME_EVENT_CallEvent(event, func_02029830(gameSystem, 0x52C));
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(gameSystem, 0x52C));
             *seq = 4;
         } else {
             EVENT_COMM_COMMON_PrintListWindow(&work->msgBox, 0x17, 0, 0);
-            GAME_EVENT_CallEvent(event, func_02029830(gameSystem, 0x52D));
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(gameSystem, 0x52D));
             *seq = 11;
         }
         break;
     case 4:
         if (GFL_USE_IsBgmPlaying() == 0) {
-            GAME_EVENT_CallEvent(event, func_02029620(gameSystem, 0, 6));
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(gameSystem, 0, 6));
             myItem = GAME_DATA_GetMyItem(gameData);
-            count = func_02007FB8(myItem, 0x23F, work->heapId);
+            count = MYITEM_SAVEDATA_GetItemQuantity(myItem, 0x23F, work->heapId);
             reward = work->rewardCount;
-            if (func_0200823C(0x23F) < count + reward) {
-                reward = func_0200823C(0x23F) - count;
+            if (MYITEM_SAVEDATA_GetMaxStack(0x23F) < count + reward) {
+                reward = MYITEM_SAVEDATA_GetMaxStack(0x23F) - count;
             }
-            func_02007E50(myItem, 0x23F, reward, work->heapId);
+            MYITEM_SAVEDATA_AddItem(myItem, 0x23F, reward, work->heapId);
             INTRUDE_IncrementMissionClearCount(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData)));
             WORDSET_SetSlotNumber(work->msgBox.wordSet, 0, work->rewardCount, 3, 0, 1);
             EVENT_COMM_COMMON_PrintMsg(&work->msgBox, 0x18);
@@ -1952,7 +1952,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
         break;
     case 11:
         if (GFL_USE_IsBgmPlaying() == 0) {
-            GAME_EVENT_CallEvent(event, func_02029620(gameSystem, 0, 6));
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(gameSystem, 0, 6));
             *seq = 12;
         }
         break;
@@ -1968,7 +1968,7 @@ void EVENT_COMM_COMMON_ChangeTalkMsgEvent(struct GameEvent *event, EventCommComm
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkMsgEventMain, 0xA8);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2015,7 +2015,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerGiftTargetEvent(struct GameEvent *event, E
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2097,7 +2097,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerGiftAsTargetEvent(struct GameEvent *event,
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2139,7 +2139,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerGiftAsTargetEvent(struct GameEvent *even
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerGiftAsTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2181,7 +2181,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerGiftTargetEvent(struct GameEvent *event,
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2246,7 +2246,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerShareTargetEvent(struct GameEvent *event, 
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerShareTargetEventMain, 0xA0);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2288,7 +2288,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerShareAsTargetEvent(struct GameEvent *event
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain, 0xA0);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2338,7 +2338,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerShareAsTargetEvent(struct GameEvent *eve
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain, 0xA0);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2412,7 +2412,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerShareTargetEvent(struct GameEvent *event
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerShareTargetEventMain, 0xA0);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2456,7 +2456,7 @@ void EVENT_COMM_COMMON_ChangeTalkBattleTargetEvent(struct GameEvent *event, Even
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleRequestEventMain, sizeof(EventCommBattleTalkWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 0;
     work->battle.gameSystem = gameSystem;
@@ -2541,7 +2541,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
         }
         break;
     case 6:
-        if (func_0215839C(sys, 1, work->common.peerSlot) == 1) {
+        if (INTRUDE_COMM_TogglePeerFlags(sys, 1, work->common.peerSlot) == 1) {
             *seq = 7;
         } else if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
             INTRUDE_COMM_NextRequestToken(sys);
@@ -2554,7 +2554,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
         }
         break;
     case 8:
-        if (func_0215839C(sys, 2, work->common.peerSlot) == 1) {
+        if (INTRUDE_COMM_TogglePeerFlags(sys, 2, work->common.peerSlot) == 1) {
             EVENT_COMM_COMMON_ExitMsgBox(&work->common.msgBox);
             *seq = 9;
         } else if (INTRUDE_COMM_TakeRequestResult(sys) == 3) {
@@ -2616,7 +2616,7 @@ void EVENT_COMM_COMMON_ChangeTalkBattleAsTargetEvent(struct GameEvent *event, Ev
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleAnswerEventMain, sizeof(EventCommBattleTalkWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 0;
     work->battle.gameSystem = gameSystem;
@@ -2693,7 +2693,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
         }
         break;
     case 6:
-        if (func_0215839C(sys, 1, work->common.peerSlot) == 1) {
+        if (INTRUDE_COMM_TogglePeerFlags(sys, 1, work->common.peerSlot) == 1) {
             *seq = 7;
         } else if (KEY_GetTrg() & 2) {
             if (INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
@@ -2712,7 +2712,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
         }
         break;
     case 8:
-        if (func_0215839C(sys, 2, work->common.peerSlot) == 1) {
+        if (INTRUDE_COMM_TogglePeerFlags(sys, 2, work->common.peerSlot) == 1) {
             EVENT_COMM_COMMON_ExitMsgBox(&work->common.msgBox);
             *seq = 9;
         } else if (INTRUDE_COMM_TakeRequestResult(sys) == 3) {
@@ -2770,7 +2770,7 @@ void EVENT_COMM_COMMON_ChangeTalkedBattleAsTargetEvent(struct GameEvent *event, 
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleRequestEventMain, sizeof(EventCommBattleTalkWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 1;
     work->battle.gameSystem = gameSystem;
@@ -2787,7 +2787,7 @@ void EVENT_COMM_COMMON_ChangeTalkedBattleTargetEvent(struct GameEvent *event, Ev
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleAnswerEventMain, sizeof(EventCommBattleTalkWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 1;
     work->battle.gameSystem = gameSystem;
@@ -2800,7 +2800,7 @@ void EVENT_COMM_COMMON_ChangeTalkSearchTargetEvent(struct GameEvent *event, Even
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkSearchTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2844,7 +2844,7 @@ void EVENT_COMM_COMMON_ChangeTalkSearchAsTargetEvent(struct GameEvent *event, Ev
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkSearchAsTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2883,7 +2883,7 @@ void EVENT_COMM_COMMON_ChangeTalkedSearchAsTargetEvent(struct GameEvent *event, 
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2932,7 +2932,7 @@ void EVENT_COMM_COMMON_ChangeTalkedSearchTargetEvent(struct GameEvent *event, Ev
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedSearchTargetEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -2971,7 +2971,7 @@ void EVENT_COMM_COMMON_ChangeSearchFoundEvent(struct GameEvent *event, EventComm
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_SearchFoundEventMain, 0xA4);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -3067,7 +3067,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateSupportMsgEvent(struct GameSystem *gam
 
     pmsWork = GAME_DATA_GetPmsWork(ICA_ANIME_GetField1C(gameSystem));
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_SupportMsgEventMain, sizeof(EventCommSupportMsgWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->myStatus = MYSTATUS_Create(heapId);
     MYSTATUS_Copy(COMM_PLAYER_SUPPORT_GetActiveRecord(pmsWork), work->myStatus);
     EVENT_COMM_COMMON_InitMsgBox(&work->msgBox, gameSystem);
@@ -3114,7 +3114,7 @@ void EVENT_COMM_COMMON_ChangeTalkGreetingTargetEvent(struct GameEvent *event, Ev
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkGreetingTargetEventMain, 0x9C);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -3153,7 +3153,7 @@ void EVENT_COMM_COMMON_ChangeTalkGreetingAsTargetEvent(struct GameEvent *event, 
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkGreetingAsTargetEventMain, 0x9C);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -3192,7 +3192,7 @@ void EVENT_COMM_COMMON_ChangeTalkedGreetingAsTargetEvent(struct GameEvent *event
 {
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain, 0x9C);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
@@ -3238,7 +3238,7 @@ int EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain(struct GameEvent *event, i
 void EVENT_COMM_COMMON_ChangeTalkedGreetingTargetEvent(struct GameEvent *event, EventCommCommonWork *src)
 {
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedGreetingTargetEventMain, 0x9C);
-    MI_CpuCopy8(src, func_020124E8(event), sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, GAME_EVENT_GetWork(event), sizeof(EventCommCommonWork));
 }
 
 
@@ -3277,7 +3277,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateOfferEvent(struct GameSystem *gameSyst
 {
     struct GameEvent *event;
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_OfferEventMain, sizeof(IntrudeMemberRecord));
-    *(IntrudeMemberRecord *)func_020124E8(event) = *offer;
+    *(IntrudeMemberRecord *)GAME_EVENT_GetWork(event) = *offer;
     return event;
 }
 
@@ -3319,8 +3319,8 @@ struct GameEvent *EVENT_COMM_COMMON_CreateOfferAnswerEvent(struct GameSystem *ga
     param = &offer->head.param;
     myStatus = GAME_DATA_GetMyStatus(gameData);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, sizeof(EventCommOfferWork));
-    work = func_020124E8(event);
-    func_020084F8(myStatus, work->myName, 8);
+    work = GAME_EVENT_GetWork(event);
+    MYSTATUS_CopyNameChars(myStatus, work->myName, 8);
     work->itemId = param->y;
     work->offerArg = param->x;
     work->senderNetId = offer->name.netId;
@@ -3414,7 +3414,7 @@ void EVENT_COMM_COMMON_ChangeTalkItemSaleEvent(struct GameEvent *event, EventCom
     EventCommCommonWork *work;
     u16 *itemId;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_ItemSaleEventMain, sizeof(EventCommItemSaleWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     itemId = &work->member.head.param.x;
     if (INTRUDE_COMM_IsValidProfileCode(*itemId) == 0) {
@@ -3544,7 +3544,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
 void EVENT_COMM_COMMON_ChangeTalkItemPurchaseEvent(struct GameEvent *event, EventCommCommonWork *src)
 {
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_ItemPurchaseEventMain, sizeof(EventCommItemSaleWork));
-    MI_CpuCopy8(src, func_020124E8(event), sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, GAME_EVENT_GetWork(event), sizeof(EventCommCommonWork));
 }
 
 
@@ -3610,7 +3610,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
             if (sale->y > BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData))) {
                 refused = 1;
                 *seq = 5;
-            } else if (func_02007E3C(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15) == 0) {
+            } else if (MYITEM_SAVEDATA_CanAddItem(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15) == 0) {
                 refused = 1;
                 *seq = 6;
             } else {
@@ -3630,7 +3630,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
     case 4:
         if (INTRUDE_COMM_SendReply(sys, sys->requestTarget, 7, sys->sentRequestSeq) == 1) {
             BEACON_SubPoints(GAME_DATA_GetMiscSave(gameData), sale->y);
-            func_02007E50(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15);
+            MYITEM_SAVEDATA_AddItem(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15);
             EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[5][work->common.msgIndex]);
             *seq = 8;
         }
@@ -3697,7 +3697,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(struct GameEvent *event, EventCommCommonWor
 
     sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_MsgEventMain, 0xAC);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, 0x98);
     if (sys != 0) {
         work->msgId = msgIds[src->msgIndex];
@@ -3813,7 +3813,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(struct GameEvent *event, EventCommCom
 
     sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_MsgScriptEventMain, 0xA0);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuCopy8(src, work, 0x98);
     if (sys != 0) {
         facing = 0;

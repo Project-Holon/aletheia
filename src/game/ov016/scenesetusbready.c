@@ -16,7 +16,7 @@
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDCAC.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetUsbReady.c \
  *       --func DWCi_SceneSetUsbReady --addr 0x021CDCAC --region ov016 --cc 1.1p1 --arm --lang c99
  * Call input, DWCi_SceneSetUsbReadyUpdateNop, button.
  * Addresses are Black-image addresses.

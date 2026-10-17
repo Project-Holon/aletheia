@@ -70,11 +70,11 @@
  *   PM_VOICE_Play  0x02006984  thumb
  *   SCRCMD_WORK_SetFadeParam  0x0215A6B8  thumb  ov010
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   func_02007E50  0x02007E50  thumb
+ *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb
  *   MYITEM_SAVEDATA_RemoveItem  0x02007F1C  thumb
- *   func_02007E3C  0x02007E3C  thumb
+ *   MYITEM_SAVEDATA_CanAddItem  0x02007E3C  thumb
  *   MYITEM_SAVEDATA_HasItem  0x02007F68  thumb
- *   func_02007FB8  0x02007FB8  thumb
+ *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb
  *   FILE_UTIL_Check1288  0x02021288  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -88,6 +88,7 @@
  *   ISS_SWITCH_SYS_IsSwitchOn  0x0202C0F8  thumb  arm9
  *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
  *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb  arm9
+ *   RECORD_AddOne  0x02008DF0  thumb  arm9
  */
 #include "../arm9/script_vm_types.h"
 #include "../ov010/script_work_types.h"
@@ -161,7 +162,7 @@ extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, Fie
 extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
 extern int ZONEDATA_IsZoneInTableDFD2(u32 zoneId);
-extern u32 func_02008DF0(TrainerRecord *record, int index);
+extern u32 RECORD_AddOne(TrainerRecord *record, int index);
 extern u16 VM_GetU16(ScriptVm *vm);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(GameSystem *gameSystem, u32 bgmNo);
 extern FieldSoundSystem *GAME_DATA_GetBgmInfo(GameData *gameData);
@@ -197,11 +198,11 @@ extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
 extern void SCRCMD_WORK_SetFadeParam(ScrcmdWork *cmdWork, u32 voiceHandle);
 extern MyItem *GAME_DATA_GetMyItem(GameData *gameData);
-extern u16 func_02007E50(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
+extern u16 MYITEM_SAVEDATA_AddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_RemoveItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
-extern u16 func_02007E3C(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
+extern u16 MYITEM_SAVEDATA_CanAddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_HasItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
-extern u16 func_02007FB8(MyItem *myItem, u32 itemNo, u32 heapId);
+extern u16 MYITEM_SAVEDATA_GetItemQuantity(MyItem *myItem, u32 itemNo, u32 heapId);
 extern u32 FILE_UTIL_Get_0FE4(u32 itemNo, u32 selector, u32 heapId);
 extern u32 FILE_UTIL_Check1288(u32 itemNo);
 
@@ -547,7 +548,7 @@ void SCRCMD_IncrementTrainerRecord(ScrcmdWork *cmdWork)
     TrainerRecord *record = GAME_DATA_GetTrainerRecord(SCRCMD_WORK_GetGameData(cmdWork));
 
     if (ZONEDATA_IsZoneInTableDFD2(FIELDMAP_GetZoneId(fieldParam->fieldSystem)) != 0)
-        func_02008DF0(record, 0x20);
+        RECORD_AddOne(record, 0x20);
 }
 
 /* Script command: fade out the BGM and play another one (operand: BGM number). */
@@ -1066,7 +1067,7 @@ int SCRCMD_AddItem(ScriptVm *vm, ScrcmdWork *cmdWork)
     itemNo = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     count = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *result = func_02007E50(myItem, itemNo, count, heapId);
+    *result = MYITEM_SAVEDATA_AddItem(myItem, itemNo, count, heapId);
     return 0;
 }
 
@@ -1098,7 +1099,7 @@ int SCRCMD_CanAddItem(ScriptVm *vm, ScrcmdWork *cmdWork)
     itemNo = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     count = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *result = func_02007E3C(myItem, itemNo, count, heapId);
+    *result = MYITEM_SAVEDATA_CanAddItem(myItem, itemNo, count, heapId);
     return 0;
 }
 
@@ -1129,7 +1130,7 @@ int SCRCMD_GetItemQuantity(ScriptVm *vm, ScrcmdWork *cmdWork)
     myItem = GAME_DATA_GetMyItem(SCRCMD_WORK_GetGameData(cmdWork));
     itemNo = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *result = func_02007FB8(myItem, itemNo, heapId);
+    *result = MYITEM_SAVEDATA_GetItemQuantity(myItem, itemNo, heapId);
     return 0;
 }
 

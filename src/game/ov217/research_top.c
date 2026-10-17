@@ -109,7 +109,7 @@
  *   PALETTE_ANIME_Restore  0x021C2A08  thumb  ov217
  *   d_021C2FF8  0x021C2FF8  data  a4
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_02005654  0x02005654  thumb
+ *   GFL_USE_SetVBlankHook  0x02005654  thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
@@ -143,6 +143,7 @@
  *   BMP_SetDisplaySwap  0x0204363C  arm  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
+ *   GFL_USE_ClearVBlankHook  0x0200566C  thumb  arm9
  */
 #include "research_shared_types.h"
 
@@ -414,9 +415,9 @@ extern int PALETTE_ANIME_Restore(char *p);
 
 extern void CLACT_VBlankSystem(void);
 
-extern int func_02005654(int a, int b);
+extern int GFL_USE_SetVBlankHook(int a, int b);
 
-extern void func_0200566C(void);
+extern void GFL_USE_ClearVBlankHook(void);
 
 u32 RESEARCH_TOP_InitProc(u32 procsys, u32 state, u8 *work, u32 proc);
 
@@ -1908,17 +1909,17 @@ void RESEARCH_TOP_UpdateVBlank(void)
 
 void RESEARCH_TOP_RegisterVBlank(void *obj)
 {
-    func_02005654((int)RESEARCH_TOP_UpdateVBlank, 0);
+    GFL_USE_SetVBlankHook((int)RESEARCH_TOP_UpdateVBlank, 0);
 }
 
 /*
- * Tail-call veneer: branch to func_0200566C.
+ * Tail-call veneer: branch to GFL_USE_ClearVBlankHook.
  *
  * Addresses are Black-image addresses.
  */
 void RESEARCH_TOP_UnregisterVBlank(void)
 {
-    func_0200566C();
+    GFL_USE_ClearVBlankHook();
 }
 
 void RESEARCH_TOP_RestartNetwork(u32 obj)

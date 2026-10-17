@@ -17,7 +17,7 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   gEntranceInEventTable     0x021D9BB0  data  ov021  a4
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_GROUND_ANIME_CreateB  0x021A7E3C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -32,7 +32,7 @@
  *   FIELD_SOUND_SYSTEM_HasZoneBgmOverride  0x02029E08  thumb
  *   FIELD_SOUND_SYSTEM_GetFinalBgm  0x02029DFC  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
- *   func_0202B580  0x0202B580  thumb
+ *   ISS_SYS_GetDungeonSys  0x0202B580  thumb
  *   ISS_DUNGEON_SYS_IsActive  0x0202B434  thumb
  *   ISS_DUNGEON_SYS_HasRecord  0x0202B438  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -57,7 +57,7 @@ struct BgmInfo;
 
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern GameEvent *FIELD_GROUND_ANIME_CreateB(EntranceParam *param);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
@@ -72,7 +72,7 @@ extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, Fi
 extern int FIELD_SOUND_SYSTEM_HasZoneBgmOverride(GameData *gameData, int zoneId);
 extern int FIELD_SOUND_SYSTEM_GetFinalBgm(const GameData *gameData);
 extern struct IssSystem *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
-extern struct IssDungeonSys *func_0202B580(struct IssSystem *issSystem);
+extern struct IssDungeonSys *ISS_SYS_GetDungeonSys(struct IssSystem *issSystem);
 extern u32 ISS_DUNGEON_SYS_IsActive(struct IssDungeonSys *dungeon);
 extern u32 ISS_DUNGEON_SYS_HasRecord(struct IssDungeonSys *dungeon, u32 zoneId);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -130,7 +130,7 @@ GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param)
         break;
     }
     event = GAME_EVENT_Create(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceInWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->animHandle = 0;
     work->param = param;
     return event;
@@ -292,7 +292,7 @@ u32 EVENT_ENTRANCE_IN_ShouldFadeBgm(EntranceInWork *work)
 int EVENT_ENTRANCE_IN_IsDungeonTransition(EntranceInWork *work)
 {
     EntranceParam *param = work->param;
-    struct IssDungeonSys *dungeon = func_0202B580(GAMESYSTEM_GetIssSystem(param->gameSystem));
+    struct IssDungeonSys *dungeon = ISS_SYS_GetDungeonSys(GAMESYSTEM_GetIssSystem(param->gameSystem));
 
     if (ISS_DUNGEON_SYS_IsActive(dungeon) && ISS_DUNGEON_SYS_HasRecord(dungeon, param->currentZoneId) && ISS_DUNGEON_SYS_HasRecord(dungeon, param->destination.zoneId)) {
         return 1;

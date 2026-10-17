@@ -24,8 +24,8 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   sPalAnmFileName 0x020A73BC  data
  *   MIi_CpuCopy16  0x02082A60  arm
- *   func_02049F34  0x02049F34  arm
- *   func_02049F78  0x02049F78  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   TCB_DeleteTask   0x02030EAC  arm
  *   DWCi_ScreenDC_FlushRange   0x020862F0  arm
  *   GX_LoadBGPltt   0x0207E3D0  arm
@@ -88,8 +88,8 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
 extern u32 GFL_HEAP_Free(void *block);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 int ITEM_IsBerry(u32 colorCode);
 u32 PALANM_IsOutsideReservedIdRange(u16 id);
 u16 PALANM_LookupPairedCode(int value, int column);
@@ -505,7 +505,7 @@ void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 f
     struct PalAnmRes *res;
     void *block;
 
-    block = func_02049F34(arcId, fileId, (u32)(&res), (u16)((heapId & 0x7fff) | 0x8000));
+    block = ARC_UTIL_LoadPaletteBlockFromArchive(arcId, fileId, (u32)(&res), (u16)((heapId & 0x7fff) | 0x8000));
     if (byteSize == 0) {
         byteSize = res->byteSize;
     }
@@ -557,7 +557,7 @@ void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHand
     struct PalAnmRes *res;
     void *block;
 
-    block = func_02049F78(arcHandle, fileId, (u32)(&res), (u16)((heapId & 0x7fff) | 0x8000));
+    block = ARC_UTIL_LoadPaletteBlockFromHandle(arcHandle, fileId, (u32)(&res), (u16)((heapId & 0x7fff) | 0x8000));
     if (byteSize == 0) {
         byteSize = res->byteSize;
     }

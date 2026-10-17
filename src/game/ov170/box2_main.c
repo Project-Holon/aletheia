@@ -16,10 +16,10 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02007698 0x02007698 thumb
- *   func_020076A4 0x020076A4 thumb
- *   func_020078C4 0x020078C4 thumb
- *   func_020076B4 0x020076B4 thumb
+ *   BOX_SAVEDATA_GetCurrentBox 0x02007698 thumb
+ *   BOX_SAVEDATA_GetUsableBoxCount 0x020076A4 thumb
+ *   BOX_SAVEDATA_CountPokemonInBox 0x020078C4 thumb
+ *   BOX_SAVEDATA_UnlockBoxes 0x020076B4 thumb
  *   PROCSYS_Create 0x02031324 arm
  *   BOX2_SEQ_UpdatePrintQueue  0x021E1E34  thumb  ov170
  *   TCB_DeleteTask  0x02030EAC  arm  arm9
@@ -52,7 +52,7 @@
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
@@ -105,7 +105,7 @@
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   func_02007A18 0x02007A18 thumb
+ *   BOX_SAVEDATA_GetPokemon 0x02007A18 thumb
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   BOX2_UI_DrawSlot 0x021EDAB0 thumb ov170
  *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
@@ -114,12 +114,12 @@
  *   POKEPARTY_SetMember 0x0201AB48 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   BOX2_UI_DrawSlotByName 0x021EDB34 thumb ov170
- *   func_0200752C 0x0200752C thumb
+ *   BOX_SAVEDATA_AddPokemonToBox 0x0200752C thumb
  *   BOX_SAVEDATA_ClearPokemon 0x02007664 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
- *   func_02007610 0x02007610 thumb
+ *   BOX_SAVEDATA_SwapPokemon 0x02007610 thumb
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb
  *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
  *   POKE_TOOL_GetBoxParamIndex 0x02019D00 thumb
@@ -129,7 +129,7 @@
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
- *   func_020092AC 0x020092AC thumb
+ *   BLOCK20_SAVEDATA_TestBit 0x020092AC thumb
  *   BOX2_SEQ_SetSlotDrawPriorityB 0x021EC7B8 thumb
  *   BOX2_SEQ_GetSlotPos 0x021EC548 thumb
  *   BOX2_UI_IsTopBarMid 0x021EF4A4 thumb
@@ -145,7 +145,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F1400 0x021F1400 data a1
  *   GAME_DATA_GetBoxSave  0x02012F98  thumb
- *   func_02007C34  0x02007C34  thumb
+ *   PERAPVOICE_ClearIfNoChatot  0x02007C34  thumb
  *   BOX2_SEQ_MoveActorToSlot 0x021ED164 thumb ov170
  *   BOX2_SEQ_MoveActorToSlotB 0x021ED198 thumb ov170
  *   BOX2_SEQ_MoveActor 0x021ED14C thumb ov170
@@ -160,7 +160,7 @@
  *   BOX2_UI_GetSlotOamEnabled 0x021EE234 thumb
  *   BOX2_UI_MoveSlotOam 0x021EE244 thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
- *   func_0200781C  0x0200781C  thumb  ov170
+ *   BOX_SAVEDATA_GetWallpaper  0x0200781C  thumb  ov170
  *   POKE_TOOL_GetBoxNature 0x020185A0 thumb
  *   POKE_TOOL_GetBoxGender 0x02017F08 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
@@ -187,7 +187,7 @@
  *   NAMEIN_SETUP_CreateArgs 0x0216BFD4 thumb ov010
  *   gNameInProcData 0x021F5580 data a4 ov194
  *   ov194_id 0x000000C2 data a1
- *   func_02007898 0x02007898 thumb
+ *   BOX_SAVEDATA_SetBoxName 0x02007898 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
@@ -334,6 +334,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
  *   PROCSYS_Delete  0x0203133C  arm  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
+ *   BOX_SAVEDATA_SetCurrentBox  0x0200780C  thumb  arm9
  */
 #include "box2_types.h"
 
@@ -355,13 +356,13 @@ extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, unsigned int size, unsig
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
-extern unsigned func_02007698(void *);
+extern unsigned BOX_SAVEDATA_GetCurrentBox(void *);
 
-extern u8 func_020076A4(void *);
+extern u8 BOX_SAVEDATA_GetUsableBoxCount(void *);
 
-extern int func_020078C4(void *save, u32 box);
+extern int BOX_SAVEDATA_CountPokemonInBox(void *save, u32 box);
 
-extern u8 func_020076B4(void *);
+extern u8 BOX_SAVEDATA_UnlockBoxes(void *);
 
 extern void *PROCSYS_Create(int a0);
 
@@ -369,7 +370,7 @@ extern unsigned int PROCSYS_Main(void *);
 
 extern int BOX2_SEQ_UpdatePrintQueue(BoxTask *p, int *state);
 
-extern void func_0200780C(void *save, u32 box);
+extern void BOX_SAVEDATA_SetCurrentBox(void *save, u32 box);
 
 extern void PROCSYS_Delete(struct S020314B8 *p);
 
@@ -426,17 +427,17 @@ int BOX2_MAIN_Init(void *manager, int unused, void **context)
     p = PROCSYS_AllocProcWork(manager,0x30,75);
     MI_CpuFill8((void *)p,0,0x30);
     *(void ** *)&((BoxTask *)p)->params = context;
-    p[0x14] = func_02007698(context[1]);
-    p[0x15] = func_020076A4((*(void ***)p)[1]);
+    p[0x14] = BOX_SAVEDATA_GetCurrentBox(context[1]);
+    p[0x15] = BOX_SAVEDATA_GetUsableBoxCount((*(void ***)p)[1]);
     p[0x17] = 255;
     ((BoxTask *)p)->state = 11;
     if ((u8)p[0x15] != 24) {
         if ((u8)p[0x15] == 8) max = B8;
         else if ((u8)p[0x15] == 16) max = B16;
         for (i=0;i<max;i++) {
-            if (func_020078C4((*(void ***)p)[1],i) == 0) break;
+            if (BOX_SAVEDATA_CountPokemonInBox((*(void ***)p)[1],i) == 0) break;
         }
-        if (i == max) p[0x15] = func_020076B4((*(void ***)p)[1]);
+        if (i == max) p[0x15] = BOX_SAVEDATA_UnlockBoxes((*(void ***)p)[1]);
     }
     p[0x20] = 0;
     p[0x1f] = 0;
@@ -458,7 +459,7 @@ int BOX2_MAIN_Main(int a, int b, int c, int *d)
 
 int BOX2_MAIN_Exit(int a, int b, int c, int *d)
 {
-    func_0200780C((void *)(*(int *)(*d + 4)), ((BoxTask *)d)->curBox);
+    BOX_SAVEDATA_SetCurrentBox((void *)(*(int *)(*d + 4)), ((BoxTask *)d)->curBox);
     PROCSYS_Delete((struct S020314B8 *)d[1]);
     PROCSYS_FreeProcWork((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x4b);
@@ -715,7 +716,7 @@ extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
 extern u32 APP_ICON_GetArchiveId(void);
 
@@ -830,7 +831,7 @@ extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
 
 extern unsigned POKE_TOOL_GetBoxValue(void *p, unsigned id, unsigned v);
 
-extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
@@ -854,7 +855,7 @@ extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 
 extern u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap);
 
-extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
+extern int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02007454Entry *src);
 
 extern void BOX2_UI_DrawSlotByName(char *p, int a);
 
@@ -864,7 +865,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *);
 
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 
-extern void func_02007610(void *save, unsigned b1, unsigned a, unsigned b2, unsigned c);
+extern void BOX_SAVEDATA_SwapPokemon(void *save, unsigned b1, unsigned a, unsigned b2, unsigned c);
 
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 
@@ -884,7 +885,7 @@ extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *);
 
-extern u32 func_020092AC(const u8 *bits, int n);
+extern u32 BLOCK20_SAVEDATA_TestBit(const u8 *bits, int n);
 
 extern void BOX2_SEQ_SetSlotDrawPriorityB(BoxWork *p, int i, unsigned j, int flag);
 
@@ -914,7 +915,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 
-extern void func_02007C34(struct PerapVoice *p, void *a);
+extern void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *p, void *a);
 
 extern void BOX2_SEQ_MoveActorToSlot(BoxWork *w, int i, int v);
 
@@ -944,7 +945,7 @@ extern void BOX2_UI_MoveSlotOam(BoxWork *p, int i, int flag);
 
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
-extern unsigned char func_0200781C(int save, unsigned int box);
+extern unsigned char BOX_SAVEDATA_GetWallpaper(int save, unsigned int box);
 
 extern unsigned char POKE_TOOL_GetBoxNature(void *mon);
 
@@ -986,7 +987,7 @@ extern void BOX_SAVEDATA_GetBoxName(void *save, unsigned box, void *dest);
 
 extern int *NAMEIN_SETUP_CreateArgs(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
 
-extern void func_02007898(void *save, u32 box, const void *src);
+extern void BOX_SAVEDATA_SetBoxName(void *save, u32 box, const void *src);
 
 extern int NAMEIN_SETUP_FreeArgs(int);
 
@@ -1381,9 +1382,9 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arc, 2, 2, 0, 0, 1, 0x4c);
     ARC_UTIL_UploadBgCharFromHandle((void *)arc, 1, 3, 0, 0, 1, 0x4c);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arc, 0, 3, 0, 0, 1, 0x4c);
-    func_02049B68((void *)arc, 4, 0, 0, 0x80, 0x4c);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 4, 0, 0, 0x80, 0x4c);
     ARC_UTIL_UploadBgCharFromHandle((void *)arc, 0x3e, 1, 1000, 0x300, 1, 0x4c);
-    func_02049B68((void *)arc, 0x3f, 0, 0x180, 0x40, 0x4c);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 0x3f, 0, 0x180, 0x40, 0x4c);
     pal = ARC_UTIL_LoadPaletteBlockFromArchive(APP_ICON_GetArchiveId(), 0x1f, (u32)(&pd), 0x804c);
     src = pd->fC;
     ofs = 0x194;
@@ -1395,11 +1396,11 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     ARC_UTIL_UploadBgCharFromHandle((void *)arc, 6, 5, 0, 0, 1, 0x4c);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arc, 5, 5, 0, 0, 1, 0x4c);
     ARC_UTIL_UploadBgCharFromHandle((void *)arc, 6, 6, 0, 0, 1, 0x4c);
-    func_02049B68((void *)arc, 7, 4, 0, 0, 0x4c);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 7, 4, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc);
     arc2 = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x4c);
     ARC_UTIL_RegisterObjCharFromHandle((void *)arc2, APP_ICON_GetStatusFrameFileId(), 0, 0, 0, 0x4c);
-    func_02049B68((void *)arc2, APP_ICON_GetStatusAnimFileId(), 0, 0xe0, 0x20, 0x4c);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc2, APP_ICON_GetStatusAnimFileId(), 0, 0xe0, 0x20, 0x4c);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arc2, APP_ICON_GetStatusDataFileId(), 0, 0, 0, 0, 0x4c);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 7);
     BG_SYS_SetFlagField06(0);
@@ -1669,7 +1670,7 @@ unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, unsigned short b
         if ((int)POKEPARTY_GetCount((*p)[2]) > a)
             return POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*p)[2], a), id, v);
     } else if (a != 0xFF) {
-        void *m = func_02007A18((*p)[1], box, a);
+        void *m = BOX_SAVEDATA_GetPokemon((*p)[1], box, a);
         if (m != 0)
             return POKE_TOOL_GetBoxValue((void *)m, id, v);
     }
@@ -1694,7 +1695,7 @@ int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b)
         if (POKEPARTY_GetCount((*p)[2]) > b)
             return POKE_TOOL_Dummy(POKEPARTY_GetMember((*p)[2], b));
     } else if (b != 0xFF) {
-        return (int)func_02007A18((*p)[1], a, b);
+        return (int)BOX_SAVEDATA_GetPokemon((*p)[1], a, b);
     }
     return 0;
 }
@@ -1778,7 +1779,7 @@ void BOX2_MAIN_CompactParty(unsigned char *p,unsigned a,unsigned b,unsigned c)
     unsigned box;
     m = (void *)BOX2_MAIN_GetMonAt((void ***)p,a,b);
     box = BOX2_MAIN_WrapSlot((unsigned char *)p,c);
-    func_0200752C((*(void ***)p)[1],box,m);
+    BOX_SAVEDATA_AddPokemonToBox((*(void ***)p)[1],box,m);
     BOX_SAVEDATA_ClearPokemon((*(void ***)p)[1],a,b);
     BOX2_UI_DrawSlot((BoxTask *)p,a);
     BOX2_UI_DrawSlotByName((char *)p,a);
@@ -1800,7 +1801,7 @@ void BOX2_MAIN_RegisterSeenAndForm(unsigned char *p,unsigned a,unsigned b)
         BOX2_MAIN_RecalcPartyParam((void **)p,a);
         ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((*(void ***)p)[0]),m);
     }
-    func_0200752C((*(void ***)p)[1],box,POKE_TOOL_GetBoxParam((void *)m));
+    BOX_SAVEDATA_AddPokemonToBox((*(void ***)p)[1],box,POKE_TOOL_GetBoxParam((void *)m));
     BOX2_MAIN_ClearSlot((char **)p,p[0x14],a);
     BOX2_UI_DrawSlot((BoxTask *)p,box);
     BOX2_UI_DrawSlotByName((char *)p,box);
@@ -1822,7 +1823,7 @@ void BOX2_MAIN_UpdateBoxSlots(BoxTask *p)
     }
     if (m->a < 0x1E) {
         if (m->b < 0x1E) {
-            func_02007610(((void **)p->params)[1], p->heldSlot, m->a, p->curBox, m->b);
+            BOX_SAVEDATA_SwapPokemon(((void **)p->params)[1], p->heldSlot, m->a, p->curBox, m->b);
             BOX2_UI_DrawSlot((BoxTask *)p, p->curBox);
             BOX2_UI_DrawSlotByName((char *)p, p->curBox);
             if (p->curBox != p->heldSlot) {
@@ -1978,7 +1979,7 @@ void BOX2_MAIN_DeleteFormTable(BoxTask *p)
     GFL_HEAP_Free((void *)p->work->formTable);
 }
 
-int BOX2_MAIN_GetBoxValue(char *p, u32 a) { u16 n;n=BOX2_MAIN_GetPartyValueAt((void ***)p,a,((BoxTask *)p)->curBox,5,0);return func_020092AC(*(u8 * *)&((BoxTask *)p)->params->extra,n); }
+int BOX2_MAIN_GetBoxValue(char *p, u32 a) { u16 n;n=BOX2_MAIN_GetPartyValueAt((void ***)p,a,((BoxTask *)p)->curBox,5,0);return BLOCK20_SAVEDATA_TestBit(*(u8 * *)&((BoxTask *)p)->params->extra,n); }
 
 int BOX2_MAIN_WaitCursorMove(BoxTask *p)
 {
@@ -2035,7 +2036,7 @@ int BOX2_MAIN_WaitCursorMove(BoxTask *p)
 }
 
 /*
- * Twin of src/matched/ov170_func_021DD930.c.
+ * Twin of src/matched/BOX2_MAIN_WaitCursorMove.c.
  */
 int BOX2_MAIN_WaitBoxScroll(BoxTask *p)
 {
@@ -2080,7 +2081,7 @@ int BOX2_MAIN_HandleMonPickup(BoxTask *p, unsigned a, unsigned b)
     unsigned m;
     if (b >= 0x24) {
         int n = BOX2_MAIN_WrapSlot((unsigned char *)p, b - 0x24);
-        if (n == p->curBox || func_020078C4((void *)p->params->boxSave, n) == 0x1E) {
+        if (n == p->curBox || BOX_SAVEDATA_CountPokemonInBox((void *)p->params->boxSave, n) == 0x1E) {
             (((BoxTask *)(p))->work->result) = 1;
             return 0;
         }
@@ -2412,7 +2413,7 @@ int BOX2_MAIN_MoveCursorWithMon(BoxTask *p, unsigned a, unsigned b)
 }
 
 /*
- * Sibling of src/matched/ov170_func_021DE158.c.
+ * Sibling of src/matched/BOX2_MAIN_MoveCursorWithMon.c.
  */
 void BOX2_MAIN_SwapWithNeighbour(BoxTask *p, unsigned a, unsigned b)
 {
@@ -2657,7 +2658,7 @@ void BOX2_MAIN_PlayMonCry(int *q)
     int *r = *(int * *)&((BoxTask *)(q))->params;
 
     if ((((unsigned int)((BoxParam *)(r))->mode) - 4) > 1)
-        func_02007C34((struct PerapVoice *)GAME_DATA_GetBoxSave((void *)(((BoxParam *)(r))->gameData)), (void *)(((BoxParam *)(r))->party));
+        PERAPVOICE_ClearIfNoChatot((struct PerapVoice *)GAME_DATA_GetBoxSave((void *)(((BoxParam *)(r))->gameData)), (void *)(((BoxParam *)(r))->party));
 }
 
 void BOX2_MAIN_PlaceMonScene(BoxTask *p, int slot, unsigned idx, int mode, int flag)
@@ -2947,7 +2948,7 @@ void BOX2_MAIN_LoadBoxPalette(BoxTask *p, int a)
  */
 int BOX2_MAIN_GetBoxFormId(BoxTask *p, int box)
 {
-    return func_0200781C((int)p->params->boxSave, box);
+    return BOX_SAVEDATA_GetWallpaper((int)p->params->boxSave, box);
 }
 
 /*
@@ -3286,7 +3287,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *p)
 
 
 
-int BOX2_MAIN_PopNameScene(u8 *p){char **q;q=*(char ** *)&((BoxTask *)p)->subArgs;if(((BoxNameArgs *)((*q)))->done==0)func_02007898(((BoxTask *)p)->params->boxSave,p[0x14],((BoxNameArgs *)((*q)))->text);((BoxTask *)p)->subResult=((BoxNameArgs *)((*q)))->done;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);GFL_HEAP_Free(((BoxTask *)p)->subArgs);return 0;}
+int BOX2_MAIN_PopNameScene(u8 *p){char **q;q=*(char ** *)&((BoxTask *)p)->subArgs;if(((BoxNameArgs *)((*q)))->done==0)BOX_SAVEDATA_SetBoxName(((BoxTask *)p)->params->boxSave,p[0x14],((BoxNameArgs *)((*q)))->text);((BoxTask *)p)->subResult=((BoxNameArgs *)((*q)))->done;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);GFL_HEAP_Free(((BoxTask *)p)->subArgs);return 0;}
 
 void BOX2_MAIN_MoveCursorActor(BoxTask *p, int x, int y)
 {
@@ -4387,7 +4388,7 @@ int BOX2_MAIN_Check0A40(BoxTask *p)
 }
 
 /*
- * Same state-machine family as src/matched/ov170_func_021DFA30.c.  The spill
+ * Same state-machine family as src/matched/BOX2_MAIN_StateMachineScroll.c.  The spill
  * slots of `first` and `flag` follow declaration order (later declaration,
  * lower address), and the two identical "fall back to p[0x16]" arms are an
  * if/else-if that the compiler tail-merges (bne then b), not one `||`.

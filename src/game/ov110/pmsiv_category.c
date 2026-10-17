@@ -93,7 +93,7 @@
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   PMS_INPUT_SetSearchArg 0x021BF7D4 thumb ov110
- *   func_02040804 0x02040804 arm
+ *   BG_SYS_GetScrollY 0x02040804 arm
  *   PMS_INPUT_VIEW_GetPrintQue 0x021BAC4C thumb ov110
  *   PMS_INPUT_GetInitialWord 0x021BF814 thumb ov110
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
@@ -193,7 +193,7 @@ extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void PMS_INPUT_SetSearchArg(struct PmsInputState *input, void *out);
 extern u8 PMS_INPUT_GetInitialCount(struct PmsInputState *input);
-extern u32 func_02040804(unsigned);
+extern u32 BG_SYS_GetScrollY(unsigned);
 extern u32 PMS_INPUT_VIEW_GetPrintQue(struct PmsInputView *view);
 extern void PMS_INPUT_GetInitialWord(struct PmsInputState *input, u32 index, int out);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
@@ -501,7 +501,7 @@ void PMSIV_CATEGORY_ResetBgScroll(struct PmsivCategory *p)
 }
 
 /*
- * extent: two-byte alignment padding then existing ov110_func_021BB82C.c follower.
+ * extent: two-byte alignment padding then existing PMSIV_CATEGORY_IsFadeOutDone.c follower.
  */
 void PMSIV_CATEGORY_StartFadeOut(struct PmsivCategory *p)
 {
@@ -606,7 +606,7 @@ void PMSIV_CATEGORY_ShowWordList(struct PmsivCategory *p, int flag)
  */
 void PMSIV_CATEGORY_StartListScrollOut(struct PmsivCategory *p, u32 unused)
 {
-    int step = -192 - func_02040804(6);
+    int step = -192 - BG_SYS_GetScrollY(6);
     PMSIV_BGSCROLL_Start(&p->scroll, 6, 1, step, 8);
 }
 
@@ -629,7 +629,7 @@ void PMSIV_CATEGORY_DrawWordList(struct PmsivCategory *p, unsigned count)
         p->printPending = 1;
     }
     STRBUF_Delete(word);
-    base = func_02040804(6) + 192;
+    base = BG_SYS_GetScrollY(6) + 192;
     height = ((count + 1) / 2) * 16 + 8;
     if (height > 192) height = 192;
     else if (height < 48) height = 48;

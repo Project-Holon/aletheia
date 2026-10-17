@@ -25,7 +25,7 @@
  *   FLDMMDL_SetDrawOffsetOutside 0x0216D8E0 thumb ov010
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   FIELD_GIMMICK_BRIDGE_IsOnSwayTile  0x021F381C  thumb  ov047
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   GF_STANDARD_Get_F684  0x0203F684  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
@@ -95,7 +95,7 @@ void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap)
         return;
     }
     if (save->angle == 0) {
-        save->amplitude = gBridgeSwayAmplitudes[func_02005728(BRIDGE_SWAY_AMPLITUDE_COUNT)];
+        save->amplitude = gBridgeSwayAmplitudes[GFL_USE_GetRandomBelow(BRIDGE_SWAY_AMPLITUDE_COUNT)];
     }
     amplitude = save->amplitude;
     height = FX32_FROM_INT(amplitude);

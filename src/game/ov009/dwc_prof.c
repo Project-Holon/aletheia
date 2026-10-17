@@ -15,7 +15,7 @@
  * symbols:
  *   wcslen  0x02096578  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0205A16C  0x0205A16C  arm
+ *   DWC_Alloc  0x0205A16C  arm
  *   strncpy  0x02094860  arm
  *   strstr  0x02094B20  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -25,13 +25,13 @@
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
  *   DWC_Http_Add_Body  0x0217A044  arm  ov009
  *   wcscpy  0x02096594  arm
- *   func_0205A1B0  0x0205A1B0  arm
+ *   DWC_Free  0x0205A1B0  arm
  *   DWC_Http_FinishHeader  0x0217967C  arm  ov009
  *   OS_GetThreadPriority  0x02085A30  arm
  *   DWC_Http_StartThread  0x02179718  arm  ov009
  *   DWC_Http_Destroy  0x02179CF4  arm  ov009
- *   func_0217C050  0x0217C050  arm  ov009
- *   func_0217C060  0x0217C060  arm  ov009
+ *   DWCi_Prof_Alloc  0x0217C050  arm  ov009
+ *   DWCi_Prof_Free  0x0217C060  arm  ov009
  *   gDwcProfWorkarea     0x021ACEF0  data ov009
  *   gDwcHttpParamArg     0x021A2358  data ov009
  *   gDwcProfPathAc     0x021A27D8  data ov009
@@ -130,7 +130,6 @@ typedef struct DWCProfFieldNames {
 
 extern int wcslen(const unsigned short *s);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void *func_0205A16C(int name, unsigned long size);
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern char *strstr(const char *s1, const char *s2);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
@@ -140,13 +139,10 @@ extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int all
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int DWC_Http_Add_Body(char *http, char *data);
 extern unsigned short *wcscpy(unsigned short *dst, const unsigned short *src);
-extern void func_0205A1B0(int name, void *ptr, long size);
 extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(OSThread *thread);
 extern void DWC_Http_StartThread(char *http, unsigned long prio);
 extern void DWC_Http_Destroy(char *http);
-extern void *func_0217C050(unsigned long name, long size);
-extern void func_0217C060(unsigned long name, void *ptr, long size);
 extern int OS_IsThreadTerminated(OSThread *thread);
 extern unsigned char DWC_AC_GetApType(void);
 extern void DWCi_SetError(int error, int errorCode);
@@ -156,6 +152,8 @@ extern int DWC_Auth_SetNasTimeDiff(char *datestr);
 extern int atoi(u32 a0);
 extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void *DWC_Alloc(int name, unsigned long size);
+/* DWC_Free takes a third argument, the allocation size. The callee ignores it. */
+extern void DWC_Free(int name, void *ptr, unsigned long size);
 int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, char *region);
 /*
  * sdk: DWC_CheckProfanityExAsync (dwc_prof.o) * * The region letter default is the byte at 0x02FFFE0F, a literal address * (no relocation in the object).
@@ -167,6 +165,7 @@ int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserv
 int DWC_CheckProfanityProcess(void);
 int DWCi_Prof_ParseResponse(void);
 static void *DWCi_Prof_Alloc(int name, unsigned long size);
+static void DWCi_Prof_Free(int name, void *ptr, unsigned long size);
 extern DWCProfWorkarea *gDwcProfWorkarea;
 extern DWCAuthHttpParam gDwcHttpParamArg;
 extern char gDwcProfPathAc[];
@@ -225,7 +224,7 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
         return 0;
 
     MI_CpuFill8(result, 0, wordsnum);
-    gDwcProfWorkarea = func_0205A16C(0, sizeof(DWCProfWorkarea));
+    gDwcProfWorkarea = DWC_Alloc(0, sizeof(DWCProfWorkarea));
     if (gDwcProfWorkarea == 0)
         goto error;
     MI_CpuFill8(gDwcProfWorkarea, 0, sizeof(DWCProfWorkarea));
@@ -245,8 +244,8 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     httpparam.url = gDwcProfWorkarea->url;
     httpparam.action = 0;
     httpparam.len_recvbuf = 0x400;
-    httpparam.alloc = func_0217C050;
-    httpparam.free = func_0217C060;
+    httpparam.alloc = (void *(*)(unsigned long, long))DWCi_Prof_Alloc;
+    httpparam.free = (void (*)(unsigned long, void *, long))DWCi_Prof_Free;
     httpparam.ignoreca = 0;
     if (timeout <= 0)
         httpparam.timeout = 10000;
@@ -272,7 +271,7 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     if (DWC_Http_Add_Body((char *)(&gDwcProfWorkarea->http), gDwcProfBodyWtype) != 0)
         goto error;
 
-    sendstring = func_0205A16C(0, totalnum_wchar * sizeof(unsigned short));
+    sendstring = DWC_Alloc(0, totalnum_wchar * sizeof(unsigned short));
     if (sendstring == 0)
         goto error;
     wchar_index = 0;
@@ -287,7 +286,7 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     if (DWC_Http_Add_PostBase64Item(&gDwcProfWorkarea->http, gDwcProfPostLabelWords, (char *)sendstring,
                       (totalnum_wchar - 1) * sizeof(unsigned short)) != 0)
         goto error;
-    func_0205A1B0(0, sendstring, 0);
+    DWC_Free(0, sendstring, 0);
     sendstring = 0;
 
     if (DWC_Http_FinishHeader((char *)(&gDwcProfWorkarea->http)) != 0)
@@ -298,11 +297,11 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
 
 error:
     if (sendstring != 0)
-        func_0205A1B0(0, sendstring, 0);
+        DWC_Free(0, sendstring, 0);
     if (gDwcProfWorkarea != 0) {
         if (gDwcProfWorkarea->http_initialized == 1)
             DWC_Http_Destroy((char *)(&gDwcProfWorkarea->http));
-        func_0205A1B0(0, gDwcProfWorkarea, 0);
+        DWC_Free(0, gDwcProfWorkarea, 0);
         gDwcProfWorkarea = 0;
     }
     return 0;
@@ -376,7 +375,7 @@ int DWC_CheckProfanityProcess(void)
     }
 
     DWC_Http_Destroy((char *)(&gDwcProfWorkarea->http));
-    func_0205A1B0(0, gDwcProfWorkarea, 0);
+    DWC_Free(0, gDwcProfWorkarea, 0);
     gDwcProfWorkarea = 0;
     return retval;
 }
@@ -470,7 +469,6 @@ static void *DWCi_Prof_Alloc(int name, unsigned long size)
     return DWC_Alloc(0, size);
 }
 
-extern void DWC_Free(int name, void *ptr, unsigned long size);
 static void DWCi_Prof_Free(int name, void *ptr, unsigned long size)
 {
     DWC_Free(0, ptr, size);

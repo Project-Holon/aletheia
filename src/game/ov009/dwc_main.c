@@ -115,11 +115,9 @@ extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
 extern void qr2_shutdown(qr2_implementation_s *qrec);
 extern void ServerBrowserFree(void *sb);
-extern void func_02176B34(void);
 extern void DWCi_BeginCloseStatsConnection(void);
 extern void CloseStatsConnection(void);
 extern void DWCi_EndCloseStatsConnection(void);
-extern int func_0218597C(void **conn, int func, void *callback, void *param);
 extern int gpProcess(void **conn);
 extern void gpDestroy(void **p);
 extern void DWCi_ShutdownLogin(void);
@@ -165,7 +163,6 @@ extern void DWCi_ConnectToGameServerAsync(
     void *matchedParam, void (*newClientCallback)(int, void *),
     void *newClientParam, int (*attemptCallback)(unsigned char *, void *),
     unsigned char *connectionUserData, void *attemptParam);
-extern void DWCi_SetError(int error, int errorCode);
 extern int DWCi_GPSetServerStatus(int matchType);
 extern int DWC_CancelMatch(void);
 
@@ -214,7 +211,7 @@ extern int DWCi_IsServerChangeEnabled(void);
 extern void DWCi_PingCallback(void *connection, int latency);
 extern int gt2GetSocketSOCKET(const int *p);
 extern int GOAGetLastError(void);
-extern void func_02059F54(int error, int errorCode);
+extern void DWCi_SetError(int error, int errorCode);
 extern void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 
 void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID, char *secretKey, int sendBufSize, int recvBufSize, void *friendList, int friendListLen);
@@ -337,15 +334,15 @@ void DWC_ShutdownFriendsMatch(void)
         ServerBrowserFree(gDwcGlobalState.st->match.sbObj);
         gDwcGlobalState.st->match.sbObj = 0;
     }
-    func_02176B34();
+    DWCi_NNFreeNegotiateList();
     DWCi_BeginCloseStatsConnection();
     CloseStatsConnection();
     DWCi_EndCloseStatsConnection();
     if (gDwcGlobalState.st->gp != 0) {
-        func_0218597C(&gDwcGlobalState.st->gp, 0, 0, 0);
-        func_0218597C(&gDwcGlobalState.st->gp, 3, 0, 0);
-        func_0218597C(&gDwcGlobalState.st->gp, 1, 0, 0);
-        func_0218597C(&gDwcGlobalState.st->gp, 2, 0, 0);
+        gpSetCallback(&gDwcGlobalState.st->gp, 0, 0, 0);
+        gpSetCallback(&gDwcGlobalState.st->gp, 3, 0, 0);
+        gpSetCallback(&gDwcGlobalState.st->gp, 1, 0, 0);
+        gpSetCallback(&gDwcGlobalState.st->gp, 2, 0, 0);
         gpProcess(&gDwcGlobalState.st->gp);
         gpDestroy(&gDwcGlobalState.st->gp);
         gDwcGlobalState.st->gp = 0;
@@ -1426,7 +1423,7 @@ void DWCi_GT2SocketErrorCallback(void *socket)
 {
     gt2GetSocketSOCKET(socket);
     gDwcGlobalState.lastSocketError = GOAGetLastError();
-    func_02059F54(9, (int)0xfffe8515);
+    DWCi_SetError(9, (int)0xfffe8515);
     *(int *)gDwcGlobalState.st = 0;
 }
 

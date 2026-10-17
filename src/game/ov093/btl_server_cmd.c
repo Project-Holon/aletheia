@@ -24,8 +24,8 @@
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
- *   func_02007F1C 0x02007F1C thumb
- *   func_02007E50 0x02007E50 thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   BEACON_GetPoints  0x0200C274  thumb
@@ -51,8 +51,8 @@
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
  *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
- *   func_02007B50 0x02007B50 thumb
- *   func_02007C70 0x02007C70 thumb
+ *   PERAPVOICE_IsRecorded 0x02007B50 thumb
+ *   PERAPVOICE_GetVoiceKind 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   gBtlPosTables  0x021EFD70  data  ov093
@@ -63,8 +63,8 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008510  0x02008510  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -169,7 +169,7 @@
  *   POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
  *   BTL_POSPOKE_SearchPosByPokeId 0x0689D5C8 thumb ov095
- *   func_021D82FC  0x021D82FC  thumb  ov093
+ *   BTL_ACTION_SetFightTarget  0x021D82FC  thumb  ov093
  *   BTL_POKESET_GetCountMax 0x0689CD40 thumb ov095
  *   BTL_POKESET_GetCount 0x0689CD38 thumb ov095
  *   BTL_POKESET_Get 0x0689CC70 thumb ov095
@@ -359,7 +359,7 @@
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
  *   HAND_SIDE_GetStackCount 0x06898CE0 thumb ov095
- *   func_068982AC  0x068982AC  thumb
+ *   BTL_EVENT_IsFactorKeyRegistered  0x068982AC  thumb
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
  *   BTL_SICK_BuildAddMessage 0x0689C464 thumb ov095
@@ -390,7 +390,7 @@
  *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
  *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
  *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
- *   func_02008564 0x02008564 thumb arm9
+ *   MYSTATUS_GetGender 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -509,7 +509,7 @@
  *   BTLV_CORE_StartMoveMenuForEntry 0x021E9808 thumb ov093
  *   BTLV_CORE_AbortMoveMenu 0x021E98AC thumb ov093
  *   BTLV_CORE_PollMoveMenu 0x021E98B4 thumb ov093
- *   func_021D832C 0x021D832C thumb ov093
+ *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
  *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
  *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
  *   BTLV_CORE_StartTargetMenu 0x021E98BC thumb ov093
@@ -536,7 +536,7 @@
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
  *   BTLV_CORE_StartYesNoMenu 0x021EABC4 thumb ov093
  *   BTLV_CORE_PollYesNoMenu 0x021EAC54 thumb ov093
- *   func_021D8414 0x021D8414 thumb ov093
+ *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
  *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
  *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093

@@ -51,14 +51,14 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -96,7 +96,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   KEY_GetCont 0x0203630C arm
- *   func_0200854C 0x0200854C thumb
+ *   MYSTATUS_SetOutfitVariant 0x0200854C thumb
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   WIPE_ResetWndMask  0x02022224  thumb  arm9
@@ -126,6 +126,7 @@
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb  arm9
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb  arm9
  */
 
 struct Node;
@@ -256,15 +257,15 @@ extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void *func_02049F78(void *a0, u32 a1, void *out, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, void *out, u32 a3);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -311,7 +312,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *MYSTATUS_Create(int a0);
 extern unsigned int KEY_GetCont(void);
-extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetOutfitVariant(struct Sub0200852CObj *obj, u8 value);
 extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
 void CG_HELP_Setup(CgHelpWork *work);
@@ -513,21 +514,21 @@ void CG_HELP_LoadActorResources(CgHelpWork *work)
     void *archive;
     CgHelpActorHeader req;
     archive = ARC_TOOL_CreateHandle(0x1d, work->heapId);
-    func_02049B68(archive, 1, 4, 0, 0, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 1, 4, 0, 0, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(archive, 4, 6, 0, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 10, 6, 0, 0, 0, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(archive, 4, 7, 0, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 9, 7, 0, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
     archive = ARC_TOOL_CreateHandle(0x1e, work->heapId);
-    if (func_02008550(work->args->myStatus) == 0)
+    if (MYSTATUS_GetOutfitVariant(work->args->myStatus) == 0)
         work->paletteId = CLACT_RegisterPaletteEx(archive, 19, 1, 0, 0, 15, work->heapId);
     else
         work->paletteId = CLACT_RegisterPaletteEx(archive, 12, 1, 0, 0, 15, work->heapId);
     work->charId = CLACT_RegisterCharacter(archive, 22, 0, 1, work->heapId);
     work->cellAnimId = CLACT_RegisterCellAnim(archive, 21, 20, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(archive, 0, 4, 0, 0, 0, work->heapId);
-    work->charFile = func_02049F78(archive, 13, &work->charData, work->heapId);
+    work->charFile = ARC_UTIL_LoadPaletteBlockFromHandle(archive, 13, &work->charData, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
     req.x = 32;
     req.y = 48;
@@ -713,8 +714,8 @@ int CG_HELP_ProcInit(void *a,int b,CgHelpArgs *c)
     if (!q) {
         q = GFL_HEAP_Alloc(0x8a,8,1,gCgHelpFileName,0x2f3);
         q->myStatus = MYSTATUS_Create(0x8a);
-        if (KEY_GetCont() & 0x100) func_0200854C(q->myStatus,1);
-        else func_0200854C(q->myStatus,0);
+        if (KEY_GetCont() & 0x100) MYSTATUS_SetOutfitVariant(q->myStatus,1);
+        else MYSTATUS_SetOutfitVariant(q->myStatus,0);
     }
     work->args = q;
     work->heapId = 0x8a;

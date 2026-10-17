@@ -41,7 +41,7 @@
  *   WEATHER_TASK_GetParticlePos  0x021A2640  thumb  ov021
  *   WEATHER_TASK_SetParticlePosWrapped  0x021A2654  thumb  ov021
  *   WEATHER_TASK_RemoveParticle  0x021A21E0  thumb  ov021
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
  *   gSandstormGustSpeedY     0x021EEB68  data  a4
@@ -80,7 +80,7 @@ void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, const Weather
 void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
 WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
 u16 ZONEDATA_GetLightTableMember(u32 weatherId);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 /* Signed divide helper, called by name here (the result is the quotient). */
 extern int func_0209C0A4(int dividend, int divisor);
 extern void CLACT_SetActorAnimIndex(struct Actor *actor, u32 animIndex);
@@ -259,19 +259,19 @@ void WEATHER_SANDSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapI
         particleWork = (WeatherSandstormGrain *)WEATHER_TASK_GetParticleWork(particle);
         actor = WEATHER_TASK_GetParticleActor(particle);
         particleWork->age = 0;
-        particleWork->lifetime = func_020056EC(20) + 15;
+        particleWork->lifetime = GFL_USE_GetRandom(20) + 15;
         spriteSize = 3 - (particleWork->lifetime - 15) / 6;
         particleWork->speedY = (spriteSize + 1) * gSandstormGustSpeedY[gustStep];
         particleWork->speedX = (spriteSize + 1) * gSandstormGustSpeedX[gustStep];
         particleWork->expired = 0;
         particleWork->speedXStep = gSandstormGustSpeedX[gustStep];
-        if (func_020056EC(1000) == 777) {
+        if (GFL_USE_GetRandom(1000) == 777) {
             spriteSize = 4;
             particleWork->speedY = particleWork->speedY + particleWork->speedY / 2;
         }
         CLACT_SetActorAnimIndex(actor, (u16)spriteSize);
-        pos.x = -6 - func_020056EC(24);
-        pos.y = func_020056EC(192) - 64;
+        pos.x = -6 - GFL_USE_GetRandom(24);
+        pos.y = GFL_USE_GetRandom(192) - 64;
         WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
     }
 }

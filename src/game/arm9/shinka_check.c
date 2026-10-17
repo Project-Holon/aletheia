@@ -1484,7 +1484,7 @@ u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box)
  * (0x04001000) and turn the 32/64/128 KB boundary into a shift: 2/4/6 and
  * 1/3/5, with the unlisted 256 KB case falling into a separate default that
  * repeats the last value.  Seeded from ov208 0x021C5304, 0x021C531E,
- * 0x021C5324 (func_021C52F0) and ov021 0x021CC8EA, 0x021CC906, 0x021CC90C.
+ * 0x021C5324 (ZUKAN_DETAIL_FORM_LoadIconResources) and ov021 0x021CC8EA, 0x021CC906, 0x021CC90C.
  *
  * Addresses are Black-image addresses.
  */
@@ -2150,7 +2150,7 @@ struct PrintQueue *PRINTSYS_QUE_Create(u32 heap)
  * The size the constructor allocates is (u16)(n + 0x1C) rounded up to a
  * multiple of four and then + 0x18, and the rounding is a `while (v % 4)` loop
  * over a `u16` local: the signed `lsrs #31` / `lsls #30` / `subs` / `rors #30`
- * quartet is `% 4` on the promoted int, exactly as src/matched/sub_0200A6BC.c
+ * quartet is `% 4` on the promoted int, exactly as src/matched/MUSICAL_SAVE_AddProp.c
  * records for `% 8`.
  *
  * Addresses are Black-image addresses.

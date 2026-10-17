@@ -1,7 +1,7 @@
 /*
  * file:     darray.c
  * unit:     yes
- * function: func_021840CC, ArrayGrow, SetElement, func_02184144, ArrayFree, ArrayLength, ArrayNth, ArrayAppend, func_0218424C, func_021842D0, func_02184324, ArrayDeleteAt, ArrayReplaceAt, ArraySort, ArraySearch, ArrayMapBackwards, func_021844DC, ArrayClear, mylsearch, mybsearch
+ * function: FreeElement, ArrayGrow, SetElement, ArrayNew, ArrayFree, ArrayLength, ArrayNth, ArrayAppend, ArrayInsertAt, ArrayInsertSorted, ArrayRemoveAt, ArrayDeleteAt, ArrayReplaceAt, ArraySort, ArraySearch, ArrayMapBackwards, ArrayMapBackwards2, ArrayClear, mylsearch, mybsearch
  * address:  0x021840CC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,11 +20,11 @@
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   memset     0x020923B0  arm
  *   gsifree      0x0217EAE0  arm  ov009
- *   func_0218424C  0x0218424C  arm  ov009
+ *   ArrayInsertAt  0x0218424C  arm  ov009
  *   memmove    0x02092364  arm
  *   _s32_div_f     0x0209C0A4  arm
- *   func_021840CC  0x021840CC  arm  ov009
- *   func_02184324  0x02184324  arm  ov009
+ *   FreeElement  0x021840CC  arm  ov009
+ *   ArrayRemoveAt  0x02184324  arm  ov009
  *   ArrayLength   0x02184200  arm  ov009
  *   ArrayDeleteAt 0x0218437C  arm  ov009
  *   qsort  0x0209455C  arm  arm9
@@ -54,8 +54,6 @@ extern void *gsimalloc(unsigned long size);
 extern void *memset(void *dst, int c, unsigned long n);
 extern void gsifree(void *ptr);
 extern void *memmove(void *dst, const void *src, unsigned long n);
-extern void func_021840CC(int a, int b);
-extern void func_02184324(int a, int b);
 extern void qsort(int a, int b, int c, int d);
 extern int _s32_div_f(int a, int b);
 struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
@@ -165,12 +163,11 @@ void *ArrayNth(struct DArrayImplementation *array, int n)
 
 
 /*
- * Guarded forward of a word load: calls func_0218424C(p, a, *p) when p is set.
+ * Guarded forward of a word load: calls ArrayInsertAt(p, a, *p) when p is set.
  */
 void ArrayAppend(void *p, void *a)
 {
-    void func_0218424C(void *, void *, void *);
-    if (p) func_0218424C(p, a, *(void **)p);
+    if (p) ArrayInsertAt(p, a, (int)*(void **)p);
 }
 
 
@@ -225,8 +222,8 @@ void ArrayRemoveAt(struct DArrayImplementation *array, int n)
  */
 void ArrayDeleteAt(int a, int b)
 {
-    func_021840CC(a, b);
-    func_02184324(a, b);
+    FreeElement((struct DArrayImplementation *)a, b);
+    ArrayRemoveAt((struct DArrayImplementation *)a, b);
 }
 
 

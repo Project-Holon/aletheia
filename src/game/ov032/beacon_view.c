@@ -48,7 +48,7 @@
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
  *   d_021F3530     0x021F3530  data  a2
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   BMP_Clear 0x02043B5C arm
@@ -104,7 +104,7 @@
  *   TCBL_SetTaskFunc 0x02031288 arm
  *   WORDSET_SetSlotFromMsgA0 0x0201F184 thumb
  *   GPOWER_GetPowerCost 0x02010FA0 thumb
- *   func_02007FB8 0x02007FB8 thumb
+ *   MYITEM_SAVEDATA_GetItemQuantity 0x02007FB8 thumb
  *   GPOWER_GetSelectedMinutesLeft 0x02010EEC thumb
  *   d_021F352C 0x021F352C data ov032 a1
  *   GAME_BEACON_ACCESSOR_GetActionViewVariant 0x02165FC0 thumb ov010
@@ -136,7 +136,7 @@
  *   GPOWER_EVENT_CreateListEvent 0x021F5368 thumb ov083
  *   ov083_id 0x00000053 data
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   GAME_EVENT_ChangeEvent 0x0201235C thumb
  *   APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
  *   PALANM_TransferPalettes 0x02021D50 thumb
@@ -153,10 +153,10 @@
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   BEACON_GetFromSave  0x0200C0E8  thumb
  *   BEACON_GetThanksCount  0x0200C1DC  thumb
- *   func_02008730  0x02008730  thumb
- *   func_02008530  0x02008530  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008554  0x02008554  thumb
+ *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetOutfit  0x02008554  thumb
  *   GAME_BEACON_ACCESSOR_AllocTable  0x02165B2C  thumb  ov010
  *   GAME_BEACON_ACCESSOR_AllocInfo  0x02165B10  thumb  ov010
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
@@ -385,7 +385,7 @@ extern u32 GAME_BEACON_ACCESSOR_GetLanguage(u32 x);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -437,7 +437,7 @@ extern u8 GAME_BEACON_ACCESSOR_GetInfoVersion(struct BeaconRecord *r);
 extern void TCBL_SetTaskFunc(int *p, int v);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern unsigned int GPOWER_GetPowerCost(struct Rec02010FA0 *p, int idx);
-extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
+extern u32 MYITEM_SAVEDATA_GetItemQuantity(u8 *base, u16 id, u16 d);
 extern int GPOWER_GetSelectedMinutesLeft(void);
 extern u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 type);
 extern void PRINTSYS_PrintColor(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
@@ -467,7 +467,7 @@ extern void *GPOWER_EVENT_CreateActivateEvent(void *a0, int *a1);
 extern void *GPOWER_EVENT_CreateListEvent(void *p, void *q);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
+extern void *GAME_EVENT_GetWork(struct Obj *p);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
@@ -484,10 +484,10 @@ extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *BEACON_GetFromSave(void *sys);
 extern u32 BEACON_GetThanksCount(struct Blk34 *p);
-extern struct Sub0200852CObj *func_02008730(void *sys);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern struct Sub0200852CObj *SYSTEM_DATA_GetMyStatus(void *sys);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 extern u8 *GAME_BEACON_ACCESSOR_AllocTable(u32 heap);
 extern u8 *GAME_BEACON_ACCESSOR_AllocInfo(u32 heap);
 extern void *GPOWER_LoadPowerTable(u32 heap);
@@ -1574,7 +1574,7 @@ int BEACON_VIEW_HitTestActorTouch(BeaconViewWork *work, u32 *v)
 
 
 
-void BEACON_VIEW_SetupMessageText(BeaconViewWork *work,unsigned a) { func_02045CAC(work->messageBank,a,work->messageBuffer); WORDSET_CopyTaggedText((void *)work->wordSet,(void *)work->formatBuffer,work->messageBuffer); }
+void BEACON_VIEW_SetupMessageText(BeaconViewWork *work,unsigned a) { MSGDATA_ReadString(work->messageBank,a,work->messageBuffer); WORDSET_CopyTaggedText((void *)work->wordSet,(void *)work->formatBuffer,work->messageBuffer); }
 
 
 
@@ -2760,7 +2760,7 @@ void BEACON_VIEW_StartPowerAnim(BeaconViewWork *work, int b, u8 c, int *r)
     WORDSET_SetSlotFromMsgA0((struct WordSet *)(work->wordSet), 1, b);
     if (task->mode == 0) {
         task->cost = GPOWER_GetPowerCost((struct Rec02010FA0 *)(work->powerRecord), b);
-        task->nameStringId = func_02007FB8((u8 *)(work->messageArchive), 0x23f, work->uiHeapId);
+        task->nameStringId = MYITEM_SAVEDATA_GetItemQuantity((u8 *)(work->messageArchive), 0x23f, work->uiHeapId);
         WORDSET_SetSlotNumber((struct WordSet *)(work->wordSet), 2, task->cost, 3, 0, 1);
         WORDSET_SetSlotNumber((struct WordSet *)(work->wordSet), 3, task->nameStringId, 3, 0, 1);
         if (b == GPOWER_GetActiveIdOfSameType(b, (u8 *)(work->powerRecord))) {
@@ -3428,7 +3428,7 @@ Desc *BEACON_VIEW_CreateTaskProc(BeaconViewWork *work, unsigned a, unsigned b, u
     Desc *d;
     BeaconTaskWork *w;
     d = (Desc *)GAME_EVENT_Create(work->fieldSystem, 0, BEACON_VIEW_TaskProc, 0x1c);
-    w = func_020124E8((struct Obj *)d);
+    w = GAME_EVENT_GetWork((struct Obj *)d);
     w->owner = work;
     w->fieldSystem = work->fieldSystem;
     w->sessionInfo = (unsigned int)work->sessionInfo;
@@ -3729,10 +3729,10 @@ void BEACON_VIEW_InitWorkFromSave(BeaconViewWork *work)
     work->messageArchive = (u32)GAME_DATA_GetMyItem((const struct BigObj *)(work->saveInfo));
     *(u32 *)&work->playerBlock = (u32)BEACON_GetFromSave((void *)sv);
     work->playTime = BEACON_GetThanksCount((struct Blk34 *)(*(u32 *)&work->playerBlock));
-    s2 = (u32)func_02008730((void *)sv);
-    work->profileId = (u16)func_02008530((const struct Sub0200852CObj *)s2);
-    work->gender = func_02008550((const struct Sub0200852CObj *)s2);
-    work->languageId = func_02008554((const struct Sub0200852CObj *)s2);
+    s2 = (u32)SYSTEM_DATA_GetMyStatus((void *)sv);
+    work->profileId = (u16)MYSTATUS_GetId((const struct Sub0200852CObj *)s2);
+    work->gender = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)s2);
+    work->languageId = MYSTATUS_GetOutfit((const struct Sub0200852CObj *)s2);
     work->styleId = 0x15;
     *(u32 *)&work->receiveQueue = (u32)GAME_BEACON_ACCESSOR_AllocTable(work->mainHeapId);
     *(u32 *)&work->recordBuffer = (u32)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);

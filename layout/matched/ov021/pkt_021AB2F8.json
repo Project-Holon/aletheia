@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "MAP_ATTR_IsRippleWater",
-    "func_021AB304"
+    "MAP_ATTR_IsSplashWater"
    ],
    "addresses": [
     "0x021AB2F8",

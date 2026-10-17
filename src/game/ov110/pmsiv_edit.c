@@ -82,13 +82,13 @@
  *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_02005624 0x02005624 thumb
+ *   GFL_USE_AddHBlankTask 0x02005624 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GX_GetVCount 0x021BBE80 thumb ov110
  *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
- *   func_02049B68 0x02049B68 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   PMS_INPUT_GetSentenceType 0x021BF6E4 thumb ov110
@@ -230,12 +230,12 @@ extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 extern void BG_SYS_SetTileEntry(unsigned, int, int, int, u8, u8, u8);
-extern void *func_02005624(u32 a, u32 b, u32 c);
+extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void *GFL_USE_AddMainTask(void *, void *, unsigned);
 extern short CLACT_GetActorSurfacePosAxis(struct Obj *, u16 surface, unsigned axis);
 extern void CLACT_SetActorSurfacePosAxis(struct Obj *, short pos, u16 surface, unsigned axis);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MIi_CpuCopy16(const void *, void *, int);
 extern void DWCi_ScreenDC_FlushRange(void *, unsigned);
 extern unsigned PMS_INPUT_GetInputMode(struct PmsInputState *input);
@@ -403,7 +403,7 @@ void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing)
     p->scrollStep = 0;
     p->scrollClosing = closing;
     if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
-    p->scrollTask = func_02005624((u32)GX_GetVCount, (u32)p, 1);
+    p->scrollTask = GFL_USE_AddHBlankTask((u32)GX_GetVCount, (u32)p, 1);
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
     if (p->frameTask) TCB_DeleteTask(p->frameTask);
@@ -449,9 +449,9 @@ void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle)
 {
     struct PaletteData *data;
     void *handle;
-    func_02049B68(arcHandle, 3, 0, 0, 448, PMSIV_EDIT_HEAP);
-    func_02049B68(arcHandle, 4, 4, 0, 160, PMSIV_EDIT_HEAP);
-    handle = func_02049F78(arcHandle, 6, (u32)((void **)&data), PMSIV_EDIT_HEAP);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, 3, 0, 0, 448, PMSIV_EDIT_HEAP);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, 4, 4, 0, 160, PMSIV_EDIT_HEAP);
+    handle = ARC_UTIL_LoadPaletteBlockFromHandle(arcHandle, 6, (u32)((void **)&data), PMSIV_EDIT_HEAP);
     MIi_CpuCopy16(data->rawData, p->palette, PMSIV_EDIT_PALETTE_BYTES);
     DWCi_ScreenDC_FlushRange(p->palette, PMSIV_EDIT_PALETTE_BYTES);
     GFL_HEAP_Free(handle);

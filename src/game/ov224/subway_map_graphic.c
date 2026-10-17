@@ -27,7 +27,7 @@
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -149,7 +149,7 @@ extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -276,7 +276,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  choice=1;
  if(*((u8 *)*p->args+0x1d)!=1) choice=0;
  arc=ARC_TOOL_CreateHandle(30,heap);
- func_02049B68(arc,gSubwayMapGraphicChoiceAssets[choice].palette,4,0,0,heap);
+ ARC_UTIL_UploadPaletteFromHandleWhole(arc,gSubwayMapGraphicChoiceAssets[choice].palette,4,0,0,heap);
  ARC_UTIL_UploadBgCharFromHandle(arc,gSubwayMapGraphicChoiceAssets[choice].screen,4,0,0,0,heap);
  ARC_UTIL_UploadBgPaletteFromHandle(arc,gSubwayMapGraphicChoiceAssets[choice].chars,4,0,0,0,heap);
  ARC_TOOL_DeleteHandle(arc);
@@ -346,7 +346,7 @@ void SUBWAY_MAP_GRAPHIC_TaskNoop(void) {}
 void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
 {
     void *narc = ARC_TOOL_CreateHandle(0xce, *work);
-    func_02049B68(narc, 0, 0, 0, 0, *work);
+    ARC_UTIL_UploadPaletteFromHandleWhole(narc, 0, 0, 0, 0, *work);
     ARC_UTIL_UploadBgCharFromHandle(narc, 1, 1, 0, 0, 0, *work);
     ARC_UTIL_UploadBgPaletteFromHandle(narc, 2, 1, 0, 0, 0, *work);
     ARC_UTIL_UploadBgPaletteFromHandle(narc, 3, 2, 0, 0, 0, *work);

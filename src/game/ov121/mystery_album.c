@@ -26,7 +26,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_Create 0x02043678 arm
  *   BMP_Delete 0x020437AC arm
@@ -53,7 +53,7 @@
  *   MYSTERY_ALBUM_HideScreen 0x021DE0DC thumb ov121
  *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -97,7 +97,7 @@
  *   MYSTERY_DATA_HasCardSpace 0x0200A0C8 thumb
  *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
  *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
@@ -110,9 +110,9 @@
  *   STRBUF_SetStringN 0x02045994 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
  *   POKE_TOOL_SetupPartyParamEx 0x02017588 thumb
@@ -123,8 +123,8 @@
  *   POKE_TOOL_PushMove 0x020180F4 thumb
  *   POKE_TOOL_SetAbility 0x02018A00 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_020084F4 0x020084F4 thumb
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
@@ -160,7 +160,7 @@
  *   MYSTERY_ALBUM_GetEntryGraphicIndex 0x021DBF9C thumb ov121
  *   MYSTERY_ALBUM_GetEntryIconPalette 0x021DBF70 thumb ov121
  *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   MIi_CpuClear16 0x02082A48 arm
@@ -292,7 +292,7 @@ typedef struct MysteryAlbumWork {
 } MysteryAlbumWork;
 
 /*
- * ARC resource header filled by func_02049F78; the loaded data pointer sits at
+ * ARC resource header filled by ARC_UTIL_LoadPaletteBlockFromHandle; the loaded data pointer sits at
  * 0x0C. mystery_album.c reads the same header at +0x0C and +0x14, so the real
  * header is larger than this view.
  */
@@ -521,7 +521,7 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
 
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 x, u32 y, u16 heapId);
 
@@ -601,7 +601,7 @@ extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
 
 extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
 
-extern void *func_02049F78(void *arc, u32 fileId, u32 res, u32 heapId);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 fileId, u32 res, u32 heapId);
 
 extern void MI_CpuCopy8(const void *src,void *dst,int size);
 
@@ -621,11 +621,11 @@ extern void CLACT_SetActorAffineMode(void *actor, u32 value);
 
 extern void STRBUF_SetStringN(void *o, const void *src, u32 len);
 
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 
-extern u32 func_02008530(const void *obj);
+extern u32 MYSTATUS_GetId(const void *obj);
 
 extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 
@@ -647,9 +647,9 @@ extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
 
 extern u16 STRBUF_GetEosChar(void);
 
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 
-extern u8 func_02008550(const void *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
 
 extern void *POKE_TOOL_Dummy(void *p);
 
@@ -1043,19 +1043,19 @@ void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
     int i, j;
     u32 k;
     arc = ARC_TOOL_CreateHandle(34, heap);
-    func_02049B68(arc, 1, 0, 0, 320, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 0, 0, 320, heap);
     ARC_UTIL_UploadBgCharFromHandle(arc, 10, 3, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 17, 3, 0, 0, 0, heap);
     ARC_UTIL_UploadBgCharFromHandle(arc, 10, 1, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 19, 1, 0, 0, 0, heap);
     BG_SYS_PushTile(3);
-    func_02049B68(arc, 1, 4, 0, 320, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 4, 0, 320, heap);
     ARC_UTIL_UploadBgCharFromHandle(arc, 10, 7, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 18, 7, 0, 0, 0, heap);
     ARC_TOOL_DeleteHandle(arc);
     arc = ARC_TOOL_CreateHandle(23, heap);
-    func_02049B68(arc, 5, 0, 480, 32, heap);
-    func_02049B68(arc, 5, 4, 480, 32, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 5, 0, 480, 32, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 5, 4, 480, 32, heap);
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_Init(1, 0, 1, 0);
     BG_SYS_Init(2, 0, 1, 0);
@@ -2098,7 +2098,7 @@ void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u
     void *allocation;
     char *data;
     MI_CpuFill8(p,0,0x60);
-    allocation=func_02049F78(arc,id,(u32)(&res),heap);
+    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,id,(u32)(&res),heap);
     data=((MysteryUtilResData *)res)->data;
     MI_CpuCopy8(data+index*32,p+0x40,32);
     MI_CpuCopy8(data+other*32,p+0x20,32);
@@ -2269,20 +2269,20 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
         mv[3] = r->mv[3];
         if (r->fB3 == 1 && species <= 0x289 && species != 0 && level <= 0x64 && r->f10 <= 0x289 - 0x17) {
             if (level == 0)
-                level = (u16)(func_020056EC(0x64) + 1);
+                level = (u16)(GFL_USE_GetRandom(0x64) + 1);
             if (r->f0 == 0)
-                id = func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                id = MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
             if (gender == 0xff)
                 gender = 2;
             for (i = 0; i < 6; i++) {
                 if (iv[i] == 0xff)
-                    iv[i] = func_020056EC(0x20);
+                    iv[i] = GFL_USE_GetRandom(0x20);
             }
             id64 = id;
             mon = POKE_TOOL_Create((u16)species, level, id, 0, hid);
             ivs = (iv[0] & 31) | ((iv[1] & 31) << 5) | ((iv[2] & 31) << 10) | ((iv[3] & 31) << 15) | ((iv[4] & 31) << 20) | ((iv[5] & 31) << 25);
             if (mode == 4)
-                mode = (u8)func_020056EC(3);
+                mode = (u8)GFL_USE_GetRandom(3);
             switch (mode) {
             case 0:
                 i = 0;
@@ -2357,7 +2357,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
             {
                 u32 v = r->f34;
                 if (v == 0xff)
-                    v = (u8)func_020056EC(0x19);
+                    v = (u8)GFL_USE_GetRandom(0x19);
                 POKE_TOOL_SetPartyValue(mon, 0x70, v);
             }
             POKE_TOOL_SetPartyValue(mon, 0x95, r->f38);
@@ -2368,7 +2368,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
                 goto end;
             }
             if (r->f4A == STRBUF_GetEosChar())
-                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)func_020084F4(GAME_DATA_GetMyStatus(gs)));
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gs)));
             else
                 POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->f4A);
             {
@@ -2376,7 +2376,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
-                    v = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                    v = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }
@@ -2417,7 +2417,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *a, stru
             a2 = POKE_TOOL_GetPartyValue(res, 0x6f, 0);
             a3 = POKE_TOOL_GetPartyValue(res, 0x6e, 0);
             idx = POKEGRA_GetPalArcIndex(a0, a1, a2, a3, POKE_TOOL_IsShiny(res), 0, POKE_TOOL_GetPartyValue(res, 0x4c, 0));
-            out->f13C = func_02049F78(arc, idx, (u32)(&out->f140), out->heap);
+            out->f13C = ARC_UTIL_LoadPaletteBlockFromHandle(arc, idx, (u32)(&out->f140), out->heap);
             out->f134 = (u32)POKEGRA_LoadCharDataPP(&out->f138, POKE_TOOL_GetBoxParam(res), 0, out->heap);
             GFL_HEAP_Free(res);
             ARC_TOOL_DeleteHandle(arc);
@@ -2569,7 +2569,7 @@ struct Actor;
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 palOffset, u32 size, u16 heapId);
 
-extern void *func_02049E74(void *arc, u32 fileId, u32 compressed, u32 res, u16 heapId);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 fileId, u32 compressed, u32 res, u16 heapId);
 
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 
@@ -2683,11 +2683,11 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     u32 offset;
     int i;
     arc=MYSTERY_ALBUM_CreateEntryArc(album,heapId);
-    iconPalAlloc=func_02049F78(arc,(int)MYSTERY_ALBUM_GetEntryArcId(album),(u32)(&iconPalRes),(u16)(album->heapId));
+    iconPalAlloc=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryArcId(album),(u32)(&iconPalRes),(u16)(album->heapId));
     offset=ui->iconPaletteNumber*32;
     MI_CpuCopy8(*(void **)((char *)iconPalRes+12),MYSTERY_ALBUM_GetPaletteRam(offset,ui->screenId),96);
     GFL_HEAP_Free(iconPalAlloc);
-    iconGfxAlloc=func_02049E74(arc,(int)MYSTERY_ALBUM_GetEntryGraphicIndex(album),(int)0,(u32)(&iconGfxRes),album->heapId);
+    iconGfxAlloc=ARC_UTIL_LoadScreenDataFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryGraphicIndex(album),(int)0,(u32)(&iconGfxRes),album->heapId);
     CLACT_TransferCharacterPart(ui->bgHandleA,*(void **)((char *)iconGfxRes+20),512,0,ui->screenId);
     GFL_HEAP_Free(iconGfxAlloc);
     ARC_TOOL_DeleteHandle(arc);

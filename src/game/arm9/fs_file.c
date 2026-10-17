@@ -17,7 +17,7 @@
  * symbols:
  *   FS_NormalizePath  0x02078078  arm
  *   FSi_SendCommand  0x02077D80  arm
- *   func_02077D80 0x02077D80 arm
+ *   FSi_SendCommand 0x02077D80 arm
  *   FSi_GetFileLengthIfProc  0x0207A528  arm
  *   FSi_GetFilePositionIfProc  0x0207A568  arm
  *   FS_SetCurrentDirectory  0x02077F44  arm
@@ -150,7 +150,6 @@ extern int FSi_DecrementSjisPosition(const char *str, int pos);
 extern int STD_GetStringLength(const char *str);
 extern BOOL FSi_SendCommand(FSFile *file, u32 command, BOOL blocking);
 extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath);
-extern void func_02077D80(void);
 extern BOOL FSi_GetFileLengthIfProc(FSFile *file, u32 *length);
 extern BOOL FSi_GetFilePositionIfProc(FSFile *file, u32 *position);
 extern int FS_SetCurrentDirectory(const char *path);
@@ -370,7 +369,7 @@ BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode)
 
 asm void FS_CloseFile(void)
 {
-    ldr ip, =func_02077D80
+    ldr ip, =FSi_SendCommand
     mov	r1, #8
     mov	r2, #1
     bx	ip

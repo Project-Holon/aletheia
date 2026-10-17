@@ -1144,7 +1144,7 @@ void BTLV_EFFECT_StartPokeEffectId26E(int a)
 }
 
 /*
- * Unlabelled tail-call stub, filed for the caller ov093 func_021D284C (lane S16).
+ * Unlabelled tail-call stub, filed for the caller ov093 BTL_CLIENT_StepPlayEffectOnMonFast (lane S16).
  */
 void BTLV_EFFECT_StartPokeEffectId26F(u32 a)
 {
@@ -1320,7 +1320,7 @@ void BTLV_EFFECT_GaugeSetSlotVisible(u32 a, u32 b)
 }
 
 /*
- * Unlabelled leaf, filed as the blocker of ov093 func_021D2234 (lane S15).
+ * Unlabelled leaf, filed as the blocker of ov093 BTL_CLIENT_StepStartEffectForMon (lane S15).
  */
 void BTLV_EFFECT_GaugeSetStatusIcon(u32 a, u32 b)
 {

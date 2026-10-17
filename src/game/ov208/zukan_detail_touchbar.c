@@ -33,30 +33,30 @@
  *   KEY_GetTrg 0x020362DC arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_021BDCF8 0x021BDCF8 thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_LoadResources 0x021BDCF8 thumb ov208
  *   d_021C8DE4 0x021C8DE4 data a1
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_02040804 0x02040804 arm
+ *   BG_SYS_GetScrollY 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   d_021C8388 0x021C8388 data a4
  *   d_021C8384 0x021C8384 data a1
  *   ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft  0x021BE170  thumb
- *   func_021BDD98  0x021BDD98  thumb
- *   func_021BE3C4  0x021BE3C4  thumb
- *   func_021BE504  0x021BE504  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_LoadBarResources  0x021BDD98  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources  0x021BE3C4  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources  0x021BE504  thumb
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_SetActorPos 0x0204B528 arm
  *   ZKND_TBAR_CreateButtonList  0x021BD148  thumb
  *   ZKND_TBAR_AddButtonPos  0x021BD3CC  thumb
- *   func_021BE128  0x021BE128  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_FreeAnimBuffer  0x021BE128  thumb
  *   data_021C8440  0x021C8440  data
  *   data_021C83A4  0x021C83A4  data
- *   func_021BE1BC 0x021BE1BC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight 0x021BE1BC thumb
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
@@ -132,19 +132,15 @@ extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
-extern void func_021BDCF8(struct Ov208Scene *);
 
-extern u32 func_02040804(u32 layer);
+extern u32 BG_SYS_GetScrollY(u32 layer);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft(struct Ov208Scene *p);
 
 extern void CLACT_SetActorBgPriority(int, int);
 
-extern void func_021BDD98(struct Ov208Scene *p);
 
-extern void func_021BE3C4(struct Ov208Scene *p);
 
-extern void func_021BE504(struct Ov208Scene *p);
 
 extern void CLACT_GetActorPos(const struct Actor *,struct Pt *);
 
@@ -154,13 +150,11 @@ extern struct Ov208Mgr *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u1
 
 extern void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *mgr, int key, u16 *pos);
 
-extern void func_021BE128(struct Ov208Scene *p);
 
-extern void func_021BE1BC(struct Ov208Scene *e);
 
 extern u32 KEY_GetRepeat(void);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
@@ -304,7 +298,7 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
     p->bgPriority=0;p->bgDirty=0;
     p->clactUnit=CLACT_CreateUnit(16,0,p->heap);
     CLACT_SetUnitDefaultRenderer(p->clactUnit);
-    p->mgr=0;func_021BDCF8(p);
+    p->mgr=0;ZUKAN_DETAIL_TOUCHBAR_LoadResources(p);
     ZKND_TBAR_SetTouchEnable(p->mgr,0);
     p->pos=24;ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)p,p->pos);
     p->task=GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_TOUCHBAR_FlushBar,(unsigned)p,1);
@@ -331,7 +325,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
         break;
     case 1:
         if (m->step == 0) {
-            if ((int)func_02040804((int)1) >= 0) {
+            if ((int)BG_SYS_GetScrollY((int)1) >= 0) {
                 BG_SYS_ResetSlot(1, 3, 0);
                 m->pos = 0;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
@@ -350,7 +344,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
         break;
     case 3:
         if (m->step == 0) {
-            if ((int)func_02040804((int)1) <= -24) {
+            if ((int)BG_SYS_GetScrollY((int)1) <= -24) {
                 BG_SYS_ResetSlot(1, 3, -24);
                 m->pos = 24;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
@@ -384,7 +378,7 @@ void ZUKAN_DETAIL_TOUCHBAR_SetMode(struct Ov208Scene *p, u32 mode, u32 kind, u32
     p->buttonFlag = flag;
     ZUKAN_DETAIL_TOUCHBAR_ReleaseResources((char *)p);
     p->arrowKind = p->kind;
-    func_021BDCF8(p);
+    ZUKAN_DETAIL_TOUCHBAR_LoadResources(p);
 }
 
 int ZUKAN_DETAIL_TOUCHBAR_GetMode(struct Ov208Scene *p)
@@ -571,13 +565,13 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadResources(struct Ov208Scene *p)
 {
     switch (p->mode) {
     case 0:
-        func_021BDD98(p);
+        ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(p);
         break;
     case 1:
-        func_021BE3C4(p);
+        ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources(p);
         break;
     case 2:
-        func_021BE504(p);
+        ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources(p);
         break;
     }
     p->slotsEnabled = 1;
@@ -683,7 +677,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
     v = ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind(p->kind);
     if (v != 9)
         ZKND_TBAR_SetButtonAnimSeq(p->mgr, p->slots[v].src->id, 0);
-    func_021BE128(p);
+    ZUKAN_DETAIL_TOUCHBAR_FreeAnimBuffer((u8 *)(p));
     ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft((struct Ov208Scene *)p);
     if (p->buttonFlag == 0) {
         ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[8].src->id, 0);
@@ -694,7 +688,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
 void ZUKAN_DETAIL_TOUCHBAR_ReleaseBarResources(struct Ov208Scene *e)
 {
     if (e->mgr != 0) {
-        func_021BE1BC(e);
+        ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight(e);
         ZUKAN_DETAIL_TOUCHBAR_GetPaletteFlag(e);
         ZKND_TBAR_DeleteButtonList(e->mgr);
         CLACT_ReleasePalette((u32)e->palRes0);
@@ -777,7 +771,7 @@ void ZUKAN_DETAIL_TOUCHBAR_UpdateInput(struct Ov208Scene *m)
         case 16:
         case 17:
         case 18:
-            func_021BE1BC((struct Ov208Scene *)m);
+            ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight((struct Ov208Scene *)m);
             break;
         }
     }
@@ -789,7 +783,7 @@ void ZUKAN_DETAIL_TOUCHBAR_FreeAnimBuffer(u8 *p)
     u32 file;
     u8 *data;
 
-    file = (u32)func_02049F34(0x9f, 3, (u32)(&pltt), ((struct Ov208Scene *)p)->heap);
+    file = (u32)ARC_UTIL_LoadPaletteBlockFromArchive(0x9f, 3, (u32)(&pltt), ((struct Ov208Scene *)p)->heap);
     data = pltt->data;
     MI_CpuCopy8(data + 0x20, p + 0xb6, 0x20);
     MI_CpuCopy8(data + 0x60, p + 0xd6, 0x20);

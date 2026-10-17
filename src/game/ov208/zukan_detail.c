@@ -61,7 +61,7 @@ extern void *d_021C86F0[];
 extern void *d_021C881C[];
 
 /*
- * 2026-10-04 (D2-16): callee ZUKAN_DETAIL_AREA_SetHeapId filed EXACT as src/matched/ov/ov208_func_021BF784.c (strh leaf). Still MATCH only because no
+ * 2026-10-04 (D2-16): callee ZUKAN_DETAIL_AREA_SetHeapId filed EXACT as src/matched/ov/ZUKAN_DETAIL_AREA_SetHeapId.c (strh leaf). Still MATCH only because no
  * shard witnesses it yet; the integrator manifest run should make this EXACT. Symbols line now carries the ov208 hint.
  * 2026-10-02: only ZUKAN_DETAIL_AREA_SetHeapId (init for mode 2, another lane) has no witness yet; bytes match.
  */

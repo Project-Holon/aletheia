@@ -32,8 +32,8 @@
  *   POKEPARTY_GetEggCount  0x0201AA88  thumb
  *   POKEPARTY_GetBadEggCount  0x0201AAD4  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
- *   func_02007984  0x02007984  thumb
- *   func_020079A0  0x020079A0  thumb
+ *   BOX_SAVEDATA_CountPokemon  0x02007984  thumb
+ *   BOX_SAVEDATA_CountNonEggPokemon  0x020079A0  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -41,12 +41,12 @@
  *   POKE_TOOL_PushMove  0x020180F4  thumb
  *   POKE_TOOL_SetMoveSlot  0x020181F4  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   STRBUF_IsEqual  0x0204589C  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   g0209DF08      0x0209DF08  data  a1
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -62,7 +62,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   sScrcmdAllowedParamIds 0x02171182 data a1
  *   POKE_TOOL_Create  0x020173F0  thumb
- *   func_02008510  0x02008510  thumb
+ *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
@@ -78,7 +78,7 @@
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_020074D8  0x020074D8  thumb
+ *   BOX_SAVEDATA_AddPokemon  0x020074D8  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   BEACON_AddPoints 0x0200C278 thumb
@@ -327,9 +327,9 @@ extern u32 POKEPARTY_GetBadEggCount(void *);
 
 extern u32 GAME_DATA_GetBoxManager(const struct GameData *);
 
-extern int func_02007984(void *);
+extern int BOX_SAVEDATA_CountPokemon(void *);
 
-extern int func_020079A0(void *);
+extern int BOX_SAVEDATA_CountNonEggPokemon(void *);
 
 extern void *SCRCMD_WORK_GetGameSystem(void *);
 
@@ -345,7 +345,7 @@ extern void POKE_TOOL_SetMoveSlot(void *, u16 move, u32 slot);
 
 extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
 
-extern u32 func_02008530(const struct MyStatus *obj);
+extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -355,7 +355,7 @@ extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
 
 extern void STRBUF_Delete(struct Strbuf *vec);
 
-extern u8 func_02008550(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
 
 extern void *SCRCMD_WORK_GetScriptWork(void *);
 
@@ -379,7 +379,7 @@ extern void POKE_TOOL_RecalcParam(void *);
 
 extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heap);
 
-extern void *func_02008510(void *, int tag);
+extern void *MYSTATUS_CreateNameStrbuf(void *, int tag);
 
 extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 
@@ -409,7 +409,7 @@ extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 
 extern void *POKE_TOOL_GetBoxParam(void *);
 
-extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
+extern int BOX_SAVEDATA_AddPokemon(void **save, const struct BoxPokemonParam *src);
 
 extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
 
@@ -1196,17 +1196,17 @@ int SCRCMD_PROC_GetBoxMonCount(void *vm, void *cmdWork)
     GAME_DATA_GetMyParty(gameData);
     switch (countKind) {
     case 0:
-        result = func_02007984(boxManager);
+        result = BOX_SAVEDATA_CountPokemon(boxManager);
         break;
     case 1:
     case 2:
-        result = func_020079A0(boxManager);
+        result = BOX_SAVEDATA_CountNonEggPokemon(boxManager);
         break;
     case 3:
-        result = func_02007984(boxManager) - func_020079A0(boxManager);
+        result = BOX_SAVEDATA_CountPokemon(boxManager) - BOX_SAVEDATA_CountNonEggPokemon(boxManager);
         break;
     case 5: {
-        int storedCount = func_02007984(boxManager);
+        int storedCount = BOX_SAVEDATA_CountPokemon(boxManager);
         if (storedCount > 720) {
             result = 0;
         } else {
@@ -1530,7 +1530,7 @@ int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
         *resultVar = 0;
         return 0;
     }
-    if (POKE_TOOL_GetPartyValue(mon, 7, 0) != func_02008530(myStatus)) {
+    if (POKE_TOOL_GetPartyValue(mon, 7, 0) != MYSTATUS_GetId(myStatus)) {
         *resultVar = 0;
         return 0;
     }
@@ -1552,7 +1552,7 @@ int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
     }
     STRBUF_Delete(monOtName);
     STRBUF_Delete(playerName);
-    if (POKE_TOOL_GetPartyValue(mon, 0x9A, 0) != func_02008550(myStatus)) {
+    if (POKE_TOOL_GetPartyValue(mon, 0x9A, 0) != MYSTATUS_GetOutfitVariant(myStatus)) {
         *resultVar = 0;
         return 0;
     }
@@ -1837,7 +1837,7 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     }
     mon = POKE_TOOL_Create(species, 1, (u64)-1, heapId);
     POKE_TOOL_SetPartyValue(mon, 0x6F, form);
-    tempStrbuf = (u32)func_02008510(GAME_DATA_GetMyStatus(gameData), heapId);
+    tempStrbuf = (u32)MYSTATUS_CreateNameStrbuf(GAME_DATA_GetMyStatus(gameData), heapId);
     POKE_TOOL_SetPartyValue(mon, 0x8D, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
     personal = (u32)POKE_PERSONAL_Create((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
@@ -1866,7 +1866,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     void *trainerIdOrMon;
     u32 personalRnd;
     myStatus = GAME_DATA_GetMyStatus(gameData);
-    trainerIdOrMon = (void *)func_02008530((const struct MyStatus *)GAME_DATA_GetMyStatus(gameData));
+    trainerIdOrMon = (void *)MYSTATUS_GetId((const struct MyStatus *)GAME_DATA_GetMyStatus(gameData));
     personalRnd = POKE_TOOL_CreatePersonalRnd((u32)trainerIdOrMon, (u16)spec->species, (u16)spec->form, (u32)spec->natureMode, (u32)spec->genderMode, (u32)spec->shinyMode);
     trainerIdOrMon = POKE_TOOL_CreateEx(spec->species, spec->level, (u32)trainerIdOrMon, -1, personalRnd, spec->heapId);
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x6F, spec->form);
@@ -1884,10 +1884,10 @@ int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
     void *mon;
 
     boxManager = (void *)GAME_DATA_GetBoxManager(gameData);
-    if (func_02007984(boxManager) >= 0x2D0)
+    if (BOX_SAVEDATA_CountPokemon(boxManager) >= 0x2D0)
         return 0;
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
-    func_020074D8(boxManager, (const struct BoxPokemonParam *)((u32)POKE_TOOL_GetBoxParam(mon)));
+    BOX_SAVEDATA_AddPokemon(boxManager, (const struct BoxPokemonParam *)((u32)POKE_TOOL_GetBoxParam(mon)));
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     GFL_HEAP_Free(mon);
     return 1;

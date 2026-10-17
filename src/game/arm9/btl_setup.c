@@ -17,7 +17,7 @@
  *   MI_CpuFill8        0x02082BCC  arm
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   BEACON_CountFlags  0x0200C258  thumb
  *   GAME_DATA_GetField114         0x020127A4  thumb
@@ -72,7 +72,7 @@ struct NetHandle;
 
 extern struct PlayerWork *GAME_DATA_GetField114(struct GameData *gd);
 
-extern struct Config *func_0200873C(struct SaveControl *save);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *save);
 
 extern void MI_CpuFill8(void *dst, int c, u32 n);
 
@@ -590,7 +590,7 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
     param->trainerRecord = GAME_DATA_GetTrainerRecord(gd);
     save = GAME_DATA_GetSaveControl(gd);
     misc = BEACON_GetFromSave(save);
-    param->config = func_0200873C(save);
+    param->config = SYSTEM_DATA_GetConfig(save);
     param->badgeCount = (u8)BEACON_CountFlags(misc);
     MI_CpuCopy8(sit, &param->fieldSituation, 0x10);
     param->bgmBattle = 0x468;
@@ -1026,7 +1026,7 @@ void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd
         param->trainerData[i] = BTL_SETUP_CreateTrainerData(heap);
     }
     param->gameData = gd;
-    config = func_0200873C(GAME_DATA_GetSaveControl(gd));
+    config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(gd));
     copy = CONFIG_Create(heap);
     param->config = copy;
     CONFIG_Copy(config, copy);

@@ -67,7 +67,7 @@
  *   func_021BDAAC 0x021BDAAC thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_021BE82C 0x021BE82C thumb
+ *   ZUKAN_DETAIL_HEADBAR_SetIconKind 0x021BE82C thumb
  *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
@@ -77,23 +77,23 @@
  *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
  *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
- *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetCursorValue  0x021BC3B8  thumb  ov208
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc  0x021BC844  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots  0x021BC758  thumb  ov208
- *   ov208_func_021BC718  0x021BC718  thumb  ov208
- *   ov208_func_021BC4F4  0x021BC4F4  thumb  ov208
- *   ov208_func_021BC6D8  0x021BC6D8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeIn  0x021BC718  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SetBrightnessFull  0x021BC4F4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeOut  0x021BC6D8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
  *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
  *   ov208_func_021BDC14  0x021BDC14  thumb  ov208
- *   ov208_func_021BC6C8  0x021BC6C8  thumb  ov208
- *   ov208_func_021BC6F8  0x021BC6F8  thumb  ov208
- *   ov208_func_021BDAE8  0x021BDAE8  thumb  ov208
- *   ov208_func_021BC508  0x021BC508  thumb  ov208
- *   ov208_func_021BC99C  0x021BC99C  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_IsFadeBusy  0x021BC6C8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeOutAlt  0x021BC6F8  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled  0x021BDAE8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SetBrightnessNone  0x021BC508  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_TickFlashEffect  0x021BC99C  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_UpdateBlendFades  0x021BC46C  thumb  ov208
- *   ov208_func_021BC678  0x021BC678  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_UpdatePaletteAnim  0x021BC678  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_TransferPalettes 0x021BC6BC thumb ov208
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -117,7 +117,7 @@
  *   BMP_GetWidth  0x020437DC  arm
  *   G2x_SetBlendAlpha_ 0x0207D63C  arm
  *   ov208_func_021BC518  0x021BC518  thumb  ov208
- *   ov208_func_021BCF4C  0x021BCF4C  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_Reset3dState  0x021BCF4C  thumb  ov208
  *   POKEGRA_GetArcID 0x0202D060 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_GetMode  0x021BDAD0  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode  0x021BDAAC  thumb  ov208
@@ -129,39 +129,39 @@
  *   TCB_Main 0x02030D28 arm
  *   ZUKAN_DETAIL_FORM_SetHeapId 0x021C3B68 thumb
  *   gSpeciesNameBank 0x020A7370 data a4
- *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
- *   ov208_func_021BC32C 0x021BC32C thumb ov208
- *   ov208_func_021BC3A8 0x021BC3A8 thumb ov208
- *   ov208_func_021BC3AC 0x021BC3AC thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry 0x021BC3C0 thumb ov208
+ *   ZUKAN_DETAIL_PROCSYS_AllocBuffer 0x021BC32C thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetFont 0x021BC3AC thumb ov208
  *   ov208_func_021C4AC4 0x021C4AC4 thumb ov208
- *   ov208_func_021BC448 0x021BC448 thumb ov208
- *   ov208_func_021BC610 0x021BC610 thumb ov208
- *   ov208_func_021BC97C 0x021BC97C thumb ov208
- *   ov208_func_021BCA54 0x021BCA54 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_AllocBlendWork 0x021BC448 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault 0x021BC610 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_FreeBgPalette 0x021BC97C thumb ov208
+ *   ZUKAN_DETAIL_COMMON_SetBgScrollPacked 0x021BCA54 thumb ov208
  *   ov208_func_021C66C8 0x021C66C8 thumb ov208
- *   ov208_func_021C53E0 0x021C53E0 thumb ov208
+ *   ZUKAN_DETAIL_FORM_DeleteIconActor 0x021C53E0 thumb ov208
  *   ov208_func_021C533C 0x021C533C thumb ov208
  *   ov208_func_021C4A48 0x021C4A48 thumb ov208
- *   ov208_func_021BDCA4 0x021BDCA4 thumb ov208
- *   ov208_func_021BC61C 0x021BC61C thumb ov208
- *   ov208_func_021BC464 0x021BC464 thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetBgPriority 0x021BDCA4 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_DeletePaletteAnim 0x021BC61C thumb ov208
+ *   ZUKAN_DETAIL_COMMON_FreeBlendWork 0x021BC464 thumb ov208
  *   ov208_func_021C4AF4 0x021C4AF4 thumb ov208
- *   ov208_func_021BC34C 0x021BC34C thumb ov208
- *   ov208_func_021BCF58  0x021BCF58  thumb  ov208
+ *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_Init3dSystem  0x021BCF58  thumb  ov208
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteRange  0x021BC9BC  thumb  ov208
  *   MCSS_CheckPaletteFade  0x0201600C  thumb
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
  *   MCSS_ResetVanishFlag  0x02015EB0  thumb
- *   ov208_func_021C51A0  0x021C51A0  thumb  ov208
- *   ov208_func_021C4FDC  0x021C4FDC  thumb  ov208
- *   ov208_func_021BCF6C  0x021BCF6C  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_DestroyModelItem  0x021C51A0  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_ExitModelSystem  0x021C4FDC  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_Delete3dSystem  0x021BCF6C  thumb  ov208
  *   MCSS_Main  0x02014C08  thumb
- *   ov208_func_021BC3CC 0x021BC3CC thumb ov208
- *   ov208_func_021BC40C 0x021BC40C thumb ov208
+ *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies 0x021BC3CC thumb ov208
+ *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies 0x021BC40C thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible 0x021BDBEC thumb ov208
- *   ov208_func_021BDC2C 0x021BDC2C thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive 0x021BDC2C thumb ov208
  *   MCSS_Draw 0x02014D2C thumb
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   data_021C8830  0x021C8830  data
@@ -217,28 +217,28 @@
  *   data_021C8810  0x021C8810  data
  *   data_021C87FC  0x021C87FC  data
  *   MCSS_SetPosition  0x02015C48  thumb
- *   func_021C7534 0x021C7534 thumb ov208
- *   func_021C4EAC  0x021C4EAC  thumb
- *   ov208_func_021C526C  0x021C526C  thumb
- *   ov208_func_021C5B00  0x021C5B00  thumb
- *   ov208_func_021C51D4  0x021C51D4  thumb
- *   ov208_func_021C7448  0x021C7448  thumb
- *   ov208_func_021C7CE8  0x021C7CE8  thumb
- *   func_021BDBEC  0x021BDBEC  thumb
- *   func_021C50F8  0x021C50F8  thumb
- *   func_021C4F30  0x021C4F30  thumb
- *   func_021C6AFC  0x021C6AFC  thumb
- *   func_021C68D4  0x021C68D4  thumb
+ *   ZUKAN_DETAIL_FORM_PlaceSideModels 0x021C7534 thumb ov208
+ *   ZUKAN_DETAIL_FORM_DrawFormLabelSub  0x021C4EAC  thumb
+ *   ZUKAN_DETAIL_FORM_ToggleModelVisibility  0x021C526C  thumb
+ *   ZUKAN_DETAIL_FORM_RebuildModelsSingle  0x021C5B00  thumb
+ *   ZUKAN_DETAIL_FORM_RestartModelAnim  0x021C51D4  thumb
+ *   ZUKAN_DETAIL_FORM_AdvanceSelection  0x021C7448  thumb
+ *   ZUKAN_DETAIL_FORM_RebuildSideItems  0x021C7CE8  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible  0x021BDBEC  thumb
+ *   ZUKAN_DETAIL_FORM_GetModelPosition  0x021C50F8  thumb
+ *   ZUKAN_DETAIL_FORM_UpdateBgScrollForState  0x021C4F30  thumb
+ *   ZUKAN_DETAIL_FORM_UpdateScrollMarkers  0x021C6AFC  thumb
+ *   ZUKAN_DETAIL_FORM_UpdateArrowVisibility  0x021C68D4  thumb
  *   data_021C87A0  0x021C87A0  data
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   ZUKAN_DETAIL_FORM_CopyModelPosition        0x021C80CC  thumb
  *   func_021C7D80        0x021C7D80  thumb
- *   func_021C5CF0        0x021C5CF0  thumb
- *   func_021C4E54        0x021C4E54  thumb
+ *   ZUKAN_DETAIL_FORM_SwapIconActor        0x021C5CF0  thumb
+ *   ZUKAN_DETAIL_FORM_DrawFormLabelMain        0x021C4E54  thumb
  *   ZUKAN_SAVE_UpdateViewFlags        0x0200CA98  thumb
  *   data_021C87C0  0x021C87C0  data
  *   data_021C8854  0x021C8854  data
- *   func_021C7FF8 0x021C7FF8  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_ConvertModelPosition 0x021C7FF8  thumb  ov208
  *   MCSS_Exit  0x02014BA8  thumb  arm9
  *   MCSS_CloseHandle  0x02014CD4  thumb  arm9
  *   MCSS_Del  0x02015BA4  thumb  arm9
@@ -310,7 +310,7 @@ extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
 extern void *ov208_func_021BC3B4(int key);
 
-extern void *ov208_func_021BC3B8(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetCursorValue(int key);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
@@ -318,11 +318,11 @@ extern u32  ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer,
 
 extern void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(u32 fade);
 
-extern void ov208_func_021BC718(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_StartFadeIn(u32 fade);
 
-extern void ov208_func_021BC4F4(int sub, u32 blend);
+extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int sub, u32 blend);
 
-extern void ov208_func_021BC6D8(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOut(u32 fade);
 
 extern u16  ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
 
@@ -330,17 +330,17 @@ extern int  ov208_func_021BC3A4(int key);
 
 extern void ov208_func_021BDC14(void *s, int b);
 
-extern int  ov208_func_021BC6C8(u32 fade);
+extern int  ZUKAN_DETAIL_COMMON_IsFadeBusy(u32 fade);
 
-extern void ov208_func_021BC6F8(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(u32 fade);
 
-extern void ov208_func_021BDAE8(void *s, int v);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(void *s, int v);
 
-extern void ov208_func_021BC99C(u32 win);
+extern void ZUKAN_DETAIL_COMMON_TickFlashEffect(u32 win);
 
 extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(u32 main, u32 sub);
 
-extern void ov208_func_021BC678(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(u32 fade);
 
 extern void ZUKAN_DETAIL_COMMON_TransferPalettes(char *p);
 
@@ -430,7 +430,6 @@ extern void BMP_Clear(struct CharBuf *p, u8 v);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *p,u32 v);
 
-extern u16 ov208_func_021BC3C0(int key);
 
 extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 
@@ -440,47 +439,47 @@ extern void CLACT_SetActorObjMode(struct Actor *p,u32 value);
 
 extern void G2x_SetBlendAlpha_(u32 reg,int p1,int p2,int ev1,int ev2);
 
-extern void *ov208_func_021BC32C(void *proc, u32 size, u32 heap);
+extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(void *proc, u32 size, u32 heap);
 
-extern void *ov208_func_021BC3A8(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetDisplay(int key);
 
-extern void *ov208_func_021BCF4C(void *a);
+extern void *ZUKAN_DETAIL_GRAPHIC_Reset3dState(void *a);
 
-extern void *ov208_func_021BC3AC(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetFont(int key);
 
 extern void *GFL_USE_AddMainTask(void (*fn)(int, char *), void *p, u32 c);
 
 extern void ov208_func_021C4AC4(u16 *heap, struct Ov208Form *p, int key);
 
-extern void *ov208_func_021BC448(u32 heap);
+extern void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
 extern void ov208_func_021BC518(void *a);
 
-extern void ov208_func_021BC508(int flag, void *a);
+extern void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, void *a);
 
-extern void *ov208_func_021BC610(u32 heap);
+extern void *ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(u32 heap);
 
-extern void ov208_func_021BC97C(u32 a);
+extern void ZUKAN_DETAIL_COMMON_FreeBgPalette(u32 a);
 
-extern void ov208_func_021BCA54(u32 a, u32 packed);
+extern void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 a, u32 packed);
 
 extern void ov208_func_021C66C8(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021C53E0(u32 res, u32 obj);
+void ZUKAN_DETAIL_FORM_DeleteIconActor(int a, int b);
 
 extern void ov208_func_021C533C(u16 *heap, struct Ov208Form *p, int key);
 
 extern void ov208_func_021C4A48(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021BDCA4(void *s, u8 v);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(void *s, u8 v);
 
-extern void ov208_func_021BC61C(u32 a);
+extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(u32 a);
 
-extern void ov208_func_021BC464(u32 a);
+extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(u32 a);
 
 extern void ov208_func_021C4AF4(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021BC34C(void *proc);
+extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(void *proc);
 
 extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
 
@@ -488,7 +487,7 @@ extern void BG_SYS_FreeSlot(u32 bgId);
 
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
-extern void ov208_func_021BCF58(void *s, int x);
+extern void ZUKAN_DETAIL_GRAPHIC_Init3dSystem(void *s, int x);
 
 extern void MCSS_SetVanishFlag(void *p);
 
@@ -523,21 +522,21 @@ extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
 extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *icon);
 
-extern void ov208_func_021C51A0(struct Ov208Mdl *mdl, u32 sys);
+void ZUKAN_DETAIL_FORM_DestroyModelItem(struct Ov208Mdl *p, int a);
 
-extern void ov208_func_021C4FDC(u16 *heap, struct Ov208Form *p, int key);
+extern void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021BCF6C(void *s);
+extern void ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(void *s);
 
 extern void MCSS_Main(char *self);
 
-extern void ov208_func_021BC3CC(int key);
+extern void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(int key);
 
-extern void ov208_func_021BC40C(int key);
+extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(int key);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(void *sys, int v);
 
-extern int ov208_func_021BDC2C(void *sys);
+extern int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(void *sys);
 
 extern void MCSS_Draw(struct McssSys *sys);
 
@@ -634,11 +633,11 @@ int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key)
 {
     struct Ov208Form *p;
     u8 i;
-    p = ov208_func_021BC32C(proc, 0x6e4, *heap);
+    p = ZUKAN_DETAIL_PROCSYS_AllocBuffer(proc, 0x6e4, *heap);
     i = 0;
     MI_CpuFill8(p, 0, 0x6e4);
-    PW(0) = ov208_func_021BCF4C(ov208_func_021BC3A8(key));
-    PW(4) = ov208_func_021BC3AC(key);
+    PW(0) = ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(key));
+    PW(4) = ZUKAN_DETAIL_COMMON_GetFont(key);
     for (i = 0; i < 4; i++) {
         *(u32 *)((u8 *)p + i * 0x44 + 0xc) = 0;
         *(u32 *)((u8 *)p + i * 0x44 + 0x10) = 0;
@@ -649,13 +648,13 @@ int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key)
     W(0x124) = 1;
     PW(0x6a0) = GFL_USE_AddMainTask(ZUKAN_DETAIL_FORM_ApplyPendingDisplay, p, 1);
     ov208_func_021C4AC4(heap, p, key);
-    PW(0x6a4) = ov208_func_021BC448(*heap);
-    PW(0x6a8) = ov208_func_021BC448(*heap);
+    PW(0x6a4) = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heap);
+    PW(0x6a8) = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heap);
     ov208_func_021BC518(PW(0x6a4));
     ov208_func_021BC518(PW(0x6a8));
-    ov208_func_021BC508(0, PW(0x6a4));
-    ov208_func_021BC508(1, PW(0x6a8));
-    PW(0x6ac) = ov208_func_021BC610(*heap);
+    ZUKAN_DETAIL_COMMON_SetBrightnessNone(0, PW(0x6a4));
+    ZUKAN_DETAIL_COMMON_SetBrightnessNone(1, PW(0x6a8));
+    PW(0x6ac) = ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(*heap);
     W(0x6b0) = 0;
     W(0x6b4) = 1;
     W(0x6b8) = 0;
@@ -671,24 +670,24 @@ int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     void *sys;
     u8 i;
     sys = ov208_func_021BC3B4(key);
-    ov208_func_021BC97C(p->w5bc);
-    ov208_func_021BC97C(p->w5b8);
-    ov208_func_021BCA54(7, p->w5b4);
+    ZUKAN_DETAIL_COMMON_FreeBgPalette(p->w5bc);
+    ZUKAN_DETAIL_COMMON_FreeBgPalette(p->w5b8);
+    ZUKAN_DETAIL_COMMON_SetBgScrollPacked(7, p->w5b4);
     ov208_func_021C66C8(heap, p, key);
     for (i = 0; i < 2; i++) {
         if (((struct Ov208Form *)p)->obj[i] != 0)
-            ov208_func_021C53E0(((struct Ov208Form *)p)->res[i], ((struct Ov208Form *)p)->obj[i]);
+            ZUKAN_DETAIL_FORM_DeleteIconActor((int)(((struct Ov208Form *)p)->res[i]), (int)(((struct Ov208Form *)p)->obj[i]));
         ((struct Ov208Form *)p)->obj[i] = 0;
     }
     ov208_func_021C533C(heap, p, key);
     ov208_func_021C4A48(heap, p, key);
-    ov208_func_021BDCA4(sys, 0);
-    ov208_func_021BC61C(p->w6ac);
-    ov208_func_021BC464(p->w6a8);
-    ov208_func_021BC464(p->w6a4);
+    ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(sys, 0);
+    ZUKAN_DETAIL_COMMON_DeletePaletteAnim(p->w6ac);
+    ZUKAN_DETAIL_COMMON_FreeBlendWork(p->w6a8);
+    ZUKAN_DETAIL_COMMON_FreeBlendWork(p->w6a4);
     ov208_func_021C4AF4(heap, p, key);
     TCB_DeleteTask((struct Node *)p->w6a0);
-    ov208_func_021BC34C(proc);
+    ZUKAN_DETAIL_PROCSYS_FreeBuffer(proc);
     return 1;
 }
 
@@ -703,9 +702,9 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     int ready;
     int idle;
 
-    res = ov208_func_021BC3A8(key);
+    res = ZUKAN_DETAIL_COMMON_GetDisplay(key);
     scene = ov208_func_021BC3B4(key);
-    icon = ov208_func_021BC3B8(key);
+    icon = ZUKAN_DETAIL_COMMON_GetCursorValue(key);
     switch (*seq) {
     case 0:
         *seq = 1;
@@ -722,9 +721,9 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
         BG_SYS_SetVisibleLayer(6, 1);
         BG_SYS_SetVisibleLayer(4, 3);
         BG_SYS_SetVisibleLayer(7, 2);
-        ov208_func_021BDCA4(scene, 2);
+        ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(scene, 2);
         GX_SetGraphicsMode(1, 0, 1);
-        ov208_func_021BCF58(res, *heap);
+        ZUKAN_DETAIL_GRAPHIC_Init3dSystem(res, *heap);
         ZUKAN_DETAIL_FORM_InitModelSystem(heap, p, key);
         ZUKAN_DETAIL_FORM_CreateTextWindows((u16 *)heap, (struct Ov208Form *)p, key);
         ZUKAN_DETAIL_FORM_CreateArrowActors(heap, p, key);
@@ -742,12 +741,12 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
         W(0x5b8) = ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heap, 3, 3, 1, 2);
         W(0x5bc) = ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heap, 3, 4, 2, 3);
         ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(W(0x6ac));
-        ov208_func_021BC718(W(0x6ac));
+        ZUKAN_DETAIL_COMMON_StartFadeIn(W(0x6ac));
         break;
     case 1:
         *seq = 2;
-        ov208_func_021BC4F4(0, W(0x6a4));
-        ov208_func_021BC4F4(1, W(0x6a8));
+        ZUKAN_DETAIL_COMMON_SetBrightnessFull(0, W(0x6a4));
+        ZUKAN_DETAIL_COMMON_SetBrightnessFull(1, W(0x6a8));
         ZUKAN_DETAIL_FORM_SetActorsNormalMode(heap, p, key);
         break;
     case 2:
@@ -761,7 +760,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
             done = 0;
         if (done) {
             *seq = 4;
-            ov208_func_021BC6D8(W(0x6ac));
+            ZUKAN_DETAIL_COMMON_StartFadeOut(W(0x6ac));
             if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
                 ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)key) > 1);
                 ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
@@ -788,7 +787,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
             done = 0;
         if (W(0x94) != 0 && MCSS_CheckPaletteFade((void *)W(0x94)) != 0)
             done = 0;
-        if (ov208_func_021BC6C8(W(0x6ac)) == 0 && ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 2
+        if (ZUKAN_DETAIL_COMMON_IsFadeBusy(W(0x6ac)) == 0 && ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 2
             && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 2 && done) {
             ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scene);
             ov208_func_021BDC48(scene, 1);
@@ -816,10 +815,10 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
         }
         if (settled) {
             *seq = 7;
-            ov208_func_021BC6F8(W(0x6ac));
+            ZUKAN_DETAIL_COMMON_StartFadeOutAlt(W(0x6ac));
             ZUKAN_DETAIL_HEADBAR_SetIconForm(icon);
             if (W(0x6b0) == 2)
-                ov208_func_021BDAE8(scene, 0);
+                ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scene, 0);
             for (i = 0; i < 4; i++) {
                 if (OBJ(i) != 0)
                     MCSS_SetPaletteFade((struct McssFade *)OBJ(i), 0, 16, -2, 0);
@@ -835,7 +834,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
                 break;
             }
         }
-        if (ov208_func_021BC6C8(W(0x6ac)) == 0 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 0 && idle) {
+        if (ZUKAN_DETAIL_COMMON_IsFadeBusy(W(0x6ac)) == 0 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 0 && idle) {
             if (W(0x6b0) == 2) {
                 if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 0)
                     ready = 1;
@@ -849,14 +848,14 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
     case 8:
         *seq = 9;
         ZUKAN_DETAIL_FORM_SetActorsAlphaMode(heap, p, key);
-        ov208_func_021BC508(0, PW(0x6a4));
-        ov208_func_021BC508(1, PW(0x6a8));
+        ZUKAN_DETAIL_COMMON_SetBrightnessNone(0, PW(0x6a4));
+        ZUKAN_DETAIL_COMMON_SetBrightnessNone(1, PW(0x6a8));
         break;
     case 9:
         for (i = 0; i < 4; i++)
-            ov208_func_021C51A0(&p->item[i], W(8));
-        ov208_func_021C4FDC(heap, p, key);
-        ov208_func_021BCF6C(res);
+            ZUKAN_DETAIL_FORM_DestroyModelItem((struct Ov208Mdl *)(&p->item[i]), (int)(W(8)));
+        ZUKAN_DETAIL_FORM_ExitModelSystem((u16 *)(heap), (struct Ov208Form *)(p), (int)(key));
+        ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(res);
         GX_SetGraphicsMode(1, 0, 0);
         return 1;
     }
@@ -872,11 +871,11 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
         ZUKAN_DETAIL_FORM_UpdateScrollInput(heap, p, key);
         ZUKAN_DETAIL_FORM_UpdateSlideRight(heap, p, key);
         ZUKAN_DETAIL_FORM_UpdateSlideBoth(heap, p, key);
-        ov208_func_021BC99C(W(0x5b8));
-        ov208_func_021BC99C(W(0x5bc));
+        ZUKAN_DETAIL_COMMON_TickFlashEffect(W(0x5b8));
+        ZUKAN_DETAIL_COMMON_TickFlashEffect(W(0x5bc));
     }
     ZUKAN_DETAIL_COMMON_UpdateBlendFades(W(0x6a4), W(0x6a8));
-    ov208_func_021BC678(W(0x6ac));
+    ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(W(0x6ac));
     ZUKAN_DETAIL_FORM_UpdatePrintQueues(heap, (struct Ov208Form *)p, key);
     return 0;
 }
@@ -917,20 +916,20 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
     case 0xc:
     case 0x1e:
         if (W(0x6b8) == 0) {
-            id = ov208_func_021BC3C0(key);
-            ov208_func_021BC3CC(key);
-            if (id != ov208_func_021BC3C0(key))
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
+            ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(key);
+            if (id != ZUKAN_DETAIL_COMMON_GetCurrentEntry(key))
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
         } else if (W(0x6b8) == 4) {
-            id = ov208_func_021BC3C0(key);
-            ov208_func_021BC3CC(key);
-            cur = ov208_func_021BC3C0(key);
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
+            ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(key);
+            cur = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             while (id != cur) {
                 ZUKAN_DETAIL_FORM_BuildFormEntries(heap, key, bufA, &sA.count, &sA.groups, &sA.twos, &sA.sel, &sA.next);
                 if (sA.count >= 2)
                     break;
-                ov208_func_021BC3CC(key);
-                cur = ov208_func_021BC3C0(key);
+                ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(key);
+                cur = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             }
             if (id != cur) {
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
@@ -944,20 +943,20 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
     case 0xd:
     case 0x1f:
         if (W(0x6b8) == 0) {
-            id = ov208_func_021BC3C0(key);
-            ov208_func_021BC40C(key);
-            if (id != ov208_func_021BC3C0(key))
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
+            ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(key);
+            if (id != ZUKAN_DETAIL_COMMON_GetCurrentEntry(key))
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
         } else if (W(0x6b8) == 4) {
-            id = ov208_func_021BC3C0(key);
-            ov208_func_021BC40C(key);
-            id2 = ov208_func_021BC3C0(key);
+            id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
+            ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(key);
+            id2 = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             while (id != id2) {
                 ZUKAN_DETAIL_FORM_BuildFormEntries(heap, key, bufB, &sB.count, &sB.groups, &sB.twos, &sB.sel, &sB.next);
                 if (sB.count >= 2)
                     break;
-                ov208_func_021BC40C(key);
-                id2 = ov208_func_021BC3C0(key);
+                ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(key);
+                id2 = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
             }
             if (id != id2) {
                 ZUKAN_DETAIL_FORM_RebuildModels(heap, p, key);
@@ -1033,7 +1032,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ov208_func_021BC3A4(key), 0x14, ov208_func_021BDC2C(sys));
+        GAME_DATA_SetSaveFlag((void *)ov208_func_021BC3A4(key), 0x14, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(sys));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 22:
@@ -1241,7 +1240,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key
         PRINTSYS_QUE_Clear((struct PrintSys *)p->print[i]);
         BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)p->win[i]), 0);
     }
-    species = ov208_func_021BC3C0(key);
+    species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     bmp = BMP_WIN_GetBmp((struct Descriptor *)p->win[0]);
     text = MSGDATA_AllocString(gSpeciesNameBank, species);
     width = GF_FONT_MeasureWidestLine(text, p->font, 0);
@@ -1507,19 +1506,12 @@ extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
 
 extern void MCSS_SetPosition(void *p, u32 *src);
 
-extern void func_021C7534(u16 *heap, struct Ov208Form *p, int key);
 
-extern void func_021C4EAC(void *a0, struct Ov208Form *p, int key);
 
-extern void ov208_func_021C526C(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021C5B00(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021C51D4(struct Ov208Mdl *m);
 
-extern void ov208_func_021C7448(u16 *heap, struct Ov208Form *p, int key);
 
-extern void ov208_func_021C7CE8(u16 *heap, struct Ov208Form *p, int key);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
@@ -1529,19 +1521,13 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(void *s, int v);
 
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 
-extern void func_021BDBEC(void *s, int v);
 
-extern void func_021BE82C(void *icon, int kind);
 
-extern void func_021C50F8(u32 obj, Vec *out);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 
-extern void func_021C4F30(u16 *a0, struct Ov208Form *p, int ctx);
 
-extern void func_021C6AFC(u16 *a0, struct Ov208Form *p, int ctx);
 
-extern void func_021C68D4(u16 *a0, struct Ov208Form *p, int ctx);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -1551,13 +1537,10 @@ extern void ZUKAN_DETAIL_FORM_CopyModelPosition(struct Ov208Mdl *u, int k, VecF 
 
 extern void func_021C7D80(u16 *a0, struct Ov208Form *p, int ctx);
 
-extern void func_021C5CF0(u16 *a0, struct Ov208Form *p, int ctx);
 
-extern void func_021C4E54(u16 *a0, struct Ov208Form *p, int ctx);
 
 extern void ZUKAN_SAVE_UpdateViewFlags(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
 
-extern void func_021C7FF8(int, int, int);
 
 void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, int key);
 
@@ -2135,7 +2118,7 @@ skip:
     MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
     if (p->state == 0) {
         p->w6c8 = 1;
-        func_021C7534(heap, p, key);
+        ZUKAN_DETAIL_FORM_PlaceSideModels(heap, p, key);
     }
 }
 
@@ -2188,7 +2171,7 @@ skip:
     MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
     if (p->state == 0) {
         p->w6c8 = 1;
-        func_021C7534(heap, p, key);
+        ZUKAN_DETAIL_FORM_PlaceSideModels(heap, p, key);
     }
 }
 
@@ -2206,7 +2189,7 @@ void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, struct Ov208Form *p, int key)
         ZUKAN_DETAIL_FORM_InitAnimState(p->item[2].state, 2, p);
     if (b != 4)
         ZUKAN_DETAIL_FORM_InitAnimState(p->item[3].state, 3, p);
-    func_021C4EAC(a0, p, key);
+    ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, key);
     ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, key);
 }
 
@@ -2242,21 +2225,21 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
         if (r != 5) {
             switch (r) {
             case 0:
-                ov208_func_021C526C(heap, p, key);
+                ZUKAN_DETAIL_FORM_ToggleModelVisibility(heap, p, key);
                 return;
             case 1:
-                ov208_func_021C5B00(heap, p, key);
+                ZUKAN_DETAIL_FORM_RebuildModelsSingle(heap, p, key);
                 for (i = 0; i < 4; i++)
-                    ov208_func_021C51D4(&p->item[i]);
+                    ZUKAN_DETAIL_FORM_RestartModelAnim(&p->item[i]);
                 return;
             case 2:
                 p->w6c8 = 1;
-                ov208_func_021C7448(heap, p, key);
+                ZUKAN_DETAIL_FORM_AdvanceSelection(heap, p, key);
                 ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 1);
                 return;
             case 3:
                 p->w6c8 = 0;
-                ov208_func_021C7448(heap, p, key);
+                ZUKAN_DETAIL_FORM_AdvanceSelection(heap, p, key);
                 ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 1);
                 return;
             }
@@ -2271,7 +2254,7 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
             }
             if (ok != 0 && p->count >= 2) {
                 if ((p->w124 != 0 && p->item[2].obj == 0) || (p->w124 == 0 && p->item[3].obj == 0)) {
-                    ov208_func_021C7CE8(heap, p, key);
+                    ZUKAN_DETAIL_FORM_RebuildSideItems(heap, p, key);
                     p->w6c8 = 1;
                     ZUKAN_DETAIL_FORM_PlaceSideModels(heap, p, key);
                 }
@@ -2290,12 +2273,12 @@ void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, struct Ov208Form *p, int key)
         if (r != 5) {
             switch (r) {
             case 0:
-                ov208_func_021C526C(heap, p, key);
+                ZUKAN_DETAIL_FORM_ToggleModelVisibility(heap, p, key);
                 return;
             case 1:
-                ov208_func_021C5B00(heap, p, key);
+                ZUKAN_DETAIL_FORM_RebuildModelsSingle(heap, p, key);
                 for (i = 0; i < 4; i++)
-                    ov208_func_021C51D4(&p->item[i]);
+                    ZUKAN_DETAIL_FORM_RestartModelAnim(&p->item[i]);
                 break;
             default:
                 return;
@@ -2315,7 +2298,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
     Vec v2;
 
     scene = ov208_func_021BC3B4(ctx);
-    icon = ov208_func_021BC3B8(ctx);
+    icon = ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
     flag = 0;
     switch (p->state) {
     case 0:
@@ -2332,7 +2315,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
             p->w6d0 = 0;
             if (p->count >= 2) {
                 p->w6c8 = 1;
-                func_021C7534(a0, p, ctx);
+                ZUKAN_DETAIL_FORM_PlaceSideModels(a0, p, ctx);
             }
             break;
         }
@@ -2368,10 +2351,10 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
             }
             func_021BDAAC(scene, 2, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
             if (p->count >= 3)
-                func_021BDBEC(scene, 1);
+                ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(scene, 1);
             else
-                func_021BDBEC(scene, 0);
-            func_021BE82C(icon, 4);
+                ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(scene, 0);
+            ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 4);
         }
         break;
     case 4:
@@ -2414,7 +2397,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
                     MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v2));
                 }
                 idx = p->w124 != 0 ? SIDE_0 : SIDE_1;
-                func_021C50F8(p->item[idx].obj, &v2);
+                ZUKAN_DETAIL_FORM_GetModelPosition(p->item[idx].obj, &v2);
                 if (p->item[2].obj != 0) {
                     ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[2], 2, (int)(&v2));
                     MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v2));
@@ -2426,21 +2409,21 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *a0, struct Ov208Form *p, int ctx, i
             }
             func_021BDAAC(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)ctx) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(ctx), 0x14));
-            func_021BE82C(icon, 3);
+            ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
             if (p->count >= 2) {
                 p->w6c8 = 1;
-                func_021C7534(a0, p, ctx);
+                ZUKAN_DETAIL_FORM_PlaceSideModels(a0, p, ctx);
             }
         }
         break;
     }
     p->state = ev;
     if (flag) {
-        func_021C4F30(a0, p, ctx);
-        func_021C4EAC(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_UpdateBgScrollForState(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, ctx);
         ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
-        func_021C6AFC(a0, p, ctx);
-        func_021C68D4(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_UpdateScrollMarkers(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_UpdateArrowVisibility(a0, p, ctx);
         p->w694 = 5;
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
     }
@@ -2964,7 +2947,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, int ctx)
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&u));
                 }
                 idx = p->w124 != 0 ? 2 : 3;
-                func_021C50F8(p->item[idx].obj, &u);
+                ZUKAN_DETAIL_FORM_GetModelPosition(p->item[idx].obj, &u);
                 if (p->item[0].obj != 0) {
                     ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[0], 2, (int)(&u));
                     MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&u));
@@ -2974,11 +2957,11 @@ void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *a0, struct Ov208Form *p, int ctx)
                     MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&u));
                 }
                 func_021C7D80(a0, p, ctx);
-                func_021C5CF0(a0, p, ctx);
-                func_021C4E54(a0, p, ctx);
-                func_021C4EAC(a0, p, ctx);
+                ZUKAN_DETAIL_FORM_SwapIconActor(a0, p, ctx);
+                ZUKAN_DETAIL_FORM_DrawFormLabelMain(a0, p, ctx);
+                ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, ctx);
                 ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
-                id = ov208_func_021BC3C0(ctx);
+                id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
                 obj = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(ctx));
                 f = p->ents[p->sel].gender;
                 sh = p->ents[p->sel].shiny != 0 ? 1 : 0;
@@ -3059,7 +3042,7 @@ void ZUKAN_DETAIL_FORM_AdvanceSelection(u16 *a0, struct Ov208Form *p, int key)
         if (a != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[2].state, 2, p);
         if (b != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[3].state, 3, p);
     }
-    func_021C7534(a0, p, key);
+    ZUKAN_DETAIL_FORM_PlaceSideModels(a0, p, key);
 }
 
 void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *unused, struct Ov208Form *p, int unused2)
@@ -3153,11 +3136,11 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx)
         func_021C7D80(a0, p, ctx);
         ZUKAN_DETAIL_FORM_SignalAnimDone((int *)&p->item[2]);
         ZUKAN_DETAIL_FORM_SignalAnimDone((int *)&p->item[3]);
-        func_021C5CF0(a0, p, ctx);
-        func_021C4E54(a0, p, ctx);
-        func_021C4EAC(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_SwapIconActor(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_DrawFormLabelMain(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_DrawFormLabelSub(a0, p, ctx);
         ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
-        id = ov208_func_021BC3C0(ctx);
+        id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
         obj = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(ctx));
         f = p->ents[p->sel].gender;
         if (p->ents[p->sel].shiny != 0)
@@ -3172,7 +3155,7 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *a0, struct Ov208Form *p, int ctx)
             MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&w));
         }
         p->w6c8 = 1;
-        ov208_func_021C7448(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_AdvanceSelection(a0, p, ctx);
         p->w6c4 = 0;
     }
 }
@@ -3464,7 +3447,7 @@ void ZUKAN_DETAIL_FORM_SelectModelPosition(int a, int b, int c)
         m = 4;
         break;
     }
-    func_021C7FF8(a, m, c);
+    ZUKAN_DETAIL_FORM_ConvertModelPosition((struct Ov208Mdl *)(a), (int)(m), (Vec *)(c));
 }
 
 void ZUKAN_DETAIL_FORM_CopyModelPosition(struct Ov208Mdl *m, int index, VecF *dst)

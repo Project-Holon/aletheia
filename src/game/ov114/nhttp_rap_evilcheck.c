@@ -24,6 +24,10 @@
  *   OS_InitMutex  0x02086004  arm  arm9
  *   WORDSET_CopyString  0x0201F41C  thumb  arm9
  *   GFL_HEAP_Alloc  0x02030734  arm  arm9
+ *   MYSTATUS_GetName  0x020084F4  thumb  arm9
+ *   MYSTATUS_GetId  0x02008530  thumb  arm9
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
+ *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
  */
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
@@ -40,13 +44,13 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u8 func_0200856C(const struct MYSTATUS *mystatus_p);
+extern u8 MYSTATUS_GetLanguage(const struct MYSTATUS *mystatus_p);
 
-extern u8 func_02008570(const struct MYSTATUS *mystatus_p);
+extern u8 MYSTATUS_GetVersion(const struct MYSTATUS *mystatus_p);
 
-extern u32 func_02008530(const struct MYSTATUS *mystatus_p);
+extern u32 MYSTATUS_GetId(const struct MYSTATUS *mystatus_p);
 
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
@@ -106,10 +110,10 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
     MI_CpuFill8(info_p, 0, 0x64);
     info_p->packetType = 0x15;
     info_p->version = 2;
-    info_p->language = func_0200856C(mystatus_p);
-    info_p->romVersion = func_02008570(mystatus_p);
-    info_p->trainerId = func_02008530(mystatus_p);
-    WORDSET_CopyString(func_020084F4(mystatus_p), info_p->name, 8);
+    info_p->language = MYSTATUS_GetLanguage(mystatus_p);
+    info_p->romVersion = MYSTATUS_GetVersion(mystatus_p);
+    info_p->trainerId = MYSTATUS_GetId(mystatus_p);
+    WORDSET_CopyString(MYSTATUS_GetName(mystatus_p), info_p->name, 8);
     info_p->reserved18 = 0;
     info_p->reserved24 = 0;
     info_p->reserved5c = 0;

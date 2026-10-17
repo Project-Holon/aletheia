@@ -35,12 +35,12 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_02007A18  0x02007A18  thumb
+ *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   UI_GetInputMode 0x020355C4 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetFlagField06 0x02041B6C arm
@@ -70,7 +70,7 @@
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb ov119
  *   POKETRADE_PROC_GetSlotIndexInBox 0x021D8B0C thumb ov119
  *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
@@ -87,7 +87,7 @@
  *   gClactConfigMain     0x021E7CE4  data  ov119
  *   gClactInitData     0x021E7D40  data  ov119
  *   gClactConfigSub     0x021E7CC8  data  ov119  a4
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -107,7 +107,7 @@
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   gBoxIconAllocTag 0x021E8530 data a4
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_Init 0x02040C14 arm
@@ -207,7 +207,7 @@
  *   GXS_LoadBGPltt 0x0207E468 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
  *   GX_LoadBGPltt 0x0207E3D0 arm
- *   func_020056BC  0x020056BC  thumb
+ *   GFL_USE_GetMainTaskList  0x020056BC  thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   FX_Div   0x0207C768  arm
  *   _fflt          0x0209BDBC  arm
@@ -327,7 +327,7 @@ typedef s64 fx64;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u8 UI_GetInputMode(void);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
@@ -339,8 +339,8 @@ extern int POKE_TOOL_GetIconCellEntryId(void);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_02045CAC(struct MsgBank *,unsigned,void *);
+extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern int POKETRADE_PROC_GetBoxIndexForSlot(int,char *);
@@ -372,7 +372,7 @@ extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void *POKE_TOOL_Dummy(void *);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
@@ -403,7 +403,7 @@ extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorDrawPriority(int, u8);
 extern unsigned int POKE_TOOL_GetGraphicIndex(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void BG_SYS_InitBgLayer(u32,const BgTemplate *,u32);
 extern void BG_SYS_Init(u32,u32,u32,u32);
 extern void BG_SYS_PushTile(u32);
@@ -476,7 +476,7 @@ extern void GXS_LoadOBJPltt(void *,u32,u32);
 extern void GXS_LoadBGPltt(void *,u32,u32);
 extern void GX_LoadOBJPltt(void *,u32,u32);
 extern void GX_LoadBGPltt(void *,u32,u32);
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 extern void TCB_AddTask(u32, void (*)(void), int, int);
 extern void TCB_DeleteTask(struct Node *n);
 extern u32 FX_Div(u32 a, u32 b);
@@ -644,7 +644,7 @@ void POKETRADE_2D_BuildBoxMarkingTable(char *p, int box, unsigned char *out)
     unsigned char i;
 
     for (i = 0; i < 30; i++)
-        out[i] = POKETRADE_2D_GetMonMarkingIcon(func_02007A18((*(void * *)&((TradeWork *)p)->boxManager), box, i), ((TradeWork *)p)->heapId);
+        out[i] = POKETRADE_2D_GetMonMarkingIcon(BOX_SAVEDATA_GetPokemon((*(void * *)&((TradeWork *)p)->boxManager), box, i), ((TradeWork *)p)->heapId);
 }
 
 
@@ -711,10 +711,10 @@ void POKETRADE_2D_LoadBackgroundGfx(char *p)
     kind = 4;
     if (mode == 0)
         kind = 11;
-    func_02049B68(v, 9, 0, 0, 0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(v, 9, 0, 0, 0, ((TradeWork *)p)->heapId);
     if (((TradeWork *)p)->subBgHandle == 0)
         ((TradeWork *)p)->subBgHandle = ARC_UTIL_RegisterObjCharFromHandle(v, 10, 2, 0, 0, ((TradeWork *)p)->heapId);
-    func_02049990(v, kind, (int)2, (int)0, (unsigned short)((*(unsigned int *)&((TradeWork *)p)->subBgHandle)), (int)0, (int)0, (unsigned int)(((TradeWork *)p)->heapId));
+    ARC_UTIL_UploadBgPaletteAddFromHandle(v, kind, (int)2, (int)0, (unsigned short)((*(unsigned int *)&((TradeWork *)p)->subBgHandle)), (int)0, (int)0, (unsigned int)(((TradeWork *)p)->heapId));
     ARC_TOOL_DeleteHandle(v);
 }
 
@@ -734,7 +734,7 @@ void POKETRADE_2D_LoadSubBackgroundGfx(char *p)
 {
     void *v;
     v = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
-    func_02049990(v, 12, (int)4, (int)0, (unsigned short)(((TradeWork *)p)->mainBgHandle), (int)0, (int)0, (unsigned int)(((TradeWork *)p)->heapId));
+    ARC_UTIL_UploadBgPaletteAddFromHandle(v, 12, (int)4, (int)0, (unsigned short)(((TradeWork *)p)->mainBgHandle), (int)0, (int)0, (unsigned int)(((TradeWork *)p)->heapId));
     ARC_TOOL_DeleteHandle(v);
 }
 
@@ -752,7 +752,7 @@ void POKETRADE_2D_LoadMainGfxAndMessageWindow(char *p)
     void *v;
 
     v = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
-    func_02049B68(v, 0x11, 4, 0, 0xC0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(v, 0x11, 4, 0, 0xC0, ((TradeWork *)p)->heapId);
     (*(void * *)&((TradeWork *)p)->boxBgHandle) = (void *)ARC_UTIL_RegisterObjCharFromHandle(v, 0xD, 7, 0, 0, ((TradeWork *)p)->heapId);
     (*(void * *)&((TradeWork *)p)->mainBgHandle) = (void *)ARC_UTIL_RegisterObjCharFromHandle(v, 0xD, 5, 0, 0, ((TradeWork *)p)->heapId);
     ARC_TOOL_DeleteHandle(v);
@@ -804,7 +804,7 @@ void POKETRADE_2D_LoadSummaryBackground(char *p, int a1, int a2)
     Tbl2 tbl = gSummaryBgTable;
     void *v;
     v = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
-    func_02049990(v, tbl.w[a2], 4, 0, (unsigned short)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(v, tbl.w[a2], 4, 0, (unsigned short)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
     if (a1 != 0) {
         BG_SYS_FillScrollArea(4, 0, 0x80);
     } else {
@@ -966,7 +966,7 @@ void POKETRADE_2D_CreateBoxWindows(char *p)
             if (*(u32 *)(q+h) == 0)
                 *(u32 *)(q+off1) = BMP_WIN_Create(5,0,0,15,2,14,0);
             if (i == *(int *)(p+off))
-                func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank),16,*(void **)(p+off2));
+                MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank),16,*(void **)(p+off2));
             else BOX_SAVEDATA_GetBoxName((*(void * *)&((TradeWork *)p)->boxManager),i,*(void **)(p+off3));
             GF_FONT_SetTextColor(15,2,zero);
             BMP_Clear(BMP_WIN_GetBmp(*(void **)(q+a)),zero);
@@ -1439,7 +1439,7 @@ body:
             x = (int)POKETRADE_PROC_LoadSlotMonAlt((void *)(((TradeWork *)p)->boxManager), b, i, p);
             if (x) x = POKE_TOOL_GetGraphicIndex((void *)x);
             else x = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
-            t = (int)func_02049DF4(a, x, 0, (u32)(&out), ((TradeWork *)p)->heapId);
+            t = (int)ARC_UTIL_LoadBgCharDataFromHandle(a, x, 0, (u32)(&out), ((TradeWork *)p)->heapId);
             MI_CpuCopy8(((struct GfxLoadResult *)out)->data, (void *)(*(int *)&((TradeWork *)p)->vramBuf + n * 512), 512);
             n++;
             GFL_HEAP_Free((void *)t);
@@ -1526,13 +1526,13 @@ void POKETRADE_2D_SetupSummaryBgs(char *p,int mode)
  b=gSummaryBgTemplate7;BG_SYS_InitBgLayer(7,&b,2);
  if(mode==0) {
   v=ARC_TOOL_CreateHandle(0x67,((TradeWork *)p)->heapId);
-  func_02049B68(v,5,6,0x6000,0,((TradeWork *)p)->heapId);
+  ARC_UTIL_UploadPaletteFromHandleWhole(v,5,6,0x6000,0,((TradeWork *)p)->heapId);
   ARC_UTIL_UploadBgCharFromHandle((void *)((u32)v),4,7,0,0,0,((TradeWork *)p)->heapId);
   ARC_UTIL_UploadBgPaletteFromHandle((void *)((u32)v),6,7,0,0,0,((TradeWork *)p)->heapId);
   BG_SYS_FillScrollArea(7,0,0);ARC_TOOL_DeleteHandle(v);
  } else {
   v=ARC_TOOL_CreateHandle(0x68,((TradeWork *)p)->heapId);
-  func_02049B68(v,1,6,0x6000,0,((TradeWork *)p)->heapId);
+  ARC_UTIL_UploadPaletteFromHandleWhole(v,1,6,0x6000,0,((TradeWork *)p)->heapId);
   ARC_UTIL_UploadBgCharFromHandle((void *)((u32)v),0,7,0,0,0,((TradeWork *)p)->heapId);
   ARC_UTIL_UploadBgPaletteFromHandle((void *)((u32)v),2,7,0,0,0,((TradeWork *)p)->heapId);
   BG_SYS_FillScrollArea(7,0,0);ARC_TOOL_DeleteHandle(v);
@@ -1741,7 +1741,7 @@ void POKETRADE_2D_RegisterIconSpriteResources(int p)
 void POKETRADE_2D_LoadMainPalette(int p)
 {
     void *a = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
-    func_02049990(a, (int)0x1d, (int)2, (int)0, (u16)(((TradeWork *)p)->subBgHandle), (int)0, (int)0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(a, (int)0x1d, (int)2, (int)0, (u16)(((TradeWork *)p)->subBgHandle), (int)0, (int)0, ((TradeWork *)p)->heapId);
     ARC_TOOL_DeleteHandle(a);
 }
 
@@ -1873,7 +1873,7 @@ void POKETRADE_2D_LoadSubScreenGfx(char *p)
     BG_SYS_SetPlaneVisible(4, 0);
     BG_SYS_SetPlaneVisible(6, 0);
     h = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
-    func_02049990(h, 16, 4, 0, (u16)(*(int *)&((TradeWork *)p)->mainBgHandle), 0, 0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 16, 4, 0, (u16)(*(int *)&((TradeWork *)p)->mainBgHandle), 0, 0, ((TradeWork *)p)->heapId);
     BG_SYS_SetFlagField06(4);
     BG_SYS_FillScrollArea(4, 0, -4);
     BG_SYS_FillScrollArea(6, 0, -4);
@@ -1881,7 +1881,7 @@ void POKETRADE_2D_LoadSubScreenGfx(char *p)
     GF_FONT_SetTextColor(1, 2, 15);
     for (i = 0; i < 26; i++) {
         *(void **)(p + i * 4 + 0x750) = (void *)BMP_WIN_Create(6, (u8)gSubScreenWindowPos[i].x, (u8)gSubScreenWindowPos[i].y, 2, 2, 14, 0);
-        func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank), i + 0x35, (void *)(((TradeWork *)p)->infoTextOut));
+        MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank), i + 0x35, (void *)(((TradeWork *)p)->infoTextOut));
         PRINTSYS_Print(BMP_WIN_GetBmp(*(void **)(p + i * 4 + 0x750)), 0, 0, (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
         BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0x750));
         BMP_WIN_TransferChars(*(void **)(p + i * 4 + 0x750));
@@ -2527,16 +2527,16 @@ void POKETRADE_2D_SetupCursorBg(char *p)
     (*(void * *)&((TradeWork *)p)->fontBgHandle) = BMP_MENUWORK_LoadFrameGfx((void *)6, 15, 0, ((TradeWork *)p)->heapId);
     h = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->mainBgHandle = ARC_UTIL_RegisterObjCharFromHandle(h, 13, 5, 0, 0, ((TradeWork *)p)->heapId);
-    func_02049990(h, 7, 4, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
-    func_02049990(h, 7, 5, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 7, 4, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 7, 5, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
     t = gCursorBgTemplate;
     BG_SYS_FreeLayerBuf(7);
     BG_SYS_InitBgLayer(7, &t, 0);
-    func_02049990(h, 8, 7, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 8, 7, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
     BG_SYS_FillScrollArea(4, 0, -0x80);
     BG_SYS_FillScrollArea(7, 0, 0);
     BG_SYS_SetVisibleLayer(4, 3);
-    func_02049990(h, 11, 2, 0, (u16)(*(unsigned int *)&((TradeWork *)p)->subBgHandle), 0, 0, ((TradeWork *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 11, 2, 0, (u16)(*(unsigned int *)&((TradeWork *)p)->subBgHandle), 0, 0, ((TradeWork *)p)->heapId);
     ARC_TOOL_DeleteHandle(h);
     (*(unsigned short *)&((TradeWork *)p)->fadeLevel) = 0;
     POKETRADE_2D_SetCursorSlidePositions(p);
@@ -2727,21 +2727,21 @@ void POKETRADE_2D_FadePaletteAll(void *p, int a)
 
 
 /*
- * func_020056BC (ARM9, unlabelled Thumb leaf) was filed EXACT by the
+ * GFL_USE_GetMainTaskList (ARM9, unlabelled Thumb leaf) was filed EXACT by the
  * dependency-tree lane and now attests this call through `matched`.
  *
  * Addresses are Black-image addresses.
  */
 void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a)
 {
-    TCB_AddTask(func_020056BC(), (void (*)(void))POKETRADE_2D_TaskSetMainPlaneVisible, a, 0xa);
+    TCB_AddTask(GFL_USE_GetMainTaskList(), (void (*)(void))POKETRADE_2D_TaskSetMainPlaneVisible, a, 0xa);
 }
 
 
 
 void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a)
 {
-    TCB_AddTask(func_020056BC(), (void (*)(void))POKETRADE_2D_TaskSetSubPlaneVisible, a, 0xa);
+    TCB_AddTask(GFL_USE_GetMainTaskList(), (void (*)(void))POKETRADE_2D_TaskSetSubPlaneVisible, a, 0xa);
 }
 
 

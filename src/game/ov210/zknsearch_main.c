@@ -32,7 +32,7 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
@@ -49,7 +49,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
@@ -70,7 +70,7 @@
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BGWINFRM_Delete  0x0202CA0C  thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021C0E80 0x021C0E80 data a4
@@ -290,7 +290,7 @@ extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -307,7 +307,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *,unsigned,unsigned,unsign
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 extern int PALANM_RequestFade(struct PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
 extern void G2x_SetBlendAlpha_(u32 reg, u32 a, u32 b, u32 c, u32 d);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32, u32, u32, u32);
@@ -329,7 +329,7 @@ extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern void *func_02049EF4(void *, u32, u32, void **, u16);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
@@ -734,8 +734,8 @@ void ZKNSEARCH_MAIN_LoadCommonGraphics(void)
     u8 *scr;
 
     h = ARC_TOOL_CreateHandle(0x9F, 0x807B);
-    func_02049B68(h, 0x49, 0, 0, 0xC0, 0x7B);
-    func_02049B68(h, 0x4A, 4, 0, 0xA0, 0x7B);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0x49, 0, 0, 0xC0, 0x7B);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0x4A, 4, 0, 0xA0, 0x7B);
     ARC_UTIL_RegisterObjCharFromHandle(h, 0x51, 0, 0, 0, 0x7B);
     ARC_UTIL_UploadBgCharFromHandle(h, 0x51, 1, 0, 0, 0, 0x7B);
     ARC_UTIL_UploadBgCharFromHandle(h, 0x51, 3, 0, 0, 0, 0x7B);
@@ -749,7 +749,7 @@ void ZKNSEARCH_MAIN_LoadCommonGraphics(void)
     ARC_TOOL_DeleteHandle(h);
     h = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x807B);
     base = ARC_UTIL_RegisterObjCharFromHandle(h, APP_ICON_GetStatusFrameFileId(), 0, 0, 0, 0x7B);
-    func_02049B68(h, APP_ICON_GetStatusAnimFileId(), 0, 0x1C0, 0x20, 0x7B);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, APP_ICON_GetStatusAnimFileId(), 0, 0x1C0, 0x20, 0x7B);
     ARC_UTIL_UploadBgPaletteFromHandle(h, APP_ICON_GetStatusDataFileId(), 0, 0, 0, 0, 0x7B);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0xE);
     BG_SYS_SetFlagField06(0);
@@ -800,10 +800,10 @@ void ZKNSEARCH_MAIN_DeletePaletteAnim(u8 *p)
 
 void ZKNSEARCH_MAIN_RequestPaletteFade(char *p,u8 b,u8 c)
 {
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,1,0xbfff,-14,b,c,0,(void *)func_020056BC());
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,2,0x7fef,-14,b,c,0,(void *)func_020056BC());
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,4,0xfe1f,-14,b,c,0,(void *)func_020056BC());
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,8,0xbfff,-14,b,c,0,(void *)func_020056BC());
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,1,0xbfff,-14,b,c,0,(void *)GFL_USE_GetMainTaskList());
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,2,0x7fef,-14,b,c,0,(void *)GFL_USE_GetMainTaskList());
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,4,0xfe1f,-14,b,c,0,(void *)GFL_USE_GetMainTaskList());
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)p)->palAnm,8,0xbfff,-14,b,c,0,(void *)GFL_USE_GetMainTaskList());
 }
 
 
@@ -1031,7 +1031,7 @@ void ZKNSEARCH_MAIN_LoadResultGraphics(char *p)
     void *blob;
     ((ZknSearchWork *)p)->resultGraphics = GFL_HEAP_Alloc(123, 384, 0, d_021C0E80, 0x3b0);
     h = ARC_TOOL_CreateHandle(159, 0x807b);
-    blob = func_02049EF4(h, 91, 0, (void **)&out, 0x807b);
+    blob = ARC_UTIL_LoadPaletteDataFromHandle(h, 91, 0, (void **)&out, 0x807b);
     MIi_CpuCopy16((char *)out + 12, ((ZknSearchWork *)p)->resultGraphics, 384);
     GFL_HEAP_Free(blob);
     ARC_TOOL_DeleteHandle(h);
@@ -1539,7 +1539,7 @@ u32 ZKNSEARCH_MAIN_EnterSearchEngine(u8 *p)
  * (docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md).
  *
  * Update 2026-09-27 (recursive MATCH unblocker): 0x021C9460 was matched
- * bottom-up as src/matched/ov212_func_021C9460.c (EXACT, pkt_ov212_021C9460),
+ * bottom-up as src/matched/ZUKAN_SEARCH_ENGINE_ReleaseWork.c (EXACT, pkt_ov212_021C9460),
  * so the +0096 site now resolves `matched` and all 14 relocations resolve.
  * The verdict is unchanged DIFF on the same two concrete bytes (the r1/r0
  * allocator tell above); target matching cannot promote it.

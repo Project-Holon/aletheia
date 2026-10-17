@@ -19,10 +19,10 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   AREAMAN_Delete  0x02033C9C  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_02033CC0  0x02033CC0  arm
+ *   AREAMAN_AllocUp  0x02033CC0  arm
  *   AREAMAN_AllocDown  0x02033F64  arm
  *   AREAMAN_AllocAt  0x020341F0  arm
- *   sub_020416B8   0x020416B8  arm
+ *   BG_SYS_GetField17   0x020416B8  arm
  *   AREAMAN_Free  0x0203422C  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   GXS_SetGraphicsMode  0x0207D518  arm
@@ -218,7 +218,7 @@ extern struct AreaMan *AREAMAN_Create(u32 size, u32 heap);
 
 extern u32 AREAMAN_Delete(void *a);
 
-extern s32 func_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
+extern s32 AREAMAN_AllocUp(struct AreaMan *p, u32 start, u32 limit, u32 len);
 
 extern u32 AREAMAN_AllocDown(u32 arena, u32 a, u32 b, u32 c);
 
@@ -563,7 +563,7 @@ void BG_SYS_Delete(void)
 
 /*
  * Allocate a run of tiles for a layer in its arena, bottom-up (top == 0,
- * func_02033CC0) or top-down (AREAMAN_AllocDown), and return the tile index of
+ * AREAMAN_AllocUp) or top-down (AREAMAN_AllocDown), and return the tile index of
  * the run relative to the layer's tile base, or -1.  Closed in wave 11:
  * the arena base is selected into a local BEFORE the direction test, the
  * round-up flag is `f = (size % t != 0)` (remainder taken first, then the
@@ -584,7 +584,7 @@ u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
     n = size / t;
     base = (layer < 4) ? (u32)g->mainTileArena : (u32)g->subTileArena;
     if (top == 0)
-        r = func_02033CC0((struct AreaMan *)base, d1, d2, n + f);
+        r = AREAMAN_AllocUp((struct AreaMan *)base, d1, d2, n + f);
     else
         r = AREAMAN_AllocDown(base, d1 + d2 - 1, d2, n + f);
     if (r == 0xFFFFFFFF)
@@ -607,7 +607,7 @@ u32 BG_SYS_ReserveTileRun(u32 a, u32 b, u32 c)
  * Release half of the pair whose reserve half is BG_SYS_SetupLayer: same arena
  * selection by layer index (0-3 at +0x168, 4-7 at +0x16c, anything else a
  * no-op) and the same round-up of a byte length to arena units, but the unit
- * here is the layer's own tile stride from sub_020416B8 rather than the
+ * here is the layer's own tile stride from BG_SYS_GetField17 rather than the
  * constant 32, so both the bias and the round-up are real divisions.
  *
  * Codegen note: the biased start index must be written back into the

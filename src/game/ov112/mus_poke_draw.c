@@ -211,7 +211,7 @@ void MUSICAL_MCSS_TickAnim(u8 *p) { MUSICAL_MCSS_TickMCAnim((char *)(((Scene *)p
 /*
  * 2026-10-05 (wave D5 lane 02): ov112 0x021F546C is a different function from the ov194 one (a 172-byte slot
  * writer: mode >= 7 copies an input record into slot mode-7, modes 4 and 5 write four words). Parked as
- * src/pending/ov/ov112_func_021F546C.c, DIFF. Still blocks this MATCH.
+ * src/pending/ov/MUSICAL_MCSS_SetMatrix.c, DIFF. Still blocks this MATCH.
  * 2026-10-05 (wD4 lane16): re-checked, bytes identical; MATCH only because MUSICAL_MCSS_SetMatrix (ov112) has no EXACT witness (ov194 has a pending file at the same address, 9 overlays overlap). Needs the callback matched in ov112.
  * 2026-10-05 (wave D6 lane 01): bytes still identical; still blocked by ov112 021F546C (DIFF 170/172).
  * 2026-10-05 (wave D7 lane 01): still MATCH, blocked by ov112 021F546C, now DIFF 172/172 with 27 bytes
@@ -238,7 +238,7 @@ void MUSICAL_MCSS_TickAnim(u8 *p) { MUSICAL_MCSS_TickMCAnim((char *)(((Scene *)p
  *   new finding and tries listed in that file).
  * 2026-10-05 (D9r lane 171): bytes still identical (re-checked, MATCH, the MUSICAL_MCSS_SetMatrix ABS32 word has no
  *   witness); still blocked by ov112 021F546C (DIFF, 5 bytes; tries listed in that file).
- * 2026-10-05 (D9r lane 195): ov112 021F546C is now EXACT (src/matched/ov/ov112_func_021F546C.c, compound product form).
+ * 2026-10-05 (D9r lane 195): ov112 021F546C is now EXACT (src/matched/ov/MUSICAL_MCSS_SetMatrix.c, compound product form).
  *   This MATCH should resolve once the integrator regenerates the witness index (the tool still reads the old
  *   manifest: "no witness outside"). Re-run match.py one after the regenerate and file as EXACT.
  */

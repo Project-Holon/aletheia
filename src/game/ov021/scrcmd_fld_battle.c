@@ -38,7 +38,7 @@
  *   BATTLE_BOX_HasMon  0x0200BBA8  thumb
  *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   PARTY_SELECT_LIST_Create  0x021CC720  thumb  ov021
  *   PARTY_SELECT_LIST_Main  0x021CC810  thumb  ov021
  *   PARTY_SELECT_LIST_Delete  0x021CC7B4  thumb  ov021
@@ -97,7 +97,7 @@ extern void *BATTLE_BOX_GetFromSave(void *);
 extern u32 BATTLE_BOX_HasMon(void *a);
 extern void *BATTLE_BOX_CreateParty(int a0, int a1);
 extern struct FieldTask *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct FieldTask *p);
+extern void *GAME_EVENT_GetWork(struct FieldTask *p);
 extern struct PartySelectList *PARTY_SELECT_LIST_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern int PARTY_SELECT_LIST_Main(struct PartySelectList *p);
 extern u32 PARTY_SELECT_LIST_Delete(struct PartySelectList *p, u32 *out);
@@ -271,7 +271,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
     }
     task = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
     playerFlag = 0;
-    taskWork = func_020124E8(task);
+    taskWork = GAME_EVENT_GetWork(task);
     taskWork->gameSystem = gameSystem;
     taskWork->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     taskWork->result = result;

@@ -30,7 +30,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
- *   func_020090E0  0x020090E0  thumb
+ *   CGEAR_SAVE_GetObtained  0x020090E0  thumb
  *   ZONEDATA_IsZone34  0x02013D20  thumb
  *   ZONEDATA_IsZone4BPair  0x02013D00  thumb
  *   FIELDMAP_GetVReq  0x02188E30  thumb  ov021
@@ -38,8 +38,8 @@
  *   FIELD_MSGBG_SetBlendThunk  0x02193060  thumb  ov021
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FIELD_MSGBG_LoadWindowGraphics  0x021902A4  thumb  ov021
- *   func_02009208  0x02009208  thumb
- *   func_02009200  0x02009200  thumb
+ *   BLOCK20_SAVEDATA_GetPanelState  0x02009208  thumb
+ *   BLOCK20_SAVEDATA_SetPanelState  0x02009200  thumb
  *   GAMESYSTEM_GetAlwaysNetFlag  0x0201214C  thumb
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   GAMESYSTEM_ClearNetOffBySleep  0x02012210  thumb
@@ -292,7 +292,7 @@ extern u16 FIELDMAP_GetZoneId(void *fieldMap);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *BLOCK20_SAVEDATA_GetBlock(void *cgearSaveBase);
-extern u32 func_020090E0(void *cgearSave);
+extern u32 CGEAR_SAVE_GetObtained(void *cgearSave);
 extern u32 ZONEDATA_IsZone34(void);
 extern u32 ZONEDATA_IsZone4BPair(u32);
 extern struct FieldVReq *FIELDMAP_GetVReq(void *fieldMap);
@@ -300,8 +300,8 @@ extern void FLD_VREQ_SetMainBlendBrightnessExt(struct FieldVReq *vreq, int a, in
 extern void FIELD_MSGBG_SetBlendThunk(u32);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void FIELD_MSGBG_LoadWindowGraphics(u32, u32);
-extern u8 func_02009208(void *cgearSave);
-extern void func_02009200(void *cgearSave, u32 commState);
+extern u8 BLOCK20_SAVEDATA_GetPanelState(void *cgearSave);
+extern void BLOCK20_SAVEDATA_SetPanelState(void *cgearSave, u32 commState);
 extern u32 GAMESYSTEM_GetAlwaysNetFlag(void *gameSystem);
 extern u32 GAMESYSTEM_IsNetOffBySleep(void *gameSystem);
 extern void GAMESYSTEM_ClearNetOffBySleep(void *gameSystem);
@@ -432,7 +432,7 @@ u32 FIELD_SUBSCREEN_ResolveMode(FieldSubscreen *work, u32 mode)
         if (ZONEDATA_IsZone34() != 0 || ZONEDATA_IsZone4BPair(zoneId) != 0)
             return FIELD_SUBSCREEN_MODE_NO_CGEAR;
         cgearSave = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gameData));
-        if (func_020090E0(cgearSave) == 0)
+        if (CGEAR_SAVE_GetObtained(cgearSave) == 0)
             return FIELD_SUBSCREEN_MODE_NO_CGEAR;
     }
     return mode;
@@ -505,10 +505,10 @@ void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work)
     gameSystem = FIELDMAP_GetGameSystem(work->fieldMap);
     cgearSave = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
     GF_OVERLAY_Load((int)abs_id_1d);
-    cgearPowered = func_02009208(cgearSave);
+    cgearPowered = BLOCK20_SAVEDATA_GetPanelState(cgearSave);
     commState = GAMESYSTEM_GetAlwaysNetFlag(gameSystem);
     work->cgear = C_GEAR_Create(cgearSave, work, gameSystem, commState == 1 && cgearPowered == 0);
-    func_02009200(cgearSave, commState);
+    BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
         GAMESYSTEM_ClearNetOffBySleep(gameSystem);
 }
@@ -525,7 +525,7 @@ void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work)
     commState = GAMESYSTEM_GetAlwaysNetFlag(gameSystem);
     cgearSave = BLOCK20_SAVEDATA_GetBlock(cgearSaveBase);
     work->cgear = C_GEAR_Open(cgearSave, work, FIELDMAP_GetGameSystem(work->fieldMap), work->callback, work->callbackArg, commState);
-    func_02009200(cgearSave, commState);
+    BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
         GAMESYSTEM_ClearNetOffBySleep(gameSystem);
     work->mode = 0;
@@ -550,7 +550,7 @@ u32 FIELD_3DBG_UpdateCGear(FieldSubscreen *work, u32 active)
             if (GAMESYSTEM_GetAlwaysNetFlag((void *)gameSystem) != 0) {
                 GAMESYSTEM_ClearNetOffBySleep((void *)gameSystem);
             } else if (C_GEAR_Restart((int *)work->cgear) != 0) {
-                func_02009200((void *)savedValue, 0);
+                BLOCK20_SAVEDATA_SetPanelState((void *)savedValue, 0);
                 GAMESYSTEM_ClearNetOffBySleep((void *)gameSystem);
             }
         }

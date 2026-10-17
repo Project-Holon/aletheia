@@ -72,6 +72,10 @@
  *   SAVE_EVENT_WriteWithDate  0x0202F2AC  thumb  arm9
  *   MSGDATA_AllocString  0x02045EC0  arm  arm9
  *   WIH_DWC_TickTimers  0x02010498  thumb  arm9
+ *   GFL_USE_GetRandom  0x020056EC  thumb  arm9
+ *   MYSTATUS_GetName  0x020084F4  thumb  arm9
+ *   MYSTATUS_GetId  0x02008530  thumb  arm9
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -853,11 +857,11 @@ extern u8 g0209DF08;
 extern u8 g0209DF0C;
 extern void *gSpeciesNameBank;
 
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
@@ -867,8 +871,8 @@ extern u32 POKE_TOOL_SetDefaultMoves(void *p);
 extern u32 POKE_TOOL_AddMove(void *p, u32 move);
 extern void POKE_TOOL_PushMove(void *p, int move);
 extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
-extern const void *func_020084F4(const void *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern const void *MYSTATUS_GetName(const void *p);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Dummy(void *p);
 extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void POKE_TOOL_RecalcParam(void *p);
@@ -974,20 +978,20 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
         }
         {
             if (level == 0)
-                level = (u16)(func_020056EC(0x64) + 1);
+                level = (u16)(GFL_USE_GetRandom(0x64) + 1);
             if (r->f0 == 0)
-                id = func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                id = MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
             if (gender == 0xff)
                 gender = 2;
             for (i = 0; i < 6; i++) {
                 if (iv[i] == 0xff)
-                    iv[i] = func_020056EC(0x20);
+                    iv[i] = GFL_USE_GetRandom(0x20);
             }
             id64 = id;
             mon = POKE_TOOL_Create((u16)species, level, id, 0, heap);
             ivs = (iv[0] & 31) | ((iv[1] & 31) << 5) | ((iv[2] & 31) << 10) | ((iv[3] & 31) << 15) | ((iv[4] & 31) << 20) | ((iv[5] & 31) << 25);
             if (mode == 4)
-                mode = (u8)func_020056EC(3);
+                mode = (u8)GFL_USE_GetRandom(3);
             switch (mode) {
             case 0:
                 i = 0;
@@ -1062,7 +1066,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             {
                 u32 v = r->f34;
                 if (v == 0xff)
-                    v = (u8)func_020056EC(0x19);
+                    v = (u8)GFL_USE_GetRandom(0x19);
                 POKE_TOOL_SetPartyValue(mon, 0x70, v);
             }
             POKE_TOOL_SetPartyValue(mon, 0x95, r->f38);
@@ -1073,7 +1077,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 goto end;
             }
             if (r->f4A == STRBUF_GetEosChar())
-                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)func_020084F4(GAME_DATA_GetMyStatus(gs)));
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gs)));
             else
                 POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->f4A);
             {
@@ -1081,7 +1085,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
-                    v = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                    v = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }

@@ -45,7 +45,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
  *   FIELD_CAMERA_ANIME_Create  0x0218FE80  thumb  ov021
@@ -87,7 +87,7 @@
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   MSGDATA_CreateFromArchive   0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
@@ -353,7 +353,7 @@ extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(GameSystem *gameSy
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *next);
 extern void GAME_EVENT_ChangeEvent(GameEvent *event, GameEvent *next);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, void *func, u32 size);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern void *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
 extern void *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
@@ -394,7 +394,7 @@ extern int FIELD_MSGBG_DeleteTalkWin(void *balloon);
 extern int FIELD_MSGBG_WaitTalkWinClose();
 extern void *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(MsgBank *bank, u32 index, Strbuf *dest);
+extern void MSGDATA_ReadString(MsgBank *bank, u32 index, Strbuf *dest);
 extern u32 MSGDATA_Delete(MsgBank *bank);
 extern Strbuf *PMSI_PARAM_ToString(const u16 *chars, unsigned int heap);
 extern void *GAME_DATA_GetOccupyInfo(GameData *gameData);
@@ -655,7 +655,7 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
 GameEvent *NAMEIN_SETUP_StartFallEvent(GameSystem *gameSystem, FieldMap *fieldMap)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunFallEvent, 0x64);
-    FallEventWork *work = func_020124E8(event);
+    FallEventWork *work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->anim = 0;
@@ -844,7 +844,7 @@ GameEvent *NAMEIN_SETUP_StartLandEvent(GameSystem *gameSystem, FieldMap *fieldMa
     LandEventWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunLandEvent, 0x14);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -930,7 +930,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     gameData = ICA_ANIME_GetField1C(gameSystem);
     fieldMap = ICA_ANIME_GetField20(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->pickedSlotsOut = ctx->pickedSlots;
@@ -1041,7 +1041,7 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
 
 
 /*
- * unit_02045C44.c omits func_02045CAC from function:. Singleton TU split
+ * unit_02045C44.c omits MSGDATA_ReadString from function:. Singleton TU split
  * leaves this caller OUT. No overlay leaves filed.
  * EXACT 344 bytes through the ov070 blocker evidence; not recompiled here.
  * typedef unsigned char u8;
@@ -1070,7 +1070,7 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void MSGDATA_DecryptStrbuf(void *,u32);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -1125,7 +1125,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     fieldMap = ICA_ANIME_GetField20(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonEvent, 0xD8);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->npcId = npcId;
     if (*(u16 *)((u32)records + 0xA0 + recordIndex * 0x120) == 0xFFFF) {
@@ -1134,7 +1134,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
         msgIndex = *(u16 *)((u32)records + 0xA2 + recordIndex * 0x120);
         if (msgIndex >= 0x3AE)
             msgIndex = 0;
-        func_02045CAC(bank, msgIndex, work->name);
+        MSGDATA_ReadString(bank, msgIndex, work->name);
         MSGDATA_Delete(bank);
     } else {
         work->name = PMSI_PARAM_ToString((u16 *)((u32)records + 0xA0 + recordIndex * 0x120), 4);
@@ -1195,7 +1195,7 @@ GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem)
 
     fieldMap = ICA_ANIME_GetField20(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunHistoryScreenEvent, 0x14);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     return event;
@@ -1321,7 +1321,7 @@ GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInf
     GameEvent *event;
     ProcCallWork *work;
     event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunProcCallEvent, 0x3c);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->transitionInfo = transitionInfo;
     work->extra = extra;
@@ -1392,7 +1392,7 @@ GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldM
     GameEvent *event;
     SceneEventWork *work;
     event = GAME_EVENT_Create(gameSystem, 0, (void *)NAMEIN_SETUP_RunSceneEvent, 0x10);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->transitionInfo = transitionInfo;
     work->extra = extra;
@@ -1484,7 +1484,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     fieldMap = ICA_ANIME_GetField20(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonWaitEvent, 0x1C);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     occupyInfo = GAME_DATA_GetOccupyInfo(gameData);
     mmdlSys = FLDMMDL_SysSearchPlayer(occupyInfo);

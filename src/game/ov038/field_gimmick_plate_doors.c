@@ -48,9 +48,9 @@
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb  ov021
  *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb  ov021
@@ -125,8 +125,8 @@ extern void FIELD_PLAYER_GetPos(unsigned char *fieldPlayer, VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *fieldPlayer, VecFx32 *pos);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *anime);
 extern int FLD_EXP_OBJ_GetAnimeFrame(int expObj, int unitIdx, int modelIdx, int animeIdx);
-extern unsigned int func_0203630C(void);
-extern void func_020061E4(u32 se);
+extern unsigned int KEY_GetCont(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void GFL_USE_StopAllSe(void);
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, u32 *newEvent);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **out);
@@ -428,7 +428,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
             keyMask = 0x80;
             direction = 1;
         }
-        if ((func_0203630C() & keyMask) != 0) {
+        if ((KEY_GetCont() & keyMask) != 0) {
             runtime->holdFrames++;
             if (runtime->holdFrames >= 2) {
                 runtime->holdFrames = 0;
@@ -438,7 +438,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
                 FIELD_PLAYER_SetPos(fieldPlayer, &pos);
                 slideUnits = (u32)runtime->slideFrames >> 1;
                 if (runtime->slideSePlayed == 0 && slideUnits != 0) {
-                    func_020061E4(0x6C2);
+                    GFL_USE_PlaySeDefaultVolume(0x6C2);
                     runtime->slideSePlayed = 1;
                 }
                 FLD_EXP_OBJ_SetAnimeFrame((void *)expObj, 0, 0x22, side, slideUnits << 12);
@@ -466,7 +466,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
             FLD_EXP_OBJ_SetAnimePaused(anime, 0);
             GAME_EVENT_CallEvent((struct GameEvent *)event, EVENT_FIELD_PROCLINK_CreateObjAnimEvent(gameSystem, (int)fieldMap, 0xff, (int)(runtime->side == 0 ? gPlateDoorsReleaseAcmdSide0 : gPlateDoorsReleaseAcmdSide1)));
             GFL_USE_StopAllSe();
-            func_020061E4(0x6C3);
+            GFL_USE_PlaySeDefaultVolume(0x6C3);
         }
         break;
     case 3:
@@ -558,7 +558,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(int event, int *state)
             slideUnits = (pos.z - runtime->doorPos.z) / 2;
         }
         if (runtime->slideSePlayed == 0 && slideUnits != 0) {
-            func_020061E4(0x6C4);
+            GFL_USE_PlaySeDefaultVolume(0x6C4);
             runtime->slideSePlayed = 1;
         }
         FLD_EXP_OBJ_SetAnimeFrame((void *)expObj, 0, 0x22, side, slideUnits);
@@ -622,7 +622,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(int event, int *state)
         FLD_EXP_OBJ_SetAnimeEnabled((void *)expObj, 0, tempModel, animeIdx, 1);
         FLD_EXP_OBJ_SetAnimePaused(anime, 0);
         FLD_EXP_OBJ_SetAnimeFrame((void *)expObj, 0, tempModel, animeIdx, 0);
-        func_020061E4(0x6C5);
+        GFL_USE_PlaySeDefaultVolume(0x6C5);
         *state = *state + 1;
         break;
     case 1:
@@ -677,7 +677,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(int event, int *state)
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, 0x21, animeIdx, 1);
         FLD_EXP_OBJ_SetAnimePaused(anime, 0);
         FLD_EXP_OBJ_SetAnimeFrame((void *)expObj, 0, 0x21, animeIdx, 0);
-        func_020061E4(0x6C5);
+        GFL_USE_PlaySeDefaultVolume(0x6C5);
         *state = *state + 1;
         break;
     case 1:
@@ -841,7 +841,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(int event, int *state)
                         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)expObj, 0, 0x21, plateModel), 0);
                         FLD_EXP_OBJ_SetAnimeFrame((void *)expObj, 0, 0x21, plateModel, 0);
                     }
-                    func_020061E4(0x6C8);
+                    GFL_USE_PlaySeDefaultVolume(0x6C8);
                     *state = *state + 1;
                     break;
                 }
@@ -860,7 +860,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(int event, int *state)
             FLD_EXP_OBJ_SetModelHidden((char *)expObj, 0, (u16)(doorIdx + 0x12), 1);
             FLD_EXP_OBJ_SetModelHidden((char *)expObj, 0, (u16)(doorIdx + 0x19), 0);
             FLD_EXP_OBJ_SetModelHidden((char *)expObj, 0, (u16)0x21, 1);
-            func_020061E4(0x6DC);
+            GFL_USE_PlaySeDefaultVolume(0x6DC);
             return 1;
         }
         break;

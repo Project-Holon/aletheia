@@ -43,7 +43,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   BR_FADE_LoadPalette 0x021FE8E8 thumb ov186
  *   d_022008C0 0x022008C0 data a4
  *   d_022008A0 0x022008A0 data a4
@@ -104,7 +104,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
 
 extern void BR_FADE_LoadPalette(void *fade, void *archive, u32 fileId, u32 slot, u32 offset, u32 count, u16 heapId);
 
@@ -489,11 +489,11 @@ void BR_RES_LoadUiPalette(struct BrRes *res,unsigned screen,unsigned heapId)
     h=ARC_TOOL_CreateHandle(0x89,heapId);
     res->paletteId[screen]=CLACT_RegisterPaletteEx(h,BR_RES_GetPaletteFileId(res->palSet),screen,0,0,13,heapId);
     if(screen==0){
-        func_02049B68(h,BR_RES_GetCharFileId(res->palSet),0,0,0,heapId);
-        func_02049B68(h,BR_RES_GetScreenFileId(res->palSet),0,0x1c0,0x20,heapId);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h,BR_RES_GetCharFileId(res->palSet),0,0,0,heapId);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h,BR_RES_GetScreenFileId(res->palSet),0,0x1c0,0x20,heapId);
     }else{
-        func_02049B68(h,BR_RES_GetCharFileId(res->palSet),4,0,0,heapId);
-        func_02049B68(h,BR_RES_GetScreenFileId(res->palSet),4,0x1c0,0x20,heapId);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h,BR_RES_GetCharFileId(res->palSet),4,0,0,heapId);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h,BR_RES_GetScreenFileId(res->palSet),4,0x1c0,0x20,heapId);
     }
     ARC_TOOL_DeleteHandle(h);
 }

@@ -29,7 +29,7 @@
  *   gTouchBarSourceName     0x021B954C  data  a1
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
@@ -109,7 +109,7 @@ extern struct Actor *CLACT_CreateActor(struct Unit *unit, unsigned int charIdx, 
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animSeq);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
-extern void func_02049B68(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
 extern u32 APP_ICON_GetStatusDataFileId(void);
@@ -413,7 +413,7 @@ void TOUCHBAR_LoadGfx(TouchBarGfx *gfx, u8 bgLayer, u32 screen, u32 bgPlttTarget
     gfx->bgLayer = bgLayer;
     arc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
     if (skipBgGfx == 0) {
-        func_02049B68(arc, APP_ICON_GetStatusAnimFileId(), bgPlttTarget, bgPlttSlot << 5, 0x20, heapId);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc, APP_ICON_GetStatusAnimFileId(), bgPlttTarget, bgPlttSlot << 5, 0x20, heapId);
         gfx->tileAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, APP_ICON_GetStatusFrameFileId(), gfx->bgLayer, 0x800, 0, heapId);
         TOUCHBAR_LoadCharToBg(arc, APP_ICON_GetStatusDataFileId(), gfx->bgLayer, (u16)gfx->tileAlloc,
                       0, 0x15, 0x20, 0x18, 0, 0x15, 0x20, 3, bgPlttSlot, 0, heapId);

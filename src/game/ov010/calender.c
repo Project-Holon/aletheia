@@ -33,14 +33,14 @@
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb ov021
  *   FIELD_PLAYER_WaitModelReady  0x021A34F8  thumb ov021
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   EVENT_MAPCHANGE_CreateIntrudeWarpEvent 0x02185140 thumb ov020
  *   FIELDMAP_GetSubscreen 0x02188CCC thumb ov021
  *   FIELD_SUBSCREEN_GetMode 0x021A0F90 thumb ov021
  *   FIELD_SUBSCREEN_RequestMode 0x021A0F30 thumb ov021
  *   HiddenItemTable     0x02171534  data
  *   ZONEDATA_PopTimeFlagsCleared  0x0201440C  thumb
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   GF_OVERLAY_Load 0x02034AC4 arm
@@ -202,13 +202,13 @@ extern u32 FIELDMAP_CheckPlayerRequest(struct FieldMap *fieldMap);
 extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *fieldPlayer);
 extern int FIELD_PLAYER_WaitModelReady(struct FieldPlayer *fieldPlayer);
 extern struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 size);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void EVENT_MAPCHANGE_CreateIntrudeWarpEvent(struct GameSystem *gameSystem, int id, const void *position, int flags);
 extern void *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 extern u32 FIELD_SUBSCREEN_GetMode(void *subscreen);
 extern int FIELD_SUBSCREEN_RequestMode(void *subscreen, u32 mode);
 extern u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *eventWork);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *work);
 extern int GF_OVERLAY_Load(int overlayId);
@@ -415,7 +415,7 @@ struct GameEvent *EVENTDATA_SYSTEM_CreateFieldLinkEnterEvent(struct FieldMap *fi
     LinkEnterWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENTDATA_SYSTEM_FieldLinkEnterEvent, sizeof(LinkEnterWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->frameCount = 0;
     return event;
@@ -456,7 +456,7 @@ int EVENTDATA_SYSTEM_ToggleSubscreenEvent(struct GameEvent *event, u32 *seq, Sub
 struct GameEvent *EVENTDATA_SYSTEM_CreateToggleSubscreenEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENTDATA_SYSTEM_ToggleSubscreenEvent, sizeof(SubscreenToggleWork));
-    SubscreenToggleWork *work = func_020124E8(event);
+    SubscreenToggleWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -494,7 +494,7 @@ void EVENTDATA_SYSTEM_RespawnHiddenItems(struct EventWork *eventWork)
             const HiddenItemEntry *entry = HiddenItemTable + i;
 
             if (entry->respawns != 0) {
-                if (func_020056EC(100) < HIDDEN_ITEM_RESPAWN_PERCENT) {
+                if (GFL_USE_GetRandom(100) < HIDDEN_ITEM_RESPAWN_PERCENT) {
                     ZONEDATA_ResetEventFlag(eventWork, (u16)(entry->flagIndex + HIDDEN_ITEM_FLAG_BASE));
                 }
             }

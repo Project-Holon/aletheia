@@ -16,7 +16,7 @@
  *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
@@ -53,7 +53,7 @@
  *   EVENTDATA_SYSTEM_SetNpcObjCode  0x02162774  thumb  ov010
  *   SCRIPT_WORK_GetGameSystem 0x02158F54 thumb ov010
  *   EVENT_POKE_STATUS_ResetFlag 0x0215A500 thumb ov010
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   MAP_REPLACE_GetDefaultWarpId 0x02159F80 thumb ov010
  *   GAME_DATA_GetSituationWarpId 0x02012914 thumb
  *   BRIGHTNESS_Set  0x02023F60  thumb
@@ -82,7 +82,7 @@
  *   MOVE_POKEMON_SpawnPendingEntries  0x0215E580  thumb  ov010
  *   GAME_DATA_GetMyParty   0x02012934  thumb
  *   GAME_DATA_GetPlayTime   0x02012FCC  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
@@ -346,7 +346,7 @@ extern void VM_SetWait(ScriptVm *vm, ScriptWorkWaitFn waitFn);
 
 /* game system, game event, game data */
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, EventTaskFn taskFn, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
@@ -379,7 +379,7 @@ extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern u32 GAME_COMM_IsTransition(struct GameComm *gameComm);
 extern int FIELDMAP_CheckCommExit(struct GameComm *gameComm);
 extern int APP_ENV_InitParentalControl(void);
-extern struct Config *func_0200873C(struct SaveControl *saveControl);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
 extern int CONFIG_GetAppliedFlag(struct Config *config);
 extern int BEACON_SetGatePoints(struct MiscSave *miscSave, int value);
 extern u32 GPOWER_GetSpecialPowerId(void);
@@ -388,7 +388,7 @@ extern u32 GPOWER_GetSpecialPowerId(void);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *ptr);
 extern int ARC_UTIL_LoadMember(int archiveId, int memberId, int heapId, int flags);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern int GF_OVERLAY_Load(s32 overlayId);
 extern void GF_OVERLAY_Unload(s32 overlayId);
 extern int GF_OVERLAY_Load(int overlayId);
@@ -763,7 +763,7 @@ int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScriptWork *script
         s16 skipCount;
 
         for (drawIndex = 0; drawIndex < 6; drawIndex++) {
-            skipCount = func_020056EC(poolSize);
+            skipCount = GFL_USE_GetRandom(poolSize);
             for (candidate = 0; candidate < 0x34; candidate++) {
                 for (prior = 0; prior < drawIndex; prior++) {
                     if (picked[prior] == candidate)
@@ -856,7 +856,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSyst
 {
     struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_CommProcEventMain, sizeof(CommProcEventWork));
-    CommProcEventWork *work = func_020124E8(event);
+    CommProcEventWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->warpChanged = SCRCMD_NETWORK_HasSituationWarpChanged(gameData);
@@ -965,7 +965,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateCommBattleEvent(struct GameSystem *gameSy
 {
     struct GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_CommBattleEventMain, 0x7C);
-    CommBattleWork *work = func_020124E8(event);
+    CommBattleWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->gameData = gameData;
@@ -1003,7 +1003,7 @@ int SCRCMD_NETWORK_InitCommBattleOv181Param(CommBattleWork *work)
     else
         work->ov181Param.isMode1 = 0;
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
-    config = func_0200873C(saveControl);
+    config = SYSTEM_DATA_GetConfig(saveControl);
     configApplied = CONFIG_GetAppliedFlag(config);
     work->ov181Param.configApplied = configApplied;
     work->ov182Param = configApplied;
@@ -1260,7 +1260,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSyst
     } else {
         GAME_EVENT_Change(event, SCRCMD_NETWORK_WifiProcEventMain, 0x34);
     }
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     gameData = ICA_ANIME_GetField1C(gameSystem);
     work->gameData = gameData;
     work->saveControl = GAME_DATA_GetSaveControl(gameData);
@@ -1279,7 +1279,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(struct GameSystem *
 
     link = FIELDMAP_GetSubscreen(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_BattleRecordLinkEventMain, workSize);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, workSize);
     work->gameSystem = gameSystem;
     work->event = event;
@@ -1318,7 +1318,7 @@ struct GameEvent *SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone(struct GameS
     RecordLinkWork *work;
 
     event = SCRCMD_NETWORK_CreateBattleRecordLinkEvent(gameSystem, fieldMap, id);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->linkMode = ZONEDATA_IsZone96Pair(FIELDMAP_GetZoneId(fieldMap)) == 1 ? 5 : 2;
     return event;
 }

@@ -25,7 +25,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   d_021728CC  0x021728CC  data
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
@@ -92,7 +92,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
+extern void *GAME_EVENT_GetWork(struct Obj *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 POKEPARTY_GetCount(void *p);
@@ -127,7 +127,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u
     listParam->listArg = 0;
     listParam->selectedSlot = 0;
     event = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = (void *)gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     work->listParam = listParam;
@@ -150,7 +150,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(int gameSystem, int retDecided
     listParam->fieldIndex = fieldIndex;
     listParam->argValue2 = moveId;
     event = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = (void *)gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     work->listParam = listParam;
@@ -183,7 +183,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecid
     statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)zukanSave);
     statusParam->canUseButtons = 0;
     event = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = (void *)gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     work->listParam = listParam;
@@ -254,7 +254,7 @@ int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int po
     param->canUseButtons = 0;
     param->config = (void *)gameData;
     event = (int)GAME_EVENT_Create((void *)gameSystem, 0, EVENT_POKE_STATUS_MoveSelectEvent, 0x14);
-    work = func_020124E8((struct Obj *)event);
+    work = GAME_EVENT_GetWork((struct Obj *)event);
     work->gameSystem = (void *)gameSystem;
     work->fieldMap = (void *)fieldMap;
     work->param = param;

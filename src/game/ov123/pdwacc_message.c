@@ -16,7 +16,7 @@
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
@@ -84,7 +84,7 @@ extern u8 *TIME_ICON_CreateNode(void *tcbl, void *window, u8, u8, u16 heapId);
 
 extern u32 BMP_WIN_Delete(void *d);
 
-extern int func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern int MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -282,7 +282,7 @@ void PDWACC_MESSAGE_ExitSystem(PdwaccMessageWork *work)
 void PDWACC_MESSAGE_PrintStream(PdwaccMessageWork *work, int msgId)
 {
     void *win;
-    func_02045CAC(work->msgData, msgId, work->msgBuf);
+    MSGDATA_ReadString(work->msgData, msgId, work->msgBuf);
     if (!work->mainWin) work->mainWin = BMP_WIN_Create(5, 1, 3, 30, 4, 11, 1);
     win = work->mainWin;
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
@@ -354,10 +354,10 @@ void *PDWACC_MESSAGE_OpenYesNoMenu(PdwaccMessageWork *work, int layout)
     tmpl.width = 13;
     tmpl.height = 3;
     work->menuItems[0].text = STRBUF_Create(100, work->heap);
-    func_02045CAC(work->msgData, 4, work->menuItems[0].text);
+    MSGDATA_ReadString(work->msgData, 4, work->menuItems[0].text);
     work->menuItems[0].color = 0x39e0;
     work->menuItems[1].text = STRBUF_Create(100, work->heap);
-    func_02045CAC(work->msgData, 5, work->menuItems[1].text);
+    MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].text);
     work->menuItems[1].color = 0x39e0;
     result = APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
     STRBUF_Delete(work->menuItems[0].text);
@@ -370,7 +370,7 @@ void *PDWACC_MESSAGE_OpenYesNoMenu(PdwaccMessageWork *work, int layout)
 void PDWACC_MESSAGE_PrintInWindow(PdwaccMessageWork *work, int msgId)
 {
     void *win;
-    func_02045CAC(work->msgData, msgId, work->msgBuf);
+    MSGDATA_ReadString(work->msgData, msgId, work->msgBuf);
     if (!work->subWin) work->subWin = BMP_WIN_Create(6, 1, 3, 30, 16, 11, 1);
     win = work->subWin;
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
@@ -429,7 +429,7 @@ void PDWACC_MESSAGE_PrintNumberWindows(PdwaccMessageWork *work, int value, int u
     if (!work->labelWin) work->labelWin = BMP_WIN_Create(1, 3, 3, 22, 2, 11, 1);
     win = work->labelWin;
     GF_FONT_SetTextColor(1, 2, 0);
-    func_02045CAC(work->msgData, 10, work->msgBuf);
+    MSGDATA_ReadString(work->msgData, 10, work->msgBuf);
     PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);

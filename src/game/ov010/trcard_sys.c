@@ -26,7 +26,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_02172B64     0x02172B64  data  ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008554  0x02008554  thumb
+ *   MYSTATUS_GetOutfit  0x02008554  thumb
  *   GAME_BEACON_SetTrainerView  0x02027174  thumb
  *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
@@ -37,28 +37,28 @@
  *   gPmsInputProcData 0x021C39D4 data ov110 a4
  *   ov110_id 0x0000006E data a1
  *   TRCARD_SYS_RunChildProc  0x0216F088  thumb  ov010
- *   func_0200E6F0  0x0200E6F0  thumb
+ *   SAVEDATA_GetExtraBlock  0x0200E6F0  thumb
  *   MISC_SAVEDATA_StoreQuadRecord  0x0200E714  thumb
  *   GAME_BEACON_SetPms  0x0202715C  thumb
  *   d_021C892C 0x021C892C data a4 ov111
- *   func_02008DFC  0x02008DFC  thumb
+ *   RECORD_GetCounterClamped  0x02008DFC  thumb
  *   d_02172620     0x02172620  data  a2
- *   func_020089C0  0x020089C0  thumb
+ *   TRCARD_SIGN_GetFromSave  0x020089C0  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   func_02008B14  0x02008B14  thumb
+ *   CONSOLE_STAMP_GetDailyClock  0x02008B14  thumb
  *   RECORD_GetFromSave  0x02008C58  thumb
  *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb
  *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
- *   func_020084F4  0x020084F4  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetName  0x020084F4  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   BEACON_GetPoints  0x0200C274  thumb
  *   BEACON_GetFlag  0x0200C234  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
- *   func_0200864C  0x0200864C  thumb
- *   func_02008650  0x02008650  thumb
- *   func_02008A0C  0x02008A0C  thumb
- *   func_02008A28  0x02008A28  thumb
+ *   PLAYTIME_GetHours  0x0200864C  thumb
+ *   PLAYTIME_GetMinutes  0x02008650  thumb
+ *   TRCARD_SIGN_GetColor  0x02008A0C  thumb
+ *   TRCARD_SIGN_GetStyle  0x02008A28  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   BEACON_GetThanksCount  0x0200C1DC  thumb
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
@@ -67,16 +67,16 @@
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GPOWER_FreePowerTable  0x02010F8C  thumb
  *   BEACON_GetBestScore  0x0200C184  thumb
- *   func_02008EA0  0x02008EA0  thumb
- *   func_02008E78  0x02008E78  thumb
- *   func_0200921C  0x0200921C  thumb
- *   func_020090E0  0x020090E0  thumb
+ *   RECORD_GetTrialScore  0x02008EA0  thumb
+ *   RECORD_GetTrialRank  0x02008E78  thumb
+ *   BLOCK20_SAVEDATA_GetBlockFromSys  0x0200921C  thumb
+ *   CGEAR_SAVE_GetObtained  0x020090E0  thumb
  *   INTRUDE_GetPlaySeconds  0x0200BF94  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
- *   func_020089D0  0x020089D0  thumb
- *   func_020089CC  0x020089CC  thumb
+ *   TRCARD_SIGN_HasAnySignature  0x020089D0  thumb
+ *   TRCARD_SIGN_GetBitmap  0x020089CC  thumb
  *   TOWN_MAP_SPOT_CountVisited  0x0216FEAC  thumb  ov010
  *   MIi_CpuCopy16  0x02082A60  arm
  *   MI_CpuCopy8    0x02082D44  arm
@@ -218,7 +218,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned in
 extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 func_02008554(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetOutfit(const struct MyStatus *obj);
 extern int GAME_BEACON_SetTrainerView();
 extern void PROCSYS_FreeProcWork(struct ProcSys *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
@@ -234,26 +234,26 @@ int TRCARD_SYS_StateChooseScreen(TrainerCardWork *work, TrainerCardParam *param)
 int TRCARD_SYS_StateStartCardProc(TrainerCardWork *work);
 int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work);
 extern void *GAME_DATA_GetSaveControl(struct PlayerSave *p);
-extern int func_0200E6F0(void);
+extern int SAVEDATA_GetExtraBlock(void);
 extern void MISC_SAVEDATA_StoreQuadRecord(struct BeaconRecord *dst, int idx, struct BeaconRecord *src);
 extern void GAME_BEACON_SetPms(u32 a0);
-extern u32 func_02008DFC(struct RecordBlock *obj, int i);
-extern struct TrainerCardSignature *func_020089C0(void *gameSystem);
+extern u32 RECORD_GetCounterClamped(struct RecordBlock *obj, int i);
+extern struct TrainerCardSignature *TRCARD_SIGN_GetFromSave(void *gameSystem);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern struct SaveClockOwner *func_02008B14(void *gameSystem);
+extern struct SaveClockOwner *CONSOLE_STAMP_GetDailyClock(void *gameSystem);
 extern struct RecordBlock *RECORD_GetFromSave(void *gameSystem);
 extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern int MYSTATUS_IsNameEmpty(const u16 *values);
-extern const void *func_020084F4(const void *p);
-extern u8 func_02008550(const struct MyStatus *obj);
-extern u32 func_02008530(const struct MyStatus *obj);
+extern const void *MYSTATUS_GetName(const void *p);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
+extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
 extern u32 BEACON_GetPoints(struct BadgeSave *p);
 extern u32 BEACON_GetFlag(struct BadgeSave *p, u32 bit);
 extern int GAME_DATA_GetPlayTime(int p0);
-extern u16 func_0200864C(const struct PlayTime *p);
-extern u8 func_02008650(const struct PlayTime *p);
-extern u16 func_02008A0C(const struct TrainerCardSignature *obj);
-extern u8 func_02008A28(const struct TrainerCardSignature *obj);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
+extern u16 TRCARD_SIGN_GetColor(const struct TrainerCardSignature *obj);
+extern u8 TRCARD_SIGN_GetStyle(const struct TrainerCardSignature *obj);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct BeaconRecord *src, int idx, struct BeaconRecord *dst);
 extern u32 BEACON_GetThanksCount(struct BadgeSave *p);
 extern u16 *INTRUDE_GetFromSave(void *gameSystem);
@@ -262,16 +262,16 @@ extern void INTRUDE_GetObtainedFlags(struct BattleRecSave *p, u8 *dest, u32 n);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
 extern void GPOWER_FreePowerTable(void *p);
 extern u32 BEACON_GetBestScore(struct BadgeSave *p);
-extern u32 func_02008EA0(struct RecordBlock *obj);
-extern u8 func_02008E78(struct RecordBlock *obj);
-extern struct GameClearSave *func_0200921C(void *p);
-extern u8 func_020090E0(const struct GameClearSave *obj);
+extern u32 RECORD_GetTrialScore(struct RecordBlock *obj);
+extern u8 RECORD_GetTrialRank(struct RecordBlock *obj);
+extern struct GameClearSave *BLOCK20_SAVEDATA_GetBlockFromSys(void *p);
+extern u8 CGEAR_SAVE_GetObtained(const struct GameClearSave *obj);
 extern unsigned long long INTRUDE_GetPlaySeconds(struct BattleRecSave *p);
 extern u32 GAME_DATA_GetEventWork(const struct BtlSetup *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 ZUKAN_SAVE_CountSeen(struct ZukanSave *p, u32 heapId);
-extern int func_020089D0(const struct TrainerCardSignature *obj);
-extern void *func_020089CC(void *p);
+extern int TRCARD_SIGN_HasAnySignature(const struct TrainerCardSignature *obj);
+extern void *TRCARD_SIGN_GetBitmap(void *p);
 extern int TOWN_MAP_SPOT_CountVisited(void *tbl, void *pos, u8 *flags);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -402,7 +402,7 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
 
     if (param->linkFlag != 0) {
         myStatus = GAME_DATA_GetMyStatus(param->saveData);
-        outfit = func_02008554((const struct MyStatus *)myStatus);
+        outfit = MYSTATUS_GetOutfit((const struct MyStatus *)myStatus);
         if (work->outfit != outfit)
             outfit = GAME_BEACON_SetTrainerView(outfit);
     }
@@ -521,7 +521,7 @@ int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work)
         return 4;
     if (work->editedBeacon != 0) {
         GAME_DATA_GetSaveControl(work->param->saveData);
-        beaconSave = func_0200E6F0();
+        beaconSave = SAVEDATA_GetExtraBlock();
         profile = work->param->profile;
         beacon = work->editedBeacon;
         profile->beaconRecord[0] = beacon[0];
@@ -576,7 +576,7 @@ int TRCARD_SYS_StateWaitBadgeProc(TrainerCardWork *work)
 
 
 /*
- * Sums func_02008DFC over one seven-entry row of a u16 table (rows of 14
+ * Sums RECORD_GetCounterClamped over one seven-entry row of a u16 table (rows of 14
  * bytes at 0x02172620), stopping at the first zero entry and clamping the
  * running sum to cap.
  */
@@ -589,7 +589,7 @@ u32 TRCARD_SYS_SumCappedRecords(void *records, int group, u32 cap)
     for (i = 0; i < 7; i++) {
         if (d_02172620[group][i] == 0)
             break;
-        sum += func_02008DFC(records, d_02172620[group][i]);
+        sum += RECORD_GetCounterClamped(records, d_02172620[group][i]);
         if (sum > cap)
             sum = cap;
     }
@@ -639,16 +639,16 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     u8 badgeBit;
 
     playerSave = GAME_DATA_GetSaveControl(save);
-    signature = func_020089C0(playerSave);
+    signature = TRCARD_SIGN_GetFromSave(playerSave);
     myStatus = GAME_DATA_GetMyStatus(save);
     badges = GAME_DATA_GetMiscSave(save);
-    saveClock = (SaveClock *)func_02008B14(playerSave);
+    saveClock = (SaveClock *)CONSOLE_STAMP_GetDailyClock(playerSave);
     records = RECORD_GetFromSave(playerSave);
     beaconData = SAVEDATA_GetExtraBlockThunk((u32)playerSave);
     zukan = ZUKAN_SAVE_GetFromGameData(save);
 
     if (MYSTATUS_IsNameEmpty(myStatus) == 0) {
-        MIi_CpuCopy16(func_020084F4(myStatus), out->name, 16);
+        MIi_CpuCopy16(MYSTATUS_GetName(myStatus), out->name, 16);
     } else {
         out->name[0] = 'N';
         out->name[1] = 'o';
@@ -659,8 +659,8 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
         out->name[6] = STRBUF_GetEosChar();
     }
     out->starCount = (u32)TRCARD_SYS_CountStars(save);
-    out->outfitVariant = (u32)func_02008550(myStatus);
-    out->trainerId = func_02008530(myStatus);
+    out->outfitVariant = (u32)MYSTATUS_GetOutfitVariant(myStatus);
+    out->trainerId = MYSTATUS_GetId(myStatus);
     out->badgeCount = BEACON_GetPoints(badges);
     out->badgeMask = 0;
     out->formatVersion = 0x15;
@@ -672,18 +672,18 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
 
     if (mode == 1) {
         scratch = (void *)GAME_DATA_GetPlayTime((int)save);
-        out->outfit = (u32)func_02008554(myStatus);
+        out->outfit = (u32)MYSTATUS_GetOutfit(myStatus);
         out->isLinkMode = 0;
         out->playTimeSource = 0;
-        out->playHours = (u32)func_0200864C(scratch);
-        out->playMinutes = (u32)func_02008650(scratch);
+        out->playHours = (u32)PLAYTIME_GetHours(scratch);
+        out->playMinutes = (u32)PLAYTIME_GetMinutes(scratch);
     } else {
-        out->outfit = (u32)func_02008554(myStatus);
+        out->outfit = (u32)MYSTATUS_GetOutfit(myStatus);
         out->isLinkMode = 1;
         out->playTimeSource = (u32)GAME_DATA_GetPlayTime((int)save);
     }
-    out->signatureColor = (u32)func_02008A0C(signature);
-    out->signatureStyle = (u32)func_02008A28(signature);
+    out->signatureColor = (u32)TRCARD_SIGN_GetColor(signature);
+    out->signatureStyle = (u32)TRCARD_SIGN_GetStyle(signature);
     MISC_SAVEDATA_CopyQuadRecord(beaconData, (u32)0, (struct BeaconRecord *)out->beaconRecord);
 
     RTC_ConvertSecondToDateTime(&date, &time, saveClock->firstPlaySec);
@@ -723,24 +723,24 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
 
     out->recordSum8 = TRCARD_SYS_SumCappedRecords(records, 8, 9999);
     out->badgeExtraCount = BEACON_GetBestScore(badges);
-    out->recordTopValue = func_02008EA0(records);
-    out->recordTopFlag = (u32)func_02008E78(records);
-    out->isGameCleared = (u32)func_020090E0((const struct GameClearSave *)func_0200921C(save));
+    out->recordTopValue = RECORD_GetTrialScore(records);
+    out->recordTopFlag = (u32)RECORD_GetTrialRank(records);
+    out->isGameCleared = (u32)CGEAR_SAVE_GetObtained((const struct GameClearSave *)BLOCK20_SAVEDATA_GetBlockFromSys(save));
     if (INTRUDE_GetPlaySeconds((struct BattleRecSave *)INTRUDE_GetFromSave(playerSave)) != 0)
         out->hasBattleRecord = 1;
     if (out->recordSum8 != 0)
         out->hasRecordSum8 = 1;
-    if (func_02008DFC(records, (u16)0x78))
+    if (RECORD_GetCounterClamped(records, (u16)0x78))
         out->hasRecordFlag78 = 1;
-    if (func_02008DFC(records, (u16)0x79))
+    if (RECORD_GetCounterClamped(records, (u16)0x79))
         out->hasRecordFlag79 = 1;
     if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save), 2402) == 1)
         out->hasEventFlag2402 = 1;
     else
         out->hasEventFlag2402 = 0;
     out->pokedexCount = ZUKAN_SAVE_CountSeen(zukan, heap);
-    out->hasSignature = (u32)func_020089D0(signature);
-    MI_CpuCopy8(func_020089CC(signature), out->signatureBitmap, 0x600);
+    out->hasSignature = (u32)TRCARD_SIGN_HasAnySignature(signature);
+    MI_CpuCopy8(TRCARD_SIGN_GetBitmap(signature), out->signatureBitmap, 0x600);
     out->flagFromParam = flag;
 }
 

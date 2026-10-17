@@ -22,6 +22,7 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  */
 #include "wifilist_tail_shared_types.h"
 #include "musical_save_shared_types.h"
@@ -123,7 +124,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern u32  MSGDATA_Delete(struct MsgBank *bank);
 
@@ -210,7 +211,7 @@ void REGULATION_NoOp(void)
 void REGULATION_GetCupName(struct Regulation *rule, void *dest)
 {
     struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 2, 0xA6, 1);
-    func_02045CAC(bank, rule->cupNo, dest);
+    MSGDATA_ReadString(bank, rule->cupNo, dest);
     MSGDATA_Delete(bank);
 }
 

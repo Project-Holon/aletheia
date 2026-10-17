@@ -236,7 +236,7 @@ extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
-extern u8 func_02008550(const struct MyStatus *myStatus);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *myStatus);
 extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *eventWork, u32 workId);
 extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMan *man, int kind, const VecFx32 *pos);
 extern int FIELD_BUILDMODEL_GetEntrySlotFrame(struct BuildModelMan *man, struct BuildModelEntry *entry, int animeId);

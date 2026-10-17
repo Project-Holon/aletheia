@@ -162,6 +162,8 @@
  *   GF_OVERLAY_Init  0x0203499C  arm
  *   UI_Create  0x02034E24  arm
  *   SNDARC_IsGroupLoaded  0x02074A54  arm
+ *   SAVE_CONTROL_Get  0x020070A4  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -330,8 +332,8 @@ extern void WIH_DWC_CreateFilterBuffer(u32 heapId);
 extern void WIH_DWC_ResetFilterState(void);
 extern void PROCSYS_PushGlobal(int mode, u32 table, u32 option);
 extern struct SaveCtrl *SAVE_CONTROL_Create(int heapId);
-extern struct SaveData *func_020070A4(void);
-extern struct Config *func_0200873C(struct SaveData *save);
+extern struct SaveData *SAVE_CONTROL_Get(void);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveData *save);
 extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
 extern void MSG_SPEED_SetSaveControl(struct SaveData *save);
 extern void GFL_NET_ERR_CreateHeap(void);
@@ -695,8 +697,8 @@ void GFL_USE_InitGameSystems(void)
     WIH_DWC_ResetFilterState();
     PROCSYS_PushGlobal(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
     SAVE_CONTROL_Create(7);
-    CONFIG_ApplyAppliedFlag(func_0200873C(func_020070A4()));
-    MSG_SPEED_SetSaveControl(func_020070A4());
+    CONFIG_ApplyAppliedFlag(SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get()));
+    MSG_SPEED_SetSaveControl(SAVE_CONTROL_Get());
     GFL_NET_ERR_CreateHeap();
     GFL_NET_ERR_Init(8);
     SAVEDATA_SetFailHook((u32)&GFL_NET_ERR_ExitAndHalt);
@@ -704,7 +706,7 @@ void GFL_USE_InitGameSystems(void)
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
     PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
-    GFL_USE_ApplySoundModeFromConfig(func_0200873C(func_020070A4()));
+    GFL_USE_ApplySoundModeFromConfig(SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get()));
     CONFIG_InitKeyControlTable();
     GAME_BEACON_Create(1);
     GPOWER_Init();

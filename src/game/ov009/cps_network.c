@@ -1,7 +1,7 @@
 /*
  * file:     cps_network.c
  * unit:     yes
- * function: CPS_SetCheckNConfigCallback, func_02157290, OS_YieldThread__, func_021573B8, func_021573BC, CPS_Startup, CPS_CalmDown, CPS_SetScavengerCallback, CPS_Cleanup, CPS_SetThreadPriority, calc_checksum_do, invert_checksum, calc_checksum, check_tcpudpsum, ip_islocal, get_targetip, is_broadcast, is_multicast, ip_isme, maccmp, send_packet, put_in_buffer, CPSi_RecvCallbackFunc, receive_packet, throw_packet, inq_arpcache, send_arprequest, arprequest, reg_arpcache, send_ether, send_ip_frag, send_ip, send_ping, send_udp, _send_tcp, reply_arp, dispatch_arp, reply_icmp, process_icmp_reply, valid_IP, dispatch_icmp, check_listener, check_socket, find_socket, parse_mss, no_need_inq, _tcp_send_handshake, _tcp_send_ack, _tcp_send_finack, _tcp_send_rst, dt_syn_LISTEN, find_specific_socket, dt_syn, dt_synack, mark_rwin_chunk, merge_rwin_chunks, pull_rwin_chunks, push_rwin_chunks, dt_ack, dt_fin, dt_rst, dispatch_tcp, dispatch_udp, check_frag, dispatch_ip, tcpip, CPS_SocGetEport, get_seqno, CPS_SocRegister, CPS_SocUnRegister, CPS_SocDatagramMode, CPS_SocBind, CPS_SocUse, CPS_SocRelease, CPS_SocDup, CPS_SetUdpCallback, CPSi_TcpConnectRaw, CPS_TcpConnect, CPSi_TcpShutdownRaw, CPS_TcpShutdown, CPS_TcpClose, udp_read_raw, CPSi_TcpReadRaw, CPS_SocRead, CPSi_SocConsumeRaw, CPS_SocConsume, tcp_write_do, tcp_write_do2, CPSi_TcpWrite2Raw, CPSi_SocWrite2, CPS_SocWrite, CPS_SocGetLength, CPS_SocFlush, garprequest, set_fixed_ip, scavenger, dacktimer_reschedule, dacktimer, dacktimer_alarmhandler, dhcp_setcommon, pad_mem, dhcp_send_discover, dhcp_send_request, dhcp_analyze_response, dhcp_discover_server, dhcp_request_server, dhcp_release_server, dns_skipname, resolve_common, strtol10, rawip, resolve_sub, CPS_Resolve
+ * function: CPS_SetCheckNConfigCallback, reset_network_vars, OS_YieldThread__, empty_func, default_link_is_on, CPS_Startup, CPS_CalmDown, CPS_SetScavengerCallback, CPS_Cleanup, CPS_SetThreadPriority, calc_checksum_do, invert_checksum, calc_checksum, check_tcpudpsum, ip_islocal, get_targetip, is_broadcast, is_multicast, ip_isme, maccmp, send_packet, put_in_buffer, CPSi_RecvCallbackFunc, receive_packet, throw_packet, inq_arpcache, send_arprequest, arprequest, reg_arpcache, send_ether, send_ip_frag, send_ip, send_ping, send_udp, _send_tcp, reply_arp, dispatch_arp, reply_icmp, process_icmp_reply, valid_IP, dispatch_icmp, check_listener, check_socket, find_socket, parse_mss, no_need_inq, _tcp_send_handshake, _tcp_send_ack, _tcp_send_finack, _tcp_send_rst, dt_syn_LISTEN, find_specific_socket, dt_syn, dt_synack, mark_rwin_chunk, merge_rwin_chunks, pull_rwin_chunks, push_rwin_chunks, dt_ack, dt_fin, dt_rst, dispatch_tcp, dispatch_udp, check_frag, dispatch_ip, tcpip, CPS_SocGetEport, get_seqno, CPS_SocRegister, CPS_SocUnRegister, CPS_SocDatagramMode, CPS_SocBind, CPS_SocUse, CPS_SocRelease, CPS_SocDup, CPS_SetUdpCallback, CPSi_TcpConnectRaw, CPS_TcpConnect, CPSi_TcpShutdownRaw, CPS_TcpShutdown, CPS_TcpClose, udp_read_raw, CPSi_TcpReadRaw, CPS_SocRead, CPSi_SocConsumeRaw, CPS_SocConsume, tcp_write_do, tcp_write_do2, CPSi_TcpWrite2Raw, CPSi_SocWrite2, CPS_SocWrite, CPS_SocGetLength, CPS_SocFlush, garprequest, set_fixed_ip, scavenger, dacktimer_reschedule, dacktimer, dacktimer_alarmhandler, dhcp_setcommon, pad_mem, dhcp_send_discover, dhcp_send_request, dhcp_analyze_response, dhcp_discover_server, dhcp_request_server, dhcp_release_server, dns_skipname, resolve_common, strtol10, rawip, resolve_sub, CPS_Resolve
  * address:  0x02157280
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -58,19 +58,19 @@
  *   OS_JoinThread  0x02085710  arm
  *   OS_DestroyThread  0x020855BC  arm
  *   OS_CancelAlarm  0x020873F8  arm
- *   func_02157290  0x02157290  arm  ov009
+ *   reset_network_vars  0x02157290  arm  ov009
  *   gCpsTcpipThread  0x021A86A4  data
  *   gCpsDackTimerAlarm  0x021A82FC  data
  *   gCpsDackTimerThread  0x021A8524  data
  *   OS_SetThreadPriority             0x02085988 arm
  *   is_broadcast  0x021578EC  arm  ov009
- *   func_02082EA4  0x02082EA4  arm
+ *   MI_CpuCopy  0x02082EA4  arm
  *   WCM_SendDCFDataEx  0x02166444  arm  ov009
  *   gCpsUdpHeaderTemplate  0x021A1CC0  data
  *   MI_CpuCopy                       0x02082ea4 arm
  *   OS_SleepThread  0x020857B0  arm
  *   gMslRefToken  0x02150FEC  data
- *   func_020870D0  0x020870D0  arm
+ *   OS_GetTick  0x020870D0  arm
  *   CPSMyMac  0x021A82D4  data
  *   gCpsBroadcastMac  0x021A1CA1  data
  *   gCpsArpCache  0x021A8384  data
@@ -243,11 +243,9 @@ extern void OS_DestroyThread(void *thread);
 extern void OS_CancelAlarm(void *alarm);
 extern int OS_SetThreadPriority(void *thread, unsigned long prio);
 extern unsigned long is_broadcast(unsigned long ip);
-extern void func_02082EA4(void *src, void *dst, unsigned long size);
 extern long WCM_SendDCFDataEx(unsigned char *dst, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 extern void OS_SleepThread(void *queue);
-extern unsigned long long func_020870D0(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void OS_Sleep(unsigned long msec);
 extern unsigned long ip_islocal(unsigned long ip);
@@ -1326,7 +1324,7 @@ void dacktimer_reschedule(void)
 	unsigned long tick;
 
 	enabled = OS_DisableInterrupts();
-	tick = (unsigned long)func_020870D0();
+	tick = (unsigned long)OS_GetTick();
 	for (t = gMslRefToken.list; t != 0; t = t->next) {
 		soc = t->specific[0];
 		if (soc != 0 && soc->thread != 0 && soc->state == 4 && soc->ack_pending != 0) {
@@ -1391,7 +1389,7 @@ void scavenger(void)
         OS_Sleep(1000);
         if (gCpsNetVars.calm)
             break;
-        now = (unsigned long)(func_020870D0() >> 16);
+        now = (unsigned long)(OS_GetTick() >> 16);
 
         if (gCpsNetVars.link_is_on())
         {
@@ -1599,8 +1597,8 @@ int garprequest(void)
     send_arprequest(gCpsNetVars.myip);
     OS_Sleep(100);
     send_arprequest(gCpsNetVars.myip);
-    start = (unsigned long)(func_020870D0() >> 16);
-    while (gCpsNetVars.link_is_on() != 0 && (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x17) {
+    start = (unsigned long)(OS_GetTick() >> 16);
+    while (gCpsNetVars.link_is_on() != 0 && (int)((unsigned long)(OS_GetTick() >> 16) - start) < 0x17) {
         if (gCpsNetVars.ip_conflict != 0)
             return 0;
         OS_Sleep(100);
@@ -2061,9 +2059,9 @@ void CPS_TcpClose(void)
         return;
     if (*(unsigned char *)(soc + 9) != 0)
         CPSi_SslClose(soc);
-    start = (unsigned long)(func_020870D0() >> 16);
+    start = (unsigned long)(OS_GetTick() >> 16);
     while (gCpsNetVars.link_is_on() != 0 && *(unsigned char *)(soc + 8) != 0 &&
-           (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x27)
+           (int)((unsigned long)(OS_GetTick() >> 16) - start) < 0x27)
         OS_YieldThread__();
     *(unsigned char *)(soc + 8) = 0;
 }
@@ -2170,7 +2168,7 @@ unsigned long CPSi_TcpConnectRaw(struct _CPSSoc *soc)
 	for (retry = 0; retry < 3; retry++) {
 		soc->seqno = seqno;
 		soc->state = 2;
-		soc->when = (unsigned long)(func_020870D0() >> 16);
+		soc->when = (unsigned long)(OS_GetTick() >> 16);
 		_tcp_send_handshake((char *)((struct _CPSSoc *)((char *)soc)), 2);
 		enabled = OS_DisableInterrupts();
 		if (soc->state == 2 && gCpsNetVars.myip != 0) {
@@ -2930,7 +2928,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                             {
                                 if (((CPSSocRcvBuf *)(e + 0x70))->start == 0)
                                 {
-                                    func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
+                                    MI_CpuCopy(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
                                     soc->chunks[ci].start = disconp;
                                     soc->chunks[ci].len = len;
                                     mark_rwin_chunk((struct _CPSSoc *)soc, ci);
@@ -2940,7 +2938,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                                 reorder_nextp = ((CPSSocRcvBuf *)(e + 0x70))->start + ((CPSSocRcvBuf *)(e + 0x70))->len;
                                 if (disconp < soc->chunks[ci].start && soc->chunks[ci].start <= wend)
                                 {
-                                    func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);
+                                    MI_CpuCopy(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);
                                     soc->chunks[ci].len += soc->chunks[ci].start - disconp;
                                     soc->chunks[ci].start = disconp;
                                     mark_rwin_chunk((struct _CPSSoc *)soc, ci);
@@ -2949,7 +2947,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                                 }
                                 if (disconp <= reorder_nextp && reorder_nextp < wend)
                                 {
-                                    func_02082EA4(TCPDATA(tcphdr) + reorder_nextp - disconp, soc->rcvbuf.data + reorder_nextp, wend - reorder_nextp);
+                                    MI_CpuCopy(TCPDATA(tcphdr) + reorder_nextp - disconp, soc->rcvbuf.data + reorder_nextp, wend - reorder_nextp);
                                     soc->chunks[ci].len += wend - reorder_nextp;
                                     merge_rwin_chunks((struct _CPSSoc *)soc);
                                     mark_rwin_chunk((struct _CPSSoc *)soc, ci);
@@ -3014,19 +3012,19 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
             {
                 if (!(flag & 1))
                 {
-                    func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, soc->chunks[0].start - soc->rcvbufp);
+                    MI_CpuCopy(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, soc->chunks[0].start - soc->rcvbufp);
                     len = soc->chunks[0].start + soc->chunks[0].len - soc->rcvbufp;
                 }
                 else
                 {
-                    func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
+                    MI_CpuCopy(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
                 }
                 soc->chunks[0].start = 0;
                 pull_rwin_chunks((char *)soc);
             }
             else
             {
-                func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
+                MI_CpuCopy(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
             }
             soc->rcvbufp += len;
             soc->ackno += len;
@@ -3300,7 +3298,7 @@ unsigned long find_specific_socket(unsigned char *iphdr, unsigned char *tcphdr, 
 void dt_syn_LISTEN(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc)
 {
 	soc->state = 3;
-	soc->when = (unsigned long)(func_020870D0() >> 16);
+	soc->when = (unsigned long)(OS_GetTick() >> 16);
 	soc->local_ip_real = BE32(iphdr, 0x10);
 	soc->remote_port = SWAP16(*(unsigned short *)tcphdr);
 	soc->remote_ip = BE32(iphdr, 0xc);
@@ -3838,14 +3836,14 @@ void reply_arp(unsigned char *buf)
 {
 	unsigned short v;
 	*(unsigned short *)(buf + 6) = 0x200;
-	func_02082EA4(buf + 8, buf + 0x12, 10);
-	func_02082EA4(CPSMyMac, buf + 8, 6);
+	MI_CpuCopy(buf + 8, buf + 0x12, 10);
+	MI_CpuCopy(CPSMyMac, buf + 8, 6);
 	v = (unsigned short)(gCpsNetVars.myip >> 16);
 	*(unsigned short *)(buf + 0xe) = (v >> 8) | (v << 8);
 	v = (unsigned short)gCpsNetVars.myip;
 	*(unsigned short *)(buf + 0x10) = (v >> 8) | (v << 8);
-	func_02082EA4(buf + 0x12, buf - 0xe, 6);
-	func_02082EA4(CPSMyMac, buf - 8, 6);
+	MI_CpuCopy(buf + 0x12, buf - 0xe, 6);
+	MI_CpuCopy(CPSMyMac, buf - 8, 6);
 	send_packet(buf - 0xe, 0x2a, 0, 0);
 }
 
@@ -3952,7 +3950,7 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     if (flag & 0x10)
     {
         soc->ack_pending = 0;
-        soc->tick_acked = (u32)func_020870D0();
+        soc->tick_acked = (u32)OS_GetTick();
     }
     sum = invert_checksum(calc_checksum_do(data, len, calc_checksum_do(hdr - 12, this_tcp_size + 12, 0)));
     *(u16 *)(hdr + 16) = HTONS(sum);
@@ -4203,7 +4201,7 @@ void send_ether(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, 
 			mac_to = arprequest(ip_to);
 		if (mac_to == 0)
 			return;
-		func_02082EA4(mac_to, hdr - 0xe, 6);
+		MI_CpuCopy(mac_to, hdr - 0xe, 6);
 	} else {
 		hdr[-0xe] = 1;
 		hdr[-0xd] = 0;
@@ -4212,7 +4210,7 @@ void send_ether(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, 
 		hdr[-0xa] = ip_to >> 8;
 		hdr[-9] = ip_to;
 	}
-	func_02082EA4(CPSMyMac, hdr - 8, 6);
+	MI_CpuCopy(CPSMyMac, hdr - 8, 6);
 	send_packet(hdr - 0xe, hdr_len + 0xe, body, body_len);
 }
 
@@ -4347,7 +4345,7 @@ unsigned char *inq_arpcache(unsigned long ip)
 	} else {
 		for (i = 0; i < 8; i++) {
 			if (ip == gCpsArpCache[i].ip) {
-				gCpsArpCache[i].when = func_020870D0() >> 16;
+				gCpsArpCache[i].when = OS_GetTick() >> 16;
 				result = &gCpsArpCache[i].mac;
 				break;
 			}
@@ -4498,7 +4496,7 @@ void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 
  */
 void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len)
 {
-    func_02082EA4(gCpsUdpHeaderTemplate, hdr + 6, 6);
+    MI_CpuCopy(gCpsUdpHeaderTemplate, hdr + 6, 6);
     gCpsNetVars.wfailed = WCM_SendDCFDataEx(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;
 }
 

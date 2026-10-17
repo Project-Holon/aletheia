@@ -19,7 +19,7 @@
  *   SCRCMD_WORK_RestoreScriptState  0x0215AA34  thumb  ov010
  *   SCRCMD_WORK_SetChildScriptIndex  0x0215AA48  thumb  ov010
  *   SCRCMD_WORK_SaveScriptState  0x0215AA24  thumb  ov010
- *   func_02011290  0x02011290  thumb
+ *   VM_End  0x02011290  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   KEY_GetTrg  0x020362DC  arm
@@ -45,7 +45,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
  *   BMP_MENUWORK_CountItems  0x0201F91C  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   FIELD_MSGBG_AddMenuItemStr  0x02190A64  thumb  ov021
@@ -58,8 +58,8 @@
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_MenuFuncMain 0x021909E4 thumb ov021
- *   func_02020D0C  0x02020D0C  thumb
- *   func_020202EC  0x020202EC  thumb
+ *   BMP_MENULIST_GetUserData  0x02020D0C  thumb
+ *   BMP_MENULIST_GetListIndex  0x020202EC  thumb
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   FIELD_MSGBG_ClearInfoSysWin  0x02191164  thumb  ov021
  *   FIELD_MSGBG_InfoSysWinPrintStrNow  0x02191184  thumb  ov021
@@ -67,11 +67,11 @@
  *   SCRIPT_WORK_RestoreLocalWork  0x021590D4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
  *   CONFIG_SetAppliedFlag  0x020083EC  thumb
  *   SCRIPT_WORK_ReadWorkValue   0x02159B10  thumb  ov010
- *   func_020056EC   0x020056EC  thumb
+ *   GFL_USE_GetRandom   0x020056EC  thumb
  *   TRCARD_SYS_CountStars  0x0216F830  thumb  ov010
  *   FIELD_CLOCK_GetTimeZone  0x021690B4  thumb  ov010
  *   FIELD_CLOCK_GetWeek  0x021690F0  thumb  ov010
@@ -81,7 +81,7 @@
  *   FIELD_CLOCK_GetMinute  0x02169110  thumb  ov010
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   OS_GetOwnerInfoEx 0x02087D28 arm
- *   func_02008550   0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant   0x02008550  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   BEACON_GetFlag 0x0200C234 thumb
  *   BEACON_SetFlag  0x0200C248  thumb
@@ -89,9 +89,9 @@
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   TRCARD_SIGN_SetBadgeDate  0x02008A7C  thumb
  *   BEACON_CountFlags  0x0200C258  thumb
- *   func_020071EC  0x020071EC  thumb
+ *   SAVE_CONTROL_HasFlashSave  0x020071EC  thumb
  *   SAVE_CONTROL_IsNewGame  0x020071E4  thumb
- *   func_0200723C  0x0200723C  thumb
+ *   SAVE_CONTROL_GetDiffSize  0x0200723C  thumb
  *   GAME_DATA_SetWarpId  0x02012900  thumb
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
@@ -111,12 +111,12 @@
  *   ZUKAN_SAVE_SetDexObtained  0x0200CA40  thumb
  *   CONFIG_GetButtonMode  0x02008428  thumb
  *   GAME_DATA_GetBoxManager 0x0201293C thumb
- *   func_02007A68 0x02007A68 thumb
- *   func_020089C0  0x020089C0  thumb
- *   func_02008554  0x02008554  thumb
+ *   BOX_SAVEDATA_SetFlags 0x02007A68 thumb
+ *   TRCARD_SIGN_GetFromSave  0x020089C0  thumb
+ *   MYSTATUS_GetOutfit  0x02008554  thumb
  *   CURSOR_MOVE_GetTableGroup  0x02025C88  thumb
- *   func_020089F4  0x020089F4  thumb
- *   func_02008A00  0x02008A00  thumb
+ *   TRCARD_SIGN_GetSeenBefore  0x020089F4  thumb
+ *   TRCARD_SIGN_SetSeenBefore  0x02008A00  thumb
  *   BEACON_GetSlotState 0x0200C308 thumb
  *   BEACON_SetSlotState   0x0200C2F0  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
@@ -268,7 +268,7 @@ extern int SCRIPT_WORK_CheckFlag(int);
 extern int SCRIPT_SYS_SetNextEventFromWork(struct ScriptWork *scriptWork, void *event);
 u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, ScrcmdWork *work);
 unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, ScrcmdWork *work);
-extern int func_02011290(struct ScriptVm *vm);
+extern int VM_End(struct ScriptVm *vm);
 
 /* map_matrix.c, map_replace.c, warp table */
 int MAP_MATRIX_Load(struct MapMatrix *mapMatrix, int matrixId, u16 zoneId, int heapId);
@@ -308,23 +308,23 @@ extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 
 /* save data */
-extern struct Config *func_0200873C(struct SaveControl *saveControl);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
 extern int CONFIG_GetAppliedFlag(struct Config *config);
 extern int CONFIG_SetAppliedFlag(struct Config *config, int flag);
 extern int CONFIG_GetButtonMode(struct Config *config);
-extern u8 func_02008550(const struct PlayerStatus *status);
-extern u8 func_02008554(const struct PlayerStatus *status);
-extern unsigned char func_020071EC(const struct SaveControl *saveControl);
+extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *status);
+extern u8 MYSTATUS_GetOutfit(const struct PlayerStatus *status);
+extern unsigned char SAVE_CONTROL_HasFlashSave(const struct SaveControl *saveControl);
 extern u8 SAVE_CONTROL_IsNewGame(const struct SaveControl *saveControl);
-extern void func_0200723C(struct SaveControl *saveControl, unsigned *used, unsigned *total);
+extern void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, unsigned *used, unsigned *total);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u8 heapId);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 index);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
-extern void func_02007A68(struct BoxManager *boxManager, u32 bits);
+extern void BOX_SAVEDATA_SetFlags(struct BoxManager *boxManager, u32 bits);
 extern u32 MISC_SAVEDATA_GetRingIndex(void *extraSave);
-extern struct RecordSave *func_020089C0(struct SaveControl *saveControl);
-extern u8 func_020089F4(const struct RecordSave *record);
-extern struct RecordSave *func_02008A00(struct RecordSave *record);
+extern struct RecordSave *TRCARD_SIGN_GetFromSave(struct SaveControl *saveControl);
+extern u8 TRCARD_SIGN_GetSeenBefore(const struct RecordSave *record);
+extern struct RecordSave *TRCARD_SIGN_SetSeenBefore(struct RecordSave *record);
 extern void TRCARD_SIGN_SetBadgeDate(struct RecordSave *record, u32 index, u32 year, u32 month, u32 day);
 extern u32 BEACON_GetFlag(struct MiscSave *misc, u32 flagId);
 extern void BEACON_SetFlag(struct MiscSave *misc, u32 flagId);
@@ -361,7 +361,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void func_02082A7C(int value, void *dest, int size);
 extern void MI_CpuFill8(void *dest, int value, int size);
 extern u32 KEY_GetTrg(void);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
 extern void OS_GetOwnerInfoEx(OwnerInfo *info);
 extern void GF_STANDARD_SetField00_F4E4(RtcDate *date);
@@ -370,13 +370,13 @@ extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heapId);
 /* message data, strings, menus */
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern int MSGDATA_Delete(struct MsgBank *msgData);
-extern void func_02045CAC(struct MsgBank *msgData, unsigned int index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *msgData, unsigned int index, struct Strbuf *dest);
 extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
 extern int STRBUF_Delete(struct Strbuf *str);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern unsigned int BMP_MENUWORK_CountItems(struct BmpMenuWork *items);
-extern ScrcmdWork *func_02020D0C(struct BmpMenuList *list);
-extern void func_020202EC(struct BmpMenuList *list, u16 *out);
+extern ScrcmdWork *BMP_MENULIST_GetUserData(struct BmpMenuList *list);
+extern void BMP_MENULIST_GetListIndex(struct BmpMenuList *list, u16 *out);
 extern struct BmpMenuWork *FIELD_MSGBG_CreateMenuItems(int count, int heapId);
 extern int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u32 heapId);
 extern u32 FIELD_MSGBG_GetMenuItemsWidthChars(int *heap, struct BmpMenuWork *items, u32 fontId, u32 margin);
@@ -668,11 +668,11 @@ void SCRCMD_WORK_AddMenuItem(ScrcmdWork *work, int msgId, int helpMsgId, int par
         if (index >= 0x20) {
             return;
         }
-        func_02045CAC(menu->msgData, helpMsgId, tmp);
+        MSGDATA_ReadString(menu->msgData, helpMsgId, tmp);
         WORDSET_CopyTaggedText(menu->wordSet, str, tmp);
         menu->itemHelp[index] = STRBUF_Clone(str, work->heapId);
     }
-    func_02045CAC(menu->msgData, msgId, tmp);
+    MSGDATA_ReadString(menu->msgData, msgId, tmp);
     WORDSET_CopyTaggedText(menu->wordSet, str, tmp);
     FIELD_MSGBG_AddMenuItemStr(menu->items, str, param, work->heapId);
 }
@@ -755,9 +755,9 @@ int SCRCMD_WORK_WaitMenuOrCancel(ScrcmdWork *work)
 void SCRCMD_WORK_MenuCursorCallback(struct BmpMenuList *list)
 {
     unsigned short index = 0;
-    ScrcmdWork *work = func_02020D0C(list);
+    ScrcmdWork *work = BMP_MENULIST_GetUserData(list);
     ScrcmdMenu *menu = &work->common->menu;
-    func_020202EC(list, &index);
+    BMP_MENULIST_GetListIndex(list, &index);
     if (menu->itemHelp[index] != NULL) {
         if (SCRIPT_WORK_CheckFlag(1) != 0) {
             struct FieldMsgWindow *window = SCRCMD_WORK_GetMsgWindow(work);
@@ -801,7 +801,7 @@ int SCRCMD_WORK_CmdToggleConfigFlag(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct Config *config;
     int flag;
-    config = func_0200873C(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
+    config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     flag = CONFIG_GetAppliedFlag(config);
     if (flag == 0) {
         flag = 1;
@@ -816,7 +816,7 @@ int SCRCMD_WORK_CmdGetConfigFlag(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct Config *config;
     u16 *ret;
-    config = func_0200873C(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
+    config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     *ret = CONFIG_GetAppliedFlag(config);
     return 0;
@@ -825,7 +825,7 @@ int SCRCMD_WORK_CmdGetConfigFlag(struct ScriptVm *vm, ScrcmdWork *work)
 int SCRCMD_WORK_CmdGetRandom(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = (u16)func_020056EC(SCRIPT_WORK_ReadWorkValue(vm, work));
+    *ret = (u16)GFL_USE_GetRandom(SCRIPT_WORK_ReadWorkValue(vm, work));
     return 0;
 }
 
@@ -904,7 +904,7 @@ int SCRCMD_WORK_CmdGetBirthday(struct ScriptVm *vm, ScrcmdWork *work)
 int SCRCMD_WORK_CmdGetPlayerRomCode(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = (u16)func_02008550(&GAME_DATA_GetField114(SCRCMD_WORK_GetGameData(work))->status);
+    *ret = (u16)MYSTATUS_GetOutfitVariant(&GAME_DATA_GetField114(SCRCMD_WORK_GetGameData(work))->status);
     return 0;
 }
 
@@ -948,9 +948,9 @@ int SCRCMD_WORK_CmdGetSaveStatus(struct ScriptVm *vm, ScrcmdWork *work)
     retThird = SCRIPT_WORK_ReadWorkPointer(vm, work);
     total = 0;
     used = 0;
-    *retFirst = func_020071EC(saveControl);
+    *retFirst = SAVE_CONTROL_HasFlashSave(saveControl);
     *retSecond = SAVE_CONTROL_IsNewGame(saveControl);
-    func_0200723C(saveControl, &used, &total);
+    SAVE_CONTROL_GetDiffSize(saveControl, &used, &total);
     if (used * 3 < total) {
         *retThird = 0;
     } else {
@@ -1127,7 +1127,7 @@ int SCRCMD_WORK_CmdGetButtonMode(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct Config *config;
     u16 *ret;
-    config = func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(work))));
+    config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(work))));
     ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     switch (CONFIG_GetButtonMode(config)) {
     case 0:
@@ -1151,7 +1151,7 @@ int SCRCMD_WORK_CmdSetBoxFlags(struct ScriptVm *vm, ScrcmdWork *work)
     int bits = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     struct BoxManager *boxManager = GAME_DATA_GetBoxManager(SCRCMD_WORK_GetGameData(work));
     if ((u16)(bits + 0xFFFF) <= 1)
-        func_02007A68(boxManager, bits);
+        BOX_SAVEDATA_SetFlags(boxManager, bits);
     return 0;
 }
 
@@ -1166,10 +1166,10 @@ int SCRCMD_WORK_CmdGetPlayerSaveValue(struct ScriptVm *vm, ScrcmdWork *work)
     retFirst = SCRIPT_WORK_ReadWorkPointer(vm, work);
     gameData = SCRCMD_WORK_GetGameData(work);
     playerWork = GAME_DATA_GetField114(gameData);
-    record = func_020089C0(GAME_DATA_GetSaveControl(gameData));
-    *retFirst = CURSOR_MOVE_GetTableGroup(func_02008554(&playerWork->status));
-    *retSecond = func_020089F4(record);
-    func_02008A00(record);
+    record = TRCARD_SIGN_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+    *retFirst = CURSOR_MOVE_GetTableGroup(MYSTATUS_GetOutfit(&playerWork->status));
+    *retSecond = TRCARD_SIGN_GetSeenBefore(record);
+    TRCARD_SIGN_SetSeenBefore(record);
     return 0;
 }
 
@@ -1295,7 +1295,7 @@ int SCRCMD_WORK_CmdEndFieldCommandA(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(work);
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(work);
     SCRIPT_SYS_SetNextEventFromWork(scriptWork, SCRCMD_NETWORK_CreateCommProcEvent(gameSystem));
-    func_02011290(vm);
+    VM_End(vm);
     return 1;
 }
 
@@ -1315,7 +1315,7 @@ int SCRCMD_WORK_CmdEndFieldCommandB(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(work);
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(work);
     SCRIPT_SYS_SetNextEventFromWork(scriptWork, SCRCMD_NETWORK_CreateCommProcEvent(gameSystem));
-    func_02011290(vm);
+    VM_End(vm);
     return 1;
 }
 

@@ -17,7 +17,7 @@
  *
  * symbols:
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   G3i_PerspectiveW_  0x0207D704  arm
  *   G3X_Reset  0x0207DA8C  arm
@@ -55,7 +55,7 @@
 typedef enum { BANK_NONE, BANK_A = 1, BANK_B = 2, BANK_C = 4 } Bank;
 
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void G3i_PerspectiveW_(int a, int b, int c, int d, int e, int f, int g, int h);
 extern void G3X_Reset(void);
@@ -101,7 +101,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem
     EncEffScreenTexWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexFlashEventMain, 48);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 48);
     work->cameraPos = *cameraPos;
     work->start = start;
@@ -117,7 +117,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, Vec
     EncEffScreenTexWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexEventMain, 0x30);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0x30);
     work->cameraPos = *cameraPos;
     work->start = start;

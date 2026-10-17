@@ -134,7 +134,7 @@ void ZUKAN_SEARCH_ENGINE_ReleaseWork(int a0)
 
 /*
  * note 2026-10-05 (P24L1): rewritten from the listing, bytes equal (772/772). Only relocation
- *   without a witness is finalTest 0x021C9918; the leaf is filed as src/matched/ov/ov212_func_021C9918.c
+ *   without a witness is finalTest 0x021C9918; the leaf is filed as src/matched/ov/ZUKAN_SEARCH_ENGINE_FinalTest.c
  *   (EXACT c99 and c), so a manifest refresh should resolve it and promote this file to EXACT.
  *   Levers that closed it from 483 B off: (1) calls with each reject written as
  *   p->reject[i] = 1; continue; at every failing test (raises the use count of i, so i keeps r5

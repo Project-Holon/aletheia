@@ -22,7 +22,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -55,7 +55,7 @@ struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *eventFileName, void 
 u32 GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(void *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **callee);
@@ -86,7 +86,7 @@ void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
 
     GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_BSUBWAY_COMM_EventMain, 0x10);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work[0] = value;
     work[1] = (int)gameSystem;
     work[3] = resultPtr;

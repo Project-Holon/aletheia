@@ -283,7 +283,7 @@ typedef struct WifiClubMenuPending { BmpWin *win; u8 pending; u8 pad05[3]; } Wif
 
 typedef struct WifiClubWork {
     /* 0x000 */ void *updateTask;            /* task running WIFICLUB_VBlankTask, deleted with TCB_DeleteTask */
-    /* 0x004 */ void *friendList;            /* func_02009864(list, idx, field): 8 trainer id, 9 sex, 2..7 stats */
+    /* 0x004 */ void *friendList;            /* WIFILIST_GetFriendInfoField(list, idx, field): 8 trainer id, 9 sex, 2..7 stats */
     /* 0x008 */ WifiClubPlayerStatus *localStatus;
     u8 pad0C[4];
     /* 0x010 */ u8 visibleList[32];          /* five tables of 32 bytes, one byte per member slot: +0x10 .. +0xB0 */
@@ -292,12 +292,12 @@ typedef struct WifiClubWork {
     u8 shownActorFlags[32];
     u8 shownActorExtra[32];
     /* 0x0B0 */ void *subMenuWork; void *subMenuList; void *menuWork; void *menuList;   /* BMP_MENUWORK / BMP_MENULIST pairs */
-    /* 0x0C0 */ void *saveData;              /* args+8; func_02008730(saveData) = my status */
+    /* 0x0C0 */ void *saveData;              /* args+8; SYSTEM_DATA_GetMyStatus(saveData) = my status */
     /* 0x0C4 */ void *gameData;              /* args+4 */
     /* 0x0C8 */ void *party;                 /* GAME_DATA_GetMyParty(gameData) */
     /* 0x0CC */ void *savedRegulation;       /* WIFICLUB_LoadSavedRegulation(gameData); nonzero = custom regulation present */
     u8 padD0[8];
-    /* 0x0D8 */ void *myStatus;              /* func_0200873C(saveData) */
+    /* 0x0D8 */ void *myStatus;              /* SYSTEM_DATA_GetConfig(saveData) */
     /* 0x0DC */ WordSet *wordSet;
     /* 0x0E0 */ MsgData *msgBank; MsgData *msgBankAlt;
     /* 0x0E8 */ void *textFont; void *nameFont;

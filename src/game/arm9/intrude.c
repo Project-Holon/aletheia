@@ -16,9 +16,9 @@
  *   MI_CpuFill8          0x02082BCC  arm
  *   INTRUDE_COMM_ResetOutcomes   0x021763BC  thumb
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_0200864C  0x0200864C  thumb
- *   func_02008650  0x02008650  thumb
- *   func_02008654  0x02008654  thumb
+ *   PLAYTIME_GetHours  0x0200864C  thumb
+ *   PLAYTIME_GetMinutes  0x02008650  thumb
+ *   PLAYTIME_GetSeconds  0x02008654  thumb
  *   _ull_mul       0x0209C054  arm
  *   _PlayTimeLatch  0x02146170  data  a8
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
@@ -65,11 +65,11 @@ extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeOccupy *occupy);
 
 extern u16 STRBUF_GetEosChar(void);
 
-extern u16 func_0200864C(const struct PlayTime *time);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *time);
 
-extern u8 func_02008650(const struct PlayTime *time);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *time);
 
-extern u8 func_02008654(const struct PlayTime *time);
+extern u8 PLAYTIME_GetSeconds(const struct PlayTime *time);
 
 u32 INTRUDE_GetSize(void);
 
@@ -306,7 +306,7 @@ void INTRUDE_AddLogEntry(struct IntrudeSave *intrude, struct IntrudeLogEntry *en
  * INTRUDE_SetObtainedFlag sets one bit of the bitmap for an id in 0x21..0x26, and the
  * index arithmetic is signed: `lsrs #0x1F` / `lsls #0x1D` / `subs` /
  * `rors #0x1D` is `% 8` on a signed value, exactly as in
- * src/matched/sub_0200A6BC.c, and `& 7` would have been a two-instruction
+ * src/matched/MUSICAL_SAVE_AddProp.c, and `& 7` would have been a two-instruction
  * `movs`/`ands`.  The two range tests branch to one exit, so they are one
  * conjunction rather than two early returns.
  *
@@ -385,9 +385,9 @@ u64 INTRUDE_UpdatePlaySeconds(struct IntrudeSave *intrude, const struct PlayTime
     u64 hours, minutes, seconds;
     u64 now;
 
-    hours = func_0200864C(time);
-    minutes = func_02008650(time);
-    seconds = func_02008654(time);
+    hours = PLAYTIME_GetHours(time);
+    minutes = PLAYTIME_GetMinutes(time);
+    seconds = PLAYTIME_GetSeconds(time);
     now = minutes * 60 + hours * 3600 + seconds;
 
     switch (mode) {

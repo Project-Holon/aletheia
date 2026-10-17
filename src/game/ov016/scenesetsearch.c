@@ -16,7 +16,7 @@
  * The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which no tools/mwccarm build
  * writes, so it stays on the default dsi/1.1p1.
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CB780.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetSearch.c \
  *       --func DWCi_SceneSetSearch --addr 0x021CB780 --region ov016 --cc 1.1p1 --arm --lang c99
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.

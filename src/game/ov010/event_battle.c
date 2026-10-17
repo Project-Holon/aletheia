@@ -17,7 +17,7 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -32,7 +32,7 @@
  *   COMM_PLAYER_SUPPORT_HasSavedMode  0x0202E818  thumb
  *   EVENT_COMM_COMMON_CreateSupportMsgEvent  0x02181D8C  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
  *   EFFECT_ENCOUNT_ConsumeSpot  0x021AAABC  thumb  ov021
  *   BTL_SETUP_Create  0x02013090  thumb
@@ -195,7 +195,6 @@ typedef struct BattleEndCtx {
 extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct GameEvent *p);
 extern void *BTL_SETUP_GetParty(void *p, int i);
 extern void *POKEPARTY_GetMember(void *party, u32 i);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
@@ -210,7 +209,7 @@ extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u3
 extern int COMM_PLAYER_SUPPORT_HasSavedMode(int *p);
 extern void *EVENT_COMM_COMMON_CreateSupportMsgEvent(void *sys, u32 v);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern u32 func_02008DF0(struct RecordBlock *obj, int i);
+extern u32 RECORD_AddOne(struct RecordBlock *obj, int i);
 extern u32 FIELDMAP_GetEncount(u8 *p);
 extern void EFFECT_ENCOUNT_ConsumeSpot(int s);
 extern void *BTL_SETUP_Create(u32 heap);
@@ -349,7 +348,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
     switch (*state) {
     case 0:
         taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
-        work = func_020124E8(taskEvent);
+        work = GAME_EVENT_GetWork(taskEvent);
         EVENT_BATTLE_InitTaskWork(work, gameSystem, args->btlSetup);
         hasWildOpponent = 1;
         work->isScripted = 1;
@@ -402,13 +401,13 @@ int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetu
     ScriptedBattleArgs *args;
 
     taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_BATTLE_ProcScriptedBattle, 0x10);
-    args = func_020124E8(taskEvent);
+    args = GAME_EVENT_GetWork(taskEvent);
     args->gameSystem = (void *)gameSystem;
     args->btlSetup = (BattleKindHead *)btlSetup;
     args->returnImmediately = returnImmediately;
     args->effectId = effectId;
     EVENT_BATTLE_NotifyLeadSpecies((void *)btlSetup, 0);
-    func_02008DF0(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 5);
+    RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 5);
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((u8 *)battleSrc));
     return (int)taskEvent;
 }
@@ -425,14 +424,14 @@ int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMo
     int btlSetup;
 
     taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
-    task = func_020124E8(taskEvent);
+    task = GAME_EVENT_GetWork(taskEvent);
     battleObj = FIELDMAP_GetEncount((u8 *)battleSrc);
     records = (int)GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
     btlSetup = (int)BTL_SETUP_Create(4);
     FIELD_ENCOUNT_SetupTrainerBattle((struct GameSystem *)battleObj, (void *)btlSetup, battleMode, battleFlags, (void *)battleKind, fieldEffect, 4);
     EVENT_BATTLE_DispatchBattleKindNotify(battleKind, 0);
-    func_02008DF0((struct RecordBlock *)records, 6);
-    func_02008DF0((struct RecordBlock *)records, 0x56);
+    RECORD_AddOne((struct RecordBlock *)records, 6);
+    RECORD_AddOne((struct RecordBlock *)records, 0x56);
     EVENT_BATTLE_InitTaskWork(task, (void *)gameSystem, (void *)btlSetup);
     task->isScripted = 1;
     if (options & 1) {
@@ -453,7 +452,7 @@ int EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetu
     BattleTask *task;
 
     taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
-    task = func_020124E8(taskEvent);
+    task = GAME_EVENT_GetWork(taskEvent);
     EVENT_BATTLE_InitTaskWork(task, (void *)gameSystem, (void *)btlSetup);
     task->isScripted = 0;
     task->skipResultCheck = 1;
@@ -472,7 +471,7 @@ int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *bt
     BattleTask *task;
 
     taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
-    task = func_020124E8(taskEvent);
+    task = GAME_EVENT_GetWork(taskEvent);
     EVENT_BATTLE_InitTaskWork(task, gameSystem, btlSetup);
     task->isScripted = 0;
     task->addTallies = 1;
@@ -528,7 +527,7 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapI
     GFL_HEAP_Free(opponentParty);
     GFL_HEAP_Free(playerParty);
     battleTask = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
-    work = func_020124E8(battleTask);
+    work = GAME_EVENT_GetWork(battleTask);
     EVENT_BATTLE_InitTaskWork(work, gameSystem, btlSetup);
     work->isScripted = 1;
     ENCEFF_SelectEffectAndBgm(504, 5, 0, (void *)fieldMap, &work->encounterEffect, &work->btlSetup->bgmId);
@@ -620,7 +619,7 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
  *           2 B), function-scope ok, ok as the probe seed or a separate zero local, probe
  *           result in a local (3 B), ternary sum (258 B). Data words resolve with
  *           `data ov093` / `data ov092` tokens. Leaf witnesses filed:
- *           src/matched/arm9/COMM_PLAYER_SUPPORT_StashMode.c and src/matched/ov/ov010_func_0216EFDC.c (both
+ *           src/matched/arm9/COMM_PLAYER_SUPPORT_StashMode.c and src/matched/ov/EVENT_BATTLE_IsTaskResultSilent.c (both
  *           EXACT c99 and c); the three unresolved call sites resolve once the integrator
  *           refreshes the manifest. Callee arity conflicts (matched definitions
  *           over-declare, callers pass less): EVENT_BATTLE_FreeBtlSetup and GAME_DATA_GetPmsWork.
@@ -858,7 +857,7 @@ int EVENT_BATTLE_SetResultSound(BattleTask *task)
     int records = (int)GAME_DATA_GetTrainerRecord(gameData);
 
     if (btlSetup->mode == 0 && btlSetup->outcome == 4)
-        records = func_02008DF0((struct RecordBlock *)records, 0x4f);
+        records = RECORD_AddOne((struct RecordBlock *)records, 0x4f);
     return records;
 }
 

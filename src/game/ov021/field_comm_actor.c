@@ -40,7 +40,7 @@
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
@@ -124,7 +124,7 @@ extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, int status);
 extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
 extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*callback)(struct GameEvent *, int *, void *), u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *subscreen);
 extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
@@ -358,7 +358,7 @@ struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem 
     SubscreenChangeEventWork *work;
     FIELDMAP_GetSubscreen(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(SubscreenChangeEventWork));
     work->gameSystem = gameSystem;
     work->event = event;

@@ -75,7 +75,7 @@
  *   DWCi_CallBuddyFriendCallback  0x02169174  arm  ov009
  *   DWC_Free       0x0205A1B0  arm
  *   DWCi_EndUpdateServers  0x02169568  arm  ov009
- *   func_02059194  0x02059194  arm
+ *   DWCi_IsReverseBuddyFriendData  0x02059194  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 extern int memcmp(void *p1, void *p2, unsigned long size);
@@ -241,7 +241,7 @@ extern void DWCi_SetReverseBuddyFlag(DWCstAccFriendData *frienddata, int setflag
 extern int gpAuthBuddyRequest(void **connection, int profile);
 extern int gpDenyBuddyRequest(void **connection, int profile);
 extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-extern int func_02059194(DWCstAccFriendData *frienddata);
+extern int DWCi_IsReverseBuddyFriendData(DWCstAccFriendData *frienddata);
 
 /* dwc_friend.o local data: one .bss block at 0x021AA860 */
 static FriendCnt *stpFriendCnt = 0;
@@ -1197,7 +1197,7 @@ void DWCi_GetReverseBuddiesCallback(void **connection, void *argv, void *param)
         if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 3) {
             for (j = 0; j < arg->numOfUniqueMatchs; j++) {
                 if (arg->matches[j].profile == DWC_GetGsProfileId(DWCi_GetUserData(), &stpFriendCnt->friendList[i])) {
-                    if (!func_02059194(&stpFriendCnt->friendList[i])) {
+                    if (!DWCi_IsReverseBuddyFriendData(&stpFriendCnt->friendList[i])) {
                         stpFriendCnt->changed = 1;
                         DWCi_SetReverseBuddyFlag(&stpFriendCnt->friendList[i], 1);
                         if (DWC_IsBuddyFriendData(&stpFriendCnt->friendList[i]))
@@ -1206,7 +1206,7 @@ void DWCi_GetReverseBuddiesCallback(void **connection, void *argv, void *param)
                     break;
                 }
             }
-            if (j == arg->numOfUniqueMatchs && func_02059194(&stpFriendCnt->friendList[i]) == 1) {
+            if (j == arg->numOfUniqueMatchs && DWCi_IsReverseBuddyFriendData(&stpFriendCnt->friendList[i]) == 1) {
                 stpFriendCnt->changed = 1;
                 DWCi_SetReverseBuddyFlag(&stpFriendCnt->friendList[i], 0);
             }

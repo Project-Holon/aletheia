@@ -253,7 +253,7 @@ static void gti2CloseAllConnectionsHardMap(void **elem)
 /*
  * Tail call on the word at +0xc of the object.  The pool word at +0x14 is the
  * address of the ARM function gti2CloseAllConnectionsHardMap (0x02195DD4, EXACT in
- * ov009_func_02195DD4.c), not data: seeded as a function 2026-09-28.
+ * gti2CloseAllConnectionsHardMap.c), not data: seeded as a function 2026-09-28.
  */
 void gt2CloseAllConnectionsHard(int *p)
 {

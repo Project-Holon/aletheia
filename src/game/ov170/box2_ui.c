@@ -28,7 +28,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb ov170
  *   g_021EFCEC  0x021EFCEC  data  ov170
- *   func_02007A18  0x02007A18  thumb
+ *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
@@ -162,7 +162,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern int BOX2_MAIN_GetBoxFormId(BoxTask *p, int box);
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
-extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
@@ -637,7 +637,7 @@ void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest)
     for (ty = 11, y = 0; y < 5; ty += 2, y++) {
         tx = 10;
         for (x = 0; x < 6; tx += 2, x++) {
-            e = func_02007A18((void *)(*a)[1], box, x + y * 6);
+            e = BOX_SAVEDATA_GetPokemon((void *)(*a)[1], box, x + y * 6);
             sv = POKE_TOOL_DecodeBoxParam((struct Sav *)e);
             sp = POKE_TOOL_GetBoxValue((void *)e, 5, 0);
             if (POKE_TOOL_GetBoxValue((void *)e, 0xa9, 0)) {

@@ -28,15 +28,15 @@
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MAIL_Create  0x02008F08  thumb
- *   func_02008F88  0x02008F88  thumb
- *   func_02008FA0  0x02008FA0  thumb
- *   func_02008FA8  0x02008FA8  thumb
- *   func_02008FB4  0x02008FB4  thumb
- *   func_02008FBC  0x02008FBC  thumb
- *   func_02008FD8  0x02008FD8  thumb
- *   func_02008FC4  0x02008FC4  thumb
- *   func_02008FEC  0x02008FEC  thumb
- *   func_0200903C  0x0200903C  thumb
+ *   MAIL_SetWriterName  0x02008F88  thumb
+ *   MAIL_SetGender  0x02008FA0  thumb
+ *   MAIL_SetDesign  0x02008FA8  thumb
+ *   MAIL_SetLanguage  0x02008FB4  thumb
+ *   MAIL_SetVersion  0x02008FBC  thumb
+ *   MAIL_SetMessage  0x02008FD8  thumb
+ *   MAIL_SetMessageId  0x02008FC4  thumb
+ *   MAIL_GetBox  0x02008FEC  thumb
+ *   MAIL_SetSlot  0x0200903C  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -46,16 +46,16 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
- *   func_02008B14 0x02008B14 thumb
+ *   CONSOLE_STAMP_GetDailyClock 0x02008B14 thumb
  *   FORMCHANGE_RevertShayminAtNight 0x0216A358 thumb ov010
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_02187EA0 0x02187EA0 data ov020 a1
  *   FLDMMDL_GetObjId  0x0216D588  thumb
  *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
- *   func_02008530  0x02008530  thumb
- *   func_020056EC  0x020056EC  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   EVENT_FIELD_PROCLINK_IsReturnEntryAllowed 0x02161E84 thumb ov010
- *   func_0200855C  0x0200855C  thumb
+ *   MYSTATUS_GetAvatarId  0x0200855C  thumb
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
@@ -70,7 +70,7 @@
  *   d_02187EB4     0x02187EB4  data  ov020  a1
  *   d_02187DBC     0x02187DBC  data  ov020  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_020084F4 0x020084F4 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
@@ -116,7 +116,7 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetReturnSlots  0x02158434  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
@@ -150,7 +150,7 @@
  *   EL_SCOREBOARD_SourceFileName     0x02187EDC  data  ov020  a4
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
- *   func_020124EC  0x020124EC  thumb
+ *   GAME_EVENT_GetSeq  0x020124EC  thumb
  *   COMM_PLAYER_SUPPORT_PrevSeason  0x0202E8B8  thumb
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
@@ -179,12 +179,12 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_0209BE04  0x0209BE04  arm
- *   func_0209CE10  0x0209CE10  arm
- *   func_0209C77C  0x0209C77C  arm
+ *   _ffltu  0x0209BE04  arm
+ *   __fdiv  0x0209CE10  arm
+ *   __fmul  0x0209C77C  arm
  *   func_0209C95C  0x0209C95C  arm
- *   func_0209CB8C  0x0209CB8C  arm
- *   func_0209C494  0x0209C494  arm
+ *   _fsub  0x0209CB8C  arm
+ *   _ffix  0x0209C494  arm
  *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
@@ -217,12 +217,12 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int membe
                            unsigned int heap);
 u16 FIELDMAP_GetHeapId(u8 *p);
 struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-void *func_020124E8(struct GameEvent *p);
+void *GAME_EVENT_GetWork(struct GameEvent *p);
 extern u32 KEY_GetTrg(void);
 extern int WAZA_OSHIE_GetTexFormatCount(void);
 extern int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern u32 *func_020124EC(struct GameEvent *p);
+extern u32 *GAME_EVENT_GetSeq(struct GameEvent *p);
 extern u8 COMM_PLAYER_SUPPORT_PrevSeason(int);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
@@ -244,12 +244,12 @@ void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void G2x_SetBlendAlpha_(u32 addr, int plane1, int plane2, int ev1, int ev2);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-u32 func_0209BE04(u32 x);
-u32 func_0209CE10(u32 a, u32 b);
-u32 func_0209C77C(u32 a, u32 b);
+u32 _ffltu(u32 x);
+u32 __fdiv(u32 a, u32 b);
+u32 __fmul(u32 a, u32 b);
 u32 func_0209C95C(u32 a, u32 b);
-u32 func_0209CB8C(u32 a, u32 b);
-u32 func_0209C494(u32 x);
+u32 _fsub(u32 a, u32 b);
+u32 _ffix(u32 x);
 u8 COMM_PLAYER_SUPPORT_NextSeason(u8 x);
 void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
@@ -359,8 +359,8 @@ int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work)
 void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason)
 {
     void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
-    ElScoreboardWork *work = func_020124E8(eventTask);
-    u32 *statePtr = func_020124EC(eventTask);
+    ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
+    u32 *statePtr = GAME_EVENT_GetSeq(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = 0; work->finishCallbackArg = 0;
     EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
@@ -370,8 +370,8 @@ void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeaso
 void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg)
 {
     void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
-    ElScoreboardWork *work = func_020124E8(eventTask);
-    u32 *statePtr = func_020124EC(eventTask);
+    ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
+    u32 *statePtr = GAME_EVENT_GetSeq(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = finishCallback; work->finishCallbackArg = finishCallbackArg;
     EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
@@ -387,8 +387,8 @@ void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u
 void *EL_SCOREBOARD_StartStandalone(void *gameSystem, u8 shownSeason, u8 targetSeason)
 {
     void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
-    ElScoreboardWork *work = func_020124E8(eventTask);
-    void *stateNum = func_020124EC(eventTask);
+    ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
+    void *stateNum = GAME_EVENT_GetSeq(eventTask);
 
     work->gameSystem = gameSystem;
     work->fieldMap = 0;
@@ -539,19 +539,19 @@ void EL_SCOREBOARD_UpdateFadeStandalone(ElScoreboardWork *work, int state)
     u32 elapsed, ratio;
 
     if (state == 2) {
-        elapsed = func_0209BE04(work->stateTimer);
-        ratio = func_0209BE04(work->stateDuration);
-        ratio = func_0209CE10(elapsed, ratio);
-        ratio = func_0209C77C(0x41800000, ratio);
+        elapsed = _ffltu(work->stateTimer);
+        ratio = _ffltu(work->stateDuration);
+        ratio = __fdiv(elapsed, ratio);
+        ratio = __fmul(0x41800000, ratio);
         ratio = func_0209C95C(0xC1800000, ratio);
-        G2x_SetBlendBrightness_(0x04000050, 8, func_0209C494(ratio));
+        G2x_SetBlendBrightness_(0x04000050, 8, _ffix(ratio));
     } else if (state == 4) {
-        elapsed = func_0209BE04(work->stateTimer);
-        ratio = func_0209BE04(work->stateDuration);
-        ratio = func_0209CE10(elapsed, ratio);
-        ratio = func_0209C77C(0x41800000, ratio);
-        ratio = func_0209CB8C(0, ratio);
-        G2x_SetBlendBrightness_(0x04000050, 8, func_0209C494(ratio));
+        elapsed = _ffltu(work->stateTimer);
+        ratio = _ffltu(work->stateDuration);
+        ratio = __fdiv(elapsed, ratio);
+        ratio = __fmul(0x41800000, ratio);
+        ratio = _fsub(0, ratio);
+        G2x_SetBlendBrightness_(0x04000050, 8, _ffix(ratio));
     }
 }
 

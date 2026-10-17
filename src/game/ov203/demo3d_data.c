@@ -77,7 +77,7 @@
  *   BMP_MENUWORK_DeleteHalf 0x0201F614 thumb
  *   GAME_VERSION_Code 0x0209DF08 data a1
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   memset 0x02082BCC arm
@@ -646,7 +646,7 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
-extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *,u32,u32,u32,u32,u32,u32,u16);
 
 extern void G2x_SetBlendAlpha_(u32,int,int,int,int);
 
@@ -939,7 +939,7 @@ void DEMO3D_DATA_FadeMain(struct TcblNode *task,struct Demo3dFadeContext *ctx)
     switch(ctx->state) {
     case 0:
         ARC_UTIL_UploadPaletteFromHandleWhole(cfg->assets,ctx->first,0,0,0,cfg->alternate);
-        func_02049990(cfg->assets,ctx->second,1,0,0,0,1,cfg->alternate);
+        ARC_UTIL_UploadBgPaletteAddFromHandle(cfg->assets,ctx->second,1,0,0,0,1,cfg->alternate);
         ctx->state++;
         break;
     case 1:

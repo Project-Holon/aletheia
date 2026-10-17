@@ -21,6 +21,7 @@
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  */
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_shared_types.h"
@@ -48,7 +49,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 
@@ -90,7 +91,7 @@ void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, i
     struct BagParam *param = GFL_HEAP_Alloc(heapId, 0x3c, 1, BagParamFileName, 0x37);
 
     param->gameData = (void *)gameData;
-    param->myStatus = func_0200873C((void *)saveControl);
+    param->myStatus = SYSTEM_DATA_GetConfig((void *)saveControl);
     param->myItem = GAME_DATA_GetMyStatus((void *)gameData);
     param->saveWork = GAME_DATA_GetMapMatrix(gameData);
     param->config = GAME_DATA_GetMyItem((const struct BigObj *)gameData);

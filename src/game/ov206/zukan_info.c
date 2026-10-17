@@ -21,12 +21,12 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_GetHandleMemberSize 0x020493D4 arm
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
@@ -99,7 +99,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   d_021BC128 0x021BC128 data a2
  *   d_021BC150 0x021BC150 data a1
@@ -297,12 +297,12 @@ extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
@@ -370,7 +370,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_AddActorSurfacePos(void *, ActorSurfacePos *, unsigned short);
-extern void *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
 extern void CLACT_TransferCharacterPart(int a, void *b, unsigned int c, int d, int e);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern u32 APP_ICON_GetArchiveId(void);
@@ -513,7 +513,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, int effect)
 
 
 /*
- * note: a3 is u16 here (u16 field, strh); the matched caller ov206_func_021B9DE0 declares it unsigned.
+ * note: a3 is u16 here (u16 field, strh); the matched caller ZUKAN_INFO_CreateFromMon declares it unsigned.
  */
 void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9,
                     u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16)
@@ -589,7 +589,7 @@ void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6
     hh = (u16)POKE_PERSONAL_GetParam(((struct ZukanInfo *)p)->x, 0x20);
     if (((struct ZukanInfo *)p)->form >= hh) ((struct ZukanInfo *)p)->form = 0;
     h = ((struct ZukanInfo *)p)->w[0];
-    func_02049B68(h, 9, ((struct ZukanInfo *)p)->bgConfig, 0, 0x60, ((struct ZukanInfo *)p)->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 9, ((struct ZukanInfo *)p)->bgConfig, 0, 0x60, ((struct ZukanInfo *)p)->heap);
     ((struct ZukanInfo *)p)->charHandle = ARC_UTIL_RegisterObjCharFromHandle(h, 0x19, ((struct ZukanInfo *)p)->layerUpper, 0x1000, 0, ((struct ZukanInfo *)p)->heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 0x28, ((struct ZukanInfo *)p)->layerUpper, (u16)((struct ZukanInfo *)p)->charHandle, 0x800, 0, ((struct ZukanInfo *)p)->heap);
     ((struct ZukanInfo *)p)->charHandle2 = ARC_UTIL_RegisterObjCharFromHandle(h, 0x19, ((struct ZukanInfo *)p)->layerLower, 0x1000, 0, ((struct ZukanInfo *)p)->heap);
@@ -602,7 +602,7 @@ void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6
         ARC_UTIL_UploadPaletteFromHandle(h, 2, ((struct ZukanInfo *)p)->bgConfig, 0, 0x80, 0x40, ((struct ZukanInfo *)p)->heap);
         ((struct ZukanInfo *)p)->cellHandle = ARC_UTIL_RegisterObjCharFromHandle(h, 0xc, ((struct ZukanInfo *)p)->layerLower, 0x2000, 0, ((struct ZukanInfo *)p)->heap);
         ((struct ZukanInfo *)p)->gfxSlot = 1;
-        func_02049990(h, 0x24, ((struct ZukanInfo *)p)->layerLower, 0x400, (u16)((struct ZukanInfo *)p)->cellHandle, 0x800, 0, ((struct ZukanInfo *)p)->heap);
+        ARC_UTIL_UploadBgPaletteAddFromHandle(h, 0x24, ((struct ZukanInfo *)p)->layerLower, 0x400, (u16)((struct ZukanInfo *)p)->cellHandle, 0x800, 0, ((struct ZukanInfo *)p)->heap);
         BG_SYS_FillTileMap(((struct ZukanInfo *)p)->layerLower, 0, 0x20, 0x20, 0x15, 4);
         BG_SYS_FillTileMap(((struct ZukanInfo *)p)->layerLower, 0, 0x35, 0x20, 3, 5);
     }
@@ -997,7 +997,7 @@ void ZUKAN_INFO_CreateWindows(char *p)
     ((struct ZukanInfo *)p)->speciesTable = ARC_UTIL_LoadHandleMemberWithSize(((struct ZukanInfo *)p)->w[1], 0, 0, ((struct ZukanInfo *)p)->heap, (u32 *)(&out));
     r6 = 0;
     if (*(int *)&((struct ZukanInfo *)p)->femaleFlag != 0) r6 = 4;
-    func_02049B68(((struct ZukanInfo *)p)->w[2], 5, r6, 0x60, 0x20, ((struct ZukanInfo *)p)->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(((struct ZukanInfo *)p)->w[2], 5, r6, 0x60, 0x20, ((struct ZukanInfo *)p)->heap);
     tab = d_021BC174;
     for (i = 0; i < 4; i++) {
         ((struct ZukanInfo *)p)->win[i] = (int)BMP_WIN_Create(((struct ZukanInfo *)p)->layerMain, tab.b[i*4], tab.b[i*4+1], tab.b[i*4+2], tab.b[i*4+3], 3, 1);
@@ -1668,7 +1668,7 @@ void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, in
     rr[1].x = 0xd0;
     rr[1].y = v;
     arc = p->w[3];
-    handle = func_02049DF4(p->w[0], d_021BC128[z], 0, (unsigned int)(&blob), p->heap);
+    handle = ARC_UTIL_LoadBgCharDataFromHandle(p->w[0], d_021BC128[z], 0, (unsigned int)(&blob), p->heap);
     data = blob->f14;
     for (j = 0; j < 2; j++) {
         p->charIds[row][j] = -1;

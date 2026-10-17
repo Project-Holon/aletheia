@@ -15,7 +15,7 @@
  * symbols:
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ICA_ANIME_GetField24  0x02012138  thumb
@@ -69,7 +69,7 @@ extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *parent, void *proc, u32 workSize);
 
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void MI_CpuFill8(void *dest, int value, int size);
 
@@ -130,7 +130,7 @@ struct GameEvent *FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent(struct GameSyste
     IntrudeRequestWork *work;
     ICA_ANIME_GetField1C(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_INTRUDE_EVENT_IntrudeRequestEventMain, 8);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 8);
     work->result = result;
     work->requestType = requestType;
@@ -205,7 +205,7 @@ struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *
 
     gameData = ICA_ANIME_GetField1C(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_INTRUDE_EVENT_SymbolEntryEventMain, 0x24);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0x24);
     work->position = *position;
     work->edge = edge;

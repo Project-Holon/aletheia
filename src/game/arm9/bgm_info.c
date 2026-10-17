@@ -1,7 +1,7 @@
 /*
  * file:     bgm_info.c
  * unit:     yes
- * function: BGM_INFO_Create, func_02006E64, func_02006E7C, func_02006EA4
+ * function: BGM_INFO_Create, BGM_INFO_Free, BGM_INFO_GetIssMode, BGM_INFO_Load
  * address:  0x02006E40
  * region:   arm9
  * compiler: dsi/1.1p1

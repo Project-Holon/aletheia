@@ -39,7 +39,7 @@
  *   d_021D7DD8     0x021D7DD8  data
  *   d_021D86A0     0x021D86A0  data
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -141,7 +141,7 @@ extern void POKETRADE_PROC_SetStep(void *p, int next);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 
@@ -332,13 +332,13 @@ void POKETRADE_DEMO_UP_PrintMessage(u8 *p)
 {
     GFL_NET_RestartWithDefaultTimeout(0, ((PokeTradeDemoWork *)p)->heapId);
     if (((PokeTradeDemoWork *)p)->sceneMode == 6) {
-        func_02045CAC((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x98, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
+        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x98, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
     } else if (((PokeTradeDemoWork *)p)->sceneMode == 8) {
-        func_02045CAC((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x9B, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
+        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x9B, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
     } else if (((PokeTradeDemoWork *)p)->enemySameMon != 0) {
-        func_02045CAC((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x82, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
+        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x82, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
     } else {
-        func_02045CAC((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x81, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
+        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x81, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
     }
     WORDSET_SetSlotMonSpecies(((PokeTradeDemoWork *)p)->wordSet, 0, POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p)));
     WORDSET_SetSlotMyStatus((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)p)->wordSet), 1, (void *)(((PokeTradeDemoWork *)p)->enemyMonKey));

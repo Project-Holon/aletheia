@@ -58,7 +58,7 @@
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   GFL_NET_ERR_InsertFriend 0x0200F5EC thumb
@@ -79,7 +79,7 @@
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   OS_GetMacAddress 0x02087C6C arm
  *   GAME_DATA_GetField1A0 0x0201283C thumb
- *   func_02009CA8 0x02009CA8 thumb
+ *   WIFILIST_CreateExchangeToken 0x02009CA8 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -110,7 +110,7 @@
  *   gIrcBattleMatchBgTemplate6 0x021BB7A0 data a4
  *   gIrcBattleMatchBgTemplate7 0x021BB7C0 data a4
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_SetDisableKey 0x02027CD8 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -142,9 +142,9 @@
  *   WORDSET_Create 0x0201EC74 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   FADE_Start 0x0204E720 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -152,7 +152,7 @@
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   gClActorInitParam 0x020A1448 data a4
  *   FADE_IsActive 0x0204E804 arm
@@ -398,7 +398,7 @@ extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int GFL_NET_ERR_InsertFriend(void *a0, void *a1, void *a2, void *a3);
@@ -417,7 +417,7 @@ extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void OS_GetMacAddress(void *);
 extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
-extern void func_02009CA8(void *account, void *out);
+extern void WIFILIST_CreateExchangeToken(void *account, void *out);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern int MYSTATUS_GetSize(void);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -438,7 +438,7 @@ extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void CLACT_VBlankSystem(void);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(TaskMenuTemplate *tmpl, struct TaskMenuRes *res);
 extern int APP_TASKMENU_SetDisableKey(struct TaskMenu *menu, int disable);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -463,14 +463,14 @@ extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Node *GFL_USE_AddMainTask(void (*task)(void), IrcBattleMatchWork *arg, u32 priority);
 extern struct PrintSys *PRINTSYS_QUE_Create(void *heap);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern void FADE_Start(u32,int,int,int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern u32 GFL_HEAP_Free(void *p);
@@ -753,7 +753,7 @@ void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatch
   record=(int)GAME_DATA_GetPlayerStatusById((struct Sub24 *)work->param->gameData,aid);
   MYSTATUS_Copy((void *)data,(void *)record);
   saveData=(int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)work->param->gameData));
- MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)saveData,func_02008530((const struct Sub0200852CObj *)record));
+ MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)saveData,MYSTATUS_GetId((const struct Sub0200852CObj *)record));
  }
 }
 
@@ -927,7 +927,7 @@ void IRCBATTLEMATCH_StepSendTrainerInfo(IrcBattleMatchWork *work)
  int syncId=12;
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7b,syncId)!=0) {
   if(work->mode==7) {
-   func_02009CA8((void *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData),trainerInfo);
+   WIFILIST_CreateExchangeToken((void *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData),trainerInfo);
    if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc03,syncId,(u32)trainerInfo)!=0) {
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x79,syncId);
     IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendMacAddress);
@@ -1086,10 +1086,10 @@ void IRCBATTLEMATCH_OpenQuitMenu(IrcBattleMatchWork *work) {
  menu.flag=1;
  menu.x=32; menu.y=13; menu.paletteSlot=13; menu.layer=3;
  work->menuItems[0].label=STRBUF_Create(100,menu.heapId);
- func_02045CAC(work->msgData,26,work->menuItems[0].label);
+ MSGDATA_ReadString(work->msgData,26,work->menuItems[0].label);
  work->menuItems[0].color=0x39e3;
  work->menuItems[1].label=STRBUF_Create(100,work->heapId);
- func_02045CAC(work->msgData,27,work->menuItems[1].label);
+ MSGDATA_ReadString(work->msgData,27,work->menuItems[1].label);
  work->menuItems[1].color=0x39e3;
  work->menuItems[0].selectType=0;
  work->menuItems[1].selectType=0;
@@ -1109,10 +1109,10 @@ void IRCBATTLEMATCH_OpenWaitMenu(IrcBattleMatchWork *work,int twoItems) {
  if(twoItems!=0) {
   menu.itemCount=2;menu.items=work->menuItems;
   work->menuItems[0].label=STRBUF_Create(100,menu.heapId);
-  func_02045CAC(work->msgData,0x23,work->menuItems[0].label);
+  MSGDATA_ReadString(work->msgData,0x23,work->menuItems[0].label);
   work->menuItems[0].color=0x39e3;work->menuItems[0].selectType=0;
   work->menuItems[1].label=STRBUF_Create(100,work->heapId);
-  func_02045CAC(work->msgData,2,work->menuItems[1].label);
+  MSGDATA_ReadString(work->msgData,2,work->menuItems[1].label);
   work->menuItems[1].color=0x39e3;work->menuItems[1].selectType=1;
   work->taskMenu=APP_TASKMENU_OpenMenu(&menu,work->taskMenuRes);
   STRBUF_Delete(work->menuItems[0].label);STRBUF_Delete(work->menuItems[1].label);
@@ -1120,7 +1120,7 @@ void IRCBATTLEMATCH_OpenWaitMenu(IrcBattleMatchWork *work,int twoItems) {
  } else {
   menu.itemCount=1;menu.items=work->menuItems;
   work->menuItems[0].label=STRBUF_Create(100,menu.heapId);
-  func_02045CAC(work->msgData,2,work->menuItems[0].label);
+  MSGDATA_ReadString(work->msgData,2,work->menuItems[0].label);
   work->menuItems[0].color=0x39e3;work->menuItems[0].selectType=1;
   work->taskMenu=APP_TASKMENU_OpenMenu(&menu,work->taskMenuRes);
   STRBUF_Delete(work->menuItems[0].label);work->menuKind=1;
@@ -1138,7 +1138,7 @@ void IRCBATTLEMATCH_PrintMainMessage(MessageRef *message,IrcBattleMatchWork *wor
  }
  BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp(work->messageWin)),255);
  work->lastMessageId=message->msgId;
- func_02045CAC(work->msgData,message->msgId,work->msgStr);
+ MSGDATA_ReadString(work->msgData,message->msgId,work->msgStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->messageWin),4,4,work->msgStr,work->font);
  BMP_WIN_TransferChars(work->messageWin);
 }
@@ -1151,7 +1151,7 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
   BMP_MENUWORK_DrawWindow(work->infoWin,0,(unsigned short)(work->windowPalette),14);
  }
  BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp(work->infoWin)),255);
- func_02045CAC(work->msgData,msgId,work->tempStr);
+ MSGDATA_ReadString(work->msgData,msgId,work->tempStr);
  WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData)),2,1,1);
  WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,1);
  WORDSET_CopyTaggedText(work->wordSet,work->msgStr,work->tempStr);
@@ -1169,7 +1169,7 @@ void IRCBATTLEMATCH_PrintRetryMessage(int msgId,IrcBattleMatchWork *work) {
  BMP_WIN_MakeScreen(work->infoWin);
  BMP_WIN_TransferChars(work->infoWin);
  BMP_MENUWORK_DrawWindow(work->infoWin,0,(unsigned short)(work->windowPalette),14);
- func_02045CAC(work->msgData,msgId,work->tempStr);
+ MSGDATA_ReadString(work->msgData,msgId,work->tempStr);
  WORDSET_SetSlotNumber(work->wordSet,0,GFL_NET_IRC_WIRELESS_GetRetryCount(),2,1,1);
  WORDSET_CopyTaggedText(work->wordSet,work->msgStr,work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,work->msgStr,work->font);
@@ -1228,15 +1228,15 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  work->font=GF_FONT_Create(23,0,0,0,work->heapId);
  work->msgData=MSGDATA_CreateFromArchive(0,2,46,work->heapId);
  arc=ARC_TOOL_CreateHandle(28,work->heapId);
- func_02049B68(arc,1,0,0,0,work->heapId);
+ ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,0,0,0,work->heapId);
  work->bgCharId=(int)ARC_UTIL_RegisterObjCharFromHandle(arc,6,0,0,0,work->heapId);
- if(work->mode!=5) func_02049990(arc,13,1,0,(u16)(work->bgCharId),0,0,work->heapId);
- else {func_02049990(arc,13,0,0,(u16)(work->bgCharId),0,0,work->heapId);func_02049990(arc,14,1,0,(u16)(work->bgCharId),0,0,work->heapId);}
+ if(work->mode!=5) ARC_UTIL_UploadBgPaletteAddFromHandle(arc,13,1,0,(u16)(work->bgCharId),0,0,work->heapId);
+ else {ARC_UTIL_UploadBgPaletteAddFromHandle(arc,13,0,0,(u16)(work->bgCharId),0,0,work->heapId);ARC_UTIL_UploadBgPaletteAddFromHandle(arc,14,1,0,(u16)(work->bgCharId),0,0,work->heapId);}
  ARC_TOOL_DeleteHandle(arc);
  arc=ARC_TOOL_CreateHandle(29,work->heapId);
- func_02049B68(arc,1,4,0,0,work->heapId);
+ ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,4,0,0,work->heapId);
  work->bgScreenId=(int)ARC_UTIL_RegisterObjCharFromHandle(arc,4,4,0,0,work->heapId);
- func_02049990(arc,9,4,0,(u16)(work->bgScreenId),0,0,work->heapId);ARC_TOOL_DeleteHandle(arc);
+ ARC_UTIL_UploadBgPaletteAddFromHandle(arc,9,4,0,(u16)(work->bgScreenId),0,0,work->heapId);ARC_TOOL_DeleteHandle(arc);
  work->windowPalette=(int)BMP_MENUWORK_LoadFrameGfx((void *)5,14,0,work->heapId);
  FADE_Start(3,16,0,2);IRCBATTLEMATCH_PrintWaitingMessage(work);
  CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)gIrcBattleMatchVramBanks,work->heapId);
@@ -1253,7 +1253,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  BG_SYS_SetMainVisiblePlanes((int)19);BG_SYS_SetSubVisiblePlanes((int)23);
  work->heapIdCopy=work->heapId;
  arc=ARC_TOOL_CreateHandle(28,work->heapIdCopy);
- rawData=func_02049F78(arc,2,(u32)(&resource),work->heapIdCopy);
+ rawData=ARC_UTIL_LoadPaletteBlockFromHandle(arc,2,(u32)(&resource),work->heapIdCopy);
  MI_CpuCopy8(*(void **)((u8 *)resource+12),work,0x120);
  for(i=0;i<9;i++) MI_CpuCopy8(work->palette[8-i],work->palette[i+9],32);
  GFL_HEAP_Free(rawData);ARC_TOOL_DeleteHandle(arc);IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitFadeIn);

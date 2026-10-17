@@ -34,11 +34,11 @@
  *   STRBUF_Delete 0x02045808 arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   func_020074D8  0x020074D8  thumb
- *   func_02007698  0x02007698  thumb
+ *   BOX_SAVEDATA_AddPokemon  0x020074D8  thumb
+ *   BOX_SAVEDATA_GetCurrentBox  0x02007698  thumb
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
@@ -138,12 +138,12 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 GAME_DATA_GetBoxManager(const struct GameData *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern u32 func_02008DF0(struct TrainerRecord *obj, int i);
+extern u32 RECORD_AddOne(struct TrainerRecord *obj, int i);
 extern void MYSTATUS_NameToStrbuf(void *a, void *b);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKEPARTY_GetCount(void *p);
 extern u32 POKEPARTY_GetCapacity(void *p);
-extern u32 func_02007698(void *save);
+extern u32 BOX_SAVEDATA_GetCurrentBox(void *save);
 extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 GAME_DATA_GetEventWork(const struct GameData *p);
@@ -167,7 +167,7 @@ extern void NAMEIN_SETUP_CopyName(int *p, int a1);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 POKE_TOOL_Dummy(u32 a);
-extern int func_020074D8(void **save, const struct BoxEntry *src);
+extern int BOX_SAVEDATA_AddPokemon(void **save, const struct BoxEntry *src);
 void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap);
 void EVENT_PDC_RETURN_DeleteArgs(void *p);
 int EVENT_PDC_RETURN_Init(struct ProcSys *procSys);
@@ -221,14 +221,14 @@ u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcRet
         boxManager = GAME_DATA_GetBoxManager((const struct GameData *)c->gameData);
         if (c->mode == 1) {
             trainerRecord = (u32)GAME_DATA_GetTrainerRecord((int *)c->gameData);
-            func_02008DF0((struct TrainerRecord *)trainerRecord, (u32)7);
-            func_02008DF0((struct TrainerRecord *)trainerRecord, (u32)0x54);
+            RECORD_AddOne((struct TrainerRecord *)trainerRecord, (u32)7);
+            RECORD_AddOne((struct TrainerRecord *)trainerRecord, (u32)0x54);
             MYSTATUS_NameToStrbuf((void *)playerStatus, (void *)g->strbuf);
             POKE_TOOL_SetPartyValue((void *)c->partyMon, 0x8d, g->strbuf);
             partyCount = (int)POKEPARTY_GetCount((void *)party);
             if (partyCount >= (int)POKEPARTY_GetCapacity((void *)party)) {
                 u32 a, b;
-                a = func_02007698((void *)boxManager);
+                a = BOX_SAVEDATA_GetCurrentBox((void *)boxManager);
                 b = 0;
                 BOX_SAVEDATA_FindFreeSlot((void *)boxManager, (int *)(&a), (int *)(&b));
                 g->boxSlotCandidate = a;
@@ -287,7 +287,7 @@ u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcRet
         if ((u32)NAMEIN_SETUP_IsCanceled((int *)g->nameArgs) == 0) {
             NAMEIN_SETUP_CopyName((int *)g->nameArgs, (u32)g->strbuf);
             POKE_TOOL_SetPartyValue((void *)c->partyMon, 0x73, g->strbuf);
-            func_02008DF0(GAME_DATA_GetTrainerRecord((int *)c->gameData), (u32)0x1e);
+            RECORD_AddOne(GAME_DATA_GetTrainerRecord((int *)c->gameData), (u32)0x1e);
         }
         NAMEIN_SETUP_FreeArgs((u32)g->nameArgs);
         g->nameArgs = 0;
@@ -301,7 +301,7 @@ u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcRet
             POKEPARTY_Add((struct Party *)party, (const struct PartyMon *)c->partyMon);
         } else {
             tmp = GAME_DATA_GetBoxManager((const struct GameData *)c->gameData);
-            func_020074D8((void **)tmp, (const struct BoxEntry *)POKE_TOOL_Dummy(c->partyMon));
+            BOX_SAVEDATA_AddPokemon((void **)tmp, (const struct BoxEntry *)POKE_TOOL_Dummy(c->partyMon));
         }
         (*state)++;
         break;

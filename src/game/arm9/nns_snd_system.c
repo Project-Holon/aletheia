@@ -28,7 +28,7 @@
  *   NNS_SndPlayerMain  0x020731E0  arm
  *   NNS_SndMain  0x02073D7C  arm
  *   NNSi_SndArcPlayerUpdate  0x02075858  arm
- *   func_02089B38  0x02089B38  arm
+ *   SND_FlushCommand  0x02089B38  arm
  *   SND_SetMasterVolume  0x0208970C  arm
  *   g_0214BB00     0x0214BB00  data
  *   SND_RecvCommandReply      0x02089978  arm
@@ -154,7 +154,6 @@ extern const struct SNDCommand *SND_RecvCommandReply(u32 flags);
 extern void NNS_SndPlayerMain(void);
 extern void NNS_SndMain(void);
 extern void NNSi_SndArcPlayerUpdate(void);
-extern void func_02089B38(s32 a);
 extern void SND_SetMasterVolume(int volume);
 extern void SND_SetMasterPan(int pan);
 extern void SND_ResetMasterPan(void);
@@ -616,7 +615,7 @@ void NNS_SndInit(void)
 /*
  * Not a member of the 0x02071CDC constructor family: the subsystem's boot
  * sequence. Spins until SND_RecvCommandReply(0) reports ready, runs the three
- * initialisers, then hands 0 to func_02089B38.
+ * initialisers, then hands 0 to SND_FlushCommand.
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md).
  * The image rematerialises the last call's zero argument, `mov r0, #0`
@@ -657,7 +656,7 @@ void NNS_SndBoot(void)
     NNS_SndPlayerMain();
     NNS_SndMain();
     NNSi_SndArcPlayerUpdate();
-    func_02089B38(0);
+    SND_FlushCommand(0);
 }
 
 
@@ -772,7 +771,7 @@ void NNS_SndPrependPostSleepCallback(void)
     NNS_SndStartTimer();
     SND_StopTimer(0, 0, 0, 0);
     res = SND_GetCurrentCommandTag();
-    func_02089B38(1);
+    SND_FlushCommand(1);
     SND_WaitForCommandProc(res);
 }
 

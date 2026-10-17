@@ -48,7 +48,7 @@
  *   SBServerGetNext  0x0219E26C  arm  ov009
  *   SBServerFree  0x0219DFF8  arm  ov009
  *   ArrayClear  0x0218452C  arm  ov009
- *   func_02184144  0x02184144  arm  ov009
+ *   ArrayNew  0x02184144  arm  ov009
  *   SBRefStrHash  0x0219DF64  arm  ov009
  *   TableLookup  0x0218482C  arm  ov009
  *   goastrdup  0x0217F1E0  arm  ov009
@@ -197,7 +197,7 @@ extern void ArrayDeleteAt(int a, int b);
 extern int SBServerGetNext(const int *p);
 extern void SBServerFree(void *elem);
 extern void ArrayClear(void *a);
-extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void *SBRefStrHash(void *l);
 extern struct Ref *TableLookup(void *t, void *k);
 extern char *goastrdup(char *s);
@@ -670,7 +670,7 @@ void SBServerListClear(SBServerList *slist)
  */
 void SBAllocateServerList(SBServerList *slist)
 {
-    slist->servers = func_02184144(4, 100, 0);
+    slist->servers = ArrayNew(4, 100, 0);
     slist->deadlist = 0;
 }
 
@@ -1512,7 +1512,7 @@ SBError ProcessMainListData(SBServerList *slist)
             if (inlen < 1)
                 break;
             slist->expectedelements = (unsigned char)*inbuf;
-            slist->keylist = func_02184144(sizeof(KeyInfo), slist->expectedelements, NULL);
+            slist->keylist = ArrayNew(sizeof(KeyInfo), slist->expectedelements, NULL);
             if (slist->keylist == NULL)
                 return sbe_allocerror;
             inbuf++;
@@ -1604,7 +1604,7 @@ int ProcessPushKeyList(SBServerList *slist, char *buf, int len)
 	len--;
 	if (slist->keylist != 0)
 		FreeKeyList(slist);
-	slist->keylist = func_02184144(8, numkeys, 0);
+	slist->keylist = ArrayNew(8, numkeys, 0);
 	if (slist->keylist == 0)
 		return 5;
 	for (i = 0; i < numkeys; i++) {
@@ -1929,7 +1929,7 @@ int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short p
  * (6 magic bytes + the big-endian cookie) and hands it to SBSendMessageToServer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_021A174C.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/SBSendNatNegotiateCookieToServer.c \
  *       --func SBSendNatNegotiateCookieToServer --addr 0x021A174C --region ov009 --arm --cc 1.1p1 --lang c99 --diff
  */
 int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie)

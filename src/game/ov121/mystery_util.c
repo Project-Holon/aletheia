@@ -28,7 +28,7 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_Copy 0x02045838 arm
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   BMP_GetWidth 0x020437DC arm
@@ -87,6 +87,9 @@
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
  *   GF_FONT_CountLines  0x0201D42C  thumb  arm9
  *   BMP_MENULIST_ResetCursorTile  0x02020CF8  thumb  arm9
+ *   GFL_USE_GetMainTaskList  0x020056BC  thumb  arm9
+ *   BMP_MENULIST_GetAttr  0x02020350  thumb  arm9
+ *   BMP_MENULIST_SetCancelDisabled  0x02020D10  thumb  arm9
  */
 #include "mystery_net_types.h"
 #include "mystery_util_shared_types.h"
@@ -370,7 +373,7 @@ extern void STRBUF_Delete(void *vec);
 
 extern void BMP_WIN_ClearScreen(void *d);
 
-extern void func_02045CAC(void *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(void *bank, u32 index, void *dest);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -408,7 +411,7 @@ extern s32 PRINTSYS_CTRL_Update(void *blk, void *h);
 
 extern void TCBL_Main(void *p);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 
@@ -430,7 +433,7 @@ extern struct Obj *BMP_MENULIST_Create(void *src, u16 a, u16 b, u32 heap);
 
 extern void BMP_MENULIST_ResetCursorTile(void *p, int heap);
 
-extern void func_02020D10(void *p, u32 v);
+extern void BMP_MENULIST_SetCancelDisabled(void *p, u32 v);
 
 extern void BMP_MENULIST_Delete(void *o, void *a, void *b);
 
@@ -438,7 +441,7 @@ extern u32 BMP_MENUWORK_Delete(void *p);
 
 extern s32 BMP_MENULIST_Main(void *o);
 
-extern u32 func_02020350(void *obj, u32 what);
+extern u32 BMP_MENULIST_GetAttr(void *obj, u32 what);
 
 extern u8 BMP_GetTileBytes(void *b);
 
@@ -641,7 +644,7 @@ void MYSTERY_UTIL_ShowMessage(u8 *p, u16 a, int b, int c)
     MysteryUtilTextPos xy;
     void *q;
     BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin2), ((MysteryUtilWindow *)p)->color & 31);
-    func_02045CAC((struct MsgBank *)a, b, ((MysteryUtilWindow *)p)->textBuf);
+    MSGDATA_ReadString((struct MsgBank *)a, b, ((MysteryUtilWindow *)p)->textBuf);
     MYSTERY_UTIL_ComputeTextPosition(p, c, &xy);
     q = ((MysteryUtilWindow *)p)->printOwner;
     PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin), (s16)xy.x, (s16)xy.y,
@@ -879,7 +882,7 @@ void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
 
 void MYSTERY_UTIL_SetMenuMessage(u8 *a, int b, int c, int d)
 {
-    func_02045CAC((struct MsgBank *)b, c, ((MysteryUtilMenuWindow *)a)->textBuf);
+    MSGDATA_ReadString((struct MsgBank *)b, c, ((MysteryUtilMenuWindow *)a)->textBuf);
     MYSTERY_UTIL_SetMenuMode(a, d);
 }
 
@@ -898,7 +901,7 @@ void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode)
     MYSTERY_UTIL_ResetMenuWindow(p);
     switch(mode) {
     case 2:
-        ((MysteryUtilMenuWindow *)p)->timeIcon=TIME_ICON_Create((void *)func_020056BC(),((MysteryUtilMenuWindow *)p)->bmpWin,((MysteryUtilMenuWindow *)p)->height,16,((MysteryUtilMenuWindow *)p)->heapTag);
+        ((MysteryUtilMenuWindow *)p)->timeIcon=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),((MysteryUtilMenuWindow *)p)->bmpWin,((MysteryUtilMenuWindow *)p)->height,16,((MysteryUtilMenuWindow *)p)->heapTag);
         q=((MysteryUtilMenuWindow *)p)->elementSlot;
         PRINTSYS_PrintQue((struct PrintSys *)q,(u32)BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin2),0,0,((MysteryUtilMenuWindow *)p)->textBuf,((MysteryUtilMenuWindow *)p)->printArg);
         p[0x20]=1;
@@ -963,7 +966,7 @@ void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
     cfg.messageTable=((MysteryUtilMenuDef *)p)->messageTable;
     ((MysteryUtilMenu *)out)->menuList=BMP_MENULIST_Create((struct Src *)(&cfg),0,0,heap);
     BMP_MENULIST_ResetCursorTile(((MysteryUtilMenu *)out)->menuList,heap);
-    func_02020D10(((MysteryUtilMenu *)out)->menuList,0);
+    BMP_MENULIST_SetCancelDisabled(((MysteryUtilMenu *)out)->menuList,0);
     return out;
 }
 
@@ -983,7 +986,7 @@ int MYSTERY_UTIL_UpdateMenu(char *p)
         }
     }
     r=BMP_MENULIST_Main(((MysteryUtilMenu *)p)->menuList);
-    if (r == -2) r=func_02020350(((MysteryUtilMenu *)p)->menuList,2)-1;
+    if (r == -2) r=BMP_MENULIST_GetAttr(((MysteryUtilMenu *)p)->menuList,2)-1;
     return r;
 }
 
@@ -1062,7 +1065,7 @@ void MYSTERY_UTIL_DrawBmpList(char *p,char *desc,void *dst)
             pos.y=((MysteryUtilMenuEntry *)d)->posY;
             MYSTERY_UTIL_AlignText(((MysteryUtilMenuEntry *)d)->layoutMode,&pos,*(void **)(p+i*4+8),text,((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->printOwner,&out);
             if(((MysteryUtilMenuEntry *)d)->str.stringId) STRBUF_Copy(text,(struct U16Vec *)(((MysteryUtilMenuEntry *)d)->str.stringId));
-            else func_02045CAC((struct MsgBank *)(((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->msgBank),((MysteryUtilMenuEntry *)d)->messageId,text);
+            else MSGDATA_ReadString((struct MsgBank *)(((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->msgBank),((MysteryUtilMenuEntry *)d)->messageId,text);
             PRINTSYS_PrintQueColor(dst,(u32)(*(void **)(p+i*4+8)),(s16)out.x,(s16)out.y,(u32)text,((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->printOwner,((MysteryUtilMenuEntry *)d)->color);
         }
     }
@@ -1259,7 +1262,7 @@ void MYSTERY_UTIL_SetActorPairText(char *p,int a,int b,int c)
 {
     int xy[2];
     BMP_Clear((struct CharBuf *)((MysteryUtilActorPair *)p)->bmp,(u8)(((MysteryUtilActorPair *)p)->color&31));
-    func_02045CAC((struct MsgBank *)a,b,((MysteryUtilActorPair *)p)->textBuf);
+    MSGDATA_ReadString((struct MsgBank *)a,b,((MysteryUtilActorPair *)p)->textBuf);
     MYSTERY_UTIL_BuildPaletteRow(p,c,xy);
     PRINTSYS_PrintQueColor(((MysteryUtilActorPair *)p)->printQueue,(u32)((MysteryUtilActorPair *)p)->bmp,(s16)xy[0],(s16)xy[1],(u32)(((MysteryUtilActorPair *)p)->textBuf),c,((MysteryUtilActorPair *)p)->color);
     ((MysteryUtilActorPair *)p)->done=1;

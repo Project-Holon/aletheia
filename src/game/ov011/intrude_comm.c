@@ -132,7 +132,7 @@
  *   COMM_PLAYER_GetState848  0x021673A8  thumb ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   GAME_DATA_GetField1D4  0x020127AC  thumb
  *   GAME_DATA_SetSlotFlag  0x02012BA4  thumb
  *   GAME_COMM_PushPlayerMessage  0x020266D4  thumb
@@ -142,9 +142,9 @@
  *   gIntrudeCommZonePairs  0x02176AA0  data ov011 a2
  *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb ov010
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
- *   sub_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   gIntrudeCommObjCodesMale   0x02176A90  data  ov011  a2
  *   gIntrudeCommObjCodesFemale   0x02176A98  data  ov011  a2
  *   INTRUDE_GetMissionClearCount  0x0200BF70  thumb
@@ -159,9 +159,9 @@
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   EVENT_FIELD_PROCLINK_SetReturnLinkId  0x02161FEC  thumb  ov010
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
- *   func_020084F8 0x020084F8 thumb
+ *   MYSTATUS_CopyNameChars 0x020084F8 thumb
  *   GAME_DATA_GetBattleRecSlotByNetId  0x021583CC  thumb  ov010
- *   func_0200855C  0x0200855C  thumb
+ *   MYSTATUS_GetAvatarId  0x0200855C  thumb
  *   memset 0x02082BCC arm
  *   STRBUF_SetStringN  0x02045994  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
@@ -169,7 +169,7 @@
  *   WORDSET_Callback_EF40  0x0201EF40  thumb
  *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  *   gIntrudePickTable     0x02176C4C  data  ov011  a1
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_Create  0x02031324  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -200,7 +200,7 @@
  *   PROCSYS_Delete 0x0203133C arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
@@ -439,7 +439,7 @@ u8 COMM_PLAYER_GetState849(void *symbolMap);
 u8 COMM_PLAYER_GetState848(void *symbolMap);
 u8 *GAME_DATA_GetMyStatus(void *p);
 int MYSTATUS_GetSize(void);
-extern u32 func_02008530(const struct MemberRecord *record);
+extern u32 MYSTATUS_GetId(const struct MemberRecord *record);
 void *GAME_DATA_GetField1D4(struct GameData *p, unsigned int idx);
 void GAME_DATA_SetSlotFlag(struct GameData *p, int i, u8 v);
 void GAME_COMM_PushPlayerMessage(u32 a, u32 b);
@@ -448,9 +448,8 @@ extern u16 COMM_PLAYER_GetObjCode(struct CommPlayerWork *commPlayer, int netId);
 extern void COMM_PLAYER_Add(struct CommPlayerWork *commPlayer, int netId, int objCode, IntrudePeer *peer);
 int COMM_PLAYER_UpdateMyPackage(struct CommPlayerWork *commPlayer, IntrudePeer *peer);
 u8 GAME_DATA_GetSymbolMapFlag(struct GameData *gameData);
-extern void sub_02082BCC(void *p, int c, unsigned int n);
 int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
-extern int func_02008550(const struct MemberRecord *);
+extern int MYSTATUS_GetOutfitVariant(const struct MemberRecord *);
 extern u32 INTRUDE_GetMissionClearCount(void *profileSys);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern unsigned long long INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode);
@@ -459,16 +458,16 @@ extern void INTRUDE_GetObtainedFlags(void *profileSys, u8 *dest, u32 n);
 extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *slots, u16 intrudeId);
 extern int INTRUDE_COMM_NormalizeVersion(int a0, int a1);
-extern u32 func_020084F8(void *record, void *dest, u32 count);
+extern u32 MYSTATUS_CopyNameChars(void *record, void *dest, u32 count);
 extern int GAME_DATA_GetBattleRecSlotByNetId(void *saveData, int index);
-extern u8 func_0200855C(const struct MemberRecord *record);
+extern u8 MYSTATUS_GetAvatarId(const struct MemberRecord *record);
 extern void *memset(void *p, int value, unsigned int size);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
-extern u32 func_020056EC(u32 a);
+extern u32 GFL_USE_GetRandom(u32 a);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heap);
 extern void *PROCSYS_Create(int heap);
 extern void *GAME_DATA_GetMyParty(const void *p);
@@ -495,7 +494,7 @@ extern void BTL_SETUP_FreeSlots(IntrudePartyWork *w);
 extern void PROCSYS_Delete(void *subProcSys);
 extern void PROCSYS_FreeProcWork(void *procWork);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, void *nextEvent);
 extern int  FIELDMAP_GetEncEff(unsigned char *p);
@@ -2201,7 +2200,7 @@ u32 INTRUDE_COMM_SendBusyEnd(void)
 
 
 /*
- * extent: existing follower ov011_func_021744D0.c stays separate.
+ * extent: existing follower INTRUDE_COMM_SendPeerFlags.c stays separate.
  */
 void INTRUDE_COMM_RecvPeerFlags(int netId, int size, u8 *flags, IntrudeCommSys *work)
 {
@@ -2291,7 +2290,7 @@ int INTRUDE_COMM_SendProfile(u8 netId, const void *profile)
 
 
 /*
- * extent: existing follower ov011_func_02174660.c stays separate.
+ * extent: existing follower INTRUDE_COMM_SendPairMessage.c stays separate.
  */
 void INTRUDE_COMM_RecvPairMessage(int netId, int size, u8 *message, IntrudeCommSys *work)
 {
@@ -2789,8 +2788,8 @@ void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStat
     changed = 0;
     status = (int)GAME_DATA_GetPlayerStatusById(gameData, netId);
     if (work->peerMask & (1 << netId)) {
-        myStatus = func_02008530((const struct MemberRecord *)status);
-        if (myStatus == func_02008530((const struct MemberRecord *)record->myStatus)) {
+        myStatus = MYSTATUS_GetId((const struct MemberRecord *)status);
+        if (myStatus == MYSTATUS_GetId((const struct MemberRecord *)record->myStatus)) {
             goto skip;
         }
     }
@@ -3057,7 +3056,7 @@ int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
  */
 void INTRUDE_COMM_ClearNotice(IntrudeCommSys *work)
 {
-    sub_02082BCC(&work->notice, 0, 4);
+    MI_CpuFill8(&work->notice, 0, 4);
 }
 
 
@@ -3250,8 +3249,8 @@ void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *s
     u32 trainerId;
     u32 index;
     int female;
-    trainerId = func_02008530((const struct MemberRecord *)myStatus);
-    female = func_02008550((const struct MemberRecord *)myStatus);
+    trainerId = MYSTATUS_GetId((const struct MemberRecord *)myStatus);
+    female = MYSTATUS_GetOutfitVariant((const struct MemberRecord *)myStatus);
     index = ((trainerId >> 16) + (u16)trainerId) & 3;
     if (female == 0) {
         *objCode = gIntrudeCommObjCodesMale[index];
@@ -3275,16 +3274,16 @@ u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, u32 myStatus)
     objCode = peer->objCode;
     if (objCode == 0) {
         if (peer->package.dir == 1) {
-            pick.objCode = (func_02008550((const struct MemberRecord *)myStatus) == 0) ? 2 : 5;
+            pick.objCode = (MYSTATUS_GetOutfitVariant((const struct MemberRecord *)myStatus) == 0) ? 2 : 5;
         } else {
-            pick.objCode = (func_02008550((const struct MemberRecord *)myStatus) == 0) ? 1 : 4;
+            pick.objCode = (MYSTATUS_GetOutfitVariant((const struct MemberRecord *)myStatus) == 0) ? 1 : 4;
         }
     } else if (objCode == 0xFFFF) {
         INTRUDE_COMM_PickDefaultObjCode(myStatus, &pick.objCode, &pick.form, &pick.sex);
     } else {
         pick.objCode = objCode;
         if (INTRUDE_COMM_IsValidObjCode(pick.objCode) == 0) {
-            pick.objCode = (func_02008550((const struct MemberRecord *)myStatus) == 0) ? 10 : 14;
+            pick.objCode = (MYSTATUS_GetOutfitVariant((const struct MemberRecord *)myStatus) == 0) ? 10 : 14;
         }
     }
     if ((pick.objCode >= 0xdf && pick.objCode < 0x1000) || pick.objCode >= 0x1236) {
@@ -3954,7 +3953,7 @@ void INTRUDE_COMM_RecordResultOutcome(void *saveData, IntrudeCommSys *w, Intrude
     save = GAME_DATA_GetLastBattleRecSlot(saveData);
     partner = GAME_DATA_GetPlayerStatusById(saveData, result->partnerIds[0]);
     statusCode = w->peers[result->partnerIds[0]].statusCode;
-    outcome = INTRUDE_COMM_NormalizeVersion((u8)statusCode, func_02008530(partner));
+    outcome = INTRUDE_COMM_NormalizeVersion((u8)statusCode, MYSTATUS_GetId(partner));
     if (outcome == 0x14) {
         save->outcomes[result->record.head.kind] = 1;
     } else if (outcome == 0x15) {
@@ -4015,8 +4014,8 @@ void INTRUDE_COMM_FillMemberName(IntrudeCommSys *w, IntrudeMemberName *name, u8 
     int record;
     name->netId = netId;
     record = GAME_DATA_GetMyStatusByNetId(GAME_COMM_GetGameData(w->gameComm), name->netId);
-    func_020084F8((void *)record, name, 8);
-    name->gender = func_02008550((const struct MemberRecord *)record);
+    MYSTATUS_CopyNameChars((void *)record, name, 8);
+    name->gender = MYSTATUS_GetOutfitVariant((const struct MemberRecord *)record);
 }
 
 
@@ -4037,8 +4036,8 @@ void INTRUDE_COMM_SetMemberEntry(IntrudeCommSys *w, IntrudeSession *session, u32
     if (entry->filled != 1) {
         name = (IntrudeNameChars *)GAME_DATA_GetBattleRecSlotByNetId(saveData, memberIndex);
         record = GAME_DATA_GetMyStatusByNetId(saveData, memberIndex);
-        gender = func_0200855C((const struct MemberRecord *)record);
-        genderFlag = INTRUDE_COMM_NormalizeVersion(gender, func_02008530((const struct MemberRecord *)record)) == 0x15;
+        gender = MYSTATUS_GetAvatarId((const struct MemberRecord *)record);
+        genderFlag = INTRUDE_COMM_NormalizeVersion(gender, MYSTATUS_GetId((const struct MemberRecord *)record)) == 0x15;
         entry->name = *name;
         entry->gender = genderFlag;
         entry->senderNetId = senderNetId;
@@ -4306,7 +4305,7 @@ void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind)
         IntrudePickRow *pick = &gIntrudePickTable[row];
         if (kind == pick->kind && pick->minPoints <= points && (pick->flags & 2)) {
             level = pick->level;
-            if (level == 100 || level >= func_020056EC(0x65)) {
+            if (level == 100 || level >= GFL_USE_GetRandom(0x65)) {
                 save->picks[kind] = row;
                 return;
             }
@@ -4459,7 +4458,7 @@ struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *
     struct GameEvent *event;
     IntrudeLinkEventWork *eventWork;
     event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_LINK_EventMain, sizeof(IntrudeLinkEventWork));
-    eventWork = func_020124E8(event);
+    eventWork = GAME_EVENT_GetWork(event);
     eventWork->procArg = procArg;
     eventWork->gameSystem = gameSystem;
     return event;

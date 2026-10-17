@@ -24,7 +24,7 @@
  *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   FIELD_WFBC_DATA_LOCAL_Init  0x021860D4  thumb  ov020
@@ -43,7 +43,7 @@
  *   ZONEDATA_SetGameStartLocation  0x02014264  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   CONSOLE_STAMP_GetFromSave  0x02008B08  thumb
- *   func_02008B20  0x02008B20  thumb
+ *   CONSOLE_STAMP_SetIdentity  0x02008B20  thumb
  *   PALANM_StartTimer  0x02021444  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_SetContinueFlag  0x0201445C  thumb
@@ -63,9 +63,9 @@
  *   POKEPARTY_GetSaveData  0x0201AD0C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   CONSOLE_STAMP_IsThisConsole  0x02008B4C  thumb
- *   func_02008B78  0x02008B78  thumb
- *   func_02008B14  0x02008B14  thumb
- *   func_02008C00  0x02008C00  thumb
+ *   CONSOLE_STAMP_IsRtcOffsetCurrent  0x02008B78  thumb
+ *   CONSOLE_STAMP_GetDailyClock  0x02008B14  thumb
+ *   DAILY_CLOCK_Refill  0x02008C00  thumb
  *   FORMCHANGE_RevertShayminAndRegister  0x0216A390  thumb  ov010
  *   GF_STANDARD_SetupRtc  0x0203F524  arm
  *   BEACON_SetLastTime  0x0200C384  thumb
@@ -256,15 +256,15 @@
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MAIL_Create  0x02008F08  thumb
- *   func_02008F88  0x02008F88  thumb
- *   func_02008FA0  0x02008FA0  thumb
- *   func_02008FA8  0x02008FA8  thumb
- *   func_02008FB4  0x02008FB4  thumb
- *   func_02008FBC  0x02008FBC  thumb
- *   func_02008FD8  0x02008FD8  thumb
- *   func_02008FC4  0x02008FC4  thumb
- *   func_02008FEC  0x02008FEC  thumb
- *   func_0200903C  0x0200903C  thumb
+ *   MAIL_SetWriterName  0x02008F88  thumb
+ *   MAIL_SetGender  0x02008FA0  thumb
+ *   MAIL_SetDesign  0x02008FA8  thumb
+ *   MAIL_SetLanguage  0x02008FB4  thumb
+ *   MAIL_SetVersion  0x02008FBC  thumb
+ *   MAIL_SetMessage  0x02008FD8  thumb
+ *   MAIL_SetMessageId  0x02008FC4  thumb
+ *   MAIL_GetBox  0x02008FEC  thumb
+ *   MAIL_SetSlot  0x0200903C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   d_02187DA4  0x02187DA4  data  ov020  a4
@@ -370,7 +370,7 @@ extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *chi
 extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(struct GameSystem *gameSystem, struct GameEvent *parent, int kind, int sub, int flag);
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *newEvent);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *callback, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 u16 *GAME_DATA_GetSecondUnionInfo(GameData *gameData);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void FIELD_WFBC_DATA_LOCAL_Init(void *unionInfo, void *myStatus, int flag);
@@ -391,7 +391,7 @@ extern void FIELD_PLACE_NAME_ShowForZone(struct PlaceNameSys *placeName, int zon
 extern void ZONEDATA_SetGameStartLocation(Location *location);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct ConsoleInfo *CONSOLE_STAMP_GetFromSave(struct SaveControl *saveControl);
-extern void func_02008B20(struct ConsoleInfo *consoleInfo);
+extern void CONSOLE_STAMP_SetIdentity(struct ConsoleInfo *consoleInfo);
 extern void PALANM_StartTimer(void);
 void EVENT_MAPCHANGE_AddPresetMail(GameData *gameData);
 extern FieldStatus *GAME_DATA_GetMoveModelSys(GameData *gameData);
@@ -414,9 +414,9 @@ extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern void *POKEPARTY_GetSaveData(struct SaveControl *saveControl);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern int CONSOLE_STAMP_IsThisConsole(struct ConsoleInfo *consoleInfo);
-extern int func_02008B78(struct ConsoleInfo *consoleInfo);
-extern struct ConsoleInfoSession *func_02008B14(struct SaveControl *saveControl);
-extern void func_02008C00(struct ConsoleInfoSession *session);
+extern int CONSOLE_STAMP_IsRtcOffsetCurrent(struct ConsoleInfo *consoleInfo);
+extern struct ConsoleInfoSession *CONSOLE_STAMP_GetDailyClock(struct SaveControl *saveControl);
+extern void DAILY_CLOCK_Refill(struct ConsoleInfoSession *session);
 extern void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, void *party);
 extern u64 GF_STANDARD_SetupRtc();
 extern void BEACON_SetLastTime(struct MiscSave *miscSave, u32 lo, u32 hi);
@@ -669,15 +669,15 @@ struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
 struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 void STRBUF_ToChars(struct Strbuf *strbuf, u16 *dest, u32 length);
 struct Mail *MAIL_Create(int heapId);
-void func_02008F88(struct Mail *mail, const u16 *writerName);
-void func_02008FA0(struct Mail *mail, u8 gender);
-void func_02008FA8(struct Mail *mail, u32 design);
-void func_02008FB4(struct Mail *mail, u8 language);
-void func_02008FBC(struct Mail *mail, u8 version);
-void func_02008FD8(struct Mail *mail, const void *message, u32 index);
-void func_02008FC4(struct Mail *mail, u16 messageId);
-struct Mail *func_02008FEC(void *saveControl);
-void func_0200903C(struct Mail *box, u32 unused, int slot, const struct Mail *src);
+void MAIL_SetWriterName(struct Mail *mail, const u16 *writerName);
+void MAIL_SetGender(struct Mail *mail, u8 gender);
+void MAIL_SetDesign(struct Mail *mail, u32 design);
+void MAIL_SetLanguage(struct Mail *mail, u8 language);
+void MAIL_SetVersion(struct Mail *mail, u8 version);
+void MAIL_SetMessage(struct Mail *mail, const void *message, u32 index);
+void MAIL_SetMessageId(struct Mail *mail, u16 messageId);
+struct Mail *MAIL_GetBox(void *saveControl);
+void MAIL_SetSlot(struct Mail *box, u32 unused, int slot, const struct Mail *src);
 void STRBUF_Delete(struct Strbuf *strbuf);
 u32 MSGDATA_Delete(struct MsgData *msgData);
 void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
@@ -753,7 +753,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateFirstStartEvent(struct GameSystem *gameS
     FirstStartWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FirstStartEvent, sizeof(FirstStartWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->initWork = initWork;
     return event;
@@ -811,13 +811,13 @@ int EVENT_MAPCHANGE_NewGameStartEvent(struct GameEvent *event, int *seq, NewGame
 struct GameEvent *EVENT_MAPCHANGE_CreateNewGameStartEvent(struct GameSystem *gameSystem)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_NewGameStartEvent, sizeof(NewGameStartWork));
-    NewGameStartWork *work = func_020124E8(event);
+    NewGameStartWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     ZONEDATA_SetGameStartLocation(&work->startLocation);
     EVENT_MAPCHANGE_InitUnionInfo(gameSystem);
-    func_02008B20(CONSOLE_STAMP_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)));
+    CONSOLE_STAMP_SetIdentity(CONSOLE_STAMP_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)));
     PALANM_StartTimer();
     EVENT_MAPCHANGE_AddPresetMail(work->gameData);
     GX_SetBankForLCDC(0x1ff);
@@ -913,7 +913,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     u64 nowSeconds;
 
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_ContinueEvent, sizeof(ContinueWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->zoneId = initWork->zoneId;
@@ -925,13 +925,13 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     partySave = POKEPARTY_GetSaveData(saveControl);
     miscSave = GAME_DATA_GetMiscSave(work->gameData);
     /* the save was written on another console or with another clock offset */
-    if (!CONSOLE_STAMP_IsThisConsole(consoleInfo) || !func_02008B78(consoleInfo)) {
-        func_02008C00(func_02008B14(saveControl));
+    if (!CONSOLE_STAMP_IsThisConsole(consoleInfo) || !CONSOLE_STAMP_IsRtcOffsetCurrent(consoleInfo)) {
+        DAILY_CLOCK_Refill(CONSOLE_STAMP_GetDailyClock(saveControl));
         FORMCHANGE_RevertShayminAndRegister(work->gameData, partySave);
         nowSeconds = GF_STANDARD_SetupRtc();
         BEACON_SetLastTime(miscSave, (u32)nowSeconds, (u32)(nowSeconds >> 32));
     }
-    func_02008B20(consoleInfo);
+    CONSOLE_STAMP_SetIdentity(consoleInfo);
     FORMCHANGE_UpdateSeasonForms(work->gameData, partySave, GAME_DATA_GetSeason(work->gameData));
     EVENT_MAPCHANGE_RefreshUnionInfo(gameSystem);
     PALANM_StartTimer();
@@ -1061,7 +1061,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
         if (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) {
             COMM_PLAYER_SUPPORT_SetSeason(gameData, work->toSeason);
-            sessionPtr = (int)func_02008B14(GAME_DATA_GetSaveControl(gameData));
+            sessionPtr = (int)CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
             season = GAME_DATA_GetSeason(gameData);
             party = GAME_DATA_GetMyParty(gameData);
             FORMCHANGE_UpdateSeasonForms(gameData, party, season);
@@ -1111,7 +1111,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateChangeFieldEvent(MapChangeWork *work, in
     ChangeFieldWork *changeField;
 
     event = GAME_EVENT_Create(work->gameSystem, 0, EVENT_MAPCHANGE_ChangeFieldEvent, sizeof(ChangeFieldWork));
-    changeField = func_020124E8(event);
+    changeField = GAME_EVENT_GetWork(event);
     changeField->mapChange = work;
     work->changeKind = changeKind;
     return event;
@@ -1550,7 +1550,7 @@ int EVENT_MAPCHANGE_FadeDetachEvent(struct GameEvent *event, int *seq, MapChange
         break;
     case 2:
         tailEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, sizeof(MapChangeWork));
-        tailWork = func_020124E8(tailEvent);
+        tailWork = GAME_EVENT_GetWork(tailEvent);
         *tailWork = *work;
         GAME_EVENT_CallEvent(event, tailEvent);
         (*seq)++;
@@ -1692,7 +1692,7 @@ void EVENT_MAPCHANGE_InitWork(MapChangeWork *work, GameSystem *gameSystem)
 GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, int unused, int zoneId, const VecFx32 *pos, u16 dir, int seasonFadeAllowed)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     dir = ZONEDATA_DirToExitDir(dir);
@@ -1713,7 +1713,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, int unused, i
 GameEvent *EVENT_MAPCHANGE_CreateRailWarpEvent(GameSystem *gameSystem, int unused, int zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     dir = ZONEDATA_DirToExitDir(dir);
@@ -1726,7 +1726,7 @@ GameEvent *EVENT_MAPCHANGE_CreateRailWarpEvent(GameSystem *gameSystem, int unuse
 GameEvent *EVENT_MAPCHANGE_CreateRailWarpEventWithTransition(GameSystem *gameSystem, int unused, int zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     dir = ZONEDATA_DirToExitDir(dir);
@@ -1746,7 +1746,7 @@ static inline void EVENT_MAPCHANGE_SetVec(VecFx32 *dst, int x, int y, int z)
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTargetPos(GameSystem *gameSystem, int unused, const VecFx32 *targetPos, s16 zoneId, const VecFx32 *pos)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_TargetPositionEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     ZONEDATA_SetDirectLocation(&work->destination, zoneId, 1, pos->x, pos->y, pos->z);
     EVENT_MAPCHANGE_SetVec(&work->targetPos, targetPos->x, targetPos->y, targetPos->z);
@@ -1758,7 +1758,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTargetPos(GameSystem *gameSystem, 
 GameEvent *EVENT_MAPCHANGE_CreateDigEscapeEvent(int unused, GameSystem *gameSystem)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_SeasonEffectAEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
     Location *escapeLocation;
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1774,7 +1774,7 @@ GameEvent *EVENT_MAPCHANGE_CreateDigEscapeEvent(int unused, GameSystem *gameSyst
 GameEvent *EVENT_MAPCHANGE_CreateEscapeRopeEvent(GameSystem *gameSystem)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_SeasonEffectBEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
     Location *escapeLocation;
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1792,7 +1792,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(GameSystem *gameSystem)
 {
     int warpId = GAME_DATA_GetSituationWarpId(GAMESYSTEM_GetGameData(gameSystem));
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_ResetPlayerFormEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     ZONEDATA_SetZoneStartLocation(&work->destination, MAP_REPLACE_GetWarpFlagId(warpId));
@@ -1805,7 +1805,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(GameSystem *gameSystem)
 GameEvent *EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent(GameSystem *gameSystem)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeWaitEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
     Location *specialLocation;
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1825,7 +1825,7 @@ GameEvent *EVENT_MAPCHANGE_CreateZoneStartWarpEvent(GameSystem *gameSystem, u16 
 {
     Location playerLocation;
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeDetachEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
     PlayerWork *playerWork;
     int playerZoneId, playerDir;
     VecFx32 *playerPos;
@@ -1845,7 +1845,7 @@ GameEvent *EVENT_MAPCHANGE_CreateZoneStartWarpEvent(GameSystem *gameSystem, u16 
 GameEvent *EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent(GameSystem *gameSystem, int unused, int zoneId, const VecFx32 *pos, u16 dir)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EffectCEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     dir = ZONEDATA_DirToExitDir(dir);
@@ -1859,7 +1859,7 @@ GameEvent *EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent(GameSystem *gameSystem, 
 GameEvent *EVENT_MAPCHANGE_CreateFixedZoneEvent(GameSystem *gameSystem)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunFixedZoneEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     ZONEDATA_SetDirectLocation(&work->destination, 0x1A6, ZONEDATA_DirToExitDir(0), 0x2E << 14, 0, 0x3E << 14);
@@ -1872,7 +1872,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSpecialLocationEvent(GameSystem *gameSystem, u8
 {
     Location *specialLocation = GAME_DATA_GetSpecialLocation(GAMESYSTEM_GetGameData(gameSystem));
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_SwapCommOverlayEvent, 0x9C);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->destination = *specialLocation;
@@ -1994,7 +1994,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEvent(GameSystem *gameSystem, int unuse
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceEvent, 0x9c);
     Location *entranceLocation;
 
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->seasonFadeAllowed = 1;
     if (EVENTDATA_SYSTEM_IsSpecialExitConnect(connectData) != 0) {
@@ -2019,7 +2019,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(GameSystem *gameS
 
     GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceCommEvent, 0x9c);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->seasonFadeAllowed = 1;
     EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, &work->destination, exitDir);
@@ -2030,7 +2030,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(GameSystem *gameS
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTransition(GameSystem *gameSystem, int unused, int transitionType, s16 zoneId, const VecFx32 *pos, u16 dir)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     dir = ZONEDATA_DirToExitDir(dir);
@@ -2054,7 +2054,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, int
 
     GAME_DATA_SetPlayerObjectCode(GAME_DATA_GetMyPlayerWork(gameData), 0);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->destination = *location;
     work->destination.dir = dir;
@@ -2071,7 +2071,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, int
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventPlain(GameSystem *gameSystem, int unused, int zoneId, const VecFx32 *pos, short dir)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeEvent, 0x9c);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     *(u16 *)&dir = ZONEDATA_DirToExitDir(*(u16 *)&dir);
@@ -2092,7 +2092,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(GameSystem *gameSyst
     VecFx32 warpPos = *pos;
     GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeDelayedEvent, 0x9C);
-    MapChangeWork *work = func_020124E8(event);
+    MapChangeWork *work = GAME_EVENT_GetWork(event);
     int slotOffset = 0;
 
     if (ZONEDATA_IsZone117(zoneId) == 1) {
@@ -2173,7 +2173,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(GameSystem *gameSyste
 
     GAMESYSTEM_GetGameData(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, sizeof(WarpIdArrivalWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     MAP_REPLACE_ApplyWarpLocation(GAME_DATA_GetSituationWarpId(work->gameData), &work->location);
@@ -2427,7 +2427,7 @@ void EVENT_MAPCHANGE_ApplyZoneTableEntry(GameData *gameData, int zoneId)
 GameEvent *EVENT_MAPCHANGE_CreateIntrudeSessionEvent(GameSystem *gameSystem, FieldMap *fieldMap, Location *location, int requestSession, int intrudeId)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunIntrudeSessionEvent, 0x30);
-    MapChangeIntrudeWork *work = func_020124E8(event);
+    MapChangeIntrudeWork *work = GAME_EVENT_GetWork(event);
 
     work->location = *location;
     work->gameSystem = gameSystem;
@@ -2442,7 +2442,7 @@ GameEvent *EVENT_MAPCHANGE_CreateIntrudeSessionEvent(GameSystem *gameSystem, Fie
 GameEvent *EVENT_MAPCHANGE_CreateIntrudeArriveEvent(GameSystem *gameSystem, FieldMap *fieldMap, Location *location)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunIntrudeArriveEvent, 0x30);
-    MapChangeIntrudeWork *work = func_020124E8(event);
+    MapChangeIntrudeWork *work = GAME_EVENT_GetWork(event);
 
     work->location = *location;
     work->gameSystem = gameSystem;
@@ -2466,7 +2466,7 @@ int EVENT_MAPCHANGE_RunIntrudeArriveEvent(GameEvent *event, int *state, MapChang
         break;
     case 1:
         child = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
-        childWork = func_020124E8(child);
+        childWork = GAME_EVENT_GetWork(child);
         EVENT_MAPCHANGE_InitWork(childWork, gameSystem);
         childWork->destination = work->location;
         childWork->exitType = 0;
@@ -2599,16 +2599,16 @@ void EVENT_MAPCHANGE_AddPresetMail(GameData *gameData)
 
     STRBUF_ToChars(writerName, writerChars, 0x10);
     mail = MAIL_Create(1);
-    func_02008F88(mail, writerChars);
-    func_02008FA0(mail, 1);
-    func_02008FA8(mail, 3);
-    func_02008FB4(mail, 2);
-    func_02008FBC(mail, 0x15);
-    func_02008FD8(mail, d_02187DA4, 0);
-    func_02008FD8(mail, d_02187DAC, 1);
-    func_02008FD8(mail, d_02187DB4, 2);
-    func_02008FC4(mail, 0x58F);
-    func_0200903C(func_02008FEC(gameData), 0, 0, mail);
+    MAIL_SetWriterName(mail, writerChars);
+    MAIL_SetGender(mail, 1);
+    MAIL_SetDesign(mail, 3);
+    MAIL_SetLanguage(mail, 2);
+    MAIL_SetVersion(mail, 0x15);
+    MAIL_SetMessage(mail, d_02187DA4, 0);
+    MAIL_SetMessage(mail, d_02187DAC, 1);
+    MAIL_SetMessage(mail, d_02187DB4, 2);
+    MAIL_SetMessageId(mail, 0x58F);
+    MAIL_SetSlot(MAIL_GetBox(gameData), 0, 0, mail);
     GFL_HEAP_Free(mail);
     STRBUF_Delete(writerName);
     MSGDATA_Delete(msgData);
@@ -2620,7 +2620,7 @@ void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData)
     void *partySave = POKEPARTY_GetSaveData(saveControl);
     int season = GAME_DATA_GetSeason(gameData);
 
-    FORMCHANGE_RevertShayminAtNight(gameData, partySave, (u32 *)((u8 *)func_02008B14(saveControl) + 0x14), season);
+    FORMCHANGE_RevertShayminAtNight(gameData, partySave, (u32 *)((u8 *)CONSOLE_STAMP_GetDailyClock(saveControl) + 0x14), season);
 }
 
 void *EVENT_MAPCHANGE_AllocWorkBufferA(void)

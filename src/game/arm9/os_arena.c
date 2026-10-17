@@ -1,7 +1,7 @@
 /*
  * file:     os_arena.c
  * unit:     yes
- * function: OS_InitArena, OS_InitArenaEx, OS_GetArenaHi, OS_GetArenaLo, func_02086594, func_02086694, OS_SetArenaHi, OS_SetArenaLo, OS_AllocFromArenaLo
+ * function: OS_InitArena, OS_InitArenaEx, OS_GetArenaHi, OS_GetArenaLo, OS_GetInitArenaHi, OS_GetInitArenaLo, OS_SetArenaHi, OS_SetArenaLo, OS_AllocFromArenaLo
  * address:  0x020863E0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -77,8 +77,6 @@ typedef struct OSHeapInfo {
     HeapDesc *heapArray;
 } OSHeapInfo;
 
-extern u32  func_02086594(u32 a0);
-extern u32  func_02086694(u32 a0);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern u32 OS_GetConsoleType(void);
@@ -123,28 +121,28 @@ void OS_InitArena(void)
     mainArenaId = 0;
     g_02151264.isInitialized = 1;
 
-    OS_SetArenaHi(mainArenaId, func_02086594(mainArenaId));
-    OS_SetArenaLo(mainArenaId, func_02086694(mainArenaId));
+    OS_SetArenaHi(mainArenaId, (u32)(OS_GetInitArenaHi((int)(mainArenaId))));
+    OS_SetArenaLo(mainArenaId, (u32)(OS_GetInitArenaLo((int)(mainArenaId))));
 
     arenaId = 2;
     OS_SetArenaLo(arenaId, mainArenaId);
     OS_SetArenaHi(arenaId, mainArenaId);
 
     arenaId = 3;
-    OS_SetArenaHi(arenaId, func_02086594(arenaId));
-    OS_SetArenaLo(arenaId, func_02086694(arenaId));
+    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
 
     arenaId = 4;
-    OS_SetArenaHi(arenaId, func_02086594(arenaId));
-    OS_SetArenaLo(arenaId, func_02086694(arenaId));
+    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
 
     arenaId = 5;
-    OS_SetArenaHi(arenaId, func_02086594(arenaId));
-    OS_SetArenaLo(arenaId, func_02086694(arenaId));
+    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
 
     arenaId = 6;
-    OS_SetArenaHi(arenaId, func_02086594(arenaId));
-    OS_SetArenaLo(arenaId, func_02086694(arenaId));
+    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
 }
 
 

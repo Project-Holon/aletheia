@@ -36,6 +36,7 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   SAVE_CONTROL_CreateExtraSaveWithBuffer  0x02007324  thumb
+ *   SAVE_CONTROL_DeleteExtraSaveBuffered  0x0200734C  thumb
  */
 #include "battle_rec_types.h"
 typedef unsigned char u8;
@@ -63,7 +64,7 @@ extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *save, u32 id
 
 extern void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
 
-extern void func_0200734C(struct SaveControl *save, u32 id);
+extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *save, u32 id);
 
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
 
@@ -470,7 +471,7 @@ u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32
     case 1:
         result = GAME_DATA_PartSaveMain(gameData, id);
         if (result == 2 || result == 3) {
-            func_0200734C(save, id);
+            SAVE_CONTROL_DeleteExtraSaveBuffered(save, id);
             return result;
         }
         break;

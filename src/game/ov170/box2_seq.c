@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
- *   func_020078C4 0x020078C4 thumb
+ *   BOX_SAVEDATA_CountPokemonInBox 0x020078C4 thumb
  *   BOX2_SEQ_UpdatePrintQueue  0x021E1E34  thumb  ov170
  *   BOX2_SEQ_FlushDirtyBmpWins  0x021EAB04  thumb  ov170
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -218,7 +218,7 @@
  *   BOX2_UI_PlaceCursorAtIcon 0x021EE520 thumb
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   KEY_GetRepeat 0x0203633C arm
- *   func_020077B8 0x020077B8 thumb
+ *   BOX_SAVEDATA_CountFreeSlotsInBox 0x020077B8 thumb
  *   BOX_SAVEDATA_FindFreeSlot 0x020076D0 thumb
  *   BOX2_UI_PlaceCursorAtMon 0x021EE544 thumb
  *   BOX2_MAIN_SceneOpenBox 0x021E087C thumb
@@ -244,7 +244,7 @@
  *   BOX2_MAIN_ClearSlot 0x021DD314 thumb
  *   BOX2_MAIN_StateMachineOpen 0x021E002C thumb
  *   d_021EF908 0x021EF908 data a4
- *   func_02007A80 0x02007A80 thumb
+ *   BOX_SAVEDATA_CheckFlags 0x02007A80 thumb
  *   d_021EF9C8 0x021EF9C8 data
  *   d_021EF93C 0x021EF93C data
  *   d_021EF964 0x021EF964 data
@@ -255,21 +255,21 @@
  *   d_021EF928 0x021EF928 data
  *   d_021EF9F8 0x021EF9F8 data
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   BOX2_MAIN_LoadBoxPalette 0x021DED58 thumb ov170
- *   func_02007838 0x02007838 thumb
+ *   BOX_SAVEDATA_SetWallpaper 0x02007838 thumb
  *   BOX2_MAIN_InitSeq  0x021DC9A0  thumb  ov170
  *   BOX2_MAIN_RestartSeq  0x021DC9B8  thumb  ov170
  *   BOX2_MAIN_OpenTaskMenu 0x021DCF58 thumb
- *   func_02007E50 0x02007E50 thumb
+ *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   BOX2_MAIN_SetBoxForm 0x021DEFF8 thumb ov170
  *   BOX2_MAIN_ResetMovers 0x021DE728 thumb ov170
  *   BOX2_MAIN_PlayMonCry  0x021DE898  thumb  ov170
  *   BOX2_MAIN_UpdateWindowFrame  0x021DD090  thumb  ov170
  *   data_021EFA10 0x021EFA10 data a1
  *   BOX2_UI_PutListFrames 0x021EF4E4 thumb
- *   func_02007F1C 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
  *   data_021EF918 0x021EF918 data a1
  *   BOX2_MAIN_RefreshBoxUi 0x021DD1E8 thumb
  *   BOX2_MAIN_SceneMoveCursor 0x021E072C thumb
@@ -381,10 +381,10 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
  *   FILE_UTIL_GetItemCount 0x02020F08 thumb
- *   func_02049E34 0x02049E34 arm
+ *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
  *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   CLACT_GetActorPaletteIndex 0x0204B7F8 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   CLACT_GetActorDrawPriority 0x0204B838 arm
@@ -420,10 +420,11 @@
  *   BOX2_MAIN_MoveCursorTo 0x021E0FB0 thumb ov170
  *   BOX2_MAIN_StateMachineSlide 0x021E0FD8 thumb ov170
  *   BOX2_MAIN_Check122C 0x021E122C thumb ov170
+ *   ARC_UTIL_LoadScreenDataFromHandle  0x02049E74  arm  arm9
  */
 #include "box2_types.h"
 
-extern int func_020078C4(void *save, u32 box);
+extern int BOX_SAVEDATA_CountPokemonInBox(void *save, u32 box);
 
 
 struct Bank;
@@ -923,7 +924,7 @@ extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 
 extern unsigned int KEY_GetRepeat(void);
 
-extern int func_020077B8(void *save, u32 box);
+extern int BOX_SAVEDATA_CountFreeSlotsInBox(void *save, u32 box);
 
 extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
@@ -977,17 +978,17 @@ extern void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b);
 
 extern int BOX2_MAIN_StateMachineOpen(unsigned char *p);
 
-extern int func_02007A80(void *save, unsigned bits);
+extern int BOX_SAVEDATA_CheckFlags(void *save, unsigned bits);
 
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
 
 extern void BOX2_MAIN_LoadBoxPalette(char *, int);
 
-extern void func_02007838(void *save, u32 box, u8 v);
+extern void BOX_SAVEDATA_SetWallpaper(void *save, u32 box, u8 v);
 
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
@@ -997,7 +998,7 @@ extern void BOX2_MAIN_RestartSeq(char *);
 
 extern void BOX2_MAIN_OpenTaskMenu(BoxTask *p, int sel);
 
-extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_AddItem(u8 *base, u16 id, u16 qty, u16 d);
 
 extern void BOX2_MAIN_SetBoxForm(BoxTask *p, unsigned b);
 
@@ -1009,7 +1010,7 @@ extern void BOX2_MAIN_UpdateWindowFrame(char *, int);
 
 extern void BOX2_UI_PutListFrames(struct WinMgr *mgr);
 
-extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
 
 extern void BOX2_MAIN_RefreshBoxUi(BoxTask *p);
 
@@ -1193,7 +1194,7 @@ extern int POKE_TOOL_GetIconCellEntryId(void);
 
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern int BOX_SAVEDATA_GetPokemonValue(void **save, u32 box, u32 slot, int field, int arg);
 
@@ -1255,11 +1256,11 @@ extern unsigned FILE_UTIL_Get(unsigned,unsigned);
 
 extern unsigned FILE_UTIL_GetItemCount(void);
 
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
 extern u16 CLACT_GetActorPaletteIndex(u8 *p);
 
@@ -2136,7 +2137,7 @@ int BOX2_SEQ_StateMenuMain(BoxTask *p)
 }
 
 /*
- * Twin of src/matched/ov170_func_021E0ABC.c.
+ * Twin of src/matched/BOX2_MAIN_StateMachineCoin.c.
  */
 int BOX2_SEQ_StateMachineMove(BoxTask *p)
 {
@@ -2379,7 +2380,7 @@ int BOX2_SEQ_OpenBoxRight(BoxTask *p)
 }
 
 /*
- * Sibling of src/matched/ov170_func_021DFA30.c.
+ * Sibling of src/matched/BOX2_MAIN_StateMachineScroll.c.
  */
 int BOX2_SEQ_StateMachineScroll(BoxTask *p)
 {
@@ -5226,7 +5227,7 @@ int BOX2_SEQ_StateListScroll(BoxTask *p)
     case 0:
     case 1:
         CURSOR_MOVE_SetCurrent((((BoxTask *)(p))->work->sound), 0);
-        if (func_020077B8(*(void **)(((char *)((BoxTask *)(p))->params) + 4), p->curBox) == 0) {
+        if (BOX_SAVEDATA_CountFreeSlotsInBox(*(void **)(((char *)((BoxTask *)(p))->params) + 4), p->curBox) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintPrompt((BoxTask *)p, 0, 4, 0x18);
             (((BoxTask *)(p))->state) = 0x37;
@@ -7242,7 +7243,7 @@ int BOX2_SEQ_StateMoveMenuC(BoxTask *p)
         return BOX2_SEQ_SetSeqThird((BoxTask *)p, (int)BOX2_MAIN_IsWindowMoving, 0x64);
     case 1:
         if ((((BoxTask *)(p))->work->selectKind) == 0) {
-            if (func_02007A80((((BoxTask *)(p))->params->boxSave), 1) == 1)
+            if (BOX_SAVEDATA_CheckFlags((((BoxTask *)(p))->params->boxSave), 1) == 1)
                 BOX2_SEQ_DrawFrameList((BoxTask *)p, d_021EF9C8, 6);
             else
                 BOX2_SEQ_DrawFrameList((BoxTask *)p, d_021EF93C, 5);
@@ -7255,7 +7256,7 @@ int BOX2_SEQ_StateMoveMenuC(BoxTask *p)
         } else if ((((BoxTask *)(p))->work->selectKind) == 4) {
             BOX2_SEQ_DrawFrameList((BoxTask *)p, d_021EF9A0, 5);
         } else if ((((BoxTask *)(p))->work->selectKind) == 5) {
-            if (func_02007A80((((BoxTask *)(p))->params->boxSave), 2) == 1)
+            if (BOX_SAVEDATA_CheckFlags((((BoxTask *)(p))->params->boxSave), 2) == 1)
                 BOX2_SEQ_DrawFrameList((BoxTask *)p, d_021EF9E0, 6);
             else
                 BOX2_SEQ_DrawFrameList((BoxTask *)p, d_021EF928, 5);
@@ -7273,10 +7274,10 @@ int BOX2_SEQ_StateMoveMenuC(BoxTask *p)
             BOX2_SEQ_PrintIndexedMessage((unsigned char *)p, 3, 0x18);
         flag = 0;
         if ((((BoxTask *)(p))->work->selectKind) == 0) {
-            if (func_02007A80((((BoxTask *)(p))->params->boxSave), 1) == 0)
+            if (BOX_SAVEDATA_CheckFlags((((BoxTask *)(p))->params->boxSave), 1) == 0)
                 flag = 1;
         } else if ((((BoxTask *)(p))->work->selectKind) == 5) {
-            if (func_02007A80((((BoxTask *)(p))->params->boxSave), 2) == 0)
+            if (BOX_SAVEDATA_CheckFlags((((BoxTask *)(p))->params->boxSave), 2) == 0)
                 flag = 1;
         } else if ((((BoxTask *)(p))->work->selectKind) != 6) {
             flag = 1;
@@ -7329,7 +7330,7 @@ int BOX2_SEQ_StateClosePmVoiceB(BoxTask *p)
             (((BoxTask *)(p))->work->selectKind) = 4;
             return BOX2_SEQ_GotoBox2Main((BoxTask *)p, 4, BOX2_SEQ_ReturnAfterClear((BoxTask *)p, 0x64));
         }
-        if ((((BoxTask *)(p))->work->selectKind) == 5 && func_02007A80(((void **)p->params)[1], 2) == 1) {
+        if ((((BoxTask *)(p))->work->selectKind) == 5 && BOX_SAVEDATA_CheckFlags(((void **)p->params)[1], 2) == 1) {
             (((BoxTask *)(p))->work->selectKind) = 6;
             return BOX2_SEQ_GotoBox2Main((BoxTask *)p, 4, BOX2_SEQ_ReturnAfterClear((BoxTask *)p, 0x64));
         }
@@ -7379,18 +7380,18 @@ int BOX2_SEQ_StateFadeBox(BoxTask *p)
     case 0:
         BOX2_SEQ_SetCursorDraw((char **)p, 0);
         PALANM_CopyHwPaletteToSlot(*(void **)(((char *)((BoxTask *)(p))->work) + 0x6c), 0, 0, 0x200);
-        PALANM_RequestFade(*(void **)(((char *)((BoxTask *)(p))->work) + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
+        PALANM_RequestFade(*(void **)(((char *)((BoxTask *)(p))->work) + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)GFL_USE_GetMainTaskList());
         p->state = 0x66;
         (((BoxTask *)(p))->work->seqStep)++;
         return 3;
     case 1:
         BOX2_MAIN_LoadBoxPalette((char *)p, *(u8 *)(((char *)((BoxTask *)(p))->work) + 0xA17B));
-        func_02007838(p->params->boxSave, p->curBox, *(u8 *)(((char *)((BoxTask *)(p))->work) + 0xA17B));
+        BOX_SAVEDATA_SetWallpaper(p->params->boxSave, p->curBox, *(u8 *)(((char *)((BoxTask *)(p))->work) + 0xA17B));
         BOX2_UI_DrawSlot((BoxTask *)p, p->curBox);
         (((BoxTask *)(p))->work->seqStep)++;
         break;
     case 2:
-        PALANM_RequestFade(*(void **)(((char *)((BoxTask *)(p))->work) + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)func_020056BC());
+        PALANM_RequestFade(*(void **)(((char *)((BoxTask *)(p))->work) + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)GFL_USE_GetMainTaskList());
         p->state = 0x66;
         (((BoxTask *)(p))->work->seqStep)++;
         return 3;
@@ -7502,7 +7503,7 @@ int BOX2_SEQ_StateUseItem(BoxTask *p)
     unsigned item;
     void *mon;
     item = BOX2_MAIN_GetPartyValueAt((void ***)p, p->cursorSlot, p->curBox, 6, 0);
-    if (func_02007E50(p->params->config, item, 1, 0x4C) == 1) {
+    if (MYITEM_SAVEDATA_AddItem(p->params->config, item, 1, 0x4C) == 1) {
         mon = (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot);
         BOX2_SEQ_PrintWordsetB((char *)p, item, 0x18);
         BOX2_MAIN_SetBoxValueAt((int)p, p->cursorSlot, p->curBox, 6, 0);
@@ -7585,7 +7586,7 @@ int BOX2_SEQ_StateUseItemMenu(BoxTask *p)
     void *mon;
     if(UI_GetInputMode()==1) CURSOR_MOVE_SetState(*(void **)(((char *)((BoxTask *)(p))->work)+0x70),0);
     else { CURSOR_MOVE_SetState(*(void **)(((char *)((BoxTask *)(p))->work)+0x70),1); BOX2_SEQ_SetCursorDraw((char **)p,0); }
-    if(func_02007E50(p->params->config,*(unsigned short *)(((char *)((BoxTask *)(p))->work)+0xa16c),1,0x4c)==1) {
+    if(MYITEM_SAVEDATA_AddItem(p->params->config,*(unsigned short *)(((char *)((BoxTask *)(p))->work)+0xa16c),1,0x4c)==1) {
         mon=(void *)BOX2_MAIN_GetMonAt((void ***)p,p->curBox,p->cursorSlot);
         BOX2_MAIN_SetBoxValueAt((int)p,p->cursorSlot,p->curBox,6,0);
         if(BOX2_MAIN_CanPlaceInBox((void **)p,mon)==1) {
@@ -7786,7 +7787,7 @@ int BOX2_SEQ_StatePmVoiceMenuB(BoxTask *p)
             BOX2_MAIN_RecalcPartyParam((void * *)p, p->cursorSlot);
             BOX2_SEQ_ShowSlotIcon((BoxTask *)p,p->curBox,p->cursorSlot,*(unsigned char *)(((char *)((BoxTask *)(p))->work)+p->cursorSlot+0x3dd2));
         }
-        func_02007F1C(p->params->config,(((BoxTask *)(p))->subResult),1,0x804c);
+        MYITEM_SAVEDATA_RemoveItem(p->params->config,(((BoxTask *)(p))->subResult),1,0x804c);
     }
     BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)p,p->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)p,0);
     return 0x54;
@@ -7824,7 +7825,7 @@ int BOX2_SEQ_StatePmVoiceMenuC(BoxTask *p)
             BOX2_MAIN_RecalcPartyParam((void **)p,p->cursorSlot);
             BOX2_SEQ_ShowSlotIcon((BoxTask *)p,p->curBox,p->cursorSlot,*(unsigned char *)(((char *)((BoxTask *)(p))->work)+p->cursorSlot+0x3dd2));
         }
-        func_02007F1C(p->params->config,(((BoxTask *)(p))->subResult),1,0x804c);
+        MYITEM_SAVEDATA_RemoveItem(p->params->config,(((BoxTask *)(p))->subResult),1,0x804c);
         *(unsigned short *)(((char *)((BoxTask *)(p))->work)+0xa16c)=(((BoxTask *)(p))->subResult);
         BOX2_SEQ_SetSlotCharacter(((char *)((BoxTask *)(p))->work),*(unsigned short *)(((char *)((BoxTask *)(p))->work)+0xa16c));
         BOX2_SEQ_SetActorDrawEnable((char *)((char *)((BoxTask *)(p))->work),0xa,1); BOX2_SEQ_CreateHandSlotActorsB(((char *)((BoxTask *)(p))->work)); BOX2_SEQ_ShowHandSlots((char *)((char *)((BoxTask *)(p))->work));
@@ -7864,7 +7865,7 @@ int BOX2_SEQ_StatePmVoiceMenuD(BoxTask *p)
             BOX2_MAIN_RecalcPartyParam((void * *)p, p->cursorSlot);
             BOX2_SEQ_ShowSlotIcon((BoxTask *)p,p->curBox,p->cursorSlot,*(unsigned char *)(((char *)((BoxTask *)(p))->work)+p->cursorSlot+0x3dd2));
         }
-        func_02007F1C(p->params->config,(((BoxTask *)(p))->subResult),1,0x804c);
+        MYITEM_SAVEDATA_RemoveItem(p->params->config,(((BoxTask *)(p))->subResult),1,0x804c);
     }
     BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)p,p->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)p,0);
     return 0x54;
@@ -8275,7 +8276,7 @@ int BOX2_SEQ_ScrollListToSlot(BoxTask *p, unsigned i, int v)
             GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
-        if (func_020077B8(p->params->boxSave, k) == 0) {
+        if (BOX_SAVEDATA_CountFreeSlotsInBox(p->params->boxSave, k) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
@@ -8659,7 +8660,7 @@ void BOX2_SEQ_ToggleHandSlot(int p, int bit)
 }
 
 int BOX2_SEQ_GotoSceneA(BoxTask *p,int a) {
- if((unsigned char)((char *)((BoxTask *)(p))->work)[0xA17C]<=4 || ((unsigned char)((char *)((BoxTask *)(p))->work)[0xA17C]==5 && func_02007A80(p->params->boxSave,2)==0))
+ if((unsigned char)((char *)((BoxTask *)(p))->work)[0xA17C]<=4 || ((unsigned char)((char *)((BoxTask *)(p))->work)[0xA17C]==5 && BOX_SAVEDATA_CheckFlags(p->params->boxSave,2)==0))
   ((char *)((BoxTask *)(p))->work)[0xA17B]=((unsigned char)((char *)((BoxTask *)(p))->work)[0xA17C]-1)*4+a-1;
  else ((char *)((BoxTask *)(p))->work)[0xA17B]=((unsigned char)((char *)((BoxTask *)(p))->work)[0xA17C]-1)*4+a;
  return BOX2_SEQ_GotoBox2Main((BoxTask *)p,a,BOX2_SEQ_ReturnAfterClear((BoxTask *)p,0x66));
@@ -9180,7 +9181,7 @@ void BOX2_SEQ_DrawOffsetName(unsigned char *p, int i)
 void BOX2_SEQ_DrawMonName(char **p, unsigned a, int i)
 {
     void *s = MSGDATA_AllocString(((BoxWork *)p[11])->msgBank, 0x1E);
-    unsigned n = func_020078C4((void *)(((unsigned *)p[0])[1]), a);
+    unsigned n = BOX_SAVEDATA_CountPokemonInBox((void *)(((unsigned *)p[0])[1]), a);
     WORDSET_SetSlotNumber(((BoxWork *)p[11])->wordSet, 0, n, 2, 0, 1);
     WORDSET_CopyTaggedText(((BoxWork *)p[11])->wordSet, ((BoxWork *)p[11])->strbuf, s);
     BMP_Clear(*(void **)(p[11] + i * 8 + 8), 0);
@@ -9725,7 +9726,7 @@ void BOX2_SEQ_CreateBoxSlotActors(char *p)
  */
 void *BOX2_SEQ_LoadGraphicResource(char *p, void *b, void *c)
 {
-    return func_02049E74((void *)(((BoxWork *)p)->arcHandle), POKE_TOOL_GetGraphicIndex(b), 0, (u32)c, 0x4c);
+    return ARC_UTIL_LoadScreenDataFromHandle((void *)(((BoxWork *)p)->arcHandle), POKE_TOOL_GetGraphicIndex(b), 0, (u32)c, 0x4c);
 }
 
 void BOX2_SEQ_LoadMonIcon(char **p, int box)
@@ -10276,10 +10277,10 @@ void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item)
     void *a;
     void *b;
     void *q;
-    q = func_02049E34(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 1), 0, (u32)(&a), 0x4C);
+    q = ARC_UTIL_LoadScreenDataFromArchive(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 1), 0, (u32)(&a), 0x4C);
     CLACT_TransferCharacter(CLACT_GetActorCharacterIndex(((BoxWork *)w)->cursorActor), a);
     GFL_HEAP_Free((void *)q);
-    q = func_02049F34(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
+    q = ARC_UTIL_LoadPaletteBlockFromArchive(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
     CLACT_TransferPalette((void *)CLACT_GetActorPaletteIndex(((BoxWork *)w)->cursorActor), b, 1);
     GFL_HEAP_Free((void *)q);
 }

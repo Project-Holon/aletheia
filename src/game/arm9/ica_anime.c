@@ -55,7 +55,7 @@
  *   GAME_BEACON_Setup     0x020267BC  thumb
  *   PALANM_StopTimer     0x02021438  thumb
  *   GAME_DATA_IsWalkCountEnabled  0x02012A24  thumb
- *   func_02035614  0x02035614  arm
+ *   UI_SetFrameRate  0x02035614  arm
  *   GAME_DATA_IncWalkCount  0x020129FC  thumb
  *   GAMESYSTEM_UpdateAutoComm  0x0201205C  thumb
  *   GAME_COMM_Update  0x0202627C  thumb
@@ -77,8 +77,8 @@
  *   INTRUDE_COMM_CheckEntryAllowed  0x02158318  thumb  ov010
  *   func_02035390  0x02035390  arm
  *   UI_IsPowerConnected  0x020353B0  arm
- *   func_0200921C  0x0200921C  thumb
- *   func_020090E0  0x020090E0  thumb
+ *   BLOCK20_SAVEDATA_GetBlockFromSys  0x0200921C  thumb
+ *   CGEAR_SAVE_GetObtained  0x020090E0  thumb
  *   GFL_NET_GetRunState     0x0203CD98  arm
  *   GAME_COMM_GetKind     0x02026454  thumb
  *   GAME_COMM_Start     0x020263D8  thumb
@@ -230,7 +230,7 @@ extern void PALANM_StopTimer(void);
 
 extern u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gameData);
 
-extern void func_02035614(int frames);
+extern void UI_SetFrameRate(int frames);
 
 extern u8 GAME_DATA_IncWalkCount(struct GameData *gameData);
 
@@ -268,9 +268,9 @@ extern u32   func_02035390(void);
 
 extern int UI_IsPowerConnected(void);
 
-extern struct WirelessSave *func_0200921C(struct GameData *gameData);
+extern struct WirelessSave *BLOCK20_SAVEDATA_GetBlockFromSys(struct GameData *gameData);
 
-extern u8 func_020090E0(const struct WirelessSave *wirelessSave);
+extern u8 CGEAR_SAVE_GetObtained(const struct WirelessSave *wirelessSave);
 
 extern int GFL_NET_GetRunState(void);
 
@@ -1421,7 +1421,7 @@ int GAMESYSTEM_Main(struct GameSystem *gameSystem)
 {
     GAMESYSTEM_UpdateEventActiveFlag(gameSystem);
     if (GAME_DATA_IsWalkCountEnabled(gameSystem->gameData) != 0)
-        func_02035614(0x1e);
+        UI_SetFrameRate(0x1e);
     if (GAME_DATA_IncWalkCount(gameSystem->gameData) == 0) {
         GAME_EVENT_StartByCreator(gameSystem, gameSystem->eventCreator, gameSystem->eventCreatorArg);
         GAMESYSTEM_UpdateAutoComm(gameSystem);
@@ -1433,7 +1433,7 @@ int GAMESYSTEM_Main(struct GameSystem *gameSystem)
     ISS_SYS_Update(gameSystem->issSystem);
     PALANM_UpdateTimer(gameSystem->gameData);
     if (GAME_DATA_IsWalkCountEnabled(gameSystem->gameData) != 0)
-        func_02035614(0x3c);
+        UI_SetFrameRate(0x3c);
     if (gameSystem->procStatus == 2 || gameSystem->procStatus == 0)
         GFL_NET_ERR_ShowScreen(0);
     if (gameSystem->procStatus == 0 && gameSystem->event == 0)
@@ -1711,7 +1711,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
      && ICA_ANIME_IsConfigFlagSet(gameSystem) == 1
      && INTRUDE_COMM_CheckEntryAllowed(gameSystem) == 1
      && !(func_02035390() == 1 && UI_IsPowerConnected() == 1)) {
-        if (func_020090E0(func_0200921C(gameSystem->gameData)) != 0) {
+        if (CGEAR_SAVE_GetObtained(BLOCK20_SAVEDATA_GetBlockFromSys(gameSystem->gameData)) != 0) {
             return 1;
         }
     }

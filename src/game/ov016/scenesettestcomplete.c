@@ -14,9 +14,9 @@
  *
  * sdk:      DWCi_SceneSetTestCompletet (libdwcutil.TWL.HYB.a scenesettestcomp)
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD580.c \n *       --func DWCi_SceneSetTestCompletet --addr 0x021CD580 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetTestCompletet.c \n *       --func DWCi_SceneSetTestCompletet --addr 0x021CD580 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettest.o)
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD658.c \n *       --func DWCi_SceneSetTestCompletet_procInit1 --addr 0x021CD658 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetTestCompletet_procInit1.c \n *       --func DWCi_SceneSetTestCompletet_procInit1 --addr 0x021CD658 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   gSceneSetTestCompleteWaitCount     0x021DE620  data

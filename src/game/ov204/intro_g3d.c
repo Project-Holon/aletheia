@@ -34,7 +34,7 @@
  *   G3D_UTIL_Create 0x02047CFC arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_SYSTEM_DisableObjectAnime 0x020477D4 arm
  *   gIntroG3dSite 0x021C0B00 data a1
@@ -146,7 +146,7 @@ extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec
 
 extern u16 G3D_UTIL_AddUnit(void *,const void *);
 
-extern u32 func_02048A18(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
 
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 
@@ -358,7 +358,7 @@ char *INTRO_G3D_Create(void *owner,int kind,u32 heap)
     p->camera=G3D_CAMERA_Create(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
     if(kind!=7){
         p->unitId=G3D_UTIL_AddUnit(p->util,gIntroG3dUnitSetup);
-        obj=(void *)func_02048A18(p->util,p->unitId);
+        obj=(void *)G3D_UTIL_GetObject(p->util,p->unitId);
         G3D_SYSTEM_EnableObjectAnime(obj,3);G3D_SYSTEM_EnableObjectAnime(obj,4);
         G3D_SYSTEM_DisableObjectAnime(obj,0);G3D_SYSTEM_DisableObjectAnime(obj,1);G3D_SYSTEM_DisableObjectAnime(obj,2);
     }else p->unitId=0xffff;
@@ -391,7 +391,7 @@ void INTRO_G3D_Draw(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         MTX_Identity33_(t.matrix);
-        G3D_SYSTEM_DrawObject((void *)func_02048A18(work->util, work->unitId), (struct Arg *)(&t));
+        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(work->util, work->unitId), (struct Arg *)(&t));
     }
 }
 
@@ -406,7 +406,7 @@ int INTRO_G3D_UpdateIntro(char *p)
         ++work->introState;
     case 1:
     {
-        void *obj = (void *)func_02048A18(work->util, work->unitId);
+        void *obj = (void *)G3D_UTIL_GetObject(work->util, work->unitId);
         int a = G3D_SYSTEM_IncObjectAnimeFrame(obj, 3, 4096);
         int b = G3D_SYSTEM_IncObjectAnimeFrame(obj, 4, 4096);
         if (a == 0 && b == 0)
@@ -500,7 +500,7 @@ void INTRO_G3D_SetAnimFrame(char *p,unsigned value)
     void *ctl;
     int frame;
     float f;
-    ctl=(void *)func_02048A18(work->util,work->unitId);
+    ctl=(void *)G3D_UTIL_GetObject(work->util,work->unitId);
     if(value!=0) f=0.5f+(float)(value<<12);
     else f=(float)(value<<12)-0.5f;
     frame=(int)f;

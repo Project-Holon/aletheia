@@ -21,9 +21,9 @@
     "MAP_ATTR_IsDeepSand",
     "MAP_ATTR_IsDeepSandB",
     "MAP_ATTR_IsSand",
-    "func_021AB428",
-    "func_021AB434",
-    "func_021AB440",
+    "MAP_ATTR_IsGrassSingleB",
+    "MAP_ATTR_IsGrassDoubleB",
+    "MAP_ATTR_IsMirrorFloor",
     "MAP_ATTR_IsNoDash"
    ],
    "addresses": [

@@ -20,7 +20,7 @@
  *   MAIL_Create  0x02008F08  thumb
  *   POKE_CRYPTO_XorBlock  0x02019A50  thumb
  *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
@@ -54,6 +54,10 @@
  *   POKE_TOOL_ApplyNatureModifier  0x02019B04  thumb
  *   POKE_TOOL_LoadExpTable  0x02019B94  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
+ *   MYSTATUS_CopyNameChars  0x020084F8  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MSGDATA_ReadString  0x02045CAC  arm
  */
 typedef unsigned char  u8;
 
@@ -305,7 +309,7 @@ extern struct Mail *MAIL_Create(int heapId);
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
 extern void POKE_CRYPTO_XorBlock(u16 *data, u32 size, u32 seed);
 extern struct PersonalData *POKE_TOOL_GetPersonalData(u32 species, u16 form);
-extern u32   func_020056EC(u32 range);
+extern u32   GFL_USE_GetRandom(u32 range);
 extern u32   GF_STANDARD_Rand(void);
 extern void MSGDATA_ReadUnits(struct MsgData *msgData, u32 msgIndex, u16 *dest, u32 maxLen);
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
@@ -316,9 +320,9 @@ extern u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size);
 extern void POKE_PERSONAL_LoadDataDirect(u32 species, int form, struct LevelUpMove *dest);
 extern u32 WAZA_TOOL_GetParam(u16 move, u32 field);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUps);
-extern u32 func_02008530(const struct MyStatus *status);
-extern u8 func_02008550(const struct MyStatus *status);
-extern u32 func_020084F8(struct MyStatus *status, u32 dest, u32 maxLen);
+extern u32 MYSTATUS_GetId(const struct MyStatus *status);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u32 MYSTATUS_CopyNameChars(struct MyStatus *status, u32 dest, u32 maxLen);
 extern u32 WORDSET_CheckF448(const u16 *a, const u16 *b);
 extern void  POKE_TOOL_LoadExpTable(u32 growthRate, u32 *dest);
 extern u32 POKE_TOOL_GetExpValue(u32 growthRate, u32 level);
@@ -329,7 +333,7 @@ extern void MAIL_Copy(const struct Mail *src, struct Mail *dest);
 extern u32 POKE_TOOL_GetPlateType(u32 item);
 extern void WORDSET_CopyString(const u16 *src, u16 *dest, u32 count);
 extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
-extern void func_02045CAC(struct MsgData *bank, u32 index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
 extern u32  POKE_TOOL_IsDefaultName(struct BoxPokemon *box);
 extern void STRBUF_ToChars(struct Strbuf *src, u16 *dest, u32 count);
 
@@ -709,7 +713,7 @@ void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u
     personal = POKE_TOOL_GetPersonalData(species, 0);
 
     if (personality == 0xFFFFFFFF00000000ULL) {
-        personality = func_020056EC(0);
+        personality = GFL_USE_GetRandom(0);
         GF_STANDARD_Rand();
     } else if (personality == 0xFFFFFFFF00000001ULL) {
         personality = otId;
@@ -717,7 +721,7 @@ void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_PERSONALITY, (u32)personality);
 
     if (otId == 0xFFFFFFFFFFFFFFFFULL) {
-        otId = func_020056EC(0);
+        otId = GFL_USE_GetRandom(0);
     } else if (otId == 0xFFFFFFFF00000000ULL) {
         otId = (u32)(personality + 1);
         while (POKE_TOOL_IsShinyOtIdPersonality((u32)otId, (u32)personality)) {
@@ -757,7 +761,7 @@ void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u
     }
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ABILITY, POKE_PERSONAL_GetParam(personal, abilitySlot));
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_GENDER, POKE_TOOL_GetBoxGender(box));
-    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NATURE, func_020056EC(0x19));
+    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NATURE, GFL_USE_GetRandom(0x19));
     POKE_TOOL_SetBoxDefaultMoves(box);
     POKE_TOOL_EncodeBoxParam(box, didDecode);
 }
@@ -1929,7 +1933,7 @@ int POKE_TOOL_IsOwnedByPlayer(struct PokemonParam *pp, struct MyStatus *myStatus
  * mail", the comparison that unlocks the record with POKE_TOOL_DecodeBoxParam
  * (src/matched/unit_02017D30.c), reads the trainer id (field 0x07) and the
  * second name field (0x9A) out of it, reads the same two out of the mail
- * object through func_02008530 and func_02008550, copies both names into the
+ * object through MYSTATUS_GetId and MYSTATUS_GetOutfitVariant, copies both names into the
  * two 0x20 byte scratch buffers at 0x021462F0 and 0x021462B0, and compares
  * the strings with WORDSET_CheckF448.
  *
@@ -1958,11 +1962,11 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStat
     u8  didDecode = (u8)POKE_TOOL_DecodeBoxParam(box);
     u32 isOwned = 0;
 
-    playerOtId = func_02008530(myStatus);
+    playerOtId = MYSTATUS_GetId(myStatus);
     monOtId = POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_ID, 0);
-    playerGender = func_02008550(myStatus);
+    playerGender = MYSTATUS_GetOutfitVariant(myStatus);
     monOtGender = POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_GENDER, 0);
-    func_020084F8(myStatus, (u32)gNameBuf, 0x20);
+    MYSTATUS_CopyNameChars(myStatus, (u32)gNameBuf, 0x20);
     POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_NAME, (u32)gNameCompareBuf);
     if (playerOtId == monOtId && playerGender == monOtGender && WORDSET_CheckF448(gNameBuf, gNameCompareBuf) != 0) {
         isOwned = 1;
@@ -2222,20 +2226,20 @@ u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, u16 form, int ratioMode, 
     u32 personality;
 
     if (ratioMode == 2) {
-        personality = func_020056EC(0);
+        personality = GFL_USE_GetRandom(0);
     } else {
-        u32 highBits = func_020056EC(0) & ~0xFFu;
+        u32 highBits = GFL_USE_GetRandom(0) & ~0xFFu;
 
         personality = POKE_TOOL_GetGenderRatioClass(species, form, (u8)ratioMode);
         if (ratioMode == 0) {
             if (POKE_PERSONAL_IsPlaceholderAbility(personality) == 0) {
-                personality = personality + func_020056EC(0xFE - personality);
+                personality = personality + GFL_USE_GetRandom(0xFE - personality);
                 goto L;
             }
         }
         if (ratioMode == 1) {
             if (POKE_PERSONAL_IsPlaceholderAbility(personality) == 0) {
-                personality = func_020056EC(personality) + 1;
+                personality = GFL_USE_GetRandom(personality) + 1;
             }
         }
     L:
@@ -3156,7 +3160,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg)
     case POKE_TOOL_PARAM_SPARE_WORD: result = blockB->spareWord; break;
     case POKE_TOOL_PARAM_NICKNAME_STRBUF:
         if (box->checksumFailed != 0) {
-            func_02045CAC(gSpeciesNameBank, 651, (struct Strbuf *)arg);
+            MSGDATA_ReadString(gSpeciesNameBank, 651, (struct Strbuf *)arg);
         } else {
             STRBUF_SetString((struct Strbuf *)arg, blockC->nickname);
         }

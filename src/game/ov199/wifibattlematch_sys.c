@@ -49,8 +49,8 @@
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
- *   func_020084F4 0x020084F4 thumb
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   ov093_id 0x0000005D data
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
@@ -73,7 +73,7 @@
  *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
  *   BATTLE_REC_TOOL_UnpackSetup 0x021EEEA8 thumb ov188
  *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
- *   func_0200853C 0x0200853C thumb
+ *   MYSTATUS_GetProfileId 0x0200853C thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -371,8 +371,8 @@ extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
 extern void *BATTLE_COMPETITION_GetFromSave(void *);
 extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void POKE_REGULATION_AdjustPartyLevels(void *, void *);
-extern void *func_020084F4(void *);
-extern u8 func_02008550(const struct PlayerStatus *obj);
+extern void *MYSTATUS_GetName(void *);
+extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *obj);
 extern void BATTLE_REC_ClearWork(void);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int GF_OVERLAY_Load(s32 handle);
@@ -396,7 +396,7 @@ extern void BTL_SETUP_Clear(u8 *p);
 extern void BTL_SETUP_InitWithSlots(char *, void *, int);
 extern void BATTLE_REC_TOOL_UnpackSetup(void *p, u32 c);
 extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
-extern u32 func_0200853C(const struct PlayerStatus *obj);
+extern u32 MYSTATUS_GetProfileId(const struct PlayerStatus *obj);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
@@ -699,9 +699,9 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
     row = *(u8 * *)&((struct WifiBattleMatchSysWork *)p)->partyBuffer1;
     POKEPARTY_Copy((const struct Rec534 *)(row + 0xd4), ((struct WifiBattleMatchSysWork *)p)->partyD);
     POKE_REGULATION_AdjustPartyLevels(((struct WifiBattleMatchSysRegRecord *)out)->card, ((struct WifiBattleMatchSysWork *)p)->partyD);
-    ((struct WifiBattleMatchSysRegRecord *)out)->row = func_020084F4(row);
+    ((struct WifiBattleMatchSysRegRecord *)out)->row = MYSTATUS_GetName(row);
     ((struct WifiBattleMatchSysRegRecord *)out)->partyD = ((struct WifiBattleMatchSysWork *)p)->partyD;
-    out[0xc] = func_02008550((const struct PlayerStatus *)row);
+    out[0xc] = MYSTATUS_GetOutfitVariant((const struct PlayerStatus *)row);
     return out;
 }
 
@@ -1134,7 +1134,7 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
     Triple time;
     PartyCountPair bytes;
     MI_CpuFill8(p,0,0x50);
-    ((struct WifiBattleMatchSysSetupOut *)p)->card=func_0200853C((const struct PlayerStatus *)save);
+    ((struct WifiBattleMatchSysSetupOut *)p)->card=MYSTATUS_GetProfileId((const struct PlayerStatus *)save);
     ((struct WifiBattleMatchSysSetupOut *)p)->savedValue=((struct WifiBattleMatchSysPartyBuffer *)save)->savedValue;
     for(i=0;i<(int)POKEPARTY_GetCount(party2);i++) {
         mon=POKEPARTY_GetMember(party2,i);

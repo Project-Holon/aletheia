@@ -24,7 +24,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   BEACON_GetBlock  0x0200C0F0  thumb
@@ -32,7 +32,7 @@
  *   NAMEIN_SETUP_CreateArgs  0x0216BFD4  thumb  ov010
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   NAMEIN_SETUP_FreeArgs  0x0216C0C0  thumb  ov010
  *   ov171_id       0x000000AB  data  a1
  *   gSubProcTable    0x021DEA44  data  ov021  a1
@@ -88,7 +88,7 @@ typedef struct SubProcEventWork {
 
 extern void *GAME_DATA_GetSaveControl(struct SaveControl *gameData);
 struct GameEvent *GAME_EVENT_Create(void *owner, void *parent, void *handler, u32 workSize);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void *FIELD_STATUS_CreateSubProcEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork);
 extern void *FIELD_STATUS_CreateSubProcNoFadeEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent **child);
@@ -102,7 +102,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
 extern int *NAMEIN_SETUP_CreateArgs(int kind, int mode, int species, int form, int maxLength, int flags, void *nameSave);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 paramId, u32 value);
 extern void *GAME_DATA_GetTrainerRecord(int *gameData);
-extern u32 func_02008DF0(struct TrainerRecord *record, int recordId);
+extern u32 RECORD_AddOne(struct TrainerRecord *record, int recordId);
 extern int NAMEIN_SETUP_FreeArgs(int args);
 
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode);
@@ -124,7 +124,7 @@ extern char ov171_id[];
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode)
 {
     void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NameInEventMain, 0x10);
-    NameInEventWork *work = func_020124E8(task);
+    NameInEventWork *work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->nameIn = nameIn;
@@ -171,7 +171,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
         partyIndex = 0;
     }
     event = (int)GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
-    work = func_020124E8((struct GameEvent *)event);
+    work = GAME_EVENT_GetWork((struct GameEvent *)event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->result = result;
@@ -208,7 +208,7 @@ int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventW
         }
         *work->result = confirmed;
         if (*work->result == 1) {
-            func_02008DF0(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->gameSystem)), 0x1e);
+            RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->gameSystem)), 0x1e);
         }
         NAMEIN_SETUP_FreeArgs((int)work->nameIn);
         return 1;
@@ -222,7 +222,7 @@ int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventW
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result)
 {
     void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SubProcEventMain, 0x14);
-    SubProcEventWork *work = func_020124E8(task);
+    SubProcEventWork *work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->result = result;

@@ -16,7 +16,7 @@
  *   WORLDTRADE_SUBLCD_CreateActors 0x021FF6A4 thumb ov135
  *   WORLDTRADE_SUBLCD_UpdateSlotPalettes 0x021FFB20 thumb ov135
  *   GFL_HEAP_Free 0x020307B0 arm
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   DC_FlushRange  0x020862F0  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   WORLDTRADE_SUBLCD_FreeResources  0x021FFCD4  thumb
@@ -42,7 +42,7 @@
  *   str_02203E44 0x02203E44 data a1
  *   d_022038BE 0x022038BE data a2
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
- *   func_02049E34  0x02049E34  arm
+ *   ARC_UTIL_LoadScreenDataFromArchive  0x02049E34  arm
  *   GXS_LoadOBJ 0x0207E804 arm
  *   GXS_LoadOBJPltt 0x0207E5D0 arm
  *   d_02203884 0x02203884 data a2
@@ -54,7 +54,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
 extern void DC_FlushRange(void *p, u32 size);
 
@@ -98,7 +98,7 @@ extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void GXS_LoadOBJ(void *, int, int);
 
@@ -393,9 +393,9 @@ void WORLDTRADE_SUBLCD_LoadPalette(Work *p)
 {
     int i;
 
-    p->main = func_02049F34(0x20, 0, (u32)(&p->palData), 0x48);
+    p->main = ARC_UTIL_LoadPaletteBlockFromArchive(0x20, 0, (u32)(&p->palData), 0x48);
     for (i = 0; i < 16; i++) {
-        p->buf[i] = func_02049E34(0x20, i + 0x31, 0, (u32)(&p->chr[i]), 0x48);
+        p->buf[i] = ARC_UTIL_LoadScreenDataFromArchive(0x20, i + 0x31, 0, (u32)(&p->chr[i]), 0x48);
     }
     for (i = 0; i < 16; i++) {
         DC_FlushRange(p->chr[i]->pixels, 0x200);

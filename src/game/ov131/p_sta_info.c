@@ -36,7 +36,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   d_021DC824 0x021DC824 data a1
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   d_021DC288 0x021DC288 data a1
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   BG_SYS_DecodeTile 0x02040AE0 arm
@@ -154,7 +154,7 @@ extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-extern void *func_02049EF4(void *arc, unsigned int fileId, unsigned int a, void **dataOut, unsigned short heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int a, void **dataOut, unsigned short heapId);
 extern void BG_SYS_DrawTileEx(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void CLACT_GetCharacterProxy(u32 res, StaSpriteRes *out);
@@ -217,10 +217,10 @@ void P_STA_INFO_Main(PStatusWork *wk, PStaInfoWork *work) {}
 
 void P_STA_INFO_LoadResources(PStatusWork *wk, PStaInfoWork *work, void *arc)
 {
-    work->bgScrnFile = func_02049EF4(arc, 63, 0, &work->bgScrnData, wk->heapId);
-    work->eggScrnFile = func_02049EF4(arc, 72, 0, &work->eggScrnData, wk->heapId);
-    work->palFile = func_02049EF4(arc, 64, 0, &work->palData, wk->heapId);
-    work->barScrnFile = func_02049EF4(arc, 65, 0, &work->barScrnData, wk->heapId);
+    work->bgScrnFile = ARC_UTIL_LoadPaletteDataFromHandle(arc, 63, 0, &work->bgScrnData, wk->heapId);
+    work->eggScrnFile = ARC_UTIL_LoadPaletteDataFromHandle(arc, 72, 0, &work->eggScrnData, wk->heapId);
+    work->palFile = ARC_UTIL_LoadPaletteDataFromHandle(arc, 64, 0, &work->palData, wk->heapId);
+    work->barScrnFile = ARC_UTIL_LoadPaletteDataFromHandle(arc, 65, 0, &work->barScrnData, wk->heapId);
     work->msgInfo = MSGDATA_CreateFromArchive(0, 2, 188, wk->heapId);
     work->msgPlaceBank89 = MSGDATA_CreateFromArchive(0, 2, 89, wk->heapId);
     work->msgPlaceBank92 = MSGDATA_CreateFromArchive(0, 2, 92, wk->heapId);

@@ -26,7 +26,7 @@
  *   _RailMapZoneTable  0x0209E010  data
  *   _ZoneSpecialKindTable  0x0209E026  data
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
- *   func_02013B10  0x02013B10  thumb
+ *   ZONEDATA_IsZoneInTable  0x02013B10  thumb
  *   d_0209DFC0     0x0209DFC0  data  a4
  *   d_0209DFEC     0x0209DFEC  data  a4
  *   d_0209DFB8     0x0209DFB8  data
@@ -962,7 +962,7 @@ u32 ZONEDATA_IsRawZoneGroup121To13C(u32 id)
 
 /*
  * Unlabelled Thumb leaf inside ZONEDATA_IsZoneGroup118To120's listing extent: a tail call
- * to func_02013B10 with a fixed table and count. Filed as the witness for
+ * to ZONEDATA_IsZoneInTable with a fixed table and count. Filed as the witness for
  * the ov021 and ov018 callers.
  */
 int ZONEDATA_IsZoneInTableDFC0(int a0)
@@ -972,7 +972,7 @@ int ZONEDATA_IsZoneInTableDFC0(int a0)
 
 /*
  * Unlabelled Thumb leaf after ZONEDATA_IsZoneInTableDFC0: a tail call
- * to func_02013B10 with a fixed table and count. Filed as the witness for
+ * to ZONEDATA_IsZoneInTable with a fixed table and count. Filed as the witness for
  * the ov020 caller FIELD_WFBC_DATA_LOCAL_AdvanceDays (wave D4 lane 12).
  */
 int ZONEDATA_IsZoneInTableDFEC(u16 a0)

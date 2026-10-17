@@ -40,7 +40,7 @@
  *   WEATHER_TASK_RemoveParticle  0x021A21E0  thumb  ov021
  *   _u32_div_f  0x0209C2B0  arm
  *   gSnowWobbleOffsetX  0x021EF790  data  ov025  a1
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
  *   WEATHER_TASK_PlaySe  0x021A25BC  thumb  ov021
@@ -247,20 +247,20 @@ void WEATHER_SNOW_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId)
         }
         flake = (WeatherSnowFlake *)WEATHER_TASK_GetParticleWork(particle);
         actor = WEATHER_TASK_GetParticleActor(particle);
-        CLACT_SetActorAnimIndex(actor, (u16)func_020056EC(4));
+        CLACT_SetActorAnimIndex(actor, (u16)GFL_USE_GetRandom(4));
         flake->fallAccum = 0;
         flake->wobbleIndex = 0;
         flake->dying = 0;
-        flake->dyingFrames = (int)func_020056EC(0) % 30 + 2;
-        flake->fallThreshold = func_020056EC(8) + 12;
+        flake->dyingFrames = (int)GFL_USE_GetRandom(0) % 30 + 2;
+        flake->fallThreshold = GFL_USE_GetRandom(8) + 12;
         /* stand-in: the int round trip keeps the address arithmetic in the hoisting order of the original */
         flake->staggerSpawn = (int *)(int)&work->staggerSpawn;
         flake->ending = (int *)(int)&work->ending;
-        pos.x = func_020056EC(0x19E) - 0x20;
+        pos.x = GFL_USE_GetRandom(0x19E) - 0x20;
         if (work->staggerSpawn == 1 && i >= count / 2) {
-            pos.y = -8 - 0x20 - func_020056EC(0x14);
+            pos.y = -8 - 0x20 - GFL_USE_GetRandom(0x14);
         } else {
-            pos.y = -8 - func_020056EC(0x14);
+            pos.y = -8 - GFL_USE_GetRandom(0x14);
         }
         WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
     }
@@ -457,8 +457,8 @@ void WEATHER_BLIZZARD_SpawnParticles(WeatherTaskSys *task, s32 count, u16 heapId
         flake = (WeatherBlizzardFlake *)WEATHER_TASK_GetParticleWork(particle);
         actor = WEATHER_TASK_GetParticleActor(particle);
         flake->age = 0;
-        flake->lifetime = func_020056EC(3) + 9;
-        size = func_020056EC(4);
+        flake->lifetime = GFL_USE_GetRandom(3) + 9;
+        size = GFL_USE_GetRandom(4);
         CLACT_SetActorAnimIndex(actor, (u16)size);
         flake->speedX = (size + 1) * gBlizzardWindSpeedX[windIndex];
         flake->speedY = gBlizzardWindSpeedY[windIndex] * (size + 1);
@@ -468,8 +468,8 @@ void WEATHER_BLIZZARD_SpawnParticles(WeatherTaskSys *task, s32 count, u16 heapId
             flake->speedY = flake->speedY + gBlizzardWindSpeedY[windIndex];
         }
         flake->accelX = gBlizzardWindSpeedX[windIndex];
-        pos.x = -func_020056EC(0x18);
-        pos.y = func_020056EC(0xA8) - 0x20;
+        pos.x = -GFL_USE_GetRandom(0x18);
+        pos.y = GFL_USE_GetRandom(0xA8) - 0x20;
         CLACT_AddActorSurfacePos(actor, &pos, 0);
     }
 }
@@ -692,7 +692,7 @@ void WEATHER_DOWNPOUR_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId
         }
         drop = (WeatherDownpourDrop *)WEATHER_TASK_GetParticleWork(particle);
         actor = WEATHER_TASK_GetParticleActor(particle);
-        random = func_020056EC(0);
+        random = GFL_USE_GetRandom(0);
         drop->age = 0;
         roll = random % 100;
         if (roll < 30) {
@@ -875,8 +875,8 @@ void WEATHER_DIAMOND_DUST_SpawnParticles(WeatherTaskSys *task, s32 count, u32 he
         }
         sparkle = (WeatherDiamondDustSparkle *)WEATHER_TASK_GetParticleWork(particle);
         actor = WEATHER_TASK_GetParticleActor(particle);
-        random = func_020056EC(0);
-        random2 = func_020056EC(0);
+        random = GFL_USE_GetRandom(0);
+        random2 = GFL_USE_GetRandom(0);
         sparkle->age = 0;
         sparkle->lifetime = random % 5 + 7;
         if (random % 2 == 0) {

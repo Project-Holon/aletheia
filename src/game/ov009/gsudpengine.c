@@ -1,7 +1,7 @@
 /*
  * file:     gsudpengine.c
  * unit:     yes
- * function: func_02180410, func_02180420, func_02180430, gsUdpRemotePeerCompare, gsUdpRemotePeerCompare2, gsUdpSocketError, gsUdpClosedRoutingCB, gsUdpConnectedRoutingCB, gsUdpPingRoutingCB, gsUdpReceivedRoutingCB, gsUdpUnrecognizedMsgCB, gsUdpConnAttemptCB, gsUdpEngineIsInitialized, gsUdpEngineInitialize, gsUdpEngineGetPeerState, gsUdpEngineStartTalkingToPeer, gsUdpEngineSendMessage, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, gsUdpEngineAddMsgHandler, gsUdpEngineRemoveMsgHandler, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, gsUdpEngineGetPeerOutBufferFreeSpace
+ * function: func_02180410, gsUdpMsgHandlerCompare, gsUdpMsgHandlerCompare2, gsUdpRemotePeerCompare, gsUdpRemotePeerCompare2, gsUdpSocketError, gsUdpClosedRoutingCB, gsUdpConnectedRoutingCB, gsUdpPingRoutingCB, gsUdpReceivedRoutingCB, gsUdpUnrecognizedMsgCB, gsUdpConnAttemptCB, gsUdpEngineIsInitialized, gsUdpEngineInitialize, gsUdpEngineGetPeerState, gsUdpEngineStartTalkingToPeer, gsUdpEngineSendMessage, gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort, gsUdpEngineAddMsgHandler, gsUdpEngineRemoveMsgHandler, gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp, gsUdpEngineGetPeerOutBufferFreeSpace
  * address:  0x02180410
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -29,26 +29,26 @@
  *   g_021A38A8                     0x021A38A8  data
  *   g_021A38D0                     0x021A38D0  data
  *   g_021A390C                     0x021A390C  data
- *   func_02180448                  0x02180448  arm ov009
+ *   gsUdpRemotePeerCompare                  0x02180448  arm ov009
  *   g_021A393C                     0x021A393C  data
  *   g_021A3964                     0x021A3964  data
  *   g_021A399C                     0x021A399C  data
  *   g_021A39C8                     0x021A39C8  data
  *   g_021A39EC                     0x021A39EC  data
  *   g_021A3A14                     0x021A3A14  data
- *   func_02180430                  0x02180430  arm ov009
+ *   gsUdpMsgHandlerCompare2                  0x02180430  arm ov009
  *   g_021A3A30                     0x021A3A30  data
  *   g_021A3A54                     0x021A3A54  data
  *   ArrayAppend                  0x02184234  arm ov009
  *   gt2Accept                  0x02195B2C  arm ov009
  *   gt2Reject                  0x02195B38  arm ov009
  *   ArrayRemoveAt                  0x02184324  arm ov009
- *   func_02180420                  0x02180420  arm ov009
+ *   gsUdpMsgHandlerCompare                  0x02180420  arm ov009
  *   g_021A3A8C                     0x021A3A8C  data
  *   g_021A3AB8                     0x021A3AB8  data
  *   g_021A3AFC                     0x021A3AFC  data
  *   gt2CreateSocket                  0x02195AB4  arm ov009
- *   func_02184144                  0x02184144  arm ov009
+ *   ArrayNew                  0x02184144  arm ov009
  *   gt2SetUnrecognizedMessageCallback                  0x02195E68  arm ov009
  *   gt2Listen                  0x02195B20  arm ov009
  *   gt2GetLocalIP                  0x02195E38  arm ov009
@@ -84,19 +84,15 @@ extern unsigned short gt2GetRemotePort(const unsigned short *p);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern void ArrayDeleteAt(int a, int b);
 extern int gsUdpRemotePeerCompare2(void *theFirstPeer, void *theSecondPeer);
-extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
-extern int func_02180430(void *theFirstHandler, void *theSecondHandler);
 extern int gt2Accept(void *connection, GT2ConnectionCallbacks *callbacks);
 extern void gt2Reject(void *connection, unsigned char *message, int len);
 extern void ArrayRemoveAt(void *array, int n);
-extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
 extern int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
-extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void gt2SetUnrecognizedMessageCallback(int *p, int v);
 extern void gt2Listen(int *p, int v);
 extern int gt2GetLocalIP(const int *p);
 extern unsigned short gt2GetLocalPort(const unsigned short *p);
-extern void func_02180410(void *theMsgHandler);
 extern int gt2GetConnectionState(const int *p);
 extern int gt2Connect(void *socket, void **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
 extern int gt2GetOutgoingBufferSize(const int *p);
@@ -302,7 +298,7 @@ void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
 
         aRemotePeer.mAddr = gt2GetRemoteIP(theConnection);
         aRemotePeer.mPort = gt2GetRemotePort(theConnection);
-        aRemotePeerIdx = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
+        aRemotePeerIdx = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, gsUdpRemotePeerCompare, 0, 0);
         if (aRemotePeerIdx != -1) {
             gsDebugFormat(12, 0, 16, g_021A393C,
                 gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
@@ -319,7 +315,7 @@ void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
         aTempHandler = (GSUdpMsgHandler *)ArrayNth(aUdp->mMsgHandlers, aIndex);
         aRemotePeer.mAddr = gt2GetRemoteIP(theConnection);
         aRemotePeer.mPort = gt2GetRemotePort(theConnection);
-        aRemotePeerIdx = ArraySearch(aTempHandler->mPendingConnections, &aRemotePeer, func_02180448, 0, 0);
+        aRemotePeerIdx = ArraySearch(aTempHandler->mPendingConnections, &aRemotePeer, gsUdpRemotePeerCompare, 0, 0);
         if (aRemotePeerIdx != -1) {
             if (aTempHandler->mConnected) {
                 gsDebugFormat(12, 0, 16, g_021A3964);
@@ -398,7 +394,7 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
 
     if (theMessageLen >= 16) {
         memcpy(&aHandler.mHeader, theMessage, sizeof(aHandler.mHeader));
-        index = ArraySearch(aUdp->mMsgHandlers, &aHandler, func_02180430, 0, 0);
+        index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare2, 0, 0);
         if (index != -1) {
             aHandlerFound = (GSUdpMsgHandler *)ArrayNth(aUdp->mMsgHandlers, index);
             if (aHandlerFound->mReceived) {
@@ -454,7 +450,7 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
         aRemotePeer.mPort = port;
         aRemotePeer.mConnection = connection;
         ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
-        index = ArraySearch(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
+        index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare, 0, 0);
         if (index != -1) {
             aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
             aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
@@ -518,13 +514,13 @@ int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int th
         return 3;
     }
 
-    aUdp->mRemotePeers = func_02184144(12, 1, 0);
+    aUdp->mRemotePeers = ArrayNew(12, 1, 0);
     if (aUdp->mRemotePeers == 0) {
         gsDebugFormat(12, 2, 1, g_021A3B7C);
         return 1;
     }
 
-    aUdp->mMsgHandlers = func_02184144(60, 1, func_02180410);
+    aUdp->mMsgHandlers = ArrayNew(60, 1, (void (*)(void *))gsUdpMsgHandlerFree);
     if (aUdp->mMsgHandlers == 0) {
         gsDebugFormat(12, 2, 1, g_021A3B7C);
         return 1;
@@ -559,7 +555,7 @@ int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *the
     }
     aPeer.mAddr = theIp;
     aPeer.mPort = thePort;
-    index = ArraySearch(aUdp->mRemotePeers, &aPeer, func_02180448, 0, 0);
+    index = ArraySearch(aUdp->mRemotePeers, &aPeer, gsUdpRemotePeerCompare, 0, 0);
     if (index == -1) {
         *thePeerState = 3;
         return 0;
@@ -594,7 +590,7 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
 
     aRemotePeer.mAddr = theIp;
     aRemotePeer.mPort = thePort;
-    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
+    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, gsUdpRemotePeerCompare, 0, 0);
     if (index != -1) {
         GSUdpRemotePeer *aPeerFound;
         int aState;
@@ -609,7 +605,7 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
             GSUdpMsgHandler *aHandlerFound;
 
             *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;
-            index = ArraySearch(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
+            index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare, 0, 0);
             if (index != -1) {
                 aHandlerFound = (GSUdpMsgHandler *)ArrayNth(aUdp->mMsgHandlers, index);
                 ArrayAppend(aHandlerFound->mPendingConnections, aPeerFound);
@@ -627,7 +623,7 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
         gt2Connect(aUdp->mSocket, &aRemotePeer.mConnection, anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
         ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;
-        index = ArraySearch(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
+        index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare, 0, 0);
         if (index == -1) {
             aUdp->mAppPendingConnections++;
         } else {
@@ -667,7 +663,7 @@ int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *the
 
     aRemotePeer.mAddr = theIp;
     aRemotePeer.mPort = thePort;
-    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
+    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, gsUdpRemotePeerCompare, 0, 0);
     if (index == -1) {
         gt2AddressToString(theIp, thePort, anAddr);
         gsDebugFormat(12, 0, 2, g_021A3C34, anAddr);
@@ -765,7 +761,7 @@ int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader,
     *(GSUdpHdr *)aMsgHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;
     *(GSUdpHdr *)aMsgHandler.mHeader = *(GSUdpHdr *)theHeader;
 
-    aMsgHandler.mPendingConnections = func_02184144(4, 1, 0);
+    aMsgHandler.mPendingConnections = ArrayNew(4, 1, 0);
     if (aMsgHandler.mPendingConnections == 0) {
         gsDebugFormat(12, 2, 1, g_021A3B7C);
         return 1;
@@ -794,7 +790,7 @@ int gsUdpEngineRemoveMsgHandler(char *theHeader)
         return 10;
     }
     *(GSUdpHdr *)aHandler.mHeader = *(GSUdpHdr *)theHeader;
-    index = ArraySearch(aUdp->mMsgHandlers, &aHandler, func_02180430, 0, 0);
+    index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare2, 0, 0);
     if (index != -1)
         ArrayDeleteAt((int)aUdp->mMsgHandlers, index);
     return 0;
@@ -843,7 +839,7 @@ int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short theP
     }
     aRemotePeer.mAddr = theIp;
     aRemotePeer.mPort = thePort;
-    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
+    index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, gsUdpRemotePeerCompare, 0, 0);
     if (index == -1)
         return 0;
     aRemotePeerFound = (GSUdpRemotePeer *)ArrayNth(aUdp->mRemotePeers, index);

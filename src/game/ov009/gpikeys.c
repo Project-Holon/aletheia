@@ -14,7 +14,7 @@
  *
  * symbols:
  *   gsifree  0x0217EAE0  arm  ov009
- *   func_02184144  0x02184144  arm  ov009
+ *   ArrayNew  0x02184144  arm  ov009
  *   gpiSetErrorString  0x02193734  arm  ov009
  *   gGpiKeysErrorOutOfMemory  0x021A4D80  data
  *   ArrayFree  0x021841B0  arm  ov009
@@ -51,13 +51,12 @@ typedef struct GPIConnection {
 typedef unsigned char  u8;
 
 extern void gsifree(void *ptr);
-extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
+extern void *ArrayNew(int elemSize, int numElems, void (*freeFn)(void *));
 extern void gpiSetErrorString(int *p, int b);
 extern void ArrayFree(void *array);
 extern int strcmp(const char *s1, const char *s2);
 extern char *goastrdup(char *src);
 extern void ArrayInsertSorted(void *array, void *newElem, int (*comparator)(void *, void *));
-extern int func_0218D864(void *elem1, void *elem2);
 extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *ArrayNth(void *array, int n);
 extern int ArrayLength(const int *p);
@@ -127,7 +126,7 @@ int gpiStatusInfoKeysInit(void **connection)
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
     int result = 1;
 
-    iconnection->extendedInfoKeys = func_02184144(8, result, gpiStatusInfoKeyFree);
+    iconnection->extendedInfoKeys = ArrayNew(8, result, gpiStatusInfoKeyFree);
     if (iconnection->extendedInfoKeys != 0)
         return 0;
     gpiSetErrorString((int *)connection, (int)gGpiKeysErrorOutOfMemory);
@@ -181,7 +180,7 @@ int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *t
     }
     aKey.keyName = goastrdup(theKeyName);
     aKey.keyValue = goastrdup(theKeyValue);
-    ArrayInsertSorted(keys, &aKey, func_0218D864);
+    ArrayInsertSorted(keys, &aKey, (int (*)(void *, void *))gpiStatusInfoKeyCompFunc);
     return 0;
 }
 
@@ -203,7 +202,7 @@ int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newK
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
-    anIndex = ArraySearch(keys, &aKey, func_0218D864, 0, 1);
+    anIndex = ArraySearch(keys, &aKey, (int (*)(void *, void *))gpiStatusInfoKeyCompFunc, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)ArrayNth(keys, anIndex);
         gsifree(aKeyFound->keyValue);
@@ -230,7 +229,7 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
-    anIndex = ArraySearch(keys, &aKey, func_0218D864, 0, 1);
+    anIndex = ArraySearch(keys, &aKey, (int (*)(void *, void *))gpiStatusInfoKeyCompFunc, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)ArrayNth(keys, anIndex);
         *keyValue = aKeyFound->keyValue;

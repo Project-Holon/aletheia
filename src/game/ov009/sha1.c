@@ -1,7 +1,7 @@
 /*
  * file:     sha1.c
  * unit:     yes
- * function: R, func_0216359C, long_from_char, CPSi_sha1_block, func_02163C9C, func_02163CF0, func_02163DA8, CPSi_sha1_result_prng
+ * function: R, func_0216359C, long_from_char, CPSi_sha1_block, CPSi_sha1_init, CPSi_sha1_calc, CPSi_sha1_result, CPSi_sha1_result_prng
  * address:  0x02163558
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@
  *   MI_CpuCopy8     0x02082D44  arm
  *   CPSi_sha1_block 0x02163628  arm
  *   padding         0x021A1F28  data
- *   func_02163CF0  0x02163CF0  arm  ov009
+ *   CPSi_sha1_calc  0x02163CF0  arm  ov009
  *   func_0216359C  0x0216359C  arm  ov009
  *   gSha1Pad  0x021A1F28  data
  */
@@ -36,7 +36,6 @@
 static unsigned long R(int t, unsigned long *w);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_0216359C(unsigned char *d, unsigned long *s, unsigned int len);
 static unsigned long R(int t, unsigned long *w);
 static void long_from_char(unsigned int *dst, const u8 *src, unsigned int count);
@@ -229,6 +228,6 @@ void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest)
  */
 void CPSi_sha1_result_prng(void *ctx, unsigned char *digest)
 {
-	func_02163CF0(ctx, gSha1Pad + 1, 44);
+	CPSi_sha1_calc(ctx, gSha1Pad + 1, 44);
 	func_0216359C(digest, ctx, 20);
 }

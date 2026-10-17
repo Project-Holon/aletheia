@@ -45,11 +45,11 @@
  *   PM_SetAmp 0x0208BEF0 arm
  *   PM_SetAmpGainLevel 0x0208BF54 arm
  *   CTVT_MIC_InitChannel 0x021BA1B4 thumb ov172
- *   func_02005654 0x02005654 thumb
+ *   GFL_USE_SetVBlankHook 0x02005654 thumb
  *   gCtvtMicAllocSite 0x021C7218 data a4
  *   gCtvtMicIirFilter 0x021C720C data a4
  *   gCtvtMic 0x021C88EC data a4
- *   func_0200566C  0x0200566C  thumb
+ *   GFL_USE_ClearVBlankHook  0x0200566C  thumb
  *   CTVT_MIC_FreeChannel  0x021BA1D8  thumb  ov172
  *   MIC_GetLastSamplingAddress 0x0208B4B8 arm
  *   NNS_SndWaveOutIsPlaying 0x02072CC4 arm
@@ -64,7 +64,7 @@
  *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
  *   NNS_SndWaveOutStart  0x02072AA0  arm
  *   NNS_SndWaveOutStop 0x02072BDC arm
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  */
 #include "ctvt_types.h"
 
@@ -102,9 +102,9 @@ extern u32 PM_SetAmpGainLevel(u8);
 
 extern void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap);
 
-extern int func_02005654(int, int);
+extern int GFL_USE_SetVBlankHook(int, int);
 
-extern void func_0200566C(void);
+extern void GFL_USE_ClearVBlankHook(void);
 
 extern void CTVT_MIC_FreeChannel(CtvtMic *mic);
 
@@ -160,13 +160,13 @@ CtvtMic *CTVT_MIC_Create(u32 heap)
     mic->capturing = 0;
     mic->captureTicks = 0;
     gCtvtMic = mic;
-    func_02005654((int)CTVT_MIC_OnVBlank, 0);
+    GFL_USE_SetVBlankHook((int)CTVT_MIC_OnVBlank, 0);
     return mic;
 }
 
 void CTVT_MIC_Delete(CtvtMic *mic)
 {
-    func_0200566C();
+    GFL_USE_ClearVBlankHook();
     gCtvtMic = 0;
     CTVT_MIC_StopCapture(mic);
     CTVT_MIC_FreeChannel(mic);
@@ -274,7 +274,7 @@ extern int NNS_SndWaveOutStart(void *s, int fmt, void *data, int loop,
 
 extern void NNS_SndWaveOutStop(struct NnsWaveOutSlot *slot);
 
-extern u32 func_0209C2B0(u32 a, u32 b);
+extern u32 _u32_div_f(u32 a, u32 b);
 
 int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n);
 
@@ -375,7 +375,7 @@ int CTVT_MIC_GetPlayPos(CtvtMic *mic)
 
 int CTVT_MIC_GetPlayRatio(CtvtMic *mic)
 {
-    return (u16)func_0209C2B0(mic->length << 15, mic->freq * 0x10e);
+    return (u16)_u32_div_f(mic->length << 15, mic->freq * 0x10e);
 }
 
 /*

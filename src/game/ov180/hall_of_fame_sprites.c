@@ -38,9 +38,9 @@
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_OAM_SetEnabled 0x02025774 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
- *   func_02008534 0x02008534 thumb
- *   func_0200864C 0x0200864C thumb
- *   func_02008650 0x02008650 thumb
+ *   MYSTATUS_GetIdLow16 0x02008534 thumb
+ *   PLAYTIME_GetHours 0x0200864C thumb
+ *   PLAYTIME_GetMinutes 0x02008650 thumb
  *   HALL_OF_FAME_GetActorPos 0x021B7408 thumb ov180
  *   BMP_OAM_SetPos 0x0202590C thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -60,7 +60,7 @@
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetRendererCulling 0x0204B0F4 arm
  *   CLACT_SetUnitRenderer 0x0204B258 arm
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
  *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
@@ -71,7 +71,7 @@
  *   gHallOfFameTrainerTopTemplate 0x021B824C data a4
  *   gHallOfFameTrainerBottomTemplate 0x021B8264 data a4
  *   CLACT_DeleteRenderer 0x0204B084 arm
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   HALL_OF_FAME_IsActorAnimActive  0x021B74B4  thumb ov180
  *   HALL_OF_FAME_DeleteActor  0x021B75E8  thumb ov180
  *   HALL_OF_FAME_PlayActorAnim  0x021B7488  thumb ov180
@@ -127,9 +127,9 @@ extern u32 GF_FONT_MeasureWidestLine(struct StrObj *,u32,u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void BMP_OAM_SetEnabled(u8 *,u32);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
-extern u16 func_02008534(const struct Sub0200852CObj *obj);
-extern u16 func_0200864C(const struct PlayTime *);
-extern u8 func_02008650(const struct PlayTime *);
+extern u16 MYSTATUS_GetIdLow16(const struct Sub0200852CObj *obj);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *);
 extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -137,11 +137,11 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 DOUBLE3DDISP_GetMode(void);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern u32 func_020056EC(u32);
+extern u32 GFL_USE_GetRandom(u32);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void CLACT_SetUnitRenderer(struct Bank *,void *);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern int POKEGRA_OpenTrainerHandle(int);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -287,13 +287,13 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = MSGDATA_AllocString(work->msgData, 6);
-    WORDSET_SetSlotNumber(work->wordSet, 0, func_02008534(work->args->myStatus), 5, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, MYSTATUS_GetIdLow16(work->args->myStatus), 5, 2, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 92, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = MSGDATA_AllocString(work->msgData, 7);
-    WORDSET_SetSlotNumber(work->wordSet, 0, func_0200864C(work->args->playTime), 3, 0, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 1, func_02008650(work->args->playTime), 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, PLAYTIME_GetHours(work->args->playTime), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, PLAYTIME_GetMinutes(work->args->playTime), 2, 2, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 200, 0);
     STRBUF_Delete((struct U16Vec *)str);
@@ -397,7 +397,7 @@ void HALL_OF_FAME_CreateTrainerSceneObjects(HallOfFameWork *work)
     work->cellAnimIds[5] = CLACT_RegisterCellAnim(handle, 27, 33, HOF_HEAP_ID);
     ARC_TOOL_DeleteHandle(handle);
     trainerGender = 1;
-    if (!func_02008550(work->args->myStatus))
+    if (!MYSTATUS_GetOutfitVariant(work->args->myStatus))
         trainerGender = 0;
     handle = (u8 *)POKEGRA_OpenTrainerHandle(0x808d);
     work->charIds[3] = POKEGRA_RegisterTrainerCgr((u32)handle, trainerGender, 0, HOF_HEAP_ID);
@@ -434,7 +434,7 @@ void HALL_OF_FAME_DrawTrainerScene(HallOfFameWork *work)
  * sites (the two 24-byte row tables at 0x021B821C / 0x021B8234) stay
  * wildcarded for lack of an outside witness.
  *
- * note 2026-10-05: the random value n = (u16)func_020056EC(4) is a real spilled local:
+ * note 2026-10-05: the random value n = (u16)GFL_USE_GetRandom(4) is a real spilled local:
  * the last call takes n + 4 (not i + 4); that gives the [sp] slot and the 0x20 frame.
  * The slot read and store written `actors[i]` share one i*4.
  */
@@ -451,7 +451,7 @@ void HALL_OF_FAME_SpawnSparkles(HallOfFameWork *work)
         }
     }
 
-    n = (u16)func_020056EC(4);
+    n = (u16)GFL_USE_GetRandom(4);
     if (n >= 2)
         return;
 
@@ -460,8 +460,8 @@ void HALL_OF_FAME_SpawnSparkles(HallOfFameWork *work)
             int y;
             HallOfFameActorTemplate local;
 
-            x = (s16)func_020056EC(0x100);
-            y = (s16)func_020056EC(0xd8);
+            x = (s16)GFL_USE_GetRandom(0x100);
+            y = (s16)GFL_USE_GetRandom(0xd8);
 
             if (y < 0xc0) {
                 local = gHallOfFameSparkleTemplateA;

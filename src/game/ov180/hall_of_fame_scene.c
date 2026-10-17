@@ -24,7 +24,7 @@
  *   gHallOfFameBgSetup 0x021B80E8 data ov180 a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -136,7 +136,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   BG_SYS_SetScrollX  0x02041F28  arm
  *   gHallOfFameClactConfigMain 0x021B827C data a4
  *   gHallOfFameClactConfigSub 0x021B8298 data a4
@@ -244,7 +244,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(u8 *p);
@@ -325,7 +325,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void MCSS_ResetAnmStopFlag(void *);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern unsigned func_020056EC(unsigned);
+extern unsigned GFL_USE_GetRandom(unsigned);
 extern void BG_SYS_SetScrollX(u32 which, u32 op, u16 value);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -400,8 +400,8 @@ void HALL_OF_FAME_ExitBackgrounds(void)
 void HALL_OF_FAME_LoadBackgroundGraphics(void)
 {
     u8 *handle = ARC_TOOL_CreateHandle(0xd8, 0x8d);
-    func_02049B68(handle, 1, 2, 0x6000, 0x20, 0x8d);
-    func_02049B68(handle, 1, 6, 0x6000, 0x20, 0x8d);
+    ARC_UTIL_UploadPaletteFromHandleWhole(handle, 1, 2, 0x6000, 0x20, 0x8d);
+    ARC_UTIL_UploadPaletteFromHandleWhole(handle, 1, 6, 0x6000, 0x20, 0x8d);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x16, 3, 0, 0, 0, 0x8d);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x16, 7, 0, 0, 0, 0x8d);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x1c, 3, 0, 0, 0, 0x8d);
@@ -1114,8 +1114,8 @@ void HALL_OF_FAME_RandomizeJitter(HallOfFameWork *work)
     u32 i;
     work->jitterIndex = 0;
     for (i = 0; i < HOF_JITTER_COUNT; i++) {
-        work->jitterX[i] = func_020056EC(8) - 4;
-        work->jitterY[i] = func_020056EC(8) - 4;
+        work->jitterX[i] = GFL_USE_GetRandom(8) - 4;
+        work->jitterY[i] = GFL_USE_GetRandom(8) - 4;
     }
 }
 

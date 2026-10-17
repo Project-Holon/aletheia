@@ -44,7 +44,7 @@
  *   sEncountFuncs     0x021D9240  data  a4
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
- *   func_02047828  0x02047828  arm
+ *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   EFFECT_ENCOUNT_GetSpotDistance  0x021AAA4C  thumb  ov021
  *   func_0209C0A4  0x0209C0A4  arm
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
@@ -173,7 +173,7 @@ extern void *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 extern int FIELDMAP_IsReady(FieldMap *fieldMap);
 extern void *MI_CpuFill8(void *dst, u8 value, unsigned size);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, int step);
-extern u32 func_02047828(G3dObject *obj, u32 anmIdx, s32 *frame);
+extern u32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, s32 *frame);
 extern int EFFECT_ENCOUNT_GetSpotDistance(EncountSys *encount, short *out);
 extern u16 func_0209C0A4(int a, int b);
 extern SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
@@ -441,7 +441,7 @@ void FLDEFF_ENCOUNT_Update(FieldEffectObj *effect, EncountWork *work)
 }
 
 /*
- * Levers: func_02047828's second parameter is an index (the zero stored to
+ * Levers: G3D_SYSTEM_GetObjectAnimeFrame's second parameter is an index (the zero stored to
  * strength is passed in r1), not &strength; the final call's arguments are named
  * locals with the inner call bound to a local after them, which keeps both
  * loads above the call in callee-saved registers.
@@ -456,7 +456,7 @@ void FLDEFF_ENCOUNT_PlaySound(EncountWork *work, EncountModelSet *set)
     SoundSys *soundSys;
 
     strength = 0;
-    func_02047828(set->draw[work->param.setIndex].object, 0, &frame);
+    G3D_SYSTEM_GetObjectAnimeFrame(set->draw[work->param.setIndex].object, 0, &frame);
     if (frame == 0 && EFFECT_ENCOUNT_GetSpotDistance(work->encount, (short *)&strength) != 0) {
         strength = func_0209C0A4(strength, 5);
         if (strength > 3)

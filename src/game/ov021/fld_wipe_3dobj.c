@@ -55,10 +55,10 @@
  *   gFld3dCiKeyTable     0x021DAAE0  data  a2
  *   gFld3dCiIdTable     0x021DAAE2  data  a2
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
  *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
@@ -236,13 +236,13 @@ extern GameEvent *FLD3D_CI_StartMessageSequence(GameSystem *gameSystem, Fld3dCi 
 
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
 
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 
 extern void *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 
 extern MyStatus *GAME_DATA_GetMyStatus(void *gameData);
 
-extern u8 func_02008550(const MyStatus *myStatus);
+extern u8 MYSTATUS_GetOutfitVariant(const MyStatus *myStatus);
 
 extern void ZONEDATA_SetZoneStartLocation(ZoneStartLocation *location, int zoneId);
 
@@ -478,11 +478,11 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
     WipeMapChangeWork *work;
     int cutInIdAfter;
     event = GAME_EVENT_Create(gameSystem, 0, FLD_WIPE_3DOBJ_MapChangeEventMain, 0x30);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0x30);
     work->gameSystem = gameSystem;
     work->zoneId = zoneId;
-    if (func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem))) == 0) {
+    if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem))) == 0) {
         work->cutInIdBefore = 11;
         cutInIdAfter = 12;
     } else {

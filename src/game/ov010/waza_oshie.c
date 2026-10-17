@@ -20,7 +20,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_02172B74 0x02172B74 data ov010 a1
  *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
- *   func_02047250        0x02047250  arm
+ *   DWCi_LSTlPopFront        0x02047250  arm
  *   STD_GetStringLength  0x0208CC78  arm
  *   NNS_G3dGetResDataByName        0x0206E62C  arm
  *   GF_FONT_Create        0x0201D7EC  thumb
@@ -120,7 +120,7 @@ extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
-extern TexResource *func_02047250(void *p);
+extern TexResource *DWCi_LSTlPopFront(void *p);
 extern int STD_GetStringLength(const char *s);
 extern void *NNS_G3dGetResDataByName(const void *dict, const char *name);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -321,7 +321,7 @@ int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, c
     key.plttFmt = 6;
     key.texOfs = 0;
     key.plttOfs = 0;
-    res = func_02047250(file);
+    res = DWCi_LSTlPopFront(file);
     key.texVramKey = res->texVramKey;
     key.plttVramKey = res->plttVramKey;
     ofs = res->texDict;

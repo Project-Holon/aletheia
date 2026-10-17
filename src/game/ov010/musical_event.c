@@ -25,7 +25,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
  *   MUSICAL_MCSS_AllocSmall  0x021F685C  thumb  ov112
@@ -44,7 +44,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   MUSICAL_SAVE_GetFanPoints  0x0200A81C  thumb
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   STA_NET_GetField158  0x021FD908  thumb  ov132
  *   STA_NET_SetState6Pair  0x021FD918  thumb  ov132
  *   STA_NET_GetCurrentSlotValue  0x021FD8D4  thumb  ov132
@@ -53,7 +53,7 @@
  *   STA_NET_GetSlot1Done  0x021FD83C  thumb  ov132
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_HEAP_DumpReport  0x02030B50  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
@@ -84,7 +84,7 @@
  *   MUSICAL_SAVE_SetEquippedProp  0x0200A7AC  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   NATSUKI_Calc  0x0201B7A0  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   RECORD_AddCounter  0x02008DAC  thumb
  *   MUSICAL_SAVE_GetProgram  0x0200A750  thumb
  *   STA_NET_GetSlotWordByIndex  0x021FD8F8  thumb  ov132
@@ -103,7 +103,7 @@
  *   SCRIPT_SYS_CreateScriptEventSimple   0x02158768  thumb  ov010
  *   SCRIPT_SYS_GetEventScriptWork   0x021589D0  thumb  ov010
  *   MSGDATA_CreateFromMemory  0x02045C44  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   MUS_COMM_FUNC_GetSlotValueB  0x021FCE44  thumb  ov132
@@ -282,7 +282,7 @@ extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
 
 extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 
@@ -320,7 +320,7 @@ extern void MUS_COMM_FUNC_InitWork(void *session, void *myStatus, void *monData,
 
 extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *save);
 
-extern u32 func_02005728(u32 n);
+extern u32 GFL_USE_GetRandomBelow(u32 n);
 
 extern u32 STA_NET_GetField158(void *session);
 
@@ -338,7 +338,7 @@ extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 
 extern void MISC_SAVEDATA_InsertRecentValue(void *list, u32 id);
 
-extern u32 func_02008530(const void *myStatus);
+extern u32 MYSTATUS_GetId(const void *myStatus);
 
 extern void GFL_NET_ERR_RequestScreen(void);
 
@@ -392,7 +392,7 @@ extern u16 *GAME_DATA_GetMyPlayerWork(void *gameData);
 
 extern void NATSUKI_Calc(void *mon, int a1, int a2, int a3);
 
-extern u32 func_02008DF0(void *trainerRecord, int id);
+extern u32 RECORD_AddOne(void *trainerRecord, int id);
 
 extern u32 RECORD_AddCounter(void *trainerRecord, int id, u32 delta);
 
@@ -420,7 +420,7 @@ extern int SCRIPT_SYS_GetEventScriptWork(void *event);
 
 extern void *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 
-extern u8 func_02008550(const void *myStatus);
+extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
 
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 slot, void *myStatus);
 
@@ -574,7 +574,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
 
     GFL_HEAP_CreateChildHeap(1, 0x802C, 0x42000);
     event = GAME_EVENT_Create(gameSys, 0, MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSys = gameSys;
     work->gameData = gameData;
     work->linkMode = linkMode;
@@ -612,7 +612,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
             work->playerSlot[i] = i;
         for (i = 0; i < 10; i++) {
             for (j = 0; j < 4; j++) {
-                k = func_02005728(4);
+                k = GFL_USE_GetRandomBelow(4);
                 temp = work->playerSlot[j];
                 work->playerSlot[j] = work->playerSlot[k];
                 work->playerSlot[k] = temp;
@@ -653,7 +653,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
                 if (STA_NET_GetCurrentSlotValue(work->link->session) != STA_NET_GetSlotValueByIndex(work->link->session, i)) {
                     void *peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->link->session, i);
                     if (peerStatus != 0)
-                        MISC_SAVEDATA_InsertRecentValue(list, func_02008530(peerStatus));
+                        MISC_SAVEDATA_InsertRecentValue(list, MYSTATUS_GetId(peerStatus));
                 }
             }
         } else if (work->aborted == 1) {
@@ -1093,13 +1093,13 @@ void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work)
     NATSUKI_Calc(work->ownMon, 6, zoneId, 4);
     trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
     if (work->linkMode == 0) {
-        func_02008DF0(trainerRecord, 0x72);
+        RECORD_AddOne(trainerRecord, 0x72);
         if (localScore == topScore && localScore != 0)
-            func_02008DF0(trainerRecord, 0x73);
+            RECORD_AddOne(trainerRecord, 0x73);
     } else {
-        func_02008DF0(trainerRecord, 0x74);
+        RECORD_AddOne(trainerRecord, 0x74);
         if (localScore == topScore && localScore != 0)
-            func_02008DF0(trainerRecord, 0x75);
+            RECORD_AddOne(trainerRecord, 0x75);
     }
     RECORD_AddCounter(trainerRecord, 0x76, localScore);
 }
@@ -1173,7 +1173,7 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
         shuffle[i] = i;
     for (round = 0; round < 10; round++) {
         for (j = 0; j < 10; j++) {
-            pick = func_02005728(10);
+            pick = GFL_USE_GetRandomBelow(10);
             value = shuffle[j];
             shuffle[j] = shuffle[pick];
             shuffle[pick] = value;
@@ -1183,8 +1183,8 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
         program = MUSICAL_SAVE_GetProgram(work->save, shuffle[i]);
         chance = MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
         program->state = category;
-        if ((u8)func_02005728(100) < chance && candidateCount != 0) {
-            pick = func_02005728(candidateCount);
+        if ((u8)GFL_USE_GetRandomBelow(100) < chance && candidateCount != 0) {
+            pick = GFL_USE_GetRandomBelow(candidateCount);
             program->hasProp = 1;
             program->prop = candidates[pick];
             for (; pick < candidateCount - 1; pick++)
@@ -1471,7 +1471,7 @@ u8 MUSICAL_EVENT_GetPortraitClass(MusicalEventWork *work, u8 slot)
     if (work->linkMode == 1) {
         peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->session, player);
         if (peerStatus != 0) {
-            if (func_02008550(peerStatus) == 0)
+            if (MYSTATUS_GetOutfitVariant(peerStatus) == 0)
                 return 1;
             return 4;
         }

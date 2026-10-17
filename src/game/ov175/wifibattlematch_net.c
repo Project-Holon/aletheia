@@ -66,7 +66,7 @@
  *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_SYNC_GetBlock 0x02009448 thumb
- *   func_020092EC 0x020092EC thumb
+ *   BLOCK20_SAVEDATA_GetPending 0x020092EC thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
@@ -86,13 +86,13 @@
  *   WIFIBATTLEMATCH_UTIL_SetSaveState 0x021E8AC0 thumb ov177
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   GFL_NET_ERR_WaitLinkClosed 0x0200FBB0 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
- *   func_02008554 0x02008554 thumb
+ *   MYSTATUS_GetOutfit 0x02008554 thumb
  *   WIFIBATTLEMATCH_VIEW_CreateMainWindow 0x021E5C20 thumb ov177
  *   WIFIBATTLEMATCH_VIEW_DeleteMainWindow   0x021E5D40  thumb
  *   WIFIBATTLEMATCH_UTIL_DeleteMenu   0x021E89D0  thumb
@@ -165,7 +165,7 @@
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   WIFILIST_GetWork 0x02009860 thumb
- *   func_0200853C 0x0200853C thumb
+ *   MYSTATUS_GetProfileId 0x0200853C thumb
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
@@ -288,12 +288,12 @@
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   NHTTP_RAP_GetConnection 0x021B973C thumb ov114
  *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
- *   func_02008510              0x02008510  thumb
+ *   MYSTATUS_CreateNameStrbuf              0x02008510  thumb
  *   STRBUF_GetChars              0x02045A90  arm
  *   STRBUF_GetLength              0x020458F8  arm
  *   DWC_CheckProfanityExAsync  0x0217BC44  arm  ov009
  *   DWC_CheckProfanityProcess  0x0217BC90  arm  ov009
- *   func_020084E4  0x020084E4  thumb
+ *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb
  *   NHTTP_RAP_AllocPostData 0x021B98A0 thumb ov114
  *   NHTTP_RAP_AppendPostData 0x021B98D8 thumb ov114
  *   NHTTP_RAP_CreatePostRequest 0x021B98F8 thumb ov114
@@ -561,7 +561,7 @@ struct Profile {
     u8 name[0x94];
     u32 date1;         /* 0x94 card values 4,5,6 packed */
     u32 date2;         /* 0x98 card values 7,8,9 packed */
-    u32 statusFlag;    /* 0x9C func_02008554 */
+    u32 statusFlag;    /* 0x9C MYSTATUS_GetOutfit */
     u16 hA0;           /* 0xA0 BSUBWAY stat 10,0 (default 1500) */
     u16 hA2;           /* 0xA2 */
     u32 uA4;           /* 0xA4 stat 10,1 + stat 10,2 */
@@ -886,7 +886,7 @@ struct WifiBattleMatchNetCtx {
     unsigned int scId;               /* 0x000 WIFILIST_GetWork() */
     unsigned int gsProfileId;        /* 0x004 GAME_DATA_GetField1A0(save) */
     void *save;                      /* 0x008 */
-    unsigned int statusBuf;          /* 0x00C func_0200853C(GAME_DATA_GetMyStatus(save)) */
+    unsigned int statusBuf;          /* 0x00C MYSTATUS_GetProfileId(GAME_DATA_GetMyStatus(save)) */
     int heap;                        /* 0x010 */
     unsigned int syncRange;          /* 0x014 */
     struct NetErrRecord err;         /* 0x018..0x037 */
@@ -1006,7 +1006,7 @@ extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern struct Sub02009448Obj *GAME_SYNC_GetBlock(void *);
-extern u8 func_020092EC(const struct Sub02009210Obj *);
+extern u8 BLOCK20_SAVEDATA_GetPending(const struct Sub02009210Obj *);
 extern int POKE_REGULATION_GetDataSize();
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u16 STRBUF_GetEosChar(void);
@@ -1026,13 +1026,13 @@ extern void *TRADE_HISTORY_GetFromSave(void *sys);
 extern void WIFIBATTLEMATCH_UTIL_SetSaveState(int, int);
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *, u32);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern u8 *GAME_DATA_GetMyStatus(void *save);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
-extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 extern u32 WIFIBATTLEMATCH_VIEW_CreateMainWindow(BoxWindowDesc *,int,u32,int,u32,u32,u32,u32,u32,int);
 extern void WIFIBATTLEMATCH_VIEW_DeleteMainWindow(u32 window);
 extern u32 WIFIBATTLEMATCH_VIEW_StepMainWindow(u32 window);
@@ -1103,7 +1103,7 @@ extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 WIFILIST_GetWork(void);
-extern u32 func_0200853C(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_NET_SetWaitMode(int);
 extern void DWC_RAP_SetErrorCallback(int, int);
@@ -1196,13 +1196,13 @@ extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern int NHTTP_RAP_GetConnection(char *);
 extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned int length);
-extern void *func_02008510(void *a, int tag);
+extern void *MYSTATUS_CreateNameStrbuf(void *a, int tag);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern int DWC_CheckProfanityExAsync(u16 **words, int wordsnum, char *reserved, int timeout,
                                      char *result, int *badwordsnum, int region);
 extern int DWC_CheckProfanityProcess(void);
-extern void func_020084E4(u16 *out, struct U16Vec *vec);
+extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
 extern void NHTTP_RAP_AllocPostData(u8 *,int,int,int);
 extern void NHTTP_RAP_AppendPostData(u8 *,int,int);
 extern int NHTTP_RAP_CreatePostRequest(u8 *);
@@ -1682,7 +1682,7 @@ void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *task)
     u32 result;
     switch (*state) {
     case 0:
-        if (func_020092EC((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)*(u32 *)params[2])))) *state = 1;
+        if (BLOCK20_SAVEDATA_GetPending((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)*(u32 *)params[2])))) *state = 1;
         else *state = 6;
         break;
     case 1: WIFIBATTLEMATCH_UTIL_PrintMessage((int *)task[9], task[4], 41, 1); *state = 14; WIFIBATTLEMATCH_UTIL_SetRequest(sys, 2); break;
@@ -2157,7 +2157,7 @@ void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *task)
         break;
     case 5:
         list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(*(struct Big **)Q(params, 8)));
-        MISC_SAVEDATA_InsertRecentValue(list, func_02008530((void *)Q(params, 0x18)));
+        MISC_SAVEDATA_InsertRecentValue(list, MYSTATUS_GetId((void *)Q(params, 0x18)));
         *state = 6;
         WIFIBATTLEMATCH_NET_ClearCancelFlag((char *)P(task, 0x30));
         break;
@@ -3116,7 +3116,7 @@ void WIFIBATTLEMATCH_NET_TaskStepM(unsigned sys, int *state, char *task)
         break;
     case 4:
         list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)**(int * *)&((struct WifiBattleMatchParams *)params)->save));
-        MISC_SAVEDATA_InsertRecentValue(list, func_02008530((void *)((struct WifiBattleMatchParams *)params)->record));
+        MISC_SAVEDATA_InsertRecentValue(list, MYSTATUS_GetId((void *)((struct WifiBattleMatchParams *)params)->record));
         WIFIBATTLEMATCH_UTIL_SetSaveState(**(int * *)&((struct WifiBattleMatchParams *)params)->save, **(int * *)&((struct WifiBattleMatchParams *)params)->saveBlock);
         WIFIBATTLEMATCH_NET_ClearCancelFlag((char *)P(task, 0x30));
         *state = 5;
@@ -3367,7 +3367,7 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *task, u32 mode)
             desc.b=BSUBWAY_SAVEDATA_GetStat(CTX(task)[4],REC(task)[1],2);
             desc.total=desc.a+desc.b;
         }
-        desc.name=func_02008554((const struct Sub0200852CObj *)sys);
+        desc.name=MYSTATUS_GetOutfit((const struct Sub0200852CObj *)sys);
         task[6]=WIFIBATTLEMATCH_VIEW_CreateMainWindow(&desc,flag,sys,base,task[1],task[2],task[3],task[4],task[5],87);
     }
 }
@@ -4041,7 +4041,7 @@ void WIFIBATTLEMATCH_NET_CompStepB(u32 sys,int *state,u32 *comp)
     int result;
     switch(*state) {
     case 0:
-        if(func_020092EC((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))))) *state=1;
+        if(BLOCK20_SAVEDATA_GetPending((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))))) *state=1;
         else *state=5;
         break;
     case 1: WIFIBATTLEMATCH_UTIL_PrintMessage((int *)comp[0x2c/4],comp[5],0x36,2); *state=2; break;
@@ -5021,7 +5021,7 @@ void WIFIBATTLEMATCH_NET_CompStepG(u32 sys,int *state,char *comp)
         if(((struct WifiBattleMatchParams *)params)->state==2)WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepH);
         else *state=5;break;
     case 5:list=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(**(void ** *)&((struct WifiBattleMatchParams *)params)->save));
-        MISC_SAVEDATA_InsertRecentValue(list,func_02008530((void *)((struct WifiBattleMatchParams *)params)->record));
+        MISC_SAVEDATA_InsertRecentValue(list,MYSTATUS_GetId((void *)((struct WifiBattleMatchParams *)params)->record));
         WIFIBATTLEMATCH_NET_ClearCancelFlag(*(char * *)&((struct WifiBattleMatchComp *)comp)->net);*state=6;break;
     case 6:if(WIFIBATTLEMATCH_NET_StopMatchmaking(*(char * *)&((struct WifiBattleMatchComp *)comp)->net)) *state=7;
         switch(WIFIBATTLEMATCH_NET_HandleNetError(*(char * *)&((struct WifiBattleMatchComp *)comp)->net,0,(void *)1)) {
@@ -5502,7 +5502,7 @@ void WIFIBATTLEMATCH_NET_SetupCompRecord(struct WifiBattleMatchComp *obj)
         cardValB = REGULATION_Card_GetValue((struct Reg2 *)card, 8);
         cardValC = REGULATION_Card_GetValue((struct Reg2 *)card, 7);
         prof.date2 = (cardValC << 24) | ((cardValB << 24) >> 8) | ((cardValA << 24) >> 16);
-        prof.statusFlag = func_02008554((const struct Sub0200852CObj *)sys);
+        prof.statusFlag = MYSTATUS_GetOutfit((const struct Sub0200852CObj *)sys);
         prof.hA0 = BSUBWAY_SAVEDATA_GetStat(obj->ctx->bsubwaySave, 10, 0);
         cardValA = BSUBWAY_SAVEDATA_GetStat(obj->ctx->bsubwaySave, 10, 1);
         prof.uA4 = cardValA + BSUBWAY_SAVEDATA_GetStat(obj->ctx->bsubwaySave, 10, 2);
@@ -6048,7 +6048,7 @@ char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 netId, void *save, u32 heapId, u1
     MI_CpuFill8(ctx, 0, 0x149c);
     *(u32 *)(ctx + 4) = GAME_DATA_GetField1A0(save);
     *(u32 *)ctx = WIFILIST_GetWork();
-    *(void **)(ctx + 0xc) = (void *)func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
+    *(void **)(ctx + 0xc) = (void *)MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
     *(void **)(ctx + 8) = save;
     *(u32 *)(ctx + 0x10) = heapId;
     *(u32 *)(ctx + 0x1464) = netId;
@@ -8361,7 +8361,7 @@ void WIFIBATTLEMATCH_NET_CreateHttpRap(char *ctx,unsigned heap)
 {
     if(*(int *)&((struct WifiBattleMatchNetCtx *)ctx)->rapHandle!=0) SAVEDATA_PanicFail(d_021E2EF8,0,d_021E2EF8);
     ((struct WifiBattleMatchNetCtx *)ctx)->state=0;
-    ((struct WifiBattleMatchNetCtx *)ctx)->rapHandle=NHTTP_RAP_Create(heap,func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct WifiBattleMatchNetCtx *)ctx)->save)),((struct WifiBattleMatchNetCtx *)ctx)->heap);
+    ((struct WifiBattleMatchNetCtx *)ctx)->rapHandle=NHTTP_RAP_Create(heap,MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct WifiBattleMatchNetCtx *)ctx)->save)),((struct WifiBattleMatchNetCtx *)ctx)->heap);
 }
 
 
@@ -8439,7 +8439,7 @@ void WIFIBATTLEMATCH_NET_SetupHttpRap(u8 *ctx, const W *src, int x)
 {
     if (*(u32 *)(ctx + 0x121C) != 0)
         SAVEDATA_PanicFail(d_021E2EF8, 0, d_021E2EF8);
-    *(u8 **)(ctx + 0x121C) = NHTTP_RAP_Create(x, func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(ctx + 8))), *(int *)(ctx + 0x10));
+    *(u8 **)(ctx + 0x121C) = NHTTP_RAP_Create(x, MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(ctx + 8))), *(int *)(ctx + 0x10));
     *(W *)(ctx + 0x1228) = *src;
     *(u32 *)(ctx + 0x12C) = 0;
 }
@@ -8518,7 +8518,7 @@ void WIFIBATTLEMATCH_NET_CheckProfanity(char *obj, unsigned long win, u16 tag)
     unsigned long i;
 
     ((struct WifiBattleMatchNetCtx *)obj)->profanityWindow = win;
-    str = (unsigned long)func_02008510((void *)win, ((struct WifiBattleMatchNetCtx *)obj)->heapTag);
+    str = (unsigned long)MYSTATUS_CreateNameStrbuf((void *)win, ((struct WifiBattleMatchNetCtx *)obj)->heapTag);
     MI_CpuFill8(obj + 0x1468, 0, 0x28);
     ((struct WifiBattleMatchNetCtx *)obj)->profanityTag = tag;
     src = STRBUF_GetChars((struct U16Vec *)str);
@@ -8557,7 +8557,7 @@ int WIFIBATTLEMATCH_NET_ProfanityProcess(char *obj, int *out)
         u32 msg = (u32)MSGDATA_CreateFromArchive(0, 2, 0x51, ((struct WifiBattleMatchNetCtx *)obj)->heapTag);
         u32 str = (u32)MSGDATA_AllocString((struct MsgBank *)msg, 0xf);
         MSGDATA_Delete((struct Rec *)msg);
-        func_020084E4((u16 *)((struct WifiBattleMatchNetCtx *)obj)->profanityWindow, (struct U16Vec *)str);
+        MYSTATUS_NameFromStrbuf((u16 *)((struct WifiBattleMatchNetCtx *)obj)->profanityWindow, (struct U16Vec *)str);
         STRBUF_Delete((struct U16Vec *)str);
     }
     return done;
@@ -8575,7 +8575,7 @@ void WIFIBATTLEMATCH_NET_SetupPostData(char *ctx,void *party,int mode)
     void *mon;
     i=0;
     ((struct WifiBattleMatchNetCtx *)ctx)->state=0;
-    *(u8 * *)&((struct WifiBattleMatchNetCtx *)ctx)->rapHandle=NHTTP_RAP_Create(((struct WifiBattleMatchNetCtx *)ctx)->heapTag,(int)func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct WifiBattleMatchNetCtx *)ctx)->save)),((struct WifiBattleMatchNetCtx *)ctx)->heap);
+    *(u8 * *)&((struct WifiBattleMatchNetCtx *)ctx)->rapHandle=NHTTP_RAP_Create(((struct WifiBattleMatchNetCtx *)ctx)->heapTag,(int)MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct WifiBattleMatchNetCtx *)ctx)->save)),((struct WifiBattleMatchNetCtx *)ctx)->heap);
     switch(mode) {
     case 0:
         NHTTP_RAP_AllocPostData(*(u8 * *)&((struct WifiBattleMatchNetCtx *)ctx)->rapHandle,((struct WifiBattleMatchNetCtx *)ctx)->heapTag,POKE_TOOL_GetPartyParamSize(),0);

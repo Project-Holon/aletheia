@@ -19,12 +19,12 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BLOCK20_SAVEDATA_GetBlock 0x02009210 thumb
- *   func_020090E0 0x020090E0 thumb
+ *   CGEAR_SAVE_GetObtained 0x020090E0 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   func_0200EDEC  0x0200EDEC  thumb
- *   func_0200EE14 0x0200EE14 thumb
+ *   MISC_SAVEDATA_TestBitmapBit  0x0200EDEC  thumb
+ *   MISC_SAVEDATA_SetBitmapBit 0x0200EE14 thumb
  */
 #include "manual_data_shared_types.h"
 
@@ -56,7 +56,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *);
 
 extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *);
 
-extern u8 func_020090E0(const struct Sub020090B0Obj *);
+extern u8 CGEAR_SAVE_GetObtained(const struct Sub020090B0Obj *);
 
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 
@@ -64,9 +64,9 @@ extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 
-extern int func_0200EDEC(char *obj, int i);
+extern int MISC_SAVEDATA_TestBitmapBit(char *obj, int i);
 
-extern void func_0200EE14(char *obj, int i);
+extern void MISC_SAVEDATA_SetBitmapBit(char *obj, int i);
 
 void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap);
 
@@ -167,7 +167,7 @@ int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
     switch(kind) {
     case 0:result=1;break;
     case 1:
-        if(func_020090E0((const struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl((struct Big *)save)))!=0)result=1;
+        if(CGEAR_SAVE_GetObtained((const struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl((struct Big *)save)))!=0)result=1;
         break;
     case 2:
         if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save),2400)!=0)result=1;
@@ -178,10 +178,10 @@ int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
 
 int MANUAL_COMMON_GetSaveValue(void *unused, int id, int save)
 {
-    return func_0200EDEC(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)save)), id);
+    return MISC_SAVEDATA_TestBitmapBit(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)save)), id);
 }
 
-void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {func_0200EE14(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),value);}
+void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {MISC_SAVEDATA_SetBitmapBit(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),value);}
 
 int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key) {if(key!=65535)return 1;return 0;}
 

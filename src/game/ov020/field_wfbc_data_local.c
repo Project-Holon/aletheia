@@ -28,15 +28,15 @@
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MAIL_Create  0x02008F08  thumb
- *   func_02008F88  0x02008F88  thumb
- *   func_02008FA0  0x02008FA0  thumb
- *   func_02008FA8  0x02008FA8  thumb
- *   func_02008FB4  0x02008FB4  thumb
- *   func_02008FBC  0x02008FBC  thumb
- *   func_02008FD8  0x02008FD8  thumb
- *   func_02008FC4  0x02008FC4  thumb
- *   func_02008FEC  0x02008FEC  thumb
- *   func_0200903C  0x0200903C  thumb
+ *   MAIL_SetWriterName  0x02008F88  thumb
+ *   MAIL_SetGender  0x02008FA0  thumb
+ *   MAIL_SetDesign  0x02008FA8  thumb
+ *   MAIL_SetLanguage  0x02008FB4  thumb
+ *   MAIL_SetVersion  0x02008FBC  thumb
+ *   MAIL_SetMessage  0x02008FD8  thumb
+ *   MAIL_SetMessageId  0x02008FC4  thumb
+ *   MAIL_GetBox  0x02008FEC  thumb
+ *   MAIL_SetSlot  0x0200903C  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -46,16 +46,16 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
- *   func_02008B14 0x02008B14 thumb
+ *   CONSOLE_STAMP_GetDailyClock 0x02008B14 thumb
  *   FORMCHANGE_RevertShayminAtNight 0x0216A358 thumb ov010
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_02187EA0 0x02187EA0 data ov020 a1
  *   FLDMMDL_GetObjId  0x0216D588  thumb
  *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
- *   func_02008530  0x02008530  thumb
- *   func_020056EC  0x020056EC  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   EVENT_FIELD_PROCLINK_IsReturnEntryAllowed 0x02161E84 thumb ov010
- *   func_0200855C  0x0200855C  thumb
+ *   MYSTATUS_GetAvatarId  0x0200855C  thumb
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
@@ -70,7 +70,7 @@
  *   d_02187EB4     0x02187EB4  data  ov020  a1
  *   d_02187DBC     0x02187DBC  data  ov020  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_020084F4 0x020084F4 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
@@ -116,7 +116,7 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetReturnSlots  0x02158434  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
@@ -150,7 +150,7 @@
  *   EL_SCOREBOARD_SourceFileName     0x02187EDC  data  ov020  a4
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
- *   func_020124EC  0x020124EC  thumb
+ *   GAME_EVENT_GetSeq  0x020124EC  thumb
  *   COMM_PLAYER_SUPPORT_PrevSeason  0x0202E8B8  thumb
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
@@ -179,12 +179,12 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_0209BE04  0x0209BE04  arm
- *   func_0209CE10  0x0209CE10  arm
- *   func_0209C77C  0x0209C77C  arm
+ *   _ffltu  0x0209BE04  arm
+ *   __fdiv  0x0209CE10  arm
+ *   __fmul  0x0209C77C  arm
  *   func_0209C95C  0x0209C95C  arm
- *   func_0209CB8C  0x0209CB8C  arm
- *   func_0209C494  0x0209C494  arm
+ *   _fsub  0x0209CB8C  arm
+ *   _ffix  0x0209C494  arm
  *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
@@ -232,10 +232,10 @@ u32 MSGDATA_Delete(struct MsgData *rec);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u16 FLDMMDL_GetObjId(const struct Mmdl *mmdl);
 extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(WfbcPerson *person);
-extern u32 func_02008530(const struct MyStatus *obj);
-extern u32 func_020056EC(u32 n);
+extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
+extern u32 GFL_USE_GetRandom(u32 n);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(const WfbcPerson *person);
-u8 func_0200855C(const struct MyStatus *obj);
+u8 MYSTATUS_GetAvatarId(const struct MyStatus *obj);
 int INTRUDE_COMM_NormalizeVersion(int a, int b);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
@@ -247,7 +247,7 @@ extern void EVENT_FIELD_PROCLINK_CompactReturnList(WfbcData *data, int mode);
 extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *itemSlots);
 extern void FLDMMDL_InitPosRecord(MmdlHeader *header, u16 gridX, u16 gridZ, int direction);
 extern u16 STRBUF_GetEosChar(void);
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
@@ -293,7 +293,7 @@ void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 void *INTRUDE_COMM_GetWorkIfRunning(void *eventWork);
 void *INTRUDE_COMM_GetReturnSlots(void *eventWork);
 struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *proc, u32 workSize);
-void *func_020124E8(struct GameEvent *p);
+void *GAME_EVENT_GetWork(struct GameEvent *p);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 struct WordSet *WORDSET_CreateDefault(u32 heap);
 WfbcData *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index);
@@ -433,11 +433,11 @@ void FIELD_WFBC_DATA_LOCAL_Init(WfbcData *data, const struct MyStatus *myStatus,
     i = 0;
     data->cityType = 0;
     remaining = 0x1CE;
-    data->playerId = func_02008530(myStatus);
+    data->playerId = MYSTATUS_GetId(myStatus);
     npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, (u16)((heapSeed & 0x7FFF) | 0x8000));
     FIELD_WFBC_DATA_LOCAL_GetNpcRecord(npcData);
     for (i = 0; i < 10; i++) {
-        roll = func_020056EC(remaining);
+        roll = GFL_USE_GetRandom(remaining);
         person = FIELD_WFBC_DATA_LOCAL_FindEmptyPersonSlot(data->people);
         npcRecord = FIELD_WFBC_DATA_LOCAL_PickNpcByWeight(data, roll, npcData, &npcId);
         if (data->cityType == 0) {
@@ -451,7 +451,7 @@ void FIELD_WFBC_DATA_LOCAL_Init(WfbcData *data, const struct MyStatus *myStatus,
         remaining -= npcRecord->weight;
     }
     for (j = 0; j < 3; j++) {
-        roll = func_020056EC(remaining);
+        roll = GFL_USE_GetRandom(remaining);
         person = FIELD_WFBC_DATA_LOCAL_FindEmptyPersonSlot(data->backPeople);
         npcRecord = FIELD_WFBC_DATA_LOCAL_PickNpcByWeight(data, roll, npcData, &npcId);
         FIELD_WFBC_DATA_LOCAL_InitNewPerson(person, (u8)npcId, myStatus, 0, setParent);
@@ -483,8 +483,8 @@ void FIELD_WFBC_DATA_LOCAL_Sanitize(WfbcData *data, const struct MyStatus *mySta
     if (data->isValid == 0 && data->cityType != 2)
         data->cityType = 2;
     if (data->isValid == 1 && data->cityType >= 2) {
-        int version = func_0200855C(myStatus);
-        if (INTRUDE_COMM_NormalizeVersion((u8)version, func_02008530(myStatus)) == 0x15)
+        int version = MYSTATUS_GetAvatarId(myStatus);
+        if (INTRUDE_COMM_NormalizeVersion((u8)version, MYSTATUS_GetId(myStatus)) == 0x15)
             data->cityType = 0;
         else
             data->cityType = 1;
@@ -596,8 +596,8 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
             if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((WfbcPerson *)entry) != 0) {
                 FIELD_WFBC_DATA_LOCAL_LoadNpcData(npcData, *(u8 *)(base + i * 0x18 + 9));
                 npcRecord = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(npcData);
-                if ((u16)func_020056EC(100) < npcRecord->giftChance) {
-                    u16 slot = func_020056EC(10);
+                if ((u16)GFL_USE_GetRandom(100) < npcRecord->giftChance) {
+                    u16 slot = GFL_USE_GetRandom(10);
                     FIELD_WFBC_DATA_LOCAL_SetItemSlotIfEmpty(itemSlots, npcRecord->giftItemId, slot);
                 }
             }
@@ -606,7 +606,7 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
         backCount = FIELD_WFBC_DATA_LOCAL_CountPeople((WfbcData *)base, 0);
         if (backCount != 0) {
             weightSum = 0;
-            pick = func_020056EC(backCount * 3);
+            pick = GFL_USE_GetRandom(backCount * 3);
             for (j = 0; j < 10; j++) {
                 offset = j * 0x18;
                 if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((WfbcPerson *)(base + 8 + offset)) != 0) {
@@ -830,7 +830,7 @@ return (person->flags.all & 1) != 0;
 /*
  * Follower 021867A8 is already filed separately; 020084F4 returns its unchanged incoming r0.
  */
-void FIELD_WFBC_DATA_LOCAL_SetPersonParent(WfbcPerson *person, const struct MyStatus *myStatus) { person->hasParent = 1; person->parentId = func_02008530(myStatus); MI_CpuCopy8(func_020084F4(myStatus), person->parentName, 16); }
+void FIELD_WFBC_DATA_LOCAL_SetPersonParent(WfbcPerson *person, const struct MyStatus *myStatus) { person->hasParent = 1; person->parentId = MYSTATUS_GetId(myStatus); MI_CpuCopy8(MYSTATUS_GetName(myStatus), person->parentName, 16); }
 
 /*
  * Unlabelled leaf (saves nothing, so disasm.py prints it as .word data);
@@ -1386,7 +1386,7 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
         return 0;
     returnList = INTRUDE_COMM_GetReturnSlots(returnList);
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain, 0x58);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldSystem = fieldSystem;
     work->msgBuf = STRBUF_Create(0x100, heapId);

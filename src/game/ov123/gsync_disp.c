@@ -23,12 +23,12 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -81,7 +81,7 @@
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   gGsyncPaletteWaveColors 0x021DAA88 data a2
- *   func_02005624 0x02005624 thumb
+ *   GFL_USE_AddHBlankTask 0x02005624 thumb
  *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
@@ -92,7 +92,7 @@
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_GetActorScale 0x0204B5C0 arm
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
  *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
@@ -130,9 +130,9 @@ extern void CLACT_SetActorObjMode(struct ClActor *actor, u32 value);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -140,7 +140,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -226,7 +226,7 @@ extern int POKE_TOOL_GetIconPalette(void *a0);
 
 extern void CLACT_SetActorPaletteOffset(struct ClActor *o, u32 v, u32 flag);
 
-extern void *func_02005624(u32 a, u32 b, u32 c);
+extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 
 extern void PMSI_PARAM_MakeSineTable(s16 *out, u32 count, u16 step, s32 amp);
 
@@ -238,7 +238,7 @@ extern void CLACT_GetActorSurfacePos(struct ClActor *actor, struct ActorPos *out
 
 extern void CLACT_GetActorScale(const struct ClActor *o, struct ActorScale *p);
 
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
@@ -447,15 +447,15 @@ void GSYNC_DISP_LoadResources(GsyncDispWork *disp)
 {
     void *archiveHandle;
     archiveHandle=ARC_TOOL_CreateHandle((u32)((void *)143),disp->heapId);
-    func_02049B68(archiveHandle,2,4,0,0,disp->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archiveHandle,2,4,0,0,disp->heapId);
     disp->charBase=ARC_UTIL_RegisterObjCharFromHandle(archiveHandle,8,4,0,0,disp->heapId);
-    func_02049990(archiveHandle,21,4,0,(u16)(disp->charBase),0,0,disp->heapId);
-    func_02049990(archiveHandle,24,7,0,(u16)(disp->paletteBase),0,0,disp->heapId);
-    disp->paletteBlock=func_02049F78(archiveHandle,2,(u32)(&disp->paletteData),disp->heapId);
-    func_02049B68(archiveHandle,2,0,0,0,disp->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle,21,4,0,(u16)(disp->charBase),0,0,disp->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle,24,7,0,(u16)(disp->paletteBase),0,0,disp->heapId);
+    disp->paletteBlock=ARC_UTIL_LoadPaletteBlockFromHandle(archiveHandle,2,(u32)(&disp->paletteData),disp->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archiveHandle,2,0,0,0,disp->heapId);
     disp->paletteBase=ARC_UTIL_RegisterObjCharFromHandle(archiveHandle,8,0,0,0,disp->heapId);
-    func_02049990(archiveHandle,23,0,0,(u16)(disp->paletteBase),0,0,disp->heapId);
-    func_02049990(archiveHandle,24,1,0,(u16)(disp->paletteBase),0,0,disp->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle,23,0,0,(u16)(disp->paletteBase),0,0,disp->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle,24,1,0,(u16)(disp->paletteBase),0,0,disp->heapId);
     disp->resources.byKind.characters[0]=(void *)CLACT_RegisterCharacter(archiveHandle,9,0,2,disp->heapId);
     disp->resources.byKind.palettes[0]=(void *)CLACT_RegisterPaletteEx(archiveHandle,3,2,96,0,4,disp->heapId);
     disp->resources.byKind.cellAnims[0]=(void *)CLACT_RegisterCellAnim(archiveHandle,12,25,disp->heapId);
@@ -602,9 +602,9 @@ void GSYNC_DISP_StartPaletteWave(GsyncDispWork *disp)
 {
     void *archiveHandle;
     archiveHandle = ARC_TOOL_CreateHandle(143, disp->heapId);
-    func_02049990(archiveHandle, 22, 3, 0, (u16)disp->paletteBase, 0, 0, disp->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle, 22, 3, 0, (u16)disp->paletteBase, 0, 0, disp->heapId);
     ARC_TOOL_DeleteHandle(archiveHandle);
-    disp->paletteWaveTcb = func_02005624((u32)GSYNC_DISP_PaletteWaveTask, (u32)disp, 0);
+    disp->paletteWaveTcb = GFL_USE_AddHBlankTask((u32)GSYNC_DISP_PaletteWaveTask, (u32)disp, 0);
     PMSI_PARAM_MakeSineTable(disp->sineTable, 192, 0x5b0, 0x1800);
 }
 
@@ -694,8 +694,8 @@ void GSYNC_DISP_UpdateParticle(GsyncDispParticle *particle)
         if (pos.y > 50) GSYNC_DISP_HideParticle(particle);
     } else particle->finished = 1;
     if (particle->finished == 0) {
-        particle->angleA += (u16)(func_020056EC(12) + 200);
-        particle->angleB -= (u16)(func_020056EC(12) + 666);
+        particle->angleA += (u16)(GFL_USE_GetRandom(12) + 200);
+        particle->angleB -= (u16)(GFL_USE_GetRandom(12) + 666);
     }
 }
 
@@ -714,10 +714,10 @@ void GSYNC_DISP_UpdateParticles(GsyncDispWork *disp)
     }
     if (active == 0) {
         for (slotIndex = 0; slotIndex < 20; slotIndex++) {
-            particleIndex = func_020056EC(20);
+            particleIndex = GFL_USE_GetRandom(20);
             if (!disp->particles[particleIndex].active && disp->particles[particleIndex].species) {
                 disp->particles[particleIndex].active = 1;
-                disp->particles[particleIndex].x = func_020056EC(128) + 64;
+                disp->particles[particleIndex].x = GFL_USE_GetRandom(128) + 64;
                 disp->particles[particleIndex].y = 0;
                 GSYNC_DISP_SpawnParticleRight(disp, particleIndex);
                 break;
@@ -733,10 +733,10 @@ void GSYNC_DISP_UpdateParticles(GsyncDispWork *disp)
     }
     if (active == 0) {
         for (slotIndex = 0; slotIndex < 10; slotIndex++) {
-            particleIndex = func_020056EC(10) + 20;
+            particleIndex = GFL_USE_GetRandom(10) + 20;
             if (!disp->particles[particleIndex].active && disp->particles[particleIndex].species) {
                 disp->particles[particleIndex].active = 1;
-                disp->particles[particleIndex].x = func_020056EC(128) + 64;
+                disp->particles[particleIndex].x = GFL_USE_GetRandom(128) + 64;
                 disp->particles[particleIndex].y = 0;
                 GSYNC_DISP_SpawnParticleLeft(disp, particleIndex);
                 return;

@@ -368,7 +368,7 @@ void DWC_Auth_GetResult(int *result)
  * function comes out one instruction (8 bytes) short.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_021782B4.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_Auth_Start.c \
  *       --func DWCi_Auth_Start --addr 0x021782B4 --region ov009 --arm --cc 1.1p1 --lang c99 --diff
  */
 int DWCi_Auth_Start(int getwifiinfofromflash)

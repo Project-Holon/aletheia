@@ -19,7 +19,7 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   TCB_AddTask  0x02030DA8  arm
@@ -65,7 +65,7 @@
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
  *   BG_SYS_GetScrollX  0x020407E8  arm
- *   func_02040804  0x02040804  arm
+ *   BG_SYS_GetScrollY  0x02040804  arm
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
@@ -77,7 +77,7 @@
  *   PALANM_GetPairedCodeForFirst  0x0202142C  thumb
  *   VM_Call 0x020113B4 thumb
  *   VM_Return  0x020113C4  thumb
- *   func_02011290 0x02011290 thumb
+ *   VM_End 0x02011290 thumb
  *   BTLV_SCU_ReloadGraphics 0x021EB2A8 thumb ov093
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
@@ -288,7 +288,6 @@ extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 func_0207C768(u32 a, u32 b);
 
 extern void *GFL_USE_AddMainTask(void (*)(void *, void *), void *, int);
 
@@ -345,7 +344,7 @@ extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u
 
 extern u32 BG_SYS_GetScrollX(u32 layer);
 
-extern u32 func_02040804(u32 layer);
+extern u32 BG_SYS_GetScrollY(u32 layer);
 
 extern void BTLV_BG_SetScroll(int a, int b, int c);
 
@@ -377,7 +376,7 @@ extern void VM_Call(struct ScriptVm *r, unsigned int v);
 
 extern u32 VM_Return(struct ScriptVm *r);
 
-extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
+extern struct ScriptVm *VM_End(struct ScriptVm *vm);
 
 extern void BTLV_SCU_ReloadGraphics(const u8 *a);
 
@@ -1215,7 +1214,7 @@ void BTLV_EFFVM_StartSeVolumeTask(void *vm, u32 slot, int mode, int param, int f
     else
         stepFx = (float)(job->stepsLeft << 12) - 0.5f;
     spanFx = FX(job->to - job->from);
-    job->delta = func_0207C768(spanFx, (int)stepFx);
+    job->delta = FX_Div(spanFx, (int)stepFx);
     BTLV_EFFECT_RegisterTask(TCB_AddTask(work->owner, BTLV_EFFVM_SeVolumeTweenTaskMain, job, 0), BTLV_EFFVM_SeVolumeTweenTaskEnd, 1);
     work->flags.bit.sePanRamp = 1;
 }
@@ -2123,7 +2122,7 @@ int BTLV_EFFVM_CmdStartPokeBounce(struct ScriptVm *vm, BtlvEffVmWork *work)
     params.frames = frames;
     params.axisY = axisY;
     params.amplitude = amplitude;
-    params.phaseStep = func_0207C768(phaseEnd - phaseStart, frames << 12);
+    params.phaseStep = FX_Div(phaseEnd - phaseStart, frames << 12);
     if (targetCount != 0) {
         for (targetIdx = 0; targetIdx < targetCount; targetIdx++) {
             params.pos = targetIds[targetIdx];
@@ -2434,7 +2433,7 @@ int BTLV_EFFVM_CmdLoadBgPalette(struct ScriptVm *vm, BtlvEffVmWork *work)
     ARC_UTIL_UploadBgPaletteFromArchive(0x5f, fileId, 3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), (int)0x5f, (int)(fileId + 2), (u16)((work->heapId & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
     work->bg3ScrollX = BG_SYS_GetScrollX(3);
-    work->bg3ScrollY = func_02040804(3);
+    work->bg3ScrollY = BG_SYS_GetScrollY(3);
     BTLV_BG_SetScroll(BTLV_EFFECT_GetBg(), 0, 0);
     work->flags.bit.gfxReloadPending = 1;
     return work->result;
@@ -2797,7 +2796,7 @@ int BTLV_EFFVM_CmdStartSeVolumeTween(struct ScriptVm *vm, BtlvEffVmWork *work)
     else rangeFx = _fsub(_fflt(diff << 12), 0.5f);
     fromPos = _ffix(rangeFx);
     toPos = _ffix(stepsFx);
-    job->delta = func_0207C768(fromPos, toPos);
+    job->delta = FX_Div(fromPos, toPos);
     BTLV_EFFECT_RegisterTask(TCB_AddTask(work->owner, BTLV_EFFVM_SeVolumeTweenTaskMain, job, 0), BTLV_EFFVM_SeVolumeTweenTaskEnd, 1);
     work->flags.bit.sePanRamp = 1;
     return work->result;
@@ -3224,7 +3223,7 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
     BTLV_EFFVM_SetShadowVanishIfLoaded(work);
     if (work->flags.bit.keepBackground == 0)
         BTLV_EFFECT_SetAllPokeSpriteAnim(1);
-    func_02011290(vm);
+    VM_End(vm);
     work->result = 1;
     if (work->flags.bit.gfxReloadPending) {
         scu = (void *)BTLV_EFFECT_GetRule();
@@ -4010,13 +4009,13 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         motion->framesLeft = req->travelTime >> 12;
         motion->projectToScreen = req->mode;
         if (req->motionKind == 3) {
-            motion->phaseStepA = func_0207C768(0x6000000, req->travelTime);
+            motion->phaseStepA = FX_Div(0x6000000, req->travelTime);
         } else if ((u32)(req->motionKind - 5) <= 1) {
-            motion->phaseStepA = func_0207C768(0x8000000, req->travelTime);
-            motion->phaseStepB = func_0207C768(0x10000000, req->travelTime);
+            motion->phaseStepA = FX_Div(0x8000000, req->travelTime);
+            motion->phaseStepB = FX_Div(0x10000000, req->travelTime);
             motion->phaseStepB = MUL(motion->phaseStepB, req->wobbleScale);
         } else {
-            motion->phaseStepA = func_0207C768(0x8000000, req->travelTime);
+            motion->phaseStepA = FX_Div(0x8000000, req->travelTime);
         }
         if (motion->phaseStepA == 0)
             motion->phaseStepA = 1;

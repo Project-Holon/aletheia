@@ -27,7 +27,7 @@
  *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   sAllocSiteScrcmdSodateya     0x02172900  data
  */
 #include "scrcmd_proc_shared_types.h"
@@ -91,7 +91,7 @@ extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *);
 
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *, void *, u32 size);
 
-extern void *func_020124E8(struct GameEvent *);
+extern void *GAME_EVENT_GetWork(struct GameEvent *);
 
 int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *work);
 
@@ -158,7 +158,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     menuState->selectedPos = 0;
     menuState->zukanSave = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
     event = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, 0x14);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->menuParam = menuParam;

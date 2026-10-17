@@ -35,7 +35,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
@@ -158,7 +158,7 @@ extern int FADE_IsActive(void);
 extern unsigned KEY_GetTrg(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -365,7 +365,7 @@ void THE_END_GRAPHIC_DummyTask(void)
 void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
 {
     unsigned char *q = ARC_TOOL_CreateHandle(0xdc, *p);
-    func_02049B68(q, 2, 0, 0, 0, *p);
+    ARC_UTIL_UploadPaletteFromHandleWhole(q, 2, 0, 0, 0, *p);
     ARC_UTIL_UploadBgCharFromHandle(q, 3, 1, 0, 0, 0, *p);
     ARC_UTIL_UploadBgPaletteFromHandle(q, 5, 1, 0, 0, 0, *p);
     if (GPOWER_GetSpecialPowerId() == 0x14)

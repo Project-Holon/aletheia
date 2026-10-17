@@ -111,7 +111,7 @@
  *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_EFFECT_GaugeStartHpChangeAnimated  0x021F80FC  thumb  ov094
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
@@ -393,7 +393,7 @@ extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b);
 extern void BTLV_EFFECT_StartDamageTintTask(int a, int b);
 extern void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int seId);
 extern int BTLV_SCU_IsMonDamageAnimDone(struct BtlvScu *scu);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int BTLV_EFFECT_IsBusy(void);
 extern void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
@@ -1485,7 +1485,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         break;
     case 12:
         if (BTLV_CORE_WaitMessage(core)) {
-            func_02045CAC(w->msgBank, 0, core->msgBuffer);
+            MSGDATA_ReadString(w->msgBank, 0, core->msgBuffer);
             BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0, 0);
             w->timer = 0x3C;
             (*state)++;
@@ -1505,7 +1505,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w
         break;
     case 15:
         if (BTLV_CORE_PollBagMenu(core)) {
-            func_02045CAC(w->msgBank, 1, core->msgBuffer);
+            MSGDATA_ReadString(w->msgBank, 1, core->msgBuffer);
             BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0, 0);
             BTLV_SCD_CloseInput(core->auxView);
             (*state)++;
@@ -2273,8 +2273,8 @@ void BTLV_CORE_PlayEffectivenessSe(struct BtlvCore *core, int effectiveness)
 /*
  * note:     2026-10-03: byte-correct. The three callees are unlabelled Thumb tail-call stubs in
  *           ov094 (ov093 window does not hold them; the ov094 hint is right). Witnesses filed
- *           EXACT: src/matched/ov/ov094_func_021F853C.c, ov094_func_021F7E74.c,
- *           ov094_func_021F7E84.c. Once the integrator creates their shards, the `matched`
+ *           EXACT: src/matched/ov/BTLV_EFFECT_GetPokeSpriteState.c, ov094_func_021F7E74.c,
+ *           BTLV_EFFECT_StartPokeEffectId286.c. Once the integrator creates their shards, the `matched`
  *           class resolves the three sites through the ov094 hint; re-verify and file EXACT.
  */
 void BTLV_CORE_SetMonShown(struct BtlvCore *core, int viewPos, int shown)

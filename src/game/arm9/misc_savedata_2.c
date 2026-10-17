@@ -171,7 +171,6 @@ extern void MISC_SAVEDATA_GetKey(u8 *obj, u32 id, void *dest);
 
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
-extern void func_0200E904(void *p);
 
 extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 
@@ -750,7 +749,7 @@ unsigned int MISC_SAVEDATA_GetMacStructSize(void)
 
 void MISC_SAVEDATA_InitMacAndStats(void *record)
 {
-    func_0200E904(record);
+    MISC_SAVEDATA_InitMac(record);
     BSUBWAY_SAVEDATA_InitStats((u8 *)record + 0x5a);
 }
 

@@ -61,7 +61,7 @@
  *   VEC_DotProduct        0x0207CA68  arm
  *   VEC_CrossProduct        0x0207CAE8  arm
  *   G3_LoadMtx43        0x0207D8E0  arm
- *   func_0207D918        0x0207D918  arm
+ *   G3_MultMtx43        0x0207D918  arm
  *   func_0205429C_Verts  0x020A1B38  data
  *   func_0205429C_Hooks  0x020A7FE4  data
  *   func_0205429C_Hooks2 0x020A7FDC  data
@@ -1376,7 +1376,6 @@ extern void SPLRandom_VecFx32(VecFx32 *vec);
 extern void SPLRandom_VecFx32_XY(VecFx32 *vec);
 extern void SPLEmitter_ComputeOrthogonalAxes(SPLEmitter *emtr);
 extern void SPLUtil_TiltCoordinates(VecFx32 *ptclPos, VecFx32 *pos, SPLEmitter *emtr);
-extern void func_0207D918(const void *);
 extern void G3_MultMtx43(const MtxFx43 *m);
 extern void MI_Copy36B(const void *pSrc, void *pDst);
 extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
@@ -2980,7 +2979,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         f.m.m[10] = f.t.y;
         f.m.m[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
-        func_0207D918(&f.m);
+        G3_MultMtx43((const MtxFx43 *)(&f.m));
     } else {
         f.t.x = s->p1.x + s->emitterPosX - p->transX;
         f.t.y = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3007,7 +3006,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(&f.m);
+        G3_MultMtx43((const MtxFx43 *)(&f.m));
     }
 
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
@@ -3041,7 +3040,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
  * the basis hooks it transforms the particle position by the current matrix
  * (MTX_MultVec43), reads sin/cos from the Verts table at
  * s->rotation >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
- * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + func_0207D918), mixes
+ * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + G3_MultMtx43), mixes
  * the colour and calls the quad emitter SPL_EMITTER_DrawQuad DIRECTLY.
  *
  * LOAD-BEARING SHAPES (wave 8):
@@ -3130,7 +3129,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         f.m.m[10] = f.t.y;
         f.m.m[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
-        func_0207D918(&f.m);
+        G3_MultMtx43((const MtxFx43 *)(&f.m));
     } else {
         f.t.x = s->p1.x + s->emitterPosX - p->transX;
         f.t.y = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3157,7 +3156,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(&f.m);
+        G3_MultMtx43((const MtxFx43 *)(&f.m));
     }
 
     c1 = s->color;
@@ -3704,7 +3703,7 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3715,8 +3714,8 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     }
 
     c1 = s->color;
@@ -3803,7 +3802,7 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3814,8 +3813,8 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     }
 
     c1 = s->color;
@@ -3939,7 +3938,7 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3950,8 +3949,8 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     }
 
     c1 = s->color;
@@ -4102,7 +4101,7 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -4113,8 +4112,8 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->mtx);
-        func_0207D918(&f.m1);
+        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
+        G3_MultMtx43((const MtxFx43 *)(&f.m1));
     }
 
     c1 = s->color;

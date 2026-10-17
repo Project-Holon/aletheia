@@ -17,7 +17,7 @@
  *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
@@ -74,7 +74,7 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   MTX_Identity33_  0x0207ADC4  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -119,7 +119,7 @@ extern struct FieldSubproc *FIELD_SUBPROC_Start(int overlayId, struct FieldmapFu
 extern FkDemoDrawWork *FIELD_SUBPROC_GetWork(const struct FieldSubproc *proc);
 extern void FIELD_SUBPROC_End(struct FieldSubproc *proc);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, FkDemoEventFunc func, u32 workSize);
-extern FkDemoWork *func_020124E8(struct GameEvent *event);
+extern FkDemoWork *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct Tcb *GFL_USE_AddMainTask(FkDemoTcbFunc callback, FkDemoWork *work, u32 priority);
 extern void TCB_DeleteTask(struct Tcb *tcb);
 extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
@@ -254,7 +254,7 @@ struct GameEvent *FIELD_FK_DEMO_CreateEvent(struct GameSystem *gameSystem, struc
 
     FIELDMAP_GetHeapId(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_FK_DEMO_EventMain, sizeof(FkDemoWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->fieldMap = fieldMap;
     work->gameSystem = gameSystem;
     work->variant = variant;
@@ -491,7 +491,7 @@ void FIELD_FK_DEMO_InitModel(FkDemoModel *model, struct FieldPlayer *player, str
     model->status.scale.y = 0x1000;
     model->status.scale.z = 0x1000;
     MTX_Identity33_(&model->status.rotate);
-    if (func_02008550(myStatus) == 0) {
+    if (MYSTATUS_GetOutfitVariant(myStatus) == 0) {
         fileBase = variant * FK_DEMO_MODEL_FILE_STEP;
         model->modelRes = G3D_SYSTEM_CreateResourceArcHandle(arc, fileBase + 3);
         model->genderAnimeRes = G3D_SYSTEM_CreateResourceArcHandle(arc, fileBase + 4);

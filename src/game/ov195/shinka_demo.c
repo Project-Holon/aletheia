@@ -34,8 +34,8 @@
  *   PROCSYS_Main 0x02031330 arm
  *   PROCSYS_Push 0x02031348 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0200873C 0x0200873C thumb
- *   func_02008DF0 0x02008DF0 thumb
+ *   SYSTEM_DATA_GetConfig 0x0200873C thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
@@ -128,7 +128,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -187,8 +187,8 @@
  *   gSpeciesNameBank 0x020A7370 data a4
  *   GAME_DATA_GetMyItem 0x0201292C thumb
  *   POKEPARTY_GetCapacity 0x0201AA14 thumb
- *   func_02007F68 0x02007F68 thumb
- *   func_02007F1C 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
@@ -340,8 +340,8 @@ extern u32 PROCSYS_Main(void *);
 /* Original explicitly prepares all four registers, despite the current forwarding own source. */
 extern void PROCSYS_Push(void *,int,void *,void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void *func_0200873C(void *sys);
-extern u32 func_02008DF0(void *obj, int i);
+extern void *SYSTEM_DATA_GetConfig(void *sys);
+extern u32 RECORD_AddOne(void *obj, int i);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
@@ -430,7 +430,7 @@ extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -488,8 +488,8 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 POKEPARTY_GetCapacity(void *p);
-extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
-extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
@@ -656,7 +656,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         SHINKA_DEMO_StartResultBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=10;}break;
     case 10:W(0x88)=1;W(0x28)=11;break;
     case 11:SHINKA_DEMO_PrintText(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
-    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)POKE_TOOL_GetPartyValue(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
+    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)POKE_TOOL_GetPartyValue(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));RECORD_AddOne(v,10);RECORD_AddOne(v,88);W(0x28)=17;}break;
     case 13:if(W(0x24))SHINKA_DEMO_StopBgm((int)a,s);else SHINKA_DEMO_PopBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=15;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=14;}break;
     case 14:W(0x88)=1;W(0x28)=15;break;
     case 15:SHINKA_DEMO_PrintText(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
@@ -678,7 +678,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         SHINKA_DEMO_DeleteScene((int)a,(int *)s);W(0x28)=24;
         v=GAME_DATA_GetSaveControl((void *)A(0));
         ((u8 *)P(0x100))[0xc]=1;*(u32 *)((char *)P(0x100)+8)=A(0);*(u32 *)((char *)P(0x100)+0x24)=0;*(u32 *)P(0x100)=A(4);
-        *(void **)((char *)P(0x100)+4)=func_0200873C(v);((u8 *)P(0x100))[0xe]=POKEPARTY_GetCount((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
+        *(void **)((char *)P(0x100)+4)=SYSTEM_DATA_GetConfig(v);((u8 *)P(0x100))[0xe]=POKEPARTY_GetCount((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
         GF_OVERLAY_Load((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
@@ -1130,7 +1130,7 @@ void SHINKA_DEMO_LoadSprites(int a, char *b)
 {
     void *h = ARC_TOOL_CreateHandle(0xb6, ((struct Scene *)b)->heap);
 
-    func_02049B68(h, 3, 0, 0, 0x20, ((struct Scene *)b)->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 3, 0, 0, 0x20, ((struct Scene *)b)->heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 5, 2, 0, 0, 0, ((struct Scene *)b)->heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 4, 2, 0, 0, 0, ((struct Scene *)b)->heap);
     ARC_TOOL_DeleteHandle(h);
@@ -1536,7 +1536,7 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
     save = GAME_DATA_GetMyItem((const struct BigObj *)a[0]);
     if ((int)POKEPARTY_GetCount((void *)a[1]) >= (int)POKEPARTY_GetCapacity((void *)a[1]))
         return;
-    if (func_02007F68(save, 4, 1, ((struct Scene *)b)->mainHeap) == 0)
+    if (MYITEM_SAVEDATA_HasItem(save, 4, 1, ((struct Scene *)b)->mainHeap) == 0)
         return;
     p = (u32)GFL_HEAP_Alloc(((struct Scene *)b)->mainHeap, POKE_TOOL_GetPartyParamSize(), 1, (const char *)d_02208F40, 0xaf5);
     POKE_TOOL_CopyPartyPokemon((const struct RecDC *)(((struct Scene *)b)->partyMon), (struct RecDC *)p);
@@ -1559,14 +1559,14 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
     GFL_HEAP_Free((void *)v);
     POKE_TOOL_SetPartyValue((void *)p, 0x9f, 0);
     POKEPARTY_Add((void *)a[1], (void *)p);
-    func_02007F1C(save, 4, 1, ((struct Scene *)b)->mainHeap);
+    MYITEM_SAVEDATA_RemoveItem(save, 4, 1, ((struct Scene *)b)->mainHeap);
     GFL_HEAP_Free((void *)p);
     q = (u32)ZUKAN_SAVE_GetFromGameData((void *)a[0]);
     ZUKAN_SAVE_RegisterSeen((struct Blk37 *)q, (void *)p);
     ZUKAN_SAVE_RegisterCaught((struct Blk37 *)q, (void *)p);
     q = (u32)GAME_DATA_GetTrainerRecord((int *)a[0]);
-    func_02008DF0((void *)q, 10);
-    func_02008DF0((void *)q, 0x58);
+    RECORD_AddOne((void *)q, 10);
+    RECORD_AddOne((void *)q, 0x58);
 }
 
 

@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   MIi_CpuClearFast 0x02082AC0 arm
- *   func_02008FA8 0x02008FA8 thumb
+ *   MAIL_SetDesign 0x02008FA8 thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -26,17 +26,17 @@
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   MAIL_GetWriterId 0x02008F80 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_02008F84 0x02008F84 thumb
+ *   MAIL_GetWriterName 0x02008F84 thumb
  *   STRBUF_SetString 0x02045924 arm
- *   func_02008FA4 0x02008FA4 thumb
- *   func_02008FB0 0x02008FB0 thumb
- *   func_02008FB8 0x02008FB8 thumb
- *   func_02008FC0 0x02008FC0 thumb
- *   func_02008FC8 0x02008FC8 thumb
+ *   MAIL_GetDesign 0x02008FA4 thumb
+ *   MAIL_GetLanguage 0x02008FB0 thumb
+ *   MAIL_GetVersion 0x02008FB8 thumb
+ *   MAIL_GetMessageId 0x02008FC0 thumb
+ *   MAIL_GetMessage 0x02008FC8 thumb
  *   d_021C7EEC 0x021C7EEC data a1
  *   STRBUF_Delete  0x02045808  arm
- *   func_02008FD8 0x02008FD8 thumb
- *   func_02008FC4 0x02008FC4 thumb
+ *   MAIL_SetMessage 0x02008FD8 thumb
+ *   MAIL_SetMessageId 0x02008FC4 thumb
  *   PMSI_PARAM_InitSentenceId 0x020242C0 thumb
  *   d_021C77A0 0x021C77A0 data a1
  *   MSG_SPEED_GetWait 0x02012FFC thumb
@@ -57,7 +57,7 @@
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   WIPE_ResetBrightness 0x02022230 thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PMS_DRAW_Main 0x0202DBC4 thumb
@@ -80,7 +80,7 @@
  *   d_021C7784 0x021C7784 data a4
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -111,7 +111,7 @@ typedef int (*MailEditModeHandler)(struct MailEditProc *proc);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuClearFast(unsigned, void *, unsigned);
-extern void func_02008FA8(struct Mail *mail, u32 value);
+extern void MAIL_SetDesign(struct Mail *mail, u32 value);
 extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -122,16 +122,16 @@ extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
 extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
 extern u32 MAIL_GetWriterId(const struct Mail *mail);
 extern struct Strbuf *STRBUF_Create(unsigned, u16);
-extern u8 *func_02008F84(struct Mail *mail);
+extern u8 *MAIL_GetWriterName(struct Mail *mail);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern u8 func_02008FA4(const struct Mail *mail);
-extern u8 func_02008FB0(const struct Mail *mail);
-extern u8 func_02008FB8(const struct Mail *mail);
-extern u16 func_02008FC0(const struct Mail *mail);
-extern struct PmsData *func_02008FC8(struct Mail *mail, u32 i);
+extern u8 MAIL_GetDesign(const struct Mail *mail);
+extern u8 MAIL_GetLanguage(const struct Mail *mail);
+extern u8 MAIL_GetVersion(const struct Mail *mail);
+extern u16 MAIL_GetMessageId(const struct Mail *mail);
+extern struct PmsData *MAIL_GetMessage(struct Mail *mail, u32 i);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern void func_02008FD8(struct Mail *mail, struct PmsData *msg, u32 i);
-extern void func_02008FC4(struct Mail *mail, u16 value);
+extern void MAIL_SetMessage(struct Mail *mail, struct PmsData *msg, u32 i);
+extern void MAIL_SetMessageId(struct Mail *mail, u16 value);
 extern void PMSI_PARAM_InitSentenceId(struct PmsData *msg, u32 type, u32 id);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -146,7 +146,7 @@ extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int a2);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void WIPE_ResetBrightness(u32 a);
 extern void G2x_SetBlendAlpha_(void *reg, int a, int b, int c, int d);
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 extern void PALANM_RequestFade(struct PalAnmSlot *p, int a, int b, int c, int d, int e, int f, u32 g);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *p);
 extern void PMS_DRAW_Main(struct PmsDraw *p);
@@ -169,7 +169,7 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int, int, int);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern void BMP_Clear(void *buf, u8 value);
-extern void func_02045CAC(struct MsgData *bank, u32 index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
 extern void *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u32 speed, struct Tcbl *tcbl, u32 prio, u16 heapId, u16 colorId);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
@@ -222,12 +222,12 @@ struct MailDraft *MAILSYS_CreateMessage(struct Mail *mail, unsigned heap)
     draft->result = i;
     draft->writerId = MAIL_GetWriterId(mail);
     draft->writerName = STRBUF_Create(0x10, heap);
-    STRBUF_SetString(draft->writerName, (const u16 *)func_02008F84(mail));
-    draft->design = func_02008FA4(mail);
-    draft->language = func_02008FB0(mail);
-    draft->version = func_02008FB8(mail);
-    draft->messageId = func_02008FC0(mail);
-    for (; i < 3; i++) PMSI_PARAM_Copy(&draft->message[i], func_02008FC8(mail, (u8)i));
+    STRBUF_SetString(draft->writerName, (const u16 *)MAIL_GetWriterName(mail));
+    draft->design = MAIL_GetDesign(mail);
+    draft->language = MAIL_GetLanguage(mail);
+    draft->version = MAIL_GetVersion(mail);
+    draft->messageId = MAIL_GetMessageId(mail);
+    for (; i < 3; i++) PMSI_PARAM_Copy(&draft->message[i], MAIL_GetMessage(mail, (u8)i));
     return draft;
 }
 
@@ -241,9 +241,9 @@ void MAILSYS_DeleteMessage(struct MailDraft *draft)
 void MAILSYS_WriteMessageToMail(struct Mail *mail, struct MailDraft *draft)
 {
     u16 i;
-    for (i = 0; i < 3; i++) func_02008FD8(mail, &draft->message[i], (u8)i);
-    func_02008FC4(mail, draft->messageId);
-    func_02008FA8(mail, draft->design);
+    for (i = 0; i < 3; i++) MAIL_SetMessage(mail, &draft->message[i], (u8)i);
+    MAIL_SetMessageId(mail, draft->messageId);
+    MAIL_SetDesign(mail, draft->design);
 }
 
 /*
@@ -326,7 +326,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
             BG_SYS_SetMainPlaneVisible(0x10, 1);
             WIPE_ResetBrightness(0);
             G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0x1C, 4);
-            t = func_020056BC();
+            t = GFL_USE_GetMainTaskList();
             PALANM_RequestFade(proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, t);
             (proc->step)++;
         }
@@ -339,7 +339,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
     case 3:
         if (data_021C7774[proc->mode](proc) == 1) {
             (proc->step)++;
-            t = func_020056BC();
+            t = GFL_USE_GetMainTaskList();
             PALANM_RequestFade(proc->palAnm, 5, 0xFFFF, -1, 0, 0x10, 0, t);
         }
         PMS_DRAW_Main(proc->pmsDraw);
@@ -561,7 +561,7 @@ void MAILSYS_PrintMessageText(struct MailEditProc *proc, int msgId)
     struct BmpWin *win;
     BMP_MENUWORK_DrawWindow(proc->win[6], 2, 13, 4);
     BMP_Clear(BMP_WIN_GetBmp(proc->win[6]), 255);
-    func_02045CAC(proc->msgData, msgId, proc->msgBuf);
+    MSGDATA_ReadString(proc->msgData, msgId, proc->msgBuf);
     proc->printStream = PRINTSYS_PrintStream(proc->win[6], 0, 0, proc->msgBuf, proc->font, proc->textSpeed, proc->tcbl, 4, (u16)proc->heapId, 15);
     win = proc->win[6];
     BMP_WIN_TransferChars(win);

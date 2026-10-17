@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from vs_multi_list.c, ov097_func_021F75E0.c by tools/splitfile.py.
+ * Cut from vs_multi_list.c, VS_MULTI_LIST_DeleteBgFrames.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -49,7 +49,7 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -284,7 +284,7 @@ extern void BG_SYS_Delete(void);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02049B68(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *h);
 extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -602,7 +602,7 @@ void VS_MULTI_LIST_LoadBgGraphics(struct VsMultiList *work)
     handle = ARC_TOOL_CreateHandle(0x64, 0x8071);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x12, 2, 0, 0, 1, 0x8071);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 0, 2, 0, 0, 1, 0x8071);
-    func_02049B68(handle, 0x13, 0, 0, 0, 0x8071);
+    ARC_UTIL_UploadPaletteFromHandleWhole(handle, 0x13, 0, 0, 0, 0x8071);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x10, 1, 0, 0x800, 1, 0x8071);
     ARC_TOOL_DeleteHandle(handle);
     BG_SYS_LoadPlttEntry(4, 0);

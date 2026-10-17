@@ -46,7 +46,7 @@
  *   g_02202CA4  0x02202CA4  data  ov135
  *   g_02202CC4  0x02202CC4  data  ov135
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
@@ -91,12 +91,12 @@
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   FILE_UTIL_Check136C  0x0202136C  thumb
- *   func_02007A18  0x02007A18  thumb
+ *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb
  *   BOX_SAVEDATA_GetBoxName  0x0200785C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   tbl_02202C58  0x02202C58  data  a4
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   WIPE_SYS_Start 0x0202208C thumb
@@ -133,6 +133,9 @@
  *   WORLDTRADE_BOX_GetPartyMon 0x021F6B40 thumb ov135
  *   WORLDTRADE_DEPOSIT_BuildOffer 0x021F8554 thumb ov135
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm  arm9
+ *   BOX_SAVEDATA_GetUsableBoxCount  0x020076A4  thumb  arm9
+ *   BOX_SAVEDATA_UnlockBoxes  0x020076B4  thumb  arm9
+ *   BOX_SAVEDATA_CountPokemonInBox  0x020078C4  thumb  arm9
  */
 #include "worldtrade_types.h"
 
@@ -210,7 +213,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -328,21 +331,21 @@ extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
 extern u32 FILE_UTIL_Check136C(u16 v);
 
-extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 
 extern void BOX_SAVEDATA_GetBoxName(void *save, u32 box, void *dest);
 
 extern void *POKE_TOOL_GetBoxParam(void *a);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
-extern int func_020078C4(void *save, u32 box);
+extern int BOX_SAVEDATA_CountPokemonInBox(void *save, u32 box);
 
 extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 
-extern u8 func_020076A4(void *save);
+extern u8 BOX_SAVEDATA_GetUsableBoxCount(void *save);
 
-extern u8 func_020076B4(void *save);
+extern u8 BOX_SAVEDATA_UnlockBoxes(void *save);
 
 void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e);
 
@@ -613,7 +616,7 @@ void WORLDTRADE_BOX_LoadBgGraphics(Work *p)
 {
     void *h;
     h = ARC_TOOL_CreateHandle(0x60, 0x48);
-    func_02049B68(h, 1, 0, 0, 0x60, 0x48);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 1, 0, 0, 0x60, 0x48);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 0x1f, 0xb, 0, 0x48);
@@ -1469,11 +1472,11 @@ void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
     arc = ARC_TOOL_CreateHandle(7, 0x48);
     if (box >= 0 && box < p->nbox) {
         for (i = 0; i < 30; i++) {
-            WORLDTRADE_BOX_CalcLevel((u32)func_02007A18(storage, box, i), (u8 *)(&p->info_p[i]));
+            WORLDTRADE_BOX_CalcLevel((u32)BOX_SAVEDATA_GetPokemon(storage, box, i), (u8 *)(&p->info_p[i]));
         }
         for (i = 0; i < 30; i++) {
             p->info_p[i].species = 0;
-            WORLDTRADE_BOX_SetupIconActor(func_02007A18(storage, box, i), p->icon[i], p->item[i], &species[i], i, arc, (Info *)(&p->info_p[i]), &icons[i]);
+            WORLDTRADE_BOX_SetupIconActor(BOX_SAVEDATA_GetPokemon(storage, box, i), p->icon[i], p->item[i], &species[i], i, arc, (Info *)(&p->info_p[i]), &icons[i]);
             if (i < 6) {
                 CLACT_SetActorDrawEnable((struct Obj *)p->arrC[i], 0);
             }
@@ -1498,7 +1501,7 @@ void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
                 CLACT_SetActorDrawEnable((struct Obj *)p->arrC[i], 0);
             }
         }
-        func_02045CAC(p->bank, 0x62, p->fB80);
+        MSGDATA_ReadString(p->bank, 0x62, p->fB80);
     } else {
         SAVEDATA_PanicFail((void *)0x02203B68, 0, (void *)0x02203B68);
     }
@@ -1530,7 +1533,7 @@ void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot)
         }
         return POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, slot));
     }
-    return func_02007A18(save, box, slot);
+    return BOX_SAVEDATA_GetPokemon(save, box, slot);
 }
 
 u32 WORLDTRADE_BOX_GetMonCount(u8 *p, u32 b, u32 c)
@@ -1538,7 +1541,7 @@ u32 WORLDTRADE_BOX_GetMonCount(u8 *p, u32 b, u32 c)
     if (WORLDTRADE_BOX_ClampSlot(c) != 0) {
         return POKEPARTY_GetCount(p);
     }
-    return func_020078C4((void *)b, c);
+    return BOX_SAVEDATA_CountPokemonInBox((void *)b, c);
 }
 
 int WORLDTRADE_BOX_CanRemoveMon(void *party, void *save, int box, int slot)
@@ -1687,11 +1690,11 @@ int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle)
 void WORLDTRADE_BOX_RestoreCursorSave(Work *p)
 {
     unsigned i;
-    p->count = func_020076A4(p->ctx->save);
+    p->count = BOX_SAVEDATA_GetUsableBoxCount(p->ctx->save);
     if (p->count < 24) {
         for (i = 0; i < p->count; i++) {
-            if (func_020078C4(p->ctx->save, i) == 0) break;
+            if (BOX_SAVEDATA_CountPokemonInBox(p->ctx->save, i) == 0) break;
         }
-        if (i == p->count) p->count = func_020076B4(p->ctx->save);
+        if (i == p->count) p->count = BOX_SAVEDATA_UnlockBoxes(p->ctx->save);
     }
 }

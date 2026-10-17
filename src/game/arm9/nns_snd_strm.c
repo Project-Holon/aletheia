@@ -23,7 +23,7 @@
  *   gSndStrmChannels     0x0214E934  data
  *   NNSi_SndStrmStart  0x02073CEC  arm
  *   NNS_FndInitList  0x02060468  arm
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  *   NNSi_SndWaveOutAllocSlot  0x020729C0  arm
  *   SND_SetupChannelPcm  0x02089660  arm
  *   SND_SetupAlarm  0x02089540  arm
@@ -58,7 +58,7 @@ extern void NNS_FndInitList(NNSFndList *list, int offset);
 extern void NNSi_SndStrmStart(void);
 extern int NNSi_SndWaveOutLockChannels(int mask);
 extern void SND_CHANNEL_UnlockChannels(u32 mask);
-extern u32  func_0209C2B0(u32 a, s32 b);
+extern u32  _u32_div_f(u32 a, s32 b);
 extern s32  NNSi_SndWaveOutAllocSlot(void);
 extern void SND_SetupChannelPcm(u32 chan, int fmt, u32 data, int loopmode,
                           int a, int b, int vol, int pan, u32 period, int e);
@@ -162,7 +162,7 @@ void NNS_SndStrmFreeChannel(SndStrm *strm)
 
 /*
  * Sets the stream up: tear down a stream already set up, size the per-channel
- * buffer (func_0209C2B0 is the divide), claim a timer through NNSi_SndWaveOutAllocSlot
+ * buffer (_u32_div_f is the divide), claim a timer through NNSi_SndWaveOutAllocSlot
  * (negative = none, answer 0), set up one PCM channel per locked channel with
  * its buffer address recorded in gSndStrmChannels, arm the timer SND_SetupAlarm with
  * NNSi_SndStrmTimerCallback as its callback, link the stream into gSndStrmList, latch the
@@ -181,11 +181,11 @@ int NNS_SndStrmSetup(SndStrm *strm, int format, u32 bufferAddr, u32 length,
     int i;
     u32 tok;
     if (strm->isSetup) NNSi_SndStrmStopIfSetup(strm);
-    size = func_0209C2B0(length, strm->numChannels * (frames << 5));
+    size = _u32_div_f(length, strm->numChannels * (frames << 5));
     size = (size * frames) << 5;
     strm->bufferSize = size;
     if (format == 1) size >>= 1;
-    period = func_0209C2B0(rate * size, frames);
+    period = _u32_div_f(rate * size, frames);
     strm->timerNo = NNSi_SndWaveOutAllocSlot();
     if (strm->timerNo < 0) return 0;
     for (i = 0; i < strm->numChannels; i++) {
@@ -323,7 +323,7 @@ void NNSi_SndStrmUpdate(SndStrm *strm, u32 isTimerCall)
     s32 i;
     u32 base;
     u32 addr;
-    base = func_0209C2B0(strm->bufferSize, strm->frames);
+    base = _u32_div_f(strm->bufferSize, strm->frames);
     step = base * strm->frameIdx;
     for (i = 0; i < strm->numChannels; i++) {
         addr = gSndStrmChannels[strm->channel[i]].bufferAddr;

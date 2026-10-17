@@ -18,7 +18,7 @@
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
  *   GIMMICK_OBJ_ELBOARD_FillMessages  0x021F3D78  thumb  ov048
  *   gGateExpObjSetups     0x021F4E94  data  a4
@@ -27,7 +27,7 @@
  *   GIMMICK_OBJ_ELBOARD_Advance 0x021F4784 thumb ov048
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   gElboardLayout 0x021F50C0 data a4
- *   func_021F47B0 0x021F47B0 thumb ov048
+ *   GIMMICK_OBJ_ELBOARD_GetScroll 0x021F47B0 thumb ov048
  *   BEACON_GetBlock 0x0200C0F0 thumb
  *   BEACON_SetGatePoints 0x0200C3B8 thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
@@ -57,7 +57,7 @@
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
  *   MISC_SAVEDATA_GetRingIndex  0x0200ECB4  thumb
- *   func_0200ECD0  0x0200ECD0  thumb
+ *   MISC_SAVEDATA_GetRingRecordIndex  0x0200ECD0  thumb
  *   MISC_SAVEDATA_ExportRingRecord  0x0200ECF0  thumb
  *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -90,7 +90,7 @@ extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void *GAME_DATA_GetSaveBlock42(struct GameData *gameData);
 extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmickWork);
-extern struct ConfigSave *func_0200873C(struct SaveControl *saveControl);
+extern struct ConfigSave *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
 extern int CONFIG_GetAppliedFlag(struct ConfigSave *config);
 extern void *BEACON_GetFromSave(struct SaveControl *saveControl);
 extern u16 BEACON_GetGatePoints(struct MiscSave *miscSave);
@@ -102,7 +102,7 @@ extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u
 extern struct ExtraSaveRecord *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 value);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
 extern u32 MISC_SAVEDATA_GetRingIndex(struct ExtraSaveRecord *record);
-extern int func_0200ECD0(struct ExtraSaveRecord *record, int index);
+extern int MISC_SAVEDATA_GetRingRecordIndex(struct ExtraSaveRecord *record, int index);
 extern void MISC_SAVEDATA_ExportRingRecord(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
 extern int MISC_SAVEDATA_FindFreeRecordSlot(void *saveBlock);
 extern void MISC_SAVEDATA_ExportRecord(void *saveBlock, int index, GateListEntry *entry);
@@ -124,7 +124,7 @@ extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int
 extern struct GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(GateElboardSetup *setup);
 extern void GIMMICK_OBJ_ELBOARD_Delete(struct GimmickObjElboard *board);
 extern void GIMMICK_OBJ_ELBOARD_Advance(struct GimmickObjElboard *board, int scrollStep);
-extern int func_021F47B0(struct GimmickObjElboard *board);
+extern int GIMMICK_OBJ_ELBOARD_GetScroll(struct GimmickObjElboard *board);
 extern void GIMMICK_OBJ_ELBOARD_SetScroll(struct GimmickObjElboard *board, int scrollPos);
 extern void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work);
 extern int GIMMICK_OBJ_ELBOARD_ReadGateInfo(GateBoardRecord *dst, int archiveId, int index);
@@ -175,7 +175,7 @@ void FIELD_GIMMICK_GATE_Init(FieldMap *fieldMap)
     int textMode;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    textMode = CONFIG_GetAppliedFlag(func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)))));
+    textMode = CONFIG_GetAppliedFlag(SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(fieldMap)))));
     if (textMode != 0) {
         if (textMode == 1) {
             setupIndex = 0;
@@ -247,7 +247,7 @@ void FIELD_GIMMICK_GATE_SaveState(GateWork *work)
 
     save = FIELD_GIMMICK_GATE_GetSave(work->fieldMap);
     save->initialized = work->initialized;
-    save->scrollPos = func_021F47B0(work->board) >> 12;
+    save->scrollPos = GIMMICK_OBJ_ELBOARD_GetScroll(work->board) >> 12;
     save->miscSaveValue = work->miscSaveValue;
     save->messageLog = work->messageLog;
 }
@@ -465,7 +465,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
     if (SAVE_CONTROL_LoadExtraSave(saveControl, GATE_EXTRA_SAVE_ID, work->heapId) - 1 <= 1) {
         record = SAVE_CONTROL_GetExtraSaveRecord(saveControl, GATE_EXTRA_SAVE_ID, i);
         if (MISC_SAVEDATA_GetRingIndex(record) != 0) {
-            *count = func_0200ECD0(record, i);
+            *count = MISC_SAVEDATA_GetRingRecordIndex(record, i);
             for (; i < *count; i++) {
                 entry.nameStr = STRBUF_Create(0x40, work->heapId);
                 entry.placeStr = STRBUF_Create(0x40, work->heapId);

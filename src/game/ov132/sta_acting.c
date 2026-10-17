@@ -124,7 +124,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   STA_ACT_LIGHT_AllocElem 0x021F6F24 thumb ov112
@@ -186,7 +186,7 @@
  *   STA_ACT_LIGHT_IsElemActive 0x021F7A80 thumb ov112
  *   STA_NET_SendKindA 0x021FD8C4 thumb ov132
  *   STA_ACT_LIGHT_HandleElemAnim 0x021F79A8 thumb ov112
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   STA_SLOT_GetCurrentKey 0x021FD9FC thumb ov132
  *   STA_SLOT_GetStateByKey 0x021FD9A0 thumb ov132
  *   STA_SLOT_ClearCurrent 0x021FDA18 thumb ov132
@@ -505,7 +505,7 @@ extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, uns
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
-extern void func_02049B68(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 
 extern void MIi_CpuCopy16(const void *,void *,unsigned int);
 
@@ -621,7 +621,7 @@ extern int STA_NET_SendKindA(void *, int);
 
 extern void STA_ACT_LIGHT_HandleElemAnim(char *, char *, int);
 
-extern u32 func_02005728(u32);
+extern u32 GFL_USE_GetRandomBelow(u32);
 
 extern int STA_SLOT_GetCurrentKey(char *p);
 
@@ -1092,7 +1092,7 @@ void STA_ACTING_UploadPalettes(u8 *p)
     ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),3,0,0,0,32,((struct ActingScene *)p)->f0);
     ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),9,2,0,0,0,((struct ActingScene *)p)->f0);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),15,2,0,0,0,((struct ActingScene *)p)->f0);
-    func_02049B68((void *)(((struct ActingScene *)p)->f18.u),5,4,0,0,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(((struct ActingScene *)p)->f18.u),5,4,0,0,((struct ActingScene *)p)->f0);
     ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),13,5,0,0,0,((struct ActingScene *)p)->f0);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),17,5,0,0,0,((struct ActingScene *)p)->f0);
     ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->f18.u),12,6,0,0,0,((struct ActingScene *)p)->f0);
@@ -1516,7 +1516,7 @@ void STA_ACTING_ProcessRecords(char *p)
             if (((struct ActingScene *)p)->f11C == 4) ((struct ActingScene *)p)->f120 = 1;
             else ((struct ActingScene *)p)->f120 = 0;
             ((struct ActingScene *)p)->f11E = 180;
-            ((struct ActingScene *)p)->f11C = slots[func_02005728(count)];
+            ((struct ActingScene *)p)->f11C = slots[GFL_USE_GetRandomBelow(count)];
             ((struct ActingScene *)p)->f11D = *(int *)(p + ((struct ActingScene *)p)->f11C * 4 + 0x10C);
             ((struct ActingScene *)p)->fEC = 1;
         }

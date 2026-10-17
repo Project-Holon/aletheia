@@ -51,7 +51,7 @@
  *   G3i_OrthoW_  0x0207D760  arm
  *   NNS_G3dGlbInit  0x0206A700  arm
  *   MTX_LookAt  0x0207BCA0  arm
- *   func_0207C554  0x0207C554  arm
+ *   MTX_OrthoW  0x0207C554  arm
  *   NNS_G3dGlbFlush  0x0206A854  arm
  *   RingQueue_Reset  0x021C0E5C  thumb  ov217
  *   VEC_Fx16Add 0x0207CA30 arm
@@ -100,7 +100,7 @@ extern void NNS_G3dGlbInit(void);
 /* SDK: MTX_LookAt */
 extern void MTX_LookAt(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, void *out);
 /* SDK: MTX_OrthoW */
-extern void func_0207C554(int top, int bottom, int left, int right, int near, int far, int scaleW, void *out);
+extern void MTX_OrthoW(int top, int bottom, int left, int right, int near, int far, int scaleW, void *out);
 /* SDK: NNS_G3dGlbFlush */
 extern void NNS_G3dGlbFlush(void);
 /* SDK: VEC_Fx16Add */
@@ -420,7 +420,7 @@ void CircleGraph_SetupCamera(struct CircleGraph *graph)
     d_02148DA4 = target;
     MTX_LookAt(&eye, &up, &target, &d_02148B98);
     d_02148BCC.flag &= ~0xE8;
-    func_0207C554(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, &d_02148B54);
+    MTX_OrthoW(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, &d_02148B54);
     d_02148BCC.flag &= ~0x50;
     NNS_G3dGlbFlush();
 }

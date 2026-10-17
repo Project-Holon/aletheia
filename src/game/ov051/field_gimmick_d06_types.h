@@ -117,7 +117,7 @@ extern u32 GFL_HEAP_Free(void *memory);
 extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *effects, int *effectIds, int count);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void MI_CpuFill(void *dst, int data, int size);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
@@ -147,7 +147,7 @@ extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *outPos);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern int MAP_ATTR_GetAt(struct G3dMapper *mapper, const VecFx32 *pos);
 extern int MAP_ATTR_GetTerrainId(int attr);
-extern int func_021AB3F8(int terrainId);
+extern int MAP_ATTR_IsElectricPanel(int terrainId);
 
 /* The d06denki effect (ov021). */
 extern struct FieldEffectObj *FLDEFF_D06DENKI_StartFollow(struct FieldEffectSys *effects, const VecFx32 *pos, struct Mmdl *mmdl);

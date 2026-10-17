@@ -72,8 +72,8 @@
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   GFL_HEAP_Alloc   0x02030734  arm
- *   func_02007B50  0x02007B50  thumb
- *   func_02007B00  0x02007B00  thumb
+ *   PERAPVOICE_IsRecorded  0x02007B50  thumb
+ *   PERAPVOICE_GetSize  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb

@@ -20,7 +20,7 @@
  *   CARD_GetBackupSectorSize  0x0204E6E0  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   g_wipePatternHandlers  0x0209F538  data
- *   func_02005624  0x02005624  thumb
+ *   GFL_USE_AddHBlankTask  0x02005624  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   g_wipeSourceFile     0x020A73C8  data
@@ -74,7 +74,7 @@ extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
 extern u32   CARD_GetBackupSectorSize(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void *func_02005624(u32 a, u32 b, u32 c);
+extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
 extern u32 GFL_HEAP_Free(void *p);
@@ -635,7 +635,7 @@ void WIPE_HBlankSlotsTask(void *task, struct WipeHBlankSlots *p)
  * do-nothing WIPE_DummyHBlank when the caller passes none, the same convention
  * WIPE_InitHBlankSlots uses), and marks the slot live with arg[idx] = 1.  Before
  * any of that, if BOTH user words are still zero the block was idle, so it
- * registers the dispatcher WIPE_HBlankSlotsTask as a task through func_02005624 and
+ * registers the dispatcher WIPE_HBlankSlotsTask as a task through GFL_USE_AddHBlankTask and
  * parks the handle at g_wipeSys.hblankTask -- the same handle WIPE_ClearHBlankSlot
  * releases once both words go back to zero.
  *
@@ -653,7 +653,7 @@ void WIPE_HBlankSlotsTask(void *task, struct WipeHBlankSlots *p)
 void WIPE_SetHBlankSlot(struct WipeHBlankSlots *p, void *ctx, Handler fn, u32 idx)
 {
     if (p->active[0] == 0 && p->active[1] == 0)
-        g_wipeSys.hblankTask = func_02005624((u32)WIPE_HBlankSlotsTask, (u32)p, 0);
+        g_wipeSys.hblankTask = GFL_USE_AddHBlankTask((u32)WIPE_HBlankSlotsTask, (u32)p, 0);
 
     p->work[idx] = ctx;
     if (fn != 0)

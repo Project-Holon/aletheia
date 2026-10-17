@@ -52,6 +52,7 @@
  *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  */
 struct SaveWork;
 struct SaveBlockCtrl;
@@ -171,7 +172,7 @@ extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern int ZUKAN_SAVE_CountCaughtRegionalCounted(struct ZukanSave *pZukan, int heap);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
 extern int ZUKAN_SAVE_IsCountedForRegionalCompletion(u32 v);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id);
 void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *dist);
 struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *game_sys, const void *data, u32 size, u32 heap_id);
@@ -1831,7 +1832,7 @@ void MOVE_POKEMON_SAVE_RollStartLocation(void *saveControl)
 {
     struct MovePokemonSave *pSave = MOVE_POKEMON_SAVE_GetBlock(saveControl);
 
-    pSave->startLocation = func_02005728(0x11);
+    pSave->startLocation = GFL_USE_GetRandomBelow(0x11);
 }
 
 

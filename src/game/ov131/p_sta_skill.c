@@ -44,7 +44,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
@@ -225,7 +225,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitCont(const void *rectTable);
-extern void *func_02049EF4(void *arc, unsigned int fileId, unsigned int flag, void **outData, unsigned short heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int flag, void **outData, unsigned short heapId);
 extern void BG_SYS_DrawTileEx(u32 bgLayer, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
 extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 size);
 extern void CLACT_GetCharacterProxy(u32 res, StaSpriteRes *out);
@@ -436,11 +436,11 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
 
 void P_STA_SKILL_LoadArcGraphics(PStatusWork *wk, PStaSkillWork *work, void *arc)
 {
-    work->bgScrnFile=func_02049EF4(arc,72,0,&work->bgScrnData,wk->heapId);
-    work->statsPlttFile=func_02049EF4(arc,73,0,&work->statsPlttData,wk->heapId);
-    work->movesPlttFile=func_02049EF4(arc,74,0,&work->movesPlttData,wk->heapId);
-    work->statsScrnFile=func_02049EF4(arc,75,0,&work->statsScrnData,wk->heapId);
-    work->movesScrnFile=func_02049EF4(arc,76,0,&work->movesScrnData,wk->heapId);
+    work->bgScrnFile=ARC_UTIL_LoadPaletteDataFromHandle(arc,72,0,&work->bgScrnData,wk->heapId);
+    work->statsPlttFile=ARC_UTIL_LoadPaletteDataFromHandle(arc,73,0,&work->statsPlttData,wk->heapId);
+    work->movesPlttFile=ARC_UTIL_LoadPaletteDataFromHandle(arc,74,0,&work->movesPlttData,wk->heapId);
+    work->statsScrnFile=ARC_UTIL_LoadPaletteDataFromHandle(arc,75,0,&work->statsScrnData,wk->heapId);
+    work->movesScrnFile=ARC_UTIL_LoadPaletteDataFromHandle(arc,76,0,&work->movesScrnData,wk->heapId);
     work->oamManager=P_STA_OAM_CreateManager(wk->heapId,wk->clunit);
 }
 

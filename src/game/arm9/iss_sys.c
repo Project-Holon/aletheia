@@ -56,6 +56,7 @@
  *   ISS_3DS_SYS_OnZoneChange 0x0202B90C thumb arm9
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
+ *   BGM_INFO_GetIssMode  0x02006E7C  thumb
  */
 #include "iss_sys_shared_types.h"
 
@@ -189,7 +190,7 @@ extern u16 GFL_USE_GetBgmNo(void);
 
 extern const BgmInfoTable *GAME_DATA_GetBagCursor(const GameData *gameData);
 
-extern u8 func_02006E7C(const BgmInfoTable *table, u16 bgmId);
+extern u8 BGM_INFO_GetIssMode(const BgmInfoTable *table, u16 bgmId);
 
 IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId);
 
@@ -627,7 +628,7 @@ u8 ISS_SYS_GetBgmMode(IssSys *iss)
 {
     const BgmInfoTable *table = GAME_DATA_GetBagCursor(iss->gameData);
 
-    return func_02006E7C(table, (u16)ISS_SYS_GetCurrentBgmId());
+    return BGM_INFO_GetIssMode(table, (u16)ISS_SYS_GetCurrentBgmId());
 }
 
 /* 1 when the BGM differs from the one the last update saw, else 0. */

@@ -22,17 +22,17 @@
  *   GAME_DATA_IsConfigFlagSet  0x02012BB0  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   _GameDataFileName  0x020A728C  data
- *   func_020070A4  0x020070A4  thumb
+ *   SAVE_CONTROL_Get  0x020070A4  thumb
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
- *   func_02008854  0x02008854  thumb
- *   func_02008844  0x02008844  thumb
- *   func_02008848  0x02008848  thumb
- *   func_0200884C  0x0200884C  thumb
+ *   PLAYER_LOCATION_GetData  0x02008854  thumb
+ *   PLAYER_LOCATION_Nop  0x02008844  thumb
+ *   PLAYER_LOCATION_GetLocationA  0x02008848  thumb
+ *   PLAYER_LOCATION_GetLocationB  0x0200884C  thumb
  *   BGM_INFO_Create  0x02006E40  thumb
  *   GAME_DATA_InitPlayerWork  0x02012A60  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008730  0x02008730  thumb
+ *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
  *   memcpy         0x02082D44  arm
  *   EVENTDATA_SYSTEM_Create  0x0216237C  thumb  ov010
  *   EVENTDATA_SYSTEM_Clear  0x021623DC  thumb  ov010
@@ -43,8 +43,8 @@
  *   FIELD_SOUND_SYSTEM_Create  0x02028844  thumb
  *   FIELD_STATUS_Create  0x02014428  thumb
  *   MYITEM_SAVEDATA_CreateBagCursor  0x02008254  thumb
- *   func_0200873C  0x0200873C  thumb
- *   func_02007AA4  0x02007AA4  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
+ *   BOX_SAVEDATA_CreateWordHolder  0x02007AA4  thumb
  *   WIFILIST_Create  0x020097C4  thumb
  *   INTRUDE_InitOccupy  0x0200BDE4  thumb
  *   EVENT_FIELD_PROCLINK_InitEventdataSystem  0x02161D98  thumb  ov010
@@ -60,7 +60,7 @@
  *   BEACON_STATUS_Delete   0x02027584  thumb
  *   COMM_PLAYER_SUPPORT_Delete   0x0202E794  thumb
  *   FIELD_ENCOUNT_ST_Delete   0x0215E334  thumb  ov010
- *   func_02006E64   0x02006E64  thumb
+ *   BGM_INFO_Free   0x02006E64  thumb
  *   BOX_SAVEDATA_Delete   0x02007AC8  thumb
  *   FLDMMDL_DeleteSys   0x0216CCB0  thumb  ov010
  *   MAP_MATRIX_Delete   0x02159BBC  thumb  ov010
@@ -68,7 +68,7 @@
  *   FIELD_STATUS_Delete   0x02014444  thumb
  *   FIELD_SOUND_SYSTEM_Delete   0x0202889C  thumb
  *   EVENT_FIELD_PROCLINK_CheckZoneFlag  0x02161D64  thumb  ov010
- *   func_02008850  0x02008850  thumb
+ *   PLAYER_LOCATION_GetShortData  0x02008850  thumb
  *   GAME_DATA_SetConfigFlag  0x02012BC8  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   MI_CpuCopy8  0x02082D44  arm
@@ -82,37 +82,37 @@
  *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
  *   RECENT_ID_LIST_SAVEDATA_SetId  0x0200C418  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02008808  0x02008808  thumb
- *   func_020088B8  0x020088B8  thumb
+ *   SYSTEM_DATA_CopyMyStatus  0x02008808  thumb
+ *   PLAYER_LOCATION_CopyRecordToBuffer  0x020088B8  thumb
  *   NET_DEVICE_TABLE_Setup  0x0200EEAC  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   INTRUDE_LoadOccupy  0x0200BE6C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   MUSICAL_SHOT_CopyPhotoRev  0x0200A884  thumb
  *   GIMMICK_WORK_Load  0x0200B3C8  thumb
- *   func_0200893C  0x0200893C  thumb
- *   func_02008954  0x02008954  thumb
- *   func_02009D08  0x02009D08  thumb
+ *   PLAYER_LOCATION_WriteStyleTo  0x0200893C  thumb
+ *   PLAYER_LOCATION_GetFlagA  0x02008954  thumb
+ *   WIFILIST_GetFromSave  0x02009D08  thumb
  *   WIFILIST_Copy  0x020097F0  thumb
- *   func_02008964  0x02008964  thumb
- *   func_0200E89C  0x0200E89C  thumb
- *   func_02008748  0x02008748  thumb
- *   func_0200863C  0x0200863C  thumb
- *   func_020087E8  0x020087E8  thumb
- *   func_02008860  0x02008860  thumb
+ *   PLAYER_LOCATION_GetFlagB  0x02008964  thumb
+ *   MISC_SAVEDATA_LoadScratch16  0x0200E89C  thumb
+ *   SYSTEM_DATA_GetPlayTime  0x02008748  thumb
+ *   PLAYTIME_Copy  0x0200863C  thumb
+ *   SYSTEM_DATA_SetMyStatus  0x020087E8  thumb
+ *   PLAYER_LOCATION_SetRecordFromBuffer  0x02008860  thumb
  *   NET_DEVICE_TABLE_BuildFromProducer  0x0200EE64  thumb
  *   INTRUDE_StoreOccupy  0x0200BE54  thumb
  *   MUSICAL_SHOT_CopyPhoto  0x0200A870  thumb
  *   GIMMICK_WORK_Save  0x0200B3B0  thumb
- *   func_0200892C  0x0200892C  thumb
- *   func_0200894C  0x0200894C  thumb
- *   func_0200895C  0x0200895C  thumb
+ *   PLAYER_LOCATION_ReadStyleFrom  0x0200892C  thumb
+ *   PLAYER_LOCATION_SetFlagA  0x0200894C  thumb
+ *   PLAYER_LOCATION_SetFlagB  0x0200895C  thumb
  *   MISC_SAVEDATA_SaveScratch16  0x0200E884  thumb
- *   func_02008658  0x02008658  thumb
+ *   PLAYTIME_SetStampNow  0x02008658  thumb
  *   TRADE_HISTORY_GetFromSave  0x02009EC8  thumb
- *   func_020089C0  0x020089C0  thumb
+ *   TRCARD_SIGN_GetFromSave  0x020089C0  thumb
  *   GAME_SYNC_GetBlock  0x02009448  thumb
- *   func_02007B44  0x02007B44  thumb
+ *   PERAPVOICE_GetFromSave  0x02007B44  thumb
  *   SAVE_CONTROL_StartSave  0x02007150  thumb
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   SAVE_CONTROL_CancelSave  0x020071A8  thumb
@@ -131,6 +131,7 @@
  *   UI_TestKeepAwakeFlagsGlobal  0x02034FE8  arm
  *   UI_SetFlags39Global  0x0203516C  arm
  *   UI_ClearFlags39Global  0x020351A0  arm
+ *   PLAYTIME_AddSeconds  0x020085D4  thumb
  */
 #include "btl_setup_types.h"
 #include "script_vm_types.h"
@@ -147,17 +148,17 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct SaveControl *func_020070A4(void);
+extern struct SaveControl *SAVE_CONTROL_Get(void);
 
 extern u8    COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 
-extern struct Situation *func_02008854(struct SaveControl *saveControl);
+extern struct Situation *PLAYER_LOCATION_GetData(struct SaveControl *saveControl);
 
-extern struct Location *func_02008844(u32 situation);
+extern struct Location *PLAYER_LOCATION_Nop(u32 situation);
 
-extern struct Location *func_02008848(struct Situation *situation);
+extern struct Location *PLAYER_LOCATION_GetLocationA(struct Situation *situation);
 
-extern struct Location *func_0200884C(struct Situation *situation);
+extern struct Location *PLAYER_LOCATION_GetLocationB(struct Situation *situation);
 
 extern struct BagCursor *BGM_INFO_Create(u32 heapId);
 
@@ -167,7 +168,7 @@ extern int MYSTATUS_GetSize(void);
 
 struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern struct PlayerStatus *func_02008730(struct SaveControl *saveControl);
+extern struct PlayerStatus *SYSTEM_DATA_GetMyStatus(struct SaveControl *saveControl);
 
 extern void *memcpy(void *dst, const void *src, u32 size);
 
@@ -189,9 +190,9 @@ extern u32   FIELD_STATUS_Create(int heapId);
 
 extern void *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId);
 
-extern struct Config *func_0200873C(struct SaveControl *saveControl);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
 
-extern u32 *func_02007AA4(u32 heapId, u32 saveControl);
+extern u32 *BOX_SAVEDATA_CreateWordHolder(u32 heapId, u32 saveControl);
 
 extern void *WIFILIST_Create(int heapId);
 
@@ -223,7 +224,7 @@ extern void COMM_PLAYER_SUPPORT_Delete(void *pmsWork);
 
 extern void FIELD_ENCOUNT_ST_Delete(void *fieldGimmick);
 
-extern void func_02006E64(struct BagCursor *bagCursor);
+extern void BGM_INFO_Free(struct BagCursor *bagCursor);
 
 extern void BOX_SAVEDATA_Delete(void *boxManager);
 
@@ -249,7 +250,7 @@ extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int unionInfo);
 
-extern u16 *func_02008850(struct Situation *situation);
+extern u16 *PLAYER_LOCATION_GetShortData(struct Situation *situation);
 
 struct GameData *GAME_DATA_Create(u16 heapId);
 
@@ -344,8 +345,8 @@ extern const char _GameDataFileName[];
  *
  * 2. THE memcpy ARGUMENTS ARE EVALUATED THROUGH TWO NAMED LOCALS, in the
  *    original's order: `n = MYSTATUS_GetSize(); src = GAME_DATA_GetMyStatus(p);` and
- *    only then `memcpy(func_02008730(*(u32 *)p), src, n)`.  Written as one
- *    nested expression mwcc schedules func_02008730 first and the whole
+ *    only then `memcpy(SYSTEM_DATA_GetMyStatus(*(u32 *)p), src, n)`.  Written as one
+ *    nested expression mwcc schedules SYSTEM_DATA_GetMyStatus first and the whole
  *    tail of the function reallocates: that alone was 169 of the 176
  *    mismatches.  (docs/idioms/an-inline-call-argument-is-scheduled-per-site-
  *    a-local-is-not.md)
@@ -363,15 +364,15 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     void *eventData;
 
     gameData = GFL_HEAP_Alloc(heapId, sizeof(struct GameData), 1, _GameDataFileName, 0xAD);
-    gameData->saveControl = func_020070A4();
+    gameData->saveControl = SAVE_CONTROL_Get();
     gameData->season = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     gameData->subscreenType = 0;
 
-    gameData->situation = (u32)func_02008854(gameData->saveControl);
-    gameData->startLocation = func_02008844(gameData->situation);
-    gameData->entranceLocation = func_02008844(gameData->situation);
-    gameData->specialLocation = func_02008848((struct Situation *)gameData->situation);
-    gameData->escapeLocation = func_0200884C((struct Situation *)gameData->situation);
+    gameData->situation = (u32)PLAYER_LOCATION_GetData(gameData->saveControl);
+    gameData->startLocation = PLAYER_LOCATION_Nop(gameData->situation);
+    gameData->entranceLocation = PLAYER_LOCATION_Nop(gameData->situation);
+    gameData->specialLocation = PLAYER_LOCATION_GetLocationA((struct Situation *)gameData->situation);
+    gameData->escapeLocation = PLAYER_LOCATION_GetLocationB((struct Situation *)gameData->situation);
 
     gameData->bagCursor = (u32)BGM_INFO_Create(heapId);
 
@@ -381,7 +382,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
 
     statusSize = MYSTATUS_GetSize();
     status = GAME_DATA_GetMyStatus(gameData);
-    memcpy(func_02008730(gameData->saveControl), status, statusSize);
+    memcpy(SYSTEM_DATA_GetMyStatus(gameData->saveControl), status, statusSize);
 
     gameData->eventData = eventData = (void *)EVENTDATA_SYSTEM_Create(heapId);
     EVENTDATA_SYSTEM_Clear(eventData);
@@ -393,8 +394,8 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->mapMatrix = (u32)MYITEM_SAVEDATA_CreateBagCursor(heapId);
     gameData->myItem = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x19);
     gameData->myParty = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x1A);
-    gameData->config = func_0200873C(gameData->saveControl);
-    gameData->boxManager = (u32)func_02007AA4(heapId, (u32)gameData->saveControl);
+    gameData->config = SYSTEM_DATA_GetConfig(gameData->saveControl);
+    gameData->boxManager = (u32)BOX_SAVEDATA_CreateWordHolder(heapId, (u32)gameData->saveControl);
     gameData->wifiList = (u32)WIFILIST_Create(heapId);
 
     for (i = 0; i < 4; i++) {
@@ -450,7 +451,7 @@ void GAME_DATA_Delete(struct GameData *gameData)
     BEACON_STATUS_Delete(gameData->itemUseWork);
     COMM_PLAYER_SUPPORT_Delete((void *)gameData->pmsWork);
     FIELD_ENCOUNT_ST_Delete((void *)gameData->fieldGimmick);
-    func_02006E64((struct BagCursor *)gameData->bagCursor);
+    BGM_INFO_Free((struct BagCursor *)gameData->bagCursor);
     GFL_HEAP_Free((void *)gameData->wifiList);
     BOX_SAVEDATA_Delete((void *)gameData->boxManager);
     GFL_HEAP_Free((void *)gameData->mapMatrix);
@@ -599,7 +600,7 @@ void GAME_DATA_ClearUnionInfo(struct GameData *gameData)
  *
  * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
  * next file starts, because GAME_DATA_SetWarpId and GAME_DATA_GetSituationWarpId are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
+ * callers of PLAYER_LOCATION_GetShortData in the image: one range holding both leaves the
  * `label` class no witness and the whole unit reads MATCH with every concrete
  * byte right.  Split, each is the other's outside witness and both are EXACT.
  * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
@@ -673,7 +674,7 @@ void GAME_DATA_SetField170(struct GameData *gameData, const struct Location *loc
 
 void GAME_DATA_SetWarpId(const struct GameData *gameData, u16 warpId)
 {
-    *func_02008850((struct Situation *)gameData->situation) = warpId;
+    *PLAYER_LOCATION_GetShortData((struct Situation *)gameData->situation) = warpId;
 }
 
 struct FieldState;
@@ -694,9 +695,9 @@ extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(struct SaveControl *save);
 
 extern void RECENT_ID_LIST_SAVEDATA_ContainsId(void *flags, u32 id);
 
-extern void func_02008808(struct SaveControl *save, struct PlayerWork *dest);
+extern void SYSTEM_DATA_CopyMyStatus(struct SaveControl *save, struct PlayerWork *dest);
 
-extern void func_020088B8(struct SaveControl *save, struct PlayerWork *dest);
+extern void PLAYER_LOCATION_CopyRecordToBuffer(struct SaveControl *save, struct PlayerWork *dest);
 
 extern void NET_DEVICE_TABLE_Setup(void *occupy, void *block);
 
@@ -706,25 +707,25 @@ extern void MUSICAL_SHOT_CopyPhotoRev(const struct UnionInfo *src, struct UnionI
 
 extern void GIMMICK_WORK_Load(struct SaveControl *save, const struct FieldSaveData *src);
 
-extern void func_0200893C(const struct Situation *situation, void *dest);
+extern void PLAYER_LOCATION_WriteStyleTo(const struct Situation *situation, void *dest);
 
-extern void func_02008954(const struct Situation *situation, u8 *out);
+extern void PLAYER_LOCATION_GetFlagA(const struct Situation *situation, u8 *out);
 
-extern struct FieldState *func_02009D08(struct SaveControl *save);
+extern struct FieldState *WIFILIST_GetFromSave(struct SaveControl *save);
 
 extern void WIFILIST_Copy(const struct FieldState *src, struct FieldState *dest);
 
-extern void func_02008964(const struct Situation *situation, u8 *out);
+extern void PLAYER_LOCATION_GetFlagB(const struct Situation *situation, u8 *out);
 
-extern void func_0200E89C(struct SaveControl *save, void *dest);
+extern void MISC_SAVEDATA_LoadScratch16(struct SaveControl *save, void *dest);
 
-extern struct PlayTime *func_02008748(struct SaveControl *save);
+extern struct PlayTime *SYSTEM_DATA_GetPlayTime(struct SaveControl *save);
 
-extern void func_0200863C(struct PlayTime *dest, const struct PlayTime *src);
+extern void PLAYTIME_Copy(struct PlayTime *dest, const struct PlayTime *src);
 
-extern void func_020087E8(struct SaveControl *save, const struct PlayerWork *src);
+extern void SYSTEM_DATA_SetMyStatus(struct SaveControl *save, const struct PlayerWork *src);
 
-extern void func_02008860(struct SaveControl *save, const struct PlayerWork *src);
+extern void PLAYER_LOCATION_SetRecordFromBuffer(struct SaveControl *save, const struct PlayerWork *src);
 
 extern void NET_DEVICE_TABLE_BuildFromProducer(void *occupy, void *block);
 
@@ -734,15 +735,15 @@ extern void MUSICAL_SHOT_CopyPhoto(struct UnionInfo *dest, const struct UnionInf
 
 extern void GIMMICK_WORK_Save(struct FieldSaveData *dest, struct SaveControl *save);
 
-extern void func_0200892C(struct Situation *situation, const void *src);
+extern void PLAYER_LOCATION_ReadStyleFrom(struct Situation *situation, const void *src);
 
-extern void func_0200894C(struct Situation *situation, u8 value);
+extern void PLAYER_LOCATION_SetFlagA(struct Situation *situation, u8 value);
 
-extern void func_0200895C(struct Situation *situation, u8 value);
+extern void PLAYER_LOCATION_SetFlagB(struct Situation *situation, u8 value);
 
 extern void MISC_SAVEDATA_SaveScratch16(void *src, struct SaveControl *save);
 
-extern void func_02008658(struct PlayTime *playTime);
+extern void PLAYTIME_SetStampNow(struct PlayTime *playTime);
 
 extern void WIH_DWC_PauseTimers(void);
 
@@ -774,13 +775,13 @@ extern void *BEACON_GetBlock(struct SaveControl *save);
 
 extern void *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
 
-extern void *func_020089C0(struct SaveControl *save);
+extern void *TRCARD_SIGN_GetFromSave(struct SaveControl *save);
 
 extern void *GAME_SYNC_GetBlock(struct SaveControl *save);
 
-extern void *func_02007B44(struct SaveControl *save);
+extern void *PERAPVOICE_GetFromSave(struct SaveControl *save);
 
-extern u32 func_020085D4(struct PlayTime *playTime, u32 limit);
+extern u32 PLAYTIME_AddSeconds(struct PlayTime *playTime, u32 limit);
 
 extern const u16 sPlayerDirectionAngles[];
 
@@ -973,7 +974,7 @@ void *GAME_DATA_GetSaveBlock43(struct GameData *gd);
 /*
  * Sixteen bytes.  The other half of the cut described in the header of
  * src/matched/unit_0201283C.c: this call site and the one at 0x0201290A are
- * the only two references to func_02008850 in the image, so they have to sit
+ * the only two references to PLAYER_LOCATION_GetShortData in the image, so they have to sit
  * in different ranges for either of them to be attested.
  *
  * Addresses are Black-image addresses.
@@ -984,7 +985,7 @@ void *GAME_DATA_GetSaveBlock43(struct GameData *gd);
  */
 u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd)
 {
-    return *func_02008850((struct Situation *)gd->situation);
+    return *PLAYER_LOCATION_GetShortData((struct Situation *)gd->situation);
 }
 
 /*
@@ -1409,7 +1410,7 @@ u32 GAME_DATA_IsConfigFlagSet(const struct GameData *gd)
 
 /*
  * Forward a boolean-normalised flag to CONFIG_SetBattleFlag on the object held at
- * +0x198 of the game-data object (func_0200873C(handle) in GAME_DATA_Create).
+ * +0x198 of the game-data object (SYSTEM_DATA_GetConfig(handle) in GAME_DATA_Create).
  *
  * The tail call's pool word names 0x02008450, an unlabelled Thumb leaf
  * (the bit-10 setter beside the labelled getter CONFIG_GetBattleFlag); this
@@ -1482,9 +1483,9 @@ u8 *GAME_DATA_GetRtcWork(struct GameData *gd)
  * docs/notes/pkt_02012C18.c.txt recorded this as an unmovable register
  * rotation (r4/r6/r7) -- it was not.  The rotation was downstream of ONE
  * wrong argument order: the original is
- *     WIFILIST_Copy(func_02009D08(*(u32 *)p), v);
+ *     WIFILIST_Copy(WIFILIST_GetFromSave(*(u32 *)p), v);
  * i.e. the inner call's result is argument 1 and the 0x0201283C result is
- * argument 2, the OPPOSITE of the sibling's WIFILIST_Copy(v, func_02009D08())
+ * argument 2, the OPPOSITE of the sibling's WIFILIST_Copy(v, WIFILIST_GetFromSave())
  * at 0x02012D6E.  With the arguments the sibling's way, mwcc needs an extra
  * `adds r0, r7, #0` at the call, which shifts everything after it by two
  * bytes, forces the trailing `c046` pool-alignment nop, and reallocates the
@@ -1506,8 +1507,8 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
         return;
     }
     player = GAME_DATA_GetField114(gd);
-    func_02008808(gd->saveControl, player);
-    func_020088B8(gd->saveControl, player);
+    SYSTEM_DATA_CopyMyStatus(gd->saveControl, player);
+    PLAYER_LOCATION_CopyRecordToBuffer(gd->saveControl, player);
     occupy = GAME_DATA_GetOccupyInfo(gd);
     NET_DEVICE_TABLE_Setup(occupy, SAVE_CONTROL_GetBlock(gd->saveControl, 0x29));
     INTRUDE_LoadOccupy(gd->saveControl, (u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
@@ -1515,14 +1516,14 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     MUSICAL_SHOT_CopyPhotoRev(MUSICAL_SHOT_GetFromSave(gd->saveControl), unionInfo);
     GIMMICK_WORK_Load(gd->saveControl, (const struct FieldSaveData *)gd->fieldSave);
     situation = gd->situation;
-    func_0200893C((const struct Situation *)situation, gd->moveModelSys);
-    func_02008954((const struct Situation *)situation, &gd->season);
+    PLAYER_LOCATION_WriteStyleTo((const struct Situation *)situation, gd->moveModelSys);
+    PLAYER_LOCATION_GetFlagA((const struct Situation *)situation, &gd->season);
     fieldState = GAME_DATA_GetField1A0(gd);
-    WIFILIST_Copy(func_02009D08(gd->saveControl), fieldState);
-    func_02008964((const struct Situation *)gd->situation, &gd->subscreenMode);
-    func_0200E89C(gd->saveControl, gd->saveSyncBlock);
-    savedTime = func_02008748(gd->saveControl);
-    func_0200863C(gd->playTime, savedTime);
+    WIFILIST_Copy(WIFILIST_GetFromSave(gd->saveControl), fieldState);
+    PLAYER_LOCATION_GetFlagB((const struct Situation *)gd->situation, &gd->subscreenMode);
+    MISC_SAVEDATA_LoadScratch16(gd->saveControl, gd->saveSyncBlock);
+    savedTime = SYSTEM_DATA_GetPlayTime(gd->saveControl);
+    PLAYTIME_Copy(gd->playTime, savedTime);
 }
 
 /*
@@ -1549,8 +1550,8 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     struct PlayTime *savedTime;
     u32 situation;
     player = GAME_DATA_GetField114(gd);
-    func_020087E8(gd->saveControl, player);
-    func_02008860(gd->saveControl, player);
+    SYSTEM_DATA_SetMyStatus(gd->saveControl, player);
+    PLAYER_LOCATION_SetRecordFromBuffer(gd->saveControl, player);
     occupy = GAME_DATA_GetOccupyInfo(gd);
     NET_DEVICE_TABLE_BuildFromProducer(occupy, SAVE_CONTROL_GetBlock(gd->saveControl, 0x29));
     INTRUDE_StoreOccupy(gd->saveControl, (const u16 *)GAME_DATA_GetLastBattleRecSlot(gd));
@@ -1558,15 +1559,15 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     MUSICAL_SHOT_CopyPhoto(MUSICAL_SHOT_GetFromSave(gd->saveControl), unionInfo);
     GIMMICK_WORK_Save((struct FieldSaveData *)gd->fieldSave, gd->saveControl);
     situation = gd->situation;
-    func_0200892C((struct Situation *)situation, gd->moveModelSys);
-    func_0200894C((struct Situation *)situation, gd->season);
+    PLAYER_LOCATION_ReadStyleFrom((struct Situation *)situation, gd->moveModelSys);
+    PLAYER_LOCATION_SetFlagA((struct Situation *)situation, gd->season);
     fieldState = GAME_DATA_GetField1A0(gd);
-    WIFILIST_Copy(fieldState, func_02009D08(gd->saveControl));
-    func_0200895C((struct Situation *)gd->situation, gd->subscreenMode);
+    WIFILIST_Copy(fieldState, WIFILIST_GetFromSave(gd->saveControl));
+    PLAYER_LOCATION_SetFlagB((struct Situation *)gd->situation, gd->subscreenMode);
     MISC_SAVEDATA_SaveScratch16(gd->saveSyncBlock, gd->saveControl);
-    savedTime = func_02008748(gd->saveControl);
-    func_02008658(gd->playTime);
-    func_0200863C(savedTime, gd->playTime);
+    savedTime = SYSTEM_DATA_GetPlayTime(gd->saveControl);
+    PLAYTIME_SetStampNow(gd->playTime);
+    PLAYTIME_Copy(savedTime, gd->playTime);
 }
 
 int GAME_DATA_SaveStart(struct GameData *gd)
@@ -1779,14 +1780,14 @@ u32 *GAME_DATA_GetListCursor(struct GameData *gd)
 
 /*
  * Save-block getter through the handle's first word: tail call to
- * func_020089C0 (block 0x21, src/matched/unit_020089A8.c).  Seeded from ov111
+ * TRCARD_SIGN_GetFromSave (block 0x21, src/matched/unit_020089A8.c).  Seeded from ov111
  * 0x021C40FC, 0x021C4126, 0x021C6208 and ov010 0x0215AC8E.
  *
  * Addresses are Black-image addresses.
  */
 void *GAME_DATA_GetSaveBlock21(struct GameData *gd)
 {
-    return func_020089C0(gd->saveControl);
+    return TRCARD_SIGN_GetFromSave(gd->saveControl);
 }
 
 /*
@@ -1825,11 +1826,11 @@ void *GAME_DATA_GetSaveBlockWork(struct GameData *gd)
 }
 
 /*
- * Unlabelled leaf: tail-calls func_02007B44(*(void **)p).
+ * Unlabelled leaf: tail-calls PERAPVOICE_GetFromSave(*(void **)p).
  */
 void *GAME_DATA_GetBoxSave(struct GameData *gd)
 {
-    return func_02007B44(gd->saveControl);
+    return PERAPVOICE_GetFromSave(gd->saveControl);
 }
 
 /*
@@ -1855,7 +1856,7 @@ int GAME_DATA_GetSymbolMapFlag(struct GameData *gd)
  */
 u32 GAME_DATA_CheckPlayTime(struct GameData *gd, u32 limit)
 {
-    return func_020085D4(gd->playTime, limit);
+    return PLAYTIME_AddSeconds(gd->playTime, limit);
 }
 
 struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd)

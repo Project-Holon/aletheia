@@ -27,11 +27,11 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   ov091_id        0x0000005B  data
  *   ov131_id        0x00000083  data
  *   GAMESYSTEM_CallFieldProc  0x020120C0  thumb
- *   func_020122C0  0x020122C0  thumb
+ *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -847,9 +847,7 @@ int func_02014878(struct GameEvent *event, u32 *seq, void *work)
     return 0;
 }
 
-extern void *func_020122C0(void *owner, void *parent, void *callback, u32 workSize);
 
-extern void *func_020124E8(void *task);
 
 void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
 
@@ -863,8 +861,8 @@ void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int
  */
 void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target)
 {
-    void *task = func_020122C0(anime, 0, (void *)((int)func_02014878), 0x10);
-    u32 *taskWork = func_020124E8(task);
+    void *task = GAME_EVENT_Create(anime, 0, (void *)((int)func_02014878), 0x10);
+    u32 *taskWork = GAME_EVENT_GetWork(task);
 
     taskWork[0] = (u32)anime;
     taskWork[1] = slot;

@@ -196,7 +196,7 @@
  *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb
  *   d_021F63C8     0x021F63C8  data  a4
  *   sBtlMsgSidePairIds     0x021F39A0  data  a2
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4

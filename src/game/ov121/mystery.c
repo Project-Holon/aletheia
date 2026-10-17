@@ -53,7 +53,7 @@
  *   MYSTERY_UTIL_GetTaskField04 0x021DA8AC thumb ov121
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -62,17 +62,17 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   MYSTERY_UTIL_BlendPalette 0x021DAAA4 thumb ov121
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -142,9 +142,9 @@
  *   MYSTERY_UTIL_ClearWindowList 0x021DA2A8 thumb ov121
  *   MYSTERY_UTIL_DeleteWindowList 0x021DA280 thumb ov121
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
  *   POKE_TOOL_SetupPartyParamEx 0x02017588 thumb
@@ -154,8 +154,8 @@
  *   POKE_TOOL_PushMove 0x020180F4 thumb
  *   POKE_TOOL_SetAbility 0x02018A00 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_020084F4 0x020084F4 thumb
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
@@ -462,7 +462,7 @@ extern int MYSTERY_UTIL_Update(void **);
 extern int MYSTERY_UTIL_GetTaskField04(u32 *p);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68();
+extern void ARC_UTIL_UploadPaletteFromHandleWhole();
 extern void ARC_UTIL_UploadBgCharFromHandle();
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -471,17 +471,17 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 GFL_HEAP_Free(void *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void CLACT_TransferPalette(void *,void *,int);
 extern s32 MYSTERY_UTIL_BlendPalette(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -553,9 +553,9 @@ extern void *MYSTERY_UTIL_CreateWindowList(int,MysteryPartyDesc *,int,int,int,vo
 extern void MYSTERY_UTIL_ClearWindowList(u8 *p);
 extern void MYSTERY_UTIL_DeleteWindowList(u8 *p);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern u32 func_020056EC(u32);
+extern u32 GFL_USE_GetRandom(u32);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
@@ -565,8 +565,8 @@ extern u32 POKE_TOOL_AddMove(void *,u32);
 extern void POKE_TOOL_PushMove(void *p, int move);
 extern void POKE_TOOL_SetAbility(void *,u32,u32);
 extern u16 STRBUF_GetEosChar(void);
-extern const void *func_020084F4(const void *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern const void *MYSTATUS_GetName(const void *p);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *POKE_TOOL_Dummy(void *);
 extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
@@ -795,17 +795,17 @@ void MYSTERY_SetupBg(u16 *p,int mode)
     switch (mode) {
     case 0:
         arc=ARC_TOOL_CreateHandle(34,heap);
-        func_02049B68(arc,6,0,0,0,heap);
-        func_02049B68(arc,6,4,0,128,heap);
-        func_02049B68(arc,7,4,32,32,heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,0,0,0,heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,4,0,128,heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,7,4,32,32,heap);
         ARC_UTIL_UploadBgCharFromHandle(arc,15,3,0,0,0,heap);
         ARC_UTIL_UploadBgCharFromHandle(arc,15,7,0,0,0,heap);
         ARC_UTIL_UploadBgPaletteFromHandle(arc,31,3,0,0,0,heap);
         ARC_UTIL_UploadBgPaletteFromHandle(arc,31,7,0,0,0,heap);
         ARC_TOOL_DeleteHandle(arc);
         arc=ARC_TOOL_CreateHandle(23,heap);
-        func_02049B68(arc,5,0,480,32,heap);
-        func_02049B68(arc,5,4,480,32,heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,5,0,480,32,heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,5,4,480,32,heap);
         ARC_TOOL_DeleteHandle(arc);
         BMP_MENUWORK_LoadCharAndPltt(1,10,14,0,heap);
         BMP_MENUWORK_LoadCharAndPltt(0,1,13,0,heap);
@@ -814,7 +814,7 @@ void MYSTERY_SetupBg(u16 *p,int mode)
         break;
     case 1:
         arc=ARC_TOOL_CreateHandle(34,heap);
-        func_02049B68(arc,6,4,0,192,heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,4,0,192,heap);
         ARC_UTIL_UploadBgCharFromHandle(arc,15,6,0,0,0,heap);
         ARC_UTIL_UploadBgPaletteFromHandle(arc,21,6,0,0,0,heap);
         ARC_TOOL_DeleteHandle(arc);
@@ -850,7 +850,7 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     *(int *)&((MysteryClactActor *)p)->palette.val=CLACT_RegisterPalette(arc,8,2,0,heap);
     *(int *)&((MysteryClactActor *)p)->cellAnim.val=CLACT_RegisterCellAnim(arc,34,37,heap);
     *(int *)&((MysteryClactActor *)p)->character.val=CLACT_RegisterCharacter(arc,16,0,2,heap);
-    allocation=func_02049F78(arc,8,(u32)(&res),heap);
+    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,8,(u32)(&res),heap);
     data=*(char * *)&((MysteryClactResource *)res)->data;
     MI_CpuCopy8(data,p+0xda,32);
     data+=32;
@@ -863,10 +863,10 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     bound=256;
     bound+=16;
     for (i=0;i<32;i++) {
-        point.x=func_02005728(256);
-        point.y=func_02005728(256)-bound;
+        point.x=GFL_USE_GetRandomBelow(256);
+        point.y=GFL_USE_GetRandomBelow(256)-bound;
         point.b=3;
-        point.z=func_02005728(6)+3;
+        point.z=GFL_USE_GetRandomBelow(6)+3;
         *(void **)(p+i*4+16)=CLACT_CreateActor((void *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,&point,0,heap);
         CLACT_SetActorDrawEnable(*(void **)(p+i*4+16),0);
     }
@@ -910,7 +910,7 @@ void MYSTERY_TransferPalette(u8 *p,int heap)
 {
     void *out;
     void *raw;
-    raw=func_02049F34(34,8,(u32)(&out),heap);
+    raw=ARC_UTIL_LoadPaletteBlockFromArchive(34,8,(u32)(&out),heap);
     CLACT_TransferPalette(((MysteryClactActor *)p)->palette.ptr,out,7);
     GFL_HEAP_Free(raw);
 }
@@ -1747,7 +1747,7 @@ void MYSTERY_CreateCardMenu(u8 *p,u32 which,int heap)
         break;
     }
     archive=ARC_TOOL_CreateHandle(34,heap);
-    func_02049B68(archive,6,0,0,160,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive,6,0,0,160,heap);
     ARC_UTIL_UploadBgCharFromHandle(archive,15,2,0,0,0,heap);
     if(which==2) ARC_UTIL_UploadBgPaletteFromArchive(34,30,2,0,0,0,heap);
     else ARC_UTIL_UploadBgPaletteFromArchive(34,29,2,0,0,0,heap);
@@ -1922,7 +1922,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
     O(40)=(u32)a6;O(36)=(u32)a5;OH(0)=heap;O(276)=(u32)desc;OH(296)=0;OH(298)=0;
     if(desc[714]) palette=3;
     else palette=d_021DF4F2[desc[179]];
-    buf=func_02049F34(34,2,(u32)&work.resdesc,heap);
+    buf=ARC_UTIL_LoadPaletteBlockFromArchive(34,2,(u32)&work.resdesc,heap);
     base=*(u8 **)((u8 *)work.resdesc+12);
     MI_CpuCopy8(base,out+146,32);
     MI_CpuCopy8(base+palette*32,out+114,32);
@@ -1937,15 +1937,15 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         work.iv[3]=desc[71];work.iv[4]=desc[72];work.iv[5]=desc[70];
         work.move[0]=H(18);work.move[1]=H(20);work.move[2]=H(22);work.move[3]=H(24);
         if(desc[179]!=1 || species>649 || species==0 || level>100 || H(16)>626) goto image;
-        if(level==0) level=(u16)(func_020056EC(100)+1);
-        if(D(0)==0) otId=func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
+        if(level==0) level=(u16)(GFL_USE_GetRandom(100)+1);
+        if(D(0)==0) otId=MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
         if(gender==255) gender=2;
-        for(i=0;i<6;i++) if(work.iv[i]==255) work.iv[i]=func_020056EC(32);
+        for(i=0;i<6;i++) if(work.iv[i]==255) work.iv[i]=GFL_USE_GetRandom(32);
         id=otId;
         allocated=POKE_TOOL_Create(species,level,otId,0,tag);
         packed=(work.iv[0]&31)|((u32)work.iv[1]<<27>>22)|((u32)work.iv[2]<<27>>17)|
                ((u32)work.iv[3]<<27>>12)|((u32)work.iv[4]<<27>>7)|((u32)work.iv[5]<<27>>2);
-        if(ability==4) ability=(u8)func_020056EC(3);
+        if(ability==4) ability=(u8)GFL_USE_GetRandom(3);
         switch(ability) {
         case 0:selector=0;break;
         case 1:selector=1;break;
@@ -1984,15 +1984,15 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         }
         if(H(30)!=STRBUF_GetEosChar()) POKE_TOOL_SetPartyValue(allocated,116,(u32)(desc+30));
         value=desc[52];
-        if(value==255) value=(u8)func_020056EC(25);
+        if(value==255) value=(u8)GFL_USE_GetRandom(25);
         POKE_TOOL_SetPartyValue(allocated,112,value);
         POKE_TOOL_SetPartyValue(allocated,149,H(56));POKE_TOOL_SetPartyValue(allocated,150,H(58));
         if(H(74)==0) {GFL_HEAP_Free(allocated);mon=0;goto image;}
-        if(H(74)==STRBUF_GetEosChar()) POKE_TOOL_SetPartyValue(allocated,142,(u32)func_020084F4(GAME_DATA_GetMyStatus(save)));
+        if(H(74)==STRBUF_GetEosChar()) POKE_TOOL_SetPartyValue(allocated,142,(u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(save)));
         else POKE_TOOL_SetPartyValue(allocated,142,(u32)(desc+74));
         value=desc[90];
         if(value<=2) POKE_TOOL_SetPartyValue(allocated,154,value);
-        else {value=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
+        else {value=MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
         if(desc[92]) {
             POKE_TOOL_SetPartyValue(allocated,76,1);
             str=MSGDATA_AllocString(gSpeciesNameBank,650);
@@ -2346,7 +2346,7 @@ void MYSTERY_InitScroll(u8 *p,void *q,u16 h)
     for(i=0;i<32;i++) {
         CLACT_GetActorPos(MYSTERY_GetClactActor(((MysteryScroll *)p)->clactUnit,i+1),(struct Pt *)xy);
         ((MysteryScroll *)p)->y[i]=xy[1]<<12;
-        ((MysteryScroll *)p)->vy[i]=func_02005728(4096)+6554;
+        ((MysteryScroll *)p)->vy[i]=GFL_USE_GetRandomBelow(4096)+6554;
     }
 }
 

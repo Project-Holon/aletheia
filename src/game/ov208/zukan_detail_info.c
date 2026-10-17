@@ -38,7 +38,7 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
@@ -82,7 +82,7 @@
  *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
- *   ov208_func_021BF280  0x021BF280  thumb  ov208
+ *   ZUKAN_DETAIL_INFO_SelectLanguageButton  0x021BF280  thumb  ov208
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ZUKAN_INFO_SetPokemon 0x021BA550 thumb ov206
  *   ZUKAN_INFO_SetPokemonPage 0x021BA6B0 thumb ov206
@@ -249,7 +249,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern u32 KEY_GetRepeat(void);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
@@ -331,7 +331,6 @@ extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
 
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
-extern void ov208_func_021BF280(void *first, char *q, void *third, int next);
 
 extern void ZUKAN_INFO_SetPokemon(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6);
 
@@ -690,7 +689,7 @@ int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct Ov208InfoWork *
         }
     }
     if (res != 0) {
-        ov208_func_021BF280(a0, (char *)st, obj, st->f94);
+        ZUKAN_DETAIL_INFO_SelectLanguageButton(a0, (char *)st, obj, st->f94);
         *(u32 *)((u8 *)st + st->f94 * 0x14 + 0x2c) = 1;
         e = (struct ZukanDetailInfoLangSlot *)((u8 *)st + st->f94 * 0x14);
         CLACT_SetActorAnimSeq((struct Obj *)e->h1c, e->f26);
@@ -906,7 +905,7 @@ void ZUKAN_DETAIL_INFO_LoadHighlightPalettes(u16 *heap, u8 *p, int *ctx)
     struct Ov208Pltt *pltt;
     u32 file;
     u8 *data;
-    file = (u32)func_02049F34(159, 3, (u32)(&pltt), *heap);
+    file = (u32)ARC_UTIL_LoadPaletteBlockFromArchive(159, 3, (u32)(&pltt), *heap);
     data = pltt->data;
     MI_CpuCopy8(data + 0x20, p + 0xa8, 32);
     MI_CpuCopy8(data + 0x60, p + 0xc8, 32);

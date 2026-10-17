@@ -79,7 +79,7 @@
  *   gFieldMenuSurfaceRect     0x021D8C1C  data  a4
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -107,12 +107,12 @@
  *   gFieldMenuDefaultName     0x021D8C0C  data  ov021  a2
  *   STRBUF_Create  0x020457B0  arm
  *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
- *   func_020084F4  0x020084F4  thumb
+ *   MYSTATUS_GetName  0x020084F4  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   gFieldMenuMsgIds     0x021D8B34  data  a2
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   gFieldMenuIconRes     0x021D8CAC  data  ov021  a4
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   gFieldMenuWindowPos     0x021D8B18  data  ov021  a1
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -139,7 +139,7 @@
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
- *   func_02049EF4  0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_SetFlagField06  0x02041B6C  arm
  */
@@ -390,7 +390,7 @@ extern void BG_SYS_ResetSlot(u32 layer, u32 type, u32 value);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void BG_SYS_ClearSlot(u32 layer);
-extern void func_02049B68(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void ARC_UTIL_UploadBgCharFromHandle(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void *CLACT_RegisterPaletteEx(void *arcHandle, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
@@ -416,10 +416,10 @@ extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern int MYSTATUS_IsNameEmpty(const void *myStatus);
-extern const void *func_020084F4(const void *myStatus);
+extern const void *MYSTATUS_GetName(const void *myStatus);
 extern void STRBUF_SetString(void *strbuf, const void *src);
 extern void *MSGDATA_AllocString(void *msgBank, u32 index);
-extern u8 func_02008550(const void *myStatus);
+extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
 extern void STRBUF_Delete(void *strbuf);
 extern u32 MSGDATA_Delete(void *msgBank);
 extern short GF_STANDARD_Get_F684(unsigned short x);
@@ -441,7 +441,7 @@ extern void BMP_WIN_TransferChars(void *bmpWin);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
-extern void *func_02049EF4(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
 extern void BG_SYS_DrawTileEx(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_SetFlagField06(u8 layer);
 
@@ -763,7 +763,7 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     BG_SYS_SetPlaneVisible(7, 1);
     BG_SYS_ClearSlot(7);
     BG_SYS_FillScrollArea(6, 3, -FIELD_MENU_LAYER6_OFFSET);
-    func_02049B68(arcHandle, 0, 4, 0, 0, menu->subHeapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, 0, 4, 0, 0, menu->subHeapId);
     ARC_UTIL_UploadBgCharFromHandle(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arcHandle, gFieldMenuScreenIds[layoutType], 5, 0, 0, 0, menu->subHeapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arcHandle, 0xE, 7, 0, 0, 0, menu->subHeapId);
@@ -871,7 +871,7 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
         if (buttonId == FIELD_MENU_BUTTON_PLAYER) {
             init.text = STRBUF_Create(0x10, menu->subHeapId);
             if (MYSTATUS_IsNameEmpty(menu->myStatus) == 0) {
-                STRBUF_SetString(init.text, func_020084F4(menu->myStatus));
+                STRBUF_SetString(init.text, MYSTATUS_GetName(menu->myStatus));
             } else {
                 nameBuf = defaultName;
                 STRBUF_SetString(init.text, nameBuf.chars);
@@ -889,12 +889,12 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
             init.charId = gFieldMenuIconRes[buttonId].charId;
             init.cellId = gFieldMenuIconRes[buttonId].cellId;
             init.animId = gFieldMenuIconRes[buttonId].animId;
-            if (buttonId == 3 && func_02008550(menu->myStatus) == 1) {
+            if (buttonId == 3 && MYSTATUS_GetOutfitVariant(menu->myStatus) == 1) {
                 init.charId = 7;
                 init.cellId = 0x16;
                 init.animId = 0x20;
             }
-            if (buttonId == 2 && func_02008550(menu->myStatus) == 1) {
+            if (buttonId == 2 && MYSTATUS_GetOutfitVariant(menu->myStatus) == 1) {
                 init.charId = 0xC;
                 init.cellId = 0x1B;
                 init.animId = 0x25;
@@ -1203,9 +1203,9 @@ void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)
     void *arcHandle;
 
     arcHandle = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
-    func_02049B68(arcHandle, APP_ICON_GetStatusAnimFileId(), 4, 0x60, 0x20, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, APP_ICON_GetStatusAnimFileId(), 4, 0x60, 0x20, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arcHandle, APP_ICON_GetStatusFrameFileId(), layer, 0x80, 0, 0, heapId);
-    screenBuf = func_02049EF4(arcHandle, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, heapId);
+    screenBuf = ARC_UTIL_LoadPaletteDataFromHandle(arcHandle, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, heapId);
     ARC_TOOL_DeleteHandle(arcHandle);
     tiles = screen->tiles;
     for (i = 0; i < 0x300; i++) {

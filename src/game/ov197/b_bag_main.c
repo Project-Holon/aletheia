@@ -48,7 +48,7 @@
  *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   ARC_TOOL_LoadMember 0x02048F60 arm
- *   func_020081DC 0x020081DC thumb
+ *   MYITEM_SAVEDATA_GetSlot 0x020081DC thumb
  *   GFL_HEAP_Free 0x020307B0 arm
  *   d_0220DB3C 0x0220DB3C data a4
  *   d_0220DB3F 0x0220DB3F data a4
@@ -108,9 +108,9 @@
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   TCB_AddTask 0x02030DA8 arm
- *   func_0200829C 0x0200829C thumb
- *   func_020082B0 0x020082B0 thumb
- *   func_020082B4 0x020082B4 thumb
+ *   MYITEM_SAVEDATA_GetBattlePocketCursor 0x0200829C thumb
+ *   MYITEM_SAVEDATA_GetLastBattleItem 0x020082B0 thumb
+ *   MYITEM_SAVEDATA_GetLastBattleItemPocket 0x020082B4 thumb
  *   TCBL_Main 0x020310C4 arm
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   d_0220DF40 0x0220DF40 data a4
@@ -340,7 +340,7 @@ extern int B_APP_TOOL_Update(void *, int, int);
 extern u32 B_APP_TOOL_ShowWindows(u8 *, u32);
 extern u32 MYITEM_SAVEDATA_HasItem(u8 *,u16,u16,u16);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern struct Item *func_020081DC(u8 *base, u32 id, u32 index);
+extern struct Item *MYITEM_SAVEDATA_GetSlot(u8 *base, u32 id, u32 index);
 extern u32 GFL_HEAP_Free(void *p);
 extern unsigned ITEM_GFX_IsFlagClear(const unsigned char *,unsigned);
 extern unsigned short ITEM_GFX_GetItemId(unsigned);
@@ -392,9 +392,9 @@ extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void *BTLV_EFFECT_GetOwner(void);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern void *TCB_AddTask(void *, u32, void *, u32);
-extern void func_0200829C(const struct MyItemSave *p, int i, s16 *a, s16 *b);
-extern u16 func_020082B0(const struct MyItemSave *p);
-extern u16 func_020082B4(const struct MyItemSave *p);
+extern void MYITEM_SAVEDATA_GetBattlePocketCursor(const struct MyItemSave *p, int i, s16 *a, s16 *b);
+extern u16 MYITEM_SAVEDATA_GetLastBattleItem(const struct MyItemSave *p);
+extern u16 MYITEM_SAVEDATA_GetLastBattleItemPocket(const struct MyItemSave *p);
 extern void TCBL_Main(struct Tcbl *);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
@@ -1005,7 +1005,7 @@ void B_BAG_MAIN_BuildPocketLists(u8 *p)
     do {
         j = 0;
         for (;;) {
-            r = (u16 *)func_020081DC(**(void ***)p, d_0220DB3C[i], (u16)j);
+            r = (u16 *)MYITEM_SAVEDATA_GetSlot(**(void ***)p, d_0220DB3C[i], (u16)j);
             if (r == 0)
                 break;
             if (r[0] != 0 && r[1] != 0) {
@@ -1635,10 +1635,10 @@ void B_BAG_MAIN_Create(u8 *arg)
     }
     if (*(int *)(*(u8 **)p + 8) != 1) {
         for (i = 0; i < 4; i++) {
-            func_0200829C((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)), (u16)i, (s16 *)(*(u8 **)p + 0x30 + i * 2), (s16 *)(*(u8 **)p + 0x38 + i * 2));
+            MYITEM_SAVEDATA_GetBattlePocketCursor((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)), (u16)i, (s16 *)(*(u8 **)p + 0x30 + i * 2), (s16 *)(*(u8 **)p + 0x38 + i * 2));
         }
-        *(u16 *)(p + 0x540) = func_020082B0((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
-        p[0x542] = func_020082B4((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
+        *(u16 *)(p + 0x540) = MYITEM_SAVEDATA_GetLastBattleItem((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
+        p[0x542] = MYITEM_SAVEDATA_GetLastBattleItemPocket((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
         B_BAG_MAIN_CheckKeyItem((char *)p);
     } else {
         for (i = 0; i < 4; i++) {

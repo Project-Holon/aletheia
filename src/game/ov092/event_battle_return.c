@@ -39,7 +39,7 @@
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetCapacity 0x0201AA14 thumb
- *   func_02007698 0x02007698 thumb
+ *   BOX_SAVEDATA_GetCurrentBox 0x02007698 thumb
  *   BOX_SAVEDATA_FindFreeSlot 0x020076D0 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GAME_DATA_GetEventWork 0x0201296C thumb
@@ -62,11 +62,11 @@
  *   NAMEIN_SETUP_IsCanceled 0x0216C0E4 thumb ov010
  *   NAMEIN_SETUP_CopyName 0x0216C0D4 thumb ov010
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
- *   func_02008DF0 0x02008DF0 thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   POKEPARTY_Add 0x0201A98C thumb
  *   POKE_TOOL_Dummy 0x020185F0 thumb
- *   func_020074D8 0x020074D8 thumb
+ *   BOX_SAVEDATA_AddPokemon 0x020074D8 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
@@ -91,6 +91,7 @@
  *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb  arm9
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb  arm9
+ *   GFL_USE_GetRandom  0x020056EC  thumb  arm9
  */
 #define MON_PARAM_HELD_ITEM 6
 #define MON_PARAM_ABILITY 0xa
@@ -249,7 +250,7 @@ extern void MYSTATUS_NameToStrbuf(struct MyStatus *status, struct Strbuf *name);
 extern void POKE_TOOL_SetPartyValue(struct PokemonParam *mon, u32 paramId, u32 value);
 extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern u32 POKEPARTY_GetCapacity(struct PokeParty *party);
-extern u32 func_02007698(struct BoxManager *boxManager);
+extern u32 BOX_SAVEDATA_GetCurrentBox(struct BoxManager *boxManager);
 extern int BOX_SAVEDATA_FindFreeSlot(struct BoxManager *boxManager, int *box, int *slot);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
@@ -272,11 +273,11 @@ extern struct NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, 
 extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
 extern void NAMEIN_SETUP_CopyName(struct NameInArgs *args, struct Strbuf *dst);
 extern struct RecordBlock *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
-extern u32 func_02008DF0(struct RecordBlock *record, int index);
+extern u32 RECORD_AddOne(struct RecordBlock *record, int index);
 extern int NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
 extern u32 POKEPARTY_Add(struct PokeParty *party, const struct PokemonParam *mon);
 extern struct BoxPokemon *POKE_TOOL_Dummy(struct PokemonParam *mon);
-extern int func_020074D8(struct BoxManager *boxManager, const struct BoxPokemon *mon);
+extern int BOX_SAVEDATA_AddPokemon(struct BoxManager *boxManager, const struct BoxPokemon *mon);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
@@ -284,7 +285,7 @@ extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern u16 SHINKA_CHECK_CheckEvolution(struct PokeParty *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 GFL_HEAP_Free(void *memory);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern void POKE_TOOL_SetStatusCondition(struct PokemonParam *mon, u32 status);
 extern void FLDMMDL_ApplyBurmyFormForPlace(struct GameData *gameData, struct PokemonParam *mon, int burmyForm);
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
@@ -423,7 +424,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
             POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_ORIGINAL_TRAINER_NAME, (u32)work->nameBuf);
             partyCount = (int)POKEPARTY_GetCount(party);
             if (partyCount >= (int)POKEPARTY_GetCapacity(party)) {
-                box = func_02007698(boxManager); boxSlot = 0;
+                box = BOX_SAVEDATA_GetCurrentBox(boxManager); boxSlot = 0;
                 BOX_SAVEDATA_FindFreeSlot(boxManager, &box, &boxSlot);
                 work->boxNo = box;
                 msgBank = MSGDATA_CreateFromArchive(0, 2, 234, EVENT_BATTLE_RETURN_HEAP_ID);
@@ -467,7 +468,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         if (!NAMEIN_SETUP_IsCanceled(work->nameInArgs)) {
             NAMEIN_SETUP_CopyName(work->nameInArgs, work->nameBuf);
             POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_NICKNAME, (u32)work->nameBuf);
-            func_02008DF0(GAME_DATA_GetTrainerRecord(args->gameData), RECORD_NICKNAMED_COUNT);
+            RECORD_AddOne(GAME_DATA_GetTrainerRecord(args->gameData), RECORD_NICKNAMED_COUNT);
         }
         NAMEIN_SETUP_FreeArgs(work->nameInArgs);
         work->nameInArgs = 0;
@@ -481,7 +482,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         if (!work->boxFullMsg) POKEPARTY_Add(party, work->caughtMon);
         else {
             boxManager = GAME_DATA_GetBoxManager(args->gameData);
-            func_020074D8(boxManager, POKE_TOOL_Dummy(work->caughtMon));
+            BOX_SAVEDATA_AddPokemon(boxManager, POKE_TOOL_Dummy(work->caughtMon));
         }
         ++*seq;
         break;
@@ -591,8 +592,8 @@ void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(struct PokeParty *party)
         species = POKE_TOOL_GetPartyValue(mon,MON_PARAM_SPECIES_OR_EGG,0);
         item = POKE_TOOL_GetPartyValue(mon,MON_PARAM_HELD_ITEM,0);
         ability = (u8)POKE_TOOL_GetPartyValue(mon,MON_PARAM_ABILITY,0);
-        if (ability == ABILITY_PICKUP && species != 0 && species != SPECIES_EGG && item == 0 && func_020056EC(10) == 0) {
-            roll = func_020056EC(100);
+        if (ability == ABILITY_PICKUP && species != 0 && species != SPECIES_EGG && item == 0 && GFL_USE_GetRandom(10) == 0) {
+            roll = GFL_USE_GetRandom(100);
             levelTier = (POKE_TOOL_GetPartyValue(mon,MON_PARAM_LEVEL,0)-1)/10u;
             if (levelTier >= 10) levelTier=9;
             for (j=0;j<9;j++) {
@@ -613,7 +614,7 @@ void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(struct PokeParty *party)
                 levelCeil+=10;
                 chanceIndex++;
             }
-            if (func_020056EC(100) < sHoneyGatherChance[chanceIndex]) POKE_TOOL_SetPartyValue(mon,MON_PARAM_HELD_ITEM,ITEM_HONEY);
+            if (GFL_USE_GetRandom(100) < sHoneyGatherChance[chanceIndex]) POKE_TOOL_SetPartyValue(mon,MON_PARAM_HELD_ITEM,ITEM_HONEY);
         }
     }
 }

@@ -28,7 +28,7 @@
  *   GAME_BEACON_SEARCH_SetHalfwordValue  0x021657B0  thumb  ov010
  *   GPOWER_FreePowerTable  0x02010F8C  thumb
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -101,7 +101,7 @@ extern void GAME_BEACON_SEARCH_SetVersionAction(int powerId);
 extern void  GAME_BEACON_SEARCH_SetHalfwordValue(int powerId);
 extern void  GPOWER_FreePowerTable(struct GPowerTable *table);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern struct FldMmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -203,7 +203,7 @@ struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem)
     GPowerFlashWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, GPOWER_EVENT_FlashMain, sizeof(GPowerFlashWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->gameSystem = gameSystem;
     return event;
@@ -213,7 +213,7 @@ struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem)
 struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap)
 {
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)GPOWER_EVENT_ListMain, sizeof(GPowerListWork));
-    GPOWER_EVENT_InitListWork(func_020124E8(event), gameSystem, fieldMap);
+    GPOWER_EVENT_InitListWork(GAME_EVENT_GetWork(event), gameSystem, fieldMap);
     return event;
 }
 

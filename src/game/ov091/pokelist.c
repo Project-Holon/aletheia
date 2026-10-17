@@ -24,7 +24,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   KEY_GetCont  0x0203630C  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
  *   func_020355D8  0x020355D8  arm
  *   d_021BED0C     0x021BED0C  data  a1
@@ -151,10 +151,10 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
- *   func_02049EF4  0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -286,15 +286,15 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   MAIL_FindEmptySlot  0x02009020  thumb
  *   MAIL_Create  0x02008F08  thumb
- *   func_0200903C  0x0200903C  thumb
+ *   MAIL_SetSlot  0x0200903C  thumb
  *   POKE_TOOL_AddMove 0x0201808C thumb
  *   POKE_TOOL_FindMoveSlot 0x02018238 thumb
  *   POKE_TOOL_SetMoveSlot 0x020181F4 thumb
  *   POKE_TOOL_ReplaceMoveSlot 0x020182A0 thumb
  *   NATSUKI_Calc 0x0201B7A0 thumb
- *   func_02007FB8 0x02007FB8 thumb
- *   func_02007F1C 0x02007F1C thumb
- *   func_02007E50 0x02007E50 thumb
+ *   MYITEM_SAVEDATA_GetItemQuantity 0x02007FB8 thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetUnitRenderer 0x0204B258 arm
@@ -537,7 +537,7 @@ extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 KEY_GetCont(void);
 extern void *POKE_REGULATION_Load(int a, int b);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 extern void func_020355D8(int a);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
@@ -633,10 +633,10 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *func_02049EF4(void *h, u32 a1, u32 a2, void **out, u16 heap);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *h, u32 a1, u32 a2, void **out, u16 heap);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -712,7 +712,7 @@ extern u32 FILE_UTIL_GetId(u32 id);
 extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
 extern int   MAIL_FindEmptySlot(void *obj, int v);
 extern void *MAIL_Create(int a0);
-extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
+extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern u32 POKE_TOOL_AddMove(void *,u32);
 extern u32 POKE_TOOL_FindMoveSlot(void *,u16);
 extern void POKE_TOOL_SetMoveSlot(void *,u16,u32);
@@ -731,9 +731,9 @@ extern void STRBUF_Delete(void *vec);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(void *wordSet, void *dst, void *src);
-extern u32 func_02007FB8(void *bag, u16 itemId, u16 heapId);
-extern u32 func_02007F1C(void *bag, u16 itemId, u16 count, u16 heapId);
-extern u32 func_02007E50(void *bag, u16 itemId, u16 count, u16 heapId);
+extern u32 MYITEM_SAVEDATA_GetItemQuantity(void *bag, u16 itemId, u16 heapId);
+extern u32 MYITEM_SAVEDATA_RemoveItem(void *bag, u16 itemId, u16 count, u16 heapId);
+extern u32 MYITEM_SAVEDATA_AddItem(void *bag, u16 itemId, u16 count, u16 heapId);
 extern void G2x_SetBlendAlpha_(u32 r, int a, int b, int c, int d);
 extern const PokelistMenuItems d_021BEC0C, d_021BEC1C;
 extern PokelistButtonRects d_021BEC2C;
@@ -943,11 +943,11 @@ int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork
                     c = d_021BEA84;
                     arg->entries[k].party = POKEPARTY_Create(0x17);
                     for (i = 0; i < 6; i++) {
-                        mon = POKE_TOOL_Create(func_02005728(0xfa), 0x64, 0xffffffff, 0x17);
+                        mon = POKE_TOOL_Create(GFL_USE_GetRandomBelow(0xfa), 0x64, 0xffffffff, 0x17);
                         d = c;
                         POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&d);
                         POKE_TOOL_SetPartyValue(mon, 0x9a, 0);
-                        POKE_TOOL_SetPartyValue(mon, 6, func_02005728(2));
+                        POKE_TOOL_SetPartyValue(mon, 6, GFL_USE_GetRandomBelow(2));
                         POKEPARTY_Add(arg->entries[k].party, mon);
                         GFL_HEAP_Free(mon);
                     }
@@ -959,7 +959,7 @@ int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork
                     t[4] = k + 0xff11;
                     t[5] = 0xffff;
                     arg->entries[k].name = t;
-                    arg->entries[k].gender = func_02005728(2);
+                    arg->entries[k].gender = GFL_USE_GetRandomBelow(2);
                 }
                 arg->battleKind = 2;
                 arg->timerShown = 1;
@@ -1655,7 +1655,7 @@ void POKELIST_DeleteFonts(PokelistWork *work) { PRINTSYS_QUE_Clear((struct Print
  * 0x07 archive and the APP_ICON_GetArchiveId archive into work's handle table
  * (work+0x178..0x1d0), then copies palette RAM 0x050000C0 back to work+0x40.
  * The second-archive loads still pass the first (closed) handle to
- * func_02049B68/02049658/020498F4, as the original does.  The 0x158 store
+ * ARC_UTIL_UploadPaletteFromHandleWhole/02049658/020498F4, as the original does.  The 0x158 store
  * goes through a local: stored directly, the allocator rematerialises the
  * shared 0xc0 offset base instead of reloading its [sp+0xc] spill slot.
  */
@@ -1666,14 +1666,14 @@ void POKELIST_LoadGraphics(PokelistWork *work)
     void *t;
 
     h = ARC_TOOL_CreateHandle(0x4c, work->heapId);
-    func_02049B68(h, 6, 0, 0, 0, work->heapId);
-    func_02049B68(h, 0, 0, 0x1a0, 0x20, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 6, 0, 0, 0, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 0, 0x1a0, 0x20, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 0xf, 3, 0, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 0x14, 3, 0, 0, 0, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 0xc, 2, 0, 0, 0, work->heapId);
-    t = func_02049EF4(h, 0x12, 0, &work->paletteData, work->heapId);
+    t = ARC_UTIL_LoadPaletteDataFromHandle(h, 0x12, 0, &work->paletteData, work->heapId);
     work->paletteFile = t;
-    func_02049B68(h, 5, 4, 0, 0, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 5, 4, 0, 0, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 0xe, 7, 0, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 0x13, 7, 0, 0, 0, work->heapId);
     work->charRes[0] = CLACT_RegisterPaletteEx(h, 4, 0, 0, 0, 3, work->heapId);
@@ -1689,7 +1689,7 @@ void POKELIST_LoadGraphics(PokelistWork *work)
     ARC_TOOL_DeleteHandle(h2);
 
     h2 = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), work->heapId);
-    func_02049B68(h, APP_ICON_GetStatusAnimFileId(), 0, 0x160, 0x20, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, APP_ICON_GetStatusAnimFileId(), 0, 0x160, 0x20, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, APP_ICON_GetStatusFrameFileId(), 1, 0, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(h, APP_ICON_GetStatusExtraFileId(), 1, 0, 0, 0, work->heapId);
     BG_SYS_FillTileMap(1, 0, 0, 0x40, 0x20, 0xb);
@@ -3555,7 +3555,7 @@ void POKELIST_OnTakeMailChoice(PokelistWork *work, int choice)
         if (mailSlot >= 0) {
             mail = MAIL_Create(work->heapId);
             POKE_TOOL_GetPartyValue((void *)work->selectedMon, 0xa7, (u32)mail);
-            func_0200903C(work->arg->mailBox, 0, mailSlot, mail);
+            MAIL_SetSlot(work->arg->mailBox, 0, mailSlot, mail);
             GFL_HEAP_Free(mail);
             POKE_TOOL_SetPartyValue((void *)work->selectedMon, 6, 0);
             PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
@@ -3683,15 +3683,15 @@ void POKELIST_SetHeldItem(PokelistWork *work, void *mon, u16 itemId)
 
 u32 POKELIST_CheckBagItem(PokelistWork *work, u16 itemId)
 {
-    return func_02007FB8(work->arg->bag, itemId, work->heapId);
+    return MYITEM_SAVEDATA_GetItemQuantity(work->arg->bag, itemId, work->heapId);
 }
 
 u32 POKELIST_RemoveBagItem(PokelistWork *work, u16 itemId)
 {
-    return func_02007F1C(work->arg->bag, itemId, 1, work->heapId);
+    return MYITEM_SAVEDATA_RemoveItem(work->arg->bag, itemId, 1, work->heapId);
 }
 
 u32 POKELIST_ReturnBagItem(PokelistWork *work, u16 itemId)
 {
-    return func_02007E50(work->arg->bag, itemId, 1, work->heapId);
+    return MYITEM_SAVEDATA_AddItem(work->arg->bag, itemId, 1, work->heapId);
 }

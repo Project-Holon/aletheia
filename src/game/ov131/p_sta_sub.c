@@ -52,7 +52,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_SetFlagField06 0x02041B6C arm
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   ARC_UTIL_LoadBgCharDataFromArchive 0x02049DB4 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
@@ -263,7 +263,7 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_SetFlagField06(u32 flag);
-extern void *func_02049F34(u32 arcId, u32 fileId, u32 out, u32 heapId);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 fileId, u32 out, u32 heapId);
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 fileId, u32 a, u32 out, u16 heapId);
 extern void CLACT_TransferPalette(u32 plttRes, void *pltt, u32 a);
 extern void CLACT_TransferCharacter(int chrRes, void *chr);
@@ -540,7 +540,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
     ballId = POKE_TOOL_GetBoxValue(mon, 0x98, 0);
     ballArc = APP_ICON_GetArchiveId();
-    ballBuf = func_02049F34(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), (u32)&ballPltt, wk->heapId);
+    ballBuf = ARC_UTIL_LoadPaletteBlockFromArchive(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), (u32)&ballPltt, wk->heapId);
     CLACT_TransferPalette(wk->objRes[1], ballPltt, 1);
     GFL_HEAP_Free(ballBuf);
     ballArc = APP_ICON_GetArchiveId();

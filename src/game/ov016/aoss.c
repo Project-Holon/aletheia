@@ -16,7 +16,7 @@
  * aoss.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
  * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
  * Verified with:
- *   python tools/match.py one --src src/matched/ov016_func_021B8240.c \
+ *   python tools/match.py one --src src/matched/AOSS_Memset.c \
  *       --func AOSS_Memset --addr 0x021B8240 --region ov016 --cc ../2.0/sp1p2 --thumb
  *
  * symbols:

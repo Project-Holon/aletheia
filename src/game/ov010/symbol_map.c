@@ -30,7 +30,7 @@
  *   g_SymbolMapFileName     0x021729EC  data  a1
  *   EVENT_FIELD_PROCLINK_StartCommProc 0x02161CDC thumb ov010
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   ov203_id 0x000000CB data a1
  *   gDemo3dProcData 0x021BFB3C data ov203 a4
@@ -49,8 +49,8 @@
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
  *   WIFI_HISTORY_GetFirstFreeEntry  0x020095C8  thumb
- *   func_0200973C  0x0200973C  thumb
- *   func_0200856C  0x0200856C  thumb
+ *   WIFI_HISTORY_GetEntry  0x0200973C  thumb
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb
  *   ov218_id  0x000000DA  data
  *   gUnSelectProcData  0x021BAB5C  data  a4 ov218
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
@@ -58,7 +58,7 @@
  *   g_Bg2ScaleStep  0x021729FC  data  ov010  a4
  *   MTX_Scale22_  0x0207AD58  thumb
  *   G2x_SetBGyAffine_  0x0207D59C  arm
- *   func_02005654  0x02005654  thumb
+ *   GFL_USE_SetVBlankHook  0x02005654  thumb
  *   MTX_Identity22_ 0x0207AD40 arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
@@ -82,7 +82,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   MI_CpuFill8    0x02082BCC  arm
  *   PMSI_PARAM_Create  0x02024044  thumb
- *   func_0200E6F0  0x0200E6F0  thumb
+ *   SAVEDATA_GetExtraBlock  0x0200E6F0  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   PMSI_PARAM_SetSentence  0x02024108  thumb
  *   PMSI_PARAM_CheckCanceled  0x0202411C  thumb
@@ -101,6 +101,7 @@
  *   WEATHER_RequestChangeNoFade  0x021A1BE4  thumb  ov021
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
  *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
+ *   GFL_USE_ClearVBlankHook  0x0200566C  thumb  arm9
  */
 #include "symbol_map_shared_types.h"
 
@@ -259,7 +260,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
 
-extern void *func_020124E8(struct GameTask *task);
+extern void *GAME_EVENT_GetWork(struct GameTask *task);
 
 extern void EVENT_FIELD_PROCLINK_StartCommProc(void *work, void *gameSystem, u8 startFlag, u8 param);
 
@@ -295,9 +296,9 @@ extern u32 WIFI_HISTORY_IsCountryVisited(const struct SymbolMapSave *save, u32 i
 
 extern u8 WIFI_HISTORY_GetFirstFreeEntry(const struct SymbolMapSave *save);
 
-extern struct SymbolMapSaveEntry *func_0200973C(struct SymbolMapSave *save, int index);
+extern struct SymbolMapSaveEntry *WIFI_HISTORY_GetEntry(struct SymbolMapSave *save, int index);
 
-extern u8 func_0200856C(const struct SymbolMapSaveEntry *entry);
+extern u8 MYSTATUS_GetLanguage(const struct SymbolMapSaveEntry *entry);
 
 extern SaveSyncBlock *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 
@@ -305,11 +306,11 @@ extern void MTX_Scale22_(void *dst, int scaleX, int scaleY);
 
 extern void G2x_SetBGyAffine_(void *reg, void *matrix, int centerX, int centerY, int unusedA, int unusedB);
 
-extern int func_02005654(int callback, int param);
+extern int GFL_USE_SetVBlankHook(int callback, int param);
 
 extern void MTX_Identity22_(void *matrix);
 
-extern void func_0200566C(void);
+extern void GFL_USE_ClearVBlankHook(void);
 
 extern u32   POKE_TOOL_GetPartyValue(void *poke, u32 key, u32 extra);
 
@@ -349,7 +350,7 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void *PMSI_PARAM_Create(u32 mode, u32 a1, void *src, u32 flag, void *saveControl, u32 hh);
 
-extern void *func_0200E6F0(u32 saveControl);
+extern void *SAVEDATA_GetExtraBlock(u32 saveControl);
 
 extern void MISC_SAVEDATA_CopyQuadRecord(void *table, int index, void *dst);
 
@@ -756,7 +757,7 @@ void *SYMBOL_MAP_CreateRecordTask(void *gameSystem, void *progress, void *outCom
     struct GameTask *task;
     SymbolMapRecordWork *work;
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_RecordTaskMain, 32);
-    work = func_020124E8(task);
+    work = GAME_EVENT_GetWork(task);
     work->progress = progress;
     work->outCompleted = outCompleted;
     EVENT_FIELD_PROCLINK_StartCommProc(work, gameSystem, 1, 0);
@@ -775,7 +776,7 @@ void SYMBOL_MAP_DeleteLinkRecord(SymbolMapOwner *owner)
 /* Task main of SYMBOL_MAP_CreateRecordTask: runs ov203, then stores its result and the completion flag. */
 int SYMBOL_MAP_RecordTaskMain(void *task, u32 *state)
 {
-    SymbolMapRecordWork *work = func_020124E8(task);
+    SymbolMapRecordWork *work = GAME_EVENT_GetWork(task);
     switch (*state) {
     case 0:
         GAME_EVENT_CallProc(task, (u32)ov203_id, (u32)gDemo3dProcData, (u32)work);
@@ -818,7 +819,7 @@ void SYMBOL_MAP_StoreResult(SymbolMapProgress *progress, int value) {
  *
  * The five unlabelled leaf callees are filed as their own shards
  * (matched witnesses): ov010_func_02166658.c, ov021_func_021C87A0.c,
- * ov021_func_021C87AC.c, ov021_func_021C87B8.c, ov021_func_021C87C8.c.
+ * PLEASURE_BOAT_GetPassengerType.c, PLEASURE_BOAT_GetPassengerExtra.c, PLEASURE_BOAT_GetPassengerOccupied.c.
  * (ov128_func_021C87A0.c is a different overlay's function at that
  * address; ov010 runs with ov021 loaded.)
  * lever (wave 82 R8): each arm writes the store `*(u16 *)a = ...` out
@@ -929,7 +930,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
     int flagIndex;
 
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PickerTaskMain, 0x128);
-    work = func_020124E8(task);
+    work = GAME_EVENT_GetWork(task);
     work->mode = mode;
     work->outPicked = (u16 *)outPicked;
     work->outKind = (u16 *)outKind;
@@ -946,7 +947,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
     if (count > 20)
         count = 20;
     for (i = 0; i < count; i++)
-        work->candidateIds[i] = func_0200856C(func_0200973C(save, i));
+        work->candidateIds[i] = MYSTATUS_GetLanguage(WIFI_HISTORY_GetEntry(save, i));
     for (; i < 20; i++)
         work->candidateIds[i] = 0;
     return task;
@@ -961,7 +962,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
  */
 int SYMBOL_MAP_PickerTaskMain(void *task, int *state)
 {
-    SymbolMapPickerWork *work = func_020124E8(task);
+    SymbolMapPickerWork *work = GAME_EVENT_GetWork(task);
     switch (*state) {
     case 0:
         GAME_EVENT_CallProc(task, (u32)ov218_id, (u32)gUnSelectProcData, (u32)work);
@@ -1069,13 +1070,13 @@ void SYMBOL_MAP_UpdateBg2Scale(void)
 
 /*
  * Unlabelled leaf: stores 0x3F800000 and 0 into a two-word datum (scale
- * 1.0, unused 0), then tail-calls func_02005654(SYMBOL_MAP_UpdateBg2Scale, 0).
+ * 1.0, unused 0), then tail-calls GFL_USE_SetVBlankHook(SYMBOL_MAP_UpdateBg2Scale, 0).
  */
 void SYMBOL_MAP_StartBg2Scale(void)
 {
     g_Bg2ScaleState[0] = 1.0f;
     g_Bg2ScaleState[1] = 0.0f;
-    func_02005654((int)SYMBOL_MAP_UpdateBg2Scale, 0);
+    GFL_USE_SetVBlankHook((int)SYMBOL_MAP_UpdateBg2Scale, 0);
 }
 
 /* Resets the BG2 matrix to identity and stops the per-frame callback. */
@@ -1083,7 +1084,7 @@ void SYMBOL_MAP_StopBg2Scale(void) {
     int matrix[4];
     MTX_Identity22_(matrix);
     G2x_SetBGyAffine_((void *)0x04000020, matrix, 128, 92, 0, 0);
-    func_0200566C();
+    GFL_USE_ClearVBlankHook();
 }
 
 /*
@@ -1143,7 +1144,7 @@ void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void
     struct GameTask *task;
     PokeEventWork *work;
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PokeEventTaskMain, 24);
-    work = func_020124E8(task);
+    work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->transitionArg = (u32)transitionArg;
     work->gameData = ICA_ANIME_GetField1C(gameSystem);
@@ -1237,7 +1238,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     outResult = SCRIPT_WORK_ReadWorkPointer(vm, work);
     mode = 0;
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
-    inputWork = func_020124E8(task);
+    inputWork = GAME_EVENT_GetWork(task);
     MI_CpuFill8(inputWork, 0, sizeof(PmsInputWork));
     inputWork->kind = kind;
     inputWork->outWord0 = outWord0;
@@ -1279,7 +1280,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     }
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
-        MISC_SAVEDATA_CopyQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), inputWork->sentenceId, sentenceBuf);
+        MISC_SAVEDATA_CopyQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem))), inputWork->sentenceId, sentenceBuf);
         PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
@@ -1309,7 +1310,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
  */
 u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
 {
-    PmsInputWork *work = func_020124E8(task);
+    PmsInputWork *work = GAME_EVENT_GetWork(task);
     void *pmsParam = work->pmsParam;
     PmsInputWords words;
     PmsInputSentence sentence;
@@ -1338,7 +1339,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    MISC_SAVEDATA_StoreQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
+                    MISC_SAVEDATA_StoreQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
                 }
                 *work->outWord0 = sentence.first;
                 second = sentence.second;

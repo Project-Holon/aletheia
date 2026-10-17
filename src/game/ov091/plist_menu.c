@@ -81,7 +81,7 @@
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   APP_ICON_GetItemCellFileId 0x02027694 thumb
@@ -214,7 +214,7 @@ extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, void *font, u32 b);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 APP_ICON_GetItemCellFileId(void);
@@ -985,7 +985,7 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
     void *h, *h2;
     h = ARC_TOOL_CreateHandle(0x4c, work->heapId);
     ARC_UTIL_UploadPaletteFromHandle(h, 1, 4, 0x20, 0x20, 0x20, work->heapId);
-    func_02049B68(h, 0, 4, 0x1a0, 0x20, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 4, 0x1a0, 0x20, work->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 9, 6, 0, 0, 0, work->heapId);
     if (work->arg->timerShown == 1) {
         switch (work->arg->battleKind) {
@@ -999,7 +999,7 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
     work->palRes[4] = CLACT_RegisterCharacter(h, APP_ICON_GetItemPaletteFileId(), 0, 1, work->heapId);
     work->cellRes[4] = CLACT_RegisterCellAnim(h, APP_ICON_GetItemAnimFileId(2), APP_ICON_GetItemFrameFileId(2), work->heapId);
     if (work->arg->timerRunning == 1) {
-        func_02049B68(h, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, work->heapId);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, work->heapId);
         ARC_UTIL_UploadBgCharFromHandle(h, APP_ICON_GetStatusFrameFileId(), 5, 0, 0, 0, work->heapId);
         ARC_UTIL_UploadBgPaletteFromHandle(h, APP_ICON_GetStatusDataFileId(), 5, 0, 0, 0, work->heapId);
         BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x20, 2);

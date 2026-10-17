@@ -21,7 +21,7 @@
  *   VM_GetU16   0x02011330  thumb
  *   VM_PushStack  0x0201137C  thumb
  *   VM_PopStack  0x02011398  thumb
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   SCRIPT_SYS_AddScript  0x021589A0  thumb  ov010
@@ -32,7 +32,7 @@
  *   SCRCMD_WORK_SaveScriptState  0x0215AA24  thumb  ov010
  *   SCRIPT_SYS_RunScriptNow  0x02158A34  thumb  ov010
  *   VM_SetWait  0x020113D0  thumb
- *   func_02011290  0x02011290  thumb
+ *   VM_End  0x02011290  thumb
  *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
  *   d_021705DC     0x021705DC  data  ov010
@@ -68,7 +68,7 @@
  *   FIELD_SUBSCREEN_PrepareReportSave  0x021A1524  thumb  ov021
  *   FIELD_SUBSCREEN_StartReportSaveAnim  0x021A1530  thumb  ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   SCRIPT_WORK_GetWorkPtr   0x02158FE0  thumb  ov010
  *   SCRIPT_WORK_GetWorkValue   0x0215901C  thumb  ov010
@@ -110,7 +110,7 @@ extern u16 VM_GetU16(ScriptVm *vm);
 extern s32 VM_GetU32(ScriptVm *vm);
 extern void VM_PushStack(ScriptVm *vm, u32 value);
 extern u32 VM_PopStack(ScriptVm *vm);
-extern void func_02011290(ScriptVm *vm);
+extern void VM_End(ScriptVm *vm);
 extern void VM_Jump(ScriptVm *vm, u32 target);
 extern void VM_Call(ScriptVm *vm, u32 target);
 extern void VM_SetWait(ScriptVm *vm, int (*waitFn)(ScriptVm *, ScrcmdWork *));
@@ -134,7 +134,7 @@ extern u8 GAME_DATA_IsSaving(struct GameData *gameData);
 extern int GAME_DATA_SaveMain(struct GameData *gameData);
 extern void GAME_DATA_SaveStart(struct GameData *gameData);
 extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
-extern u32 func_02008DF0(struct TrainerRecord *record, int index);
+extern u32 RECORD_AddOne(struct TrainerRecord *record, int index);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 
@@ -387,7 +387,7 @@ int SCRIPT_WORK_CmdCallScript(ScriptVm *vm, ScrcmdWork *cmdWork)
 int SCRIPT_WORK_CmdEnd(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     SCRCMD_WORK_GetScriptWork(cmdWork);
-    func_02011290(vm);
+    VM_End(vm);
     return 1;
 }
 
@@ -703,7 +703,7 @@ int SCRIPT_WORK_CmdReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
         FIELD_SUBSCREEN_StartReportSaveAnim(mapState);
     }
     SCRIPT_WORK_SetReturnScriptId(scriptWork, effectHandle);
-    func_02008DF0(GAME_DATA_GetTrainerRecord(gameData), 1);
+    RECORD_AddOne(GAME_DATA_GetTrainerRecord(gameData), 1);
     GAME_DATA_SaveStart(gameData);
     VM_SetWait(vm, SCRIPT_WORK_WaitReportSave);
     return 1;

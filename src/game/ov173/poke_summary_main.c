@@ -80,8 +80,8 @@
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
- *   func_02049B68  0x02049B68  arm
- *   func_02049EF4  0x02049EF4  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -127,7 +127,7 @@
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
@@ -283,8 +283,8 @@ extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern void BG_SYS_Delete(void);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *p, u32 a, u32 b, void **out, u16 d);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 GFL_HEAP_Free(void *p);
@@ -335,7 +335,7 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
@@ -637,11 +637,11 @@ void POKE_SUMMARY_MAIN_CreateMsgWindows(u8 *p, u8 *q)
 
     ARC_UTIL_UploadBgCharFromHandle(q, 1, 3, 0, 0, 0, 0x4f);
     ARC_UTIL_UploadBgPaletteFromHandle(q, 4, 3, 0, v, 0, 0x4f);
-    func_02049B68(q, 0, 0, 0, 0, 0x4f);
+    ARC_UTIL_UploadPaletteFromHandleWhole(q, 0, 0, 0, 0, 0x4f);
     ARC_UTIL_UploadBgCharFromHandle(q, 1, 7, 0, 0, 0, 0x4f);
     ARC_UTIL_UploadBgPaletteFromHandle(q, 2, 7, 0, v, 0, 0x4f);
-    func_02049B68(q, 0, 4, 0, 0, 0x4f);
-    t = func_02049EF4(q, 3, 0, (void **)&((struct PokeSummaryWork *)p)->tmpHandle, 0x4f);
+    ARC_UTIL_UploadPaletteFromHandleWhole(q, 0, 4, 0, 0, 0x4f);
+    t = ARC_UTIL_LoadPaletteDataFromHandle(q, 3, 0, (void **)&((struct PokeSummaryWork *)p)->tmpHandle, 0x4f);
     ((struct PokeSummaryWork *)p)->msgWindow = t;
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1c0, 0x20, 0x4f);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1e0, 0x20, 0x4f);
@@ -958,7 +958,7 @@ static inline void flush(void *win)
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void MSGDATA_DecryptStrbuf(void *,u32);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -1004,16 +1004,16 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
     void *temp;
     void *bank;
     void *mon;
-    func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x23,((struct PokeSummaryWork *)p)->strBufA);
+    MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x23,((struct PokeSummaryWork *)p)->strBufA);
     POKE_SUMMARY_MAIN_PrintAligned(p,9,(u32)((struct PokeSummaryWork *)p)->font,0x3c40,2,4);
-    func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x17,((struct PokeSummaryWork *)p)->strBufA);
+    MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x17,((struct PokeSummaryWork *)p)->strBufA);
     POKE_SUMMARY_MAIN_PrintAligned(p,2,(u32)((struct PokeSummaryWork *)p)->font,0x440,0,0);
     flush(((struct PokeSummaryWork *)p)->bmpWindows[2]);
-    func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x18,((struct PokeSummaryWork *)p)->strBufA);
+    MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x18,((struct PokeSummaryWork *)p)->strBufA);
     POKE_SUMMARY_MAIN_PrintAligned(p,3,(u32)((struct PokeSummaryWork *)p)->font,0x440,0,0);
     flush(((struct PokeSummaryWork *)p)->bmpWindows[3]);
     temp=STRBUF_Create(256,79);
-    func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x27,temp);
+    MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x27,temp);
     WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)p)->wordSet,0,((struct PokeSummaryWork *)p)->mon->party);
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,temp);
     POKE_SUMMARY_MAIN_PrintAligned(p,13,(u32)((struct PokeSummaryWork *)p)->font,0x3c40,0,4);
@@ -1026,7 +1026,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
         else {
             CLACT_SetActorDrawEnable(((struct PokeSummaryWork *)p)->actors[8+i],1);
             POKE_SUMMARY_ACTOR_SetMoveIcon((u8 *)p,move,i);
-            func_02045CAC(bank,move,((struct PokeSummaryWork *)p)->strBufA);
+            MSGDATA_ReadString(bank,move,((struct PokeSummaryWork *)p)->strBufA);
             y=i*32;
             POKE_SUMMARY_MAIN_PrintAligned(p,14,(u32)((struct PokeSummaryWork *)p)->font,0x3c40,0,y);
             coord=y+16;
@@ -1040,12 +1040,12 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
         }
     }
     flush(((struct PokeSummaryWork *)p)->bmpWindows[14]);
-    func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x25,temp);
+    MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x25,temp);
     WORDSET_SetSlotMonName(((struct PokeSummaryWork *)p)->wordSet,0,((struct PokeSummaryWork *)p)->mon->party);
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,temp);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct PokeSummaryWork *)p)->bmpWindows[15]),0,0,((struct PokeSummaryWork *)p)->strBufA,((struct PokeSummaryWork *)p)->font,0x440);
     flush(((struct PokeSummaryWork *)p)->bmpWindows[15]);
-    func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x26,temp);
+    MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x26,temp);
     WORDSET_SetSlotNumber(((struct PokeSummaryWork *)p)->wordSet,0,POKE_TOOL_GetBoxValue(mon,0x9e,0),3,1,1);
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)p)->wordSet,((struct PokeSummaryWork *)p)->strBufA,temp);
     POKE_SUMMARY_MAIN_PrintAligned(p,15,(u32)((struct PokeSummaryWork *)p)->font,0x440,1,16);
@@ -1201,7 +1201,7 @@ static inline void clear(void *win)
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void MSGDATA_DecryptStrbuf(void *,u32);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -1250,15 +1250,15 @@ void POKE_SUMMARY_MAIN_DrawMoveDetail(char *p,int move)
     CLACT_SetActorDrawEnable(((struct PokeSummaryWork *)p)->actors[3],0);
     if(move!=zero-2) {
         value=WAZA_TOOL_GetParam(move,3);
-        if(value<=1) func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x21,((struct PokeSummaryWork *)p)->strBufA);
+        if(value<=1) MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x21,((struct PokeSummaryWork *)p)->strBufA);
         else POKE_SUMMARY_MAIN_PrintValue(p,0x1d,value,3,0);
         POKE_SUMMARY_MAIN_PrintAligned(p,4,(u32)((struct PokeSummaryWork *)p)->font,0x440,1,0);
         value=WAZA_TOOL_GetParam(move,4);
-        if(value==0 || WAZA_TOOL_IsAlwaysHit(move)!=0) func_02045CAC(((struct PokeSummaryWork *)p)->msgBank,0x21,((struct PokeSummaryWork *)p)->strBufA);
+        if(value==0 || WAZA_TOOL_IsAlwaysHit(move)!=0) MSGDATA_ReadString(((struct PokeSummaryWork *)p)->msgBank,0x21,((struct PokeSummaryWork *)p)->strBufA);
         else POKE_SUMMARY_MAIN_PrintValue(p,0x1e,value,3,0);
         POKE_SUMMARY_MAIN_PrintAligned(p,5,(u32)((struct PokeSummaryWork *)p)->font,0x440,1,0);
         bank=MSGDATA_CreateFromArchive(0,2,0xca,79);
-        func_02045CAC(bank,move,((struct PokeSummaryWork *)p)->strBufA);
+        MSGDATA_ReadString(bank,move,((struct PokeSummaryWork *)p)->strBufA);
         POKE_SUMMARY_MAIN_PrintAligned(p,6,(u32)((struct PokeSummaryWork *)p)->font,0x440,0,0);
         MSGDATA_Delete(bank);
         POKE_SUMMARY_ACTOR_SetMoveAnim((u8 *)p,move);

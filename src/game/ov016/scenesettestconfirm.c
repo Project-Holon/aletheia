@@ -14,7 +14,7 @@
  *
  * sdk:      DWCi_SceneSetTestConfirm (libdwcutil.TWL.HYB.a scenesettestconf)
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD80C.c \n *       --func DWCi_SceneSetTestConfirm --addr 0x021CD80C --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetTestConfirm.c \n *       --func DWCi_SceneSetTestConfirm --addr 0x021CD80C --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovdisco), symbol initGraphics (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.

@@ -56,7 +56,7 @@
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
- *   func_02008DF0 0x02008DF0 thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   EGG_DEMO_MENU_FadeInBgm 0x021F604C thumb ov215
  *   EGG_DEMO_MENU_Main 0x021F6158 thumb ov215
@@ -87,7 +87,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   EGG_DEMO_GRAPHIC_Delete 0x021F6474 thumb ov215
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -170,7 +170,7 @@ extern int NAMEIN_SETUP_IsCanceled(int *);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void NAMEIN_SETUP_CopyName(int *,int),POKE_TOOL_SetPartyValue(void *,u32,u32),STRBUF_Delete(struct U16Vec *);
 extern void *GAME_DATA_GetTrainerRecord(int *);
-extern u32 func_02008DF0(struct Sub02008C20Obj *,int);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *,int);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern void EGG_DEMO_MENU_FadeInBgm(u32 *,u32 *),EGG_DEMO_MAIN_UpdateBgm(u8 *,u8 *),EGG_DEMO_MENU_Main(void *,char *),EGG_DEMO_MENU_ProcessDialog(void *,char *);
 extern void EGG_DEMO_VIEW_Update(char *);
@@ -196,7 +196,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void EGG_DEMO_GRAPHIC_Delete(char *p);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void func_02049B68(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -338,7 +338,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
         if(!NAMEIN_SETUP_IsCanceled(((struct EggDemoWork *)work)->nameChild)){
             vec=STRBUF_Create(32,((struct EggDemoWork *)work)->heapId);NAMEIN_SETUP_CopyName(((struct EggDemoWork *)work)->nameChild,(int)vec);
             POKE_TOOL_SetPartyValue((void *)args[1],115,(u32)vec);STRBUF_Delete(vec);
-            func_02008DF0(GAME_DATA_GetTrainerRecord((int *)args[0]),30);
+            RECORD_AddOne(GAME_DATA_GetTrainerRecord((int *)args[0]),30);
         }
         NAMEIN_SETUP_FreeArgs((int)(((struct EggDemoWork *)work)->nameChild));((struct EggDemoWork *)work)->state=16;EGG_DEMO_MAIN_StopBgm(args,(char *)work);
         }else{return 0;}break;
@@ -411,7 +411,7 @@ void EGG_DEMO_MAIN_DeleteResources(u32 args,char *work)
 void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work)
 {
     void *h = ARC_TOOL_CreateHandle(189, ((struct EggDemoWork *)work)->heapId);
-    func_02049B68(h, 3, 0, 0, 32, ((struct EggDemoWork *)work)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 3, 0, 0, 32, ((struct EggDemoWork *)work)->heapId);
     ARC_UTIL_UploadBgCharFromHandle(h, 5, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 4, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
     ARC_TOOL_DeleteHandle(h);

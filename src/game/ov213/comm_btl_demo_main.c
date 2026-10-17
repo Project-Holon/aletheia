@@ -46,13 +46,13 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   COMM_BTL_DEMO_GRAPHIC_Draw 0x021BAC68 thumb ov213
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021BAF14 0x021BAF14 data a4
  *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
- *   func_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   d_021BB004 0x021BB004 data ov213 a4
  *   getState 0x021B61FC thumb ov067
  *   advance 0x021B6200 thumb ov067
@@ -89,7 +89,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   MYSTATUS_NameToStrbuf 0x02008500 thumb
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -101,7 +101,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   COMM_BTL_DEMO_MAIN_UpdateRowContext 0x021BA30C thumb ov213
- *   func_02008DF0 0x02008DF0 thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   COMM_BTL_DEMO_GRAPHIC_GetCamera 0x021BAC94 thumb ov213
@@ -123,7 +123,7 @@
  *   PARTICLE_InitCamera 0x02051648 arm
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   BUTTON_MAN_GetResourceType 0x02051B04 arm
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PARTICLE_SetupSystem 0x02051230 arm
  *   d_021BB324 0x021BB324 data a4
  *   d_021BB330 0x021BB330 data a4
@@ -135,7 +135,7 @@
  *   G3D_SYSTEM_GetObjectRender 0x02047788 arm
  *   G3D_SYSTEM_GetRenderTexRes 0x02047554 arm
  *   G3D_SYSTEM_GetRenderObj 0x0204755C arm
- *   func_02047250 0x02047250 arm
+ *   DWCi_LSTlPopFront 0x02047250 arm
  *   NNS_G3dReleaseMdlPltt 0x0206A67C arm
  *   NNS_G3dBindMdlPlttEx 0x0206A5B4 arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
@@ -337,12 +337,12 @@ extern void COMM_BTL_DEMO_GRAPHIC_Draw(char *p);
 extern int UI_SCENE_Step(struct UiScene *s);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void UI_SCENE_SetNextScene(unsigned char *task, int value);
-extern u32 func_02048A18(u8 *, int);
+extern u32 G3D_UTIL_GetObject(u8 *, int);
 extern u32 getState(const u8 *);
 extern void advance(u8 *);
 extern void tick(char *);
@@ -370,7 +370,7 @@ extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MYSTATUS_NameToStrbuf(void *,void *);
-extern u8 func_02008550(const struct TextSys *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct TextSys *obj);
 extern void STRBUF_Delete(struct StrBuf *vec);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
@@ -382,7 +382,7 @@ extern void BMP_WIN_MakeScreen(struct BmpWinCfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 extern void BG_SYS_SetFlagField06(u32 bit);
 void COMM_BTL_DEMO_MAIN_UpdateRowContext();
-extern u32 func_02008DF0(struct AnimUnit *obj, int i);
+extern u32 RECORD_AddOne(struct AnimUnit *obj, int i);
 extern u32 GFL_NET_GetGameKind(void);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, unsigned int v),CLACT_SetActorAutoAnim(void *,unsigned);
 extern u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p);
@@ -403,14 +403,14 @@ extern int PARTICLE_ReleaseCamera(int a);
 extern void PARTICLE_InitCamera(struct ParticleCamera *p,struct ParticleCameraParam *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
 extern int PARTICLE_LoadArchiveMember(u32 a,u32 b,u32 c);
 extern u16 BUTTON_MAN_GetResourceType(void *res);
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 extern void PARTICLE_SetupSystem(u8 *o,u32 a1,u32 a2,u32 a3);
 extern void PARTICLE_KillAllEffects(u8 *);
 extern void PARTICLE_DeleteSystem(u8 *);
 extern void PARTICLE_ExitManager(void);
 extern int PARTICLE_StartEffect(void *,int,int);
 extern int G3D_SYSTEM_GetObjectRender(int *),G3D_SYSTEM_GetRenderTexRes(int *),G3D_SYSTEM_GetRenderObj(int *);
-extern int func_02047250(char *);
+extern int DWCi_LSTlPopFront(char *);
 extern void NNS_G3dReleaseMdlPltt(char *);
 extern int NNS_G3dBindMdlPlttEx(char *,char *,u32,u32);
 extern u16 G3D_UTIL_AddUnit(Util *util, const struct G3dUnitSetup *setup);
@@ -608,10 +608,10 @@ void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index)
 {
     void *p;
     p=ARC_TOOL_CreateHandle(181,heap);
-    func_02049B68(p,d_021BAF14[index].cell,0,0,0,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(p,d_021BAF14[index].cell,0,0,0,heap);
     ARC_UTIL_UploadBgCharFromHandle(p,d_021BAF14[index].palette,3,0,0,0,heap);
     ARC_UTIL_UploadBgPaletteFromHandle(p,d_021BAF14[index].anim,3,0,0,0,heap);
-    func_02049B68(p,4,4,0,0,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(p,4,4,0,0,heap);
     ARC_UTIL_UploadBgCharFromHandle(p,3,6,0,0,0,heap);
     ARC_UTIL_UploadBgPaletteFromHandle(p,5,6,0,0,0,heap);
     ARC_TOOL_DeleteHandle(p);
@@ -669,7 +669,7 @@ void COMM_BTL_DEMO_MAIN_SetupFirstSide(struct CommBtlDemoMain *p) {
     int i;
     struct CommBtlDemoGfx *sub;
     sub = &p->gfx;
-    object = (void *)func_02048A18((u8 *)sub->util, sub->unitIndex);
+    object = (void *)G3D_UTIL_GetObject((u8 *)sub->util, sub->unitIndex);
     for(i=0;i<2;i++) {
         int state = 1;
         if (p->rows[i].paletteKind) state = 2;
@@ -690,7 +690,7 @@ void COMM_BTL_DEMO_MAIN_SetupFirstSide(struct CommBtlDemoMain *p) {
 
 
 
-void COMM_BTL_DEMO_MAIN_SetupSecondSide(struct CommBtlDemoMain *p) {int *object;int i;struct CommBtlDemoGfx *sub;sub=&p->gfx;object=(int *)func_02048A18((u8 *)sub->util,sub->unitIndex);for(i=0;i<4;i++){int value=1;if(p->rows[i].paletteKind)value=3;COMM_BTL_DEMO_MAIN_BindModelPalette(object,i+1,value);}}
+void COMM_BTL_DEMO_MAIN_SetupSecondSide(struct CommBtlDemoMain *p) {int *object;int i;struct CommBtlDemoGfx *sub;sub=&p->gfx;object=(int *)G3D_UTIL_GetObject((u8 *)sub->util,sub->unitIndex);for(i=0;i<4;i++){int value=1;if(p->rows[i].paletteKind)value=3;COMM_BTL_DEMO_MAIN_BindModelPalette(object,i+1,value);}}
 
 
 
@@ -1126,7 +1126,7 @@ void COMM_BTL_DEMO_MAIN_InitRowContext(struct CommBtlDemoRow *p,unsigned char ki
     COMM_BTL_DEMO_MAIN_InitActorRow(&p->actor,((struct CommBtlDemoSide *)owner)->party,kind,index,a,b,(const unsigned char *)(owner+10));
     p->textBuf=STRBUF_Create(16,116);
     MYSTATUS_NameToStrbuf(((struct CommBtlDemoSide *)(p->owner))->textSys,p->textBuf);
-    p->paletteKind=func_02008550(((struct CommBtlDemoSide *)(p->owner))->textSys);
+    p->paletteKind=MYSTATUS_GetOutfitVariant(((struct CommBtlDemoSide *)(p->owner))->textSys);
     p->window=COMM_BTL_DEMO_MAIN_CreateRowWindow(kind,index);
     if(COMM_BTL_DEMO_MAIN_HasVisibleActors(p->kind)==0) COMM_BTL_DEMO_MAIN_DrawRowText(p,p->textArg);
 }
@@ -1219,20 +1219,20 @@ void COMM_BTL_DEMO_MAIN_SetActorAnimKind(void *p,int kind,int variant)
 {
     switch(kind) {
     case 13:
-        if(variant==0) func_02008DF0(p,14);
-        else if(variant==1) func_02008DF0(p,15);
+        if(variant==0) RECORD_AddOne(p,14);
+        else if(variant==1) RECORD_AddOne(p,15);
         break;
     case 37:
-        if(variant==0) func_02008DF0(p,38);
-        else if(variant==1) func_02008DF0(p,39);
+        if(variant==0) RECORD_AddOne(p,38);
+        else if(variant==1) RECORD_AddOne(p,39);
         break;
     case 17:
-        if(variant==0) func_02008DF0(p,18);
-        else if(variant==1) func_02008DF0(p,19);
-        else if(variant==2) func_02008DF0(p,20);
+        if(variant==0) RECORD_AddOne(p,18);
+        else if(variant==1) RECORD_AddOne(p,19);
+        else if(variant==2) RECORD_AddOne(p,20);
         break;
     }
-    func_02008DF0(p,kind);
+    RECORD_AddOne(p,kind);
 }
 
 
@@ -1349,7 +1349,7 @@ void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p)
         arg.pos.x=0; arg.pos.y=0; arg.pos.z=0;
         arg.scale.x=0x1000; arg.scale.y=0x1000; arg.scale.z=0x1000;
         MTX_Identity33_(&arg.rot);
-        object=(void *)func_02048A18((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util),((struct CommBtlDemoGfx *)p)->unitIndex);
+        object=(void *)G3D_UTIL_GetObject((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util),((struct CommBtlDemoGfx *)p)->unitIndex);
         G3D_SYSTEM_DrawObject(object,&arg);
     }
     COMM_BTL_DEMO_GRAPHIC_DrawEnd(((struct CommBtlDemoGfx *)p)->state);
@@ -1376,7 +1376,7 @@ void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
     PARTICLE_InitCamera(*(struct ParticleCamera * *)&((struct CommBtlDemoGfx *)p)->particleSystem,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct CommBtlDemoGfx *)p)->heap);
     resource=PARTICLE_LoadArchiveMember(0xB5,code,((struct CommBtlDemoGfx *)p)->heap);
     ((struct CommBtlDemoGfx *)p)->resourceType=BUTTON_MAN_GetResourceType((void *)resource);
-    context=func_020056BC();
+    context=GFL_USE_GetMainTaskList();
     PARTICLE_SetupSystem(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem,resource,0,context);
 }
 
@@ -1404,7 +1404,7 @@ void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v) { int i; for(i=0;i<((struct 
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct G3dRenderObjRef *)((char *)G3D_SYSTEM_GetRenderObj(q)))->resMdl; r=(char *)func_02047250(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
+int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct G3dRenderObjRef *)((char *)G3D_SYSTEM_GetRenderObj(q)))->resMdl; r=(char *)DWCi_LSTlPopFront(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
 
 
 
@@ -1418,7 +1418,7 @@ void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index)
     if (((struct CommBtlDemoGfx *)p)->loaded) COMM_BTL_DEMO_MAIN_UnloadObject((char *)p);
     ((struct CommBtlDemoGfx *)p)->unitIndex=G3D_UTIL_AddUnit(*(Util * *)&((struct CommBtlDemoGfx *)p)->util, &d_021BB0F8[index]);
     ((struct CommBtlDemoGfx *)p)->loaded=1;
-    object=(int *)func_02048A18((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
+    object=(int *)G3D_UTIL_GetObject((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
     count=G3D_SYSTEM_GetObjectAnimeCount(object);
     for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime((struct G3dSystem *)object,(u16)i);
 }
@@ -1444,7 +1444,7 @@ int COMM_BTL_DEMO_MAIN_UpdateObjectAnime(unsigned char *p)
     int *object;
     int count,i;
     if(((struct CommBtlDemoGfx *)p)->animeDone) return 0;
-    object=(int *)func_02048A18((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
+    object=(int *)G3D_UTIL_GetObject((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
     count=G3D_SYSTEM_GetObjectAnimeCount(object);
     for(i=0;i<count;i++) {
         result=G3D_SYSTEM_LoopObjectAnimeFrame(object,(u16)i,d_021BB320<<12);

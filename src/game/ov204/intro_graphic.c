@@ -108,7 +108,7 @@
  *   INTRO_MSG_GetMenuChoice 0x021BF538 thumb ov204
  *   gIntroGraphicHandlerTable 0x021C09D0 data a4
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
@@ -276,7 +276,7 @@ extern void INTRO_MSG_CreateMenuList(char *p, u32 *entries, u32 count, int flag)
 extern void INTRO_MSG_MainMenuList(u8 *p);
 extern int INTRO_MSG_GetMenuChoice(u8 *p, int *out);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
@@ -786,8 +786,8 @@ int INTRO_GRAPHIC_CmdLoadPalette(char *p,void *unused,int *state)
     void *arc,*out,*buf;
     heap=work->heapId;
     arc=ARC_TOOL_CreateHandle(0xAA,heap);
-    func_02049B68(arc,1,0,0,64,heap);
-    func_02049B68(arc,1,4,0,32,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,0,0,64,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,4,0,32,heap);
     ARC_UTIL_UploadBgCharFromHandle(arc,0,6,0,0,0,heap);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,2,6,0,0,0,heap);
     ARC_UTIL_UploadBgCharFromHandle(arc,0,3,0,0,0,heap);

@@ -22,10 +22,11 @@
  *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
- *   func_020084F4  0x020084F4  thumb
- *   func_02008534  0x02008534  thumb
+ *   MYSTATUS_GetName  0x020084F4  thumb
+ *   MYSTATUS_GetIdLow16  0x02008534  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   WIFILIST_FindFriendByStatus  0x02009D1C  thumb
  */
 #include "comm_player_support_shared_types.h"
 
@@ -76,11 +77,11 @@ extern int GAME_DATA_GetIntrudeCount(struct PlayerInfo *info);
 
 extern int GAME_DATA_GetSeason(struct PlayerInfo *info);
 
-extern int func_02009D1C(struct PlayerLookup *lookup, const struct PlayerRecord *record, u32 *out);
+extern int WIFILIST_FindFriendByStatus(struct PlayerLookup *lookup, const struct PlayerRecord *record, u32 *out);
 
-extern u16 *func_020084F4(const struct PlayerRecord *record);
+extern u16 *MYSTATUS_GetName(const struct PlayerRecord *record);
 
-extern u16 func_02008534(const struct PlayerRecord *record);
+extern u16 MYSTATUS_GetIdLow16(const struct PlayerRecord *record);
 
 struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId);
 
@@ -318,7 +319,7 @@ int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct Playe
             }
         }
         if (matches == 1) {
-            return func_02009D1C(lookup, &book->record, 0);
+            return WIFILIST_FindFriendByStatus(lookup, &book->record, 0);
         }
     }
     return 0;
@@ -326,16 +327,16 @@ int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct Playe
 
 /*
  * A forwarding leaf after COMM_PLAYER_SUPPORT_FindPeerRecord's pop: a pool-word tail call to
- * func_020084F4 (the u16 pointer accessor), the caller's argument passed
+ * MYSTATUS_GetName (the u16 pointer accessor), the caller's argument passed
  * through untouched ("ldr r3, [pc]; bx r3").  Called from the overlays only.
  */
 u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record)
 {
-    return func_020084F4(record);
+    return MYSTATUS_GetName(record);
 }
 
-/* Forwarding leaf: pool-word tail call to func_02008534 (the u16 getter). */
+/* Forwarding leaf: pool-word tail call to MYSTATUS_GetIdLow16 (the u16 getter). */
 u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record)
 {
-    return func_02008534(record);
+    return MYSTATUS_GetIdLow16(record);
 }

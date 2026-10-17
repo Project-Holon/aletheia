@@ -48,6 +48,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   BOX_SAVEDATA_GetBoxName  0x0200785C  thumb
  *   MSGDATA_GetMessageCount  0x02045F50  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  */
 #include "gf_font_shared_types.h"
 
@@ -87,7 +88,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 isResident, u32 archiveId, 
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 entryIndex, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 entryIndex, struct Strbuf *dest);
 
 extern u32 PMSI_PARAM_ValidateWord(u16 *value, u32 mode, u32 flag);
 
@@ -429,7 +430,7 @@ void WORDSET_SetSlotFromMessage(struct WordSet *words, u32 slot, u32 messageId, 
     struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 2, (u16)messageId, (u16)words->heapId);
 
     if (bank != 0) {
-        func_02045CAC(bank, entryIndex, words->scratch);
+        MSGDATA_ReadString(bank, entryIndex, words->scratch);
         WORDSET_SetSlotText(words, slot, words->scratch, 0);
         MSGDATA_Delete(bank);
     }
@@ -447,7 +448,7 @@ void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32
 
 void WORDSET_Callback(struct WordSet *words, u32 slot, u16 speciesId)
 {
-    func_02045CAC(gSpeciesNameBank, speciesId, words->scratch);
+    MSGDATA_ReadString(gSpeciesNameBank, speciesId, words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 
@@ -608,7 +609,7 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
 
     if (bank != 0) {
         if (entryIndex < MSGDATA_GetMessageCount(bank)) {
-            func_02045CAC(bank, entryIndex, words->scratch);
+            MSGDATA_ReadString(bank, entryIndex, words->scratch);
             WORDSET_SetSlotText(words, slot, words->scratch, 0);
         } else {
             WORDSET_ResetSlot(words, slot);
@@ -645,7 +646,7 @@ void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 ent
         bank = MSGDATA_CreateFromArchive(0, 2, (u16)messageId, (u16)words->heapId);
         if (bank != 0) {
             if (entryIndex < MSGDATA_GetMessageCount(bank)) {
-                func_02045CAC(bank, entryIndex, words->scratch);
+                MSGDATA_ReadString(bank, entryIndex, words->scratch);
                 WORDSET_SetSlotText(words, slot, words->scratch, 0);
                 MSGDATA_Delete(bank);
                 return;
@@ -767,7 +768,7 @@ void WORDSET_DrawF1E0(struct WordSet *words, u32 slot, u32 weekday)
 
     WORDSET_ResetSlot(words, slot);
     if (weekday <= 6 && bank != 0) {
-        func_02045CAC(bank, weekday + 0x2B, words->scratch);
+        MSGDATA_ReadString(bank, weekday + 0x2B, words->scratch);
         WORDSET_SetSlotText(words, slot, words->scratch, 0);
         MSGDATA_Delete(bank);
     }
@@ -1040,7 +1041,7 @@ u32 WORDSET_CheckF448(const u16 *left, const u16 *right)
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md:
  * written as two separate early returns the function grows a second epilogue.
  *
- * This is its own file rather than part of src/pending/sub_0201F4A0.c
+ * This is its own file rather than part of src/pending/WORDSET_ParsePackedLimits.c
  * because WORDSET_ParsePackedLimits holds the only call to it in the image.  Matched
  * apart, that call is an ordinary `label` witness from outside this range,
  * and the `matched` class then carries the site in WORDSET_ParsePackedLimits itself.
@@ -1094,7 +1095,7 @@ u32 WORDSET_CheckF47C(struct Strbuf *text)
  *    (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/sub_0201F4A0.c  *       --addr 0x0201F4A0 --thumb
+ *   python tools/match.py tu --src src/pending/WORDSET_ParsePackedLimits.c  *       --addr 0x0201F4A0 --thumb
  */
 void WORDSET_ParsePackedLimits(struct Strbuf *dst, struct Strbuf *src)
 {

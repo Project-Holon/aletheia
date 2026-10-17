@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -33,8 +33,8 @@
  *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   G3D_UTIL_GetUnitObjIdx  0x020489F4  arm
- *   func_02048A00  0x02048A00  arm
- *   func_02048A18  0x02048A18  arm
+ *   G3D_UTIL_GetUnitObjCount  0x02048A00  arm
+ *   G3D_UTIL_GetObject  0x02048A18  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   GFL_HEAP_GetAllocatableSize  0x0203038C  arm
  *   d_021DA7F4     0x021DA7F4  data  ov021  a4
@@ -89,7 +89,7 @@
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   BMP_GetVisiblePlane  0x02043658  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
- *   func_020124F0  0x020124F0  thumb
+ *   GAME_EVENT_GetParent  0x020124F0  thumb
  *   BMP_Delete  0x020437AC  arm
  *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
@@ -98,14 +98,14 @@
  *   PM_VOICE_AddVolume  0x02006A8C  thumb
  *   PM_VOICE_StopAll  0x020065D8  thumb
  *   BMP_Create  0x02043678  arm
- *   func_02048A0C  0x02048A0C  arm
- *   func_02047388  0x02047388  arm
- *   func_020473B8  0x020473B8  arm
+ *   G3D_UTIL_GetResource  0x02048A0C  arm
+ *   G3D_SYSTEM_GetTexVramKey  0x02047388  arm
+ *   G3D_SYSTEM_GetPlttVramKey  0x020473B8  arm
  *   POKEGRA_GetArcID  0x0202D060  thumb
  *   POKEGRA_GetCgrArcIndex  0x0202D064  thumb
  *   POKEGRA_GetPalArcIndex  0x0202D0D4  thumb
- *   func_02049E34  0x02049E34  arm
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadScreenDataFromArchive  0x02049E34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_02082A7C  0x02082A7C  arm
  *   MIi_CpuCopy32  0x02082A90  arm
@@ -117,7 +117,7 @@
  *   NNS_G3dGetTex  0x0206E964  arm
  *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   d_021DE3E4     0x021DE3E4  data  ov021  a4
  *   d_021DE3F4     0x021DE3F4  data  ov021  a4
@@ -187,9 +187,9 @@ void G3D_CAMERA_Reset(void *camera);
 
 u32 G3D_UTIL_GetUnitObjIdx(void *gfxUnits, int index);
 
-u32 func_02048A00(void *gfxUnits, int index);
+u32 G3D_UTIL_GetUnitObjCount(void *gfxUnits, int index);
 
-u32 func_02048A18(void *gfxUnits, int index);
+u32 G3D_UTIL_GetObject(void *gfxUnits, int index);
 
 void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
 
@@ -197,7 +197,7 @@ u32 GFL_HEAP_GetAllocatableSize(int a);
 
 extern void *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 workSize);
 
-extern void *func_020124E8(void *event);
+extern void *GAME_EVENT_GetWork(void *event);
 
 void *ICA_ANIME_GetField1C(const void *p);
 
@@ -305,7 +305,7 @@ u32 BMP_GetVisiblePlane(void);
 
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 
-extern void *func_020124F0(void *event);
+extern void *GAME_EVENT_GetParent(void *event);
 
 void BMP_Delete(void *bmp);
 
@@ -323,11 +323,11 @@ void PM_VOICE_StopAll(void);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-extern u32 func_02048A0C(void *gfxUnits, int index);
+extern u32 G3D_UTIL_GetResource(void *gfxUnits, int index);
 
-extern u32 func_02047388(void *texBlock);
+extern u32 G3D_SYSTEM_GetTexVramKey(void *texBlock);
 
-extern u32 func_020473B8(void *texBlock);
+extern u32 G3D_SYSTEM_GetPlttVramKey(void *texBlock);
 
 extern int POKEGRA_GetArcID(void);
 
@@ -335,9 +335,9 @@ extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6
 
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
@@ -361,7 +361,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, 
 
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 
-extern u8 func_02008550(const void *playerStatus);
+extern u8 MYSTATUS_GetOutfitVariant(const void *playerStatus);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
@@ -621,9 +621,9 @@ void FLD3D_CI_DrawEffect(Fld3dCi *ci)
         G3D_CAMERA_Reset(ci->cameraOrtho);
     if (ci->effectUnit != -1) {
         first = (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)ci->effectUnit);
-        count = (int)func_02048A00(ci->gfxUnits, (u16)ci->effectUnit);
+        count = (int)G3D_UTIL_GetUnitObjCount(ci->gfxUnits, (u16)ci->effectUnit);
         for (i = 0; i < count; i++) {
-            object = (int)func_02048A18(ci->gfxUnits, (u16)(first + i));
+            object = (int)G3D_UTIL_GetObject(ci->gfxUnits, (u16)(first + i));
             G3D_SYSTEM_DrawObject((void *)object, &ci->status);
         }
     }
@@ -645,7 +645,7 @@ void *FLD3D_CI_StartSequence(void *gameSystem, Fld3dCi *ci, int sequenceId)
     ci->finishStep = 0;
     ci->cameraSelect = 0;
     event = GAME_EVENT_Create(gameSystem, 0, FLD3D_CI_EventMain, 0x40);
-    FLD3D_CI_InitEventWork(ci, func_020124E8(event));
+    FLD3D_CI_InitEventWork(ci, GAME_EVENT_GetWork(event));
     return event;
 }
 
@@ -706,7 +706,7 @@ void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, 
         GF_OVERLAY_Unload((int)abs_id_4A);
         return 0;
     }
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     FLD3D_CI_InitEventWork(ci, work);
     work->fadeVariant = fadeVariant;
     if (row[4] != 0)
@@ -916,7 +916,7 @@ int FLD3D_CI_UpdateTrackA(Fld3dCi *ci)
     if (ci->waitDelay[0] != 0) {
         (ci->waitDelay[0])--;
     } else {
-        object = func_02048A18(ci->gfxUnits, (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)));
+        object = G3D_UTIL_GetObject(ci->gfxUnits, (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)));
         count = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
         for (i = 0; i < count; i++)
             result = G3D_SYSTEM_IncObjectAnimeFrame((G3dObject *)object, i, 0x1000);
@@ -939,7 +939,7 @@ int FLD3D_CI_UpdateTrackB(Fld3dCi *ci)
     if (ci->waitDelay[1] != 0) {
         (ci->waitDelay[1])--;
     } else {
-        object = (int)func_02048A18(ci->gfxUnits, (u16)((int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)) + 1));
+        object = (int)G3D_UTIL_GetObject(ci->gfxUnits, (u16)((int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)) + 1));
         count = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
         for (i = 0; i < count; i++)
             result = G3D_SYSTEM_IncObjectAnimeFrame((G3dObject *)object, i, 0x1000);
@@ -971,9 +971,9 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
         effectRes = 0;
     }
     first = (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)ci->effectUnit);
-    unitCount = (int)func_02048A00(ci->gfxUnits, (u16)ci->effectUnit);
+    unitCount = (int)G3D_UTIL_GetUnitObjCount(ci->gfxUnits, (u16)ci->effectUnit);
     for (unit = 0; unit < unitCount; unit++) {
-        object = (int)func_02048A18(ci->gfxUnits, (u16)(first + unit));
+        object = (int)G3D_UTIL_GetObject(ci->gfxUnits, (u16)(first + unit));
         animCount = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
         for (j = 0; j < animCount; j++)
             G3D_SYSTEM_EnableObjectAnime((G3dObject *)object, (u8)j);
@@ -1210,7 +1210,7 @@ int FLD3D_CI_PokemonExtraTask(void *event, int *state)
     Fld3dCi *ci;
     Fld3dCiEventWork *parentWork;
 
-    parentWork = func_020124E8(func_020124F0(event));
+    parentWork = GAME_EVENT_GetWork(GAME_EVENT_GetParent(event));
     ci = parentWork->ci;
     ICA_ANIME_GetField20(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
@@ -1294,9 +1294,9 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
     heapId = ci->heapId;
     ci->canvas = BMP_Create(16, 16, 32, heapId);
     tile = 0;
-    texBlock = (void *)func_02048A0C(ci->gfxUnits, 0);
-    texSize = func_02047388(texBlock);
-    plttSize = func_020473B8(texBlock);
+    texBlock = (void *)G3D_UTIL_GetResource(ci->gfxUnits, 0);
+    texSize = G3D_SYSTEM_GetTexVramKey(texBlock);
+    plttSize = G3D_SYSTEM_GetPlttVramKey(texBlock);
     texOffset = (u16)texSize << 3;
     plttOffset = (u16)plttSize << 3;
     args = ci->arg.args;
@@ -1304,8 +1304,8 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
     plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), args[0], args[1], args[2], args[3], 0, args[4]);
     ci->chr = 0;
     ci->pltt = 0;
-    ci->chrRes = func_02049E34(POKEGRA_GetArcID(), chrFile, 1, (u32)(&ci->chr), heapId);
-    ci->plttRes = func_02049F34(POKEGRA_GetArcID(), plttFile, (u32)(&ci->pltt), heapId);
+    ci->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (u32)(&ci->chr), heapId);
+    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&ci->pltt), heapId);
     chrSrc = ci->chr->raw;
     tileBuf = BMP_GetPixels(ci->canvas);
     func_02082A7C(0, tileBuf, 0x2000);
@@ -1420,16 +1420,16 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
 
     heapId = ci->heapId;
     tile = 0;
-    texBlock = (void *)func_02048A0C(ci->gfxUnits, 0);
-    func_02047388(texBlock);
-    func_020473B8(texBlock);
+    texBlock = (void *)G3D_UTIL_GetResource(ci->gfxUnits, 0);
+    G3D_SYSTEM_GetTexVramKey(texBlock);
+    G3D_SYSTEM_GetPlttVramKey(texBlock);
     modelRes = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(texBlock));
     texOffset = FLD3D_CI_FindTexture(modelRes, texName);
     plttOffset = FLD3D_CI_FindPalette(modelRes, plttName);
     ci->chr = 0;
     ci->pltt = 0;
     ci->chrRes = ARC_UTIL_LoadBgCharDataFromArchive(0xb4, chrFile, 1, (u32)(&ci->chr), heapId);
-    ci->plttRes = func_02049F34(0xb4, plttFile, (u32)(&ci->pltt), heapId);
+    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0xb4, plttFile, (u32)(&ci->pltt), heapId);
     chrSrc = ci->chr->raw;
     tileBuf = BMP_GetPixels(ci->canvas);
     func_02082A7C(0, tileBuf, 0x2000);
@@ -1446,7 +1446,7 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
 }
 
 /*
- * func_020124E8 takes the event (the first parameter, still in r0 on the
+ * GAME_EVENT_GetWork takes the event (the first parameter, still in r0 on the
  * path to the call): that is what keeps r0 live and puts the switch value
  * in r1.
  */
@@ -1458,7 +1458,7 @@ int FLD3D_CI_NameFinishStep(void *event, Fld3dCi *ci)
             ci->finishState = ci->finishState + 1;
         break;
     case 1:
-        FADE_Start(((Fld3dCiEventWork *)func_020124E8(event))->fadeVariant != 0 ? 0xC : 3, 0, 0x10, -1);
+        FADE_Start(((Fld3dCiEventWork *)GAME_EVENT_GetWork(event))->fadeVariant != 0 ? 0xC : 3, 0, 0x10, -1);
         ci->finishState += 1;
     case 2:
         if (FADE_IsActive() == 0)
@@ -1479,7 +1479,7 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
     u32 chrFile;
     u32 plttFile;
 
-    parentWork = func_020124E8(func_020124F0(event));
+    parentWork = GAME_EVENT_GetWork(GAME_EVENT_GetParent(event));
     gameSystem = GAME_EVENT_GetGameSystem(event);
     playerStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem));
     ci = parentWork->ci;
@@ -1504,7 +1504,7 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
             break;
         }
         ci->canvas = BMP_Create(16, 16, 32, ci->heapId);
-        if (func_02008550(playerStatus) == 0) {
+        if (MYSTATUS_GetOutfitVariant(playerStatus) == 0) {
             chrFile = 0;
             plttFile = 0x16;
         } else {
@@ -1604,7 +1604,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     int xOffset;
     u16 *palette;
 
-    texBlock = (void *)func_02048A0C(ci->gfxUnits, 0);
+    texBlock = (void *)G3D_UTIL_GetResource(ci->gfxUnits, 0);
     heapId = ci->heapId;
     msgBank = MSGDATA_CreateFromArchive(0, 2, 0xb0, heapId);
     if (msgId == 0) {
@@ -1630,7 +1630,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
         if (xOffset < 0)
             xOffset = 0;
     }
-    ci->plttRes = func_02049F34(0x17, 5, (u32)(&ci->pltt), heapId);
+    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0x17, 5, (u32)(&ci->pltt), heapId);
     palette = ci->pltt->raw;
     palette[1] = 0x7FFF;
     palette[2] = 0;

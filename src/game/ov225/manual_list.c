@@ -43,7 +43,7 @@
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   gManualCommonListHeadPos 0x021BBF8C data ov225 a2
@@ -174,7 +174,7 @@ extern void APP_TASKMENU_WIN_Update(u8 *p);
 
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
 
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -380,7 +380,7 @@ void MANUAL_COMMON_LoadListWorkAssets(char *work)
     struct ManualQuad quad[2];
     u8 i;
     char *parent;
-    func_02049B68(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,0,4,0,0x40,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,0,4,0,0x40,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     ARC_UTIL_UploadBgCharFromHandle(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,2,4,0,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,5,4,0,0,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     *(int *)&((struct ManualListWork *)work)->reg1=CLACT_RegisterPaletteEx(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,1,1,0,0,1,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);

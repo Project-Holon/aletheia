@@ -46,7 +46,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
@@ -58,7 +58,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   P_STA_RIBBON_FileName 0x021DC834 data a1
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   BMP_CreateFromVram 0x02043754 arm
  *   BMP_Delete 0x020437AC arm
  *   P_STA_RIBBON_KindCountInit 0x021DC2B0 data a1
@@ -265,14 +265,14 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
 extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
-extern void *func_02049EF4(void *arc, unsigned int fileId, unsigned int a, void **outData, unsigned short heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int a, void **outData, unsigned short heapId);
 extern void BG_SYS_DrawTileEx(u32 bgId, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
 extern void BG_SYS_DecodeTile(u32 palIndex, const void *src, u32 size);
 extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 space);
 extern void BG_SYS_SetTileEntry(unsigned int bgId, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
 extern void BG_SYS_ClearLayerEx(int bgId, u16 value);
-extern void *func_02049E74(void *arc, u32 fileId, u32 a, void **outData, u16 heapId);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 fileId, u32 a, void **outData, u16 heapId);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
@@ -354,11 +354,11 @@ void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *work)
 
 void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *work, void *arc)
 {
-    work->listScrnMem = func_02049EF4(arc, 66, 0, (void **)&work->listScrn, wk->heapId);
-    work->listPalMem = func_02049EF4(arc, 67, 0, (void **)&work->listPal, wk->heapId);
-    work->detailPalMem = func_02049EF4(arc, 68, 0, (void **)&work->detailPal, wk->heapId);
-    work->titleScrnMem = func_02049EF4(arc, 69, 0, (void **)&work->titleScrn, wk->heapId);
-    work->iconChrMem = func_02049E74(arc, 12, 0, (void **)&work->iconChr, wk->heapId);
+    work->listScrnMem = ARC_UTIL_LoadPaletteDataFromHandle(arc, 66, 0, (void **)&work->listScrn, wk->heapId);
+    work->listPalMem = ARC_UTIL_LoadPaletteDataFromHandle(arc, 67, 0, (void **)&work->listPal, wk->heapId);
+    work->detailPalMem = ARC_UTIL_LoadPaletteDataFromHandle(arc, 68, 0, (void **)&work->detailPal, wk->heapId);
+    work->titleScrnMem = ARC_UTIL_LoadPaletteDataFromHandle(arc, 69, 0, (void **)&work->titleScrn, wk->heapId);
+    work->iconChrMem = ARC_UTIL_LoadScreenDataFromHandle(arc, 12, 0, (void **)&work->iconChr, wk->heapId);
     work->oamMgr = P_STA_OAM_CreateManager(wk->heapId, (u32)(wk->clunit));
 }
 

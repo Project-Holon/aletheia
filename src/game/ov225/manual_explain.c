@@ -25,7 +25,7 @@
  *   MANUAL_COMMON_UpdateTouchbar 0x021B9FBC thumb ov225
  *   MANUAL_COMMON_GetTouchbarPressed 0x021BA158 thumb ov225
  *   MANUAL_COMMON_GetTouchbarSelected 0x021BA154 thumb ov225
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   BG_SYS_SetFlagField06 0x02041B6C arm
@@ -110,7 +110,7 @@ extern unsigned MANUAL_COMMON_GetTouchbarPressed(char *p);
 
 extern unsigned MANUAL_COMMON_GetTouchbarSelected(char *p);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -262,7 +262,7 @@ void MANUAL_CATEGORY_OptionTaskNoop(void *p)
 
 void MANUAL_CATEGORY_LoadOptionAssets(char *p)
 {
-    func_02049B68((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
     ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
     ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 6, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
 }

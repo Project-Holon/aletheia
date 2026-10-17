@@ -53,7 +53,7 @@
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   GF_FONT_CountLines  0x0201D42C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
@@ -61,10 +61,10 @@
  *   STRBUF_Create  0x020457B0  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
- *   func_02049990  0x02049990  arm
- *   func_02049F78  0x02049F78  arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  *   sMenuPlttRowOffsets     0x021DDAD4  data  ov021  a2
  *   BUTTON_MAN_Create  0x02051B84  arm
@@ -87,7 +87,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   IRC_BATTLE_ENTRY_GetSaveControl  0x02155A94  thumb  ov010
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_GetButtonMode  0x02008428  thumb
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   func_0204BA00  0x0204BA00  arm
@@ -147,7 +147,7 @@
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_020071F0  0x020071F0  thumb
+ *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
@@ -319,7 +319,7 @@ extern void CLACT_ReleasePalette(u32 res);
 extern void CLACT_ReleaseCharacter(u32 res);
 extern void CLACT_ReleaseCellAnim(u32 res);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgData *msgData, u32 strId, struct StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgData *msgData, u32 strId, struct StrBuf *dest);
 extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInit *init, struct TaskMenuRes *res);
 extern int APP_TASKMENU_SetDisableKey(struct TaskMenuWork *menu, int pos);
 extern void STRBUF_Delete(struct StrBuf *str);
@@ -351,7 +351,7 @@ extern void BG_SYS_ClearSlot(u32 frame);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenuWork *menu);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern u32 func_020071F0(void);
+extern u32 SAVE_CONTROL_WouldOverwriteSave(void);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 extern void CLACT_VBlankSystem(void);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeap, u32 heapId, u32 size);
@@ -483,10 +483,10 @@ extern u32 GF_FONT_CountLines(struct StrBuf *str, struct GfFont *font);
 extern void BUTTON_MAN_Delete(struct TouchSwitch *touchSw);
 extern struct GfFont *GF_FONT_Create(int a, int b, int c, int d, u32 heapId);
 extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02049B68(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u16 heapId);
-extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void *func_02049F78(struct ArcHandle *arc, u32 id, struct PaletteData **out, u32 heapId);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(struct ArcHandle *arc, u32 id, struct PaletteData **out, u32 heapId);
 extern u32 BMP_MENUWORK_LoadFrameGfx(u32 a, u32 b, u32 c, u32 heapId);
 extern struct TouchSwitch *BUTTON_MAN_Create(const u8 *table, void (*callback)(u32 index, int event, IrcBattleMenuWork *work), IrcBattleMenuWork *work, int heapId);
 extern s32 BUTTON_MAN_UpdateSlots(struct TouchSwitch *touchSw);
@@ -499,7 +499,7 @@ extern struct CommSys *ICA_ANIME_GetField24(const struct GameSystem *gameSys);
 extern u32 GAME_COMM_GetKind(struct CommSys *comm);
 extern void GAME_COMM_RequestExitNoCallback(struct CommSys *comm);
 extern void *IRC_BATTLE_ENTRY_GetSaveControl(IrcBattleEntryWork *entry);
-extern struct PartyInfo *func_0200873C(void *sys);
+extern struct PartyInfo *SYSTEM_DATA_GetConfig(void *sys);
 extern int CONFIG_GetButtonMode(struct PartyInfo *info);
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32 POKEPARTY_GetNonEggCount(void *party);
@@ -749,7 +749,7 @@ void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork
         GF_FONT_SetTextColor(15, 2, 0);
         work->menuWins[i] = BMP_WIN_Create(7, (u8)descs[i].posX, (u8)descs[i].posY, (u8)descs[i].width, (u8)descs[i].height, 8, 0);
         BMP_Clear(BMP_WIN_GetBmp(work->menuWins[i]), 0);
-        func_02045CAC(work->msgData, msgIds[i], work->message);
+        MSGDATA_ReadString(work->msgData, msgIds[i], work->message);
         if (centerX != 0) {
             x = centerX[i] - (GF_FONT_MeasureWidestLine(work->message, work->font, 0) >> 1);
         } else {
@@ -845,21 +845,21 @@ void IRCBATTLEMENU_LoadMenuGraphics(IrcBattleMenuWork *work)
     work->font = GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
     work->msgData = MSGDATA_CreateFromArchive(0, 2, 0x2E, work->heapId);
     arc = ARC_TOOL_CreateHandle(0x1C, work->heapId);
-    func_02049B68(arc, 1, 0, 0, 0, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 0, 0, 0, work->heapId);
     work->mainBgChar = ARC_UTIL_RegisterObjCharFromHandle(arc, 6, 0, 0, 0, work->heapId);
-    func_02049990(arc, 0xD, 0, 0, (u16)work->mainBgChar, 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 0xD, 0, 0, (u16)work->mainBgChar, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     arc = ARC_TOOL_CreateHandle(0x1D, work->heapId);
-    func_02049B68(arc, 2, 4, 0, 0, work->heapId);
-    plttRes = func_02049F78(arc, 2, &plttData, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 2, 4, 0, 0, work->heapId);
+    plttRes = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 2, &plttData, work->heapId);
     MI_CpuCopy8(plttData->rawData, work->menuPltt, 0x100);
     MI_CpuCopy8(plttData->rawData, work->menuPlttBright, 0x100);
     IRCBATTLEMENU_BrightenPalette(work->menuPlttBright, sMenuPlttRowOffsets, 8);
     GFL_HEAP_Free(plttRes);
-    func_02049B68(arc, 0, 0, 0, 0, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 0, 0, 0, 0, work->heapId);
     work->subBgChar = ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 4, 0, 0, work->heapId);
-    func_02049990(arc, 9, 4, 0, (u16)work->subBgChar, 0, 0, work->heapId);
-    func_02049990(arc, 0xB, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 9, 4, 0, (u16)work->subBgChar, 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 0xB, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     work->winFrameChar = BMP_MENUWORK_LoadFrameGfx(5, 0xC, 0, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x160, 0x20, work->heapId);
@@ -871,7 +871,7 @@ void IRCBATTLEMENU_LoadSubBgScreen(IrcBattleMenuWork *work, u32 screenId)
     struct ArcHandle *arc;
 
     arc = ARC_TOOL_CreateHandle(0x1D, work->heapId);
-    func_02049990(arc, screenId, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, screenId, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_SetPlaneVisible(6, 1);
 }
@@ -940,7 +940,7 @@ void IRCBATTLEMENU_HookTopMenuPressed(IrcBattleMenuWork *work)
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, 0x38C);
         return;
     }
-    if (CONFIG_GetButtonMode(func_0200873C(IRC_BATTLE_ENTRY_GetSaveControl(work->param))) == 1) {
+    if (CONFIG_GetButtonMode(SYSTEM_DATA_GetConfig(IRC_BATTLE_ENTRY_GetSaveControl(work->param))) == 1) {
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveQuestion, 0x38F);
         return;
     }
@@ -1005,7 +1005,7 @@ int IRCBATTLEMENU_TouchTopMenu(u32 index, IrcBattleMenuWork *work)
     case 1:
     case 6:
         if ((int)POKEPARTY_GetNonEggCount(GAME_DATA_GetMyParty(work->gameData)) < 2) {
-            func_02045CAC(work->msgData, 0x2C, work->message);
+            MSGDATA_ReadString(work->msgData, 0x2C, work->message);
             IRCBATTLEMENU_PrintMessage(work, 0);
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitNotEnoughMsg, 0x3EA);
         } else {
@@ -1516,10 +1516,10 @@ void IRCBATTLEMENU_OpenYesNoMenu(IrcBattleMenuWork *work)
     init.width = 0xD;
     init.height = 3;
     work->yesNoItems[0].str = STRBUF_Create(100, work->heapId);
-    func_02045CAC(work->msgData, 26, work->yesNoItems[0].str);
+    MSGDATA_ReadString(work->msgData, 26, work->yesNoItems[0].str);
     work->yesNoItems[0].msgColor = 0x39E3;
     work->yesNoItems[1].str = STRBUF_Create(100, work->heapId);
-    func_02045CAC(work->msgData, 27, work->yesNoItems[1].str);
+    MSGDATA_ReadString(work->msgData, 27, work->yesNoItems[1].str);
     work->yesNoItems[1].msgColor = 0x39E3;
     work->yesNoItems[0].type = 0;
     work->yesNoItems[1].type = 0;
@@ -1586,7 +1586,7 @@ void IRCBATTLEMENU_SeqSaveQuestion(IrcBattleMenuWork *work)
 {
     IRCBATTLEMENU_SetSubPaletteActive(work, 1);
     BG_SYS_ClearLayerEx(5, 0);
-    func_02045CAC(work->msgData, 25, work->message);
+    MSGDATA_ReadString(work->msgData, 25, work->message);
     IRCBATTLEMENU_PrintMessage(work, 0);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveQuestionWait, 0x761);
 }
@@ -1635,12 +1635,12 @@ void IRCBATTLEMENU_SeqSaveYesNo(IrcBattleMenuWork *work)
     if (APP_TASKMENU_IsFinish(work->yesNoMenu) != 0) {
         if (APP_TASKMENU_GetCursorPos(work->yesNoMenu) == 0) {
             GAME_DATA_GetSaveControl(work->gameData);
-            if (func_020071F0() != 0) {
-                func_02045CAC(work->msgData, 0x2d, work->message);
+            if (SAVE_CONTROL_WouldOverwriteSave() != 0) {
+                MSGDATA_ReadString(work->msgData, 0x2d, work->message);
                 IRCBATTLEMENU_PrintMessage(work, 0);
                 IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitTouchExit, 0x7b9);
             } else {
-                func_02045CAC(work->msgData, 0x1c, work->message);
+                MSGDATA_ReadString(work->msgData, 0x1c, work->message);
                 IRCBATTLEMENU_PrintMessage(work, 1);
                 IRCBATTLEMENU_CreateTimeIcon(work);
                 IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveStart, 0x7bf);

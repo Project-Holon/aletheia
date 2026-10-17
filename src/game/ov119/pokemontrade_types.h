@@ -50,7 +50,7 @@ struct UiScene {
     void * actor;               /* 0x10 */
 };
 
-/* Graphic load result written by func_02049DF4; the data pointer is at 0x14. */
+/* Graphic load result written by ARC_UTIL_LoadBgCharDataFromHandle; the data pointer is at 0x14. */
 struct GfxLoadResult {
     unsigned char pad_0[20];
     void * data;                /* 0x14 */

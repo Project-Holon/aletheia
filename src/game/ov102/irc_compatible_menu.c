@@ -22,7 +22,7 @@
  *   BG_SYS_SetAffine 0x02041FB0 arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_020070A4 0x020070A4 thumb
+ *   SAVE_CONTROL_Get 0x020070A4 thumb
  *   IRC_RANKING_GetFromSave 0x0200A8A0 thumb
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
@@ -58,7 +58,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
@@ -85,10 +85,10 @@
  *   COMPATIBLE_IRC_SYS_GetValueDifference 0x021B6480 thumb ov101
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   OS_GetTick 0x020870D0 arm
- *   func_0209C2B0 0x0209C2B0 arm
+ *   _u32_div_f 0x0209C2B0 arm
  *   IRC_APPBAR_IsPressed 0x021B7254 thumb ov101
  *   COMPATIBLE_IRC_SYS_ClearValues 0x021B63C4 thumb ov101
  *   COMPATIBLE_IRC_SYS_StepShutdown 0x021B61E8 thumb ov101
@@ -106,7 +106,7 @@
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   _u32_div_f 0x0209C2B0 arm
  *   IRC_RANKING_GetEntryCount  0x0200A8AC  thumb
@@ -163,6 +163,7 @@
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm  arm9
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm  arm9
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm  arm9
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm  arm9
  */
 #include "irc_screen_types.h"
 #include "../ov101/irc_appbar.h"
@@ -295,7 +296,7 @@ extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 extern void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
 extern void *ICA_ANIME_GetField1C(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern void *func_020070A4(void);
+extern void *SAVE_CONTROL_Get(void);
 extern void *IRC_RANKING_GetFromSave(void *saveControl);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
@@ -318,7 +319,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const void *template, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8, u8);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 extern void BG_SYS_Init(u32, u32, u32, u32);
@@ -371,7 +372,7 @@ extern void BG_SYS_PushTile(u32 bgLayer);
 extern void STRBUF_Delete(void *strBuf);
 extern void BMP_WIN_Delete(void *bmpWin);
 extern int PRINTSYS_QUE_IsExistTarget(void *printQueue, void *bmp);
-extern void func_02045CAC(void *msgData, u32 msgId, void *dest);
+extern void MSGDATA_ReadString(void *msgData, u32 msgId, void *dest);
 extern void PRINTSYS_PrintQue(void *printQueue, void *bmp, u32 x, u32 y, void *strBuf, void *font);
 extern u8 BMP_WIN_GetWidth(void *bmpWin);
 extern u8 BMP_WIN_GetHeight(void *bmpWin);
@@ -394,10 +395,10 @@ extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
-extern u32 func_02008530(const u8 *myStatus);
+extern u32 MYSTATUS_GetId(const u8 *myStatus);
 extern void MISC_SAVEDATA_InsertRecentValue(void *saveData, u32 value);
 extern unsigned long long OS_GetTick(void);
-extern u32 func_0209C2B0(u32, u32);
+extern u32 _u32_div_f(u32, u32);
 extern void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_IsPartnerReady(IrcSys *sys);
@@ -412,7 +413,7 @@ extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 p
 extern void BG_SYS_ResetSlot(u32 which, u32 op, u32 value);
 extern void CLACT_SetActorAnimSeq(void *actor, int seq);
 extern void CLACT_AddActorSurfacePos(void *actor, const void *delta, u32 which);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void CLACT_SetActorAnimFrame(void *actor, u32 frame);
 extern s32 IRC_RANKING_GetEntryCount(void *records);
 extern u32 IRC_RANKING_GetEntryGender(void *records, u32 index);
@@ -512,7 +513,7 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args)
     IRC_COMPATIBLE_MENU_InitScrollEffect(&work->scroll, 59);
     saveData = work->args->gameSystem;
     if (saveData) saveData = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(saveData));
-    else saveData = func_020070A4();
+    else saveData = SAVE_CONTROL_Get();
     IRC_COMPATIBLE_MENU_InitFloaters(&work->floaters, work, IRC_RANKING_GetFromSave(saveData), 59);
     unit = IRC_COMPATIBLE_MENU_GetSpriteUnit(work);
     font = IRC_COMPATIBLE_MENU_TextGetFont(&work->text);
@@ -637,8 +638,8 @@ void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
         BG_SYS_SetPlaneVisible(layer, 1);
     }
     arc = ARC_TOOL_CreateHandle(94, heapId);
-    func_02049B68(arc, 1, 0, 0, 0, heapId);
-    func_02049B68(arc, 1, 4, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 0, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 4, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0, 3, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0, 6, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 48, 4, 0, 0, 0, heapId);
@@ -834,7 +835,7 @@ void IRC_COMPATIBLE_MENU_PrintMessage(IrcWindow *win, IrcTextSystem *text, int m
     printQueue = IRC_COMPATIBLE_MENU_TextGetPrintQueue(text);
     font = IRC_COMPATIBLE_MENU_TextGetFont(text);
     BMP_Clear(BMP_WIN_GetBmp(win->bmpWin), win->fillColor);
-    func_02045CAC(msgData, msgId, win->strBuf);
+    MSGDATA_ReadString(msgData, msgId, win->strBuf);
     PRINTSYS_PrintQue(printQueue, BMP_WIN_GetBmp(win->printWin), (s16)x, (s16)y, win->strBuf, font);
     win->printPending = 1;
 }
@@ -847,7 +848,7 @@ void IRC_COMPATIBLE_MENU_PrintMessageCentered(IrcWindow *win, IrcTextSystem *tex
     printQueue = IRC_COMPATIBLE_MENU_TextGetPrintQueue(text);
     font = IRC_COMPATIBLE_MENU_TextGetFont(text);
     BMP_Clear(BMP_WIN_GetBmp(win->bmpWin), win->fillColor);
-    func_02045CAC(msgData, msgId, win->strBuf);
+    MSGDATA_ReadString(msgData, msgId, win->strBuf);
     x = BMP_WIN_GetWidth(win->bmpWin) * 4;
     y = BMP_WIN_GetHeight(win->bmpWin) * 4;
     x -= (u16)(GF_FONT_MeasureWidestLine(win->strBuf, font, 0) >> 1);
@@ -891,7 +892,7 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
             COMPATIBLE_IRC_SYS_GetPartnerProfile(work->args->view, work->args->profile);
             if (work->args->gameSystem) {
                 saveData = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
-                MISC_SAVEDATA_InsertRecentValue(saveData, func_02008530(work->args->profile->myStatus));
+                MISC_SAVEDATA_InsertRecentValue(saveData, MYSTATUS_GetId(work->args->profile->myStatus));
             }
             *state = 6;
         }
@@ -923,7 +924,7 @@ void IRC_COMPATIBLE_MENU_HandleChoice(IrcMenuWork *work, u16 *state)
     case 0:
         work->choice = 2;
         work->flag = 0;
-        work->startTime = func_0209C2B0((u32)OS_GetTick() << 6, 33514);
+        work->startTime = _u32_div_f((u32)OS_GetTick() << 6, 33514);
         *state = 1;
         break;
     case 1:
@@ -938,7 +939,7 @@ void IRC_COMPATIBLE_MENU_HandleChoice(IrcMenuWork *work, u16 *state)
                 break;
             }
         }
-        work->elapsed = func_0209C2B0((u32)OS_GetTick() << 6, 33514) - work->startTime;
+        work->elapsed = _u32_div_f((u32)OS_GetTick() << 6, 33514) - work->startTime;
         if (IRC_APPBAR_IsPressed(work->appBar)) IRC_COMPATIBLE_MENU_SetButtonsEnabled(&work->buttons, 0);
         if (IRC_APPBAR_GetResult(work->appBar) == 1) {
             COMPATIBLE_IRC_SYS_ResetStep(work->args->view);
@@ -1223,7 +1224,7 @@ void IRC_COMPATIBLE_MENU_InitFloater(IrcFloater *floater, void *actor, int isSpe
     offset[1] = (u16)floater->startY;
     CLACT_AddActorSurfacePos(floater->actor, offset, 1);
     CLACT_SetActorDrawEnable(floater->actor, 1);
-    CLACT_SetActorAnimFrame(floater->actor, func_02005728(0x2000));
+    CLACT_SetActorAnimFrame(floater->actor, GFL_USE_GetRandomBelow(0x2000));
 }
 
 void IRC_COMPATIBLE_MENU_ExitFloater(IrcFloater *floater) { MI_CpuFill8(floater, 0, 0x1c); }
@@ -1256,12 +1257,12 @@ void IRC_COMPATIBLE_MENU_UpdateFloater(IrcFloater *floater)
 
 void IRC_COMPATIBLE_MENU_ResetFloaterPath(IrcFloater *floater)
 {
-    floater->startX = func_02005728(256);
+    floater->startX = GFL_USE_GetRandomBelow(256);
     floater->startY = 208;
-    floater->endX = floater->startX + func_02005728(184) - 92;
+    floater->endX = floater->startX + GFL_USE_GetRandomBelow(184) - 92;
     floater->endY = 184 - 200;
     floater->step = 0;
-    floater->duration = func_02005728(360) + 240;
+    floater->duration = GFL_USE_GetRandomBelow(360) + 240;
 }
 
 /*
@@ -1283,7 +1284,7 @@ void IRC_COMPATIBLE_MENU_InitFloaters(IrcFloaters *floaters, IrcMenuWork *work, 
         void *actor = IRC_COMPATIBLE_MENU_GetSprite(work, i);
         u32 isSpecial;
         if (records == 0)
-            isSpecial = func_02005728(2);
+            isSpecial = GFL_USE_GetRandomBelow(2);
         else
             isSpecial = (IRC_RANKING_GetEntryGender(records, i) == 1);
         IRC_COMPATIBLE_MENU_InitFloater(&floaters->floater[i], actor, isSpecial, unused);

@@ -16,7 +16,7 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -43,7 +43,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_ClearAllSlots  0x0201F31C  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
@@ -103,7 +103,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileNam
 
 extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
 
-extern void *func_020124E8(struct GameTask *task);
+extern void *GAME_EVENT_GetWork(struct GameTask *task);
 
 extern int GFL_HEAP_Free();
 
@@ -151,7 +151,7 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *my
 
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
 
@@ -261,7 +261,7 @@ void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg) 
     ResearchTopTaskWork *work;
     ResearchTopParam *param;
     task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_TopTaskMain, 12);
-    work = func_020124E8(task);
+    work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->transitionArg = (int)transitionArg;
     param = GFL_HEAP_Alloc(4, 4, 0, g_ResearchRadarFileName, 117);
@@ -305,7 +305,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
 void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
     struct GameTask *task;
     task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_ReportTaskMain, 32);
-    EVENT_RESEARCH_RADAR_InitReportWork(func_020124E8(task), gameSystem);
+    EVENT_RESEARCH_RADAR_InitReportWork(GAME_EVENT_GetWork(task), gameSystem);
     return task;
 }
 
@@ -405,7 +405,7 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetMyStatus(work->gameData));
     WORDSET_SetSlotNumber(work->wordSet, 1, numberA, 5, 1, 1);
     WORDSET_SetSlotNumber(work->wordSet, 2, numberB, 5, 1, 1);
-    func_02045CAC(work->msgBank, messageId, rawText);
+    MSGDATA_ReadString(work->msgBank, messageId, rawText);
     WORDSET_CopyTaggedText(work->wordSet, formattedText, rawText);
     WORDSET_ClearAllSlots(work->wordSet);
     FIELD_MSGBG_MsgWinPrintStr(work->window, 8, 0, (u32)formattedText);

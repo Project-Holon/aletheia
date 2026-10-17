@@ -141,7 +141,7 @@
  *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
  *   FLDMMDL_GetAcmdCode  0x0216D7C4  thumb  ov010
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   gMmdlDirSets  0x021D50F8  data  a4
  *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
  *   gMmdlSightMoveCodes  0x021D4FEC  data  a4
@@ -235,7 +235,7 @@ extern unsigned int KEY_GetCont(void);
 extern Mmdl *FLDMMDL_SysSearchPlayer(MmdlSys *sys);
 extern u16 FLDMMDL_GetAcmdCode(Mmdl *mmdl);
 extern u32 KEY_GetTrg(void);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1);
 extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bit);
 extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
@@ -1415,14 +1415,14 @@ int FLDMMDL_MOVECODE_FindTableEnd(u32 *table, u32 endMark)
 /* Random entry of a table ended by endMark. */
 int FLDMMDL_MOVECODE_GetRandomTableEntry(u32 *table, u32 endMark)
 {
-    return table[func_020056EC(FLDMMDL_MOVECODE_FindTableEnd(table, endMark))];
+    return table[GFL_USE_GetRandom(FLDMMDL_MOVECODE_FindTableEnd(table, endMark))];
 }
 
 /* Random direction of the direction set. */
 u32 FLDMMDL_MOVECODE_GetRandomDirFromSet(u32 setId, u32 endMark)
 {
     u32 *dirs = FLDMMDL_MOVECODE_GetDirSet(setId);
-    return dirs[func_020056EC(FLDMMDL_MOVECODE_FindTableEnd(dirs, endMark))];
+    return dirs[GFL_USE_GetRandom(FLDMMDL_MOVECODE_FindTableEnd(dirs, endMark))];
 }
 
 /*

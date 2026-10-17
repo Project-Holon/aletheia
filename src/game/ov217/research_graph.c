@@ -189,9 +189,9 @@
  *   SYMBOL_SAVE_GetQuestionnaireAnswer 0x0200E3A4 thumb
  *   GRAPHTABLE_GetEntryId 0x021C2644 thumb ov217
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
- *   func_0200864C 0x0200864C thumb
+ *   PLAYTIME_GetHours 0x0200864C thumb
  *   MISC_SAVEDATA_GetHalfword  0x0200E458  thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   RESEARCH_GRAPH_ClearLabels 0x021C019C thumb ov217
  *   RESEARCH_GRAPH_ClearUnits 0x021C0384 thumb ov217
  *   RESEARCH_GRAPH_ClearActors 0x021C03EC thumb ov217
@@ -510,7 +510,7 @@ extern u32 BG_SYS_Update();
 
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
@@ -706,7 +706,7 @@ extern u32 GRAPHTABLE_GetEntryId(void *, u32, u8);
 
 extern int GAME_DATA_GetPlayTime(int);
 
-extern u16 func_0200864C(const struct PlayTime *p);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 
 extern u16 MISC_SAVEDATA_GetHalfword(const u16 *, int);
 
@@ -2991,7 +2991,7 @@ u32 RESEARCH_GRAPH_GetEntryIdBySave(u8 *p)
  */
 u32 RESEARCH_GRAPH_GetPlayTimeGroupId(u8 *p)
 {
-    u32 v = func_0200864C((const struct PlayTime *)GAME_DATA_GetPlayTime(RESEARCH_GRAPH_GetAppResource(p)));
+    u32 v = PLAYTIME_GetHours((const struct PlayTime *)GAME_DATA_GetPlayTime(RESEARCH_GRAPH_GetAppResource(p)));
     if (v < 10) return 135;
     if (v < 20) return 136;
     if (v < 30) return 137;
@@ -3058,7 +3058,7 @@ void RESEARCH_GRAPH_InitFields(char *p)
     ((struct ResearchObjB *)p)->groupIndex = 0;
     ((struct ResearchObjB *)p)->entryIndex = 0;
     ((struct ResearchObjB *)p)->graphKind = 0;
-    ((struct ResearchObjB *)p)->fadeParamU = func_020056BC();
+    ((struct ResearchObjB *)p)->fadeParamU = GFL_USE_GetMainTaskList();
     ((struct ResearchObjB *)p)->percentageCount = 0;
     ((struct ResearchObjB *)p)->percentageVisible = 0;
     ((struct ResearchObjB *)p)->active = 0;

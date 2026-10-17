@@ -37,7 +37,7 @@
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
@@ -60,7 +60,7 @@
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WORLDTRADE_INPUT_MenuCreate 0x021F9890 thumb ov135
  *   WORLDTRADE_INPUT_MenuDelete 0x021F99D0 thumb ov135
@@ -85,7 +85,7 @@
  *   WORLDTRADE_DeleteTimeIcon  0x021F4FC4  thumb  ov135
  *   DPW_TR_IsAsyncEnd  0x021C866C  arm
  *   DPW_TR_GetAsyncResult  0x021C86A8  arm
- *   func_021C8658 0x021C8658 arm ov114
+ *   DPW_TR_End 0x021C8658 arm ov114
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
@@ -171,7 +171,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -212,7 +212,7 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void WORLDTRADE_INPUT_MenuDelete(u8 *p);
 
@@ -375,7 +375,7 @@ extern void GFL_NET_STATE_SetWifiError(void);
 
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
-extern void func_021C8658(u8 *p);
+extern void DPW_TR_End(u8 *p);
 
 extern int WORLDTRADE_INPUT_MenuUpdate(void *obj);
 
@@ -691,7 +691,7 @@ void WORLDTRADE_SEARCH_LoadBgGraphics(Work *p)
 {
     void *h = ARC_TOOL_CreateHandle(0x60, 0x48);
 
-    func_02049B68(h, 2, 0, 0, 0x60, 0x48);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 2, 0, 0, 0x60, 0x48);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 0x1f, 0xb, 0, 0x48);
@@ -1289,7 +1289,7 @@ int WORLDTRADE_SEARCH_StateStartWipeOutPage(Work *p)
 /*
  * Every concrete byte is reproduced (52 bytes of code; the listing's extra two
  * are alignment padding).  The one wildcard is the BLX at +0006 to
- * func_021C8658, which has no independent witness outside 0x021FEB84..0x021FEBB6; the
+ * DPW_TR_End, which has no independent witness outside 0x021FEB84..0x021FEBB6; the
  * resolver reports "(arm, from name) ... 8 overlays overlap this address
  * (ov016, ov021, ov093, ov111, ov114, ov128, ov172, ov208), none resolvable
  * without a region hint on the symbols: line".  Naming one of those eight
@@ -1299,7 +1299,7 @@ int WORLDTRADE_SEARCH_StateStartWipeOutPage(Work *p)
  */
 int WORLDTRADE_SEARCH_StateStartWipeOutDisconnect(Work *p)
 {
-    func_021C8658((u8 *)p);
+    DPW_TR_End((u8 *)p);
     WORLDTRADE_DeleteTimeIcon(p);
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);
     p->state = 0;
@@ -1673,7 +1673,7 @@ void WORLDTRADE_SEARCH_PrintMessage(u8 *p, u32 k, int b, int c, int d)
 {
     u32 v;
 
-    func_02045CAC((struct MsgBank *)(*(u32 *)&((Work *)p)->bank_u), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
+    MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((Work *)p)->bank_u), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->frame)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((Work *)p)->frame), 0, 1, 0xe);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((Work *)p)->frame), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);

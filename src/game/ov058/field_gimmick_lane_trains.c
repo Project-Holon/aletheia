@@ -28,7 +28,7 @@
  *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb ov021
  *   FIELD_PLAYER_GetPos 0x021A3038 thumb ov021
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlot 0x02028A7C thumb
@@ -51,7 +51,7 @@ extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *pos);
 extern void *GAME_DATA_GetBgmInfo(struct GameData *gameData);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern int GFL_USE_GetSeSlot(u32 seId);
 extern int GFL_USE_IsSeSlotBusy(int seSlot);
 extern void FIELD_SOUND_SYSTEM_ClaimSlot(void *fieldSound, u32 seId);
@@ -117,8 +117,8 @@ void FIELD_GIMMICK_LANE_TRAINS_Update(struct FieldMap *fieldMap)
         if (model->trans.x >= FIELD_GIMMICK_LANE_TRAINS_TRACK_MAX_X) {
             train->step = 0;
             work->eastSoundPlayed = 0;
-            train->waitFrames = func_020056EC(30) + 30;
-            train->lane = func_020056EC(3);
+            train->waitFrames = GFL_USE_GetRandom(30) + 30;
+            train->lane = GFL_USE_GetRandom(3);
         }
         eastLeadX = model->trans.x;
         model = FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u16)(modelIndex + 1));
@@ -138,8 +138,8 @@ void FIELD_GIMMICK_LANE_TRAINS_Update(struct FieldMap *fieldMap)
         if (model->trans.x <= FIELD_GIMMICK_LANE_TRAINS_TRACK_MIN_X) {
             train->step = 0;
             work->westSoundPlayed = 0;
-            train->waitFrames = func_020056EC(30);
-            train->lane = func_020056EC(3);
+            train->waitFrames = GFL_USE_GetRandom(30);
+            train->lane = GFL_USE_GetRandom(3);
         }
         westLeadX = model->trans.x;
         model = FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u16)(modelIndex + 1));

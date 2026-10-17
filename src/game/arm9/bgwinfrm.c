@@ -18,7 +18,7 @@
  *   BgWinFrmFileName  0x020A7790  data
  *   MIi_CpuCopy16  0x02082A60  arm
  *   ARC_UTIL_LoadPaletteDataFromArchive       0x02049EB4  arm
- *   func_02049EF4       0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle       0x02049EF4  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BgWinFrmScreenTransFuncs     0x020A0058  data
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -70,7 +70,7 @@ extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern void *func_02049EF4(void *arc, u32 member, u32 alloc, void **out,
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 member, u32 alloc, void **out,
                            u16 heap);
 
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const u16 *a5,
@@ -240,7 +240,7 @@ void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcH
     void *data;
     void *file;
 
-    file = func_02049EF4(arcHandle, datId, compressed, &data, wk->heapId);
+    file = ARC_UTIL_LoadPaletteDataFromHandle(arcHandle, datId, compressed, &data, wk->heapId);
     BGWINFRM_SetFrameData(wk, idx, (char *)data + 0xc);
     GFL_HEAP_Free(file);
 }

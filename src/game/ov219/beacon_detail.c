@@ -22,9 +22,9 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFI_HISTORY_GetBlock 0x02009470 thumb
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
- *   func_0200856C 0x0200856C thumb
- *   func_02008570 0x02008570 thumb
- *   func_02009524 0x02009524 thumb
+ *   MYSTATUS_GetLanguage 0x0200856C thumb
+ *   MYSTATUS_GetVersion 0x02008570 thumb
+ *   WIFI_HISTORY_GetMode 0x02009524 thumb
  *   WORDSET_Create 0x0201EC74 thumb
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
@@ -61,7 +61,7 @@
  *   BMP_OAM_Update5BE8 0x02025BE8 thumb
  *   BMP_OAM_Check5C44 0x02025C44 thumb
  *   BMP_OAM_Get 0x02025B94 thumb
- *   func_0200947C 0x0200947C thumb
+ *   WIFI_HISTORY_InitLanguageRegion 0x0200947C thumb
  *   GAME_BEACON_SetNationArea 0x02027120 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -101,7 +101,7 @@
  *   BMP_OAM_GetRecordParam 0x02025BD0 thumb
  *   BMP_OAM_GetRecordKey 0x02025BB8 thumb
  *   d_02185F28 0x02185F28 data a4
- *   func_0200949C 0x0200949C thumb
+ *   WIFI_HISTORY_GetCountryRegionState 0x0200949C thumb
  *   BMP_OAM_GetRecordIndex 0x02025B3C thumb
  *   d_02185E00 0x02185E00 data a4
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -113,7 +113,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
@@ -136,7 +136,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
@@ -406,9 +406,9 @@ extern void MI_CpuFill8(void *,u32,u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys);
-extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern u8 func_02009524(const struct Sub02009470Obj *obj);
+extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
+extern u8 WIFI_HISTORY_GetMode(const struct Sub02009470Obj *obj);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void BMP_SetDisplaySwap(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -445,7 +445,7 @@ extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 extern int BMP_OAM_Update5BE8(void);
 extern int BMP_OAM_Check5C44(u32 a0, u32 *a1, u32 *a2);
 extern u32 BMP_OAM_Get(u32 a);
-extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
+extern void WIFI_HISTORY_InitLanguageRegion(u32 a, u32 b, u32 c, u32 d);
 extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -466,7 +466,7 @@ extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,u32,u32 *);
 extern u32 GFL_HEAP_Free(void *p);
 extern int BMP_OAM_GetNumRecords(void);
 extern u32 BMP_OAM_GetRecordParam(u32),BMP_OAM_GetRecordKey(u32);
-extern u32 func_0200949C(const struct Sub02009470Obj *obj, int row, int col);
+extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col);
 extern u32 BMP_OAM_GetRecordIndex(u32);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
@@ -475,7 +475,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *),GF_FONT_SetTextColor(u32,u32,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32),BG_SYS_ClearSlot(u32);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
@@ -493,7 +493,7 @@ extern void BG_SYS_FreeLayerBuf(unsigned);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_PrintQue(struct PrintSys *,unsigned,unsigned,unsigned,void *,unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *,u32,void *);
+extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern u32 PRINTSYS_PrintStreamGetState(void *);
@@ -511,7 +511,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void*,u32);
 extern void BMP_MENULIST_Delete(struct Obj*,u16*,u16*);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_DeleteMsgdataF094(struct WordSet *,unsigned,unsigned,unsigned);
-extern void func_02045CAC(struct MsgBank *,unsigned,void *),WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
+extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *),WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void BG_SYS_SetFlagField06(unsigned);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *G3D_SYSTEM_CreateResourceArc(unsigned,unsigned),*G3D_SYSTEM_CreateRender(void *,unsigned,void *),*G3D_SYSTEM_CreateObject(unsigned,unsigned *,int);
@@ -644,9 +644,9 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     ((BeaconDetailWork *)p)->sub09470=WIFI_HISTORY_GetBlock(((BeaconDetailWork *)p)->saveCtl);
     if(GAME_LANGUAGE_Code==1)((BeaconDetailWork *)p)->japaneseFlag=1;
     else ((BeaconDetailWork *)p)->japaneseFlag=0;
-    ((BeaconDetailWork *)p)->nation=func_0200856C(((BeaconDetailWork *)p)->sub0852C);
-    ((BeaconDetailWork *)p)->area=func_02008570(((BeaconDetailWork *)p)->sub0852C);
-    ((BeaconDetailWork *)p)->sub09470State=func_02009524(((BeaconDetailWork *)p)->sub09470);
+    ((BeaconDetailWork *)p)->nation=MYSTATUS_GetLanguage(((BeaconDetailWork *)p)->sub0852C);
+    ((BeaconDetailWork *)p)->area=MYSTATUS_GetVersion(((BeaconDetailWork *)p)->sub0852C);
+    ((BeaconDetailWork *)p)->sub09470State=WIFI_HISTORY_GetMode(((BeaconDetailWork *)p)->sub09470);
     ((BeaconDetailWork *)p)->win[0]=0;
     ((BeaconDetailWork *)p)->win[1]=0;
     BEACON_DETAIL_InitVram();
@@ -986,7 +986,7 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
         switch ((u32)(int)BMP_MENU_ProcessYesNo(((BeaconDetailWork *)p)->yesNo)) {
         case 0:
             BEACON_DETAIL_CloseDetailWin((char *)p);
-            func_0200947C((u32)((BeaconDetailWork *)p)->sub09470, (u32)((BeaconDetailWork *)p)->sub0852C, ((BeaconDetailWork *)p)->selNation, ((BeaconDetailWork *)p)->selArea);
+            WIFI_HISTORY_InitLanguageRegion((u32)((BeaconDetailWork *)p)->sub09470, (u32)((BeaconDetailWork *)p)->sub0852C, ((BeaconDetailWork *)p)->selNation, ((BeaconDetailWork *)p)->selArea);
             GAME_BEACON_SetNationArea(((BeaconDetailWork *)p)->selNation, ((BeaconDetailWork *)p)->selArea);
             ((BeaconDetailWork *)p)->nation = ((BeaconDetailWork *)p)->selNation;
             ((BeaconDetailWork *)p)->area = ((BeaconDetailWork *)p)->selArea;
@@ -1277,7 +1277,7 @@ void BEACON_DETAIL_SetRecord(BeaconDetailWork *p,int index,int x,int y,u16 a,u16
     angles[0]=x;angles[1]=y;angles[2]=0;
     BEACON_DETAIL_SetupRecordCalc((Matrix *)&matrix, angles);
     p->records[index].matrix=matrix;
-    p->records[index].state=func_0200949C(p->sub09470,a,b);
+    p->records[index].state=WIFI_HISTORY_GetCountryRegionState(p->sub09470,a,b);
     p->records[index].a=a;
     p->records[index].b=b;
 }
@@ -1432,7 +1432,7 @@ void BEACON_DETAIL_InitMainScreen(char *p,void *arc)
     BG_SYS_ClearSlot(6);
     BG_SYS_InitBgLayer(7,&d_02185E78,0);
     ARC_UTIL_UploadBgCharFromHandle(arc,5,7,0,0,0,((BeaconDetailWork *)p)->heapId);
-    func_02049B68(arc,6,4,0,0x80,((BeaconDetailWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,4,0,0x80,((BeaconDetailWork *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,7,7,0,0,0,((BeaconDetailWork *)p)->heapId);
     BMP_MENUWORK_LoadCharAndPltt(6,4,6,0,((BeaconDetailWork *)p)->heapId);
     BMP_MENUWORK_LoadCharAndPltt(6,0x22,7,0,((BeaconDetailWork *)p)->heapId);
@@ -1448,7 +1448,7 @@ void BEACON_DETAIL_InitMainScreen(char *p,void *arc)
     BG_SYS_SetLowBit(1);
     BG_SYS_InitBgLayer(3,&d_02185E78,0);
     ARC_UTIL_UploadBgCharFromHandle(arc,5,3,0,0,0,((BeaconDetailWork *)p)->heapId);
-    func_02049B68(arc,6,0,0,0x80,((BeaconDetailWork *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,0,0,0x80,((BeaconDetailWork *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,7,3,0,0,0,((BeaconDetailWork *)p)->heapId);
     BMP_MENUWORK_LoadCharAndPltt(2,0x22,7,0,((BeaconDetailWork *)p)->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x80,0x20,((BeaconDetailWork *)p)->heapId);
@@ -1570,7 +1570,7 @@ void BEACON_DETAIL_DrawTextRecord(char *p,BeaconMessage *out,struct Descriptor *
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void MSGDATA_DecryptStrbuf(void *,u32);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -1617,7 +1617,7 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
     case 0:
         BMP_Clear(BMP_WIN_GetBmp(((BeaconDetailWork *)p)->bmp1C),15);
         ((BeaconDetailWork *)p)->printBuf=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));
-        func_02045CAC(((BeaconDetailWork *)p)->msgBank.ptr,message,((BeaconDetailWork *)p)->printBuf);
+        MSGDATA_ReadString(((BeaconDetailWork *)p)->msgBank.ptr,message,((BeaconDetailWork *)p)->printBuf);
         ((BeaconDetailWork *)p)->printHandle=PRINTSYS_PrintStream((u32)((BeaconDetailWork *)p)->bmp1C,0,0,(u32)((BeaconDetailWork *)p)->printBuf,((BeaconDetailWork *)p)->font.id,MSG_SPEED_GetWait(),(u32)((BeaconDetailWork *)p)->tcbl,0,((BeaconDetailWork *)p)->heapId,15);
         ((BeaconDetailWork *)p)->printState=1;
         break;
@@ -1894,7 +1894,7 @@ void BEACON_DETAIL_DrawCurrentArea(char *p)
     *(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40=(struct Descriptor *)BEACON_DETAIL_CreateBmpWin(d_02185DCB,1);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,0,((BeaconDetailWork *)p)->nation);
     WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,1,((BeaconDetailWork *)p)->nation,((BeaconDetailWork *)p)->area);
-    func_02045CAC(*(struct MsgBank * *)&((BeaconDetailWork *)p)->msgBank.ptr,14,src);
+    MSGDATA_ReadString(*(struct MsgBank * *)&((BeaconDetailWork *)p)->msgBank.ptr,14,src);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,dst,src);
     BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg44,*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40,dst,0,0);
     STRBUF_Delete(src);STRBUF_Delete(dst);
@@ -2070,7 +2070,7 @@ int BEACON_DETAIL_FindNearestRecord(char *p, u32 *out)
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void MSGDATA_DecryptStrbuf(void *,u32);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -2115,7 +2115,7 @@ void BEACON_DETAIL_DrawCurrentInfo(char *p)
     if(((BeaconDetailWork *)p)->detailOpen==0) {
         buffer=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));
         BMP_Clear(BMP_WIN_GetBmp(((BeaconDetailWork *)p)->bmp1C),15);
-        func_02045CAC(((BeaconDetailWork *)p)->msgBank.ptr,15,buffer);
+        MSGDATA_ReadString(((BeaconDetailWork *)p)->msgBank.ptr,15,buffer);
         BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg20,((BeaconDetailWork *)p)->bmp1C,buffer,0,0);
         STRBUF_Delete(buffer);
     } else {
@@ -2470,12 +2470,12 @@ int BEACON_DETAIL_GetEntryText(unsigned key,unsigned optional,void *first,void *
     index=BEACON_DETAIL_GetRecordIndex(key);
     found=0;
     bank=MSGDATA_CreateFromArchive(0,2,231,heap);
-    func_02045CAC(bank,key,first);
+    MSGDATA_ReadString(bank,key,first);
     MSGDATA_Delete(bank);
     if(index==0) {index=1;optional=0;}
     else found=1;
     bank=MSGDATA_CreateFromArchive(0,2,BMP_OAM_GetRecordField(index),heap);
-    func_02045CAC(bank,optional,second);
+    MSGDATA_ReadString(bank,optional,second);
     MSGDATA_Delete(bank);
     return found;
 }

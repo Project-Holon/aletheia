@@ -38,7 +38,7 @@
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   WORDSET_SetSlotNumber   0x0201EFA4  thumb
  *   STRBUF_Create   0x020457B0  arm
- *   func_02045CAC   0x02045CAC  arm
+ *   MSGDATA_ReadString   0x02045CAC  arm
  *   WORDSET_CopyTaggedText   0x0201F250  thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   GFL_HEAP_Alloc 0x02030734  arm
@@ -135,7 +135,7 @@ extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *format);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -1366,7 +1366,7 @@ void POKE_REGULATION_LoadInto(int memberId, void *dst)
  * bytes at a0+2/+3: (1,6) selects 6, equal bytes select 7, a byte above 1
  * with 6 following selects 8 and anything else 9.  Both palette fields are
  * stamped through WORDSET_SetSlotNumber, the record is allocated against a4, its
- * slots are filled from *a2 through func_02045CAC and the pair is bound by
+ * slots are filled from *a2 through MSGDATA_ReadString and the pair is bound by
  * WORDSET_CopyTaggedText.
  *
  * Verified with:
@@ -1390,7 +1390,7 @@ struct Strbuf *POKE_REGULATION_BuildPartySizeLine(const struct Regulation *reg, 
     WORDSET_SetSlotNumber(wordSet, 0, reg->minPartySize, 1, 0, 1);
     WORDSET_SetSlotNumber(wordSet, 1, reg->maxPartySize, 1, 0, 1);
     line = STRBUF_Create(0x40, heapId);
-    func_02045CAC(text->bank, messageId, scratch);
+    MSGDATA_ReadString(text->bank, messageId, scratch);
     WORDSET_CopyTaggedText(wordSet, line, scratch);
     return line;
 }
@@ -1443,7 +1443,7 @@ struct Strbuf *POKE_REGULATION_BuildLevelLine(const struct Regulation *reg, stru
     }
     WORDSET_SetSlotNumber(wordSet, 0, reg->levelValue, 3, 0, 1);
     line = STRBUF_Create(0x40, heapId);
-    func_02045CAC(text->bank, messageId, scratch);
+    MSGDATA_ReadString(text->bank, messageId, scratch);
     WORDSET_CopyTaggedText(wordSet, line, scratch);
     return line;
 }

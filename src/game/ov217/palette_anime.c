@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
+ * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, PALETTE_ANIME_ReleaseOriginal.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -27,7 +27,7 @@
  *   PALETTE_ANIME_ReleaseOriginal  0x021C2E20  thumb  ov217
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   PALANM_BlendColors 0x02021F64 thumb
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   d_021C408C 0x021C408C data ov217 a1
  *   ENV_SetResourceSet  0x020307B0  arm
@@ -50,7 +50,7 @@ struct PaletteAnime {
 extern u32 GFL_HEAP_Free(void *mem);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
-extern u32 func_0209C2B0(u32 a, u32 b);
+extern u32 _u32_div_f(u32 a, u32 b);
 extern int MI_CpuCopy8(int src, int dst, int size);
 extern void MI_CpuFill8(void *dst, int val, int size);
 extern const short FX_SinCosTable_[];
@@ -282,7 +282,7 @@ void PALETTE_ANIME_StepFadeIn(struct PaletteAnime *anime)
     u32 frame = anime->frame;
     u8 weight;
     if (frame < 0x14)
-        weight = (u8)func_0209C2B0(frame * 7, 0x14);
+        weight = (u8)_u32_div_f(frame * 7, 0x14);
     else
         weight = 7;
     PALANM_BlendColors(anime->original, anime->palette, anime->colorCount, weight, anime->targetColor);

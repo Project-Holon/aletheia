@@ -930,7 +930,7 @@ void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned l
  * (its shape matches, but this function's index is a genuine fresh local).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/ov_sdk/ov172_func_021C1F04.c \
+ *   python tools/match.py one --src src/pending/ov_sdk/SSP_RGB555ToYUV888.c \
  *     --func SSP_RGB555ToYUV888 --addr 0x021C1F04 --region ov172 --arm --cc 1.1p1 \
  *     --lang c99 --diff
  */

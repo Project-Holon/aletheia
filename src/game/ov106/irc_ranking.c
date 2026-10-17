@@ -56,7 +56,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_Init 0x02040C14 arm
@@ -104,7 +104,7 @@
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BMP_Create 0x02043678 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
@@ -459,7 +459,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void BG_SYS_Init(u32, u32, u32, u32);
@@ -507,7 +507,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Strbuf *STRBUF_Create(int capacity, u16 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, struct GfFont *font, u32 b);
@@ -841,12 +841,12 @@ void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heap
         BG_SYS_SetPlaneVisible(bg, 1);
     }
     gfx->arcHandle = ARC_TOOL_CreateHandle(0x4d, heapId);
-    func_02049B68(gfx->arcHandle, 0, 0, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(gfx->arcHandle, 0, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(gfx->arcHandle, 1, 3, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(gfx->arcHandle, 3, 0, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(gfx->arcHandle, 4, 3, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(gfx->arcHandle, 6, 0, 0, 0, 0, heapId);
-    func_02049B68(gfx->arcHandle, 0, 4, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(gfx->arcHandle, 0, 4, 0, 0, heapId);
     paletteBlock = 7;
     ARC_UTIL_UploadBgCharFromHandle(gfx->arcHandle, 3, 7, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(gfx->arcHandle, 7, 7, 0, 0, 0, heapId);
@@ -1209,7 +1209,7 @@ void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct 
     row->textBmp = BMP_Create(32, 3, 32, heapId);
     rankFormat = STRBUF_Create(32, heapId); scoreFormat = STRBUF_Create(32, heapId);
     meetFormat = STRBUF_Create(32, heapId); text = STRBUF_Create(32, heapId);
-    func_02045CAC(msgBank, MSG_ID_RANK_FORMAT, rankFormat); func_02045CAC(msgBank, MSG_ID_SCORE_FORMAT, scoreFormat); func_02045CAC(msgBank, MSG_ID_MEET_COUNT_FORMAT, meetFormat);
+    MSGDATA_ReadString(msgBank, MSG_ID_RANK_FORMAT, rankFormat); MSGDATA_ReadString(msgBank, MSG_ID_SCORE_FORMAT, scoreFormat); MSGDATA_ReadString(msgBank, MSG_ID_MEET_COUNT_FORMAT, meetFormat);
     WORDSET_SetSlotNumber(wordSet, 0, item->rank, 2, 0, 1);
     WORDSET_SetSlotNumber(wordSet, 2, item->score, 3, 0, 1);
     WORDSET_SetSlotNumber(wordSet, 3, item->meetCount, 3, 0, 1);
@@ -1597,7 +1597,7 @@ void IRC_RANKING_LabelDelete(IrcRankingLabel *label)
 void IRC_RANKING_LabelSetText(IrcRankingLabel *label, struct MsgBank *msgBank, u32 msgId, struct GfFont *font) {
     Pair pos;
     BMP_Clear(label->bmp, label->printColor & 31);
-    func_02045CAC(msgBank, msgId, label->text);
+    MSGDATA_ReadString(msgBank, msgId, label->text);
     IRC_RANKING_LabelCalcTextPos(label, font, &pos);
     PRINTSYS_PrintQueColor(label->printQue, label->bmp, (short)pos.x, (short)pos.y, label->text, font, label->printColor);
     label->pending = 1;

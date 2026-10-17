@@ -34,9 +34,9 @@
  *   PROCSYS_Push 0x02031348 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   IRC_RANKING_GetFromSave 0x0200A8A0 thumb
- *   func_02008530 0x02008530 thumb
- *   func_0200A9D4 0x0200A9D4 thumb
- *   func_020084F4 0x020084F4 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
+ *   IRC_RANKING_HasEntry 0x0200A9D4 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   IRC_RANKING_GetDateScore 0x0200AA00 thumb
  *   COMPATIBLE_IRC_SYS_Create 0x021B6100 thumb ov101
@@ -125,9 +125,9 @@ extern void PROCSYS_Delete(void *queue);
 extern void PROCSYS_Push(void *queue, int taskProc, int priority, void *args);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *IRC_RANKING_GetFromSave(void *saveBlock);
-extern u32 func_02008530(const u8 *myStatus);
-extern int func_0200A9D4(void *saveBlock, u32 nameKey);
-extern u16 *func_020084F4(void *myStatus);
+extern u32 MYSTATUS_GetId(const u8 *myStatus);
+extern int IRC_RANKING_HasEntry(void *saveBlock, u32 nameKey);
+extern u16 *MYSTATUS_GetName(void *myStatus);
 extern u16 STRBUF_GetEosChar(void);
 extern unsigned char IRC_RANKING_GetDateScore(unsigned month, unsigned day, struct DateBytes *date);
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
@@ -507,8 +507,8 @@ void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  * ICA_ANIME_GetField1C 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * IRC_RANKING_GetFromSave 0x0200A8A0 thumb
- * func_02008530 0x02008530 thumb
- * func_0200A9D4 0x0200A9D4 thumb
+ * MYSTATUS_GetId 0x02008530 thumb
+ * IRC_RANKING_HasEntry 0x0200A9D4 thumb
  * COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
  * GFL_NET_IsParentAid 0x0203D378 arm
  * IRC_COMPATIBLE_CalcCompatibility 0x021B6ECC thumb ov101
@@ -532,7 +532,7 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
         /* the first call below discards its result; kept as in the original code */
         ICA_ANIME_GetField1C(work->param->gameSystem);
         saveBlock=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->param->gameSystem)));
-        if(func_0200A9D4(saveBlock,func_02008530(partnerName))==0) isNewPartner=1;
+        if(IRC_RANKING_HasEntry(saveBlock,MYSTATUS_GetId(partnerName))==0) isNewPartner=1;
         useBonus=0;
         if(work->secondTestBonus && isNewPartner) useBonus=1;
         COMPATIBLE_IRC_SYS_BuildProfile(work->param->gameSystem,&ownProfile);
@@ -569,8 +569,8 @@ int IRC_COMPATIBLE_CalcCompatibility(u32 firstScore, u32 secondScore, int firstP
     firstScore = firstScore * 50 / 100;
     secondScore = secondScore * 40 / 100;
     baseScore += firstScore + secondScore;
-    ownName = func_020084F4(ownProfile->myStatus);
-    nameSimilarity = IRC_COMPATIBLE_CalcNameSimilarity(ownName, func_020084F4(partnerProfile->myStatus));
+    ownName = MYSTATUS_GetName(ownProfile->myStatus);
+    nameSimilarity = IRC_COMPATIBLE_CalcNameSimilarity(ownName, MYSTATUS_GetName(partnerProfile->myStatus));
     if (nameSimilarity) rateFixed = 0.5f + (float)(nameSimilarity << 12);
     else rateFixed = (float)(nameSimilarity << 12) - 0.5f;
     nameRate = (int)rateFixed / 150;

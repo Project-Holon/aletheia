@@ -90,7 +90,7 @@
  *   d_021C30D0 0x021C30D0 data a1
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_02040804  0x02040804  arm
+ *   BG_SYS_GetScrollY  0x02040804  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   d_021C326C 0x021C326C data a4
@@ -142,7 +142,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   FADE_Start  0x0204E720  arm
  *   PALANM_RequestFade 0x0202173C thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   PALANM_Create  0x02021518  thumb  arm9
@@ -476,7 +476,7 @@ extern void BgTextLabel_SetVisible(u8 *p, int visible);
 
 extern void BG_SYS_ResetSlot(unsigned layer,unsigned mode,unsigned value);
 
-extern u32 func_02040804(u32 layer);
+extern u32 BG_SYS_GetScrollY(u32 layer);
 
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
@@ -506,7 +506,7 @@ extern void ListViewState_SetMode(void *, u8);
 
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
@@ -2317,7 +2317,7 @@ void RESEARCH_LIST_SetListScroll(struct ResearchTop *p)
 
 int RESEARCH_LIST_GetScrollY(void)
 {
-    return func_02040804(2);
+    return BG_SYS_GetScrollY(2);
 }
 
 void RESEARCH_LIST_SetScrollY(u32 a0)
@@ -2685,7 +2685,7 @@ void RESEARCH_LIST_InitFields(u8 *p)
     p[0x30] = 0;
     ((struct ResearchTop *)p)->selectionMode = 0;
     p[0x31] = 255;
-    ((struct ResearchTop *)p)->paletteAnimOwnerU = func_020056BC();
+    ((struct ResearchTop *)p)->paletteAnimOwnerU = GFL_USE_GetMainTaskList();
     ((struct ResearchTop *)p)->scrollY = 0;
     ((struct ResearchTop *)p)->prevScrollY = 0;
     ((struct ResearchTop *)p)->animStart = 0;

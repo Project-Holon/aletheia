@@ -1,7 +1,7 @@
 /*
  * file:     sb_server.c
  * unit:     yes
- * function: RefStringHash, RefStringCompare, RefStringFree, func_0219DF64, SBRefStrHashCleanup, SBServerFree, func_0219E01C, func_0219E084, SBServerGetStringValueA, SBServerGetIntValueA, func_0219E1B8, SBServerGetPublicInetAddress, SBServerGetPublicQueryPort, SBServerGetPublicQueryPortNBO, SBServerHasPrivateAddress, SBServerGetPrivateInetAddress, SBServerGetPrivateQueryPort, SBServerSetNext, SBServerGetNext, CheckValidKey, func_0219E2D4, SBServerParseKeyVals, SBServerParseQR2FullKeysSingle, SBServerParseQR2FullKeysSplit, func_0219E848, KeyValFree, KeyValHashKey, KeyValCompareKey, SBServerGetPing, SBAllocServer, SBServerSetFlags, SBServerSetPrivateAddr, SBServerSetICMPIP, SBServerSetState, SBServerGetState, SBIsNullServer
+ * function: RefStringHash, RefStringCompare, RefStringFree, SBRefStrHash, SBRefStrHashCleanup, SBServerFree, SBServerAddKeyValue, SBServerAddIntKeyValue, SBServerGetStringValueA, SBServerGetIntValueA, SBServerGetFloatValueA, SBServerGetPublicInetAddress, SBServerGetPublicQueryPort, SBServerGetPublicQueryPortNBO, SBServerHasPrivateAddress, SBServerGetPrivateInetAddress, SBServerGetPrivateQueryPort, SBServerSetNext, SBServerGetNext, CheckValidKey, mytok, SBServerParseKeyVals, SBServerParseQR2FullKeysSingle, SBServerParseQR2FullKeysSplit, func_0219E848, KeyValFree, KeyValHashKey, KeyValCompareKey, SBServerGetPing, SBAllocServer, SBServerSetFlags, SBServerSetPrivateAddr, SBServerSetICMPIP, SBServerSetState, SBServerGetState, SBIsNullServer
  * address:  0x0219DF30
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -48,9 +48,9 @@
  *   strcmp                         0x020948E0  arm
  *   g_021A8120                     0x021A8120  data
  *   _ZZ5mytokPccE6thestr            0x021AEAF8  data
- *   func_0219E2D4  0x0219E2D4  arm  ov009
+ *   mytok  0x0219E2D4  arm  ov009
  *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
- *   func_0219E01C  0x0219E01C  arm  ov009
+ *   SBServerAddKeyValue  0x0219E01C  arm  ov009
  *   g_021A8160  0x021A8160  data
  *   g_021A8164  0x021A8164  data
  *   NTSLengthSB  0x0219F978  arm  ov009
@@ -66,7 +66,7 @@
  *   SBReleaseStr  0x0219F920  arm
  *   strcasecmp  0x0209ABF8  arm
  *   gsimalloc  0x0217EAB0  arm  ov009
- *   func_02184638  0x02184638  arm  ov009
+ *   TableNew2  0x02184638  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
  *   KeyValCompareKey  0x0219E8D4  arm  ov009
  *   KeyValFree  0x0219E89C  arm  ov009
@@ -105,16 +105,12 @@ extern void *TableLookup(struct HashImplementation *table, void *elemKey);
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname,
                                      char *def);
 extern double atof(char *s);
-extern char *func_0219E2D4(char *instr, char delim);
 extern int qr2_internal_is_master_only_key(char *keyname);
-extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern int NTSLengthSB(char *buf, int len);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 extern void SBReleaseStr(SBServerList *slist, char *str);
 extern int strcasecmp(char *a, char *b);
 extern void *gsimalloc(unsigned long size);
-extern void *func_02184638(int elemSize, int nBuckets, int nChains, int (*hashFn)(void *, int),
-                           int (*compFn)(void *, void *), void (*freeFn)(void *));
 extern void gsifree(void *ptr);
 extern int KeyValCompareKey(void *a, void *b);
 extern void KeyValFree(void *elem);
@@ -436,14 +432,14 @@ void SBServerParseKeyVals(SBServer *server, char *keyvals)
     char *k;
     char *v;
 
-    k = func_0219E2D4(keyvals + 1, 0x5c);
+    k = mytok(keyvals + 1, 0x5c);
     while (k != 0) {
-        v = func_0219E2D4(0, 0x5c);
+        v = mytok(0, 0x5c);
         if (v == 0)
             v = g_021A8160;
         if (CheckValidKey(k) && !qr2_internal_is_master_only_key(k))
-            func_0219E01C(server, k, v);
-        k = func_0219E2D4(0, 0x5c);
+            SBServerAddKeyValue(server, k, v);
+        k = mytok(0, 0x5c);
     }
 }
 
@@ -483,7 +479,7 @@ void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len)
         data += dlen;
         len -= dlen;
         if (!qr2_internal_is_master_only_key(k))
-            func_0219E01C(server, k, v);
+            SBServerAddKeyValue(server, k, v);
     }
     data++;
     len--;
@@ -515,7 +511,7 @@ void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len)
                 if (dlen < 0)
                     return;
                 OS_SPrintf(tempkey, g_021A8164, k, i);
-                func_0219E01C(server, tempkey, data);
+                SBServerAddKeyValue(server, tempkey, data);
                 data += dlen;
                 len -= dlen;
                 k += strlen(k) + 1;
@@ -595,7 +591,7 @@ void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len)
                 data += dlen;
                 len -= dlen;
                 if (!qr2_internal_is_master_only_key(k))
-                    func_0219E01C(server, k, v);
+                    SBServerAddKeyValue(server, k, v);
             } else {
                 if (len < 1)
                     return;
@@ -610,7 +606,7 @@ void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len)
                     data += dlen;
                     len -= dlen;
                     OS_SPrintf(tempkey, g_021A8164, k, nindex);
-                    func_0219E01C(server, tempkey, v);
+                    SBServerAddKeyValue(server, tempkey, v);
                     nindex++;
                 }
                 if (len > 0) {
@@ -691,7 +687,7 @@ SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short public
     server = gsimalloc(sizeof(SBServer));
     if (server == 0)
         return 0;
-    server->keyvals = func_02184638(8, 8, 4, KeyValHashKey, KeyValCompareKey, KeyValFree);
+    server->keyvals = TableNew2(8, 8, 4, KeyValHashKey, KeyValCompareKey, KeyValFree);
     if (server->keyvals == 0) {
         gsifree(server);
         return 0;

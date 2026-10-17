@@ -92,7 +92,7 @@
  *   BGWINFRM_HideFrame  0x0202CC70  thumb  arm9
  *   BGWINFRM_UpdateMoves  0x0202CD94  thumb  arm9
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
- *   ov135_func_021F9260 0x021F9260 thumb ov135
+ *   BTLV_EFFECT_StepMover 0x021F9260 thumb ov135
  *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
  *   g_0220320E  0x0220320E  data  ov135
  *   g_0220320F  0x0220320F  data  ov135
@@ -218,7 +218,7 @@ extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count);
 extern void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end);
-void ov135_func_021F9260(Menu *p, u32 mode);
+void BTLV_EFFECT_StepMover(Menu *p, u32 mode);
 extern int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
 extern void WORLDTRADE_ADAPTER_QueueMessagePrint(struct Obj *p, int arg1, void *arg2, int arg3, int arg4);
 extern int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
@@ -1595,7 +1595,7 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(Menu *m)
     i = 1;
     BGWINFRM_SetFrameDataArc(m->mgr, 0, 0x60, 0x1A, 1);
     BGWINFRM_GetFrameBuffer(m->mgr, 0);
-    ov135_func_021F9260(m, 5);
+    BTLV_EFFECT_StepMover(m, 5);
     MI_CpuFill8(m->flags, 1, 0x1A);
     WORLDTRADE_INPUT_PrintFrameString(m->mgr, m->bank, m->wins[0], m->layout + 0x74, 2, 0x3DC2, m->g);
     for (i = 1; i < tbl_022033F8[m->layout].count + 1; i++) {

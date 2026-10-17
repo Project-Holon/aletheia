@@ -182,7 +182,7 @@
  *   KEY_GetCont  0x0203630C  arm
  *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   gMmdlDirSets  0x021D50F8  data  a4
  *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
  *   gMmdlSightMoveCodes  0x021D4FEC  data  a4

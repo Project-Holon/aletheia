@@ -139,7 +139,7 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   sGaugeFlashMasks 0x0220AB4C data a4
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
  *   BTLV_EFFECT_GetCompetitorType 0x021F8720 thumb ov094
@@ -803,7 +803,7 @@ extern int GFL_NET_ERR_IsWifiGameKind(void);
 
 extern void GFL_USE_SetBgmPlayerParam(int param);
 
-extern int func_0209C2B0(int dividend, int divisor);
+extern int _u32_div_f(int dividend, int divisor);
 
 void BTLV_GAUGE_StartHpChangeAnimated(BtlvGaugeWork *work, int slotIdx, int newHp);
 
@@ -1802,7 +1802,7 @@ void BTLV_GAUGE_SetBgmPlayerParam(int bgmParam)
 /* Returns value * scale / maxValue, at least 1 when value is not 0. */
 int BTLV_GAUGE_CalcBarPixels(int value, int maxValue, int scale)
 {
-    int result = func_0209C2B0(value * scale, maxValue);
+    int result = _u32_div_f(value * scale, maxValue);
     if (result == 0 && value != 0)
         result = 1;
     return result;

@@ -1,7 +1,7 @@
 /*
  * file:     dwc_http.c
  * unit:     yes
- * function: DWC_Http_Create, DWC_Http_FinishHeader, DWC_Http_StartThread, func_021797D4, func_02179814, func_0217988C, DWCi_Http_Resolve, DWCi_Http_CheckHeaderReceived, DWCi_Http_Thread, DWC_Http_Destroy, DWCi_Http_WriteBasicHeader, DWC_Http_Add_HeaderItem, DWC_Http_Add_PostBase64Item, DWC_Http_Add_Body, func_0217A0C8, func_0217A0D4, func_0217A120, DWCi_Http_ReallocBuffer, DWCi_Http_SetHostinfo, DWCi_Http_AddResult, DWC_Http_ParseResult, func_0217A728, func_0217A77C, func_0217A7C8, func_0217A808
+ * function: DWC_Http_Create, DWC_Http_FinishHeader, DWC_Http_StartThread, DWC_Http_Abort, DWCi_Http_Yield, DWCi_Http_InitCpsSocket, DWCi_Http_Resolve, DWCi_Http_CheckHeaderReceived, DWCi_Http_Thread, DWC_Http_Destroy, DWCi_Http_WriteBasicHeader, DWC_Http_Add_HeaderItem, DWC_Http_Add_PostBase64Item, DWC_Http_Add_Body, DWCi_Http_CPSCallback, DWCi_Http_AllocBuffer, DWCi_Http_FreeBuffer, DWCi_Http_ReallocBuffer, DWCi_Http_SetHostinfo, DWCi_Http_AddResult, DWC_Http_ParseResult, DWC_Http_GetResult, DWC_Http_GetBase64DecodedResult, DWC_Http_GetRawResult, DWCi_Http_DestroyResult
  * address:  0x0217956C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0217A0D4  0x0217A0D4  arm  ov009
+ *   DWCi_Http_AllocBuffer  0x0217A0D4  arm  ov009
  *   strstr  0x02094B20  arm
  *   strlen  0x0209477C  arm
  *   OS_SNPrintf  0x02084F80  arm
@@ -39,7 +39,7 @@
  *   atoi  0x020964E0  arm
  *   gDwcHttpContentLengthPrefix     0x021A25F0  data
  *   gDwcHttpCrLf     0x021A2604  data
- *   func_0217988C  0x0217988C  arm  ov009
+ *   DWCi_Http_InitCpsSocket  0x0217988C  arm  ov009
  *   CPS_SocUse  0x0215AB10  arm  ov009
  *   CPS_SetRootCa  0x02160108  arm  ov009
  *   CPS_SetSsl  0x02162E94  arm  ov009
@@ -49,22 +49,22 @@
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_SocFlush  0x0215B584  arm  ov009
- *   func_02179814  0x02179814  arm  ov009
+ *   DWCi_Http_Yield  0x02179814  arm  ov009
  *   OS_GetTick  0x020870D0  arm
  *   CPS_SocGetLength  0x0215B504  arm  ov009
  *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_LockMutex  0x02086028  arm
- *   func_02086078  0x02086078  arm
+ *   OS_UnlockMutex  0x02086078  arm
  *   CPS_SocConsume  0x0215B064  arm  ov009
  *   _ll_udiv       0x0209C00C  arm
  *   CPS_TcpShutdown  0x0215AD00  arm  ov009
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
- *   func_0217A0C8  0x0217A0C8  arm  ov009
+ *   DWCi_Http_CPSCallback  0x0217A0C8  arm  ov009
  *   gDwcHttpRootCaList     0x021A2590  data ov009
  *   gCpsMyIp     0x021A82BC  data ov009
- *   func_0217A808  0x0217A808  arm  ov009
- *   func_0217A120  0x0217A120  arm  ov009
+ *   DWCi_Http_DestroyResult  0x0217A808  arm  ov009
+ *   DWCi_Http_FreeBuffer  0x0217A120  arm  ov009
  *   gDwcHttpPostFormat     0x021A2608  data
  *   gDwcHttpGetFormat     0x021A265C  data
  *   memmove  0x02092364  arm
@@ -171,7 +171,6 @@ typedef struct DWCHttp {
 
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_0217A0D4(DWCHttp *http, DWCHttpBuffer *buf, unsigned long size);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void OS_InitMutex(void *mutex);
 extern int OS_IsThreadTerminated(void *thread);
@@ -184,7 +183,6 @@ extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
 extern void OS_Sleep(unsigned long msec);
 extern void CPS_SocRegister(void *soc);
 extern unsigned long CPS_Resolve(char *name);
-extern void func_0217988C(DWCHttp *http);
 extern void CPS_SocUse(void);
 extern void CPS_SetRootCa(int a, int b);
 extern void CPS_SetSsl(int mode);
@@ -194,18 +192,13 @@ extern void CPS_SocRelease(void);
 extern void CPS_SocUnRegister(void);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_SocFlush(void);
-extern int func_02179814(DWCHttp *http);
 extern unsigned long long OS_GetTick(void);
 extern long CPS_SocGetLength(void);
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void func_02086078(OSMutex *mutex);
 extern void CPS_SocConsume(unsigned long len);
 extern void CPS_TcpShutdown(void);
 extern void CPS_TcpClose(void);
-extern int func_0217A0C8(int result);
-extern void func_0217A808(char *http, void *array_entry, int array_len);
-extern void func_0217A120(char *http, void *buf);
 extern int DWC_Base64Encode(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
 extern char *strcpy(char *dst, const char *src);
 extern int DWC_Base64Decode(char *src, unsigned long srclen, char *dst, unsigned long dstlen);
@@ -229,6 +222,9 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 char *DWC_Http_GetResult(char *http, char *label);
 int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned long buffer_len);
 int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len);
+static int DWCi_Http_AllocBuffer(char *http, char *buf, unsigned long size);
+static void DWCi_Http_FreeBuffer(char *http, char *buf);
+static void DWCi_Http_DestroyResult(char *http, DWCHttpLabelValue *array_entry, int array_len);
 extern char gDwcHttpHeaderConnection[];
 extern char gDwcHttpHeaderConnectionClose[];
 extern char gDwcHttpHeaderTerminator[];
@@ -291,7 +287,7 @@ int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param)
         http->error = 1;
         return 1;
     }
-    if (!func_0217A0D4((DWCHttp *)http, &http->rep, http->param.len_recvbuf)) {
+    if (!DWCi_Http_AllocBuffer((char *)http, (char *)&http->rep, http->param.len_recvbuf)) {
         http->error = 1;
         return 1;
     }
@@ -496,7 +492,7 @@ void DWCi_Http_Thread(void *arg)
     if (timeout <= 0)
         timeout = 60000;
 
-    func_0217988C((DWCHttp *)http);
+    DWCi_Http_InitCpsSocket((char *)http);
     ip = DWCi_Http_Resolve((const char *)http);
     if (ip == 0) {
         http->error = 2;
@@ -507,7 +503,7 @@ void DWCi_Http_Thread(void *arg)
 
     if (http->ssl_enabled == 1) {
         MI_CpuFill8(con, 0, sizeof(CPSSslConnection));
-        con->auth_callback = func_0217A0C8;
+        con->auth_callback = DWCi_Http_CPSCallback;
         con->server_name = http->hostname;
         soc->con = con;
         CPS_SetRootCa((int)gDwcHttpRootCaList, 12);
@@ -530,7 +526,7 @@ void DWCi_Http_Thread(void *arg)
         goto fail;
     }
     CPS_SocFlush();
-    if (!func_02179814((DWCHttp *)http)) {
+    if (!DWCi_Http_Yield((char *)http)) {
         http->error = 7;
         goto fail;
     }
@@ -560,7 +556,7 @@ void DWCi_Http_Thread(void *arg)
             if (header_received == 1) {
                 OS_LockMutex(&http->content_len_mutex);
                 http->receivedbody_len += copy_length;
-                func_02086078(&http->content_len_mutex);
+                OS_UnlockMutex(&http->content_len_mutex);
             } else {
                 header_received = DWCi_Http_CheckHeaderReceived((char *)http);
             }
@@ -577,7 +573,7 @@ void DWCi_Http_Thread(void *arg)
             http->error = 6;
             goto fail;
         }
-        if (!func_02179814((DWCHttp *)http)) {
+        if (!DWCi_Http_Yield((char *)http)) {
             http->error = 7;
             goto fail;
         }
@@ -613,9 +609,9 @@ void DWC_Http_Destroy(char *http)
     if (http == 0) {
         return;
     }
-    func_0217A808(http, http + 0x1a74, 0x20);
-    func_0217A120(http, http + 0x1a44);
-    func_0217A120(http, http + 0x1a34);
+    DWCi_Http_DestroyResult(http, (DWCHttpLabelValue *)(http + 0x1a74), 0x20);
+    DWCi_Http_FreeBuffer(http, http + 0x1a44);
+    DWCi_Http_FreeBuffer(http, http + 0x1a34);
     if (*(void **)(http + 0x1a08) != 0) {
         free(0, *(void **)(http + 0x1a08), 0);
         *(void **)(http + 0x1a08) = 0;
@@ -649,7 +645,7 @@ int DWCi_Http_WriteBasicHeader(char *http)
     }
     result_len = strlen((const char *)(*(char **)(http + 0x1124))) +
                  (strlen((const char *)format) - 4 + strlen((const char *)(*(char **)(http + 0x1128))));
-    if (func_0217A0D4((DWCHttp *)http, (DWCHttpBuffer *)((Buf *)(http + 0x1a34)), result_len + 0x400) != 1) {
+    if (DWCi_Http_AllocBuffer((char *)http, (char *)((Buf *)(http + 0x1a34)), result_len + 0x400) != 1) {
         return 1;
     }
     result_len = OS_SNPrintf(req->cur, req->cap, format, *(char **)(http + 0x1128), *(char **)(http + 0x1124));

@@ -72,7 +72,7 @@
  *   WF2DMAP_OBJDRAW_AddActor 0x021C5680 thumb ov127
  *   WF2DMAP_OBJDRAW_SetActorValue 0x021C5840 thumb ov127
  *   WF2DMAP_OBJ_Create 0x021C4918 thumb ov127
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   WF2DMAP_OBJDRAW_RefreshActor  0x021C57E8  thumb  ov127
  *   WF2DMAP_OBJDRAW_GetActorValue  0x021C5834  thumb  ov127
  *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
@@ -80,7 +80,7 @@
  *   WF2DMAP_OBJDRAW_SetActorPos2  0x021C5898  thumb  ov127
  *   WF2DMAP_OBJDRAW_RestoreFrame  0x021C57F4  thumb  ov127
  *   WF2DMAP_CMDQ_Push  0x021C5F44  thumb  ov127
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   d_021C2878 0x021C2878 data ov099 a2
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -160,7 +160,7 @@ extern u16 WF2DMAP_MAP_GetHeight(u16 *tileMap);
 extern u8 *WF2DMAP_OBJDRAW_AddActor(u8 *, void *, int, u32);
 extern void WF2DMAP_OBJDRAW_SetActorValue(char *, int);
 extern void *WF2DMAP_OBJ_Create(void *, EntitySpawnParams *);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern void WF2DMAP_OBJDRAW_RefreshActor(char *sprite);
 extern int WF2DMAP_OBJDRAW_GetActorValue(char *sprite);
 extern int GF_STANDARD_Get_F5FC(u32 angle);
@@ -182,7 +182,7 @@ extern void CLACT_SetActorDrawPriority(void *actor, u32 priority);
 extern u32 KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern void WF2DMAP_CMDQ_Push(void *cmdQueue, void *command);
-extern void *func_02049F34(u32 archive, u32 fileIndex, u32 outData, u32 heapId);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archive, u32 fileIndex, u32 outData, u32 heapId);
 extern u32 GFL_HEAP_Free(void *handle);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
@@ -981,7 +981,7 @@ void WIFICLUBACTOR_SetIdleState(void *sys, WifiClubActor *actor)
     actor->updateFn = WIFICLUBACTOR_UpdateIdleWander;
     actor->animFn = WIFICLUBACTOR_NoOpAnim;
     n = 0x400;
-    actor->counter.timer = func_020056EC(n) + (n >> 2);
+    actor->counter.timer = GFL_USE_GetRandom(n) + (n >> 2);
     actor->state = 3;
     WIFICLUBACTOR_QueueActorMove(sys, 0, actor);
     WF2DMAP_OBJDRAW_SetActive(actor->sprite, 1);
@@ -1123,8 +1123,8 @@ int WIFICLUBACTOR_UpdateIdleWander(void *sys, WifiClubActor *actor)
     int direction;
     actor->counter.timer = actor->counter.timer - 1;
     if (actor->counter.timer <= 0) {
-        actor->counter.timer = func_020056EC(0x400) + 0x100;
-        direction = func_020056EC(4);
+        actor->counter.timer = GFL_USE_GetRandom(0x400) + 0x100;
+        direction = GFL_USE_GetRandom(4);
         WIFICLUBACTOR_QueueMoveCommand(sys, 0, direction, WF2DMAP_OBJ_GetSlot(actor->entity, 4));
     }
     return 0;
@@ -1200,7 +1200,7 @@ void WIFICLUBACTOR_ApplyActorMode(void *sys, WifiClubActor *actor, u8 mode)
 void WIFICLUBACTOR_InitBlink(WifiClubActorSys *sys, WifiClubPaletteBlink *blink, u32 unused, u32 archive)
 {
     MI_CpuFill8(blink, 0, 20);
-    blink->paletteHandle = func_02049F34(archive, 9, (u32)&blink->paletteData, (u16)sys->heapId);
+    blink->paletteHandle = ARC_UTIL_LoadPaletteBlockFromArchive(archive, 9, (u32)&blink->paletteData, (u16)sys->heapId);
     blink->frame = 0;
     blink->colorMask = 15;
     blink->frameTimer = d_021C2878[(u8)blink->frame];

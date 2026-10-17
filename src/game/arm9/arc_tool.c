@@ -28,12 +28,12 @@
  *   SAVEDATA_PanicFailPrintf           0x02034734  arm
  *   arc_tool_msg_member_range       0x020A7EEC  data
  *   arc_tool_msg_member_bounds  0x020A7F18  data
- *   func_0204968C  0x0204968C  arm
- *   sub_0204A380   0x0204A380  arm
+ *   ARC_UTIL_UploadBgChar  0x0204968C  arm
+ *   ARC_UTIL_LoadHandleMember   0x0204A380  arm
  *   NNS_G2dGetUnpackedCharacterDataEx       0x02062A4C  arm
  *   BG_SYS_LoadTileData       0x02040B1C  arm
  *   ENV_SetResourceSet  0x020307B0  arm
- *   func_0204979C       0x0204979C  arm
+ *   ARC_UTIL_RegisterObjChar       0x0204979C  arm
  *   BG_SYS_CreateTileRun  0x02040B58  arm
  *   ARC_UTIL_UploadScreen  0x0204982C  arm
  *   NNS_G2dGetUnpackedCharacterData       0x02062A00  arm
@@ -146,9 +146,7 @@ extern int FS_SeekFile(struct ArcHandle *arc, u32 pos, u32 origin);
 
 extern void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *msg, ...);
 
-extern u32 func_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused);
 
-extern void *sub_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 
@@ -156,7 +154,6 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 extern void ENV_SetResourceSet(void *p);
 
-extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 
 extern u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
 
@@ -1016,16 +1013,16 @@ u16 ARC_TOOL_GetHandleFileCount(void *obj)
 u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6)
 {
     u32 ret = ARC_UTIL_LoadMember((int)a0, (int)a1, a5, a6);
-    return func_0204968C((void *)ret, (u32)a2, (u32)a3, a4, a5);
+    return ARC_UTIL_UploadBgChar((void *)ret, (u32)a2, (u32)a3, a4, a5);
 }
 
 /*
  * Seven-argument entry point of the text-printing layer: resolve a handle
- * through sub_0204A380 from the first two arguments and the last two, then
+ * through ARC_UTIL_LoadHandleMember from the first two arguments and the last two, then
  * hand that handle plus the middle arguments to ARC_UTIL_UploadBgChar.
  *
  * The sixth argument is read from the caller's stack slot twice, once as
- * sub_0204A380's third argument and once as ARC_UTIL_UploadBgChar's fifth: the
+ * ARC_UTIL_LoadHandleMember's third argument and once as ARC_UTIL_UploadBgChar's fifth: the
  * compiler will not keep it in a callee-saved register across the first
  * call, because re-reading the incoming slot is free
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
@@ -1039,7 +1036,7 @@ u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32
  */
 u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
-    return ARC_UTIL_UploadBgChar((void *)((u32)sub_0204A380(a, b, f, g)), c, d, e, f);
+    return ARC_UTIL_UploadBgChar((void *)((u32)ARC_UTIL_LoadHandleMember(a, b, f, g)), c, d, e, f);
 }
 
 /*
@@ -1075,7 +1072,7 @@ u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
 
 /*
  * Loads an archive member with the top bit of its allocation flag word
- * forced on, hands the loaded buffer to func_0204979C to be registered, and
+ * forced on, hands the loaded buffer to ARC_UTIL_RegisterObjChar to be registered, and
  * releases the loader's handle again. Returning 0 on a failed load is the
  * `movs`/`moveq`/`popeq` triple: the load result is tested by the move that
  * stores it, so no separate `cmp` appears.
@@ -1087,7 +1084,7 @@ u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
  *
  * The twin of src/matched/ARC_UTIL_RegisterObjCharFromHandle.c, differing only in which loader it
  * calls. ARC_UTIL_LoadMember has thirteen further callers image-wide and
- * func_0204979C its second caller at 0x02049780, so both resolve through the
+ * ARC_UTIL_RegisterObjChar its second caller at 0x02049780, so both resolve through the
  * `label` class.
  *
  * Verified with:
@@ -1104,14 +1101,14 @@ u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, 
         return 0;
     }
 
-    res = func_0204979C(buf, a2, a3);
+    res = ARC_UTIL_RegisterObjChar(buf, a2, a3);
     ENV_SetResourceSet(buf);
     return res;
 }
 
 /*
  * Loads an archive member with the top bit of its allocation flag word
- * forced on, hands the loaded buffer to func_0204979C to be registered, and
+ * forced on, hands the loaded buffer to ARC_UTIL_RegisterObjChar to be registered, and
  * releases the loader's handle again. Returning 0 on a failed load is the
  * `movs`/`moveq`/`popeq` triple: the load result is tested by the move that
  * stores it, so no separate `cmp` appears.
@@ -1122,7 +1119,7 @@ u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, 
  * `lsl #16`/`lsr #16` truncation rather than a single `orr`.
  *
  * ARC_UTIL_LoadHandleMember resolves through the `matched` class against
- * src/matched/ARC_UTIL_LoadHandleMember.c; func_0204979C through the `label` class, its
+ * src/matched/ARC_UTIL_LoadHandleMember.c; ARC_UTIL_RegisterObjChar through the `label` class, its
  * outside witness being the second caller at 0x02049724.
  *
  * Verified with:
@@ -1139,7 +1136,7 @@ u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4,
         return 0;
     }
 
-    res = func_0204979C(buf, a2, a3);
+    res = ARC_UTIL_RegisterObjChar(buf, a2, a3);
     ENV_SetResourceSet(buf);
     return res;
 }
@@ -1308,7 +1305,7 @@ void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4,
  */
 void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
-    ARC_UTIL_UploadBgPalette(sub_0204A380(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
+    ARC_UTIL_UploadBgPalette(ARC_UTIL_LoadHandleMember(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
                  c, d, 0, e, 0);
 }
 

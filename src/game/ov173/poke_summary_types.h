@@ -121,7 +121,7 @@ struct PokeSummaryWork {
     unsigned char  field1BC;            /* 0x1BC */
     unsigned char  pad_1BD[3];          /* 0x1BD  untouched */
     void          *msgWindow;           /* 0x1C0  message window */
-    void          *tmpHandle;           /* 0x1C4  func_02049EF4 out-slot */
+    void          *tmpHandle;           /* 0x1C4  ARC_UTIL_LoadPaletteDataFromHandle out-slot */
     void          *sound;               /* 0x1C8  CURSOR_MOVE handle */
     unsigned short cursorIndex;         /* 0x1CC  CURSOR_MOVE_GetCurrent */
     unsigned short cursorSkipFlag;      /* 0x1CE  skip bit state */

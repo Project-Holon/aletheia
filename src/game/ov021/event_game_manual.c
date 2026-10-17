@@ -18,7 +18,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   d_021DE698     0x021DE698  data  ov021  a4
@@ -49,7 +49,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, void *fieldMap, int overlayId, const void *procData, void *param);
@@ -70,7 +70,7 @@ struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *r
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->resultOut = resultOut;

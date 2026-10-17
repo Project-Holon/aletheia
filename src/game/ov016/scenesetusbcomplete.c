@@ -14,7 +14,7 @@
  *
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettest.o)
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDB84.c \n *       --func DWCi_SceneSetUsbComplete_procInit1 --addr 0x021CDB84 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetUsbComplete_procInit1.c \n *       --func DWCi_SceneSetUsbComplete_procInit1 --addr 0x021CDB84 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovdisco), symbol endScene (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
@@ -24,7 +24,7 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDBBC.c \
  *       --func endScene --addr 0x021CDBBC --region ov016 --cc 1.1p1 --arm --lang c99
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesetusbcompl)
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDC00.c \n *       --func DWCi_SceneSetUsbComplete_endScene1 --addr 0x021CDC00 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetUsbComplete_endScene1.c \n *       --func DWCi_SceneSetUsbComplete_endScene1 --addr 0x021CDC00 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovdisco), symbol wait (name and prototype from the
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDC78.c \
  *       --func wait --addr 0x021CDC78 --region ov016 --cc 1.1p1 --arm --lang c99
@@ -98,7 +98,7 @@ extern char sceneoptmovdisco_str_20611[];
  * sdk:      DWCi_SceneSetUsbComplete (libdwcutil.TWL.HYB.a scenesetusbcompl)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDA88.c \n *       --func DWCi_SceneSetUsbComplete --addr 0x021CDA88 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetUsbComplete.c \n *       --func DWCi_SceneSetUsbComplete --addr 0x021CDA88 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
 
 static void initGraphics(void);

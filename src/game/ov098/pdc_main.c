@@ -67,7 +67,7 @@
  *   B_BAG_MAIN_Create 0x0220C834 thumb ov197
  *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
- *   func_02007F1C 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   KEY_GetTrg 0x020362DC arm
@@ -169,7 +169,7 @@ extern void BTLV_INPUT_StartScreenFadeTask(struct PdcMenu *menu);
 extern void B_BAG_MAIN_Create(struct PdcItemSelect *select);
 extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
 extern void BTLV_EFFECT_ResumeVm(void);
-extern u32 func_02007F1C(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
+extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
 extern int GFL_USE_IsBgmPlaying(void);
 extern u32 KEY_GetTrg(void);
@@ -409,7 +409,7 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
             BTLV_INPUT_StartScreenFadeTask(sys->menu);
             if (sys->select.chosenItem == 0) sys->state = 3;
             else {
-                func_02007F1C(PDC_GetMyItem(sys->args), sys->select.chosenItem, 1, sys->heapId);
+                MYITEM_SAVEDATA_RemoveItem(PDC_GetMyItem(sys->args), sys->select.chosenItem, 1, sys->heapId);
                 sys->state = 4;
             }
         }

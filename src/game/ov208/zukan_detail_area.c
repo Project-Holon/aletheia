@@ -28,7 +28,7 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   func_02040804 0x02040804 arm
+ *   BG_SYS_GetScrollY 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -47,7 +47,7 @@
  *   ZUKAN_DETAIL_HEADBAR_SetIconForm  0x021BE854  thumb  ov208
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
- *   func_02049990  0x02049990  arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   MI_CpuFill8 0x02082BCC arm
  *   ZUKAN_DETAIL_AREA_SetHeapId 0x021BF784 thumb ov208
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
@@ -56,7 +56,7 @@
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_AddActorSurfacePos        0x0204B404  arm
- *   func_02049B68        0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole        0x02049B68  arm
  *   CLACT_RegisterPaletteEx        0x0204AC18  arm
  *   CLACT_RegisterCharacter        0x0204A6C8  arm
  *   CLACT_RegisterCellAnim        0x0204AF28  arm
@@ -83,12 +83,12 @@
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
- *   func_021BC3BC 0x021BC3BC thumb
- *   func_021BDAAC 0x021BDAAC thumb
+ *   ZUKAN_DETAIL_COMMON_GetMaxValue 0x021BC3BC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb
- *   func_021BDBA0 0x021BDBA0 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
@@ -105,35 +105,35 @@
  *   ZUKAN_DETAIL_COMMON_FreeBgPalette 0x021BC97C thumb ov208
  *   ZUKAN_DETAIL_COMMON_DeletePaletteAnim 0x021BC61C thumb ov208
  *   TOWNMAP_GRH_FreeTownInfo 0x021BBB34 thumb ov072
- *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
- *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetCursorValue  0x021BC3B8  thumb  ov208
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   data_021C85C0  0x021C85C0  data
  *   data_021C8618  0x021C8618  data
- *   ov208_func_021C0134  0x021C0134  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_CreateMapActors  0x021C0134  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc  0x021BC844  thumb  ov208
- *   ov208_func_021C1AD4  0x021C1AD4  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_LoadAreaEntries  0x021C1AD4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots  0x021BC758  thumb  ov208
- *   ov208_func_021BC718  0x021BC718  thumb  ov208
- *   ov208_func_021BC4F4  0x021BC4F4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeIn  0x021BC718  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SetBrightnessFull  0x021BC4F4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartBlendIn  0x021BC4D8  thumb  ov208
- *   ov208_func_021BC6D8  0x021BC6D8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeOut  0x021BC6D8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
- *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
- *   ov208_func_021BDC14  0x021BDC14  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_IsBlendBusy  0x021BC4C8  thumb  ov208
- *   ov208_func_021BC6C8  0x021BC6C8  thumb  ov208
- *   ov208_func_021C1D0C  0x021C1D0C  thumb  ov208
- *   ov208_func_021C1D24  0x021C1D24  thumb  ov208
- *   ov208_func_021C10B8  0x021C10B8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_IsFadeBusy  0x021BC6C8  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay  0x021C1D0C  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_RequestModeEvent4  0x021C1D24  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_HandleCursorInput  0x021C10B8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartBlendOut  0x021BC4E4  thumb  ov208
- *   ov208_func_021BC6F8  0x021BC6F8  thumb  ov208
- *   ov208_func_021BDAE8  0x021BDAE8  thumb  ov208
- *   ov208_func_021BC508  0x021BC508  thumb  ov208
- *   ov208_func_021BC99C  0x021BC99C  thumb  ov208
- *   ov208_func_021C0968  0x021C0968  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeOutAlt  0x021BC6F8  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled  0x021BDAE8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SetBrightnessNone  0x021BC508  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_TickFlashEffect  0x021BC99C  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_UpdateScroll  0x021C0968  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_UpdateBlendFades  0x021BC46C  thumb  ov208
- *   ov208_func_021BC678  0x021BC678  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_UpdatePaletteAnim  0x021BC678  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SetBrightnessFull 0x021BC4F4 thumb ov208
  *   ZUKAN_DETAIL_COMMON_TransferPalettes 0x021BC6BC thumb ov208
  *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
@@ -168,7 +168,7 @@
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   SYMBOL_MAP_ResolveZoneId  0x02166C7C  thumb
  *   TOWNMAP_GRH_FindRecordIndex  0x021BBB48  thumb  ov072
- *   func_021C0C14  0x021C0C14  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_FindPlayerTownIndex  0x021C0C14  thumb  ov208
  *   data_021C8554  0x021C8554  data
  *   BUTTON_MAN_InitSphere 0x02051F1C arm
  *   BUTTON_MAN_InitSegment 0x0205207C arm
@@ -179,28 +179,28 @@
  *   VEC_Mag 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   BUTTON_MAN_ScaleVec 0x020520A4 arm
- *   ov208_func_021C1920  0x021C1920  thumb  ov208
- *   ov208_func_021C1FE0  0x021C1FE0  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_HandleModeEvent  0x021C1920  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_BeginHideOverlay  0x021C1FE0  thumb  ov208
  *   ov208_func_021C2090  0x021C2090  thumb  ov208
- *   ov208_func_021C20C0  0x021C20C0  thumb  ov208
- *   ov208_func_021C21D0  0x021C21D0  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_DrawNoDataMessage  0x021C20C0  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_ClearOverlayWindow  0x021C21D0  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable  0x021BDBAC  thumb  ov208
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_021C0740  0x021C0740  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_FlushPrintWindow  0x021C0740  thumb  ov208
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   func_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible 0x021C0C8C thumb ov208
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   data_021C8E14  0x021C8E14  data
  *   data_021C8E1A  0x021C8E1A  data
  *   G2x_SetBlendAlpha_ 0x0207D63C  arm
- *   ov208_func_021BC518  0x021BC518  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget  0x021BC518  thumb  ov208
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm  arm9
  *   ZUKAN_DETAIL_TOUCHBAR_GetMode  0x021BDAD0  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode  0x021BDAAC  thumb  ov208
@@ -321,7 +321,7 @@ extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
-extern u32 func_02040804(u32 layer);
+extern u32 BG_SYS_GetScrollY(u32 layer);
 
 extern unsigned PRINTSYS_QUE_Create(void *);
 
@@ -363,7 +363,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
 #define WP(o) (*(void **)(p + (o)))
 
@@ -473,7 +473,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern u32  CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -533,9 +533,7 @@ extern void GF_OVERLAY_Unload(int);
 
 extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 
-extern u16 func_021BC3BC(int *ctx);
 
-extern void func_021BDAAC(void *s, u32 a, u32 b, u32 c);
 
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *ctx);
 
@@ -543,7 +541,6 @@ extern int GAME_DATA_CheckSaveFlag(int a, int b);
 
 extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *ctx);
 
-extern void func_021BDBA0(void *s);
 
 extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *p);
 
@@ -571,59 +568,48 @@ extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p);
 
 extern void TOWNMAP_GRH_FreeTownInfo(void *);
 
-extern void *ov208_func_021BC3B4(int key);
 
-extern void *ov208_func_021BC3B8(int key);
+extern void *ZUKAN_DETAIL_COMMON_GetCursorValue(int key);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
-extern void ov208_func_021C0134(u16 *heap, u8 *p, int key);
 
 extern u32  ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);
 
-extern void ov208_func_021C1AD4(u16 *heap, u8 *p, int key);
 
 extern void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(u32 fade);
 
-extern void ov208_func_021BC718(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_StartFadeIn(u32 fade);
 
-extern void ov208_func_021BC4F4(int sub, u32 blend);
 
 extern void ZUKAN_DETAIL_COMMON_StartBlendIn(u32 blend);
 
-extern void ov208_func_021BC6D8(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOut(u32 fade);
 
 extern u16  ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
 
-extern int  ov208_func_021BC3A4(int key);
 
-extern void ov208_func_021BDC14(void *s, int b);
 
 extern int  ZUKAN_DETAIL_COMMON_IsBlendBusy(u32 blend);
 
-extern int  ov208_func_021BC6C8(u32 fade);
+extern int  ZUKAN_DETAIL_COMMON_IsFadeBusy(u32 fade);
 
-extern void ov208_func_021C1D0C(u16 *heap, u8 *p, int key);
 
-extern void ov208_func_021C1D24(u16 *heap, u8 *p, int key);
 
-extern void ov208_func_021C10B8(u16 *heap, u8 *p, int key);
 
 extern void ZUKAN_DETAIL_COMMON_StartBlendOut(u32 blend);
 
-extern void ov208_func_021BC6F8(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(u32 fade);
 
-extern void ov208_func_021BDAE8(void *s, int v);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(void *s, int v);
 
-extern void ov208_func_021BC508(int sub, u32 blend);
 
-extern void ov208_func_021BC99C(u32 win);
+extern void ZUKAN_DETAIL_COMMON_TickFlashEffect(u32 win);
 
-extern void ov208_func_021C0968(u16 *heap, u8 *p, int key);
 
 extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(u32 main, u32 sub);
 
-extern void ov208_func_021BC678(u32 fade);
+extern void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(u32 fade);
 
 extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, int *p);
 
@@ -673,7 +659,6 @@ extern u32  SYMBOL_MAP_ResolveZoneId(int a, u32 b);
 
 extern int TOWNMAP_GRH_FindRecordIndex(int a0, int a1);
 
-extern u8   func_021C0C14(u16 *heap, u8 *p, int key);
 
 extern void BUTTON_MAN_InitSphere(struct Ball *,struct Vec3 *,u32);
 
@@ -693,15 +678,11 @@ extern void VEC_Normalize(struct Vec3 *src, struct Vec3 *dst);
 
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 
-extern void ov208_func_021C1920(u16 *heap, u8 *p, int key, int mode);
 
-extern void ov208_func_021C1FE0(u16 *heap, u8 *p, int key);
 
 extern void ov208_func_021C2090(u16 *heap, u8 *p, int key);
 
-extern void ov208_func_021C20C0(u16 *heap, u8 *p, int key);
 
-extern void ov208_func_021C21D0(u16 *heap, u8 *p, int key);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(void *s, u32 on);
 
@@ -715,7 +696,6 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 
@@ -723,7 +703,6 @@ extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
@@ -734,7 +713,6 @@ extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void G2x_SetBlendAlpha_(volatile void *, int, int, int, int);
 
-extern void ov208_func_021BC518(u32 blend);
 
 int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *p);
 
@@ -1015,8 +993,8 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
     u8 i;
     int ready;
 
-    scene = ov208_func_021BC3B4(key);
-    icon = ov208_func_021BC3B8(key);
+    scene = (void *)(ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)(key)));
+    icon = ZUKAN_DETAIL_COMMON_GetCursorValue(key);
     switch (*seq) {
     case 0:
         *seq = 1;
@@ -1041,30 +1019,30 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         BG_SYS_SetVisibleLayer(7, 2);
         BG_SYS_SetVisibleLayer(4, 3);
         ZUKAN_DETAIL_AREA_LoadMapGraphics(heap, p, key);
-        ov208_func_021C0134(heap, p, key);
+        ZUKAN_DETAIL_AREA_CreateMapActors(heap, p, key);
         ZUKAN_DETAIL_AREA_CreateTownIconActors(heap, p, key);
         ZUKAN_DETAIL_AREA_CreateTownMarkerActors(heap, p, key);
         W(8) = ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heap, 1, 4, 9, 10);
         ZUKAN_DETAIL_AREA_CreateTextWindows(heap, p, key);
         ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(heap, p, key);
         ZUKAN_DETAIL_AREA_LoadMarkerResources(heap, p, key);
-        ov208_func_021C1AD4(heap, p, key);
+        ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, p, key);
         CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + W(0x64) * 4 + 0x5c)), 1);
         ZUKAN_DETAIL_AREA_MovePlayerMarkerToTown(heap, p, key);
         if (W(0x90) == 1)
             ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(heap, p, key, 1);
         ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(W(0x420));
-        ov208_func_021BC718(W(0x420));
+        ZUKAN_DETAIL_COMMON_StartFadeIn(W(0x420));
         break;
     case 1:
         *seq = 2;
-        ov208_func_021BC4F4(1, W(0x41c));
+        ZUKAN_DETAIL_COMMON_SetBrightnessFull((int)(1), (int *)(W(0x41c)));
         ZUKAN_DETAIL_AREA_SetIconsNormalMode(heap, p, key);
         break;
     case 2:
         *seq = 3;
         ZUKAN_DETAIL_COMMON_StartBlendIn(W(0x418));
-        ov208_func_021BC6D8(W(0x420));
+        ZUKAN_DETAIL_COMMON_StartFadeOut(W(0x420));
         if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
             ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 1, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)key) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
@@ -1073,18 +1051,18 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         }
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
         W(0x88) = 0;
-        ov208_func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(key), 18));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)(key)), 18));
         if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 1);
             ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
         }
         break;
     case 3:
-        if (ZUKAN_DETAIL_COMMON_IsBlendBusy(W(0x418)) == 0 && ov208_func_021BC6C8(W(0x420)) == 0
+        if (ZUKAN_DETAIL_COMMON_IsBlendBusy(W(0x418)) == 0 && ZUKAN_DETAIL_COMMON_IsFadeBusy(W(0x420)) == 0
             && ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 2 && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 2) {
             ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(scene);
             ZUKAN_DETAIL_AREA_SetMapActorsNormalMode(heap, p, key);
-            ov208_func_021C1D0C(heap, p, key);
+            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)(heap), (int)(p), (int)(key));
             *seq = 4;
         }
         break;
@@ -1097,12 +1075,12 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         break;
     case 5:
         if (W(0x424) != 0) {
-            ov208_func_021C1D24(heap, p, key);
+            ZUKAN_DETAIL_AREA_RequestModeEvent4((void *)(heap), (int)(p), (int)(key));
             *seq = 6;
         } else {
             if (W(0x90) == 1)
                 ZUKAN_DETAIL_AREA_UpdateBlendPulse(p);
-            ov208_func_021C10B8(heap, p, key);
+            ZUKAN_DETAIL_AREA_HandleCursorInput(heap, p, key);
         }
         break;
     case 6:
@@ -1110,15 +1088,15 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
             ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode(heap, p, key);
             *seq = 7;
             ZUKAN_DETAIL_COMMON_StartBlendOut(W(0x418));
-            ov208_func_021BC6F8(W(0x420));
+            ZUKAN_DETAIL_COMMON_StartFadeOutAlt(W(0x420));
             ZUKAN_DETAIL_HEADBAR_SetIconForm(icon);
             if (W(0x424) == 2)
-                ov208_func_021BDAE8(scene, 0);
+                ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scene, 0);
         }
         break;
     case 7:
         ready = 0;
-        if (ZUKAN_DETAIL_COMMON_IsBlendBusy(W(0x418)) == 0 && ov208_func_021BC6C8(W(0x420)) == 0
+        if (ZUKAN_DETAIL_COMMON_IsBlendBusy(W(0x418)) == 0 && ZUKAN_DETAIL_COMMON_IsFadeBusy(W(0x420)) == 0
             && ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) == 0) {
             if (W(0x424) == 2) {
                 if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) == 0)
@@ -1133,7 +1111,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
     case 8:
         *seq = 9;
         ZUKAN_DETAIL_AREA_SetIconsAlphaMode(heap, p, key);
-        ov208_func_021BC508(1, W(0x41c));
+        ZUKAN_DETAIL_COMMON_SetBrightnessNone((int)(1), (int *)(W(0x41c)));
         break;
     case 9:
         ZUKAN_DETAIL_AREA_NoOpLoad(heap, p, key);
@@ -1147,13 +1125,13 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         return 1;
     }
     if (*seq >= 2) {
-        ov208_func_021BC99C(W(8));
-        ov208_func_021C0968(heap, p, key);
+        ZUKAN_DETAIL_COMMON_TickFlashEffect(W(8));
+        ZUKAN_DETAIL_AREA_UpdateScroll((int)(heap), (int)(p), (int)(key));
         ZUKAN_DETAIL_AREA_UpdateSelectorAnim(heap, p, key);
     }
     ZUKAN_DETAIL_AREA_UpdateMode(heap, p, key);
     ZUKAN_DETAIL_COMMON_UpdateBlendFades(W(0x418), W(0x41c));
-    ov208_func_021BC678(W(0x420));
+    ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(W(0x420));
     ZUKAN_DETAIL_AREA_UpdatePrintQueues(heap, p, key);
     return 0;
 }
@@ -1231,7 +1209,7 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov2
             st->overlayCommitted = 1;
             if (st->overlayReady != 0) {
                 st->overlayPending = 0;
-                func_021BDBA0((void *)sc);
+                ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
                 return;
             }
         }
@@ -1241,21 +1219,21 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov2
             st->overlayCommitted = 1;
             if (st->overlayReady != 0) {
                 st->overlayPending = 0;
-                func_021BDBA0((void *)sc);
+                ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
                 return;
             }
         }
         break;
     case 5:
         GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(obj), 0x12, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
-        func_021BDBA0((void *)sc);
+        ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
         return;
     case 19:
         ZUKAN_DETAIL_AREA_HandleModeEvent(heap, (u8 *)st, (int)obj, 6);
         return;
     default:
         if (flag != 0) {
-            func_021BDBA0((void *)sc);
+            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)sc);
         }
         break;
     }
@@ -1296,8 +1274,8 @@ void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, int key)
     void *h;
 
     h = ARC_TOOL_CreateHandle(0x55, *heap);
-    func_02049B68(h, 0, 2, 0x6000, 0x2000, *heap);
-    func_02049B68(h, 0, 2, 0x4000, 0x2000, *heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 2, 0x6000, 0x2000, *heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 2, 0x4000, 0x2000, *heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 5, 2, 0, 0x4000, 0, *heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 7, 3, 0, 0xc000, 0, *heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 0x11, 2, 0, 0x800, 0, *heap);
@@ -1426,7 +1404,7 @@ void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key)
     u16 msg;
     ObjPos pos;
 
-    k = ov208_func_021BC3A4(key);
+    k = ZUKAN_DETAIL_COMMON_GetSource((int *)(key));
     for (i = 0; i < 0x3d; i++) {
         msg = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0x10);
         if (msg != 0xffff) {
@@ -1573,7 +1551,7 @@ void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, int key)
     h = ARC_TOOL_CreateHandle(0x9f, *heap);
     ARC_UTIL_UploadPaletteFromHandle(h, 2, 4, 0, 0, 0x100, *heap);
     ((struct Ov208AreaWork *)p)->f68 = ARC_UTIL_RegisterObjCharFromHandle(h, 12, 7, 0, 0, *heap);
-    func_02049990(h, 0x26, 7, 0, (u16)((struct Ov208AreaWork *)p)->f68, 0, 0, *heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 0x26, 7, 0, (u16)((struct Ov208AreaWork *)p)->f68, 0, 0, *heap);
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -1597,7 +1575,7 @@ void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2)
     case 2:
         break;
     case 1:
-        if ((int)func_02040804((int)7) >= 0x40) {
+        if ((int)BG_SYS_GetScrollY((int)7) >= 0x40) {
             BG_SYS_ResetSlot(7, 3, 0x40);
             ((struct Ov208AreaWork *)p)->f70 = 2;
         } else {
@@ -1606,7 +1584,7 @@ void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2)
         }
         break;
     case 3:
-        if ((int)func_02040804((int)7) <= 0) {
+        if ((int)BG_SYS_GetScrollY((int)7) <= 0) {
             BG_SYS_ResetSlot(7, 3, 0);
             ((struct Ov208AreaWork *)p)->f70 = 0;
         } else {
@@ -1664,7 +1642,7 @@ void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, int key)
     u32 next;
     u16 nextAnim;
 
-    scene = ov208_func_021BC3B4(key);
+    scene = (void *)(ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)(key)));
     sel = p[0xd8];
     if (sel == 2) {
         anim = 2;
@@ -1742,7 +1720,7 @@ u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, int key)
     int v;
     u8 r;
 
-    a = ov208_func_021BC3A4(key);
+    a = ZUKAN_DETAIL_COMMON_GetSource((int *)(key));
     m = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAME_DATA_GetField114((struct SaveBlock *)a));
     r = 0xff;
     v = TOWNMAP_GRH_FindRecordIndex(((struct Ov208AreaWork *)p)->f3C8, SYMBOL_MAP_ResolveZoneId(a, m));
@@ -1792,7 +1770,7 @@ void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key)
     struct Pt pt = data_021C8554;
 
     if (p[0x79] == 0xff)
-        p[0x79] = func_021C0C14(heap, p, key);
+        p[0x79] = ZUKAN_DETAIL_AREA_FindPlayerTownIndex(heap, p, key);
     if (p[0x79] != 0xff) {
         pt.x = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), p[0x79], 2);
         pt.y = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), p[0x79], 3);
@@ -1802,11 +1780,11 @@ void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key)
 }
 
 /*
- * Stores the byte result of func_021C0C14 at +0x79 of the second argument then calls ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown.
+ * Stores the byte result of ZUKAN_DETAIL_AREA_FindPlayerTownIndex at +0x79 of the second argument then calls ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown.
  */
 void ZUKAN_DETAIL_AREA_SelectPlayerTown(int a, char *b, int c)
 {
-    b[0x79] = func_021C0C14((u16 *)a, (u8 *)b, c);
+    b[0x79] = ZUKAN_DETAIL_AREA_FindPlayerTownIndex((u16 *)a, (u8 *)b, c);
     ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown((u16 *)a, (u8 *)b, c);
 }
 
@@ -2135,15 +2113,15 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
 {
     switch (W(0x6c)) {
     case 1:
-        ov208_func_021C1920(heap, p, key, 2);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 2);
         break;
     case 2:
-        ov208_func_021C1920(heap, p, key, 5);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 5);
         break;
     case 3:
         switch (W(0x84)) {
         case 1:
-            ov208_func_021C1FE0(heap, p, key);
+            ZUKAN_DETAIL_AREA_BeginHideOverlay(heap, p, key);
             W(0x84) = 2;
             break;
         case 2:
@@ -2151,16 +2129,16 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 3;
             break;
         case 3:
-            ov208_func_021C20C0(heap, p, key);
+            ZUKAN_DETAIL_AREA_DrawNoDataMessage((void *)(heap), (u8 *)(p), (void *)(key));
             W(0x84) = 0;
-            ov208_func_021C1920(heap, p, key, 0);
+            ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 0);
             break;
         }
         break;
     case 4:
         switch (W(0x84)) {
         case 1:
-            ov208_func_021C21D0(heap, p, key);
+            ZUKAN_DETAIL_AREA_ClearOverlayWindow((void *)(heap), (char *)(p), (int)(key));
             W(0x84) = 2;
             break;
         case 2:
@@ -2174,15 +2152,15 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
         }
         break;
     case 6:
-        ov208_func_021C1920(heap, p, key, 7);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 7);
         break;
     case 7:
-        ov208_func_021C1920(heap, p, key, 0);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 0);
         break;
     case 8:
         switch (W(0x84)) {
         case 1:
-            ov208_func_021C1FE0(heap, p, key);
+            ZUKAN_DETAIL_AREA_BeginHideOverlay(heap, p, key);
             W(0x84) = 2;
             break;
         case 2:
@@ -2190,9 +2168,9 @@ void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
             W(0x84) = 3;
             break;
         case 3:
-            ov208_func_021C20C0(heap, p, key);
+            ZUKAN_DETAIL_AREA_DrawNoDataMessage((void *)(heap), (u8 *)(p), (void *)(key));
             W(0x84) = 0;
-            ov208_func_021C1920(heap, p, key, 5);
+            ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 5);
             break;
         }
         break;
@@ -2233,7 +2211,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
                 ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
                 ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
             }
-            func_021BDAAC(s, 1, 1, func_021BC3BC((int *)((char *)key)) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 1, 1, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)((int *)((char *)key))) > 1);
         }
         break;
     case 3:
@@ -2242,7 +2220,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
                 W(0x430) = 1;
                 if (W(0x434) != 0) {
                     W(0x42c) = 0;
-                    func_021BDBA0((void *)((int)s));
+                    ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)((int)s));
                 }
             }
             if (p[0xd8] == 7 && W(0x88) != 0)
@@ -2267,14 +2245,14 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
             W(0x74) = 3;
             CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 0);
             CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 0);
-            wide = func_021BC3BC((int *)((char *)key)) > 1 ? 1 : 0;
-            func_021BDAAC(s, 0, 1, wide);
+            wide = ZUKAN_DETAIL_COMMON_GetMaxValue((char *)((int *)((char *)key))) > 1 ? 1 : 0;
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 0, 1, wide);
             ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)s, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)key), 0x12));
         }
         break;
     case 8:
         if (mode == 5) {
-            func_021BDBA0((void *)((int)s));
+            ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((void *)((int)s));
             if (p[0xd8] == 7 && W(0x88) != 0)
                 ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled((struct Ov208Scene *)s, 1);
         }
@@ -2327,7 +2305,7 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
     PRINTSYS_PrintQueColor((void *)W(0x34), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, W(4), 0x3c40);
     STRBUF_Delete(buf);
     W(0x24) = 1;
-    func_021C0740(heap, p, key, 0);
+    ZUKAN_DETAIL_AREA_FlushPrintWindow(heap, p, key, 0);
 
     if (W(0x8c) == 0) {
         if (prev == 1) {
@@ -2376,7 +2354,7 @@ void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key)
         PRINTSYS_PrintQueColor((void *)W(0x38), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x18)), 0, 1, (u32)str, W(4), 0x3c40);
         STRBUF_Delete(str);
         W(0x28) = 1;
-        func_021C0740(heap, p, key, 1);
+        ZUKAN_DETAIL_AREA_FlushPrintWindow(heap, p, key, 1);
         pt.x = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), p[0x79], 2);
         pt.y = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), p[0x79], 3);
         CLACT_SetActorAnimSeq((struct Obj *)W(0xd0), 5);
@@ -2461,12 +2439,12 @@ void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, int key)
     u32 w;
 
     str = MSGDATA_AllocString((struct MsgBank *)W(0xc), p[0x78] + 0xbe);
-    tw = func_0201D304(str, W(4), 0);
+    tw = GF_FONT_MeasureWidestLine(str, W(4), 0);
     w = BMP_GetWidth(BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)));
     PRINTSYS_PrintQueColor((void *)W(0x3c), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)), (s16)((u16)((int)(w - tw) / 2)), (s16)1, (u32)str, W(4), 0x3c40);
     STRBUF_Delete(str);
     W(0x2c) = 1;
-    func_021C0740(heap, p, key, 2);
+    ZUKAN_DETAIL_AREA_FlushPrintWindow(heap, p, key, 2);
 }
 
 /*
@@ -2540,7 +2518,7 @@ void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2)
             PRINTSYS_PrintQueColor(((struct Ov208AreaWork *)st)->f40, t, (s16)(u16)(d / 2), 1, (u32)msg, ((struct Ov208AreaWork *)st)->f4, 0x3c40);
             STRBUF_Delete(msg);
             ((struct Ov208AreaWork *)st)->f30 = 1;
-            func_021C0740((u16 *)a0, st, (int)a2, 3);
+            ZUKAN_DETAIL_AREA_FlushPrintWindow((u16 *)a0, st, (int)a2, 3);
             CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Ov208AreaWork *)st)->fC8, 1);
         }
     } else {
@@ -2763,5 +2741,5 @@ void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, int key)
         if (((u32 *)(p + 0x5c))[i] != 0)
             CLACT_SetActorObjMode((struct Actor *)(((u32 *)(p + 0x5c))[i]), 1);
     }
-    ov208_func_021BC518((u32)((struct Ov208AreaWork *)p)->f41C);
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget((int *)((u32)((struct Ov208AreaWork *)p)->f41C));
 }

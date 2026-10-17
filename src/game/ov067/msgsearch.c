@@ -22,7 +22,7 @@
  *   STRBUF_GetLength 0x020458F8 arm
  *   func_02082A7C 0x02082A7C arm
  *   MSGDATA_GetMessageCount 0x02045F50 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_GetChars  0x02045A90  arm
  */
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern void ENV_SetResourceSet(void *p);
 extern u16 STRBUF_GetLength(struct StrBuf *str);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
 extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, struct StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct StrBuf *dest);
 extern u16 *STRBUF_GetChars(struct StrBuf *str);
 MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId);
 void MSGSEARCH_Delete(MsgSearch *search);
@@ -97,7 +97,7 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
         for (;; messageIndex++) {
             if (messageIndex >= messageCount) break;
             if (hitCount >= maxHits) break;
-            func_02045CAC(bank, messageIndex, search->scratch);
+            MSGDATA_ReadString(bank, messageIndex, search->scratch);
             if (MSGSEARCH_PrefixMatches(prefix, search->scratch, STRBUF_GetLength(prefix))) {
                 if (hitCount < maxHits) {
                     hits[hitCount].bankIndex = bankIndex;

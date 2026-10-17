@@ -17,7 +17,7 @@
  *   __float_huge  0x020A8814  data
  *   _dsub  0x0209AF34  arm
  *   _deq  0x0209BA3C  arm
- *   func_0209AF34  0x0209AF34  arm
+ *   _dsub  0x0209AF34  arm
  *   frexp  0x0209A6E8  arm
  *   ldexp  0x0209A7A8  arm
  *   func_0209C554  0x0209C554  arm
@@ -79,7 +79,7 @@ typedef struct {
 
 typedef void (*DecFromStr)(decimal2 *d, const char *s, s16 exp);
 
-extern double func_0209AF34(double a, double b);
+extern double _dsub(double a, double b);
 
 extern double frexp(double x, int *eptr);
 
@@ -745,7 +745,7 @@ done:
  * The zero test is spelled `x == 0.0`, a real double comparison, not a call:
  * mwcc lowers it to `bl _deq` (0x0209BA3C, __dcmp_5) followed IMMEDIATELY by
  * the conditional branch, because the helper returns condition flags.  An
- * explicit `extern int func_0209BA3C(double, double)` whose result is tested
+ * explicit `extern int _deq(double, double)` whose result is tested
  * costs an extra `cmp r0, #0`.  `_deq` is the name mwcc emits, so it is what
  * the symbols: block has to pin.
  *
@@ -781,7 +781,7 @@ void __num2dec(DB *r, double x)
         return;
     }
     if (neg)
-        x = func_0209AF34(0.0, x);
+        x = _dsub(0.0, x);
     f = frexp(x, &e);
     g = f;
     v = *(u64 *)&g | 0x0010000000000000ULL;

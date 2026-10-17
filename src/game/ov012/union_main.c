@@ -71,7 +71,7 @@
  *   UNION_APP_QueueJoinConfirm  0x02184060  thumb  ov022
  *   UNION_APP_OnMemberDropped 0x021840A4 thumb ov022
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   sUnionSubEventTable     0x02175498  data   ov012  a4
@@ -136,9 +136,9 @@
  *   COLOSSEUM_ClearBattleInfo  0x0217534C  thumb  ov012
  *   IRC_BATTLE_TASK_Create  0x02157450  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
- *   func_02009D1C  0x02009D1C  thumb
- *   func_02009BB8  0x02009BB8  thumb
- *   func_02009B80  0x02009B80  thumb
+ *   WIFILIST_FindFriendByStatus  0x02009D1C  thumb
+ *   WIFILIST_AddFriendBattleRecord  0x02009BB8  thumb
+ *   WIFILIST_SetFriendLastSeen  0x02009B80  thumb
  *   ov090_id       0x0000005A  data   a1
  *   ov091_id       0x0000005B  data   a1
  *   ov131_id       0x00000083  data   a1
@@ -291,7 +291,7 @@ extern void UNION_APP_OnMemberDropped(struct UnionAppWork *app, u8 value);
 
 extern void *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parentEvent, int (*eventFunc)(void *event, int *seq, UnionSubEventWork *eventWork), u32 workSize);
 
-extern void *func_020124E8(void *event);
+extern void *GAME_EVENT_GetWork(void *event);
 
 extern void UNION_MSG_CloseAllWindows(UnionRoomWork *work);
 
@@ -888,7 +888,7 @@ void *UNION_MAIN_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, U
     void *event;
     UnionSubEventWork *eventWork;
     event = GAME_EVENT_Create(gameSystem, 0, UNION_MAIN_SubEventMain, sizeof(UnionSubEventWork));
-    eventWork = func_020124E8(event);
+    eventWork = GAME_EVENT_GetWork(event);
     eventWork->gameSystem = gameSystem;
     eventWork->fieldMap = fieldMap;
     eventWork->work = work;
@@ -1090,11 +1090,11 @@ extern struct GameEvent *IRC_BATTLE_TASK_Create(struct GameSystem *gameSystem, s
 
 extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
 
-extern int func_02009D1C(struct WifiList *wifiList, struct MyStatus *myStatus, u32 *outIndex);
+extern int WIFILIST_FindFriendByStatus(struct WifiList *wifiList, struct MyStatus *myStatus, u32 *outIndex);
 
-extern void func_02009BB8(struct WifiList *wifiList, int index, int a, int b, int c);
+extern void WIFILIST_AddFriendBattleRecord(struct WifiList *wifiList, int index, int a, int b, int c);
 
-extern void func_02009B80(struct WifiList *wifiList, int index);
+extern void WIFILIST_SetFriendLastSeen(struct WifiList *wifiList, int index);
 
 extern void  COLOSSEUM_ClearBattleInfo(u8 *battleInfo);
 
@@ -1608,21 +1608,21 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
             for (i = 0; i < playerCount; i++) {
                 if (i == myNetId)
                     continue;
-                if (func_02009D1C(wifiList, (struct MyStatus *)colosseum->player[i].myStatus, &friendIndex) != 1)
+                if (WIFILIST_FindFriendByStatus(wifiList, (struct MyStatus *)colosseum->player[i].myStatus, &friendIndex) != 1)
                     continue;
                 if (side == (colosseum->battlePosition[i] & BATTLE_POSITION_SIDE)) {
-                    func_02009B80(wifiList, friendIndex);
+                    WIFILIST_SetFriendLastSeen(wifiList, friendIndex);
                     continue;
                 }
                 switch (selectParam->result) {
                 case 0:
-                    func_02009BB8(wifiList, friendIndex, 1, 0, 0);
+                    WIFILIST_AddFriendBattleRecord(wifiList, friendIndex, 1, 0, 0);
                     break;
                 case 1:
-                    func_02009BB8(wifiList, friendIndex, 0, 1, 0);
+                    WIFILIST_AddFriendBattleRecord(wifiList, friendIndex, 0, 1, 0);
                     break;
                 case 2:
-                    func_02009B80(wifiList, friendIndex);
+                    WIFILIST_SetFriendLastSeen(wifiList, friendIndex);
                     break;
                 }
             }

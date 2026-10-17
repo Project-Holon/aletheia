@@ -18,7 +18,7 @@
  *   gsifree  0x0217EAE0  arm
  *   gsXmlFreeWriter  0x02181D84  arm
  *   gsimalloc                  0x0217EAB0  arm ov009
- *   func_02184144                  0x02184144  arm ov009
+ *   ArrayNew                  0x02184144  arm ov009
  *   ghiRequestToConnection  0x021C0DA4  arm  ov114
  *   ghiPostCleanupState  0x021C2BB0  arm  ov114
  *   goastrdup  0x0217F1E0  arm  ov009
@@ -113,7 +113,7 @@ typedef struct GSIDimeHeader {
 extern void gsifree(void *);
 extern void gsXmlFreeWriter(void *);
 extern void *gsimalloc(unsigned long size);
-extern void *func_02184144(int, int, void (*)(void *));
+extern void *ArrayNew(int, int, void (*)(void *));
 extern void ArrayFree(void *);
 extern GHIConnection *ghiRequestToConnection(int request);
 extern void ghiPostCleanupState(GHIConnection *connection);
@@ -215,7 +215,7 @@ GHIPost *ghiNewPost(void)
         return 0;
     memset(post, 0, sizeof(GHIPost));
     post->autoFree = GHTTPTrue;
-    post->data = func_02184144(0x18, 0, ghiPostDataFree);
+    post->data = ArrayNew(0x18, 0, ghiPostDataFree);
     if (post->data == 0) {
         gsifree(post);
         return 0;
@@ -551,7 +551,7 @@ int ghiPostInitState(GHIConnection *connection)
     connection->postingState.callback = data->callback;
     connection->postingState.param = data->param;
     len = ArrayLength(data->data);
-    connection->postingState.states = func_02184144(0x10, len, 0);
+    connection->postingState.states = ArrayNew(0x10, len, 0);
     if (connection->postingState.states == 0)
         return 0;
     for (i = 0; i < len; i++) {

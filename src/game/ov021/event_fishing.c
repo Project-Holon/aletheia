@@ -20,9 +20,9 @@
  *   abs_id_C2      0x000000C2  data
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -46,7 +46,7 @@
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FISHING_StepCounter  0x021C5FA8  thumb  ov021
  *   FISHING_StartRodEffect  0x021C602C  thumb  ov021
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   FISHING_WaitBite  0x021C5FC0  thumb  ov021
  *   FISHING_ShowBiteMark  0x021C5FEC  thumb  ov021
  *   FISHING_HideBiteMark  0x021C6018  thumb  ov021
@@ -109,10 +109,10 @@ typedef struct BbActRec {
 extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-void *func_020124E8(struct Obj *p);
+void *GAME_EVENT_GetWork(struct Obj *p);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 extern void *FIELD_PLAYER_GetMmdl(u8 *p);
@@ -135,7 +135,7 @@ extern void FLDMMDL_SysPauseMove(void *o);
 extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
 extern int FIELD_PLAYER_StepFormChange(u8 *p);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
-extern u32 func_02005728(u32 v);
+extern u32 GFL_USE_GetRandomBelow(u32 v);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 extern void EFFECT_ENCOUNT_Reset(u8 *p);
 extern int BTL_SETUP_Delete(int a0);
@@ -198,7 +198,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     int hasEncounter;
 
     task = GAME_EVENT_Create(gameSystem, 0, FISHING_EventMain, sizeof(FishingWork));
-    work = func_020124E8(task);
+    work = GAME_EVENT_GetWork(task);
     MI_CpuFill8(work, 0, sizeof(FishingWork));
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -258,7 +258,7 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
             *state = 5;
             break;
         }
-        work->biteDelay = func_02005728(0x5a) + 0x1e;
+        work->biteDelay = GFL_USE_GetRandomBelow(0x5a) + 0x1e;
         (*state)++;
         break;
     case 3:
@@ -286,7 +286,7 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
         }
         if (result != 2)
             break;
-        func_02008DF0((struct Sub02008C20Obj *)work->trainerRecord, 0x50);
+        RECORD_AddOne((struct Sub02008C20Obj *)work->trainerRecord, 0x50);
         *state = 7;
         break;
     case 5:
@@ -316,7 +316,7 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
             return 1;
         break;
     case 10:
-        func_02008DF0((struct Sub02008C20Obj *)work->trainerRecord, 8);
+        RECORD_AddOne((struct Sub02008C20Obj *)work->trainerRecord, 8);
         GAME_EVENT_ChangeEvent(task, (u32 *)EVENT_BATTLE_CreateScriptedBattle((int)work->gameSystem, (int)work->fieldMap, (int)work->wildEncounter, 0, (u8)(work->hasEncounter == 1 ? 1 : 4)));
         return 0;
     }

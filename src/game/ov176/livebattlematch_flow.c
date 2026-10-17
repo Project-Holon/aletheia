@@ -81,7 +81,7 @@
  *   LIVEBATTLEMATCH_IRC_ClearState 0x0217E40C thumb ov176
  *   LIVEBATTLEMATCH_IRC_DeliveryEnd 0x0217E414 thumb ov176
  *   REGULATION_Card_IsCrcValid 0x0200B1A8 thumb
- *   func_0200E904 0x0200E904 thumb
+ *   MISC_SAVEDATA_InitMac 0x0200E904 thumb
  *   REGULATION_InitParty 0x0200B1F8 thumb
  *   REGULATION_SetCard 0x0200B1E0 thumb
  *   DIGITALCARDCHECK_CreateRecord3 0x0217D244 thumb ov176
@@ -123,11 +123,11 @@
  *   DIGITALCARDCHECK_CreateRecord2 0x0217D1C8 thumb ov176
  *   DIGITALCARDCHECK_IsRecord2Done 0x0217D238 thumb ov176
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
- *   func_0200E958 0x0200E958 thumb
- *   func_0200E978 0x0200E978 thumb
- *   func_0200E920 0x0200E920 thumb
+ *   MISC_SAVEDATA_SetKey 0x0200E958 thumb
+ *   MISC_SAVEDATA_SetKeyField 0x0200E978 thumb
+ *   MISC_SAVEDATA_AddKeyByte 0x0200E920 thumb
  *   DIGITALCARDCHECK_WaitRecord 0x0217D160 thumb ov176
  */
 #include "livebattlematch_shared_types.h"
@@ -293,7 +293,7 @@ extern int LIVEBATTLEMATCH_IRC_DeliveryEnd(char *);
 
 extern unsigned int REGULATION_Card_IsCrcValid(struct Reg2 *p);
 
-extern void func_0200E904(void *);
+extern void MISC_SAVEDATA_InitMac(void *);
 
 extern void REGULATION_InitParty(struct Rec1E *p);
 
@@ -377,15 +377,15 @@ extern int DIGITALCARDCHECK_IsRecord2Done(u8 *);
 
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 
-extern unsigned int func_02008530(const struct PlayerStatus *obj);
+extern unsigned int MYSTATUS_GetId(const struct PlayerStatus *obj);
 
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, unsigned int val);
 
-extern void func_0200E958(u8 *,unsigned int,const void *);
+extern void MISC_SAVEDATA_SetKey(u8 *,unsigned int,const void *);
 
-extern void func_0200E978(u8 *,unsigned int,unsigned int,u8);
+extern void MISC_SAVEDATA_SetKeyField(u8 *,unsigned int,unsigned int,u8);
 
-extern void func_0200E920(u8 *,unsigned int,int);
+extern void MISC_SAVEDATA_AddKeyByte(u8 *,unsigned int,int);
 
 extern void DIGITALCARDCHECK_WaitRecord(int *);
 
@@ -565,7 +565,7 @@ void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p)
         void *base=BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save));
         void *entry=REGULATION_GetParty(base,1);
         REGULATION_Card_SetValue((struct Reg2 *)(p+0x3c),10,1);
-        func_0200E904(((struct LiveBattleMatchWork *)p)->saveBlock);
+        MISC_SAVEDATA_InitMac(((struct LiveBattleMatchWork *)p)->saveBlock);
         REGULATION_InitParty(entry);
         REGULATION_SetCard(base,1,(const struct RegulationCard *)(p+0x3c));
         GAME_DATA_SaveStart(*(int *)&((struct LiveBattleMatchWork *)p)->save);*state=24;break;
@@ -777,7 +777,7 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
     switch(*state){
     case 0:{
         void *v=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save));
-        MISC_SAVEDATA_InsertRecentValue(v,func_02008530(((struct LiveBattleMatchWork *)p)->partyData));
+        MISC_SAVEDATA_InsertRecentValue(v,MYSTATUS_GetId(((struct LiveBattleMatchWork *)p)->partyData));
         *state=1;break;
     }
     case 1:if(LIVEBATTLEMATCH_IRC_ResetState(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)) *state=2;break;
@@ -786,9 +786,9 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
         int a=0;
         int b;
         u8 index=(unsigned int)MISC_SAVEDATA_GetKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0);
-        func_0200E958(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData+0x20);
-        func_0200E978(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,0,(*(u8 **)(p+0x1c4))[8]);
-        func_0200E978(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,1,(*(u8 **)(p+0x1c4))[9]);
+        MISC_SAVEDATA_SetKey(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData+0x20);
+        MISC_SAVEDATA_SetKeyField(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,0,(*(u8 **)(p+0x1c4))[8]);
+        MISC_SAVEDATA_SetKeyField(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,index,1,(*(u8 **)(p+0x1c4))[9]);
         b=0;
         switch(**(unsigned int * *)&((struct LiveBattleMatchWork *)p)->stateObj){
         case 1:case 4:a=1;break;
@@ -796,9 +796,9 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
         case 2:break;
         default:SAVEDATA_PanicFail(d_0217E618,0,d_0217E618);break;
         }
-        func_0200E920(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,1,a);
-        func_0200E920(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,2,b);
-        func_0200E920(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0,1);
+        MISC_SAVEDATA_AddKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,1,a);
+        MISC_SAVEDATA_AddKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,2,b);
+        MISC_SAVEDATA_AddKeyByte(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0,1);
         DIGITALCARDCHECK_WaitRecord((int *)p);
         *state=4;break;
     }

@@ -31,7 +31,7 @@
  *   EVENT_BATTLE_REC_SAVE_Start  0x021550A0  thumb  ov008
  *   ov008_id       0x00000008  data
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MUSICAL_MCSS_LoadActorData  0x021F4F14  thumb  ov112
  *   MUSICAL_MCSS_GetElemA  0x021F5140  thumb  ov112
  *   MUSICAL_MCSS_FreeActorData  0x021F4F40  thumb  ov112
@@ -113,7 +113,7 @@ extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
 
 extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void *MUSICAL_MCSS_LoadActorData(int heapId);
 
@@ -513,7 +513,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
 {
     int formation = 0x29;
     struct GameEvent *event = GAME_EVENT_Create(gameSys, 0, IRC_BATTLE_TASK_Main, 0xFC);
-    IrcBattleTaskWork *work = func_020124E8(event);
+    IrcBattleTaskWork *work = GAME_EVENT_GetWork(event);
     struct BattleSetupParam *setup;
     void *sysData;
 

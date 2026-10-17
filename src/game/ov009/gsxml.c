@@ -1,7 +1,7 @@
 /*
  * file:     gsxml.c
  * unit:     yes
- * function: gsUnicodeStringLen, gsXmlCreateStreamWriter, gsXmlCreateStreamReader, gsXmlParseBuffer, gsXmlFreeWriter, gsXmlFreeReader, gsXmlResetReader, gsXmlCloseWriter, gsiXmlUtilElementFree, gsiXmlUtilAttributeFree, gsXmlWriterGetData, gsXmlWriterGetDataLength, gsiXmlUtilSkipWhiteSpace, func_02181E80, gsiXmlUtilParseName, gsiXmlUtilParseString, gsiXmlUtilDecodeString, gsiXmlUtilParseValue, gsXmlWriteOpenTag, gsXmlWriteCloseTag, gsXmlWriteStringElement, gsXmlWriteAsciiStringElement, gsXmlWriteUnicodeStringElement, gsXmlWriteIntElement, gsXmlWriteInt64Element, gsXmlWriteFloatElement, gsXmlWriteHexBinaryElement, gsXmlWriteBase64BinaryElement, gsXmlWriteDateTimeElement, gsXmlWriteLargeIntElement, gsiXmlUtilWriteChar, gsiXmlUtilWriteString, gsiXmlUtilWriteUnicodeString, gsiXmlUtilWriteXmlSafeString, gsiXmlUtilGrowBuffer, gsXmlMoveToStart, gsXmlMoveToNext, gsXmlMoveToParent, gsXmlMoveToChild, gsXmlReadChildAsString, gsXmlReadChildAsStringNT, gsXmlReadChildAsHexBinary, gsXmlReadChildAsBase64Binary, gsXmlReadChildAsInt, gsXmlReadChildAsInt64, gsXmlReadChildAsDateTimeElement, gsXmlReadChildAsFloat, gsiXmlUtilTagMatches, gsXmlReadChildAsLargeInt, gsXmlCountChildren
+ * function: gsUnicodeStringLen, gsXmlCreateStreamWriter, gsXmlCreateStreamReader, gsXmlParseBuffer, gsXmlFreeWriter, gsXmlFreeReader, gsXmlResetReader, gsXmlCloseWriter, gsiXmlUtilElementFree, gsiXmlUtilAttributeFree, gsXmlWriterGetData, gsXmlWriterGetDataLength, gsiXmlUtilSkipWhiteSpace, gsiXmlUtilParseElement, gsiXmlUtilParseName, gsiXmlUtilParseString, gsiXmlUtilDecodeString, gsiXmlUtilParseValue, gsXmlWriteOpenTag, gsXmlWriteCloseTag, gsXmlWriteStringElement, gsXmlWriteAsciiStringElement, gsXmlWriteUnicodeStringElement, gsXmlWriteIntElement, gsXmlWriteInt64Element, gsXmlWriteFloatElement, gsXmlWriteHexBinaryElement, gsXmlWriteBase64BinaryElement, gsXmlWriteDateTimeElement, gsXmlWriteLargeIntElement, gsiXmlUtilWriteChar, gsiXmlUtilWriteString, gsiXmlUtilWriteUnicodeString, gsiXmlUtilWriteXmlSafeString, gsiXmlUtilGrowBuffer, gsXmlMoveToStart, gsXmlMoveToNext, gsXmlMoveToParent, gsXmlMoveToChild, gsXmlReadChildAsString, gsXmlReadChildAsStringNT, gsXmlReadChildAsHexBinary, gsXmlReadChildAsBase64Binary, gsXmlReadChildAsInt, gsXmlReadChildAsInt64, gsXmlReadChildAsDateTimeElement, gsXmlReadChildAsFloat, gsiXmlUtilTagMatches, gsXmlReadChildAsLargeInt, gsXmlCountChildren
  * address:  0x0218198C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -52,7 +52,7 @@
  *   gsiXmlUtilDecodeString    0x0218263C arm ov009
  *   strncmp                    0x020949f4 arm
  *   strchr                    0x02094a28 arm
- *   func_0208CF34                    0x0208cf34 arm
+ *   STD_TSScanf                    0x0208cf34 arm
  *   atoi                    0x020964e0 arm
  *   memmove                    0x02092364 arm
  *   MSL_C_LIB_MemsetPtr                    0x020923b0 arm
@@ -189,7 +189,7 @@ extern void ArrayAppend(void *array, void *newElem);
 extern void ArrayReplaceAt(void *array, void *newElem, int n);
 extern int gsiXmlUtilSkipWhiteSpace(void *, char *, int, int *);
 extern int gsiXmlUtilDecodeString(char *buffer, int *len);
-extern int func_0208CF34(const char *src, const char *fmt, ...);
+extern int STD_TSScanf(const char *src, const char *fmt, ...);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
@@ -204,7 +204,6 @@ extern struct tm *gsiSecondsToDate(long *timp);
 extern int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern void *ArrayNth(void *array, int n);
-extern int STD_TSScanf(char *src, char *fmt, ...);
 extern void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern int B64DecodeLen(char *input, int encodingType);
 extern long long gsiStringToInt64(const char *s);
@@ -378,7 +377,7 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
  * gsiXmlUtilAttributeFree) and therefore every pool offset in the function.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02181C2C.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/gsXmlCreateStreamReader.c \
  *       --func gsXmlCreateStreamReader --addr 0x02181C2C --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 void *gsXmlCreateStreamReader(void)
@@ -797,7 +796,7 @@ int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlStr
  *     strStart pointer instead, which is 7 register-field bytes out.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02182554.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/gsiXmlUtilParseString.c \
  *       --func gsiXmlUtilParseString --addr 0x02182554 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 int gsiXmlUtilParseString(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
@@ -911,7 +910,7 @@ int gsiXmlUtilDecodeString(char *buffer, int *len)
 			if (digitEnd - &buffer[readPos+3] > 8)
 				return 0;
 
-			func_0208CF34(&buffer[readPos+3], gGsXmlHex8Format, &digitValue);
+			STD_TSScanf(&buffer[readPos+3], gGsXmlHex8Format, &digitValue);
 
 			for (i=0; i < 4; i++)
 			{
@@ -1820,7 +1819,7 @@ int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut
             reader->readIndex = i;
             if (searchValueElem->value.string == 0)
                 return 0;
-            func_0208CF34(searchValueElem->value.string, gGsXmlDateTimeFormatNoZ, &timePtr.tm_year, &timePtr.tm_mon,
+            STD_TSScanf(searchValueElem->value.string, gGsXmlDateTimeFormatNoZ, &timePtr.tm_year, &timePtr.tm_mon,
                           &timePtr.tm_mday, &timePtr.tm_hour, &timePtr.tm_min, &timePtr.tm_sec);
             timePtr.tm_year -= 1900;
             timePtr.tm_mon -= 1;

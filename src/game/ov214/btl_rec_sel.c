@@ -22,7 +22,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GAME_DATA_GetMyItem 0x0201292C thumb
- *   func_02007F68 0x02007F68 thumb
+ *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
@@ -51,7 +51,7 @@
  *   BATTLE_REC_GetHeaderOf 0x0200B934 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   BATTLE_REC_Delete 0x0200B438 thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
  *   BATTLE_REC_BeginSave 0x0200B6E0 thumb
  *   BATTLE_REC_DecodeWork 0x0200B490 thumb
@@ -84,7 +84,7 @@
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Main 0x020310C4 arm
- *   func_02035630 0x02035630 arm
+ *   UI_GetFrameRate 0x02035630 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -126,7 +126,7 @@
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   d_021BB4C4 0x021BB4C4 data a1
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   ARC_UTIL_UploadBgPaletteFromArchive 0x0204989C arm
@@ -134,7 +134,7 @@
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GXS_SetGraphicsMode 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
@@ -306,7 +306,7 @@ extern char *BTL_REC_SEL_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
-extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 GFL_USE_AddMainTask(void(*)(void*),void*,u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
@@ -330,7 +330,7 @@ extern struct BattleRec *BATTLE_REC_LoadAlloc(void *a, u32 heap, u32 *dp, u32 id
 extern u8 *BATTLE_REC_GetHeaderOf(struct ObjC4 *p);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void BTL_REC_SEL_SetEntryA(void*,char*,u32,u32,u32),BATTLE_REC_Delete(void*);
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern u32 BATTLE_REC_BeginSave(void*,u16,u32,u32,u32,u16*,u16*);
 extern void BATTLE_REC_DecodeWork(void),TIME_ICON_Delete(u8*),GFL_USE_PlaySeDefaultVolume(u32);
@@ -358,7 +358,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *);
-extern u8 func_02035630(void);
+extern u8 UI_GetFrameRate(void);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
@@ -397,7 +397,7 @@ extern void CLACT_SetActorPaletteOffset(struct ClactActor *o, u32 v, u32 flag);
 extern void CLACT_DeleteActor(struct ClactActor *p);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
@@ -405,7 +405,7 @@ extern void BG_SYS_ResetSlot(u32,u32,u32);
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GXS_SetGraphicsMode(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
@@ -520,7 +520,7 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     ((struct BtlRecSel *)work)->printQue[1]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->printQue[2]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->printQue[3]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
-    ((struct BtlRecSel *)work)->itemCount=func_02007F68(GAME_DATA_GetMyItem(*(void* *)&((struct BtlRecSelMgr *)mgr)->gameData),0x1d1,1,((struct BtlRecSel *)work)->heap);
+    ((struct BtlRecSel *)work)->itemCount=MYITEM_SAVEDATA_HasItem(GAME_DATA_GetMyItem(*(void* *)&((struct BtlRecSelMgr *)mgr)->gameData),0x1d1,1,((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->exitRequest=0;
     ((struct BtlRecSel *)work)->task=GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,1);
     *(void* *)&((struct BtlRecSel *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,19,((struct BtlRecSel *)work)->heap);
@@ -621,7 +621,7 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
  * BTL_REC_SEL_DrawWindowBorder 0x021BA0A4 thumb ov214
  * BTL_REC_SEL_PrintQueEntry 0x021BA254 thumb ov214
  * BTL_REC_SEL_IsEntryShown 0x021BA2B8 thumb ov214
- * func_020056BC 0x020056BC thumb
+ * GFL_USE_GetMainTaskList 0x020056BC thumb
  * TIME_ICON_Create 0x0202EE30 thumb
  * BATTLE_REC_BeginSave 0x0200B6E0 thumb
  * BATTLE_REC_DecodeWork 0x0200B490 thumb
@@ -741,7 +741,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     case 10:BTL_REC_SEL_PrintQueEntry((void*)mgr,work,9);*state=11;break;
     case 11:
         if(BTL_REC_SEL_IsEntryShown((int)mgr,(u8 *)work)){
-            (((struct BtlRecSel *)work)->timeIcon)=TIME_ICON_Create((void *)func_020056BC(),(void*)(((struct BtlRecSel *)work)->win1),15,16,((struct BtlRecSel *)work)->heap);
+            (((struct BtlRecSel *)work)->timeIcon)=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),(void*)(((struct BtlRecSel *)work)->win1),15,16,((struct BtlRecSel *)work)->heap);
             (((struct BtlRecSel *)work)->saveState)=0;((struct BtlRecSel *)work)->saveArg0=0;((struct BtlRecSel *)work)->saveArg1=0;(((struct BtlRecSel *)work)->saveStatus)=0;
             *state=12;
         }break;
@@ -772,7 +772,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
         if(done){
             if((*(u32*)(mgr+8))){
                 GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
-                (((struct BtlRecSel *)work)->timeIcon)=TIME_ICON_Create((void *)func_020056BC(),(void*)(((struct BtlRecSel *)work)->win1),15,16,((struct BtlRecSel *)work)->heap);
+                (((struct BtlRecSel *)work)->timeIcon)=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),(void*)(((struct BtlRecSel *)work)->win1),15,16,((struct BtlRecSel *)work)->heap);
             }
             *state=17;
         }break;
@@ -924,7 +924,7 @@ void BTL_REC_SEL_DeleteWindows(int unused,char*work)
 /*
  * Tail: two zero alignment bytes at 021BA072.
  */
-void BTL_REC_SEL_MainTcbl(int unused,char *work){TCBL_Main(*(struct Tcbl * *)&((struct BtlRecSel *)work)->tcbl);if(func_02035630()==30)TCBL_Main(*(struct Tcbl * *)&((struct BtlRecSel *)work)->tcbl);}
+void BTL_REC_SEL_MainTcbl(int unused,char *work){TCBL_Main(*(struct Tcbl * *)&((struct BtlRecSel *)work)->tcbl);if(UI_GetFrameRate()==30)TCBL_Main(*(struct Tcbl * *)&((struct BtlRecSel *)work)->tcbl);}
 
 
 
@@ -989,7 +989,7 @@ void BTL_REC_SEL_PrintEntry(int unused,char*work,unsigned entry,int v)
 
 
 
-int BTL_REC_SEL_WaitPrint(int a,char *work){int result=BTL_REC_SEL_PrintStep(a,work);if(result==0){if(func_02035630()==30)result=BTL_REC_SEL_PrintStep(a,work);}return result;}
+int BTL_REC_SEL_WaitPrint(int a,char *work){int result=BTL_REC_SEL_PrintStep(a,work);if(result==0){if(UI_GetFrameRate()==30)result=BTL_REC_SEL_PrintStep(a,work);}return result;}
 
 
 
@@ -1119,7 +1119,7 @@ void BTL_REC_SEL_DeleteWindowList(int unused, char *work)
 void BTL_REC_SEL_TickTimer(struct BtlRecSelMgr *mgr,char*work)
 {
     unsigned threshold;
-    if(func_02035630()==30)threshold=30;else threshold=60;
+    if(UI_GetFrameRate()==30)threshold=30;else threshold=60;
     if(mgr->isWifi && !((struct BtlRecSel *)work)->busy && (((struct BtlRecSel *)work)->timerA>=threshold || *(int *)&((struct BtlRecSel *)work)->timerB)){
         BTL_REC_SEL_DrawCounter(mgr,(struct BtlRecSel *)work,(u16)(((struct BtlRecSel *)work)->timerA/threshold));
         if(((struct BtlRecSel *)work)->timerA>=threshold){
@@ -1213,7 +1213,7 @@ void BTL_REC_SEL_ClearList(int unused,char*work)
 void BTL_REC_SEL_StartTimer(void *mgr, char *work, u32 v)
 {
     u32 threshold;
-    if (func_02035630() == 30) threshold = 30;
+    if (UI_GetFrameRate() == 30) threshold = 30;
     else threshold = 60;
     ((struct BtlRecSel *)work)->timerA = threshold * (v + 1) - 1;
     ((struct BtlRecSel *)work)->timerB = threshold >> 1;
@@ -1440,7 +1440,7 @@ void BTL_REC_SEL_SetMode(int unused,char*work)
 void BTL_REC_SEL_InitBgRun(int unused, char *work)
 {
     void *h = ARC_TOOL_CreateHandle(188, ((struct BtlRecSel *)work)->heap);
-    func_02049B68(h, 0, 0, 0, 320, ((struct BtlRecSel *)work)->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 0, 0, 320, ((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->bgRunMain = ARC_UTIL_RegisterObjCharFromHandle(h, 1, 2, 0, 0, ((struct BtlRecSel *)work)->heap);
     ARC_TOOL_DeleteHandle(h);
 }
@@ -1485,7 +1485,7 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     u32 layer;
     u16 heap;
     void *arc;
-    gender=(u8)(u32)func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*mgrRef));
+    gender=(u8)(u32)MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*mgrRef));
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |=0x10000;
@@ -1504,7 +1504,7 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     which=1;
     if (gender!=1) which=0;
     arc=ARC_TOOL_CreateHandle(30,heap);
-    func_02049B68(arc,d_021BB640[which][0],4,0,0,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,d_021BB640[which][0],4,0,0,heap);
     ARC_UTIL_UploadBgCharFromHandle(arc,d_021BB640[which][1],4,0,0,0,heap);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,d_021BB640[which][2],4,0,0,0,heap);
     ARC_TOOL_DeleteHandle(arc);

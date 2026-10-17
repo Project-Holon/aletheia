@@ -86,7 +86,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PMS_INPUT_VIEW_GetClactUnit 0x021BAC40 thumb ov110
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   FX_SinCosTable_ 0x020A1B38 data
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
@@ -160,7 +160,7 @@ extern void MI_CpuFill8(void *dst, int value, unsigned size);
 extern struct ClactUnit *PMS_INPUT_VIEW_GetClactUnit(struct PmsInputView *view);
 extern struct ClactActor *CLACT_CreateActor(void *unit, u32 character, u32 palette, u32 cellAnim, const void *setup, u16 screen, u16 heapId);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
 extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *data, int size);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 flag);
@@ -624,7 +624,7 @@ void PMSIV_MENU_LoadBlendColors(struct PmsivMenu *menu) {
     PaletteFile *file;
     void *handle;
     u8 *data;
-    handle = func_02049F34(43, 7, (u32)(&file), PMSIV_MENU_HEAP_ID);
+    handle = ARC_UTIL_LoadPaletteBlockFromArchive(43, 7, (u32)(&file), PMSIV_MENU_HEAP_ID);
     data = file->colors;
     MI_CpuCopy8(data + 0x96, menu->baseColors, 10);
     MI_CpuCopy8(data + 0x76, menu->targetColors, 10);

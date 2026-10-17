@@ -95,7 +95,7 @@
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   G2x_SetBlendAlpha_ 0x0207D63C  arm
- *   ov208_func_021BCF4C  0x021BCF4C  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_Reset3dState  0x021BCF4C  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault  0x021BC610  thumb  ov208
  *   PM_VOICE_IsAnyActive  0x02006650  thumb
  *   PM_VOICE_StopAll  0x020065D8  thumb
@@ -155,9 +155,9 @@
  *   gSpeciesNameBank 0x020A7370 data a4
  *   OS_GetTick 0x020870D0 arm
  *   ov208_func_021C3208 0x021C3208 thumb ov208
- *   ov208_func_021C337C 0x021C337C thumb ov208
- *   ov208_func_021C3378 0x021C3378 thumb ov208
- *   ov208_func_021C2DE0 0x021C2DE0 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_NoOpC 0x021C337C thumb ov208
+ *   ZUKAN_DETAIL_VOICE_NoOpB 0x021C3378 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_SetNumberDigits 0x021C2DE0 thumb ov208
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
  *   PM_VOICE_Play 0x02006984 thumb
  *   ov208_func_021C31CC 0x021C31CC thumb ov208
@@ -166,7 +166,7 @@
  *   ZUKAN_DETAIL_VOICE_ScrollWaveform 0x021C36CC thumb ov208
  *   BMP_FillRect 0x02043AF4 arm
  *   BMP_Blit 0x020439A0 arm
- *   ov208_func_021C3A24 0x021C3A24 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_UpdateWaveformTiles 0x021C3A24 thumb ov208
  *   PM_VOICE_GetData 0x02006B5C thumb
  *   PM_VOICE_GetSampleRate 0x02006B94 thumb
  *   PM_VOICE_GetFrequency 0x02006B3C thumb
@@ -322,7 +322,7 @@ extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u3
 
 extern void CLACT_GetActorSurfacePos(struct Obj *actor, struct PtS *out, u16 space);
 
-extern u32 ov208_func_021BCF4C(int v);
+extern u32 ZUKAN_DETAIL_GRAPHIC_Reset3dState(int v);
 
 extern void *ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(u32 heap);
 
@@ -452,11 +452,7 @@ extern struct MsgBank *gSpeciesNameBank;
 extern const char data_021C8E28[];
 
 extern void ov208_func_021C3208(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-extern void ov208_func_021C337C(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-extern void ov208_func_021C3378(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx, int seconds, u16 hundredths);
-extern void ov208_func_021C2DE0(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx, int seconds, u16 hundredths);
 extern void ov208_func_021C31CC(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
-extern void ov208_func_021C3A24(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx);
 void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value);
 u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unused2, int *ctx);
 u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct ZukanDetailVoice *voice, void *ctx);
@@ -510,7 +506,7 @@ u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unu
     voice = ZUKAN_DETAIL_PROCSYS_AllocBuffer(workAlloc, 0xd4, *heapIdPtr);
     MI_CpuFill8(voice, 0, 0xd4);
     i = 0;
-    voice->clactSys = ov208_func_021BCF4C(ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
+    voice->clactSys = ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
     voice->font = ZUKAN_DETAIL_COMMON_GetFont(ctx);
     voice->printQue = (void *)ZUKAN_DETAIL_COMMON_GetGraphics(ctx);
     voice->waveBgDirty = 0;
@@ -1084,9 +1080,9 @@ void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heapIdPtr, struct ZukanDetailVo
         secs = cur / 1000;
         rem = cur % 1000;
         hund = rem / 10 + ((rem % 10) >= 5 ? 1 : 0);
-        ov208_func_021C337C(heapIdPtr, voice, ctx);
-        ov208_func_021C3378(heapIdPtr, voice, ctx, secs, hund);
-        ov208_func_021C2DE0(heapIdPtr, voice, ctx, secs, hund);
+        ZUKAN_DETAIL_VOICE_NoOpC((void *)(heapIdPtr), (void *)(voice), (void *)(ctx));
+        ZUKAN_DETAIL_VOICE_NoOpB(heapIdPtr, voice, ctx, secs, hund);
+        ZUKAN_DETAIL_VOICE_SetNumberDigits((void *)(heapIdPtr), (struct ZukanDetailVoice *)(voice), (void *)(ctx), (int)(secs), (u16)(hund));
         voice->shownMs = voice->elapsedMs;
     }
 }
@@ -1249,7 +1245,7 @@ void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *
         drawn = (s16)(drawn + (s16)width);
         x = (s16)(end % 0xf8);
     }
-    ov208_func_021C3A24(heapIdPtr, voice, ctx);
+    ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(heapIdPtr, voice, ctx);
 }
 
 void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *voice, int ctx, u16 species, u16 form)

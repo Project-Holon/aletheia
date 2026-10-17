@@ -632,7 +632,7 @@ void MYSTERY_DATA_Unload(struct MysteryData *data)
  * 0x0200857C run.
  *
  * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
+ * src/matched/MUSICAL_SAVE_AddProp.c (0x0200A6BC, 60 bytes), which is its last
  * function.  Its legacy manifest entry is superseded by this unit.
  *
  * What the range is.  Two objects, and two layers.

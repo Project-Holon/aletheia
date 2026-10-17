@@ -41,7 +41,7 @@
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   TR_AI_ReleaseScript 0x0218A528 thumb ov096
  *   VM_Start 0x0201127C thumb
- *   func_02011290 0x02011290 thumb
+ *   VM_End 0x02011290 thumb
  *   VM_Control 0x02011298 thumb
  *   VM_GetU32  0x0201134C  thumb
  *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
@@ -126,7 +126,7 @@ extern int BTL_MAIN_IsOpposingPos(void *, int, int);
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct BtlPokeParam *p, u32 i);
 extern void TR_AI_ReleaseScript(TrAiWork *);
 extern void VM_Start(ScriptVm *vm, u8 *pc);
-extern ScriptVm *func_02011290(ScriptVm *vm);
+extern ScriptVm *VM_End(ScriptVm *vm);
 extern int VM_Control(ScriptVm *vm);
 extern u32 VM_GetU32(ScriptVm *p);
 extern int BTL_POKEPARAM_GetHpRatioFixed(struct BtlPokeParam *p);
@@ -659,7 +659,7 @@ void TR_AI_RunScripts(ScriptVm *vm, TrAiWork *ai) {
         case 1:
             if (ai->rule == 2 && ai->moveId != 0 && BTL_MAIN_IsPosInTable(ai->selfPos, ai->targetPos) == 0 && TR_AI_GetMoveFlag(ai, ai->moveId, 11) == 0) {
                 ai->moveId = 0;
-                func_02011290(vm);
+                VM_End(vm);
                 TR_AI_ReleaseScript(ai);
                 ai->script = 0;
             }
@@ -1535,7 +1535,7 @@ int TR_AI_CmdJump(ScriptVm *vm, TrAiWork *ai) {
 }
 
 int TR_AI_CmdEnd(ScriptVm *vm, TrAiWork *ai) {
-    ai->flags |= 1; func_02011290(vm); return 1;
+    ai->flags |= 1; VM_End(vm); return 1;
 }
 
 int TR_AI_CmdCompareStat15(ScriptVm *vm, TrAiWork *ai) {

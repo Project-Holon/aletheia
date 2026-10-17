@@ -26,7 +26,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   VM_GetU32  0x0201134C  thumb
@@ -45,7 +45,7 @@
  *   gScriptCheckFlags 0x02172BA0 data a4
  *   gScriptCheckHandlers     0x021705F0  data  ov010
  *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
- *   func_02011290  0x02011290  thumb
+ *   VM_End  0x02011290  thumb
  *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
  *   SCRCMD_WORK_SetWaitCount   0x0215A684  thumb  ov010
  *   VM_GetU16   0x02011330  thumb
@@ -82,7 +82,7 @@ extern int GFL_HEAP_Free(void *block);
 extern int STRBUF_Delete(void *buffer);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern u32 GAME_DATA_GetEventWork(void *gameData);
-extern void *func_020124E8(void *task);
+extern void *GAME_EVENT_GetWork(void *task);
 extern void *GAME_EVENT_Create(void *gameSystem, void *arg, ScriptCheckTaskFn callback, unsigned int size);
 extern u16 *ZONEDATA_GetEventWorkAddress(u32 eventWork, u32 id);
 extern u32 VM_GetU32(ScriptVm *vm);
@@ -98,7 +98,7 @@ extern int SCRCMD_WORK_DeleteCommon();
 extern u16 FLDMMDL_GetObjId(void *obj);
 extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
 extern void *SCRCMD_WORK_GetScriptWork(ScriptVm *vm);
-extern void func_02011290(ScriptVm *vm);
+extern void VM_End(ScriptVm *vm);
 extern int SCRCMD_WORK_CountDownWait(void *cmdWork);
 extern u16 VM_GetU16(ScriptVm *vm);
 extern void SCRCMD_WORK_SetWaitCount(void *cmdWork, unsigned short count);
@@ -443,7 +443,7 @@ void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm)
     void *scriptCtl = SCRCMD_WORK_GetScriptWork(vm);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(vm);
     void *taskHandle = GAME_EVENT_Create(gameSystem, 0, SCRIPT_WORK_RunCheckTask, sizeof(ScriptCheckTask));
-    ScriptCheckTask *task = func_020124E8(taskHandle);
+    ScriptCheckTask *task = GAME_EVENT_GetWork(taskHandle);
     task->gameSystem = gameSystem;
     task->vm = vm;
     task->scriptCtl = scriptCtl;
@@ -459,7 +459,7 @@ int SCRIPT_WORK_CmdDummy(void) { return 0; }
 
 int SCRIPT_WORK_CmdHalt(ScriptVm *vm)
 {
-    func_02011290(vm);
+    VM_End(vm);
     return 1;
 }
 

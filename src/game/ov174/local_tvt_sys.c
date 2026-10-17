@@ -31,7 +31,7 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -70,8 +70,8 @@
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_02008550 0x02008550 thumb
- *   func_02049B68 0x02049B68 arm
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -227,7 +227,7 @@ extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
 
-extern int func_02005728(int);
+extern int GFL_USE_GetRandomBelow(int);
 
 extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
@@ -275,9 +275,9 @@ extern int CLACT_RegisterCharacter(void *,unsigned int,unsigned int,unsigned int
 
 extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
 
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 
-extern void func_02049B68(void *,unsigned int,unsigned int,unsigned int,unsigned int,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned int,unsigned int,unsigned int,unsigned int,u16);
 
 extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
@@ -574,7 +574,7 @@ int LOCAL_TVT_SYS_Main(u8 *p)
     return 0;
 }
 
-void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_FillScrollArea(1,0,func_02005728(256));BG_SYS_FillScrollArea(1,3,func_02005728(256));}
+void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_FillScrollArea(1,0,GFL_USE_GetRandomBelow(256));BG_SYS_FillScrollArea(1,3,GFL_USE_GetRandomBelow(256));}
 
 /*
  *   one --arm, no region: MATCH, 16 bytes, blocker434CC.log; concrete bytes agree,
@@ -641,12 +641,12 @@ void LOCAL_TVT_SYS_CreateGraphics(u8 *p)
     ((struct LocalTvtSys *)p)->palette.value=CLACT_RegisterPaletteCompressed(arc,3,0,0,((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtSys *)p)->character.value=CLACT_RegisterCharacter(arc,24,0,0,((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtSys *)p)->cellAnim.value=CLACT_RegisterCellAnim(arc,20,22,((struct LocalTvtSys *)p)->heapId);
-    if(func_02008550(save)==0) func_02049B68(arc,7,4,0,0x60,((struct LocalTvtSys *)p)->heapId);
-    else func_02049B68(arc,6,4,0,0x60,((struct LocalTvtSys *)p)->heapId);
+    if(MYSTATUS_GetOutfitVariant(save)==0) ARC_UTIL_UploadPaletteFromHandleWhole(arc,7,4,0,0x60,((struct LocalTvtSys *)p)->heapId);
+    else ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,4,0,0x60,((struct LocalTvtSys *)p)->heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc,11,7,0,0,0,((struct LocalTvtSys *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,14,7,0,0,0,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_PushTile(7);
-    func_02049B68(arc,0,0,0x160,0x20,((struct LocalTvtSys *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,0,0,0x160,0x20,((struct LocalTvtSys *)p)->heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc,8,1,0,0,0,((struct LocalTvtSys *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,13,1,0,0,0,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_FillTileMap(1,0,0,32,32,11);

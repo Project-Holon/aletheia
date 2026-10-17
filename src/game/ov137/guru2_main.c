@@ -63,7 +63,7 @@
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_Delete 0x02045808 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -90,7 +90,7 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   MYSTATUS_NameToStrbuf 0x02008500 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
@@ -111,11 +111,11 @@
  *   gGuru2PointerAngleTable 0x021E1FDC data a2
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GURU2_MAIN_BroadcastResult 0x021E19C0 thumb ov137
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   GAME_DATA_GetMyItem 0x0201292C thumb
- *   func_02007E50 0x02007E50 thumb
+ *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   gGuru2RewardRangeTable 0x021E1F34 data a4
- *   func_02008DF0 0x02008DF0 thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
  *   UI_SetFlags39Global 0x0203516C arm
  *   GFL_NET_SAVE_Create 0x0201088C thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
@@ -190,7 +190,7 @@
  *   gGuru2PlayerUnitSetupTable 0x021E20EC data a4
  *   gGuru2PlayerUnitHeightTable 0x021E1DE8 data a4
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
- *   func_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   BUTTON_MAN_MakeRotMtxXYZ 0x020520FC arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   gGuru2BackgroundUnitSetup 0x021E1D80 data a4
@@ -457,7 +457,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -530,7 +530,7 @@ extern void MYSTATUS_NameToStrbuf(void *,void *);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 
@@ -572,11 +572,11 @@ extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 
 extern void GURU2_MAIN_BroadcastResult(struct Guru2Game *,int);
 
-extern u32 func_020056EC(u32);
+extern u32 GFL_USE_GetRandom(u32);
 
-extern u32 func_02007E50(u8 *, u16, u16, u16);
+extern u32 MYITEM_SAVEDATA_AddItem(u8 *, u16, u16, u16);
 
-extern u32 func_02008DF0(struct Sub02008C20Obj *,int);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *,int);
 
 extern void UI_SetFlags39Global(u32);
 
@@ -661,7 +661,7 @@ extern int G3D_UTIL_AddUnit(void *,const void *);
 
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
-extern u32 func_02048A18(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
 
 extern void BUTTON_MAN_MakeRotMtxXYZ(int,int,int,struct Mtx33 *);
 
@@ -1376,7 +1376,7 @@ void GURU2_MAIN_RegisterPlayerRecords(struct Guru2Game *obj)
     q = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(obj->session->param->gameData));
     for (i = 0; i < 5; i++) {
         if (obj->memberEntry[i] && i != GFL_NET_SYSTEM_GetCurrentAid())
-            MISC_SAVEDATA_InsertRecentValue(q, func_02008530(obj->memberEntry[i]));
+            MISC_SAVEDATA_InsertRecentValue(q, MYSTATUS_GetId(obj->memberEntry[i]));
     }
 }
 
@@ -1596,11 +1596,11 @@ int GURU2_MAIN_StateComputeReward(struct Guru2Game *p)
     count = p->playerCount;
     low = gGuru2RewardRangeTable[count].low;
     high = gGuru2RewardRangeTable[count].high;
-    low += func_020056EC(65535) % (high - low + 1);
+    low += GFL_USE_GetRandom(65535) % (high - low + 1);
     if (low < gGuru2RewardRangeTable[count].low) low = gGuru2RewardRangeTable[count].low;
     else if (low > high) low = high;
     GURU2_MAIN_PrintMessageWithNumber(p, 3, low);
-    value = func_02007E50(GAME_DATA_GetMyItem((p->session->param->gameData)), low, 1, 114);
+    value = MYITEM_SAVEDATA_AddItem(GAME_DATA_GetMyItem((p->session->param->gameData)), low, 1, 114);
     GURU2_MAIN_PushAndPlayBgm(1302);
     if (value == 1) p->state = 39;
     else p->state = 40;
@@ -1632,7 +1632,7 @@ int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2Game *p)
     return 0;
 }
 
-int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); func_02008DF0(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); p->state=43; UI_SetFlags39Global(8); return 0; }
+int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); RECORD_AddOne(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); p->state=43; UI_SetFlags39Global(8); return 0; }
 
 int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 {
@@ -2018,7 +2018,7 @@ void GURU2_MAIN_PrintMessage(struct Guru2Game *p,int message)
     BMP_Clear(BMP_WIN_GetBmp(window),15);
     BMP_MENUWORK_DrawWindow(window,2,1,14);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
-    func_02045CAC(s->msgData,message,s->textBuf);
+    MSGDATA_ReadString(s->msgData,message,s->textBuf);
     owner=s->printQueue;
     data=BMP_WIN_GetBmp(s->activeWindow);
     PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)s->textBuf,(u32)s->font,1088);
@@ -2036,7 +2036,7 @@ void GURU2_MAIN_PrintMessageWithName(struct Guru2Game *p,int message,void *value
     WORDSET_SetSlotMyStatus(s->wordSet,1,UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp(p),(u8)GFL_NET_SYSTEM_GetCurrentAid()));
     WORDSET_SetSlotMyStatus(s->wordSet,2,value);
     text=STRBUF_Create(256,114);
-    func_02045CAC(s->msgData,message,text);
+    MSGDATA_ReadString(s->msgData,message,text);
     WORDSET_CopyTaggedText(s->wordSet,s->textBuf,text);
     STRBUF_Delete(text);
     BMP_MENUWORK_DrawWindow(window,2,1,14);
@@ -2060,7 +2060,7 @@ void GURU2_MAIN_PrintMessageWithNumber(struct Guru2Game *p,int message,unsigned 
     window=s->mainWindow;
     WORDSET_Callback_EF40(s->wordSet,0,value);
     text=STRBUF_Create(256,114);
-    func_02045CAC(s->msgData,message,text);
+    MSGDATA_ReadString(s->msgData,message,text);
     WORDSET_CopyTaggedText(s->wordSet,s->textBuf,text);
     STRBUF_Delete(text);
     BMP_MENUWORK_DrawWindow(window,2,1,14);
@@ -2179,7 +2179,7 @@ void GURU2_MAIN_DrawCenterUnit(struct Guru2Game *p)
     struct Guru2Spinner *s;
     void *object;
     s=&p->spinner;
-    object=(void *)func_02048A18(p->g3dUtil,(u16)(s->g3dUnit));
+    object=(void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(s->g3dUnit));
     VecSet(&t.pos,s->pos.x,s->pos.y,s->pos.z);
     VecSet(&t.scale,s->scale.x,s->scale.y,s->scale.z);
     BUTTON_MAN_MakeRotMtxXYZ(s->rotX,(u16)(s->rotY*182),s->rotZ,(struct Mtx33 *)&t.rot);
@@ -2202,7 +2202,7 @@ void GURU2_MAIN_DrawBackgroundUnit(struct Guru2Game *p)
 {
     Transform t;
     void *object;
-    object = (void *)func_02048A18(p->g3dUtil,(u16)(p->skyUnit));
+    object = (void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(p->skyUnit));
     VecSet(&t.pos,0,0,0);
     VecSet(&t.scale,4096,4096,4096);
     BUTTON_MAN_MakeRotMtxXYZ(0,0,0,(struct Mtx33 *)&t.rot);
@@ -2255,7 +2255,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
     for(;i<count;i=i+1) {
         if(((struct Guru2MainCtx3 *)first)->f4) {
             Transform t;
-            void *object=(void *)func_02048A18(((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)base)->f938));
+            void *object=(void *)G3D_UTIL_GetObject(((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)base)->f938));
             VecSet(&t.pos,((struct Guru2MainCtx3 *)first)->f44,((struct Guru2MainCtx3 *)first)->f48,((struct Guru2MainCtx3 *)first)->f4C);
             VecSet(&t.scale,((struct Guru2MainCtx3 *)first)->f38,((struct Guru2MainCtx3 *)first)->f3C,((struct Guru2MainCtx3 *)first)->f40);
             BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2MainCtx3 *)first)->f24,((struct Guru2MainCtx3 *)first)->f26,((struct Guru2MainCtx3 *)first)->f28,(struct Mtx33 *)&t.rot);
@@ -2263,7 +2263,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
         }
         if(*(int *)&((struct Guru2MainCtx2 *)second)->f0) {
             Transform t;
-            void *object=(void *)func_02048A18(((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)base)->f93C));
+            void *object=(void *)G3D_UTIL_GetObject(((struct Guru2MainCtx *)p)->fAF4,(u16)(((struct Guru2MainCtx *)base)->f93C));
             VecSet(&t.pos,((struct Guru2MainCtx2 *)second)->f18,((struct Guru2MainCtx2 *)second)->f1C,((struct Guru2MainCtx2 *)second)->f20);
             VecSet(&t.scale,((struct Guru2MainCtx2 *)second)->fC,((struct Guru2MainCtx2 *)second)->f10,*(int *)&((struct Guru2MainCtx2 *)second)->f14);
             BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2MainCtx2 *)second)->f4,((struct Guru2MainCtx2 *)second)->f6,*(unsigned short *)&((struct Guru2MainCtx2 *)second)->f8,(struct Mtx33 *)&t.rot);
@@ -2271,7 +2271,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
         }
         if(((struct Guru2MainCtx *)third)->f0) {
             Transform t;
-            void *object=(void *)func_02048A18(((struct Guru2MainCtx *)p)->fAF4,(u16)(*(int *)((unsigned)(base+i*4)+0x940)));
+            void *object=(void *)G3D_UTIL_GetObject(((struct Guru2MainCtx *)p)->fAF4,(u16)(*(int *)((unsigned)(base+i*4)+0x940)));
             VecSet(&t.pos,*(int *)&((struct Guru2MainCtx *)third)->f4,*(int *)&((struct Guru2MainCtx *)third)->f8,((struct Guru2MainCtx *)third)->fC);
             VecSet(&t.scale,4096,4096,4096);
             MTX_Identity33_(&t.rot);
@@ -2385,7 +2385,7 @@ void GURU2_MAIN_ActivateCardUnit(struct Guru2Game *p, struct Guru2Player *q)
 
 void GURU2_MAIN_UpdateCardUnitAnim(struct Guru2Game *p,struct Guru2Marker *q,int i)
 {
-    void *r = (void *)func_02048A18(p->g3dUtil,(u16)(p->playerUnit[i]));
+    void *r = (void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(p->playerUnit[i]));
     q->pos = q->owner->pos;
     q->pos.y += 0x14000;
     G3D_SYSTEM_LoopObjectAnimeFrame(r,0,0x1000);

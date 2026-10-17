@@ -14,7 +14,7 @@
  *
  * sdk:      DWCi_SceneSetTest (libdwcutil.TWL.HYB.a scenesettest.o)
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD160.c \n *       --func DWCi_SceneSetTest --addr 0x021CD160 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetTest.c \n *       --func DWCi_SceneSetTest --addr 0x021CD160 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
  * halfword registers (the 0x04001008/0x04000008 pair and their +2 neighbours).
  * Addresses are Black-image addresses.
@@ -276,7 +276,7 @@ static void initGraphics(void)
  * sdk:      initAc (libdwcutil.TWL.HYB.a scenesettest.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD2A0.c \n *       --func initAc --addr 0x021CD2A0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/initAc.c \n *       --func initAc --addr 0x021CD2A0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
 static void initAc(void)
 {
@@ -418,7 +418,7 @@ static void endScene2(void)
  * sdk:      taskAc (libdwcutil.TWL.HYB.a scenesettest.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD4F4.c \n *       --func taskAc --addr 0x021CD4F4 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/taskAc.c \n *       --func taskAc --addr 0x021CD4F4 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
 static void taskAc(void *task)
 {

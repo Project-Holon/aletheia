@@ -16,7 +16,7 @@
  * The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which no tools/mwccarm build
  * writes, so it stays on the default dsi/1.1p1.
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CB2E8.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetRakuReady.c \
  *       --func DWCi_SceneSetRakuReady --addr 0x021CB2E8 --region ov016 --cc 1.1p1 --arm --lang c99
  * Set r0 to 0xa, call OS_Sleep, then run the four ov016 steps.
  * Addresses are Black-image addresses.

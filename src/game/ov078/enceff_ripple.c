@@ -164,7 +164,7 @@ int ENCEFF_RippleEventMain(struct GameEvent *event, int *state)
 
 
 /*
- * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF51C (no label witness). Filed src/matched/ov/ov021_func_021CF51C.c (EXACT, 4-byte accessor); it needs a manifest shard to count as a witness.
+ * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF51C (no label witness). Filed src/matched/ov/ENCEFF_GetEffect.c (EXACT, 4-byte accessor); it needs a manifest shard to count as a witness.
  */
 void ENCEFF_UpdateRipple(struct EncEffWork *eff) {
     struct GameEvent *effect = ENCEFF_GetEffect(eff);

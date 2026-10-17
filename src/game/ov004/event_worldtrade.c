@@ -22,7 +22,7 @@
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   WORLDTRADE_GetFromSave  0x0200AD6C  thumb
@@ -32,8 +32,8 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
- *   func_02008730  0x02008730  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   RECORD_GetFromSave  0x02008C58  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
@@ -111,7 +111,7 @@ void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize)
 struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(void *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 void MI_CpuFill8(void *dst, int value, int size);
 struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 void *WORLDTRADE_GetFromSave(void *saveControl);
@@ -121,8 +121,8 @@ struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 struct WorldTradeSave *ZUKAN_SAVE_GetFromGameData(void *gameData);
 u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
 void *WIFI_HISTORY_GetBlock(void *saveControl);
-void *func_02008730(void *saveControl);
-struct Config *func_0200873C(void *saveControl);
+void *SYSTEM_DATA_GetMyStatus(void *saveControl);
+struct Config *SYSTEM_DATA_GetConfig(void *saveControl);
 void *RECORD_GetFromSave(void *saveControl);
 struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
 u32 ZUKAN_SAVE_IsNationalDexEnabled(struct WorldTradeSave *worldTradeSave);
@@ -165,7 +165,7 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     event = (int)GAME_EVENT_Create((void *)gameSystem, 0, EVENT_WORLDTRADE_Main, 0x54);
     if (GAME_COMM_GetKind(ICA_ANIME_GetField24((const struct GameSystem *)gameSystem)))
         GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24((const struct GameSystem *)gameSystem));
-    work = func_020124E8((struct GameEvent *)event);
+    work = GAME_EVENT_GetWork((struct GameEvent *)event);
     MI_CpuFill8(work, 0, 0x54);
     work->gameSystem = (struct GameSystem *)gameSystem;
     work->fieldMap = fieldMap;
@@ -177,8 +177,8 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     work->param.worldTradeSave = ZUKAN_SAVE_GetFromGameData((void *)gameData);
     work->param.battleRecordData = GAME_DATA_GetField1A0((const struct GameData *)gameData);
     work->param.wifiFriendData = WIFI_HISTORY_GetBlock(work->saveControl);
-    work->param.myStatus = func_02008730(work->saveControl);
-    work->param.config = func_0200873C(work->saveControl);
+    work->param.myStatus = SYSTEM_DATA_GetMyStatus(work->saveControl);
+    work->param.config = SYSTEM_DATA_GetConfig(work->saveControl);
     work->param.pokedexData = RECORD_GetFromSave(work->saveControl);
     work->param.myItem = GAME_DATA_GetMyItem((const struct GameData *)gameData);
     work->paramGameSystem = (struct GameSystem *)gameSystem;

@@ -21,7 +21,7 @@
  *   GSMD5Init  0x02184938  arm ov009
  *   GSMD5Update  0x0218497C  arm ov009
  *   OS_SNPrintf  0x02084F80  arm arm9
- *   func_021E2A5C  0x021E2A5C  arm  ov175
+ *   wsLoginCertReadXML  0x021E2A5C  arm  ov175
  *   g_021ACEF8  0x021ACEF8  data
  *   g_021ACEFC  0x021ACEFC  data
  *   sWsSignatureKeyExponent  0x021E2CC0  data
@@ -118,7 +118,6 @@ extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap
 extern int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
 extern int gsCryptRSAVerifySignedHash(gsCryptRSAKey *publicKey, unsigned char *hash, unsigned int hashLen,
                                       unsigned char *sig, unsigned int sigLen);
-extern int func_021E2A5C(GSLoginCertificate *theCertificate, void *theReader);
 
 int wsiServiceAvailable(void);
 char *wsGetServiceUrl(void);
@@ -215,7 +214,7 @@ void wsLoginRemoteAuthCallback(int theResult, void *theRequestXml, void *theResp
         else if (response.mResponseCode != 0)
             response.mLoginResult = WSLoginResult_SERVER_ERROR;
         else if (!gsXmlMoveToChild(theResponseXml, sWsTagCertificate)
-            || !func_021E2A5C(cert, theResponseXml)
+            || !wsLoginCertReadXML(cert, theResponseXml)
             || !gsXmlMoveToParent(theResponseXml)
             || !gsXmlReadChildAsLargeInt(theResponseXml, sWsTagPeerKeyPrivate, &response.mPrivateData.mPeerPrivateKey.exponent))
             response.mLoginResult = WSLoginResult_PARSE_ERROR;

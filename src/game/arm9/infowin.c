@@ -39,11 +39,11 @@
  *   d_0209F870          0x0209F870  data a2
  *   BG_SYS_DrawTileEx       0x020410D0  arm
  *   BG_SYS_PushTile       0x020409B4  arm
- *   func_02035630       0x02035630  arm
+ *   UI_GetFrameRate       0x02035630  arm
  *   OS_IsRunOnTwl       0x02085D3C  arm
  *   ARC_TOOL_CreateHandle       0x020490F4  arm
  *   BG_SYS_CreateRun       0x0203FA08  arm
- *   func_02049B68       0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole       0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle       0x02049658  arm
  *   ENV_SetResourceSet  0x02049238  arm
  *   BG_SYS_SetTileEntry       0x02041300  arm
@@ -154,14 +154,14 @@ extern int  BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
 extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
-extern void  func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void  ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  ENV_SetResourceSet(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_PushTile(u32 a0);
-extern u8 func_02035630(void);
+extern u8 UI_GetFrameRate(void);
 extern int  OS_IsRunOnTwl(void);
 void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap);
 void INFOWIN_Update(void);
@@ -405,7 +405,7 @@ void INFOWIN_DrawTask(void)
         if (gInfoWin->redrawFlags & 0x800) {
             u8 t;
             u8 ph;
-            if (func_02035630() == 0x1E)
+            if (UI_GetFrameRate() == 0x1E)
                 gInfoWin->blinkCount = gInfoWin->blinkCount + 2;
             else
                 gInfoWin->blinkCount = gInfoWin->blinkCount + 1;
@@ -503,7 +503,7 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
 
     env = ARC_TOOL_CreateHandle(0x32, c);
     gInfoWin->charBase = BG_SYS_CreateRun(a, 1 << 12, 1);
-    func_02049B68(env, 0, sel, b << 5, 0x20, c);
+    ARC_UTIL_UploadPaletteFromHandleWhole(env, 0, sel, b << 5, 0x20, c);
     ARC_UTIL_UploadBgCharFromHandle(env, 1, a, gInfoWin->charBase, 0, 0, c);
     ENV_SetResourceSet(env);
     BG_SYS_SetTileEntry(a, (u16)(gInfoWin->charBase + 0xf), 0, 0, 0x20, 1, b);

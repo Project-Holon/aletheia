@@ -34,7 +34,7 @@
  *   d_02154460     0x02154460  data   ov002  a4
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  */
 struct GameSystem;
 struct GameEvent;
@@ -87,7 +87,7 @@ extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, i
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
 void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind);
 void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request);
@@ -167,7 +167,7 @@ void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))
         GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm(gameSystem));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->entryMode = (u16)entryMode;

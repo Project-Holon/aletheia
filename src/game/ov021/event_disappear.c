@@ -17,7 +17,7 @@
  *   FADE_IsActive  0x0204E804  arm
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
@@ -190,7 +190,7 @@ enum {
 };
 
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EventDisappearFunc func, u32 workSize);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -268,7 +268,7 @@ static inline void VEC_Set(VecFx32 *dst, int x, int y, int z)
 GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunWalkFall, 0x7C);
-    EventDisappearWork *work = func_020124E8(event);
+    EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -282,7 +282,7 @@ GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSys
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
-    EventDisappearWork *work = func_020124E8(event);
+    EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -296,7 +296,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSys
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoomEffect, 0x7C);
-    EventDisappearWork *work = func_020124E8(event);
+    EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -310,7 +310,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *g
 GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinFade, 0x7C);
-    EventDisappearWork *work = func_020124E8(event);
+    EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -323,7 +323,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSys
 GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunRisingSpin, 0x7C);
-    EventDisappearWork *work = func_020124E8(event);
+    EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

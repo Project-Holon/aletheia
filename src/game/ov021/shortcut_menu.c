@@ -22,7 +22,7 @@
  *   BG_SYS_Init  0x02040C14  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -66,19 +66,19 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_Delete  0x020452E8  arm
- *   func_020202FC  0x020202FC  thumb
- *   func_02020324  0x02020324  thumb
+ *   BMP_MENULIST_GetPos  0x020202FC  thumb
+ *   BMP_MENULIST_GetRowY  0x02020324  thumb
  *   func_020355D8 0x020355D8 arm
- *   func_020202EC 0x020202EC thumb
- *   func_02020350 0x02020350 thumb
+ *   BMP_MENULIST_GetListIndex 0x020202EC thumb
+ *   BMP_MENULIST_GetAttr 0x02020350 thumb
  *   KEY_GetRepeat 0x0203633C arm
  *   KEY_GetTrg 0x020362DC arm
  *   BMP_MENULIST_Main 0x020200CC thumb
- *   func_02020344 0x02020344 thumb
+ *   BMP_MENULIST_GetItemValue 0x02020344 thumb
  *   RECENT_ID_LIST_SAVEDATA_InsertId 0x0200C480 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
- *   func_02020314 0x02020314 thumb
+ *   BMP_MENULIST_GetCursorY 0x02020314 thumb
  *   RECENT_ID_LIST_SAVEDATA_CountIds 0x0200C468 thumb
  *   RECENT_ID_LIST_SAVEDATA_GetIdAt 0x0200C464 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
@@ -245,7 +245,7 @@ extern void BG_SYS_FreeSlot(int);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -286,19 +286,19 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
 extern void BG_SYS_PushTile(unsigned int index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern u32 func_02020350(struct Obj *obj, u32 what);
-extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
-extern u16 func_02020324(struct Obj *obj, u32 n);
+extern u32 BMP_MENULIST_GetAttr(struct Obj *obj, u32 what);
+extern void BMP_MENULIST_GetPos(struct Obj *obj, u16 *a, u16 *b);
+extern u16 BMP_MENULIST_GetRowY(struct Obj *obj, u32 n);
 extern void func_020355D8(u8 v);
-extern void func_020202EC(struct Obj *obj, u16 *out);
+extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
-extern u32 func_02020344(struct Obj *obj, u32 n);
+extern u32 BMP_MENULIST_GetItemValue(struct Obj *obj, u32 n);
 extern u8 RECENT_ID_LIST_SAVEDATA_InsertId(u8 *a, int id, u8 pos);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern u16 func_02020314(struct Obj *obj);
+extern u16 BMP_MENULIST_GetCursorY(struct Obj *obj);
 extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *a);
 extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *a, u32 i);
 extern void *BMP_MENUWORK_Create(int n, u32 heap);
@@ -366,12 +366,12 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     menu->actorBank = CLACT_CreateUnit(8, 0, heapId);
     tileBase = 0x80;
     resArchive = ARC_TOOL_CreateHandle(0x80, heapId);
-    func_02049B68(resArchive, 0, 0, tileBase + 0xE0, 0x40, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(resArchive, 0, 0, tileBase + 0xE0, 0x40, heapId);
     menu->charResId = CLACT_RegisterPalette(resArchive, 4, 0, 0x40, heapId);
     menu->palResId = CLACT_RegisterCharacter(resArchive, 3, 0, 0, heapId);
     menu->cellResId = CLACT_RegisterCellAnim(resArchive, 2, 1, heapId);
     tileBase += 0xC0;
-    func_02049B68(resArchive, 6, 0, tileBase, 0x20, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(resArchive, 6, 0, tileBase, 0x20, heapId);
     ARC_UTIL_UploadBgCharFromHandle(resArchive, 5, 1, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(resArchive, 7, 1, 0, 0, 0, heapId);
     BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
@@ -584,7 +584,7 @@ void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *d
     u16 row;
 
     if (cursor == 0) {
-        lastIndex = func_02020350(menu->list, 3);
+        lastIndex = BMP_MENULIST_GetAttr(menu->list, 3);
         SHORTCUT_MENU_DeleteList(menu, 0, 0);
         SHORTCUT_MENU_CreateList(menu, (itemCount - 1) - (lastIndex - 1), lastIndex - 1, menu->heapId);
         if (menu->moveMode == 1)
@@ -592,8 +592,8 @@ void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *d
         GFL_USE_PlaySeDefaultVolume(0x548);
         *done = 1;
     } else if (menu->cursorWrapped == 1 && menu->moveMode == 1) {
-        func_020202FC(menu->list, 0, &cursorIndex);
-        row = func_02020324(menu->list, cursorIndex) >> 3;
+        BMP_MENULIST_GetPos(menu->list, 0, &cursorIndex);
+        row = BMP_MENULIST_GetRowY(menu->list, cursorIndex) >> 3;
         SHORTCUT_MENU_SetActorsY(menu, (row + 0xC) * 8);
         menu->cursorWrapped = 0;
         *done = 1;
@@ -607,8 +607,8 @@ void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int 
 
     if (cursor == itemCount - 1) {
         if (menu->moveMode == 1) {
-            func_020202FC(menu->list, 0, &cursorIndex);
-            row = func_02020324(menu->list, (u16)(cursorIndex + 1)) >> 3;
+            BMP_MENULIST_GetPos(menu->list, 0, &cursorIndex);
+            row = BMP_MENULIST_GetRowY(menu->list, (u16)(cursorIndex + 1)) >> 3;
             SHORTCUT_MENU_SetActorsY(menu, (row + 0xc) << 3);
             menu->cursorWrapped ^= 1;
         }
@@ -638,8 +638,8 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
     toggleMode = 0;
     wrapped = 0;
     func_020355D8(0);
-    func_020202EC(menu->list, &pickCursor[1]);
-    itemCount = func_02020350(menu->list, 2);
+    BMP_MENULIST_GetListIndex(menu->list, &pickCursor[1]);
+    itemCount = BMP_MENULIST_GetAttr(menu->list, 2);
     if (KEY_GetRepeat() & 0x40) {
         SHORTCUT_MENU_OnKeyUp(menu, pickCursor[1], itemCount, (u32 *)&wrapped);
     } else if (KEY_GetRepeat() & 0x80) {
@@ -653,12 +653,12 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
             selection = -2;
             GFL_USE_PlaySeDefaultVolume(0x551);
         } else if (KEY_GetTrg() & 0x800) {
-            func_020202EC(menu->list, &pickCursor[0]);
-            selection = func_02020344(menu->list, pickCursor[0]);
+            BMP_MENULIST_GetListIndex(menu->list, &pickCursor[0]);
+            selection = BMP_MENULIST_GetItemValue(menu->list, pickCursor[0]);
             GFL_USE_PlaySeDefaultVolume(0x54C);
         } else if ((KEY_GetTrg() & 4) && menu->moveMode == 1) {
-            func_020202EC(menu->list, &moveCursor[1]);
-            selection = func_02020344(menu->list, moveCursor[1]);
+            BMP_MENULIST_GetListIndex(menu->list, &moveCursor[1]);
+            selection = BMP_MENULIST_GetItemValue(menu->list, moveCursor[1]);
             GFL_USE_PlaySeDefaultVolume(0x54C);
         }
     }
@@ -668,8 +668,8 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
         if (selection == -2) {
             toggleMode = 1;
         } else if (selection != -1) {
-            selection = func_02020344(menu->list, (u16)(menu->savedScroll + menu->savedCursor));
-            func_020202EC(menu->list, &moveCursor[0]);
+            selection = BMP_MENULIST_GetItemValue(menu->list, (u16)(menu->savedScroll + menu->savedCursor));
+            BMP_MENULIST_GetListIndex(menu->list, &moveCursor[0]);
             if (menu->cursorWrapped != 0) {
                 selection = RECENT_ID_LIST_SAVEDATA_InsertId(menu->menuData, selection, 0xFF);
             } else {
@@ -683,7 +683,7 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
             toggleMode = 1;
         }
     }
-    if ((KEY_GetTrg() & 4) && menu->moveMode == 0 && func_02020350(menu->list, 2) > 1) {
+    if ((KEY_GetTrg() & 4) && menu->moveMode == 0 && BMP_MENULIST_GetAttr(menu->list, 2) > 1) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         toggleMode = 1;
     }
@@ -698,7 +698,7 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
             return;
         }
         if (menu->moveMode == 1) {
-            func_020202FC(menu->list, &menu->savedScroll, &menu->savedCursor);
+            BMP_MENULIST_GetPos(menu->list, &menu->savedScroll, &menu->savedCursor);
             menu->showActors = 1;
         }
     }
@@ -750,7 +750,7 @@ int SHORTCUT_MENU_GetSelection(ShortcutMenu *menu)
  */
 void SHORTCUT_MENU_ListMoveCallback(void *list)
 {
-    *(u32 *)(func_02020350(list, 0x13) + 0x44) = 1;
+    *(u32 *)(BMP_MENULIST_GetAttr(list, 0x13) + 0x44) = 1;
 }
 
 void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
@@ -764,9 +764,9 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
     u32 cursorOffset;
     u16 row;
 
-    menu = (ShortcutMenu *)func_02020350(list, 0x13);
-    cursorRow = func_02020314(list) >> 3;
-    rowHeightTiles = func_02020350(list, 9) >> 3;
+    menu = (ShortcutMenu *)BMP_MENULIST_GetAttr(list, 0x13);
+    cursorRow = BMP_MENULIST_GetCursorY(list) >> 3;
+    rowHeightTiles = BMP_MENULIST_GetAttr(list, 9) >> 3;
     if (menu->moveMode == 0) {
         BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
         BG_SYS_FillTileMap(1, 1, cursorRow + 12, 30, rowHeightTiles, 12);
@@ -774,9 +774,9 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
         BG_SYS_SetFlagField06(1);
     } else if (menu->moveMode == 1) {
         BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
-        func_020202FC(list, &listPos[1], &listPos[0]);
-        baseY = func_02020350(list, 8);
-        rowHeight = func_02020350(list, 9);
+        BMP_MENULIST_GetPos(list, &listPos[1], &listPos[0]);
+        baseY = BMP_MENULIST_GetAttr(list, 8);
+        rowHeight = BMP_MENULIST_GetAttr(list, 9);
         cursorOffset = menu->savedCursor + menu->savedScroll - listPos[1];
         baseY = baseY + cursorOffset * rowHeight;
         BG_SYS_FillTileMap(1, 1, (baseY >> 3) + 12, 30, rowHeightTiles, 12);
@@ -784,8 +784,8 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
         BG_SYS_SetFlagField06(1);
     }
     if (menu->cursorWrapped == 1) {
-        row = func_02020350(menu->list, 3);
-        row = func_02020324(menu->list, row) >> 3;
+        row = BMP_MENULIST_GetAttr(menu->list, 3);
+        row = BMP_MENULIST_GetRowY(menu->list, row) >> 3;
         SHORTCUT_MENU_SetActorsY(menu, (row + 12) << 3);
     } else {
         SHORTCUT_MENU_SetActorsY(menu, (cursorRow + 12) << 3);

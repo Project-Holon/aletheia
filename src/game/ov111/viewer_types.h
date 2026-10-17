@@ -54,7 +54,7 @@ typedef struct {
     u8 pad7;
     u16 rowMask;             /* 0x08 row-present mask (16 bits) */
     u16 name[9];             /* 0x0A trainer name string */
-    void *playTime;          /* 0x1C PlayTime, read by func_0200864C/650 */
+    void *playTime;          /* 0x1C PlayTime, read by PLAYTIME_GetHours/650 */
     u32 topValue;            /* 0x20 printed with 7 digits */
     u32 topPadValue;         /* 0x24 formatted into a padded string */
     u16 row0Value;           /* 0x28 row 0 number */

@@ -22,7 +22,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -40,10 +40,10 @@
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb  ov021
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
- *   func_020071F0  0x020071F0  thumb
+ *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
- *   func_02008DF0  0x02008DF0  thumb
- *   func_020056BC  0x020056BC  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
+ *   GFL_USE_GetMainTaskList  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
@@ -235,7 +235,7 @@ extern FieldMmdl *FIELD_PLAYER_GetMmdl(FieldAvatar *avatar);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MsgData *MSGDATA_CreateFromArchive(u32 type, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dest);
+extern void MSGDATA_ReadString(MsgData *msgData, u32 index, Strbuf *dest);
 extern void MSGDATA_Delete(MsgData *msgData);
 extern u32 KEY_GetTrg(void);
 extern void STRBUF_Delete(Strbuf *str);
@@ -254,10 +254,10 @@ extern void FIELD_SUBSCREEN_ResumeField(FieldCommLink *link, u32 heapId);
 extern TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 taskCount, u32 workSize);
 extern AppKeyCursor *APP_KEYCURSOR_CreateDefault(u32 a0, u32 a1, u32 a2, u32 heapId);
 extern PrintQue *PRINTSYS_QUE_Create(u32 heapId);
-extern int func_020071F0(SaveControl *saveControl);
+extern int SAVE_CONTROL_WouldOverwriteSave(SaveControl *saveControl);
 extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *bmpWin, u32 kind);
-extern u32 func_02008DF0(TrainerRecord *record, int id);
-extern TcblSystem *func_020056BC(void);
+extern u32 RECORD_AddOne(TrainerRecord *record, int id);
+extern TcblSystem *GFL_USE_GetMainTaskList(void);
 extern TimeIcon *TIME_ICON_Create(TcblSystem *tcbl, BmpWin *bmpWin, u8 color, u8 priority, u16 heapId);
 extern int GAME_DATA_SaveStart(GameData *gameData);
 extern int GAME_DATA_SaveMain(GameData *gameData);
@@ -381,7 +381,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
     case REPORT_EVENT_STATE_YES_NO:
         switch (REPORT_EVENT_UpdateYesNoMenu(w)) {
         case 0:
-            if (func_020071F0(w->saveControl) == 1) {
+            if (SAVE_CONTROL_WouldOverwriteSave(w->saveControl) == 1) {
                 REPORT_EVENT_PrintMessage(w, REPORT_EVENT_MSG_OVERWRITE);
                 *state = REPORT_EVENT_STATE_WAIT_MESSAGE;
             } else {
@@ -395,7 +395,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         }
         break;
     case REPORT_EVENT_STATE_PRINT_SAVING:
-        func_02008DF0(GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(w->gameSystem)), 1);
+        RECORD_AddOne(GAME_DATA_GetTrainerRecord(ICA_ANIME_GetField1C(w->gameSystem)), 1);
         FIELD_SUBSCREEN_PrepareReportSave(FIELDMAP_GetSubscreen(w->fieldMap));
         if (FIELD_SUBSCREEN_CheckReportSaveCounter(FIELDMAP_GetSubscreen(w->fieldMap)) == 1)
             REPORT_EVENT_QueueMessage(w, REPORT_EVENT_MSG_SAVING_FIRST);
@@ -415,7 +415,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         break;
     case REPORT_EVENT_STATE_START_SAVE:
         if (REPORT_EVENT_IsAvatarReady(w) != 0) {
-            w->res->timeIcon = TIME_ICON_Create(func_020056BC(), w->res->window.bmpWin, 0xF, 0x10, w->heapId);
+            w->res->timeIcon = TIME_ICON_Create(GFL_USE_GetMainTaskList(), w->res->window.bmpWin, 0xF, 0x10, w->heapId);
             FIELD_SUBSCREEN_StartReportSaveAnim(FIELDMAP_GetSubscreen(w->fieldMap));
             REPORT_EVENT_StartSaveEffect(w);
             GAME_DATA_SaveStart(ICA_ANIME_GetField1C(w->gameSystem));
@@ -535,7 +535,7 @@ void REPORT_EVENT_DeleteMessageWindow(ReportEventWork *w)
 /* Reads message msgIndex into the text buffer and starts printing it. */
 void REPORT_EVENT_PrintMessage(ReportEventWork *w, u32 msgIndex)
 {
-    func_02045CAC(w->res->msgData, msgIndex, w->res->message);
+    MSGDATA_ReadString(w->res->msgData, msgIndex, w->res->message);
     REPORT_EVENT_StartPrintStream(w);
 }
 

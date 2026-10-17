@@ -18,7 +18,7 @@
  *   FIELDMAP_GetFaceUpWorkPtr  0x02189A60  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   CONFIG_GetTextSpeed  0x02008374  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
@@ -55,7 +55,7 @@
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
  *   FIELD_MSGBG_GetPlainWinStreamState  0x021917C0  thumb  ov021
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   gFldFaceupMouthFrames     0x021F58D0  data  a4
  *   gFldFaceupBlinkFrames     0x021F58E0  data  a4
  */
@@ -111,7 +111,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern FaceupWork **FIELDMAP_GetFaceUpWorkPtr(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct Config *func_0200873C(struct SaveControl *saveControl);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
 extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
 extern struct GameEvent *GAME_EVENT_Create(const struct GameSystem *gameSystem, struct GameEvent *parent,
                                        int (*proc)(struct GameEvent *event, int *seq), u32 size);
@@ -147,7 +147,7 @@ void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern int SCRIPT_WORK_CheckFlag(int flagId);
 extern struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(void *scrcmdWork);
 extern int FIELD_MSGBG_GetPlainWinStreamState(struct FieldMsgWindow *window);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBothScreens, struct GameSystem *gameSystem, void *scrcmdWork);
 int FLD_FACEUP_OpenEventMain(struct GameEvent *event, int *seq);
 void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap);
@@ -192,7 +192,7 @@ struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBot
     work->fadeBothScreens = fadeBothScreens;
     FLD_FACEUP_InitAnim(&work->blink);
     FLD_FACEUP_InitAnim(&work->mouth);
-    textSpeed = CONFIG_GetTextSpeed(func_0200873C(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
+    textSpeed = CONFIG_GetTextSpeed(SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
     if (textSpeed == 0)
         work->mouth.delayReload = 3;
     else if (textSpeed == 1)
@@ -527,7 +527,7 @@ void FLD_FACEUP_UpdateTaskMain(void *tcb, FaceupWork *work)
     FLD_FACEUP_StepAnim(gFldFaceupMouthFrames, 4, 0x184, 8, 4, &work->mouth);
     if (work->blinkTimer == 0) {
         work->blink.idle = 0;
-        work->blinkTimer = func_020056EC(0x14) + 0x50;
+        work->blinkTimer = GFL_USE_GetRandom(0x14) + 0x50;
     } else {
         work->blinkTimer = work->blinkTimer - 1;
     }

@@ -109,11 +109,11 @@
  *   FIELD_PLAYER_GetGridMoveState  0x021A3584  thumb
  *   FIELD_SUBSCREEN_GetCGear  0x021A1358  thumb  ov021
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
- *   func_02028A70  0x02028A70  thumb
+ *   FIELD_SOUND_SYSTEM_StopRingtone  0x02028A70  thumb
  *   C_GEAR_IsLastCommandKind5  0x021F2AB8  thumb  ov029
  *   C_GEAR_StopRingtone  0x021F2AD4  thumb  ov029
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   FIELD_STATUS_SetProcAction  0x02014474  thumb
  *   SCRIPT_SYS_CreateSceneChangeEvent  0x02158B00  thumb  ov010
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
@@ -128,17 +128,17 @@
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb
  *   FLDMMDL_GetAcmdCode  0x0216D7C4  thumb  ov010
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb
- *   func_02008970  0x02008970  thumb
- *   func_0200896C  0x0200896C  thumb
+ *   PLAYER_LOCATION_GetCounter  0x02008970  thumb
+ *   PLAYER_LOCATION_SetCounter  0x0200896C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   FIELDMAP_GetSodateya  0x02188D50  thumb
  *   SODATEYA_AddStep  0x021C3378  thumb
- *   func_02008978  0x02008978  thumb
- *   func_02008980  0x02008980  thumb
- *   func_02008854  0x02008854  thumb
+ *   PLAYER_LOCATION_GetValueA  0x02008978  thumb
+ *   PLAYER_LOCATION_SetValueA  0x02008980  thumb
+ *   PLAYER_LOCATION_GetData  0x02008854  thumb
  *   SCRCMD_ShowStepMilestoneMessage  0x021D220C  thumb
- *   func_02008990  0x02008990  thumb
- *   func_02008988  0x02008988  thumb
+ *   PLAYER_LOCATION_GetValueB  0x02008990  thumb
+ *   PLAYER_LOCATION_SetValueB  0x02008988  thumb
  *   MOVE_POKEMON_SAVE_TickCooldown  0x0200D564  thumb
  *   EFFECT_ENCOUNT_TriggerSpot  0x021AA944  thumb
  *   EFFECT_ENCOUNT_OnPlayerStep  0x021AA80C  thumb
@@ -191,7 +191,7 @@
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   FIELD_PLAYER_SetGridMoveState  0x021A35A0  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_PLAYER_GetPosInDir  0x021A3364  thumb
  *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb
@@ -486,10 +486,10 @@ extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
 extern int FIELD_PLAYER_GetGridMoveState(void *v);
 extern u32 FIELD_SUBSCREEN_GetCGear(u32 *p);
 extern u32 GAME_DATA_GetBgmInfo(const void *p);
-extern void func_02028A70(void *sys);
+extern void FIELD_SOUND_SYSTEM_StopRingtone(void *sys);
 extern int C_GEAR_IsLastCommandKind5(char *p);
 extern void C_GEAR_StopRingtone(u8 *p);
-extern u32 func_02008DF0(void *obj, int i);
+extern u32 RECORD_AddOne(void *obj, int i);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void FIELD_STATUS_SetProcAction(void *o, u16 v);
 extern void *SCRIPT_SYS_CreateSceneChangeEvent(void *a, u32 b);
@@ -509,19 +509,19 @@ extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
-extern void *func_02008854(void *sys);
-extern void func_02008970(const void *obj, u32 *out);
-extern void func_0200896C(void *obj, u32 value);
+extern void *PLAYER_LOCATION_GetData(void *sys);
+extern void PLAYER_LOCATION_GetCounter(const void *obj, u32 *out);
+extern void PLAYER_LOCATION_SetCounter(void *obj, u32 value);
 extern u32 GPOWER_ApplyHatchRate(u32 v);
 extern void *GAME_DATA_GetMyParty(const void *p);
 extern void *FIELDMAP_GetSodateya(FieldMap *fieldMap);
 extern int SODATEYA_AddStep(void **p);
-extern u16 func_02008978(const void *obj);
-extern void func_02008980(void *obj, u16 value);
+extern u16 PLAYER_LOCATION_GetValueA(const void *obj);
+extern void PLAYER_LOCATION_SetValueA(void *obj, u16 value);
 extern void NATSUKI_CalcWalk(void *mon, int a, int b);
 extern int SCRCMD_ShowStepMilestoneMessage(void *gameSystem, FieldMap *fieldMap);
-extern u16 func_02008990(const void *obj);
-extern void func_02008988(void *obj, u16 value);
+extern u16 PLAYER_LOCATION_GetValueB(const void *obj);
+extern void PLAYER_LOCATION_SetValueB(void *obj, u16 value);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
 extern u32 MOVE_POKEMON_SAVE_TickCooldown(void *p);
 extern int EFFECT_ENCOUNT_TriggerSpot(void *self);
@@ -574,7 +574,7 @@ extern int FIELD_PLAYER_ChangeToNormalForm(void *a);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
 extern void FIELD_PLAYER_SetGridMoveState(u32 *p, int a);
 struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-void *func_020124E8(void *p);
+void *GAME_EVENT_GetWork(void *p);
 extern void FIELD_PLAYER_GetPosInDir(u32 *a, int b, int *out);
 extern int MAP_ATTR_IsLongHopEdge(int a);
 extern int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d);
@@ -1132,11 +1132,11 @@ void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap)
 
     subscreenProc = (void *)FIELD_SUBSCREEN_GetCGear((u32 *)FIELDMAP_GetSubscreen(fieldMap));
     if (subscreenProc == 0) {
-        func_02028A70((void *)GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(gameSystem)));
+        FIELD_SOUND_SYSTEM_StopRingtone((void *)GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(gameSystem)));
         return;
     }
     if (C_GEAR_IsLastCommandKind5(subscreenProc) == 0) {
-        func_02028A70((void *)GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(gameSystem)));
+        FIELD_SOUND_SYSTEM_StopRingtone((void *)GAME_DATA_GetBgmInfo(ICA_ANIME_GetField1C(gameSystem)));
         C_GEAR_StopRingtone(subscreenProc);
     }
 }
@@ -1144,7 +1144,7 @@ void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap)
 
 int FIELD_EVENT_CHECK_AddStepRecord(void *gameData)
 {
-return func_02008DF0((void *)GAME_DATA_GetTrainerRecord((int *)gameData), 0);
+return RECORD_AddOne((void *)GAME_DATA_GetTrainerRecord((int *)gameData), 0);
 }
 
 
@@ -1400,16 +1400,16 @@ void FIELD_EVENT_CHECK_DecrementEggCycles(void *party)
  */
 void FIELD_EVENT_CHECK_UpdateEggStepCounter(void *gameData, void *party)
 {
-    void *stepSave = func_02008854(GAME_DATA_GetSaveControl(gameData));
+    void *stepSave = PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(gameData));
     u32 stepCounter;
 
-    func_02008970(stepSave, &stepCounter);
+    PLAYER_LOCATION_GetCounter(stepSave, &stepCounter);
     stepCounter += GPOWER_ApplyHatchRate(0x100);
     if (stepCounter > 0x10000) {
         FIELD_EVENT_CHECK_DecrementEggCycles(party);
         stepCounter = 0;
     }
-    func_0200896C(stepSave, stepCounter);
+    PLAYER_LOCATION_SetCounter(stepSave, stepCounter);
 }
 
 
@@ -1458,15 +1458,15 @@ int FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, 
  */
 void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap)
 {
-    void *walkSave = func_02008854(GAME_DATA_GetSaveControl(gameData));
+    void *walkSave = PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(gameData));
     int counterWrapped = 0;
-    u16 walkCount = func_02008978(walkSave) + 1;
+    u16 walkCount = PLAYER_LOCATION_GetValueA(walkSave) + 1;
 
     if (walkCount >= 0x80) {
         walkCount = 0;
         counterWrapped = 1;
     }
-    func_02008980(walkSave, walkCount);
+    PLAYER_LOCATION_SetValueA(walkSave, walkCount);
     if (counterWrapped) {
         void *party = GAME_DATA_GetMyParty(gameData);
         int zoneId;
@@ -1490,12 +1490,12 @@ void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap)
  */
 int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap, u16 zoneId)
 {
-    void *stepSave = func_02008854(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
+    void *stepSave = PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
     int result = 0;
 
     if (ZONEDATA_IsZoneInTableDFB8(zoneId)) {
         result = SCRCMD_ShowStepMilestoneMessage(gameSystem, fieldMap);
-        func_02008988(stepSave, func_02008990(stepSave) + 1);
+        PLAYER_LOCATION_SetValueB(stepSave, PLAYER_LOCATION_GetValueB(stepSave) + 1);
     }
     return result;
 }
@@ -1875,7 +1875,7 @@ int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *task, int *seq, LedgeJumpWork *wor
 int FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles)
 {
     int h = (int)GAME_EVENT_Create((void *)gameSystem, 0, FIELD_EVENT_CHECK_LedgeJumpTaskMain, 0x10);
-    LedgeJumpWork *work = func_020124E8((void *)h);
+    LedgeJumpWork *work = GAME_EVENT_GetWork((void *)h);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->dir = dir;

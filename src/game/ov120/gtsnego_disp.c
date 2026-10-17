@@ -43,7 +43,7 @@
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
- *   func_02008510 0x02008510 thumb
+ *   MYSTATUS_CreateNameStrbuf 0x02008510 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
@@ -53,7 +53,7 @@
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GTSNEGO_MSG_UpdatePrintStream 0x021D7AF4 thumb ov120
  *   GFL_NET_HANDLE_GetNegotiationNum 0x020399EC arm
- *   func_02009EA8 0x02009EA8 thumb
+ *   TRADE_HISTORY_GetTradeCount 0x02009EA8 thumb
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
  *   GTSNEGO_MSG_UpdateButtons  0x021D7C10  thumb  ov120
  *   GTSNEGO_MSG_SetDecide  0x021D8638  thumb  ov120
@@ -66,12 +66,12 @@
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   DWC_GetMatchIntValue 0x0216CB30 arm ov009
  *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
- *   func_02009E74 0x02009E74 thumb
+ *   TRADE_HISTORY_HasPartner 0x02009E74 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_02008530 0x02008530 thumb
+ *   MYSTATUS_GetId 0x02008530 thumb
  *   GTSNEGO_MSG_CreateConfirmUi 0x021D8590 thumb ov120
  *   GFL_NET_SetWaitMode 0x0203D644 arm
- *   func_02009CA8 0x02009CA8 thumb
+ *   WIFILIST_CreateExchangeToken 0x02009CA8 thumb
  *   DWC_AddMatchKeyInt 0x0216C8DC arm ov009
  *   STD_TSPrintf 0x0208D7E0 arm
  *   DWC_RAP_StartMatchWithFilter 0x0215580C thumb ov009
@@ -100,8 +100,8 @@
  *   GTSNEGO_MSG_CreateListUi 0x021D7DC8 thumb ov120
  *   GTSNEGO_MSG_CreateTooltip 0x021D7ECC thumb ov120
  *   GAME_DATA_GetSaveBlock1F 0x02012F14 thumb
- *   func_02009E8C 0x02009E8C thumb
- *   func_02009E54 0x02009E54 thumb
+ *   TRADE_HISTORY_GetPartnerCount 0x02009E8C thumb
+ *   TRADE_HISTORY_GetPartner 0x02009E54 thumb
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   GTSNEGO_MSG_Teardown 0x021D761C thumb ov120
  *   GTSNEGO_MSG_DeleteAll 0x021D883C thumb ov120
@@ -153,7 +153,7 @@
  *   GTSNEGO_MSG_Create 0x021D7724 thumb ov120
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021D88EC 0x021D88EC data a4
- *   func_0200F7E8 0x0200F7E8 thumb
+ *   GFL_NET_ERR_SetKeepDark 0x0200F7E8 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
@@ -161,8 +161,8 @@
  *   GTSNEGO_MSG_Main 0x021D7858 thumb ov120
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
- *   func_0200F7DC 0x0200F7DC thumb
- *   func_0200F7F4 0x0200F7F4 thumb
+ *   GFL_NET_ERR_Halt 0x0200F7DC thumb
+ *   GFL_NET_ERR_ClearKeepDark 0x0200F7F4 thumb
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   GTSNEGO_MSG_Delete 0x021D7898 thumb ov120
@@ -232,9 +232,9 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -261,6 +261,8 @@
  *   GAME_DATA_GetField1A0  0x0201283C  thumb  arm9
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb  arm9
  *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb  arm9
+ *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb  arm9
+ *   MYSTATUS_GetOutfit  0x02008554  thumb  arm9
  */
 #include "ov120_types.h"
 struct GtsnegoDispCtx;
@@ -444,8 +446,8 @@ extern void GTSNEGO_MSG_PrintWindowB(u8 *p, int n);
 extern void GTSNEGO_MSG_PrintTooltip(char *p, u16 n);
 extern void GTSNEGO_MSG_DeleteEntryWindow(char *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 extern void GTSNEGO_MSG_PrintSummary(char *p, void *q, u32 n);
 extern void GTSNEGO_MSG_SetIdleAnim(u8 *p, int n);
 extern int DWC_CheckProfanityProcess(void);
@@ -453,14 +455,14 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_020084E4(u16 *out, struct U16Vec *vec);
+extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
-extern void *func_02008510(void *, int);
+extern void *MYSTATUS_CreateNameStrbuf(void *, int);
 extern void MI_CpuFill8(void *, u8, u32);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -473,7 +475,7 @@ extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *GAME_DATA_GetSaveBlock1F(void **h);
-extern u32 func_02009EA8(const struct Sub02009D9CObj *obj);
+extern u32 TRADE_HISTORY_GetTradeCount(const struct Sub02009D9CObj *obj);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern int GTSNEGO_MSG_UpdateButtons(char *p);
 extern u32 KEY_GetTrg(void);
@@ -486,10 +488,10 @@ extern void GTSNEGO_MSG_DeleteWindow(char *p);
 extern void GTSNEGO_MSG_DeleteConfirmWindow(u8 *p);
 extern int DWC_GetMatchIntValue(int, int, int);
 extern void *TRADE_HISTORY_GetFromSave(void *);
-extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
+extern u32 TRADE_HISTORY_HasPartner(struct Sub02009D9CObj *obj, u32 id);
 extern void GTSNEGO_MSG_CreateConfirmUi(u8 *, int, int);
 extern void GFL_NET_SetWaitMode(int);
-extern void func_02009CA8(void *account, void *out);
+extern void WIFILIST_CreateExchangeToken(void *account, void *out);
 extern u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
 extern int STD_TSPrintf(char *, const char *, ...);
 extern int DWC_RAP_StartMatchWithFilter(int, int, int, int);
@@ -515,8 +517,8 @@ extern void TOUCHBAR_SetAllButtonsVisible(u8 *, u32);
 extern void GTSNEGO_MSG_ClearRows(char *p);
 extern void GTSNEGO_MSG_CreateListUi(char *p, int a, int b, int c, int d, int e);
 extern void *GTSNEGO_MSG_CreateTooltip(char *p, u16 n);
-extern int func_02009E8C(void *);
-extern void *func_02009E54(void *,int);
+extern int TRADE_HISTORY_GetPartnerCount(void *);
+extern void *TRADE_HISTORY_GetPartner(void *,int);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void GTSNEGO_MSG_Teardown(u8 *);
 extern void GTSNEGO_MSG_DeleteAll(char *);
@@ -569,14 +571,14 @@ extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
-extern void func_0200F7E8(u32 value);
+extern void GFL_NET_ERR_SetKeepDark(u32 value);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern void GTSNEGO_MSG_Main(u8 *p);
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
-extern void func_0200F7DC(void);
-extern void func_0200F7F4(void);
+extern void GFL_NET_ERR_Halt(void);
+extern void GFL_NET_ERR_ClearKeepDark(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned int);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void GTSNEGO_MSG_Delete(char *p);
@@ -631,9 +633,9 @@ extern u32 PALANM_Delete(void *a0);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *,u32,u32,u32,u32,u16);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -921,13 +923,13 @@ void GTSNEGO_DISP_ShowTradeConfirm(struct GtsnegoDispCtx *p)
     } else {
         value = *(int *)&((struct GtsnegoMsgCtx *)q)->f18;
         mode = p->f17C;
-        *(int *)(q + ((struct GtsnegoMsgCtx *)q)->f1AC * 4 + 0x1c) = func_02008530((const struct Sub0200852CObj *)value);
+        *(int *)(q + ((struct GtsnegoMsgCtx *)q)->f1AC * 4 + 0x1c) = MYSTATUS_GetId((const struct Sub0200852CObj *)value);
         ((struct GtsnegoMsgCtx *)q)->f1AC = ((struct GtsnegoMsgCtx *)q)->f1AC + 1;
         if (((struct GtsnegoMsgCtx *)q)->f1AC >= 100)
             ((struct GtsnegoMsgCtx *)q)->f1AC = 0;
     }
     GTSNEGO_MSG_PrintSummary((char *)(*(int *)&p->f40), (void *)value, mode);
-    GTSNEGO_MSG_SetIdleAnim((u8 *)(*(int *)&p->f3C), func_02008554((const struct Sub0200852CObj *)value));
+    GTSNEGO_MSG_SetIdleAnim((u8 *)(*(int *)&p->f3C), MYSTATUS_GetOutfit((const struct Sub0200852CObj *)value));
     p->f14 = 0xb4;
     GTSNEGO_DISP_SetStateCallback(((int *)p), GTSNEGO_DISP_WaitTradeStart, 0x265);
 }
@@ -951,11 +953,11 @@ void GTSNEGO_DISP_ConfirmStatus(struct GtsnegoDispCtx *p)
             message = MSGDATA_CreateFromArchive(0, 2, 0x51, 0x1f);
             text = MSGDATA_AllocString(message, 15);
             MSGDATA_Delete(message);
-            func_020084E4((u16 *)value, text);
+            MYSTATUS_NameFromStrbuf((u16 *)value, text);
             STRBUF_Delete(text);
         }
         MYSTATUS_Copy((void *)value, GAME_DATA_GetPlayerStatusById((struct Sub24 *)(*(int *)&p->f2C), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
-        result = func_02008530((const struct Sub0200852CObj *)value);
+        result = MYSTATUS_GetId((const struct Sub0200852CObj *)value);
         MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)(*(int *)&p->f30)), result);
         GTSNEGO_DISP_SetStateCallback(((int *)p), GTSNEGO_DISP_ShowTradeConfirm, 0x283);
     }
@@ -975,7 +977,7 @@ void GTSNEGO_DISP_PrepareTrade(u8 *p)
     u32 i;
     void *value = ((struct GtsnegoDispCtx_f48 *)((struct GtsnegoDispCtx *)p)->f48)->f18;
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x22) != 0) {
-        str = func_02008510(value, 31);
+        str = MYSTATUS_CreateNameStrbuf(value, 31);
         MI_CpuFill8(p + 0x188, 0, 40);
         ((struct GtsnegoDispCtx *)p)->f1AC = 31;
         chars = STRBUF_GetChars(str);
@@ -1058,7 +1060,7 @@ void GTSNEGO_DISP_WaitNegotiation(u8 *p)
             *(int *)&((struct GtsnegoMsgCtx *)q)->f4 = ((struct GtsnegoDispCtx *)p)->f144;
             *(int *)&((struct GtsnegoMsgCtx *)q)->f8 = ((struct GtsnegoDispCtx *)p)->f13C;
             MISC_SAVEDATA_CopyQuadRecord((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
-            ((struct GtsnegoDispCtx *)p)->f170 = func_02009EA8(GAME_DATA_GetSaveBlock1F((void **)(*(int *)&((struct GtsnegoDispCtx *)p)->f2C)));
+            ((struct GtsnegoDispCtx *)p)->f170 = TRADE_HISTORY_GetTradeCount(GAME_DATA_GetSaveBlock1F((void **)(*(int *)&((struct GtsnegoDispCtx *)p)->f2C)));
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22);
             GTSNEGO_DISP_SetStateCallback(((int *)p), GTSNEGO_DISP_SendHandshake, 0x314);
         }
@@ -1176,15 +1178,15 @@ int GTSNEGO_DISP_ScoreMatch(int a, u8 *p)
     if (I(0x138) == 1) {
         if (mode == 4) {
             if (I(0x148) == -1) {
-                if (func_02009E74(TRADE_HISTORY_GetFromSave(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
+                if (TRADE_HISTORY_HasPartner(TRADE_HISTORY_GetFromSave(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
                     score = 100;
             } else {
                 if (I(0x18) == id) score = 100;
             }
         } else {
-            if (group == func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)(((struct GtsnegoDispCtx2 *)q)->f0)))) {
+            if (group == MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)(((struct GtsnegoDispCtx2 *)q)->f0)))) {
                 if (I(0x148) == -1) {
-                    if (func_02009E74(TRADE_HISTORY_GetFromSave(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
+                    if (TRADE_HISTORY_HasPartner(TRADE_HISTORY_GetFromSave(((struct GtsnegoDispCtx *)p)->f30), id) != 0)
                         score = 100;
                 } else {
                     if (I(0x18) == id) score = 100;
@@ -1230,7 +1232,7 @@ void GTSNEGO_DISP_StartMatchmaking(u8 *p)
             return;
         }
         GFL_NET_SetWaitMode(0);
-        func_02009CA8((void *)(((struct GtsnegoDispCtx *)p)->f44), values);
+        WIFILIST_CreateExchangeToken((void *)(((struct GtsnegoDispCtx *)p)->f44), values);
         values[0] = ((struct GtsnegoDispCtx *)p)->f14C;
         values[1] = *(unsigned int *)&((struct GtsnegoDispCtx *)p)->f138;
         values[2] = *(unsigned int *)&((struct GtsnegoDispCtx *)p)->f144;
@@ -1244,8 +1246,8 @@ void GTSNEGO_DISP_StartMatchmaking(u8 *p)
                 values[2] = 4;
             else {
                 q = GTSNEGO_DISP_GetEntry(((struct GtsnegoDispCtx *)p)->f2C, ((struct GtsnegoDispCtx *)p)->f148);
-                values[7] = func_02008530(q);
-                ((struct GtsnegoDispCtx *)p)->f18 = func_02008530(q);
+                values[7] = MYSTATUS_GetId(q);
+                ((struct GtsnegoDispCtx *)p)->f18 = MYSTATUS_GetId(q);
             }
         }
         for (i = 0; i < 8; i++) {
@@ -1393,14 +1395,14 @@ void GTSNEGO_DISP_CreateConfirmUi(u8 *p)
 
 
 
-void *GTSNEGO_DISP_GetEntry(void **p,int i) { int n; n=func_02009E8C(GAME_DATA_GetSaveBlock1F(p)); if (i>=n || i<0) return 0; return func_02009E54(GAME_DATA_GetSaveBlock1F(p),i); }
+void *GTSNEGO_DISP_GetEntry(void **p,int i) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetSaveBlock1F(p)); if (i>=n || i<0) return 0; return TRADE_HISTORY_GetPartner(GAME_DATA_GetSaveBlock1F(p),i); }
 
 
 
 
 
 
-void *GTSNEGO_DISP_GetEntryClamped(void **p,int i) { int n; n=func_02009E8C(GAME_DATA_GetSaveBlock1F(p)); if (i<0) i=0; if (i>=n) i=n-1; return func_02009E54(GAME_DATA_GetSaveBlock1F(p),i); }
+void *GTSNEGO_DISP_GetEntryClamped(void **p,int i) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetSaveBlock1F(p)); if (i<0) i=0; if (i>=n) i=n-1; return TRADE_HISTORY_GetPartner(GAME_DATA_GetSaveBlock1F(p),i); }
 
 
 
@@ -1842,7 +1844,7 @@ void GTSNEGO_DISP_WaitSelectStart(struct GtsnegoDispCtx *p)
 void GTSNEGO_DISP_ShowPokemonList(struct GtsnegoDispCtx *p)
 {
     int flag = 1;
-    int n = func_02009E8C(GAME_DATA_GetSaveBlock1F(*(void ** *)&p->f2C));
+    int n = TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetSaveBlock1F(*(void ** *)&p->f2C));
     p->f138 = flag;
     if (n == 0) {
         GTSNEGO_MSG_PrintWindow(p->f40, 0x1d);
@@ -2121,13 +2123,13 @@ int GTSNEGO_DISP_Create(void *a, int unused, u8 *q)
     ((struct GtsnegoDispCtx *)p)->f15C = zero;
     ((struct GtsnegoDispCtx *)p)->f160 = 2;
     ((struct GtsnegoDispCtx *)p)->f164 = 6;
-    ((struct GtsnegoDispCtx *)p)->f14C = func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct GtsnegoDispCtx *)q)->f0));
+    ((struct GtsnegoDispCtx *)p)->f14C = MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct GtsnegoDispCtx *)q)->f0));
     if (GFL_NET_GetRunState())
         GFL_NET_COMMAND_AddCommandTable(0x2200, (u32)d_021D88EC, 3, (u32)p);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct GtsnegoDispCtx *)p)->fC);
     GFL_USE_CancelChangeAndPlayBgm(0x486, 0xffff);
     GFL_NET_RestartWithDefaultTimeout(1, ((struct GtsnegoDispCtx *)p)->fC);
-    func_0200F7E8(1);
+    GFL_NET_ERR_SetKeepDark(1);
     GTSNEGO_DISP_SetStateCallback(p, GTSNEGO_DISP_ShowPartySelect, 0x96a);
     return 1;
 }
@@ -2172,7 +2174,7 @@ int GTSNEGO_DISP_Step(int a, int b, int c, u8 *p)
                 WIPE_SetBrightnessFadeOut(1, 0);
                 break;
             case 3:
-                func_0200F7DC();
+                GFL_NET_ERR_Halt();
                 break;
             }
         }
@@ -2194,7 +2196,7 @@ int GTSNEGO_DISP_Step(int a, int b, int c, u8 *p)
  */
 int GTSNEGO_DISP_Delete(void *p, int a, int b, struct GtsnegoDispCtx *q)
 {
-    func_0200F7F4();
+    GFL_NET_ERR_ClearKeepDark();
     if (!WIPE_SYS_EndCheck()) return 0;
     if (GFL_NET_GetRunState()) GFL_NET_COMMAND_DeleteCommandTable(0x2200);
     if (q->f34) APP_TASKMENU_WIN_Delete(q->f34);
@@ -2498,15 +2500,15 @@ void GTSNEGO_DISP_RegisterGraphics(u8 *p)
     int i;
     void *t;
     t=ARC_TOOL_CreateHandle((u32)((void *)144),((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049B68(t,3,4,0,192,((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049B68(t,1,4,0,64,((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadPaletteFromHandleWhole(t,3,4,0,192,((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadPaletteFromHandleWhole(t,1,4,0,64,((struct GtsnegoMsgCtx *)p)->fF4);
     *(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f8=ARC_UTIL_RegisterObjCharFromHandle(t,6,7,0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049990(t,17,7,0,(u16)(*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f8),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(t,17,7,0,(u16)(*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f8),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f0=ARC_UTIL_RegisterObjCharFromHandle(t,8,4,0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049990(t,18,4,0,(u16)(((struct GtsnegoMsgCtx *)p)->f0),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049B68(t,1,0,0,0,((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(t,18,4,0,(u16)(((struct GtsnegoMsgCtx *)p)->f0),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadPaletteFromHandleWhole(t,1,0,0,0,((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f4=ARC_UTIL_RegisterObjCharFromHandle(t,6,0,0,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049990(t,12,0,0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(t,12,0,0,(u16)(((struct GtsnegoMsgCtx *)p)->f4),0,0,((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f70=(void *)CLACT_RegisterCharacter(t,5,0,1,((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f24=(void *)CLACT_RegisterPaletteEx(t,0,1,320,0,1,((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->fBC=(void *)CLACT_RegisterCellAnim(t,10,22,((struct GtsnegoMsgCtx *)p)->fF4);
@@ -2553,8 +2555,8 @@ void GTSNEGO_DISP_RedrawActors(u8 *p)
     void *t;
     GTSNEGO_DISP_Noop(p, 0);
     t = ARC_TOOL_CreateHandle(144, ((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049990(t, 19, 4, 0, (u16)(((struct GtsnegoMsgCtx *)p)->f0), 0, 0, ((struct GtsnegoMsgCtx *)p)->fF4);
-    func_02049990(t, 20, 4, 0, (u16)(((struct GtsnegoMsgCtx *)p)->f0), 192, 0, ((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(t, 19, 4, 0, (u16)(((struct GtsnegoMsgCtx *)p)->f0), 0, 0, ((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(t, 20, 4, 0, (u16)(((struct GtsnegoMsgCtx *)p)->f0), 192, 0, ((struct GtsnegoMsgCtx *)p)->fF4);
     ARC_TOOL_DeleteHandle(t);
     GTSNEGO_MSG_CreateActorAt(p, 96, 56, 0);
     GTSNEGO_MSG_CreateActorAt(p, 240, 56, 1);
@@ -2580,7 +2582,7 @@ void GTSNEGO_DISP_ResetActors(u8 *p)
     GTSNEGO_MSG_DeleteActors(p);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 32, 32, 17);
     BG_SYS_SetFlagField06(6);
-    func_02049990(t, 18, 4, 0, (u16)(((struct GtsnegoMsgCtx *)p)->f0), 0, 0, ((struct GtsnegoMsgCtx *)p)->fF4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(t, 18, 4, 0, (u16)(((struct GtsnegoMsgCtx *)p)->f0), 0, 0, ((struct GtsnegoMsgCtx *)p)->fF4);
     BG_SYS_SetFlagField06(4);
     ARC_TOOL_DeleteHandle(t);
 }

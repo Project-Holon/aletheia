@@ -21,7 +21,7 @@
  *   G3D_CAMERA_GetNearClipAlt 0x02048B9C arm
  *   G3D_CAMERA_GetFarClipAlt 0x02048BB0 arm
  *   DOUBLE3DDISP_Init 0x0204E8C0 arm
- *   func_02005654 0x02005654 thumb
+ *   GFL_USE_SetVBlankHook 0x02005654 thumb
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   _ffltu 0x0209BE04 arm
  *   _fadd 0x0209C95C arm
@@ -30,7 +30,7 @@
  *   ICA_ANIME_SetFrame 0x020115EC thumb
  *   G3D_UTIL_Create 0x02047CFC arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
@@ -41,7 +41,7 @@
  *   d_021BFCD4 0x021BFCD4 data a4
  *   d_021BFCEC 0x021BFCEC data a4
  *   DEMO3D_CMDSYS_Delete 0x021BF810 thumb ov203
- *   func_0200566C 0x0200566C thumb
+ *   GFL_USE_ClearVBlankHook 0x0200566C thumb
  *   DOUBLE3DDISP_Exit 0x0204EA0C arm
  *   ICA_ANIME_Delete 0x02011558 thumb
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
@@ -150,7 +150,7 @@ extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
 
 extern void DOUBLE3DDISP_Init(u32);
 
-extern int func_02005654(int a, int b);
+extern int GFL_USE_SetVBlankHook(int a, int b);
 
 extern void MTX_Identity33_(void *);
 
@@ -168,7 +168,6 @@ extern u32 G3D_UTIL_Create(u16, u16, u32);
 
 extern u16 G3D_UTIL_AddUnit(u32, void *);
 
-extern u32 func_02048A18(u8 *a0, int i);
 
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 
@@ -180,7 +179,7 @@ extern u32 DEMO3D_CMDSYS_Create(struct Ctx *, u32);
 
 extern void DEMO3D_CMDSYS_Delete(char *p);
 
-extern void func_0200566C(void);
+extern void GFL_USE_ClearVBlankHook(void);
 
 extern int DOUBLE3DDISP_Exit(void);
 
@@ -353,7 +352,7 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     ctx->animeOn = DEMO3D_DATA_GetAnimCount((void *)ctx->id);
     if (ctx->animeOn) {
         DOUBLE3DDISP_Init(heap);
-        func_02005654((int)DEMO3D_GRAPHIC_DeleteDouble3d, 0);
+        GFL_USE_SetVBlankHook((int)DEMO3D_GRAPHIC_DeleteDouble3d, 0);
     }
     ctx->scale[0] = 0;
     ctx->scale[1] = 0;
@@ -379,7 +378,7 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     }
     DEMO3D_DATA_Delete(e);
     for (j = 0; j < ctx->count; j++) {
-        h = func_02048A18((u8 *)ctx->table, (u16)ctx->indices[j]);
+        h = G3D_UTIL_GetObject((u8 *)ctx->table, (u16)ctx->indices[j]);
         cnt = G3D_SYSTEM_GetObjectAnimeCount((int *)h);
         for (k = 0; k < cnt; k++) {
             if (ctx->data.frame)
@@ -401,7 +400,7 @@ void DEMO3D_ENGINE_Delete(struct Ctx *ctx, int b, int c, u32 d)
     DEMO3D_CMDSYS_Delete((char *)ctx->cmdSys);
     DEMO3D_GRAPHIC_DeleteCamera(ctx->light);
     if (ctx->animeOn) {
-        func_0200566C();
+        GFL_USE_ClearVBlankHook();
         DOUBLE3DDISP_Exit();
     }
     ICA_ANIME_Delete(ctx->anime);

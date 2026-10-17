@@ -44,7 +44,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -68,7 +68,7 @@
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
@@ -135,7 +135,7 @@ extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
 extern u32 ZONEDATA_GetPlaceNameId(u32 townId);
-extern void func_02045CAC(struct MsgBank *msg, u32 index, struct StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *msg, u32 index, struct StrBuf *dest);
 extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -156,7 +156,7 @@ extern void BMP_WIN_Init(u16 heap);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *templ, u32 type);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void func_02049B68(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heap);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
@@ -227,7 +227,7 @@ void TOWNMAP_GRH_PrintTextBoxMessage(TownMapTextBox *box, u32 msgId, int x, int 
     struct BmpWin *win;
 
     BMP_Clear(BMP_WIN_GetBmp(box->win), 0);
-    func_02045CAC(box->msg, msgId, box->text);
+    MSGDATA_ReadString(box->msg, msgId, box->text);
     PRINTSYS_Print(BMP_WIN_GetBmp(box->win), x, y, box->text, box->font);
     win = box->win;
     BMP_WIN_TransferChars(win);
@@ -462,13 +462,13 @@ void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId)
         BG_SYS_SetPlaneVisible(bgId, 1);
     }
     arc = ARC_TOOL_CreateHandle(0x55, heapId);
-    func_02049B68(arc, 0, 2, 0x6000, 0x2000, heapId);
-    func_02049B68(arc, 0, 2, 0x4000, 0x2000, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 0, 2, 0x6000, 0x2000, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 0, 2, 0x4000, 0x2000, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 5, 2, 0, 0x10000, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 7, 3, 0, 0x10000, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x11, 2, 0, 0x800, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x10, 3, 0, 0x800, 0, heapId);
-    func_02049B68(arc, 1, 4, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 4, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 6, 5, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0xf, 5, 0, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1c0, 0x20, heapId);

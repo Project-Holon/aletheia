@@ -66,7 +66,7 @@ void DWCi_SCREENlInit(void *scr)
  * sdk:      DWCi_SCREENlEnd (libdwcutil.TWL.HYB.a screen.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CE6C4.c \n *       --func DWCi_SCREENlEnd --addr 0x021CE6C4 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SCREENlEnd.c \n *       --func DWCi_SCREENlEnd --addr 0x021CE6C4 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
 void DWCi_SCREENlEnd(void)
 {
@@ -114,7 +114,7 @@ static void taskLoad(void)
  * sdk:      DWCi_SCREENlCopyPalette (libdwcutil.TWL.HYB.a screen.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CE7B0.c \n *       --func DWCi_SCREENlCopyPalette --addr 0x021CE7B0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SCREENlCopyPalette.c \n *       --func DWCi_SCREENlCopyPalette --addr 0x021CE7B0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
 void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor)
 {
@@ -128,7 +128,7 @@ void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor)
  * sdk:      taskCopyPltt (libdwcutil.TWL.HYB.a screen.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CE7EC.c \n *       --func taskCopyPltt --addr 0x021CE7EC --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/taskCopyPltt.c \n *       --func taskCopyPltt --addr 0x021CE7EC --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
 static void taskCopyPltt(void *task)
 {
@@ -157,7 +157,7 @@ void DWCi_SCREENlSetPalette(unsigned int v)
  * sdk:      taskSetPltt (libdwcutil.TWL.HYB.a screen.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CE844.c \n *       --func taskSetPltt --addr 0x021CE844 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/taskSetPltt.c \n *       --func taskSetPltt --addr 0x021CE844 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
 static void taskSetPltt(void *task)
 {

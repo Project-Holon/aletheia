@@ -26,7 +26,7 @@
  *   GFL_NET_StartTimingSync  0x0203D594  arm
  *   GFL_NET_CheckTimingSync  0x0203D5A0  arm
  *   BSUBWAY_SCR_GetParty  0x021CA210  thumb  ov021
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   BSUBWAY_SCR_GetWinCount  0x021CA234  thumb  ov021
@@ -57,7 +57,7 @@ extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_StartTimingSync();
 extern int GFL_NET_CheckTimingSync();
 extern void *BSUBWAY_SCR_GetParty(u8 *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u16 BSUBWAY_SCR_GetWinCount(u8 *p);
@@ -183,7 +183,7 @@ void BSUBWAY_COMM_SetSendPlayerData(BsubwayScrWork *work, void *gameData)
 
     myStatus = GAME_DATA_GetMyStatus(gameData);
     party = BSUBWAY_SCR_GetParty((u8 *)work);
-    work->sendBuf.player.sex = func_02008550(myStatus);
+    work->sendBuf.player.sex = MYSTATUS_GetOutfitVariant(myStatus);
     for (i = 0; i < 2; i++)
         work->sendBuf.player.monsNo[i] = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, work->memberIndex[i]), 5, 0);
     work->sendBuf.player.stage = BSUBWAY_SCR_GetStageNo(BSUBWAY_SCR_GetWinCount((u8 *)work));

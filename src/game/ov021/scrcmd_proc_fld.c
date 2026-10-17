@@ -37,9 +37,9 @@
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   BEACON_GetPoints  0x0200C274  thumb
  *   GDS_PROFILE_GetScoreRecTotal  0x0200DABC  thumb
- *   func_02007FB8  0x02007FB8  thumb
- *   func_02007E3C  0x02007E3C  thumb
- *   func_0200823C  0x0200823C  thumb
+ *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb
+ *   MYITEM_SAVEDATA_CanAddItem  0x02007E3C  thumb
+ *   MYITEM_SAVEDATA_GetMaxStack  0x0200823C  thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -54,7 +54,7 @@
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   RECORD_AddCounter  0x02008DAC  thumb
- *   func_02008DF0  0x02008DF0  thumb
+ *   RECORD_AddOne  0x02008DF0  thumb
  *   BEACON_SubPoints  0x0200C29C  thumb
  *   GDS_PROFILE_SubScoreRecTotal  0x0200DA98  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -62,7 +62,7 @@
  *   BMP_MENULIST_Redraw  0x02020234  thumb
  *   BMP_MENU_CreateYesNo  0x0201FDA0  thumb
  *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
- *   func_02007E50  0x02007E50  thumb
+ *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
@@ -94,9 +94,9 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BG_SYS_ClearSlot 0x020414EC arm
@@ -105,8 +105,8 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
- *   func_02049F78 0x02049F78 arm
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   CLACT_CreateActor  0x0204B294  arm
@@ -136,11 +136,11 @@
  *   BMP_MENUWORK_CountItems 0x0201F91C thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_02020D0C 0x02020D0C thumb
+ *   BMP_MENULIST_GetUserData 0x02020D0C thumb
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
- *   func_02007F68 0x02007F68 thumb
- *   func_020202FC 0x020202FC thumb
+ *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
+ *   BMP_MENULIST_GetPos 0x020202FC thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BMP_MENULIST_Delete  0x0202020C  thumb
  *   WORDSET_SetSlotFromBank  0x0201EF6C  thumb
@@ -171,7 +171,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
@@ -183,7 +183,7 @@
  *   ov170_id       0x000000AA  data  a1
  *   d_021EF78C     0x021EF78C  data  ov170  a4
  *   EVENT_NAMEIN_Create  0x021CD2A4  thumb  ov021
- *   func_02011290  0x02011290  thumb
+ *   VM_End  0x02011290  thumb
  *   SCRIPT_SYS_SetNextEventFromWork  0x0215898C  thumb  ov010
  *   SCRCMD_NETWORK_CreateCommBattleEvent  0x0215F8A8  thumb  ov010
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
@@ -344,11 +344,11 @@ extern u32 BEACON_GetPoints(struct Blk34 *p);
 
 extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
 
-extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
+extern u32 MYITEM_SAVEDATA_GetItemQuantity(u8 *base, u16 id, u16 d);
 
-extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_CanAddItem(u8 *base, u16 id, u16 qty, u16 d);
 
-extern u32 func_0200823C(u32 a);
+extern u32 MYITEM_SAVEDATA_GetMaxStack(u32 a);
 
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 
@@ -382,7 +382,7 @@ extern void GDS_PROFILE_SubScoreRecTotal(struct Blk1AC *p, u16 v);
 
 extern u32 RECORD_AddCounter(struct Sub02008C20Obj *obj, int i, u32 delta);
 
-extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
@@ -394,7 +394,7 @@ extern u32 BMP_MENU_CreateYesNo(const void *a, u32 b, u32 c, u32 d, u32 e);
 
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 
-extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_AddItem(u8 *base, u16 id, u16 qty, u16 d);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
@@ -446,11 +446,11 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -468,9 +468,9 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern unsigned FILE_UTIL_Get(unsigned a, unsigned b);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void CLACT_TransferPalette(u32 a, u32 b, u32 c);
 
@@ -514,15 +514,15 @@ extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern u32 func_02020D0C(u8 *p);
+extern u32 BMP_MENULIST_GetUserData(u8 *p);
 
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
-extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d);
 
-extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
+extern void BMP_MENULIST_GetPos(struct Obj *obj, u16 *a, u16 *b);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
@@ -576,7 +576,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *p);
 
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 
-extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 
@@ -598,7 +598,7 @@ extern void *SCRCMD_NETWORK_CreateCommBattleEvent(void *p, int a1);
 
 extern void SCRIPT_SYS_SetNextEventFromWork(int a, int b);
 
-extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
+extern struct ScriptVm *VM_End(struct ScriptVm *vm);
 
 extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
 
@@ -959,8 +959,8 @@ void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop)
     u32 price;
 
     money = SCRCMD_PROC_FLD_GetShopCurrency(shop);
-    ownedCount = func_02007FB8((u8 *)(shop->bagData), shop->itemId, shop->heapId);
-    if (func_02007E3C((u8 *)(shop->bagData), shop->itemId, 1, shop->heapId) == 0) {
+    ownedCount = MYITEM_SAVEDATA_GetItemQuantity((u8 *)(shop->bagData), shop->itemId, shop->heapId);
+    if (MYITEM_SAVEDATA_CanAddItem((u8 *)(shop->bagData), shop->itemId, 1, shop->heapId) == 0) {
         SCRCMD_PROC_FLD_ShowItemMessage(shop, 10, shop->itemId, 0);
         shop->state = SHOP_STATE_MESSAGE_WAIT;
         shop->nextState = SHOP_STATE_LIST_RESUME;
@@ -987,8 +987,8 @@ void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop)
         if (shop->maxQuantity > 99) {
             shop->maxQuantity = 99;
         }
-        if (shop->maxQuantity + ownedCount > func_0200823C(shop->itemId)) {
-            shop->maxQuantity = func_0200823C(shop->itemId) - ownedCount;
+        if (shop->maxQuantity + ownedCount > MYITEM_SAVEDATA_GetMaxStack(shop->itemId)) {
+            shop->maxQuantity = MYITEM_SAVEDATA_GetMaxStack(shop->itemId) - ownedCount;
         }
     } else {
         SCRCMD_PROC_FLD_ShowConfirmMessage(shop, shop->isTmShop);
@@ -1059,7 +1059,7 @@ void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost)
         GDS_PROFILE_SubScoreRecTotal((struct Blk1AC *)(shop->battlePointData), cost);
         RECORD_AddCounter((struct Sub02008C20Obj *)(shop->recordData), 0x22, cost);
     }
-    func_02008DF0((struct Sub02008C20Obj *)(shop->recordData), 0x15);
+    RECORD_AddOne((struct Sub02008C20Obj *)(shop->recordData), 0x15);
 }
 
 /*
@@ -1131,15 +1131,15 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
         SCRCMD_PROC_FLD_ShowItemMessage(shop, 9, shop->itemId, *(s16 *)&shop->quantity > 1);
         SCRCMD_PROC_FLD_PayPrice(shop, shop->price * *(s16 *)&shop->quantity);
         SCRCMD_PROC_FLD_PrintMoneyWindow(shop);
-        func_02007E50((u8 *)(shop->bagData), shop->itemId, shop->quantity, shop->heapId);
+        MYITEM_SAVEDATA_AddItem((u8 *)(shop->bagData), shop->itemId, shop->quantity, shop->heapId);
         shop->state = SHOP_STATE_MESSAGE_WAIT;
         shop->nextState = SHOP_STATE_BONUS_ITEM;
         break;
     case SHOP_STATE_BONUS_ITEM:
         if (shop->itemId == 4 && *(s16 *)&shop->quantity >= 10) {
             SCRCMD_PROC_FLD_ShowItemMessage(shop, 15, shop->itemId, *(s16 *)&shop->quantity > 1);
-            func_02007E50((u8 *)(shop->bagData), 12, 1, shop->heapId);
-            func_02008DF0((struct Sub02008C20Obj *)(shop->recordData), 0x1F);
+            MYITEM_SAVEDATA_AddItem((u8 *)(shop->bagData), 12, 1, shop->heapId);
+            RECORD_AddOne((struct Sub02008C20Obj *)(shop->recordData), 0x1F);
             shop->state = SHOP_STATE_MESSAGE_WAIT;
             shop->nextState = SHOP_STATE_LIST_RESUME;
         } else {
@@ -1310,9 +1310,9 @@ void SCRCMD_PROC_FLD_InitShopGraphics(ShopWork *shop)
 
     *(volatile u16 *)0x04000050 = 0;
     archive = ARC_TOOL_CreateHandle(54, shop->heapId);
-    func_02049B68(archive, 1, 0, 0, 96, shop->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 1, 0, 0, 96, shop->heapId);
     ARC_UTIL_UploadBgCharFromHandle(archive, 0, 2, 100, 0, 0, shop->heapId);
-    func_02049990(archive, 2, 2, 0, 100, 0, 0, shop->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 2, 2, 0, 100, 0, 0, shop->heapId);
     ARC_TOOL_DeleteHandle(archive);
     BMP_MENUWORK_LoadCharAndPltt(1, 228, 9, 0, shop->heapId);
     BG_SYS_ClearSlot(1);
@@ -1354,8 +1354,8 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
     u32 plttBuf;
 
     if (itemId <= 0x272) {
-        charBuf = (u32)func_02049F78((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 2), (u32)(&charData), shop->heapId);
-        plttBuf = (u32)func_02049E74((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 1), 0, (u32)(&plttData), shop->heapId);
+        charBuf = (u32)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 2), (u32)(&charData), shop->heapId);
+        plttBuf = (u32)ARC_UTIL_LoadScreenDataFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 1), 0, (u32)(&plttData), shop->heapId);
         CLACT_TransferPalette(shop->iconCharRes, charData, 1);
         CLACT_TransferCharacter(shop->iconPlttRes, (struct Sub0204A9D0 *)plttData);
         GFL_HEAP_Free((void *)charBuf);
@@ -1485,7 +1485,7 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
 
 /*
  * The spilled second parameter is a u16 (SCRCMD_PROC_FLD_PickQuantityOutcome passes a u16 field
- * to func_02007FB8 in the same slot): as u32 its entry spill
+ * to MYITEM_SAVEDATA_GetItemQuantity in the same slot): as u32 its entry spill
  * `str r1, [sp, #8]` lands after the `lsls` instead of before it.
  *
  * Addresses are Black-image addresses.
@@ -1497,7 +1497,7 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId)
     formatText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x17);
     expandedText = (u32)STRBUF_Create(0x14, shop->heapId);
     BMP_MENUWORK_DrawWindow((void *)(shop->windows[SHOP_WIN_OWNED]), 2, 0xE4, 9);
-    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, func_02007FB8((u8 *)(shop->bagData), itemId, shop->heapId), 3, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, MYITEM_SAVEDATA_GetItemQuantity((u8 *)(shop->bagData), itemId, shop->heapId), 3, 0, 1);
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
     bitmap = (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_OWNED]);
     BMP_Clear((struct CharBuf *)bitmap, 0xF);
@@ -1611,7 +1611,7 @@ void SCRCMD_PROC_FLD_PrintListText(void *printSys, u32 bitmap, int x, int y, u32
  * Twin of SCRCMD_PROC_FLD_PrintUniqueItemEntry (its else arm alone). The u8 third parameter is
  * what keeps the reload of its spill slot just before the last call; as u32
  * the reload is hoisted above the hi - lo subtraction. The first parameter
- * is forwarded untouched to func_02020D0C.
+ * is forwarded untouched to BMP_MENULIST_GetUserData.
  *
  * Addresses are Black-image addresses.
  */
@@ -1621,7 +1621,7 @@ void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *listMenu, int row, u8 y)
     u32 textWidth;
     int windowWidth;
 
-    shop = (ShopWork *)func_02020D0C(listMenu);
+    shop = (ShopWork *)BMP_MENULIST_GetUserData(listMenu);
     if (row != -2) {
         WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 0, 1);
         WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
@@ -1643,9 +1643,9 @@ void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 listMenu, int row, u8 y)
     u32 textWidth;
     int windowWidth;
 
-    shop = (ShopWork *)func_02020D0C((void *)listMenu);
+    shop = (ShopWork *)BMP_MENULIST_GetUserData((void *)listMenu);
     if (row != -2) {
-        if (func_02007F68((u8 *)(shop->bagData), shop->items[row].itemId, 1, shop->heapId) != 0) {
+        if (MYITEM_SAVEDATA_HasItem((u8 *)(shop->bagData), shop->items[row].itemId, 1, shop->heapId) != 0) {
             textWidth = GF_FONT_MeasureWidestLine((struct StrObj *)(shop->soldOutText), shop->fontInfo, 0);
             windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
             SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
@@ -1667,8 +1667,8 @@ void SCRCMD_PROC_FLD_OnListCursorMove(u32 listMenu, u32 row)
     ShopWork *shop;
     ShopItem *items;
 
-    shop = (ShopWork *)func_02020D0C((void *)listMenu);
-    func_020202FC((struct Obj *)listMenu, &cursorPos[1], &cursorPos[0]);
+    shop = (ShopWork *)BMP_MENULIST_GetUserData((void *)listMenu);
+    BMP_MENULIST_GetPos((struct Obj *)listMenu, &cursorPos[1], &cursorPos[0]);
     cursorPos[2] = 0xAC;
     cursorPos[3] = cursorPos[0] * 16 + 0x16;
     CLACT_AddActorSurfacePos((struct Obj *)(shop->cursorActor), (const struct Vec2 *)(&cursorPos[2]), 0);
@@ -1925,7 +1925,7 @@ int SCRCMD_PROC_FLD_CallOv004Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 
 /*
  * 2026-10-02: closed by seeding ov001 0x02154694 (Thumb tail-call thunk to
- * EVENT_GTSNEGO_Create, filed as ov001_func_02154694.c). Old note: it sat inside the ov001 pool at 02154690
+ * EVENT_GTSNEGO_Create, filed as EVENT_GTSNEGO_Entry.c). Old note: it sat inside the ov001 pool at 02154690
  * (ldr r3,[pc]; bx r3; .word EVENT_GTSNEGO_Create+1) so sole-ref/code finds no func_ label;
  * abs_id_01 is the overlay id 1 that GAME_EVENT_CreateOverlayEvent loads (not an OVERLAY_ID_CONSUMER).
  *
@@ -2020,7 +2020,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     work->party = GAME_DATA_GetMyParty(gameData);
     work->myItem = (u32)GAME_DATA_GetMyItem(gameData);
     work->myStatus = GAME_DATA_GetMyStatus(gameData);
-    work->saveStateA = (u32)func_0200873C(saveControl);
+    work->saveStateA = (u32)SYSTEM_DATA_GetConfig(saveControl);
     work->saveStateB = ZUKAN_SAVE_IsNationalDexEnabled(saveStateSource);
     work->kind = kind;
     work->extraData = 0;
@@ -2070,7 +2070,7 @@ int SCRCMD_PROC_FLD_SetNextEventAndEnd(struct ScriptVm *vm, struct ScrcmdWork *c
 
     ICA_ANIME_GetField20(gameSystem);
     SCRIPT_SYS_SetNextEventFromWork((int)scriptWork, (int)SCRCMD_NETWORK_CreateCommBattleEvent(gameSystem, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
-    func_02011290(vm);
+    VM_End(vm);
     return 1;
 }
 

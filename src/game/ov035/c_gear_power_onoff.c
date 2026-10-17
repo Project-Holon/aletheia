@@ -40,10 +40,10 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_02008550 0x02008550 thumb
- *   func_02049B68 0x02049B68 arm
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   sBgCharFileIds    0x021F05B0 data a4
  *   sBgPaletteFileIds    0x021F05BC data ov035 a4
@@ -161,10 +161,10 @@ extern void BG_SYS_PushTile(u32 layer);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 func_02008550(const struct MyStatus *myStatus);
-extern void func_02049B68(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *myStatus);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void func_02049990(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
+extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
     u32 heap);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
@@ -309,11 +309,11 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
     BG_SYS_PushTile(4);
     BG_SYS_SetPlaneVisible((u8)4, 1);
     arc = ARC_TOOL_CreateHandle(0x1E, heapId);
-    i = func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem)));
-    func_02049B68(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
+    i = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(work->gameSystem)));
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
     charAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
     work->bgCharAlloc = charAlloc;
-    func_02049990(arc, 3, 6, 0, (u16)charAlloc, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 3, 6, 0, (u16)charAlloc, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
 }
 

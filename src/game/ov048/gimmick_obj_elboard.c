@@ -105,7 +105,7 @@
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   KEY_GetTrg  0x020362DC  arm
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  */
 
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * (1 << 12) + 0.5f) : ((x) * (1 << 12) - 0.5f)))
@@ -313,7 +313,7 @@ extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *taskManager);
 extern u32 KEY_GetTrg(void);
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, GameEventFunc func, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 void GIMMICK_OBJ_ELBOARD_AddMessage(GateWork *work, ElboardMessage *msg, int kind, GateNewsEntry *entry);
 void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work);
 void GIMMICK_OBJ_ELBOARD_FillDefaultMessages(GateWork *work);
@@ -1309,7 +1309,7 @@ struct GameEvent *GIMMICK_OBJ_ELBOARD_CreateCameraEvent(struct GameSystem *gameS
     GateCameraEventWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, GIMMICK_OBJ_ELBOARD_CameraEventMain, 0x20);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->frames = frames;

@@ -16,8 +16,8 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02049B68  0x02049B68  arm
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -82,8 +82,8 @@ typedef struct NoGearWork {
 extern struct ArchiveHandle *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 func_02008550(const struct PlayerStatus *player);
-extern void func_02049B68(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
+extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *player);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(struct ArchiveHandle *archive);
@@ -145,8 +145,8 @@ void NO_GEAR_LoadGraphics(NoGearWork *work)
     int variant;
 
     archive = ARC_TOOL_CreateHandle(0x1E, work->heapId);
-    variant = func_02008550(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
-    func_02049B68(archive, gNoGearPaletteFileIds[variant], 4, 0, 0, work->heapId);
+    variant = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, gNoGearPaletteFileIds[variant], 4, 0, 0, work->heapId);
     work->charBlock = ARC_UTIL_RegisterObjCharFromHandle(archive, gNoGearCharFileIds[variant], 6, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 3, 6, 0, (u16)work->charBlock, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(archive);

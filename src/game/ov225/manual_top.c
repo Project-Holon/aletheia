@@ -26,7 +26,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
@@ -98,7 +98,7 @@ extern void APP_TASKMENU_WIN_Update(u8 *p);
 
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
 
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -235,7 +235,7 @@ void MANUAL_COMMON_DialogTaskNoop(void *unused)
  */
 void MANUAL_COMMON_LoadDialogAssets(char *dialog)
 {
-    func_02049B68((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
     ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
     ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 4, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
     MANUAL_COMMON_CreateDialogWindows(dialog);

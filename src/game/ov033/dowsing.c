@@ -88,7 +88,7 @@
  *   APP_ICON_GetMoveKindAnimFileId 0x02027618 thumb
  *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
  *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
@@ -213,7 +213,7 @@ extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
-extern void func_02049B68(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 fileId, u32 compressed, void **outData, u16 heapId);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 value);
@@ -810,7 +810,7 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         u16 base;
 
         archive = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), ownerHeapId);
-        func_02049B68(archive, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, ownerHeapId);
+        ARC_UTIL_UploadPaletteFromHandleWhole(archive, APP_ICON_GetStatusAnimFileId(), 4, 0x40, 0x20, ownerHeapId);
         work->bgCharRegion4 = ARC_UTIL_RegisterObjCharFromHandle(archive, APP_ICON_GetStatusFrameFileId(), 4, 0, 0, ownerHeapId);
         screenFile = ARC_UTIL_LoadPaletteDataFromHandle(archive, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, ownerHeapId);
         base = work->bgCharRegion4;

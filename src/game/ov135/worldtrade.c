@@ -47,10 +47,10 @@
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOBJPltt 0x0207E51C  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   d_02202BE0     0x02202BE0  data
  *   SAVEDATA_PanicFail 0x02034714 arm
@@ -76,7 +76,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
- *   func_020056BC  0x020056BC  thumb
+ *   GFL_USE_GetMainTaskList  0x020056BC  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -277,13 +277,13 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
 extern void DC_FlushRange(void *p, u32 size);
 
 extern void GX_LoadOBJPltt(const void *src, u32 offset, u32 size);
 
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -327,7 +327,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern void CLACT_ExitSystem(void);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 
@@ -650,7 +650,7 @@ void WORLDTRADE_SetupWindowPlanes(void)
  * palette and animation sets into the resource block at +0xBC0, the
  * OBJ palette from archive 7 at 0xA0 and a half-brightness copy of it
  * at 0x100, and from archive 0x1F the version-dependent set (files
- * 0x11/6/0xF/0x10 when func_02008550 reports 1, else 0xE/4/0xC/0xD).
+ * 0x11/6/0xF/0x10 when MYSTATUS_GetOutfitVariant reports 1, else 0xE/4/0xC/0xD).
  */
 void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
 {
@@ -677,7 +677,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     p->res_res.f18 = CLACT_RegisterCellAnim(arc, 0x25, 0x26, 0x48);
     ARC_TOOL_DeleteHandle(arc);
 
-    buf = func_02049F34(7, 0, (u32)(&pd), 0x48);
+    buf = ARC_UTIL_LoadPaletteBlockFromArchive(7, 0, (u32)(&pd), 0x48);
     DC_FlushRange(pd->data, 0x60);
     GX_LoadOBJPltt(pd->data, 0xA0, 0x60);
     d = pd->data;
@@ -689,7 +689,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     GX_LoadOBJPltt(pd->data, 0x100, 0x60);
     GFL_HEAP_Free(buf);
 
-    if ((u8)(u32)func_02008550(p->ctx->f1C) == 1) {
+    if ((u8)(u32)MYSTATUS_GetOutfitVariant(p->ctx->f1C) == 1) {
         chr = 0x11;
         anm = 0x10;
         cell = 0xF;
@@ -909,7 +909,7 @@ void WORLDTRADE_ClearSelectedSpecies(Work *p)
 
 /*
  * blocker resolved: 0x020056BC was matched in arm9 (src/matched/
- * func_020056BC.c, shard pkt_020056BC); the call now attests as `matched`.
+ * GFL_USE_GetMainTaskList.c, shard pkt_020056BC); the call now attests as `matched`.
  * All 32 bytes are right.
  *
  * Start a frame with the 0x48-byte object held at +0xd40 and keep the result at +0xdf8.
@@ -919,7 +919,7 @@ void WORLDTRADE_ClearSelectedSpecies(Work *p)
  */
 void WORLDTRADE_CreateTimeIcon(Work *p)
 {
-    p->xDF8 = (u32)TIME_ICON_Create((void *)func_020056BC(), (void *)(p->frame),
+    p->xDF8 = (u32)TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), (void *)(p->frame),
                                         0xf, 0x10, 0x48);
 }
 

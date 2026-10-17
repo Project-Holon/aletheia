@@ -33,7 +33,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
@@ -59,12 +59,12 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -176,6 +176,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
+ *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb  arm9
  */
 #include "gsync_menu_types.h"
 
@@ -237,7 +238,7 @@ extern u32 BMP_WIN_Delete(void *d);
 
 extern int OS_IsRunOnTwl(void);
 
-extern int func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern int MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -283,9 +284,9 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -293,7 +294,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -387,7 +388,7 @@ extern int GAME_DATA_SaveStart(int a0);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
+extern int SAVE_CONTROL_WouldOverwriteSave(struct Sub020071E4Ctrl *ctrl);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -675,12 +676,12 @@ void GSYNC_MENU_OnButtonAnimEnd(GsyncMenuWork *work)
             work->msgWin = 0;
         }
         if (OS_IsRunOnTwl()) {
-            func_02045CAC(work->msgBankSub, 0x20, work->msgBuf);
+            MSGDATA_ReadString(work->msgBankSub, 0x20, work->msgBuf);
             GSYNC_MENU_PrintMessage(work, 10, 0);
             GSYNC_MENU_SetPaletteFade(work, 1);
             GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, 0x1df);
         } else {
-            func_02045CAC(work->msgBank, 7, work->msgBuf);
+            MSGDATA_ReadString(work->msgBank, 7, work->msgBuf);
             GSYNC_MENU_PrintMessageNoStream(work);
             GSYNC_MENU_SetPaletteFade(work, 1);
             GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenYesNoAfterMessage, 0x1e6);
@@ -724,7 +725,7 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *w
         ButtonWinDef *def = &defs[defIndex];
         work->buttonWins[defIndex] = BMP_WIN_Create(7, (u8)def->x, (u8)def->y, (u8)def->width, (u8)def->height, 8, 0);
         BMP_Clear(BMP_WIN_GetBmp(work->buttonWins[defIndex]), 0);
-        func_02045CAC(work->msgBank, messageIds[defIndex], work->msgBuf);
+        MSGDATA_ReadString(work->msgBank, messageIds[defIndex], work->msgBuf);
         GF_FONT_SetTextColor(0xF, 2, 0);
         if (centerX != 0)
             textX = centerX[defIndex] - GF_FONT_MeasureWidestLine(work->msgBuf, (u32)work->font, 0) / 2;
@@ -814,16 +815,16 @@ void GSYNC_MENU_LoadResources(GsyncMenuWork *work)
     work->msgBank = MSGDATA_CreateFromArchive(0, 2, 39, work->heapId);
     work->msgBankSub = MSGDATA_CreateFromArchive(0, 2, 232, work->heapId);
     arc = ARC_TOOL_CreateHandle(29, work->heapId);
-    func_02049B68(arc, 1, 4, 0, 0, work->heapId);
-    func_02049B68(arc, 0, 0, 0, 0, work->heapId);
-    paletteBlock = func_02049F78(arc, 1, (u32)(&paletteData), work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 4, 0, 0, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 0, 0, 0, 0, work->heapId);
+    paletteBlock = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 1, (u32)(&paletteData), work->heapId);
     MI_CpuCopy8(paletteData->rawData, work->palette, 0xe0);
     MI_CpuCopy8(paletteData->rawData, work->paletteDim, 0xe0);
     GSYNC_MENU_AddPaletteEntries(work->paletteDim, (const u16 *)d_021DA9D0, 7);
     GFL_HEAP_Free(paletteBlock);
     work->charBase = ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 4, 0, 0, work->heapId);
-    func_02049990(arc, 9, 4, 0, (u16)(work->charBase), 0, 0, work->heapId);
-    func_02049990(arc, 14, 6, 0, (u16)(work->charBase), 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 9, 4, 0, (u16)(work->charBase), 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 14, 6, 0, (u16)(work->charBase), 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     work->bgFrame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 0x1a0, 32, work->heapId);
@@ -1011,10 +1012,10 @@ void GSYNC_MENU_OpenYesNoMenu(GsyncMenuWork *work)
     tmpl.width = 13;
     tmpl.height = 3;
     work->menuItems[0].text = STRBUF_Create(100, work->heapId);
-    func_02045CAC(work->msgBank, 4, work->menuItems[0].text);
+    MSGDATA_ReadString(work->msgBank, 4, work->menuItems[0].text);
     work->menuItems[0].color = 0x39e0;
     work->menuItems[1].text = STRBUF_Create(100, work->heapId);
-    func_02045CAC(work->msgBank, 5, work->menuItems[1].text);
+    MSGDATA_ReadString(work->msgBank, 5, work->menuItems[1].text);
     work->menuItems[1].color = 0x39e0;
     work->taskMenu = APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
     APP_TASKMENU_SetDisableKey((int)(work->taskMenu), 1);
@@ -1098,7 +1099,7 @@ void GSYNC_MENU_StatePrintConfirmMessage(GsyncMenuWork *work)
 {
     GSYNC_MENU_SetPaletteFade(work, 1);
     BG_SYS_ClearLayerEx(5, 0);
-    func_02045CAC(work->msgBank, 3, work->msgBuf);
+    MSGDATA_ReadString(work->msgBank, 3, work->msgBuf);
     GSYNC_MENU_PrintMessageNoStream(work);
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenConfirmMenu, 0x4d0);
 }
@@ -1125,12 +1126,12 @@ void GSYNC_MENU_StateConfirmSelect(GsyncMenuWork *work)
 {
     if (APP_TASKMENU_IsFinish(work->taskMenu)) {
         if (!APP_TASKMENU_GetCursorPos(work->taskMenu)) {
-            if (func_020071F0(GAME_DATA_GetSaveControl(work->gameData))) {
-                func_02045CAC(work->msgBank, 46, work->msgBuf);
+            if (SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(work->gameData))) {
+                MSGDATA_ReadString(work->msgBank, 46, work->msgBuf);
                 GSYNC_MENU_PrintMessageNoStream(work);
                 GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, 0x50d);
             } else {
-                func_02045CAC(work->msgBank, 6, work->msgBuf);
+                MSGDATA_ReadString(work->msgBank, 6, work->msgBuf);
                 GSYNC_MENU_PrintMessage(work, 4, 0);
                 GSYNC_MENU_RestartTimeIcon(work);
                 GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveStart, 0x519);

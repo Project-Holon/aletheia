@@ -17,7 +17,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
@@ -205,7 +205,7 @@ enum {
 };
 
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc handler, u32 workSize);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern struct GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
@@ -402,7 +402,7 @@ int EVENT_COMM_ERROR_SubProcEnd(void *proc, int *seq, void *procWork, void *myWo
 GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *parent, u32 count)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_RECOVERY_RunBalls, sizeof(RecoveryBallsWork));
-    RecoveryBallsWork *work = func_020124E8(event);
+    RecoveryBallsWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_RECOVERY_InitBalls(work, gameSystem, count);
     return event;
@@ -575,7 +575,7 @@ int EVENT_RECOVERY_AreBallsIdle(RecoveryBallsWork *work)
 GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *parent)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_RECOVERY_RunParty, sizeof(PartyRecoveryWork));
-    PartyRecoveryWork *work = func_020124E8(event);
+    PartyRecoveryWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_RECOVERY_InitParty(work, gameSystem);
     return event;

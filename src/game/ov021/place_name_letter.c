@@ -20,7 +20,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   gPlaceNameLetterFileName     0x021DE368  data  a4
  *   BMP_Delete  0x020437AC  arm
- *   func_0209C494  0x0209C494  arm
+ *   _ffix  0x0209C494  arm
  *   BMP_Clear  0x02043B5C  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -78,7 +78,7 @@ extern Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(Bmp *bmp);
 extern BmpOam *BMP_OAM_Create(BmpOamSys *sys, const BmpOamParam *param);
 extern void BMP_OAM_Delete(BmpOam *bmpOam);
-extern u32 func_0209C494(u32 value);
+extern u32 _ffix(u32 value);
 extern void STRBUF_SetStringN(Strbuf *strbuf, const u16 *chars, u32 count);
 extern void PRINTSYS_PrintColor(Bmp *bmp, s16 x, s16 y, Strbuf *strbuf, GfFont *font, u16 color);
 extern void BMP_OAM_UploadChars(BmpOam *bmpOam);
@@ -304,13 +304,13 @@ u32 PLACE_NAME_LETTER_GetActive(PlaceNameLetter *letter)
 /* Current x position as an integer (letter + 0x10 is the motion x). */
 u32 PLACE_NAME_LETTER_GetIntX(PlaceNameLetter *letter)
 {
-    return func_0209C494(*(u32 *)&letter->motion.x);
+    return _ffix(*(u32 *)&letter->motion.x);
 }
 
 /* Current y position as an integer. */
 u32 PLACE_NAME_LETTER_GetIntY(PlaceNameLetter *letter)
 {
-    return func_0209C494(*(u32 *)&letter->motion.y);
+    return _ffix(*(u32 *)&letter->motion.y);
 }
 
 u8 PLACE_NAME_LETTER_GetWidthRaw(PlaceNameLetter *letter)

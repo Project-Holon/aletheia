@@ -24,7 +24,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   BMP_CreateFromArchive  0x0204384C  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -104,7 +104,7 @@ extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *h);
@@ -192,7 +192,7 @@ void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId)
     void *arc = ARC_TOOL_CreateHandle(200, heapId);
     u32 version;
 
-    version = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap))));
+    version = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(FIELDMAP_GetGameSystem(work->fieldMap))));
     work->charData = BMP_CreateFromArchive(200, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromHandle(arc, 1, 0, d_021DB97C[version] << 5, 0x120, 0x20, heapId);
     ARC_TOOL_DeleteHandle(arc);

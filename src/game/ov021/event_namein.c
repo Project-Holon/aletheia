@@ -17,13 +17,13 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetItemUseWork  0x02012A54  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   BEACON_GetGreetMessage  0x0200C1F4  thumb
  *   BEACON_GetThanksMessage  0x0200C20C  thumb
  *   STRBUF_SetString  0x02045924  arm
@@ -80,13 +80,13 @@ typedef struct NameInEvent {
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *vec);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAME_DATA_GetSaveControl(struct SaveControl *p);
 extern void *BEACON_GetBlock(void *sys);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetItemUseWork(const struct GameData *p);
-extern u8 func_02008550(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
 extern u16 *BEACON_GetGreetMessage(struct NameSave *p);
 extern u16 *BEACON_GetThanksMessage(struct NameSave *p);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
@@ -118,7 +118,7 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     NameInEvent *work;
 
     event = GAME_EVENT_Create(gameSystem, parentEvent, EVENT_NAMEIN_Main, 0x50);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->fieldMap = fieldMap;
@@ -129,7 +129,7 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     work->myStatus = GAME_DATA_GetMyStatus(work->gameData);
     work->beaconSave = GAME_DATA_GetItemUseWork(work->gameData);
     work->param.mode = mode;
-    work->param.gender = func_02008550(work->myStatus);
+    work->param.gender = MYSTATUS_GetOutfitVariant(work->myStatus);
     work->param.nameSave = work->nameSave;
     work->param.maxLength = gNameInMaxLength[mode - 5];
     work->param.name = (struct Strbuf *)STRBUF_Create(work->param.maxLength + 1, work->param.heapId);

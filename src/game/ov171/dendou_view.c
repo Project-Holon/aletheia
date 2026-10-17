@@ -47,7 +47,7 @@
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -79,8 +79,8 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
- *   func_0200ECD0 0x0200ECD0 thumb
- *   func_0200ECC4 0x0200ECC4 thumb
+ *   MISC_SAVEDATA_GetRingRecordIndex 0x0200ECD0 thumb
+ *   MISC_SAVEDATA_GetRingRemaining 0x0200ECC4 thumb
  *   MISC_SAVEDATA_GetRingRecordDate 0x0200ED14 thumb
  *   MISC_SAVEDATA_ExportRingRecord 0x0200ECF0 thumb
  *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
@@ -223,7 +223,7 @@ extern void BG_SYS_InitBgLayer(u32 layer, const BgTemplate *, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32), BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void BG_SYS_FreeLayerBuf(unsigned), BG_SYS_Delete(void);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *archive);
@@ -255,8 +255,8 @@ extern void MISC_SAVEDATA_ExportRecord(const void *saveBlock, int index, DendouV
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSave(void *saveControl, u32 id, u8 heap);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(void *saveControl, u32 id, u32 v);
-extern int func_0200ECD0(void *extraData, int row);
-extern u32 func_0200ECC4(void *extraData, u32 row);
+extern int MISC_SAVEDATA_GetRingRecordIndex(void *extraData, int row);
+extern u32 MISC_SAVEDATA_GetRingRemaining(void *extraData, u32 row);
 extern void MISC_SAVEDATA_GetRingRecordDate(void *extraData, int row, u32 *date);
 extern void MISC_SAVEDATA_ExportRingRecord(void *extraData, u32 row, u32 member, DendouViewMember *dst);
 extern void SAVE_CONTROL_DeleteExtraSave(void *saveControl, u32 id);
@@ -541,8 +541,8 @@ void DENDOU_VIEW_LoadGraphics(void)
 {
     void *archive = ARC_TOOL_CreateHandle(0xd5, DENDOU_VIEW_HEAP_TAIL);
 
-    func_02049B68(archive, 1, 0, 0, 0x80, DENDOU_VIEW_HEAP);
-    func_02049B68(archive, 6, 4, 0, 0x40, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 1, 0, 0, 0x80, DENDOU_VIEW_HEAP);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 6, 4, 0, 0x40, DENDOU_VIEW_HEAP);
     ARC_UTIL_UploadBgCharFromHandle(archive, 0, 0, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_UTIL_UploadBgCharFromHandle(archive, 5, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 2, 0, 0, 0, 1, DENDOU_VIEW_HEAP);
@@ -646,8 +646,8 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
             extraData = SAVE_CONTROL_GetExtraSaveRecord(saveControl, extraSaveId, 0);
             if (extraData) {
                 for (loadRow = 0; loadRow < DENDOU_VIEW_ROW_MAX; loadRow++) {
-                    work->rows[loadRow].memberCount = func_0200ECD0(extraData, loadRow);
-                    work->rows[loadRow].hallNumber = func_0200ECC4(extraData, loadRow);
+                    work->rows[loadRow].memberCount = MISC_SAVEDATA_GetRingRecordIndex(extraData, loadRow);
+                    work->rows[loadRow].hallNumber = MISC_SAVEDATA_GetRingRemaining(extraData, loadRow);
                     MISC_SAVEDATA_GetRingRecordDate(extraData, loadRow, &work->rows[loadRow].year);
                     if (work->rows[loadRow].memberCount != 0) {
                         for (member = 0; member < work->rows[loadRow].memberCount; member++)

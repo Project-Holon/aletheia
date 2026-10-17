@@ -68,7 +68,6 @@ extern int OS_IsRunOnTwl(void);
 extern void WCMi_NwmifSetDCFData();
 extern void OS_WakeupThread(void *queue);
 extern void MI_CpuCopy(void *src, void *dst, unsigned long size);
-extern void func_02082EA4(char *p, int a, int n);
 void WCMi_InitCpsif(void);
 void WCMi_CpsifRecvCallback(unsigned char *s, unsigned char *d, unsigned char *dat, long len);
 void *WCMi_GetCpsifWork(void);
@@ -286,7 +285,7 @@ void WCMi_CpsifSetMacAddress(void *mac)
  */
 void WCM_GetMacAddress(int a)
 {
-    func_02082EA4(gWcmCpsifMac, a, 6);
+    MI_CpuCopy((void *)(gWcmCpsifMac), (void *)(a), (unsigned long)(6));
 }
 
 

@@ -53,7 +53,7 @@
  *   B_PLIST_DRAW_ClearAndPrintStream 0x0220E13C thumb ov198
  *   B_PLIST_DRAW_FormatRowWord 0x0220E1D4 thumb ov198
  *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   B_PLIST_DRAW_PrintWordAndRefresh  0x0220D6AC  thumb  ov198
  *   KEY_GetCont  0x0203630C  arm
@@ -86,7 +86,7 @@
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   B_PLIST_ANM_CopyMonSpriteTiles 0x0220B120 thumb ov198
  *   B_PLIST_ANM_CopySubSpriteTiles 0x0220B3B4 thumb ov198
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
@@ -117,7 +117,7 @@
  *   d_02212130 0x02212130 data a1
  *   BGWINFRM_ScaleRatio 0x0202D01C thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_02041B6C 0x02041B6C arm
+ *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   B_PLIST_DRAW_DeleteStateWindows 0x0220BDD4 thumb ov198
  *   B_PLIST_DRAW_CreateStateWindows 0x0220BC70 thumb ov198
  *   BG_SYS_ClearLayerEx 0x02041570 arm
@@ -286,7 +286,7 @@ extern void B_PLIST_ANM_StartPaletteAnim(u8 *,u32);
 extern void B_PLIST_DRAW_ClearAndPrintStream(u8 *);
 extern void B_PLIST_DRAW_FormatRowWord(u8 *);
 extern u32 FILE_UTIL_Get_0FE4(void *,u32,u32);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *);
 extern void B_PLIST_DRAW_PrintWordAndRefresh(u8 *);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
@@ -310,12 +310,11 @@ extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_SetFlagField06(u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *func_02049EF4(void *,u32,u32,void **,u16);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
 extern void B_PLIST_ANM_CopyMonSpriteTiles(char *,u16 *);
 extern void B_PLIST_ANM_CopySubSpriteTiles(char *,u16 *);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
@@ -345,7 +344,7 @@ extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
 extern void BG_SYS_SetTileEntry(u32,u16,u8,int,u8,u8,u8);
-extern void func_02041B6C(u8);
+extern void BG_SYS_SetFlagField06(u8);
 extern void B_PLIST_DRAW_DeleteStateWindows(char *);
 extern void B_PLIST_DRAW_CreateStateWindows(u8 *,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
@@ -762,7 +761,7 @@ int B_PLIST_MAIN_ConfirmSelect(u8 *p)
 {
     u8 *q = *(u8 **)p;
     if (((struct B_PlistSlot *)(p+B_PLIST_MAIN_GetOrderIndex(p,q[32])*76))->u1A.bits.flags.high != 0) {
-        func_02045CAC(*(void **)(p+0x1ea0),91,*(void **)(p+0x1ea8));
+        MSGDATA_ReadString(*(void **)(p+0x1ea0),91,*(void **)(p+0x1ea8));
         B_PLIST_DRAW_ClearAndPrintStream(p);
         (*(u8 **)p)[32] = 6;
         *(u32 *)(p+0x217c) = 31;
@@ -1457,10 +1456,10 @@ void B_PLIST_MAIN_LoadGraphics(char *p)
     void *handle;
     char *data;
     ARC_UTIL_UploadBgCharFromHandle(owner,18,7,0,0,1,((struct B_PlistWork *)p)->owner->heapId);
-    handle=func_02049EF4(owner,16,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
+    handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,16,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
     B_PLIST_ANM_CopyMonSpriteTiles(p,(u16 *)(data+12));
     GFL_HEAP_Free(handle);
-    handle=func_02049EF4(owner,17,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
+    handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,17,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
     B_PLIST_ANM_CopySubSpriteTiles(p,(u16 *)(data+12));
     GFL_HEAP_Free(handle);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct B_PlistWork *)p)->u1D8.palAnm,100,19,((struct B_PlistWork *)p)->owner->heapId,1,0x1e0,0);
@@ -1672,7 +1671,7 @@ void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode)
         BG_SYS_SetTileEntry(7,tile,i+10,8,1,1,16);
         if(amount<8) amount=0; else amount-=8;
     }
-    func_02041B6C(7);
+    BG_SYS_SetFlagField06(7);
 }
 
 
@@ -1727,7 +1726,7 @@ void B_PLIST_MAIN_LoadModePalette(u8 *p,u32 n)
     for(;i<2;i++) {
         buf=ARC_UTIL_LoadPaletteDataFromArchive(100,table[i],1,(u32)(&out),((struct B_PlistWork *)p)->owner->heapId);
         BG_SYS_DrawTile((u8)(i+6),(u32)(out+12),0,0,32,24);
-        func_02041B6C(i+6);
+        BG_SYS_SetFlagField06(i+6);
         GFL_HEAP_Free(buf);
     }
 }

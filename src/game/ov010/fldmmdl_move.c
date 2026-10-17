@@ -46,21 +46,21 @@
  *   MAP_ATTR_IsSand 0x021AB41C thumb ov021
  *   FLDMMDL_SetAttrOffset 0x0216D900 thumb ov010
  *   d_021714D0 0x021714D0 data ov010 a4
- *   func_021AB4EC  0x021AB4EC  thumb
- *   func_021AB4F8  0x021AB4F8  thumb
- *   func_021AB434  0x021AB434  thumb
- *   func_021AB428  0x021AB428  thumb
+ *   MAP_ATTR_IsGrassSingleC  0x021AB4EC  thumb
+ *   MAP_ATTR_IsGrassDoubleC  0x021AB4F8  thumb
+ *   MAP_ATTR_IsGrassDoubleB  0x021AB434  thumb
+ *   MAP_ATTR_IsGrassSingleB  0x021AB428  thumb
  *   MAP_ATTR_IsGrassDouble  0x021AB250  thumb
  *   MAP_ATTR_IsTallGrassSingle  0x021AB264  thumb
  *   MAP_ATTR_IsTallGrassDouble  0x021AB270  thumb
  *   FLDEFF_GRASS_Start  0x021AC760  thumb
  *   FLDMMDL_GetDirMove 0x0216D608 thumb ov010
  *   MAP_ATTR_IsPuddle  0x021AB3D4  thumb
- *   func_021AB3E0  0x021AB3E0  thumb
+ *   MAP_ATTR_IsMud  0x021AB3E0  thumb
  *   MAP_ATTR_IsSnowTile  0x021AB334  thumb
  *   MAP_ATTR_IsDeepSnow  0x021AB328  thumb
  *   FLDEFF_FOOTMARK_SetMMdl  0x021BBDD4  thumb
- *   func_021AB304  0x021AB304  thumb
+ *   MAP_ATTR_IsSplashWater  0x021AB304  thumb
  *   FLDMMDL_CheckMoveBitSplash  0x0216DBE8  thumb  ov010
  *   FLDEFF_SPLASH_AddModel  0x021C4BE0  thumb
  *   FLDMMDL_SetMoveBitSplash  0x0216DBCC  thumb  ov010
@@ -80,10 +80,10 @@
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   FLDMMDL_CheckMoveBitReflect  0x0216DC34  thumb  ov010
  *   FLDMMDL_SetMoveBitReflect  0x0216DC18  thumb  ov010
- *   func_021AB440  0x021AB440  thumb  ov021
+ *   MAP_ATTR_IsMirrorFloor  0x021AB440  thumb  ov021
  *   MAP_ATTR_IsIce  0x021AB358  thumb  ov021
  *   FLDEFF_REFLECT_SetMMdl  0x021BBFB8  thumb  ov021
- *   func_021AB3EC  0x021AB3EC  thumb
+ *   MAP_ATTR_IsElectricFloor  0x021AB3EC  thumb
  *   FLDEFF_D06DENKI_StartSpark  0x021C8F7C  thumb  ov021
  *   FLDMMDL_SysGetG3dMapper  0x0216D52C  thumb  ov010
  *   FIELD_G3D_MAPPER_IsOutsideGrid  0x0218DC04  thumb  ov021
@@ -239,21 +239,21 @@ extern int FLDMMDL_CheckDrawInitComp(Mmdl *mmdl);
 extern int FLDMMDL_CheckStatusBitAttrOffsetOff(Mmdl *mmdl);
 extern int MAP_ATTR_IsSand(unsigned short);
 extern void FLDMMDL_SetAttrOffset(int, const VecFx32 *);
-extern int func_021AB4EC();
-extern int func_021AB4F8();
-extern int func_021AB434();
-extern int func_021AB428();
+extern int MAP_ATTR_IsGrassSingleC();
+extern int MAP_ATTR_IsGrassDoubleC();
+extern int MAP_ATTR_IsGrassDoubleB();
+extern int MAP_ATTR_IsGrassSingleB();
 extern int MAP_ATTR_IsGrassDouble();
 extern int MAP_ATTR_IsTallGrassSingle();
 extern int MAP_ATTR_IsTallGrassDouble();
 extern int FLDEFF_GRASS_Start();
 extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
 extern int MAP_ATTR_IsPuddle();
-extern int func_021AB3E0();
+extern int MAP_ATTR_IsMud();
 extern int MAP_ATTR_IsSnowTile();
 extern int MAP_ATTR_IsDeepSnow();
 extern int FLDEFF_FOOTMARK_SetMMdl();
-extern int func_021AB304();
+extern int MAP_ATTR_IsSplashWater();
 extern int FLDMMDL_CheckMoveBitSplash(Mmdl *mmdl);
 extern int FLDEFF_SPLASH_AddModel();
 extern int FLDMMDL_SetMoveBitSplash();
@@ -273,10 +273,10 @@ extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
 extern int FLDMMDL_CheckMoveBitReflect(Mmdl *mmdl);
 extern int FLDMMDL_SetMoveBitReflect(Mmdl *mmdl, int a1);
-extern int func_021AB440();
+extern int MAP_ATTR_IsMirrorFloor();
 extern int MAP_ATTR_IsIce(int x);
 extern void FLDEFF_REFLECT_SetMMdl(u32 a, u32 b, u32 c, u32 d);
-extern int func_021AB3EC(u16 id);
+extern int MAP_ATTR_IsElectricFloor(u16 id);
 extern int FLDEFF_D06DENKI_StartSpark(void *p, int h);
 extern struct MapGrid *FLDMMDL_SysGetG3dMapper(MmdlSys *mmdlSys);
 extern int FIELD_G3D_MAPPER_IsOutsideGrid(struct MapGrid *grid, VecFx32 *pos);
@@ -390,7 +390,7 @@ extern DirLookupEntry d_021714C0[];
 /*
  * Unblocked by the recursive MATCH unblocker: the +000A call targets
  * 0x0219B414, a labelless Thumb tail-call thunk in ov021 now matched in
- * src/matched/ov021_func_0219B414.c, so the site attests as `matched`.
+ * src/matched/FLDMMDL_MOVECODE_InitEventTypeProcThunk.c, so the site attests as `matched`.
  */
 u32 *FLDMMDL_MOVE_SetupMove(Mmdl *mmdl)
 {
@@ -620,15 +620,15 @@ int FLDMMDL_MOVE_GetFootMarkKind(u16 attrValue, u8 effectMode)
 {
     int kind = 0;
 
-    if (func_021AB4EC(attrValue) != 0) {
+    if (MAP_ATTR_IsGrassSingleC(attrValue) != 0) {
         kind = 6;
-    } else if (func_021AB4F8(attrValue) != 0) {
+    } else if (MAP_ATTR_IsGrassDoubleC(attrValue) != 0) {
         kind = 7;
-    } else if (func_021AB434(attrValue) != 0) {
+    } else if (MAP_ATTR_IsGrassDoubleB(attrValue) != 0) {
         kind = 1;
         if (effectMode == 3)
             kind = 5;
-    } else if (func_021AB428(attrValue) != 0) {
+    } else if (MAP_ATTR_IsGrassSingleB(attrValue) != 0) {
         if (effectMode == 3)
             kind = 4;
     } else if (MAP_ATTR_IsGrassDouble(attrValue) != 0) {
@@ -703,7 +703,7 @@ void FLDMMDL_MOVE_AttrEffectGround(Mmdl *mmdl, EventInfo *info)
                 if (info->objCodeParam->footMarkType == 2)
                     kind = 3;
             }
-        } else if (func_021AB3E0(info->nowAttrValue) != 0) {
+        } else if (MAP_ATTR_IsMud(info->nowAttrValue) != 0) {
             if (info->effectMode == 0 || info->effectMode == 3) {
                 kind = 2;
                 if (info->objCodeParam->footMarkType == 2)
@@ -729,7 +729,7 @@ int FLDMMDL_MOVE_AttrEffectReflect(Mmdl *mmdl, EventInfo *info)
 {
     int ret;
 
-    if (func_021AB304(info->oldAttrValue) == 1) {
+    if (MAP_ATTR_IsSplashWater(info->oldAttrValue) == 1) {
         ret = FLDMMDL_CheckMoveBitSplash(mmdl);
         if (ret != 0)
             return ret;
@@ -743,7 +743,7 @@ int FLDMMDL_MOVE_AttrEffectReflectOrBridge(Mmdl *mmdl, EventInfo *info)
 {
     int ret;
 
-    if (func_021AB304(info->oldAttrValue) == 1) {
+    if (MAP_ATTR_IsSplashWater(info->oldAttrValue) == 1) {
         ret = FLDMMDL_CheckMoveBitSplash(mmdl);
         if (ret != 0)
             return ret;
@@ -852,7 +852,7 @@ void FLDMMDL_MOVE_AttrEffectLongGrassStart(Mmdl *mmdl, EventInfo *info)
     attrOrKind = 1;
     reflectAttr = MAP_ATTR_GetTerrainId(reflectAttr);
     mmdlSys = (int)FLDMMDL_GetMmdlSys(mmdl);
-    if (func_021AB440(reflectAttr) == 1 || MAP_ATTR_IsIce(reflectAttr) == 1) {
+    if (MAP_ATTR_IsMirrorFloor(reflectAttr) == 1 || MAP_ATTR_IsIce(reflectAttr) == 1) {
         attrOrKind = 2;
     }
     FLDEFF_REFLECT_SetMMdl(mmdlSys, (u32)mmdl, info->effectCtrl, attrOrKind);
@@ -882,7 +882,7 @@ void FLDMMDL_MOVE_AttrEffectLongGrassEnd(Mmdl *mmdl, EventInfo *info)
  */
 void FLDMMDL_MOVE_AttrEffectSpecial(Mmdl *mmdl, EventInfo *info)
 {
-    if (func_021AB3EC(info->oldAttrValue) == 1)
+    if (MAP_ATTR_IsElectricFloor(info->oldAttrValue) == 1)
         FLDEFF_D06DENKI_StartSpark(mmdl, info->effectCtrl);
 }
 

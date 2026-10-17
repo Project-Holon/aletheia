@@ -33,6 +33,8 @@
  *   MSL_C_LIB_StrNICmp  0x02091C40  arm
  *   __ieee754_rem_pio2  0x02098B44  arm
  *   __kernel_cos  0x02099224  arm
+ *   _double_arith_prelude  0x0209AC04  arm
+ *   __dmul  0x0209B2E8  arm
  */
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
@@ -49,9 +51,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 
 extern double scalbn(double x, int n);
-extern double func_0209B2E8(double x, double y);
-extern double func_0209AC04(double x, double y);
-extern double func_0209AF34(double x, double y);
+extern double _dsub(double x, double y);
 extern int func_0209C508(double x);
 extern double __kernel_cos(double x, double y);
 extern double __kernel_sin(double x, double y, int iy);
@@ -237,9 +237,9 @@ recompute:
  * is anchored at the stub and the function list records the body label.
  *
  * Callees by address:
- *   func_0209B2E8  __dmul(double, double)
- *   func_0209AC04  __dadd(double, double)
- *   func_0209AF34  __dsub(double, double)
+ *   __dmul  __dmul(double, double)
+ *   _double_arith_prelude  __dadd(double, double)
+ *   _dsub  __dsub(double, double)
  *   func_0209C508  __d2s (double -> int)
  */
 double __kernel_sin(double x, double y, int iy)
@@ -569,7 +569,7 @@ double ldexp(double x, int n)
  *   __kernel_sin  __kernel_sin(double, double, int)
  *   __kernel_cos  __kernel_cos(double, double)
  *   __ieee754_rem_pio2  __ieee754_rem_pio2(double, double *)
- *   func_0209AF34  __dsub(double, double)
+ *   _dsub  __dsub(double, double)
  */
 double sin(double x)
 {

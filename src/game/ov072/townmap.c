@@ -151,7 +151,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -430,7 +430,7 @@ extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
 extern u32 ZONEDATA_GetPlaceNameId(u32 townId);
-extern void func_02045CAC(struct MsgBank *msg, u32 index, struct StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *msg, u32 index, struct StrBuf *dest);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *text, void *font, u32 spacing);
 extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
@@ -1693,45 +1693,45 @@ void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town)
     bitmap = BMP_WIN_GetBmp(sel->box.win);
     BMP_Clear(bitmap, 0);
     if (town != 0) {
-        func_02045CAC(sel->box.msg, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(town, 0)), sel->box.text);
+        MSGDATA_ReadString(sel->box.msg, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(town, 0)), sel->box.text);
         centerX = ((u32)BMP_WIN_GetWidth(sel->box.win) << 3) / 2;
         halfWidth = GF_FONT_MeasureWidestLine(sel->box.text, sel->box.font, 0) >> 1;
         centerX = centerX - halfWidth;
         PRINTSYS_Print(bitmap, centerX, 0x30, sel->box.text, sel->box.font);
         msgId = TOWNMAP_TownGetField(town, 0x11);
         if (msgId != 0xFFFF) {
-            func_02045CAC(sel->detailMsg, msgId, sel->box.text);
+            MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
             PRINTSYS_Print(bitmap, 0x1c, 0x50, sel->box.text, sel->box.font);
         }
         if (TOWNMAP_TownIsRevealed(town)) {
             msgId = TOWNMAP_TownGetField(town, 0x12);
             if (msgId != 0xFFFF) {
-                func_02045CAC(sel->detailMsg, msgId, sel->box.text);
+                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
                 PRINTSYS_Print(bitmap, 0x10, 0x80, sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x13);
             if (msgId != 0xFFFF) {
-                func_02045CAC(sel->detailMsg, msgId, sel->box.text);
+                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
                 PRINTSYS_Print(bitmap, 0x10, 0x90, sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x14);
             if (msgId != 0xFFFF) {
-                func_02045CAC(sel->detailMsg, msgId, sel->box.text);
+                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
                 PRINTSYS_Print(bitmap, 0x10, 0xa0, sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x15);
             if (msgId != 0xFFFF) {
-                func_02045CAC(sel->detailMsg, msgId, sel->box.text);
+                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
                 PRINTSYS_Print(bitmap, 0x88, 0x80, sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x16);
             if (msgId != 0xFFFF) {
-                func_02045CAC(sel->detailMsg, msgId, sel->box.text);
+                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
                 PRINTSYS_Print(bitmap, 0x88, 0x90, sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x17);
             if (msgId != 0xFFFF) {
-                func_02045CAC(sel->detailMsg, msgId, sel->box.text);
+                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
                 PRINTSYS_Print(bitmap, 0x88, 0xa0, sel->box.text, sel->box.font);
             }
         }

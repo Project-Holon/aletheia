@@ -24,7 +24,7 @@
  *   TCBL_Create  0x0203101C  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   ov067_id       0x00000043  data
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -59,11 +59,11 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
- *   func_02049DF4  0x02049DF4  arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle  0x02049DF4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   gOptionMenuDispConfig  0x021BB540  data  a4
@@ -128,7 +128,7 @@
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BG_SYS_PushTile  0x020409B4  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   PRINTSYS_CTRL_Update  0x02028484  thumb
@@ -154,7 +154,7 @@
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
- *   func_02040804  0x02040804  arm
+ *   BG_SYS_GetScrollY  0x02040804  arm
  *   gOptionMenuSettingRows     0x021BB570  data  a4
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   CLACT_ChangeActorAnimSeq  0x0204B8A0  arm
@@ -186,7 +186,7 @@
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
- *   func_020071F0  0x020071F0  thumb
+ *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -239,7 +239,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern struct TaskList *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct SaveData *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct Config *func_0200873C(struct SaveData *saveData);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveData *saveData);
 extern void TCBL_Destroy(struct TaskList *taskList);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern void PROCSYS_FreeProcWork(struct Proc *proc);
@@ -272,11 +272,11 @@ extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void func_02049B68(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 heapId);
-extern void *func_02049DF4(void *arc, u32 id, u32 b, ScreenData **out, u16 heapId);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 id, u32 b, ScreenData **out, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void *func_02049F34(u32 arcId, u32 id, PaletteResource **out, u32 heapId);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 id, PaletteResource **out, u32 heapId);
 extern void GFL_HEAP_Free(void *p);
 extern struct BmpWindow *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWindow *window);
@@ -334,7 +334,7 @@ extern u8 BMP_WIN_GetPalette(struct BmpWindow *window);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWindow *window, int a1, int a2, int palette);
 extern void BG_SYS_PushTile(u32 index);
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
-extern void func_02045CAC(struct MsgBank *msgBank, u32 index, struct StringBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *msgBank, u32 index, struct StringBuf *dest);
 extern void PRINTSYS_PrintQue(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct StringBuf *str, struct GfFont *font);
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWindow *window, u32 x, u32 y, struct StringBuf *buffer,
                                          struct GfFont *font, u32 wait, struct TaskList *taskList,
@@ -360,7 +360,7 @@ extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
 extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
 extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, TaskMenuItem *item, u8 y, u32 width, u32 height, u32 heapId);
-extern u32 func_02040804(u32 layer);
+extern u32 BG_SYS_GetScrollY(u32 layer);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void CLACT_ChangeActorAnimSeq(struct ClActor *actor, u16 v);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
@@ -386,7 +386,7 @@ extern int GF_STANDARD_CompareBytes(const u8 *, const u8 *, u32);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printSys);
-extern int func_020071F0(struct SaveData *saveData);
+extern int SAVE_CONTROL_WouldOverwriteSave(struct SaveData *saveData);
 extern void BG_SYS_Update(void);
 extern signed char MSG_SPEED_GetWait(void);
 
@@ -522,7 +522,7 @@ int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args)
     work->messageMenuRes = APP_TASKMENU_RES_Create(3, 9, work->font, work->printSys, 0x1c);
     work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x1d, 0x1c);
     work->taskList = TCBL_Create(0x1c, 0x1c, 0x20, 0x20);
-    OPTION_MENU_InitSettings(&work->savedSettings, func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem))));
+    OPTION_MENU_InitSettings(&work->savedSettings, SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem))));
     OPTION_MENU_InitRunner(&work->runner, work, OPTION_MENU_StateFadeIn);
     gameData = ICA_ANIME_GetField1C(work->args->gameSystem);
     OPTION_MENU_InitButtons(&work->buttons, OPTION_MENU_GetScreenSpriteUnit(&work->screen), work->font, work->printSys, work->msgBank, work->buttonMenuRes, gameData, 0x1c);
@@ -660,20 +660,20 @@ void OPTION_MENU_InitGfx(OptionMenuGfx *gfx, u16 heapId)
     BG_SYS_Init(4, 0, 1, 0);
     BG_SYS_Init(3, 0, 1, 0);
     arc = ARC_TOOL_CreateHandle(0x1b, heapId);
-    func_02049B68(arc, 1, 0, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0xd, 0, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0xe, 0, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0, 2, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 2, 2, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0x10, 3, 1, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromHandle(arc, 8, 0, 0x80, 0x1e0, 0x20, heapId);
-    gfx->screenBuffer = func_02049DF4(arc, 0xf, 0, &gfx->screenData, heapId);
-    func_02049B68(arc, 8, 4, 0, 0, heapId);
+    gfx->screenBuffer = ARC_UTIL_LoadBgCharDataFromHandle(arc, 0xf, 0, &gfx->screenData, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 8, 4, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 7, 5, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 9, 5, 0, 0, 0, heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0x10, 4, 1, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    buffer = func_02049F34(0x1b, 1, &pltt, heapId);
+    buffer = ARC_UTIL_LoadPaletteBlockFromArchive(0x1b, 1, &pltt, heapId);
     MI_CpuCopy8(pltt->colors + 0xe0, gfx->palette, 0x20);
     GFL_HEAP_Free(buffer);
     gfx->windows[OPTION_WINDOW_DESCRIPTION] = BMP_WIN_Create(4, 1, 0x13, 0x1e, 4, 4, 1);
@@ -1079,7 +1079,7 @@ void OPTION_MENU_PrintTextFromBank(OptionMenuTextBox *box, struct MsgBank *msgBa
     struct PrintSys *printSys;
 
     BMP_Clear(BMP_WIN_GetBmp(box->window), (u8)box->fillColor);
-    func_02045CAC(msgBank, messageId, box->buffer);
+    MSGDATA_ReadString(msgBank, messageId, box->buffer);
     if (box->stream != 0) {
         PRINTSYS_PrintStreamDelete(box->stream);
         box->stream = 0;
@@ -1405,7 +1405,7 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
     u32 wait;
 
     command = OPTION_MENU_GetInputCommand(input);
-    func_02040804(list->subLayer);
+    BG_SYS_GetScrollY(list->subLayer);
     switch (command) {
     case OPTION_INPUT_KEY_ACTIVATE:
         list->cursor = list->cursor > OPTION_CURSOR_CANCEL ? OPTION_CURSOR_CANCEL : (list->cursor < 0 ? 0 : list->cursor);
@@ -1556,7 +1556,7 @@ void OPTION_MENU_DrawList(OptionMenuList *list, int highlight)
     if (list->cursor >= OPTION_COUNT)
         highlight = 0;
     list->highlight = highlight;
-    base = ((int)func_02040804(list->subLayer) + 0x14) / 0x18;
+    base = ((int)BG_SYS_GetScrollY(list->subLayer) + 0x14) / 0x18;
     BG_SYS_FillTileMap((u8)(list->subLayer), 0, 0, 0x20, 0x20, 5);
     i = 0;
     for (k = 0; k < OPTION_COUNT; k++)
@@ -1611,7 +1611,7 @@ void OPTION_MENU_ScrollList(OptionMenuList *list, int delta, int min, int max)
     int t;
     ClPos pos;
 
-    t = func_02040804(list->subLayer);
+    t = BG_SYS_GetScrollY(list->subLayer);
     v = t + delta;
     if (v > max) {
         v = max;
@@ -1685,7 +1685,7 @@ void OPTION_MENU_StepSelectedSetting(OptionMenuList *list, int delta)
 int OPTION_MENU_GetRowAtTouch(OptionMenuList *list, const OptionMenuPoint *touch)
 {
     int row;
-    row = func_02040804(list->subLayer);
+    row = BG_SYS_GetScrollY(list->subLayer);
     row = (int)((u32)row + touch->y - 16u) / 24;
     if ((u32)row >= OPTION_COUNT) row = list->cursor;
     return row;
@@ -2044,7 +2044,7 @@ void OPTION_MENU_StateMain(OptionMenuRunner *runner, u32 *state, OptionMenuWork 
                 break;
             }
         }
-        tutorialPending = func_020071F0(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
+        tutorialPending = SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->args->gameSystem)));
         OPTION_MENU_GetListSettings(&work->list, &settingsCurrent);
         if (settingsCurrent.values[OPTION_BUTTON_MODE] == 0 && tutorialPending != 0)
             *state = 1;

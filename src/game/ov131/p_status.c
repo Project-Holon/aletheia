@@ -81,7 +81,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -137,7 +137,7 @@
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   POKE_TOOL_ClearBoxParam 0x02017550 thumb
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   POKE_TOOL_SetupBoxParam 0x02017600 thumb
  *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
  *   GAME_DATA_Create 0x020124F4 thumb
@@ -366,7 +366,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
@@ -453,7 +453,7 @@ extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void POKE_TOOL_ClearBoxParam(struct PokePara *p);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void POKE_TOOL_SetupBoxParam(void *obj,u16 species,u16 level,u64 id);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_Create(u16);
@@ -974,10 +974,10 @@ void P_STATUS_LoadObjResource(PStatusWork *wk)
     void *commonArc;
     u8 i;
     statusArc=ARC_TOOL_CreateHandle(78,wk->heapId);
-    func_02049B68(statusArc,0,0,0,0,wk->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(statusArc,0,0,0,0,wk->heapId);
     ARC_UTIL_UploadBgCharFromHandle(statusArc,8,2,0,0,0,wk->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(statusArc,70,3,0,0,0,wk->heapId);
-    func_02049B68(statusArc,1,4,0,0,wk->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(statusArc,1,4,0,0,wk->heapId);
     ARC_UTIL_UploadBgCharFromHandle(statusArc,10,6,0,0,0,wk->heapId);
     ARC_UTIL_UploadBgCharFromHandle(statusArc,9,5,0,0,0,wk->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(statusArc,71,7,0,0,0,wk->heapId);
@@ -997,11 +997,11 @@ void P_STATUS_LoadObjResource(PStatusWork *wk)
     wk->objRes[PSTATUS_RES_CELL_START + 11]=CLACT_RegisterCellAnim(statusArc,82,133,wk->heapId);
     wk->objRes[PSTATUS_RES_CELL_START + 12]=CLACT_RegisterCellAnim(statusArc,79,130,wk->heapId);
     commonArc=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),wk->heapId);
-    func_02049B68(commonArc,APP_ICON_GetStatusAnimFileId(),0,0x120,32,wk->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(commonArc,APP_ICON_GetStatusAnimFileId(),0,0x120,32,wk->heapId);
     ARC_UTIL_UploadBgCharFromHandle(commonArc,APP_ICON_GetStatusFrameFileId(),1,0,0,0,wk->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(commonArc,APP_ICON_GetStatusDataFileId(),1,0,0,0,wk->heapId);
     BG_SYS_FillTileMap(1,0,21,32,3,9);
-    func_02049B68(commonArc,0,4,0x1a0,32,wk->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(commonArc,0,4,0x1a0,32,wk->heapId);
     wk->objRes[PSTATUS_RES_PLTT_START + 5]=CLACT_RegisterPaletteEx(commonArc,1,1,0x100,0,1,wk->heapId);
     wk->objRes[PSTATUS_RES_CHR_START + 7]=CLACT_RegisterCharacter(commonArc,2,0,1,wk->heapId);
     wk->objRes[PSTATUS_RES_CELL_START + 6]=CLACT_RegisterCellAnim(commonArc,5,8,wk->heapId);
@@ -2166,7 +2166,7 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
                     monArray=(u8 *)param->ppd;
                     byteOffset=i*monSize;
                     POKE_TOOL_ClearBoxParam((struct PokePara *)(monArray+byteOffset));
-                    if(func_02005728(3)!=0) {
+                    if(GFL_USE_GetRandomBelow(3)!=0) {
                         POKE_TOOL_SetupBoxParam(monArray+byteOffset,i+1,0x32,(u64)-1);
                         SetArrayMoves(monArray+byteOffset,_DebugMovesArray);
                         POKE_TOOL_SetBoxValue(monArray+byteOffset,0x9a,0);

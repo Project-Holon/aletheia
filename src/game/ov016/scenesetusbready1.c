@@ -14,7 +14,7 @@
  *
  * sdk:      DWCi_SceneSetUsbReady1 (libdwcutil.TWL.HYB.a scenesetusbready)
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CE070.c \n *       --func DWCi_SceneSetUsbReady1 --addr 0x021CE070 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/DWCi_SceneSetUsbReady1.c \n *       --func DWCi_SceneSetUsbReady1 --addr 0x021CE070 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
  * halfword registers (the 0x04001008/0x04000008 pair and their +2 neighbours).
  * Addresses are Black-image addresses.

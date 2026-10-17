@@ -19,7 +19,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_Terminate  0x02088234  arm
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  *   CARDi_TouchRomHashSector  0x0272EFB0  arm twl
  *   CARDi_TouchRomHashBlock  0x0272EE98  arm twl
  *   CARDi_CompareHash  0x0272EC38  arm twl

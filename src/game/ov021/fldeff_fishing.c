@@ -38,8 +38,8 @@
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   func_0209BDBC  0x0209BDBC  arm
  *   func_0209C95C  0x0209C95C  arm
- *   func_0209CB8C  0x0209CB8C  arm
- *   func_0209C494  0x0209C494  arm
+ *   _fsub  0x0209CB8C  arm
+ *   _ffix  0x0209C494  arm
  *   sFishingRodOffsets     0x021D92E0  data  a1
  *   sFishingFuncs     0x021D92E8  data  a4
  *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
@@ -138,8 +138,8 @@ extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
-extern int func_0209CB8C(int a, int b);
-extern int func_0209C494(int a);
+extern int _fsub(int a, int b);
+extern int _ffix(int a);
 
 FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res);
@@ -209,9 +209,9 @@ void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 r
     if (offset != 0) {
         fixed = func_0209C95C(0x3f000000, func_0209BDBC(offset << 12));
     } else {
-        fixed = func_0209CB8C(func_0209BDBC(offset << 12), 0x3f000000);
+        fixed = _fsub(func_0209BDBC(offset << 12), 0x3f000000);
     }
-    param.pos.z += func_0209C494(fixed);
+    param.pos.z += _ffix(fixed);
     FIELD_EFFECT_AddObject(fieldEffect, &sFishingFuncs, 0, 0, &param, 0);
 }
 

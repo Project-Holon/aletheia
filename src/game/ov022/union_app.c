@@ -32,8 +32,8 @@
  *   UNION_COMMAND_SendAppData 0x02174010 thumb ov012
  *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02008550  0x02008550  thumb
- *   func_02008554  0x02008554  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetOutfit  0x02008554  thumb
  *   UNION_COMM_AddMember  0x0217357C  thumb  ov012
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
@@ -69,8 +69,8 @@ extern u32 UNION_COMMAND_SendAppQuitAccept(u32 a);
 extern u32 UNION_COMMAND_SendAppData(u32 a, void *p);
 extern void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 len);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 a2, u32 a3);
 extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
 extern int GFL_NET_GetRunState(void);
@@ -424,8 +424,8 @@ void UNION_APP_SetMemberEntry(UnionAppWork *app, UnionRoomWork *work, u32 netId,
     app->entry[netId] = *src;
     app->entryReceivedBits |= (u8)(1 << netId);
     if (netId != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
-        u32 trainerView = func_02008554((const struct Sub0200852CObj *)src);
-        u32 sex = func_02008550((const struct Sub0200852CObj *)src);
+        u32 trainerView = MYSTATUS_GetOutfit((const struct Sub0200852CObj *)src);
+        u32 sex = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)src);
         UNION_COMM_AddMember(&situation->connect, src->mac, trainerView, (u8)sex);
     }
 }

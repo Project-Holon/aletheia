@@ -23,12 +23,12 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
@@ -44,7 +44,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb ov021
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
@@ -84,8 +84,8 @@
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
- *   func_020056EC  0x020056EC  thumb
- *   func_0209C2B0  0x0209C2B0  arm
+ *   GFL_USE_GetRandom  0x020056EC  thumb
+ *   _u32_div_f  0x0209C2B0  arm
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   g_0217208C  0x0217208C  data  ov010  a2
@@ -102,13 +102,13 @@
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
  *   EVENT_BATTLE_CreateForcedWinTask 0x0216E910 thumb ov010
- *   func_0200E8F8  0x0200E8F8  thumb
+ *   MISC_SAVEDATA_GetBlock41  0x0200E8F8  thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   d_021BA39C 0x021BA39C data ov220 a4
  *   ov220_id 0x000000DC data
- *   func_02008B14  0x02008B14  thumb
+ *   CONSOLE_STAMP_GetDailyClock  0x02008B14  thumb
  *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
- *   func_02008BE0  0x02008BE0  thumb
+ *   DAILY_CLOCK_Spend  0x02008BE0  thumb
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_ConvertDateToDay  0x02088F58  arm
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
@@ -118,7 +118,7 @@
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   RECORD_FoldPairs  0x02008E30  thumb
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
- *   func_0200952C  0x0200952C  thumb
+ *   WIFI_HISTORY_PromoteVisitedStates  0x0200952C  thumb
  *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_FoldTally  0x0200E518  thumb
@@ -130,7 +130,7 @@
  *   BEACON_SubGatePoints 0x0200C3C0 thumb
  *   TIMEZONE_GetTimeZoneOfHour  0x020113F0  thumb
  *   GF_STANDARD_SetupRtc 0x0203F524 arm
- *   func_02008BD0  0x02008BD0  thumb
+ *   DAILY_CLOCK_HasAllowance  0x02008BD0  thumb
  *   FORMCHANGE_RevertShayminIfTimeOfDayChanged  0x0216A2EC  thumb  ov010
  */
 typedef unsigned char u8;
@@ -437,12 +437,12 @@ extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u8 func_02008550(const MyStatus *myStatus);
+extern u8 MYSTATUS_GetOutfitVariant(const MyStatus *myStatus);
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
 extern u32 POKE_TOOL_GetPartyValue(PokemonParam *mon, u32 id, u32 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc main, u32 workSize);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void POKE_REGULATION_LoadInto(int regulationId, Regulation *dest);
 extern ZukanSave *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u32 POKEPARTY_GetCount(Party *party);
@@ -458,7 +458,7 @@ extern u32 POKEPARTY_Add(Party *party, const PokemonParam *mon);
 extern FldMsgBalloonSys *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dest);
+extern void MSGDATA_ReadString(MsgData *msgData, u32 index, Strbuf *dest);
 extern void MSGDATA_Delete(MsgData *msgData);
 extern Strbuf *PMSI_PARAM_ToString(PmsData *pms, unsigned int heapId);
 extern FldMmdlSys *GAME_DATA_GetOccupyInfo(GameData *gameData);
@@ -496,8 +496,8 @@ extern u16 STRBUF_GetEosChar(void);
 extern u32 POKE_TOOL_CalcLevel(PokemonParam *mon);
 extern void ARC_TOOL_ReadMember(void *dest, u32 archiveId, u32 member);
 extern void *ARC_UTIL_LoadMember(int archiveId, int member, int flag, int heapId);
-extern u32 func_020056EC(u32 range);
-extern int func_0209C2B0();
+extern u32 GFL_USE_GetRandom(u32 range);
+extern int _u32_div_f();
 extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
 extern void STRBUF_ToChars(Strbuf *strbuf, u16 *dest, u32 maxLen);
 extern GameEvent *FIELD_SUBSCREEN_RequestModeWithCallback(FieldMap *fieldMap, u32 a, u32 callback, u32 callbackArg);
@@ -512,11 +512,11 @@ extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern void *BATTLE_BOX_GetFromSave(SaveControl *saveControl);
 extern Party *BATTLE_BOX_CreateParty(void *a, int b);
 extern int EVENT_BATTLE_CreateForcedWinTask(GameSystem *gameSystem, FieldMap *fieldMap, BtlSetup *bs);
-extern TrialHouseSave *func_0200E8F8(SaveControl *saveControl);
+extern TrialHouseSave *MISC_SAVEDATA_GetBlock41(SaveControl *saveControl);
 extern void GAME_EVENT_CallProc(GameEvent *event, u32 overlayId, u32 procTemplate, void *procParam);
-extern FieldClock *func_02008B14(SaveControl *saveControl);
+extern FieldClock *CONSOLE_STAMP_GetDailyClock(SaveControl *saveControl);
 extern void GF_STANDARD_CopyCachedRtc(RTCDate *date, RTCTime *time);
-extern void func_02008BE0(FieldClock *clock, u32 minutes);
+extern void DAILY_CLOCK_Spend(FieldClock *clock, u32 minutes);
 extern long long RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
 extern int RTC_ConvertDateToDay(RTCDate *date);
 extern u32 GAME_DATA_GetEventWork(GameData *gameData);
@@ -526,7 +526,7 @@ extern void POKERUS_DecreaseDays(Party *party, int days);
 extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern void RECORD_FoldPairs(void *trainerRecord);
 extern void *WIFI_HISTORY_GetBlock(SaveControl *saveControl);
-extern void func_0200952C(void *obj);
+extern void WIFI_HISTORY_PromoteVisitedStates(void *obj);
 extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(GameData *gameData, int days, int a);
 extern void *SYMBOL_SAVE_GetBitBlock(SaveControl *saveControl);
 extern void MISC_SAVEDATA_FoldTally(void *obj);
@@ -538,7 +538,7 @@ extern void *BEACON_GetBlock(SaveControl *saveControl);
 extern void BEACON_SubGatePoints(void *obj, u16 v);
 extern int TIMEZONE_GetTimeZoneOfHour(int season, int hour);
 extern u64 GF_STANDARD_SetupRtc(void);
-extern int func_02008BD0(const FieldClock *clock);
+extern int DAILY_CLOCK_HasAllowance(const FieldClock *clock);
 int FORMCHANGE_RevertShayminIfTimeOfDayChanged(GameData *gameData, PartySave *partySave, int minutes, RTCTime *time, int season);
 
 extern const char d_02172A2C[];
@@ -614,7 +614,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
 
     fieldMap = ICA_ANIME_GetField20(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PokeListEventMain, 0x198);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->resultOrder = resultOrder;
@@ -729,13 +729,13 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
     gameData = ICA_ANIME_GetField1C(gameSystem);
     balloonSys = FIELDMAP_GetMsgBg(ICA_ANIME_GetField20(gameSystem));
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrainerMsgEventMain, 0x1c);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     if (trainers->introMsg.sentenceType == 0xFFFF) {
         MsgData *msgData;
         work->message = STRBUF_Create(0x5c, 4);
         msgData = MSGDATA_CreateFromArchive(0, 2, 0xb8, 4);
-        func_02045CAC(msgData, trainers->introMsg.sentenceId, work->message);
+        MSGDATA_ReadString(msgData, trainers->introMsg.sentenceId, work->message);
         MSGDATA_Delete(msgData);
     } else {
         work->message = PMSI_PARAM_ToString(&trainers[index].introMsg, 4);
@@ -1148,7 +1148,7 @@ int FLD_BTL_INST_TOOL_GetRandomU16(void)
     u32 range;
 
     range = ~0;
-    return (u16)func_0209C2B0(func_020056EC(range), range >> 16);
+    return (u16)_u32_div_f(GFL_USE_GetRandom(range), range >> 16);
 }
 
 
@@ -1445,7 +1445,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(GameSystem *gameSystem, int re
     CommResetWork *work;
     ICA_ANIME_GetField1C(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0xc);
     work->gameSystem = gameSystem;
     work->restoreAutoComm = restoreAutoComm;
@@ -1471,7 +1471,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
     Party *party;
     gameData = ICA_ANIME_GetField1C(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PartySelectStepEventMain, 0x34);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = ICA_ANIME_GetField20(gameSystem);
     work->resultOk = resultOk;
@@ -1612,11 +1612,11 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, 
 {
     GameData *gameData = ICA_ANIME_GetField1C(gameSystem);
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrialHouseAwardEventMain, 0x18);
-    TrialHouseAwardEventWork *work = func_020124E8(event);
+    TrialHouseAwardEventWork *work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = ICA_ANIME_GetField20(gameSystem);
-    work->param.playerSex = func_02008550(GAME_DATA_GetMyStatus(gameData));
-    work->param.trialHouse = func_0200E8F8(GAME_DATA_GetSaveControl(gameData));
+    work->param.playerSex = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData));
+    work->param.trialHouse = MISC_SAVEDATA_GetBlock41(GAME_DATA_GetSaveControl(gameData));
     work->param.arg0 = arg0;
     work->param.arg1 = arg1;
     return event;
@@ -1639,7 +1639,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, 
 int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(GameEvent *event, int *step)
 {
     TrialHouseAwardEventWork *work;
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     switch (*step) {
     case 0:
         GAME_EVENT_CallProc(event, (unsigned int)ov220_id, (unsigned int)d_021BA39C, &work->param);
@@ -1667,7 +1667,7 @@ void FIELD_CLOCK_Update(GameData *gameData)
     RTCTime time;
     int days;
     int minutes;
-    FieldClock *clock = func_02008B14(GAME_DATA_GetSaveControl(gameData));
+    FieldClock *clock = CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
     if (clock->valid == 0)
         return;
     GF_STANDARD_CopyCachedRtc(&date, &time);
@@ -1676,7 +1676,7 @@ void FIELD_CLOCK_Update(GameData *gameData)
     if (minutes == 0 && days != 0)
         return;
     if (minutes != 0) {
-        func_02008BE0(clock, minutes);
+        DAILY_CLOCK_Spend(clock, minutes);
         FIELD_CLOCK_UpdateMinutes(gameData, minutes, &time);
     }
     if (days != 0)
@@ -1747,7 +1747,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
     MOVE_POKEMON_SAVE_RollStartLocation(saveControl);
     POKERUS_DecreaseDays(GAME_DATA_GetMyParty(gameData), days);
     RECORD_FoldPairs(GAME_DATA_GetTrainerRecord(gameData));
-    func_0200952C(WIFI_HISTORY_GetBlock(saveControl));
+    WIFI_HISTORY_PromoteVisitedStates(WIFI_HISTORY_GetBlock(saveControl));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(gameData, days, 4);
     MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock(saveControl));
     IRC_RANKING_ClearNewFlags(IRC_RANKING_GetFromSave(saveControl));
@@ -1782,7 +1782,7 @@ RTCDate *FIELD_CLOCK_GetDate(GameData *gameData)
 
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return &clock->date;
 }
 
@@ -1800,7 +1800,7 @@ int FIELD_CLOCK_GetTimeZone(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return TIMEZONE_GetTimeZoneOfHour(GAME_DATA_GetSeason(gameData), clock->time.hour);
 }
 
@@ -1816,7 +1816,7 @@ int FIELD_CLOCK_GetMonth(GameData *gameData)
 
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.month;
 }
 
@@ -1832,7 +1832,7 @@ int FIELD_CLOCK_GetDay(GameData *gameData)
 
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.day;
 }
 
@@ -1848,7 +1848,7 @@ int FIELD_CLOCK_GetWeek(GameData *gameData)
 
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.week;
 }
 
@@ -1864,7 +1864,7 @@ int FIELD_CLOCK_GetHour(GameData *gameData)
 
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->time.hour;
 }
 
@@ -1880,7 +1880,7 @@ int FIELD_CLOCK_GetMinute(GameData *gameData)
 
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->time.minute;
 }
 
@@ -1889,7 +1889,7 @@ int FIELD_CLOCK_GetMinute(GameData *gameData)
 
 
 
-void FIELD_CLOCK_SaveTimestamp(GameData *gameData) { FieldClock *clock = func_02008B14(GAME_DATA_GetSaveControl(gameData)); *(u64 *)(clock->timestamp) = GF_STANDARD_SetupRtc(); }
+void FIELD_CLOCK_SaveTimestamp(GameData *gameData) { FieldClock *clock = CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData)); *(u64 *)(clock->timestamp) = GF_STANDARD_SetupRtc(); }
 
 
 
@@ -1903,6 +1903,6 @@ int FIELD_CLOCK_GetCounter(GameData *gameData)
 
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = func_02008B14(saveControl);
-    return func_02008BD0(clock);
+    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    return DAILY_CLOCK_HasAllowance(clock);
 }

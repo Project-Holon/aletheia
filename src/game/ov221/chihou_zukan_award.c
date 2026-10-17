@@ -30,7 +30,7 @@
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -55,7 +55,7 @@
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200873C 0x0200873C thumb
+ *   SYSTEM_DATA_GetConfig 0x0200873C thumb
  *   CONFIG_GetAppliedFlag 0x020083E4 thumb
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
@@ -102,7 +102,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_02040804 0x02040804 arm
+ *   BG_SYS_GetScrollY 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -204,7 +204,7 @@ extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void*,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
@@ -270,7 +270,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern unsigned func_02040804(unsigned);
+extern unsigned BG_SYS_GetScrollY(unsigned);
 extern void BG_SYS_ResetSlot(unsigned,unsigned,unsigned);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
@@ -342,7 +342,7 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  selected=1;if(*(u8*)(settings+29)!=1) selected=0;
  h=ARC_TOOL_CreateHandle(30,heap);
  zero=0;
- func_02049B68(h,tbl_021BA2C0[selected].a,4,zero,zero,heap);
+ ARC_UTIL_UploadPaletteFromHandleWhole(h,tbl_021BA2C0[selected].a,4,zero,zero,heap);
  ARC_UTIL_UploadBgCharFromHandle(h,tbl_021BA2C0[selected].b,4,zero,zero,zero,heap);
  ARC_UTIL_UploadBgPaletteFromHandle(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
  ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);CHIHOU_ZUKAN_AWARD_SetupActorPos((char *)p);
@@ -427,7 +427,7 @@ void CHIHOU_ZUKAN_AWARD_Task(void) {}
 void CHIHOU_ZUKAN_AWARD_LoadBgAssets(struct ChihouZukanAwardWork *p)
 {
     void *h=ARC_TOOL_CreateHandle(0xCA,p->heap);
-    func_02049B68((void *)((unsigned)h),1,0,0,0x1E0,p->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((unsigned)h),1,0,0,0x1E0,p->heap);
     ARC_UTIL_UploadBgCharFromHandle((void *)((unsigned)h),4,1,0,0,0,p->heap);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)((unsigned)h),6,1,0,0,0,p->heap);
     ARC_TOOL_DeleteHandle(h);
@@ -602,7 +602,7 @@ void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p)
 {
     int amount;
     if(p->args->bgmActive!=0) return;
-    amount=func_02040804(1);
+    amount=BG_SYS_GetScrollY(1);
     if(!amount) return;
     if(p->countdown==0) {
         struct Vec2 pair;
@@ -620,7 +620,7 @@ void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p)
 
 
 
-Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p){int flag;Bool result;if(p->args->bgmActive)return BOOL_TRUE;flag=1;if(func_02040804(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
+Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p){int flag;Bool result;if(p->args->bgmActive)return BOOL_TRUE;flag=1;if(BG_SYS_GetScrollY(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
 
 
 

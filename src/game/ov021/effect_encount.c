@@ -17,7 +17,7 @@
  * symbols:
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -47,8 +47,8 @@
  *   FIELD_G3D_MAPPER_CheckSlotReady  0x0218DBD4  thumb  ov021
  *   func_0209BDBC  0x0209BDBC  arm
  *   func_0209C95C  0x0209C95C  arm
- *   func_0209CB8C  0x0209CB8C  arm
- *   func_0209C494  0x0209C494  arm
+ *   _fsub  0x0209CB8C  arm
+ *   _ffix  0x0209C494  arm
  *   FIELD_G3D_MAPPER_QuerySlotPlane  0x0218DBAC  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
  *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
@@ -118,7 +118,7 @@ typedef struct MmdlObjSize {
 
 extern u32 GFL_HEAP_Free(void *memory);
 extern u32 MI_CpuFill8(void *dest, int value, int size);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int mode, const char *fileName, u16 line);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
@@ -143,8 +143,8 @@ extern int FIELD_G3D_MAPPER_GetFocusSlot(struct FieldG3dMapper *mapper);
 extern int FIELD_G3D_MAPPER_CheckSlotReady(struct FieldG3dMapper *mapper, int blockIndex);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
-extern int func_0209CB8C(int a, int b);
-extern int func_0209C494(int a);
+extern int _fsub(int a, int b);
+extern int _ffix(int a);
 extern int FIELD_G3D_MAPPER_QuerySlotPlane(struct FieldG3dMapper *mapper, int blockIndex, VecFx32 *pos, MapCellInfo *out);
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
@@ -258,7 +258,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
         return;
     if (EFFECT_ENCOUNT_CountStep(gimmick, effectEncount) == 0)
         return;
-    if (func_02005728(1000) >= effectEncount->spawnPercent * 10) {
+    if (GFL_USE_GetRandomBelow(1000) >= effectEncount->spawnPercent * 10) {
         EFFECT_ENCOUNT_ResetStepCount(gimmick);
         return;
     }
@@ -319,7 +319,7 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
     FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), &playerPos);
     if (!isSpotAt(spot, &playerPos))
         return 0;
-    roll = func_02005728(1000);
+    roll = GFL_USE_GetRandomBelow(1000);
     if (spot->kind == 7) {
         if (roll < 200) {
             started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
@@ -478,7 +478,7 @@ void EFFECT_ENCOUNT_MakeSearchArea(FieldEncount *encount, EffectEncount *effectE
     area->originX = area->tileX - area->blockOffsetX;
     area->originZ = area->tileZ - area->blockOffsetZ;
     if (encount->encountData->effectKind != 2)
-        offsets = sSearchAreaOffsets[func_02005728(4) + 1];
+        offsets = sSearchAreaOffsets[GFL_USE_GetRandomBelow(4) + 1];
     else
         offsets = sSearchAreaOffsets[0];
     minX = area->blockOffsetX + offsets[0];
@@ -524,13 +524,13 @@ void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effe
     if ((z << 4) > 0)
         fixed = func_0209C95C(0x3f000000, func_0209BDBC(z << 16));
     else
-        fixed = func_0209CB8C(func_0209BDBC(z << 16), 0x3f000000);
-    cellPos.z = func_0209C494(fixed) + 0x8000;
+        fixed = _fsub(func_0209BDBC(z << 16), 0x3f000000);
+    cellPos.z = _ffix(fixed) + 0x8000;
     if ((area.minX << 4) > 0)
         fixed = func_0209C95C(0x3f000000, func_0209BDBC(area.minX << 16));
     else
-        fixed = func_0209CB8C(func_0209BDBC(area.minX << 16), 0x3f000000);
-    startX = func_0209C494(fixed) + 0x8000;
+        fixed = _fsub(func_0209BDBC(area.minX << 16), 0x3f000000);
+    startX = _ffix(fixed) + 0x8000;
     for (; z <= area.maxZ; z++) {
         cellPos.x = startX;
         for (x = area.minX; x <= area.maxX; x++) {
@@ -551,7 +551,7 @@ void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effe
 /* Picks a random candidate; when no model stands on it, it becomes the active spot with a new effect object. */
 void EFFECT_ENCOUNT_PickSpot(FieldEncount *encount, EffectEncount *effectEncount)
 {
-    u16 index = func_02005728(effectEncount->candidateCount);
+    u16 index = GFL_USE_GetRandomBelow(effectEncount->candidateCount);
     EffectEncountCandidate *candidate = &effectEncount->candidates[index];
     EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
     EffectEncountSpot *spot = &gimmick->spot;
@@ -646,20 +646,20 @@ void EFFECT_ENCOUNT_DeleteEffectObj(EffectEncount *effectEncount)
 /* Item for a kind 4 spot: 10% from the rare table, 85% from item ids 548..564, 5% item 229. */
 unsigned short EFFECT_ENCOUNT_PickItemKind4(void)
 {
-    unsigned short roll = func_02005728(1000);
+    unsigned short roll = GFL_USE_GetRandomBelow(1000);
 
     if (roll < 100)
-        return sRareItemIds[(unsigned short)(func_02005728(1000) / 100)];
+        return sRareItemIds[(unsigned short)(GFL_USE_GetRandomBelow(1000) / 100)];
     if (roll < 950)
-        return (unsigned short)((unsigned short)(func_02005728(1700) / 100) + 548);
+        return (unsigned short)((unsigned short)(GFL_USE_GetRandomBelow(1700) / 100) + 548);
     return 229;
 }
 
 /* Item for a kind 7 spot: 90% item ids 565..570, 10% item 571. */
 u16 EFFECT_ENCOUNT_PickItemKind7(void)
 {
-    if ((u16)func_02005728(1000) < 900) {
-        return (u16)(func_02005728(600) / 100) + 565;
+    if ((u16)GFL_USE_GetRandomBelow(1000) < 900) {
+        return (u16)(GFL_USE_GetRandomBelow(600) / 100) + 565;
     }
     return 571;
 }

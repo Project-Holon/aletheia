@@ -1286,7 +1286,7 @@ void POKERUS_SpreadParty(struct Party *party)
  * second `movs` after the call rather than a pool word
  * (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
  * Its shift is truncated to a byte at the use, `mask |= (u8)(1 << i)`, which is
- * the cast placement docs/MATCHING.md pins for sub_0200A6BC: held in a `u8`
+ * the cast placement docs/MATCHING.md pins for MUSICAL_SAVE_AddProp: held in a `u8`
  * temporary instead, the truncation cannot sink and the tail of the loop comes
  * out with every register moved.
  *

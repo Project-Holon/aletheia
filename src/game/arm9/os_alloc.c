@@ -1,7 +1,7 @@
 /*
  * file:     os_alloc.c
  * unit:     yes
- * function: DLAddFront, DLExtract, DLInsert, OS_AllocFromHeap, OS_FreeToHeap, OS_InitAlloc, OS_CreateHeap, OS_CreateExtraHeap, func_02086C54, OS_IsOnExtendedMainMemory, OS_IsOnVram
+ * function: DLAddFront, DLExtract, DLInsert, OS_AllocFromHeap, OS_FreeToHeap, OS_InitAlloc, OS_CreateHeap, OS_CreateExtraHeap, OS_ReferentSize, OS_IsOnExtendedMainMemory, OS_IsOnVram
  * address:  0x020867F4
  * region:   arm9
  * compiler: dsi/1.1p1

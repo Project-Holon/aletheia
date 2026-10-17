@@ -25,7 +25,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BR_BTN_CreateObject 0x021FB3BC thumb ov186
@@ -72,7 +72,7 @@ extern int BR_RES_GetWordSet(char *);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MI_CpuFill8(void *,int,unsigned),BR_RES_LoadSprite(char *,unsigned,unsigned);
 extern int BR_RES_GetSprite(void *,int,Triple *);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BR_BTN_CreateObject(void *,void *,int,int,int,int,int,void *,u16);
@@ -142,10 +142,10 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuA
     for(i=0;i<3;i++) {
         offset=(i+1)*4;
         if(*(unsigned *)((char *)arg->entries+offset)) {
-            func_02045CAC((struct MsgBank *)c,0x1a,s);
+            MSGDATA_ReadString((struct MsgBank *)c,0x1a,s);
             WORDSET_SetSlotTag(a,0,(const void *)(*(unsigned *)((char *)arg->entries+offset+0x10)),*(unsigned *)((char *)arg->entries+offset+0x20),1,2);
             WORDSET_CopyTaggedText(a,b,s);
-        }else func_02045CAC((struct MsgBank *)c,9,b);
+        }else MSGDATA_ReadString((struct MsgBank *)c,9,b);
         menu->buttons[i]=BR_BTN_CreateObject(&d,b,0xa0,1,arg->windowKind,menu->kind,h,&t,menu->heapId);
         d.y=d.y+0x28;
     }
@@ -154,7 +154,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuA
     owner=BATTLE_REC_GetWork();
     tmp=GDS_PROFILE_CreateNameStr(owner,(u16)((menu->heapId&0x7fff)|0x8000));
     if(!menu->textWin) menu->textWin=BR_UTIL_CreateTextWin((int)arg->resource,menu->owner,menu->heapId);
-    func_02045CAC((struct MsgBank *)c,0x5c,s);
+    MSGDATA_ReadString((struct MsgBank *)c,0x5c,s);
     WORDSET_SetSlotTag(a,0,(const void *)tmp,GDS_PROFILE_GetEggFlag(owner),1,2);
     WORDSET_CopyTaggedText(a,b,s);
     BR_UTIL_SetWindowTextBuf(menu->textWin,arg->resource,b);

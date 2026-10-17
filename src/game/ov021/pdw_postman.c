@@ -43,16 +43,16 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_MSGBG_DeleteCursor  0x021927B0  thumb  ov021
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   func_02009310  0x02009310  thumb
- *   func_02009330  0x02009330  thumb
- *   func_02007E3C  0x02007E3C  thumb
- *   func_02007E50  0x02007E50  thumb
- *   func_02009364  0x02009364  thumb
+ *   BLOCK20_SAVEDATA_GetEntryId  0x02009310  thumb
+ *   BLOCK20_SAVEDATA_GetEntryValue  0x02009330  thumb
+ *   MYITEM_SAVEDATA_CanAddItem  0x02007E3C  thumb
+ *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb
+ *   BLOCK20_SAVEDATA_ClearEntry  0x02009364  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_SYNC_GetBlock  0x02009448  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   MYSTERY_DATA_IsCardExist  0x0200A0E4  thumb
  *   MYSTERY_DATA_IsCardReceived  0x0200A104  thumb
@@ -154,17 +154,17 @@ extern void FIELD_MSGBG_AnimateCursor(struct FieldMsgCursor *cursor, struct Bitm
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
-extern u16 func_02009310(const struct PdwPostmanSave *save, int slot);
-extern u8 func_02009330(const struct PdwPostmanSave *save, int slot);
-extern void func_02009364(struct PdwPostmanSave *save, int slot);
-extern int func_02007E3C(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
-extern int func_02007E50(struct MyItem *bag, int itemId, int count, int heapId);
+extern u16 BLOCK20_SAVEDATA_GetEntryId(const struct PdwPostmanSave *save, int slot);
+extern u8 BLOCK20_SAVEDATA_GetEntryValue(const struct PdwPostmanSave *save, int slot);
+extern void BLOCK20_SAVEDATA_ClearEntry(struct PdwPostmanSave *save, int slot);
+extern int MYITEM_SAVEDATA_CanAddItem(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
+extern int MYITEM_SAVEDATA_AddItem(struct MyItem *bag, int itemId, int count, int heapId);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct PdwPostmanSave *GAME_SYNC_GetBlock(struct SaveControl *save);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern u32 MYSTERY_DATA_IsCardExist(struct MysteryData *data, u32 slot);
 extern int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, unsigned int slot);
 extern int MYSTERY_DATA_GetCard(struct MysteryData *data, int slot, MysteryCard *card);
@@ -307,9 +307,9 @@ PdwPostmanItem *PDW_POSTMAN_CreateReceivableList(struct GameData *gameData, u32 
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        itemId = func_02009310(save, i);
-        itemCount = func_02009330(save, i);
-        if (itemId != 0 && func_02007E3C(bag, itemId, itemCount, heapId) == 1) {
+        itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
+        itemCount = BLOCK20_SAVEDATA_GetEntryValue(save, i);
+        if (itemId != 0 && MYITEM_SAVEDATA_CanAddItem(bag, itemId, itemCount, heapId) == 1) {
             items[count].itemId = itemId;
             items[count].count = itemCount;
             count++;
@@ -326,11 +326,11 @@ void PDW_POSTMAN_ReceiveItems(struct GameData *gameData, int heapId, struct PdwP
     u32 i;
 
     for (i = 0; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        int itemId = func_02009310(save, i);
-        int count = func_02009330(save, i);
+        int itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
+        int count = BLOCK20_SAVEDATA_GetEntryValue(save, i);
         if (itemId != 0) {
-            if (func_02007E50(bag, itemId, count, heapId) == 1)
-                func_02009364(save, i);
+            if (MYITEM_SAVEDATA_AddItem(bag, itemId, count, heapId) == 1)
+                BLOCK20_SAVEDATA_ClearEntry(save, i);
         }
     }
 }
@@ -351,10 +351,10 @@ int PDW_POSTMAN_CountUnreceivable(struct GameData *gameData, int heapId, struct 
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        itemId = func_02009310(save, i);
-        itemCount = func_02009330(save, i);
+        itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
+        itemCount = BLOCK20_SAVEDATA_GetEntryValue(save, i);
         if (itemId != 0) {
-            if (func_02007E3C(bag, itemId, itemCount, heapId) == 0)
+            if (MYITEM_SAVEDATA_CanAddItem(bag, itemId, itemCount, heapId) == 0)
                 count++;
         }
     }
@@ -374,10 +374,10 @@ u32 PDW_POSTMAN_GetUnreceivableItem(struct GameData *gameData, int heapId, struc
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        itemId = func_02009310(save, i);
-        itemCount = func_02009330(save, i);
+        itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
+        itemCount = BLOCK20_SAVEDATA_GetEntryValue(save, i);
         if (itemId != 0) {
-            if (func_02007E3C(bag, itemId, itemCount, heapId) == 0) {
+            if (MYITEM_SAVEDATA_CanAddItem(bag, itemId, itemCount, heapId) == 0) {
                 if (count == index)
                     return itemId;
                 count++;
@@ -398,7 +398,7 @@ struct GameEvent *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSystem)
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     save = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     event = GAME_EVENT_Create(gameSystem, 0, PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->pageTop = 0;
     work->items = PDW_POSTMAN_CreateReceivableList(gameData, FIELDMAP_GetHeapId(work->fieldMap), save, (int *)&work->itemCount);

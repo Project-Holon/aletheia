@@ -21,7 +21,7 @@
  *   NNS_G3dGetAnmByIdx  0x0206E9A4  arm
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
- *   func_02047250  0x02047250  arm
+ *   DWCi_LSTlPopFront  0x02047250  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   NNS_G3dAnmObjInit  0x02069C74  arm
  *   NNS_G3dRenderObjAddAnmObj  0x02069E88  arm
@@ -30,7 +30,7 @@
  *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   NNS_G3dGetResDictIdxByName  0x0206E7EC  arm
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  *   gTexDimensionTable     0x021D8B08  data  a2
  *   gTexPixelsPerByteTable     0x021D8B00  data  a1
  *   FIELD_GROUND_ANIME_GetEntryPosByMapKind  0x021A811C  thumb
@@ -38,7 +38,7 @@
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_GROUND_ANIME_GetPlayerMoveMode  0x021A80FC  thumb  ov021
  *   ENTRANCE_CAMERA_Create  0x021BDC94  thumb  ov021
@@ -325,7 +325,7 @@ extern void *ARC_UTIL_LoadMember(u32 arcId, u32 memberId, u32 zero, u16 heapId);
 extern NNSG3dResAnm *NNS_G3dGetAnmByIdx(void *file, u32 idx);
 extern void *G3D_SYSTEM_GetResourceFile(void *resource);
 extern ModelSetRes *NNS_G3dGetMdlSet(void *file);
-extern TexRes *func_02047250(void *resource);
+extern TexRes *DWCi_LSTlPopFront(void *resource);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
 extern void NNS_G3dRenderObjAddAnmObj(void *renderObj, NNSG3dAnmObj *anmObj);
@@ -333,12 +333,12 @@ extern int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern int NNS_G3dGetResDictIdxByName(const Dict *dict, const void *name);
-extern u32 func_0209C2B0(u32 a, u32 b);
+extern u32 _u32_div_f(u32 a, u32 b);
 extern void *FLDMMDL_FreeAcmd(char *p);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(void *task);
+extern void *GAME_EVENT_GetWork(void *task);
 extern void *GAME_DATA_GetBgmInfo(void *gameData);
 extern void *ENTRANCE_CAMERA_Create(void *p);
 extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a);
@@ -594,7 +594,7 @@ u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texR
     u32 pResMdl;
     pResMdl = ModelSetGetFirstModel(NNS_G3dGetMdlSet(G3D_SYSTEM_GetResourceFile((void *)fileRes)));
     if (texRes != 0)
-        texRes = (u32)func_02047250((void *)texRes);
+        texRes = (u32)DWCi_LSTlPopFront((void *)texRes);
     else
         texRes = 0;
     MI_CpuFill8(entry->anmObj, 0, 0x80);
@@ -784,8 +784,8 @@ int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 
     int modelTexIdx;
     u32 *texParam;
 
-    modelTex = func_02047250(modelRes);
-    animTex = func_02047250(animRes);
+    modelTex = DWCi_LSTlPopFront(modelRes);
+    animTex = DWCi_LSTlPopFront(animRes);
     texName = animTex ? DictGetNameByIdx(&animTex->dict, animTexIdx) : 0;
     if (modelTex) {
         modelTexIdx = NNS_G3dGetResDictIdxByName(&modelTex->dict, texName);
@@ -806,10 +806,10 @@ u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx)
     u32 *texParam;
     u32 param;
 
-    tex = func_02047250(animRes);
+    tex = DWCi_LSTlPopFront(animRes);
     texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
     param = *texParam;
-    return func_0209C2B0(gTexDimensionTable[(param & 0x700000) >> 20] * gTexDimensionTable[(param & 0x3800000) >> 23], gTexPixelsPerByteTable[(param & 0x1C000000) >> 26]);
+    return _u32_div_f(gTexDimensionTable[(param & 0x700000) >> 20] * gTexDimensionTable[(param & 0x3800000) >> 23], gTexPixelsPerByteTable[(param & 0x1C000000) >> 26]);
 }
 
 /* Texel data of texture texIdx. */
@@ -818,7 +818,7 @@ u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx)
     TexRes *tex;
     u32 *texParam;
 
-    tex = func_02047250(animRes);
+    tex = DWCi_LSTlPopFront(animRes);
     texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
     return (u8 *)tex + tex->ofsTex + ((*texParam & 0xFFFF) << 3);
 }
@@ -947,7 +947,7 @@ void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
     GroundAnimeWork *w;
 
     task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainA, 0x3C);
-    w = func_020124E8(task);
+    w = GAME_EVENT_GetWork(task);
     w->args = args;
     w->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
     w->buildModel = 0;
@@ -1145,7 +1145,7 @@ void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
     GroundAnimeWork *work;
 
     task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainB, 0x3C);
-    work = func_020124E8(task);
+    work = GAME_EVENT_GetWork(task);
     work->args = args;
     work->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
     work->buildModel = 0;

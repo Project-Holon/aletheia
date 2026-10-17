@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from br_main.c, ov187_func_0220B240.c by tools/splitfile.py.
+ * Cut from br_main.c, BR_MAIN_SanitizeBgmIds.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -41,7 +41,7 @@
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_02028A58 0x02028A58 thumb
+ *   FIELD_SOUND_SYSTEM_FadeVolume 0x02028A58 thumb
  *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
  */
 #include "../arm9/btl_setup_types.h"
@@ -158,7 +158,7 @@ extern int GFL_USE_PopBgm(void);
 
 extern void GFL_USE_FadeInBgmFull(u32);
 
-extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
+extern void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 frames);
 
 extern void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *p);
 
@@ -330,7 +330,7 @@ void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work)
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);
     GFL_USE_FadeInBgmFull(30);
-    if (work->launch->kind == 0) func_02028A58(soundSys, 64, 0);
+    if (work->launch->kind == 0) FIELD_SOUND_SYSTEM_FadeVolume(soundSys, 64, 0);
     work->hidePlayerNames = setup->bits.recordComplete;
     GFL_HEAP_Free(setup->playerStatus[0]);
     BTL_SETUP_ClearWithSlots(setup);

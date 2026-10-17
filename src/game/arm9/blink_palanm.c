@@ -18,7 +18,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   blink_palanm_File    0x020A7804  data
- *   func_02049F78      0x02049F78  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle      0x02049F78  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  */
@@ -43,7 +43,7 @@ struct BlinkPalAnm {
     u16 heapId;         /* 0x18 */
 };
 
-/* Palette resource as func_02049F78 returns it: colors start at +0xC. */
+/* Palette resource as ARC_UTIL_LoadPaletteBlockFromHandle returns it: colors start at +0xC. */
 struct PaletteFile {
     u8 header[0xC];
     u8 *colors;
@@ -55,7 +55,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
-extern struct ResourceFile *func_02049F78(void *archive, u32 fileId, u32 outData, u32 heapId);
+extern struct ResourceFile *ARC_UTIL_LoadPaletteBlockFromHandle(void *archive, u32 fileId, u32 outData, u32 heapId);
 
 extern s32 NNS_GfdRegisterNewVramTransferTask(u32 targetMask, u32 firstColor, u32 colors, s32 size);
 
@@ -120,7 +120,7 @@ void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileI
                                    0x83);
     anm->dstColors = GFL_HEAP_Alloc(anm->heapId, (u32)anm->colorCount * 2, 0, blink_palanm_File,
                                    0x84);
-    handle = func_02049F78(archive, fileId, (u32)(&file), anm->heapId);
+    handle = ARC_UTIL_LoadPaletteBlockFromHandle(archive, fileId, (u32)(&file), anm->heapId);
     colors = file->colors;
     MI_CpuCopy8(colors + srcStart * 2, anm->srcColors, (int)((u32)anm->colorCount * 2));
     MI_CpuCopy8(colors + dstStart * 2, anm->dstColors, (int)((u32)anm->colorCount * 2));

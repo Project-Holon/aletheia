@@ -38,7 +38,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   func_02040804 0x02040804 arm
+ *   BG_SYS_GetScrollY 0x02040804 arm
  *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BMP_Clear 0x02043B5C arm
  *   NAMEIN_GRAPHIC_ConvertCellMode 0x021F2884 thumb ov194
@@ -54,7 +54,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
@@ -449,7 +449,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
-extern u32 func_02040804(u32 layer);
+extern u32 BG_SYS_GetScrollY(u32 layer);
 
 extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
@@ -483,7 +483,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 
@@ -997,7 +997,7 @@ int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
     if (*(u32 *)(p + 0x110) != 0)
     switch (*(u16 *)(p + 0x10c)) {
     case 0:
-        func_02040804(1);
+        BG_SYS_GetScrollY(1);
         c = *(u16 *)(p + 0x10a);
         *(u16 *)0x04000052 = (s16)(-(c * 16) / 7 + 16) | (1 << 12);
         y = (s16)((c * -48) / 7);
@@ -1313,7 +1313,7 @@ void NAMEIN_GRAPHIC_PrintMsg(char *p,int value) {
     while (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((NameinGraphicMsgBox *)p)->printSys),(void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->win))))
         PRINTSYS_QUE_Main((struct PrintSys *)(((NameinGraphicMsgBox *)p)->printSys));
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
-    func_02045CAC((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value,(void *)(((NameinGraphicMsgBox *)p)->strbuf));
+    MSGDATA_ReadString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value,(void *)(((NameinGraphicMsgBox *)p)->strbuf));
     window=(int)((NameinGraphicMsgBox *)p)->printSys;
     PRINTSYS_PrintQue((struct PrintSys *)window,(int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->bmp),0,0,(void *)(*(int *)&((NameinGraphicMsgBox *)p)->strbuf),((NameinGraphicMsgBox *)p)->field4);
     ((NameinGraphicMsgBox *)p)->dirty=1;

@@ -131,7 +131,7 @@ extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern FieldGimmickSoundObjsSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
 extern u32 SOUND_OBJ_GetAnimeFrame(struct SoundObj *obj);
 extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, s32 frame);
-extern unsigned func_02005728(unsigned limit);
+extern unsigned GFL_USE_GetRandomBelow(unsigned limit);
 extern void func_02082A7C(int value, void *dst, unsigned int size);
 extern void func_021BE580(FldExpObjCnt *expObj);
 

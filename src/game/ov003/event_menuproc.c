@@ -30,7 +30,7 @@
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  */
 struct GameSystem;
 struct GameEvent;
@@ -73,7 +73,7 @@ extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
 void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind);
 void *EVENT_MENUPROC_Entry(void *gameSystem, LaunchRequest *request);
@@ -133,7 +133,7 @@ void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind)
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))
         GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm(gameSystem));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->procKind = procKind;

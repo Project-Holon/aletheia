@@ -116,6 +116,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   COMM_TVT_SYS_GetInputLocked 0x021BE0C8 thumb ov172
  *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm  arm9
  */
 #include "ctvt_types.h"
 
@@ -132,7 +133,7 @@ extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void BG_SYS_ClearSlot(u32 a);
-extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
@@ -277,7 +278,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     }
     arc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heapId);
     BG_SYS_ClearSlot(0);
-    func_02049990(arc, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(arc, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, heapId);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
     BG_SYS_PushTile(0);
     BG_SYS_FillScrollArea(0, 3, 0);

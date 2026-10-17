@@ -18,7 +18,7 @@
  *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   STA_ACT_EFFECT_StartSystem  0x021F9EDC  thumb
  *   STA_ACT_EFFECT_KillSystem  0x021F9F58  thumb
  *   STA_ACT_EFFECT_StartEffect 0x021F9F74 thumb ov132
@@ -56,9 +56,9 @@
  *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
  *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
  *   func_0209BDBC 0x0209BDBC arm
- *   func_0209C494 0x0209C494 arm
- *   func_0209CB8C 0x0209CB8C arm
- *   func_0209CE10 0x0209CE10 arm
+ *   _ffix 0x0209C494 arm
+ *   _fsub 0x0209CB8C arm
+ *   __fdiv 0x0209CE10 arm
  *   STA_ACTING_GetActObj 0x021F9DAC thumb ov132
  *   STA_ACT_OBJ_AddEntry 0x021F6B18 thumb ov112
  *   STA_ACTING_SetSlot 0x021F9DB8 thumb ov132
@@ -131,7 +131,7 @@ extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
 
 extern u16 STA_ACTING_GetCameraPos(void *p);
 
-extern unsigned func_02005728(unsigned);
+extern unsigned GFL_USE_GetRandomBelow(unsigned);
 
 extern u16 STA_ACTING_GetCameraTarget(u8 *p);
 
@@ -199,11 +199,11 @@ extern void STA_ACTING_SetField10(char *p, u32 v);
 
 extern int func_0209BDBC(int a);
 
-extern u32 func_0209C494(u32 a);
+extern u32 _ffix(u32 a);
 
-extern u32 func_0209CB8C(u32 a, u32 b);
+extern u32 _fsub(u32 a, u32 b);
 
-extern u32 func_0209CE10(u32 a, u32 b);
+extern u32 __fdiv(u32 a, u32 b);
 
 extern void *STA_ACTING_GetActObj(void *p);
 
@@ -939,7 +939,7 @@ int SCRIPT_COMMAND_CmdRotateActor(int unused,char *p)
 /*
  * note:     the bl to 0x021F8068 named an unlabelled leaf in the co-resident
  *           ov112 (ov112 0x021F36C0..0x021F8480 abuts ov132 0x021F8480..);
- *           it was filed EXACT as src/matched/ov112_func_021F8068.c, so the
+ *           it was filed EXACT as src/matched/STA_ACT_LIGHT_SetActorAngle.c, so the
  *           site now attests as `matched` and every concrete byte reproduces.
  *           EXACT* only because the inferred extent runs into an unlabelled
  *           follower in ov132; there is no byte difference.
@@ -1047,9 +1047,9 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
         c->f0E = 0;
         c->f04 = STA_ACTING_GetCameraTarget((u8 *)o->f34);
         f = func_0209BDBC((int)total / 4);
-        f = func_0209CE10(f, 0x45800000);
-        f = func_0209CB8C(f, 0x43000000);
-        c->f08 = func_0209C494(f);
+        f = __fdiv(f, 0x45800000);
+        f = _fsub(f, 0x43000000);
+        c->f08 = _ffix(f);
         c->f0C = x;
         c->f14 = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskCameraTarget, (u32)c, 10);
         STA_ACT_EFFECT_SetSceneField14((u8 *)o->f34, 1);
@@ -1206,9 +1206,9 @@ void SCRIPT_COMMAND_TaskMoveEffect(int a, char *p)
         return;
     }
     if(s==1) {
-        v[0]=(((struct ScriptSlot *)p)->f14.u+func_02005728(((struct ScriptSlot *)p)->f20.u))>>4;
-        v[1]=(0xc0000-(((struct ScriptSlot *)p)->f18.u+func_02005728(((struct ScriptSlot *)p)->f24.u)))>>4;
-        v[2]=((struct ScriptSlot *)p)->f1C.u+func_02005728(((struct ScriptSlot *)p)->f28.u);
+        v[0]=(((struct ScriptSlot *)p)->f14.u+GFL_USE_GetRandomBelow(((struct ScriptSlot *)p)->f20.u))>>4;
+        v[1]=(0xc0000-(((struct ScriptSlot *)p)->f18.u+GFL_USE_GetRandomBelow(((struct ScriptSlot *)p)->f24.u)))>>4;
+        v[2]=((struct ScriptSlot *)p)->f1C.u+GFL_USE_GetRandomBelow(((struct ScriptSlot *)p)->f28.u);
         STA_ACT_EFFECT_StartEffect((char *)((struct ScriptSlot *)p)->f10,((struct ScriptSlot *)p)->f2C,(Vec *)v);
     }
 }

@@ -45,7 +45,7 @@
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -61,10 +61,10 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_02008998  0x02008998  thumb
+ *   PLAYER_LOCATION_GetZoneId  0x02008998  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_02008854  0x02008854  thumb
- *   func_020089A0  0x020089A0  thumb
+ *   PLAYER_LOCATION_GetData  0x02008854  thumb
+ *   PLAYER_LOCATION_SetZoneId  0x020089A0  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   STRBUF_Create  0x020457B0  arm
  *   PLACE_NAME_LETTER_Create 0x021BD148 thumb ov021
@@ -175,7 +175,7 @@ extern int INTRUDE_COMM_GetWorkIfRunning(int gameComm);
 extern int GAME_DATA_GetIntrudeIdByte(GameData *gameData);
 extern int GAME_DATA_GetMyStatusByNetId(GameData *gameData, int netId);
 extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
-extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dst);
+extern void MSGDATA_ReadString(MsgData *msgData, u32 index, Strbuf *dst);
 extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, void *myStatus);
 extern void WORDSET_SetSlotFromMsg59(WordSet *wordSet, u32 index, u32 value);
 extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dst, Strbuf *src);
@@ -197,9 +197,9 @@ extern u32 WORDSET_DeleteStrbufED04(WordSet *wordSet);
 extern u32 MSGDATA_Delete(MsgData *msgData);
 extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
 extern void *GAME_DATA_GetSaveControl(GameData *gameData);
-extern void *func_02008854(void *saveControl);
-extern u16 func_02008998(const void *location);
-extern u32 func_020089A0(u32 location, u32 zoneId);
+extern void *PLAYER_LOCATION_GetData(void *saveControl);
+extern u16 PLAYER_LOCATION_GetZoneId(const void *location);
+extern u32 PLAYER_LOCATION_SetZoneId(u32 location, u32 zoneId);
 extern u32 ZONEDATA_GetPlaceNameWindow(u32 zoneId);
 extern const u8 gFieldPlaceNameRendererParam[16];
 extern const PlaceNameLetterParam gPlaceNameLetterDefaultParam;
@@ -816,13 +816,13 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
         INTRUDE_COMM_GetWorkIfRunning((int)ICA_ANIME_GetField24(placeName->gameSystem));
         myStatus = GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
         template = MSGDATA_AllocString(placeName->msgData, 3);
-        func_02045CAC(placeName->msgData, placeNameId, placeName->message);
+        MSGDATA_ReadString(placeName->msgData, placeNameId, placeName->message);
         WORDSET_SetSlotMyStatus(placeName->wordSet, 0, (void *)myStatus);
         WORDSET_SetSlotFromMsg59(placeName->wordSet, 1, placeNameId);
         WORDSET_CopyTaggedText(placeName->wordSet, placeName->message, template);
         STRBUF_Delete(template);
     } else {
-        func_02045CAC(placeName->msgData, placeNameId, placeName->message);
+        MSGDATA_ReadString(placeName->msgData, placeNameId, placeName->message);
     }
     placeName->messageLength = STRBUF_GetLength(placeName->message);
 }
@@ -1228,13 +1228,13 @@ void FIELD_PLACE_NAME_IncrementStep(FieldPlaceName *placeName)
 /* Reads the player's current zone from the save data. */
 void FIELD_PLACE_NAME_LoadZoneFromSave(FieldPlaceName *placeName)
 {
-    placeName->zoneId = func_02008998(func_02008854(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(placeName->gameSystem))));
+    placeName->zoneId = PLAYER_LOCATION_GetZoneId(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(placeName->gameSystem))));
 }
 
 /* Writes the banner's current zone back to the save data. */
 int FIELD_PLACE_NAME_SaveZoneToSave(FieldPlaceName *placeName)
 {
-    return func_020089A0((u32)func_02008854(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(placeName->gameSystem))), placeName->zoneId);
+    return PLAYER_LOCATION_SetZoneId((u32)PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(placeName->gameSystem))), placeName->zoneId);
 }
 
 u16 FIELD_PLACE_NAME_GetZoneId(FieldPlaceName *placeName)

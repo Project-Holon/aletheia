@@ -14,8 +14,8 @@
  *
  * symbols:
  *   gHeapManager  0x02146954  data
- *   sub_02060C5C  0x02060C5C  arm
- *   sub_02086788  0x02086788  arm
+ *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
+ *   OS_AllocFromArenaLo  0x02086788  arm
  *   NNS_FndAllocFromExpHeapEx  0x02060CA0  arm
  *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
  *   NNSi_FndDestroyExpHeap  0x02060C94  arm
@@ -37,9 +37,9 @@
  *   OS_AllocFromHeap   0x020868E0  arm
  *   OS_FreeToHeap    0x020869E8  arm
  *   GFL_HEAP_InitManager  0x0202FC48  arm
- *   sub_02030524  0x02030524  arm
- *   sub_02086580  0x02086580  arm
- *   sub_0208656C  0x0208656C  arm
+ *   GFL_HEAP_GetLastError  0x02030524  arm
+ *   OS_GetArenaLo  0x02086580  arm
+ *   OS_GetArenaHi  0x0208656C  arm
  *   sub_02088234  0x02088234  arm
  *   GFL_HEAP_CreateChildHeapImpl  0x0202FDC4  arm
  *   sub_020306A0  0x020306A0  arm
@@ -116,8 +116,7 @@ struct SystemHeapState {
     s32 heapHandle;     /* OS heap handle, -1 = not created */
 };
 
-extern void *sub_02086788(u32 heap, u32 size, u32 align);
-extern void *sub_02060C5C(void *mem, u32 size, u32 mode);
+extern void *OS_AllocFromArenaLo(u32 heap, u32 size, u32 align);
 extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
 int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size);
 int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId);
@@ -157,9 +156,7 @@ BOOL GFL_HEAP_InitSystemHeap(u32 size);
 void *GFL_HEAP_AllocSystem(u32 size);
 extern int OS_FreeToHeap(u32 heapId, s32 heap, void *ptr);
 extern int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
-extern u16 sub_02030524(void);
-extern void  sub_02086580(u32 a);
-extern void  sub_0208656C(u32 a);
+extern void  OS_GetArenaHi(u32 a);
 extern void  sub_02088234(void *obj);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
 extern void OS_Terminate(void);
@@ -266,10 +263,10 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
         while ((extraSize & 3) != 0) {
             extraSize++;
         }
-        sub_02086788(0, extraSize, 4);
+        OS_AllocFromArenaLo(0, extraSize, 4);
     }
 
-    gHeapManager.records = sub_02086788(0, recordTotal * 16, 4);
+    gHeapManager.records = OS_AllocFromArenaLo(0, recordTotal * 16, 4);
     for (recordIndex = 0; recordIndex < recordTotal; recordIndex++) {
         gHeapManager.records[recordIndex].heap = 0;
         gHeapManager.records[recordIndex].parentHeap = 0;
@@ -278,7 +275,7 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
         gHeapManager.records[recordIndex].isExternal = 0;
     }
 
-    gHeapManager.slotOfHeapId = sub_02086788(0, heapIdCount, 4);
+    gHeapManager.slotOfHeapId = OS_AllocFromArenaLo(0, heapIdCount, 4);
     for (specIndex = 0; specIndex < heapIdCount; specIndex++) {
         gHeapManager.slotOfHeapId[specIndex] = 0xff;
     }
@@ -289,9 +286,9 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
     gHeapManager.lastError = 0;
 
     for (specIndex = 0; specIndex < staticCount; specIndex++) {
-        memory = sub_02086788(0, specs[specIndex].size, 4);
+        memory = OS_AllocFromArenaLo(0, specs[specIndex].size, 4);
         if (memory != 0) {
-            gHeapManager.records[specIndex].heap = sub_02060C5C(memory, specs[specIndex].size, 0);
+            gHeapManager.records[specIndex].heap = NNS_FndCreateExpHeapEx(memory, specs[specIndex].size, 0);
             gHeapManager.slotOfHeapId[specIndex] = specIndex;
         } else {
             gHeapManager.lastError = specIndex;
@@ -1369,12 +1366,12 @@ void GFL_HEAP_Init(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
     int success;
 
     success = GFL_HEAP_InitManager((const struct HeapSpec *)specs, staticCount, heapIdCount, extraSize);
-    sub_02086580(0);
-    sub_0208656C(0);
+    OS_GetArenaLo(0);
+    OS_GetArenaHi(0);
     if (success != 0) {
         return;
     }
-    sub_02088234((void *)sub_02030524());
+    sub_02088234((void *)GFL_HEAP_GetLastError());
 }
 
 
@@ -1407,7 +1404,7 @@ void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size)
     if (GFL_HEAP_CreateChildHeapImpl(parentHeapId, newHeapId, size) != 0) {
         return;
     }
-    sub_020306A0((void *)sub_02030524(), (void *)parentHeapId, newHeapId);
+    sub_020306A0((void *)GFL_HEAP_GetLastError(), (void *)parentHeapId, newHeapId);
 }
 
 
@@ -1435,7 +1432,7 @@ void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId)
     if (GFL_HEAP_RegisterBlockHeapImpl(block, size, newHeapId) != 0) {
         return;
     }
-    sub_020306A0((void *)sub_02030524(), 0, newHeapId);
+    sub_020306A0((void *)GFL_HEAP_GetLastError(), 0, newHeapId);
 }
 
 

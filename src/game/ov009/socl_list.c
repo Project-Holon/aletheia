@@ -1,7 +1,7 @@
 /*
  * file:     socl_list.c
  * unit:     yes
- * function: SOCLi_SocketRegister, func_0215F2F4, SOCLi_SocketRegisterTrash, SOCLi_SocketUnregister, SOCLi_SocketUnregisterList, func_0215F36C, SOCLi_SocketUnregisterTrash, SOCL_SocketIsInvalid, SOCL_SocketIsInTrash
+ * function: SOCLi_SocketRegister, SOCLi_SocketRegisterList, SOCLi_SocketRegisterTrash, SOCLi_SocketUnregister, SOCLi_SocketUnregisterList, SOCLi_SocketGetNextPtr, SOCLi_SocketUnregisterTrash, SOCL_SocketIsInvalid, SOCL_SocketIsInTrash
  * address:  0x0215F2DC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -14,10 +14,10 @@
  *
  * symbols:
  *   SOCLiSocketList  0x021AA4B4  data
- *   func_0215F2F4  0x0215F2F4  arm  ov009
+ *   SOCLi_SocketRegisterList  0x0215F2F4  arm  ov009
  *   SOCLiTrashList  0x021AA4B8  data
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215F36C  0x0215F36C  arm  ov009
+ *   SOCLi_SocketGetNextPtr  0x0215F36C  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   SOCLiSocketList          0x021aa4b4 data
  */
@@ -28,10 +28,8 @@ typedef struct Sock {
 	struct Sock *next;
 } Sock;
 
-extern void func_0215F2F4(char *p, int a);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern Sock **func_0215F36C(Sock **next, Sock *socket);
 void SOCLi_SocketRegister(int a);
 void SOCLi_SocketRegisterList(void **next, char *socket);
 void SOCLi_SocketRegisterTrash(int a);
@@ -49,7 +47,7 @@ extern char SOCLiTrashList[];
 
 void SOCLi_SocketRegister(int a)
 {
-    func_0215F2F4((char *)&SOCLiSocketList, a);
+    SOCLi_SocketRegisterList((void **)((char *)&SOCLiSocketList), (char *)(a));
 }
 
 
@@ -68,7 +66,7 @@ void SOCLi_SocketRegisterList(void **next, char *socket)
  */
 void SOCLi_SocketRegisterTrash(int a)
 {
-    func_0215F2F4(SOCLiTrashList, a);
+    SOCLi_SocketRegisterList((void **)(SOCLiTrashList), (char *)(a));
 }
 
 
@@ -93,7 +91,7 @@ void SOCLi_SocketUnregisterList(Sock **next, Sock *socket)
 	unsigned long enable;
 
 	enable = OS_DisableInterrupts();
-	next = func_0215F36C(next, socket);
+	next = (Sock **)(SOCLi_SocketGetNextPtr((struct SOCLSocket **)(next), (struct SOCLSocket *)(socket)));
 	if (next)
 		*next = socket->next;
 	OS_RestoreInterrupts(enable);
@@ -145,5 +143,5 @@ int SOCL_SocketIsInvalid(struct SOCLSocket *socket)
  */
 int SOCL_SocketIsInTrash(int b)
 {
-    return (int)func_0215F36C((Sock * *)SOCLiTrashList, (Sock *)b) != 0;
+    return (int)(Sock **)(SOCLi_SocketGetNextPtr((struct SOCLSocket **)((Sock * *)SOCLiTrashList), (struct SOCLSocket *)((Sock *)b))) != 0;
 }

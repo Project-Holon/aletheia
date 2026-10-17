@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: UI_Create, func_02034EF8, func_02034F5C, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetFlags39, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, UI_TestFlags39, UI_TestFlags39Global, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, func_0203524C, func_02035268, UI_RunSuspendHook, func_020352AC, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
+ * function: UI_Create, UI_Main, UI_Update, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetFlags39, UI_SetFlags39Global, func_02035188, UI_ClearFlags39Global, UI_TestFlags39, UI_TestFlags39Global, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, UI_RunSleepHook, UI_RunWakeHook, UI_RunSuspendHook, UI_RunResumeHook, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -26,9 +26,9 @@
  *   UI_ServiceLidSleep  0x0203545C  arm
  *   UI_ApplyInputBounds  0x020356A0  arm
  *   KEY_GetCont  0x0203630C  arm
- *   sub_02035544  0x02035544  arm
+ *   UI_SoftReset  0x02035544  arm
  *   g_02034F5C_Ptr  0x021469BC  data
- *   func_02034EF8   0x02034EF8  arm
+ *   UI_Main   0x02034EF8  arm
  *   d_021469BC   0x021469BC  data  a4
  *   UI_SetSuspendHook 0x02035080  arm
  *   UI_SetResumeHook 0x02035120  arm
@@ -44,11 +44,11 @@
  *   UI_GetContext   0x02035224  arm
  *   UI_IsSleepInhibited   0x020353F8  arm
  *   TOUCHPANEL_AutoSamplingStop   0x02035E08  arm
- *   func_0203524C   0x0203524C  arm
+ *   UI_RunSleepHook   0x0203524C  arm
  *   PM_GoSleepMode  0x0208C154  arm
  *   UI_RunWakePoweredHook   0x020353C8  arm
- *   func_020352AC   0x020352AC  arm
- *   func_02035268   0x02035268  arm
+ *   UI_RunResumeHook   0x020352AC  arm
+ *   UI_RunWakeHook   0x02035268  arm
  *   TOUCHPANEL_AutoSamplingRestart   0x02035DC8  arm
  *   UI_SetBottomBackLight   0x02035428  arm
  *   UI_RunSuspendHook   0x02035284  arm
@@ -125,8 +125,7 @@ extern void TOUCHPANEL_Main(void);
 extern void UI_ServiceLidSleep(void);
 extern void UI_ApplyInputBounds(int a0);
 extern unsigned int KEY_GetCont(void);
-extern void sub_02035544(u32 x);
-extern void func_02034EF8(struct UiCtx *p);
+extern void UI_SoftReset(u32 x);
 extern void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetFlags39(struct UiCtx *p, u8 mask);
@@ -293,11 +292,11 @@ void UI_Create(u32 heap, u8 mode)
  * counter at +0x3e, run the five per-frame services in order, then, only
  * when both pad bits 0x30c are held and the +0x39 inhibit byte is clear,
  * fire the registered callback at +8 with its argument at +0xc and hand 0
- * to sub_02035544.
+ * to UI_SoftReset.
  *
- * The callback null test and the sub_02035544 call are one block: the `beq`
+ * The callback null test and the UI_SoftReset call are one block: the `beq`
  * over the `blx` lands on the `mov r0, #0` that sets up the last call, so
- * sub_02035544 runs whether or not a callback was installed.
+ * UI_SoftReset runs whether or not a callback was installed.
  *
  * PARKED AT MATCH.  Every concrete byte is right.  All five per-frame
  * services it calls are reached from this one site only, so each needs to be
@@ -332,7 +331,7 @@ void UI_Main(struct UiCtx *p)
         if (p->intrData != 0) {
             p->intrData(p->intrArg);
         }
-        sub_02035544(0);
+        UI_SoftReset((u32)(0));
     }
 }
 
@@ -359,7 +358,7 @@ void UI_Main(struct UiCtx *p)
  */
 void UI_Update(void)
 {
-    func_02034EF8(gUiState.ctx);
+    UI_Main(gUiState.ctx);
 }
 
 
@@ -983,10 +982,7 @@ asm void DWCi_IsFold(void)
 
 extern int PM_SetBackLight(u32 which, u32 status);
 extern void TOUCHPANEL_AutoSamplingStop(void);
-extern void func_0203524C(struct UiCtx *ui);
 extern void PM_GoSleepMode(u32 trigger, u32 a, u32 b);
-extern void func_020352AC(struct UiCtx *ui);
-extern void func_02035268(struct UiCtx *ui);
 extern void TOUCHPANEL_AutoSamplingRestart(void);
 extern void UI_RunSuspendHook(struct UiCtx *ui);
 extern struct UiCtx *UI_GetContext(void);
@@ -1243,11 +1239,11 @@ void UI_ServiceLidSleep(void)
     if ((*(u16 *)0x02FFFFA8 & 0x8000) >> 15) {
         if (UI_IsSleepInhibited(ui) == 0) {
             TOUCHPANEL_AutoSamplingStop();
-            func_0203524C(ui);
+            UI_RunSleepHook(ui);
             PM_GoSleepMode(0xC, 0, 0);
             UI_RunWakePoweredHook(ui);
-            func_020352AC(ui);
-            func_02035268(ui);
+            UI_RunResumeHook(ui);
+            UI_RunWakeHook(ui);
             TOUCHPANEL_AutoSamplingRestart();
             if (ui->suspended != 0) {
                 ui->suspended = 0;
@@ -1258,15 +1254,15 @@ void UI_ServiceLidSleep(void)
                 ui->suspended = 1;
                 UI_SetBottomBackLight(0);
                 UI_RunSuspendHook(ui);
-                func_0203524C(ui);
+                UI_RunSleepHook(ui);
             }
         }
     } else {
         if (ui->suspended != 0) {
             ui->suspended = 0;
             UI_SetBottomBackLight(ui->backlightState);
-            func_02035268(ui);
-            func_020352AC(ui);
+            UI_RunWakeHook(ui);
+            UI_RunResumeHook(ui);
         }
     }
 }

@@ -41,7 +41,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   BMP_Clear  0x02043B5C  arm
@@ -50,7 +50,7 @@
  *   BMP_FillRect  0x02043AF4  arm  arm9
  *   BMP_MENULIST_Create  0x0201FF30  thumb
  *   BMP_MENULIST_ResetCursorTile  0x02020CF8  thumb
- *   func_02020D10  0x02020D10  thumb  arm9
+ *   BMP_MENULIST_SetCancelDisabled  0x02020D10  thumb  arm9
  *   BMP_MENULIST_Delete  0x0202020C  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
  *   BMP_MENULIST_Main  0x020200CC  thumb  arm9
@@ -238,7 +238,7 @@ extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void FIELD_MSGBG_KeyWaitSetAuto(FieldMsgKeyWait *keyWait, u8 autoMode);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgData *msgData, u32 msgId, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgData *msgData, u32 msgId, struct Strbuf *dest);
 extern void PRINTSYS_PrintQue(struct PrintQue *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern u32 BG_SYS_PushTile(u32 frame);
@@ -255,7 +255,7 @@ extern struct BmpWin *FIELD_MSGBG_CreateSysFrameWindow(u8 x, u8 y, u8 width, u8 
 extern void FIELD_MSGBG_DeleteSysFrameWindow(struct BmpWin *bmpWin);
 extern struct BmpMenuList *BMP_MENULIST_Create(BmpMenuListHeader *header, u16 listPos, u16 cursorPos, u32 heapId);
 extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menuList, int heapId);
-extern void func_02020D10(struct BmpMenuList *menuList, u32 cancelMode);
+extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menuList, u32 cancelMode);
 extern u32 BMP_MENUWORK_Delete(struct BmpMenuWork *items);
 extern void BMP_MENULIST_Delete(struct BmpMenuList *menuList, u16 *listPos, u16 *cursorPos);
 extern s32 BMP_MENULIST_Main(struct BmpMenuList *menuList);
@@ -727,7 +727,7 @@ void FIELD_MSGBG_MsgPrintPrintMsg(FieldMsgPrint *msgPrint, int x, int y, u32 msg
 {
     struct PrintQue *printQue;
 
-    func_02045CAC(msgPrint->msgData, msgId, msgPrint->strBuf);
+    MSGDATA_ReadString(msgPrint->msgData, msgId, msgPrint->strBuf);
     printQue = msgPrint->printQue;
     PRINTSYS_PrintQue(printQue, BMP_WIN_GetBmp(msgPrint->printUtil.bmpWin), (s16)x, (s16)y, msgPrint->strBuf, msgPrint->font);
     msgPrint->printUtil.transReq = 1;
@@ -958,7 +958,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenu
 {
     FieldMenuFunc *menu = FIELD_MSGBG_CreateMenuFuncPalette(msgBg, header, items, listPos, cursorPos, msgBg->windowKind, moveCallback, 0, work);
     if (cancelable == 0)
-        func_02020D10(menu->menuList, 1);
+        BMP_MENULIST_SetCancelDisabled(menu->menuList, 1);
     return menu;
 }
 
@@ -1125,7 +1125,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos)
     MSGDATA_Delete(msgData);
     FIELD_MSGBG_SetMenuHeaderRect(&header, 2, 0x18, 0xa, 7, 4);
     menu = FIELD_MSGBG_CreateMenuFuncPalette(msgBg, &header, items, 0, (u16)cursorPos, msgBg->windowKind, 0, 0, 0);
-    func_02020D10(menu->menuList, 0);
+    BMP_MENULIST_SetCancelDisabled(menu->menuList, 0);
     return menu;
 }
 
@@ -1237,7 +1237,7 @@ void FIELD_MSGBG_SysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId)
     if (sysWin->stream != 0) {
         FIELD_MSGBG_DeleteMsgStream(sysWin->stream);
     }
-    func_02045CAC(sysWin->msgData, msgId, sysWin->strBuf);
+    MSGDATA_ReadString(sysWin->msgData, msgId, sysWin->strBuf);
     sysWin->stream = FIELD_MSGBG_CreateMsgStream(sysWin->msgBg, sysWin->strBuf, sysWin->bmpWin, x, y, FIELD_MSGBG_KeyWaitGetCharWait(&sysWin->msgBg->keyWait));
 }
 
@@ -1325,7 +1325,7 @@ void FIELD_MSGBG_InfoSysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId
     if (sysWin->stream != 0) {
         FIELD_MSGBG_DeleteMsgStream(sysWin->stream);
     }
-    func_02045CAC(sysWin->msgData, msgId, sysWin->strBuf);
+    MSGDATA_ReadString(sysWin->msgData, msgId, sysWin->strBuf);
     sysWin->stream = FIELD_MSGBG_CreateMsgStream(sysWin->msgBg, sysWin->strBuf, sysWin->bmpWin, (u16)(x + 8), y, FIELD_MSGBG_KeyWaitGetCharWait(&sysWin->msgBg->keyWait));
 }
 
@@ -1711,7 +1711,7 @@ void FIELD_MSGBG_AddSubMsgWinMsg(FieldMsgBg *msgBg, struct MsgData *msgData, u32
     subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, 0x18, 1, d_021DDA50, 0xE2A);
     slot = FIELD_MSGBG_StoreSubMsgWin(msgBg, subMsgWin);
     subMsgWin->strBuf = STRBUF_Create(0x40, msgBg->heapId);
-    func_02045CAC(msgData, msgId, subMsgWin->strBuf);
+    MSGDATA_ReadString(msgData, msgId, subMsgWin->strBuf);
     FIELD_MSGBG_SetupSubMsgWin(msgBg, subMsgWin, subMsgWin->strBuf, (u16)(slot + 3), x, y, width, height, id);
 }
 

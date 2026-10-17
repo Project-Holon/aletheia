@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
@@ -176,7 +176,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, int (*func)(), u32 workSize);
 
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 
@@ -471,7 +471,7 @@ GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayer *player, u
 
     core = FIELD_PLAYER_GRID_GetCore(player);
     event = GAME_EVENT_Create(FIELD_PLAYER_CORE_GetGameSystem(core), 0, FIELD_PLAYER_GRID_EVENT_BoulderDropEvent, sizeof(BoulderDropWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(BoulderDropWork));
     work->player = player;
     work->dir = dir;

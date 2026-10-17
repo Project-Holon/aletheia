@@ -38,8 +38,8 @@
  *   MTX_Concat33      0x0207B388  arm
  *   FX_SinCosTable_   0x020A1B38  data
  *   G3_MultMtx33  0x0207D934  arm
- *   func_02047388  0x02047388  arm
- *   func_020473B8  0x020473B8  arm
+ *   G3D_SYSTEM_GetTexVramKey  0x02047388  arm
+ *   G3D_SYSTEM_GetPlttVramKey  0x020473B8  arm
  */
 #define REG_MTX_MODE     (*(volatile u32 *)0x04000440)
 #define REG_MTX_PUSH     (*(volatile u32 *)0x04000444)
@@ -101,8 +101,8 @@ void MTX_RotZ33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
 void MTX_Scale33_(MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
 void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
 extern void G3_MultMtx33(const void *m);
-u32 func_02047388(struct G3dResource *resource);
-u32 func_020473B8(struct G3dResource *resource);
+u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
+u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
 Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);
 int FIELD_3DBG_DeleteBillboard(Field3dbgBillboard *billboard);
 void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard);
@@ -406,9 +406,9 @@ static inline u32 NNS_GfdGetPlttKeyAddr(u32 key) { return (u32)((0x0000FFFF & ke
  */
 void FIELD_3DBG_SetTextureParams(Field3dbgBillboard *billboard)
 {
-    u32 texKey = func_02047388(billboard->tex.resource);
+    u32 texKey = G3D_SYSTEM_GetTexVramKey(billboard->tex.resource);
     int format = billboard->tex.format;
 
     G3_TexImageParam(format, GX_TEXGEN_TEXCOORD, billboard->tex.sizeS, billboard->tex.sizeT, billboard->tex.repeat, billboard->tex.flip, billboard->tex.plttColor0, NNS_GfdGetTexKeyAddr(texKey));
-    G3_TexPlttBase(NNS_GfdGetPlttKeyAddr(func_020473B8(billboard->tex.resource)), format);
+    G3_TexPlttBase(NNS_GfdGetPlttKeyAddr(G3D_SYSTEM_GetPlttVramKey(billboard->tex.resource)), format);
 }

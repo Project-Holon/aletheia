@@ -88,7 +88,7 @@
  *   d_021F63C8     0x021F63C8  data  a4
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   sBtlMsgSidePairIds     0x021F39A0  data  a2
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4

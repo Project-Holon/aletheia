@@ -19,7 +19,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   abs_id_4b      0x0000004B  data
  *   abs_id_4d      0x0000004D  data
  *   GAME_EVENT_Create  0x020122C0  thumb
@@ -36,9 +36,9 @@
  *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
  *   BATTLE_EXAMINATION_IsDeliveryValid  0x0200E5A0  thumb
  *   BATTLE_EXAMINATION_IsDeliveryUnused  0x0200E5CC  thumb
- *   func_0200734C  0x0200734C  thumb
+ *   SAVE_CONTROL_DeleteExtraSaveBuffered  0x0200734C  thumb
  *   POKEPARTY_InitEx  0x0201A954  thumb
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   FLD_BTL_INST_TOOL_CreateTrainer  0x02168878  thumb  ov010
  *   BATTLE_EXAMINATION_GetTrainerSlot  0x0200E5F8  thumb
  *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
@@ -49,13 +49,13 @@
  *   DELIVERY_BEACON_RunStep  0x02157928  thumb  ov010
  *   DELIVERY_BEACON_HasAnyPiece  0x021578F0  thumb  ov010
  *   DELIVERY_BEACON_TryComplete  0x02157910  thumb  ov010
- *   func_0200E8F8  0x0200E8F8  thumb
+ *   MISC_SAVEDATA_GetBlock41  0x0200E8F8  thumb
  *   BATTLE_EXAMINATION_GetDeliveryId  0x0200E5E4  thumb
  *   BATTLE_EXAMINATION_LoadDelivery  0x0200E608  thumb
  *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
  *   GFL_NET_IsIdle  0x0203D210  arm
  *   RECORD_GetFromSave  0x02008C58  thumb
- *   func_02008E88  0x02008E88  thumb
+ *   RECORD_SetTrialScore  0x02008E88  thumb
  *   RECORD_SetTrialRank  0x02008E68  thumb
  *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
  *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
@@ -201,7 +201,7 @@ extern u32 KEY_GetTrg(void);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *arg, int (*func)(GameEvent *event, u32 *seq, void *work), u32 workSize);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
@@ -213,18 +213,18 @@ extern Party *POKEPARTY_Create(u32 heapId);
 extern void POKEPARTY_InitEx(Party *party, s32 capacity);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
 extern TrialHouseDelivery *SAVE_CONTROL_GetExtraSaveRecord(SaveControl *saveControl, u32 blockId, u32 arg);
-extern void func_0200734C(SaveControl *saveControl, unsigned int blockId);
+extern void SAVE_CONTROL_DeleteExtraSaveBuffered(SaveControl *saveControl, unsigned int blockId);
 extern int BATTLE_EXAMINATION_IsDeliveryValid(TrialHouseDelivery *delivery);
 extern int BATTLE_EXAMINATION_IsDeliveryUnused(TrialHouseDelivery *delivery);
 extern BtlInstTrainer *BATTLE_EXAMINATION_GetTrainerSlot(TrialHouseDelivery *delivery, u32 index);
 extern u16 BATTLE_EXAMINATION_GetDeliveryId(TrialHouseDelivery *delivery);
 extern void BATTLE_EXAMINATION_LoadDelivery(GameData *gameData, TrialHouseDelivery *src, u32 heapId);
 extern void BATTLE_EXAMINATION_RefreshMarker(TrialHouseDelivery *delivery);
-extern TrialHouseSave *func_0200E8F8(SaveControl *saveControl);
+extern TrialHouseSave *MISC_SAVEDATA_GetBlock41(SaveControl *saveControl);
 extern RecordBlock *RECORD_GetFromSave(SaveControl *saveControl);
-extern void func_02008E88(RecordBlock *record, u32 value);
+extern void RECORD_SetTrialScore(RecordBlock *record, u32 value);
 extern void RECORD_SetTrialRank(RecordBlock *record, u32 value);
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 extern int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, int count, u16 *exclSpecies, u16 *exclItems, BtlInstDraw *draw, u16 heapId);
 extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 trainerType);
 extern GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlInstTrainer *trainers, int index, int mmdlId);
@@ -307,7 +307,7 @@ void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work)
             state = TRIAL_HOUSE_DELIVERY_USED;
         }
     }
-    func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
+    SAVE_CONTROL_DeleteExtraSaveBuffered(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
     GFL_HEAP_Free(buf);
     work->deliveryState = state;
 }
@@ -405,7 +405,7 @@ void TRIAL_HOUSE_BuildTrainerFromMode(TrialHouseWork *work, u32 mode)
         count = 0x14;
         break;
     }
-    trainerIndex = firstIndex + func_020056EC(count);
+    trainerIndex = firstIndex + GFL_USE_GetRandom(count);
     heapId = work->heapId;
     FLD_BTL_INST_TOOL_CreateTrainer(&work->trainer, (u16)trainerIndex, work->monCount, 0, 0, 0, (heapId & 0x7FFF) | 0x8000);
 }
@@ -421,7 +421,7 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *ds
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
         *dst = *BATTLE_EXAMINATION_GetTrainerSlot(SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
     }
-    func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
+    SAVE_CONTROL_DeleteExtraSaveBuffered(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
     GFL_HEAP_Free(buf);
 }
 
@@ -447,7 +447,7 @@ GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork
     TrialHouseDeliveryTaskWork *task;
 
     event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
-    task = func_020124E8(event);
+    task = GAME_EVENT_GetWork(event);
     task->gameSystem = gameSystem;
     task->result = result;
     task->trialHouse = work;
@@ -529,7 +529,7 @@ int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work)
         }
         gameData = ICA_ANIME_GetField1C(gameSystem);
         saveControl = GAME_DATA_GetSaveControl(gameData);
-        save = func_0200E8F8(saveControl);
+        save = MISC_SAVEDATA_GetBlock41(saveControl);
         delivery = task->trialHouse->delivery;
         deliveryId = BATTLE_EXAMINATION_GetDeliveryId(delivery);
         isValid = BATTLE_EXAMINATION_IsDeliveryValid(delivery);
@@ -624,7 +624,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
     *outScore = score;
 
     saveControl = GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem));
-    save = func_0200E8F8(saveControl);
+    save = MISC_SAVEDATA_GetBlock41(saveControl);
     slot = &save->slot[(u8)(work->deliveryState != 0)];
     slot->valid = 1;
     if (work->monCount == 3) {
@@ -651,11 +651,11 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
             MI_CpuCopy8(SAVE_CONTROL_GetExtraSaveRecord(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
         }
         GFL_HEAP_Free(buf);
-        func_0200734C(saveControl2, TRIAL_HOUSE_SAVE_BLOCK);
+        SAVE_CONTROL_DeleteExtraSaveBuffered(saveControl2, TRIAL_HOUSE_SAVE_BLOCK);
     }
 
     record = RECORD_GetFromSave(saveControl);
-    func_02008E88(record, score);
+    RECORD_SetTrialScore(record, score);
     RECORD_SetTrialRank(record, (u8)rank);
 }
 
@@ -677,7 +677,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mo
     FieldSaveAnime *saveAnime;
 
     event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
-    task = func_020124E8(event);
+    task = GAME_EVENT_GetWork(event);
     task->gameSystem = gameSystem;
     task->buffer = 0;
     task->mode = mode;
@@ -690,7 +690,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mo
 /* Returns a bit mask of the saved results: bit 0 = first slot, bit 1 = second slot. */
 int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem)
 {
-    TrialHouseSave *save = func_0200E8F8(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
+    TrialHouseSave *save = MISC_SAVEDATA_GetBlock41(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(gameSystem)));
 
     if (save->slot[0].valid != 0) {
         if (save->slot[1].valid != 0) {
@@ -748,7 +748,7 @@ int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
         break;
     case 1:
         if (GAME_DATA_PartSaveMain(gameData, TRIAL_HOUSE_SAVE_BLOCK) == 2) {
-            func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
+            SAVE_CONTROL_DeleteExtraSaveBuffered(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
             GFL_HEAP_Free(task->buffer);
             FIELD_SAVEANIME_Stop(task->saveAnime);
             FIELD_SAVEANIME_Delete(task->saveAnime);

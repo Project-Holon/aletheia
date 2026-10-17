@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from zukan_list.c, ov209_func_021BE658.c by tools/splitfile.py.
+ * Cut from zukan_list.c, ZUKAN_LIST_HandleTouchInput.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -23,7 +23,7 @@
  *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_02005624 0x02005624 thumb
+ *   GFL_USE_AddHBlankTask 0x02005624 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   gZukanListVramBankConfig 0x021BE7D4 data a4
  *   BG_SYS_Create 0x0203F8F4 arm
@@ -46,7 +46,7 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -61,7 +61,7 @@
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
@@ -136,8 +136,8 @@
  *   BMP_WIN_GetPosX 0x02045758 arm
  *   BMP_WIN_GetPosY 0x02045760 arm
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02049EF4 0x02049EF4 arm
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   MIi_CpuCopy32 0x02082A90 arm
  *   ZUKAN_SAVE_CountSeenNational 0x0200D0CC thumb
  *   ZUKAN_SAVE_CountCaughtNational 0x0200CF28 thumb
@@ -199,7 +199,7 @@
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   CLACT_SetActorFlip 0x0204B604 arm
  *   gZukanListSpeciesActor 0x021BE9A4 data a4
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
@@ -355,7 +355,7 @@ struct ClactActorDesc { u32 attr0, attr4, charIndex, palIndex, animIndex; u16 po
 /* Descriptor ZUKAN_CreateActor builds the scrolling species actors from. */
 struct ClactSpeciesActor { u16 attr0; u16 posY; u32 attr4; u32 charHandle; u32 palHandle; u32 animHandle; u16 attr14; u16 flags; };
 
-/* Character part data returned by func_02049E74. */
+/* Character part data returned by ARC_UTIL_LoadScreenDataFromHandle. */
 struct ClactPartData { u8 pad[20]; void *part; };
 
 enum Position { POSITION_ZERO=0 };
@@ -378,7 +378,7 @@ extern void BG_SYS_Update(void),CLACT_VBlankSystem(void);
 
 extern void PALANM_TransferPalettes(struct S02021D50 *);
 
-extern void *func_02005624(unsigned,unsigned,unsigned);
+extern void *GFL_USE_AddHBlankTask(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 
@@ -404,7 +404,7 @@ extern void BG_SYS_Delete(void);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -434,7 +434,7 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,unsigned);
 
 extern void PALANM_Delete(struct PalAnmSlot *);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
 
@@ -574,9 +574,9 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void *func_02049EF4(void *, u32, u32, void **, u16);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 
-extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
@@ -692,7 +692,7 @@ extern void POKE_PERSONAL_Delete(void *);
 
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern u16 CLACT_GetActorCharacterIndex(u8 *);
 
@@ -930,7 +930,7 @@ void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p){TCB_DeleteTask((struct Node 
  */
 void ZUKAN_LIST_VBlankTask(void *unused,struct ZukanList *p){enum Base { DTCM_BASE=0x02fe0000 } base;BG_SYS_Update();CLACT_VBlankSystem();PALANM_TransferPalettes((struct S02021D50 *)p->palAnm);base=DTCM_BASE;*(volatile unsigned *)&((struct DtcmIrqFlag *)base)->flag|=1;}
 
-void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p){p->hblankTask=func_02005624((unsigned)ZUKAN_LIST_HBlankTask,(unsigned)p,0);}
+void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p){p->hblankTask=GFL_USE_AddHBlankTask((unsigned)ZUKAN_LIST_HBlankTask,(unsigned)p,0);}
 
 void ZUKAN_LIST_StopHBlankTask(struct ZukanList *p)
 {
@@ -1010,8 +1010,8 @@ void ZUKAN_LIST_LoadBgGraphics(void)
 {
     void *arc;
     arc=ARC_TOOL_CreateHandle(159,107);
-    func_02049B68(arc,48,0,0,128,107);
-    func_02049B68(arc,49,4,0,160,107);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,48,0,0,128,107);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,49,4,0,160,107);
     ARC_UTIL_UploadBgCharFromHandle(arc,58,2,0,0,0,107);
     ARC_UTIL_UploadBgCharFromHandle(arc,56,3,0,0,0,107);
     ARC_UTIL_UploadBgCharFromHandle(arc,59,6,0,0,0,107);
@@ -1022,7 +1022,7 @@ void ZUKAN_LIST_LoadBgGraphics(void)
     ARC_TOOL_DeleteHandle(arc);
     arc=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),107);
     ARC_UTIL_RegisterObjCharFromHandle(arc,APP_ICON_GetStatusFrameFileId(),1,0,0,107);
-    func_02049B68(arc,APP_ICON_GetStatusAnimFileId(),0,448,32,107);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,APP_ICON_GetStatusAnimFileId(),0,448,32,107);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,APP_ICON_GetStatusDataFileId(),1,0,0,0,107);
     BG_SYS_FillTileMap(1,0,21,32,3,14);
     BG_SYS_SetFlagField06(1);
@@ -1045,13 +1045,13 @@ void ZUKAN_LIST_ExitPaletteAnim(struct ZukanList *p){PALANM_FreeSlotBuffers((str
 void ZUKAN_LIST_RequestFade(struct ZukanList *p, u8 fadeFrom, u8 fadeTo)
 {
     void *ctx;
-    ctx = (void *)func_020056BC();
+    ctx = (void *)GFL_USE_GetMainTaskList();
     PALANM_RequestFade(p->palAnm, 1, 0xBFFF, -14, fadeFrom, fadeTo, 0, ctx);
-    ctx = (void *)func_020056BC();
+    ctx = (void *)GFL_USE_GetMainTaskList();
     PALANM_RequestFade(p->palAnm, 2, 0xFFEF, -14, fadeFrom, fadeTo, 0, ctx);
-    ctx = (void *)func_020056BC();
+    ctx = (void *)GFL_USE_GetMainTaskList();
     PALANM_RequestFade(p->palAnm, 4, 0xF878, -14, fadeFrom, fadeTo, 0, ctx);
-    ctx = (void *)func_020056BC();
+    ctx = (void *)GFL_USE_GetMainTaskList();
     PALANM_RequestFade(p->palAnm, 8, 0xBFFF, -14, fadeFrom, fadeTo, 0, ctx);
 }
 
@@ -1553,9 +1553,9 @@ void ZUKAN_LIST_ClearWindow(struct ZukanList *p, u32 windowIndex)
     y = BMP_WIN_GetPosY(*(struct Descriptor **)((u8 *)ent + windowIndex * 8));
     dst = BMP_GetPixels(BMP_WIN_GetBmp(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
     arc = ARC_TOOL_CreateHandle(0x9F, 0x6B);
-    mapHandle = func_02049EF4(arc, 0x45, 0, &mapRes, 0x806B);
+    mapHandle = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x45, 0, &mapRes, 0x806B);
     tileMap = (u8 *)mapRes + 0xC;
-    gfxHandle = func_02049DF4(arc, 0x39, 0, (u32)(&gfxRes), 0x806B);
+    gfxHandle = ARC_UTIL_LoadBgCharDataFromHandle(arc, 0x39, 0, (u32)(&gfxRes), 0x806B);
     gfx = *(u8 **)((u8 *)gfxRes + 0x14);
     ARC_TOOL_DeleteHandle(arc);
     if (h > 0) {
@@ -1871,7 +1871,7 @@ void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, uns
     unsigned charHalfSaved;
     owner=ARC_TOOL_CreateHandle(7,0x806b);
     charHalfSaved=charHalf;
-    data=func_02049E74((void *)((unsigned)owner),POKE_TOOL_CalcGraphicIndex(species,form,charHalfSaved,0),0,(unsigned)&out,0x806b);
+    data=ARC_UTIL_LoadScreenDataFromHandle((void *)((unsigned)owner),POKE_TOOL_CalcGraphicIndex(species,form,charHalfSaved,0),0,(unsigned)&out,0x806b);
     if (mode==1) {
         slot=&p->actors[actorIndex];
         CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((u8 *)*slot),out->part,1024,0,0);

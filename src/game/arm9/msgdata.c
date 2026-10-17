@@ -38,7 +38,7 @@
  *   MSGDATA_DecryptUnits  0x02045E3C  arm
  *   ARC_TOOL_SeekHandle  0x0204960C  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
- *   sub_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MSGDATA_LoadBank  0x02046110  arm
  *   sub_020461E4  0x020461E4  arm
@@ -439,7 +439,7 @@ u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex)
  * Message bank string allocator and loader: given a bank and an entry index,
  * reads the entry descriptor (from the resident array or stream), allocates
  * a buffer sized for the string length, decodes the string into it via
- * sub_02045CAC, and returns the allocated buffer.
+ * MSGDATA_ReadString, and returns the allocated buffer.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/MSGDATA_AllocString.c \

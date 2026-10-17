@@ -122,7 +122,7 @@
  *   gClActorInitParam 0x020A1448 data a4
  *   d_021BA5C4 0x021BA5C4 data a4
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -204,7 +204,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
- *   func_0207CFB8 0x0207CFB8 arm
+ *   FX_Atan2Idx 0x0207CFB8 arm
  *   MUSICAL_SAVE_InitOutfits 0x0200A604 thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   a1 0x021BA558 data a4
@@ -533,7 +533,7 @@ extern void *BILLBOARD_Create(u8 *,void *);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -613,7 +613,7 @@ extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct V
 
 extern void BILLBOARD_SetElemVisible(void *, u32, u32 *);
 
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 
 extern void BILLBOARD_FreeElem(void *,unsigned int),BILLBOARD_DeleteImage(u8 *,int);
 
@@ -661,7 +661,6 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern int FX_Sqrt(int);
 
-extern int FX_Atan2Idx(int, int);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
@@ -673,7 +672,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *, int, int);
 
-extern u16 func_0207CFB8(long,long);
+extern u16 FX_Atan2Idx(long,long);
 
 extern void MUSICAL_SAVE_InitOutfits(struct Big *p);
 
@@ -1271,11 +1270,11 @@ void DUP_FITTING_InitModels(u8 *p)
 {
     DupFittingActorParam cfg;
     void *g = ARC_TOOL_CreateHandle(0x2e, H);
-    func_02049B68(g, 4, 0, 0, 0, H);
+    ARC_UTIL_UploadPaletteFromHandleWhole(g, 4, 0, 0, 0, H);
     ARC_UTIL_UploadBgCharFromHandle(g, 7, 3, 0, 0, 0, H);
     ARC_UTIL_UploadBgPaletteFromHandle(g, 0xc, 3, 0, 0, 0, H);
     ARC_UTIL_UploadBgPaletteFromHandle(g, 0xb, 2, 0, 0, 0, H);
-    func_02049B68(g, 3, 4, 0, 0, H);
+    ARC_UTIL_UploadPaletteFromHandleWhole(g, 3, 4, 0, 0, H);
     ARC_UTIL_UploadBgCharFromHandle(g, 0xa, 4, 0, 0, 0, H);
     ARC_UTIL_UploadBgCharFromHandle(g, 9, 7, 0, 0, 0, H);
     ARC_UTIL_UploadBgPaletteFromHandle(g, 0x10, 4, 0, 0, 0, H);
@@ -1478,8 +1477,8 @@ void DUP_FITTING_AddFitElemById(u8 *p,u16 id)
 void DUP_FITTING_RandomPos(void *unused, int *p)
 {
     do {
-        p[0] = func_02005728(240) + 8;
-        p[1] = func_02005728(128) + 32;
+        p[0] = GFL_USE_GetRandomBelow(240) + 8;
+        p[1] = GFL_USE_GetRandomBelow(128) + 32;
     } while (DUP_FITTING_HitCircle((short)(p[0] - 128), (short)(p[1] - 80), 84, 0.739130437374115f) == 1);
 }
 
@@ -2734,7 +2733,7 @@ void DUP_FITTING_DragRotate(u8 *p)
     y=xy[1];
     dx=fx((int)(*(u32 *)&((struct DupFittingWork *)p)->cursorX-xy[0]));
     dy=fx((int)(((struct DupFittingWork *)p)->cursorY-(unsigned)y));
-    angle=func_0207CFB8(dx,dy);
+    angle=FX_Atan2Idx(dx,dy);
     if(((struct DupFittingWork *)p)->dragActive==1) {
         stride=index*6;
         old=*(short *)(*(u8 * *)&((struct DupFittingOwner *)(*(u8 * *)&((struct DupFittingWork *)p)->parent))->outfitTable+stride+0x16);

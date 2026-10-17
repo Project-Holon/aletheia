@@ -21,7 +21,7 @@
  *   gMslStream0  0x020A8730  data
  *   gMslRefGen  0x02153B8C  data
  *   gMslRefCount  0x02153BB0  data
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _u32_div_f  0x0209C2B0  arm
  *   __tolower_map  0x020A60DC  data
  *   errno  0x02153FAC  data
  *   gMslStream1  0x020A877C  data
@@ -108,7 +108,7 @@ extern int OS_TryLockMutex(void *mutex);
 
 extern void OS_UnlockMutex(void *mutex);
 
-extern u32  func_0209C2B0(u32 a, u32 b);                         /* udiv */
+extern u32  _u32_div_f(u32 a, u32 b);                         /* udiv */
 
 int MSL_C_LIB_FlushAllGated(void);
 
@@ -349,7 +349,7 @@ enum { __no_io_error, __io_error, __io_EOF };
  * shape: fwide orientation probe, pushback drain through ungetc_buffer /
  * ungetwc_buffer, buffered copy loop through __load_buffer (__load_buffer)
  * and memcpy (func_02092344), then the unbuffered direct read that borrows
- * buffer/buffer_size.  Returns bytes_read / memb_size (func_0209C2B0).
+ * buffer/buffer_size.  Returns bytes_read / memb_size (_u32_div_f).
  * The two levers over the earlier 788/456 note body were (1) writing it as
  * MSL writes it (always_buffer = !binary_io || buffer_mode == _IOFBF, the
  * set_error / set_eof bodies spelled out in each arm) and (2) the FILE
@@ -478,7 +478,7 @@ size_t __fread(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
         file->buffer_len = 0;
     }
 
-    return func_0209C2B0(bytes_read, memb_size);
+    return _u32_div_f(bytes_read, memb_size);
 }
 
 int fclose(u8 *stream)

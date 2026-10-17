@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from pdc.c, ov098_func_021B6CDC.c by tools/splitfile.py.
+ * Cut from pdc.c, PDC_MSG_BlendUpdate.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm

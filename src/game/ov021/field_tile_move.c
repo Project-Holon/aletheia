@@ -19,7 +19,7 @@
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
@@ -118,7 +118,7 @@ extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
 extern int GFL_USE_GetSeSlot(u32 seId);
 extern void GFL_USE_StopSeSlot(int seSlot);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc func, u32 workSize);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
@@ -231,7 +231,7 @@ int FIELD_TILE_MOVE_SpinTaskMain(GameEvent *event, int *state, TileSpinWork *wor
 GameEvent *FIELD_TILE_MOVE_StartSpinTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, FIELD_TILE_MOVE_SpinTaskMain, 0x1C);
-    TileSpinWork *work = func_020124E8(event);
+    TileSpinWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -400,7 +400,7 @@ GameEvent *FIELD_TILE_MOVE_StartSlideTask(GameEvent *parent, GameSystem *gameSys
 {
     FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
     GameEvent *event = GAME_EVENT_Create(gameSystem, parent, FIELD_TILE_MOVE_SlideTaskMain, 0x28);
-    TileSlideWork *work = func_020124E8(event);
+    TileSlideWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

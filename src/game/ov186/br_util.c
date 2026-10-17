@@ -65,7 +65,7 @@
  *   d_02200D5C 0x02200D5C data a1
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Copy 0x02045838 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -306,7 +306,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -609,7 +609,7 @@ void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned shor
     Pair xy;
     void *owner;
     BMP_Clear(BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window),((BrUtilTextWin *)p)->clearColor);
-    func_02045CAC(a,(u32)b,((BrUtilTextWin *)p)->strbuf);
+    MSGDATA_ReadString(a,(u32)b,((BrUtilTextWin *)p)->strbuf);
     BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (Pair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (Pair *)&xy);
     owner=((BrUtilTextWin *)p)->owner;
     PRINTSYS_PrintQueColor(owner,(u32)BMP_WIN_GetBmp(((BrUtilTextWin *)p)->bmp),(short)xy.x,(short)xy.y,(u32)(((BrUtilTextWin *)p)->strbuf),(u32)font,value);

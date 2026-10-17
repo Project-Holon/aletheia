@@ -45,7 +45,7 @@
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
@@ -142,7 +142,7 @@ extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
 extern u32 GFL_HEAP_Free(void *p);
 /* The original forwards the full entry r1 without halfword truncation. */
@@ -269,7 +269,7 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other)
 
 
 
-void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=func_02049E74((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);GFL_HEAP_Free(raw);}
+void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)a,c,d,(u32)(&out),heap);CLACT_TransferCharacter(b,out);GFL_HEAP_Free(raw);}
 
 
 

@@ -45,7 +45,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_Init 0x02040C14 arm
@@ -98,7 +98,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
@@ -114,7 +114,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   sResultPowersOfTen 0x021B8974 data a4
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
@@ -134,6 +134,12 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
  *   IRC_RANKING_IsEntryNew  0x0200A9A4  thumb  arm9
  *   IRC_RANKING_AddEntry  0x0200AA68  thumb  arm9
+ *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb  arm9
+ *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb  arm9
+ *   MYSTATUS_GetName  0x020084F4  thumb  arm9
+ *   MYSTATUS_GetId  0x02008530  thumb  arm9
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb  arm9
+ *   RECORD_AddOne  0x02008DF0  thumb  arm9
  */
 #include "irc_result_types.h"
 
@@ -231,7 +237,7 @@ extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl,
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void func_02049B68(void *,int,int,int,int,int);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,int,int,int,int,int);
 extern void ARC_UTIL_UploadBgCharFromHandle(void *,int,int,int,int,int,int);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,int,int,int,int,int,int);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
@@ -286,7 +292,7 @@ extern void BG_SYS_PushTile(u32 index);
 extern void STRBUF_Delete(void *);
 extern void BMP_WIN_Delete(void *window);
 extern unsigned int PRINTSYS_QUE_IsExistTarget(void *queue,void *bitmap);
-extern void func_02045CAC(void *messages, u32 index, void *dest);
+extern void MSGDATA_ReadString(void *messages, u32 index, void *dest);
 extern void PRINTSYS_PrintQue(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font);
 extern u8 BMP_WIN_GetWidth(void *window);
 extern u8 BMP_WIN_GetHeight(void *window);
@@ -303,7 +309,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int GFL_USE_IsBgmPlaying(void);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void *func_02049F34(u32 archiveId, u32 fileId, IrcPaletteFile **out, u32 heapId);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveId, u32 fileId, IrcPaletteFile **out, u32 heapId);
 extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 GFL_HEAP_Free(void *p);
 extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *src, int size);
@@ -311,16 +317,16 @@ extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void
 extern void *GAMESYSTEM_GetGameData(const void *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(void *gameData);
 extern void *IRC_RANKING_GetFromSave(struct SaveControl *);
-extern u32 func_02008530(const u8 *key);
+extern u32 MYSTATUS_GetId(const u8 *key);
 extern int IRC_RANKING_IsEntryNew(void *record, u32 v);
 extern struct ItemBag *GAME_DATA_GetMyItem(void *gameData);
-extern u32 func_02007FB8(struct ItemBag *,u16,u16);
-extern u32 func_02007E50(struct ItemBag *,u16,u16,u16);
-extern void *func_020084F4(const u8 *key);
-extern u8 func_02008550(const u8 *key);
+extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct ItemBag *,u16,u16);
+extern u32 MYITEM_SAVEDATA_AddItem(struct ItemBag *,u16,u16,u16);
+extern void *MYSTATUS_GetName(const u8 *key);
+extern u8 MYSTATUS_GetOutfitVariant(const u8 *key);
 extern u8 IRC_RANKING_AddEntry(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
 extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(void *gameData);
-extern u32 func_02008DF0(struct TrainerRecord *record, int i);
+extern u32 RECORD_AddOne(struct TrainerRecord *record, int i);
 
 int IRC_RESULT_Init(struct Proc *proc,void *state,IrcResultContext *context);
 int IRC_RESULT_Exit(struct Proc *proc,int unused1,int unused2,IrcResult *work);
@@ -508,8 +514,8 @@ void IRC_RESULT_InitBackgrounds(IrcResultScreen *screen,int heapId)
         BG_SYS_FreeSlot((u8)id); BG_SYS_SetPlaneVisible((u8)id,1);
     }
     archive=ARC_TOOL_CreateHandle(IRC_GRAPHICS_ARCHIVE_ID,heapId);
-    func_02049B68(archive,16,0,0,0,heapId);
-    func_02049B68(archive,16,4,0,0,heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive,16,0,0,0,heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive,16,4,0,0,heapId);
     ARC_UTIL_UploadBgCharFromHandle(archive,0,2,0,0,0,heapId);
     ARC_UTIL_UploadBgCharFromHandle(archive,0,6,0,0,0,heapId);
     ARC_UTIL_UploadBgCharFromHandle(archive,48,4,0,0,0,heapId);
@@ -660,7 +666,7 @@ void IRC_RESULT_PrintMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId,in
  void *messages; void *printQueue; void *font;
  messages=IRC_RESULT_GetMessages(text); printQueue=IRC_RESULT_GetPrintQueue(text); font=IRC_RESULT_GetFont(text);
  BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor);
- func_02045CAC(messages,msgId,win->buffer);
+ MSGDATA_ReadString(messages,msgId,win->buffer);
  PRINTSYS_PrintQue(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,y,win->buffer,font); win->isPrinting=1;
 }
 
@@ -669,7 +675,7 @@ void IRC_RESULT_PrintCenteredMessage(IrcTextWindow *win,IrcTextSystem *text,int 
  void *messages; void *printQueue; void *font; u16 x,y;
  messages=IRC_RESULT_GetMessages(text); printQueue=IRC_RESULT_GetPrintQueue(text); font=IRC_RESULT_GetFont(text);
  BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor);
- func_02045CAC(messages,msgId,win->buffer);
+ MSGDATA_ReadString(messages,msgId,win->buffer);
  x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4;
  x-= (u16)(GF_FONT_MeasureWidestLine(win->buffer,font,0)/2);
  y-= (u16)(GF_FONT_CountLines(win->buffer,font)/2);
@@ -862,7 +868,7 @@ void IRC_RESULT_InitRankFade(IrcResultRankFade *fade,int id,int score,int heapId
     ARC_UTIL_UploadBgCharFromHandle(archive,15,3,0,0,0,heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(archive,17,3,0,0,0,heapId);
     ARC_TOOL_DeleteHandle(archive);
-    data=func_02049F34(IRC_GRAPHICS_ARCHIVE_ID,16,&file,heapId);
+    data=ARC_UTIL_LoadPaletteBlockFromArchive(IRC_GRAPHICS_ARCHIVE_ID,16,&file,heapId);
     colors=file->colors;
     MI_CpuCopy8(colors,fade->targetColors,32);
     MI_CpuCopy8(colors+0x100,fade->targetColors,32);
@@ -976,23 +982,23 @@ int IRC_RESULT_GiveReward(IrcResult *work)
     record=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->context->gameSystem)));
     partner=work->context->partner;
     key=partner->myStatus;
-    if(!IRC_RANKING_IsEntryNew(record,func_02008530(key)) && work->context->gameSystem) {
+    if(!IRC_RANKING_IsEntryNew(record,MYSTATUS_GetId(key)) && work->context->gameSystem) {
         bag=GAME_DATA_GetMyItem(GAMESYSTEM_GetGameData(work->context->gameSystem));
-        quantity=func_02007FB8(bag,IRC_RESULT_REWARD_ITEM,60);
+        quantity=MYITEM_SAVEDATA_GetItemQuantity(bag,IRC_RESULT_REWARD_ITEM,60);
         switch(quantity) {
         case IRC_RESULT_REWARD_MAX: result=IRC_RESULT_REWARD_BAG_FULL; break;
         default:
             request=work->rewardQuantity;
             if(IRC_RESULT_REWARD_MAX-quantity<request) request=IRC_RESULT_REWARD_MAX-quantity;
-            result=func_02007E50(bag,IRC_RESULT_REWARD_ITEM,(u16)request,60)?IRC_RESULT_REWARD_GIVEN:IRC_RESULT_REWARD_BAG_FULL;
+            result=MYITEM_SAVEDATA_AddItem(bag,IRC_RESULT_REWARD_ITEM,(u16)request,60)?IRC_RESULT_REWARD_GIVEN:IRC_RESULT_REWARD_BAG_FULL;
             break;
         }
     }
     if(work->context->partner) {
-        src=func_020084F4(key);
-        flag=func_02008550(key)?0:1;
-        IRC_RANKING_AddEntry(record,src,work->context->score,(u8)flag,partner->birthMonth,partner->birthDay,func_02008530(key),partner->leadSpecies,partner->leadType2,partner->leadType1,partner->leadNature);
+        src=MYSTATUS_GetName(key);
+        flag=MYSTATUS_GetOutfitVariant(key)?0:1;
+        IRC_RANKING_AddEntry(record,src,work->context->score,(u8)flag,partner->birthMonth,partner->birthDay,MYSTATUS_GetId(key),partner->leadSpecies,partner->leadType2,partner->leadType1,partner->leadNature);
     }
-    if(work->context->gameSystem) func_02008DF0(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->context->gameSystem)),IRC_RESULT_TRAINER_RECORD);
+    if(work->context->gameSystem) RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->context->gameSystem)),IRC_RESULT_TRAINER_RECORD);
     return result;
 }

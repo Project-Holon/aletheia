@@ -63,7 +63,7 @@ int gti2VerifyChallenge(unsigned char *buffer)
  * the odd/even parity fix-up driven by the vendor CALCULATEODDMODE macro.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02194B74.c  *       --func gti2GetChallenge --addr 0x02194B74 --region ov009 --arm --cc 1.1p1 --lang c99
+ *   python tools/match.py one --src src/matched/ov_sdk/gti2GetChallenge.c  *       --func gti2GetChallenge --addr 0x02194B74 --region ov009 --arm --cc 1.1p1 --lang c99
  */
 unsigned char *gti2GetChallenge(unsigned char *buffer)
 {

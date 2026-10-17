@@ -82,7 +82,7 @@ extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern FieldGimmickSoundObjsBSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
 extern u32 SOUND_OBJ_GetAnimeFrame(struct SoundObj *obj);
 extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, s32 frame);
-extern unsigned func_02005728(unsigned limit);
+extern unsigned GFL_USE_GetRandomBelow(unsigned limit);
 
 void FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(FieldGimmickSoundObjsBWork *work, int index);
 

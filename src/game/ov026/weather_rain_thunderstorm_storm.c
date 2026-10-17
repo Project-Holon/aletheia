@@ -41,7 +41,7 @@
  *   WEATHER_TASK_SetParticlePos 0x021A26C4 thumb ov021
  *   WEATHER_TASK_RemoveParticle 0x021A21E0 thumb ov021
  *   CLACT_SetActorAnimIndex 0x0204B908 arm
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
  *   WEATHER_TASK_SetLightColor  0x021A2154  thumb  ov021
  *   WEATHER_TASK_FlashLight  0x021A2130  thumb  ov021
@@ -318,7 +318,7 @@ void WEATHER_RAIN_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId)
         }
         drop = (WeatherRainDrop *)WEATHER_TASK_GetParticleWork(particle);
         actor = WEATHER_TASK_GetParticleActor(particle);
-        rand = func_020056EC(0);
+        rand = GFL_USE_GetRandom(0);
         drop->age = 0;
         size = rand % 3;
         CLACT_SetActorAnimIndex(actor, (u16)size);
@@ -338,7 +338,7 @@ void WEATHER_RAIN_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId)
         WEATHER_TASK_SetParticlePos(particle, &pos);
         drop->speedX = drop->speedX * 2;
         drop->speedY = drop->speedY * 2;
-        drop->splashRoll = func_020056EC(10);
+        drop->splashRoll = GFL_USE_GetRandom(10);
     }
 }
 
@@ -538,7 +538,7 @@ void WEATHER_THUNDERSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 he
         }
         drop = (WeatherThunderstormDrop *)WEATHER_TASK_GetParticleWork(particle);
         actor = WEATHER_TASK_GetParticleActor(particle);
-        rand = func_020056EC(0);
+        rand = GFL_USE_GetRandom(0);
         size = rand % 3;
         CLACT_SetActorAnimIndex(actor, (u16)size);
         drop->speedY = drop->speedX = (rand & 15) + (size + 1) * 14;
@@ -709,7 +709,7 @@ void WEATHER_STORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId)
     WeatherStormParticle *kind;
     Actor *actor;
 
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     work = WEATHER_TASK_GetWorkBuffer(task);
     if (work->gustPhase == WEATHER_STORM_GUST_NONE) {
         return;
@@ -793,7 +793,7 @@ void WEATHER_STORM_InitSlowSideDrop(WeatherParticle *particle, const WeatherStor
     int autoAnimSpeed;
     int windX;
 
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     drop->speedX = rand % 24 + 0x10;
     windX = work->windX;
     drop->speedY = rand % 24 + 8;
@@ -834,7 +834,7 @@ void WEATHER_STORM_InitFallingStreak(WeatherParticle *particle, const WeatherSto
     WeatherScreenPos pos;
     int autoAnimSpeed;
 
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     drop->speedX = rand % 43 + 0x56;
     drop->speedY = (rand % 43) * 2 + 0x102;
     pos.x = rand % 336 - 0x50;
@@ -890,7 +890,7 @@ void WEATHER_STORM_InitFastSideStreak(WeatherParticle *particle, const WeatherSt
     WeatherScreenPos pos;
     int autoAnimSpeed;
 
-    rand = func_020056EC(0);
+    rand = GFL_USE_GetRandom(0);
     drop->speedX = rand % 24 + 0x50;
     drop->speedY = rand % 24 + 0xE;
     drop->lastWindX = drop->speedX + work->windX;
@@ -910,7 +910,7 @@ void WEATHER_STORM_InitFastSideStreak(WeatherParticle *particle, const WeatherSt
  * light and sound changes itself. */
 void WEATHER_STORM_StartCalm(WeatherTaskSys *task, WeatherStormWork *work, int variant, int silent)
 {
-    u32 rand = func_020056EC(0);
+    u32 rand = GFL_USE_GetRandom(0);
 
     work->gustPhase = WEATHER_STORM_CALM;
     work->gustDuration = rand % 400 + 0x3C;
@@ -963,7 +963,7 @@ void WEATHER_STORM_UpdateGust(WeatherTaskSys *task, WeatherStormWork *work, int 
     case WEATHER_STORM_GUST_RISE:
         work->gustTimer = work->gustTimer + 1;
         if (work->gustTimer >= work->gustDuration) {
-            rand = func_020056EC(0);
+            rand = GFL_USE_GetRandom(0);
             work->gustPhase = WEATHER_STORM_GUST;
             work->gustDuration = rand % 400 + 0x3C;
             work->gustTimer = 0;
@@ -1044,7 +1044,7 @@ void WEATHER_STORM_PlayGustWarning(WeatherTaskSys *task, WeatherStormWork *work,
 void WEATHER_STORM_ResetThunderTimer(WeatherStormWork *work)
 {
     work->thunderTimer = 0;
-    work->thunderInterval = func_020056EC(16) + 50;
+    work->thunderInterval = GFL_USE_GetRandom(16) + 50;
 }
 
 /* Storm: plays thunder at random intervals during a gust, unless the warning sound is still playing. */
@@ -1061,7 +1061,7 @@ void WEATHER_STORM_UpdateThunder(WeatherTaskSys *task, WeatherStormWork *work, i
         return;
     }
     if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x71F)) == 0) {
-        int pan = func_020056EC(0x1B) + 0x64;
+        int pan = GFL_USE_GetRandom(0x1B) + 0x64;
         WEATHER_TASK_PlaySeWithVoice(task, 0x71E, pan);
         WEATHER_STORM_ResetThunderTimer(work);
         return;
@@ -1073,7 +1073,7 @@ void WEATHER_STORM_UpdateThunder(WeatherTaskSys *task, WeatherStormWork *work, i
 void WEATHER_LIGHTNING_Init(WeatherLightning *lightning, int mode)
 {
     MI_CpuFill8(lightning, 0, 64);
-    lightning->timer = func_020056EC(3);
+    lightning->timer = GFL_USE_GetRandom(3);
     lightning->mode = mode;
 }
 
@@ -1106,7 +1106,7 @@ void WEATHER_LIGHTNING_Update(WeatherLightning *lightning, WeatherTaskSys *task)
         }
         break;
     case WEATHER_LIGHTNING_PICK_SEQUENCE:
-        rand = func_020056EC(100);
+        rand = GFL_USE_GetRandom(100);
         for (i = 0; i < 3; i++) {
             if (gWeatherLightningPatternChance[i] >= rand) {
                 break;
@@ -1153,7 +1153,7 @@ void WEATHER_LIGHTNING_Update(WeatherLightning *lightning, WeatherTaskSys *task)
             WEATHER_TASK_FlashLight(task, WEATHER_LIGHTNING_GetFlashColor(lightning), lightning->flashes[lightning->flashIndex].fadeInFrames, lightning->flashes[lightning->flashIndex].returnFrames);
         }
         if (lightning->pattern == 2) {
-            lightning->timer = lightning->flashes[lightning->flashIndex].fadeInFrames / 2 + func_020056EC(lightning->flashes[lightning->flashIndex].returnFrames);
+            lightning->timer = lightning->flashes[lightning->flashIndex].fadeInFrames / 2 + GFL_USE_GetRandom(lightning->flashes[lightning->flashIndex].returnFrames);
         }
         i = lightning->flashIndex;
         lightning->pendingSoundDelay = lightning->flashes[i].soundDelay;
@@ -1206,12 +1206,12 @@ void WEATHER_LIGHTNING_PickShortFlashes(WeatherLightning *lightning)
 
     i = 0;
     lightning->pattern = 0;
-    lightning->flashCount = func_020056EC(2) + 1;
+    lightning->flashCount = GFL_USE_GetRandom(2) + 1;
     for (; i < lightning->flashCount; i++) {
-        lightning->flashes[i].brightness = func_020056EC(3) + 0x12;
+        lightning->flashes[i].brightness = GFL_USE_GetRandom(3) + 0x12;
         lightning->flashes[i].fadeInFrames = 4;
         lightning->flashes[i].returnFrames = gWeatherLightningReturnFrames[lightning->flashes[i].brightness];
-        lightning->flashes[i].holdFrames = func_020056EC(0xF0) + 0x78;
+        lightning->flashes[i].holdFrames = GFL_USE_GetRandom(0xF0) + 0x78;
         lightning->flashes[i].soundDelay = 0x1C;
         lightning->flashes[i].soundId = 0x693;
     }
@@ -1222,10 +1222,10 @@ void WEATHER_LIGHTNING_PickSingleFlash(WeatherLightning *lightning)
 {
     lightning->pattern = 1;
     lightning->flashCount = 1;
-    lightning->flashes[0].brightness = func_020056EC(3) + 0x18;
+    lightning->flashes[0].brightness = GFL_USE_GetRandom(3) + 0x18;
     lightning->flashes[0].fadeInFrames = 4;
     lightning->flashes[0].returnFrames = gWeatherLightningReturnFrames[lightning->flashes[0].brightness];
-    lightning->flashes[0].holdFrames = func_020056EC(0x12C) + 0xF0;
+    lightning->flashes[0].holdFrames = GFL_USE_GetRandom(0x12C) + 0xF0;
     lightning->flashes[0].soundDelay = 0xD;
     lightning->flashes[0].soundId = 0x692;
 }
@@ -1243,21 +1243,21 @@ void WEATHER_LIGHTNING_PickLongSequence(WeatherLightning *lightning)
     int i;
 
     lightning->pattern = 2;
-    lightning->flashCount = func_020056EC(2) + 1;
+    lightning->flashCount = GFL_USE_GetRandom(2) + 1;
     i = 0;
     lightning->flashCount = lightning->flashCount + 1;
     for (; i < lightning->flashCount - 1; i++) {
-        lightning->flashes[i].brightness = func_020056EC(3) + 0x12;
+        lightning->flashes[i].brightness = GFL_USE_GetRandom(3) + 0x12;
         lightning->flashes[i].fadeInFrames = 4;
         lightning->flashes[i].returnFrames = 8;
-        lightning->flashes[i].holdFrames = func_020056EC(4);
+        lightning->flashes[i].holdFrames = GFL_USE_GetRandom(4);
         lightning->flashes[i].soundDelay = 10;
         lightning->flashes[i].soundId = 0x693;
     }
-    lightning->flashes[i].brightness = func_020056EC(1) + 0x1E;
+    lightning->flashes[i].brightness = GFL_USE_GetRandom(1) + 0x1E;
     lightning->flashes[i].fadeInFrames = 4;
     lightning->flashes[i].returnFrames = gWeatherLightningReturnFrames[lightning->flashes[i].brightness];
-    lightning->flashes[i].holdFrames = func_020056EC(300) + 0xF0;
+    lightning->flashes[i].holdFrames = GFL_USE_GetRandom(300) + 0xF0;
     lightning->flashes[i].soundDelay = 10;
     lightning->flashes[i].soundId = 0x692;
 }

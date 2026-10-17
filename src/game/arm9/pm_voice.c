@@ -72,13 +72,13 @@
  *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
  *   NNS_SndWaveOutSetVolume  0x02072C18  arm
  *   NNS_SndWaveOutSetSpeed  0x02072C40  arm
- *   func_020056EC  0x020056EC  thumb
- *   func_02007B50  0x02007B50  thumb
- *   func_02007B64  0x02007B64  thumb
- *   func_02007B68  0x02007B68  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
+ *   PERAPVOICE_IsRecorded  0x02007B50  thumb
+ *   PERAPVOICE_GetSamples  0x02007B64  thumb
+ *   PERAPVOICE_Unpack  0x02007B68  thumb
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   func_020070A4  0x020070A4  thumb
- *   func_02007B44  0x02007B44  thumb
+ *   SAVE_CONTROL_Get  0x020070A4  thumb
+ *   PERAPVOICE_GetFromSave  0x02007B44  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   PM_SetAmp  0x0208BEF0  arm
  *   PM_SetAmpGain  0x0208BF38  arm
@@ -103,6 +103,7 @@
  *   GFL_USE_PushSndSlot  0x02005A00  thumb
  *   GFL_USE_PopSndSlot  0x02005A4C  thumb
  *   NNS_SndHandlePauseSeq  0x02072E8C  arm
+ *   PERAPVOICE_Pack  0x02007BD0  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -347,13 +348,13 @@ extern void  NNS_SndWaveOutWaitIdle(struct SndChannel *channel);
 extern void  NNSi_SndWaveOutUnlockChannel(struct SndChannel *channel);
 extern void  NNS_SndWaveOutSetVolume(struct SndChannel *channel, u32 volume);
 extern void  NNS_SndWaveOutSetSpeed(struct SndChannel *channel, u32 frequency);
-extern u32   func_020056EC(u32 limit);
-extern u32   func_02007B50(void *perapVoice);
-extern u8   *func_02007B64(struct PerapVoice *perapVoice);
-extern void  func_02007B68(void *dst, const void *src);
+extern u32   GFL_USE_GetRandom(u32 limit);
+extern u32   PERAPVOICE_IsRecorded(void *perapVoice);
+extern u8   *PERAPVOICE_GetSamples(struct PerapVoice *perapVoice);
+extern void  PERAPVOICE_Unpack(void *dst, const void *src);
 extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
-extern struct SaveData  *func_020070A4(void);
-extern struct SaveBlock *func_02007B44(struct SaveData *saveData);
+extern struct SaveData  *SAVE_CONTROL_Get(void);
+extern struct SaveBlock *PERAPVOICE_GetFromSave(struct SaveData *saveData);
 extern void  MI_CpuFill8(void *p, u32 value, u32 size);
 extern unsigned int PM_SetAmp(unsigned int on);
 extern unsigned int PM_SetAmpGain(unsigned int gain);
@@ -361,7 +362,7 @@ extern void  MIC_Init(void);
 extern int   OS_IsRunOnTwl(void);
 extern void  SNDEXi_SetIirFilter(u32 index, u8 *coefficients);
 extern u32   MIC_AdjustLimitedSampling(const struct MICAutoParam *param);
-extern void  func_02007BD0(struct PerapVoice *perapVoice, const void *src);
+extern void  PERAPVOICE_Pack(struct PerapVoice *perapVoice, const void *src);
 
 
 /* voice mixer */
@@ -989,25 +990,25 @@ u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
     if (recordedVoice == 0) {
         return 0;
     }
-    if (species == 441 && form == 0 && func_02007B50(recordedVoice[0]) == 1) {
-        func_02007B68(data[0], func_02007B64(recordedVoice[0]));
+    if (species == 441 && form == 0 && PERAPVOICE_IsRecorded(recordedVoice[0]) == 1) {
+        PERAPVOICE_Unpack(data[0], PERAPVOICE_GetSamples(recordedVoice[0]));
         *dataSize = 0x1FF4;
         *sampleRate = 0x1FF4;
         *volume = 0x78;
-        *frequency = func_020056EC(0x2000) + 0x8000;
+        *frequency = GFL_USE_GetRandom(0x2000) + 0x8000;
         return 1;
     }
     return 0;
 }
 
 /*
- * Save block with the recorded voice. func_020070A4 is a lazily initialised
+ * Save block with the recorded voice. SAVE_CONTROL_Get is a lazily initialised
  * singleton getter, never reading r0, so the call is nested and the result
- * of func_02007B44 is stored through the argument.
+ * of PERAPVOICE_GetFromSave is stored through the argument.
  */
 void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out)
 {
-    *out = func_02007B44(func_020070A4());
+    *out = PERAPVOICE_GetFromSave(SAVE_CONTROL_Get());
 }
 
 /*
@@ -1120,7 +1121,7 @@ void SND_MIC_StoreRecording(struct PerapVoice *perapVoice)
 {
     void *buffer = SND_MIC_GetBufferAligned();
 
-    func_02007BD0(perapVoice, buffer);
+    PERAPVOICE_Pack(perapVoice, buffer);
 }
 
 /*

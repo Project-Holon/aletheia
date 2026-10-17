@@ -1,7 +1,7 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: GFL_NET_ERR_PollNetState, GFL_NET_ERR_IsWifiGameKind, GFL_NET_ERR_CompareFriend, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, GFL_NET_ERR_StoreFriendProfile, GFL_NET_ERR_StoreFriendRecord, GFL_NET_ERR_InsertFriend, GFL_NET_ERR_SetBgmTrackVolume, GFL_NET_ERR_CreateHeap, GFL_NET_ERR_Init, GFL_NET_ERR_CheckNetError, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, func_0200F7DC, func_0200F7F4, GFL_NET_ERR_RestoreBrightness, GFL_NET_ERR_UpdateNetwork, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, GFL_NET_ERR_DrawAndHang, GFL_NET_ERR_RecordError, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, GFL_NET_ERR_ExitAndHalt, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
+ * function: GFL_NET_ERR_PollNetState, GFL_NET_ERR_IsWifiGameKind, GFL_NET_ERR_CompareFriend, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, GFL_NET_ERR_StoreFriendProfile, GFL_NET_ERR_StoreFriendRecord, GFL_NET_ERR_InsertFriend, GFL_NET_ERR_SetBgmTrackVolume, GFL_NET_ERR_CreateHeap, GFL_NET_ERR_Init, GFL_NET_ERR_CheckNetError, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, GFL_NET_ERR_Halt, GFL_NET_ERR_ClearKeepDark, GFL_NET_ERR_RestoreBrightness, GFL_NET_ERR_UpdateNetwork, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, GFL_NET_ERR_DrawAndHang, GFL_NET_ERR_RecordError, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, GFL_NET_ERR_ExitAndHalt, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
  * address:  0x0200F2D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -35,7 +35,7 @@
  *   WIFILIST_SetFriendInfoField   0x02009918  thumb
  *   WIFILIST_StoreFriendNameFromStrbuf   0x02009A00  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   sub_0201283C   0x0201283C  thumb
+ *   GAME_DATA_GetWifiList   0x0201283C  thumb
  *   WIFILIST_IsFriendDataValid           0x02009A1C  thumb
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   DWC_RAP_GetVchatEnabled  0x02156B70  thumb  ov009
@@ -319,7 +319,7 @@ extern u8 MYSTATUS_GetOutfit(const struct PlayerProfileSrc *profile);
 extern void WIFILIST_SetFriendInfoField(struct WifiFriendSave *save, u32 slot, u32 fieldId, u32 value);
 extern void WIFILIST_StoreFriendNameFromStrbuf(struct WifiFriendSave *save, int slot, void *name);
 extern void STRBUF_Delete(struct U16String *string);
-extern u32 sub_0201283C(const struct SaveData *saveData);
+extern u32 GAME_DATA_GetWifiList(const struct SaveData *saveData);
 extern int WIFILIST_IsFriendDataValid(struct WifiFriendSave *save, u32 slot);
 extern u32  GFL_NET_IsNetTypeWifi(void);
 extern s16 DWC_RAP_GetVchatEnabled(void);
@@ -636,7 +636,7 @@ void GFL_NET_ERR_StoreFriendProfile(void *saveBlock, void *profile, int slot, in
  */
 void GFL_NET_ERR_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode)
 {
-    void *saveBlock = (void *)sub_0201283C(saveData);
+    void *saveBlock = (void *)GAME_DATA_GetWifiList(saveData);
     void *record = WIFILIST_GetDwcFriendData(saveBlock, slot);
 
     if (mode != 2) {
@@ -659,7 +659,7 @@ void GFL_NET_ERR_StoreFriendRecord(void *saveData, void *profile, void *friendDa
  */
 int GFL_NET_ERR_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId)
 {
-    void *saveBlock = (void *)sub_0201283C(saveData);
+    void *saveBlock = (void *)GAME_DATA_GetWifiList(saveData);
     int i;
 
     if (DWC_IsValidFriendData(friendData) == 0) {

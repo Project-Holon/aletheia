@@ -100,9 +100,9 @@
  *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   NET_WHPIPE_GetEntryBeaconKind  0x02177B80  thumb
- *   func_020084F4  0x020084F4  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetName  0x020084F4  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   CTVT_COMM_FindPeerName  0x021B85D0  thumb  ov172
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
@@ -118,7 +118,7 @@
  *   BG_SYS_SetFlagField06  0x02041B6C  arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
- *   func_02009D50  0x02009D50  thumb
+ *   WIFILIST_FindFriendByStatusAndOutfit  0x02009D50  thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
  *   CTVT_COMM_Create 0x021B7BA8 thumb ov172
@@ -126,7 +126,7 @@
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
- *   func_02028A70 0x02028A70 thumb
+ *   FIELD_SOUND_SYSTEM_StopRingtone 0x02028A70 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   DRAW_SYSTEM_DeleteCanvas 0x021B6C34 thumb ov172
@@ -172,7 +172,7 @@
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -187,7 +187,7 @@
  *   APP_ICON_GetStatusCellFileId 0x0202761C thumb
  *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -208,7 +208,7 @@
  *   CTVT_CAMVIEW_IsWindowMoving 0x021B7B30 thumb ov172
  *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
  *   CTVT_COMM_GetMarkerSlot 0x021B8B68 thumb ov172
- *   func_02008510 0x02008510 thumb
+ *   MYSTATUS_CreateNameStrbuf 0x02008510 thumb
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb  arm9
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
@@ -229,6 +229,7 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
  *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
  *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb  arm9
  */
 #include "ctvt_types.h"
 
@@ -490,11 +491,11 @@ extern void *GFL_NET_GetScanResultMac(unsigned long a);
 
 extern u8 NET_WHPIPE_GetEntryBeaconKind(int i);
 
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 
-extern unsigned long func_02008530(const struct Sub0200852CObj *obj);
+extern unsigned long MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 
 extern void OS_GetMacAddress(void *p);
 
@@ -526,7 +527,7 @@ extern unsigned long APP_TASKMENU_WIN_Create(unsigned long a0, unsigned long a1,
 
 extern unsigned long GAME_DATA_GetField1A0(const struct BigObj *p);
 
-extern int func_02009D50(struct Sub020097BCObj *obj, const void *unused, unsigned long id, unsigned long kind, unsigned long *out);
+extern int WIFILIST_FindFriendByStatusAndOutfit(struct Sub020097BCObj *obj, const void *unused, unsigned long id, unsigned long kind, unsigned long *out);
 
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, unsigned int a2, unsigned int a3, u16 heap);
 
@@ -542,7 +543,7 @@ extern unsigned int GFL_USE_AddMainTask(void (*)(int, char *), char *, int);
 
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
-extern void func_02028A70(struct SoundSys *sys);
+extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int, unsigned int);
 
@@ -574,7 +575,7 @@ extern unsigned int PRINTSYS_QUE_Main(struct PrintSys *ps);
 
 extern void TCBL_Main(struct Tcbl *p);
 
-extern unsigned int  func_02005728(unsigned int v);
+extern unsigned int  GFL_USE_GetRandomBelow(unsigned int v);
 
 extern void BG_SYS_FillScrollArea(unsigned int layer, unsigned int a, unsigned int b);
 
@@ -630,7 +631,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_FreeSlot(u32 which);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
@@ -652,7 +653,7 @@ extern u32 APP_ICON_GetStatusCellFileId(u32 a);
 
 extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
@@ -698,7 +699,7 @@ extern char *CTVT_COMM_GetSlotParam(int unused, char *base, int i);
 
 extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
 
-extern void *func_02008510(void *a, int tag);
+extern void *MYSTATUS_CreateNameStrbuf(void *a, int tag);
 
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
@@ -997,8 +998,8 @@ void CTVT_CALL_Exit(void *a0, char *a1)
 /*
  * 2026-10-04 (D3-06): byte-identical (1724 bytes); 4 of 106 relocations wait on
  *   unlabelled ov172 Thumb leaves filed EXACT this wave as src/matched/ov/
- *   ov172_func_021B8B7C.c, ov172_func_021B8C14.c, ov172_func_021B8C20.c,
- *   ov172_func_021BE0F0.c. After the integrator manifest gives them shard
+ *   CTVT_COMM_GetMyStatusPtr.c, CTVT_COMM_ResetSlotTimer.c, CTVT_COMM_IsSlotTimerDone.c,
+ *   COMM_TVT_SYS_ClearHostBusy.c. After the integrator manifest gives them shard
  *   witnesses, this file should verify EXACT and move to src/matched/ov.
  *   Keys: cnt is block-local in the fC==1 block (sets its stack slot);
  *   case 6 jumps into case 10 by tail merge (code written twice).
@@ -1452,9 +1453,9 @@ void CTVT_CALL_RefreshPeers(void *ctx, u8 *list)
                 continue;
             ok = 0;
             if (kind == 0x20) {
-                a = (unsigned long)func_020084F4(p);
-                b = func_02008550((const struct Sub0200852CObj *)p);
-                c = func_02008530((const struct Sub0200852CObj *)p);
+                a = (unsigned long)MYSTATUS_GetName(p);
+                b = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)p);
+                c = MYSTATUS_GetId((const struct Sub0200852CObj *)p);
                 OS_GetMacAddress(buf);
                 if (p->f21_1 == 0 || CTVT_COMM_FindPeerName((u8 *)p, buf) == 1)
                     ok = CTVT_CALL_CheckJoinRequest(ctx, (unsigned long)list, a, c, b);
@@ -1817,7 +1818,7 @@ void CTVT_CALL_UpdateTimeWindow(void *ctx, char *st)
 
 int CTVT_CALL_CheckJoinRequest(void *ctx, unsigned long unused, unsigned long a, unsigned long b, unsigned long c)
 {
-    return func_02009D50((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)(*((unsigned long *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)a, b, c, 0);
+    return WIFILIST_FindFriendByStatusAndOutfit((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)(*((unsigned long *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)a, b, c, 0);
 }
 
 #undef W
@@ -1939,7 +1940,7 @@ void CTVT_CALL_WorkInit(char *self)
         CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 4);
         CTVT_COMM_SetConnectMac((int)self, (char *)W(0x1e4), (const u8 *)(W(0x1f8) + 8));
         W(0xc) = 2;
-        func_02028A70((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)(*(unsigned int *)W(0x1f8))));
+        FIELD_SOUND_SYSTEM_StopRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)(*(unsigned int *)W(0x1f8))));
         break;
     case 3:
         CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 5);
@@ -2039,8 +2040,8 @@ int CTVT_CALL_WorkMain(char *ctx)
         NNS_GfdRegisterNewVramTransferTask((void *)0x1f, 0x40, (unsigned int)(ctx + 0x3c + pal * 32), 0x20);
     }
     TCBL_Main((struct Tcbl *)F(0x1d8));
-    BG_SYS_FillScrollArea(1, 0, func_02005728(0x100));
-    BG_SYS_FillScrollArea(1, 3, func_02005728(0x100));
+    BG_SYS_FillScrollArea(1, 0, GFL_USE_GetRandomBelow(0x100));
+    BG_SYS_FillScrollArea(1, 3, GFL_USE_GetRandomBelow(0x100));
     return 0;
 }
 
@@ -2177,16 +2178,16 @@ void CTVT_CALL_InitGraphics(u8 *p)
     struct PltData *pal;
     t = (struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)W(0x1f8));
     BG = ARC_TOOL_CreateHandle(0xac, HEAP);
-    if (func_02008550(t) == 0) {
-        func_02049B68(BG, 7, 4, 0, 0xc0, HEAP);
+    if (MYSTATUS_GetOutfitVariant(t) == 0) {
+        ARC_UTIL_UploadPaletteFromHandleWhole(BG, 7, 4, 0, 0xc0, HEAP);
     } else {
-        func_02049B68(BG, 6, 4, 0, 0xc0, HEAP);
+        ARC_UTIL_UploadPaletteFromHandleWhole(BG, 6, 4, 0, 0xc0, HEAP);
     }
     z = 0;
     ARC_UTIL_UploadBgCharFromHandle(BG, 0xb, 7, 0, z, z, HEAP);
     ARC_UTIL_UploadBgPaletteFromHandle(BG, 0xe, 7, 0, z, z, HEAP);
     BG_SYS_PushTile(7);
-    func_02049B68(BG, 0, 0, 0x20, 0x20, HEAP);
+    ARC_UTIL_UploadPaletteFromHandleWhole(BG, 0, 0, 0x20, 0x20, HEAP);
     ARC_UTIL_UploadBgCharFromHandle(BG, 8, 1, 0, z, z, HEAP);
     ARC_UTIL_UploadBgPaletteFromHandle(BG, 0xd, 1, 0, z, z, HEAP);
     BG_SYS_PushTile(1);
@@ -2197,9 +2198,9 @@ void CTVT_CALL_InitGraphics(u8 *p)
     W(0x194) = CLACT_RegisterCharacter(BG, 0x17, 0, 1, HEAP);
     W(0x1a4) = CLACT_RegisterCellAnim(BG, 0x13, 0x15, HEAP);
     dev = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), HEAP);
-    func_02049B68(dev, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x20, HEAP);
+    ARC_UTIL_UploadPaletteFromHandleWhole(dev, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x20, HEAP);
     ARC_UTIL_UploadBgCharFromHandle(dev, APP_ICON_GetStatusFrameFileId(), 0, 0, z, z, HEAP);
-    func_02049B68(dev, APP_ICON_GetStatusAnimFileId(), 4, 0xc0, 0x20, HEAP);
+    ARC_UTIL_UploadPaletteFromHandleWhole(dev, APP_ICON_GetStatusAnimFileId(), 4, 0xc0, 0x20, HEAP);
     ARC_UTIL_UploadBgCharFromHandle(dev, APP_ICON_GetStatusFrameFileId(), 5, z, z, z, HEAP);
     ARC_UTIL_UploadBgPaletteFromHandle(dev, APP_ICON_GetStatusDataFileId(), 5, z, z, z, HEAP);
     BG_SYS_FillTileMap(5, z, 0x15, 0x20, 3, 6);
@@ -2222,10 +2223,10 @@ void CTVT_CALL_InitGraphics(u8 *p)
     W(0x1b0) = (u32)CLACT_CreateActor((void *)o, i0, i1, i2, &cfg, z, HEAP);
     CLACT_SetActorDrawEnable((void *)W(0x1b0), z);
     CLACT_SetActorAutoAnim((void *)W(0x1b0), 1);
-    if (func_02008550(t) == 0) {
-        dev = func_02049F78(BG, 7, (u32)(&pal), HEAP);
+    if (MYSTATUS_GetOutfitVariant(t) == 0) {
+        dev = ARC_UTIL_LoadPaletteBlockFromHandle(BG, 7, (u32)(&pal), HEAP);
     } else {
-        dev = func_02049F78(BG, 6, (u32)(&pal), HEAP);
+        dev = ARC_UTIL_LoadPaletteBlockFromHandle(BG, 6, (u32)(&pal), HEAP);
     }
     MIi_CpuCopy32(pal->raw + 0xc0, p + 0x3c, 0x140);
     GFL_HEAP_Free(dev);
@@ -2355,7 +2356,7 @@ void CTVT_CALL_DrawMemberName(u8 *p, char *a, u32 b)
 {
     void *s;
     int x;
-    s = func_02008510(a, ((CtvtWork *)p)->heapId);
+    s = MYSTATUS_CreateNameStrbuf(a, ((CtvtWork *)p)->heapId);
     x = (0x60 - (u8)GF_FONT_MeasureWidestLine(s, ((CtvtWork *)p)->font, 0)) / 2;
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x + 1, 1, s, ((CtvtWork *)p)->font, 0x400);
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x - 1, 1, s, ((CtvtWork *)p)->font, 0x400);

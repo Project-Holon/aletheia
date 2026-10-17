@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -54,7 +54,7 @@
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
- *   func_02047828  0x02047828  arm
+ *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
  *   G3D_SYSTEM_CreateResourceArcHandle   0x02046E24  arm
  *   G3D_SYSTEM_CheckResourceType   0x02046F50  arm
@@ -111,7 +111,7 @@ typedef struct BgPoint {
 
 extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 
-extern void *func_020124E8(void *task);
+extern void *GAME_EVENT_GetWork(void *task);
 
 extern void MI_CpuFill8(void *p, int v, int n);
 
@@ -295,7 +295,7 @@ extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int idx, int amount);
 
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 idx, s32 *frame);
 
-extern u32 func_02047828(G3dObject *obj, u32 idx, s32 *frame);
+extern u32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 idx, s32 *frame);
 
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 
@@ -395,7 +395,7 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
     SweetScentWork *w;
 
     task = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_EventMain, sizeof(SweetScentWork));
-    w = func_020124E8(task);
+    w = GAME_EVENT_GetWork(task);
     MI_CpuFill8(w, 0, sizeof(SweetScentWork));
     w->partyIdx = partyIdx;
     w->gameSys = gameSys;
@@ -485,7 +485,7 @@ void SWEET_SCENT_StartFade(void *task, void *gameSys, void *fieldMap)
     SweetScentFade *fade;
 
     fadeTask = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_FadeMain, sizeof(SweetScentFade));
-    fade = func_020124E8(fadeTask);
+    fade = GAME_EVENT_GetWork(fadeTask);
     fade->bgLayer = 3;
     fade->level = 0;
     fade->interval = 2;
@@ -810,7 +810,7 @@ int FIELD_G3DOBJ_GetAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int animeIdx)
     int frame = 0;
     FieldG3dObj *obj = &ctrl->objTbl[objIdx];
     if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
-        if ((int)func_02047828(obj->object, (u16)animeIdx, &frame) == 0)
+        if ((int)G3D_SYSTEM_GetObjectAnimeFrame(obj->object, (u16)animeIdx, &frame) == 0)
             frame = 0;
     }
     return frame;

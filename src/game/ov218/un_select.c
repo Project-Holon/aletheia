@@ -27,10 +27,10 @@
  *   UI_SCENE_Step 0x021B6144 thumb ov067
  *   UN_SELECT_GRAPHIC_Update 0x021BA94C thumb ov218
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -62,7 +62,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -117,7 +117,7 @@
  *   UN_SELECT_GRAPHIC_GetActor 0x021BA960 thumb ov218
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   func_02005624 0x02005624 thumb
+ *   GFL_USE_AddHBlankTask 0x02005624 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   FRAME_LIST_Update 0x021B7AB0 thumb ov067
  *   FRAME_LIST_SetRowPalette 0x021B9280 thumb ov067
@@ -293,10 +293,10 @@ extern void GF_OVERLAY_Unload(int);
 extern int UI_SCENE_Step(struct UiScene *);
 extern void UN_SELECT_GRAPHIC_Update(char *);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -326,7 +326,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -379,7 +379,7 @@ extern void *UI_SCENE_Create(u32,void *,u8,u16,void *);
 extern u32 UN_SELECT_GRAPHIC_GetActor(char *p);
 extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void G2x_SetBlendAlpha_(u32 *,u32,u32,u32,u32);
-extern void *func_02005624(u32 a, u32 b, u32 c);
+extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern int FRAME_LIST_Update(struct FrameList *p);
 extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
@@ -563,14 +563,14 @@ void UN_SELECT_LoadBg(u8 *p, u16 heap)
     int a;
     int i;
     h = ARC_TOOL_CreateHandle(0xc1, heap);
-    func_02049B68(h, 1, 0, 0, 0xe0, heap);
-    func_02049B68(h, 1, 4, 0, 0xe0, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 1, 0, 0, 0xe0, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 1, 4, 0, 0xe0, heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 0xc, 4, 0, 0x200, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 6, 7, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 0xd, 4, 0, 0, 0, heap);
-    w1 = func_02049DF4(h, 0, 0, (u32)((void **)&o1), heap);
+    w1 = ARC_UTIL_LoadBgCharDataFromHandle(h, 0, 0, (u32)((void **)&o1), heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 5, 3, 0, 0, 0, heap);
-    w2 = func_02049DF4(h, 0, 0, (u32)((void **)&o2), heap);
+    w2 = ARC_UTIL_LoadBgCharDataFromHandle(h, 0, 0, (u32)((void **)&o2), heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 2, 0, 0, 0, heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 6, 0, 0, 0, heap);
     for (i = 0; i < 0x82; i++) {
@@ -735,7 +735,7 @@ void *UN_SELECT_Create(u16 heap)
     window=((struct UnSelectRecord *)p)->windowAlt=(void *)BMP_WIN_Create(4,1,1,30,2,6,1);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
     GF_FONT_SetTextColor(1,2,15);
-    func_02045CAC(((struct UnSelectRecord *)p)->msgBank.ptr,233,((struct UnSelectRecord *)p)->text);
+    MSGDATA_ReadString(((struct UnSelectRecord *)p)->msgBank.ptr,233,((struct UnSelectRecord *)p)->text);
     PRINTSYS_Print(BMP_WIN_GetBmp(window),4,0,((struct UnSelectRecord *)p)->text,((struct UnSelectRecord *)p)->font.ptr);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
@@ -787,7 +787,7 @@ void UN_SELECT_DrawFrameListRow(p, a, b, cd)
     u32 c = (u32)cd; u32 d = (u32)(cd >> 32);
     u32 r = 12;
     u32 t = 0x83 - d;
-    func_02045CAC(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
+    MSGDATA_ReadString(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
     WORDSET_SetSlotNumber(*(void **)(p + 0x14), 2, t, 3, 0, 1);
     WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
     TOUCHBAR_PrintAligned(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
@@ -803,7 +803,7 @@ void UN_SELECT_DrawMessage(char *p, u32 id)
     struct Descriptor *obj = ((struct UnSelectRecord *)p)->window;
     BMP_Clear(BMP_WIN_GetBmp(obj), 15);
     GF_FONT_SetTextColor(1, 2, 15);
-    func_02045CAC(((struct UnSelectRecord *)p)->msgBank.ptr, id, ((struct UnSelectRecord *)p)->text);
+    MSGDATA_ReadString(((struct UnSelectRecord *)p)->msgBank.ptr, id, ((struct UnSelectRecord *)p)->text);
     WORDSET_CopyTaggedText(((struct UnSelectRecord *)p)->wordSet, ((struct UnSelectRecord *)p)->taggedText, ((struct UnSelectRecord *)p)->text);
     ((struct UnSelectRecord *)p)->printStream.handle = PRINTSYS_PrintStream((u32)obj, 4, 0, (u32)((struct UnSelectRecord *)p)->taggedText, ((struct UnSelectRecord *)p)->font.handle, value, ((struct UnSelectRecord *)p)->tcbl.handle, 65535, ((struct UnSelectRecord *)p)->heapId, 15);
     BMP_MENUWORK_DrawWindow(((struct UnSelectRecord *)p)->window, 2, 1, 15);
@@ -1011,7 +1011,7 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
     UN_SELECT_SetupActors(p);
     UN_SELECT_InitActorPositions(p);
     G2x_SetBlendAlpha_((u32 *)0x04001050,4,8,6,10);
-    ((struct UnSelectWork *)p)->taskProc=func_02005624((u32)UN_SELECT_Callback,(u32)p,0);
+    ((struct UnSelectWork *)p)->taskProc=GFL_USE_AddHBlankTask((u32)UN_SELECT_Callback,(u32)p,0);
     GFL_NET_RestartWithDefaultTimeout(1,((struct UnSelectWork *)p)->heapId);
     return p;
 }

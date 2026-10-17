@@ -22,7 +22,7 @@
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   OS_WaitIrq     0x0208459C  arm
- *   func_0200734C  0x0200734C  thumb
+ *   SAVE_CONTROL_DeleteExtraSaveBuffered  0x0200734C  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   PMSI_PARAM_SetDefaultGreeting  0x02024344  thumb
  *   PMSI_PARAM_SetDefaultSentence  0x020242D8  thumb
@@ -62,7 +62,7 @@ extern int GAME_DATA_PartSaveMain(char *p, int partId);
 
 extern void OS_WaitIrq(int clear, u32 mask);
 
-extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
+extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct Sub02007324Ctrl *ctrl, u32 id);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -182,7 +182,7 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
         }
         OS_WaitIrq(1, 1);
     }
-    func_0200734C((struct Sub02007324Ctrl *)sv, 5);
+    SAVE_CONTROL_DeleteExtraSaveBuffered((struct Sub02007324Ctrl *)sv, 5);
     GFL_HEAP_Free(buf);
 }
 

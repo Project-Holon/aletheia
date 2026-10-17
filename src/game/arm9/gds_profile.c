@@ -36,6 +36,14 @@
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
+ *   MYSTATUS_GetName  0x020084F4  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetOutfit  0x02008554  thumb
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb
+ *   MYSTATUS_GetVersion  0x02008570  thumb
+ *   BMP_OAM_CheckRangeGetId  0x02025C1C  thumb
+ *   BMP_OAM_CheckRangeGetMin  0x02025C30  thumb
  */
 struct GameSys;
 struct ProgressBlock;
@@ -183,19 +191,19 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveDataObj *WIFI_HISTORY_GetBlock(void *sys);
 extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct RecordData *src, int idx, struct RecordData *dst);
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
-extern u32 func_02008530(const struct PlayerStatus *obj);
-extern u8 func_02008550(const struct PlayerStatus *obj);
-extern u8 func_02008554(const struct PlayerStatus *obj);
-extern u8 func_0200856C(const struct PlayerStatus *obj);
-extern u8 func_02008570(const struct PlayerStatus *obj);
+extern u32 MYSTATUS_GetId(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetOutfit(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetLanguage(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetVersion(const struct PlayerStatus *obj);
 extern void BEACON_GetSelect(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length);
 extern int POKE_TOOL_FilterSpecies(u16 a, int b);
-extern u32 func_02025C1C(u32 a, u32 b, u32 c);
-extern u32 func_02025C30(u32 a, u32 b, u32 c);
+extern u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c);
+extern u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c);
 extern int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2);
 extern void  PMSI_PARAM_InitSentence(void *rec, u32 n);
 extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
@@ -370,21 +378,21 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     BEACON_GetSelect(progress, &playHours, &playMinutes, &cleared, &nationalDex);
 
     MI_CpuFill8(profile, 0, sizeof(struct GdsProfile));
-    WORDSET_CopyString(func_020084F4(trainerRec), (u16 *)profile, 8);
-    profile->trainerId = func_02008530(trainerRec);
-    profile->gender = func_02008550(trainerRec);
+    WORDSET_CopyString(MYSTATUS_GetName(trainerRec), (u16 *)profile, 8);
+    profile->trainerId = MYSTATUS_GetId(trainerRec);
+    profile->gender = MYSTATUS_GetOutfitVariant(trainerRec);
     profile->playHours = playHours;
     profile->play.playMinutes = (u8)playMinutes;
     profile->play.gameCleared = (u8)cleared;
     profile->play.hasNationalDex = (u8)nationalDex;
-    profile->country = func_0200856C(trainerRec);
-    profile->region = func_02008570(trainerRec);
+    profile->country = MYSTATUS_GetLanguage(trainerRec);
+    profile->region = MYSTATUS_GetVersion(trainerRec);
     for (i = 0; i < 0x28; i++) {
         profile->record[i] = STRBUF_GetEosChar();
     }
     MISC_SAVEDATA_CopyQuadRecord(recordEnv, 0, (struct RecordData *)profile->record);
     profile->birthMonth = info.birthMonth;
-    profile->trainerSprite = func_02008554(trainerRec);
+    profile->trainerSprite = MYSTATUS_GetOutfit(trainerRec);
     profile->gameVersion = 0x15;
     profile->language = 2;
     profile->checksum = GF_STANDARD_SetupCalc((const u8 *)profile, 0x7C);
@@ -531,7 +539,7 @@ u32 GDS_PROFILE_GetMonFlagBit0(struct StoredMon *p)
  */
 u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfileRaw *p)
 {
-    return func_02025C1C(p->nameOffset, p->nameLength, GDS_PROFILE_GetMode(p));
+    return BMP_OAM_CheckRangeGetId(p->nameOffset, p->nameLength, GDS_PROFILE_GetMode(p));
 }
 
 
@@ -539,7 +547,7 @@ u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfileRaw *p)
 
 u32 GDS_PROFILE_GetRecordWord30(struct GdsProfileRaw *p)
 {
-    return func_02025C30(p->nameOffset, p->nameLength, GDS_PROFILE_GetMode(p));
+    return BMP_OAM_CheckRangeGetMin(p->nameOffset, p->nameLength, GDS_PROFILE_GetMode(p));
 }
 
 
@@ -1224,7 +1232,7 @@ u8 GDS_PROFILE_GetScoreRecScoreHigh(struct GdsScoreRec *p)
  * statements in both orders, the stamp as a struct pointer and as a `u32 *`,
  * and `const` on either pointer.  Every one of them produces the same 104
  * bytes with the same allocation, so the shift-amount truncation and the
- * cast at the use (docs/idioms, sub_0200A6BC) are already right and what is
+ * cast at the use (docs/idioms, MUSICAL_SAVE_AddProp) are already right and what is
  * left is not reachable from the source shape.  Forty bytes differ and every
  * one of them is a register number.
  */
@@ -1296,7 +1304,7 @@ void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q) {
  *    endian, stores in source order;
  *  - idx % 8 is the signed-modulo shift sequence with the shift amount
  *    truncated to u8 before the shift and the mask cast to u8 at the use
- *    (the sub_0200A6BC shape), and the byte index is (u8)(idx / 8).
+ *    (the MUSICAL_SAVE_AddProp shape), and the byte index is (u8)(idx / 8).
  */
 void GDS_PROFILE_ClearSubwaySaveStampAndBitmap(struct GdsSubwaySave *p)
 {

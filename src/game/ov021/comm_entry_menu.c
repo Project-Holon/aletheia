@@ -81,7 +81,7 @@
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   gCommEntryEmptyMac     0x021DB470  data  a4
- *   func_02008534  0x02008534  thumb
+ *   MYSTATUS_GetIdLow16  0x02008534  thumb
  *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
  *   FIELD_MSGBG_SysWinPrintStr  0x02190EB8  thumb  ov021
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
@@ -100,7 +100,7 @@
  *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   FIELD_MSGBG_DeleteMenuItems  0x02190A6C  thumb  ov021
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   STRBUF_SetString  0x02045924  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   FIELD_MSGBG_AddMenuItemStr  0x02190A64  thumb  ov021
@@ -512,7 +512,7 @@ extern int FIELD_MSGBG_IsMsgWinTransDone(FieldMsgWin *msgWin);
 extern void FIELD_MSGBG_FillMsgWin(FieldMsgWin *msgWin, int x, int y, int width, int height);
 extern void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
 extern int GF_STANDARD_CompareBytes(const void *a, const void *b, int n);
-extern u16 func_02008534(const void *myStatus);
+extern u16 MYSTATUS_GetIdLow16(const void *myStatus);
 extern void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
 extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
 extern struct BmpMenuWork *FIELD_MSGBG_CreateMenuItems(int count, u16 heapId);
@@ -530,7 +530,7 @@ extern int FIELD_MSGBG_MenuFuncMain(FieldMenuFunc *menu);
 extern void GFL_NET_ConnectMacAddressChild(const u8 *mac);
 extern CommEntryBeaconData *GFL_NET_GetScanResult(u32 index);
 extern void FIELD_MSGBG_DeleteMenuItems(struct BmpMenuWork *items);
-extern void func_02045CAC(struct MsgData *msgData, u32 messageId, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgData *msgData, u32 messageId, struct Strbuf *dest);
 extern int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *text, u32 value, u32 heapId);
 extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 id);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 heapId, const void *commandTable, u32 commandCount, void *work);
@@ -1795,7 +1795,7 @@ void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, 
     u32 trainerId;
     if (menu->memberWin != 0) {
         WORDSET_SetSlotMyStatus(menu->wordSet, 0, myStatus);
-        trainerId = func_02008534(myStatus);
+        trainerId = MYSTATUS_GetIdLow16(myStatus);
         WORDSET_SetSlotNumber(menu->wordSet, 1, trainerId, 5, 2, 1);
         WORDSET_CopyTaggedText(menu->wordSet, menu->nameStr, menu->nameFormat);
         FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, (row & 0xfff) << 4, menu->nameStr);
@@ -2130,13 +2130,13 @@ void COMM_ENTRY_BuildParentItems(CommEntryMenu *menu)
     nameFormat = STRBUF_Create(0x40, menu->heapId);
     line = STRBUF_Create(0x40, menu->heapId);
     emptyStr = STRBUF_Create(4, menu->heapId);
-    func_02045CAC(menu->msgData, 0x1a, emptyFormat);
-    func_02045CAC(menu->msgData, 0x1b, nameFormat);
+    MSGDATA_ReadString(menu->msgData, 0x1a, emptyFormat);
+    MSGDATA_ReadString(menu->msgData, 0x1b, nameFormat);
     for (i = 0; i < COMM_ENTRY_PARENT_SLOTS; i++) {
         WORDSET_SetSlotNumber(menu->wordSet, 0, i + 1, 2, 2, 1);
         if (menu->parentList.slots[i].used == 1) {
             WORDSET_SetSlotMyStatus(menu->wordSet, 1, &menu->parentList.slots[i]);
-            WORDSET_SetSlotNumber(menu->wordSet, 2, func_02008534(&menu->parentList.slots[i]), 5, 2, 1);
+            WORDSET_SetSlotNumber(menu->wordSet, 2, MYSTATUS_GetIdLow16(&menu->parentList.slots[i]), 5, 2, 1);
             WORDSET_CopyTaggedText(menu->wordSet, line, nameFormat);
         } else {
             STRBUF_SetString(emptyStr, &emptyChar);

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   ICA_ANIME_GetField24  0x02012138  thumb
@@ -29,7 +29,7 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAME_DATA_GetMyParty   0x02012934  thumb
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
@@ -42,7 +42,7 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   func_02008FEC  0x02008FEC  thumb
+ *   MAIL_GetBox  0x02008FEC  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GF_OVERLAY_Unload  0x02034A5C  arm
@@ -59,7 +59,7 @@
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_IsZone1A6 0x02013CC8 thumb
  *   BAG_PARAM_Create  0x0202E474  thumb
- *   func_02008298  0x02008298  thumb
+ *   MYITEM_SAVEDATA_SetLastFieldPocket  0x02008298  thumb
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
  *   GAME_DATA_GetField16C  0x020128B8  thumb
@@ -102,12 +102,12 @@
  *   GAMESYSTEM_IsCommBlocked  0x02012144  thumb
  *   gDemo3dProcData     0x021BFB3C  data  ov203
  *   ov203_id       0x000000CB  data
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   GF_STANDARD_SetField00 0x0203F4CC arm
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock 0x0202E888 thumb
  *   FIELD_CLOCK_GetHour 0x02169100 thumb ov010
  *   FIELD_CLOCK_GetMinute 0x02169110 thumb ov010
- *   func_02013A80  0x02013A80  thumb
+ *   ZONEDATA_SetChangeZoneEnable  0x02013A80  thumb
  *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb
  */
@@ -303,7 +303,7 @@ typedef struct RtcTime {
 
 
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *parent, void *func, u32 workSize);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern GameData *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
 
 
@@ -334,7 +334,7 @@ extern u32 GAMESYSTEM_GetProcStatus(const GameSystem *gameSystem);
 
 extern void *GAME_DATA_GetMyParty(const GameData *gameData);
 
-extern void *func_0200873C(void *saveControl);
+extern void *SYSTEM_DATA_GetConfig(void *saveControl);
 
 
 extern int GF_OVERLAY_Load(int handle);
@@ -363,7 +363,7 @@ extern u32 POKE_TOOL_HasRibbonData(void *mon);
 
 
 extern void *GAME_DATA_GetMyItem(const GameData *gameData);
-extern void *func_02008FEC(GameData *gameData);
+extern void *MAIL_GetBox(GameData *gameData);
 extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u8 GAME_DATA_GetSeason(const GameData *gameData);
 extern void GF_OVERLAY_Unload(int handle);
@@ -378,7 +378,7 @@ extern u8 *ICA_ANIME_GetField114(const GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *playerWork);
 extern u32 ZONEDATA_IsZone1A6(u32);
 extern BagParam *BAG_PARAM_Create(const GameData *gameData, u8 *itemCheck, int mode, int heapId);
-extern void func_02008298(void *myItem, u16 pocket);
+extern void MYITEM_SAVEDATA_SetLastFieldPocket(void *myItem, u16 pocket);
 extern u32 FILE_UTIL_Check136C(u16 v);
 extern TrainerCardViewWork *TRCARD_SYS_CreateViewWork(GameData *gameData, int mode, int canFly);
 extern struct EscapeLocation *GAME_DATA_GetField16C(const GameData *gameData);
@@ -414,12 +414,12 @@ extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void *FLDMMDL_FreeAcmd(void *object);
 extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
 extern u8 GAMESYSTEM_IsCommBlocked(const GameSystem *gameSystem);
-extern u8 func_02008550(const u8 *myStatus);
+extern u8 MYSTATUS_GetOutfitVariant(const u8 *myStatus);
 extern void GF_STANDARD_SetField00(RtcTime *time);
 extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern int FIELD_CLOCK_GetHour(GameData *gameData);
 extern int FIELD_CLOCK_GetMinute(GameData *gameData);
-extern int func_02013A80();
+extern int ZONEDATA_SetChangeZoneEnable();
 extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(ProcLinkEntry *entry);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(ProcLinkEntry *entry);
 
@@ -504,7 +504,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     list->party = GAME_DATA_GetMyParty(gameData);
     list->carry = work->carry;
     list->myItem = GAME_DATA_GetMyItem(gameData);
-    list->mailBox = func_02008FEC(gameData);
+    list->mailBox = MAIL_GetBox(gameData);
     list->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     list->listMode = 0;
     list->selectedSlot = work->context->partySlot;
@@ -760,7 +760,7 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
             break;
         }
     } else if (mode == 6) {
-        param->callerData = func_0200873C(saveControl);
+        param->callerData = SYSTEM_DATA_GetConfig(saveControl);
         param->ppd = GAME_DATA_GetMyParty(gameData);
         param->max = POKEPARTY_GetCount(GAME_DATA_GetMyParty(gameData));
         param->pos = 0;
@@ -843,7 +843,7 @@ BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldP
     case 2:
         bag = BAG_PARAM_Create(gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
         if (lastFieldPocket != -1) {
-            func_02008298(bag->saveWork, (u16)lastFieldPocket);
+            MYITEM_SAVEDATA_SetLastFieldPocket(bag->saveWork, (u16)lastFieldPocket);
         }
         break;
     case 0:
@@ -1053,7 +1053,7 @@ ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work)
 {
     ConfigParam *param;
 
-    func_0200873C(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->context->gameSystem)));
+    SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(work->context->gameSystem)));
     param = GFL_HEAP_Alloc(4, 8, 1, d_02172978, 0x705);
     param->gameSystem = work->context->gameSystem;
     return param;
@@ -1301,7 +1301,7 @@ int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param)
 GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_FreeEventMain, 0x1C);
-    ReportEventWork *work = func_020124E8(event);
+    ReportEventWork *work = GAME_EVENT_GetWork(event);
 
     MI_CpuFill8(work, 0, 0x1C);
     work->msgContext = objectModel;
@@ -1410,7 +1410,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fi
     MapAnimWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_AnimEventMain, 0x10);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->gameData = ICA_ANIME_GetField1C(gameSystem);
@@ -1446,7 +1446,7 @@ int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *w
 GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName)
 {
     GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_ObjAnimEventMain, 0x34);
-    ObjAnimWork *work = func_020124E8(event);
+    ObjAnimWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_FIELD_PROCLINK_ClearAnimNode(work);
     work->gameSystem = gameSystem;
@@ -1596,7 +1596,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
     HopWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_HopEventMain, 0x24);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->object = object;
     work->owner = (void *)FIELDMAP_GetEffect(ICA_ANIME_GetField20(gameSystem));
     work->start = *start;
@@ -1647,7 +1647,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, Game
     CommProcWork *work;
 
     event = GAME_EVENT_Create(gameSystem, parent, EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, 0x24);
     work->gameSystem = gameSystem;
     work->gameComm = ICA_ANIME_GetField24(gameSystem);
@@ -1703,7 +1703,7 @@ void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gam
     param->hour = hour;
     param->minute = minute;
     param->season = season;
-    param->flag = (u8)(int)func_02008550(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
+    param->flag = (u8)(int)MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem)));
 }
 
 
@@ -1740,13 +1740,13 @@ int EVENT_FIELD_PROCLINK_CheckZoneFlag(ZoneFlagSetting *setting)
 
     result = setting->enable;
     if (result == 1) {
-        func_02013A80(0, 1);
-        result = func_02013A80(1, 1);
+        ZONEDATA_SetChangeZoneEnable(0, 1);
+        result = ZONEDATA_SetChangeZoneEnable(1, 1);
     }
     result = setting->enable;
     if (result == 0) {
-        func_02013A80(0, 0);
-        result = func_02013A80(1, 0);
+        ZONEDATA_SetChangeZoneEnable(0, 0);
+        result = ZONEDATA_SetChangeZoneEnable(1, 0);
     }
     return result;
 }

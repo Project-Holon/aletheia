@@ -1,7 +1,7 @@
 /*
  * file:     save_control.c
  * unit:     yes
- * function: SAVE_CONTROL_Create, SAVE_CONTROL_Delete, func_020070A4, SAVE_CONTROL_Reload, SAVE_CONTROL_StartSave, SAVE_CONTROL_MainSave, SAVE_CONTROL_CancelSave, SAVE_CONTROL_GetWrittenSize, SAVE_CONTROL_GetBlock, SAVE_CONTROL_GetWorkArea, SAVE_CONTROL_IsNewGame, func_020071E8, func_020071EC, func_020071F0, func_02007210, func_02007214, func_02007218, func_0200721C, func_02007220, func_02007230, func_0200723C, SAVE_CONTROL_ReadRecordFromFlash, SAVE_CONTROL_LoadExtraSave, SAVE_CONTROL_DeleteExtraSave, SAVE_CONTROL_LoadExtraSaveWithBuffer, SAVE_CONTROL_CreateExtraSaveWithBuffer, SAVE_CONTROL_DeleteExtraSaveBuffered, SAVE_CONTROL_BeginExtraSaveWrite, SAVE_CONTROL_StepExtraSaveWrite, SAVE_CONTROL_GetExtraSaveRecord, SAVE_CONTROL_EraseExtraSave, SAVE_CONTROL_EraseOutsideSave, func_02007464, func_020074CC, func_020074D8, func_0200752C, BOX_SAVEDATA_SetPokemon, BOX_SAVEDATA_SwapPokemon, BOX_SAVEDATA_ClearPokemon, BOX_SAVEDATA_GetCurrentBox, BOX_SAVEDATA_GetUsableBoxCount, BOX_SAVEDATA_UnlockBoxes, BOX_SAVEDATA_FindFreeSlot, BOX_SAVEDATA_CountFreeSlots, func_020077B8, func_0200780C, func_0200781C, func_02007838, BOX_SAVEDATA_GetBoxName, BOX_SAVEDATA_SetBoxName, BOX_SAVEDATA_CountPokemonInBox, BOX_SAVEDATA_CountNonEggPokemonInBox, BOX_SAVEDATA_CountPokemon, BOX_SAVEDATA_CountNonEggPokemon, BOX_SAVEDATA_GetPokemonValue, BOX_SAVEDATA_GetPokemon, BOX_SAVEDATA_SetFlags, BOX_SAVEDATA_CheckFlags, BOX_SAVEDATA_GetBoxPageSize, BOX_SAVEDATA_CreateWordHolder, BOX_SAVEDATA_Delete, BOX_SAVEDATA_ClearBoxPage, BOX_SAVEDATA_GetBoxDataSize, BOX_SAVEDATA_GetBoxPokemon, PERAPVOICE_GetSize, PERAPVOICE_Init, PERAPVOICE_Create, PERAPVOICE_GetFromSave, PERAPVOICE_IsRecorded, PERAPVOICE_ClearRecorded, PERAPVOICE_SetRecorded, PERAPVOICE_GetSamples, PERAPVOICE_Unpack, PERAPVOICE_Pack, PERAPVOICE_Copy, PERAPVOICE_ClearIfNoChatot, PERAPVOICE_GetVoiceKind, MYITEM_SAVEDATA_GetSize, MYITEM_SAVEDATA_Init, MYITEM_SAVEDATA_CopyPocket, MYITEM_SAVEDATA_GetPocket, MYITEM_SAVEDATA_GetPocketOfItem, MYITEM_SAVEDATA_FindAddSlot, MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_CanAddItem, MYITEM_SAVEDATA_AddItem, MYITEM_SAVEDATA_FindRemoveSlot, MYITEM_SAVEDATA_FindItemSlot, MYITEM_SAVEDATA_RemoveItem, MYITEM_SAVEDATA_HasItem, MYITEM_SAVEDATA_CountUsedSlots, MYITEM_SAVEDATA_CountUsedSlotsInPocket, MYITEM_SAVEDATA_GetItemQuantity, MYITEM_SAVEDATA_SwapSlots, MYITEM_SAVEDATA_MoveLastUsedToFront, MYITEM_SAVEDATA_ClearEmptyQuantities, MYITEM_SAVEDATA_CompactPocket, MYITEM_SAVEDATA_SortPocketById, MYITEM_SAVEDATA_SortPocketByItemOrder, MYITEM_SAVEDATA_CompactAllPockets, MYITEM_SAVEDATA_GetSlot, MYITEM_SAVEDATA_GetMaxStack, MYITEM_SAVEDATA_CreateBagCursor, MYITEM_SAVEDATA_GetFieldPocketCursor, MYITEM_SAVEDATA_GetLastFieldPocket, MYITEM_SAVEDATA_SetFieldPocketCursor, MYITEM_SAVEDATA_SetLastFieldPocket, MYITEM_SAVEDATA_GetBattlePocketCursor, MYITEM_SAVEDATA_GetLastBattleItem, MYITEM_SAVEDATA_GetLastBattleItemPocket, MYITEM_SAVEDATA_SetBattlePocketCursors, MYITEM_SAVEDATA_SetLastBattleItem
+ * function: SAVE_CONTROL_Create, SAVE_CONTROL_Delete, SAVE_CONTROL_Get, SAVE_CONTROL_Reload, SAVE_CONTROL_StartSave, SAVE_CONTROL_MainSave, SAVE_CONTROL_CancelSave, SAVE_CONTROL_GetWrittenSize, SAVE_CONTROL_GetBlock, SAVE_CONTROL_GetWorkArea, SAVE_CONTROL_IsNewGame, SAVE_CONTROL_GetLoadFlags, SAVE_CONTROL_HasFlashSave, SAVE_CONTROL_WouldOverwriteSave, SAVE_CONTROL_GetOutsideSaveLoaded, SAVE_CONTROL_SetOutsideSaveLoaded, SAVE_CONTROL_GetOutsideSaveBroken, SAVE_CONTROL_SetOutsideSaveBroken, SAVE_CONTROL_ResetToNewGame, SAVE_CONTROL_EraseMainSave, SAVE_CONTROL_GetDiffSize, SAVE_CONTROL_ReadRecordFromFlash, SAVE_CONTROL_LoadExtraSave, SAVE_CONTROL_DeleteExtraSave, SAVE_CONTROL_LoadExtraSaveWithBuffer, SAVE_CONTROL_CreateExtraSaveWithBuffer, SAVE_CONTROL_DeleteExtraSaveBuffered, SAVE_CONTROL_BeginExtraSaveWrite, SAVE_CONTROL_StepExtraSaveWrite, SAVE_CONTROL_GetExtraSaveRecord, SAVE_CONTROL_EraseExtraSave, SAVE_CONTROL_EraseOutsideSave, BOX_SAVEDATA_InitHeader, BOX_SAVEDATA_GetHeader, BOX_SAVEDATA_AddPokemon, BOX_SAVEDATA_AddPokemonToBox, BOX_SAVEDATA_SetPokemon, BOX_SAVEDATA_SwapPokemon, BOX_SAVEDATA_ClearPokemon, BOX_SAVEDATA_GetCurrentBox, BOX_SAVEDATA_GetUsableBoxCount, BOX_SAVEDATA_UnlockBoxes, BOX_SAVEDATA_FindFreeSlot, BOX_SAVEDATA_CountFreeSlots, BOX_SAVEDATA_CountFreeSlotsInBox, BOX_SAVEDATA_SetCurrentBox, BOX_SAVEDATA_GetWallpaper, BOX_SAVEDATA_SetWallpaper, BOX_SAVEDATA_GetBoxName, BOX_SAVEDATA_SetBoxName, BOX_SAVEDATA_CountPokemonInBox, BOX_SAVEDATA_CountNonEggPokemonInBox, BOX_SAVEDATA_CountPokemon, BOX_SAVEDATA_CountNonEggPokemon, BOX_SAVEDATA_GetPokemonValue, BOX_SAVEDATA_GetPokemon, BOX_SAVEDATA_SetFlags, BOX_SAVEDATA_CheckFlags, BOX_SAVEDATA_GetBoxPageSize, BOX_SAVEDATA_CreateWordHolder, BOX_SAVEDATA_Delete, BOX_SAVEDATA_ClearBoxPage, BOX_SAVEDATA_GetBoxDataSize, BOX_SAVEDATA_GetBoxPokemon, PERAPVOICE_GetSize, PERAPVOICE_Init, PERAPVOICE_Create, PERAPVOICE_GetFromSave, PERAPVOICE_IsRecorded, PERAPVOICE_ClearRecorded, PERAPVOICE_SetRecorded, PERAPVOICE_GetSamples, PERAPVOICE_Unpack, PERAPVOICE_Pack, PERAPVOICE_Copy, PERAPVOICE_ClearIfNoChatot, PERAPVOICE_GetVoiceKind, MYITEM_SAVEDATA_GetSize, MYITEM_SAVEDATA_Init, MYITEM_SAVEDATA_CopyPocket, MYITEM_SAVEDATA_GetPocket, MYITEM_SAVEDATA_GetPocketOfItem, MYITEM_SAVEDATA_FindAddSlot, MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_CanAddItem, MYITEM_SAVEDATA_AddItem, MYITEM_SAVEDATA_FindRemoveSlot, MYITEM_SAVEDATA_FindItemSlot, MYITEM_SAVEDATA_RemoveItem, MYITEM_SAVEDATA_HasItem, MYITEM_SAVEDATA_CountUsedSlots, MYITEM_SAVEDATA_CountUsedSlotsInPocket, MYITEM_SAVEDATA_GetItemQuantity, MYITEM_SAVEDATA_SwapSlots, MYITEM_SAVEDATA_MoveLastUsedToFront, MYITEM_SAVEDATA_ClearEmptyQuantities, MYITEM_SAVEDATA_CompactPocket, MYITEM_SAVEDATA_SortPocketById, MYITEM_SAVEDATA_SortPocketByItemOrder, MYITEM_SAVEDATA_CompactAllPockets, MYITEM_SAVEDATA_GetSlot, MYITEM_SAVEDATA_GetMaxStack, MYITEM_SAVEDATA_CreateBagCursor, MYITEM_SAVEDATA_GetFieldPocketCursor, MYITEM_SAVEDATA_GetLastFieldPocket, MYITEM_SAVEDATA_SetFieldPocketCursor, MYITEM_SAVEDATA_SetLastFieldPocket, MYITEM_SAVEDATA_GetBattlePocketCursor, MYITEM_SAVEDATA_GetLastBattleItem, MYITEM_SAVEDATA_GetLastBattleItemPocket, MYITEM_SAVEDATA_SetBattlePocketCursors, MYITEM_SAVEDATA_SetLastBattleItem
  * address:  0x02006F20
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,8 +28,8 @@
  *   SYSTEM_DATA_IsMarked    0x02008784  thumb
  *   SAVE_CONTROL_LoadExtraSave    0x0200725C  thumb
  *   SAVE_CONTROL_DeleteExtraSave    0x020072A4  thumb
- *   sub_0200A5F8    0x0200A5F8  thumb
- *   sub_0200A7EC    0x0200A7EC  thumb
+ *   MUSICAL_SAVE_GetFromSave    0x0200A5F8  thumb
+ *   MUSICAL_SAVE_SetHasDistData    0x0200A7EC  thumb
  *   ov228_id        0x000000E4  data
  *   _SaveControlFileName  0x020A7054  data
  *   _pSaveControl  0x02146168  data
@@ -39,13 +39,13 @@
  *   BACKUP_SYSTEM_Delete       0x0203195C  arm
  *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
  *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
- *   func_02008784  0x02008784  thumb
+ *   SYSTEM_DATA_IsMarked  0x02008784  thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
- *   func_020087C0  0x020087C0  thumb
+ *   SYSTEM_DATA_ClearMark  0x020087C0  thumb
  *   SAVE_CONTROL_EraseOutsideSave  0x02007428  thumb
  *   BACKUP_SYSTEM_MainSave  0x02031BB4  arm
- *   func_02008754  0x02008754  thumb
+ *   SYSTEM_DATA_IsActive  0x02008754  thumb
  *   BACKUP_SYSTEM_GetWrittenSize 0x02031E68 arm
  *   BACKUP_SYSTEM_GetRecordWork  0x020319A4  arm
  *   BACKUP_SYSTEM_GetWork  0x02031994  arm
@@ -53,10 +53,10 @@
  *   BACKUP_SYSTEM_GetDiffSize  0x020319E4  arm
  *   BACKUP_SYSTEM_ReadRecordFromFlash  0x020334E8  arm
  *   _ExtraSaveDescs  0x0209D950  data
- *   func_020087D4        0x020087D4  thumb
+ *   SYSTEM_DATA_GetWordSlot        0x020087D4  thumb
  *   BACKUP_SYSTEM_LoadLinked        0x02031DC0  arm
  *   BACKUP_SYSTEM_CreateWithWork        0x02031948  arm
- *   func_020087A8  0x020087A8  thumb
+ *   SYSTEM_DATA_SetMark  0x020087A8  thumb
  *   BACKUP_SYSTEM_InitLinkedSave  0x02031C10  arm
  *   BACKUP_SYSTEM_MainLinkedSave  0x02031C30  arm
  *   BACKUP_SYSTEM_WriteFlash  0x02033478  arm

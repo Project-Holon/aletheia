@@ -38,7 +38,7 @@
  *   BGWINFRM_Delete       0x0202CA0C  thumb
  *   BLINK_PALANM_Delete       0x0202EA20  thumb
  *   PRINTSYS_QUE_Delete       0x0201C4C0  thumb
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   BLINK_PALANM_LoadPalettes 0x0202E9AC thumb
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
@@ -93,7 +93,7 @@ extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
 extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anim);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
-extern void *func_02049EF4(void *source, u32 fileIndex, u32 memberIndex, void **outData, u16 heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *source, u32 fileIndex, u32 memberIndex, void **outData, u16 heapId);
 extern void MIi_CpuCopy16(const void *src, void *dst, int size);
 extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anim, u8 *src, u32 firstColor, u32 srcOffset, u32 byteSize);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printer);
@@ -261,7 +261,7 @@ void FRAME_LIST_AddItem(FrameList *list, unsigned mapIndex, unsigned value)
 
 
 /*
- * Copies map number mapSlot out of a loaded file. func_02049EF4 keeps r3 in
+ * Copies map number mapSlot out of a loaded file. ARC_UTIL_LoadPaletteDataFromHandle keeps r3 in
  * r5 and forwards it unchanged to 02062B30, which writes through it, so the
  * out parameter is a full-word pointer. The file has a 0xC byte header.
  */
@@ -269,7 +269,7 @@ void FRAME_LIST_CopyMapToBuffer(FrameList *list, void *source, u32 fileIndex, u3
 {
     void *data;
     void *handle;
-    handle = func_02049EF4(source, fileIndex, memberIndex, &data, list->heapId);
+    handle = ARC_UTIL_LoadPaletteDataFromHandle(source, fileIndex, memberIndex, &data, list->heapId);
     MIi_CpuCopy16((u8 *)data + 0xc, list->maps[mapSlot], list->params.tileWidth * list->params.rowHeight * 2);
     GFL_HEAP_Free(handle);
 }

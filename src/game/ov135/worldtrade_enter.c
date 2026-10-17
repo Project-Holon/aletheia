@@ -48,8 +48,8 @@
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   DWC_NASLoginAsync  0x02168064  arm
  *   DWC_NASLoginProcess 0x02168124 arm ov009
- *   func_02008540 0x02008540 thumb
- *   func_0200853C 0x0200853C thumb
+ *   MYSTATUS_SetProfileIdOnce 0x02008540 thumb
+ *   MYSTATUS_GetProfileId 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   DPW_TR_Init 0x021C7BA0 arm ov114
  *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
@@ -65,7 +65,7 @@
  *   tbl_021D654C 0x021D654C data ov115 a4
  *   WIFILOGIN_MSG_DrawWindow 0x021D5B5C thumb ov115
  *   WIFILOGIN_MSG_IsPrintDone 0x021D5C70 thumb ov115
- *   func_021C8658 0x021C8658 arm ov114
+ *   DPW_TR_End 0x021C8658 arm ov114
  *   DWC_ShutdownFriendsMatch 0x0216AD50 arm ov009
  *   DWC_CleanupInet 0x0205CC20 arm
  *   WORLDTRADE_ADAPTER_StartPrintStream 0x02202878 thumb ov135
@@ -89,6 +89,7 @@
  *   WORLDTRADE_INPUT_PrintStringTop  0x021F9088  thumb  ov135
  *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
  *   WIFILIST_GetWork  0x02009860  thumb  arm9
+ *   BMP_MENULIST_GetListIndex  0x020202EC  thumb  arm9
  */
 #include "worldtrade_types.h"
 
@@ -132,7 +133,7 @@ extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 
-extern void func_020202EC(struct Obj *obj, u16 *out);
+extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
@@ -154,9 +155,9 @@ extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 
 extern int WIFILIST_GetGsProfileId(void *a0);
 
-extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
+extern void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value);
 
-extern u32 func_0200853C(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 
@@ -184,7 +185,7 @@ extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
 
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 
-extern void func_021C8658();
+extern void DPW_TR_End();
 
 extern void WIFILOGIN_MSG_DrawWindow(char *p, struct MsgBank *a, int b);
 
@@ -353,7 +354,7 @@ int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old)
     u16 current;
     int result;
     result = BMP_MENULIST_Main(p);
-    func_020202EC(p, &current);
+    BMP_MENULIST_GetListIndex(p, &current);
     if (*old != current) {
         if (*old != 0xFFFF) GFL_USE_PlaySeDefaultVolume(0x548);
         *old = current;
@@ -453,8 +454,8 @@ int WORLDTRADE_ENTER_InitDwcTrade(Work *p)
     u32 id;
     u64 key;
     handle = WIFILIST_GetWork(p->ctx->wifiList);
-    func_02008540(p->ctx->f1C, WIFILIST_GetGsProfileId(p->ctx->wifiList));
-    id = func_0200853C(p->ctx->f1C);
+    MYSTATUS_SetProfileIdOnce(p->ctx->f1C, WIFILIST_GetGsProfileId(p->ctx->wifiList));
+    id = MYSTATUS_GetProfileId(p->ctx->f1C);
     key = DWC_CreateFriendKey(handle);
     DPW_TR_Init(id, (u32)key, (u32)(key >> 32), 0);
     return 1;
@@ -724,7 +725,7 @@ int WORLDTRADE_ENTER_RunDialog(void *dialog, Work *p)
 
 /*
  * Every concrete byte is reproduced.  The one wildcard is the BLX at +0002 to
- * func_021C8658, which has no independent witness outside 021F8F5C..021F8F66;
+ * DPW_TR_End, which has no independent witness outside 021F8F5C..021F8F66;
  * the resolver reports "(arm, from name) ... 8 overlays overlap this address
  * (ov016, ov021, ov093, ov111, ov114, ov128, ov172, ov208), none resolvable
  * without a region hint on the symbols: line".  Same blocker as WORLDTRADE_SERVER_StateCheckAsyncEnd
@@ -734,7 +735,7 @@ int WORLDTRADE_ENTER_RunDialog(void *dialog, Work *p)
  */
 u32 WORLDTRADE_ENTER_StateAbortConnect(Work *p)
 {
-    func_021C8658(p);
+    DPW_TR_End(p);
     return 0;
 }
 
@@ -790,7 +791,7 @@ int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog)
         (p->fF88)++;
         break;
     case 3:
-        func_021C8658();
+        DPW_TR_End();
         DWC_ShutdownFriendsMatch();
         DWC_CleanupInet();
         (p->fF88)++;

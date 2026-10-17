@@ -54,6 +54,7 @@
  *   WCMi_EntryApList  0x02165D04  arm  ov009
  *   MATH_CountPopulation  0x02080D24  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
+ *   WCMi_NotifyEx  0x021659F8  arm  ov009
  */
 
 typedef unsigned int u32;
@@ -149,7 +150,7 @@ extern u32 NWM_SendFrame(void *cb, u32 a, u32 b, u32 c);
 extern void OS_SleepThread(void *queue);
 extern u32 NWM_GetAllowedChannel(void);
 extern void WCMi_Notify(u32 a, void *b, u32 c, u32 d);
-extern void func_021659F8(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void WCMi_NotifyEx(u32 a, u32 b, u32 c, void *d, u32 e);
 extern void WCMi_EntryApList(u32 a, u32 b);
 extern u16 WCMi_GetNextScanChannel(u16 a);
 extern void DC_StoreRange(u32 buf, u32 len);
@@ -654,13 +655,13 @@ void WcmNwmcbScanEx(SendPkt *p)
                 DC_InvalidateRange(w->sendBuf, w->sendLen);
                 for (i = 0; i < p->count; i++) {
                     WCMi_EntryApList(p->ptr[i], p->size[i]);
-                    func_021659F8(7, 0, p->ptr[i], p, 953);
+                    WCMi_NotifyEx(7, 0, p->ptr[i], p, 953);
                 }
             }
             if ((w->linkFlags & 0xc00000) == 0xc00000) {
                 u32 n = MATH_CountPopulation(w->linkFlags & 0x3ffe);
                 if (n != 0 && w->sendCount % n == 0) {
-                    func_021659F8(8, 0, w->sendCount, 0, 967);
+                    WCMi_NotifyEx(8, 0, w->sendCount, 0, 967);
                 }
             }
             w->sendMask = (1 << WCMi_GetNextScanChannel(32 - clz32(p->len))) >> 1;

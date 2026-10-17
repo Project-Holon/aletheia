@@ -36,7 +36,7 @@
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
  *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -121,7 +121,7 @@
  *   MAP_MATRIX_Delete  0x02159BBC  thumb
  *   FIELD_G3D_MAPPER_AppendMatrix  0x0218CD20  thumb  ov021
  *   ICA_ANIME_Check2114  0x02012114  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   FIELD_PLAYER_SetObjCode  0x021A3220  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  *   FIELD_PLAYER_ClearRememberedObjCode  0x021A322C  thumb  ov021
@@ -152,7 +152,7 @@
  *   FLDMMDL_GetParam 0x0216D63C thumb ov010
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
@@ -167,7 +167,7 @@
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   TPOKE_DATA_Create  0x0202A128  thumb
  *   TPOKE_Delete  0x0202A170  thumb
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   INTRUDE_FIELD_gSymbolMonOffsetsHome     0x02183678  data  a4
  *   INTRUDE_FIELD_gSymbolMonOffsetsPlain     0x021835F8  data  a4
  *   INTRUDE_FIELD_gSymbolMonOffsetsOther     0x02183650  data  a4
@@ -176,11 +176,11 @@
  *   EVENT_COMM_COMMON_SetupListWindowB  0x0217F528  thumb  ov018
  *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
  *   EVENT_COMM_COMMON_PrintListWindowB  0x0217F574  thumb  ov018
- *   func_02029830  0x02029830  thumb
+ *   FIELD_SOUND_SYSTEM_StartPushAndPlayTask  0x02029830  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
- *   func_02029620  0x02029620  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   EVENT_COMM_COMMON_DeleteListWindowB  0x0217F58C  thumb  ov018
- *   func_02173FC0  0x02173FC0  thumb  ov011
+ *   INTRUDE_CMD_SendRecordAccept  0x02173FC0  thumb  ov011
  *   INTRUDE_COMM_IsSessionTimeLimitSet  0x02175A24  thumb  ov011
  *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb  ov018
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -400,20 +400,20 @@ extern int UI_IsPowerConnected(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *eventFunc, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern u32 KEY_GetTrg(void);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_NET_GetNegotiationNum(void);
-extern struct GameEvent *func_02029830(struct GameSystem *gameSystem, u32 bgmId);
-extern struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 a1, u32 a2);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 bgmId);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 a1, u32 a2);
 /* MyStatus, Pokemon and message helpers */
-extern u8 func_02008530(const struct PlayerStatus *status);
-extern u8 func_02008550(const struct PlayerStatus *status);
+extern u8 MYSTATUS_GetId(const struct PlayerStatus *status);
+extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *status);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
@@ -459,7 +459,7 @@ extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const VecFx32 *offset);
 extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
 extern u32 *FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
 /* INTRUDE_COMM */
-extern int func_02173FC0(IntrudeCommSys *work, IntrudeSession *session);
+extern int INTRUDE_CMD_SendRecordAccept(IntrudeCommSys *work, IntrudeSession *session);
 extern void INTRUDE_COMM_SetState(IntrudeCommSys *work, int state);
 extern void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work);
 extern void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int posX);
@@ -680,7 +680,7 @@ struct GameEvent *INTRUDE_FIELD_CreateEdgeBlockTask(struct GameSystem *gameSyste
     EdgeBlockWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_TaskEdgeBlock, sizeof(EdgeBlockWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(EdgeBlockWork));
     work->fieldMap = fieldMap;
     work->playerMmdl = FIELD_PLAYER_GetMmdl(player);
@@ -780,7 +780,7 @@ struct GameEvent *INTRUDE_FIELD_CreateAreaChangeTask(struct GameSystem *gameSyst
     AreaChangeWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_TaskAreaChange, sizeof(AreaChangeWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(AreaChangeWork));
     work->fieldMap = fieldMap;
     work->playerMmdl = FIELD_PLAYER_GetMmdl(player);
@@ -956,7 +956,7 @@ struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSy
     ExitConfirmWork *eventWork;
 
     event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_EventExitConfirm, sizeof(ExitConfirmWork));
-    eventWork = func_020124E8(event);
+    eventWork = GAME_EVENT_GetWork(event);
     MI_CpuFill8(eventWork, 0, sizeof(ExitConfirmWork));
     return event;
 }
@@ -1103,7 +1103,7 @@ struct GameEvent *INTRUDE_FIELD_CreateNoticeEvent(struct GameSystem *gameSystem,
     NoticeEventWork *work;
 
     event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_EventNotice, sizeof(NoticeEventWork));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     return event;
 }
 
@@ -1371,7 +1371,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
     if (ICA_ANIME_Check2114(gameSystem) == 0)
         return;
     myStatus = GAME_DATA_GetMyStatus(ICA_ANIME_GetField1C(gameSystem));
-    gender = func_02008550(myStatus);
+    gender = MYSTATUS_GetOutfitVariant(myStatus);
     if (work != 0) {
         if (objCode == 0xFFFF) {
             if (work->localPeer.intrudeId == GAME_DATA_GetOwnNetId(gameData))
@@ -1586,7 +1586,7 @@ u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm)
             status = GAME_DATA_GetPlayerStatusById(gameData, GAME_DATA_GetIntrudeId(gameData));
         }
     }
-    return func_02008550(status);
+    return MYSTATUS_GetOutfitVariant(status);
 }
 
 /*
@@ -1700,7 +1700,7 @@ void *INTRUDE_FIELD_CreateSymbolMon(int heapId, struct GameData *gameData, const
     levelTable = ARC_UTIL_LoadMember(0xE3, 0, 0, heapId);
     level = levelTable[entry->species];
     GFL_HEAP_Free(levelTable);
-    trainerId = func_02008530(GAME_DATA_GetMyStatus(gameData));
+    trainerId = MYSTATUS_GetId(GAME_DATA_GetMyStatus(gameData));
     personality = POKE_TOOL_CreatePersonalRnd(trainerId, (u16)entry->species, (u16)entry->form, entry->sex, 0, 0);
     mon = POKE_TOOL_Create(entry->species, level, -1, heapId);
     POKE_TOOL_SetupPartyParamEx(mon, entry->species, level, trainerId, -1, personality);
@@ -1742,8 +1742,8 @@ void INTRUDE_FIELD_SpawnSymbolMons(struct FieldMap *fieldMap, int objIdBase, Sym
 
     for (i = 0; i < 20; i++) {
         if (entries[i].species != 0) {
-            jitterX = func_02005728(2) - 1;
-            jitterZ = func_02005728(2) - 1;
+            jitterX = GFL_USE_GetRandomBelow(2) - 1;
+            jitterZ = GFL_USE_GetRandomBelow(2) - 1;
             x = jitterX + offsets[i][0];
             z = jitterZ + offsets[i][1];
             if (playerGridX == x && playerGridZ == z) {
@@ -1769,7 +1769,7 @@ struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSyst
     offer = INTRUDE_COMM_GetActiveSessionRequest(&work->session);
     ICA_ANIME_GetField1C(gameSystem);
     event = GAME_EVENT_Create(gameSystem, 0, INTRUDE_FIELD_EventOfferInfo, sizeof(OfferEventWork));
-    eventWork = func_020124E8(event);
+    eventWork = GAME_EVENT_GetWork(event);
     MI_CpuFill8(eventWork, 0, sizeof(OfferEventWork));
     eventWork->senderNetId = senderNetId;
     eventWork->fieldMap = fieldMap;
@@ -1810,12 +1810,12 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         (*seq)++;
         break;
     case 1:
-        GAME_EVENT_CallEvent(event, func_02029830(gameSystem, 0x52B));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(gameSystem, 0x52B));
         (*seq)++;
         break;
     case 2:
         if (GFL_USE_IsBgmPlaying() == 0) {
-            GAME_EVENT_CallEvent(event, func_02029620(gameSystem, 0, 6));
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(gameSystem, 0, 6));
             (*seq)++;
         }
         break;
@@ -1834,7 +1834,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         break;
     case 6:
         if (intrudeWork != 0) {
-            if (func_02173FC0(intrudeWork, &intrudeWork->session) == 1)
+            if (INTRUDE_CMD_SendRecordAccept(intrudeWork, &intrudeWork->session) == 1)
                 (*seq)++;
         } else {
             (*seq)++;

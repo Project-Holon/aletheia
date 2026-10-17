@@ -36,7 +36,7 @@
  *   BTL_SERVER_FLOW_AppendMsgRecordArg   0x021C8860  thumb ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord   0x021C88C8  thumb ov093
  *   BTL_EVENT_GetFactorKey   0x021D70A8  thumb ov093
- *   func_0209C2B0   0x0209C2B0  arm
+ *   _u32_div_f   0x0209C2B0  arm
  *   gBtlItemFlavorHealDefenseHandlers 0x021F1C2C data a4
  *   gBtlItemFlavorHealSpeedHandlers 0x021F1C54 data a4
  *   gBtlItemFlavorHealSpAttackHandlers 0x021F1C7C data a4
@@ -289,7 +289,7 @@ extern void BTL_SERVER_FLOW_InitMsgRecord(void *strParam, int strType, int strId
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *strParam, u32 arg);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(struct BtlServerFlow *flow, void *cmd);
 extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
-extern int func_0209C2B0(int dividend, int divisor);
+extern int _u32_div_f(int dividend, int divisor);
 extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sickId);
 extern void HAND_ITEM_PushUseItem(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *pokeParam, u32 divisor);
@@ -868,7 +868,7 @@ void HAND_ITEM_RecoverHpPercentOfMaxHp(struct BtlEventFactor *factor, void *serv
     percent = (u8)HAND_ITEM_GetParam(factor, 2);
     cmd = BTL_SERVER_FLOW_AllocCmdRecord(server, HANDEX_KIND_RECOVER_HP, pokeId);
     cmd->pokeId = pokeId;
-    cmd->amount = func_0209C2B0(maxHp * percent, 100);
+    cmd->amount = _u32_div_f(maxHp * percent, 100);
     BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_STR_SET, 908);
     BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, pokeId);
     BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, BTL_EVENT_GetFactorKey(factor));
@@ -2520,7 +2520,7 @@ void HAND_ITEM_ShellBell_HealFromDamage(struct BtlEventFactor *factor, void *flo
     damage = BTL_EVENT_GetVar(BTL_EVAR_DAMAGE);
     if (damage == 0)
         return;
-    amount = func_0209C2B0(damage, HAND_ITEM_GetParam(factor, 2));
+    amount = _u32_div_f(damage, HAND_ITEM_GetParam(factor, 2));
     if (amount == 0)
         amount = 1;
     cmd = (HandExRecoverHp *)BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_RECOVER_HP, pokeId);

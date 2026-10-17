@@ -1,7 +1,7 @@
 /*
  * file:     mb_parent.c
  * unit:     yes
- * function: func_021F1B3C, MB_CommGetChildUser, MB_CommIsBootable, MB_CommResponseRequest, MBi_CommChangeParentState, func_021F1D58, MBi_CommParentCallback, MBi_CommParentRecvDataPerChild, MBi_CommParentRecvData, MBi_CommParentSendMsg, MBi_CommParentSendDLFileInfo, MBi_ReloadCache, func_021F2A44, MBi_CommParentSendData, MBi_calc_sendblock, MBi_calc_nextsendblock, func_021F2EE8, func_021F2F04
+ * function: MB_CommSetParentStateCallback, MB_CommGetChildUser, MB_CommIsBootable, MB_CommResponseRequest, MBi_CommChangeParentState, MBi_CommChangeParentStateCallbackOnly, MBi_CommParentCallback, MBi_CommParentRecvDataPerChild, MBi_CommParentRecvData, MBi_CommParentSendMsg, MBi_CommParentSendDLFileInfo, MBi_ReloadCache, MBi_CommParentSendBlock, MBi_CommParentSendData, MBi_calc_sendblock, MBi_calc_nextsendblock, IsChildAidValid, MBi_CommCallParentError
  * address:  0x021F1B3C
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -18,8 +18,8 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021F2EE8  0x021F2EE8  arm  ov107
- *   func_021F1D58  0x021F1D58  arm  ov107
+ *   IsChildAidValid  0x021F2EE8  arm  ov107
+ *   MBi_CommChangeParentStateCallbackOnly  0x021F1D58  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
  *   MBi_ClearParentPieceBuffer  0x021F6850  arm  ov107
  *   MB_UpdateGameInfoMember  0x021F3E9C  arm  ov107
@@ -27,7 +27,7 @@
  *   MBi_GetTgid  0x021F62A0  arm  ov107
  *   MBi_GetAttribute  0x021F62B4  arm  ov107
  *   MB_SendGameInfoBeacon  0x021F3FC8  arm  ov107
- *   func_021F2F04  0x021F2F04  arm  ov107
+ *   MBi_CommCallParentError  0x021F2F04  arm  ov107
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   g_021F6EEC                     0x021F6EEC  data
  *   MBi_SetRecvBufferFromChild     0x021F6908  arm
@@ -56,7 +56,7 @@
  *   MBi_SetTask                  0x021F6658  arm  ov107
  *   MIi_CpuClear16  0x02082A48  arm
  *   func_021F276C  0x021F276C  arm  ov107
- *   func_021F2A44  0x021F2A44  arm  ov107
+ *   MBi_CommParentSendBlock  0x021F2A44  arm  ov107
  */
 #include "mb_parent.h"
 
@@ -134,8 +134,6 @@ struct bitmap {
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enabled);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int func_021F2EE8(unsigned short child_aid);
-extern void func_021F1D58(unsigned short child, int state, void *arg);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MBi_ClearParentPieceBuffer(u16 child_aid);
 extern void MB_UpdateGameInfoMember(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
@@ -143,7 +141,6 @@ extern u32 MBi_GetGgid(void);
 extern u16 MBi_GetTgid(void);
 extern u8 MBi_GetAttribute(void);
 extern void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
-extern void func_021F2F04(u16 aid, u16 errcode);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
 extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
@@ -168,7 +165,6 @@ extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
                         void (*callback)(MBiTaskInfo *), u32 priority);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern int func_021F276C(u8 type, u16 pollbmp);
-extern int func_021F2A44(void);
 void MB_CommSetParentStateCallback(MBParentStateCallback callback);
 void *MB_CommGetChildUser(unsigned short child_aid);
 int MB_CommIsBootable(unsigned short child_aid);
@@ -215,7 +211,7 @@ void *MB_CommGetChildUser(unsigned short child_aid)
 {
     unsigned long enabled = OS_DisableInterrupts();
 
-    if (mbc && func_021F2EE8(child_aid)) {
+    if (mbc && IsChildAidValid(child_aid)) {
         MI_CpuCopy8(&pPwork->childUser[child_aid - 1], &pPwork->childUserCopy, 0x16);
         OS_RestoreInterrupts(enabled);
         return &pPwork->childUserCopy;
@@ -235,7 +231,7 @@ void *MB_CommGetChildUser(unsigned short child_aid)
  */
 int MB_CommIsBootable(unsigned short child_aid)
 {
-    if (mbc && func_021F2EE8(child_aid)) {
+    if (mbc && IsChildAidValid(child_aid)) {
         if (pPwork->p_comm_state[child_aid - 1] == 7)
             return 1;
     }
@@ -280,7 +276,7 @@ int MB_CommResponseRequest(unsigned short child_aid, int ack)
         OS_RestoreInterrupts(enabled);
         return 0;
     }
-    if (mbc && func_021F2EE8(child_aid)) {
+    if (mbc && IsChildAidValid(child_aid)) {
         if (state == pPwork->p_comm_state[child_aid - 1]) {
             pPwork->req2child[child_aid - 1] = req;
             OS_RestoreInterrupts(enabled);
@@ -302,9 +298,9 @@ int MB_CommResponseRequest(unsigned short child_aid, int ack)
  */
 void MBi_CommChangeParentState(unsigned short child, int state, void *arg)
 {
-    if (func_021F2EE8(child))
+    if (IsChildAidValid(child))
         pPwork->p_comm_state[child - 1] = state;
-    func_021F1D58(child, state, arg);
+    MBi_CommChangeParentStateCallbackOnly(child, state, arg);
 }
 
 
@@ -430,11 +426,11 @@ void MBi_CommParentCallback(u16 type, void *arg)
         case 6:
         case 8:
         case 9:
-            func_021F2F04(0, 9);
+            MBi_CommCallParentError(0, 9);
             break;
         case 15:
         default:
-            func_021F2F04(0, 8);
+            MBi_CommCallParentError(0, 8);
             break;
         }
         break;
@@ -452,7 +448,7 @@ void MBi_CommParentCallback(u16 type, void *arg)
         case 21:
         case 25:
         case 29:
-            func_021F2F04(0, 9);
+            MBi_CommCallParentError(0, 9);
             break;
         case 1:
         case 2:
@@ -474,7 +470,7 @@ void MBi_CommParentCallback(u16 type, void *arg)
         case 27:
         case 28:
         default:
-            func_021F2F04(0, 8);
+            MBi_CommCallParentError(0, 8);
             break;
         }
         break;
@@ -863,7 +859,7 @@ static int MBi_CommParentSendData(void)
     else if (bmp.req)
         errcode = MBi_CommParentSendDLFileInfo();
     else
-        errcode = func_021F2A44();
+        errcode = MBi_CommParentSendBlock();
 
     if (errcode != 0x15)
         return errcode;
@@ -893,7 +889,7 @@ static int MBi_CommParentSendData(void)
  * predicated `strhle` + `bxle lr` whose fall-through lands in the else arm.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov107_func_021F2E58.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/MBi_calc_sendblock.c \
  *       --func MBi_calc_sendblock --addr 0x021F2E58 --region ov107 \
  *       --cc dsi/1.1p1 --flags=-O4,p --arm --lang c99 --diff
  */

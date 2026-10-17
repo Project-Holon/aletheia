@@ -41,7 +41,7 @@
  *   BMP_WIN_GetDispWidth  0x02045748  arm
  *   BMP_WIN_GetDispHeight  0x02045750  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02040804  0x02040804  arm
+ *   BG_SYS_GetScrollY  0x02040804  arm
  *   VEC_Subtract  0x0207CA00  arm
  *   VEC_Mag  0x0207CBD0  arm
  *   func_02048AFC  0x02048AFC  arm
@@ -110,7 +110,7 @@ extern u8 BMP_WIN_GetPosY(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
-extern u32 func_02040804(u32 bgLayer);
+extern u32 BG_SYS_GetScrollY(u32 bgLayer);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern int VEC_Mag(const VecFx32 *v);
 extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *eye);
@@ -776,7 +776,7 @@ int TALKMSGWIN_CalcTail(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outB
     y = (BMP_WIN_GetPosY(win->bmpWin) - 1) << 3;
     w = (BMP_WIN_GetDispWidth(win->bmpWin) + 2) << 3;
     h = (BMP_WIN_GetDispHeight(win->bmpWin) + 2) << 3;
-    y += func_02040804(BMP_WIN_GetBgLayer(win->bmpWin));
+    y += BG_SYS_GetScrollY(BMP_WIN_GetBgLayer(win->bmpWin));
     switch (win->tailMode) {
     case TALKMSGWIN_TAIL_MODE_AUTO:
     default:

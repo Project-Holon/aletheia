@@ -56,7 +56,7 @@
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
@@ -157,7 +157,7 @@
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   d_021BDD92 0x021BDD92 data a1
@@ -478,7 +478,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void TCBL_Destroy(struct Tcbl *);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -575,7 +575,7 @@ extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *p, const struct Vec2 *delta, u32 which);
-extern void func_02045CAC(struct MsgBank*,u32,void*);
+extern void MSGDATA_ReadString(struct MsgBank*,u32,void*);
 extern void WORDSET_CopyTaggedText(struct WordSet*,void*,void*);
 extern void CLACT_TransferCharacter(int,struct BeaconDetailGraTransfer*);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
@@ -949,8 +949,8 @@ void BEACON_DETAIL_GRA_LoadBackground(char *p,u16 heap)
 {
     struct ArcFile *arc;
     arc=ARC_TOOL_CreateHandle(85,heap);
-    func_02049B68(arc,0,0,0,512,heap);
-    func_02049B68(((struct BeaconDetailGraWork *)p)->arcFile,28,4,0,512,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,0,0,0,512,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(((struct BeaconDetailGraWork *)p)->arcFile,28,4,0,512,heap);
     ARC_UTIL_UploadBgCharFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,30,4,0,0,1,heap);
     ARC_UTIL_UploadBgCharFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,30,5,0,0,1,heap);
     ARC_UTIL_UploadBgCharFromHandle(((struct BeaconDetailGraWork *)p)->arcFile,30,7,0,0,1,heap);
@@ -1544,7 +1544,7 @@ void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
  * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *bank);
  *
- * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -1587,7 +1587,7 @@ void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
  *     MSGDATA_DecryptStrbuf(dest, index);
  * }
  */
-void BEACON_DETAIL_GRA_PrintMsg(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
+void BEACON_DETAIL_GRA_PrintMsg(u8*p, u8 n){MSGDATA_ReadString(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
 
 
 
@@ -1626,7 +1626,7 @@ void BEACON_DETAIL_GRA_InitWindows(char *p)
     w = (struct BeaconDetailGraWinSet *)(p + 0x15C);
 
     do {
-        func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), i, (void *)ARG(p, 0x130));
+        MSGDATA_ReadString((struct MsgBank *)HANDLE(p, 0x130), i, (void *)ARG(p, 0x130));
         b = d_021BDD8A[i % 2].index;
         off = i * 16;
         a = d_021BDD8A[i % 2].color;
@@ -1640,7 +1640,7 @@ void BEACON_DETAIL_GRA_InitWindows(char *p)
         } while (j < 2);
         i++;
     } while (i < 4);
-    func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), 7, (void *)ARG(p, 0x130));
+    MSGDATA_ReadString((struct MsgBank *)HANDLE(p, 0x130), 7, (void *)ARG(p, 0x130));
     w2 = (struct BeaconDetailGraWinSet *)(p + 0x130 + 0x2C);
 
     x = 0;
@@ -1650,7 +1650,7 @@ void BEACON_DETAIL_GRA_InitWindows(char *p)
         CALLS(&w2[x].b);
         x++;
     } while (x < 2);
-    func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), 9, (void *)ARG(p, 0x130));
+    MSGDATA_ReadString((struct MsgBank *)HANDLE(p, 0x130), 9, (void *)ARG(p, 0x130));
     w3 = (struct BeaconDetailGraWinSet *)(p + 0x130 + 0x2C);
     j = 0;
     do {

@@ -17,10 +17,10 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   MATH_CountPopulation  0x02080D24  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   SAVEDATA_PanicFail   0x02034714  arm
@@ -60,7 +60,7 @@ extern int  GFL_NET_GetNegotiationNum(void);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern unsigned int MATH_CountPopulation(int a);
 extern u32 GFL_NET_GetHandleNetID(void *p);
-extern u8 func_02008550(const void *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(void *p);
 extern void FIELD_PLAYER_GetPos(void *a, void *v);
@@ -272,7 +272,7 @@ void COLOSSEUM_UpdateCommPlayers(ColosseumWork *work)
     for (netId = 0; netId < COLOSSEUM_PLAYER_MAX; netId++) {
         if (ownNetId != netId && COLOSSEUM_TakePackage(work, netId, &package) == 1) {
             if (COMM_PLAYER_CheckOccupy(work->commPlayer, netId) == 0) {
-                int outfitVariant = func_02008550((const struct MyStatus *)&work->player[netId]);
+                int outfitVariant = MYSTATUS_GetOutfitVariant((const struct MyStatus *)&work->player[netId]);
                 int addMode = 1;
 
                 if (outfitVariant)

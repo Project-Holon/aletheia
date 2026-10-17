@@ -17,7 +17,7 @@
  *   ARC_TOOL_LoadMember       0x02048F60  arm
  *   GFL_HEAP_Alloc     0x02030734  arm
  *   NNSi_G2dInitVramHandleEx     0x020637D4  arm
- *   func_02049F34     0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive     0x02049F34  arm
  *   GFL_USE_AddMainTask     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
  *   MCSS_CloseHandle   0x02014CD4  thumb
@@ -99,6 +99,8 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle  0x02049DF4  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  */
 #include "field_status_shared_types.h"
 #include "zone_light_shared_types.h"
@@ -449,7 +451,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void NNSi_G2dInitVramHandleEx(u32 *proxy);
 
-extern void *func_02049F34(u32 arcId, u32 member, McssPlttData **out, u32 heap);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 member, McssPlttData **out, u32 heap);
 
 extern void *GFL_USE_AddMainTask(void *fn, void *work, u32 priority);
 
@@ -539,9 +541,9 @@ extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arcHandle, u32 member, u
 
 extern void *ARC_TOOL_LoadHandleMember(void *arcHandle, u32 member, u32 heap);
 
-extern void *func_02049DF4(void *arcHandle, u32 member, u32 flag, McssTransTask *out, u16 heap);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arcHandle, u32 member, u32 flag, McssTransTask *out, u16 heap);
 
-extern void *func_02049F78(void *arcHandle, u32 member, McssPlttData **out, u32 heap);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arcHandle, u32 member, McssPlttData **out, u32 heap);
 
 extern void NNSi_G2dLoadVramResourceSub(McssTexData *tex, u32 dst, int mode, McssTexImage *out);
 
@@ -822,7 +824,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     task->sys = sys;
     task->plttProxyOut = &sys->shadowPltt;
     task->plttDest = 0x1100;
-    task->plttBuf = func_02049F34(0xb, 0x58, &task->plttData, (u16)subHeapId);
+    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromArchive(0xb, 0x58, &task->plttData, (u16)subHeapId);
     sys->shadowPlttTask = GFL_USE_AddMainTask((void *)MCSS_TransTextureTask, task, 0);
     return sys;
 }
@@ -2531,7 +2533,7 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
 
     task->texBuf = ARC_UTIL_LoadBgCharDataFromArchive(addWork->arcId, addWork->textureMember, 1, task,
                                  (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
-    task->plttBuf = func_02049F34(addWork->arcId, addWork->paletteMember, &task->plttData,
+    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromArchive(addWork->arcId, addWork->paletteMember, &task->plttData,
                                   (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
 
     work->plttOriginal = GFL_HEAP_Alloc(heap,
@@ -2609,9 +2611,9 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     task->plttDest = sys->plttTransAdrs + (index << 5);
     task->work = work;
 
-    task->texBuf = func_02049DF4(arcHandle, addWork->textureMember, 1, task,
+    task->texBuf = ARC_UTIL_LoadBgCharDataFromHandle(arcHandle, addWork->textureMember, 1, task,
                                  (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
-    task->plttBuf = func_02049F78(arcHandle, addWork->paletteMember, &task->plttData,
+    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromHandle(arcHandle, addWork->paletteMember, &task->plttData,
                                   (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
 
     work->plttOriginal = GFL_HEAP_Alloc((u16)work->heapId,

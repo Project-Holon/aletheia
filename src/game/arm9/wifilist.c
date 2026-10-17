@@ -37,7 +37,7 @@
  *     WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb
  *     WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
  *     SAVE_CONTROL_GetBlock  0x020071CC  thumb
- *     func_0200856C  0x0200856C  thumb
+ *     MYSTATUS_GetLanguage  0x0200856C  thumb
  *     GF_OVERLAY_Unload  0x02034A5C  arm
  *     GF_OVERLAY_Load  0x02034AC4  arm
  *     ov_id_09       0x00000009  data
@@ -131,7 +131,7 @@ extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId)
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern void MYSTATUS_SetLanguageAndVersion(struct MyStatus *status, u8 country, u8 region);
 extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct WifiHistory *history);
-extern u8 func_0200856C(const struct MyStatus *status);
+extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
 extern u32 WIFI_HISTORY_IsCountryVisited(const struct WifiHistory *history, u32 country);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void WIFILIST_Init(struct WifiList *list);
@@ -424,7 +424,7 @@ u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *st
     u8 count = WIFI_HISTORY_GetVisitedCountryCount(history);
 
     if (flag == 0) {
-        int country = func_0200856C(status);
+        int country = MYSTATUS_GetLanguage(status);
         if (country == 0) {
             count = 0;
         } else if (WIFI_HISTORY_IsCountryVisited(history, country) && count != 0) {

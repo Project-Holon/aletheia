@@ -46,7 +46,7 @@
  *   gParticleBufferAllocTag 0x021E81C0 data a4
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   OS_WaitInterrupt 0x02087A3C arm
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PARTICLE_SetupSystemBorrowed 0x02051360 arm
  *   PARTICLE_ExitManager  0x02050ED4  arm
  *   PARTICLE_SetupSystem  0x02051230  arm
@@ -58,7 +58,7 @@
  *   G3D_UTIL_Delete 0x02047E54 arm
  *   gPokeTrade3dStateTable   0x021E7AC4  data   ov119  a4
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   gG3dUnitTable 0x021E7B3C data a4
@@ -100,7 +100,7 @@
  *   gLookAtEye 0x021E815C data ov119 a4
  *   gLookAtTarget 0x021E79AC data ov119 a4
  *   gLookAtUp 0x021E8150 data ov119 a4
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuMove 0x02083194 arm
  *   GX_BeginLoadTexPltt 0x0207FA0C arm
  *   GX_LoadTexPltt 0x0207FA40 arm
@@ -233,7 +233,7 @@ extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 
 extern void OS_WaitInterrupt(int clear, u32 flags);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern void PARTICLE_SetupSystemBorrowed(void *p, unsigned int a1, unsigned int a2, unsigned int a3);
 
@@ -251,7 +251,7 @@ extern void G3D_UTIL_Delete(struct Rec *p);
 
 extern u16 G3D_UTIL_AddUnit(void *,const G3dUnitEntry *);
 
-extern u32 func_02048A18(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
 
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 
@@ -311,7 +311,7 @@ extern void G3i_LookAt_(const VecFx32 *,const VecFx32 *,const VecFx32 *,int,MtxF
 
 extern u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void MI_CpuMove(const void *, void *, int);
 
@@ -501,7 +501,7 @@ void POKETRADE_3D_SetupParticleSystemsLow(ParticleManager *p) {
     for(i=0;i<4;i++) {
         int x;
         OS_WaitInterrupt(1,1);
-        x=func_020056BC();
+        x=GFL_USE_GetMainTaskList();
         PARTICLE_SetupSystemBorrowed(p->system[i],(unsigned int)p->archiveMember,1,x);
     }
 }
@@ -512,7 +512,7 @@ void POKETRADE_3D_SetupParticleSystemsHigh(ParticleManager *p)
 
     for (i = 4; i < 9; i++) {
         OS_WaitInterrupt(1, 1);
-        PARTICLE_SetupSystemBorrowed(p->system[i], (unsigned int)p->archiveMember, 1, func_020056BC());
+        PARTICLE_SetupSystemBorrowed(p->system[i], (unsigned int)p->archiveMember, 1, GFL_USE_GetMainTaskList());
     }
 }
 
@@ -615,7 +615,7 @@ void POKETRADE_3D_AddUnit(char *p,int n) {
     if(gG3dUnitTable[n].d) ((TradeWork *)p)->g3dUnitHandle=G3D_UTIL_AddUnit(((TradeWork *)p)->g3dUtil,&gG3dUnitTable[n]);
     else ((TradeWork *)p)->g3dUnitHandle=0xffff;
     if(((TradeWork *)p)->g3dUnitHandle!=0xffff) {
-        q=(void *)func_02048A18(((TradeWork *)p)->g3dUtil,((TradeWork *)p)->g3dUnitHandle);
+        q=(void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil,((TradeWork *)p)->g3dUnitHandle);
         count=G3D_SYSTEM_GetObjectAnimeCount(q);
         for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime(q,(u16)i);
     }
@@ -646,7 +646,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
     if (g3dSceneHandlers[idx].fn != 0)
         g3dSceneHandlers[idx].fn(p, buf);
     if (((TradeWork *)p)->g3dUnitHandle != 0xFFFF) {
-        q = (void *)func_02048A18(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle);
+        q = (void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle);
         n = G3D_SYSTEM_GetObjectAnimeCount(q);
         for (i = 0; i < n; i++)
             G3D_SYSTEM_LoopObjectAnimeFrame(q, (u16)i, gAnimeFrameCfg.amount);
@@ -659,7 +659,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
         PARTICLE_UpdateAllSystems();
     }
     if (((TradeWork *)p)->g3dUnitHandle != 0xFFFF)
-        G3D_SYSTEM_DrawObject((void *)func_02048A18(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle), (struct Arg *)buf);
+        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle), (struct Arg *)buf);
     if (((TradeWork *)p)->particleManager != 0) {
         if (((TradeWork *)p)->particleManager->icaStream[0] != 0) {
             if (((TradeWork *)p)->particleManager->streamFrame[0] == 0)
@@ -967,7 +967,7 @@ void POKETRADE_3D_DrawRotatingCube(const u8 *p)
     }
 }
 
-/* Loaded texture handle; func_02049F78 returns its data pointer through an out slot. */
+/* Loaded texture handle; ARC_UTIL_LoadPaletteBlockFromHandle returns its data pointer through an out slot. */
 typedef struct {
     unsigned char pad_0[12];
     char *data;               /* 0x0C raw texture bytes */
@@ -986,7 +986,7 @@ void POKETRADE_3D_LoadTexturePalette(char *p)
     void *descriptor;
     char *data;
     v = ARC_TOOL_CreateHandle(0x74, ((TradeWork *)p)->heapId);
-    allocation = func_02049F78(v, 0x48, (u32)(&descriptor), ((TradeWork *)p)->heapId);
+    allocation = ARC_UTIL_LoadPaletteBlockFromHandle(v, 0x48, (u32)(&descriptor), ((TradeWork *)p)->heapId);
     data = ((IcaTexture *)descriptor)->data;
     DWCi_ScreenDC_FlushRange(data + 32, 32);
     MI_CpuMove(data + 32, data + 34, 30);

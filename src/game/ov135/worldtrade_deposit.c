@@ -17,7 +17,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
@@ -60,7 +60,7 @@
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   MIi_CpuCopyFast  0x02082B0C  arm
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WORLDTRADE_INPUT_MenuCreate 0x021F9890 thumb ov135
  *   g_02203BBC  0x02203BBC  data  ov135
@@ -113,7 +113,7 @@
  *   WORLDTRADE_DEPOSIT_CreateGenderMenu 0x021F87E0 thumb ov135
  *   WORLDTRADE_DEPOSIT_LoadSpeciesList  0x021F8498  thumb
  *   WORLDTRADE_DEPOSIT_GetSpeciesRange  0x021F84BC  thumb
- *   func_020084F4 0x020084F4 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
  *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
  *   WORLDTRADE_DEPOSIT_DrawRequestWindowAlt 0x021F8290 thumb ov135
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
@@ -136,6 +136,12 @@
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  *   WORDSET_CopyString  0x0201F41C  thumb  arm9
+ *   MYSTATUS_GetId  0x02008530  thumb  arm9
+ *   MYSTATUS_GetOutfit  0x02008554  thumb  arm9
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
+ *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
+ *   WIFI_HISTORY_GetRatingLevel  0x0200960C  thumb  arm9
+ *   WIFI_HISTORY_GetGreetingSet  0x02009628  thumb  arm9
  */
 #include "worldtrade_types.h"
 
@@ -168,7 +174,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
@@ -276,7 +282,7 @@ extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void *WORLDTRADE_INPUT_MenuCreate(Init *,u32,u32);
 
@@ -322,23 +328,23 @@ extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k);
 
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 
-extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
 
-extern u8 func_02008570(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
 
-extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 
-extern u8 func_02009628(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetGreetingSet(const struct Sub02009470Obj *obj);
 
 extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct Sub02009470Obj *obj);
 
-extern u8 func_0200960C(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetRatingLevel(const struct Sub02009470Obj *obj);
 
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 
@@ -1128,7 +1134,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     WORDSET_SetSlotNumber(ws, 3, gender, 3, 0, 1);
     place = (void *)WORLDTRADE_ADAPTER_CreateString((u32)ws, (u32)bank, 0x72, 0x48);
     if (form != 3) {
-        func_02045CAC(bank, tbl_02202EB0[form], tmp);
+        MSGDATA_ReadString(bank, tbl_02202EB0[form], tmp);
     }
     for (i = 0; i < 3; i++) {
         BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
@@ -1205,17 +1211,17 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p)
         }
         WORLDTRADE_ADAPTER_CopyBoxMon(p->mon, (u32)dst);
     }
-    WORDSET_CopyString(func_020084F4(p->ctx->f1C), (u16 *)dst->name, 8);
-    dst->trainerId = func_02008530(p->ctx->f1C);
-    dst->lang = func_0200856C(p->ctx->f1C);
-    dst->ver = func_02008570(p->ctx->f1C);
-    dst->country = func_02008554(p->ctx->f1C);
-    dst->gender = func_02008550(p->ctx->f1C);
+    WORDSET_CopyString(MYSTATUS_GetName(p->ctx->f1C), (u16 *)dst->name, 8);
+    dst->trainerId = MYSTATUS_GetId(p->ctx->f1C);
+    dst->lang = MYSTATUS_GetLanguage(p->ctx->f1C);
+    dst->ver = MYSTATUS_GetVersion(p->ctx->f1C);
+    dst->country = MYSTATUS_GetOutfit(p->ctx->f1C);
+    dst->gender = MYSTATUS_GetOutfitVariant(p->ctx->f1C);
     dst->region = 0x15;
     dst->city = 2;
-    dst->profileFlagB = func_02009628(p->ctx->status);
+    dst->profileFlagB = WIFI_HISTORY_GetGreetingSet(p->ctx->status);
     dst->profileFlagC = WIFI_HISTORY_GetVisitedCountryCount(p->ctx->status);
-    dst->profileFlagA = func_0200960C(p->ctx->status);
+    dst->profileFlagA = WIFI_HISTORY_GetRatingLevel(p->ctx->status);
 }
 
 void WORLDTRADE_DEPOSIT_StoreOfferInWork(Deposit *dst, Work *p)

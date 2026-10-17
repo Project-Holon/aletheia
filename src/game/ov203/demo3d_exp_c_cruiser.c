@@ -14,7 +14,7 @@
  *
  * symbols:
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -75,7 +75,7 @@ typedef struct Demo3dCruiserGfx {
 typedef unsigned char u8;
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void func_02049B68(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -102,7 +102,7 @@ extern const struct Vec2 d_021C3BD0[];
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
 {
     void *h = ARC_TOOL_CreateHandle(85, heap);
-    func_02049B68(h, 3, 4, 0, 0, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 3, 4, 0, 0, heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 9, 6, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 18, 6, 0, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);

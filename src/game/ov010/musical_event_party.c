@@ -30,9 +30,9 @@
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
- *   func_02009D1C  0x02009D1C  thumb
- *   func_02009BB8  0x02009BB8  thumb
- *   func_02009B80  0x02009B80  thumb
+ *   WIFILIST_FindFriendByStatus  0x02009D1C  thumb
+ *   WIFILIST_AddFriendBattleRecord  0x02009BB8  thumb
+ *   WIFILIST_SetFriendLastSeen  0x02009B80  thumb
  *   MUSICAL_EVENT_TwoPlayerPositionRemap     0x0216FED8  data  ov010  a1
  *   MUSICAL_EVENT_FourPlayerPositionRemap     0x0216FEDC  data  a1
  */
@@ -100,9 +100,9 @@ extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
 extern struct PlayerStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData, u32 playerIndex);
 extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
-extern int func_02009D1C(struct WifiList *wifiList, struct PlayerStatus *playerStatus, u32 *outFriendSlot);
-extern void func_02009BB8(struct WifiList *wifiList, int friendSlot, int wins, int losses, int trades);
-extern void func_02009B80(struct WifiList *wifiList, int friendSlot);
+extern int WIFILIST_FindFriendByStatus(struct WifiList *wifiList, struct PlayerStatus *playerStatus, u32 *outFriendSlot);
+extern void WIFILIST_AddFriendBattleRecord(struct WifiList *wifiList, int friendSlot, int wins, int losses, int trades);
+extern void WIFILIST_SetFriendLastSeen(struct WifiList *wifiList, int friendSlot);
 void MUSICAL_EVENT_SetPartyLevel50(void *party);
 void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work);
 void MUSICAL_EVENT_TrimPartyToThree(void *party);
@@ -225,15 +225,15 @@ void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct Gam
     for (i = 0; i < participantCount; i++) {
         playerStatus = GAME_DATA_GetPlayerStatus(gameData, i);
         if (i != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && playerStatus != 0
-            && func_02009D1C(GAME_DATA_GetWifiList(gameData), playerStatus, (u32 *)(&friendSlot)) != 0) {
+            && WIFILIST_FindFriendByStatus(GAME_DATA_GetWifiList(gameData), playerStatus, (u32 *)(&friendSlot)) != 0) {
             if (i == partnerSlot) {
-                func_02009B80(GAME_DATA_GetWifiList(gameData), friendSlot);
+                WIFILIST_SetFriendLastSeen(GAME_DATA_GetWifiList(gameData), friendSlot);
             } else if (work->battleResult == 0) {
-                func_02009BB8(GAME_DATA_GetWifiList(gameData), friendSlot, 1, 0, 0);
+                WIFILIST_AddFriendBattleRecord(GAME_DATA_GetWifiList(gameData), friendSlot, 1, 0, 0);
             } else if (work->battleResult == 1) {
-                func_02009BB8(GAME_DATA_GetWifiList(gameData), friendSlot, 0, 1, 0);
+                WIFILIST_AddFriendBattleRecord(GAME_DATA_GetWifiList(gameData), friendSlot, 0, 1, 0);
             } else {
-                func_02009B80(GAME_DATA_GetWifiList(gameData), friendSlot);
+                WIFILIST_SetFriendLastSeen(GAME_DATA_GetWifiList(gameData), friendSlot);
             }
         }
     }

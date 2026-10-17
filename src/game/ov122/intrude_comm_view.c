@@ -32,7 +32,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   GF_FONT_CountLines 0x0201D42C thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
@@ -50,12 +50,12 @@
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -152,6 +152,7 @@
  *   TCB_DeleteTask  0x02030EAC  arm  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  *   WIH_DWC_FindSlotByKey  0x020107FC  thumb  arm9
+ *   FIELD_SOUND_SYSTEM_StopRingtone  0x02028A70  thumb  arm9
  */
 
 struct BgTemplate;
@@ -305,7 +306,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
 extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
@@ -321,12 +322,12 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -368,7 +369,7 @@ extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *);
 extern void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys);
-extern void func_02028A70(struct SoundSys *sys);
+extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void CLACT_VBlankSystem(void);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
@@ -539,7 +540,7 @@ void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, 
     for (i = 0; i < count; i++) {
         p->rows[i] = (void *)BMP_WIN_Create(7, (u8)rows[i].x, (u8)rows[i].y, (u8)rows[i].w, rows[i].h, 13, 0);
         BMP_Clear(BMP_WIN_GetBmp(p->rows[i]), 0);
-        func_02045CAC(p->msgBank, (int)values[i], p->textBuf);
+        MSGDATA_ReadString(p->msgBank, (int)values[i], p->textBuf);
         if (xs) x = xs[i] - (GF_FONT_MeasureWidestLine(p->textBuf, (u32)p->font, 0) >> 1);
         else x = 0;
         if (ys) y = ys[i] - (GF_FONT_CountLines(p->textBuf, p->font) >> 1);
@@ -731,16 +732,16 @@ void INTRUDE_COMM_VIEW_CreateResources(char *p)
     ((IntrudeCommView *)p)->font = GF_FONT_Create(23, 0, 0, 0, ((IntrudeCommView *)p)->heapId);
     ((IntrudeCommView *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, 23, ((IntrudeCommView *)p)->heapId);
     arc = (u32)ARC_TOOL_CreateHandle(29, ((IntrudeCommView *)p)->heapId);
-    func_02049B68((void *)arc, 0, 0, 0, 0, ((IntrudeCommView *)p)->heapId);
-    func_02049B68((void *)arc, 1, 4, 0, 0, ((IntrudeCommView *)p)->heapId);
-    resource = func_02049F78((void *)arc, 1, (u32)&palette, ((IntrudeCommView *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 0, 0, 0, 0, ((IntrudeCommView *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 1, 4, 0, 0, ((IntrudeCommView *)p)->heapId);
+    resource = ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc, 1, (u32)&palette, ((IntrudeCommView *)p)->heapId);
     MI_CpuCopy8(((IntrudeCommViewPalette *)palette)->data, ((IntrudeCommView *)p)->paletteMain, 0xe0);
     MI_CpuCopy8(((IntrudeCommViewPalette *)palette)->data, ((IntrudeCommView *)p)->paletteBright, 0xe0);
     INTRUDE_COMM_VIEW_BrightenPalette(((IntrudeCommView *)p)->paletteBright, data_021D5870, 7);
     GFL_HEAP_Free(resource);
     ((IntrudeCommView *)p)->frameParam = ARC_UTIL_RegisterObjCharFromHandle((void *)arc, 4, 4, 0, 0, ((IntrudeCommView *)p)->heapId);
-    func_02049990((void *)arc, 9, 4, 0, (u16)(((IntrudeCommView *)p)->frameParam), 0, 0, ((IntrudeCommView *)p)->heapId);
-    func_02049990((void *)arc, 15, 6, 0, (u16)(((IntrudeCommView *)p)->frameParam), 0, 0, ((IntrudeCommView *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)arc, 9, 4, 0, (u16)(((IntrudeCommView *)p)->frameParam), 0, 0, ((IntrudeCommView *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)arc, 15, 6, 0, (u16)(((IntrudeCommView *)p)->frameParam), 0, 0, ((IntrudeCommView *)p)->heapId);
     *(int *)&((IntrudeCommView *)p)->charId = CLACT_RegisterCharacter((void *)arc, 5, 0, 1, ((IntrudeCommView *)p)->heapId);
     *(int *)&((IntrudeCommView *)p)->paletteId = CLACT_RegisterPaletteEx((void *)arc, 3, 1, 0, 0, 10, ((IntrudeCommView *)p)->heapId);
     *(int *)&((IntrudeCommView *)p)->cellId = CLACT_RegisterCellAnim((void *)arc, 7, 16, ((IntrudeCommView *)p)->heapId);
@@ -917,10 +918,10 @@ void INTRUDE_COMM_VIEW_DrawRowText(int i, int value, int force, int mode, Intrud
             (u8)data_021D58E0[i].w, data_021D58E0[i].h, (int)13, (int)0);
     BMP_Clear(BMP_WIN_GetBmp(p->rows[i]), 0);
     if (mode) {
-        func_02045CAC(((IntrudeCommView *)p)->msgBank, value, ((IntrudeCommView *)p)->textBufAlt);
+        MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, value, ((IntrudeCommView *)p)->textBufAlt);
         WORDSET_CopyTaggedText(((IntrudeCommView *)p)->wordSet, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->textBufAlt);
     } else {
-        func_02045CAC(((IntrudeCommView *)p)->msgBank, value, ((IntrudeCommView *)p)->textBuf);
+        MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, value, ((IntrudeCommView *)p)->textBuf);
     }
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), 0, 0, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font, 0x39e3);
     BMP_WIN_TransferChars(p->rows[i]);
@@ -965,13 +966,13 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
         case 0:
             CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[5], 0);
             INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
-            func_02045CAC(((IntrudeCommView *)p)->msgBank, 0, ((IntrudeCommView *)p)->textBuf);
+            MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, 0, ((IntrudeCommView *)p)->textBuf);
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5840, data_021D5710, data_021D5714);
             break;
         case 1:
             CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[5], 0);
             INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
-            func_02045CAC(((IntrudeCommView *)p)->msgBank, 15, ((IntrudeCommView *)p)->textBuf);
+            MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, 15, ((IntrudeCommView *)p)->textBuf);
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 2:
@@ -980,12 +981,12 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
             CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[5], 0);
             INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
             WORDSET_SetSlotNumber(((IntrudeCommView *)p)->wordSet, 0, count, 1, 0, 1);
-            func_02045CAC(((IntrudeCommView *)p)->msgBank, 16, ((IntrudeCommView *)p)->textBufAlt);
+            MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, 16, ((IntrudeCommView *)p)->textBufAlt);
             WORDSET_CopyTaggedText(((IntrudeCommView *)p)->wordSet, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->textBufAlt);
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 3:
-            func_02045CAC(((IntrudeCommView *)p)->msgBank, 17, ((IntrudeCommView *)p)->textBuf);
+            MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, 17, ((IntrudeCommView *)p)->textBuf);
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860, data_021D5710, data_021D5714);
             if (INTRUDE_COMM_GetRequesterStatus(object, *(int *)&((IntrudeCommView *)p)->textBuf)) {
                 INTRUDE_COMM_VIEW_RebuildRow(10, (IntrudeCommView *)p, &data_021D5850, 0, 0);
@@ -1031,7 +1032,7 @@ void INTRUDE_COMM_VIEW_Update(char *p) {if(WIPE_SYS_EndCheck())BUTTON_MAN_Update
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void MSGDATA_DecryptStrbuf(void *,u32);
  * extern void MSGDATA_RefreshLanguage(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -1067,7 +1068,7 @@ void INTRUDE_COMM_VIEW_Update(char *p) {if(WIPE_SYS_EndCheck())BUTTON_MAN_Update
  *     MSGDATA_DecryptStrbuf(dest,index);
  * }
  */
-void INTRUDE_COMM_VIEW_InitStatusText(char *p) {void *t;t=STRBUF_Create(100,((IntrudeCommView *)p)->heapId);((IntrudeCommView *)p)->statusText=t;func_02045CAC(((IntrudeCommView *)p)->msgBank,9,t);((IntrudeCommView *)p)->statusColor=0x39e3;((IntrudeCommView *)p)->statusFlags=1;STRBUF_Delete(((IntrudeCommView *)p)->statusText);}
+void INTRUDE_COMM_VIEW_InitStatusText(char *p) {void *t;t=STRBUF_Create(100,((IntrudeCommView *)p)->heapId);((IntrudeCommView *)p)->statusText=t;MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank,9,t);((IntrudeCommView *)p)->statusColor=0x39e3;((IntrudeCommView *)p)->statusFlags=1;STRBUF_Delete(((IntrudeCommView *)p)->statusText);}
 
 
 
@@ -1130,7 +1131,7 @@ void INTRUDE_COMM_VIEW_OnScanResult(char *p)
             CLACT_SetActorAnimSeq(((IntrudeCommView *)p)->actors[1], 19);
         }
     } else {
-        func_02028A70((struct SoundSys *)GAME_DATA_GetBgmInfo(((IntrudeCommView *)p)->gameData));
+        FIELD_SOUND_SYSTEM_StopRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo(((IntrudeCommView *)p)->gameData));
         CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[4], 0);
         BMP_Clear(BMP_WIN_GetBmp(((IntrudeCommView *)p)->rowWin), 0);
         BMP_WIN_TransferChars(((IntrudeCommView *)p)->rowWin);

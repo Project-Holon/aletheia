@@ -19,13 +19,13 @@
  *   d_021E8DBC 0x021E8DBC data a1
  *   MI_CpuCopy8 0x02082D44 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
@@ -76,7 +76,7 @@
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb  arm9
@@ -116,6 +116,11 @@
  *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb  arm9
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm  arm9
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm  arm9
+ *   MYSTATUS_GetName  0x020084F4  thumb  arm9
+ *   MYSTATUS_GetOutfit  0x02008554  thumb  arm9
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
+ *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
+ *   _u32_div_f  0x0209C2B0  arm  arm9
  */
 #include "wifibattlematch_graphic_shared_types.h"
 #include "wifibattlematch_view_shared_types.h"
@@ -147,7 +152,7 @@ typedef struct { char pad[0x18]; unsigned short out[16], original[16], target[16
 typedef struct {
     u32 kind;            /* 0x00, REC[1] box kind */
     u16 count, pad6;     /* 0x04, BSUBWAY stat count */
-    u32 name;            /* 0x08, avatar id (func_02008554), poke-actor index */
+    u32 name;            /* 0x08, avatar id (MYSTATUS_GetOutfit), poke-actor index */
     void *total;         /* 0x0C, score (a + b), first GetEntryValue argument */
     u16 a, b;            /* 0x10 win count, 0x12 loss count */
 } WifiBattleMatchViewMainInfo;
@@ -264,7 +269,7 @@ extern void MI_CpuCopy8(const void *, void *, u32);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -276,7 +281,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u16 mode);
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -344,7 +349,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
-extern unsigned func_0209C2B0(unsigned, unsigned);
+extern unsigned _u32_div_f(unsigned, unsigned);
 
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
@@ -356,7 +361,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
@@ -408,7 +413,7 @@ extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *p, u32 v);
 
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
-extern u8 func_02008554(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetOutfit(const struct PlayerStatus *obj);
 
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 
@@ -418,11 +423,11 @@ extern void BG_SYS_DrawTileEx(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
 
 extern void PMS_DRAW_Delete(struct Obj *p);
 
-extern const void *func_020084F4(const void *p);
+extern const void *MYSTATUS_GetName(const void *p);
 
-extern u8 func_0200856C(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetLanguage(const struct PlayerStatus *obj);
 
-extern u8 func_02008570(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetVersion(const struct PlayerStatus *obj);
 
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
@@ -592,8 +597,8 @@ u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
     k = 0x85;
     c = (heap & 0x7fff) | 0x8000;
     h = ARC_TOOL_CreateHandle(k, (u16)c);
-    func_02049B68(h, 0, 0, 0, 0, c);
-    func_02049B68(h, 0, 4, 0, 0, c);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 0, 0, 0, c);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 4, 0, 0, c);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 3, 0, 0, 0, c);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 7, 0, 0, 0, c);
     WIFIBATTLEMATCH_VIEW_LoadBgPalette((int)w, mode, heap);
@@ -603,7 +608,7 @@ u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
     w[1] = CLACT_RegisterPalette(h, 1, 1, 0, c);
     w[3] = CLACT_RegisterCharacter(h, 3, 0, 1, c);
     w[5] = CLACT_RegisterCellAnim(h, 4, 0xb, c);
-    hd = func_02049F78(h, 0, (u32)&out, heap);
+    hd = ARC_UTIL_LoadPaletteBlockFromHandle(h, 0, (u32)&out, heap);
     data = (u8 *)out[3];
     MI_CpuCopy8(data, (u8 *)w + 0x38, 0x20);
     k += 0x9b;
@@ -1165,11 +1170,11 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindow(Work *w)
         }
         GFL_USE_PlaySeDefaultVolume(0x63b);
     }
-    level = func_0209C2B0(w->objCount << 8, 20) - 0x100;
+    level = _u32_div_f(w->objCount << 8, 20) - 0x100;
     for (i = 0; i < 22; i++) {
         if (w->objs[i] != 0) {
             CLACT_GetActorSurfacePos(w->objs[i], (struct PtS *)&pos, (unsigned short)w->layer);
-            pos.x = w->baseX[i] - func_0209C2B0(w->objCount << 8, 20);
+            pos.x = w->baseX[i] - _u32_div_f(w->objCount << 8, 20);
             CLACT_AddActorSurfacePos(w->objs[i], &pos, w->layer);
         }
     }
@@ -1198,11 +1203,11 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w)
         }
         GFL_USE_PlaySeDefaultVolume(0x63b);
     }
-    level = func_0209C2B0(w->objCount << 8, 20);
+    level = _u32_div_f(w->objCount << 8, 20);
     for (i = 0; i < 22; i++) {
         if (w->objs[i] != 0) {
             CLACT_GetActorSurfacePos(w->objs[i], (struct PtS *)&pos, (unsigned short)w->layer);
-            pos.x = w->baseX[i] - func_0209C2B0(w->objCount << 8, 20);
+            pos.x = w->baseX[i] - _u32_div_f(w->objCount << 8, 20);
             CLACT_AddActorSurfacePos(w->objs[i], &pos, w->layer);
         }
     }
@@ -1244,28 +1249,28 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned a1, const WifiBattle
         draw = 1;
         switch (j) {
         case 0:
-            func_02045CAC(a6, a1, s2);
+            MSGDATA_ReadString(a6, a1, s2);
             color = 0x3c40;
             break;
         case 1:
-            func_02045CAC(a6, info->kind + 2, s2);
+            MSGDATA_ReadString(a6, info->kind + 2, s2);
             color = 0x3c40;
             break;
         case 2:
-            func_02045CAC(a6, 7, s1);
+            MSGDATA_ReadString(a6, 7, s1);
             WORDSET_SetSlotMyStatus(a7, 0, a3);
             WORDSET_CopyTaggedText(a7, s2, s1);
             color = 0x3c40;
             break;
         case 3:
             if (a1)
-                func_02045CAC(a6, 8, s2);
+                MSGDATA_ReadString(a6, 8, s2);
             else
                 draw = 0;
             break;
         case 4:
             if (a1) {
-                func_02045CAC(a6, 9, s1);
+                MSGDATA_ReadString(a6, 9, s1);
                 WORDSET_SetSlotNumber(a7, 0, info->count, 4, 1, 1);
                 WORDSET_CopyTaggedText(a7, s2, s1);
             } else {
@@ -1273,26 +1278,26 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned a1, const WifiBattle
             }
             break;
         case 5:
-            func_02045CAC(a6, 10, s2);
+            MSGDATA_ReadString(a6, 10, s2);
             break;
         case 6:
-            func_02045CAC(a6, 11, s1);
+            MSGDATA_ReadString(a6, 11, s1);
             WORDSET_SetSlotNumber(a7, 0, (u32)info->total, 6, 1, 1);
             WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 7:
-            func_02045CAC(a6, 12, s2);
+            MSGDATA_ReadString(a6, 12, s2);
             break;
         case 8:
-            func_02045CAC(a6, 13, s1);
+            MSGDATA_ReadString(a6, 13, s1);
             WORDSET_SetSlotNumber(a7, 0, info->a, 5, 1, 1);
             WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 9:
-            func_02045CAC(a6, 14, s2);
+            MSGDATA_ReadString(a6, 14, s2);
             break;
         case 10:
-            func_02045CAC(a6, 15, s1);
+            MSGDATA_ReadString(a6, 15, s1);
             WORDSET_SetSlotNumber(a7, 0, info->b, 5, 1, 1);
             WORDSET_CopyTaggedText(a7, s2, s1);
             break;
@@ -1341,7 +1346,7 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const WifiBattle
         case 1:
             d1 = info->date1;
             d2 = info->date2;
-            func_02045CAC(a6, 0x10, s1);
+            MSGDATA_ReadString(a6, 0x10, s1);
             WORDSET_SetSlotNumber(a7, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
             WORDSET_SetSlotMonth(a7, 1, (u8)(d1 >> 16));
             WORDSET_SetSlotNumber(a7, 2, (u8)(d1 >> 8), 2, 0, 1);
@@ -1356,28 +1361,28 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const WifiBattle
             color = 0x3c40;
             break;
         case 3:
-            func_02045CAC(a6, 8, s2);
+            MSGDATA_ReadString(a6, 8, s2);
             break;
         case 4:
-            func_02045CAC(a6, 9, s1);
+            MSGDATA_ReadString(a6, 9, s1);
             WORDSET_SetSlotNumber(a7, 0, info->statA0, 4, 1, 1);
             WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 5:
-            func_02045CAC(a6, 10, s2);
+            MSGDATA_ReadString(a6, 10, s2);
             break;
         case 6:
             if (a1) {
                 WIFIBATTLEMATCH_VIEW_DrawTaggedText((u32 *)(&w->slots[j]), a5, a4, info->statTotal.total, info->statA8, heap);
                 draw = 0;
             } else {
-                func_02045CAC(a6, 11, s1);
+                MSGDATA_ReadString(a6, 11, s1);
                 WORDSET_SetSlotNumber(a7, 0, info->statTotal.total, 6, 1, 1);
                 WORDSET_CopyTaggedText(a7, s2, s1);
             }
             break;
         case 7:
-            func_02045CAC(a6, 0x11, s2);
+            MSGDATA_ReadString(a6, 0x11, s2);
             color = 0x3c40;
             break;
         }
@@ -1425,7 +1430,7 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTime
         case 1:
             d1 = info->date1;
             d2 = info->date2;
-            func_02045CAC(a6, 0x10, s1);
+            MSGDATA_ReadString(a6, 0x10, s1);
             WORDSET_SetSlotNumber(a7, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
             WORDSET_SetSlotMonth(a7, 1, (u8)(d1 >> 16));
             WORDSET_SetSlotNumber(a7, 2, (u8)(d1 >> 8), 2, 0, 1);
@@ -1440,30 +1445,30 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTime
             color = 0x3c40;
             break;
         case 3:
-            func_02045CAC(a6, 12, s2);
+            MSGDATA_ReadString(a6, 12, s2);
             break;
         case 4:
-            func_02045CAC(a6, 13, s1);
+            MSGDATA_ReadString(a6, 13, s1);
             WORDSET_SetSlotNumber(a7, 0, info->statA0, 5, 1, 1);
             WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 5:
-            func_02045CAC(a6, 14, s2);
+            MSGDATA_ReadString(a6, 14, s2);
             break;
         case 6:
-            func_02045CAC(a6, 15, s1);
+            MSGDATA_ReadString(a6, 15, s1);
             WORDSET_SetSlotNumber(a7, 0, info->statA2, 5, 1, 1);
             WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 7:
-            func_02045CAC(a6, 10, s2);
+            MSGDATA_ReadString(a6, 10, s2);
             break;
         case 8:
             WIFIBATTLEMATCH_VIEW_DrawTaggedText((u32 *)(&w->slots[j]), a5, a4, info->statTotal.h.a4, info->statTotal.h.a6, heap);
             draw = 0;
             break;
         case 9:
-            func_02045CAC(a6, 0x11, s2);
+            MSGDATA_ReadString(a6, 0x11, s2);
             color = 0x3c40;
             break;
         }
@@ -1679,7 +1684,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     if (mode - 2 <= 1)
         alt = kind == 5;
     WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (unsigned)a3, a4, a5, a6, alt, heap);
-    WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, func_02008554((const struct PlayerStatus *)rec), a1, heap);
+    WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, MYSTATUS_GetOutfit((const struct PlayerStatus *)rec), a1, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
     case 2:
@@ -1759,16 +1764,16 @@ int WIFIBATTLEMATCH_VIEW_StepRecordWindow(WifiBattleMatchViewRecordWork *p)
         }
         GFL_USE_PlaySeDefaultVolume(0x63B);
     }
-    shift = func_0209C2B0(p->count << 8, 20) - 0x100;
+    shift = _u32_div_f(p->count << 8, 20) - 0x100;
     if (p->recordActor != 0) {
         CLACT_GetActorSurfacePos(p->recordActor, (struct PtS *)&pos[0], 0);
-        pos[0].x = p->base - func_0209C2B0(p->count << 8, 20);
+        pos[0].x = p->base - _u32_div_f(p->count << 8, 20);
         CLACT_AddActorSurfacePos(p->recordActor, &pos[0], 0);
     }
     for (i = 0; i < 5; i++) {
         if (p->obj[i] != 0) {
             CLACT_GetActorSurfacePos(p->obj[i], (struct PtS *)&pos[0], 0);
-            pos[0].x = p->objBase[i] - func_0209C2B0(p->count << 8, 20);
+            pos[0].x = p->objBase[i] - _u32_div_f(p->count << 8, 20);
             CLACT_AddActorSurfacePos(p->obj[i], &pos[0], 0);
         }
     }
@@ -1810,15 +1815,15 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
         draw = 1;
         switch (j) {
         case 0:
-            STRBUF_SetString(str, func_020084F4(data));
+            STRBUF_SetString(str, MYSTATUS_GetName(data));
             color = 0x3C40;
             break;
         case 1:
             if (p->mode == 3) {
-                func_02045CAC(msg, 12, str);
+                MSGDATA_ReadString(msg, 12, str);
                 color = 0x3C40;
             } else if (p->owner != 0) {
-                func_02045CAC(msg, 8, str);
+                MSGDATA_ReadString(msg, 8, str);
                 color = 0x3C40;
             } else {
                 draw = 0;
@@ -1826,12 +1831,12 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
             break;
         case 2:
             if (p->mode == 3) {
-                func_02045CAC(msg, 13, buf);
+                MSGDATA_ReadString(msg, 13, buf);
                 WORDSET_SetSlotNumber(fmt, 0, data->score, 5, 1, 1);
                 WORDSET_CopyTaggedText(fmt, str, buf);
                 color = 0x3C40;
             } else if (p->owner != 0) {
-                func_02045CAC(msg, 9, buf);
+                MSGDATA_ReadString(msg, 9, buf);
                 WORDSET_SetSlotNumber(fmt, 0, data->count, 4, 1, 1);
                 WORDSET_CopyTaggedText(fmt, str, buf);
                 color = 0x3C40;
@@ -1840,21 +1845,21 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
             }
             break;
         case 3:
-            func_02045CAC(msg, 20, str);
+            MSGDATA_ReadString(msg, 20, str);
             color = 0x3C40;
             break;
         case 4:
-            func_02045CAC(msg, 22, buf);
-            WORDSET_SetSlotFromMsgE7(fmt, 0, func_0200856C((const struct PlayerStatus *)data));
+            MSGDATA_ReadString(msg, 22, buf);
+            WORDSET_SetSlotFromMsgE7(fmt, 0, MYSTATUS_GetLanguage((const struct PlayerStatus *)data));
             WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 5:
-            func_02045CAC(msg, 23, buf);
-            WORDSET_DeleteMsgdataF094(fmt, 0, func_0200856C((const struct PlayerStatus *)data), func_02008570((const struct PlayerStatus *)data));
+            MSGDATA_ReadString(msg, 23, buf);
+            WORDSET_DeleteMsgdataF094(fmt, 0, MYSTATUS_GetLanguage((const struct PlayerStatus *)data), MYSTATUS_GetVersion((const struct PlayerStatus *)data));
             WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 6:
-            func_02045CAC(msg, 21, str);
+            MSGDATA_ReadString(msg, 21, str);
             color = 0x3C40;
             break;
         case 7:
@@ -2183,11 +2188,11 @@ int WIFIBATTLEMATCH_VIEW_StepPartyWindow(WifiBattleMatchViewPartyWork *p)
             }
         }
     }
-    shift = func_0209C2B0(p->count << 8, 20) - 0x100;
+    shift = _u32_div_f(p->count << 8, 20) - 0x100;
     for (i = 0; i < 14; i++) {
         if (p->spr[i] != 0) {
             CLACT_GetActorSurfacePos(p->spr[i], (struct PtS *)&pos[0], 0);
-            pos[0].x = p->base[i] - func_0209C2B0(p->count << 8, 20);
+            pos[0].x = p->base[i] - _u32_div_f(p->count << 8, 20);
             CLACT_AddActorSurfacePos(p->spr[i], &pos[0], 0);
         }
     }
@@ -2216,11 +2221,11 @@ int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(WifiBattleMatchViewPartyWork *p)
             }
         }
     }
-    shift = func_0209C2B0(p->count << 8, 20);
+    shift = _u32_div_f(p->count << 8, 20);
     for (i = 0; i < 14; i++) {
         if (p->spr[i] != 0) {
             CLACT_GetActorSurfacePos(p->spr[i], (struct PtS *)&pos[0], 0);
-            pos[0].x = p->base[i] - func_0209C2B0(p->count << 8, 20);
+            pos[0].x = p->base[i] - _u32_div_f(p->count << 8, 20);
             CLACT_AddActorSurfacePos(p->spr[i], &pos[0], 0);
         }
     }

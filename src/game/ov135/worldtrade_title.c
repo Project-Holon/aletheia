@@ -35,7 +35,7 @@
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
@@ -56,7 +56,7 @@
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
@@ -132,7 +132,7 @@ extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -173,7 +173,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void WORLDTRADE_ClearBusyFlag(Work *p);
 
@@ -515,7 +515,7 @@ void WORLDTRADE_TITLE_LoadBgGraphics(Work *a0)
 {
     void *h = ARC_TOOL_CreateHandle(0x60, 0x48);
 
-    func_02049B68(h, 3, 0, 0, 0x60, 0x48);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 3, 0, 0, 0x60, 0x48);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 0x1f, 0xb, 0, 0x48);
@@ -892,7 +892,7 @@ void WORLDTRADE_TITLE_DrawMenuLabels(Work *p)
 void WORLDTRADE_TITLE_PrintMessage(u8 *p, u32 n, int a2, int a3, int a4)
 {
     u32 w;
-    func_02045CAC((struct MsgBank *)(((Work *)p)->bank_u), n, ((Work *)p)->str);
+    MSGDATA_ReadString((struct MsgBank *)(((Work *)p)->bank_u), n, ((Work *)p)->str);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->frame)), 0xf);
     w = ((Work *)p)->frame;
     BMP_WIN_TransferChars((struct Descriptor *)w);
@@ -909,7 +909,7 @@ void WORLDTRADE_TITLE_PrintMessageSub(u8 *p, int k, int a2, int a3, int a4)
 {
     u32 v;
 
-    func_02045CAC((struct MsgBank *)(((Work *)p)->bank_u), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
+    MSGDATA_ReadString((struct MsgBank *)(((Work *)p)->bank_u), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->dd0_u)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((Work *)p)->dd0_u), 0, 1, 0xe);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((Work *)p)->dd0_u), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
@@ -940,7 +940,7 @@ void WORLDTRADE_TITLE_LoadSubBgSwap(Work *p)
 
     if (p->f12E0 == 1 && p->f12E4 == 0) {
         h = ARC_TOOL_CreateHandle(0x60, 0x48);
-        func_02049B68(h, 5, 4, 0, 0x20, 0x48);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h, 5, 4, 0, 0x20, 0x48);
         ARC_UTIL_UploadBgCharFromHandle(h, 0xf, 6, 0, 0, 0, 0x48);
         ARC_UTIL_UploadBgPaletteAddFromHandleExt(h, 0x22, 6, 0, 0, 0, 0, 0x48);
         ARC_TOOL_DeleteHandle(h);

@@ -34,7 +34,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
  *   GAME_DATA_GetSeason  0x02012984  thumb
- *   func_02005728  0x02005728  thumb
+ *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   d_021DE234     0x021DE234  data  a1
  *   d_021D98D0     0x021D98D0  data  a2
  *   FIELD_CAMERA_HasDelay  0x0218F0F8  thumb  ov021
@@ -168,7 +168,7 @@ extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, 
 
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 
 extern u32 SCRIPT_WORK_ResetCheckFlag(u32);
 
@@ -301,7 +301,7 @@ int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(struct ScriptVm *vm, struct ScrcmdWor
             }
         }
     }
-    *resultVar = speciesList[func_02005728(count)];
+    *resultVar = speciesList[GFL_USE_GetRandomBelow(count)];
     GFL_HEAP_Free(speciesList);
     ARC_TOOL_DeleteHandle(archive);
     return 0;
@@ -505,7 +505,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
 }
 
 /*
- * FIELD_FK_DEMO_GetCameraSettingId is the ov056 slot-table lookup (src/matched/ov/ov056_func_021F36C8.c).
+ * FIELD_FK_DEMO_GetCameraSettingId is the ov056 slot-table lookup (src/matched/ov/FIELD_FK_DEMO_GetCameraSettingId.c).
  */
 int SCRCMD_PROC_FLD_SetOv056Slot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {

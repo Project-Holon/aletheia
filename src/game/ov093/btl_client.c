@@ -25,8 +25,8 @@
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
- *   func_02007F1C 0x02007F1C thumb
- *   func_02007E50 0x02007E50 thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   BEACON_GetPoints  0x0200C274  thumb
@@ -52,8 +52,8 @@
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
  *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
- *   func_02007B50 0x02007B50 thumb
- *   func_02007C70 0x02007C70 thumb
+ *   PERAPVOICE_IsRecorded 0x02007B50 thumb
+ *   PERAPVOICE_GetVoiceKind 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   gBtlPosTables  0x021EFD70  data  ov093
@@ -64,8 +64,8 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008510  0x02008510  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -93,7 +93,7 @@
  *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
  *   BTLV_CORE_Create  0x021E8F20  thumb  ov093
  *   BTL_POKEPARAM_GetUsedMoveTotal 0x021D54B4 thumb ov093
- *   func_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   gBtlServerFileName 0x021F3A60 data a4
  *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
  *   STRBUF_Delete  0x02045808  arm
@@ -170,7 +170,7 @@
  *   POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
  *   BTL_POSPOKE_SearchPosByPokeId 0x0689D5C8 thumb ov095
- *   func_021D82FC  0x021D82FC  thumb  ov093
+ *   BTL_ACTION_SetFightTarget  0x021D82FC  thumb  ov093
  *   BTL_POKESET_GetCountMax 0x0689CD40 thumb ov095
  *   BTL_POKESET_GetCount 0x0689CD38 thumb ov095
  *   BTL_POKESET_Get 0x0689CC70 thumb ov095
@@ -357,7 +357,7 @@
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
  *   HAND_SIDE_GetStackCount 0x06898CE0 thumb ov095
- *   func_068982AC  0x068982AC  thumb
+ *   BTL_EVENT_IsFactorKeyRegistered  0x068982AC  thumb
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
  *   BTL_SICK_BuildAddMessage 0x0689C464 thumb ov095
@@ -388,7 +388,7 @@
  *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
  *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
  *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
- *   func_02008564 0x02008564 thumb arm9
+ *   MYSTATUS_GetGender 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -493,7 +493,7 @@
  *   BTLV_CORE_StartMoveMenuForEntry 0x021E9808 thumb ov093
  *   BTLV_CORE_AbortMoveMenu 0x021E98AC thumb ov093
  *   BTLV_CORE_PollMoveMenu 0x021E98B4 thumb ov093
- *   func_021D832C 0x021D832C thumb ov093
+ *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
  *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
  *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
  *   BTLV_CORE_StartTargetMenu 0x021E98BC thumb ov093
@@ -520,7 +520,7 @@
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
  *   BTLV_CORE_StartYesNoMenu 0x021EABC4 thumb ov093
  *   BTLV_CORE_PollYesNoMenu 0x021EAC54 thumb ov093
- *   func_021D8414 0x021D8414 thumb ov093
+ *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
  *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
  *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
@@ -731,7 +731,7 @@
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   GFL_HEAP_Alloc   0x02030734  arm
- *   func_02007B00  0x02007B00  thumb
+ *   PERAPVOICE_GetSize  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   STRBUF_GetEosChar  0x02045A98  arm
@@ -1001,7 +1001,7 @@ extern u32 RECORD_AddCounter(struct Sub02008C20Obj *, int, u32);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
 extern u32 _u32_div_f(u32, u32);
-extern void *func_02030734(u16, unsigned int, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u16, unsigned int, int, const char *, u16);
 extern void *BTL_ADAPTER_Create(u32, int, u32, u32);
 extern void BTL_ADAPTER_Delete(void *p);
 extern u8 BTL_MAIN_GetCommPos(u8 **p);
@@ -1111,7 +1111,7 @@ extern void BTLV_CORE_StartMoveMenu(char *p, u8 *a, int b);
 extern void BTLV_CORE_StartMoveMenuForEntry(char *p, u32 *q, int c);
 extern void BTLV_CORE_AbortMoveMenu(void *);
 extern u32 BTLV_CORE_PollMoveMenu(void *);
-extern u32 func_021D832C(struct Unk021D82FC *p);
+extern u32 BTL_ACTION_GetFightSlotFlag(struct Unk021D82FC *p);
 extern void BTL_ACTION_SetRotate(u32 *p, u32 sub);
 extern u32 BTL_CALC_IsMultiFighterRule(u32);
 extern void BTLV_CORE_StartTargetMenu(char *p, u8 *a, int b);
@@ -1138,7 +1138,7 @@ extern void BTLV_CORE_SaveBagCursors(char *p);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
 extern void BTLV_CORE_StartYesNoMenu(u8 *a, u32 x, u32 y, u32 z);
 extern int BTLV_CORE_PollYesNoMenu(void *, int *);
-extern void func_021D8414(u32 *p);
+extern void BTL_ACTION_SetEscape(u32 *p);
 extern void BTLV_CORE_StartWaitMessage(char *p);
 extern int BTLV_CORE_UpdateWaitMessage(u32 *p);
 extern void BTL_CALC_ActionSetForcedSkip(u32 *p);
@@ -1371,7 +1371,6 @@ extern void BTLV_CORE_SetCounterValueMode(u8 *p, int v, int w);
 extern int BTLV_EFFECT_SuspendVmWait(void);
 extern int BTLV_CORE_PollFadeInDone(u32 *p);
 extern int POKE_REGULATION_GetDataSize(void);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -1653,7 +1652,7 @@ BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int ne
     BtlClient *client;
     u32 slot;
     int useNet, recordKey;
-    client = func_02030734(heapId, 0x1b8, 1, (const char *)gBtlClientFileName, 0x209);
+    client = GFL_HEAP_Alloc(heapId, 0x1b8, 1, (const char *)gBtlClientFileName, 0x209);
     useNet = 1;
     if (netEnabled == 0 || clientKind != 0)
         useNet = 0;
@@ -1670,7 +1669,7 @@ BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int ne
     client->windowMode = 0;
     client->view = 0;
     client->lastMonValue = 0;
-    client->workBuffer = func_02030734(heapId, 0xbc0, 1, (const char *)gBtlClientFileName, 0x21a);
+    client->workBuffer = GFL_HEAP_Alloc(heapId, 0xbc0, 1, (const char *)gBtlClientFileName, 0x21a);
     client->tickFn = (BtlClientTickFn)BTL_CLIENT_StepMain;
     client->stepPhase = 0;
     client->requestParam = 0;
@@ -2280,7 +2279,7 @@ int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state)
 /*
  * note 2026-10-05 (wave P26 lane 2): byte-identical to the original except that two call
  * relocations have no witness in the current index: BTLV_CORE_AbortActionMenu and BTLV_CORE_CloseMenu. Both
- * leaves are now filed (src/matched/ov/ov093_func_021E979C.c, ov093_func_021E9954.c, EXACT);
+ * leaves are now filed (src/matched/ov/BTLV_CORE_AbortActionMenu.c, BTLV_CORE_CloseMenu.c, EXACT);
  * the verdict becomes EXACT once the integrator regenerates the index. The original extent is
  * 772 B: 756 B of C plus the 16 B linker veneer at 021CE7C4 (not C, resolved as a veneer witness).
  * Two changes closed the 253 B residue of the older draft: (1) no shared increment label and
@@ -2579,7 +2578,7 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
                     monSlot = BTL_SLOT_GetRotateSrcIndex(rotationSub);
                     mon = *(void **)((u32)client + monSlot * 8U + 0xa4U);
                 }
-                if (func_021D832C((struct Unk021D82FC *)action)) {
+                if (BTL_ACTION_GetFightSlotFlag((struct Unk021D82FC *)action)) {
                     client->highlightSlot = monSlot;
                     client->highlightKind = BTL_POKEPARAM_FindMoveSlot(mon, (u16)((Record_td *)action)->id);
                     if (client->highlightKind != 4) {
@@ -2889,7 +2888,7 @@ u32 BTL_CLIENT_StepSelectRun(BtlClient *client, u32 *st)
         }
         break;
     case 5:
-        func_021D8414((void *)client->actionCursor);
+        BTL_ACTION_SetEscape((void *)client->actionCursor);
         *(u8 *)&client->flags |= 4;
         BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
         break;
@@ -2971,7 +2970,7 @@ void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->is
 
 /*
  * lever: BTL_MAIN_SubItemFromBag consumes the live r2 halfword as its third argument;
- * its matched body forwards it to func_02007E50.
+ * its matched body forwards it to MYITEM_SAVEDATA_AddItem.
  */
 void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i)
 {
@@ -3773,7 +3772,7 @@ int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state)
             targetOrPosition = TR_AI_GetChosenTarget(client->recorder);
             moveOrItem = BTL_POKEPARAM_GetMoveId((client->activeMon),moveSlot);
             BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),moveOrItem,targetOrPosition);
-        } else func_021D8414((u32 *)(client->actionCursor));
+        } else BTL_ACTION_SetEscape((u32 *)(client->actionCursor));
 complete:
         *state = 3;
         break;
@@ -3815,7 +3814,7 @@ u8 BTL_CLIENT_ListAbleMons(BtlClient *client, u8 *ableIndexes)
 /*
  * pass 6 2026-10-06 P6L01: EXACT* (302 B code plus 2 B pad), also EXACT* under -lang c99. The
  * closing change is u16 type with BTL_CALC_GetTypeAffinityVsPair declared (int, u16). The callee
- * (ov093_func_021D799C.c) also matches EXACT with a u16 second parameter, so the prototype is consistent.
+ * (BTL_CALC_GetTypeAffinityVsPair.c) also matches EXACT with a u16 second parameter, so the prototype is consistent.
  * Why it closes (seen in a debugger capture of the post-RA scheduler of mwccarm): a word-sized spill of a
  * narrow variable gets the "narrow locals" alias set. With int type, the type store after the call
  * has its own alias, so the count home store has a height of 6 and 'adds r0,r3' (height 7) goes before

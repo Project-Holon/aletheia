@@ -19,7 +19,7 @@ typedef struct GsyncStateWork {
     void *messageWork;          /* 0x018, GsyncMessageWork pointer */
     void *confirmMenu;          /* 0x01C, TaskMenu pointer from GSYNC_MESSAGE_OpenYesNoMenu */
     void *connection;           /* 0x020, GsyncConn pointer, network connection record */
-    void *boxSave;              /* 0x024, box save handle for BOX_SAVEDATA_FindFreeSlot/func_02007A18 */
+    void *boxSave;              /* 0x024, box save handle for BOX_SAVEDATA_FindFreeSlot/BOX_SAVEDATA_GetPokemon */
     void *saveControl;          /* 0x028, save control returned by GAME_DATA_GetSaveControl */
     int saveData;               /* 0x02C, save data word passed to the save API */
     void *musicalSave;          /* 0x030, MusicalDist record built by MUSICAL_DIST_SAVE_CreateFromData */
@@ -50,7 +50,7 @@ typedef struct GsyncStateWork {
     u8 hasListEntry;            /* 0x0A9, GSYNC_STATE_GetListEntry result */
     u8 monStored;               /* 0x0AA, set by GSYNC_STATE_StateStoreReceivedMon */
     u8 saveInProgress;          /* 0x0AB, set while a save is running */
-    u8 responsePending;         /* 0x0AC, response flag copied from func_020092EC */
+    u8 responsePending;         /* 0x0AC, response flag copied from BLOCK20_SAVEDATA_GetPending */
     u8 saveActive;              /* 0x0AD, save must be cancelled on input */
     u8 netDone;                 /* 0x0AE, network step finished */
     u8 responseValid;           /* 0x0AF, last response was accepted */

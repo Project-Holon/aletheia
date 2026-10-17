@@ -66,7 +66,7 @@ struct GsyncSlotPos {
     s32 mode;   /* 0x08, copied to the actor position mode byte */
 };
 
-/* Palette file record returned through func_02049F78 and NNS_G2dGetUnpackedPaletteData. */
+/* Palette file record returned through ARC_UTIL_LoadPaletteBlockFromHandle and NNS_G2dGetUnpackedPaletteData. */
 typedef struct GsyncPaletteData {
     u8 unknown_00[12];      /* 0x00 */
     void *rawData;          /* 0x0C */
@@ -118,7 +118,7 @@ typedef struct GsyncDispWork {
     struct Bank *clactUnit;             /* 0x00C */
     void *vblankTcb;                    /* 0x010 */
     void *paletteWaveTcb;               /* 0x014 */
-    GsyncPaletteData *paletteData;      /* 0x018, palette record returned by func_02049F78 */
+    GsyncPaletteData *paletteData;      /* 0x018, palette record returned by ARC_UTIL_LoadPaletteBlockFromHandle */
     void *paletteBlock;                 /* 0x01C, allocation freed on exit */
     GsyncDispResources resources;       /* 0x020 */
     u8 unknown_70[4];                   /* 0x070, never accessed */

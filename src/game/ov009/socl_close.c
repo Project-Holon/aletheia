@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215F3D0  0x0215F3D0  arm  ov009
+ *   SOCL_SocketIsInvalid  0x0215F3D0  arm  ov009
  *   SOCL_SocketIsInTrash  0x0215F404  arm  ov009
  *   OS_DisableInterrupts   0x02087988 arm
  *   SOCL_SocketIsInTrash   0x0215f404 arm
@@ -85,7 +85,6 @@ typedef struct {
 	Socket *socket;
 } Cmd;
 
-extern int func_0215F3D0(void *s);
 extern int SOCL_SocketIsInTrash(int b);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -134,7 +133,7 @@ int SOCL_IsClosed(int s)
 
 	if (s >= 0) {
 		socket = (void *)s;
-		if (func_0215F3D0(socket) != 0 && SOCL_SocketIsInTrash((int)socket) == 0)
+		if (SOCL_SocketIsInvalid(socket) != 0 && SOCL_SocketIsInTrash((int)socket) == 0)
 			return 1;
 	}
 	return 0;
@@ -186,7 +185,7 @@ int SOCL_Close(int s)
 		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
-	if (func_0215F3D0(socket) != 0) {
+	if (SOCL_SocketIsInvalid(socket) != 0) {
 		OS_RestoreInterrupts(enable);
 		return result;
 	}

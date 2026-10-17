@@ -42,7 +42,7 @@
  *   PROCSYS_Main 0x02031330 arm
  *   PLIST_COMM_Update 0x021B6114 thumb ov090
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200873C 0x0200873C thumb
+ *   SYSTEM_DATA_GetConfig 0x0200873C thumb
  *   PLIST_COMM_Start 0x021B6100 thumb ov090
  *   ov90_id 0x0000005A data a1
  *   GAME_DATA_GetMyStatus   0x02012944  thumb
@@ -215,7 +215,7 @@ extern void PROCSYS_Push(void *,u32,void *,void *);
 extern u32 PROCSYS_Main(void *);
 extern void PLIST_COMM_Update(u8 *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 extern void PLIST_COMM_Start(u8 *);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
@@ -388,7 +388,7 @@ void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
     out->party = o->party;
     out->f4 = 0;
     out->f8 = 0;
-    out->fC = (u32)func_0200873C(b);
+    out->fC = (u32)SYSTEM_DATA_GetConfig(b);
     out->f10 = 0;
     out->a = a;
     out->f34 = 26;
@@ -441,7 +441,7 @@ void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4)
     b = (int)ZUKAN_SAVE_GetFromGameData((void *)r5[5]);
     r4->f0 = r6[1];
     r4->f8 = r5[5];
-    r4->f4 = (int)func_0200873C((void *)a);
+    r4->f4 = (int)SYSTEM_DATA_GetConfig((void *)a);
     r4->fC = 1;
     r4->fD = 1;
     r4->fE = POKEPARTY_GetCount((void *)r6[1]);

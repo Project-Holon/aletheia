@@ -51,8 +51,8 @@
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
- *   func_020084F4 0x020084F4 thumb
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   BTL_SETUP_SetParty 0x02013128 thumb
  *   GFL_USE_SetPlayerVolumes 0x02005CBC thumb
@@ -100,7 +100,7 @@
  *   d_02154C80 0x02154C80 data ov006 a4
  *   d_02208C40 0x02208C40 data ov195 a4
  *   d_021C7240 0x021C7240 data ov172 a4
- *   func_020124E8   0x020124E8  thumb
+ *   GAME_EVENT_GetWork   0x020124E8  thumb
  *   GAME_COMM_RequestExitNoCallback   0x02026400  thumb
  *   POKEPARTY_Create   0x0201A920  thumb
  *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
@@ -117,6 +117,7 @@
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb  arm9
  *   GFL_NET_ERR_WaitLinkClosed  0x0200FBB0  thumb  arm9
  *   WIFILIST_CountFriends  0x02009A34  thumb  arm9
+ *   WIFILIST_AddFriendBattleRecord  0x02009BB8  thumb  arm9
  */
 #include "event_wificlub_types.h"
 
@@ -166,8 +167,8 @@ extern void POKE_REGULATION_AdjustPartyLevels(void *dst, void *src);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u32 GFL_NET_GetHandleNetID(struct Link *handle);
 void *GAME_DATA_GetPlayerStatus(void *gameData, u32 index);
-const void *func_020084F4(const void *p);
-u8 func_02008550(const void *playerRecord);
+const void *MYSTATUS_GetName(const void *p);
+u8 MYSTATUS_GetOutfitVariant(const void *playerRecord);
 void POKEPARTY_Init(void *party);
 void BTL_SETUP_SetParty(void *battleSetup, void *party, int a);
 extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
@@ -209,13 +210,13 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 index);
-extern void func_02009BB8(void *battleRecord, int ruleIndex, int win, int lose, int draw);
+extern void WIFILIST_AddFriendBattleRecord(void *battleRecord, int ruleIndex, int win, int lose, int draw);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
 extern int GFL_NET_Exit(int);
 extern u32 GFL_NET_IsIdle(void);
-void *func_020124E8(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *POKEPARTY_Create(u32 heapId);
 void *GAME_DATA_GetSaveControl(struct GameData *gameData);
@@ -330,7 +331,7 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
  *
  * The lead is 110 bytes, followed by two padding bytes and the 24-byte
  * EVENT_WIFICLUB_SetBattleParty thunk. function_starts: 0x021544BC.
- * func_020084F4 is the bx-lr identity: the original retains the pointer
+ * MYSTATUS_GetName is the bx-lr identity: the original retains the pointer
  * returned by GAME_DATA_GetPlayerStatus in r0 across two loads, passes it to the
  * identity, and stores the unchanged result. Its prior (void) extern
  * dropped the live input and caused an 18-byte scheduling residue.
@@ -351,8 +352,8 @@ void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, in
     work->battleEntry.regulation = work->session->regulation;
     entry = &work->battleEntry;
     entry->ownParty = *(void **)((unsigned int)work->session + 0x14 + 4 * (unsigned int)selfSide);
-    entry->partnerInfo = (void *)func_020084F4(partnerRecord);
-    entry->partnerGender = func_02008550(partnerRecord);
+    entry->partnerInfo = (void *)MYSTATUS_GetName(partnerRecord);
+    entry->partnerGender = MYSTATUS_GetOutfitVariant(partnerRecord);
     entry->partnerParty = *(void **)((unsigned int)work->session + 0x14 + 4 * (unsigned int)partnerSide);
     entry->gameData = gameData;
     entry->reserved18 = 0;
@@ -574,9 +575,9 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 17:
         if (!GFL_NET_GetRunState()) goto cleanup;
         if (work->matchOutcome == 0)
-            func_02009BB8((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)), work->session->ruleId - 1, 1, 0, 0);
+            WIFILIST_AddFriendBattleRecord((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)), work->session->ruleId - 1, 1, 0, 0);
         else if (work->matchOutcome == 1)
-            func_02009BB8((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)), work->session->ruleId - 1, 0, 1, 0);
+            WIFILIST_AddFriendBattleRecord((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->gameSystem)), work->session->ruleId - 1, 0, 1, 0);
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         *seq = 11;
         break;
@@ -678,7 +679,7 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
 
     if (GAME_COMM_GetKind(ICA_ANIME_GetField24(gameSystem)))
         GAME_COMM_RequestExitNoCallback(ICA_ANIME_GetField24(gameSystem));
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->event = event;

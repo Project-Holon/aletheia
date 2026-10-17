@@ -14,7 +14,7 @@
  *
  * Tail call to WCM_GetLinkLevel (WCM_GetLinkLevel, ov009) through a pool word;
  * called from func_021F4EB4.
- * blocker:  +0008 ABS32 func_0205CF24          -> unresolved: 0205CF24 (arm, from name) has no witness outside 0205D010..0205D01C
+ * blocker:  +0008 ABS32 DWC_GetCheckNintendoZoneWorkSize          -> unresolved: 0205CF24 (arm, from name) has no witness outside 0205D010..0205D01C
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
@@ -182,7 +182,6 @@ extern int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos);
 extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
 extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable, WMBssDesc *bssdesc, WDSApInfo *apinfo);
 extern int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo);
-extern void func_0205CF24(void);
 extern int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo);
 extern int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo);
 extern void DWC_ProcessInet(void);
@@ -646,7 +645,7 @@ int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
 
 void DWC_GetParseWMBssDescWorkSize(void)
 {
-    func_0205CF24();
+    DWC_GetCheckNintendoZoneWorkSize();
 }
 
 

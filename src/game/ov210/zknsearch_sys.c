@@ -30,6 +30,7 @@
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm  arm9
  *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
+ *   GFL_USE_AddHBlankTask  0x02005624  thumb  arm9
  */
 #include "zknsearch_types.h"
 
@@ -52,7 +53,7 @@ extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(void *p);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
-extern void *func_02005624(u32 a, u32 b, u32 c);
+extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
 extern void BG_SYS_SetVramBanks(const void *c);
 u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg);
@@ -129,7 +130,7 @@ void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *p)
 
 void ZKNSEARCH_SYS_RegisterHBlank(u8 *p)
 {
-    ((ZknSearchWork *)p)->hblank = (u32)func_02005624((u32)ZKNSEARCH_SYS_HBlankHandler, (u32)p, 0);
+    ((ZknSearchWork *)p)->hblank = (u32)GFL_USE_AddHBlankTask((u32)ZKNSEARCH_SYS_HBlankHandler, (u32)p, 0);
 }
 
 

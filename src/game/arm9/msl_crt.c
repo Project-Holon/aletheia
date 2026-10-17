@@ -60,7 +60,6 @@ extern void OS_FreeToHeap(u32 a, u32 b, u32 heap);
 
 u32 ENV_InsertResourceSet(void *prev, void *resSet);
 
-extern void func_020913E8(void *p);
 
 void SHA1_HMAC_Init(u32 a);
 
@@ -298,7 +297,7 @@ void CRT_Free(u32 heap)
 }
 
 /*
- *           callees func_020913E8 and MSL_C_LIB_PrependResourceSet have no witness
+ *           callees CRT_Free and MSL_C_LIB_PrependResourceSet have no witness
  *           outside 020913FC..0209146C (the only branches to them are
  *           the three sites inside this file), so those call sites stay
  *           wildcarded.  No C change is possible; the file becomes
@@ -313,7 +312,7 @@ void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap)
     if (resSet == 0)
         return MSL_C_LIB_AllocFromHeap(heap);
     if (heap == 0) {
-        func_020913E8((void *)resSet);
+        CRT_Free((u32)((void *)resSet));
         return 0;
     }
     n = MSL_C_LIB_PrependResourceSet((void *)resSet);
@@ -322,7 +321,7 @@ void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap)
         if (n >= heap)
             n = heap;
         func_02092344(p, (const void *)resSet, n);
-        func_020913E8((void *)resSet);
+        CRT_Free((u32)((void *)resSet));
     }
     return p;
 }

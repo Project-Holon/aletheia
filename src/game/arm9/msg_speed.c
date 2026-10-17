@@ -13,7 +13,7 @@
  * Cut from ica_anime.c, btl_setup.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   sMsgSpeedSaveControl  0x020A7298  data
  *   sMsgSpeedWaitTable 0x0209DFB0  data
  *   CONFIG_GetTextSpeed  0x02008374  thumb
@@ -21,7 +21,7 @@
 #include "btl_setup_types.h"
 #include "game_data_shared_types.h"
 
-extern struct Config *func_0200873C(struct SaveControl *save);
+extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *save);
 
 extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
 
@@ -57,7 +57,7 @@ void MSG_SPEED_SetSaveControl(struct SaveControl *save)
 
 signed char MSG_SPEED_GetWait(void)
 {
-    u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
+    u32 speed = CONFIG_GetTextSpeed(SYSTEM_DATA_GetConfig(sMsgSpeedSaveControl));
     if (speed >= 5) {
         speed = 4;
     }
@@ -76,7 +76,7 @@ signed char MSG_SPEED_GetWait(void)
  */
 signed char MSG_SPEED_GetSlowerWait(void)
 {
-    u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
+    u32 speed = CONFIG_GetTextSpeed(SYSTEM_DATA_GetConfig(sMsgSpeedSaveControl));
     switch (speed) {
     case 0:
         speed = 1;
@@ -93,7 +93,7 @@ signed char MSG_SPEED_GetSlowerWait(void)
 
 signed char MSG_SPEED_GetFasterWait(void)
 {
-    u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
+    u32 speed = CONFIG_GetTextSpeed(SYSTEM_DATA_GetConfig(sMsgSpeedSaveControl));
     switch (speed) {
     case 0:
         speed = 4;

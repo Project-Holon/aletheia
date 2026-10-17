@@ -32,7 +32,7 @@
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   POKE_TOOL_NormalizeForm 0x02019D30 thumb
  *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
@@ -44,9 +44,9 @@
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   gGsyncStateAllocSource 0x021DAB78 data a1
- *   func_02009290 0x02009290 thumb
- *   func_020092F8 0x020092F8 thumb
- *   func_020093D4 0x020093D4 thumb
+ *   BLOCK20_SAVEDATA_GetPokemon 0x02009290 thumb
+ *   BLOCK20_SAVEDATA_SetActive 0x020092F8 thumb
+ *   BLOCK20_SAVEDATA_SetSavedValue 0x020093D4 thumb
  *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
  *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
  *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
@@ -54,24 +54,24 @@
  *   NHTTP_RAP_GetConnection 0x021B973C thumb ov114
  *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
  *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
- *   func_020092D0 0x020092D0 thumb
- *   func_020090F8 0x020090F8 thumb
+ *   BLOCK20_SAVEDATA_SetMode 0x020092D0 thumb
+ *   CGEAR_SAVE_SetGsyncState 0x020090F8 thumb
  *   GF_STANDARD_SetupCalc 0x0203F1FC arm
- *   func_02009108 0x02009108 thumb
+ *   CGEAR_SAVE_SetGsyncId 0x02009108 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
- *   func_0200734C 0x0200734C thumb
- *   func_0200E8E0 0x0200E8E0 thumb
+ *   SAVE_CONTROL_DeleteExtraSaveBuffered 0x0200734C thumb
+ *   MISC_SAVEDATA_SetFlags6200 0x0200E8E0 thumb
  *   MUSICAL_DIST_SAVE_ProcessApply 0x0200C5F8 thumb
  *   gGsyncExtraSaveName 0x021DAB88 data a1
  *   gGsyncMusicalSaveName 0x021DAB90 data a1
  *   gGsyncRecordSaveName 0x021DAB9C data a1
  *   MUSICAL_DIST_SAVE_GetBlockSize 0x0200C6E4 thumb
- *   func_02009390 0x02009390 thumb
- *   func_020093A8 0x020093A8 thumb
- *   func_020093F0 0x020093F0 thumb
+ *   BLOCK20_SAVEDATA_GetRecord 0x02009390 thumb
+ *   BLOCK20_SAVEDATA_SetRecord 0x020093A8 thumb
+ *   BLOCK20_SAVEDATA_SetProgress 0x020093F0 thumb
  *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
- *   func_02009348 0x02009348 thumb
+ *   BLOCK20_SAVEDATA_SetEntry 0x02009348 thumb
  *   TPOKE_DATA_Create 0x0202A128 thumb
  *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
  *   POKE_TOOL_FilterSpecies 0x02019D58 thumb
@@ -79,21 +79,21 @@
  *   SYMBOL_SAVE_GetBlock 0x0200E0B0 thumb
  *   SYMBOL_SAVE_WriteRecord 0x0200E1A8 thumb
  *   TPOKE_Delete 0x0202A170 thumb
- *   func_020093D0 0x020093D0 thumb
- *   func_020092E0 0x020092E0 thumb
+ *   BLOCK20_SAVEDATA_GetSavedValue 0x020093D0 thumb
+ *   BLOCK20_SAVEDATA_SetPending 0x020092E0 thumb
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
- *   func_020093C8 0x020093C8 thumb
+ *   BLOCK20_SAVEDATA_GetDateStamp 0x020093C8 thumb
  *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
  *   GF_STANDARD_SetupRtc_F540 0x0203F540 arm
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   GFL_NET_STATE_SetErrorMode 0x0203C938 arm
- *   func_020093D8 0x020093D8 thumb
- *   func_02009428 0x02009428 thumb
+ *   BLOCK20_SAVEDATA_GetProgress 0x020093D8 thumb
+ *   BLOCK20_SAVEDATA_SetFlag 0x02009428 thumb
  *   POKE_TOOL_Dummy 0x020185F0 thumb
- *   func_02009294 0x02009294 thumb
+ *   BLOCK20_SAVEDATA_SetPokemon 0x02009294 thumb
  *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   ov114_id 0x00000072 data
- *   func_020092EC 0x020092EC thumb
+ *   BLOCK20_SAVEDATA_GetPending 0x020092EC thumb
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   gGsyncStateAssertTag 0x021DABA4 data a1
@@ -170,6 +170,16 @@
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb  arm9
  *   BOX_SAVEDATA_SetPokemon  0x020075B0  thumb  arm9
  *   BOX_SAVEDATA_ClearPokemon  0x02007664  thumb  arm9
+ *   BOX_SAVEDATA_AddPokemon  0x020074D8  thumb  arm9
+ *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb  arm9
+ *   MYSTATUS_GetProfileId  0x0200853C  thumb  arm9
+ *   CONSOLE_STAMP_GetDailyClock  0x02008B14  thumb  arm9
+ *   DAILY_CLOCK_HasAllowance  0x02008BD0  thumb  arm9
+ *   RECORD_AddOne  0x02008DF0  thumb  arm9
+ *   BLOCK20_SAVEDATA_GetBlockSize  0x02009228  thumb  arm9
+ *   BLOCK20_SAVEDATA_CountEntries  0x02009370  thumb  arm9
+ *   BLOCK20_SAVEDATA_SetDateStamp  0x020093CC  thumb  arm9
+ *   MISC_SAVEDATA_GetBigBlockSize  0x0200E8B0  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_download_types.h"
@@ -252,7 +262,7 @@ extern int GF_OVERLAY_Load(int);
 
 extern void GF_OVERLAY_Unload(int);
 
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 
 extern u32 POKE_TOOL_NormalizeForm(u32 a, u32 n);
 
@@ -278,7 +288,7 @@ extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
-extern u8 *func_02009290(struct Sub02009210Obj *obj);
+extern u8 *BLOCK20_SAVEDATA_GetPokemon(struct Sub02009210Obj *obj);
 
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
@@ -286,11 +296,11 @@ extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 
 extern void *POKE_TOOL_GetBoxParam(void *p);
 
-extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
+extern int BOX_SAVEDATA_AddPokemon(void **save, const struct Sub02007454Entry *src);
 
-extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetActive(struct Sub02009210Obj *obj, u8 value);
 
-extern void func_020093D4(struct Sub02009210Obj *obj, s32 value);
+extern void BLOCK20_SAVEDATA_SetSavedValue(struct Sub02009210Obj *obj, s32 value);
 
 extern int POKE_TOOL_Dummy(void *);
 
@@ -308,27 +318,27 @@ extern int NHTTP_RAP_StartConnection(u8 *p);
 
 extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
 
-extern void func_020092D0(struct Sub02009210Obj *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetMode(struct Sub02009210Obj *obj, u8 value);
 
-extern void func_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
+extern void BLOCK20_SAVEDATA_SetEntry(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
 
 extern int GAME_DATA_PartSaveMain(char *p, int a1);
 
-extern void func_0200734C(struct Sub02007324Ctrl *,unsigned int);
+extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct Sub02007324Ctrl *,unsigned int);
 
 extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
 
-extern void func_020090F8(struct Sub020090B0Obj *obj, unsigned char value);
+extern void CGEAR_SAVE_SetGsyncState(struct Sub020090B0Obj *obj, unsigned char value);
 
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
 
-extern void func_0200E8E0(void *obj, u32 value);
+extern void MISC_SAVEDATA_SetFlags6200(void *obj, u32 value);
 
 extern void GAME_DATA_PartSaveStart(u8 *,u32);
 
-extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
+extern void CGEAR_SAVE_SetGsyncId(struct Sub020090B0Obj *obj, u16 value);
 
 extern u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *p);
 
@@ -336,15 +346,15 @@ extern struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const voi
 
 extern u32 MUSICAL_DIST_SAVE_GetBlockSize(void);
 
-extern u32 func_0200E8B0(void);
+extern u32 MISC_SAVEDATA_GetBigBlockSize(void);
 
-extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
+extern struct Sub02009210Ent *BLOCK20_SAVEDATA_GetRecord(struct Sub02009210Obj *obj, int i);
 
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
-extern void func_020093A8(struct Sub02009210Obj *obj, int i, const void *src);
+extern void BLOCK20_SAVEDATA_SetRecord(struct Sub02009210Obj *obj, int i, const void *src);
 
-extern void func_020093F0(struct Sub02009210Obj *obj, int value);
+extern void BLOCK20_SAVEDATA_SetProgress(struct Sub02009210Obj *obj, int value);
 
 extern void *TPOKE_DATA_Create(int);
 
@@ -360,23 +370,23 @@ extern void SYMBOL_SAVE_WriteRecord(void *, u16, u16, u8, int, u8, u32);
 
 extern void TPOKE_Delete(void *);
 
-extern s32 func_020093D0(const struct Sub02009210Obj *obj);
+extern s32 BLOCK20_SAVEDATA_GetSavedValue(const struct Sub02009210Obj *obj);
 
-extern u32 func_02009370(const struct Sub02009210Obj *obj);
+extern u32 BLOCK20_SAVEDATA_CountEntries(const struct Sub02009210Obj *obj);
 
-extern void func_020092E0(struct Sub02009210Obj *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetPending(struct Sub02009210Obj *obj, u8 value);
 
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 
-extern u32 func_0200853C(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 
 extern void *SAVE_CONTROL_GetWorkArea(struct Ctrl020071D8 *ctrl, int *out);
 
-extern struct Sub02008AECSession *func_02008B14(void *sys);
+extern struct Sub02008AECSession *CONSOLE_STAMP_GetDailyClock(void *sys);
 
-extern int func_02008BD0(const struct Sub02008AECSession *s);
+extern int DAILY_CLOCK_HasAllowance(const struct Sub02008AECSession *s);
 
-extern u32 func_020093C8(const struct Sub02009210Obj *obj);
+extern u32 BLOCK20_SAVEDATA_GetDateStamp(const struct Sub02009210Obj *obj);
 
 extern void GF_STANDARD_SetField00_F4E4(struct GsyncRtcDate *);
 
@@ -386,27 +396,27 @@ extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
 extern u32 GFL_NET_STATE_SetErrorMode(u8 mode);
 
-extern void func_020093CC(struct Sub02009210Obj *obj, u32 value);
+extern void BLOCK20_SAVEDATA_SetDateStamp(struct Sub02009210Obj *obj, u32 value);
 
-extern u32 func_020093D8(const struct Sub02009210Obj *obj);
+extern u32 BLOCK20_SAVEDATA_GetProgress(const struct Sub02009210Obj *obj);
 
-extern void func_02009428(struct Sub02009210Obj *obj, int value);
+extern void BLOCK20_SAVEDATA_SetFlag(struct Sub02009210Obj *obj, int value);
 
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 
-extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
-extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 
-extern void func_02009294(struct Sub02009210Obj *obj, const void *src);
+extern void BLOCK20_SAVEDATA_SetPokemon(struct Sub02009210Obj *obj, const void *src);
 
 extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
 
 extern void NHTTP_RAP_Destroy(u8 *p);
 
-extern u32 func_02009228(void);
+extern u32 BLOCK20_SAVEDATA_GetBlockSize(void);
 
 extern int BOX_SAVEDATA_SetPokemon(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 
@@ -414,7 +424,7 @@ extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 
-extern u8 func_020092EC(const struct Sub02009210Obj *obj);
+extern u8 BLOCK20_SAVEDATA_GetPending(const struct Sub02009210Obj *obj);
 
 extern u8 *NHTTP_RAP_Create(int,int,int);
 
@@ -892,7 +902,7 @@ void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state)
     if (BOX_SAVEDATA_FindFreeSlot(state->boxSave,(int *)((char *)state+0x48),(int *)((char *)state+0x4c))) {
         monData=GFL_HEAP_Alloc(state->heapId,POKE_TOOL_GetPartyParamSize(),1,gGsyncStateAllocSource,0x245);
         monSize=POKE_TOOL_GetPartyParamSize();
-        MI_CpuCopy8(func_02009290(saveSystem),monData,monSize);
+        MI_CpuCopy8(BLOCK20_SAVEDATA_GetPokemon(saveSystem),monData,monSize);
         if (state->messageArg) {
             monValue=POKE_TOOL_GetPartyValue(monData,158,0);
             if (monValue==100) state->messageArg=0;
@@ -904,10 +914,10 @@ void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state)
             }
             POKE_TOOL_SetLevelAndRecalc(monData,monValue);
         }
-        func_020074D8(state->boxSave,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(monData)));
+        BOX_SAVEDATA_AddPokemon(state->boxSave,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(monData)));
         state->receivedMon=monData;
-        func_020092F8(saveSystem,0);
-        func_020093D4(saveSystem,state->entryId);
+        BLOCK20_SAVEDATA_SetActive(saveSystem,0);
+        BLOCK20_SAVEDATA_SetSavedValue(saveSystem,state->entryId);
     }
 }
 
@@ -964,7 +974,7 @@ void GSYNC_STATE_StateSendRequest(char *state)
     }
 }
 
-void GSYNC_STATE_StateSaveMainWait(u8 *state) { if(((GsyncStateWork *)state)->progressPercent<100) ++((GsyncStateWork *)state)->progressPercent; GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent); if(GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)state)->saveData))==1) { ((GsyncStateWork *)state)->bgmWait=func_020056EC(190); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSendRequest,0x2e6); } }
+void GSYNC_STATE_StateSaveMainWait(u8 *state) { if(((GsyncStateWork *)state)->progressPercent<100) ++((GsyncStateWork *)state)->progressPercent; GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent); if(GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)state)->saveData))==1) { ((GsyncStateWork *)state)->bgmWait=GFL_USE_GetRandom(190); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSendRequest,0x2e6); } }
 
 void GSYNC_STATE_StateSaveStart(int state)
 {
@@ -978,11 +988,11 @@ void GSYNC_STATE_StateSaveStart(int state)
         GSYNC_STATE_GetEntryCount(saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
         GSYNC_STATE_BuildMonEntries((GsyncStateWork *)state,saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
         GSYNC_STATE_CopyMonRecord((void *)saveSystem,(char *)(((GsyncStateWork *)state)->listBuffer));
-        func_020092D0((struct Sub02009210Obj *)saveSystem,*(u8 *)(((GsyncStateWork *)state)->listBuffer+0x5a));
+        BLOCK20_SAVEDATA_SetMode((struct Sub02009210Obj *)saveSystem,*(u8 *)(((GsyncStateWork *)state)->listBuffer+0x5a));
     } else {
         monHeader=(u8 *)((GsyncStateWork *)state)->connection+0xc;
-        GSYNC_STATE_BuildMonEntry((GsyncStateWork *)state,saveSystem,((GsyncMonHeader *)monHeader)->species,monHeader[7],monHeader[6],((GsyncMonHeader *)monHeader)->arg,func_020056EC(8));
-        for(slotIndex=0;slotIndex<20;slotIndex++) func_02009348((struct Sub02009210Obj *)saveSystem,slotIndex,*(u16 *)(monHeader+8+slotIndex*2),monHeader[0x30+slotIndex]);
+        GSYNC_STATE_BuildMonEntry((GsyncStateWork *)state,saveSystem,((GsyncMonHeader *)monHeader)->species,monHeader[7],monHeader[6],((GsyncMonHeader *)monHeader)->arg,GFL_USE_GetRandom(8));
+        for(slotIndex=0;slotIndex<20;slotIndex++) BLOCK20_SAVEDATA_SetEntry((struct Sub02009210Obj *)saveSystem,slotIndex,*(u16 *)(monHeader+8+slotIndex*2),monHeader[0x30+slotIndex]);
     }
     ((GsyncStateWork *)state)->saveActive=1;
     GAME_DATA_SaveStart(((GsyncStateWork *)state)->saveData);
@@ -1005,8 +1015,8 @@ void GSYNC_STATE_StateExtraSaveMain(u8 *state)
 {
     int saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
     if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),4)==2) {
-        func_0200734C((struct Sub02007324Ctrl *)saveControl,4);
-        func_020090F8((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),1);
+        SAVE_CONTROL_DeleteExtraSaveBuffered((struct Sub02007324Ctrl *)saveControl,4);
+        CGEAR_SAVE_SetGsyncState((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),1);
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeReceivedMon,0x333);
     }
 }
@@ -1030,14 +1040,14 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int state)
     (*(int *)&((GsyncStateWork *)state)->iconBuffer)=buffer;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,4,((GsyncStateWork *)state)->heapId,buffer,0x3000);
     MI_CpuCopy8(downloadData,(void *)buffer,0x2600);
-    func_02009108((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),checksum);
+    CGEAR_SAVE_SetGsyncId((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),checksum);
     GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,4);
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMain,0x355);
 }
 
 void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *state) { ((GsyncStateWork *)state)->wantRecordSave=0; GFL_HEAP_Free(((GsyncStateWork *)state)->extraSaveBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->extraSaveBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x360); }
 
-void GSYNC_STATE_StateExtraSaveMainSecond(char *state) { int saveControl; saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData)); if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),7)==2) { func_0200734C((struct Sub02007324Ctrl *)saveControl,7); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeExtraSaveBuffer,0x36a); } }
+void GSYNC_STATE_StateExtraSaveMainSecond(char *state) { int saveControl; saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData)); if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),7)==2) { SAVE_CONTROL_DeleteExtraSaveBuffered((struct Sub02007324Ctrl *)saveControl,7); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeExtraSaveBuffer,0x36a); } }
 
 void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
 {
@@ -1058,7 +1068,7 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
     *(int *)&((GsyncStateWork *)state)->extraSaveBuffer=buffer;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,7,((GsyncStateWork *)state)->heapId,*(int *)&((GsyncStateWork *)state)->extraSaveBuffer,0x6800);
     MI_CpuCopy8(downloadData,((GsyncStateWork *)state)->extraSaveBuffer,0x6200);
-    func_0200E8E0((void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),1);
+    MISC_SAVEDATA_SetFlags6200((void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),1);
     GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,7);
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMainSecond,0x383);
 }
@@ -1207,7 +1217,7 @@ void GSYNC_STATE_StateInitDownload(char *state)
     switch (((GsyncStateWork *)state)->downloadKind) {
     case 0: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, MUSICAL_DIST_SAVE_GetBlockSize() + 4); break;
     case 1: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, 0x20000); break;
-    case 2: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, func_0200E8B0() + 4); break;
+    case 2: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, MISC_SAVEDATA_GetBigBlockSize() + 4); break;
     }
     if (GSYNC_DOWNLOAD_InitAsync((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)))) {
         GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetFileAttribute, 0x458);
@@ -1245,18 +1255,18 @@ void GSYNC_STATE_CopyMonRecord(void *saveSystem, char *records)
     int changed = 0;
     int slotIndex;
     for (slotIndex = 0; slotIndex < 5; slotIndex++) {
-        if (GF_STANDARD_CompareBytes((const u8 *)func_02009390(saveSystem, slotIndex), (const u8 *)(records + 0x98 + slotIndex * 26), 26)) {
+        if (GF_STANDARD_CompareBytes((const u8 *)BLOCK20_SAVEDATA_GetRecord(saveSystem, slotIndex), (const u8 *)(records + 0x98 + slotIndex * 26), 26)) {
             changed = 1;
             break;
         }
     }
     if (changed) {
-        for (slotIndex = 0; slotIndex < 5; slotIndex++) func_020093A8(saveSystem, slotIndex, records + 0x98 + slotIndex * 26);
-        func_020093F0(saveSystem, 127);
+        for (slotIndex = 0; slotIndex < 5; slotIndex++) BLOCK20_SAVEDATA_SetRecord(saveSystem, slotIndex, records + 0x98 + slotIndex * 26);
+        BLOCK20_SAVEDATA_SetProgress(saveSystem, 127);
     }
 }
 
-int GSYNC_STATE_GetEntryCount(int saveSystem,u8 *listBuffer) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)(listBuffer+92+slotIndex*2); if(species!=0 && species<=626) { func_02009348((struct Sub02009210Obj *)saveSystem,slotIndex,species,listBuffer[132+slotIndex]); found=1; } } return found; }
+int GSYNC_STATE_GetEntryCount(int saveSystem,u8 *listBuffer) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)(listBuffer+92+slotIndex*2); if(species!=0 && species<=626) { BLOCK20_SAVEDATA_SetEntry((struct Sub02009210Obj *)saveSystem,slotIndex,species,listBuffer[132+slotIndex]); found=1; } } return found; }
 
 int GSYNC_STATE_GetListEntry(int saveSystem,GsyncConn *list) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)((u8 *)list+92+slotIndex*2); if(species!=0 && species<=626) found=1; } return found; }
 
@@ -1278,7 +1288,7 @@ void GSYNC_STATE_BuildMonEntry(GsyncStateWork *state, int unused, int species, i
     case 0: gender = 0; break;
     case 254: gender = 1; break;
     case 255: gender = 2; break;
-    default: if (gender > 1) gender = func_020056EC(2); break;
+    default: if (gender > 1) gender = GFL_USE_GetRandom(2); break;
     }
     if (TPOKE_DATA_IsRecordKindTwo((*(unsigned int *)&state->saveData), pokeData, species, gender, mapped)) kind = 2;
     if (valueByte > 8) valueByte = 0;
@@ -1304,7 +1314,7 @@ void GSYNC_STATE_PrepareReceivedList(GsyncStateWork *state, void *saveSystem, Gs
     }
     if (((u8 *)list)[0x5b] != 0) goto unchanged;
     statusWord = list->statusWord;
-    if (statusWord == func_020093D0(saveSystem)) goto unchanged;
+    if (statusWord == BLOCK20_SAVEDATA_GetSavedValue(saveSystem)) goto unchanged;
     {
         state->entryId = statusWord;
         ((GsyncStateWork *)state)->wantExtraSave = ((u8 *)list)[0x57];
@@ -1490,7 +1500,7 @@ void GSYNC_STATE_StateShowEmptyMessage(char *state)
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 12);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 6);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 8);
-    if (func_02009370((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl)))
+    if (BLOCK20_SAVEDATA_CountEntries((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl)))
         GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 21);
     else
         GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 10);
@@ -1508,7 +1518,7 @@ void GSYNC_STATE_StateWaitInputClearWindow(char *state)
 {
     if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
         GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
-        func_020092E0((struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl), 1);
+        BLOCK20_SAVEDATA_SetPending((struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl), 1);
         ((GsyncStateWork *)state)->responseValid = 1;
         GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSendFinalRequest, 0x6a2);
     }
@@ -1525,7 +1535,7 @@ void GSYNC_STATE_StateWaitInputPrintNext(char *state)
 
 void GSYNC_STATE_StatePrintErrorMessage(char *state)
 {
-    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->saveData)));
+    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->saveData)));
     GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 1);
     GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)), 47);
     GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 7, 14);
@@ -1724,11 +1734,11 @@ void GSYNC_STATE_StateSendFinalRequest(char *state)
     struct GsyncRtcDate saved, current;
     u32 rtcPacked;
     int day;
-    if (func_02008BD0(func_02008B14(((GsyncStateWork *)state)->saveControl)) && ((GsyncStateWork *)state)->responsePending) {
+    if (DAILY_CLOCK_HasAllowance(CONSOLE_STAMP_GetDailyClock(((GsyncStateWork *)state)->saveControl)) && ((GsyncStateWork *)state)->responsePending) {
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x85c);
         return;
     }
-    rtcPacked=func_020093C8((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl));
+    rtcPacked=BLOCK20_SAVEDATA_GetDateStamp((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl));
     saved.year=(u8)(rtcPacked>>24);
     saved.month=(u8)(rtcPacked>>16);
     saved.day=(u8)(rtcPacked>>8);
@@ -1804,7 +1814,7 @@ void GSYNC_STATE_StateSaveErrorExit(char *state)
 }
 
 /*
- * lever: GAME_DATA_GetTrainerRecord leaves its return in r0 for func_02008DF0.
+ * lever: GAME_DATA_GetTrainerRecord leaves its return in r0 for RECORD_AddOne.
  */
 void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
 {
@@ -1813,13 +1823,13 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
     saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     ((GsyncStateWork *)state)->monStored=0;
     GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&date);
-    func_020093CC(saveSystem, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
-    if (func_020093D8(saveSystem)!=127) {
-        func_02009428(saveSystem,1);
-        func_020093F0(saveSystem,126);
+    BLOCK20_SAVEDATA_SetDateStamp(saveSystem, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
+    if (BLOCK20_SAVEDATA_GetProgress(saveSystem)!=127) {
+        BLOCK20_SAVEDATA_SetFlag(saveSystem,1);
+        BLOCK20_SAVEDATA_SetProgress(saveSystem,126);
     }
     ((GsyncStateWork *)state)->progressPercent=50;
-    func_02008DF0(GAME_DATA_GetTrainerRecord((*(void * *)&((GsyncStateWork *)state)->saveData)),119);
+    RECORD_AddOne(GAME_DATA_GetTrainerRecord((*(void * *)&((GsyncStateWork *)state)->saveData)),119);
     ((GsyncStateWork *)state)->saveActive=1;
     GAME_DATA_SaveStart((int)((*(void * *)&((GsyncStateWork *)state)->saveData)));
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveErrorExit,0x914);
@@ -1941,13 +1951,13 @@ void GSYNC_STATE_StateStoreReceivedMon(char *state)
         GFL_HEAP_Free(((GsyncStateWork *)state)->receivedMon);
         ((GsyncStateWork *)state)->receivedMon=0;
     }
-    boxMon=func_02007A18(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
+    boxMon=BOX_SAVEDATA_GetPokemon(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
     if (boxMon) {
         monData=POKE_TOOL_CreateFromBoxParam(boxMon,((GsyncStateWork *)state)->heapId);
-        func_02009294(saveSystem,monData);
+        BLOCK20_SAVEDATA_SetPokemon(saveSystem,monData);
         ((GsyncStateWork *)state)->receivedMon=monData;
         BOX_SAVEDATA_ClearPokemon(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
-        func_020092F8(saveSystem,1);
+        BLOCK20_SAVEDATA_SetActive(saveSystem,1);
         ((GsyncStateWork *)state)->monStored=1;
     }
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
@@ -1973,15 +1983,15 @@ void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *state)
     void *monData;
     saveSystem=GAME_SYNC_GetBlock(state->saveControl);
     if (state->receivedMonCopy) {
-        MI_CpuCopy8(state->receivedMonCopy,saveSystem,func_02009228());
+        MI_CpuCopy8(state->receivedMonCopy,saveSystem,BLOCK20_SAVEDATA_GetBlockSize());
         GFL_HEAP_Free(state->receivedMonCopy);
         state->receivedMonCopy=0;
     }
     if (state->monStored) {
-        monData=func_02009290(saveSystem);
+        monData=BLOCK20_SAVEDATA_GetPokemon(saveSystem);
         BOX_SAVEDATA_SetPokemon(state->boxSave,state->boxIndex,state->slotIndex,POKE_TOOL_GetBoxParam(monData));
         POKE_TOOL_ClearPartyParam(monData);
-        func_020092F8(saveSystem,0);
+        BLOCK20_SAVEDATA_SetActive(saveSystem,0);
         state->monStored=0;
     }
 }
@@ -2004,11 +2014,11 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
         state->connection=(char *)connection;
         (*(void * *)&state->saveData)=connection->saveData;
         state->saveControl=GAME_DATA_GetSaveControl(connection->saveData);
-        profileValue=func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(connection->saveData));
+        profileValue=MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(connection->saveData));
         (*(unsigned int *)&state->boxSave)=GAME_DATA_GetBoxManager(connection->saveData);
         state->boxIndex=connection->boxIndex;
         state->slotIndex=connection->slotIndex;
-        state->responsePending=func_020092EC((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(state->saveControl));
+        state->responsePending=BLOCK20_SAVEDATA_GetPending((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(state->saveControl));
         state->responseValid=state->responsePending;
         GAME_SYNC_GetBlock(state->saveControl);
         switch (connection->state) {

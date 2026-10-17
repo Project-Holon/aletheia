@@ -46,7 +46,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_Init 0x02040C14 arm
@@ -101,7 +101,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
@@ -134,7 +134,7 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   VEC_Subtract 0x0207CA00 arm
  *   VEC_Normalize 0x0207CCA4 arm
@@ -257,7 +257,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_Init(u32,u32,u32,u32);
@@ -314,7 +314,7 @@ extern void BMP_Clear(void *bitmap, u8 value);
 extern void STRBUF_Delete(void *);
 extern u32 BMP_WIN_Delete(void *window);
 extern u32 PRINTSYS_QUE_IsExistTarget(void *queue, void *bitmap);
-extern void func_02045CAC(void *messages, u32 index, void *dest);
+extern void MSGDATA_ReadString(void *messages, u32 index, void *dest);
 extern void PRINTSYS_PrintQue(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font);
 extern u8 BMP_WIN_GetWidth(void *window);
 extern u8 BMP_WIN_GetHeight(void *window);
@@ -340,7 +340,7 @@ extern u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys, u32 commandId, u32 size, u32
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *src, int size);
-extern u32 func_020056EC(u32);
+extern u32 GFL_USE_GetRandom(u32);
 extern void VEC_Subtract(const VecFx32 *,const VecFx32 *,VecFx32 *);
 extern void VEC_Normalize(const VecFx32 *,VecFx32 *);
 extern int VEC_Mag(VecFx32 *);
@@ -534,8 +534,8 @@ void IRC_RHYTHM_InitBackgrounds(IrcScreen *screen,u16 heapId) {
   BG_SYS_SetPlaneVisible(layer,1);
  }
  archive=ARC_TOOL_CreateHandle(IRC_GRAPHICS_ARCHIVE_ID,heapId);
- func_02049B68(archive,1,0,0,0,heapId);
- func_02049B68(archive,1,4,0,0,heapId);
+ ARC_UTIL_UploadPaletteFromHandleWhole(archive,1,0,0,0,heapId);
+ ARC_UTIL_UploadPaletteFromHandleWhole(archive,1,4,0,0,heapId);
  ARC_UTIL_UploadBgCharFromHandle(archive,0x24,1,0,0,0,heapId);
  ARC_UTIL_UploadBgCharFromHandle(archive,0,6,0,0,0,heapId);
  ARC_UTIL_UploadBgCharFromHandle(archive,0x30,4,0,0,0,heapId);
@@ -696,11 +696,11 @@ void IRC_RHYTHM_ExitTextWindow(IrcTextWindow *win) { STRBUF_Delete(win->buffer);
 
 int IRC_RHYTHM_UpdateTextWindow(IrcTextWindow *win,IrcTextSystem *text) { void *printQueue; printQueue=text->printQueue; if(win->isPrinting) { if(!PRINTSYS_QUE_IsExistTarget(printQueue,BMP_WIN_GetBmp(win->printTarget))) { BMP_WIN_TransferChars(win->printTarget); win->isPrinting=0; } } if(!win->isPrinting) return 1; return 0; }
 
-void IRC_RHYTHM_PrintMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId,int x,s16 y) { void *messages; void *printQueue; void *font; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); func_02045CAC(messages,msgId,win->buffer); PRINTSYS_PrintQue(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,y,win->buffer,font); win->isPrinting=1; }
+void IRC_RHYTHM_PrintMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId,int x,s16 y) { void *messages; void *printQueue; void *font; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); MSGDATA_ReadString(messages,msgId,win->buffer); PRINTSYS_PrintQue(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,y,win->buffer,font); win->isPrinting=1; }
 
 void IRC_RHYTHM_PrintCenteredMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId) { IRC_RHYTHM_PrintCenteredMessageColor(win,text,msgId,0x3dc4); }
 
-void IRC_RHYTHM_PrintCenteredMessageColor(IrcTextWindow *win,IrcTextSystem *text,int msgId,u16 color) { void *messages; void *printQueue; void *font; u16 x; u16 y; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); func_02045CAC(messages,msgId,win->buffer); x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4; x-=(u16)(GF_FONT_MeasureWidestLine(win->buffer,font,0)/2); y-=(u16)(GF_FONT_CountLines(win->buffer,font)/2); PRINTSYS_PrintQueColor(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,(s16)y,win->buffer,font,color); win->isPrinting=1; }
+void IRC_RHYTHM_PrintCenteredMessageColor(IrcTextWindow *win,IrcTextSystem *text,int msgId,u16 color) { void *messages; void *printQueue; void *font; u16 x; u16 y; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); MSGDATA_ReadString(messages,msgId,win->buffer); x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4; x-=(u16)(GF_FONT_MeasureWidestLine(win->buffer,font,0)/2); y-=(u16)(GF_FONT_CountLines(win->buffer,font)/2); PRINTSYS_PrintQueColor(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,(s16)y,win->buffer,font,color); win->isPrinting=1; }
 
 void IRC_RHYTHM_PrintMessageWithName(IrcTextWindow *win, IrcTextSystem *text, int msgId, IrcCompatibleProfile *profile, s16 x, s16 y, u16 unused) { void *wordSet; void *messages; void *string; void *printQueue; void *font; BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); wordSet=IRC_RHYTHM_GetWordSet(text); messages=IRC_RHYTHM_GetMessages(text); WORDSET_SetSlotMyStatus(wordSet,0,profile->myStatus); string=MSGDATA_AllocString(messages,msgId); WORDSET_CopyTaggedText(wordSet,win->buffer,string); STRBUF_Delete(string); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); PRINTSYS_PrintQue(printQueue,BMP_WIN_GetBmp(win->printTarget),x,y,win->buffer,font); win->isPrinting=1; }
 
@@ -961,11 +961,11 @@ void IRC_RHYTHM_UpdateParticles(IrcRhythmParticles *particles)
             particles->spawnTimer=0;
             for(i=0;i<30;++i) {
                 if(!IRC_RHYTHM_IsParticleActive(&particles->particles[i])) {
-                    direction=func_020056EC(2);
-                    initialize(&start,&end,func_020056EC(256),-36);
-                    life=func_020056EC(50)+110;
+                    direction=GFL_USE_GetRandom(2);
+                    initialize(&start,&end,GFL_USE_GetRandom(256),-36);
+                    life=GFL_USE_GetRandom(50)+110;
                     palette=2;
-                    if(func_020056EC(2)) palette=5;
+                    if(GFL_USE_GetRandom(2)) palette=5;
                     if(direction) IRC_RHYTHM_StartParticle(&particles->particles[i], &start, &end, palette, life);
                     else IRC_RHYTHM_StartParticle(&particles->particles[i], &end, &start, palette, life);
                     break;
@@ -979,13 +979,13 @@ void IRC_RHYTHM_UpdateParticles(IrcRhythmParticles *particles)
             particles->spawnTimer=0;
             for(i=0;i<30;++i) {
                 if(!IRC_RHYTHM_IsParticleActive(&particles->particles[i])) {
-                    angle=(u16)func_020056EC(65535)>>4;
+                    angle=(u16)GFL_USE_GetRandom(65535)>>4;
                     end.x=FX_SCALE_RADIUS(FX_SinCosTable_[angle*2])>>12;
                     end.y=FX_SCALE_RADIUS(FX_SinCosTable_[angle*2+1])>>12;
                     start.x=128;start.y=96;
-                    life=func_020056EC(50)+110;
+                    life=GFL_USE_GetRandom(50)+110;
                     palette=2;
-                    if(func_020056EC(2)) palette=5;
+                    if(GFL_USE_GetRandom(2)) palette=5;
                     IRC_RHYTHM_StartParticle(&particles->particles[i], &end, &start, palette, life);
                     break;
                 }
@@ -1007,7 +1007,7 @@ void IRC_RHYTHM_SpawnBurst(IrcRhythmParticles *particles, const IrcPoint *center
     for(outer=0;outer<12;++outer) {
         for(i=0;i<30;++i) {
             if(!IRC_RHYTHM_IsParticleActive(&particles->particles[i])) {
-                angle=(u16)func_020056EC(65535)>>4;
+                angle=(u16)GFL_USE_GetRandom(65535)>>4;
                 end.x=FX_SCALE_RADIUS(FX_SinCosTable_[angle*2])>>12;
                 end.y=FX_SCALE_RADIUS(FX_SinCosTable_[angle*2+1])>>12;
                 random.x=FX_FROM_INT(end.x);
@@ -1020,7 +1020,7 @@ void IRC_RHYTHM_SpawnBurst(IrcRhythmParticles *particles, const IrcPoint *center
                 end.y=FX_SCALE_RADIUS(rawY)>>12;
                 end.x+=center->x;
                 end.y+=center->y;
-                IRC_RHYTHM_StartParticle(&particles->particles[i], center, &end, palette, func_020056EC(5)+40);
+                IRC_RHYTHM_StartParticle(&particles->particles[i], center, &end, palette, GFL_USE_GetRandom(5)+40);
                 break;
             }
         }

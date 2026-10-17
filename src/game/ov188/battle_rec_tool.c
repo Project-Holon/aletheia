@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from battle_rec_tool.c, ov188_func_021EF2D4.c by tools/splitfile.py.
+ * Cut from battle_rec_tool.c, BATTLE_REC_TOOL_UnpackBattleRules.c by tools/splitfile.py.
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm

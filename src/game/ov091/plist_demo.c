@@ -43,6 +43,7 @@
  *   POKE_TOOL_RestorePP 0x0201B970 thumb
  *   PLIST_PLATE_GetCenterPos  0x021BB3D4  thumb
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
+ *   GFL_USE_GetMainTaskList  0x020056BC  thumb  arm9
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -68,7 +69,7 @@ extern u32 POKE_TOOL_ChangeForm(void *,u32);
 extern int PARTICLE_LoadArchiveMember(u32,u32,u32);
 extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
 extern void *PARTICLE_CreateSystemDefault(void *memory, int size, int a, int heap);
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 extern void PARTICLE_SetupSystem(void *system, u32 handle, u32 a, u32 b);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_DeleteSystem(void *system);
@@ -125,7 +126,7 @@ void PLIST_DEMO_CreateParticles(PokelistWork *work)
     handle = PARTICLE_LoadArchiveMember(0x4c, member, work->heapId);
     work->particleMemory = GFL_NET_AllocAligned(work->heapId, 0x5000, (const char *)d_021BED58, 0xea);
     work->particleSystem = PARTICLE_CreateSystemDefault(work->particleMemory, 0x5000, 0, work->heapId);
-    PARTICLE_SetupSystem(work->particleSystem, handle, 0, func_020056BC());
+    PARTICLE_SetupSystem(work->particleSystem, handle, 0, GFL_USE_GetMainTaskList());
     PLIST_PLATE_GetCenterPos(work, (u8 *)work->plates[work->selectedSlot], &pos);
     pos.x -= 0x28;
     pos.y += 4;

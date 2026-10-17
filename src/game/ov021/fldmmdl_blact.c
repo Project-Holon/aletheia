@@ -16,8 +16,8 @@
  * symbols:
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
- *   func_02047388  0x02047388  arm
- *   func_020473B8  0x020473B8  arm
+ *   G3D_SYSTEM_GetTexVramKey  0x02047388  arm
+ *   G3D_SYSTEM_GetPlttVramKey  0x020473B8  arm
  *   BILLBOARD_AddImageFromVramKeys  0x0204F044  arm
  *   BILLBOARD_ACT_AddSlot  0x02050238  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
@@ -68,8 +68,8 @@
 
 extern int G3D_SYSTEM_TransVramTexture(void *res);
 extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
-extern u32 func_02047388(void *res);
-extern u32 func_020473B8(void *res);
+extern u32 G3D_SYSTEM_GetTexVramKey(void *res);
+extern u32 G3D_SYSTEM_GetPlttVramKey(void *res);
 extern int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texKey, int plttKey, int a3, u32 texFmt, u8 cellWidth, u8 cellHeight);
 extern u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 imageId, u32 c);
 extern void G3D_SYSTEM_DeleteResource(void *res);
@@ -182,8 +182,8 @@ int FLDMMDL_BLACT_AddVramSlot(struct BbActSys *sys, void *res, u32 mdlSize, u32 
     if (G3D_SYSTEM_TransVramTexture(res) == 1) {
         struct BbBoard *board = BILLBOARD_ACT_GetBoard(sys);
         u16 *cellSize = sBlactCellSize[mdlSize];
-        u32 texKey = func_02047388(res);
-        slotIndex = BILLBOARD_ACT_AddSlot(sys, BILLBOARD_AddImageFromVramKeys(board, texKey, func_020473B8(res), 0, sBlactTexFmt[texSize], (u8)cellSize[0], (u8)cellSize[1]), 0);
+        u32 texKey = G3D_SYSTEM_GetTexVramKey(res);
+        slotIndex = BILLBOARD_ACT_AddSlot(sys, BILLBOARD_AddImageFromVramKeys(board, texKey, G3D_SYSTEM_GetPlttVramKey(res), 0, sBlactTexFmt[texSize], (u8)cellSize[0], (u8)cellSize[1]), 0);
         G3D_SYSTEM_DeleteResource(res);
     }
     return slotIndex;

@@ -43,7 +43,7 @@
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
  *   SOUND_OBJ_GetAnimeFrame 0x021C4E20 thumb ov021
  *   SOUND_OBJ_SetAnimeFrame 0x021C4E08 thumb ov021
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  */
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_sound_objs_b_types.h"
@@ -183,7 +183,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(FieldGimmickSoundObjsBWork *work, 
 void FIELD_GIMMICK_SOUND_OBJS_B_StartWait(FieldGimmickSoundObjsBWork *work, int index)
 {
     work->waitFrames[index] = work->minWait[index] +
-        func_02005728(work->maxWait[index] - work->minWait[index] + 1);
+        GFL_USE_GetRandomBelow(work->maxWait[index] - work->minWait[index] + 1);
 }
 
 /* Restarts the animation of one sound object at its first frame. */

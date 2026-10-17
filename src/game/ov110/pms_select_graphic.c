@@ -97,7 +97,7 @@
  *   BG_SYS_SetFlagField06 0x02041B6C arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   FX_SinCosTable_ 0x020A1B38 data
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
@@ -112,8 +112,8 @@
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   func_020355D8 0x020355D8 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
- *   func_02049990 0x02049990 arm
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   gPmsSelectGraphicBlinkColors 0x021C39E0 data a4
@@ -290,11 +290,11 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern int NNS_GfdRegisterNewVramTransferTask(void *, u32, u32, int);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void *func_02049EF4(void *, u32, u32, void **, u16);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 
 /* Overlay 67: scene actors and touch bar. */
 extern void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
@@ -624,8 +624,8 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
     void *h;
     void *str;
     h = ARC_TOOL_CreateHandle((unsigned int)43, heap);
-    func_02049B68(h, 0, 0, 0, 288, heap);
-    func_02049B68(h, 0, 4, 0, 256, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 0, 0, 288, heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 4, 0, 256, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 288, 32, heap);
     bg->palette[0] = 0x7fff;
     NNS_GfdRegisterNewVramTransferTask((void *)15, 316, (u32)&bg->palette[0], 2);
@@ -634,9 +634,9 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
     ARC_UTIL_UploadBgCharFromHandle(h, 10, 4, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 21, 4, 0, 0, 0, heap);
     bg->tileRange = ARC_UTIL_RegisterObjCharFromHandle(h, 10, 3, 0, 0, heap);
-    func_02049990(h, 22, 3, 0, (u16)bg->tileRange, 0, 0, heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 22, 3, 0, (u16)bg->tileRange, 0, 0, heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 11, 2, 0, 0, 0, heap);
-    bg->screenMem = func_02049EF4(h, 23, 0, (void **)&bg->screen, heap);
+    bg->screenMem = ARC_UTIL_LoadPaletteDataFromHandle(h, 23, 0, (void **)&bg->screen, heap);
     ARC_UTIL_UploadPaletteFromHandle(h, 4, 4, 128, 256, 32, heap);
     bg->palette[2] = 0x294b;
     NNS_GfdRegisterNewVramTransferTask((void *)31, 284, (u32)&bg->palette[2], 2);

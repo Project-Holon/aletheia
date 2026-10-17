@@ -58,7 +58,7 @@ extern int MAP_ATTR_IsPresent(u32 attr);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern int MAP_ATTR_IsNoDash(u16 terrainId);
 extern void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset);
-extern u32 func_02005728(u32 range);
+extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern short GF_STANDARD_Get_F684(unsigned short degrees);
 extern void MI_CpuFill8(void *dst, int value, int size);
 

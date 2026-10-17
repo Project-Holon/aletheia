@@ -16,7 +16,7 @@
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
@@ -82,7 +82,7 @@ extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
 
 extern u32 BMP_WIN_Delete(void *d);
 
-extern int func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern int MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -318,14 +318,14 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
 
 void GSYNC_MESSAGE_PrintStreamId(GsyncMessageWork *work, int msgId)
 {
-    func_02045CAC(work->msgData, msgId, work->msgBuf);
+    MSGDATA_ReadString(work->msgData, msgId, work->msgBuf);
     GSYNC_MESSAGE_PrintStream(work, 0);
 }
 
 /* Loads message msgId into tmpBuf, with a Pokemon name and a number (digits wide) registered in the word set. */
 void GSYNC_MESSAGE_SetMonName(GsyncMessageWork *work, int msgId, int digits, void *mon)
 {
-    func_02045CAC(work->msgData, msgId, work->tmpBuf);
+    MSGDATA_ReadString(work->msgData, msgId, work->tmpBuf);
     WORDSET_SetSlotMonSpecies(work->wordSet, 0, mon);
     WORDSET_SetSlotNumber(work->wordSet, 1, digits, 3, 1, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, work->tmpBuf);
@@ -375,10 +375,10 @@ int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
     tmpl.width = 13;
     tmpl.height = 3;
     work->menuItems[0].text = STRBUF_Create(100, work->heap);
-    func_02045CAC(work->msgData, 4, work->menuItems[0].text);
+    MSGDATA_ReadString(work->msgData, 4, work->menuItems[0].text);
     work->menuItems[0].color = 0x39e0;
     work->menuItems[1].text = STRBUF_Create(100, work->heap);
-    func_02045CAC(work->msgData, 5, work->menuItems[1].text);
+    MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].text);
     work->menuItems[1].color = 0x39e0;
     result = (int)APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
     STRBUF_Delete(work->menuItems[0].text);
@@ -389,7 +389,7 @@ int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
 
 int GSYNC_MESSAGE_PrintId(GsyncMessageWork *work, int msgId)
 {
-    return func_02045CAC((struct MsgBank *)(work->msgData), msgId, work->msgBuf);
+    return MSGDATA_ReadString((struct MsgBank *)(work->msgData), msgId, work->msgBuf);
 }
 
 /* Prints msgBuf in a sub-screen window at row top, height rows high. */

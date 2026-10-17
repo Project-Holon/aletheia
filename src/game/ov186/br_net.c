@@ -27,7 +27,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_0200853C 0x0200853C thumb
+ *   MYSTATUS_GetProfileId 0x0200853C thumb
  *   GDS_RAP_Init 0x021D6660 thumb ov125
  *   GDS_PROFILE_Create 0x0200D59C thumb
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
@@ -45,7 +45,7 @@
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
- *   func_0200F7DC 0x0200F7DC thumb
+ *   GFL_NET_ERR_Halt 0x0200F7DC thumb
  *   GDS_RAP_IsIdle  0x021D730C  thumb  ov125
  *   GDS_RAP_RequestUploadEntry 0x021D67C8 thumb ov125
  *   GDS_RAP_RequestDownloadEntries 0x021D6814 thumb ov125
@@ -79,7 +79,7 @@ extern u32 GFL_HEAP_Free(void *block);
 
 extern const void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern u32 func_0200853C(const void *myStatus);
+extern u32 MYSTATUS_GetProfileId(const void *myStatus);
 
 extern struct GdsProfile *GDS_PROFILE_Create(u32 heapId);
 
@@ -97,7 +97,7 @@ extern void GFL_NET_ERR_RaiseFatal(unsigned int errorId);
 
 extern int DWC_RAPCOMMON_HandleNetError(int, int);
 
-extern void func_0200F7DC(void);
+extern void GFL_NET_ERR_Halt(void);
 
 extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 
@@ -245,7 +245,7 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u32 
     net->gameData=gameData;
     MI_CpuFill8(&params,0,sizeof(GdsRapInitParams));
     params.gameData=gameData;
-    params.profileId=func_0200853C(GAME_DATA_GetMyStatus(gameData));
+    params.profileId=MYSTATUS_GetProfileId(GAME_DATA_GetMyStatus(gameData));
     params.profileSource=profileSource;
     params.callbacks.userData=net;
     params.callbacks.onUploadEntry=BR_NET_OnUploadEntry;
@@ -455,7 +455,7 @@ int BR_NET_HandleNetError(struct BrNet *net)
     switch (DWC_RAPCOMMON_HandleNetError(1, 0)) {
     case 1: GFL_USE_StopAllSe(); return 1;
     case 2: GFL_USE_StopAllSe(); net->fatal = 1; return 2;
-    case 3: GFL_USE_StopAllSe(); func_0200F7DC(); break;
+    case 3: GFL_USE_StopAllSe(); GFL_NET_ERR_Halt(); break;
     }
     return 0;
 }

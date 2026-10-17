@@ -57,7 +57,7 @@
  *   ARC_UTIL_LoadMultiAnimBankFromArchive 0x0204A13C arm
  *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   ARC_UTIL_LoadBgCharDataFromArchive 0x02049DB4 arm
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   MCSS_TOOL_DrawSpindaSpots 0x020172D8 thumb
  *   NNSi_G2dLoadVramResourceSub 0x02063A54 arm
  *   NNSi_G2dLoadVramResourceBySel 0x02063E54 arm
@@ -290,7 +290,7 @@ extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
 extern void MCSS_TOOL_DrawSpindaSpots(u8 *,u32);
 
@@ -1591,7 +1591,7 @@ void MUSICAL_MCSS_LoadCellBank(u8 *a,int index,u32 *res,u32 mode)
     job[7]=*(u8 * *)&((McssRenderPool *)a)->animVram+index*32;
     job[8]=q;
     job[4]=ARC_UTIL_LoadBgCharDataFromArchive(res[0],res[1],1,(u32)job,((McssMcAnim *)q)->heapTag);
-    job[5]=func_02049F34(res[0],res[2],(u32)(job+1),(u16)(((McssMcAnim *)q)->heapTag));
+    job[5]=ARC_UTIL_LoadPaletteBlockFromArchive(res[0],res[2],(u32)(job+1),(u16)(((McssMcAnim *)q)->heapTag));
     if(res[7]==6548) MCSS_TOOL_DrawSpindaSpots(*(u8 * *)&((McssSpindaRes *)((u8 *)job[0]))->spots,res[8]);
     if(mode==1) GFL_USE_AddMainTask((u32)MUSICAL_MCSS_FreeCellBank,(u32)job,0);
     else MUSICAL_MCSS_FreeCellBank(0,job);

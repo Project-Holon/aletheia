@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_EVENT_Create 0x020122C0 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
@@ -194,7 +194,7 @@ typedef struct ShortcutProcTask {
 
 
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct GameData *ICA_ANIME_GetField1C(const struct GameSystem *gameSystem);
 extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
 extern void SCRIPT_WORK_SetParams(void *msgWindow, int messageIndex, int a, int b, u16 c);
@@ -300,7 +300,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     } else {
         event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
     }
-    work = func_020124E8(event);
+    work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(ShortcutMenuWork));
     work->gameSystem = gameSystem;
     work->event = event;
@@ -890,7 +890,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
     ShortcutProcTask *task;
 
     event = GAME_EVENT_Create(link->gameSystem, link->event, EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(ShortcutProcTask));
-    task = func_020124E8(event);
+    task = GAME_EVENT_GetWork(event);
     MI_CpuFill8(task, 0, sizeof(ShortcutProcTask));
     task->id = id;
     task->link = link;

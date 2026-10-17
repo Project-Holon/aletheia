@@ -58,7 +58,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -70,7 +70,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BG_SYS_SetFlagField06 0x02041B6C arm
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
  *   PRINTSYS_CTRL_Update 0x02028484 thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
@@ -237,7 +237,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void BMP_WIN_Exit(void);
 
-extern void func_02045CAC(struct MsgBank *, u32, void *);
+extern void MSGDATA_ReadString(struct MsgBank *, u32, void *);
 
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 
@@ -261,7 +261,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *);
 
 extern void BG_SYS_SetFlagField06(u32);
 
-extern unsigned int func_020056BC(void);
+extern unsigned int GFL_USE_GetMainTaskList(void);
 
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 
@@ -457,7 +457,7 @@ void WIFILOGIN_MSG_DrawWindow(char *p, struct MsgBank *a, int b)
     int row;
     int kind;
     u32 w;
-    func_02045CAC(a, b, *(void **)(p + 0x28));
+    MSGDATA_ReadString(a, b, *(void **)(p + 0x28));
     row = 1;
     if (*(int *)(p + 0x50) != 0) row = 19;
     if (*(u32 *)(p + 0x2c) == 0) {
@@ -485,7 +485,7 @@ void WIFILOGIN_MSG_SetMessageWithIcon(u8 *p, unsigned int a, int b) {
         TIME_ICON_Delete(((struct WifiloginMsg *)p)->timeIcon);
         ((struct WifiloginMsg *)p)->timeIcon = 0;
     }
-    ((struct WifiloginMsg *)p)->timeIcon = TIME_ICON_Create((void *)func_020056BC(), ((struct WifiloginMsg *)p)->window, 15, 16, ((struct WifiloginMsg *)p)->heapId);
+    ((struct WifiloginMsg *)p)->timeIcon = TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), ((struct WifiloginMsg *)p)->window, 15, 16, ((struct WifiloginMsg *)p)->heapId);
 }
 
 int WIFILOGIN_MSG_IsPrintDone(u8 *p) { int result=1; if(((struct WifiloginMsg *)p)->printStream) { result=PRINTSYS_CTRL_Update((Blk *)(p+60),((struct WifiloginMsg *)p)->printStream); if(result) { PRINTSYS_PrintStreamDelete(((struct WifiloginMsg *)p)->printStream); ((struct WifiloginMsg *)p)->printStream=0; } } return result; }
@@ -497,7 +497,7 @@ void WIFILOGIN_MSG_ShowMessage(u8 *p, u32 n) {
     if (((struct WifiloginMsg *)p)->window3==0) ((struct WifiloginMsg *)p)->window3=(void *)BMP_WIN_Create(1,4,7,24,2,11,1);
     w=((struct WifiloginMsg *)p)->window3;
     BMP_Clear(BMP_WIN_GetBmp(w),0);
-    func_02045CAC(((struct WifiloginMsg *)p)->msgBank,n,((struct WifiloginMsg *)p)->strbuf);
+    MSGDATA_ReadString(((struct WifiloginMsg *)p)->msgBank,n,((struct WifiloginMsg *)p)->strbuf);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(w),0,0,((struct WifiloginMsg *)p)->strbuf,((struct WifiloginMsg *)p)->gfFont,0x3cc0);
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
@@ -530,10 +530,10 @@ void *WIFILOGIN_MSG_OpenTask(u8 *p, int mode, int flag, int selected)
         t.a = 13;
         t.b = 3;
         ((struct WifiloginMsgTask *)q)->strbufA = STRBUF_Create(100, ((struct WifiloginMsg *)p)->heapId);
-        func_02045CAC(((struct WifiloginMsg *)p)->msgBank, 28, ((struct WifiloginMsgTask *)q)->strbufA);
+        MSGDATA_ReadString(((struct WifiloginMsg *)p)->msgBank, 28, ((struct WifiloginMsgTask *)q)->strbufA);
         ((struct WifiloginMsgTask *)q)->colorA = 0x39e0;
         ((struct WifiloginMsgTask *)q)->strbufB = STRBUF_Create(100, ((struct WifiloginMsg *)p)->heapId);
-        func_02045CAC(((struct WifiloginMsg *)p)->msgBank, 29, ((struct WifiloginMsgTask *)q)->strbufB);
+        MSGDATA_ReadString(((struct WifiloginMsg *)p)->msgBank, 29, ((struct WifiloginMsgTask *)q)->strbufB);
         ((struct WifiloginMsgTask *)q)->colorB = 0x39e0;
         ((struct WifiloginMsgTask *)q)->taskMenu = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct WifiloginMsgTask *)q)->taskMenuRes);
         STRBUF_Delete(((struct WifiloginMsgTask *)q)->strbufA);
@@ -560,7 +560,7 @@ u8 WIFILOGIN_MSG_GetTaskCursor(u8 *p) { switch(((struct WifiloginMsgTask *)p)->k
 void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n) {
     void *w;
     void *s;
-    func_02045CAC(((struct WifiloginMsg *)p)->msgBank,n,((struct WifiloginMsg *)p)->strbuf);
+    MSGDATA_ReadString(((struct WifiloginMsg *)p)->msgBank,n,((struct WifiloginMsg *)p)->strbuf);
     s=STRBUF_Clone(((struct WifiloginMsg *)p)->strbuf,((struct WifiloginMsg *)p)->heapId);
     WORDSET_CopyTaggedText(((struct WifiloginMsg *)p)->wordSet,((struct WifiloginMsg *)p)->strbuf,s);
     if (((struct WifiloginMsg *)p)->window2==0) ((struct WifiloginMsg *)p)->window2=(void *)BMP_WIN_Create(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode),1,1,30,16,11,1);

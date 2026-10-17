@@ -47,6 +47,7 @@
  *   gNetSaveMainProc   0x021D6338  data  ov115
  *   gNetSaveCheckProc  0x021DA9A8  data  ov123
  *   gNetSaveRetryProc  0x021D654C  data  ov115
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  */
 
 typedef unsigned char  u8;
@@ -116,7 +117,7 @@ extern void GAME_DATA_SaveCancel(u32 gameData);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *link, u32 timingId, u32 size);
 extern int GAME_DATA_SaveStart(u32 gameData);
 extern int  GAME_DATA_SaveMain(u32 gameData);
-extern u32  func_020056EC(u32 frames);
+extern u32  GFL_USE_GetRandom(u32 frames);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
@@ -287,7 +288,7 @@ void GFL_NET_SAVE_StepWaitSaveStart(struct NetSaveTask *task)
 {
     if (GAME_DATA_SaveMain(task->gameData) == 1) {
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
-        task->delayFrames = func_020056EC(0x3c);
+        task->delayFrames = GFL_USE_GetRandom(0x3c);
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSync72);
     }
 }

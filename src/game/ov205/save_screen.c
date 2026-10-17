@@ -19,7 +19,7 @@
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_020071F0 0x020071F0 thumb
+ *   SAVE_CONTROL_WouldOverwriteSave 0x020071F0 thumb
  *   init 0x021B9E50 data a2
  *   KEY_GetTrg 0x020362DC arm
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
@@ -74,7 +74,7 @@
  *   d_021B9E70 0x021B9E70 data a4
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
@@ -86,12 +86,12 @@
  *   MISC_SAVEDATA_SnapshotParty 0x0200EA3C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
- *   func_0200864C 0x0200864C thumb
- *   func_02008650 0x02008650 thumb
- *   func_02008654 0x02008654 thumb
+ *   PLAYTIME_GetHours 0x0200864C thumb
+ *   PLAYTIME_GetMinutes 0x02008650 thumb
+ *   PLAYTIME_GetSeconds 0x02008654 thumb
  *   RECORD_SetCounterClamped 0x02008D1C thumb
  *   RECORD_AddCounter 0x02008DAC thumb
- *   func_02008DFC 0x02008DFC thumb
+ *   RECORD_GetCounterClamped 0x02008DFC thumb
  *   FIELD_CLOCK_SaveTimestamp 0x02169120 thumb ov010
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
@@ -197,7 +197,7 @@ extern void func_02082A7C(unsigned,void *,unsigned);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
+extern int SAVE_CONTROL_WouldOverwriteSave(struct Sub020071E4Ctrl *ctrl);
 extern u32 KEY_GetTrg(void);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void GXS_LoadBGPltt(void *,u32,u32);
@@ -248,7 +248,6 @@ extern void BG_SYS_LoadPlttEntry(unsigned,unsigned);
 extern void BMP_WIN_Init(u16);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern signed char MSG_SPEED_GetWait(void);
@@ -260,12 +259,12 @@ extern void *GAME_DATA_GetSaveBlock42(void **);
 extern void MISC_SAVEDATA_SnapshotParty(struct Rec *,void *,struct Date *,u32);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int GAME_DATA_GetPlayTime(int p0);
-extern u16 func_0200864C(const struct PlayTime *p);
-extern u8 func_02008650(const struct PlayTime *p);
-extern u8 func_02008654(const struct PlayTime *p);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
+extern u8 PLAYTIME_GetSeconds(const struct PlayTime *p);
 extern u32 RECORD_SetCounterClamped(struct Sub02008C20Obj *obj, int i, u32 value);
 extern u32 RECORD_AddCounter(struct Sub02008C20Obj *,int,u32);
-extern u32 func_02008DFC(struct Sub02008C20Obj *,int);
+extern u32 RECORD_GetCounterClamped(struct Sub02008C20Obj *,int);
 extern void FIELD_CLOCK_SaveTimestamp(void *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
@@ -316,7 +315,7 @@ int SAVE_SCREEN_Init(void *owner,int unused,void **args)
     p->arcId=36;
     p->ctx=ICA_ANIME_GetField1C(context);
     p->anim=GAME_DATA_GetMyStatus(p->ctx);
-    if(func_020071F0(GAME_DATA_GetSaveControl(p->ctx))!=0)
+    if(SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(p->ctx))!=0)
         p->hasSave=1;
     return 1;
 }
@@ -457,7 +456,7 @@ void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 
     struct U16Vec *buffer;
     buffer=STRBUF_Create(1024,p->heapId);
     BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),15);
-    func_02045CAC(p->msgBank,entry,buffer);
+    MSGDATA_ReadString(p->msgBank,entry,buffer);
     WORDSET_SetSlotMyStatus(p->wordset,0,p->anim);
     WORDSET_CopyTaggedText(p->wordset,p->textBuf,buffer);
     p->printStream=PRINTSYS_PrintStream(p->bmpWin,index,kind,p->textBuf,p->font,MSG_SPEED_GetWait(),p->tcbl,0,p->heapId,3855);
@@ -475,17 +474,17 @@ void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
     unsigned year,month,day;
     counter=GAME_DATA_GetTrainerRecord(p->ctx);
     date=(void *)GAME_DATA_GetPlayTime((int)(p->ctx));
-    year=func_0200864C(date);
-    month=func_02008650(date);
-    day=func_02008654(date);
+    year=PLAYTIME_GetHours(date);
+    month=PLAYTIME_GetMinutes(date);
+    day=PLAYTIME_GetSeconds(date);
     RECORD_SetCounterClamped(counter,2,day+(year*10000+month*100));
 }
 
 
-void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);obj=GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx);if(func_020071F0(save)==0)RECORD_AddCounter(obj,71,1); }
+void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);obj=GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx);if(SAVE_CONTROL_WouldOverwriteSave(save)==0)RECORD_AddCounter(obj,71,1); }
 
 
-void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p) { if(func_02008DFC(GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&p->ctx); }
+void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p) { if(RECORD_GetCounterClamped(GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&p->ctx); }
 
 
 void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
@@ -497,7 +496,7 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
     save=GAME_DATA_GetSaveControl(p->ctx);
     SAVE_CONTROL_LoadExtraSave(save,8,4);
     record=SAVE_CONTROL_GetExtraSaveRecord(save,8,0);
-    if(func_020071F0(save)==0) {
+    if(SAVE_CONTROL_WouldOverwriteSave(save)==0) {
         MISC_SAVEDATA_AppendPartyRecord(record,object,date,4);
         GAME_DATA_PartSaveStart(p->ctx,8);
         p->partSaveFlag=1;
@@ -505,7 +504,7 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
 }
 
 
-void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);if(func_020071F0(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&p->ctx,8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
+void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);if(SAVE_CONTROL_WouldOverwriteSave(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&p->ctx,8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
 
 
 int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork(obj,28,84);func_02082A7C(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }

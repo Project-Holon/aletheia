@@ -45,7 +45,7 @@
  *   ov131_id 0x00000083 data a1
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
- *   func_0200873C 0x0200873C thumb
+ *   SYSTEM_DATA_GetConfig 0x0200873C thumb
  *   PLIST_COMM_Start 0x021B6100 thumb ov090
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
@@ -170,7 +170,7 @@ extern int GFL_NET_GetRunState(void);
 extern int DWC_RAPCOMMON_HandleNetError(int a, int b);
 extern void *GAME_DATA_GetSaveControl(void *sys);
 extern void POKE_REGULATION_AdjustPartyLevels(void *regulation, void *party);
-extern void *func_0200873C(void *sys);
+extern void *SYSTEM_DATA_GetConfig(void *sys);
 extern void PLIST_COMM_Start(void *work);
 extern u8 *GAME_DATA_GetMyStatus(void *sys);
 extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
@@ -336,7 +336,7 @@ void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetParty
     POKE_REGULATION_AdjustPartyLevels(status, param->party);
     param->selectedCount = 0;
     param->listArgB_out = 0;
-    param->options = func_0200873C(save);
+    param->options = SYSTEM_DATA_GetConfig(save);
     param->listArgA_out = 0;
     param->listType = 0;
     param->maxCount = 26;
@@ -397,7 +397,7 @@ void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatu
     zukan = ZUKAN_SAVE_GetFromGameData(args->save);
     statusParam->ppd = (void *)*(u32 *)&args->party;
     statusParam->config = (void *)*(u32 *)&args->save;
-    statusParam->callerData = func_0200873C(save);
+    statusParam->callerData = SYSTEM_DATA_GetConfig(save);
     statusParam->ppt = 1;
     statusParam->mode = 1;
     statusParam->max = POKEPARTY_GetCount(args->party);

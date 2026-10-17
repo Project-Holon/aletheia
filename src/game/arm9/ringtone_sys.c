@@ -18,7 +18,7 @@
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
+ *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   sTrainerClassBgmTable  0x020A75A8  data
@@ -203,7 +203,7 @@ extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 extern void FIELD_SOUND_SYSTEM_PostRequest(FieldSoundSystem *fieldSound, u32 kind, u32 value, u16 lowParam, u16 highParam);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, FieldSoundTaskFunc func, u32 workSize);
-extern void *func_020124E8(struct GameEvent *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern u32 GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 extern u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *fieldSound);
 extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(FieldSoundSystem *fieldSound);
@@ -627,7 +627,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeInTask(struct GameSystem *gameSyst
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_FadeInTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->highParam = (u16)fadeInFrames;
@@ -654,7 +654,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutTask(struct GameSystem *gameSys
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_FadeOutTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->lowParam = (u16)fadeOutFrames;
@@ -686,7 +686,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(struct GameSystem *gameSystem
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PushTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->lowParam = (u16)fadeOutFrames;
@@ -718,7 +718,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *game
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PopAndWaitTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->highParam = fadeInFrames;
@@ -746,7 +746,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *gameSystem,
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PopTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->highParam = fadeInFrames;
@@ -788,7 +788,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAllTask(struct GameSystem *gameSyst
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PopAllTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->highParam = fadeInFrames;
@@ -816,7 +816,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(struct GameSystem *g
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PushAndChangeTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->value = bgmNo;
@@ -846,7 +846,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gam
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PushAndPlayTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->value = bgmNo;
@@ -874,7 +874,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartChangeTask(struct GameSystem *gameSyst
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_ChangeTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->value = bgmNo;
@@ -937,7 +937,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(struct GameSystem *
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_FadeOutAndPlayTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->value = bgmNo;
@@ -968,7 +968,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(struct Game
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->value = bgmNo;
@@ -997,7 +997,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(struct Game
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->lowParam = fadeOutFrames;
@@ -1028,7 +1028,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(struct GameSystem 
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PushAndPlayWaitTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->value = bgmNo;
@@ -1040,7 +1040,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(struct GameSystem 
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_FadeOutAndResetTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
@@ -1085,7 +1085,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(struct GameSy
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->value = bgmNo;
@@ -1097,7 +1097,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(struct GameSystem *
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_PopTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->highParam = 0x3C;
@@ -1126,7 +1126,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitSettledTask(struct GameSystem *gam
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_WaitSettledTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     return event;
@@ -1153,7 +1153,7 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSyste
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FIELD_SOUND_SYSTEM_WaitAcceptRequestTask, 0x10);
-    FieldSoundTaskWork *work = func_020124E8(event);
+    FieldSoundTaskWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldSound = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     return event;

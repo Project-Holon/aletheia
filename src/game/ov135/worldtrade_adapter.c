@@ -35,18 +35,18 @@
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   FILE_UTIL_Check136C  0x0202136C  thumb
- *   func_02007A18  0x02007A18  thumb
+ *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
  *   BOX_SAVEDATA_ClearPokemon  0x02007664  thumb
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
- *   func_0200752C  0x0200752C  thumb
+ *   BOX_SAVEDATA_AddPokemonToBox  0x0200752C  thumb
  *   WORLDTRADE_ADAPTER_ClearWindowScreen 0x02202644 thumb ov135
  *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb
  *   WORLDTRADE_ADAPTER_CreateString  0x02202670  thumb
@@ -75,18 +75,18 @@
  *   POKEPARTY_RemoveMember 0x0201A9C8 thumb
  *   GAME_DATA_GetBoxSave 0x02012F98 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
- *   func_02007C34 0x02007C34 thumb
+ *   PERAPVOICE_ClearIfNoChatot 0x02007C34 thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
  *   DWC_GetDateTime  0x02167ED8  arm  ov009
  *   WORLDTRADE_SetLastSearchId  0x0200ADD8  thumb
  *   WORLDTRADE_SetLastTradeId  0x0200ADD0  thumb
- *   func_0200949C 0x0200949C thumb
- *   func_020094D8 0x020094D8 thumb
+ *   WIFI_HISTORY_GetCountryRegionState 0x0200949C thumb
+ *   WIFI_HISTORY_SetCountryRegionState 0x020094D8 thumb
  *   POKE_TOOL_SetDefaultName  0x02019B58  thumb
  *   MAIL_Create  0x02008F08  thumb
- *   func_02008F88  0x02008F88  thumb
+ *   MAIL_SetWriterName  0x02008F88  thumb
  *   g_02203F5C  0x02203F5C  data  ov135
  *   TCBL_Create  0x0203101C  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
@@ -150,15 +150,15 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern u32 FILE_UTIL_Check136C(u16 v);
 
-extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 
 extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
-extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
+extern int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02007454Entry *src);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
@@ -239,7 +239,7 @@ extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 
-extern void func_02007C34(struct PerapVoice *p, void *a);
+extern void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *p, void *a);
 
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 
@@ -253,15 +253,15 @@ extern void WORLDTRADE_SetLastSearchId(struct RegB *p, u32 value);
 
 extern void WORLDTRADE_SetLastTradeId(struct RegB *p, u32 value);
 
-extern u32 func_0200949C(const struct Sub02009470Obj *obj, int row, int col);
+extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col);
 
-extern void func_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
+extern void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value);
 
 extern void POKE_TOOL_SetDefaultName(void *mon);
 
 extern void *MAIL_Create(int a0);
 
-extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
+extern void MAIL_SetWriterName(struct Sub02008F80Obj *obj, const void *src);
 
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 
@@ -379,7 +379,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag)
     void *box;
     if (p->box != 0xFF) {
         mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
-        WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)func_02007A18(p->ctx->save, p->box, p->slot), (u32)mon);
+        WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)BOX_SAVEDATA_GetPokemon(p->ctx->save, p->box, p->slot), (u32)mon);
         if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
         BOX_SAVEDATA_ClearPokemon(p->ctx->save, p->box, p->slot);
         GFL_HEAP_Free(mon);
@@ -389,7 +389,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag)
         POKEPARTY_RemoveMember(p->ctx->party, p->slot);
         save = ICA_ANIME_GetField1C((const struct Ctx *)p->ctx->f40);
         box = GAME_DATA_GetBoxSave(save);
-        func_02007C34(box, GAME_DATA_GetMyParty(save));
+        PERAPVOICE_ClearIfNoChatot(box, GAME_DATA_GetMyParty(save));
     }
     if (flag) WORLDTRADE_SetIsDeposited(p->ctx->sys, 1);
 }
@@ -422,7 +422,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
     } else {
         pos = 0;
         BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&box), (int *)(&pos));
-        func_0200752C((void **)p->ctx->box, box, (const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
+        BOX_SAVEDATA_AddPokemonToBox((void **)p->ctx->box, box, (const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->box_u = box;
         slot = pos;
     }
@@ -451,7 +451,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,voi
     } else {
         u32 slot=0;
         BOX_SAVEDATA_FindFreeSlot(p->ctx->save,(int *)(&index),(int *)(&slot));
-        func_0200752C(p->ctx->save,index,(const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
+        BOX_SAVEDATA_AddPokemonToBox(p->ctx->save,index,(const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->box_u=index;
         pos=slot;
     }
@@ -474,7 +474,7 @@ void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which)
     }
 }
 
-void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,Entry *p) { int b=p->ver,a=p->lang; if(func_0200949C(obj,a,b)==0) func_020094D8(obj,a,b,1); }
+void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,Entry *p) { int b=p->ver,a=p->lang; if(WIFI_HISTORY_GetCountryRegionState(obj,a,b)==0) WIFI_HISTORY_SetCountryRegionState(obj,a,b,1); }
 
 int WORLDTRADE_ADAPTER_CheckPartyHasOther(Work *p, void *mon)
 {
@@ -525,7 +525,7 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
     if (FILE_UTIL_Check136C((u16)POKE_TOOL_GetPartyValue(mon, 6, 0)) != 0) {
         buf = MAIL_Create((u16)id);
         POKE_TOOL_GetPartyValue(mon, 0xA7, (u32)buf);
-        func_02008F88(buf, STRBUF_GetChars(str));
+        MAIL_SetWriterName(buf, STRBUF_GetChars(str));
         POKE_TOOL_SetPartyValue(mon, 0xA7, (u32)buf);
         GFL_HEAP_Free(buf);
     }
@@ -816,7 +816,7 @@ void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, 
 
     str = STRBUF_Create(0x20, ctx->heap);
     fmt = STRBUF_Create(0x20, ctx->heap);
-    func_02045CAC(ctx->bank, 0xFD, fmt);
+    MSGDATA_ReadString(ctx->bank, 0xFD, fmt);
     WORDSET_SetSlotNumber(ctx->words, 0, num, digits, mode, 1);
     WORDSET_CopyTaggedText(ctx->words, str, fmt);
     for (i = 0; i < 8; i++) {

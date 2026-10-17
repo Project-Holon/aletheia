@@ -29,7 +29,7 @@
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -213,7 +213,7 @@ extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void func_02049B68(void*,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
@@ -347,7 +347,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     variant=1;
     if (p->args->kind!=1) variant=0;
     owner=ARC_TOOL_CreateHandle(30,heap);
-    func_02049B68(owner,resources[variant].a,4,0,0,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(owner,resources[variant].a,4,0,0,heap);
     ARC_UTIL_UploadBgCharFromHandle(owner,resources[variant].b,4,0,0,0,heap);
     ARC_UTIL_UploadBgPaletteFromHandle(owner,resources[variant].c,4,0,0,0,heap);
     ARC_TOOL_DeleteHandle(owner);BG_SYS_PushTile(4);FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,p->heap);
@@ -468,7 +468,7 @@ void TH_AWARD_LoadBgAssets(struct ThAwardWork *p)
 {
     void *object;
     object=ARC_TOOL_CreateHandle(201,p->heap);
-    func_02049B68(object,0,0,0,64,p->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(object,0,0,0,64,p->heap);
     ARC_UTIL_UploadBgCharFromHandle(object,2,2,0,0,0,p->heap);
     ARC_UTIL_UploadBgPaletteFromHandle(object,4,2,0,0,0,p->heap);
     ARC_UTIL_UploadBgPaletteFromHandle(object,5,1,0,0,0,p->heap);

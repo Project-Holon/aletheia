@@ -24,8 +24,8 @@
  *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   G3D_UTIL_GetUnitObjIdx  0x020489F4  arm
- *   func_02048A18  0x02048A18  arm
- *   func_02048A00  0x02048A00  arm
+ *   G3D_UTIL_GetObject  0x02048A18  arm
+ *   G3D_UTIL_GetUnitObjCount  0x02048A00  arm
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
@@ -52,8 +52,8 @@ extern void MTX_Identity33_(MtxFx33 *mtx);
 extern struct G3dAnime *G3D_SYSTEM_GetObjectAnime(struct G3dObject *obj, int anmIdx);
 extern void G3D_UTIL_RemoveUnit(struct G3dUtil *util, u32 unitId);
 extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, int unitId);
-extern struct G3dObject *func_02048A18(struct G3dUtil *util, int objIdx);
-extern u16 func_02048A00(struct G3dUtil *util, int unitId);
+extern struct G3dObject *G3D_UTIL_GetObject(struct G3dUtil *util, int objIdx);
+extern u16 G3D_UTIL_GetUnitObjCount(struct G3dUtil *util, int unitId);
 extern int G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, G3dObjectStatus *status);
 extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, G3dObjectStatus *status);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, fx32 step);
@@ -229,7 +229,7 @@ struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *cnt, u32 unitIdx, int
         return 0;
     }
     firstObjIdx = G3D_UTIL_GetUnitObjIdx(cnt->util, cnt->units[unitIdx].unitId);
-    return func_02048A18(cnt->util, (u16)(firstObjIdx + modelIdx));
+    return G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
 }
 
 /*
@@ -246,10 +246,10 @@ void FLD_EXP_OBJ_Draw(FldExpObjCnt *cnt)
     for (unitIdx = 0; unitIdx < FLD_EXP_OBJ_UNIT_MAX; unitIdx++) {
         if (cnt->units[unitIdx].active == 1) {
             firstObjIdx = G3D_UTIL_GetUnitObjIdx(cnt->util, cnt->units[unitIdx].unitId);
-            modelCount = func_02048A00(cnt->util, cnt->units[unitIdx].unitId);
+            modelCount = G3D_UTIL_GetUnitObjCount(cnt->util, cnt->units[unitIdx].unitId);
             for (modelIdx = 0; modelIdx < modelCount; modelIdx++) {
                 if (cnt->units[unitIdx].models[modelIdx].hidden == 0) {
-                    struct G3dObject *obj = func_02048A18(cnt->util, (u16)(firstObjIdx + modelIdx));
+                    struct G3dObject *obj = G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
                     model = &cnt->units[unitIdx].models[modelIdx];
                     if (model->cullDraw != 0) {
                         G3D_SYSTEM_DrawObjectCulling(obj, &model->status);
@@ -277,7 +277,7 @@ void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *cnt)
 
     for (unitIdx = 0; unitIdx < FLD_EXP_OBJ_UNIT_MAX; unitIdx++) {
         if (cnt->units[unitIdx].active == 1) {
-            modelCount = func_02048A00(cnt->util, cnt->units[unitIdx].unitId);
+            modelCount = G3D_UTIL_GetUnitObjCount(cnt->util, cnt->units[unitIdx].unitId);
             for (modelIdx = 0; modelIdx < modelCount; modelIdx++) {
                 obj = FLD_EXP_OBJ_GetModelObject(cnt, unitIdx, modelIdx);
                 animeCount = cnt->units[unitIdx].animeSets[modelIdx].count;

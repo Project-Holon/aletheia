@@ -74,6 +74,7 @@
  *   EVENT_POKE_STATUS_CheckFlag  0x0215A4D8  thumb  ov010
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb  arm9
+ *   GAME_EVENT_GetWork  0x020124E8  thumb  arm9
  */
 #include "event_trainer_eye_types.h"
 #include "field_effect_types.h"
@@ -155,7 +156,7 @@ extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter)
 extern int FLDMMDL_GetParam(Mmdl *mmdl, int paramIndex);
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
 extern GameEvent *GAME_EVENT_Create(void *owner, void *a, GameEventFunc func, u32 workSize);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
 extern void FLDMMDL_OffMoveBitMovePause(Mmdl *mmdl);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
@@ -405,7 +406,7 @@ GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, TrainerEyeWork *first,
     TrainerEyePairWork *pair;
 
     event = GAME_EVENT_Create(owner, 0, EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
-    pair = func_020124E8(event);
+    pair = GAME_EVENT_GetWork(event);
     pair->first = first;
     pair->second = second;
     return event;

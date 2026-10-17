@@ -26,7 +26,7 @@
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
- *   func_020124E8 0x020124E8 thumb
+ *   GAME_EVENT_GetWork 0x020124E8 thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   d_02172888 0x02172888 data a1
@@ -64,7 +64,7 @@
  *   SCRCMD_WORK_GetCallMode  0x0215A5D4  thumb  ov010
  *   SCRCMD_WORK_GetCallParam  0x0215A5D8  thumb  ov010
  *   d_02170374     0x02170374  data  ov010
- *   func_02011328 0x02011328 thumb
+ *   VM_SetHook 0x02011328 thumb
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   SCRIPT_WORK_Create  0x02158E7C  thumb  ov010
  *   SCRIPT_WORK_Delete  0x02158F18  thumb  ov010
@@ -125,7 +125,7 @@ extern void *GAMESYSTEM_GetGameData(const void *p);
 extern void *GAME_DATA_GetEventWork(const void *p);
 int GFL_NET_IsSessionNull();
 extern void *GAME_EVENT_GetGameSystem(GameEvent *event);
-extern void *func_020124E8(GameEvent *event);
+extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern int GAME_EVENT_ChangeEvent();
 extern int VM_Control(ScriptVm *vm);
@@ -158,7 +158,7 @@ extern void *GAMESYSTEM_GetFieldMap(const void *p);
 extern u32 SCRCMD_WORK_GetCallMode(void *p);
 extern u32 SCRCMD_WORK_GetCallParam(void *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
-extern void func_02011328(ScriptVm *vm, ScriptHookFn hook, void *hookArg);
+extern void VM_SetHook(ScriptVm *vm, ScriptHookFn hook, void *hookArg);
 GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
 void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, int reserved);
@@ -221,7 +221,7 @@ GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved)
 {
     GameEvent *scriptEvent = SCRIPT_SYS_CreateScriptEvent(GAME_EVENT_GetGameSystem(parentEvent), reserved, scriptId, target, parentWork);
-    ScriptEventWork *eventWork = func_020124E8(scriptEvent);
+    ScriptEventWork *eventWork = GAME_EVENT_GetWork(scriptEvent);
     GAME_EVENT_CallEvent(parentEvent, scriptEvent);
     return eventWork->scriptWork;
 }
@@ -234,7 +234,7 @@ void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, int 
     GameEvent *scriptEvent;
     fieldSys = GAME_EVENT_GetGameSystem(event);
     scriptEvent = SCRIPT_SYS_CreateScriptEvent(fieldSys, reserved, scriptId, target, 0);
-    eventWork = func_020124E8(scriptEvent);
+    eventWork = GAME_EVENT_GetWork(scriptEvent);
     GAME_EVENT_ChangeEvent(event, scriptEvent);
     return ((ScriptEventWork *)eventWork)->scriptWork;
 }
@@ -389,7 +389,7 @@ int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork)
 GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork)
 {
     GameEvent *event = GAME_EVENT_Create(fieldSys, 0, SCRIPT_SYS_EventMain, 8);
-    ScriptEventWork *eventWork = func_020124E8(event);
+    ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     eventWork->scriptSys = SCRIPT_SYS_Create(4);
     eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, parentWork, 0);
     SCRIPT_WORK_SetTargetObj(eventWork->scriptWork, target);
@@ -428,7 +428,7 @@ int SCRIPT_SYS_AddScript(void *scriptWork, u16 zoneId, u16 scriptId) {
 
 void *SCRIPT_SYS_GetEventScriptWork(GameEvent *event)
 {
-    ScriptEventWork *eventWork = func_020124E8(event);
+    ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     return eventWork->scriptWork;
 }
 
@@ -438,7 +438,7 @@ ScriptSys *SCRIPT_SYS_GetFromWork(void *scriptWork)
     void *event = SCRIPT_WORK_GetEvent(scriptWork);
     if (event == 0)
         return 0;
-    return ((ScriptEventWork *)func_020124E8(event))->scriptSys;
+    return ((ScriptEventWork *)GAME_EVENT_GetWork(event))->scriptSys;
 }
 
 
@@ -732,5 +732,5 @@ int SCRIPT_SYS_CheckCommandPermit(ScriptVm *vm, void *cmdWork, void *fieldSys, u
  */
 void SCRIPT_SYS_SetCommandCheck(ScriptVm *vm) {
     void *cmdWork = SCRCMD_WORK_GetGameSystem(VM_GetUserData(vm));
-    func_02011328(vm, SCRIPT_SYS_CheckCommandPermit, cmdWork);
+    VM_SetHook(vm, SCRIPT_SYS_CheckCommandPermit, cmdWork);
 }

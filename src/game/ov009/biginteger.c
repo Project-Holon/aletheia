@@ -1,7 +1,7 @@
 /*
  * file:     biginteger.c
  * unit:     yes
- * function: count_digits, func_02163F4C, CPSi_big_add, func_02164018, func_02164078, CPSi_big_sub, func_02164160, CPSi_big_compare, func_021641FC, CPSi_big_mult, func_021642E0, CPSi_big_sqr, get48bits_1, func_02164490, func_021644A0, func_021644B4, CPSi_big_div, CPSi_big_power, CPSi_big_modinv, CPSi_big_montmult, func_02164AA8, func_02164CC4, func_02164D20
+ * function: count_digits, CPSi_big_sign, CPSi_big_add, CPSi_big_add_small, CPSi_big_negate, CPSi_big_sub, CPSi_big_sub_small, CPSi_big_compare, CPSi_big_add_part, CPSi_big_mult, CPSi_big_mult_small, CPSi_big_sqr, get48bits_1, func_02164490, func_021644A0, func_021644B4, CPSi_big_div, CPSi_big_power, CPSi_big_modinv, CPSi_big_montmult, CPSi_big_montpower, CPSi_big_from_char, CPSi_char_from_big
  * address:  0x02163F24
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   count_digits                     0x02163f24 arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021641FC  0x021641FC  arm  ov009
+ *   CPSi_big_add_part  0x021641FC  arm  ov009
  *   MI_CpuFill8                      0x02082bcc arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_021644A0  0x021644A0  arm  ov009
@@ -23,10 +23,10 @@
  *   memmove  0x02092364  arm
  *   func_021644B4  0x021644B4  arm  ov009
  *   _ll_udiv  0x0209C00C  arm
- *   func_021642E0  0x021642E0  arm  ov009
+ *   CPSi_big_mult_small  0x021642E0  arm  ov009
  *   CPSiAlloc     0x021A8280  data
  *   CPSiFree     0x021A82B0  data
- *   func_02163F4C  0x02163F4C  arm  ov009
+ *   CPSi_big_sign  0x02163F4C  arm  ov009
  *   CPSi_big_modinv     0x02164830  arm  ov009
  *   CPSi_big_mult       0x02164230  arm  ov009
  *   CPSi_big_div        0x021644D0  arm  ov009
@@ -41,14 +41,11 @@ typedef unsigned long long u64;
 typedef unsigned char  u8;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern u64 func_021644A0(u16 *s);
 extern u64 func_02164490(u16 *s);
 extern void *memmove(void *dst, const void *src, u32 n);
 extern u64 func_021644B4(u16 *s);
-extern void func_021642E0(u16 *c, u16 *a, u16 b, int digits);
-extern int func_02163F4C(unsigned short *a, int digits);
 extern void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short *n, int digits, unsigned short *tmp_var);
 extern void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 extern void CPSi_big_div(unsigned short *c, unsigned short *a, unsigned short *b, unsigned short *r, int digits, unsigned short *work);
@@ -278,7 +275,7 @@ void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	digits_b = count_digits(b, digits);
 	for (i = 0; i < digits_b; i++) {
 		for (j = 0; j < digits_a && j < digits - i; j++) {
-			func_021641FC(c, a[j] * b[i], i + j, digits);
+			CPSi_big_add_part(c, a[j] * b[i], i + j, digits);
 		}
 	}
 }
@@ -339,10 +336,10 @@ void CPSi_big_sqr(unsigned short *c, unsigned short *a, int digits)
         for (j = i + 1; j < digits_a && i + j < digits; j++) {
             tmp = a[j] * a[i];
             if (tmp <= 0x7FFF8000)
-                func_021641FC(c, tmp * 2, i + j, digits);
+                CPSi_big_add_part(c, tmp * 2, i + j, digits);
             else {
-                func_021641FC(c, tmp, i + j, digits);
-                func_021641FC(c, tmp, i + j, digits);
+                CPSi_big_add_part(c, tmp, i + j, digits);
+                CPSi_big_add_part(c, tmp, i + j, digits);
             }
         }
     }
@@ -439,7 +436,7 @@ void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
                 if (guess > 0xffff)
                     guess = 0xffff;
                 while (1) {
-                    func_021642E0(work, b, (u16)guess, digits);
+                    CPSi_big_mult_small(work, b, (u16)guess, digits);
                     if (CPSi_big_compare(cca, work, digits) >= 0)
                         break;
                     guess--;
@@ -529,7 +526,7 @@ static void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short
     MI_CpuCopy8(a, tmp_var, digits * 2);
     MI_CpuCopy8(n, t, digits * 2);
     u[0] = 1;
-    while (func_02163F4C(tmp_var, digits) > 0) {
+    while (CPSi_big_sign(tmp_var, digits) > 0) {
         CPSi_big_div(q, t, tmp_var, w, digits, divwork);
         MI_CpuCopy8(tmp_var, t, digits * 2);
         MI_CpuCopy8(w, tmp_var, digits * 2);

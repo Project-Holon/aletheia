@@ -79,7 +79,7 @@
  *   gpiProcessPeer  0x0218EE48  arm  ov009
  *   gGpiPeerDebugDisconnected  0x021A4F70  data
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
- *   func_02184144  0x02184144  arm  ov009
+ *   ArrayNew  0x02184144  arm  ov009
  *   gpiAddOperation  0x0218E114  arm
  *   gpiSendGetInfo   0x0218D40C  arm
  *   gsUdpEngineStartTalkingToPeer  0x021810cc  arm   ov009
@@ -166,7 +166,7 @@ extern void gpiDestroyPeer(void **connection, GPIPeer *peer);
 extern int gsUdpEngineThink(void);
 extern int gpiProcessPeer(void **connection, GPIPeer *peer);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
-extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
+extern void *ArrayNew(int elemSize, int numElems, void (*freeFn)(void *));
 extern int gpiAddOperation(void **connection, int type, void *data,
                            GPIOperation **op, int blocking,
                            void (*callback)(void **, void *, void *),
@@ -839,7 +839,7 @@ GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate)
     peer->profile = profileid;
     peer->timeout = gsiTimeNitro(0) + 10000;
     peer->pnext = iconnection->peerList;
-    peer->messages = func_02184144(0x18, 0, (void (*)(void *))gpiFreeMessage);
+    peer->messages = ArrayNew(0x18, 0, (void (*)(void *))gpiFreeMessage);
     iconnection->peerList = peer;
     peer->firstOp = 0;
     peer->lastOp = 0;

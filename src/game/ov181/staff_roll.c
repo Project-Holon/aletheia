@@ -57,7 +57,7 @@
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  *   BG_SYS_Update 0x020419E4 arm
@@ -86,7 +86,7 @@
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_UTIL_Create 0x02047CFC arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
@@ -121,7 +121,7 @@
  *   WIPE_SYS_Start 0x0202208C thumb
  *   KEY_GetCont 0x0203630C arm
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   d_021BAB40 0x021BAB40 data a2
@@ -289,7 +289,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(u8 *p);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void STAFF_ROLL_FlushWindows(char *),BG_SYS_Update(void);
 extern void *GFL_USE_AddMainTask(void *,void *,int);
@@ -317,7 +317,7 @@ extern void BMP_WIN_Exit(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 extern struct Util *G3D_UTIL_Create(u16,u16,u16);
 extern u16 G3D_UTIL_AddUnit(struct Util *,const struct Setup *);
-extern u32 func_02048A18(u8 *,int);
+extern u32 G3D_UTIL_GetObject(u8 *,int);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *,u32);
@@ -344,7 +344,7 @@ extern void func_02048B44(struct Light *, const Vec *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 KEY_GetCont(void);
 extern void *BMP_GetPixels(const struct Bmp *);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *, short, short, void *, void *, unsigned short);
 extern void G2x_SetBlendAlpha_(unsigned, int, int, int, int);
@@ -636,8 +636,8 @@ void STAFF_ROLL_LoadGraphics(void)
     ARC_UTIL_UploadBgPaletteFromHandle(p, 1, 3, 0, 0, 1, 0x8e);
     ARC_TOOL_DeleteHandle(p);
     p = ARC_TOOL_CreateHandle(0xdc, 0x808e);
-    func_02049B68(p, 0xc, 0, 0x1e0, 0x20, 0x8e);
-    func_02049B68(p, 0xc, 4, 0x1e0, 0x20, 0x8e);
+    ARC_UTIL_UploadPaletteFromHandleWhole(p, 0xc, 0, 0x1e0, 0x20, 0x8e);
+    ARC_UTIL_UploadPaletteFromHandleWhole(p, 0xc, 4, 0x1e0, 0x20, 0x8e);
     ARC_TOOL_DeleteHandle(p);
     BG_SYS_LoadPlttEntry(1, 0);
     BG_SYS_LoadPlttEntry(5, 0);
@@ -651,10 +651,10 @@ void STAFF_ROLL_ReloadGraphics(void *unused, int mode)
     unsigned char *h;
     if (mode == 1) {
         h = ARC_TOOL_CreateHandle(0x1A, 0x808E);
-        func_02049B68(h, 2, 0, 0, 0, 0x8E);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h, 2, 0, 0, 0, 0x8E);
     } else {
         h = ARC_TOOL_CreateHandle(0xDC, 0x808E);
-        func_02049B68(h, 0xC, 0, 0x1E0, 0x20, 0x8E);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h, 0xC, 0, 0x1E0, 0x20, 0x8E);
     }
     ARC_TOOL_DeleteHandle(h);
     BG_SYS_LoadPlttEntry(1, 0);
@@ -850,7 +850,7 @@ void STAFF_ROLL_Init3d(char *p) {
     G3D_SYSTEM_Init(0,2,0,2,4096,142,0);
     *(struct Util **)(p+8)=G3D_UTIL_Create(3,1,142);
     *(u16 *)(p+0x18)=G3D_UTIL_AddUnit(*(struct Util **)(p+8),&d_021BAB50);
-    *(u32 *)(p+0x20)=func_02048A18(*(u8 **)(p+8),*(u16 *)(p+0x18));
+    *(u32 *)(p+0x20)=G3D_UTIL_GetObject(*(u8 **)(p+8),*(u16 *)(p+0x18));
     *(u32 *)(p+0x24)=G3D_SYSTEM_GetObjectAnimeCount(*(int **)(p+0x20));
     for(i=0;i<*(u32 *)(p+0x24);i++) G3D_SYSTEM_EnableObjectAnime(*(struct G3dSys **)(p+0x20),(u16)i);
     *(struct LightSlot **)(p+0x10)=G3D_LIGHT_CreateSlots(&d_021BAB38,142);
@@ -1080,7 +1080,7 @@ void STAFF_ROLL_PrintText(char *p, unsigned char *q, void *s, int y)
 {
     int x;
     unsigned w;
-    func_02045CAC(((StaffRoll *)p)->msgBank, ((StaffRollEntry *)q)->text, ((StaffRoll *)p)->textBuf);
+    MSGDATA_ReadString(((StaffRoll *)p)->msgBank, ((StaffRollEntry *)q)->text, ((StaffRoll *)p)->textBuf);
     if (((StaffRollEntry *)q)->align == 0) {
         x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs;
     } else if (((StaffRollEntry *)q)->align == 1) {

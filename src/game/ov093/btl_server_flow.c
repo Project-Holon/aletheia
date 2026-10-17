@@ -24,8 +24,8 @@
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
- *   func_02007F1C 0x02007F1C thumb
- *   func_02007E50 0x02007E50 thumb
+ *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
+ *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   BEACON_GetPoints  0x0200C274  thumb
@@ -51,8 +51,8 @@
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
  *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
- *   func_02007B50 0x02007B50 thumb
- *   func_02007C70 0x02007C70 thumb
+ *   PERAPVOICE_IsRecorded 0x02007B50 thumb
+ *   PERAPVOICE_GetVoiceKind 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   gBtlPosTables  0x021EFD70  data  ov093
@@ -63,8 +63,8 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008510  0x02008510  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -169,7 +169,7 @@
  *   POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
  *   BTL_POSPOKE_SearchPosByPokeId 0x0689D5C8 thumb ov095
- *   func_021D82FC  0x021D82FC  thumb  ov093
+ *   BTL_ACTION_SetFightTarget  0x021D82FC  thumb  ov093
  *   BTL_POKESET_GetCountMax 0x0689CD40 thumb ov095
  *   BTL_POKESET_GetCount 0x0689CD38 thumb ov095
  *   BTL_POKESET_Get 0x0689CC70 thumb ov095
@@ -359,7 +359,7 @@
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
  *   HAND_SIDE_GetStackCount 0x06898CE0 thumb ov095
- *   func_068982AC  0x068982AC  thumb
+ *   BTL_EVENT_IsFactorKeyRegistered  0x068982AC  thumb
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
  *   BTL_SICK_BuildAddMessage 0x0689C464 thumb ov095
@@ -390,7 +390,7 @@
  *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
  *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
  *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
- *   func_02008564 0x02008564 thumb arm9
+ *   MYSTATUS_GetGender 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -509,7 +509,7 @@
  *   BTLV_CORE_StartMoveMenuForEntry 0x021E9808 thumb ov093
  *   BTLV_CORE_AbortMoveMenu 0x021E98AC thumb ov093
  *   BTLV_CORE_PollMoveMenu 0x021E98B4 thumb ov093
- *   func_021D832C 0x021D832C thumb ov093
+ *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
  *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
  *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
  *   BTLV_CORE_StartTargetMenu 0x021E98BC thumb ov093
@@ -536,7 +536,7 @@
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
  *   BTLV_CORE_StartYesNoMenu 0x021EABC4 thumb ov093
  *   BTLV_CORE_PollYesNoMenu 0x021EAC54 thumb ov093
- *   func_021D8414 0x021D8414 thumb ov093
+ *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
  *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
  *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
@@ -1524,7 +1524,7 @@ extern int POKE_TOOL_IsOwnedByPlayer(void *, int);
 extern u8 BTL_MAIN_GetBadgeCount(u8 **p);
 extern void BTL_EVENT_SetVarOnce(int key, u32 val);
 extern u8 BTL_POSPOKE_SearchPosByPokeId(BtlPosPoke *, int);
-extern void func_021D82FC(Action *p, int sub);
+extern void BTL_ACTION_SetFightTarget(Action *p, int sub);
 extern int BTL_POKESET_GetCountMax(void *);
 extern u32 BTL_POKESET_GetCount(void *);
 extern void *BTL_POKESET_Get(void *, u32);
@@ -1703,7 +1703,7 @@ unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
 extern unsigned int SHINKA_CHECK_GetRowParam(void *, unsigned int, unsigned int, unsigned int);
 int HAND_SIDE_IsActive(int a, int b);
 extern int HAND_SIDE_GetStackCount(unsigned int, int);
-extern int func_068982AC(int);
+extern int BTL_EVENT_IsFactorKeyRegistered(int);
 extern u16 BTL_POKEPARAM_GetWeight(u8 *p);
 extern int BTL_POKEPARAM_IsMovePPFull(u8 *p, int i, int s);
 extern int BTL_SICK_BuildAddMessage(int, union Slot, u8 *, unsigned long, struct Msg *);
@@ -1734,7 +1734,7 @@ extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
 extern u32 BTL_CALC_CalcDefeatExp(void *a);
 extern unsigned char BTL_EVENT_GetClientPartyCount(unsigned char *p);
 extern u8 BTL_EVENT_GetClientPartySlotId(u8 *p, u32 i);
-extern u8 func_02008564(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetGender(const struct PlayerStatus *obj);
 extern u32 GPOWER_ApplyExpRate(u32);
 extern int FX_Sqrt(int x);
 extern u32 BTL_POKEPARAM_GetMaxLevelExp(u8 *p);
@@ -3964,7 +3964,7 @@ int BTL_SERVER_FLOW_ForceExecuteMoveAction(BtlServerFlow *flow, u8 pokeId, u32 t
         if (e->done == 0) {
             if (BTL_SERVER_FLOW_GetEncoredMove(e->pokeParam, &e->action)) return 0;
             if (BTL_CALC_ActionGetKind(&e->action) == 6) return 0;
-            func_021D82FC(&e->action, BTL_POSPOKE_SearchPosByPokeId(&flow->posPoke, targetPokeId));
+            BTL_ACTION_SetFightTarget(&e->action, BTL_POSPOKE_SearchPosByPokeId(&flow->posPoke, targetPokeId));
             BTL_SERVER_FLOW_ProcAction(flow, e);
             return 1;
         }
@@ -16153,7 +16153,7 @@ int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k) { retu
  */
 int BTL_SERVER_FLOW_CheckFieldEffectActive(int a, int b, int c)
 {
-    return func_068982AC(c);
+    return BTL_EVENT_IsFactorKeyRegistered(c);
 }
 
 
@@ -16804,7 +16804,7 @@ void BTL_SERVER_FLOW_SetMsgRecordSe(u8 *record, u32 seId)
  *
  * 2026-10-05 (D9 lane 02): unchanged. 0x021CC9AC is a 176-byte packer, not a tiny leaf, and ov093 below 0x021D4000 is pengy's, so no witness filed. Needs the integrator seed.
  * 2026-10-05 (D9r lane 14): callee 0x021CC9AC is now matched EXACT as
- * src/matched/ov/ov093_func_021CC9AC.c (user-approved). Re-verified MATCH: the
+ * src/matched/ov/BTL_SERVER_FLOW_AllocHandExRecord.c (user-approved). Re-verified MATCH: the
  * relocation still waits on that file's shard (integrator manifest), then this
  * should verify EXACT with no source change.
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021CC9AC is a real 176-byte Thumb bitfield packer (bitfield insert into a table with 0x3b-entry byte lookup), not a veneer and not tiny; not filed in this lane. Needs bottom-up match or integrator seed.
@@ -19457,7 +19457,7 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(BtlServerFlow *flow, u8 *party, u32 defe
       if (POKE_TOOL_IsOwnedByPlayer(v28, (u32)v24) == 0)
       {
         save = (void *) POKE_TOOL_GetPartyValue(v28, 12, 0);
-        if ((u32) save != func_02008564((const struct PlayerStatus *)v24))
+        if ((u32) save != MYSTATUS_GetGender((const struct PlayerStatus *)v24))
           k = 0x1b33;
         else
           k = 0x1800;

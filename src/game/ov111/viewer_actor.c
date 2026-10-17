@@ -33,7 +33,7 @@
  *   G3D_SYSTEM_Exit  0x02046788  arm
  *   G3D_UTIL_Create  0x02047CFC  arm
  *   G3D_UTIL_AddUnit  0x02047E88  arm
- *   func_02048A18  0x02048A18  arm
+ *   G3D_UTIL_GetObject  0x02048A18  arm
  *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
@@ -46,7 +46,7 @@
  *   G3D_UTIL_Delete  0x02047E54  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   func_02047828  0x02047828  arm
+ *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   func_02047964  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
@@ -75,7 +75,7 @@
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   d_021C8894  0x021C8894  data
  *   STRBUF_Create  0x020457B0  arm
@@ -108,8 +108,8 @@
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   _ll_sdiv  0x0209BE5C  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
- *   func_02048A0C  0x02048A0C  arm
- *   func_02047250  0x02047250  arm
+ *   G3D_UTIL_GetResource  0x02048A0C  arm
+ *   DWCi_LSTlPopFront  0x02047250  arm
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   d_021C8874  0x021C8874  data
  */
@@ -221,7 +221,7 @@ extern void func_02048C4C(void *p);
 extern void G3D_SYSTEM_Exit(void);
 extern void *G3D_UTIL_Create(int a, int b, int heap);
 extern u16 G3D_UTIL_AddUnit(void *p, const void *q);
-extern u32 func_02048A18(u8 *a0, int i);
+extern u32 G3D_UTIL_GetObject(u8 *a0, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
@@ -230,7 +230,7 @@ extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
 extern void MTX_Identity33_(MtxFx33 *m);
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 extern void func_02047964(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
@@ -257,7 +257,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern ViewerBadgeDate TRCARD_SIGN_GetBadgeDate(void *obj, int i);
@@ -285,8 +285,8 @@ extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(const struct Sub020089A8Obj *obj);
 extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
-extern u32 func_02048A0C(u8 *a0, int i);
-extern ViewerTexInfo *func_02047250(void *p);
+extern u32 G3D_UTIL_GetResource(u8 *a0, int i);
+extern ViewerTexInfo *DWCi_LSTlPopFront(void *p);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p);
 void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p);
@@ -424,7 +424,7 @@ void VIEWER_ACTOR_CreateModel(ViewerTextWork *p)
 
     p->g3dUtil = G3D_UTIL_Create(10, 10, 0x27);
     p->g3dUnit = G3D_UTIL_AddUnit(p->g3dUtil, d_021C8834);
-    mdl = (void *)func_02048A18(p->g3dUtil, p->g3dUnit);
+    mdl = (void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
     for (i = 0; i < n; i++) {
         G3D_SYSTEM_EnableObjectAnime(mdl, (u16)i);
@@ -470,15 +470,15 @@ void VIEWER_ACTOR_DrawModel(ViewerTextWork *p)
     t.trans.z = 0;
     MTX_Identity33_(&t.rot);
     G3D_CAMERA_Reset(p->camera);
-    mdl = (void *)func_02048A18(p->g3dUtil, p->g3dUnit);
+    mdl = (void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
-    func_02047828(mdl, 0, &out);
+    G3D_SYSTEM_GetObjectAnimeFrame(mdl, 0, &out);
     for (; i < n; i++) {
         G3D_SYSTEM_SetObjectAnimeFrame(mdl, (u16)i, &p->angle);
     }
     func_02047964();
     G3D_SYSTEM_ApplyLookAt();
-    G3D_SYSTEM_DrawObject((void *)func_02048A18(p->g3dUtil, p->g3dUnit), (struct Arg *)(&t));
+    G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit), (struct Arg *)(&t));
     G3D_SYSTEM_DrawEnd();
     d_021C8E80.value += d_021C8E80.step;
 }
@@ -652,7 +652,7 @@ void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col)
 {
     void *v;
 
-    func_02045CAC(p->msgBank, x + d_021C8894[k], (void *)col);
+    MSGDATA_ReadString(p->msgBank, x + d_021C8894[k], (void *)col);
     v = p->printQue;
     PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(x << 5), (int)col, (u32)p->font, (int)0x44F);
     p->queDirty = 1;
@@ -682,13 +682,13 @@ void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
         WORDSET_SetSlotNumber(p->wordSet, 0, r.year + 0x7D0, 4, 0, 1);
         WORDSET_SetSlotNumber(p->wordSet, 1, r.month, 2, 0, 1);
         WORDSET_SetSlotNumber(p->wordSet, 2, r.day, 2, 0, 1);
-        func_02045CAC(p->msgBank, idx * 3 + 0x58, str);
+        MSGDATA_ReadString(p->msgBank, idx * 3 + 0x58, str);
         WORDSET_CopyTaggedText(p->wordSet, p->strbuf, str);
         v = p->printQue;
         PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)0, (u32)p->strbuf, (u32)p->font, (int)0x44F);
         p->queDirty = 1;
         for (i = 1; i < 3; i++) {
-            func_02045CAC(p->msgBank, i + (idx * 3 + 0x58), str);
+            MSGDATA_ReadString(p->msgBank, i + (idx * 3 + 0x58), str);
             v = p->printQue;
             PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(i << 5), (u32)str, (u32)p->font, (int)0x44F);
             p->queDirty = 1;
@@ -1174,7 +1174,7 @@ void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k)
         k = 2;
     }
     dst = p->res170[k]->data;
-    tex = func_02047250((void *)func_02048A0C(p->g3dUtil, 0));
+    tex = DWCi_LSTlPopFront((void *)G3D_UTIL_GetResource(p->g3dUtil, 0));
     e = TexGetPltt(tex, idx);
     NNS_GfdRegisterNewVramTransferTask((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
 }

@@ -41,7 +41,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
- *   func_02035630  0x02035630  arm
+ *   UI_GetFrameRate  0x02035630  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   BG_SYS_Get  0x020416D4  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
@@ -230,7 +230,7 @@ extern struct Actor *CLACT_CreateActor(void *a, u32 b, u32 c, u32 d,
 
 extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
 
-extern u8 func_02035630(void);
+extern u8 UI_GetFrameRate(void);
 
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 
@@ -700,7 +700,7 @@ void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res)
  *
  * `one` exists because the original materialises 1 twice, once as the
  * r1 argument to CLACT_SetActorAutoAnim and once into r4 to survive the
- * func_02035630 call and become `lsls r1, r4, #0xd`; writing the shift
+ * UI_GetFrameRate call and become `lsls r1, r4, #0xd`; writing the shift
  * as a bare `0x2000` costs a pool word instead.
  *
  * The follower at 0x0202E040 is reached across two bytes of linker fill
@@ -720,7 +720,7 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
     CLACT_SetActorDrawEnable(actor, 0);
     one = 1;
     CLACT_SetActorAutoAnim(actor, 1);
-    if (func_02035630() == 0x1e) {
+    if (UI_GetFrameRate() == 0x1e) {
         CLACT_SetActorAutoAnimSpeed(actor, one << 0xd);
     }
     return actor;

@@ -18,7 +18,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
@@ -105,7 +105,7 @@ extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void func_02049B68(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
@@ -211,7 +211,7 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
         }
     }
     GFL_HEAP_Free(file);
-    func_02049B68(arc, 0xa3, menu->plttTarget, menu->yesPlttSlot << 5, 0x40, menu->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 0xa3, menu->plttTarget, menu->yesPlttSlot << 5, 0x40, menu->heapId);
     menu->buttonTileAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, 0xa4, menu->buttonBgLayer, 0x1a0, 0, menu->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0xa5, menu->buttonBgLayer, (u16)menu->buttonTileAlloc, 0x600, 0, menu->heapId);
     BG_SYS_FillTileMap(menu->buttonBgLayer, 0, 0, 0x20, 0xb, menu->yesPlttSlot);

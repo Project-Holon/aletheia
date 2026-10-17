@@ -57,7 +57,7 @@
  *   NHTTP_RAP_RecordList_GetCount  0x021B99F0  thumb  ov114
  *   NHTTP_RAP_RecordList_GetValue  0x021B99F4  thumb  ov114
  *   NHTTP_RAP_RecordList_GetRecord  0x021B9A14  thumb  ov114
- *   func_0200853C  0x0200853C  thumb
+ *   MYSTATUS_GetProfileId  0x0200853C  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   BATTLE_REC_GetModeLayout  0x0200B784  thumb
  *   BATTLE_REC_GetBody  0x0200B91C  thumb
@@ -138,7 +138,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u32 func_0200853C(const struct MyStatus *status);
+extern u32 MYSTATUS_GetProfileId(const struct MyStatus *status);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
 extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
@@ -436,7 +436,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
             video = GDS_RAP_GetVideoWork();
             if (work->session != 0)
                 SAVEDATA_PanicFail(sGdsEmptyString, ret, sGdsEmptyString);
-            work->session = NHTTP_RAP_Create((u16)work->heapId, func_0200853C(GAME_DATA_GetMyStatus(work->gameData)), work->profileSource);
+            work->session = NHTTP_RAP_Create((u16)work->heapId, MYSTATUS_GetProfileId(GAME_DATA_GetMyStatus(work->gameData)), work->profileSource);
             NHTTP_RAP_AllocPostData(work->session, (u16)work->heapId, 0x540, 3);
             BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
             work->memberCount = 0;

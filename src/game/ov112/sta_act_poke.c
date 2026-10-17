@@ -32,7 +32,7 @@
  *   MUSICAL_MCSS_SetRenderFrame 0x021F5368 thumb ov112
  *   MUSICAL_MCSS_GetRenderRot 0x021F535C thumb ov112
  *   MUSICAL_MCSS_GetRenderSize 0x021F5424 thumb ov112
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   table 0x020A1B38 data a2
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
  *   MUSICAL_MCSS_GetFlagB 0x021F4B30 thumb ov112
@@ -220,7 +220,7 @@ extern void MUSICAL_MCSS_GetRenderRot(int *p, int *q);
 
 extern void MUSICAL_MCSS_GetRenderSize(int,int);
 
-extern u32 func_020056EC(u32);
+extern u32 GFL_USE_GetRandom(u32);
 
 extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *, int);
 
@@ -458,10 +458,10 @@ void STA_ACT_LIGHT_CalcSpriteXform(u8 *p,u8 *q)
     MUSICAL_MCSS_GetRenderRot(*(int * *)&((Elem *)q)->renderElem,(int *)(&scale));
     ((Elem *)q)->f04=0;
     if(((Elem *)q)->f4C==1) {
-        ((Elem *)q)->f50+=(u16)func_020056EC(2);
+        ((Elem *)q)->f50+=(u16)GFL_USE_GetRandom(2);
         if(((Elem *)q)->f50>120) MUSICAL_MCSS_GetRenderSize(*(int *)&((Elem *)q)->renderElem,1);
         else MUSICAL_MCSS_GetRenderSize(*(int *)&((Elem *)q)->renderElem,0);
-        if(((Elem *)q)->f50>125) ((Elem *)q)->f50=func_020056EC(120)/3U;
+        if(((Elem *)q)->f50>125) ((Elem *)q)->f50=GFL_USE_GetRandom(120)/3U;
     }
 }
 
@@ -630,7 +630,7 @@ void STA_ACT_LIGHT_AddPokemonElem(u8 *p,u8 *input)
     ((Elem *)q)->billboardIdx=BILLBOARD_AddElem(((BillboardImage *)p)->board,((BillboardImage *)p)->image,1024,768,(Vec3 *)(q+24),30,0,0);
     flag=1;
     BILLBOARD_SetElemVisible(((BillboardImage *)p)->board,((Elem *)q)->billboardIdx,&flag);
-    ((Elem *)q)->f50=func_020056EC(150)>>1;
+    ((Elem *)q)->f50=GFL_USE_GetRandom(150)>>1;
     ((Elem *)q)->f4C=1;
 }
 

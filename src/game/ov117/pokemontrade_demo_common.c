@@ -21,7 +21,7 @@
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
- *   func_02008530  0x02008530  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
@@ -92,7 +92,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
@@ -200,7 +200,7 @@ void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 k
     } else {
         *outFlag = 0;
     }
-    if (monId != func_02008530((const struct Sub0200852CObj *)key)) {
+    if (monId != MYSTATUS_GetId((const struct Sub0200852CObj *)key)) {
         *outSame = 0;
     } else {
         *outSame = 1;

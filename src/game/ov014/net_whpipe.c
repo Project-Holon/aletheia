@@ -53,7 +53,7 @@
  *   DWCi_MOV_WH_SetUserGameInfo  0x02178E28  thumb  ov014
  *   g_ChildConnectModes     0x02179680  data  ov014  a2
  *   g_SearchChannels     0x02179678  data  a1
- *   func_020056EC  0x020056EC  thumb
+ *   GFL_USE_GetRandom  0x020056EC  thumb
  *   DWCi_MOV_WH_ChildConnectAuto 0x02178524 thumb ov014
  *   WIH_SetScanTarget 0x02178714 thumb ov014
  *   DWCi_MOV_WH_EndScan 0x021788FC thumb ov014
@@ -104,7 +104,7 @@ extern u16 WIH_GetBitmap(void);
 extern unsigned long WIH_GetBeaconSendCount(void *unused);
 void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 void DWCi_MOV_WH_SetUserGameInfo(void *p, u32 n);
-u32 func_020056EC(u32 n);
+u32 GFL_USE_GetRandom(u32 n);
 /* The bssid argument is const: that lets the ldrh of b[1] schedule above the strh of b[2] (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md). */
 int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c);
 void WIH_SetScanTarget(u16 value, void *src);
@@ -1056,12 +1056,12 @@ void NET_WHPIPE_TaskParentSearchStart(WhPipeWork *work)
         channelTable[0] = g_SearchChannels[0];
         channelTable[1] = g_SearchChannels[1];
         channelTable[2] = g_SearchChannels[2];
-        work->searchChannelIndex = func_020056EC(3);
+        work->searchChannelIndex = GFL_USE_GetRandom(3);
         if (work->searchChannelIndex >= 3)
             work->searchChannelIndex = 0;
         NET_WHPIPE_PublishBeacon();
         if (WIH_ParentConnect(0, work->tgid, channelTable[work->searchChannelIndex], 1) != 0) {
-            work->searchTimer = func_020056EC(0x98) + 0x3C;
+            work->searchTimer = GFL_USE_GetRandom(0x98) + 0x3C;
             NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskParentSearchWait);
         }
     }
@@ -1075,7 +1075,7 @@ void NET_WHPIPE_TaskChildScanStart(WhPipeWork *work)
 {
     if (WIH_GetSysState() == 1) {
         if (DWCi_MOV_WH_StartScan((u32)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0) {
-            work->searchTimer = func_020056EC(0x28) + 0x3C;
+            work->searchTimer = GFL_USE_GetRandom(0x28) + 0x3C;
             NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskChildScanWait);
         }
     }

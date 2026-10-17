@@ -21,12 +21,12 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BD634        0x021BD634  thumb
+ *   ZKND_TBAR_CreateButton        0x021BD634  thumb
  *   data_021C8DD8        0x021C8DD8  data
  *   CLACT_AddActorSurfacePos        0x0204B404  arm
  *   APP_ICON_GetArchiveId        0x020275E4  thumb
  *   APP_ICON_GetStatusAnimFileId        0x02027624  thumb
- *   func_02049B68        0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole        0x02049B68  arm
  *   APP_ICON_GetStatusFrameFileId        0x02027628  thumb
  *   APP_ICON_GetStatusDataFileId        0x0202762C  thumb
  *   APP_ICON_GetMoveKindPaletteFileId        0x02027614  thumb
@@ -98,9 +98,6 @@ extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void func_021BD634(struct Ov208Rec *p, u32 owner, struct Ov208Bg *res,
-                          struct Ov208ActDesc *desc, u32 prio, u32 mode);
-
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 extern u32  APP_ICON_GetArchiveId(void);
@@ -109,7 +106,7 @@ extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern u32  APP_ICON_GetStatusAnimFileId(void);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern u32  APP_ICON_GetStatusFrameFileId(void);
 
@@ -275,7 +272,7 @@ struct Ov208Mgr *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u16 heap)
     ZKND_TBAR_LoadButtonResources(&set->bg, (u8)list->channel, objChannel, palOfs, list->kind,
                         (u8)list->pal, (u8)list->objPal, list->skip, heap);
     for (i = 0; i < set->count; i++)
-        func_021BD634(&set->recs[i], list->owner, &set->bg, &list->descs[i], objChannel, heap);
+        ZKND_TBAR_CreateButton(&set->recs[i], list->owner, (const int *)&set->bg, &list->descs[i], objChannel, heap);
     return set;
 }
 
@@ -442,7 +439,7 @@ void ZKND_TBAR_LoadButtonResources(struct Ov208Bg *p, u32 channel, u32 objChanne
     p->fc = channel;
     h = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), heap);
     if (skip == 0) {
-        func_02049B68(h, APP_ICON_GetStatusAnimFileId(), palOfs, pal << 5, 0x20, heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(h, APP_ICON_GetStatusAnimFileId(), palOfs, pal << 5, 0x20, heap);
         p->f10 = ARC_UTIL_RegisterObjCharFromHandle(h, APP_ICON_GetStatusFrameFileId(), p->fc, 0x800, 0, heap);
         ZKND_TBAR_LoadCellArchive(h, APP_ICON_GetStatusDataFileId(), p->fc, (u16)p->f10, 0, 0x15, 0x20, 0x18,
                             0, 0x15, 0x20, 3, pal, 0, heap);

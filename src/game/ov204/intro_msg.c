@@ -48,7 +48,7 @@
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   KEY_GetCont  0x0203630C  arm
@@ -61,11 +61,11 @@
  *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
- *   func_02020D10 0x02020D10 thumb
+ *   BMP_MENULIST_SetCancelDisabled 0x02020D10 thumb
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   BMP_MENULIST_Main 0x020200CC thumb
- *   func_020056BC 0x020056BC thumb
+ *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   TIME_ICON_Start 0x0202EF98 thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
@@ -227,7 +227,7 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern void GF_FONT_SetTextColor(unsigned int, unsigned int, unsigned int);
 
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
@@ -261,7 +261,7 @@ extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void func_02020D10(u8 *p, u32 v);
+extern void BMP_MENULIST_SetCancelDisabled(u8 *p, u32 v);
 
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 
@@ -269,7 +269,7 @@ extern u32 BMP_MENUWORK_Delete(void *p);
 
 extern int BMP_MENULIST_Main(struct Obj *);
 
-extern u32 func_020056BC(void);
+extern u32 GFL_USE_GetMainTaskList(void);
 
 extern void TIME_ICON_Start(u8 *,u32,u32,u8,u8);
 
@@ -377,7 +377,7 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
     void *desc = work->textWin;
     BMP_Clear(BMP_WIN_GetBmp(desc), 15);
     GF_FONT_SetTextColor(1, 2, 15);
-    func_02045CAC(work->msgBank, (unsigned int)a, work->strbuf1);
+    MSGDATA_ReadString(work->msgBank, (unsigned int)a, work->strbuf1);
     WORDSET_CopyTaggedText(work->wordSet, work->strbuf2, work->strbuf1);
     work->printStream = PRINTSYS_PrintStream((unsigned int)desc, 4, 0, (unsigned int)work->strbuf2, (unsigned int)work->font, value, (unsigned int)work->tcbl, 0xFFFF, work->heapId, 15);
     if (flag == 0)
@@ -431,10 +431,10 @@ int *INTRO_MSG_InitMenuDesc(char *p, int v)
 }
 
 /*
- * Owner unit_02045C44.c omits func_02045CAC from function:; singleton TU
+ * Owner unit_02045C44.c omits MSGDATA_ReadString from function:; singleton TU
  * --suggest-split leaves this caller out. the integrator owns that unit.
  * prior fixed-flag ARM9-45CAC.log, using the owner's unit declarations:
- * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
+ * void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest) {
  *   u32 size; struct MsgEntry *e;
  *   if (index >= bank->file->count) { STRBUF_Clear(dest); return; }
  *   MSGDATA_RefreshLanguage(bank);
@@ -478,7 +478,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     MI_CpuFill8(state,0,12);
     *(void **)(state+4)=BMP_MENUWORK_Create(count,heap);
     for(i=0;i<count;i++){
-        func_02045CAC(work->msgBank,*(u32 *)((char *)entries+i*8),(void *)work->strbuf1);
+        MSGDATA_ReadString(work->msgBank,*(u32 *)((char *)entries+i*8),(void *)work->strbuf1);
         BMP_MENUWORK_AddStrItem((struct Slot *)((char *)*(void **)(state+4)+i*8),(u32)work->strbuf1,*(u32 *)((char *)entries+i*8+4),heap);
     }
     MI_CpuFill8(&config,0,52);
@@ -492,8 +492,8 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
     BMP_MENUWORK_DrawWindow(obj,1,7,9);
-    if(flag)func_02020D10(*(void **)state,0);
-    else func_02020D10(*(void **)state,1);
+    if(flag)BMP_MENULIST_SetCancelDisabled(*(void **)state,0);
+    else BMP_MENULIST_SetCancelDisabled(*(void **)state,1);
 }
 
 /*
@@ -545,7 +545,7 @@ int INTRO_MSG_GetWordSet(u8 *p)
 void INTRO_MSG_StartTimeIcon(u8 *p)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    TIME_ICON_Start((u8 *)work->timeIcon,func_020056BC(),(u32)work->textWin,15,16);
+    TIME_ICON_Start((u8 *)work->timeIcon,GFL_USE_GetMainTaskList(),(u32)work->textWin,15,16);
 }
 
 void INTRO_MSG_DeleteTimeIcon(u8 *p)

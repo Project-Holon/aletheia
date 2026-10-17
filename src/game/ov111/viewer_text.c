@@ -39,7 +39,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
- *   func_020089F4  0x020089F4  thumb
+ *   TRCARD_SIGN_GetSeenBefore  0x020089F4  thumb
  *   CURSOR_MOVE_GetTableKind  0x02025C9C  thumb
  *   d_021C876C     0x021C876C  data  a1
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
@@ -48,8 +48,8 @@
  *   WORDSET_FormatNumber  0x0201F35C  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   func_0200864C  0x0200864C  thumb
- *   func_02008650  0x02008650  thumb
+ *   PLAYTIME_GetHours  0x0200864C  thumb
+ *   PLAYTIME_GetMinutes  0x02008650  thumb
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -132,13 +132,13 @@
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm
- *   func_02049B68  0x02049B68  arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_MENUWORK_LoadPltt  0x0201F57C  thumb
  *   BMP_MENUWORK_LoadChar  0x0201F554  thumb
- *   func_02049F78  0x02049F78  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "viewer_types.h"
@@ -220,15 +220,15 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
-extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
+extern u8 TRCARD_SIGN_GetSeenBefore(const struct Sub020089A8Obj *obj);
 extern u32 CURSOR_MOVE_GetTableKind(u32 x);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void WORDSET_FormatNumber(void *ctx, int n, u32 kind, u32 mode, u32 flag);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u16 func_0200864C(const struct PlayTime *p);
-extern u8 func_02008650(const struct PlayTime *p);
+extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
+extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -305,13 +305,13 @@ extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
-extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32 index);
 extern void BMP_MENUWORK_LoadPltt(u32 a, u32 b, u32 c, u32 d);
 extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 GFL_HEAP_Free(void *p);
 void VIEWER_TEXT_Init(ViewerWork *p);
 void VIEWER_TEXT_Exit(ViewerWork *p);
@@ -450,7 +450,7 @@ void VIEWER_TEXT_DrawTable(ViewerWork *p, int k, int flush)
     u32 w;
 
     bank = MSGDATA_CreateFromArchive(0, 2, 0xBF, p->heap);
-    if (func_020089F4(GAME_DATA_GetSaveBlock21(p->args->f4))) {
+    if (TRCARD_SIGN_GetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->f4))) {
         str = MSGDATA_AllocString(bank, CURSOR_MOVE_GetTableKind(k));
     } else {
         str = MSGDATA_AllocString(bank, 0);
@@ -819,11 +819,11 @@ void VIEWER_TEXT_PrintRow(ViewerWork *p, void *a, int y, const ViewerInfo *info,
         VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0x13, y, s, info->row1Value, 3, 1, 0xAD, 0x1B, idx);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->strbuf1, p->font, d_021C8768[idx]);
     } else {
-        v = func_0200864C(info->playTime);
+        v = PLAYTIME_GetHours(info->playTime);
         if (v > 999) {
             v = 999;
         }
-        VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0, y, s, func_02008650(info->playTime), 2, 2, 0xD0, 0x10, idx);
+        VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0, y, s, PLAYTIME_GetMinutes(info->playTime), 2, 2, 0xD0, 0x10, idx);
         VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0x13, y, s, v, 3, 1, 0xAD, 0x1B, idx);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->strbuf1, p->font, d_021C8768[idx]);
     }
@@ -1127,12 +1127,12 @@ void VIEWER_TEXT_LoadBgResources(ViewerTextWork *p)
 
     ARC_UTIL_UploadBgCharFromHandle(arc, 0x19, 6, 0, 0, 0, 0x27);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x22, 6, 0, 0, 0, 0x27);
-    func_02049B68(arc, 1, 4, 0, 0, 0x27);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 4, 0, 0, 0x27);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0x1A, 5, 0, 0, 0, 0x27);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x23, 5, 0, 0, 0, 0x27);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0x19, 3, 0, 0, 0, 0x27);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x22, 3, 0, 0, 0, 0x27);
-    func_02049B68(arc, z, z, z, z, 0x27);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, z, z, z, z, 0x27);
     ARC_UTIL_UploadBgCharFromHandle(arc, 0x19, 1, 0, 0, 0, 0x27);
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x21, 1, 0, 0, 0, 0x27);
     arc2 = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x27);
@@ -1147,10 +1147,10 @@ void VIEWER_TEXT_LoadBgResources(ViewerTextWork *p)
     BMP_MENUWORK_LoadPltt(4, 0xE, 0, 0x27);
     BMP_MENUWORK_LoadChar(4, 1, 0, 0x27);
     for (i = 0; i < 3; i++) {
-        p->res14C[i] = func_02049F78(arc, 4 - i, (u32)(&p->res158[i]), 0x27);
+        p->res14C[i] = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 4 - i, (u32)(&p->res158[i]), 0x27);
     }
     for (i = 0; i < 3; i++) {
-        p->res164[i] = func_02049F78(arc, 0x17 - i, (u32)(&p->res170[i]), 0x27);
+        p->res164[i] = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 0x17 - i, (u32)(&p->res170[i]), 0x27);
     }
 }
 

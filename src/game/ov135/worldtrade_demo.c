@@ -42,16 +42,16 @@
  *   ov195_id       0x000000C3  data
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Init  0x020084A0  thumb
- *   func_020084D4  0x020084D4  thumb
- *   func_02008560  0x02008560  thumb
- *   func_02008568  0x02008568  thumb
- *   func_0200854C  0x0200854C  thumb
- *   func_02008558  0x02008558  thumb
- *   func_02008574  0x02008574  thumb
+ *   MYSTATUS_CopyName  0x020084D4  thumb
+ *   MYSTATUS_SetAvatarId  0x02008560  thumb
+ *   MYSTATUS_SetGender  0x02008568  thumb
+ *   MYSTATUS_SetOutfitVariant  0x0200854C  thumb
+ *   MYSTATUS_SetOutfit  0x02008558  thumb
+ *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
  *   BOX_SAVEDATA_ClearPokemon  0x02007664  thumb
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
- *   func_0200752C  0x0200752C  thumb
+ *   BOX_SAVEDATA_AddPokemonToBox  0x0200752C  thumb
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
  *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
@@ -110,17 +110,17 @@ extern void *MYSTATUS_Create(int a0);
 
 extern void MYSTATUS_Init(struct Sub0200852CObj *p);
 
-extern u32 func_020084D4(u32 value, void *dst);
+extern u32 MYSTATUS_CopyName(u32 value, void *dst);
 
-extern void func_02008560(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetAvatarId(struct Sub0200852CObj *obj, u8 value);
 
-extern void func_02008568(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetGender(struct Sub0200852CObj *obj, u8 value);
 
-extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetOutfitVariant(struct Sub0200852CObj *obj, u8 value);
 
-extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value);
 
-extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
+extern void MYSTATUS_SetLanguageAndVersion(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 extern void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 
@@ -128,7 +128,7 @@ extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
 
 extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
 
-extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
+extern int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02007454Entry *src);
 
 void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
@@ -375,12 +375,12 @@ TradePartnerInfo *WORLDTRADE_DEMO_ReadMyStatus(Entry *e)
 
     info = MYSTATUS_Create(0x48);
     MYSTATUS_Init((struct Sub0200852CObj *)info);
-    func_020084D4((u32)info, e->name);
-    func_02008560((struct Sub0200852CObj *)info, e->region);
-    func_02008568((struct Sub0200852CObj *)info, e->city);
-    func_0200854C((struct Sub0200852CObj *)info, e->gender);
-    func_02008558((struct Sub0200852CObj *)info, e->country);
-    func_02008574((struct Sub0200852CObj *)info, e->lang, e->ver);
+    MYSTATUS_CopyName((u32)info, e->name);
+    MYSTATUS_SetAvatarId((struct Sub0200852CObj *)info, e->region);
+    MYSTATUS_SetGender((struct Sub0200852CObj *)info, e->city);
+    MYSTATUS_SetOutfitVariant((struct Sub0200852CObj *)info, e->gender);
+    MYSTATUS_SetOutfit((struct Sub0200852CObj *)info, e->country);
+    MYSTATUS_SetLanguageAndVersion((struct Sub0200852CObj *)info, e->lang, e->ver);
     info->trainerId = e->trainerId;
     info->profileId = e->profileId;
     return info;
@@ -425,6 +425,6 @@ void WORLDTRADE_DEMO_InitSlotRecord(Work *p)
         b = 0;
         BOX_SAVEDATA_ClearPokemon((void *)p->ctx->box, p->box_u, p->pos);
         BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&a), (int *)(&b));
-        func_0200752C((void **)p->ctx->box, a, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
+        BOX_SAVEDATA_AddPokemonToBox((void **)p->ctx->box, a, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
     }
 }

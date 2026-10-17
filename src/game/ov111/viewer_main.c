@@ -44,12 +44,12 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   TCBL_Main  0x020310C4  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
- *   func_020089CC  0x020089CC  thumb
+ *   TRCARD_SIGN_GetBitmap  0x020089CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_02008558  0x02008558  thumb
- *   func_02008A14  0x02008A14  thumb
- *   func_02008A1C  0x02008A1C  thumb
+ *   MYSTATUS_SetOutfit  0x02008558  thumb
+ *   TRCARD_SIGN_SetColor  0x02008A14  thumb
+ *   TRCARD_SIGN_SetStyle  0x02008A1C  thumb
  *   PMS_DRAW_Delete  0x0202DC08  thumb
  *   VIEWER_TEXT_DeleteActors  0x021C6F4C  thumb  ov111
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -62,7 +62,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -70,7 +70,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   d_021C8E20     0x021C8E20  data  a4
  *   d_021C86E8     0x021C86E8  data  a4
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
@@ -394,12 +394,12 @@ extern void PMS_DRAW_Main(u8 *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
-extern void *func_020089CC(void *p);
+extern void *TRCARD_SIGN_GetBitmap(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
-extern void func_02008A14(void *p, u32 v);
-extern void func_02008A1C(struct Sub020089A8Obj *obj, u8 value);
+extern void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value);
+extern void TRCARD_SIGN_SetColor(void *p, u32 v);
+extern void TRCARD_SIGN_SetStyle(struct Sub020089A8Obj *obj, u8 value);
 extern void PMS_DRAW_Delete(struct Obj *p);
 extern void VIEWER_TEXT_DeleteActors(ViewerAnim *a);
 extern u32 GFL_HEAP_Free(void *p);
@@ -412,7 +412,7 @@ extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -420,7 +420,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32 bgId);
@@ -777,14 +777,14 @@ int VIEWER_MAIN_Delete(void *man, int *state, ViewerArgs *args, ViewerWork *p)
 
     if (!p->info->f4_5) {
         VIEWER_MAIN_CopyBg6(p->pix, p->info->bitmap);
-        MI_CpuCopy8(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
+        MI_CpuCopy8(p->info->bitmap, TRCARD_SIGN_GetBitmap(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
         a = GAME_DATA_GetMyStatus(p->args->f4);
         b = GAME_DATA_GetSaveBlock21(p->args->f4);
-        func_02008558(a, p->info->rowIndex);
-        func_02008A14(b, p->info->listIndex);
-        func_02008A1C(b, p->info->f4_4);
+        MYSTATUS_SetOutfit(a, p->info->rowIndex);
+        TRCARD_SIGN_SetColor(b, p->info->listIndex);
+        TRCARD_SIGN_SetStyle(b, p->info->f4_4);
     }
     PMS_DRAW_Delete(p->pmsDraw);
     VIEWER_MAIN_InitLcdBrightness();
@@ -821,7 +821,7 @@ void VIEWER_MAIN_LoadResources(ViewerWork *p)
     p->strbuf2 = STRBUF_Create(0x20, p->heap);
     p->strbuf3 = STRBUF_Create(0x21, p->heap);
     p->strbuf1 = STRBUF_Create(5, p->heap);
-    func_02045CAC(p->msgBank, 0x17, p->strbuf1);
+    MSGDATA_ReadString(p->msgBank, 0x17, p->strbuf1);
     for (i = 0; i < 3; i++) {
         p->headerText[i] = MSGDATA_AllocString(p->msgBank, i + 0x1A);
     }
@@ -889,7 +889,7 @@ void VIEWER_MAIN_SetupBgSlot(ViewerWork *p, int k, int alt)
     }
     file = d_021C8E20[k][j];
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x28, file, 4, 0, 0x200, p->heap);
-    p->plttRes = func_02049F34(0x28, file, (u32)(&p->pltt), p->heap);
+    p->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0x28, file, (u32)(&p->pltt), p->heap);
 }
 
 

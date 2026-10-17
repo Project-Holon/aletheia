@@ -47,9 +47,9 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
- *   func_0200E8D8 0x0200E8D8 thumb
- *   func_0200E8CC 0x0200E8CC thumb
- *   func_0200E8D0 0x0200E8D0 thumb
+ *   MISC_SAVEDATA_GetFlags6200 0x0200E8D8 thumb
+ *   MISC_SAVEDATA_EmptyHook 0x0200E8CC thumb
+ *   MISC_SAVEDATA_GetScratchBase 0x0200E8D0 thumb
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   BG_SYS_LoadPltt 0x02040E78 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
@@ -128,8 +128,8 @@ extern void close(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *,u32,u32);
-extern u32 func_0200E8D8(const void *obj);
-extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
+extern u32 MISC_SAVEDATA_GetFlags6200(const void *obj);
+extern void *MISC_SAVEDATA_EmptyHook(void *),*MISC_SAVEDATA_GetScratchBase(void *);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
@@ -266,9 +266,9 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
     save=GAME_DATA_GetSaveControl(p->owner->gameData);
     if(SAVE_CONTROL_LoadExtraSave(save,7,0x807e)==1){
         block=SAVE_CONTROL_GetExtraSaveRecord(save,7,0);
-        if(block!=0&&func_0200E8D8(block)==1){
-            tiles=func_0200E8CC(block);
-            palette=func_0200E8D0(block);
+        if(block!=0&&MISC_SAVEDATA_GetFlags6200(block)==1){
+            tiles=MISC_SAVEDATA_EmptyHook(block);
+            palette=MISC_SAVEDATA_GetScratchBase(block);
             BG_SYS_LoadTileData(1,tiles,0x6000,0);
             BG_SYS_LoadPltt(1,palette,0x200,0);
             BG_SYS_LoadPltt(5,palette,0x200,0);

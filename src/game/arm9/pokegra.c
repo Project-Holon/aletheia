@@ -23,7 +23,7 @@
  *   TrainerGraIndexTable  0x020A023C  data
  *   POKE_TOOL_GetBoxValue   0x02017E88  thumb
  *   POKE_TOOL_IsBoxShiny   0x02017EB4  thumb
- *   func_02049E34   0x02049E34  arm
+ *   ARC_UTIL_LoadScreenDataFromArchive   0x02049E34  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter   0x0204A6C8  arm
  *   CLACT_TransferCharacter   0x0204A9D0  arm
@@ -34,7 +34,7 @@
  *   CLACT_RegisterCellAnim   0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle   0x02049238  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
- *   func_02049E74  0x02049E74  arm
+ *   ARC_UTIL_LoadScreenDataFromHandle  0x02049E74  arm
  *   CLACT_TransferPalette  0x0204ADEC  arm
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   APP_ICON_GetBallAnimFileId  0x02027718  thumb
@@ -81,7 +81,7 @@ extern u32 POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
 
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 engine, u32 a3, u32 s0, u32 s1, u32 s2);
 
@@ -107,7 +107,7 @@ extern int APP_ICON_GetBallFrameFileId(int a);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
 
@@ -552,14 +552,14 @@ void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId)
 /*
  * Builds a sprite/resource request: POKEGRA_GetCgrArcIndex turns the mon
  * descriptor (species/form/gender plus the three stack words) into a
- * resource id, which func_02049E34 instantiates with the caller's
+ * resource id, which ARC_UTIL_LoadScreenDataFromArchive instantiates with the caller's
  * out-slot `a0` as its a3 payload.  When the species word a1 is the
  * sentinel 0x147 the freshly filled *a0 is additionally run through the
  * POKEGRA_ConvertCharTo2D / POKEGRA_DrawSpindaSpots / POKEGRA_ConvertCharTo1D triple, which is why
  * `*a0` is re-read before each of them (POKEGRA_DrawSpindaSpots may store through
  * it, so the load cannot be cached).  This answers the open question in
  * docs/notes/POKEGRA_RegisterCgr.c.txt: a0 is a genuine out-parameter, written
- * by func_02049E34 via its a3, not read-only.
+ * by ARC_UTIL_LoadScreenDataFromArchive via its a3, not read-only.
  *
  * Blocked at MATCH: every concrete byte is identical.  2026-09-21, unblock
  * lane: ONE OF THE TWO BLOCKING SITES IS NOW CLEARED.  POKEGRA_ConvertCharTo1D was
@@ -580,7 +580,7 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
     void *file;
 
     arcIndex = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, rare, dir, egg);
-    file = func_02049E34(POKEGRA_GetArcID(), arcIndex, 1, (u32)outCharData, heapId);
+    file = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), arcIndex, 1, (u32)outCharData, heapId);
     if (monsNo == 0x147) {
         POKEGRA_ConvertCharTo2D((void *)(*outCharData), heapId);
         POKEGRA_DrawSpindaSpots((struct NNSG2dCharacterData *)(*outCharData), personality);
@@ -805,7 +805,7 @@ void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *
     CLACT_TransferPalette(palDst, palData, 1);
     GFL_HEAP_Free(file);
 
-    file = func_02049E74(handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (u32)(&charData), heapId);
+    file = ARC_UTIL_LoadScreenDataFromHandle(handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (u32)(&charData), heapId);
     CLACT_TransferCharacter((int)charDst, charData);
     GFL_HEAP_Free(file);
 }

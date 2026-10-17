@@ -85,7 +85,7 @@
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -433,7 +433,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -1387,7 +1387,7 @@ void WF2DMAP_SCENE_LoadActorAssets(char *scene)
     PALANM_LoadArcPaletteToSlot(palAnm,59,1,50,0,64,0);
     ARC_UTIL_UploadBgCharFromHandle(arc,7,5,0,0,0,50);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,11,5,0,0,0,50);
-    func_02049B68(arc,2,4,0,0,50);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc,2,4,0,0,50);
     ((Wf2dmapScene *)scene)->paletteA=CLACT_RegisterPalette(arc,0,0,0,50);
     ((Wf2dmapScene *)scene)->charA=CLACT_RegisterCharacter(arc,5,0,0,50);
     ((Wf2dmapScene *)scene)->cellAnimA=CLACT_RegisterCellAnim(arc,12,15,50);

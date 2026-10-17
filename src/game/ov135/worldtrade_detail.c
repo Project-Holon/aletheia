@@ -33,7 +33,7 @@
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
- *   func_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
@@ -78,7 +78,7 @@
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *   POKE_TOOL_Dummy 0x020185F0 thumb
- *   func_020084F4 0x020084F4 thumb
+ *   MYSTATUS_GetName 0x020084F4 thumb
  *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
  *   WORLDTRADE_DEPOSIT_DrawRequestWindowAlt 0x021F8290 thumb ov135
  *   g_02203CF0  0x02203CF0  data  ov135
@@ -137,7 +137,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -214,7 +214,7 @@ extern void *WORLDTRADE_NoOp(void *);
 
 extern void *POKE_TOOL_Dummy();
 
-extern void *func_020084F4(void *);
+extern void *MYSTATUS_GetName(void *);
 
 extern int WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
@@ -384,7 +384,7 @@ int WORLDTRADE_DETAIL_Init(Work *p)
     WORLDTRADE_DETAIL_CreateWindows((Work *)p);
     WORLDTRADE_DETAIL_CreateActors(p);
     WORLDTRADE_DETAIL_PrintMonInfo(*(void **)((u8 *)p+0xB6C),*(void **)((u8 *)p+0xB70),*(void **)((u8 *)p+0xB68),(void **)((u8 *)p+0xD90),POKE_TOOL_Dummy(mon),(Rec *)((u8 *)p+0x1D0),(u8 *)p+0xFA0);
-    WORLDTRADE_DETAIL_PrintMonName(*(void **)((u8 *)p+0xB6C),(Pane2 *)((u8 *)p+0xDAC),func_020084F4(*(void **)(*(u8 **)(u8 *)p+0x1C)),mon,(Pane2 *)((u8 *)p+0xDC0),(u8 *)p+0xFA0);
+    WORLDTRADE_DETAIL_PrintMonName(*(void **)((u8 *)p+0xB6C),(Pane2 *)((u8 *)p+0xDAC),MYSTATUS_GetName(*(void **)(*(u8 **)(u8 *)p+0x1C)),mon,(Pane2 *)((u8 *)p+0xDC0),(u8 *)p+0xFA0);
     index=WORLDTRADE_DEPOSIT_GetConditionIndex(*(s8 *)((u8 *)p+0x1D7),*(s8 *)((u8 *)p+0x1D8),0);
     WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(*(void **)((u8 *)p+0xB6C),*(void **)((u8 *)p+0xB70),*(int *)((u8 *)p+0xB68),(u8 *)p+0xDB4,*(s16 *)((u8 *)p+0x1D4),*(s8 *)((u8 *)p+0x1D6),index,(u8 *)p+0xFA0);
     WORLDTRADE_DETAIL_LoadMonGraphics(mon);
@@ -452,7 +452,7 @@ void WORLDTRADE_DETAIL_LoadBgGraphics(Work *p)
 {
     void *h;
     h = ARC_TOOL_CreateHandle(0x60, 0x48);
-    func_02049B68(h, 6, 0, 0, 0x60, 0x48);
+    ARC_UTIL_UploadPaletteFromHandleWhole(h, 6, 0, 0, 0x60, 0x48);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(2, 1, 0xe, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(2, 0x1f, 0xb, 0, 0x48);

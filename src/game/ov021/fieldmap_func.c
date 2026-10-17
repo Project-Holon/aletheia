@@ -57,8 +57,8 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   SAVEDATA_PanicFail  0x02034714  arm
- *   func_020084F8  0x020084F8  thumb
- *   func_02008550  0x02008550  thumb
+ *   MYSTATUS_CopyNameChars  0x020084F8  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -288,9 +288,9 @@ void MI_CpuFill8(void *p, int v, int n);
 
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 
-u32 func_020084F8(void *myStatus, u16 *dst, u32 size);
+u32 MYSTATUS_CopyNameChars(void *myStatus, u16 *dst, u32 size);
 
-u8 func_02008550(void *myStatus);
+u8 MYSTATUS_GetOutfitVariant(void *myStatus);
 
 void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
@@ -667,7 +667,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
     line = UNION_CHAT_LOG_TakeSlot(ring);
     if (beaconPc == 0) {
         myStatus = work->parent->myStatus;
-        func_020084F8(myStatus, line->name, 8);
+        MYSTATUS_CopyNameChars(myStatus, line->name, 8);
         /* the re-test of chatPms inside the chatPms == 0 arm is the dead second bne */
         if (chatPms == 0) {
             if (chatPms != 0 || chatType == 0) {
@@ -681,7 +681,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         line->chatType = chatType;
         line->chatCount = 0;
         OS_GetMacAddress(line->senderMac);
-        line->sex = func_02008550(myStatus);
+        line->sex = MYSTATUS_GetOutfitVariant(myStatus);
         line->relation = 0;
     } else {
         WORDSET_CopyString(beaconPc->beacon.name, line->name, 8);

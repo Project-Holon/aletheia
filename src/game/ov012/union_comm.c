@@ -46,19 +46,19 @@
  *   MI_CpuCopy8       0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_020084F8  0x020084F8  thumb
- *   func_02008554  0x02008554  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008530  0x02008530  thumb
- *   func_0200856C  0x0200856C  thumb
- *   func_02008570  0x02008570  thumb
+ *   MYSTATUS_CopyNameChars  0x020084F8  thumb
+ *   MYSTATUS_GetOutfit  0x02008554  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetLanguage  0x0200856C  thumb
+ *   MYSTATUS_GetVersion  0x02008570  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetField1A0  0x0201283C  thumb
  *   WIFILIST_MakeExchangeToken  0x02009CB0  thumb
  *   UNION_APP_IsClosed  0x021840C8  thumb  ov022
  *   UNION_APP_Delete  0x02183BE0  thumb  ov022
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   GFL_NET_SetGameKind  0x0203D5AC  arm
  *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
  *   UNION_MAIN_IsFieldReady 0x02173840 thumb ov012
@@ -133,17 +133,17 @@ extern void MI_CpuFill8(void *dst, int value, int size);
 
 extern void OS_GetMacAddress(void *mac);
 
-extern u32 func_020084F8(const struct MyStatus *status, u16 *dest, u32 size);
+extern u32 MYSTATUS_CopyNameChars(const struct MyStatus *status, u16 *dest, u32 size);
 
-extern u8 func_02008554(const struct MyStatus *status);
+extern u8 MYSTATUS_GetOutfit(const struct MyStatus *status);
 
-extern u32 func_02008550(const struct MyStatus *status);
+extern u32 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
 
-extern u32 func_02008530(const struct MyStatus *status);
+extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
-extern u8 func_0200856C(const struct MyStatus *status);
+extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
 
-extern u8 func_02008570(const struct MyStatus *status);
+extern u8 MYSTATUS_GetVersion(const struct MyStatus *status);
 
 extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
 
@@ -157,7 +157,7 @@ extern void UNION_APP_Delete(struct UnionAppWork *app);
 
 extern void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
 
-extern u32 func_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 
 extern void GFL_NET_SetGameKind(int gameKind, int option);
 
@@ -603,15 +603,15 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     beacon->playCategory = situation->playCategory;
     beacon->appealNo = situation->appealNo;
     beacon->status = situation->status;
-    func_020084F8(work->parent->myStatus, beacon->name, 8);
-    beacon->trainerView = func_02008554(work->parent->myStatus);
-    beacon->sex = func_02008550(work->parent->myStatus);
-    beacon->trainerId = func_02008530(work->parent->myStatus);
+    MYSTATUS_CopyNameChars(work->parent->myStatus, beacon->name, 8);
+    beacon->trainerView = MYSTATUS_GetOutfit(work->parent->myStatus);
+    beacon->sex = MYSTATUS_GetOutfitVariant(work->parent->myStatus);
+    beacon->trainerId = MYSTATUS_GetId(work->parent->myStatus);
     beacon->chatType = situation->chatType;
     beacon->chatPms = situation->chatPms;
     beacon->chatCount = situation->chatCount;
-    beacon->nation = func_0200856C(work->parent->myStatus);
-    beacon->area = func_02008570(work->parent->myStatus);
+    beacon->nation = MYSTATUS_GetLanguage(work->parent->myStatus);
+    beacon->area = MYSTATUS_GetVersion(work->parent->myStatus);
     beacon->group = situation->connect.group;
     WIFILIST_MakeExchangeToken(GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(work->parent->gameSystem)), beacon->friendKey);
     if (work->app != 0)
@@ -703,7 +703,7 @@ void UNION_COMM_InitSituation(UnionRoomWork *work)
     UnionMySituation *situation;
     situation = &work->mySituation;
     MI_CpuFill8(situation, 0, sizeof(UnionMySituation));
-    situation->chatCount = func_020056EC(0xffff);
+    situation->chatCount = GFL_USE_GetRandom(0xffff);
     situation->chatType = 1;
     situation->playCategory = 2;
     UNION_COMM_InitConnectInfo(work, &situation->connect);
@@ -723,8 +723,8 @@ void UNION_COMM_InitConnectInfo(UnionRoomWork *work, UnionConnectInfo *connect)
     UNION_COMM_ClearPartnerSelects(connect);
     self = &connect->group.member[0];
     OS_GetMacAddress(self->mac);
-    self->trainerView = func_02008554(work->parent->myStatus);
-    self->sex = func_02008550(work->parent->myStatus);
+    self->trainerView = MYSTATUS_GetOutfit(work->parent->myStatus);
+    self->sex = MYSTATUS_GetOutfitVariant(work->parent->myStatus);
     self->valid = 1;
     connect->requestId = 0xFFFF;
 }

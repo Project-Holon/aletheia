@@ -18,13 +18,13 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   GFL_HEAP_Free 0x020307B0 arm
- *   func_02005728 0x02005728 thumb
+ *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   BG_SYS_PushTile 0x020409B4 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_02008550 0x02008550 thumb
+ *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -48,7 +48,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021B74BC 0x021B74BC data
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   func_020056EC 0x020056EC thumb
+ *   GFL_USE_GetRandom 0x020056EC thumb
  *   CLACT_StartActorAnim 0x0204B95C arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
@@ -58,7 +58,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   d_021B7484 0x021B7484 data a1
  *   d_021B7480 0x021B7480 data a1
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -98,7 +98,7 @@ struct LocalTvtChara {
     u8 timer;                   /* 0x06, counts to 40 before the pages swap */
     u8 labelWidth;              /* 0x07, returned by LOCAL_TVT_CHARA_GetState */
     union { int value; unsigned int valueU; } state; /* 0x08 */
-    void *tileSrc;              /* 0x0C, tile source record, filled by func_02049DF4 */
+    void *tileSrc;              /* 0x0C, tile source record, filled by ARC_UTIL_LoadBgCharDataFromHandle */
     union { int handle; void *handlePtr; } gfx;      /* 0x10, freed by GFL_HEAP_Free */
     int flag;                   /* 0x14, label transfer pending */
     struct BmpWin *window;      /* 0x18, label window */
@@ -134,7 +134,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern int func_02005728(int);
+extern int GFL_USE_GetRandomBelow(int);
 
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 
@@ -144,7 +144,7 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
@@ -188,7 +188,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 
-extern unsigned func_020056EC(unsigned);
+extern unsigned GFL_USE_GetRandom(unsigned);
 
 extern void CLACT_StartActorAnim(struct ClactActor *a);
 
@@ -200,7 +200,7 @@ extern u16 CLACT_GetActorAnimSeqCount(struct ClactActor *p);
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
-extern void *func_02049DF4(void *archive, unsigned id, unsigned flags, void *out, unsigned short heapId);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *archive, unsigned id, unsigned flags, void *out, unsigned short heapId);
 
 extern void MIi_CpuCopy32(int, int, int);
 
@@ -256,14 +256,14 @@ char *LOCAL_TVT_CHARA_Create(char *p,int index)
     ((struct LocalTvtChara *)q)->paletteB=0;
     ((struct LocalTvtChara *)q)->flag=0;
     ((struct LocalTvtChara *)q)->active=0;
-    ((struct LocalTvtChara *)q)->animTimer=func_02005728(0x4b);
-    if(((struct LocalTvtChara *)q)->charId==0 && func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData))==1) ((struct LocalTvtChara *)q)->charId=5;
+    ((struct LocalTvtChara *)q)->animTimer=GFL_USE_GetRandomBelow(0x4b);
+    if(((struct LocalTvtChara *)q)->charId==0 && MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData))==1) ((struct LocalTvtChara *)q)->charId=5;
     LOCAL_TVT_CHARA_SetupActors((u8 *)p,(u8 *)q);
     LOCAL_TVT_CHARA_SetupPalette(p,(u8 *)q);
     LOCAL_TVT_CHARA_DrawLabel((u8 *)p,(u8 *)q);
     ((struct LocalTvtChara *)q)->state.value=0;
     ((struct LocalTvtChara *)q)->gfx.handle=0;
-    ((struct LocalTvtChara *)q)->timer=func_02005728(40);
+    ((struct LocalTvtChara *)q)->timer=GFL_USE_GetRandomBelow(40);
     ((struct LocalTvtChara *)q)->counter=0;
     return q;
 }
@@ -323,7 +323,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
         BMP_WIN_TransferChars(((struct LocalTvtChara *)q)->window);
         ((struct LocalTvtChara *)q)->flag=0;
     }
-    ((struct LocalTvtChara *)q)->animTimer+=(u16)(func_020056EC(2)+1);
+    ((struct LocalTvtChara *)q)->animTimer+=(u16)(GFL_USE_GetRandom(2)+1);
     if(((struct LocalTvtChara *)q)->animTimer>=150) {
         CLACT_StartActorAnim(((struct LocalTvtChara *)q)->actorA);
         CLACT_RestartActorAnim(((struct LocalTvtChara *)q)->actorA);
@@ -399,7 +399,7 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
     CLACT_StopActorAnim(((struct LocalTvtChara *)q)->actorB);
 }
 
-void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id) {((struct LocalTvtChara *)q)->gfx.handlePtr=func_02049DF4(((struct LocalTvtSys *)p)->arcHandle,id,0,&((struct LocalTvtChara *)q)->tileSrc,((struct LocalTvtSys *)p)->heapId);}
+void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id) {((struct LocalTvtChara *)q)->gfx.handlePtr=ARC_UTIL_LoadBgCharDataFromHandle(((struct LocalTvtSys *)p)->arcHandle,id,0,&((struct LocalTvtChara *)q)->tileSrc,((struct LocalTvtSys *)p)->heapId);}
 
 void LOCAL_TVT_CHARA_CopyTiles(int a, int *b, int c, int d, int e)
 {

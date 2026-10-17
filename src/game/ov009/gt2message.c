@@ -20,7 +20,7 @@
  *   gti2ConnectionClosed               0x021959D0  arm ov009
  *   gti2ConnectedCallback              0x0219500C  arm ov009
  *   gti2ClosedCallback                 0x02195158  arm ov009
- *   func_02195EC4                      0x02195EC4  arm ov009
+ *   gti2ConnectionError                      0x02195EC4  arm ov009
  *   gti2SendClosed                     0x02197BB8  arm
  *   ArrayLength                      0x02184200  arm ov009
  *   ArrayNth                      0x02184208  arm ov009
@@ -37,20 +37,20 @@
  *   gti2ConnectAttemptCallback         0x02194F2C  arm ov009
  *   gti2GetBufferFreeSpace                      0x02194DD4  arm ov009
  *   ArrayInsertSorted                      0x021842D0  arm ov009
- *   func_02194E2C                      0x02194E2C  arm ov009
- *   func_02196658                      0x02196658  arm ov009
- *   func_02195E80                      0x02195E80  arm ov009
- *   func_02196920                      0x02196920  arm ov009
- *   func_02195F70                      0x02195F70  arm ov009
+ *   gti2BufferWriteData                      0x02194E2C  arm ov009
+ *   gti2IncomingBufferMessageCompare                      0x02196658  arm ov009
+ *   gti2UShortFromBuffer                      0x02195E80  arm ov009
+ *   gti2SetPendingAck                      0x02196920  arm ov009
+ *   gti2ConnectionMemoryError                      0x02195F70  arm ov009
  *   gti2ResendMessage                      0x02197C5C  arm ov009
- *   func_02197BA4 0x02197BA4 arm
+ *   gti2SendPong 0x02197BA4 arm
  *   func_020923F0  0x020923F0  arm
  *   current_time  0x0217F264  arm  ov009
  *   gti2PingCallback  0x021951E8  arm  ov009
  *   gGti2TimeKey  0x021A5940  data
- *   func_02196AF8  0x02196AF8  arm  ov009
+ *   gti2HandleAck  0x02196AF8  arm  ov009
  *   gti2HandleClosed  0x02196CC8  arm  ov009
- *   func_02197D5C  0x02197D5C  arm  ov009
+ *   gti2SocketFindConnection  0x02197D5C  arm  ov009
  *   gti2DumpCallback  0x02195408  arm  ov009
  *   gti2UnrecognizedMessageCallback  0x021954F4  arm  ov009
  *   gti2NewIncomingConnection  0x021955C0  arm  ov009
@@ -73,14 +73,14 @@
  *   gGti2PacketMagic                          0x021A5948  data ov009
  *   ArrayNth               0x02184208 arm
  *   gti2ConnectionSendData 0x02195750 arm
- *   func_02197458  0x02197458  arm  ov009
- *   func_0219754C  0x0219754C  arm  ov009
+ *   gti2BeginReliableMessage  0x02197458  arm  ov009
+ *   gti2EndReliableMessage  0x0219754C  arm  ov009
  *   memcmp                    0x020923F0  arm
  *   gti2BufferShorten         0x02194E80  arm  ov009
  *   gti2UShortToBuffer      0x02195EA0 arm
- *   func_02195750  0x02195750  arm  ov009
+ *   gti2ConnectionSendData  0x02195750  arm  ov009
  *   gti2SocketSend  0x02198328  arm  ov009
- *   func_02197594  0x02197594  arm  ov009
+ *   gti2SendAppReliable  0x02197594  arm  ov009
  *   @14988         0x021A5948  data
  */
 #include "gt2main_types.h"
@@ -138,7 +138,6 @@ extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
 extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 extern int gti2GetBufferFreeSpace(struct GTI2Buffer *buffer);
-extern void func_02194E2C(void *buffer, unsigned char *data, int len);
 extern void gti2BufferShorten(struct GTI2Buffer *buffer, int start, int shortenBy);
 extern unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge);
 extern unsigned char *gti2GetChallenge(unsigned char *buffer);
@@ -147,19 +146,15 @@ extern int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned c
 extern int gti2ReceivedCallback(GTI2Connection *c, unsigned char *msg, int len, int reliable);
 extern int gti2ResendMessage(GTI2Connection *c, GTI2OutgoingBufferMessage *message);
 extern void gsifree(void *ptr);
-extern int func_02197BA4(GTI2Connection *connection, unsigned char *message, int len);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern int gti2PingCallback(GTI2Connection *c, int latency);
-extern int func_02196AF8(GTI2Connection *c, unsigned char *msg, int len);
 extern int gti2HandleClosed(GTI2Connection *c);
-extern GTI2Connection *func_02197D5C(GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int gti2DumpCallback(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
 extern int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5);
 extern int gti2NewIncomingConnection(GTI2Socket *socket, GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
 extern GTI2Connection *gti2SocketFindConnection();
-extern int func_02195EC4(GTI2Connection *c, int result, int reason);
 extern int CanReceiveOnSocket(int sock);
 extern int recvfrom(int sock, char *buf, int len, int flags,
                     struct SOCSockAddrIn *addr, int *fromlen);
@@ -183,13 +178,9 @@ extern void gti2BufferWriteUShort(GTI2Buffer *buffer, unsigned short s);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern int gti2ConnectionSendData(GTI2Connection *connection,
                                   unsigned char *message, int len);
-extern int func_02197458(GTI2Connection *c, int type, int len, int *overflow);
-extern int func_0219754C(GTI2Connection *c);
 extern void gti2BufferShorten();
 extern void gti2UShortToBuffer(char *buffer, int pos, int s);
-extern int func_02195750(GTI2Connection *c, unsigned char *message, int len);
 extern int gti2SocketSend(GTI2Socket *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
-extern void func_02197594(int a, int b, int c);
 unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos);
 s16 gti2SNDiff(unsigned short a, unsigned short b);
 int gti2ConnectionError(GTI2Connection *connection, GT2Result result, GT2CloseReason reason);
@@ -629,7 +620,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
         return 1;
     }
 
-    func_02194E2C(&connection->incomingBuffer, message, len);
+    gti2BufferWriteData(&connection->incomingBuffer, message, len);
 
     if (num == 0) {
         if (!gti2SendNack(connection, connection->expectedSerialNumber, (unsigned short)(SN - 1)))
@@ -831,7 +822,7 @@ int gti2HandleNack(GTI2Connection *connection, unsigned char *message, int len)
 
 int gti2HandlePing(GTI2Connection *connection, unsigned char *message, int len)
 {
-    return func_02197BA4(connection, message, len);
+    return gti2SendPong(connection, message, len);
 }
 
 
@@ -918,7 +909,7 @@ int gti2HandleUnreliableMessage(GTI2Connection *c, int type, unsigned char *mess
 	dataStart = message + headerLength;
 	dataLen = len - headerLength;
 	if (type == 0x64) {
-		if (!func_02196AF8((GTI2Connection *)c, dataStart, dataLen))
+		if (!gti2HandleAck((GTI2Connection *)c, dataStart, dataLen))
 			return 0;
 	} else if (type == 0x65) {
 		if (!gti2HandleNack((GTI2Connection *)c, dataStart, dataLen))
@@ -964,7 +955,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
     actualLength = len - socket->protocolOffset;
     actualMessage = message + socket->protocolOffset;
 
-    connection = func_02197D5C(socket, ip, port);
+    connection = gti2SocketFindConnection(socket, ip, port);
 
     if (socket->receiveDumpCallback) {
         if (!gti2DumpCallback(socket, connection, ip, port, 0, message, len, 0))
@@ -1093,7 +1084,7 @@ int gti2HandleHostUnreachable(GTI2Socket *sock, unsigned int ip, unsigned short 
 {
 	GTI2Connection *c;
 
-	c = func_02197D5C(sock, ip, port);
+	c = gti2SocketFindConnection(sock, ip, port);
 	if (sock->receiveDumpCallback) {
 		if (!gti2DumpCallback(sock, c, ip, port, 1, 0, 0, send))
 			return 0;
@@ -1101,7 +1092,7 @@ int gti2HandleHostUnreachable(GTI2Socket *sock, unsigned int ip, unsigned short 
 	if (!c)
 		return 1;
 	send = 1;
-	if (!func_02195EC4(c, 6, send))
+	if (!gti2ConnectionError(c, 6, send))
 		send = 0;
 	return send;
 }
@@ -1300,13 +1291,13 @@ int gti2SendServerChallenge(GTI2Connection *c, char *response, char *challenge)
 {
 	int overflow;
 
-	if (!func_02197458(c, 2, c->socket->protocolOffset + 0x47, &overflow))
+	if (!gti2BeginReliableMessage(c, 2, c->socket->protocolOffset + 0x47, &overflow))
 		return 0;
 	if (overflow)
 		return 1;
-	func_02194E2C(&c->outgoingBuffer, (unsigned char *)response, 0x20);
-	func_02194E2C(&c->outgoingBuffer, (unsigned char *)challenge, 0x20);
-	if (!func_0219754C(c))
+	gti2BufferWriteData(&c->outgoingBuffer, (unsigned char *)response, 0x20);
+	gti2BufferWriteData(&c->outgoingBuffer, (unsigned char *)challenge, 0x20);
+	if (!gti2EndReliableMessage(c))
 		return 0;
 	c->challengeTime = c->lastSend;
 	return 1;
@@ -1323,13 +1314,13 @@ int gti2SendClientResponse(GTI2Connection *c, char *response, char *message, int
 {
 	int overflow;
 
-	if (!func_02197458(c, 3, len + 0x27 + c->socket->protocolOffset, &overflow))
+	if (!gti2BeginReliableMessage(c, 3, len + 0x27 + c->socket->protocolOffset, &overflow))
 		return 0;
 	if (overflow)
 		return 1;
-	func_02194E2C(&c->outgoingBuffer, (unsigned char *)response, 0x20);
-	func_02194E2C(&c->outgoingBuffer, (unsigned char *)message, len);
-	return func_0219754C(c) ? 1 : 0;
+	gti2BufferWriteData(&c->outgoingBuffer, (unsigned char *)response, 0x20);
+	gti2BufferWriteData(&c->outgoingBuffer, (unsigned char *)message, len);
+	return gti2EndReliableMessage(c) ? 1 : 0;
 }
 
 
@@ -1516,7 +1507,7 @@ int gti2SendNack(GTI2Connection *connection, unsigned short SNMin, unsigned shor
 		gti2UShortToBuffer(buffer, pos, SNMax);
 		pos += 2;
 	}
-	if (!func_02195750(connection, (unsigned char *)buffer, pos))
+	if (!gti2ConnectionSendData(connection, (unsigned char *)buffer, pos))
 		return 0;
 	return 1;
 }
@@ -1606,7 +1597,7 @@ int gti2ResendMessage(GTI2Connection *connection,
 void gti2Send(int a, int b, int c, int d)
 {
     if (d != 0) {
-        func_02197594(a, b, c);
+        gti2SendAppReliable((GTI2Connection *)a, (unsigned char *)b, c);
     } else {
         gti2SendAppUnreliable((GTI2Connection *)a, (u8 *)b, c);
     }
