@@ -1,0 +1,31 @@
+# Wrong names found while porting (eidos), 2026-10-19 (docs/NAMING.md "How to apply").
+# Columns: old  new  address  region  isa  note (evidence level: inferred | likely misnamed | check, one-line reason, home file).
+# new "-": no proposal yet; the row records the problem.
+BTL_MAIN_AddItemToBag	BTL_MAIN_ConsumeBagItem	0x021B9090	ov093	thumb	inferred: calls MYITEM_SAVEDATA_RemoveItem(myItem, item, 1) for the own client; BTL_SERVER_FLOW_ProcBagItemUse runs it after a thrown ball or a used item; home btl_main.c
+SCRCMD_NETWORK_CreateCommBattleEvent	SCRCMD_NETWORK_CreateGameClearEvent	0x0215F8A8	ov010	thumb	inferred: the game-clear ending; its main runs fade out, ov180 (HALL_OF_FAME_*), ov181 (STAFF_ROLL_*), the comm exit, the recover script, then ov205 (SAVE_SCREEN_*); no link battle; only caller a script command in scrcmd_proc_fld.c; home scrcmd_network.c; misplaced? (not network code)
+SCRCMD_NETWORK_CommBattleEventMain	SCRCMD_NETWORK_GameClearEventMain	0x0215F734	ov010	thumb	inferred: see SCRCMD_NETWORK_CreateGameClearEvent; the CommBattleWork type and the COMM_BATTLE_STEP_* names follow
+SCRCMD_NETWORK_InitCommBattleOv180Param	SCRCMD_NETWORK_InitHallOfFameParam	0x0215F900	ov010	thumb	inferred: fills the ov180 (Hall of Fame) proc parameter of the game-clear event
+SCRCMD_NETWORK_InitCommBattleOv181Param	SCRCMD_NETWORK_InitStaffRollParam	0x0215F920	ov010	thumb	inferred: fills the ov181 (credits) proc parameter of the game-clear event
+SCRCMD_NETWORK_InitCommBattleStepSequence	SCRCMD_NETWORK_InitGameClearSteps	0x0215F948	ov010	thumb	inferred: the step table of the game-clear event
+SCRCMD_NETWORK_CreateBattleRecordLinkEvent	SCRCMD_NETWORK_CreateFieldMenuEvent	0x0215FC40	ov010	thumb	inferred: FIELD_EVENT_CHECK_CheckGridEvents and the rail check create it when X is pressed (input.xPressed); it opens the field menu; home scrcmd_network.c; misplaced?
+SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone	SCRCMD_NETWORK_CreateFieldMenuEventForZone	0x0215FCE0	ov010	thumb	inferred: the X-menu event of the comm field check (field_event_check.c); wraps SCRCMD_NETWORK_CreateFieldMenuEvent
+SCRCMD_NETWORK_BattleRecordLinkEventMain	SCRCMD_NETWORK_FieldMenuEventMain	0x0215FD0C	ov010	thumb	inferred: main of the X-menu event; RecordLinkWork and the RecordLinkOn* callbacks follow
+SCRCMD_NETWORK_RecordLinkOnUpdate	SCRCMD_NETWORK_FieldMenuOnUpdate	0x0215FED4	ov010	thumb	inferred: callback of the X-menu event
+SCRCMD_NETWORK_RecordLinkOnClose	SCRCMD_NETWORK_FieldMenuOnClose	0x0215FEF0	ov010	thumb	inferred: callback of the X-menu event
+SCRCMD_NETWORK_RecordLinkOnFinish	SCRCMD_NETWORK_FieldMenuOnFinish	0x0215FEF4	ov010	thumb	inferred: callback of the X-menu event
+BOX2_MAIN_MoveMonIntoBox	BOX2_MAIN_RevertShayminForm	0x021DD810	ov170	thumb	inferred: returns unless one slot is in the party and the other in a box; then for species 492 with a form other than 0 changes the form (BOX2_MAIN_ChangeFormAndRegister), recalcs and redraws; moves nothing
+BOX2_MAIN_GetBoxMon	BOX2_MAIN_DepositPartyMon	0x021DD3DC	ov170	thumb	inferred: BOX_SAVEDATA_SetPokemon(box, pos, the party member), then BOX2_MAIN_ClearSlot on the party slot
+BOX2_MAIN_MoveMonToParty	BOX2_MAIN_ExchangeWithParty	0x021DD330	ov170	thumb	inferred: writes the party member into the box slot and the box Pokemon into the party slot: an exchange
+BOX2_SEQ_StateMoveItemF	BOX2_SEQ_StateReleaseMon	0x021E81D0	ov170	thumb	inferred: its own comment says release; two confirmations, then BOX2_MAIN_ClearSlot (its only caller)
+POKE_TOOL_GetLevelUpMove	POKE_TOOL_LearnLevelUpMove	0x02018328	arm9	thumb	inferred: scans the learnset at the current level and calls POKE_TOOL_AddMove; returns the move, 0xFFFE when known, the move with 0x8000 when the slots are full; callers btl_client.c, plist_menu.c, shinka_demo.c
+POKELIST_FindMoveSlot	POKELIST_LearnOrFindMoveSlot	0x021BA5B4	ov091	thumb	inferred: modes 5 and 8 call POKE_TOOL_AddMove (learns), other modes POKE_TOOL_FindMoveSlot
+WAZA_OSHIE_LoadTexPlttByName	-	0x0216FAB4	ov010	thumb	likely misnamed: loads a texture and palette by name; not move-tutor code; the prefix probably came from the file (only WAZA_OSHIE_Create and WAZA_OSHIE_CreateMoveList look like the tutor); a name needs the home file decided
+WAZA_OSHIE_GetTexFormatCount	-	0x0216FC4C	ov010	thumb	likely misnamed: see WAZA_OSHIE_LoadTexPlttByName
+WAZA_OSHIE_ClearBitmap	-	0x0216FC50	ov010	thumb	likely misnamed: see WAZA_OSHIE_LoadTexPlttByName
+WAZA_OSHIE_PrintToClearedBitmap	-	0x0216FC74	ov010	thumb	likely misnamed: see WAZA_OSHIE_LoadTexPlttByName
+WAZA_OSHIE_ConvertToTileOrder	-	0x0216FCA0	ov010	thumb	likely misnamed: see WAZA_OSHIE_LoadTexPlttByName
+WAZA_OSHIE_UploadTextTexture	-	0x0216FD54	ov010	thumb	likely misnamed: see WAZA_OSHIE_LoadTexPlttByName
+WAZA_OSHIE_UploadPalette	-	0x0216FE04	ov010	thumb	likely misnamed: see WAZA_OSHIE_LoadTexPlttByName
+BTLV_CORE_GetSelectedItemPocket	-	0x021EA030	ov093	thumb	likely misnamed: BTL_CLIENT_StepSelectItem uses the result as a point cost (pointCounter)
+BTLV_CORE_GetInputTargetSlot	-	0x021EA044	ov093	thumb	check: BTL_CLIENT_StepSelectItem stores the result in a local named itemPocket and passes it as the target slot
+BTLV_CORE_GetInputResultFlag	-	0x021EA04C	ov093	thumb	likely misnamed: BTL_CLIENT_StepSelectItem uses the result as the item target

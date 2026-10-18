@@ -10,3 +10,5 @@ func_02188318	0x02188318	ov230	arm	LOADER_ENTRY_RunGuardedCallC	inferred: ov230 
 func_02188354	0x02188354	ov230	arm	LOADER_ENTRY_RunGuardedCallD	inferred: ov230 decrypted thunk slot 3; same guarded-call dispatcher, GAMESYSTEM_ProcInit and EVENT_BATTLE probe B; home none (nearest loader_entry.c) misplaced?
 func_02188390	0x02188390	ov230	arm	LOADER_ENTRY_RunGuardedCallE	inferred: ov230 decrypted thunk slot 4 (distinct third table word 0x0218B020); GAMESYSTEM_ProcInit and EVENT_BATTLE probe C; home none (nearest loader_entry.c) misplaced?
 func_021883CC	0x021883CC	ov230	arm	LOADER_ENTRY_RunGuardedCallF	inferred: ov230 decrypted thunk slot 5; EVENT_MAPCHANGE_ChangeFieldEvent passes StartMarker..EndMarker; home none (nearest loader_entry.c) misplaced?
+POKE_TOOL_HealParty	0x0201BA34	arm9	thumb	POKE_TOOL_HealParty	found while porting: heals every party member; filed in shinka_check.c (evolution checks); misplaced?
+GPOWER_UseHpRestore	0x0201104C	arm9	thumb	GPOWER_UseHpRestore	found while porting: the HP-restore G-power (POKE_TOOL_HealParty or the first battle-ready member); filed in vm.c (the script VM); misplaced?
